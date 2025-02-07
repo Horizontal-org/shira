@@ -1,0 +1,53 @@
+services:
+  dev:
+    container_name: shira-api-dev
+    image: shira-api-dev:1.0.0
+    build:
+        context: .
+        target: development
+        dockerfile: ./apps/api/Dockerfile.development
+    command: yarn start:debug
+    ports:
+        - 3000:3000
+        - 9229:9229
+    networks:
+        - nestjs-network
+    volumes:
+        - .:/usr/src/app
+        - /usr/src/app/node_modules
+    restart: unless-stopped
+  prod:
+    container_name: shira-api-prod
+    image: shira-api-prod:1.0.0
+    environment:
+      JWT_SECRET: ${JWT_SECRET}  
+    build:
+        context: .
+        target: production
+        dockerfile: ./apps/api/Dockerfile.production
+    command: yarn start:prod
+    ports:
+        - 3000:3000
+    networks:
+        - nestjs-network
+    restart: unless-stopped
+  staging:
+    container_name: shira-api-staging
+    image: shira-api-staging:1.0.0
+    environment:
+      JWT_SECRET: ${JWT_SECRET}  
+    build:
+        context: .
+        target: production
+        dockerfile: ./apps/api/Dockerfile.production
+    command: yarn start:prod
+    ports:
+        - 3001:3000
+    networks:
+        - nestjs-network
+    restart: unless-stopped
+networks:
+  nestjs-network:
+
+volumes:
+  db-data:

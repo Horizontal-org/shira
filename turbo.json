@@ -1,18 +1,12 @@
 {
   "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
   "tasks": {
     "build": {
-      "dependsOn": [
-        "prebuild",
-        "^build"
-      ],
-      "outputs": [
-        "output-file.txt",
-        "dist/**"
-      ]
+      "dependsOn": ["^build"]
     },
-    "prebuild": {},
-    "lint": {},
-    "type-check": {}
+    "dev": {
+      "dependsOn": ["^dev"]
+    }
   }
 }

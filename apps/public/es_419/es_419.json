@@ -1,0 +1,208 @@
+{
+    "welcome": {
+        "title": "Bienvenido a Shira",
+        "subtitle": "Aprenda a identificar y derrotar los intentos de phishing",
+        "start": "Iniciar cuestionario"
+    },
+    "setup": {
+        "name": {
+            "title": "Agregar un nombre y una dirección de correo electrónico",
+            "subtitle": "Pedimos un nombre y un correo electrónico para hacer que el cuestionario de phishing se sienta más realista. Esta información no se guardará o enviará a nuestros servidores, ni se compartirá con nadie más.",
+            "recommendation": "Para mayor seguridad, puedes utilizar un nombre y una dirección de correo electrónico falsos o generar otros aleatorios.",
+            "name": "Nombre",
+            "email": "Correo electrónico",
+            "random_button": "Crea un nombre y una dirección de correo electrónico aleatorios",
+            "next_button": "Siguiente",
+            "footer_title": "Configuración del cuestionario"
+        },
+        "apps": {
+            "title": "¿Qué aplicaciones usas?",
+            "select": "Selecciona al menos 1",
+            "footer_title": "Configuración del cuestionario",
+            "back_button": "Atrás",
+            "next_button": "Siguiente"
+        },
+        "fields_of_work": {
+            "title": "¿Qué áreas son relevantes para ti?",
+            "select": "Seleccione hasta 3 artículos",
+            "footer_title": "Configuración del cuestionario",
+            "back_button": "Atrás",
+            "next_button": "Iniciar cuestionario",
+            "items": {
+                "human-rights": "Derechos humanos",
+                "journalism-and-media": "Periodismo y comunicación",
+                "education": "Academia",
+                "marketing": "Marketing",
+                "healthcare": "Salud",
+                "general": "General"
+            }
+        }
+    },
+    "quiz": {
+        "how_it_works": {
+            "title": "Cómo funciona",
+            "explanation_1": "Este cuestionario contiene 10 preguntas.",
+            "explanation_2": "Para cada pregunta, elige si el mensaje que se muestra parece un intento de phishing o parece legítimo.",
+            "explanation_3": "Si no está seguro, puede seleccionar la opción \"No sé\".",
+            "footer_title": "Introducción al cuestionario",
+            "next": "OK"
+        },
+        "answers": {
+            "options": {
+                "unsure": "No sé",
+                "legitimate": "Parece legítimo",
+                "phising": "Parece phishing"
+            },
+            "results": {
+                "unsure": "\"No sé\"",
+                "correct": "¡Buen trabajo!",
+                "incorrect": "Incorrecto",
+                "next_button": "Siguiente",
+                "back_button": "Atrás",
+                "next_question": "Siguiente pregunta",
+                "see_why": "Ver por qué",
+                "bottom-bar_looks-legit": "Este mensaje no parece un intento de phishing.",
+                "bottom-bar_looks-like-phishing": "Algunos elementos sugieren que este mensaje puede ser un intento de phishing."
+            }
+        },
+        "exit": {
+            "title": "¿Salir del cuestionario?",
+            "action_description": "Salir del cuestionario",
+            "description": "¿Estás seguro de que quieres salir del cuestionario? Tu progreso no se guardará.",
+            "cancel": "Cancelar"
+        }
+    },
+    "feedback": {
+        "title": "Ayúdanos a mejorar",
+        "subtitle": "Una última cosa antes de los resultados: haznos saber lo que piensa para ayudarnos a mejorar para futuros usuarios.",
+        "box": {
+            "question_1": {
+                "title": "1. ¿Qué tan fácil es usar Shira?",
+                "very_complicated": "Muy complicado",
+                "complicated": "Complicado",
+                "easy": "Fácil",
+                "very_easy": "Muy fácil"
+            },
+            "question_2": {
+                "title": "2. ¿Qué tan probable es que recomiendes Shira a amigos o colegas?",
+                "not_likely": "No es probable",
+                "somewhat_likely": "Algo probable",
+                "likely": "Probable",
+                "very_likely": "Muy probable"
+            },
+            "question_3": {
+                "title": "3. ¿Cómo podemos mejorar Shira?",
+                "input_placeholder": "Escribe tus comentarios aquí"
+            },
+            "bottom_text": "Tus comentarios se enviarán cuando hagas clic en \"ver resultados\""
+        },
+        "footer_title": "¡Ya casi terminaste! Sigue adelante para ver los resultados de tu cuestionario y los próximos pasos recomendados.",
+        "next_button": "Ver resultados"
+    },
+    "completed": {
+        "title": "Cuestionario completado",
+        "subtitle": "Realiza un nuevo cuestionario o consulta algunas recomendaciones a continuación para seguir reforzando tus conocimientos y ser mejor a la hora de evitar el phishing.",
+        "back_button": "Volver al inicio",
+        "next_button": "Nuevo cuestionario",
+        "heavy_subtitle": "Respondiste correctamente {{correctQuestions}} de {{questions}} preguntas."
+    },
+    "about": {
+        "title": "Información",
+        "subtitle": "Shira ayuda a los usuarios a desarrollar las habilidades necesarias para identificar y vencer los ataques de phishing en aplicaciones de mensajería y correo electrónico.",
+        "why_shira": {
+            "title": "¿Por qué Shira?",
+            "option_1": {
+                "title": "1. Fácil de usar",
+                "description": "Shira fue creada considerando las comunidades que corren el mayor riesgo de ataques de phishing, especialmente los usuarios con escasa alfabetización digital."
+            },
+            "option_2": {
+                "title": "2. Personalizable",
+                "description": "Intentamos hacer que los mensajes de phishing sean lo más realistas posible para simular lo que los usuarios de internet enfrentan en su vida diaria y los ataques de phishing a los que probablemente se enfrentan."
+            },
+            "option_3": {
+                "title": "3. Amigable con la Privacidad",
+                "description": "No recopilamos, almacenamos ni compartimos ningún dato sobre los usuarios que visitan Shira o realizan nuestos cuestionarios. Si deseas obtener más información, consulta nuestra política de privacidad y una auditoría de seguridad realizada recientemente por una empresa de seguridad independiente."
+            },
+            "privacy_policy_cta": "Política de Privacidad",
+            "security_audit_cta": "Auditoría de Seguridad"
+        },
+        "created_by": {
+            "title": "¿Quién hace a Shira?",
+            "website_cta": "Aprende sobre Horizontal",
+            "description": {
+                "section1": "Shira es un proyecto de Horizontal, una organización sin fines de lucro que apoya a los defensores, activistas y periodistas de primera línea a través de la seguridad digital y el desarrollo de herramientas.",
+                "section2": "Como todas las herramientas de Horizontal, Shira es gratuita y de código abierto. Puedes ayudarnos a mejorar y mantener Shira al",
+                "donation_link": "hacer una donación aquí.",
+                "section3": "Para contribuir a la traducción de Shira, envíanos un email a contact@wearehorizontal.org."
+            }
+        },
+        "footer_title": "Contacto",
+        "footer_description": "¿Quieres solicitar una función, notificar un error o simplemente ponerte en contacto con nosotros? Envíanos un email a contact@wearehorizontal.org",
+        "bring_shira_button": "Trae Shira a tu organización",
+        "background": {
+            "title": "Antecedentes",
+            "subtitle": "El Phishing es una gran amenaza para la seguridad de los usuarios en todo el mundo.",
+            "section1": "A menudos, los correos electrónicos y mensajes que afirman ser de organizaciones, empresas e individuos de confianza son en realidad intentos para engañar a los usuarios para que compartan información confidencial (como información de cuentas bancarias y contraseñas) o instalen malware.",
+            "section3": "A pesar de lo muy común y alarmante que es esta amenaza -- con consecuencias reales, especialmente para las comunidades marginadas -- hay pocas soluciones fáciles de usar para desarrollar las habilidades para detectar y derrotar los ataques de phishing de manera efectiva.",
+            "section4": "Por eso creamos Shira."
+        },
+        "advisors": {
+            "title": "Asesores",
+            "subtitle": "Shira cuenta con el apoyo de un consejo de asesores, formado por experto(a)s en seguridad digital y ciberseguridad.",
+            "person1": {
+                "name": "Amir Rashidi",
+                "job": "Director de Derechos y Seguridad Digital, Miaan"
+            },
+            "person2": {
+                "name": "Cheekay Cinco",
+                "job": "Entrenadora y Facilitadora de Seguridad Digital"
+            },
+            "person3": {
+                "name": "Esther Onfroy",
+                "job": "Co-fundadora, Defensive Lab Agency"
+            },
+            "person4": {
+                "name": "Happy Ayomirwoth Ongi",
+                "job": "Consultora y Facilitadora de Seguridad Digital"
+            },
+            "person5": {
+                "name": "Harlo Holmes",
+                "job": "Director de Seguridad de la Información & Director de Seguridad Digital en Freedom of the Press Foundation"
+            },
+            "person6": {
+                "name": "Lobsang Gyatso",
+                "job": "Director de Tecnología, Tibet Action Institute"
+            },
+            "person7": {
+                "name": "Mario Felaco",
+                "job": "Director Ejecutivo, Conexo"
+            },
+            "person8": {
+                "name": "Mohammed Al-Maskati",
+                "job": "Investigador de Seguridad"
+            },
+            "person9": {
+                "name": "Nick Carr",
+                "job": "Analista de Cibercrimen & Técnicas de Adversarios, Microsoft"
+            },
+            "person10": {
+                "name": "Sadibou Sow",
+                "job": "Consultor en Tecnología Educativa"
+            },
+            "person11": {
+                "name": "Trinh Nguyen",
+                "job": "Entrenadora de Seguridad Holística, Article19"
+            }
+        },
+        "bring": {
+            "title": "Trae Shira a tu organización",
+            "section1": "De manera predeterminada, Shira incluye varias opciones para personalizar los cuestionarios y hacerlos relevantes para cada usuari(a)o (Apps, campo de trabajo, etc). Pero si quieres hacer que los cuestionarios sean aún más realistas para tus socios, miembros o personal, podemos ayudar: podemos crear cuestionarios personalizados basados en tu trabajo y contexto, incluso usando ataques de phishing reales que hayas recibido, y brindar capacitación a tu organización.",
+            "section2": "Si te parece interesante o si tienes preguntas, contactanos en: contact@wearehorizontal.org."
+        }
+    },
+    "navbar": {
+        "home": "Inicio",
+        "about": "Información",
+        "menu": "Menú"
+    }
+}

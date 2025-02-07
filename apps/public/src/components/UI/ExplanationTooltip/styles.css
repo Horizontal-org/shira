@@ -1,0 +1,62 @@
+    .tooltip {
+    display: inline-block;
+    font-weight: 400;
+    padding: 5px 10px;
+    font-size: 16px;
+    line-height: 22px;
+
+    border: 3px solid #9FB747;
+    border-radius: 6px;
+    background-color: #fff;
+    color: '#333030';
+    z-index: 1000;
+
+    max-width: 314px;
+  }
+  
+  #arrow,
+  #arrow::before {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: inherit;
+    border-color: #9FB747;
+  }
+  
+  #arrow {
+    visibility: hidden;
+    border-color: #9FB747;
+  }
+  
+  #arrow::before {
+    visibility: visible;
+    content: '';
+    transform: rotate(45deg);
+  }
+  
+  .tooltip[data-popper-placement^='top'] > #arrow {
+    bottom: -4px;
+  }
+  
+  .tooltip[data-popper-placement^='bottom'] > #arrow {
+    top: -4px;
+  }
+  
+  .tooltip[data-popper-placement^='left'] > #arrow {
+    right: -4px;
+  }
+  
+  .tooltip[data-popper-placement^='right'] > #arrow {
+    left: -4px;
+  }
+  
+
+  .tooltip[data-popper-placement^='top'] > #arrow::before,
+  .tooltip[data-popper-placement^='bottom'] > #arrow::before {
+    border-bottom-color: #9FB747; /* Set the bottom border color to match the tooltip border color */
+  }
+
+  .tooltip[data-popper-placement^='left'] > #arrow::before,
+  .tooltip[data-popper-placement^='right'] > #arrow::before {
+    border-right-color: #9FB747; /* Set the right border color to match the tooltip border color */
+  }

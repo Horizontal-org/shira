@@ -1,0 +1,1 @@
+export { CreatePassphraseDto } from './create.passphrase.dto';

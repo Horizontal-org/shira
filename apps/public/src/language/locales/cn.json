@@ -1,0 +1,208 @@
+{
+    "welcome": {
+        "title": "欢迎来到 Shira",
+        "subtitle": "了解如何识别以及抵御网络钓鱼攻击",
+        "start": "开始测试"
+    },
+    "setup": {
+        "name": {
+            "title": "请输入名字和电子邮件地址",
+            "subtitle": "我们要求提供姓名和邮箱地址，是为了使网络钓鱼测试更加真实。这些信息不会被保存、发送到服务器或分享给其他人。",
+            "recommendation": "为了更安全，可以使用虚假的姓名和电子邮箱地址，或者随机生成。",
+            "name": "名字",
+            "email": "电子邮箱",
+            "random_button": "随机生成名字和电子邮箱地址",
+            "next_button": "下一个",
+            "footer_title": "测试设置"
+        },
+        "apps": {
+            "title": "你使用哪些应用？",
+            "select": "至少选择 1 个",
+            "footer_title": "测试设置",
+            "back_button": "上一个",
+            "next_button": "下一个"
+        },
+        "fields_of_work": {
+            "title": "哪些领域和你有关？",
+            "select": "最多选择 3 个项目",
+            "footer_title": "测试设置",
+            "back_button": "上一个",
+            "next_button": "开始测试",
+            "items": {
+                "human-rights": "",
+                "journalism-and-media": "",
+                "education": "",
+                "marketing": "",
+                "healthcare": "",
+                "general": ""
+            }
+        }
+    },
+    "quiz": {
+        "how_it_works": {
+            "title": "如何进行",
+            "explanation_1": "本测试包括 10 个问题。",
+            "explanation_2": "对于每个问题，选择看起来是网络钓鱼或真实的。",
+            "explanation_3": "如果不确定，可以选择“不确定”这个选项。",
+            "footer_title": "测试简介",
+            "next": "确定"
+        },
+        "answers": {
+            "options": {
+                "unsure": "不确定",
+                "legitimate": "像真的",
+                "phising": "像网络钓鱼"
+            },
+            "results": {
+                "unsure": "“不确定”",
+                "correct": "干得不错！",
+                "incorrect": "错误",
+                "next_button": "下一个",
+                "back_button": "上一个",
+                "next_question": "",
+                "see_why": "",
+                "bottom-bar_looks-legit": "该信息不像是网络钓鱼。",
+                "bottom-bar_looks-like-phishing": "某些内容表明，该消息可能是网络钓鱼。"
+            }
+        },
+        "exit": {
+            "title": "",
+            "action_description": "",
+            "description": "",
+            "cancel": ""
+        }
+    },
+    "feedback": {
+        "title": "帮助我们改进",
+        "subtitle": "在显示测试结果之前，请进行评价，以便帮助我们进行改进。",
+        "box": {
+            "question_1": {
+                "title": "1. Shira 使用起来有多简单？",
+                "very_complicated": "非常复杂",
+                "complicated": "复杂",
+                "easy": "简单",
+                "very_easy": "非常简单"
+            },
+            "question_2": {
+                "title": "2. 是否推荐 Shira 给朋友或同事？",
+                "not_likely": "不可能",
+                "somewhat_likely": "有一些可能",
+                "likely": "可能",
+                "very_likely": "非常可能"
+            },
+            "question_3": {
+                "title": "3. 如何改进 Shira？",
+                "input_placeholder": "在这里写下您的反馈"
+            },
+            "bottom_text": "点击“查看结果”之后将发送反馈"
+        },
+        "footer_title": "完成了！继续查看测试结果和后续步骤。",
+        "next_button": "查看结果"
+    },
+    "completed": {
+        "title": "测试完成",
+        "subtitle": "参加新的测试或查看下面的建议，以继续加强技能，从而更好地抵御网络钓鱼。",
+        "back_button": "返回首页",
+        "next_button": "新测验",
+        "heavy_subtitle": "您正确回答了 {{correctQuestions}} 个问题，共 {{questions}} 个问题。"
+    },
+    "about": {
+        "title": "关于 Shira",
+        "subtitle": "Shira 帮助用户培养这样的技能：识别并抵御电子邮件和通讯应用程序上网络钓鱼攻击。",
+        "why_shira": {
+            "title": "为什么选择 Shira？",
+            "option_1": {
+                "title": "1. 使用简单",
+                "description": "在开发 Shira 时，我们考虑到了最容易受到网络钓鱼攻击的社区，尤其是技术素养有限的用户。"
+            },
+            "option_2": {
+                "title": "2. 可定制",
+                "description": "为了模拟日常生活中用户面临的实际的或潜在的网络钓鱼攻击，我们尽可能使网络钓鱼信息看似真实。"
+            },
+            "option_3": {
+                "title": "3. 保护隐私",
+                "description": "有关用户访问 Shira 或参加测验的任何数据，我们不进行收集、保持或共享。想要了解更多信息，请查看我们的隐私政策和安全审计，其中最近的安全审计由一家独立安全公司执行。"
+            },
+            "privacy_policy_cta": "隐私政策",
+            "security_audit_cta": "安全审计"
+        },
+        "created_by": {
+            "title": "谁开发了 Shira？",
+            "website_cta": "了解 Horizontal",
+            "description": {
+                "section1": "Shira 是非营利组织 Horizontal 推出的一个项目。该组织通过数字安全和工具开发为前线维权人士、活动人士和记者提供支持。",
+                "section2": "正如 Horizontal 其他的工具， Shira 是免费和开源的。可通过以下方式帮助改进和维持 Shira：",
+                "donation_link": "在此捐款。",
+                "section3": "如果想帮助翻译 Shira，请发邮件至 contact@wearehorizontal.org。"
+            }
+        },
+        "footer_title": "联系",
+        "footer_description": "如果有功能请求、错误报告或者需要联系我们，请发送电子邮件到 contact@wearehorizontal.org。",
+        "bring_shira_button": "将 Shira 带到你的机构",
+        "background": {
+            "title": "背景介绍",
+            "subtitle": "网络钓鱼是世界各地互联网用户面临的主要安全威胁。",
+            "section1": "电子邮件和消息常常自称来自可信的机构、公司和个人，但真实企图是诱骗用户共享敏感信息（如银行账户信息和密码）或安装恶意软件。",
+            "section3": "这种威胁非常普遍并令人担忧，对于边缘群体，实际后果尤为严重，但是，对此几乎没有简单易用的解决方法，能够培养有效检测和抵御网络钓鱼攻击的技能。",
+            "section4": "以上是我们开发 Shira 的原因。"
+        },
+        "advisors": {
+            "title": "顾问",
+            "subtitle": "Shira 由顾问委员会提供支持，顾问委员会由下列数字安全与网络安全专家组成：",
+            "person1": {
+                "name": "Amir Rashidi",
+                "job": "Miaan 数字权利与安全总监"
+            },
+            "person2": {
+                "name": "Cheekay Cinco",
+                "job": "数字安全培训师兼引导师"
+            },
+            "person3": {
+                "name": "Esther Onfroy",
+                "job": "Defensive Lab Agency 联合创始人"
+            },
+            "person4": {
+                "name": "Happy Ayomirwoth Ongi",
+                "job": "数字安全顾问兼引导师"
+            },
+            "person5": {
+                "name": "Harlo Holmes",
+                "job": "新闻自由基金会 (Freedom of the Press Foundation) 首席信息安全官兼数字安全总监"
+            },
+            "person6": {
+                "name": "Lobsang Gyatso",
+                "job": "Tibet Action Institute 技术总监"
+            },
+            "person7": {
+                "name": "Mario Felaco",
+                "job": "Conexo 执行总监"
+            },
+            "person8": {
+                "name": "Mohammed Al-Maskati",
+                "job": "安全研究员"
+            },
+            "person9": {
+                "name": "Nick Carr",
+                "job": "微软网络犯罪情报和攻击技术"
+            },
+            "person10": {
+                "name": "Sadibou Sow",
+                "job": "教育技术顾问"
+            },
+            "person11": {
+                "name": "Trinh Nguyen",
+                "job": "Article19 整体安全培训师"
+            }
+        },
+        "bring": {
+            "title": "将 Shira 带到你的机构",
+            "section1": "Shira 默认提供多个选项来定制测试，以使测试题和每个用户（应用程序、工作领域等）息息相关。但是，如果想使得测试对你的员工、合作伙伴或者会员来说更加实际，我们可以基于你的工作、背景、甚至是你在真实生活中受到的网络钓鱼攻击来定制测试，并对你的机构进行培训。",
+            "section2": "如果对此有兴趣或疑问，请联系 contact@wearehorizontal.org。"
+        }
+    },
+    "navbar": {
+        "home": "",
+        "about": "关于 Shira",
+        "menu": ""
+    }
+}

@@ -5,6 +5,12 @@
   "devDependencies": {
     "turbo": "^2.4.0"
   },
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "test": "turbo test"
+  },
   "packageManager": "npm@10.7.0",
   "workspaces": [
     "apps/*",
