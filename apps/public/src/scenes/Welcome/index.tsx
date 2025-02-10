@@ -6,7 +6,7 @@ import { LanguageSelect } from "../../components/UI/Select";
 import { FiChevronRight } from 'react-icons/fi'
 import { useStore } from "../../store";
 import { useTranslation } from "react-i18next";
-import {Task} from "@divviup/dap/dist/task";
+import { Task } from "@divviup/dap";
 
 import MailHook from '../../assets/Mailhook'
 import MobileMailHook from '../../assets/MobileMailhook'

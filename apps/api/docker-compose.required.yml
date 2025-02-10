@@ -11,6 +11,8 @@ services:
       MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"    
     expose:
       - '3306'
+    ports:
+      - 3306:3306
     volumes:
       - db-data:/var/lib/mysql
     networks:
@@ -23,6 +25,8 @@ services:
       - nestjs-network
     expose:
       - '6379'
+    ports:
+      - 6379:6379
     volumes: 
       - redis-data:/data
   

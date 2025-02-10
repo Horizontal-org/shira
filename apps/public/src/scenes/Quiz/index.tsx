@@ -6,7 +6,7 @@ import { SceneWrapper } from '../../components/UI/SceneWrapper'
 import { useStore } from '../../store'
 import { QuizInstructions } from './QuizInstructions'
 // import  {DAPClient} from 'divviup-ts/packages/dap'
-import {Task} from "@divviup/dap/dist/task";
+import { Task } from "@divviup/dap";
 
 import { useTranslation } from 'react-i18next'
 
