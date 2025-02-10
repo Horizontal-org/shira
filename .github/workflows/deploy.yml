@@ -1,0 +1,57 @@
+name: Deploy Changed Apps
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      changed_apps: ${{ steps.detect.outputs.changed_apps }}
+    steps:
+      - name: Checkout repository with full history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Ensures full commit history is available
+
+      - name: Show last commit details
+        run: |
+          echo "Current Commit:"
+          git log -1 --oneline
+          echo "Fetching latest changes from origin/main..."
+          git fetch origin main --depth=1  # Ensures we have main branch history
+
+      - name: Detect changed apps
+        id: detect
+        run: |
+          echo "Checking which apps changed since last main commit..."
+          CHANGED=$(npx turbo run build --since=origin/main --dry-run=json | jq -c '[.tasks[] | select(.status == "pending") | .directory]')
+          
+          echo "Changed Apps (Raw JSON): $CHANGED"
+          echo "changed_apps=$CHANGED" >> $GITHUB_ENV
+          echo "changed_apps=$CHANGED" >> $GITHUB_OUTPUT
+
+  deploy:
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.changed_apps != '[]' }}  # Only run if changes are detected
+    strategy:
+      matrix:
+        app: ${{ fromJson(needs.detect-changes.outputs.changed_apps) }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛠 Checkout repository with full history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Log which app is being deployed
+        run: |
+          echo "Deploying app: ${{ matrix.app }}"
+          ls -la ${{ matrix.app }}
+
+      - name: Deploy ${{ matrix.app }}
+        run: |
+          cd ${{ matrix.app }}
+          ./deploy.sh  # Replace with your actual deployment script
