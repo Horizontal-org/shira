@@ -1,1 +1,1 @@
-echo "DEPLOY API"
+echo "DEPLOY API - and test changed app"
