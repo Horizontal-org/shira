@@ -27,7 +27,7 @@ jobs:
         id: detect
         run: |
           echo "Checking which apps changed since last main commit..."
-          CHANGED=$(npx turbo run build --since=origin/main --dry-run=json | jq -c '[.tasks[] | select(.status == "pending") | .directory]')
+          CHANGED=$(npx turbo run build -- --since=origin/main --dry-run=json | jq -c '[.tasks[] | select(.status == "pending") | .directory]')
           
           echo "Changed Apps (Raw JSON): $CHANGED"
           echo "changed_apps=$CHANGED" >> $GITHUB_ENV
