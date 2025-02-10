@@ -26,9 +26,21 @@ jobs:
       - name: Detect changed apps
         id: detect
         run: |
-          echo "Checking which apps changed since last main commit..."
-          CHANGED=$(npx turbo run build -- --since=origin/main --dry-run=json | jq -c '[.tasks[] | select(.status == "pending") | .directory]')
+          echo "Running Turbo to detect changes..."
+          RAW_JSON=$(npx turbo run build --dry-run=json -- --since=origin/main || echo "ERROR")
           
+          echo "Turbo Output:"
+          echo "$RAW_JSON"
+
+          # Ensure Turbo didn't return an error
+          if [[ "$RAW_JSON" == "ERROR" ]]; then
+            echo "Turbo command failed!"
+            exit 1
+          fi
+
+          # Extract changed apps
+          CHANGED=$(echo "$RAW_JSON" | jq -c '[.tasks[] | select(.status == "pending") | .directory]')
+
           echo "Changed Apps (Raw JSON): $CHANGED"
           echo "changed_apps=$CHANGED" >> $GITHUB_ENV
           echo "changed_apps=$CHANGED" >> $GITHUB_OUTPUT
