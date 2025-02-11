@@ -24,7 +24,7 @@ services:
     build:
         context: .
         target: production
-        dockerfile: ./apps/api/Dockerfile.production
+        dockerfile: ./Dockerfile.production
     command: yarn start:prod
     ports:
         - 3000:3000
@@ -39,7 +39,7 @@ services:
     build:
         context: .
         target: production
-        dockerfile: ./apps/api/Dockerfile.production
+        dockerfile: ./Dockerfile.production
     command: yarn start:prod
     ports:
         - 3000:3000
