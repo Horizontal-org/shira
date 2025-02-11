@@ -16,7 +16,7 @@ import { ManageQuestionLanguages } from './components/ManageQuestionLanguages';
 import { ManageGlobalLanguages } from './components/ManageGlobalLanguages';
 import { ToastBar, Toaster, toast } from 'react-hot-toast';
 import { SmallCloseButton } from './components/SmallCloseButton';
-import { ThemeProvider } from '@horizontal-org/shira-ui';
+import { ThemeProvider } from '@shira/ui';
 
 function App() {
 

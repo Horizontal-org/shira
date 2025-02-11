@@ -6,7 +6,7 @@ import {
   TextInput,
   styled,
   Navbar
-} from "@horizontal-org/shira-ui";
+} from "@shira/ui";
 import { useNavigate } from "react-router-dom";
 import shallow from "zustand/shallow";
 import { useStore } from "../../store";

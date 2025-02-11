@@ -23,6 +23,10 @@ interface Props {
   languages: any[]
 }
 
+interface WrapperProps {
+  show: boolean;
+}
+
 export const QuestionDetails: FunctionComponent<Props> = ({ 
   fileQuestion,
   currentQuestion,
@@ -76,7 +80,7 @@ export const QuestionDetails: FunctionComponent<Props> = ({
   )
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<WrapperProps>`
   width: 100%;
   height: 100vh;
   background: white;

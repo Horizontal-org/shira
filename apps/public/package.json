@@ -5,7 +5,7 @@
   "dependencies": {
     "@babel/core": "^7.16.0",
     "@divviup/dap": "^0.9.0",
-    "@horizontal-org/shira-ui": "1.0.23",
+    "@shira/ui": "*",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
     "@popperjs/core": "^2.11.8",
     "@svgr/webpack": "^5.5.0",

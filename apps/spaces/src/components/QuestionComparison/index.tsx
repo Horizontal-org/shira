@@ -10,6 +10,11 @@ interface Props {
   currentLang: string;
 }
 
+interface ContentBlockProps {
+  hasContent: boolean;
+  contentChanged;
+}
+
 export const filterExplanations = (ex, lang) => {
   let htmlChildren = ''
   ex.forEach((e) => {
@@ -132,7 +137,7 @@ export const QuestionComparison: FunctionComponent<Props> = ({
     </div>    
   )
 }
-const ContentBlock = styled.div`
+const ContentBlock = styled.div<ContentBlockProps>`
   display: flex;
   flex: 1;
   width: 100%;

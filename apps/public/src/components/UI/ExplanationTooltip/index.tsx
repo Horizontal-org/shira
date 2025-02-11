@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState, useRef } from "react"
-import { styled } from '@horizontal-org/shira-ui'
+import { styled } from '@shira/ui'
 import './styles.css'
 
 import { Explanation } from "../../../domain/explanation"

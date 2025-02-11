@@ -1,6 +1,6 @@
 import { Dispatch, FunctionComponent, SetStateAction } from "react";
 import { FiChevronRight, FiChevronLeft } from "react-icons/fi";
-import { styled, Button } from '@horizontal-org/shira-ui'
+import { styled, Button } from '@shira/ui'
 
 import UnsureIcon from '../Icons/Unsure'
 import WrongIcon from '../Icons/Wrong'

@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { styled } from '@horizontal-org/shira-ui'
+import { styled } from '@shira/ui'
 import { Pic } from "../Pic";
 import Document from './assets/Document'
 interface Props {

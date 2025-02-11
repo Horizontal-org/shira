@@ -1,5 +1,5 @@
 import { FunctionComponent, useRef } from "react";
-import { styled } from '@horizontal-org/shira-ui'
+import { styled } from '@shira/ui'
 import { Navbar } from "../../UI/Navbar";
 import { SceneWrapper } from "../../UI/SceneWrapper";
 import { useTranslation } from "react-i18next";

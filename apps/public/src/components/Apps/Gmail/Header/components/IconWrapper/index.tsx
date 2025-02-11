@@ -1,4 +1,4 @@
-import { styled } from '@horizontal-org/shira-ui'
+import { styled } from '@shira/ui'
 
 export default styled.div`
   padding: 8px;

@@ -1,4 +1,4 @@
-import { styled } from '@horizontal-org/shira-ui'
+import { styled } from '@shira/ui'
 
 export const Subtitle = styled.h5`
   font-size: 16px;

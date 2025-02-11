@@ -167,6 +167,7 @@ const MenuWrapper = styled.div`
 
 interface StyledIconWrapper {
   active: boolean
+  disabled?: boolean
 }
 
 const IconWrapper = styled.div<StyledIconWrapper>`

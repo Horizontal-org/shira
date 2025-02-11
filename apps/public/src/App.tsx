@@ -9,7 +9,7 @@ import { AboutLayout } from "./components/Layouts/AboutLayout";
 import { ToastProvider } from "./hooks/useToast";
 import './language/i18n'
 import { PrivacyLayout } from "./components/Layouts/PrivacyLayout";
-import { ThemeProvider, defaultTheme, styled } from "@horizontal-org/shira-ui";
+import { ThemeProvider, defaultTheme, styled } from "@shira/ui";
 
 interface Props {}
 

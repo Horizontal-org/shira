@@ -1,4 +1,4 @@
-import { styled } from '@horizontal-org/shira-ui'
+import { styled } from '@shira/ui'
 
 export const SectionWrapper = styled.div<{ size?: string }>`
   z-index: 2;

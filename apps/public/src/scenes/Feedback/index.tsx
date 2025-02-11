@@ -1,7 +1,7 @@
 import { FunctionComponent, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FiChevronRight } from "react-icons/fi";
-import { styled, Button } from '@horizontal-org/shira-ui';
+import { styled, Button } from '@shira/ui';
 import { FeedbackBox } from "../../components/UI/FeedbackBox";
 import { Footer } from "../../components/UI/Footer";
 import { SceneWithFooter } from "../../components/UI/SceneWithFooter";
