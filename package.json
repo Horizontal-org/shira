@@ -7,6 +7,8 @@
   },
   "scripts": {
     "dev": "turbo dev",
+    "deploy-api": "./deploy-api.sh",
+    "deploy-frontend": "./deploy-frontend.sh",
     "build": "turbo build",
     "lint": "turbo lint",
     "test": "turbo test"
