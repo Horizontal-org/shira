@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Body4, Body3Bold } from '../Typography';
 import { FiMoreVertical, FiLink } from 'react-icons/fi';
 import { FloatingMenu } from '../FloatingMenu';
+import Toggle from '../Toggle/Toggle';
 
 export interface CardProps {
   title: string;
@@ -50,15 +51,11 @@ export const Card: FunctionComponent<CardProps> = ({
       <BottomContainer>
         <ModifiedText>Last modified {lastModified}</ModifiedText>
         <BottomSection>
-          <ToggleWrapper>
-            <ToggleSwitch
-              $isPublished={isPublished}
-              onClick={onTogglePublished}
-            >
-              <ToggleSlider $isPublished={isPublished} />
-            </ToggleSwitch>
-            <ToggleText>Published</ToggleText>
-          </ToggleWrapper>
+          <Toggle 
+            isEnabled={isPublished}
+            onToggle={() => onTogglePublished}
+            rightLabel="Published"
+          />
 
           <CopyButton onClick={onCopyUrl}>
             <FiLink size={20} />
