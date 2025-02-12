@@ -15,10 +15,6 @@ export interface CardProps {
   onDelete: () => void;
 }
 
-interface ToggleSwitchProps {
-  $isPublished: boolean;
-}
-
 export const Card: FunctionComponent<CardProps> = ({
   title,
   lastModified,
@@ -53,7 +49,7 @@ export const Card: FunctionComponent<CardProps> = ({
         <BottomSection>
           <Toggle 
             isEnabled={isPublished}
-            onToggle={() => onTogglePublished}
+            onToggle={onTogglePublished}
             rightLabel="Published"
           />
 
@@ -140,39 +136,6 @@ const BottomSection = styled.div`
   background-color: ${props => props.theme.colors.light.paleGreen};
   border-bottom-right-radius: 12px;
   border-bottom-left-radius: 12px;
-`;
-
-const ToggleWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-`;
-
-const ToggleText = styled(Body4)`
-  color: ${props => props.theme.colors.dark.black};
-`;
-
-const ToggleSwitch = styled.button<ToggleSwitchProps>`
-  position: relative;
-  width: 50px;
-  height: 24px;
-  background: ${props => props.$isPublished ? props.theme.secondary.dark : props.theme.colors.dark.mediumGrey};
-  border-radius: 12px;
-  padding: 2px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.2s;
-`;
-
-const ToggleSlider = styled.span<{ $isPublished: boolean }>`
-  position: absolute;
-  left: ${props => props.$isPublished ? '28px' : '2px'};
-  width: 20px;
-  height: 20px;
-  background: white;
-  border-radius: 50%;
-  transition: left 0.2s;
-  top: 2px;
 `;
 
 const CopyButton = styled.button`

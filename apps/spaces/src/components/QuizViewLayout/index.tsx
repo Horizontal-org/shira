@@ -1,15 +1,18 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Sidebar,
   styled,
-  useAdminSidebar
+  useAdminSidebar,
+  Tab,
+  Toggle
 } from "@shira/ui";
 interface Props {}
 
 export const QuizViewLayout: FunctionComponent<Props> = () => {
   const navigate = useNavigate();
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
+  const [isPublished, setIsPublished] = useState(true);
   return (
     <Container>
       <Sidebar 
@@ -18,7 +21,19 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
       
       />
       <MainContent $isCollapsed={isCollapsed}>
-        
+        <Header>
+          <TabsContainer>
+            <Tab text="Dashboard" onClick={() => {}}/>
+            <Separator> {'>'} </Separator>
+            <Tab text="New staff onboarding" onClick={() => {}}/>
+          </TabsContainer>
+          <Toggle 
+            isEnabled={isPublished}
+            onToggle={() => setIsPublished(!isPublished)}
+            rightLabel="Published"
+            leftLabel="Unpublished"
+          />
+        </Header>
       </MainContent>
     </Container>
   );
@@ -49,4 +64,21 @@ const MainContent = styled.div<{ $isCollapsed: boolean }>`
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     margin-left: 0;
   }
+`;
+
+const Header = styled.div`
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+`
+
+const TabsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+const Separator = styled.span`
+  color: ${props => props.theme.colors.dark.black};
+  font-weight: 500;
 `;
