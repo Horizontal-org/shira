@@ -17,7 +17,7 @@ const defaultAdminPaths = {
   logout: '/logout'
 } as const;
 
-const createDefaultMenuItems = (navigate: NavigateFunction): MenuItem[] => [
+const createDefaultMenuItems = (): MenuItem[] => [
   {
     icon: <FiHome size={24} color="white" />,
     label: 'Dashboard',
@@ -43,7 +43,7 @@ export function useAdminSidebar(navigate: NavigateFunction, customMenuItems?: Me
     setIsCollapsed(collapsed);
   };
 
-  const menuItems = (customMenuItems || createDefaultMenuItems(navigate)).map(item => ({
+  const menuItems = (customMenuItems || createDefaultMenuItems()).map(item => ({
     ...item,
     onClick: () => navigate(item.path)
   }));
