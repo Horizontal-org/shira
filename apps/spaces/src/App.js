@@ -59,11 +59,13 @@ function App() {
               <Route path='/create-space' element={<CreateSpaceLayout />} />
               { user && (
                 <>
+                  {/* LEGACY */}
                   <Route path="/question" element={<QuestionLayout />} />
                   <Route path="/translations" element={<ManageGlobalLanguages />} />
-                  <Route path="/" element={<HomeLayout />} />
+                  <Route path="/legacy-questions" element={<HomeLayout />} />
                   <Route path="/question/:id"  element={<QuestionLayout />} /> 
-                  <Route path="/dashboard"  element={<DashboardLayout />} /> 
+                  {/* LEGACY */}
+                  <Route path="/"  element={<DashboardLayout />} /> 
                 </>
               )}
             </Routes>

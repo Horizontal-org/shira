@@ -1,4 +1,4 @@
-import create from 'zustand'
+import { createWithEqualityFn } from 'zustand/traditional'
 import { ExplanationsSlice, createExplanationsSlice } from '../store/slices/explanation'
 import { AppsSlice, createAppsSlice } from './slices/apps'
 import { AuthSlice, createAuthSlice } from './slices/auth'
@@ -8,7 +8,7 @@ import { TranslationsSlice, createTranslationsSlice } from './slices/translation
 import { LanguagesSlice, createLanguagesSlice } from './slices/languages'
 import { GlobalTranslationsSlice, createGlobalTranslationsSlice } from './slices/global_translations'
 
-export const useStore = create<
+export const useStore = createWithEqualityFn<
   ExplanationsSlice &
   AppsSlice &
   QuestionSlice & 

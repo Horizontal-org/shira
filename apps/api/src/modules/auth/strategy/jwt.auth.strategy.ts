@@ -9,6 +9,8 @@ import {
 import { JWTPayload } from '../domain/jwt-payload.auth.ov';
 import { ReadUserDto } from '../../user/dto';
 import { Request } from 'express';
+import { UserEntity } from 'src/modules/user/domain/user.entity';
+import { LoggedUserDto } from 'src/modules/user/dto/logged.user.dto';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -26,8 +28,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: JWTPayload): Promise<ReadUserDto> {
+  async validate(payload: JWTPayload): Promise<LoggedUserDto> {
     const user = await this.getByIdUserApplication.execute(parseInt(payload.userId));
+
     if (!user) {
       throw new UnauthorizedException();
     }

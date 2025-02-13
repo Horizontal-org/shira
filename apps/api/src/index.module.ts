@@ -18,12 +18,14 @@ import { PassphraseModule } from './modules/passphrase/passphrase.module';
 import { SpaceModule } from './modules/space/space.module';
 import { QueueModule } from './modules/queue/queue.module';
 import { EmailModule } from './modules/email/email.module';
+import { QuizModule } from './modules/quiz/quiz.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot(typeOrmModuleOptions),
     AppModule,
+    SpaceModule,
     QueueModule,
     EmailModule,
     ConsoleModule,
@@ -35,7 +37,7 @@ import { EmailModule } from './modules/email/email.module';
     TranslationModule,
     LanguageModule,
     PassphraseModule,
-    SpaceModule
+    QuizModule
   ],
   controllers: [IndexController],
   providers: [IndexService],

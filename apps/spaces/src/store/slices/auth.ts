@@ -7,6 +7,9 @@ export interface AuthSlice {
   me: () => void
   user: {
     email?: string;
+    spaces?: {
+      name: string
+    }[]
   };
   fetching: boolean;
 }

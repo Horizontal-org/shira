@@ -16,6 +16,7 @@ import {
 import { Explanation } from './explanation.entity';
 import { QuestionTranslation } from '../../translation/domain/questionTranslation.entity';
 import { Language } from 'src/modules/languages/domain';
+import { QuizQuestion } from 'src/modules/quiz/domain/quizzes_questions.entity';
 
 @Entity({ name: 'questions' })
 export class Question {
@@ -73,6 +74,14 @@ export class Question {
     (questionTranslation: QuestionTranslation) => questionTranslation.question,
   )
   questionTranslations: QuestionTranslation[];
+
+
+  @OneToMany(
+    () => QuizQuestion,
+    (quizQuestion: QuizQuestion) =>
+      quizQuestion.question,
+  )
+  quizQuestion: QuizQuestion[];
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

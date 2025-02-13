@@ -11,6 +11,9 @@ import {
 } from "@shira/ui";
 import { FiHome, FiHelpCircle, FiLogOut, FiPlus } from 'react-icons/fi';
 import { FilterStates, cardData } from "./constants";
+import { shallow } from "zustand/shallow";
+
+import { useStore } from "../../store";
 interface Props {}
 
 const defaultMenuItems = [
@@ -32,6 +35,14 @@ const defaultMenuItems = [
   ];
 
 export const DashboardLayout: FunctionComponent<Props> = () => {
+
+  const {
+    user,
+  } = useStore((state) => ({
+    user: state.user    
+  }), shallow)
+
+
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [activeFilter, setActiveFilter] = useState<FilterStates>(FilterStates.all);
   const [cards, setCards] = useState(cardData);
@@ -84,7 +95,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
       <MainContent $isCollapsed={isSidebarCollapsed}>
         <HeaderContainer>
-          <SubHeading3 color="#52752C">Stitching Justice Collective</SubHeading3>
+          <SubHeading3 color="#52752C">{user.spaces.length > 0 && user.spaces[0].name}</SubHeading3>
           <H2>Welcome to your dashboard </H2>
           <Body1>This is where you can manage quizzes. Quiz links are public, so remember to avoid sharing sensitive information in them.</Body1>
           <ButtonContainer>
