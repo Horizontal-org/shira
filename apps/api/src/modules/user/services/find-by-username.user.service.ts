@@ -16,6 +16,10 @@ export class FindByUsernameUserService implements IFindByUsernameUserService {
   async execute(username: string): Promise<UserEntity> {
     const user = await this.userRepository.findOne({ where: { email: username } });
         
+    if (!user) {
+      return null
+    }
+    
     user.spaces = await this.spaceRepository
       .createQueryBuilder('space')
       .relation(UserEntity, "spaces")

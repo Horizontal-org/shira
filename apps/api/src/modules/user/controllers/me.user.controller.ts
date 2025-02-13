@@ -12,25 +12,16 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { SpaceEntity } from 'src/modules/space/domain/space.entity';
 import { Repository } from 'typeorm';
 import { UserEntity } from '../domain/user.entity';
+import { LoggedUserDto } from '../dto/logged.user.dto';
 
 @AuthController('user')
 export class MeUserController {
-  constructor(
-    @InjectRepository(SpaceEntity)
-    private readonly spaceRepository: Repository<SpaceEntity>,
+  constructor(    
   ) {}
 
   @Get()
   @Roles(Role.SpaceAdmin)
-  async me(@LoggedUser() user: ReadUserDto) {
-    // load spaces         
-    user.spaces = await this.spaceRepository
-      .createQueryBuilder('space')
-      .relation(UserEntity, "spaces")
-      .of(user.id)
-      .loadMany()
-
-
+  async me(@LoggedUser() user: LoggedUserDto) {
     return user
   }
 }

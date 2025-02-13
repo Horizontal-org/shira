@@ -26,11 +26,12 @@ export class CreateSpaceController {
 ) {
 
     try {
-        const user = await this.userRepo.findOneOrFail({ where: { email: createSpaceWithEmailDto.email } })
-        await this.createSpaceService.execute({
-            name: createSpaceWithEmailDto.name,
-            firstUser: user
-        })
+        console.log('here', createSpaceWithEmailDto)
+        // const user = await this.userRepo.findOneOrFail({ where: { email: createSpaceWithEmailDto.email } })
+        // await this.createSpaceService.execute({
+        //     name: createSpaceWithEmailDto.name,
+        //     firstUser: user
+        // })
     } catch (e) {
         console.log("🚀 ~ CreateSpaceController ~ e:", e)    
         throw new NotFoundException()

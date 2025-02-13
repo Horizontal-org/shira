@@ -4,7 +4,7 @@ import { SpaceEntity } from 'src/modules/space/domain/space.entity';
 
 
 @Exclude()
-export class ReadUserDto {
+export class LoggedUserDto {
   @Expose()
   @IsNumber()
   id: string;
@@ -18,9 +18,6 @@ export class ReadUserDto {
   role: string;
 
   @Expose()  
-  spaces?: SpaceEntity[];
+  space?: SpaceEntity;
 
-  @Expose()
-  @IsString()
-  readonly createdAt: string;
 }

@@ -8,7 +8,7 @@ export class RegisterAuthDto {
   @IsString()
   passphrase: string;
 
-  @IsStrongPassword()
+  @IsString()
   password: string;
 
   @IsString()
