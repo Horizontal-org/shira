@@ -4,7 +4,7 @@ import {
   useState, 
   useRef,
 } from "react";
-import { styled } from '@horizontal-org/shira-ui'
+import { styled } from '@shira/ui'
 import useOnClickOutside from "../../../hooks/useOutsideClick";
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi'
 import { MobileOptions } from "./components/MobileOptions";

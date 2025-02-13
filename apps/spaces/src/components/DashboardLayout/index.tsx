@@ -8,7 +8,7 @@ import {
   Body1,
   Button,
   FilterButton
-} from "@horizontal-org/shira-ui";
+} from "@shira/ui";
 import { FiHome, FiHelpCircle, FiLogOut, FiPlus } from 'react-icons/fi';
 import { FilterStates, cardData } from "./constants";
 interface Props {}

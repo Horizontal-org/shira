@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from 'react'
-import { styled } from '@horizontal-org/shira-ui'
+import { styled } from '@shira/ui'
 import { Attachment } from '../Attachment'
 import { Message } from '../Message'
 

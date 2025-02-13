@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react'
-import { styled } from '@horizontal-org/shira-ui'
+import { styled } from '@shira/ui'
 import { App } from '../../../domain/app'
 import { Explanation } from '../../../domain/explanation'
 import { MailApps } from '../../UI/AppTypes/MailApps'

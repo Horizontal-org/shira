@@ -1,5 +1,5 @@
 import { FunctionComponent  } from "react"
-import { styled } from '@horizontal-org/shira-ui'
+import { styled } from '@shira/ui'
 
 import VideoIcon from '../assets/video.png'
 import NewMessageIcon from '../assets/new-message.png'

@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react"
-import { styled } from '@horizontal-org/shira-ui'
+import { styled } from '@shira/ui'
 
 interface Props {
   explanationIndex: string,

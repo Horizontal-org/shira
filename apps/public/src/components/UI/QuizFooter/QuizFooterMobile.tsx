@@ -1,5 +1,5 @@
 import { FunctionComponent, ReactNode, useState } from "react";
-import { styled } from '@horizontal-org/shira-ui'
+import { styled } from '@shira/ui'
 import { VscClose } from 'react-icons/vsc'
 import { FiChevronUp, FiChevronDown } from "react-icons/fi";
 import { useStore } from "../../../store";

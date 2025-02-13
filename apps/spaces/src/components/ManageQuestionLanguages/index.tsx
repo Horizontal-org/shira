@@ -16,6 +16,11 @@ import { toast } from "react-hot-toast";
 
 interface Props {}
 
+interface WrapperProps {
+  show: string | null;
+}
+
+
 const exportTranslations = async(id, langs) => {
     langs.forEach(async(l) => {      
       try {
@@ -226,7 +231,7 @@ export const ManageQuestionLanguages: FunctionComponent<Props> = () => {
   )
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<WrapperProps>`
   width: 100%;
   height: 100vh;
   background: white;

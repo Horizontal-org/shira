@@ -1,4 +1,4 @@
-import { ThemeProvider } from "@horizontal-org/shira-ui"
+import { ThemeProvider } from "@shira/ui"
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },

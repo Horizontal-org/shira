@@ -1,4 +1,4 @@
-import { createGlobalStyle } from '@horizontal-org/shira-ui'
+import { createGlobalStyle } from '@shira/ui'
 
 export const GlobalStyle = createGlobalStyle`
   body {

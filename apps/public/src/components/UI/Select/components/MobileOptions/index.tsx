@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from "react";
-import { styled, Button } from '@horizontal-org/shira-ui'
+import { styled, Button } from '@shira/ui'
 import { OptionInterface } from "../..";
 import { Option } from "../Option";
 

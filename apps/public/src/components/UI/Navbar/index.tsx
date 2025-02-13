@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from 'react'
-import { styled } from '@horizontal-org/shira-ui'
+import { styled } from '@shira/ui'
 import Logo  from '../Icons/Logo'
 import { useNavigate } from 'react-router-dom'
 import { MobileMenu } from './components/MobileMenu'

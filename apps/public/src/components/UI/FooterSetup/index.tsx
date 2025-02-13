@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react'
-import { styled, Button } from '@horizontal-org/shira-ui'
+import { styled, Button } from '@shira/ui'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 
 interface Props {

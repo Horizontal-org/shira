@@ -9,7 +9,7 @@ import {
   TextInput,
   styled,
   Navbar
-} from "@horizontal-org/shira-ui";
+} from "@shira/ui";
 import backgroundSvg from "../../assets/Background.svg";
 
 interface Props {}

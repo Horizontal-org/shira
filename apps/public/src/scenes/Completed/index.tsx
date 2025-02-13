@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Navbar } from '../../components/UI/Navbar'
 import { FiHome } from 'react-icons/fi'
 import { HiOutlineRefresh } from 'react-icons/hi'
-import { styled, Button } from '@horizontal-org/shira-ui'
+import { styled, Button } from '@shira/ui'
 
 import CompletedIcon from './assets/CompletedIcon'
 import CompletedMobile from '../../components/UI/Icons/CompletedMobile'
