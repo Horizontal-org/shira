@@ -1,4 +1,5 @@
 import { FunctionComponent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Card,
   Sidebar,
@@ -7,39 +8,18 @@ import {
   SubHeading3,
   Body1,
   Button,
-  FilterButton
+  FilterButton,
+  useAdminSidebar
 } from "@shira/ui";
-import { FiHome, FiHelpCircle, FiLogOut, FiPlus } from 'react-icons/fi';
+import { FiPlus } from 'react-icons/fi';
 import { FilterStates, cardData } from "./constants";
 interface Props {}
 
-const defaultMenuItems = [
-    {
-      icon: <FiHome size={24} color="white" />,
-      label: 'Dashboard',
-      onClick: () => console.log('Dashboard clicked'),
-    },
-    {
-      icon: <FiHelpCircle size={24} color="white" />,
-      label: 'Support',
-      onClick: () => console.log('Support clicked'),
-    },
-    {
-      icon: <FiLogOut size={24} color="white" />,
-      label: 'Log out',
-      onClick: () => console.log('Log out clicked'),
-    },
-  ];
-
 export const DashboardLayout: FunctionComponent<Props> = () => {
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState<FilterStates>(FilterStates.all);
   const [cards, setCards] = useState(cardData);
-
-  const handleSidebarCollapse = (collapsed: boolean) => {
-    setIsSidebarCollapsed(collapsed);
-  };
-
+  const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
   const handleTogglePublished = (cardId: number) => {
     setCards(currentCards => 
       currentCards.map(card => 
@@ -77,12 +57,12 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   return (
     <Container>
       <Sidebar 
-        menuItems={defaultMenuItems} 
-        onCollapse={handleSidebarCollapse}
+        menuItems={menuItems} 
+        onCollapse={handleCollapse}
       
       />
 
-      <MainContent $isCollapsed={isSidebarCollapsed}>
+      <MainContent $isCollapsed={isCollapsed}>
         <HeaderContainer>
           <SubHeading3 color="#52752C">Stitching Justice Collective</SubHeading3>
           <H2>Welcome to your dashboard </H2>
