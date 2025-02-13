@@ -12,10 +12,14 @@ import {
   findByUernameUserServiceProvider,
   createUserApplicationProvider
 } from './user.providers';
+import { SpaceEntity } from '../space/domain/space.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UserEntity]),
+    TypeOrmModule.forFeature([
+      UserEntity,
+      SpaceEntity
+    ]),
     ConsoleModule,
   ],
   providers: [

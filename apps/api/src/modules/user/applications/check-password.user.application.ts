@@ -26,6 +26,7 @@ export class CheckPasswordUserApplication
     const user = await this.findByUsernameUserService.execute(
       userCredentials.email,
     );
+    console.log("🚀 ~ execute ~ user:", user)
     if (!user) throw new InvalidCredentailsUserException();
 
     const isValid = await comparePassword(
