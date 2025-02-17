@@ -1,7 +1,8 @@
 import { FunctionComponent, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Body4, Body3Bold } from '../Typography';
-import { FiMoreVertical, FiLink } from 'react-icons/fi';
+import { CopyUrlIcon } from '../Icons'
+import { FiMoreVertical } from 'react-icons/fi';
 import { FloatingMenu } from '../FloatingMenu';
 import Toggle from '../Toggle/Toggle';
 
@@ -54,7 +55,7 @@ export const Card: FunctionComponent<CardProps> = ({
           />
 
           <CopyButton onClick={onCopyUrl}>
-            <FiLink size={20} />
+            <CopyUrlIcon />
           </CopyButton>
         </BottomSection>
       </BottomContainer>

@@ -5,7 +5,13 @@ import {
   styled,
   useAdminSidebar,
   Tab,
-  Toggle
+  Toggle,
+  H2,
+  Body1,
+  Button,
+  RenameIcon,
+  CopyUrlIcon,
+  DeleteIcon
 } from "@shira/ui";
 interface Props {}
 
@@ -34,6 +40,28 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
             leftLabel="Unpublished"
           />
         </Header>
+
+        <Wrapper>
+          <H2>Email quiz for activist</H2>
+          <Body1>Manage your quiz here, including adding, removing, and reordering questions</Body1>
+          <ButtonsContainer>
+            <Button 
+              leftIcon={<RenameIcon />}
+              text="Rename"
+              type="outline"
+            />
+            <Button 
+              leftIcon={<CopyUrlIcon />}
+              text="Copy quiz link"
+              type="outline"
+            />
+            <Button 
+              leftIcon={<DeleteIcon />}
+              text="Delete"
+              type="outline"
+            />
+          </ButtonsContainer>
+        </Wrapper>
       </MainContent>
     </Container>
   );
@@ -82,3 +110,15 @@ const Separator = styled.span`
   color: ${props => props.theme.colors.dark.black};
   font-weight: 500;
 `;
+
+const Wrapper = styled.div`
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`
+
+const ButtonsContainer = styled.div`
+  display: flex;
+  gap: 8px;
+`
