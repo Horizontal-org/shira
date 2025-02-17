@@ -1,5 +1,6 @@
 export const TYPES = {
   services: {    
-    ICreateQuizService: 'ICreateQuizService'
+    ICreateQuizService: 'ICreateQuizService',
+    IListQuizService: 'IListQuizService'
   },
 };

@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import {
   Card,
   Sidebar,
@@ -14,6 +14,7 @@ import { FilterStates, cardData } from "./constants";
 import { shallow } from "zustand/shallow";
 
 import { useStore } from "../../store";
+
 interface Props {}
 
 const defaultMenuItems = [
@@ -37,11 +38,17 @@ const defaultMenuItems = [
 export const DashboardLayout: FunctionComponent<Props> = () => {
 
   const {
-    user,
+    fetchQuizzes,
+    quizzes,
+    space
   } = useStore((state) => ({
-    user: state.user    
+    fetchQuizzes: state.fetchQuizzes,
+    quizzes: state.quizzes,
+    space: state.space
   }), shallow)
-
+  
+  console.log("🚀 ~ quizzes:", quizzes)
+  console.log("🚀 ~ space:", space)
 
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [activeFilter, setActiveFilter] = useState<FilterStates>(FilterStates.all);
@@ -50,6 +57,10 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const handleSidebarCollapse = (collapsed: boolean) => {
     setIsSidebarCollapsed(collapsed);
   };
+
+  useEffect(() => {
+    fetchQuizzes()
+  }, [])
 
   const handleTogglePublished = (cardId: number) => {
     setCards(currentCards => 
@@ -95,7 +106,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
       <MainContent $isCollapsed={isSidebarCollapsed}>
         <HeaderContainer>
-          <SubHeading3 color="#52752C">{user.spaces.length > 0 && user.spaces[0].name}</SubHeading3>
+          <SubHeading3 color="#52752C">{space && space.name}</SubHeading3>
           <H2>Welcome to your dashboard </H2>
           <Body1>This is where you can manage quizzes. Quiz links are public, so remember to avoid sharing sensitive information in them.</Body1>
           <ButtonContainer>
@@ -129,12 +140,12 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
         </FilterButtonsContainer>
 
         <CardGrid>
-          {filteredCards.map((card, index) => (
+          {quizzes.map((card, index) => (
             <Card 
               key={index}
               title={card.title}
-              lastModified={card.lastModified}
-              isPublished={card.isPublished}
+              lastModified={card.updatedAt}
+              isPublished={card.published}
               onCopyUrl={() => handleCopyUrl(card.id)}
               onTogglePublished={() => handleTogglePublished(card.id)}
               onEdit={() => console.log("editing")}

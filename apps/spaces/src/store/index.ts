@@ -7,6 +7,7 @@ import { createQuestionSlice, QuestionSlice } from './slices/question'
 import { TranslationsSlice, createTranslationsSlice } from './slices/translations'
 import { LanguagesSlice, createLanguagesSlice } from './slices/languages'
 import { GlobalTranslationsSlice, createGlobalTranslationsSlice } from './slices/global_translations'
+import { createQuizSlice, QuizSlice } from './slices/quiz'
 
 export const useStore = createWithEqualityFn<
   ExplanationsSlice &
@@ -16,7 +17,8 @@ export const useStore = createWithEqualityFn<
   FieldsOfWorkSlice & 
   TranslationsSlice & 
   GlobalTranslationsSlice &
-  LanguagesSlice
+  LanguagesSlice & 
+  QuizSlice
 >()((...a) => ({
   ...createExplanationsSlice(...a),
   ...createAppsSlice(...a),
@@ -25,5 +27,6 @@ export const useStore = createWithEqualityFn<
   ...createFieldsOfWorkSlice(...a),
   ...createTranslationsSlice(...a),
   ...createLanguagesSlice(...a),
-  ...createGlobalTranslationsSlice(...a)
+  ...createGlobalTranslationsSlice(...a),
+  ...createQuizSlice(...a)
 }))

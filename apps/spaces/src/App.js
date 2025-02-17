@@ -29,7 +29,6 @@ function App() {
   } = useStore((state) => ({
     user: state.user,
     fetching: state.fetching,
-    fetchMe: state.fetchMe,
     fetchLanguages: state.fetchLanguages,
     me: state.me,
     showTranslationsScene: state.showTranslationsScene

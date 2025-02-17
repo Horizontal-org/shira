@@ -34,7 +34,6 @@ export class CreateQuizController {
   ) 
   {    
     createDto.space = user.space    
-    console.log("🚀 ~ CreateQuizController ~ createDto:", createDto)
     await this.createQuizService.execute(createDto)
   }
 }

@@ -27,18 +27,13 @@ export class RolesGuard implements CanActivate {
     const user = request.user
 
 
-    // if super admin access to everything
-    if (user.role === Role.SuperAdmin) {        
-        return true
-    }
-
     // if @Roles decorator not set fail request
     if (!requiredRoles) {
       return false;
     }
 
     // if doesnt meet role fail request
-    if (!requiredRoles.some((role) => user.role ===role)){
+    if (!requiredRoles.some((role) => user.role === role) || user.role === Role.SuperAdmin){
       return false
     }
     
