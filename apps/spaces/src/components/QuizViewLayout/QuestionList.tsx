@@ -1,6 +1,7 @@
 import { FunctionComponent } from "react";
 import { FiMenu, FiPlus } from 'react-icons/fi';
 import { Button, styled, SubHeading1, TrashIcon, EditIcon } from '@shira/ui'
+import { EmptyState } from './EmptyState'
 
 interface Question {
   id: string;
@@ -20,6 +21,10 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
   onDelete,
   onAdd
 }) => {
+
+  if(questions.length === 0 || !questions) {
+    return <EmptyState />
+  }
   return (
     <Container>
       <Header>
