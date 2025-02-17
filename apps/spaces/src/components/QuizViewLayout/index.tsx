@@ -13,7 +13,17 @@ import {
   CopyUrlIcon,
   DeleteIcon
 } from "@shira/ui";
+import { QuestionsList } from './QuestionList'
 interface Props {}
+
+const questions = [
+  { id: '1', title: 'SMS quiz for nurse practitioners' },
+  { id: '2', title: 'Raffle sign up' },
+  { id: '3', title: "Doctor's attachment" },
+  { id: '4', title: 'Professional development invite' },
+  { id: '5', title: 'Password reset' },
+  { id: '6', title: 'Telehealth login' },
+];
 
 export const QuizViewLayout: FunctionComponent<Props> = () => {
   const navigate = useNavigate();
@@ -62,6 +72,26 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
             />
           </ButtonsContainer>
         </Wrapper>
+
+        <QuestionsList
+          questions={questions}
+          onEdit={(id) => console.log('Edit question', id)}
+          onDelete={(id) => console.log('Delete question', id)}
+          onAdd={() => console.log('Add new question')}
+        />
+
+        <Footer>
+          <Button 
+            text="Cancel"
+            type="outline"
+          />
+
+          <Button 
+            text="Save changes"
+            type="primary"
+            color="#849D29"
+          />
+        </Footer>
       </MainContent>
     </Container>
   );
@@ -72,8 +102,7 @@ const Container = styled.div`
   display: flex;
   background: ${props => props.theme.colors.light.paleGrey};
 
-  min-height: 100vh;
-  height: 100%;
+  height: auto;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     display: block;
@@ -121,4 +150,11 @@ const Wrapper = styled.div`
 const ButtonsContainer = styled.div`
   display: flex;
   gap: 8px;
+`
+
+const Footer = styled.div`
+  display: flex;
+  gap: 16px;
+  justify-content: flex-end;
+  margin: 16px;
 `

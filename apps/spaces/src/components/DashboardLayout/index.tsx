@@ -124,8 +124,7 @@ const Container = styled.div`
   display: flex;
   background: ${props => props.theme.colors.light.paleGrey};
 
-  min-height: 100vh;
-  height: 100%;
+  height: auto;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     display: block;
@@ -137,6 +136,7 @@ const MainContent = styled.div<{ $isCollapsed: boolean }>`
   padding: 24px;
   margin-left: ${props => props.$isCollapsed ? '100px' : '300px'};
   transition: margin-left 0.3s ease;
+
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     margin-left: 80px;
   }
