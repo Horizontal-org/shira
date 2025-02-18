@@ -9,9 +9,11 @@ import {
 } from './passphrase.providers';
 
 import { passphraseControllers } from './controllers';
+import { SpaceModule } from '../space/space.module';
 
 @Module({
   imports: [
+    SpaceModule,
     TypeOrmModule.forFeature([
         PassphraseEntity
     ]),

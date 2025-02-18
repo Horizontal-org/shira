@@ -17,12 +17,10 @@ export class CreateSpaceService implements ICreateSpaceService{
   ) {}
 
   async execute (createSpaceDto: CreateSpaceDto) {
-  console.log("🚀 ~ CreateSpaceService ~ execute ~ createSpaceDto:", createSpaceDto)
 
     const space = new SpaceEntity()
     space.name = createSpaceDto.name
     space.users = [createSpaceDto.firstUser]
-    console.log('space entity ', space)
     await this.spaceRepo.save(space)
 
     return

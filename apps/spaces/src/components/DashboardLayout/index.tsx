@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Card,
@@ -9,22 +9,75 @@ import {
   Body1,
   Button,
   FilterButton,
-  useAdminSidebar
+  useAdminSidebar,
+  Modal,
+  TextInput
 } from "@shira/ui";
 import { FiPlus } from 'react-icons/fi';
-import { FilterStates, cardData } from "./constants";
+import { shallow } from "zustand/shallow";
+
+import { useStore } from "../../store";
+import { formatDistance } from "date-fns";
+import { QuizSuccessStates } from "../../store/slices/quiz";
+import toast from "react-hot-toast";
+import { FilterStates } from "./constants";
+import { DeleteQuizModal } from "../modals/DeleteQuizModal";
+
 interface Props {}
 
 export const DashboardLayout: FunctionComponent<Props> = () => {
+
+  const {
+    fetchQuizzes,
+    updateQuiz,
+    quizzes,
+    space,
+    quizActionSuccess
+  } = useStore((state) => ({
+    fetchQuizzes: state.fetchQuizzes,
+    updateQuiz: state.updateQuiz,
+    quizzes: state.quizzes,
+    space: state.space,
+    quizActionSuccess: state.quizActionSuccess
+  }), shallow)
+  
+  console.log("🚀 ~ quizzes:", quizzes)
+  console.log("🚀 ~ space:", space)
+  
   const navigate = useNavigate();
-  const [activeFilter, setActiveFilter] = useState<FilterStates>(FilterStates.all);
-  const [cards, setCards] = useState(cardData);
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
-  const handleTogglePublished = (cardId: number) => {
+
+  const [activeFilter, setActiveFilter] = useState<FilterStates>(FilterStates.all);
+  const [cards, setCards] = useState([]);
+  const [selectedCard, handleSelectedCard] = useState(null)
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    fetchQuizzes()
+  }, [])
+
+  useEffect(() => {
+    setCards(quizzes)
+  }, [quizzes])
+
+  useEffect(() => {
+    if (quizActionSuccess === QuizSuccessStates.update) {
+      toast.success('The quiz has been updated',{
+        duration: 40000,
+      })
+    }
+  }, [quizActionSuccess])
+
+  const handleTogglePublished = (cardId: number, published: boolean) => {
+    updateQuiz({
+      id: cardId,
+      published
+    })
+
     setCards(currentCards => 
       currentCards.map(card => 
         card.id === cardId 
-          ? { ...card, isPublished: !card.isPublished }
+          ? { ...card, published: !card.published }
           : card
       )
     );
@@ -45,9 +98,9 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const filteredCards = cards.filter(card => {
     switch (activeFilter) {
       case FilterStates.published:
-        return card.isPublished;
+        return card.published;
       case FilterStates.unpublished:
-        return !card.isPublished;
+        return !card.published;
       case FilterStates.all:
       default:
         return true;
@@ -64,7 +117,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
       <MainContent $isCollapsed={isCollapsed}>
         <HeaderContainer>
-          <SubHeading3 color="#52752C">Stitching Justice Collective</SubHeading3>
+          <SubHeading3 color="#52752C">{space && space.name}</SubHeading3>
           <H2>Welcome to your dashboard </H2>
           <Body1>This is where you can manage quizzes. Quiz links are public, so remember to avoid sharing sensitive information in them.</Body1>
           <ButtonContainer>
@@ -100,17 +153,26 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
         <CardGrid>
           {filteredCards.map((card, index) => (
             <Card 
-              key={index}
+              key={card.id}
               title={card.title}
-              lastModified={card.lastModified}
-              isPublished={card.isPublished}
+              lastModified={formatDistance(new Date(), new Date(card.updatedAt))}
+              isPublished={card.published}
               onCopyUrl={() => handleCopyUrl(card.id)}
-              onTogglePublished={() => handleTogglePublished(card.id)}
+              onTogglePublished={() => handleTogglePublished(card.id, !card.published)}
               onEdit={() => console.log("editing")}
-              onDelete={() => console.log("delete")}
+              onDelete={() => {
+                handleSelectedCard(card)
+                setIsModalOpen(true)
+              }}
             />
           ))}
         </CardGrid>
+
+        <DeleteQuizModal 
+          quiz={selectedCard}
+          setIsModalOpen={setIsModalOpen}
+          isModalOpen={isModalOpen}
+        />
       </MainContent>
 
     </Container>
@@ -181,5 +243,3 @@ const ButtonContainer = styled.div`
   display: flex;
   align-items: flex-start;
 `
-
-

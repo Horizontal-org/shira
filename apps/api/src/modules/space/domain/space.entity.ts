@@ -1,3 +1,4 @@
+import { Quiz } from 'src/modules/quiz/domain/quiz.entity';
 import { UserEntity } from 'src/modules/user/domain/user.entity';
 import {
     Entity,
@@ -7,6 +8,8 @@ import {
     CreateDateColumn,
     ManyToMany,
     JoinTable,
+    ManyToOne,
+    OneToMany,
   } from 'typeorm';
   
   @Entity({ name: 'spaces' })
@@ -33,6 +36,12 @@ import {
     })
     users: UserEntity[]
     
+    @OneToMany(
+      () => Quiz,
+      (quiz: Quiz) => quiz.space,
+    )
+    quizzes: Quiz[];
+      
     @CreateDateColumn({ name: 'created_at' })
     createdAt: Date;
   
