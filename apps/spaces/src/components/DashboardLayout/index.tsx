@@ -11,14 +11,14 @@ import {
   FilterButton,
   useAdminSidebar
 } from "@shira/ui";
-import { FiHome, FiHelpCircle, FiLogOut, FiPlus } from 'react-icons/fi';
+import { FiPlus } from 'react-icons/fi';
 import { shallow } from "zustand/shallow";
 
 import { useStore } from "../../store";
 import { formatDistance } from "date-fns";
 import { QuizSuccessStates } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
-import { FilterStates, cardData } from "./constants";
+import { FilterStates } from "./constants";
 
 interface Props {}
 

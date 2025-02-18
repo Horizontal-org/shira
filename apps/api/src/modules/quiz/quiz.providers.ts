@@ -1,5 +1,6 @@
 import { TYPES } from './interfaces';
 import { CreateQuizService } from './services/create.quiz.service';
+import { DeleteQuizService } from './services/delete.quiz.service';
 import { EditQuizService } from './services/edit.quiz.service';
 import { ListQuizService } from './services/list.quiz.service';
 
@@ -18,8 +19,14 @@ export const editQuizServiceProvider = {
   useClass: EditQuizService,
 };
 
+export const deleteQuizServiceProvider = {
+  provide: TYPES.services.IDeleteQuizService,
+  useClass: DeleteQuizService
+}
+
 export const servicesQuizProviders = [
   createQuizServiceProvider,
   listQuizServiceProvider,
-  editQuizServiceProvider
+  editQuizServiceProvider,
+  deleteQuizServiceProvider
 ];
