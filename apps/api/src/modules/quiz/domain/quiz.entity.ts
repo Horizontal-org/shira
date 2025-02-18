@@ -6,6 +6,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { QuizQuestion } from './quizzes_questions.entity';
 import { SpaceEntity } from 'src/modules/space/domain/space.entity';
@@ -43,7 +44,7 @@ export class Quiz {
   createdAt!: Date;
 
   @Expose()
-  @Column({ name: 'updated_at' })
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt!: Date;
 
   @Expose()

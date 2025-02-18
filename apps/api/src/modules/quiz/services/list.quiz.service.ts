@@ -20,11 +20,10 @@ export class ListQuizService implements IListQuizService{
   async execute (
     spaceId,
   ) {
-    console.log("🚀 ~ ListQuizService ~ spaceId:", spaceId)
 
     const quizzes = this.quizRepo
         .createQueryBuilder('quiz')
-        .where('space_id', { spaceId })
+        .where('space_id = :spaceId', { spaceId: spaceId })
         .getMany()
     
     return await plainToInstance(ReadQuizDto, quizzes);

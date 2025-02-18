@@ -71,17 +71,14 @@ function App() {
           </BrowserRouter>
         </Wrapper>
         <Toaster
-          position="bottom-right"        
+          position="bottom-center"        
         >
           {(t) => (
             <ToastBar toast={t}>
               {({ icon, message }) => (
                 <>
                   {icon}
-                  {message}
-                  {t.type !== 'loading' && (
-                    <SmallCloseButton onClose={() => toast.dismiss(t.id)} />                  
-                  )}
+                  {message}                  
                 </>
               )}
             </ToastBar>

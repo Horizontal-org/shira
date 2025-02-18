@@ -21,9 +21,7 @@ import { LoggedUserDto } from 'src/modules/user/dto/logged.user.dto';
 export class CreateQuizController {
   constructor(
     @Inject(TYPES.services.ICreateQuizService)
-    private createQuizService: ICreateQuizService,
-    @InjectRepository(SpaceEntity)
-    private readonly spaceRepository: Repository<SpaceEntity>,
+    private createQuizService: ICreateQuizService,    
   ) {}
 
   @Post()

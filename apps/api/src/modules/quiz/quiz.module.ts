@@ -7,6 +7,7 @@ import { SpaceEntity } from '../space/domain/space.entity';
 import { CreateQuizController } from './controller/create.quiz.controller';
 import { servicesQuizProviders } from './quiz.providers';
 import { ListQuizController } from './controller/list.quiz.controller';
+import { EditQuizController } from './controller/edit.quiz.controller';
 @Module({
   imports: [
     TypeOrmModule.forFeature([
@@ -17,7 +18,8 @@ import { ListQuizController } from './controller/list.quiz.controller';
   ],
   controllers: [
     CreateQuizController,
-    ListQuizController
+    ListQuizController,
+    EditQuizController
   ],
   providers: [
     ...servicesQuizProviders

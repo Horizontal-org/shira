@@ -10,10 +10,13 @@ import {
   FilterButton
 } from "@shira/ui";
 import { FiHome, FiHelpCircle, FiLogOut, FiPlus } from 'react-icons/fi';
-import { FilterStates, cardData } from "./constants";
+import { FilterStates } from "./constants";
 import { shallow } from "zustand/shallow";
 
 import { useStore } from "../../store";
+import { formatDistance } from "date-fns";
+import { QuizSuccessStates } from "../../store/slices/quiz";
+import toast from "react-hot-toast";
 
 interface Props {}
 
@@ -39,12 +42,16 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
   const {
     fetchQuizzes,
+    updateQuiz,
     quizzes,
-    space
+    space,
+    quizActionSuccess
   } = useStore((state) => ({
     fetchQuizzes: state.fetchQuizzes,
+    updateQuiz: state.updateQuiz,
     quizzes: state.quizzes,
-    space: state.space
+    space: state.space,
+    quizActionSuccess: state.quizActionSuccess
   }), shallow)
   
   console.log("🚀 ~ quizzes:", quizzes)
@@ -52,7 +59,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [activeFilter, setActiveFilter] = useState<FilterStates>(FilterStates.all);
-  const [cards, setCards] = useState(cardData);
+  const [cards, setCards] = useState([]);
 
   const handleSidebarCollapse = (collapsed: boolean) => {
     setIsSidebarCollapsed(collapsed);
@@ -62,11 +69,26 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     fetchQuizzes()
   }, [])
 
-  const handleTogglePublished = (cardId: number) => {
+  useEffect(() => {
+    setCards(quizzes)
+  }, [quizzes])
+
+  useEffect(() => {
+    if (quizActionSuccess === QuizSuccessStates.update) {
+      toast.success('The quiz has been updated')
+    }
+  }, [quizActionSuccess])
+
+  const handleTogglePublished = (cardId: number, published: boolean) => {
+    updateQuiz({
+      id: cardId,
+      published
+    })
+
     setCards(currentCards => 
       currentCards.map(card => 
         card.id === cardId 
-          ? { ...card, isPublished: !card.isPublished }
+          ? { ...card, published: !card.published }
           : card
       )
     );
@@ -87,9 +109,9 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const filteredCards = cards.filter(card => {
     switch (activeFilter) {
       case FilterStates.published:
-        return card.isPublished;
+        return card.published;
       case FilterStates.unpublished:
-        return !card.isPublished;
+        return !card.published;
       case FilterStates.all:
       default:
         return true;
@@ -140,14 +162,14 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
         </FilterButtonsContainer>
 
         <CardGrid>
-          {quizzes.map((card, index) => (
+          {filteredCards.map((card, index) => (
             <Card 
-              key={index}
+              key={card.id}
               title={card.title}
-              lastModified={card.updatedAt}
+              lastModified={formatDistance(new Date(), new Date(card.updatedAt))}
               isPublished={card.published}
               onCopyUrl={() => handleCopyUrl(card.id)}
-              onTogglePublished={() => handleTogglePublished(card.id)}
+              onTogglePublished={() => handleTogglePublished(card.id, !card.published)}
               onEdit={() => console.log("editing")}
               onDelete={() => console.log("delete")}
             />
