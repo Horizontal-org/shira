@@ -1,8 +1,10 @@
 import { FunctionComponent, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Body4, Body3Bold } from '../Typography';
-import { FiMoreVertical, FiLink } from 'react-icons/fi';
+import { CopyUrlIcon } from '../Icons'
+import { FiMoreVertical } from 'react-icons/fi';
 import { FloatingMenu } from '../FloatingMenu';
+import Toggle from '../Toggle/Toggle';
 
 export interface CardProps {
   title: string;
@@ -12,10 +14,6 @@ export interface CardProps {
   onCopyUrl: () => void;
   onEdit: () => void;
   onDelete: () => void;
-}
-
-interface ToggleSwitchProps {
-  $isPublished: boolean;
 }
 
 export const Card: FunctionComponent<CardProps> = ({
@@ -50,18 +48,14 @@ export const Card: FunctionComponent<CardProps> = ({
       <BottomContainer>
         <ModifiedText>Last modified {lastModified}</ModifiedText>
         <BottomSection>
-          <ToggleWrapper>
-            <ToggleSwitch
-              $isPublished={isPublished}
-              onClick={onTogglePublished}
-            >
-              <ToggleSlider $isPublished={isPublished} />
-            </ToggleSwitch>
-            <ToggleText>Published</ToggleText>
-          </ToggleWrapper>
+          <Toggle 
+            isEnabled={isPublished}
+            onToggle={onTogglePublished}
+            rightLabel="Published"
+          />
 
           <CopyButton onClick={onCopyUrl}>
-            <FiLink size={20} />
+            <CopyUrlIcon />
           </CopyButton>
         </BottomSection>
       </BottomContainer>
@@ -143,39 +137,6 @@ const BottomSection = styled.div`
   background-color: ${props => props.theme.colors.light.paleGreen};
   border-bottom-right-radius: 12px;
   border-bottom-left-radius: 12px;
-`;
-
-const ToggleWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-`;
-
-const ToggleText = styled(Body4)`
-  color: ${props => props.theme.colors.dark.black};
-`;
-
-const ToggleSwitch = styled.button<ToggleSwitchProps>`
-  position: relative;
-  width: 50px;
-  height: 24px;
-  background: ${props => props.$isPublished ? props.theme.secondary.dark : props.theme.colors.dark.mediumGrey};
-  border-radius: 12px;
-  padding: 2px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.2s;
-`;
-
-const ToggleSlider = styled.span<{ $isPublished: boolean }>`
-  position: absolute;
-  left: ${props => props.$isPublished ? '28px' : '2px'};
-  width: 20px;
-  height: 20px;
-  background: white;
-  border-radius: 50%;
-  transition: left 0.2s;
-  top: 2px;
 `;
 
 const CopyButton = styled.button`

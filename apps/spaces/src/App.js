@@ -17,6 +17,7 @@ import { ManageGlobalLanguages } from './components/ManageGlobalLanguages';
 import { ToastBar, Toaster, toast } from 'react-hot-toast';
 import { SmallCloseButton } from './components/SmallCloseButton';
 import { ThemeProvider } from '@shira/ui';
+import { QuizViewLayout } from './components/QuizViewLayout';
 
 function App() {
 
@@ -65,6 +66,8 @@ function App() {
                   <Route path="/question/:id"  element={<QuestionLayout />} /> 
                   {/* LEGACY */}
                   <Route path="/"  element={<DashboardLayout />} /> 
+                  <Route path="/dashboard"  element={<DashboardLayout />} /> 
+                  <Route path='/quiz/:id' element={<QuizViewLayout />}/>
                 </>
               )}
             </Routes>

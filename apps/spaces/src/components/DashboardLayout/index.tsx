@@ -1,4 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Card,
   Sidebar,
@@ -7,36 +8,19 @@ import {
   SubHeading3,
   Body1,
   Button,
-  FilterButton
+  FilterButton,
+  useAdminSidebar
 } from "@shira/ui";
 import { FiHome, FiHelpCircle, FiLogOut, FiPlus } from 'react-icons/fi';
-import { FilterStates } from "./constants";
 import { shallow } from "zustand/shallow";
 
 import { useStore } from "../../store";
 import { formatDistance } from "date-fns";
 import { QuizSuccessStates } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
+import { FilterStates, cardData } from "./constants";
 
 interface Props {}
-
-const defaultMenuItems = [
-    {
-      icon: <FiHome size={24} color="white" />,
-      label: 'Dashboard',
-      onClick: () => console.log('Dashboard clicked'),
-    },
-    {
-      icon: <FiHelpCircle size={24} color="white" />,
-      label: 'Support',
-      onClick: () => console.log('Support clicked'),
-    },
-    {
-      icon: <FiLogOut size={24} color="white" />,
-      label: 'Log out',
-      onClick: () => console.log('Log out clicked'),
-    },
-  ];
 
 export const DashboardLayout: FunctionComponent<Props> = () => {
 
@@ -56,14 +40,11 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   
   console.log("🚀 ~ quizzes:", quizzes)
   console.log("🚀 ~ space:", space)
-
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  
+  const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState<FilterStates>(FilterStates.all);
   const [cards, setCards] = useState([]);
-
-  const handleSidebarCollapse = (collapsed: boolean) => {
-    setIsSidebarCollapsed(collapsed);
-  };
+  const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
 
   useEffect(() => {
     fetchQuizzes()
@@ -121,12 +102,12 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   return (
     <Container>
       <Sidebar 
-        menuItems={defaultMenuItems} 
-        onCollapse={handleSidebarCollapse}
+        menuItems={menuItems} 
+        onCollapse={handleCollapse}
       
       />
 
-      <MainContent $isCollapsed={isSidebarCollapsed}>
+      <MainContent $isCollapsed={isCollapsed}>
         <HeaderContainer>
           <SubHeading3 color="#52752C">{space && space.name}</SubHeading3>
           <H2>Welcome to your dashboard </H2>
@@ -188,8 +169,7 @@ const Container = styled.div`
   display: flex;
   background: ${props => props.theme.colors.light.paleGrey};
 
-  min-height: 100vh;
-  height: 100%;
+  height: auto;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     display: block;
@@ -201,6 +181,7 @@ const MainContent = styled.div<{ $isCollapsed: boolean }>`
   padding: 24px;
   margin-left: ${props => props.$isCollapsed ? '100px' : '300px'};
   transition: margin-left 0.3s ease;
+
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     margin-left: 80px;
   }
