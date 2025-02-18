@@ -9,7 +9,9 @@ import {
   Body1,
   Button,
   FilterButton,
-  useAdminSidebar
+  useAdminSidebar,
+  Modal,
+  TextInput
 } from "@shira/ui";
 import { FiPlus } from 'react-icons/fi';
 import { shallow } from "zustand/shallow";
@@ -19,6 +21,7 @@ import { formatDistance } from "date-fns";
 import { QuizSuccessStates } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
 import { FilterStates } from "./constants";
+import { DeleteQuizModal } from "../modals/DeleteQuizModal";
 
 interface Props {}
 
@@ -42,9 +45,12 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   console.log("🚀 ~ space:", space)
   
   const navigate = useNavigate();
+  const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
+
   const [activeFilter, setActiveFilter] = useState<FilterStates>(FilterStates.all);
   const [cards, setCards] = useState([]);
-  const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
+  const [selectedCard, handleSelectedCard] = useState(null)
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     fetchQuizzes()
@@ -56,7 +62,9 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
   useEffect(() => {
     if (quizActionSuccess === QuizSuccessStates.update) {
-      toast.success('The quiz has been updated')
+      toast.success('The quiz has been updated',{
+        duration: 40000,
+      })
     }
   }, [quizActionSuccess])
 
@@ -152,10 +160,19 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
               onCopyUrl={() => handleCopyUrl(card.id)}
               onTogglePublished={() => handleTogglePublished(card.id, !card.published)}
               onEdit={() => console.log("editing")}
-              onDelete={() => console.log("delete")}
+              onDelete={() => {
+                handleSelectedCard(card)
+                setIsModalOpen(true)
+              }}
             />
           ))}
         </CardGrid>
+
+        <DeleteQuizModal 
+          quiz={selectedCard}
+          setIsModalOpen={setIsModalOpen}
+          isModalOpen={isModalOpen}
+        />
       </MainContent>
 
     </Container>
@@ -226,5 +243,3 @@ const ButtonContainer = styled.div`
   display: flex;
   align-items: flex-start;
 `
-
-
