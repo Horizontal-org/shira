@@ -8,10 +8,17 @@ export interface ModalProps {
   title: string;
   children: React.ReactNode;
   primaryButtonText: string;
+  primaryButtonDisabled?: boolean;
   secondaryButtonText: string;
   onPrimaryClick: () => void;
   onSecondaryClick: () => void;
   className?: string;
+  type?: ModalType
+}
+
+export enum ModalType {
+  Danger = 'danger',
+  Primary = 'primary',
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -19,11 +26,14 @@ export const Modal: React.FC<ModalProps> = ({
   title,
   children,
   primaryButtonText,
+  primaryButtonDisabled,
   secondaryButtonText,
   onPrimaryClick,
   onSecondaryClick,
   className,
+  type
 }) => {
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -59,8 +69,9 @@ export const Modal: React.FC<ModalProps> = ({
             <Button
               text={primaryButtonText}
               type="primary"
+              disabled={primaryButtonDisabled}
               onClick={onPrimaryClick}
-              color='#BF2E1F'
+              color={type === ModalType.Danger ? '#BF2E1F' : undefined}
             />
           </Footer>
         </ModalContainer>
@@ -68,6 +79,7 @@ export const Modal: React.FC<ModalProps> = ({
     </>
   );
 };
+
 
 const Overlay = styled.div`
   position: fixed;

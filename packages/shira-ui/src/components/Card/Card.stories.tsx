@@ -28,6 +28,9 @@ const meta = {
     onCopyUrl: {
       description: 'Callback when copy URL button is clicked'
     },
+    onCardClick: {
+      description: 'Callback when click the whole card'
+    }
   },
   decorators: [
     (Story) => (
@@ -54,8 +57,9 @@ export const Default: Story = {
     isPublished: true,
     onTogglePublished: () => console.log('Toggle published'),
     onCopyUrl: () => console.log('Copy URL clicked'),
-    onEdit: () => console.log(''),
-    onDelete: () => console.log('')
+    onEdit: () => console.log('edit'),
+    onDelete: () => console.log('delete'),
+    onCardClick: () => console.log('clicked card')
   }
 };
 

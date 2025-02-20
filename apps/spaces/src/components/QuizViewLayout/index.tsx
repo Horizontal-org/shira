@@ -25,9 +25,11 @@ const questions = [{ id: '1', title: 'SMS quiz for nurse practitioners' },
   { id: '6', title: 'Telehealth login' },];
 
 export const QuizViewLayout: FunctionComponent<Props> = () => {
+  
   const navigate = useNavigate();
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
   const [isPublished, setIsPublished] = useState(true);
+
   return (
     <Container>
       <Sidebar 

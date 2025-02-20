@@ -27,8 +27,6 @@ export class ValidateHeaderSpaceService implements IValidateHeaderSpaceService{
       
     
     const space = spaces && spaces.find((space) => { return space.id == spaceId })
-    console.log("🚀 ~ RolesGuard ~ canActivate ~ space:", space)
-    console.log("🚀 ~ ValidateHeaderSpaceService ~ execute ~ space:", space)
     
     return space
   }

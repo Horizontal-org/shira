@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from "react";
-import { Body1, Modal, TextInput } from "@shira/ui";
+import { Body1, Modal, ModalType, TextInput } from "@shira/ui";
 import styled from "styled-components";
 
 import { Quiz } from "../../../store/slices/quiz";
@@ -8,13 +8,19 @@ interface Props {
   quiz: Quiz
   isModalOpen: boolean;
   setIsModalOpen: (handle: boolean) => void
+  onDelete: (id: number) => void
+  onCancel: () => void
 }
 
 export const DeleteQuizModal: FunctionComponent<Props> = ({
   quiz,
   isModalOpen,
-  setIsModalOpen
+  setIsModalOpen,
+  onDelete,
+  onCancel
 }) => {
+  console.log("🚀 ~ isModalOpen:", isModalOpen)
+  console.log("🚀 ~ quiz:", quiz)
 
 
   return quiz && (
@@ -23,18 +29,14 @@ export const DeleteQuizModal: FunctionComponent<Props> = ({
         title={`Are you sure you want to delete "${quiz.title}"?`}
         primaryButtonText="Delete"
         secondaryButtonText="Cancel"
+        type={ModalType.Danger}
         onPrimaryClick={() => {
-        // Handle quiz creation here
           setIsModalOpen(false);
+          onDelete(quiz.id)
         }}
-        onSecondaryClick={() => setIsModalOpen(false)}
+        onSecondaryClick={onCancel}
     >
         <FormContent>
-        {/* <TextInput
-            label="Quiz name"
-            value={newQuizName}
-            onChange={(e) => setNewQuizName(e.target.value)}
-        /> */}
           <Body1>
             Deleting this quiz is permanent and cannot be undone.
           </Body1>

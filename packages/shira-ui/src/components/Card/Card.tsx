@@ -14,6 +14,7 @@ export interface CardProps {
   onCopyUrl: () => void;
   onEdit: () => void;
   onDelete: () => void;
+  onCardClick: () => void;
 }
 
 export const Card: FunctionComponent<CardProps> = ({
@@ -23,23 +24,35 @@ export const Card: FunctionComponent<CardProps> = ({
   onTogglePublished,
   onCopyUrl,
   onEdit,
-  onDelete
+  onDelete,
+  onCardClick
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   return (
-    <CardWrapper>
+    <CardWrapper onClick={() => {
+      onCardClick()
+    }}>
       <TopSection>
         <TitleSection>
           <TitleText>{title}</TitleText>
-          <MenuButton onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          <MenuButton onClick={(e) => {
+            e.stopPropagation()
+            setIsMenuOpen(!isMenuOpen)
+          }}>
             <FiMoreVertical size={20} />
           </MenuButton>
           <FloatingMenu
             isOpen={isMenuOpen}
             onClose={() => setIsMenuOpen(false)}
-            onEdit={onEdit}
-            onDelete={onDelete}
+            onEdit={(e) => { 
+              e.stopPropagation()
+              onEdit()
+            }}
+            onDelete={(e) => {
+              e.stopPropagation()
+              onDelete()
+            }}
             anchorEl={menuButtonRef.current}
           />
         </TitleSection>
@@ -54,7 +67,10 @@ export const Card: FunctionComponent<CardProps> = ({
             rightLabel="Published"
           />
 
-          <CopyButton onClick={onCopyUrl}>
+          <CopyButton onClick={(e) => {
+            e.stopPropagation()
+            onCopyUrl()
+          }}>
             <CopyUrlIcon />
           </CopyButton>
         </BottomSection>
@@ -73,7 +89,8 @@ const CardWrapper = styled.div`
   box-sizing: border-box;
   max-width: 300px;
   height: 180px;
-
+  cursor: pointer;
+  
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     max-width: 100%;
   }

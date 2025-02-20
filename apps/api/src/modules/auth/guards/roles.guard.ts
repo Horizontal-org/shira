@@ -33,12 +33,16 @@ export class RolesGuard implements CanActivate {
     }
 
     // if doesnt meet role fail request
-    if (!requiredRoles.some((role) => user.role === role) || user.role === Role.SuperAdmin){
+    if (!requiredRoles.some((role) => user.role === role) && user.role !== Role.SuperAdmin){
       return false
     }
     
     // doesnt have required header then fails 
     if (!request.headers['x-space']) {
+      // superadmin can access endpoints that don't need x-space
+      if (user.role === Role.SuperAdmin) {
+        return true
+      }
       return false
     }
 

@@ -14,6 +14,24 @@ export const updateQuiz = async(toUpdate: UpdateQuizPayload) => {
   }
 }
 
+export const deleteQuiz = async(id: number) => {
+  try {
+    await axios.delete(`${process.env.REACT_APP_API_URL}/quiz/${id}`)
+  } catch (err) {
+    console.log("🚀 ~ updateQuiz ~ err:", err)    
+  }
+}
+
+export const createQuiz = async(title: string) => {
+  try {
+    await axios.post(`${process.env.REACT_APP_API_URL}/quiz`, {
+      title: title
+    })
+  } catch (err) {
+    console.log("🚀 ~ updateQuiz ~ err:", err)    
+  }
+}
+
 export const getQuizzes = async() => {
   try {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/quiz`) 

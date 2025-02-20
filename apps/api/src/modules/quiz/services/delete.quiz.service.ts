@@ -15,17 +15,18 @@ export class DeleteQuizService implements IDeleteQuizService{
   ) {}
 
   async execute (deleteQuizDto: DeleteQuizDto) {
-    
+
     const quiz = await this.quizRepo
       .createQueryBuilder('quiz')
       .where('id = :id ', { id: deleteQuizDto.id })
       .andWhere('space_id = :spaceId', { spaceId: deleteQuizDto.spaceId })
       .getOne()
+    
       
     if (!quiz) {
       throw new NotFoundException()
     }
 
-    await this.quizRepo.delete(deleteQuizDto)
+    await this.quizRepo.remove(quiz)
   }
 }

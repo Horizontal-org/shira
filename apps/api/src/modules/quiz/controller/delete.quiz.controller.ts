@@ -9,8 +9,6 @@ import { Role } from 'src/modules/user/domain/role.enum';
 import { AuthController } from 'src/utils/decorators/auth-controller.decorator';
 import { LoggedUser } from 'src/modules/auth/decorators';
 import { LoggedUserDto } from 'src/modules/user/dto/logged.user.dto';
-import { EditQuizDto } from '../dto/edit.quiz.dto';
-import { IEditQuizService } from '../interfaces/services/edit.quiz.service.interface';
 import { IDeleteQuizService } from '../interfaces/services/delete.quiz.service.interface';
 
 @AuthController('quiz')

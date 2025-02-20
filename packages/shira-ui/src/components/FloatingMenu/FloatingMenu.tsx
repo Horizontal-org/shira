@@ -4,8 +4,8 @@ import { styled } from 'styled-components'
 
 export interface FloatingMenuProps {
   isOpen: boolean;
-  onEdit: () => void;
-  onDelete: () => void;
+  onEdit: React.MouseEventHandler<HTMLButtonElement> | undefined;
+  onDelete: React.MouseEventHandler<HTMLButtonElement> | undefined;
   onClose: () => void;
   anchorEl: HTMLButtonElement | null
 }
