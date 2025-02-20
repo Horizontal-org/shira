@@ -40,3 +40,13 @@ export const getQuizzes = async() => {
     console.log("🚀 ~ file: question.ts ~ line 20 ~ submit ~ err", err)    
   }
 }
+
+export const getQuizById = async(id: number) => {
+  try {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/quiz/${id}`)
+    return res.data
+  } catch (err) {
+    console.log("🚀 ~ updateQuiz ~ err:", err)    
+    throw new Error('Failed to fetch quiz')
+  }
+}

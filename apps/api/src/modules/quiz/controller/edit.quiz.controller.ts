@@ -21,7 +21,7 @@ export class EditQuizController {
 
   @Put(':id')
   @Roles(Role.SpaceAdmin)
-  async create(
+  async edit(
     @Param('id', ParseIntPipe) id: number,
     @LoggedUser() user: LoggedUserDto,
     @Body() editDto: EditQuizDto

@@ -19,9 +19,6 @@ export const DeleteQuizModal: FunctionComponent<Props> = ({
   onDelete,
   onCancel
 }) => {
-  console.log("🚀 ~ isModalOpen:", isModalOpen)
-  console.log("🚀 ~ quiz:", quiz)
-
 
   return quiz && (
       <Modal

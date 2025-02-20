@@ -5,13 +5,13 @@ export enum QuizSuccessStates {
   update = 'UPDATE',
   delete = 'DELETE',
   create = 'CREATE',
-  fetch = 'FETCH'
 }
 
 export interface Quiz {
   id: number;
   title: string;
   published: boolean;
+  questions?: []
   updatedAt: string
 }
 
@@ -22,6 +22,7 @@ export interface QuizSlice {
   deleteQuiz: (id: number) => void,
   createQuiz: (title: string) => void,
   quizActionSuccess: null | QuizSuccessStates
+  cleanQuizActionSuccess: () => void
 }
 
 export const createQuizSlice: StateCreator<
@@ -32,22 +33,20 @@ export const createQuizSlice: StateCreator<
 > = (set) => ({
   quizzes: [],
   quizActionSuccess: null,
-  fetchQuizzes: async() => {
+  cleanQuizActionSuccess: async() => {
     set({quizActionSuccess: null})
-
+  },
+  fetchQuizzes: async() => {
     const res = await getQuizzes()
     set({
       quizzes: res,
-      quizActionSuccess: QuizSuccessStates.fetch
     })
   },
   updateQuiz: async(toUpdate: UpdateQuizPayload) => {
     set({quizActionSuccess: null})
     await updateQuiz(toUpdate)
 
-    const res = await getQuizzes()
     set({
-      quizzes: res,
       quizActionSuccess: QuizSuccessStates.update
     })
   },
@@ -55,19 +54,19 @@ export const createQuizSlice: StateCreator<
     set({quizActionSuccess: null})
     await deleteQuiz(id)
 
-    const res = await getQuizzes()
+    // TODO until we have a seamless loading state we should make fetch quizzes as soon as posible here
+    const quizzes = await getQuizzes()
+
     set({
-      quizzes: res,
-      quizActionSuccess: QuizSuccessStates.delete
+      quizActionSuccess: QuizSuccessStates.delete,
+      quizzes: quizzes
     })
   },
   createQuiz: async(title: string) => {
     set({quizActionSuccess: null})
     await createQuiz(title)
 
-    const res = await getQuizzes()
     set({
-      quizzes: res,
       quizActionSuccess: QuizSuccessStates.create
     })
   }

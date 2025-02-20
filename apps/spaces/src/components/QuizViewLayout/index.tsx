@@ -1,5 +1,5 @@
-import { FunctionComponent, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { FunctionComponent, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Sidebar,
   styled,
@@ -15,20 +15,99 @@ import {
 } from "@shira/ui";
 import { QuestionsList } from './QuestionList'
 import { FiPlus } from "react-icons/fi";
+import { shallow } from "zustand/shallow";
+import { useStore } from "../../store";
+import { getQuizById } from "../../fetch/quiz";
+import { Quiz, QuizSuccessStates } from "../../store/slices/quiz";
+import { DeleteQuizModal } from "../modals/DeleteQuizModal";
+import { RenameQuizModal } from "../modals/RenameQuizModal";
+import toast from "react-hot-toast";
 interface Props {}
 
-const questions = [{ id: '1', title: 'SMS quiz for nurse practitioners' },
-  { id: '2', title: 'Raffle sign up' },
-  { id: '3', title: "Doctor's attachment" },
-  { id: '4', title: 'Professional development invite' },
-  { id: '5', title: 'Password reset' },
-  { id: '6', title: 'Telehealth login' },];
+// const questions = [{ id: '1', title: 'SMS quiz for nurse practitioners' },
+//   { id: '2', title: 'Raffle sign up' },
+//   { id: '3', title: "Doctor's attachment" },
+//   { id: '4', title: 'Professional development invite' },
+//   { id: '5', title: 'Password reset' },
+//   { id: '6', title: 'Telehealth login' },];
 
 export const QuizViewLayout: FunctionComponent<Props> = () => {
-  
+
   const navigate = useNavigate();
+  const { id } = useParams()
+  
+  const {
+    updateQuiz,
+    deleteQuiz,    
+    quizActionSuccess,
+    cleanQuizActionSuccess
+  } = useStore((state) => ({
+    updateQuiz: state.updateQuiz,
+    deleteQuiz: state.deleteQuiz,
+    quizActionSuccess: state.quizActionSuccess,
+    cleanQuizActionSuccess: state.cleanQuizActionSuccess
+  }), shallow)
+
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
-  const [isPublished, setIsPublished] = useState(true);
+  const [isPublished, setIsPublished] = useState(false);
+  const [quiz, handleQuiz] = useState<Quiz | null>(null)
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
+
+  const getQuiz = async () => {
+    console.log('here')
+    try {
+      const parsedId = parseInt(id)      
+      const quiz = await getQuizById(parsedId)
+
+      handleQuiz(quiz)
+      setIsPublished(quiz.published)
+    } catch (err) {
+      // if error navigate to dashboard
+      navigate('/dashboard')
+    }
+  }
+
+  useEffect(() => {
+    getQuiz()
+
+    return () => {
+      cleanQuizActionSuccess()
+    }
+  }, [])
+
+  useEffect(() => {
+    console.log('CLEAN QUIZ', quizActionSuccess)
+
+    if (quizActionSuccess === QuizSuccessStates.update) {
+      cleanQuizActionSuccess()
+      getQuiz()
+      toast.success('The quiz has been updated',{
+        duration: 3000,
+      })
+    }
+    if (quizActionSuccess === QuizSuccessStates.delete) {
+      cleanQuizActionSuccess()
+      getQuiz()
+      toast.success('The quiz has been deleted',{
+        duration: 3000,
+      })
+      navigate('/dashboard')
+      return
+    }    
+
+  }, [quizActionSuccess])
+
+
+  const handleTogglePublished = (cardId: number, published: boolean) => {
+    updateQuiz({
+      id: cardId,
+      published: published
+    })
+
+    setIsPublished(published)    
+  };
 
   return (
     <Container>
@@ -37,74 +116,106 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
         onCollapse={handleCollapse}
       
       />
-      <MainContent $isCollapsed={isCollapsed}>
-        <Header>
-          <TabsContainer>
-            <Tab text="Dashboard" onClick={() => {}}/>
-            <Separator> {'>'} </Separator>
-            <Tab text="New staff onboarding" onClick={() => {}}/>
-          </TabsContainer>
-          <Toggle 
-            isEnabled={isPublished}
-            onToggle={() => setIsPublished(!isPublished)}
-            rightLabel="Published"
-            leftLabel="Unpublished"
-          />
-        </Header>
+     
+      <MainContent $isCollapsed={isCollapsed}>        
+        { quiz ? (
+          <>
+            <Wrapper>
+              <Header>
+                <div>
+                  <H2>{quiz.title}</H2>
+                  <Body1>Manage your quiz here, including adding, removing, and reordering questions</Body1>
+                </div>
+                <Toggle 
+                  isEnabled={isPublished}
+                  onToggle={() => { handleTogglePublished(quiz.id, !quiz.published) }}
+                  rightLabel="Published"
+                  leftLabel="Unpublished"
+                />
+              </Header>
+              <ButtonsContainer>
+                <LeftButtons>
+                  <Button 
+                    leftIcon={<RenameIcon />}
+                    text="Rename"
+                    type="outline"
+                    onClick={() => { setIsRenameModalOpen(true) }}
+                  />
+                  <Button 
+                    leftIcon={<CopyUrlIcon />}
+                    text="Copy quiz link"
+                    type="outline"
+                  />
+                  <Button 
+                    leftIcon={<DeleteIcon />}
+                    text="Delete"
+                    type="outline"
+                    onClick={() => { setIsDeleteModalOpen(true) }}
+                  />
+                </LeftButtons>
 
-        <Wrapper>
-          <H2>Email quiz for activist</H2>
-          <Body1>Manage your quiz here, including adding, removing, and reordering questions</Body1>
-          <ButtonsContainer>
-            <LeftButtons>
-              <Button 
-                leftIcon={<RenameIcon />}
-                text="Rename"
-                type="outline"
-              />
-              <Button 
-                leftIcon={<CopyUrlIcon />}
-                text="Copy quiz link"
-                type="outline"
-              />
-              <Button 
-                leftIcon={<DeleteIcon />}
-                text="Delete"
-                type="outline"
-              />
-            </LeftButtons>
+                
+              </ButtonsContainer>
+            </Wrapper>
 
-            {(!questions || questions.length === 0) && (
-              <Button 
-                leftIcon={<FiPlus size={16} />}
-                text="Add question"
-                type="primary"
-                color="#849D29"
-                onClick={() => console.log('Add new question')}
-              />
+            <QuestionsList
+              questions={quiz.questions}
+              onEdit={(id) => console.log('Edit question', id)}
+              onDelete={(id) => console.log('Delete question', id)}
+              onAdd={() => console.log('Add new question')}
+            />
+
+            {(quiz.questions && quiz.questions.length > 0) && (
+              <Footer>
+                <Button 
+                  text="Cancel"
+                  type="outline"
+                  onClick={() => {
+                    navigate('/dashboard')
+                  }}
+                />
+
+                <Button 
+                  text="Save changes"
+                  type="primary"
+                  color="#849D29"
+                />
+              </Footer>                
             )}
-          </ButtonsContainer>
-        </Wrapper>
-
-        <QuestionsList
-          questions={questions}
-          onEdit={(id) => console.log('Edit question', id)}
-          onDelete={(id) => console.log('Delete question', id)}
-          onAdd={() => console.log('Add new question')}
-        />
-
-        <Footer>
-          <Button 
-            text="Cancel"
-            type="outline"
-          />
-
-          <Button 
-            text="Save changes"
-            type="primary"
-            color="#849D29"
-          />
-        </Footer>
+            
+             <DeleteQuizModal
+                quiz={quiz}
+                setIsModalOpen={setIsDeleteModalOpen}
+                onDelete={(id) => { 
+                  deleteQuiz(id) 
+                }}
+                onCancel={() => {
+                  setIsDeleteModalOpen(false)
+                }}
+                isModalOpen={isDeleteModalOpen}
+              />
+      
+              <RenameQuizModal
+                quiz={quiz}
+                setIsModalOpen={setIsRenameModalOpen}
+                onRename={(title) => { 
+                  updateQuiz({
+                    id: quiz.id,
+                    title
+                  }) 
+                }}
+                onCancel={() => {
+                  setIsRenameModalOpen(false)
+                }}
+                isModalOpen={isRenameModalOpen}
+              />
+          </>
+        ) : (
+          <Header>
+            <H2>Loading...</H2>
+          </Header>
+        )}
+         
       </MainContent>
     </Container>
   );

@@ -3,6 +3,7 @@ export const TYPES = {
     ICreateQuizService: 'ICreateQuizService',
     IEditQuizService: 'IEditQuizService',
     IListQuizService: 'IListQuizService',
-    IDeleteQuizService: 'IDeleteQuizService'
+    IDeleteQuizService: 'IDeleteQuizService',
+    IGetByIdQuizService: 'IGetByIdQuizService'
   },
 };

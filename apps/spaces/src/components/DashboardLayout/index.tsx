@@ -36,7 +36,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     createQuiz,
     quizzes,
     space,
-    quizActionSuccess
+    quizActionSuccess,
+    cleanQuizActionSuccess
   } = useStore((state) => ({
     fetchQuizzes: state.fetchQuizzes,
     updateQuiz: state.updateQuiz,
@@ -44,7 +45,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     deleteQuiz: state.deleteQuiz,
     quizzes: state.quizzes,
     space: state.space,
-    quizActionSuccess: state.quizActionSuccess
+    quizActionSuccess: state.quizActionSuccess,
+    cleanQuizActionSuccess: state.cleanQuizActionSuccess
   }), shallow)
   
   const navigate = useNavigate();
@@ -60,28 +62,38 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
   useEffect(() => {
     fetchQuizzes()
+
+    return () => {
+      cleanQuizActionSuccess()
+    }
   }, [])
 
   useEffect(() => {
     setCards(quizzes)
   }, [quizzes])
 
-  useEffect(() => {
+  useEffect(() => {    
+    console.log('CLEAN DASH', quizActionSuccess)
     if (quizActionSuccess === QuizSuccessStates.update) {
+      cleanQuizActionSuccess()
+      fetchQuizzes()
       toast.success('The quiz has been updated',{
         duration: 3000,
       })
     }
     if (quizActionSuccess === QuizSuccessStates.delete) {
+      cleanQuizActionSuccess()
       toast.success('The quiz has been deleted',{
         duration: 3000,
       })
     }
     if (quizActionSuccess === QuizSuccessStates.create) {
+      fetchQuizzes()
+      cleanQuizActionSuccess()
       toast.success('The quiz has been created',{
         duration: 3000,
       })
-    }
+    }    
   }, [quizActionSuccess])
 
   const handleTogglePublished = (cardId: number, published: boolean) => {
@@ -127,8 +139,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     <Container>
       <Sidebar 
         menuItems={menuItems} 
-        onCollapse={handleCollapse}
-      
+        onCollapse={handleCollapse}      
       />
 
       <MainContent $isCollapsed={isCollapsed}>
@@ -173,7 +184,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           {filteredCards.map((card, index) => (
             <Card 
               onCardClick={() => {
-                console.log('open quiz')
                 navigate(`/quiz/${card.id}`)
               }}
               key={card.id}

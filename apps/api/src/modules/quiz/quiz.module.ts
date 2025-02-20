@@ -9,6 +9,7 @@ import { servicesQuizProviders } from './quiz.providers';
 import { ListQuizController } from './controller/list.quiz.controller';
 import { EditQuizController } from './controller/edit.quiz.controller';
 import { DeleteQuizController } from './controller/delete.quiz.controller';
+import { GetByIdQuizController } from './controller/get-by-id.quiz.controller';
 @Module({
   imports: [
     TypeOrmModule.forFeature([
@@ -21,7 +22,8 @@ import { DeleteQuizController } from './controller/delete.quiz.controller';
     CreateQuizController,
     ListQuizController,
     EditQuizController,
-    DeleteQuizController
+    DeleteQuizController,
+    GetByIdQuizController
   ],
   providers: [
     ...servicesQuizProviders
