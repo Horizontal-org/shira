@@ -22,6 +22,7 @@ import { Quiz, QuizSuccessStates } from "../../store/slices/quiz";
 import { DeleteQuizModal } from "../modals/DeleteQuizModal";
 import { RenameQuizModal } from "../modals/RenameQuizModal";
 import toast from "react-hot-toast";
+
 interface Props {}
 
 // const questions = [{ id: '1', title: 'SMS quiz for nurse practitioners' },
@@ -56,7 +57,6 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
 
   const getQuiz = async () => {
-    console.log('here')
     try {
       const parsedId = parseInt(id)      
       const quiz = await getQuizById(parsedId)
@@ -113,8 +113,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     <Container>
       <Sidebar 
         menuItems={menuItems} 
-        onCollapse={handleCollapse}
-      
+        onCollapse={handleCollapse}      
       />
      
       <MainContent $isCollapsed={isCollapsed}>        

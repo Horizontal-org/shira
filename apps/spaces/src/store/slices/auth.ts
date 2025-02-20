@@ -3,6 +3,7 @@ import { checkAuth, login } from "../../fetch/auth";
 
 export interface AuthSlice {
   login: (email, pass) => void
+  logout: () => void
   me: () => void
   user: {
     email?: string;
@@ -35,16 +36,24 @@ export const createAuthSlice: StateCreator<
     })
   },
   
-me: async () => {
-  const res = await checkAuth();
-  if (res) {
-    set({ 
-      user: res,
-      space: res.space 
-    });
-  } else if (!publicRoutes.includes(window.location.pathname)) {
-    window.location.href = '/login';
-  }
-  set({ fetching: false });
-},
+  logout: async() => {
+    localStorage.removeItem("shira_access_token");
+    set({
+      user: null,
+      space: null
+    })
+  },
+  
+  me: async () => {
+    const res = await checkAuth();
+    if (res) {
+      set({ 
+        user: res,
+        space: res.space 
+      });
+    } else if (!publicRoutes.includes(window.location.pathname)) {
+      window.location.href = '/login';
+    }
+    set({ fetching: false });
+  },
 })

@@ -19,6 +19,7 @@ import { SmallCloseButton } from './components/SmallCloseButton';
 import { Body1, ThemeProvider } from '@shira/ui';
 import { QuizViewLayout } from './components/QuizViewLayout';
 import { IoMdCheckmarkCircle } from 'react-icons/io'
+import LogoutLayout from './components/LogoutLayout';
 function App() {
 
   const {
@@ -68,6 +69,7 @@ function App() {
                   <Route path="/"  element={<DashboardLayout />} /> 
                   <Route path="/dashboard"  element={<DashboardLayout />} /> 
                   <Route path='/quiz/:id' element={<QuizViewLayout />}/>
+                  <Route path="/logout"  element={<LogoutLayout />} /> 
                 </>
               )}
             </Routes>
