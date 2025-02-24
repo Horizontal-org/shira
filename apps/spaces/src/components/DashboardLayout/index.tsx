@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Card,
@@ -9,22 +9,95 @@ import {
   Body1,
   Button,
   FilterButton,
-  useAdminSidebar
+  useAdminSidebar,
+  Modal,
+  TextInput
 } from "@shira/ui";
 import { FiPlus } from 'react-icons/fi';
-import { FilterStates, cardData } from "./constants";
+import { shallow } from "zustand/shallow";
+
+import { useStore } from "../../store";
+import { formatDistance } from "date-fns";
+import { QuizSuccessStates, SUCCESS_MESSAGES } from "../../store/slices/quiz";
+import toast from "react-hot-toast";
+import { FilterStates } from "./constants";
+import { DeleteQuizModal } from "../modals/DeleteQuizModal";
+import { CreateQuizModal } from "../modals/CreateQuizModal";
+import { RenameQuizModal } from "../modals/RenameQuizModal";
+
 interface Props {}
 
 export const DashboardLayout: FunctionComponent<Props> = () => {
+
+  const {
+    fetchQuizzes,
+    updateQuiz,
+    deleteQuiz,
+    createQuiz,
+    quizzes,
+    space,
+    quizActionSuccess,
+    cleanQuizActionSuccess
+  } = useStore((state) => ({
+    fetchQuizzes: state.fetchQuizzes,
+    updateQuiz: state.updateQuiz,
+    createQuiz: state.createQuiz,
+    deleteQuiz: state.deleteQuiz,
+    quizzes: state.quizzes,
+    space: state.space,
+    quizActionSuccess: state.quizActionSuccess,
+    cleanQuizActionSuccess: state.cleanQuizActionSuccess
+  }), shallow)
+  
   const navigate = useNavigate();
-  const [activeFilter, setActiveFilter] = useState<FilterStates>(FilterStates.all);
-  const [cards, setCards] = useState(cardData);
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
-  const handleTogglePublished = (cardId: number) => {
+
+  const [activeFilter, setActiveFilter] = useState<FilterStates>(FilterStates.all);
+  const [cards, setCards] = useState([]);
+  const [selectedCard, handleSelectedCard] = useState(null)
+
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
+
+  useEffect(() => {
+    fetchQuizzes()
+
+    return () => {
+      cleanQuizActionSuccess()
+    }
+  }, [])
+
+  useEffect(() => {
+    setCards(quizzes)
+  }, [quizzes])
+
+
+  useEffect(() => {
+    if (SUCCESS_MESSAGES[quizActionSuccess]) {
+      const message = SUCCESS_MESSAGES[quizActionSuccess]
+      toast.success(message, { duration: 3000 })
+  
+      if (quizActionSuccess !== QuizSuccessStates.delete) {
+        fetchQuizzes()
+      }
+  
+      cleanQuizActionSuccess()
+    }
+}, [quizActionSuccess])
+
+
+
+  const handleTogglePublished = (cardId: number, published: boolean) => {
+    updateQuiz({
+      id: cardId,
+      published
+    })
+
     setCards(currentCards => 
       currentCards.map(card => 
         card.id === cardId 
-          ? { ...card, isPublished: !card.isPublished }
+          ? { ...card, published: !card.published }
           : card
       )
     );
@@ -45,9 +118,9 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const filteredCards = cards.filter(card => {
     switch (activeFilter) {
       case FilterStates.published:
-        return card.isPublished;
+        return card.published;
       case FilterStates.unpublished:
-        return !card.isPublished;
+        return !card.published;
       case FilterStates.all:
       default:
         return true;
@@ -58,13 +131,12 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     <Container>
       <Sidebar 
         menuItems={menuItems} 
-        onCollapse={handleCollapse}
-      
+        onCollapse={handleCollapse}      
       />
 
       <MainContent $isCollapsed={isCollapsed}>
         <HeaderContainer>
-          <SubHeading3 color="#52752C">Stitching Justice Collective</SubHeading3>
+          <SubHeading3 color="#52752C">{space && space.name}</SubHeading3>
           <H2>Welcome to your dashboard </H2>
           <Body1>This is where you can manage quizzes. Quiz links are public, so remember to avoid sharing sensitive information in them.</Body1>
           <ButtonContainer>
@@ -72,6 +144,9 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
               type="primary"
               leftIcon={<FiPlus />}
               text="Create new quiz"
+              onClick={() => {
+                setIsCreateModalOpen(true)
+              }}
               color="#849D29"
             />
           </ButtonContainer>
@@ -100,17 +175,64 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
         <CardGrid>
           {filteredCards.map((card, index) => (
             <Card 
-              key={index}
+              onCardClick={() => {
+                navigate(`/quiz/${card.id}`)
+              }}
+              key={card.id}
               title={card.title}
-              lastModified={card.lastModified}
-              isPublished={card.isPublished}
+              lastModified={formatDistance(new Date(), new Date(card.updatedAt))}
+              isPublished={card.published}
               onCopyUrl={() => handleCopyUrl(card.id)}
-              onTogglePublished={() => handleTogglePublished(card.id)}
-              onEdit={() => console.log("editing")}
-              onDelete={() => console.log("delete")}
+              onTogglePublished={() => handleTogglePublished(card.id, !card.published)}
+              onEdit={() => {
+                handleSelectedCard(card)
+                setIsRenameModalOpen(true)
+              }}
+              onDelete={() => {
+                handleSelectedCard(card)
+                setIsDeleteModalOpen(true)
+              }}
             />
           ))}
         </CardGrid>
+
+        <DeleteQuizModal
+          quiz={selectedCard}
+          setIsModalOpen={setIsDeleteModalOpen}
+          onDelete={(id) => { 
+            deleteQuiz(id) 
+            handleSelectedCard(null)            
+          }}
+          onCancel={() => {
+            setIsDeleteModalOpen(false)
+            handleSelectedCard(null)
+          }}
+          isModalOpen={isDeleteModalOpen}
+        />
+
+        <RenameQuizModal
+          quiz={selectedCard}
+          setIsModalOpen={setIsRenameModalOpen}
+          onRename={(title) => { 
+            updateQuiz({
+              id: selectedCard.id,
+              title
+            }) 
+            handleSelectedCard(null)            
+          }}
+          onCancel={() => {
+            setIsRenameModalOpen(false)
+            handleSelectedCard(null)
+          }}
+          isModalOpen={isRenameModalOpen}
+        />
+
+        <CreateQuizModal 
+          setIsModalOpen={setIsCreateModalOpen}
+          onCreate={(title) => { createQuiz(title) }}
+          isModalOpen={isCreateModalOpen}
+        />
+        
       </MainContent>
 
     </Container>
@@ -181,5 +303,3 @@ const ButtonContainer = styled.div`
   display: flex;
   align-items: flex-start;
 `
-
-

@@ -24,7 +24,10 @@ export const Toggle: FunctionComponent<ToggleProps> = ({
       {leftLabel && <ToggleText>{leftLabel}</ToggleText>}
       <ToggleSwitch
         $isEnabled={isEnabled}
-        onClick={onToggle}
+        onClick={(e) => {
+          e.stopPropagation()
+          onToggle()
+        }}
         disabled={disabled}
         type="button"
       >

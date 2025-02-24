@@ -1,6 +1,7 @@
 export const TYPES = {
   services: {    
     ICheckSpaceService: 'ICheckSpaceService',
-    ICreateSpaceService: 'ICreateSpaceService'
+    ICreateSpaceService: 'ICreateSpaceService',
+    IValidateHeaderSpaceService: 'IValidateHeaderSpaceService'
   },
 };

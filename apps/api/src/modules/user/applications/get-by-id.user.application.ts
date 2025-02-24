@@ -4,7 +4,6 @@ import { plainToClass } from 'class-transformer';
 import { ReadUserDto } from '../dto';
 import {
   TYPES,
-  IFindByUsernameUserService,
   IGetByIdUserApplication,
   IFindByIdUserService,
 } from '../interfaces';

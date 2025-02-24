@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Modal } from './Modal';
+import { Modal, ModalType } from './Modal';
 import { useState } from 'react';
 import { Button } from '../Button';
 import { Body1 } from '../Typography';
@@ -21,6 +21,10 @@ const meta = {
     title: {
       control: 'text',
       description: 'Modal title text'
+    },
+    type: {
+      control: 'text',
+      description: 'Type of modal [Danger, Primary]'
     },
     primaryButtonText: {
       control: 'text',
@@ -79,6 +83,7 @@ export const DeleteConfirmation: Story = {
     title: 'Are you sure you want to delete “Email quiz for activists?” ',
     primaryButtonText: 'Delete',
     secondaryButtonText: 'Cancel',
+    type: ModalType.Danger,
     children: (
       <Body1>
         Deleting this quiz is permanent and cannot be undone.

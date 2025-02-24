@@ -14,11 +14,12 @@ import { useStore } from './store';
 import { useEffect } from 'react';
 import { ManageQuestionLanguages } from './components/ManageQuestionLanguages';
 import { ManageGlobalLanguages } from './components/ManageGlobalLanguages';
-import { ToastBar, Toaster, toast } from 'react-hot-toast';
+import { ToastBar, Toaster, resolveValue, toast } from 'react-hot-toast';
 import { SmallCloseButton } from './components/SmallCloseButton';
-import { ThemeProvider } from '@shira/ui';
+import { Body1, ThemeProvider } from '@shira/ui';
 import { QuizViewLayout } from './components/QuizViewLayout';
-
+import { IoMdCheckmarkCircle } from 'react-icons/io'
+import LogoutLayout from './components/LogoutLayout';
 function App() {
 
   const {
@@ -30,7 +31,6 @@ function App() {
   } = useStore((state) => ({
     user: state.user,
     fetching: state.fetching,
-    fetchMe: state.fetchMe,
     fetchLanguages: state.fetchLanguages,
     me: state.me,
     showTranslationsScene: state.showTranslationsScene
@@ -60,32 +60,33 @@ function App() {
               <Route path='/create-space' element={<CreateSpaceLayout />} />
               { user && (
                 <>
+                  {/* LEGACY */}
                   <Route path="/question" element={<QuestionLayout />} />
                   <Route path="/translations" element={<ManageGlobalLanguages />} />
-                  <Route path="/" element={<HomeLayout />} />
+                  <Route path="/legacy-questions" element={<HomeLayout />} />
                   <Route path="/question/:id"  element={<QuestionLayout />} /> 
+                  {/* LEGACY */}
+                  <Route path="/"  element={<DashboardLayout />} /> 
                   <Route path="/dashboard"  element={<DashboardLayout />} /> 
                   <Route path='/quiz/:id' element={<QuizViewLayout />}/>
+                  <Route path="/logout"  element={<LogoutLayout />} /> 
                 </>
               )}
             </Routes>
           </BrowserRouter>
         </Wrapper>
         <Toaster
-          position="bottom-right"        
+          position="bottom-center"        
         >
           {(t) => (
-            <ToastBar toast={t}>
-              {({ icon, message }) => (
-                <>
-                  {icon}
-                  {message}
-                  {t.type !== 'loading' && (
-                    <SmallCloseButton onClose={() => toast.dismiss(t.id)} />                  
-                  )}
-                </>
-              )}
-            </ToastBar>
+            <StyledToastBar 
+              style={{
+                opacity: t.visible ? 1 : 0,
+              }}          
+            >
+              <IoMdCheckmarkCircle color='#658840' size={24} />
+              <Body1>{resolveValue(t.message, t)}</Body1>
+            </StyledToastBar>
           )}
         </Toaster>
         <ManageQuestionLanguages />
@@ -101,6 +102,19 @@ const Wrapper = styled.div`
   flex-direction: column;
   overflow: ${props => props.hideOverflow ? 'hidden' : 'auto'}
   
-  `
+`
+const StyledToastBar = styled.div`
+  border-radius: 20px;
+  background: white;
+  display: flex;
+  padding: 16px;
+  align-items: center;
+
+  box-shadow: -1px 4px 4px -1px #00000040;
+  
+  > p {
+    padding-left: 16px;
+  }
+`
 
 export default App;

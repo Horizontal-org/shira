@@ -22,9 +22,10 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
   onAdd
 }) => {
 
-  if(questions.length === 0 || !questions) {
+  if(!questions || questions.length === 0) {
     return <EmptyState />
   }
+  
   return (
     <Container>
       <Header>

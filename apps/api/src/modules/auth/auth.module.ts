@@ -12,6 +12,7 @@ import { PassphraseModule } from '../passphrase/passphrase.module';
 import { SpaceModule } from '../space/space.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RegistrationEntity } from './domain/registration.entity';
+import { SpaceEntity } from '../space/domain/space.entity';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { RegistrationEntity } from './domain/registration.entity';
     SpaceModule,
     PassphraseModule,
     TypeOrmModule.forFeature([
-      RegistrationEntity
+      RegistrationEntity,
+      SpaceEntity
   ]),
   ],
   controllers: [...authControllers],
