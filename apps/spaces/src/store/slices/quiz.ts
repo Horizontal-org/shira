@@ -7,6 +7,12 @@ export enum QuizSuccessStates {
   create = 'CREATE',
 }
 
+export const SUCCESS_MESSAGES = {
+  [QuizSuccessStates.update]: 'The quiz has been updated',
+  [QuizSuccessStates.delete]: 'The quiz has been deleted',
+  [QuizSuccessStates.create]: 'The quiz has been created'
+};
+
 export interface Quiz {
   id: number;
   title: string;

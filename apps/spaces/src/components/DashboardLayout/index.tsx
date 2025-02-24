@@ -18,7 +18,7 @@ import { shallow } from "zustand/shallow";
 
 import { useStore } from "../../store";
 import { formatDistance } from "date-fns";
-import { QuizSuccessStates } from "../../store/slices/quiz";
+import { QuizSuccessStates, SUCCESS_MESSAGES } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
 import { FilterStates } from "./constants";
 import { DeleteQuizModal } from "../modals/DeleteQuizModal";
@@ -72,29 +72,21 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     setCards(quizzes)
   }, [quizzes])
 
-  useEffect(() => {    
-    console.log('CLEAN DASH', quizActionSuccess)
-    if (quizActionSuccess === QuizSuccessStates.update) {
+
+  useEffect(() => {
+    if (SUCCESS_MESSAGES[quizActionSuccess]) {
+      const message = SUCCESS_MESSAGES[quizActionSuccess]
+      toast.success(message, { duration: 3000 })
+  
+      if (quizActionSuccess !== QuizSuccessStates.delete) {
+        fetchQuizzes()
+      }
+  
       cleanQuizActionSuccess()
-      fetchQuizzes()
-      toast.success('The quiz has been updated',{
-        duration: 3000,
-      })
     }
-    if (quizActionSuccess === QuizSuccessStates.delete) {
-      cleanQuizActionSuccess()
-      toast.success('The quiz has been deleted',{
-        duration: 3000,
-      })
-    }
-    if (quizActionSuccess === QuizSuccessStates.create) {
-      fetchQuizzes()
-      cleanQuizActionSuccess()
-      toast.success('The quiz has been created',{
-        duration: 3000,
-      })
-    }    
-  }, [quizActionSuccess])
+}, [quizActionSuccess])
+
+
 
   const handleTogglePublished = (cardId: number, published: boolean) => {
     updateQuiz({

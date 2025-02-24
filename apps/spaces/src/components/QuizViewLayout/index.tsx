@@ -18,19 +18,12 @@ import { FiPlus } from "react-icons/fi";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { getQuizById } from "../../fetch/quiz";
-import { Quiz, QuizSuccessStates } from "../../store/slices/quiz";
+import { Quiz, QuizSuccessStates, SUCCESS_MESSAGES } from "../../store/slices/quiz";
 import { DeleteQuizModal } from "../modals/DeleteQuizModal";
 import { RenameQuizModal } from "../modals/RenameQuizModal";
 import toast from "react-hot-toast";
 
 interface Props {}
-
-// const questions = [{ id: '1', title: 'SMS quiz for nurse practitioners' },
-//   { id: '2', title: 'Raffle sign up' },
-//   { id: '3', title: "Doctor's attachment" },
-//   { id: '4', title: 'Professional development invite' },
-//   { id: '5', title: 'Password reset' },
-//   { id: '6', title: 'Telehealth login' },];
 
 export const QuizViewLayout: FunctionComponent<Props> = () => {
 
@@ -78,26 +71,19 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   }, [])
 
   useEffect(() => {
-    console.log('CLEAN QUIZ', quizActionSuccess)
-
-    if (quizActionSuccess === QuizSuccessStates.update) {
+    if (SUCCESS_MESSAGES[quizActionSuccess]) {
+      const message = SUCCESS_MESSAGES[quizActionSuccess]
+      toast.success(message, { duration: 3000 })
+  
+      if (quizActionSuccess === QuizSuccessStates.delete) {
+        navigate('/dashboard')
+      } else {
+        getQuiz()
+      }
+  
       cleanQuizActionSuccess()
-      getQuiz()
-      toast.success('The quiz has been updated',{
-        duration: 3000,
-      })
     }
-    if (quizActionSuccess === QuizSuccessStates.delete) {
-      cleanQuizActionSuccess()
-      getQuiz()
-      toast.success('The quiz has been deleted',{
-        duration: 3000,
-      })
-      navigate('/dashboard')
-      return
-    }    
-
-  }, [quizActionSuccess])
+}, [quizActionSuccess])
 
 
   const handleTogglePublished = (cardId: number, published: boolean) => {
