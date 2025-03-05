@@ -1,9 +1,10 @@
 import { FunctionComponent, useEffect, useState } from "react"
-import styled from 'styled-components'
 import { SceneWrapper } from "../../UI/SceneWrapper"
-import { Body1, Box, Button, SubHeading1 } from "@shira/ui"
+import { styled, Body1, Box, Button, SubHeading1 } from "@shira/ui"
 import { useNavigate, useParams } from "react-router-dom"
 import axios from "axios"
+import { ReactComponent as Hooked } from '../../../assets/HookedFish.svg';
+import { Navbar } from "../../UI/Navbar"
 
 interface Props {}
 
@@ -22,8 +23,7 @@ export const QuizLayout: FunctionComponent<Props> = () => {
     } catch (e) {
       console.log("🚀 ~ getQuiz ~ e:", e)
       navigate('/')
-    }
-    
+    }    
   }
 
   useEffect(() => {
@@ -31,8 +31,14 @@ export const QuizLayout: FunctionComponent<Props> = () => {
   }, [])
 
   return quiz && (
-    <SceneWrapper bg='white'>
+    <SceneWrapper bg='white'>  
+      {/* using old navbar to hide space creation for now     */}
+      <Navbar color="#DBE3A3"/>
+    
       <CenterWrapper>
+        <GreenFishWrapper>
+          <Hooked />
+        </GreenFishWrapper>
         <StyledBox>
           <SubHeading1>{quiz.title}</SubHeading1>
           <Body1>
@@ -56,6 +62,37 @@ export const QuizLayout: FunctionComponent<Props> = () => {
   )
 }
 
+const GreenFishWrapper = styled.div`
+  display: flex;
+  padding-right: 40px;
+
+  @media (max-width: ${props => props.theme.breakpoints.xl}) {
+    > svg {
+      width: 410px;
+      height: 348px;
+    }
+  }
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    justify-content: flex-end;
+    > svg {
+      width: 432px;
+      height: 366px;
+    }
+  }
+
+  @media (max-width: ${props => props.theme.breakpoints.xs}) {
+    justify-content: space-evenly;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+  
+  > svg {
+      width: 230px;
+      height: 199px;
+    }
+  }
+`
 
 const CenterWrapper = styled.div`
   display: flex;
