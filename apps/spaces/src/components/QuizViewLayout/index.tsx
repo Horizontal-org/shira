@@ -95,6 +95,18 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     setIsPublished(published)    
   };
 
+
+  const handleCopyUrl = async (hash: string) => {
+    try {
+      const quizUrl = `${process.env.REACT_APP_PUBLIC_URL}/quiz/${hash}`;
+      await navigator.clipboard.writeText(quizUrl);
+      
+      toast.success('The public quiz link has been copied to your clipboard.', { duration: 3000 })
+    } catch (error) {
+      console.error('Failed to copy URL:', error);
+    }
+  }
+  
   return (
     <Container>
       <Sidebar 
@@ -130,6 +142,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                     leftIcon={<CopyUrlIcon />}
                     text="Copy quiz link"
                     type="outline"
+                    onClick={() => { handleCopyUrl(quiz.hash) }}
                   />
                   <Button 
                     leftIcon={<DeleteIcon />}

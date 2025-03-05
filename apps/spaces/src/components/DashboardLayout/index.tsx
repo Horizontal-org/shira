@@ -103,13 +103,12 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     );
   };
 
-  const handleCopyUrl = async (cardId: number) => {
+  const handleCopyUrl = async (hash: string) => {
     try {
-      //mock url, change this later to the correct url
-      const quizUrl = `https://shira.app/quiz/${cardId}`;
+      const quizUrl = `${process.env.REACT_APP_PUBLIC_URL}/quiz/${hash}`;
       await navigator.clipboard.writeText(quizUrl);
       
-      // show toast msg
+      toast.success('The public quiz link has been copied to your clipboard.', { duration: 3000 })
     } catch (error) {
       console.error('Failed to copy URL:', error);
     }
@@ -182,7 +181,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
               title={card.title}
               lastModified={formatDistance(new Date(), new Date(card.updatedAt))}
               isPublished={card.published}
-              onCopyUrl={() => handleCopyUrl(card.id)}
+              onCopyUrl={() => handleCopyUrl(card.hash)}
               onTogglePublished={() => handleTogglePublished(card.id, !card.published)}
               onEdit={() => {
                 handleSelectedCard(card)

@@ -19,6 +19,7 @@ export interface Quiz {
   published: boolean;
   questions?: []
   updatedAt: string
+  hash?: string;
 }
 
 export interface QuizSlice {

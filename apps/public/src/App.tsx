@@ -10,6 +10,7 @@ import { ToastProvider } from "./hooks/useToast";
 import './language/i18n'
 import { PrivacyLayout } from "./components/Layouts/PrivacyLayout";
 import { ThemeProvider, defaultTheme, styled } from "@shira/ui";
+import { QuizLayout } from "./components/Layouts/QuizLayout";
 
 interface Props {}
 
@@ -23,6 +24,7 @@ const App: FunctionComponent<Props> = () => {
               <Route path="/" element={<MainLayout />} />
               <Route path="/about" element={<AboutLayout />} />
               <Route path='/privacy' element={<PrivacyLayout />} />
+              <Route path='/quiz/:hash' element={<QuizLayout />} />
             </Routes>
           </BrowserRouter>
         </ThemeProvider>
