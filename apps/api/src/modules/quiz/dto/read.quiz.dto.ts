@@ -14,6 +14,10 @@ export class ReadQuizDto {
   title: string;
 
   @Expose()
+  @IsString()
+  hash: string;
+
+  @Expose()
   @IsBoolean()
   published: boolean;
 

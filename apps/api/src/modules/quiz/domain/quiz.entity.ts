@@ -26,6 +26,10 @@ export class Quiz {
   @Column()
   published: boolean;
 
+  @Expose()
+  @Column()
+  hash: string;
+  
   @OneToMany(
     () => QuizQuestion,
     (quizQuestion: QuizQuestion) =>
