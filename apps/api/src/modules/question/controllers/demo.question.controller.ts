@@ -5,10 +5,10 @@ import { Question } from '../domain';
 import { GenerateQuizQuestionService } from '../services/quiz.question.service';
 
 @Controller('question')
-export class QuizQuestionController {
+export class DemoQuestionController {
   constructor(private generateQuizService: GenerateQuizQuestionService) {}
 
-  @Get('quiz')
+  @Get('demo')
   async handler(
     @Query(
       'apps',

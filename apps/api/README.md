@@ -30,7 +30,7 @@
 ## Run migration
   this needs to be inside docker container
 
-   - to run migrations `npm run typeorm -- migration:run -d ./src/utils/datasources/mysql.datasource.ts `
+   - to run migrations `npm run typeorm -- migration:run -d ./src/utils/datasources/mysql.datasource.ts`
    - to create migrations `npm run typeorm migration:create ./src/migrations/your_migration`
 
 ## Description

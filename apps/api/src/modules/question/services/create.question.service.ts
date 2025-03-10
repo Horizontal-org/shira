@@ -54,7 +54,7 @@ export class CreateQuestionService {
     question.name = newQuestion.question.name;
     question.isPhising = newQuestion.question.isPhishing;
     question.apps = appEntities;
-    question.fieldOfWork = fieldOfWork;
+    question.fieldsOfWork = [fieldOfWork];
     question.languageId = langId;
     question.content = '';
     const saved = await this.questionRepo.save(question);

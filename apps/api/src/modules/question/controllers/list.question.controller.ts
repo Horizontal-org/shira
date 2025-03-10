@@ -19,25 +19,28 @@ export class ListQuestionController {
     const questions = await this.questionRepository
       .createQueryBuilder('question')
       .leftJoin('question.questionTranslations', 'questionTranslations')
+      .leftJoinAndSelect('question.fieldsOfWork', 'fieldsOfWork')
       .select([
         'question.id',
-        'question.fieldOfWorkId',
         'question.isPhising',
         'question.name',
         'questionTranslations.content',
         'questionTranslations.languageId',
         'question.createdAt',
         'question.updatedAt',
+        'fieldsOfWork.id'
       ])
       .where('questionTranslations.languageId = :languageId', { languageId })
       .getMany();
+      
+
 
     const parsedQuestions = questions.map((question) => ({
       id: question.id,
       name: question.name,
       content: question.questionTranslations[0].content,
       isPhising: question.isPhising,
-      fieldOfWorkId: question.fieldOfWorkId,
+      fieldOfWorkId: question.fieldsOfWork.length > 0 ? question.fieldsOfWork[0].id : null,
       createdAt: question.createdAt,
       updatedAt: question.updatedAt,
     }));

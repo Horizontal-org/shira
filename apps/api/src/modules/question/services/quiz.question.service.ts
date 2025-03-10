@@ -35,6 +35,7 @@ export class GenerateQuizQuestionService {
       .leftJoin('question.apps', 'apps')
       .leftJoin('question.explanations', 'explanations')
       .leftJoin('question.questionTranslations', 'questionTranslations')
+      .leftJoin('question.fieldsOfWork', 'fieldsOfWork')
       .leftJoin(
         'explanations.explanationTranslations',
         'explanationTranslations',
@@ -47,6 +48,7 @@ export class GenerateQuizQuestionService {
         'explanations',
         'questionTranslations.content',
         'explanationTranslations.content',
+        'fieldsOfWork.id'
       ])
       .where('apps.id IN(:...ids)', { ids: apps })
       .andWhere('questionTranslations.languageId = :languageId', {
@@ -59,7 +61,7 @@ export class GenerateQuizQuestionService {
       name: question.name,
       content: question.questionTranslations[0].content,
       isPhising: question.isPhising,
-      fieldOfWorkId: question.fieldOfWorkId,
+      fieldOfWorkId: question.fieldsOfWork[0].id,
       createdAt: question.createdAt,
       updatedAt: question.updatedAt,
       apps: question.apps.map((app) => ({
