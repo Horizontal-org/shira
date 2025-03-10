@@ -60,8 +60,6 @@ const Breadcrumb = styled.div<StyledBreadcrumbProps>`
       background: ${props.theme.colors.green5};
     }
   `}
-
-  
 `
 
 const Position = styled.div`

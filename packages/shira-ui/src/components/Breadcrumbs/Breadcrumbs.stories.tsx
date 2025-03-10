@@ -6,7 +6,7 @@ const meta = {
   title: 'Components/Breadcrumbs',
   component: Breadcrumbs,
   parameters: {
-    // layout: 'centered',
+    layout: 'centered',
   },
   tags: ['autodocs'],
   argTypes: {
@@ -40,60 +40,3 @@ export const Default: Story = {
     ],
   },
 };
-
-// // Interactive toggle example using React state
-// export const Interactive: Story = {
-//   args: {
-//     isEnabled: false,
-//     leftLabel: 'Unpublished',
-//     rightLabel: 'Published',
-//     onToggle: () => {},
-//   },
-//   render: function Render(args) {
-//     const [isEnabled, setIsEnabled] = useState(false);
-//     return (
-//       <Toggle 
-//         {...args}
-//         isEnabled={isEnabled}
-//         onToggle={() => setIsEnabled(!isEnabled)}
-//       />
-//     );
-//   }
-// };
-
-// // Enabled state
-// export const Enabled: Story = {
-//   args: {
-//     isEnabled: true,
-//     rightLabel: 'Enabled state',
-//     onToggle: () => {},
-//   },
-// };
-
-// // Without label
-// export const WithoutLabel: Story = {
-//   args: {
-//     isEnabled: false,
-//     onToggle: () => {},
-//   },
-// };
-
-// // Disabled state
-// export const Disabled: Story = {
-//   args: {
-//     isEnabled: false,
-//     rightLabel: 'Disabled toggle',
-//     disabled: true,
-//     onToggle: () => {},
-//   },
-// };
-
-// // Disabled and enabled state
-// export const DisabledAndEnabled: Story = {
-//   args: {
-//     isEnabled: true,
-//     rightLabel: 'Disabled and enabled',
-//     disabled: true,
-//     onToggle: () => {},
-//   },
-// };
