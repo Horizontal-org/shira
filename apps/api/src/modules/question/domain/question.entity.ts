@@ -32,19 +32,22 @@ export class Question {
   @Column({ name: 'is_phising' })
   isPhising: number;
 
-  @ManyToOne(
-    () => FieldOfWork,
-    (fieldOfWork: FieldOfWork) => fieldOfWork.questions,
-    {
-      eager: true,
-      onDelete: 'CASCADE',
+  @ManyToMany(() => FieldOfWork, (fieldOfWork) => fieldOfWork.questions)
+  @JoinTable({
+    name: 'questions_fields_of_work',
+    joinColumn: {
+      name: 'question_id',
+      referencedColumnName: 'id',
     },
-  )
-  @JoinColumn({ name: 'field_of_work_id' })
-  fieldOfWork: FieldOfWork;
+    inverseJoinColumn: {
+      name: 'field_of_work_id',
+      referencedColumnName: 'id',
+    },
+  })
+  fieldsOfWork: FieldOfWork[]
 
-  @Column({ name: 'field_of_work_id' })
-  fieldOfWorkId: number;
+  // @Column({ name: 'field_of_work_id' })
+  // fieldOfWorkId: number;
 
   @Column({ name: 'language_id' })
   languageId: number;
