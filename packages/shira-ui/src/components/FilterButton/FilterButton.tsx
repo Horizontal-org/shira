@@ -5,9 +5,10 @@ export interface FilterButtonProps {
   text: string;
   handleFilter: () => void;
   isActive: boolean;
+  color?: string;
 }
 
-export const FilterButton = ({ text, handleFilter, isActive }: FilterButtonProps) => {
+export const FilterButton = ({ text, handleFilter, isActive, color }: FilterButtonProps) => {
   const handleClick = () => {
     if (!isActive) {
       handleFilter()
@@ -21,12 +22,13 @@ export const FilterButton = ({ text, handleFilter, isActive }: FilterButtonProps
       text={text}
       size='sm'
       $isActive={isActive}
+      color={color}
     />
   )
 }
 
 const StyledButton = styled(Button)<{ $isActive: boolean }>`
-  ${props => props.$isActive && `
+  ${props => props.$isActive && !props.color && `
     background: ${props.theme.colors.dark.darkGrey};
     color: ${props.theme.colors.light.white};
     outline: none;
@@ -35,6 +37,19 @@ const StyledButton = styled(Button)<{ $isActive: boolean }>`
     &:focus {
       outline: none;
       border-color: ${props.theme.colors.light.white};
+    }
+  `}
+
+
+  ${props => props.$isActive && props.color === 'green' && `
+    background: ${props.theme.colors.green2};
+    color: black;
+    outline: none;
+    border-color: ${props.theme.colors.dark.darkGrey};
+
+    &:focus {
+      outline: none;
+      border-color: ${props.theme.colors.dark.darkGrey};
     }
   `}
 `;

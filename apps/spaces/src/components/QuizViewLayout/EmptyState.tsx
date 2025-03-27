@@ -1,8 +1,12 @@
 import { FunctionComponent } from "react";
 import {styled, SettingsFishIcon, Body1, Button } from '@shira/ui'
 import { FiPlus } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 export const EmptyState: FunctionComponent = () => {
+
+  const navigate = useNavigate()
+
   return (
     <Container>
       <SettingsFishIcon />
@@ -12,7 +16,7 @@ export const EmptyState: FunctionComponent = () => {
           text="Add question"
           type="primary"
           color="#849D29"
-          onClick={() => console.log('Add new question')}
+          onClick={() => { navigate('/quiz/question')}}
         />
     </Container>
   );

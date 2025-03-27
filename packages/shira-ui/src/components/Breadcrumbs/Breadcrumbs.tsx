@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Body2Regular, Body2SemiBold } from '../Typography';
+import { Body2SemiBold } from '../Typography';
 import { FaChevronRight } from "react-icons/fa6";
 
 interface BreadcrumbProps {
@@ -79,7 +79,7 @@ const Position = styled.div`
 `
 
 const Chevron = styled.div`
-  margin: 0 8px;
+  margin: 0 20px;
 `
 
 export default Breadcrumbs;

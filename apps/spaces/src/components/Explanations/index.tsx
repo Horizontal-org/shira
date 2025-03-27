@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import shallow from 'zustand/shallow'
 import { useStore } from '../../store'
-import { DragItem } from '../QuestionContent/components/DragItem'
+import { DragItem } from '../LegacyQuestionContent/components/DragItem'
 import { ExplanationInput } from './components/ExplanationInput'
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Component } from '../../utils/dynamicComponents'

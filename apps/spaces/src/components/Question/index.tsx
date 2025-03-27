@@ -7,7 +7,7 @@ import { Button } from '../Button'
 import { useSubmit } from '../../fetch/question'
 import { RequiredContent } from '../RequiredContent'
 import { OptionalContent } from '../OptionalContent'
-import { QuestionContent } from '../QuestionContent'
+import { LegacyQuestionContent } from '../LegacyQuestionContent'
 import { Input } from '../Input'
 import { useStore } from '../../store'
 import shallow from 'zustand/shallow'
@@ -210,14 +210,14 @@ export const Question: FunctionComponent<Props> = () => {
                   />
 
                   {id && question?.content && (
-                    <QuestionContent 
+                    <LegacyQuestionContent 
                       initialContent={parseDynamicContent(question.content)}
                       appType={appType}
                     />
                   )}
 
                   {!id && (
-                     <QuestionContent
+                     <LegacyQuestionContent
                       appType={appType}
                     />
                   )}
