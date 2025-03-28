@@ -1,28 +1,31 @@
-import React, { useEffect } from 'react'
-import { useStore } from '../../../../../store'
-import shallow from 'zustand/shallow'
-import styled from 'styled-components'
+import React, { ChangeEvent, FormEventHandler, useEffect } from 'react'
+import { styled } from '@shira/ui'
 
-import { FiBold, FiItalic, FiCode, FiList, FiLink } from 'react-icons/fi'
+import { FiBold, FiItalic, FiCode, FiList, FiLink, FiUnderline } from 'react-icons/fi'
 import { TbStrikethrough } from 'react-icons/tb'
 import { HiOutlineChatBubbleBottomCenter } from 'react-icons/hi2'
-import { MdClear } from 'react-icons/md'
+import { MdClear, MdHorizontalRule, MdFormatColorText } from 'react-icons/md'
+import { BsBlockquoteRight } from "react-icons/bs";
+import { GoListOrdered } from "react-icons/go";
+import { GrBlockQuote } from "react-icons/gr";
 
 export const MenuBar = ({ editor, setLink }) => {
-  const {
-    deleteExplanation,
-    addExplanation,
-    explanationIndex
-  } = useStore((state) => ({
-    addExplanation: state.addExplanation,
-    deleteExplanation: state.deleteExplanation,
-    explanations: state.explanations,
-    explanationIndex: state.explanationIndex
-  }), shallow)
+  // const {
+  //   deleteExplanation,
+  //   addExplanation,
+  //   explanationIndex
+  // } = useStore((state) => ({
+  //   addExplanation: state.addExplanation,
+  //   deleteExplanation: state.deleteExplanation,
+  //   explanations: state.explanations,
+  //   explanationIndex: state.explanationIndex
+  // }), shallow)
 
   if (!editor) {
     return null
   }
+
+  
 
   return (
     <MenuWrapper>
@@ -31,6 +34,13 @@ export const MenuBar = ({ editor, setLink }) => {
         onClick={() => editor.chain().focus().toggleBold().run()}
       >
         <FiBold size={18} />
+      </IconWrapper>
+
+      <IconWrapper 
+        active={!!(editor.isActive('underline'))}
+        onClick={() => editor.chain().focus().toggleUnderline().run()}
+      >
+        <FiUnderline size={18} />
       </IconWrapper>
 
       <IconWrapper 
@@ -54,6 +64,41 @@ export const MenuBar = ({ editor, setLink }) => {
         <FiCode size={19} />
       </IconWrapper>
 
+      <FillIconWrapper 
+        active={!!(editor.isActive('blockquote'))}
+        onClick={() => editor.chain().focus().toggleBlockquote().run()}
+      >
+        <GrBlockQuote 
+          size={19} 
+        />
+      </FillIconWrapper>
+
+      <IconWrapper 
+        active={!!(editor.isActive('horizontalRule'))}
+        onClick={() => editor.chain().focus().setHorizontalRule().run()}
+
+      >
+        <MdHorizontalRule 
+          size={19} 
+          color='#aaa'
+        />
+      </IconWrapper>
+
+      <FillIconWrapper 
+        active={!!(editor.isActive('orderedList'))}
+        onClick={() => editor.chain().focus().toggleOrderedList().run()}
+      >
+        <GoListOrdered size={19} />
+      </FillIconWrapper>
+      
+      <IconWrapper 
+        active={!!(editor.isActive('bulletList'))}
+        onClick={() => editor.chain().focus().toggleBulletList().run()}
+      >
+        <FiList size={18} />
+      </IconWrapper>
+
+      
       {/* <button onClick={() => editor.chain().focus().unsetAllMarks().run()}>
         clear marks
       </button>
@@ -108,15 +153,24 @@ export const MenuBar = ({ editor, setLink }) => {
       >
         <FiLink size={18} />
       </IconWrapper>
-      
-      <IconWrapper 
-        active={!!(editor.isActive('bulletList'))}
-        onClick={() => editor.chain().focus().toggleBulletList().run()}
-      >
-        <FiList size={18} />
-      </IconWrapper>
 
       <Separate />
+
+      <InputColorWrapper>
+        <MdFormatColorText size={19} color={editor.getAttributes('textStyle').color}/>
+        <InputColor
+          type="color"
+          onChange={(event: ChangeEvent<HTMLInputElement>) => {
+            editor.chain().focus().setColor(event.target.value).run()
+          }}
+          value={editor.getAttributes('textStyle').color}
+          data-testid="setColor"
+        />
+      </InputColorWrapper>
+
+
+      <Separate />
+
       {/* <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
         horizontal rule
       </button>
@@ -124,7 +178,7 @@ export const MenuBar = ({ editor, setLink }) => {
         hard break
       </button> */}
 
-      <IconWrapper 
+      {/* <IconWrapper 
         active={false}
         onClick={() => {
           const newIndex = explanationIndex + 1
@@ -150,7 +204,7 @@ export const MenuBar = ({ editor, setLink }) => {
           <HiOutlineChatBubbleBottomCenter color='#3F6A3A' size={18}/>          
           <MdClear color='#e91e63' size={18}/>
         </RemoveExplanation>
-      )}      
+      )}       */}
     </MenuWrapper>
   )
 }
@@ -195,17 +249,70 @@ const IconWrapper = styled.div<StyledIconWrapper>`
 
   ${props => props.active && `
     > svg {
-      stroke: #FCC934;
+      stroke: ${props.theme.secondary.dark};
     }
 
     &:hover {
       > svg {
-        stroke: #FCC934;
+        stroke: ${props.theme.secondary.dark};
       }
     }
   `}
 `
 
+const FillIconWrapper = styled(IconWrapper)<StyledIconWrapper>`
+
+  &:hover {
+    background: #eee;
+    > svg {
+      fill: #424242;
+    }
+  }
+
+  > svg {
+    fill: #aaa;
+  }
+
+  ${props => props.active && `
+    > svg {
+      fill: ${props.theme.secondary.dark};
+    }
+
+    &:hover {
+      > svg {
+        fill: ${props.theme.secondary.dark};
+      }
+    }
+  `}
+`
+
+const InputColorWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const InputColor = styled.input`
+  margin: 0 8px;
+  display: inline-flex;
+  vertical-align: bottom;
+  border: none;
+  border-radius: 50%;
+  padding: 0; 
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+
+  ::-webkit-color-swatch {
+    border: 0;
+    border-radius: 50%;
+  }
+
+  ::-moz-color-swatch {
+    border: 0;
+    border-radius: 50%;
+  }
+
+`
 const RemoveExplanation = styled.div`
   margin-right: 8px;
   padding: 4px;
@@ -221,6 +328,7 @@ const RemoveExplanation = styled.div`
   }
 
 `
+
 
 const Heading = styled.div<StyledIconWrapper>`
   margin-right: 8px;
@@ -243,10 +351,10 @@ const Heading = styled.div<StyledIconWrapper>`
   color: #aaa;
 
   ${props => props.active && `
-    color: #FCC934;
+    color: ${props.theme.secondary.dark};
 
     &:hover {
-      color: #FCC934;
+      color: ${props.theme.secondary.dark};
     }
   `}
 `
@@ -257,4 +365,20 @@ const Separate = styled.div`
   height: 16px;
   border-radius: 2px;
   background: #ccc;
+`
+
+const StyledBsBlockquoteRight = styled(BsBlockquoteRight)<StyledIconWrapper>`
+  fill: #aaa;
+  
+   ${props => props.active && `
+    > svg {
+      fill: ${props.theme.secondary.dark};
+    }
+
+    &:hover {
+      > svg {
+        fill: ${props.theme.secondary.dark};
+      }
+    }
+  `}
 `

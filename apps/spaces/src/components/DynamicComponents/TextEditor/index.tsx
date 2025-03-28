@@ -6,11 +6,11 @@ import Link from '@tiptap/extension-link'
 import StarterKit from '@tiptap/starter-kit'
 import Highlight from '@tiptap/extension-highlight'
 import { Explanation } from './extensions/Explanation'
-import { MenuBar } from './components/MenuBar'
 import shallow from 'zustand/shallow'
 import { useStore } from '../../../store'
 import { SearchNReplace } from './extensions/Search'
 import { subscribe, unsubscribe } from '../../../utils/customEvent'
+import { MenuBar } from '../../TipTapEditor/MenuBar'
 
 Highlight.configure({
   HTMLAttributes: {
