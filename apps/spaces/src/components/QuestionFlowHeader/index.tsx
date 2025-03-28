@@ -76,7 +76,8 @@ const Wrapper = styled.div`
   background: white;
   height: 72px;
   max-height: 72px;
-
+  min-height: 72px;
+  
   display: flex;
   align-items: center;
   justify-content: space-between;

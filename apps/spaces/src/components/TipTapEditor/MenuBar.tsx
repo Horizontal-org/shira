@@ -8,6 +8,7 @@ import { MdClear, MdHorizontalRule, MdFormatColorText } from 'react-icons/md'
 import { BsBlockquoteRight } from "react-icons/bs";
 import { GoListOrdered } from "react-icons/go";
 import { GrBlockQuote } from "react-icons/gr";
+import { FaUndo, FaRedo } from "react-icons/fa";
 
 export const MenuBar = ({ editor, setLink }) => {
   // const {
@@ -168,9 +169,23 @@ export const MenuBar = ({ editor, setLink }) => {
         />
       </InputColorWrapper>
 
-
       <Separate />
 
+      <FillIconWrapper 
+        active={false}
+        onClick={() => editor.chain().focus().undo().run()}
+      >
+        <FaUndo size={18} />
+      </FillIconWrapper>
+      
+      <FillIconWrapper
+        active={false}
+        onClick={() => editor.chain().focus().redo().run()}
+      >
+        <FaRedo size={18} />
+      </FillIconWrapper>
+
+      <Separate />
       {/* <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
         horizontal rule
       </button>

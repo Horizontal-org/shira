@@ -15,6 +15,9 @@ import Dropcursor from '@tiptap/extension-dropcursor'
 import Gapcursor from '@tiptap/extension-gapcursor'
 import ListKeymap from '@tiptap/extension-list-keymap'
 import Placeholder from '@tiptap/extension-placeholder'
+import Typography from '@tiptap/extension-typography'
+import History from '@tiptap/extension-history'
+// tiptap extensions 
 
 
 export const EmailTipTapEditor = () => {
@@ -35,17 +38,10 @@ const editorId = `component-text-1`
       Dropcursor,
       Gapcursor,
       ListKeymap,
-      Placeholder.configure({
-        // Use a placeholder:
+      Typography,
+      History,
+      Placeholder.configure({        
         placeholder: 'Write something …',
-        // Use different placeholders depending on the node type:
-        // placeholder: ({ node }) => {
-        //   if (node.type.name === 'heading') {
-        //     return 'What’s the title?'
-        //   }
-
-        //   return 'Can you add some further context?'
-        // },
       }),
       // Explanation,
       // SearchNReplace,
@@ -124,7 +120,7 @@ const EditorStyles = createGlobalStyle`
   border-radius: 16px;
   border: 2px solid ${props => props.theme.secondary.dark};
   padding: 8px 20px;
-
+  min-height: 150px;
 
   /* Focus state */
   &:focus:not(:disabled) {
