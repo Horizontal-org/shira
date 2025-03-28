@@ -71,7 +71,7 @@ export const Modal: React.FC<ModalProps> = ({
               type="primary"
               disabled={primaryButtonDisabled}
               onClick={onPrimaryClick}
-              color={type === ModalType.Danger ? '#BF2E1F' : undefined}
+              color={type === ModalType.Danger ? '#BF2E1F' : "#849D29"}
             />
           </Footer>
         </ModalContainer>

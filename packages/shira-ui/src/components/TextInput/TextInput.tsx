@@ -71,7 +71,7 @@ const InputContainer = styled.div`
 
 const Label = styled.label<{ $disabled?: boolean }>`
     font-size: 16px;
-    color: ${props => props.$disabled ? '#aaa' : props.theme.secondary.dark};
+    color: ${props => props.$disabled ? '#aaa' : props.theme.colors.dark.black};
 `;
 
 const StyledInput = styled.input`
@@ -83,11 +83,11 @@ const StyledInput = styled.input`
     border-radius: 16px;
     padding: 12px 16px;
     width: 100%;
-    font-weight: 400;
+    font-weight: 300;
     font-size: 18px;
     background: white;
-    border: 2px solid ${props => props.theme.secondary.dark};
-    color: ${props => props.theme.colors.dark.black};
+    border: 2px solid ${props => props.theme.colors.green3};
+    color: ${props => props.theme.colors.dark.darkGrey};
     transition: all 0.2s ease-in-out;
 
     &::placeholder {
@@ -102,7 +102,7 @@ const StyledInput = styled.input`
     /* Focus state */
     &:focus:not(:disabled) {
         background: #f0fff9;
-        box-shadow: 0 0 0 2px ${props => `${props.theme.secondary.dark}33`};
+        box-shadow: 0 0 0 2px ${props => props.theme.colors.green3};
     }
 
     /* Disabled state */
