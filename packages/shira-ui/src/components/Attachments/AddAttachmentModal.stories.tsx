@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Attachment } from './Attachment';
+import { AddAttachmentModal } from './AddAttachmentModal';
 import { useState } from 'react';
 
 const meta = {
   title: 'Components/Attachment',
-  component: Attachment,
+  component: AddAttachmentModal,
   parameters: {
     layout: 'centered',
   },
@@ -40,7 +40,7 @@ const meta = {
       description: 'Handler for when the attachment is saved'
     }
   },
-} satisfies Meta<typeof Attachment>;
+} satisfies Meta<typeof AddAttachmentModal>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -70,7 +70,7 @@ const InteractiveAttachment = () => {
         Open Attachment Modal
       </button>
       
-      <Attachment 
+      <AddAttachmentModal 
         fileName={fileName} 
         handleFileName={setFileName}
         fileType={fileType}

@@ -2,7 +2,7 @@ import { TextInput } from '../TextInput';
 import { SelectComponent } from '../Select';
 import { Modal, ModalType } from '../Modal';
 
-export interface AttachmentProps {
+export interface AddAttachmentModalProps {
   fileName: string;
   handleFileName: (fileName: string) => void;
   fileType: string;
@@ -12,7 +12,7 @@ export interface AttachmentProps {
   onSave: () => void;
 }
 
-export const Attachment = ({ 
+export const AddAttachmentModal = ({ 
   fileName, 
   handleFileName, 
   fileType,
@@ -20,7 +20,7 @@ export const Attachment = ({
   isOpen,
   onClose, 
   onSave
-}: AttachmentProps) => {
+}: AddAttachmentModalProps) => {
   return (
     <Modal
       isOpen={isOpen}
@@ -55,4 +55,4 @@ export const Attachment = ({
 
 
 
-export default Attachment;
+export default AddAttachmentModal;
