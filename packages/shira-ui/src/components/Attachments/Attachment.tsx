@@ -5,7 +5,8 @@ import {
   VideoIcon,
   AudioIcon,
   GenericAttachmentIcon,
-  PdfIcon
+  PdfIcon,
+  ExplanationIcon
 } from '../Icons';
 
 export enum AttachmentType {
@@ -19,9 +20,11 @@ export enum AttachmentType {
 export interface AttachmentProps {
     name: string
     type: AttachmentType
+    showExplanations?: Boolean
+    isActiveExplanation?: Boolean
 }
 
-export const Attachment = ({ name, type }: AttachmentProps) => {
+export const Attachment = ({ name, type, showExplanations = true }: AttachmentProps) => {
   const renderSwitch = (type: AttachmentType) => {
     switch(type) {
       case AttachmentType.audio:
@@ -40,9 +43,12 @@ export const Attachment = ({ name, type }: AttachmentProps) => {
   return (
     <Card>
       <Header>
-        <Name>
-          {name}
-        </Name>
+        <FlexContainer>
+          { showExplanations && <ExplanationIcon />}
+          <Name>
+            {name}
+          </Name>
+        </FlexContainer>
         <FiMoreVertical size={20} />
       </Header>
       <Body>
@@ -72,6 +78,10 @@ const Header = styled.div`
   background-color: ${props => props.theme.colors.light.paleGrey};
 `
 
+const FlexContainer = styled.div`
+  display: flex;
+`
+
 const Name = styled.div`
   display: flex;
   text-align: left;
@@ -79,6 +89,7 @@ const Name = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 160px;
+  padding-left: 8px;
 `
 
 const Body = styled.div`
