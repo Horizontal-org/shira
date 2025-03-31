@@ -4,7 +4,7 @@ import { styled } from 'styled-components'
 
 export interface FloatingMenuProps {
   isOpen: boolean;
-  onEdit: React.MouseEventHandler<HTMLButtonElement> | undefined;
+  onEdit?: React.MouseEventHandler<HTMLButtonElement> | undefined;
   onDelete: React.MouseEventHandler<HTMLButtonElement> | undefined;
   onClose: () => void;
   anchorEl: HTMLButtonElement | null
@@ -47,12 +47,14 @@ export const FloatingMenu: FunctionComponent<FloatingMenuProps> = ({
   return (
     <MenuWrapper ref={menuRef} style={{ ...position }}>
       <MenuContent>
-        <MenuButton 
-          onClick={onEdit}
-        >
-          <FiEdit2 size={16} />
-          Edit
-        </MenuButton>
+        { onEdit && (
+          <MenuButton 
+            onClick={onEdit}
+          >
+            <FiEdit2 size={16} />
+            Edit
+          </MenuButton>
+        )}
         <MenuButton 
           onClick={onDelete}
         >

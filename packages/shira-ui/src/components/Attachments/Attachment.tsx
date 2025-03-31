@@ -1,3 +1,4 @@
+import { useState, useRef } from 'react';
 import { styled } from 'styled-components'
 import { FiMoreVertical } from 'react-icons/fi';
 import { 
@@ -8,6 +9,7 @@ import {
   PdfIcon,
   ExplanationIcon
 } from '../Icons';
+import { FloatingMenu } from '../FloatingMenu';
 
 export enum AttachmentType {
   video = 'video',
@@ -22,9 +24,12 @@ export interface AttachmentProps {
     type: AttachmentType
     showExplanations?: Boolean
     isActiveExplanation?: Boolean
+    onDelete: (e: React.MouseEvent) => void
 }
 
-export const Attachment = ({ name, type, showExplanations = true }: AttachmentProps) => {
+export const Attachment = ({ name, type, showExplanations = true, onDelete }: AttachmentProps) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const menuButtonRef = useRef<HTMLButtonElement>(null)
   const renderSwitch = (type: AttachmentType) => {
     switch(type) {
       case AttachmentType.audio:
@@ -49,14 +54,31 @@ export const Attachment = ({ name, type, showExplanations = true }: AttachmentPr
             {name}
           </Name>
         </FlexContainer>
-        <FiMoreVertical size={20} />
+        <MenuButton 
+          ref={menuButtonRef}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsMenuOpen(!isMenuOpen);
+          }}
+        >
+          <FiMoreVertical size={20} />
+        </MenuButton>
+        <FloatingMenu
+          isOpen={isMenuOpen}
+          onClose={() => setIsMenuOpen(false)}
+          onDelete={(e) => {
+            e.stopPropagation();
+            onDelete(e);
+          }}
+          anchorEl={menuButtonRef.current}
+        />
       </Header>
       <Body>
-        <IconContainer>
+        <div>
           {
             renderSwitch(type)
           }
-        </IconContainer>
+        </div>
       </Body>
   </Card>
   )
@@ -99,6 +121,15 @@ const Body = styled.div`
   align-items: center;
 `
 
-const IconContainer = styled.div`
+const MenuButton = styled.button`
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: ${props => props.theme.colors.dark.darkGrey};
   
+  &:hover {
+    color: ${props => props.theme.colors.dark.black};
+  }
+  background: none;
+  border: none;
 `
