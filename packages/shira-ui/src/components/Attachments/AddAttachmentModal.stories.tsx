@@ -3,7 +3,7 @@ import { AddAttachmentModal } from './AddAttachmentModal';
 import { useState } from 'react';
 
 const meta = {
-  title: 'Components/Attachment',
+  title: 'Components/AddAttachmentModal',
   component: AddAttachmentModal,
   parameters: {
     layout: 'centered',
