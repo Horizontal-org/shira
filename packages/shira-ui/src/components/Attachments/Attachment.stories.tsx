@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Attachment, AttachmentType } from './Attachment';
-import { useState } from 'react';
 
 const meta = {
   title: 'Components/Attachment',

@@ -96,12 +96,14 @@ const Card = styled.div`
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 16px;
   background-color: ${props => props.theme.colors.light.paleGrey};
 `
 
 const FlexContainer = styled.div`
   display: flex;
+  align-items: center;
 `
 
 const Name = styled.div`

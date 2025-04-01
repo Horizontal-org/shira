@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useRef, useState } from 'react';
+import { FunctionComponent, useEffect, useRef, useState, useLayoutEffect } from 'react';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { styled } from 'styled-components'
 
@@ -18,14 +18,14 @@ export const FloatingMenu: FunctionComponent<FloatingMenuProps> = ({
   anchorEl
 }) => {
   const menuRef = useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState({ top: 0, right: "-100px" });
+  const [position, setPosition] = useState({ top: 0, right: 0 });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (isOpen && anchorEl) {
       const rect = anchorEl.getBoundingClientRect();
       setPosition({
         top: rect.bottom + 8,
-        right: `-${120 - (window.innerWidth - rect.right)}px`
+        right: window.innerWidth - rect.right - 100
       });
     }
   }, [isOpen, anchorEl]);
