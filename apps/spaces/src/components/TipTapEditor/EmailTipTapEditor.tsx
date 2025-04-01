@@ -19,8 +19,12 @@ import Typography from '@tiptap/extension-typography'
 import History from '@tiptap/extension-history'
 // tiptap extensions 
 
-
-export const EmailTipTapEditor = () => {
+interface Props {
+  onChange: (body: string) => void;
+}
+export const EmailTipTapEditor = ({
+  onChange
+}) => {
 
 // const editorId = `component-text-${componentId}`
 const editorId = `component-text-1`
@@ -39,7 +43,7 @@ const editorId = `component-text-1`
       Gapcursor,
       ListKeymap,
       Typography,
-      History,
+      // History,
       Placeholder.configure({        
         placeholder: 'Write something …',
       }),
@@ -59,9 +63,9 @@ const editorId = `component-text-1`
     //     }
     //   }
     // },
-    // onUpdate(props) {
-    //   handleRawHtml(props.editor.getHTML())      
-    // },
+    onUpdate(props) {
+      onChange(props.editor.getHTML())      
+    },
     // onCreate(props) {
     //   handleRawHtml(props.editor.getHTML())
 

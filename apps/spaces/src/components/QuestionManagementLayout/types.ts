@@ -5,6 +5,7 @@ export interface EmailContent {
   senderName?: string;
   senderEmail?: string;
   subject?: string;
+  body?: string
 }
 
 export interface MessagingContent {
@@ -18,5 +19,5 @@ export interface QuestionToBe {
   name?: string
   isPhishing?: boolean
   app?: App
-  content?: EmailContent | MessagingContent
+  content?: string
 }

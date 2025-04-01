@@ -9,6 +9,10 @@ export interface Props {
     label?: string;
     disabled?: boolean;
     type?: 'text' | 'password';
+    required?: boolean;
+    ref?: React.MutableRefObject<HTMLInputElement>
+    onBlur?: React.FocusEventHandler<HTMLInputElement>
+    onFocus?: React.FocusEventHandler<HTMLInputElement>
 }
 
 export const TextInput: FunctionComponent<Props> = ({
@@ -16,9 +20,14 @@ export const TextInput: FunctionComponent<Props> = ({
     onChange,
     value,
     label,
+    onBlur,
+    onFocus,
     disabled = false,
-    type = 'text'
+    type = 'text',
+    ref = null,
+    required = false
 }) => {
+    console.log("🚀 ~ TEXTINPUT ref:", ref)
     const [showPassword, setShowPassword] = useState(false);
     const showLabel = value !== '';
     const inputPlaceholder = (!showLabel && label) ? label : placeholder;
@@ -36,6 +45,10 @@ export const TextInput: FunctionComponent<Props> = ({
                     onChange={onChange}
                     value={value}
                     disabled={disabled}
+                    required={required}
+                    ref={ref}
+                    onBlur={onBlur}
+                    onFocus={onFocus}
                 />
 
                 {isPassword && (

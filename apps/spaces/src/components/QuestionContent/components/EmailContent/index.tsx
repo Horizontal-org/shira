@@ -1,25 +1,31 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { Body2Regular, styled, SubHeading3, TextInput } from '@shira/ui'
 import { EmailContent as EmailContentType, QuestionToBe } from "../../../QuestionManagementLayout/types";
 import { BaseTipTapEditor } from "../../../TipTapEditor/BaseTipTapEditor";
 import { EmailTipTapEditor } from "../../../TipTapEditor/EmailTipTapEditor";
+import { Attachments } from "../Attachments";
+import { InputWithExplanation } from "../../../InputWithExplanation";
 
 interface Props {
   question: QuestionToBe
-  handleQuestion: (k, v) => void;
+  handleContent: (id: string, value: string) => void
 }
 
 export const EmailContent: FunctionComponent<Props> = ({
   question,
-  handleQuestion
+  handleContent
 }) => {
-  // const editorId = `component-text-${componentId}`
 
-  const [emailContent, handleEmailContent] = useState<EmailContentType>(question.content || {
+  const [emailContent, handleEmailContent] = useState<EmailContentType>({
     senderEmail: '',
     senderName: '',
-    subject: ''
+    subject: '',
+    body: ''
   })
+
+  const insertExplanation = (e) => {
+    return e ? ` data-explanation='${e}' ` : ''  
+  }
 
   return (
     <Content>
@@ -32,6 +38,10 @@ export const EmailContent: FunctionComponent<Props> = ({
             ...emailContent,
             senderName: e.target.value
           })
+          handleContent(
+            'component-required-sender-name', 
+            `<span ${insertExplanation(null)} id=component-required-sender-name>${e.target.value}</span>` 
+          )
         }}
       />
       <TextInput
@@ -42,8 +52,30 @@ export const EmailContent: FunctionComponent<Props> = ({
             ...emailContent,
             senderEmail: e.target.value
           })
+          handleContent(
+            'component-required-sender-email', 
+            `<span ${insertExplanation(null)} id=component-required-sender-email>${e.target.value}</span>` 
+          )
         }}
       />
+
+      {/* <InputWithExplanation 
+        id='component-optional-subject'
+        name='subject'
+        placeholder='Subject'
+        value={emailContent.subject}
+        onChange={(expl, value) => {
+          // onChange(expl, value, 'component-optional-subject')
+          handleEmailContent({
+            ...emailContent,
+            subject: value
+          })
+          handleContent(
+            'component-optional-subject', 
+            `<span ${insertExplanation(expl)} id=component-required-sender-email>${value}</span>` 
+          )          
+        }}
+      /> */}
       <TextInput
         label="Subject"
         value={emailContent.subject}
@@ -52,6 +84,10 @@ export const EmailContent: FunctionComponent<Props> = ({
             ...emailContent,
             subject: e.target.value
           })
+          handleContent(
+            'component-optional-subject', 
+            `<span ${insertExplanation(null)} id=component-required-sender-email>${e.target.value}</span>` 
+          )  
         }}
       />
       <Body2Regular>{`If you keep this field empty, the subject field will show “(no subject)”.`}</Body2Regular>
@@ -59,7 +95,23 @@ export const EmailContent: FunctionComponent<Props> = ({
       <div>
         <SubHeading3>Email body content</SubHeading3>
         <Body2Regular>Write the message that will be shown.</Body2Regular>
-        <EmailTipTapEditor />
+        <EmailTipTapEditor 
+          onChange={(body) => {
+            console.log("🚀 ~ body:", body)
+            handleEmailContent({
+              ...emailContent,
+              body
+            })
+            handleContent(
+              'component-text-1', 
+              `<div data-position=1 id=component-text-1>${body}</div>`
+            )
+          }}
+        />
+      </div>
+
+      <div>
+        <Attachments />
       </div>
     </Content>
   )

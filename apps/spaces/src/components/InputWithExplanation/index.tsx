@@ -5,6 +5,7 @@ import { useStore } from '../../store'
 import { ExplanationButton } from '../Explanations/components/ExplanationButton'
 import { Input } from '../Input'
 import { CustomElements } from '../../fetch/question'
+import { TextInput } from '@shira/ui'
 
 const RE_VALIDATIONS = {
   phone:  /^[0-9\W]*$/
@@ -18,7 +19,8 @@ interface Props {
   required?: boolean;
   customRef?: React.MutableRefObject<HTMLInputElement>
   initialValue?: CustomElements
-  validation?: string
+  validation?: string,
+  value?: string
 }
 
 export const InputWithExplanation: FunctionComponent<Props> = ({
@@ -28,11 +30,12 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
   onChange,
   required,
   customRef,
-  initialValue,
-  validation
+  // initialValue,
+  validation,
+  value
 }) => {
 
-  const [value, setValue] = useState<string>('')
+  // const [value, setValue] = useState<string>('')
 
   const {
     addExplanation,
@@ -46,51 +49,57 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
     changeSelected: state.changeSelected
   }), shallow)
 
-  const inputRef = useRef<HTMLInputElement>()
-  const ref = customRef || inputRef
+  const ref = useRef(null)
+  // const ref = customRef || inputRef
+  // const ref = inputRef
+  console.log("🚀 ~ ref:", ref)
+
+  // useEffect(() => {
+  //   if(initialValue?.textContent || initialValue?.explanationPosition) {
+  //     setValue(initialValue?.textContent)
+
+  //     if(initialValue?.explanationPosition) {
+  //       ref.current.setAttribute('data-explanation', initialValue?.explanationPosition)
+  //     }
+  //     ref.current.value=initialValue?.textContent
+
+  //     onChange(initialValue?.explanationPosition, initialValue?.textContent)
+  //   }
+  // }, [initialValue, ref])
+
+  // id={id}
+  // name={name}
 
   useEffect(() => {
-    if(initialValue?.textContent || initialValue?.explanationPosition) {
-      setValue(initialValue?.textContent)
-
-      if(initialValue?.explanationPosition) {
-        ref.current.setAttribute('data-explanation', initialValue?.explanationPosition)
-      }
-      ref.current.value=initialValue?.textContent
-
-      onChange(initialValue?.explanationPosition, initialValue?.textContent)
-    }
-  }, [initialValue, ref])
-
+    console.log(ref.current);
+  }, [])
   return (
     <div>
       <Separator>
-        <Input
-          id={id}
-          name={name}
+        <TextInput
           required={required}
           ref={ref}
           value={value}
           placeholder={placeholder}
           onChange={() => { 
             if(RE_VALIDATIONS[validation] && !RE_VALIDATIONS[validation]?.test(ref.current.value)) return
-            setValue(ref.current.value)
+            // setValue(ref.current.value)
             onChange(
               ref.current.getAttribute('data-explanation'),
               ref.current.value,
             )
           }}
           onBlur={(e) => {
-            const hasExplanation = ref.current.getAttribute('data-explanation')
-            if (hasExplanation) {
-              changeSelected(null)
-            }
+            // const hasExplanation = ref.current.getAttribute('data-explanation')
+            // if (hasExplanation) {
+            //   changeSelected(null)
+            // }
           }}
           onFocus={() => {
-            const hasExplanation = ref.current.getAttribute('data-explanation')
-            if (hasExplanation) {
-              changeSelected(parseInt(hasExplanation))
-            }
+            // const hasExplanation = ref.current.getAttribute('data-explanation')
+            // if (hasExplanation) {
+            //   changeSelected(parseInt(hasExplanation))
+            // }
           }}
         />
         

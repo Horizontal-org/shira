@@ -9,12 +9,15 @@ import { useStore } from "../../store";
 import { QuestionBasicInfo } from "../QuestionBasicInfo";
 import { QuestionFlowHeader } from "../QuestionFlowHeader";
 import { QuestionContent } from "../QuestionContent";
-import { QuestionToBe } from "./types";
+import { EmailContent, QuestionToBe } from "./types";
+import { QuestionReview } from "../QuestionReview";
+import { useNavigate } from "react-router-dom";
 
 interface Props {}
 
-
 export const QuestionManagementLayout: FunctionComponent<Props> = () => {
+
+  const navigate = useNavigate()
 
   const {
     apps,
@@ -28,24 +31,54 @@ export const QuestionManagementLayout: FunctionComponent<Props> = () => {
     fetchApp()
   }, [])
 
-  const [step, handleStep] = useState(0)
+  const [step, handleStep] = useState(0)  
   const [question, handleQuestion] = useState<QuestionToBe>({
     name: '',
     isPhishing: false,
   })
-
+  const [content, handleContent] = useState({})
+  console.log("🚀 ~ content:", content)
+  
   const validateStep = () => {
     if (step === 0) {
       return question.name.length > 0 && !!(question.app)
     }
 
-    return false
+    return true
+  }
+
+  // (content) => {
+  //   handleQuestion({
+  //     ...question,
+  //     content: parseContent(content)
+  //   })
+  // }
+
+  const parseContent = (id, value) => {
+    handleContent({
+      ...content,
+      [id]: value
+  })
   }
 
   return (
     <>
       <QuestionFlowHeader 
-        handleStep={handleStep}
+        onNext={() => {
+          if (step === 2) {
+            // submit
+            return
+          }
+
+          handleStep(step + 1)         
+        }}
+        onBack={() => {
+          if (step === 0) {
+            navigate(-1)
+          } else {
+            handleStep(step - 1)
+          }
+        }}
         step={step}
         disableNext={!validateStep()}
       />
@@ -53,7 +86,6 @@ export const QuestionManagementLayout: FunctionComponent<Props> = () => {
         <ContentWrapper>
           <div>
             <ContentHeader>
-              <SubHeading2>Question name</SubHeading2>
               <Breadcrumbs 
                 active={step}
                 items={[
@@ -79,7 +111,13 @@ export const QuestionManagementLayout: FunctionComponent<Props> = () => {
 
             { step === 1 && (
               <QuestionContent 
-                handleQuestion={handleQuestion}
+                handleContent={parseContent}
+                question={question}
+              />
+            )}
+
+            { step === 2 && (
+              <QuestionReview 
                 question={question}
               />
             )}

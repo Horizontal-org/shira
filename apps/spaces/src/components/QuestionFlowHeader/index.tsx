@@ -10,13 +10,15 @@ import { useNavigate } from "react-router-dom";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 interface Props {
-  handleStep: (step: number) => void
+  onNext: () => void
+  onBack: () => void
   step: number
   disableNext: boolean
 }
 
 export const QuestionFlowHeader: FunctionComponent<Props> = ({
-  handleStep,
+  onNext,
+  onBack,
   disableNext,
   step
 }) => {
@@ -42,13 +44,7 @@ export const QuestionFlowHeader: FunctionComponent<Props> = ({
       <Right>
         <Button
           leftIcon={<FiChevronLeft size={16} />}
-          onClick={() => {
-            if (step === 0) {
-              navigate(-1)
-            } else {
-              handleStep(step - 1)
-            }
-          }}
+          onClick={onBack}
           text="Back"
           type="outline"
         />
@@ -56,13 +52,7 @@ export const QuestionFlowHeader: FunctionComponent<Props> = ({
           color="#52752C"
           rightIcon={<FiChevronRight size={16} />}
           disabled={disableNext}
-          onClick={() => {
-            if (step === 2) {
-              // submit
-            } else {
-              handleStep(step + 1)
-            }
-          }}
+          onClick={onNext}
           text={step === 2 ? 'Save' : 'Next'}
           type="primary"
         />

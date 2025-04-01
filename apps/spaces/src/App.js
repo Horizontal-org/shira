@@ -63,10 +63,10 @@ function App() {
               { user && (
                 <>
                   {/* LEGACY */}
-                  <Route path="/legacy-question" element={<QuestionLayout />} />
-                  <Route path="/translations" element={<ManageGlobalLanguages />} />
-                  <Route path="/legacy-questions" element={<HomeLayout />} />
-                  <Route path="/question/:id"  element={<QuestionLayout />} /> 
+                  {/* <Route path="/legacy-question" element={<QuestionLayout />} /> */}
+                  {/* <Route path="/translations" element={<ManageGlobalLanguages />} /> */}
+                  {/* <Route path="/legacy-questions" element={<HomeLayout />} /> */}
+                  {/* <Route path="/question/:id"  element={<QuestionLayout />} />  */}
                   {/* LEGACY */}
                   <Route path="/"  element={<DashboardLayout />} /> 
                   <Route path="/dashboard"  element={<DashboardLayout />} /> 
