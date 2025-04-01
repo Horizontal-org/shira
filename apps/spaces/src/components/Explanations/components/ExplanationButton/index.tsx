@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
-import styled from 'styled-components'
 import { HiOutlineChatBubbleBottomCenter } from 'react-icons/hi2'
+import { styled } from '@shira/ui'
 
 interface Props {
   onClick: () => void
@@ -42,13 +42,13 @@ const SvgWrapper = styled.div<StyledSvgWrapper>`
   }
 
   &:hover {
-    stroke: #3F6A3A;
+    stroke: ${props => props.theme.primary.base};
     background: #f1f2f4;
   }
   
   ${props =>  props.active && `
     > svg {
-      stroke: #3F6A3A;
+      stroke: ${props.theme.primary.base};
     }
   `
 }

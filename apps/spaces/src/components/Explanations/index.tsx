@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
-import styled from 'styled-components'
-import shallow from 'zustand/shallow'
+import { shallow } from 'zustand/shallow'
 import { useStore } from '../../store'
 import { DragItem } from '../LegacyQuestionContent/components/DragItem'
 import { ExplanationInput } from './components/ExplanationInput'
@@ -8,12 +7,17 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Component } from '../../utils/dynamicComponents'
 import { Explanation } from '../../store/slices/explanation'
 import { publish } from '../../utils/customEvent'
+import { cleanDeletedExplanations } from '../../utils/explanations'
+import { ExplanationDragItem } from './components/ExplanationDragItem'
+import { Body2Regular, styled } from '@shira/ui'
 
 interface Props {
   initialData?: Explanation[]
+  content?: Object
+  handleContent?: (id: string, value: string) => void
 }
 
-export const Explanations: FunctionComponent<Props> = ({ initialData }) => {
+export const Explanations: FunctionComponent<Props> = ({ initialData, content, handleContent }) => {
 
   const {
     storeExplanations,
@@ -88,32 +92,41 @@ export const Explanations: FunctionComponent<Props> = ({ initialData }) => {
 
     if (toDelete.nodeName !== 'MARK') {
       const id = toDelete.getAttribute('id')
+      
+      const stringWithoutAttribute = content[id].replace(/ data-explanation='[^']*'/g, '');
+      handleContent(
+        id,
+        stringWithoutAttribute
+      )
 
-      const cleanContent = (content, setContent) => {
-        const stringWithoutAttribute = content.replace(/ data-explanation='[^']*'/g, '');
-        console.log(stringWithoutAttribute);
-        setContent(id, stringWithoutAttribute);
-      };
+      // console.log("🚀 ~ cleanContent ~ stringWithoutAttribute:", stringWithoutAttribute)
 
-      if(id.includes('required')) {
-        const content = requiredContent[id]
-        cleanContent(content, setRequiredContent);
-      }
-      if(id.includes('optional')) {
-        const content = optionalContent[id]
-        cleanContent(content, setOptionalContent);
-      }
-      if(id.includes('attachment')){
-        const content = dynamicContent[id]
-        cleanContent(content, setDynamicContent);
-      }
+
+      // const cleanContent = (content) => {
+      //   const stringWithoutAttribute = content.replace(/ data-explanation='[^']*'/g, '');
+      //   console.log("🚀 ~ cleanContent ~ stringWithoutAttribute:", stringWithoutAttribute)
+      //   console.log(stringWithoutAttribute);
+      //   // setContent(id, stringWithoutAttribute);
+      // };
+      // if(id.includes('required')) {
+      //   const content = requiredContent[id]
+      //   cleanContent(content, setRequiredContent);
+      // }
+      // if(id.includes('optional')) {
+      //   const content = optionalContent[id]
+      //   cleanContent(content, setOptionalContent);
+      // }
+      // if(id.includes('attachment')){
+      //   const content = dynamicContent[id]
+      //   cleanContent(content, setDynamicContent);
+      // }
     }
   }
 
   return (
     <Wrapper>
   
-      <p>Explanations</p>
+      <Body2Regular>Explanations will be shown in the following order in the quiz. </Body2Regular>
 
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId='droppable'>
@@ -123,11 +136,15 @@ export const Explanations: FunctionComponent<Props> = ({ initialData }) => {
               ref={provided.innerRef}
             >          
               { storeExplanations.map(((e, i) => (
-                <DragItem
+                <ExplanationDragItem
                   key={e.position + ''} 
                   id={e.position + ''}   
+                  title={e.title}
+                  text={e.text}
+                  selected={+e.index === selectedExplanation}
                   index={i}  
                   component={(
+                    // ONLY INPUT
                     <ExplanationBox
                       key={e.index}
                       selected={+e.index === selectedExplanation}
@@ -139,7 +156,7 @@ export const Explanations: FunctionComponent<Props> = ({ initialData }) => {
                         text={e.text}
                         unselect={() => { changeSelected(null) }}
                         onUpdate={(text) => {
-                          updateExplanation(e.index, text, e.position, e.id)
+                          updateExplanation(e.index, text, e.position, e.id, e.title)
                         }}
                       />
                     </ExplanationBox>
@@ -148,7 +165,9 @@ export const Explanations: FunctionComponent<Props> = ({ initialData }) => {
                     // this removes the data-explanation attr from zustand                                     
                     cleanStateExplanations(e.index)
                     // this removes the data-explanation attribute from the DOM
-                    publish('delete-explanation', { deleteIndex: e.index })
+                    //TODO I THINK I NEED IT FOR THE EDITOR
+                    // publish('delete-explanation', { deleteIndex: e.index })
+                    cleanDeletedExplanations(e.index)
                     // this removes the explanation item
                     deleteExplanation(e.index)                    
                   }}
@@ -165,8 +184,6 @@ export const Explanations: FunctionComponent<Props> = ({ initialData }) => {
 }
 
 const Wrapper = styled.div`
-  background: #eee;
-  border-radius: 4px;
   margin-left: 8px;
   height: 100%;
   padding: 4px;
@@ -182,13 +199,8 @@ interface StyledExplanation {
 }
 
 const ExplanationBox = styled.div<StyledExplanation>`
-  border: 2px solid white;
+  border: 2px solid #F3F3F3;
   padding: 8px;
-  border-radius: 4px; 
+  border-radius: 16px; 
   background: white;
-  margin-bottom: 4px;
-
-  ${props => props.selected && `
-    border: 2px solid #424242;
-  `}
 `

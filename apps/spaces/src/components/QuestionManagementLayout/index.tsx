@@ -47,13 +47,6 @@ export const QuestionManagementLayout: FunctionComponent<Props> = () => {
     return true
   }
 
-  // (content) => {
-  //   handleQuestion({
-  //     ...question,
-  //     content: parseContent(content)
-  //   })
-  // }
-
   const parseContent = (id, value) => {
     handleContent({
       ...content,
@@ -112,6 +105,7 @@ export const QuestionManagementLayout: FunctionComponent<Props> = () => {
             { step === 1 && (
               <QuestionContent 
                 handleContent={parseContent}
+                content={content}
                 question={question}
               />
             )}

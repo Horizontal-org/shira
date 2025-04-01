@@ -40,17 +40,11 @@ export const ExplanationInput: FunctionComponent<Props> = ({
         }}
         onBlur={unselect}
       />
-      {/* <button 
-        onClick={onDelete}
-      >
-        delete
-      </button> */}
     </div>
   )
 }
 
 const StyledTextArea = styled.textarea`
-  min-height: 38px;
   resize: none;
   overflow-y: hidden;
   border: none;

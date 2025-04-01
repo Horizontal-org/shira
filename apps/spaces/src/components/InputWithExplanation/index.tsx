@@ -21,6 +21,7 @@ interface Props {
   initialValue?: CustomElements
   validation?: string,
   value?: string
+  label?: string
 }
 
 export const InputWithExplanation: FunctionComponent<Props> = ({
@@ -28,6 +29,7 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
   name,
   id,
   onChange,
+  label,
   required,
   customRef,
   // initialValue,
@@ -70,15 +72,14 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
   // id={id}
   // name={name}
 
-  useEffect(() => {
-    console.log(ref.current);
-  }, [])
   return (
-    <div>
-      <Separator>
+    <Wrapper>
         <TextInput
+          name={name}
+          id={id}
           required={required}
           ref={ref}
+          label={label}
           value={value}
           placeholder={placeholder}
           onChange={() => { 
@@ -90,16 +91,16 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
             )
           }}
           onBlur={(e) => {
-            // const hasExplanation = ref.current.getAttribute('data-explanation')
-            // if (hasExplanation) {
-            //   changeSelected(null)
-            // }
+            const hasExplanation = ref.current.getAttribute('data-explanation')
+            if (hasExplanation) {
+              changeSelected(null)
+            }
           }}
           onFocus={() => {
-            // const hasExplanation = ref.current.getAttribute('data-explanation')
-            // if (hasExplanation) {
-            //   changeSelected(parseInt(hasExplanation))
-            // }
+            const hasExplanation = ref.current.getAttribute('data-explanation')
+            if (hasExplanation) {
+              changeSelected(parseInt(hasExplanation))
+            }
           }}
         />
         
@@ -112,7 +113,7 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
             } else {
               const index = explanationIndex + 1
               ref.current.setAttribute('data-explanation', index + '')
-              addExplanation(index)
+              addExplanation(index, label)
               onChange(
                 index,
                 ref.current.value,
@@ -120,13 +121,11 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
             }
           }}
         />
-      </Separator>
-    </div>
+    </Wrapper>
   )
 }
 
-const Separator = styled.div`
-  padding: 8px 0;
+const Wrapper = styled.div`
   display: flex;
   align-items: center;
 `

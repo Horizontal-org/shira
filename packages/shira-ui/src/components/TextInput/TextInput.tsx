@@ -1,4 +1,4 @@
-import { ChangeEventHandler, FunctionComponent, useState } from "react";
+import { ChangeEventHandler, useState, forwardRef } from "react";
 import styled from 'styled-components';
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
@@ -10,24 +10,25 @@ export interface Props {
     disabled?: boolean;
     type?: 'text' | 'password';
     required?: boolean;
-    ref?: React.MutableRefObject<HTMLInputElement>
     onBlur?: React.FocusEventHandler<HTMLInputElement>
     onFocus?: React.FocusEventHandler<HTMLInputElement>
+    id?: string
+    name?: string
 }
 
-export const TextInput: FunctionComponent<Props> = ({
+export const TextInput = forwardRef<HTMLInputElement, Props>(({
     placeholder,
     onChange,
     value,
     label,
     onBlur,
     onFocus,
+    name,
+    id,
     disabled = false,
     type = 'text',
-    ref = null,
     required = false
-}) => {
-    console.log("🚀 ~ TEXTINPUT ref:", ref)
+}, ref) => {
     const [showPassword, setShowPassword] = useState(false);
     const showLabel = value !== '';
     const inputPlaceholder = (!showLabel && label) ? label : placeholder;
@@ -40,6 +41,8 @@ export const TextInput: FunctionComponent<Props> = ({
             {showLabel && <Label $disabled={disabled}>{label}</Label>}
             <InputContainer>
                 <StyledInput 
+                    id={id}
+                    name={name}
                     type={inputType}
                     placeholder={inputPlaceholder}
                     onChange={onChange}
@@ -66,7 +69,7 @@ export const TextInput: FunctionComponent<Props> = ({
             </InputContainer>
         </InputWrapper>
     )
-}
+})
 
 const InputWrapper = styled.div`
     display: flex;

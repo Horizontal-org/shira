@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { Body2Regular, styled, SubHeading3, TextInput } from '@shira/ui'
+import { Body2Regular, Body3, styled, SubHeading3, TextInput } from '@shira/ui'
 import { EmailContent as EmailContentType, QuestionToBe } from "../../../QuestionManagementLayout/types";
 import { BaseTipTapEditor } from "../../../TipTapEditor/BaseTipTapEditor";
 import { EmailTipTapEditor } from "../../../TipTapEditor/EmailTipTapEditor";
@@ -29,75 +29,91 @@ export const EmailContent: FunctionComponent<Props> = ({
 
   return (
     <Content>
-      <SubHeading3>Email details</SubHeading3>
-      <TextInput
-        label="Sender name"
-        value={emailContent.senderName}
-        onChange={(e) => { 
-          handleEmailContent({
-            ...emailContent,
-            senderName: e.target.value
-          })
-          handleContent(
-            'component-required-sender-name', 
-            `<span ${insertExplanation(null)} id=component-required-sender-name>${e.target.value}</span>` 
-          )
-        }}
-      />
-      <TextInput
-        label="Sender email address"
-        value={emailContent.senderEmail}
-        onChange={(e) => { 
-          handleEmailContent({
-            ...emailContent,
-            senderEmail: e.target.value
-          })
-          handleContent(
-            'component-required-sender-email', 
-            `<span ${insertExplanation(null)} id=component-required-sender-email>${e.target.value}</span>` 
-          )
-        }}
-      />
+   
+      <div>
+        <InputHeading $required={true}>
+          <SubHeading3>Sender name</SubHeading3>
+          <Body3>This is the name that will be displayed in the “Sender” field of the email.</Body3>
+        </InputHeading>
 
-      {/* <InputWithExplanation 
-        id='component-optional-subject'
-        name='subject'
-        placeholder='Subject'
-        value={emailContent.subject}
-        onChange={(expl, value) => {
-          // onChange(expl, value, 'component-optional-subject')
-          handleEmailContent({
-            ...emailContent,
-            subject: value
-          })
-          handleContent(
-            'component-optional-subject', 
-            `<span ${insertExplanation(expl)} id=component-required-sender-email>${value}</span>` 
-          )          
-        }}
-      /> */}
-      <TextInput
-        label="Subject"
-        value={emailContent.subject}
-        onChange={(e) => { 
-          handleEmailContent({
-            ...emailContent,
-            subject: e.target.value
-          })
-          handleContent(
-            'component-optional-subject', 
-            `<span ${insertExplanation(null)} id=component-required-sender-email>${e.target.value}</span>` 
-          )  
-        }}
-      />
-      <Body2Regular>{`If you keep this field empty, the subject field will show “(no subject)”.`}</Body2Regular>
+        <InputWithExplanation 
+          id='component-required-sender-name'
+          name='sender-name'
+          placeholder='Sender name'
+          label="Sender name"
+          value={emailContent.senderName}
+          onChange={(expl, value) => {
+            handleEmailContent({
+              ...emailContent,
+              senderName: value
+            })
+            handleContent(
+              'component-required-sender-name', 
+              `<span ${insertExplanation(expl)} id=component-required-sender-name>${value}</span>` 
+            )          
+          }}
+        />
+      </div>
+
+      <div>
+        <InputHeading $required={true}>
+          <SubHeading3>Sender email address</SubHeading3>
+          <Body3>This is the email address that will be displayed in the “Sender” field of the email.</Body3>
+        </InputHeading>
+      
+        <InputWithExplanation 
+          id='component-required-sender-email'
+          name='sender-email'
+          placeholder='Sender email'
+          label="Sender email"
+          value={emailContent.senderEmail}
+          onChange={(expl, value) => {
+            handleEmailContent({
+              ...emailContent,
+              senderEmail: value
+            })
+            handleContent(
+              'component-required-sender-email', 
+              `<span ${insertExplanation(expl)} id=component-required-sender-email>${value}</span>` 
+            )          
+          }}
+        />      
+
+      </div>
+      
+
+
+      <div>
+        <InputHeading $required={false}>
+          <SubHeading3>Email subject</SubHeading3>
+          <Body3>This will be displayed in the “Subject” field of the email. If you keep this field empty, the subject field will show “(no subject)”.</Body3>
+        </InputHeading>
+
+        <InputWithExplanation 
+          id='component-optional-subject'
+          name='subject'
+          placeholder='Subject'
+          value={emailContent.subject}
+          label="Subject"
+          onChange={(expl, value) => {
+            handleEmailContent({
+              ...emailContent,
+              subject: value
+            })
+            handleContent(
+              'component-optional-subject', 
+              `<span ${insertExplanation(expl)} id=component-optional-subject>${value}</span>` 
+            )          
+          }}
+        />
+
+      </div>
       
       <div>
         <SubHeading3>Email body content</SubHeading3>
         <Body2Regular>Write the message that will be shown.</Body2Regular>
         <EmailTipTapEditor 
           onChange={(body) => {
-            console.log("🚀 ~ body:", body)
             handleEmailContent({
               ...emailContent,
               body
@@ -121,4 +137,21 @@ const Content = styled.div`
   gap: 48px;
   display: flex;
   flex-direction: column;
+`
+
+const InputHeading = styled.div<{ $required: boolean }>`
+  padding-bottom: 12px;
+
+  > h5 {
+   display: flex;
+
+   ${props => props.$required && `
+      &:before {
+        content:"* ";
+        color: red;
+        padding-right: 4px;
+      }
+    `}
+  }
+  
 `
