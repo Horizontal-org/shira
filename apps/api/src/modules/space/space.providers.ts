@@ -2,6 +2,7 @@ import { TYPES } from './interfaces';
 import { CheckSpaceService } from './services/check.space.service';
 import { CreateSpaceService } from './services/create.space.service';
 import { ValidateHeaderSpaceService } from './services/validate-header.space.service';
+import { AssociateUserSpaceService } from './services/associate-user.space.service';
 
 export const checkSpaceServiceProvider = {
   provide: TYPES.services.ICheckSpaceService,
@@ -18,8 +19,14 @@ export const validateHeaderSpaceServiceProvider = {
   useClass: ValidateHeaderSpaceService,
 };
 
+export const associateUserSpaceServiceProvider = {
+  provide: TYPES.services.IAssociateUserSpaceService,
+  useClass: AssociateUserSpaceService
+}
+
 export const servicesSpaceProviders = [
   checkSpaceServiceProvider,
   createSpaceServiceProvider,
-  validateHeaderSpaceServiceProvider
+  validateHeaderSpaceServiceProvider,
+  associateUserSpaceServiceProvider
 ];
