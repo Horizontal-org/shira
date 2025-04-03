@@ -1,12 +1,13 @@
 import { TextInput } from '../TextInput';
 import { SelectComponent } from '../Select';
 import { Modal, ModalType } from '../Modal';
+import { AttachmentType } from './Attachment';
 
 export interface AddAttachmentModalProps {
   fileName: string;
   handleFileName: (fileName: string) => void;
-  fileType: string;
-  handleFileType: (fileType: string) => void;
+  fileType: AttachmentType;
+  handleFileType: (fileType: AttachmentType) => void;
   isOpen: boolean;
   onClose: () => void;
   onSave: () => void;
@@ -21,6 +22,14 @@ export const AddAttachmentModal = ({
   onClose, 
   onSave
 }: AddAttachmentModalProps) => {
+  const fileTypeOptions = [
+    { value: AttachmentType.image, label: 'Image' },
+    { value: AttachmentType.video, label: 'Video' },
+    { value: AttachmentType.audio, label: 'Audio' },
+    { value: AttachmentType.document, label: 'Document' },
+    { value: AttachmentType.other, label: 'Other' }
+  ];
+
   return (
     <Modal
       isOpen={isOpen}
@@ -42,8 +51,8 @@ export const AddAttachmentModal = ({
         />
         <SelectComponent 
           label="File Type"
-          options={['Image', 'Video', 'Audio', 'Document', 'Other']}
-          onChange={(value) => handleFileType(value)}
+          options={fileTypeOptions}
+          onChange={handleFileType}
           value={fileType}
         />
       </div>

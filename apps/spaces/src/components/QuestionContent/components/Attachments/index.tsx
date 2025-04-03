@@ -2,10 +2,13 @@ import { FunctionComponent, useState } from "react";
 import { AddAttachmentModal, Button, styled, Attachment, AttachmentType } from "@shira/ui";
 import { IoMdAdd } from "react-icons/io";
 
-interface Props {
+interface Props { }
 
+interface File {
+  id: number;
+  type: AttachmentType;
+  name: string;
 }
-
 
 // const componentFinalId = `component-attachment-${componentId}`
 // const { parseCustomElement } = useParseHTML(initialContent)
@@ -25,15 +28,14 @@ export const Attachments: FunctionComponent<Props> = () => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [fileName, setFileName] = useState('')
-  const [fileType, setFileType] = useState('Document')
+  const [fileType, setFileType] = useState(AttachmentType.document)
 
   const clean = () => {
     setFileName('')
-    setFileType('')
+    setFileType(AttachmentType.document)
   }
 
-  const [files, handleFiles] = useState([])
-
+  const [files, handleFiles] = useState<File[]>([])
   return (
     <div>
        <div>

@@ -3,19 +3,26 @@ import styled from 'styled-components';
 import { createPortal } from 'react-dom';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 
+export interface SelectOption {
+  value: any;
+  label: string;
+}
 export interface SelectProps {
   label: string;
-  options: string[];
-  onChange: (value: string) => void;
+  options: SelectOption[];
+  onChange: (value: any) => void;
   value?: string;
 }
 
 export const SelectComponent = ({ label, options, onChange, value }: SelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(value || options[0]);
   const [position, setPosition] = useState({ top: 0, left: 0, width: 0 });
   const selectRef = useRef<HTMLDivElement>(null);
   const optionsRef = useRef<HTMLDivElement>(null);
+
+  const getSelectedOption = () => {
+    return options.find(option => option.value === value) || options[0];
+  };
 
   useEffect(() => {
     if (!document.getElementById('select-portal-container')) {
@@ -63,9 +70,9 @@ export const SelectComponent = ({ label, options, onChange, value }: SelectProps
     };
   }, []);
 
-  const handleSelect = (option: string) => {
-    setSelectedOption(option);
-    onChange(option);
+  const handleSelect = (option: SelectOption) => {
+    // setSelectedOption(option);
+    onChange(option.value);
     setIsOpen(false);
   };
 
@@ -75,7 +82,11 @@ export const SelectComponent = ({ label, options, onChange, value }: SelectProps
         {label && <Label>{label}</Label>}
       </LabelWrapper>
       <SelectBox onClick={() => setIsOpen(!isOpen)}>
-        <SelectedOption>{selectedOption}</SelectedOption>
+        <SelectedOption>
+          {
+            getSelectedOption()?.label || "Select an option"
+          }
+        </SelectedOption>
         <Arrow>
           {isOpen ?  <FiChevronUp color='#5F6368'/> : <FiChevronDown color='#5F6368'/>}
         </Arrow>
@@ -92,11 +103,11 @@ export const SelectComponent = ({ label, options, onChange, value }: SelectProps
         >
           {options.map((option) => (
             <Option 
-              key={option} 
+              key={option.value.toString()} 
               onClick={() => handleSelect(option)}
-              isSelected={option === selectedOption}
+              isSelected={option.value === value}
             >
-              {option}
+              {option.label}
             </Option>
           ))}
         </OptionsContainer>,
