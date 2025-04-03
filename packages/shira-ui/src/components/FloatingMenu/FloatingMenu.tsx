@@ -1,13 +1,14 @@
 import { FunctionComponent, useEffect, useRef, useState, useLayoutEffect } from 'react';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
-import { styled } from 'styled-components'
+import { styled } from 'styled-components';
+import { createPortal } from 'react-dom';
 
 export interface FloatingMenuProps {
   isOpen: boolean;
   onEdit?: React.MouseEventHandler<HTMLButtonElement> | undefined;
   onDelete: React.MouseEventHandler<HTMLButtonElement> | undefined;
   onClose: () => void;
-  anchorEl: HTMLButtonElement | null
+  anchorEl: HTMLButtonElement | null;
 }
 
 export const FloatingMenu: FunctionComponent<FloatingMenuProps> = ({
@@ -18,57 +19,101 @@ export const FloatingMenu: FunctionComponent<FloatingMenuProps> = ({
   anchorEl
 }) => {
   const menuRef = useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState({ top: 0, right: 0 });
+  const [position, setPosition] = useState({ top: 0, left: 0 });
+  const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (!document.getElementById('floating-menu-portal')) {
+      const container = document.createElement('div');
+      container.id = 'floating-menu-portal';
+      document.body.appendChild(container);
+      setPortalContainer(container);
+    } else {
+      setPortalContainer(document.getElementById('floating-menu-portal'));
+    }
+
+    return () => {
+      const container = document.getElementById('floating-menu-portal');
+      if (container && container.childNodes.length === 0) {
+        document.body.removeChild(container);
+      }
+    };
+  }, []);
 
   useLayoutEffect(() => {
     if (isOpen && anchorEl) {
-      const rect = anchorEl.getBoundingClientRect();
-      setPosition({
-        top: rect.bottom + 8,
-        right: window.innerWidth - rect.right - 100
-      });
+      const updatePosition = () => {
+        const rect = anchorEl.getBoundingClientRect();
+        
+        let top = rect.bottom + window.scrollY + 8;
+        let left = rect.left + window.scrollX;
+        
+        const menuWidth = 120; 
+        if (left + menuWidth > window.innerWidth) {
+          left = rect.right - menuWidth + window.scrollX;
+        }
+        
+        setPosition({ top, left });
+      };
+      
+      updatePosition();
+      
+      window.addEventListener('scroll', updatePosition, true);
+      window.addEventListener('resize', updatePosition);
+      
+      return () => {
+        window.removeEventListener('scroll', updatePosition, true);
+        window.removeEventListener('resize', updatePosition);
+      };
     }
   }, [isOpen, anchorEl]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent | Event) {
-        if (menuRef.current && event.target instanceof Node && !menuRef.current.contains(event.target)) {
-            onClose();
-        }
+      if (menuRef.current && event.target instanceof Node &&
+          !menuRef.current.contains(event.target) &&
+          anchorEl && !anchorEl.contains(event.target)) {
+        onClose();
+      }
     }
+    
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
+    
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isOpen, onClose]);
+  }, [isOpen, onClose, anchorEl]);
 
-  if (!isOpen) return null;
+  if (!isOpen || !portalContainer) return null;
 
-  return (
-    <MenuWrapper ref={menuRef} style={{ ...position }}>
+  return createPortal(
+    <MenuWrapper 
+      ref={menuRef} 
+      style={{ 
+        top: `${position.top}px`, 
+        left: `${position.left}px` 
+      }}
+    >
       <MenuContent>
-        { onEdit && (
-          <MenuButton 
-            onClick={onEdit}
-          >
+        {onEdit && (
+          <MenuButton onClick={onEdit}>
             <FiEdit2 size={16} />
             Edit
           </MenuButton>
         )}
-        <MenuButton 
-          onClick={onDelete}
-        >
+        <MenuButton onClick={onDelete}>
           <FiTrash2 size={16} />
           Delete
         </MenuButton>
       </MenuContent>
-    </MenuWrapper>
+    </MenuWrapper>,
+    portalContainer
   );
-}
+};
 
 const MenuWrapper = styled.div`
   position: absolute;
-  z-index: 50;
+  z-index: 999999;
   background: white;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);

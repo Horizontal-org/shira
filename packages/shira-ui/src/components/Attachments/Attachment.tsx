@@ -99,6 +99,8 @@ const Header = styled.div`
   align-items: center;
   padding: 16px;
   background-color: ${props => props.theme.colors.light.paleGrey};
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 `
 
 const FlexContainer = styled.div`

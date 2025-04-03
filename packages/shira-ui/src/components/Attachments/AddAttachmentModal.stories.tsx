@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { AddAttachmentModal } from './AddAttachmentModal';
 import { useState } from 'react';
+import { AttachmentType } from './Attachment';
 
 const meta = {
   title: 'Components/AddAttachmentModal',
@@ -50,7 +51,7 @@ export const Default: Story = {
   args: {
     fileName: 'Document.pdf',
     handleFileName: () => {},
-    fileType: 'Document',
+    fileType: AttachmentType.document,
     handleFileType: () => {},
     isOpen: true,
     onClose: () => {},
@@ -62,7 +63,7 @@ export const Default: Story = {
 const InteractiveAttachment = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [fileName, setFileName] = useState('My Attachment');
-  const [fileType, setFileType] = useState('Document');
+  const [fileType, setFileType] = useState( AttachmentType.document);
   
   return (
     <div>
@@ -87,7 +88,7 @@ export const Interactive: Story = {
   args: {
     fileName: 'My Attachment',
     handleFileName: () => {},
-    fileType: 'Document',
+    fileType:  AttachmentType.document,
     handleFileType: () => {},
     isOpen: true,
     onClose: () => {},
@@ -101,7 +102,7 @@ export const EmptyFileName: Story = {
   args: {
     fileName: '',
     handleFileName: () => {},
-    fileType: 'Document',
+    fileType:  AttachmentType.document,
     handleFileType: () => {},
     isOpen: true,
     onClose: () => {},
@@ -114,7 +115,7 @@ export const DifferentFileTypes: Story = {
   args: {
     fileName: 'Example',
     handleFileName: () => {},
-    fileType: 'Image',
+    fileType:  AttachmentType.image,
     handleFileType: () => {},
     isOpen: true,
     onClose: () => {},
