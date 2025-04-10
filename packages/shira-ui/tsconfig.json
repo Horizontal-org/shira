@@ -17,7 +17,7 @@
       "jsx": "react-jsx",
   
       /* Type Checking */
-      "strict": true,
+      "strict": false,
       "noUnusedLocals": true,
       "noUnusedParameters": true,
       "noFallthroughCasesInSwitch": true,

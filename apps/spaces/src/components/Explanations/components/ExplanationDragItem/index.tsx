@@ -61,10 +61,12 @@ const Container = styled.div<{ selected: boolean }>`
   padding: 12px;
   display: flex;
   border-radius: 16px;
-  background: ${props => props.theme.colors.blue1};
+  background: ${props => props.theme.colors.green1};
+  margin-bottom: 24px;
+
   ${props => props.selected && `
     background: #fff;
-    border: 2px solid ${props.theme.primary.base};
+    border: 2px solid ${props.theme.secondary.base};
   `}
 `
 

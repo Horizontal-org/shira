@@ -29,18 +29,16 @@ export const ExplanationInput: FunctionComponent<Props> = ({
   }, [textAreaRef])
 
   return (
-    <div>
-      <StyledTextArea 
-        ref={textAreaRef}
-         placeholder="New explanation"
-        rows={1}
-        value={text}
-        onChange={(e) => {
-          onUpdate(e.target.value)
-        }}
-        onBlur={unselect}
-      />
-    </div>
+    <StyledTextArea 
+      ref={textAreaRef}
+        placeholder="New explanation"
+      rows={1}
+      value={text}
+      onChange={(e) => {
+        onUpdate(e.target.value)
+      }}
+      onBlur={unselect}
+    />
   )
 }
 

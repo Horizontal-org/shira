@@ -1,8 +1,10 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useEffect } from "react";
 import { styled, Box, Body2Regular } from '@shira/ui'
 import { EmailContent } from "./components/EmailContent";
 import { QuestionToBe, EmailContent as EmailContentType } from "../QuestionManagementLayout/types";
 import { Explanations } from "../Explanations";
+import { subscribe, unsubscribe } from "../../utils/customEvent";
+import { cleanDeletedExplanations } from "../../utils/explanations";
 
 interface Props {
   question: QuestionToBe
@@ -16,6 +18,19 @@ export const QuestionContent: FunctionComponent<Props> = ({
   content
 }) => {
 
+  useEffect(() => {
+    // fetchQuestion(id)
+
+    subscribe('delete-explanation', (event) => {
+      cleanDeletedExplanations(event.detail.deleteIndex)
+    })
+
+    return () => {
+      unsubscribe('delete-explanation')
+      // clean everything
+      // clear()
+    }
+  }, [])
 
   return (
     <Wrapper id='dynamic-content'>

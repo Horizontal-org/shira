@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import shallow from 'zustand/shallow'
+import { shallow } from 'zustand/shallow'
 import { useStore } from '../../store'
 import { ExplanationButton } from '../Explanations/components/ExplanationButton'
 import { Input } from '../Input'
@@ -54,7 +54,6 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
   const ref = useRef(null)
   // const ref = customRef || inputRef
   // const ref = inputRef
-  console.log("🚀 ~ ref:", ref)
 
   // useEffect(() => {
   //   if(initialValue?.textContent || initialValue?.explanationPosition) {

@@ -90,7 +90,7 @@ export const Explanations: FunctionComponent<Props> = ({ initialData, content, h
 
     const toDelete = Array.from(explanationsHtml).find(e => parseInt(e.getAttribute('data-explanation')) === parseInt(indexToDelete))
 
-    if (toDelete.nodeName !== 'MARK') {
+    if (toDelete && toDelete.nodeName !== 'MARK') {
       const id = toDelete.getAttribute('id')
       
       const stringWithoutAttribute = content[id].replace(/ data-explanation='[^']*'/g, '');
@@ -165,9 +165,9 @@ export const Explanations: FunctionComponent<Props> = ({ initialData, content, h
                     // this removes the data-explanation attr from zustand                                     
                     cleanStateExplanations(e.index)
                     // this removes the data-explanation attribute from the DOM
-                    //TODO I THINK I NEED IT FOR THE EDITOR
-                    // publish('delete-explanation', { deleteIndex: e.index })
-                    cleanDeletedExplanations(e.index)
+                    publish('delete-explanation', { deleteIndex: e.index })
+                    
+                    // cleanDeletedExplanations(e.index)
                     // this removes the explanation item
                     deleteExplanation(e.index)                    
                   }}
@@ -199,8 +199,20 @@ interface StyledExplanation {
 }
 
 const ExplanationBox = styled.div<StyledExplanation>`
-  border: 2px solid #F3F3F3;
   padding: 8px;
   border-radius: 16px; 
-  background: white;
+  background-color: ${props => props.theme.colors.green1};
+  
+  > textarea {
+   background-color: ${props => props.theme.colors.green1};
+  }
+
+  ${props => props.selected && `
+    background-color: white;
+
+
+    > textarea {
+      background-color: white;
+    }
+  `}
 `

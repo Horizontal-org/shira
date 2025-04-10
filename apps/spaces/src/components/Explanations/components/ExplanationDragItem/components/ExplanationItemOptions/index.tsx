@@ -32,9 +32,9 @@ export const ExplanationItemOptions: FunctionComponent<Props> = ({
 }
 
 const Wrapper = styled.div<{ selected: boolean }>`
-padding: 2px 8px 0 0;
-`
-// visibility: ${props => props.selected ? 'visible' : 'hidden' };
+  padding-left: 12px;
+  `
+  // visibility: ${props => props.selected ? 'visible' : 'hidden' };
 
 const SvgWrapper = styled.div`
   cursor: pointer;

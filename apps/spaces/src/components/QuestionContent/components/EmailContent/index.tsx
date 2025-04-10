@@ -127,7 +127,9 @@ export const EmailContent: FunctionComponent<Props> = ({
       </div>
 
       <div>
-        <Attachments />
+        {/* <Attachments 
+          handleContent={handleContent}
+        /> */}
       </div>
     </Content>
   )

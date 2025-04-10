@@ -2,7 +2,7 @@ import { createGlobalStyle, styled } from '@shira/ui'
 import { EditorProvider, FloatingMenu, BubbleMenu, useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { MenuBar } from './MenuBar'
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 
 // tiptap extensions 
 import Blockquote from '@tiptap/extension-blockquote'
@@ -16,8 +16,47 @@ import Gapcursor from '@tiptap/extension-gapcursor'
 import ListKeymap from '@tiptap/extension-list-keymap'
 import Placeholder from '@tiptap/extension-placeholder'
 import Typography from '@tiptap/extension-typography'
-import History from '@tiptap/extension-history'
+import { useStore } from '../../store'
+import { shallow } from 'zustand/shallow'
+import { Explanation } from './extensions/Explanation'
+import { subscribe, unsubscribe } from '../../utils/customEvent'
+import { SearchNReplace } from './extensions/Search'
 // tiptap extensions 
+
+const markExplanations = (editorId, selectedExplanation) => { 
+  const explanations = document.getElementById(editorId).querySelectorAll('[data-explanation]')
+  explanations.forEach((e) => {        
+    if (e.classList.contains('mark-active')) {
+      e.classList.remove('mark-active')
+    }
+  })
+
+  setTimeout(() => {
+    explanations.forEach((e) => {
+      //TODO Multiple marks per explanation
+      const dataExplanation = e.getAttribute('data-explanation')
+      if (parseInt(dataExplanation) === +selectedExplanation) {          
+        e.classList.add('mark-active')
+      }
+    })
+  }, 100)
+}
+
+
+const cleanDeletedExplanations = (editor, deleteIndex) => {
+  if (editor) {
+    editor.state.doc.descendants((node, pos) => {
+      node.marks.forEach(mark => {
+        if (mark.attrs['data-explanation']) {
+          if (mark.attrs['data-explanation'] === +deleteIndex) {
+            editor.chain().focus().setTextSelection(pos + 1).run()
+            editor.chain().focus().unsetExplanation().run()
+          }
+        }
+      })
+    })
+  }  
+}
 
 interface Props {
   onChange: (body: string) => void;
@@ -26,8 +65,20 @@ export const EmailTipTapEditor = ({
   onChange
 }) => {
 
-// const editorId = `component-text-${componentId}`
-const editorId = `component-text-1`
+
+  const {
+    changeSelected,
+    selectedExplanation,
+    // setContent,
+  } = useStore((state) => ({
+    changeSelected: state.changeSelected,
+    selectedExplanation: state.selectedExplanation,
+    // setContent: state.setContent,
+    // storeExplanations: state.explanations
+  }), shallow)
+
+  // const editorId = `component-text-${componentId}`
+  const editorId = `component-text-1`
 
   const editor = useEditor({
     extensions: [
@@ -47,32 +98,32 @@ const editorId = `component-text-1`
       Placeholder.configure({        
         placeholder: 'Write something …',
       }),
-      // Explanation,
-      // SearchNReplace,
+      Explanation,
+      SearchNReplace,
       // Link.configure({
       //   openOnClick: false,
       // }),
     ],
     // content: initialContent ?? defaultInitialContent,
-    // onSelectionUpdate(props) {      
-    //   if (props.editor.isActive('explanation')) {
-    //     props.editor.commands.extendMarkRange('explanation')
-    //     const dataIndex = props.editor.getAttributes('explanation')['data-explanation']
-    //     if (dataIndex !== selectedExplanation) {
-    //       changeSelected(dataIndex)
-    //     }
-    //   }
-    // },
+    onSelectionUpdate(props) {      
+      if (props.editor.isActive('explanation')) {
+        props.editor.commands.extendMarkRange('explanation')
+        const dataIndex = props.editor.getAttributes('explanation')['data-explanation']
+        if (dataIndex !== selectedExplanation) {
+          changeSelected(dataIndex)
+        }
+      }
+    },
     onUpdate(props) {
       onChange(props.editor.getHTML())      
     },
-    // onCreate(props) {
-    //   handleRawHtml(props.editor.getHTML())
+    onCreate(props) {
+      // handleRawHtml(props.editor.getHTML())
 
-    //   subscribe('delete-explanation', (event) => {
-    //     cleanDeletedExplanations(props.editor, event.detail.deleteIndex)
-    //   })
-    // }
+      subscribe('delete-explanation', (event) => {
+        cleanDeletedExplanations(props.editor, event.detail.deleteIndex)
+      })
+    }
   })
 
   const setLink = useCallback(() => {
@@ -97,6 +148,17 @@ const editorId = `component-text-1`
         .run()
     }, [editor])
 
+    useEffect(() => {
+      if (editor) {
+        markExplanations(editorId, selectedExplanation)      
+      }
+    }, [selectedExplanation])
+    
+    useEffect(() => {
+      return () => {
+        unsubscribe('delete-explanation')
+      }
+    }, [])
   return (
     <Wrapper>
       <EditorWrapper>

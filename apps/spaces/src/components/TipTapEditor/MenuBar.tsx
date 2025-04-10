@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FormEventHandler, useEffect } from 'react'
-import { styled } from '@shira/ui'
+import { ExplanationIcon, styled } from '@shira/ui'
 
 import { FiBold, FiItalic, FiCode, FiList, FiLink, FiUnderline } from 'react-icons/fi'
 import { TbStrikethrough } from 'react-icons/tb'
@@ -9,18 +9,20 @@ import { BsBlockquoteRight } from "react-icons/bs";
 import { GoListOrdered } from "react-icons/go";
 import { GrBlockQuote } from "react-icons/gr";
 import { FaUndo, FaRedo } from "react-icons/fa";
+import { shallow } from 'zustand/shallow'
+import { useStore } from '../../store'
 
 export const MenuBar = ({ editor, setLink }) => {
-  // const {
-  //   deleteExplanation,
-  //   addExplanation,
-  //   explanationIndex
-  // } = useStore((state) => ({
-  //   addExplanation: state.addExplanation,
-  //   deleteExplanation: state.deleteExplanation,
-  //   explanations: state.explanations,
-  //   explanationIndex: state.explanationIndex
-  // }), shallow)
+  const {
+    deleteExplanation,
+    addExplanation,
+    explanationIndex
+  } = useStore((state) => ({
+    addExplanation: state.addExplanation,
+    deleteExplanation: state.deleteExplanation,
+    explanations: state.explanations,
+    explanationIndex: state.explanationIndex
+  }), shallow)
 
   if (!editor) {
     return null
@@ -98,7 +100,6 @@ export const MenuBar = ({ editor, setLink }) => {
       >
         <FiList size={18} />
       </IconWrapper>
-
       
       {/* <button onClick={() => editor.chain().focus().unsetAllMarks().run()}>
         clear marks
@@ -171,21 +172,33 @@ export const MenuBar = ({ editor, setLink }) => {
 
       <Separate />
 
-      <FillIconWrapper 
-        active={false}
-        onClick={() => editor.chain().focus().undo().run()}
+      <ExplanationIconWrapper
+        onClick={() => {
+          const newIndex = explanationIndex + 1
+          editor.chain().focus().setExplanation({
+            'data-explanation': newIndex,
+          }).run()
+          addExplanation(newIndex)
+        }}
+        disabled={editor.isActive('explanation')}
       >
-        <FaUndo size={18} />
-      </FillIconWrapper>
-      
-      <FillIconWrapper
-        active={false}
-        onClick={() => editor.chain().focus().redo().run()}
-      >
-        <FaRedo size={18} />
-      </FillIconWrapper>
+        <ExplanationIcon />
+      </ExplanationIconWrapper>
 
-      <Separate />
+      { editor.isActive('explanation') && (
+        <ExplanationIconWrapper
+          onClick={() => {
+            editor.chain().focus().run()
+            const deleteIndex = editor.getAttributes('explanation')              
+            deleteExplanation(deleteIndex['data-explanation'])
+            editor.chain().focus().unsetExplanation().run()
+          }}
+        >
+          <ExplanationIcon/>          
+          <MdClear color='#e91e63' size={18}/>
+        </ExplanationIconWrapper>
+      )} 
+
       {/* <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
         horizontal rule
       </button>
@@ -224,6 +237,16 @@ export const MenuBar = ({ editor, setLink }) => {
   )
 }
 
+
+interface StyledIconWrapper {
+  active?: boolean
+  disabled?: boolean
+}
+
+// const ExplanationIconWrapper = styled.div<StyledIconWrapper>`
+
+// `
+
 const MenuWrapper = styled.div`
   padding: 8px;
   background: white;
@@ -234,10 +257,6 @@ const MenuWrapper = styled.div`
   flex-wrap: wrap;
 `
 
-interface StyledIconWrapper {
-  active: boolean
-  disabled?: boolean
-}
 
 const IconWrapper = styled.div<StyledIconWrapper>`
   margin-right: 8px;
@@ -328,7 +347,7 @@ const InputColor = styled.input`
   }
 
 `
-const RemoveExplanation = styled.div`
+const ExplanationIconWrapper = styled.div<StyledIconWrapper>`
   margin-right: 8px;
   padding: 4px;
   cursor: pointer;

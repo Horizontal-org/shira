@@ -24,6 +24,14 @@ interface File {
 //   name: string;
 // }
 
+
+// onDelete={() => {
+//   const newComponents = components.filter(cf => cf.position !== c.position)                
+//   handleComponents(newComponents)
+//   setLastIndex(newComponents.length)
+//   deleteExplanations(c.position, c.type)
+//   deleteContent(`component-${c.type}-${c.position}`)
+// }}
 export const Attachments: FunctionComponent<Props> = () => {
 
   const [isOpen, setIsOpen] = useState(false);
@@ -38,45 +46,68 @@ export const Attachments: FunctionComponent<Props> = () => {
   const [files, handleFiles] = useState<File[]>([])
   return (
     <div>
-       <div>
-          <Button 
-            onClick={() => setIsOpen(true)}
-            text="Add attachment"
-            type="outline"    
-            leftIcon={<IoMdAdd color="#5F6368" size={14}/>}        
-          />
+      <Button 
+        onClick={() => setIsOpen(true)}
+        text="Add attachment"
+        type="outline"    
+        leftIcon={<IoMdAdd color="#5F6368" size={14}/>}        
+      />
 
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
-            { files.map((f) => (
-              <Attachment
-                key={f.id}
-                name={f.name}
-                type={f.type}
-                showExplanations={true}
-                onDelete={() => {}}
-              />
-            ))}
-          </div>
-                      
-          <AddAttachmentModal 
-            fileName={fileName} 
-            handleFileName={setFileName}
-            fileType={fileType}
-            handleFileType={setFileType}
-            isOpen={isOpen}
-            onClose={() => setIsOpen(false)}
-            onSave={() => {              
-              const newFile = {
-                id: files.length > 0 ? files[files.length -1].id + 1 : 1,
-                name: fileName,
-                type: fileType
-              }
-
-              handleFiles(prevArray => [...prevArray, newFile])
-              clean()
-            }}
+      <AttachmentsWrapper>
+        { files.map((f) => (
+          <Attachment
+            key={f.id}
+            name={f.name}
+            type={f.type}
+            showExplanations={true}
+            onDelete={() => {}}
           />
-        </div>
+        ))}
+      </AttachmentsWrapper>
+                  
+      <AddAttachmentModal 
+        fileName={fileName} 
+        handleFileName={setFileName}
+        fileType={fileType}
+        handleFileType={setFileType}
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        onSave={() => {              
+          const newFile = {
+            id: files.length > 0 ? files[files.length -1].id + 1 : 1,
+            name: fileName,
+            type: fileType
+          }
+
+          handleFiles(prevArray => [...prevArray, newFile])
+          clean()
+        }}
+      />
     </div>
   )
 }
+
+  // <ExplanationButton
+  //         active={ref.current && selectedExplanationIndex + '' == ref.current.getAttribute('data-explanation')}
+  //         onClick={() => {
+  //           const hasExplanation = ref.current.getAttribute('data-explanation')
+  //           if (hasExplanation) {
+  //             changeSelected(parseInt(hasExplanation))
+  //           } else {
+  //             const index = explanationIndex + 1
+  //             ref.current.setAttribute('data-explanation', index + '')
+  //             addExplanation(index, label)
+  //             onChange(
+  //               index,
+  //               ref.current.value,
+  //             )
+  //           }
+  //         }}
+  //       />
+
+const AttachmentsWrapper = styled.div`
+  padding: 24px 0; 
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+`
