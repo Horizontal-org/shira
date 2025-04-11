@@ -34,7 +34,7 @@ export const QuestionManagementLayout: FunctionComponent<Props> = () => {
   const [step, handleStep] = useState(0)  
   const [question, handleQuestion] = useState<QuestionToBe>({
     name: '',
-    isPhishing: false,
+    isPhishing: true,
   })
   const [content, handleContent] = useState({})
   console.log("🚀 ~ content:", content)
@@ -51,7 +51,7 @@ export const QuestionManagementLayout: FunctionComponent<Props> = () => {
     handleContent({
       ...content,
       [id]: value
-  })
+    })
   }
 
   return (
@@ -61,6 +61,13 @@ export const QuestionManagementLayout: FunctionComponent<Props> = () => {
           if (step === 2) {
             // submit
             return
+          }
+          if (step === 1) {
+            // maybe do parsing here
+            handleQuestion({
+              ...question,
+              content: content
+            })
           }
 
           handleStep(step + 1)         

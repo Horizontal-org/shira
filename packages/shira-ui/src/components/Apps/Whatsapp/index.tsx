@@ -21,7 +21,7 @@ interface Props {
   showExplanations?: boolean
 }
 
-const Whatsapp: FunctionComponent<Props> = ({
+export const Whatsapp: FunctionComponent<Props> = ({
   content,
   phone,
   explanations,

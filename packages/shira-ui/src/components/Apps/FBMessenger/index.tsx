@@ -20,7 +20,7 @@ interface Props {
   showExplanations?: boolean
 }
 
-const FBMessenger: FunctionComponent<Props> = ({ 
+export const FBMessenger: FunctionComponent<Props> = ({ 
   fullname, 
   content,
   explanations = [],

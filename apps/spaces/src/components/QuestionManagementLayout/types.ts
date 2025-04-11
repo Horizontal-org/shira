@@ -19,5 +19,5 @@ export interface QuestionToBe {
   name?: string
   isPhishing?: boolean
   app?: App
-  content?: string
+  content?: Object
 }

@@ -275,6 +275,10 @@ button {
   accent-color: black;
 }
 
+mark {
+  background: #F3F9CF
+}
+  
 .mark-active {
   background: #FCC934;
 }

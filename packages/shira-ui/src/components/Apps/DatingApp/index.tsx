@@ -21,7 +21,7 @@ interface Props {
 }
 
 
-const DatingApp: FunctionComponent<Props> = ({ 
+export const DatingApp: FunctionComponent<Props> = ({ 
   phone, 
   content, 
   explanations, 

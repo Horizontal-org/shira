@@ -1,8 +1,10 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { AddAttachmentModal, Button, styled, Attachment, AttachmentType } from "@shira/ui";
 import { IoMdAdd } from "react-icons/io";
 
-interface Props { }
+interface Props { 
+  onChange: () => void
+}
 
 interface File {
   id: number;
@@ -32,18 +34,24 @@ interface File {
 //   deleteExplanations(c.position, c.type)
 //   deleteContent(`component-${c.type}-${c.position}`)
 // }}
-export const Attachments: FunctionComponent<Props> = () => {
+export const Attachments: FunctionComponent<Props> = ({
+  onChange
+}) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [fileName, setFileName] = useState('')
   const [fileType, setFileType] = useState(AttachmentType.document)
+  const [files, handleFiles] = useState<File[]>([])
 
   const clean = () => {
     setFileName('')
     setFileType(AttachmentType.document)
   }
+  
+  useEffect(() => {
 
-  const [files, handleFiles] = useState<File[]>([])
+  }, [files])
+
   return (
     <div>
       <Button 
@@ -54,13 +62,16 @@ export const Attachments: FunctionComponent<Props> = () => {
       />
 
       <AttachmentsWrapper>
-        { files.map((f) => (
+        { files.map((f, k) => (
           <Attachment
-            key={f.id}
+            key={k}
             name={f.name}
             type={f.type}
             showExplanations={true}
-            onDelete={() => {}}
+            onDelete={() => {
+              console.log('hereher')
+              handleFiles(files.filter(fil => fil.id !== f.id))
+            }}
           />
         ))}
       </AttachmentsWrapper>
@@ -81,6 +92,7 @@ export const Attachments: FunctionComponent<Props> = () => {
 
           handleFiles(prevArray => [...prevArray, newFile])
           clean()
+          
         }}
       />
     </div>

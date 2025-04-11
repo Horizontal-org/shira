@@ -28,7 +28,7 @@ interface Props {
   showExplanations?: boolean
 }
 
-const Gmail: FunctionComponent<Props> = ({ 
+export const Gmail: FunctionComponent<Props> = ({ 
   content,
   senderName,
   senderEmail,
