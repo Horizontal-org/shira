@@ -24,17 +24,12 @@ const meta = {
       ],
       description: 'Type of the attachment',
     },
-    showExplanations: {
-      control: 'boolean',
-      description: 'Whether to show the explanation icon',
-    },
     onDelete: {
       action: 'delete',
       description: 'Function called when delete option is selected',
     },
   },
   args: {
-    showExplanations: true,
     onDelete: (e) => console.log('Delete clicked', e),
   },
 } satisfies Meta<typeof Attachment>;
@@ -45,7 +40,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     name: 'document.pdf',
-    type: AttachmentType.document
+    type: AttachmentType.document,
   },
 };
 
@@ -91,7 +86,6 @@ export const InteractiveMenu = () => {
       <Attachment
         name="interactive-example.pdf"
         type={AttachmentType.document}
-        showExplanations={true}
         onDelete={() => {}}
       />
     </div>

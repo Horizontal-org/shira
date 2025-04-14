@@ -66,6 +66,7 @@ export const Attachments: FunctionComponent<Props> = ({
           <Attachment
             key={k}
             name={f.name}
+            isActiveExplanation={true}
             type={f.type}
             showExplanations={true}
             onDelete={() => {

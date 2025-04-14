@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { styled } from 'styled-components'
+import styled from 'styled-components'
 import { FiMoreVertical } from 'react-icons/fi';
 import { 
   ImageIcon,
@@ -22,12 +22,18 @@ export enum AttachmentType {
 export interface AttachmentProps {
     name: string
     type: AttachmentType
-    showExplanations?: Boolean
-    isActiveExplanation?: Boolean
+    isActiveExplanation?: boolean
+    onExplanationClick?: () => void
     onDelete: (e: React.MouseEvent) => void
 }
 
-export const Attachment = ({ name, type, showExplanations = true, onDelete }: AttachmentProps) => {
+export const Attachment = ({ 
+  name, 
+  type, 
+  isActiveExplanation,
+  onExplanationClick,
+  onDelete 
+}: AttachmentProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const menuButtonRef = useRef<HTMLButtonElement>(null)
   const renderSwitch = (type: AttachmentType) => {
@@ -49,7 +55,12 @@ export const Attachment = ({ name, type, showExplanations = true, onDelete }: At
     <Card>
       <Header>
         <FlexContainer>
-          { showExplanations && <ExplanationIcon />}
+          <ExplanationWrapper
+            onClick={onExplanationClick}
+            isActiveExplanation={!!(isActiveExplanation)}
+          >
+            <ExplanationIcon />
+          </ExplanationWrapper>
           <Name>
             {name}
           </Name>
@@ -136,4 +147,19 @@ const MenuButton = styled.button`
   }
   background: none;
   border: none;
+`
+
+interface ExplanationWrapperProps {
+  isActiveExplanation: boolean
+}
+
+const ExplanationWrapper = styled.div<ExplanationWrapperProps>`
+  display: flex;
+  align-items: center;
+  padding-right: 6px;
+  cursor: pointer;
+  
+  > svg {
+    stroke: ${props => props.isActiveExplanation ? props.theme.secondary.base : '#ACADAE'};
+  }
 `
