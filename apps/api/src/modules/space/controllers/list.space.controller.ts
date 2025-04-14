@@ -16,8 +16,6 @@ export class ListSpaceController {
   @Get('')
   @Roles(Role.SuperAdmin)
   async handler() {
-    return this.spaceRepository.find({
-      relations: ['users'],
-    })
+    return this.spaceRepository.find()
   }
 }
