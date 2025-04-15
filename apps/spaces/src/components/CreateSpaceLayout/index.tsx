@@ -57,11 +57,6 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
           >
             <InputsContainer>
               <TextInput 
-                label="Enter passphrase" 
-                value={passphrase} 
-                onChange={(e) => handlePassphrase(e.target.value)}
-              />
-              <TextInput 
                 label="Name your space" 
                 value={name} 
                 onChange={(e) => handleName(e.target.value)}

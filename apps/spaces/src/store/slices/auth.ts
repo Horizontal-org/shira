@@ -17,7 +17,9 @@ export interface AuthSlice {
   fetching: boolean;
 }
 
-const publicRoutes = ['/login', '/create-space'];
+const isPublicRoute = (path: string): boolean => {
+  return path === '/login' || path.startsWith('/create-space');
+};
 
 export const createAuthSlice: StateCreator<
   AuthSlice,
@@ -51,7 +53,7 @@ export const createAuthSlice: StateCreator<
         user: res,
         space: res.space 
       });
-    } else if (!publicRoutes.includes(window.location.pathname)) {
+    } else if (!isPublicRoute(window.location.pathname)) {
       window.location.href = '/login';
     }
     set({ fetching: false });
