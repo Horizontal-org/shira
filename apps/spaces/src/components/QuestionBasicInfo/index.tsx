@@ -66,7 +66,8 @@ export const QuestionBasicInfo: FunctionComponent<Props> = ({
       <div>
         <SubHeading3>Selected app</SubHeading3>
         <FilterButtonsContainer>        
-          { apps && apps.map((a) => (
+
+          { apps && apps.filter(f => f.name === 'Gmail' ).map((a) => (
             <FilterButton 
               key={a.id}
               text={a.name}
@@ -77,6 +78,7 @@ export const QuestionBasicInfo: FunctionComponent<Props> = ({
               isActive={question.app && question.app.id ===  a.id}
             />
           ))}
+          
         </FilterButtonsContainer>
       </div>
 

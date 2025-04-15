@@ -3,7 +3,7 @@ import { Body2Regular, Body3, styled, SubHeading3, TextInput } from '@shira/ui'
 import { EmailContent as EmailContentType, QuestionToBe } from "../../../QuestionManagementLayout/types";
 import { BaseTipTapEditor } from "../../../TipTapEditor/BaseTipTapEditor";
 import { EmailTipTapEditor } from "../../../TipTapEditor/EmailTipTapEditor";
-import { Attachments } from "../Attachments";
+import { AttachmentFile, Attachments } from "../Attachments";
 import { InputWithExplanation } from "../../../InputWithExplanation";
 
 interface Props {
@@ -128,8 +128,11 @@ export const EmailContent: FunctionComponent<Props> = ({
 
       <div>
         <Attachments 
-          onChange={() => {
-            
+          onChange={(f: AttachmentFile) => {
+            handleContent(
+              `component-attachment-${f.id}`,
+              `<span data-attachment-type='${f.type}' data-position='${f.id}' ${insertExplanation(f.explanationIndex)} id='component-attachment-${f.id}'>${f.name}</span>`
+            )
           }}
         />
       </div>

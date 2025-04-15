@@ -1,17 +1,19 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { AddAttachmentModal, Button, styled, Attachment, AttachmentType } from "@shira/ui";
 import { IoMdAdd } from "react-icons/io";
+import { AttachmentWithExplanation } from "../../../AttachmentWithExplanation";
 
-interface Props { 
-  onChange: () => void
-}
 
-interface File {
+export interface AttachmentFile {
   id: number;
   type: AttachmentType;
   name: string;
+  explanationIndex?: number
 }
 
+interface Props { 
+  onChange: (f: AttachmentFile) => void
+}
 // const componentFinalId = `component-attachment-${componentId}`
 // const { parseCustomElement } = useParseHTML(initialContent)
 // const parseHtml = () => {
@@ -41,16 +43,13 @@ export const Attachments: FunctionComponent<Props> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [fileName, setFileName] = useState('')
   const [fileType, setFileType] = useState(AttachmentType.document)
-  const [files, handleFiles] = useState<File[]>([])
+  const [files, handleFiles] = useState<AttachmentFile[]>([])
 
   const clean = () => {
     setFileName('')
     setFileType(AttachmentType.document)
   }
   
-  useEffect(() => {
-
-  }, [files])
 
   return (
     <div>
@@ -63,15 +62,21 @@ export const Attachments: FunctionComponent<Props> = ({
 
       <AttachmentsWrapper>
         { files.map((f, k) => (
-          <Attachment
+          <AttachmentWithExplanation
             key={k}
-            name={f.name}
-            isActiveExplanation={true}
-            type={f.type}
-            showExplanations={true}
+            file={f}
+            onChange={(fileToSave) => {
+              handleFiles(files.map((fm) => {
+                if(fm.id === fileToSave.id) {
+                  return fileToSave
+                }
+                return fm
+              }))
+              onChange(fileToSave)
+            }}
             onDelete={() => {
-              console.log('hereher')
               handleFiles(files.filter(fil => fil.id !== f.id))
+              // TODO remove from content here 
             }}
           />
         ))}
@@ -92,8 +97,8 @@ export const Attachments: FunctionComponent<Props> = ({
           }
 
           handleFiles(prevArray => [...prevArray, newFile])
-          clean()
-          
+          onChange(newFile)
+          clean()          
         }}
       />
     </div>

@@ -69,7 +69,7 @@ export const getContentProps = (appName, content) => {
       subject: parseCustomElement(html, 'component-optional-subject'),
       content: parseContent(html),
       // content: new DOMParser().parseFromString(content['component-text-1'], 'text/html').querySelector('[id*="component-text"]'),
-      attachments: {}
+      attachments: parseAttachments(html)
     }
   } 
   return {}
