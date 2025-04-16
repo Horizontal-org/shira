@@ -6,7 +6,8 @@ export const TYPES = {
     IValidateRegistrationAuthService: 'IValidateRegistrationAuthService',
     ISubmitRegistrationAuthService: 'ISubmitRegistrationAuthService',
     IConfirmRegistrationAuthService: 'IConfirmRegistrationAuthService',
-    ISendInvitationAuthService: 'ISendInvitationAuthService'
+    ISendInvitationAuthService: 'ISendInvitationAuthService',
+    ISpaceRegistrationAuthService:'ISpaceRegistrationAuthService'
   },
   handlers: {},
 };
