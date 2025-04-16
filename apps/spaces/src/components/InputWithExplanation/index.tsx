@@ -19,6 +19,7 @@ interface Props {
   required?: boolean;
   customRef?: React.MutableRefObject<HTMLInputElement>
   initialValue?: CustomElements
+  initialExplanationValue?: string
   validation?: string,
   value?: string
   label?: string
@@ -32,7 +33,7 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
   label,
   required,
   customRef,
-  // initialValue,
+  initialExplanationValue,
   validation,
   value
 }) => {
@@ -55,18 +56,19 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
   // const ref = customRef || inputRef
   // const ref = inputRef
 
-  // useEffect(() => {
-  //   if(initialValue?.textContent || initialValue?.explanationPosition) {
-  //     setValue(initialValue?.textContent)
+  useEffect(() => {
+    if(initialExplanationValue && ref) {
+      ref.current.setAttribute('data-explanation', initialExplanationValue)
+    }
+    // if(initialValue?.textContent || initialValue?.explanationPosition) {
+    //   setValue(initialValue?.textContent)
 
-  //     if(initialValue?.explanationPosition) {
-  //       ref.current.setAttribute('data-explanation', initialValue?.explanationPosition)
-  //     }
-  //     ref.current.value=initialValue?.textContent
+     
+    //   ref.current.value=initialValue?.textContent
 
-  //     onChange(initialValue?.explanationPosition, initialValue?.textContent)
-  //   }
-  // }, [initialValue, ref])
+    //   onChange(initialValue?.explanationPosition, initialValue?.textContent)
+    // }
+  }, [initialExplanationValue, ref])
 
   // id={id}
   // name={name}

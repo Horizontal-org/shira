@@ -10,14 +10,21 @@ import { publish } from '../../utils/customEvent'
 import { cleanDeletedExplanations } from '../../utils/explanations'
 import { ExplanationDragItem } from './components/ExplanationDragItem'
 import { Body2Regular, styled } from '@shira/ui'
+import { remapHtml } from '../../utils/remapHtml'
 
 interface Props {
   initialData?: Explanation[]
   content?: Object
   handleContent?: (id: string, value: string) => void
+  onDelete?: (explId: number) => void
 }
 
-export const Explanations: FunctionComponent<Props> = ({ initialData, content, handleContent }) => {
+export const Explanations: FunctionComponent<Props> = ({ 
+  initialData, 
+  content, 
+  handleContent,
+  onDelete
+}) => {
 
   const {
     storeExplanations,
@@ -86,8 +93,10 @@ export const Explanations: FunctionComponent<Props> = ({ initialData, content, h
   }
 
   const cleanStateExplanations = (indexToDelete) => {
-    const explanationsHtml = document.getElementById('dynamic-content').querySelectorAll('[data-explanation]') 
-
+    
+    const html = remapHtml(content)
+    
+    const explanationsHtml = html.querySelectorAll('[data-explanation]') 
     const toDelete = Array.from(explanationsHtml).find(e => parseInt(e.getAttribute('data-explanation')) === parseInt(indexToDelete))
 
     if (toDelete && toDelete.nodeName !== 'MARK') {
@@ -168,6 +177,7 @@ export const Explanations: FunctionComponent<Props> = ({ initialData, content, h
                     publish('delete-explanation', { deleteIndex: e.index })
                     
                     // cleanDeletedExplanations(e.index)
+                    onDelete(e.index)
                     // this removes the explanation item
                     deleteExplanation(e.index)                    
                   }}

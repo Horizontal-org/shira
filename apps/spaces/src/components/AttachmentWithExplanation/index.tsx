@@ -46,12 +46,13 @@ export const AttachmentWithExplanation:FunctionComponent<Props> = ({
     changeSelected: state.changeSelected
   }), shallow)
   
+  console.log('ATTACHMENT FILE', file, selectedExplanationIndex)
   return (
     <Attachment 
       name={file.name}
       onExplanationClick={() => {
-        const hasExplanation = selectedExplanationIndex === file.explanationIndex
-        if (hasExplanation) {
+        // const hasExplanation = selectedExplanationIndex === file.explanationIndex
+        if (file.explanationIndex) {
           changeSelected(file.explanationIndex)
         } else {
           const index = explanationIndex + 1
@@ -62,7 +63,7 @@ export const AttachmentWithExplanation:FunctionComponent<Props> = ({
           addExplanation(index, file.name)
         }
       }}
-      isActiveExplanation={selectedExplanationIndex === file.explanationIndex} 
+      isActiveExplanation={file.explanationIndex && selectedExplanationIndex === file.explanationIndex} 
       type={file.type}
       onDelete={() => {
         onDelete(file.id)

@@ -1,4 +1,5 @@
 import { App } from "../../fetch/app"
+import { AttachmentFile } from "../QuestionContent/components/Attachments";
 
 
 export interface EmailContent {
@@ -20,4 +21,6 @@ export interface QuestionToBe {
   isPhishing?: boolean
   app?: App
   content?: Object
+  emailContent?: EmailContent
+  attachments?: AttachmentFile[]
 }

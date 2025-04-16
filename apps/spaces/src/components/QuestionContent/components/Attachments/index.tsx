@@ -12,8 +12,12 @@ export interface AttachmentFile {
 }
 
 interface Props { 
-  onChange: (f: AttachmentFile) => void
+  onChange: (persistentList: AttachmentFile[], f: AttachmentFile) => void
+  files?: AttachmentFile[]
+  // onChangeList: (f: AttachmentFile[]) => void
+  // startAttachments?: AttachmentFile[] 
 }
+
 // const componentFinalId = `component-attachment-${componentId}`
 // const { parseCustomElement } = useParseHTML(initialContent)
 // const parseHtml = () => {
@@ -37,19 +41,28 @@ interface Props {
 //   deleteContent(`component-${c.type}-${c.position}`)
 // }}
 export const Attachments: FunctionComponent<Props> = ({
-  onChange
+  onChange,
+  // onDelete,
+  files
+  // onChangeList,
+  // startAttachments
 }) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [fileName, setFileName] = useState('')
   const [fileType, setFileType] = useState(AttachmentType.document)
-  const [files, handleFiles] = useState<AttachmentFile[]>([])
+  // const [files, handleFiles] = useState<AttachmentFile[]>([])
 
   const clean = () => {
     setFileName('')
     setFileType(AttachmentType.document)
   }
   
+  // useEffect(() => {
+  //   if (startAttachments) {
+  //     handleFiles(startAttachments)
+  //   }
+  // }, []) 
 
   return (
     <div>
@@ -66,17 +79,18 @@ export const Attachments: FunctionComponent<Props> = ({
             key={k}
             file={f}
             onChange={(fileToSave) => {
-              handleFiles(files.map((fm) => {
+              const persistentList = files.map((fm) => {
                 if(fm.id === fileToSave.id) {
                   return fileToSave
                 }
                 return fm
-              }))
-              onChange(fileToSave)
+              })
+              onChange(persistentList, fileToSave)
             }}
             onDelete={() => {
-              handleFiles(files.filter(fil => fil.id !== f.id))
-              // TODO remove from content here 
+              // handleFiles(files.filter(fil => fil.id !== f.id))
+              // onDelete(f.id)
+              onChange(files.filter(fil => fil.id !== f.id), null)
             }}
           />
         ))}
@@ -96,8 +110,8 @@ export const Attachments: FunctionComponent<Props> = ({
             type: fileType
           }
 
-          handleFiles(prevArray => [...prevArray, newFile])
-          onChange(newFile)
+          // handleFiles(prevArray => [...prevArray, newFile])
+          onChange(files.concat([newFile]), newFile)
           clean()          
         }}
       />

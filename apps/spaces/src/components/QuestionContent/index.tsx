@@ -9,19 +9,44 @@ import { cleanDeletedExplanations } from "../../utils/explanations";
 interface Props {
   question: QuestionToBe
   handleContent: (id: string, value: string) => void
+  handleQuestion: (k, v) => void;
   content: Object
 }
 
 export const QuestionContent: FunctionComponent<Props> = ({
   question,
+  handleQuestion,
   handleContent,
-  content
+  content,
 }) => {
+
+
+  const cleanAttachment = (deleteIndex) => {
+    // try cleaning attachments      
+    console.log('EVENT DETAIL', deleteIndex)
+    console.log('ATTACHMENTS ON DELETE EXPL', question)
+    
+    let update = false
+    const newAtts = question.attachments.map((a) => {
+      if (a.explanationIndex == deleteIndex) {
+        update = true
+        return {
+          ...a,
+          explanationIndex: null
+        }
+      }
+      return a
+    })
+    if (update) {
+      handleQuestion('attachments', newAtts)
+    }
+  }
 
   useEffect(() => {
     // fetchQuestion(id)
 
     subscribe('delete-explanation', (event) => {
+      // try deleting from dom
       cleanDeletedExplanations(event.detail.deleteIndex)
     })
 
@@ -40,8 +65,10 @@ export const QuestionContent: FunctionComponent<Props> = ({
 
         { question.app.type === 'email' && (
           <EmailContent 
-            handleContent={handleContent}
             question={question}
+            content={content}
+            handleContent={handleContent}
+            handleQuestion={handleQuestion}
           />
         )}
       </StyledBox> 
@@ -49,6 +76,10 @@ export const QuestionContent: FunctionComponent<Props> = ({
       <Explanations 
         content={content}
         handleContent={handleContent}
+        onDelete={(explId) => {
+          // clean from attachments
+          cleanAttachment(explId)
+        }}
       />  
     </Wrapper> 
   )
@@ -62,6 +93,5 @@ const StyledBox = styled(Box)`
   position: relative;
   z-index:1;
   padding: 48px;
-  
   width: 100%;
 `

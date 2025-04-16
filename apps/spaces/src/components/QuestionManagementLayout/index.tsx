@@ -35,10 +35,20 @@ export const QuestionManagementLayout: FunctionComponent<Props> = () => {
   const [question, handleQuestion] = useState<QuestionToBe>({
     name: '',
     isPhishing: true,
+    emailContent: {
+      senderEmail: '',
+      senderName: '',
+      subject: '',
+      body: ''
+    },
+    attachments: []
   })
+  console.log("QUESTION", question)
   const [content, handleContent] = useState({})
   console.log("🚀 ~ content:", content)
   
+
+
   const validateStep = () => {
     if (step === 0) {
       return question.name.length > 0 && !!(question.app)
@@ -112,6 +122,12 @@ export const QuestionManagementLayout: FunctionComponent<Props> = () => {
             { step === 1 && (
               <QuestionContent 
                 handleContent={parseContent}
+                handleQuestion={(k, v) => {
+                  handleQuestion({
+                    ...question,
+                    [k]: v
+                  })
+                }}
                 content={content}
                 question={question}
               />

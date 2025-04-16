@@ -1,31 +1,46 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { Body2Regular, Body3, styled, SubHeading3, TextInput } from '@shira/ui'
 import { EmailContent as EmailContentType, QuestionToBe } from "../../../QuestionManagementLayout/types";
-import { BaseTipTapEditor } from "../../../TipTapEditor/BaseTipTapEditor";
 import { EmailTipTapEditor } from "../../../TipTapEditor/EmailTipTapEditor";
 import { AttachmentFile, Attachments } from "../Attachments";
 import { InputWithExplanation } from "../../../InputWithExplanation";
+import { remapHtml } from "../../../../utils/remapHtml";
 
 interface Props {
   question: QuestionToBe
+  content: Object
   handleContent: (id: string, value: string) => void
+  handleQuestion: (k, v) => void
 }
 
 export const EmailContent: FunctionComponent<Props> = ({
   question,
+  content,
+  handleQuestion,
   handleContent
 }) => {
 
-  const [emailContent, handleEmailContent] = useState<EmailContentType>({
-    senderEmail: '',
-    senderName: '',
-    subject: '',
-    body: ''
-  })
-
+  const [initialStates, handleInitialStates] = useState<Object>({})
   const insertExplanation = (e) => {
     return e ? ` data-explanation='${e}' ` : ''  
   }
+
+  useEffect(() => {
+    const html = remapHtml(content)
+    console.log("🚀 ~ useEffect ~ html:", html)
+    if (html) {
+      const senderName = html.getElementById('component-required-sender-name')
+      const senderEmail = html.getElementById('component-required-sender-email')
+      const senderSubject = html.getElementById('component-optional-subject')
+
+      handleInitialStates({
+        'component-required-sender-name': senderName ? senderName.getAttribute('data-explanation') : null,
+        'component-required-sender-email': senderEmail ? senderEmail.getAttribute('data-explanation') : null,
+        'component-optional-subject': senderSubject ? senderSubject.getAttribute('data-explanation') : null
+      })
+    }
+
+  }, [])
 
   return (
     <Content>
@@ -41,10 +56,11 @@ export const EmailContent: FunctionComponent<Props> = ({
           name='sender-name'
           placeholder='Sender name'
           label="Sender name"
-          value={emailContent.senderName}
+          initialExplanationValue={initialStates['component-required-sender-name']}
+          value={question.emailContent.senderName}
           onChange={(expl, value) => {
-            handleEmailContent({
-              ...emailContent,
+            handleQuestion('emailContent', {
+              ...question.emailContent,
               senderName: value
             })
             handleContent(
@@ -66,10 +82,11 @@ export const EmailContent: FunctionComponent<Props> = ({
           name='sender-email'
           placeholder='Sender email'
           label="Sender email"
-          value={emailContent.senderEmail}
+          value={question.emailContent.senderEmail}
+          initialExplanationValue={initialStates['component-required-sender-email']}
           onChange={(expl, value) => {
-            handleEmailContent({
-              ...emailContent,
+            handleQuestion('emailContent', {
+              ...question.emailContent,
               senderEmail: value
             })
             handleContent(
@@ -80,8 +97,6 @@ export const EmailContent: FunctionComponent<Props> = ({
         />      
 
       </div>
-      
-
 
       <div>
         <InputHeading $required={false}>
@@ -93,11 +108,12 @@ export const EmailContent: FunctionComponent<Props> = ({
           id='component-optional-subject'
           name='subject'
           placeholder='Subject'
-          value={emailContent.subject}
+          initialExplanationValue={initialStates['component-optional-subject']}
+          value={question.emailContent.subject}
           label="Subject"
           onChange={(expl, value) => {
-            handleEmailContent({
-              ...emailContent,
+            handleQuestion('emailContent', {
+              ...question.emailContent,
               subject: value
             })
             handleContent(
@@ -113,14 +129,16 @@ export const EmailContent: FunctionComponent<Props> = ({
         <SubHeading3>Email body content</SubHeading3>
         <Body2Regular>Write the message that will be shown.</Body2Regular>
         <EmailTipTapEditor 
-          onChange={(body) => {
-            handleEmailContent({
-              ...emailContent,
-              body
+          initialContent={question.emailContent.body}
+          onChange={(emailText) => {
+            console.log("EMAIL TEXT", emailText)
+            handleQuestion('emailContent', {
+              ...question.emailContent,
+              body: emailText
             })
             handleContent(
               'component-text-1', 
-              `<div data-position=1 id=component-text-1>${body}</div>`
+              `<div data-position=1 id=component-text-1>${emailText}</div>`
             )
           }}
         />
@@ -128,11 +146,15 @@ export const EmailContent: FunctionComponent<Props> = ({
 
       <div>
         <Attachments 
-          onChange={(f: AttachmentFile) => {
-            handleContent(
-              `component-attachment-${f.id}`,
-              `<span data-attachment-type='${f.type}' data-position='${f.id}' ${insertExplanation(f.explanationIndex)} id='component-attachment-${f.id}'>${f.name}</span>`
-            )
+          files={question.attachments}          
+          onChange={(filesList: AttachmentFile[], f: AttachmentFile) => {
+            handleQuestion('attachments', filesList)
+            if (f) {
+              handleContent(
+                `component-attachment-${f.id}`,
+                `<span data-attachment-type='${f.type}' data-position='${f.id}' ${insertExplanation(f.explanationIndex)} id='component-attachment-${f.id}'>${f.name}</span>`
+              )
+            }
           }}
         />
       </div>

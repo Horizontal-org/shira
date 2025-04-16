@@ -27,11 +27,13 @@ export const QuestionReview: FunctionComponent<Props> = ({
   const [explanationNumber, setExplanationNumber] = useState<number>(0)
   const [explanationsOrder, handleExplanationsOrder] = useState<Array<number>>([])
   const [showExplanations, handleShowExplanations] = useState<boolean>(false)
-
+  
+  console.log('===================')
   console.log("🚀 ~ explanationNumber:", explanationNumber)
   console.log("🚀 ~ explanationsOrder:", explanationsOrder)
+  console.log("🚀 ~ explanations:", explanations)
   console.log("🚀 ~ elementProps:", elementProps)
-
+  
   useEffect(() => {
     const order = explanations
       .sort((a, b) => a.position - b.position)
@@ -42,7 +44,6 @@ export const QuestionReview: FunctionComponent<Props> = ({
     
     if (question && question.app) {      
       const contentProps = getContentProps(question.app.name, question.content)
-      // add explanation props here 
 
       handleElementProps({
         ...contentProps        
@@ -61,7 +62,7 @@ export const QuestionReview: FunctionComponent<Props> = ({
         <AppSelector 
           appName={question.app.name}
           customProps={elementProps}
-          explanationNumber={explanationNumber}
+          explanationNumber={explanationsOrder[explanationNumber]}
           showExplanations={showExplanations}
           explanations={explanations}
         />
@@ -70,7 +71,7 @@ export const QuestionReview: FunctionComponent<Props> = ({
       <ReviewFooter>
         { showExplanations ? (
           <ExplanationButtonWrapper>
-            { explanationNumber === 1 && (
+            { explanationNumber === 0 && (
               <Button 
                 type="outline"
                 onClick={() => {
@@ -80,7 +81,7 @@ export const QuestionReview: FunctionComponent<Props> = ({
                 text='Close explanations'
               />
             )}
-            { explanationNumber > 1 && (
+            { explanationNumber >= 1 && (
               <Button 
                 onClick={() => {
                   setExplanationNumber(explanationNumber - 1)                
@@ -88,7 +89,7 @@ export const QuestionReview: FunctionComponent<Props> = ({
                 text='Previous explanation'
               />  
             )}  
-            { explanationNumber < explanations.length && (
+            { explanationNumber < explanations.length - 1 && (
               <Button 
                 onClick={() => {
                   setExplanationNumber(explanationNumber + 1)                
@@ -101,10 +102,7 @@ export const QuestionReview: FunctionComponent<Props> = ({
           <Button 
             type="outline"
             onClick={() => {
-              if (explanationNumber === 0) {
-                setExplanationNumber(explanationNumber + 1)
-                handleShowExplanations(true)
-              }
+              handleShowExplanations(true)              
             }}
             text='Show explanations'
           />          

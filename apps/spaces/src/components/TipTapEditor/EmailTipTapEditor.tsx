@@ -62,19 +62,17 @@ interface Props {
   onChange: (body: string) => void;
 }
 export const EmailTipTapEditor = ({
-  onChange
+  onChange,
+  initialContent = null
 }) => {
 
 
   const {
     changeSelected,
     selectedExplanation,
-    // setContent,
   } = useStore((state) => ({
     changeSelected: state.changeSelected,
     selectedExplanation: state.selectedExplanation,
-    // setContent: state.setContent,
-    // storeExplanations: state.explanations
   }), shallow)
 
   // const editorId = `component-text-${componentId}`
@@ -104,7 +102,7 @@ export const EmailTipTapEditor = ({
       //   openOnClick: false,
       // }),
     ],
-    // content: initialContent ?? defaultInitialContent,
+    content: initialContent ?? null,
     onSelectionUpdate(props) {      
       if (props.editor.isActive('explanation')) {
         props.editor.commands.extendMarkRange('explanation')
@@ -115,6 +113,7 @@ export const EmailTipTapEditor = ({
       }
     },
     onUpdate(props) {
+      console.log('ON CHANGE')
       onChange(props.editor.getHTML())      
     },
     onCreate(props) {
