@@ -20,6 +20,7 @@ export class SendInvitationAuthService implements ISendInvitationAuthService {
   async execute(invitationData: SendInvitationDto): Promise<void> {
     const passphrase = new PassphraseEntity()
     passphrase.code = crypto.randomBytes(20).toString('hex');
+    passphrase.slug = invitationData.slug
 
     await this.passphraseRepo.save(passphrase)
 

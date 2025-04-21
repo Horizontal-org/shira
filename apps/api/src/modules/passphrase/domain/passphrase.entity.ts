@@ -17,6 +17,9 @@ export class PassphraseEntity {
   @Column({ name: 'used_by', length: 150 })
   usedBy: string;
 
+  @Column({ length: 150, nullable: true })
+  slug: string;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 

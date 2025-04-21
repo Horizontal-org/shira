@@ -19,8 +19,8 @@ export class UsePassphraseService implements IUsePassphraseService{
     }})
 
     passphraseEntity.usedBy = usedBy
-    await this.passphraseRepo.save(passphraseEntity)
-
-    return 
+    const res = await this.passphraseRepo.save(passphraseEntity)
+    
+    return res
   }
 }

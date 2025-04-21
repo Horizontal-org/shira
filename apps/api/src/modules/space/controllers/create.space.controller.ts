@@ -30,7 +30,8 @@ export class CreateSpaceController {
         const user = await this.userRepo.findOneOrFail({ where: { email: createSpaceWithEmailDto.email } })
         await this.createSpaceService.execute({
             name: createSpaceWithEmailDto.name,
-            firstUser: user
+            firstUser: user,
+            slug: ""
         })
     } catch (e) {
         console.log("🚀 ~ CreateSpaceController ~ e:", e)    

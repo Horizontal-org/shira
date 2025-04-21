@@ -61,7 +61,8 @@ export class ConfirmRegistrationAuthService implements IConfirmRegistrationAuthS
 
     await this.createSpaceService.execute({
         name: registration.spaceName, 
-        firstUser: user
+        firstUser: user,
+        slug: ""
     })
 
     return

@@ -23,7 +23,7 @@ export class SpaceRegistrationAuthService implements ISpaceRegistrationAuthServi
   async execute(registrationData: RegisterAuthDto): Promise<void> {
     await this.validateRegistrationService.execute(registrationData)
 
-    await this.usePassphrasesService.execute(
+    const passphrase = await this.usePassphrasesService.execute(
       registrationData.passphrase,
       registrationData.email
     )
@@ -37,7 +37,8 @@ export class SpaceRegistrationAuthService implements ISpaceRegistrationAuthServi
 
     await this.createSpaceService.execute({
       name: registrationData.spaceName,
-      firstUser: user
+      firstUser: user,
+      slug: passphrase.slug
     })
     
     return

@@ -21,6 +21,7 @@ export class CreateSpaceService implements ICreateSpaceService{
     const space = new SpaceEntity()
     space.name = createSpaceDto.name
     space.users = [createSpaceDto.firstUser]
+    space.slug = createSpaceDto.slug
     await this.spaceRepo.save(space)
 
     return
