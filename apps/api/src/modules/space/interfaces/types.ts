@@ -3,6 +3,7 @@ export const TYPES = {
     ICheckSpaceService: 'ICheckSpaceService',
     ICreateSpaceService: 'ICreateSpaceService',
     IValidateHeaderSpaceService: 'IValidateHeaderSpaceService',
-    IAssociateUserSpaceService: 'IAssociateUserSpaceService'
+    IAssociateUserSpaceService: 'IAssociateUserSpaceService',
+    IDeleteSpaceService: 'IDeleteSpaceService'
   },
 };
