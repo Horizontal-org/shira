@@ -33,13 +33,7 @@ export const Explanations: FunctionComponent<Props> = ({
     deleteExplanation,
     updateExplanation,
     updateExplanations,
-    setInitialExplanations,
-    setRequiredContent,
-    setOptionalContent,
-    setDynamicContent,
-    requiredContent,
-    optionalContent,
-    dynamicContent
+    setInitialExplanations,    
   } = useStore((state) => ({
     storeExplanations: state.explanations,
     changeSelected: state.changeSelected,
@@ -47,13 +41,7 @@ export const Explanations: FunctionComponent<Props> = ({
     updateExplanation: state.updateExplanation,
     updateExplanations: state.updateExplanations,
     deleteExplanation: state.deleteExplanation,
-    setInitialExplanations: state.setInitialExplanations,
-    setRequiredContent: state.setRequiredContent,
-    setOptionalContent: state.setOptionalContent,
-    setDynamicContent: state.setContent,
-    requiredContent: state.requiredContent,
-    optionalContent: state.optionalContent,
-    dynamicContent: state.content
+    setInitialExplanations: state.setInitialExplanations,    
   }), shallow)
 
   useEffect(() => {

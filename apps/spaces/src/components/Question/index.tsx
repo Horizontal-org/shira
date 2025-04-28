@@ -97,9 +97,9 @@ export const Question: FunctionComponent<Props> = () => {
 
             let response = null
             if(id) {
-              response = await submit(name, phising, id)
+              // response = await submit(name, phising, id)
             } else {
-              response = await submit(name, phising)
+              // response = await submit(name, phising)
             }            
           }}>
 

@@ -11,12 +11,25 @@ import { EditQuizController } from './controller/edit.quiz.controller';
 import { DeleteQuizController } from './controller/delete.quiz.controller';
 import { GetByIdQuizController } from './controller/get-by-id.quiz.controller';
 import { GetByHashQuizController } from './controller/get-by-hash.quiz.controller';
+import { Explanation, Question as QuestionEntity } from '../question/domain';
+import { CreateQuestionQuizController } from './controller/create-question.quiz.controller';
+import { QuestionTranslation } from '../translation/domain/questionTranslation.entity';
+import { ExplanationTranslation } from '../translation/domain/explanationTranslation.entity';
+import { Language } from '../languages/domain';
+import { App } from '../app/domain';
+
 @Module({
   imports: [
     TypeOrmModule.forFeature([
         QuizEntity,
         QuizQuestionEntity,
-        SpaceEntity
+        SpaceEntity,
+        QuestionEntity,
+        Explanation,
+        QuestionTranslation,
+        ExplanationTranslation,
+        Language,
+        App
     ]),
   ],
   controllers: [
@@ -25,7 +38,8 @@ import { GetByHashQuizController } from './controller/get-by-hash.quiz.controlle
     EditQuizController,
     DeleteQuizController,
     GetByIdQuizController,
-    GetByHashQuizController
+    GetByHashQuizController,
+    CreateQuestionQuizController
   ],
   providers: [
     ...servicesQuizProviders

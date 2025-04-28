@@ -1,7 +1,6 @@
 import { App } from "../../fetch/app"
 import { AttachmentFile } from "../QuestionContent/components/Attachments";
 
-
 export interface EmailContent {
   senderName?: string;
   senderEmail?: string;
@@ -14,7 +13,6 @@ export interface MessagingContent {
   senderEmail?: string;
   subject?: string;
 }
-
 
 export interface QuestionToBe {
   name?: string

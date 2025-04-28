@@ -2,22 +2,25 @@ import { FunctionComponent, useEffect, useState } from "react";
 import {
   Breadcrumbs,
   styled,
-  SubHeading2,
 } from "@shira/ui";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { QuestionBasicInfo } from "../QuestionBasicInfo";
 import { QuestionFlowHeader } from "../QuestionFlowHeader";
 import { QuestionContent } from "../QuestionContent";
-import { EmailContent, QuestionToBe } from "./types";
+import { QuestionToBe } from "./types";
 import { QuestionReview } from "../QuestionReview";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSubmit } from "../../fetch/question";
 
 interface Props {}
 
 export const QuestionManagementLayout: FunctionComponent<Props> = () => {
 
   const navigate = useNavigate()
+  const { id } = useParams()
+  const { submit, success } = useSubmit()
+  console.log("🚀 ~ success:", success)
 
   const {
     apps,
@@ -43,12 +46,12 @@ export const QuestionManagementLayout: FunctionComponent<Props> = () => {
     },
     attachments: []
   })
-  console.log("QUESTION", question)
+
   const [content, handleContent] = useState({})
+
+  console.log("QUESTION", question)
   console.log("🚀 ~ content:", content)
   
-
-
   const validateStep = () => {
     if (step === 0) {
       return question.name.length > 0 && !!(question.app)
@@ -70,10 +73,10 @@ export const QuestionManagementLayout: FunctionComponent<Props> = () => {
         onNext={() => {
           if (step === 2) {
             // submit
+            submit(id, question)
             return
           }
           if (step === 1) {
-            // maybe do parsing here
             handleQuestion({
               ...question,
               content: content

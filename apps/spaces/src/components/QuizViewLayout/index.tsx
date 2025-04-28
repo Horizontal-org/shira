@@ -160,7 +160,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
               questions={quiz.questions}
               onEdit={(id) => console.log('Edit question', id)}
               onDelete={(id) => console.log('Delete question', id)}
-              onAdd={() => console.log('Add new question')}
+              onAdd={() => { navigate(`/quiz/${id}/question`) }}
             />
 
             {(quiz.questions && quiz.questions.length > 0) && (

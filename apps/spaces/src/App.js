@@ -70,8 +70,8 @@ function App() {
                   {/* LEGACY */}
                   <Route path="/"  element={<DashboardLayout />} /> 
                   <Route path="/dashboard"  element={<DashboardLayout />} /> 
-                  <Route path='/quiz/question' element={<QuestionManagementLayout />}/>
                   <Route path='/quiz/:id' element={<QuizViewLayout />}/>
+                  <Route path='/quiz/:id/question' element={<QuestionManagementLayout />}/>
                   <Route path="/logout"  element={<LogoutLayout />} /> 
                 </>
               )}

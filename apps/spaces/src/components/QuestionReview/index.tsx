@@ -1,7 +1,7 @@
-import { cloneElement, FunctionComponent, useEffect, useState } from "react"
-import { Body2Regular, Box, Button, DatingApp, FBMessenger, Gmail, SMS, styled, Whatsapp } from "@shira/ui"
+import { FunctionComponent, useEffect, useState } from "react"
+import { Button, styled } from "@shira/ui"
 import { QuestionToBe } from "../QuestionManagementLayout/types"
-import { AppComponents, getContentProps } from "./utils"
+import { getContentProps } from "./utils"
 import { AppSelector } from "./components/AppSelector"
 
 import '../../fonts/GoogleSans/style.css'
@@ -27,12 +27,6 @@ export const QuestionReview: FunctionComponent<Props> = ({
   const [explanationNumber, setExplanationNumber] = useState<number>(0)
   const [explanationsOrder, handleExplanationsOrder] = useState<Array<number>>([])
   const [showExplanations, handleShowExplanations] = useState<boolean>(false)
-  
-  console.log('===================')
-  console.log("🚀 ~ explanationNumber:", explanationNumber)
-  console.log("🚀 ~ explanationsOrder:", explanationsOrder)
-  console.log("🚀 ~ explanations:", explanations)
-  console.log("🚀 ~ elementProps:", elementProps)
   
   useEffect(() => {
     const order = explanations
@@ -134,8 +128,6 @@ const ReviewFooter = styled.div`
   display: flex;
   justify-content: flex-end;
 `
-
-
 
 const Overlay = styled.div`
   position: absolute;

@@ -6,13 +6,12 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { Explanation, Question } from 'src/modules/question/domain';
-import { Language } from 'src/modules/languages/domain';
 import { Quiz } from './quiz.entity';
 
 @Entity({ name: 'quizzes_questions' })
 export class QuizQuestion {
 
-    @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn()
   id: number;
 
   @ManyToOne(
@@ -23,7 +22,13 @@ export class QuizQuestion {
     },
   )
   @JoinColumn({ name: 'quiz_id' })
-  quiz: Quiz;
+  quiz?: Quiz;
+
+  @Column({ name: 'quiz_id' })
+  quizId?: number;
+
+  @Column({ name: 'question_id' })
+  questionId?: number;
 
   @ManyToOne(
     () => Question,
@@ -33,7 +38,7 @@ export class QuizQuestion {
     },
   )
   @JoinColumn({ name: 'question_id' })
-  question: Question;
+  question?: Question;
 
   @Column()
   position: number;

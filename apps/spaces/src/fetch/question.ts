@@ -2,6 +2,7 @@ import axios from 'axios'
 import { useStore } from '../store'
 import { App } from './app';
 import { Explanation } from '../store/slices/explanation';
+import { QuestionToBe } from '../components/QuestionManagementLayout/types';
 
 interface SubmitPayload {
   question: {
@@ -62,44 +63,61 @@ export const deleteQuestion = async(id) => {
   }
 }
 
+const getHtmlByType = (appType, questionContent) => {
+    if (appType === 'email') {
+      const emailKeys = [
+        'component-required-sender-name',
+        'component-required-sender-email',
+        'component-optional-subject'
+      ]
+
+      return Object.keys(questionContent)
+        .filter(c => emailKeys.includes(c))
+        .reduce((prev, current) => {
+          return prev + questionContent[current]
+        }, `<div id='type-content'>`) + '</div>'
+    }
+}
+
 export const useSubmit = () => {
 
-  const submit = async (
-    name: string, 
-    phising: boolean,
-    id?: string
-    ) => {
+  let success = null
+  const submit = async (id: string, question: QuestionToBe) => {
     const {
       explanations,
-      selectedApps,
-      selectedFieldsOfWork,
-      content,
-      optionalContent,
-      requiredContent,
-      handleTranslationsScene
+      // selectedApps,
+      // selectedFieldsOfWork,
+      // content,
+      // optionalContent,
+      // requiredContent,
+      // handleTranslationsScene
     } = useStore.getState()
+ 
+    let typeHtml = getHtmlByType(question.app.type, question.content)
     
-    const requiredHTML = Object.keys(requiredContent).reduce((prev, current) => {
-      return prev + requiredContent[current]
-    }, `<div id='required-content'>`) + '</div>'
+    // const requiredHTML = Object.keys(requiredContent).reduce((prev, current) => {
+    //   return prev + requiredContent[current]
+    // }, `<div id='required-content'>`) + '</div>'
     
-    const optionalHTML = Object.keys(optionalContent).reduce((prev, current) => {
-      return prev + optionalContent[current]
-    }, `<div id='optional-content'>`) + '</div>'
+    // const optionalHTML = Object.keys(optionalContent).reduce((prev, current) => {
+    //   return prev + optionalContent[current]
+    // }, `<div id='optional-content'>`) + '</div>'
   
-    const dynamicHTML = Object.keys(content).reduce((prev, current) => {
-      return prev + content[current]
-    }, `<div id='dynamic-content'>`) + '</div>'
+    const dynamicHTML = Object.keys(question.content)
+      .filter(qk => qk.includes('component-text') || qk.includes('component-attachment'))
+      .reduce((prev, current) => {
+        return prev + question.content[current]
+      }, `<div id='dynamic-content'>`) + '</div>'
   
-    const finalContent = `<div>${requiredHTML}${optionalHTML}${dynamicHTML}</div>`
+    const finalContent = `<div>${typeHtml}${dynamicHTML}</div>`
   
     const payload = {
+      quizId: parseInt(id),
       question: {
-        name: name,
+        name: question.name,
         content: finalContent,
-        isPhishing: phising,
-        apps: selectedApps,
-        fieldOfWork: selectedFieldsOfWork
+        isPhishing: question.isPhishing,
+        app: question.app.id,
       },
       explanations: explanations.map((e) => {
         console.log(e)
@@ -111,25 +129,20 @@ export const useSubmit = () => {
         }
       })
     }
-  
+    
     try {
-      if(!id) {
-        await axios.post<SubmitPayload[]>(`${process.env.REACT_APP_API_URL}/question`, payload)
-        alert('Question created')
-      }
 
-      if(id) {
-        await axios.patch<SubmitPayload[]>(`${process.env.REACT_APP_API_URL}/question/${id}`, payload)
-        alert('Question edited')
-      }
-      window.location.replace('/')
-      // handleTranslationsScene(true)      
+      await axios.post<SubmitPayload[]>(`${process.env.REACT_APP_API_URL}/quiz/question`, payload)
+      // alert('Question created')
+      success = true
     } catch (err) {
+      success = false
       console.log("🚀 ~ file: question.ts ~ line 20 ~ submit ~ err", err)    
     }
   }
 
   return {
-    submit
+    submit,
+    success
   }
 }

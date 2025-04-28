@@ -44,7 +44,7 @@ export class Question {
       referencedColumnName: 'id',
     },
   })
-  fieldsOfWork: FieldOfWork[]
+  fieldsOfWork?: FieldOfWork[]
 
   // @Column({ name: 'field_of_work_id' })
   // fieldOfWorkId: number;
@@ -64,7 +64,7 @@ export class Question {
       referencedColumnName: 'id',
     },
   })
-  apps: App[];
+  apps?: App[];
 
   @OneToMany(
     () => Explanation,
@@ -78,13 +78,14 @@ export class Question {
   )
   questionTranslations: QuestionTranslation[];
 
-
   @OneToMany(
     () => QuizQuestion,
     (quizQuestion: QuizQuestion) =>
       quizQuestion.question,
   )
-  quizQuestion: QuizQuestion[];
+  quizQuestion?: QuizQuestion[];
+
+  type: 'demo' | 'quiz';
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

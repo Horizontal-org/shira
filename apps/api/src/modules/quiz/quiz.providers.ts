@@ -1,4 +1,5 @@
 import { TYPES } from './interfaces';
+import { CreateQuestionQuizService } from './services/create-question.quiz.service';
 import { CreateQuizService } from './services/create.quiz.service';
 import { DeleteQuizService } from './services/delete.quiz.service';
 import { EditQuizService } from './services/edit.quiz.service';
@@ -37,11 +38,17 @@ export const getByHashQuizServiceProvider = {
   useClass: GetByHashQuizService
 }
 
+export const createQuizQuestionServiceProvider = {
+  provide: TYPES.services.ICreateQuestionQuizService,
+  useClass: CreateQuestionQuizService
+}
+
 export const servicesQuizProviders = [
   createQuizServiceProvider,
   listQuizServiceProvider,
   editQuizServiceProvider,
   deleteQuizServiceProvider,
   getByIdQuizServiceProvider,
-  getByHashQuizServiceProvider
+  getByHashQuizServiceProvider,
+  createQuizQuestionServiceProvider
 ];
