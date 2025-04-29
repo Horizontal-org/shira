@@ -16,7 +16,7 @@ export class QuizQuestion {
 
   @ManyToOne(
     () => Quiz,
-    (quiz: Quiz) => quiz.quizQuestion,
+    (quiz: Quiz) => quiz.quizQuestions,
     {
       onDelete: 'CASCADE',
     },
@@ -32,7 +32,7 @@ export class QuizQuestion {
 
   @ManyToOne(
     () => Question,
-    (question: Question) => question.quizQuestion,
+    (question: Question) => question.quizQuestions,
     {
       onDelete: 'CASCADE',
     },

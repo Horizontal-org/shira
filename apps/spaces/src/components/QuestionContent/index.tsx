@@ -1,10 +1,11 @@
 import { FunctionComponent, useEffect } from "react";
 import { styled, Box, Body2Regular } from '@shira/ui'
 import { EmailContent } from "./components/EmailContent";
-import { QuestionToBe, EmailContent as EmailContentType } from "../QuestionManagementLayout/types";
+import { QuestionToBe, EmailContent as EmailContentType } from "../QuestionFlowManagement/types";
 import { Explanations } from "../Explanations";
 import { subscribe, unsubscribe } from "../../utils/customEvent";
 import { cleanDeletedExplanations } from "../../utils/explanations";
+import { IsPhishing } from "./components/IsPhishing";
 
 interface Props {
   question: QuestionToBe
@@ -22,10 +23,7 @@ export const QuestionContent: FunctionComponent<Props> = ({
 
 
   const cleanAttachment = (deleteIndex) => {
-    // try cleaning attachments      
-    console.log('EVENT DETAIL', deleteIndex)
-    console.log('ATTACHMENTS ON DELETE EXPL', question)
-    
+    // try cleaning attachments       
     let update = false
     const newAtts = question.attachments.map((a) => {
       if (a.explanationIndex == deleteIndex) {
@@ -61,7 +59,10 @@ export const QuestionContent: FunctionComponent<Props> = ({
     <Wrapper id='dynamic-content'>
       
       <StyledBox>
-        <Body2Regular>You are writing a { question.isPhishing ? 'phishing' : 'truthful' } message.</Body2Regular>
+
+        <IsPhishing
+          isPhishing={question.isPhishing}
+        />        
 
         { question.app.type === 'email' && (
           <EmailContent 

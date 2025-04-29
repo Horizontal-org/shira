@@ -2,6 +2,7 @@ import { TYPES } from './interfaces';
 import { CreateQuestionQuizService } from './services/create-question.quiz.service';
 import { CreateQuizService } from './services/create.quiz.service';
 import { DeleteQuizService } from './services/delete.quiz.service';
+import { EditQuestionQuizService } from './services/edit-question.quiz.service';
 import { EditQuizService } from './services/edit.quiz.service';
 import { GetByHashQuizService } from './services/get-by-hash.quiz.service';
 import { GetByIdQuizService } from './services/get-by-id.quiz.service';
@@ -43,6 +44,11 @@ export const createQuizQuestionServiceProvider = {
   useClass: CreateQuestionQuizService
 }
 
+export const editQuizQuestionServiceProvider = {
+  provide: TYPES.services.IEditQuestionQuizService,
+  useClass: EditQuestionQuizService
+}
+
 export const servicesQuizProviders = [
   createQuizServiceProvider,
   listQuizServiceProvider,
@@ -50,5 +56,6 @@ export const servicesQuizProviders = [
   deleteQuizServiceProvider,
   getByIdQuizServiceProvider,
   getByHashQuizServiceProvider,
-  createQuizQuestionServiceProvider
+  createQuizQuestionServiceProvider,
+  editQuizQuestionServiceProvider
 ];

@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { Body2Regular, Body3, styled, SubHeading3, TextInput } from '@shira/ui'
-import { EmailContent as EmailContentType, QuestionToBe } from "../../../QuestionManagementLayout/types";
+import { EmailContent as EmailContentType, QuestionToBe } from "../../../QuestionFlowManagement/types";
 import { EmailTipTapEditor } from "../../../TipTapEditor/EmailTipTapEditor";
 import { AttachmentFile, Attachments } from "../Attachments";
 import { InputWithExplanation } from "../../../InputWithExplanation";
@@ -131,7 +131,6 @@ export const EmailContent: FunctionComponent<Props> = ({
         <EmailTipTapEditor 
           initialContent={question.emailContent.body}
           onChange={(emailText) => {
-            console.log("EMAIL TEXT", emailText)
             handleQuestion('emailContent', {
               ...question.emailContent,
               body: emailText

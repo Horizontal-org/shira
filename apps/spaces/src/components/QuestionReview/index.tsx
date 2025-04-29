@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect, useState } from "react"
 import { Button, styled } from "@shira/ui"
-import { QuestionToBe } from "../QuestionManagementLayout/types"
+import { QuestionToBe } from "../QuestionFlowManagement/types"
 import { getContentProps } from "./utils"
 import { AppSelector } from "./components/AppSelector"
 
@@ -28,13 +28,13 @@ export const QuestionReview: FunctionComponent<Props> = ({
   const [explanationsOrder, handleExplanationsOrder] = useState<Array<number>>([])
   const [showExplanations, handleShowExplanations] = useState<boolean>(false)
   
+  console.log("🚀 ~ explanations:", explanations)
   useEffect(() => {
     const order = explanations
       .sort((a, b) => a.position - b.position)
       .map(e => e.index)
 
     handleExplanationsOrder(order)
-
     
     if (question && question.app) {      
       const contentProps = getContentProps(question.app.name, question.content)

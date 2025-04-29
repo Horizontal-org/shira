@@ -83,7 +83,7 @@ export class Question {
     (quizQuestion: QuizQuestion) =>
       quizQuestion.question,
   )
-  quizQuestion?: QuizQuestion[];
+  quizQuestions?: QuizQuestion[];
 
   type: 'demo' | 'quiz';
 

@@ -2,20 +2,9 @@ import axios from 'axios'
 import { useStore } from '../store'
 import { App } from './app';
 import { Explanation } from '../store/slices/explanation';
-import { QuestionToBe } from '../components/QuestionManagementLayout/types';
+import { QuestionToBe } from '../components/QuestionFlowManagement/types';
+import { useState } from 'react';
 
-interface SubmitPayload {
-  question: {
-    content: string;
-    isPhishing: number;
-    apps: App[],
-  }
-  explanations: {
-    id?: number;
-    position: string;
-    text: string;
-  }
-}
 export interface Question {
   id: string;
   name: string;
@@ -47,7 +36,7 @@ export const fetchQuestions = async() => {
 
 export const fetchQuestion = async(id: string) => {
   try {
-    const res = await axios.get<QuestionPayload>(`${process.env.REACT_APP_API_URL}/question/${id}`) 
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/question/${id}`) 
     return res.data
   } catch(err) {
     console.log("🚀 ~ file: question.ts ~ line 37 ~ submit ~ err", err)   
@@ -79,70 +68,101 @@ const getHtmlByType = (appType, questionContent) => {
     }
 }
 
-export const useSubmit = () => {
+const parseRequest = (question, explanations, quizId) => {
+  let typeHtml = getHtmlByType(question.app.type, question.content)
+  
+  // const requiredHTML = Object.keys(requiredContent).reduce((prev, current) => {
+  //   return prev + requiredContent[current]
+  // }, `<div id='required-content'>`) + '</div>'
+  
+  // const optionalHTML = Object.keys(optionalContent).reduce((prev, current) => {
+  //   return prev + optionalContent[current]
+  // }, `<div id='optional-content'>`) + '</div>'
 
-  let success = null
-  const submit = async (id: string, question: QuestionToBe) => {
+  const dynamicHTML = Object.keys(question.content)
+    .filter(qk => qk.includes('component-text') || qk.includes('component-attachment'))
+    .reduce((prev, current) => {
+      return prev + question.content[current]
+    }, `<div id='dynamic-content'>`) + '</div>'
+
+  const finalContent = `<div>${typeHtml}${dynamicHTML}</div>`
+
+  return {
+    quizId: parseInt(quizId),
+    question: {
+      name: question.name,
+      content: finalContent,
+      isPhishing: question.isPhishing,
+      app: question.app.id,
+    },
+    explanations: explanations.map((e) => {
+      console.log(e)
+      return {
+        id: e.id,
+        position: e.position + '',
+        index: e.index + '',
+        text: e.text
+      }
+    })
+  } 
+}
+
+
+export enum QuestionCRUDFeedback {
+  processing = 'PROCESSING',
+  error = 'ERROR',
+  success = 'SUCCESS',
+}
+
+export const useQuestionCRUD = () => {
+
+  const [actionFeedback, handleActionFeedback] = useState(null);
+  
+  //POST QUESTION
+  const submit = async (quizId: string, question: QuestionToBe) => {
+    handleActionFeedback(QuestionCRUDFeedback.processing)
+    
     const {
       explanations,
-      // selectedApps,
-      // selectedFieldsOfWork,
-      // content,
-      // optionalContent,
-      // requiredContent,
-      // handleTranslationsScene
     } = useStore.getState()
  
-    let typeHtml = getHtmlByType(question.app.type, question.content)
-    
-    // const requiredHTML = Object.keys(requiredContent).reduce((prev, current) => {
-    //   return prev + requiredContent[current]
-    // }, `<div id='required-content'>`) + '</div>'
-    
-    // const optionalHTML = Object.keys(optionalContent).reduce((prev, current) => {
-    //   return prev + optionalContent[current]
-    // }, `<div id='optional-content'>`) + '</div>'
-  
-    const dynamicHTML = Object.keys(question.content)
-      .filter(qk => qk.includes('component-text') || qk.includes('component-attachment'))
-      .reduce((prev, current) => {
-        return prev + question.content[current]
-      }, `<div id='dynamic-content'>`) + '</div>'
-  
-    const finalContent = `<div>${typeHtml}${dynamicHTML}</div>`
-  
-    const payload = {
-      quizId: parseInt(id),
-      question: {
-        name: question.name,
-        content: finalContent,
-        isPhishing: question.isPhishing,
-        app: question.app.id,
-      },
-      explanations: explanations.map((e) => {
-        console.log(e)
-        return {
-          id: e.id,
-          position: e.position + '',
-          index: e.index + '',
-          text: e.text
-        }
-      })
+    const payload = parseRequest(question, explanations, quizId)
+
+    try {
+      await axios.post(`${process.env.REACT_APP_API_URL}/quiz/question`, payload)
+      handleActionFeedback(QuestionCRUDFeedback.success)
+    } catch (err) {
+      handleActionFeedback(QuestionCRUDFeedback.error)
+      console.log("🚀 ~ file: question.ts ~ line 20 ~ submit ~ err", err)    
     }
+  }
+
+
+  //PUT QUESTION
+  const edit = async (quizId: string, question: QuestionToBe, questionId) => {
+    handleActionFeedback(QuestionCRUDFeedback.processing)
+
+    const {
+      explanations,
+    } = useStore.getState()
+ 
+    let payload = parseRequest(question, explanations, quizId)
+    payload['questionId'] = parseInt(questionId)
+
+    console.log("🚀 ~ edit ~ payload:", payload)
     
     try {
-
-      await axios.post<SubmitPayload[]>(`${process.env.REACT_APP_API_URL}/quiz/question`, payload)
-      // alert('Question created')
-      success = true
+      await axios.put(`${process.env.REACT_APP_API_URL}/quiz/question`, payload)
+      handleActionFeedback(QuestionCRUDFeedback.success)
     } catch (err) {
-      success = false
+      handleActionFeedback(QuestionCRUDFeedback.error)
       console.log("🚀 ~ file: question.ts ~ line 20 ~ submit ~ err", err)    
     }
   }
 
   return {
     submit,
-    success
+    edit,
+    actionFeedback
   }
 }

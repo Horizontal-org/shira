@@ -4,7 +4,6 @@ import {
   Routes,
   Route,
 } from 'react-router-dom'
-import { QuestionLayout } from './components/QuestionLayout';
 import { HomeLayout } from './components/HomeLayout';
 import { LoginLayout } from './components/LoginLayout';
 import { CreateSpaceLayout } from './components/CreateSpaceLayout';
@@ -20,7 +19,8 @@ import { Body1, ThemeProvider } from '@shira/ui';
 import { QuizViewLayout } from './components/QuizViewLayout';
 import { IoMdCheckmarkCircle } from 'react-icons/io'
 import LogoutLayout from './components/LogoutLayout';
-import { QuestionManagementLayout } from './components/QuestionManagementLayout';
+import { QuestionCreationLayout } from './components/QuestionCreationLayout';
+import { QuestionEditLayout } from './components/QuestionEditLayout';
 
 function App() {
 
@@ -71,7 +71,8 @@ function App() {
                   <Route path="/"  element={<DashboardLayout />} /> 
                   <Route path="/dashboard"  element={<DashboardLayout />} /> 
                   <Route path='/quiz/:id' element={<QuizViewLayout />}/>
-                  <Route path='/quiz/:id/question' element={<QuestionManagementLayout />}/>
+                  <Route path='/quiz/:quizId/question' element={<QuestionCreationLayout />}/>
+                  <Route path='/quiz/:quizId/question/:questionId' element={<QuestionEditLayout />}/>
                   <Route path="/logout"  element={<LogoutLayout />} /> 
                 </>
               )}

@@ -10,44 +10,59 @@ import { QuestionFlowHeader } from "../QuestionFlowHeader";
 import { QuestionContent } from "../QuestionContent";
 import { QuestionToBe } from "./types";
 import { QuestionReview } from "../QuestionReview";
-import { useNavigate, useParams } from "react-router-dom";
-import { useSubmit } from "../../fetch/question";
+import { useNavigate } from "react-router-dom";
 
-interface Props {}
+interface Props {
+  initialContent?: Object
+  initialQuestion?: QuestionToBe
+  actionFeedback: string
+  onSubmit: (question: QuestionToBe) => void
+}
 
-export const QuestionManagementLayout: FunctionComponent<Props> = () => {
+const defaultQuestion = {
+  app: null,
+  name: '',
+  isPhishing: true,
+  emailContent: {
+    senderEmail: '',
+    senderName: '',
+    subject: '',
+    body: ''
+  },
+  attachments: []
+}
+
+export const QuestionFlowManagement: FunctionComponent<Props> = ({
+  initialContent = {},
+  initialQuestion = defaultQuestion,
+  onSubmit,
+  actionFeedback
+}) => {
 
   const navigate = useNavigate()
-  const { id } = useParams()
-  const { submit, success } = useSubmit()
-  console.log("🚀 ~ success:", success)
 
   const {
     apps,
     fetchApp,
+    clearExplanations
   } = useStore((state) => ({
     apps: state.apps,
     fetchApp: state.fetchApp,
+    clearExplanations: state.clearExplanations
   }), shallow)
 
   useEffect(() => {
     fetchApp()
+
+    return () => {
+      clearExplanations()
+    }
   }, [])
 
-  const [step, handleStep] = useState(0)  
-  const [question, handleQuestion] = useState<QuestionToBe>({
-    name: '',
-    isPhishing: true,
-    emailContent: {
-      senderEmail: '',
-      senderName: '',
-      subject: '',
-      body: ''
-    },
-    attachments: []
-  })
 
-  const [content, handleContent] = useState({})
+  const [step, handleStep] = useState(0)  
+  const [question, handleQuestion] = useState<QuestionToBe>(initialQuestion)
+  const [content, handleContent] = useState(initialContent)
 
   console.log("QUESTION", question)
   console.log("🚀 ~ content:", content)
@@ -70,10 +85,11 @@ export const QuestionManagementLayout: FunctionComponent<Props> = () => {
   return (
     <>
       <QuestionFlowHeader 
+        actionFeedback={actionFeedback}
         onNext={() => {
           if (step === 2) {
             // submit
-            submit(id, question)
+            onSubmit(question)
             return
           }
           if (step === 1) {

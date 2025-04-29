@@ -1,4 +1,4 @@
-import { EmailContent } from "../QuestionManagementLayout/types"
+import { EmailContent } from "../QuestionFlowManagement/types"
 
 
 // export const parseContent = (content: EmailContent | any, contentType: string) => {

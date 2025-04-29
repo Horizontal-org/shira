@@ -5,19 +5,23 @@ export enum QuizSuccessStates {
   update = 'UPDATE',
   delete = 'DELETE',
   create = 'CREATE',
+  question_created = 'QUESTION_CREATED',
+  question_updated = 'QUESTION_UPDATED'
 }
 
 export const SUCCESS_MESSAGES = {
   [QuizSuccessStates.update]: 'The quiz has been updated',
   [QuizSuccessStates.delete]: 'The quiz has been deleted',
-  [QuizSuccessStates.create]: 'The quiz has been created'
+  [QuizSuccessStates.create]: 'The quiz has been created',
+  [QuizSuccessStates.question_created]: 'Question created',
+  [QuizSuccessStates.question_updated]: 'Question updated',
 };
 
 export interface Quiz {
   id: number;
   title: string;
   published: boolean;
-  questions?: []
+  quizQuestions?: []
   updatedAt: string
   hash?: string;
 }
@@ -30,6 +34,7 @@ export interface QuizSlice {
   createQuiz: (title: string) => void,
   quizActionSuccess: null | QuizSuccessStates
   cleanQuizActionSuccess: () => void
+  setQuizActionSuccess: (successState: string) => void
 }
 
 export const createQuizSlice: StateCreator<
@@ -76,5 +81,8 @@ export const createQuizSlice: StateCreator<
     set({
       quizActionSuccess: QuizSuccessStates.create
     })
-  }
+  },
+  setQuizActionSuccess: async(successState: QuizSuccessStates) => {
+    set({quizActionSuccess: successState})
+  },
 })

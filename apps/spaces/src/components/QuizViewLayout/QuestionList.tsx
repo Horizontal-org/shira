@@ -5,24 +5,30 @@ import { EmptyState } from './EmptyState'
 
 interface Question {
   id: string;
-  title: string;
+  name: string;
+}
+
+interface QuizQuestion {
+  position: number
+  question: Question
 }
 
 interface QuestionsListProps {
-  questions: Question[];
+  quizQuestions: QuizQuestion[];
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;
   onAdd: () => void;
 }
 
-export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
-  questions,
+export const  QuestionsList: FunctionComponent<QuestionsListProps> = ({
+  quizQuestions,
   onEdit,
   onDelete,
   onAdd
 }) => {
+  console.log("🚀 ~ quizQuestions:", quizQuestions)
 
-  if(!questions || questions.length === 0) {
+  if(!quizQuestions || quizQuestions.length === 0) {
     return <EmptyState onAdd={onAdd}/>
   }
   
@@ -39,19 +45,21 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
         />
       </Header>
       <List>
-        {questions.map((question) => (
-          <QuestionItem key={question.id}>
+        {quizQuestions.sort((a, b) => {
+          return a.position - b.position
+        }).map((qq) => (
+          <QuestionItem key={qq.question.id}>
             <LeftSection>
               <MenuIcon>
                 <FiMenu size={20} color="#666" />
               </MenuIcon>
-              <QuestionTitle>{question.title}</QuestionTitle>
+              <QuestionTitle>{qq.question.name}</QuestionTitle>
             </LeftSection>
             <Actions>
-              <ActionButton onClick={() => onEdit(question.id)}>
+              <ActionButton onClick={() => onEdit(qq.question.id)}>
                 <EditIcon />
               </ActionButton>
-              <ActionButton onClick={() => onDelete(question.id)}>
+              <ActionButton onClick={() => onDelete(qq.question.id)}>
                 <TrashIcon />
               </ActionButton>
             </Actions>
@@ -64,7 +72,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
 
 const Container = styled.div`
   background: white;
-  border-radius: 12px;
+  border-radius: 32px;
   padding: 32px;
   margin: 16px;
 `;

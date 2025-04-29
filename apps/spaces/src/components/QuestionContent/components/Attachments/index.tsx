@@ -41,28 +41,18 @@ interface Props {
 //   deleteContent(`component-${c.type}-${c.position}`)
 // }}
 export const Attachments: FunctionComponent<Props> = ({
-  onChange,
-  // onDelete,
-  files
-  // onChangeList,
-  // startAttachments
+  onChange,  
+  files  
 }) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [fileName, setFileName] = useState('')
   const [fileType, setFileType] = useState(AttachmentType.document)
-  // const [files, handleFiles] = useState<AttachmentFile[]>([])
 
   const clean = () => {
     setFileName('')
     setFileType(AttachmentType.document)
   }
-  
-  // useEffect(() => {
-  //   if (startAttachments) {
-  //     handleFiles(startAttachments)
-  //   }
-  // }, []) 
 
   return (
     <div>
@@ -87,9 +77,7 @@ export const Attachments: FunctionComponent<Props> = ({
               })
               onChange(persistentList, fileToSave)
             }}
-            onDelete={() => {
-              // handleFiles(files.filter(fil => fil.id !== f.id))
-              // onDelete(f.id)
+            onDelete={() => {            
               onChange(files.filter(fil => fil.id !== f.id), null)
             }}
           />
@@ -110,32 +98,13 @@ export const Attachments: FunctionComponent<Props> = ({
             type: fileType
           }
 
-          // handleFiles(prevArray => [...prevArray, newFile])
           onChange(files.concat([newFile]), newFile)
-          clean()          
+          clean()
         }}
       />
     </div>
   )
 }
-
-  // <ExplanationButton
-  //         active={ref.current && selectedExplanationIndex + '' == ref.current.getAttribute('data-explanation')}
-  //         onClick={() => {
-  //           const hasExplanation = ref.current.getAttribute('data-explanation')
-  //           if (hasExplanation) {
-  //             changeSelected(parseInt(hasExplanation))
-  //           } else {
-  //             const index = explanationIndex + 1
-  //             ref.current.setAttribute('data-explanation', index + '')
-  //             addExplanation(index, label)
-  //             onChange(
-  //               index,
-  //               ref.current.value,
-  //             )
-  //           }
-  //         }}
-  //       />
 
 const AttachmentsWrapper = styled.div`
   padding: 24px 0; 

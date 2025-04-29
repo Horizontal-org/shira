@@ -6,6 +6,7 @@ export const TYPES = {
     IDeleteQuizService: 'IDeleteQuizService',
     IGetByIdQuizService: 'IGetByIdQuizService',
     IGetByHashQuizService: 'IGetByHashQuizService',
-    ICreateQuestionQuizService: 'ICreateQuestionQuizService'
+    ICreateQuestionQuizService: 'ICreateQuestionQuizService',
+    IEditQuestionQuizService: 'IEditQuestionQuizService'
   },
 };

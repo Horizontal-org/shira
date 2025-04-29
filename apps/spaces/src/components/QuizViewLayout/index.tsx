@@ -45,6 +45,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
   const [isPublished, setIsPublished] = useState(false);
   const [quiz, handleQuiz] = useState<Quiz | null>(null)
+  console.log("🚀 ~ quiz:", quiz)
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
@@ -53,6 +54,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     try {
       const parsedId = parseInt(id)      
       const quiz = await getQuizById(parsedId)
+      console.log("🚀 ~ getQuiz ~ quiz:", quiz)
 
       handleQuiz(quiz)
       setIsPublished(quiz.published)
@@ -71,6 +73,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   }, [])
 
   useEffect(() => {
+    console.log('here', quizActionSuccess)
     if (SUCCESS_MESSAGES[quizActionSuccess]) {
       const message = SUCCESS_MESSAGES[quizActionSuccess]
       toast.success(message, { duration: 3000 })
@@ -157,30 +160,12 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
             </Wrapper>
 
             <QuestionsList
-              questions={quiz.questions}
-              onEdit={(id) => console.log('Edit question', id)}
+              quizQuestions={quiz.quizQuestions}
+              onEdit={(questionId) => { navigate(`/quiz/${id}/question/${questionId}`)}}
               onDelete={(id) => console.log('Delete question', id)}
               onAdd={() => { navigate(`/quiz/${id}/question`) }}
             />
 
-            {(quiz.questions && quiz.questions.length > 0) && (
-              <Footer>
-                <Button 
-                  text="Cancel"
-                  type="outline"
-                  onClick={() => {
-                    navigate('/dashboard')
-                  }}
-                />
-
-                <Button 
-                  text="Save changes"
-                  type="primary"
-                  color="#849D29"
-                />
-              </Footer>                
-            )}
-            
              <DeleteQuizModal
                 quiz={quiz}
                 setIsModalOpen={setIsDeleteModalOpen}
@@ -233,7 +218,7 @@ const Container = styled.div`
 
 const MainContent = styled.div<{ $isCollapsed: boolean }>`
   flex: 1;
-  padding: 24px;
+  padding: 24px 40px;
   margin-left: ${props => props.$isCollapsed ? '100px' : '300px'};
   transition: margin-left 0.3s ease;
   @media (max-width: ${props => props.theme.breakpoints.md}) {

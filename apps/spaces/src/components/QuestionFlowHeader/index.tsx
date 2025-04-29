@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react"
+import { FunctionComponent, useEffect } from "react"
 import { 
   styled,
   Logo,
@@ -8,23 +8,27 @@ import {
 import { IoClose } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { QuestionCRUDFeedback, useQuestionCRUD } from "../../fetch/question";
 
 interface Props {
   onNext: () => void
   onBack: () => void
   step: number
   disableNext: boolean
+  actionFeedback: string;
 }
 
 export const QuestionFlowHeader: FunctionComponent<Props> = ({
   onNext,
   onBack,
   disableNext,
-  step
+  step,
+  actionFeedback
 }) => {
 
   const navigate = useNavigate()
-
+  console.log("🚀 ~ onquestionflowheader actionFeedback:", actionFeedback)
+  
   return (
     <Wrapper>
       <Left>
@@ -51,9 +55,9 @@ export const QuestionFlowHeader: FunctionComponent<Props> = ({
         <Button
           color="#52752C"
           rightIcon={<FiChevronRight size={16} />}
-          disabled={disableNext}
+          disabled={disableNext || actionFeedback === QuestionCRUDFeedback.processing}
           onClick={onNext}
-          text={step === 2 ? 'Save' : 'Next'}
+          text={step === 2 ? (actionFeedback === QuestionCRUDFeedback.processing ? 'Saving...' : 'Save') : 'Next'}
           type="primary"
         />
       </Right>

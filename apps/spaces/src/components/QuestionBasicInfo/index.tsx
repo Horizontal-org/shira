@@ -8,7 +8,7 @@ import {
   TextInput 
 } from '@shira/ui'
 import { App } from "../../fetch/app";
-import { QuestionToBe } from "../QuestionManagementLayout/types";
+import { QuestionToBe } from "../QuestionFlowManagement/types";
 
 interface Props {
   handleQuestion: (k, v) => void;
