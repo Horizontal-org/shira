@@ -4,6 +4,7 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  RelationId,
 } from 'typeorm';
 import { Explanation, Question } from 'src/modules/question/domain';
 import { Quiz } from './quiz.entity';
@@ -18,6 +19,7 @@ export class QuizQuestion {
     () => Quiz,
     (quiz: Quiz) => quiz.quizQuestions,
     {
+      eager: true,
       onDelete: 'CASCADE',
     },
   )
@@ -25,20 +27,24 @@ export class QuizQuestion {
   quiz?: Quiz;
 
   @Column({ name: 'quiz_id' })
+  @RelationId((quizQuestion: QuizQuestion) => quizQuestion.quiz)
   quizId?: number;
-
-  @Column({ name: 'question_id' })
-  questionId?: number;
 
   @ManyToOne(
     () => Question,
     (question: Question) => question.quizQuestions,
     {
+      eager: true,
       onDelete: 'CASCADE',
     },
   )
   @JoinColumn({ name: 'question_id' })
   question?: Question;
+
+
+  @Column({ name: 'question_id' })
+  @RelationId((quizQuestion: QuizQuestion) => quizQuestion.question)
+  questionId?: number;
 
   @Column()
   position: number;

@@ -13,15 +13,16 @@ import {
   CopyUrlIcon,
   DeleteIcon
 } from "@shira/ui";
-import { QuestionsList } from './QuestionList'
+import { QuestionsList } from './components/QuestionList'
 import { FiPlus } from "react-icons/fi";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { getQuizById } from "../../fetch/quiz";
 import { Quiz, QuizSuccessStates, SUCCESS_MESSAGES } from "../../store/slices/quiz";
-import { DeleteQuizModal } from "../modals/DeleteQuizModal";
+import { DeleteModal } from "../modals/DeleteModal";
 import { RenameQuizModal } from "../modals/RenameQuizModal";
 import toast from "react-hot-toast";
+import { useQuestionCRUD } from "../../fetch/question";
 
 interface Props {}
 
@@ -34,22 +35,27 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     updateQuiz,
     deleteQuiz,    
     quizActionSuccess,
-    cleanQuizActionSuccess
+    cleanQuizActionSuccess,
+    setQuizActionSuccess,
+    reorderQuiz
   } = useStore((state) => ({
     updateQuiz: state.updateQuiz,
     deleteQuiz: state.deleteQuiz,
+    reorderQuiz: state.reorderQuiz,
     quizActionSuccess: state.quizActionSuccess,
-    cleanQuizActionSuccess: state.cleanQuizActionSuccess
+    cleanQuizActionSuccess: state.cleanQuizActionSuccess,
+    setQuizActionSuccess: state.setQuizActionSuccess
   }), shallow)
 
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
   const [isPublished, setIsPublished] = useState(false);
+
   const [quiz, handleQuiz] = useState<Quiz | null>(null)
-  console.log("🚀 ~ quiz:", quiz)
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
-
+  const { destroy, actionFeedback } = useQuestionCRUD()
+  
   const getQuiz = async () => {
     try {
       const parsedId = parseInt(id)      
@@ -73,7 +79,6 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   }, [])
 
   useEffect(() => {
-    console.log('here', quizActionSuccess)
     if (SUCCESS_MESSAGES[quizActionSuccess]) {
       const message = SUCCESS_MESSAGES[quizActionSuccess]
       toast.success(message, { duration: 3000 })
@@ -97,7 +102,6 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
 
     setIsPublished(published)    
   };
-
 
   const handleCopyUrl = async (hash: string) => {
     try {
@@ -162,15 +166,31 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
             <QuestionsList
               quizQuestions={quiz.quizQuestions}
               onEdit={(questionId) => { navigate(`/quiz/${id}/question/${questionId}`)}}
-              onDelete={(id) => console.log('Delete question', id)}
+              onDelete={(id) => { destroy(quiz.id, id) }}
               onAdd={() => { navigate(`/quiz/${id}/question`) }}
+              onReorder={(newQQOrder) => {
+                handleQuiz({
+                  ...quiz,
+                  quizQuestions: newQQOrder
+                })
+                reorderQuiz({
+                  quizId: quiz.id,
+                  newOrder: newQQOrder.map((qq) => {
+                    return {
+                      position: qq.position,
+                      questionId: parseInt(qq.question.id)
+                    }
+                  })
+                })
+              }}
             />
 
-             <DeleteQuizModal
-                quiz={quiz}
+             <DeleteModal
+                title={`Are you sure you want to delete "${quiz.title}"?`}
+                content="Deleting this quiz is permanent and cannot be undone."
                 setIsModalOpen={setIsDeleteModalOpen}
-                onDelete={(id) => { 
-                  deleteQuiz(id) 
+                onDelete={() => { 
+                  deleteQuiz(quiz.id) 
                 }}
                 onCancel={() => {
                   setIsDeleteModalOpen(false)

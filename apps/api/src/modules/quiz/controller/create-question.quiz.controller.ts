@@ -6,25 +6,27 @@ import { CreateQuestionQuizService } from '../services/create-question.quiz.serv
 import { CreateQuestionQuizDto } from '../dto/create-question.quiz.dto';
 import { TYPES } from '../interfaces';
 import { ICreateQuestionQuizService } from '../interfaces/services/create-question.quiz.service.interface';
+import { IValidateSpaceQuizService } from '../interfaces/services/validate-space.quiz.service.interface';
+import { LoggedUserDto } from 'src/modules/user/dto/logged.user.dto';
+import { LoggedUser } from 'src/modules/auth/decorators';
 
 @AuthController('quiz')
 export class CreateQuestionQuizController {
   constructor(
     @Inject(TYPES.services.ICreateQuestionQuizService)
-    private createQuestionService: ICreateQuestionQuizService
+    private createQuestionService: ICreateQuestionQuizService,
+    @Inject(TYPES.services.IValidateSpaceQuizService)
+    private validateSpaceQuizService: IValidateSpaceQuizService
   ) {}
 
   @Post('question')
   @Roles(Role.SpaceAdmin)
-  async handler(@Body() newQuestion: CreateQuestionQuizDto) {
-    console.log("🚀 ~ CreateQuestionQuizController ~ handler ~ newQuestion:", newQuestion)
+  async handler(
+    @Body() newQuestion: CreateQuestionQuizDto,
+    @LoggedUser() user: LoggedUserDto
+  ) {
 
-    // validate quiz is from this space 
-    // const quiz = this.quizRepo
-    // .createQueryBuilder('quiz')
-    // .where('space_id = :spaceId', { spaceId: spaceId })
-    // .andWhere('id = :id', { id: id })
-    // .getOne()
+    await this.validateSpaceQuizService.execute(user.space.id, newQuestion.quizId)
 
     try {
       await this.createQuestionService.execute(newQuestion);

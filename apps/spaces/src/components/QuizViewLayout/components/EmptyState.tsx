@@ -1,7 +1,6 @@
 import { FunctionComponent } from "react";
 import {styled, SettingsFishIcon, Body1, Button } from '@shira/ui'
 import { FiPlus } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
 
 interface Props {
   onAdd: () => void

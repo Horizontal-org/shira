@@ -4,6 +4,8 @@ import { App } from './app';
 import { Explanation } from '../store/slices/explanation';
 import { QuestionToBe } from '../components/QuestionFlowManagement/types';
 import { useState } from 'react';
+import { shallow } from 'zustand/shallow';
+import { QuizSuccessStates } from '../store/slices/quiz';
 
 export interface Question {
   id: string;
@@ -137,6 +139,28 @@ export const useQuestionCRUD = () => {
     }
   }
 
+  //DELET QUESTION
+  const destroy = async (quizId: number, questionId: string) => {
+    handleActionFeedback(QuestionCRUDFeedback.processing)
+
+    const {
+      setQuizActionSuccess,
+    } = useStore.getState()
+
+    const payload = {
+      questionId,
+      quizId
+    }
+
+    try {
+      await axios.post(`${process.env.REACT_APP_API_URL}/quiz/question/delete`, payload)
+      setQuizActionSuccess(QuizSuccessStates.question_deleted)
+      handleActionFeedback(QuestionCRUDFeedback.success)
+    } catch (err) {
+      handleActionFeedback(QuestionCRUDFeedback.error)
+      console.log("🚀 ~ file: question.ts ~ line 20 ~ submit ~ err", err)    
+    }
+  }
 
   //PUT QUESTION
   const edit = async (quizId: string, question: QuestionToBe, questionId) => {
@@ -149,8 +173,6 @@ export const useQuestionCRUD = () => {
     let payload = parseRequest(question, explanations, quizId)
     payload['questionId'] = parseInt(questionId)
 
-    console.log("🚀 ~ edit ~ payload:", payload)
-    
     try {
       await axios.put(`${process.env.REACT_APP_API_URL}/quiz/question`, payload)
       handleActionFeedback(QuestionCRUDFeedback.success)
@@ -160,9 +182,12 @@ export const useQuestionCRUD = () => {
     }
   }
 
+  
+
   return {
     submit,
     edit,
+    destroy,
     actionFeedback
   }
 }

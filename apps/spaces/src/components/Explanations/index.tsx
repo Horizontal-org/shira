@@ -95,28 +95,6 @@ export const Explanations: FunctionComponent<Props> = ({
         id,
         stringWithoutAttribute
       )
-
-      // console.log("🚀 ~ cleanContent ~ stringWithoutAttribute:", stringWithoutAttribute)
-
-
-      // const cleanContent = (content) => {
-      //   const stringWithoutAttribute = content.replace(/ data-explanation='[^']*'/g, '');
-      //   console.log("🚀 ~ cleanContent ~ stringWithoutAttribute:", stringWithoutAttribute)
-      //   console.log(stringWithoutAttribute);
-      //   // setContent(id, stringWithoutAttribute);
-      // };
-      // if(id.includes('required')) {
-      //   const content = requiredContent[id]
-      //   cleanContent(content, setRequiredContent);
-      // }
-      // if(id.includes('optional')) {
-      //   const content = optionalContent[id]
-      //   cleanContent(content, setOptionalContent);
-      // }
-      // if(id.includes('attachment')){
-      //   const content = dynamicContent[id]
-      //   cleanContent(content, setDynamicContent);
-      // }
     }
   }
 

@@ -7,6 +7,9 @@ export const TYPES = {
     IGetByIdQuizService: 'IGetByIdQuizService',
     IGetByHashQuizService: 'IGetByHashQuizService',
     ICreateQuestionQuizService: 'ICreateQuestionQuizService',
-    IEditQuestionQuizService: 'IEditQuestionQuizService'
+    IEditQuestionQuizService: 'IEditQuestionQuizService',
+    IValidateSpaceQuizService: 'IValidateSpaceQuizService',
+    IDeleteQuestionQuizService: 'IDeleteQuestionQuizService',
+    IReorderQuestionQuizService: 'IReorderQuestionQuizService'
   },
 };

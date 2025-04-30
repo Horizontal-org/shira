@@ -18,6 +18,8 @@ import { ExplanationTranslation } from '../translation/domain/explanationTransla
 import { Language } from '../languages/domain';
 import { App } from '../app/domain';
 import { EditQuestionQuizController } from './controller/edit-question.quiz.controller';
+import { DeleteQuestionQuizController } from './controller/delete-question.quiz.controller';
+import { ReorderQuestionQuizController } from './controller/reorder-question.quiz.controller';
 
 @Module({
   imports: [
@@ -39,8 +41,10 @@ import { EditQuestionQuizController } from './controller/edit-question.quiz.cont
     DeleteQuizController,
     GetByIdQuizController,
     GetByHashQuizController,
+    ReorderQuestionQuizController,
     CreateQuestionQuizController,
     EditQuestionQuizController,
+    DeleteQuestionQuizController,
     EditQuizController,
   ],
   providers: [
