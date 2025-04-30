@@ -5,7 +5,7 @@ export interface Question {
   id: string;
   isPhising: boolean;
   content: string; 
-  apps: App[];
+  apps?: App[];
   app: App;
   explanations: Explanation[]
 }

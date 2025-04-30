@@ -20,10 +20,12 @@ export const QuestionEditLayout: FunctionComponent<Props> = () => {
   const { edit, actionFeedback } = useQuestionCRUD()
   const {    
     setQuizActionSuccess,
-    setInitialExplanations
+    setInitialExplanations,
+    clearExplanations
   } = useStore((state) => ({
     setInitialExplanations: state.setInitialExplanations,
-    setQuizActionSuccess: state.setQuizActionSuccess
+    setQuizActionSuccess: state.setQuizActionSuccess,
+    clearExplanations: state.clearExplanations
   }), shallow)
 
   const [initialQuestion, handleQuestion] = useState<QuestionToBe>(null)
@@ -54,6 +56,10 @@ export const QuestionEditLayout: FunctionComponent<Props> = () => {
     }
 
     getAndParseQuestion()
+
+    return () => {
+      clearExplanations()
+    }
   }, [])
 
 
