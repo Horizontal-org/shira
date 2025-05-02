@@ -1,4 +1,4 @@
-import { ChangeEventHandler, FunctionComponent, useState } from "react";
+import { ChangeEventHandler, useState, forwardRef } from "react";
 import styled from 'styled-components';
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
@@ -9,16 +9,26 @@ export interface Props {
     label?: string;
     disabled?: boolean;
     type?: 'text' | 'password';
+    required?: boolean;
+    onBlur?: React.FocusEventHandler<HTMLInputElement>
+    onFocus?: React.FocusEventHandler<HTMLInputElement>
+    id?: string
+    name?: string
 }
 
-export const TextInput: FunctionComponent<Props> = ({
+export const TextInput = forwardRef<HTMLInputElement, Props>(({
     placeholder,
     onChange,
     value,
     label,
+    onBlur,
+    onFocus,
+    name,
+    id,
     disabled = false,
-    type = 'text'
-}) => {
+    type = 'text',
+    required = false
+}, ref) => {
     const [showPassword, setShowPassword] = useState(false);
     const showLabel = value !== '';
     const inputPlaceholder = (!showLabel && label) ? label : placeholder;
@@ -31,11 +41,17 @@ export const TextInput: FunctionComponent<Props> = ({
             {showLabel && <Label $disabled={disabled}>{label}</Label>}
             <InputContainer>
                 <StyledInput 
+                    id={id}
+                    name={name}
                     type={inputType}
                     placeholder={inputPlaceholder}
                     onChange={onChange}
                     value={value}
                     disabled={disabled}
+                    required={required}
+                    ref={ref}
+                    onBlur={onBlur}
+                    onFocus={onFocus}
                 />
 
                 {isPassword && (
@@ -53,7 +69,7 @@ export const TextInput: FunctionComponent<Props> = ({
             </InputContainer>
         </InputWrapper>
     )
-}
+})
 
 const InputWrapper = styled.div`
     display: flex;
@@ -71,7 +87,7 @@ const InputContainer = styled.div`
 
 const Label = styled.label<{ $disabled?: boolean }>`
     font-size: 16px;
-    color: ${props => props.$disabled ? '#aaa' : props.theme.secondary.dark};
+    color: ${props => props.$disabled ? '#aaa' : props.theme.colors.dark.black};
 `;
 
 const StyledInput = styled.input`
@@ -83,11 +99,11 @@ const StyledInput = styled.input`
     border-radius: 16px;
     padding: 12px 16px;
     width: 100%;
-    font-weight: 400;
+    font-weight: 300;
     font-size: 18px;
     background: white;
-    border: 2px solid ${props => props.theme.secondary.dark};
-    color: ${props => props.theme.colors.dark.black};
+    border: 2px solid ${props => props.theme.colors.green3};
+    color: ${props => props.theme.colors.dark.darkGrey};
     transition: all 0.2s ease-in-out;
 
     &::placeholder {
@@ -102,7 +118,7 @@ const StyledInput = styled.input`
     /* Focus state */
     &:focus:not(:disabled) {
         background: #f0fff9;
-        box-shadow: 0 0 0 2px ${props => `${props.theme.secondary.dark}33`};
+        box-shadow: 0 0 0 2px ${props => props.theme.colors.green3};
     }
 
     /* Disabled state */

@@ -6,6 +6,12 @@ import axios from "axios"
 import { ReactComponent as Hooked } from '../../../assets/HookedFish.svg';
 import { Navbar } from "../../UI/Navbar"
 
+import { useStore } from "../../../store"
+import { shallow } from "zustand/shallow"
+import { QuizSetupNameScene } from "../../../scenes/QuizSetupName"
+import { CustomQuiz } from "./components/CustomQuiz"
+import { CompletedScene } from "../../../scenes/Completed"
+
 interface Props {}
 
 export const QuizLayout: FunctionComponent<Props> = () => {
@@ -14,12 +20,27 @@ export const QuizLayout: FunctionComponent<Props> = () => {
   let navigate = useNavigate()
 
   const [quiz, handleQuiz] = useState(null)
-  const [soon, handleSoon] = useState(null)
+  const [started, handleStarted] = useState(false)
+  console.log("🚀 ~ started:", started)
+
+  const {
+    changeScene,
+    scene,
+    resetAll
+  } = useStore(
+    (state) => ({ 
+      changeScene: state.changeScene,
+      scene: state.scene,
+      resetAll: state.resetAll
+    }),
+    shallow
+  )
+  
 
   const getQuiz = async(hash) => {
     try {
       const res = await axios.get(`${process.env.REACT_APP_API_URL}/quiz/hash/${hash}`)
-      handleQuiz(res.data)
+      handleQuiz(res.data.sort((a, b) => a.position - b.position))
     } catch (e) {
       console.log("🚀 ~ getQuiz ~ e:", e)
       navigate('/')
@@ -28,38 +49,65 @@ export const QuizLayout: FunctionComponent<Props> = () => {
 
   useEffect(() => {
     getQuiz(hash)
+
+    return () => {
+      resetAll()
+    }
   }, [])
 
-  return quiz && (
-    <SceneWrapper bg='white'>  
-      {/* using old navbar to hide space creation for now     */}
-      <Navbar color="#DBE3A3"/>
-    
-      <CenterWrapper>
-        <GreenFishWrapper>
-          <Hooked />
-        </GreenFishWrapper>
-        <StyledBox>
-          <SubHeading1>{quiz.title}</SubHeading1>
-          <Body1>
-            Welcome to your phishing quiz. Click on the button to get started. 
-          </Body1>
-          <div>
-            <Button 
-              text="Get started"
-              color="#52752C"
-              onClick={() => { handleSoon('Coming soon...') }}
-            />
-          </div>
-          { soon && (
-            <p>
-              {soon}
-            </p>
-          )}
-        </StyledBox>        
-      </CenterWrapper>
-    </SceneWrapper>
-  )
+  if (!quiz) {
+    return null
+  }
+  
+  if (started) {
+    return (
+      <>
+        { scene === 'quiz-setup-name' && (
+          <QuizSetupNameScene nextSceneSlug="custom-quiz" />
+        )}
+  
+        { scene === 'custom-quiz' && (
+          <CustomQuiz 
+            questions={quiz.map((q) => q.question)}
+          />
+        )}
+
+        { scene === 'completed' && (
+          <CompletedScene />
+        )}
+      </>
+    )
+  } else {
+    return (
+      <SceneWrapper bg='white'>  
+        {/* using old navbar to hide space creation for now     */}
+        <Navbar color="#DBE3A3"/>
+      
+        <CenterWrapper>
+          <GreenFishWrapper>
+            <Hooked />
+          </GreenFishWrapper>
+          <StyledBox>
+            <SubHeading1>{quiz.title}</SubHeading1>
+            <Body1>
+              Welcome to your phishing quiz. Click on the button to get started. 
+            </Body1>
+            <div>
+              <Button 
+                text="Get started"
+                color="#52752C"
+                onClick={() => { { 
+                  handleStarted(true)
+                  changeScene('quiz-setup-name')} 
+                }}
+              />
+            </div>         
+          </StyledBox>        
+        </CenterWrapper>
+      </SceneWrapper>
+    )
+  }
+  
 }
 
 const GreenFishWrapper = styled.div`

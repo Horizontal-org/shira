@@ -4,36 +4,47 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  RelationId,
 } from 'typeorm';
 import { Explanation, Question } from 'src/modules/question/domain';
-import { Language } from 'src/modules/languages/domain';
 import { Quiz } from './quiz.entity';
 
 @Entity({ name: 'quizzes_questions' })
 export class QuizQuestion {
 
-    @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn()
   id: number;
 
   @ManyToOne(
     () => Quiz,
-    (quiz: Quiz) => quiz.quizQuestion,
+    (quiz: Quiz) => quiz.quizQuestions,
     {
+      eager: true,
       onDelete: 'CASCADE',
     },
   )
   @JoinColumn({ name: 'quiz_id' })
-  quiz: Quiz;
+  quiz?: Quiz;
+
+  @Column({ name: 'quiz_id' })
+  @RelationId((quizQuestion: QuizQuestion) => quizQuestion.quiz)
+  quizId?: number;
 
   @ManyToOne(
     () => Question,
-    (question: Question) => question.quizQuestion,
+    (question: Question) => question.quizQuestions,
     {
+      eager: true,
       onDelete: 'CASCADE',
     },
   )
   @JoinColumn({ name: 'question_id' })
-  question: Question;
+  question?: Question;
+
+
+  @Column({ name: 'question_id' })
+  @RelationId((quizQuestion: QuizQuestion) => quizQuestion.question)
+  questionId?: number;
 
   @Column()
   position: number;

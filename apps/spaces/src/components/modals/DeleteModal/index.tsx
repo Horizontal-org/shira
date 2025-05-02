@@ -1,0 +1,52 @@
+import { FunctionComponent, useState } from "react";
+import { Body1, Modal, ModalType, TextInput } from "@shira/ui";
+import styled from "styled-components";
+
+
+interface Props {
+  // quiz: Quiz
+  title: string;
+  content: string;
+  isModalOpen: boolean;
+  setIsModalOpen: (handle: boolean) => void
+  onDelete: () => void
+  onCancel: () => void
+}
+
+export const DeleteModal: FunctionComponent<Props> = ({
+  isModalOpen,
+  setIsModalOpen,
+  onDelete,
+  onCancel,
+  title = '',
+  content = ''
+}) => {
+// `Are you sure you want to delete "${quiz.title}"?`
+// Deleting this quiz is permanent and cannot be undone.
+  return (
+      <Modal
+        isOpen={isModalOpen}
+        title={title}
+        primaryButtonText="Delete"
+        secondaryButtonText="Cancel"
+        type={ModalType.Danger}
+        onPrimaryClick={() => {
+          setIsModalOpen(false);
+          onDelete()
+          // onDelete(quiz.id)
+        }}
+        onSecondaryClick={onCancel}
+    >
+        <FormContent>
+          <Body1>
+            { content }
+          </Body1>
+        </FormContent>
+    </Modal>
+  )
+}
+
+const FormContent = styled.div`
+  display: flex;
+  flex-direction: column;
+`;

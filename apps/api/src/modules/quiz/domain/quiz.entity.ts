@@ -35,7 +35,7 @@ export class Quiz {
     (quizQuestion: QuizQuestion) =>
       quizQuestion.quiz,
   )
-  quizQuestion: QuizQuestion[];
+  quizQuestions: QuizQuestion[];
 
 
   @ManyToOne(() => SpaceEntity, (space: SpaceEntity) => space.quizzes)

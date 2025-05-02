@@ -36,10 +36,13 @@ export const Card: FunctionComponent<CardProps> = ({
       <TopSection>
         <TitleSection>
           <TitleText>{title}</TitleText>
-          <MenuButton onClick={(e) => {
-            e.stopPropagation()
-            setIsMenuOpen(!isMenuOpen)
-          }}>
+          <MenuButton
+            ref={menuButtonRef}
+            onClick={(e) => {
+              e.stopPropagation()
+              setIsMenuOpen(!isMenuOpen)
+            }}
+          >
             <FiMoreVertical size={20} />
           </MenuButton>
           <FloatingMenu

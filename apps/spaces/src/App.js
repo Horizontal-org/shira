@@ -4,12 +4,11 @@ import {
   Routes,
   Route,
 } from 'react-router-dom'
-import { QuestionLayout } from './components/QuestionLayout';
 import { HomeLayout } from './components/HomeLayout';
 import { LoginLayout } from './components/LoginLayout';
 import { CreateSpaceLayout } from './components/CreateSpaceLayout';
 import { DashboardLayout } from './components/DashboardLayout';
-import shallow from 'zustand/shallow';
+import { shallow } from 'zustand/shallow';
 import { useStore } from './store';
 import { useEffect } from 'react';
 import { ManageQuestionLanguages } from './components/ManageQuestionLanguages';
@@ -20,6 +19,9 @@ import { Body1, ThemeProvider } from '@shira/ui';
 import { QuizViewLayout } from './components/QuizViewLayout';
 import { IoMdCheckmarkCircle } from 'react-icons/io'
 import LogoutLayout from './components/LogoutLayout';
+import { QuestionCreationLayout } from './components/QuestionCreationLayout';
+import { QuestionEditLayout } from './components/QuestionEditLayout';
+
 function App() {
 
   const {
@@ -61,14 +63,16 @@ function App() {
               { user && (
                 <>
                   {/* LEGACY */}
-                  <Route path="/question" element={<QuestionLayout />} />
-                  <Route path="/translations" element={<ManageGlobalLanguages />} />
-                  <Route path="/legacy-questions" element={<HomeLayout />} />
-                  <Route path="/question/:id"  element={<QuestionLayout />} /> 
+                  {/* <Route path="/legacy-question" element={<QuestionLayout />} /> */}
+                  {/* <Route path="/translations" element={<ManageGlobalLanguages />} /> */}
+                  {/* <Route path="/legacy-questions" element={<HomeLayout />} /> */}
+                  {/* <Route path="/question/:id"  element={<QuestionLayout />} />  */}
                   {/* LEGACY */}
                   <Route path="/"  element={<DashboardLayout />} /> 
                   <Route path="/dashboard"  element={<DashboardLayout />} /> 
                   <Route path='/quiz/:id' element={<QuizViewLayout />}/>
+                  <Route path='/quiz/:quizId/question' element={<QuestionCreationLayout />}/>
+                  <Route path='/quiz/:quizId/question/:questionId' element={<QuestionEditLayout />}/>
                   <Route path="/logout"  element={<LogoutLayout />} /> 
                 </>
               )}

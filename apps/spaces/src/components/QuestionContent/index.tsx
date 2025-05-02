@@ -1,155 +1,98 @@
-import { cloneElement, FunctionComponent, useEffect, useState } from 'react'
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import styled from 'styled-components'
-import shallow from 'zustand/shallow';
-import { useStore } from '../../store';
-import { Component, componentOptions } from '../../utils/dynamicComponents';
-
-import { AddComponent } from '../AddComponent'
-import { Attachment } from '../DynamicComponents/Attachment';
-import { TextEditor } from '../DynamicComponents/TextEditor'
-import { DragItem } from './components/DragItem';
+import { FunctionComponent, useEffect } from "react";
+import { styled, Box, Body2Regular } from '@shira/ui'
+import { EmailContent } from "./components/EmailContent";
+import { QuestionToBe, EmailContent as EmailContentType } from "../QuestionFlowManagement/types";
+import { Explanations } from "../Explanations";
+import { subscribe, unsubscribe } from "../../utils/customEvent";
+import { cleanDeletedExplanations } from "../../utils/explanations";
+import { IsPhishing } from "./components/IsPhishing";
 
 interface Props {
-  appType: string;
-  initialContent?: {
-    position: number;
-    type: string;
-    content: string;
-    node: JSX.Element;
-  }[];
-}
-
-
-const componentsList = [
-  {
-    type: 'text',
-    node: (<TextEditor />),
-    position: 0
-  },
-  {
-    type: 'attachment',
-    node: (<Attachment />),
-    position: 0
-  }
-]
-
-export const reorder = (list, startIndex, endIndex) => {
-  const result: Component[] = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-
-  return result;
-};
-
-const validate = (appType, componentType, comps) => {
-  const appLimits = componentOptions(appType)
-  const componentLimits = appLimits.find((appL) => appL.id === componentType)
-
-  return comps.filter((c) => c.type === componentLimits.id).length < componentLimits.limit
+  question: QuestionToBe
+  handleContent: (id: string, value: string) => void
+  handleQuestion: (k, v) => void;
+  content: Object
 }
 
 export const QuestionContent: FunctionComponent<Props> = ({
-  appType,
-  initialContent
+  question,
+  handleQuestion,
+  handleContent,
+  content,
 }) => {
-  const {
-    lastIndex, 
-    setLastIndex ,
-    deleteExplanations,
-    deleteContent,
-  } = useStore((state) => ({
-    lastIndex: state.lastIndex,
-    setLastIndex: state.setLastIndex,
-    deleteExplanations: state.deleteExplanations,
-    deleteContent: state.deleteContent
-  }), shallow)
 
-  const [components, handleComponents] = useState<Component[]>(initialContent ?? [
-    {
-      node: (<TextEditor/>),
-      type: 'text',
-      position: lastIndex
-    },
-  ]) 
+
+  const cleanAttachment = (deleteIndex) => {
+    // try cleaning attachments       
+    let update = false
+    const newAtts = question.attachments.map((a) => {
+      if (a.explanationIndex == deleteIndex) {
+        update = true
+        return {
+          ...a,
+          explanationIndex: null
+        }
+      }
+      return a
+    })
+    if (update) {
+      handleQuestion('attachments', newAtts)
+    }
+  }
 
   useEffect(() => {
-    setLastIndex(components.length)
+    // fetchQuestion(id)
+
+    subscribe('delete-explanation', (event) => {
+      // try deleting from dom
+      cleanDeletedExplanations(event.detail.deleteIndex)
+    })
+
+    return () => {
+      unsubscribe('delete-explanation')
+      // clean everything
+      // clear()
+    }
   }, [])
 
-  const onDragEnd = (result) => {
-    // dropped outside the list
-    if (!result.destination) {
-      return;
-    }
-
-    const items: Component[] = reorder(
-      components,
-      result.source.index,
-      result.destination.index
-    );
-
-    handleComponents(items)
-  }
-  
   return (
-    <>
-      <DynamicContent>
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId='droppable'>
-            {(provided, snapshot) => (
-              <div
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >          
-                { components.map(((c, i) => (
-                  <DragItem 
-                  key={c.position + ''} 
-                  id={c.position + ''}   
-                  index={i}  
-                  component={cloneElement(c.node, { 
-                    componentId: c.position,
-                    componentPosition: i,
-                    initialContent: c.content 
-                  })}
-                  onDelete={() => {
-                    const newComponents = components.filter(cf => cf.position !== c.position)                
-                    handleComponents(newComponents)
-                    setLastIndex(newComponents.length)
-                    deleteExplanations(c.position, c.type)
-                    deleteContent(`component-${c.type}-${c.position}`)
-                  }}
-                />
-                ))) }
-                { provided.placeholder }
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
-      </DynamicContent>
-      <AddComponent
-        type={appType}        
-        componentOptions={componentOptions}
-        addComponent={(componentType) => {
-          if (validate(appType, componentType, components)) {
-            const newComponents = [...components]
-            const newIndex = lastIndex + 1
-  
-            let findComponent = {
-              ...componentsList.find((c) => c.type === componentType),
-              position: newIndex,
-            }
-  
-            setLastIndex(newIndex)
-            newComponents.push(findComponent)
-            handleComponents(newComponents)
-          }          
-        }} 
-      />
-    </>
+    <Wrapper id='dynamic-content'>
+      
+      <StyledBox>
+
+        <IsPhishing
+          isPhishing={question.isPhishing}
+        />        
+
+        { question.app.type === 'email' && (
+          <EmailContent 
+            question={question}
+            content={content}
+            handleContent={handleContent}
+            handleQuestion={handleQuestion}
+          />
+        )}
+      </StyledBox> 
+
+      <Explanations 
+        content={content}
+        handleContent={handleContent}
+        onDelete={(explId) => {
+          // clean from attachments
+          cleanAttachment(explId)
+        }}
+      />  
+    </Wrapper> 
   )
 }
 
-const DynamicContent = styled.div`
-  padding-bottom: 8px;
+const Wrapper = styled.div`
+  width: 1024px;
+  display: flex;
+`
+const StyledBox = styled(Box)`
+  position: relative;
+  z-index:1;
+  padding: 48px;
+  width: 100%;
 `

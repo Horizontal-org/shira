@@ -20,12 +20,15 @@ export class GetByIdQuizService implements IGetByIdQuizService{
     spaceId,
   ) {
 
-    const quiz = this.quizRepo
+    const quiz = await this.quizRepo
         .createQueryBuilder('quiz')
-        .where('space_id = :spaceId', { spaceId: spaceId })
-        .andWhere('id = :id', { id: id })
+        .leftJoinAndSelect('quiz.quizQuestions', 'quizzes_questions')
+        .leftJoinAndSelect('quizzes_questions.question', 'question')
+        .leftJoinAndSelect('question.questionTranslations', 'questionTranslations')
+        .where('quiz.space_id = :spaceId', { spaceId: spaceId })
+        .andWhere('quiz.id = :id', { id: id })
         .getOne()
-    
+  
     return await plainToInstance(ReadQuizDto, quiz);
   }
 }

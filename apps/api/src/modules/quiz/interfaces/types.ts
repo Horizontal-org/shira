@@ -5,6 +5,11 @@ export const TYPES = {
     IListQuizService: 'IListQuizService',
     IDeleteQuizService: 'IDeleteQuizService',
     IGetByIdQuizService: 'IGetByIdQuizService',
-    IGetByHashQuizService: 'IGetByHashQuizService'
+    IGetByHashQuizService: 'IGetByHashQuizService',
+    ICreateQuestionQuizService: 'ICreateQuestionQuizService',
+    IEditQuestionQuizService: 'IEditQuestionQuizService',
+    IValidateSpaceQuizService: 'IValidateSpaceQuizService',
+    IDeleteQuestionQuizService: 'IDeleteQuestionQuizService',
+    IReorderQuestionQuizService: 'IReorderQuestionQuizService'
   },
 };

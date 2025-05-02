@@ -69,7 +69,7 @@ export class ListQuestionController {
         'question.id',
         'question.name',
         'question.isPhising',
-        'question.fieldOfWorkId',
+        // 'question.fieldOfWorkId',
         'apps',
         'explanations.id',
         'explanations.index',

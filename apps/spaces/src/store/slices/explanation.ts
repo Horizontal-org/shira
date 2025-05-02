@@ -5,6 +5,7 @@ export interface Explanation {
   text?: string;
   position?: number;
   id?: number;
+  title?: string
 }
 
 export interface ExplanationsSlice {
@@ -12,9 +13,9 @@ export interface ExplanationsSlice {
   selectedExplanation: number;
   // last explanation index
   explanationIndex: number;
-  addExplanation: (index: number, text?: string, position?: number) => void
+  addExplanation: (index: number, title?: string) => void
   setInitialExplanations: (explanations: Explanation[]) => void
-  updateExplanation: (index: number, text: string, position?: number, id?: number) => void
+  updateExplanation: (index: number, text: string, position?: number, id?: number, title?: string) => void
   updateExplanations: (explanations: Explanation[]) => void
   deleteExplanation: (index: number) => void
   deleteExplanations: (componentId: number, componentType: string) => void
@@ -31,14 +32,15 @@ export const createExplanationsSlice: StateCreator<
   explanations: [],
   selectedExplanation: 0,
   explanationIndex: 0,
-  addExplanation: (index, text, position) => {
+  addExplanation: (index, title) => {
     set((state) => ({
       explanations: [
         ...state.explanations,
         { 
           index: index, 
-          text: text ?? '', 
-          position: position ?? index
+          text: '', 
+          position:  index,
+          title: title
         }
       ],
       explanationIndex: index,
@@ -74,11 +76,11 @@ export const createExplanationsSlice: StateCreator<
       explanations: state.explanations.filter(e => !toDelete.includes(+e.index))
     }))
   },
-  updateExplanation: (index, text, position, id) => {
+  updateExplanation: (index, text, position, id, title) => {
     let oldExplanations = get().explanations.filter(e => e.index !== index)
     const explanations = [
       ...oldExplanations,
-      { id, index: index, text: text, position: position}
+      { id, index: index, text: text, position: position, title: title}
     ].sort((a, b) => a.position - b.position)
 
     set((state) => ({

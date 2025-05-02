@@ -21,7 +21,7 @@ import { formatDistance } from "date-fns";
 import { QuizSuccessStates, SUCCESS_MESSAGES } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
 import { FilterStates } from "./constants";
-import { DeleteQuizModal } from "../modals/DeleteQuizModal";
+import { DeleteModal } from "../modals/DeleteModal";
 import { CreateQuizModal } from "../modals/CreateQuizModal";
 import { RenameQuizModal } from "../modals/RenameQuizModal";
 
@@ -195,11 +195,12 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           ))}
         </CardGrid>
 
-        <DeleteQuizModal
-          quiz={selectedCard}
+        <DeleteModal
+          title={`Are you sure you want to delete "${selectedCard?.title}"?`}
+          content="Deleting this quiz is permanent and cannot be undone."
           setIsModalOpen={setIsDeleteModalOpen}
-          onDelete={(id) => { 
-            deleteQuiz(id) 
+          onDelete={() => { 
+            deleteQuiz(selectedCard?.id) 
             handleSelectedCard(null)            
           }}
           onCancel={() => {

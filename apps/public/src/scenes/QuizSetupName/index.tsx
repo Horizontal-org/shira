@@ -16,9 +16,11 @@ import { SceneWithFooter } from "../../components/UI/SceneWithFooter";
 import { useTranslation } from "react-i18next";
 import useGetWidth from "../../hooks/useGetWidth";
 
-interface Props {}
+interface Props {
+  nextSceneSlug?: string
+}
 
-export const QuizSetupNameScene: FunctionComponent<Props> = () => {
+export const QuizSetupNameScene: FunctionComponent<Props> = ({ nextSceneSlug = 'quiz-setup-apps' }) => {
   const { t } = useTranslation()
   const { width } = useGetWidth()
   const {
@@ -114,7 +116,7 @@ export const QuizSetupNameScene: FunctionComponent<Props> = () => {
               size={width > 768 ? 'sm' : 'lg'}
               onClick={() => { 
                 updateName(name, email)
-                changeScene('quiz-setup-apps')
+                changeScene(nextSceneSlug)
               }} 
               text={t('setup.name.next_button')}
               type="primary"

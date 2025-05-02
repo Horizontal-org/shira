@@ -1,10 +1,11 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import shallow from 'zustand/shallow'
+import { shallow } from 'zustand/shallow'
 import { useStore } from '../../store'
 import { ExplanationButton } from '../Explanations/components/ExplanationButton'
 import { Input } from '../Input'
 import { CustomElements } from '../../fetch/question'
+import { TextInput } from '@shira/ui'
 
 const RE_VALIDATIONS = {
   phone:  /^[0-9\W]*$/
@@ -18,7 +19,10 @@ interface Props {
   required?: boolean;
   customRef?: React.MutableRefObject<HTMLInputElement>
   initialValue?: CustomElements
-  validation?: string
+  initialExplanationValue?: string
+  validation?: string,
+  value?: string
+  label?: string
 }
 
 export const InputWithExplanation: FunctionComponent<Props> = ({
@@ -26,13 +30,15 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
   name,
   id,
   onChange,
+  label,
   required,
   customRef,
-  initialValue,
-  validation
+  initialExplanationValue,
+  validation,
+  value
 }) => {
 
-  const [value, setValue] = useState<string>('')
+  // const [value, setValue] = useState<string>('')
 
   const {
     addExplanation,
@@ -46,35 +52,40 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
     changeSelected: state.changeSelected
   }), shallow)
 
-  const inputRef = useRef<HTMLInputElement>()
-  const ref = customRef || inputRef
+  const ref = useRef(null)
+  // const ref = customRef || inputRef
+  // const ref = inputRef
 
   useEffect(() => {
-    if(initialValue?.textContent || initialValue?.explanationPosition) {
-      setValue(initialValue?.textContent)
-
-      if(initialValue?.explanationPosition) {
-        ref.current.setAttribute('data-explanation', initialValue?.explanationPosition)
-      }
-      ref.current.value=initialValue?.textContent
-
-      onChange(initialValue?.explanationPosition, initialValue?.textContent)
+    if(initialExplanationValue && ref) {
+      ref.current.setAttribute('data-explanation', initialExplanationValue)
     }
-  }, [initialValue, ref])
+    // if(initialValue?.textContent || initialValue?.explanationPosition) {
+    //   setValue(initialValue?.textContent)
+
+     
+    //   ref.current.value=initialValue?.textContent
+
+    //   onChange(initialValue?.explanationPosition, initialValue?.textContent)
+    // }
+  }, [initialExplanationValue, ref])
+
+  // id={id}
+  // name={name}
 
   return (
-    <div>
-      <Separator>
-        <Input
-          id={id}
+    <Wrapper>
+        <TextInput
           name={name}
+          id={id}
           required={required}
           ref={ref}
+          label={label}
           value={value}
           placeholder={placeholder}
           onChange={() => { 
             if(RE_VALIDATIONS[validation] && !RE_VALIDATIONS[validation]?.test(ref.current.value)) return
-            setValue(ref.current.value)
+            // setValue(ref.current.value)
             onChange(
               ref.current.getAttribute('data-explanation'),
               ref.current.value,
@@ -103,7 +114,7 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
             } else {
               const index = explanationIndex + 1
               ref.current.setAttribute('data-explanation', index + '')
-              addExplanation(index)
+              addExplanation(index, label)
               onChange(
                 index,
                 ref.current.value,
@@ -111,13 +122,11 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
             }
           }}
         />
-      </Separator>
-    </div>
+    </Wrapper>
   )
 }
 
-const Separator = styled.div`
-  padding: 8px 0;
+const Wrapper = styled.div`
   display: flex;
   align-items: center;
 `

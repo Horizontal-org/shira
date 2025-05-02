@@ -29,28 +29,20 @@ export const ExplanationInput: FunctionComponent<Props> = ({
   }, [textAreaRef])
 
   return (
-    <div>
-      <StyledTextArea 
-        ref={textAreaRef}
-         placeholder="New explanation"
-        rows={1}
-        value={text}
-        onChange={(e) => {
-          onUpdate(e.target.value)
-        }}
-        onBlur={unselect}
-      />
-      {/* <button 
-        onClick={onDelete}
-      >
-        delete
-      </button> */}
-    </div>
+    <StyledTextArea 
+      ref={textAreaRef}
+        placeholder="New explanation"
+      rows={1}
+      value={text}
+      onChange={(e) => {
+        onUpdate(e.target.value)
+      }}
+      onBlur={unselect}
+    />
   )
 }
 
 const StyledTextArea = styled.textarea`
-  min-height: 38px;
   resize: none;
   overflow-y: hidden;
   border: none;

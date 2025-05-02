@@ -14,6 +14,24 @@ export const updateQuiz = async(toUpdate: UpdateQuizPayload) => {
   }
 }
 
+export interface ReorderQuizPayload {
+  quizId: number
+  newOrder: {
+    position: number
+    questionId: number
+  }[]
+}
+
+export const reorderQuiz = async(reorderData: ReorderQuizPayload) => {
+  try {
+    await axios.post(`${process.env.REACT_APP_API_URL}/quiz/reorder`, reorderData)
+  } catch (err) {
+    console.log("🚀 ~ updateQuiz ~ err:", err)    
+  }
+}
+
+
+
 export const deleteQuiz = async(id: number) => {
   try {
     await axios.delete(`${process.env.REACT_APP_API_URL}/quiz/${id}`)
@@ -44,6 +62,7 @@ export const getQuizzes = async() => {
 export const getQuizById = async(id: number) => {
   try {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/quiz/${id}`)
+    console.log("🚀 ~ getQuizById ~ res:", res.data)
     return res.data
   } catch (err) {
     console.log("🚀 ~ updateQuiz ~ err:", err)    

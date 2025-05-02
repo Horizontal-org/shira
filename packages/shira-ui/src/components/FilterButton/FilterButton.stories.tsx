@@ -21,6 +21,10 @@ const meta = {
     isActive: {
       control: 'boolean',
       description: 'Whether the filter is currently active'
+    },
+    color: {
+      control: 'text',
+      description: 'Wheter it needs a color scheme applied'
     }
   }
 } satisfies Meta<typeof FilterButton>;
@@ -43,6 +47,16 @@ export const Active: Story = {
     handleFilter: () => {}
   },
 };
+
+export const ActiveColor: Story = {
+  args: {
+    text: 'All quizzes',
+    isActive: true,
+    color: 'green',
+    handleFilter: () => {}
+  },
+};
+
 
 export const FilterGroup = () => {
   const [activeFilter, setActiveFilter] = useState<'all' | 'published' | 'unpublished'>('all');
