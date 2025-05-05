@@ -13,7 +13,6 @@ export class SpaceRegistrationAuthController {
   async register(@Body() registerDto: RegisterAuthDto) {
     try {
       await this.spaceRegistrationService.execute(registerDto)
-      return { success: true, message: 'space and user registered successfully'}
     } catch (error) {
       throw error
     }

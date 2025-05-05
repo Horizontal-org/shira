@@ -17,8 +17,7 @@ export class DeleteSpaceController {
     @Param('id', ParseIntPipe) id: number
   )
   {
-    await this.deleteSpaceService.execute(id);
-    return { success: true, message: "Space deleted successfully" };
+    await this.deleteSpaceService.execute(id)
   }
 
 }
