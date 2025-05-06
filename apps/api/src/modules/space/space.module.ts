@@ -9,13 +9,16 @@ import {
 } from './space.providers';
 import { UserEntity } from '../user/domain/user.entity';
 import { spaceControllers } from './controllers';
-
+import { Quiz } from '../quiz/domain/quiz.entity';
+import { QuizQuestion } from '../quiz/domain/quizzes_questions.entity';
 @Global()
 @Module({
   imports: [
     TypeOrmModule.forFeature([
         SpaceEntity,
-        UserEntity
+        UserEntity,
+        Quiz,
+        QuizQuestion
     ]),
   ],  
   providers: [

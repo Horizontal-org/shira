@@ -41,6 +41,9 @@ import {
       (quiz: Quiz) => quiz.space,
     )
     quizzes: Quiz[];
+
+    @Column({ length: 150, nullable: true })
+    slug: string;
       
     @CreateDateColumn({ name: 'created_at' })
     createdAt: Date;

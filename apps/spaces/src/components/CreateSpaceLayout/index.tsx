@@ -1,5 +1,6 @@
 import { FunctionComponent, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios"
 import {
   Form,
   Link1,
@@ -15,21 +16,76 @@ import backgroundSvg from "../../assets/Background.svg";
 interface Props {}
 
 export const CreateSpaceLayout: FunctionComponent<Props> = () => {
+  const { passphraseCode } = useParams()
   const [email, handleEmail] = useState("");
   const [pass, handlePass] = useState("");
   const [passConfirmation, handlePassConfirmation] = useState("");
-  const [passphrase, handlePassphrase] = useState("");
   const [name, handleName] = useState("");
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
+
   const navigate = useNavigate();
+
   const description = (
     <>
-      Shira spaces are currently in closed beta. To obtain the passphrase
-      necessary to join the beta, email us at{" "}
-      <Link1 href="mailto:contact@wearehorizontal.org">
-        contact@wearehorizontal.org
-      </Link1>
+      {passphraseCode ? 
+        "Complete the form below to create your Shira space." : 
+        <>
+          Shira spaces are currently in closed beta. To obtain the passphrase
+          necessary to join the beta, email us at{" "}
+          <Link1 href="mailto:contact@wearehorizontal.org">
+            contact@wearehorizontal.org
+          </Link1>
+        </>
+      }
     </>
   );
+
+  const validateForm = () => {
+    if (!name.trim()) return "Space name is required";
+    if (!email.trim()) return "Email is required";
+    if (!pass.trim()) return "Password is required";
+    if (pass.length < 8) return "Password must be at least 8 characters";
+    if (pass !== passConfirmation) return "Passwords do not match";
+    return "";
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    const validationError = validateForm();
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+    
+    try {
+      await axios.post(`${process.env.REACT_APP_API_URL}/space-registration`, {
+        email,
+        password: pass,
+        spaceName: name,
+        passphrase: passphraseCode,
+      });
+      
+      setSuccess(true);
+      setLoading(false);
+      
+      navigate('/login')
+      
+    } catch (err) {
+      setLoading(false);
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError("An error occurred while creating your space. Please try again.");
+      }
+    }
+  };
 
   return (
     <Container>
@@ -55,12 +111,15 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
               e.preventDefault();
             }}
           >
+            {error && <ErrorMessage>{error}</ErrorMessage>}
+            
+            {success && (
+              <SuccessMessage>
+                Your space has been created successfully! Redirecting to login...
+              </SuccessMessage>
+            )}
+
             <InputsContainer>
-              <TextInput 
-                label="Enter passphrase" 
-                value={passphrase} 
-                onChange={(e) => handlePassphrase(e.target.value)}
-              />
               <TextInput 
                 label="Name your space" 
                 value={name} 
@@ -90,10 +149,8 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
               <Button
                 text="Create new space"
                 type="primary"
-                disabled={true}
-                onClick={(e) => {
-                  e.preventDefault();
-                }}
+                disabled={loading || !passphraseCode}
+                onClick={handleSubmit}
               />
             </ButtonContainer>
           </StyledForm>
@@ -199,4 +256,28 @@ const ButtonContainer = styled.div`
       align-items: center;
     }
   }
+`;
+
+const ErrorMessage = styled.div`
+  background-color: #ffebee;
+  color: #d32f2f;
+  padding: 16px;
+  border-radius: 4px;
+  margin-bottom: 24px;
+  font-weight: 500;
+`;
+
+const SuccessMessage = styled.div`
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  padding: 16px;
+  border-radius: 4px;
+  margin-bottom: 24px;
+  font-weight: 500;
+`;
+
+const NoPassphraseMessage = styled.div`
+  margin-top: 16px;
+  text-align: center;
+  color: #757575;
 `;

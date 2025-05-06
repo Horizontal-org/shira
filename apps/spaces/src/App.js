@@ -59,7 +59,7 @@ function App() {
           <BrowserRouter>
             <Routes>          
               <Route path='/login' element={<LoginLayout />} />
-              <Route path='/create-space' element={<CreateSpaceLayout />} />
+              <Route path='/create-space/:passphraseCode' element={<CreateSpaceLayout />} />
               { user && (
                 <>
                   {/* LEGACY */}
