@@ -18,7 +18,7 @@ import { join } from 'path';
         debug: true,
         logger: true,
         // direct:true,
-        requireTLS: true,
+        requireTLS: false,
         auth: {
           user: process.env.SMTP_USER,
           pass: process.env.SMTP_PASS,
