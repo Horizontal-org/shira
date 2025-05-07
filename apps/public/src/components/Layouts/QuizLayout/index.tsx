@@ -11,6 +11,7 @@ import { shallow } from "zustand/shallow"
 import { QuizSetupNameScene } from "../../../scenes/QuizSetupName"
 import { CustomQuiz } from "./components/CustomQuiz"
 import { CompletedScene } from "../../../scenes/Completed"
+import { CustomQuizCompletedScene } from "../../../scenes/CustomQuizCompleted"
 
 interface Props {}
 
@@ -21,6 +22,7 @@ export const QuizLayout: FunctionComponent<Props> = () => {
 
   const [quiz, handleQuiz] = useState(null)
   const [started, handleStarted] = useState(false)
+  console.log("🚀 ~ quiz:", quiz)
   console.log("🚀 ~ started:", started)
 
   const {
@@ -40,7 +42,7 @@ export const QuizLayout: FunctionComponent<Props> = () => {
   const getQuiz = async(hash) => {
     try {
       const res = await axios.get(`${process.env.REACT_APP_API_URL}/quiz/hash/${hash}`)
-      handleQuiz(res.data.sort((a, b) => a.position - b.position))
+      handleQuiz(res.data)
     } catch (e) {
       console.log("🚀 ~ getQuiz ~ e:", e)
       navigate('/')
@@ -68,12 +70,12 @@ export const QuizLayout: FunctionComponent<Props> = () => {
   
         { scene === 'custom-quiz' && (
           <CustomQuiz 
-            questions={quiz.map((q) => q.question)}
+            questions={quiz.quizQuestions.map((q) => q.question)}
           />
         )}
 
         { scene === 'completed' && (
-          <CompletedScene />
+          <CustomQuizCompletedScene />
         )}
       </>
     )

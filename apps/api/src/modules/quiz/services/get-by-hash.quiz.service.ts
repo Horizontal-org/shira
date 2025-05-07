@@ -85,8 +85,12 @@ export class GetByHashQuizService implements IGetByHashQuizService{
         }
       }
     })
+    console.log("🚀 ~ GetByHashQuizService ~ parsedAll ~ parsedAll:", parsedAll)
   
     
-    return parsedAll;
+    return {
+      title: quiz.title,
+      quizQuestions: parsedAll.sort((a, b) => a.position - b.position)
+    };
   }
 }
