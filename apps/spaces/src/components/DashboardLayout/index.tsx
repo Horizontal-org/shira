@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   Card,
   Sidebar,
@@ -50,6 +50,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   }), shallow)
   
   const navigate = useNavigate();
+  const location = useLocation();  
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
 
   const [activeFilter, setActiveFilter] = useState<FilterStates>(FilterStates.all);
@@ -130,7 +131,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     <Container>
       <Sidebar 
         menuItems={menuItems} 
-        onCollapse={handleCollapse}      
+        onCollapse={handleCollapse}
+        selectedItemLabel={menuItems.find(m => m.path === '/dashboard').label}
       />
 
       <MainContent $isCollapsed={isCollapsed}>

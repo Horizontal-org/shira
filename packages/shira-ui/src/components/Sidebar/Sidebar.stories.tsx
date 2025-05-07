@@ -47,6 +47,16 @@ export const Default: Story = {
   },
 };
 
+export const Selected: Story = {
+  args: {
+    menuItems: defaultMenuItems,
+    onClose: () => console.log('Sidebar closed'),
+    onCollapse: () => console.log('collapsing'),
+    selectedItemLabel: 'Support'
+  },
+};
+
+
 export const Mobile: Story = {
   parameters: {
     viewport: {

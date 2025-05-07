@@ -85,8 +85,6 @@ export class GetByHashQuizService implements IGetByHashQuizService{
         }
       }
     })
-    console.log("🚀 ~ GetByHashQuizService ~ parsedAll ~ parsedAll:", parsedAll)
-  
     
     return {
       title: quiz.title,

@@ -14,6 +14,7 @@ export const SupportLayout:FunctionComponent<Props> = () => {
       <Sidebar 
         menuItems={menuItems} 
         onCollapse={handleCollapse}      
+        selectedItemLabel={menuItems.find(m => m.path === '/support').label}
       />
 
       <MainContent $isCollapsed={isCollapsed}>

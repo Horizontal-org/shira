@@ -9,11 +9,12 @@ export interface SidebarProps {
     label: string;
     onClick: () => void;
   }>;
+  selectedItemLabel?: string;
   onClose?: () => void;
   onCollapse: (collapsed: boolean) => void;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ menuItems, onClose, onCollapse }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ menuItems, onClose, onCollapse, selectedItemLabel }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const toggleCollapse = () => {
@@ -38,7 +39,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ menuItems, onClose, onCollapse
           <MenuContainer>
             <MainMenu>
               {menuItems.slice(0, -1).map((item, index) => (
-                <MenuItem key={index} onClick={item.onClick}>
+                <MenuItem 
+                  key={index} 
+                  onClick={item.onClick}
+                  isSelected={selectedItemLabel === item.label}
+                >
                   <IconContainer>{item.icon}</IconContainer>
                   {!isCollapsed && <Label>{item.label}</Label>}
                 </MenuItem>
@@ -46,7 +51,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ menuItems, onClose, onCollapse
             </MainMenu>
     
             <BottomMenu>
-              <MenuItem onClick={menuItems[menuItems.length - 1].onClick}>
+              <MenuItem 
+                onClick={menuItems[menuItems.length - 1].onClick}
+              >
                 <IconContainer>{menuItems[menuItems.length - 1].icon}</IconContainer>
                 {!isCollapsed && <Label>{menuItems[menuItems.length - 1].label}</Label>}
               </MenuItem>
@@ -54,8 +61,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ menuItems, onClose, onCollapse
           </MenuContainer>
         </SidebarContainer>
 
-        <CollapseContainer>
-            <CollapseButton onClick={toggleCollapse}>
+        <CollapseContainer onClick={toggleCollapse}>
+            <CollapseButton>
                 {isCollapsed ? <FiChevronRight color='#333030' size={20}/> : <FiChevronLeft color='#333030' size={20} />}
             </CollapseButton>
         </CollapseContainer>
@@ -85,7 +92,7 @@ const Wrapper = styled.div`
 
 const SidebarContainer = styled.div<{ $isCollapsed: boolean }>`
   height: 100vh;
-  width: ${props => props.$isCollapsed ? '80px' : '280px'};
+  width: ${props => props.$isCollapsed ? '80px' : '228px'};
   background: ${props => props.theme.colors.dark.black};
   transition: width 0.3s ease;
   color: ${props => props.theme.colors.light.white};
@@ -103,6 +110,7 @@ const CollapseContainer = styled.div`
     background-color: ${props => props.theme.colors.green3};
     display: flex;
     align-items: center;
+    cursor: pointer;
 `
 
 const LogoContainer = styled.div`
@@ -139,16 +147,37 @@ const BottomMenu = styled.div`
   padding: 20px 0;
 `;
 
-const MenuItem = styled.div`
+const MenuItem = styled.div<{ isSelected?: boolean }>`
   display: flex;
   align-items: center;
-  padding: 12px 20px;
+  padding: 12px 26px;
   cursor: pointer;
   transition: background-color 0.2s ease;
 
   &:hover {
     background-color: ${props => props.theme.colors.dark.darkGrey};
   }
+
+  ${props => props.isSelected && `
+    background: ${props.theme.colors.green3};
+    color: #12320F;
+
+    > div {
+      > svg {        
+        stroke: ${props.theme.colors.dark.black};
+      }
+    }
+
+    &:hover {
+      background-color: ${props => props.theme.colors.dark.darkGrey};
+      color: white;
+      > div {
+        > svg {        
+          stroke: white;
+        }
+      }
+    }
+  `}
 `;
 
 const IconContainer = styled.div`
