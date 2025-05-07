@@ -16,38 +16,15 @@ export const CustomQuiz:FunctionComponent<Props> = ({
 }) => {
   const {
     changeScene,
-    // apps,
-    // fieldsOfWork,
-    // fetchQuiz,
-    // quiz,
     setCorrectQuestions
   } = useStore((state) => ({
-    changeScene: state.changeScene,
-    // apps: state.setup.apps,
-    // fieldsOfWork: state.setup.fields_of_work,
-    // fetchQuiz: state.fetchQuiz,
-    // quiz: state.quiz,
+    changeScene: state.changeScene,   
     setCorrectQuestions: state.setCorrectQuestions
   }), shallow)
 
-  // const [questions, handleQuestions] = useState([])
   const [started, handleStarted] = useState(false)
   const [questionIndex, handleQuestionIndex] = useState(0)
   const { t, i18n } = useTranslation()
-
-  // useEffect(() => {
-  //   const startQuiz = async() => {
-  //     fetchQuiz(apps, fieldsOfWork, i18n.language)
-  //   }
-
-  //   startQuiz()
-  // }, [])
-
-  // useEffect(() => {
-  //   if (quiz) {
-  //     handleQuestions(quiz)
-  //   }
-  // }, [quiz])
 
   return (
     <SceneWrapper>

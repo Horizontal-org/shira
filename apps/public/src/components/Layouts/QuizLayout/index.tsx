@@ -12,6 +12,7 @@ import { QuizSetupNameScene } from "../../../scenes/QuizSetupName"
 import { CustomQuiz } from "./components/CustomQuiz"
 import { CompletedScene } from "../../../scenes/Completed"
 import { CustomQuizCompletedScene } from "../../../scenes/CustomQuizCompleted"
+import { CustomQuizNavbar } from "../../UI/CustomQuizNavbar"
 
 interface Props {}
 
@@ -21,9 +22,6 @@ export const QuizLayout: FunctionComponent<Props> = () => {
   let navigate = useNavigate()
 
   const [quiz, handleQuiz] = useState(null)
-  const [started, handleStarted] = useState(false)
-  console.log("🚀 ~ quiz:", quiz)
-  console.log("🚀 ~ started:", started)
 
   const {
     changeScene,
@@ -61,73 +59,68 @@ export const QuizLayout: FunctionComponent<Props> = () => {
     return null
   }
   
-  if (started) {
-    return (
-      <>
-        { scene === 'quiz-setup-name' && (
-          <QuizSetupNameScene nextSceneSlug="custom-quiz" />
-        )}
-  
-        { scene === 'custom-quiz' && (
-          <CustomQuiz 
-            questions={quiz.quizQuestions.map((q) => q.question)}
-          />
-        )}
+  return (
+    <>
+      { scene === 'welcome' && (
+        <SceneWrapper bg='white'>  
+          
+          <CustomQuizNavbar color="#DBE3A3"/>
+        
+          <CenterWrapper>
+            <GreenFishWrapper>
+              <Hooked />
+            </GreenFishWrapper>
+            <StyledBox>
+              <SubHeading1>{quiz.title}</SubHeading1>
+              <Body1>
+                Welcome to your phishing quiz. Click on the button to get started. 
+              </Body1>
+              <div>
+                <Button 
+                  text="Get started"
+                  color="#52752C"
+                  onClick={() => { { 
+                    changeScene('quiz-setup-name')} 
+                  }}
+                />
+              </div>         
+            </StyledBox>        
+          </CenterWrapper>
+        </SceneWrapper>
+      )}
 
-        { scene === 'completed' && (
-          <CustomQuizCompletedScene />
-        )}
-      </>
-    )
-  } else {
-    return (
-      <SceneWrapper bg='white'>  
-        {/* using old navbar to hide space creation for now     */}
-        <Navbar color="#DBE3A3"/>
-      
-        <CenterWrapper>
-          <GreenFishWrapper>
-            <Hooked />
-          </GreenFishWrapper>
-          <StyledBox>
-            <SubHeading1>{quiz.title}</SubHeading1>
-            <Body1>
-              Welcome to your phishing quiz. Click on the button to get started. 
-            </Body1>
-            <div>
-              <Button 
-                text="Get started"
-                color="#52752C"
-                onClick={() => { { 
-                  handleStarted(true)
-                  changeScene('quiz-setup-name')} 
-                }}
-              />
-            </div>         
-          </StyledBox>        
-        </CenterWrapper>
-      </SceneWrapper>
-    )
-  }
+      { scene === 'quiz-setup-name' && (
+        <QuizSetupNameScene nextSceneSlug="custom-quiz" />
+      )}
+
+      { scene === 'custom-quiz' && (
+        <CustomQuiz 
+          questions={quiz.quizQuestions.map((q) => q.question)}
+        />
+      )}
+
+      { scene === 'completed' && (
+        <CustomQuizCompletedScene />
+      )}
+    </>
+  )
   
 }
 
 const GreenFishWrapper = styled.div`
   display: flex;
   padding-right: 40px;
-
-  @media (max-width: ${props => props.theme.breakpoints.xl}) {
-    > svg {
-      width: 410px;
-      height: 348px;
-    }
+  
+  > svg {
+    width: 410px;
+    height: 348px;  
   }
 
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+  @media (max-width: ${props => props.theme.breakpoints.lg}) {
     justify-content: flex-end;
     > svg {
-      width: 432px;
-      height: 366px;
+      width: 280px;
+      height: 275px;
     }
   }
 
@@ -157,4 +150,5 @@ const StyledBox = styled(Box)`
   background: #F3F5E4;
   border: none;
   align-items: center;
+  gap: 24px;
 `

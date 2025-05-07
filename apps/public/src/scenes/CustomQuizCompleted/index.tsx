@@ -10,6 +10,7 @@ import CompletedIcon from './assets/CompletedIcon'
 import { Heading } from '../../components/UI/Title'
 import { useStore } from '../../store'
 import useGetWidth from '../../hooks/useGetWidth'
+import { CustomQuizNavbar } from '../../components/UI/CustomQuizNavbar'
 
 interface Props {}
 
@@ -21,7 +22,7 @@ export const CustomQuizCompletedScene: FunctionComponent<Props> = () => {
 
   return (
     <Wrapper>
-      <Navbar />
+      <CustomQuizNavbar />
       <StyledSectionWrapper>
         <StyledSection>
           <Heading>{ t('completed.title') }</Heading>          
@@ -30,7 +31,7 @@ export const CustomQuizCompletedScene: FunctionComponent<Props> = () => {
               <CompletedIcon />
             </MobileIconWrapper>
           )}
-          <InfoSubtitle>{ t('completed.subtitle') }</InfoSubtitle>
+          <InfoSubtitle>Thanks for using shira!</InfoSubtitle>
 
         </StyledSection>
 
