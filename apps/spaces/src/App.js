@@ -21,6 +21,7 @@ import { IoMdCheckmarkCircle } from 'react-icons/io'
 import LogoutLayout from './components/LogoutLayout';
 import { QuestionCreationLayout } from './components/QuestionCreationLayout';
 import { QuestionEditLayout } from './components/QuestionEditLayout';
+import { SupportLayout } from './components/SupportLayout';
 
 function App() {
 
@@ -74,6 +75,7 @@ function App() {
                   <Route path='/quiz/:quizId/question' element={<QuestionCreationLayout />}/>
                   <Route path='/quiz/:quizId/question/:questionId' element={<QuestionEditLayout />}/>
                   <Route path="/logout"  element={<LogoutLayout />} /> 
+                  <Route path="/support"  element={<SupportLayout />} /> 
                 </>
               )}
             </Routes>
