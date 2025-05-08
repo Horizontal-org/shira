@@ -28,7 +28,6 @@ export const QuestionReview: FunctionComponent<Props> = ({
   const [explanationsOrder, handleExplanationsOrder] = useState<Array<number>>([])
   const [showExplanations, handleShowExplanations] = useState<boolean>(false)
   
-  console.log("🚀 ~ explanations:", explanations)
   useEffect(() => {
     const order = explanations
       .sort((a, b) => a.position - b.position)
@@ -44,7 +43,6 @@ export const QuestionReview: FunctionComponent<Props> = ({
       })
     }
   }, [])
-
 
   if (!question || !elementProps) {
     return
@@ -65,7 +63,7 @@ export const QuestionReview: FunctionComponent<Props> = ({
       <ReviewFooter>
         { showExplanations ? (
           <ExplanationButtonWrapper>
-            { explanationNumber === 0 && (
+            { explanationNumber >= 0 && (
               <Button 
                 type="outline"
                 onClick={() => {
@@ -99,13 +97,12 @@ export const QuestionReview: FunctionComponent<Props> = ({
               handleShowExplanations(true)              
             }}
             text='Show explanations'
-          />          
+          />
         )}
       </ReviewFooter>
     </>
   )
 }
-
 
 const StyledBox = styled.div`
   position: relative;
