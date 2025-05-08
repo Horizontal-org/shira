@@ -159,7 +159,7 @@ const QuestionItem = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px;
+  padding: 8px 12px;
 
   &:hover {
     background: ${props => props.theme.colors.light.paleGrey};
@@ -170,19 +170,21 @@ const LeftSection = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
+  
 `;
 
 const MenuIcon = styled.div`
+  height: 20px;
   cursor: grab;
-  padding: 4px;
 
   &:active {
     cursor: grabbing;
   }
 `;
 
-const QuestionTitle = styled.span`
+const QuestionTitle = styled.div`
   font-size: 14px;
+  height: 20px;
   color: ${props => props.theme.colors.dark.black};
 `;
 
