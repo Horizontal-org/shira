@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PassphraseEntity } from '../domain/passphrase.entity';
@@ -13,7 +13,7 @@ export class CheckPassphraseService implements ICheckPassphraseService{
     private readonly passphraseRepo: Repository<PassphraseEntity>,
   ) {}
 
-  async execute (passphrase: string) {
+  async execute (passphrase: string, registrationEmail: string) {
     
     const entity = await this.passphraseRepo.findOne({ where: {
         code: passphrase,
@@ -22,6 +22,17 @@ export class CheckPassphraseService implements ICheckPassphraseService{
     if (!entity) {
       throw new NotFoundException()
     }
-    return !!(entity.usedBy)
+    
+    // check passphrase is not expired
+    if (entity.expired) {
+      throw new UnauthorizedException("Link is expired, contact us to request a new one")
+    }
+
+    // check registration email match with passphrase
+    if (entity.usedBy !== registrationEmail) {
+      throw new UnauthorizedException("Unauthorized email")
+    }
+
+    return true
   }
 }

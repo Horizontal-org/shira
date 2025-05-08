@@ -21,6 +21,7 @@ export class SendInvitationAuthService implements ISendInvitationAuthService {
     const passphrase = new PassphraseEntity()
     passphrase.code = crypto.randomBytes(20).toString('hex');
     passphrase.slug = invitationData.slug
+    passphrase.usedBy = invitationData.email // we use this to check the owner of the passphrase
 
     await this.passphraseRepo.save(passphrase)
 

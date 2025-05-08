@@ -18,7 +18,7 @@ export class UsePassphraseService implements IUsePassphraseService{
       code: code
     }})
 
-    passphraseEntity.usedBy = usedBy
+    passphraseEntity.expired = true
     const res = await this.passphraseRepo.save(passphraseEntity)
     
     return res
