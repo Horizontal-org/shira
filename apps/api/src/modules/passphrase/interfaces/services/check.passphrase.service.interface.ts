@@ -1,4 +1,4 @@
 
 export interface ICheckPassphraseService {
-  execute(passphrase: string): Promise<boolean>;
+  execute(passphrase: string, registrationEmail: string): Promise<boolean>;
 }

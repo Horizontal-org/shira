@@ -21,8 +21,10 @@ export class SpaceRegistrationAuthService implements ISpaceRegistrationAuthServi
     private readonly validateRegistrationService: IValidateRegistrationAuthService
   ){}
   async execute(registrationData: RegisterAuthDto): Promise<void> {
+    // check if passphrase is valid
     await this.validateRegistrationService.execute(registrationData)
 
+    // invalidate the passphrase once checked
     const passphrase = await this.usePassphrasesService.execute(
       registrationData.passphrase,
       registrationData.email

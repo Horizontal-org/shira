@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   Card,
   Sidebar,
@@ -50,6 +50,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   }), shallow)
   
   const navigate = useNavigate();
+  const location = useLocation();  
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
 
   const [activeFilter, setActiveFilter] = useState<FilterStates>(FilterStates.all);
@@ -130,12 +131,13 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     <Container>
       <Sidebar 
         menuItems={menuItems} 
-        onCollapse={handleCollapse}      
+        onCollapse={handleCollapse}
+        selectedItemLabel={menuItems.find(m => m.path === '/dashboard').label}
       />
 
       <MainContent $isCollapsed={isCollapsed}>
         <HeaderContainer>
-          <SubHeading3 color="#52752C">{space && space.name}</SubHeading3>
+          <StyledSubHeading3>{space && space.name}</StyledSubHeading3>
           <H2>Welcome to your dashboard </H2>
           <Body1>This is where you can manage quizzes. Quiz links are public, so remember to avoid sharing sensitive information in them.</Body1>
           <ButtonContainer>
@@ -255,7 +257,7 @@ const Container = styled.div`
 
 const MainContent = styled.div<{ $isCollapsed: boolean }>`
   flex: 1;
-  padding: 24px;
+  padding: 50px;
   margin-left: ${props => props.$isCollapsed ? '100px' : '300px'};
   transition: margin-left 0.3s ease;
 
@@ -266,7 +268,11 @@ const MainContent = styled.div<{ $isCollapsed: boolean }>`
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     margin-left: 0;
   }
-`;
+`
+
+const StyledSubHeading3 = styled(SubHeading3)`
+  color: #52752C; 
+`
 
 const HeaderContainer = styled.div`
   padding: 16px;

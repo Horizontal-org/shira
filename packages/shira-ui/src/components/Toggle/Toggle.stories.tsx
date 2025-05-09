@@ -60,6 +60,30 @@ export const Interactive: Story = {
   }
 };
 
+
+// Interactive toggle example using React state
+export const InteractiveBig: Story = {
+  args: {
+    isEnabled: false,
+    leftLabel: 'Unpublished',
+    rightLabel: 'Published',
+    onToggle: () => {},
+    size: 'big'
+  },
+  render: function Render(args) {
+    const [isEnabled, setIsEnabled] = useState(false);
+    return (
+      <Toggle 
+        {...args}
+        isEnabled={isEnabled}
+        onToggle={() => setIsEnabled(!isEnabled)}
+      />
+    );
+  }
+};
+
+
+
 // Enabled state
 export const Enabled: Story = {
   args: {

@@ -20,6 +20,9 @@ export class PassphraseEntity {
   @Column({ length: 150, nullable: true })
   slug: string;
 
+  @Column()
+  expired: boolean;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 

@@ -4,17 +4,15 @@ import {
   Sidebar,
   styled,
   useAdminSidebar,
-  Tab,
-  Toggle,
   H2,
   Body1,
   Button,
   RenameIcon,
   CopyUrlIcon,
-  DeleteIcon
+  DeleteIcon,
+  Toggle
 } from "@shira/ui";
 import { QuestionsList } from './components/QuestionList'
-import { FiPlus } from "react-icons/fi";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { getQuizById } from "../../fetch/quiz";
@@ -130,7 +128,8 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                   <H2>{quiz.title}</H2>
                   <Body1>Manage your quiz here, including adding, removing, and reordering questions</Body1>
                 </div>
-                <Toggle 
+                <Toggle
+                  size='big'
                   isEnabled={isPublished}
                   onToggle={() => { handleTogglePublished(quiz.id, !quiz.published) }}
                   rightLabel="Published"
