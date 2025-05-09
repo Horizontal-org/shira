@@ -9,6 +9,7 @@ export interface ToggleProps {
   leftLabel?: string;
   className?: string;
   disabled?: boolean;
+  size?: 'medium' | 'big'
 }
 
 export const Toggle: FunctionComponent<ToggleProps> = ({
@@ -17,12 +18,14 @@ export const Toggle: FunctionComponent<ToggleProps> = ({
   rightLabel,
   leftLabel,
   className,
-  disabled = false
+  disabled = false,
+  size = 'medium'
 }) => {
   return (
     <ToggleWrapper className={className}>
       {leftLabel && <ToggleText>{leftLabel}</ToggleText>}
       <ToggleSwitch
+        $size={size}
         $isEnabled={isEnabled}
         onClick={(e) => {
           e.stopPropagation()
@@ -31,7 +34,10 @@ export const Toggle: FunctionComponent<ToggleProps> = ({
         disabled={disabled}
         type="button"
       >
-        <ToggleSlider $isEnabled={isEnabled} />
+        <ToggleSlider 
+          $isEnabled={isEnabled} 
+          $size={size}
+        />
       </ToggleSwitch>
       {rightLabel && <ToggleText>{rightLabel}</ToggleText>}
     </ToggleWrapper>
@@ -50,6 +56,7 @@ const ToggleText = styled(Body4)`
 
 interface StyledToggleProps {
   $isEnabled: boolean;
+  $size: string;
 }
 
 const ToggleSwitch = styled.button<StyledToggleProps>`
@@ -67,6 +74,12 @@ const ToggleSwitch = styled.button<StyledToggleProps>`
     opacity: 0.5;
     cursor: not-allowed;
   }
+
+  ${props => props.$size === 'big' && `
+    width: 70px;
+    height: 32px;
+    border-radius: 18px;
+  `}
 `;
 
 const ToggleSlider = styled.span<StyledToggleProps>`
@@ -78,6 +91,17 @@ const ToggleSlider = styled.span<StyledToggleProps>`
   border-radius: 50%;
   transition: left 0.2s;
   top: 2px;
+  
+
+  ${props => props.$size === 'big' && `
+    top: 4px;
+    width: 24px;
+    height: 24px;
+    left: ${props.$isEnabled ? '42px' : '4px'};
+    box-shadow: 0px -0.97px 2.92px 0.97px #00000026;
+    box-shadow: 0px -0.97px 1.95px 0px #0000004D;
+
+  `}
 `;
 
 export default Toggle;
