@@ -44,11 +44,11 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={() => onNavigate("/login")}
               text={translatedTexts.logIn}
             />
-            <Button
+            {/* <Button
               type="primary"
               onClick={() => onNavigate("/create-space")}
               text={translatedTexts.createSpace}
-            />
+            /> */}
           </DesktopButtons>
 
           <RightNavbar onClick={() => handleMobileMenu(true)}>

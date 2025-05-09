@@ -60,7 +60,7 @@ export const MobileMenu: FunctionComponent<MobileMenuProps> = ({
         </p>
       </Nav>
 
-      <Nav onClick={() => {
+      {/* <Nav onClick={() => {
         onNavigate('/create-space')
       }}>
         <SvgWrapper>
@@ -69,7 +69,7 @@ export const MobileMenu: FunctionComponent<MobileMenuProps> = ({
         <p>
             {translatedTexts.createSpace}
         </p>
-      </Nav>
+      </Nav> */}
     </Wrapper>
   )
 }
