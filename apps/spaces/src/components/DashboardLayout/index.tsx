@@ -59,7 +59,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
 
   useEffect(() => {
     fetchQuizzes()
@@ -186,9 +185,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
               onCopyUrl={() => handleCopyUrl(card.hash)}
               onTogglePublished={() => handleTogglePublished(card.id, !card.published)}
               onEdit={() => {
-                handleSelectedCard(card)
-                setIsRenameModalOpen(true)
-              }}
+                navigate(`/quiz/${card.id}`)
+              }}  
               onDelete={() => {
                 handleSelectedCard(card)
                 setIsDeleteModalOpen(true)
@@ -212,22 +210,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           isModalOpen={isDeleteModalOpen}
         />
 
-        <RenameQuizModal
-          quiz={selectedCard}
-          setIsModalOpen={setIsRenameModalOpen}
-          onRename={(title) => { 
-            updateQuiz({
-              id: selectedCard.id,
-              title
-            }) 
-            handleSelectedCard(null)            
-          }}
-          onCancel={() => {
-            setIsRenameModalOpen(false)
-            handleSelectedCard(null)
-          }}
-          isModalOpen={isRenameModalOpen}
-        />
 
         <CreateQuizModal 
           setIsModalOpen={setIsCreateModalOpen}

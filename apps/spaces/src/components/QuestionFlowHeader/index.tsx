@@ -27,7 +27,6 @@ export const QuestionFlowHeader: FunctionComponent<Props> = ({
 }) => {
 
   const navigate = useNavigate()
-  console.log("🚀 ~ onquestionflowheader actionFeedback:", actionFeedback)
   
   return (
     <Wrapper>
