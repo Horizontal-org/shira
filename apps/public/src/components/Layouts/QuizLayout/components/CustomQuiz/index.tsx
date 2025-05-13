@@ -14,7 +14,6 @@ interface Props {
 export const CustomQuiz:FunctionComponent<Props> = ({
   questions
 }) => {
-  console.log("🚀 ~ questions:", questions)
   const {
     changeScene,
     setCorrectQuestions
