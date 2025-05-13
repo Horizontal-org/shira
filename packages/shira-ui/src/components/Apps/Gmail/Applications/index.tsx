@@ -26,9 +26,8 @@ const Wrapper = styled.div`
   align-items: center;
   flex-grow: 1;
   height: 100%;
-  border-left: 1px solid hsla(240,5.8%,76.3%,0.2);
   padding-top: 8px;
-
+  box-sizing: border-box;
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     display: none;
   }

@@ -86,7 +86,6 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 4px 16px;
   height: 48px;
-  border-bottom: 1px solid hsla(240,5.8%,76.3%,0.2);
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     justify-content: space-between;
