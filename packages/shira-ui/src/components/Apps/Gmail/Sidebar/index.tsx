@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react'
 import { styled } from '@shira/ui'
 import Categories from './components/Categories'
 
-import RedPencilImage from './assets/redpencil.png'
+import BluePencilImage from './assets/bluepencil.png'
 
 interface Props {}
 
@@ -12,8 +12,8 @@ const Sidebar: FunctionComponent<Props> = () => {
     <Wrapper>
       <MailButtonWrapper>
         <NewMailButton>
-          <RedPencil />
-          <span>Redact</span>
+          <BluePencil />
+          <span>Compose</span>
         </NewMailButton>
       </MailButtonWrapper>
 
@@ -35,12 +35,13 @@ const MailButtonWrapper = styled.div`
 `
 
 const NewMailButton = styled.div`
+  background: #C2E7FF;
   display: flex;
   align-items: center;
-  margin: 16px 0;
-  border-radius: 24px;
-  color: #d93025;
-  height: 48px;
+  margin: 16px 8px;
+  border-radius: 16px;
+  color: #001d35;
+  height: 56px;
   padding: 0 24px 0 0;
   min-width: 96px;
   box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 1px 3px 1px rgb(60 64 67 / 15%);
@@ -61,8 +62,8 @@ const NewMailButton = styled.div`
   }
 `
 
-const RedPencil = styled.div`
-  background-image: url(${RedPencilImage});
+const BluePencil = styled.div`
+  background-image: url(${BluePencilImage});
   background-size: 24px;
   background-position: center;
   background-repeat: no-repeat;

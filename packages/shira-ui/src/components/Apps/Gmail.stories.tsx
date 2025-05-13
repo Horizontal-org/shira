@@ -54,3 +54,35 @@ export const Default: Story = {
   },
 };
 
+export const LongSubject: Story = {
+  args: {
+    senderName: {
+      textContent: 'Juan',
+      explanationPosition: null
+    },
+    senderEmail: {
+      textContent: 'juan@wearehorizontal.org',
+      explanationPosition: null
+    },
+    subject: {
+      textContent: 'This is a long subject, a very long subject, a very very very long subject, a super very mega very super long subject.',
+      explanationPosition: null
+    },
+    // content: document.createElement('div'),
+    content: null,
+    attachments: [
+      {
+        name: 'at.txt',
+        position: '1'
+      },
+      {
+        name: 'at2.pdf',
+        position: '2'
+      }
+    ],
+    explanationNumber: 0,
+    explanations: []
+  },
+};
+
+
