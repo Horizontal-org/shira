@@ -14,6 +14,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { RegistrationEntity } from './domain/registration.entity';
 import { SpaceEntity } from '../space/domain/space.entity';
 import { PassphraseEntity } from '../passphrase/domain/passphrase.entity';
+import { UserEntity } from '../user/domain/user.entity';
+
 @Module({
   imports: [
     JwtModule.register({
@@ -26,7 +28,8 @@ import { PassphraseEntity } from '../passphrase/domain/passphrase.entity';
     TypeOrmModule.forFeature([
       RegistrationEntity,
       SpaceEntity,
-      PassphraseEntity
+      PassphraseEntity,
+      UserEntity
   ]),
   ],
   controllers: [...authControllers],
