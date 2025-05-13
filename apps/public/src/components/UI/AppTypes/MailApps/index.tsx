@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react'
-import Gmail from '../../../Apps/Gmail';
 import { Explanation } from '../../../../domain/explanation';
 import useParseHTML from '../../../../hooks/useParseHTML';
+import { Gmail } from '@shira/ui';
 
 interface Props {
   content: string;

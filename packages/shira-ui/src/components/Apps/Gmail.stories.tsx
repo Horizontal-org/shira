@@ -37,7 +37,8 @@ export const Default: Story = {
       textContent: 'Im gonna phish you!',
       explanationPosition: null
     },
-    content: document.createElement('div'),
+    // content: document.createElement('div'),
+    content: null,
     attachments: [
       {
         name: 'at.txt',

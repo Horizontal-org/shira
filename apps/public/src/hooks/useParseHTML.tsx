@@ -18,7 +18,6 @@ const useParseHTML = (
 
   const parseCustomElement = (customElement: string) => {
     const element = html.getElementById(customElement)
-
     const object = {
       textContent: element?.textContent || '',
       explanationPosition: element?.getAttribute('data-explanation') || null

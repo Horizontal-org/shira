@@ -72,7 +72,7 @@ export const Gmail: FunctionComponent<Props> = ({
                 senderName={senderName}
               />
               <PaddingLeft>
-                <DynamicContent dangerouslySetInnerHTML={{__html: content.outerHTML}}></DynamicContent>
+                <DynamicContent dangerouslySetInnerHTML={{__html: content ? content.outerHTML : null}}></DynamicContent>
                 {attachments && attachments.length > 0 && (
                   <Attachments
                     data={attachments}

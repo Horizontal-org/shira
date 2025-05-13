@@ -17,6 +17,7 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
   explanationNumber,
   showExplanations,
 }) => {
+
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
   const [arrowElement, setArrowElement] = useState<HTMLDivElement | null>(null);
 

@@ -19,7 +19,6 @@ export const AnswerOptions: FunctionComponent<Props> = ({onAnswer, goBack, isExp
   const { t } = useTranslation()
   const { width } = useGetWidth()
   const [selected, handleSelected] = useState<string | null>(null)
-  console.log("🚀 ~ file: index.tsx:23 ~ selected:", selected)
 
   const handleAnswer = (answer) => {
     handleSelected(answer)
