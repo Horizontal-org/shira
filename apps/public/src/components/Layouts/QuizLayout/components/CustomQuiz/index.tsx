@@ -14,6 +14,7 @@ interface Props {
 export const CustomQuiz:FunctionComponent<Props> = ({
   questions
 }) => {
+  console.log("🚀 ~ questions:", questions)
   const {
     changeScene,
     setCorrectQuestions
@@ -54,6 +55,7 @@ export const CustomQuiz:FunctionComponent<Props> = ({
         />
       ) : (
         <QuizInstructions 
+          count={questions ? questions.length : 0}
           onNext = {() => {
             handleStarted(true)             
           }}
