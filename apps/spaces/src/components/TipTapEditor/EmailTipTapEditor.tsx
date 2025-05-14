@@ -16,6 +16,7 @@ import Gapcursor from '@tiptap/extension-gapcursor'
 import ListKeymap from '@tiptap/extension-list-keymap'
 import Placeholder from '@tiptap/extension-placeholder'
 import Typography from '@tiptap/extension-typography'
+import Link from '@tiptap/extension-link'
 import { useStore } from '../../store'
 import { shallow } from 'zustand/shallow'
 import { Explanation } from './extensions/Explanation'
@@ -98,9 +99,9 @@ export const EmailTipTapEditor = ({
       }),
       Explanation,
       SearchNReplace,
-      // Link.configure({
-      //   openOnClick: false,
-      // }),
+      Link.configure({
+        openOnClick: false,
+      }),
     ],
     content: initialContent ?? null,
     onSelectionUpdate(props) {      
