@@ -18,6 +18,13 @@ interface CustomElements {
   explanationPosition: string | null
 }
 
+export interface AttachmentElement { 
+  name: string;
+  position: string;
+  explanationPosition?: string | null;
+  fileType?: string;    
+}
+
 interface Props {
   content: HTMLElement;
   senderName: CustomElements;
@@ -25,7 +32,7 @@ interface Props {
   receiverName?: string;
   receiverEmail?: string;
   subject?: CustomElements;
-  attachments?: any[];
+  attachments?: AttachmentElement[];
   explanations?: Explanation[]
   explanationNumber?: number;
   showExplanations?: boolean
@@ -113,7 +120,6 @@ const DesktopWrapper = styled.div`
 
 const Content = styled.div`
   display: flex;
-  height: calc(100% - 68px);
   padding: 10px 0;
   box-sizing: border-box;
 `
@@ -125,6 +131,7 @@ const MiddleWrapper = styled.div`
   background: white;
   margin: 0 8px;
   border-radius: 16px;  
+  padding-bottom: 40px;
 `
 
 const DynamicWrapper = styled.div`

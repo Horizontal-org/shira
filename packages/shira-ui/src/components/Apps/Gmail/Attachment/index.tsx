@@ -1,25 +1,52 @@
 import { FunctionComponent } from 'react'
-import { styled } from '@shira/ui'
-import { RiFileFill } from 'react-icons/ri'
+import { AttachmentType, styled } from '@shira/ui'
+
+import { 
+  ImageIcon,
+  VideoIcon,
+  AudioIcon,
+  GenericAttachmentIcon,
+  PdfIcon,
+} from '../../../Icons';
 
 interface Props {
   position: string;
   name: string;
   explanationPosition: string | null;
+  type?: string;
 }
 
 export const Attachment: FunctionComponent<Props> = ({
   name,
-  explanationPosition
+  explanationPosition,
+  type
 }) => {
+
+  const renderSwitch = (type: string) => {
+    switch(type) {
+      case AttachmentType.audio:
+        return <AudioIcon />
+      case AttachmentType.document:
+        return <PdfIcon />
+      case AttachmentType.image:
+        return <ImageIcon />
+      case AttachmentType.video:
+        return <VideoIcon />
+      case AttachmentType.other:
+        return <GenericAttachmentIcon />
+      default:
+        return <GenericAttachmentIcon/>
+    }
+  }
+
+    
   return (
     <Wrapper>
       <Hovered>
         <Name>      
-          <RiFileFill 
-            size={16}
-            color='#15c'
-          />
+          <IconWrapper size={16} color='#15c'>
+            { renderSwitch(type) }        
+          </IconWrapper>
           <span>
             {name}
           </span>
@@ -27,16 +54,14 @@ export const Attachment: FunctionComponent<Props> = ({
       </Hovered>
       <div>
         <Preview>
-          <RiFileFill 
-            size={40}
-            color='#F0F0F0'
-          />
+          <IconWrapper size={34}>
+            { renderSwitch(type) }        
+          </IconWrapper>
         </Preview>
         <Name>      
-          <RiFileFill 
-            size={16}
-            color='#15c'
-          />
+          <IconWrapper size={16} color='#15c'>
+            { renderSwitch(type) }        
+          </IconWrapper>
           <span 
             data-explanation={explanationPosition} 
           >
@@ -90,5 +115,20 @@ const Hovered = styled.div`
 
   ${Wrapper}:hover & {
     display: block;
+  }
+`
+
+const IconWrapper = styled.div<{ size: number; color?: string }>`
+  > svg {
+    height: ${props => props.size}px;
+    width: ${props => props.size}px;
+
+    ${props => props.color && `
+      stroke: ${props.color};
+
+      > path {
+        fill: ${props.color};
+       }
+    `}
   }
 `

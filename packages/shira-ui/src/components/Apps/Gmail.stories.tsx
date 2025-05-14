@@ -90,3 +90,54 @@ export const LongSubject: Story = {
 };
 
 
+export const AttachmentTypes: Story = {
+  args: {
+    senderName: {
+      textContent: 'Juan',
+      explanationPosition: null
+    },
+    senderEmail: {
+      textContent: 'juan@wearehorizontal.org',
+      explanationPosition: null
+    },
+    receiverEmail: 'gus@wearehorizontal.org',
+    receiverName: 'Gus',
+    subject: {
+      textContent: 'This is a subject',
+      explanationPosition: null
+    },
+    // content: document.createElement('div'),
+    content: null,
+    attachments: [
+      {
+        name: 'at.txt',
+        position: '1',
+        fileType: 'image'
+      },
+      {
+        name: 'at2.pdf',
+        position: '2',
+        fileType: 'video'
+      },
+      {
+        name: 'at2.pdf',
+        position: '2',
+        fileType: 'audio'
+      },
+      {
+        name: 'at2.pdf',
+        position: '2',
+        fileType: 'document'
+      },
+      {
+        name: 'at2.pdf',
+        position: '2',
+        fileType: 'other'
+      }
+    ],
+    explanationNumber: 0,
+    explanations: []
+  },
+};
+
+
