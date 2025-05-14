@@ -1,13 +1,10 @@
 import { FunctionComponent } from 'react'
 import { styled } from '@shira/ui'
 import { Attachment } from '../Attachment';
+import { AttachmentElement } from '..';
 
 interface Props {
-  data: {
-    name: string;
-    position: string;
-    explanationPosition: string | null;
-  }[],
+  data: AttachmentElement[],
 }
 
 export const Attachments: FunctionComponent<Props> = ({
@@ -24,10 +21,11 @@ export const Attachments: FunctionComponent<Props> = ({
       <AttachmentWrapper>
         { data.sort((a, b) => parseInt(a.position) - parseInt(b.position)).map((d) => (
           <Attachment
-            key={d.name}
+            key={d.name + d.position}
             name={d.name}
             position={d.position}
             explanationPosition={d.explanationPosition}
+            type={d.fileType}
           />
         ))}
       </AttachmentWrapper>
@@ -67,7 +65,10 @@ const Subtitle = styled.div`
 const AttachmentWrapper = styled.div`
   display: flex;
   padding-top: 12px;
+  flex-wrap: wrap;
+
   > div {
+    margin-bottom: 18px;
     margin-right: 8px;
   }
 `

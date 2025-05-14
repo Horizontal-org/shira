@@ -1,7 +1,8 @@
 import { FunctionComponent } from 'react'
-import Gmail from '../../../Apps/Gmail';
 import { Explanation } from '../../../../domain/explanation';
 import useParseHTML from '../../../../hooks/useParseHTML';
+import { useStore } from '../../../../store';
+import { Gmail } from '@shira/ui';
 
 interface Props {
   content: string;
@@ -19,12 +20,21 @@ export const MailApps: FunctionComponent<Props> = ({ content, name, explanations
     parseContent, 
   } = useParseHTML(content)
 
+  const { persistedEmail, persistedName } = useStore(
+    (state) => ({
+      persistedName: state.setup.name,
+      persistedEmail: state.setup.email,
+    })
+  )
+  
   return (
     <>
       { name === 'Gmail' && (
         <Gmail 
           senderName={parseCustomElement('component-required-sender-name')}
           senderEmail={parseCustomElement('component-required-sender-email')}
+          receiverEmail={persistedEmail}
+          receiverName={persistedName}
           subject={parseCustomElement('component-optional-subject')}
           content={parseContent()}
           attachments={parseAttachments()}

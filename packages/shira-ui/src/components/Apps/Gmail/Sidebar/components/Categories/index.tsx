@@ -3,7 +3,7 @@ import { styled } from '@shira/ui'
 
 import ChevronDown from '../../assets/arrow_drop_down.png'
 
-import InboxIcon from '../../assets/inbox.png'
+import InboxIcon from '../../assets/blueinbox.png'
 import StarIcon from '../../assets/star.png'
 import ScheduleIcon from '../../assets/schedule.png'
 import SentIcon from '../../assets/sent.png'
@@ -138,8 +138,8 @@ const MailCategory = styled.div`
 `
 
 const SelectedMailCategory = styled(MailCategory)`
-  background: #fce8e6;
-  color: #d93025;
+  background: #C2E7FF;
+  color: #001d35;
   font-weight: bold;
   display: flex; 
   justify-content: space-between;
@@ -154,15 +154,15 @@ const SelectedMailCategory = styled(MailCategory)`
   }
 
   > span {
-    color: #d93025;
+    color: #001d35;
   }
   
   &:hover {
-    background-color: #fce8e6;
+    background: #C2E7FF;
   }
 
   &:active {
-    background-color: #fce8e6;;
+    background: #C2E7FF;
   }
 `
 
@@ -178,7 +178,6 @@ const MailCategoryIcon = styled('div')<MailCategoryIconProps>`
   width: 20px;
   height: 20px;
   margin-right: 18px;
-  opacity: .71;
 `
 
 export default Categories

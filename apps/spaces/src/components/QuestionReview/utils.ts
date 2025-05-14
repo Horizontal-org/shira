@@ -8,7 +8,8 @@ const parseAttachments = (html: Document) => {
     return {
       name: a.textContent,
       position: a.getAttribute('data-position'),
-      explanationPosition: a.getAttribute('data-explanation')
+      explanationPosition: a.getAttribute('data-explanation'),
+      fileType: a.getAttribute('data-attachment-type')
     }
   })
 

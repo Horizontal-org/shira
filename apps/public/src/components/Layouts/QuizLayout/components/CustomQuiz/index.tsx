@@ -54,6 +54,7 @@ export const CustomQuiz:FunctionComponent<Props> = ({
         />
       ) : (
         <QuizInstructions 
+          count={questions ? questions.length : 0}
           onNext = {() => {
             handleStarted(true)             
           }}

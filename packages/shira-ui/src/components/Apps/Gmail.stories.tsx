@@ -33,11 +33,14 @@ export const Default: Story = {
       textContent: 'juan@wearehorizontal.org',
       explanationPosition: null
     },
+    receiverEmail: 'gus@wearehorizontal.org',
+    receiverName: 'Gus',
     subject: {
       textContent: 'Im gonna phish you!',
       explanationPosition: null
     },
-    content: document.createElement('div'),
+    // content: document.createElement('div'),
+    content: null,
     attachments: [
       {
         name: 'at.txt',
@@ -52,4 +55,89 @@ export const Default: Story = {
     explanations: []
   },
 };
+
+export const LongSubject: Story = {
+  args: {
+    senderName: {
+      textContent: 'Juan',
+      explanationPosition: null
+    },
+    senderEmail: {
+      textContent: 'juan@wearehorizontal.org',
+      explanationPosition: null
+    },
+    receiverEmail: 'gus@wearehorizontal.org',
+    receiverName: 'Gus',
+    subject: {
+      textContent: 'This is a long subject, a very long subject, a very very very long subject, a super very mega very super long subject.',
+      explanationPosition: null
+    },
+    // content: document.createElement('div'),
+    content: null,
+    attachments: [
+      {
+        name: 'at.txt',
+        position: '1'
+      },
+      {
+        name: 'at2.pdf',
+        position: '2'
+      }
+    ],
+    explanationNumber: 0,
+    explanations: []
+  },
+};
+
+
+export const AttachmentTypes: Story = {
+  args: {
+    senderName: {
+      textContent: 'Juan',
+      explanationPosition: null
+    },
+    senderEmail: {
+      textContent: 'juan@wearehorizontal.org',
+      explanationPosition: null
+    },
+    receiverEmail: 'gus@wearehorizontal.org',
+    receiverName: 'Gus',
+    subject: {
+      textContent: 'This is a subject',
+      explanationPosition: null
+    },
+    // content: document.createElement('div'),
+    content: null,
+    attachments: [
+      {
+        name: 'at.txt',
+        position: '1',
+        fileType: 'image'
+      },
+      {
+        name: 'at2.pdf',
+        position: '2',
+        fileType: 'video'
+      },
+      {
+        name: 'at2.pdf',
+        position: '2',
+        fileType: 'audio'
+      },
+      {
+        name: 'at2.pdf',
+        position: '2',
+        fileType: 'document'
+      },
+      {
+        name: 'at2.pdf',
+        position: '2',
+        fileType: 'other'
+      }
+    ],
+    explanationNumber: 0,
+    explanations: []
+  },
+};
+
 

@@ -5,6 +5,7 @@ import Header from './Header'
 import Sidebar from "./Sidebar"
 import MailOptions from "./MailOptions"
 import Applications from "./Applications"
+
 // google font 
 import '../../../fonts/GoogleSans/style.css'
 import { Profile } from "./Profile"
@@ -17,12 +18,21 @@ interface CustomElements {
   explanationPosition: string | null
 }
 
+export interface AttachmentElement { 
+  name: string;
+  position: string;
+  explanationPosition?: string | null;
+  fileType?: string;    
+}
+
 interface Props {
   content: HTMLElement;
   senderName: CustomElements;
   senderEmail: CustomElements;
+  receiverName?: string;
+  receiverEmail?: string;
   subject?: CustomElements;
-  attachments?: any[];
+  attachments?: AttachmentElement[];
   explanations?: Explanation[]
   explanationNumber?: number;
   showExplanations?: boolean
@@ -32,6 +42,8 @@ export const Gmail: FunctionComponent<Props> = ({
   content,
   senderName,
   senderEmail,
+  receiverEmail,
+  receiverName,
   subject,
   attachments,
   explanations,
@@ -49,9 +61,7 @@ export const Gmail: FunctionComponent<Props> = ({
         />
       ))}
       <Font />
-      <div>
-        <Header />
-      </div>
+      <Header />
       <Content>
         <Sidebar />
         <MiddleWrapper>
@@ -65,14 +75,21 @@ export const Gmail: FunctionComponent<Props> = ({
                   >
                     {subject.textContent}
                   </span>
+                  <InboxLabel>
+                    <InboxLabelText>Inbox</InboxLabelText>
+                    <InboxLabelButton></InboxLabelButton>
+                  </InboxLabel>
                 </Subject>
               )}
               <Profile 
+                receiverEmail={receiverEmail}
+                receiverName={receiverName}
                 senderEmail={senderEmail}
                 senderName={senderName}
+                subject={subject}
               />
               <PaddingLeft>
-                <DynamicContent dangerouslySetInnerHTML={{__html: content.outerHTML}}></DynamicContent>
+                <DynamicContent dangerouslySetInnerHTML={{__html: content ? content.outerHTML : null }}></DynamicContent>
                 {attachments && attachments.length > 0 && (
                   <Attachments
                     data={attachments}
@@ -98,14 +115,23 @@ const DesktopWrapper = styled.div`
   width: 100%;
   height: 100%;
   overflow-x: hidden;
+  background: #F8FAFD;
 `
 
 const Content = styled.div`
   display: flex;
+  padding: 10px 0;
+  box-sizing: border-box;
 `
 
 const MiddleWrapper = styled.div`
   width: 100%;
+  height: 100%;
+  
+  background: white;
+  margin: 0 8px;
+  border-radius: 16px;  
+  padding-bottom: 40px;
 `
 
 const DynamicWrapper = styled.div`
@@ -117,16 +143,67 @@ const Subject = styled.div`
   font-weight: 400;
   font-size: 1.375rem;
   padding: 8px 0 8px 53px;
-  width: max-content;
+
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     padding: 8px 0 8px 8px;
     width: 100%;
   }
 
-  span {
+  > span {
+    text-wrap: wrap;
     position: relative;
+    padding-right: 10px;
+  }
+`
+
+const InboxLabel = styled.div`  
+  display: flex;
+  align-items: center;
+
+  display: inline-block;
+  overflow: hidden;
+  cursor: pointer;
+
+  font-size: .75rem;
+  letter-spacing: normal;
+  cursor: pointer;
+  font-weight: 400;
+  line-height: 18px;
+  white-space: nowrap;
+`
+
+const InboxLabelText = styled.span`
+  display: inline-block;
+  border-radius: 4px 0 0 4px;
+  background: #ddd;
+  color: #666;
+  padding: 0 .1666666667em 0 4px;
+  height: 18px;
+
+  &:hover {
+    background: #666;
+    color: #ddd;
+  }
+`
+
+const InboxLabelButton = styled.span`
+  display: inline-block;
+  border-radius: 0 4px 4px 0;
+  background: #ddd;
+  color: #666;
+  font-size: 15px;
+  padding: 0 4px 0 .1666666667em;
+  height: 18px;
+  vertical-align: bottom;
+  
+  &:before {
+    content: "×";
   }
 
+  &:hover {
+    background: #666;
+    color: #ddd;
+  }
 `
 
 const DynamicContent = styled.div`
@@ -144,4 +221,5 @@ const PaddingLeft = styled.div`
     padding-left: 8px;
   }
 `
+
 export default Gmail

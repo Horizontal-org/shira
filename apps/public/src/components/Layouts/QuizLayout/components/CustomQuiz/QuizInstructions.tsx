@@ -14,10 +14,12 @@ import { Footer } from '../../../../UI/Footer'
 
 interface Props {
   onNext: () => void
+  count: number
 }
 
 export const QuizInstructions:FunctionComponent<Props> = ({
-  onNext
+  onNext,
+  count
 }) => {
   const { width } = useGetWidth()
   const { t } = useTranslation()
@@ -27,7 +29,7 @@ export const QuizInstructions:FunctionComponent<Props> = ({
       <Wrapper>
         <InfoWrapper>
           <Heading>{t('quiz.how_it_works.title')}</Heading>
-            <p>{t('quiz.how_it_works.explanation_1')}</p>
+            <p>{`This quiz contains ${count} questions`}</p>
             <p>{t('quiz.how_it_works.explanation_2')}</p>
 
             <AnswerOptionsWrapper>

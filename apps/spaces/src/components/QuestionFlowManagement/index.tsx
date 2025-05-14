@@ -59,14 +59,10 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
     }
   }, [])
 
-
   const [step, handleStep] = useState(0)  
   const [question, handleQuestion] = useState<QuestionToBe>(initialQuestion)
   const [content, handleContent] = useState(initialContent)
 
-  console.log("QUESTION", question)
-  console.log("🚀 ~ content:", content)
-  
   const validateStep = () => {
     if (step === 0) {
       return question.name.length > 0 && !!(question.app)
@@ -120,7 +116,7 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
                 items={[
                   { text: 'Question info' },
                   { text: 'Content' },
-                  { text: 'Review' }
+                  { text: 'Preview' }
                 ]}
               />
             </ContentHeader>
