@@ -33,6 +33,8 @@ export const Default: Story = {
       textContent: 'juan@wearehorizontal.org',
       explanationPosition: null
     },
+    receiverEmail: 'gus@wearehorizontal.org',
+    receiverName: 'Gus',
     subject: {
       textContent: 'Im gonna phish you!',
       explanationPosition: null
@@ -64,6 +66,8 @@ export const LongSubject: Story = {
       textContent: 'juan@wearehorizontal.org',
       explanationPosition: null
     },
+    receiverEmail: 'gus@wearehorizontal.org',
+    receiverName: 'Gus',
     subject: {
       textContent: 'This is a long subject, a very long subject, a very very very long subject, a super very mega very super long subject.',
       explanationPosition: null

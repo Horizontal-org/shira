@@ -22,6 +22,8 @@ interface Props {
   content: HTMLElement;
   senderName: CustomElements;
   senderEmail: CustomElements;
+  receiverName?: string;
+  receiverEmail?: string;
   subject?: CustomElements;
   attachments?: any[];
   explanations?: Explanation[]
@@ -33,6 +35,8 @@ export const Gmail: FunctionComponent<Props> = ({
   content,
   senderName,
   senderEmail,
+  receiverEmail,
+  receiverName,
   subject,
   attachments,
   explanations,
@@ -73,6 +77,8 @@ export const Gmail: FunctionComponent<Props> = ({
                 </Subject>
               )}
               <Profile 
+                receiverEmail={receiverEmail}
+                receiverName={receiverName}
                 senderEmail={senderEmail}
                 senderName={senderName}
               />

@@ -33,9 +33,9 @@ const Wrapper = styled.div`
   width: 100%;
   justify-content: space-between;
   max-width: 720px;
-  background: #f1f3f4;
+  background: #e9eef6;
   border: 1px solid transparent;
-  border-radius: 8px;
+  border-radius: 24px;
   cursor: pointer;
 `
 
@@ -47,7 +47,7 @@ const Left = styled.div`
 
 const SearchInput = styled.div`
   padding: 0 4px;
-  color: silver;
+  color: #5e5e5e;
 `
 
 export default Search

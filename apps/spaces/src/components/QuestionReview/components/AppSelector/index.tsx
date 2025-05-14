@@ -25,6 +25,8 @@ export const AppSelector: FunctionComponent<Props> = ({
       { appName === 'Gmail' && (
         <Gmail 
           {...customProps}
+          receiverEmail={'useremail@email.com'}
+          receiverName={'User'}
           explanationNumber={explanationNumber}
           explanations={explanations}
           showExplanations={showExplanations}
