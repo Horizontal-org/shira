@@ -55,8 +55,6 @@ export const Gmail: FunctionComponent<Props> = ({
       ))}
       <Font />
       <Header />
-      {/* <div>
-      </div> */}
       <Content>
         <Sidebar />
         <MiddleWrapper>
@@ -81,6 +79,7 @@ export const Gmail: FunctionComponent<Props> = ({
                 receiverName={receiverName}
                 senderEmail={senderEmail}
                 senderName={senderName}
+                subject={subject}
               />
               <PaddingLeft>
                 <DynamicContent dangerouslySetInnerHTML={{__html: content ? content.outerHTML : null }}></DynamicContent>

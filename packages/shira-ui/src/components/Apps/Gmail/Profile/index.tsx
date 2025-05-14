@@ -14,13 +14,15 @@ interface Props {
   senderEmail: CustomElements;
   receiverName?: string;
   receiverEmail?: string;
+  subject?: CustomElements;
 }
 
 export const Profile: FunctionComponent<Props> = ({
   senderName,
   senderEmail,
   receiverName,
-  receiverEmail
+  receiverEmail,
+  subject
 }) => {  
 
   const [isOpen, setIsOpen] = useState(false);
@@ -85,6 +87,12 @@ export const Profile: FunctionComponent<Props> = ({
                   <div>
                     <BoxLeftInfo>to:</BoxLeftInfo>
                     <BoxRightInfo><strong>{receiverName}</strong>{`<${receiverEmail}>`}</BoxRightInfo>
+                  </div>
+                )}
+                { subject && (
+                  <div>
+                    <BoxLeftInfo>subject:</BoxLeftInfo>
+                    <BoxRightInfo>{subject.textContent || ''}</BoxRightInfo>
                   </div>
                 )}
                 <div>
