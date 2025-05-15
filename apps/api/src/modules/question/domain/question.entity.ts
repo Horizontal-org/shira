@@ -85,6 +85,7 @@ export class Question {
   )
   quizQuestions?: QuizQuestion[];
 
+  @Column()
   type: 'demo' | 'quiz';
 
   @CreateDateColumn({ name: 'created_at' })

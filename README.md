@@ -1,3 +1,20 @@
+# for deploying to production
+
+
+`/home/shira should be the location`
+
+### Steps
+
+> you may need to run npm install before in some cases
+
+- `git pull` usually from main
+
+- `./deploy-frontend.sh`
+
+- `./deploy-api.sh`
+
+- if migrations need to be run refer to the api docs for the commands on `./apps/api`
+
 # Turborepo starter with shell commands
 
 This Turborepo starter is maintained by the Turborepo core team. This template is great for issue reproductions and exploring building task graphs without frameworks.

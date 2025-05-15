@@ -54,7 +54,10 @@ export class GenerateQuizQuestionService {
       .andWhere('questionTranslations.languageId = :languageId', {
         languageId,
       })
+      .andWhere('question.type = :type', { type: 'demo' })
       .getMany();
+
+    
 
     const all = quizQuery.map((question) => ({
       id: question.id,
