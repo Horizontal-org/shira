@@ -32,29 +32,41 @@ export class RolesGuard implements CanActivate {
       return false;
     }
 
-    // if doesnt meet role fail request
-    if (!requiredRoles.some((role) => user.role === role) && user.role !== Role.SuperAdmin){
-      return false
+    // super admin bypass role checks
+    if(user.isSuperAdmin) {
+      return true
+    }
+
+    // check if user has active space or organization with required role
+    let hasRequiredRole = false
+    if(user.activeSpace && requiredRoles.includes(user.activeSpace.role)) {
+      hasRequiredRole = true
+    }
+
+    if (user.activeOrganization && requiredRoles.includes(user.activeOrganization.role)) {
+      hasRequiredRole = true
+    }
+    if (!hasRequiredRole) {
+      return false;
     }
     
-    // doesnt have required header then fails 
-    if (!request.headers['x-space']) {
-      // superadmin can access endpoints that don't need x-space
-      if (user.role === Role.SuperAdmin) {
-        return true
+    
+    // check if there's an X-Space header for space related endpoints
+    if(request.headers['x-space']) {
+      const spaceId = parseInt(request.headers['x-space'])
+
+      const space = await this.validateHeader.execute(user.id, spaceId);
+      if(!space) {
+        return false
       }
-      return false
+
+      user.activeSpace = {
+        space: space,
+        role: Role.SpaceAdmin // change this
+      }
+
+      request.user = user
     }
-
-    const space = await this.validateHeader.execute(user.id, parseInt(request.headers['x-space']))  
-
-    // doesnt have access to space then fail
-    if (!space) {
-      return false
-    }
-
-    user.space = space
-    request['user'] = user
     return true
     
   }
