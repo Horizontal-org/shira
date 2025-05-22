@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm'
 import { SpaceEntity } from './space.entity'
 import { UserEntity } from 'src/modules/user/domain/user.entity'
-import { Role } from 'src/modules/user/domain/role.enum'
+import { RoleEntity } from 'src/modules/user/domain/role.entity'
 
 @Entity({ name: 'spaces_users' })
 export class SpaceUserEntity {
@@ -14,13 +14,8 @@ export class SpaceUserEntity {
     @Column({ name: 'space_id' })
     spaceId: number
 
-    @Column({
-        name: 'role_id',
-        type: 'enum',
-        enum: Role,
-        default: Role.SpaceEditor
-    })
-    role: Role
+    @Column({ name: 'role_id' })
+    roleId: number
 
     @ManyToOne(() => UserEntity)
     @JoinColumn({ name: 'user_id' })
@@ -29,6 +24,10 @@ export class SpaceUserEntity {
     @ManyToOne(() => SpaceEntity)
     @JoinColumn({ name: 'space_id' })
     space: SpaceEntity
+
+    @ManyToOne(() => RoleEntity)
+    @JoinColumn({ name: 'role_id' })
+    role: RoleEntity
 
     @Column({ name: 'created_at' })
     createdAt: Date

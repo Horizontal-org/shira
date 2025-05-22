@@ -1,7 +1,7 @@
-import { Role } from "src/modules/user/domain/role.enum"
 import { UserEntity } from "src/modules/user/domain/user.entity"
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from "typeorm"
 import { OrganizationEntity } from "./organization.entity"
+import { RoleEntity } from "src/modules/user/domain/role.entity"
 
 @Entity({ name: 'organization_users' })
 export class OrganizationUsersEntity {
@@ -14,13 +14,8 @@ export class OrganizationUsersEntity {
     @Column({ name: 'organization_id' })
     organizationId: number
 
-    @Column({
-        name: 'role_id',
-        type: 'enum',
-        enum: Role,
-        default: Role.OrganizaitonMember
-    })
-    role: Role
+    @Column({ name: 'role_id' })
+    roleId: number
 
     @ManyToOne(() => UserEntity)
     @JoinColumn({ name: 'user_id' })
@@ -29,6 +24,10 @@ export class OrganizationUsersEntity {
     @ManyToOne(() => OrganizationEntity)
     @JoinColumn({ name: 'organization_id' })
     organization: OrganizationEntity
+
+    @ManyToOne(() => RoleEntity)
+    @JoinColumn({ name: 'role_id' })
+    role: RoleEntity
 
     @Column({ name: 'created_at' })
     createdAt: Date

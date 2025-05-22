@@ -48,50 +48,34 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
     const organizationUsers = await this.orgnizationUsersRepo.find({
       where: { userId: user.id},
-      relations: ['organization']
+      relations: ['organization', 'role']
     })
 
-    console.log(organizationUsers)
     if(organizationUsers && organizationUsers.length >0) {
       const firstOrgUser = organizationUsers[0]
 
-      const roleString = this.convertRoleNumberToEnum(firstOrgUser.role)
       loggedUser.activeOrganization = {
         id: firstOrgUser.organization.id,
         name: firstOrgUser.organization.name,
-        role: roleString
+        role: firstOrgUser.role.name as Role
       }
     }
-    console.log(organizationUsers)
 
     // get space_users
     const spaceUsers = await this.spaceUsersRepo.find({
       where: { userId: user.id },
-      relations: ['space']
+      relations: ['space', 'role']
     })
 
     if(spaceUsers && spaceUsers.length > 0) {
       const firstSpaceUser = spaceUsers[0] // for now let's just use the first one
       
-      const roleString = this.convertRoleNumberToEnum(firstSpaceUser.role);
       loggedUser.activeSpace = {
         space: firstSpaceUser.space,
-        role: roleString
+        role: firstSpaceUser.role.name as Role
       }
     }
 
     return loggedUser;
-  }
-
-  private convertRoleNumberToEnum(roleNumber: number): Role {
-    const roleMap = {
-      1: Role.OrganizationAdmin,
-      2: Role.OrganizaitonMember,
-      3: Role.SpaceAdmin,
-      4: Role.SpaceEditor,
-      5: Role.SuperAdmin
-    }
-    
-    return roleMap[roleNumber] || Role.SpaceEditor
   }
 }
