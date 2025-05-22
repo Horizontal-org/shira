@@ -16,6 +16,8 @@ import { SpaceEntity } from '../space/domain/space.entity';
 import { PassphraseEntity } from '../passphrase/domain/passphrase.entity';
 import { UserEntity } from '../user/domain/user.entity';
 import { SpaceUserEntity } from '../space/domain/space-users.entity';
+import { OrganizationUsersEntity } from '../organization/domain/organization_users.entity';
+
 @Module({
   imports: [
     JwtModule.register({
@@ -30,7 +32,8 @@ import { SpaceUserEntity } from '../space/domain/space-users.entity';
       SpaceEntity,
       PassphraseEntity,
       UserEntity,
-      SpaceUserEntity
+      SpaceUserEntity,
+      OrganizationUsersEntity
   ]),
   ],
   controllers: [...authControllers],

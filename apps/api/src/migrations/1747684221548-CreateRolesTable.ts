@@ -97,10 +97,6 @@ export class CreateRolesTable1747684221548 implements MigrationInterface {
             })
         );
 
-        // Optional: Migrate back based on user role (if needed)
-        // await queryRunner.query(...)
-
-        // --- 3. Drop roles index and table ---
         await queryRunner.dropIndex("roles", "IDX_ROLE_NAME_SCOPE")
         await queryRunner.dropTable("roles")
     }

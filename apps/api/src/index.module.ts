@@ -19,7 +19,7 @@ import { SpaceModule } from './modules/space/space.module';
 import { QueueModule } from './modules/queue/queue.module';
 import { EmailModule } from './modules/email/email.module';
 import { QuizModule } from './modules/quiz/quiz.module';
-
+import { OrganizationModule } from './modules/organization/organization.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -37,7 +37,8 @@ import { QuizModule } from './modules/quiz/quiz.module';
     TranslationModule,
     LanguageModule,
     PassphraseModule,
-    QuizModule
+    QuizModule,
+    OrganizationModule
   ],
   controllers: [IndexController],
   providers: [IndexService],
