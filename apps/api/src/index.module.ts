@@ -20,6 +20,8 @@ import { QueueModule } from './modules/queue/queue.module';
 import { EmailModule } from './modules/email/email.module';
 import { QuizModule } from './modules/quiz/quiz.module';
 import { OrganizationModule } from './modules/organization/organization.module';
+import { BillingModule } from './modules/billing/billing.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -38,7 +40,8 @@ import { OrganizationModule } from './modules/organization/organization.module';
     LanguageModule,
     PassphraseModule,
     QuizModule,
-    OrganizationModule
+    OrganizationModule,
+    BillingModule
   ],
   controllers: [IndexController],
   providers: [IndexService],
