@@ -1,9 +1,9 @@
-import { Column, Entity, PrimaryColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from "typeorm";
+import { Column, Entity, PrimaryColumn, CreateDateColumn, UpdateDateColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { SubscriptionEntity } from "./subscription.entity";
 
 @Entity({ name: 'plans' })
 export class PlanEntity {
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn()
     id: number
 
     @Column({ name: 'stripe_plan_id', length: 255, nullable: true })
