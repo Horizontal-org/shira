@@ -10,6 +10,9 @@ export class OrganizationSubscriptionsEntity {
     @Column({ name: 'organization_id'})
     organizationId: number
 
+    @Column({ name: 'subscription_id'})
+    subscriptionId: number
+
     @ManyToOne(() => OrganizationEntity, (org) => org.organizationSubscriptions)
     @JoinColumn({ name: 'organization_id' })
     organization: OrganizationEntity
