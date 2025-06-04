@@ -17,6 +17,9 @@ import { servicesBillingProviders } from './billing.providers';
     ],
     controllers: [...billingControllers],
     providers: [...servicesBillingProviders],
-    exports: [TypeOrmModule]
+    exports: [
+        ...servicesBillingProviders,
+        TypeOrmModule
+    ]
 })
 export class BillingModule {}
