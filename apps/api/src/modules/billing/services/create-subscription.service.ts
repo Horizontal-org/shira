@@ -1,7 +1,7 @@
 import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 import { ICreateSubscriptionService } from "../interfaces";
 import { InjectRepository } from "@nestjs/typeorm";
-import { SubscriptionEntity } from "../domain/subscription.entity";
+import { SubscriptionEntity, SubscriptionStatus } from "../domain/subscription.entity";
 import { CreateSubscriptionDTO } from "../dto/create-subscription.dto";
 import { PlanEntity } from "../domain/plan.entity";
 import { OrganizationEntity } from "src/modules/organization/domain/organization.entity";
@@ -45,7 +45,7 @@ export class CreateSubscriptionService implements ICreateSubscriptionService {
             .innerJoin('orgSub.subscription', 'subscription')
             .where('orgSub.organizationId = :organizationId', { organizationId })
             .andWhere('subscription.status IN (:...activeStatuses)', {
-                activeStatuses: ['active', 'trialing']
+                activeStatuses: [SubscriptionStatus.ACTIVE, SubscriptionStatus.TRIALING]
             })
             .getOne()
 
@@ -56,7 +56,7 @@ export class CreateSubscriptionService implements ICreateSubscriptionService {
         // create sub
         const subscription = this.subscriptionRepository.create({
             planId,
-            status: subscriptionData.status || 'trialing',
+            status: subscriptionData.status || SubscriptionStatus.TRIALING,
             stripeSubscriptionId: subscriptionData.stripeSubscriptionId,
             startDate: subscriptionData.startDate ? new Date(subscriptionData.startDate) : new Date(),
             endDate: subscriptionData.endDate ? new Date(subscriptionData.endDate) : null,

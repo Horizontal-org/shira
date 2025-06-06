@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { PlanEntity } from "src/modules/billing/domain/plan.entity";
+import { PlanEntity, PlanInterval, PlanName } from "src/modules/billing/domain/plan.entity";
 import { Repository } from "typeorm";
 
 @Injectable()
@@ -20,24 +20,24 @@ export class PlanSeederService {
         // this is just a starter seed, we'll change this eventually
         await this.planRepository.save([
             {
-                name: 'Starter',
+                name: PlanName.STARTER,
                 price: 0.00,
                 currency: 'USD',
-                interval: 'month' as const,
+                interval: PlanInterval.MONTH,
                 stripePlanId: null,
             },
             {
-                name: 'Pro',
+                name: PlanName.PROFESSIONAL,
                 price: 99.00,
                 currency: 'USD',
-                interval: 'month' as const,
+                interval: PlanInterval.MONTH,
                 stripePlanId: null,
             },
             {
-                name: 'Enterprise',
+                name: PlanName.ENTERPRISE,
                 price: 999.00,
                 currency: 'USD',
-                interval: 'month' as const,
+                interval: PlanInterval.MONTH,
                 stripePlanId: null,
             },
         ])

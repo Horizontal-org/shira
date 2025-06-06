@@ -13,8 +13,9 @@ import { ICreateSubscriptionService } from "../../billing/interfaces";
 import { hashPassword } from "src/utils/password.utils";
 import { Role } from "src/modules/user/domain/role.enum";
 import { InjectRepository } from "@nestjs/typeorm";
-import { PlanEntity } from "src/modules/billing/domain/plan.entity";
+import { PlanEntity, PlanName } from "src/modules/billing/domain/plan.entity";
 import { Repository } from "typeorm";
+import { SubscriptionStatus } from "src/modules/billing/domain/subscription.entity";
 
 export class SpaceRegistrationAuthService implements ISpaceRegistrationAuthService {
   constructor(
@@ -65,7 +66,7 @@ export class SpaceRegistrationAuthService implements ISpaceRegistrationAuthServi
       })
 
       const starterPlan = await this.planRepository.findOne({
-        where: { name: 'Starter'} // create an enum for this
+        where: { name: PlanName.STARTER } // create an enum for this
       })
 
       if(!starterPlan) {
@@ -75,7 +76,7 @@ export class SpaceRegistrationAuthService implements ISpaceRegistrationAuthServi
       await this.createSubscriptionService.execute({
         organizationId: organization.id,
         planId: starterPlan.id,
-        status: 'trialing',
+        status: SubscriptionStatus.TRIALING,
         trialEndDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
       })
       

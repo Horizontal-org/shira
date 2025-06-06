@@ -1,4 +1,5 @@
 import { IsNotEmpty, IsNumber, IsOptional, IsString, IsEnum, IsDateString } from "class-validator";
+import { SubscriptionStatus } from "../domain/subscription.entity";
 
 export class CreateSubscriptionDTO {
     @IsNumber()
@@ -14,8 +15,8 @@ export class CreateSubscriptionDTO {
     stripeSubscriptionId?: string
 
     @IsOptional()
-    @IsEnum(['active', 'trialing', 'canceled', 'past_due', 'paused'])
-    status?: 'active' | 'trialing' | 'canceled' | 'past_due' | 'paused'
+    @IsEnum(SubscriptionStatus)
+    status?: SubscriptionStatus
 
     @IsOptional()
     @IsDateString()

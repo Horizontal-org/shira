@@ -1,6 +1,18 @@
 import { Column, Entity, PrimaryColumn, CreateDateColumn, UpdateDateColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { SubscriptionEntity } from "./subscription.entity";
 
+export enum PlanName {
+  STARTER = 'Starter',
+  PROFESSIONAL = 'Professional',
+  ENTERPRISE = 'Enterprise'
+}
+
+export enum PlanInterval {
+  MONTH = 'month',
+  YEAR = 'year'
+}
+
+
 @Entity({ name: 'plans' })
 export class PlanEntity {
     @PrimaryGeneratedColumn()
@@ -18,8 +30,8 @@ export class PlanEntity {
     @Column({ length: 3, default: 'USD' })
     currency: string
 
-    @Column({ type: 'enum', enum: ['month', 'year'] })
-    interval: 'month' | 'year'
+    @Column({ type: 'enum', enum: PlanInterval })
+    interval: PlanInterval
 
     @OneToMany(() => SubscriptionEntity, (subscription) => subscription.plan)
     subscriptions: SubscriptionEntity[]

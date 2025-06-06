@@ -2,6 +2,14 @@ import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn, JoinColu
 import { PlanEntity } from "./plan.entity";
 import { OrganizationSubscriptionsEntity } from "src/modules/organization/domain/organization_subscriptions.entity";
 
+export enum SubscriptionStatus {
+  ACTIVE = 'active',
+  TRIALING = 'trialing',
+  CANCELED = 'canceled',
+  PAST_DUE = 'past_due',
+  PAUSED = 'paused'
+}
+
 @Entity({ name: 'subscriptions'})
 export class SubscriptionEntity {
     @PrimaryGeneratedColumn()
@@ -15,10 +23,10 @@ export class SubscriptionEntity {
 
     @Column({ 
         type: 'enum', 
-        enum: ['active', 'trialing', 'canceled', 'past_due', 'paused'],
-        default: 'trialing'
+        enum: SubscriptionStatus,
+        default: SubscriptionStatus.TRIALING
     })
-    status: 'active' | 'trialing' | 'canceled' | 'past_due' | 'paused'
+    status: SubscriptionStatus
 
     @Column({ name: 'start_date', type: 'timestamp', default: () => 'NOW()' })
     startDate: Date
