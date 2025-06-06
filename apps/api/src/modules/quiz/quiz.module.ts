@@ -20,6 +20,7 @@ import { App } from '../app/domain';
 import { EditQuestionQuizController } from './controller/edit-question.quiz.controller';
 import { DeleteQuestionQuizController } from './controller/delete-question.quiz.controller';
 import { ReorderQuestionQuizController } from './controller/reorder-question.quiz.controller';
+import { QuestionImage } from '../question_image/domain';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { ReorderQuestionQuizController } from './controller/reorder-question.qui
         QuestionTranslation,
         ExplanationTranslation,
         Language,
+        QuestionImage,
         App
     ]),
   ],

@@ -19,6 +19,8 @@ import { SpaceModule } from './modules/space/space.module';
 import { QueueModule } from './modules/queue/queue.module';
 import { EmailModule } from './modules/email/email.module';
 import { QuizModule } from './modules/quiz/quiz.module';
+import { QuestionImageModule } from './modules/question_image/question_image.module';
+import { ImageModule } from './modules/image/image.module';
 
 @Module({
   imports: [
@@ -27,10 +29,12 @@ import { QuizModule } from './modules/quiz/quiz.module';
     AppModule,
     SpaceModule,
     QueueModule,
+    ImageModule,
     EmailModule,
     ConsoleModule,
     FieldOfWorkModule,
     QuestionModule,
+    QuestionImageModule,
     UserModule,
     AuthModule,
     SurveyModule,

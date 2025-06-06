@@ -14,10 +14,12 @@ import { CreateQuestionService } from './services/create.question.service';
 import { GenerateQuizQuestionService } from './services/quiz.question.service';
 import { ParserQuestionService } from './services/individualParser.question.service';
 import { GlobalParserQuestionService } from './services/globalParser.question.service';
+import { QuestionImage } from '../question_image/domain';
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       QuestionEntity,
+      QuestionImage,
       AppEntity,
       FieldOfWorkEntity,
       ExplanationEntity,

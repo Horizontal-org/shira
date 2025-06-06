@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { QuizQuestion } from './quizzes_questions.entity';
 import { SpaceEntity } from 'src/modules/space/domain/space.entity';
+import { QuestionImage } from 'src/modules/question_image/domain';
 
 @Exclude()
 @Entity({ name: 'quizzes' })
@@ -37,6 +38,13 @@ export class Quiz {
   )
   quizQuestions: QuizQuestion[];
 
+  @OneToMany(
+    () => QuestionImage,
+    (questionImage: QuestionImage) =>
+      questionImage.quiz,
+  )
+  images?: QuestionImage[];
+  
 
   @ManyToOne(() => SpaceEntity, (space: SpaceEntity) => space.quizzes)
   @JoinColumn({ name: 'space_id' })
