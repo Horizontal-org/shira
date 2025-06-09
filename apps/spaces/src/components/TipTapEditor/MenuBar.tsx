@@ -1,14 +1,12 @@
-import React, { ChangeEvent, FormEventHandler, useEffect } from 'react'
+import { ChangeEvent } from 'react'
 import { ExplanationIcon, styled } from '@shira/ui'
 
 import { FiBold, FiItalic, FiCode, FiList, FiLink, FiUnderline } from 'react-icons/fi'
 import { TbStrikethrough } from 'react-icons/tb'
-import { HiOutlineChatBubbleBottomCenter } from 'react-icons/hi2'
 import { MdClear, MdHorizontalRule, MdFormatColorText } from 'react-icons/md'
 import { BsBlockquoteRight } from "react-icons/bs";
 import { GoListOrdered } from "react-icons/go";
 import { GrBlockQuote } from "react-icons/gr";
-import { FaUndo, FaRedo } from "react-icons/fa";
 import { shallow } from 'zustand/shallow'
 import { useStore } from '../../store'
 
@@ -28,6 +26,15 @@ export const MenuBar = ({ editor, setLink }) => {
     return null
   }
 
+  const hasSelection = () => {
+    const { from, to } = editor.state.selection
+
+    return from !== to
+  }
+
+  const canAddExplanation = () => {
+    return hasSelection() && !editor.isActive('explanation')
+  }
   
 
   return (
@@ -174,13 +181,15 @@ export const MenuBar = ({ editor, setLink }) => {
 
       <ExplanationIconWrapper
         onClick={() => {
-          const newIndex = explanationIndex + 1
-          editor.chain().focus().setExplanation({
-            'data-explanation': newIndex,
-          }).run()
-          addExplanation(newIndex)
+          if(canAddExplanation()) {
+            const newIndex = explanationIndex + 1
+            editor.chain().focus().setExplanation({
+              'data-explanation': newIndex,
+            }).run()
+            addExplanation(newIndex)
+          }
         }}
-        disabled={editor.isActive('explanation')}
+        disabled={!canAddExplanation()}
       >
         <ExplanationIcon />
       </ExplanationIconWrapper>
@@ -358,11 +367,14 @@ const ExplanationIconWrapper = styled.div<StyledIconWrapper>`
   align-items: center;
 
   &:hover {
-    background: #eee;
+    background: ${props => props.disabled ? 'transparent' : '#eee'};
   }
 
-`
+  ${props => props.disabled && `
+    cursor: not-allowed;
+  `}
 
+`
 
 const Heading = styled.div<StyledIconWrapper>`
   margin-right: 8px;
