@@ -1,5 +1,5 @@
 import { createGlobalStyle, styled } from '@shira/ui'
-import { EditorProvider, FloatingMenu, BubbleMenu, useEditor, EditorContent } from '@tiptap/react'
+import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { MenuBar } from './MenuBar'
 import { useCallback, useEffect } from 'react'
@@ -45,18 +45,46 @@ const markExplanations = (editorId, selectedExplanation) => {
 
 
 const cleanDeletedExplanations = (editor, deleteIndex) => {
-  if (editor) {
-    editor.state.doc.descendants((node, pos) => {
-      node.marks.forEach(mark => {
-        if (mark.attrs['data-explanation']) {
-          if (mark.attrs['data-explanation'] === +deleteIndex) {
-            editor.chain().focus().setTextSelection(pos + 1).run()
-            editor.chain().focus().unsetExplanation().run()
-          }
-        }
-      })
+  if (!editor) return
+  
+  const { tr } = editor.state
+  let hasChanges = false
+
+  editor.state.doc.descendants((node, pos) => {
+    if(!node.isText) return
+
+    node.marks.forEach(mark => {
+      if(mark.attrs['data-explanation'] === +deleteIndex) {
+        tr.removeMark(pos, pos + node.nodeSize, mark.type)
+        hasChanges = true
+      }
     })
-  }  
+  })
+
+  if(hasChanges) {
+    editor.view.dispatch(tr)
+  }
+}
+
+const cleanupOrphanedExplanations = (editor, explanations, deleteExplanation) => {
+  if(!editor) return
+  
+  const activeExplanationIndexes = new Set()
+
+  editor.state.doc.descendants((node) => {
+    node.marks.forEach(mark => {
+      if(mark.attrs['data-explanation']) {
+        activeExplanationIndexes.add(parseInt(mark.attrs['data-explanation']))
+      }
+    })
+  })
+
+  const orphanedExplanations = explanations.filter(explanation => !activeExplanationIndexes.has(explanation.index)) 
+
+  orphanedExplanations.forEach(orphan => {
+    console.log(`Cleaning up orphaned explanation from email editor: ${orphan.index}`)
+    deleteExplanation(orphan.index)
+  })
 }
 
 interface Props {
@@ -66,14 +94,16 @@ export const EmailTipTapEditor = ({
   onChange,
   initialContent = null
 }) => {
-
-
   const {
     changeSelected,
     selectedExplanation,
+    storeExplanations,
+    deleteExplanation
   } = useStore((state) => ({
     changeSelected: state.changeSelected,
     selectedExplanation: state.selectedExplanation,
+    storeExplanations: state.explanations,
+    deleteExplanation: state.deleteExplanation
   }), shallow)
 
   // const editorId = `component-text-${componentId}`
@@ -106,16 +136,24 @@ export const EmailTipTapEditor = ({
     content: initialContent ?? null,
     onSelectionUpdate(props) {      
       if (props.editor.isActive('explanation')) {
-        props.editor.commands.extendMarkRange('explanation')
+        // props.editor.commands.extendMarkRange('explanation')
         const dataIndex = props.editor.getAttributes('explanation')['data-explanation']
         if (dataIndex !== selectedExplanation) {
           changeSelected(dataIndex)
+        }
+      } else {
+        if(selectedExplanation !== null) {
+          changeSelected(null)
         }
       }
     },
     onUpdate(props) {
       console.log('ON CHANGE')
-      onChange(props.editor.getHTML())      
+      onChange(props.editor.getHTML())
+      
+      setTimeout(() => {
+        cleanupOrphanedExplanations(props.editor, storeExplanations, deleteExplanation)
+      }, 100)
     },
     onCreate(props) {
       // handleRawHtml(props.editor.getHTML())
@@ -255,6 +293,35 @@ const EditorStyles = createGlobalStyle`
     height: 0;
     pointer-events: none;
   }
+
+  mark[data-explanation] {
+    background: #F3F9CF;
+    padding: 1px 2px;
+    border-radius: 2px;
+    
+    /* Allow cursor placement at boundaries */
+    position: relative;
+    
+    &.mark-active {
+      background: #FCC934;
+    }
+  }
+
+  .ProseMirror-gapcursor {
+    display: block;
+    pointer-events: none;
+    position: relative;
+  }
+
+  .ProseMirror-gapcursor:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: -2px;
+    width: 20px;
+    border-top: 1px solid black;
+    animation: ProseMirror-cursor-blink 1.1s steps(2, start) infinite;
+  }
 }
 
 /* explanations */
@@ -275,16 +342,10 @@ button {
   accent-color: black;
 }
 
-mark {
-  background: #F3F9CF
-}
-  
-.mark-active {
-  background: #FCC934;
-}
-
-.mark-normal {
-  background: green;
+@keyframes ProseMirror-cursor-blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
 }
 `
 
