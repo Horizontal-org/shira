@@ -25,7 +25,6 @@ export const ImageWithExplanation = Image.extend({
       img.style.maxWidth = '100%'
       img.style.height = 'auto'
       
-      // Add explanation indicator if image has explanation
       if (node.attrs['data-explanation']) {
         img.style.border = '2px solid #F3F9CF'
         img.style.borderRadius = '4px'
@@ -33,7 +32,6 @@ export const ImageWithExplanation = Image.extend({
         img.setAttribute('data-explanation', node.attrs['data-explanation'])
       }
 
-      // Handle click to select image for explanation
       img.addEventListener('click', () => {
         if (typeof getPos === 'function') {
           const pos = getPos()
@@ -48,8 +46,7 @@ export const ImageWithExplanation = Image.extend({
           if (updatedNode.type.name !== 'image') return false
           img.src = updatedNode.attrs.src
           img.alt = updatedNode.attrs.alt || ''
-          
-          // Update explanation styling
+
           if (updatedNode.attrs['data-explanation']) {
             img.style.border = '2px solid #F3F9CF'
             img.style.borderRadius = '4px'

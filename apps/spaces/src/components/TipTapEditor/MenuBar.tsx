@@ -1,12 +1,33 @@
 import { ChangeEvent } from 'react'
-import { ExplanationIcon, styled } from '@shira/ui'
+import { ExplanationIcon } from '@shira/ui'
 
 import { FiBold, FiItalic, FiCode, FiList, FiLink, FiUnderline, FiImage } from 'react-icons/fi'
-import { TbStrikethrough } from 'react-icons/tb'
+import { 
+  TbStrikethrough, 
+  TbTablePlus, 
+  TbTableMinus,
+  TbColumnInsertLeft,
+  TbColumnInsertRight,
+  TbColumnRemove 
+} from 'react-icons/tb'
 import { MdClear, MdHorizontalRule, MdFormatColorText } from 'react-icons/md'
-import { BsBlockquoteRight } from "react-icons/bs";
 import { GoListOrdered } from "react-icons/go";
 import { GrBlockQuote } from "react-icons/gr";
+import { 
+  AiOutlineInsertRowAbove, 
+  AiOutlineInsertRowBelow, 
+  AiOutlineDeleteRow,
+} from "react-icons/ai";
+import {
+  MenuWrapper,
+  IconWrapper,
+  FillIconWrapper,
+  Heading,
+  Separate,
+  InputColorWrapper,
+  InputColor,
+  ExplanationIconWrapper
+} from './styles/MenuBarStyles'
 
 interface MenuBarProps {
   editor: any
@@ -20,6 +41,20 @@ interface MenuBarProps {
   isTextExplanationActive?: boolean
   onAddImageExplanation?: () => void
   onRemoveImageExplanation?: () => void
+
+  isInTable?: boolean
+  isTableCellSelected?: boolean
+  selectedTableCellHasExplanation?: boolean
+  onInsertTable?: (rows?: number, cols?: number, withHeaderRow?: boolean) => void
+  onAddTableCellExplanation?: () => void
+  onRemoveTableCellExplanation?: () => void
+  onAddRowAbove?: () => void
+  onAddRowBelow?: () => void
+  onDeleteRow?: () => void
+  onAddColumnLeft?: () => void
+  onAddColumnRight?: () => void
+  onDeleteColumn?: () => void
+  onDeleteTable?: () => void
 }
 
 export const MenuBar = ({ 
@@ -34,6 +69,20 @@ export const MenuBar = ({
   isTextExplanationActive = false,
   onAddImageExplanation,
   onRemoveImageExplanation,
+
+  isInTable = false,
+  isTableCellSelected = false,
+  selectedTableCellHasExplanation = false,
+  onInsertTable,
+  onAddTableCellExplanation,
+  onRemoveTableCellExplanation,
+  onAddRowAbove,
+  onAddRowBelow,
+  onDeleteRow,
+  onAddColumnLeft,
+  onAddColumnRight,
+  onDeleteColumn,
+  onDeleteTable,
 }: MenuBarProps) => {
 
   if (!editor) {
@@ -178,6 +227,68 @@ export const MenuBar = ({
 
       <Separate />
 
+      {!isInTable && (
+        <IconWrapper 
+          onClick={() => onInsertTable?.(3, 3, true)}
+          title="Insert Table"
+        >
+          <TbTablePlus size={18} />
+        </IconWrapper>
+      )}
+
+      {isInTable && (
+        <>
+          <IconWrapper 
+            onClick={onAddRowAbove}
+            title="Add Row Above"
+          >
+            <AiOutlineInsertRowAbove size={18} />
+          </IconWrapper>
+
+          <IconWrapper 
+            onClick={onAddRowBelow}
+            title="Add Row Below"
+          >
+            <AiOutlineInsertRowBelow size={18} />
+          </IconWrapper>
+
+          <IconWrapper 
+            onClick={onDeleteRow}
+            title="Delete Row"
+          >
+            <AiOutlineDeleteRow size={18} />
+          </IconWrapper>
+
+          <IconWrapper 
+            onClick={onAddColumnLeft}
+            title="Add Column Left"
+          >
+            <TbColumnInsertLeft size={18} />
+          </IconWrapper>
+
+          <IconWrapper 
+            onClick={onAddColumnRight}
+            title="Add Column Right"
+          >
+            <TbColumnInsertRight size={18} />
+          </IconWrapper>
+
+          <IconWrapper 
+            onClick={onDeleteColumn}
+            title="Delete Column"
+          >
+            <TbColumnRemove size={18} />
+          </IconWrapper>
+
+          <IconWrapper 
+            onClick={onDeleteTable}
+            title="Delete Table"
+          >
+            <TbTableMinus size={18} />
+          </IconWrapper>
+        </>
+      )}
+
       <ExplanationIconWrapper
         onClick={onAddTextExplanation}
         disabled={!canAddTextExplanation}
@@ -220,185 +331,31 @@ export const MenuBar = ({
           )}
         </>
       )}
+
+      {isTableCellSelected && (
+        <>
+          <Separate />
+          
+          {!selectedTableCellHasExplanation ? (
+            <ExplanationIconWrapper
+              onClick={onAddTableCellExplanation}
+              title="Add table cell explanation"
+            >
+              <ExplanationIcon />
+              <span style={{ fontSize: '10px', marginLeft: '2px' }}>TBL</span>
+            </ExplanationIconWrapper>
+          ) : (
+            <ExplanationIconWrapper
+              onClick={onRemoveTableCellExplanation}
+              title="Remove table cell explanation"
+            >
+              <ExplanationIcon />
+              <MdClear color='#e91e63' size={14}/>
+            </ExplanationIconWrapper>
+          )}
+        </>
+      )}
+
     </MenuWrapper>
   )
 }
-
-
-interface StyledIconWrapper {
-  active?: boolean
-  disabled?: boolean
-}
-
-const MenuWrapper = styled.div`
-  padding: 8px;
-  background: white;
-  border-radius: 6px;
-  margin-top: 4px;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-`
-
-
-const IconWrapper = styled.div<StyledIconWrapper>`
-  margin-right: 8px;
-  padding: 4px;
-  cursor: pointer;
-  transition: 0.2s all;
-  border-radius: 4px;
-  height: 20px;
-  width: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  &:hover {
-    background: #eee;
-    > svg {
-      stroke: #424242;
-    }
-  }
-
-  > svg {
-    stroke: #aaa;
-  }
-
-  ${props => props.active && `
-    > svg {
-      stroke: ${props.theme.secondary.dark};
-    }
-
-    &:hover {
-      > svg {
-        stroke: ${props.theme.secondary.dark};
-      }
-    }
-  `}
-`
-
-const FillIconWrapper = styled(IconWrapper)<StyledIconWrapper>`
-
-  &:hover {
-    background: #eee;
-    > svg {
-      fill: #424242;
-    }
-  }
-
-  > svg {
-    fill: #aaa;
-  }
-
-  ${props => props.active && `
-    > svg {
-      fill: ${props.theme.secondary.dark};
-    }
-
-    &:hover {
-      > svg {
-        fill: ${props.theme.secondary.dark};
-      }
-    }
-  `}
-`
-
-const InputColorWrapper = styled.div`
-  display: flex;
-  align-items: center;
-`
-
-const InputColor = styled.input`
-  margin: 0 8px;
-  display: inline-flex;
-  vertical-align: bottom;
-  border: none;
-  border-radius: 50%;
-  padding: 0; 
-  height: 20px;
-  width: 20px;
-  cursor: pointer;
-
-  ::-webkit-color-swatch {
-    border: 0;
-    border-radius: 50%;
-  }
-
-  ::-moz-color-swatch {
-    border: 0;
-    border-radius: 50%;
-  }
-
-`
-const ExplanationIconWrapper = styled.div<StyledIconWrapper>`
-  margin-right: 8px;
-  padding: 4px;
-  cursor: pointer;
-  transition: 0.2s all;
-  border-radius: 4px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-
-  &:hover {
-    background: ${props => props.disabled ? 'transparent' : '#eee'};
-  }
-
-  ${props => props.disabled && `
-    cursor: not-allowed;
-  `}
-
-`
-
-const Heading = styled.div<StyledIconWrapper>`
-  margin-right: 8px;
-  font-size: 12;
-  padding: 4px;
-  cursor: pointer;
-  transition: 0.2s all;
-  border-radius: 4px;
-  height: 20px;
-  width: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  &:hover {
-    background: #eee;
-    color: #424242;
-  }
-
-  color: #aaa;
-
-  ${props => props.active && `
-    color: ${props.theme.secondary.dark};
-
-    &:hover {
-      color: ${props.theme.secondary.dark};
-    }
-  `}
-`
-
-const Separate = styled.div`
-  margin-right: 8px;
-  width: 2px;
-  height: 16px;
-  border-radius: 2px;
-  background: #ccc;
-`
-
-const StyledBsBlockquoteRight = styled(BsBlockquoteRight)<StyledIconWrapper>`
-  fill: #aaa;
-  
-   ${props => props.active && `
-    > svg {
-      fill: ${props.theme.secondary.dark};
-    }
-
-    &:hover {
-      > svg {
-        fill: ${props.theme.secondary.dark};
-      }
-    }
-  `}
-`

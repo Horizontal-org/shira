@@ -22,7 +22,7 @@ export const useImageUpload = (
   options: UseImageUploadOptions = {}
 ) => {
   const {
-    maxSizeInMB = 5, // talk with Juan and Raph about max size
+    maxSizeInMB = 5,
     allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
     uploadFunction = defaultUploadImage
   } = options
