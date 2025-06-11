@@ -1,41 +1,44 @@
 import { ChangeEvent } from 'react'
 import { ExplanationIcon, styled } from '@shira/ui'
 
-import { FiBold, FiItalic, FiCode, FiList, FiLink, FiUnderline } from 'react-icons/fi'
+import { FiBold, FiItalic, FiCode, FiList, FiLink, FiUnderline, FiImage } from 'react-icons/fi'
 import { TbStrikethrough } from 'react-icons/tb'
 import { MdClear, MdHorizontalRule, MdFormatColorText } from 'react-icons/md'
 import { BsBlockquoteRight } from "react-icons/bs";
 import { GoListOrdered } from "react-icons/go";
 import { GrBlockQuote } from "react-icons/gr";
-import { shallow } from 'zustand/shallow'
-import { useStore } from '../../store'
 
-export const MenuBar = ({ editor, setLink }) => {
-  const {
-    deleteExplanation,
-    addExplanation,
-    explanationIndex
-  } = useStore((state) => ({
-    addExplanation: state.addExplanation,
-    deleteExplanation: state.deleteExplanation,
-    explanations: state.explanations,
-    explanationIndex: state.explanationIndex
-  }), shallow)
+interface MenuBarProps {
+  editor: any
+  setLink: () => void
+  onImageUpload?: () => void
+  isImageSelected?: boolean
+  selectedImageHasExplanation?: boolean
+  onAddTextExplanation?: () => void
+  onRemoveTextExplanation?: () => void
+  canAddTextExplanation?: boolean
+  isTextExplanationActive?: boolean
+  onAddImageExplanation?: () => void
+  onRemoveImageExplanation?: () => void
+}
+
+export const MenuBar = ({ 
+  editor, 
+  setLink,
+  onImageUpload,
+  isImageSelected = false,
+  selectedImageHasExplanation = false,
+  onAddTextExplanation,
+  onRemoveTextExplanation,
+  canAddTextExplanation = false,
+  isTextExplanationActive = false,
+  onAddImageExplanation,
+  onRemoveImageExplanation,
+}: MenuBarProps) => {
 
   if (!editor) {
     return null
   }
-
-  const hasSelection = () => {
-    const { from, to } = editor.state.selection
-
-    return from !== to
-  }
-
-  const canAddExplanation = () => {
-    return hasSelection() && !editor.isActive('explanation')
-  }
-  
 
   return (
     <MenuWrapper>
@@ -107,19 +110,6 @@ export const MenuBar = ({ editor, setLink }) => {
       >
         <FiList size={18} />
       </IconWrapper>
-      
-      {/* <button onClick={() => editor.chain().focus().unsetAllMarks().run()}>
-        clear marks
-      </button>
-      <button onClick={() => editor.chain().focus().clearNodes().run()}>
-        clear nodes
-      </button> */}
-      {/* <button
-        onClick={() => editor.chain().focus().setParagraph().run()}
-        className={editor.isActive('paragraph') ? 'is-active' : ''}
-      >
-        paragraph
-      </button> */}
 
       <Heading
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
@@ -177,71 +167,59 @@ export const MenuBar = ({ editor, setLink }) => {
         />
       </InputColorWrapper>
 
+      <IconWrapper 
+          onClick={onImageUpload}
+          title="Upload Image"
+        >
+          <FiImage size={18} />
+        </IconWrapper>
+
+        <Separate />
+
       <Separate />
 
       <ExplanationIconWrapper
-        onClick={() => {
-          if(canAddExplanation()) {
-            const newIndex = explanationIndex + 1
-            editor.chain().focus().setExplanation({
-              'data-explanation': newIndex,
-            }).run()
-            addExplanation(newIndex)
-          }
-        }}
-        disabled={!canAddExplanation()}
+        onClick={onAddTextExplanation}
+        disabled={!canAddTextExplanation}
+        title="Add text explanation"
       >
         <ExplanationIcon />
       </ExplanationIconWrapper>
 
-      { editor.isActive('explanation') && (
+
+      {isTextExplanationActive && (
         <ExplanationIconWrapper
-          onClick={() => {
-            editor.chain().focus().run()
-            const deleteIndex = editor.getAttributes('explanation')              
-            deleteExplanation(deleteIndex['data-explanation'])
-            editor.chain().focus().unsetExplanation().run()
-          }}
+          onClick={onRemoveTextExplanation}
+          title="Remove text explanation"
         >
           <ExplanationIcon/>          
           <MdClear color='#e91e63' size={18}/>
         </ExplanationIconWrapper>
       )} 
 
-      {/* <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
-        horizontal rule
-      </button>
-      <button onClick={() => editor.chain().focus().setHardBreak().run()}>
-        hard break
-      </button> */}
-
-      {/* <IconWrapper 
-        active={false}
-        onClick={() => {
-          const newIndex = explanationIndex + 1
-          editor.chain().focus().setExplanation({
-            'data-explanation': newIndex,
-          }).run()
-          addExplanation(newIndex)
-        }}
-        disabled={editor.isActive('explanation')}
-      >
-        <HiOutlineChatBubbleBottomCenter size={18} />
-      </IconWrapper>
-
-      { editor.isActive('explanation') && (
-        <RemoveExplanation
-          onClick={() => {
-            editor.chain().focus().run()
-            const deleteIndex = editor.getAttributes('explanation')              
-            deleteExplanation(deleteIndex['data-explanation'])
-            editor.chain().focus().unsetExplanation().run()
-          }}
-        >
-          <HiOutlineChatBubbleBottomCenter color='#3F6A3A' size={18}/>          
-          <MdClear color='#e91e63' size={18}/>
-        </RemoveExplanation>
-      )}       */}
+      {isImageSelected && (
+        <>
+          <Separate />
+          
+          {!selectedImageHasExplanation ? (
+            <ExplanationIconWrapper
+              onClick={onAddImageExplanation}
+              title="Add image explanation"
+            >
+              <ExplanationIcon />
+              <span style={{ fontSize: '10px', marginLeft: '2px' }}>IMG</span>
+            </ExplanationIconWrapper>
+          ) : (
+            <ExplanationIconWrapper
+              onClick={onRemoveImageExplanation}
+              title="Remove image explanation"
+            >
+              <ExplanationIcon />
+              <MdClear color='#e91e63' size={14}/>
+            </ExplanationIconWrapper>
+          )}
+        </>
+      )}
     </MenuWrapper>
   )
 }
@@ -251,10 +229,6 @@ interface StyledIconWrapper {
   active?: boolean
   disabled?: boolean
 }
-
-// const ExplanationIconWrapper = styled.div<StyledIconWrapper>`
-
-// `
 
 const MenuWrapper = styled.div`
   padding: 8px;
