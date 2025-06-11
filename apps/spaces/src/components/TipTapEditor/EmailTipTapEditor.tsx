@@ -4,6 +4,7 @@ import { MenuBar } from './MenuBar'
 import { useExplanations } from './hooks/useExplanations'
 import { useImageUpload } from './hooks/useImageUpload'
 import { useLink } from './hooks/useLink'
+import { useTable } from './hooks/useTable'
 
 import { EditorStyles } from './styles/EditorStyles'
 import { getEditorExtensions } from './config/editorExtensions'
@@ -39,6 +40,7 @@ export const EmailTipTapEditor = ({
     allowedTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
   })
   const links = useLink(editor)
+  const tables = useTable(editor)
 
   // Connect editor events to hooks
   if (editor) {
@@ -63,6 +65,20 @@ export const EmailTipTapEditor = ({
           onRemoveImageExplanation={explanations.removeImageExplanation}
           canAddTextExplanation={explanations.canAddTextExplanation()}
           isTextExplanationActive={explanations.isTextExplanationActive()}
+
+          isInTable={tables.isInTable}
+          isTableCellSelected={tables.isTableCellSelected}
+          selectedTableCellHasExplanation={tables.selectedTableCellHasExplanation}
+          onInsertTable={tables.insertTable}
+          onAddTableCellExplanation={tables.addTableCellExplanation}
+          onRemoveTableCellExplanation={tables.removeTableCellExplanation}
+          onAddRowAbove={tables.addRowAbove}
+          onAddRowBelow={tables.addRowBelow}
+          onDeleteRow={tables.deleteRow}
+          onAddColumnLeft={tables.addColumnLeft}
+          onAddColumnRight={tables.addColumnRight}
+          onDeleteColumn={tables.deleteColumn}
+          onDeleteTable={tables.deleteTable}
         />
         <HiddenFileInput
           ref={images.fileInputRef}

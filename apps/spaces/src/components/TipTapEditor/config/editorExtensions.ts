@@ -14,6 +14,7 @@ import Link from '@tiptap/extension-link'
 import { Explanation } from '../extensions/Explanation'
 import { SearchNReplace } from '../extensions/Search'
 import { ImageWithExplanation } from '../extensions/ImageWithExplanation'
+import { getTableExtensions } from '../extensions/TableWithExplanation'
 
 export const getEditorExtensions = () => [
   StarterKit,
@@ -38,5 +39,6 @@ export const getEditorExtensions = () => [
   ImageWithExplanation.configure({
     inline: false,
     allowBase64: true
-  })
+  }),
+  ...getTableExtensions()
 ]

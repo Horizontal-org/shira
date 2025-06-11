@@ -76,6 +76,15 @@ export const useExplanations = (editor: any, editorId: string) => {
         })
         hasChanges = true
       }
+
+      if ((node.type.name === 'tableCell' || node.type.name === 'tableHeader') && 
+          node.attrs['data-explanation'] === +deleteIndex) {
+        tr.setNodeMarkup(pos, null, {
+          ...node.attrs,
+          'data-explanation': null
+        })
+        hasChanges = true
+      }
     })
 
     if (hasChanges) {
