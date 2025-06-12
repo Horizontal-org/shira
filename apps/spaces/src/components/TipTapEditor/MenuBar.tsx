@@ -55,6 +55,10 @@ interface MenuBarProps {
   onAddColumnRight?: () => void
   onDeleteColumn?: () => void
   onDeleteTable?: () => void
+
+  enableImage?: false
+  enableTables?: false
+
 }
 
 export const MenuBar = ({ 
@@ -83,6 +87,9 @@ export const MenuBar = ({
   onAddColumnRight,
   onDeleteColumn,
   onDeleteTable,
+
+  enableImage = false,
+  enableTables = false
 }: MenuBarProps) => {
 
   if (!editor) {
@@ -216,18 +223,18 @@ export const MenuBar = ({
         />
       </InputColorWrapper>
 
-      <IconWrapper 
+      {enableImage && (
+        <IconWrapper 
           onClick={onImageUpload}
           title="Upload Image"
         >
           <FiImage size={18} />
         </IconWrapper>
-
-        <Separate />
+      )}
 
       <Separate />
 
-      {!isInTable && (
+      {enableTables && !isInTable && (
         <IconWrapper 
           onClick={() => onInsertTable?.(3, 3, true)}
           title="Insert Table"
@@ -236,7 +243,7 @@ export const MenuBar = ({
         </IconWrapper>
       )}
 
-      {isInTable && (
+      {enableTables && isInTable && (
         <>
           <IconWrapper 
             onClick={onAddRowAbove}

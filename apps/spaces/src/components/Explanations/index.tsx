@@ -90,11 +90,11 @@ export const Explanations: FunctionComponent<Props> = ({
     if (toDelete && toDelete.nodeName !== 'MARK') {
       const id = toDelete.getAttribute('id')
       
-      const stringWithoutAttribute = content[id].replace(/ data-explanation='[^']*'/g, '');
-      handleContent(
-        id,
-        stringWithoutAttribute
-      )
+      if (content[id] && typeof content[id] === 'string') {
+        const stringWithoutAttribute = content[id].replace(/ data-explanation='[^']*'/g, '');
+        handleContent(id, stringWithoutAttribute)
+      }
+
     }
   }
 
