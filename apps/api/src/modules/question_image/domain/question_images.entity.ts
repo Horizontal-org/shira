@@ -48,7 +48,7 @@ export class QuestionImage {
   quiz?: Quiz;
 
 
-  @Column({ name: 'question_id' })
+  @Column({ name: 'quiz_id' })
   @RelationId((questionImage: QuestionImage) => questionImage.quiz)
   quizId?: number;
 }

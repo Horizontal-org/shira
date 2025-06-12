@@ -2,6 +2,7 @@ import { Body, Controller, Get, Inject, Param } from '@nestjs/common';
 import { TYPES as TYPES_IMAGE } from '../../image/interfaces';
 import { IImageService } from 'src/modules/image/interfaces/services/image.service.interface';
 
+// TODO DOUBTH
 @Controller('i')
 export class GetImageController {
 

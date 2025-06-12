@@ -1,6 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { join } from 'path';
-import { MailerService } from '@nestjs-modules/mailer';
+import { Injectable } from '@nestjs/common';
 import { InjectMinio } from '../decorators/minio.decorator';
 import * as Minio from 'minio';
 
@@ -25,8 +23,7 @@ export class ImageService {
   public async upload(params) {
     return new Promise((resolve, reject) => {
 
-      // TODO get name 
-      const filename = `question-images/test-filename.png`;
+      const filename = params.fileName ?  params.fileName : `orphan-images/${params.file.originalname}`;
       
       this.minioService.putObject(
         this._bucketName,
@@ -44,6 +41,21 @@ export class ImageService {
     });
   }
   
+  public async delete(imagePath: string) {
+    await this.minioService.removeObject(
+      this._bucketName,
+      imagePath
+    )
+  }
 
-  //TODO Move and Delete
+  public async copyAndDeleteOrigin(originPath: string, destinationPath: string) {
+    const conds = new Minio.CopyConditions()
+    
+    await this.minioService.copyObject(
+      this._bucketName, 
+      originPath, 
+      `/${this._bucketName}/${destinationPath}`,
+      conds
+    )
+  }
 }

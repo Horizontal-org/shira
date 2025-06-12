@@ -17,14 +17,28 @@ export class CreateQuestionImageService implements ICreateQuestionImageService{
   ) {}
 
   async execute (createQuestionImageDto: CreateQuestionImageDto) {
+
+    const filePath = this.createFilePath(createQuestionImageDto)
+    const questionImage = new QuestionImageEntity()
+
+    questionImage.name = createQuestionImageDto.file.originalname
+    questionImage.relativePath = filePath
+    questionImage.quizId = createQuestionImageDto.quizId
+
+    if (createQuestionImageDto.questionId) {
+      questionImage.questionId = createQuestionImageDto.questionId
+    }
+
+    await this.questionImageRepo.save(questionImage)
+
     return this.imageService.upload({
-      file: createQuestionImageDto.file
+      file: createQuestionImageDto.file,
+      filePath: filePath
     })
-    // const quiz = new QuizEntity()
-    // quiz.title = createQuizDto.title
-    // quiz.space = createQuizDto.space
-    // quiz.hash = crypto.randomBytes(20).toString('hex') 
-    
-    // await this.questionImageRepo.save(quiz)
+  }
+
+  private createFilePath(createQuestionImageDto: CreateQuestionImageDto) {
+    const name = createQuestionImageDto.file.originalname
+    return `question-images/${createQuestionImageDto.quizId}/${createQuestionImageDto.questionId ? createQuestionImageDto.questionId + '/' : ''}${name}`
   }
 }
