@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react'
-import { styled } from '@shira/ui'
+import styled from 'styled-components'
 import Arrow from './assets/Arrow'
 import Call from './assets/Call'
 import Search from './assets/Search'

@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react'
-import { styled } from '@shira/ui'
+import styled from 'styled-components'
 
 import ArchiveIcon from './assets/archive.png'
 import ArrowBackIcon from './assets/arrow_back.png'

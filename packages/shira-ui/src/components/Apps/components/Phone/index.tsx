@@ -1,5 +1,6 @@
 import { FunctionComponent, ReactNode } from 'react'
-import { styled, createGlobalStyle } from '@shira/ui'
+import styled, { createGlobalStyle} from 'styled-components';
+
 import { lighten } from 'polished'
 import Battery from './Icons/BatteryIcon'
 import Signal from './Icons/SignalIcon'

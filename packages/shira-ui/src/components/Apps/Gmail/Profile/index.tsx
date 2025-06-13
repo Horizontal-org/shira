@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from "react";
-import { styled } from '@shira/ui'
+import styled from 'styled-components'
 import ProfileIcon from './assets/profile.png'
 import { IoMdArrowDropdown, IoMdLock } from "react-icons/io";
 import { autoUpdate, FloatingFocusManager, useClick, useDismiss, useFloating, useInteractions, useRole } from "@floating-ui/react";

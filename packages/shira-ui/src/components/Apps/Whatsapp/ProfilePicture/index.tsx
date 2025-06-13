@@ -1,6 +1,5 @@
 import { FunctionComponent } from 'react'
-import { styled } from '@shira/ui'
-
+import styled from 'styled-components'
 import Picture from './components/Picture'
 
 interface ImageWrapperProps {
