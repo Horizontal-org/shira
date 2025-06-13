@@ -20,7 +20,8 @@ export class CheckPasswordUserApplication
   ) {}
 
   async execute(userCredentials: CredentialUserDto): Promise<ReadUserDto> {
-    const errors = await validate(userCredentials);
+    console.log(Object.getPrototypeOf(userCredentials));
+    const errors = await validate(userCredentials, { forbidUnknownValues: false });
     console.log("🚀 ~ execute ~ errors:", errors)
     if (errors.length > 0) throw new InvalidCredentailsUserException();
     
