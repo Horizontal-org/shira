@@ -96,9 +96,6 @@ export class CreateRolesTable1747684221548 implements MigrationInterface {
                 type: "varchar",
             })
         );
-
-        await queryRunner.dropIndex("roles", "IDX_ROLE_NAME_SCOPE")
-        await queryRunner.dropTable("roles")
     }
 
 }
