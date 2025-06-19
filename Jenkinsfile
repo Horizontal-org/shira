@@ -22,9 +22,16 @@ pipeline {
             }
             steps {
               script {
-                sh '''            
-                  ssh -o StrictHostKeyChecking=no root@beta.space.shira.app "cd /home/shira ; git fetch --all"
-                '''
+                sh """#!/bin/bash
+ssh -tt -o StrictHostKeyChecking=no root@beta.space.shira.app <<EOF
+echo "Running on \$(hostname)"
+cd /home/shira
+git fetch --all
+npm --version
+echo "done"
+exit
+EOF
+"""
               }
             }
         }
@@ -35,9 +42,24 @@ pipeline {
             }
             steps {
               script {
-                sh '''            
-                  ssh -o StrictHostKeyChecking=no root@alpha.space.shira.app "cd /home/shira ; git fetch --all"
-                '''
+                sh """#!/bin/bash
+ssh -tt -o StrictHostKeyChecking=no root@alpha.space.shira.app <<EOF
+echo "Running on \$(hostname)"
+cd /home/shira
+git fetch --all
+git reset --hard origin/development
+npm --version
+npm install
+./deploy-frontend.sh
+echo "frontend done"
+./deploy-api.sh
+echo "api done"
+cd apps/api
+npm run typeorm -- migration:run -d ./src/utils/datasources/mysql.datasource.ts
+echo "done"
+exit
+EOF
+"""
               }
             }
         }
