@@ -3,7 +3,7 @@ import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from "t
 import { OrganizationEntity } from "./organization.entity"
 import { RoleEntity } from "src/modules/user/domain/role.entity"
 
-@Entity({ name: 'organization_users' })
+@Entity({ name: 'organizations_users' })
 export class OrganizationUsersEntity {
     @PrimaryGeneratedColumn()
     id: number

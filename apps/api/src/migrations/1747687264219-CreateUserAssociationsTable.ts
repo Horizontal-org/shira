@@ -13,7 +13,7 @@ export class CreateUserAssociationsTable1747687264219 implements MigrationInterf
         //organizations_users table
         await queryRunner.createTable(
             new Table({
-                name: "organization_users",
+                name: "organizations_users",
                 columns: [
                     {
                         name: "id",
@@ -53,7 +53,7 @@ export class CreateUserAssociationsTable1747687264219 implements MigrationInterf
         )
 
         await queryRunner.createForeignKey(
-            "organization_users",
+            "organizations_users",
             new TableForeignKey({
                 columnNames: ["user_id"],
                 referencedColumnNames: ["id"],
@@ -63,7 +63,7 @@ export class CreateUserAssociationsTable1747687264219 implements MigrationInterf
         )
 
         await queryRunner.createForeignKey(
-            "organization_users",
+            "organizations_users",
             new TableForeignKey({
                 columnNames: ["organization_id"],
                 referencedColumnNames: ["id"],
@@ -73,7 +73,7 @@ export class CreateUserAssociationsTable1747687264219 implements MigrationInterf
         );
 
         await queryRunner.createForeignKey(
-            "organization_users",
+            "organizations_users",
             new TableForeignKey({
                 columnNames: ["role_id"],
                 referencedColumnNames: ["id"],
@@ -83,7 +83,7 @@ export class CreateUserAssociationsTable1747687264219 implements MigrationInterf
         );
 
         await queryRunner.createIndex(
-            "organization_users",
+            "organizations_users",
             new TableIndex({
                 name: "IDX_USER_ORGANIZATION",
                 columnNames: ["user_id", "organization_id"],
@@ -100,7 +100,7 @@ export class CreateUserAssociationsTable1747687264219 implements MigrationInterf
 
         if(orgMemberRoleId) {
             await queryRunner.query(`
-                INSERT INTO organization_users(user_id, organization_id, role_id, created_at, updated_at)
+                INSERT INTO organizations_users(user_id, organization_id, role_id, created_at, updated_at)
                 SELECT
                     su.user_id,
                     s.organization_id,
@@ -175,23 +175,23 @@ export class CreateUserAssociationsTable1747687264219 implements MigrationInterf
         // Remove the role_id column from spaces_users
         await queryRunner.dropColumn("spaces_users", "role_id")
 
-        // -------- DROP organization_users TABLE AND ITS CONSTRAINTS --------
+        // -------- DROP organizations_users TABLE AND ITS CONSTRAINTS --------
 
         // Get the table with foreign keys
-        const orgUsersTable = await queryRunner.getTable("organization_users")
+        const orgUsersTable = await queryRunner.getTable("organizations_users")
 
         // Drop foreign keys
         if (orgUsersTable) {
             for (const fk of orgUsersTable.foreignKeys) {
-                await queryRunner.dropForeignKey("organization_users", fk)
+                await queryRunner.dropForeignKey("organizations_users", fk)
             }
         }
 
         // Drop index
-        await queryRunner.dropIndex("organization_users", "IDX_USER_ORGANIZATION")
+        await queryRunner.dropIndex("organizations_users", "IDX_USER_ORGANIZATION")
 
-        // Drop organization_users table
-        await queryRunner.dropTable("organization_users")
+        // Drop organizations_users table
+        await queryRunner.dropTable("organizations_users")
     }
 
 }

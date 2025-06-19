@@ -54,9 +54,7 @@ export class RolesGuard implements CanActivate {
 
     if(spaceId) {
       try {
-        console.log('calling validateSpaceAccess')
         const spaceContext = await this.userContextService.validateUserSpaceAccess(parseInt(user.id), spaceId)
-        console.log('spaceContext', spaceContext)
         if(orgId && orgId !== spaceContext.organization.id) {
           throw new ForbiddenException('Space does not belong to the specified organization')
         }

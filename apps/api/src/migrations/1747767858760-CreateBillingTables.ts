@@ -156,10 +156,10 @@ export class CreateBillingTables1747767858760 implements MigrationInterface {
             })
         )
 
-        // create organization_subscriptions table
+        // create organizations_subscriptions table
         await queryRunner.createTable(
             new Table({
-                name: "organization_subscriptions",
+                name: "organizations_subscriptions",
                 columns: [
                     {
                         name: "id",
@@ -194,7 +194,7 @@ export class CreateBillingTables1747767858760 implements MigrationInterface {
         )
 
         await queryRunner.createForeignKey(
-            "organization_subscriptions",
+            "organizations_subscriptions",
             new TableForeignKey({
                 columnNames: ["organization_id"],
                 referencedColumnNames: ["id"],
@@ -204,7 +204,7 @@ export class CreateBillingTables1747767858760 implements MigrationInterface {
         )
 
         await queryRunner.createForeignKey(
-            "organization_subscriptions",
+            "organizations_subscriptions",
             new TableForeignKey({
                 columnNames: ["subscription_id"],
                 referencedColumnNames: ["id"],
@@ -216,16 +216,16 @@ export class CreateBillingTables1747767858760 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        // Drop foreign keys from organization_subscriptions
-        const orgSubsTable = await queryRunner.getTable("organization_subscriptions")
+        // Drop foreign keys from organizations_subscriptions
+        const orgSubsTable = await queryRunner.getTable("organizations_subscriptions")
         if (orgSubsTable) {
             for (const fk of orgSubsTable.foreignKeys) {
-                await queryRunner.dropForeignKey("organization_subscriptions", fk)
+                await queryRunner.dropForeignKey("organizations_subscriptions", fk)
             }
         }
 
-        // Drop organization_subscriptions table
-        await queryRunner.dropTable("organization_subscriptions")
+        // Drop organizations_subscriptions table
+        await queryRunner.dropTable("organizations_subscriptions")
 
         // Drop foreign key from subscriptions (plan_id)
         const subsTable = await queryRunner.getTable("subscriptions")

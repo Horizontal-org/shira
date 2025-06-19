@@ -2,7 +2,7 @@ import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColu
 import { OrganizationEntity } from "./organization.entity";
 import { SubscriptionEntity } from "src/modules/billing/domain/subscription.entity";
 
-@Entity({ name: 'organization_subscriptions'})
+@Entity({ name: 'organizations_subscriptions'})
 export class OrganizationSubscriptionsEntity {
     @PrimaryGeneratedColumn()
     id: number
