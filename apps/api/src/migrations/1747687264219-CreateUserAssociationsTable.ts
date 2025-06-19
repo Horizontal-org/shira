@@ -93,7 +93,7 @@ export class CreateUserAssociationsTable1747687264219 implements MigrationInterf
 
         // populate table
         const orgMemberRoleResult = await queryRunner.query(
-            "SELECT id FROM roles WHERE name = 'organization-member' AND scope = 'organization' LIMIT 1"
+            "SELECT id FROM roles WHERE name = 'organization-admin' AND scope = 'organization' LIMIT 1"
         )
 
         const orgMemberRoleId = orgMemberRoleResult[0]?.id;
