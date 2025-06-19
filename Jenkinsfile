@@ -54,9 +54,6 @@ npm install
 echo "frontend done"
 ./deploy-api.sh
 echo "api done"
-cd apps/api
-docker compose -f docker-compose.api.yml exec -T staging npm run typeorm -- migration:run -d ./src/utils/datasources/mysql.datasource.ts 
-echo "done"
 exit
 EOF
 """
