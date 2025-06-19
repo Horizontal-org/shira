@@ -28,6 +28,8 @@ echo "Running on \$(hostname)"
 cd /home/shira
 git fetch --all
 npm --version
+echo "done"
+exit
 EOF
 """
               }
@@ -46,6 +48,8 @@ echo "Running on \$(hostname)"
 cd /home/shira
 git fetch --all
 npm --version
+echo "done"
+exit
 EOF
 """
               }
