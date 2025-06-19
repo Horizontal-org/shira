@@ -92,6 +92,9 @@ export class RolesGuard implements CanActivate {
   }
 
   private checkUserRoles(user: LoggedUserDto, requiredRoles: Role[]): boolean {
+    if(user.isSuperAdmin) {
+      return true
+    }
     const userRoles: Role[] = []
 
     if (user.activeSpace) {

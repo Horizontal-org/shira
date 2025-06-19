@@ -86,6 +86,13 @@ export class CreateRolesTable1747684221548 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
+        const usersTable = await queryRunner.getTable("users");
+        const superAdminColumn = usersTable?.findColumnByName("is_super_admin");
+        
+        if (superAdminColumn) {
+            await queryRunner.dropColumn("users", "is_super_admin");
+        }
+        
         await queryRunner.dropIndex("roles", "IDX_ROLE_NAME_SCOPE")
         await queryRunner.dropTable("roles")
 
