@@ -22,7 +22,7 @@ pipeline {
             }
             steps {
               script {
-                sh '''            
+                sh -tt '''            
                   ssh -o StrictHostKeyChecking=no root@beta.space.shira.app <<EOF
                     echo "Running on \$(hostname)"
                     cd /home/shira
@@ -40,7 +40,7 @@ pipeline {
             }
             steps {
               script {
-                sh '''            
+                sh -tt '''            
                   ssh -o StrictHostKeyChecking=no root@alpha.space.shira.app <<EOF
                     echo "Running on \$(hostname)"
                     cd /home/shira
