@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 
 import { UserModule } from '../user/user.module';
@@ -21,7 +21,10 @@ import { OrganizationUsersEntity } from '../organization/domain/organization_use
 import { OrganizationEntity } from '../organization/domain/organization.entity';
 import { PlanEntity } from '../billing/domain/plan.entity';
 import { BillingModule } from '../billing/billing.module';
+import { UserContextService } from './services/user-context.service';
+import { RolesGuard } from './guards/roles.guard';
 
+@Global()
 @Module({
   imports: [
     JwtModule.register({
@@ -49,6 +52,12 @@ import { BillingModule } from '../billing/billing.module';
     ...applicationsAuthProviders,
     ...servicesAuthProviders,
     JwtStrategy,
+    UserContextService,
+    RolesGuard
   ],
+  exports: [
+    ...servicesAuthProviders,
+    RolesGuard,
+  ]
 })
 export class AuthModule {}

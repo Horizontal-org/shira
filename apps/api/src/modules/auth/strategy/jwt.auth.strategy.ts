@@ -1,8 +1,6 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import {
   IGetByIdUserApplication,
   TYPES as TYPES_USER,
@@ -10,19 +8,13 @@ import {
 import { JWTPayload } from '../domain/jwt-payload.auth.ov';
 import { Request } from 'express';
 import { LoggedUserDto } from 'src/modules/user/dto/logged.user.dto';
-import { SpaceUserEntity } from 'src/modules/space/domain/space-users.entity';
-import { OrganizationUsersEntity } from 'src/modules/organization/domain/organization_users.entity';
 import { Role } from 'src/modules/user/domain/role.enum';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     @Inject(TYPES_USER.applications.IGetByIdUserApplication)
-    private readonly getByIdUserApplication: IGetByIdUserApplication,
-    @InjectRepository(SpaceUserEntity)
-    private readonly spaceUsersRepo: Repository<any>,
-    @InjectRepository(OrganizationUsersEntity)
-    private readonly orgnizationUsersRepo: Repository<any>,
+    private readonly getByIdUserApplication: IGetByIdUserApplication
   ) {
     super({
       jwtFromRequest: (req: Request) => {
@@ -35,10 +27,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: JWTPayload): Promise<LoggedUserDto> {
-    const user = await this.getByIdUserApplication.execute(parseInt(payload.userId));
+    const user = await this.getByIdUserApplication.execute(parseInt(payload.userId))
 
-    if (!user) {
-      throw new UnauthorizedException();
+    if(!user) {
+      throw new UnauthorizedException('User not found')
     }
 
     const loggedUser = new LoggedUserDto()
@@ -46,36 +38,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     loggedUser.email = user.email
     loggedUser.isSuperAdmin = user.isSuperAdmin
 
-    const organizationUsers = await this.orgnizationUsersRepo.find({
-      where: { userId: user.id},
-      relations: ['organization', 'role']
-    })
-
-    if(organizationUsers && organizationUsers.length >0) {
-      const firstOrgUser = organizationUsers[0]
-
-      loggedUser.activeOrganization = {
-        id: firstOrgUser.organization.id,
-        name: firstOrgUser.organization.name,
-        role: firstOrgUser.role.name as Role
-      }
-    }
-
-    // get space_users
-    const spaceUsers = await this.spaceUsersRepo.find({
-      where: { userId: user.id },
-      relations: ['space', 'role']
-    })
-
-    if(spaceUsers && spaceUsers.length > 0) {
-      const firstSpaceUser = spaceUsers[0] // for now let's just use the first one
-      
-      loggedUser.activeSpace = {
-        space: firstSpaceUser.space,
-        role: firstSpaceUser.role.name as Role
-      }
-    }
-
-    return loggedUser;
+    return loggedUser
   }
 }

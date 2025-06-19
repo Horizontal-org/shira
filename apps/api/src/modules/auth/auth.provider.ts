@@ -5,6 +5,7 @@ import { SubmitRegistrationAuthService } from './services/submit-registration.au
 import { ValidateRegistrationAuthService } from './services/validate-registration.auth.service';
 import { SendInvitationAuthService } from './services/send-invitation.auth.service'
 import { SpaceRegistrationAuthService } from './services/space-registration.auth.service';
+import { UserContextService } from './services/user-context.service';
 
 export const generateTokenAuthServiceProvider = {
   provide: TYPES.services.IGenerateTokenAuthService,
@@ -41,6 +42,10 @@ export const spaceRegistrationAuthServiceProvider = {
   useClass: SpaceRegistrationAuthService,
 };
 
+const userContextServiceProvider = {
+  provide: TYPES.services.IUserContextService,
+  useClass: UserContextService,
+};
 export const handlersAuthProviders = [];
 
 export const applicationsAuthProviders = [];
@@ -52,5 +57,6 @@ export const servicesAuthProviders = [
   validateRegistrationAuthServiceProvider,
   confirmRegistrationAuthServiceProvider,
   sendInvitationAuthServiceProvider,
-  spaceRegistrationAuthServiceProvider
+  spaceRegistrationAuthServiceProvider,
+  userContextServiceProvider
 ];
