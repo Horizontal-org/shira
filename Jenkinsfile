@@ -22,14 +22,14 @@ pipeline {
             }
             steps {
               script {
-                sh '''            
+                sh """            
                   ssh -tt -o StrictHostKeyChecking=no root@beta.space.shira.app <<EOF
                     echo "Running on \$(hostname)"
                     cd /home/shira
                     git fetch --all
                     npm --version
                   EOF
-                '''
+                """
               }
             }
         }
@@ -40,14 +40,14 @@ pipeline {
             }
             steps {
               script {
-                sh '''            
+                sh """
                   ssh -tt -o StrictHostKeyChecking=no root@alpha.space.shira.app <<EOF
                     echo "Running on \$(hostname)"
                     cd /home/shira
                     git fetch --all
                     npm --version
                   EOF
-                '''
+                """
               }
             }
         }
