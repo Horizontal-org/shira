@@ -46,7 +46,7 @@ EOF
                 try {
                   mattermostSend (
                     color: "#2A42EE", 
-                    message: "Build STARTED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                    message: "Build STARTED FOR ALPHA: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
                   )
 
                   sh """#!/bin/bash
@@ -70,12 +70,12 @@ EOF
                   if(currentBuild.result == "FAILURE") {
                     mattermostSend (
                       color: "danger", 
-                      message: "Build FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                      message: "Build FAILED FOR ALPHA: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
                     )
                   } else {
                     mattermostSend (
                       color: "good", 
-                      message: "Build SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                      message: "Build SUCCESS FOR ALPHA: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
                     )
                   }
                 }                
