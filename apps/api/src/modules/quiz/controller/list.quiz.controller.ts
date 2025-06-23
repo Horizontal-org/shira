@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, Res, UnauthorizedException } from '@nestjs/common';
 
 import {
   TYPES,
@@ -7,8 +7,7 @@ import { Roles } from 'src/modules/auth/decorators/roles.decorators';
 import { Role } from 'src/modules/user/domain/role.enum';
 import { AuthController } from 'src/utils/decorators/auth-controller.decorator';
 import { IListQuizService } from '../interfaces/services/list.quiz.service.interface';
-import { LoggedUser } from 'src/modules/auth/decorators';
-import { LoggedUserDto } from 'src/modules/user/dto/logged.user.dto';
+import { SpaceId } from 'src/modules/auth/decorators';
 
 @AuthController('quiz')
 export class ListQuizController {
@@ -20,10 +19,10 @@ export class ListQuizController {
   @Get()
   @Roles(Role.SpaceAdmin)
   async list(
-    @LoggedUser() user: LoggedUserDto
+    @SpaceId() spaceId: number
   ) 
-  {    
-    const quizzes = await this.listQuizService.execute(user.space.id)
+  { 
+    const quizzes = await this.listQuizService.execute(spaceId)
     return quizzes
   }
 }

@@ -56,7 +56,7 @@ export class UserCommander {
       role: roleSlug
     });
 
-    console.log(`User ${username} was created with id ${user.id} and role ${user.role}`);
+    console.log(`User ${username} was created with id ${user.id}`);
   }
  
 }

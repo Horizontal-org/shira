@@ -11,6 +11,8 @@ import { UserEntity } from '../user/domain/user.entity';
 import { spaceControllers } from './controllers';
 import { Quiz } from '../quiz/domain/quiz.entity';
 import { QuizQuestion } from '../quiz/domain/quizzes_questions.entity';
+import { SpaceUserEntity } from './domain/space-users.entity';
+import { RoleEntity } from '../user/domain/role.entity';
 @Global()
 @Module({
   imports: [
@@ -18,7 +20,9 @@ import { QuizQuestion } from '../quiz/domain/quizzes_questions.entity';
         SpaceEntity,
         UserEntity,
         Quiz,
-        QuizQuestion
+        QuizQuestion,
+        SpaceUserEntity,
+        RoleEntity
     ]),
   ],  
   providers: [

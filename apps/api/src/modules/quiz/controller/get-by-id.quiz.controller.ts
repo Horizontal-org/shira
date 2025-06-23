@@ -6,8 +6,7 @@ import {
 import { Roles } from 'src/modules/auth/decorators/roles.decorators';
 import { Role } from 'src/modules/user/domain/role.enum';
 import { AuthController } from 'src/utils/decorators/auth-controller.decorator';
-import { LoggedUser } from 'src/modules/auth/decorators';
-import { LoggedUserDto } from 'src/modules/user/dto/logged.user.dto';
+import { SpaceId } from 'src/modules/auth/decorators';
 import { IGetByIdQuizService } from '../interfaces/services/get-by-id.quiz.service.interface';
 
 @AuthController('quiz')
@@ -21,10 +20,10 @@ export class GetByIdQuizController {
   @Roles(Role.SpaceAdmin)
   async getById(
     @Param('id', ParseIntPipe) id: number,
-    @LoggedUser() user: LoggedUserDto
+    @SpaceId() spaceId: number
   ) 
-  {    
-    const quiz = await this.getQuizService.execute(id, user.space.id)
+  { 
+    const quiz = await this.getQuizService.execute(id, spaceId)
     return quiz
   }
 }

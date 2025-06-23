@@ -5,4 +5,5 @@ export { ISubmitRegistrationAuthService } from './services/submit-registration.a
 export { IConfirmRegistrationAuthService } from './services/confirm-registration.auth.service.interface'
 export { ISendInvitationAuthService } from './services/send-invitation.auth.service.interface'
 export { ISpaceRegistrationAuthService } from './services/space-registration.auth.service.interface'
+export { IUserContextService } from './services/user-context.service.interface'
 export { TYPES } from './types';

@@ -3,10 +3,8 @@ import { AuthController } from 'src/utils/decorators/auth-controller.decorator';
 import { Roles } from 'src/modules/auth/decorators/roles.decorators';
 import { Role } from 'src/modules/user/domain/role.enum';
 import { TYPES } from '../interfaces';
-import { LoggedUserDto } from 'src/modules/user/dto/logged.user.dto';
-import { LoggedUser } from 'src/modules/auth/decorators';
+import { SpaceId } from 'src/modules/auth/decorators';
 import { IValidateSpaceQuizService } from '../interfaces/services/validate-space.quiz.service.interface';
-import { DeleteQuestionQuizDto } from '../dto/delete-question.quiz.dto';
 import { IReorderQuestionQuizService } from '../interfaces/services/reorder-question.quiz.service.interface';
 import { ReorderQuestionQuizDto } from '../dto/reorder-question.quiz.dto';
 
@@ -23,10 +21,9 @@ export class ReorderQuestionQuizController {
   @Roles(Role.SpaceAdmin)
   async handler(
     @Body() reorderDto: ReorderQuestionQuizDto,
-    @LoggedUser() user: LoggedUserDto
+    @SpaceId() spaceId: number
   ) {
-    
-    await this.validateSpaceQuizService.execute(user.space.id, reorderDto.quizId)
+    await this.validateSpaceQuizService.execute(spaceId, reorderDto.quizId)
  
     try {
       await this.reorderQuestionService.execute(reorderDto);
