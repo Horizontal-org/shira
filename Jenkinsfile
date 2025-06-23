@@ -42,7 +42,14 @@ EOF
             }
             steps {
               script {
-                sh """#!/bin/bash
+                
+                try {
+                  mattermostSend (
+                    color: "#2A42EE", 
+                    message: "Build STARTED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                  )
+
+                  sh """#!/bin/bash
 ssh -tt -o StrictHostKeyChecking=no root@alpha.space.shira.app <<EOF
 echo "Running on \$(hostname)"
 cd /home/shira
@@ -57,6 +64,21 @@ echo "api done"
 exit
 EOF
 """
+                } catch (e) {
+                    currentBuild.result = "FAILURE"
+                } finally {
+                  if(currentBuild.result == "FAILURE") {
+                    mattermostSend (
+                      color: "danger", 
+                      message: "Build FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                    )
+                  } else {
+                    mattermostSend (
+                      color: "good", 
+                      message: "Build SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                    )
+                  }
+                }                
               }
             }
         }
