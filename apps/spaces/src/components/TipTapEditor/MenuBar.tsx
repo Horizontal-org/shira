@@ -56,8 +56,8 @@ interface MenuBarProps {
   onDeleteColumn?: () => void
   onDeleteTable?: () => void
 
-  enableImage?: false
-  enableTables?: false
+  enableImage?: boolean
+  enableTables?: boolean
 
 }
 
@@ -88,8 +88,8 @@ export const MenuBar = ({
   onDeleteColumn,
   onDeleteTable,
 
-  enableImage = false,
-  enableTables = false
+  enableImage = true,
+  enableTables = true
 }: MenuBarProps) => {
 
   if (!editor) {
