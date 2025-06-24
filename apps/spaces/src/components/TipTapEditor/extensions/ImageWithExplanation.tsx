@@ -10,6 +10,8 @@ export const ImageWithExplanation = Image.extend({
       'data-original-width': { default: null },
       'data-original-height': { default: null },
       'data-explanation': { default: null },
+      'data-image-id': { default: null },
+      'data-original-filename': { default: null },
     }
   },
   
@@ -39,6 +41,13 @@ export const ImageWithExplanation = Image.extend({
         object-fit: contain;
         border-radius: 4px;
       `
+
+      if (node.attrs['data-image-id']) {
+        img.setAttribute('data-image-id', node.attrs['data-image-id'])
+      }
+      if (node.attrs['data-original-filename']) {
+        img.setAttribute('data-original-filename', node.attrs['data-original-filename'])
+      }
       
       const setImageDimensions = (width, height) => {
         img.style.width = `${width}px`
@@ -129,7 +138,6 @@ export const ImageWithExplanation = Image.extend({
           if (updatedNode.type.name !== 'image') return false
           
           if (isUpdating) {
-            console.log('Skipping update during resize')
             return true
           }
           

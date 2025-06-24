@@ -1,18 +1,32 @@
 import { useCallback, useRef } from 'react'
 import { NodeSelection } from 'prosemirror-state'
 
+interface ImageUploadResponse {
+  id: string;
+  presignedUrl: string;
+  originalFilename: string;
+}
 interface UseImageUploadOptions {
   maxSizeInMB?: number
   allowedTypes?: string[]
-  uploadFunction?: (file: File) => Promise<string>
+  uploadFunction?: (file: File) => Promise<ImageUploadResponse>
 }
 
-const defaultUploadImage = async (file: File): Promise<string> => {
+const defaultUploadImage = async (file: File): Promise<ImageUploadResponse> => {
   
   // replace this with the logic for uploading to a bucket
   return new Promise((resolve) => {
     const reader = new FileReader()
-    reader.onload = () => resolve(reader.result as string)
+    reader.onload = () => {
+      // after uploading the image we should get an id and presignedUrl, for now we are mocking the id to mimic the structure
+      const mockId = `img_${Date.now()}` 
+      
+      resolve({
+        id: mockId,
+        presignedUrl: reader.result as string, // this should be the actual url from the bucket
+        originalFilename: file.name
+      })
+    }
     reader.readAsDataURL(file)
   })
 }
@@ -56,8 +70,13 @@ export const useImageUpload = (
     }
 
     try {
-      const imageUrl = await uploadFunction(file)
-      editor.chain().focus().setImage({ src: imageUrl }).run()
+      const uploadResponse = await uploadFunction(file)
+      editor.chain().focus().setImage({ 
+        src: uploadResponse.presignedUrl,
+        'data-image-id': uploadResponse.id,
+        'data-original-filename': uploadResponse.originalFilename,
+        alt: uploadResponse.originalFilename
+      }).run()
     } catch (error) {
       console.error('Error uploading image:', error)
       alert('Failed to upload image')
