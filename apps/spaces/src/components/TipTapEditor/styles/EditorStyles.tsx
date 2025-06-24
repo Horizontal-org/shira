@@ -1,6 +1,43 @@
 import { createGlobalStyle } from "@shira/ui";
 
 export const EditorStyles = createGlobalStyle`
+.image-resize-container {
+  position: relative;
+  display: inline-block;
+  border: 2px dashed transparent;
+  transition: border-color 0.2s ease;
+}
+
+.image-resize-container:hover {
+  border-color: #2563eb !important;
+}
+
+.image-resize-container:hover .resize-handle {
+  display: block !important;
+}
+
+.resize-handle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #2563eb;
+  border: 1px solid white;
+  border-radius: 2px;
+  z-index: 10;
+  display: none;
+  transition: all 0.2s ease;
+}
+
+.resize-handle:hover {
+  background: #1d4ed8;
+  transform: scale(1.2);
+}
+
+.resize-nw { cursor: nw-resize; }
+.resize-ne { cursor: ne-resize; }
+.resize-sw { cursor: sw-resize; }
+.resize-se { cursor: se-resize; }
+
 .ProseMirror {
   background: white;
   border-radius: 16px;
@@ -53,12 +90,11 @@ export const EditorStyles = createGlobalStyle`
   }
 
   img {
-    max-width: 300px;
-    max-height: 200px;
-    width: auto;
-    height: auto;
+    max-width: 500px;
+    max-height: 400px;
+    min-width: 50px;
+    min-height: 30px;
     cursor: pointer;
-    transition: all 0.2s ease;
     object-fit: contain;
     border-radius: 4px;
     
@@ -72,12 +108,11 @@ export const EditorStyles = createGlobalStyle`
     
     &:hover {
       opacity: 0.9;
-      transform: scale(1.02);
     }
   }
 
-  .image-container {
-    margin: 0.5rem 0;
+  .image-resize-container img {
+    display: block;
   }
 
   blockquote {
