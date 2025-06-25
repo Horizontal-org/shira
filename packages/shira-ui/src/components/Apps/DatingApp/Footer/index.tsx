@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react'
-import { styled } from '@shira/ui'
+import styled from 'styled-components'
 import Location from './Icons/Location'
 import Camera from './Icons/Camera'
 import Smile from './Icons/Smile'

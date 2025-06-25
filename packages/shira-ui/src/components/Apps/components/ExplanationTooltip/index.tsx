@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState, useRef } from "react"
-import { styled } from '@shira/ui'
+import styled from 'styled-components';
 import './styles.css'
 
 import { usePopper } from 'react-popper';

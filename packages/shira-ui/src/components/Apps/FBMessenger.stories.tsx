@@ -1,4 +1,4 @@
-import { styled } from '@shira/ui'
+import styled from 'styled-components';
 import { Meta, StoryObj } from '@storybook/react';
 
 import FBMessenger from '../../components/Apps/FBMessenger';

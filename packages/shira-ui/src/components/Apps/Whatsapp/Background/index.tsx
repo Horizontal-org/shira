@@ -1,5 +1,5 @@
 import { FunctionComponent, ReactNode } from 'react'
-import { styled } from '@shira/ui'
+import styled from 'styled-components'
 
 interface Props {
   children: ReactNode

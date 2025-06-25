@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react'
-import { styled } from '@shira/ui'
+import styled from 'styled-components'
 
 import SearchIcon from './components/SearchIcon'
 import PreferencesIcon from './components/PreferencesIcon'

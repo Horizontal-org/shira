@@ -59,11 +59,11 @@ export class ConfirmRegistrationAuthService implements IConfirmRegistrationAuthS
         role: Role.SpaceAdmin
     });
 
-    await this.createSpaceService.execute({
-        name: registration.spaceName, 
-        firstUser: user,
-        slug: ""
-    })
+    // await this.createSpaceService.execute({
+    //     name: registration.spaceName, 
+    //     firstUser: user,
+    //     slug: ""
+    // })
 
     return
   }

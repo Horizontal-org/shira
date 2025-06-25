@@ -42,8 +42,8 @@ export class UserEntity {
   @Column()
   password: string;
 
-  @Column()
-  role: Role
+  @Column({ name: 'is_super_admin'})
+  isSuperAdmin: boolean;
 
   @Expose()
   @Column({ name: 'created_at' })

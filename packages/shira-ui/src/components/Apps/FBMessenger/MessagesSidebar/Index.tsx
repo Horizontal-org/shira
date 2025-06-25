@@ -1,5 +1,6 @@
 import { FunctionComponent  } from "react"
-import { styled } from '@shira/ui'
+import styled from 'styled-components'
+
 import Header from "./Header"
 import MessagesList from "./MessagesList"
 import SearchBar from "./SearchBar"

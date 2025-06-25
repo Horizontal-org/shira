@@ -1,6 +1,5 @@
 import { FunctionComponent } from 'react'
-import { AttachmentType, styled } from '@shira/ui'
-
+import styled from 'styled-components'
 import { 
   ImageIcon,
   VideoIcon,
@@ -8,6 +7,7 @@ import {
   GenericAttachmentIcon,
   PdfIcon,
 } from '../../../Icons';
+import { AttachmentType } from '../../../Attachments';
 
 interface Props {
   position: string;

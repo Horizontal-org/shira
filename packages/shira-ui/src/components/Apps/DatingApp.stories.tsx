@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react';
-import { styled } from '@shira/ui'
+import styled from 'styled-components';
 
 import DatingApp from '../../components/Apps/DatingApp';
 

@@ -1,3 +1,4 @@
+import { OrganizationEntity } from 'src/modules/organization/domain/organization.entity';
 import { Quiz } from 'src/modules/quiz/domain/quiz.entity';
 import { UserEntity } from 'src/modules/user/domain/user.entity';
 import {
@@ -10,6 +11,7 @@ import {
     JoinTable,
     ManyToOne,
     OneToMany,
+    JoinColumn,
   } from 'typeorm';
   
   @Entity({ name: 'spaces' })
@@ -19,6 +21,13 @@ import {
   
     @Column({ length: 150 })
     name: string;
+
+    @Column({ name: 'organization_id' })
+    organizationId: number
+
+    @ManyToOne(() => OrganizationEntity)
+    @JoinColumn({ name: 'organization_id' })
+    organization: OrganizationEntity;
   
     @ManyToMany(
       () => UserEntity, 
