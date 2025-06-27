@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Param, Post, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param, Post, Query, UnprocessableEntityException, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthController } from 'src/utils/decorators/auth-controller.decorator';
 import { CreateQuestionImageService } from '../services/create.question_image.service';
@@ -17,11 +17,16 @@ export class CreateQuestionImageController {
   @Post('upload')
   @Roles(Role.SpaceAdmin)
   @UseInterceptors(FileInterceptor('file'))
-  uploadFile(
+  async uploadFile(
     @UploadedFile('file') file: Express.Multer.File,
     @Query('quizId') quizId: number, 
-    @Query('questionId') questionId: number
+    @Query('questionId') questionId: number | null
   ) { 
+
+    if (!quizId || !file ) {
+      throw new UnprocessableEntityException()
+    }
+    
     return this.createQuestionImageService.execute({
       file: file,
       quizId,

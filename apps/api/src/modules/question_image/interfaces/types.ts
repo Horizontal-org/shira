@@ -1,5 +1,7 @@
 export const TYPES = {
   services: {
-    ICreateQuestionImageService: 'ICreateQuestionImageService'
+    ICreateQuestionImageService: 'ICreateQuestionImageService',
+    ISyncQuestionImageService: 'ISyncQuestionImageService',
+    IGenerateUrlsQuestionImageService: 'IGenerateUrlsQuestionImageService'
   },
 };

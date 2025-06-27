@@ -1,6 +1,6 @@
 import { Question } from 'src/modules/question/domain';
 import { Quiz } from 'src/modules/quiz/domain/quiz.entity';
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, JoinColumn, RelationId } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, RelationId } from 'typeorm';
 
 @Entity({ name: 'question_images' })
 export class QuestionImage {

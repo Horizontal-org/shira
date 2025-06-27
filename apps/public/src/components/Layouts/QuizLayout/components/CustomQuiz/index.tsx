@@ -9,10 +9,12 @@ import { Question as QuestionType } from '../../../../../domain/question'
 
 interface Props {
   questions: QuestionType[]
+  images: Array<{ imageId: number; url: string }>
 }
 
 export const CustomQuiz:FunctionComponent<Props> = ({
-  questions
+  questions,
+  images
 }) => {
   const {
     changeScene,
@@ -33,6 +35,7 @@ export const CustomQuiz:FunctionComponent<Props> = ({
         <Question 
           key={questionIndex}
           question={questions.length > 0 && questions[questionIndex]}
+          images={images}
           questionIndex={questionIndex}
           questionCount={questions.length}
           changeScene={changeScene}

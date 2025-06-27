@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { QuestionImage as QuestionImageEntity } from '../domain';
 import { CreateQuestionImageDto } from '../dto/create.question_image.dto';
-import { ICreateQuestionImageService } from '../interfaces/services/create.question_image.service.interface';
+import { CreateQuestionImageServiceResponse, ICreateQuestionImageService } from '../interfaces/services/create.question_image.service.interface';
 import { IImageService } from 'src/modules/image/interfaces/services/image.service.interface';
 import { TYPES as TYPES_IMAGE } from 'src/modules/image/interfaces';
 @Injectable()
@@ -16,29 +16,48 @@ export class CreateQuestionImageService implements ICreateQuestionImageService{
     private imageService: IImageService
   ) {}
 
-  async execute (createQuestionImageDto: CreateQuestionImageDto) {
-
-    const filePath = this.createFilePath(createQuestionImageDto)
+  async execute (createQuestionImageDto: CreateQuestionImageDto): Promise<CreateQuestionImageServiceResponse> {
+    const fileInfo = await this.createFilePath(createQuestionImageDto)
     const questionImage = new QuestionImageEntity()
 
-    questionImage.name = createQuestionImageDto.file.originalname
-    questionImage.relativePath = filePath
+    questionImage.name = fileInfo.name
+    questionImage.relativePath = fileInfo.path
     questionImage.quizId = createQuestionImageDto.quizId
 
     if (createQuestionImageDto.questionId) {
       questionImage.questionId = createQuestionImageDto.questionId
     }
 
-    await this.questionImageRepo.save(questionImage)
+    const savedQI = await this.questionImageRepo.save(questionImage)
 
-    return this.imageService.upload({
+    await this.imageService.upload({
       file: createQuestionImageDto.file,
-      filePath: filePath
+      fileName: fileInfo.name,
+      filePath: fileInfo.path
     })
+
+    return {
+      imageId: savedQI.id,
+      url: await this.imageService.get(fileInfo.path)
+    }
   }
 
-  private createFilePath(createQuestionImageDto: CreateQuestionImageDto) {
-    const name = createQuestionImageDto.file.originalname
-    return `question-images/${createQuestionImageDto.quizId}/${createQuestionImageDto.questionId ? createQuestionImageDto.questionId + '/' : ''}${name}`
+  private async createFilePath(createQuestionImageDto: CreateQuestionImageDto) {
+    let name = createQuestionImageDto.file.originalname
+    let path = `question-images/${createQuestionImageDto.quizId}/${name}`
+    
+    // check for files with the same name
+    const sameNameCount = await this.questionImageRepo
+      .createQueryBuilder('question_images')
+      .where('relative_path = :relativePath', { relativePath: path })
+      .getCount()
+
+    name = sameNameCount > 0 ? `${sameNameCount}_` + name : name
+    path = `question-images/${createQuestionImageDto.quizId}/${name}`
+    
+    return {
+      path,
+      name
+    }
   }
 }

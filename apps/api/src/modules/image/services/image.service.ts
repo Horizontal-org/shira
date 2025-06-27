@@ -17,17 +17,33 @@ export class ImageService {
       'GET',
       this._bucketName,
       name,
-    );
+    )
   }
 
-  public async upload(params) {
+  public async bulkGet(images) {
+    const promises = images.map(i =>
+      this.minioService.presignedUrl(
+        'GET',
+        this._bucketName,
+        i.path,
+      )
+      .then(url => ({ ...i, url }))
+      .catch(error => ({ ...i, error }))
+    )
+
+    const results = await Promise.all(promises);
+    console.log("🚀 ~ ImageService ~ bulkGet ~ results:", results)
+    return results
+  }
+
+  public async upload(params) {    
     return new Promise((resolve, reject) => {
 
-      const filename = params.fileName ?  params.fileName : `orphan-images/${params.file.originalname}`;
+      const filePath = params.filePath ?  params.filePath : `orphan-images/${params.fileName}`;
       
       this.minioService.putObject(
         this._bucketName,
-        filename,
+        filePath,
         params.file.buffer,
         params.file.size,
         (error, objInfo) => {

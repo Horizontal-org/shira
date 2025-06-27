@@ -10,15 +10,16 @@ interface Props {
   explanations?: Explanation[]
   explanationNumber: number
   showExplanations: boolean
+  images?: Array<{ imageId: number; url: string }>
 }
 
-export const MailApps: FunctionComponent<Props> = ({ content, name, explanations, explanationNumber, showExplanations }) => {
+export const MailApps: FunctionComponent<Props> = ({ content, name, explanations, explanationNumber, showExplanations, images }) => {
 
   const {
     parseAttachments,
     parseCustomElement,
     parseContent, 
-  } = useParseHTML(content)
+  } = useParseHTML(content, images)
 
   const { persistedEmail, persistedName } = useStore(
     (state) => ({

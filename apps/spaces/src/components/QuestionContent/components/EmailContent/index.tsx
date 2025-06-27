@@ -27,7 +27,6 @@ export const EmailContent: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const html = remapHtml(content)
-    console.log("🚀 ~ useEffect ~ html:", html)
     if (html) {
       const senderName = html.getElementById('component-required-sender-name')
       const senderEmail = html.getElementById('component-required-sender-email')

@@ -1,5 +1,6 @@
 const useParseHTML = (
-  content: any
+  content: any,
+  images: Array<{ imageId: number; url: string }> = []
 ) => {
   const html = new DOMParser().parseFromString(content, 'text/html')
 
@@ -27,7 +28,21 @@ const useParseHTML = (
     return object
   }
 
-  const parseContent = (): HTMLElement => html.querySelector('[id*="component-text"]')
+  const parseContent = (): HTMLElement => {
+    
+    // insert image urls
+    if (images.length > 0) {
+      html.querySelectorAll('img[data-image-id]')
+        .forEach((img) => {
+          const imgElement = images.find(i => i.imageId === parseInt(img.getAttribute('data-image-id')))
+          if (imgElement) {
+            img.setAttribute("src", imgElement.url)          
+          }
+        })
+    }
+      
+    return html.querySelector('[id*="component-text"]')
+  }
 
   const parseDynamicContent = () => html.getElementById('dynamic-content')
 

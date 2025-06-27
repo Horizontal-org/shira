@@ -4,6 +4,7 @@ import { QuestionImage } from './domain';
 import { servicesQuestionImageProviders } from './question_image.provider';
 import { questionImageControllers } from './controllers';
 import { ImageModule } from '../image/image.module';
+import { QuestionImageSubscriber } from './events/events.question_image';
 
 @Module({
   imports: [
@@ -14,8 +15,12 @@ import { ImageModule } from '../image/image.module';
     ...questionImageControllers
   ],
   providers: [
+    QuestionImageSubscriber,
     ...servicesQuestionImageProviders
   ],
+  exports: [
+    ...servicesQuestionImageProviders
+  ]
 })
 
 export class QuestionImageModule {}

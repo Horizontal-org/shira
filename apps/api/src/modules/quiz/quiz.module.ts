@@ -21,6 +21,7 @@ import { EditQuestionQuizController } from './controller/edit-question.quiz.cont
 import { DeleteQuestionQuizController } from './controller/delete-question.quiz.controller';
 import { ReorderQuestionQuizController } from './controller/reorder-question.quiz.controller';
 import { QuestionImage } from '../question_image/domain';
+import { QuestionImageModule } from '../question_image/question_image.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { QuestionImage } from '../question_image/domain';
         QuestionImage,
         App
     ]),
+    QuestionImageModule
   ],
   controllers: [
     CreateQuizController,

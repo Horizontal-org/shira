@@ -13,6 +13,11 @@ export interface Question {
   isPhising: number;
 }
 
+export interface QuestionImage {
+  url: string;
+  imageId: number
+}
+
 export interface QuestionPayload {
   name: string
   content: string
@@ -20,6 +25,7 @@ export interface QuestionPayload {
   apps: App[]
   explanations: Explanation[]
   fieldOfWorkId: number
+  images?: QuestionImage[]
 }
 
 export interface CustomElements {

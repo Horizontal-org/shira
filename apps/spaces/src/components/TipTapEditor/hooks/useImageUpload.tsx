@@ -1,5 +1,7 @@
 import { useCallback, useRef } from 'react'
 import { NodeSelection } from 'prosemirror-state'
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 interface ImageUploadResponse {
   id: string;
@@ -12,23 +14,31 @@ interface UseImageUploadOptions {
   uploadFunction?: (file: File) => Promise<ImageUploadResponse>
 }
 
-const defaultUploadImage = async (file: File): Promise<ImageUploadResponse> => {
-  
-  // replace this with the logic for uploading to a bucket
-  return new Promise((resolve) => {
-    const reader = new FileReader()
-    reader.onload = () => {
-      // after uploading the image we should get an id and presignedUrl, for now we are mocking the id to mimic the structure
-      const mockId = `img_${Date.now()}` 
-      
-      resolve({
-        id: mockId,
-        presignedUrl: reader.result as string, // this should be the actual url from the bucket
-        originalFilename: file.name
-      })
+const defaultUploadImage = async (file: File, quizId: string, questionId: string = null): Promise<ImageUploadResponse> => {
+  try {
+    const formData = new FormData()
+    formData.append('file', file)
+
+    let url = `${process.env.REACT_APP_API_URL}/question-image/upload?quizId=${quizId}` 
+    if (questionId) {
+      url = url + `&questionId${questionId}`
     }
-    reader.readAsDataURL(file)
-  })
+
+    const res = await axios.post(url, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    
+    return {
+      id: res.data.imageId,
+      presignedUrl: res.data.url,
+      originalFilename: file.name
+    }
+  } catch (e) {
+    console.log("🚀 ~ defaultUploadImage ~ e:", e)
+    throw new Error(e)
+  }
 }
 
 export const useImageUpload = (
@@ -41,6 +51,7 @@ export const useImageUpload = (
     uploadFunction = defaultUploadImage
   } = options
 
+  const { quizId, questionId = null } = useParams()  
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const validateFile = useCallback((file: File): string | null => {
@@ -70,7 +81,7 @@ export const useImageUpload = (
     }
 
     try {
-      const uploadResponse = await uploadFunction(file)
+      const uploadResponse = await uploadFunction(file, quizId, questionId)
       editor.chain().focus().setImage({ 
         src: uploadResponse.presignedUrl,
         'data-image-id': uploadResponse.id,
