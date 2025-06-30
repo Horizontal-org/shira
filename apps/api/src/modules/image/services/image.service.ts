@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, ServiceUnavailableException } from '@nestjs/common';
 import { InjectMinio } from '../decorators/minio.decorator';
 import * as Minio from 'minio';
+import { IImageService } from '../interfaces/services/image.service.interface';
 
 @Injectable()
-export class ImageService {
+export class ImageService implements IImageService {
   
   protected _bucketName = process.env.IMAGE_BUCKET;
   
@@ -31,12 +32,17 @@ export class ImageService {
       .catch(error => ({ ...i, error }))
     )
 
-    const results = await Promise.all(promises);
-    console.log("🚀 ~ ImageService ~ bulkGet ~ results:", results)
-    return results
+    try {
+      const results = await Promise.all(promises);
+      return results
+    } catch (e) {
+      console.log("🚀 ~ ImageService ~ bulkGet ~ e:", e)
+      throw new ServiceUnavailableException()
+    }
+
   }
 
-  public async upload(params) {    
+  public async upload(params): Promise<void> {    
     return new Promise((resolve, reject) => {
 
       const filePath = params.filePath ?  params.filePath : `orphan-images/${params.fileName}`;
@@ -57,12 +63,19 @@ export class ImageService {
     });
   }
   
-  public async delete(imagePath: string) {
-    await this.minioService.removeObject(
-      this._bucketName,
-      imagePath
-    )
+  public async delete(imagePath: string): Promise<void> {
+    console.log("🚀 ~ ImageService ~ delete ~ imagePath:", imagePath)
+    try {
+      await this.minioService.removeObject(
+        this._bucketName,
+        imagePath
+      )
+    } catch (e) {
+      console.log("🚀 ~ ImageService ~ delete ~ e:", e)
+      throw new ServiceUnavailableException()
+    }
   }
+
 
   public async copyAndDeleteOrigin(originPath: string, destinationPath: string) {
     const conds = new Minio.CopyConditions()

@@ -4,10 +4,16 @@ export interface ImageParams {
   fileName: string
 }
 
+export interface ImageResponse {
+  path: string; 
+  imageId: number;
+  url?: string;
+}
+
 export interface IImageService {
-  upload(params: ImageParams): void;
-  get(name): string;
-  bulkGet(images: Array<{ path: string; imageId: number }>): void
-  delete(name): void;
+  upload(params: ImageParams): Promise<void>;
+  get(name): Promise<string>;
+  bulkGet(images: ImageResponse[]): void
+  delete(name: string): Promise<void>;
   copyAndDeleteOrigin(originPath: string, destinationPath: string)
 }

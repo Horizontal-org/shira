@@ -6,6 +6,7 @@ import { CreateQuestionImageDto } from '../dto/create.question_image.dto';
 import { CreateQuestionImageServiceResponse, ICreateQuestionImageService } from '../interfaces/services/create.question_image.service.interface';
 import { IImageService } from 'src/modules/image/interfaces/services/image.service.interface';
 import { TYPES as TYPES_IMAGE } from 'src/modules/image/interfaces';
+import { formatISO } from 'date-fns';
 @Injectable()
 export class CreateQuestionImageService implements ICreateQuestionImageService{
 
@@ -19,6 +20,7 @@ export class CreateQuestionImageService implements ICreateQuestionImageService{
   async execute (createQuestionImageDto: CreateQuestionImageDto): Promise<CreateQuestionImageServiceResponse> {
     const fileInfo = await this.createFilePath(createQuestionImageDto)
     const questionImage = new QuestionImageEntity()
+    console.log("🚀 ~ CreateQuestionImageService ~ execute ~ questionImage:", questionImage)
 
     questionImage.name = fileInfo.name
     questionImage.relativePath = fileInfo.path
@@ -43,18 +45,10 @@ export class CreateQuestionImageService implements ICreateQuestionImageService{
   }
 
   private async createFilePath(createQuestionImageDto: CreateQuestionImageDto) {
-    let name = createQuestionImageDto.file.originalname
+    const now = formatISO(new Date())
+    let name = now + '_' + createQuestionImageDto.file.originalname
     let path = `question-images/${createQuestionImageDto.quizId}/${name}`
-    
-    // check for files with the same name
-    const sameNameCount = await this.questionImageRepo
-      .createQueryBuilder('question_images')
-      .where('relative_path = :relativePath', { relativePath: path })
-      .getCount()
-
-    name = sameNameCount > 0 ? `${sameNameCount}_` + name : name
-    path = `question-images/${createQuestionImageDto.quizId}/${name}`
-    
+        
     return {
       path,
       name

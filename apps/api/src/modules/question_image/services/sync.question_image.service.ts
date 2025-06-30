@@ -6,6 +6,8 @@ import { ISyncQuestionImageService } from '../interfaces/services/sync.question_
 import { SyncQuestionImageDto } from '../dto/sync.question_image.dto';
 import { TYPES as TYPES_IMAGE } from '../../image/interfaces'
 import { IImageService } from 'src/modules/image/interfaces/services/image.service.interface';
+import { Queue } from 'bullmq';
+import { InjectQueue } from '@nestjs/bullmq';
 
 @Injectable()
 export class SyncQuestionImageService implements ISyncQuestionImageService{
@@ -13,8 +15,8 @@ export class SyncQuestionImageService implements ISyncQuestionImageService{
   constructor(
     @InjectRepository(QuestionImageEntity)
     private readonly questionImageRepo: Repository<QuestionImageEntity>,
-    // @Inject(TYPES_IMAGE.services.IImageService)
-    // private imageService: IImageService
+    @InjectQueue('images')
+    private imagesQueue: Queue
   ) {}
 
   async execute (syncQuestionImages: SyncQuestionImageDto): Promise<void> {
@@ -31,20 +33,24 @@ export class SyncQuestionImageService implements ISyncQuestionImageService{
   
     let toUpdate = []
     let toDelete = []
-   
+    
+    
     quizImages.forEach(qi => {
       if (syncQuestionImages.imageIds.includes(qi.id + '') && !qi.questionId) {
         // update with new question id
         toUpdate.push(qi.id)
       }
 
-      console.log(!syncQuestionImages.imageIds.includes(qi.id + ''))
-      console.log(qi.questionId)
+      console.log(!syncQuestionImages.imageIds.includes(qi.id + ''), qi.questionId)
       if (!syncQuestionImages.imageIds.includes(qi.id + '') && qi.questionId) {
         // delete
         toDelete.push(qi.id)
       }
     })
+
+    console.log("🚀 ~ SyncQuestionImageService ~ execute ~ quizImages:", quizImages)
+    console.log("🚀 ~ SyncQuestionImageService ~ execute ~ toDelete:", toDelete)
+    console.log("🚀 ~ SyncQuestionImageService ~ execute ~ toUpdate:", toUpdate)
 
     if (toUpdate.length > 0) {
       await this.questionImageRepo.update(
@@ -54,7 +60,13 @@ export class SyncQuestionImageService implements ISyncQuestionImageService{
     }
 
     if (toDelete.length > 0 ) {     
-      //TODO BUCKET DELETE HERE
+      quizImages
+        .filter(qi => toDelete.includes(qi.id))
+        .forEach((qi) => {
+          // ADD TO QUEUE DELETES FROM BUCKET
+          this.imagesQueue.add('delete', qi.relativePath)
+        })        
+
       await this.questionImageRepo.delete(  
         { id: In(toDelete) },
       )

@@ -6,8 +6,10 @@ import { DeleteQuestionImageDto } from '../dto/delete.question_image.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QuestionImage } from '../domain';
 import { Repository } from 'typeorm';
+import { Roles } from 'src/modules/auth/decorators/roles.decorators';
+import { Role } from 'src/modules/user/domain/role.enum';
 
-@AuthController('question_image')
+@AuthController('question-image')
 export class DeleteQuestionImageController {
 
  constructor(
@@ -16,8 +18,10 @@ export class DeleteQuestionImageController {
   @InjectRepository(QuestionImage)
   private readonly questionImageRepository: Repository<QuestionImage>,
 ) {}
- 
+
+  //TESTING PURPOSES ONLY
   @Post('delete')
+  @Roles(Role.SuperAdmin)
   async getFile(
     @Body() deleteQuestionImageDto: DeleteQuestionImageDto
   ) {
