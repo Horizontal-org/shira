@@ -48,10 +48,6 @@ export class SyncQuestionImageService implements ISyncQuestionImageService{
       }
     })
 
-    console.log("🚀 ~ SyncQuestionImageService ~ execute ~ quizImages:", quizImages)
-    console.log("🚀 ~ SyncQuestionImageService ~ execute ~ toDelete:", toDelete)
-    console.log("🚀 ~ SyncQuestionImageService ~ execute ~ toUpdate:", toUpdate)
-
     if (toUpdate.length > 0) {
       await this.questionImageRepo.update(
         { id: In(toUpdate) },

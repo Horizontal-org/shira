@@ -25,7 +25,7 @@ import { imageControllers } from './controllers';
           port: parseInt(process.env.IMAGE_PORT),
           accessKey: process.env.IMAGE_ACCESS_KEY,
           secretKey: process.env.IMAGE_SECRET_KEY,
-          useSSL: false, //add if for production | local
+          useSSL: true,
           region: 'garage'
         });
         return client;
