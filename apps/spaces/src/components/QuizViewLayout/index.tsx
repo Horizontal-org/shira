@@ -21,6 +21,7 @@ import { DeleteModal } from "../modals/DeleteModal";
 import { RenameQuizModal } from "../modals/RenameQuizModal";
 import toast from "react-hot-toast";
 import { useQuestionCRUD } from "../../fetch/question";
+import { UnpublishedQuizModal } from "../modals/UnpublishedQuizModal";
 
 interface Props {}
 
@@ -34,7 +35,6 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     deleteQuiz,    
     quizActionSuccess,
     cleanQuizActionSuccess,
-    setQuizActionSuccess,
     reorderQuiz
   } = useStore((state) => ({
     updateQuiz: state.updateQuiz,
@@ -42,7 +42,6 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     reorderQuiz: state.reorderQuiz,
     quizActionSuccess: state.quizActionSuccess,
     cleanQuizActionSuccess: state.cleanQuizActionSuccess,
-    setQuizActionSuccess: state.setQuizActionSuccess
   }), shallow)
 
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
@@ -52,13 +51,13 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
+  const [isUnpublishedQuizModalOpen, setIsUnpublishedQuizModalOpen] = useState(false);
   const { destroy, actionFeedback } = useQuestionCRUD()
   
   const getQuiz = async () => {
     try {
       const parsedId = parseInt(id)      
       const quiz = await getQuizById(parsedId)
-      console.log("🚀 ~ getQuiz ~ quiz:", quiz)
 
       handleQuiz(quiz)
       setIsPublished(quiz.published)
@@ -148,7 +147,13 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                     leftIcon={<CopyUrlIcon />}
                     text="Copy quiz link"
                     type="outline"
-                    onClick={() => { handleCopyUrl(quiz.hash) }}
+                    onClick={() => { 
+                      if (quiz.published) {
+                        handleCopyUrl(quiz.hash)
+                      } else {
+                        setIsUnpublishedQuizModalOpen(true)
+                      }
+                    }}
                   />
                   <Button 
                     leftIcon={<DeleteIcon />}
@@ -156,9 +161,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                     type="outline"
                     onClick={() => { setIsDeleteModalOpen(true) }}
                   />
-                </LeftButtons>
-
-                
+                </LeftButtons>                
               </ButtonsContainer>
             </Wrapper>
 
@@ -196,6 +199,14 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 }}
                 isModalOpen={isDeleteModalOpen}
               />
+
+              <UnpublishedQuizModal
+                setIsModalOpen={setIsUnpublishedQuizModalOpen}
+                isModalOpen={isUnpublishedQuizModalOpen}
+                onConfirm={() => {
+                  handleTogglePublished(quiz.id, true)
+                }}
+              />
       
               <RenameQuizModal
                 quiz={quiz}
@@ -216,8 +227,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
           <Header>
             <H2>Loading...</H2>
           </Header>
-        )}
-         
+        )}         
       </MainContent>
     </Container>
   );
