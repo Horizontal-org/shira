@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { NodeSelection } from 'prosemirror-state'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -54,6 +54,8 @@ export const useImageUpload = (
   const { quizId, questionId = null } = useParams()  
   const fileInputRef = useRef<HTMLInputElement>(null)
 
+  const [isUploading, setIsUploading] = useState(false)
+
   const validateFile = useCallback((file: File): string | null => {
     if (!allowedTypes.some(type => file.type.startsWith(type.split('/')[0]))) {
       return 'Please select an image file'
@@ -67,8 +69,10 @@ export const useImageUpload = (
   }, [allowedTypes, maxSizeInMB])
 
   const handleImageUpload = useCallback(() => {
+    if (isUploading) return
     fileInputRef.current?.click()
-  }, [])
+  }, [isUploading])
+
 
   const onImageSelect = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -80,6 +84,7 @@ export const useImageUpload = (
       return
     }
 
+    setIsUploading(true)
     try {
       const uploadResponse = await uploadFunction(file, quizId, questionId)
       editor.chain().focus().setImage({ 
@@ -92,6 +97,7 @@ export const useImageUpload = (
       console.error('Error uploading image:', error)
       alert('Failed to upload image')
     } finally {
+      setIsUploading(false)
       event.target.value = ''
     }
   }, [editor, validateFile, uploadFunction])
@@ -136,6 +142,7 @@ export const useImageUpload = (
     selectedImageHasExplanation: selectedImageHasExplanation(),
     getSelectedImageAttrs,
     updateSelectedImage,
-    validateFile
+    validateFile,
+    isUploading
   }
 }
