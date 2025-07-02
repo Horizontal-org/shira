@@ -11,6 +11,7 @@ import { QuestionContent } from "../QuestionContent";
 import { QuestionToBe } from "./types";
 import { QuestionReview } from "../QuestionReview";
 import { useNavigate } from "react-router-dom";
+import { ExitQuestionHandleModal } from "../modals/ExitQuestionHandleModal";
 
 interface Props {
   initialContent?: Object
@@ -62,6 +63,7 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
   const [step, handleStep] = useState(0)  
   const [question, handleQuestion] = useState<QuestionToBe>(initialQuestion)
   const [content, handleContent] = useState(initialContent)
+  const [isExitQuestionModalOpen, setIsExitQuestionModalOpen] = useState(false);
 
   const validateStep = () => {
     if (step === 0) {
@@ -80,6 +82,13 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
 
   return (
     <>
+      <ExitQuestionHandleModal
+        isModalOpen={isExitQuestionModalOpen}
+        setIsModalOpen={setIsExitQuestionModalOpen}
+        onConfirm={() => {
+          navigate(-1)
+        }}
+      />
       <QuestionFlowHeader 
         actionFeedback={actionFeedback}
         onNext={() => {
@@ -94,18 +103,18 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
               content: content
             })
           }
-
           handleStep(step + 1)         
         }}
         onBack={() => {
           if (step === 0) {
-            navigate(-1)
+            setIsExitQuestionModalOpen(true)
           } else {
             handleStep(step - 1)
           }
         }}
         step={step}
         disableNext={!validateStep()}
+        onExit={() => { setIsExitQuestionModalOpen(true) }}
       />
       <Container>      
         <ContentWrapper>
