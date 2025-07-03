@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react"
-import { Body1, styled, H1, Body2SemiBold, Button } from "@shira/ui"
+import { Body1, styled, H1, Button } from "@shira/ui"
 import { SceneWrapper } from "../../../../UI/SceneWrapper"
 import { CustomQuizNavbar } from "../../../../UI/CustomQuizNavbar"
 import FishTail from '../../../../../assets/FishTail'

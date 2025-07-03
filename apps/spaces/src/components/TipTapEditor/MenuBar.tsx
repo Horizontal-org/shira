@@ -204,7 +204,7 @@ export const MenuBar = ({
 
       <IconWrapper 
         active={!!(editor.isActive('link'))}
-        onClick={() => editor.isActive('link') ? editor.chain().focus().unsetLink().run() :setLink()}
+        onClick={() => editor.isActive('link') ? editor.chain().focus().unsetLink().run() : setLink()}
       >
         <FiLink size={18} />
       </IconWrapper>

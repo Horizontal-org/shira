@@ -8,7 +8,6 @@ import { useTable } from './hooks/useTable'
 
 import { EditorStyles } from './styles/EditorStyles'
 import { getEditorExtensions } from './config/editorExtensions'
-import { useParams } from 'react-router-dom'
 
 interface Props {
   onChange: (body: string) => void;
@@ -56,6 +55,7 @@ export const EmailTipTapEditor = ({
         <EditorStyles />
         <div></div>
         <EditorContent id={editorId} editor={editor} />
+        { links.linkModal }
         <MenuBar 
           editor={editor} 
           setLink={links.setLink}

@@ -29,6 +29,10 @@ const parseCustomElement = (html: Document, customElement: string) => {
 
 const parseContent = (html: Document): HTMLElement => {
   const contentElement = html.querySelector('[id*="component-text"]') as HTMLElement
+  contentElement.querySelectorAll('a').forEach((element) => {
+      element.setAttribute('onclick', 'return false;');
+      element.setAttribute('oncontextmenu', 'return false;');
+  })
   return contentElement || document.createElement('div')
 }
 
@@ -43,8 +47,8 @@ export const AppComponents = {
 
 export const getContentProps = (appName, content) => {
   
-  const html = remapHtml(content)
-  
+  const html = remapHtml(content)  
+
   if (appName === 'Gmail') {
 
     return {
