@@ -13,6 +13,7 @@ export const getContentObject = (htmlContent: Document) => {
 }
 
 export const getQuestionValues = (question: QuestionPayload, htmlContent: Document) => {
+  console.log("🚀 ~ getQuestionValues ~ question:", question)
   const app = question.apps[0]
 
   if (app.type === 'email') {
@@ -31,6 +32,17 @@ export const getQuestionValues = (question: QuestionPayload, htmlContent: Docume
       })
     })
 
+    // images 
+    if (question.images.length > 0) {
+      htmlContent.querySelectorAll('img[data-image-id]')
+        .forEach((img) => {
+          const imgElement = question.images.find(i => i.imageId === parseInt(img.getAttribute('data-image-id')))
+          if (imgElement) {
+            img.setAttribute("src", imgElement.url)          
+          }
+        })
+    }
+      
     return {
       app: app,
       name: question.name,

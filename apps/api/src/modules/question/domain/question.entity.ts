@@ -17,6 +17,7 @@ import { Explanation } from './explanation.entity';
 import { QuestionTranslation } from '../../translation/domain/questionTranslation.entity';
 import { Language } from 'src/modules/languages/domain';
 import { QuizQuestion } from 'src/modules/quiz/domain/quizzes_questions.entity';
+import { QuestionImage } from 'src/modules/question_image/domain/question_images.entity';
 
 @Entity({ name: 'questions' })
 export class Question {
@@ -84,6 +85,13 @@ export class Question {
       quizQuestion.question,
   )
   quizQuestions?: QuizQuestion[];
+
+  @OneToMany(
+    () => QuestionImage,
+    (questionImage: QuestionImage) =>
+      questionImage.question,
+  )
+  images?: QuestionImage[];
 
   @Column()
   type: 'demo' | 'quiz';

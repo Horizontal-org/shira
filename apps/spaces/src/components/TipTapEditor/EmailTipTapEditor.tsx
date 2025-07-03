@@ -8,6 +8,7 @@ import { useTable } from './hooks/useTable'
 
 import { EditorStyles } from './styles/EditorStyles'
 import { getEditorExtensions } from './config/editorExtensions'
+import { LoadingOverlay } from '../LoadingOverlay/LoadingOverlay'
 
 interface Props {
   onChange: (body: string) => void;
@@ -35,10 +36,12 @@ export const EmailTipTapEditor = ({
   })
 
   const explanations = useExplanations(editor, editorId)
+
   const images = useImageUpload(editor, {
     maxSizeInMB: 5,
     allowedTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
   })
+
   const links = useLink(editor)
   const tables = useTable(editor)
 
@@ -52,7 +55,10 @@ export const EmailTipTapEditor = ({
       <EditorWrapper>
         <EditorStyles />
         <div></div>
-        <EditorContent id={editorId} editor={editor} />
+        <EditorContainer>
+          <EditorContent id={editorId} editor={editor} />
+          {images.isUploading && <LoadingOverlay />}
+        </EditorContainer>
         <MenuBar 
           editor={editor} 
           setLink={links.setLink}
@@ -102,4 +108,8 @@ const EditorWrapper = styled.div`
 
 const HiddenFileInput = styled.input`
   display: none;
+`
+
+const EditorContainer = styled.div`
+  position: relative;
 `

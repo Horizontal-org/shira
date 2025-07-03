@@ -10,7 +10,6 @@ import { useStore } from "../../../store"
 import { shallow } from "zustand/shallow"
 import { QuizSetupNameScene } from "../../../scenes/QuizSetupName"
 import { CustomQuiz } from "./components/CustomQuiz"
-import { CompletedScene } from "../../../scenes/Completed"
 import { CustomQuizCompletedScene } from "../../../scenes/CustomQuizCompleted"
 import { CustomQuizNavbar } from "../../UI/CustomQuizNavbar"
 
@@ -22,6 +21,7 @@ export const QuizLayout: FunctionComponent<Props> = () => {
   let navigate = useNavigate()
 
   const [quiz, handleQuiz] = useState(null)
+  console.log("🚀 ~ quiz:", quiz)
 
   const {
     changeScene,
@@ -96,6 +96,7 @@ export const QuizLayout: FunctionComponent<Props> = () => {
       { scene === 'custom-quiz' && (
         <CustomQuiz 
           questions={quiz.quizQuestions.map((q) => q.question)}
+          images={quiz.images}
         />
       )}
 

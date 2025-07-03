@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Quiz as QuizEntity } from '../domain/quiz.entity';
@@ -6,7 +6,8 @@ import { plainToInstance } from 'class-transformer';
 import { ReadQuizDto } from '../dto/read.quiz.dto';
 import { IGetByHashQuizService } from '../interfaces/services/get-by-hash.quiz.service.interface';
 import { Language } from 'src/modules/languages/domain';
-
+import { TYPES as TYPES_QUESTION_IMAGE } from '../../question_image/interfaces'
+import { IGenerateUrlsQuestionImageService } from 'src/modules/question_image/interfaces/services/generate_urls.question_image.service.interface';
 
 @Injectable()
 export class GetByHashQuizService implements IGetByHashQuizService{
@@ -16,6 +17,8 @@ export class GetByHashQuizService implements IGetByHashQuizService{
     private readonly quizRepo: Repository<QuizEntity>,
     @InjectRepository(Language)
     private readonly languageRepository: Repository<Language>,
+    @Inject(TYPES_QUESTION_IMAGE.services.IGenerateUrlsQuestionImageService)
+    private getImageUrls: IGenerateUrlsQuestionImageService
   ) {}
 
   async execute (
@@ -86,8 +89,10 @@ export class GetByHashQuizService implements IGetByHashQuizService{
       }
     })
     
+    const images = await this.getImageUrls.byQuiz(quiz.id)
     return {
       title: quiz.title,
+      images: images,
       quizQuestions: parsedAll.sort((a, b) => a.position - b.position)
     };
   }

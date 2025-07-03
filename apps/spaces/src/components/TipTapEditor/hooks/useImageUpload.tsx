@@ -1,20 +1,44 @@
-import { useCallback, useRef } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { NodeSelection } from 'prosemirror-state'
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
+interface ImageUploadResponse {
+  id: string;
+  presignedUrl: string;
+  originalFilename: string;
+}
 interface UseImageUploadOptions {
   maxSizeInMB?: number
   allowedTypes?: string[]
-  uploadFunction?: (file: File) => Promise<string>
+  uploadFunction?: (file: File) => Promise<ImageUploadResponse>
 }
 
-const defaultUploadImage = async (file: File): Promise<string> => {
-  
-  // replace this with the logic for uploading to a bucket
-  return new Promise((resolve) => {
-    const reader = new FileReader()
-    reader.onload = () => resolve(reader.result as string)
-    reader.readAsDataURL(file)
-  })
+const defaultUploadImage = async (file: File, quizId: string, questionId: string = null): Promise<ImageUploadResponse> => {
+  try {
+    const formData = new FormData()
+    formData.append('file', file)
+
+    let url = `${process.env.REACT_APP_API_URL}/question-image/upload?quizId=${quizId}` 
+    if (questionId) {
+      url = url + `&questionId${questionId}`
+    }
+
+    const res = await axios.post(url, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    
+    return {
+      id: res.data.imageId,
+      presignedUrl: res.data.url,
+      originalFilename: file.name
+    }
+  } catch (e) {
+    console.log("🚀 ~ defaultUploadImage ~ e:", e)
+    throw new Error(e)
+  }
 }
 
 export const useImageUpload = (
@@ -27,7 +51,10 @@ export const useImageUpload = (
     uploadFunction = defaultUploadImage
   } = options
 
+  const { quizId, questionId = null } = useParams()  
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const [isUploading, setIsUploading] = useState(false)
 
   const validateFile = useCallback((file: File): string | null => {
     if (!allowedTypes.some(type => file.type.startsWith(type.split('/')[0]))) {
@@ -42,8 +69,10 @@ export const useImageUpload = (
   }, [allowedTypes, maxSizeInMB])
 
   const handleImageUpload = useCallback(() => {
+    if (isUploading) return
     fileInputRef.current?.click()
-  }, [])
+  }, [isUploading])
+
 
   const onImageSelect = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -55,13 +84,20 @@ export const useImageUpload = (
       return
     }
 
+    setIsUploading(true)
     try {
-      const imageUrl = await uploadFunction(file)
-      editor.chain().focus().setImage({ src: imageUrl }).run()
+      const uploadResponse = await uploadFunction(file, quizId, questionId)
+      editor.chain().focus().setImage({ 
+        src: uploadResponse.presignedUrl,
+        'data-image-id': uploadResponse.id,
+        'data-original-filename': uploadResponse.originalFilename,
+        alt: uploadResponse.originalFilename
+      }).run()
     } catch (error) {
       console.error('Error uploading image:', error)
       alert('Failed to upload image')
     } finally {
+      setIsUploading(false)
       event.target.value = ''
     }
   }, [editor, validateFile, uploadFunction])
@@ -106,6 +142,7 @@ export const useImageUpload = (
     selectedImageHasExplanation: selectedImageHasExplanation(),
     getSelectedImageAttrs,
     updateSelectedImage,
-    validateFile
+    validateFile,
+    isUploading
   }
 }

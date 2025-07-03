@@ -13,6 +13,7 @@ interface Props {
   question: QuestionType;
   questionCount: number;
   questionIndex: number;
+  images?: Array<{ imageId: number; url: string }>
   onNext: () => void;
   goBack: () => void;
   changeScene: (scene: string) => void;
@@ -23,6 +24,7 @@ export const Question: FunctionComponent<Props> = ({
   question,
   questionCount,
   questionIndex,
+  images,
   goBack,
   onNext,
   setCorrectQuestions
@@ -42,7 +44,7 @@ export const Question: FunctionComponent<Props> = ({
       persistedEmail: state.setup.email,
     })
   )
-  
+
   useEffect(() => {
     const order = parseExplanations(question.explanations)
       .sort((a, b) => parseInt(a.position) - parseInt(b.position))
@@ -83,6 +85,7 @@ export const Question: FunctionComponent<Props> = ({
         explanationNumber={explanationsOrder[explanationNumber]}
         answer={answer}
         showExplanations={showExplanations}
+        images={images}
       />
 
       <QuizFooter

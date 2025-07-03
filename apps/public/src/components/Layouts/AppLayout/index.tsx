@@ -12,6 +12,7 @@ interface Props {
   explanationNumber: number
   answer: string | null
   showExplanations: boolean
+  images?: Array<{ imageId: number; url: string }>
 }
 
 export const AppLayout: FunctionComponent<Props> = ({
@@ -20,7 +21,8 @@ export const AppLayout: FunctionComponent<Props> = ({
   explanations,
   explanationNumber,
   answer,
-  showExplanations
+  showExplanations,
+  images
 }) => {
   return (
     <Wrapper className="apps-container">
@@ -28,6 +30,7 @@ export const AppLayout: FunctionComponent<Props> = ({
       <MailApps 
         content={content}
         name={app.name}
+        images={images}
         explanations={explanations}
         explanationNumber={explanationNumber}
         showExplanations={showExplanations}

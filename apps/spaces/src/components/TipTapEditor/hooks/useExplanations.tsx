@@ -107,6 +107,18 @@ export const useExplanations = (editor: any, editorId: string) => {
       if (node.type.name === 'image' && node.attrs['data-explanation']) {
         activeExplanationIndexes.add(parseInt(node.attrs['data-explanation']))
       }
+
+      if ((node.type.name === 'tableCell' || node.type.name === 'tableHeader') && node.attrs['data-explanation']) {
+        activeExplanationIndexes.add(parseInt(node.attrs['data-explanation']))
+      }
+    })
+
+    const allExplanationElements = document.querySelectorAll('[data-explanation]')
+    allExplanationElements.forEach(element => {
+      const explanationIndex = element.getAttribute('data-explanation')
+      if (explanationIndex) {
+        activeExplanationIndexes.add(parseInt(explanationIndex))
+      }
     })
 
     const orphanedExplanations = storeExplanations.filter(explanation => 
