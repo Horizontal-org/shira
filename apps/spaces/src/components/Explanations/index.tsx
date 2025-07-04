@@ -63,7 +63,6 @@ export const Explanations: FunctionComponent<Props> = ({
       }
     })
   };
-  
 
   const onDragEnd = (result) => {
     // dropped outside the list
