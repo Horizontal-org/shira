@@ -5,7 +5,7 @@ import { QuestionToBe, EmailContent as EmailContentType } from "../QuestionFlowM
 import { Explanations } from "../Explanations";
 import { subscribe, unsubscribe } from "../../utils/customEvent";
 import { cleanDeletedExplanations } from "../../utils/explanations";
-import { IsPhishing } from "./components/IsPhishing";
+import { CommonHeader } from "./components/CommonHeader";
 
 interface Props {
   question: QuestionToBe
@@ -59,8 +59,7 @@ export const QuestionContent: FunctionComponent<Props> = ({
     <Wrapper id='dynamic-content'>
       
       <StyledBox>
-
-        <IsPhishing
+        <CommonHeader
           isPhishing={question.isPhishing}
         />        
 
