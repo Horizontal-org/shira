@@ -38,6 +38,11 @@ interface Props {
   showExplanations?: boolean
 }
 
+const parseSubjectText = (subjectText: string) => {
+    return subjectText && subjectText.length > 0 ?
+      subjectText : `(no subject)`
+}
+
 export const Gmail: FunctionComponent<Props> = ({ 
   content,
   senderName,
@@ -73,7 +78,7 @@ export const Gmail: FunctionComponent<Props> = ({
                   <span
                     data-explanation={subject.explanationPosition}
                   >
-                    {subject.textContent}
+                    { parseSubjectText(subject.textContent) }
                   </span>
                   <InboxLabel>
                     <InboxLabelText>Inbox</InboxLabelText>
@@ -86,7 +91,7 @@ export const Gmail: FunctionComponent<Props> = ({
                 receiverName={receiverName}
                 senderEmail={senderEmail}
                 senderName={senderName}
-                subject={subject}
+                subject={parseSubjectText(subject ? subject.textContent : '')}
               />
               <PaddingLeft>
                 <DynamicContent dangerouslySetInnerHTML={{__html: content ? content.outerHTML : null }}></DynamicContent>

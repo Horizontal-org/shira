@@ -89,6 +89,29 @@ export const LongSubject: Story = {
   },
 };
 
+export const NoSubject: Story = {
+  args: {
+    senderName: {
+      textContent: 'Juan',
+      explanationPosition: null
+    },
+    senderEmail: {
+      textContent: 'juan@wearehorizontal.org',
+      explanationPosition: null
+    },
+    receiverEmail: 'gus@wearehorizontal.org',
+    receiverName: 'Gus',
+    subject: {
+      textContent: '',
+      explanationPosition: null
+    },
+    // content: document.createElement('div'),
+    content: null,
+    attachments: [],
+    explanationNumber: 0,
+    explanations: []
+  },
+};
 
 export const AttachmentTypes: Story = {
   args: {
