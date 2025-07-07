@@ -68,6 +68,12 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   }
 
   useEffect(() => {
+    // test date zones
+    console.log(
+      Date(),
+      new Date()
+    )
+    
     getQuiz()
 
     return () => {

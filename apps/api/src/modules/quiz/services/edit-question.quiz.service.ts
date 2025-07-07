@@ -38,7 +38,6 @@ export class EditQuestionQuizService implements ICreateQuestionQuizService{
   ) {}
 
   async execute (editQuestionDto: EditQuestionQuizDto) {
-    console.log("🚀 ~ EditQuestionQuizService ~ execute ~ editQuestionDto:", editQuestionDto)
     
     let question = await this.questionRepo.findOne({
       where: { id: editQuestionDto.questionId },
@@ -61,7 +60,8 @@ export class EditQuestionQuizService implements ICreateQuestionQuizService{
     question.apps = [app];
     question.languageId = language.id;
     question.content = '';
-    question.type = 'quiz'    
+    question.type = 'quiz'
+    question.updatedAt = new Date()
 
     await this.questionRepo.save(question);
 
@@ -121,7 +121,6 @@ export class EditQuestionQuizService implements ICreateQuestionQuizService{
         }
       ],
     })
-    console.log("🚀 ~ EditQuestionService ~ data:", data)
 
     return data.imageIds
   }
