@@ -12,6 +12,7 @@ import { QuizSetupNameScene } from "../../../scenes/QuizSetupName"
 import { CustomQuiz } from "./components/CustomQuiz"
 import { CustomQuizCompletedScene } from "../../../scenes/CustomQuizCompleted"
 import { CustomQuizNavbar } from "../../UI/CustomQuizNavbar"
+import { InvalidQuiz } from "./components/InvalidQuiz"
 
 interface Props {}
 
@@ -21,6 +22,8 @@ export const QuizLayout: FunctionComponent<Props> = () => {
   let navigate = useNavigate()
 
   const [quiz, handleQuiz] = useState(null)
+  const [showUnavailable, handleShowUnavailable] = useState(false)
+
   console.log("🚀 ~ quiz:", quiz)
 
   const {
@@ -42,8 +45,8 @@ export const QuizLayout: FunctionComponent<Props> = () => {
       const res = await axios.get(`${process.env.REACT_APP_API_URL}/quiz/hash/${hash}`)
       handleQuiz(res.data)
     } catch (e) {
+      handleShowUnavailable(true)
       console.log("🚀 ~ getQuiz ~ e:", e)
-      navigate('/')
     }    
   }
 
@@ -54,6 +57,10 @@ export const QuizLayout: FunctionComponent<Props> = () => {
       resetAll()
     }
   }, [])
+
+  if (showUnavailable) {
+    return <InvalidQuiz />
+  }
 
   if (!quiz) {
     return null

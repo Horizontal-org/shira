@@ -11,7 +11,7 @@ export interface ModalProps {
   primaryButtonDisabled?: boolean;
   secondaryButtonText: string;
   onPrimaryClick: () => void;
-  onSecondaryClick: () => void;
+  onSecondaryClick?: () => void;
   className?: string;
   type?: ModalType
 }
@@ -61,11 +61,13 @@ export const Modal: React.FC<ModalProps> = ({
           </Content>
 
           <Footer>
-            <Button
-              text={secondaryButtonText}
-              type="outline"
-              onClick={onSecondaryClick}
-            />
+            { onSecondaryClick && (
+              <Button
+                text={secondaryButtonText}
+                type="outline"
+                onClick={onSecondaryClick}
+              />
+            )}
             <Button
               text={primaryButtonText}
               type="primary"

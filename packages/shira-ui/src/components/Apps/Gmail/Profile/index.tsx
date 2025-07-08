@@ -14,7 +14,7 @@ interface Props {
   senderEmail: CustomElements;
   receiverName?: string;
   receiverEmail?: string;
-  subject?: CustomElements;
+  subject: string;
 }
 
 export const Profile: FunctionComponent<Props> = ({
@@ -92,7 +92,7 @@ export const Profile: FunctionComponent<Props> = ({
                 { subject && (
                   <div>
                     <BoxLeftInfo>subject:</BoxLeftInfo>
-                    <BoxRightInfo>{subject.textContent || ''}</BoxRightInfo>
+                    <BoxRightInfo>{subject}</BoxRightInfo>
                   </div>
                 )}
                 <div>

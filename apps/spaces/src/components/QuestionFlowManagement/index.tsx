@@ -11,6 +11,8 @@ import { QuestionContent } from "../QuestionContent";
 import { QuestionToBe } from "./types";
 import { QuestionReview } from "../QuestionReview";
 import { useNavigate } from "react-router-dom";
+import { ExitQuestionHandleModal } from "../modals/ExitQuestionHandleModal";
+import { NoExplanationsModal } from "../modals/NoExplanationsModal";
 
 interface Props {
   initialContent?: Object
@@ -44,13 +46,15 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
   const {
     apps,
     fetchApp,
-    clearExplanations
+    clearExplanations,
+    explanations
   } = useStore((state) => ({
     apps: state.apps,
     fetchApp: state.fetchApp,
-    clearExplanations: state.clearExplanations
+    clearExplanations: state.clearExplanations,
+    explanations: state.explanations
   }), shallow)
-
+  
   useEffect(() => {
     fetchApp()
 
@@ -62,6 +66,9 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
   const [step, handleStep] = useState(0)  
   const [question, handleQuestion] = useState<QuestionToBe>(initialQuestion)
   const [content, handleContent] = useState(initialContent)
+
+  const [isExitQuestionModalOpen, setIsExitQuestionModalOpen] = useState(false)
+  const [noExplanationsModalOpen, setNoExplanationsModalOpen] = useState(false)
 
   const validateStep = () => {
     if (step === 0) {
@@ -80,6 +87,22 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
 
   return (
     <>
+      <ExitQuestionHandleModal
+        isModalOpen={isExitQuestionModalOpen}
+        setIsModalOpen={setIsExitQuestionModalOpen}
+        onConfirm={() => {
+          navigate(-1)
+        }}
+      />
+
+      <NoExplanationsModal 
+        isModalOpen={noExplanationsModalOpen}
+        setIsModalOpen={setNoExplanationsModalOpen}
+        onConfirm={() => {
+          handleStep(step + 1)
+        }}
+      />
+    
       <QuestionFlowHeader 
         actionFeedback={actionFeedback}
         onNext={() => {
@@ -93,19 +116,25 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
               ...question,
               content: content
             })
+
+            if (explanations.length === 0) {
+              setNoExplanationsModalOpen(true)
+              return
+            }
           }
 
           handleStep(step + 1)         
         }}
         onBack={() => {
           if (step === 0) {
-            navigate(-1)
+            setIsExitQuestionModalOpen(true)
           } else {
             handleStep(step - 1)
           }
         }}
         step={step}
         disableNext={!validateStep()}
+        onExit={() => { setIsExitQuestionModalOpen(true) }}
       />
       <Container>      
         <ContentWrapper>

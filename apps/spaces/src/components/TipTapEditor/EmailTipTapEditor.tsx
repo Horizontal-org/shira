@@ -55,6 +55,7 @@ export const EmailTipTapEditor = ({
       <EditorWrapper>
         <EditorStyles />
         <div></div>
+        { links.linkModal }
         <EditorContainer>
           <EditorContent id={editorId} editor={editor} />
           {images.isUploading && <LoadingOverlay />}

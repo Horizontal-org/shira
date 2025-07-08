@@ -1,5 +1,5 @@
-import { ReadQuizDto } from "../../dto/read.quiz.dto";
+import { ReadPlainQuizDto } from "../../dto/read-plain.quiz.dto";
 
 export interface IListQuizService {
-  execute(spaceId: number): Promise<ReadQuizDto>;
+  execute(spaceId: number): Promise<ReadPlainQuizDto[]>;
 }

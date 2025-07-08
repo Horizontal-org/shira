@@ -24,6 +24,7 @@ import { OrganizationSubscriptionsEntity } from 'src/modules/organization/domain
 import { OrganizationEntity } from 'src/modules/organization/domain/organization.entity';
 import { OrganizationUsersEntity } from 'src/modules/organization/domain/organization_users.entity';
 import { RoleEntity } from 'src/modules/user/domain/role.entity';
+import { QuestionImage } from 'src/modules/question_image/domain';
 /**
  * Import and provide seeder classes.
  *
@@ -51,7 +52,8 @@ import { RoleEntity } from 'src/modules/user/domain/role.entity';
       OrganizationSubscriptionsEntity,
       OrganizationEntity,
       OrganizationUsersEntity,
-      RoleEntity
+      RoleEntity,
+      QuestionImage
     ])
   ],
   providers: [
