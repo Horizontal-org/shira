@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { SetLinkModal } from "../../modals/SetLinkModal";
+import { EditLinkModal } from "../../modals/EditLinkModal";
 
 export const useLink = (editor: any) => {
   const handleEditorLinkBehaviour = (url: string) => {
@@ -16,27 +17,47 @@ export const useLink = (editor: any) => {
     editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
   }
   
-  const [showModal, handleShowModal] = useState(null)
+  const [showSetModal, handleShowSetModal] = useState<boolean>(false)
+  const [editModalText, handleEditModalText] = useState<string | null>(null)
 
-  const setLink = () => {
-    handleShowModal(true)
+  const setLink = (url = null) => {
+    if (url) {
+      handleEditModalText(url)
+    } else {
+      handleShowSetModal(true)
+    }
   }
 
-  const linkModal = showModal 
+  const setLinkModal = showSetModal 
     ?
       <SetLinkModal 
-        onCancel={() => { handleShowModal(false) }}
+        onCancel={() => { handleShowSetModal(false) }}
         previous={editor.getAttributes('link').href}
         onSubmit={(url) => {
           handleEditorLinkBehaviour(url)
-          handleShowModal(false)
+          handleShowSetModal(false)
+        }}
+      />
+    : null
+
+  const editLinkModal = editModalText 
+    ?
+      <EditLinkModal 
+        url={editModalText}
+        onCancel={() => { 
+          handleEditModalText(null) 
+        }}
+        onSubmit={(url) => {
+          handleEditorLinkBehaviour(url)
+          handleEditModalText(null)
         }}
       />
     : null
 
   return {
     setLink,
-    linkModal
+    setLinkModal,
+    editLinkModal
   }
 
 }

@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { Body1, Modal, styled,  } from "@shira/ui";
+import { Body1, ExplanationIcon, Modal, styled,  } from "@shira/ui";
 
 interface Props {
   isModalOpen: boolean;
@@ -14,6 +14,7 @@ export const ExplanationsHelpModal: FunctionComponent<Props> = ({
   return (
     <Modal
       isOpen={isModalOpen}
+      titleIcon={<SvgWrapper><ExplanationIcon /></SvgWrapper>}
       title={`Explanations`}
       primaryButtonText="OK"
       primaryButtonDisabled={false}
@@ -24,13 +25,13 @@ export const ExplanationsHelpModal: FunctionComponent<Props> = ({
     >
       <div>        
         <Body1>
-          Explanations are sections of text that point to specific elements of a question to help them understand why a message seems like phishing or seems legitimate. 
+          Explanations are short notes that highlight specific elements of a question and explain why these elements may indicate that a message is a phishing attempt or not.
         </Body1>
         <MiddleBody1>
-          To add an explanation, select the explanation icon on the right side of each row. Explanations can be attached to:  
+          To add an explanation, select the explanation icon on the right side of each row. Explanations can be attached to: 
         </MiddleBody1>
         <List>
-          <li><Body1>{`Fields (such as the sender email address or phone number)`}</Body1></li>
+          <li><Body1>{`Fields, such as the sender’s name or email address`}</Body1></li>
           <li><Body1>{`Specific parts of the message content`}</Body1></li>
           <li><Body1>{`File attachments.`}</Body1></li>
         </List>
@@ -52,5 +53,15 @@ const List = styled.ul`
       color: black;
       font-size: 0.6em;
     } 
+  }
+`
+
+const SvgWrapper = styled.div`
+  width: 28px;
+  height: 28px;
+
+  > svg {
+    width: 100%;
+    height: 100%; 
   }
 `

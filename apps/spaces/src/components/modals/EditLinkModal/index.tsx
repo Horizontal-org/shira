@@ -2,28 +2,34 @@ import { FunctionComponent, useEffect, useState } from "react";
 import { Body1, Modal, ModalType, TextInput } from "@shira/ui";
 import styled from "styled-components";
 
+
 interface Props {
-  previous?: string;
   onSubmit: (url: string) => void
   onCancel: () => void
+  url: string
 }
 
-export const SetLinkModal: FunctionComponent<Props> = ({
+export const EditLinkModal: FunctionComponent<Props> = ({
   onSubmit,
   onCancel,
-  previous = null
+  url
 }) => {
 
-  const [url, handleUrl] = useState(previous)
+  const [newUrl, handleUrl] = useState(url)
 
   return (
       <Modal
         isOpen={true}
-        title={`Set Link`}
-        primaryButtonText="OK"
+        title={`Edit link`}
+        primaryButtonText="Save"
         secondaryButtonText="Cancel"
+        leftButtonText="Delete"
+        onLeftClick={() => {
+          onSubmit('')
+          handleUrl('')
+        }}
         onPrimaryClick={() => {
-          onSubmit(url)
+          onSubmit(newUrl)
           handleUrl('')
         }}
         onSecondaryClick={() => {
@@ -37,7 +43,7 @@ export const SetLinkModal: FunctionComponent<Props> = ({
           </Body1>
           <TextInput
             label="Link URL"
-            value={url}
+            value={newUrl}
             onChange={(e) => handleUrl(e.target.value)}
           />
       </FormContent>
