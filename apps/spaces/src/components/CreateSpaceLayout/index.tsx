@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios"
 import {
@@ -12,10 +12,14 @@ import {
   Navbar
 } from "@shira/ui";
 import backgroundSvg from "../../assets/Background.svg";
+import { CreateSpaceSuccess } from "./components/CreateSpaceSuccess";
+import { useStore } from "../../store";
+import { shallow } from "zustand/shallow";
 
 interface Props {}
 
 export const CreateSpaceLayout: FunctionComponent<Props> = () => {
+
   const { passphraseCode } = useParams()
   const [email, handleEmail] = useState("");
   const [pass, handlePass] = useState("");
@@ -27,6 +31,19 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
   const [success, setSuccess] = useState(false);
 
   const navigate = useNavigate();
+
+  const {
+    logout,
+    login
+  } = useStore((state) => ({
+    logout: state.logout,
+    login: state.login
+  }), shallow)
+
+  useEffect(() => {
+    // clean just in case session exists
+    logout()
+  }, [])
 
   const description = (
     <>
@@ -71,13 +88,12 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
         spaceName: name,
         passphrase: passphraseCode,
       });
+      login(email, pass)
       
       setSuccess(true);
-      setLoading(false);
-      
-      navigate('/login')
-      
+      setLoading(false);            
     } catch (err) {
+      console.log("🚀 ~ handleSubmit ~ err:", err.response.message)
       setLoading(false);
       if (err.response && err.response.data && err.response.data.message) {
         setError(err.response.data.message);
@@ -93,69 +109,69 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
         translatedTexts={{home: "", about: "", menu: "", logIn: "Log in", createSpace: "Create Space"}}
         onNavigate={navigate}
       />
-      <ContentWrapper>
-        <BackgroundPattern />
-        <Content>
-          <Header>
-            <H1>Shira spaces</H1>
-            <SubHeading2>
-              After you create a space, you will be able to create custom quizzes
-              and questions specifically relevant to your context and communities.
-            </SubHeading2>
-          </Header>
+      { success ? (
+        <CreateSpaceSuccess />
+      ) : (
+        <ContentWrapper>
+          <BackgroundPattern />
+          <Content>
+            <Header>
+              <H1>Shira spaces</H1>
+              <SubHeading2>
+                After you create a space, you will be able to create custom quizzes
+                and questions specifically relevant to your context and communities.
+              </SubHeading2>
+            </Header>
 
-          <StyledForm
-            title="Create a new space"
-            description={description}
-            onSubmit={(e) => {
-              e.preventDefault();
-            }}
-          >
-            {error && <ErrorMessage>{error}</ErrorMessage>}
-            
-            {success && (
-              <SuccessMessage>
-                Your space has been created successfully! Redirecting to login...
-              </SuccessMessage>
-            )}
+            <StyledForm
+              title="Create a new space"
+              description={description}
+              onSubmit={(e) => {
+                e.preventDefault();
+              }}
+            >
+              
+              {error && <ErrorMessage>{error}</ErrorMessage>}
+              
+              <InputsContainer>
+                <TextInput 
+                  label="Name your space" 
+                  value={name} 
+                  onChange={(e) => handleName(e.target.value)}
+                />
+                <TextInput
+                  label="Your email address"
+                  value={email}
+                  onChange={(e) => handleEmail(e.target.value)}
+                />
+                <TextInput
+                  type="password"
+                  label="Password"
+                  value={pass}
+                  onChange={(e) => handlePass(e.target.value)}
+                />
 
-            <InputsContainer>
-              <TextInput 
-                label="Name your space" 
-                value={name} 
-                onChange={(e) => handleName(e.target.value)}
-              />
-              <TextInput
-                label="Your email address"
-                value={email}
-                onChange={(e) => handleEmail(e.target.value)}
-              />
-              <TextInput
-                type="password"
-                label="Password"
-                value={pass}
-                onChange={(e) => handlePass(e.target.value)}
-              />
+                <TextInput
+                  type="password"
+                  label="Confirm Password"
+                  value={passConfirmation}
+                  onChange={(e) => handlePassConfirmation(e.target.value)}
+                />
+              </InputsContainer>
 
-              <TextInput
-                type="password"
-                label="Confirm Password"
-                value={passConfirmation}
-                onChange={(e) => handlePassConfirmation(e.target.value)}
-              />
-            </InputsContainer>
-
-            <ButtonContainer>
-              <Button
-                text="Create new space"
-                type="primary"
-                disabled={loading || !passphraseCode}
-                onClick={handleSubmit}
-              />
-            </ButtonContainer>
-          </StyledForm>
-        </Content>
-      </ContentWrapper>
+              <ButtonContainer>
+                <Button
+                  text="Create new space"
+                  type="primary"
+                  disabled={loading || !passphraseCode}
+                  onClick={handleSubmit}
+                />
+              </ButtonContainer>
+            </StyledForm>
+          </Content>
+        </ContentWrapper>
+      )}
+      
     </Container>
   );
 };

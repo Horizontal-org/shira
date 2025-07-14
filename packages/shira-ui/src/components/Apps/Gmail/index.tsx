@@ -12,6 +12,7 @@ import { Profile } from "./Profile"
 import { Attachments } from "./Attachments"
 import { Explanation } from "../../../domain/explanation"
 import ExplanationTooltip from "../components/ExplanationTooltip"
+import { DynamicContent } from "./styles/ContentStyles"
 
 interface CustomElements {
   textContent: string,
@@ -208,14 +209,6 @@ const InboxLabelButton = styled.span`
   &:hover {
     background: #666;
     color: #ddd;
-  }
-`
-
-const DynamicContent = styled.div`
-  padding: 10px 0;
-  mark {
-    background-color: transparent;
-    position: relative;
   }
 `
 

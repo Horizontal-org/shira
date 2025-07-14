@@ -47,7 +47,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     quizActionSuccess: state.quizActionSuccess,
     cleanQuizActionSuccess: state.cleanQuizActionSuccess
   }), shallow)
-  
+    
   const navigate = useNavigate();
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
 
@@ -128,6 +128,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const compareDate = useCallback((lastQuestion, lastQuiz) => {
     const parsedLastQuestion = new Date(lastQuestion)
     const parsedLastQuiz = new Date(lastQuiz)
+
     console.log("🚀 ~ compareDate ~ parsedLastQuiz:", parsedLastQuiz)
     console.log("🚀 ~ compareDate ~ parsedLastQuestion:", parsedLastQuestion)
     
@@ -221,7 +222,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           }}
           isModalOpen={isDeleteModalOpen}
         />
-
 
         <CreateQuizModal 
           setIsModalOpen={setIsCreateModalOpen}

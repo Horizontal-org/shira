@@ -1,4 +1,4 @@
-import { Inject } from "@nestjs/common";
+import { Inject, UnprocessableEntityException } from "@nestjs/common";
 import { RegisterAuthDto } from "../domain/register.auth.dto";
 import { ISpaceRegistrationAuthService, IValidateRegistrationAuthService, TYPES } from "../interfaces";
 import { TYPES as TYPES_PASSPHRASE } from '../../passphrase/interfaces'
@@ -83,6 +83,7 @@ export class SpaceRegistrationAuthService implements ISpaceRegistrationAuthServi
       return
     } catch (error){
       console.error(error)
+      throw new UnprocessableEntityException(error)
     }
   }
 }

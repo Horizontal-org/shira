@@ -6,14 +6,17 @@ import { SubHeading2 } from '../Typography';
 export interface ModalProps {
   isOpen: boolean;
   title: string;
+  titleIcon?: React.ReactNode;
   children: React.ReactNode;
   primaryButtonText: string;
   primaryButtonDisabled?: boolean;
-  secondaryButtonText: string;
   onPrimaryClick: () => void;
-  onSecondaryClick?: () => void;
-  className?: string;
   type?: ModalType
+  secondaryButtonText: string;
+  onSecondaryClick?: () => void;
+  onLeftClick?: () => void
+  leftButtonText?: string
+  className?: string;
 }
 
 export enum ModalType {
@@ -21,17 +24,26 @@ export enum ModalType {
   Primary = 'primary',
 }
 
+const modalTypeColors = {
+  'danger': '#BF2E1F',
+  'primary': '#849D29'
+}
+
+
 export const Modal: React.FC<ModalProps> = ({
   isOpen,
   title,
+  titleIcon = (<></>),
   children,
   primaryButtonText,
   primaryButtonDisabled,
   secondaryButtonText,
   onPrimaryClick,
   onSecondaryClick,
+  onLeftClick,
+  leftButtonText,
   className,
-  type
+  type = 'primary'
 }) => {
 
   useEffect(() => {
@@ -53,6 +65,7 @@ export const Modal: React.FC<ModalProps> = ({
       <Overlay>
         <ModalContainer className={className}>
           <Header>
+            { titleIcon }
             <SubHeading2>{title}</SubHeading2>
           </Header>
 
@@ -61,20 +74,32 @@ export const Modal: React.FC<ModalProps> = ({
           </Content>
 
           <Footer>
-            { onSecondaryClick && (
+            <div>
+              { onLeftClick && (
+                <Button  
+                  text={leftButtonText}
+                  type='primary'
+                  color={modalTypeColors[ModalType.Danger]}
+                  onClick={onLeftClick}
+                />
+              )}
+            </div>
+            <div>
+              { onSecondaryClick && (
+                <Button
+                  text={secondaryButtonText}
+                  type="outline"
+                  onClick={onSecondaryClick}
+                />
+              )}
               <Button
-                text={secondaryButtonText}
-                type="outline"
-                onClick={onSecondaryClick}
+                text={primaryButtonText}
+                type="primary"
+                disabled={primaryButtonDisabled}
+                onClick={onPrimaryClick}
+                color={modalTypeColors[type]}
               />
-            )}
-            <Button
-              text={primaryButtonText}
-              type="primary"
-              disabled={primaryButtonDisabled}
-              onClick={onPrimaryClick}
-              color={type === ModalType.Danger ? '#BF2E1F' : "#849D29"}
-            />
+            </div>
           </Footer>
         </ModalContainer>
       </Overlay>
@@ -112,6 +137,9 @@ const ModalContainer = styled.div`
 `;
 
 const Header = styled.div`
+  display: flex;
+  align-items: center;
+  column-gap: 12px;
   padding: 24px;
   padding-bottom: 0;
 `;
@@ -125,8 +153,12 @@ const Content = styled.div`
 const Footer = styled.div`
   padding: 24px;
   display: flex;
-  justify-content: flex-end;
-  gap: 12px;
+  justify-content: space-between;
+
+  > div {
+    display: flex;
+    gap: 12px; 
+  }
 `;
 
 export default Modal;

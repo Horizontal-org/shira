@@ -17,6 +17,7 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
   explanationNumber,
   showExplanations,
 }) => {
+  console.log("🚀 ~ explanation:", explanation)
 
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
   const [arrowElement, setArrowElement] = useState<HTMLDivElement | null>(null);
@@ -24,9 +25,8 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
   const referenceElementRef = useRef<HTMLElement |  null>(null);
 
   useEffect(() => {
-  const referenceElement = document.querySelector(`[data-explanation="${explanation.index}"]`) as HTMLElement;
-
-  referenceElementRef.current = referenceElement;
+    const referenceElement = document.querySelector(`[data-explanation="${explanation.index}"]`) as HTMLElement;
+    referenceElementRef.current = referenceElement;
   }, [explanation.index]);
 
   useEffect(() => {
@@ -53,11 +53,12 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
     })
     
     // here we should highlight the current explanation
-    references.forEach( reference => {
+    references.forEach( reference => {  
       if(reference && showExplanations) {
         parentDiv = reference.parentElement as HTMLElement;
         reference.style.zIndex = '4';
         reference.style.background = 'white';
+        reference.style.position = 'relative'
   
         if (parentDiv) {
           parentDiv.style.zIndex = '4';
@@ -83,7 +84,7 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
       style={styles.popper} 
       {...attributes.popper}
       hide={parseInt(explanation.index) !== explanationNumber || !showExplanations}
-      >
+    >
       {explanation.text}
       <div ref={setArrowElement} id='arrow' style={styles.arrow}/>
     </Wrapper>
@@ -92,12 +93,11 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
 
 const Wrapper = styled('div')<{ hide: boolean }>`
   ${props => props.hide && `
-  visibility: hidden;
-  > #arrow::before {
     visibility: hidden;
-  }
-  `
-}
+    > #arrow::before {
+      visibility: hidden;
+    }
+  `}
 `
 
 

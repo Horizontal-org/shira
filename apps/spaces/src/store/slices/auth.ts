@@ -40,6 +40,7 @@ export const createAuthSlice: StateCreator<
   
   logout: async() => {
     localStorage.removeItem("shira_access_token");
+    localStorage.removeItem("shira_x_space");
     set({
       user: null,
       space: null
@@ -51,7 +52,7 @@ export const createAuthSlice: StateCreator<
     if (res) {
       set({ 
         user: res,
-        space: res.space 
+        space: res.activeSpace.space 
       });
     } else if (!isPublicRoute(window.location.pathname)) {
       window.location.href = '/login';

@@ -19,7 +19,6 @@ export const MenuWrapper = styled.div`
 export const IconWrapper = styled.div<StyledIconWrapper>`
   margin-right: 8px;
   padding: 4px;
-  cursor: pointer;
   transition: 0.2s all;
   border-radius: 4px;
   height: 20px;
@@ -27,13 +26,16 @@ export const IconWrapper = styled.div<StyledIconWrapper>`
   display: flex;
   justify-content: center;
   align-items: center;
-
-  &:hover {
-    background: #eee;
-    > svg {
-      stroke: #424242;
+  
+  ${props => !props.disabled && `
+    cursor: pointer;
+    &:hover {
+      background: #eee;
+      > svg {
+        stroke: #424242;
+      }
     }
-  }
+  `}
 
   > svg {
     stroke: #aaa;

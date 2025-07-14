@@ -31,7 +31,7 @@ import {
 
 interface MenuBarProps {
   editor: any
-  setLink: () => void
+  setLink: (url?: string | null) => void
   onImageUpload?: () => void
   isImageSelected?: boolean
   selectedImageHasExplanation?: boolean
@@ -204,7 +204,18 @@ export const MenuBar = ({
 
       <IconWrapper 
         active={!!(editor.isActive('link'))}
-        onClick={() => editor.isActive('link') ? editor.chain().focus().unsetLink().run() : setLink()}
+        disabled={!!(!editor.isActive('link') && editor.view.state.selection.empty)}
+        onClick={() => {
+          // no text
+          if (!editor.isActive('link') && editor.view.state.selection.empty) return 
+          
+          const isActive = editor.isActive('link')
+          if (isActive) {
+             setLink(editor.getAttributes('link').href || null)
+          } else {
+            setLink()
+          }
+        }}
       >
         <FiLink size={18} />
       </IconWrapper>
