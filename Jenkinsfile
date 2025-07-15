@@ -48,7 +48,8 @@ EOF
                   //   color: "#2A42EE", 
                   //   message: "Build STARTED FOR ALPHA: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
                   // )
-
+                  sh 'ls -la'
+                  
                   sh 'chmod +x ./jenkins/alpha.sh'
                 
                   sh './jenkins/alpha.sh'
@@ -57,10 +58,10 @@ EOF
                     currentBuild.result = "FAILURE"
                 } finally {
                   if(currentBuild.result == "FAILURE") {
-                    mattermostSend (
-                      color: "danger", 
-                      message: "Build FAILED FOR ALPHA: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
-                    )
+                    // mattermostSend (
+                    //   color: "danger", 
+                    //   message: "Build FAILED FOR ALPHA: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                    // )
                   } else {
                     // mattermostSend (
                     //   color: "good", 
