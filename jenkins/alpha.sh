@@ -20,6 +20,10 @@ pwd
 
 # echo "api done"
 
+echo "run migrations"
+
+cd apps/api
+
 docker compose -f docker-compose.api.yml exec -T staging npm run typeorm -- migration:run -d ./src/utils/datasources/mysql.datasource.ts
 
 echo "migrations done"
