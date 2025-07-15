@@ -1,4 +1,4 @@
-import { Body, Delete, Inject, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import { Delete, Inject, Param, ParseIntPipe } from '@nestjs/common';
 
 import {
   TYPES,
@@ -7,8 +7,7 @@ import {
 import { Roles } from 'src/modules/auth/decorators/roles.decorators';
 import { Role } from 'src/modules/user/domain/role.enum';
 import { AuthController } from 'src/utils/decorators/auth-controller.decorator';
-import { LoggedUser } from 'src/modules/auth/decorators';
-import { LoggedUserDto } from 'src/modules/user/dto/logged.user.dto';
+import { SpaceId } from 'src/modules/auth/decorators';
 import { IDeleteQuizService } from '../interfaces/services/delete.quiz.service.interface';
 
 @AuthController('quiz')
@@ -22,12 +21,12 @@ export class DeleteQuizController {
   @Roles(Role.SpaceAdmin)
   async delete(
     @Param('id', ParseIntPipe) id: number,
-    @LoggedUser() user: LoggedUserDto,
+    @SpaceId() spaceId: number
   ) 
-  {    
+  {  
     await this.deleteQuizService.execute({
         id: id,
-        spaceId: user.space.id
+        spaceId: spaceId
     })
   }
 }

@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react"
-import { styled, createGlobalStyle } from '@shira/ui'
+import styled, { createGlobalStyle } from 'styled-components'
 
 import Header from './Header'
 import Sidebar from "./Sidebar"
@@ -12,6 +12,7 @@ import { Profile } from "./Profile"
 import { Attachments } from "./Attachments"
 import { Explanation } from "../../../domain/explanation"
 import ExplanationTooltip from "../components/ExplanationTooltip"
+import { DynamicContent } from "./styles/ContentStyles"
 
 interface CustomElements {
   textContent: string,
@@ -36,6 +37,11 @@ interface Props {
   explanations?: Explanation[]
   explanationNumber?: number;
   showExplanations?: boolean
+}
+
+const parseSubjectText = (subjectText: string) => {
+    return subjectText && subjectText.length > 0 ?
+      subjectText : `(no subject)`
 }
 
 export const Gmail: FunctionComponent<Props> = ({ 
@@ -73,7 +79,7 @@ export const Gmail: FunctionComponent<Props> = ({
                   <span
                     data-explanation={subject.explanationPosition}
                   >
-                    {subject.textContent}
+                    { parseSubjectText(subject.textContent) }
                   </span>
                   <InboxLabel>
                     <InboxLabelText>Inbox</InboxLabelText>
@@ -86,7 +92,7 @@ export const Gmail: FunctionComponent<Props> = ({
                 receiverName={receiverName}
                 senderEmail={senderEmail}
                 senderName={senderName}
-                subject={subject}
+                subject={parseSubjectText(subject ? subject.textContent : '')}
               />
               <PaddingLeft>
                 <DynamicContent dangerouslySetInnerHTML={{__html: content ? content.outerHTML : null }}></DynamicContent>
@@ -203,14 +209,6 @@ const InboxLabelButton = styled.span`
   &:hover {
     background: #666;
     color: #ddd;
-  }
-`
-
-const DynamicContent = styled.div`
-  padding: 10px 0;
-  mark {
-    background-color: transparent;
-    position: relative;
   }
 `
 

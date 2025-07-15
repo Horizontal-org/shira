@@ -1,4 +1,4 @@
-import { IsNumber, isString, IsString } from 'class-validator';
+import { isNumber, IsNumber, isString, IsString } from 'class-validator';
 import { UserEntity } from 'src/modules/user/domain/user.entity';
 
 export class CreateSpaceDto {
@@ -9,4 +9,7 @@ export class CreateSpaceDto {
 
     @IsString()
     slug: string;
+
+    @IsNumber()
+    organizationId: number;
 }

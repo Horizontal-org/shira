@@ -1,8 +1,10 @@
-import { Controller, Get, Param, ParseArrayPipe, Query } from '@nestjs/common';
+import { Controller, Get, Inject, Param, ParseArrayPipe, Query } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Question } from '../domain';
 import { Language } from 'src/modules/languages/domain';
+import { IGenerateUrlsQuestionImageService } from 'src/modules/question_image/interfaces/services/generate_urls.question_image.service.interface';
+import { TYPES as TYPES_QUESTION_IMAGE } from '../../question_image/interfaces'
 
 @Controller('question')
 export class ListQuestionController {
@@ -11,6 +13,8 @@ export class ListQuestionController {
     private readonly questionRepository: Repository<Question>,
     @InjectRepository(Language)
     private readonly languageRepository: Repository<Language>,
+    @Inject(TYPES_QUESTION_IMAGE.services.IGenerateUrlsQuestionImageService)
+    private getImageUrls: IGenerateUrlsQuestionImageService
   ) {}
 
   @Get('')
@@ -90,6 +94,7 @@ export class ListQuestionController {
 
     if (!res) return null;
 
+    
     const parsedQuestion = {
       ...res,
       content: res.questionTranslations[0].content,
@@ -97,6 +102,7 @@ export class ListQuestionController {
         ...explanation,
         text: explanation.explanationTranslations[0]?.content,
       })),
+      images: await this.getImageUrls.byQuestion(res.id)
     };
     return parsedQuestion;
   }

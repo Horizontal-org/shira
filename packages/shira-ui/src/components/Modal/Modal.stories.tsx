@@ -5,6 +5,7 @@ import { Button } from '../Button';
 import { Body1 } from '../Typography';
 import { TextInput } from '../TextInput';
 import styled from 'styled-components';
+import { ExplanationIcon } from '../Icons';
 
 const meta = {
   title: 'Components/Modal',
@@ -122,6 +123,54 @@ export const FormModal: Story = {
   }
 };
 
+
+export const WithLeftButton: Story = {
+  render: InteractiveModalTemplate,
+  args: {
+    isOpen: true,
+    title: 'Edit link',
+    primaryButtonText: 'Save',
+    secondaryButtonText: 'Cancel',
+    leftButtonText: 'Delete',
+    children: (
+      <Body1>
+        In the quiz, this link will appear clickable, but for safety reasons, clicking on it will not open the URL.
+      </Body1>
+    ),
+    onPrimaryClick: () => {},
+    onSecondaryClick: () => {},
+    onLeftClick: () => {},
+  }
+};
+
+
+const IconWrapper = styled.div`
+  height: 22px;
+  width: 22px; 
+  > svg {
+    height: 22px;
+    width: 22px; 
+  }
+`;
+
+export const WithTitleIcon: Story = {
+  render: InteractiveModalTemplate,
+  args: {
+    isOpen: true,
+    title: 'Explanations',
+    titleIcon: <IconWrapper><ExplanationIcon /></IconWrapper>,
+    primaryButtonText: 'Save',
+    secondaryButtonText: 'Cancel',
+    children: (
+      <Body1>
+        In the quiz, this link will appear clickable, but for safety reasons, clicking on it will not open the URL.
+      </Body1>
+    ),
+    onPrimaryClick: () => {},
+    onSecondaryClick: () => {},
+  }
+};
+
 // Mobile view
 export const MobileView: Story = {
   render: InteractiveModalTemplate,
@@ -134,3 +183,4 @@ export const MobileView: Story = {
     }
   }
 };
+

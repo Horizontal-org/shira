@@ -39,7 +39,6 @@ function App() {
     showTranslationsScene: state.showTranslationsScene
   }), shallow)
 
-
   useEffect(() => {
     me()
     fetchLanguages()

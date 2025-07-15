@@ -2,6 +2,8 @@ import { BullModule } from "@nestjs/bullmq";
 import { Global, Module } from "@nestjs/common";
 import { EmailsProcessor } from "./processors/emails.processor";
 import { EmailModule } from "../email/email.module";
+import { ImageModule } from "../image/image.module";
+import { ImagesProcessor } from "./processors/images.processor";
 
 @Global()
 @Module({
@@ -15,11 +17,14 @@ import { EmailModule } from "../email/email.module";
     }),
     BullModule.registerQueue(
       { name: 'emails' },
+      { name: 'images' }
     ),
     EmailModule,
+    ImageModule
   ],
   providers: [
     EmailsProcessor,
+    ImagesProcessor
   ],
   exports: [
     BullModule,

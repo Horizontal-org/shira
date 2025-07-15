@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { QuizQuestion as QuizQuestionEntity } from '../domain/quizzes_questions.entity';
@@ -10,6 +10,10 @@ import { QuestionTranslation } from 'src/modules/translation/domain/questionTran
 import { ExplanationTranslation } from 'src/modules/translation/domain/explanationTranslation.entity';
 import { Language } from 'src/modules/languages/domain';
 import { App } from 'src/modules/app/domain';
+
+import { TYPES as TYPES_QUESTION_IMAGE } from '../../question_image/interfaces'
+import { ISyncQuestionImageService } from 'src/modules/question_image/interfaces/services/sync.question_image.service.interface';
+import * as cheerio from 'cheerio';
 
 @Injectable()
 export class CreateQuestionQuizService implements ICreateQuestionQuizService{
@@ -29,7 +33,8 @@ export class CreateQuestionQuizService implements ICreateQuestionQuizService{
     private readonly explanationTranslationRepo: Repository<ExplanationTranslation>,
     @InjectRepository(Language)
     private readonly languageRepo: Repository<Language>,
-
+    @Inject(TYPES_QUESTION_IMAGE.services.ISyncQuestionImageService)
+    private syncImagesService: ISyncQuestionImageService
   ) {}
 
   async execute (createQuestionDto: CreateQuestionQuizDto) {
@@ -56,6 +61,15 @@ export class CreateQuestionQuizService implements ICreateQuestionQuizService{
     //CREATE QUESTION
     //  <- RETURNS QUESTION-ID
     const questionEntity = await this.questionRepo.save(question);
+
+    //SYNC IMAGES HERE
+    const imageIds = this.getImageIds(createQuestionDto.question.content)
+    await this.syncImagesService.execute({
+      imageIds: imageIds,
+      questionId: questionEntity.id,
+      quizId: createQuestionDto.quizId
+    })
+
 
     //CREATE QUESTION_TRANSLATION WITH DEFAULT ON ENGLISH
     const newQuestionTranslation = new QuestionTranslation();
@@ -99,5 +113,20 @@ export class CreateQuestionQuizService implements ICreateQuestionQuizService{
       questionId: questionEntity.id
     })
     await this.quizQuestionRepo.save(quizQuestion)
+  }
+
+  private getImageIds = (content: string) => {
+    const $ = cheerio.load(content);    
+    const data = $.extract({
+      imageIds: [
+        {
+          selector: 'img',
+          value: 'data-image-id',
+        }
+      ],
+    })
+    console.log("🚀 ~ CreateQuestionService ~ data:", data)
+
+    return data.imageIds
   }
 }

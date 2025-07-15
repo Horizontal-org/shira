@@ -1,21 +1,23 @@
 
-import { Injectable, CanActivate, ExecutionContext, Inject } from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext, BadRequestException, ForbiddenException, Inject } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Role } from 'src/modules/user/domain/role.enum';
 import { ROLES_KEY } from '../decorators/roles.decorators';
-import { InjectRepository } from '@nestjs/typeorm';
+import { 
+  IUserContextService,
+  TYPES 
+} from '../interfaces';
+import { UserSpaceContext, UserOrganizationContext } from '../interfaces/services/user-context.service.interface';
 import { SpaceEntity } from 'src/modules/space/domain/space.entity';
-import { Repository } from 'typeorm';
-import { UserEntity } from 'src/modules/user/domain/user.entity';
-import { TYPES } from 'src/modules/space/interfaces';
-import { IValidateHeaderSpaceService } from 'src/modules/space/interfaces/services/validate-header.space.service.interface';
+import { LoggedUserDto } from 'src/modules/user/dto/logged.user.dto';
+
 
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(
     private reflector: Reflector,
-    @Inject(TYPES.services.IValidateHeaderSpaceService)
-    private validateHeader: IValidateHeaderSpaceService,    
+    @Inject(TYPES.services.IUserContextService)
+    private userContextService: IUserContextService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -24,38 +26,85 @@ export class RolesGuard implements CanActivate {
       context.getClass(),
     ]);
     const request = context.switchToHttp().getRequest();
-    const user = request.user
+    const user: LoggedUserDto = request.user
 
-
-    // if @Roles decorator not set fail request
-    if (!requiredRoles) {
-      return false;
-    }
-
-    // if doesnt meet role fail request
-    if (!requiredRoles.some((role) => user.role === role) && user.role !== Role.SuperAdmin){
+    if (!requiredRoles || requiredRoles.length === 0) {
       return false
     }
     
-    // doesnt have required header then fails 
-    if (!request.headers['x-space']) {
-      // superadmin can access endpoints that don't need x-space
-      if (user.role === Role.SuperAdmin) {
-        return true
+    const spaceIdHeader = request.headers['x-space']
+    const orgIdHeader = request.headers['x-organization']
+
+    let spaceId: number | null = null
+    let orgId: number | null = null
+
+    if (spaceIdHeader) {
+      spaceId = parseInt(spaceIdHeader)
+      if (isNaN(spaceId)) {
+        throw new BadRequestException('Invalid X-Space header format')
       }
-      return false
     }
 
-    const space = await this.validateHeader.execute(user.id, parseInt(request.headers['x-space']))  
-
-    // doesnt have access to space then fail
-    if (!space) {
-      return false
+    if (orgIdHeader) {
+      orgId = parseInt(orgIdHeader)
+      if (isNaN(orgId)) {
+        throw new BadRequestException('Invalid X-Organization header format')
+      }
     }
 
-    user.space = space
-    request['user'] = user
+    if(spaceId) {
+      try {
+        const spaceContext = await this.userContextService.validateUserSpaceAccess(parseInt(user.id), spaceId)
+        if(orgId && orgId !== spaceContext.organization.id) {
+          throw new ForbiddenException('Space does not belong to the specified organization')
+        }
+
+        const spaceEntity = {
+          id: spaceContext.space.id,
+          name: spaceContext.space.name,
+          organizationId: spaceContext.space.organizationId
+        } as SpaceEntity;
+
+        // Populate LoggedUserDto structure exactly as expected
+        user.activeSpace = {
+          space: spaceEntity,
+          role: spaceContext.spaceRole as Role
+        }
+        
+        user.activeOrganization = {
+          id: spaceContext.organization.id,
+          name: spaceContext.organization.name,
+          role: spaceContext.organizationRole as Role
+        }
+      } catch (error) {
+        console.log(error)
+        throw new ForbiddenException('Invalid space access');
+      }
+    }
+
+    const hasRequiredRole = this.checkUserRoles(user, requiredRoles)
+    if (!hasRequiredRole) {
+      throw new ForbiddenException('Insufficient permissions for this action');
+    }
+
+    request.user = user
     return true
-    
+  }
+
+  private checkUserRoles(user: LoggedUserDto, requiredRoles: Role[]): boolean {
+    if(user.isSuperAdmin) {
+      return true
+    }
+    const userRoles: Role[] = []
+
+    if (user.activeSpace) {
+      userRoles.push(user.activeSpace.role)
+    }
+
+    if (user.activeOrganization) {
+      userRoles.push(user.activeOrganization.role)
+    }
+
+    return requiredRoles.some(requiredRole => userRoles.includes(requiredRole))
   }
 }

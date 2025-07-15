@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { styled } from '@shira/ui'
+import styled from 'styled-components'
 import { Pic } from "../Pic";
 import Document from './assets/Document'
 interface Props {

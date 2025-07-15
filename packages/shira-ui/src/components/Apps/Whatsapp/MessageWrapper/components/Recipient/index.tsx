@@ -1,6 +1,5 @@
 import { FunctionComponent } from 'react'
-import { styled } from '@shira/ui'
-
+import styled from 'styled-components'
 import MoreOptionsIcon from '../../../Icons/MoreOptions'
 import SearchIcon from '../../../Icons/Search'
 import BackArrow from '../../../Icons/BackArrow'

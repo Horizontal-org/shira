@@ -1,5 +1,5 @@
 import { FunctionComponent  } from "react"
-import { styled } from '@shira/ui'
+import styled from 'styled-components'
 
 import VideoIcon from '../assets/video.png'
 import NewMessageIcon from '../assets/new-message.png'

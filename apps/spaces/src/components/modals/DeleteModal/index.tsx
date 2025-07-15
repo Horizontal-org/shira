@@ -21,8 +21,7 @@ export const DeleteModal: FunctionComponent<Props> = ({
   title = '',
   content = ''
 }) => {
-// `Are you sure you want to delete "${quiz.title}"?`
-// Deleting this quiz is permanent and cannot be undone.
+
   return (
       <Modal
         isOpen={isModalOpen}

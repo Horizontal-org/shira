@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { QuizQuestion as QuizQuestionEntity } from '../domain/quizzes_questions.entity';
@@ -11,6 +11,9 @@ import { ExplanationTranslation } from 'src/modules/translation/domain/explanati
 import { Language } from 'src/modules/languages/domain';
 import { App } from 'src/modules/app/domain';
 import { EditQuestionQuizDto } from '../dto/edit-question.quiz.dto';
+import { TYPES as TYPES_QUESTION_IMAGE } from '../../question_image/interfaces'
+import { ISyncQuestionImageService } from 'src/modules/question_image/interfaces/services/sync.question_image.service.interface';
+import * as cheerio from 'cheerio';
 
 @Injectable()
 export class EditQuestionQuizService implements ICreateQuestionQuizService{
@@ -30,11 +33,11 @@ export class EditQuestionQuizService implements ICreateQuestionQuizService{
     private readonly explanationTranslationRepo: Repository<ExplanationTranslation>,
     @InjectRepository(Language)
     private readonly languageRepo: Repository<Language>,
-
+    @Inject(TYPES_QUESTION_IMAGE.services.ISyncQuestionImageService)
+    private syncImagesService: ISyncQuestionImageService
   ) {}
 
   async execute (editQuestionDto: EditQuestionQuizDto) {
-    console.log("🚀 ~ EditQuestionQuizService ~ execute ~ editQuestionDto:", editQuestionDto)
     
     let question = await this.questionRepo.findOne({
       where: { id: editQuestionDto.questionId },
@@ -57,11 +60,18 @@ export class EditQuestionQuizService implements ICreateQuestionQuizService{
     question.apps = [app];
     question.languageId = language.id;
     question.content = '';
-    question.type = 'quiz'    
+    question.type = 'quiz'
+    question.updatedAt = new Date()
 
-    //CREATE QUESTION
-    //  <- RETURNS QUESTION-ID
     await this.questionRepo.save(question);
+
+    //SYNC IMAGES HERE
+    const imageIds = this.getImageIds(editQuestionDto.question.content)
+    await this.syncImagesService.execute({
+      imageIds: imageIds,
+      questionId: question.id,
+      quizId: editQuestionDto.quizId
+    })
 
     //CREATE QUESTION_TRANSLATION WITH DEFAULT ON ENGLISH
     const questionTranslation = await this.questionTranslationRepo.findOne({
@@ -99,5 +109,19 @@ export class EditQuestionQuizService implements ICreateQuestionQuizService{
         })
       await this.explanationTranslationRepo.save(newExplanationTranslation);    
     }
+  }
+
+  private getImageIds = (content: string) => {
+    const $ = cheerio.load(content);    
+    const data = $.extract({
+      imageIds: [
+        {
+          selector: 'img',
+          value: 'data-image-id',
+        }
+      ],
+    })
+
+    return data.imageIds
   }
 }

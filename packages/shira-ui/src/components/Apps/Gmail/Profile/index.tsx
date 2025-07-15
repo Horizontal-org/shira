@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from "react";
-import { styled } from '@shira/ui'
+import styled from 'styled-components'
 import ProfileIcon from './assets/profile.png'
 import { IoMdArrowDropdown, IoMdLock } from "react-icons/io";
 import { autoUpdate, FloatingFocusManager, useClick, useDismiss, useFloating, useInteractions, useRole } from "@floating-ui/react";
@@ -14,7 +14,7 @@ interface Props {
   senderEmail: CustomElements;
   receiverName?: string;
   receiverEmail?: string;
-  subject?: CustomElements;
+  subject: string;
 }
 
 export const Profile: FunctionComponent<Props> = ({
@@ -92,7 +92,7 @@ export const Profile: FunctionComponent<Props> = ({
                 { subject && (
                   <div>
                     <BoxLeftInfo>subject:</BoxLeftInfo>
-                    <BoxRightInfo>{subject.textContent || ''}</BoxRightInfo>
+                    <BoxRightInfo>{subject}</BoxRightInfo>
                   </div>
                 )}
                 <div>

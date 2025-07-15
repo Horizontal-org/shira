@@ -1,5 +1,4 @@
-import { styled } from '@shira/ui'
-
+import styled from 'styled-components'
 export default styled.div`
   padding: 8px;
   border-radius: 50%;

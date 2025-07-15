@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useCallback, useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   Card,
@@ -17,7 +17,7 @@ import { FiPlus } from 'react-icons/fi';
 import { shallow } from "zustand/shallow";
 
 import { useStore } from "../../store";
-import { formatDistance } from "date-fns";
+import { compareAsc, formatDistance } from "date-fns";
 import { QuizSuccessStates, SUCCESS_MESSAGES } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
 import { FilterStates } from "./constants";
@@ -47,7 +47,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     quizActionSuccess: state.quizActionSuccess,
     cleanQuizActionSuccess: state.cleanQuizActionSuccess
   }), shallow)
-  
+    
   const navigate = useNavigate();
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
 
@@ -57,6 +57,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  
 
   useEffect(() => {
     fetchQuizzes()
@@ -99,7 +100,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           : card
       )
     );
-  };
+  };                
 
   const handleCopyUrl = async (hash: string) => {
     try {
@@ -123,7 +124,21 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
         return true;
     }
   });
-  
+
+  const compareDate = useCallback((lastQuestion, lastQuiz) => {
+    const parsedLastQuestion = new Date(lastQuestion)
+    const parsedLastQuiz = new Date(lastQuiz)
+
+    console.log("🚀 ~ compareDate ~ parsedLastQuiz:", parsedLastQuiz)
+    console.log("🚀 ~ compareDate ~ parsedLastQuestion:", parsedLastQuestion)
+    
+    return formatDistance(
+      compareAsc(parsedLastQuestion, parsedLastQuiz) === 1 ? parsedLastQuestion : parsedLastQuiz,
+      new Date(), 
+      { addSuffix: true }
+    )    
+  }, [filteredCards])
+
   return (
     <Container>
       <Sidebar 
@@ -178,11 +193,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
               }}
               key={card.id}
               title={card.title}
-              lastModified={formatDistance(
-                new Date(card.updatedAt),
-                new Date(), 
-                { addSuffix: true }
-              )}
+              lastModified={compareDate(card.lastQuestionsUpdatedAt, card.updatedAt)}
               isPublished={card.published}
               onCopyUrl={() => handleCopyUrl(card.hash)}
               onTogglePublished={() => handleTogglePublished(card.id, !card.published)}
@@ -211,7 +222,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           }}
           isModalOpen={isDeleteModalOpen}
         />
-
 
         <CreateQuizModal 
           setIsModalOpen={setIsCreateModalOpen}

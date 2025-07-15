@@ -6,13 +6,13 @@ import {
   Button
 } from "@shira/ui"
 import { IoClose } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import { QuestionCRUDFeedback, useQuestionCRUD } from "../../fetch/question";
+import { QuestionCRUDFeedback } from "../../fetch/question";
 
 interface Props {
   onNext: () => void
   onBack: () => void
+  onExit: () => void
   step: number
   disableNext: boolean
   actionFeedback: string;
@@ -21,13 +21,12 @@ interface Props {
 export const QuestionFlowHeader: FunctionComponent<Props> = ({
   onNext,
   onBack,
+  onExit,
   disableNext,
   step,
   actionFeedback
 }) => {
 
-  const navigate = useNavigate()
-  
   return (
     <Wrapper>
       <Left>
@@ -35,7 +34,7 @@ export const QuestionFlowHeader: FunctionComponent<Props> = ({
           <Logo />
         </LogoWrapper>
         
-        <CloseWrapper onClick={() => { navigate(-1) }}>
+        <CloseWrapper onClick={onExit}>
           <IoClose 
             color="#5F6368"
             size={24}

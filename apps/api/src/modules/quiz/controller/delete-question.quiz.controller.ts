@@ -3,8 +3,7 @@ import { AuthController } from 'src/utils/decorators/auth-controller.decorator';
 import { Roles } from 'src/modules/auth/decorators/roles.decorators';
 import { Role } from 'src/modules/user/domain/role.enum';
 import { TYPES } from '../interfaces';
-import { LoggedUserDto } from 'src/modules/user/dto/logged.user.dto';
-import { LoggedUser } from 'src/modules/auth/decorators';
+import { SpaceId } from 'src/modules/auth/decorators';
 import { IValidateSpaceQuizService } from '../interfaces/services/validate-space.quiz.service.interface';
 import { IDeleteQuestionQuizService } from '../interfaces/services/delete-question.quiz.service.interface';
 import { DeleteQuestionQuizDto } from '../dto/delete-question.quiz.dto';
@@ -22,10 +21,9 @@ export class DeleteQuestionQuizController {
   @Roles(Role.SpaceAdmin)
   async handler(
     @Body() deleteDto: DeleteQuestionQuizDto,
-    @LoggedUser() user: LoggedUserDto
+    @SpaceId() spaceId: number
   ) {
-    
-    await this.validateSpaceQuizService.execute(user.space.id, deleteDto.quizId)
+    await this.validateSpaceQuizService.execute(spaceId, deleteDto.quizId)
  
     try {
       await this.deleteQuestionQuizService.execute(deleteDto);

@@ -1,6 +1,7 @@
 import { StoryObj, Meta } from '@storybook/react';
 
 import Gmail from '../../components/Apps/Gmail';
+import styled from 'styled-components';
 
 export default {
   title: 'Apps/Gmail',
@@ -89,6 +90,29 @@ export const LongSubject: Story = {
   },
 };
 
+export const NoSubject: Story = {
+  args: {
+    senderName: {
+      textContent: 'Juan',
+      explanationPosition: null
+    },
+    senderEmail: {
+      textContent: 'juan@wearehorizontal.org',
+      explanationPosition: null
+    },
+    receiverEmail: 'gus@wearehorizontal.org',
+    receiverName: 'Gus',
+    subject: {
+      textContent: '',
+      explanationPosition: null
+    },
+    // content: document.createElement('div'),
+    content: null,
+    attachments: [],
+    explanationNumber: 0,
+    explanations: []
+  },
+};
 
 export const AttachmentTypes: Story = {
   args: {
@@ -140,4 +164,93 @@ export const AttachmentTypes: Story = {
   },
 };
 
+const Overlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  height: 800px;
+  width: 100%;
+  background: rgba(0,0,0,0.5);
+`
 
+const Wrapper = styled.div`
+  position: relative;
+  z-index:1;
+  background: white;
+  padding: 24px;
+  width: 1024px;
+  height: 800px;
+  box-sizing: border-box;
+`
+// Template with explanations overlay
+const WithExplanationsTemplate = (args: any) => {
+  return (
+    <Wrapper>      
+      <Gmail
+        {...args}
+      />
+      { args.showExplanations && (<Overlay />)}
+    </Wrapper>
+  );
+};
+
+export const WithExplanationEditorText: Story = {
+  render: WithExplanationsTemplate,
+  args: {
+    senderName: {
+      textContent: 'Juan',
+      explanationPosition: null
+    },
+    senderEmail: {
+      textContent: 'juan@wearehorizontal.org',
+      explanationPosition: null
+    },
+    receiverEmail: 'gus@wearehorizontal.org',
+    receiverName: 'Gus',
+    showExplanations: true,
+    explanationNumber: 1,
+    subject: {
+      textContent: '',
+      explanationPosition: null
+    },
+    content: new DOMParser().parseFromString(`<div id='text-editor'><p data-explanation=1>We need to explain this</p></div>`, 'text/html').getElementById('text-editor'),
+    attachments: [],
+    explanations: [{
+      index : "1",
+      position: "1",
+      text: "qsdqsdqsdqsd"
+    }]
+  },
+};
+
+export const WithExplanationImage: Story = {
+  render: WithExplanationsTemplate,
+  args: {
+    senderName: {
+      textContent: 'Juan',
+      explanationPosition: null
+    },
+    senderEmail: {
+      textContent: 'juan@wearehorizontal.org',
+      explanationPosition: null
+    },
+    receiverEmail: 'gus@wearehorizontal.org',
+    receiverName: 'Gus',
+    subject: {
+      textContent: '',
+      explanationPosition: null
+    },
+    content: new DOMParser().parseFromString(`
+      <div id='text-editor'><img src='https://placehold.co/320x400' data-explanation=1 /><img src='https://placehold.co/380x400' /></div>`
+    , 'text/html').getElementById('text-editor'),
+    attachments: [],
+    showExplanations: true,
+    explanationNumber: 1,
+    explanations: [{
+      index : "1",
+      position: "1",
+      text: "qsdqsdqsdqsd"
+    }]
+  },
+};
