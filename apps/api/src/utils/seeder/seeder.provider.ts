@@ -14,9 +14,9 @@ export class Seeder {
   ) {}
   async seed() {
     const list = {
-      app: this.appSeederService,
+      // app: this.appSeederService,
       // messageType: this.messageTypeSeederService,
-      fieldOfWork: this.fieldOfWorkSeederService,
+      // fieldOfWork: this.fieldOfWorkSeederService,
       plans: this.planSeederService
     };
 
