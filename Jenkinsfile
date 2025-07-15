@@ -44,26 +44,15 @@ EOF
               script {
                 
                 try {
-                  mattermostSend (
-                    color: "#2A42EE", 
-                    message: "Build STARTED FOR ALPHA: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
-                  )
+                  // mattermostSend (
+                  //   color: "#2A42EE", 
+                  //   message: "Build STARTED FOR ALPHA: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                  // )
 
-                  sh """#!/bin/bash
-ssh -tt -o StrictHostKeyChecking=no root@alpha.space.shira.app <<EOF
-echo "Running on \$(hostname)"
-cd /home/shira
-git fetch --all
-git reset --hard origin/development
-npm --version
-npm install
-./deploy-frontend.sh
-echo "frontend done"
-./deploy-api.sh
-echo "api done"
-exit
-EOF
-"""
+                  sh 'chmod +x ./jenkins/alpha.sh'
+                
+                  sh './jenkins/alpha.sh'
+                
                 } catch (e) {
                     currentBuild.result = "FAILURE"
                 } finally {
@@ -73,10 +62,10 @@ EOF
                       message: "Build FAILED FOR ALPHA: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
                     )
                   } else {
-                    mattermostSend (
-                      color: "good", 
-                      message: "Build SUCCESS FOR ALPHA: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
-                    )
+                    // mattermostSend (
+                    //   color: "good", 
+                    //   message: "Build SUCCESS FOR ALPHA: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+                    // )
                   }
                 }                
               }
