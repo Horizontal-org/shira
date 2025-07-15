@@ -1,7 +1,8 @@
 #!/bin/bash
 
-echo "Running on \$(hostname)"
-# cd /home/shira
+echo "Running on alpha"
+
+cd /home/shira
 
 # git fetch --all
 # git reset --hard origin/development
@@ -9,7 +10,6 @@ echo "Running on \$(hostname)"
 ls -la
 
 pwd 
-
 
 # npm install
 
