@@ -1,12 +1,16 @@
 #!/bin/bash
 
 echo "Running on \$(hostname)"
-cd /home/shira
+# cd /home/shira
 
 # git fetch --all
 # git reset --hard origin/development
 
-# npm --version
+ls -la
+
+pwd 
+
+
 # npm install
 
 # ./deploy-frontend.sh
@@ -14,6 +18,10 @@ cd /home/shira
 
 # ./deploy-api.sh
 
-echo "api done"
+# echo "api done"
+
+docker compose -f docker-compose.api.yml exec -T staging npm run typeorm -- migration:run -d ./src/utils/datasources/mysql.datasource.ts
+
+echo "migrations done"
 
 exit

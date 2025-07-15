@@ -49,10 +49,12 @@ EOF
                   //   message: "Build STARTED FOR ALPHA: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
                   // )
 
-                  ssh '-tt -o StrictHostKeyChecking=no root@alpha.space.shira.app "/home/shira/jenkins/alpha.sh"'
+                  echo 'Test concurrency 1'
 
-                  echo 'Test concurrency'
-                                 
+                  sh 'ssh -tt -o StrictHostKeyChecking=no root@alpha.space.shira.app "/home/shira/jenkins/alpha.sh"'
+
+                  echo 'Test concurrency 2'
+
                 } catch (e) {
                     currentBuild.result = "FAILURE"
                 } finally {
