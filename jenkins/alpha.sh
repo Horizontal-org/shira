@@ -1,5 +1,4 @@
 #!/bin/bash
-ssh -tt -o StrictHostKeyChecking=no root@alpha.space.shira.app
 
 echo "Running on \$(hostname)"
 cd /home/shira

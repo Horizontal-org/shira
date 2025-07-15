@@ -48,12 +48,11 @@ EOF
                   //   color: "#2A42EE", 
                   //   message: "Build STARTED FOR ALPHA: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
                   // )
-                  sh 'ls -la'
-                  
-                  sh 'chmod +x ./jenkins/alpha.sh'
-                
-                  sh './jenkins/alpha.sh'
-                
+
+                  ssh '-tt -o StrictHostKeyChecking=no root@alpha.space.shira.app "/home/shira/jenkins/alpha.sh"'
+
+                  echo 'Test concurrency'
+                                 
                 } catch (e) {
                     currentBuild.result = "FAILURE"
                 } finally {
