@@ -7,6 +7,9 @@ export NVM_DIR="/root/.nvm"
 source "$NVM_DIR/nvm.sh"
 nvm use default
 
+# STRICT FAIL
+set -e 
+
 cd /home/shira
 
 git fetch --all
