@@ -2,6 +2,11 @@
 
 echo "Running on alpha"
 
+# LOAD NODE [USE THIS ONLY FOR NVM]
+export NVM_DIR="/root/.nvm"
+source "$NVM_DIR/nvm.sh"
+nvm use default
+
 cd /home/shira
 
 git fetch --all
