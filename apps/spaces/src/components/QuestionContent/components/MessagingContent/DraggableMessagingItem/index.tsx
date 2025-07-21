@@ -1,5 +1,6 @@
 import { FunctionComponent, ReactNode } from 'react'
-import { Draggable } from "react-beautiful-dnd";
+// import { Draggable } from "react-beautiful-dnd";
+import { Draggable } from "@hello-pangea/dnd";
 import { Body2Regular, Body3, Body3Bold, styled } from '@shira/ui';
 import { DragItemOptions } from '../../../../DragItemOptions';
 import { MessagingDragItem } from '../interfaces/MessagingDragItem';
@@ -21,19 +22,18 @@ export const DraggableMessagingItem: FunctionComponent<Props> = ({
   return (
     <>
     <Draggable 
-      draggableId={item.position + ''} 
+      draggableId={item.name} 
       index={index}
     >
       {(draggableProvided, snapshot) => (
         <>
           <Container
             ref={draggableProvided.innerRef}
-            isDragging={snapshot.isDragging}
             {...draggableProvided.draggableProps}
           >
             <Wrapper>
 
-              { item.type === 'text' ? (<Body2Regular>Message text</Body2Regular>) : (<Body2Regular>Image</Body2Regular>)}
+              { item.type === 'text' ? (<SmallText>Message text</SmallText>) : (<SmallText>Image</SmallText>)}
  
               <ContentWrapper>
                 <DragItemOptions
@@ -64,10 +64,17 @@ export const DraggableMessagingItem: FunctionComponent<Props> = ({
 
 const Wrapper = styled.div``
 
-const Container = styled.div``
+const Container = styled.div`
+  padding-top: 18px;
+`
 
 const ContentWrapper = styled.div`
   width: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
+`
+
+const SmallText = styled.div`
+  font-size: 14px;
+  font-weight: 600;
 `

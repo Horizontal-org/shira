@@ -11,7 +11,7 @@ export const MessageEditorStyles = createGlobalStyle`
   background: white;
   border-radius: 16px;
   border: 2px solid ${props => props.theme.secondary.dark};
-  padding: 8px 20px;
+  padding: 0 20px;
 
   /* Focus state */
   &:focus:not(:disabled) {

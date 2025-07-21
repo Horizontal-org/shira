@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@atlaskit/pragmatic-drag-and-drop": "^1.7.4",
+    "@atlaskit/pragmatic-drag-and-drop-react-beautiful-dnd-migration": "^2.0.4",
+    "@hello-pangea/dnd": "^18.0.1",
     "@shira/ui": "*",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",

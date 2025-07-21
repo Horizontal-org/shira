@@ -1,9 +1,12 @@
 import { Button } from "@shira/ui";
 import { FunctionComponent } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+// import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "@hello-pangea/dnd";
+
 import { IoMdAdd } from "react-icons/io";
 import { DraggableMessagingItem } from "../DraggableMessagingItem";
 import { MessagingDragItem } from "../interfaces/MessagingDragItem";
+import styled from "styled-components";
 
 interface Props {
   items: Array<MessagingDragItem>
@@ -57,21 +60,36 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
   return (
     <div>
 
-      <Button 
-        onClick={() => {
-          items.push({
-            name: `text-${items.length + 1}`,
-            value: null,
-            type: 'text',
-            position: items.length + 1
-          })
-          onChange(items)
-          console.log('add component')
-        }}
-        text="Add message text"
-        type="outline"    
-        leftIcon={<IoMdAdd color="#5F6368" size={14}/>}        
-      />
+      <ButtonsWrapper>
+        <Button 
+          onClick={() => {
+            items.push({
+              name: `text-${items.length + 1}`,
+              value: null,
+              type: 'text',
+              position: items.length + 1
+            })
+            onChange(items)
+          }}
+          text="Add message text"
+          type="outline"    
+          leftIcon={<IoMdAdd color="#5F6368" size={14}/>}        
+        />
+        <Button 
+          onClick={() => {
+            items.push({
+              name: `image-${items.length + 1}`,
+              value: null,
+              type: 'image',
+              position: items.length + 1
+            })
+            onChange(items)
+          }}
+          text="Add image"
+          type="outline"    
+          leftIcon={<IoMdAdd color="#5F6368" size={14}/>}        
+        />
+      </ButtonsWrapper>
 
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId='droppable'>
@@ -105,3 +123,8 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
     </div>
   )
 }
+
+const ButtonsWrapper = styled.div`
+  display: flex;
+  gap: 12px;
+`

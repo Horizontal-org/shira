@@ -17,7 +17,6 @@ export const TextDragItem: FunctionComponent<Props> = ({
         editorId={`component-${name}`}
         onChange={onChange}          
       />
-      <p>{name}</p>
     </Wrapper>
   )
 }

@@ -30,7 +30,6 @@ export const DragItemOptions: FunctionComponent<Props> = ({
 }
 
 const Wrapper = styled.div`
-  padding-left: 12px;
 `
 
 const SvgWrapper = styled.div`

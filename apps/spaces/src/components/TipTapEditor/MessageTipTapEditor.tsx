@@ -65,7 +65,7 @@ export const MessageTipTapEditor = ({
 }
 
 const Wrapper = styled.div`
-  padding: 20px 0;
+  margin-left: 8px;
 `
 
 const EditorWrapper = styled.div`
