@@ -6,6 +6,7 @@ import { Explanations } from "../Explanations";
 import { subscribe, unsubscribe } from "../../utils/customEvent";
 import { cleanDeletedExplanations } from "../../utils/explanations";
 import { CommonHeader } from "./components/CommonHeader";
+import { MessagingContent } from "./components/MessagingContent";
 
 interface Props {
   question: QuestionToBe
@@ -71,6 +72,16 @@ export const QuestionContent: FunctionComponent<Props> = ({
             handleQuestion={handleQuestion}
           />
         )}
+
+        { question.app.type === 'messaging' && (
+          <MessagingContent 
+            question={question}
+            content={content}
+            handleContent={handleContent}
+            handleQuestion={handleQuestion}
+          />
+        )}
+        
       </StyledBox> 
 
       <Explanations 

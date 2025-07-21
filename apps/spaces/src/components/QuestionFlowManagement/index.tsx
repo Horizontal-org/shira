@@ -31,6 +31,11 @@ const defaultQuestion = {
     subject: '',
     body: ''
   },
+  messagingContent: {
+    senderPhone: '',
+    senderName: '',    
+    draggableItems: []
+  },
   attachments: []
 }
 
@@ -66,6 +71,8 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
   const [step, handleStep] = useState(0)  
   const [question, handleQuestion] = useState<QuestionToBe>(initialQuestion)
   const [content, handleContent] = useState(initialContent)
+
+  console.log("888888888888888888 🚀 ~ question:", question)
 
   const [isExitQuestionModalOpen, setIsExitQuestionModalOpen] = useState(false)
   const [noExplanationsModalOpen, setNoExplanationsModalOpen] = useState(false)

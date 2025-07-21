@@ -67,7 +67,7 @@ export const QuestionBasicInfo: FunctionComponent<Props> = ({
         <SubHeading3>Selected app</SubHeading3>
         <FilterButtonsContainer>        
 
-          { apps && apps.filter(f => f.name === 'Gmail' ).map((a) => (
+          { apps && apps.map((a) => (
             <FilterButton 
               key={a.id}
               text={a.name}

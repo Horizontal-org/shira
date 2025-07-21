@@ -5,16 +5,14 @@ import { MdDeleteOutline, MdOutlineDragIndicator } from 'react-icons/md'
 interface Props {
   onDelete: () => void
   dragHandleProps: {}
-  selected: boolean
 }
 
-export const ExplanationItemOptions: FunctionComponent<Props> = ({
+export const DragItemOptions: FunctionComponent<Props> = ({
   onDelete,
   dragHandleProps,
-  selected
 }) => {
   return (
-    <Wrapper selected={selected}>
+    <Wrapper>
       <SvgWrapper onClick={onDelete}>
         <MdDeleteOutline
           size={20}
@@ -31,10 +29,9 @@ export const ExplanationItemOptions: FunctionComponent<Props> = ({
   )
 }
 
-const Wrapper = styled.div<{ selected: boolean }>`
+const Wrapper = styled.div`
   padding-left: 12px;
-  `
-  // visibility: ${props => props.selected ? 'visible' : 'hidden' };
+`
 
 const SvgWrapper = styled.div`
   cursor: pointer;
