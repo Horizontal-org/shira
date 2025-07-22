@@ -1,5 +1,5 @@
-import { Button } from "@shira/ui";
-import { FunctionComponent } from "react";
+import { Button, BaseFloatingMenu } from "@shira/ui";
+import { FunctionComponent, useRef, useState } from "react";
 // import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 
@@ -7,6 +7,7 @@ import { IoMdAdd } from "react-icons/io";
 import { DraggableMessagingItem } from "../DraggableMessagingItem";
 import { MessagingDragItem } from "../interfaces/MessagingDragItem";
 import styled from "styled-components";
+import { FiShare } from "react-icons/fi";
 
 interface Props {
   items: Array<MessagingDragItem>
@@ -21,6 +22,9 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
   onChange,
   onContentChange
 }) => {
+
+    const [imageFloatingMenu, handleImageFloatingMenu] = useState<boolean>(false)
+    const buttonRef = useRef<HTMLButtonElement>(null);
 
     const reorder = (newItems, startIndex, endIndex) => {
       const result: Array<Object> = Array.from(newItems);
@@ -75,20 +79,59 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
           type="outline"    
           leftIcon={<IoMdAdd color="#5F6368" size={14}/>}        
         />
-        <Button 
-          onClick={() => {
-            items.push({
-              name: `image-${items.length + 1}`,
-              value: null,
-              type: 'image',
-              position: items.length + 1
-            })
-            onChange(items)
-          }}
-          text="Add image"
-          type="outline"    
-          leftIcon={<IoMdAdd color="#5F6368" size={14}/>}        
-        />
+
+           {/* <DemoButton 
+                ref={buttonRef}
+                onClick={() => setIsOpen(!isOpen)}
+              >
+                <FiMoreVertical size={20} />
+              </DemoButton>
+        
+              <BaseFloatingMenu
+                isOpen={isOpen}
+                onClose={() => setIsOpen(false)}
+                elements={[
+                  {
+                    text: 'Upload from computer',
+                    onClick: () => { console.log('something') },
+                    icon: <FiShare />
+                  }
+                ]}
+                anchorEl={buttonRef.current}
+              /> */}
+
+        <ImageButtonWrapper>
+          <Button 
+            onClick={() => {
+              handleImageFloatingMenu(true)              
+            }}
+            text="Add image"
+            type="outline"    
+            leftIcon={<IoMdAdd color="#5F6368" size={14}/>}        
+            ref={buttonRef}
+          />
+          <BaseFloatingMenu          
+            isOpen={imageFloatingMenu}
+            onClose={() => handleImageFloatingMenu(false)}
+            elements={[
+              {
+                text: 'Upload from computer',
+                onClick: () => { 
+                  console.log('something') 
+                  // items.push({
+                  //   name: `image-${items.length + 1}`,
+                  //   value: null,
+                  //   type: 'image',
+                  //   position: items.length + 1
+                  // })
+                  // onChange(items)
+                },
+                icon: <FiShare />
+              }
+            ]}
+            anchorEl={buttonRef.current}
+          />
+        </ImageButtonWrapper>
       </ButtonsWrapper>
 
       <DragDropContext onDragEnd={onDragEnd}>
@@ -127,4 +170,8 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
 const ButtonsWrapper = styled.div`
   display: flex;
   gap: 12px;
+`
+
+const ImageButtonWrapper = styled.div`
+  position: relative;
 `

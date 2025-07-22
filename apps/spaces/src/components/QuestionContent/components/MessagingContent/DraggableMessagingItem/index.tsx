@@ -65,7 +65,7 @@ export const DraggableMessagingItem: FunctionComponent<Props> = ({
 const Wrapper = styled.div``
 
 const Container = styled.div`
-  padding-top: 18px;
+  padding-top: 30px;
 `
 
 const ContentWrapper = styled.div`
