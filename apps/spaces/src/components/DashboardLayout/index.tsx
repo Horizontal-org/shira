@@ -120,12 +120,11 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     }
   });
 
-  const compareDate = useCallback((lastQuestion, lastQuiz) => {
-    const parsedLastQuestion = new Date(lastQuestion)
-    const parsedLastQuiz = new Date(lastQuiz)
-    
+  const compareDate = useCallback((lastUpdate) => {
+    // force utc to locale parse
+    const parsedLastUpdate = new Date(lastUpdate.replace(" ", "T") + "Z")    
     return formatDistance(
-      compareAsc(parsedLastQuestion, parsedLastQuiz) === 1 ? parsedLastQuestion : parsedLastQuiz,
+      parsedLastUpdate,
       new Date(), 
       { addSuffix: true }
     )    
@@ -178,23 +177,22 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
         </FilterButtonsContainer>
 
         <CardGrid>
-          {filteredCards.map((card, index) => (
+          {filteredCards.map((card) => (
             <Card 
               onCardClick={() => {
                 navigate(`/quiz/${card.id}`)
               }}
               key={card.id}
               title={card.title}
-              lastModified={compareDate(card.lastQuestionsUpdatedAt, card.updatedAt)}
+              lastModified={compareDate(card.latestGlobalUpdate)}
               isPublished={card.published}
               onCopyUrl={() => {
-                // handleCopyUrl(card.hash)
-                 if (card.published) {
-                    handleCopyUrlAndNotify(card.hash)
-                  } else {
-                    handleCopyUrl(card.hash)
-                    handleUnpublishedQuizId(card.id)
-                  }
+                if (card.published) {
+                  handleCopyUrlAndNotify(card.hash)
+                } else {
+                  handleCopyUrl(card.hash)
+                  handleUnpublishedQuizId(card.id)
+                }
               }}
               onTogglePublished={() => handleTogglePublished(card.id, !card.published)}
               onEdit={() => {
