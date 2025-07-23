@@ -22,6 +22,7 @@ import { RenameQuizModal } from "../modals/RenameQuizModal";
 import toast from "react-hot-toast";
 import { useQuestionCRUD } from "../../fetch/question";
 import { UnpublishedQuizModal } from "../modals/UnpublishedQuizModal";
+import { handleCopyUrl, handleCopyUrlAndNotify } from "../../utils/quiz";
 
 interface Props {}
 
@@ -106,17 +107,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     setIsPublished(published)    
   };
 
-  const handleCopyUrl = async (hash: string) => {
-    try {
-      const quizUrl = `${process.env.REACT_APP_PUBLIC_URL}/quiz/${hash}`;
-      await navigator.clipboard.writeText(quizUrl);
-      
-      toast.success('The public quiz link has been copied to your clipboard.', { duration: 3000 })
-    } catch (error) {
-      console.error('Failed to copy URL:', error);
-    }
-  }
-  
+
   return (
     <Container>
       <Sidebar 
@@ -155,8 +146,9 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                     type="outline"
                     onClick={() => { 
                       if (quiz.published) {
-                        handleCopyUrl(quiz.hash)
+                        handleCopyUrlAndNotify(quiz.hash)
                       } else {
+                        handleCopyUrl(quiz.hash)
                         setIsUnpublishedQuizModalOpen(true)
                       }
                     }}

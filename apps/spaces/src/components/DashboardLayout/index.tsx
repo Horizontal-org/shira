@@ -23,6 +23,8 @@ import toast from "react-hot-toast";
 import { FilterStates } from "./constants";
 import { DeleteModal } from "../modals/DeleteModal";
 import { CreateQuizModal } from "../modals/CreateQuizModal";
+import { UnpublishedQuizModal } from "../modals/UnpublishedQuizModal";
+import { handleCopyUrl, handleCopyUrlAndNotify } from "../../utils/quiz";
 
 interface Props {}
 
@@ -53,10 +55,12 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
   const [activeFilter, setActiveFilter] = useState<FilterStates>(FilterStates.all);
   const [cards, setCards] = useState([]);
+  console.log("🚀 ~ cards:", cards)
   const [selectedCard, handleSelectedCard] = useState(null)
 
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [unpublishedQuizId, handleUnpublishedQuizId] = useState<number | null>(null);
   
 
   useEffect(() => {
@@ -102,16 +106,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     );
   };                
 
-  const handleCopyUrl = async (hash: string) => {
-    try {
-      const quizUrl = `${process.env.REACT_APP_PUBLIC_URL}/quiz/${hash}`;
-      await navigator.clipboard.writeText(quizUrl);
-      
-      toast.success('The public quiz link has been copied to your clipboard.', { duration: 3000 })
-    } catch (error) {
-      console.error('Failed to copy URL:', error);
-    }
-  };
+  
   
   const filteredCards = cards.filter(card => {
     switch (activeFilter) {
@@ -128,9 +123,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const compareDate = useCallback((lastQuestion, lastQuiz) => {
     const parsedLastQuestion = new Date(lastQuestion)
     const parsedLastQuiz = new Date(lastQuiz)
-
-    console.log("🚀 ~ compareDate ~ parsedLastQuiz:", parsedLastQuiz)
-    console.log("🚀 ~ compareDate ~ parsedLastQuestion:", parsedLastQuestion)
     
     return formatDistance(
       compareAsc(parsedLastQuestion, parsedLastQuiz) === 1 ? parsedLastQuestion : parsedLastQuiz,
@@ -195,7 +187,15 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
               title={card.title}
               lastModified={compareDate(card.lastQuestionsUpdatedAt, card.updatedAt)}
               isPublished={card.published}
-              onCopyUrl={() => handleCopyUrl(card.hash)}
+              onCopyUrl={() => {
+                // handleCopyUrl(card.hash)
+                 if (card.published) {
+                    handleCopyUrlAndNotify(card.hash)
+                  } else {
+                    handleCopyUrl(card.hash)
+                    handleUnpublishedQuizId(card.id)
+                  }
+              }}
               onTogglePublished={() => handleTogglePublished(card.id, !card.published)}
               onEdit={() => {
                 navigate(`/quiz/${card.id}`)
@@ -229,13 +229,18 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           isModalOpen={isCreateModalOpen}
         />
         
+        <UnpublishedQuizModal
+          setIsModalOpen={() => { handleUnpublishedQuizId(null) }}
+          isModalOpen={!!(unpublishedQuizId)}
+          onConfirm={() => {
+            handleTogglePublished(unpublishedQuizId, true)
+          }}
+        />
       </MainContent>
 
     </Container>
   );
 };
-
-
 
 const Container = styled.div`
   position: relative;
