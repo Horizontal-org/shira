@@ -1,13 +1,15 @@
 import { Button, BaseFloatingMenu } from "@shira/ui";
 import { FunctionComponent, useRef, useState } from "react";
-// import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 
 import { IoMdAdd } from "react-icons/io";
 import { DraggableMessagingItem } from "../DraggableMessagingItem";
-import { MessagingDragItem } from "../interfaces/MessagingDragItem";
+import { ImageObject, MessagingDragItem } from "../interfaces/MessagingDragItem";
 import styled from "styled-components";
 import { FiShare } from "react-icons/fi";
+import { useImageUpload } from "../../../../../hooks/useImageUpload";
+import toast from "react-hot-toast";
+
 
 interface Props {
   items: Array<MessagingDragItem>
@@ -23,44 +25,75 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
   onContentChange
 }) => {
 
-    const [imageFloatingMenu, handleImageFloatingMenu] = useState<boolean>(false)
-    const buttonRef = useRef<HTMLButtonElement>(null);
+  const [imageFloatingMenu, handleImageFloatingMenu] = useState<boolean>(false)
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
-    const reorder = (newItems, startIndex, endIndex) => {
-      const result: Array<Object> = Array.from(newItems);
-      const [removed] = result.splice(startIndex, 1);
-      result.splice(endIndex, 0, removed);
-    
-      return result.map((r, i) => {
-        return {
-          ...r,
-          position: i + 1
-        }
-      })
-    }
+  const reorder = (newItems, startIndex, endIndex) => {
+    const result: Array<Object> = Array.from(newItems);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
   
-    const remove = (deleteItem) => {
-      console.log("🚀 ~ remove ~ deleteItem:", deleteItem)
-      const newItems = items.filter(i => i.name !== deleteItem.name)
-      onChange(newItems)
-    }
-
-    const onDragEnd = (result) => {
-      // dropped outside the list
-      if (!result.destination) {
-        return;
+    return result.map((r, i) => {
+      return {
+        ...r,
+        position: i + 1
       }
+    })
+  }
   
-      const newItems = reorder(
-        items, 
-        result.source.index,
-        result.destination.index
-      )
-      console.log("🚀 ~ onDragEnd ~ newItems:", newItems)
-  
-      onChange(newItems)
+  const remove = (deleteItem) => {
+    console.log("🚀 ~ remove ~ deleteItem:", deleteItem)
+    const newItems = items.filter(i => i.name !== deleteItem.name)
+    onChange(newItems)
+  }
+
+  const onDragEnd = (result) => {
+    // dropped outside the list
+    if (!result.destination) {
+      return;
     }
+
+    const newItems = reorder(
+      items, 
+      result.source.index,
+      result.destination.index
+    )
+    console.log("🚀 ~ onDragEnd ~ newItems:", newItems)
+
+    onChange(newItems)
+  }
         
+  const images = useImageUpload({
+    maxSizeInMB: 5,
+    allowedTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
+  })
+
+  const handleNewImage = async(e) => {
+    if (e.target.files && e.target.files.length > 0 ) {
+      items.push({
+        name: `image-${items.length + 1}`,
+        value: null,
+        type: 'image',
+        position: items.length + 1
+      })
+      const index = items.length - 1
+      onChange(items)
+
+      try {
+        const res = await images.onImageSelect(e)    
+        console.log("🚀 ~ handleNewImage ~ res:", res)
+      
+        const newItems = [...items];
+        newItems[index] = { ...newItems[index], value: res as ImageObject};
+        onChange(newItems)
+      } catch (e) {
+        const newItems = items.filter((item, itemIndex) =>  itemIndex !== index)
+        onChange(newItems)
+      }      
+    }
+    
+  }
+
   return (
     <div>
 
@@ -80,26 +113,6 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
           leftIcon={<IoMdAdd color="#5F6368" size={14}/>}        
         />
 
-           {/* <DemoButton 
-                ref={buttonRef}
-                onClick={() => setIsOpen(!isOpen)}
-              >
-                <FiMoreVertical size={20} />
-              </DemoButton>
-        
-              <BaseFloatingMenu
-                isOpen={isOpen}
-                onClose={() => setIsOpen(false)}
-                elements={[
-                  {
-                    text: 'Upload from computer',
-                    onClick: () => { console.log('something') },
-                    icon: <FiShare />
-                  }
-                ]}
-                anchorEl={buttonRef.current}
-              /> */}
-
         <ImageButtonWrapper>
           <Button 
             onClick={() => {
@@ -116,20 +129,20 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
             elements={[
               {
                 text: 'Upload from computer',
-                onClick: () => { 
-                  console.log('something') 
-                  // items.push({
-                  //   name: `image-${items.length + 1}`,
-                  //   value: null,
-                  //   type: 'image',
-                  //   position: items.length + 1
-                  // })
-                  // onChange(items)
+                onClick: () => {
+                  handleImageFloatingMenu(false)
+                  images.handleImageUpload()
                 },
                 icon: <FiShare />
               }
             ]}
             anchorEl={buttonRef.current}
+          />
+          <HiddenFileInput
+            ref={images.fileInputRef}
+            type="file"
+            accept="image/*"
+            onChange={handleNewImage}
           />
         </ImageButtonWrapper>
       </ButtonsWrapper>
@@ -167,9 +180,14 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
   )
 }
 
+const HiddenFileInput = styled.input`
+  display: none;
+`
+
 const ButtonsWrapper = styled.div`
   display: flex;
   gap: 12px;
+  margin-bottom: 30px;
 `
 
 const ImageButtonWrapper = styled.div`

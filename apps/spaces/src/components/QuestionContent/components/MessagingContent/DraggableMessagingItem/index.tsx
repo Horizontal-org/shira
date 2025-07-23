@@ -3,8 +3,9 @@ import { FunctionComponent, ReactNode } from 'react'
 import { Draggable } from "@hello-pangea/dnd";
 import { Body2Regular, Body3, Body3Bold, styled } from '@shira/ui';
 import { DragItemOptions } from '../../../../DragItemOptions';
-import { MessagingDragItem } from '../interfaces/MessagingDragItem';
+import { ImageObject, MessagingDragItem } from '../interfaces/MessagingDragItem';
 import { TextDragItem } from '../TextDragItem';
+import { ImageDragItem } from '../ImageDragItem';
 
 interface Props {
   index: number;
@@ -50,7 +51,16 @@ export const DraggableMessagingItem: FunctionComponent<Props> = ({
                       })
                     }}
                   />
-                )}              
+                )}
+                { item.type === 'image' && (
+                  <ImageDragItem 
+                    name={item.name}
+                    value={item.value as ImageObject}
+                    onChange={() => {                      
+                      console.log("IMAGE ON CHANGE")
+                    }}
+                  />
+                )}
               </ContentWrapper>
             </Wrapper>
             
@@ -62,19 +72,19 @@ export const DraggableMessagingItem: FunctionComponent<Props> = ({
   )
 }
 
+
 const Wrapper = styled.div``
 
-const Container = styled.div`
-  padding-top: 30px;
-`
+const Container = styled.div``
 
 const ContentWrapper = styled.div`
   width: 100%;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
 `
 
 const SmallText = styled.div`
   font-size: 14px;
   font-weight: 600;
+  padding-bottom: 4px;
 `
