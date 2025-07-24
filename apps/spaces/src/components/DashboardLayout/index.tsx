@@ -11,7 +11,8 @@ import {
   FilterButton,
   useAdminSidebar,
   Modal,
-  TextInput
+  TextInput,
+  BetaBanner
 } from "@shira/ui";
 import { FiPlus } from 'react-icons/fi';
 import { shallow } from "zustand/shallow";
@@ -139,101 +140,104 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
       />
 
       <MainContent $isCollapsed={isCollapsed}>
-        <HeaderContainer>
-          <StyledSubHeading3>{space && space.name}</StyledSubHeading3>
-          <H2>Welcome to your dashboard </H2>
-          <Body1>This is where you can manage quizzes. Quiz links are public, so remember to avoid sharing sensitive information in them.</Body1>
-          <ButtonContainer>
-            <Button
-              type="primary"
-              leftIcon={<FiPlus />}
-              text="Create new quiz"
-              onClick={() => {
-                setIsCreateModalOpen(true)
-              }}
-              color="#849D29"
+        <BetaBanner url="/support"/>
+        <MainContentWrapper>
+          <HeaderContainer>
+            <StyledSubHeading3>{space && space.name}</StyledSubHeading3>
+            <H2>Welcome to your dashboard </H2>
+            <Body1>This is where you can manage quizzes. Quiz links are public, so remember to avoid sharing sensitive information in them.</Body1>
+            <ButtonContainer>
+              <Button
+                type="primary"
+                leftIcon={<FiPlus />}
+                text="Create new quiz"
+                onClick={() => {
+                  setIsCreateModalOpen(true)
+                }}
+                color="#849D29"
+              />
+            </ButtonContainer>
+          </HeaderContainer>
+
+          <FilterButtonsContainer>
+            <FilterButton 
+              text="All quizzes"
+              handleFilter={() => setActiveFilter(FilterStates.all)}
+              isActive={activeFilter ===  FilterStates.all}
             />
-          </ButtonContainer>
-        </HeaderContainer>
 
-        <FilterButtonsContainer>
-          <FilterButton 
-            text="All quizzes"
-            handleFilter={() => setActiveFilter(FilterStates.all)}
-            isActive={activeFilter ===  FilterStates.all}
-          />
-
-          <FilterButton 
-            text="Published"
-            handleFilter={() => setActiveFilter(FilterStates.published)}
-            isActive={activeFilter ===  FilterStates.published}
-          />
-
-          <FilterButton 
-            text="Unpublished"
-            handleFilter={() => setActiveFilter(FilterStates.unpublished)}
-            isActive={activeFilter ===  FilterStates.unpublished}
-          />
-        </FilterButtonsContainer>
-
-        <CardGrid>
-          {filteredCards.map((card) => (
-            <Card 
-              onCardClick={() => {
-                navigate(`/quiz/${card.id}`)
-              }}
-              key={card.id}
-              title={card.title}
-              lastModified={compareDate(card.latestGlobalUpdate)}
-              isPublished={card.published}
-              onCopyUrl={() => {
-                if (card.published) {
-                  handleCopyUrlAndNotify(card.hash)
-                } else {
-                  handleCopyUrl(card.hash)
-                  handleUnpublishedQuizId(card.id)
-                }
-              }}
-              onTogglePublished={() => handleTogglePublished(card.id, !card.published)}
-              onEdit={() => {
-                navigate(`/quiz/${card.id}`)
-              }}  
-              onDelete={() => {
-                handleSelectedCard(card)
-                setIsDeleteModalOpen(true)
-              }}
+            <FilterButton 
+              text="Published"
+              handleFilter={() => setActiveFilter(FilterStates.published)}
+              isActive={activeFilter ===  FilterStates.published}
             />
-          ))}
-        </CardGrid>
 
-        <DeleteModal
-          title={`Are you sure you want to delete "${selectedCard?.title}"?`}
-          content="Deleting this quiz is permanent and cannot be undone."
-          setIsModalOpen={setIsDeleteModalOpen}
-          onDelete={() => { 
-            deleteQuiz(selectedCard?.id) 
-            handleSelectedCard(null)            
-          }}
-          onCancel={() => {
-            setIsDeleteModalOpen(false)
-            handleSelectedCard(null)
-          }}
-          isModalOpen={isDeleteModalOpen}
-        />
+            <FilterButton 
+              text="Unpublished"
+              handleFilter={() => setActiveFilter(FilterStates.unpublished)}
+              isActive={activeFilter ===  FilterStates.unpublished}
+            />
+          </FilterButtonsContainer>
 
-        <CreateQuizModal 
-          setIsModalOpen={setIsCreateModalOpen}
-          onCreate={(title) => { createQuiz(title) }}
-          isModalOpen={isCreateModalOpen}
-        />
-        
-        <UnpublishedQuizModal
-          setIsModalOpen={() => { handleUnpublishedQuizId(null) }}
-          isModalOpen={!!(unpublishedQuizId)}
-          onConfirm={() => {
-            handleTogglePublished(unpublishedQuizId, true)
-          }}
-        />
+          <CardGrid>
+            {filteredCards.map((card) => (
+              <Card 
+                onCardClick={() => {
+                  navigate(`/quiz/${card.id}`)
+                }}
+                key={card.id}
+                title={card.title}
+                lastModified={compareDate(card.latestGlobalUpdate)}
+                isPublished={card.published}
+                onCopyUrl={() => {
+                  if (card.published) {
+                    handleCopyUrlAndNotify(card.hash)
+                  } else {
+                    handleCopyUrl(card.hash)
+                    handleUnpublishedQuizId(card.id)
+                  }
+                }}
+                onTogglePublished={() => handleTogglePublished(card.id, !card.published)}
+                onEdit={() => {
+                  navigate(`/quiz/${card.id}`)
+                }}  
+                onDelete={() => {
+                  handleSelectedCard(card)
+                  setIsDeleteModalOpen(true)
+                }}
+              />
+            ))}
+          </CardGrid>
+
+          <DeleteModal
+            title={`Are you sure you want to delete "${selectedCard?.title}"?`}
+            content="Deleting this quiz is permanent and cannot be undone."
+            setIsModalOpen={setIsDeleteModalOpen}
+            onDelete={() => { 
+              deleteQuiz(selectedCard?.id) 
+              handleSelectedCard(null)            
+            }}
+            onCancel={() => {
+              setIsDeleteModalOpen(false)
+              handleSelectedCard(null)
+            }}
+            isModalOpen={isDeleteModalOpen}
+          />
+
+          <CreateQuizModal 
+            setIsModalOpen={setIsCreateModalOpen}
+            onCreate={(title) => { createQuiz(title) }}
+            isModalOpen={isCreateModalOpen}
+          />
+          
+          <UnpublishedQuizModal
+            setIsModalOpen={() => { handleUnpublishedQuizId(null) }}
+            isModalOpen={!!(unpublishedQuizId)}
+            onConfirm={() => {
+              handleTogglePublished(unpublishedQuizId, true)
+            }}
+          />
+        </MainContentWrapper>
       </MainContent>
 
     </Container>
@@ -254,8 +258,7 @@ const Container = styled.div`
 
 const MainContent = styled.div<{ $isCollapsed: boolean }>`
   flex: 1;
-  padding: 50px;
-  margin-left: ${props => props.$isCollapsed ? '100px' : '300px'};
+  margin-left: ${props => props.$isCollapsed ? '116px' : '264px'};
   transition: margin-left 0.3s ease;
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
@@ -265,6 +268,11 @@ const MainContent = styled.div<{ $isCollapsed: boolean }>`
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     margin-left: 0;
   }
+`
+
+const MainContentWrapper = styled.div`
+  padding: 50px 70px;
+
 `
 
 const StyledSubHeading3 = styled(SubHeading3)`
