@@ -1,5 +1,6 @@
 import Image from '@tiptap/extension-image'
 import { createResizeHandles } from '../utils'
+import { mergeAttributes } from '@tiptap/core'
 
 export const ImageWithExplanation = Image.extend({
   addAttributes() {
@@ -12,11 +13,22 @@ export const ImageWithExplanation = Image.extend({
       'data-explanation': { default: null },
       'data-image-id': { default: null },
       'data-original-filename': { default: null },
+      'link': { default: null }
     }
   },
   
   renderHTML({ HTMLAttributes }) {
-    return ['img', HTMLAttributes]
+    const { link, ...imgAttrs } = HTMLAttributes
+
+    if (link) {
+      return [
+        'a',
+        { href: link, target: '_blank', rel: 'noopener noreferrer' },
+        ['img', mergeAttributes(imgAttrs)]
+      ]
+    }
+
+    return ['img', mergeAttributes(imgAttrs)]
   },
   
   addNodeView() {

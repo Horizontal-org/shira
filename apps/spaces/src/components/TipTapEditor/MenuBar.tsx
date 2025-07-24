@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react'
 import { ExplanationIcon } from '@shira/ui'
-
+import { useLink } from './hooks/useLink'
 import { FiBold, FiItalic, FiCode, FiList, FiLink, FiUnderline, FiImage } from 'react-icons/fi'
 import { 
   TbStrikethrough, 
@@ -91,6 +91,7 @@ export const MenuBar = ({
   enableImage = true,
   enableTables = true
 }: MenuBarProps) => {
+  const links = useLink(editor)
 
   if (!editor) {
     return null
@@ -203,9 +204,18 @@ export const MenuBar = ({
       </Heading>
 
       <IconWrapper 
-        active={!!(editor.isActive('link'))}
-        disabled={!!(!editor.isActive('link') && editor.view.state.selection.empty)}
+        active={!!(editor.isActive('link') || (isImageSelected && links.getCurrentLink()))}
+        disabled={!!(!editor.isActive('link') && editor.view.state.selection.empty && !isImageSelected)}
         onClick={() => {
+          if (isImageSelected) {
+            const currentLink = links.getCurrentLink()
+            if (currentLink) {
+              setLink(currentLink)
+            } else {
+              setLink()
+            }
+            return
+          }
           // no text
           if (!editor.isActive('link') && editor.view.state.selection.empty) return 
           
