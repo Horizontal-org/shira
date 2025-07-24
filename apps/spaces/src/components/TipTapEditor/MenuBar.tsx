@@ -28,6 +28,7 @@ import {
   InputColor,
   ExplanationIconWrapper
 } from './styles/MenuBarStyles'
+import {  isTableCellEmpty } from './utils'
 
 interface MenuBarProps {
   editor: any
@@ -205,8 +206,20 @@ export const MenuBar = ({
 
       <IconWrapper 
         active={!!(editor.isActive('link') || (isImageSelected && links.getCurrentLink()))}
-        disabled={!!(!editor.isActive('link') && editor.view.state.selection.empty && !isImageSelected)}
+        disabled={!!(
+        !editor.isActive('link') && 
+        (
+          editor.view.state.selection.empty || 
+          isTableCellEmpty(editor)
+        ) &&
+        !isImageSelected
+      )}
         onClick={() => {
+          const selection = editor.view.state.selection
+          
+          const isCellSelection = selection.constructor.name === '_CellSelection'
+          const isCellEmpty = isCellSelection && isTableCellEmpty(editor)
+          
           if (isImageSelected) {
             const currentLink = links.getCurrentLink()
             if (currentLink) {
@@ -216,12 +229,16 @@ export const MenuBar = ({
             }
             return
           }
-          // no text
-          if (!editor.isActive('link') && editor.view.state.selection.empty) return 
+          
+          // Check if should return early (disabled)
+          if (!editor.isActive('link') && 
+              (selection.empty || (isCellSelection && isTableCellEmpty(editor)))) {
+            return 
+          }
           
           const isActive = editor.isActive('link')
           if (isActive) {
-             setLink(editor.getAttributes('link').href || null)
+            setLink(editor.getAttributes('link').href || null)
           } else {
             setLink()
           }
@@ -229,6 +246,7 @@ export const MenuBar = ({
       >
         <FiLink size={18} />
       </IconWrapper>
+
 
       <Separate />
 
