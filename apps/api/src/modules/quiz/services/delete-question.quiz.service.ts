@@ -29,9 +29,11 @@ export class DeleteQuestionQuizService implements IDeleteQuestionQuizService {
 
     const quizQuestions = await this.quizQuestionRepo
       .createQueryBuilder('quizzes_questions')
-      .where('quiz_id = :quizId ', { quizId: deleteDto.quizId })      
+      .where('quiz_id = :quizId', { quizId: deleteDto.quizId })      
       .getMany()
       
+    const quiz = await this.quizRepo.findOneBy({ id: deleteDto.quizId })  
+    
     //validate question is part of this list
     const quizQuestionToDelete = quizQuestions.find(qq => qq.questionId === deleteDto.questionId)      
     if (!quizQuestionToDelete) {
@@ -45,6 +47,9 @@ export class DeleteQuestionQuizService implements IDeleteQuestionQuizService {
     newList.forEach((quizQuestion, index) => {
       quizQuestion.position = index + 1
     })
+
+    quiz.updatedAt = new Date()
+    await this.quizRepo.save(quiz)
 
     await this.quizQuestionRepo.save(newList)
     await this.quizQuestionRepo.delete(quizQuestionToDelete.id)

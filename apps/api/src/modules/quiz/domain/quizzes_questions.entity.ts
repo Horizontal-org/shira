@@ -5,6 +5,8 @@ import {
   ManyToOne,
   JoinColumn,
   RelationId,
+  UpdateDateColumn,
+  CreateDateColumn,
 } from 'typeorm';
 import { Explanation, Question } from 'src/modules/question/domain';
 import { Quiz } from './quiz.entity';
@@ -49,9 +51,9 @@ export class QuizQuestion {
   @Column()
   position: number;
 
-  @Column({ name: 'created_at' })
-  created_at: Date;
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
 
-  @Column({ name: 'updated_at' })
-  updated_at: Date;
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
 }
