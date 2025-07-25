@@ -218,7 +218,6 @@ export const MenuBar = ({
           const selection = editor.view.state.selection
           
           const isCellSelection = selection.constructor.name === '_CellSelection'
-          const isCellEmpty = isCellSelection && isTableCellEmpty(editor)
           
           if (isImageSelected) {
             const currentLink = links.getCurrentLink()
@@ -233,7 +232,8 @@ export const MenuBar = ({
           // Check if should return early (disabled)
           if (!editor.isActive('link') && 
               (selection.empty || (isCellSelection && isTableCellEmpty(editor)))) {
-            return 
+              console.log('link disabled')
+              return 
           }
           
           const isActive = editor.isActive('link')
