@@ -46,13 +46,15 @@ export const QuestionEditLayout: FunctionComponent<Props> = () => {
         }))
       }
       
+      // careful, this persists
       const htmlContent = new DOMParser().parseFromString(question.content, 'text/html')
       
+      // PARSE QUESTION 
+      handleQuestion(getQuestionValues(question, htmlContent))
+
       // PARSE CONTENT      
       handleContent(getContentObject(htmlContent))
 
-      // PARSE QUESTION 
-      handleQuestion(getQuestionValues(question, htmlContent))
     }
 
     getAndParseQuestion()
