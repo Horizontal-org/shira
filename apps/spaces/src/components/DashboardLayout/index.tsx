@@ -271,7 +271,7 @@ const MainContent = styled.div<{ $isCollapsed: boolean }>`
 `
 
 const MainContentWrapper = styled.div`
-  padding: 50px 70px;
+  padding: 50px;
 
 `
 
@@ -302,6 +302,11 @@ const CardGrid = styled.div`
   @media (max-width: ${props => props.theme.breakpoints.lg}) {
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
+  }
+
+   @media (max-width: ${props => props.theme.breakpoints.md}) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
   }
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {

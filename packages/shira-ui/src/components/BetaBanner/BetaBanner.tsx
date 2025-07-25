@@ -17,7 +17,7 @@ export const BetaBanner:FunctionComponent<BetaBannerProps> = ({ url = '/support'
 
   return showBanner && (
     <Wrapper>
-      <div></div>
+      <Empty></Empty>
       <Body3>
         <strong>BETA</strong>: Shira is still in development and you may experience issues. Click <a target={url.includes('https:') ? '_blank' : '_self'} href={url}>here</a> to share your feedback and help us improve!
       </Body3>
@@ -31,6 +31,13 @@ export const BetaBanner:FunctionComponent<BetaBannerProps> = ({ url = '/support'
   )
 }
 
+const Empty = styled.div`
+  display: block;
+
+  @media (max-width: ${props => props.theme.breakpoints.md}) {
+    display: none;
+  }
+`
 const Wrapper = styled.div`
   z-index: 2;
   width: 100%;
@@ -47,12 +54,13 @@ const Wrapper = styled.div`
     color: black; 
   }
 
-   @media (max-width: ${props => props.theme.breakpoints.sm}) {
+   @media (max-width: ${props => props.theme.breakpoints.md}) {
     height: 80px;
-    justify-content: flex-start;
+    justify-content: space-between;
   }
 `
 
 const SvgWrapper = styled.div`
   cursor: pointer;
+  height: 24px;
 `
