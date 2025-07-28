@@ -217,7 +217,7 @@ export const MenuBar = ({
         onClick={() => {
           const selection = editor.view.state.selection
           
-          const isCellSelection = selection.constructor.name === '_CellSelection'
+          const isCellSelection = selection.$anchorCell && selection.$headCell
           
           if (isImageSelected) {
             const currentLink = links.getCurrentLink()
@@ -337,7 +337,11 @@ export const MenuBar = ({
 
       <ExplanationIconWrapper
         onClick={onAddTextExplanation}
-        disabled={!canAddTextExplanation}
+        disabled={
+          !canAddTextExplanation || 
+          isTableCellEmpty(editor) ||
+          editor.view.state.selection.empty
+        }
         title="Add text explanation"
       >
         <ExplanationIcon />

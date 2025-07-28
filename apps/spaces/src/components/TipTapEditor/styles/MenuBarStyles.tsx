@@ -122,7 +122,9 @@ export const ExplanationIconWrapper = styled.div<StyledIconWrapper>`
   }
 
   ${props => props.disabled && `
-    cursor: not-allowed;
+    pointer-events: none !important;
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
   `}
 
 `

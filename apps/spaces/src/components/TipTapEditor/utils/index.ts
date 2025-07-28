@@ -145,7 +145,12 @@ function setupResizeDrag(handles, img, node, getPos, editor, isUpdatingRef) {
 
 export const isTableCellEmpty = (editor) => {
   const selection = editor.view.state.selection
-  if (selection.constructor.name !== '_CellSelection') return false
+  
+  const isCellSelection = selection.$anchorCell && selection.$headCell
+  
+  if (!isCellSelection) {
+    return false
+  }
   
   const selectedContent = editor.state.doc.textBetween(selection.from, selection.to, ' ')
   return selectedContent.trim().length === 0
