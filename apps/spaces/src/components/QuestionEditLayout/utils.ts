@@ -22,8 +22,6 @@ export const getQuestionValues = (question: QuestionPayload, htmlContent: Docume
       const explodedId = ca.getAttribute('id').split('component-attachment-')
       const explanationIndex = ca.getAttribute('data-explanation')
       
-      console.log("🚀 ~ htmlContent.querySelectorAll ~ explodedId:", explodedId)
-      console.log('INNER HTML', ca.innerHTML)
       attachments.push({
         id: parseInt(explodedId[1]),
         type: AttachmentType[ca.getAttribute('data-attachment-type')],

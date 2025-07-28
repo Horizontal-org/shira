@@ -13,6 +13,8 @@ interface Props {
   handleContent: (id: string, value: string) => void
   handleQuestion: (k, v) => void;
   content: Object
+  handleContentRemove: (id: string) => void
+  handleContentFullChange: (newContent: Object) => void
 }
 
 export const QuestionContent: FunctionComponent<Props> = ({
@@ -20,6 +22,8 @@ export const QuestionContent: FunctionComponent<Props> = ({
   handleQuestion,
   handleContent,
   content,
+  handleContentRemove,
+  handleContentFullChange
 }) => {
 
 
@@ -79,6 +83,7 @@ export const QuestionContent: FunctionComponent<Props> = ({
             content={content}
             handleContent={handleContent}
             handleQuestion={handleQuestion}
+            handleContentFullChange={handleContentFullChange}
           />
         )}
         

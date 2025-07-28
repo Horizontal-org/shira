@@ -5,6 +5,7 @@ import { AttachmentFile, Attachments } from "../Attachments";
 import { InputWithExplanation } from "../../../InputWithExplanation";
 import { remapHtml } from "../../../../utils/remapHtml";
 import { DraggableMessagingList } from "./DraggableMessagingList";
+import { ImageObject, MessagingDragItem } from "./interfaces/MessagingDragItem";
 
 
 interface Props {
@@ -12,6 +13,7 @@ interface Props {
   content: Object
   handleContent: (id: string, value: string) => void
   handleQuestion: (k, v) => void
+  handleContentFullChange: (newContent: Object) => void
 }
 
 const MessagingAppsNames = {
@@ -25,7 +27,8 @@ export const MessagingContent: FunctionComponent<Props> = ({
   question,
   content,
   handleQuestion,
-  handleContent
+  handleContent,
+  handleContentFullChange
 }) => {
 
   const hasSenderPhone = () => {
@@ -61,6 +64,31 @@ export const MessagingContent: FunctionComponent<Props> = ({
     
     handleSenderPhoneEnabled(hasSenderPhone)
   }, [])
+
+  const remapDynamicContent = (newItems: Array<MessagingDragItem>) => {
+    let newContent = {
+      'component-required-sender-name': content['component-required-sender-name'],
+      'component-required-sender-phone': content['component-required-sender-phone']
+    }
+
+    newItems.forEach((ni, i) => {
+      let index = i + 1
+      if (ni.type === 'text') {
+        newContent[`component-text-${index}`] = `<div data-position=${index} id=component-text-${index} ${insertExplanation(null)}>${ni.value}</div>` 
+      }
+
+      if (ni.type === 'image') {
+        const imageObject = ni.value as ImageObject
+        let objectAttributes = ''
+        if (imageObject) {
+          objectAttributes = `data-image-id=${imageObject.id} alt=${imageObject.originalFilename} src=${imageObject.url}`
+        }
+        newContent[`component-image-${index}`] = `<img data-position=${index} id=component-image-${index} ${insertExplanation(null)} ${objectAttributes} />` 
+      }      
+    })
+
+    handleContentFullChange(newContent)
+  }
 
   return (
     <Content>
@@ -113,22 +141,24 @@ export const MessagingContent: FunctionComponent<Props> = ({
               handleContent(
                 'component-required-sender-phone', 
                 `<span ${insertExplanation(expl)} id=component-required-sender-phone>${value}</span>` 
-              )          
+              )
             }}
-          />      
+          />
         </div>
       )}
 
       <DraggableMessagingList
         content={content}
         items={question.messagingContent.draggableItems}
-        onContentChange={handleContent}
+        onRemapContent={remapDynamicContent}
         onChange={(newItems) => {
           console.log('ON CHANGE =>>> ', newItems)
           handleQuestion('messagingContent', {
             ...question.messagingContent,
             draggableItems: newItems
           })
+
+          remapDynamicContent(newItems as Array<MessagingDragItem>)
         }}
       />
       

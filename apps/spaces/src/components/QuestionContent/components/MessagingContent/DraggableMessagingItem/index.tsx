@@ -23,7 +23,7 @@ export const DraggableMessagingItem: FunctionComponent<Props> = ({
   return (
     <>
     <Draggable 
-      draggableId={item.name} 
+      draggableId={item.draggableId} 
       index={index}
     >
       {(draggableProvided, snapshot) => (

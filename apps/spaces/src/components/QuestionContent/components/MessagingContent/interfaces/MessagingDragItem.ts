@@ -5,6 +5,7 @@ export interface ImageObject {
 }
 
 export interface MessagingDragItem {
+  draggableId: string;
   position: number;
   value: string | ImageObject;
   name: string;

@@ -15,35 +15,43 @@ interface Props {
   items: Array<MessagingDragItem>
   content: Object
   onChange: (newItems: Array<Object>) => void
-  onContentChange: (id: string, value: string) => void
+  onRemapContent: (newContent: Object) => void
 }
 
 export const DraggableMessagingList: FunctionComponent<Props> = ({
   items,
   content,
   onChange,
-  onContentChange
+  onRemapContent,  
 }) => {
 
   const [imageFloatingMenu, handleImageFloatingMenu] = useState<boolean>(false)
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const reorder = (newItems, startIndex, endIndex) => {
-    const result: Array<Object> = Array.from(newItems);
+    const result: Array<MessagingDragItem> = Array.from(newItems);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
   
     return result.map((r, i) => {
       return {
         ...r,
+        name: `component-${r.type}-${i + 1}`,
         position: i + 1
       }
     })
   }
   
   const remove = (deleteItem) => {
-    console.log("🚀 ~ remove ~ deleteItem:", deleteItem)
-    const newItems = items.filter(i => i.name !== deleteItem.name)
+    const newItems = items
+      .filter(i => i.name !== deleteItem.name)
+      .map((r, i) => {
+        return {
+          ...r,
+          name: `component-${r.type}-${i + 1}`,
+          position: i + 1
+        }
+    })
     onChange(newItems)
   }
 
@@ -58,7 +66,6 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
       result.source.index,
       result.destination.index
     )
-    console.log("🚀 ~ onDragEnd ~ newItems:", newItems)
 
     onChange(newItems)
   }
@@ -70,11 +77,14 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
 
   const handleNewImage = async(e) => {
     if (e.target.files && e.target.files.length > 0 ) {
+      const newName = `component-image-${items.length + 1}`
+      const newPosition = items.length + 1
       items.push({
-        name: `image-${items.length + 1}`,
+        draggableId: crypto.randomUUID(),
+        name: newName,
         value: null,
         type: 'image',
-        position: items.length + 1
+        position: newPosition
       })
       const index = items.length - 1
       onChange(items)
@@ -96,12 +106,12 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
 
   return (
     <div>
-
       <ButtonsWrapper>
         <Button 
           onClick={() => {
             items.push({
-              name: `text-${items.length + 1}`,
+              draggableId: crypto.randomUUID(),
+              name: `component-text-${items.length + 1}`,
               value: null,
               type: 'text',
               position: items.length + 1
@@ -110,7 +120,7 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
           }}
           text="Add message text"
           type="outline"    
-          leftIcon={<IoMdAdd color="#5F6368" size={14}/>}        
+          leftIcon={<IoMdAdd color="#5F6368" size={14}/>}
         />
 
         <ImageButtonWrapper>
@@ -157,7 +167,7 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
               { items.map(((item, index) => (
                 <DraggableMessagingItem
                   item={item}
-                  key={item.name + ''}
+                  key={item.draggableId}
                   index={index}  
                   onChange={(newItem) => {
                     const newItems = [...items];
@@ -167,6 +177,8 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
                   onDelete={() => {
                     // TODO clean Explanations, take example from attacments
                     remove(item)
+
+                    // onContentRemove()
                   }}
                 />
               ))) }
