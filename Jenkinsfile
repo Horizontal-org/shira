@@ -18,7 +18,7 @@ pipeline {
         // }
         stage ('Deploy for beta') {
             when {
-                branch 'main'  
+                branch 'beta'  
             }
             steps {
             
@@ -30,21 +30,8 @@ pipeline {
                     message: "Build STARTED FOR BETA: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
                   )
 
-                  sh """#!/bin/bash
-ssh -tt -o StrictHostKeyChecking=no root@beta.space.shira.app <<EOF
-echo "Running on \$(hostname)"
-cd /home/shira
-git fetch --all
-git reset --hard origin/main
-npm --version
-npm install
-./deploy-frontend.sh
-echo "frontend done"
-./deploy-api.sh
-echo "api done"
-exit
-EOF
-"""
+                  sh 'ssh -tt -o StrictHostKeyChecking=no root@beta.space.shira.app "/home/shira/jenkins/beta.sh"'
+                
                 } catch (e) {
                     currentBuild.result = "FAILURE"
                 } finally {
