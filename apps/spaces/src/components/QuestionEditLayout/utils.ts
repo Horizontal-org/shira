@@ -2,14 +2,65 @@ import { AttachmentType } from "@shira/ui"
 import { QuestionPayload } from "../../fetch/question"
 import { AttachmentFile } from "../QuestionContent/components/Attachments"
 
+
+const getDraggableItems = (htmlContent: Document) => {
+
+  let draggableItems = []
+  htmlContent
+    .querySelectorAll('[id*="component-image"]')
+    .forEach((c) => {
+      draggableItems.push({
+        draggableId: crypto.randomUUID(),
+        name: c.getAttribute('id'),
+        type: 'image',
+        position: c.getAttribute('data-position'),
+        value: {
+          url: c.getAttribute('src'),
+          id: c.getAttribute('data-image-id'),
+          originalFilename: c.getAttribute('alt')
+        }
+      })
+    })
+
+
+  htmlContent
+    .querySelectorAll('[id*="component-text"]')
+    .forEach((c) => {
+      draggableItems.push({
+        draggableId: crypto.randomUUID(),
+        name: c.getAttribute('id'),
+        type: 'text',
+        position: c.getAttribute('data-position'),
+        value: c.innerHTML || null
+      })
+    })
+
+  return draggableItems.sort((a, b) => a.position - b.position)
+}
+
 export const getContentObject = (htmlContent: Document) => {
   let parsed = {}
   htmlContent.querySelectorAll('[id]:not([id=""]):not([id="type-content"]):not([id="dynamic-content"])')
     .forEach((element) => {      
       parsed[element.getAttribute('id')] = element.outerHTML
-    })  
-  
+    }
+  )  
+
+  console.log("🚀 ~ getContentObject ~ parsed:", parsed)
   return parsed
+}
+
+const replaceImage = (question: QuestionPayload, htmlContent: Document) => {
+  // images 
+    if (question.images.length > 0) {
+      htmlContent.querySelectorAll('img[data-image-id]')
+        .forEach((img) => {
+          const imgElement = question.images.find(i => i.imageId === parseInt(img.getAttribute('data-image-id')))
+          if (imgElement) {
+            img.setAttribute("src", imgElement.url)          
+          }
+        })
+    }
 }
 
 export const getQuestionValues = (question: QuestionPayload, htmlContent: Document) => {
@@ -30,16 +81,7 @@ export const getQuestionValues = (question: QuestionPayload, htmlContent: Docume
       })
     })
 
-    // images 
-    if (question.images.length > 0) {
-      htmlContent.querySelectorAll('img[data-image-id]')
-        .forEach((img) => {
-          const imgElement = question.images.find(i => i.imageId === parseInt(img.getAttribute('data-image-id')))
-          if (imgElement) {
-            img.setAttribute("src", imgElement.url)          
-          }
-        })
-    }
+    replaceImage(question, htmlContent)
       
     return {
       app: app,
@@ -52,6 +94,20 @@ export const getQuestionValues = (question: QuestionPayload, htmlContent: Docume
         body: htmlContent.getElementById('component-text-1')?.innerHTML,
       },
       attachments: attachments     
+    }
+  } else {
+  
+    replaceImage(question, htmlContent)
+    
+    return {
+      app: app,
+      name: question.name,
+      isPhishing: !!(question.isPhising),
+      messagingContent: {
+        senderPhone: htmlContent.getElementById('component-required-sender-phone')?.innerText,
+        senderName: htmlContent.getElementById('component-required-sender-name')?.innerText,
+        draggableItems: getDraggableItems(htmlContent)
+      },
     }
   }
 }

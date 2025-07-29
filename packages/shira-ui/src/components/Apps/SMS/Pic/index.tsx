@@ -16,7 +16,7 @@ export const Pic: FunctionComponent<Props> = () => {
 
 
 const Wrapper = styled.div`
-  align-self: felx-start;
+  align-self: flex-start;
   margin-bottom: -6px;
   margin-right: 6px;
 

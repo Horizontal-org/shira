@@ -12,7 +12,7 @@ export interface EmailContent {
 export interface MessagingContent {
   senderName?: string;
   senderPhone?: string;
-  draggableItems: Array<MessagingDragItem>
+  draggableItems?: Array<MessagingDragItem>
 }
 
 export interface QuestionToBe {

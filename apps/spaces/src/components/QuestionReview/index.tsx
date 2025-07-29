@@ -48,7 +48,7 @@ export const QuestionReview: FunctionComponent<Props> = ({
     return
   }
 
-  console.log("🚀 ~ QuestionReview ~ elementProps:", elementProps)
+  console.log("QUESTION REVIEWWWWWWWWWWWW", elementProps)
 
   return (
     <>
@@ -60,7 +60,7 @@ export const QuestionReview: FunctionComponent<Props> = ({
           showExplanations={showExplanations}
           explanations={explanations}
         />
-        { showExplanations && (<Overlay />)}
+        { showExplanations && (<Overlay />) }
       </StyledBox>
       <ReviewFooter>
         { showExplanations ? (

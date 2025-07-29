@@ -1,0 +1,38 @@
+import { FunctionComponent } from "react";
+import styled from "styled-components";
+import { Pic } from "../Pic";
+
+interface Props {
+  data: Element
+}
+
+export const MessagingImage:FunctionComponent<Props> = ({ data }) => {
+  return (
+    <Wrapper>
+      <Pic />
+      <Content dangerouslySetInnerHTML={{__html: data.outerHTML}}></Content>
+    </Wrapper>
+  )
+}
+
+const Wrapper = styled.div`
+  padding: 12px 8px;
+  width: 85%;
+  display: flex;
+`
+
+const Content = styled.div`
+  max-height: 200px;
+  
+  img {
+    display: block;
+    max-width: 100%;
+    max-height: 200px;
+    min-width: 50px;
+    min-height: 30px;
+    object-fit: contain;
+    border-radius: 12px;
+    height: 100%;
+
+  }
+`

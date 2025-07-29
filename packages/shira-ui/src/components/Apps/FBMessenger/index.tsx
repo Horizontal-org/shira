@@ -11,7 +11,7 @@ import ExplanationTooltip from "../components/ExplanationTooltip"
 
 interface Props {
   content: HTMLElement;
-  fullname: {
+  senderName: {
     textContent: string;
     explanationPosition: string;
   }
@@ -21,7 +21,7 @@ interface Props {
 }
 
 export const FBMessenger: FunctionComponent<Props> = ({ 
-  fullname, 
+  senderName, 
   content,
   explanations = [],
   explanationNumber,
@@ -38,7 +38,7 @@ export const FBMessenger: FunctionComponent<Props> = ({
       ))}
       <Content>
         <MessageSidebar />
-        <Chat content={content} fullname={fullname} />
+        <Chat content={content} fullname={senderName} />
       </Content>
     </DesktopWrapper>
   )

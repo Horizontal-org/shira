@@ -29,6 +29,7 @@ export const QuestionEditLayout: FunctionComponent<Props> = () => {
   }), shallow)
 
   const [initialQuestion, handleQuestion] = useState<QuestionToBe>(null)
+  console.log("🚀 ~ QuestionEditLayout ~ initialQuestion:", initialQuestion)
   const [initialContent, handleContent] = useState({})
 
   useEffect(() => {

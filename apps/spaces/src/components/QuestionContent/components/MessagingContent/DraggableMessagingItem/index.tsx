@@ -12,13 +12,15 @@ interface Props {
   item: MessagingDragItem;
   onDelete: () => void  
   onChange: (item: MessagingDragItem) => void
+  contentValue: string | null 
 }
 
 export const DraggableMessagingItem: FunctionComponent<Props> = ({  
   index,
   item,
   onDelete,  
-  onChange
+  onChange,
+  contentValue
 }) => {
   return (
     <>
@@ -44,6 +46,7 @@ export const DraggableMessagingItem: FunctionComponent<Props> = ({
                 { item.type === 'text' && (
                   <TextDragItem 
                     name={item.name}
+                    initialValue={contentValue}
                     onChange={(value) => {
                       onChange({
                         ...item,

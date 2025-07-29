@@ -4,7 +4,7 @@ import Recipient from './components/Recipient'
 import Message from './components/Message'
 import Background from './assets/background.png'
 import { Attachment } from './components/Attachment'
-import { MessagingImage } from '../../components/MessagingImage'
+import { MessagingImage } from './components/MessagingImage'
 
 interface Props {
   phone?: {

@@ -161,40 +161,7 @@ export const MessagingContent: FunctionComponent<Props> = ({
           remapDynamicContent(newItems as Array<MessagingDragItem>)
         }}
       />
-      
-      {/* <div> */}
-        {/* <SubHeading3>Email body content</SubHeading3>
-        <Body2Regular>Write the message that will be shown.</Body2Regular> */}
-        {/* <EmailTipTapEditor 
-          initialContent={question.emailContent.body}
-          onChange={(emailText) => {
-            handleQuestion('emailContent', {
-              ...question.emailContent,
-              body: emailText
-            })
-            handleContent(
-              'component-text-1', 
-              `<div data-position=1 id=component-text-1>${emailText}</div>`
-            )
-          }}
-        /> */}
-      {/* </div> */}
-      
-
-      {/* <div>
-        <Attachments 
-          files={question.attachments}          
-          onChange={(filesList: AttachmentFile[], f: AttachmentFile) => {
-            handleQuestion('attachments', filesList)
-            if (f) {
-              handleContent(
-                `component-attachment-${f.id}`,
-                `<span data-attachment-type='${f.type}' data-position='${f.id}' ${insertExplanation(f.explanationIndex)} id='component-attachment-${f.id}'>${f.name}</span>`
-              )
-            }
-          }}
-        />
-      </div> */}
+   
     </Content>
   )
 }

@@ -91,8 +91,6 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
 
       try {
         const res = await images.onImageSelect(e)    
-        console.log("🚀 ~ handleNewImage ~ res:", res)
-      
         const newItems = [...items];
         newItems[index] = { ...newItems[index], value: res as ImageObject};
         onChange(newItems)
@@ -167,6 +165,7 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
               { items.map(((item, index) => (
                 <DraggableMessagingItem
                   item={item}
+                  contentValue={content[item.name]}
                   key={item.draggableId}
                   index={index}  
                   onChange={(newItem) => {
@@ -177,8 +176,6 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
                   onDelete={() => {
                     // TODO clean Explanations, take example from attacments
                     remove(item)
-
-                    // onContentRemove()
                   }}
                 />
               ))) }

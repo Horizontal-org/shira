@@ -5,17 +5,20 @@ import { MessageTipTapEditor } from "../../../../TipTapEditor/MessageTipTapEdito
 interface Props {
   name: string
   onChange: (value:string) => void
+  initialValue: string | null
 }
 
 export const TextDragItem: FunctionComponent<Props> = ({
   name,
-  onChange
+  onChange,
+  initialValue
 }) => {
   return (
     <Wrapper>
       <MessageTipTapEditor 
         editorId={`component-${name}`}
-        onChange={onChange}          
+        onChange={onChange}        
+        initialContent={initialValue}  
       />
     </Wrapper>
   )

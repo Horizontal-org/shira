@@ -2,6 +2,7 @@ import { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import { Attachment } from '../Attachment'
 import { Message } from '../Message'
+import { MessagingImage } from '../MessagingImage'
 
 interface Props {
   data: HTMLElement
@@ -21,6 +22,10 @@ export const Content: FunctionComponent<Props> = ({ data }) => {
               explanationPosition={e.getAttribute('data-explanation') || null} 
               name={e.textContent}
             />
+          )}
+
+          { e.getAttribute('id').includes('component-image') && (
+            <MessagingImage data={e} />
           )}
         </>
       ))}
@@ -50,5 +55,4 @@ const Wrapper = styled.div`
   &::-webkit-scrollbar-thumb {
     background-color: transparent;
   }
-  
 `
