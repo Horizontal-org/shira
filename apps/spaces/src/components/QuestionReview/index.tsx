@@ -48,6 +48,8 @@ export const QuestionReview: FunctionComponent<Props> = ({
     return
   }
 
+  console.log("🚀 ~ QuestionReview ~ elementProps:", elementProps)
+
   return (
     <>
       <StyledBox>        
