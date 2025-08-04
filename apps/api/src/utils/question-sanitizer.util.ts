@@ -86,21 +86,4 @@ export class QuestionSanitizer {
       }
     });
   }
-  
-  static hasXSSAttempt(content: string): boolean {
-    if (!content) return false;
-    
-    const dangerousPatterns = [
-      /<script[^>]*>/i,
-      /javascript:/i,
-      /on\w+\s*=/i,
-      /<iframe[^>]*>/i,
-      /<object[^>]*>/i,
-      /<embed[^>]*>/i,
-      /vbscript:/i,
-      /data:text\/html/i
-    ];
-    
-    return dangerousPatterns.some(pattern => pattern.test(content));
-  }
 }
