@@ -7,14 +7,13 @@ import { ImageObject } from "../interfaces/MessagingDragItem";
 interface Props {
   name: string
   value: ImageObject;
-  onChange: () => void
 }
 
 export const ImageDragItem: FunctionComponent<Props> = ({
   name,
   value,
-  onChange
 }) => {
+  console.log("🚀 ~ ImageDragItem ~ name:", name)
   return (
     <Wrapper>
       { value ? (

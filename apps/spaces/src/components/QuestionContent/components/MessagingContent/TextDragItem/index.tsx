@@ -1,6 +1,7 @@
 import { FunctionComponent } from "react";
 import { Body2Regular, styled } from "@shira/ui";
 import { MessageTipTapEditor } from "../../../../TipTapEditor/MessageTipTapEditor";
+import { ExplanationButton } from "../../../../Explanations/components/ExplanationButton";
 
 interface Props {
   name: string
@@ -13,13 +14,17 @@ export const TextDragItem: FunctionComponent<Props> = ({
   onChange,
   initialValue
 }) => {
+
+  console.log("🚀 ~ TextDragItem ~ initialValue:", initialValue)
+  console.log("🚀 ~ TextDragItem ~ name:", name)
+
   return (
     <Wrapper>
       <MessageTipTapEditor 
-        editorId={`component-${name}`}
+        editorId={name}
         onChange={onChange}        
         initialContent={initialValue}  
-      />
+      />      
     </Wrapper>
   )
 }

@@ -58,10 +58,7 @@ export const DraggableMessagingItem: FunctionComponent<Props> = ({
                 { item.type === 'image' && (
                   <ImageDragItem 
                     name={item.name}
-                    value={item.value as ImageObject}
-                    onChange={() => {                      
-                      console.log("IMAGE ON CHANGE")
-                    }}
+                    value={item.value as ImageObject}                    
                   />
                 )}
               </ContentWrapper>

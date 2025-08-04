@@ -73,8 +73,9 @@ export const MessagingContent: FunctionComponent<Props> = ({
 
     newItems.forEach((ni, i) => {
       let index = i + 1
+      
       if (ni.type === 'text') {
-        newContent[`component-text-${index}`] = `<div data-position=${index} id=component-text-${index} ${insertExplanation(null)}>${ni.value}</div>` 
+        newContent[`component-text-${index}`] = `<div data-position=${index} id=component-text-${index} ${insertExplanation(null)}>${ni.value || ''}</div>` 
       }
 
       if (ni.type === 'image') {

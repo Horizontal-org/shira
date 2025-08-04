@@ -60,12 +60,32 @@ export const MessageTipTapEditor = ({
           <EditorContent id={editorId} editor={editor} />
         </EditorContainer>
       </EditorWrapper>
+
+      {/* <ExplanationButton
+        active={ref.current && selectedExplanationIndex + '' == ref.current.getAttribute('data-explanation')}
+        onClick={() => {
+          // const hasExplanation = ref.current.getAttribute('data-explanation')
+          // if (hasExplanation) {
+          //   changeSelected(parseInt(hasExplanation))
+          // } else {
+          //   const index = explanationIndex + 1
+          //   ref.current.setAttribute('data-explanation', index + '')
+          //   addExplanation(index, label)
+          //   onChange(
+          //     index,
+          //     ref.current.value,
+          //   )
+          // }
+        }}
+      /> */}
     </Wrapper>
   )
 }
 
 const Wrapper = styled.div`
   margin-left: 8px;
+  display: flex-
+  align-items: flex-end;
 `
 
 const EditorWrapper = styled.div`
