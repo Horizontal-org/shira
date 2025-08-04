@@ -42,6 +42,9 @@ function App() {
   useEffect(() => {
     me()
     fetchLanguages()
+
+    // always show banner after refresh
+    localStorage.setItem('shira_hide_beta_banner', 'no')
   }, [])
 
   if (fetching) {

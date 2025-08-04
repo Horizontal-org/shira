@@ -26,5 +26,5 @@ export class ReadPlainQuizDto {
   @Expose()
   @IsString()
   @IsOptional()
-  lastQuestionsUpdatedAt: string
+  latestGlobalUpdate: string
 }

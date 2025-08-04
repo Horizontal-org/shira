@@ -10,7 +10,8 @@ import {
   RenameIcon,
   CopyUrlIcon,
   DeleteIcon,
-  Toggle
+  Toggle,
+  BetaBanner
 } from "@shira/ui";
 import { QuestionsList } from './components/QuestionList'
 import { shallow } from "zustand/shallow";
@@ -22,6 +23,8 @@ import { RenameQuizModal } from "../modals/RenameQuizModal";
 import toast from "react-hot-toast";
 import { useQuestionCRUD } from "../../fetch/question";
 import { UnpublishedQuizModal } from "../modals/UnpublishedQuizModal";
+import { handleCopyUrl, handleCopyUrlAndNotify } from "../../utils/quiz";
+
 
 interface Props {}
 
@@ -106,17 +109,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     setIsPublished(published)    
   };
 
-  const handleCopyUrl = async (hash: string) => {
-    try {
-      const quizUrl = `${process.env.REACT_APP_PUBLIC_URL}/quiz/${hash}`;
-      await navigator.clipboard.writeText(quizUrl);
-      
-      toast.success('The public quiz link has been copied to your clipboard.', { duration: 3000 })
-    } catch (error) {
-      console.error('Failed to copy URL:', error);
-    }
-  }
-  
+
   return (
     <Container>
       <Sidebar 
@@ -125,115 +118,120 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
       />
      
       <MainContent $isCollapsed={isCollapsed}>        
-        { quiz ? (
-          <>
-            <Wrapper>
-              <Header>
-                <div>
-                  <H2>{quiz.title}</H2>
-                  <Body1>Manage your quiz here, including adding, removing, and reordering questions</Body1>
-                </div>
-                <Toggle
-                  size='big'
-                  isEnabled={isPublished}
-                  onToggle={() => { handleTogglePublished(quiz.id, !quiz.published) }}
-                  rightLabel="Published"
-                  leftLabel="Unpublished"
-                />
-              </Header>
-              <ButtonsContainer>
-                <LeftButtons>
-                  <Button 
-                    leftIcon={<RenameIcon />}
-                    text="Rename"
-                    type="outline"
-                    onClick={() => { setIsRenameModalOpen(true) }}
-                  />
-                  <Button 
-                    leftIcon={<CopyUrlIcon />}
-                    text="Copy quiz link"
-                    type="outline"
-                    onClick={() => { 
-                      if (quiz.published) {
-                        handleCopyUrl(quiz.hash)
-                      } else {
-                        setIsUnpublishedQuizModalOpen(true)
-                      }
-                    }}
-                  />
-                  <Button 
-                    leftIcon={<DeleteIcon />}
-                    text="Delete"
-                    type="outline"
-                    onClick={() => { setIsDeleteModalOpen(true) }}
-                  />
-                </LeftButtons>                
-              </ButtonsContainer>
-            </Wrapper>
+        <BetaBanner url="/support"/>
+        <MainContentWrapper>
 
-            <QuestionsList
-              quizQuestions={quiz.quizQuestions}
-              onEdit={(questionId) => { navigate(`/quiz/${id}/question/${questionId}`)}}
-              onDelete={(id) => { destroy(quiz.id, id) }}
-              onAdd={() => { navigate(`/quiz/${id}/question`) }}
-              onReorder={(newQQOrder) => {
-                handleQuiz({
-                  ...quiz,
-                  quizQuestions: newQQOrder
-                })
-                reorderQuiz({
-                  quizId: quiz.id,
-                  newOrder: newQQOrder.map((qq) => {
-                    return {
-                      position: qq.position,
-                      questionId: parseInt(qq.question.id)
-                    }
+          { quiz ? (
+            <>
+              <Wrapper>
+                <Header>
+                  <div>
+                    <H2>{quiz.title}</H2>
+                    <Body1>Manage your quiz here, including adding, removing, and reordering questions</Body1>
+                  </div>
+                  <Toggle
+                    size='big'
+                    isEnabled={isPublished}
+                    onToggle={() => { handleTogglePublished(quiz.id, !quiz.published) }}
+                    rightLabel="Published"
+                    leftLabel="Unpublished"
+                  />
+                </Header>
+                <ButtonsContainer>
+                  <LeftButtons>
+                    <Button 
+                      leftIcon={<RenameIcon />}
+                      text="Rename"
+                      type="outline"
+                      onClick={() => { setIsRenameModalOpen(true) }}
+                    />
+                    <Button 
+                      leftIcon={<CopyUrlIcon />}
+                      text="Copy quiz link"
+                      type="outline"
+                      onClick={() => { 
+                        if (quiz.published) {
+                          handleCopyUrlAndNotify(quiz.hash)
+                        } else {
+                          handleCopyUrl(quiz.hash)
+                          setIsUnpublishedQuizModalOpen(true)
+                        }
+                      }}
+                    />
+                    <Button 
+                      leftIcon={<DeleteIcon />}
+                      text="Delete"
+                      type="outline"
+                      onClick={() => { setIsDeleteModalOpen(true) }}
+                    />
+                  </LeftButtons>                
+                </ButtonsContainer>
+              </Wrapper>
+
+              <QuestionsList
+                quizQuestions={quiz.quizQuestions}
+                onEdit={(questionId) => { navigate(`/quiz/${id}/question/${questionId}`)}}
+                onDelete={(id) => { destroy(quiz.id, id) }}
+                onAdd={() => { navigate(`/quiz/${id}/question`) }}
+                onReorder={(newQQOrder) => {
+                  handleQuiz({
+                    ...quiz,
+                    quizQuestions: newQQOrder
                   })
-                })
-              }}
-            />
-
-             <DeleteModal
-                title={`Are you sure you want to delete "${quiz.title}"?`}
-                content="Deleting this quiz is permanent and cannot be undone."
-                setIsModalOpen={setIsDeleteModalOpen}
-                onDelete={() => { 
-                  deleteQuiz(quiz.id) 
+                  reorderQuiz({
+                    quizId: quiz.id,
+                    newOrder: newQQOrder.map((qq) => {
+                      return {
+                        position: qq.position,
+                        questionId: parseInt(qq.question.id)
+                      }
+                    })
+                  })
                 }}
-                onCancel={() => {
-                  setIsDeleteModalOpen(false)
-                }}
-                isModalOpen={isDeleteModalOpen}
               />
 
-              <UnpublishedQuizModal
-                setIsModalOpen={setIsUnpublishedQuizModalOpen}
-                isModalOpen={isUnpublishedQuizModalOpen}
-                onConfirm={() => {
-                  handleTogglePublished(quiz.id, true)
-                }}
-              />
-      
-              <RenameQuizModal
-                quiz={quiz}
-                setIsModalOpen={setIsRenameModalOpen}
-                onRename={(title) => { 
-                  updateQuiz({
-                    id: quiz.id,
-                    title
-                  }) 
-                }}
-                onCancel={() => {
-                  setIsRenameModalOpen(false)
-                }}
-                isModalOpen={isRenameModalOpen}
-              />
-          </>
-        ) : (
-          <Header>
-            <H2>Loading...</H2>
-          </Header>
-        )}         
+              <DeleteModal
+                  title={`Are you sure you want to delete "${quiz.title}"?`}
+                  content="Deleting this quiz is permanent and cannot be undone."
+                  setIsModalOpen={setIsDeleteModalOpen}
+                  onDelete={() => { 
+                    deleteQuiz(quiz.id) 
+                  }}
+                  onCancel={() => {
+                    setIsDeleteModalOpen(false)
+                  }}
+                  isModalOpen={isDeleteModalOpen}
+                />
+
+                <UnpublishedQuizModal
+                  setIsModalOpen={setIsUnpublishedQuizModalOpen}
+                  isModalOpen={isUnpublishedQuizModalOpen}
+                  onConfirm={() => {
+                    handleTogglePublished(quiz.id, true)
+                  }}
+                />
+        
+                <RenameQuizModal
+                  quiz={quiz}
+                  setIsModalOpen={setIsRenameModalOpen}
+                  onRename={(title) => { 
+                    updateQuiz({
+                      id: quiz.id,
+                      title
+                    }) 
+                  }}
+                  onCancel={() => {
+                    setIsRenameModalOpen(false)
+                  }}
+                  isModalOpen={isRenameModalOpen}
+                />
+            </>
+          ) : (
+            <Header>
+              <H2>Loading...</H2>
+            </Header>
+          )}         
+        </MainContentWrapper>
       </MainContent>
     </Container>
   );
@@ -253,8 +251,7 @@ const Container = styled.div`
 
 const MainContent = styled.div<{ $isCollapsed: boolean }>`
   flex: 1;
-  padding: 24px 40px;
-  margin-left: ${props => props.$isCollapsed ? '100px' : '300px'};
+  margin-left: ${props => props.$isCollapsed ? '116px' : '264px'};
   transition: margin-left 0.3s ease;
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     margin-left: 80px;
@@ -264,6 +261,10 @@ const MainContent = styled.div<{ $isCollapsed: boolean }>`
     margin-left: 0;
   }
 `;
+
+const MainContentWrapper = styled.div`
+  padding: 24px 40px;
+`
 
 const Header = styled.div`
   padding: 16px;
