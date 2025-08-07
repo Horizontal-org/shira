@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect, useState } from "react"
 import { SceneWrapper } from "../../UI/SceneWrapper"
-import { styled, Body1, Box, Button, SubHeading1 } from "@shira/ui"
+import { styled, Body1, Box, Button, SubHeading1, BetaBanner } from "@shira/ui"
 import { useNavigate, useParams } from "react-router-dom"
 import axios from "axios"
 import { ReactComponent as Hooked } from '../../../assets/HookedFish.svg';
@@ -23,8 +23,6 @@ export const QuizLayout: FunctionComponent<Props> = () => {
 
   const [quiz, handleQuiz] = useState(null)
   const [showUnavailable, handleShowUnavailable] = useState(false)
-
-  console.log("🚀 ~ quiz:", quiz)
 
   const {
     changeScene,
@@ -68,9 +66,13 @@ export const QuizLayout: FunctionComponent<Props> = () => {
   
   return (
     <>
+
       { scene === 'welcome' && (
         <SceneWrapper bg='white'>  
           
+          <BetaBanner url="https://shira.app/contact"/>
+
+
           <CustomQuizNavbar color="#DBE3A3"/>
         
           <CenterWrapper>

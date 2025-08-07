@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { Body1, H1, H2, SettingsFishIcon, Sidebar, styled, useAdminSidebar } from '@shira/ui'
+import { Body1, H1, H2, SettingsFishIcon, Sidebar, styled, useAdminSidebar, BetaBanner } from '@shira/ui'
 import { useNavigate } from "react-router-dom";
 
 interface Props {}
@@ -18,14 +18,16 @@ export const SupportLayout:FunctionComponent<Props> = () => {
       />
 
       <MainContent $isCollapsed={isCollapsed}>
-        <HeaderContainer> 
-          <TextContainer>
-            <H1>Support</H1>
-            <Body1>If you need any support, including with deleting your account, please email the Shira team at contact@wearehorizontal.org</Body1>          
-          </TextContainer>
-          <SettingsFishIcon />
-        </HeaderContainer>
-
+        <BetaBanner url="/support"/>
+        <MainContentWrapper>
+          <HeaderContainer> 
+            <TextContainer>
+              <H1>Support</H1>
+              <Body1>If you need any support, including with deleting your account, please email the Shira team at contact@wearehorizontal.org</Body1>          
+            </TextContainer>
+            <SettingsFishIcon />
+          </HeaderContainer>
+        </MainContentWrapper>
       </MainContent>
 
     </Container>
@@ -45,8 +47,7 @@ const Container = styled.div`
 
 const MainContent = styled.div<{ $isCollapsed: boolean }>`
   flex: 1;
-  padding: 50px;
-  margin-left: ${props => props.$isCollapsed ? '100px' : '300px'};
+  margin-left: ${props => props.$isCollapsed ? '116px' : '264px'};
   transition: margin-left 0.3s ease;
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
@@ -57,6 +58,10 @@ const MainContent = styled.div<{ $isCollapsed: boolean }>`
     margin-left: 0;
   }
 `;
+
+const MainContentWrapper = styled.div`
+  padding: 50px 70px;
+`
 
 const TextContainer = styled.div`
   padding: 16px;

@@ -142,3 +142,16 @@ function setupResizeDrag(handles, img, node, getPos, editor, isUpdatingRef) {
     })
   })
 }
+
+export const isTableCellEmpty = (editor) => {
+  const selection = editor.view.state.selection
+  
+  const isCellSelection = selection.$anchorCell && selection.$headCell
+  
+  if (!isCellSelection) {
+    return false
+  }
+  
+  const selectedContent = editor.state.doc.textBetween(selection.from, selection.to, ' ')
+  return selectedContent.trim().length === 0
+}

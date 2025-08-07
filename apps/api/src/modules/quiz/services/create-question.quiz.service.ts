@@ -125,7 +125,6 @@ export class CreateQuestionQuizService implements ICreateQuestionQuizService{
         }
       ],
     })
-    console.log("🚀 ~ CreateQuestionService ~ data:", data)
 
     return data.imageIds
   }

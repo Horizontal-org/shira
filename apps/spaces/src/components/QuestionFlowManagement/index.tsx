@@ -2,6 +2,7 @@ import { FunctionComponent, useEffect, useState } from "react";
 import {
   Breadcrumbs,
   styled,
+  BetaBanner
 } from "@shira/ui";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
@@ -14,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { ExitQuestionHandleModal } from "../modals/ExitQuestionHandleModal";
 import { NoExplanationsModal } from "../modals/NoExplanationsModal";
 import { omit } from "lodash";
+
 
 interface Props {
   initialContent?: Object
@@ -118,7 +120,9 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
           handleStep(step + 1)
         }}
       />
-    
+
+      <BetaBanner url="/support"/>
+      
       <QuestionFlowHeader 
         actionFeedback={actionFeedback}
         onNext={() => {

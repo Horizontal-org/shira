@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useEffect } from "react";
 import { 
   BrowserRouter,
   Routes,
@@ -15,6 +15,12 @@ import { QuizLayout } from "./components/Layouts/QuizLayout";
 interface Props {}
 
 const App: FunctionComponent<Props> = () => {
+
+  useEffect(() => {
+  // always show banner after refresh
+  localStorage.setItem('shira_hide_beta_banner', 'no')
+  }, [])
+  
   return (
     <Wrapper>
       <ToastProvider>
