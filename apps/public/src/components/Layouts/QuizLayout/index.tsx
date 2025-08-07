@@ -73,7 +73,13 @@ export const QuizLayout: FunctionComponent<Props> = () => {
       { scene === 'welcome' && (
         <SceneWrapper bg='white'>  
           
-          <BetaBanner url="https://shira.app/contact"/>
+          <BetaBanner 
+            url="https://shira.app/contact"
+            label={t('beta.label')}
+            message={t('beta.message')}
+            clickHereText={t('beta.click_here')}
+            feedbackText={t('beta.feedback_text')}
+          />
 
 
           <CustomQuizNavbar color="#DBE3A3"/>
@@ -85,7 +91,7 @@ export const QuizLayout: FunctionComponent<Props> = () => {
             <StyledBox>
               <Heading>{quiz.title}</Heading>
               <Body1>
-                Welcome to your phishing quiz. Change your language or click on “Start quiz” to get started. 
+                {t('welcome.public_message')}
               </Body1>
               <Buttons>
                 <LanguageSelect
@@ -105,7 +111,9 @@ export const QuizLayout: FunctionComponent<Props> = () => {
                 />
               </Buttons>
               <LinkWrapper>
-                  <Link2>Learn more about Shira</Link2>
+                <Link2 href="https://shira.app" target="_blank">
+                  {t('welcome.learn_more')}
+                </Link2>
               </LinkWrapper>         
             </StyledBox>        
           </CenterWrapper>

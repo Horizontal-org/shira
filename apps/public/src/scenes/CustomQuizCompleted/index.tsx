@@ -31,7 +31,7 @@ export const CustomQuizCompletedScene: FunctionComponent<Props> = () => {
               <CompletedIcon />
             </MobileIconWrapper>
           )}
-          <InfoSubtitle>Thanks for using shira!</InfoSubtitle>
+          <InfoSubtitle>{t('completed.thanks_message')}</InfoSubtitle>
 
         </StyledSection>
 
