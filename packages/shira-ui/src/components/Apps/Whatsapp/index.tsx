@@ -74,7 +74,7 @@ const StyledScrollbar = createGlobalStyle`
 
 const Content = styled.div`
   width: 100%;
-  height: calc(100% - 50px);
+  height: calc(100%);
   background: white;
   display: flex;
 
