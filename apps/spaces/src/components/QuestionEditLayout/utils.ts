@@ -48,7 +48,6 @@ export const getContentObject = (htmlContent: Document) => {
     }
   )  
 
-  console.log("🚀 ~ getContentObject ~ parsed:", parsed)
   return parsed
 }
 
@@ -66,7 +65,6 @@ const replaceImage = (question: QuestionPayload, htmlContent: Document) => {
 }
 
 export const getQuestionValues = (question: QuestionPayload, htmlContent: Document) => {
-  console.log("🚀 ~ getQuestionValues ~ question:", question)
   const app = question.apps[0]
 
   if (app.type === 'email') {
@@ -106,8 +104,8 @@ export const getQuestionValues = (question: QuestionPayload, htmlContent: Docume
       name: question.name,
       isPhishing: !!(question.isPhising),
       messagingContent: {
-        senderPhone: htmlContent.getElementById('component-required-sender-phone')?.innerText,
-        senderName: htmlContent.getElementById('component-required-sender-name')?.innerText,
+        senderPhone: htmlContent.getElementById('component-required-phone')?.innerText,
+        senderName: htmlContent.getElementById('component-required-fullname')?.innerText,
         draggableItems: getDraggableItems(htmlContent)
       },
     }

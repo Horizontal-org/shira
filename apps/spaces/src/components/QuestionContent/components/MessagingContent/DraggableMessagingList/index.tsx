@@ -112,7 +112,6 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
   }
 
   const cleanTextExplanations = (item: MessagingDragItem) => {
-    console.log("🚀 ~ cleanTextExplanations ~ item:", item)
     const htmlItemValue = new DOMParser().parseFromString(item.value as string, 'text/html')
     const textExplanations = htmlItemValue.querySelectorAll('[data-explanation]') 
     Array.from(textExplanations).forEach(e => {      

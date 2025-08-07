@@ -88,6 +88,7 @@ export const QuestionEditLayout: FunctionComponent<Props> = () => {
       }}
       initialContent={initialContent}
       initialQuestion={initialQuestion}
+      initialAppType={initialQuestion.app.type}
       actionFeedback={actionFeedback}
     />
   ) 

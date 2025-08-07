@@ -62,11 +62,11 @@ export const getContentProps = (appName, content) => {
 
     let props = {
       content: draggableContentHtml || document.createElement('div'),
-      senderName: parseCustomElement(html, 'component-required-sender-name'),
+      senderName: parseCustomElement(html, 'component-required-fullname'),
     }
     
     if (appName === 'Whatsapp' || appName === 'SMS') {
-      props['phone'] = parseCustomElement(html, 'component-required-sender-phone')
+      props['phone'] = parseCustomElement(html, 'component-required-phone')
     }
     return props
   }  

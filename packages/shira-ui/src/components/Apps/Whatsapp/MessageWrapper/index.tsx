@@ -63,6 +63,7 @@ const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column-reverse;
   position: relative;
+  overflow-y: scroll;
 `
 
 export default MessageWrapper

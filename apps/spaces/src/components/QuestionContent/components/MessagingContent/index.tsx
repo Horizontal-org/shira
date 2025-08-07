@@ -53,12 +53,12 @@ export const MessagingContent: FunctionComponent<Props> = ({
   useEffect(() => {
     const html = remapHtml(content)
     if (html) {
-      const senderName = html.getElementById('component-required-sender-name')
-      const senderPhone = html.getElementById('component-required-sender-phone')
+      const senderName = html.getElementById('component-required-fullname')
+      const senderPhone = html.getElementById('component-required-phone')
 
       handleInitialStates({
-        'component-required-sender-name': senderName ? senderName.getAttribute('data-explanation') : null,
-        'component-required-sender-phone': senderPhone ? senderPhone.getAttribute('data-explanation') : null,
+        'component-required-fullname': senderName ? senderName.getAttribute('data-explanation') : null,
+        'component-required-phone': senderPhone ? senderPhone.getAttribute('data-explanation') : null,
       })
     }
     
@@ -67,8 +67,8 @@ export const MessagingContent: FunctionComponent<Props> = ({
 
   const remapDynamicContent = (newItems: Array<MessagingDragItem>) => {
     let newContent = {
-      'component-required-sender-name': content['component-required-sender-name'],
-      'component-required-sender-phone': content['component-required-sender-phone']
+      'component-required-fullname': content['component-required-fullname'],
+      'component-required-phone': content['component-required-phone']
     }
 
     newItems.forEach((ni, i) => {
@@ -94,33 +94,7 @@ export const MessagingContent: FunctionComponent<Props> = ({
   return (
     <Content>
    
-      <div>
-        <InputHeading $required={!senderPhoneEnabled}>
-          <SubHeading3>Sender name</SubHeading3>
-          <Body3>This is the name that will be displayed in the “Sender” field of the message.</Body3>
-        </InputHeading>
-
-        <InputWithExplanation 
-          id='component-required-sender-name'
-          name='sender-name'
-          placeholder='Sender name'
-          label="Sender name"
-          initialExplanationValue={initialStates['component-required-sender-name']}
-          value={question.messagingContent.senderName}
-          onChange={(expl, value) => {
-            handleQuestion('messagingContent', {
-              ...question.messagingContent,
-              senderName: value
-            })
-            handleContent(
-              'component-required-sender-name', 
-              `<span ${insertExplanation(expl)} id=component-required-sender-name>${value}</span>` 
-            )          
-          }}
-        />
-      </div>
-
-      { senderPhoneEnabled && (
+      { senderPhoneEnabled ? (
         <div>
           <InputHeading $required={true}>
             <SubHeading3>Sender phone</SubHeading3>
@@ -128,21 +102,47 @@ export const MessagingContent: FunctionComponent<Props> = ({
           </InputHeading>
         
           <InputWithExplanation 
-            id='component-required-sender-phone'
-            name='sender-phone'
+            id='component-required-phone'
+            name='phone'
             placeholder='Sender phone'
             label="Sender phone"
             value={question.messagingContent.senderPhone}
-            initialExplanationValue={initialStates['component-required-sender-phone']}
+            initialExplanationValue={initialStates['component-required-phone']}
             onChange={(expl, value) => {
               handleQuestion('messagingContent', {
                 ...question.messagingContent,
                 senderPhone: value
               })
               handleContent(
-                'component-required-sender-phone', 
-                `<span ${insertExplanation(expl)} id=component-required-sender-phone>${value}</span>` 
+                'component-required-phone', 
+                `<span ${insertExplanation(expl)} id=component-required-phone>${value}</span>` 
               )
+            }}
+          />
+        </div>
+      ) : (
+        <div>
+          <InputHeading $required={!senderPhoneEnabled}>
+            <SubHeading3>Sender name</SubHeading3>
+            <Body3>This is the name that will be displayed in the “Sender” field of the message.</Body3>
+          </InputHeading>
+
+          <InputWithExplanation 
+            id='component-required-fullname'
+            name='fullname'
+            placeholder='Sender name'
+            label="Sender name"
+            initialExplanationValue={initialStates['component-required-fullname']}
+            value={question.messagingContent.senderName}
+            onChange={(expl, value) => {
+              handleQuestion('messagingContent', {
+                ...question.messagingContent,
+                senderName: value
+              })
+              handleContent(
+                'component-required-fullname', 
+                `<span ${insertExplanation(expl)} id=component-required-fullname>${value}</span>` 
+              )          
             }}
           />
         </div>
@@ -153,7 +153,6 @@ export const MessagingContent: FunctionComponent<Props> = ({
         items={question.messagingContent.draggableItems}
         onRemapContent={remapDynamicContent}
         onChange={(newItems) => {
-          console.log('ON CHANGE =>>> ', newItems)
           handleQuestion('messagingContent', {
             ...question.messagingContent,
             draggableItems: newItems

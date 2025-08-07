@@ -70,8 +70,8 @@ const getHtmlByType = (appType, questionContent) => {
       )      
     } else if (appType === 'messaging') {
       keys.push(
-        'component-required-sender-name',
-        'component-required-sender-phone',
+        'component-required-fullname',
+        'component-required-phone',
       )      
     }
     

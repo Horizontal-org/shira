@@ -18,6 +18,7 @@ import { omit } from "lodash";
 interface Props {
   initialContent?: Object
   initialQuestion?: QuestionToBe
+  initialAppType?: string
   actionFeedback: string
   onSubmit: (question: QuestionToBe) => void
 }
@@ -43,6 +44,7 @@ const defaultQuestion = {
 export const QuestionFlowManagement: FunctionComponent<Props> = ({
   initialContent = {},
   initialQuestion = defaultQuestion,
+  initialAppType = null,
   onSubmit,
   actionFeedback
 }) => {
@@ -172,6 +174,7 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
                     [k]: v
                   })
                 }}
+                initialAppType={initialAppType}
                 apps={apps}
                 question={question}
               />

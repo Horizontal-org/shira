@@ -14,12 +14,14 @@ interface Props {
   handleQuestion: (k, v) => void;
   question: QuestionToBe
   apps: App[]
+  initialAppType: string
 }
 
 export const QuestionBasicInfo: FunctionComponent<Props> = ({
   handleQuestion,
   question,
   apps,
+  initialAppType
 }) => {
 
   
@@ -67,7 +69,9 @@ export const QuestionBasicInfo: FunctionComponent<Props> = ({
         <SubHeading3>Selected app</SubHeading3>
         <FilterButtonsContainer>        
 
-          { apps && apps.map((a) => (
+          { apps && apps
+          .filter((a) => initialAppType ? initialAppType === a.type : true)          
+          .map((a) => (
             <FilterButton 
               key={a.id}
               text={a.name}

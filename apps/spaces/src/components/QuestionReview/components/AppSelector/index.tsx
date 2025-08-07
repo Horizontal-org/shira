@@ -20,8 +20,8 @@ export const AppSelector: FunctionComponent<Props> = ({
   explanations,
   showExplanations
 }) => {
+  console.log("🚀 ~ AppSelector ~ customProps:", customProps)
 
-  console.log("🚀 ~ AppSelector ~ appName:", appName)
   return (
     <>
       { appName === 'Gmail' && (
