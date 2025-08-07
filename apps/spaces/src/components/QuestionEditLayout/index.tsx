@@ -21,15 +21,15 @@ export const QuestionEditLayout: FunctionComponent<Props> = () => {
   const {    
     setQuizActionSuccess,
     setInitialExplanations,
-    clearExplanations
+    clearExplanations,
   } = useStore((state) => ({
     setInitialExplanations: state.setInitialExplanations,
     setQuizActionSuccess: state.setQuizActionSuccess,
-    clearExplanations: state.clearExplanations
+    clearExplanations: state.clearExplanations,
   }), shallow)
 
+  
   const [initialQuestion, handleQuestion] = useState<QuestionToBe>(null)
-  console.log("🚀 ~ QuestionEditLayout ~ initialQuestion:", initialQuestion)
   const [initialContent, handleContent] = useState({})
 
   useEffect(() => {

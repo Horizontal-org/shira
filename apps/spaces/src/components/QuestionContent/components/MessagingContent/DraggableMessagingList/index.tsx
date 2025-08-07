@@ -9,6 +9,8 @@ import styled from "styled-components";
 import { FiShare } from "react-icons/fi";
 import { useImageUpload } from "../../../../../hooks/useImageUpload";
 import toast from "react-hot-toast";
+import { useStore } from "../../../../../store";
+import { shallow } from "zustand/shallow";
 
 
 interface Props {
@@ -24,6 +26,13 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
   onChange,
   onRemapContent,  
 }) => {
+
+  const {
+    deleteExplanation,
+  } = useStore((state) => ({
+    deleteExplanation: state.deleteExplanation,
+  }), shallow)
+    
 
   const [imageFloatingMenu, handleImageFloatingMenu] = useState<boolean>(false)
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -102,6 +111,15 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
     
   }
 
+  const cleanTextExplanations = (item: MessagingDragItem) => {
+    console.log("🚀 ~ cleanTextExplanations ~ item:", item)
+    const htmlItemValue = new DOMParser().parseFromString(item.value as string, 'text/html')
+    const textExplanations = htmlItemValue.querySelectorAll('[data-explanation]') 
+    Array.from(textExplanations).forEach(e => {      
+      deleteExplanation(parseInt(e.getAttribute('data-explanation')))
+    })
+  }
+
   return (
     <div>
       <ButtonsWrapper>
@@ -170,11 +188,21 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
                   index={index}  
                   onChange={(newItem) => {
                     const newItems = [...items];
-                    newItems[index] = { ...newItems[index], value: newItem.value };
+                    newItems[index] = { 
+                      ...newItems[index], 
+                      value: newItem.value,
+                      explId: newItem.explId || null
+                    }
                     onChange(newItems)
                   }}                
                   onDelete={() => {
-                    // TODO clean Explanations, take example from attacments
+                    if (item.explId) {
+                      deleteExplanation(item.explId)
+                    }
+                    if (item.type === 'text') {
+                      cleanTextExplanations(item)
+                    }
+                    // here cycle trhough explanations inside index
                     remove(item)
                   }}
                 />

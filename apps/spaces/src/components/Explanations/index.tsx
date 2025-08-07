@@ -26,7 +26,7 @@ export const Explanations: FunctionComponent<Props> = ({
   onDelete
 }) => {
 
-  const  [show, handleShow] = useState(false)
+  const  [show, handleShow] = useState(true)
   const {
     storeExplanations,
     changeSelected,
@@ -101,12 +101,6 @@ export const Explanations: FunctionComponent<Props> = ({
   return (
     <Wrapper>
       
-      <Button 
-        text='E' 
-        onClick={() => {
-          handleShow(!show)
-        }}/>
-
       { show && (
         <>        
           <Body2Regular>Explanations will be shown in the following order in the quiz. </Body2Regular>

@@ -106,6 +106,7 @@ const Wrapper = styled.div`
 const EditorWrapper = styled.div`
   display: inline-block;
   width: 100%;
+  max-width: 90%;
 `
 
 const HiddenFileInput = styled.input`

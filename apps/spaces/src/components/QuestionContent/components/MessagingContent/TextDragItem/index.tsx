@@ -15,9 +15,6 @@ export const TextDragItem: FunctionComponent<Props> = ({
   initialValue
 }) => {
 
-  console.log("🚀 ~ TextDragItem ~ initialValue:", initialValue)
-  console.log("🚀 ~ TextDragItem ~ name:", name)
-
   return (
     <Wrapper>
       <MessageTipTapEditor 
@@ -30,6 +27,7 @@ export const TextDragItem: FunctionComponent<Props> = ({
 }
 
 const Wrapper = styled.div`
-  width: 100%;
+  width: 90%;
+  max-width: 90%;
   padding-bottom: 40px;
 `

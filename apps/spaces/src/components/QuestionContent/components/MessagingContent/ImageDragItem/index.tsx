@@ -1,29 +1,91 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useEffect, useRef } from "react";
 import { Body2Regular, styled } from "@shira/ui";
 import { MessageTipTapEditor } from "../../../../TipTapEditor/MessageTipTapEditor";
 import { LoadingOverlay } from "../../../../LoadingOverlay/LoadingOverlay";
 import { ImageObject } from "../interfaces/MessagingDragItem";
+import { ExplanationButton } from "../../../../Explanations/components/ExplanationButton";
+import { useStore } from "../../../../../store";
+import { shallow } from "zustand/shallow";
+import { subscribe, unsubscribe } from "../../../../../utils/customEvent";
 
 interface Props {
   name: string
   value: ImageObject;
+  onExplanationChange: (explId: number) => void
+  explanationId?: number
 }
 
 export const ImageDragItem: FunctionComponent<Props> = ({
   name,
   value,
+  onExplanationChange,
+  explanationId
 }) => {
-  console.log("🚀 ~ ImageDragItem ~ name:", name)
+
+  const {
+      addExplanation,
+      explanationIndex,      
+      changeSelected
+    } = useStore((state) => ({
+      addExplanation: state.addExplanation,
+      explanationIndex: state.explanationIndex,
+      changeSelected: state.changeSelected
+    }), shallow)
+  
+    const ref = useRef(null)
+  
+    const subscribeToDelete = (newExplId) => {
+      subscribe('delete-explanation', (event) => {
+        if (newExplId === event.detail.deleteIndex) {
+          // ref.current.removeAttribute('data-explanation')
+          onExplanationChange(null)
+        }        
+      })
+    }
+
+    useEffect(() => {      
+      return () => {
+        unsubscribe('delete-explanation')
+      }
+    }, [])
+
+    useEffect(() => {
+      if(explanationId && ref) {
+        ref.current.setAttribute('data-explanation', explanationId)
+        subscribeToDelete(explanationId)
+      }
+    }, [explanationId, ref])
+
   return (
     <Wrapper>
       { value ? (
-        <ImageElement 
-          src={value.url}
-          alt={value.originalFilename}
-        />          
+        <ImageWrapper>
+          <ImageElement 
+            ref={ref}
+            src={value.url}
+            alt={value.originalFilename}
+          />          
+          <ExplanationButton
+            active={false}
+            disabled={false}
+             onClick={() => {
+                const hasExplanation = ref.current.getAttribute('data-explanation')
+                if (hasExplanation) {
+                  changeSelected(parseInt(hasExplanation))
+                } else {
+                  const index = explanationIndex + 1
+                  ref.current.setAttribute('data-explanation', index + '')
+                  addExplanation(index, '')
+                  onExplanationChange(index)
+                  subscribeToDelete(index)
+                }
+            }}
+          />
+        </ImageWrapper>
       ) : (
         <LoadingOverlay/>
       )}
+
     </Wrapper>
   )
 }
@@ -31,6 +93,11 @@ export const ImageDragItem: FunctionComponent<Props> = ({
 const Wrapper = styled.div`
   padding-bottom: 30px;
   padding-left: 20px;
+`
+
+const ImageWrapper = styled.div`
+  display: flex;
+  align-items: center;
 `
 
 const ImageElement = styled.img`

@@ -58,7 +58,14 @@ export const DraggableMessagingItem: FunctionComponent<Props> = ({
                 { item.type === 'image' && (
                   <ImageDragItem 
                     name={item.name}
-                    value={item.value as ImageObject}                    
+                    explanationId={item.explId || null}
+                    value={item.value as ImageObject}
+                    onExplanationChange={(explId) => {
+                      onChange({
+                        ...item,
+                        explId: explId
+                      })
+                    }}
                   />
                 )}
               </ContentWrapper>

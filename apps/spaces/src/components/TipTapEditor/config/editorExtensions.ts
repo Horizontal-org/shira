@@ -20,6 +20,8 @@ const baseExtensions = [
   StarterKit,
   Blockquote,
   HorizontalRule,
+  Explanation,
+  SearchNReplace,
   Placeholder.configure({        
     placeholder: 'Message text',
   }),
@@ -40,8 +42,6 @@ export const getEmailExtensions = () => [
   Placeholder.configure({        
     placeholder: 'Write something …',
   }),
-  Explanation,
-  SearchNReplace,
   Link.configure({
     openOnClick: false,
   }),

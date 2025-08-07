@@ -10,6 +10,8 @@ import { MessageEditorStyles } from './styles/MessageEditorStyles'
 import { getMessageExtensions } from './config/editorExtensions'
 import { LoadingOverlay } from '../LoadingOverlay/LoadingOverlay'
 import { MessagesMenuBar } from './MessagesMenuBar'
+import { ExplanationButton } from '../Explanations/components/ExplanationButton'
+import { useEffect } from 'react'
 
 interface Props {
   onChange: (body: string) => void;
@@ -37,6 +39,7 @@ export const MessageTipTapEditor = ({
     onCreate() {}
   })
 
+  console.log('EDITORID', editorId)
   const explanations = useExplanations(editor, editorId)
 
   // Connect editor events to hooks
@@ -44,48 +47,57 @@ export const MessageTipTapEditor = ({
     editor.off('selectionUpdate').on('selectionUpdate', explanations.handleSelectionUpdate)
   }
 
+  useEffect(() => {      
+    return () => {
+
+      // if (explanationId) {
+      //   deleteExplanation(explanationId)
+      // }
+    }
+  }, [])
+
+
   return (
     <Wrapper>
       <EditorWrapper>
         <MessageEditorStyles />
-        <div></div>        
+        <div></div>
         <EditorContainer>
           <MessagesMenuBar 
-            editor={editor}           
+            editor={editor}
             onAddTextExplanation={explanations.addTextExplanation}
-            onRemoveTextExplanation={explanations.removeTextExplanation}        
+            onRemoveTextExplanation={explanations.removeTextExplanation}
             canAddTextExplanation={explanations.canAddTextExplanation()}
             isTextExplanationActive={explanations.isTextExplanationActive()}
           />
-          <EditorContent id={editorId} editor={editor} />
+          <EditorContentWithExplanation>
+            <EditorContent 
+              id={editorId} 
+              editor={editor} 
+              style={{ width: '100%' }}
+            />
+            <ExplanationButtonWrapper>
+              <ExplanationButton
+                active={explanations.isTextExplanationActive()}
+                disabled={!explanations.canAddTextExplanation()}
+                onClick={() => {
+                  explanations.addTextExplanation()
+                }}
+              />
+            </ExplanationButtonWrapper>
+          </EditorContentWithExplanation>
         </EditorContainer>
-      </EditorWrapper>
-
-      {/* <ExplanationButton
-        active={ref.current && selectedExplanationIndex + '' == ref.current.getAttribute('data-explanation')}
-        onClick={() => {
-          // const hasExplanation = ref.current.getAttribute('data-explanation')
-          // if (hasExplanation) {
-          //   changeSelected(parseInt(hasExplanation))
-          // } else {
-          //   const index = explanationIndex + 1
-          //   ref.current.setAttribute('data-explanation', index + '')
-          //   addExplanation(index, label)
-          //   onChange(
-          //     index,
-          //     ref.current.value,
-          //   )
-          // }
-        }}
-      /> */}
+      </EditorWrapper>      
     </Wrapper>
   )
 }
 
 const Wrapper = styled.div`
   margin-left: 8px;
-  display: flex-
-  align-items: flex-end;
+`
+
+const ExplanationButtonWrapper = styled.div`
+  padding-bottom: 12px;
 `
 
 const EditorWrapper = styled.div`
@@ -95,4 +107,11 @@ const EditorWrapper = styled.div`
 
 const EditorContainer = styled.div`
   position: relative;
+`
+
+const EditorContentWithExplanation =  styled.div`
+  display: flex;
+  flex: 1;
+  width: 100%;
+  align-items: center;
 `

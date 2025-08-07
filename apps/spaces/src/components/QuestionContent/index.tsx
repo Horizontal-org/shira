@@ -30,7 +30,7 @@ export const QuestionContent: FunctionComponent<Props> = ({
   const cleanAttachment = (deleteIndex) => {
     // try cleaning attachments       
     let update = false
-    const newAtts = question.attachments.map((a) => {
+    const newAtts = question.attachments && question.attachments.map((a) => {
       if (a.explanationIndex == deleteIndex) {
         update = true
         return {
@@ -110,4 +110,6 @@ const StyledBox = styled(Box)`
   z-index:1;
   padding: 48px;
   width: 100%;
+  max-width: 800px;
+  box-sizing: border-box;
 `

@@ -9,11 +9,13 @@ const getDraggableItems = (htmlContent: Document) => {
   htmlContent
     .querySelectorAll('[id*="component-image"]')
     .forEach((c) => {
+      const explId = c.getAttribute('data-explanation')
       draggableItems.push({
         draggableId: crypto.randomUUID(),
         name: c.getAttribute('id'),
         type: 'image',
         position: c.getAttribute('data-position'),
+        explId: explId ? parseInt(explId) : null,
         value: {
           url: c.getAttribute('src'),
           id: c.getAttribute('data-image-id'),
