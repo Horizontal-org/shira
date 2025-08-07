@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { shallow } from 'zustand/shallow'
 import { useStore } from '../../store'
 import { ExplanationButton } from '../Explanations/components/ExplanationButton'
-import { Input } from '../Input'
 import { CustomElements } from '../../fetch/question'
 import { TextInput } from '@shira/ui'
 
@@ -38,8 +37,6 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
   value
 }) => {
 
-  // const [value, setValue] = useState<string>('')
-
   const {
     addExplanation,
     explanationIndex,
@@ -53,75 +50,62 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
   }), shallow)
 
   const ref = useRef(null)
-  // const ref = customRef || inputRef
-  // const ref = inputRef
 
   useEffect(() => {
     if(initialExplanationValue && ref) {
       ref.current.setAttribute('data-explanation', initialExplanationValue)
     }
-    // if(initialValue?.textContent || initialValue?.explanationPosition) {
-    //   setValue(initialValue?.textContent)
-
-     
-    //   ref.current.value=initialValue?.textContent
-
-    //   onChange(initialValue?.explanationPosition, initialValue?.textContent)
-    // }
   }, [initialExplanationValue, ref])
-
-  // id={id}
-  // name={name}
 
   return (
     <Wrapper>
-        <TextInput
-          name={name}
-          id={id}
-          required={required}
-          ref={ref}
-          label={label}
-          value={value}
-          placeholder={placeholder}
-          onChange={() => { 
-            if(RE_VALIDATIONS[validation] && !RE_VALIDATIONS[validation]?.test(ref.current.value)) return
-            // setValue(ref.current.value)
+      <TextInput
+        name={name}
+        id={id}
+        required={required}
+        ref={ref}
+        label={label}
+        value={value}
+        placeholder={placeholder}
+        onChange={() => { 
+          if(RE_VALIDATIONS[validation] && !RE_VALIDATIONS[validation]?.test(ref.current.value)) return
+          // setValue(ref.current.value)
+          onChange(
+            ref.current.getAttribute('data-explanation'),
+            ref.current.value,
+          )
+        }}
+        onBlur={(e) => {
+          const hasExplanation = ref.current.getAttribute('data-explanation')
+          if (hasExplanation) {
+            changeSelected(null)
+          }
+        }}
+        onFocus={() => {
+          const hasExplanation = ref.current.getAttribute('data-explanation')
+          if (hasExplanation) {
+            changeSelected(parseInt(hasExplanation))
+          }
+        }}
+      />
+      
+      <ExplanationButton
+        active={ref.current && selectedExplanationIndex + '' == ref.current.getAttribute('data-explanation')}
+        onClick={() => {
+          const hasExplanation = ref.current.getAttribute('data-explanation')
+          if (hasExplanation) {
+            changeSelected(parseInt(hasExplanation))
+          } else {
+            const index = explanationIndex + 1
+            ref.current.setAttribute('data-explanation', index + '')
+            addExplanation(index, label)
             onChange(
-              ref.current.getAttribute('data-explanation'),
+              index,
               ref.current.value,
             )
-          }}
-          onBlur={(e) => {
-            const hasExplanation = ref.current.getAttribute('data-explanation')
-            if (hasExplanation) {
-              changeSelected(null)
-            }
-          }}
-          onFocus={() => {
-            const hasExplanation = ref.current.getAttribute('data-explanation')
-            if (hasExplanation) {
-              changeSelected(parseInt(hasExplanation))
-            }
-          }}
-        />
-        
-        <ExplanationButton
-          active={ref.current && selectedExplanationIndex + '' == ref.current.getAttribute('data-explanation')}
-          onClick={() => {
-            const hasExplanation = ref.current.getAttribute('data-explanation')
-            if (hasExplanation) {
-              changeSelected(parseInt(hasExplanation))
-            } else {
-              const index = explanationIndex + 1
-              ref.current.setAttribute('data-explanation', index + '')
-              addExplanation(index, label)
-              onChange(
-                index,
-                ref.current.value,
-              )
-            }
-          }}
-        />
+          }
+        }}
+      />
     </Wrapper>
   )
 }

@@ -37,6 +37,7 @@ export const QuestionReview: FunctionComponent<Props> = ({
     
     if (question && question.app) {      
       const contentProps = getContentProps(question.app.name, question.content)
+      console.log("🚀 ~ QuestionReview ~ contentProps:", contentProps)
 
       handleElementProps({
         ...contentProps        
@@ -58,7 +59,7 @@ export const QuestionReview: FunctionComponent<Props> = ({
           showExplanations={showExplanations}
           explanations={explanations}
         />
-        { showExplanations && (<Overlay />)}
+        { showExplanations && (<Overlay />) }
       </StyledBox>
       <ReviewFooter>
         { showExplanations ? (

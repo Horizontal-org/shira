@@ -16,10 +16,21 @@ import { SearchNReplace } from '../extensions/Search'
 import { ImageWithExplanation } from '../extensions/ImageWithExplanation'
 import { getTableExtensions } from '../extensions/TableWithExplanation'
 
-export const getEditorExtensions = () => [
+const baseExtensions = [
   StarterKit,
   Blockquote,
   HorizontalRule,
+  Explanation,
+  SearchNReplace,
+  Placeholder.configure({        
+    placeholder: 'Message text',
+  }),
+]
+
+export const getMessageExtensions = () => baseExtensions
+
+export const getEmailExtensions = () => [
+  ...baseExtensions,
   OrderedList,
   Underline,
   TextStyle,
@@ -31,8 +42,6 @@ export const getEditorExtensions = () => [
   Placeholder.configure({        
     placeholder: 'Write something …',
   }),
-  Explanation,
-  SearchNReplace,
   Link.configure({
     openOnClick: false,
   }),

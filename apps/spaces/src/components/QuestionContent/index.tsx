@@ -6,12 +6,15 @@ import { Explanations } from "../Explanations";
 import { subscribe, unsubscribe } from "../../utils/customEvent";
 import { cleanDeletedExplanations } from "../../utils/explanations";
 import { CommonHeader } from "./components/CommonHeader";
+import { MessagingContent } from "./components/MessagingContent";
 
 interface Props {
   question: QuestionToBe
   handleContent: (id: string, value: string) => void
   handleQuestion: (k, v) => void;
   content: Object
+  handleContentRemove: (id: string) => void
+  handleContentFullChange: (newContent: Object) => void
 }
 
 export const QuestionContent: FunctionComponent<Props> = ({
@@ -19,13 +22,15 @@ export const QuestionContent: FunctionComponent<Props> = ({
   handleQuestion,
   handleContent,
   content,
+  handleContentRemove,
+  handleContentFullChange
 }) => {
 
 
   const cleanAttachment = (deleteIndex) => {
     // try cleaning attachments       
     let update = false
-    const newAtts = question.attachments.map((a) => {
+    const newAtts = question.attachments && question.attachments.map((a) => {
       if (a.explanationIndex == deleteIndex) {
         update = true
         return {
@@ -71,6 +76,17 @@ export const QuestionContent: FunctionComponent<Props> = ({
             handleQuestion={handleQuestion}
           />
         )}
+
+        { question.app.type === 'messaging' && (
+          <MessagingContent 
+            question={question}
+            content={content}
+            handleContent={handleContent}
+            handleQuestion={handleQuestion}
+            handleContentFullChange={handleContentFullChange}
+          />
+        )}
+        
       </StyledBox> 
 
       <Explanations 
@@ -94,4 +110,6 @@ const StyledBox = styled(Box)`
   z-index:1;
   padding: 48px;
   width: 100%;
+  max-width: 800px;
+  box-sizing: border-box;
 `

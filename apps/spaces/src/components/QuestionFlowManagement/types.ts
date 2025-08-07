@@ -1,5 +1,6 @@
 import { App } from "../../fetch/app"
 import { AttachmentFile } from "../QuestionContent/components/Attachments";
+import { MessagingDragItem } from "../QuestionContent/components/MessagingContent/interfaces/MessagingDragItem";
 
 export interface EmailContent {
   senderName?: string;
@@ -10,8 +11,8 @@ export interface EmailContent {
 
 export interface MessagingContent {
   senderName?: string;
-  senderEmail?: string;
-  subject?: string;
+  senderPhone?: string;
+  draggableItems?: Array<MessagingDragItem>
 }
 
 export interface QuestionToBe {
@@ -20,5 +21,6 @@ export interface QuestionToBe {
   app?: App
   content?: Object
   emailContent?: EmailContent
+  messagingContent?: MessagingContent
   attachments?: AttachmentFile[]
 }

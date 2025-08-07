@@ -7,7 +7,7 @@ import { useLink } from './hooks/useLink'
 import { useTable } from './hooks/useTable'
 
 import { EditorStyles } from './styles/EditorStyles'
-import { getEditorExtensions } from './config/editorExtensions'
+import { getEmailExtensions } from './config/editorExtensions'
 import { LoadingOverlay } from '../LoadingOverlay/LoadingOverlay'
 
 interface Props {
@@ -22,7 +22,7 @@ export const EmailTipTapEditor = ({
   const editorId = `component-text-1`
 
   const editor = useEditor({
-    extensions: getEditorExtensions(),
+    extensions: getEmailExtensions(),
     content: initialContent ?? null,
     onSelectionUpdate() {  },
     onUpdate(props) {
@@ -106,6 +106,7 @@ const Wrapper = styled.div`
 const EditorWrapper = styled.div`
   display: inline-block;
   width: 100%;
+  max-width: 90%;
 `
 
 const HiddenFileInput = styled.input`

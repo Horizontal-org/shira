@@ -14,11 +14,13 @@ import { QuestionReview } from "../QuestionReview";
 import { useNavigate } from "react-router-dom";
 import { ExitQuestionHandleModal } from "../modals/ExitQuestionHandleModal";
 import { NoExplanationsModal } from "../modals/NoExplanationsModal";
+import { omit } from "lodash";
 
 
 interface Props {
   initialContent?: Object
   initialQuestion?: QuestionToBe
+  initialAppType?: string
   actionFeedback: string
   onSubmit: (question: QuestionToBe) => void
 }
@@ -33,12 +35,18 @@ const defaultQuestion = {
     subject: '',
     body: ''
   },
+  messagingContent: {
+    senderPhone: '',
+    senderName: '',    
+    draggableItems: []
+  },
   attachments: []
 }
 
 export const QuestionFlowManagement: FunctionComponent<Props> = ({
   initialContent = {},
   initialQuestion = defaultQuestion,
+  initialAppType = null,
   onSubmit,
   actionFeedback
 }) => {
@@ -68,6 +76,9 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
   const [step, handleStep] = useState(0)  
   const [question, handleQuestion] = useState<QuestionToBe>(initialQuestion)
   const [content, handleContent] = useState(initialContent)
+  
+  console.log("888888888888888888 🚀 ~ question:", question)
+  console.log("888888888888888888 🚀 ~ content:", content)
 
   const [isExitQuestionModalOpen, setIsExitQuestionModalOpen] = useState(false)
   const [noExplanationsModalOpen, setNoExplanationsModalOpen] = useState(false)
@@ -85,6 +96,11 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
       ...content,
       [id]: value
     })
+  }
+
+  const removeContent = (id) => {
+    const newContent = omit(content, id)
+    handleContent(newContent)
   }
 
   return (
@@ -162,6 +178,7 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
                     [k]: v
                   })
                 }}
+                initialAppType={initialAppType}
                 apps={apps}
                 question={question}
               />
@@ -169,7 +186,9 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
 
             { step === 1 && (
               <QuestionContent 
+                handleContentRemove={removeContent}
                 handleContent={parseContent}
+                handleContentFullChange={handleContent}
                 handleQuestion={(k, v) => {
                   handleQuestion({
                     ...question,

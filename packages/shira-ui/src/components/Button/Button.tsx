@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { forwardRef, ReactNode } from 'react';
 import styled from 'styled-components';
 import { darken } from 'polished';
 
@@ -12,6 +12,7 @@ export interface ButtonProps {
   size?: string;
   color?: string;
   className?: string;
+  ref?:  React.MutableRefObject<HTMLButtonElement> 
 }
 
 interface StyledButtonProps {
@@ -21,7 +22,7 @@ interface StyledButtonProps {
   $color?: string;
 }
 
-export const Button = ({ 
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ 
   text, 
   onClick, 
   type = 'primary',
@@ -31,8 +32,8 @@ export const Button = ({
   size = 'default',
   color,
   className,
-}: ButtonProps) => {
-  return (
+}: ButtonProps, ref = null) => 
+  (
     <StyledButton 
       onClick={onClick} 
       className={className}
@@ -40,13 +41,14 @@ export const Button = ({
       disabled={disabled}
       $size={size}
       $color={color}
+      ref={ref}
     >
       { leftIcon && <Left>{leftIcon}</Left>}
       <span>{ text }</span>
       { rightIcon && <Right>{ rightIcon }</Right>}
     </StyledButton>
-  );
-};
+  ));
+
 
 const StyledButton = styled.button<StyledButtonProps>`
   all: unset;
