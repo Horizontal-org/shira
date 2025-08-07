@@ -8,6 +8,7 @@ import '../../fonts/GoogleSans/style.css'
 import '../../fonts/Segoe/style.css'
 import { useStore } from "../../store"
 import { shallow } from "zustand/shallow"
+import { MdBlock } from 'react-icons/md'
 
 interface Props {
   question: QuestionToBe
@@ -91,14 +92,18 @@ export const QuestionReview: FunctionComponent<Props> = ({
             )}
           </ExplanationButtonWrapper>
         ) : (
-          <Button 
-            type="outline"
-            onClick={() => {
-              handleShowExplanations(true)              
-            }}
-            text='Show explanations'
-          />
-        )}
+     <Button
+       type="outline"
+       onClick={() => {
+         if (explanations.length > 0) {
+           handleShowExplanations(true)
+         }
+       }}
+       text={explanations.length > 0 ? 'Show explanations' : 'No explanations available'}
+       disabled={explanations.length === 0}
+       leftIcon={explanations.length === 0 ? <MdBlock size={18} color="red" /> : undefined}
+     />
+     )}
       </ReviewFooter>
     </>
   )
