@@ -4,35 +4,54 @@ import { Navbar } from '../../components/UI/Navbar'
 import { FiHome } from 'react-icons/fi'
 import { HiOutlineRefresh } from 'react-icons/hi'
 import { styled, Button } from '@shira/ui'
-
+import shallow from 'zustand/shallow'
 import CompletedIcon from './assets/CompletedIcon'
 
 import { Heading } from '../../components/UI/Title'
 import { useStore } from '../../store'
 import useGetWidth from '../../hooks/useGetWidth'
 import { CustomQuizNavbar } from '../../components/UI/CustomQuizNavbar'
+import { Question } from '../../domain/question'
 
-interface Props {}
+
+interface Props {
+ quiz: Question[]
+}
 
 
-export const CustomQuizCompletedScene: FunctionComponent<Props> = () => {
+export const CustomQuizCompletedScene: FunctionComponent<Props> = ({quiz}) => {
 
   const { t } = useTranslation()
   const { width } = useGetWidth()
-
+const {
+    correctQuestions
+  } = useStore((state) => ({
+    correctQuestions: state.correctedQuestions,
+  }), shallow)
   return (
     <Wrapper>
       <CustomQuizNavbar />
       <StyledSectionWrapper>
         <StyledSection>
-          <Heading>{ t('completed.title') }</Heading>          
+          <Heading>{ t('completed.title') } </Heading>
+         <HeavySubtitle> {
+             t('completed.heavy_subtitle',
+             {correctQuestions: correctQuestions.length, questions: quiz.length})
+             }
+          </HeavySubtitle>
+           <InfoSubtitle>
+               {width > 800 && (
+         <>{t('completed.subtitle')}</>
+             )}
+           {width < 800 && (
+          <>{t('completed.greeting_title')}</>
+               )}
+             </InfoSubtitle>
           {width < 800 && (
             <MobileIconWrapper>
               <CompletedIcon />
             </MobileIconWrapper>
           )}
-          <InfoSubtitle>Thanks for using shira!</InfoSubtitle>
-
         </StyledSection>
 
         {width > 800 && (
@@ -51,7 +70,7 @@ const Wrapper = styled.div`
 const HeavySubtitle = styled.p`
   font-weight: 300;
   color: ${props => props.theme.colors.dark.black};
-  font-size: 21px;
+  font-size: 18px;
   line-height: 29px;
 
   @media(max-width: ${props => props.theme.breakpoints.xs}) {

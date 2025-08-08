@@ -104,7 +104,8 @@
         "subtitle": "Realiza un nuevo cuestionario o consulta algunas recomendaciones a continuación para seguir reforzando tus conocimientos y ser mejor a la hora de evitar el phishing.",
         "back_button": "Volver al inicio",
         "next_button": "Nuevo cuestionario",
-        "heavy_subtitle": "Respondiste correctamente {{correctQuestions}} de {{questions}} preguntas."
+        "heavy_subtitle": "Respondiste correctamente {{correctQuestions}} de {{questions}} preguntas.",
+        "greeting_title": "Thanks for using Shira!"
     },
     "about": {
         "title": "Información",

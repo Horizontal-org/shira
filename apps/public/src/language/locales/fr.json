@@ -104,7 +104,9 @@
         "subtitle": "Répondez à un nouveau quiz ou consultez quelques recommandations ci-dessous pour continuer à renforcer vos compétences et mieux éviter l'hameçonnage.",
         "back_button": "Retour a l'accueil",
         "next_button": "Nouveau quiz",
-        "heavy_subtitle": "Vous avez répondu correctement à {{correctQuestions}} sur {{questions}}"
+        "heavy_subtitle": "Vous avez répondu correctement à {{correctQuestions}} sur {{questions}}",
+        "greeting_title": "Thanks for using Shira!"
+
     },
     "about": {
         "title": "À propos",
