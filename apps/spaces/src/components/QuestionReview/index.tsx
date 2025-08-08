@@ -44,7 +44,7 @@ export const QuestionReview: FunctionComponent<Props> = ({ question }) => {
 
   return (
     <>
-      <TopBar>
+      <ExplanationHeader>
         {!showExplanations && (
           <Button
             type="outline"
@@ -58,7 +58,37 @@ export const QuestionReview: FunctionComponent<Props> = ({ question }) => {
             leftIcon={explanations.length === 0 ? <MdBlock size={18} color="red" /> : undefined}
           />
         )}
-      </TopBar>
+       {showExplanations && (
+                  <ExplanationButtonWrapper>
+                    {explanationNumber >= 0 && (
+                      <Button
+                        type="outline"
+                        onClick={() => {
+                          handleShowExplanations(false)
+                          setExplanationNumber(0)
+                        }}
+                        text='Close explanations'
+                      />
+                    )}
+                    {explanationNumber >= 1 && (
+                      <Button
+                        onClick={() => {
+                          setExplanationNumber(explanationNumber - 1)
+                        }}
+                        text='Previous explanation'
+                      />
+                    )}
+                    {explanationNumber < explanations.length - 1 && (
+                      <Button
+                        onClick={() => {
+                          setExplanationNumber(explanationNumber + 1)
+                        }}
+                        text='Next explanation'
+                      />
+                    )}
+                  </ExplanationButtonWrapper>
+                )}
+      </ExplanationHeader>
 
       <StyledBox>
         <AppSelector
@@ -70,44 +100,11 @@ export const QuestionReview: FunctionComponent<Props> = ({ question }) => {
         />
         {showExplanations && <Overlay />}
       </StyledBox>
-
-      <ReviewFooter>
-        {showExplanations && (
-          <ExplanationButtonWrapper>
-            {explanationNumber >= 0 && (
-              <Button
-                type="outline"
-                onClick={() => {
-                  handleShowExplanations(false)
-                  setExplanationNumber(0)
-                }}
-                text='Close explanations'
-              />
-            )}
-            {explanationNumber >= 1 && (
-              <Button
-                onClick={() => {
-                  setExplanationNumber(explanationNumber - 1)
-                }}
-                text='Previous explanation'
-              />
-            )}
-            {explanationNumber < explanations.length - 1 && (
-              <Button
-                onClick={() => {
-                  setExplanationNumber(explanationNumber + 1)
-                }}
-                text='Next explanation'
-              />
-            )}
-          </ExplanationButtonWrapper>
-        )}
-      </ReviewFooter>
     </>
   )
 }
 
-const TopBar = styled.div`
+const ExplanationHeader = styled.div`
   width: 1024px;
   display: flex;
   justify-content: flex-end;
@@ -128,14 +125,6 @@ const ExplanationButtonWrapper = styled.div`
   display: flex;
   gap: 12px;
 `
-
-const ReviewFooter = styled.div`
-  width: 1024px;
-  padding: 12px 0;
-  display: flex;
-  justify-content: flex-end;
-`
-
 const Overlay = styled.div`
   position: absolute;
   top: 0;
