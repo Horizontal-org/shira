@@ -9,7 +9,6 @@ import CompletedIcon from './assets/CompletedIcon'
 
 import { Heading } from '../../components/UI/Title'
 import { useStore } from '../../store'
-import useGetWidth from '../../hooks/useGetWidth'
 import { CustomQuizNavbar } from '../../components/UI/CustomQuizNavbar'
 import { Question } from '../../domain/question'
 
@@ -22,7 +21,6 @@ interface Props {
 export const CustomQuizCompletedScene: FunctionComponent<Props> = ({quiz}) => {
 
   const { t } = useTranslation()
-  const { width } = useGetWidth()
 const {
     correctQuestions
   } = useStore((state) => ({
@@ -33,32 +31,23 @@ const {
       <CustomQuizNavbar />
       <StyledSectionWrapper>
         <StyledSection>
+          <MobileIconWrapper>
+             <CompletedIcon /> 
+          </MobileIconWrapper>
           <Heading>{ t('completed.title') } </Heading>
-         <HeavySubtitle> {
-             t('completed.heavy_subtitle',
-             {correctQuestions: correctQuestions.length, questions: quiz.length})
-             }
-          </HeavySubtitle>
-           <InfoSubtitle>
-               {width > 800 && (
-         <>{t('completed.subtitle')}</>
-             )}
-           {width < 800 && (
-          <>{t('completed.greeting_title')}</>
-               )}
-             </InfoSubtitle>
-          {width < 800 && (
-            <MobileIconWrapper>
-              <CompletedIcon />
-            </MobileIconWrapper>
-          )}
+         <HeavySubtitle
+        dangerouslySetInnerHTML={{
+          __html: t('completed.heavy_subtitle', {
+            correctQuestions: correctQuestions.length,
+            questions: quiz.length,
+            interpolation: { escapeValue: false } // allow HTML
+          })
+        }}
+        />
+        <InfoSubtitle>
+          {t('completed.greeting_title')}
+        </InfoSubtitle>
         </StyledSection>
-
-        {width > 800 && (
-          <div>
-            <CompletedIcon />
-          </div>
-        )}
       </StyledSectionWrapper>
     </Wrapper>
   )
@@ -78,26 +67,35 @@ const HeavySubtitle = styled.p`
     font-size: 24px;
   }
 `
-const InfoSubtitle = styled(HeavySubtitle)`
-  @media(max-width: ${props => props.theme.breakpoints.xs}) {
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 21.79px;
-  }
-`
+const InfoSubtitle = styled(HeavySubtitle)` 
+  @media(max-width: ${props => props.theme.breakpoints.xs}) { 
+    font-weight: 400; 
+    font-size: 16px; 
+    line-height: 21.79px; 
+  } 
+  `
 
 const StyledSection = styled.div`
   max-width: 688px;
+ display: flex;
+ flex-direction: column;
+align-items: center;
+
+ @media(max-width: ${props => props.theme.breakpoints.sm}) { 
+   align-items: flex-start;
+ }
 `
 
 const StyledSectionWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  width: 100%;
+  align-items: center;
 
   @media(min-width: ${props => props.theme.breakpoints.sm}) {
     margin: 0 auto;
     width: 80vw;
-    padding-top: 128px;
+    padding-top: 24px;
 
     h2 {
       margin-bottom: 0;
@@ -114,6 +112,7 @@ const StyledSectionWrapper = styled.div`
 const MobileIconWrapper = styled.div`
   display: flex;
   justify-content: center;
+  width:100%;
 
   > svg {
     width: 300px;
