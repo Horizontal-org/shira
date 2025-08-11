@@ -24,29 +24,35 @@ export class ListQuizService implements IListQuizService{
   ) {
 
     const rawQuizzes = await this.quizRepo
-        .createQueryBuilder('quiz')
-        .leftJoin(
-          qb => {
-            return qb
-              .from(Question, 'question')
-              .innerJoin('quizzes_questions', 'qq', 'qq.questionId = question.id')
-              .select('qq.quizId', 'quizId')
-              .addSelect('MAX(question.updatedAt)', 'updatedAt')
-              .groupBy('qq.quizId')
-          },
-          'latest_question', 
-          'latest_question.quizId = quiz.id'
-        )
-        .select([
-          'quiz.id AS id',
-          'quiz.updatedAt AS updatedAt',
-          'quiz.title AS title',
-          'quiz.hash AS hash',
-          'quiz.published AS published',
-        ])
-        .addSelect('latest_question.updatedAt', 'lastQuestionsUpdatedAt')
-        .where('space_id = :spaceId', { spaceId: spaceId })
-        .getRawMany()
+      .createQueryBuilder('quiz')
+      .leftJoin(
+        qb => {
+          return qb
+            .from(Question, 'question')
+            .innerJoin('quizzes_questions', 'qq', 'qq.questionId = question.id')
+            .select('qq.quizId', 'quizId')
+            .addSelect('MAX(question.updatedAt)', 'updatedAt')
+            .addSelect('MAX(qq.updatedAt)', 'lastQuizQuestionUpdatedAt')
+            .groupBy('qq.quizId')
+        },
+        'latest_question', 
+        'latest_question.quizId = quiz.id'
+      )
+      .select([
+        'quiz.id AS id',
+        'quiz.updatedAt AS updatedAt',
+        'quiz.title AS title',
+        'quiz.hash AS hash',
+        'quiz.published AS published',
+      ])
+      .addSelect(`GREATEST
+        (
+          quiz.updated_at, 
+          COALESCE(latest_question.updatedAt, '1900-01-01'), 
+          COALESCE(latest_question.lastQuizQuestionUpdatedAt, '1900-01-01')          
+        )`, 'latestGlobalUpdate')
+      .where('space_id = :spaceId', { spaceId: spaceId })
+      .getRawMany()      
 
     const quizzes = await plainToInstance(ReadPlainQuizDto, rawQuizzes);
     return quizzes

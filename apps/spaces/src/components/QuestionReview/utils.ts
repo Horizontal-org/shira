@@ -29,13 +29,16 @@ const parseCustomElement = (html: Document, customElement: string) => {
 
 const parseContent = (html: Document): HTMLElement => {
   const contentElement = html.querySelector('[id*="component-text"]') as HTMLElement
-  contentElement.querySelectorAll('a').forEach((element) => {
-      element.setAttribute('onclick', 'return false;');
-      element.setAttribute('oncontextmenu', 'return false;');
-  })
-  return contentElement || document.createElement('div')
-}
 
+  if (contentElement) {
+    contentElement.querySelectorAll('a').forEach((element) => {
+        element.setAttribute('onclick', 'return false;');
+        element.setAttribute('oncontextmenu', 'return false;');
+    })
+    return contentElement
+  }
+  return document.createElement('div')
+}
 
 export const AppComponents = {
   'Gmail': (Gmail),
@@ -46,11 +49,8 @@ export const AppComponents = {
 }
 
 export const getContentProps = (appName, content) => {
-  
   const html = remapHtml(content)  
-
   if (appName === 'Gmail') {
-
     return {
       senderName: parseCustomElement(html, 'component-required-sender-name'),
       senderEmail: parseCustomElement(html, 'component-required-sender-email'),
@@ -58,6 +58,20 @@ export const getContentProps = (appName, content) => {
       content: parseContent(html),
       attachments: parseAttachments(html)
     }
-  } 
-  return {}
+  } else {
+    const draggableContent = Object.keys(content)
+      .filter(ck => ck.includes('component-text') || ck.includes('component-image'))
+      .map(dk => content[dk])
+    const draggableContentHtml = remapHtml(draggableContent)
+
+    let props = {
+      content: draggableContentHtml || document.createElement('div'),
+      senderName: parseCustomElement(html, 'component-required-fullname'),
+    }
+    
+    if (appName === 'Whatsapp' || appName === 'SMS') {
+      props['phone'] = parseCustomElement(html, 'component-required-phone')
+    }
+    return props
+  }  
 }

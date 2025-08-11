@@ -33,6 +33,7 @@ export const QuestionReview: FunctionComponent<Props> = ({ question }) => {
 
     if (question && question.app) {
       const contentProps = getContentProps(question.app.name, question.content)
+      console.log("🚀 ~ QuestionReview ~ contentProps:", contentProps)
 
       handleElementProps({
         ...contentProps

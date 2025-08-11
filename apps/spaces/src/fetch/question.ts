@@ -61,19 +61,25 @@ export const deleteQuestion = async(id) => {
 }
 
 const getHtmlByType = (appType, questionContent) => {
+    let keys = []
     if (appType === 'email') {
-      const emailKeys = [
+      keys.push(
         'component-required-sender-name',
         'component-required-sender-email',
         'component-optional-subject'
-      ]
-
-      return Object.keys(questionContent)
-        .filter(c => emailKeys.includes(c))
-        .reduce((prev, current) => {
-          return prev + questionContent[current]
-        }, `<div id='type-content'>`) + '</div>'
+      )      
+    } else if (appType === 'messaging') {
+      keys.push(
+        'component-required-fullname',
+        'component-required-phone',
+      )      
     }
+    
+    return Object.keys(questionContent)
+      .filter(c => keys.includes(c))
+      .reduce((prev, current) => {
+        return prev + questionContent[current]
+      }, `<div id='type-content'>`) + '</div>'
 }
 
 const parseRequest = (question, explanations, quizId) => {
@@ -88,7 +94,7 @@ const parseRequest = (question, explanations, quizId) => {
   // }, `<div id='optional-content'>`) + '</div>'
 
   const dynamicHTML = Object.keys(question.content)
-    .filter(qk => qk.includes('component-text') || qk.includes('component-attachment'))
+    .filter(qk => qk.includes('component-text') || qk.includes('component-attachment') || qk.includes('component-image'))
     .reduce((prev, current) => {
       return prev + question.content[current]
     }, `<div id='dynamic-content'>`) + '</div>'
@@ -104,7 +110,6 @@ const parseRequest = (question, explanations, quizId) => {
       app: question.app.id,
     },
     explanations: explanations.map((e) => {
-      console.log(e)
       return {
         id: e.id,
         position: e.position + '',

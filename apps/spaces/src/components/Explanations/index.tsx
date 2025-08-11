@@ -9,7 +9,7 @@ import { Explanation } from '../../store/slices/explanation'
 import { publish } from '../../utils/customEvent'
 import { cleanDeletedExplanations } from '../../utils/explanations'
 import { ExplanationDragItem } from './components/ExplanationDragItem'
-import { Body2Regular, styled } from '@shira/ui'
+import { Body2Regular, Button, styled } from '@shira/ui'
 import { remapHtml } from '../../utils/remapHtml'
 
 interface Props {
@@ -26,6 +26,7 @@ export const Explanations: FunctionComponent<Props> = ({
   onDelete
 }) => {
 
+  const  [show, handleShow] = useState(true)
   const {
     storeExplanations,
     changeSelected,
@@ -99,60 +100,65 @@ export const Explanations: FunctionComponent<Props> = ({
 
   return (
     <Wrapper>
-  
-      <Body2Regular>Explanations will be shown in the following order in the quiz. </Body2Regular>
+      
+      { show && (
+        <>        
+          <Body2Regular>Explanations will be shown in the following order in the quiz. </Body2Regular>
 
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId='droppable'>
-          {(provided, snapshot) => (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >          
-              { storeExplanations.map(((e, i) => (
-                <ExplanationDragItem
-                  key={e.position + ''} 
-                  id={e.position + ''}   
-                  title={e.title}
-                  text={e.text}
-                  selected={+e.index === selectedExplanation}
-                  index={i}  
-                  component={(
-                    // ONLY INPUT
-                    <ExplanationBox
-                      key={e.index}
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId='droppable'>
+              {(provided, snapshot) => (
+                <div
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >          
+                  { storeExplanations.map(((e, i) => (
+                    <ExplanationDragItem
+                      key={e.position + ''} 
+                      id={e.position + ''}   
+                      title={e.title}
+                      text={e.text}
                       selected={+e.index === selectedExplanation}
-                      onClick={() => {
-                        changeSelected(e.index)
+                      index={i}  
+                      component={(
+                        // ONLY INPUT
+                        <ExplanationBox
+                          key={e.index}
+                          selected={+e.index === selectedExplanation}
+                          onClick={() => {
+                            changeSelected(e.index)
+                          }}
+                        >
+                          <ExplanationInput 
+                            text={e.text}
+                            unselect={() => { changeSelected(null) }}
+                            onUpdate={(text) => {
+                              updateExplanation(e.index, text, e.position, e.id, e.title)
+                            }}
+                          />
+                        </ExplanationBox>
+                      )}
+                      onDelete={() => {   
+                        // this removes the data-explanation attr from zustand                                     
+                        cleanStateExplanations(e.index)
+                        // this removes the data-explanation attribute from the DOM
+                        publish('delete-explanation', { deleteIndex: e.index })
+                        
+                        // cleanDeletedExplanations(e.index)
+                        onDelete(e.index)
+                        // this removes the explanation item
+                        deleteExplanation(e.index)                    
                       }}
-                    >
-                      <ExplanationInput 
-                        text={e.text}
-                        unselect={() => { changeSelected(null) }}
-                        onUpdate={(text) => {
-                          updateExplanation(e.index, text, e.position, e.id, e.title)
-                        }}
-                      />
-                    </ExplanationBox>
-                  )}
-                  onDelete={() => {   
-                    // this removes the data-explanation attr from zustand                                     
-                    cleanStateExplanations(e.index)
-                    // this removes the data-explanation attribute from the DOM
-                    publish('delete-explanation', { deleteIndex: e.index })
-                    
-                    // cleanDeletedExplanations(e.index)
-                    onDelete(e.index)
-                    // this removes the explanation item
-                    deleteExplanation(e.index)                    
-                  }}
-                />
-              ))) }
-              { provided.placeholder }
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+                    />
+                  ))) }
+                  { provided.placeholder }
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
+        </>
+      )}
+      
 
     </Wrapper>
   )

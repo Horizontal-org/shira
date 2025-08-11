@@ -21,13 +21,14 @@ export const QuestionEditLayout: FunctionComponent<Props> = () => {
   const {    
     setQuizActionSuccess,
     setInitialExplanations,
-    clearExplanations
+    clearExplanations,
   } = useStore((state) => ({
     setInitialExplanations: state.setInitialExplanations,
     setQuizActionSuccess: state.setQuizActionSuccess,
-    clearExplanations: state.clearExplanations
+    clearExplanations: state.clearExplanations,
   }), shallow)
 
+  
   const [initialQuestion, handleQuestion] = useState<QuestionToBe>(null)
   const [initialContent, handleContent] = useState({})
 
@@ -46,13 +47,15 @@ export const QuestionEditLayout: FunctionComponent<Props> = () => {
         }))
       }
       
+      // careful, this persists
       const htmlContent = new DOMParser().parseFromString(question.content, 'text/html')
       
+      // PARSE QUESTION 
+      handleQuestion(getQuestionValues(question, htmlContent))
+
       // PARSE CONTENT      
       handleContent(getContentObject(htmlContent))
 
-      // PARSE QUESTION 
-      handleQuestion(getQuestionValues(question, htmlContent))
     }
 
     getAndParseQuestion()
@@ -87,6 +90,7 @@ export const QuestionEditLayout: FunctionComponent<Props> = () => {
       }}
       initialContent={initialContent}
       initialQuestion={initialQuestion}
+      initialAppType={initialQuestion.app.type}
       actionFeedback={actionFeedback}
     />
   ) 

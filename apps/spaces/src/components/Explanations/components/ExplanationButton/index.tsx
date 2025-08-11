@@ -5,12 +5,18 @@ import { ExplanationIcon, styled } from '@shira/ui'
 interface Props {
   onClick: () => void
   active: boolean
+  disabled?: boolean
 }
 
-export const ExplanationButton: FunctionComponent<Props> = ({ onClick, active }) => {
+export const ExplanationButton: FunctionComponent<Props> = ({ 
+  onClick, 
+  active,
+  disabled = false
+}) => {
   return (
     <SvgWrapper 
-      onClick={onClick}
+      disabled={disabled}
+      onClick={disabled ? null : onClick}
       active={active}
     >
       <ExplanationIcon /> 
@@ -21,6 +27,7 @@ export const ExplanationButton: FunctionComponent<Props> = ({ onClick, active })
 
 interface StyledSvgWrapper {
   active: boolean;
+  disabled: boolean
 }
 
 const SvgWrapper = styled.div<StyledSvgWrapper>`
@@ -54,6 +61,9 @@ const SvgWrapper = styled.div<StyledSvgWrapper>`
        fill: ${props.theme.secondary.base};
       }
     }
-  `
-}
+  `}
+
+  ${props => props.disabled && `
+    cursor: auto;  
+  `}
 `

@@ -18,10 +18,11 @@ export const Message:FunctionComponent<Props> = ({ data }) => {
 const Wrapper = styled.div`
   display: flex;
   padding: 12px 8px;
+  width: 85%;
 `
 
 const Content = styled.div`
-  width: 70%;
+  width: 100%;
   text-align: left;
   background: #CAEAF0;
   border-radius: 12px;
@@ -39,4 +40,5 @@ const Content = styled.div`
   }
 
   overflow-x: hidden;
+  word-break: break-all;
 `
