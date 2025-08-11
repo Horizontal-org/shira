@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react"
-import { Button, styled } from "@shira/ui"
+import { Button, styled, Body1 } from "@shira/ui"
 import { QuestionToBe } from "../QuestionFlowManagement/types"
 import { getContentProps } from "./utils"
 import { AppSelector } from "./components/AppSelector"
@@ -45,19 +45,22 @@ export const QuestionReview: FunctionComponent<Props> = ({ question }) => {
   return (
     <>
       <ExplanationHeader>
-        {!showExplanations && (
+        {!showExplanations && ( explanations.length ?
           <Button
             type="outline"
-            onClick={() => {
-              if (explanations.length > 0) {
-                handleShowExplanations(true)
-              }
-            }}
-            text={explanations.length > 0 ? 'Show explanations' : 'No explanations available'}
-            disabled={explanations.length === 0}
-            leftIcon={explanations.length === 0 ? <MdBlock size={18} color="red" /> : undefined}
-          />
+            onClick={ ()=> handleShowExplanations(true) }
+            text={'Show explanations'}
+          /> : 
+          (<IsNoExplanationWrapper>
+                    <Content>
+                      <MdBlock size={18} color="red" />
+                      <Body1>There are no explanations for this question.</Body1>
+                    </Content>
+          </IsNoExplanationWrapper>  
+         )
+                  
         )}
+        
        {showExplanations && (
                   <ExplanationButtonWrapper>
                     {explanationNumber >= 0 && (
@@ -133,4 +136,18 @@ const Overlay = styled.div`
   height: 800px;
   width: 100%;
   background: rgba(0, 0, 0, 0.5);
+`
+
+const IsNoExplanationWrapper = styled.div`
+  width: fit-content;
+  margin: 12px 0;
+  padding: 16px 20px;
+  background: #fff;
+  border-radius: 20px;
+`
+
+const Content = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
 `
