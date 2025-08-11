@@ -9,7 +9,6 @@ interface Props {
   explanation: Explanation
   explanationNumber?: number
   showExplanations?: boolean
-  referenceElement?: HTMLElement
 }
 
 const ExplanationTooltip: FunctionComponent<Props> = ({ 
@@ -17,12 +16,19 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
   explanationNumber,
   showExplanations,
 }) => {
-  console.log("🚀 ~ explanation:", explanation)
 
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
   const [arrowElement, setArrowElement] = useState<HTMLDivElement | null>(null);
 
   const referenceElementRef = useRef<HTMLElement |  null>(null);
+
+  const { styles, attributes, update } = usePopper(referenceElementRef.current, popperElement, {
+    modifiers: [
+      { name: 'flip', options: { fallbackPlacements: ['top', 'bottom'], padding: 100 }},
+      { name: 'arrow', options: { element: arrowElement } },
+      { name: 'offset', options: { offset: [0, 8] }},
+    ],
+  });
 
   useEffect(() => {
     const referenceElement = document.querySelector(`[data-explanation="${explanation.index}"]`) as HTMLElement;
@@ -65,17 +71,11 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
         }
       }
     })
-    
+  
+    // recheck ref position since images take a second to load
+    update && update()
   }, [explanationNumber, showExplanations])
   
-  const { styles, attributes } = usePopper(referenceElementRef.current, popperElement, {
-    modifiers: [
-      { name: 'flip', options: { fallbackPlacements: ['top', 'bottom'], padding: 100 }},
-      { name: 'arrow', options: { element: arrowElement } },
-      { name: 'offset', options: { offset: [0, 8] }},
-    ],
-  });
-
   return (
     <Wrapper 
       ref={setPopperElement} 
