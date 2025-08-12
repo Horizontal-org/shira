@@ -46,7 +46,7 @@ export const QuestionReview: FunctionComponent<Props> = ({ question }) => {
   return (
     <>
       <ExplanationHeader>
-        {!showExplanations && ( explanations.length ?
+        { explanations.length ?
           <Button
             type="outline"
             onClick={ ()=> handleShowExplanations(true) }
@@ -57,9 +57,7 @@ export const QuestionReview: FunctionComponent<Props> = ({ question }) => {
                       <MdBlock size={18} color="red" />
                       <Body1>There are no explanations for this question.</Body1>
                     </Content>
-          </IsNoExplanationWrapper>  
-         )
-                  
+          </IsNoExplanationWrapper>           
         )}
         
        {showExplanations && (
