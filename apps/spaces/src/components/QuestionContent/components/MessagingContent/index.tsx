@@ -1,7 +1,6 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { Body2Regular, Body3, styled, SubHeading3, TextInput } from '@shira/ui'
 import { EmailContent as EmailContentType, QuestionToBe } from "../../../QuestionFlowManagement/types";
-import { AttachmentFile, Attachments } from "../Attachments";
 import { InputWithExplanation } from "../../../InputWithExplanation";
 import { remapHtml } from "../../../../utils/remapHtml";
 import { DraggableMessagingList } from "./DraggableMessagingList";
@@ -151,7 +150,6 @@ export const MessagingContent: FunctionComponent<Props> = ({
       <DraggableMessagingList
         content={content}
         items={question.messagingContent.draggableItems}
-        onRemapContent={remapDynamicContent}
         onChange={(newItems) => {
           handleQuestion('messagingContent', {
             ...question.messagingContent,

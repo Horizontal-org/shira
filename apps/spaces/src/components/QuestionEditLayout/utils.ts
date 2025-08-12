@@ -1,6 +1,5 @@
 import { AttachmentType } from "@shira/ui"
 import { QuestionPayload } from "../../fetch/question"
-import { AttachmentFile } from "../QuestionContent/components/Attachments"
 
 
 const getDraggableItems = (htmlContent: Document) => {
@@ -37,6 +36,8 @@ const getDraggableItems = (htmlContent: Document) => {
       })
     })
 
+  //TODO add draggable items attachments
+
   return draggableItems.sort((a, b) => a.position - b.position)
 }
 
@@ -68,18 +69,18 @@ export const getQuestionValues = (question: QuestionPayload, htmlContent: Docume
   const app = question.apps[0]
 
   if (app.type === 'email') {
-    let attachments: AttachmentFile[] = []
-    htmlContent.querySelectorAll('[id*="component-attachment"]').forEach((ca) => {
-      const explodedId = ca.getAttribute('id').split('component-attachment-')
-      const explanationIndex = ca.getAttribute('data-explanation')
+    // let attachments: AttachmentFile[] = []
+    // htmlContent.querySelectorAll('[id*="component-attachment"]').forEach((ca) => {
+    //   const explodedId = ca.getAttribute('id').split('component-attachment-')
+    //   const explanationIndex = ca.getAttribute('data-explanation')
       
-      attachments.push({
-        id: parseInt(explodedId[1]),
-        type: AttachmentType[ca.getAttribute('data-attachment-type')],
-        name: ca.innerHTML,
-        explanationIndex: explanationIndex ? parseInt(explanationIndex) : null
-      })
-    })
+    //   attachments.push({
+    //     id: parseInt(explodedId[1]),
+    //     type: AttachmentType[ca.getAttribute('data-attachment-type')],
+    //     name: ca.innerHTML,
+    //     explanationIndex: explanationIndex ? parseInt(explanationIndex) : null
+    //   })
+    // })
 
     replaceImage(question, htmlContent)
       
@@ -93,7 +94,7 @@ export const getQuestionValues = (question: QuestionPayload, htmlContent: Docume
         subject: htmlContent.getElementById('component-optional-subject')?.innerText,
         body: htmlContent.getElementById('component-text-1')?.innerHTML,
       },
-      attachments: attachments     
+      attachments: []     
     }
   } else {
   

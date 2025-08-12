@@ -27,23 +27,23 @@ export const QuestionContent: FunctionComponent<Props> = ({
 }) => {
 
 
-  const cleanAttachment = (deleteIndex) => {
-    // try cleaning attachments       
-    let update = false
-    const newAtts = question.attachments && question.attachments.map((a) => {
-      if (a.explanationIndex == deleteIndex) {
-        update = true
-        return {
-          ...a,
-          explanationIndex: null
-        }
-      }
-      return a
-    })
-    if (update) {
-      handleQuestion('attachments', newAtts)
-    }
-  }
+  // const cleanAttachment = (deleteIndex) => {
+  //   // try cleaning attachments       
+  //   let update = false
+  //   const newAtts = question.attachments && question.attachments.map((a) => {
+  //     if (a.explanationIndex == deleteIndex) {
+  //       update = true
+  //       return {
+  //         ...a,
+  //         explanationIndex: null
+  //       }
+  //     }
+  //     return a
+  //   })
+  //   if (update) {
+  //     handleQuestion('attachments', newAtts)
+  //   }
+  // }
 
   useEffect(() => {
     // fetchQuestion(id)
@@ -94,7 +94,7 @@ export const QuestionContent: FunctionComponent<Props> = ({
         handleContent={handleContent}
         onDelete={(explId) => {
           // clean from attachments
-          cleanAttachment(explId)
+          // cleanAttachment(explId)
         }}
       />  
     </Wrapper> 

@@ -2,7 +2,7 @@ import { FunctionComponent, useEffect, useState } from "react";
 import { Body2Regular, Body3, styled, SubHeading3, TextInput } from '@shira/ui'
 import { EmailContent as EmailContentType, QuestionToBe } from "../../../QuestionFlowManagement/types";
 import { EmailTipTapEditor } from "../../../TipTapEditor/EmailTipTapEditor";
-import { AttachmentFile, Attachments } from "../Attachments";
+import { AttachmenDragItem, Attachments } from "../Attachments";
 import { InputWithExplanation } from "../../../InputWithExplanation";
 import { remapHtml } from "../../../../utils/remapHtml";
 
@@ -143,16 +143,21 @@ export const EmailContent: FunctionComponent<Props> = ({
       </div>
 
       <div>
-        <Attachments 
-          files={question.attachments}          
-          onChange={(filesList: AttachmentFile[], f: AttachmentFile) => {
+        <Attachments
+          content={content}
+          files={question.emailContent.draggableItems}          
+          onChange={(filesList: AttachmenDragItem[]) => {
             handleQuestion('attachments', filesList)
-            if (f) {
-              handleContent(
-                `component-attachment-${f.id}`,
-                `<span data-attachment-type='${f.type}' data-position='${f.id}' ${insertExplanation(f.explanationIndex)} id='component-attachment-${f.id}'>${f.name}</span>`
-              )
-            }
+            handleQuestion('emailContent', {
+              ...question.messagingContent,
+              draggableItems: filesList
+            })
+            // if (f) {
+            //   handleContent(
+            //     `component-attachment-${f.id}`,
+            //     `<span data-attachment-type='${f.type}' data-position='${f.id}' ${insertExplanation(f.explanationIndex)} id='component-attachment-${f.id}'>${f.name}</span>`
+            //   )
+            // }
           }}
         />
       </div>

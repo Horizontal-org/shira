@@ -33,14 +33,14 @@ const defaultQuestion = {
     senderEmail: '',
     senderName: '',
     subject: '',
-    body: ''
+    body: '',
+    draggableItems: []
   },
   messagingContent: {
     senderPhone: '',
     senderName: '',    
     draggableItems: []
   },
-  attachments: []
 }
 
 export const QuestionFlowManagement: FunctionComponent<Props> = ({

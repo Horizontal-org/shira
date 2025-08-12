@@ -1,8 +1,8 @@
 import { FunctionComponent } from "react";
 import { Attachment, styled } from "@shira/ui";
-import { AttachmentFile } from "../QuestionContent/components/Attachments";
 import { useStore } from "../../store";
 import { shallow } from "zustand/shallow";
+import { AttachmenDragItem } from "../QuestionContent/components/Attachments";
 
 // key={k}
 // name={f.name}
@@ -23,9 +23,9 @@ import { shallow } from "zustand/shallow";
 //   handleFiles(files.filter(fil => fil.id !== f.id))
 // }}
 interface Props {
-  file: AttachmentFile
+  file: AttachmenDragItem
   onDelete: (id: number) => void
-  onChange: (file: AttachmentFile) => void
+  onChange: (file: AttachmenDragItem) => void
 }
 
 export const AttachmentWithExplanation:FunctionComponent<Props> = ({

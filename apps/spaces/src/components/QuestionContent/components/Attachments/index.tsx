@@ -2,18 +2,35 @@ import { FunctionComponent, useEffect, useState } from "react";
 import { AddAttachmentModal, Button, styled, Attachment, AttachmentType } from "@shira/ui";
 import { IoMdAdd } from "react-icons/io";
 import { AttachmentWithExplanation } from "../../../AttachmentWithExplanation";
+import { DraggableAttachmentList } from "./DraggableAttachmentList";
 
 
-export interface AttachmentFile {
-  id: number;
-  type: AttachmentType;
-  name: string;
+// export interface MessagingDragItem {
+//   draggableId: string;
+//   position: number;
+//   value: string | ImageObject;
+//   name: string;
+//   type: string;
+//   explId?: number
+// }
+
+export interface AttachmenDragItem {
+  id?: number;
+  type?: AttachmentType;
+  name?: string;
   explanationIndex?: number
+  draggableId?: string;
+  position?: number
+  value?: {
+    name: string;
+    type: AttachmentType;
+  }
 }
 
 interface Props { 
-  onChange: (persistentList: AttachmentFile[], f: AttachmentFile) => void
-  files?: AttachmentFile[]
+  onChange: (persistentList: AttachmenDragItem[]) => void
+  files?: AttachmenDragItem[]
+  content: Object
   // onChangeList: (f: AttachmentFile[]) => void
   // startAttachments?: AttachmentFile[] 
 }
@@ -42,7 +59,8 @@ interface Props {
 // }}
 export const Attachments: FunctionComponent<Props> = ({
   onChange,  
-  files  
+  files,
+  content
 }) => {
 
   const [isOpen, setIsOpen] = useState(false);
@@ -63,7 +81,7 @@ export const Attachments: FunctionComponent<Props> = ({
         leftIcon={<IoMdAdd color="#5F6368" size={14}/>}        
       />
 
-      <AttachmentsWrapper>
+      {/* <AttachmentsWrapper>
         { files.map((f, k) => (
           <AttachmentWithExplanation
             key={k}
@@ -83,7 +101,22 @@ export const Attachments: FunctionComponent<Props> = ({
           />
         ))}
       </AttachmentsWrapper>
-                  
+                   */}
+
+      <DraggableAttachmentList
+        content={content}
+        items={files}
+        onChange={(newItems) => {
+          console.log("DO I NEED AN ONCHANGE? ", newItems)
+          // handleQuestion('messagingContent', {
+          //   ...question.messagingContent,
+          //   draggableItems: newItems
+          // })
+
+          // remapDynamicContent(newItems as Array<MessagingDragItem>)
+        }}
+      />
+
       <AddAttachmentModal 
         fileName={fileName} 
         handleFileName={setFileName}
@@ -92,13 +125,18 @@ export const Attachments: FunctionComponent<Props> = ({
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         onSave={() => {              
+          const newName = `component-attachment-${files.length + 1}`
           const newFile = {
-            id: files.length > 0 ? files[files.length -1].id + 1 : 1,
-            name: fileName,
-            type: fileType
+            name: newName,
+            position: files.length + 1,
+            draggableId: crypto.randomUUID(),
+            value: {
+              name: fileName,
+              type: fileType
+            }
           }
 
-          onChange(files.concat([newFile]), newFile)
+          onChange(files.concat([newFile]))
           clean()
         }}
       />
