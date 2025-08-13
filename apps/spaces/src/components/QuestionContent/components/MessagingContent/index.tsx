@@ -100,7 +100,7 @@ export const MessagingContent: FunctionComponent<Props> = ({
             <Body3>This is the phone number that will be displayed in the “Sender” field of the message.</Body3>
           </InputHeading>
         
-          <InputWithExplanation 
+          {/* <InputWithExplanation 
             id='component-required-phone'
             name='phone'
             placeholder='Sender phone'
@@ -117,7 +117,7 @@ export const MessagingContent: FunctionComponent<Props> = ({
                 `<span ${insertExplanation(expl)} id=component-required-phone>${value}</span>` 
               )
             }}
-          />
+          /> */}
         </div>
       ) : (
         <div>
@@ -126,7 +126,7 @@ export const MessagingContent: FunctionComponent<Props> = ({
             <Body3>This is the name that will be displayed in the “Sender” field of the message.</Body3>
           </InputHeading>
 
-          <InputWithExplanation 
+          {/* <InputWithExplanation 
             id='component-required-fullname'
             name='fullname'
             placeholder='Sender name'
@@ -143,7 +143,7 @@ export const MessagingContent: FunctionComponent<Props> = ({
                 `<span ${insertExplanation(expl)} id=component-required-fullname>${value}</span>` 
               )          
             }}
-          />
+          /> */}
         </div>
       )}
 

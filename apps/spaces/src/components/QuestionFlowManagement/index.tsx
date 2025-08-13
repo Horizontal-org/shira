@@ -15,11 +15,12 @@ import { useNavigate } from "react-router-dom";
 import { ExitQuestionHandleModal } from "../modals/ExitQuestionHandleModal";
 import { NoExplanationsModal } from "../modals/NoExplanationsModal";
 import { omit } from "lodash";
+import { ActiveQuestion } from "../../store/types/active_question";
 
 
 interface Props {
   initialContent?: Object
-  initialQuestion?: QuestionToBe
+  initialQuestion?: ActiveQuestion
   initialAppType?: string
   actionFeedback: string
   onSubmit: (question: QuestionToBe) => void
@@ -29,18 +30,19 @@ const defaultQuestion = {
   app: null,
   name: '',
   isPhishing: true,
-  emailContent: {
-    senderEmail: '',
-    senderName: '',
-    subject: '',
-    body: '',
-    draggableItems: []
-  },
-  messagingContent: {
-    senderPhone: '',
-    senderName: '',    
-    draggableItems: []
-  },
+  content: {}
+  // emailContent: {
+  //   senderEmail: '',
+  //   senderName: '',
+  //   subject: '',
+  //   body: '',
+  //   draggableItems: []
+  // },
+  // messagingContent: {
+  //   senderPhone: '',
+  //   senderName: '',    
+  //   draggableItems: []
+  // },
 }
 
 export const QuestionFlowManagement: FunctionComponent<Props> = ({
@@ -56,11 +58,19 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
   const {
     apps,
     fetchApp,
+    activeQuestion,
+    updateActiveQuestion,
+    updateActiveQuestionApp,
+    //to delete
     clearExplanations,
     explanations
   } = useStore((state) => ({
     apps: state.apps,
     fetchApp: state.fetchApp,
+    activeQuestion: state.activeQuestion,
+    updateActiveQuestion: state.updateActiveQuestion,
+    updateActiveQuestionApp: state.updateActiveQuestionApp,
+    //to delete
     clearExplanations: state.clearExplanations,
     explanations: state.explanations
   }), shallow)
@@ -74,10 +84,10 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
   }, [])
 
   const [step, handleStep] = useState(0)  
-  const [question, handleQuestion] = useState<QuestionToBe>(initialQuestion)
+  // const [question, handleQuestion] = useState<QuestionToBe>(initialQuestion)
   const [content, handleContent] = useState(initialContent)
   
-  console.log("888888888888888888 🚀 ~ question:", question)
+  console.log("888888888888888888 🚀 ~ question:", activeQuestion)
   console.log("888888888888888888 🚀 ~ content:", content)
 
   const [isExitQuestionModalOpen, setIsExitQuestionModalOpen] = useState(false)
@@ -85,7 +95,7 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
 
   const validateStep = () => {
     if (step === 0) {
-      return question.name.length > 0 && !!(question.app)
+      return activeQuestion && activeQuestion.name.length > 0 && !!(activeQuestion.app)
     }
 
     return true
@@ -128,19 +138,19 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
         onNext={() => {
           if (step === 2) {
             // submit
-            onSubmit(question)
+            // onSubmit(question)
             return
           }
           if (step === 1) {
-            handleQuestion({
-              ...question,
-              content: content
-            })
+            // handleQuestion({
+            //   ...question,
+            //   content: content
+            // })
 
-            if (explanations.length === 0) {
-              setNoExplanationsModalOpen(true)
-              return
-            }
+            // if (explanations.length === 0) {
+            //   setNoExplanationsModalOpen(true)
+            //   return
+            // }
           }
 
           handleStep(step + 1)         
@@ -156,6 +166,7 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
         disableNext={!validateStep()}
         onExit={() => { setIsExitQuestionModalOpen(true) }}
       />
+      
       <Container>      
         <ContentWrapper>
           <div>
@@ -172,15 +183,11 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
 
             { step === 0 && (
               <QuestionBasicInfo
-                handleQuestion={(k, v) => {  
-                  handleQuestion({
-                    ...question,
-                    [k]: v
-                  })
-                }}
+                question={activeQuestion}
+                handleQuestion={updateActiveQuestion}
+                handleApp={updateActiveQuestionApp}
                 initialAppType={initialAppType}
                 apps={apps}
-                question={question}
               />
             )}
 
@@ -189,22 +196,18 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
                 handleContentRemove={removeContent}
                 handleContent={parseContent}
                 handleContentFullChange={handleContent}
-                handleQuestion={(k, v) => {
-                  handleQuestion({
-                    ...question,
-                    [k]: v
-                  })
-                }}
+                handleQuestion={updateActiveQuestion}
                 content={content}
-                question={question}
+                question={activeQuestion}
               />
             )}
 
+            {/* 
             { step === 2 && (
               <QuestionReview 
                 question={question}
               />
-            )}
+            )} */}
           </div>
         </ContentWrapper>
       </Container>

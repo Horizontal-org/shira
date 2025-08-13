@@ -5,9 +5,10 @@ import { EmailTipTapEditor } from "../../../TipTapEditor/EmailTipTapEditor";
 import { AttachmenDragItem, Attachments } from "../Attachments";
 import { InputWithExplanation } from "../../../InputWithExplanation";
 import { remapHtml } from "../../../../utils/remapHtml";
+import { ActiveQuestion } from "../../../../store/types/active_question";
 
 interface Props {
-  question: QuestionToBe
+  question: ActiveQuestion
   content: Object
   handleContent: (id: string, value: string) => void
   handleQuestion: (k, v) => void
@@ -27,37 +28,37 @@ export const EmailContent: FunctionComponent<Props> = ({
     return e ? ` data-explanation='${e}' ` : ''  
   }
 
-  useEffect(() => {
-    const html = remapHtml(content)
-    if (html) {
-      const senderName = html.getElementById('component-required-sender-name')
-      const senderEmail = html.getElementById('component-required-sender-email')
-      const senderSubject = html.getElementById('component-optional-subject')
+  // useEffect(() => {
+  //   const html = remapHtml(content)
+  //   if (html) {
+  //     const senderName = html.getElementById('component-required-sender-name')
+  //     const senderEmail = html.getElementById('component-required-sender-email')
+  //     const senderSubject = html.getElementById('component-optional-subject')
 
-      handleInitialStates({
-        'component-required-sender-name': senderName ? senderName.getAttribute('data-explanation') : null,
-        'component-required-sender-email': senderEmail ? senderEmail.getAttribute('data-explanation') : null,
-        'component-optional-subject': senderSubject ? senderSubject.getAttribute('data-explanation') : null
-      })
-    }
+  //     handleInitialStates({
+  //       'component-required-sender-name': senderName ? senderName.getAttribute('data-explanation') : null,
+  //       'component-required-sender-email': senderEmail ? senderEmail.getAttribute('data-explanation') : null,
+  //       'component-optional-subject': senderSubject ? senderSubject.getAttribute('data-explanation') : null
+  //     })
+  //   }
 
-  }, [])
+  // }, [])
 
-    const remapDynamicContent = (newItems: Array<AttachmenDragItem>) => {
-      let newContent = {
-        'component-required-sender-name': content['component-required-sender-name'],
-        'component-required-sender-email': content['component-required-sender-email'],
-        'component-optional-subject': content['component-required-optional-subject'],
-        'component-text-1': content['component-text-1']
-      }
+  // const remapDynamicContent = (newItems: Array<AttachmenDragItem>) => {
+  //   let newContent = {
+  //     'component-required-sender-name': content['component-required-sender-name'],
+  //     'component-required-sender-email': content['component-required-sender-email'],
+  //     'component-optional-subject': content['component-required-optional-subject'],
+  //     'component-text-1': content['component-text-1']
+  //   }
 
-      newItems.forEach((ni, i) => {
-        let index = i + 1
-        newContent[`component-attachment-${index}`] = `<div data-position=${index} data-attachment-type=${ni.value.type} id=component-attachment-${index} ${insertExplanation(ni.explId || null)}>${ni.value.name || ''}</div>` 
-      })
-  
-      handleContentFullChange(newContent)
-    }
+  //   newItems.forEach((ni, i) => {
+  //     let index = i + 1
+  //     newContent[`component-attachment-${index}`] = `<div data-position=${index} data-attachment-type=${ni.value.type} id=component-attachment-${index} ${insertExplanation(ni.explId || null)}>${ni.value.name || ''}</div>` 
+  //   })
+
+  //   handleContentFullChange(newContent)
+  // }
 
   return (
     <Content>
@@ -70,25 +71,26 @@ export const EmailContent: FunctionComponent<Props> = ({
 
         <InputWithExplanation 
           id='component-required-sender-name'
-          name='sender-name'
+          name='senderName'
           placeholder='Sender name'
           label="Sender name"
           initialExplanationValue={initialStates['component-required-sender-name']}
-          value={question.emailContent.senderName}
+          contentObject={question.content.senderName}
+          value={question.content.senderName.value}
           onChange={(expl, value) => {
-            handleQuestion('emailContent', {
-              ...question.emailContent,
-              senderName: value
-            })
-            handleContent(
-              'component-required-sender-name', 
-              `<span ${insertExplanation(expl)} id=component-required-sender-name>${value}</span>` 
-            )          
+            // handleQuestion('emailContent', {
+            //   ...question.emailContent,
+            //   senderName: value
+            // })
+            // handleContent(
+            //   'component-required-sender-name', 
+            //   `<span ${insertExplanation(expl)} id=component-required-sender-name>${value}</span>` 
+            // )          
           }}
         />
       </div>
 
-      <div>
+      {/* <div>
         <InputHeading $required={true}>
           <SubHeading3>Sender email address</SubHeading3>
           <Body3>This is the email address that will be displayed in the “Sender” field of the email.</Body3>
@@ -140,9 +142,9 @@ export const EmailContent: FunctionComponent<Props> = ({
           }}
         />
 
-      </div>
+      </div> */}
       
-      <div>
+      {/* <div>
         <SubHeading3>Email body content</SubHeading3>
         <Body2Regular>Write the message that will be shown.</Body2Regular>
         <EmailTipTapEditor 
@@ -158,9 +160,9 @@ export const EmailContent: FunctionComponent<Props> = ({
             )
           }}
         />
-      </div>
+      </div> */}
 
-      <div>
+      {/* <div>
         <Attachments
           content={content}
           files={question.emailContent.draggableItems}          
@@ -172,7 +174,7 @@ export const EmailContent: FunctionComponent<Props> = ({
             remapDynamicContent(filesList as Array<AttachmenDragItem>)
           }}
         />
-      </div>
+      </div> */}
     </Content>
   )
 }

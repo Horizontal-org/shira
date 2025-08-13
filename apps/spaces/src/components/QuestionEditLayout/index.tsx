@@ -8,6 +8,7 @@ import { getContentObject, getQuestionValues } from "./utils";
 import { QuestionFlowManagement } from "../QuestionFlowManagement";
 import { QuizSuccessStates } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
+import { ActiveQuestion } from "../../store/types/active_question";
 
 interface Props {
 
@@ -89,7 +90,7 @@ export const QuestionEditLayout: FunctionComponent<Props> = () => {
         edit(quizId, question, questionId)
       }}
       initialContent={initialContent}
-      initialQuestion={initialQuestion}
+      initialQuestion={initialQuestion as ActiveQuestion}
       initialAppType={initialQuestion.app.type}
       actionFeedback={actionFeedback}
     />

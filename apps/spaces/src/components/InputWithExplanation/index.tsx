@@ -5,6 +5,7 @@ import { useStore } from '../../store'
 import { ExplanationButton } from '../Explanations/components/ExplanationButton'
 import { CustomElements } from '../../fetch/question'
 import { TextInput } from '@shira/ui'
+import { QuestionTextInput } from '../../store/types/active_question'
 
 const RE_VALIDATIONS = {
   phone:  /^[0-9\W]*$/
@@ -22,6 +23,7 @@ interface Props {
   validation?: string,
   value?: string
   label?: string
+  contentObject: QuestionTextInput
 }
 
 export const InputWithExplanation: FunctionComponent<Props> = ({
@@ -34,19 +36,22 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
   customRef,
   initialExplanationValue,
   validation,
-  value
+  value,
+  contentObject
 }) => {
 
   const {
     addExplanation,
     explanationIndex,
     selectedExplanationIndex,
-    changeSelected
+    changeSelected,
+    updateActiveQuestionInput
   } = useStore((state) => ({
     addExplanation: state.addExplanation,
     explanationIndex: state.explanationIndex,
     selectedExplanationIndex: state.selectedExplanation,
-    changeSelected: state.changeSelected
+    changeSelected: state.changeSelected,
+    updateActiveQuestionInput: state.updateActiveQuestionInput
   }), shallow)
 
   const ref = useRef(null)
@@ -65,31 +70,33 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
         required={required}
         ref={ref}
         label={label}
-        value={value}
+        value={contentObject.value}
         placeholder={placeholder}
-        onChange={() => { 
-          if(RE_VALIDATIONS[validation] && !RE_VALIDATIONS[validation]?.test(ref.current.value)) return
+        onChange={(e) => { 
+          // if(RE_VALIDATIONS[validation] && !RE_VALIDATIONS[validation]?.test(ref.current.value)) return
           // setValue(ref.current.value)
-          onChange(
-            ref.current.getAttribute('data-explanation'),
-            ref.current.value,
-          )
+          // onChange(
+          //   ref.current.getAttribute('data-explanation'),
+          //   ref.current.value,
+          // )
+
+          updateActiveQuestionInput(name, 'value', e.target.value)
         }}
         onBlur={(e) => {
-          const hasExplanation = ref.current.getAttribute('data-explanation')
-          if (hasExplanation) {
-            changeSelected(null)
-          }
+          // const hasExplanation = ref.current.getAttribute('data-explanation')
+          // if (hasExplanation) {
+          //   changeSelected(null)
+          // }
         }}
         onFocus={() => {
-          const hasExplanation = ref.current.getAttribute('data-explanation')
-          if (hasExplanation) {
-            changeSelected(parseInt(hasExplanation))
-          }
+          // const hasExplanation = ref.current.getAttribute('data-explanation')
+          // if (hasExplanation) {
+          //   changeSelected(parseInt(hasExplanation))
+          // }
         }}
       />
       
-      <ExplanationButton
+      {/* <ExplanationButton
         active={ref.current && selectedExplanationIndex + '' == ref.current.getAttribute('data-explanation')}
         onClick={() => {
           const hasExplanation = ref.current.getAttribute('data-explanation')
@@ -105,7 +112,7 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
             )
           }
         }}
-      />
+      /> */}
     </Wrapper>
   )
 }

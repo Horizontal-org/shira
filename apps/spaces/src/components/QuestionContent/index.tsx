@@ -7,9 +7,10 @@ import { subscribe, unsubscribe } from "../../utils/customEvent";
 import { cleanDeletedExplanations } from "../../utils/explanations";
 import { CommonHeader } from "./components/CommonHeader";
 import { MessagingContent } from "./components/MessagingContent";
+import { ActiveQuestion } from "../../store/types/active_question";
 
 interface Props {
-  question: QuestionToBe
+  question: ActiveQuestion
   handleContent: (id: string, value: string) => void
   handleQuestion: (k, v) => void;
   content: Object
@@ -26,20 +27,20 @@ export const QuestionContent: FunctionComponent<Props> = ({
   handleContentFullChange
 }) => {
 
-  useEffect(() => {
-    // fetchQuestion(id)
+  // useEffect(() => {
+  //   // fetchQuestion(id)
 
-    subscribe('delete-explanation', (event) => {
-      // try deleting from dom
-      cleanDeletedExplanations(event.detail.deleteIndex)
-    })
+  //   subscribe('delete-explanation', (event) => {
+  //     // try deleting from dom
+  //     cleanDeletedExplanations(event.detail.deleteIndex)
+  //   })
 
-    return () => {
-      unsubscribe('delete-explanation')
-      // clean everything
-      // clear()
-    }
-  }, [])
+  //   return () => {
+  //     unsubscribe('delete-explanation')
+  //     // clean everything
+  //     // clear()
+  //   }
+  // }, [])
 
   return (
     <Wrapper id='dynamic-content'>
@@ -59,7 +60,7 @@ export const QuestionContent: FunctionComponent<Props> = ({
           />
         )}
 
-        { question.app.type === 'messaging' && (
+        {/* { question.app.type === 'messaging' && (
           <MessagingContent 
             question={question}
             content={content}
@@ -67,18 +68,18 @@ export const QuestionContent: FunctionComponent<Props> = ({
             handleQuestion={handleQuestion}
             handleContentFullChange={handleContentFullChange}
           />
-        )}
+        )} */}
         
       </StyledBox> 
 
-      <Explanations 
+      {/* <Explanations 
         content={content}
         handleContent={handleContent}
         onDelete={(explId) => {
           // clean from attachments
           // cleanAttachment(explId)
         }}
-      />  
+      />   */}
     </Wrapper> 
   )
 }
