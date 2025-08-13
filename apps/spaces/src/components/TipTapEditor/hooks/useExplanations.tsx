@@ -113,6 +113,7 @@ export const useExplanations = (editor: any, editorId: string) => {
       }
     })
 
+    //TODO Find another way
     const allExplanationElements = document.querySelectorAll('[data-explanation]')
     allExplanationElements.forEach(element => {
       const explanationIndex = element.getAttribute('data-explanation')

@@ -11,13 +11,15 @@ interface Props {
   content: Object
   handleContent: (id: string, value: string) => void
   handleQuestion: (k, v) => void
+  handleContentFullChange: (newContent: Object) => void
 }
 
 export const EmailContent: FunctionComponent<Props> = ({
   question,
   content,
   handleQuestion,
-  handleContent
+  handleContent,
+  handleContentFullChange
 }) => {
 
   const [initialStates, handleInitialStates] = useState<Object>({})
@@ -40,6 +42,22 @@ export const EmailContent: FunctionComponent<Props> = ({
     }
 
   }, [])
+
+    const remapDynamicContent = (newItems: Array<AttachmenDragItem>) => {
+      let newContent = {
+        'component-required-sender-name': content['component-required-sender-name'],
+        'component-required-sender-email': content['component-required-sender-email'],
+        'component-optional-subject': content['component-required-optional-subject'],
+        'component-text-1': content['component-text-1']
+      }
+
+      newItems.forEach((ni, i) => {
+        let index = i + 1
+        newContent[`component-attachment-${index}`] = `<div data-position=${index} data-attachment-type=${ni.value.type} id=component-attachment-${index} ${insertExplanation(ni.explId || null)}>${ni.value.name || ''}</div>` 
+      })
+  
+      handleContentFullChange(newContent)
+    }
 
   return (
     <Content>
@@ -147,17 +165,11 @@ export const EmailContent: FunctionComponent<Props> = ({
           content={content}
           files={question.emailContent.draggableItems}          
           onChange={(filesList: AttachmenDragItem[]) => {
-            handleQuestion('attachments', filesList)
             handleQuestion('emailContent', {
               ...question.messagingContent,
               draggableItems: filesList
             })
-            // if (f) {
-            //   handleContent(
-            //     `component-attachment-${f.id}`,
-            //     `<span data-attachment-type='${f.type}' data-position='${f.id}' ${insertExplanation(f.explanationIndex)} id='component-attachment-${f.id}'>${f.name}</span>`
-            //   )
-            // }
+            remapDynamicContent(filesList as Array<AttachmenDragItem>)
           }}
         />
       </div>

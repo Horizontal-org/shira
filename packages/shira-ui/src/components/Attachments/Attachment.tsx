@@ -18,9 +18,6 @@ export enum AttachmentType {
 export interface AttachmentProps {
     name: string
     type: AttachmentType
-    isActiveExplanation?: boolean
-    onExplanationClick?: () => void
-    onDelete: (e: React.MouseEvent) => void
 }
 
 export const Attachment = ({ 

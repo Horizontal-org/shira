@@ -16,7 +16,7 @@ import { AttachmenDragItem } from "..";
 interface Props {
   items: Array<AttachmenDragItem>
   content: Object
-  onChange: (newItems: Array<Object>) => void
+  onChange: (newItems: Array<AttachmenDragItem>) => void
 }
 
 export const DraggableAttachmentList: FunctionComponent<Props> = ({
@@ -72,31 +72,6 @@ export const DraggableAttachmentList: FunctionComponent<Props> = ({
 
     onChange(newItems)
   }
-     
-  // const handleNewImage = async(e) => {
-  //   if (e.target.files && e.target.files.length > 0 ) {
-  //     const newName = `component-image-${items.length + 1}`
-  //     const newPosition = items.length + 1
-  //     items.push({
-  //       draggableId: crypto.randomUUID(),
-  //       name: newName,
-  //       position: newPosition
-  //     })
-  //     const index = items.length - 1
-  //     onChange(items)
-
-  //     try {
-  //       const res = await images.onImageSelect(e)    
-  //       const newItems = [...items];
-  //       newItems[index] = { ...newItems[index], value: res as ImageObject};
-  //       onChange(newItems)
-  //     } catch (e) {
-  //       const newItems = items.filter((item, itemIndex) =>  itemIndex !== index)
-  //       onChange(newItems)
-  //     }      
-  //   }
-    
-  // }
 
   // const cleanTextExplanations = (item: MessagingDragItem) => {
   //   const htmlItemValue = new DOMParser().parseFromString(item.value as string, 'text/html')
@@ -172,10 +147,20 @@ export const DraggableAttachmentList: FunctionComponent<Props> = ({
                   contentValue={content[item.name]}
                   key={item.draggableId}
                   index={index}
+                  onExplanationChange={(explId) => {
+                    const newItems = [...items]
+                    console.log("🚀 ~ newItems:", newItems)
+                    newItems[index] = { 
+                      ...newItems[index], 
+                      explId: explId
+                    }
+                    console.log("🚀 ~ newItems:", newItems)
+                    onChange(newItems)
+                  }}
                   onDelete={() => {
-                    // if (item.explId) {
-                    //   deleteExplanation(item.explId)
-                    // }
+                    if (item.explId) {
+                      deleteExplanation(item.explId)
+                    }
                     // if (item.type === 'text') {
                     //   cleanTextExplanations(item)
                     // }

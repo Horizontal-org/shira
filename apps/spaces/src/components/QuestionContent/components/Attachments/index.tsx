@@ -1,7 +1,6 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { AddAttachmentModal, Button, styled, Attachment, AttachmentType } from "@shira/ui";
 import { IoMdAdd } from "react-icons/io";
-import { AttachmentWithExplanation } from "../../../AttachmentWithExplanation";
 import { DraggableAttachmentList } from "./DraggableAttachmentList";
 
 
@@ -15,16 +14,14 @@ import { DraggableAttachmentList } from "./DraggableAttachmentList";
 // }
 
 export interface AttachmenDragItem {
-  id?: number;
-  type?: AttachmentType;
-  name?: string;
-  explanationIndex?: number
   draggableId?: string;
-  position?: number
+  position?: number;
+  name: string;
   value?: {
     name: string;
     type: AttachmentType;
   }
+  explId?: number;
 }
 
 interface Props { 
@@ -57,6 +54,7 @@ interface Props {
 //   deleteExplanations(c.position, c.type)
 //   deleteContent(`component-${c.type}-${c.position}`)
 // }}
+
 export const Attachments: FunctionComponent<Props> = ({
   onChange,  
   files,
@@ -74,46 +72,20 @@ export const Attachments: FunctionComponent<Props> = ({
 
   return (
     <div>
-      <Button 
-        onClick={() => setIsOpen(true)}
-        text="Add attachment"
-        type="outline"    
-        leftIcon={<IoMdAdd color="#5F6368" size={14}/>}        
-      />
-
-      {/* <AttachmentsWrapper>
-        { files.map((f, k) => (
-          <AttachmentWithExplanation
-            key={k}
-            file={f}
-            onChange={(fileToSave) => {
-              const persistentList = files.map((fm) => {
-                if(fm.id === fileToSave.id) {
-                  return fileToSave
-                }
-                return fm
-              })
-              onChange(persistentList, fileToSave)
-            }}
-            onDelete={() => {            
-              onChange(files.filter(fil => fil.id !== f.id), null)
-            }}
-          />
-        ))}
-      </AttachmentsWrapper>
-                   */}
+      <AddAttachmentButtonWrapper>
+        <Button 
+          onClick={() => setIsOpen(true)}
+          text="Add attachment"
+          type="outline"    
+          leftIcon={<IoMdAdd color="#5F6368" size={14}/>}        
+        />
+      </AddAttachmentButtonWrapper>
 
       <DraggableAttachmentList
         content={content}
         items={files}
         onChange={(newItems) => {
-          console.log("DO I NEED AN ONCHANGE? ", newItems)
-          // handleQuestion('messagingContent', {
-          //   ...question.messagingContent,
-          //   draggableItems: newItems
-          // })
-
-          // remapDynamicContent(newItems as Array<MessagingDragItem>)
+          onChange(newItems)        
         }}
       />
 
@@ -144,9 +116,6 @@ export const Attachments: FunctionComponent<Props> = ({
   )
 }
 
-const AttachmentsWrapper = styled.div`
-  padding: 24px 0; 
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+const AddAttachmentButtonWrapper = styled.div`
+  margin-bottom: 24px;
 `

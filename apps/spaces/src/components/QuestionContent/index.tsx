@@ -26,25 +26,6 @@ export const QuestionContent: FunctionComponent<Props> = ({
   handleContentFullChange
 }) => {
 
-
-  // const cleanAttachment = (deleteIndex) => {
-  //   // try cleaning attachments       
-  //   let update = false
-  //   const newAtts = question.attachments && question.attachments.map((a) => {
-  //     if (a.explanationIndex == deleteIndex) {
-  //       update = true
-  //       return {
-  //         ...a,
-  //         explanationIndex: null
-  //       }
-  //     }
-  //     return a
-  //   })
-  //   if (update) {
-  //     handleQuestion('attachments', newAtts)
-  //   }
-  // }
-
   useEffect(() => {
     // fetchQuestion(id)
 
@@ -74,6 +55,7 @@ export const QuestionContent: FunctionComponent<Props> = ({
             content={content}
             handleContent={handleContent}
             handleQuestion={handleQuestion}
+            handleContentFullChange={handleContentFullChange}
           />
         )}
 

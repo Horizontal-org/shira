@@ -25,11 +25,13 @@ export const ImageDragItem: FunctionComponent<Props> = ({
   const {
       addExplanation,
       explanationIndex,      
-      changeSelected
+      changeSelected,
+      selectedExplanation
     } = useStore((state) => ({
       addExplanation: state.addExplanation,
       explanationIndex: state.explanationIndex,
-      changeSelected: state.changeSelected
+      changeSelected: state.changeSelected,
+      selectedExplanation: state.selectedExplanation
     }), shallow)
   
     const ref = useRef(null)
@@ -37,7 +39,7 @@ export const ImageDragItem: FunctionComponent<Props> = ({
     const subscribeToDelete = (newExplId) => {
       subscribe('delete-explanation', (event) => {
         if (newExplId === event.detail.deleteIndex) {
-          // ref.current.removeAttribute('data-explanation')
+          ref.current.removeAttribute('data-explanation')
           onExplanationChange(null)
         }        
       })
@@ -66,7 +68,7 @@ export const ImageDragItem: FunctionComponent<Props> = ({
             alt={value.originalFilename}
           />          
           <ExplanationButton
-            active={false}
+            active={selectedExplanation && selectedExplanation === explanationId}
             disabled={false}
              onClick={() => {
                 const hasExplanation = ref.current.getAttribute('data-explanation')
