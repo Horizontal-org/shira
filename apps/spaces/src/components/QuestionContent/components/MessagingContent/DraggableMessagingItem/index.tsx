@@ -3,15 +3,15 @@ import { FunctionComponent, ReactNode } from 'react'
 import { Draggable } from "@hello-pangea/dnd";
 import { Body2Regular, Body3, Body3Bold, styled } from '@shira/ui';
 import { DragItemOptions } from '../../../../DragItemOptions';
-import { ImageObject, MessagingDragItem } from '../interfaces/MessagingDragItem';
 import { TextDragItem } from '../TextDragItem';
 import { ImageDragItem } from '../ImageDragItem';
+import { ImageObject, QuestionDragEditor, QuestionDragImage } from '../../../../../store/types/active_question';
 
 interface Props {
   index: number;
-  item: MessagingDragItem;
+  item: QuestionDragEditor | QuestionDragImage;
   onDelete: () => void  
-  onChange: (item: MessagingDragItem) => void
+  onChange: (item: QuestionDragEditor | QuestionDragImage) => void
   contentValue: string | null 
 }
 
@@ -36,35 +36,38 @@ export const DraggableMessagingItem: FunctionComponent<Props> = ({
           >
             <Wrapper>
 
-              { item.type === 'text' ? (<SmallText>Message text</SmallText>) : (<SmallText>Image</SmallText>)}
+              { item.contentType === 'editor' ? (<SmallText>Message text</SmallText>) : (<SmallText>Image</SmallText>)}
  
               <ContentWrapper>
                 <DragItemOptions
                   dragHandleProps={draggableProvided.dragHandleProps}
                   onDelete={onDelete}
                 />
-                { item.type === 'text' && (
+                { item.contentType === 'editor' && (
                   <TextDragItem 
-                    name={item.name}
+                    name={item.htmlId}
+                    index={index}
                     initialValue={contentValue}
                     onChange={(value) => {
-                      onChange({
-                        ...item,
-                        value
-                      })
+                      console.log("🚀 ~ value:", value)
+                      // onChange({
+                      //   ...item,
+                      //   value
+                      // })
                     }}
                   />
                 )}
-                { item.type === 'image' && (
+                { item.contentType === 'image' && (
                   <ImageDragItem 
-                    name={item.name}
-                    explanationId={item.explId || null}
-                    value={item.value as ImageObject}
+                    index={index}
+                    name={item.htmlId}
+                    explanationId={item.explanation}
+                    value={item.value}
                     onExplanationChange={(explId) => {
-                      onChange({
-                        ...item,
-                        explId: explId
-                      })
+                      // onChange({
+                      //   ...item,
+                      //   // explId: explId
+                      // })
                     }}
                   />
                 )}

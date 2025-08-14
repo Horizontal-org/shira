@@ -6,6 +6,7 @@ import { QuestionToBe } from '../components/QuestionFlowManagement/types';
 import { useState } from 'react';
 import { shallow } from 'zustand/shallow';
 import { QuizSuccessStates } from '../store/slices/quiz';
+import { activeQuestionToHtml } from '../utils/active_question/questionToHtml';
 
 export interface Question {
   id: string;
@@ -83,7 +84,7 @@ const getHtmlByType = (appType, questionContent) => {
 }
 
 const parseRequest = (question, explanations, quizId) => {
-  let typeHtml = getHtmlByType(question.app.type, question.content)
+  // let typeHtml = getHtmlByType(question.app.type, question.content)
   
   // const requiredHTML = Object.keys(requiredContent).reduce((prev, current) => {
   //   return prev + requiredContent[current]
@@ -93,13 +94,13 @@ const parseRequest = (question, explanations, quizId) => {
   //   return prev + optionalContent[current]
   // }, `<div id='optional-content'>`) + '</div>'
 
-  const dynamicHTML = Object.keys(question.content)
-    .filter(qk => qk.includes('component-text') || qk.includes('component-attachment') || qk.includes('component-image'))
-    .reduce((prev, current) => {
-      return prev + question.content[current]
-    }, `<div id='dynamic-content'>`) + '</div>'
+  // const dynamicHTML = Object.keys(question.content)
+  //   .filter(qk => qk.includes('component-text') || qk.includes('component-attachment') || qk.includes('component-image'))
+  //   .reduce((prev, current) => {
+  //     return prev + question.content[current]
+  //   }, `<div id='dynamic-content'>`) + '</div>'
 
-  const finalContent = `<div>${typeHtml}${dynamicHTML}</div>`
+  const finalContent = `<div>${activeQuestionToHtml(question)}</div>`
 
   return {
     quizId: parseInt(quizId),

@@ -3,6 +3,6 @@ export interface Explanation {
   index: number;
   text?: string;
   position?: number;
-  id?: number;
+  dbId?: number;
   title?: string
 }

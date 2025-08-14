@@ -11,20 +11,20 @@ import { ActiveQuestion } from "../../store/types/active_question";
 
 interface Props {
   question: ActiveQuestion
-  handleContent: (id: string, value: string) => void
-  handleQuestion: (k, v) => void;
-  content: Object
-  handleContentRemove: (id: string) => void
-  handleContentFullChange: (newContent: Object) => void
+  handleContent?: (id: string, value: string) => void
+  handleQuestion?: (k, v) => void;
+  content?: Object
+  handleContentRemove?: (id: string) => void
+  handleContentFullChange?: (newContent: Object) => void
 }
 
 export const QuestionContent: FunctionComponent<Props> = ({
   question,
-  handleQuestion,
-  handleContent,
-  content,
-  handleContentRemove,
-  handleContentFullChange
+  // handleQuestion,
+  // handleContent,
+  // content,
+  // handleContentRemove,
+  // handleContentFullChange
 }) => {
 
   // useEffect(() => {
@@ -53,33 +53,20 @@ export const QuestionContent: FunctionComponent<Props> = ({
         { question.app.type === 'email' && (
           <EmailContent 
             question={question}
-            content={content}
-            handleContent={handleContent}
-            handleQuestion={handleQuestion}
-            handleContentFullChange={handleContentFullChange}
+            content={question.content}
           />
         )}
 
-        {/* { question.app.type === 'messaging' && (
+        { question.app.type === 'messaging' && (
           <MessagingContent 
             question={question}
-            content={content}
-            handleContent={handleContent}
-            handleQuestion={handleQuestion}
-            handleContentFullChange={handleContentFullChange}
+            content={question.content}            
           />
-        )} */}
+        )}
         
       </StyledBox> 
 
-      {/* <Explanations 
-        content={content}
-        handleContent={handleContent}
-        onDelete={(explId) => {
-          // clean from attachments
-          // cleanAttachment(explId)
-        }}
-      />   */}
+      <Explanations />  
     </Wrapper> 
   )
 }

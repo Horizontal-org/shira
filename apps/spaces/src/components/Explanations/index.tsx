@@ -34,7 +34,8 @@ export const Explanations: FunctionComponent<Props> = ({
     deleteExplanation,
     updateExplanation,
     updateExplanations,
-    setInitialExplanations,    
+    setInitialExplanations, 
+    removeActiveQuestionExplanation,
   } = useStore((state) => ({
     storeExplanations: state.explanations,
     changeSelected: state.changeSelected,
@@ -43,6 +44,9 @@ export const Explanations: FunctionComponent<Props> = ({
     updateExplanations: state.updateExplanations,
     deleteExplanation: state.deleteExplanation,
     setInitialExplanations: state.setInitialExplanations,    
+    activeQuestion: state.activeQuestion,
+    getActiveQuestionExplanationIds: state.getExplanationIds,
+    removeActiveQuestionExplanation: state.removeActiveQuestionExplanation
   }), shallow)
 
   useEffect(() => {
@@ -80,23 +84,31 @@ export const Explanations: FunctionComponent<Props> = ({
     updateExplanations(items)
   }
 
-  const cleanStateExplanations = (indexToDelete) => {
-    
-    const html = remapHtml(content)
-    
-    const explanationsHtml = html.querySelectorAll('[data-explanation]') 
-    const toDelete = Array.from(explanationsHtml).find(e => parseInt(e.getAttribute('data-explanation')) === parseInt(indexToDelete))
-
-    if (toDelete && toDelete.nodeName !== 'MARK') {
-      const id = toDelete.getAttribute('id')
-      
-      if (content[id] && typeof content[id] === 'string') {
-        const stringWithoutAttribute = content[id].replace(/ data-explanation='[^']*'/g, '');
-        handleContent(id, stringWithoutAttribute)
-      }
-
+  const deleteExplanationFromQuestion = (indexToDelete) => {
+    if (!removeActiveQuestionExplanation(indexToDelete)) {
+      //also try with the editors
+      publish('delete-explanation', { deleteIndex: indexToDelete })
+      // cleanDeletedExplanations(indexToDelete)
     }
   }
+
+  // const cleanStateExplanations = (indexToDelete) => {
+    
+  //   const html = remapHtml(content)
+    
+  //   const explanationsHtml = html.querySelectorAll('[data-explanation]') 
+  //   const toDelete = Array.from(explanationsHtml).find(e => parseInt(e.getAttribute('data-explanation')) === parseInt(indexToDelete))
+
+  //   if (toDelete && toDelete.nodeName !== 'MARK') {
+  //     const id = toDelete.getAttribute('id')
+      
+  //     if (content[id] && typeof content[id] === 'string') {
+  //       const stringWithoutAttribute = content[id].replace(/ data-explanation='[^']*'/g, '');
+  //       handleContent(id, stringWithoutAttribute)
+  //     }
+
+  //   }
+  // }
 
   return (
     <Wrapper>
@@ -140,14 +152,16 @@ export const Explanations: FunctionComponent<Props> = ({
                       )}
                       onDelete={() => {   
                         // this removes the data-explanation attr from zustand                                     
-                        cleanStateExplanations(e.index)
+                        // cleanStateExplanations(e.index)
                         // this removes the data-explanation attribute from the DOM
-                        publish('delete-explanation', { deleteIndex: e.index })
+                        // publish('delete-explanation', { deleteIndex: e.index })
                         
-                        // cleanDeletedExplanations(e.index)
-                        onDelete(e.index)
-                        // this removes the explanation item
+                        //TRY THIS ==
+                        deleteExplanationFromQuestion(e.index)                        
                         deleteExplanation(e.index)                    
+                        //TRY THIS ==
+                        // onDelete(e.index)
+                        // this removes the explanation item
                       }}
                     />
                   ))) }

@@ -23,7 +23,7 @@ interface Props {
   initialQuestion?: ActiveQuestion
   initialAppType?: string
   actionFeedback: string
-  onSubmit: (question: QuestionToBe) => void
+  onSubmit: (question: ActiveQuestion) => void
 }
 
 const defaultQuestion = {
@@ -61,6 +61,7 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
     activeQuestion,
     updateActiveQuestion,
     updateActiveQuestionApp,
+    clearActiveQuestion,
     //to delete
     clearExplanations,
     explanations
@@ -70,6 +71,7 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
     activeQuestion: state.activeQuestion,
     updateActiveQuestion: state.updateActiveQuestion,
     updateActiveQuestionApp: state.updateActiveQuestionApp,
+    clearActiveQuestion: state.clearActiveQuestion,
     //to delete
     clearExplanations: state.clearExplanations,
     explanations: state.explanations
@@ -80,15 +82,16 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
 
     return () => {
       clearExplanations()
+      clearActiveQuestion()
     }
   }, [])
 
   const [step, handleStep] = useState(0)  
   // const [question, handleQuestion] = useState<QuestionToBe>(initialQuestion)
-  const [content, handleContent] = useState(initialContent)
+  // const [content, handleContent] = useState(initialContent)
   
   console.log("888888888888888888 🚀 ~ question:", activeQuestion)
-  console.log("888888888888888888 🚀 ~ content:", content)
+  // console.log("888888888888888888 🚀 ~ content:", content)
 
   const [isExitQuestionModalOpen, setIsExitQuestionModalOpen] = useState(false)
   const [noExplanationsModalOpen, setNoExplanationsModalOpen] = useState(false)
@@ -102,15 +105,15 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
   }
 
   const parseContent = (id, value) => {
-    handleContent({
-      ...content,
-      [id]: value
-    })
+    // handleContent({
+    //   ...content,
+    //   [id]: value
+    // })
   }
 
   const removeContent = (id) => {
-    const newContent = omit(content, id)
-    handleContent(newContent)
+    // const newContent = omit(content, id)
+    // handleContent(newContent)
   }
 
   return (
@@ -138,7 +141,7 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
         onNext={() => {
           if (step === 2) {
             // submit
-            // onSubmit(question)
+            onSubmit(activeQuestion)
             return
           }
           if (step === 1) {
@@ -147,10 +150,10 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
             //   content: content
             // })
 
-            // if (explanations.length === 0) {
-            //   setNoExplanationsModalOpen(true)
-            //   return
-            // }
+            if (explanations.length === 0) {
+              setNoExplanationsModalOpen(true)
+              return
+            }
           }
 
           handleStep(step + 1)         
@@ -195,19 +198,15 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
               <QuestionContent 
                 handleContentRemove={removeContent}
                 handleContent={parseContent}
-                handleContentFullChange={handleContent}
-                handleQuestion={updateActiveQuestion}
-                content={content}
+                handleContentFullChange={(c) => { console.log('HANDLE FULL CHANGE', c)}}
                 question={activeQuestion}
               />
             )}
 
-            {/* 
+            
             { step === 2 && (
-              <QuestionReview 
-                question={question}
-              />
-            )} */}
+              <QuestionReview />
+            )}
           </div>
         </ContentWrapper>
       </Container>

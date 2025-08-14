@@ -56,11 +56,11 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
 
   const ref = useRef(null)
 
-  useEffect(() => {
-    if(initialExplanationValue && ref) {
-      ref.current.setAttribute('data-explanation', initialExplanationValue)
-    }
-  }, [initialExplanationValue, ref])
+  // useEffect(() => {
+  //   if(initialExplanationValue && ref) {
+  //     ref.current.setAttribute('data-explanation', initialExplanationValue)
+  //   }
+  // }, [initialExplanationValue, ref])
 
   return (
     <Wrapper>
@@ -83,20 +83,20 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
           updateActiveQuestionInput(name, 'value', e.target.value)
         }}
         onBlur={(e) => {
-          // const hasExplanation = ref.current.getAttribute('data-explanation')
-          // if (hasExplanation) {
-          //   changeSelected(null)
-          // }
+          const hasExplanation = contentObject.explanation
+          if (hasExplanation) {
+            changeSelected(null)
+          }
         }}
         onFocus={() => {
-          // const hasExplanation = ref.current.getAttribute('data-explanation')
-          // if (hasExplanation) {
-          //   changeSelected(parseInt(hasExplanation))
-          // }
+          const hasExplanation = contentObject.explanation
+          if (hasExplanation) {
+            changeSelected(parseInt(hasExplanation))
+          }
         }}
       />
       
-      {/* <ExplanationButton
+       {/* <ExplanationButton
         active={ref.current && selectedExplanationIndex + '' == ref.current.getAttribute('data-explanation')}
         onClick={() => {
           const hasExplanation = ref.current.getAttribute('data-explanation')
@@ -113,6 +113,21 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
           }
         }}
       /> */}
+
+      <ExplanationButton
+        active={false}
+        onClick={() => {
+          const hasExplanation = contentObject.explanation
+          if (hasExplanation) {
+            changeSelected(parseInt(hasExplanation))
+          } else {
+            const index = explanationIndex + 1
+            // ref.current.setAttribute('data-explanation', index + '')
+            addExplanation(index, label)
+            updateActiveQuestionInput(name, 'explanation', index + '')            
+          }
+        }}
+      />
     </Wrapper>
   )
 }

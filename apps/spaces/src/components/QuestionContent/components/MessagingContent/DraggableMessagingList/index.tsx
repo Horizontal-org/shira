@@ -4,19 +4,26 @@ import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 
 import { IoMdAdd } from "react-icons/io";
 import { DraggableMessagingItem } from "../DraggableMessagingItem";
-import { ImageObject, MessagingDragItem } from "../interfaces/MessagingDragItem";
+import { MessagingDragItem } from "../interfaces/MessagingDragItem";
 import styled from "styled-components";
 import { FiShare } from "react-icons/fi";
 import { useImageUpload } from "../../../../../hooks/useImageUpload";
 import toast from "react-hot-toast";
 import { useStore } from "../../../../../store";
 import { shallow } from "zustand/shallow";
+import { ImageObject, QuestionDragEditor, QuestionDragImage } from "../../../../../store/types/active_question";
 
 
 interface Props {
-  items: Array<MessagingDragItem>
+  items: Array<QuestionDragEditor | QuestionDragImage>
   content: Object
   onChange: (newItems: Array<Object>) => void
+}
+
+// do something about this :(
+const castType = {
+  'editor': 'text',
+  'image': 'image'
 }
 
 export const DraggableMessagingList: FunctionComponent<Props> = ({
@@ -36,14 +43,14 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const reorder = (newItems, startIndex, endIndex) => {
-    const result: Array<MessagingDragItem> = Array.from(newItems);
+    const result: Array<QuestionDragEditor | QuestionDragImage> = Array.from(newItems);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
   
     return result.map((r, i) => {
       return {
         ...r,
-        name: `component-${r.type}-${i + 1}`,
+        htmlId: `component-${castType[r.contentType]}-${i + 1}`,
         position: i + 1
       }
     })
@@ -51,11 +58,11 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
   
   const remove = (deleteItem) => {
     const newItems = items
-      .filter(i => i.name !== deleteItem.name)
+      .filter(i => i.htmlId !== deleteItem.htmlId)
       .map((r, i) => {
         return {
           ...r,
-          name: `component-${r.type}-${i + 1}`,
+          name: `component-${[r.contentType]}-${i + 1}`,
           position: i + 1
         }
     })
@@ -86,50 +93,51 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
     if (e.target.files && e.target.files.length > 0 ) {
       const newName = `component-image-${items.length + 1}`
       const newPosition = items.length + 1
-      items.push({
+      const newItems = [...items]
+      newItems.push({
         draggableId: crypto.randomUUID(),
-        name: newName,
+        htmlId: newName,
         value: null,
-        type: 'image',
-        position: newPosition
+        contentType: 'image',
+        position: newPosition,
+        explanation: null
       })
-      const index = items.length - 1
-      onChange(items)
+      const index = newItems.length - 1
+      onChange(newItems)
 
       try {
         const res = await images.onImageSelect(e)    
-        const newItems = [...items];
-        newItems[index] = { ...newItems[index], value: res as ImageObject};
+        newItems[index] = { ...newItems[index], value: res} as QuestionDragImage
         onChange(newItems)
       } catch (e) {
-        const newItems = items.filter((item, itemIndex) =>  itemIndex !== index)
-        onChange(newItems)
+        onChange(items.filter((item, itemIndex) =>  itemIndex !== index))
       }      
     }
     
   }
 
-  const cleanTextExplanations = (item: MessagingDragItem) => {
-    const htmlItemValue = new DOMParser().parseFromString(item.value as string, 'text/html')
-    const textExplanations = htmlItemValue.querySelectorAll('[data-explanation]') 
-    Array.from(textExplanations).forEach(e => {      
-      deleteExplanation(parseInt(e.getAttribute('data-explanation')))
-    })
-  }
+  // const cleanTextExplanations = (item: QuestionDragEditor) => {
+  //   const htmlItemValue = new DOMParser().parseFromString(item.value as string, 'text/html')
+  //   const textExplanations = htmlItemValue.querySelectorAll('[data-explanation]') 
+  //   Array.from(textExplanations).forEach(e => {      
+  //     deleteExplanation(parseInt(e.getAttribute('data-explanation')))
+  //   })
+  // }
 
   return (
     <div>
       <ButtonsWrapper>
         <Button 
           onClick={() => {
-            items.push({
+            const newItems = [...items]
+            newItems.push({
               draggableId: crypto.randomUUID(),
-              name: `component-text-${items.length + 1}`,
+              htmlId: `component-text-${items.length + 1}`,
               value: null,
-              type: 'text',
+              contentType: 'editor',
               position: items.length + 1
             })
-            onChange(items)
+            onChange(newItems)
           }}
           text="Add message text"
           type="outline"    
@@ -180,25 +188,29 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
               { items.map(((item, index) => (
                 <DraggableMessagingItem
                   item={item}
-                  contentValue={content[item.name]}
+                  contentValue={content[item.htmlId]}
                   key={item.draggableId}
                   index={index}  
                   onChange={(newItem) => {
-                    const newItems = [...items];
-                    newItems[index] = { 
-                      ...newItems[index], 
-                      value: newItem.value,
-                      explId: newItem.explId || null
-                    }
-                    onChange(newItems)
+                    console.log("🚀 ~ newItem:", newItem)
+                    // const newItems = [...items];
+                    // newItems[index] = { 
+                    //   ...newItems[index], 
+                    //   value: newItem.value,
+                    //   // explId: newItem.explId || null
+                    // }
+                    // onChange(newItems)
                   }}                
                   onDelete={() => {
-                    if (item.explId) {
-                      deleteExplanation(item.explId)
+                    if (item.contentType === 'image' && item.explanation) {
+                      deleteExplanation((parseInt(item.explanation)))
                     }
-                    if (item.type === 'text') {
-                      cleanTextExplanations(item)
+
+                    if (item.contentType === 'editor') {
+                      console.log('THIS DOESNT MAKE SENSE TO ME SO COMMENTING FOR NOW')
+                      // cleanTextExplanations(item)
                     }
+
                     // here cycle trhough explanations inside index
                     remove(item)
                   }}

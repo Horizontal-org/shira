@@ -10,18 +10,20 @@ import { useStore } from "../../store"
 import { shallow } from "zustand/shallow"
 
 interface Props {
-  question: QuestionToBe
+  question?: QuestionToBe
 }
 
 export const QuestionReview: FunctionComponent<Props> = ({
   question
 }) => {
  
-   const {
-     explanations
-   } = useStore((state) => ({
-     explanations: state.explanations,
-   }), shallow)
+  const {
+    activeQuestion,
+    explanations
+  } = useStore((state) => ({
+    explanations: state.explanations,
+    activeQuestion: state.activeQuestion
+  }), shallow)
    
   const [elementProps, handleElementProps] = useState(null)
   const [explanationNumber, setExplanationNumber] = useState<number>(0)
@@ -35,8 +37,8 @@ export const QuestionReview: FunctionComponent<Props> = ({
 
     handleExplanationsOrder(order)
     
-    if (question && question.app) {      
-      const contentProps = getContentProps(question.app.name, question.content)
+    if (activeQuestion && activeQuestion.app) {      
+      const contentProps = getContentProps(activeQuestion.app.name, activeQuestion)
       console.log("🚀 ~ QuestionReview ~ contentProps:", contentProps)
 
       handleElementProps({
@@ -45,7 +47,7 @@ export const QuestionReview: FunctionComponent<Props> = ({
     }
   }, [])
 
-  if (!question || !elementProps) {
+  if (!activeQuestion || !elementProps) {
     return
   }
 
@@ -53,7 +55,7 @@ export const QuestionReview: FunctionComponent<Props> = ({
     <>
       <StyledBox>        
         <AppSelector 
-          appName={question.app.name}
+          appName={activeQuestion.app.name}
           customProps={elementProps}
           explanationNumber={explanationsOrder[explanationNumber]}
           showExplanations={showExplanations}
