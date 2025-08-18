@@ -13,11 +13,11 @@ export const Attachments: FunctionComponent<Props> = ({
 
   return (
     <Wrapper>
-    <div>
-      <Title>{`${data.length} attachment${data.length > 1 ? 's' : ''}`}</Title>
-      <Point>•</Point>
-      <Subtitle>Scanned by Google</Subtitle>
-    </div>
+      <div>
+        <Title>{`${data.length} attachment${data.length > 1 ? 's' : ''}`}</Title>
+        <Point>•</Point>
+        <Subtitle>Scanned by Google</Subtitle>
+      </div>
       <AttachmentWrapper>
         { data.sort((a, b) => parseInt(a.position) - parseInt(b.position)).map((d) => (
           <Attachment

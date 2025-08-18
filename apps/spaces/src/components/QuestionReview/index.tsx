@@ -1,6 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react"
 import { Button, styled, Body1 } from "@shira/ui"
-import { QuestionToBe } from "../QuestionFlowManagement/types"
 import { getContentProps } from "./utils"
 import { AppSelector } from "./components/AppSelector"
 
@@ -9,16 +8,24 @@ import '../../fonts/Segoe/style.css'
 import { useStore } from "../../store"
 import { shallow } from "zustand/shallow"
 import { MdBlock } from 'react-icons/md'
+import { ActiveQuestion } from "../../store/types/active_question"
 
 interface Props {
-  question: QuestionToBe
+  question?: ActiveQuestion
 }
 
-export const QuestionReview: FunctionComponent<Props> = ({ question }) => {
-  const { explanations } = useStore((state) => ({
+export const QuestionReview: FunctionComponent<Props> = ({
+  question
+}) => {
+ 
+  const {
+    activeQuestion,
+    explanations
+  } = useStore((state) => ({
     explanations: state.explanations,
+    activeQuestion: state.activeQuestion
   }), shallow)
-
+   
   const [elementProps, handleElementProps] = useState(null)
   const [explanationNumber, setExplanationNumber] = useState<number>(0)
   const [explanationsOrder, handleExplanationsOrder] = useState<Array<number>>([])
@@ -30,9 +37,9 @@ export const QuestionReview: FunctionComponent<Props> = ({ question }) => {
       .map(e => e.index)
 
     handleExplanationsOrder(order)
-
-    if (question && question.app) {
-      const contentProps = getContentProps(question.app.name, question.content)
+    
+    if (activeQuestion && activeQuestion.app) {      
+      const contentProps = getContentProps(activeQuestion.app.name, activeQuestion)
       console.log("🚀 ~ QuestionReview ~ contentProps:", contentProps)
 
       handleElementProps({
@@ -41,8 +48,9 @@ export const QuestionReview: FunctionComponent<Props> = ({ question }) => {
     }
   }, [])
 
-  if (!question || !elementProps) return
-
+  if (!activeQuestion || !elementProps) {
+    return
+  }
   return (
     <>
       <ExplanationHeader>
@@ -53,48 +61,48 @@ export const QuestionReview: FunctionComponent<Props> = ({ question }) => {
             text={'Show explanations'}
           /> : 
           (<IsNoExplanationWrapper>
-                    <Content>
-                      <MdBlock size={18} color="red" />
-                      <Body1>There are no explanations for this question.</Body1>
-                    </Content>
+            <Content>
+              <MdBlock size={18} color="red" />
+              <Body1>There are no explanations for this question.</Body1>
+            </Content>
           </IsNoExplanationWrapper>           
         )}
         
        {showExplanations && (
-                  <ExplanationButtonWrapper>
-                    {explanationNumber >= 0 && (
-                      <Button
-                        type="outline"
-                        onClick={() => {
-                          handleShowExplanations(false)
-                          setExplanationNumber(0)
-                        }}
-                        text='Close explanations'
-                      />
-                    )}
-                    {explanationNumber >= 1 && (
-                      <Button
-                        onClick={() => {
-                          setExplanationNumber(explanationNumber - 1)
-                        }}
-                        text='Previous explanation'
-                      />
-                    )}
-                    {explanationNumber < explanations.length - 1 && (
-                      <Button
-                        onClick={() => {
-                          setExplanationNumber(explanationNumber + 1)
-                        }}
-                        text='Next explanation'
-                      />
-                    )}
-                  </ExplanationButtonWrapper>
-                )}
+          <ExplanationButtonWrapper>
+            {explanationNumber >= 0 && (
+              <Button
+                type="outline"
+                onClick={() => {
+                  handleShowExplanations(false)
+                  setExplanationNumber(0)
+                }}
+                text='Close explanations'
+              />
+            )}
+            {explanationNumber >= 1 && (
+              <Button
+                onClick={() => {
+                  setExplanationNumber(explanationNumber - 1)
+                }}
+                text='Previous explanation'
+              />
+            )}
+            {explanationNumber < explanations.length - 1 && (
+              <Button
+                onClick={() => {
+                  setExplanationNumber(explanationNumber + 1)
+                }}
+                text='Next explanation'
+              />
+            )}
+          </ExplanationButtonWrapper>
+        )}
       </ExplanationHeader>
 
       <StyledBox>
         <AppSelector
-          appName={question.app.name}
+          appName={activeQuestion.app.name}
           customProps={elementProps}
           explanationNumber={explanationsOrder[explanationNumber]}
           showExplanations={showExplanations}
