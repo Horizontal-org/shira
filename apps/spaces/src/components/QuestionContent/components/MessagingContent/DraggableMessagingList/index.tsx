@@ -62,7 +62,7 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
       .map((r, i) => {
         return {
           ...r,
-          name: `component-${[r.contentType]}-${i + 1}`,
+          htmlId: `component-${castType[r.contentType]}-${i + 1}`,
           position: i + 1
         }
     })
@@ -116,13 +116,13 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
     
   }
 
-  // const cleanTextExplanations = (item: QuestionDragEditor) => {
-  //   const htmlItemValue = new DOMParser().parseFromString(item.value as string, 'text/html')
-  //   const textExplanations = htmlItemValue.querySelectorAll('[data-explanation]') 
-  //   Array.from(textExplanations).forEach(e => {      
-  //     deleteExplanation(parseInt(e.getAttribute('data-explanation')))
-  //   })
-  // }
+  const cleanTextExplanations = (item: QuestionDragEditor) => {
+    const htmlItemValue = new DOMParser().parseFromString(item.value as string, 'text/html')
+    const textExplanations = htmlItemValue.querySelectorAll('[data-explanation]') 
+    Array.from(textExplanations).forEach(e => {      
+      deleteExplanation(parseInt(e.getAttribute('data-explanation')))
+    })
+  }
 
   return (
     <div>
@@ -195,10 +195,9 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
                       deleteExplanation((parseInt(item.explanation)))
                     }
 
-                    //THIS DOESNT MAKE SENSE TO ME SO COMMENTING FOR NOW
-                    // if (item.contentType === 'editor') {
-                    //   // cleanTextExplanations(item)
-                    // }
+                    if (item.contentType === 'editor') {
+                      cleanTextExplanations(item)
+                    }
 
                     // here cycle trhough explanations inside index
                     remove(item)

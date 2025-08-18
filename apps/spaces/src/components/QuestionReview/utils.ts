@@ -1,33 +1,7 @@
 import { DatingApp, FBMessenger, Gmail, SMS, Whatsapp } from "@shira/ui"
 import { remapHtml } from "../../utils/remapHtml"
-import { ActiveQuestion, QuestionDragEditor, QuestionDragImage, QuestionEditorInput } from "../../store/types/active_question"
+import { ActiveQuestion, QuestionDragAttachment, QuestionDragEditor, QuestionDragImage, QuestionEditorInput } from "../../store/types/active_question"
 import { parseDragItem } from "../../utils/active_question/questionToHtml"
-
-
-// const parseAttachments = (html: Document) => {
-//   const htmlAttachments = html.querySelectorAll('[id*="component-attachment"]')
-//   const attachments = Array.from(htmlAttachments).map((a) => {
-//     return {
-//       name: a.textContent,
-//       position: a.getAttribute('data-position'),
-//       explanationPosition: a.getAttribute('data-explanation'),
-//       fileType: a.getAttribute('data-attachment-type')
-//     }
-//   })
-
-//   return attachments
-// }
-
-// const parseCustomElement = (html: Document, customElement: string) => {
-//   const element = html.getElementById(customElement)
-
-//   const object = {
-//     textContent: element?.textContent || '',
-//     explanationPosition: element?.getAttribute('data-explanation') || null
-//   }
-
-//   return object
-// }
 
 const parseEditorContent = (activeQuestionItem: QuestionEditorInput): HTMLElement => {
   const editorElement = document.createElement('div')
@@ -38,7 +12,6 @@ const parseEditorContent = (activeQuestionItem: QuestionEditorInput): HTMLElemen
   editorElement.innerHTML = activeQuestionItem.value
   editorElement.setAttribute('id', activeQuestionItem.htmlId)
   
-  // const contentElement = html.querySelector('[id*="component-text"]') as HTMLElement
   if (editorElement) {
     editorElement.querySelectorAll('a').forEach((element) => {
         element.setAttribute('onclick', 'return false;');
@@ -64,11 +37,11 @@ export const getContentProps = (appName, activeQuestion: ActiveQuestion) => {
       senderEmail: getActiveQuestionElement(activeQuestion, 'component-required-sender-email'),
       subject: getActiveQuestionElement(activeQuestion, 'component-optional-subject'),
       content: parseEditorContent(activeQuestion['content']['body']),
-      // attachments: parseAttachments(html)
+      attachments: getActiveQuestionAttachments(activeQuestion)
     }
   } else {   
     let props = {
-      content: parseMessagingDraggableItems(activeQuestion.content.draggableItems),
+      content: parseDraggableItems(activeQuestion.content.draggableItems),
       senderName: getActiveQuestionElement(activeQuestion, 'component-required-fullname'),
     }
     
@@ -100,7 +73,20 @@ export const getActiveQuestionElement = (activeQuestion: ActiveQuestion, htmlId:
   return 
 }
 
-const parseMessagingDraggableItems = (items: Array<QuestionDragEditor | QuestionDragImage>) => {
+const getActiveQuestionAttachments = (activeQuestion: ActiveQuestion) => {
+  const attachments = Array.from(activeQuestion.content.draggableItems).map((a: QuestionDragAttachment) => {
+    return {
+      name: a.value.name,
+      position: a.position,
+      explanationPosition: a.explanation,
+      fileType: a.value.type
+    }
+  })
+
+  return attachments
+}
+
+const parseDraggableItems = (items: Array<QuestionDragEditor | QuestionDragImage | QuestionDragAttachment>) => {
   
   const htmlItems = items
     .sort((a, b) => a.position - b.position)
@@ -108,17 +94,9 @@ const parseMessagingDraggableItems = (items: Array<QuestionDragEditor | Question
       return parseDragItem(i)
     })
 
-  console.log("🚀 ~ parseMessagingDraggableItems ~ htmlItems:", htmlItems)
-
   if (htmlItems.length === 0) {
     return document.createElement('div')
   }
 
   return remapHtml(htmlItems)
-  // draggableContentHtml || document.createElement('div')
-  
-  // const draggableContent = Object.keys(content)
-    //   .filter(ck => ck.includes('component-text') || ck.includes('component-image'))
-    //   .map(dk => content[dk])
-    // const draggableContentHtml = remapHtml(draggableContent)
 }

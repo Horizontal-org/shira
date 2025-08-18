@@ -131,8 +131,7 @@ export const useExplanations = (editor: any, editorId: string) => {
 
     // second, add explanations on activequestion
     const activeQuestionIds = getExplanationIds()   
-    const activeExplanationIndexes = new Set([...activeQuestionIds, ...editorExplanationIndexes])
- 
+    const activeExplanationIndexes = new Set([...activeQuestionIds, ...editorExplanationIndexes]) 
 
 
     const orphanedExplanations = storeExplanations.filter(explanation => 

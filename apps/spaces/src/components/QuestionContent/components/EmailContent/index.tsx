@@ -1,11 +1,9 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { Body2Regular, Body3, styled, SubHeading3, TextInput } from '@shira/ui'
-// import { EmailContent as EmailContentType, QuestionToBe } from "../../../QuestionFlowManagement/types";
 import { EmailTipTapEditor } from "../../../TipTapEditor/EmailTipTapEditor";
-import { AttachmenDragItem, Attachments } from "../Attachments";
+import { Attachments } from "../Attachments";
 import { InputWithExplanation } from "../../../InputWithExplanation";
-import { remapHtml } from "../../../../utils/remapHtml";
-import { ActiveQuestion, EmailContent as EmailContentType } from "../../../../store/types/active_question";
+import { ActiveQuestion, EmailContent as EmailContentType, QuestionDragAttachment } from "../../../../store/types/active_question";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../../../store";
 
@@ -20,12 +18,13 @@ export const EmailContent: FunctionComponent<Props> = ({
 }) => {
 
   const {    
-    updateActiveQuestionInput
+    updateActiveQuestionInput,
+    updateActiveQuestionDraggableItems
   } = useStore((state) => ({
-    updateActiveQuestionInput: state.updateActiveQuestionInput
+    updateActiveQuestionInput: state.updateActiveQuestionInput,
+    updateActiveQuestionDraggableItems: state.updateActiveQuestionDraggableItems
   }), shallow)
 
-  const [initialStates, handleInitialStates] = useState<Object>({})
 
   return (
     <Content>
@@ -88,19 +87,16 @@ export const EmailContent: FunctionComponent<Props> = ({
         />
       </div>
 
-      {/* <div>
+      <div>
         <Attachments
           content={content}
-          files={question.emailContent.draggableItems}          
-          onChange={(filesList: AttachmenDragItem[]) => {
-            handleQuestion('emailContent', {
-              ...question.messagingContent,
-              draggableItems: filesList
-            })
-            remapDynamicContent(filesList as Array<AttachmenDragItem>)
+          files={content.draggableItems}          
+          onChange={(filesList: QuestionDragAttachment[]) => {
+            console.log("🚀 ~ filesList:", filesList)
+            updateActiveQuestionDraggableItems(filesList)
           }}
         />
-      </div> */}
+      </div>
     </Content>
   )
 }

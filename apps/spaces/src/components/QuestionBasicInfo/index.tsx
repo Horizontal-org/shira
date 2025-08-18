@@ -8,12 +8,12 @@ import {
   TextInput 
 } from '@shira/ui'
 import { App } from "../../fetch/app";
-import { QuestionToBe } from "../QuestionFlowManagement/types";
+import { ActiveQuestion } from "../../store/types/active_question";
 
 interface Props {
   handleQuestion: (k, v) => void;
   handleApp: (app: App) => void
-  question: QuestionToBe
+  question: ActiveQuestion
   apps: App[]
   initialAppType: string
 }

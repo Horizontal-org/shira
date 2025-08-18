@@ -10,18 +10,16 @@ import toast from "react-hot-toast";
 import { useStore } from "../../../../../store";
 import { shallow } from "zustand/shallow";
 import { DraggableAttachmentItem } from "../DraggableAttachmentItem";
-import { AttachmenDragItem } from "..";
+import { QuestionDragAttachment, QuestionDragEditor } from "../../../../../store/types/active_question";
 
 
 interface Props {
-  items: Array<AttachmenDragItem>
-  content: Object
-  onChange: (newItems: Array<AttachmenDragItem>) => void
+  items: Array<QuestionDragAttachment>
+  onChange: (newItems: Array<QuestionDragAttachment>) => void
 }
 
 export const DraggableAttachmentList: FunctionComponent<Props> = ({
   items,
-  content,
   onChange,
 }) => {
 
@@ -32,14 +30,14 @@ export const DraggableAttachmentList: FunctionComponent<Props> = ({
   }), shallow)
   
   const reorder = (newItems, startIndex, endIndex) => {
-    const result: Array<AttachmenDragItem> = Array.from(newItems);
+    const result: Array<QuestionDragAttachment> = Array.from(newItems);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
   
     return result.map((r, i) => {
       return {
         ...r,
-        name: `component-attachment-${i + 1}`,
+        htmlId: `component-attachment-${i + 1}`,
         position: i + 1
       }
     })
@@ -47,11 +45,11 @@ export const DraggableAttachmentList: FunctionComponent<Props> = ({
   
   const remove = (deleteItem) => {
     const newItems = items
-      .filter(i => i.name !== deleteItem.name)
+      .filter(i => i.htmlId !== deleteItem.htmlId)
       .map((r, i) => {
         return {
           ...r,
-          name: `component-attachment-${i + 1}`,
+          htmlId: `component-attachment-${i + 1}`,
           position: i + 1
         }
     })
@@ -73,67 +71,10 @@ export const DraggableAttachmentList: FunctionComponent<Props> = ({
     onChange(newItems)
   }
 
-  // const cleanTextExplanations = (item: MessagingDragItem) => {
-  //   const htmlItemValue = new DOMParser().parseFromString(item.value as string, 'text/html')
-  //   const textExplanations = htmlItemValue.querySelectorAll('[data-explanation]') 
-  //   Array.from(textExplanations).forEach(e => {      
-  //     deleteExplanation(parseInt(e.getAttribute('data-explanation')))
-  //   })
-  // }
 
   return (
     <div>
-      {/* <ButtonsWrapper>
-        <Button 
-          onClick={() => {
-            items.push({
-              draggableId: crypto.randomUUID(),
-              name: `component-text-${items.length + 1}`,
-              value: null,
-              type: 'text',
-              position: items.length + 1
-            })
-            onChange(items)
-          }}
-          text="Add message text"
-          type="outline"    
-          leftIcon={<IoMdAdd color="#5F6368" size={14}/>}
-        />
-
-        <ImageButtonWrapper>
-          <Button 
-            onClick={() => {
-              handleImageFloatingMenu(true)              
-            }}
-            text="Add image"
-            type="outline"    
-            leftIcon={<IoMdAdd color="#5F6368" size={14}/>}        
-            ref={buttonRef}
-          />
-          <BaseFloatingMenu          
-            isOpen={imageFloatingMenu}
-            onClose={() => handleImageFloatingMenu(false)}
-            elements={[
-              {
-                text: 'Upload from computer',
-                onClick: () => {
-                  handleImageFloatingMenu(false)
-                  images.handleImageUpload()
-                },
-                icon: <FiShare />
-              }
-            ]}
-            anchorEl={buttonRef.current}
-          />
-          <HiddenFileInput
-            ref={images.fileInputRef}
-            type="file"
-            accept="image/*"
-            onChange={handleNewImage}
-          />
-        </ImageButtonWrapper>
-      </ButtonsWrapper> */}
-
+    
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId='droppable'>
           {(provided, snapshot) => (
@@ -144,26 +85,12 @@ export const DraggableAttachmentList: FunctionComponent<Props> = ({
               { items.map(((item, index) => (
                 <DraggableAttachmentItem
                   item={item}
-                  contentValue={content[item.name]}
                   key={item.draggableId}
                   index={index}
-                  onExplanationChange={(explId) => {
-                    const newItems = [...items]
-                    console.log("🚀 ~ newItems:", newItems)
-                    newItems[index] = { 
-                      ...newItems[index], 
-                      explId: explId
-                    }
-                    console.log("🚀 ~ newItems:", newItems)
-                    onChange(newItems)
-                  }}
                   onDelete={() => {
-                    if (item.explId) {
-                      deleteExplanation(item.explId)
+                    if (item.explanation && item.explanation.length > 0) {
+                      deleteExplanation(parseInt(item.explanation))
                     }
-                    // if (item.type === 'text') {
-                    //   cleanTextExplanations(item)
-                    // }
                     // here cycle trhough explanations inside index
                     remove(item)
                   }}
@@ -178,17 +105,3 @@ export const DraggableAttachmentList: FunctionComponent<Props> = ({
     </div>
   )
 }
-
-const HiddenFileInput = styled.input`
-  display: none;
-`
-
-const ButtonsWrapper = styled.div`
-  display: flex;
-  gap: 12px;
-  margin-bottom: 30px;
-`
-
-const ImageButtonWrapper = styled.div`
-  position: relative;
-`

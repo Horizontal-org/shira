@@ -1,3 +1,4 @@
+import { AttachmentType } from "@shira/ui";
 import { App } from "../../fetch/app";
 import { Explanation } from "./explanation";
 
@@ -83,6 +84,20 @@ export interface QuestionEditorInput {
 export interface QuestionDragEditor extends QuestionEditorInput {
   draggableId: string;
   position: number;
+}
+
+export interface QuestionDragAttachment {
+  value: AttachmentObject
+  htmlId: string;
+  contentType: 'attachment',
+  draggableId: string;
+  position: number;
+  explanation: string | null
+}
+
+export interface AttachmentObject {
+  name: string;
+  type: AttachmentType;
 }
 
 export interface QuestionDragImage {

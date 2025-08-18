@@ -9,7 +9,6 @@ import { useStore } from "../../store";
 import { QuestionBasicInfo } from "../QuestionBasicInfo";
 import { QuestionFlowHeader } from "../QuestionFlowHeader";
 import { QuestionContent } from "../QuestionContent";
-import { QuestionToBe } from "./types";
 import { QuestionReview } from "../QuestionReview";
 import { useNavigate } from "react-router-dom";
 import { ExitQuestionHandleModal } from "../modals/ExitQuestionHandleModal";
@@ -26,28 +25,7 @@ interface Props {
   onSubmit: (question: ActiveQuestion) => void
 }
 
-const defaultQuestion = {
-  app: null,
-  name: '',
-  isPhishing: true,
-  content: {}
-  // emailContent: {
-  //   senderEmail: '',
-  //   senderName: '',
-  //   subject: '',
-  //   body: '',
-  //   draggableItems: []
-  // },
-  // messagingContent: {
-  //   senderPhone: '',
-  //   senderName: '',    
-  //   draggableItems: []
-  // },
-}
-
 export const QuestionFlowManagement: FunctionComponent<Props> = ({
-  initialContent = {},
-  initialQuestion = defaultQuestion,
   initialAppType = null,
   onSubmit,
   actionFeedback
@@ -87,11 +65,9 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
   }, [])
 
   const [step, handleStep] = useState(0)  
-  // const [question, handleQuestion] = useState<QuestionToBe>(initialQuestion)
-  // const [content, handleContent] = useState(initialContent)
-  
   console.log("888888888888888888 🚀 ~ question:", activeQuestion)
-  // console.log("888888888888888888 🚀 ~ content:", content)
+  console.log("888888888888888888 ~ explanations:", explanations)
+
 
   const [isExitQuestionModalOpen, setIsExitQuestionModalOpen] = useState(false)
   const [noExplanationsModalOpen, setNoExplanationsModalOpen] = useState(false)
@@ -102,18 +78,6 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
     }
 
     return true
-  }
-
-  const parseContent = (id, value) => {
-    // handleContent({
-    //   ...content,
-    //   [id]: value
-    // })
-  }
-
-  const removeContent = (id) => {
-    // const newContent = omit(content, id)
-    // handleContent(newContent)
   }
 
   return (
@@ -145,11 +109,6 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
             return
           }
           if (step === 1) {
-            // handleQuestion({
-            //   ...question,
-            //   content: content
-            // })
-
             if (explanations.length === 0) {
               setNoExplanationsModalOpen(true)
               return
@@ -197,9 +156,6 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
             { step === 1 && (
               <QuestionContent 
                 question={activeQuestion}
-                handleContentRemove={removeContent}
-                handleContent={parseContent}
-                handleContentFullChange={(c) => { console.log('HANDLE FULL CHANGE', c)}}
               />
             )}
             

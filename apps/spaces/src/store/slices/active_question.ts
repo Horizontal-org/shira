@@ -3,7 +3,7 @@ import { fetchQuestion, fetchQuestions, Question, QuestionPayload } from "../../
 import { App } from "../../fetch/app";
 import { ActiveQuestion, defaultEmailContent, defaultMessageContent, EmailContent } from "../types/active_question";
 import { Explanation } from "../types/explanation";
-
+import { cloneDeep } from "lodash";
 
 export interface ActiveQuestionSlice {
   activeQuestion: ActiveQuestion
@@ -31,27 +31,29 @@ export const createActiveQuestionSlice: StateCreator<
     content: {}    
   },
   updateActiveQuestion: (key, value) => {
-    let auxContent = {...get().activeQuestion}
-    auxContent[key] = value
     set((state) => ({
-      activeQuestion: auxContent 
+      activeQuestion: {
+        ...state.activeQuestion,
+        [key]: value
+      }
     }))
   },
   updateActiveQuestionApp: (app: App) => {
-    let auxContent = {...get().activeQuestion}
-    auxContent['content'] = app.type === 'email' ? defaultEmailContent : defaultMessageContent 
-    auxContent['app'] = app
-    set((state) => ({ activeQuestion: auxContent }))
+    set((state) => ({ activeQuestion: {
+      ...state.activeQuestion,
+      app: app,
+      content: app.type === 'email' ? cloneDeep(defaultEmailContent) : cloneDeep(defaultMessageContent) 
+    } }))
   },
   updateActiveQuestionInput: (objectKey, inputKey, value) => {
-    let auxContent = {...get().activeQuestion}
+    let auxContent = cloneDeep(get().activeQuestion)
     auxContent['content'][objectKey][inputKey] = value
     set((state) => ({
       activeQuestion: auxContent 
     }))
   },
   updateActiveQuestionDraggableItem: (index, key, value) => {
-    let auxContent = {...get().activeQuestion}
+    let auxContent = cloneDeep(get().activeQuestion)
     auxContent['content']['draggableItems'][index] = {
       ...auxContent['content']['draggableItems'][index],
       [key]: value
@@ -62,7 +64,7 @@ export const createActiveQuestionSlice: StateCreator<
     }))
   }, 
   updateActiveQuestionDraggableItems: (items) => {
-    let auxContent = {...get().activeQuestion}
+    let auxContent = cloneDeep(get().activeQuestion)
     auxContent['content']['draggableItems'] = items
  
     set((state) => ({
@@ -102,7 +104,7 @@ export const createActiveQuestionSlice: StateCreator<
   },
   getExplanationIds: () => {
     let explanationIds = []
-    let auxContent = {...get().activeQuestion.content}
+    let auxContent = cloneDeep(get().activeQuestion.content)
     Object.keys(auxContent).forEach((contentKey) => {
       if (Array.isArray(auxContent[contentKey])) {
         auxContent[contentKey].forEach(dragItem => {
@@ -124,7 +126,7 @@ export const createActiveQuestionSlice: StateCreator<
         app: null,
         name: '',
         isPhishing: true,
-        content: {}
+        content: null
       }
     }))
   },

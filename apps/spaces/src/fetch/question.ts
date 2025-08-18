@@ -2,11 +2,11 @@ import axios from 'axios'
 import { useStore } from '../store'
 import { App } from './app';
 import { Explanation } from '../store/slices/explanation';
-import { QuestionToBe } from '../components/QuestionFlowManagement/types';
 import { useState } from 'react';
 import { shallow } from 'zustand/shallow';
 import { QuizSuccessStates } from '../store/slices/quiz';
 import { activeQuestionToHtml } from '../utils/active_question/questionToHtml';
+import { ActiveQuestion } from '../store/types/active_question';
 
 export interface Question {
   id: string;
@@ -61,28 +61,6 @@ export const deleteQuestion = async(id) => {
   }
 }
 
-const getHtmlByType = (appType, questionContent) => {
-    let keys = []
-    if (appType === 'email') {
-      keys.push(
-        'component-required-sender-name',
-        'component-required-sender-email',
-        'component-optional-subject'
-      )      
-    } else if (appType === 'messaging') {
-      keys.push(
-        'component-required-fullname',
-        'component-required-phone',
-      )      
-    }
-    
-    return Object.keys(questionContent)
-      .filter(c => keys.includes(c))
-      .reduce((prev, current) => {
-        return prev + questionContent[current]
-      }, `<div id='type-content'>`) + '</div>'
-}
-
 const parseRequest = (question, explanations, quizId) => {
   // let typeHtml = getHtmlByType(question.app.type, question.content)
   
@@ -133,7 +111,7 @@ export const useQuestionCRUD = () => {
   const [actionFeedback, handleActionFeedback] = useState(null);
   
   //POST QUESTION
-  const submit = async (quizId: string, question: QuestionToBe) => {
+  const submit = async (quizId: string, question: ActiveQuestion) => {
     handleActionFeedback(QuestionCRUDFeedback.processing)
     
     const {
@@ -175,7 +153,7 @@ export const useQuestionCRUD = () => {
   }
 
   //PUT QUESTION
-  const edit = async (quizId: string, question: QuestionToBe, questionId) => {
+  const edit = async (quizId: string, question: ActiveQuestion, questionId) => {
     handleActionFeedback(QuestionCRUDFeedback.processing)
 
     const {

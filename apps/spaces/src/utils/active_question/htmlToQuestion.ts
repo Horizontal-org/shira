@@ -1,5 +1,6 @@
+import { AttachmentType } from "@shira/ui"
 import { QuestionPayload } from "../../fetch/question"
-import { ActiveQuestion, EmailContent, QuestionDragEditor, QuestionDragImage, QuestionEditorInput, QuestionTextInput } from "../../store/types/active_question"
+import { ActiveQuestion, EmailContent, QuestionDragAttachment, QuestionDragEditor, QuestionDragImage, QuestionEditorInput, QuestionTextInput } from "../../store/types/active_question"
 
 const replaceImage = (question: QuestionPayload, htmlContent: Document) => {
   // images 
@@ -47,9 +48,8 @@ const parseEditorElementToActiveQuestion = (html: Document, htmlId) => {
 }
 
 
-const parseDragItems = (htmlContent: Document) => {
-
-  let draggableItems: Array<QuestionDragImage | QuestionDragEditor> = []
+const parseMessageDragItems = (htmlContent: Document) => {
+  let draggableItems: Array<QuestionDragImage | QuestionDragEditor | QuestionDragAttachment> = []
   htmlContent
     .querySelectorAll('[id*="component-image"]')
     .forEach((c) => {
@@ -68,7 +68,6 @@ const parseDragItems = (htmlContent: Document) => {
       })
     })
 
-
   htmlContent
     .querySelectorAll('[id*="component-text"]')
     .forEach((c) => {
@@ -81,11 +80,29 @@ const parseDragItems = (htmlContent: Document) => {
       })
     })
 
-  //TODO add draggable items attachments
-
   return draggableItems.sort((a, b) => a.position - b.position)
 }
 
+const parseEmailDragItems = (htmlContent: Document) => {
+  let draggableItems: Array<QuestionDragAttachment> = []
+  htmlContent
+    .querySelectorAll('[id*="component-attachment"]')
+    .forEach((c) => {
+      draggableItems.push({
+        draggableId: crypto.randomUUID(),
+        htmlId: c.getAttribute('id'),
+        contentType: 'attachment',
+        position: parseInt(c.getAttribute('data-position')),
+        explanation: c.getAttribute('data-explanation'),
+        value: {
+          name: c.innerHTML || null,
+          type: c.getAttribute('data-attachment-type') as AttachmentType
+        }
+      })
+    })
+    
+  return draggableItems.sort((a, b) => a.position - b.position)
+}
 
 export const htmlToActiveQuestion = (question: QuestionPayload, html: Document) => {
   const app = question.apps[0]
@@ -105,65 +122,16 @@ export const htmlToActiveQuestion = (question: QuestionPayload, html: Document) 
       senderEmail: parseTextElementToActiveQuestion(html, 'component-required-sender-email'),      
       subject: parseTextElementToActiveQuestion(html ,'component-optional-subject'),
       body: parseEditorElementToActiveQuestion(html, 'component-text-1'),
+      draggableItems: parseEmailDragItems(html)
     }
   } else {
     activeQuestion.content = {
       senderName: parseTextElementToActiveQuestion(html, 'component-required-fullname'),
       senderPhone: parseTextElementToActiveQuestion(html, 'component-required-phone'),
-      draggableItems: parseDragItems(html)
+      draggableItems: parseMessageDragItems(html)
     }
   }
 
   return activeQuestion
 }
 
-
-
-
-// export const getQuestionValues = (question: QuestionPayload, htmlContent: Document) => {
-//   const app = question.apps[0]
-
-//   if (app.type === 'email') {
-//     // let attachments: AttachmentFile[] = []
-//     // htmlContent.querySelectorAll('[id*="component-attachment"]').forEach((ca) => {
-//     //   const explodedId = ca.getAttribute('id').split('component-attachment-')
-//     //   const explanationIndex = ca.getAttribute('data-explanation')
-      
-//     //   attachments.push({
-//     //     id: parseInt(explodedId[1]),
-//     //     type: AttachmentType[ca.getAttribute('data-attachment-type')],
-//     //     name: ca.innerHTML,
-//     //     explanationIndex: explanationIndex ? parseInt(explanationIndex) : null
-//     //   })
-//     // })
-
-    
-      
-//     return {
-//       app: app,
-//       name: question.name,
-//       isPhishing: !!(question.isPhising),
-//       emailContent: {
-//         senderEmail: htmlContent.getElementById('component-required-sender-email')?.innerText,
-//         senderName: htmlContent.getElementById('component-required-sender-name')?.innerText,
-//         subject: htmlContent.getElementById('component-optional-subject')?.innerText,
-//         body: htmlContent.getElementById('component-text-1')?.innerHTML,
-//       },
-//       attachments: []     
-//     }
-//   } else {
-  
-//     replaceImage(question, htmlContent)
-    
-//     return {
-//       app: app,
-//       name: question.name,
-//       isPhishing: !!(question.isPhising),
-//       messagingContent: {
-//         senderPhone: htmlContent.getElementById('component-required-phone')?.innerText,
-//         senderName: htmlContent.getElementById('component-required-fullname')?.innerText,
-//         draggableItems: getDraggableItems(htmlContent)
-//       },
-//     }
-//   }
-// }

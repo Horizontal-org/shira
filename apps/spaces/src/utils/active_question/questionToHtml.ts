@@ -1,4 +1,4 @@
-import { ActiveQuestion, QuestionDragEditor, QuestionDragImage, QuestionEditorInput, QuestionTextInput } from "../../store/types/active_question";
+import { ActiveQuestion, QuestionDragAttachment, QuestionDragEditor, QuestionDragImage, QuestionEditorInput, QuestionTextInput } from "../../store/types/active_question";
 
 export const activeQuestionToHtml = (activeQuestion: ActiveQuestion) => {
   return parseActiveQuestionToHtml(activeQuestion.content)  
@@ -16,8 +16,6 @@ const parseActiveQuestionToHtml = (content: Object) => {
       elementsArray.push(parseQuestionTextInput(content[k]))
     } else if (content[k].contentType === 'editor') {
       elementsArray.push(parseQuestionEditorInput(content[k]))
-    } else if (content[k].contentType === 'attachment') {
-      console.log('parse attachments')
     }
   })
   
@@ -62,14 +60,27 @@ const parseQuestionDragImage = (imageInput: QuestionDragImage) => {
   return imageElement
 }
 
-export const parseDragItem = (item: QuestionDragEditor | QuestionDragImage) => {
+const parseQuestionDragAttachment = (attachmentInput: QuestionDragAttachment) => {
+  const attachmentElement = document.createElement('div')
+  attachmentElement.setAttribute('id', attachmentInput.htmlId)
+  attachmentElement.setAttribute('data-attachment-type', attachmentInput.value.type)
+  attachmentElement.innerHTML = attachmentInput.value.name
+
+  if (attachmentInput.explanation) {
+    attachmentElement.setAttribute('data-explanation', attachmentInput.explanation)
+  }
+  return attachmentElement
+}
+
+export const parseDragItem = (item: QuestionDragEditor | QuestionDragImage | QuestionDragAttachment) => {
   let element = null
   if (item.contentType === 'image') {
     element = parseQuestionDragImage(item)
   } else if (item.contentType === 'editor') {
     element = parseQuestionEditorInput(item, 'html')    
+  } else if (item.contentType === 'attachment') {
+    element = parseQuestionDragAttachment(item)
   }
-  // add attachments here ? 
 
   element.setAttribute('data-position', item.position)
   return element.outerHTML

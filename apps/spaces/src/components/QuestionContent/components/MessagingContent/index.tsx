@@ -1,14 +1,13 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { Body2Regular, Body3, styled, SubHeading3, TextInput } from '@shira/ui'
-import { EmailContent as EmailContentType, QuestionToBe } from "../../../QuestionFlowManagement/types";
 import { InputWithExplanation } from "../../../InputWithExplanation";
 import { DraggableMessagingList } from "./DraggableMessagingList";
-import { MessagingContent as MessagingContentType } from "../../../../store/types/active_question";
+import { ActiveQuestion, MessagingContent as MessagingContentType } from "../../../../store/types/active_question";
 import { useStore } from "../../../../store";
 import { shallow } from "zustand/shallow";
 
 interface Props {
-  question: QuestionToBe
+  question: ActiveQuestion
   content: MessagingContentType
 }
 

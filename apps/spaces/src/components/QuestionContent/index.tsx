@@ -1,7 +1,6 @@
 import { FunctionComponent, useEffect } from "react";
 import { styled, Box, Body2Regular } from '@shira/ui'
 import { EmailContent } from "./components/EmailContent";
-import { QuestionToBe, EmailContent as EmailContentType } from "../QuestionFlowManagement/types";
 import { Explanations } from "../Explanations";
 import { subscribe, unsubscribe } from "../../utils/customEvent";
 import { cleanDeletedExplanations } from "../../utils/explanations";
@@ -11,40 +10,15 @@ import { ActiveQuestion } from "../../store/types/active_question";
 
 interface Props {
   question: ActiveQuestion
-  handleContent?: (id: string, value: string) => void
-  handleQuestion?: (k, v) => void;
-  content?: Object
-  handleContentRemove?: (id: string) => void
-  handleContentFullChange?: (newContent: Object) => void
 }
 
 export const QuestionContent: FunctionComponent<Props> = ({
   question,
-  // handleQuestion,
-  // handleContent,
-  // content,
-  // handleContentRemove,
-  // handleContentFullChange
 }) => {
-
-  // useEffect(() => {
-  //   // fetchQuestion(id)
-
-  //   subscribe('delete-explanation', (event) => {
-  //     // try deleting from dom
-  //     cleanDeletedExplanations(event.detail.deleteIndex)
-  //   })
-
-  //   return () => {
-  //     unsubscribe('delete-explanation')
-  //     // clean everything
-  //     // clear()
-  //   }
-  // }, [])
 
   return (
     <Wrapper id='dynamic-content'>
-      
+    
       <StyledBox>
         <CommonHeader
           isPhishing={question.isPhishing}

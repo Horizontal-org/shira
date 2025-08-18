@@ -2,66 +2,41 @@ import { FunctionComponent, ReactNode, useEffect, useRef } from 'react'
 import { Draggable } from "@hello-pangea/dnd";
 import { Attachment, styled } from '@shira/ui';
 import { DragItemOptions } from '../../../../DragItemOptions';
-import { AttachmenDragItem } from '..';
 import { shallow } from 'zustand/shallow';
 import { useStore } from '../../../../../store';
 import { ExplanationButton } from '../../../../Explanations/components/ExplanationButton';
-import { subscribe, unsubscribe } from '../../../../../utils/customEvent';
+import { QuestionDragAttachment } from '../../../../../store/types/active_question';
 
 interface Props {
   index: number;
-  item: AttachmenDragItem;
+  item: QuestionDragAttachment;
   onDelete: () => void  
-  contentValue: string | null 
-  onExplanationChange: (explId: number) => void
 }
 
 export const DraggableAttachmentItem: FunctionComponent<Props> = ({  
   index,
   item,
   onDelete,  
-  contentValue,
-  onExplanationChange,
 }) => {
+  console.log("🚀 ~ DraggableAttachmentItem ~ item:", item)
 
   const {
     addExplanation,
     explanationIndex,      
     changeSelected,
-    selectedExplanation
+    selectedExplanation,
+    updateActiveQuestionDraggableItem
   } = useStore((state) => ({
     addExplanation: state.addExplanation,
     explanationIndex: state.explanationIndex,
     changeSelected: state.changeSelected,
-    selectedExplanation: state.selectedExplanation
+    selectedExplanation: state.selectedExplanation,
+    updateActiveQuestionDraggableItem: state.updateActiveQuestionDraggableItem
   }), shallow)
+    console.log("🚀 ~ DraggableAttachmentItem ~ selectedExplanation:", selectedExplanation)
     
-
    const ref = useRef(null)
   
-    const subscribeToDelete = (newExplId) => {
-      subscribe('delete-explanation', (event) => {
-        if (newExplId === event.detail.deleteIndex) {
-          console.log("HEREHERE" ,event.detail.deleteIndex)
-          ref.current.removeAttribute('data-explanation')
-          onExplanationChange(null)
-        }        
-      })
-    }
-
-    useEffect(() => {      
-      return () => {
-        unsubscribe('delete-explanation')
-      }
-    }, [])
-
-    useEffect(() => {
-      if(item.explId && ref) {
-        ref.current.setAttribute('data-explanation', item.explId)
-        subscribeToDelete(item.explId)
-      }
-    }, [item.explId, ref])
-
   return (
     <>
     <Draggable 
@@ -89,17 +64,15 @@ export const DraggableAttachmentItem: FunctionComponent<Props> = ({
                   />                   
                 </AttachmentWrapper>
                 <ExplanationButton
-                  active={selectedExplanation && selectedExplanation === item.explId}
+                  active={selectedExplanation && selectedExplanation + '' === item.explanation}
                   disabled={false}
                     onClick={() => {
-                      if (item.explId) {
-                        changeSelected(item.explId)
+                      if (item.explanation) {
+                        changeSelected(parseInt(item.explanation))
                       } else {
-                        const index = explanationIndex + 1
-                        ref.current.setAttribute('data-explanation', index + '')
-                        addExplanation(index, '')
-                        onExplanationChange(index)
-                        // subscribeToDelete(index)
+                        const newExplanationIndex = explanationIndex + 1
+                        addExplanation(newExplanationIndex, '')
+                        updateActiveQuestionDraggableItem(index, 'explanation', newExplanationIndex + '')
                       }
                   }}
                 />

@@ -1,6 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react"
 import { Button, styled } from "@shira/ui"
-import { QuestionToBe } from "../QuestionFlowManagement/types"
 import { getContentProps } from "./utils"
 import { AppSelector } from "./components/AppSelector"
 
@@ -8,9 +7,10 @@ import '../../fonts/GoogleSans/style.css'
 import '../../fonts/Segoe/style.css'
 import { useStore } from "../../store"
 import { shallow } from "zustand/shallow"
+import { ActiveQuestion } from "../../store/types/active_question"
 
 interface Props {
-  question?: QuestionToBe
+  question?: ActiveQuestion
 }
 
 export const QuestionReview: FunctionComponent<Props> = ({

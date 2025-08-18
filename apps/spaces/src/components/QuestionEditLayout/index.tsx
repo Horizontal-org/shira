@@ -3,8 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { fetchQuestion, QuestionCRUDFeedback, useQuestionCRUD } from "../../fetch/question";
 import { useStore } from "../../store";
 import { shallow } from "zustand/shallow";
-import { QuestionToBe } from "../QuestionFlowManagement/types";
-import { getContentObject, getQuestionValues } from "./utils";
 import { QuestionFlowManagement } from "../QuestionFlowManagement";
 import { QuizSuccessStates } from "../../store/slices/quiz";
 import toast from "react-hot-toast";

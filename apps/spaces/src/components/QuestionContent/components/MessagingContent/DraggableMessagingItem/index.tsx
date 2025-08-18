@@ -49,7 +49,6 @@ export const DraggableMessagingItem: FunctionComponent<Props> = ({
                 { item.contentType === 'image' && (
                   <ImageDragItem 
                     index={index}
-                    name={item.htmlId}
                     explanationId={item.explanation}
                     value={item.value}
                   />

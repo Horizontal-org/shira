@@ -2,31 +2,11 @@ import { FunctionComponent, useEffect, useState } from "react";
 import { AddAttachmentModal, Button, styled, Attachment, AttachmentType } from "@shira/ui";
 import { IoMdAdd } from "react-icons/io";
 import { DraggableAttachmentList } from "./DraggableAttachmentList";
-
-
-// export interface MessagingDragItem {
-//   draggableId: string;
-//   position: number;
-//   value: string | ImageObject;
-//   name: string;
-//   type: string;
-//   explId?: number
-// }
-
-export interface AttachmenDragItem {
-  draggableId?: string;
-  position?: number;
-  name: string;
-  value?: {
-    name: string;
-    type: AttachmentType;
-  }
-  explId?: number;
-}
+import { QuestionDragAttachment } from "../../../../store/types/active_question";
 
 interface Props { 
-  onChange: (persistentList: AttachmenDragItem[]) => void
-  files?: AttachmenDragItem[]
+  onChange: (persistentList: QuestionDragAttachment[]) => void
+  files?: QuestionDragAttachment[]
   content: Object
   // onChangeList: (f: AttachmentFile[]) => void
   // startAttachments?: AttachmentFile[] 
@@ -58,7 +38,6 @@ interface Props {
 export const Attachments: FunctionComponent<Props> = ({
   onChange,  
   files,
-  content
 }) => {
 
   const [isOpen, setIsOpen] = useState(false);
@@ -82,7 +61,6 @@ export const Attachments: FunctionComponent<Props> = ({
       </AddAttachmentButtonWrapper>
 
       <DraggableAttachmentList
-        content={content}
         items={files}
         onChange={(newItems) => {
           onChange(newItems)        
@@ -98,8 +76,10 @@ export const Attachments: FunctionComponent<Props> = ({
         onClose={() => setIsOpen(false)}
         onSave={() => {              
           const newName = `component-attachment-${files.length + 1}`
-          const newFile = {
-            name: newName,
+          const newFile: QuestionDragAttachment = {
+            htmlId: newName,
+            contentType: 'attachment',
+            explanation: null,
             position: files.length + 1,
             draggableId: crypto.randomUUID(),
             value: {

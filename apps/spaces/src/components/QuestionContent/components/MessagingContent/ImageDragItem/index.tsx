@@ -9,14 +9,12 @@ import { subscribe, unsubscribe } from "../../../../../utils/customEvent";
 import { ImageObject } from "../../../../../store/types/active_question";
 
 interface Props {
-  name: string
   value: ImageObject;
   index: number
   explanationId?: string
 }
 
 export const ImageDragItem: FunctionComponent<Props> = ({
-  name,
   value,
   explanationId,
   index
@@ -37,28 +35,6 @@ export const ImageDragItem: FunctionComponent<Props> = ({
     }), shallow)
   
     const ref = useRef(null)
-  
-    // const subscribeToDelete = (newExplId) => {
-    //   subscribe('delete-explanation', (event) => {
-    //     if (newExplId === event.detail.deleteIndex) {
-    //       ref.current.removeAttribute('data-explanation')
-    //       onExplanationChange(null)
-    //     }        
-    //   })
-    // }
-
-    // useEffect(() => {      
-    //   return () => {
-    //     unsubscribe('delete-explanation')
-    //   }
-    // }, [])
-
-    // useEffect(() => {
-    //   if(explanationId && ref) {
-    //     ref.current.setAttribute('data-explanation', explanationId)
-    //     subscribeToDelete(explanationId)
-    //   }
-    // }, [explanationId, ref])
 
   return (
     <Wrapper>
@@ -78,11 +54,8 @@ export const ImageDragItem: FunctionComponent<Props> = ({
                   changeSelected(parseInt(hasExplanation))
                 } else {
                   const newExplanationIndex = explanationIndex + 1
-                  // ref.current.setAttribute('data-explanation', index + '')
                   addExplanation(newExplanationIndex, '')
-                  updateActiveQuestionDraggableItem(index, 'explanation', newExplanationIndex)
-                  // onExplanationChange(index)
-                  // subscribeToDelete(index)
+                  updateActiveQuestionDraggableItem(index, 'explanation', newExplanationIndex + '')
                 }
             }}
           />
