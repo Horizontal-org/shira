@@ -104,7 +104,10 @@
         "subtitle": "Take a new quiz or check out some recommendations below to continue strengthening your skills and become better at avoiding phishing.",
         "back_button": "Back to home",
         "next_button": "New quiz",
-        "heavy_subtitle": "You answered {{correctQuestions}} out of {{questions}} questions correctly."
+        "heavy_subtitle_1": "You answered ",
+        "heavy_subtitle_2": "{{correctQuestions}} out of {{questions}} ",
+        "heavy_subtitle_3": "questions correctly.",
+        "greeting_title": "Thanks for using Shira!"
     },
     "about": {
         "title": "About",
