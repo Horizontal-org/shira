@@ -196,13 +196,12 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
 
             { step === 1 && (
               <QuestionContent 
+                question={activeQuestion}
                 handleContentRemove={removeContent}
                 handleContent={parseContent}
                 handleContentFullChange={(c) => { console.log('HANDLE FULL CHANGE', c)}}
-                question={activeQuestion}
               />
             )}
-
             
             { step === 2 && (
               <QuestionReview />

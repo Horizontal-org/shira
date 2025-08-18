@@ -26,41 +26,6 @@ export const EmailContent: FunctionComponent<Props> = ({
   }), shallow)
 
   const [initialStates, handleInitialStates] = useState<Object>({})
-  const insertExplanation = (e) => {
-    return e ? ` data-explanation='${e}' ` : ''  
-  }
-
-  // useEffect(() => {
-  //   const html = remapHtml(content)
-  //   if (html) {
-  //     const senderName = html.getElementById('component-required-sender-name')
-  //     const senderEmail = html.getElementById('component-required-sender-email')
-  //     const senderSubject = html.getElementById('component-optional-subject')
-
-  //     handleInitialStates({
-  //       'component-required-sender-name': senderName ? senderName.getAttribute('data-explanation') : null,
-  //       'component-required-sender-email': senderEmail ? senderEmail.getAttribute('data-explanation') : null,
-  //       'component-optional-subject': senderSubject ? senderSubject.getAttribute('data-explanation') : null
-  //     })
-  //   }
-
-  // }, [])
-
-  // const remapDynamicContent = (newItems: Array<AttachmenDragItem>) => {
-  //   let newContent = {
-  //     'component-required-sender-name': content['component-required-sender-name'],
-  //     'component-required-sender-email': content['component-required-sender-email'],
-  //     'component-optional-subject': content['component-required-optional-subject'],
-  //     'component-text-1': content['component-text-1']
-  //   }
-
-  //   newItems.forEach((ni, i) => {
-  //     let index = i + 1
-  //     newContent[`component-attachment-${index}`] = `<div data-position=${index} data-attachment-type=${ni.value.type} id=component-attachment-${index} ${insertExplanation(ni.explId || null)}>${ni.value.name || ''}</div>` 
-  //   })
-
-  //   handleContentFullChange(newContent)
-  // }
 
   return (
     <Content>
@@ -76,19 +41,7 @@ export const EmailContent: FunctionComponent<Props> = ({
           name='senderName'
           placeholder='Sender name'
           label="Sender name"
-          initialExplanationValue={initialStates['component-required-sender-name']}
           contentObject={content.senderName}
-          value={content.senderName.value}
-          onChange={(expl, value) => {
-            // handleQuestion('emailContent', {
-            //   ...question.emailContent,
-            //   senderName: value
-            // })
-            // handleContent(
-            //   'component-required-sender-name', 
-            //   `<span ${insertExplanation(expl)} id=component-required-sender-name>${value}</span>` 
-            // )          
-          }}
         />
       </div>
 
@@ -103,19 +56,7 @@ export const EmailContent: FunctionComponent<Props> = ({
           name='senderEmail'
           placeholder='Sender email'
           label="Sender email"
-          value={content.senderEmail.value}
           contentObject={content.senderEmail}
-          initialExplanationValue={initialStates['component-required-sender-email']}
-          onChange={(expl, value) => {
-            // handleQuestion('emailContent', {
-            //   ...question.emailContent,
-            //   senderEmail: value
-            // })
-            // handleContent(
-            //   'component-required-sender-email', 
-            //   `<span ${insertExplanation(expl)} id=component-required-sender-email>${value}</span>` 
-            // )          
-          }}
         />      
 
       </div>
@@ -130,19 +71,8 @@ export const EmailContent: FunctionComponent<Props> = ({
           id='component-optional-subject'
           name='subject'
           placeholder='Subject'
-          value={content.subject.value}
           contentObject={content.subject}
           label="Subject"
-          onChange={(expl, value) => {
-            // handleQuestion('emailContent', {
-            //   ...question.emailContent,
-            //   subject: value
-            // })
-            // handleContent(
-            //   'component-optional-subject', 
-            //   `<span ${insertExplanation(expl)} id=component-optional-subject>${value}</span>` 
-            // )          
-          }}
         />
 
       </div>
@@ -154,14 +84,6 @@ export const EmailContent: FunctionComponent<Props> = ({
           initialContent={content.body.value}
           onChange={(emailText) => {
             updateActiveQuestionInput('body', 'value', emailText)
-            // handleQuestion('emailContent', {
-            //   ...question.emailContent,
-            //   body: emailText
-            // })
-            // handleContent(
-            //   'component-text-1', 
-            //   `<div data-position=1 id=component-text-1>${emailText}</div>`
-            // )
           }}
         />
       </div>

@@ -12,14 +12,12 @@ interface Props {
   name: string
   value: ImageObject;
   index: number
-  onExplanationChange: (explId: number) => void
   explanationId?: string
 }
 
 export const ImageDragItem: FunctionComponent<Props> = ({
   name,
   value,
-  onExplanationChange,
   explanationId,
   index
 }) => {

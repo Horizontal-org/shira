@@ -15,13 +15,8 @@ interface Props {
   placeholder?: string;
   name: string;
   id: string;
-  onChange?: (expl, value) => void
   required?: boolean;
-  customRef?: React.MutableRefObject<HTMLInputElement>
-  initialValue?: CustomElements
-  initialExplanationValue?: string
   validation?: string,
-  value?: string
   label?: string
   contentObject: QuestionTextInput
 }
@@ -30,13 +25,8 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
   placeholder,
   name,
   id,
-  onChange,
   label,
   required,
-  customRef,
-  initialExplanationValue,
-  validation,
-  value,
   contentObject
 }) => {
 
@@ -55,12 +45,6 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
   }), shallow)
 
   const ref = useRef(null)
-
-  // useEffect(() => {
-  //   if(initialExplanationValue && ref) {
-  //     ref.current.setAttribute('data-explanation', initialExplanationValue)
-  //   }
-  // }, [initialExplanationValue, ref])
 
   return (
     <Wrapper>
@@ -96,33 +80,14 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
         }}
       />
       
-       {/* <ExplanationButton
-        active={ref.current && selectedExplanationIndex + '' == ref.current.getAttribute('data-explanation')}
-        onClick={() => {
-          const hasExplanation = ref.current.getAttribute('data-explanation')
-          if (hasExplanation) {
-            changeSelected(parseInt(hasExplanation))
-          } else {
-            const index = explanationIndex + 1
-            ref.current.setAttribute('data-explanation', index + '')
-            addExplanation(index, label)
-            onChange(
-              index,
-              ref.current.value,
-            )
-          }
-        }}
-      /> */}
-
       <ExplanationButton
-        active={false}
+        active={selectedExplanationIndex && selectedExplanationIndex + '' === contentObject.explanation}
         onClick={() => {
           const hasExplanation = contentObject.explanation
           if (hasExplanation) {
             changeSelected(parseInt(hasExplanation))
           } else {
             const index = explanationIndex + 1
-            // ref.current.setAttribute('data-explanation', index + '')
             addExplanation(index, label)
             updateActiveQuestionInput(name, 'explanation', index + '')            
           }

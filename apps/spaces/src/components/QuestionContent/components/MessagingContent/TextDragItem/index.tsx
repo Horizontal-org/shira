@@ -8,13 +8,11 @@ import { shallow } from "zustand/shallow";
 interface Props {
   name: string
   index: number
-  onChange: (value:string) => void
   initialValue: string | null
 }
 
 export const TextDragItem: FunctionComponent<Props> = ({
   name,
-  onChange,
   initialValue,
   index
 }) => {

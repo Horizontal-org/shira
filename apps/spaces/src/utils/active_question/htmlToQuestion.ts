@@ -1,5 +1,5 @@
 import { QuestionPayload } from "../../fetch/question"
-import { ActiveQuestion, EmailContent, QuestionEditorInput, QuestionTextInput } from "../../store/types/active_question"
+import { ActiveQuestion, EmailContent, QuestionDragEditor, QuestionDragImage, QuestionEditorInput, QuestionTextInput } from "../../store/types/active_question"
 
 const replaceImage = (question: QuestionPayload, htmlContent: Document) => {
   // images 
@@ -47,6 +47,46 @@ const parseEditorElementToActiveQuestion = (html: Document, htmlId) => {
 }
 
 
+const parseDragItems = (htmlContent: Document) => {
+
+  let draggableItems: Array<QuestionDragImage | QuestionDragEditor> = []
+  htmlContent
+    .querySelectorAll('[id*="component-image"]')
+    .forEach((c) => {
+      const explId = c.getAttribute('data-explanation')
+      draggableItems.push({
+        draggableId: crypto.randomUUID(),
+        htmlId: c.getAttribute('id'),
+        contentType: 'image',
+        position: parseInt(c.getAttribute('data-position')),
+        explanation: explId,
+        value: {
+          url: c.getAttribute('src'),
+          id: c.getAttribute('data-image-id'),
+          originalFilename: c.getAttribute('alt')
+        }
+      })
+    })
+
+
+  htmlContent
+    .querySelectorAll('[id*="component-text"]')
+    .forEach((c) => {
+      draggableItems.push({
+        draggableId: crypto.randomUUID(),
+        htmlId: c.getAttribute('id'),
+        contentType: 'editor',
+        position: parseInt(c.getAttribute('data-position')),
+        value: c.innerHTML || null
+      })
+    })
+
+  //TODO add draggable items attachments
+
+  return draggableItems.sort((a, b) => a.position - b.position)
+}
+
+
 export const htmlToActiveQuestion = (question: QuestionPayload, html: Document) => {
   const app = question.apps[0]
   
@@ -65,6 +105,12 @@ export const htmlToActiveQuestion = (question: QuestionPayload, html: Document) 
       senderEmail: parseTextElementToActiveQuestion(html, 'component-required-sender-email'),      
       subject: parseTextElementToActiveQuestion(html ,'component-optional-subject'),
       body: parseEditorElementToActiveQuestion(html, 'component-text-1'),
+    }
+  } else {
+    activeQuestion.content = {
+      senderName: parseTextElementToActiveQuestion(html, 'component-required-fullname'),
+      senderPhone: parseTextElementToActiveQuestion(html, 'component-required-phone'),
+      draggableItems: parseDragItems(html)
     }
   }
 

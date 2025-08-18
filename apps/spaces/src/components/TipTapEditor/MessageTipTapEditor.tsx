@@ -39,22 +39,12 @@ export const MessageTipTapEditor = ({
     onCreate() {}
   })
 
-  console.log('EDITORID', editorId)
   const explanations = useExplanations(editor, editorId)
 
   // Connect editor events to hooks
   if (editor) {
     editor.off('selectionUpdate').on('selectionUpdate', explanations.handleSelectionUpdate)
   }
-
-  useEffect(() => {      
-    return () => {
-
-      // if (explanationId) {
-      //   deleteExplanation(explanationId)
-      // }
-    }
-  }, [])
 
 
   return (

@@ -188,28 +188,17 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
               { items.map(((item, index) => (
                 <DraggableMessagingItem
                   item={item}
-                  contentValue={content[item.htmlId]}
                   key={item.draggableId}
                   index={index}  
-                  onChange={(newItem) => {
-                    console.log("🚀 ~ newItem:", newItem)
-                    // const newItems = [...items];
-                    // newItems[index] = { 
-                    //   ...newItems[index], 
-                    //   value: newItem.value,
-                    //   // explId: newItem.explId || null
-                    // }
-                    // onChange(newItems)
-                  }}                
                   onDelete={() => {
                     if (item.contentType === 'image' && item.explanation) {
                       deleteExplanation((parseInt(item.explanation)))
                     }
 
-                    if (item.contentType === 'editor') {
-                      console.log('THIS DOESNT MAKE SENSE TO ME SO COMMENTING FOR NOW')
-                      // cleanTextExplanations(item)
-                    }
+                    //THIS DOESNT MAKE SENSE TO ME SO COMMENTING FOR NOW
+                    // if (item.contentType === 'editor') {
+                    //   // cleanTextExplanations(item)
+                    // }
 
                     // here cycle trhough explanations inside index
                     remove(item)

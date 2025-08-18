@@ -1,6 +1,6 @@
 import { TextInput } from "@shira/ui";
 import { Explanation } from "../../store/slices/explanation";
-import { ActiveQuestion, QuestionEditorInput, QuestionTextInput } from "../../store/types/active_question";
+import { ActiveQuestion, QuestionDragEditor, QuestionDragImage, QuestionEditorInput, QuestionTextInput } from "../../store/types/active_question";
 
 
 // const getHtmlByType = (appType, questionContent) => {
@@ -46,18 +46,21 @@ import { ActiveQuestion, QuestionEditorInput, QuestionTextInput } from "../../st
 export const activeQuestionToHtml = (activeQuestion: ActiveQuestion) => {
   if (activeQuestion.app.type === 'email') {
     // parse as email
-    return parseEmailActiveQuestionToHtml(activeQuestion.content)  
+    return parseActiveQuestionToHtml(activeQuestion.content)  
   } else {
+    return parseActiveQuestionToHtml(activeQuestion.content)
     console.log('parse message')
   }
 }
 
-const parseEmailActiveQuestionToHtml = (content: Object) => {
+const parseActiveQuestionToHtml = (content: Object) => {
   let elementsArray = []
   const keys = Object.keys(content)
   keys.forEach(k => {
     if (k === 'draggableItems') {
-      // go to draggable items
+      content[k].forEach((di) => {
+        elementsArray.push(parseDragItem(di))
+      })
     } else if (content[k].contentType === 'text') {
       elementsArray.push(parseQuestionTextInput(content[k]))
     } else if (content[k].contentType === 'editor') {
@@ -90,14 +93,46 @@ const parseQuestionTextInput = (textInput: QuestionTextInput) => {
 }
 
 // `<div data-position=1 id=component-text-1>${emailText}</div>`
-const parseQuestionEditorInput = (editorInput: QuestionEditorInput) => {
+const parseQuestionEditorInput = (editorInput: QuestionEditorInput, returnType: 'string' | 'html' = 'string') => {
   const editorElement = document.createElement('div')
   editorElement.innerHTML = editorInput.value
   editorElement.setAttribute('id', editorInput.htmlId)
-  return editorElement.outerHTML
+  editorElement.querySelectorAll('a').forEach((element) => {
+    element.setAttribute('onclick', 'return false;');
+    element.setAttribute('oncontextmenu', 'return false;');
+  })
+  return returnType === 'string' ? editorElement.outerHTML : editorElement
 }
 
+const parseQuestionDragImage = (imageInput: QuestionDragImage) => {
+  const imageElement = document.createElement('img')
+  imageElement.setAttribute('id', imageInput.htmlId)
+  imageElement.setAttribute('alt', imageInput.value.originalFilename)
+  imageElement.setAttribute('data-image-id', imageInput.value.id)
+  imageElement.setAttribute('src', imageInput.value.url)
+  if (imageInput.explanation) {
+    imageElement.setAttribute('data-explanation', imageInput.explanation)
+  }
+  return imageElement
+}
 // `<div data-position=${index} data-attachment-type=${ni.value.type} id=component-attachment-${index} ${insertExplanation(ni.explId || null)}>${ni.value.name || ''}</div>` 
-const parseQuestionDragAttachmentInput = () => (dragAttachment: any) => {
+// const parseQuestionDragAttachmentInput = () => (dragAttachment: any) => {
+// }
 
+//       let objectAttributes = ''
+  //       if (imageObject) {
+  //         objectAttributes = `data-image-id=${imageObject.id} alt=${imageObject.originalFilename} src=${imageObject.url}`
+  //       }
+  //       newContent[`component-image-${index}`] = `<img data-position=${index} id=component-image-${index} ${insertExplanation(ni.explId || null)} ${objectAttributes} />` 
+export const parseDragItem = (item: QuestionDragEditor | QuestionDragImage) => {
+  let element = null
+  if (item.contentType === 'image') {
+    element = parseQuestionDragImage(item)
+  } else if (item.contentType === 'editor') {
+    element = parseQuestionEditorInput(item, 'html')    
+  }
+  // add attachments here ? 
+
+  element.setAttribute('data-position', item.position)
+  return element.outerHTML
 }

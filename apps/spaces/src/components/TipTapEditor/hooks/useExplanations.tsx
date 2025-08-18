@@ -128,9 +128,6 @@ export const useExplanations = (editor: any, editorId: string) => {
           }           
       })
     })
-    
-      // const explodedId = ca.getAttribute('id').split('component-attachment-')
-      // const explanationIndex = ca.getAttribute('data-explanation')
 
     // second, add explanations on activequestion
     const activeQuestionIds = getExplanationIds()   
@@ -194,11 +191,8 @@ export const useExplanations = (editor: any, editorId: string) => {
   }, [editor, explanationIndex, addExplanation])
 
   const removeTextExplanation = useCallback(() => {
-    console.log('---1')
     if (!editor || !editor.isActive('explanation')) return false
-    console.log('---2')
     const deleteIndex = editor.getAttributes('explanation')['data-explanation']
-    console.log("---- 3", deleteIndex)
     deleteExplanation(deleteIndex)
     cleanDeletedExplanations(deleteIndex)
     editor.chain().focus().unsetExplanation().run()

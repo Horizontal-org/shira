@@ -1,6 +1,7 @@
 import { DatingApp, FBMessenger, Gmail, SMS, Whatsapp } from "@shira/ui"
 import { remapHtml } from "../../utils/remapHtml"
-import { ActiveQuestion, QuestionEditorInput } from "../../store/types/active_question"
+import { ActiveQuestion, QuestionDragEditor, QuestionDragImage, QuestionEditorInput } from "../../store/types/active_question"
+import { parseDragItem } from "../../utils/active_question/questionToHtml"
 
 
 // const parseAttachments = (html: Document) => {
@@ -57,7 +58,6 @@ export const AppComponents = {
 }
 
 export const getContentProps = (appName, activeQuestion: ActiveQuestion) => {
-  // const html = remapHtml(content)  
   if (appName === 'Gmail') {
     return {
       senderName: getActiveQuestionElement(activeQuestion, 'component-required-sender-name'),
@@ -66,21 +66,17 @@ export const getContentProps = (appName, activeQuestion: ActiveQuestion) => {
       content: parseEditorContent(activeQuestion['content']['body']),
       // attachments: parseAttachments(html)
     }
-  } else {
-    // const draggableContent = Object.keys(content)
-    //   .filter(ck => ck.includes('component-text') || ck.includes('component-image'))
-    //   .map(dk => content[dk])
-    // const draggableContentHtml = remapHtml(draggableContent)
-
-    // let props = {
-    //   content: draggableContentHtml || document.createElement('div'),
-    //   senderName: parseCustomElement(html, 'component-required-fullname'),
-    // }
+  } else {   
+    let props = {
+      content: parseMessagingDraggableItems(activeQuestion.content.draggableItems),
+      senderName: getActiveQuestionElement(activeQuestion, 'component-required-fullname'),
+    }
     
-    // if (appName === 'Whatsapp' || appName === 'SMS') {
-    //   props['phone'] = parseCustomElement(html, 'component-required-phone')
-    // }
-    // return props
+    if (appName === 'Whatsapp' || appName === 'SMS') {
+      props['phone'] = getActiveQuestionElement(activeQuestion, 'component-required-phone')
+    }
+
+    return props
   }  
 }
 
@@ -88,10 +84,9 @@ export const getContentProps = (appName, activeQuestion: ActiveQuestion) => {
 export const getActiveQuestionElement = (activeQuestion: ActiveQuestion, htmlId: string) => {
   let foundKey = null
   let content = {...activeQuestion.content}
+
   // try on first level elements
-  foundKey = Object.keys(content).find((contentKey) => {
-    // console.log("🚀 ~ getActiveQuestionElement ~ activeQuestion:", activeQuestion)
-    // console.log("🚀 ~ getActiveQuestionElement ~ contentKey:", contentKey, activeQuestion[contentKey])
+  foundKey = Object.keys(content).find((contentKey) => {    
     return content[contentKey].htmlId && content[contentKey].htmlId === htmlId
   })
 
@@ -105,12 +100,25 @@ export const getActiveQuestionElement = (activeQuestion: ActiveQuestion, htmlId:
   return 
 }
 
-// TODO GET DRAGGABLE ITEMS
-// const draggableItem = activeQuestion.content.draggableItems.find(di => {
-//   return di.htmlId === htmlId
-// })
-//
-// return {
-//   textContent: draggableItem.value || '',
-//   explanationPosition: activeQuestion[foundKey].explanation
-// }
+const parseMessagingDraggableItems = (items: Array<QuestionDragEditor | QuestionDragImage>) => {
+  
+  const htmlItems = items
+    .sort((a, b) => a.position - b.position)
+    .map((i) => {
+      return parseDragItem(i)
+    })
+
+  console.log("🚀 ~ parseMessagingDraggableItems ~ htmlItems:", htmlItems)
+
+  if (htmlItems.length === 0) {
+    return document.createElement('div')
+  }
+
+  return remapHtml(htmlItems)
+  // draggableContentHtml || document.createElement('div')
+  
+  // const draggableContent = Object.keys(content)
+    //   .filter(ck => ck.includes('component-text') || ck.includes('component-image'))
+    //   .map(dk => content[dk])
+    // const draggableContentHtml = remapHtml(draggableContent)
+}

@@ -11,16 +11,12 @@ interface Props {
   index: number;
   item: QuestionDragEditor | QuestionDragImage;
   onDelete: () => void  
-  onChange: (item: QuestionDragEditor | QuestionDragImage) => void
-  contentValue: string | null 
 }
 
 export const DraggableMessagingItem: FunctionComponent<Props> = ({  
   index,
   item,
   onDelete,  
-  onChange,
-  contentValue
 }) => {
   return (
     <>
@@ -47,14 +43,7 @@ export const DraggableMessagingItem: FunctionComponent<Props> = ({
                   <TextDragItem 
                     name={item.htmlId}
                     index={index}
-                    initialValue={contentValue}
-                    onChange={(value) => {
-                      console.log("🚀 ~ value:", value)
-                      // onChange({
-                      //   ...item,
-                      //   value
-                      // })
-                    }}
+                    initialValue={item.value}                
                   />
                 )}
                 { item.contentType === 'image' && (
@@ -63,12 +52,6 @@ export const DraggableMessagingItem: FunctionComponent<Props> = ({
                     name={item.htmlId}
                     explanationId={item.explanation}
                     value={item.value}
-                    onExplanationChange={(explId) => {
-                      // onChange({
-                      //   ...item,
-                      //   // explId: explId
-                      // })
-                    }}
                   />
                 )}
               </ContentWrapper>
