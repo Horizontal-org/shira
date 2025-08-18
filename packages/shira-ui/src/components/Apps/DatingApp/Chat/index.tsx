@@ -2,6 +2,7 @@ import { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import { Message } from './Message'
 import { Attachment } from './Attachment'
+import { MessagingImage } from './MessagingImage'
 interface Props {
     data: HTMLElement
   }
@@ -21,6 +22,10 @@ export const Chat: FunctionComponent<Props> = ({ data}) => {
               explanationPosition={e.getAttribute('data-explanation') || null} 
               name={e.textContent}
             />
+          )}
+
+          { e.getAttribute('id').includes('component-image') && (
+            <MessagingImage data={e} />
           )}
         </>
       ))}

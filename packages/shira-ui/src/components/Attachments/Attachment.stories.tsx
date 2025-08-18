@@ -24,14 +24,8 @@ const meta = {
       ],
       description: 'Type of the attachment',
     },
-    onDelete: {
-      action: 'delete',
-      description: 'Function called when delete option is selected',
-    },
   },
-  args: {
-    onDelete: (e) => console.log('Delete clicked', e),
-  },
+  args: {},
 } satisfies Meta<typeof Attachment>;
 
 export default meta;
@@ -86,7 +80,6 @@ export const InteractiveMenu = () => {
       <Attachment
         name="interactive-example.pdf"
         type={AttachmentType.document}
-        onDelete={() => {}}
       />
     </div>
   );

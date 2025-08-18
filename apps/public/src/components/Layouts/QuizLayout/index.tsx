@@ -132,7 +132,9 @@ export const QuizLayout: FunctionComponent<Props> = () => {
       )}
 
       { scene === 'completed' && (
-        <CustomQuizCompletedScene />
+        <CustomQuizCompletedScene
+         quizNumber={quiz.quizQuestions.length}
+         />
       )}
     </>
   )

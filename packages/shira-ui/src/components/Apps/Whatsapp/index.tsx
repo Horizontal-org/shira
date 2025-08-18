@@ -73,8 +73,8 @@ const StyledScrollbar = createGlobalStyle`
 `
 
 const Content = styled.div`
-  width: 80vw;
-  height: calc(100% - 50px);
+  width: 100%;
+  height: calc(100%);
   background: white;
   display: flex;
 
@@ -84,7 +84,6 @@ const Content = styled.div`
   }
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
-    width: 100vw;
     height: 100%;
   }
 `

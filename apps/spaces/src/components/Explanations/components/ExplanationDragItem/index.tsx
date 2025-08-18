@@ -1,8 +1,8 @@
 import { FunctionComponent, ReactNode } from 'react'
 import { Draggable } from "react-beautiful-dnd";
 import { DynamicComponentOptions } from '../../../DynamicComponentOptions';
-import { ExplanationItemOptions } from './components/ExplanationItemOptions';
 import { Body3, Body3Bold, styled } from '@shira/ui';
+import { DragItemOptions } from '../../../DragItemOptions';
 
 interface Props {
   id: string;
@@ -44,10 +44,9 @@ export const ExplanationDragItem: FunctionComponent<Props> = ({
                   </div>                
               </ContentWrapper>
             
-            <ExplanationItemOptions
+            <DragItemOptions
               dragHandleProps={draggableProvided.dragHandleProps}
               onDelete={onDelete}
-              selected={selected}
             />
           </Container>
         </>

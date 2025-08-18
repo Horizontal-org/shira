@@ -6,7 +6,7 @@ import { useStore } from '../../store';
 import { Component, componentOptions } from '../../utils/dynamicComponents';
 
 import { AddComponent } from '../AddComponent'
-import { Attachment } from '../DynamicComponents/Attachment';
+// import { Attachment } from '../DynamicComponents/Attachment';
 import { TextEditor } from '../DynamicComponents/TextEditor'
 import { DragItem } from './components/DragItem';
 
@@ -27,11 +27,11 @@ const componentsList = [
     node: (<TextEditor />),
     position: 0
   },
-  {
-    type: 'attachment',
-    node: (<Attachment />),
-    position: 0
-  }
+  // {
+  //   type: 'attachment',
+  //   node: (<Attachment />),
+  //   position: 0
+  // }
 ]
 
 export const reorder = (list, startIndex, endIndex) => {

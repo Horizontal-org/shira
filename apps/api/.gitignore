@@ -37,3 +37,5 @@ lerna-debug.log*
 .env
 
 /garage/garage.toml
+./garage/garage.toml
+garage.toml
