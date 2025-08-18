@@ -12,6 +12,7 @@ import { QuestionToBe } from "../QuestionFlowManagement/types";
 
 interface Props {
   handleQuestion: (k, v) => void;
+  handleApp: (app: App) => void
   question: QuestionToBe
   apps: App[]
   initialAppType: string
@@ -19,6 +20,7 @@ interface Props {
 
 export const QuestionBasicInfo: FunctionComponent<Props> = ({
   handleQuestion,
+  handleApp,
   question,
   apps,
   initialAppType
@@ -77,7 +79,7 @@ export const QuestionBasicInfo: FunctionComponent<Props> = ({
               text={a.name}
               color="green"
               handleFilter={() => {
-                handleQuestion('app', a)
+                handleApp(a)
               }}
               isActive={question.app && question.app.id ===  a.id}
             />

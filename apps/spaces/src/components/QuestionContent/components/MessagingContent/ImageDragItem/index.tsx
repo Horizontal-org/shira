@@ -2,61 +2,63 @@ import { FunctionComponent, useEffect, useRef } from "react";
 import { Body2Regular, styled } from "@shira/ui";
 import { MessageTipTapEditor } from "../../../../TipTapEditor/MessageTipTapEditor";
 import { LoadingOverlay } from "../../../../LoadingOverlay/LoadingOverlay";
-import { ImageObject } from "../interfaces/MessagingDragItem";
 import { ExplanationButton } from "../../../../Explanations/components/ExplanationButton";
 import { useStore } from "../../../../../store";
 import { shallow } from "zustand/shallow";
 import { subscribe, unsubscribe } from "../../../../../utils/customEvent";
+import { ImageObject } from "../../../../../store/types/active_question";
 
 interface Props {
   name: string
   value: ImageObject;
-  onExplanationChange: (explId: number) => void
-  explanationId?: number
+  index: number
+  explanationId?: string
 }
 
 export const ImageDragItem: FunctionComponent<Props> = ({
   name,
   value,
-  onExplanationChange,
-  explanationId
+  explanationId,
+  index
 }) => {
 
   const {
       addExplanation,
       explanationIndex,      
       changeSelected,
-      selectedExplanation
+      selectedExplanation,
+      updateActiveQuestionDraggableItem
     } = useStore((state) => ({
       addExplanation: state.addExplanation,
       explanationIndex: state.explanationIndex,
       changeSelected: state.changeSelected,
-      selectedExplanation: state.selectedExplanation
+      selectedExplanation: state.selectedExplanation,
+      updateActiveQuestionDraggableItem: state.updateActiveQuestionDraggableItem
     }), shallow)
   
     const ref = useRef(null)
   
-    const subscribeToDelete = (newExplId) => {
-      subscribe('delete-explanation', (event) => {
-        if (newExplId === event.detail.deleteIndex) {
-          ref.current.removeAttribute('data-explanation')
-          onExplanationChange(null)
-        }        
-      })
-    }
+    // const subscribeToDelete = (newExplId) => {
+    //   subscribe('delete-explanation', (event) => {
+    //     if (newExplId === event.detail.deleteIndex) {
+    //       ref.current.removeAttribute('data-explanation')
+    //       onExplanationChange(null)
+    //     }        
+    //   })
+    // }
 
-    useEffect(() => {      
-      return () => {
-        unsubscribe('delete-explanation')
-      }
-    }, [])
+    // useEffect(() => {      
+    //   return () => {
+    //     unsubscribe('delete-explanation')
+    //   }
+    // }, [])
 
-    useEffect(() => {
-      if(explanationId && ref) {
-        ref.current.setAttribute('data-explanation', explanationId)
-        subscribeToDelete(explanationId)
-      }
-    }, [explanationId, ref])
+    // useEffect(() => {
+    //   if(explanationId && ref) {
+    //     ref.current.setAttribute('data-explanation', explanationId)
+    //     subscribeToDelete(explanationId)
+    //   }
+    // }, [explanationId, ref])
 
   return (
     <Wrapper>
@@ -68,18 +70,19 @@ export const ImageDragItem: FunctionComponent<Props> = ({
             alt={value.originalFilename}
           />          
           <ExplanationButton
-            active={selectedExplanation && selectedExplanation === explanationId}
+            active={selectedExplanation && selectedExplanation + '' == explanationId}
             disabled={false}
              onClick={() => {
-                const hasExplanation = ref.current.getAttribute('data-explanation')
+                const hasExplanation = explanationId
                 if (hasExplanation) {
                   changeSelected(parseInt(hasExplanation))
                 } else {
-                  const index = explanationIndex + 1
-                  ref.current.setAttribute('data-explanation', index + '')
-                  addExplanation(index, '')
-                  onExplanationChange(index)
-                  subscribeToDelete(index)
+                  const newExplanationIndex = explanationIndex + 1
+                  // ref.current.setAttribute('data-explanation', index + '')
+                  addExplanation(newExplanationIndex, '')
+                  updateActiveQuestionDraggableItem(index, 'explanation', newExplanationIndex)
+                  // onExplanationChange(index)
+                  // subscribeToDelete(index)
                 }
             }}
           />

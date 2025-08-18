@@ -7,39 +7,40 @@ import { subscribe, unsubscribe } from "../../utils/customEvent";
 import { cleanDeletedExplanations } from "../../utils/explanations";
 import { CommonHeader } from "./components/CommonHeader";
 import { MessagingContent } from "./components/MessagingContent";
+import { ActiveQuestion } from "../../store/types/active_question";
 
 interface Props {
-  question: QuestionToBe
-  handleContent: (id: string, value: string) => void
-  handleQuestion: (k, v) => void;
-  content: Object
-  handleContentRemove: (id: string) => void
-  handleContentFullChange: (newContent: Object) => void
+  question: ActiveQuestion
+  handleContent?: (id: string, value: string) => void
+  handleQuestion?: (k, v) => void;
+  content?: Object
+  handleContentRemove?: (id: string) => void
+  handleContentFullChange?: (newContent: Object) => void
 }
 
 export const QuestionContent: FunctionComponent<Props> = ({
   question,
-  handleQuestion,
-  handleContent,
-  content,
-  handleContentRemove,
-  handleContentFullChange
+  // handleQuestion,
+  // handleContent,
+  // content,
+  // handleContentRemove,
+  // handleContentFullChange
 }) => {
 
-  useEffect(() => {
-    // fetchQuestion(id)
+  // useEffect(() => {
+  //   // fetchQuestion(id)
 
-    subscribe('delete-explanation', (event) => {
-      // try deleting from dom
-      cleanDeletedExplanations(event.detail.deleteIndex)
-    })
+  //   subscribe('delete-explanation', (event) => {
+  //     // try deleting from dom
+  //     cleanDeletedExplanations(event.detail.deleteIndex)
+  //   })
 
-    return () => {
-      unsubscribe('delete-explanation')
-      // clean everything
-      // clear()
-    }
-  }, [])
+  //   return () => {
+  //     unsubscribe('delete-explanation')
+  //     // clean everything
+  //     // clear()
+  //   }
+  // }, [])
 
   return (
     <Wrapper id='dynamic-content'>
@@ -52,33 +53,20 @@ export const QuestionContent: FunctionComponent<Props> = ({
         { question.app.type === 'email' && (
           <EmailContent 
             question={question}
-            content={content}
-            handleContent={handleContent}
-            handleQuestion={handleQuestion}
-            handleContentFullChange={handleContentFullChange}
+            content={question.content}
           />
         )}
 
         { question.app.type === 'messaging' && (
           <MessagingContent 
             question={question}
-            content={content}
-            handleContent={handleContent}
-            handleQuestion={handleQuestion}
-            handleContentFullChange={handleContentFullChange}
+            content={question.content}            
           />
         )}
         
       </StyledBox> 
 
-      <Explanations 
-        content={content}
-        handleContent={handleContent}
-        onDelete={(explId) => {
-          // clean from attachments
-          // cleanAttachment(explId)
-        }}
-      />  
+      <Explanations />  
     </Wrapper> 
   )
 }

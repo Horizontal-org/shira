@@ -2,17 +2,14 @@ import { FunctionComponent, useEffect, useState } from "react";
 import { Body2Regular, Body3, styled, SubHeading3, TextInput } from '@shira/ui'
 import { EmailContent as EmailContentType, QuestionToBe } from "../../../QuestionFlowManagement/types";
 import { InputWithExplanation } from "../../../InputWithExplanation";
-import { remapHtml } from "../../../../utils/remapHtml";
 import { DraggableMessagingList } from "./DraggableMessagingList";
-import { ImageObject, MessagingDragItem } from "./interfaces/MessagingDragItem";
-
+import { MessagingContent as MessagingContentType } from "../../../../store/types/active_question";
+import { useStore } from "../../../../store";
+import { shallow } from "zustand/shallow";
 
 interface Props {
   question: QuestionToBe
-  content: Object
-  handleContent: (id: string, value: string) => void
-  handleQuestion: (k, v) => void
-  handleContentFullChange: (newContent: Object) => void
+  content: MessagingContentType
 }
 
 const MessagingAppsNames = {
@@ -25,11 +22,14 @@ const MessagingAppsNames = {
 export const MessagingContent: FunctionComponent<Props> = ({
   question,
   content,
-  handleQuestion,
-  handleContent,
-  handleContentFullChange
 }) => {
 
+  const {    
+    updateActiveQuestionDraggableItems
+  } = useStore((state) => ({
+    updateActiveQuestionDraggableItems: state.updateActiveQuestionDraggableItems
+  }), shallow)
+  
   const hasSenderPhone = () => {
       if (question && question.app) {
         return !!([
@@ -41,54 +41,11 @@ export const MessagingContent: FunctionComponent<Props> = ({
       return false
   }
 
-  const [initialStates, handleInitialStates] = useState<Object>({})
   const [senderPhoneEnabled, handleSenderPhoneEnabled] = useState<boolean>(false)
 
-  const insertExplanation = (e) => {
-    return e ? ` data-explanation='${e}' ` : ''  
-  }
-
-
   useEffect(() => {
-    const html = remapHtml(content)
-    if (html) {
-      const senderName = html.getElementById('component-required-fullname')
-      const senderPhone = html.getElementById('component-required-phone')
-
-      handleInitialStates({
-        'component-required-fullname': senderName ? senderName.getAttribute('data-explanation') : null,
-        'component-required-phone': senderPhone ? senderPhone.getAttribute('data-explanation') : null,
-      })
-    }
-    
     handleSenderPhoneEnabled(hasSenderPhone)
   }, [])
-
-  const remapDynamicContent = (newItems: Array<MessagingDragItem>) => {
-    let newContent = {
-      'component-required-fullname': content['component-required-fullname'],
-      'component-required-phone': content['component-required-phone']
-    }
-
-    newItems.forEach((ni, i) => {
-      let index = i + 1
-      
-      if (ni.type === 'text') {
-        newContent[`component-text-${index}`] = `<div data-position=${index} id=component-text-${index}>${ni.value || ''}</div>` 
-      }
-
-      if (ni.type === 'image') {
-        const imageObject = ni.value as ImageObject
-        let objectAttributes = ''
-        if (imageObject) {
-          objectAttributes = `data-image-id=${imageObject.id} alt=${imageObject.originalFilename} src=${imageObject.url}`
-        }
-        newContent[`component-image-${index}`] = `<img data-position=${index} id=component-image-${index} ${insertExplanation(ni.explId || null)} ${objectAttributes} />` 
-      }      
-    })
-
-    handleContentFullChange(newContent)
-  }
 
   return (
     <Content>
@@ -102,21 +59,10 @@ export const MessagingContent: FunctionComponent<Props> = ({
         
           <InputWithExplanation 
             id='component-required-phone'
-            name='phone'
+            name='senderPhone'
             placeholder='Sender phone'
             label="Sender phone"
-            value={question.messagingContent.senderPhone}
-            initialExplanationValue={initialStates['component-required-phone']}
-            onChange={(expl, value) => {
-              handleQuestion('messagingContent', {
-                ...question.messagingContent,
-                senderPhone: value
-              })
-              handleContent(
-                'component-required-phone', 
-                `<span ${insertExplanation(expl)} id=component-required-phone>${value}</span>` 
-              )
-            }}
+            contentObject={content.senderPhone}
           />
         </div>
       ) : (
@@ -126,38 +72,20 @@ export const MessagingContent: FunctionComponent<Props> = ({
             <Body3>This is the name that will be displayed in the “Sender” field of the message.</Body3>
           </InputHeading>
 
-          <InputWithExplanation 
+          <InputWithExplanation
             id='component-required-fullname'
-            name='fullname'
+            name='senderName'
             placeholder='Sender name'
             label="Sender name"
-            initialExplanationValue={initialStates['component-required-fullname']}
-            value={question.messagingContent.senderName}
-            onChange={(expl, value) => {
-              handleQuestion('messagingContent', {
-                ...question.messagingContent,
-                senderName: value
-              })
-              handleContent(
-                'component-required-fullname', 
-                `<span ${insertExplanation(expl)} id=component-required-fullname>${value}</span>` 
-              )          
-            }}
+            contentObject={content.senderName}        
           />
         </div>
       )}
 
       <DraggableMessagingList
         content={content}
-        items={question.messagingContent.draggableItems}
-        onChange={(newItems) => {
-          handleQuestion('messagingContent', {
-            ...question.messagingContent,
-            draggableItems: newItems
-          })
-
-          remapDynamicContent(newItems as Array<MessagingDragItem>)
-        }}
+        items={content.draggableItems}
+        onChange={(newItems) => { updateActiveQuestionDraggableItems(newItems) }}
       />
    
     </Content>
