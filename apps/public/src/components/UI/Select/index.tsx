@@ -1,6 +1,5 @@
 import { 
   FunctionComponent, 
-  useEffect, 
   useState, 
   useRef,
 } from "react";
@@ -10,6 +9,7 @@ import { FiChevronDown, FiChevronUp } from 'react-icons/fi'
 import { MobileOptions } from "./components/MobileOptions";
 import { Option } from "./components/Option";
 import LangIcon from './components/LangIcon'
+import { useLanguageSelection } from "./useLanguageSelection";
 
 export interface OptionInterface {
   label: string;
@@ -26,7 +26,7 @@ interface Props {
 export const LanguageSelect: FunctionComponent<Props> = ({ 
   options,
   autoselect,
-  onChange
+  onChange,
 }) => {
 
   const optionsRef = useRef(null)
@@ -35,13 +35,11 @@ export const LanguageSelect: FunctionComponent<Props> = ({
   })
   
   const [open, handleOpen] = useState<boolean>(false)
-  const [selected, handleSelected] = useState<OptionInterface | null>(null)
-
-  useEffect(() => {
-    if (options.length > 0 && autoselect) {
-      handleSelected(options[0])
-    }
-  }, [])
+  const { selected, handleSelected } = useLanguageSelection({
+      options,
+      autoselect,
+      onChange
+    });
 
   return (
     <StyledSelect ref={optionsRef}>

@@ -1,8 +1,16 @@
 {
+    "beta": {
+        "label": "BETA",
+        "message": "Shira is still in development and you may experience issues.",
+        "feedback_text": "to share your feedback and help us improve!",
+        "click_here": "Click here"
+    },
     "welcome": {
         "title": "Welcome to Shira",
         "subtitle": "Learn to identify and defeat phishing attempts",
-        "start": "Start quiz"
+        "start": "Start quiz",
+        "public_message": "Welcome to your phishing quiz. Change your language or click on \"Start quiz\" to get started.",
+        "learn_more": "Learn more about Shira"
     },
     "setup": {
         "name": {
@@ -41,6 +49,7 @@
     "quiz": {
         "how_it_works": {
             "title": "How it works",
+            "question_count": "This quiz contains {{count}} questions",
             "explanation_1": "This quiz contains 10 questions.",
             "explanation_2": "For each question, select whether the message shown seems like a phishing attempt or seems legitimate.",
             "explanation_3": "If you are not sure, you can select the “I don’t know” option.",
