@@ -28,7 +28,7 @@ export class QuestionSanitizer {
         'a': ['href', 'title', 'target', 'rel'],
         'img': ['src', 'alt', 'width', 'height', 'data-image-id', 'data-original-width', 'data-original-height', 'data-original-filename', 'data-explanation'],
         'span': ['style', 'class', 'id', 'data-explanation'],
-        'div': ['style', 'class', 'id', 'data-position'],
+        'div': ['style', 'class', 'id', 'data-position', 'data-attachment-type'],
         'mark': ['data-explanation'],
         
         // Table attributes
