@@ -26,9 +26,9 @@ export class QuestionSanitizer {
       
       allowedAttributes: {
         'a': ['href', 'title', 'target', 'rel'],
-        'img': ['src', 'alt', 'width', 'height', 'data-image-id', 'data-original-width', 'data-original-height', 'data-original-filename', 'data-explanation'],
-        'span': ['style', 'class', 'id', 'data-explanation'],
-        'div': ['style', 'class', 'id', 'data-position', 'data-attachment-type'],
+        'img': ['src', 'alt', 'width', 'height', 'data-image-id', 'data-original-width', 'data-original-height', 'data-original-filename', 'data-explanation', 'data-position'],
+        'span': ['style', 'class', 'id', 'data-explanation', 'data-position'],
+        'div': ['style', 'class', 'id', 'data-position', 'data-attachment-type', 'data-explanation'],
         'mark': ['data-explanation'],
         
         // Table attributes
