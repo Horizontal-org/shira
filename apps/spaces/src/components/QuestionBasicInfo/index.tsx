@@ -8,17 +8,19 @@ import {
   TextInput 
 } from '@shira/ui'
 import { App } from "../../fetch/app";
-import { QuestionToBe } from "../QuestionFlowManagement/types";
+import { ActiveQuestion } from "../../store/types/active_question";
 
 interface Props {
   handleQuestion: (k, v) => void;
-  question: QuestionToBe
+  handleApp: (app: App) => void
+  question: ActiveQuestion
   apps: App[]
   initialAppType: string
 }
 
 export const QuestionBasicInfo: FunctionComponent<Props> = ({
   handleQuestion,
+  handleApp,
   question,
   apps,
   initialAppType
@@ -77,7 +79,7 @@ export const QuestionBasicInfo: FunctionComponent<Props> = ({
               text={a.name}
               color="green"
               handleFilter={() => {
-                handleQuestion('app', a)
+                handleApp(a)
               }}
               isActive={question.app && question.app.id ===  a.id}
             />

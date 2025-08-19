@@ -1,8 +1,16 @@
 {
+    "beta": {
+        "label": "BETA",
+        "message": "Shira todavía está en desarrollo y puedes experimentar problemas.",
+        "feedback_text": "para compartir tus comentarios y ayudarnos a mejorar!",
+        "click_here": "Haz clic aquí"
+    },
     "welcome": {
         "title": "Bienvenido a Shira",
         "subtitle": "Aprenda a identificar y derrotar los intentos de phishing",
-        "start": "Iniciar cuestionario"
+        "start": "Iniciar cuestionario",
+        "public_message": "Bienvenido a tu cuestionario de phishing. Cambia tu idioma o haz clic en \"Iniciar cuestionario\" para comenzar.",
+        "learn_more": "Aprende más sobre Shira"
     },
     "setup": {
         "name": {
@@ -41,6 +49,7 @@
     "quiz": {
         "how_it_works": {
             "title": "Cómo funciona",
+            "question_count": "Este cuestionario contiene {{count}} preguntas",
             "explanation_1": "Este cuestionario contiene 10 preguntas.",
             "explanation_2": "Para cada pregunta, elige si el mensaje que se muestra parece un intento de phishing o parece legítimo.",
             "explanation_3": "Si no está seguro, puede seleccionar la opción \"No sé\".",
@@ -104,7 +113,10 @@
         "subtitle": "Realiza un nuevo cuestionario o consulta algunas recomendaciones a continuación para seguir reforzando tus conocimientos y ser mejor a la hora de evitar el phishing.",
         "back_button": "Volver al inicio",
         "next_button": "Nuevo cuestionario",
-        "heavy_subtitle": "Respondiste correctamente {{correctQuestions}} de {{questions}} preguntas."
+        "heavy_subtitle_1": "Respondiste correctamente ",
+        "heavy_subtitle_2": "{{correctQuestions}} de {{questions}}",
+        "heavy_subtitle_3": " preguntas.",
+        "greeting_title": "Thanks for using Shira!"
     },
     "about": {
         "title": "Información",

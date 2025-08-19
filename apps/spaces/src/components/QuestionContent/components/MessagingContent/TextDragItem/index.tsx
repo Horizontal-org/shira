@@ -2,24 +2,34 @@ import { FunctionComponent } from "react";
 import { Body2Regular, styled } from "@shira/ui";
 import { MessageTipTapEditor } from "../../../../TipTapEditor/MessageTipTapEditor";
 import { ExplanationButton } from "../../../../Explanations/components/ExplanationButton";
+import { useStore } from "../../../../../store";
+import { shallow } from "zustand/shallow";
 
 interface Props {
   name: string
-  onChange: (value:string) => void
+  index: number
   initialValue: string | null
 }
 
 export const TextDragItem: FunctionComponent<Props> = ({
   name,
-  onChange,
-  initialValue
+  initialValue,
+  index
 }) => {
 
+  const {
+    updateActiveQuestionDraggableItem,
+  } = useStore((state) => ({
+    updateActiveQuestionDraggableItem: state.updateActiveQuestionDraggableItem,
+  }), shallow)
+    
   return (
     <Wrapper>
       <MessageTipTapEditor 
         editorId={name}
-        onChange={onChange}        
+        onChange={(editorText) => {
+          updateActiveQuestionDraggableItem(index, 'value', editorText)
+        }}
         initialContent={initialValue}  
       />      
     </Wrapper>
