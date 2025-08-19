@@ -4,6 +4,7 @@ import Recipient from './components/Recipient'
 import Message from './components/Message'
 import Background from './assets/background.png'
 import { Attachment } from './components/Attachment'
+import { MessagingImage } from './components/MessagingImage'
 
 interface Props {
   phone?: {
@@ -30,6 +31,10 @@ const MessageWrapper: FunctionComponent<Props> = ({
 
             { e.getAttribute('id').includes('component-attachment') && (
               <Attachment explanationPosition={e.getAttribute('data-explanation') || null} name={e.textContent}/>
+            )}
+
+            { e.getAttribute('id').includes('component-image') && (
+              <MessagingImage data={e} />
             )}
           </>
         ))}
@@ -58,6 +63,7 @@ const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column-reverse;
   position: relative;
+  overflow-y: scroll;
 `
 
 export default MessageWrapper

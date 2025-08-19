@@ -1,19 +1,13 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { AddAttachmentModal, Button, styled, Attachment, AttachmentType } from "@shira/ui";
 import { IoMdAdd } from "react-icons/io";
-import { AttachmentWithExplanation } from "../../../AttachmentWithExplanation";
-
-
-export interface AttachmentFile {
-  id: number;
-  type: AttachmentType;
-  name: string;
-  explanationIndex?: number
-}
+import { DraggableAttachmentList } from "./DraggableAttachmentList";
+import { QuestionDragAttachment } from "../../../../store/types/active_question";
 
 interface Props { 
-  onChange: (persistentList: AttachmentFile[], f: AttachmentFile) => void
-  files?: AttachmentFile[]
+  onChange: (persistentList: QuestionDragAttachment[]) => void
+  files?: QuestionDragAttachment[]
+  content: Object
   // onChangeList: (f: AttachmentFile[]) => void
   // startAttachments?: AttachmentFile[] 
 }
@@ -40,9 +34,10 @@ interface Props {
 //   deleteExplanations(c.position, c.type)
 //   deleteContent(`component-${c.type}-${c.position}`)
 // }}
+
 export const Attachments: FunctionComponent<Props> = ({
   onChange,  
-  files  
+  files,
 }) => {
 
   const [isOpen, setIsOpen] = useState(false);
@@ -56,34 +51,22 @@ export const Attachments: FunctionComponent<Props> = ({
 
   return (
     <div>
-      <Button 
-        onClick={() => setIsOpen(true)}
-        text="Add attachment"
-        type="outline"    
-        leftIcon={<IoMdAdd color="#5F6368" size={14}/>}        
+      <AddAttachmentButtonWrapper>
+        <Button 
+          onClick={() => setIsOpen(true)}
+          text="Add attachment"
+          type="outline"    
+          leftIcon={<IoMdAdd color="#5F6368" size={14}/>}        
+        />
+      </AddAttachmentButtonWrapper>
+
+      <DraggableAttachmentList
+        items={files}
+        onChange={(newItems) => {
+          onChange(newItems)        
+        }}
       />
 
-      <AttachmentsWrapper>
-        { files.map((f, k) => (
-          <AttachmentWithExplanation
-            key={k}
-            file={f}
-            onChange={(fileToSave) => {
-              const persistentList = files.map((fm) => {
-                if(fm.id === fileToSave.id) {
-                  return fileToSave
-                }
-                return fm
-              })
-              onChange(persistentList, fileToSave)
-            }}
-            onDelete={() => {            
-              onChange(files.filter(fil => fil.id !== f.id), null)
-            }}
-          />
-        ))}
-      </AttachmentsWrapper>
-                  
       <AddAttachmentModal 
         fileName={fileName} 
         handleFileName={setFileName}
@@ -92,13 +75,20 @@ export const Attachments: FunctionComponent<Props> = ({
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         onSave={() => {              
-          const newFile = {
-            id: files.length > 0 ? files[files.length -1].id + 1 : 1,
-            name: fileName,
-            type: fileType
+          const newName = `component-attachment-${files.length + 1}`
+          const newFile: QuestionDragAttachment = {
+            htmlId: newName,
+            contentType: 'attachment',
+            explanation: null,
+            position: files.length + 1,
+            draggableId: crypto.randomUUID(),
+            value: {
+              name: fileName,
+              type: fileType
+            }
           }
 
-          onChange(files.concat([newFile]), newFile)
+          onChange(files.concat([newFile]))
           clean()
         }}
       />
@@ -106,9 +96,6 @@ export const Attachments: FunctionComponent<Props> = ({
   )
 }
 
-const AttachmentsWrapper = styled.div`
-  padding: 24px 0; 
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+const AddAttachmentButtonWrapper = styled.div`
+  margin-bottom: 24px;
 `

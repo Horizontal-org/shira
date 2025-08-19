@@ -29,7 +29,7 @@ export const QuizInstructions:FunctionComponent<Props> = ({
       <Wrapper>
         <InfoWrapper>
           <Heading>{t('quiz.how_it_works.title')}</Heading>
-            <p>{`This quiz contains ${count} questions`}</p>
+            <p>{t('quiz.how_it_works.question_count', { count: count })}</p>
             <p>{t('quiz.how_it_works.explanation_2')}</p>
 
             <AnswerOptionsWrapper>

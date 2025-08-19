@@ -3,11 +3,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { fetchQuestion, QuestionCRUDFeedback, useQuestionCRUD } from "../../fetch/question";
 import { useStore } from "../../store";
 import { shallow } from "zustand/shallow";
-import { QuestionToBe } from "../QuestionFlowManagement/types";
-import { getContentObject, getQuestionValues } from "./utils";
 import { QuestionFlowManagement } from "../QuestionFlowManagement";
 import { QuizSuccessStates } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
+import { ActiveQuestion } from "../../store/types/active_question";
+import { htmlToActiveQuestion } from "../../utils/active_question/htmlToQuestion";
 
 interface Props {
 
@@ -21,14 +21,17 @@ export const QuestionEditLayout: FunctionComponent<Props> = () => {
   const {    
     setQuizActionSuccess,
     setInitialExplanations,
-    clearExplanations
+    clearExplanations,
+    setActiveQuestion
   } = useStore((state) => ({
     setInitialExplanations: state.setInitialExplanations,
     setQuizActionSuccess: state.setQuizActionSuccess,
-    clearExplanations: state.clearExplanations
+    clearExplanations: state.clearExplanations,
+    setActiveQuestion: state.setActiveQuestion
   }), shallow)
 
-  const [initialQuestion, handleQuestion] = useState<QuestionToBe>(null)
+  
+  const [initialQuestion, handleQuestion] = useState<ActiveQuestion>(null)
   const [initialContent, handleContent] = useState({})
 
   useEffect(() => {
@@ -50,10 +53,9 @@ export const QuestionEditLayout: FunctionComponent<Props> = () => {
       const htmlContent = new DOMParser().parseFromString(question.content, 'text/html')
       
       // PARSE QUESTION 
-      handleQuestion(getQuestionValues(question, htmlContent))
-
-      // PARSE CONTENT      
-      handleContent(getContentObject(htmlContent))
+      const activeQuestion = htmlToActiveQuestion(question, htmlContent)
+      setActiveQuestion(activeQuestion)
+      handleQuestion(activeQuestion)
 
     }
 
@@ -87,8 +89,7 @@ export const QuestionEditLayout: FunctionComponent<Props> = () => {
       onSubmit={(question) => {
         edit(quizId, question, questionId)
       }}
-      initialContent={initialContent}
-      initialQuestion={initialQuestion}
+      initialAppType={initialQuestion.app.type}
       actionFeedback={actionFeedback}
     />
   ) 

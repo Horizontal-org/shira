@@ -1,14 +1,16 @@
 import { FunctionComponent } from 'react'
 import { Body2Regular, styled } from '@shira/ui'
+import { useTranslation } from 'react-i18next'
 
 interface Props {}
 
 export const LearnMore:FunctionComponent<Props> = () => {
+  const { t } = useTranslation()
   return (
     <StyledText onClick={() => {
       window.location.href = 'https://shira.app'
     }}>  
-      Learn more about Shira
+      {t('welcome.learn_more')}
     </StyledText>
   )
 }

@@ -16,19 +16,19 @@ const Message:FunctionComponent<Props> = ({ data }) => {
 }
 
 const Wrapper = styled.div`
-  width: 95%;
-  display: flex;
-  flex-grow: 1;
-  position: relative;
-
+  width: 85%;
+  
   position:relative;
+  flex-grow: 1;
   display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+
   background: #fff;
   border-radius: 7.5px;
   padding: 6px 7px 8px 9px;
   box-shadow: 0 1px 0.5px rgba(11,20,26, .13);
   margin: 4px 0; 
-  margin-right: 10px;
 
   > span {
     font-size: 9px;

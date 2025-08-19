@@ -104,7 +104,10 @@
         "subtitle": "参加新的测试或查看下面的建议，以继续加强技能，从而更好地抵御网络钓鱼。",
         "back_button": "返回首页",
         "next_button": "新测验",
-        "heavy_subtitle": "您正确回答了 {{correctQuestions}} 个问题，共 {{questions}} 个问题。"
+        "heavy_subtitle_1": "您正确回答了 ",
+        "heavy_subtitle_2": "{{correctQuestions}} 个问题，共 {{questions}}",
+        "heavy_subtitle_3": " 个问题。",
+        "greeting_title": "Thanks for using Shira!"
     },
     "about": {
         "title": "关于 Shira",

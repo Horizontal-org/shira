@@ -2,6 +2,7 @@ import { FunctionComponent  } from "react"
 import styled from 'styled-components'
 import ProfilePicture from "../../Whatsapp/ProfilePicture"
 import DocumentIcon from './assets/document.png'
+import { MessagingImage } from "./MessagingImage"
 interface Props {
   content: Element[]
 }
@@ -18,6 +19,10 @@ const ChatContent: FunctionComponent<Props> = ({
             <>
               {c.getAttribute('id').includes('component-text') && (
                 <Text dangerouslySetInnerHTML={{__html: c.outerHTML}} />
+              )}
+
+              {c.getAttribute('id').includes('component-image') && (
+                <MessagingImage data={c} />
               )}
 
               {c.getAttribute('id').includes('component-attachment') && (
@@ -78,7 +83,7 @@ const MessageDate = styled.div`
 `
 
 const TextWrapper = styled.div`
-  max-width: 600px;
+  max-width: 500px;
 
   display: flex;
   flex-direction: column;
@@ -87,10 +92,11 @@ const TextWrapper = styled.div`
 const Text = styled.div`
   margin-left: 8px;
   padding: 8px 12px;
+  margin-top: 8px;
+  
   background: rgba(60,64,67,.1);
   border-radius: 16px;
 
-  margin-top: 8px;
   flex-shrink: 1;
   color: #050505;
   p, h2 {
