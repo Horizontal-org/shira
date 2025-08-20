@@ -46,7 +46,6 @@ export class CreateQuestionImageService implements ICreateQuestionImageService{
   private async createFilePath(createQuestionImageDto: CreateQuestionImageDto) {    
     const now = formatISO(new Date())
     let name = now + '_' + Buffer.from(createQuestionImageDto.file.originalname).toString('latin1')
-    console.log("🚀 ~ CreateQuestionImageService ~ createFilePath ~ name:", name)
     let path = `question-images/${createQuestionImageDto.quizId}/${name}`
         
     return {
