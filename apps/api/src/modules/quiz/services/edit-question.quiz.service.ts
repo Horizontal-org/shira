@@ -2,6 +2,7 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { QuizQuestion as QuizQuestionEntity } from '../domain/quizzes_questions.entity';
+import { QuestionSanitizer } from 'src/utils/question-sanitizer.util';
 
 import { ICreateQuestionQuizService } from '../interfaces/services/create-question.quiz.service.interface';
 import { CreateQuestionQuizDto } from '../dto/create-question.quiz.dto';
@@ -78,7 +79,10 @@ export class EditQuestionQuizService implements ICreateQuestionQuizService{
       where: { questionId: question.id }
     })
 
-    questionTranslation.content = editQuestionDto.question.content;
+    const originalContent = editQuestionDto.question.content;
+    const sanitizedContent = QuestionSanitizer.sanitizeQuestionContent(originalContent);
+
+    questionTranslation.content = sanitizedContent;
     questionTranslation.question = question;
     questionTranslation.languageId = language.id;
     await this.questionTranslationRepo.save(questionTranslation);
