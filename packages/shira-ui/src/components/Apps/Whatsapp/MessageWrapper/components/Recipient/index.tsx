@@ -23,7 +23,9 @@ const Recipient:FunctionComponent<Props> = ({ phone }) => {
 
         <Contact>
           <StrangerPicture />
-          <span data-explanation={phone.explanationPosition}>{phone.textContent || ''}</span>
+          <div>
+            <span data-explanation={phone.explanationPosition}>{phone.textContent || ''}</span>
+          </div>
         </Contact>
       </PictureWrapper>
       <div>
@@ -44,10 +46,12 @@ const Contact = styled.div`
   display: flex;
   align-items: center;
 
-  > span {
-    font-size: 16px;
-    margin-left: 12px;
-    position: relative;
+  > div {
+    > span {
+      font-size: 16px;
+      margin-left: 12px;
+      position: relative;
+    }
   }
 `
 
