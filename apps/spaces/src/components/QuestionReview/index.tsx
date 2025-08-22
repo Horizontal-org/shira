@@ -52,52 +52,48 @@ export const QuestionReview: FunctionComponent<Props> = ({
     return
   }
   return (
-    <>
+    <>      
       <ExplanationHeader>
-        { explanations.length ?
-          <Button
-            type="outline"
-            onClick={ ()=> handleShowExplanations(true) }
-            text={'Show explanations'}
-          /> : 
-          (<IsNoExplanationWrapper>
+        { explanations.length === 0 ? (
+          <IsNoExplanationWrapper>
             <Content>
               <MdBlock size={18} color="red" />
               <Body1>There are no explanations for this question.</Body1>
             </Content>
-          </IsNoExplanationWrapper>           
+          </IsNoExplanationWrapper>
+        ) : (
+          <Button
+            type="outline"
+            onClick={() => {
+              if (showExplanations) {
+                setExplanationNumber(0)
+              }
+              handleShowExplanations(!showExplanations)
+            }}
+            text={showExplanations ? 'Hide explanations' : 'Show explanations' }
+          />
         )}
-        
+                
        {showExplanations && (
-          <ExplanationButtonWrapper>
-            {explanationNumber >= 0 && (
-              <Button
-                type="outline"
-                onClick={() => {
-                  handleShowExplanations(false)
-                  setExplanationNumber(0)
-                }}
-                text='Close explanations'
-              />
-            )}
-            {explanationNumber >= 1 && (
-              <Button
-                onClick={() => {
-                  setExplanationNumber(explanationNumber - 1)
-                }}
-                text='Previous explanation'
-              />
-            )}
-            {explanationNumber < explanations.length - 1 && (
-              <Button
-                onClick={() => {
-                  setExplanationNumber(explanationNumber + 1)
-                }}
-                text='Next explanation'
-              />
-            )}
-          </ExplanationButtonWrapper>
-        )}
+        <ExplanationButtonWrapper>
+          {explanationNumber >= 1 && (
+            <Button
+              onClick={() => {
+                setExplanationNumber(explanationNumber - 1)
+              }}
+              text='Previous explanation'
+            />
+          )}
+          {explanationNumber < explanations.length - 1 && (
+            <Button
+              onClick={() => {
+                setExplanationNumber(explanationNumber + 1)
+              }}
+              text='Next explanation'
+            />
+          )}
+        </ExplanationButtonWrapper>
+      )}
       </ExplanationHeader>
 
       <StyledBox>
@@ -118,7 +114,7 @@ const ExplanationHeader = styled.div`
   width: 1024px;
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 16px;
+  margin: 12px 0 20px 0;
 `
 
 const StyledBox = styled.div`
@@ -134,7 +130,9 @@ const StyledBox = styled.div`
 const ExplanationButtonWrapper = styled.div`
   display: flex;
   gap: 12px;
+  margin-left: 12px;
 `
+
 const Overlay = styled.div`
   position: absolute;
   top: 0;

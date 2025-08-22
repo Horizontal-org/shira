@@ -80,24 +80,30 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
         }}
       />
       
-      <ExplanationButton
-        active={selectedExplanationIndex && selectedExplanationIndex + '' === contentObject.explanation}
-        onClick={() => {
-          const hasExplanation = contentObject.explanation
-          if (hasExplanation) {
-            changeSelected(parseInt(hasExplanation))
-          } else {
-            const index = explanationIndex + 1
-            addExplanation(index, label)
-            updateActiveQuestionInput(name, 'explanation', index + '')            
-          }
-        }}
-      />
+      <ExplanationButtonWrapper>
+        <ExplanationButton
+          active={selectedExplanationIndex && selectedExplanationIndex + '' === contentObject.explanation}
+          onClick={() => {
+            const hasExplanation = contentObject.explanation
+            if (hasExplanation) {
+              changeSelected(parseInt(hasExplanation))
+            } else {
+              const index = explanationIndex + 1
+              addExplanation(index, label)
+              updateActiveQuestionInput(name, 'explanation', index + '')            
+            }
+          }}
+        />
+      </ExplanationButtonWrapper>
     </Wrapper>
   )
 }
 
 const Wrapper = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-end;
+`
+
+const ExplanationButtonWrapper = styled.div`
+  padding-bottom: 8px;
 `

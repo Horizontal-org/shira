@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { Body2Regular, Body3, styled, SubHeading3, TextInput } from '@shira/ui'
+import { Body1, Body1SemiBold, Body2Regular, Body3, styled, SubHeading3, TextInput } from '@shira/ui'
 import { InputWithExplanation } from "../../../InputWithExplanation";
 import { DraggableMessagingList } from "./DraggableMessagingList";
 import { ActiveQuestion, MessagingContent as MessagingContentType } from "../../../../store/types/active_question";
@@ -59,8 +59,8 @@ export const MessagingContent: FunctionComponent<Props> = ({
           <InputWithExplanation 
             id='component-required-phone'
             name='senderPhone'
-            placeholder='Sender phone'
-            label="Sender phone"
+            placeholder='Sender phone number'
+            label="Sender phone number"
             contentObject={content.senderPhone}
           />
         </div>
@@ -81,11 +81,22 @@ export const MessagingContent: FunctionComponent<Props> = ({
         </div>
       )}
 
-      <DraggableMessagingList
-        content={content}
-        items={content.draggableItems}
-        onChange={(newItems) => { updateActiveQuestionDraggableItems(newItems) }}
-      />
+      <div>
+        <MessagingContentHead>
+          <Body1SemiBold>
+            Message Content
+          </Body1SemiBold>
+          <Body3>
+            Create the messages that will be shown. You can create multiple messages and image files. Add an explanation by selecting a portion of text and clicking on the explanation icon.
+          </Body3>
+        </MessagingContentHead>
+
+        <DraggableMessagingList
+          content={content}
+          items={content.draggableItems}
+          onChange={(newItems) => { updateActiveQuestionDraggableItems(newItems) }}
+        />
+      </div>
    
     </Content>
   )
@@ -112,4 +123,8 @@ const InputHeading = styled.div<{ $required: boolean }>`
     `}
   }
   
+`
+
+const MessagingContentHead = styled.div`
+  padding-bottom: 20px;
 `

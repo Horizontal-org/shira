@@ -2,7 +2,8 @@ import { FunctionComponent, useEffect, useState } from "react";
 import {
   Breadcrumbs,
   styled,
-  BetaBanner
+  BetaBanner,
+  Body1
 } from "@shira/ui";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
@@ -141,6 +142,13 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
                   { text: 'Preview' }
                 ]}
               />
+              { step === 2 && (
+                <ExplanationTitle>
+                  <Body1>
+                    This is how your question will look to learners, including the explanations you have written.
+                  </Body1>
+                </ExplanationTitle>
+              )}
             </ContentHeader>
 
             { step === 0 && (
@@ -182,4 +190,8 @@ const ContentWrapper = styled.div`
 
 const ContentHeader = styled.div`
   padding-bottom: 12px;
+`
+
+const ExplanationTitle = styled.div`
+  width: 1024px;
 `

@@ -86,9 +86,7 @@ const Wrapper = styled.div`
   margin-left: 8px;
 `
 
-const ExplanationButtonWrapper = styled.div`
-  padding-bottom: 12px;
-`
+const ExplanationButtonWrapper = styled.div``
 
 const EditorWrapper = styled.div`
   display: inline-block;

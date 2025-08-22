@@ -6,6 +6,7 @@ import { shallow } from 'zustand/shallow';
 import { useStore } from '../../../../../store';
 import { ExplanationButton } from '../../../../Explanations/components/ExplanationButton';
 import { QuestionDragAttachment } from '../../../../../store/types/active_question';
+import { QuestionContentDragItemOptions } from '../../QuestionContentDragItemOptions';
 
 interface Props {
   index: number;
@@ -18,8 +19,6 @@ export const DraggableAttachmentItem: FunctionComponent<Props> = ({
   item,
   onDelete,  
 }) => {
-  console.log("🚀 ~ DraggableAttachmentItem ~ item:", item)
-
   const {
     addExplanation,
     explanationIndex,      
@@ -33,9 +32,8 @@ export const DraggableAttachmentItem: FunctionComponent<Props> = ({
     selectedExplanation: state.selectedExplanation,
     updateActiveQuestionDraggableItem: state.updateActiveQuestionDraggableItem
   }), shallow)
-    console.log("🚀 ~ DraggableAttachmentItem ~ selectedExplanation:", selectedExplanation)
     
-   const ref = useRef(null)
+  const ref = useRef(null)
   
   return (
     <>
@@ -51,9 +49,10 @@ export const DraggableAttachmentItem: FunctionComponent<Props> = ({
           >
             <Wrapper>
               <ContentWrapper>
-                <DragItemOptions
+                <QuestionContentDragItemOptions
                   dragHandleProps={draggableProvided.dragHandleProps}
                   onDelete={onDelete}
+                  typeOffset=''
                 />
                 <AttachmentWrapper
                   ref={ref}

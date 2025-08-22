@@ -39,5 +39,4 @@ export const TextDragItem: FunctionComponent<Props> = ({
 const Wrapper = styled.div`
   width: 90%;
   max-width: 90%;
-  padding-bottom: 40px;
 `
