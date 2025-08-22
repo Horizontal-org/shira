@@ -6,6 +6,7 @@ import { DragItemOptions } from '../../../../DragItemOptions';
 import { TextDragItem } from '../TextDragItem';
 import { ImageDragItem } from '../ImageDragItem';
 import { ImageObject, QuestionDragEditor, QuestionDragImage } from '../../../../../store/types/active_question';
+import { QuestionContentDragItemOptions } from '../../QuestionContentDragItemOptions';
 
 interface Props {
   index: number;
@@ -35,9 +36,10 @@ export const DraggableMessagingItem: FunctionComponent<Props> = ({
               { item.contentType === 'editor' ? (<SmallText>Message text</SmallText>) : (<SmallText>Image</SmallText>)}
  
               <ContentWrapper>
-                <DragItemOptions
+                <QuestionContentDragItemOptions
                   dragHandleProps={draggableProvided.dragHandleProps}
                   onDelete={onDelete}
+                  typeOffset={item.contentType === 'editor' ? '52px' : ''}
                 />
                 { item.contentType === 'editor' && (
                   <TextDragItem 
@@ -73,6 +75,7 @@ const ContentWrapper = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
+  margin: 10px 0 30px 0;
 `
 
 const SmallText = styled.div`
