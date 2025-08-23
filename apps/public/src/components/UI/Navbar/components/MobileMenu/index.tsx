@@ -103,7 +103,7 @@ export const MobileMenu: FunctionComponent<Props> = ({
       <GetStartedButton onClick={() => {
         handleExternalLink('https://www.shira.app/contact')
       }}>
-        Get started
+        {t('navbar.get_started')}
       </GetStartedButton>
     </Wrapper>
   )

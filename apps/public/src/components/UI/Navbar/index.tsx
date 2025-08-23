@@ -54,7 +54,7 @@ export const Navbar: FunctionComponent<Props> = ({ color }) => {
 
         <DesktopRightNavbar>
           <Button
-              text="Get Started"
+              text={t('navbar.get_started')}
               type="primary"
               color='#849D29'
               onClick={() => { handleExternalLink('https://www.shira.app/contact') }}
