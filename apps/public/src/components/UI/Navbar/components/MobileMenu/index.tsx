@@ -54,7 +54,7 @@ export const MobileMenu: FunctionComponent<Props> = ({
           <Features />
         </SvgWrapper>
         <p>
-          Features
+          {t('navbar.features')}
         </p>
       </Nav>
 
@@ -65,7 +65,7 @@ export const MobileMenu: FunctionComponent<Props> = ({
           <Pricing />
         </SvgWrapper>
         <p>
-          Pricing
+          {t('navbar.pricing')}
         </p>
       </Nav>
 
@@ -76,7 +76,7 @@ export const MobileMenu: FunctionComponent<Props> = ({
           <TakeQuiz />
         </SvgWrapper>
         <p>
-          Take a quiz
+          {t('navbar.take_a_quiz')}
         </p>
       </Nav>
 
@@ -87,7 +87,7 @@ export const MobileMenu: FunctionComponent<Props> = ({
           <Learn />
         </SvgWrapper>
         <p>
-          Learn 
+          {t('navbar.learn')} 
         </p>
       </Nav>
 

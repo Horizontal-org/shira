@@ -31,19 +31,19 @@ export const Navbar: FunctionComponent<Props> = ({ color }) => {
             </Link>
 
             <Link onClick={() => { handleExternalLink('https://www.shira.app/features') }}>
-              Features
+              {t('navbar.features')}
             </Link>
 
             <Link onClick={() => { handleExternalLink('https://www.shira.app/pricing') }}>
-              Pricing
+              {t('navbar.pricing')}
             </Link>
 
             <Link onClick={() => { navigate('/') }}>
-              Take a quiz
+              {t('navbar.take_a_quiz')}
             </Link>
 
             <Link onClick={() => { handleExternalLink('https://www.shira.app/phishing') }}>
-              Learn
+              {t('navbar.learn')}
             </Link>
             
             <Link onClick={() => { handleExternalLink('https://www.shira.app/about') }}>
