@@ -1,4 +1,4 @@
-import { Gmail } from "@shira/ui";
+import { DatingApp, FBMessenger, Gmail, SMS, Whatsapp } from "@shira/ui";
 import { FunctionComponent } from "react";
 import { Explanation } from "../../../../store/slices/explanation";
 // TODO repeated code, check how to fix  
@@ -20,6 +20,8 @@ export const AppSelector: FunctionComponent<Props> = ({
   explanations,
   showExplanations
 }) => {
+  console.log("🚀 ~ AppSelector ~ customProps:", customProps)
+
   return (
     <>
       { appName === 'Gmail' && (
@@ -27,6 +29,38 @@ export const AppSelector: FunctionComponent<Props> = ({
           {...customProps}
           receiverEmail={'useremail@email.com'}
           receiverName={'User'}
+          explanationNumber={explanationNumber}
+          explanations={explanations}
+          showExplanations={showExplanations}
+        />
+      )}
+      { appName === 'Whatsapp' && (
+        <Whatsapp 
+          {...customProps}
+          explanationNumber={explanationNumber}
+          explanations={explanations}
+          showExplanations={showExplanations}
+        />
+      )}
+      { appName === 'SMS' && (
+        <SMS 
+          {...customProps}
+          explanationNumber={explanationNumber}
+          explanations={explanations}
+          showExplanations={showExplanations}
+        />
+      )}
+      { appName === 'Messenger' && (
+        <FBMessenger
+          {...customProps}
+          explanationNumber={explanationNumber}
+          explanations={explanations}
+          showExplanations={showExplanations}
+        />
+      )}
+      { appName === 'Dating App' && (
+        <DatingApp 
+          {...customProps}
           explanationNumber={explanationNumber}
           explanations={explanations}
           showExplanations={showExplanations}

@@ -2,10 +2,11 @@ import axios from 'axios'
 import { useStore } from '../store'
 import { App } from './app';
 import { Explanation } from '../store/slices/explanation';
-import { QuestionToBe } from '../components/QuestionFlowManagement/types';
 import { useState } from 'react';
 import { shallow } from 'zustand/shallow';
 import { QuizSuccessStates } from '../store/slices/quiz';
+import { activeQuestionToHtml } from '../utils/active_question/questionToHtml';
+import { ActiveQuestion } from '../store/types/active_question';
 
 export interface Question {
   id: string;
@@ -60,24 +61,8 @@ export const deleteQuestion = async(id) => {
   }
 }
 
-const getHtmlByType = (appType, questionContent) => {
-    if (appType === 'email') {
-      const emailKeys = [
-        'component-required-sender-name',
-        'component-required-sender-email',
-        'component-optional-subject'
-      ]
-
-      return Object.keys(questionContent)
-        .filter(c => emailKeys.includes(c))
-        .reduce((prev, current) => {
-          return prev + questionContent[current]
-        }, `<div id='type-content'>`) + '</div>'
-    }
-}
-
 const parseRequest = (question, explanations, quizId) => {
-  let typeHtml = getHtmlByType(question.app.type, question.content)
+  // let typeHtml = getHtmlByType(question.app.type, question.content)
   
   // const requiredHTML = Object.keys(requiredContent).reduce((prev, current) => {
   //   return prev + requiredContent[current]
@@ -87,13 +72,13 @@ const parseRequest = (question, explanations, quizId) => {
   //   return prev + optionalContent[current]
   // }, `<div id='optional-content'>`) + '</div>'
 
-  const dynamicHTML = Object.keys(question.content)
-    .filter(qk => qk.includes('component-text') || qk.includes('component-attachment'))
-    .reduce((prev, current) => {
-      return prev + question.content[current]
-    }, `<div id='dynamic-content'>`) + '</div>'
+  // const dynamicHTML = Object.keys(question.content)
+  //   .filter(qk => qk.includes('component-text') || qk.includes('component-attachment') || qk.includes('component-image'))
+  //   .reduce((prev, current) => {
+  //     return prev + question.content[current]
+  //   }, `<div id='dynamic-content'>`) + '</div>'
 
-  const finalContent = `<div>${typeHtml}${dynamicHTML}</div>`
+  const finalContent = `<div>${activeQuestionToHtml(question)}</div>`
 
   return {
     quizId: parseInt(quizId),
@@ -104,7 +89,6 @@ const parseRequest = (question, explanations, quizId) => {
       app: question.app.id,
     },
     explanations: explanations.map((e) => {
-      console.log(e)
       return {
         id: e.id,
         position: e.position + '',
@@ -127,7 +111,7 @@ export const useQuestionCRUD = () => {
   const [actionFeedback, handleActionFeedback] = useState(null);
   
   //POST QUESTION
-  const submit = async (quizId: string, question: QuestionToBe) => {
+  const submit = async (quizId: string, question: ActiveQuestion) => {
     handleActionFeedback(QuestionCRUDFeedback.processing)
     
     const {
@@ -169,7 +153,7 @@ export const useQuestionCRUD = () => {
   }
 
   //PUT QUESTION
-  const edit = async (quizId: string, question: QuestionToBe, questionId) => {
+  const edit = async (quizId: string, question: ActiveQuestion, questionId) => {
     handleActionFeedback(QuestionCRUDFeedback.processing)
 
     const {

@@ -42,6 +42,9 @@ export const AllTypography = {
         <Typography.Body1>
           Body 1 - Light, 18px - Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         </Typography.Body1>
+        <Typography.Body1SemiBold>
+          Body 1 - SemiBold, 18px - Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        </Typography.Body1SemiBold>
         <Typography.Body2Regular>
           Body 2 Regular - Regular, 16px - Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         </Typography.Body2Regular>

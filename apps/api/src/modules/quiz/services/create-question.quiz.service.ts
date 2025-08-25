@@ -10,6 +10,7 @@ import { QuestionTranslation } from 'src/modules/translation/domain/questionTran
 import { ExplanationTranslation } from 'src/modules/translation/domain/explanationTranslation.entity';
 import { Language } from 'src/modules/languages/domain';
 import { App } from 'src/modules/app/domain';
+import { QuestionSanitizer } from 'src/utils/question-sanitizer.util';
 
 import { TYPES as TYPES_QUESTION_IMAGE } from '../../question_image/interfaces'
 import { ISyncQuestionImageService } from 'src/modules/question_image/interfaces/services/sync.question_image.service.interface';
@@ -71,9 +72,12 @@ export class CreateQuestionQuizService implements ICreateQuestionQuizService{
     })
 
 
+    const originalContent = createQuestionDto.question.content;
+    const sanitizedContent = QuestionSanitizer.sanitizeQuestionContent(originalContent);
+
     //CREATE QUESTION_TRANSLATION WITH DEFAULT ON ENGLISH
     const newQuestionTranslation = new QuestionTranslation();
-    newQuestionTranslation.content = createQuestionDto.question.content;
+    newQuestionTranslation.content = sanitizedContent;
     newQuestionTranslation.question = questionEntity;
     newQuestionTranslation.languageId = language.id;
     await this.questionTranslationRepo.save(newQuestionTranslation);
@@ -116,7 +120,8 @@ export class CreateQuestionQuizService implements ICreateQuestionQuizService{
   }
 
   private getImageIds = (content: string) => {
-    const $ = cheerio.load(content);    
+    const sanitizedContent = QuestionSanitizer.sanitizeQuestionContent(content);
+    const $ = cheerio.load(sanitizedContent);  
     const data = $.extract({
       imageIds: [
         {

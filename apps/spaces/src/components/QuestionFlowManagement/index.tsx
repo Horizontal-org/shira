@@ -2,43 +2,32 @@ import { FunctionComponent, useEffect, useState } from "react";
 import {
   Breadcrumbs,
   styled,
-  BetaBanner
+  BetaBanner,
+  Body1
 } from "@shira/ui";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { QuestionBasicInfo } from "../QuestionBasicInfo";
 import { QuestionFlowHeader } from "../QuestionFlowHeader";
 import { QuestionContent } from "../QuestionContent";
-import { QuestionToBe } from "./types";
 import { QuestionReview } from "../QuestionReview";
 import { useNavigate } from "react-router-dom";
 import { ExitQuestionHandleModal } from "../modals/ExitQuestionHandleModal";
 import { NoExplanationsModal } from "../modals/NoExplanationsModal";
+import { omit } from "lodash";
+import { ActiveQuestion } from "../../store/types/active_question";
 
 
 interface Props {
   initialContent?: Object
-  initialQuestion?: QuestionToBe
+  initialQuestion?: ActiveQuestion
+  initialAppType?: string
   actionFeedback: string
-  onSubmit: (question: QuestionToBe) => void
-}
-
-const defaultQuestion = {
-  app: null,
-  name: '',
-  isPhishing: true,
-  emailContent: {
-    senderEmail: '',
-    senderName: '',
-    subject: '',
-    body: ''
-  },
-  attachments: []
+  onSubmit: (question: ActiveQuestion) => void
 }
 
 export const QuestionFlowManagement: FunctionComponent<Props> = ({
-  initialContent = {},
-  initialQuestion = defaultQuestion,
+  initialAppType = null,
   onSubmit,
   actionFeedback
 }) => {
@@ -48,11 +37,21 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
   const {
     apps,
     fetchApp,
+    activeQuestion,
+    updateActiveQuestion,
+    updateActiveQuestionApp,
+    clearActiveQuestion,
+    //to delete
     clearExplanations,
     explanations
   } = useStore((state) => ({
     apps: state.apps,
     fetchApp: state.fetchApp,
+    activeQuestion: state.activeQuestion,
+    updateActiveQuestion: state.updateActiveQuestion,
+    updateActiveQuestionApp: state.updateActiveQuestionApp,
+    clearActiveQuestion: state.clearActiveQuestion,
+    //to delete
     clearExplanations: state.clearExplanations,
     explanations: state.explanations
   }), shallow)
@@ -62,29 +61,24 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
 
     return () => {
       clearExplanations()
+      clearActiveQuestion()
     }
   }, [])
 
   const [step, handleStep] = useState(0)  
-  const [question, handleQuestion] = useState<QuestionToBe>(initialQuestion)
-  const [content, handleContent] = useState(initialContent)
+  console.log("888888888888888888 🚀 ~ question:", activeQuestion)
+  console.log("888888888888888888 ~ explanations:", explanations)
+
 
   const [isExitQuestionModalOpen, setIsExitQuestionModalOpen] = useState(false)
   const [noExplanationsModalOpen, setNoExplanationsModalOpen] = useState(false)
 
   const validateStep = () => {
     if (step === 0) {
-      return question.name.length > 0 && !!(question.app)
+      return activeQuestion && activeQuestion.name.length > 0 && !!(activeQuestion.app)
     }
 
     return true
-  }
-
-  const parseContent = (id, value) => {
-    handleContent({
-      ...content,
-      [id]: value
-    })
   }
 
   return (
@@ -112,15 +106,10 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
         onNext={() => {
           if (step === 2) {
             // submit
-            onSubmit(question)
+            onSubmit(activeQuestion)
             return
           }
           if (step === 1) {
-            handleQuestion({
-              ...question,
-              content: content
-            })
-
             if (explanations.length === 0) {
               setNoExplanationsModalOpen(true)
               return
@@ -140,6 +129,7 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
         disableNext={!validateStep()}
         onExit={() => { setIsExitQuestionModalOpen(true) }}
       />
+      
       <Container>      
         <ContentWrapper>
           <div>
@@ -152,39 +142,33 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
                   { text: 'Preview' }
                 ]}
               />
+              { step === 2 && (
+                <ExplanationTitle>
+                  <Body1>
+                    This is how your question will look to learners, including the explanations you have written.
+                  </Body1>
+                </ExplanationTitle>
+              )}
             </ContentHeader>
 
             { step === 0 && (
               <QuestionBasicInfo
-                handleQuestion={(k, v) => {  
-                  handleQuestion({
-                    ...question,
-                    [k]: v
-                  })
-                }}
+                question={activeQuestion}
+                handleQuestion={updateActiveQuestion}
+                handleApp={updateActiveQuestionApp}
+                initialAppType={initialAppType}
                 apps={apps}
-                question={question}
               />
             )}
 
             { step === 1 && (
               <QuestionContent 
-                handleContent={parseContent}
-                handleQuestion={(k, v) => {
-                  handleQuestion({
-                    ...question,
-                    [k]: v
-                  })
-                }}
-                content={content}
-                question={question}
+                question={activeQuestion}
               />
             )}
-
+            
             { step === 2 && (
-              <QuestionReview 
-                question={question}
-              />
+              <QuestionReview />
             )}
           </div>
         </ContentWrapper>
@@ -206,4 +190,8 @@ const ContentWrapper = styled.div`
 
 const ContentHeader = styled.div`
   padding-bottom: 12px;
+`
+
+const ExplanationTitle = styled.div`
+  width: 1024px;
 `
