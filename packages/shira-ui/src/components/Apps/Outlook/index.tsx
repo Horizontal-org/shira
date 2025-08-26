@@ -6,6 +6,7 @@ import ExplanationTooltip from "../components/ExplanationTooltip";
 import '../../../fonts/Segoe/style.css'
 import { BlueHeader } from "./BlueHeader";
 import { Sidebar } from "./Sidebar";
+import { TopSectionBar } from "./TopSectionBar";
 
 interface CustomElements {
   textContent: string,
@@ -62,6 +63,9 @@ export const Outlook:FunctionComponent<Props> = ({
       <BlueHeader />
       <Body>
         <Sidebar />
+        <div>
+          <TopSectionBar />
+        </div>
       </Body>
     </DesktopWrapper>
   )
@@ -89,4 +93,5 @@ const DesktopWrapper = styled.div`
 
 const Body = styled.div`
   height: 100%;
+  display: flex;
 `
