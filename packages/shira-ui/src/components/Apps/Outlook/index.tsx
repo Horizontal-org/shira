@@ -8,8 +8,10 @@ import { BlueHeader } from "./BlueHeader";
 import Sidebar from "./Sidebar";
 import { TopSectionBar } from "./TopSectionBar";
 import { MainActionBar } from "./MainActionsBar";
+import { Subject } from "./Subject";
+import { LeftActions } from "./LeftActions";
 
-interface CustomElements {
+export interface OutlookCustomElements {
   textContent: string,
   explanationPosition: string | null
 }
@@ -23,21 +25,17 @@ interface CustomElements {
 
 interface Props {
   content: HTMLElement;
-  senderName: CustomElements;
-  senderEmail: CustomElements;
+  senderName: OutlookCustomElements;
+  senderEmail: OutlookCustomElements;
   receiverName?: string;
   receiverEmail?: string;
-  subject?: CustomElements;
+  subject?: OutlookCustomElements;
   attachments?: any[];
   explanations?: Explanation[]
   explanationNumber?: number;
   showExplanations?: boolean
 }
 
-const parseSubjectText = (subjectText: string) => {
-    return subjectText && subjectText.length > 0 ?
-      subjectText : `(no subject)`
-}
 
 export const Outlook:FunctionComponent<Props> = ({
   content,
@@ -67,6 +65,12 @@ export const Outlook:FunctionComponent<Props> = ({
         <MainBody>
           <TopSectionBar />
           <MainActionBar />
+          <ContentBody>
+            <LeftActions />
+            <RightContentBody>
+              <Subject subject={subject} />
+            </RightContentBody>
+          </ContentBody>
         </MainBody>
       </Body>
     </DesktopWrapper>
@@ -96,11 +100,20 @@ const DesktopWrapper = styled.div`
 const Body = styled.div`
   height: 100%;
   width: 100%;
-  display: flex;
+  display: flex;  
 `
 
 const MainBody = styled.div`
   width: 100%;
   box-sizing: border-box;
   padding-right: 18px;
+  padding-left: 8px;
+`
+
+const ContentBody = styled.div`
+  display: flex;
+`
+
+const RightContentBody = styled.div`
+  width: 100%;
 `

@@ -4,7 +4,7 @@ import styled from 'styled-components'
 interface Props {}
 
 import Compose from './components/Compose'
-import ChevronDown from './components/ChevronDown'
+import ChevronDown from '../globalIcons/ChevronDown'
 import Trash from './components/Trash'
 import Archive from './components/Archive'
 import Shield from './components/Shield'
@@ -17,6 +17,7 @@ import Undo from './components/Undo'
 import People from './components/People'
 
 import { ActionButton } from "./components/ActionButton";
+import { WhiteBar } from "../components/Whitebar";
 
 export const MainActionBar:FunctionComponent<Props> = () => {
   return (
@@ -113,18 +114,8 @@ export const MainActionBar:FunctionComponent<Props> = () => {
   )
 }
 
-const Wrapper = styled.div`
-  margin-left: 8px;
-  margin-top: 8px;
-  width: 100%;
-  height: 40px;
-  background: #fff;
-  padding: 4px;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  border-radius: 4px;
-  box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.14)
+const Wrapper = styled(WhiteBar)`
+  margin-top: 4px;
 `
 
 const ContentSeparator = styled.div<{
@@ -163,7 +154,7 @@ const ReplyWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 4px;
-  margin: 0 18px;
+  padding: 0 18px;
 
   > svg {
     opacity: 0.4;
@@ -190,14 +181,14 @@ const ReplyWrapper = styled.div`
 const OnlyIcon = styled.div`
   display: flex;
   align-items: center;
-  margin: 0 14px;
+  padding: 0 14px;
 `
 
 const NewMailButton = styled.div`
   display: flex;
   height: 32px;
   cursor: pointer;
-  margin-right: 4px;
+  padding-right: 4px;
 `
 
 const LeftMailButton = styled.div`
@@ -213,8 +204,8 @@ const LeftMailButton = styled.div`
   color: white;
 
   > span {
-    margin-left: 10px; 
-    margin-right: 2px;
+    padding-left: 10px; 
+    padding-right: 2px;
     font-size: 14px;
     font-weight: 300;
     padding-bottom: 1px;

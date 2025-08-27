@@ -1,7 +1,7 @@
 import { FunctionComponent, ReactNode } from "react";
 import styled from 'styled-components'
 
-import ChevronDown from './ChevronDown'
+import ChevronDown from '../../globalIcons/ChevronDown'
 
 interface Props {
   children: ReactNode;
@@ -10,15 +10,12 @@ interface Props {
   hide?: string
 }
 
-
-
 export const ActionButton:FunctionComponent<Props> = ({
   children,
   chevron,
   icon,
   hide
 }) => {
-  console.log("🚀 ~ ActionButton ~ hide:", hide)
   return (
     <Wrapper hide={hide}>
       <Content hide={hide} hasChevron={chevron}>
