@@ -11,7 +11,9 @@ import PowerpointColor from './components/PowerpointColor'
 
 interface Props {}
 
-export const Sidebar:FunctionComponent<Props> = ({}) => {
+// AppFolderRegular
+
+const Sidebar:FunctionComponent<Props> = ({}) => {
   return (
     <Wrapper>
       <Button selected={true}>
@@ -47,6 +49,7 @@ export const Sidebar:FunctionComponent<Props> = ({}) => {
     </Wrapper>
   )
 }
+export default Sidebar;
 
 const Wrapper = styled.div`
   padding-top: 4px;

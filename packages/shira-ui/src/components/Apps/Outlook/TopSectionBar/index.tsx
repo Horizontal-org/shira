@@ -34,7 +34,7 @@ const Wrapper = styled.div`
 `
 
 const NavigationIcon = styled.div`
-  margin-left: 8px;
+  margin-left: 12px;
   cursor: pointer;
   height: 34px;
   width: 36px;
