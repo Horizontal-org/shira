@@ -61,6 +61,10 @@ const Wrapper = styled.div`
   align-items: center;
   gap: 4px;
   margin-right: 4px;
+
+  @media(max-width: ${props => props.theme.breakpoints.sm}) {
+    display: none;
+  }
 `
 
 const SvgColorWrapper = styled.div`

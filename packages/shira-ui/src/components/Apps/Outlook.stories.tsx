@@ -38,8 +38,9 @@ export const Default: Story = {
       textContent: 'Im gonna phish you!',
       explanationPosition: null
     },
-    // content: document.createElement('div'),
-    content: null,
+    content: new DOMParser().parseFromString(`
+      <div id='text-editor'><img src='https://placehold.co/320x400' data-explanation=1 /><p>you have 24 hs.</p><img src='https://placehold.co/380x400' /></div>`
+    , 'text/html').getElementById('text-editor'),
     attachments: [
       {
         name: 'at.txt',
@@ -240,7 +241,7 @@ export const WithExplanationImage: Story = {
       explanationPosition: null
     },
     content: new DOMParser().parseFromString(`
-      <div id='text-editor'><img src='https://placehold.co/320x400' data-explanation=1 /><img src='https://placehold.co/380x400' /></div>`
+      <div id='text-editor'><img src='https://placehold.co/320x400' data-explanation=1 /><p>you have 24 hs.</p><img src='https://placehold.co/380x400' /></div>`
     , 'text/html').getElementById('text-editor'),
     attachments: [],
     showExplanations: true,

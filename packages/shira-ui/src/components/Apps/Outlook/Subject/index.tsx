@@ -3,6 +3,9 @@ import styled from 'styled-components'
 import { WhiteBar } from "../components/Whitebar";
 
 import Dismiss from '../globalIcons/Dismiss'
+import LeftChevron from './icons/LeftChevron'
+import RightChevron from './icons/RightChevron'
+
 import { OutlookCustomElements } from "..";
 
 interface Props {
@@ -18,24 +21,25 @@ export const Subject:FunctionComponent<Props> = ({subject}) => {
   if (!subject) return
   return (
     <WhiteWrapper>
-      <WhiteBar>
-        <CloseButton>
-          <Dismiss />
-        </CloseButton>
-        <SubjectText data-explanation={subject.explanationPosition}>{ parseSubjectText(subject.textContent) }</SubjectText>
-      </WhiteBar>
+      <StyledWhiteBar>
+        <div>
+          <CloseButton>
+            <Dismiss />
+          </CloseButton>
+          <SubjectText data-explanation={subject.explanationPosition}>{ parseSubjectText(subject.textContent) }</SubjectText>
+        </div>
+        <div>
+          <ChevronWrapper><LeftChevron /></ChevronWrapper>
+          <ChevronWrapper><RightChevron /></ChevronWrapper>
+        </div>
+      </StyledWhiteBar>
     </WhiteWrapper>
   )
 }
 
-const WhiteWrapper = styled.div`
-  padding-left: 12px;
+const WhiteWrapper = styled.div`  
   margin-top: 8px;
   box-sizing: border-box;
-
-  > div {
-    padding-left: 12px;
-  }
 `
 
 const CloseButton = styled.div`
@@ -59,4 +63,39 @@ const SubjectText = styled.div`
   color: #242424;
   font-weight: 600;
   padding-bottom: 1px;
+`
+
+const StyledWhiteBar = styled(WhiteBar)`
+  justify-content: space-between;
+  padding: 6px 12px;
+
+  > div {
+    display: flex;
+    align-items: center; 
+  }
+`
+
+const ChevronWrapper = styled.div`
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 4px;
+  border-radius: 4px;
+  cursor: pointer;
+
+  > svg {
+    height: 16px;
+    width; 16px;
+    fill: #424242; 
+  }
+
+  &:hover {
+    background-color: #f0f0f0;
+    
+    > svg {
+      fill: #115EA3; 
+    }
+  }
 `

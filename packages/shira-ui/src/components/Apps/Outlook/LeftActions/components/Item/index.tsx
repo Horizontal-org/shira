@@ -6,6 +6,7 @@ interface Props {
   icon: ReactNode;
   amount?: number;
   selected?: boolean
+  type?: string
 }
 
 import MoreHorizontal from '../../../globalIcons/MoreHorizontal'
@@ -14,12 +15,13 @@ export const Item:FunctionComponent<Props> = ({
   text,
   icon,
   amount,
-  selected = false
+  selected = false,
+  type = 'normal'
 }) => {
 
   return (
     <Content $selected={selected}>
-      <LeftContent $selected={selected}>
+      <LeftContent $selected={selected} $colorType={type}>
         {icon}
         <span>{text}</span>     
       </LeftContent>
@@ -56,6 +58,7 @@ const Content = styled.div<{
 
 const LeftContent = styled.div<{
   $selected: boolean
+  $colorType: string
 }>`
   padding-left: 20px;
   display: flex;
@@ -76,6 +79,14 @@ const LeftContent = styled.div<{
       font-weight: 600;
     }
   `}
+
+  ${props => props.$colorType === 'blue' && `
+    > span {
+      color: #0f548c;
+    }
+  `}
+
+  
 `
 
 const Amount = styled.span<{

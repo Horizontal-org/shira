@@ -1,20 +1,21 @@
 import { FunctionComponent } from "react";
 import styled from 'styled-components'
 
-interface Props {}
+interface Props {
+  receiverEmail: string
+}
 
 import ChevronDown from '../../../globalIcons/ChevronDown'
 import MoreHorizontal from '../../../globalIcons/MoreHorizontal'
 
-export const EmailTitle:FunctionComponent<Props> = () => {
-
+export const EmailTitle:FunctionComponent<Props> = ({ receiverEmail }) => {
   return (
     <Wrapper>
       <Content>
         <ChevronWrapper>
           <ChevronDown />
         </ChevronWrapper>
-        <span>juandans01@hotmail.com</span>
+        <span>{receiverEmail}</span>
         <MoreWrapper>
           <MoreHorizontal />
         </MoreWrapper>

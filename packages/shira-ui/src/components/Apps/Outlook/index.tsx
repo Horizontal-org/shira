@@ -10,6 +10,7 @@ import { TopSectionBar } from "./TopSectionBar";
 import { MainActionBar } from "./MainActionsBar";
 import { Subject } from "./Subject";
 import { LeftActions } from "./LeftActions";
+import { EmailContent } from "./EmailContent";
 
 export interface OutlookCustomElements {
   textContent: string,
@@ -66,9 +67,14 @@ export const Outlook:FunctionComponent<Props> = ({
           <TopSectionBar />
           <MainActionBar />
           <ContentBody>
-            <LeftActions />
+            <LeftActions receiverEmail={receiverEmail || 'youremail@hotmail.com' }/>
             <RightContentBody>
               <Subject subject={subject} />
+              <EmailContent 
+                content={content}
+                senderName={senderName}
+                senderEmail={senderEmail}
+              />
             </RightContentBody>
           </ContentBody>
         </MainBody>
@@ -116,4 +122,9 @@ const ContentBody = styled.div`
 
 const RightContentBody = styled.div`
   width: 100%;
+  padding-left: 30px;
+
+  @media(max-width: ${props => props.theme.breakpoints.sm}) {
+    padding: 0;
+  }
 `
