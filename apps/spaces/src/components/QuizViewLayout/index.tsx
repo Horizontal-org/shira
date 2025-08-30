@@ -13,7 +13,7 @@ import {
   Toggle,
   BetaBanner
 } from "@shira/ui";
-import { QuestionsList } from './components/QuestionList'
+import { TabContainer } from './components/TabContainer'
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { getQuizById } from "../../fetch/quiz";
@@ -168,7 +168,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 </ButtonsContainer>
               </Wrapper>
 
-              <QuestionsList
+              <TabContainer
                 quizQuestions={quiz.quizQuestions}
                 onEdit={(questionId) => { navigate(`/quiz/${id}/question/${questionId}`)}}
                 onDelete={(id) => { destroy(quiz.id, id) }}

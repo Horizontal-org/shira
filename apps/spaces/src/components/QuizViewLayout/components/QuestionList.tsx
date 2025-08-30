@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { FiMenu, FiPlus } from 'react-icons/fi';
-import { Button, styled, SubHeading1, TrashIcon, EditIcon } from '@shira/ui'
+import { styled, TrashIcon, EditIcon, Button } from '@shira/ui'
 import EmptyState from "./EmptyState";
 import { DeleteModal } from "../../modals/DeleteModal";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -58,9 +58,8 @@ export const  QuestionsList: FunctionComponent<QuestionsListProps> = ({
   }
   
   return (
-    <Container>
+    <div>
       <Header>
-        <SubHeading1>Questions</SubHeading1>
         <Button
           leftIcon={<FiPlus size={16} />}
           text="Add question"
@@ -69,7 +68,6 @@ export const  QuestionsList: FunctionComponent<QuestionsListProps> = ({
           onClick={onAdd}
         />
       </Header>
-      
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId='droppable'>
         {(provided, snapshot) => (
@@ -131,21 +129,15 @@ export const  QuestionsList: FunctionComponent<QuestionsListProps> = ({
         }}
         isModalOpen={!!(questionForDelete)}
       />
-    </Container>
+    </div>
   );
 };
 
-const Container = styled.div`
-  background: white;
-  border-radius: 32px;
-  padding: 32px;
-  margin: 16px;
-`;
+
 
 const Header = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: flex-start;
   margin-bottom: 16px;
 `;
 
