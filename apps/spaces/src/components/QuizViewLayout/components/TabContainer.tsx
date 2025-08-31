@@ -1,12 +1,14 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useState, useEffect } from "react";
 import { styled } from '@shira/ui'
 import { QuestionsList } from './QuestionList'
 import { Results } from './Results'
 import { QuizQuestion } from "../../../store/slices/quiz";
+import { getQuizResults, PublicQuizResultsResponse } from "../../../fetch/results";
 
 type TabType = 'questions' | 'results';
 
 interface TabContainerProps {
+  quizId: number;
   quizQuestions: QuizQuestion[];
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;
@@ -15,6 +17,7 @@ interface TabContainerProps {
 }
 
 export const TabContainer: FunctionComponent<TabContainerProps> = ({
+  quizId,
   quizQuestions,
   onEdit,
   onDelete,
@@ -22,6 +25,24 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   onReorder
 }) => {
   const [activeTab, setActiveTab] = useState<TabType>('questions');
+  const [resultsData, setResultsData] = useState<PublicQuizResultsResponse | null>(null);
+  const [resultsLoading, setResultsLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchResults = async () => {
+      setResultsLoading(true);
+      try {
+        const data = await getQuizResults(quizId);
+        setResultsData(data);
+      } catch (error) {
+        console.error('Failed to fetch quiz results:', error);
+      } finally {
+        setResultsLoading(false);
+      }
+    };
+
+    fetchResults();
+  }, [quizId]);
 
   return (
     <Container>
@@ -53,7 +74,10 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
           />
         )}
         {activeTab === 'results' && (
-          <Results />
+          <Results 
+            resultsData={resultsData} 
+            loading={resultsLoading} 
+          />
         )}
       </div>
     </Container>

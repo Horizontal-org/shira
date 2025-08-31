@@ -1,27 +1,53 @@
 import { FunctionComponent } from "react";
 import { styled } from '@shira/ui'
+import { PublicQuizResultsResponse } from "../../../fetch/results";
 
 interface ResultsProps {
+  resultsData: PublicQuizResultsResponse | null;
+  loading: boolean;
 }
 
-export const Results: FunctionComponent<ResultsProps> = () => {
+export const Results: FunctionComponent<ResultsProps> = ({ resultsData, loading }) => {
+
+  const getCompletedQuizzesData = () => {
+    if (loading) return { value: '...', description: 'Loading...' };
+    if (!resultsData) return { value: '-', description: 'Failed to load results' };
+    const count = resultsData.metrics.completedCount;
+    return {
+      value: count,
+      description: `This is the number of quizzes that have been completed${count > 0 ? ' by public learners' : ''}.`
+    };
+  };
+
+  const getAverageScoreData = () => {
+    if (loading) return { value: '...', description: 'Loading...' };
+    if (!resultsData) return { value: '-', description: 'Failed to load results' };
+    const { metrics } = resultsData;
+    const averageScoreDisplay = metrics.completedCount > 0 ? `${metrics.averageScore}%` : '-';
+    return {
+      value: averageScoreDisplay,
+      description: metrics.completedCount > 0 
+        ? 'This is the average score received by all learners who took this quiz.'
+        : 'The average score received by all learners who took this quiz will be shown here.'
+    };
+  };
+
+  const completedQuizzesData = getCompletedQuizzesData();
+  const averageScoreData = getAverageScoreData();
+
   return (
     <div>
       <MetricsContainer>
         <MetricCard>
           <MetricTitle>Number of completed quizzes</MetricTitle>
-          <MetricValue>0</MetricValue>
-          <MetricDescription>
-            This is the number of quizzes that have been completed.
-          </MetricDescription>
+          <MetricValue>{completedQuizzesData.value}</MetricValue>
+          <MetricDescription>{completedQuizzesData.description}</MetricDescription>
         </MetricCard>
         
         <MetricCard>
           <MetricTitle>Average score</MetricTitle>
-          <MetricValue>-</MetricValue>
-          <MetricDescription>
-            The average score received by all learners who took this quiz will be shown here.
-          </MetricDescription>
+          <MetricValue>{averageScoreData.value}</MetricValue>
+          <MetricDescription>{averageScoreData.description}</MetricDescription>
         </MetricCard>
       </MetricsContainer>
     </div>

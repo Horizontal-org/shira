@@ -169,6 +169,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
               </Wrapper>
 
               <TabContainer
+                quizId={quiz.id}
                 quizQuestions={quiz.quizQuestions}
                 onEdit={(questionId) => { navigate(`/quiz/${id}/question/${questionId}`)}}
                 onDelete={(id) => { destroy(quiz.id, id) }}
