@@ -117,7 +117,13 @@ export const  QuestionsList: FunctionComponent<QuestionsListProps> = ({
       </DragDropContext>
       <DeleteModal
         title={`Are you sure you want to delete "${questionForDelete?.name}"?`}
-        content="Deleting this question is permanent and cannot be undone."
+        content={
+          <div>
+            Deleting this question is permanent and cannot be undone.
+            <br /><br />
+            <WarningNote>Note:</WarningNote> This question's Results will also be deleted, which will affect learners' average scores.
+          </div>
+        }
         setIsModalOpen={() => {
           handleQuestionForDelete(null)
         }}
@@ -198,6 +204,11 @@ const ActionButton = styled.button`
   &:hover {
     background: ${props => props.theme.colors.light.paleGreen};
   }
+`;
+
+const WarningNote = styled.span`
+  color: #d73527;
+  font-weight: 500;
 `;
 
 export default QuestionsList;
