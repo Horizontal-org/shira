@@ -24,10 +24,15 @@ export const Sender:FunctionComponent<Props> = ({
         </SenderIcon>
       </SenderFloatingInfo>
       <div>
-        <SenderInfo>
-          <span data-explanation={senderName.explanationPosition}>{senderName.textContent || ''}</span>
-          <span data-explanation={senderEmail.explanationPosition}>{`<${senderEmail.textContent || ''}>`}</span>
-        </SenderInfo>
+        <SenderFloatingInfo
+            senderEmail={senderEmail.textContent || ''}
+            senderName={senderName.textContent || 'S'}
+          >
+          <SenderInfo>
+            <span data-explanation={senderName.explanationPosition}>{senderName.textContent || ''}</span>
+            <span data-explanation={senderEmail.explanationPosition}>{`<${senderEmail.textContent || ''}>`}</span>
+          </SenderInfo>
+        </SenderFloatingInfo>
         <ReceiverInfo>
           <span>To:</span>
           <You>You</You>

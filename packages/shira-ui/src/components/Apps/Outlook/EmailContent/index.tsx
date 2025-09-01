@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
 import styled from 'styled-components'
+import { DynamicContent } from "./styles/ContentStyles"
 
 import Reply from './icons/Reply'
 import Forward from './icons/Forward'
@@ -28,7 +29,7 @@ export const EmailContent:FunctionComponent<Props> = ({
         <div></div>
         <RightActions />
       </TopBar>
-      <Body dangerouslySetInnerHTML={{__html: content ? content.outerHTML : null }}></Body>      
+      <DynamicContent dangerouslySetInnerHTML={{__html: content ? content.outerHTML : null }}></DynamicContent>      
       <BottomBar>
         <BottomButton>
           <Reply />
@@ -51,14 +52,13 @@ const WhiteContent = styled.div`
   box-sizing: border-box;
   border-radius: 4px;
   box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.14);  
-`
 
-const Body = styled.div`
-  color: #242424;
-  font-size: 15px;
-  font-weight: 400;
-  margin: 34px 16px 0 54px;
-  padding-bottom: 2px;
+  @media(max-width: ${props => props.theme.breakpoints.xs}) {
+    background: #fff;
+    box-sizing: border-box;
+    border-radius: none;
+    box-shadow: none;  
+  }
 `
 
 const TopBar = styled.div`

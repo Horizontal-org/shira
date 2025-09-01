@@ -61,6 +61,7 @@ export const Outlook:FunctionComponent<Props> = ({
       ))}
       <Font />
       <BlueHeader />
+      {/* add mobile header */}
       <Body>
         <Sidebar />
         <MainBody>
@@ -114,6 +115,10 @@ const MainBody = styled.div`
   box-sizing: border-box;
   padding-right: 18px;
   padding-left: 8px;
+  
+  @media(max-width: ${props => props.theme.breakpoints.xs}) {
+    padding: 0;
+  }
 `
 
 const ContentBody = styled.div`

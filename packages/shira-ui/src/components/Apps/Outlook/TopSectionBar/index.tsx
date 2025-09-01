@@ -31,6 +31,10 @@ const Wrapper = styled.div`
   
   display: flex;
   align-items: center;
+
+  @media(max-width: ${props => props.theme.breakpoints.xs}) {
+    display: none;
+  }
 `
 
 const NavigationIcon = styled.div`

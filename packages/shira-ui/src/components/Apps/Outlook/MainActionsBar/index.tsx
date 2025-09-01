@@ -116,6 +116,9 @@ export const MainActionBar:FunctionComponent<Props> = () => {
 
 const Wrapper = styled(WhiteBar)`
   margin-top: 4px;
+  @media(max-width: ${props => props.theme.breakpoints.xs}) {
+    display: none;
+  }
 `
 
 const ContentSeparator = styled.div<{
@@ -124,13 +127,13 @@ const ContentSeparator = styled.div<{
   display: flex;
   align-items: center;
 
-  @media(max-width: ${props => props.theme.breakpoints.md}) {
+  @media(max-width: ${props => props.theme.breakpoints.lg}) {
     ${props => props.hide === 'first' && `
       display: none;
     `}    
   }
 
-  @media(max-width: ${props => props.theme.breakpoints.sm}) {
+  @media(max-width: ${props => props.theme.breakpoints.md}) {
     ${props => props.hide === 'second' && `
       display: none;
     `}    

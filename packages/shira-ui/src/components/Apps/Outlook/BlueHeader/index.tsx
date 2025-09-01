@@ -26,10 +26,14 @@ export const BlueHeader:FunctionComponent<Props> = ({}) => {
 
 const Wrapper = styled.div`
   width: 100%;
-  background: #0078d4;
+  background: #0F6CBD;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media(max-width: ${props => props.theme.breakpoints.xs}) {
+    display: none;
+  }
 `
 
 const Left = styled.div`

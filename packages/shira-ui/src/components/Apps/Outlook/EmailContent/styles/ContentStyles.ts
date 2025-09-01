@@ -2,7 +2,12 @@ import styled from 'styled-components'
 
 export const DynamicContent = styled.div`
   padding: 10px 0;
-  
+  color: #242424;
+  font-size: 15px;
+  font-weight: 400;
+  margin: 34px 16px 0 54px;
+  padding-bottom: 2px;
+
   mark {
     background-color: transparent;
     position: relative;
@@ -11,8 +16,8 @@ export const DynamicContent = styled.div`
   img {
     object-fit: contain;
   }
-   
 
+  
   table {
     border-collapse: collapse;
     margin: 0;
@@ -78,4 +83,17 @@ export const DynamicContent = styled.div`
     padding: 1rem 0;
     overflow-x: auto;
   }
+
+
+
+  @media(max-width: ${props => props.theme.breakpoints.xs}) {
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+
+    img {
+      width: 100%;  
+    }
+  }
+
 `

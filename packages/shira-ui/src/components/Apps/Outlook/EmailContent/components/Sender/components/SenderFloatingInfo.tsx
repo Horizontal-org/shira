@@ -1,7 +1,14 @@
 import { cloneElement, FunctionComponent, ReactElement, ReactNode, useState} from 'react'
 import styled from 'styled-components'
-import { autoUpdate, FloatingFocusManager, useFloating, useHover, useInteractions } from '@floating-ui/react';
+import { autoUpdate, FloatingFocusManager, safePolygon, useFloating, useHover, useInteractions } from '@floating-ui/react';
 import { SenderIcon } from './SenderIcon';
+
+import ChevronDown from '../../../../globalIcons/ChevronDown'
+import MoreHorizontal from '../../../icons/MoreHorizontal'
+import Call from '../../../icons/Call'
+import Mail from '../../../icons/Mail'
+import Linkedin from '../../../icons/Linkedin'
+import { Contact } from './Contact';
 
 interface Props {
   senderName: string;
@@ -14,16 +21,20 @@ export const SenderFloatingInfo:FunctionComponent<Props> = ({
   senderEmail,
   children
 }) => {
-  const [isOpen, setIsOpen] = useState(true);
+
+  const [isOpen, setIsOpen] = useState(false);
   const {refs, floatingStyles, context} = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
     placement: 'bottom-start',
-    // whileElementsMounted: autoUpdate,
   })
 
-  const hover = useHover(context)
- 
+  const hover = useHover(context, {
+    delay: 300,
+    handleClose: safePolygon({
+      requireIntent: false,
+    }),
+  })
   const {getReferenceProps, getFloatingProps} = useInteractions([
     hover,
   ])
@@ -32,7 +43,13 @@ export const SenderFloatingInfo:FunctionComponent<Props> = ({
     <>
       { cloneElement(children, { ref: refs.setReference, ...getReferenceProps } ) }
       { isOpen && (
-        <FloatingFocusManager context={context} modal={false}>
+        <FloatingFocusManager 
+          context={context} 
+          modal={false}
+          returnFocus={false}
+          initialFocus={-1}
+          restoreFocus={false}
+        >
           <div
             ref={refs.setFloating} 
             style={floatingStyles}
@@ -47,6 +64,28 @@ export const SenderFloatingInfo:FunctionComponent<Props> = ({
                   { senderName }
                 </SenderName>
               </SenderMain>
+              <SenderActions>
+                <CallButton>
+                  <LeftCallButton>
+                    <Call />
+                    <span>Call</span>
+                  </LeftCallButton>
+                  <RightCallButton>
+                    <ChevronDown />
+                  </RightCallButton>
+                </CallButton>
+                <SenderActionIconWrapper>
+                  <Mail />
+                </SenderActionIconWrapper>
+                <SenderActionIconWrapper>
+                  <Linkedin />
+                </SenderActionIconWrapper>
+                <SenderActionIconWrapper>
+                  <MoreHorizontal />
+                </SenderActionIconWrapper>
+              </SenderActions>
+              <Separator />
+              <Contact senderEmail={senderEmail}/>
             </Wrapper>
           </div>
         </FloatingFocusManager>
@@ -56,17 +95,21 @@ export const SenderFloatingInfo:FunctionComponent<Props> = ({
 }
 
 const Wrapper = styled.div`
-  width: 340px;
-  padding: 16px;
+  width: 340px;  
   z-index: 2;
   background: white;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.4);
   border-radius: 4px;
+
+  &:focus {
+    outline: !important none;
+  }
 `
 
 const SenderMain = styled.div`
   display: flex;
   align-items: center;
+  padding: 16px 0 0 16px;
 `
 
 const StyledSenderIcon = styled(SenderIcon)`
@@ -79,7 +122,7 @@ const StyledSenderIcon = styled(SenderIcon)`
 `
 
 const SenderName = styled.div`
-  padding-left: 12px;
+  padding-left: 8px;
   text-overflow: ellipsis;
   white-space: nowrap; 
   font-weight: 600;
@@ -90,6 +133,81 @@ const SenderName = styled.div`
   cursor: text;
 `
 
+const SenderActions = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 12px;
+  padding: 0 0 16px 16px;
+`
+
+const CallButton = styled.div`
+  display: flex;
+  height: 32px;
+  cursor: pointer;
+  padding-right: 4px;
+`
+
+const LeftCallButton = styled.div`
+  display: flex;
+  align-items: center;
+  height: 32px;
+  background: #0F6CBD;
+  border-radius: 4px 0 0 4px;
+  display: flex;
+  align-items: center;
+  border-right: 1px solid white;
+  padding: 0 9px 0 9px;
+  color: white;
+
+  > span {
+    padding-left: 6px; 
+    padding-right: 2px;
+    font-size: 14px;
+    font-weight: 300;
+    padding-bottom: 1px;
+  }
+
+  &:hover {
+    background: #0F548C;
+  }
+`
+
+const RightCallButton = styled.div`
+  display: flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 8px;
+  background: #0F6CBD;
+  border-radius: 0 4px 4px 0;
+
+  &:hover {
+    background: #0F548C;
+  }
+`
+
+const SenderActionIconWrapper = styled.div`
+  height: 32px;
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  &:hover {
+    background: #e0e0e0;
+  }
+
+  > svg {
+    fill: #424242; 
+  }
+`
+
+const Separator = styled.div`
+  width: 100%;
+  height: 1px;
+  background: #e0e0e0;
+`
 // ent.style {
 // }
 // <style>

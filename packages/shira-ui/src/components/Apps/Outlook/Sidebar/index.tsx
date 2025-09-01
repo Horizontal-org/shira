@@ -11,8 +11,6 @@ import PowerpointColor from './components/PowerpointColor'
 
 interface Props {}
 
-// AppFolderRegular
-
 const Sidebar:FunctionComponent<Props> = ({}) => {
   return (
     <Wrapper>
@@ -62,7 +60,7 @@ const Wrapper = styled.div`
   gap: 4px;
   margin-right: 4px;
 
-  @media(max-width: ${props => props.theme.breakpoints.sm}) {
+  @media(max-width: ${props => props.theme.breakpoints.md}) {
     display: none;
   }
 `

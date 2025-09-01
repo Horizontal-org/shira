@@ -55,6 +55,10 @@ const CloseButton = styled.div`
   &:hover {
     background: #f0f0f0;
   }
+
+  @media(max-width: ${props => props.theme.breakpoints.sm}) {
+    display: none;
+  }
 `
 
 const SubjectText = styled.div`
@@ -63,6 +67,10 @@ const SubjectText = styled.div`
   color: #242424;
   font-weight: 600;
   padding-bottom: 1px;
+
+  @media(max-width: ${props => props.theme.breakpoints.sm}) {;
+    font-size: 20px;
+  }
 `
 
 const StyledWhiteBar = styled(WhiteBar)`
@@ -72,6 +80,11 @@ const StyledWhiteBar = styled(WhiteBar)`
   > div {
     display: flex;
     align-items: center; 
+  }
+
+  @media(max-width: ${props => props.theme.breakpoints.sm}) {
+    background: #f8f8f8;
+    box-shadow: none;
   }
 `
 
@@ -97,5 +110,9 @@ const ChevronWrapper = styled.div`
     > svg {
       fill: #115EA3; 
     }
+  }
+
+  @media(max-width: ${props => props.theme.breakpoints.sm}) {
+    display: none;
   }
 `
