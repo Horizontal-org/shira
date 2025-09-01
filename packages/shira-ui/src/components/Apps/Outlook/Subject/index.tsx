@@ -20,20 +20,25 @@ const parseSubjectText = (subjectText: string) => {
 export const Subject:FunctionComponent<Props> = ({subject}) => {
   if (!subject) return
   return (
-    <WhiteWrapper>
-      <StyledWhiteBar>
-        <div>
-          <CloseButton>
-            <Dismiss />
-          </CloseButton>
-          <SubjectText data-explanation={subject.explanationPosition}>{ parseSubjectText(subject.textContent) }</SubjectText>
-        </div>
-        <div>
-          <ChevronWrapper><LeftChevron /></ChevronWrapper>
-          <ChevronWrapper><RightChevron /></ChevronWrapper>
-        </div>
-      </StyledWhiteBar>
-    </WhiteWrapper>
+    <>
+      <MobileHeader>
+        <LeftChevron />
+      </MobileHeader>
+      <WhiteWrapper>
+        <StyledWhiteBar>
+          <div>
+            <CloseButton>
+              <Dismiss />
+            </CloseButton>
+            <SubjectText data-explanation={subject.explanationPosition}>{ parseSubjectText(subject.textContent) }</SubjectText>
+          </div>
+          <div>
+            <ChevronWrapper><LeftChevron /></ChevronWrapper>
+            <ChevronWrapper><RightChevron /></ChevronWrapper>
+          </div>
+        </StyledWhiteBar>
+      </WhiteWrapper>
+    </>
   )
 }
 
@@ -56,7 +61,7 @@ const CloseButton = styled.div`
     background: #f0f0f0;
   }
 
-  @media(max-width: ${props => props.theme.breakpoints.sm}) {
+  @media(max-width: ${props => props.theme.breakpoints.xs}) {
     display: none;
   }
 `
@@ -68,7 +73,7 @@ const SubjectText = styled.div`
   font-weight: 600;
   padding-bottom: 1px;
 
-  @media(max-width: ${props => props.theme.breakpoints.sm}) {;
+  @media(max-width: ${props => props.theme.breakpoints.xs}) {;
     font-size: 20px;
   }
 `
@@ -82,9 +87,10 @@ const StyledWhiteBar = styled(WhiteBar)`
     align-items: center; 
   }
 
-  @media(max-width: ${props => props.theme.breakpoints.sm}) {
+  @media(max-width: ${props => props.theme.breakpoints.xs}) {
     background: #f8f8f8;
     box-shadow: none;
+    height:auto;
   }
 `
 
@@ -112,7 +118,25 @@ const ChevronWrapper = styled.div`
     }
   }
 
-  @media(max-width: ${props => props.theme.breakpoints.sm}) {
+  @media(max-width: ${props => props.theme.breakpoints.xs}) {
     display: none;
+  }
+`
+
+const MobileHeader = styled.div`
+  @media(min-width: ${props => props.theme.breakpoints.xs}) {
+    display: none;
+  }
+
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  background: white;
+  width: 100%;
+
+  > svg {
+    height: 28px;
+    width: 28px;
   }
 `
