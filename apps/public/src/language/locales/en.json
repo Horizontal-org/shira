@@ -215,6 +215,11 @@
     "navbar": {
         "home": "Home",
         "about": "About",
-        "menu": "Menu"
+        "menu": "Menu",
+        "features": "Features",
+        "pricing": "Pricing",
+        "take_a_quiz": "Take a quiz",
+        "learn": "Learn",
+        "get_started": "Get started"
     }
 }

@@ -22,6 +22,15 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
 
   const referenceElementRef = useRef<HTMLElement |  null>(null);
 
+  const isUrl = (text: string) => {
+    try {
+      new URL(text);
+      return true;
+    } catch {
+      return text.startsWith('http://') || text.startsWith('https://') || text.startsWith('www.');
+    }
+  };
+
   const { styles, attributes, update } = usePopper(referenceElementRef.current, popperElement, {
     modifiers: [
       { name: 'flip', options: { fallbackPlacements: ['top', 'bottom'], padding: 100 }},
@@ -85,13 +94,15 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
       {...attributes.popper}
       hide={parseInt(explanation.index) !== explanationNumber || !showExplanations}
     >
-      {explanation.text}
+      <TooltipContent isUrl={isUrl(explanation.text)}>
+        {explanation.text}
+      </TooltipContent>
       <div ref={setArrowElement} id='arrow' style={styles.arrow}/>
     </Wrapper>
   )
 }
 
-const Wrapper = styled('div')<{ hide: boolean }>`
+const Wrapper = styled('div')<{ hide: boolean }>`  
   ${props => props.hide && `
     visibility: hidden;
     > #arrow::before {
@@ -100,8 +111,20 @@ const Wrapper = styled('div')<{ hide: boolean }>`
   `}
 `
 
-
-
+const TooltipContent = styled.div<{ isUrl: boolean }>`
+  font-size: 14px;
+  line-height: 1.4;
+  
+  ${props => props.isUrl ? `
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 280px;
+  ` : `
+    white-space: normal;
+    word-wrap: break-word;
+    max-width: 280px;
+  `}
+`
 
 export default ExplanationTooltip
-

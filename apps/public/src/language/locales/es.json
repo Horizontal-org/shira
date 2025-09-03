@@ -215,6 +215,11 @@
     "navbar": {
         "home": "Inicio",
         "about": "Información",
-        "menu": "Menú"
+        "menu": "Menú",
+        "features": "Funcionalidades",
+        "pricing": "Precios",
+        "take_a_quiz": "Tomar un quiz",
+        "learn": "Aprender",
+        "get_started": "Comenzar"
     }
 }
