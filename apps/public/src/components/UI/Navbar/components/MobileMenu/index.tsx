@@ -24,7 +24,7 @@ export const MobileMenu: FunctionComponent<Props> = ({
   const { t } = useTranslation()
 
   const handleExternalLink = (url: string) => {
-    window.open(url, '_blank', 'noopener,noreferrer')
+    window.open(url)
   }
 
   return (

@@ -16,7 +16,7 @@ export const Navbar: FunctionComponent<Props> = ({ color }) => {
   const [mobileMenu, handleMobileMenu] = useState(false)
 
   const handleExternalLink = (url: string) => {
-    window.open(url, '_blank', 'noopener,noreferrer')
+    window.open(url)
   }
 
   return (
