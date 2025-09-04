@@ -15,6 +15,8 @@ interface Props {
   type?: string;
 }
 
+const randomSize = Math.floor(Math.random() * 300) + 1
+
 export const Attachment:FunctionComponent<Props> = ({
   name,
   explanationPosition,
@@ -43,10 +45,13 @@ export const Attachment:FunctionComponent<Props> = ({
       <Left>
         <SvgWrapper> {renderSwitch(type)} </SvgWrapper>
         <TextWrapper>
-          <Name data-explanation={explanationPosition} >
+          <Name 
+            data-explanation={explanationPosition} 
+            title={name}
+          >
             { name }
           </Name>
-          <Size>{Math.floor(Math.random() * 300) + 1} KB</Size>
+          <Size>{randomSize} KB</Size>
         </TextWrapper>
       </Left>
       <Right>
@@ -81,34 +86,46 @@ const Right = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0 8px;
 
   &:hover {
     background: #f5f5f5;
   }
 
   > svg {
-    height: 32px; 
-    width: 32px;
+    height: 20px; 
+    width: 20px;
   }
 `
 
 const SvgWrapper = styled.div`
-  height: 32px;
-  width: 32px;
+  height: 26px;
+  padding: 0 8px;
 
   > svg {
-    height: 32px;
-    width: 32px; 
+    height: 26px;
+    width: 26px; 
   }
 `
 
-const Name = styled.div``
+const Name = styled.span`
+  color: #424242;
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 180px;
+  display: inline-block;
+`
 
 const Size = styled.div`
   color: #707070;
   font-size: 10px;
+  font-weight: 600;
 `
 
 const TextWrapper = styled.div`
   padding-left: 4px;
+  min-width: 0;
+  flex: 1;
 `

@@ -17,12 +17,12 @@ export interface OutlookCustomElements {
   explanationPosition: string | null
 }
 
-// export interface AttachmentElement { 
-//   name: string;
-//   position: string;
-//   explanationPosition?: string | null;
-//   fileType?: string;    
-// }
+export interface OutlookAttachmentElement { 
+  name: string;
+  position: string;
+  explanationPosition?: string | null;
+  fileType?: string;    
+}
 
 interface Props {
   content: HTMLElement;
@@ -43,7 +43,7 @@ export const Outlook:FunctionComponent<Props> = ({
   senderName,
   senderEmail,
   receiverEmail,
-  receiverName,
+  // receiverName,
   subject,
   attachments,
   explanations,
@@ -73,6 +73,7 @@ export const Outlook:FunctionComponent<Props> = ({
               <Subject subject={subject} />
               <EmailContent 
                 content={content}
+                attachments={attachments}
                 senderName={senderName}
                 senderEmail={senderEmail}
               />
@@ -83,13 +84,6 @@ export const Outlook:FunctionComponent<Props> = ({
     </DesktopWrapper>
   )
 }
-
-// --neutralDark: #242424;
-// --neutralPrimary: #424242;
-// color picker
-// #0F6CBD
-// --oobePrimary: #0078d4;
-// --oobeDarkAlt: #106EBE;
 
 const Font = createGlobalStyle`
   .outlook {

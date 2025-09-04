@@ -5,7 +5,7 @@ export const DynamicContent = styled.div`
   color: #242424;
   font-size: 15px;
   font-weight: 400;
-  margin: 34px 16px 0 54px;
+  margin: 34px 16px 0 50px;
   padding-bottom: 2px;
 
   mark {

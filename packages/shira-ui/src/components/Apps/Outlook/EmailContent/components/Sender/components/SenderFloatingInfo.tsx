@@ -1,6 +1,6 @@
-import { cloneElement, FunctionComponent, ReactElement, ReactNode, useState} from 'react'
+import { cloneElement, FunctionComponent, ReactElement, useState} from 'react'
 import styled from 'styled-components'
-import { autoUpdate, FloatingFocusManager, safePolygon, useFloating, useHover, useInteractions } from '@floating-ui/react';
+import { FloatingFocusManager, safePolygon, useFloating, useHover, useInteractions } from '@floating-ui/react';
 import { SenderIcon } from './SenderIcon';
 
 import ChevronDown from '../../../../globalIcons/ChevronDown'

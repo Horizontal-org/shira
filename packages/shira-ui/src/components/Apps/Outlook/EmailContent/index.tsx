@@ -5,20 +5,24 @@ import { DynamicContent } from "./styles/ContentStyles"
 import Reply from './icons/Reply'
 import Forward from './icons/Forward'
 import { RightActions } from "./components/RightActions";
-import { OutlookCustomElements } from "..";
+import { OutlookAttachmentElement, OutlookCustomElements } from "..";
 import { Sender } from "./components/Sender";
+import { Attachment } from "../Attachment";
 
 interface Props { 
   content: HTMLElement;
   senderName: OutlookCustomElements;
   senderEmail: OutlookCustomElements;
+  attachments: OutlookAttachmentElement[],
 }
 
 export const EmailContent:FunctionComponent<Props> = ({
   content,
   senderName,
-  senderEmail
+  senderEmail,
+  attachments
 }) => {
+
   return (
     <WhiteContent>
       <TopBar>
@@ -29,6 +33,19 @@ export const EmailContent:FunctionComponent<Props> = ({
         <div></div>
         <RightActions />
       </TopBar>
+      <Attachments>
+        { attachments && attachments.length > 0 && 
+            attachments
+              .sort((a, b) => parseInt(a.position) - parseInt(b.position))
+              .map((a, i) => (
+              <Attachment 
+                explanationPosition={a.explanationPosition}
+                type={a.fileType}
+                name={a.name}
+                key={i}
+              />
+        )) }
+      </Attachments>
       <DynamicContent dangerouslySetInnerHTML={{__html: content ? content.outerHTML : null }}></DynamicContent>      
       <BottomBar>
         <BottomButton>
@@ -61,6 +78,12 @@ const WhiteContent = styled.div`
   }
 `
 
+const Attachments = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 34px 16px 0 50px;
+`
 const TopBar = styled.div`
   display: flex;
   justify-content: space-between;

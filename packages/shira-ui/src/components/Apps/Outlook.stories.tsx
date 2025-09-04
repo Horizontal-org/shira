@@ -43,13 +43,31 @@ export const Default: Story = {
     , 'text/html').getElementById('text-editor'),
     attachments: [
       {
-        name: 'at.txt',
-        position: '1'
+        name: 'ataaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.txt',
+        position: '1',
+        fileType: 'document'
       },
       {
         name: 'at2.pdf',
-        position: '2'
-      }
+        position: '2',
+        fileType: 'video'
+      },
+      {
+        name: 'at2.pdf',
+        position: '3',
+        fileType: 'image'
+      },
+      {
+        name: 'at2.pdf',
+        position: '4',
+        fileType: 'audio',
+      },
+      {
+        name: 'at2.pdf',
+        position: '5',
+        fileType: 'other'
+      },
+
     ],
     explanationNumber: 0,
     explanations: []

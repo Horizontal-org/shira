@@ -17,6 +17,10 @@ interface Props {
   receiverEmail: string;
 }
 
+const inboxAmount = Math.floor(Math.random() * 100) + 1
+const junkAmount = Math.floor(Math.random() * 10) + 1
+const draftsAmount = Math.floor(Math.random() * 7) + 1
+
 export const LeftActions:FunctionComponent<Props> = ({ receiverEmail }) => {
 
   return (
@@ -26,19 +30,19 @@ export const LeftActions:FunctionComponent<Props> = ({ receiverEmail }) => {
         text="Inbox"
         icon={<Inbox />}
         selected={true}
-        amount={Math.floor(Math.random() * 100) + 1}
+        amount={inboxAmount}
       />
       <Item 
         text="Junk Email"
         icon={<Junk />}
         selected={false}
-        amount={Math.floor(Math.random() * 10) + 1}
+        amount={junkAmount}
       />
       <Item 
         text="Drafts"
         icon={<Draft />}
         selected={false}
-        amount={Math.floor(Math.random() * 7  ) + 1}
+        amount={draftsAmount}
       />
       <Item 
         text="Sent items"
@@ -72,8 +76,7 @@ export const LeftActions:FunctionComponent<Props> = ({ receiverEmail }) => {
           selected={false}
           type="blue"
         />
-      </BottomWrapper>
-      
+      </BottomWrapper>      
       
     </Wrapper>
   )
