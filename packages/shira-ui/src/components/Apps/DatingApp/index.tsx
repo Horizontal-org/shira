@@ -10,7 +10,7 @@ import ExplanationTooltip from '../components/ExplanationTooltip';
 import { Phone } from '../components/Phone';
 
 interface Props {
-  phone: {
+  senderName: {
     textContent: string;
     explanationPosition: string;
   };
@@ -22,7 +22,7 @@ interface Props {
 
 
 export const DatingApp: FunctionComponent<Props> = ({ 
-  phone, 
+  senderName, 
   content, 
   explanations, 
   explanationNumber, 
@@ -37,7 +37,7 @@ export const DatingApp: FunctionComponent<Props> = ({
           showExplanations={showExplanations}
         />
       ))}
-      <Header phone={phone}/>
+      <Header phone={senderName}/>
       <Chat data={content}/>
       <Footer />
     </Phone>

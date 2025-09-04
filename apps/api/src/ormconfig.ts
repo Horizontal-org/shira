@@ -13,6 +13,7 @@ export const typeOrmModuleOptions: TypeOrmModuleOptions = {
   entities: [__dirname + "entities/**/*.entity.ts"],
   // synchronize: true,
   autoLoadEntities: true,
+  // charset: 'latin1'
 };
 
 export const OrmConfig = {

@@ -1,6 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react"
-import { Button, styled } from "@shira/ui"
-import { QuestionToBe } from "../QuestionFlowManagement/types"
+import { Button, styled, Body1 } from "@shira/ui"
 import { getContentProps } from "./utils"
 import { AppSelector } from "./components/AppSelector"
 
@@ -8,26 +7,30 @@ import '../../fonts/GoogleSans/style.css'
 import '../../fonts/Segoe/style.css'
 import { useStore } from "../../store"
 import { shallow } from "zustand/shallow"
+import { MdBlock } from 'react-icons/md'
+import { ActiveQuestion } from "../../store/types/active_question"
 
 interface Props {
-  question: QuestionToBe
+  question?: ActiveQuestion
 }
 
 export const QuestionReview: FunctionComponent<Props> = ({
   question
 }) => {
  
-   const {
-     explanations
-   } = useStore((state) => ({
-     explanations: state.explanations,
-   }), shallow)
+  const {
+    activeQuestion,
+    explanations
+  } = useStore((state) => ({
+    explanations: state.explanations,
+    activeQuestion: state.activeQuestion
+  }), shallow)
    
   const [elementProps, handleElementProps] = useState(null)
   const [explanationNumber, setExplanationNumber] = useState<number>(0)
   const [explanationsOrder, handleExplanationsOrder] = useState<Array<number>>([])
   const [showExplanations, handleShowExplanations] = useState<boolean>(false)
-  
+
   useEffect(() => {
     const order = explanations
       .sort((a, b) => a.position - b.position)
@@ -35,78 +38,88 @@ export const QuestionReview: FunctionComponent<Props> = ({
 
     handleExplanationsOrder(order)
     
-    if (question && question.app) {      
-      const contentProps = getContentProps(question.app.name, question.content)
+    if (activeQuestion && activeQuestion.app) {      
+      const contentProps = getContentProps(activeQuestion.app.name, activeQuestion)
+      console.log("🚀 ~ QuestionReview ~ contentProps:", contentProps)
 
       handleElementProps({
-        ...contentProps        
+        ...contentProps
       })
     }
   }, [])
 
-  if (!question || !elementProps) {
+  if (!activeQuestion || !elementProps) {
     return
   }
-
   return (
-    <>
-      <StyledBox>        
-        <AppSelector 
-          appName={question.app.name}
+    <>      
+      <ExplanationHeader>
+        { explanations.length === 0 ? (
+          <IsNoExplanationWrapper>
+            <Content>
+              <MdBlock size={18} color="red" />
+              <Body1>There are no explanations for this question.</Body1>
+            </Content>
+          </IsNoExplanationWrapper>
+        ) : (
+          <Button
+            type="outline"
+            onClick={() => {
+              if (showExplanations) {
+                setExplanationNumber(0)
+              }
+              handleShowExplanations(!showExplanations)
+            }}
+            text={showExplanations ? 'Hide explanations' : 'Show explanations' }
+          />
+        )}
+                
+       {showExplanations && (
+        <ExplanationButtonWrapper>
+          {explanationNumber >= 1 && (
+            <Button
+              onClick={() => {
+                setExplanationNumber(explanationNumber - 1)
+              }}
+              text='Previous explanation'
+            />
+          )}
+          {explanationNumber < explanations.length - 1 && (
+            <Button
+              onClick={() => {
+                setExplanationNumber(explanationNumber + 1)
+              }}
+              text='Next explanation'
+            />
+          )}
+        </ExplanationButtonWrapper>
+      )}
+      </ExplanationHeader>
+
+      <StyledBox>
+        <AppSelector
+          appName={activeQuestion.app.name}
           customProps={elementProps}
           explanationNumber={explanationsOrder[explanationNumber]}
           showExplanations={showExplanations}
           explanations={explanations}
         />
-        { showExplanations && (<Overlay />)}
+        {showExplanations && <Overlay />}
       </StyledBox>
-      <ReviewFooter>
-        { showExplanations ? (
-          <ExplanationButtonWrapper>
-            { explanationNumber >= 0 && (
-              <Button 
-                type="outline"
-                onClick={() => {
-                  handleShowExplanations(false)
-                  setExplanationNumber(0)                
-                }}
-                text='Close explanations'
-              />
-            )}
-            { explanationNumber >= 1 && (
-              <Button 
-                onClick={() => {
-                  setExplanationNumber(explanationNumber - 1)                
-                }}
-                text='Previous explanation'
-              />  
-            )}  
-            { explanationNumber < explanations.length - 1 && (
-              <Button 
-                onClick={() => {
-                  setExplanationNumber(explanationNumber + 1)                
-                }}
-                text='Next explanation'
-              />
-            )}
-          </ExplanationButtonWrapper>
-        ) : (
-          <Button 
-            type="outline"
-            onClick={() => {
-              handleShowExplanations(true)              
-            }}
-            text='Show explanations'
-          />
-        )}
-      </ReviewFooter>
     </>
   )
 }
 
+const ExplanationHeader = styled.div`
+  width: 1024px;
+  display: flex;
+  justify-content: flex-end;
+  margin: 12px 0 20px 0;
+`
+
 const StyledBox = styled.div`
   position: relative;
-  z-index:1;
+  z-index: 1;
   background: white;
   padding: 24px;
   width: 1024px;
@@ -117,13 +130,7 @@ const StyledBox = styled.div`
 const ExplanationButtonWrapper = styled.div`
   display: flex;
   gap: 12px;
-`
-
-const ReviewFooter = styled.div`
-  width: 1024px;
-  padding: 12px 0;
-  display: flex;
-  justify-content: flex-end;
+  margin-left: 12px;
 `
 
 const Overlay = styled.div`
@@ -133,5 +140,19 @@ const Overlay = styled.div`
   z-index: 3;
   height: 800px;
   width: 100%;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
+`
+
+const IsNoExplanationWrapper = styled.div`
+  width: fit-content;
+  margin: 12px 0;
+  padding: 16px 20px;
+  background: #fff;
+  border-radius: 20px;
+`
+
+const Content = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
 `

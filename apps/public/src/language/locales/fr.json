@@ -42,6 +42,7 @@
         "how_it_works": {
             "title": "Comment ça marche",
             "explanation_1": "Ce quiz comporte 10 questions.",
+            "question_count": "Ce quiz comporte {{ count }} questions.",
             "explanation_2": "Pour chaque question, choisissez si le message affiché ressemble à une tentative d'hameçonnage ou semble légitime.",
             "explanation_3": "Si vous n'êtes pas sûr, vous pouvez sélectionner l'option \"Je ne sais pas\".",
             "footer_title": "Intro du quiz",
@@ -104,7 +105,11 @@
         "subtitle": "Répondez à un nouveau quiz ou consultez quelques recommandations ci-dessous pour continuer à renforcer vos compétences et mieux éviter l'hameçonnage.",
         "back_button": "Retour a l'accueil",
         "next_button": "Nouveau quiz",
-        "heavy_subtitle": "Vous avez répondu correctement à {{correctQuestions}} sur {{questions}}"
+        "heavy_subtitle_1": "Vous avez répondu correctement à ",
+        "heavy_subtitle_2": "{{correctQuestions}} sur {{questions}}",
+        "heavy_subtitle_3": ".",
+        "greeting_title": "Thanks for using Shira!"
+
     },
     "about": {
         "title": "À propos",

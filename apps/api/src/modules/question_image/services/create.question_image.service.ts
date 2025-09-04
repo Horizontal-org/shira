@@ -20,7 +20,6 @@ export class CreateQuestionImageService implements ICreateQuestionImageService{
   async execute (createQuestionImageDto: CreateQuestionImageDto): Promise<CreateQuestionImageServiceResponse> {
     const fileInfo = await this.createFilePath(createQuestionImageDto)
     const questionImage = new QuestionImageEntity()
-    console.log("🚀 ~ CreateQuestionImageService ~ execute ~ questionImage:", questionImage)
 
     questionImage.name = fileInfo.name
     questionImage.relativePath = fileInfo.path
@@ -44,14 +43,26 @@ export class CreateQuestionImageService implements ICreateQuestionImageService{
     }
   }
 
-  private async createFilePath(createQuestionImageDto: CreateQuestionImageDto) {
+  private async createFilePath(createQuestionImageDto: CreateQuestionImageDto) {    
     const now = formatISO(new Date())
-    let name = now + '_' + createQuestionImageDto.file.originalname
+    // let name = now + '_' + Buffer.from(createQuestionImageDto.file.originalname, 'utf-8').toString('utf8')
+    let name = now + '_' + this.cleanString(createQuestionImageDto.file.originalname)
+    console.log("🚀 ~ CreateQuestionImageService ~ createFilePath ~ name:", name)
     let path = `question-images/${createQuestionImageDto.quizId}/${name}`
         
     return {
       path,
       name
     }
+  }
+
+  private cleanString(input) {
+      var output = "";
+      for (var i=0; i<input.length; i++) {
+          if (input.charCodeAt(i) <= 127) {
+              output += input.charAt(i);
+          }
+      }
+      return output;
   }
 }

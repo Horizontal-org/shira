@@ -1,10 +1,8 @@
 import { FunctionComponent } from 'react'
-import { SMS } from '../../../Apps/SMS';
-import DatingApp from '../../../Apps/DatingApp';
-import Whatsapp from '../../../Apps/Whatsapp';
-import FBMessenger from '../../../Apps/FBMessenger';
 import { Explanation } from '../../../../domain/explanation';
 import useParseHTML from '../../../../hooks/useParseHTML';
+
+import { DatingApp, FBMessenger, SMS, Whatsapp } from '@shira/ui';
 
 
 interface Props {
@@ -35,7 +33,7 @@ export const MessagingApps: FunctionComponent<Props> = ({ content, name, explana
 
       { name === 'Dating App' && (
         <DatingApp
-          phone={parseCustomElement('component-required-fullname')}
+          senderName={parseCustomElement('component-required-fullname')}
           content={html.getElementById('dynamic-content')}
           explanations={explanations}
           explanationNumber={explanationNumber}
@@ -54,8 +52,8 @@ export const MessagingApps: FunctionComponent<Props> = ({ content, name, explana
       )}
 
       { name === 'Messenger' && (
-        <FBMessenger 
-          fullname={parseCustomElement('component-required-fullname')}
+        <FBMessenger
+          senderName={parseCustomElement('component-required-fullname')}
           content={html.getElementById('dynamic-content')}
           explanations={explanations}
           explanationNumber={explanationNumber}

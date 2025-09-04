@@ -11,16 +11,19 @@ export const useExplanations = (editor: any, editorId: string) => {
     storeExplanations,
     deleteExplanation,
     addExplanation,
-    explanationIndex
+    explanationIndex,
+    getExplanationIds
   } = useStore((state) => ({
     changeSelected: state.changeSelected,
     selectedExplanation: state.selectedExplanation,
     storeExplanations: state.explanations,
     deleteExplanation: state.deleteExplanation,
     addExplanation: state.addExplanation,
-    explanationIndex: state.explanationIndex
+    explanationIndex: state.explanationIndex,
+    getExplanationIds: state.getExplanationIds,
   }), shallow)
 
+  
   const markExplanations = useCallback((selectedExplanation) => { 
     if (!editorId) return
     
@@ -95,31 +98,41 @@ export const useExplanations = (editor: any, editorId: string) => {
   const cleanupOrphanedExplanations = useCallback(() => {
     if (!editor) return
     
-    const activeExplanationIndexes = new Set()
-
+    
+    const editorExplanationIndexes = new Set()
+    
+    // first, get explanations from this editor
+    // TODO Why the distinction of types is necessary ?
     editor.state.doc.descendants((node) => {
       node.marks.forEach(mark => {
         if (mark.attrs['data-explanation']) {
-          activeExplanationIndexes.add(parseInt(mark.attrs['data-explanation']))
+          editorExplanationIndexes.add(parseInt(mark.attrs['data-explanation']))
         }
       })
       
       if (node.type.name === 'image' && node.attrs['data-explanation']) {
-        activeExplanationIndexes.add(parseInt(node.attrs['data-explanation']))
+        editorExplanationIndexes.add(parseInt(node.attrs['data-explanation']))
       }
 
       if ((node.type.name === 'tableCell' || node.type.name === 'tableHeader') && node.attrs['data-explanation']) {
-        activeExplanationIndexes.add(parseInt(node.attrs['data-explanation']))
+        editorExplanationIndexes.add(parseInt(node.attrs['data-explanation']))
       }
     })
 
-    const allExplanationElements = document.querySelectorAll('[data-explanation]')
-    allExplanationElements.forEach(element => {
-      const explanationIndex = element.getAttribute('data-explanation')
-      if (explanationIndex) {
-        activeExplanationIndexes.add(parseInt(explanationIndex))
-      }
+    // get all editor explanations
+    document.querySelectorAll('[id*="component-text"]').forEach((ca) => {
+      ca.querySelectorAll('[data-explanation]').forEach((de) => {
+          const explanationIndex = de.getAttribute('data-explanation')
+          if (explanationIndex && !editorExplanationIndexes.has(explanationIndex)) {
+            editorExplanationIndexes.add(parseInt(explanationIndex))
+          }           
+      })
     })
+
+    // second, add explanations on activequestion
+    const activeQuestionIds = getExplanationIds()   
+    const activeExplanationIndexes = new Set([...activeQuestionIds, ...editorExplanationIndexes]) 
+
 
     const orphanedExplanations = storeExplanations.filter(explanation => 
       !activeExplanationIndexes.has(explanation.index)
@@ -178,9 +191,9 @@ export const useExplanations = (editor: any, editorId: string) => {
 
   const removeTextExplanation = useCallback(() => {
     if (!editor || !editor.isActive('explanation')) return false
-
     const deleteIndex = editor.getAttributes('explanation')['data-explanation']
     deleteExplanation(deleteIndex)
+    cleanDeletedExplanations(deleteIndex)
     editor.chain().focus().unsetExplanation().run()
     return true
   }, [editor, deleteExplanation])
@@ -238,6 +251,7 @@ export const useExplanations = (editor: any, editorId: string) => {
     if (!editor) return
 
     const handleDeleteExplanation = (event) => {
+      console.log('EXECUTING SUBSCRIPTION')
       cleanDeletedExplanations(event.detail.deleteIndex)
     }
 

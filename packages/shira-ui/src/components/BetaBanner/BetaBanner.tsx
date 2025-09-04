@@ -4,10 +4,20 @@ import styled from 'styled-components'
 import { Body3 } from "../Typography";
 
 export interface BetaBannerProps {
-  url?: string
+  url?: string;
+  label?: string;
+  message?: string;
+  clickHereText?: string;
+  feedbackText?: string;
 }
 
-export const BetaBanner:FunctionComponent<BetaBannerProps> = ({ url = '/support' }) => {
+export const BetaBanner:FunctionComponent<BetaBannerProps> = ({ 
+  url = '/support',
+  label = 'BETA',
+  message = 'Shira is still in development and you may experience issues.',
+  clickHereText = 'Click here',
+  feedbackText = 'to share your feedback and help us improve!'
+}) => {
   const [showBanner, handleShowBanner] = useState(false)
 
   useEffect(() => {
@@ -16,10 +26,17 @@ export const BetaBanner:FunctionComponent<BetaBannerProps> = ({ url = '/support'
   }, [])
 
   return showBanner && (
-    <Wrapper>
+     <Wrapper>
       <Empty></Empty>
       <Body3>
-        <strong>BETA</strong>: Shira is still in development and you may experience issues. Click <a target={url.includes('https:') ? '_blank' : '_self'} href={url}>here</a> to share your feedback and help us improve!
+        <strong>{label}</strong>: {message} {' '}
+        <a 
+          target={url.includes('https:') ? '_blank' : '_self'} 
+          href={url}
+        >
+          {clickHereText}
+        </a> {' '}
+        {feedbackText}
       </Body3>
       <SvgWrapper onClick={() => {
         handleShowBanner(false)

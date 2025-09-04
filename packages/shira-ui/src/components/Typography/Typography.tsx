@@ -95,6 +95,18 @@ export const Body1 = styled.p`
   }
 `;
 
+export const Body1SemiBold = styled.p`
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600; // SemiBold
+  font-size: 18px;
+  line-height: 1.6;
+  margin: 0;
+
+  @media (max-width: ${props => props.theme.breakpoints.lg}) {
+    font-size: 16px;
+  }
+`;
+
 export const Body2Regular = styled.p`
   font-family: 'Open Sans', sans-serif;
   font-weight: 400; // Regular
