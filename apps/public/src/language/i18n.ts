@@ -33,6 +33,7 @@ i18n
     resources,
     lng:"en", //default language
     fallbackLng: 'en',
+    returnEmptyString: false,
     // keySeparator: false,
     interpolation: {
       escapeValue: false,
