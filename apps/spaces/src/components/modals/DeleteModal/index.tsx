@@ -6,7 +6,7 @@ import styled from "styled-components";
 interface Props {
   // quiz: Quiz
   title: string;
-  content: string;
+  content: string | React.ReactNode;
   isModalOpen: boolean;
   setIsModalOpen: (handle: boolean) => void
   onDelete: () => void
@@ -32,7 +32,6 @@ export const DeleteModal: FunctionComponent<Props> = ({
         onPrimaryClick={() => {
           setIsModalOpen(false);
           onDelete()
-          // onDelete(quiz.id)
         }}
         onSecondaryClick={onCancel}
     >
