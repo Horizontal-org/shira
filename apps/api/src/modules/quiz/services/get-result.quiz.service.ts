@@ -2,14 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { QuizQuestion as QuizQuestionEntity } from '../domain/quizzes_questions.entity';
-
-import { ICreateQuestionQuizService as IAddResultQuizService } from '../interfaces/services/create-question.quiz.service.interface';
 import { Question } from 'src/modules/question/domain';
 import { App } from 'src/modules/app/domain';
-import { AddResultQuizDto } from '../dto/add-result.quiz.dto';
+import { ReadResultQuizDto } from '../dto/read-result.quiz.dto';
+import { IGetResultQuizService } from '../interfaces/services/get-result.quiz.service.interface';
 
 @Injectable()
-export class AddResultQuizService implements IAddResultQuizService{
+export class GetResultQuizService implements IGetResultQuizService{
 
   constructor(
     @InjectRepository(QuizQuestionEntity)
@@ -20,13 +19,13 @@ export class AddResultQuizService implements IAddResultQuizService{
     private readonly appRepo: Repository<App>,
   ) {}
 
-  async execute (addResultQuizDto: AddResultQuizDto) {
+  async execute (quizId: number) {
     console.log("🚀 ~ AddResultQuizService ~ execute ~ addResultQuizDto:", addResultQuizDto)
     
     let question: Question;
           
     const app = await this.appRepo.findOne({
-      where: { id: addResultQuizDto.question.app },
+      where: { id: quizId },
     })
   }
 }

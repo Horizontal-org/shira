@@ -10,6 +10,7 @@ export const TYPES = {
     IEditQuestionQuizService: 'IEditQuestionQuizService',
     IValidateSpaceQuizService: 'IValidateSpaceQuizService',
     IDeleteQuestionQuizService: 'IDeleteQuestionQuizService',
-    IReorderQuestionQuizService: 'IReorderQuestionQuizService'
+    IReorderQuestionQuizService: 'IReorderQuestionQuizService',
+    IGetResultQuizService: 'IGetResultQuizService'
   },
 };

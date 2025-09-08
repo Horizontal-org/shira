@@ -22,7 +22,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "test:unit": "jest --config ./test/unit/jest-unit.json"
   },
   "dependencies": {
     "@date-fns/utc": "^2.1.0",
@@ -43,6 +44,7 @@
     "@types/passport-local": "^1.0.38",
     "@types/sanitize-html": "^2.16.0",
     "bcrypt": "^5.1.1",
+    "bs-logger": "^0.2.6",
     "bullmq": "^5.31.0",
     "cheerio": "^1.0.0",
     "class-transformer": "^0.5.1",
