@@ -1,7 +1,7 @@
 import { FunctionComponent, useEffect, useState } from "react"
 import { SceneWrapper } from "../../UI/SceneWrapper"
 import { styled, Body1, Button, BetaBanner, H2, Link2 } from "@shira/ui"
-import { useNavigate, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import axios from "axios"
 import { ReactComponent as Hooked } from '../../../assets/HookedFish.svg';
 
@@ -16,15 +16,43 @@ import { useTranslation } from "react-i18next"
 import { FiChevronRight } from "react-icons/fi"
 import { LanguageSelect } from "../../UI/Select"
 import { LANG_OPTIONS } from "./constants"
+import { QuizRunProvider, useQuizRun } from "../../../context/QuizRunContext"
+import { Question } from "../../../domain/question"
+
+interface Quiz {
+  id: number | string
+  title: string
+  images?: unknown
+  quizQuestions: Array<{ question: Question }>;
+}
 
 interface Props {}
 
+const RunOrchestrator: FunctionComponent<{ scene: string; quizId: number | string }> = ({ scene, quizId }) => {
+  const { start, finish } = useQuizRun()
+
+  // Start the quiz run when the user lands on the first question scene
+  useEffect(() => {
+    if (scene === "custom-quiz") {
+      start(quizId).catch(console.error)
+    }
+  }, [scene, quizId, start])
+
+  // Finish (persist finished_at + buffered question runs) on completion
+  useEffect(() => {
+    if (scene === "completed") {
+      finish().catch(console.error)
+    }
+  }, [scene, finish])
+
+  return null
+}
+
 export const QuizLayout: FunctionComponent<Props> = () => {
   const { t, i18n } = useTranslation()
-  const { hash } = useParams()
-  let navigate = useNavigate()
+  const { hash } = useParams<{ hash: string }>()
 
-  const [quiz, handleQuiz] = useState(null)
+  const [quiz, handleQuiz] = useState<Quiz | null>(null)
   const [showUnavailable, handleShowUnavailable] = useState(false)
 
   const {
@@ -40,8 +68,7 @@ export const QuizLayout: FunctionComponent<Props> = () => {
     shallow
   )
   
-
-  const getQuiz = async(hash) => {
+  const getQuiz = async (hash: string) => {
     try {
       const res = await axios.get(`${process.env.REACT_APP_API_URL}/quiz/hash/${hash}`)
       handleQuiz(res.data)
@@ -52,12 +79,12 @@ export const QuizLayout: FunctionComponent<Props> = () => {
   }
 
   useEffect(() => {
-    getQuiz(hash)
+    if (hash) getQuiz(hash)
 
     return () => {
       resetAll()
     }
-  }, [])
+  }, [hash, resetAll])
 
   if (showUnavailable) {
     return <InvalidQuiz />
@@ -68,77 +95,79 @@ export const QuizLayout: FunctionComponent<Props> = () => {
   }
   
   return (
-    <>
+    // >>> NEW: wrap everything with the provider so children can call useQuizRun()
+    <QuizRunProvider quizId={quiz.id}>
+      {/* Orchestrates start/finish based on current scene */}
+      <RunOrchestrator scene={scene} quizId={quiz.id} />
 
-      { scene === 'welcome' && (
-        <SceneWrapper bg='white'>  
+      <>
+        { scene === 'welcome' && (
+          <SceneWrapper bg='white'>  
+            <BetaBanner 
+              url="https://shira.app/contact"
+              label={t('beta.label')}
+              message={t('beta.message')}
+              clickHereText={t('beta.click_here')}
+              feedbackText={t('beta.feedback_text')}
+            />
+
+            <CustomQuizNavbar color="#DBE3A3"/>
           
-          <BetaBanner 
-            url="https://shira.app/contact"
-            label={t('beta.label')}
-            message={t('beta.message')}
-            clickHereText={t('beta.click_here')}
-            feedbackText={t('beta.feedback_text')}
+            <CenterWrapper>
+              <GreenFishWrapper>
+                <Hooked />
+              </GreenFishWrapper>
+              <StyledBox>
+                <Heading>{quiz.title}</Heading>
+                <Body1>
+                  {t('welcome.public_message')}
+                </Body1>
+                <Buttons>
+                  <LanguageSelect
+                    onChange={(v) => {
+                      i18n.changeLanguage(v)
+                      localStorage.setItem('lang', v);
+                    }}
+                    autoselect
+                    options={LANG_OPTIONS}
+                  />
+                  <Button 
+                    text={t('welcome.start')}
+                    rightIcon={<FiChevronRight size={18}/>}
+                    onClick={() => { 
+                      changeScene('quiz-setup-name')
+                    }}
+                  />
+                </Buttons>
+                <LinkWrapper>
+                  <Link2 href="https://shira.app" target="_blank">
+                    {t('welcome.learn_more')}
+                  </Link2>
+                </LinkWrapper>         
+              </StyledBox>        
+            </CenterWrapper>
+          </SceneWrapper>
+        )}
+
+        { scene === 'quiz-setup-name' && (
+          <QuizSetupNameScene nextSceneSlug="custom-quiz" />
+        )}
+
+        { scene === 'custom-quiz' && (
+          <CustomQuiz 
+            questions={quiz.quizQuestions.map((q) => q.question)}
+            images={Array.isArray(quiz.images) ? quiz.images : []}
           />
+        )}
 
-
-          <CustomQuizNavbar color="#DBE3A3"/>
-        
-          <CenterWrapper>
-            <GreenFishWrapper>
-              <Hooked />
-            </GreenFishWrapper>
-            <StyledBox>
-              <Heading>{quiz.title}</Heading>
-              <Body1>
-                {t('welcome.public_message')}
-              </Body1>
-              <Buttons>
-                <LanguageSelect
-                  onChange={(v) => {
-                  i18n.changeLanguage(v)
-                  localStorage.setItem('lang', v);
-                  }}
-                  autoselect
-                  options={LANG_OPTIONS}
-                />
-                <Button 
-                  text={t('welcome.start')}
-                  rightIcon={<FiChevronRight size={18}/>}
-                  onClick={() => { { 
-                    changeScene('quiz-setup-name')} 
-                  }}
-                />
-              </Buttons>
-              <LinkWrapper>
-                <Link2 href="https://shira.app" target="_blank">
-                  {t('welcome.learn_more')}
-                </Link2>
-              </LinkWrapper>         
-            </StyledBox>        
-          </CenterWrapper>
-        </SceneWrapper>
-      )}
-
-      { scene === 'quiz-setup-name' && (
-        <QuizSetupNameScene nextSceneSlug="custom-quiz" />
-      )}
-
-      { scene === 'custom-quiz' && (
-        <CustomQuiz 
-          questions={quiz.quizQuestions.map((q) => q.question)}
-          images={quiz.images}
-        />
-      )}
-
-      { scene === 'completed' && (
-        <CustomQuizCompletedScene
-         quizNumber={quiz.quizQuestions.length}
-         />
-      )}
-    </>
+        { scene === 'completed' && (
+          <CustomQuizCompletedScene
+            quizNumber={quiz.quizQuestions.length}
+          />
+        )}
+      </>
+    </QuizRunProvider>
   )
-  
 }
 
 const GreenFishWrapper = styled.div`
