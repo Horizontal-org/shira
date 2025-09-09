@@ -17,6 +17,9 @@ export class QuestionRun {
   @Column({ name: 'question_id' })
   questionId!: string;
 
+  @Column({ name: 'learner_run_id', nullable: true })
+  learnerRunId?: string | null;
+
   @Column({ type: 'enum', enum: Answer, nullable: true })
   answer?: string;
 

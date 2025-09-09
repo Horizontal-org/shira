@@ -1,7 +1,11 @@
-import { App } from "./app";
-
-export interface Result {
-  id: string;
-  apps?: App[];
-  app: App;
-}
+export type QuizResults = {
+  quiz: {
+    id: number;
+    title: string;
+    totalQuestions: number;
+  };
+  metrics: {
+    completedCount: number;
+    averageScore: number;
+  };
+};

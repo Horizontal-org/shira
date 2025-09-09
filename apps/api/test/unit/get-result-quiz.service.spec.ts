@@ -1,11 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { NotFoundException } from '@nestjs/common';
 
 import { GetResultQuizService } from '../../src/modules/quiz/services/get-result.quiz.service';
 import { QuizRuns } from '../../src/modules/quiz/domain/quiz_runs.entity';
 import { Quiz } from '../../src/modules/quiz/domain/quiz.entity';
 import { QuizQuestion } from '../../src/modules/quiz/domain/quizzes_questions.entity';
+import { QuestionRun } from '../../src/modules/quiz/domain/question_runs.entity';
 import { ReadResultQuizDto } from '../../src/modules/quiz/dto/read-result.quiz.dto';
 
 describe('GetResultQuizService', () => {
@@ -15,14 +17,15 @@ describe('GetResultQuizService', () => {
   let quizRunRepo: jest.Mocked<Repository<QuizRuns>>;
   let quizRepo: jest.Mocked<Repository<Quiz>>;
   let quizQuestionRepo: jest.Mocked<Repository<QuizQuestion>>;
+  let questionRunRepo: jest.Mocked<Repository<QuestionRun>>;
 
   const QUIZ_ID = 42;
 
   beforeEach(async () => {
-    // Given: repositories with a mocked createQueryBuilder
-    quizRunRepo = { createQueryBuilder: jest.fn() } as any;
-    quizRepo = { createQueryBuilder: jest.fn() } as any;
-    quizQuestionRepo = { createQueryBuilder: jest.fn() } as any;
+    quizRunRepo = { count: jest.fn() } as any;
+    quizRepo = { findOne: jest.fn() } as any;
+    quizQuestionRepo = { count: jest.fn() } as any;
+    questionRunRepo = { createQueryBuilder: jest.fn() } as any;
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -30,6 +33,7 @@ describe('GetResultQuizService', () => {
         { provide: getRepositoryToken(QuizRuns), useValue: quizRunRepo },
         { provide: getRepositoryToken(Quiz), useValue: quizRepo },
         { provide: getRepositoryToken(QuizQuestion), useValue: quizQuestionRepo },
+        { provide: getRepositoryToken(QuestionRun), useValue: questionRunRepo },
       ],
     }).compile();
 
@@ -38,118 +42,158 @@ describe('GetResultQuizService', () => {
 
   afterEach(() => jest.clearAllMocks());
 
-  it('returns quiz results with completedCount and averageScore (happy path)', async () => {
-    // Given: a quiz with 10 questions
-    const qbQuiz = makeQueryBuilders({
-      getRawOne: jest.fn().mockResolvedValue({
-        id: QUIZ_ID,
-        title: 'Security Awareness',
-        totalQuestions: '10',
-      }),
+  it('returns quiz results with completedCount and averageScore', async () => {
+    // Given: quiz exists
+    (quizRepo.findOne as jest.Mock).mockResolvedValue({ id: QUIZ_ID, title: 'Security Awareness' } as any);
+
+    // And: 10 questions, 27 completed runs
+    (quizQuestionRepo.count as jest.Mock).mockResolvedValue(10);
+    (quizRunRepo.count as jest.Mock).mockResolvedValue(27);
+
+    // And: total correct answers across this quiz = 201
+    const qbCorrect = makeQB({
+      getRawOne: jest.fn().mockResolvedValue({ correctCount: '201' }),
     });
-    (quizRepo.createQueryBuilder as jest.Mock).mockReturnValue(qbQuiz);
+    (questionRunRepo.createQueryBuilder as jest.Mock).mockReturnValue(qbCorrect);
 
-    // And: 27 completed runs
-    const qbRunsCount = makeQueryBuilders({
-      getRawOne: jest.fn().mockResolvedValue({ completedCount: '27' }),
-    });
-
-    const qbTotalQ = makeQueryBuilders({
-      getQuery: jest.fn().mockReturnValue('SELECT 10'),
-    });
-
-    const qbPerRun = makeQueryBuilders({
-      getQuery: jest.fn().mockReturnValue('SELECT 0.743 AS score'),
-      getParameters: jest.fn().mockReturnValue({ quizId: QUIZ_ID }),
-    });
-
-    // And: average score across runs
-    const qbAvg = makeQueryBuilders({
-      getRawOne: jest.fn().mockResolvedValue({ averageScore: '74.3' }),
-    });
-
-    (quizRunRepo.createQueryBuilder as jest.Mock)
-      .mockReturnValueOnce(qbRunsCount)
-      .mockReturnValueOnce(qbPerRun)
-      .mockReturnValueOnce(qbAvg);
-
-    (quizQuestionRepo.createQueryBuilder as jest.Mock).mockReturnValue(qbTotalQ);
-
-    // When: executing the service
+    // When
     const result = await service.execute(QUIZ_ID);
 
-    // Then: the result includes the quiz info and calculated metrics
+    // Then
     const expected: ReadResultQuizDto = {
       quiz: { id: QUIZ_ID, title: 'Security Awareness', totalQuestions: 10 },
-      metrics: { completedCount: 27, averageScore: 74.3 },
+      metrics: { completedCount: 27, averageScore: 74.4 },
     };
     expect(result).toEqual(expected);
 
-    // And: query builder was called with the expected filters
-    expect(qbRunsCount.where).toHaveBeenCalledWith('r.quiz_id = :quizId', { quizId: QUIZ_ID });
-    expect(qbRunsCount.andWhere).toHaveBeenCalledWith('r.finished_at IS NOT NULL');
-    expect(qbAvg.select).toHaveBeenCalledWith('COALESCE(AVG(sub.score), 0) * 100', 'averageScore');
+    // And: QueryBuilder was built on question_runs with the expected alias and filter
+    expect(questionRunRepo.createQueryBuilder).toHaveBeenCalledWith('qr');
+    expect(qbCorrect.innerJoin).toHaveBeenCalledWith('questions', 'q', 'q.id = qr.question_id');
+    expect(qbCorrect.innerJoin).toHaveBeenCalledWith('quizzes_questions', 'qq', 'qq.question_id = qr.question_id');
+    expect(qbCorrect.where).toHaveBeenCalledWith('qq.quiz_id = :quizId', { quizId: QUIZ_ID });
   });
 
-  it('handles no runs and missing average (returns zeros)', async () => {
-    // Given: a quiz with 0 questions
-    const qbQuiz = makeQueryBuilders({
-      getRawOne: jest.fn().mockResolvedValue({
-        id: QUIZ_ID,
-        title: 'Empty Quiz',
-        totalQuestions: '0',
-      }),
+  it('handles null correctCount and treats it as 0', async () => {
+    // Given
+    (quizRepo.findOne as jest.Mock).mockResolvedValue({ id: QUIZ_ID, title: 'Null Case' } as any);
+    (quizQuestionRepo.count as jest.Mock).mockResolvedValue(8);
+    (quizRunRepo.count as jest.Mock).mockResolvedValue(3);
+
+    const qbCorrect = makeQB({
+      getRawOne: jest.fn().mockResolvedValue({ correctCount: null }),
     });
-    (quizRepo.createQueryBuilder as jest.Mock).mockReturnValue(qbQuiz);
+    (questionRunRepo.createQueryBuilder as jest.Mock).mockReturnValue(qbCorrect);
 
-    // And: no completed runs
-    const qbRunsCount = makeQueryBuilders({
-      getRawOne: jest.fn().mockResolvedValue({ completedCount: '0' }),
-    });
-
-    const qbTotalQ = makeQueryBuilders({
-      getQuery: jest.fn().mockReturnValue('SELECT 0'),
-    });
-
-    const qbPerRun = makeQueryBuilders({
-      getQuery: jest.fn().mockReturnValue('SELECT 0 AS score'),
-      getParameters: jest.fn().mockReturnValue({ quizId: QUIZ_ID }),
-    });
-
-    const qbAvg = makeQueryBuilders({
-      getRawOne: jest.fn().mockResolvedValue({ averageScore: null as any }),
-    });
-
-    (quizRunRepo.createQueryBuilder as jest.Mock)
-      .mockReturnValueOnce(qbRunsCount)
-      .mockReturnValueOnce(qbPerRun)
-      .mockReturnValueOnce(qbAvg);
-
-    (quizQuestionRepo.createQueryBuilder as jest.Mock).mockReturnValue(qbTotalQ);
-
-    // When: executing the service
+    // When
     const result = await service.execute(QUIZ_ID);
 
-    // Then: the result has 0 totals and metrics
+    // Then: average = 0
     expect(result).toEqual<ReadResultQuizDto>({
-      quiz: { id: QUIZ_ID, title: 'Empty Quiz', totalQuestions: 0 },
-      metrics: { completedCount: 0, averageScore: 0 },
+      quiz: { id: QUIZ_ID, title: 'Null Case', totalQuestions: 8 },
+      metrics: { completedCount: 3, averageScore: 0 },
     });
+  });
+
+  it('average score is 100% when correctCount = completedCount * totalQuestions', async () => {
+    // Given
+    (quizRepo.findOne as jest.Mock).mockResolvedValue({ id: QUIZ_ID, title: 'Perfect' } as any);
+    (quizQuestionRepo.count as jest.Mock).mockResolvedValue(10);
+    (quizRunRepo.count as jest.Mock).mockResolvedValue(5);
+
+    const qbCorrect = makeQB({
+      getRawOne: jest.fn().mockResolvedValue({ correctCount: '50' }), // 5 * 10
+    });
+    (questionRunRepo.createQueryBuilder as jest.Mock).mockReturnValue(qbCorrect);
+
+    // When
+    const result = await service.execute(QUIZ_ID);
+
+    // Then
+    expect(result).toEqual<ReadResultQuizDto>({
+      quiz: { id: QUIZ_ID, title: 'Perfect', totalQuestions: 10 },
+      metrics: { completedCount: 5, averageScore: 100 },
+    });
+  });
+
+  it('rounds half-up from 74.45 to 74.5', async () => {
+    // Given
+    (quizRepo.findOne as jest.Mock).mockResolvedValue({ id: QUIZ_ID, title: 'Half-up' } as any);
+    (quizQuestionRepo.count as jest.Mock).mockResolvedValue(100);
+    (quizRunRepo.count as jest.Mock).mockResolvedValue(20);
+
+    // And: 1489 / 2000 * 100 = 74.45
+    const qbCorrect = makeQB({ getRawOne: jest.fn().mockResolvedValue({ correctCount: '1489' }) });
+    (questionRunRepo.createQueryBuilder as jest.Mock).mockReturnValue(qbCorrect);
+
+    // When
+    const result = await service.execute(QUIZ_ID);
+
+    // Then: averageScore is rounded to 74.5
+    expect(result).toEqual({
+      quiz: { id: QUIZ_ID, title: 'Half-up', totalQuestions: 100 },
+      metrics: { completedCount: 20, averageScore: 74.5 },
+    });
+  });
+
+  it('rounds down from 74.44 to 74.4', async () => {
+    // Given
+    (quizRepo.findOne as jest.Mock).mockResolvedValue({ id: QUIZ_ID, title: 'Down' } as any);
+    (quizQuestionRepo.count as jest.Mock).mockResolvedValue(100);
+    (quizRunRepo.count as jest.Mock).mockResolvedValue(20);
+
+    // And: 2000 * 100 = 74.44
+    const qbCorrect = makeQB({ getRawOne: jest.fn().mockResolvedValue({ correctCount: '1488' }) });
+    (questionRunRepo.createQueryBuilder as jest.Mock).mockReturnValue(qbCorrect);
+
+    // When
+    const result = await service.execute(QUIZ_ID);
+
+    // Then: averageScore is rounded to 74.4
+    expect(result).toEqual({
+      quiz: { id: QUIZ_ID, title: 'Down', totalQuestions: 100 },
+      metrics: { completedCount: 20, averageScore: 74.4 },
+    });
+  });
+
+  it('returns integer percentages without a trailing .0', async () => {
+    // Given: Number('74.0')
+    (quizRepo.findOne as jest.Mock).mockResolvedValue({ id: QUIZ_ID, title: 'Integer Percent' } as any);
+    (quizQuestionRepo.count as jest.Mock).mockResolvedValue(10);
+    (quizRunRepo.count as jest.Mock).mockResolvedValue(20);
+
+    const qbCorrect = makeQB({
+      getRawOne: jest.fn().mockResolvedValue({ correctCount: '148' }),
+    });
+    (questionRunRepo.createQueryBuilder as jest.Mock).mockReturnValue(qbCorrect);
+
+    // When
+    const result = await service.execute(QUIZ_ID);
+
+    // Then: averageScore is 74 (not 74.0)
+    expect(result).toEqual<ReadResultQuizDto>({
+      quiz: { id: QUIZ_ID, title: 'Integer Percent', totalQuestions: 10 },
+      metrics: { completedCount: 20, averageScore: 74 },
+    });
+  });
+
+  it('throws NotFound when quiz does not exist', async () => {
+    // Given
+    (quizRepo.findOne as jest.Mock).mockResolvedValue(null);
+
+    // When / Then
+    await expect(service.execute(QUIZ_ID)).rejects.toThrow(NotFoundException);
   });
 });
 
-function makeQueryBuilders<T extends object>(overrides: Partial<Record<string, any>> = {}) {
+
+// helper for chaining QueryBuilder calls
+function makeQB(overrides: Partial<Record<string, any>> = {}) {
   const self: any = {
-    leftJoin: jest.fn().mockReturnThis(),
+    innerJoin: jest.fn().mockReturnThis(),
     where: jest.fn().mockReturnThis(),
     select: jest.fn().mockReturnThis(),
-    addSelect: jest.fn().mockReturnThis(),
-    innerJoin: jest.fn().mockReturnThis(),
-    andWhere: jest.fn().mockReturnThis(),
-    groupBy: jest.fn().mockReturnThis(),
-    from: jest.fn().mockReturnThis(),
     setParameters: jest.fn().mockReturnThis(),
     ...overrides,
   };
-  return self as T & { [k: string]: jest.Mock };
+  return self as { [k: string]: jest.Mock };
 }
