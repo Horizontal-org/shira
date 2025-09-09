@@ -25,6 +25,7 @@ import { QuestionImageModule } from '../question_image/question_image.module';
 import { GetResultQuizController } from './controller/get-result.quiz.controller';
 import { QuestionRun as QuestionRunEntity } from './domain/question_runs.entity';
 import { QuizRuns as QuizRunEntity } from './domain/quiz_runs.entity';
+import { PublicQuizRunController } from './controller/public-quiz-run.controller';
 
 @Module({
   imports: [
@@ -55,7 +56,8 @@ import { QuizRuns as QuizRunEntity } from './domain/quiz_runs.entity';
     EditQuestionQuizController,
     DeleteQuestionQuizController,
     EditQuizController,
-    GetResultQuizController
+    GetResultQuizController,
+    PublicQuizRunController
   ],
   providers: [
     ...servicesQuizProviders

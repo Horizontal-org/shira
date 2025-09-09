@@ -11,6 +11,8 @@ export const TYPES = {
     IValidateSpaceQuizService: 'IValidateSpaceQuizService',
     IDeleteQuestionQuizService: 'IDeleteQuestionQuizService',
     IReorderQuestionQuizService: 'IReorderQuestionQuizService',
-    IGetResultQuizService: 'IGetResultQuizService'
+    IGetResultQuizService: 'IGetResultQuizService',
+    IStartQuizRunService: 'IStartQuizRunService',
+    IFinishQuizRunService: 'IFinishQuizRunService'
   },
 };

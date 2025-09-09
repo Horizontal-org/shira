@@ -11,6 +11,9 @@ import { ListQuizService } from './services/list.quiz.service';
 import { ReorderQuestionQuizService } from './services/reorder-question.quiz.service';
 import { ValidateSpaceQuizService } from './services/validate-space.quiz.service';
 import { GetResultQuizService } from './services/get-result.quiz.service';
+import { StartQuizRunService } from './services/start-quiz-run.service';
+import { FinishQuizRunService } from './services/finish-quiz-run.service';
+import { start } from 'repl';
 
 export const createQuizServiceProvider = {
   provide: TYPES.services.ICreateQuizService,
@@ -73,6 +76,16 @@ export const getResultQuizServiceProvider = {
   useClass: GetResultQuizService
 }
 
+export const startQuizRunServiceProvider = {
+  provide: TYPES.services.IStartQuizRunService,
+  useClass: StartQuizRunService
+}
+
+export const finishQuizRunServiceProvider = {
+  provide: TYPES.services.IFinishQuizRunService,
+  useClass: FinishQuizRunService
+}
+
 export const servicesQuizProviders = [
   createQuizServiceProvider,
   listQuizServiceProvider,
@@ -85,5 +98,7 @@ export const servicesQuizProviders = [
   validateSpaceQuizServiceProvider,
   deleteQuestionQuizServiceProvider,
   reorderQuestionQuizServiceProvider,
-  getResultQuizServiceProvider
+  getResultQuizServiceProvider,
+  startQuizRunServiceProvider,
+  finishQuizRunServiceProvider
 ];
