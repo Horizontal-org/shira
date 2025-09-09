@@ -37,12 +37,4 @@ describe('GetResultQuizController', () => {
     await expect(controller.handler(quizId)).resolves.toBeUndefined();
     expect(getResultQuizService.execute).toHaveBeenCalledWith(quizId);
   });
-
-  it('should throw UnprocessableEntityException if service throws', async () => {
-    getResultQuizService.execute.mockRejectedValue(new Error());
-    const quizId = 123;
-
-    await expect(controller.handler(quizId)).rejects.toThrow(UnprocessableEntityException);
-    expect(getResultQuizService.execute).toHaveBeenCalledWith(quizId);
-  });
 });

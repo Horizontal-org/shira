@@ -14,13 +14,6 @@ export class GetResultQuizController {
   async handler(
     @Param('quizId', ParseIntPipe) quizId: number,
   ) {
-    //TODO await this.validateSpaceQuizService.execute(quizId, reorderDto.quizId)
-
-    try {
-      return await this.getResultQuizService.execute(quizId);
-    } catch (e) {
-      console.log("🚀 ~ GetResultQuizController ~ e:", e)
-      throw new UnprocessableEntityException()
-    }
+    return this.getResultQuizService.execute(quizId);
   }
 }
