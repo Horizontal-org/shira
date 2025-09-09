@@ -44,7 +44,6 @@
     "@types/passport-local": "^1.0.38",
     "@types/sanitize-html": "^2.16.0",
     "bcrypt": "^5.1.1",
-    "bs-logger": "^0.2.6",
     "bullmq": "^5.31.0",
     "cheerio": "^1.0.0",
     "class-transformer": "^0.5.1",

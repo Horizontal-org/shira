@@ -1,11 +1,13 @@
 import { StateCreator } from "zustand"
+import { getQuizResults } from "../../fetch/results"
 
 export interface ResultSlice {
-  fetchQuizzes: () => void
-  deleteQuiz: (id: number) => void,
-  createQuiz: (title: string) => void,
-  cleanQuizActionSuccess: () => void
-  setQuizActionSuccess: (successState: string) => void
+  result: Result | {},
+  getQuizResults: (quizId: number) => void
+}
+
+export interface Result {
+  id: number;
 }
 
 export const createResultSlice: StateCreator<
@@ -13,4 +15,10 @@ export const createResultSlice: StateCreator<
   [],
   [],
   ResultSlice
-> = (set) => ({})
+> = (set) => ({
+  result: {},
+  getQuizResults: async(quizId: number) => {
+    const res = await getQuizResults(quizId)
+      set({ result: res })
+  }
+})
