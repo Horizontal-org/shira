@@ -1,6 +1,8 @@
-import { Inject, Get, Param, ParseIntPipe, UnprocessableEntityException } from '@nestjs/common';
+import { Inject, Get, Param, ParseIntPipe } from '@nestjs/common';
 import { AuthController } from 'src/utils/decorators/auth-controller.decorator';
 import { TYPES } from '../interfaces';
+import { Roles } from 'src/modules/auth/decorators/roles.decorators';
+import { Role } from 'src/modules/user/domain/role.enum';
 import { IGetResultQuizService } from '../interfaces/services/get-result.quiz.service.interface';
 
 @AuthController('quiz')
@@ -10,10 +12,11 @@ export class GetResultQuizController {
     private getResultQuizService: IGetResultQuizService
   ) { }
 
-  @Get('/:quizId/results')
-  async handler(
-    @Param('quizId', ParseIntPipe) quizId: number,
+  @Get('/:id/results')
+  @Roles(Role.SpaceAdmin)
+  async getResultById(
+    @Param('id', ParseIntPipe) id: number,
   ) {
-    return this.getResultQuizService.execute(quizId);
+    return this.getResultQuizService.execute(id);
   }
 }

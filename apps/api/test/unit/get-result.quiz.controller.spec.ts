@@ -34,7 +34,7 @@ describe('GetResultQuizController', () => {
     getResultQuizService.execute.mockResolvedValue(undefined);
     const quizId = 123;
 
-    await expect(controller.handler(quizId)).resolves.toBeUndefined();
+    await expect(controller.getResultById(quizId)).resolves.toBeUndefined();
     expect(getResultQuizService.execute).toHaveBeenCalledWith(quizId);
   });
 });
