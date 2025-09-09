@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsArray, IsEnum, IsNumber } from 'class-validator';
+import { IsArray, IsEnum, IsNumber, IsString } from 'class-validator';
 
 export enum Answer {
   Legitimate = 'is_legitimate',
@@ -14,10 +14,12 @@ export class QuestionRunDraftDto {
   @IsEnum(Answer)
   answer!: Answer;
 
+  @IsString()
   answeredAt!: string;
 }
 
 export class FinishQuizRunDto {
+  @IsString()
   finishedAt!: string;
 
   @IsArray()

@@ -8,5 +8,6 @@ export class StartQuizRunDto {
   @IsString()
   learnerId?: string | null;
 
+  @IsString()
   startedAt!: string;
 }
