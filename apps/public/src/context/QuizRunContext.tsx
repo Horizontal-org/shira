@@ -14,7 +14,7 @@ const QuizRunContext = createContext<QuizRunContextValue | null>(null);
 
 const SS_KEY = "shira:quizRunBuffer";
 
-export const QuizRunProvider: React.FC<{ quizId: number | string; children: React.ReactNode }> = ({ quizId, children }) => {
+export const QuizRunProvider: React.FC<{ quizId: number | string; children: React.ReactNode }> = ({ children }) => {
   const [runId, setRunId] = useState<string | number | null>(null);
   const [answers, setAnswers] = useState<QuestionRunDraft[]>(() => {
     const cached = sessionStorage.getItem(SS_KEY);
@@ -44,12 +44,8 @@ export const QuizRunProvider: React.FC<{ quizId: number | string; children: Reac
     async (quizIdIn: number | string) => {
       if (startedRef.current) return;
 
-      if (quizIdIn === null || quizIdIn === undefined || `${quizIdIn}`.trim() === "") {
-        console.warn("start() called without a valid quizId");
-        return;
-      }
-
       startedRef.current = true;
+
       try {
         console.log("startQuizRun quizIdIn:", quizIdIn);
 
@@ -75,7 +71,6 @@ export const QuizRunProvider: React.FC<{ quizId: number | string; children: Reac
       finishedAt: new Date().toISOString(),
       questionRuns: answers,
     });
-    // clear ephemeral buffer after successful save
     sessionStorage.removeItem(SS_KEY);
     setAnswers([]);
   }, [runId, answers]);
@@ -94,6 +89,6 @@ export const QuizRunProvider: React.FC<{ quizId: number | string; children: Reac
 
 export const useQuizRun = () => {
   const ctx = useContext(QuizRunContext);
-  if (!ctx) throw new Error("useQuizRun must be used within <QuizRunProvider>");
+  if (!ctx) throw new Error();
   return ctx;
 };

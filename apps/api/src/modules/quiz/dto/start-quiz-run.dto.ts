@@ -1,4 +1,4 @@
-import { IsISO8601, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class StartQuizRunDto {
   @IsNotEmpty()
@@ -8,6 +8,5 @@ export class StartQuizRunDto {
   @IsString()
   learnerId?: string | null;
 
-  @IsISO8601()
   startedAt!: string;
 }
