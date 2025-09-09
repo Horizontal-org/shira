@@ -1,4 +1,3 @@
-// apps/api/src/modules/quiz/services/get-result.quiz.service.ts
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IsNull, Not, Repository } from 'typeorm';
