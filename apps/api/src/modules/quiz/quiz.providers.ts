@@ -10,6 +10,7 @@ import { GetByIdQuizService } from './services/get-by-id.quiz.service';
 import { ListQuizService } from './services/list.quiz.service';
 import { ReorderQuestionQuizService } from './services/reorder-question.quiz.service';
 import { ValidateSpaceQuizService } from './services/validate-space.quiz.service';
+import { GetResultQuizService } from './services/get-result.quiz.service';
 
 export const createQuizServiceProvider = {
   provide: TYPES.services.ICreateQuizService,
@@ -67,6 +68,11 @@ export const reorderQuestionQuizServiceProvider = {
   useClass: ReorderQuestionQuizService
 }
 
+export const getResultQuizServiceProvider = {
+  provide: TYPES.services.IGetResultQuizService,
+  useClass: GetResultQuizService
+}
+
 export const servicesQuizProviders = [
   createQuizServiceProvider,
   listQuizServiceProvider,
@@ -78,5 +84,6 @@ export const servicesQuizProviders = [
   editQuizQuestionServiceProvider,
   validateSpaceQuizServiceProvider,
   deleteQuestionQuizServiceProvider,
-  reorderQuestionQuizServiceProvider
+  reorderQuestionQuizServiceProvider,
+  getResultQuizServiceProvider
 ];
