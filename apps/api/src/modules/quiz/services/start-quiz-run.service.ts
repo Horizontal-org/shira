@@ -15,11 +15,9 @@ export class StartQuizRunService {
   ) {}
 
   async execute(dto: StartQuizRunDto): Promise<QuizRuns> {
-    // Optional: ensure quiz exists
     const quizIdNum = Number(dto.quizId);
     const quiz = await this.quizRepo.findOne({ where: { id: quizIdNum } });
     if (!quiz) {
-      // keep it generic to not leak info
       throw new Error('Quiz not found');
     }
 

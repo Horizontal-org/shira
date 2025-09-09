@@ -14,16 +14,6 @@ const QuizRunContext = createContext<QuizRunContextValue | null>(null);
 
 const SS_KEY = "shira:quizRunBuffer";
 
-const getOrCreateLearnerId = (): string => {
-  const KEY = "shira:learnerId";
-  let id = localStorage.getItem(KEY);
-  if (!id) {
-    id = crypto.randomUUID();
-    localStorage.setItem(KEY, id);
-  }
-  return id;
-};
-
 export const QuizRunProvider: React.FC<{ quizId: number | string; children: React.ReactNode }> = ({ quizId, children }) => {
   const [runId, setRunId] = useState<string | number | null>(null);
   const [answers, setAnswers] = useState<QuestionRunDraft[]>(() => {
@@ -50,18 +40,34 @@ export const QuizRunProvider: React.FC<{ quizId: number | string; children: Reac
     });
   }, []);
 
-  const start = useCallback(async (quizIdIn: number | string, learnerIdIn?: string | null) => {
-    if (startedRef.current) return;
-    startedRef.current = true;
+  const start = useCallback(
+    async (quizIdIn: number | string) => {
+      if (startedRef.current) return;
 
-    const learnerId = learnerIdIn ?? getOrCreateLearnerId();
-    const run = await startQuizRun({
-      quizId: quizIdIn,
-      learnerId,
-      startedAt: new Date().toISOString(),
-    });
-    setRunId(run.id);
-  }, []);
+      if (quizIdIn === null || quizIdIn === undefined || `${quizIdIn}`.trim() === "") {
+        console.warn("start() called without a valid quizId");
+        return;
+      }
+
+      startedRef.current = true;
+      try {
+        console.log("startQuizRun quizIdIn:", quizIdIn);
+
+        const run = await startQuizRun({
+          quizId: quizIdIn,
+          learnerId: null,
+          startedAt: new Date().toISOString(),
+        });
+
+        setRunId(run.id);
+      } catch (e) {
+        // if the call fails, allow retries
+        startedRef.current = false;
+        throw e;
+      }
+    },
+    []
+  );
 
   const finish = useCallback(async () => {
     if (!runId) return;

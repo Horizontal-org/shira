@@ -26,7 +26,7 @@ interface Quiz {
   quizQuestions: Array<{ question: Question }>;
 }
 
-interface Props {}
+interface Props { }
 
 const RunOrchestrator: FunctionComponent<{ scene: string; quizId: number | string }> = ({ scene, quizId }) => {
   const { start, finish } = useQuizRun()
@@ -60,14 +60,14 @@ export const QuizLayout: FunctionComponent<Props> = () => {
     scene,
     resetAll
   } = useStore(
-    (state) => ({ 
+    (state) => ({
       changeScene: state.changeScene,
       scene: state.scene,
       resetAll: state.resetAll
     }),
     shallow
   )
-  
+
   const getQuiz = async (hash: string) => {
     try {
       const res = await axios.get(`${process.env.REACT_APP_API_URL}/quiz/hash/${hash}`)
@@ -75,7 +75,7 @@ export const QuizLayout: FunctionComponent<Props> = () => {
     } catch (e) {
       handleShowUnavailable(true)
       console.log("🚀 ~ getQuiz ~ e:", e)
-    }    
+    }
   }
 
   useEffect(() => {
@@ -93,17 +93,15 @@ export const QuizLayout: FunctionComponent<Props> = () => {
   if (!quiz) {
     return null
   }
-  
+
   return (
-    // >>> NEW: wrap everything with the provider so children can call useQuizRun()
     <QuizRunProvider quizId={quiz.id}>
-      {/* Orchestrates start/finish based on current scene */}
       <RunOrchestrator scene={scene} quizId={quiz.id} />
 
       <>
-        { scene === 'welcome' && (
-          <SceneWrapper bg='white'>  
-            <BetaBanner 
+        {scene === 'welcome' && (
+          <SceneWrapper bg='white'>
+            <BetaBanner
               url="https://shira.app/contact"
               label={t('beta.label')}
               message={t('beta.message')}
@@ -111,8 +109,8 @@ export const QuizLayout: FunctionComponent<Props> = () => {
               feedbackText={t('beta.feedback_text')}
             />
 
-            <CustomQuizNavbar color="#DBE3A3"/>
-          
+            <CustomQuizNavbar color="#DBE3A3" />
+
             <CenterWrapper>
               <GreenFishWrapper>
                 <Hooked />
@@ -131,10 +129,10 @@ export const QuizLayout: FunctionComponent<Props> = () => {
                     autoselect
                     options={LANG_OPTIONS}
                   />
-                  <Button 
+                  <Button
                     text={t('welcome.start')}
-                    rightIcon={<FiChevronRight size={18}/>}
-                    onClick={() => { 
+                    rightIcon={<FiChevronRight size={18} />}
+                    onClick={() => {
                       changeScene('quiz-setup-name')
                     }}
                   />
@@ -143,24 +141,24 @@ export const QuizLayout: FunctionComponent<Props> = () => {
                   <Link2 href="https://shira.app" target="_blank">
                     {t('welcome.learn_more')}
                   </Link2>
-                </LinkWrapper>         
-              </StyledBox>        
+                </LinkWrapper>
+              </StyledBox>
             </CenterWrapper>
           </SceneWrapper>
         )}
 
-        { scene === 'quiz-setup-name' && (
+        {scene === 'quiz-setup-name' && (
           <QuizSetupNameScene nextSceneSlug="custom-quiz" />
         )}
 
-        { scene === 'custom-quiz' && (
-          <CustomQuiz 
+        {scene === 'custom-quiz' && (
+          <CustomQuiz
             questions={quiz.quizQuestions.map((q) => q.question)}
             images={Array.isArray(quiz.images) ? quiz.images : []}
           />
         )}
 
-        { scene === 'completed' && (
+        {scene === 'completed' && (
           <CustomQuizCompletedScene
             quizNumber={quiz.quizQuestions.length}
           />
