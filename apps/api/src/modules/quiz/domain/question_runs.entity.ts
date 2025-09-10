@@ -1,6 +1,10 @@
 import {
-  Entity, PrimaryGeneratedColumn, Column, Index
+  Entity, PrimaryGeneratedColumn, Column, Index,
+  JoinColumn,
+  ManyToOne
 } from 'typeorm';
+import { QuizRuns } from './quiz_runs.entity';
+import { Question } from 'src/modules/question/domain';
 
 export enum Answer {
   Legitimate = 'is_legitimate',
@@ -9,14 +13,27 @@ export enum Answer {
 }
 
 @Entity({ name: 'question_runs' })
+@Index('idx_question_runs_run', ['quizRunId'])
 @Index('idx_question_runs_question', ['questionId'])
+@Index('uq_question_runs_run_question', ['quizRunId', 'questionId'], { unique: true })
 export class QuestionRun {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
+
+  @Column({ name: 'quiz_run_id', type: 'int' })
+  quizRunId!: number;
+
+  @ManyToOne(() => QuizRuns, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'quiz_run_id' })
+  run!: QuizRuns;
 
   @Column({ name: 'question_id' })
-  questionId!: string;
+  questionId!: number;
 
+  @ManyToOne(() => Question, { onDelete: 'RESTRICT' })
+  @JoinColumn({ name: 'question_id' })
+  question!: Question;
+  
   @Column({ name: 'learner_run_id', nullable: true })
   learnerRunId?: string | null;
 
