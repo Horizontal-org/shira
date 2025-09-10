@@ -1,16 +1,23 @@
 import {
-  Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, Index
+  Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, Index,
+  JoinColumn,
+  ManyToOne
 } from 'typeorm';
+import { Quiz } from './quiz.entity';
 
 @Entity({ name: 'quiz_runs' })
 @Index('idx_quiz_runs_quiz', ['quizId', 'startedAt'])
 @Index('idx_quiz_runs_learner', ['learnerId', 'quizId', 'startedAt'])
 export class QuizRuns {
   @PrimaryGeneratedColumn()
-  id!: string;
+  id!: number;
 
   @Column({ name: 'quiz_id'})
-  quizId: string;
+  quizId!: number;
+
+  @ManyToOne(() => Quiz, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'quiz_id' })
+  quiz!: Quiz;
 
   @Column({ name: 'learner_id', nullable: true })
   learnerId?: string | null;

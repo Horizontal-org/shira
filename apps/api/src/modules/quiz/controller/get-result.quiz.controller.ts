@@ -4,19 +4,25 @@ import { TYPES } from '../interfaces';
 import { Roles } from 'src/modules/auth/decorators/roles.decorators';
 import { Role } from 'src/modules/user/domain/role.enum';
 import { IGetResultQuizService } from '../interfaces/services/get-result.quiz.service.interface';
+import { SpaceId } from 'src/modules/auth/decorators/space-id.decorator';
+import { IValidateSpaceQuizService } from '../interfaces/services/validate-space.quiz.service.interface';
 
 @AuthController('quiz')
 export class GetResultQuizController {
   constructor(
     @Inject(TYPES.services.IGetResultQuizService)
-    private getResultQuizService: IGetResultQuizService
+    private getResultQuizService: IGetResultQuizService,
+    @Inject(TYPES.services.IValidateSpaceQuizService)
+    private getValidateSpaceQuizService: IValidateSpaceQuizService
   ) { }
 
   @Get('/:id/results')
   @Roles(Role.SpaceAdmin)
   async getResultById(
     @Param('id', ParseIntPipe) id: number,
+    @SpaceId() spaceId: number
   ) {
-    return this.getResultQuizService.execute(id);
+    await this.getValidateSpaceQuizService.execute(spaceId, id);
+    return this.getResultQuizService.execute(id, spaceId);
   }
 }

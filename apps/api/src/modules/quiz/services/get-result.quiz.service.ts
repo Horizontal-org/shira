@@ -21,7 +21,7 @@ export class GetResultQuizService implements IGetResultQuizService {
     private readonly questionRunRepo: Repository<QuestionRunsEntity>,
   ) {}
 
-  async execute(quizId: number): Promise<ReadResultQuizDto> {
+  async execute(quizId: number, spaceId: number): Promise<ReadResultQuizDto> {
     // 1) Quiz basic data
     const quiz = await this.quizRepo.findOne({
       where: { id: quizId as any },
@@ -54,6 +54,7 @@ export class GetResultQuizService implements IGetResultQuizService {
       .innerJoin('questions', 'q', 'q.id = qr.question_id')
       .innerJoin('quizzes_questions', 'qq', 'qq.question_id = qr.question_id')
       .where('qq.quiz_id = :quizId', { quizId })
+      .andWhere('quiz.spaceId = :spaceId', { spaceId }) 
       .select(
         `
         SUM(
