@@ -22,7 +22,7 @@ export class StartQuizRunService {
     }
 
     const run = this.quizRunRepo.create({
-      quizId: String(quizIdNum),
+      quizId: quizIdNum,
       learnerId: dto.learnerId ?? null,
       startedAt: new Date(dto.startedAt),
     });

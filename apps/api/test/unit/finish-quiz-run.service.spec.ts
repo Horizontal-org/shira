@@ -73,7 +73,7 @@ describe('FinishQuizRunService', () => {
     const result = await service.execute(runId, dto as any);
 
     // Then: finds the run by string id
-    expect(quizRunRepo.findOne).toHaveBeenCalledWith({ where: { id: String(runId) } });
+    expect(quizRunRepo.findOne).toHaveBeenCalledWith({ where: { id: runId } });
 
     // And: a single transaction is used
     expect(dataSource.transaction).toHaveBeenCalledTimes(1);

@@ -14,7 +14,7 @@ export class FinishQuizRunService {
   ) {}
 
   async execute(runId: number, dto: FinishQuizRunDto): Promise<QuizRuns> {
-    const run = await this.quizRunRepo.findOne({ where: { id: String(runId) } });
+    const run = await this.quizRunRepo.findOne({ where: { id: runId } });
     if (!run) throw new NotFoundException('Run not found');
 
     // Single transaction: set finished_at and bulk insert question runs
@@ -27,7 +27,7 @@ export class FinishQuizRunService {
       if (dto.questionRuns?.length) {
         const rows = dto.questionRuns.map((qr) =>
           manager.getRepository(QuestionRun).create({
-            questionId: String(qr.questionId),
+            questionId: qr.questionId,
             answer: qr.answer,
             answeredAt: new Date(qr.answeredAt),
           }),
