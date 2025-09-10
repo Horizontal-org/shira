@@ -13,28 +13,28 @@ export class GetResultQuizService implements IGetResultQuizService {
   constructor(
     @InjectRepository(QuizEntity)
     private readonly quizRepo: Repository<QuizEntity>,
-    @InjectRepository(QuizRunsEntity) 
-     readonly quizRunRepo: Repository<QuizRunsEntity>,
+    @InjectRepository(QuizRunsEntity)
+    readonly quizRunRepo: Repository<QuizRunsEntity>,
     @InjectRepository(QuizQuestionEntity)
     private readonly quizQuestionRepo: Repository<QuizQuestionEntity>,
     @InjectRepository(QuestionRunsEntity)
     private readonly questionRunRepo: Repository<QuestionRunsEntity>,
-  ) {}
+  ) { }
 
   async execute(quizId: number, spaceId: number): Promise<ReadResultQuizDto> {
     // 1) Quiz basic data
     const quiz = await this.quizRepo.findOne({
-      where: { id: quizId as any },
+      where: { id: quizId },
       select: ['id', 'title'],
     });
     if (!quiz) throw new NotFoundException('Quiz not found');
 
     // 2) Question count & completed runs
     const [totalQuestions, completedCount] = await Promise.all([
-      this.quizQuestionRepo.count({ where: { quizId: quizId as any } }),
+      this.quizQuestionRepo.count({ where: { quizId: quizId } }),
       this.quizRunRepo.count({
         where: {
-          quizId: quizId as any,
+          quizId: quizId,
           finishedAt: Not(IsNull()),
         },
       }),
@@ -53,15 +53,16 @@ export class GetResultQuizService implements IGetResultQuizService {
       .createQueryBuilder('qr')
       .innerJoin('questions', 'q', 'q.id = qr.question_id')
       .innerJoin('quizzes_questions', 'qq', 'qq.question_id = qr.question_id')
-      .where('qq.quiz_id = :quizId', { quizId })
-      .andWhere('quiz.spaceId = :spaceId', { spaceId }) 
+      .innerJoin('quizzes', 'qz', 'qz.id = qq.quiz_id')
+      .where('qz.id = :quizId', { quizId })
+      .andWhere('qz.space_id = :spaceId', { spaceId })
       .select(
         `
         SUM(
           CASE
-            WHEN ((q.is_phishing = 1 AND qr.answer = 'is_phishing')
-               OR (q.is_phishing = 0 AND qr.answer = 'is_legitimate'))
-            THEN 1 ELSE 0
+              WHEN qr.answer = q.answer
+              THEN 1
+              ELSE 0
           END
         )
         `,

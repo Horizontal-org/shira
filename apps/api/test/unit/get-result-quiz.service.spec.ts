@@ -70,7 +70,9 @@ describe('GetResultQuizService', () => {
     expect(questionRunRepo.createQueryBuilder).toHaveBeenCalledWith('qr');
     expect(qbCorrect.innerJoin).toHaveBeenCalledWith('questions', 'q', 'q.id = qr.question_id');
     expect(qbCorrect.innerJoin).toHaveBeenCalledWith('quizzes_questions', 'qq', 'qq.question_id = qr.question_id');
-    expect(qbCorrect.where).toHaveBeenCalledWith('qq.quiz_id = :quizId', { quizId: QUIZ_ID });
+    expect(qbCorrect.innerJoin).toHaveBeenCalledWith('quizzes', 'qz', 'qz.id = qq.quiz_id');
+    expect(qbCorrect.where).toHaveBeenCalledWith('qz.id = :quizId', { quizId: QUIZ_ID });
+    expect(qbCorrect.andWhere).toHaveBeenCalledWith('qz.space_id = :spaceId', { spaceId: SPACE_ID });
   });
 
   it('handles null correctCount as zero', async () => {
@@ -83,7 +85,7 @@ describe('GetResultQuizService', () => {
     (questionRunRepo.createQueryBuilder as jest.Mock).mockReturnValue(qbCorrect);
 
     // When
-    const result = await service.execute(SPACE_ID, QUIZ_ID);
+    const result = await service.execute(QUIZ_ID, SPACE_ID);
 
     // Then: averageScore is 0 when no correct answers
     expect(result).toEqual<ReadResultQuizDto>({
@@ -104,7 +106,7 @@ describe('GetResultQuizService', () => {
     (questionRunRepo.createQueryBuilder as jest.Mock).mockReturnValue(qbCorrect);
 
     // When
-    const result = await service.execute(SPACE_ID, QUIZ_ID);
+    const result = await service.execute(QUIZ_ID, SPACE_ID);
 
     // Then: averageScore is exactly 100%
     expect(result).toEqual<ReadResultQuizDto>({
@@ -124,7 +126,7 @@ describe('GetResultQuizService', () => {
     (questionRunRepo.createQueryBuilder as jest.Mock).mockReturnValue(qbCorrect);
 
     // When
-    const result = await service.execute(SPACE_ID, QUIZ_ID);
+    const result = await service.execute(QUIZ_ID, SPACE_ID);
 
     // Then: averageScore is rounded to 74.5
     expect(result).toEqual({
@@ -138,7 +140,7 @@ describe('GetResultQuizService', () => {
     (quizRepo.findOne as jest.Mock).mockResolvedValue(null);
 
     // Then
-    await expect(service.execute(SPACE_ID, QUIZ_ID)).rejects.toThrow(NotFoundException);
+    await expect(service.execute(QUIZ_ID, SPACE_ID)).rejects.toThrow(NotFoundException);
   });
 });
 
@@ -151,8 +153,6 @@ function makeQB(overrides: Partial<Record<string, any>> = {}) {
     andWhere: jest.fn().mockReturnThis(),
     select: jest.fn().mockReturnThis(),
     addSelect: jest.fn().mockReturnThis(),
-    groupBy: jest.fn().mockReturnThis(),
-    addGroupBy: jest.fn().mockReturnThis(),
     setParameters: jest.fn().mockReturnThis(),
     getRawOne: jest.fn(),
     ...overrides,
