@@ -1,10 +1,10 @@
-import { FunctionComponent, useEffect, useState } from "react";
-import { FiMenu, FiPlus, FiCopy, FiLoader } from 'react-icons/fi';
-import { styled, TrashIcon, EditIcon, Button } from '@shira/ui'
+import { FunctionComponent, useState } from "react";
+import { FiMenu, FiPlus, FiLoader } from 'react-icons/fi';
+import { styled, TrashIcon, EditIcon, Button, CopyIcon } from '@shira/ui'
 import EmptyState from "./EmptyState";
 import { DeleteModal } from "../../modals/DeleteModal";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { ReorderQuizPayload, duplicateQuestion } from "../../../fetch/quiz";
+import { duplicateQuestion } from "../../../fetch/quiz";
 import { QuizQuestion } from "../../../store/slices/quiz";
 import toast from "react-hot-toast";
 
@@ -138,7 +138,7 @@ export const  QuestionsList: FunctionComponent<QuestionsListProps> = ({
                           onClick={() => handleDuplicateQuestion(qq.question.id, qq.question.name)}
                           disabled={isBeingDuplicated}
                         >
-                          <FiCopy size={16} color="#666" />
+                          <CopyIcon />
                         </ActionButton>
                         <ActionButton onClick={() => handleQuestionForDelete(qq.question)}>
                           <TrashIcon />
