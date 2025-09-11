@@ -59,11 +59,22 @@ export class DuplicateQuestionQuizService implements IDuplicateQuestionQuizServi
       throw new Error('Question not found');
     }
 
+    console.log("🚀 ~ originalQuestion.languageId:", originalQuestion.languageId);
+
+    // Get default language if original doesn't have one
+    const language = originalQuestion.languageId 
+      ? await this.languageRepo.findOne({ where: { id: originalQuestion.languageId } })
+      : await this.languageRepo.findOne({ where: { code: 'en' } });
+
+    if (!language) {
+      throw new Error('Language not found');
+    }
+
     const newQuestion = new Question();
     newQuestion.name = `Copy ${originalQuestion.name}`;
     newQuestion.content = originalQuestion.content;
     newQuestion.isPhising = originalQuestion.isPhising;
-    newQuestion.languageId = originalQuestion.languageId;
+    newQuestion.languageId = language.id;
     newQuestion.type = originalQuestion.type;
     newQuestion.apps = originalQuestion.apps;
 
@@ -73,7 +84,7 @@ export class DuplicateQuestionQuizService implements IDuplicateQuestionQuizServi
       const newTranslation = new QuestionTranslation();
       newTranslation.content = translation.content;
       newTranslation.question = savedQuestion;
-      newTranslation.languageId = translation.languageId;
+      newTranslation.languageId = translation.languageId || language.id;
       await this.questionTranslationRepo.save(newTranslation);
     }
 
@@ -90,7 +101,7 @@ export class DuplicateQuestionQuizService implements IDuplicateQuestionQuizServi
         const newExplanationTranslation = new ExplanationTranslation();
         newExplanationTranslation.content = explanationTranslation.content;
         newExplanationTranslation.explanation = savedExplanation;
-        newExplanationTranslation.languageId = explanationTranslation.languageId;
+        newExplanationTranslation.languageId = explanationTranslation.languageId || language.id;
         await this.explanationTranslationRepo.save(newExplanationTranslation);
       }
     }

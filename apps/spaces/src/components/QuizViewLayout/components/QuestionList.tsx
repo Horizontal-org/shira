@@ -1,30 +1,54 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { FiMenu, FiPlus } from 'react-icons/fi';
+import { FiMenu, FiPlus, FiCopy, FiLoader } from 'react-icons/fi';
 import { styled, TrashIcon, EditIcon, Button } from '@shira/ui'
 import EmptyState from "./EmptyState";
 import { DeleteModal } from "../../modals/DeleteModal";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { ReorderQuizPayload } from "../../../fetch/quiz";
+import { ReorderQuizPayload, duplicateQuestion } from "../../../fetch/quiz";
 import { QuizQuestion } from "../../../store/slices/quiz";
+import toast from "react-hot-toast";
 
 
 interface QuestionsListProps {
+  quizId: number;
   quizQuestions: QuizQuestion[];
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;
   onAdd: () => void;
-  onReorder: (newOrder: QuizQuestion[]) => void
+  onReorder: (newOrder: QuizQuestion[]) => void;
+  onDuplicate: () => void;
 }
 
 export const  QuestionsList: FunctionComponent<QuestionsListProps> = ({
+  quizId,
   quizQuestions,
   onEdit,
   onDelete,
   onAdd,
-  onReorder
+  onReorder,
+  onDuplicate
 }) => {
   console.log("🚀 ~ quizQuestions:", quizQuestions)
   const [questionForDelete, handleQuestionForDelete] = useState(null)
+  const [duplicatingQuestions, setDuplicatingQuestions] = useState(new Set())
+
+  const handleDuplicateQuestion = async (questionId: string, questionName: string) => {
+    setDuplicatingQuestions(prev => new Set(prev).add(questionId))
+    
+    try {
+      await duplicateQuestion(quizId, parseInt(questionId))
+      toast.success(`"Copy ${questionName}" created successfully`, { duration: 3000 })
+      onDuplicate() // Refresh the quiz data
+    } catch (error) {
+      toast.error('Failed to duplicate question', { duration: 3000 })
+    } finally {
+      setDuplicatingQuestions(prev => {
+        const newSet = new Set(prev)
+        newSet.delete(questionId)
+        return newSet
+      })
+    }
+  }
 
   const reorder = (startIndex, endIndex) => {
     const plainList: QuizQuestion[] = Array.from(quizQuestions);
@@ -84,30 +108,45 @@ export const  QuestionsList: FunctionComponent<QuestionsListProps> = ({
                 id={qq.position + ''}   
                 key={qq.position + ''} 
               >
-                {(draggableProvided, snapshot) => (
-                  <QuestionItem 
-                    ref={draggableProvided.innerRef}
-                    isDragging={snapshot.isDragging}
-                    {...draggableProvided.draggableProps}
-                  >
-                    <LeftSection>
-                      <MenuIcon
-                        {...draggableProvided.dragHandleProps}
-                      >
-                        <FiMenu size={20} color="#666" />
-                      </MenuIcon>
-                      <QuestionTitle>{qq.question.name}</QuestionTitle>
-                    </LeftSection>
-                    <Actions>
-                      <ActionButton onClick={() => onEdit(qq.question.id)}>
-                        <EditIcon />
-                      </ActionButton>
-                      <ActionButton onClick={() => handleQuestionForDelete(qq.question)}>
-                        <TrashIcon />
-                      </ActionButton>
-                    </Actions>
-                  </QuestionItem>
-                )}
+                {(draggableProvided, snapshot) => {
+                  const isBeingDuplicated = duplicatingQuestions.has(qq.question.id)
+                  return (
+                    <QuestionItem 
+                      ref={draggableProvided.innerRef}
+                      isDragging={snapshot.isDragging}
+                      {...draggableProvided.draggableProps}
+                    >
+                      <LeftSection>
+                        <MenuIcon
+                          {...draggableProvided.dragHandleProps}
+                        >
+                          {isBeingDuplicated ? (
+                            <SpinningLoader size={20} color="#666" />
+                          ) : (
+                            <FiMenu size={20} color="#666" />
+                          )}
+                        </MenuIcon>
+                        <QuestionTitle>
+                          {isBeingDuplicated ? "Duplicating..." : qq.question.name}
+                        </QuestionTitle>
+                      </LeftSection>
+                      <Actions>
+                        <ActionButton onClick={() => onEdit(qq.question.id)}>
+                          <EditIcon />
+                        </ActionButton>
+                        <ActionButton 
+                          onClick={() => handleDuplicateQuestion(qq.question.id, qq.question.name)}
+                          disabled={isBeingDuplicated}
+                        >
+                          <FiCopy size={16} color="#666" />
+                        </ActionButton>
+                        <ActionButton onClick={() => handleQuestionForDelete(qq.question)}>
+                          <TrashIcon />
+                        </ActionButton>
+                      </Actions>
+                    </QuestionItem>
+                  )
+                }}
               </Draggable>
             ))}
             { provided.placeholder }
@@ -209,6 +248,19 @@ const ActionButton = styled.button`
 const WarningNote = styled.span`
   color: #d73527;
   font-weight: 500;
+`;
+
+const SpinningLoader = styled(FiLoader)`
+  animation: spin 1s linear infinite;
+  
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
 `;
 
 export default QuestionsList;
