@@ -3,7 +3,7 @@ import {
   JoinColumn,
   ManyToOne
 } from 'typeorm';
-import { QuizRuns } from './quiz_runs.entity';
+import { QuizRuns } from '../domain/quiz_runs.entity';
 import { Question } from 'src/modules/question/domain';
 
 export enum Answer {

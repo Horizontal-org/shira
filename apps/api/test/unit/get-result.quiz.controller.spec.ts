@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { GetResultQuizController } from '../../src/modules/quiz/controller/get-result.quiz.controller';
+import { GetResultQuizController } from '../../src/modules/quiz_result/controller/get-result.quiz.controller';
 import { TYPES } from '../../src/modules/quiz/interfaces';
 import { RolesGuard } from '../../src/modules/auth/guards/roles.guard';
 

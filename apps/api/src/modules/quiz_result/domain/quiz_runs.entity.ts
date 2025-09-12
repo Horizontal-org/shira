@@ -3,7 +3,7 @@ import {
   JoinColumn,
   ManyToOne
 } from 'typeorm';
-import { Quiz } from './quiz.entity';
+import { Quiz } from '../../quiz/domain/quiz.entity';
 
 @Entity({ name: 'quiz_runs' })
 @Index('idx_quiz_runs_quiz', ['quizId', 'startedAt'])

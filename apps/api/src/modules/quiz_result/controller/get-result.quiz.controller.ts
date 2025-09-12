@@ -1,11 +1,11 @@
 import { Inject, Get, Param, ParseIntPipe } from '@nestjs/common';
 import { AuthController } from 'src/utils/decorators/auth-controller.decorator';
-import { TYPES } from '../interfaces';
+import { TYPES } from '../../quiz/interfaces';
 import { Roles } from 'src/modules/auth/decorators/roles.decorators';
 import { Role } from 'src/modules/user/domain/role.enum';
 import { IGetResultQuizService } from '../interfaces/services/get-result.quiz.service.interface';
 import { SpaceId } from 'src/modules/auth/decorators/space-id.decorator';
-import { IValidateSpaceQuizService } from '../interfaces/services/validate-space.quiz.service.interface';
+import { IValidateSpaceQuizService } from '../../quiz/interfaces/services/validate-space.quiz.service.interface';
 
 @AuthController('quiz')
 export class GetResultQuizController {

@@ -2,9 +2,9 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IsNull, Not, Repository } from 'typeorm';
 import { IGetResultQuizService } from '../interfaces/services/get-result.quiz.service.interface';
-import { Quiz as QuizEntity } from '../domain/quiz.entity';
+import { Quiz as QuizEntity } from '../../quiz/domain/quiz.entity';
 import { QuizRuns as QuizRunsEntity } from '../domain/quiz_runs.entity';
-import { QuizQuestion as QuizQuestionEntity } from '../domain/quizzes_questions.entity';
+import { QuizQuestion as QuizQuestionEntity } from '../../quiz/domain/quizzes_questions.entity';
 import { QuestionRun as QuestionRunsEntity } from '../domain/question_runs.entity';
 import { ReadResultQuizDto } from '../dto/read-result.quiz.dto';
 
