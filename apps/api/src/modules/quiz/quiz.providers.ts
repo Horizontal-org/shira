@@ -13,7 +13,7 @@ import { ValidateSpaceQuizService } from './services/validate-space.quiz.service
 import { GetResultQuizService } from './services/get-result.quiz.service';
 import { StartQuizRunService } from './services/start-quiz-run.service';
 import { FinishQuizRunService } from './services/finish-quiz-run.service';
-import { start } from 'repl';
+import { CreateQuestionRunService } from './services/create-question-run.service';
 
 export const createQuizServiceProvider = {
   provide: TYPES.services.ICreateQuizService,
@@ -86,6 +86,16 @@ export const finishQuizRunServiceProvider = {
   useClass: FinishQuizRunService
 }
 
+export const createQuestionRunServiceProvider = {
+  provide: TYPES.services.ICreateQuestionRunService,
+  useClass: CreateQuestionRunService,
+}
+
+export const createQuestionQuizServiceProvider = {
+  provide: TYPES.services.ICreateQuestionQuizService,
+  useClass: CreateQuestionQuizService
+}
+
 export const servicesQuizProviders = [
   createQuizServiceProvider,
   listQuizServiceProvider,
@@ -100,5 +110,7 @@ export const servicesQuizProviders = [
   reorderQuestionQuizServiceProvider,
   getResultQuizServiceProvider,
   startQuizRunServiceProvider,
-  finishQuizRunServiceProvider
+  finishQuizRunServiceProvider,
+  createQuestionRunServiceProvider,
+  createQuestionQuizServiceProvider
 ];

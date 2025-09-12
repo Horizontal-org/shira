@@ -38,7 +38,7 @@ describe('StartQuizRunService', () => {
   it('creates and saves a run when quiz exists (with learnerId)', async () => {
     // Given: an existing quiz and a valid DTO
     const dto = {
-      quizId: '42',
+      quizId: 42,
       learnerId: 'learner-123',
       startedAt: '2025-09-09T15:00:00.000Z',
     };
@@ -46,12 +46,12 @@ describe('StartQuizRunService', () => {
     quizRepo.findOne.mockResolvedValue({ id: 42 } as Quiz);
 
     const createdRun: Partial<QuizRuns> = {
-      quizId: '42',
+      quizId: 42,
       learnerId: 'learner-123',
       startedAt: new Date(dto.startedAt),
     };
     quizRunRepo.create.mockReturnValue(createdRun);
-    const savedRun = { id: '1', ...createdRun } as QuizRuns;
+    const savedRun = { id: 1, ...createdRun } as QuizRuns;
     quizRunRepo.save.mockResolvedValue(savedRun);
 
     // When: executing the service
@@ -63,13 +63,11 @@ describe('StartQuizRunService', () => {
     // And: it creates a run with expected fields
     expect(quizRunRepo.create).toHaveBeenCalledTimes(1);
     const createArg = quizRunRepo.create.mock.calls[0][0];
-    expect(createArg).toEqual(
-      expect.objectContaining({
-        quizId: '42',
-        learnerId: 'learner-123',
-        startedAt: expect.any(Date),
-      })
-    );
+    expect(createArg).toEqual(expect.objectContaining({
+      quizId: 42,
+      learnerId: 'learner-123',
+      startedAt: expect.any(Date),
+    }));
     expect(createArg.startedAt.getTime()).toBe(new Date(dto.startedAt).getTime());
 
     // And: it saves and returns the saved run
@@ -80,19 +78,19 @@ describe('StartQuizRunService', () => {
   it('sets learnerId to null when not provided', async () => {
     // Given: an existing quiz and DTO without learnerId
     const dto = {
-      quizId: '7',
+      quizId: 7,
       startedAt: '2025-09-09T12:34:56.000Z',
     };
 
     quizRepo.findOne.mockResolvedValue({ id: 7 } as Quiz);
 
     const createdRun: Partial<QuizRuns> = {
-      quizId: '7',
+      quizId: 7,
       learnerId: null, // important
       startedAt: new Date(dto.startedAt),
     };
     quizRunRepo.create.mockReturnValue(createdRun);
-    const savedRun = { id: '99', ...createdRun } as QuizRuns;
+    const savedRun = { id: 99, ...createdRun } as QuizRuns;
     quizRunRepo.save.mockResolvedValue(savedRun);
 
     // When
@@ -107,7 +105,7 @@ describe('StartQuizRunService', () => {
 
   it('throws when quiz does not exist', async () => {
     // Given: no quiz found
-    const dto = { quizId: '123', startedAt: '2025-01-01T00:00:00.000Z' };
+    const dto = { quizId: 123, startedAt: '2025-01-01T00:00:00.000Z' };
     quizRepo.findOne.mockResolvedValue(null);
 
     // When / Then

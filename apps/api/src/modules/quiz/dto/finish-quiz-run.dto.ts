@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsArray, IsEnum, IsNumber, IsString } from 'class-validator';
+import { IsArray, IsDateString, IsEnum, IsNumber } from 'class-validator';
 
 export enum Answer {
   Legitimate = 'is_legitimate',
@@ -7,22 +7,22 @@ export enum Answer {
   Unknown = 'dont_know',
 }
 
-export class QuestionRunDraftDto {
+export class QuestionRunDto {
   @IsNumber()
   questionId!: number;
 
   @IsEnum(Answer)
   answer!: Answer;
 
-  @IsString()
+  @IsDateString()
   answeredAt!: string;
 }
 
 export class FinishQuizRunDto {
-  @IsString()
+  @IsDateString()
   finishedAt!: string;
 
   @IsArray()
-  @Type(() => QuestionRunDraftDto)
-  questionRuns!: QuestionRunDraftDto[];
+  @Type(() => QuestionRunDto)
+  questionRuns!: QuestionRunDto[];
 }

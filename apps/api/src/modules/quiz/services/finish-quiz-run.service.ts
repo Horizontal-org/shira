@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { FinishQuizRunDto } from '../dto/finish-quiz-run.dto';
 import { QuizRuns } from '../domain/quiz_runs.entity';
-import { QuestionRun } from '../domain/question_runs.entity';
+import { Answer, QuestionRun } from '../domain/question_runs.entity';
 
 @Injectable()
 export class FinishQuizRunService {
@@ -25,14 +25,16 @@ export class FinishQuizRunService {
 
       // 2) insert question runs
       if (dto.questionRuns?.length) {
-        const rows = dto.questionRuns.map((qr) =>
-          manager.getRepository(QuestionRun).create({
-            questionId: qr.questionId,
-            answer: qr.answer,
-            answeredAt: new Date(qr.answeredAt),
+        const repo = manager.getRepository(QuestionRun);
+        const rows = dto.questionRuns.map((q) =>
+          repo.create({
+            quizRunId: run.id,
+            questionId: q.questionId,
+            answer: q.answer,
+            answeredAt: new Date(q.answeredAt),
           }),
         );
-        await manager.getRepository(QuestionRun).save(rows);
+        await repo.save(rows);
       }
 
       return run;

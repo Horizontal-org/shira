@@ -18,7 +18,7 @@ describe('FinishQuizRunService', () => {
 
   beforeEach(async () => {
     quizRunRepo = { findOne: jest.fn() };
-    questionRunRepo = {}; // placeholder
+    questionRunRepo = {};
 
     quizRunsManagerRepo = { save: jest.fn() };
     questionRunManagerRepo = {
@@ -72,7 +72,7 @@ describe('FinishQuizRunService', () => {
     // When
     const result = await service.execute(runId, dto as any);
 
-    // Then: finds the run by string id
+    // Then: finds the run by numeric id
     expect(quizRunRepo.findOne).toHaveBeenCalledWith({ where: { id: runId } });
 
     // And: a single transaction is used
@@ -85,22 +85,16 @@ describe('FinishQuizRunService', () => {
 
     // And: question runs are created + bulk saved
     expect(questionRunManagerRepo.create).toHaveBeenCalledTimes(2);
-    expect(questionRunManagerRepo.create).toHaveBeenNthCalledWith(
-      1,
-      expect.objectContaining({
-        questionId: '101',
-        answer: 'is_phishing',
-        answeredAt: expect.any(Date),
-      }),
-    );
-    expect(questionRunManagerRepo.create).toHaveBeenNthCalledWith(
-      2,
-      expect.objectContaining({
-        questionId: '102',
-        answer: 'is_legitimate',
-        answeredAt: expect.any(Date),
-      }),
-    );
+    expect(questionRunManagerRepo.create).toHaveBeenNthCalledWith(1, expect.objectContaining({
+      questionId: 101,
+      answer: 'is_phishing',
+      answeredAt: expect.any(Date),
+    }));
+    expect(questionRunManagerRepo.create).toHaveBeenNthCalledWith(2, expect.objectContaining({
+      questionId: 102,
+      answer: 'is_legitimate',
+      answeredAt: expect.any(Date),
+    }));
 
     // And: saved array contains created rows with Date fields
     const savedRowsArg = questionRunManagerRepo.save.mock.calls[0][0];
@@ -109,7 +103,7 @@ describe('FinishQuizRunService', () => {
     savedRowsArg.forEach((row: any, idx: number) => {
       expect(row.answeredAt).toBeInstanceOf(Date);
       const dtoRow = dto.questionRuns![idx];
-      expect(row.questionId).toBe(String(dtoRow.questionId));
+      expect(row.questionId).toBe(dtoRow.questionId);
       expect(row.answer).toBe(dtoRow.answer);
       expect(row.answeredAt.getTime()).toBe(new Date(dtoRow.answeredAt).getTime());
     });
@@ -131,11 +125,11 @@ describe('FinishQuizRunService', () => {
     const result = await service.execute(runId, dto as any);
 
     // Then
-    expect(quizRunRepo.findOne).toHaveBeenCalledWith({ where: { id: String(runId) } });
+    expect(quizRunRepo.findOne).toHaveBeenCalledWith({ where: { id: runId } });
     expect(dataSource.transaction).toHaveBeenCalledTimes(1);
     expect(quizRunsManagerRepo.save).toHaveBeenCalledWith(existingRun);
 
-    // No question-run create/save calls
+    // And: no question-run create/save calls
     expect(questionRunManagerRepo.create).not.toHaveBeenCalled();
     expect(questionRunManagerRepo.save).not.toHaveBeenCalled();
 
@@ -152,7 +146,7 @@ describe('FinishQuizRunService', () => {
       service.execute(999, { finishedAt: '2025-01-01T00:00:00.000Z' } as any),
     ).rejects.toBeInstanceOf(NotFoundException);
 
-    // No transaction should occur
+    // And: no transaction should occur
     expect(dataSource.transaction).not.toHaveBeenCalled();
   });
 });

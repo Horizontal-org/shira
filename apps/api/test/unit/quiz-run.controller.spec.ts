@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException } from '@nestjs/common';
-import { PublicQuizRunController } from 'src/modules/quiz/controller/public-quiz-run.controller';
+import { QuizRunController } from 'src/modules/quiz/controller/quiz-run.controller';
 import { TYPES } from 'src/modules/quiz/interfaces';
 import { IStartQuizRunService } from 'src/modules/quiz/interfaces/services/start-quiz-run.service.interface';
 import { IFinishQuizRunService } from 'src/modules/quiz/interfaces/services/finish-quiz-run.service.interface';
 
-describe('PublicQuizRunController', () => {
-  let controller: PublicQuizRunController;
+describe('QuizRunController', () => {
+  let controller: QuizRunController;
   let startSvc: jest.Mocked<IStartQuizRunService>;
   let finishSvc: jest.Mocked<IFinishQuizRunService>;
 
@@ -15,14 +15,14 @@ describe('PublicQuizRunController', () => {
     finishSvc = { execute: jest.fn() } as any;
 
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [PublicQuizRunController],
+      controllers: [QuizRunController],
       providers: [
         { provide: TYPES.services.IStartQuizRunService, useValue: startSvc },
         { provide: TYPES.services.IFinishQuizRunService, useValue: finishSvc },
       ],
     }).compile();
 
-    controller = module.get(PublicQuizRunController);
+    controller = module.get(QuizRunController);
     startSvc = module.get(TYPES.services.IStartQuizRunService);
     finishSvc = module.get(TYPES.services.IFinishQuizRunService);
   });

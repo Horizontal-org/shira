@@ -6,20 +6,20 @@ import { IFinishQuizRunService } from '../interfaces/services/finish-quiz-run.se
 import { StartQuizRunDto } from '../dto/start-quiz-run.dto';
 import { FinishQuizRunDto } from '../dto/finish-quiz-run.dto';
 
-@Controller('quiz/run')
-export class PublicQuizRunController {
+@Controller('quiz-runs')
+export class QuizRunController {
   constructor(
     @Inject(TYPES.services.IStartQuizRunService)
-    private readonly startSvc: IStartQuizRunService,
+    private readonly startRun: IStartQuizRunService,
     @Inject(TYPES.services.IFinishQuizRunService)
-    private readonly finishSvc: IFinishQuizRunService,
+    private readonly finishRun: IFinishQuizRunService,
   ) {}
 
   @Post()
   async start(
     @Body() dto: StartQuizRunDto
   ) {
-    const run = await this.startSvc.execute(dto);
+    const run = await this.startRun.execute(dto);
     return {
       id: run.id,
       quizId: run.quizId,
@@ -29,12 +29,12 @@ export class PublicQuizRunController {
     };
   }
 
-  @Patch(':id')
+  @Patch(':id/finish')
   async finish(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: FinishQuizRunDto
   ) {
-    const run = await this.finishSvc.execute(id, dto);
+    const run = await this.finishRun.execute(id, dto);
     return {
       id: run.id,
       quizId: run.quizId,
