@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { StartQuizRunService } from 'src/modules/quiz/services/start-quiz-run.service';
-import { QuizRuns } from 'src/modules/quiz/domain/quiz_runs.entity';
+import { StartQuizRunService } from 'src/modules/quiz_result/services/start-quiz-run.service';
+import { QuizRun } from 'src/modules/quiz_result/domain/quiz_runs.entity';
 import { Quiz } from 'src/modules/quiz/domain/quiz.entity';
 
 describe('StartQuizRunService', () => {
@@ -23,7 +23,7 @@ describe('StartQuizRunService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         StartQuizRunService,
-        { provide: getRepositoryToken(QuizRuns), useValue: quizRunRepo },
+        { provide: getRepositoryToken(QuizRun), useValue: quizRunRepo },
         { provide: getRepositoryToken(Quiz), useValue: quizRepo },
       ],
     }).compile();
@@ -45,13 +45,13 @@ describe('StartQuizRunService', () => {
 
     quizRepo.findOne.mockResolvedValue({ id: 42 } as Quiz);
 
-    const createdRun: Partial<QuizRuns> = {
+    const createdRun: Partial<QuizRun> = {
       quizId: 42,
       learnerId: 'learner-123',
       startedAt: new Date(dto.startedAt),
     };
     quizRunRepo.create.mockReturnValue(createdRun);
-    const savedRun = { id: 1, ...createdRun } as QuizRuns;
+    const savedRun = { id: 1, ...createdRun } as QuizRun;
     quizRunRepo.save.mockResolvedValue(savedRun);
 
     // When: executing the service
@@ -84,13 +84,13 @@ describe('StartQuizRunService', () => {
 
     quizRepo.findOne.mockResolvedValue({ id: 7 } as Quiz);
 
-    const createdRun: Partial<QuizRuns> = {
+    const createdRun: Partial<QuizRun> = {
       quizId: 7,
       learnerId: null, // important
       startedAt: new Date(dto.startedAt),
     };
     quizRunRepo.create.mockReturnValue(createdRun);
-    const savedRun = { id: 99, ...createdRun } as QuizRuns;
+    const savedRun = { id: 99, ...createdRun } as QuizRun;
     quizRunRepo.save.mockResolvedValue(savedRun);
 
     // When

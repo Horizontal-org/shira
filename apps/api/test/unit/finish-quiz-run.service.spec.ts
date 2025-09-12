@@ -2,9 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { NotFoundException } from '@nestjs/common';
 import { DataSource } from 'typeorm';
-import { FinishQuizRunService } from 'src/modules/quiz/services/finish-quiz-run.service';
-import { QuizRuns } from 'src/modules/quiz/domain/quiz_runs.entity';
-import { QuestionRun } from 'src/modules/quiz/domain/question_runs.entity';
+import { FinishQuizRunService } from 'src/modules/quiz_result/services/finish-quiz-run.service';
+import { QuizRun } from 'src/modules/quiz_result/domain/quiz_runs.entity';
+import { QuestionRun } from 'src/modules/quiz_result/domain/question_runs.entity';
 
 describe('FinishQuizRunService', () => {
   let service: FinishQuizRunService;
@@ -28,7 +28,7 @@ describe('FinishQuizRunService', () => {
 
     const manager = {
       getRepository: jest.fn((entity: any) => {
-        if (entity === QuizRuns) return quizRunsManagerRepo;
+        if (entity === QuizRun) return quizRunsManagerRepo;
         if (entity === QuestionRun) return questionRunManagerRepo;
         throw new Error('Unknown repository requested');
       }),
@@ -41,7 +41,7 @@ describe('FinishQuizRunService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         FinishQuizRunService,
-        { provide: getRepositoryToken(QuizRuns), useValue: quizRunRepo },
+        { provide: getRepositoryToken(QuizRun), useValue: quizRunRepo },
         { provide: getRepositoryToken(QuestionRun), useValue: questionRunRepo },
         { provide: DataSource, useValue: dataSource },
       ],

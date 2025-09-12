@@ -1,6 +1,6 @@
 import { TYPES } from './interfaces';
 import { CreateQuestionQuizService } from './services/create-question.quiz.service';
-import { CreateQuizService } from './services/create.quiz.service';
+import { CreateQuizService } from '../quiz_result/services/create.quiz.service';
 import { DeleteQuestionQuizService } from './services/delete-question.quiz.service';
 import { DeleteQuizService } from './services/delete.quiz.service';
 import { EditQuestionQuizService } from './services/edit-question.quiz.service';
@@ -10,10 +10,8 @@ import { GetByIdQuizService } from './services/get-by-id.quiz.service';
 import { ListQuizService } from './services/list.quiz.service';
 import { ReorderQuestionQuizService } from './services/reorder-question.quiz.service';
 import { ValidateSpaceQuizService } from './services/validate-space.quiz.service';
-import { GetResultQuizService } from './services/get-result.quiz.service';
-import { StartQuizRunService } from './services/start-quiz-run.service';
-import { FinishQuizRunService } from './services/finish-quiz-run.service';
-import { CreateQuestionRunService } from './services/create-question-run.service';
+
+import { CreateQuestionRunService } from '../quiz_result/services/create-question-run.service';
 
 export const createQuizServiceProvider = {
   provide: TYPES.services.ICreateQuizService,
@@ -34,7 +32,6 @@ export const deleteQuizServiceProvider = {
   provide: TYPES.services.IDeleteQuizService,
   useClass: DeleteQuizService
 }
-
 
 export const getByIdQuizServiceProvider = {
   provide: TYPES.services.IGetByIdQuizService,
@@ -71,21 +68,6 @@ export const reorderQuestionQuizServiceProvider = {
   useClass: ReorderQuestionQuizService
 }
 
-export const getResultQuizServiceProvider = {
-  provide: TYPES.services.IGetResultQuizService,
-  useClass: GetResultQuizService
-}
-
-export const startQuizRunServiceProvider = {
-  provide: TYPES.services.IStartQuizRunService,
-  useClass: StartQuizRunService
-}
-
-export const finishQuizRunServiceProvider = {
-  provide: TYPES.services.IFinishQuizRunService,
-  useClass: FinishQuizRunService
-}
-
 export const createQuestionRunServiceProvider = {
   provide: TYPES.services.ICreateQuestionRunService,
   useClass: CreateQuestionRunService,
@@ -107,10 +89,5 @@ export const servicesQuizProviders = [
   editQuizQuestionServiceProvider,
   validateSpaceQuizServiceProvider,
   deleteQuestionQuizServiceProvider,
-  reorderQuestionQuizServiceProvider,
-  getResultQuizServiceProvider,
-  startQuizRunServiceProvider,
-  finishQuizRunServiceProvider,
-  createQuestionRunServiceProvider,
-  createQuestionQuizServiceProvider
+  reorderQuestionQuizServiceProvider
 ];

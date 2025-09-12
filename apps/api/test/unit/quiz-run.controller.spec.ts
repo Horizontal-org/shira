@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException } from '@nestjs/common';
-import { QuizRunController } from 'src/modules/quiz/controller/quiz-run.controller';
+import { QuizRunController } from 'src/modules/quiz_result/controller/quiz-run.controller';
 import { TYPES } from 'src/modules/quiz/interfaces';
-import { IStartQuizRunService } from 'src/modules/quiz/interfaces/services/start-quiz-run.service.interface';
-import { IFinishQuizRunService } from 'src/modules/quiz/interfaces/services/finish-quiz-run.service.interface';
+import { IStartQuizRunService } from 'src/modules/quiz_result/interfaces/services/start-quiz-run.service.interface';
+import { IFinishQuizRunService } from 'src/modules/quiz_result/interfaces/services/finish-quiz-run.service.interface';
 
 describe('QuizRunController', () => {
   let controller: QuizRunController;

@@ -1,14 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { QuizRuns } from '../domain/quiz_runs.entity';
+import { QuizRun } from '../domain/quiz_runs.entity';
 import { QuestionRun } from '../domain/question_runs.entity';
-import { CreateQuestionRunDto } from '../dto/create-question-run.dto';
+import { CreateQuestionRunDto } from '../../quiz/dto/create-question-run.dto';
 
 @Injectable()
 export class CreateQuestionRunService {
   constructor(
-    @InjectRepository(QuizRuns) private readonly quizRunRepo: Repository<QuizRuns>,
+    @InjectRepository(QuizRun) private readonly quizRunRepo: Repository<QuizRun>,
     @InjectRepository(QuestionRun) private readonly questionRunRepo: Repository<QuestionRun>,
   ) {}
 

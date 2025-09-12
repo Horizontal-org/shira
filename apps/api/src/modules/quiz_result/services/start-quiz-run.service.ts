@@ -2,19 +2,19 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { StartQuizRunDto } from '../dto/start-quiz-run.dto';
-import { QuizRuns } from '../domain/quiz_runs.entity';
-import { Quiz } from '../domain/quiz.entity';
+import { QuizRun } from '../domain/quiz_runs.entity';
+import { Quiz } from '../../quiz/domain/quiz.entity';
 
 @Injectable()
 export class StartQuizRunService {
   constructor(
-    @InjectRepository(QuizRuns)
-    private readonly quizRunRepo: Repository<QuizRuns>,
+    @InjectRepository(QuizRun)
+    private readonly quizRunRepo: Repository<QuizRun>,
     @InjectRepository(Quiz)
     private readonly quizRepo: Repository<Quiz>,
   ) {}
 
-  async execute(dto: StartQuizRunDto): Promise<QuizRuns> {
+  async execute(dto: StartQuizRunDto): Promise<QuizRun> {
     console.log("execute start quiz run service with dto: ", dto);
     const quizIdNum = Number(dto.quizId);
     const quiz = await this.quizRepo.findOne({ where: { id: quizIdNum } });

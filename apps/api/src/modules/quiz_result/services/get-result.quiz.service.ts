@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { IsNull, Not, Repository } from 'typeorm';
 import { IGetResultQuizService } from '../interfaces/services/get-result.quiz.service.interface';
 import { Quiz as QuizEntity } from '../../quiz/domain/quiz.entity';
-import { QuizRun as QuizRunsEntity } from '../domain/quiz_runs.entity';
+import { QuizRun as QuizRunEntity } from '../domain/quiz_runs.entity';
 import { QuizQuestion as QuizQuestionEntity } from '../../quiz/domain/quizzes_questions.entity';
 import { QuestionRun as QuestionRunsEntity } from '../domain/question_runs.entity';
 import { ReadResultQuizDto } from '../dto/read-result.quiz.dto';
@@ -13,8 +13,8 @@ export class GetResultQuizService implements IGetResultQuizService {
   constructor(
     @InjectRepository(QuizEntity)
     private readonly quizRepo: Repository<QuizEntity>,
-    @InjectRepository(QuizRunsEntity)
-    readonly quizRunRepo: Repository<QuizRunsEntity>,
+    @InjectRepository(QuizRunEntity)
+    readonly quizRunRepo: Repository<QuizRunEntity>,
     @InjectRepository(QuizQuestionEntity)
     private readonly quizQuestionRepo: Repository<QuizQuestionEntity>,
     @InjectRepository(QuestionRunsEntity)
