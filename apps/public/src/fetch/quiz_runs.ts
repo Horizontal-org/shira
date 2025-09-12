@@ -4,11 +4,16 @@ const API = process.env.REACT_APP_API_URL;
 
 export type Answer = 'is_legitimate' | 'is_phishing' | 'dont_know';
 
-export interface QuestionRunDraft {
+export type QuestionRunPayload = {
   questionId: number;
   answer: Answer;
   answeredAt: string;
-}
+};
+
+export type FinishPayload = {
+  finishedAt: string;
+  questionRuns: QuestionRunPayload[];
+};
 
 export interface QuizRun {
   id: number | string;
@@ -23,17 +28,13 @@ export const startQuizRun = async (payload: {
   learnerId?: string | null;
   startedAt: string;
 }) => {
-  const { data } = await axios.post<QuizRun>(`${API}/quiz/run`, payload);
+  const { data } = await axios.post<QuizRun>(`${API}/quiz-runs`, payload);
+  console.log("startQuizRun response data:", data);
   return data;
 };
 
-export const finishQuizRun = async (
-  runId: number | string,
-  payload: {
-    finishedAt: string;
-    questionRuns: QuestionRunDraft[];
-  }
-) => {
-  const { data } = await axios.patch<QuizRun>(`${API}/quiz/run/${runId}`, payload);
-  return data;
-};
+export const finishQuizRun = (runId: number, payload: FinishPayload) =>
+  axios.patch(`${API}/quiz-runs/${runId}/finish`, payload);
+
+export const saveQuestionRun = (runId: number, qr: QuestionRunPayload) =>
+  axios.post(`${API}/quiz-runs/${runId}/question-runs`, qr);
