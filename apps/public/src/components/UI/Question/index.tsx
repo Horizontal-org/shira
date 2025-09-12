@@ -79,6 +79,16 @@ export const Question: FunctionComponent<Props> = ({
   const parseExplanations = (explanation: Explanation[]): Explanation[] =>
     explanation.filter(expl => document.querySelector(`[data-explanation="${expl.index}"]`))
 
+  const select = useCallback(
+    (uiAnswer: string) => {
+      handleIsExpanded(false)
+      handleAnswer(uiAnswer)
+      const mapped = toRunAnswer(uiAnswer)
+      console.log('[Question] select', { qId: question.id, uiAnswer, mapped })
+      onAnswer?.(mapped)
+    }, [onAnswer, question.id]
+  )
+
   return (
     <SceneWithFooter>
       <AppLayout
@@ -112,10 +122,7 @@ export const Question: FunctionComponent<Props> = ({
           />
         ) : <AnswerOptions
               goBack={goBack}
-              onAnswer={(a) => {
-                handleIsExpanded(false)
-                handleAnswer(a)
-              }}
+              onAnswer={select}
               isExpanded={isExpanded}
               handleIsExpanded={handleIsExpanded}
           />
