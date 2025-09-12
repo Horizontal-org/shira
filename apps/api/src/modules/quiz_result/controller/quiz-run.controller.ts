@@ -22,11 +22,11 @@ export class QuizRunController {
     return await this.startRun.execute(dto);
   }
 
-  @Patch(':id/finish')
+  @Patch(':runId/finish')
   async finish(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('runId', ParseIntPipe) runId: number,
     @Body() dto: FinishQuizRunDto
   ) {
-    return await this.finishRun.execute(id, dto);
+    return await this.finishRun.execute(runId, dto);
   }
 }
