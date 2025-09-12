@@ -30,7 +30,7 @@ export class CreateQuestionRunsTable1757355147935 implements MigrationInterface 
                         isNullable: false,
                     },
                     {
-                        name: 'answer_time',
+                        name: 'answered_at',
                         type: 'datetime',
                         isNullable: false
                     },
