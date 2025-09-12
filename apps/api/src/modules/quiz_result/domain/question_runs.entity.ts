@@ -34,7 +34,7 @@ export class QuestionRun {
   @JoinColumn({ name: 'question_id' })
   question!: Question;
 
-  @Column({ type: 'enum', enum: Answer, nullable: false })
+  @Column({ type: 'enum', enum: Answer, nullable: true })
   answer: string;
 
   @Column({ name: 'answered_at', nullable: true })
