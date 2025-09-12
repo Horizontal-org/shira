@@ -43,19 +43,21 @@ export const Question: FunctionComponent<Props> = ({
   const [showExplanations, handleShowExplanations] = useState<boolean>(false)
   const [isExpanded, handleIsExpanded] = useState(false)
 
-  const { persistedEmail, persistedName } = useStore((state) => ({
-    persistedName: state.setup.name,
-    persistedEmail: state.setup.email,
-  }))
+  const { persistedEmail, persistedName } = useStore(
+    (state) => ({
+      persistedName: state.setup.name,
+      persistedEmail: state.setup.email,
+    })
+  )
 
   useEffect(() => {
     const order = parseExplanations(question.explanations)
       .sort((a, b) => parseInt(a.position) - parseInt(b.position))
-      .map((e) => parseInt(e.index))
+      .map(e => parseInt(e.index))
 
     handleExplanationsOrder(order)
 
-    const anchorElements = Array.from(document.querySelectorAll('a'))
+    const anchorElements = document.querySelectorAll('a')
     anchorElements.forEach((element) => {
       element.addEventListener('click', (event) => {
         event.preventDefault()
@@ -76,17 +78,6 @@ export const Question: FunctionComponent<Props> = ({
 
   const parseExplanations = (explanation: Explanation[]): Explanation[] =>
     explanation.filter(expl => document.querySelector(`[data-explanation="${expl.index}"]`))
-
-    const select = useCallback(
-    (uiAnswer: string) => {
-      handleIsExpanded(false)
-      handleAnswer(uiAnswer)
-      const mapped = toRunAnswer(uiAnswer)
-      console.log('[Question] select', { qId: question.id, uiAnswer, mapped })
-      onAnswer?.(mapped)
-    },
-    [onAnswer, question.id]
-  )
 
   return (
     <SceneWithFooter>
@@ -113,20 +104,21 @@ export const Question: FunctionComponent<Props> = ({
             handleShowExplanations={handleShowExplanations}
             explanationNumber={explanationNumber}
             explanationsLength={parseExplanations(question.explanations).length}
-            setExplanationNumber={(n) => setExplanationNumber(n)}
+            setExplanationNumber={(n) => { setExplanationNumber(n) }}
             onNext={onNext}
             userAnswer={answer}
-            onAnswer={(a) => handleAnswer(a)}
+            onAnswer={(a) => { handleAnswer(a) }}
             realAnswer={question.isPhising ? 'phishing' : 'legitimate'}
           />
-        ) : (
-          <AnswerOptions
-            goBack={goBack}
-            onAnswer={select}
-            isExpanded={isExpanded}
-            handleIsExpanded={handleIsExpanded}
+        ) : <AnswerOptions
+              goBack={goBack}
+              onAnswer={(a) => {
+                handleIsExpanded(false)
+                handleAnswer(a)
+              }}
+              isExpanded={isExpanded}
+              handleIsExpanded={handleIsExpanded}
           />
-        )
         }
       />
     </SceneWithFooter>
