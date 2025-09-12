@@ -152,7 +152,7 @@ export const QuizLayout: FunctionComponent<Props> = () => {
         {scene === 'custom-quiz' && (
           <CustomQuiz
             questions={quiz.quizQuestions.map((q) => q.question)}
-            images={Array.isArray(quiz.images) ? quiz.images : []}
+            images={quiz.images}
           />
         )}
 

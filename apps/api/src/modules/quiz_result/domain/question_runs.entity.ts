@@ -35,7 +35,7 @@ export class QuestionRun {
   question!: Question;
 
   @Column({ type: 'enum', enum: Answer, nullable: true })
-  answer: string;
+  answer?: string;
 
   @Column({ name: 'answered_at', nullable: true })
   answeredAt?: Date | null;

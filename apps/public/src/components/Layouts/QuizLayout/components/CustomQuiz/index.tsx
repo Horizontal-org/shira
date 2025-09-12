@@ -41,43 +41,39 @@ export const CustomQuiz: FunctionComponent<Props> = ({ questions, images }) => {
     [currentQuestionId, recordAnswer]
   )
 
-  const handleNext = () => {
-    if (questionIndex < questions.length - 1) {
-      handleQuestionIndex(questionIndex + 1)
-    } else {
-      changeScene('completed')
-    }
-  }
-
-  const handleBack = () => {
-    if (questionIndex > 0) {
-      handleQuestionIndex(questionIndex - 1)
-    } else {
-      changeScene('quiz-setup-name')
-    }
-  }
-
   return (
     <SceneWrapper>
       {started ? (
         <Question
           key={questionIndex}
-          question={q as any}
+          question={questions.length > 0 && questions[questionIndex]}
           images={images}
           questionIndex={questionIndex}
           questionCount={questions.length}
           changeScene={changeScene}
           onAnswer={handleAnswer}
-          onNext={handleNext}
-          goBack={handleBack}
-          setCorrectQuestions={() => {
-            if (q) setCorrectQuestions(q)
+          onNext={() => {
+            if (questionIndex < (questions.length - 1)) {
+              handleQuestionIndex(questionIndex + 1)
+            } else {
+              changeScene('completed')
+            }
           }}
+          goBack={() => {
+            if (questionIndex > 0) {
+              handleQuestionIndex(questionIndex - 1)
+            } else {
+              changeScene('quiz-setup-name')
+            }
+          }}
+          setCorrectQuestions={() => setCorrectQuestions(questions[questionIndex])}
         />
       ) : (
         <QuizInstructions
           count={questions ? questions.length : 0}
-          onNext={() => handleStarted(true)}
+          onNext={() => {
+            handleStarted(true)
+          }}
         />
       )}
     </SceneWrapper>
