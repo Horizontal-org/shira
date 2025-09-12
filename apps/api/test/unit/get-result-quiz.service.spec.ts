@@ -3,17 +3,17 @@ import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { NotFoundException } from '@nestjs/common';
 
-import { GetResultQuizService } from '../../src/modules/quiz/services/get-result.quiz.service';
-import { QuizRuns } from '../../src/modules/quiz/domain/quiz_runs.entity';
+import { GetResultQuizService } from '../../src/modules/quiz_result/services/get-result.quiz.service';
+import { QuizRun } from '../../src/modules/quiz_result/domain/quiz_runs.entity';
 import { Quiz } from '../../src/modules/quiz/domain/quiz.entity';
 import { QuizQuestion } from '../../src/modules/quiz/domain/quizzes_questions.entity';
-import { QuestionRun } from '../../src/modules/quiz/domain/question_runs.entity';
-import { ReadResultQuizDto } from '../../src/modules/quiz/dto/read-result.quiz.dto';
+import { QuestionRun } from '../../src/modules/quiz_result/domain/question_runs.entity';
+import { ReadResultQuizDto } from '../../src/modules/quiz_result/dto/read-result.quiz.dto';
 
 describe('GetResultQuizService', () => {
   let service: GetResultQuizService;
 
-  let quizRunRepo: jest.Mocked<Repository<QuizRuns>>;
+  let quizRunRepo: jest.Mocked<Repository<QuizRun>>;
   let quizRepo: jest.Mocked<Repository<Quiz>>;
   let quizQuestionRepo: jest.Mocked<Repository<QuizQuestion>>;
   let questionRunRepo: jest.Mocked<Repository<QuestionRun>>;
@@ -30,7 +30,7 @@ describe('GetResultQuizService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         GetResultQuizService,
-        { provide: getRepositoryToken(QuizRuns), useValue: quizRunRepo },
+        { provide: getRepositoryToken(QuizRun), useValue: quizRunRepo },
         { provide: getRepositoryToken(Quiz), useValue: quizRepo },
         { provide: getRepositoryToken(QuizQuestion), useValue: quizQuestionRepo },
         { provide: getRepositoryToken(QuestionRun), useValue: questionRunRepo },

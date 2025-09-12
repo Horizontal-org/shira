@@ -111,7 +111,7 @@ export const QuestionReview: FunctionComponent<Props> = ({
 }
 
 const ExplanationHeader = styled.div`
-  width: 1024px;
+  width: 100%;
   display: flex;
   justify-content: flex-end;
   margin: 12px 0 20px 0;
@@ -122,7 +122,7 @@ const StyledBox = styled.div`
   z-index: 1;
   background: white;
   padding: 24px;
-  width: 1024px;
+  width: 100%;
   height: 800px;
   box-sizing: border-box;
 `

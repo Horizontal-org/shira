@@ -42,6 +42,7 @@
         "how_it_works": {
             "title": "Comment ça marche",
             "explanation_1": "Ce quiz comporte 10 questions.",
+            "question_count": "Ce quiz comporte {{ count }} questions.",
             "explanation_2": "Pour chaque question, choisissez si le message affiché ressemble à une tentative d'hameçonnage ou semble légitime.",
             "explanation_3": "Si vous n'êtes pas sûr, vous pouvez sélectionner l'option \"Je ne sais pas\".",
             "footer_title": "Intro du quiz",

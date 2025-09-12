@@ -3,7 +3,7 @@ import {
   JoinColumn,
   ManyToOne
 } from 'typeorm';
-import { QuizRuns } from './quiz_runs.entity';
+import { QuizRun } from '../domain/quiz_runs.entity';
 import { Question } from 'src/modules/question/domain';
 
 export enum Answer {
@@ -23,9 +23,9 @@ export class QuestionRun {
   @Column({ name: 'quiz_run_id', type: 'int' })
   quizRunId!: number;
 
-  @ManyToOne(() => QuizRuns, { onDelete: 'CASCADE' })
+  @ManyToOne(() => QuizRun, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'quiz_run_id' })
-  run!: QuizRuns;
+  run!: QuizRun;
 
   @Column({ name: 'question_id' })
   questionId!: number;

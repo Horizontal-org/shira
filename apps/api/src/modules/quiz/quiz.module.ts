@@ -40,9 +40,7 @@ import { QuestionRunController } from './controller/question-run.controller';
         ExplanationTranslation,
         Language,
         QuestionImage,
-        App,
-        QuizRunEntity,
-        QuestionRunEntity
+        App
     ]),
     QuestionImageModule
   ],
@@ -62,6 +60,9 @@ import { QuestionRunController } from './controller/question-run.controller';
     QuestionRunController
   ],
   providers: [
+    ...servicesQuizProviders
+  ],
+  exports: [
     ...servicesQuizProviders
   ],
 })

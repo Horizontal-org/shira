@@ -2,9 +2,9 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IsNull, Not, Repository } from 'typeorm';
 import { IGetResultQuizService } from '../interfaces/services/get-result.quiz.service.interface';
-import { Quiz as QuizEntity } from '../domain/quiz.entity';
-import { QuizRuns as QuizRunsEntity } from '../domain/quiz_runs.entity';
-import { QuizQuestion as QuizQuestionEntity } from '../domain/quizzes_questions.entity';
+import { Quiz as QuizEntity } from '../../quiz/domain/quiz.entity';
+import { QuizRun as QuizRunsEntity } from '../domain/quiz_runs.entity';
+import { QuizQuestion as QuizQuestionEntity } from '../../quiz/domain/quizzes_questions.entity';
 import { QuestionRun as QuestionRunsEntity } from '../domain/question_runs.entity';
 import { ReadResultQuizDto } from '../dto/read-result.quiz.dto';
 
@@ -60,9 +60,13 @@ export class GetResultQuizService implements IGetResultQuizService {
         `
         SUM(
           CASE
-              WHEN qr.answer = q.answer
-              THEN 1
-              ELSE 0
+            WHEN qr.answer = (
+              CASE
+                WHEN q.is_phising = 1 THEN 'is_phishing'
+                ELSE 'is_legitimate'
+              END
+            ) THEN 1
+            ELSE 0
           END
         )
         `,

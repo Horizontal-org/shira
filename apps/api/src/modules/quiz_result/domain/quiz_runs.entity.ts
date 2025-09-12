@@ -3,12 +3,12 @@ import {
   JoinColumn,
   ManyToOne
 } from 'typeorm';
-import { Quiz } from './quiz.entity';
+import { Quiz } from '../../quiz/domain/quiz.entity';
 
 @Entity({ name: 'quiz_runs' })
 @Index('idx_quiz_runs_quiz', ['quizId', 'startedAt'])
 @Index('idx_quiz_runs_learner', ['learnerId', 'quizId', 'startedAt'])
-export class QuizRuns {
+export class QuizRun {
   @PrimaryGeneratedColumn()
   id!: number;
 

@@ -1,4 +1,4 @@
-import { DatingApp, FBMessenger, Gmail, SMS, Whatsapp } from "@shira/ui";
+import { DatingApp, FBMessenger, Gmail, Outlook, SMS, Whatsapp } from "@shira/ui";
 import { FunctionComponent } from "react";
 import { Explanation } from "../../../../store/slices/explanation";
 // TODO repeated code, check how to fix  
@@ -26,6 +26,16 @@ export const AppSelector: FunctionComponent<Props> = ({
     <>
       { appName === 'Gmail' && (
         <Gmail 
+          {...customProps}
+          receiverEmail={'useremail@email.com'}
+          receiverName={'User'}
+          explanationNumber={explanationNumber}
+          explanations={explanations}
+          showExplanations={showExplanations}
+        />
+      )}
+      { appName === 'Outlook' && (
+        <Outlook 
           {...customProps}
           receiverEmail={'useremail@email.com'}
           receiverName={'User'}
