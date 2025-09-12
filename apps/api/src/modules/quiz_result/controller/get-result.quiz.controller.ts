@@ -1,6 +1,6 @@
 import { Inject, Get, Param, ParseIntPipe } from '@nestjs/common';
 import { AuthController } from 'src/utils/decorators/auth-controller.decorator';
-import { TYPES } from '../../quiz/interfaces';
+import { TYPES } from '../interfaces/types';
 import { Roles } from 'src/modules/auth/decorators/roles.decorators';
 import { Role } from 'src/modules/user/domain/role.enum';
 import { IGetResultQuizService } from '../interfaces/services/get-result.quiz.service.interface';

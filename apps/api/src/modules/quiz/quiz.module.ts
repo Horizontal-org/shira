@@ -22,9 +22,6 @@ import { DeleteQuestionQuizController } from './controller/delete-question.quiz.
 import { ReorderQuestionQuizController } from './controller/reorder-question.quiz.controller';
 import { QuestionImage } from '../question_image/domain';
 import { QuestionImageModule } from '../question_image/question_image.module';
-import { GetResultQuizController } from '../quiz_result/controller/get-result.quiz.controller';
-import { QuestionRun as QuestionRunEntity } from '../quiz_result/domain/question_runs.entity';
-import { QuizRuns as QuizRunEntity } from '../quiz_result/domain/quiz_runs.entity';
 
 @Module({
   imports: [
@@ -38,9 +35,7 @@ import { QuizRuns as QuizRunEntity } from '../quiz_result/domain/quiz_runs.entit
         ExplanationTranslation,
         Language,
         QuestionImage,
-        App,
-        QuizRunEntity,
-        QuestionRunEntity
+        App
     ]),
     QuestionImageModule
   ],
@@ -55,7 +50,6 @@ import { QuizRuns as QuizRunEntity } from '../quiz_result/domain/quiz_runs.entit
     EditQuestionQuizController,
     DeleteQuestionQuizController,
     EditQuizController,
-    GetResultQuizController
   ],
   providers: [
     ...servicesQuizProviders

@@ -1,5 +1,6 @@
 export const TYPES = {
   services: {    
-    IGetResultQuizService: 'IGetResultQuizService'
+    IGetResultQuizService: 'IGetResultQuizService',
+    IValidateSpaceQuizService: 'IValidateSpaceQuizService',
   },
 };
