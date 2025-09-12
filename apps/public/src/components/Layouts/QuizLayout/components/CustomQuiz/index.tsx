@@ -14,7 +14,7 @@ interface Props {
   images: Array<{ imageId: number; url: string }>
 }
 
-export const CustomQuiz: FunctionComponent<Props> = ({
+export const CustomQuiz:FunctionComponent<Props> = ({
   questions,
   images
 }) => {
@@ -22,9 +22,9 @@ export const CustomQuiz: FunctionComponent<Props> = ({
     changeScene,
     setCorrectQuestions
   } = useStore((state) => ({
-      changeScene: state.changeScene,
-      setCorrectQuestions: state.setCorrectQuestions,
-    }), shallow)
+    changeScene: state.changeScene,
+    setCorrectQuestions: state.setCorrectQuestions,
+  }), shallow)
 
   const [started, handleStarted] = useState(false)
   const [questionIndex, handleQuestionIndex] = useState(0)

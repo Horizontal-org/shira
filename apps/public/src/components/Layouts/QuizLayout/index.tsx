@@ -97,8 +97,9 @@ export const QuizLayout: FunctionComponent<Props> = () => {
       <RunOrchestrator scene={scene} quizId={quiz.id} />
 
       <>
-        {scene === 'welcome' && (
+        { scene === 'welcome' && (
           <SceneWrapper bg='white'>
+
             <BetaBanner
               url="https://shira.app/contact"
               label={t('beta.label')}
@@ -145,18 +146,18 @@ export const QuizLayout: FunctionComponent<Props> = () => {
           </SceneWrapper>
         )}
 
-        {scene === 'quiz-setup-name' && (
+        { scene === 'quiz-setup-name' && (
           <QuizSetupNameScene nextSceneSlug="custom-quiz" />
         )}
 
-        {scene === 'custom-quiz' && (
+        { scene === 'custom-quiz' && (
           <CustomQuiz
             questions={quiz.quizQuestions.map((q) => q.question)}
             images={quiz.images}
           />
         )}
 
-        {scene === 'completed' && (
+        { scene === 'completed' && (
           <CustomQuizCompletedScene
             quizNumber={quiz.quizQuestions.length}
           />
