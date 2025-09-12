@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ICreateQuizService } from '../../quiz/interfaces/services/create.quiz.service.interface';
-import { Quiz as QuizEntity } from '../../quiz/domain/quiz.entity';
-import { CreateQuizDto } from '../../quiz/dto/create.quiz.dto';
+import { ICreateQuizService } from '../interfaces/services/create.quiz.service.interface';
+import { Quiz as QuizEntity } from '../domain/quiz.entity';
+import { CreateQuizDto } from '../dto/create.quiz.dto';
 import * as crypto from 'crypto'
 
 @Injectable()

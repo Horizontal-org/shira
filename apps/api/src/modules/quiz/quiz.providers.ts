@@ -1,6 +1,6 @@
 import { TYPES } from './interfaces';
 import { CreateQuestionQuizService } from './services/create-question.quiz.service';
-import { CreateQuizService } from '../quiz_result/services/create.quiz.service';
+import { CreateQuizService } from './services/create.quiz.service';
 import { DeleteQuestionQuizService } from './services/delete-question.quiz.service';
 import { DeleteQuizService } from './services/delete.quiz.service';
 import { EditQuestionQuizService } from './services/edit-question.quiz.service';
