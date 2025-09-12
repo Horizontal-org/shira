@@ -41,6 +41,7 @@
     "quiz": {
         "how_it_works": {
             "title": "如何进行",
+            "question_count": "本测试包括 {{ count }} 个问题。",
             "explanation_1": "本测试包括 10 个问题。",
             "explanation_2": "对于每个问题，选择看起来是网络钓鱼或真实的。",
             "explanation_3": "如果不确定，可以选择“不确定”这个选项。",
