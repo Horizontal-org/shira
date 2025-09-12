@@ -66,11 +66,6 @@ export const reorderQuestionQuizServiceProvider = {
   useClass: ReorderQuestionQuizService
 }
 
-export const createQuestionQuizServiceProvider = {
-  provide: TYPES.services.ICreateQuestionQuizService,
-  useClass: CreateQuestionQuizService
-}
-
 export const servicesQuizProviders = [
   createQuizServiceProvider,
   listQuizServiceProvider,
