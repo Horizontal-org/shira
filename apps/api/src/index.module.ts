@@ -23,6 +23,7 @@ import { QuestionImageModule } from './modules/question_image/question_image.mod
 import { ImageModule } from './modules/image/image.module';
 import { OrganizationModule } from './modules/organization/organization.module';
 import { BillingModule } from './modules/billing/billing.module';
+import { QuizResultModule } from './modules/quiz_result/quiz-result.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { BillingModule } from './modules/billing/billing.module';
     LanguageModule,
     PassphraseModule,
     QuizModule,
+    QuizResultModule,
     OrganizationModule,
     BillingModule
   ],

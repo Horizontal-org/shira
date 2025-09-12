@@ -5,13 +5,19 @@ import { servicesQuizProviders } from './quiz-result.providers';
 import { GetResultQuizController } from './controller/get-result.quiz.controller';
 import { QuestionRun as QuestionRunEntity } from './domain/question_runs.entity';
 import { QuizRuns as QuizRunEntity } from './domain/quiz_runs.entity';
+import { Quiz as QuizEntity } from '../quiz/domain/quiz.entity';
+import { QuizQuestion as QuizQuestionEntity } from '../quiz/domain/quizzes_questions.entity';
+import { QuizModule } from '../quiz/quiz.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
-        QuizRunEntity,
-        QuestionRunEntity
+      QuizEntity,
+      QuizQuestionEntity,
+      QuizRunEntity,
+      QuestionRunEntity,
     ]),
+    QuizModule,
   ],
   controllers: [
     GetResultQuizController
@@ -20,4 +26,4 @@ import { QuizRuns as QuizRunEntity } from './domain/quiz_runs.entity';
     ...servicesQuizProviders
   ],
 })
-export class QuizModule {}
+export class QuizResultModule {}
