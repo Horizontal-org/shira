@@ -33,13 +33,10 @@ export class QuestionRun {
   @ManyToOne(() => Question, { onDelete: 'RESTRICT' })
   @JoinColumn({ name: 'question_id' })
   question!: Question;
-  
-  @Column({ name: 'learner_run_id', nullable: true })
-  learnerRunId?: string | null;
 
-  @Column({ type: 'enum', enum: Answer, nullable: true })
-  answer?: string;
+  @Column({ type: 'enum', enum: Answer, nullable: false })
+  answer: string;
 
-  @Column({ name: 'answered_at', type: 'datetime', nullable: true })
-  answeredAt?: Date | null;
+  @Column({ name: 'answered_at', nullable: false })
+  answeredAt: Date | null;
 }
