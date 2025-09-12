@@ -60,9 +60,13 @@ export class GetResultQuizService implements IGetResultQuizService {
         `
         SUM(
           CASE
-              WHEN qr.answer = q.answer
-              THEN 1
-              ELSE 0
+            WHEN qr.answer = (
+              CASE
+                WHEN q.is_phising = 1 THEN 'is_phishing'
+                ELSE 'is_legitimate'
+              END
+            ) THEN 1
+            ELSE 0
           END
         )
         `,
