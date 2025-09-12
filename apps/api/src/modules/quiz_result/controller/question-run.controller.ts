@@ -1,5 +1,5 @@
 import { Body, Controller, Inject, Param, ParseIntPipe, Post } from '@nestjs/common';
-import { CreateQuestionRunDto } from '../../question/dto/create-question-run.quiz';
+import { CreateQuestionRunDto } from '../../quiz_result/dto/create-question-run.quiz';
 import { QuestionRun } from '../../quiz_result/domain/question_runs.entity';
 import { TYPES } from '../../quiz_result/interfaces';
 import { ICreateQuestionRunService } from '../../quiz_result/interfaces/services/create-question-run.service.interface';

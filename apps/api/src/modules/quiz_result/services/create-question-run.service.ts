@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { QuizRun } from '../domain/quiz_runs.entity';
 import { QuestionRun } from '../domain/question_runs.entity';
-import { CreateQuestionRunDto } from '../../question/dto/create-question-run.quiz';
+import { CreateQuestionRunDto } from '../dto/create-question-run.quiz';
 
 @Injectable()
 export class CreateQuestionRunService {
