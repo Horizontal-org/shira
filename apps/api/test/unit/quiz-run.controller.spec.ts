@@ -7,24 +7,24 @@ import { IFinishQuizRunService } from 'src/modules/quiz_result/interfaces/servic
 
 describe('QuizRunController', () => {
   let controller: QuizRunController;
-  let startSvc: jest.Mocked<IStartQuizRunService>;
-  let finishSvc: jest.Mocked<IFinishQuizRunService>;
+  let startQuizRunService: jest.Mocked<IStartQuizRunService>;
+  let finishQuizRunService: jest.Mocked<IFinishQuizRunService>;
 
   beforeEach(async () => {
-    startSvc = { execute: jest.fn() } as any;
-    finishSvc = { execute: jest.fn() } as any;
+    startQuizRunService = { execute: jest.fn() } as any;
+    finishQuizRunService = { execute: jest.fn() } as any;
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [QuizRunController],
       providers: [
-        { provide: TYPES.services.IStartQuizRunService, useValue: startSvc },
-        { provide: TYPES.services.IFinishQuizRunService, useValue: finishSvc },
+        { provide: TYPES.services.IStartQuizRunService, useValue: startQuizRunService },
+        { provide: TYPES.services.IFinishQuizRunService, useValue: finishQuizRunService },
       ],
     }).compile();
 
     controller = module.get(QuizRunController);
-    startSvc = module.get(TYPES.services.IStartQuizRunService);
-    finishSvc = module.get(TYPES.services.IFinishQuizRunService);
+    startQuizRunService = module.get(TYPES.services.IStartQuizRunService);
+    finishQuizRunService = module.get(TYPES.services.IFinishQuizRunService);
   });
 
   describe('start', () => {
@@ -43,13 +43,13 @@ describe('QuizRunController', () => {
         finishedAt: null,
       } as any;
 
-      startSvc.execute.mockResolvedValue(savedRun);
+      startQuizRunService.execute.mockResolvedValue(savedRun);
 
       // When
       const result = await controller.start(dto as any);
 
       // Then
-      expect(startSvc.execute).toHaveBeenCalledWith(dto);
+      expect(startQuizRunService.execute).toHaveBeenCalledWith(dto);
       expect(result).toEqual({
         id: 7,
         quizId: 42,
@@ -79,13 +79,13 @@ describe('QuizRunController', () => {
         finishedAt: new Date('2025-09-09T17:27:10.000Z'),
       } as any;
 
-      finishSvc.execute.mockResolvedValue(finishedRun);
+      finishQuizRunService.execute.mockResolvedValue(finishedRun);
 
       // When
       const result = await controller.finish(runId, dto as any);
 
       // Then
-      expect(finishSvc.execute).toHaveBeenCalledWith(runId, dto);
+      expect(finishQuizRunService.execute).toHaveBeenCalledWith(runId, dto);
       expect(result).toEqual({
         id: 7,
         quizId: 42,
@@ -99,11 +99,11 @@ describe('QuizRunController', () => {
       // Given
       const runId = 999;
       const dto = { finishedAt: '2025-09-09T17:27:10.000Z', questionRuns: [] };
-      finishSvc.execute.mockRejectedValue(new NotFoundException('Run not found'));
+      finishQuizRunService.execute.mockRejectedValue(new NotFoundException('Run not found'));
 
       // When / Then
       await expect(controller.finish(runId, dto as any)).rejects.toBeInstanceOf(NotFoundException);
-      expect(finishSvc.execute).toHaveBeenCalledWith(runId, dto);
+      expect(finishQuizRunService.execute).toHaveBeenCalledWith(runId, dto);
     });
   });
 });
