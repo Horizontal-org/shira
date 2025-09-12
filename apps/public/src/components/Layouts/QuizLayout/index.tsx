@@ -31,14 +31,12 @@ interface Props { }
 const RunOrchestrator: FunctionComponent<{ scene: string; quizId: number | string }> = ({ scene, quizId }) => {
   const { start, finish } = useQuizRun()
 
-  // Start the quiz run when the user lands on the first question scene
   useEffect(() => {
     if (scene === "custom-quiz") {
       start(quizId).catch(console.error)
     }
   }, [scene, quizId, start])
 
-  // Finish (persist finished_at + buffered question runs) on completion
   useEffect(() => {
     if (scene === "completed") {
       finish().catch(console.error)
@@ -50,9 +48,9 @@ const RunOrchestrator: FunctionComponent<{ scene: string; quizId: number | strin
 
 export const QuizLayout: FunctionComponent<Props> = () => {
   const { t, i18n } = useTranslation()
-  const { hash } = useParams<{ hash: string }>()
+  const { hash } = useParams()
 
-  const [quiz, handleQuiz] = useState<Quiz | null>(null)
+  const [quiz, handleQuiz] = useState(null)
   const [showUnavailable, handleShowUnavailable] = useState(false)
 
   const {
@@ -68,7 +66,7 @@ export const QuizLayout: FunctionComponent<Props> = () => {
     shallow
   )
 
-  const getQuiz = async (hash: string) => {
+  const getQuiz = async (hash) => {
     try {
       const res = await axios.get(`${process.env.REACT_APP_API_URL}/quiz/hash/${hash}`)
       handleQuiz(res.data)
@@ -79,7 +77,7 @@ export const QuizLayout: FunctionComponent<Props> = () => {
   }
 
   useEffect(() => {
-    if (hash) getQuiz(hash)
+    getQuiz(hash)
 
     return () => {
       resetAll()
