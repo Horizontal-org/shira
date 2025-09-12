@@ -6,7 +6,7 @@ import { IFinishQuizRunService } from '../interfaces/services/finish-quiz-run.se
 import { StartQuizRunDto } from '../dto/start-quiz-run.dto';
 import { FinishQuizRunDto } from '../dto/finish-quiz-run.dto';
 
-@Controller('quiz-runs')
+@Controller('quiz-run')
 export class QuizRunController {
   constructor(
     @Inject(TYPES.services.IStartQuizRunService)
@@ -19,14 +19,7 @@ export class QuizRunController {
   async start(
     @Body() dto: StartQuizRunDto
   ) {
-    const run = await this.startRun.execute(dto);
-    return {
-      id: run.id,
-      quizId: run.quizId,
-      learnerId: run.learnerId,
-      startedAt: run.startedAt,
-      finishedAt: run.finishedAt ?? null,
-    };
+    return await this.startRun.execute(dto);
   }
 
   @Patch(':id/finish')
@@ -34,13 +27,6 @@ export class QuizRunController {
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: FinishQuizRunDto
   ) {
-    const run = await this.finishRun.execute(id, dto);
-    return {
-      id: run.id,
-      quizId: run.quizId,
-      learnerId: run.learnerId,
-      startedAt: run.startedAt,
-      finishedAt: run.finishedAt ?? null,
-    };
+    return await this.finishRun.execute(id, dto);
   }
 }

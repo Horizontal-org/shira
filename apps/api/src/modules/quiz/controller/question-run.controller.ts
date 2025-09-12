@@ -4,7 +4,7 @@ import { QuestionRun } from '../../quiz_result/domain/question_runs.entity';
 import { TYPES } from '../../quiz_result/interfaces';
 import { ICreateQuestionRunService } from '../../quiz_result/interfaces/services/create-question-run.service.interface';
 
-@Controller('quiz-runs/:runId/question-runs')
+@Controller('quiz-run/:runId/question-run')
 export class QuestionRunController {
   constructor(
     @Inject(TYPES.services.ICreateQuestionRunService)

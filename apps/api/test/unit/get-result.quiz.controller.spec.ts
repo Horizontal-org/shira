@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { GetResultQuizController } from '../../src/modules/quiz_result/controller/get-result.quiz.controller';
-import { TYPES } from '../../src/modules/quiz/interfaces';
+import { TYPES } from '../../src/modules/quiz_result/interfaces';
 import { RolesGuard } from '../../src/modules/auth/guards/roles.guard';
 
 describe('GetResultQuizController', () => {

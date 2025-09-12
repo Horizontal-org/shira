@@ -27,14 +27,13 @@ export const startQuizRun = async (payload: {
   quizId: number | string;
   learnerId?: string | null;
   startedAt: string;
-}) => {
-  const { data } = await axios.post<QuizRun>(`${API}/quiz-runs`, payload);
-  console.log("startQuizRun response data:", data);
-  return data;
+}): Promise<QuizRun> => {
+  const res = await axios.post<QuizRun>(`${API}/quiz-run`, payload);
+  return res.data;
 };
 
 export const finishQuizRun = (runId: number, payload: FinishPayload) =>
-  axios.patch(`${API}/quiz-runs/${runId}/finish`, payload);
+  axios.patch(`${API}/quiz-run/${runId}/finish`, payload);
 
 export const saveQuestionRun = (runId: number, qr: QuestionRunPayload) =>
-  axios.post(`${API}/quiz-runs/${runId}/question-runs`, qr);
+  axios.post(`${API}/quiz-run/${runId}/question-run`, qr);
