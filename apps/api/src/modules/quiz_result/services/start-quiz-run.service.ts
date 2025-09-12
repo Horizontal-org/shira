@@ -15,7 +15,6 @@ export class StartQuizRunService {
   ) {}
 
   async execute(dto: StartQuizRunDto): Promise<QuizRun> {
-    console.log("execute start quiz run service with dto: ", dto);
     const quizIdNum = Number(dto.quizId);
     const quiz = await this.quizRepo.findOne({ where: { id: quizIdNum } });
     if (!quiz) {
@@ -28,7 +27,6 @@ export class StartQuizRunService {
       startedAt: new Date(dto.startedAt),
     });
 
-    console.log("about to save run: ", run);
     return this.quizRunRepo.save(run);
   }
 }
