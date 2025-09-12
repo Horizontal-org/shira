@@ -1,1 +1,1 @@
-export { TYPES } from '../interfaces/types';
+export { TYPES } from './types';
