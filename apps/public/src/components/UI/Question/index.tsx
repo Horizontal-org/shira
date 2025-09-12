@@ -1,13 +1,13 @@
-import { FunctionComponent, useEffect, useState, useCallback } from 'react'
-import { Question as QuestionType } from '../../../domain/question'
-import { AppLayout } from '../../Layouts/AppLayout'
-import { AnswerFeedback } from '../AnswerFeedback'
-import { AnswerOptions } from '../AnswerOptions'
-import { QuizFooter } from '../QuizFooter'
-import { SceneWithFooter } from '../SceneWithFooter'
-import { Explanation } from '../../../domain/explanation'
-import useGetWidth from '../../../hooks/useGetWidth'
-import { useStore } from '../../../store'
+import { FunctionComponent, useEffect, useState, useCallback } from 'react';
+import { Question as QuestionType } from '../../../domain/question';
+import { AppLayout } from '../../Layouts/AppLayout';
+import { AnswerFeedback } from '../AnswerFeedback';
+import { AnswerOptions } from '../AnswerOptions';
+import { QuizFooter } from '../QuizFooter';
+import { SceneWithFooter } from '../SceneWithFooter';
+import { Explanation } from '../../../domain/explanation';
+import useGetWidth from '../../../hooks/useGetWidth';
+import { useStore } from '../../../store';
 
 export type RunAnswer = 'is_phishing' | 'is_legitimate' | 'dont_know'
 const toRunAnswer = (a: string): RunAnswer =>
