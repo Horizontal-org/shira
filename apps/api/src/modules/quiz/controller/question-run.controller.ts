@@ -1,8 +1,8 @@
 import { Body, Controller, Inject, Param, ParseIntPipe, Post } from '@nestjs/common';
-import { CreateQuestionRunDto } from '../dto/create-question-run.dto';
-import { QuestionRun } from '../domain/question_runs.entity';
-import { TYPES } from '../interfaces';
-import { ICreateQuestionRunService } from '../interfaces/services/create-question-run.quiz.service.interface';
+import { CreateQuestionRunDto } from '../../question/dto/create-question-run.quiz';
+import { QuestionRun } from '../../quiz_result/domain/question_runs.entity';
+import { TYPES } from '../../quiz_result/interfaces';
+import { ICreateQuestionRunService } from '../../quiz_result/interfaces/services/create-question-run.service.interface';
 
 @Controller('quiz-runs/:runId/question-runs')
 export class QuestionRunController {

@@ -1,5 +1,5 @@
 import { Body, Controller, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
-import { TYPES } from '../../quiz/interfaces';
+import { TYPES } from '../interfaces';
 import { Inject } from '@nestjs/common';
 import { IStartQuizRunService } from '../interfaces/services/start-quiz-run.service.interface';
 import { IFinishQuizRunService } from '../interfaces/services/finish-quiz-run.service.interface';

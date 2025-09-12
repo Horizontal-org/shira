@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { QuizQuestion as QuizQuestionEntity } from '../domain/quizzes_questions.entity';
 
 import { ICreateQuestionQuizService } from '../interfaces/services/create-question.quiz.service.interface';
-import { CreateQuestionQuizDto } from '../dto/create-question.quiz.dto';
+import { CreateQuestionQuizDto } from '../../quiz_result/dto/create-question.quiz.dto';
 import { Explanation, Question } from 'src/modules/question/domain';
 import { QuestionTranslation } from 'src/modules/translation/domain/questionTranslation.entity';
 import { ExplanationTranslation } from 'src/modules/translation/domain/explanationTranslation.entity';

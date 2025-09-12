@@ -4,5 +4,6 @@ export const TYPES = {
     IValidateSpaceQuizService: 'IValidateSpaceQuizService',
     IStartQuizRunService: 'IStartQuizRunService',
     IFinishQuizRunService: 'IFinishQuizRunService',
+    ICreateQuestionRunService: 'ICreateQuestionRunService'
   },
 };

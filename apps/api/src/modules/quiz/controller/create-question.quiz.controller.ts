@@ -2,7 +2,7 @@ import { Body, Inject, Post, UnprocessableEntityException } from '@nestjs/common
 import { AuthController } from 'src/utils/decorators/auth-controller.decorator';
 import { Roles } from 'src/modules/auth/decorators/roles.decorators';
 import { Role } from 'src/modules/user/domain/role.enum';
-import { CreateQuestionQuizDto } from '../dto/create-question.quiz.dto';
+import { CreateQuestionQuizDto } from '../../quiz_result/dto/create-question.quiz.dto';
 import { TYPES } from '../interfaces';
 import { ICreateQuestionQuizService } from '../interfaces/services/create-question.quiz.service.interface';
 import { IValidateSpaceQuizService } from '../interfaces/services/validate-space.quiz.service.interface';

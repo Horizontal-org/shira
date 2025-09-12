@@ -1,1 +1,1 @@
-export { TYPES } from '../../quiz_result/interfaces/services/types';
+export { TYPES } from '../interfaces/types';

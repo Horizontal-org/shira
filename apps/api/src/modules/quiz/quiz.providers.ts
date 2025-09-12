@@ -11,8 +11,6 @@ import { ListQuizService } from './services/list.quiz.service';
 import { ReorderQuestionQuizService } from './services/reorder-question.quiz.service';
 import { ValidateSpaceQuizService } from './services/validate-space.quiz.service';
 
-import { CreateQuestionRunService } from '../quiz_result/services/create-question-run.service';
-
 export const createQuizServiceProvider = {
   provide: TYPES.services.ICreateQuizService,
   useClass: CreateQuizService,
@@ -66,11 +64,6 @@ export const deleteQuestionQuizServiceProvider = {
 export const reorderQuestionQuizServiceProvider = {
   provide: TYPES.services.IReorderQuestionQuizService,
   useClass: ReorderQuestionQuizService
-}
-
-export const createQuestionRunServiceProvider = {
-  provide: TYPES.services.ICreateQuestionRunService,
-  useClass: CreateQuestionRunService,
 }
 
 export const createQuestionQuizServiceProvider = {

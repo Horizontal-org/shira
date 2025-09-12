@@ -1,5 +1,5 @@
-import { IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
-import { Answer } from '../../quiz/domain/question_runs.entity';
+import { IsDateString, IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
+import { Answer } from '../../quiz_result/domain/question_runs.entity';
 
 export class CreateQuestionRunDto {
   @IsNumber()
@@ -8,6 +8,6 @@ export class CreateQuestionRunDto {
   @IsEnum(Answer)
   answer: Answer;
 
-  @IsNotEmpty()
-  answerTime: Date;
+  @IsDateString()
+  answeredAt: string;
 }
