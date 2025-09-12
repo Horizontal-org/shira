@@ -16,13 +16,13 @@ export class GetResultQuizController {
     private getValidateSpaceQuizService: IValidateSpaceQuizService
   ) { }
 
-  @Get('/:id/results')
+  @Get('/:quizId/results')
   @Roles(Role.SpaceAdmin)
   async getResultById(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('quizId', ParseIntPipe) quizId: number,
     @SpaceId() spaceId: number
   ) {
-    await this.getValidateSpaceQuizService.execute(spaceId, id);
-    return this.getResultQuizService.execute(id, spaceId);
+    await this.getValidateSpaceQuizService.execute(spaceId, quizId);
+    return this.getResultQuizService.execute(quizId, spaceId);
   }
 }
