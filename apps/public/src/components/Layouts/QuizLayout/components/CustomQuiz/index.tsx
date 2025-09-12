@@ -14,14 +14,17 @@ interface Props {
   images: Array<{ imageId: number; url: string }>
 }
 
-export const CustomQuiz: FunctionComponent<Props> = ({ questions, images }) => {
-  const { changeScene, setCorrectQuestions } = useStore(
-    (state) => ({
+export const CustomQuiz: FunctionComponent<Props> = ({
+  questions,
+  images
+}) => {
+  const {
+    changeScene,
+    setCorrectQuestions
+  } = useStore((state) => ({
       changeScene: state.changeScene,
       setCorrectQuestions: state.setCorrectQuestions,
-    }),
-    shallow
-  )
+    }), shallow)
 
   const [started, handleStarted] = useState(false)
   const [questionIndex, handleQuestionIndex] = useState(0)
@@ -79,5 +82,3 @@ export const CustomQuiz: FunctionComponent<Props> = ({ questions, images }) => {
     </SceneWrapper>
   )
 }
-
-export default CustomQuiz

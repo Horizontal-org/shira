@@ -36,11 +36,12 @@ export const Question: FunctionComponent<Props> = ({
   onAnswer,
 }) => {
   const { width } = useGetWidth()
-  const [answer, setAnswer] = useState<string | null>(null)
+  const [answer, handleAnswer] = useState<string | null>(null)
   const [explanationNumber, setExplanationNumber] = useState<number>(0)
-  const [explanationsOrder, setExplanationsOrder] = useState<number[]>([])
-  const [showExplanations, setShowExplanations] = useState(false)
-  const [isExpanded, setIsExpanded] = useState(false)
+  const [explanationsOrder, handleExplanationsOrder] = useState<number[]>([])
+
+  const [showExplanations, handleShowExplanations] = useState<boolean>(false)
+  const [isExpanded, handleIsExpanded] = useState(false)
 
   const { persistedEmail, persistedName } = useStore((state) => ({
     persistedName: state.setup.name,
@@ -51,24 +52,35 @@ export const Question: FunctionComponent<Props> = ({
     const order = parseExplanations(question.explanations)
       .sort((a, b) => parseInt(a.position) - parseInt(b.position))
       .map((e) => parseInt(e.index))
-    setExplanationsOrder(order)
 
-    const anchors = document.querySelectorAll('a')
-    anchors.forEach((el) => {
-      el.addEventListener('click', (ev) => ev.preventDefault())
-      el.addEventListener('contextmenu', (ev) => ev.preventDefault())
+    handleExplanationsOrder(order)
+
+    const anchorElements = Array.from(document.querySelectorAll('a'))
+    anchorElements.forEach((element) => {
+      element.addEventListener('click', (event) => {
+        event.preventDefault()
+      })
+
+      element.addEventListener('contextmenu', (event) => {
+        event.preventDefault()
+      })
     })
-  }, [question.explanations])
+  }, [])
 
   useEffect(() => {
     const realAnswer = question.isPhising ? 'phishing' : 'legitimate'
-    if (answer === realAnswer) setCorrectQuestions()
+    if (answer === realAnswer) {
+      setCorrectQuestions()
+    }
   }, [answer, question.isPhising, setCorrectQuestions])
 
-  const select = useCallback(
+  const parseExplanations = (explanation: Explanation[]): Explanation[] =>
+    explanation.filter(expl => document.querySelector(`[data-explanation="${expl.index}"]`))
+
+    const select = useCallback(
     (uiAnswer: string) => {
-      setIsExpanded(false)
-      setAnswer(uiAnswer)
+      handleIsExpanded(false)
+      handleAnswer(uiAnswer)
       const mapped = toRunAnswer(uiAnswer)
       console.log('[Question] select', { qId: question.id, uiAnswer, mapped })
       onAnswer?.(mapped)
@@ -76,16 +88,11 @@ export const Question: FunctionComponent<Props> = ({
     [onAnswer, question.id]
   )
 
-  const parseExplanations = (explanation: Explanation[]): Explanation[] =>
-    explanation.filter((expl) => document.querySelector(`[data-explanation="${expl.index}"]`))
-
   return (
     <SceneWithFooter>
       <AppLayout
         app={question.app}
-        content={question.content
-          .replace('{{name}}', persistedName)
-          .replace('{{email}}', persistedEmail)}
+        content={question.content.replace('{{name}}', persistedName).replace('{{email}}', persistedEmail)}
         explanations={parseExplanations(question.explanations)}
         explanationNumber={explanationsOrder[explanationNumber]}
         answer={answer}
@@ -95,37 +102,31 @@ export const Question: FunctionComponent<Props> = ({
 
       <QuizFooter
         title={`${questionIndex + 1}/${questionCount}`}
-        hideCloseButton={
-          width <= 1024 &&
-          parseExplanations(question.explanations).length > 0 &&
-          !!answer &&
-          !showExplanations
-        }
-        hasAnswer={!!answer}
+        hideCloseButton={(width <= 1024 && parseExplanations(question.explanations).length > 0 && !!(answer) && !showExplanations)}
+        hasAnswer={!!(answer)}
         showExplanations={showExplanations}
         isExpanded={isExpanded}
-        handleIsExpanded={setIsExpanded}
-        action={
-          answer ? (
-            <AnswerFeedback
-              showExplanations={showExplanations}
-              handleShowExplanations={setShowExplanations}
-              explanationNumber={explanationNumber}
-              explanationsLength={parseExplanations(question.explanations).length}
-              setExplanationNumber={(n) => setExplanationNumber(n)}
-              onNext={onNext}
-              userAnswer={answer}
-              onAnswer={(a) => select(a)}
-              realAnswer={question.isPhising ? 'phishing' : 'legitimate'}
-            />
-          ) : (
-            <AnswerOptions
-              goBack={goBack}
-              onAnswer={(a) => select(a)}
-              isExpanded={isExpanded}
-              handleIsExpanded={setIsExpanded}
-            />
-          )
+        handleIsExpanded={handleIsExpanded}
+        action={answer ? (
+          <AnswerFeedback
+            showExplanations={showExplanations}
+            handleShowExplanations={handleShowExplanations}
+            explanationNumber={explanationNumber}
+            explanationsLength={parseExplanations(question.explanations).length}
+            setExplanationNumber={(n) => setExplanationNumber(n)}
+            onNext={onNext}
+            userAnswer={answer}
+            onAnswer={(a) => handleAnswer(a)}
+            realAnswer={question.isPhising ? 'phishing' : 'legitimate'}
+          />
+        ) : (
+          <AnswerOptions
+            goBack={goBack}
+            onAnswer={select}
+            isExpanded={isExpanded}
+            handleIsExpanded={handleIsExpanded}
+          />
+        )
         }
       />
     </SceneWithFooter>
