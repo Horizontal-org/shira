@@ -38,7 +38,7 @@ export const Question: FunctionComponent<Props> = ({
   const { width } = useGetWidth()
   const [answer, handleAnswer] = useState<string | null>(null)
   const [explanationNumber, setExplanationNumber] = useState<number>(0)
-  const [explanationsOrder, handleExplanationsOrder] = useState<number[]>([])
+  const [explanationsOrder, handleExplanationsOrder] = useState<Array<number>>([])
 
   const [showExplanations, handleShowExplanations] = useState<boolean>(false)
   const [isExpanded, handleIsExpanded] = useState(false)
@@ -67,7 +67,7 @@ export const Question: FunctionComponent<Props> = ({
         event.preventDefault()
       })
     })
-  }, [])
+  }, [answer])
 
   useEffect(() => {
     const realAnswer = question.isPhising ? 'phishing' : 'legitimate'
