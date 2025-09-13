@@ -57,7 +57,7 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
       const response = await axios.get(`${process.env.REACT_APP_API_URL}/passphrase/${passphraseCode}/check-expired`)
 
       if (response.data.expired) {
-        navigate('/invitation-expired')
+        navigate('/invitation-used')
         return
       }
 

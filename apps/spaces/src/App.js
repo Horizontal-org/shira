@@ -64,7 +64,7 @@ function App() {
             <Routes>
               <Route path='/login' element={<LoginLayout />} />
               <Route path='/create-space/:passphraseCode' element={<CreateSpaceLayout />} />
-              <Route path='/invitation-expired' element={<InvitationExpiredLayout />} />
+              <Route path='/invitation-used' element={<InvitationExpiredLayout />} />
               { user && (
                 <>
                   {/* LEGACY */}
