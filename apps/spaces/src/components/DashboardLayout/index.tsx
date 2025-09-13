@@ -116,18 +116,25 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     if (!selectedQuizForDuplicate) return;
 
     setIsDuplicating(true);
-    
+
     try {
-      const result = await duplicateQuiz(selectedQuizForDuplicate.id, title);
+      // Start both the API call and minimum 1-second delay
+      const [result] = await Promise.all([
+        duplicateQuiz(selectedQuizForDuplicate.id, title),
+        new Promise(resolve => setTimeout(resolve, 1000))
+      ]);
+
       toast.success(`"${title}" created successfully`, { duration: 3000 });
-      
+
       // Refresh the quizzes list to show the new duplicated quiz
       fetchQuizzes();
-      
+
       // Close modal and reset state
       setIsDuplicateModalOpen(false);
       setSelectedQuizForDuplicate(null);
     } catch (error) {
+      // Even on error, ensure minimum 1-second delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
       toast.error('Failed to duplicate quiz', { duration: 3000 });
       console.error('Duplicate quiz error:', error);
     } finally {
