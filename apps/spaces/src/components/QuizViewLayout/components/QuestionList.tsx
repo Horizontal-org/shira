@@ -138,7 +138,7 @@ export const  QuestionsList: FunctionComponent<QuestionsListProps> = ({
                           onClick={() => handleDuplicateQuestion(qq.question.id, qq.question.name)}
                           disabled={isBeingDuplicated}
                         >
-                          <CopyIcon />
+                          <CopyIcon color="#849D29" />
                         </ActionButton>
                         <ActionButton onClick={() => handleQuestionForDelete(qq.question)}>
                           <TrashIcon />

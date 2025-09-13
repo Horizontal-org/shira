@@ -2,10 +2,12 @@ import { FunctionComponent, useEffect, useRef, useState, useLayoutEffect } from 
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { styled } from 'styled-components';
 import { createPortal } from 'react-dom';
+import { CopyIcon } from '../Icons/CopyIcon';
 
 export interface FloatingMenuProps {
   isOpen: boolean;
   onEdit?: React.MouseEventHandler<HTMLButtonElement> | undefined;
+  onDuplicate?: React.MouseEventHandler<HTMLButtonElement> | undefined;
   onDelete: React.MouseEventHandler<HTMLButtonElement> | undefined;
   onClose: () => void;
   anchorEl: HTMLButtonElement | null;
@@ -14,6 +16,7 @@ export interface FloatingMenuProps {
 export const FloatingMenu: FunctionComponent<FloatingMenuProps> = ({
   isOpen,
   onEdit,
+  onDuplicate,
   onDelete,
   onClose,
   anchorEl
@@ -99,6 +102,12 @@ export const FloatingMenu: FunctionComponent<FloatingMenuProps> = ({
           <MenuButton onClick={onEdit}>
             <FiEdit2 size={16} />
             Edit
+          </MenuButton>
+        )}
+        {onDuplicate && (
+          <MenuButton onClick={onDuplicate}>
+            <CopyIcon color="#5F6368" />
+            Duplicate
           </MenuButton>
         )}
         <MenuButton onClick={onDelete}>

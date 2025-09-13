@@ -78,3 +78,15 @@ export const duplicateQuestion = async(quizId: number, questionId: number) => {
     throw new Error('Failed to duplicate question')
   }
 }
+
+export const duplicateQuiz = async(quizId: number, title: string) => {
+  try {
+    const res = await axios.post(`${process.env.REACT_APP_API_URL}/quiz/${quizId}/duplicate`, {
+      title: title
+    })
+    return res.data
+  } catch (err) {
+    console.log("🚀 ~ duplicateQuiz ~ err:", err)    
+    throw new Error('Failed to duplicate quiz')
+  }
+}

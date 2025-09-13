@@ -21,6 +21,7 @@ import { EditQuestionQuizController } from './controller/edit-question.quiz.cont
 import { DeleteQuestionQuizController } from './controller/delete-question.quiz.controller';
 import { ReorderQuestionQuizController } from './controller/reorder-question.quiz.controller';
 import { DuplicateQuestionQuizController } from './controller/duplicate-question.quiz.controller';
+import { DuplicateQuizController } from './controller/duplicate-quiz.controller';
 import { QuestionImage } from '../question_image/domain';
 import { QuestionImageModule } from '../question_image/question_image.module';
 
@@ -51,6 +52,7 @@ import { QuestionImageModule } from '../question_image/question_image.module';
     EditQuestionQuizController,
     DeleteQuestionQuizController,
     DuplicateQuestionQuizController,
+    DuplicateQuizController,
     EditQuizController,
   ],
   providers: [
