@@ -7,6 +7,7 @@ import {
 import { HomeLayout } from './components/HomeLayout';
 import { LoginLayout } from './components/LoginLayout';
 import { CreateSpaceLayout } from './components/CreateSpaceLayout';
+import { InvitationExpiredLayout } from './components/InvitationExpiredLayout';
 import { DashboardLayout } from './components/DashboardLayout';
 import { shallow } from 'zustand/shallow';
 import { useStore } from './store';
@@ -60,9 +61,10 @@ function App() {
       <>
         <Wrapper hideOverflow={showTranslationsScene || false}>
           <BrowserRouter>
-            <Routes>          
+            <Routes>
               <Route path='/login' element={<LoginLayout />} />
               <Route path='/create-space/:passphraseCode' element={<CreateSpaceLayout />} />
+              <Route path='/invitation-expired' element={<InvitationExpiredLayout />} />
               { user && (
                 <>
                   {/* LEGACY */}

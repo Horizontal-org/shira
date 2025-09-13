@@ -29,6 +29,7 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [checkingPassphrase, setCheckingPassphrase] = useState(true);
 
   const navigate = useNavigate();
 
@@ -43,7 +44,30 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
   useEffect(() => {
     // clean just in case session exists
     logout()
+    checkPassphraseExpiry()
   }, [])
+
+  const checkPassphraseExpiry = async () => {
+    if (!passphraseCode) {
+      setCheckingPassphrase(false)
+      return
+    }
+
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/passphrase/${passphraseCode}/check-expired`)
+
+      if (response.data.expired) {
+        navigate('/invitation-expired')
+        return
+      }
+
+      setCheckingPassphrase(false)
+    } catch (error) {
+      console.error('Error checking passphrase:', error)
+      // If there's an error checking, show the form anyway (graceful degradation)
+      setCheckingPassphrase(false)
+    }
+  }
 
   const description = (
     <>
@@ -102,6 +126,22 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
       }
     }
   };
+
+  if (checkingPassphrase) {
+    return (
+      <Container>
+        <Navbar
+          translatedTexts={{home: "", about: "", menu: "", logIn: "Log in", createSpace: "Create Space"}}
+          onNavigate={navigate}
+        />
+        <ContentWrapper>
+          <Content>
+            <div>Checking invitation...</div>
+          </Content>
+        </ContentWrapper>
+      </Container>
+    )
+  }
 
   return (
     <Container>
