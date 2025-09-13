@@ -10,12 +10,8 @@ import { QuestionTranslation } from 'src/modules/translation/domain/questionTran
 import { ExplanationTranslation } from 'src/modules/translation/domain/explanationTranslation.entity';
 import { Language } from 'src/modules/languages/domain';
 import { App } from 'src/modules/app/domain';
-import { QuestionSanitizer } from 'src/utils/question-sanitizer.util';
 import { QuestionImage } from 'src/modules/question_image/domain/question_images.entity';
 
-import { TYPES as TYPES_QUESTION_IMAGE } from '../../question_image/interfaces'
-import { ISyncQuestionImageService } from 'src/modules/question_image/interfaces/services/sync.question_image.service.interface';
-import * as cheerio from 'cheerio';
 
 @Injectable()
 export class DuplicateQuestionQuizService implements IDuplicateQuestionQuizService{
@@ -36,9 +32,7 @@ export class DuplicateQuestionQuizService implements IDuplicateQuestionQuizServi
     @InjectRepository(Language)
     private readonly languageRepo: Repository<Language>,
     @InjectRepository(QuestionImage)
-    private readonly questionImageRepo: Repository<QuestionImage>,
-    @Inject(TYPES_QUESTION_IMAGE.services.ISyncQuestionImageService)
-    private syncImagesService: ISyncQuestionImageService
+    private readonly questionImageRepo: Repository<QuestionImage>
   ) {}
 
   async execute (duplicateQuestionDto: DuplicateQuestionQuizDto) {
@@ -106,25 +100,15 @@ export class DuplicateQuestionQuizService implements IDuplicateQuestionQuizServi
       }
     }
 
-    const imageIds = this.getImageIds(originalQuestion.questionTranslations[0]?.content || '');
-    if (imageIds.length > 0) {
-      const newImageIds = [];
-      for (const originalImage of originalQuestion.images) {
-        const newImage = new QuestionImage();
-        newImage.name = originalImage.name;
-        newImage.relativePath = originalImage.relativePath;
-        newImage.question = savedQuestion;
-        newImage.quizId = duplicateQuestionDto.quizId;
-        
-        const savedImage = await this.questionImageRepo.save(newImage);
-        newImageIds.push(savedImage.id);
-      }
-
-      await this.syncImagesService.execute({
-        imageIds: newImageIds,
-        questionId: savedQuestion.id,
-        quizId: duplicateQuestionDto.quizId
-      });
+    // Duplicate question images (create new copies) - similar to quiz duplication
+    for (const originalImage of originalQuestion.images) {
+      const newImage = new QuestionImage();
+      newImage.name = originalImage.name;
+      newImage.relativePath = originalImage.relativePath;
+      newImage.question = savedQuestion;
+      newImage.quizId = duplicateQuestionDto.quizId;
+      
+      await this.questionImageRepo.save(newImage);
     }
 
     const position = await this.quizQuestionRepo
@@ -138,18 +122,4 @@ export class DuplicateQuestionQuizService implements IDuplicateQuestionQuizServi
     await this.quizQuestionRepo.save(quizQuestion);
   }
 
-  private getImageIds = (content: string) => {
-    const sanitizedContent = QuestionSanitizer.sanitizeQuestionContent(content);
-    const $ = cheerio.load(sanitizedContent);  
-    const data = $.extract({
-      imageIds: [
-        {
-          selector: 'img',
-          value: 'data-image-id',
-        }
-      ],
-    })
-
-    return data.imageIds
-  }
 }

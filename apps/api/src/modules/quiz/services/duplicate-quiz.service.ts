@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, DataSource } from 'typeorm';
+import { DataSource } from 'typeorm';
 import { Quiz } from '../domain/quiz.entity';
 import { QuizQuestion } from '../domain/quizzes_questions.entity';
 import { IDuplicateQuizService } from '../interfaces/services/duplicate-quiz.service.interface';
@@ -18,22 +17,6 @@ import * as crypto from 'crypto';
 export class DuplicateQuizService implements IDuplicateQuizService {
 
   constructor(
-    @InjectRepository(Quiz)
-    private readonly quizRepo: Repository<Quiz>,
-    @InjectRepository(QuizQuestion)
-    private readonly quizQuestionRepo: Repository<QuizQuestion>,
-    @InjectRepository(Question)
-    private readonly questionRepo: Repository<Question>,
-    @InjectRepository(Explanation)
-    private readonly explanationRepo: Repository<Explanation>,
-    @InjectRepository(QuestionTranslation)
-    private readonly questionTranslationRepo: Repository<QuestionTranslation>,
-    @InjectRepository(ExplanationTranslation)
-    private readonly explanationTranslationRepo: Repository<ExplanationTranslation>,
-    @InjectRepository(Language)
-    private readonly languageRepo: Repository<Language>,
-    @InjectRepository(QuestionImage)
-    private readonly questionImageRepo: Repository<QuestionImage>,
     @Inject(TYPES_QUESTION_IMAGE.services.ISyncQuestionImageService)
     private syncImagesService: ISyncQuestionImageService,
     private dataSource: DataSource
