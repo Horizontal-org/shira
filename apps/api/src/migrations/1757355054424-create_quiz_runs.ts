@@ -61,7 +61,7 @@ export class CreateQuizRunsTable1757355054424 implements MigrationInterface {
         await queryRunner.createIndex(
             'quiz_runs',
             new TableIndex({
-                name: 'idx_quiz_runs_quiz', // (quiz_id, started_at)
+                name: 'idx_quiz_runs_quiz',
                 columnNames: ['quiz_id', 'started_at'],
             }),
         );
@@ -69,7 +69,7 @@ export class CreateQuizRunsTable1757355054424 implements MigrationInterface {
         await queryRunner.createIndex(
             'quiz_runs',
             new TableIndex({
-                name: 'idx_quiz_runs_learner', // (learner_id, quiz_id, started_at)
+                name: 'idx_quiz_runs_learner',
                 columnNames: ['learner_id', 'quiz_id', 'started_at'],
             }),
         );
