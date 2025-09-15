@@ -18,7 +18,6 @@ const SS_KEY = "shira:quizRunBuffer";
 
 export const QuizRunProvider: React.FC<{ quizId: number | string; children: React.ReactNode }> = ({ quizId, children }) => {
 
-  // ---- state ----
   const [runId, setRunId] = useState<number | null>(null);
   const [answers, setAnswers] = useState<QuestionRunPayload[]>(() => {
     const cached = sessionStorage.getItem(SS_KEY);
@@ -27,19 +26,16 @@ export const QuizRunProvider: React.FC<{ quizId: number | string; children: Reac
   });
   const started = runId !== null;
 
-  // ---- keep sessionStorage in sync with answers ----
   useEffect(() => {
     sessionStorage.setItem(SS_KEY, JSON.stringify(answers));
   }, [answers]);
 
-  // ---- reset local state if quizId prop changes ----
   useEffect(() => {
     sessionStorage.removeItem(SS_KEY);
     setAnswers([]);
     setRunId(null);
   }, [quizId]);
 
-  // ---- record an answer ----
   const recordAnswer = useCallback((qId: number, ans: Answer) => {
     setAnswers(prev => {
       const next = [
@@ -51,7 +47,6 @@ export const QuizRunProvider: React.FC<{ quizId: number | string; children: Reac
     });
   }, []);
 
-  // ---- start a run (guarded by runId) ----
   const start = useCallback(
     async (quizIdIn: number | string, learnerId: string | null = null) => {
       if (runId != null) {
@@ -67,13 +62,11 @@ export const QuizRunProvider: React.FC<{ quizId: number | string; children: Reac
     [runId]
   );
 
-  // ---- keep a stable snapshot of answers for finish() ----
   const answersRef = useRef(answers);
   useEffect(() => {
     answersRef.current = answers;
   }, [answers]);
 
-  // ---- finish the run, persist answers, clear local state ----
   const finish = useCallback(async () => {
     if (runId == null) {
       return;
@@ -92,10 +85,9 @@ export const QuizRunProvider: React.FC<{ quizId: number | string; children: Reac
 
     sessionStorage.removeItem(SS_KEY);
     setAnswers([]);
-    setRunId(null); // allow a new run later
+    setRunId(null);
   }, [runId]);
 
-  // ---- memoized context value ----
   const value = useMemo(
     () => ({
       runId,
