@@ -40,7 +40,6 @@ export const useQuizRun = (quizId: number): UseQuizRunValue => {
     });
   }, []);
 
-  // Keep a ref in sync to avoid stale closures inside finish()
   const answersRef = useRef(answers);
   useEffect(() => {
     answersRef.current = answers;
