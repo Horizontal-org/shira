@@ -9,6 +9,9 @@ import { useQuizRun, Answer } from '../../../../../hooks/useQuizRun'
 
 type RunAnswer = 'is_phishing' | 'is_legitimate' | 'dont_know';
 
+const toRunAnswer = (a: string): RunAnswer =>
+  a === 'phishing' ? 'is_phishing' : a === 'legitimate' ? 'is_legitimate' : 'dont_know'
+
 interface Props {
   questions: QuestionType[];
   quizId: number;
@@ -42,13 +45,13 @@ export const CustomQuiz: FunctionComponent<Props> = ({
     }
   }, [started, hasRunId, start, quizId])
 
-  const handleAnswer = useCallback(
-    (answer: RunAnswer) => {
-      if (!currentQuestionId) return
-      recordAnswer(Number(currentQuestionId), answer as Answer)
-    },
-    [currentQuestionId, recordAnswer]
-  )
+  // const handleAnswer = useCallback(
+  //   (answer: RunAnswer) => {
+  //     if (!currentQuestionId) return
+  //     recordAnswer(Number(currentQuestionId), answer as Answer)
+  //   },
+  //   [currentQuestionId, recordAnswer]
+  // )
 
   return (
     <SceneWrapper>
@@ -60,9 +63,9 @@ export const CustomQuiz: FunctionComponent<Props> = ({
           questionIndex={questionIndex}
           questionCount={questions.length}
           changeScene={changeScene}
-          onAnswer={handleAnswer}
-          onNext={() => {
+          onNext={(stringAnswer) => {            
             if (questionIndex < questions.length - 1) {
+              recordAnswer(Number(currentQuestionId), toRunAnswer(stringAnswer))
               handleQuestionIndex((i) => i + 1)
               return
             }

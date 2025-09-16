@@ -49,7 +49,7 @@ export const useQuizRun = (quizId: number): UseQuizRunValue => {
       finishedAt: new Date().toISOString(),
       questionRuns: answers,
     };
-
+ 
     await finishQuizRun(runId, payload);
 
     setAnswers([]);
