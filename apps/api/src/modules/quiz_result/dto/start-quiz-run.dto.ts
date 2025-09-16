@@ -1,13 +1,13 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsDateString, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 
 export class StartQuizRunDto {
   @IsNotEmpty()
   quizId!: number | string;
 
   @IsOptional()
-  @IsString()
+  @IsNumber()
   learnerId?: number | null;
 
-  @IsString()
+  @IsDateString()
   startedAt!: string;
 }
