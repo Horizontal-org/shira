@@ -11,7 +11,7 @@ type RunAnswer = 'is_phishing' | 'is_legitimate' | 'dont_know';
 
 interface Props {
   questions: QuestionType[];
-  quizId: number | string;
+  quizId: number;
   images: Array<{ imageId: number; url: string }>;
 }
 

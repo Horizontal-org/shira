@@ -16,16 +16,16 @@ export type FinishPayload = {
 };
 
 export interface QuizRun {
-  id: number | string;
-  quizId: number | string;
-  learnerId?: string | null;
+  id: number;
+  quizId: number;
+  learnerId?: number | null;
   startedAt: string;
   finishedAt?: string | null;
 }
 
 export const startQuizRun = async (payload: {
-  quizId: number | string;
-  learnerId?: string | null;
+  quizId: number;
+  learnerId?: number | null;
   startedAt: string;
 }): Promise<QuizRun> => {
   const res = await axios.post<QuizRun>(`${API}/quiz-run`, payload);
