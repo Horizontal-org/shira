@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useMemo, useState, useRef } from "react";
+import { useEffect, useCallback, useMemo, useState } from "react";
 import { finishQuizRun, startQuizRun, Answer, QuestionRunPayload } from "../fetch/quiz_runs";
 
 type UseQuizRunValue = {
@@ -22,7 +22,9 @@ export const useQuizRun = (quizId: number): UseQuizRunValue => {
 
   const start = useCallback(
     async (quizId: number, learnerId: number | null = null) => {
-      if (runId != null) return;
+      if (runId != null) {
+        return;
+      }
       const payload = { quizId, learnerId, startedAt: new Date().toISOString() };
       const run = await startQuizRun(payload);
       setRunId(Number(run.id));
@@ -40,24 +42,19 @@ export const useQuizRun = (quizId: number): UseQuizRunValue => {
     });
   }, []);
 
-  const answersRef = useRef(answers);
-  useEffect(() => {
-    answersRef.current = answers;
-  }, [answers]);
-
-  const finish = useCallback(async () => {
+  const finish = async () => {
     if (runId == null) return;
 
     const payload = {
       finishedAt: new Date().toISOString(),
-      questionRuns: answersRef.current,
+      questionRuns: answers,
     };
 
     await finishQuizRun(runId, payload);
 
     setAnswers([]);
     setRunId(null);
-  }, [runId]);
+  };
 
   return useMemo(
     () => ({ runId, started, recordAnswer, start, finish, answers }),
