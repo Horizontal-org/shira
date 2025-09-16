@@ -40,7 +40,7 @@ export const QuizLayout: FunctionComponent<Props> = () => {
     shallow
   )
 
-  const { finish, recordAnswer, start, started: hasRunId } = useQuizRun(quiz?.id ?? 0);
+  const { finish, recordAnswer, start, started } = useQuizRun();
 
   const getQuiz = async (hash) => {
     try {
@@ -124,15 +124,18 @@ export const QuizLayout: FunctionComponent<Props> = () => {
             quizId={quiz.id}
             questions={quiz.quizQuestions.map((q) => q.question)}
             images={quiz.images}
-            hasRunId={hasRunId}
-            startRun={start}
+            startRun={() => {
+              start(quiz.id)
+            }}
             recordAnswer={(qId, ans) => recordAnswer(qId, ans as Answer)}
+            runStarted={started}
           />
         )}
 
         { scene === 'completed' && (
           <CustomQuizCompletedScene
             quizNumber={quiz.quizQuestions.length}
+            finish={finish}
           />
         )}
       </>

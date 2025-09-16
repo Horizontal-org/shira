@@ -1,10 +1,11 @@
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { QuizInstructions } from './QuizInstructions'
 import { useStore } from '../../../../../store'
 import { shallow } from 'zustand/shallow'
 import { SceneWrapper } from '../../../../UI/SceneWrapper'
 import { Question } from '../../../../UI/Question'
 import { Question as QuestionType } from '../../../../../domain/question'
+import { Answer } from '../../../../../fetch/quiz_runs'
 
 type RunAnswer = 'is_phishing' | 'is_legitimate' | 'dont_know';
 
@@ -12,18 +13,19 @@ interface Props {
   questions: QuestionType[];
   quizId: number;
   images: Array<{ imageId: number; url: string }>;
-  hasRunId: boolean;
-  startRun: (quizId: number, learnerId?: number | null) => Promise<void>;
+  startRun: () => void;
   recordAnswer: (questionId: number, answer: RunAnswer) => void;
+  runStarted: boolean;
 }
 
 export const CustomQuiz: FunctionComponent<Props> = ({
   questions,
-  quizId,
   images,
-  hasRunId,
   startRun,
+  runStarted,
+  recordAnswer
 }) => {
+
   const {
     changeScene,
     setCorrectQuestions
@@ -35,11 +37,21 @@ export const CustomQuiz: FunctionComponent<Props> = ({
   const [started, handleStarted] = useState(false)
   const [questionIndex, handleQuestionIndex] = useState(0)
 
-  useEffect(() => {
-    if (started && !hasRunId) {
-      startRun(quizId, null)
-    }
-  }, [started, hasRunId, startRun, quizId])
+  const q = questions.length > 0 ? questions[questionIndex] : null
+  const currentQuestionId = q?.id ?? null
+
+  // const handleAnswer = useCallback(
+  //   (answer: RunAnswer) => {
+  //     if (!runStarted) return
+  //     recordAnswer(Number(currentQuestionId), answer as Answer)
+  //   },
+  //   [currentQuestionId, recordAnswer]
+  // )
+
+  const handleAnswer =  (answer: RunAnswer) => {
+    if (!runStarted) return
+    recordAnswer(Number(currentQuestionId), answer as Answer)
+  }
 
   return (
     <SceneWrapper>
@@ -51,6 +63,7 @@ export const CustomQuiz: FunctionComponent<Props> = ({
           questionIndex={questionIndex}
           questionCount={questions.length}
           changeScene={changeScene}
+          onAnswer={handleAnswer}
           onNext={() => {
             if (questionIndex < questions.length - 1) {
               handleQuestionIndex((i) => i + 1)
@@ -71,6 +84,9 @@ export const CustomQuiz: FunctionComponent<Props> = ({
         <QuizInstructions
           count={questions ? questions.length : 0}
           onNext={() => {
+            if (!runStarted) {
+              startRun()
+            }
             handleStarted(true)
           }}
         />

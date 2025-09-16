@@ -7,30 +7,28 @@ type UseQuizRunValue = {
   recordAnswer: (questionId: number, answer: Answer) => void;
   start: (quizId: number, learnerId?: number | null) => Promise<void>;
   finish: () => Promise<void>;
-  answers: QuestionRunPayload[];
+  // answers: QuestionRunPayload[];
 };
 
-export const useQuizRun = (quizId: number): UseQuizRunValue => {
+export const useQuizRun = (): UseQuizRunValue => {
+
   const [runId, setRunId] = useState<number | null>(null);
   const [answers, setAnswers] = useState<QuestionRunPayload[]>([]);
   const started = runId !== null;
 
-  useEffect(() => {
-    setAnswers([]);
-    setRunId(null);
-  }, [quizId]);
+  console.log("🚀 ~ useQuizRun ~ answers:", answers)
+  console.log("🚀 ~ useQuizRun ~ runId:", runId)
+  console.log("🚀 ~ useQuizRun ~ started:", started) 
 
-  const start = useCallback(
-    async (quizId: number, learnerId: number | null = null) => {
-      if (runId != null) return;
-      const payload = { quizId, learnerId, startedAt: new Date().toISOString() };
-      const run = await startQuizRun(payload);
-      setRunId(Number(run.id));
-    },
-    [runId]
-  );
+  
+  const start = async (quizId: number, learnerId: number | null = null) => {
+    if (runId != null) return;
+    const payload = { quizId, learnerId, startedAt: new Date().toISOString() };
+    const run = await startQuizRun(payload);
+    setRunId(Number(run.id));
+  }
 
-  const recordAnswer = useCallback((qId: number, ans: Answer) => {
+  const recordAnswer = (qId: number, ans: Answer) => {
     setAnswers(prev => {
       const next = [
         ...prev.filter(a => a.questionId !== qId),
@@ -38,7 +36,7 @@ export const useQuizRun = (quizId: number): UseQuizRunValue => {
       ];
       return next;
     });
-  }, []);
+  }
 
   const finish = async () => {
     if (runId == null) return;
@@ -54,10 +52,14 @@ export const useQuizRun = (quizId: number): UseQuizRunValue => {
     setRunId(null);
   };
 
-  return useMemo(
-    () => ({ runId, started, recordAnswer, start, finish, answers }),
-    [runId, started, recordAnswer, start, finish, answers]
-  );
+  return {
+    start,
+    recordAnswer,
+    finish,
+    runId,
+    started
+  }
+
 };
 
 export type { Answer, QuestionRunPayload };
