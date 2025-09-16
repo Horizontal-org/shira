@@ -16,35 +16,8 @@ import { useTranslation } from "react-i18next"
 import { FiChevronRight } from "react-icons/fi"
 import { LanguageSelect } from "../../UI/Select"
 import { LANG_OPTIONS } from "./constants"
-import { QuizRunProvider, useQuizRun } from "../../../context/QuizRunContext"
-import { Question } from "../../../domain/question"
-
-interface Quiz {
-  id: number | string
-  title: string
-  images?: unknown
-  quizQuestions: Array<{ question: Question }>;
-}
 
 interface Props { }
-
-const RunOrchestrator: FunctionComponent<{ scene: string; quizId: number | string }> = ({ scene, quizId }) => {
-  const { start, finish } = useQuizRun()
-
-  useEffect(() => {
-    if (scene === "custom-quiz") {
-      start(quizId).catch(console.error)
-    }
-  }, [scene, quizId, start])
-
-  useEffect(() => {
-    if (scene === "completed") {
-      finish().catch(console.error)
-    }
-  }, [scene, finish])
-
-  return null
-}
 
 export const QuizLayout: FunctionComponent<Props> = () => {
   const { t, i18n } = useTranslation()
@@ -93,9 +66,6 @@ export const QuizLayout: FunctionComponent<Props> = () => {
   }
 
   return (
-    <QuizRunProvider quizId={quiz.id}>
-      <RunOrchestrator scene={scene} quizId={quiz.id} />
-
       <>
         { scene === 'welcome' && (
           <SceneWrapper bg='white'>
@@ -152,6 +122,7 @@ export const QuizLayout: FunctionComponent<Props> = () => {
 
         { scene === 'custom-quiz' && (
           <CustomQuiz
+            quizId={quiz.id}
             questions={quiz.quizQuestions.map((q) => q.question)}
             images={quiz.images}
           />
@@ -163,7 +134,6 @@ export const QuizLayout: FunctionComponent<Props> = () => {
           />
         )}
       </>
-    </QuizRunProvider>
   )
 }
 

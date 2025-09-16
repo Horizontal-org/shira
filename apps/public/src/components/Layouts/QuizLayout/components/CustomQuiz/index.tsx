@@ -1,21 +1,23 @@
-import { FunctionComponent, useCallback, useState } from 'react'
+import { FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { QuizInstructions } from './QuizInstructions'
 import { useStore } from '../../../../../store'
 import { shallow } from 'zustand/shallow'
 import { SceneWrapper } from '../../../../UI/SceneWrapper'
 import { Question } from '../../../../UI/Question'
 import { Question as QuestionType } from '../../../../../domain/question'
-import { useQuizRun } from '../../../../../context/QuizRunContext'
+import { useQuizRun, Answer } from '../../../../../hooks/useQuizRun'
 
-type RunAnswer = 'is_phishing' | 'is_legitimate' | 'dont_know'
+type RunAnswer = 'is_phishing' | 'is_legitimate' | 'dont_know';
 
 interface Props {
-  questions: QuestionType[]
-  images: Array<{ imageId: number; url: string }>
+  questions: QuestionType[];
+  quizId: number | string;
+  images: Array<{ imageId: number; url: string }>;
 }
 
-export const CustomQuiz:FunctionComponent<Props> = ({
+export const CustomQuiz: FunctionComponent<Props> = ({
   questions,
+  quizId,
   images
 }) => {
   const {
@@ -29,17 +31,21 @@ export const CustomQuiz:FunctionComponent<Props> = ({
   const [started, handleStarted] = useState(false)
   const [questionIndex, handleQuestionIndex] = useState(0)
 
-  // buffer answers locally (sessionStorage) via QuizRunContext
-  const { recordAnswer } = useQuizRun()
+  const { started: hasRunId, start, recordAnswer, finish } = useQuizRun(quizId);
 
   const q = questions.length > 0 ? questions[questionIndex] : null
   const currentQuestionId = q?.id ?? null
 
+  useEffect(() => {
+    if (started && !hasRunId) {
+      start(quizId, null)
+    }
+  }, [started, hasRunId, start, quizId])
+
   const handleAnswer = useCallback(
-    (ans: RunAnswer) => {
+    (answer: RunAnswer) => {
       if (!currentQuestionId) return
-      console.log('[UI] onAnswer', { questionId: currentQuestionId, ans })
-      recordAnswer(Number(currentQuestionId), ans)
+      recordAnswer(Number(currentQuestionId), answer as Answer)
     },
     [currentQuestionId, recordAnswer]
   )
@@ -56,11 +62,12 @@ export const CustomQuiz:FunctionComponent<Props> = ({
           changeScene={changeScene}
           onAnswer={handleAnswer}
           onNext={() => {
-            if (questionIndex < (questions.length - 1)) {
-              handleQuestionIndex(questionIndex + 1)
-            } else {
-              changeScene('completed')
+            if (questionIndex < questions.length - 1) {
+              handleQuestionIndex((i) => i + 1)
+              return
             }
+            finish()
+            changeScene("completed")
           }}
           goBack={() => {
             if (questionIndex > 0) {
@@ -69,7 +76,7 @@ export const CustomQuiz:FunctionComponent<Props> = ({
               changeScene('quiz-setup-name')
             }
           }}
-          setCorrectQuestions={() => setCorrectQuestions(questions[questionIndex])}
+          setCorrectQuestions={() => { setCorrectQuestions(questions[questionIndex]) }}
         />
       ) : (
         <QuizInstructions
