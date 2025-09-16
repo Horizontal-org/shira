@@ -45,13 +45,13 @@ export const CustomQuiz: FunctionComponent<Props> = ({
     }
   }, [started, hasRunId, start, quizId])
 
-  // const handleAnswer = useCallback(
-  //   (answer: RunAnswer) => {
-  //     if (!currentQuestionId) return
-  //     recordAnswer(Number(currentQuestionId), answer as Answer)
-  //   },
-  //   [currentQuestionId, recordAnswer]
-  // )
+   const handleAnswer = useCallback(
+     (answer: RunAnswer) => {
+       if (!currentQuestionId) return
+       recordAnswer(Number(currentQuestionId), answer as Answer)
+     },
+     [currentQuestionId, recordAnswer]
+   )
 
   return (
     <SceneWrapper>
@@ -63,9 +63,9 @@ export const CustomQuiz: FunctionComponent<Props> = ({
           questionIndex={questionIndex}
           questionCount={questions.length}
           changeScene={changeScene}
-          onNext={(stringAnswer) => {            
+          onAnswer={handleAnswer}
+          onNext={() => {            
             if (questionIndex < questions.length - 1) {
-              recordAnswer(Number(currentQuestionId), toRunAnswer(stringAnswer))
               handleQuestionIndex((i) => i + 1)
               return
             }

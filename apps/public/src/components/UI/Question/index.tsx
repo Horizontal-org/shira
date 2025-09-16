@@ -9,6 +9,10 @@ import { Explanation } from '../../../domain/explanation';
 import useGetWidth from '../../../hooks/useGetWidth';
 import { useStore } from '../../../store';
 
+export type RunAnswer = 'is_phishing' | 'is_legitimate' | 'dont_know'
+const toRunAnswer = (a: string): RunAnswer =>
+  a === 'phishing' ? 'is_phishing' : a === 'legitimate' ? 'is_legitimate' : 'dont_know'
+
 type Props = {
   question: QuestionType
   questionCount: number
@@ -18,7 +22,7 @@ type Props = {
   goBack: () => void
   changeScene?: (scene: string) => void
   setCorrectQuestions: () => void
-  // onAnswer?: (ans: RunAnswer) => void
+  onAnswer?: (ans: RunAnswer) => void
 }
 
 export const Question: FunctionComponent<Props> = ({
@@ -29,7 +33,7 @@ export const Question: FunctionComponent<Props> = ({
   goBack,
   onNext,
   setCorrectQuestions,
-  // onAnswer,
+  onAnswer,
 }) => {
   const { width } = useGetWidth()
   const [answer, handleAnswer] = useState<string | null>(null)
@@ -75,15 +79,15 @@ export const Question: FunctionComponent<Props> = ({
   const parseExplanations = (explanation: Explanation[]): Explanation[] =>
     explanation.filter(expl => document.querySelector(`[data-explanation="${expl.index}"]`))
 
-  // const select = useCallback(
-  //   (uiAnswer: string) => {
-  //     handleIsExpanded(false)
-  //     handleAnswer(uiAnswer)
-  //     const mapped = toRunAnswer(uiAnswer)
-  //     console.log('[Question] select', { qId: question.id, uiAnswer, mapped })
-  //     onAnswer?.(mapped)
-  //   }, [onAnswer, question.id]
-  // )
+  const select = useCallback(
+    (uiAnswer: string) => {
+      handleIsExpanded(false)
+      handleAnswer(uiAnswer)
+      const mapped = toRunAnswer(uiAnswer)
+      console.log('[Question] select', { qId: question.id, uiAnswer, mapped })
+      onAnswer?.(mapped)
+    }, [onAnswer, question.id]
+  )
 
   return (
     <SceneWithFooter>
@@ -111,7 +115,7 @@ export const Question: FunctionComponent<Props> = ({
             explanationNumber={explanationNumber}
             explanationsLength={parseExplanations(question.explanations).length}
             setExplanationNumber={(n) => { setExplanationNumber(n) }}
-            onNext={() => {              
+            onNext={() => {
               onNext(answer)
             }}
             userAnswer={answer}
@@ -119,14 +123,11 @@ export const Question: FunctionComponent<Props> = ({
             realAnswer={question.isPhising ? 'phishing' : 'legitimate'}
           />
         ) : <AnswerOptions
-              goBack={goBack}
-              onAnswer={(uiAnswer) => { 
-                handleIsExpanded(false)
-                handleAnswer(uiAnswer)
-              }}
-              isExpanded={isExpanded}
-              handleIsExpanded={handleIsExpanded}
-          />
+          goBack={goBack}
+          onAnswer={select}
+          isExpanded={isExpanded}
+          handleIsExpanded={handleIsExpanded}
+        />
         }
       />
     </SceneWithFooter>
