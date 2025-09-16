@@ -76,7 +76,7 @@ export const CustomQuiz: FunctionComponent<Props> = ({
               changeScene('quiz-setup-name')
             }
           }}
-          setCorrectQuestions={() => { setCorrectQuestions(questions[questionIndex]) }}
+          setCorrectQuestions={() => {setCorrectQuestions(questions[questionIndex])}}
         />
       ) : (
         <QuizInstructions
