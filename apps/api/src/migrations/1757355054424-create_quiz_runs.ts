@@ -20,8 +20,7 @@ export class CreateQuizRunsTable1757355054424 implements MigrationInterface {
                     },
                     {
                         name: 'learner_id',
-                        type: 'varchar',
-                        length: '255',
+                        type: 'int',
                         isNullable: true
                     },
                     {
