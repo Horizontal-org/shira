@@ -40,24 +40,19 @@ export const useQuizRun = (quizId: number): UseQuizRunValue => {
     });
   }, []);
 
-  const answersRef = useRef(answers);
-  useEffect(() => {
-    answersRef.current = answers;
-  }, [answers]);
-
-  const finish = useCallback(async () => {
+  const finish = async () => {
     if (runId == null) return;
 
     const payload = {
       finishedAt: new Date().toISOString(),
-      questionRuns: answersRef.current,
+      questionRuns: answers,
     };
  
     await finishQuizRun(runId, payload);
 
     setAnswers([]);
     setRunId(null);
-  }, [runId]);
+  };
 
   return useMemo(
     () => ({ runId, started, recordAnswer, start, finish, answers }),
