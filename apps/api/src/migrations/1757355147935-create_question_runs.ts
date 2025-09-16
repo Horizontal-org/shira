@@ -57,7 +57,7 @@ export class CreateQuestionRunsTable1757355147935 implements MigrationInterface 
                 columnNames: ['question_id'],
                 referencedTableName: 'questions',
                 referencedColumnNames: ['id'],
-                onDelete: 'RESTRICT',
+                onDelete: 'CASCADE',
             }),
         );
 

@@ -30,7 +30,7 @@ export class QuestionRun {
   @Column({ name: 'question_id' })
   questionId!: number;
 
-  @ManyToOne(() => Question, { onDelete: 'RESTRICT' })
+  @ManyToOne(() => Question, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'question_id' })
   question!: Question;
 

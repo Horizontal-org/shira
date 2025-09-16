@@ -20,7 +20,7 @@ export class QuizRun {
   quiz!: Quiz;
 
   @Column({ name: 'learner_id', nullable: true })
-  learnerId?: string | null;
+  learnerId?: number | null;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt!: Date;
