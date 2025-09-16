@@ -1,4 +1,4 @@
-import { FunctionComponent, useCallback, useEffect, useState } from 'react'
+import { FunctionComponent, useState } from 'react'
 import { QuizInstructions } from './QuizInstructions'
 import { useStore } from '../../../../../store'
 import { shallow } from 'zustand/shallow'
@@ -39,14 +39,6 @@ export const CustomQuiz: FunctionComponent<Props> = ({
 
   const q = questions.length > 0 ? questions[questionIndex] : null
   const currentQuestionId = q?.id ?? null
-
-  // const handleAnswer = useCallback(
-  //   (answer: RunAnswer) => {
-  //     if (!runStarted) return
-  //     recordAnswer(Number(currentQuestionId), answer as Answer)
-  //   },
-  //   [currentQuestionId, recordAnswer]
-  // )
 
   const handleAnswer =  (answer: RunAnswer) => {
     if (!runStarted) return

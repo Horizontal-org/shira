@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useMemo, useState } from "react";
+import { useState } from "react";
 import { finishQuizRun, startQuizRun, Answer, QuestionRunPayload } from "../fetch/quiz_runs";
 
 type UseQuizRunValue = {
@@ -7,7 +7,6 @@ type UseQuizRunValue = {
   recordAnswer: (questionId: number, answer: Answer) => void;
   start: (quizId: number, learnerId?: number | null) => Promise<void>;
   finish: () => Promise<void>;
-  // answers: QuestionRunPayload[];
 };
 
 export const useQuizRun = (): UseQuizRunValue => {
@@ -16,10 +15,7 @@ export const useQuizRun = (): UseQuizRunValue => {
   const [answers, setAnswers] = useState<QuestionRunPayload[]>([]);
   const started = runId !== null;
 
-  console.log("🚀 ~ useQuizRun ~ answers:", answers)
-  console.log("🚀 ~ useQuizRun ~ runId:", runId)
-  console.log("🚀 ~ useQuizRun ~ started:", started) 
-
+  console.log(`🚀 ~ useQuizRun ~ answers: ${answers} - runId: ${runId} - started: ${started}`)
   
   const start = async (quizId: number, learnerId: number | null = null) => {
     if (runId != null) return;
