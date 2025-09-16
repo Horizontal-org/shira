@@ -1,27 +1,28 @@
-import { FunctionComponent, useCallback, useEffect, useState } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 import { QuizInstructions } from './QuizInstructions'
 import { useStore } from '../../../../../store'
 import { shallow } from 'zustand/shallow'
 import { SceneWrapper } from '../../../../UI/SceneWrapper'
 import { Question } from '../../../../UI/Question'
 import { Question as QuestionType } from '../../../../../domain/question'
-import { useQuizRun, Answer } from '../../../../../hooks/useQuizRun'
 
 type RunAnswer = 'is_phishing' | 'is_legitimate' | 'dont_know';
-
-const toRunAnswer = (a: string): RunAnswer =>
-  a === 'phishing' ? 'is_phishing' : a === 'legitimate' ? 'is_legitimate' : 'dont_know'
 
 interface Props {
   questions: QuestionType[];
   quizId: number;
   images: Array<{ imageId: number; url: string }>;
+  hasRunId: boolean;
+  startRun: (quizId: number, learnerId?: number | null) => Promise<void>;
+  recordAnswer: (questionId: number, answer: RunAnswer) => void;
 }
 
 export const CustomQuiz: FunctionComponent<Props> = ({
   questions,
   quizId,
-  images
+  images,
+  hasRunId,
+  startRun,
 }) => {
   const {
     changeScene,
@@ -34,24 +35,11 @@ export const CustomQuiz: FunctionComponent<Props> = ({
   const [started, handleStarted] = useState(false)
   const [questionIndex, handleQuestionIndex] = useState(0)
 
-  const { started: hasRunId, start, recordAnswer, finish } = useQuizRun(quizId);
-
-  const q = questions.length > 0 ? questions[questionIndex] : null
-  const currentQuestionId = q?.id ?? null
-
   useEffect(() => {
     if (started && !hasRunId) {
-      start(quizId, null)
+      startRun(quizId, null)
     }
-  }, [started, hasRunId, start, quizId])
-
-   const handleAnswer = useCallback(
-     (answer: RunAnswer) => {
-       if (!currentQuestionId) return
-       recordAnswer(Number(currentQuestionId), answer as Answer)
-     },
-     [currentQuestionId, recordAnswer]
-   )
+  }, [started, hasRunId, startRun, quizId])
 
   return (
     <SceneWrapper>
@@ -63,13 +51,11 @@ export const CustomQuiz: FunctionComponent<Props> = ({
           questionIndex={questionIndex}
           questionCount={questions.length}
           changeScene={changeScene}
-          onAnswer={handleAnswer}
-          onNext={() => {            
+          onNext={() => {
             if (questionIndex < questions.length - 1) {
               handleQuestionIndex((i) => i + 1)
               return
             }
-            finish()
             changeScene("completed")
           }}
           goBack={() => {

@@ -16,6 +16,7 @@ import { useTranslation } from "react-i18next"
 import { FiChevronRight } from "react-icons/fi"
 import { LanguageSelect } from "../../UI/Select"
 import { LANG_OPTIONS } from "./constants"
+import { useQuizRun, Answer } from '../../../hooks/useQuizRun'
 
 interface Props { }
 
@@ -39,6 +40,8 @@ export const QuizLayout: FunctionComponent<Props> = () => {
     shallow
   )
 
+  const { finish, recordAnswer, start, started: hasRunId } = useQuizRun(quiz?.id ?? 0);
+
   const getQuiz = async (hash) => {
     try {
       const res = await axios.get(`${process.env.REACT_APP_API_URL}/quiz/hash/${hash}`)
@@ -57,13 +60,9 @@ export const QuizLayout: FunctionComponent<Props> = () => {
     }
   }, [hash, resetAll])
 
-  if (showUnavailable) {
-    return <InvalidQuiz />
-  }
+  if (showUnavailable) return <InvalidQuiz />
 
-  if (!quiz) {
-    return null
-  }
+  if (!quiz) return null
 
   return (
       <>
@@ -125,6 +124,9 @@ export const QuizLayout: FunctionComponent<Props> = () => {
             quizId={quiz.id}
             questions={quiz.quizQuestions.map((q) => q.question)}
             images={quiz.images}
+            hasRunId={hasRunId}
+            startRun={start}
+            recordAnswer={(qId, ans) => recordAnswer(qId, ans as Answer)}
           />
         )}
 
