@@ -4,18 +4,16 @@ import * as request from 'supertest';
 
 import { QuizRunController } from '../../src/modules/quiz_result/controller/quiz-run.controller';
 import { QuestionRunController } from '../../src/modules/quiz_result/controller/question-run.controller';
-
 import { StartQuizRunService } from '../../src/modules/quiz_result/services/start-quiz-run.service';
 import { FinishQuizRunService } from '../../src/modules/quiz_result/services/finish-quiz-run.service';
 import { CreateQuestionRunService } from '../../src/modules/quiz_result/services/create-question-run.service';
+import { QuizRun } from '../../src/modules/quiz_result/domain/quiz_runs.entity';
+import { QuestionRun } from '../../src/modules/quiz_result/domain/question_runs.entity';
+import { Quiz } from '../../src/modules/quiz/domain/quiz.entity';
 
 import { TYPES } from '../../src/modules/quiz_result/interfaces';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-
-import { QuizRun } from '../../src/modules/quiz_result/domain/quiz_runs.entity';
-import { QuestionRun } from '../../src/modules/quiz_result/domain/question_runs.entity';
-import { Quiz } from '../../src/modules/quiz/domain/quiz.entity';
 
 describe('QuizResult HTTP (e2e happy paths)', () => {
   let app: INestApplication;
@@ -50,7 +48,6 @@ describe('QuizResult HTTP (e2e happy paths)', () => {
     const moduleRef: TestingModule = await Test.createTestingModule({
       controllers: [QuizRunController, QuestionRunController],
       providers: [
-        // Real services wired to mocked repos
         StartQuizRunService,
         FinishQuizRunService,
         CreateQuestionRunService,
@@ -79,13 +76,13 @@ describe('QuizResult HTTP (e2e happy paths)', () => {
     // Given: a valid request body and an existing quiz
     const dto = {
       quizId: 42,
-      learnerId: 'learner-123',
+      learnerId: 123,
       startedAt: '2025-09-09T12:00:00.000Z',
     };
     quizRepo.findOne.mockResolvedValue({ id: 42 } as Quiz);
     const created = {
       quizId: 42,
-      learnerId: 'learner-123',
+      learnerId: 123,
       startedAt: new Date(dto.startedAt),
     } as Partial<QuizRun>;
     quizRunRepo.create.mockReturnValue(created);
@@ -101,14 +98,17 @@ describe('QuizResult HTTP (e2e happy paths)', () => {
     // Then: the service and repositories are invoked with the expected values
     expect(quizRepo.findOne).toHaveBeenCalledWith({ where: { id: 42 } });
     expect(quizRunRepo.create).toHaveBeenCalledTimes(1);
+
     const createArg = quizRunRepo.create.mock.calls[0][0];
     expect(createArg).toEqual(
-      expect.objectContaining({ quizId: 42, learnerId: 'learner-123', startedAt: expect.any(Date) })
+      expect.objectContaining({ quizId: 42, learnerId: 123, startedAt: expect.any(Date) })
     );
     expect(createArg.startedAt.getTime()).toBe(new Date(dto.startedAt).getTime());
+
     expect(quizRunRepo.save).toHaveBeenCalledWith(created);
+
     expect(res.body).toEqual(
-      expect.objectContaining({ id: 1, quizId: 42, learnerId: 'learner-123' }),
+      expect.objectContaining({ id: 1, quizId: 42, learnerId: 123 }),
     );
     expect(typeof res.body.startedAt === 'string').toBe(true);
   });
@@ -136,8 +136,10 @@ describe('QuizResult HTTP (e2e happy paths)', () => {
     // Then: the finishing flow occurs inside a single transaction
     expect(quizRunRepo.findOne).toHaveBeenCalledWith({ where: { id: runId } });
     expect(dataSource.transaction).toHaveBeenCalledTimes(1);
+
     // And: run is saved via manager repository
     expect(quizRunsManagerRepo.save).toHaveBeenCalledWith(existingRun);
+
     // And: question runs are created with correct fields and Date instances
     expect(questionRunManagerRepo.create).toHaveBeenCalledTimes(2);
     expect(questionRunManagerRepo.create).toHaveBeenNthCalledWith(1, expect.objectContaining({
@@ -152,10 +154,12 @@ describe('QuizResult HTTP (e2e happy paths)', () => {
       answer: 'is_legitimate',
       answeredAt: expect.any(Date),
     }));
+
     // And: rows are saved as an array of two
     const savedRowsArg = questionRunManagerRepo.save.mock.calls[0][0];
     expect(Array.isArray(savedRowsArg)).toBe(true);
     expect(savedRowsArg).toHaveLength(2);
+
     // And: finishedAt is updated and serialized in response
     expect(existingRun.finishedAt).toBeInstanceOf(Date);
     expect(existingRun.finishedAt!.getTime()).toBe(new Date(dto.finishedAt).getTime());
@@ -179,7 +183,6 @@ describe('QuizResult HTTP (e2e happy paths)', () => {
     questionRunRepo.save.mockResolvedValue({ id: 9001, ...created });
 
     // When: performing the HTTP POST to the question-run creation route
-    // - Expecting 201 Created and a body with the new id
     const http = app.getHttpAdapter().getInstance();
     const res = await request(http)
       .post(`/quiz-run/${runId}/question-run`)

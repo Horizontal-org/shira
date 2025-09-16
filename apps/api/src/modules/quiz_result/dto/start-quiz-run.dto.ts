@@ -6,7 +6,7 @@ export class StartQuizRunDto {
 
   @IsOptional()
   @IsString()
-  learnerId?: string | null;
+  learnerId?: number | null;
 
   @IsString()
   startedAt!: string;
