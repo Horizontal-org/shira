@@ -31,7 +31,6 @@ export const deleteQuizServiceProvider = {
   useClass: DeleteQuizService
 }
 
-
 export const getByIdQuizServiceProvider = {
   provide: TYPES.services.IGetByIdQuizService,
   useClass: GetByIdQuizService

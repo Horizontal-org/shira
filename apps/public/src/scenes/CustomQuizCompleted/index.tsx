@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Navbar } from '../../components/UI/Navbar'
 import { FiHome } from 'react-icons/fi'
@@ -14,17 +14,26 @@ import { CustomQuizNavbar } from '../../components/UI/CustomQuizNavbar'
 
 interface Props {
  quizNumber: Number
+ finish: () => void
 }
 
 
-export const CustomQuizCompletedScene: FunctionComponent<Props> = ({quizNumber}) => {
+export const CustomQuizCompletedScene: FunctionComponent<Props> = ({
+  quizNumber,
+  finish
+}) => {
 
   const { t } = useTranslation()
-const {
+  const {
     correctQuestions
   } = useStore((state) => ({
     correctQuestions: state.correctedQuestions,
   }), shallow)
+
+  useEffect(() => {
+    finish()
+  }, [])
+  
   return (
     <Wrapper>
       <CustomQuizNavbar />

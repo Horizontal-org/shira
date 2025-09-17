@@ -54,5 +54,8 @@ import { QuestionImageModule } from '../question_image/question_image.module';
   providers: [
     ...servicesQuizProviders
   ],
+  exports: [
+    ...servicesQuizProviders
+  ],
 })
 export class QuizModule {}

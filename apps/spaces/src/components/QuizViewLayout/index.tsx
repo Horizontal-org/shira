@@ -13,7 +13,7 @@ import {
   Toggle,
   BetaBanner
 } from "@shira/ui";
-import { QuestionsList } from './components/QuestionList'
+import { TabContainer } from './components/TabContainer'
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { getQuizById } from "../../fetch/quiz";
@@ -168,7 +168,8 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 </ButtonsContainer>
               </Wrapper>
 
-              <QuestionsList
+              <TabContainer
+                quizId={quiz.id}
                 quizQuestions={quiz.quizQuestions}
                 onEdit={(questionId) => { navigate(`/quiz/${id}/question/${questionId}`)}}
                 onDelete={(id) => { destroy(quiz.id, id) }}
@@ -191,8 +192,14 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
               />
 
               <DeleteModal
-                  title={`Are you sure you want to delete "${quiz.title}"?`}
-                  content="Deleting this quiz is permanent and cannot be undone."
+                  title={`Are you sure you want to delete "${quiz.title}"`}
+                  content={
+                    <div>
+                      Deleting this quiz is permanent and cannot be undone.
+                      <br /><br />
+                      <QuizWarningNote>Note:</QuizWarningNote> The quiz's Results will also be deleted.
+                    </div>
+                  }
                   setIsModalOpen={setIsDeleteModalOpen}
                   onDelete={() => { 
                     deleteQuiz(quiz.id) 
@@ -306,3 +313,8 @@ const Footer = styled.div`
   justify-content: flex-end;
   margin: 16px;
 `
+
+const QuizWarningNote = styled.span`
+  color: #d73527;
+  font-weight: 500;
+`;
