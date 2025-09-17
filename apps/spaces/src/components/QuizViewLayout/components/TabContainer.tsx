@@ -42,7 +42,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
     };
 
     fetchResults();
-  }, [quizId]);
+  }, [quizId, activeTab]);
 
   return (
     <Container>
