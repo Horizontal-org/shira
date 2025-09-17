@@ -15,7 +15,7 @@ export interface PublicQuizResultsResponse {
   };
 }
 
-const USE_MOCK_DATA = true;
+const USE_MOCK_DATA = false;
 
 
 // Mock data for empty state
