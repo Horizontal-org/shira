@@ -13,10 +13,10 @@ export const EmptyState: FunctionComponent<Props> = ({
   return (
     <Container>
       <SettingsFishIcon />
-      <Body1>You don’t have any questions yet. Click on “Add question” to get started.</Body1>
+      <Body1>You don’t have any questions yet. Click on “Create question” to get started.</Body1>
        <Button 
           leftIcon={<FiPlus size={16} />}
-          text="Add question"
+          text="Create question"
           type="primary"
           color="#849D29"
           onClick={onAdd}

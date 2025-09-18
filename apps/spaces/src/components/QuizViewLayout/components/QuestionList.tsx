@@ -63,7 +63,7 @@ export const  QuestionsList: FunctionComponent<QuestionsListProps> = ({
         <SubHeading1>Questions</SubHeading1>
         <Button
           leftIcon={<FiPlus size={16} />}
-          text="Add question"
+          text="Create question"
           type="primary"
           color="#849D29"
           onClick={onAdd}
