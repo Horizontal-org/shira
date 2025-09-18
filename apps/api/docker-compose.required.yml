@@ -18,7 +18,7 @@ services:
     networks:
       - nestjs-network
   redis:
-    image: 'bitnami/redis:latest'
+    image: 'bitnamisecure/redis:latest'
     environment:
       REDIS_PASSWORD: "${REDIS_PASSWORD}"
     networks:
