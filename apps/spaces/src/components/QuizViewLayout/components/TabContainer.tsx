@@ -77,7 +77,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
           />
         )}
         {activeTab === 'results' && (
-          <Results 
+          <Results
             resultsData={resultsData} 
             loading={resultsLoading} 
           />

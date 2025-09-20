@@ -113,11 +113,11 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   return (
     <Container>
       <Sidebar 
-        menuItems={menuItems} 
-        onCollapse={handleCollapse}      
+        menuItems={menuItems}
+        onCollapse={handleCollapse}
       />
      
-      <MainContent $isCollapsed={isCollapsed}>        
+      <MainContent $isCollapsed={isCollapsed}>
         <BetaBanner url="/support"/>
         <MainContentWrapper>
 

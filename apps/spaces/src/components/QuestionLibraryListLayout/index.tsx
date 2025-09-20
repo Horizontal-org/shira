@@ -1,56 +1,28 @@
 import styled from 'styled-components'
-import { Button } from "../Button";
+import { FunctionComponent } from 'react';
+import { H2, Body3, Box } from '@shira/ui';
+import { QuestionLibraryFlowManagement } from '../QuestionLibraryFlowManagement';
 
-export const QuestionLibraryListLayout = ({ questions }) => {
+type Props = {};
+
+export const QuestionLibraryListLayout: FunctionComponent<Props> = () => {
   return (
-    <Wrapper>
-      {questions.map((q) => (
-        <QuestionWrapper key={q.id}>
-          <Info>
-            {`#${q.id} • ${q.name}`}
-          </Info>
-          <Right>
-            <Button text="Edit"/>
-            <Separator>
-            </Separator>
-          </Right>
-        </QuestionWrapper>
-      ))}
-    </Wrapper>
-  )
-}
+    <QuestionLibraryFlowManagement>
+      <StyledBox>
+        <div>
+          <H2>Question Library</H2>
+          <Body3>
+            Select a question from list below to add it to your quiz. Once you’ve added it to your quiz, you can edit the question to fully customize it, including changing the text and explanations.
+          </Body3>
+        </div>
+      </StyledBox>
+    </QuestionLibraryFlowManagement>
+  );
+};
 
-const Wrapper = styled.div`
-  padding-top: 20px;
-`
-
-const QuestionWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 8px 12px;
-  background: #f9f9f9;
-  border-radius: 4px;
-  float: left;
-  margin: 4px 0;
-  justify-content: space-between;
-  width: 100%;
-  box-sizing: border-box;
-`
-
-const Info = styled.div`
-  font-size: 20px;
-  font-weight: 400;
-  width: 300px;
-`
-
-const Right = styled.div`
-  display: flex; 
-  justify-content: space-between;
-  > div {
-    width: 100px;
-  }
-`
-
-const Separator = styled.div`
-  padding: 0 8px;
-`
+const StyledBox = styled(Box)`
+  position: relative;
+  z-index:1;
+  padding: 48px;
+  width: 1024px;
+`;
