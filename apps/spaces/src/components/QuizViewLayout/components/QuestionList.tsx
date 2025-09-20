@@ -1,26 +1,27 @@
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useState } from "react";
 import { FiMenu, FiPlus } from 'react-icons/fi';
-import { styled, TrashIcon, EditIcon, Button } from '@shira/ui'
+import { MdOutlineMenuBook } from "react-icons/md";
+import { Button, styled, TrashIcon, EditIcon } from '@shira/ui'
 import EmptyState from "./EmptyState";
 import { DeleteModal } from "../../modals/DeleteModal";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { ReorderQuizPayload } from "../../../fetch/quiz";
 import { QuizQuestion } from "../../../store/slices/quiz";
-
 
 interface QuestionsListProps {
   quizQuestions: QuizQuestion[];
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;
   onAdd: () => void;
+  onAddLibrary: () => void;
   onReorder: (newOrder: QuizQuestion[]) => void
 }
 
-export const  QuestionsList: FunctionComponent<QuestionsListProps> = ({
+export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
   quizQuestions,
   onEdit,
   onDelete,
   onAdd,
+  onAddLibrary,
   onReorder
 }) => {
   console.log("🚀 ~ quizQuestions:", quizQuestions)
@@ -56,7 +57,7 @@ export const  QuestionsList: FunctionComponent<QuestionsListProps> = ({
   if(!quizQuestions || quizQuestions.length === 0) {
     return <EmptyState onAdd={onAdd}/>
   }
-  
+
   return (
     <div>
       <Header>
@@ -66,6 +67,13 @@ export const  QuestionsList: FunctionComponent<QuestionsListProps> = ({
           type="primary"
           color="#849D29"
           onClick={onAdd}
+        />
+        <Button
+          leftIcon={<MdOutlineMenuBook size={16} />}
+          text="Add from library"
+          type="primary"
+          color="#849D29"
+          onClick={onAddLibrary}
         />
       </Header>
       <DragDropContext onDragEnd={onDragEnd}>

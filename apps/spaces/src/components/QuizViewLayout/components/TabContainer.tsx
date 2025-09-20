@@ -13,6 +13,7 @@ interface TabContainerProps {
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;
   onAdd: () => void;
+  onAddLibrary: () => void;
   onReorder: (newOrder: QuizQuestion[]) => void;
 }
 
@@ -22,6 +23,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   onEdit,
   onDelete,
   onAdd,
+  onAddLibrary,
   onReorder
 }) => {
   const [activeTab, setActiveTab] = useState<TabType>('questions');
@@ -70,6 +72,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
             onEdit={onEdit}
             onDelete={onDelete}
             onAdd={onAdd}
+            onAddLibrary={onAddLibrary}
             onReorder={onReorder}
           />
         )}
