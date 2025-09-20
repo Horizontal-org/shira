@@ -4,15 +4,18 @@ import { Repository } from 'typeorm';
 import { Question } from '../../question/domain';
 
 @Injectable()
-export class CreateQuestionService {
+export class GetLibraryQuestionService {
   constructor(
     @InjectRepository(Question)
     private readonly questionRepo: Repository<Question>,
   ) {}
 
   async get() {
-      return await this.questionRepo.find({
+      let questions = await this.questionRepo.find({
         where: { type: 'demo' },
       });
+
+      console.log("questions:", questions);
+      return questions;
   }
 }
