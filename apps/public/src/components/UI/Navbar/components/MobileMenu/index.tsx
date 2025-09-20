@@ -1,11 +1,15 @@
 import { FunctionComponent } from "react";
 import { styled, createGlobalStyle } from "@shira/ui";
-import { NavigateFunction } from "react-router-dom";
 
 
 import CloseIcon from '../CloseIcon'
 import HomeIcon from '../HomeIcon'
 import AboutIcon from '../AboutIcon'
+import Learn from '../Learn'
+import Pricing from '../Pricing'
+import TakeQuiz from '../TakeQuiz'
+import Features from '../Features'
+
 import { useTranslation } from "react-i18next";
 
 interface Props {
@@ -18,6 +22,10 @@ export const MobileMenu: FunctionComponent<Props> = ({
   onNavigate
 }) => {
   const { t } = useTranslation()
+
+  const handleExternalLink = (url: string) => {
+    window.open(url)
+  }
 
   return (
     <Wrapper>
@@ -38,9 +46,52 @@ export const MobileMenu: FunctionComponent<Props> = ({
         {t('navbar.home')}
         </p>
       </Nav>
+
       <Nav onClick={() => {
-        onNavigate('/about')
+        handleExternalLink('https://www.shira.app/features')
       }}>
+        <SvgWrapper>
+          <Features />
+        </SvgWrapper>
+        <p>
+          {t('navbar.features')}
+        </p>
+      </Nav>
+
+      <Nav onClick={() => {
+        handleExternalLink('https://www.shira.app/pricing')
+      }}>
+        <SvgWrapper>
+          <Pricing />
+        </SvgWrapper>
+        <p>
+          {t('navbar.pricing')}
+        </p>
+      </Nav>
+
+      <Nav onClick={() => {
+        onNavigate('/')
+      }}>
+        <SvgWrapper>
+          <TakeQuiz />
+        </SvgWrapper>
+        <p>
+          {t('navbar.take_a_quiz')}
+        </p>
+      </Nav>
+
+      <Nav onClick={() => {
+        handleExternalLink('https://www.shira.app/phishing')
+      }}>
+        <SvgWrapper>
+          <Learn />
+        </SvgWrapper>
+        <p>
+          {t('navbar.learn')} 
+        </p>
+      </Nav>
+
+      <Nav onClick={() => { handleExternalLink('https://www.shira.app/about') }}>
         <SvgWrapper>
           <AboutIcon />
         </SvgWrapper>
@@ -48,6 +99,12 @@ export const MobileMenu: FunctionComponent<Props> = ({
         {t('navbar.about')}
         </p>
       </Nav>
+
+      <GetStartedButton onClick={() => {
+        handleExternalLink('https://www.shira.app/contact')
+      }}>
+        {t('navbar.get_started')}
+      </GetStartedButton>
     </Wrapper>
   )
 }
@@ -109,5 +166,33 @@ const SvgWrapper = styled.div`
   > svg {
     width: 32px;
     height: 32px;
+  }
+`
+const GetStartedButton = styled.button`
+  position: fixed;
+  bottom: 40px;
+  left: 20px;
+  right: 20px;
+  
+  background: white;
+  color: #333030;
+  border: none;
+  border-radius: 24px;
+  padding: 16px 24px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  &:hover {
+    background: #f8f8f8;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 `

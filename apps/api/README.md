@@ -37,6 +37,14 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Diagrams
+
+### Database ERD
+![ERD: quizzes, quiz_runs, questions, quizzes_questions, question_runs](docs/img/db-sql-quiz-question-diagram.png)
+
+### Relationships overview
+![High-level relationships between quiz and question entities](docs/img/db-quiz-question-relationship-diagram.png)
+
 ## Installation
 
 ```bash
