@@ -7,6 +7,7 @@
     "@atlaskit/pragmatic-drag-and-drop-react-beautiful-dnd-migration": "^2.0.4",
     "@hello-pangea/dnd": "^18.0.1",
     "@shira/ui": "*",
+    "@tanstack/react-table": "^8.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
