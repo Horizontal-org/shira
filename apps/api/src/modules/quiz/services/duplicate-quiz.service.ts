@@ -11,7 +11,10 @@ import { Language } from 'src/modules/languages/domain';
 import { QuestionImage } from 'src/modules/question_image/domain/question_images.entity';
 import { TYPES as TYPES_QUESTION_IMAGE } from '../../question_image/interfaces'
 import { ISyncQuestionImageService } from 'src/modules/question_image/interfaces/services/sync.question_image.service.interface';
+import { TYPES as TYPES_IMAGE } from '../../image/interfaces'
+import { IImageService } from 'src/modules/image/interfaces/services/image.service.interface';
 import * as crypto from 'crypto';
+import { formatISO } from 'date-fns';
 
 @Injectable()
 export class DuplicateQuizService implements IDuplicateQuizService {
@@ -19,6 +22,8 @@ export class DuplicateQuizService implements IDuplicateQuizService {
   constructor(
     @Inject(TYPES_QUESTION_IMAGE.services.ISyncQuestionImageService)
     private syncImagesService: ISyncQuestionImageService,
+    @Inject(TYPES_IMAGE.services.IImageService)
+    private imageService: IImageService,
     private dataSource: DataSource
   ) {}
 
@@ -104,15 +109,20 @@ export class DuplicateQuizService implements IDuplicateQuizService {
 
         const newImageIds = [];
         for (const originalImage of originalQuestion.images) {
+          const newImagePath = this.generateNewImagePath(originalImage.relativePath, savedQuiz.id);
+
           const newImage = manager.create(QuestionImage, {
             name: originalImage.name,
-            relativePath: originalImage.relativePath,
+            relativePath: newImagePath,
             question: savedQuestion,
             quiz: savedQuiz
           });
-          
+
           const savedImage = await manager.save(QuestionImage, newImage);
           newImageIds.push(savedImage.id);
+
+          // Copy the actual image file to the new path
+          await this.imageService.copyAndDeleteOrigin(originalImage.relativePath, newImagePath);
         }
 
         if (newImageIds.length > 0) {
@@ -134,6 +144,16 @@ export class DuplicateQuizService implements IDuplicateQuizService {
 
       return savedQuiz;
     });
+  }
+
+  private generateNewImagePath(originalPath: string, newQuizId: number): string {
+    const timestamp = Date.now();
+    const originalFileName = originalPath.split('/').pop();
+    const fileExtension = originalFileName.split('.').pop();
+    const baseFileName = originalFileName.replace(`.${fileExtension}`, '');
+
+    const newFileName = `${timestamp}_copy_${baseFileName}.${fileExtension}`;
+    return `question-images/${newQuizId}/${newFileName}`;
   }
 
 }

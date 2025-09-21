@@ -11,6 +11,9 @@ import { ExplanationTranslation } from 'src/modules/translation/domain/explanati
 import { Language } from 'src/modules/languages/domain';
 import { App } from 'src/modules/app/domain';
 import { QuestionImage } from 'src/modules/question_image/domain/question_images.entity';
+import { TYPES as TYPES_IMAGE } from '../../image/interfaces'
+import { IImageService } from 'src/modules/image/interfaces/services/image.service.interface';
+import { formatISO } from 'date-fns';
 
 
 @Injectable()
@@ -20,7 +23,7 @@ export class DuplicateQuestionQuizService implements IDuplicateQuestionQuizServi
     @InjectRepository(QuizQuestionEntity)
     private readonly quizQuestionRepo: Repository<QuizQuestionEntity>,
     @InjectRepository(Question)
-    private readonly questionRepo: Repository<Question>,    
+    private readonly questionRepo: Repository<Question>,
     @InjectRepository(App)
     private readonly appRepo: Repository<App>,
     @InjectRepository(Explanation)
@@ -32,7 +35,9 @@ export class DuplicateQuestionQuizService implements IDuplicateQuestionQuizServi
     @InjectRepository(Language)
     private readonly languageRepo: Repository<Language>,
     @InjectRepository(QuestionImage)
-    private readonly questionImageRepo: Repository<QuestionImage>
+    private readonly questionImageRepo: Repository<QuestionImage>,
+    @Inject(TYPES_IMAGE.services.IImageService)
+    private imageService: IImageService
   ) {}
 
   async execute (duplicateQuestionDto: DuplicateQuestionQuizDto) {
@@ -102,13 +107,18 @@ export class DuplicateQuestionQuizService implements IDuplicateQuestionQuizServi
 
     // Duplicate question images (create new copies) - similar to quiz duplication
     for (const originalImage of originalQuestion.images) {
+      const newImagePath = this.generateNewImagePath(originalImage.relativePath, duplicateQuestionDto.quizId);
+
       const newImage = new QuestionImage();
       newImage.name = originalImage.name;
-      newImage.relativePath = originalImage.relativePath;
+      newImage.relativePath = newImagePath;
       newImage.question = savedQuestion;
       newImage.quizId = duplicateQuestionDto.quizId;
-      
+
       await this.questionImageRepo.save(newImage);
+
+      // Copy the actual image file to the new path
+      await this.imageService.copyAndDeleteOrigin(originalImage.relativePath, newImagePath);
     }
 
     const position = await this.quizQuestionRepo
@@ -120,6 +130,16 @@ export class DuplicateQuestionQuizService implements IDuplicateQuestionQuizServi
       questionId: savedQuestion.id
     });
     await this.quizQuestionRepo.save(quizQuestion);
+  }
+
+  private generateNewImagePath(originalPath: string, quizId: number): string {
+    const timestamp = Date.now();
+    const originalFileName = originalPath.split('/').pop();
+    const fileExtension = originalFileName.split('.').pop();
+    const baseFileName = originalFileName.replace(`.${fileExtension}`, '');
+
+    const newFileName = `${timestamp}_copy_${baseFileName}.${fileExtension}`;
+    return `question-images/${quizId}/${newFileName}`;
   }
 
 }
