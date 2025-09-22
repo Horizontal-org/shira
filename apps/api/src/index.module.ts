@@ -24,6 +24,7 @@ import { ImageModule } from './modules/image/image.module';
 import { OrganizationModule } from './modules/organization/organization.module';
 import { BillingModule } from './modules/billing/billing.module';
 import { QuizResultModule } from './modules/quiz_result/quiz-result.module';
+import { QuestionLibraryModule } from './modules/question_library/question.library.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { QuizResultModule } from './modules/quiz_result/quiz-result.module';
     FieldOfWorkModule,
     QuestionModule,
     QuestionImageModule,
+    QuestionLibraryModule,
     UserModule,
     AuthModule,
     SurveyModule,

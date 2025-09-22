@@ -10,7 +10,7 @@ export class GetLibraryQuestionsController {
 
   @Get('')
   @Roles(Role.SpaceAdmin)
-  async handler() {
+  async getLibrary() {
     console.log("get /question/library/")
     this.service.get();
   }
