@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useMemo, useState } from 'react';
-import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import { ColumnDef, flexRender, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table";
 import { styled, Body1, Body3, H2, Box } from "@shira/ui";
 import { QuestionLibraryFlowManagement } from '../QuestionLibraryFlowManagement';
 import { MdRemoveRedEye } from "react-icons/md";
@@ -34,17 +34,66 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
   onPreview,
   onAdd,
 }) => {
-    // local state if parent didn't pass rows
   const [rows, setRows] = useState<Question[]>(rowsProp ?? []);
+  const [loading, setLoading] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
+  const [sorting, setSorting] = useState<SortingState>([]);
   const controlled = Array.isArray(rowsProp);
 
-  useEffect(() => {
-    if (controlled) { setRows(rowsProp!); return; }
-    (async () => {
+  const fetchRows = async () => {
+    setErr(null);
+    setLoading(true);
+    try {
       const data = await getLibraryQuestions();
       setRows(Array.isArray(data) ? data : []);
+    } catch (e: any) {
+      setErr(e?.message ? String(e.message) : "Failed to load questions");
+      setRows([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (controlled) {
+      setRows(rowsProp!);
+      return;
+    }
+    let alive = true;
+    (async () => {
+      setErr(null);
+      setLoading(true);
+      try {
+        const data = await getLibraryQuestions();
+        if (alive) setRows(Array.isArray(data) ? data : []);
+      } catch (e: any) {
+        if (alive) {
+          setErr(e?.message ? String(e.message) : "Failed to load questions");
+          setRows([]);
+        }
+      } finally {
+        if (alive) setLoading(false);
+      }
     })();
+    return () => { alive = false; };
   }, [controlled, rowsProp]);
+
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    if (!q) return rows;
+    return rows.filter(r => {
+      const lang = typeof (r as any).language === "string"
+        ? (r as any).language
+        : (r as any).language?.name;
+      return [
+        r.name,
+        r.app,
+        r.isPhishing ? "phishing" : "legitimate",
+        lang,
+      ].some(v => String(v ?? "").toLowerCase().includes(q));
+    });
+  }, [rows, search]);
 
   const columns = useMemo<ColumnDef<Question>[]>(() => [
     {
@@ -52,16 +101,19 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
       header: "Question name",
       accessorFn: (q) => q.name ?? "",
       cell: ({ getValue }) => <NameCell>{String(getValue())}</NameCell>,
+      enableSorting: true,
     },
     {
       id: "type",
       header: "Type",
-      accessorFn: (q) => (q.isPhishing ? "Legitimate" : "Phishing"),
+      // fix: if isPhishing === true → Type = "Phishing"
+      accessorFn: (q) => (q.isPhishing ? "Phishing" : "Legitimate"),
       cell: ({ getValue }) => {
         const v = String(getValue() ?? "");
         const cls = v.toLowerCase().includes("phish") ? "danger" : "success";
         return <TypeBadge className={cls}>{v}</TypeBadge>;
       },
+      enableSorting: true,
     },
     {
       id: "language",
@@ -71,16 +123,19 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
           ? (q as any).language
           : (q as any).language?.name) ?? "—",
       cell: ({ getValue }) => <Body1>{String(getValue())}</Body1>,
+      enableSorting: true,
     },
     {
       id: "app",
       header: "App",
       accessorFn: (q) => (q as any).app ?? "",
       cell: ({ getValue }) => <AppCell app={String(getValue() ?? "")} />,
+      enableSorting: true,
     },
     {
       id: "actions",
       header: "Actions",
+      enableSorting: false,
       cell: ({ row }) => (
         <ActionsCell>
           <IconIcon
@@ -100,55 +155,101 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
         </ActionsCell>
       ),
     }
-
   ], [onPreview, onAdd]);
 
   const table = useReactTable({
-    data: rows ?? [],
+    data: filtered ?? [],
     columns,
+    state: { sorting },
+    onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
   });
 
   return (
     <QuestionLibraryFlowManagement>
       <StyledBox>
-        <div>
-          <H2>Question Library</H2>
-          <Body3>
-            Select a question from list below to add it to your quiz. Once you’ve added it to your quiz, you can edit the question to fully customize it, including changing the text and explanations.
-          </Body3>
-        </div>
+        <HeaderRow>
+          <div>
+            <H2>Question Library</H2>
+            <Body3>
+              Select a question from list below to add it to your quiz. Once you've added it to your quiz, you can edit the question to fully customize it, including changing the text and explanations.
+            </Body3>
+          </div>
+          <Controls>
+            <input
+              placeholder="Search…"
+              value={search}
+              onChange={(e: any) => setSearch(e.target.value)}
+              style={{ minWidth: 220 }}
+            />
+            {!controlled && (
+              <button onClick={fetchRows} disabled={loading}>
+                {loading ? "Loading…" : "Refresh"}
+              </button>
+            )}
+          </Controls>
+        </HeaderRow>
 
-        <Table>
+        {err && (
+          <ErrorBox>
+            <Body1>Failed to load: {err}</Body1>
+            {!controlled && <button onClick={fetchRows}>Retry</button>}
+          </ErrorBox>
+        )}
+
+        <Table aria-busy={loading}>
           <thead>
             {table.getHeaderGroups().map((hg) => (
               <TheadRow key={hg.id}>
-                {hg.headers.map((h) => (
-                  <Th key={h.id}>
-                    {flexRender(h.column.columnDef.header, h.getContext())}
-                  </Th>
-                ))}
+                {hg.headers.map((h) => {
+                  const canSort = h.column.getCanSort();
+                  const sortDir = h.column.getIsSorted(); // false | 'asc' | 'desc'
+                  return (
+                    <Th
+                      key={h.id}
+                      role={canSort ? "button" : undefined}
+                      onClick={canSort ? h.column.getToggleSortingHandler() : undefined}
+                      aria-sort={sortDir ? (sortDir === 'asc' ? 'ascending' : 'descending') : 'none'}
+                    >
+                      <span style={{ display: 'inline-flex', gap: 6, alignItems: 'center' }}>
+                        {flexRender(h.column.columnDef.header, h.getContext())}
+                        {canSort && (
+                          <SortGlyph>
+                            {sortDir === 'asc' ? '▲' : sortDir === 'desc' ? '▼' : '↕'}
+                          </SortGlyph>
+                        )}
+                      </span>
+                    </Th>
+                  );
+                })}
               </TheadRow>
             ))}
           </thead>
 
           <tbody>
-            {table.getRowModel().rows.map((r) => (
-              <Tr key={r.id}>
-                {r.getVisibleCells().map((c) => (
-                  <Td key={c.id}>
-                    {flexRender(c.column.columnDef.cell, c.getContext())}
-                  </Td>
-                ))}
+            {loading ? (
+              <Tr>
+                <Td colSpan={columns.length}>
+                  <Body1>Loading questions…</Body1>
+                </Td>
               </Tr>
-            ))}
-
-            {table.getRowModel().rows.length === 0 && (
+            ) : table.getRowModel().rows.length === 0 ? (
               <Tr>
                 <Td colSpan={columns.length}>
                   <Body1>No questions found.</Body1>
                 </Td>
               </Tr>
+            ) : (
+              table.getRowModel().rows.map((r) => (
+                <Tr key={r.id}>
+                  {r.getVisibleCells().map((c) => (
+                    <Td key={c.id}>
+                      {flexRender(c.column.columnDef.cell, c.getContext())}
+                    </Td>
+                  ))}
+                </Tr>
+              ))
             )}
           </tbody>
         </Table>
@@ -157,13 +258,39 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
   );
 };
 
-/** ---------- styles (template-literal, like QuizViewLayout) ---------- */
+/** ---------- styles ---------- */
 
 const StyledBox = styled(Box)`
   position: relative;
   z-index: 1;
   padding: 48px;
   width: 1024px;
+`;
+
+const HeaderRow = styled("div")`
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: $4;
+  margin-bottom: $4;
+`;
+
+const Controls = styled("div")`
+  display: flex;
+  align-items: center;
+  gap: $3;
+`;
+
+const ErrorBox = styled("div")`
+  background: #fff5f5;
+  border: 1px solid #ffd6d6;
+  color: #7a1e1e;
+  padding: $3;
+  border-radius: $2;
+  display: inline-flex;
+  align-items: center;
+  gap: $3;
+  margin-bottom: $3;
 `;
 
 const Table = styled("table")`
@@ -183,12 +310,18 @@ const Th = styled("th")`
   color: $textHigh;
   font-weight: 600;
   border-bottom: 1px solid $border;
+  user-select: none;
 
   &:first-child { width: 44%; border-top-left-radius: $3; }
   &:nth-child(2) { width: 16%; }
   &:nth-child(3) { width: 14%; }
   &:nth-child(4) { width: 16%; }
   &:last-child { width: 10%; border-top-right-radius: $3; }
+`;
+
+const SortGlyph = styled("span")`
+  font-size: 11px;
+  opacity: 0.8;
 `;
 
 const Tr = styled("tr")`
