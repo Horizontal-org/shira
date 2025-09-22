@@ -37,7 +37,7 @@ export const  QuestionsList: FunctionComponent<QuestionsListProps> = ({
     
     try {
       await duplicateQuestion(quizId, parseInt(questionId))
-      toast.success(`"Copy ${questionName}" created successfully`, { duration: 3000 })
+      toast.success(`"Copy of ${questionName}" created successfully`, { duration: 3000 })
       onDuplicate() // Refresh the quiz data
     } catch (error) {
       toast.error('Failed to duplicate question', { duration: 3000 })

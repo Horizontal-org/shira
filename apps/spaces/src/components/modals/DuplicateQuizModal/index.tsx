@@ -25,7 +25,7 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (quiz) {
-      handleTitle(`Copy ${quiz.title}`);
+      handleTitle(`Copy of ${quiz.title}`);
     }
   }, [quiz]);
 
@@ -49,7 +49,7 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
         <Description>Set the name for the new quiz</Description>
         <TextInput
           label="Quiz name"
-          placeholder={`Copy ${quiz.title}`}
+          placeholder={`Copy of ${quiz.title}`}
           value={title}
           onChange={(e) => handleTitle(e.target.value)}
         />
