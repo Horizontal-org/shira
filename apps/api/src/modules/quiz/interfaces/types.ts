@@ -1,5 +1,5 @@
 export const TYPES = {
-  services: {    
+  services: {
     ICreateQuizService: 'ICreateQuizService',
     IEditQuizService: 'IEditQuizService',
     IListQuizService: 'IListQuizService',
@@ -12,6 +12,7 @@ export const TYPES = {
     IDeleteQuestionQuizService: 'IDeleteQuestionQuizService',
     IReorderQuestionQuizService: 'IReorderQuestionQuizService',
     IDuplicateQuestionQuizService: 'IDuplicateQuestionQuizService',
-    IDuplicateQuizService: 'IDuplicateQuizService'
+    IDuplicateQuizService: 'IDuplicateQuizService',
+    ISharedQuestionDuplicationService: 'ISharedQuestionDuplicationService'
   },
 };

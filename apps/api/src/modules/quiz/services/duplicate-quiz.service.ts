@@ -4,17 +4,12 @@ import { Quiz } from '../domain/quiz.entity';
 import { QuizQuestion } from '../domain/quizzes_questions.entity';
 import { IDuplicateQuizService } from '../interfaces/services/duplicate-quiz.service.interface';
 import { DuplicateQuizDto } from '../dto/duplicate-quiz.dto';
-import { Explanation, Question } from 'src/modules/question/domain';
-import { QuestionTranslation } from 'src/modules/translation/domain/questionTranslation.entity';
-import { ExplanationTranslation } from 'src/modules/translation/domain/explanationTranslation.entity';
 import { Language } from 'src/modules/languages/domain';
-import { QuestionImage } from 'src/modules/question_image/domain/question_images.entity';
 import { TYPES as TYPES_QUESTION_IMAGE } from '../../question_image/interfaces'
 import { ISyncQuestionImageService } from 'src/modules/question_image/interfaces/services/sync.question_image.service.interface';
-import { TYPES as TYPES_IMAGE } from '../../image/interfaces'
-import { IImageService } from 'src/modules/image/interfaces/services/image.service.interface';
+import { TYPES } from '../interfaces';
+import { ISharedQuestionDuplicationService } from '../interfaces/services/shared-question-duplication.service.interface';
 import * as crypto from 'crypto';
-import { formatISO } from 'date-fns';
 
 @Injectable()
 export class DuplicateQuizService implements IDuplicateQuizService {
@@ -22,8 +17,8 @@ export class DuplicateQuizService implements IDuplicateQuizService {
   constructor(
     @Inject(TYPES_QUESTION_IMAGE.services.ISyncQuestionImageService)
     private syncImagesService: ISyncQuestionImageService,
-    @Inject(TYPES_IMAGE.services.IImageService)
-    private imageService: IImageService,
+    @Inject(TYPES.services.ISharedQuestionDuplicationService)
+    private sharedQuestionDuplicationService: ISharedQuestionDuplicationService,
     private dataSource: DataSource
   ) {}
 
@@ -52,9 +47,9 @@ export class DuplicateQuizService implements IDuplicateQuizService {
 
       const newQuiz = manager.create(Quiz, {
         title: duplicateQuizDto.title,
-        published: false, // Always unpublished by default
+        published: false,
         hash: crypto.randomBytes(20).toString('hex'),
-        space: originalQuiz.space // Same space as original
+        space: originalQuiz.space 
       });
 
       const savedQuiz = await manager.save(Quiz, newQuiz);
@@ -67,68 +62,16 @@ export class DuplicateQuizService implements IDuplicateQuizService {
       for (const originalQuizQuestion of originalQuiz.quizQuestions) {
         const originalQuestion = originalQuizQuestion.question;
 
-        const newQuestion = manager.create(Question, {
-          name: originalQuestion.name,
-          content: originalQuestion.content,
-          isPhising: originalQuestion.isPhising,
-          languageId: originalQuestion.languageId || defaultLanguage.id,
-          type: originalQuestion.type,
-          apps: originalQuestion.apps
+        const duplicatedQuestion = await this.sharedQuestionDuplicationService.duplicateQuestion({
+          originalQuestion,
+          targetQuizId: savedQuiz.id,
+          manager
         });
 
-        const savedQuestion = await manager.save(Question, newQuestion);
-
-        for (const translation of originalQuestion.questionTranslations) {
-          const newTranslation = manager.create(QuestionTranslation, {
-            content: translation.content,
-            question: savedQuestion,
-            languageId: translation.languageId || defaultLanguage.id
-          });
-          await manager.save(QuestionTranslation, newTranslation);
-        }
-
-        for (const explanation of originalQuestion.explanations) {
-          const newExplanation = manager.create(Explanation, {
-            position: explanation.position,
-            index: explanation.index,
-            text: explanation.text,
-            question: savedQuestion
-          });
-          
-          const savedExplanation = await manager.save(Explanation, newExplanation);
-          
-          for (const explanationTranslation of explanation.explanationTranslations) {
-            const newExplanationTranslation = manager.create(ExplanationTranslation, {
-              content: explanationTranslation.content,
-              explanation: savedExplanation,
-              languageId: explanationTranslation.languageId || defaultLanguage.id
-            });
-            await manager.save(ExplanationTranslation, newExplanationTranslation);
-          }
-        }
-
-        const newImageIds = [];
-        for (const originalImage of originalQuestion.images) {
-          const newImagePath = this.generateNewImagePath(originalImage.relativePath, savedQuiz.id);
-
-          const newImage = manager.create(QuestionImage, {
-            name: originalImage.name,
-            relativePath: newImagePath,
-            question: savedQuestion,
-            quiz: savedQuiz
-          });
-
-          const savedImage = await manager.save(QuestionImage, newImage);
-          newImageIds.push(savedImage.id);
-
-          // Copy the actual image file to the new path
-          await this.imageService.copyAndDeleteOrigin(originalImage.relativePath, newImagePath);
-        }
-
-        if (newImageIds.length > 0) {
+        if (duplicatedQuestion.imageIds.length > 0) {
           await this.syncImagesService.execute({
-            imageIds: newImageIds,
-            questionId: savedQuestion.id,
+            imageIds: duplicatedQuestion.imageIds.map(id => id.toString()),
+            questionId: duplicatedQuestion.question.id,
             quizId: savedQuiz.id
           });
         }
@@ -136,9 +79,9 @@ export class DuplicateQuizService implements IDuplicateQuizService {
         const newQuizQuestion = manager.create(QuizQuestion, {
           position: originalQuizQuestion.position,
           quiz: savedQuiz,
-          question: savedQuestion
+          question: duplicatedQuestion.question
         });
-        
+
         await manager.save(QuizQuestion, newQuizQuestion);
       }
 
@@ -146,14 +89,5 @@ export class DuplicateQuizService implements IDuplicateQuizService {
     });
   }
 
-  private generateNewImagePath(originalPath: string, newQuizId: number): string {
-    const timestamp = Date.now();
-    const originalFileName = originalPath.split('/').pop();
-    const fileExtension = originalFileName.split('.').pop();
-    const baseFileName = originalFileName.replace(`.${fileExtension}`, '');
-
-    const newFileName = `${timestamp}_copy_${baseFileName}.${fileExtension}`;
-    return `question-images/${newQuizId}/${newFileName}`;
-  }
 
 }
