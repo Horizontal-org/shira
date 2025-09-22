@@ -106,7 +106,6 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
     {
       id: "type",
       header: "Type",
-      // fix: if isPhishing === true → Type = "Phishing"
       accessorFn: (q) => (q.isPhishing ? "Phishing" : "Legitimate"),
       cell: ({ getValue }) => {
         const v = String(getValue() ?? "");
@@ -150,7 +149,7 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
             title="Add"
             onClick={() => onAdd?.(row.original)}
           >
-            <FaCirclePlus size={18} />
+            <FaCirclePlus size={16} />
           </IconIcon>
         </ActionsCell>
       ),
@@ -176,19 +175,6 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
               Select a question from list below to add it to your quiz. Once you've added it to your quiz, you can edit the question to fully customize it, including changing the text and explanations.
             </Body3>
           </div>
-          <Controls>
-            <input
-              placeholder="Search…"
-              value={search}
-              onChange={(e: any) => setSearch(e.target.value)}
-              style={{ minWidth: 220 }}
-            />
-            {!controlled && (
-              <button onClick={fetchRows} disabled={loading}>
-                {loading ? "Loading…" : "Refresh"}
-              </button>
-            )}
-          </Controls>
         </HeaderRow>
 
         {err && (
@@ -203,22 +189,13 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
             {table.getHeaderGroups().map((hg) => (
               <TheadRow key={hg.id}>
                 {hg.headers.map((h) => {
-                  const canSort = h.column.getCanSort();
-                  const sortDir = h.column.getIsSorted(); // false | 'asc' | 'desc'
                   return (
                     <Th
                       key={h.id}
-                      role={canSort ? "button" : undefined}
-                      onClick={canSort ? h.column.getToggleSortingHandler() : undefined}
-                      aria-sort={sortDir ? (sortDir === 'asc' ? 'ascending' : 'descending') : 'none'}
+                      aria-sort={'ascending'}
                     >
                       <span style={{ display: 'inline-flex', gap: 6, alignItems: 'center' }}>
                         {flexRender(h.column.columnDef.header, h.getContext())}
-                        {canSort && (
-                          <SortGlyph>
-                            {sortDir === 'asc' ? '▲' : sortDir === 'desc' ? '▼' : '↕'}
-                          </SortGlyph>
-                        )}
                       </span>
                     </Th>
                   );
@@ -301,7 +278,8 @@ const Table = styled("table")`
 `;
 
 const TheadRow = styled("tr")`
-  background-color: $accent2;
+  background-color: #F3F5E4;
+  padding: $4;
 `;
 
 const Th = styled("th")`
@@ -309,7 +287,6 @@ const Th = styled("th")`
   padding: $3 $4;
   color: $textHigh;
   font-weight: 600;
-  border-bottom: 1px solid $border;
   user-select: none;
 
   &:first-child { width: 44%; border-top-left-radius: $3; }
@@ -317,11 +294,6 @@ const Th = styled("th")`
   &:nth-child(3) { width: 14%; }
   &:nth-child(4) { width: 16%; }
   &:last-child { width: 10%; border-top-right-radius: $3; }
-`;
-
-const SortGlyph = styled("span")`
-  font-size: 11px;
-  opacity: 0.8;
 `;
 
 const Tr = styled("tr")`
@@ -338,7 +310,7 @@ const Td = styled("td")`
 `;
 
 const NameCell = styled("div")`
-  font-weight: 600;
+  font-weight: 20000;
   color: $textHigh;
 `;
 
@@ -349,7 +321,7 @@ const TypeBadge = styled("span")`
   padding: 4px 10px;
   border-radius: 999px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 300;
   border: 1px solid transparent;
 
   &.success { background-color: #e9f3e6; color: #275c2b; border-color: #cfe6ca; }
@@ -370,9 +342,8 @@ const IconIcon = styled("button")`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 999px;
   background: transparent;
-  border: 1px solid $border;
+  border: none;
   cursor: pointer;
 
   &:hover { background: $accent3; }
