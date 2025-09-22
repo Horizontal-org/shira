@@ -46,7 +46,7 @@ export class DuplicateQuestionQuizService implements IDuplicateQuestionQuizServi
 
       const duplicatedQuestion = await this.sharedQuestionDuplicationService.duplicateQuestion({
         originalQuestion,
-        newQuestionName: `Copy ${originalQuestion.name}`,
+        newQuestionName: `Copy of ${originalQuestion.name}`,
         targetQuizId: duplicateQuestionDto.quizId,
         manager
       });
