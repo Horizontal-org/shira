@@ -1,5 +1,5 @@
-import { GetLibraryQuestionsController } from './library.question.controller';
+import { LibraryQuestionsController } from './question.library.controller';
 
 export const libraryQuestionControllers = [
-  GetLibraryQuestionsController
+  LibraryQuestionsController
 ];

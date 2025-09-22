@@ -31,7 +31,7 @@ import { RolesGuard } from './guards/roles.guard';
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '1d' },
     }),
-    UserModule,    
+    UserModule,
     SpaceModule,
     PassphraseModule,
     OrganizationModule,
