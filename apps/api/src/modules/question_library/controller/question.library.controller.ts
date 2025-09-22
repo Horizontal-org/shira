@@ -1,19 +1,20 @@
-import { Get, Logger, Res, Inject, Controller } from '@nestjs/common';
+import { Get, Logger, Inject, Controller, Res } from '@nestjs/common';
 import { TYPES } from '../interfaces';
 import { IGetLibraryQuestionService } from '../interfaces/services/question-library.service.interface';
-import { AuthController } from 'src/utils/decorators/auth-controller.decorator';
 import { Roles } from 'src/modules/auth/decorators/roles.decorators';
 import { Role } from 'src/modules/user/domain/role.enum';
+import { AuthController } from 'src/utils/decorators/auth-controller.decorator';
 
-@AuthController('question')
-export class LibraryQuestionsController {
-  private readonly logger = new Logger(LibraryQuestionsController.name);
+@AuthController('question/library')
+export class QuestionLibraryController {
+  private readonly logger = new Logger(QuestionLibraryController.name);
+
   constructor(
     @Inject(TYPES.services.IGetLibraryQuestionService)
     private service: IGetLibraryQuestionService,
-  ) {}
+  ) { }
 
-  @Get('library')
+  @Get('')
   @Roles(Role.SpaceAdmin)
   async getLibrary() {
     this.logger.log('GET /question/library hit');

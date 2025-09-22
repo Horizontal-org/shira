@@ -6,19 +6,14 @@ import { IGetLibraryQuestionService } from '../interfaces/services/question-libr
 
 @Injectable()
 export class GetLibraryQuestionService implements IGetLibraryQuestionService {
-    private readonly logger = new Logger(GetLibraryQuestionService.name);
-  
   constructor(
     @InjectRepository(Question)
     private readonly questionRepo: Repository<Question>,
-  ) {}
-  
-  async execute() {
-    this.logger.log("questions", await this.questionRepo.find)
-    let questions = await this.questionRepo.find({
-        where: { type: 'demo' },
-      });
+  ) { }
 
-      return questions;
+  async execute() {
+    return await this.questionRepo.find({
+      where: { type: 'demo' },
+    });
   }
 }
