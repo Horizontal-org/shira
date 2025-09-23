@@ -1,16 +1,10 @@
 import { FunctionComponent, useEffect, useMemo, useState } from "react";
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-import { styled, Body1, Body3, H2, Box } from "@shira/ui";
+import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import { styled, Body1, H2, Box, defaultTheme } from "@shira/ui";
+import { FaCircleCheck } from "react-icons/fa6";
 import { QuestionLibraryFlowManagement } from "../QuestionLibraryFlowManagement";
-import { MdRemoveRedEye } from "react-icons/md";
+import { MdRemoveRedEye, MdOutlinePhishing } from "react-icons/md";
 import { FaCirclePlus } from "react-icons/fa6";
-import { SiGmail, SiMicrosoftoutlook, SiWhatsapp } from "react-icons/si";
-import { MdSms } from "react-icons/md";
 import { Question, getLibraryQuestions } from "../../fetch/question_library";
 
 type Props = {
@@ -24,89 +18,64 @@ type TableMeta = {
   onAdd?: (q: Question) => void;
 };
 
-const icons = {
-  gmail: { fg: "#DB4437", bg: "#FDEBE9", Icon: SiGmail },
-  outlook: { fg: "#0A64AD", bg: "#E8F1FF", Icon: SiMicrosoftoutlook },
-  whatsapp: { fg: "#25D366", bg: "#EAF9F0", Icon: SiWhatsapp },
-  sms: { fg: "#6B7280", bg: "#F2F2F3", Icon: MdSms },
-}
-
-function resolveIcons(appRaw?: unknown) {
-  const app = String(appRaw ?? "").toLowerCase();
-  if (app.includes("gmail")) return "gmail";
-  if (app.includes("outlook")) return "outlook";
-  if (app.includes("whatsapp")) return "whatsapp";
-  if (app.includes("sms")) return "sms";
-  return undefined;
-}
-
-
-const AppCell: React.FC<{ value?: unknown }> = ({ value }) => {
-  const label = value == null || value === "" ? "-" : String(value);
-  const key = resolveIcons(label);
-  const Icon = key ? icons[key].Icon : null;
-  return (
-        <AppButton style={{ color: icons[key].fg, background: icons[key].bg }}>
-          {<Icon size={16} aria-hidden />}
-          <p>{label}</p>
-        </AppButton>
-  );
-};
-
-const columns: ColumnDef<Question, unknown>[] = [
+const columns: ColumnDef<Question>[] = [
   {
+    header: "Question name",
     accessorKey: "name",
     id: "title",
-    header: "Question name",
-    cell: (ctx) => <NameCell>{String(ctx.getValue())}</NameCell>,
+    cell: (c) => <Cell>{String(c.getValue())}</Cell>,
   },
   {
+    header: "Type",
     accessorKey: "isPhishing",
     id: "type",
-    header: "Type",
-    cell: (ctx) => {
-      const isPhising = Boolean(ctx.getValue());
-      const label = isPhising ? "Phishing" : "Legitimate";
-      return <TypeBadge className={isPhising ? "danger" : "success"}>{label}</TypeBadge>;
+    cell: (c) => {
+      const isPhishing = Boolean(c.getValue());
+      return (
+        <Phishing $isPhishing={isPhishing}>
+          {isPhishing ? <MdOutlinePhishing size={16} /> : <FaCircleCheck size={16} color={defaultTheme.colors.green6} />}
+          {isPhishing ? "Phishing" : "Legitimate"}
+        </Phishing>
+      );
     },
   },
   {
+    header: "Language",
     accessorKey: "language",
     id: "language",
-    header: "Language",
-    cell: (ctx) => <NameCell>{String(ctx.getValue())}</NameCell>,
+    cell: (c) => <Cell>{String(c.getValue())}</Cell>,
   },
   {
+    header: "App",
     accessorKey: "appName",
     id: "app",
-    header: "App",
-    cell: (ctx) => <AppCell value={ctx.getValue()} />,
+    cell: (c) => <Cell>{String(c.getValue())}</Cell>,
   },
   {
-    id: "actions",
     header: "Actions",
+    id: "actions",
     cell: ({ row, table }) => {
       const meta = table.options.meta as TableMeta | undefined;
       return (
         <ActionsCell>
-          <IconButton
+          <ActionButton
             aria-label="Preview question"
             title="Preview"
             onClick={() => meta?.onPreview?.(row.original)}
           >
-            <MdRemoveRedEye size={18} color="grey" />
-          </IconButton>
-          <IconButton
+            <MdRemoveRedEye size={21} color={defaultTheme.colors.dark.overlay} />
+          </ActionButton>
+          <ActionButton
             aria-label="Add question"
             title="Add"
             onClick={() => meta?.onAdd?.(row.original)}
           >
-            <FaCirclePlus size={18} color="green" />
-          </IconButton>
+            <FaCirclePlus size={18} color={defaultTheme.colors.green6} />
+          </ActionButton>
         </ActionsCell>
       );
-    },
-  },
+    }
+  }
 ];
 
 export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
@@ -138,16 +107,16 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
         if (alive) setLoading(false);
       }
     })();
-    return () => {
-      alive = false;
-    };
+    return () => { alive = false; };
   }, [controlled, rowsProp]);
+
+  const meta = useMemo<TableMeta>(() => ({ onPreview, onAdd }), [onPreview, onAdd]);
 
   const table = useReactTable({
     data: rows,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    meta: useMemo<TableMeta>(() => ({ onPreview, onAdd }), [onPreview, onAdd]),
+    meta,
   });
 
   const totalCols = table.getAllLeafColumns().length;
@@ -158,9 +127,9 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
         <HeaderRow>
           <div>
             <H2>Question Library</H2>
-            <Body3>
-              Select a question from list below to add it to your quiz. Once you’ve added it to your quiz, you can edit the question to fully customize it, including changing the text and explanations.
-            </Body3>
+            <MiddleBody1>
+              Select a question from list below to add it to your quiz. Once you've added it to your quiz, you can edit the question to fully customize it, including changing the text and explanations.
+            </MiddleBody1>
           </div>
         </HeaderRow>
 
@@ -220,7 +189,6 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
 const StyledBox = styled(Box)`
   position: relative;
   z-index: 1;
-  padding: 48px;
   width: 1024px;
   background: #f9f9f9;
   border: none;
@@ -230,28 +198,7 @@ const HeaderRow = styled("div")`
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: $4;
-  margin-bottom: $4;
-`;
-
-const ErrorBox = styled("div")`
-  background: #fff5f5;
-  border: 1px solid #ffd6d6;
-  color: #7a1e1e;
-  padding: $3;
-  border-radius: $2;
-  display: inline-flex;
-  align-items: center;
-  gap: $3;
-  margin-bottom: $3;
-`;
-
-const RetryButton = styled("button")`
-  padding: 6px 10px;
-  border-radius: $2;
-  border: 1px solid $border;
-  background: $accent1;
-  cursor: pointer;
+  color: ${defaultTheme.colors.dark.black};
 `;
 
 const Table = styled("table")`
@@ -264,16 +211,29 @@ const Table = styled("table")`
   overflow: hidden;
 `;
 
-const TheadRow = styled("tr")`
-  background-color: #f3f5e4;
-  padding: $4;
+const ErrorBox = styled("div")`
+  background: #fff5f5;
+  border: 1px solid #ffd6d6;
+  color: #7a1e1e;
+  display: inline-flex;
+  align-items: center;
 `;
 
-const Th = styled("th")<{ $first?: boolean; $last?: boolean }>`
+const RetryButton = styled("button")`
+  padding: 6px 10px;
+  border: 1px solid $border;
+  cursor: pointer;
+`;
+
+const TheadRow = styled("tr")`
+  background-color: #f3f5e4;
+`;
+
+const Th = styled("th") <{ $first?: boolean; $last?: boolean }>`
   text-align: left;
   padding: 14px 16px;
-  color: $textHigh;
   font-weight: 600;
+  vertical-align: middle;
 
   &:nth-child(1) { width: 44%; }
   &:nth-child(2) { width: 16%; }
@@ -288,56 +248,30 @@ const Th = styled("th")<{ $first?: boolean; $last?: boolean }>`
 const Tr = styled("tr")`
   background: #fff;
   &:not(:last-child) td { border-bottom: 1px solid #ececec; }
-  &:hover { background: #fafafa; }
 `;
 
 const Td = styled("td")`
   padding: 14px 16px;
   vertical-align: middle;
-  color: $text;
+  text-align: left;
 `;
 
-const NameCell = styled("div")`
-  font-weight: 300;
-  color: $textHigh;
-`;
-
-const TypeBadge = styled("span")`
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 500;
-  border: 1px solid transparent;
-
-  &.success {
-    background-color: #e9f3e6;
-    color: #275c2b;
-    border-color: #cfe6ca;
-  }
-  &.danger {
-    background-color: #fbe6e6;
-    color: #7a1e1e;
-    border-color: #f4cdcd;
-  }
+const Cell = styled("div")`
+  font-weight: 400;
 `;
 
 const ActionsCell = styled("div")`
   display: flex;
   align-items: center;
-  gap: $2;
   font-weight: 300;
 `;
 
-const IconButton = styled("button")`
+const ActionButton = styled("button")`
   width: 32px;
   height: 32px;
   padding: 0;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -347,12 +281,17 @@ const IconButton = styled("button")`
   }
 `;
 
-const AppButton = styled("button")`
-  width: 22px;
-  height: 22px;
-  border: none;
+const Phishing = styled.div<{ $isPhishing?: boolean }>`
+  background: ${(props) => (props.$isPhishing ? "#FFECEA" : "#F3F5E4")};
+  color: ${(props) => (props.$isPhishing ? defaultTheme.colors.error9 : defaultTheme.colors.green9)};
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  gap: 6px;
+  border-radius: 2px;
+  padding: 4px 8px;
+  font-weight: 400;
 `;
 
+const MiddleBody1 = styled(Body1)`
+  padding-top: 16px;
+`;
