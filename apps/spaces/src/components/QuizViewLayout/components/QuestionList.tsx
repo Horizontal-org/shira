@@ -69,7 +69,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
           onClick={onAdd}
         />
         <Button
-          leftIcon={<MdOutlineMenuBook size={16} />}
+          leftIcon={<MdOutlineMenuBook size={18} />}
           text="Add from library"
           type="primary"
           color="#849D29"
@@ -153,6 +153,7 @@ const Header = styled.div`
   display: flex;
   justify-content: flex-start;
   margin-bottom: 16px;
+  gap: 10px;
 `;
 
 const List = styled.div`
