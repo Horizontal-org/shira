@@ -8,7 +8,6 @@ type Props = {
 };
 
 export const QuestionLibraryFlowManagement: FunctionComponent<Props> = ({
-  initialAppType = null,
   children,
   onExit,
 }) => {
@@ -16,7 +15,7 @@ export const QuestionLibraryFlowManagement: FunctionComponent<Props> = ({
     <>
       <QuestionLibraryFlowHeader onExit={onExit ?? (() => {})} />
 
-      <div style={{ display: "flex", justifyContent: "center", padding: "48px 0" }}>
+      <div style={{ display: "flex", justifyContent: "center", padding: "48px 0", background: "#f9f9f9" }}>
         {children}
       </div>
     </>

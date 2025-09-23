@@ -4,13 +4,13 @@ export interface Question {
   id: number;
   name: string;
   isPhishing: boolean;
-  language?: { name?: string; code?: string } | string;
-  app?: string;
+  type: string;
+  language: string;
+  appName: string;
 };
 
 export const getLibraryQuestions = async() => {
   try {
-    console.log("🚀 ~ getLibraryQuestions ~");
     const res = await axios.get<Question[]>(`${process.env.REACT_APP_API_URL}/question/library`)
     return res.data
   } catch (err) {
