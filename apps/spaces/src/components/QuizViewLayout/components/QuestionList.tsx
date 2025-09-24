@@ -1,7 +1,7 @@
 import { FunctionComponent, useState } from "react";
 import { FiMenu, FiPlus } from 'react-icons/fi';
 import { MdOutlineMenuBook } from "react-icons/md";
-import { Button, styled, TrashIcon, EditIcon } from '@shira/ui'
+import { Button, styled, TrashIcon, EditIcon, defaultTheme } from '@shira/ui'
 import EmptyState from "./EmptyState";
 import { DeleteModal } from "../../modals/DeleteModal";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -65,14 +65,14 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
           leftIcon={<FiPlus size={16} />}
           text="Create question"
           type="primary"
-          color="#849D29"
+          color={defaultTheme.colors.green7}
           onClick={onAdd}
         />
         <Button
           leftIcon={<MdOutlineMenuBook size={18} />}
           text="Add from library"
           type="primary"
-          color="#849D29"
+          color={defaultTheme.colors.green7}
           onClick={onAddLibrary}
         />
       </Header>
