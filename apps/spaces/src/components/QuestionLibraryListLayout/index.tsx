@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { styled, Body1, H2, Box, defaultTheme } from "@shira/ui";
+import { styled, Body1, H2, Box, defaultTheme, Body3Bold } from "@shira/ui";
 import { FaCircleCheck } from "react-icons/fa6";
 import { QuestionLibraryFlowManagement } from "../QuestionLibraryFlowManagement";
 import { MdRemoveRedEye, MdOutlinePhishing } from "react-icons/md";
@@ -23,7 +23,7 @@ const columns: ColumnDef<Question>[] = [
     header: "Question name",
     accessorKey: "name",
     id: "title",
-    cell: (c) => <Cell>{String(c.getValue())}</Cell>,
+    cell: (c) => <NameCell>{String(c.getValue())}</NameCell>,
   },
   {
     header: "Type",
@@ -233,6 +233,8 @@ const Th = styled("th") <{ $first?: boolean; $last?: boolean }>`
   text-align: left;
   padding: 14px 16px;
   font-weight: 600;
+  font-size: 16px;
+  color: ${defaultTheme.colors.dark.black};
   vertical-align: middle;
 
   &:nth-child(1) { width: 44%; }
@@ -247,13 +249,17 @@ const Th = styled("th") <{ $first?: boolean; $last?: boolean }>`
 
 const Tr = styled("tr")`
   background: #fff;
+  color: ${defaultTheme.colors.dark.darkGrey};
   &:not(:last-child) td { border-bottom: 1px solid #ececec; }
 `;
 
 const Td = styled("td")`
   padding: 14px 16px;
   vertical-align: middle;
-  text-align: left;
+`;
+
+const NameCell = styled(Body3Bold)`
+  color: ${defaultTheme.colors.dark.darkGrey};
 `;
 
 const Cell = styled("div")`
