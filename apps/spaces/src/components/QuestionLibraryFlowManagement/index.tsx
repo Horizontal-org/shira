@@ -1,6 +1,8 @@
 import { FunctionComponent, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { QuestionLibraryFlowHeader } from "../QuestionLibraryFlowHeader";
+import styled from "styled-components";
+import { defaultTheme } from "@shira/ui";
 
 type Props = {
   initialAppType?: string | null;
@@ -15,10 +17,14 @@ export const QuestionLibraryFlowManagement: FunctionComponent<Props> = ({
   return (
     <>
       <QuestionLibraryFlowHeader onExit={() => navigate(-1)} />
-
-      <div style={{ display: "flex", justifyContent: "center", padding: "48px 0", background: "#f9f9f9" }}>
-        {children}
-      </div>
+      <QuestionLibraryList>{children}</QuestionLibraryList>
     </>
   );
 };
+
+const QuestionLibraryList = styled("div")`
+  display: flex;
+  justify-content: center;
+  padding: 48px 0;
+  background: ${defaultTheme.colors.light.paleGrey};
+`;

@@ -190,7 +190,7 @@ const StyledBox = styled(Box)`
   position: relative;
   z-index: 1;
   width: 1024px;
-  background: #f9f9f9;
+  background: ${defaultTheme.colors.light.paleGrey};
   border: none;
 `;
 
@@ -206,7 +206,7 @@ const Table = styled("table")`
   border-collapse: separate;
   border-spacing: 0;
   font-size: 14px;
-  background: #fff;
+  background: ${defaultTheme.colors.light.white};
   border-radius: 10px;
   overflow: hidden;
 `;
@@ -226,7 +226,7 @@ const RetryButton = styled("button")`
 `;
 
 const TheadRow = styled("tr")`
-  background-color: #f3f5e4;
+  background-color: ${defaultTheme.colors.light.paleGreen};
 `;
 
 const Th = styled("th") <{ $first?: boolean; $last?: boolean }>`
