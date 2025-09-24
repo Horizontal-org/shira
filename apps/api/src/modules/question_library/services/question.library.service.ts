@@ -18,7 +18,8 @@ export class GetLibraryQuestionService implements IGetLibraryQuestionService {
       .leftJoin('apps_questions', 'aq', 'aq.question_id = q.id')
       .leftJoin('apps', 'a', 'a.id = aq.app_id')
       .addSelect(['l.name AS language_name', 'a.name AS app_name'])
-      .where('q.type = :type', { type: 'demo' });
+      .where('q.type = :type', { type: 'demo' })
+      .orderBy('q.name', 'ASC');
 
     const rows = await result.getRawMany();
 
