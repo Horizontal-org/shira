@@ -1,10 +1,10 @@
 import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { styled, Body1, H2, Box, defaultTheme, Body3Bold } from "@shira/ui";
-import { FaCircleCheck } from "react-icons/fa6";
+import { FaCircleCheck, FaCirclePlus } from "react-icons/fa6";
+import { MdRemoveRedEye, MdOutlinePhishing, MdTextsms, MdFacebook, MdMail } from "react-icons/md";
+import { RiWhatsappFill } from "react-icons/ri";
 import { QuestionLibraryFlowManagement } from "../QuestionLibraryFlowManagement";
-import { MdRemoveRedEye, MdOutlinePhishing } from "react-icons/md";
-import { FaCirclePlus } from "react-icons/fa6";
 import { Question, getLibraryQuestions } from "../../fetch/question_library";
 
 type Props = {
@@ -16,6 +16,14 @@ type Props = {
 type TableMeta = {
   onPreview?: (q: Question) => void;
   onAdd?: (q: Question) => void;
+};
+
+const appIcons: Record<string, JSX.Element> = {
+  "gmail": <MdMail />,
+  "messenger": <MdFacebook />,
+  "sms": <MdTextsms />,
+  "whatsapp": <RiWhatsappFill />,
+  "outlook": <MdMail />
 };
 
 const columns: ColumnDef<Question>[] = [
@@ -32,10 +40,10 @@ const columns: ColumnDef<Question>[] = [
     cell: (c) => {
       const isPhishing = Boolean(c.getValue());
       return (
-        <Phishing $isPhishing={isPhishing}>
+        <PhishingCell $isPhishing={isPhishing}>
           {isPhishing ? <MdOutlinePhishing size={16} /> : <FaCircleCheck size={16} color={defaultTheme.colors.green6} />}
           {isPhishing ? "Phishing" : "Legitimate"}
-        </Phishing>
+        </PhishingCell>
       );
     },
   },
@@ -49,7 +57,15 @@ const columns: ColumnDef<Question>[] = [
     header: "App",
     accessorKey: "appName",
     id: "app",
-    cell: (c) => <Cell>{String(c.getValue())}</Cell>,
+    cell: (c) => {
+      const appName = String(c.getValue());
+      return (
+        <AppCell>
+          {appIcons[appName.toLowerCase()]}
+          {appName}
+        </AppCell>
+      );
+    },
   },
   {
     header: "Actions",
@@ -266,10 +282,18 @@ const Cell = styled("div")`
   font-weight: 400;
 `;
 
+const AppCell = styled("div")`
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 2px;
+  padding: 4px 8px;
+  font-weight: 400;
+`;
+
 const ActionsCell = styled("div")`
   display: flex;
   align-items: center;
-  font-weight: 300;
 `;
 
 const ActionButton = styled("button")`
@@ -287,7 +311,7 @@ const ActionButton = styled("button")`
   }
 `;
 
-const Phishing = styled.div<{ $isPhishing?: boolean }>`
+const PhishingCell = styled.div<{ $isPhishing?: boolean }>`
   background: ${(props) => (props.$isPhishing ? "#FFECEA" : "#F3F5E4")};
   color: ${(props) => (props.$isPhishing ? defaultTheme.colors.error9 : defaultTheme.colors.green9)};
   display: inline-flex;
