@@ -14,10 +14,7 @@ interface Props {
   question?: ActiveQuestion
 }
 
-export const QuestionReview: FunctionComponent<Props> = ({
-  question
-}) => {
- 
+export const QuestionReview: FunctionComponent<Props> = ({}) => {
   const {
     activeQuestion,
     explanations
