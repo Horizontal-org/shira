@@ -13,6 +13,7 @@ export interface CardProps {
   onTogglePublished: () => void;
   onCopyUrl: () => void;
   onEdit: () => void;
+  onDuplicate: () => void;
   onDelete: () => void;
   onCardClick: () => void;
 }
@@ -24,6 +25,7 @@ export const Card: FunctionComponent<CardProps> = ({
   onTogglePublished,
   onCopyUrl,
   onEdit,
+  onDuplicate,
   onDelete,
   onCardClick
 }) => {
@@ -51,6 +53,10 @@ export const Card: FunctionComponent<CardProps> = ({
             onEdit={(e) => { 
               e.stopPropagation()
               onEdit()
+            }}
+            onDuplicate={(e) => {
+              e.stopPropagation()
+              onDuplicate()
             }}
             onDelete={(e) => {
               e.stopPropagation()

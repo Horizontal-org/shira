@@ -69,3 +69,24 @@ export const getQuizById = async(id: number) => {
     throw new Error('Failed to fetch quiz')
   }
 }
+
+export const duplicateQuestion = async(quizId: number, questionId: number) => {
+  try {
+    await axios.post(`${process.env.REACT_APP_API_URL}/quiz/${quizId}/questions/${questionId}/duplicate`)
+  } catch (err) {
+    console.log("🚀 ~ duplicateQuestion ~ err:", err)    
+    throw new Error('Failed to duplicate question')
+  }
+}
+
+export const duplicateQuiz = async(quizId: number, title: string) => {
+  try {
+    const res = await axios.post(`${process.env.REACT_APP_API_URL}/quiz/${quizId}/duplicate`, {
+      title: title
+    })
+    return res.data
+  } catch (err) {
+    console.log("🚀 ~ duplicateQuiz ~ err:", err)    
+    throw new Error('Failed to duplicate quiz')
+  }
+}

@@ -28,6 +28,9 @@ const meta = {
     onCopyUrl: {
       description: 'Callback when copy URL button is clicked'
     },
+    onDuplicate: {
+      description: 'Callback when duplicate button is clicked'
+    },
     onCardClick: {
       description: 'Callback when click the whole card'
     }
@@ -58,6 +61,7 @@ export const Default: Story = {
     onTogglePublished: () => console.log('Toggle published'),
     onCopyUrl: () => console.log('Copy URL clicked'),
     onEdit: () => console.log('edit'),
+    onDuplicate: () => console.log('duplicate'),
     onDelete: () => console.log('delete'),
     onCardClick: () => console.log('clicked card')
   }

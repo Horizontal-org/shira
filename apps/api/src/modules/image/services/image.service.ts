@@ -79,11 +79,11 @@ export class ImageService implements IImageService {
 
   public async copyAndDeleteOrigin(originPath: string, destinationPath: string) {
     const conds = new Minio.CopyConditions()
-    
+
     await this.minioService.copyObject(
-      this._bucketName, 
-      originPath, 
-      `/${this._bucketName}/${destinationPath}`,
+      this._bucketName,
+      destinationPath,
+      `/${this._bucketName}/${originPath}`,
       conds
     )
   }
