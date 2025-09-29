@@ -23,8 +23,6 @@ export class GetLibraryQuestionService implements IGetLibraryQuestionService {
 
     const rows = await result.getRawMany();
 
-    console.log(rows)
-
     const libraryQuestion = rows.map((r) => ({
       id: r.q_id,
       name: r.q_name,

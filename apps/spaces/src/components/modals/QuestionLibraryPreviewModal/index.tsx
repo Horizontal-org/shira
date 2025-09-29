@@ -1,40 +1,30 @@
 import { FunctionComponent } from "react";
 import { styled, Button, defaultTheme } from "@shira/ui";
 import { createPortal } from "react-dom";
-import { Question } from "../../../fetch/question_library";
-import { IoClose } from "react-icons/io5";
-import { QuestionReview } from "../../QuestionReview";
+import { ActiveQuestion } from "../../../store/types/active_question";
+import { QuestionPreview } from "../../QuestionPreview";
+import { Explanation } from "../../../store/types/explanation";
 
 type Props = {
-  question: Question;
-  // onAdd: (q: Question) => void;
+  question: ActiveQuestion;
+  explanations?: Explanation[];
+  onAdd: (q: ActiveQuestion) => void;
   onClose: () => void;
 };
 
 export const QuestionLibraryPreviewModal: FunctionComponent<Props> = ({
   question,
-  // onAdd,
+  onAdd,
   onClose,
 }) => {
   return createPortal(
     <Overlay role="dialog" aria-modal="true">
       <Dialog>
-        <Header>
-          <CloseWrapper onClick={onClose}>
-            <IoClose
-              color={defaultTheme.colors.dark.darkGrey}
-              size={24}
-            />
-          </CloseWrapper>
-        </Header>
-
         <Body>
-          <QuestionReview />
-          <div style={{ padding: 16 }}>{question.name}</div>
+          <QuestionPreview onClose={onClose}/>
         </Body>
-
         <Footer>
-          {/* <Button text="+ Add to quiz" onClick={() => onAdd(question)} /> */}
+          <Button text="+ Add to quiz" onClick={() => onAdd(question)} />
         </Footer>
       </Dialog>
     </Overlay>,
@@ -57,20 +47,12 @@ const Dialog = styled.div`
   background: ${defaultTheme.colors.light.white};
   border-radius: 16px;
   display: grid;
-  grid-template-rows:
-  auto 1fr auto;
-`;
-
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 20px;
+  grid-template-rows: auto 1fr auto;
 `;
 
 const Body = styled.div`
   overflow: auto;
-  background: ${defaultTheme.colors.light.paleGrey};
+  border-radius: 16px;
 `;
 
 const Footer = styled.div`
@@ -79,15 +61,5 @@ const Footer = styled.div`
   display: flex;
   justify-content: flex-end;
   background: ${defaultTheme.colors.light.white};
-  border-top: 1px solid #ececec;
-  border-bottom-left-radius: 16px;
-  border-bottom-right-radius: 16px;
+  border-radius: 16px;
 `;
-
-const CloseWrapper = styled.div`
-  padding: 0 8px;
-  margin: 0 20px;
-  cursor: pointer;
-  display: flex; 
-  align-items: center;
-`
