@@ -5,6 +5,7 @@ export interface Question {
   name: string;
   isPhishing: boolean;
   type: string;
+  content: string;
   language: string;
   appName: string;
 };

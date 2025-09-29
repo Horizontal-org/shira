@@ -23,11 +23,14 @@ export class GetLibraryQuestionService implements IGetLibraryQuestionService {
 
     const rows = await result.getRawMany();
 
+    console.log(rows)
+
     const libraryQuestion = rows.map((r) => ({
       id: r.q_id,
       name: r.q_name,
       isPhishing: r.q_is_phising,
       type: r.q_type,
+      content: r.q_content,
       language: r.language_name,
       appName: r.app_name
     }));
