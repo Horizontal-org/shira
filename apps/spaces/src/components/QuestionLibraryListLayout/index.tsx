@@ -5,8 +5,7 @@ import { shallow } from "zustand/shallow";
 import { styled, Body1, H2, Box, defaultTheme } from "@shira/ui";
 import { QuestionLibraryFlowManagement } from "../QuestionLibraryFlowManagement";
 import { QuestionLibraryPreviewModal } from "../modals/QuestionLibraryPreviewModal";
-import { getLibraryQuestions } from "../../fetch/question_library";
-import type { Question as LibraryQuestion } from "../../fetch/question_library";
+import { Question, getLibraryQuestions } from "../../fetch/question_library";
 import type { ActiveQuestion } from "../../store/types/active_question";
 import { useStore } from "../../store";
 import { QuestionCRUDFeedback, useQuestionCRUD } from "../../fetch/question";
@@ -16,19 +15,18 @@ import toast from "react-hot-toast";
 import { columns } from "./columns";
 
 type Props = {
-  rows?: LibraryQuestion[];
-  onPreview?: (q: LibraryQuestion) => void;
-  onAdd?: (q: LibraryQuestion) => void;
+  rows?: Question[];
+  onAdd: (q: Question) => void;
 };
 
 export type TableMeta = {
-  onPreview?: (q: LibraryQuestion) => void;
-  onAdd?: (q: LibraryQuestion) => void;
+  onPreview?: (q: Question) => void;
+  onAdd?: (q: Question) => void;
 };
 
 export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
   rows: rowsProp,
-  onAdd,
+  onAdd
 }) => {
   const controlled = rowsProp !== undefined;
   const navigate = useNavigate();
@@ -39,8 +37,8 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
     setQuizActionSuccess: state.setQuizActionSuccess
   }), shallow)
 
-  const [preview, setPreview] = useState<{ active: ActiveQuestion; original: LibraryQuestion } | null>(null);
-  const [rows, setRows] = useState<LibraryQuestion[]>(rowsProp ?? []);
+  const [preview, setPreview] = useState<{ active: ActiveQuestion; original: Question }>(null);
+  const [rows, setRows] = useState<Question[]>(rowsProp ?? []);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
@@ -52,7 +50,7 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
     }
 
     if (actionFeedback === QuestionCRUDFeedback.error) {
-      toast.error('ERROR CREATING QUESTION', { duration: 3000 })
+      toast.error('ERROR ADDING QUESTION', { duration: 3000 })
     }
   }, [actionFeedback])
 
@@ -81,7 +79,7 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
     useStore((s: any) => s.setActiveQuestion) ||
     ((aq: ActiveQuestion) => useStore.setState({ activeQuestion: aq }));
 
-  const handlePreview = (q: LibraryQuestion) => {
+  const handlePreview = (q: Question) => {
     const active = libraryToActiveQuestion(q);
     setActiveQuestion(active);
     setPreview({ active, original: q });
@@ -99,7 +97,7 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
     meta,
   });
 
-  const totalCols = table.getAllLeafColumns().length;
+  const totalColumns = table.getAllLeafColumns().length;
 
   return (
     <QuestionLibraryFlowManagement>
@@ -140,13 +138,13 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
           <tbody>
             {loading ? (
               <Tr>
-                <Td colSpan={totalCols}>
+                <Td colSpan={totalColumns}>
                   <Body1>Loading questions…</Body1>
                 </Td>
               </Tr>
             ) : table.getRowModel().rows.length === 0 ? (
               <Tr>
-                <Td colSpan={totalCols}>
+                <Td colSpan={totalColumns}>
                   <Body1>No questions found.</Body1>
                 </Td>
               </Tr>
@@ -168,6 +166,7 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
             onAdd={(question) => {
               submit("1", question) // TODO quiz id
             }}
+            explanations={preview.original.explanations}
             onClose={() => setPreview(null)}
           />
         )}

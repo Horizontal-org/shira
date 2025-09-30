@@ -3,25 +3,26 @@ import { styled, Button, defaultTheme } from "@shira/ui";
 import { createPortal } from "react-dom";
 import { ActiveQuestion } from "../../../store/types/active_question";
 import { QuestionPreview } from "../../QuestionPreview";
-import { Explanation } from "../../../store/types/explanation";
+import { Explanation } from "../../../fetch/question_library";
 
 type Props = {
   question: ActiveQuestion;
-  explanations?: Explanation[];
   onAdd: (q: ActiveQuestion) => void;
   onClose: () => void;
+  explanations: Explanation[];
 };
 
 export const QuestionLibraryPreviewModal: FunctionComponent<Props> = ({
   question,
   onAdd,
   onClose,
+  explanations
 }) => {
   return createPortal(
     <Overlay role="dialog" aria-modal="true">
       <Dialog>
         <Body>
-          <QuestionPreview onClose={onClose}/>
+          <QuestionPreview onClose={onClose} explanations={explanations} />
         </Body>
         <Footer>
           <Button text="+ Add to quiz" onClick={() => onAdd(question)} />

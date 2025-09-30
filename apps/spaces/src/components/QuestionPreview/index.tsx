@@ -9,32 +9,34 @@ import { MdBlock } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
 import { ActiveQuestion } from "../../store/types/active_question";
 import { AppSelector } from "../QuestionReview/components/AppSelector";
+import { Explanation, Question } from "../../fetch/question_library";
 
 interface Props {
-  question?: ActiveQuestion,
-  onClose?: () => void
+  activeQuestion?: ActiveQuestion,
+  question?: Question,
+  onClose?: () => void,
+  explanations: Explanation[]
 }
 
-export const QuestionPreview: FunctionComponent<Props> = ({ onClose }) => {
+export const QuestionPreview: FunctionComponent<Props> = ({ onClose, explanations }) => {
+
   const {
     activeQuestion,
-    explanations
   } = useStore((state) => ({
-    explanations: state.explanations,
     activeQuestion: state.activeQuestion
-  }), shallow)
+  }), shallow);
 
-  const [elementProps, handleElementProps] = useState(null)
-  const [explanationNumber, setExplanationNumber] = useState<number>(0)
-  const [explanationsOrder, handleExplanationsOrder] = useState<Array<number>>([])
-  const [showExplanations, handleShowExplanations] = useState<boolean>(false)
+  const [elementProps, handleElementProps] = useState(null);
+  const [explanationNumber, setExplanationNumber] = useState<number>(0);
+  const [explanationsOrder, handleExplanationsOrder] = useState<Array<number>>([]);
+  const [showExplanations, handleShowExplanations] = useState<boolean>(false);
 
   useEffect(() => {
     const order = explanations
       .sort((a, b) => a.position - b.position)
       .map(e => e.index)
 
-    handleExplanationsOrder(order)
+    handleExplanationsOrder(order);
 
     if (activeQuestion && activeQuestion.app) {
       const contentProps = getContentProps(activeQuestion.app.name, activeQuestion)
@@ -44,11 +46,11 @@ export const QuestionPreview: FunctionComponent<Props> = ({ onClose }) => {
         ...contentProps
       })
     }
-  }, [])
+  }, []);
 
   if (!activeQuestion || !elementProps) {
     return
-  }
+  };
 
   return (
     <>

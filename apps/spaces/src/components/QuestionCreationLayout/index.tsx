@@ -22,12 +22,13 @@ export const QuestionCreationLayout: FunctionComponent<Props> = () => {
   
   useEffect(() => {
     if (actionFeedback === QuestionCRUDFeedback.success) {
-      setQuizActionSuccess(QuizSuccessStates.question_added_from_library)
+      setQuizActionSuccess(QuizSuccessStates.question_created)
       navigate(`/quiz/${quizId}`)
       return
     }
 
     if (actionFeedback === QuestionCRUDFeedback.error) {
+      // TODO do we navigate?
       toast.error('ERROR CREATING QUESTION', { duration: 3000 })
     }
   }, [actionFeedback])
