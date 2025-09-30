@@ -25,7 +25,9 @@ import { FilterStates } from "./constants";
 import { DeleteModal } from "../modals/DeleteModal";
 import { CreateQuizModal } from "../modals/CreateQuizModal";
 import { UnpublishedQuizModal } from "../modals/UnpublishedQuizModal";
+import { DuplicateQuizModal } from "../modals/DuplicateQuizModal";
 import { handleCopyUrl, handleCopyUrlAndNotify } from "../../utils/quiz";
+import { duplicateQuiz } from "../../fetch/quiz";
 
 interface Props {}
 
@@ -61,6 +63,9 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isDuplicateModalOpen, setIsDuplicateModalOpen] = useState(false);
+  const [selectedQuizForDuplicate, setSelectedQuizForDuplicate] = useState(null);
+  const [isDuplicating, setIsDuplicating] = useState(false);
   const [unpublishedQuizId, handleUnpublishedQuizId] = useState<number | null>(null);
   
 
@@ -105,6 +110,36 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           : card
       )
     );
+  };
+
+  const handleDuplicateQuiz = async (title: string) => {
+    if (!selectedQuizForDuplicate) return;
+
+    setIsDuplicating(true);
+
+    try {
+      // Start both the API call and minimum 1-second delay
+      const [result] = await Promise.all([
+        duplicateQuiz(selectedQuizForDuplicate.id, title),
+        new Promise(resolve => setTimeout(resolve, 1000))
+      ]);
+
+      toast.success(`"${title}" created successfully`, { duration: 3000 });
+
+      // Refresh the quizzes list to show the new duplicated quiz
+      fetchQuizzes();
+
+      // Close modal and reset state
+      setIsDuplicateModalOpen(false);
+      setSelectedQuizForDuplicate(null);
+    } catch (error) {
+      // Even on error, ensure minimum 1-second delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      toast.error('Failed to duplicate quiz', { duration: 3000 });
+      console.error('Duplicate quiz error:', error);
+    } finally {
+      setIsDuplicating(false);
+    }
   };                
 
   
@@ -201,6 +236,10 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                 onEdit={() => {
                   navigate(`/quiz/${card.id}`)
                 }}  
+                onDuplicate={() => {
+                  setSelectedQuizForDuplicate(card);
+                  setIsDuplicateModalOpen(true);
+                }}
                 onDelete={() => {
                   handleSelectedCard(card)
                   setIsDeleteModalOpen(true)
@@ -236,6 +275,18 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             onConfirm={() => {
               handleTogglePublished(unpublishedQuizId, true)
             }}
+          />
+
+          <DuplicateQuizModal
+            quiz={selectedQuizForDuplicate}
+            setIsModalOpen={setIsDuplicateModalOpen}
+            isModalOpen={isDuplicateModalOpen}
+            onDuplicate={handleDuplicateQuiz}
+            onCancel={() => {
+              setIsDuplicateModalOpen(false);
+              setSelectedQuizForDuplicate(null);
+            }}
+            isLoading={isDuplicating}
           />
         </MainContentWrapper>
       </MainContent>

@@ -15,6 +15,7 @@ interface TabContainerProps {
   onAdd: () => void;
   onAddLibrary: () => void;
   onReorder: (newOrder: QuizQuestion[]) => void;
+  onDuplicate: () => void;
 }
 
 export const TabContainer: FunctionComponent<TabContainerProps> = ({
@@ -24,7 +25,8 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   onDelete,
   onAdd,
   onAddLibrary,
-  onReorder
+  onReorder,
+  onDuplicate
 }) => {
   const [activeTab, setActiveTab] = useState<TabType>('questions');
   const [resultsData, setResultsData] = useState<PublicQuizResultsResponse | null>(null);
@@ -68,12 +70,14 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
       <div>
         {activeTab === 'questions' && (
           <QuestionsList
+            quizId={quizId}
             quizQuestions={quizQuestions}
             onEdit={onEdit}
             onDelete={onDelete}
             onAdd={onAdd}
             onAddLibrary={onAddLibrary}
             onReorder={onReorder}
+            onDuplicate={onDuplicate}
           />
         )}
         {activeTab === 'results' && (

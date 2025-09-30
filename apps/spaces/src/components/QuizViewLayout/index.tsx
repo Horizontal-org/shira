@@ -190,6 +190,9 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                     })
                   })
                 }}
+                onDuplicate={() => {
+                  getQuiz()
+                }}
               />
 
               <DeleteModal

@@ -153,6 +153,10 @@ const Buttons = styled.div`
   display: flex;
   gap: 16px;
 
+  @media (max-width: 850px) {
+    justify-content: center;
+  }
+
   @media (max-width: ${props => props.theme.breakpoints.xs}) {
     flex-grow: 0;
     flex-direction: column-reverse;
