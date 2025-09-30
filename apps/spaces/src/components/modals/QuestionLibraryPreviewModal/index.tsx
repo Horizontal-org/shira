@@ -7,16 +7,16 @@ import { Explanation } from "../../../fetch/question_library";
 
 type Props = {
   question: ActiveQuestion;
+  explanations: Explanation[];
   onAdd: (q: ActiveQuestion) => void;
   onClose: () => void;
-  explanations: Explanation[];
 };
 
 export const QuestionLibraryPreviewModal: FunctionComponent<Props> = ({
   question,
+  explanations,
   onAdd,
   onClose,
-  explanations
 }) => {
   return createPortal(
     <Overlay role="dialog" aria-modal="true">
