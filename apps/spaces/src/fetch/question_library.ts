@@ -1,5 +1,11 @@
 import axios from 'axios';
 
+export interface Explanation {
+  position: number;
+  text: string;
+  index: number;
+}
+
 export interface Question {
   id: number;
   name: string;
@@ -8,7 +14,8 @@ export interface Question {
   content: string;
   language: string;
   appName: string;
-};
+  explanations: Explanation[];
+}
 
 export const getLibraryQuestions = async() => {
   try {
