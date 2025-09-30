@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react"
-import { styled, Logo, Body2Regular, Button } from "@shira/ui"
+import { styled, Logo, Body2Regular } from "@shira/ui"
 import { IoClose } from "react-icons/io5";
 
 interface Props {

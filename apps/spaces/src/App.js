@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom'
 import { LoginLayout } from './components/LoginLayout';
 import { CreateSpaceLayout } from './components/CreateSpaceLayout';
+import { InvitationExpiredLayout } from './components/InvitationExpiredLayout';
 import { DashboardLayout } from './components/DashboardLayout';
 import { shallow } from 'zustand/shallow';
 import { useStore } from './store';
@@ -61,6 +62,7 @@ function App() {
             <Routes>
               <Route path='/login' element={<LoginLayout />} />
               <Route path='/create-space/:passphraseCode' element={<CreateSpaceLayout />} />
+              <Route path='/invitation-used' element={<InvitationExpiredLayout />} />
               { user && (
                 <>
                   {/* LEGACY */}

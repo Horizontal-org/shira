@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect } from "react"
-import { 
+import {
   styled,
   Logo,
   Body2Regular,
@@ -8,6 +8,7 @@ import {
 import { IoClose } from "react-icons/io5";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { QuestionCRUDFeedback } from "../../fetch/question";
+import { ButtonWithTooltip } from "../ButtonWithTooltip";
 
 interface Props {
   onNext: () => void
@@ -50,13 +51,14 @@ export const QuestionFlowHeader: FunctionComponent<Props> = ({
           text="Back"
           type="outline"
         />
-        <Button
+        <ButtonWithTooltip
           color="#52752C"
           rightIcon={<FiChevronRight size={16} />}
           disabled={disableNext || actionFeedback === QuestionCRUDFeedback.processing}
           onClick={onNext}
           text={step === 2 ? (actionFeedback === QuestionCRUDFeedback.processing ? 'Saving...' : 'Save') : 'Next'}
           type="primary"
+          showTooltipWhenDisabled={disableNext}
         />
       </Right>
     </Wrapper>

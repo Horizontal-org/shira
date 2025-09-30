@@ -68,6 +68,25 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
       return activeQuestion && activeQuestion.name.length > 0 && !!(activeQuestion.app)
     }
 
+    if (step === 1) {
+      if (!activeQuestion || !activeQuestion.content) return false;
+
+      if (activeQuestion.app.type === 'email') {
+        const emailContent = activeQuestion.content as any;
+        return emailContent.senderName?.value?.trim().length > 0 &&
+               emailContent.senderEmail?.value?.trim().length > 0;
+      }
+
+      if (activeQuestion.app.type === 'messaging') {
+        const messagingContent = activeQuestion.content as any;
+        if (['SMS', 'Whatsapp'].includes(activeQuestion.app.name)) {
+          return messagingContent.senderPhone?.value?.trim().length > 0;
+        }
+
+        return messagingContent.senderName?.value?.trim().length > 0;
+      }
+    }
+
     return true
   }
 
