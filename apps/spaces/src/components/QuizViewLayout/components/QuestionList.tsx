@@ -16,7 +16,7 @@ interface QuestionsListProps {
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;
   onAdd: () => void;
-  onAddLibrary: (id: string) => void;
+  onAddLibrary: (quizId: string) => void;
 
   onReorder: (newOrder: QuizQuestion[]) => void;
   onDuplicate: () => void;

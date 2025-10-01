@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { shallow } from "zustand/shallow";
 import { styled, Body1, H2, Box, defaultTheme } from "@shira/ui";
 import { QuestionLibraryFlowManagement } from "../QuestionLibraryFlowManagement";
@@ -30,6 +30,8 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
 }) => {
   const controlled = rowsProp !== undefined;
   const navigate = useNavigate();
+  const { state } = useLocation() as { state?: { quizId?: string } };
+  const quizId = state.quizId;
   const { submit, actionFeedback } = useQuestionCRUD();
   const {
     setQuizActionSuccess,
@@ -45,7 +47,7 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
   useEffect(() => {
     if (actionFeedback === QuestionCRUDFeedback.success) {
       setQuizActionSuccess(QuizSuccessStates.question_added_from_library)
-      navigate(`/quiz/1`) // TODO quiz id
+      navigate(`/quiz/${quizId}`)
       return
     }
 
@@ -163,9 +165,7 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
         {preview && (
           <QuestionLibraryPreviewModal
             question={preview.active}
-            onAdd={(question) => {
-              submit("1", question) // TODO quiz id
-            }}
+            onAdd={(question) => submit(quizId, question)}
             explanations={preview.original.explanations}
             onClose={() => setPreview(null)}
           />
