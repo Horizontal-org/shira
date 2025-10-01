@@ -25,7 +25,9 @@ export const QuestionLibraryPreviewModal: FunctionComponent<Props> = ({
           <QuestionPreview onClose={onClose} explanations={explanations} />
         </Body>
         <Footer>
-          <Button text="+ Add to quiz" onClick={() => onAdd(question)} />
+          <FixedButtonWrapper>
+            <Button text="+ Add to quiz" onClick={() => onAdd(question)} />
+          </FixedButtonWrapper>
         </Footer>
       </Dialog>
     </Overlay>,
@@ -48,7 +50,6 @@ const Dialog = styled.div`
   background: ${defaultTheme.colors.light.white};
   border-radius: 16px;
   display: grid;
-  grid-template-rows: auto 1fr auto;
 `;
 
 const Body = styled.div`
@@ -57,10 +58,17 @@ const Body = styled.div`
 `;
 
 const Footer = styled.div`
-  position: sticky; bottom: 0;
-  padding: 14px 20px;
+  position: sticky;
+  bottom: 0;
+  padding: 16px 20px;
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   background: ${defaultTheme.colors.light.white};
   border-radius: 16px;
+`;
+
+const FixedButtonWrapper = styled.div`
+  min-width: 180px;
+  max-width: 300px;
 `;

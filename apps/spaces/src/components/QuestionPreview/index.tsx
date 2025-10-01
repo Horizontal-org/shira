@@ -124,7 +124,7 @@ export const QuestionPreview: FunctionComponent<Props> = ({ onClose, explanation
 const ExplanationHeader = styled('div')`
   display: flex;
   align-items: center;
-  padding: 12px 0;
+  padding: 16px 20px;
   margin: 0 20px;
 `;
 
@@ -152,9 +152,8 @@ const ExplanationButtonWrapper = styled('div')`
 const IsNoExplanationWrapper = styled('div')`
   width: fit-content;
   margin: 12px 0;
-  padding: 16px 20px;
   background: #fff;
-  border-radius: 20px;
+  border-radius: 100px;
 `;
 
 const Overlay = styled('div')`
@@ -170,8 +169,10 @@ const Overlay = styled('div')`
 const Content = styled('div')`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   border-radius: 20px;
   padding: 16px 20px;
+  min-height: 24px;
   gap: 12px;
   background: ${defaultTheme.colors.light.paleGrey};
 `;
