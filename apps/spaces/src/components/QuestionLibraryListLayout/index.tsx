@@ -196,7 +196,6 @@ const Table = styled("table")`
   border-spacing: 0;
   font-size: 14px;
   background: ${defaultTheme.colors.light.white};
-  border-radius: 10px;
   overflow: hidden;
 `;
 
@@ -210,7 +209,7 @@ const ErrorBox = styled("div")`
 
 const RetryButton = styled("button")`
   padding: 6px 10px;
-  border: 1px solid $border;
+  border: 1px solid;
   cursor: pointer;
 `;
 
@@ -237,7 +236,7 @@ const Th = styled("th") <{ $first?: boolean; $last?: boolean }>`
 `;
 
 const Tr = styled("tr")`
-  background: #fff;
+  background: ${defaultTheme.colors.light.white};
   color: ${defaultTheme.colors.dark.darkGrey};
   &:not(:last-child) td { border-bottom: 1px solid #ececec; }
 `;

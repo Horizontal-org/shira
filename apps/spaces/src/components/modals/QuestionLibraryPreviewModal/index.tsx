@@ -53,8 +53,7 @@ const Dialog = styled.div`
 `;
 
 const Body = styled.div`
-  overflow: auto;
-  border-radius: 16px;
+  overflow: hidden;
 `;
 
 const Footer = styled.div`

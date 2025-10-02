@@ -128,7 +128,7 @@ const ExplanationHeader = styled('div')`
   margin: 0 20px;
 `;
 
-const Header = styled('ExplanationHeader')`
+const Header = styled('div')`
   width: 100%;
   display: flex;
   justify-content: flex-end;
@@ -138,7 +138,7 @@ const Header = styled('ExplanationHeader')`
 const StyledBox = styled('div')`
   position: relative;
   z-index: 1;
-  background: white;
+  background: ${defaultTheme.colors.light.white};
   width: 100%;
   box-sizing: border-box;
   padding: 0 20px;
@@ -152,7 +152,7 @@ const ExplanationButtonWrapper = styled('div')`
 const IsNoExplanationWrapper = styled('div')`
   width: fit-content;
   margin: 12px 0;
-  background: #fff;
+  background: ${defaultTheme.colors.light.white};
   border-radius: 100px;
 `;
 
@@ -181,6 +181,5 @@ const CloseWrapper = styled('div')`
   display: flex;
   align-items: center;
   padding: 16px 20px;
-  margin: 0 20px;
   cursor: pointer;
 `;
