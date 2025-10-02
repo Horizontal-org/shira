@@ -16,7 +16,6 @@ import { columns } from "./columns";
 
 type Props = {
   rows?: Question[];
-  onAdd: (q: Question) => void;
 };
 
 export type TableMeta = {
@@ -25,8 +24,7 @@ export type TableMeta = {
 };
 
 export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
-  rows: rowsProp,
-  onAdd
+  rows: rowsProp
 }) => {
   const controlled = rowsProp !== undefined;
   const navigate = useNavigate();
@@ -87,9 +85,17 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
     setPreview({ active, original: q });
   };
 
+  const handleAdd = (q: Question) => {
+    const active = libraryToActiveQuestion(q);
+    submit(quizId, active);
+  }
+
   const meta = useMemo<TableMeta>(
-    () => ({ onPreview: handlePreview, onAdd }),
-    [handlePreview, onAdd]
+    () => ({
+      onPreview: handlePreview,
+      onAdd: handleAdd
+    }),
+    [handlePreview, quizId, submit]
   );
 
   const table = useReactTable({

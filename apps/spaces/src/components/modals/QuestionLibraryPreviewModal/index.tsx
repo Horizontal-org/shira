@@ -4,6 +4,7 @@ import { createPortal } from "react-dom";
 import { ActiveQuestion } from "../../../store/types/active_question";
 import { QuestionPreview } from "../../QuestionPreview";
 import { Explanation } from "../../../fetch/question_library";
+import { FiPlus } from "react-icons/fi";
 
 type Props = {
   question: ActiveQuestion;
@@ -26,7 +27,12 @@ export const QuestionLibraryPreviewModal: FunctionComponent<Props> = ({
         </Body>
         <Footer>
           <FixedButtonWrapper>
-            <Button text="+ Add to quiz" onClick={() => onAdd(question)} />
+            <Button
+            aria-label="Add to quiz"
+            leftIcon={<FiPlus size={16} />}
+            text="Add to quiz"
+            onClick={() => onAdd(question)}
+            />
           </FixedButtonWrapper>
         </Footer>
       </Dialog>

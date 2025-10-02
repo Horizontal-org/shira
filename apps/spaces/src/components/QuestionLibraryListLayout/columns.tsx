@@ -1,7 +1,7 @@
 import { Body3Bold, defaultTheme, styled } from "@shira/ui";
 import { ColumnDef } from "@tanstack/react-table";
 import { FaCircleCheck, FaCirclePlus } from "react-icons/fa6";
-import * as md from "react-icons/md";
+import { MdOutlinePhishing, MdRemoveRedEye } from "react-icons/md";
 import type { Question as LibraryQuestion } from "../../fetch/question_library";
 import { TableMeta } from ".";
 import { MdFacebook, MdMail, MdTextsms } from "react-icons/md";
@@ -30,7 +30,7 @@ export const columns: ColumnDef<LibraryQuestion>[] = [
       const isPhishing = Boolean(c.getValue());
       return (
         <PhishingCell $isPhishing={isPhishing}>
-          {isPhishing ? <md.MdOutlinePhishing size={16} /> : <FaCircleCheck size={16} color={defaultTheme.colors.green6} />}
+          {isPhishing ? <MdOutlinePhishing size={16} /> : <FaCircleCheck size={16} color={defaultTheme.colors.green6} />}
           {isPhishing ? "Phishing" : "Legitimate"}
         </PhishingCell>
       );
@@ -68,7 +68,7 @@ export const columns: ColumnDef<LibraryQuestion>[] = [
             title="Preview"
             onClick={() => meta?.onPreview?.(row.original)}
           >
-            <md.MdRemoveRedEye size={21} color={defaultTheme.colors.dark.overlay} />
+            <MdRemoveRedEye size={21} color={defaultTheme.colors.dark.overlay} />
           </ActionButton>
           <ActionButton
             aria-label="Add question"

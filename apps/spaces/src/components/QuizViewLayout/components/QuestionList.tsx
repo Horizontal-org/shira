@@ -97,7 +97,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
           onClick={onAdd}
         />
         <Button
-          leftIcon={<MdOutlineMenuBook size={18} />}
+          leftIcon={<MdOutlineMenuBook size={19} />}
           text="Add from library"
           type="primary"
           color={defaultTheme.colors.green7}
