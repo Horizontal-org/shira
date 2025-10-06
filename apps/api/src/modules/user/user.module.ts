@@ -10,7 +10,8 @@ import {
   checkPasswordUserApplicationProvider,
   getByIdUserApplicationProvider,
   findByUernameUserServiceProvider,
-  createUserApplicationProvider
+  createUserApplicationProvider,
+  markUserLoginServiceProvider
 } from './user.providers';
 import { SpaceEntity } from '../space/domain/space.entity';
 
@@ -32,7 +33,8 @@ import { SpaceEntity } from '../space/domain/space.entity';
     checkPasswordUserApplicationProvider,
     getByIdUserApplicationProvider,
     findByUernameUserServiceProvider,
-    createUserApplicationProvider
+    createUserApplicationProvider,
+    markUserLoginServiceProvider
   ],
 })
 export class UserModule {}
