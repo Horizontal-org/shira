@@ -52,13 +52,18 @@ const Overlay = styled.div`
 
 const Dialog = styled.div`
   width: min(1100px, 92vw);
-  
+  max-height: 90vh;
   background: ${defaultTheme.colors.light.white};
   border-radius: 16px;
-  display: grid;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Body = styled.div`
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
 `;
 

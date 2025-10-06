@@ -137,15 +137,14 @@ const Header = styled('div')`
 
 const StyledBox = styled('div')`
   position: relative;
+  flex: 1;
+  min-height: 0;
   z-index: 1;
   background: ${defaultTheme.colors.light.white};
   width: 100%;
   box-sizing: border-box;
   padding: 0 20px;
-  max-height: 600px;
   overflow-y: auto;
-  display: flex;
-  flex-direction: column;
 `;
 
 const ExplanationButtonWrapper = styled('div')`
@@ -162,8 +161,11 @@ const IsNoExplanationWrapper = styled('div')`
 
 const Overlay = styled('div')`
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
   z-index: 3;
+  height: 800px;
+  width: 100%;
   background: rgba(0, 0, 0, 0.5);
 `;
 
