@@ -85,15 +85,10 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
     setPreview({ active, original: q });
   };
 
-  const handleAdd = (q: Question) => {
-    const active = libraryToActiveQuestion(q);
-    submit(quizId, active);
-  }
-
   const meta = useMemo<TableMeta>(
     () => ({
       onPreview: handlePreview,
-      onAdd: handleAdd
+      onAdd: handlePreview
     }),
     [handlePreview, quizId, submit]
   );
@@ -113,9 +108,9 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
         <HeaderRow>
           <div>
             <H2>Question Library</H2>
-            <MiddleBody1>
+            <MiddleBody>
               Select a question from list below to add it to your quiz. Once you've added it to your quiz, you can edit the question to fully customize it, including changing the text and explanations.
-            </MiddleBody1>
+            </MiddleBody>
           </div>
         </HeaderRow>
 
@@ -252,6 +247,6 @@ const Td = styled("td")`
   vertical-align: middle;
 `;
 
-const MiddleBody1 = styled(Body1)`
+const MiddleBody = styled(Body1)`
   padding-top: 16px;
 `;
