@@ -3,10 +3,12 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { OrganizationEntity } from "./domain/organization.entity";
 import { OrganizationUsersEntity } from "./domain/organization_users.entity";
 import { RoleEntity } from "../user/domain/role.entity";
-import { servicesOrganizationProviders, createOrganizationServiceProvider } from "./organization.providers";
+import { servicesOrganizationProviders, createOrganizationServiceProvider, getOrganizationServiceProvider } from "./organization.providers";
 import { OrganizationControllers } from "./controllers";
 import { OrganizationSubscriptionsEntity } from "./domain/organization_subscriptions.entity";
 import { SubscriptionEntity } from "../billing/domain/subscription.entity";
+import { Quiz } from "../quiz/domain/quiz.entity";
+
 @Module({
     imports: [
         TypeOrmModule.forFeature([
@@ -14,7 +16,8 @@ import { SubscriptionEntity } from "../billing/domain/subscription.entity";
             OrganizationUsersEntity,
             RoleEntity,
             OrganizationSubscriptionsEntity,
-            SubscriptionEntity
+            SubscriptionEntity,
+            Quiz
         ]),
     ],
     providers: [
@@ -22,8 +25,9 @@ import { SubscriptionEntity } from "../billing/domain/subscription.entity";
     ],
     controllers: [...OrganizationControllers],
     exports: [
-        createOrganizationServiceProvider
+        createOrganizationServiceProvider,
+        getOrganizationServiceProvider
     ],
 })
 
-export class OrganizationModule {}
+export class OrganizationModule { }
