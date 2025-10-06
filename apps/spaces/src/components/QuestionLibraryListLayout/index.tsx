@@ -85,10 +85,15 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
     setPreview({ active, original: q });
   };
 
+  const handleAdd = (q: Question) => {
+    const active = libraryToActiveQuestion(q);
+    submit(quizId, active);
+  }
+
   const meta = useMemo<TableMeta>(
     () => ({
       onPreview: handlePreview,
-      onAdd: handlePreview
+      onAdd: handleAdd
     }),
     [handlePreview, quizId, submit]
   );
