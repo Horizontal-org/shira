@@ -10,7 +10,7 @@ export class QuestionLibraryController {
   constructor(
     @Inject(TYPES.services.IGetLibraryQuestionService)
     private service: IGetLibraryQuestionService,
-  ) { }
+  ) {}
 
   @Get('')
   @Roles(Role.SpaceAdmin)
