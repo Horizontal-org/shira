@@ -19,27 +19,26 @@ export class GetLibraryQuestionService implements IGetLibraryQuestionService {
       .leftJoin('languages', 'language', 'language.id = question.language_id')
       .leftJoin('question.apps', 'apps')
       .select([
-        'question.id AS q_id',
-        'question.name AS q_name',
-        'question.is_phising AS q_is_phising',
-        'question.type AS q_type',
-        'language.name AS language_name',
-        'apps.name AS app_name'
+        'question.id',
+        'question.name',
+        'question.is_phising',
+        'question.type',
+        'language.name',
+        'apps.name'
       ])
       .where('question.type = :type', { type: 'demo' })
       .orderBy('question.name', 'ASC')
       .getRawMany();
 
-
     const libraryQuestions = plainToInstance(
       QuestionLibraryDto,
       rows.map((r) => ({
         id: r.question_id,
-        name: r.q_name,
-        isPhishing: r.q_is_phising,
+        name: r.question_name,
+        isPhishing: r.is_phising,
         type: r.question_type,
         language: r.language_name,
-        appName: r.app_name,
+        appName: r.apps_name,
       })),
     );
 
