@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Question } from '../../question/domain/question.entity';
 import { IGetLibraryQuestionService } from '../interfaces/services/question-library.service.interface';
+import { QuestionLibraryDto } from '../dto/question.library.dto';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class GetLibraryQuestionService implements IGetLibraryQuestionService {
@@ -23,15 +25,18 @@ export class GetLibraryQuestionService implements IGetLibraryQuestionService {
 
     const rows = await result.getRawMany();
 
-    const libraryQuestion = rows.map((r) => ({
-      id: r.q_id,
-      name: r.q_name,
-      isPhishing: r.q_is_phising,
-      type: r.q_type,
-      language: r.language_name,
-      appName: r.app_name
-    }));
+    const libraryQuestions = plainToInstance(
+      QuestionLibraryDto,
+      rows.map((r) => ({
+        id: r.q_id,
+        name: r.q_name,
+        isPhishing: r.q_is_phising,
+        type: r.q_type,
+        language: r.language_name,
+        appName: r.app_name,
+      })),
+    );
 
-    return libraryQuestion;
+    return libraryQuestions;
   }
 }
