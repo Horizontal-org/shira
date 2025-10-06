@@ -52,7 +52,7 @@ const Overlay = styled.div`
 
 const Dialog = styled.div`
   width: min(1100px, 92vw);
-  height: min(88vh, 900px);
+  
   background: ${defaultTheme.colors.light.white};
   border-radius: 16px;
   display: grid;

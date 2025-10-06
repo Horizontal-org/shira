@@ -144,6 +144,8 @@ const StyledBox = styled('div')`
   padding: 0 20px;
   max-height: 600px;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 `;
 
 const ExplanationButtonWrapper = styled('div')`
@@ -170,6 +172,7 @@ const Content = styled('div')`
   align-items: center;
   justify-content: space-between;
   border-radius: 20px;
+  padding: 16px 20px;
   gap: 12px;
   background: ${defaultTheme.colors.light.paleGrey};
 `;
