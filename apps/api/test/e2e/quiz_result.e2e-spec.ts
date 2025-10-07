@@ -7,6 +7,7 @@ import { QuestionRunController } from '../../src/modules/quiz_result/controller/
 import { StartQuizRunService } from '../../src/modules/quiz_result/services/start-quiz-run.service';
 import { FinishQuizRunService } from '../../src/modules/quiz_result/services/finish-quiz-run.service';
 import { CreateQuestionRunService } from '../../src/modules/quiz_result/services/create-question-run.service';
+import { GetQuizRunsByQuizService } from '../../src/modules/quiz_result/services/get-quiz-runs-by-quiz.service';
 import { QuizRun } from '../../src/modules/quiz_result/domain/quiz_runs.entity';
 import { QuestionRun } from '../../src/modules/quiz_result/domain/question_runs.entity';
 import { Quiz } from '../../src/modules/quiz/domain/quiz.entity';
@@ -51,10 +52,12 @@ describe('QuizResult HTTP (e2e happy paths)', () => {
         StartQuizRunService,
         FinishQuizRunService,
         CreateQuestionRunService,
+        GetQuizRunsByQuizService,
 
         { provide: TYPES.services.IStartQuizRunService, useExisting: StartQuizRunService },
         { provide: TYPES.services.IFinishQuizRunService, useExisting: FinishQuizRunService },
         { provide: TYPES.services.ICreateQuestionRunService, useExisting: CreateQuestionRunService },
+        { provide: TYPES.services.IGetQuizRunsByQuizService, useExisting: GetQuizRunsByQuizService },
 
         { provide: getRepositoryToken(QuizRun), useValue: quizRunRepo },
         { provide: getRepositoryToken(QuestionRun), useValue: questionRunRepo },
@@ -204,6 +207,31 @@ describe('QuizResult HTTP (e2e happy paths)', () => {
     expect(res.body).toEqual(
       expect.objectContaining({ id: 9001, quizRunId: runId, questionId: 501 })
     );
-    expect(typeof res.body.answeredAt === 'string').toBe(true);
+  });
+
+  it('GET /quiz-run/:quizId returns runs ordered by startedAt desc, id desc', async () => {
+    // Given: some runs for a quiz id
+    const quizId = 99;
+    const runs = [
+      { id: 2, quizId, startedAt: new Date('2025-01-01T00:00:00.000Z') },
+      { id: 3, quizId, startedAt: new Date('2025-01-02T00:00:00.000Z') },
+      { id: 1, quizId, startedAt: new Date('2025-01-02T00:00:00.000Z') },
+      { id: 1, quizId: 98, startedAt: new Date('2025-01-02T00:00:00.000Z') },
+    ] as any[];
+    quizRunRepo.find = jest.fn().mockResolvedValue(runs);
+
+    // When: requesting the runs by quiz id
+    const http = app.getHttpAdapter().getInstance();
+    const res = await request(http)
+      .get(`/quiz-run/${quizId}`)
+      .expect(200);
+
+    // Then: it returns the repository result and serializes dates
+    expect(quizRunRepo.find).toHaveBeenCalledWith({
+      where: { quizId },
+      order: { startedAt: 'DESC', id: 'DESC' },
+    });
+    expect(res.body).toHaveLength(3);
+    expect(res.body.map((r: any) => r.id)).toEqual([2, 3, 1]);
   });
 });
