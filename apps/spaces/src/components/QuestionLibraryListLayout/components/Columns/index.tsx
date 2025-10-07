@@ -1,86 +1,85 @@
-import { Body3Bold, defaultTheme, styled } from "@shira/ui";
+import { Body3Bold, DatingAppIcon, defaultTheme, FacebookIcon, GmailIcon, OutlookIcon, SMSIcon, styled, WhatsappIcon } from "@shira/ui";
 import { ColumnDef } from "@tanstack/react-table";
 import { FaCircleCheck, FaCirclePlus } from "react-icons/fa6";
 import { MdOutlinePhishing, MdRemoveRedEye } from "react-icons/md";
 import type { Question as LibraryQuestion } from "../../../../fetch/question_library";
 import { TableMeta } from "../..";
-import { MdFacebook, MdMail, MdTextsms } from "react-icons/md";
-import { RiWhatsappFill } from "react-icons/ri";
 
 const appIcons: Record<string, JSX.Element> = {
-    gmail: <MdMail />,
-    messenger: <MdFacebook />,
-    sms: <MdTextsms />,
-    whatsapp: <RiWhatsappFill />,
-    outlook: <MdMail />
+  "gmail": <GmailIcon />,
+  "fb messenger": <FacebookIcon />,
+  "sms": <SMSIcon />,
+  "whatsapp": <WhatsappIcon />,
+  "outlook": <OutlookIcon />,
+  "dating App": <DatingAppIcon />,
 };
 
 export const columns: ColumnDef<LibraryQuestion>[] = [
-    {
-        header: "Question name",
-        accessorKey: "name",
-        id: "title",
-        cell: (c) => <NameCell>{String(c.getValue())}</NameCell>,
+  {
+    header: "Question name",
+    accessorKey: "name",
+    id: "title",
+    cell: (c) => <NameCell>{String(c.getValue())}</NameCell>,
+  },
+  {
+    header: "Type",
+    accessorKey: "isPhishing",
+    id: "type",
+    cell: (c) => {
+      const isPhishing = Boolean(c.getValue());
+      return (
+        <PhishingCell $isPhishing={isPhishing}>
+          {isPhishing ? <MdOutlinePhishing size={16} /> : <FaCircleCheck size={16} color={defaultTheme.colors.green6} />}
+          {isPhishing ? "Phishing" : "Legitimate"}
+        </PhishingCell>
+      );
     },
-    {
-        header: "Type",
-        accessorKey: "isPhishing",
-        id: "type",
-        cell: (c) => {
-            const isPhishing = Boolean(c.getValue());
-            return (
-                <PhishingCell $isPhishing={isPhishing}>
-                    {isPhishing ? <MdOutlinePhishing size={16} /> : <FaCircleCheck size={16} color={defaultTheme.colors.green6} />}
-                    {isPhishing ? "Phishing" : "Legitimate"}
-                </PhishingCell>
-            );
-        },
+  },
+  {
+    header: "Language",
+    accessorKey: "language",
+    id: "language",
+    cell: (c) => <Cell>{String(c.getValue())}</Cell>,
+  },
+  {
+    header: "App",
+    accessorKey: "appName",
+    id: "app",
+    cell: (c) => {
+      const appName = String(c.getValue());
+      return (
+        <AppCell>
+          {appIcons[appName.toLowerCase()]}
+          {appName}
+        </AppCell>
+      );
     },
-    {
-        header: "Language",
-        accessorKey: "language",
-        id: "language",
-        cell: (c) => <Cell>{String(c.getValue())}</Cell>,
-    },
-    {
-        header: "App",
-        accessorKey: "appName",
-        id: "app",
-        cell: (c) => {
-            const appName = String(c.getValue());
-            return (
-                <AppCell>
-                    {appIcons[appName.toLowerCase()]}
-                    {appName}
-                </AppCell>
-            );
-        },
-    },
-    {
-        header: "Actions",
-        id: "actions",
-        cell: ({ row, table }) => {
-            const meta = table.options.meta as TableMeta | undefined;
-            return (
-                <ActionsCell>
-                    <ActionButton
-                        aria-label="Preview question"
-                        title="Preview"
-                        onClick={() => meta?.onPreview?.(row.original)}
-                    >
-                        <MdRemoveRedEye size={21} color={defaultTheme.colors.dark.overlay} />
-                    </ActionButton>
-                    <ActionButton
-                        aria-label="Add question"
-                        title="Add"
-                        onClick={() => meta?.onAdd?.(row.original)}
-                    >
-                        <FaCirclePlus size={18} color={defaultTheme.colors.green6} />
-                    </ActionButton>
-                </ActionsCell>
-            );
-        }
+  },
+  {
+    header: "Actions",
+    id: "actions",
+    cell: ({ row, table }) => {
+      const meta = table.options.meta as TableMeta | undefined;
+      return (
+        <ActionsCell>
+          <ActionButton
+            aria-label="Preview question"
+            title="Preview"
+            onClick={() => meta?.onPreview?.(row.original)}
+          >
+            <MdRemoveRedEye size={21} color={defaultTheme.colors.dark.overlay} />
+          </ActionButton>
+          <ActionButton
+            aria-label="Add question"
+            title="Add"
+            onClick={() => meta?.onAdd?.(row.original)}
+          >
+            <FaCirclePlus size={18} color={defaultTheme.colors.green6} />
+          </ActionButton>
+        </ActionsCell>
+      );
     }
+  }
 ];
 
 const PhishingCell = styled.div<{ $isPhishing?: boolean }>`
