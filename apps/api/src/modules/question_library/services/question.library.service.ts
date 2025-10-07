@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Question } from '../../question/domain/question.entity';
 import { IGetLibraryQuestionService } from '../interfaces/services/question-library.service.interface';
-import { plainToInstance } from 'class-transformer';
 import { QuestionLibraryDto } from '../dto/question.library.dto';
 
 @Injectable()
@@ -11,11 +10,10 @@ export class GetLibraryQuestionService implements IGetLibraryQuestionService {
   constructor(
     @InjectRepository(Question)
     private readonly questionRepo: Repository<Question>,
-  ) { }
+  ) {}
 
   async execute(): Promise<QuestionLibraryDto[]> {
-    const rows = await this.questionRepo
-      .createQueryBuilder('question')
+    const rows = await this.questionRepo.createQueryBuilder('question')
       .leftJoin('languages', 'language', 'language.id = question.language_id')
       .leftJoin('question.apps', 'app')
       .leftJoin('question.explanations', 'e')
@@ -35,40 +33,46 @@ export class GetLibraryQuestionService implements IGetLibraryQuestionService {
       .orderBy('question.name', 'ASC')
       .getRawMany();
 
-    const byId = new Map<number, QuestionLibraryDto & { explanations: { position: number; text: string; index: number }[] }>();
-    for (const r of rows as any[]) {
-      const id: number = r.question_id;
+    if (rows.length === 0) return [];
+
+    // group by question_id
+    const byId = new Map<
+      number,
+      QuestionLibraryDto & {
+        explanations: { position: number; text: string; index: number }[];
+      }
+    >();
+
+    for (const row of rows) {
+      const id = row.question_id;
 
       if (!byId.has(id)) {
-        byId.set(
+        byId.set(id, {
           id,
-          plainToInstance(QuestionLibraryDto, {
-            id,
-            name: r.question_name,
-            isPhishing: Boolean(r.is_phising),
-            content: r.question_content,
-            type: r.question_type,
-            language: r.language_name,
-            appName: r.app_name,
-            explanations: [],
-          }) as any,
-        );
+          name: row.question_name,
+          isPhishing: Boolean(row.is_phising),
+          type: row.question_type,
+          content: row.question_content,
+          language: row.language_name,
+          appName: row.app_name,
+          explanations: [],
+        });
       }
 
-      if (r.explanation_index != null) {
-        const question = byId.get(id)!;
-        question.explanations.push({
-          position: Number(r.explanation_position),
-          text: r.explanation_text,
-          index: Number(r.explanation_index),
+      if (row.explanation_index != null) {
+        const q = byId.get(id)!;
+        q.explanations.push({
+          position: Number(row.explanation_position),
+          text: row.explanation_text as string,
+          index: Number(row.explanation_index),
         });
       }
     }
 
-    const libraryQuestions = Array.from(byId.values()).map((question) => ({
-      ...question,
-      explanations: question.explanations.sort((a, b) => a.index - b.index),
+    // return sorted explanations per question
+    return Array.from(byId.values()).map((q) => ({
+      ...q,
+      explanations: q.explanations.sort((a, b) => a.index - b.index),
     }));
-    return libraryQuestions as QuestionLibraryDto[];
   }
 }
