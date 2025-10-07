@@ -234,7 +234,7 @@ describe('QuizResult HTTP (e2e happy paths)', () => {
     expect(res.body).toHaveLength(2);
     for (const item of res.body) {
       expect(item).toEqual(
-        expect.objectContaining({ name: 'Security awareness (whatsapp)', finishedAt: expect.any(String) })
+        expect.objectContaining({ quizId, name: 'Security awareness (whatsapp)', finishedAt: expect.any(String) })
       );
     }
   });

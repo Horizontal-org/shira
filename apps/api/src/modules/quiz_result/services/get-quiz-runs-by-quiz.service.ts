@@ -23,6 +23,6 @@ export class GetQuizRunsByQuizService {
       order: { finishedAt: 'DESC', id: 'DESC' },
     });
 
-    return runs.map((r) => ({ name, finishedAt: r.finishedAt }));
+    return runs.map((r) => ({ quizId: r.quizId, name, finishedAt: r.finishedAt }));
   }
 }
