@@ -1,5 +1,5 @@
-import { QuizRun } from '../../domain/quiz_runs.entity';
+import { QuizRunInfoDto } from '../../dto/quiz-run-info.dto';
 
 export interface IGetQuizRunsByQuizService {
-  execute(quizId: number): Promise<QuizRun[]>;
+  execute(quizId: number): Promise<QuizRunInfoDto[]>;
 }

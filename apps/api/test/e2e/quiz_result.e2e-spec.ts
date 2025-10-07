@@ -209,16 +209,16 @@ describe('QuizResult HTTP (e2e happy paths)', () => {
     );
   });
 
-  it('GET /quiz-run/:quizId returns runs ordered by startedAt desc, id desc', async () => {
-    // Given: some runs for a quiz id
+  it('GET /quiz-run/:quizId returns finished runs as { name, finishedAt }', async () => {
+    // Given: some runs for a quiz id (one unfinished)
     const quizId = 99;
-    const runs = [
-      { id: 2, quizId, startedAt: new Date('2025-01-01T00:00:00.000Z') },
-      { id: 3, quizId, startedAt: new Date('2025-01-02T00:00:00.000Z') },
-      { id: 1, quizId, startedAt: new Date('2025-01-02T00:00:00.000Z') },
-      { id: 1, quizId: 98, startedAt: new Date('2025-01-02T00:00:00.000Z') },
+    const finished = [
+      { id: 2, quizId, finishedAt: new Date('2025-01-03T00:00:00.000Z') },
+      { id: 3, quizId, finishedAt: new Date('2025-01-04T00:00:00.000Z') },
+      { id: 4, quizId },
     ] as any[];
-    quizRunRepo.find = jest.fn().mockResolvedValue(runs);
+    quizRunRepo.find = jest.fn().mockResolvedValue(finished.filter((r) => r.finishedAt));
+    quizRepo.findOne = jest.fn().mockResolvedValue({ id: quizId, title: 'Security awareness (whatsapp)' });
 
     // When: requesting the runs by quiz id
     const http = app.getHttpAdapter().getInstance();
@@ -226,12 +226,16 @@ describe('QuizResult HTTP (e2e happy paths)', () => {
       .get(`/quiz-run/${quizId}`)
       .expect(200);
 
-    // Then: it returns the repository result and serializes dates
+    // Then: only finished runs are returned as DTOs and dates are serialized
     expect(quizRunRepo.find).toHaveBeenCalledWith({
-      where: { quizId },
-      order: { startedAt: 'DESC', id: 'DESC' },
+      where: { quizId, finishedAt: expect.any(Object) },
+      order: { finishedAt: 'DESC', id: 'DESC' },
     });
-    expect(res.body).toHaveLength(3);
-    expect(res.body.map((r: any) => r.id)).toEqual([2, 3, 1]);
+    expect(res.body).toHaveLength(2);
+    for (const item of res.body) {
+      expect(item).toEqual(
+        expect.objectContaining({ name: 'Security awareness (whatsapp)', finishedAt: expect.any(String) })
+      );
+    }
   });
 });

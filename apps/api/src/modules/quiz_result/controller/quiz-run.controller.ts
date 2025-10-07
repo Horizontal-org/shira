@@ -16,7 +16,7 @@ export class QuizRunController {
     private readonly finishRun: IFinishQuizRunService,
     @Inject(TYPES.services.IGetQuizRunsByQuizService)
     private readonly getRunsByQuiz: IGetQuizRunsByQuizService,
-  ) {}
+  ) { }
 
   @Post()
   async start(
