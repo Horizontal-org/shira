@@ -1,84 +1,94 @@
-import { INestApplication } from '@nestjs/common';
-import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
-import { AuthGuard } from '@nestjs/passport';
-import { QuestionLibraryController } from '../../src/modules/question_library/controller/question.library.controller';
-import { TYPES as QUESTION_LIBRARY_TYPES } from '../../src/modules/question_library/interfaces';
-import { TYPES as AUTH_TYPES } from '../../src/modules/auth/interfaces/types';
+import { buildQuestionLibraryApp, RawRow } from './utils/buildQuestionLibraryApp';
 
-const mockGetLibraryQuestionService = {
-  execute: jest.fn(),
-};
+describe('QuestionLibraryController (e2e with mocked DB)', () => {
+  afterEach(() => jest.clearAllMocks());
 
-const mockUserContextService = {
-  validateUserSpaceAccess: jest.fn().mockResolvedValue({
-    space: { id: 1, name: 'Test Space', organizationId: 1 },
-    spaceRole: 'SpaceAdmin',
-    organization: { id: 1, name: 'Test Org' },
-    organizationRole: 'OrgAdmin',
-    isSuperAdmin: true,
-  }),
-  validateUserOrganizationAccess: jest.fn().mockResolvedValue({
-    organization: { id: 1, name: 'Test Org' },
-    organizationRole: 'OrgAdmin',
-    isSuperAdmin: true,
-  }),
-};
-
-describe('QuestionLibraryController (e2e)', () => {
-  let app: INestApplication;
-
-  beforeEach(async () => {
-    const moduleRef: TestingModule = await Test.createTestingModule({
-      controllers: [QuestionLibraryController],
-      providers: [
-        {
-          provide: QUESTION_LIBRARY_TYPES.services.IGetLibraryQuestionService,
-          useValue: mockGetLibraryQuestionService,
-        },
-        {
-          provide: AUTH_TYPES.services.IUserContextService,
-          useValue: mockUserContextService,
-        },
-      ],
-    })
-      .overrideGuard(AuthGuard('jwt') as any)
-      .useValue({ canActivate: () => true })
-      .compile();
-
-    app = moduleRef.createNestApplication();
-
-    app.use((req: any, _res: any, next: () => void) => {
-      req.user = { id: '1', email: 'test@example.com', isSuperAdmin: true };
-      next();
-    });
-
-    await app.init();
-  });
-
-  afterEach(async () => {
-    await app?.close();
-    jest.clearAllMocks();
-  });
-
-  it('GET /question/library returns questions (happy path)', async () => {
-    // Given: service returns multiple explanation rows for a single question
-    const dtoRows = [
+  it('aggregates and sorts explanations by index', async () => {
+    // Given: the DB returns two rows for one question with explanation
+    const rawRows: RawRow[] = [
       {
-        id: 1,
-        name: 'Phishing - Youth Empowerment',
+        question_id: 10,
+        question_name: 'Sample',
+        question_content: '<div/>',
+        question_type: 'demo',
+        language_name: 'English',
+        app_name: 'Gmail',
+        is_phising: 1,
+        explanation_position: '2',
+        explanation_text: 'Second',
+        explanation_index: '2'
+      },
+      {
+        question_id: 10,
+        question_name: 'Sample',
+        question_content: '<div/>',
+        question_type: 'demo',
+        language_name: 'English',
+        app_name: 'Gmail',
+        is_phising: 1,
+        explanation_position: '1',
+        explanation_text: 'First',
+        explanation_index: '1'
+      },
+    ];
+    const { app } = await buildQuestionLibraryApp(rawRows);
+
+    // When: the endpoint is called to fetch the question library
+    const http = app.getHttpAdapter().getInstance();
+    const res = await request(http)
+      .get('/question/library')
+      .set('x-space', '1')
+      .set('x-organization', '1')
+      .expect(200);
+
+    // Then: the service aggregates rows by question and sorts explanations by index
+    expect(res.body).toEqual([
+      {
+        id: 10,
+        name: 'Sample',
         isPhishing: true,
         type: 'demo',
+        content: '<div/>',
         language: 'English',
         appName: 'Gmail',
         explanations: [
-          { position: 1, text: 'Lorem ipsum', index: 1 },
+          {
+            position: 1,
+            text: 'First',
+            index: 1
+          },
+          {
+            position: 2,
+            text: 'Second',
+            index: 2
+          },
         ],
       },
-    ];
-    mockGetLibraryQuestionService.execute.mockResolvedValueOnce(dtoRows as any);
+    ]);
 
-    // When: a GET request is performed
+    await app.close();
+  });
+
+  it('handles questions without explanations', async () => {
+    // Given: the DB returns a row for a question with null explanation fields
+    const rawRows: RawRow[] = [
+      {
+        question_id: 50,
+        question_name: 'Apple ID',
+        question_content: '',
+        question_type: 'demo',
+        language_name: 'English',
+        app_name: 'Gmail',
+        is_phising: 0,
+        explanation_position: null,
+        explanation_text: null,
+        explanation_index: null
+      },
+    ];
+    const { app } = await buildQuestionLibraryApp(rawRows);
+
+    // When: the client fetches the question library
     const http = app.getHttpAdapter().getInstance();
     const res = await request(http)
       .get('/question/library')
@@ -86,55 +96,29 @@ describe('QuestionLibraryController (e2e)', () => {
       .set('x-organization', '1')
       .expect(200);
 
-    // Then: service is called and response matches mocked rows
-    expect(mockGetLibraryQuestionService.execute).toHaveBeenCalledTimes(1);
-    expect(res.body).toEqual(dtoRows);
-  });
-
-  it('GET /question/library returns multiple questions', async () => {
-    // Given: the mock service returns multiple DTO rows for different questions
-    const dtoRows = [
+    // Then: the response includes the question with an empty explanations array
+    expect(res.body).toEqual([
       {
-        id: 1,
-        name: 'Phishing - Youth Empowerment',
-        isPhishing: true,
+        id: 50,
+        name: 'Apple ID',
+        isPhishing: false,
         type: 'demo',
+        content: '',
         language: 'English',
         appName: 'Gmail',
-        explanations: [{ position: 1, text: 'First explanation', index: 1 }],
+        explanations: [],
       },
-      {
-        id: 2,
-        name: 'Suspicious SMS - Delivery Notice',
-        isPhishing: true,
-        type: 'demo',
-        language: 'Spanish',
-        appName: 'SMS',
-        explanations: [{ position: 1, text: 'Beware of links', index: 1 }],
-      },
-    ];
-    mockGetLibraryQuestionService.execute.mockResolvedValueOnce(dtoRows as any);
+    ]);
 
-    // When: a GET request is performed
-    const http = app.getHttpAdapter().getInstance();
-    const res = await request(http)
-      .get('/question/library')
-      .set('x-space', '1')
-      .set('x-organization', '1')
-      .expect(200);
-
-    // Then: the controller returns all questions
-    expect(mockGetLibraryQuestionService.execute).toHaveBeenCalledTimes(1);
-    expect(Array.isArray(res.body)).toBe(true);
-    expect(res.body).toHaveLength(2);
-    expect(res.body).toEqual(dtoRows);
+    await app.close();
   });
 
-  it('GET /question/library returns empty array when no data', async () => {
-    // Given: service returns empty array
-    mockGetLibraryQuestionService.execute.mockResolvedValueOnce([]);
+  it('returns an empty array when DB returns no rows', async () => {
+    // Given: the DB returns no rows for the query
+    const rawRows: RawRow[] = [];
+    const { app } = await buildQuestionLibraryApp(rawRows);
 
-    // When: a GET request is performed
+    // When: the endpoint is called
     const http = app.getHttpAdapter().getInstance();
     const res = await request(http)
       .get('/question/library')
@@ -142,7 +126,9 @@ describe('QuestionLibraryController (e2e)', () => {
       .set('x-organization', '1')
       .expect(200);
 
-    // Then: response is empty array
+    // Then: the controller returns an empty list
     expect(res.body).toEqual([]);
+
+    await app.close();
   });
 });
