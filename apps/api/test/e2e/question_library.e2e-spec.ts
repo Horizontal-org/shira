@@ -63,21 +63,20 @@ describe('QuestionLibraryController (e2e)', () => {
 
   it('GET /question/library returns questions (happy path)', async () => {
     // Given: service returns multiple explanation rows for a single question
-    const rawRows = [
+    const dtoRows = [
       {
-        q_id: 1,
-        q_name: 'Phishing - Youth Empowerment',
-        q_is_phising: 1,
-        q_type: 'email',
-        q_content: '<div id="required-content"></div>',
-        language_name: 'English',
-        app_name: 'Gmail',
-        explanation_position: '1',
-        explanation_text: 'Lorem ipsum',
-        explanation_index: '1',
+        id: 1,
+        name: 'Phishing - Youth Empowerment',
+        isPhishing: true,
+        type: 'demo',
+        language: 'English',
+        appName: 'Gmail',
+        explanations: [
+          { position: 1, text: 'Lorem ipsum', index: 1 },
+        ],
       },
     ];
-    mockGetLibraryQuestionService.execute.mockResolvedValueOnce(rawRows);
+    mockGetLibraryQuestionService.execute.mockResolvedValueOnce(dtoRows as any);
 
     // When: a GET request is performed
     const http = app.getHttpAdapter().getInstance();
@@ -89,38 +88,32 @@ describe('QuestionLibraryController (e2e)', () => {
 
     // Then: service is called and response matches mocked rows
     expect(mockGetLibraryQuestionService.execute).toHaveBeenCalledTimes(1);
-    expect(res.body).toEqual(rawRows);
+    expect(res.body).toEqual(dtoRows);
   });
 
   it('GET /question/library returns multiple questions', async () => {
-    // Given: the mock service returns multiple rows for different questions
-    const rawRows = [
+    // Given: the mock service returns multiple DTO rows for different questions
+    const dtoRows = [
       {
-        q_id: 1,
-        q_name: 'Phishing - Youth Empowerment',
-        q_is_phising: 1,
-        q_type: 'email',
-        q_content: '<div id="required-content"></div>',
-        language_name: 'English',
-        app_name: 'Gmail',
-        explanation_position: '1',
-        explanation_text: 'First explanation',
-        explanation_index: '1',
+        id: 1,
+        name: 'Phishing - Youth Empowerment',
+        isPhishing: true,
+        type: 'demo',
+        language: 'English',
+        appName: 'Gmail',
+        explanations: [{ position: 1, text: 'First explanation', index: 1 }],
       },
       {
-        q_id: 2,
-        q_name: 'Suspicious SMS - Delivery Notice',
-        q_is_phising: 1,
-        q_type: 'sms',
-        q_content: '<div id="required-content"></div>',
-        language_name: 'Spanish',
-        app_name: 'SMS',
-        explanation_position: '1',
-        explanation_text: 'Beware of links',
-        explanation_index: '1',
+        id: 2,
+        name: 'Suspicious SMS - Delivery Notice',
+        isPhishing: true,
+        type: 'demo',
+        language: 'Spanish',
+        appName: 'SMS',
+        explanations: [{ position: 1, text: 'Beware of links', index: 1 }],
       },
     ];
-    mockGetLibraryQuestionService.execute.mockResolvedValueOnce(rawRows);
+    mockGetLibraryQuestionService.execute.mockResolvedValueOnce(dtoRows as any);
 
     // When: a GET request is performed
     const http = app.getHttpAdapter().getInstance();
@@ -134,7 +127,7 @@ describe('QuestionLibraryController (e2e)', () => {
     expect(mockGetLibraryQuestionService.execute).toHaveBeenCalledTimes(1);
     expect(Array.isArray(res.body)).toBe(true);
     expect(res.body).toHaveLength(2);
-    expect(res.body).toEqual(rawRows);
+    expect(res.body).toEqual(dtoRows);
   });
 
   it('GET /question/library returns empty array when no data', async () => {
