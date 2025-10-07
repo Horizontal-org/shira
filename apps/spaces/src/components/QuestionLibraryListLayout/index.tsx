@@ -50,7 +50,7 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
     }
 
     if (actionFeedback === QuestionCRUDFeedback.error) {
-      toast.error('ERROR ADDING QUESTION', { duration: 3000 })
+      toast.error('Error adding question', { duration: 3000 })
     }
   }, [actionFeedback])
 
