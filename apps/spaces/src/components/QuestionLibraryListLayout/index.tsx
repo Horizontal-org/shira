@@ -12,7 +12,7 @@ import { QuestionCRUDFeedback, useQuestionCRUD } from "../../fetch/question";
 import { libraryToActiveQuestion } from "../../utils/active_question/libraryToQuestion";
 import { QuizSuccessStates } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
-import { columns } from "./columns";
+import { columns } from "./components/Columns";
 
 type Props = {
   rows?: Question[];
