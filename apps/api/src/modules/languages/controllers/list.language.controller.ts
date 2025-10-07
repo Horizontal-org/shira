@@ -8,7 +8,7 @@ export class ListLanguageController {
   constructor(
     @InjectRepository(Language)
     private readonly languageRepo: Repository<Language>,
-  ) { }
+  ) {}
 
   @Get('')
   async handler() {

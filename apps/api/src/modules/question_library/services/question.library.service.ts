@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Question } from '../../question/domain/question.entity';
 import { IGetLibraryQuestionService } from '../interfaces/services/question-library.service.interface';
+import { plainToInstance } from 'class-transformer';
+import { QuestionLibraryDto } from '../dto/question.library.dto';
 
 @Injectable()
 export class GetLibraryQuestionService implements IGetLibraryQuestionService {
@@ -11,58 +13,33 @@ export class GetLibraryQuestionService implements IGetLibraryQuestionService {
     private readonly questionRepo: Repository<Question>,
   ) { }
 
-  async execute() {
-    const result = this.questionRepo
-      .createQueryBuilder('q')
-      .leftJoin('languages', 'l', 'l.id = q.language_id')
-      .leftJoin('apps_questions', 'aq', 'aq.question_id = q.id')
-      .leftJoin('apps', 'a', 'a.id = aq.app_id')
-      .leftJoin('explanations', 'e', 'e.question_id = q.id')
+  async execute(): Promise<QuestionLibraryDto[]> {
+    const rows = await this.questionRepo
+      .createQueryBuilder('question')
+      .leftJoin('languages', 'language', 'language.id = question.language_id')
+      .leftJoin('question.apps', 'app')
       .select([
-        'q.id AS q_id',
-        'q.name AS q_name',
-        'q.is_phising AS q_is_phising',
-        'q.type AS q_type',
-        'q.content AS q_content',
-        'l.name AS language_name',
-        'a.name AS app_name',
-        'e.explanation_position AS explanation_position',
-        'e.explanation_text AS explanation_text',
-        'e.explanation_index AS explanation_index',
+        'question.id',
+        'question.name',
+        'question.is_phising',
+        'question.type',
+        'language.name',
+        'app.name',
       ])
-      .where('q.type = :type', { type: 'demo' })
-      .orderBy('q.name', 'ASC');
+      .where('question.type = :type', { type: 'demo' })
+      .orderBy('question.name', 'ASC')
+      .getRawMany();
 
-    const rows = await result.getRawMany();
-
-    // Array of explanations
-    const byId = new Map<number, any>();
-    for (const r of rows) {
-      if (!byId.has(r.q_id)) {
-        byId.set(r.q_id, {
-          id: r.q_id,
-          name: r.q_name,
-          isPhishing: r.q_is_phising,
-          type: r.q_type,
-          content: r.q_content,
-          language: r.language_name,
-          appName: r.app_name,
-          explanations: [] as { position: number; text: string; index: number }[],
-        });
-      }
-      if (r.explanation_index != null) {
-        byId.get(r.q_id).explanations.push({
-          position: Number(r.explanation_position),
-          text: r.explanation_text,
-          index: Number(r.explanation_index),
-        });
-      }
-    }
-
-    const libraryQuestions = [...byId.values()].map(q => ({
-      ...q,
-      explanations: q.explanations.sort((a, b) => a.index - b.index),
-    }));
+    const libraryQuestions = rows.map((r: any) =>
+      plainToInstance(QuestionLibraryDto, {
+        id: r.question_id,
+        name: r.question_name,
+        isPhishing: Boolean(r.question_is_phising),
+        type: r.question_type,
+        language: r.language_name,
+        appName: r.app_name,
+      }),
+    );
 
     return libraryQuestions;
   }
