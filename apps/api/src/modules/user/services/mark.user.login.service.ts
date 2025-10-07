@@ -8,7 +8,7 @@ export class MarkUserLoginService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly users: Repository<UserEntity>,
-  ) { }
+  ) {}
 
   async execute(userId: number): Promise<void> {
     await this.users.update(

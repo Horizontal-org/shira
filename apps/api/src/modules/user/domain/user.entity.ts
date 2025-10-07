@@ -6,7 +6,6 @@ import {
   ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Role } from './role.enum';
 import { SpaceEntity } from 'src/modules/space/domain/space.entity';
 
 
@@ -48,6 +47,7 @@ export class UserEntity {
   createdAt!: Date;
 
   @Column({
+    name: 'last_login_at',
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
     nullable: false,
