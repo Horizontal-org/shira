@@ -1,9 +1,8 @@
 import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { styled, Body1, H2, Box, defaultTheme, Body3Bold } from "@shira/ui";
+import { styled, Body1, H2, Box, defaultTheme, Body3Bold, GmailIcon, OutlookIcon, DatingAppIcon, WhatsappIcon, FacebookIcon, SMSIcon } from "@shira/ui";
 import { FaCircleCheck, FaCirclePlus } from "react-icons/fa6";
-import { MdRemoveRedEye, MdOutlinePhishing, MdTextsms, MdFacebook, MdMail } from "react-icons/md";
-import { RiWhatsappFill } from "react-icons/ri";
+import { MdRemoveRedEye, MdOutlinePhishing } from "react-icons/md";
 import { QuestionLibraryFlowManagement } from "../QuestionLibraryFlowManagement";
 import { Question, getLibraryQuestions } from "../../fetch/question_library";
 
@@ -19,11 +18,12 @@ type TableMeta = {
 };
 
 const appIcons: Record<string, JSX.Element> = {
-  "gmail": <MdMail />,
-  "messenger": <MdFacebook />,
-  "sms": <MdTextsms />,
-  "whatsapp": <RiWhatsappFill />,
-  "outlook": <MdMail />
+  "gmail": <GmailIcon />,
+  "fb messenger": <FacebookIcon />,
+  "sms": <SMSIcon />,
+  "whatsapp": <WhatsappIcon />,
+  "outlook": <OutlookIcon />,
+  "dating App": <DatingAppIcon />,
 };
 
 const columns: ColumnDef<Question>[] = [
