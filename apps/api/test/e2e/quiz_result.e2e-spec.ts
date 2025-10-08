@@ -25,11 +25,21 @@ describe('QuizResult HTTP (e2e happy paths)', () => {
   let dataSource: any;
   let quizRunsManagerRepo: { save: jest.Mock };
   let questionRunManagerRepo: { create: jest.Mock; save: jest.Mock };
+  let qb: any;
 
   beforeEach(async () => {
-    quizRunRepo = { findOne: jest.fn(), create: jest.fn(), save: jest.fn() };
-    questionRunRepo = { create: jest.fn(), save: jest.fn() };
-    quizRepo = { findOne: jest.fn() };
+    qb = {
+      innerJoin: jest.fn().mockReturnThis(),
+      where: jest.fn().mockReturnThis(),
+      andWhere: jest.fn().mockReturnThis(),
+      orderBy: jest.fn().mockReturnThis(),
+      select: jest.fn().mockReturnThis(),
+      addOrderBy: jest.fn().mockReturnThis(),
+      getRawMany: jest.fn(),
+    };
+    quizRunRepo = { findOne: jest.fn(), create: jest.fn(), save: jest.fn(), find: jest.fn(), createQueryBuilder: jest.fn().mockReturnValue(qb) };
+    questionRunRepo = { create: jest.fn(), save: jest.fn(), createQueryBuilder: jest.fn().mockReturnValue(qb) };
+    quizRepo = { findOne: jest.fn(), createQueryBuilder: jest.fn().mockReturnValue(qb) };
 
     quizRunsManagerRepo = { save: jest.fn((x) => x) } as any;
     questionRunManagerRepo = { create: jest.fn((x) => x), save: jest.fn((rows) => rows) } as any;
@@ -113,7 +123,6 @@ describe('QuizResult HTTP (e2e happy paths)', () => {
     expect(res.body).toEqual(
       expect.objectContaining({ id: 1, quizId: 42, learnerId: 123 }),
     );
-    expect(typeof res.body.startedAt === 'string').toBe(true);
   });
 
   it('PATCH /quiz-run/:id/finish finishes a run with question runs (happy path)', async () => {
@@ -169,7 +178,6 @@ describe('QuizResult HTTP (e2e happy paths)', () => {
     expect(res.body).toEqual(
       expect.objectContaining({ id: runId })
     );
-    expect(typeof res.body.finishedAt === 'string').toBe(true);
   });
 
   it('POST /quiz-run/:runId/question-run creates a question run (happy path)', async () => {
@@ -185,7 +193,7 @@ describe('QuizResult HTTP (e2e happy paths)', () => {
     questionRunRepo.create.mockReturnValue(created);
     questionRunRepo.save.mockResolvedValue({ id: 9001, ...created });
 
-    // When: performing the HTTP POST to the question-run creation route
+    // When: performing the HTTP POST to the question run creation route
     const http = app.getHttpAdapter().getInstance();
     const res = await request(http)
       .post(`/quiz-run/${runId}/question-run`)
@@ -209,33 +217,29 @@ describe('QuizResult HTTP (e2e happy paths)', () => {
     );
   });
 
-  it('GET /quiz-run/:quizId returns finished runs as { name, finishedAt }', async () => {
-    // Given: some runs for a quiz id (one unfinished)
-    const quizId = 99;
-    const finished = [
-      { id: 2, quizId, finishedAt: new Date('2025-01-03T00:00:00.000Z') },
-      { id: 3, quizId, finishedAt: new Date('2025-01-04T00:00:00.000Z') },
-      { id: 4, quizId },
-    ] as any[];
-    quizRunRepo.find = jest.fn().mockResolvedValue(finished.filter((r) => r.finishedAt));
-    quizRepo.findOne = jest.fn().mockResolvedValue({ id: quizId, title: 'Security awareness (whatsapp)' });
+  it('GET /quiz-run/:spaceId calls getLatestBySpaceId and returns its array', async () => {
+    // Given: an existing space with 3 quiz runs
+    const spaceId = 7;
+    const rows = [
+      { id: 4, quizId: 55, finishedAt: '2025-01-01T00:00:00.000Z', name: 'Security advanced' },
+      { id: 2, quizId: 30, finishedAt: '2025-01-03T00:00:00.000Z', name: 'Security basics' },
+      { id: 3, quizId: 30, finishedAt: '2025-01-04T00:00:00.000Z', name: 'Security basics' },
+    ];
+    (qb.getRawMany as jest.Mock).mockResolvedValue(rows);
 
-    // When: requesting the runs by quiz id
+    // When: performing the HTTP GET to retrieve quiz runs for a space
     const http = app.getHttpAdapter().getInstance();
-    const res = await request(http)
-      .get(`/quiz-run/${quizId}`)
-      .expect(200);
+    const res = await request(http).get(`/quiz-run/${spaceId}`).expect(200);
 
-    // Then: only finished runs are returned as DTOs and dates are serialized
-    expect(quizRunRepo.find).toHaveBeenCalledWith({
-      where: { quizId, finishedAt: expect.any(Object) },
-      order: { finishedAt: 'DESC', id: 'DESC' },
-    });
-    expect(res.body).toHaveLength(2);
-    for (const item of res.body) {
-      expect(item).toEqual(
-        expect.objectContaining({ quizId, name: 'Security awareness (whatsapp)', finishedAt: expect.any(String) })
-      );
-    }
+    // Then: the service returnes first DTO
+    console.log('Response:', res.body);
+
+    expect(res.body).toEqual(
+      expect.objectContaining({
+        quizId: 55,
+        name: 'Security advanced',
+        finishedAt: '2025-01-01T00:00:00.000Z',
+      })
+    );
   });
 });

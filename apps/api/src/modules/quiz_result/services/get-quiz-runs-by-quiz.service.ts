@@ -14,11 +14,7 @@ export class GetQuizRunsByQuizService implements IGetQuizRunsService {
 
   async getLatestBySpaceId(spaceId: number): Promise<QuizRunInfoDto> {
     const runs = await this.getAllBySpaceId(spaceId);
-    const latestRun = runs[0];
-
-    console.log("RUNS:", runs);
-    console.log('Latest run:', latestRun);
-    return runs.length > 0 ? latestRun : {} as QuizRunInfoDto;
+    return runs.length > 0 ? runs[0] : {} as QuizRunInfoDto;
   }
 
   async getAllBySpaceId(spaceId: number): Promise<QuizRunInfoDto[]> {
