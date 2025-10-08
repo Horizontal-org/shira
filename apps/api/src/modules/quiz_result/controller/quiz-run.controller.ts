@@ -5,7 +5,7 @@ import { IStartQuizRunService } from '../interfaces/services/start-quiz-run.serv
 import { IFinishQuizRunService } from '../interfaces/services/finish-quiz-run.service.interface';
 import { StartQuizRunDto } from '../dto/start-quiz-run.dto';
 import { FinishQuizRunDto } from '../dto/finish-quiz-run.dto';
-import { IGetQuizRunsByQuizService } from '../interfaces/services/get-quiz-runs-by-quiz.service.interface';
+import { IGetQuizRunsService } from '../interfaces/services/get-quiz-runs-by-quiz.service.interface';
 
 @Controller('quiz-run')
 export class QuizRunController {
@@ -15,7 +15,7 @@ export class QuizRunController {
     @Inject(TYPES.services.IFinishQuizRunService)
     private readonly finishRun: IFinishQuizRunService,
     @Inject(TYPES.services.IGetQuizRunsByQuizService)
-    private readonly getRunsByQuiz: IGetQuizRunsByQuizService,
+    private readonly quizRuns: IGetQuizRunsService,
   ) { }
 
   @Post()
@@ -33,10 +33,10 @@ export class QuizRunController {
     return await this.finishRun.execute(runId, dto);
   }
 
-  @Get(':quizId')
+  @Get(':spaceId')
   async getAllRuns(
-    @Param('quizId', ParseIntPipe) quizId: number,
+    @Param('spaceId', ParseIntPipe) spaceId: number,
   ) {
-    return await this.getRunsByQuiz.execute(quizId);
+    return await this.quizRuns.getLatestBySpaceId(spaceId);
   }
 }

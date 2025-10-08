@@ -1,28 +1,45 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { IsNull, Not, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { QuizRun } from '../domain/quiz_runs.entity';
-import { Quiz } from '../../quiz/domain/quiz.entity';
 import { QuizRunInfoDto } from '../dto/quiz-run-info.dto';
+import { IGetQuizRunsService } from '../interfaces/services/get-quiz-runs-by-quiz.service.interface';
 
 @Injectable()
-export class GetQuizRunsByQuizService {
+export class GetQuizRunsByQuizService implements IGetQuizRunsService {
   constructor(
     @InjectRepository(QuizRun)
     private readonly quizRunRepo: Repository<QuizRun>,
-    @InjectRepository(Quiz)
-    private readonly quizRepo: Repository<Quiz>,
   ) { }
 
-  async execute(quizId: number): Promise<QuizRunInfoDto[]> {
-    const quiz = await this.quizRepo.findOne({ where: { id: quizId } });
-    const name = quiz.title;
+  async getLatestBySpaceId(spaceId: number): Promise<QuizRunInfoDto> {
+    const runs = await this.getAllBySpaceId(spaceId);
+    const latestRun = runs[0];
 
-    const runs = await this.quizRunRepo.find({
-      where: { quizId, finishedAt: Not(IsNull()) },
-      order: { finishedAt: 'DESC', id: 'DESC' },
-    });
+    console.log("RUNS:", runs);
+    console.log('Latest run:', latestRun);
+    return runs.length > 0 ? latestRun : {} as QuizRunInfoDto;
+  }
 
-    return runs.map((r) => ({ quizId: r.quizId, name, finishedAt: r.finishedAt }));
+  async getAllBySpaceId(spaceId: number): Promise<QuizRunInfoDto[]> {
+    const runs = await this.quizRunRepo
+      .createQueryBuilder('qr')
+      .innerJoin('qr.quiz', 'qz')
+      .where('qz.space_id = :spaceId', { spaceId })
+      .andWhere('qr.finished_at IS NOT NULL')
+      .orderBy('qr.finished_at', 'DESC')
+      .addOrderBy('qr.id', 'DESC')
+      .select([
+        'qr.quiz_id AS "quizId"',
+        'qz.title AS "name"',
+        'qr.finished_at AS "finishedAt"',
+      ])
+      .getRawMany<QuizRunInfoDto>();
+
+    return runs.map((r) => ({
+      quizId: r.quizId,
+      name: r.name,
+      finishedAt: r.finishedAt,
+    }));
   }
 }
