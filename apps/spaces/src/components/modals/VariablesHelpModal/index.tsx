@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { Body1, Modal, styled, ExplanationIcon } from "@shira/ui";
+import { Body1, Modal, styled, VariableIcon } from "@shira/ui";
 
 interface Props {
   isModalOpen: boolean;
@@ -15,7 +15,7 @@ export const VariablesHelpModal: FunctionComponent<Props> = ({
       isOpen={isModalOpen}
       titleIcon={
         <SvgWrapper>
-          <ExplanationIcon />
+          <VariableIcon />
         </SvgWrapper>
       }
       title="Variables"
