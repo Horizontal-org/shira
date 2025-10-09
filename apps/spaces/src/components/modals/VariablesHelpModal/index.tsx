@@ -35,14 +35,12 @@ export const VariablesHelpModal: FunctionComponent<Props> = ({
           The information shown is relevant to each learner, based on what they
           entered or auto-generated during quiz setup.
         </MiddleBody1>
-        <MiddleBody1>To add a variable, type the following:</MiddleBody1>
-
-        <VariableList>
-          <VariableItem>
+        <VariableList role="list">
+          <VariableItem role="listitem">
             <VariableTag>{`{{name}}`}</VariableTag>
             <Body1>This will display the learner's name</Body1>
           </VariableItem>
-          <VariableItem>
+          <VariableItem role="listitem">
             <VariableTag>{`{{email}}`}</VariableTag>
             <Body1>This will display the learner's email address</Body1>
           </VariableItem>
