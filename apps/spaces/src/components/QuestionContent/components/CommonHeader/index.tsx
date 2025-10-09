@@ -3,6 +3,7 @@ import { Body1, styled } from "@shira/ui";
 import { HookIcon } from "./assets/hook";
 import { ThumbIcon } from "./assets/thumb";
 import { ExplanationsHelpModal } from "../../../modals/ExplanationsHelpModal";
+import { VariablesHelpModal } from "../../../modals/VariablesHelpModal";
 
 interface Props {
   isPhishing: boolean
@@ -12,17 +13,23 @@ export const CommonHeader: FunctionComponent<Props> = ({
   isPhishing
 }) => {
 
-  const [modalOpen, setModalOpen] = useState(false)
-  
+  const [explanationsModalOpen, setExplanationsModalOpen] = useState(false);
+  const [variablesModalOpen, setVariablesModalOpen] = useState(false);
+
   return (
-    <>    
+    <>
       <ExplanationsHelpModal
-        isModalOpen={modalOpen}
-        setIsModalOpen={setModalOpen}        
+        isModalOpen={explanationsModalOpen}
+        setIsModalOpen={setExplanationsModalOpen}
+      />
+
+      <VariablesHelpModal
+        isModalOpen={variablesModalOpen}
+        setIsModalOpen={setVariablesModalOpen}
       />
 
       <IsPhishingWrapper>
-        { isPhishing ? (
+        {isPhishing ? (
           <Content>
             <HookIcon />
             <Body1>You are writing a phishing message</Body1>
@@ -35,15 +42,21 @@ export const CommonHeader: FunctionComponent<Props> = ({
         )}
       </IsPhishingWrapper>
       <ExplanationsTip>
-          <span>
-            {`On this screen, create the content that will be displayed in the question and the `}
-          </span>
-          <strong onClick={() => {
-            setModalOpen(true)
-          }}>
+        <span>
+          {`On this screen, create the content that will be displayed in the question, including the `}
+        </span>
+        <strong onClick={() => {
+          setVariablesModalOpen(true)
+        }}>
+          {`variables`}
+        </strong>
+        {` and `}
+        <strong onClick={() => {
+          setExplanationsModalOpen(true)
+        }}>
           {`explanations`}
-          </strong> 
-          {` to go with it.`}
+        </strong>
+        {` to go with it.`}
       </ExplanationsTip>
     </>
   )

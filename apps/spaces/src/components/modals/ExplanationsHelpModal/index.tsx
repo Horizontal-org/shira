@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { Body1, ExplanationIcon, Modal, styled,  } from "@shira/ui";
+import { Body1, ExplanationIcon, Modal, styled } from "@shira/ui";
 
 interface Props {
   isModalOpen: boolean;
