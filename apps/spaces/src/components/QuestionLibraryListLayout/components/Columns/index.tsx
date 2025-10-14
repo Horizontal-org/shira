@@ -7,7 +7,7 @@ import { TableMeta } from "../..";
 
 const appIcons: Record<string, JSX.Element> = {
   "gmail": <GmailIcon />,
-  "fb messenger": <FacebookIcon />,
+  "messenger": <FacebookIcon />,
   "sms": <SMSIcon />,
   "whatsapp": <WhatsappIcon />,
   "outlook": <OutlookIcon />,
