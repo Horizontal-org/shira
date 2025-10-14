@@ -9,7 +9,6 @@ import { duplicateQuestion } from "../../../fetch/quiz";
 import { QuizQuestion } from "../../../store/slices/quiz";
 import toast from "react-hot-toast";
 
-
 interface QuestionsListProps {
   quizId: number;
   quizQuestions: QuizQuestion[];
@@ -20,7 +19,6 @@ interface QuestionsListProps {
 
   onReorder: (newOrder: QuizQuestion[]) => void;
   onDuplicate: () => void;
-
 }
 
 export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
@@ -83,7 +81,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
   }
 
   if (!quizQuestions || quizQuestions.length === 0) {
-    return <EmptyState onAdd={onAdd} />
+    return <EmptyState onAdd={onAdd} onAddLibrary={onAddLibrary} quizId={String(quizId)} />
   }
 
   return (
@@ -189,8 +187,6 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
     </div>
   );
 };
-
-
 
 const Header = styled.div`
   display: flex;
