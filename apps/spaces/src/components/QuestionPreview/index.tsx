@@ -1,6 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { Button, styled, Body1, defaultTheme } from "@shira/ui";
-import { getContentProps } from "./utils";
 import "../../fonts/GoogleSans/style.css";
 import "../../fonts/Segoe/style.css";
 import { useStore } from "../../store";
@@ -8,8 +7,14 @@ import { shallow } from "zustand/shallow";
 import { MdBlock } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
 import { ActiveQuestion } from "../../store/types/active_question";
-import { AppSelector } from "../QuestionReview/components/AppSelector";
 import { Explanation, Question } from "../../fetch/question_library";
+import { AppLayout } from "./AppLayout";
+
+export type UIExplanation = {
+  index: string;
+  text: string;
+  position: string;
+}
 
 interface Props {
   activeQuestion?: ActiveQuestion,
@@ -26,7 +31,8 @@ export const QuestionPreview: FunctionComponent<Props> = ({ onClose, explanation
     activeQuestion: state.activeQuestion
   }), shallow);
 
-  const [elementProps, handleElementProps] = useState(null);
+  console.log("🚀 ~ QuestionPreview ~ activeQuestion:", activeQuestion)
+
   const [explanationNumber, setExplanationNumber] = useState<number>(0);
   const [explanationsOrder, handleExplanationsOrder] = useState<Array<number>>([]);
   const [showExplanations, handleShowExplanations] = useState<boolean>(false);
@@ -37,19 +43,18 @@ export const QuestionPreview: FunctionComponent<Props> = ({ onClose, explanation
       .map(e => e.index)
 
     handleExplanationsOrder(order);
-
-    if (activeQuestion && activeQuestion.app) {
-      const contentProps = getContentProps(activeQuestion.app.name, activeQuestion)
-      console.log("🚀 ~ QuestionPreview ~ contentProps:", contentProps)
-
-      handleElementProps({
-        ...contentProps
-      })
-    }
   }, []);
 
-  if (!activeQuestion || !elementProps) {
+  if (!activeQuestion) {
     return
+  };
+
+  const mapToUIExplanations = (explanations: Explanation[]): UIExplanation[] => {
+    return explanations.map((e) => ({
+      position: e.position.toString(),
+      text: e.text,
+      index: e.index.toString(),
+    }));
   };
 
   return (
@@ -108,12 +113,15 @@ export const QuestionPreview: FunctionComponent<Props> = ({ onClose, explanation
       </ExplanationHeader>
 
       <StyledBox>
-        <AppSelector
+        <AppLayout
           appName={activeQuestion.app.name}
-          customProps={elementProps}
+          content=""
+          // content={activeQuestion.content.replace('{{name}}', persistedName).replace('{{email}}', persistedEmail)}
+          explanations={mapToUIExplanations(explanations)}
           explanationNumber={explanationsOrder[explanationNumber]}
+          // answer={answer}
           showExplanations={showExplanations}
-          explanations={explanations}
+        // images={images}
         />
         {showExplanations && <Overlay />}
       </StyledBox>

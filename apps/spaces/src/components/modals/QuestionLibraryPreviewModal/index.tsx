@@ -19,25 +19,26 @@ export const QuestionLibraryPreviewModal: FunctionComponent<Props> = ({
   onAdd,
   onClose,
 }) => {
-  return createPortal(
-    <Overlay role="dialog" aria-modal="true">
-      <Dialog>
-        <Body>
-          <QuestionPreview onClose={onClose} explanations={explanations} />
-        </Body>
-        <Footer>
-          <FixedButtonWrapper>
-            <Button
-            aria-label="Add to quiz"
-            leftIcon={<FiPlus size={16} />}
-            text="Add to quiz"
-            onClick={() => onAdd(question)}
-            />
-          </FixedButtonWrapper>
-        </Footer>
-      </Dialog>
-    </Overlay>,
-    document.body
+  return (
+    <>
+      <Overlay role="dialog" aria-modal="true">
+        <Dialog>
+          <Body>
+            <QuestionPreview onClose={onClose} explanations={explanations} />
+          </Body>
+          <Footer>
+            <FixedButtonWrapper>
+              <Button
+                aria-label="Add to quiz"
+                leftIcon={<FiPlus size={16} />}
+                text="Add to quiz"
+                onClick={() => onAdd(question)}
+              />
+            </FixedButtonWrapper>
+          </Footer>
+        </Dialog>
+      </Overlay>
+    </>
   );
 };
 

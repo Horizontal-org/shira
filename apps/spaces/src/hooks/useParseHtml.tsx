@@ -1,47 +1,57 @@
-import { TextEditor } from "../components/DynamicComponents/TextEditor"
-// import { Attachment } from "../components/DynamicComponents/Attachment"
+const useParseHtml = (
+  content: any,
+  images: Array<{ imageId: number; url: string }> = []
+) => {
+  const html = new DOMParser().parseFromString(content, 'text/html')
 
-const useParseHTML = (
-    content: any
-  ) => {
-    const html = new DOMParser().parseFromString(content, 'text/html')
-  
-    const parseCustomElement = (customElement: string) => {
-      const element = html.getElementById(customElement)
-  
+  const parseAttachments = () => {
+    const htmlAttachments = html.querySelectorAll('[id*="component-attachment"]')
+    const attachments = Array.from(htmlAttachments).map((a) => {
       return {
-        textContent: element?.textContent || '',
-        explanationPosition: element?.getAttribute('data-explanation') || null
+        name: a.textContent,
+        position: a.getAttribute('data-position'),
+        explanationPosition: a.getAttribute('data-explanation'),
+        fileType: a.getAttribute('data-attachment-type')
       }
-    }
-  
-    const parseContent = (): HTMLElement => html.querySelector('[id*="component-text"]')
-  
-    return {
-      parseCustomElement,
-      parseContent
-    }
+    })
+
+    return attachments
   }
 
-//  export const parseDynamicContent = (content) => {
-//     const html = new DOMParser().parseFromString(content, 'text/html')
-//     const dynamicContent = html.getElementById("dynamic-content")
+  const parseCustomElement = (customElement: string) => {
+    const element = html.getElementById(customElement)
+    const object = {
+      textContent: element?.textContent || '',
+      explanationPosition: element?.getAttribute('data-explanation') || null
+    }
 
-//     const childNodes = Array.from(dynamicContent.childNodes).map((node: Element) =>{
-//       const type = node.getAttribute('id').includes('component-text')
-//       ? 'text' 
-//       :  'attachment'
-      
-//       return {
-//         position: parseInt(node.getAttribute('id').split('-')[2]),
-//         type,
-//         content: type === 'text' ? node.innerHTML: node.outerHTML,
-//         node: type === 'text' ? (<TextEditor />) : (<Attachment/>),
-//         dataPosition: +node.getAttribute('data-position')
-//       }
-//     });
-//     return childNodes.sort((a, b) => a.dataPosition -b.dataPosition)
-    
-//   }
-  
-  export default useParseHTML
+    return object
+  }
+
+  const parseContent = (): HTMLElement => {
+
+    // insert image urls
+    if (images.length > 0) {
+      html.querySelectorAll('img[data-image-id]')
+        .forEach((img) => {
+          const imgElement = images.find(i => i.imageId === parseInt(img.getAttribute('data-image-id')))
+          if (imgElement) {
+            img.setAttribute("src", imgElement.url)
+          }
+        })
+    }
+
+    return html.querySelector('[id*="component-text"]')
+  }
+
+  const parseDynamicContent = () => html.getElementById('dynamic-content')
+
+  return {
+    parseAttachments,
+    parseCustomElement,
+    parseContent,
+    parseDynamicContent
+  }
+}
+
+export default useParseHtml;
