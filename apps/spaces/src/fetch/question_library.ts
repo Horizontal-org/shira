@@ -4,7 +4,7 @@ export interface Explanation {
   position: number;
   text: string;
   index: number;
-}
+};
 
 export interface Question {
   id: number;
@@ -15,13 +15,28 @@ export interface Question {
   language: string;
   appName: string;
   explanations: Explanation[];
-}
+};
 
-export const getLibraryQuestions = async() => {
+export const getLibraryQuestions = async () => {
   try {
-    const res = await axios.get<Question[]>(`${process.env.REACT_APP_API_URL}/question/library`)
-    return res.data
+    const { data } = await axios.get<Question[]>(`${process.env.REACT_APP_API_URL}/question/library`);
+    return keepFirstAppPerQuestionLanguage(data);
   } catch (err) {
     console.log("🚀 ~ getLibraryQuestions ~ err:", err);
   }
-}
+};
+
+function keepFirstAppPerQuestionLanguage(questions: Question[]): Question[] {
+  const set = new Set<string>();
+  const result: Question[] = [];
+
+  for (const question of questions) {
+    const key = `${question.id}::${question.language}`;
+    if (!set.has(key)) {
+      set.add(key);
+      result.push(question);
+    }
+  }
+
+  return result;
+};
