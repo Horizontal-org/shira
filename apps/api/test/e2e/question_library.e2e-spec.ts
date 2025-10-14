@@ -16,9 +16,9 @@ describe('QuestionLibraryController (e2e with mocked DB)', () => {
         lang_id: 1,
         lang_name: 'English',
         app_name: 'Gmail',
-        e_position: '2',
+        e_position: 2,
         e_text: 'Second',
-        e_index: '2',
+        e_index: 2,
       },
       {
         q_id: 10,
@@ -29,9 +29,9 @@ describe('QuestionLibraryController (e2e with mocked DB)', () => {
         lang_id: 1,
         lang_name: 'English',
         app_name: 'Gmail',
-        e_position: '1',
+        e_position: 1,
         e_text: 'First',
-        e_index: '1',
+        e_index: 1,
       },
     ];
     const { app } = await buildQuestionLibraryApp(rawRows);
@@ -45,6 +45,7 @@ describe('QuestionLibraryController (e2e with mocked DB)', () => {
       .expect(200);
 
     // Then: the service aggregates rows and sorts explanations by index
+    expect(res.body).toHaveLength(1);
     expect(res.body).toEqual([
       {
         id: 10,
@@ -139,9 +140,9 @@ describe('QuestionLibraryController (e2e with mocked DB)', () => {
         lang_id: 1,
         lang_name: 'English',
         app_name: 'Gmail',
-        e_position: '1',
+        e_position: 1,
         e_text: 'Check sender',
-        e_index: '1',
+        e_index: 1,
       },
       {
         q_id: 71,
@@ -152,9 +153,9 @@ describe('QuestionLibraryController (e2e with mocked DB)', () => {
         lang_id: 2,
         lang_name: 'Spanish',
         app_name: 'Gmail',
-        e_position: '1',
+        e_position: 1,
         e_text: 'Verifica remitente',
-        e_index: '1',
+        e_index: 1,
       },
     ];
     const { app } = await buildQuestionLibraryApp(rawRows);
@@ -168,6 +169,7 @@ describe('QuestionLibraryController (e2e with mocked DB)', () => {
       .expect(200);
 
     // Then: the response contains one DTO per language
+    expect(res.body).toHaveLength(2);
     expect(res.body).toEqual([
       {
         id: 71,
@@ -198,30 +200,30 @@ describe('QuestionLibraryController (e2e with mocked DB)', () => {
     // Given: the DB returns the same question+language but with 2 apps
     const rawRows: RawRow[] = [
       {
-        q_id: 99,
-        q_name: 'Payroll',
+        q_id: 88,
+        q_name: 'Shipping notice',
         q_is_phishing: 1,
         q_type: 'demo',
         qt_content: '<div/>',
         lang_id: 1,
         lang_name: 'English',
         app_name: 'Gmail',
-        e_position: '1',
-        e_text: 'First',
-        e_index: '1',
+        e_position: 1,
+        e_text: 'Check links',
+        e_index: 1,
       },
       {
-        q_id: 99,
-        q_name: 'Payroll',
+        q_id: 88,
+        q_name: 'Shipping notice',
         q_is_phishing: 1,
         q_type: 'demo',
         qt_content: '<div/>',
         lang_id: 1,
         lang_name: 'English',
         app_name: 'Outlook',
-        e_position: '1',
-        e_text: 'First',
-        e_index: '1',
+        e_position: 1,
+        e_text: 'Check links',
+        e_index: 1,
       },
     ];
     const { app } = await buildQuestionLibraryApp(rawRows);
@@ -235,6 +237,7 @@ describe('QuestionLibraryController (e2e with mocked DB)', () => {
       .expect(200);
 
     // Then: the response contains one DTO per app
+    expect(res.body).toHaveLength(2);
     expect(res.body.map((dto: any) => dto.appName).sort()).toEqual([
       'Gmail',
       'Outlook',

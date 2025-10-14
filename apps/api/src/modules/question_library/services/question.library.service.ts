@@ -40,6 +40,7 @@ export class GetLibraryQuestionService implements IGetLibraryQuestionService {
       .getRawMany();
 
     const grouped = new Map<string, QuestionLibraryDto>();
+    const seenExplanations = new Map<string, Set<string>>();
 
     for (const row of rows) {
       // group by question + app + language
@@ -58,17 +59,27 @@ export class GetLibraryQuestionService implements IGetLibraryQuestionService {
         });
       }
 
-      // add explanations for current language
+      if (!seenExplanations.has(key)) {
+        seenExplanations.set(key, new Set<string>());
+      }
+
+      // add explanation if not duplicate
       if (row.e_index != null && row.e_text != null) {
-        grouped.get(key)!.explanations.push({
-          position: Number(row.e_position),
-          text: row.e_text,
-          index: Number(row.e_index),
-        });
+        const eKey = `${row.e_index}::${row.e_text}`;
+        const seen = seenExplanations.get(key)!;
+
+        if (!seen.has(eKey)) {
+          grouped.get(key)!.explanations.push({
+            position: Number(row.e_position ?? 0),
+            text: row.e_text,
+            index: Number(row.e_index),
+          });
+          seen.add(eKey);
+        }
       }
     }
 
-    // sort explanations per DTO
+    // ordenar explicaciones dentro de cada DTO
     for (const dto of grouped.values()) {
       dto.explanations.sort((a, b) => a.index - b.index);
     }
