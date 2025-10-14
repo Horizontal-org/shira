@@ -4,75 +4,75 @@ import { Repository } from 'typeorm';
 import { Question } from '../../question/domain/question.entity';
 import { IGetLibraryQuestionService } from '../interfaces/services/question-library.service.interface';
 import { QuestionLibraryDto } from '../dto/question.library.dto';
+import { Language } from 'src/modules/languages/domain/languages.entity';
 
 @Injectable()
 export class GetLibraryQuestionService implements IGetLibraryQuestionService {
   constructor(
     @InjectRepository(Question)
     private readonly questionRepo: Repository<Question>,
-  ) {}
+  ) { }
 
   async execute(): Promise<QuestionLibraryDto[]> {
-    const rows = await this.questionRepo.createQueryBuilder('question')
-      .leftJoin('languages', 'language', 'language.id = question.language_id')
-      .leftJoin('question.apps', 'app')
-      .leftJoin('question.explanations', 'e')
+    const rows = await this.questionRepo
+      .createQueryBuilder('q')
+      .leftJoin('q.apps', 'app')
+      .leftJoin('q.explanations', 'e')
+      .leftJoin('q.questionTranslations', 'qt')
+      .leftJoin(Language, 'lang', 'lang.id = qt.language_id')
+      .leftJoin('e.explanationTranslations', 'et', 'et.language_id = qt.language_id')
       .select([
-        'question.id',
-        'question.name',
-        'question.is_phising',
-        'question.type',
-        'question.content',
-        'language.name',
-        'app.name',
-        'e.explanation_position',
-        'e.explanation_text',
-        'e.explanation_index',
+        'q.id AS q_id',
+        'q.name AS q_name',
+        'q.isPhising AS q_is_phishing',
+        'q.type AS q_type',
+        'qt.content AS qt_content',
+        'lang.id AS lang_id',
+        'lang.name AS lang_name',
+        'app.name AS app_name',
+        'e.explanation_position AS e_position',
+        'et.content AS e_text',
+        'e.explanation_index AS e_index',
       ])
-      .where('question.type = :type', { type: 'demo' })
-      .orderBy('question.name', 'ASC')
+      .where('q.type = :type', { type: 'demo' })
+      .andWhere('qt.content IS NOT NULL')
+      .orderBy('q.name', 'ASC')
       .getRawMany();
 
-    if (rows.length === 0) return [];
-
-    // group by question_id
-    const byId = new Map<
-      number,
-      QuestionLibraryDto & {
-        explanations: { position: number; text: string; index: number }[];
-      }
-    >();
+    const grouped = new Map<string, QuestionLibraryDto>();
 
     for (const row of rows) {
-      const id = row.question_id;
+      // group by question + app + language
+      const key = `${row.q_id}::${row.app_name}::${row.lang_id}`;
 
-      if (!byId.has(id)) {
-        byId.set(id, {
-          id,
-          name: row.question_name,
-          isPhishing: Boolean(row.is_phising),
-          type: row.question_type,
-          content: row.question_content,
-          language: row.language_name,
+      if (!grouped.has(key)) {
+        grouped.set(key, {
+          id: Number(row.q_id),
+          name: row.q_name,
+          isPhishing: Boolean(row.q_is_phishing),
+          type: row.q_type,
+          content: row.qt_content,
+          language: row.lang_name,
           appName: row.app_name,
           explanations: [],
         });
       }
 
-      if (row.explanation_index != null) {
-        const q = byId.get(id)!;
-        q.explanations.push({
-          position: Number(row.explanation_position),
-          text: row.explanation_text as string,
-          index: Number(row.explanation_index),
+      // add explanations for current language
+      if (row.e_index != null && row.e_text != null) {
+        grouped.get(key)!.explanations.push({
+          position: Number(row.e_position),
+          text: row.e_text,
+          index: Number(row.e_index),
         });
       }
     }
 
-    // return sorted explanations per question
-    return Array.from(byId.values()).map((q) => ({
-      ...q,
-      explanations: q.explanations.sort((a, b) => a.index - b.index),
-    }));
+    // sort explanations per DTO
+    for (const dto of grouped.values()) {
+      dto.explanations.sort((a, b) => a.index - b.index);
+    }
+
+    return Array.from(grouped.values());
   }
 }

@@ -16,6 +16,7 @@ export function makeQb(rawRows: RawRow[]) {
     leftJoin: jest.fn(() => qb),
     select: jest.fn(() => qb),
     where: jest.fn(() => qb),
+    andWhere: jest.fn(() => qb),
     orderBy: jest.fn(() => qb),
     getRawMany: jest.fn(async () => rawRows),
   };
