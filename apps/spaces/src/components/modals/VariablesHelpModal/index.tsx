@@ -35,6 +35,9 @@ export const VariablesHelpModal: FunctionComponent<Props> = ({
           The information shown is relevant to each learner, based on what they
           entered or auto-generated during quiz setup.
         </MiddleBody1>
+        <MiddleBody1>
+          To add a variable, type the following:
+        </MiddleBody1>
         <VariableList role="list">
           <VariableItem role="listitem">
             <VariableTag>{`{{name}}`}</VariableTag>
@@ -74,13 +77,13 @@ const VariableList = styled.ul`
 
 const VariableItem = styled.li`
   display: flex;
-  align-items: center;
   gap: 10px;
 `;
 
-const VariableTag = styled("Button2")`
+const VariableTag = styled.span`
   background: #f3f3f3;
   border-radius: 4px;
   padding: 4px 8px;
   font-weight: 600;
+  height: max-content;
 `;
