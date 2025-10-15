@@ -1,9 +1,10 @@
 export const TYPES = {
-  services: {    
+  services: {
     IGetResultQuizService: 'IGetResultQuizService',
     IValidateSpaceQuizService: 'IValidateSpaceQuizService',
     IStartQuizRunService: 'IStartQuizRunService',
     IFinishQuizRunService: 'IFinishQuizRunService',
-    ICreateQuestionRunService: 'ICreateQuestionRunService'
+    ICreateQuestionRunService: 'ICreateQuestionRunService',
+    IGetQuizRunsByQuizService: 'IGetQuizRunsByQuizService',
   },
 };

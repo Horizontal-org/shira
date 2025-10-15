@@ -9,6 +9,7 @@ export const TYPES = {
     ISendInvitationAuthService: 'ISendInvitationAuthService',
     ISpaceRegistrationAuthService:'ISpaceRegistrationAuthService',
     IUserContextService: 'IUserContextService',
+    IMarkUserLoginService: 'IMarkUserLoginService',
   },
   handlers: {},
 };
