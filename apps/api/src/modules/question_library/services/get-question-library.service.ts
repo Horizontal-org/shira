@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Question } from '../../question/domain/question.entity';
-import { IGetLibraryQuestionService } from '../interfaces/services/question-library.service.interface';
+import { IGetLibraryQuestionService } from '../interfaces/services/get-question-library.service.interface';
 import { QuestionLibraryDto } from '../dto/question.library.dto';
 import { Language } from 'src/modules/languages/domain/languages.entity';
 
@@ -55,7 +55,10 @@ export class GetLibraryQuestionService implements IGetLibraryQuestionService {
           isPhishing: Boolean(row.q_is_phishing),
           type: row.q_type,
           content: row.qt_content,
-          language: row.lang_name,
+          language: {
+            id: row.lang_id,
+            name: row.lang_name,
+          },
           app: {
             id: row.app_id,
             name: row.app_name,
