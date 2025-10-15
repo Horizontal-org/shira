@@ -16,7 +16,6 @@ export const MailApps: FunctionComponent<Props> = ({ content, name, explanations
 
   const { parseAttachments, parseCustomElement, parseContent } = parseHtml(content, images);
 
-
   return (
     <>
       {name === 'Gmail' && (

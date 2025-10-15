@@ -30,6 +30,8 @@ export class GetLibraryQuestionService implements IGetLibraryQuestionService {
         'lang.id AS lang_id',
         'lang.name AS lang_name',
         'app.name AS app_name',
+        'app.id AS app_id',
+        'app.type AS app_type',
         'e.explanation_position AS e_position',
         'et.content AS e_text',
         'e.explanation_index AS e_index',
@@ -54,7 +56,11 @@ export class GetLibraryQuestionService implements IGetLibraryQuestionService {
           type: row.q_type,
           content: row.qt_content,
           language: row.lang_name,
-          appName: row.app_name,
+          app: {
+            id: row.app_id,
+            name: row.app_name,
+            type: row.app_type,
+          },
           explanations: [],
         });
       }

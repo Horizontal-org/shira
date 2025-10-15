@@ -1,4 +1,5 @@
 import { Explanation } from "./explanation.dto";
+import { App } from "./app.dto";
 
 export class QuestionLibraryDto {
   id: number;
@@ -7,6 +8,6 @@ export class QuestionLibraryDto {
   type: string;
   content: string;
   language: string;
-  appName: string;
+  app: App;
   explanations: Explanation[];
 }

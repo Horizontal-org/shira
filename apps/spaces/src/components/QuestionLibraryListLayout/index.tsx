@@ -13,6 +13,8 @@ import { libraryToActiveQuestion } from "../../utils/active_question/libraryToQu
 import { QuizSuccessStates } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
 import { columns } from "./components/Columns";
+import { libraryToPreviewQuestion } from "../../utils/active_question/libraryToPreviewQuestion";
+import { ActiveLibraryQuestion } from "../../store/types/active_library_question";
 
 type Props = {
   rows?: Question[];
@@ -37,7 +39,7 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
     setQuizActionSuccess: state.setQuizActionSuccess
   }), shallow)
 
-  const [preview, setPreview] = useState<{ active: ActiveQuestion; original: Question }>(null);
+  const [preview, setPreview] = useState<{ active: ActiveLibraryQuestion; original: Question }>(null);
   const [rows, setRows] = useState<Question[]>(rowsProp ?? []);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
@@ -80,15 +82,15 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
     ((aq: ActiveQuestion) => useStore.setState({ activeQuestion: aq }));
 
   const handlePreview = (q: Question) => {
-    const active = libraryToActiveQuestion(q);
-    console.log("🚀 ~ handlePreview ~ active:", active)
-    setActiveQuestion(active);
-    setPreview({ active, original: q });
+    const activeForStore = libraryToActiveQuestion(q);
+    const activeForPreview = libraryToPreviewQuestion(q);
+
+    setActiveQuestion(activeForStore);
+    setPreview({ active: activeForPreview, original: q });
   };
 
   const handleAdd = (q: Question) => {
     const active = libraryToActiveQuestion(q);
-    console.log("🚀 ~ handleAdd ~ active:", active)
     submit(quizId, active);
   }
 
@@ -173,7 +175,7 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
         {preview && (
           <QuestionLibraryPreviewModal
             question={preview.active}
-            onAdd={(question) => submit(quizId, question)}
+            onAdd={() => submit(quizId, libraryToActiveQuestion(preview.original))}
             explanations={preview.original.explanations}
             onClose={() => setPreview(null)}
           />

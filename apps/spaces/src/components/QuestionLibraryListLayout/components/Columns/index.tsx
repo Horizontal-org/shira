@@ -2,7 +2,7 @@ import { Body3Bold, DatingAppIcon, defaultTheme, FacebookIcon, GmailIcon, Outloo
 import { ColumnDef } from "@tanstack/react-table";
 import { FaCircleCheck, FaCirclePlus } from "react-icons/fa6";
 import { MdOutlinePhishing, MdRemoveRedEye } from "react-icons/md";
-import type { Question as LibraryQuestion } from "../../../../fetch/question_library";
+import type { App, Question as LibraryQuestion } from "../../../../fetch/question_library";
 import { TableMeta } from "../..";
 
 const appIcons: Record<string, JSX.Element> = {
@@ -43,10 +43,11 @@ export const columns: ColumnDef<LibraryQuestion>[] = [
   },
   {
     header: "App",
-    accessorKey: "appName",
+    accessorKey: "app",
     id: "app",
     cell: (c) => {
-      const appName = String(c.getValue());
+      const app = c.getValue() as App;
+      const appName = app.name;
       return (
         <AppCell>
           {appIcons[appName.toLowerCase()]}

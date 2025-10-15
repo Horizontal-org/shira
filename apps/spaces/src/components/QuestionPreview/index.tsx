@@ -2,30 +2,26 @@ import { FunctionComponent, useEffect, useState } from "react";
 import { Button, styled, Body1, defaultTheme } from "@shira/ui";
 import "../../fonts/GoogleSans/style.css";
 import "../../fonts/Segoe/style.css";
-import { useStore } from "../../store";
 import { MdBlock } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
-import { ActiveQuestion } from "../../store/types/active_question";
 import { Explanation, Question } from "../../fetch/question_library";
 import { AppLayout } from "./AppLayout";
+import { ActiveLibraryQuestion } from "../../store/types/active_library_question";
 
 export type UIExplanation = {
   index: string;
   text: string;
   position: string;
-}
+};
 
 interface Props {
-  activeQuestion?: ActiveQuestion;
+  activeQuestion?: ActiveLibraryQuestion;
   question?: Question;
   onClose?: () => void;
   explanations: Explanation[];
 }
 
-export const QuestionPreview: FunctionComponent<Props> = ({ onClose, explanations }) => {
-
-  const activeQuestion = useStore((state) => state.activeQuestion);
-
+export const QuestionPreview: FunctionComponent<Props> = ({ onClose, explanations, activeQuestion }) => {
   const [explanationNumber, setExplanationNumber] = useState<number>(0);
   const [explanationsOrder, handleExplanationsOrder] = useState<Array<number>>([]);
   const [showExplanations, handleShowExplanations] = useState<boolean>(false);
@@ -33,31 +29,24 @@ export const QuestionPreview: FunctionComponent<Props> = ({ onClose, explanation
   useEffect(() => {
     const order = explanations
       .sort((a, b) => a.position - b.position)
-      .map(e => e.index);
+      .map((e) => e.index);
     handleExplanationsOrder(order);
-  }, []);
+  }, [explanations]);
 
-  if (!activeQuestion) {
-    return
-  };
+  if (!activeQuestion) return null;
 
-  const mapToUIExplanations = (explanations: Explanation[]): UIExplanation[] => {
-    console.log("🚀 ~ mapToUIExplanations ~ explanations:", explanations)
-    return explanations.map((e) => ({
+  const mapToUIExplanations = (items: Explanation[]): UIExplanation[] =>
+    items.map((e) => ({
       position: e.position.toString(),
       text: e.text,
       index: e.index.toString(),
     }));
-  };
 
   return (
     <>
       <ExplanationHeader>
         <CloseWrapper onClick={onClose}>
-          <IoClose
-            color={defaultTheme.colors.dark.darkGrey}
-            size={22}
-          />
+          <IoClose color={defaultTheme.colors.dark.darkGrey} size={22} />
         </CloseWrapper>
 
         <Header>
@@ -102,13 +91,12 @@ export const QuestionPreview: FunctionComponent<Props> = ({ onClose, explanation
             </ExplanationButtonWrapper>
           )}
         </Header>
-
       </ExplanationHeader>
 
       <StyledBox>
         <AppLayout
-          appName={activeQuestion.name}
-          content={activeQuestion.stringContent}
+          appName={activeQuestion.app.name}
+          content={activeQuestion.content}
           explanations={mapToUIExplanations(explanations)}
           explanationNumber={explanationsOrder[explanationNumber]}
           showExplanations={showExplanations}
@@ -117,24 +105,24 @@ export const QuestionPreview: FunctionComponent<Props> = ({ onClose, explanation
         {showExplanations && <Overlay />}
       </StyledBox>
     </>
-  )
-}
+  );
+};
 
-const ExplanationHeader = styled('div')`
+const ExplanationHeader = styled("div")`
   display: flex;
   align-items: center;
   padding: 16px 0;
   margin: 0 20px;
 `;
 
-const Header = styled('div')`
+const Header = styled("div")`
   width: 100%;
   display: flex;
   justify-content: flex-end;
   gap: 12px;
 `;
 
-const StyledBox = styled('div')`
+const StyledBox = styled("div")`
   position: relative;
   flex: 1;
   min-height: 0;
@@ -146,19 +134,19 @@ const StyledBox = styled('div')`
   overflow-y: auto;
 `;
 
-const ExplanationButtonWrapper = styled('div')`
+const ExplanationButtonWrapper = styled("div")`
   display: flex;
   gap: 12px;
 `;
 
-const IsNoExplanationWrapper = styled('div')`
+const IsNoExplanationWrapper = styled("div")`
   width: fit-content;
   margin: 12px 0;
   background: ${defaultTheme.colors.light.white};
   border-radius: 100px;
 `;
 
-const Overlay = styled('div')`
+const Overlay = styled("div")`
   position: absolute;
   top: 0;
   left: 0;
@@ -168,7 +156,7 @@ const Overlay = styled('div')`
   background: rgba(0, 0, 0, 0.5);
 `;
 
-const Content = styled('div')`
+const Content = styled("div")`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -178,7 +166,7 @@ const Content = styled('div')`
   background: ${defaultTheme.colors.light.paleGrey};
 `;
 
-const CloseWrapper = styled('div')`
+const CloseWrapper = styled("div")`
   display: flex;
   align-items: center;
   padding: 16px 20px;

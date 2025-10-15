@@ -51,7 +51,6 @@ export interface ActiveQuestion {
   isPhishing?: boolean;
   app?: App;
   content: EmailContent | MessagingContent;
-  stringContent?: string | "";
 }
 
 export interface EmailContent {

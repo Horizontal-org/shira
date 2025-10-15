@@ -1,5 +1,11 @@
 import axios from 'axios';
 
+export interface App {
+  name: string;
+  id?: number;
+  type?: string;
+}
+
 export interface Explanation {
   position: number;
   text: string;
@@ -13,7 +19,7 @@ export interface Question {
   type: string;
   content: string;
   language: string;
-  appName: string;
+  app: App;
   explanations: Explanation[];
 };
 

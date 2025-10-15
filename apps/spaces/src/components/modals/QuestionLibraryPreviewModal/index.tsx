@@ -1,14 +1,14 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useEffect, useRef } from "react";
 import { styled, Button, defaultTheme } from "@shira/ui";
-import { ActiveQuestion } from "../../../store/types/active_question";
 import { QuestionPreview } from "../../QuestionPreview";
 import { Explanation } from "../../../fetch/question_library";
 import { FiPlus } from "react-icons/fi";
+import { ActiveLibraryQuestion } from "../../../store/types/active_library_question";
 
 type Props = {
-  question: ActiveQuestion;
+  question: ActiveLibraryQuestion;
   explanations: Explanation[];
-  onAdd: (q: ActiveQuestion) => void;
+  onAdd: () => void;
   onClose: () => void;
 };
 
@@ -31,7 +31,7 @@ export const QuestionLibraryPreviewModal: FunctionComponent<Props> = ({
                 aria-label="Add to quiz"
                 leftIcon={<FiPlus size={16} />}
                 text="Add to quiz"
-                onClick={() => onAdd(question)}
+                onClick={onAdd}
               />
             </FixedButtonWrapper>
           </Footer>
