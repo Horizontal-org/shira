@@ -54,7 +54,7 @@ describe('QuestionLibraryController (e2e with mocked DB)', () => {
         type: 'demo',
         content: '<div/>',
         language: 'English',
-        appName: 'Gmail',
+        app: { name: 'Gmail' },
         explanations: [
           { position: 1, text: 'First', index: 1 },
           { position: 2, text: 'Second', index: 2 },
@@ -101,7 +101,7 @@ describe('QuestionLibraryController (e2e with mocked DB)', () => {
         type: 'demo',
         content: '',
         language: 'English',
-        appName: 'Gmail',
+        app: { name: 'Gmail' },
         explanations: [],
       },
     ]);
@@ -178,7 +178,7 @@ describe('QuestionLibraryController (e2e with mocked DB)', () => {
         type: 'demo',
         content: '<div/>',
         language: 'English',
-        appName: 'Gmail',
+        app: { name: 'Gmail' },
         explanations: [{ position: 1, text: 'Check sender', index: 1 }],
       },
       {
@@ -188,7 +188,7 @@ describe('QuestionLibraryController (e2e with mocked DB)', () => {
         type: 'demo',
         content: '<div/>',
         language: 'Spanish',
-        appName: 'Gmail',
+        app: { name: 'Gmail' },
         explanations: [{ position: 1, text: 'Verifica remitente', index: 1 }],
       },
     ]);
@@ -238,7 +238,7 @@ describe('QuestionLibraryController (e2e with mocked DB)', () => {
 
     // Then: the response contains one DTO per app
     expect(res.body).toHaveLength(2);
-    expect(res.body.map((dto: any) => dto.appName).sort()).toEqual([
+    expect(res.body.map((dto: any) => dto.app.name).sort()).toEqual([
       'Gmail',
       'Outlook',
     ]);
