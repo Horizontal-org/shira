@@ -131,7 +131,7 @@ const StyledBox = styled("div")`
   width: 100%;
   box-sizing: border-box;
   padding: 0 20px;
-  overflow-y: auto;
+  overflow: hidden;
 `;
 
 const ExplanationButtonWrapper = styled("div")`
