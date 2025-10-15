@@ -27,7 +27,6 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
 
     const quizId = dto.quizId;
     const languageId = dto.languageId;
-    const appId = dto.appId;
 
     return this.dataSource.transaction(async manager => {
       const originalQuestion = await manager.findOne(Question, {
@@ -45,7 +44,6 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
         ],
       });
 
-      console.log("🚀 ~ DuplicateLibraryQuestionService ~ right before duplicateQuestion ~ lang:", languageId);
       const duplicatedQuestion = await this.duplicateQuestion({
         originalQuestion,
         targetQuizId: quizId,
@@ -53,7 +51,6 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
         manager
       });
 
-      console.log("🚀 ~ DuplicateLibraryQuestionService ~ position ~ lang:", languageId);
       const position = await this.quizQuestionRepo.count({ where: { quizId: quizId } });
 
       const quizQuestion = this.quizQuestionRepo.create({
@@ -74,19 +71,15 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
       name: originalQuestion.name,
       content: originalQuestion.content,
       isPhising: originalQuestion.isPhising,
-      languageId: languageId, // TODO check lang
+      languageId: languageId,
       type: questionType,
-      apps: originalQuestion.apps, // TODO check app
+      apps: originalQuestion.apps,
     });
 
-    console.log("🚀 ~ DuplicateLibraryQuestionService ~ first duplicateQuestion ~ lang:", languageId);
-
     const savedQuestion = await manager.save(Question, newQuestion);
-    console.log("🚀 ~ DuplicateLibraryQuestionService ~ after savedQuestion ~ lang:", languageId);
 
     const newImageIds = await this.duplicateTranslationsAndImages(
       originalQuestion, savedQuestion, targetQuizId, manager);
-    console.log("🚀 ~ DuplicateLibraryQuestionService ~ second duplicateQuestion ~ lang:", languageId);
 
     return {
       question: savedQuestion,
@@ -107,11 +100,10 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
       const newTranslation = manager.create(QuestionTranslation, {
         content: translation.content,
         question: savedQuestion,
-        languageId: savedQuestion.languageId // TODO check lang
+        languageId: savedQuestion.languageId
       });
       await manager.save(QuestionTranslation, newTranslation);
     }
-    console.log("🚀 ~ DuplicateLibraryQuestionService ~ after first for ~");
 
     for (const explanation of originalQuestion.explanations) {
       const newExplanation = manager.create(Explanation, {
@@ -120,10 +112,8 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
         text: explanation.text,
         question: savedQuestion
       });
-      console.log("🚀 ~ DuplicateLibraryQuestionService ~ after second for ~");
 
       const savedExplanation = await manager.save(Explanation, newExplanation);
-      console.log("🚀 ~ DuplicateLibraryQuestionService ~ after savedExplanation ~");
 
       for (const explanationTranslation of explanation.explanationTranslations) {
         const newExplanationTranslation = manager.create(ExplanationTranslation, {
@@ -133,7 +123,6 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
         });
         await manager.save(ExplanationTranslation, newExplanationTranslation);
       }
-      console.log("🚀 ~ DuplicateLibraryQuestionService ~ after third for ~");
     }
 
     for (const originalImage of originalQuestion.images) {

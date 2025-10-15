@@ -6,7 +6,6 @@ import { MdBlock } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
 import { Explanation, Question } from "../../fetch/question_library";
 import { AppLayout } from "./AppLayout";
-import { ActiveLibraryQuestion } from "../../store/types/active_library_question";
 
 export type UIExplanation = {
   index: string;
@@ -15,13 +14,12 @@ export type UIExplanation = {
 };
 
 interface Props {
-  activeQuestion?: ActiveLibraryQuestion;
   question?: Question;
   onClose?: () => void;
   explanations: Explanation[];
 }
 
-export const QuestionPreview: FunctionComponent<Props> = ({ onClose, explanations, activeQuestion }) => {
+export const QuestionPreview: FunctionComponent<Props> = ({ question, onClose, explanations }) => {
   const [explanationNumber, setExplanationNumber] = useState<number>(0);
   const [explanationsOrder, handleExplanationsOrder] = useState<Array<number>>([]);
   const [showExplanations, handleShowExplanations] = useState<boolean>(false);
@@ -33,7 +31,7 @@ export const QuestionPreview: FunctionComponent<Props> = ({ onClose, explanation
     handleExplanationsOrder(order);
   }, [explanations]);
 
-  if (!activeQuestion) return null;
+  if (!question) return null;
 
   const mapToUIExplanations = (items: Explanation[]): UIExplanation[] =>
     items.map((e) => ({
@@ -95,8 +93,8 @@ export const QuestionPreview: FunctionComponent<Props> = ({ onClose, explanation
 
       <StyledBox>
         <AppLayout
-          appName={activeQuestion.app.name}
-          content={activeQuestion.content}
+          appName={question.app.name}
+          content={question.content}
           explanations={mapToUIExplanations(explanations)}
           explanationNumber={explanationsOrder[explanationNumber]}
           showExplanations={showExplanations}

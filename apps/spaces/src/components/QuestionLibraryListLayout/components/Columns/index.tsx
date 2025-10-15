@@ -2,7 +2,7 @@ import { Body3Bold, DatingAppIcon, defaultTheme, FacebookIcon, GmailIcon, Outloo
 import { ColumnDef } from "@tanstack/react-table";
 import { FaCircleCheck, FaCirclePlus } from "react-icons/fa6";
 import { MdOutlinePhishing, MdRemoveRedEye } from "react-icons/md";
-import type { App, Question as LibraryQuestion } from "../../../../fetch/question_library";
+import type { App, Language, Question as LibraryQuestion } from "../../../../fetch/question_library";
 import { TableMeta } from "../..";
 
 const appIcons: Record<string, JSX.Element> = {
@@ -39,7 +39,10 @@ export const columns: ColumnDef<LibraryQuestion>[] = [
     header: "Language",
     accessorKey: "language",
     id: "language",
-    cell: (c) => <Cell>{String(c.getValue())}</Cell>,
+    cell: (c) => {
+      const language = c.getValue() as Language;
+      return <Cell>{String(language.name)}</Cell>;
+    },
   },
   {
     header: "App",

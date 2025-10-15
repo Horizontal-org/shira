@@ -5,16 +5,13 @@ import { shallow } from "zustand/shallow";
 import { styled, Body1, H2, Box, defaultTheme } from "@shira/ui";
 import { QuestionLibraryFlowManagement } from "../QuestionLibraryFlowManagement";
 import { QuestionLibraryPreviewModal } from "../modals/QuestionLibraryPreviewModal";
-import { Question, getLibraryQuestions } from "../../fetch/question_library";
+import { LibraryQuestionFeedback, Question, getLibraryQuestions, useLibraryQuestionCRUD } from "../../fetch/question_library";
 import type { ActiveQuestion } from "../../store/types/active_question";
 import { useStore } from "../../store";
-import { QuestionCRUDFeedback, useQuestionCRUD } from "../../fetch/question";
 import { libraryToActiveQuestion } from "../../utils/active_question/libraryToQuestion";
 import { QuizSuccessStates } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
 import { columns } from "./components/Columns";
-import { libraryToPreviewQuestion } from "../../utils/active_question/libraryToPreviewQuestion";
-import { ActiveLibraryQuestion } from "../../store/types/active_library_question";
 
 type Props = {
   rows?: Question[];
@@ -32,26 +29,26 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
   const navigate = useNavigate();
   const { state } = useLocation() as { state?: { quizId?: string } };
   const quizId = state.quizId;
-  const { submit, actionFeedback } = useQuestionCRUD();
+  const { actionFeedback, duplicate } = useLibraryQuestionCRUD();
   const {
     setQuizActionSuccess,
   } = useStore((state) => ({
     setQuizActionSuccess: state.setQuizActionSuccess
   }), shallow)
 
-  const [preview, setPreview] = useState<{ active: ActiveLibraryQuestion; original: Question }>(null);
+  const [preview, setPreview] = useState<{ active: ActiveQuestion; original: Question }>(null);
   const [rows, setRows] = useState<Question[]>(rowsProp ?? []);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
   useEffect(() => {
-    if (actionFeedback === QuestionCRUDFeedback.success) {
+    if (actionFeedback === LibraryQuestionFeedback.Success) {
       setQuizActionSuccess(QuizSuccessStates.question_added_from_library)
       navigate(`/quiz/${quizId}`)
       return
     }
 
-    if (actionFeedback === QuestionCRUDFeedback.error) {
+    if (actionFeedback === LibraryQuestionFeedback.Error) {
       toast.error('Error adding question', { duration: 3000 })
     }
   }, [actionFeedback])
@@ -82,16 +79,18 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
     ((aq: ActiveQuestion) => useStore.setState({ activeQuestion: aq }));
 
   const handlePreview = (q: Question) => {
-    const activeForStore = libraryToActiveQuestion(q);
-    const activeForPreview = libraryToPreviewQuestion(q);
-
-    setActiveQuestion(activeForStore);
-    setPreview({ active: activeForPreview, original: q });
+    const active = libraryToActiveQuestion(q);
+    setActiveQuestion(active);
+    setPreview({ active: active, original: q });
   };
 
   const handleAdd = (q: Question) => {
-    const active = libraryToActiveQuestion(q);
-    submit(quizId, active);
+    duplicate(parseInt(quizId), q.id, q.language.id, q.app.id);
+  }
+
+  const handleDuplicate = async (q: Question) => {
+    duplicate(parseInt(quizId), q.id, q.language.id, q.app.id);
+    setActiveQuestion(null)
   }
 
   const meta = useMemo<TableMeta>(
@@ -99,7 +98,7 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
       onPreview: handlePreview,
       onAdd: handleAdd
     }),
-    [handlePreview, quizId, submit]
+    [handlePreview, quizId, duplicate]
   );
 
   const table = useReactTable({
@@ -174,8 +173,8 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
 
         {preview && (
           <QuestionLibraryPreviewModal
-            question={preview.active}
-            onAdd={() => submit(quizId, libraryToActiveQuestion(preview.original))}
+            question={preview.original}
+            onAdd={() => handleDuplicate(preview.original)}
             explanations={preview.original.explanations}
             onClose={() => setPreview(null)}
           />

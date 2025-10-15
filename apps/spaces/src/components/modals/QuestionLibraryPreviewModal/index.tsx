@@ -1,12 +1,12 @@
-import { FunctionComponent, useEffect, useRef } from "react";
+import { FunctionComponent } from "react";
 import { styled, Button, defaultTheme } from "@shira/ui";
 import { QuestionPreview } from "../../QuestionPreview";
 import { Explanation } from "../../../fetch/question_library";
 import { FiPlus } from "react-icons/fi";
-import { ActiveLibraryQuestion } from "../../../store/types/active_library_question";
+import { Question } from "../../../fetch/question_library";
 
 type Props = {
-  question: ActiveLibraryQuestion;
+  question: Question;
   explanations: Explanation[];
   onAdd: () => void;
   onClose: () => void;
@@ -23,7 +23,7 @@ export const QuestionLibraryPreviewModal: FunctionComponent<Props> = ({
       <Overlay role="dialog" aria-modal="true">
         <Dialog>
           <Body>
-            <QuestionPreview onClose={onClose} explanations={explanations} activeQuestion={question} />
+            <QuestionPreview onClose={onClose} explanations={explanations} question={question} />
           </Body>
           <Footer>
             <FixedButtonWrapper>

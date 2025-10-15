@@ -4,7 +4,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
 import { QuestionLibraryController } from '../../../src/modules/question_library/controller/question.library.controller';
-import { GetLibraryQuestionService } from '../../../src/modules/question_library/services/question.library.service';
+import { GetLibraryQuestionService } from '../../../src/modules/question_library/services/get-question-library.service';
 import { TYPES as QUESTION_LIBRARY_TYPES } from '../../../src/modules/question_library/interfaces';
 import { TYPES as AUTH_TYPES } from '../../../src/modules/auth/interfaces/types';
 import { Question } from '../../../src/modules/question/domain/question.entity';
@@ -31,6 +31,7 @@ export async function buildQuestionLibraryApp(rawRows: RawRow[]): Promise<{ app:
     controllers: [QuestionLibraryController],
     providers: [
       { provide: QUESTION_LIBRARY_TYPES.services.IGetLibraryQuestionService, useClass: GetLibraryQuestionService },
+      { provide: QUESTION_LIBRARY_TYPES.services.IDuplicateLibraryQuestionService, useValue: { execute: jest.fn() } },
       { provide: getRepositoryToken(Question), useValue: repoMock },
       { provide: AUTH_TYPES.services.IUserContextService, useValue: mockUserContextService },
     ],
