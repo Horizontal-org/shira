@@ -81,12 +81,14 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
 
   const handlePreview = (q: Question) => {
     const active = libraryToActiveQuestion(q);
+    console.log("🚀 ~ handlePreview ~ active:", active)
     setActiveQuestion(active);
     setPreview({ active, original: q });
   };
 
   const handleAdd = (q: Question) => {
     const active = libraryToActiveQuestion(q);
+    console.log("🚀 ~ handleAdd ~ active:", active)
     submit(quizId, active);
   }
 

@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import { Gmail, Outlook } from '@shira/ui';
 import { UIExplanation } from '../..';
-import useParseHtml from '../../../../hooks/useParseHtml';
+import parseHtml from '../../../../utils/parseHtml';
 
 interface Props {
   content: string;
@@ -14,11 +14,8 @@ interface Props {
 
 export const MailApps: FunctionComponent<Props> = ({ content, name, explanations, explanationNumber, showExplanations, images }) => {
 
-  const {
-    parseAttachments,
-    parseCustomElement,
-    parseContent,
-  } = useParseHtml(content, images)
+  const { parseAttachments, parseCustomElement, parseContent } = parseHtml(content, images);
+
 
   return (
     <>

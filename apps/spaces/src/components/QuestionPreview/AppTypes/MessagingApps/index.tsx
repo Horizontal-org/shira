@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react'
-import useParseHTML from '../../../../hooks/useParseHtml';
+import useParseHTML from '../../../../utils/parseHtml';
 import { DatingApp, FBMessenger, SMS, Whatsapp } from '@shira/ui';
 import { UIExplanation } from '../..';
 

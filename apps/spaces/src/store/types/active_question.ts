@@ -48,9 +48,10 @@ export const defaultMessageContent: MessagingContent = {
 
 export interface ActiveQuestion {
   name: string;
-  isPhishing?: boolean
-  app?: App
-  content: EmailContent | MessagingContent  
+  isPhishing?: boolean;
+  app?: App;
+  content: EmailContent | MessagingContent;
+  stringContent?: string | "";
 }
 
 export interface EmailContent {

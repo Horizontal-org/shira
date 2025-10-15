@@ -3,7 +3,6 @@ import { Button, styled, Body1, defaultTheme } from "@shira/ui";
 import "../../fonts/GoogleSans/style.css";
 import "../../fonts/Segoe/style.css";
 import { useStore } from "../../store";
-import { shallow } from "zustand/shallow";
 import { MdBlock } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
 import { ActiveQuestion } from "../../store/types/active_question";
@@ -17,21 +16,15 @@ export type UIExplanation = {
 }
 
 interface Props {
-  activeQuestion?: ActiveQuestion,
-  question?: Question,
-  onClose?: () => void,
-  explanations: Explanation[]
+  activeQuestion?: ActiveQuestion;
+  question?: Question;
+  onClose?: () => void;
+  explanations: Explanation[];
 }
 
 export const QuestionPreview: FunctionComponent<Props> = ({ onClose, explanations }) => {
 
-  const {
-    activeQuestion,
-  } = useStore((state) => ({
-    activeQuestion: state.activeQuestion
-  }), shallow);
-
-  console.log("🚀 ~ QuestionPreview ~ activeQuestion:", activeQuestion)
+  const activeQuestion = useStore((state) => state.activeQuestion);
 
   const [explanationNumber, setExplanationNumber] = useState<number>(0);
   const [explanationsOrder, handleExplanationsOrder] = useState<Array<number>>([]);
@@ -40,8 +33,7 @@ export const QuestionPreview: FunctionComponent<Props> = ({ onClose, explanation
   useEffect(() => {
     const order = explanations
       .sort((a, b) => a.position - b.position)
-      .map(e => e.index)
-
+      .map(e => e.index);
     handleExplanationsOrder(order);
   }, []);
 
@@ -50,6 +42,7 @@ export const QuestionPreview: FunctionComponent<Props> = ({ onClose, explanation
   };
 
   const mapToUIExplanations = (explanations: Explanation[]): UIExplanation[] => {
+    console.log("🚀 ~ mapToUIExplanations ~ explanations:", explanations)
     return explanations.map((e) => ({
       position: e.position.toString(),
       text: e.text,
@@ -114,12 +107,10 @@ export const QuestionPreview: FunctionComponent<Props> = ({ onClose, explanation
 
       <StyledBox>
         <AppLayout
-          appName={activeQuestion.app.name}
-          content=""
-          // content={activeQuestion.content.replace('{{name}}', persistedName).replace('{{email}}', persistedEmail)}
+          appName={activeQuestion.name}
+          content={activeQuestion.stringContent}
           explanations={mapToUIExplanations(explanations)}
           explanationNumber={explanationsOrder[explanationNumber]}
-          // answer={answer}
           showExplanations={showExplanations}
         // images={images}
         />

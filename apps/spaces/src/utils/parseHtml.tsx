@@ -1,8 +1,8 @@
-const useParseHtml = (
+const parseHtml = (
   content: any,
   images: Array<{ imageId: number; url: string }> = []
 ) => {
-  const html = new DOMParser().parseFromString(content, 'text/html')
+  const html = new DOMParser().parseFromString(content, 'text/html');
 
   const parseAttachments = () => {
     const htmlAttachments = html.querySelectorAll('[id*="component-attachment"]')
@@ -15,18 +15,20 @@ const useParseHtml = (
       }
     })
 
-    return attachments
-  }
+    return attachments;
+  };
 
   const parseCustomElement = (customElement: string) => {
-    const element = html.getElementById(customElement)
+    const element = html.getElementById(customElement);
+    console.log("🚀 ~ parseCustomElement ~ element:", element);
+
     const object = {
       textContent: element?.textContent || '',
       explanationPosition: element?.getAttribute('data-explanation') || null
-    }
+    };
 
-    return object
-  }
+    return object;
+  };
 
   const parseContent = (): HTMLElement => {
 
@@ -39,19 +41,20 @@ const useParseHtml = (
             img.setAttribute("src", imgElement.url)
           }
         })
-    }
+    };
 
-    return html.querySelector('[id*="component-text"]')
-  }
+    console.log("🚀 ~ parseContent ~ element:", html.querySelector('[id*="component-text"]'));
+    return html.querySelector('[id*="component-text"]');
+  };
 
-  const parseDynamicContent = () => html.getElementById('dynamic-content')
+  const parseDynamicContent = () => html.getElementById('dynamic-content');
 
   return {
     parseAttachments,
     parseCustomElement,
     parseContent,
     parseDynamicContent
-  }
+  };
 }
 
-export default useParseHtml;
+export default parseHtml;

@@ -1,6 +1,5 @@
 import { FunctionComponent } from "react";
 import { styled, Button, defaultTheme } from "@shira/ui";
-import { createPortal } from "react-dom";
 import { ActiveQuestion } from "../../../store/types/active_question";
 import { QuestionPreview } from "../../QuestionPreview";
 import { Explanation } from "../../../fetch/question_library";
@@ -24,7 +23,7 @@ export const QuestionLibraryPreviewModal: FunctionComponent<Props> = ({
       <Overlay role="dialog" aria-modal="true">
         <Dialog>
           <Body>
-            <QuestionPreview onClose={onClose} explanations={explanations} />
+            <QuestionPreview onClose={onClose} explanations={explanations} activeQuestion={question} />
           </Body>
           <Footer>
             <FixedButtonWrapper>
