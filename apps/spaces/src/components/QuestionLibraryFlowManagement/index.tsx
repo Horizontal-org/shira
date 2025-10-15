@@ -10,9 +10,9 @@ type Props = {
 };
 
 export const QuestionLibraryFlowManagement: FunctionComponent<Props> = ({
-  children,
+  children
 }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
     <>

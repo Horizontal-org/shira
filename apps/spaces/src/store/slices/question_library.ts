@@ -16,6 +16,5 @@ export const createQuestionLibrarySlice: StateCreator<
   getLibraryQuestions: async() => {
     const res = await getLibraryQuestions()
     set({ libraryQuestions: res })
-    console.log("SLICE res", res)
   }
 })

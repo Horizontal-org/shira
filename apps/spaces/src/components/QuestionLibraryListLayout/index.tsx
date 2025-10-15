@@ -1,109 +1,57 @@
 import { FunctionComponent, useEffect, useMemo, useState } from "react";
-import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { styled, Body1, H2, Box, defaultTheme, Body3Bold, GmailIcon, OutlookIcon, DatingAppIcon, WhatsappIcon, FacebookIcon, SMSIcon } from "@shira/ui";
-import { FaCircleCheck, FaCirclePlus } from "react-icons/fa6";
-import { MdRemoveRedEye, MdOutlinePhishing } from "react-icons/md";
+import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import { useNavigate, useLocation } from "react-router-dom";
+import { shallow } from "zustand/shallow";
+import { styled, Body1, H2, Box, defaultTheme } from "@shira/ui";
 import { QuestionLibraryFlowManagement } from "../QuestionLibraryFlowManagement";
-import { Question, getLibraryQuestions } from "../../fetch/question_library";
+import { QuestionLibraryPreviewModal } from "../modals/QuestionLibraryPreviewModal";
+import { LibraryQuestionFeedback, Question, getLibraryQuestions, useLibraryQuestionCRUD } from "../../fetch/question_library";
+import type { ActiveQuestion } from "../../store/types/active_question";
+import { useStore } from "../../store";
+import { libraryToActiveQuestion } from "../../utils/active_question/libraryToQuestion";
+import { QuizSuccessStates } from "../../store/slices/quiz";
+import toast from "react-hot-toast";
+import { columns } from "./components/Columns";
 
 type Props = {
   rows?: Question[];
+};
+
+export type TableMeta = {
   onPreview?: (q: Question) => void;
   onAdd?: (q: Question) => void;
 };
-
-type TableMeta = {
-  onPreview?: (q: Question) => void;
-  onAdd?: (q: Question) => void;
-};
-
-const appIcons: Record<string, JSX.Element> = {
-  "gmail": <GmailIcon />,
-  "fb messenger": <FacebookIcon />,
-  "sms": <SMSIcon />,
-  "whatsapp": <WhatsappIcon />,
-  "outlook": <OutlookIcon />,
-  "dating App": <DatingAppIcon />,
-};
-
-const columns: ColumnDef<Question>[] = [
-  {
-    header: "Question name",
-    accessorKey: "name",
-    id: "title",
-    cell: (c) => <NameCell>{String(c.getValue())}</NameCell>,
-  },
-  {
-    header: "Type",
-    accessorKey: "isPhishing",
-    id: "type",
-    cell: (c) => {
-      const isPhishing = Boolean(c.getValue());
-      return (
-        <PhishingCell $isPhishing={isPhishing}>
-          {isPhishing ? <MdOutlinePhishing size={16} /> : <FaCircleCheck size={16} color={defaultTheme.colors.green6} />}
-          {isPhishing ? "Phishing" : "Legitimate"}
-        </PhishingCell>
-      );
-    },
-  },
-  {
-    header: "Language",
-    accessorKey: "language",
-    id: "language",
-    cell: (c) => <Cell>{String(c.getValue())}</Cell>,
-  },
-  {
-    header: "App",
-    accessorKey: "appName",
-    id: "app",
-    cell: (c) => {
-      const appName = String(c.getValue());
-      return (
-        <AppCell>
-          {appIcons[appName.toLowerCase()]}
-          {appName}
-        </AppCell>
-      );
-    },
-  },
-  {
-    header: "Actions",
-    id: "actions",
-    cell: ({ row, table }) => {
-      const meta = table.options.meta as TableMeta | undefined;
-      return (
-        <ActionsCell>
-          <ActionButton
-            aria-label="Preview question"
-            title="Preview"
-            onClick={() => meta?.onPreview?.(row.original)}
-          >
-            <MdRemoveRedEye size={21} color={defaultTheme.colors.dark.overlay} />
-          </ActionButton>
-          <ActionButton
-            aria-label="Add question"
-            title="Add"
-            onClick={() => meta?.onAdd?.(row.original)}
-          >
-            <FaCirclePlus size={18} color={defaultTheme.colors.green6} />
-          </ActionButton>
-        </ActionsCell>
-      );
-    }
-  }
-];
 
 export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
-  rows: rowsProp,
-  onPreview,
-  onAdd,
+  rows: rowsProp
 }) => {
   const controlled = rowsProp !== undefined;
+  const navigate = useNavigate();
+  const { state } = useLocation() as { state?: { quizId?: string } };
+  const quizId = state.quizId;
+  const { actionFeedback, duplicate } = useLibraryQuestionCRUD();
+  const {
+    setQuizActionSuccess,
+  } = useStore((state) => ({
+    setQuizActionSuccess: state.setQuizActionSuccess
+  }), shallow)
 
+  const [preview, setPreview] = useState<{ active: ActiveQuestion; original: Question }>(null);
   const [rows, setRows] = useState<Question[]>(rowsProp ?? []);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (actionFeedback === LibraryQuestionFeedback.Success) {
+      setQuizActionSuccess(QuizSuccessStates.question_added_from_library)
+      navigate(`/quiz/${quizId}`)
+      return
+    }
+
+    if (actionFeedback === LibraryQuestionFeedback.Error) {
+      toast.error('Error adding question', { duration: 3000 })
+    }
+  }, [actionFeedback])
 
   useEffect(() => {
     if (controlled) {
@@ -126,7 +74,32 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
     return () => { alive = false; };
   }, [controlled, rowsProp]);
 
-  const meta = useMemo<TableMeta>(() => ({ onPreview, onAdd }), [onPreview, onAdd]);
+  const setActiveQuestion =
+    useStore((s: any) => s.setActiveQuestion) ||
+    ((aq: ActiveQuestion) => useStore.setState({ activeQuestion: aq }));
+
+  const handlePreview = (q: Question) => {
+    const active = libraryToActiveQuestion(q);
+    setActiveQuestion(active);
+    setPreview({ active: active, original: q });
+  };
+
+  const handleAdd = (q: Question) => {
+    duplicate(parseInt(quizId), q.id, q.language.id, q.app.id);
+  }
+
+  const handleDuplicate = async (q: Question) => {
+    duplicate(parseInt(quizId), q.id, q.language.id, q.app.id);
+    setActiveQuestion(null)
+  }
+
+  const meta = useMemo<TableMeta>(
+    () => ({
+      onPreview: handlePreview,
+      onAdd: handleAdd
+    }),
+    [handlePreview, quizId, duplicate]
+  );
 
   const table = useReactTable({
     data: rows,
@@ -135,7 +108,7 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
     meta,
   });
 
-  const totalCols = table.getAllLeafColumns().length;
+  const totalColumns = table.getAllLeafColumns().length;
 
   return (
     <QuestionLibraryFlowManagement>
@@ -143,9 +116,9 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
         <HeaderRow>
           <div>
             <H2>Question Library</H2>
-            <MiddleBody1>
+            <MiddleBody>
               Select a question from list below to add it to your quiz. Once you've added it to your quiz, you can edit the question to fully customize it, including changing the text and explanations.
-            </MiddleBody1>
+            </MiddleBody>
           </div>
         </HeaderRow>
 
@@ -176,13 +149,13 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
           <tbody>
             {loading ? (
               <Tr>
-                <Td colSpan={totalCols}>
+                <Td colSpan={totalColumns}>
                   <Body1>Loading questions…</Body1>
                 </Td>
               </Tr>
             ) : table.getRowModel().rows.length === 0 ? (
               <Tr>
-                <Td colSpan={totalCols}>
+                <Td colSpan={totalColumns}>
                   <Body1>No questions found.</Body1>
                 </Td>
               </Tr>
@@ -197,6 +170,15 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
             )}
           </tbody>
         </Table>
+
+        {preview && (
+          <QuestionLibraryPreviewModal
+            question={preview.original}
+            onAdd={() => handleDuplicate(preview.original)}
+            explanations={preview.original.explanations}
+            onClose={() => setPreview(null)}
+          />
+        )}
       </StyledBox>
     </QuestionLibraryFlowManagement>
   );
@@ -223,7 +205,6 @@ const Table = styled("table")`
   border-spacing: 0;
   font-size: 14px;
   background: ${defaultTheme.colors.light.white};
-  border-radius: 10px;
   overflow: hidden;
 `;
 
@@ -237,7 +218,7 @@ const ErrorBox = styled("div")`
 
 const RetryButton = styled("button")`
   padding: 6px 10px;
-  border: 1px solid $border;
+  border: 1px solid;
   cursor: pointer;
 `;
 
@@ -264,7 +245,7 @@ const Th = styled("th") <{ $first?: boolean; $last?: boolean }>`
 `;
 
 const Tr = styled("tr")`
-  background: #fff;
+  background: ${defaultTheme.colors.light.white};
   color: ${defaultTheme.colors.dark.darkGrey};
   &:not(:last-child) td { border-bottom: 1px solid #ececec; }
 `;
@@ -274,54 +255,6 @@ const Td = styled("td")`
   vertical-align: middle;
 `;
 
-const NameCell = styled(Body3Bold)`
-  color: ${defaultTheme.colors.dark.darkGrey};
-`;
-
-const Cell = styled("div")`
-  font-weight: 400;
-`;
-
-const AppCell = styled("div")`
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border-radius: 2px;
-  padding: 4px 8px;
-  font-weight: 400;
-`;
-
-const ActionsCell = styled("div")`
-  display: flex;
-  align-items: center;
-`;
-
-const ActionButton = styled("button")`
-  width: 32px;
-  height: 32px;
-  padding: 0;
-  display: inline-flex;
-  align-items: center;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-
-  &:hover {
-    background: $accent3;
-  }
-`;
-
-const PhishingCell = styled.div<{ $isPhishing?: boolean }>`
-  background: ${(props) => (props.$isPhishing ? "#FFECEA" : "#F3F5E4")};
-  color: ${(props) => (props.$isPhishing ? defaultTheme.colors.error9 : defaultTheme.colors.green9)};
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border-radius: 2px;
-  padding: 4px 8px;
-  font-weight: 400;
-`;
-
-const MiddleBody1 = styled(Body1)`
+const MiddleBody = styled(Body1)`
   padding-top: 16px;
 `;
