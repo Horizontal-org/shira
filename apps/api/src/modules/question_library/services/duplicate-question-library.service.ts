@@ -1,20 +1,18 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
 import { Explanation, Question } from "src/modules/question/domain";
 import { QuizQuestion as QuizQuestionEntity } from "src/modules/quiz/domain/quizzes_questions.entity";
 import { IDuplicateLibraryQuestionService } from "../interfaces/services/duplicate-question-library.service.interface";
-import { DataSource, EntityManager, Repository } from "typeorm";
+import { DataSource, EntityManager } from "typeorm";
 import { DuplicateQuestionLibraryDto } from "../dto/duplicate-question-library.dto";
 import { DuplicatedQuestionResult, DuplicateQuestionParams } from "src/modules/quiz/interfaces/services/shared-question-duplication.service.interface";
 import { QuestionImage } from "src/modules/question_image/domain";
 import { TYPES } from '../../image/interfaces';
 import { IImageService } from "src/modules/image/interfaces/services/image.service.interface";
+import { ExplanationTranslation } from "src/modules/translation/domain/explanationTranslation.entity";
 
 @Injectable()
 export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestionService {
   constructor(
-    @InjectRepository(QuizQuestionEntity)
-    private readonly quizQuestionRepo: Repository<QuizQuestionEntity>,
     @Inject(TYPES.services.IImageService)
     private imageService: IImageService,
     private dataSource: DataSource
@@ -35,10 +33,6 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
           'images',
         ],
       });
-
-      if (!originalQuestion) {
-        throw new Error('Question not found');
-      }
 
       const duplicated = await this.duplicateQuestion({
         originalQuestion,
@@ -65,7 +59,7 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
     const { originalQuestion, targetQuizId, languageId, manager } = params;
     const questionType: 'quiz' = 'quiz';
 
-    const qtRow = await manager
+    const qt = await manager
       .createQueryBuilder()
       .select('qt.content', 'content')
       .from('questions_translations', 'qt')
@@ -75,13 +69,9 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
       })
       .getRawOne<{ content?: string }>();
 
-    if (!qtRow?.content) {
-      throw new Error(`No translation for question_id=${originalQuestion.id} and language_id=${languageId}`);
-    }
-
     const newQuestion = manager.create(Question, {
       name: originalQuestion.name,
-      content: qtRow.content,
+      content: '',
       isPhising: originalQuestion.isPhising,
       languageId,
       type: questionType,
@@ -112,20 +102,18 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
     manager: EntityManager
   ): Promise<number[]> {
     const newImageIds: number[] = [];
-    const MAX = 150;
-
-    const stripHtml = (s: string) => (s ?? '').replace(/<[^>]*>/g, '');
-    const normalizeSpaces = (s: string) => s.replace(/\s+/g, ' ').trim();
-    const truncateAt = (s: string, max = MAX) => {
-      if (!s) return '';
-      if (s.length <= max) return s;
-      const cut = s.slice(0, max);
-      const i = cut.lastIndexOf(' ');
-      return (i > 0 ? cut.slice(0, i) : cut).trimEnd() + '…';
-    };
 
     for (const explanation of originalQuestion.explanations ?? []) {
-      const etRow = await manager
+      const newExplanation = manager.create(Explanation, {
+        index: explanation.index,
+        position: explanation.position,
+        text: explanation.text,
+        question: savedQuestion,
+      });
+
+      const savedExplanation = await manager.save(Explanation, newExplanation);
+
+      const et = await manager
         .createQueryBuilder()
         .select('et.content', 'content')
         .from('explanations_translations', 'et')
@@ -135,24 +123,14 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
         })
         .getRawOne<{ content?: string }>();
 
-      const rawSource = etRow?.content ?? explanation.text ?? '';
-      const cleanBase = truncateAt(normalizeSpaces(stripHtml(rawSource)), MAX);
-
-      const newExplanation = manager.create(Explanation, {
-        index: explanation.index,
-        position: explanation.position,
-        text: cleanBase,
-        question: savedQuestion,
-      });
-      const savedExplanation = await manager.save(Explanation, newExplanation);
-
-      if (etRow?.content) {
-        await manager.query(
-          `INSERT INTO explanations_translations (explanation_id, language_id, content, created_at, updated_at)
-           VALUES (?, ?, ?, NOW(), NOW())`,
-          [savedExplanation.id, languageId, etRow.content]
-        );
+      if (et?.content) {
+        await manager.save(ExplanationTranslation, {
+          explanation: savedExplanation,
+          languageId,
+          content: et.content,
+        });
       }
+
     }
 
     for (const originalImage of originalQuestion.images ?? []) {
