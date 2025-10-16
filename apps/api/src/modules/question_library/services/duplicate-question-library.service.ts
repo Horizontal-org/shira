@@ -101,7 +101,7 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
         .where('e.question_id = :qid', { qid: originalQuestion.id })
         .getOne();
 
-      if (explanation) {
+      if (explanation && explanationsTranslations) {
         const newExplanation = manager.create(Explanation, {
           index: explanation.index,
           position: explanation.position,
@@ -110,15 +110,14 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
           explanationTranslations: [explanationsTranslations]
         });
 
-        console.log("🚀 ~ save ~ newExplanation:", newExplanation);
-        const savedExplanation = await manager.save(Explanation, newExplanation);
-
         const newExplanationTranslation = manager.create(ExplanationTranslation, {
-          explanation: savedExplanation,
+          explanation: explanation,
           languageId: selectedLanguageId,
           content: explanationsTranslations?.content || "",
         });
 
+        console.log("🚀 ~ save ~ newExplanation:", newExplanation);
+        await manager.save(Explanation, newExplanation);
         console.log("🚀 ~ save ~ newExplanationTranslation:", newExplanationTranslation);
         await manager.save(ExplanationTranslation, newExplanationTranslation);
       }
@@ -153,7 +152,7 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
       }
 
 
-      // Append duplicated question to the quiz with next position
+      // Relation -> duplicated question to the quiz
       const position = await manager.getRepository(QuizQuestionEntity).count({ where: { quizId } });
 
       const quizQuestion = manager.create(QuizQuestionEntity, {
