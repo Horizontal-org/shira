@@ -6,12 +6,20 @@ import { QuestionLibraryController } from './controller/question.library.control
 import { servicesOrganizationProviders } from './question.library.providers';
 import { QuestionModule } from '../question/question.module';
 import { QuizModule } from '../quiz/quiz.module';
+import { Language as LanguageEntity } from '../languages/domain/languages.entity';
+import { QuestionTranslation as QuestionTranslationEntity } from '../translation/domain/questionTranslation.entity';
+import { ExplanationTranslation as ExplanationTranslationEntity } from '../translation/domain/explanationTranslation.entity';
+import { Explanation as ExplanationEntity } from '../question/domain/explanation.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       QuestionEntity,
       QuizQuestionEntity,
+      LanguageEntity,
+      QuestionTranslationEntity,
+      ExplanationEntity,
+      ExplanationTranslationEntity
     ]),
     QuestionModule,
     QuizModule

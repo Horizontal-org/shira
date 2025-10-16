@@ -7,30 +7,30 @@ import { QuestionLibraryDto } from '../dto/question.library.dto';
 import { Language as LangEntity } from 'src/modules/languages/domain/languages.entity';
 import { App } from '../dto/app.dto';
 
-type RawRow = {
-  q_id: number;
-  q_name: string;
-  q_is_phishing: number | boolean | null; // viene de isPhising en DB
-  q_type: string;
-  app_id: number | null;
-  app_name: string | null;
-  app_type: string | null;
-  lang_id: number;
-  lang_name: string;
-  qt_content: string | null;
-  e_position: string | number | null;
-  e_text: string | null;
-  e_index: string | number | null;
-};
-
 @Injectable()
 export class GetLibraryQuestionService implements IGetLibraryQuestionService {
   constructor(
     @InjectRepository(Question)
     private readonly questionRepo: Repository<Question>,
-  ) {}
+  ) { }
 
   async execute(): Promise<QuestionLibraryDto[]> {
+    type RawRow = {
+      q_id: number;
+      q_name: string;
+      q_is_phishing: number;
+      q_type: string;
+      app_id: number;
+      app_name: string;
+      app_type: string;
+      lang_id: number;
+      lang_name: string;
+      qt_content: string | null;
+      e_position: string | number | null;
+      e_text: string | null;
+      e_index: string | number | null;
+    };
+
     const rows: RawRow[] = await this.questionRepo
       .createQueryBuilder('q')
       .leftJoin('q.apps', 'app')
@@ -61,77 +61,81 @@ export class GetLibraryQuestionService implements IGetLibraryQuestionService {
       .addOrderBy('exp.explanation_index', 'ASC')
       .getRawMany();
 
-    const byQuestion = new Map<number, QuestionLibraryDto>();
-    const seenExplanation = new Map<string, Set<string>>();
+    const questionsById = new Map<number, QuestionLibraryDto>();
+    const explanationsSeen = new Map<string, Set<string>>(); // key: `${qId}::${langId}`
 
-    for (const r of rows) {
-      const qId = r.q_id;
-      const langId = r.lang_id;
+    const ensureSet = (key: string) => {
+      let set = explanationsSeen.get(key);
+      if (!set) {
+        set = new Set<string>();
+        explanationsSeen.set(key, set);
+      }
+      return set;
+    };
 
-      if (!byQuestion.has(qId)) {
-        byQuestion.set(qId, {
-          id: qId,
-          name: r.q_name,
-          isPhishing: !!r.q_is_phishing,
-          type: r.q_type,
+    for (const row of rows) {
+      const questionId = row.q_id;
+      const languageId = row.lang_id;
+
+      // Question
+      if (!questionsById.has(questionId)) {
+        questionsById.set(questionId, {
+          id: questionId,
+          name: row.q_name,
+          isPhishing: Boolean(row.q_is_phishing),
+          type: row.q_type,
           app: undefined as App,
           language: [],
         });
       }
+      const dto = questionsById.get(questionId)!;
 
-      const dto = byQuestion.get(qId)!;
-
-      if (!dto.app && r.app_id != null) {
+      // App first one available
+      if (!dto.app && row.app_id != null) {
         dto.app = {
-          id: Number(r.app_id),
-          name: r.app_name ?? '',
-          type: r.app_type ?? undefined,
+          id: Number(row.app_id),
+          name: row.app_name,
+          type: row.app_type,
         };
       }
 
-      let langEntry = dto.language.find((l) => l.id === langId);
-      if (!langEntry) {
-        langEntry = {
-          id: langId,
-          name: r.lang_name,
-          content: r.qt_content ?? '',
+      // Language
+      let lang = dto.language.find((l) => l.id === languageId);
+      if (!lang) {
+        lang = {
+          id: languageId,
+          name: row.lang_name,
+          content: row.qt_content ?? '',
           explanations: [],
         };
-        dto.language.push(langEntry);
-      } else {
-        if (!langEntry.content && r.qt_content) {
-          langEntry.content = r.qt_content;
-        }
+        dto.language.push(lang);
+      } else if (!lang.content && row.qt_content) {
+        lang.content = row.qt_content;
       }
 
-      const rootKey = `${qId}::${langId}`;
-      if (!seenExplanation.has(rootKey)) seenExplanation.set(rootKey, new Set());
+      // Explanations
+      const rootKey = `${questionId}::${languageId}`;
+      const seen = ensureSet(rootKey);
 
-      if (r.e_index != null && r.e_text != null) {
-        const idx = Number(r.e_index);
-        const pos = Number(r.e_position ?? 0);
-        const ek = `${idx}::${r.e_text}`;
-        if (!seenExplanation.get(rootKey)!.has(ek)) {
-          langEntry.explanations.push({
-            index: Number.isNaN(idx) ? 0 : idx,
-            position: Number.isNaN(pos) ? 0 : pos,
-            text: r.e_text,
-          });
-          seenExplanation.get(rootKey)!.add(ek);
+      if (row.e_index != null && row.e_text != null) {
+        const index = Number(row.e_index);
+        const position = Number(row.e_position);
+        const key = `${index}::${row.e_text}`;
+
+        if (!seen.has(key)) {
+          lang.explanations.push({ index, position, text: row.e_text });
+          seen.add(key);
         }
       }
     }
 
-    for (const dto of byQuestion.values()) {
+    for (const dto of questionsById.values()) {
       dto.language.sort((a, b) => a.name.localeCompare(b.name));
       for (const l of dto.language) {
-        l.explanations.sort((a, b) => a.index - b.index);
-      }
-      if (!dto.app) {
-        dto.app = { name: '' };
+        l.explanations.sort((a, b) => a.index - b.index || a.position - b.position);
       }
     }
 
-    return Array.from(byQuestion.values());
+    return Array.from(questionsById.values());
   }
 }
