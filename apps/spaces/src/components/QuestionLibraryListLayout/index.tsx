@@ -15,20 +15,24 @@ import { columns } from "./components/Columns";
 
 type Props = {
   rows?: Question[];
+  onRowsChange?: (next: Question[]) => void;
 };
 
 export type TableMeta = {
   onPreview?: (q: Question) => void;
   onAdd?: (q: Question) => void;
+  onSelect?: (questionId: number, languageId: number) => void;
 };
 
 export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
-  rows: rowsProp
+  rows: rowsProp,
+  onRowsChange,
 }) => {
   const controlled = rowsProp !== undefined;
+
   const navigate = useNavigate();
   const { state } = useLocation() as { state?: { quizId?: string } };
-  const quizId = state.quizId;
+  const quizId = state?.quizId ?? ""; // safe
   const { actionFeedback, duplicate } = useLibraryQuestionCRUD();
   const {
     setQuizActionSuccess,
@@ -43,15 +47,14 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (actionFeedback === LibraryQuestionFeedback.Success) {
-      setQuizActionSuccess(QuizSuccessStates.question_added_from_library)
-      navigate(`/quiz/${quizId}`)
-      return
+      setQuizActionSuccess(QuizSuccessStates.question_added_from_library);
+      navigate(`/quiz/${quizId}`);
+      return;
     }
-
     if (actionFeedback === LibraryQuestionFeedback.Error) {
-      toast.error('Error adding question', { duration: 3000 })
+      toast.error("Error adding question", { duration: 3000 });
     }
-  }, [actionFeedback])
+  }, [actionFeedback, navigate, quizId, setQuizActionSuccess]);
 
   useEffect(() => {
     if (controlled) {
@@ -81,7 +84,7 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
   const handlePreview = (q: Question) => {
     const active = libraryToActiveQuestion(q);
     setActiveQuestion(active);
-    setPreview({ active: active, original: q });
+    setPreview({ active, original: q });
   };
 
   const handleAdd = (q: Question) => {
@@ -90,15 +93,20 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
 
   const handleDuplicate = async (q: Question) => {
     duplicate(parseInt(quizId), q.id, q.language.id, q.app.id);
-    setActiveQuestion(null)
+    setActiveQuestion(null);
   }
+
+  const handleSelect = (questionId: number, languageId: number) => {
+    console.log({ questionId, languageId });
+  };
 
   const meta = useMemo<TableMeta>(
     () => ({
       onPreview: handlePreview,
-      onAdd: handleAdd
+      onAdd: handleAdd,
+      onSelect: handleSelect
     }),
-    [handlePreview, quizId, duplicate]
+    [handlePreview, handleAdd, controlled, rowsProp, onRowsChange]
   );
 
   const table = useReactTable({

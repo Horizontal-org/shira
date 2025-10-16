@@ -18,9 +18,9 @@ export class GetLibraryQuestionService implements IGetLibraryQuestionService {
       .createQueryBuilder('q')
       .leftJoin('q.apps', 'app')
       .leftJoin('q.explanations', 'e')
-      .leftJoin('q.questionTranslations', 'qt')
+      .leftJoin('q.questionTranslations', 'qt', 'qt.language_id = :langId', { langId: 1 }) // TODO get lang from UI
       .leftJoin(Language, 'lang', 'lang.id = qt.language_id')
-      .leftJoin('e.explanationTranslations', 'et', 'et.language_id = qt.language_id')
+      .leftJoin('e.explanationTranslations', 'et', 'et.language_id = :langId', { langId: 1 })
       .select([
         'q.id AS q_id',
         'q.name AS q_name',
@@ -45,7 +45,6 @@ export class GetLibraryQuestionService implements IGetLibraryQuestionService {
     const seenExplanations = new Map<string, Set<string>>();
 
     for (const row of rows) {
-      // group by question + app + language
       const key = `${row.q_id}::${row.app_name}::${row.lang_id}`;
 
       if (!grouped.has(key)) {
@@ -72,7 +71,6 @@ export class GetLibraryQuestionService implements IGetLibraryQuestionService {
         seenExplanations.set(key, new Set<string>());
       }
 
-      // add explanation if not duplicate
       if (row.e_index != null && row.e_text != null) {
         const eKey = `${row.e_index}::${row.e_text}`;
         const seen = seenExplanations.get(key)!;
@@ -88,7 +86,6 @@ export class GetLibraryQuestionService implements IGetLibraryQuestionService {
       }
     }
 
-    // ordenar explicaciones dentro de cada DTO
     for (const dto of grouped.values()) {
       dto.explanations.sort((a, b) => a.index - b.index);
     }

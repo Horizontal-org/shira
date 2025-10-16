@@ -14,6 +14,13 @@ const appIcons: Record<string, JSX.Element> = {
   "dating App": <DatingAppIcon />,
 };
 
+const languageOptions: Language[] = [
+  { id: 1, name: 'English' },
+  { id: 2, name: 'Español' },
+  { id: 3, name: 'Français' },
+  { id: 4, name: '普通话' },
+];
+
 export const columns: ColumnDef<LibraryQuestion>[] = [
   {
     header: "Question name",
@@ -39,9 +46,26 @@ export const columns: ColumnDef<LibraryQuestion>[] = [
     header: "Language",
     accessorKey: "language",
     id: "language",
-    cell: (c) => {
-      const language = c.getValue() as Language;
-      return <Cell>{String(language.name)}</Cell>;
+    cell: ({ getValue, row, table }) => {
+      const language = getValue<Language>();
+      const meta = table.options.meta as TableMeta;
+
+      return (
+        <StyledSelect
+          value={language.id}
+          onChange={(e) => {
+            const picked = languageOptions.find((option) => String(option.id) === e.target.value);
+            if (picked) meta.onSelect?.(row.original.id, picked.id);
+          }}
+          aria-label="Select language"
+        >
+          {languageOptions.map((option) => (
+            <StyledOption key={option.id} value={String(option.id)}>
+              {option.name}
+            </StyledOption>
+          ))}
+        </StyledSelect>
+      );
     },
   },
   {
@@ -117,9 +141,6 @@ const NameCell = styled(Body3Bold)`
   color: ${defaultTheme.colors.dark.darkGrey};
 `;
 
-const Cell = styled("div")`
-  font-weight: 400;
-`;
 
 const AppCell = styled("div")`
   display: inline-flex;
@@ -128,4 +149,25 @@ const AppCell = styled("div")`
   border-radius: 2px;
   padding: 4px 8px;
   font-weight: 400;
+`;
+
+const StyledSelect = styled("select")`
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid ${defaultTheme.colors.light.paleGrey};
+  background-color: ${defaultTheme.colors.light.paleGrey};
+  color: ${defaultTheme.colors.dark.darkGrey};
+  font-size: 14px;
+  line-height: 20px;
+  cursor: pointer;
+  outline: "none",
+  "&:focus": {
+    borderColor: defaultTheme.colors.blue9,
+    boxShadow: 0 0 0 2px ${defaultTheme.colors.blue5},
+  },
+`;
+
+const StyledOption = styled("option")`
+  font-size: 14px;
+  padding: 6px 10px;
 `;
