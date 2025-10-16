@@ -70,7 +70,7 @@ export const MobileMenu: FunctionComponent<Props> = ({
       </Nav>
 
       <Nav onClick={() => {
-        onNavigate('/')
+        window.location.reload()
       }}>
         <SvgWrapper>
           <TakeQuiz />

@@ -38,7 +38,7 @@ export const Navbar: FunctionComponent<Props> = ({ color }) => {
               {t('navbar.pricing')}
             </Link>
 
-            <Link onClick={() => { navigate('/') }}>
+            <Link onClick={() => { window.location.reload() }}>
               {t('navbar.take_a_quiz')}
             </Link>
 

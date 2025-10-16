@@ -7,7 +7,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { duplicateQuestion } from "../../../fetch/quiz";
 import { QuizQuestion } from "../../../store/slices/quiz";
 import toast from "react-hot-toast";
-
+import DuplicateIcon from './DuplicateIcon'
 
 interface QuestionsListProps {
   quizId: number;
@@ -123,7 +123,7 @@ export const  QuestionsList: FunctionComponent<QuestionsListProps> = ({
                           {isBeingDuplicated ? (
                             <SpinningLoader size={20} color="#666" />
                           ) : (
-                            <FiMenu size={20} color="#666" />
+                            <FiMenu size={20} color="#666" />                            
                           )}
                         </MenuIcon>
                         <QuestionTitle>
@@ -138,7 +138,7 @@ export const  QuestionsList: FunctionComponent<QuestionsListProps> = ({
                           onClick={() => handleDuplicateQuestion(qq.question.id, qq.question.name)}
                           disabled={isBeingDuplicated}
                         >
-                          <CopyIcon color="#849D29" />
+                          <DuplicateIconWrapper><DuplicateIcon /></DuplicateIconWrapper>
                         </ActionButton>
                         <ActionButton onClick={() => handleQuestionForDelete(qq.question)}>
                           <TrashIcon />
@@ -263,4 +263,13 @@ const SpinningLoader = styled(FiLoader)`
   }
 `;
 
+
+const DuplicateIconWrapper = styled.div`
+  > svg {
+    height: 20px;
+    width: 20px;
+  }
+  
+  `
+  // <FiMenu size={20} color="#666" />
 export default QuestionsList;
