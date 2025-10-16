@@ -77,36 +77,6 @@ export type QuestionLibraryDto = {
   language: LanguageDto[];
 };
 
-//TODO move to mapper
-export function flattenLibraryDto(dtos: QuestionLibraryDto[]): QuestionToDuplicate[] {
-  const out: QuestionToDuplicate[] = [];
-
-  for (const q of dtos ?? []) {
-    const base = {
-      id: q.id,
-      name: q.name,
-      isPhishing: Boolean(q.isPhishing),
-      type: q.type,
-      app: q.app ?? { name: '' },
-    };
-
-    for (const lang of q.language ?? []) {
-      out.push({
-        ...base,
-        content: lang.content ?? '',
-        language: { id: lang.id, name: lang.name },
-        explanations: (lang.explanations ?? []).map((e) => ({
-          index: Number(e.index ?? 0),
-          position: Number(e.position ?? 0),
-          text: e.text ?? '',
-        })),
-      });
-    }
-  }
-
-  return out;
-}
-
 export enum LibraryQuestionFeedback {
   Processing = 'PROCESSING',
   Error = 'ERROR',

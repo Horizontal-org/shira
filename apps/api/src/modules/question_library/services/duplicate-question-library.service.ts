@@ -87,7 +87,15 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
       }
 
 
-      // Explanations
+      // Explanations and Explanation Translations
+      const explanationsTranslations = await this.explanationTranslationRepository
+        .createQueryBuilder('et')
+        .leftJoin('et.explanation', 'e')
+        .leftJoin('e.question', 'q')
+        .where('q.id = :qid', { qid: originalQuestion.id })
+        .andWhere('et.language_id = :lid', { lid: selectedLanguageId })
+        .getOne();
+
       const explanation = await this.explanationRepository
         .createQueryBuilder('e')
         .where('e.question_id = :qid', { qid: originalQuestion.id })
@@ -99,20 +107,11 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
           position: explanation.position,
           text: explanation.text,
           question: savedQuestion,
+          explanationTranslations: [explanationsTranslations]
         });
 
         console.log("🚀 ~ save ~ newExplanation:", newExplanation);
         const savedExplanation = await manager.save(Explanation, newExplanation);
-
-
-        // Explanation Translations
-        const explanationsTranslations = await this.explanationTranslationRepository
-          .createQueryBuilder('et')
-          .leftJoin('et.explanation', 'e')
-          .leftJoin('e.question', 'q')
-          .where('q.id = :qid', { qid: originalQuestion.id })
-          .andWhere('et.language_id = :lid', { lid: selectedLanguageId })
-          .getOne();
 
         const newExplanationTranslation = manager.create(ExplanationTranslation, {
           explanation: savedExplanation,
