@@ -53,9 +53,7 @@ export const AppLayout: FunctionComponent<Props> = ({
 }
 
 const Wrapper = styled.div`
-  height: calc(100vh - 86px);
   max-height: calc(100vh - 86px);
-  overflow-y: scroll;
   background: ${props => props.theme.colors.light.white};
 `
 

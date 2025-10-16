@@ -57,6 +57,7 @@ const Dialog = styled.div`
   border-radius: 16px;
   display: flex;
   flex-direction: column;
+  overflow: auto;
 `;
 
 const Body = styled.div`
@@ -68,8 +69,6 @@ const Body = styled.div`
 `;
 
 const Footer = styled.div`
-  position: sticky;
-  bottom: 0;
   padding: 16px 20px;
   display: flex;
   justify-content: flex-end;
