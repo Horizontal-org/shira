@@ -32,7 +32,6 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
       const originalQuestion = await manager.findOne(Question, {
         where: {
           id: parseInt(questionId),
-          languageId: languageId,
           type: 'demo'
         },
         relations: [
@@ -67,11 +66,14 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
     const { originalQuestion, targetQuizId, languageId, manager } = params;
     const questionType = 'quiz';
 
+    const targetQTrans = originalQuestion.questionTranslations
+      ?.find(t => t.languageId === languageId);
+
     const newQuestion = manager.create(Question, {
       name: originalQuestion.name,
-      content: originalQuestion.content,
+      content: targetQTrans?.content,
       isPhising: originalQuestion.isPhising,
-      languageId: languageId,
+      languageId,
       type: questionType,
       apps: originalQuestion.apps,
     });
@@ -79,7 +81,7 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
     const savedQuestion = await manager.save(Question, newQuestion);
 
     const newImageIds = await this.duplicateTranslationsAndImages(
-      originalQuestion, savedQuestion, targetQuizId, manager);
+      originalQuestion, savedQuestion, targetQuizId, languageId, manager);
 
     return {
       question: savedQuestion,
@@ -91,25 +93,29 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
     originalQuestion: Question,
     savedQuestion: Question,
     targetQuizId: number,
+    languageId: number,
     manager: EntityManager
   ): Promise<number[]> {
     const newImageIds = [];
-    console.log("🚀 ~ DuplicateLibraryQuestionService ~ duplicateTranslationsAndImages ~ savedQuestion:", savedQuestion);
 
-    for (const translation of originalQuestion.questionTranslations) {
+    const targetQTrans = originalQuestion.questionTranslations?.find(t => t.languageId === languageId);
+    if (targetQTrans) {
       const newTranslation = manager.create(QuestionTranslation, {
-        content: translation.content,
+        content: targetQTrans.content,
         question: savedQuestion,
-        languageId: savedQuestion.languageId
+        languageId,
       });
       await manager.save(QuestionTranslation, newTranslation);
     }
 
     for (const explanation of originalQuestion.explanations) {
+      const et = explanation.explanationTranslations
+        ?.find(tr => tr.languageId === languageId);
+
       const newExplanation = manager.create(Explanation, {
         position: explanation.position,
         index: explanation.index,
-        text: explanation.text,
+        text: et.content,
         question: savedQuestion
       });
 
