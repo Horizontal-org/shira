@@ -1,7 +1,7 @@
-import type { Question } from "../../fetch/question_library";
+import type { QuestionToDuplicate } from "../../fetch/question_library";
 import type { ActiveQuestion } from "../../store/types/active_question";
 
-export function libraryToActiveQuestion(q: Question): ActiveQuestion {
+export function libraryToActiveQuestion(q: QuestionToDuplicate): ActiveQuestion {
 
   return {
     name: q.name,

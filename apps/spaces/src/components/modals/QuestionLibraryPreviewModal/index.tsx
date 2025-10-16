@@ -3,10 +3,10 @@ import { styled, Button, defaultTheme } from "@shira/ui";
 import { QuestionPreview } from "../../QuestionPreview";
 import { Explanation } from "../../../fetch/question_library";
 import { FiPlus } from "react-icons/fi";
-import { Question } from "../../../fetch/question_library";
+import { QuestionToDuplicate } from "../../../fetch/question_library";
 
 type Props = {
-  question: Question;
+  question: QuestionToDuplicate;
   explanations: Explanation[];
   onAdd: () => void;
   onClose: () => void;

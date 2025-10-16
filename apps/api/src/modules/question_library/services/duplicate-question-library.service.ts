@@ -49,8 +49,10 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
         position: position + 1,
         quizId,
         questionId: duplicated.question.id,
+        question: duplicated.question,
       });
 
+      console.log("🚀 ~ execute ~ quizQuestion:", quizQuestion);
       await manager.save(QuizQuestionEntity, quizQuestion);
     });
   }
@@ -78,6 +80,7 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
       apps: originalQuestion.apps,
     });
 
+    console.log("🚀 ~ duplicateQuestion ~ newQuestion:", newQuestion);
     const savedQuestion = await manager.save(newQuestion);
 
     const newImageIds = await this.duplicateExplanationsAndImages(
@@ -111,6 +114,7 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
         question: savedQuestion,
       });
 
+      console.log("🚀 ~ duplicateExplanationsAndImages ~ newExplanation:", newExplanation);
       const savedExplanation = await manager.save(Explanation, newExplanation);
 
       const et = await manager
@@ -143,6 +147,7 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
         quizId: targetQuizId,
       });
 
+      console.log("🚀 ~ duplicateExplanationsAndImages ~ newImage:", newImage);
       const savedImage = await manager.save(QuestionImage, newImage);
       newImageIds.push(savedImage.id);
 

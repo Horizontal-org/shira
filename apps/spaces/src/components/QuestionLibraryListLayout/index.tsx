@@ -5,34 +5,26 @@ import { shallow } from "zustand/shallow";
 import { styled, Body1, H2, Box, defaultTheme } from "@shira/ui";
 import { QuestionLibraryFlowManagement } from "../QuestionLibraryFlowManagement";
 import { QuestionLibraryPreviewModal } from "../modals/QuestionLibraryPreviewModal";
-import { LibraryQuestionFeedback, Question, getLibraryQuestions, useLibraryQuestionCRUD } from "../../fetch/question_library";
+import { LibraryQuestionFeedback, getLibraryQuestions, useLibraryQuestionCRUD } from "../../fetch/question_library";
 import type { ActiveQuestion } from "../../store/types/active_question";
 import { useStore } from "../../store";
 import { libraryToActiveQuestion } from "../../utils/active_question/libraryToQuestion";
 import { QuizSuccessStates } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
-import { columns } from "./components/Columns";
+import { getColumns } from "./components/Columns";
+import type { RowType, LanguageVariant } from "./components/Columns";
 
 type Props = {
-  rows?: Question[];
-  onRowsChange?: (next: Question[]) => void;
+  rows?: RowType[];
+  onRowsChange?: (next: RowType[]) => void;
 };
 
-export type TableMeta = {
-  onPreview?: (q: Question) => void;
-  onAdd?: (q: Question) => void;
-  onSelect?: (questionId: number, languageId: number) => void;
-};
-
-export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
-  rows: rowsProp,
-  onRowsChange,
-}) => {
+export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rowsProp }) => {
   const controlled = rowsProp !== undefined;
 
   const navigate = useNavigate();
   const { state } = useLocation() as { state?: { quizId?: string } };
-  const quizId = state?.quizId ?? ""; // safe
+  const quizId = state?.quizId;
   const { actionFeedback, duplicate } = useLibraryQuestionCRUD();
   const {
     setQuizActionSuccess,
@@ -40,8 +32,8 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
     setQuizActionSuccess: state.setQuizActionSuccess
   }), shallow)
 
-  const [preview, setPreview] = useState<{ active: ActiveQuestion; original: Question }>(null);
-  const [rows, setRows] = useState<Question[]>(rowsProp ?? []);
+  const [preview, setPreview] = useState<{ active: ActiveQuestion; original: RowType } | null>(null);
+  const [rows, setRows] = useState<RowType[]>(rowsProp ?? []);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
@@ -56,6 +48,43 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
     }
   }, [actionFeedback, navigate, quizId, setQuizActionSuccess]);
 
+  const normalize = (apiObj: any): RowType[] => {
+    const entries = Object.values(apiObj ?? {}) as any[];
+
+    return entries.map((q) => {
+      const variants: LanguageVariant[] = (q.language ?? []).map((l: any) => ({
+        id: Number(l.id),
+        name: String(l.name),
+        content: String(l.content ?? ""),
+        explanations: (l.explanations ?? []).map((e: any) => ({
+          index: Number(e.index),
+          position: Number(e.position),
+          text: String(e.text ?? ""),
+        })),
+      }));
+
+      const defaultLang =
+        variants.find((v) => v.name.toLowerCase().startsWith("english")) ??
+        variants[0];
+
+      return {
+        id: Number(q.id),
+        name: String(q.name),
+        isPhishing: Boolean(q.isPhishing),
+        type: String(q.type),
+        app: {
+          id: Number(q.app?.id),
+          name: String(q.app?.name),
+          type: String(q.app?.type),
+        },
+        language: { id: defaultLang?.id, name: defaultLang?.name },
+        content: defaultLang?.content ?? "",
+        explanations: defaultLang?.explanations ?? [],
+        languages: variants,
+      } as RowType;
+    });
+  };
+
   useEffect(() => {
     if (controlled) {
       setRows(rowsProp ?? []);
@@ -67,7 +96,8 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
       setLoading(true);
       try {
         const data = await getLibraryQuestions();
-        if (alive) setRows(Array.isArray(data) ? data : []);
+        const normalized = normalize(data);
+        if (alive) setRows(normalized);
       } catch (e: any) {
         if (alive) setErr(e?.message ? String(e.message) : "Failed to load questions");
       } finally {
@@ -81,39 +111,46 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
     useStore((s: any) => s.setActiveQuestion) ||
     ((aq: ActiveQuestion) => useStore.setState({ activeQuestion: aq }));
 
-  const handlePreview = (q: Question) => {
+  const handlePreview = (q: RowType) => {
     const active = libraryToActiveQuestion(q);
     setActiveQuestion(active);
     setPreview({ active, original: q });
   };
 
-  const handleAdd = (q: Question) => {
-    duplicate(parseInt(quizId), q.id, q.language.id, q.app.id);
-  }
-
-  const handleDuplicate = async (q: Question) => {
-    duplicate(parseInt(quizId), q.id, q.language.id, q.app.id);
-    setActiveQuestion(null);
-  }
-
-  const handleSelect = (questionId: number, languageId: number) => {
-    console.log({ questionId, languageId });
+  const handleAdd = (q: RowType) => {
+    duplicate(parseInt(quizId), q.id, q.language.id, Number(q.app.id));
   };
 
-  const meta = useMemo<TableMeta>(
-    () => ({
-      onPreview: handlePreview,
-      onAdd: handleAdd,
-      onSelect: handleSelect
-    }),
-    [handlePreview, handleAdd, controlled, rowsProp, onRowsChange]
+  const handleSelectLanguage = (questionId: number, languageId: number) => {
+    setRows((prev) =>
+      prev.map((r) => {
+        if (r.id !== questionId) return r;
+        const picked = r.languages.find((lv) => lv.id === languageId);
+        if (!picked) return r;
+        return {
+          ...r,
+          language: { id: picked.id, name: picked.name },
+          content: picked.content,
+          explanations: picked.explanations,
+        };
+      })
+    );
+  };
+
+  const columns = useMemo(
+    () =>
+      getColumns({
+        onPreview: handlePreview,
+        onAdd: handleAdd,
+        onSelectLanguage: handleSelectLanguage,
+      }),
+    []
   );
 
   const table = useReactTable({
     data: rows,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    meta,
   });
 
   const totalColumns = table.getAllLeafColumns().length;
@@ -134,7 +171,12 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
           <ErrorBox role="alert">
             <Body1>Failed to load: {err}</Body1>
             {!controlled && (
-              <RetryButton type="button" onClick={() => getLibraryQuestions().then(setRows)}>
+              <RetryButton
+                type="button"
+                onClick={() =>
+                  getLibraryQuestions().then((d) => setRows(normalize(d)))
+                }
+              >
                 Retry
               </RetryButton>
             )}
@@ -145,8 +187,8 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
           <thead>
             {table.getHeaderGroups().map((hg) => (
               <TheadRow key={hg.id}>
-                {hg.headers.map((h) => (
-                  <Th key={h.id}>
+                {hg.headers.map((h, i) => (
+                  <Th key={h.id} $first={i === 0} $last={i === hg.headers.length - 1}>
                     {flexRender(h.column.columnDef.header, h.getContext())}
                   </Th>
                 ))}
@@ -182,7 +224,7 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
         {preview && (
           <QuestionLibraryPreviewModal
             question={preview.original}
-            onAdd={() => handleDuplicate(preview.original)}
+            onAdd={() => handleAdd(preview.original)}
             explanations={preview.original.explanations}
             onClose={() => setPreview(null)}
           />
@@ -234,20 +276,14 @@ const TheadRow = styled("tr")`
   background-color: ${defaultTheme.colors.light.paleGreen};
 `;
 
-const Th = styled("th") <{ $first?: boolean; $last?: boolean }>`
+const Th = styled("th")<{ $first?: boolean; $last?: boolean }>`
   text-align: left;
   padding: 14px 16px;
   font-weight: 600;
   font-size: 16px;
   color: ${defaultTheme.colors.dark.black};
   vertical-align: middle;
-
-  &:nth-child(1) { width: 44%; }
-  &:nth-child(2) { width: 16%; }
-  &:nth-child(3) { width: 14%; }
-  &:nth-child(4) { width: 16%; }
-  &:nth-child(5) { width: 10%; }
-
+  user-select: none;
   ${({ $first }) => $first && `border-top-left-radius: 10px;`};
   ${({ $last }) => $last && `border-top-right-radius: 10px;`};
 `;

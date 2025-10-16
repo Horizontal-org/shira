@@ -4,7 +4,7 @@ import "../../fonts/GoogleSans/style.css";
 import "../../fonts/Segoe/style.css";
 import { MdBlock } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
-import { Explanation, Question } from "../../fetch/question_library";
+import { Explanation, QuestionToDuplicate } from "../../fetch/question_library";
 import { AppLayout } from "./AppLayout";
 
 export type UIExplanation = {
@@ -14,7 +14,7 @@ export type UIExplanation = {
 };
 
 interface Props {
-  question?: Question;
+  question?: QuestionToDuplicate;
   onClose?: () => void;
   explanations: Explanation[];
 }

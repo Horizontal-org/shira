@@ -1,8 +1,8 @@
 import { StateCreator } from "zustand"
-import { Question, getLibraryQuestions } from "../../fetch/question_library";
+import { QuestionLibraryDto, getLibraryQuestions } from "../../fetch/question_library";
 
 export interface QuestionLibrarySlice {
-  libraryQuestions: Question[],
+  libraryQuestions: QuestionLibraryDto,
   getLibraryQuestions: (quizId: number) => void
 }
 
@@ -12,7 +12,7 @@ export const createQuestionLibrarySlice: StateCreator<
   [],
   QuestionLibrarySlice
 > = (set) => ({
-  libraryQuestions: [],
+  libraryQuestions: null,
   getLibraryQuestions: async() => {
     const res = await getLibraryQuestions()
     set({ libraryQuestions: res })

@@ -2,26 +2,54 @@ import { Body3Bold, DatingAppIcon, defaultTheme, FacebookIcon, GmailIcon, Outloo
 import { ColumnDef } from "@tanstack/react-table";
 import { FaCircleCheck, FaCirclePlus } from "react-icons/fa6";
 import { MdOutlinePhishing, MdRemoveRedEye } from "react-icons/md";
-import type { App, Language, Question as LibraryQuestion } from "../../../../fetch/question_library";
-import { TableMeta } from "../..";
+import type { App } from "../../../../fetch/question_library";
 
-const appIcons: Record<string, JSX.Element> = {
-  "gmail": <GmailIcon />,
-  "messenger": <FacebookIcon />,
-  "sms": <SMSIcon />,
-  "whatsapp": <WhatsappIcon />,
-  "outlook": <OutlookIcon />,
-  "dating App": <DatingAppIcon />,
+export type Explanation = {
+  index: number;
+  position: number;
+  text: string;
 };
 
-const languageOptions: Language[] = [
-  { id: 1, name: 'English' },
-  { id: 2, name: 'Español' },
-  { id: 3, name: 'Français' },
-  { id: 4, name: '普通话' },
-];
+export type Language = {
+  id: number;
+  name: string;
+};
 
-export const columns: ColumnDef<LibraryQuestion>[] = [
+export type LanguageVariant = Language & {
+  content: string;
+  explanations: Explanation[];
+};
+
+export type RowType = {
+  id: number;
+  name: string;
+  isPhishing: boolean;
+  type: string;
+  app: App;
+
+  language: Language;
+  content: string;
+  explanations: Explanation[];
+
+  languages: LanguageVariant[];
+};
+
+type ColumnHandlers = {
+  onPreview?: (q: RowType) => void;
+  onAdd?: (q: RowType) => void;
+  onSelectLanguage?: (questionId: number, languageId: number) => void;
+};
+
+const appIcons: Record<string, JSX.Element> = {
+  gmail: <GmailIcon />,
+  messenger: <FacebookIcon />,
+  sms: <SMSIcon />,
+  whatsapp: <WhatsappIcon />,
+  outlook: <OutlookIcon />,
+  "dating app": <DatingAppIcon />,
+};
+
+export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
   {
     header: "Question name",
     accessorKey: "name",
@@ -36,7 +64,11 @@ export const columns: ColumnDef<LibraryQuestion>[] = [
       const isPhishing = Boolean(c.getValue());
       return (
         <PhishingCell $isPhishing={isPhishing}>
-          {isPhishing ? <MdOutlinePhishing size={16} /> : <FaCircleCheck size={16} color={defaultTheme.colors.green6} />}
+          {isPhishing ? (
+            <MdOutlinePhishing size={16} />
+          ) : (
+            <FaCircleCheck size={16} color={defaultTheme.colors.green6} />
+          )}
           {isPhishing ? "Phishing" : "Legitimate"}
         </PhishingCell>
       );
@@ -44,24 +76,23 @@ export const columns: ColumnDef<LibraryQuestion>[] = [
   },
   {
     header: "Language",
-    accessorKey: "language",
     id: "language",
-    cell: ({ getValue, row, table }) => {
-      const language = getValue<Language>();
-      const meta = table.options.meta as TableMeta;
+    cell: ({ row }) => {
+      const current = row.original.language;
+      const options = row.original.languages;
 
       return (
         <StyledSelect
-          value={language.id}
+          value={String(current?.id ?? "")}
           onChange={(e) => {
-            const picked = languageOptions.find((option) => String(option.id) === e.target.value);
-            if (picked) meta.onSelect?.(row.original.id, picked.id);
+            const pickedId = Number(e.target.value);
+            handlers.onSelectLanguage?.(row.original.id, pickedId);
           }}
           aria-label="Select language"
         >
-          {languageOptions.map((option) => (
-            <StyledOption key={option.id} value={String(option.id)}>
-              {option.name}
+          {options.map((opt) => (
+            <StyledOption key={opt.id} value={String(opt.id)}>
+              {opt.name}
             </StyledOption>
           ))}
         </StyledSelect>
@@ -86,28 +117,25 @@ export const columns: ColumnDef<LibraryQuestion>[] = [
   {
     header: "Actions",
     id: "actions",
-    cell: ({ row, table }) => {
-      const meta = table.options.meta as TableMeta | undefined;
-      return (
-        <ActionsCell>
-          <ActionButton
-            aria-label="Preview question"
-            title="Preview"
-            onClick={() => meta?.onPreview?.(row.original)}
-          >
-            <MdRemoveRedEye size={21} color={defaultTheme.colors.dark.overlay} />
-          </ActionButton>
-          <ActionButton
-            aria-label="Add question"
-            title="Add"
-            onClick={() => meta?.onAdd?.(row.original)}
-          >
-            <FaCirclePlus size={18} color={defaultTheme.colors.green6} />
-          </ActionButton>
-        </ActionsCell>
-      );
-    }
-  }
+    cell: ({ row }) => (
+      <ActionsCell>
+        <ActionButton
+          aria-label="Preview question"
+          title="Preview"
+          onClick={() => handlers.onPreview?.(row.original)}
+        >
+          <MdRemoveRedEye size={21} color={defaultTheme.colors.dark.overlay} />
+        </ActionButton>
+        <ActionButton
+          aria-label="Add question"
+          title="Add"
+          onClick={() => handlers.onAdd?.(row.original)}
+        >
+          <FaCirclePlus size={18} color={defaultTheme.colors.green6} />
+        </ActionButton>
+      </ActionsCell>
+    ),
+  },
 ];
 
 const PhishingCell = styled.div<{ $isPhishing?: boolean }>`
@@ -141,7 +169,6 @@ const NameCell = styled(Body3Bold)`
   color: ${defaultTheme.colors.dark.darkGrey};
 `;
 
-
 const AppCell = styled("div")`
   display: inline-flex;
   align-items: center;
@@ -160,11 +187,12 @@ const StyledSelect = styled("select")`
   font-size: 14px;
   line-height: 20px;
   cursor: pointer;
-  outline: "none",
-  "&:focus": {
-    borderColor: defaultTheme.colors.blue9,
-    boxShadow: 0 0 0 2px ${defaultTheme.colors.blue5},
-  },
+
+  &:focus {
+    border-color: ${defaultTheme.colors.blue9};
+    box-shadow: 0 0 0 2px ${defaultTheme.colors.blue5};
+    outline: none;
+  }
 `;
 
 const StyledOption = styled("option")`

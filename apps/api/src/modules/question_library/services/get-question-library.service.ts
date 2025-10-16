@@ -4,92 +4,134 @@ import { Repository } from 'typeorm';
 import { Question } from '../../question/domain/question.entity';
 import { IGetLibraryQuestionService } from '../interfaces/services/get-question-library.service.interface';
 import { QuestionLibraryDto } from '../dto/question.library.dto';
-import { Language } from 'src/modules/languages/domain/languages.entity';
+import { Language as LangEntity } from 'src/modules/languages/domain/languages.entity';
+import { App } from '../dto/app.dto';
+
+type RawRow = {
+  q_id: number;
+  q_name: string;
+  q_is_phishing: number | boolean | null; // viene de isPhising en DB
+  q_type: string;
+  app_id: number | null;
+  app_name: string | null;
+  app_type: string | null;
+  lang_id: number;
+  lang_name: string;
+  qt_content: string | null;
+  e_position: string | number | null;
+  e_text: string | null;
+  e_index: string | number | null;
+};
 
 @Injectable()
 export class GetLibraryQuestionService implements IGetLibraryQuestionService {
   constructor(
     @InjectRepository(Question)
     private readonly questionRepo: Repository<Question>,
-  ) { }
+  ) {}
 
   async execute(): Promise<QuestionLibraryDto[]> {
-    const rows = await this.questionRepo
+    const rows: RawRow[] = await this.questionRepo
       .createQueryBuilder('q')
       .leftJoin('q.apps', 'app')
-      .leftJoin('q.explanations', 'e')
-      .leftJoin('q.questionTranslations', 'qt', 'qt.language_id = :langId', { langId: 1 }) // TODO get lang from UI
-      .leftJoin(Language, 'lang', 'lang.id = qt.language_id')
-      .leftJoin('e.explanationTranslations', 'et', 'et.language_id = :langId', { langId: 1 })
+      .leftJoin('q.explanations', 'exp')
+      .leftJoin('q.questionTranslations', 'qt')
+      .leftJoin(LangEntity, 'lang', 'lang.id = qt.language_id')
+      .leftJoin('exp.explanationTranslations', 'et', 'et.language_id = qt.language_id')
       .select([
         'q.id AS q_id',
         'q.name AS q_name',
-        'q.isPhising AS q_is_phishing',
+        'q.isPhising AS q_is_phishing', // alias para exponer como isPhishing
         'q.type AS q_type',
-        'qt.content AS qt_content',
+        'app.id AS app_id',
+        'app.name AS app_name',
+        'app.type AS app_type',
         'lang.id AS lang_id',
         'lang.name AS lang_name',
-        'app.name AS app_name',
-        'app.id AS app_id',
-        'app.type AS app_type',
-        'e.explanation_position AS e_position',
+        'qt.content AS qt_content',
+        'exp.explanation_position AS e_position',
         'et.content AS e_text',
-        'e.explanation_index AS e_index',
+        'exp.explanation_index AS e_index',
       ])
       .where('q.type = :type', { type: 'demo' })
       .andWhere('qt.content IS NOT NULL')
       .orderBy('q.name', 'ASC')
+      .addOrderBy('app.name', 'ASC')
+      .addOrderBy('lang.name', 'ASC')
+      .addOrderBy('exp.explanation_index', 'ASC')
       .getRawMany();
 
-    const grouped = new Map<string, QuestionLibraryDto>();
-    const seenExplanations = new Map<string, Set<string>>();
+    const byQuestion = new Map<number, QuestionLibraryDto>();
+    const seenExplanation = new Map<string, Set<string>>();
 
-    for (const row of rows) {
-      const key = `${row.q_id}::${row.app_name}::${row.lang_id}`;
+    for (const r of rows) {
+      const qId = r.q_id;
+      const langId = r.lang_id;
 
-      if (!grouped.has(key)) {
-        grouped.set(key, {
-          id: Number(row.q_id),
-          name: row.q_name,
-          isPhishing: Boolean(row.q_is_phishing),
-          type: row.q_type,
-          content: row.qt_content,
-          language: {
-            id: row.lang_id,
-            name: row.lang_name,
-          },
-          app: {
-            id: row.app_id,
-            name: row.app_name,
-            type: row.app_type,
-          },
-          explanations: [],
+      if (!byQuestion.has(qId)) {
+        byQuestion.set(qId, {
+          id: qId,
+          name: r.q_name,
+          isPhishing: !!r.q_is_phishing,
+          type: r.q_type,
+          app: undefined as App,
+          language: [],
         });
       }
 
-      if (!seenExplanations.has(key)) {
-        seenExplanations.set(key, new Set<string>());
+      const dto = byQuestion.get(qId)!;
+
+      if (!dto.app && r.app_id != null) {
+        dto.app = {
+          id: Number(r.app_id),
+          name: r.app_name ?? '',
+          type: r.app_type ?? undefined,
+        };
       }
 
-      if (row.e_index != null && row.e_text != null) {
-        const eKey = `${row.e_index}::${row.e_text}`;
-        const seen = seenExplanations.get(key)!;
+      let langEntry = dto.language.find((l) => l.id === langId);
+      if (!langEntry) {
+        langEntry = {
+          id: langId,
+          name: r.lang_name,
+          content: r.qt_content ?? '',
+          explanations: [],
+        };
+        dto.language.push(langEntry);
+      } else {
+        if (!langEntry.content && r.qt_content) {
+          langEntry.content = r.qt_content;
+        }
+      }
 
-        if (!seen.has(eKey)) {
-          grouped.get(key)!.explanations.push({
-            position: Number(row.e_position ?? 0),
-            text: row.e_text,
-            index: Number(row.e_index),
+      const rootKey = `${qId}::${langId}`;
+      if (!seenExplanation.has(rootKey)) seenExplanation.set(rootKey, new Set());
+
+      if (r.e_index != null && r.e_text != null) {
+        const idx = Number(r.e_index);
+        const pos = Number(r.e_position ?? 0);
+        const ek = `${idx}::${r.e_text}`;
+        if (!seenExplanation.get(rootKey)!.has(ek)) {
+          langEntry.explanations.push({
+            index: Number.isNaN(idx) ? 0 : idx,
+            position: Number.isNaN(pos) ? 0 : pos,
+            text: r.e_text,
           });
-          seen.add(eKey);
+          seenExplanation.get(rootKey)!.add(ek);
         }
       }
     }
 
-    for (const dto of grouped.values()) {
-      dto.explanations.sort((a, b) => a.index - b.index);
+    for (const dto of byQuestion.values()) {
+      dto.language.sort((a, b) => a.name.localeCompare(b.name));
+      for (const l of dto.language) {
+        l.explanations.sort((a, b) => a.index - b.index);
+      }
+      if (!dto.app) {
+        dto.app = { name: '' };
+      }
     }
 
-    return Array.from(grouped.values());
+    return Array.from(byQuestion.values());
   }
 }

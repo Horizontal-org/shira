@@ -18,7 +18,7 @@ export interface Explanation {
   index: number;
 };
 
-export interface Question {
+export interface QuestionToDuplicate {
   id: number;
   name: string;
   isPhishing: boolean;
@@ -31,8 +31,8 @@ export interface Question {
 
 export const getLibraryQuestions = async () => {
   try {
-    const { data } = await axios.get<Question[]>(`${process.env.REACT_APP_API_URL}/question/library`);
-    return keepFirstAppPerQuestionLanguage(data);
+    const { data } = await axios.get<QuestionLibraryDto>(`${process.env.REACT_APP_API_URL}/question/library`);
+    return data;
   } catch (err) {
     console.log("🚀 ~ getLibraryQuestions ~ err:", err);
   }
@@ -61,20 +61,51 @@ export const useLibraryQuestionCRUD = () => {
   return { actionFeedback, duplicate };
 }
 
-function keepFirstAppPerQuestionLanguage(questions: Question[]): Question[] {
-  const set = new Set<string>();
-  const result: Question[] = [];
+export type LanguageDto = {
+  id: number;
+  name: string;
+  content: string;
+  explanations: Explanation[];
+};
 
-  for (const question of questions) {
-    const key = `${question.id}::${question.language.id}`;
-    if (!set.has(key)) {
-      set.add(key);
-      result.push(question);
+export type QuestionLibraryDto = {
+  id: number;
+  name: string;
+  isPhishing: boolean;
+  type: string;
+  app: App;
+  language: LanguageDto[];
+};
+
+//TODO move to mapper
+export function flattenLibraryDto(dtos: QuestionLibraryDto[]): QuestionToDuplicate[] {
+  const out: QuestionToDuplicate[] = [];
+
+  for (const q of dtos ?? []) {
+    const base = {
+      id: q.id,
+      name: q.name,
+      isPhishing: Boolean(q.isPhishing),
+      type: q.type,
+      app: q.app ?? { name: '' },
+    };
+
+    for (const lang of q.language ?? []) {
+      out.push({
+        ...base,
+        content: lang.content ?? '',
+        language: { id: lang.id, name: lang.name },
+        explanations: (lang.explanations ?? []).map((e) => ({
+          index: Number(e.index ?? 0),
+          position: Number(e.position ?? 0),
+          text: e.text ?? '',
+        })),
+      });
     }
   }
 
-  return result;
-};
+  return out;
+}
 
 export enum LibraryQuestionFeedback {
   Processing = 'PROCESSING',
