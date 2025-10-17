@@ -62,6 +62,7 @@ export interface Theme {
       error9: string;
       dark: {
         black: string;
+        lightGrey: string;
         darkGrey: string;
         mediumGrey: string;
         overlay: string;

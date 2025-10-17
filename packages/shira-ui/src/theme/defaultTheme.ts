@@ -63,6 +63,7 @@ export const defaultTheme: Theme = {
       error9: '#871408',
       dark: {
         black: '#333030',
+        lightGrey: '#DDDDDD',
         darkGrey: '#5F6368',
         mediumGrey: '#ACADAE',
         overlay: 'rgba(51, 48, 48, 0.64)'
