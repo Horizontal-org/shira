@@ -10,6 +10,9 @@ type TabType = 'questions' | 'results';
 interface TabContainerProps {
   quizId: number;
   quizQuestions: QuizQuestion[];
+  resultsData: PublicQuizResultsResponse | null
+  resultsLoading: boolean
+  hasResults: boolean
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;
   onAdd: () => void;
@@ -26,28 +29,12 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   onAdd,
   onAddLibrary,
   onReorder,
-  onDuplicate
+  onDuplicate,
+  resultsData,
+  resultsLoading,
+  hasResults
 }) => {
   const [activeTab, setActiveTab] = useState<TabType>('questions');
-  const [resultsData, setResultsData] = useState<PublicQuizResultsResponse | null>(null);
-  const [resultsLoading, setResultsLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchResults = async () => {
-      setResultsLoading(true);
-      try {
-        const data = await getQuizResults(quizId);
-        setResultsData(data);
-      } catch (error) {
-        console.error('Failed to fetch quiz results:', error);
-      } finally {
-        setResultsLoading(false);
-      }
-    };
-
-    fetchResults();
-  }, [quizId, activeTab]);
-
   return (
     <Container>
       <Header>
@@ -78,6 +65,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
             onAddLibrary={() => { onAddLibrary(String(quizId)) }}
             onReorder={onReorder}
             onDuplicate={onDuplicate}
+            hasResults={hasResults}
           />
         )}
         {activeTab === 'results' && (
