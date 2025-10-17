@@ -1,5 +1,7 @@
 import { FunctionComponent } from "react";
-import { defaultTheme, OptionInterface, styled } from "../..";
+import { OptionInterface } from "./SmallSelect";
+import styled from 'styled-components'
+import { defaultTheme } from "../../theme";
 
 interface Props {
   option: OptionInterface;

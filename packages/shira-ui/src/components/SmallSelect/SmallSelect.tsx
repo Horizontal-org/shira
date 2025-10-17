@@ -11,7 +11,7 @@ import { useOnClickOutside } from "./useOnClickOutside";
 import { Body4 } from "../Typography";
 import LanguageIcon from "../Icons/LanguageIcon";
 import { styled } from "styled-components";
-import { defaultTheme } from "../..";
+import { defaultTheme } from "../../theme";
 
 export interface OptionInterface {
   label: string;

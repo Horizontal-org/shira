@@ -1,7 +1,8 @@
 import { FunctionComponent, useState } from "react";
 import { Option } from "./Option";
 import { Button } from "../Button";
-import { OptionInterface, styled } from "../..";
+import styled from 'styled-components'
+import { OptionInterface } from "./SmallSelect";
 
 interface Props {
   cancel: () => void
