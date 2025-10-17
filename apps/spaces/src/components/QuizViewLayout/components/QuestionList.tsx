@@ -1,13 +1,14 @@
 import { FunctionComponent, useState } from "react";
 import { FiMenu, FiPlus, FiLoader } from 'react-icons/fi';
 import { MdOutlineMenuBook } from "react-icons/md";
-import { styled, TrashIcon, EditIcon, Button, CopyIcon, defaultTheme } from '@shira/ui'
+import { styled, TrashIcon, EditIcon, Button, defaultTheme } from '@shira/ui'
 import EmptyState from "./EmptyState";
 import { DeleteModal } from "../../modals/DeleteModal";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { duplicateQuestion } from "../../../fetch/quiz";
 import { QuizQuestion } from "../../../store/slices/quiz";
 import toast from "react-hot-toast";
+import DuplicateIcon from './DuplicateIcon';
 
 interface QuestionsListProps {
   quizId: number;
@@ -148,7 +149,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
                             onClick={() => handleDuplicateQuestion(qq.question.id, qq.question.name)}
                             disabled={isBeingDuplicated}
                           >
-                            <CopyIcon color="#849D29" />
+                            <DuplicateIconWrapper><DuplicateIcon /></DuplicateIconWrapper>
                           </ActionButton>
                           <ActionButton onClick={() => handleQuestionForDelete(qq.question)}>
                             <TrashIcon />
@@ -269,6 +270,13 @@ const SpinningLoader = styled(FiLoader)`
     to {
       transform: rotate(360deg);
     }
+  }
+`;
+
+const DuplicateIconWrapper = styled.div`
+  > svg {
+    height: 20px;
+    width: 20px;
   }
 `;
 

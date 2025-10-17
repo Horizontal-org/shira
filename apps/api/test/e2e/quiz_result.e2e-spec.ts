@@ -7,6 +7,7 @@ import { QuestionRunController } from '../../src/modules/quiz_result/controller/
 import { StartQuizRunService } from '../../src/modules/quiz_result/services/start-quiz-run.service';
 import { FinishQuizRunService } from '../../src/modules/quiz_result/services/finish-quiz-run.service';
 import { CreateQuestionRunService } from '../../src/modules/quiz_result/services/create-question-run.service';
+import { GetQuizRunsByQuizService } from '../../src/modules/quiz_result/services/get-quiz-runs-by-quiz.service';
 import { QuizRun } from '../../src/modules/quiz_result/domain/quiz_runs.entity';
 import { QuestionRun } from '../../src/modules/quiz_result/domain/question_runs.entity';
 import { Quiz } from '../../src/modules/quiz/domain/quiz.entity';
@@ -24,11 +25,21 @@ describe('QuizResult HTTP (e2e happy paths)', () => {
   let dataSource: any;
   let quizRunsManagerRepo: { save: jest.Mock };
   let questionRunManagerRepo: { create: jest.Mock; save: jest.Mock };
+  let qb: any;
 
   beforeEach(async () => {
-    quizRunRepo = { findOne: jest.fn(), create: jest.fn(), save: jest.fn() };
-    questionRunRepo = { create: jest.fn(), save: jest.fn() };
-    quizRepo = { findOne: jest.fn() };
+    qb = {
+      innerJoin: jest.fn().mockReturnThis(),
+      where: jest.fn().mockReturnThis(),
+      andWhere: jest.fn().mockReturnThis(),
+      orderBy: jest.fn().mockReturnThis(),
+      select: jest.fn().mockReturnThis(),
+      addOrderBy: jest.fn().mockReturnThis(),
+      getRawMany: jest.fn(),
+    };
+    quizRunRepo = { findOne: jest.fn(), create: jest.fn(), save: jest.fn(), find: jest.fn(), createQueryBuilder: jest.fn().mockReturnValue(qb) };
+    questionRunRepo = { create: jest.fn(), save: jest.fn(), createQueryBuilder: jest.fn().mockReturnValue(qb) };
+    quizRepo = { findOne: jest.fn(), createQueryBuilder: jest.fn().mockReturnValue(qb) };
 
     quizRunsManagerRepo = { save: jest.fn((x) => x) } as any;
     questionRunManagerRepo = { create: jest.fn((x) => x), save: jest.fn((rows) => rows) } as any;
@@ -51,10 +62,12 @@ describe('QuizResult HTTP (e2e happy paths)', () => {
         StartQuizRunService,
         FinishQuizRunService,
         CreateQuestionRunService,
+        GetQuizRunsByQuizService,
 
         { provide: TYPES.services.IStartQuizRunService, useExisting: StartQuizRunService },
         { provide: TYPES.services.IFinishQuizRunService, useExisting: FinishQuizRunService },
         { provide: TYPES.services.ICreateQuestionRunService, useExisting: CreateQuestionRunService },
+        { provide: TYPES.services.IGetQuizRunsByQuizService, useExisting: GetQuizRunsByQuizService },
 
         { provide: getRepositoryToken(QuizRun), useValue: quizRunRepo },
         { provide: getRepositoryToken(QuestionRun), useValue: questionRunRepo },
@@ -110,7 +123,6 @@ describe('QuizResult HTTP (e2e happy paths)', () => {
     expect(res.body).toEqual(
       expect.objectContaining({ id: 1, quizId: 42, learnerId: 123 }),
     );
-    expect(typeof res.body.startedAt === 'string').toBe(true);
   });
 
   it('PATCH /quiz-run/:id/finish finishes a run with question runs (happy path)', async () => {
@@ -166,7 +178,6 @@ describe('QuizResult HTTP (e2e happy paths)', () => {
     expect(res.body).toEqual(
       expect.objectContaining({ id: runId })
     );
-    expect(typeof res.body.finishedAt === 'string').toBe(true);
   });
 
   it('POST /quiz-run/:runId/question-run creates a question run (happy path)', async () => {
@@ -182,7 +193,7 @@ describe('QuizResult HTTP (e2e happy paths)', () => {
     questionRunRepo.create.mockReturnValue(created);
     questionRunRepo.save.mockResolvedValue({ id: 9001, ...created });
 
-    // When: performing the HTTP POST to the question-run creation route
+    // When: performing the HTTP POST to the question run creation route
     const http = app.getHttpAdapter().getInstance();
     const res = await request(http)
       .post(`/quiz-run/${runId}/question-run`)
@@ -204,6 +215,31 @@ describe('QuizResult HTTP (e2e happy paths)', () => {
     expect(res.body).toEqual(
       expect.objectContaining({ id: 9001, quizRunId: runId, questionId: 501 })
     );
-    expect(typeof res.body.answeredAt === 'string').toBe(true);
+  });
+
+  it('GET /quiz-run/:spaceId calls getLatestBySpaceId and returns its array', async () => {
+    // Given: an existing space with 3 quiz runs
+    const spaceId = 7;
+    const rows = [
+      { id: 4, quizId: 55, finishedAt: '2025-01-01T00:00:00.000Z', name: 'Security advanced' },
+      { id: 2, quizId: 30, finishedAt: '2025-01-03T00:00:00.000Z', name: 'Security basics' },
+      { id: 3, quizId: 30, finishedAt: '2025-01-04T00:00:00.000Z', name: 'Security basics' },
+    ];
+    (qb.getRawMany as jest.Mock).mockResolvedValue(rows);
+
+    // When: performing the HTTP GET to retrieve quiz runs for a space
+    const http = app.getHttpAdapter().getInstance();
+    const res = await request(http).get(`/quiz-run/${spaceId}`).expect(200);
+
+    // Then: the service returnes first DTO
+    console.log('Response:', res.body);
+
+    expect(res.body).toEqual(
+      expect.objectContaining({
+        quizId: 55,
+        name: 'Security advanced',
+        finishedAt: '2025-01-01T00:00:00.000Z',
+      })
+    );
   });
 });

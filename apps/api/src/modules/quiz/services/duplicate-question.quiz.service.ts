@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, DataSource } from 'typeorm';
+import { Repository, DataSource, EntityManager } from 'typeorm';
 import { QuizQuestion as QuizQuestionEntity } from '../domain/quizzes_questions.entity';
 
 import { IDuplicateQuestionQuizService } from '../interfaces/services/duplicate-question.quiz.service.interface';
@@ -38,9 +38,14 @@ export class DuplicateQuestionQuizService implements IDuplicateQuestionQuizServi
         ],
       });
 
+      console.log("🚀 ~ DuplicateQuestionQuizService ~ execute ~ originalQuestion:", originalQuestion)
+
       if (!originalQuestion) {
         throw new Error('Question not found');
       }
+
+
+  
 
       console.log("🚀 ~ originalQuestion.languageId:", originalQuestion.languageId);
 
@@ -51,15 +56,24 @@ export class DuplicateQuestionQuizService implements IDuplicateQuestionQuizServi
         manager
       });
 
-      const position = await this.quizQuestionRepo
-        .count({ where: { quizId: duplicateQuestionDto.quizId } });
+      const originalQQ = await this.quizQuestionRepo
+        .findOne({ where: { quizId: duplicateQuestionDto.quizId, questionId: duplicateQuestionDto.questionId } });
+
+      const oldPositions = (await manager.find(QuizQuestionEntity, { where: { quizId: duplicateQuestionDto.quizId } })).filter(o => o.position > originalQQ.position)
+      await manager.save(QuizQuestionEntity, oldPositions.map((oldp) => {
+        return {
+          ...oldp,
+          position: oldp.position + 1
+        }
+      }));
 
       const quizQuestion = this.quizQuestionRepo.create({
-        position: position + 1,
+        position: originalQQ.position + 1,
         quizId: duplicateQuestionDto.quizId,
         questionId: duplicatedQuestion.question.id
       });
       await manager.save(QuizQuestionEntity, quizQuestion);
+      
     });
   }
 

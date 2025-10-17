@@ -7,6 +7,7 @@ import {
   IValidateAuthService,
   IGenerateTokenAuthService,
 } from '../interfaces';
+import { IMarkUserLoginService } from 'src/modules/user/interfaces/services/mark.user.login.service.interface';
 
 @Controller('login')
 export class LoginAuthController {
@@ -15,6 +16,8 @@ export class LoginAuthController {
     private validateAuthService: IValidateAuthService,
     @Inject(TYPES.services.IGenerateTokenAuthService)
     private generateTokenAuthService: IGenerateTokenAuthService,
+    @Inject(TYPES.services.IMarkUserLoginService)
+    private markUserLoginService: IMarkUserLoginService
   ) {}
 
   @Post()
@@ -34,5 +37,7 @@ export class LoginAuthController {
         ...authToken,
         user,
       });
+
+      await this.markUserLoginService.execute(user.id);
   }
 }
