@@ -1,28 +1,19 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { Explanation, Question } from "src/modules/question/domain";
+import { DataSource } from "typeorm";
 import { QuizQuestion as QuizQuestionEntity } from "src/modules/quiz/domain/quizzes_questions.entity";
 import { IDuplicateLibraryQuestionService } from "../interfaces/services/duplicate-question-library.service.interface";
-import { DataSource, Repository } from "typeorm";
 import { DuplicateQuestionLibraryDto } from "../dto/duplicate-question-library.dto";
+import { Explanation, Question } from "src/modules/question/domain";
 import { QuestionImage } from "src/modules/question_image/domain";
 import { TYPES } from "../../image/interfaces";
 import { IImageService } from "src/modules/image/interfaces/services/image.service.interface";
 import { ExplanationTranslation } from "src/modules/translation/domain/explanationTranslation.entity";
 import { Language } from "src/modules/languages/domain/languages.entity";
-import { InjectRepository } from "@nestjs/typeorm";
 import { QuestionTranslation } from "src/modules/translation/domain/questionTranslation.entity";
 
 @Injectable()
 export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestionService {
   constructor(
-    @InjectRepository(Language)
-    private readonly languageRepository: Repository<Language>,
-    @InjectRepository(QuestionTranslation)
-    private readonly questionTranslationRepository: Repository<QuestionTranslation>,
-    @InjectRepository(ExplanationTranslation)
-    private readonly explanationTranslationRepository: Repository<ExplanationTranslation>,
-    @InjectRepository(Explanation)
-    private readonly explanationRepository: Repository<Explanation>,
     @Inject(TYPES.services.IImageService)
     private imageService: IImageService,
     private dataSource: DataSource
@@ -33,6 +24,7 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
     const selectedLanguageId = dto.languageId;
 
     await this.dataSource.transaction(async (manager) => {
+
       // Original question
       const originalQuestion = await manager.findOne(Question, {
         where: { id: parseInt(questionId), type: "demo" },
@@ -48,7 +40,7 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
       if (!originalQuestion) throw new Error("Original question not found");
       console.log("🚀 ~ get ~ originalQuestion:", originalQuestion);
 
-      const defaultLanguage = await this.languageRepository.findOne({ where: { code: "en" } });
+      const defaultLanguage = await manager.findOne(Language, { where: { code: "en" } });
       if (!defaultLanguage) throw new Error("Default language not found");
 
 
@@ -62,17 +54,14 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
         apps: originalQuestion.apps,
       });
 
-      console.log("🚀 ~ save ~ newQuestion:", newQuestion);
       const savedQuestion = await manager.save(newQuestion);
 
 
       // Question Translation
-      const questionTranslation = await this.questionTranslationRepository
-        .createQueryBuilder('qt')
-        .where('qt.question_id = :qid AND qt.language_id = :lid', {
-          qid: originalQuestion.id,
-          lid: selectedLanguageId,
-        })
+      const questionTranslation = await manager
+        .createQueryBuilder(QuestionTranslation, 'qt')
+        .where('qt.question_id = :qid', { qid: questionId })
+        .andWhere('qt.language_id = :lid', { lid: selectedLanguageId })
         .getOne();
 
       if (questionTranslation) {
@@ -82,44 +71,43 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
           languageId: defaultLanguage.id
         });
 
-        console.log("🚀 ~ save ~ newTranslation:", newTranslation);
         await manager.save(QuestionTranslation, newTranslation);
       }
 
 
       // Explanations and Explanation Translations
-      const explanationsTranslations = await this.explanationTranslationRepository
-        .createQueryBuilder('et')
+      const explanationsTranslations = await manager
+        .createQueryBuilder(ExplanationTranslation, 'et')
         .leftJoin('et.explanation', 'e')
         .leftJoin('e.question', 'q')
-        .where('q.id = :qid', { qid: originalQuestion.id })
+        .where('q.id = :qid', { qid: questionId })
         .andWhere('et.language_id = :lid', { lid: selectedLanguageId })
         .getOne();
 
-      const explanation = await this.explanationRepository
-        .createQueryBuilder('e')
-        .where('e.question_id = :qid', { qid: originalQuestion.id })
+      const explanation = await manager
+        .createQueryBuilder(Explanation, 'e')
+        .where('e.question_id = :qid', { qid: questionId })
         .getOne();
 
-      if (explanation && explanationsTranslations) {
-        const newExplanation = manager.create(Explanation, {
-          index: explanation.index,
-          position: explanation.position,
-          text: explanation.text,
-          question: savedQuestion,
-          explanationTranslations: [explanationsTranslations]
-        });
+      if (explanation) {
+        const savedExplanation = await manager.save(
+          manager.create(
+            Explanation, {
+            index: explanation.index,
+            position: explanation.position,
+            text: explanation.text,
+            question: savedQuestion,
+          }));
 
-        const newExplanationTranslation = manager.create(ExplanationTranslation, {
-          explanation: explanation,
-          languageId: selectedLanguageId,
-          content: explanationsTranslations?.content || "",
-        });
-
-        console.log("🚀 ~ save ~ newExplanation:", newExplanation);
-        await manager.save(Explanation, newExplanation);
-        console.log("🚀 ~ save ~ newExplanationTranslation:", newExplanationTranslation);
-        await manager.save(ExplanationTranslation, newExplanationTranslation);
+        await manager.save(
+          ExplanationTranslation,
+          manager.create(
+            ExplanationTranslation, {
+            content: explanationsTranslations.content,
+            explanation: savedExplanation,
+            languageId: 1,
+          }),
+        );
       }
 
 
@@ -144,7 +132,6 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
           quizId: quizId,
         });
 
-        console.log("🚀 ~ execute ~ newImage:", newImage);
         const savedImage = await manager.save(QuestionImage, newImage);
         newImageIds.push(savedImage.id);
 
@@ -162,7 +149,6 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
         question: savedQuestion,
       });
 
-      console.log("🚀 ~ save ~ quizQuestion:", quizQuestion);
       await manager.save(QuizQuestionEntity, quizQuestion);
 
       void newImageIds;
