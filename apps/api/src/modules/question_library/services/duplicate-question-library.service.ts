@@ -38,7 +38,6 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
       });
 
       if (!originalQuestion) throw new Error("Original question not found");
-      console.log("🚀 ~ get ~ originalQuestion:", originalQuestion);
 
       const defaultLanguage = await manager.findOne(Language, { where: { code: "en" } });
       if (!defaultLanguage) throw new Error("Default language not found");
@@ -76,38 +75,38 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
 
 
       // Explanations and Explanation Translations
-      const explanationsTranslations = await manager
-        .createQueryBuilder(ExplanationTranslation, 'et')
-        .leftJoin('et.explanation', 'e')
-        .leftJoin('e.question', 'q')
-        .where('q.id = :qid', { qid: questionId })
-        .andWhere('et.language_id = :lid', { lid: selectedLanguageId })
-        .getOne();
-
-      const explanation = await manager
+      const explanations = await manager
         .createQueryBuilder(Explanation, 'e')
         .where('e.question_id = :qid', { qid: questionId })
-        .getOne();
+        .getMany();
 
-      if (explanation) {
-        const savedExplanation = await manager.save(
-          manager.create(
-            Explanation, {
-            index: explanation.index,
-            position: explanation.position,
-            text: explanation.text,
-            question: savedQuestion,
-          }));
+      if (explanations) {
+        for (const exp of explanations) {
+          const savedExplanation = await manager.save(
+            manager.create(
+              Explanation, {
+              index: exp.index,
+              position: exp.position,
+              text: exp.text,
+              question: savedQuestion,
+            }));
 
-        await manager.save(
-          ExplanationTranslation,
-          manager.create(
-            ExplanationTranslation, {
-            content: explanationsTranslations.content,
-            explanation: savedExplanation,
-            languageId: 1,
-          }),
-        );
+          const explanationsTranslation = await manager
+            .createQueryBuilder(ExplanationTranslation, 'et')
+            .leftJoin('et.explanation', 'e')
+            .leftJoin('e.question', 'q')
+            .where('q.id = :qid', { qid: questionId })
+            .andWhere('et.language_id = :lid', { lid: selectedLanguageId })
+            .andWhere('e.id = :eid', { eid: exp.id })
+            .getOne();
+
+          await manager.save(
+            manager.create(ExplanationTranslation, {
+              content: explanationsTranslation?.content,
+              explanation: savedExplanation,
+              languageId: defaultLanguage.id,
+            }));
+        }
       }
 
 
