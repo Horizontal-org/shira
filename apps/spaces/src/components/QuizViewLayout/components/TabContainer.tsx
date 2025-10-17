@@ -13,6 +13,7 @@ interface TabContainerProps {
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;
   onAdd: () => void;
+  onAddLibrary: (quizId: string) => void;
   onReorder: (newOrder: QuizQuestion[]) => void;
   onDuplicate: () => void;
 }
@@ -23,6 +24,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   onEdit,
   onDelete,
   onAdd,
+  onAddLibrary,
   onReorder,
   onDuplicate
 }) => {
@@ -50,21 +52,21 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
     <Container>
       <Header>
         <TabsContainer>
-          <TabButton 
-            $isActive={activeTab === 'questions'} 
+          <TabButton
+            $isActive={activeTab === 'questions'}
             onClick={() => setActiveTab('questions')}
           >
             Questions
           </TabButton>
-          <TabButton 
-            $isActive={activeTab === 'results'} 
+          <TabButton
+            $isActive={activeTab === 'results'}
             onClick={() => setActiveTab('results')}
           >
             Results
           </TabButton>
         </TabsContainer>
       </Header>
-      
+
       <div>
         {activeTab === 'questions' && (
           <QuestionsList
@@ -73,14 +75,15 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
             onEdit={onEdit}
             onDelete={onDelete}
             onAdd={onAdd}
+            onAddLibrary={() => { onAddLibrary(String(quizId)) }}
             onReorder={onReorder}
             onDuplicate={onDuplicate}
           />
         )}
         {activeTab === 'results' && (
-          <Results 
-            resultsData={resultsData} 
-            loading={resultsLoading} 
+          <Results
+            resultsData={resultsData}
+            loading={resultsLoading}
           />
         )}
       </div>

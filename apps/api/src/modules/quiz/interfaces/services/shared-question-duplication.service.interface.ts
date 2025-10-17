@@ -5,6 +5,8 @@ export interface DuplicateQuestionParams {
   originalQuestion: Question;
   newQuestionName?: string;
   targetQuizId: number;
+  appId?: number;
+  languageId?: number;
   manager: EntityManager;
 }
 

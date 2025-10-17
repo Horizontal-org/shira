@@ -35,7 +35,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   
   const {
     updateQuiz,
-    deleteQuiz,    
+    deleteQuiz,
     quizActionSuccess,
     cleanQuizActionSuccess,
     reorderQuiz
@@ -113,11 +113,11 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   return (
     <Container>
       <Sidebar 
-        menuItems={menuItems} 
-        onCollapse={handleCollapse}      
+        menuItems={menuItems}
+        onCollapse={handleCollapse}
       />
      
-      <MainContent $isCollapsed={isCollapsed}>        
+      <MainContent $isCollapsed={isCollapsed}>
         <BetaBanner url="/support"/>
         <MainContentWrapper>
 
@@ -174,6 +174,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 onEdit={(questionId) => { navigate(`/quiz/${id}/question/${questionId}`)}}
                 onDelete={(id) => { destroy(quiz.id, id) }}
                 onAdd={() => { navigate(`/quiz/${id}/question`) }}
+                onAddLibrary={() => { navigate(`/question/library`, { state: { quizId: quiz.id } }) }}
                 onReorder={(newQQOrder) => {
                   handleQuiz({
                     ...quiz,
