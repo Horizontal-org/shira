@@ -1,8 +1,7 @@
 export function FacebookIcon() {
     return (
         <svg width="18" height="18" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-label="Facebook" role="img" preserveAspectRatio="xMidYMid meet">
-            <circle cx="16" cy="16" r="16" fill="#1877F2" />
-            <path fill="#FFFFFF" d="M20.5 7.5h-2.1c-2.1 0-3.5 1.4-3.5 3.6v2.3H12v3.1h2.9V25h3.3v-8.5h2.5l.5-3.1h-3v-1.6c0-.6.4-1 1-1h2.4V7.5z" />
+            <path d="M32 16C32 7.2 24.8 0 16 0C7.2 0 0 7.2 0 16C0 24 5.8 30.6 13.4 31.8V20.6H9.4V16H13.4V12.4C13.4 8.4 15.8 6.2 19.4 6.2C21.2 6.2 23 6.6 23 6.6V10.6H21C19 10.6 18.4 11.8 18.4 13V16H22.8L22 20.6H18.2V32C26.2 30.8 32 24 32 16Z" fill="#335A9F"/>
         </svg>
     )
 };
