@@ -150,8 +150,6 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
       });
 
       await manager.save(QuizQuestionEntity, quizQuestion);
-
-      void newImageIds;
     });
   }
 }

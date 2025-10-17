@@ -29,6 +29,23 @@ export interface QuestionToDuplicate {
   explanations: Explanation[];
 };
 
+export type LanguageDto = {
+  id: number;
+  name: string;
+  content: string;
+  explanations: Explanation[];
+};
+
+export type QuestionLibraryDto = {
+  id: number;
+  name: string;
+  isPhishing: boolean;
+  type: string;
+  app: App;
+  language: LanguageDto[];
+};
+
+
 export const getLibraryQuestions = async () => {
   try {
     const { data } = await axios.get<QuestionLibraryDto>(`${process.env.REACT_APP_API_URL}/question/library`);
@@ -60,22 +77,6 @@ export const useLibraryQuestionCRUD = () => {
 
   return { actionFeedback, duplicate };
 }
-
-export type LanguageDto = {
-  id: number;
-  name: string;
-  content: string;
-  explanations: Explanation[];
-};
-
-export type QuestionLibraryDto = {
-  id: number;
-  name: string;
-  isPhishing: boolean;
-  type: string;
-  app: App;
-  language: LanguageDto[];
-};
 
 export enum LibraryQuestionFeedback {
   Processing = 'PROCESSING',
