@@ -1,4 +1,4 @@
-import { Body3Bold, DatingAppIcon, defaultTheme, FacebookIcon, GmailIcon, OutlookIcon, SMSIcon, styled, WhatsappIcon } from "@shira/ui";
+import { Body3Bold, DatingAppIcon, defaultTheme, FacebookIcon, GmailIcon, OutlookIcon, SMSIcon, styled, WhatsappIcon, SmallSelect } from "@shira/ui";
 import { ColumnDef } from "@tanstack/react-table";
 import { FaCircleCheck, FaCirclePlus } from "react-icons/fa6";
 import { MdOutlinePhishing, MdRemoveRedEye } from "react-icons/md";
@@ -49,11 +49,11 @@ type ColumnHandlers = {
 };
 
 const appIcons: Record<string, JSX.Element> = {
-  gmail: <GmailIcon />,
-  messenger: <FacebookIcon />,
-  sms: <SMSIcon />,
-  whatsapp: <WhatsappIcon />,
-  outlook: <OutlookIcon />,
+  "gmail": <GmailIcon />,
+  "messenger": <FacebookIcon />,
+  "sms": <SMSIcon />,
+  "whatsapp": <WhatsappIcon />,
+  "outlook": <OutlookIcon />,
   "dating app": <DatingAppIcon />,
 };
 
@@ -89,21 +89,26 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
       const current = row.original.language;
       const options = row.original.languages;
 
+      const langOptions = [];
+      for (const option of options) {
+        langOptions.push({
+          label: option.name,
+          labelEnglish: option.name,
+          value: String(option.id),
+        });
+      }
+
       return (
-        <StyledSelect
-          value={String(current?.id ?? "")}
-          onChange={(e) => {
-            const pickedId = Number(e.target.value);
+        <SmallSelect
+          key={`${row.original.id}-${current?.id ?? "none"}`}
+          options={langOptions}
+          autoselect={false}
+          placeholder="Language"
+          onChange={(picked) => {
+            const pickedId = Number(picked);
             handlers.onSelectLanguage?.(row.original.id, pickedId);
           }}
-          aria-label="Select language"
-        >
-          {options.map((opt) => (
-            <StyledOption key={opt.id} value={String(opt.id)}>
-              {opt.name}
-            </StyledOption>
-          ))}
-        </StyledSelect>
+        />
       );
     },
   },
@@ -139,7 +144,6 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
     header: "Actions",
     id: "actions",
     cell: ({ row }) => (
-      console.log("row in actions:", row),
       <ActionsCell>
         <ActionButton
           aria-label="Preview question"
@@ -189,15 +193,6 @@ const ActionButton = styled("button")`
 
 const NameCell = styled(Body3Bold)`
   color: ${defaultTheme.colors.dark.darkGrey};
-`;
-
-const AppCell = styled("div")`
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border-radius: 2px;
-  padding: 4px 8px;
-  font-weight: 400;
 `;
 
 const StyledSelect = styled("select")`
