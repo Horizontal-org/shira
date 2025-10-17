@@ -9,6 +9,54 @@ import { TYPES as QUESTION_LIBRARY_TYPES } from '../../../src/modules/question_l
 import { TYPES as AUTH_TYPES } from '../../../src/modules/auth/interfaces/types';
 import { Question } from '../../../src/modules/question/domain/question.entity';
 
+export async function buildQuestionLibraryApp(
+  rawRows: RawRow[],
+): Promise<{ app: INestApplication; repoMock: any; qb: any }> {
+  const entities = rowsToEntities(rawRows);
+
+  const qb: any = {
+    leftJoin: jest.fn(() => qb),
+    leftJoinAndSelect: jest.fn(() => qb),
+    leftJoinAndMapOne: jest.fn(() => qb),
+    where: jest.fn(() => qb),
+    andWhere: jest.fn(() => qb),
+    orderBy: jest.fn(() => qb),
+    addOrderBy: jest.fn(() => qb),
+    getMany: jest.fn(async () => entities),
+  };
+
+  const repoMock = { createQueryBuilder: jest.fn(() => qb) };
+
+  const moduleRef: TestingModule = await Test.createTestingModule({
+    controllers: [QuestionLibraryController],
+    providers: [
+      {
+        provide: QUESTION_LIBRARY_TYPES.services.IGetLibraryQuestionService,
+        useClass: GetLibraryQuestionService,
+      },
+      {
+        provide: QUESTION_LIBRARY_TYPES.services.IDuplicateLibraryQuestionService,
+        useValue: { execute: jest.fn() },
+      },
+      { provide: getRepositoryToken(Question), useValue: repoMock },
+      { provide: AUTH_TYPES.services.IUserContextService, useValue: mockUserContextService },
+    ],
+  })
+    .overrideGuard(AuthGuard('jwt') as any)
+    .useValue({ canActivate: () => true })
+    .compile();
+
+  const app = moduleRef.createNestApplication();
+  app.use((req: any, _res: any, next: () => void) => {
+    req.user = { id: '1', email: 'test@example.com', isSuperAdmin: true };
+    next();
+  });
+  await app.init();
+
+  return { app, repoMock, qb };
+}
+
+
 export type RawRow = {
   q_id: number;
   q_name: string;
@@ -71,53 +119,6 @@ function rowsToEntities(rawRows: RawRow[]): Question[] {
   }
 
   return Array.from(grouped.values());
-}
-
-export async function buildQuestionLibraryApp(
-  rawRows: RawRow[],
-): Promise<{ app: INestApplication; repoMock: any; qb: any }> {
-  const entities = rowsToEntities(rawRows);
-
-  const qb: any = {
-    leftJoin: jest.fn(() => qb),
-    leftJoinAndSelect: jest.fn(() => qb),
-    leftJoinAndMapOne: jest.fn(() => qb),
-    where: jest.fn(() => qb),
-    andWhere: jest.fn(() => qb),
-    orderBy: jest.fn(() => qb),
-    addOrderBy: jest.fn(() => qb),
-    getMany: jest.fn(async () => entities),
-  };
-
-  const repoMock = { createQueryBuilder: jest.fn(() => qb) };
-
-  const moduleRef: TestingModule = await Test.createTestingModule({
-    controllers: [QuestionLibraryController],
-    providers: [
-      {
-        provide: QUESTION_LIBRARY_TYPES.services.IGetLibraryQuestionService,
-        useClass: GetLibraryQuestionService,
-      },
-      {
-        provide: QUESTION_LIBRARY_TYPES.services.IDuplicateLibraryQuestionService,
-        useValue: { execute: jest.fn() },
-      },
-      { provide: getRepositoryToken(Question), useValue: repoMock },
-      { provide: AUTH_TYPES.services.IUserContextService, useValue: mockUserContextService },
-    ],
-  })
-    .overrideGuard(AuthGuard('jwt') as any)
-    .useValue({ canActivate: () => true })
-    .compile();
-
-  const app = moduleRef.createNestApplication();
-  app.use((req: any, _res: any, next: () => void) => {
-    req.user = { id: '1', email: 'test@example.com', isSuperAdmin: true };
-    next();
-  });
-  await app.init();
-
-  return { app, repoMock, qb };
 }
 
 export const mockUserContextService = {

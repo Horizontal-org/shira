@@ -101,12 +101,27 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
     );
   };
 
+  const handleSelectApp = (questionId: number, appId: number) => {
+    setRows((prev) =>
+      prev.map((r) => {
+        if (r.id !== questionId) return r;
+        const picked = r.apps.find((av) => av.id === appId);
+        if (!picked) return r;
+        return {
+          ...r,
+          app: { id: picked.id, name: picked.name },
+        };
+      })
+    );
+  }
+
   const columns = useMemo(
     () =>
       getColumns({
         onPreview: handlePreview,
         onAdd: handleAdd,
         onSelectLanguage: handleSelectLanguage,
+        onSelectApp: handleSelectApp
       }),
     []
   );
