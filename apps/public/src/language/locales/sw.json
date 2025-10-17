@@ -1,0 +1,227 @@
+{
+    "welcome": {
+        "title": "Karibu Shira",
+        "subtitle": "Jifunze kutambua na kushinda majaribio ya kuhadaa ili kupata maelezo ya kibinafsi",
+        "start": "Anza majaribio",
+        "public_message": "Welcome to your phishing quiz. Change your language or click on \"Start quiz\" to get started.",
+        "learn_more": "Learn more about Shira"
+    },
+    "setup": {
+        "name": {
+            "title": "Ongeza jina na anwani ya barua pepe",
+            "subtitle": "Tunaomba jina na anwani ya barua pepe ili kufanya maswali ya kuhadaa ili kupata maelezo ya kibinafsi kuwa ya kweli zaidi. Maelezo haya hayatahifadhiwa, kutumwa kwa seva zetu, au kushirikiwa na mtu mwingine yeyote.",
+            "recommendation": "Ili kuwa salama zaidi, unaweza kutumia jina bandia na anwani ya barua pepe, au utengeneze za nasibu.",
+            "name": "Jina",
+            "email": "Barua pepe",
+            "random_button": "Tengeneza jina nasibu na anwani ya barua pepe",
+            "next_button": "Yafuatayo",
+            "footer_title": "Usanidi wa maswali"
+        },
+        "apps": {
+            "title": "Je, unatumia programu gani?",
+            "select": "Chagua angalau 1",
+            "footer_title": "Usanidi wa maswali",
+            "back_button": "Nyuma",
+            "next_button": "Yafuatayo"
+        },
+        "fields_of_work": {
+            "title": "Je, ni maeneo gani yanayokuhusu?",
+            "select": "Chagua hadi vipengee 3",
+            "footer_title": "Usanidi wa maswali",
+            "back_button": "Nyuma",
+            "next_button": "Anza majaribio",
+            "items": {
+                "human-rights": "Haki za binadamu",
+                "journalism-and-media": "Uandishi wa habari na vyombo vya habari",
+                "education": "Taaluma",
+                "marketing": "Masoko",
+                "healthcare": "Afya",
+                "general": "Ujumla"
+            }
+        }
+    },
+    "quiz": {
+        "how_it_works": {
+            "title": "Jinsi inavyofanya kazi",
+            "explanation_1": "Jaribio hili lina maswali 10.",
+            "explanation_2": "Kwa kila swali, chagua ikiwa ujumbe unaoonyeshwa unaonekana kama jaribio la kuhadaa ili kupata maelezo ya kibinafsi au unaonekana kuwa halali.",
+            "explanation_3": "Ikiwa huna uhakika, unaweza kuchagua chaguo \"Sijui\".",
+            "footer_title": "Utangulizi wa Maswali",
+            "next": "OK",
+            "question_count": "This quiz contains {{count}} questions"
+        },
+        "answers": {
+            "options": {
+                "unsure": "Sijui",
+                "legitimate": "Inaonekana kuwa halali",
+                "phising": "Inaonekana kama hadaa"
+            },
+            "results": {
+                "unsure": "\"Sijui\"",
+                "correct": "Kazi nzuri!",
+                "incorrect": "Si sahihi",
+                "next_button": "Yafuatayo",
+                "back_button": "Nyuma",
+                "next_question": "Swali Linalofuata",
+                "see_why": "Angalia kwa nini",
+                "bottom-bar_looks-legit": "Ujumbe huu hauonekani kama jaribio la kuhadaa ili kupata maelezo ya kibinafsi.",
+                "bottom-bar_looks-like-phishing": "Baadhi ya vipengele vinapendekeza na kuonyesha kuwa ujumbe huu unaweza kuwa jaribio la kuhadaa ili kupata maelezo ya kibinafsi."
+            }
+        },
+        "exit": {
+            "title": "Ondoka kwenye jaribio?",
+            "action_description": "Ondoka kwenye jaribio",
+            "description": "Je, una uhakika unataka kughairi kipimo? Maendeleo yako hayatahifadhiwa.",
+            "cancel": "Ghairi"
+        }
+    },
+    "feedback": {
+        "title": "Tusaidie kujiboresha",
+        "subtitle": "Jambo la mwisho kabla ya matokeo ya maswali: tujulishe unachofikiria ili kutusaidia kuboresha watumiaji wa siku zijazo.",
+        "box": {
+            "question_1": {
+                "title": "1. Je, ni rahisi kwa kiasi gani kutumia Shira?",
+                "very_complicated": "Ngumu sana",
+                "complicated": "Ngumu",
+                "easy": "Rahisi",
+                "very_easy": "Rahisi sana"
+            },
+            "question_2": {
+                "title": "2. Je, una uwezekano gani wa kupendekeza Shira kwa marafiki au wafanyakazi wenzako?",
+                "not_likely": "Haiwezekani",
+                "somewhat_likely": "Uwezekano fulani",
+                "likely": "Uwezekano mkubwa",
+                "very_likely": "Uwezekano mkubwa sana"
+            },
+            "question_3": {
+                "title": "3. Je, tunawezaje kuboresha Shira?",
+                "input_placeholder": "Kishika nafasi"
+            },
+            "bottom_text": "Maoni yako yatatumwa ukibofya \"angalia matokeo\""
+        },
+        "footer_title": "Unakaribia kumaliza! Endelea kuona matokeo ya maswali yako na hatua zinazofuata zinazopendekezwa.",
+        "next_button": "Ona matokeo"
+    },
+    "completed": {
+        "title": "Maswali yamekamilika",
+        "subtitle": "Jibu maswali mapya au uangalie baadhi ya mapendekezo hapa chini ili kuendelea kuimarisha ujuzi wako na kuwa bora katika kuepuka kuhadaa ili kupata maelezo ya kibinafsi.",
+        "back_button": "Rudi mwanzo",
+        "next_button": "Jaribio jipya",
+        "heavy_subtitle_1": "You answered ",
+        "heavy_subtitle_2": "{{correctQuestions}} out of {{questions}} ",
+        "heavy_subtitle_3": "questions correctly.",
+        "greeting_title": "Thanks for using Shira!"
+    },
+    "about": {
+        "title": "Kuhusu",
+        "subtitle": "Shira huwasaidia watumiaji kukuza ujuzi unaohitajika ili kutambua na kushinda mashambulizi ya hadaa kwenye programu za barua pepe na ujumbe.",
+        "why_shira": {
+            "title": "Kwanini utumie Shira?",
+            "option_1": {
+                "title": "1. Rahisi kutumia",
+                "description": "Shira iliundwa kwa kuzingatia jumuiya ambazo ziko katika hatari zaidi ya mashambulizi ya hadaa, hasa watumiaji walio na ujuzi mdogo wa teknolojia."
+            },
+            "option_2": {
+                "title": "2. Customizable",
+                "description": "Tunajaribu kufanya ujumbe wa kuhadaa ili kupata maelezo ya kibinafsi uonekane wa kweli iwezekanavyo, ili kuiga kile ambacho watumiaji wa mtandao hukabili hasa katika maisha yao ya kila siku na mashambulizi ya hadaa ambayo wana uwezekano wa kukumbana nayo."
+            },
+            "option_3": {
+                "title": "3. Faragha-kirafiki",
+                "description": "Hatukusanyi, hatuhifadhi, au kushiriki data yoyote kuhusu watumiaji wanaotembelea Shira au kujibu maswali. Ili kupata maelezo zaidi, angalia sera yetu ya faragha na ukaguzi wa hivi majuzi wa usalama uliofanywa na kampuni huru ya usalama."
+            },
+            "privacy_policy_cta": "Sera ya faragha",
+            "security_audit_cta": "Ukaguzi wa usalama"
+        },
+        "created_by": {
+            "title": "Nani anatengeneza Shira?",
+            "website_cta": "Jifunze kuhusu Horizontal",
+            "description": {
+                "section1": "Shira ni mradi wa Horizontal, shirika lisilo la faida ambalo linasaidia watetezi, wanaharakati na waandishi wa habari walio mstari wa mbele kupitia usalama wa kidijitali na uundaji wa zana.",
+                "section2": "Kama zana zote za Horizontal, Shira ni chanzo cha bure na huria. Unaweza kutusaidia kuboresha na kudumisha Shira kwa",
+                "donation_link": "toa mchango hapa.",
+                "section3": "Ili kuchangia kutafsiri Shira, tutumie barua pepe kwa contact@wearehorizontal.org."
+            }
+        },
+        "footer_title": "Mawasiliano",
+        "footer_description": "Je, una ombi la kipengele, ripoti ya hitilafu au unataka tu kuungana nasi? Tutumie barua pepe kwa contact@wearehorizontal.org",
+        "bring_shira_button": "Leta Shira kwenye shirika lako",
+        "background": {
+            "title": "Usuli",
+            "subtitle": "Phishing is a major security threat for Internet users everywhere.",
+            "section1": "Mara nyingi, barua pepe na ujumbe unaodai kuwa kutoka kwa mashirika yanayoaminika, makampuni na watu binafsi ni majaribio ya kuwalaghai watumiaji kushiriki taarifa nyeti (kama vile maelezo ya akaunti ya benki na manenosiri) au kusakinisha programu hasidi.",
+            "section3": "Licha ya jinsi tishio hili lilivyoenea na la kutisha -- lenye matokeo halisi ya maisha hasa kwa jamii zilizotengwa -- kuna suluhisho chache rahisi kutumia ili kujenga ujuzi wa kugundua na kushinda mashambulizi ya hadaa ipasavyo.",
+            "section4": "Ndiyo maana tuliiumba Shira."
+        },
+        "advisors": {
+            "title": "Washauri",
+            "subtitle": "Shira inaungwa mkono na bodi ya washauri, inayoundwa na wataalam wa usalama wa kidijitali na usalama wa mtandao:",
+            "person1": {
+                "name": "Amir Rashidi",
+                "job": "Mkurugenzi wa Haki na Usalama Digitali, Miaan"
+            },
+            "person2": {
+                "name": "Cheekay Cinco",
+                "job": "Mkufunzi wa Usalama wa Dijiti na Mwezeshaji"
+            },
+            "person3": {
+                "name": "Esther Onfroy",
+                "job": "Mwanzilishi mwenza, Defensive Lab Agency"
+            },
+            "person4": {
+                "name": "Happy Ayomirwoth Ongi",
+                "job": "Mshauri wa usalama wa kidijitali na Mwezeshaji"
+            },
+            "person5": {
+                "name": "Harlo Holmes",
+                "job": "Afisa Mkuu wa Usalama wa Habari na Mkurugenzi wa Usalama wa Dijiti katika Wakfu wa Freedom of the Press Foundation"
+            },
+            "person6": {
+                "name": "Lobsang Gyatso",
+                "job": "Mkurugenzi wa Teknolojia, Tibet Action Institute"
+            },
+            "person7": {
+                "name": "Mario Felaco",
+                "job": "Executive Director, Conexo"
+            },
+            "person8": {
+                "name": "Mohammed Al-Maskati",
+                "job": "Mtafiti wa usalama"
+            },
+            "person9": {
+                "name": "Nick Carr",
+                "job": "Cyber Crime Intelligence & Adversary Tradecraft, Microsoft"
+            },
+            "person10": {
+                "name": "Sadibou Sow",
+                "job": "Mshauri wa Teknolojia ya Elimu"
+            },
+            "person11": {
+                "name": "Trinh Nguyen",
+                "job": "Holistic Security Trainer, Article19"
+            }
+        },
+        "bring": {
+            "title": "Leta Shira kwenye shirika lako",
+            "section1": "Kwa chaguo-msingi, Shira inajumuisha chaguo kadhaa za kubinafsisha maswali na kuyafanya yanafaa kwa kila mtumiaji (programu, nyanja za kazi, n.k). Lakini ikiwa unataka kufanya maswali yawe ya kweli zaidi kwa wafanyakazi wako, washirika, au wanachama, tunaweza kukusaidia: tunaweza kuunda maswali maalum kulingana na kazi na muktadha wako, hata kwa kutumia mashambulizi ya maisha halisi ya kuhadaa uliyopokea, na kutoa mafunzo. kwa shirika lako.",
+            "section2": "Ikiwa hiyo inaonekana ya kufurahisha kwako au ikiwa una maswali, wasiliana nasi kwa contact@wearehorizontal.org."
+        }
+    },
+    "bottom-bar_looks-legit": "Ujumbe huu hauonekani kama jaribio la kuhadaa ili kupata maelezo ya kibinafsi.",
+    "bottom-bar_looks-like-phishing": "Baadhi ya vipengele vinapendekeza na kuonyesha kuwa ujumbe huu unaweza kuwa jaribio la kuhadaa ili kupata maelezo ya kibinafsi.",
+    "navbar": {
+        "home": "Mwanzo",
+        "about": "Kuhusu",
+        "menu": "Menyu",
+        "features": "Features",
+        "pricing": "Pricing",
+        "take_a_quiz": "Take a quiz",
+        "learn": "Learn",
+        "get_started": "Get started"
+    },
+    "beta": {
+        "label": "BETA",
+        "message": "Shira is still in development and you may experience issues.",
+        "feedback_text": "to share your feedback and help us improve!",
+        "click_here": "Click here"
+    }
+}

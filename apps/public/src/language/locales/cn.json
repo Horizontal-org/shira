@@ -2,7 +2,9 @@
     "welcome": {
         "title": "欢迎来到 Shira",
         "subtitle": "了解如何识别以及抵御网络钓鱼攻击",
-        "start": "开始测试"
+        "start": "开始测试",
+        "public_message": "Welcome to your phishing quiz. Change your language or click on \"Start quiz\" to get started.",
+        "learn_more": "Learn more about Shira"
     },
     "setup": {
         "name": {
@@ -29,24 +31,24 @@
             "back_button": "上一个",
             "next_button": "开始测试",
             "items": {
-                "human-rights": "",
-                "journalism-and-media": "",
-                "education": "",
-                "marketing": "",
-                "healthcare": "",
-                "general": ""
+                "human-rights": "人权",
+                "journalism-and-media": "新闻与媒体",
+                "education": "学术界",
+                "marketing": "营销",
+                "healthcare": "健保",
+                "general": "一般情况"
             }
         }
     },
     "quiz": {
         "how_it_works": {
             "title": "如何进行",
-            "question_count": "本测试包括 {{ count }} 个问题。",
             "explanation_1": "本测试包括 10 个问题。",
             "explanation_2": "对于每个问题，选择看起来是网络钓鱼或真实的。",
             "explanation_3": "如果不确定，可以选择“不确定”这个选项。",
             "footer_title": "测试简介",
-            "next": "确定"
+            "next": "确定",
+            "question_count": "This quiz contains {{count}} questions"
         },
         "answers": {
             "options": {
@@ -60,17 +62,17 @@
                 "incorrect": "错误",
                 "next_button": "下一个",
                 "back_button": "上一个",
-                "next_question": "",
-                "see_why": "",
+                "next_question": "下一个问题",
+                "see_why": "了解原因",
                 "bottom-bar_looks-legit": "该信息不像是网络钓鱼。",
                 "bottom-bar_looks-like-phishing": "某些内容表明，该消息可能是网络钓鱼。"
             }
         },
         "exit": {
-            "title": "",
-            "action_description": "",
-            "description": "",
-            "cancel": ""
+            "title": "退出测验？",
+            "action_description": "退出测验",
+            "description": "确定要退出此测验？完成进度将不会保留。",
+            "cancel": "取消"
         }
     },
     "feedback": {
@@ -93,7 +95,7 @@
             },
             "question_3": {
                 "title": "3. 如何改进 Shira？",
-                "input_placeholder": "在这里写下您的反馈"
+                "input_placeholder": "占位符"
             },
             "bottom_text": "点击“查看结果”之后将发送反馈"
         },
@@ -105,9 +107,9 @@
         "subtitle": "参加新的测试或查看下面的建议，以继续加强技能，从而更好地抵御网络钓鱼。",
         "back_button": "返回首页",
         "next_button": "新测验",
-        "heavy_subtitle_1": "您正确回答了 ",
-        "heavy_subtitle_2": "{{correctQuestions}} 个问题，共 {{questions}}",
-        "heavy_subtitle_3": " 个问题。",
+        "heavy_subtitle_1": "You answered ",
+        "heavy_subtitle_2": "{{correctQuestions}} out of {{questions}} ",
+        "heavy_subtitle_3": "questions correctly.",
         "greeting_title": "Thanks for using Shira!"
     },
     "about": {
@@ -204,9 +206,22 @@
             "section2": "如果对此有兴趣或疑问，请联系 contact@wearehorizontal.org。"
         }
     },
+    "bottom-bar_looks-legit": "该信息不像是网络钓鱼。",
+    "bottom-bar_looks-like-phishing": "某些内容表明，该消息可能是网络钓鱼。",
     "navbar": {
-        "home": "",
+        "home": "首页",
         "about": "关于 Shira",
-        "menu": ""
+        "menu": "菜单",
+        "features": "Features",
+        "pricing": "Pricing",
+        "take_a_quiz": "Take a quiz",
+        "learn": "Learn",
+        "get_started": "Get started"
+    },
+    "beta": {
+        "label": "BETA",
+        "message": "Shira is still in development and you may experience issues.",
+        "feedback_text": "to share your feedback and help us improve!",
+        "click_here": "Click here"
     }
 }
