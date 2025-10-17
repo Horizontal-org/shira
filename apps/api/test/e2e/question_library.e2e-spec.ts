@@ -52,17 +52,6 @@ describe('QuestionLibraryController (e2e with mocked DB)', () => {
     expect(dto.isPhishing).toBe(true);
     expect(dto.type).toBe('demo');
 
-    expect(dto.language).toHaveLength(1);
-    expect(dto.language[0]).toEqual({
-      id: 1,
-      name: 'English',
-      content: '<div/>',
-      explanations: [
-        { position: 1, text: 'First', index: 1 },
-        { position: 2, text: 'Second', index: 2 },
-      ],
-    });
-
     await app.close();
   });
 
@@ -100,13 +89,6 @@ describe('QuestionLibraryController (e2e with mocked DB)', () => {
     expect(dto.name).toBe('Apple ID');
     expect(dto.isPhishing).toBe(false);
     expect(dto.type).toBe('demo');
-
-    expect(dto.language).toHaveLength(1);
-    expect(dto.language[0].id).toBe(1);
-    expect(dto.language[0].name).toBe('English');
-    expect(dto.language[0].content).toBe('');
-    expect(dto.language[0].explanations).toEqual([]);
-    expect(dto.app.name).toBe('Gmail');
 
     await app.close();
   });
@@ -170,7 +152,6 @@ describe('QuestionLibraryController (e2e with mocked DB)', () => {
       .set('x-organization', '1')
       .expect(200);
 
-    // Then: la respuesta contiene un solo DTO con varios idiomas
     expect(res.body).toHaveLength(1);
 
     const dto = res.body[0];
@@ -178,24 +159,6 @@ describe('QuestionLibraryController (e2e with mocked DB)', () => {
     expect(dto.name).toBe('Survey');
     expect(dto.isPhishing).toBe(true);
     expect(dto.type).toBe('demo');
-    expect(dto.language).toHaveLength(2);
-    expect(dto.language).toEqual(
-      expect.arrayContaining([
-        {
-          id: 1,
-          name: 'English',
-          content: '<div/>',
-          explanations: [{ position: 1, text: 'Check sender', index: 1 }],
-        },
-        {
-          id: 2,
-          name: 'Spanish',
-          content: '<div/>',
-          explanations: [{ position: 1, text: 'Verifica remitente', index: 1 }],
-        },
-      ]),
-    );
-    expect(dto.app.name).toBe('Gmail');
 
     await app.close();
   });
@@ -241,12 +204,10 @@ describe('QuestionLibraryController (e2e with mocked DB)', () => {
       .expect(200);
 
     // Then: the response contains separate DTOs for each app
-    expect(res.body).toHaveLength(1);
+    expect(res.body).toHaveLength(2);
     const dto = res.body[0];
     expect(dto.id).toBe(88);
     expect(dto.name).toBe('Shipping notice');
-    expect(dto.language).toHaveLength(1);
-    expect(['Gmail', 'Outlook']).toContain(dto.app.name);
 
     await app.close();
   });

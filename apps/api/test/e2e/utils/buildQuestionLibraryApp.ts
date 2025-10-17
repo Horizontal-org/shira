@@ -23,18 +23,10 @@ export type RawRow = {
   e_index: number | null;
 };
 
-/**
- * Transforma rawRows en entidades Question con sus relaciones,
- * cuidando de:
- *  - no duplicar lenguajes
- *  - incluir traducciones aunque content sea vacío
- *  - separar entidades por app
- */
 function rowsToEntities(rawRows: RawRow[]): Question[] {
   const grouped = new Map<string, Question>();
 
   for (const row of rawRows) {
-    // agrupar por questionId + app_name
     const key = `${row.q_id}-${row.app_name ?? ''}`;
     let q = grouped.get(key);
     if (!q) {
@@ -50,7 +42,6 @@ function rowsToEntities(rawRows: RawRow[]): Question[] {
       grouped.set(key, q);
     }
 
-    // añadir traducción de la pregunta (siempre, aunque content sea vacío)
     if (row.lang_id) {
       let qt = (q.questionTranslations as any).find((t: any) => t.languageId === row.lang_id);
       if (!qt) {
@@ -63,7 +54,6 @@ function rowsToEntities(rawRows: RawRow[]): Question[] {
       }
     }
 
-    // añadir explicaciones si existen
     if (row.e_index != null && row.e_text != null) {
       const exp = {
         index: row.e_index,
