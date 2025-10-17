@@ -2,7 +2,9 @@
     "welcome": {
         "title": "Bienvenue à Shira",
         "subtitle": "Apprendre à identifier et à déjouer les tentatives d'hameçonnage",
-        "start": "Lancer le quiz"
+        "start": "Lancer le quiz",
+        "public_message": "Welcome to your phishing quiz. Change your language or click on \"Start quiz\" to get started.",
+        "learn_more": "Learn more about Shira"
     },
     "setup": {
         "name": {
@@ -12,7 +14,7 @@
             "name": "Nom",
             "email": "E-mail",
             "random_button": "Générer un nom et une adresse email aléatoires",
-            "next_button": "Suivant",
+            "next_button": "Poursuivre",
             "footer_title": "Configuration du quiz"
         },
         "apps": {
@@ -20,7 +22,7 @@
             "select": "Sélectionnez au moins 1",
             "footer_title": "Configuration du quiz",
             "back_button": "Retour",
-            "next_button": "Suivant"
+            "next_button": "Poursuivre"
         },
         "fields_of_work": {
             "title": "Quels sont les domaines qui vous intéressent?",
@@ -42,11 +44,11 @@
         "how_it_works": {
             "title": "Comment ça marche",
             "explanation_1": "Ce quiz comporte 10 questions.",
-            "question_count": "Ce quiz comporte {{ count }} questions.",
             "explanation_2": "Pour chaque question, choisissez si le message affiché ressemble à une tentative d'hameçonnage ou semble légitime.",
             "explanation_3": "Si vous n'êtes pas sûr, vous pouvez sélectionner l'option \"Je ne sais pas\".",
             "footer_title": "Intro du quiz",
-            "next": "OK"
+            "next": "Valider",
+            "question_count": "This quiz contains {{count}} questions"
         },
         "answers": {
             "options": {
@@ -58,7 +60,7 @@
                 "unsure": "\"Je ne sais pas\"",
                 "correct": "Bon travail !",
                 "incorrect": "Incorrect",
-                "next_button": "Suivant",
+                "next_button": "Poursuivre",
                 "back_button": "Retour",
                 "next_question": "Question suivante",
                 "see_why": "Voir pourquoi",
@@ -93,7 +95,7 @@
             },
             "question_3": {
                 "title": "3. Comment pouvons-nous améliorer Shira?",
-                "input_placeholder": "Écrivez vos commentaires ici"
+                "input_placeholder": "Espace réservé"
             },
             "bottom_text": "Vos commentaires seront envoyés lorsque vous cliquerez sur \"voir les résultats\""
         },
@@ -105,11 +107,10 @@
         "subtitle": "Répondez à un nouveau quiz ou consultez quelques recommandations ci-dessous pour continuer à renforcer vos compétences et mieux éviter l'hameçonnage.",
         "back_button": "Retour a l'accueil",
         "next_button": "Nouveau quiz",
-        "heavy_subtitle_1": "Vous avez répondu correctement à ",
-        "heavy_subtitle_2": "{{correctQuestions}} sur {{questions}}",
-        "heavy_subtitle_3": ".",
+        "heavy_subtitle_1": "You answered ",
+        "heavy_subtitle_2": "{{correctQuestions}} out of {{questions}} ",
+        "heavy_subtitle_3": "questions correctly.",
         "greeting_title": "Thanks for using Shira!"
-
     },
     "about": {
         "title": "À propos",
@@ -205,9 +206,22 @@
             "section2": "Si cela vous semble intéressant ou si vous avez des questions, contactez-nous à contact@wearehorizontal.org."
         }
     },
+    "bottom-bar_looks-legit": "Ce message ne ressemble pas à une tentative d’hameçonnage.",
+    "bottom-bar_looks-like-phishing": "Certains éléments suggèrent que ce message pourrait être une tentative d’hameçonnage.",
     "navbar": {
         "home": "Accueil",
         "about": "À propos",
-        "menu": "Menu"
+        "menu": "Menu",
+        "features": "Features",
+        "pricing": "Pricing",
+        "take_a_quiz": "Take a quiz",
+        "learn": "Learn",
+        "get_started": "Commencez"
+    },
+    "beta": {
+        "label": "BETA",
+        "message": "Shira is still in development and you may experience issues.",
+        "feedback_text": "to share your feedback and help us improve!",
+        "click_here": "Click here"
     }
 }
