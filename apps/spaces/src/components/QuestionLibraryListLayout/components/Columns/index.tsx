@@ -15,9 +15,15 @@ export type Language = {
   name: string;
 };
 
-export type LanguageVariant = Language & {
+export type LanguageOption = Language & {
   content: string;
   explanations: Explanation[];
+};
+
+export type AppOption = {
+  id: number;
+  name: string;
+  type: string;
 };
 
 export type RowType = {
@@ -25,19 +31,20 @@ export type RowType = {
   name: string;
   isPhishing: boolean;
   type: string;
-  app: App;
 
   language: Language;
   content: string;
   explanations: Explanation[];
 
-  languages: LanguageVariant[];
+  apps: AppOption[];
+  languages: LanguageOption[];
 };
 
 type ColumnHandlers = {
   onPreview?: (q: RowType) => void;
   onAdd?: (q: RowType) => void;
   onSelectLanguage?: (questionId: number, languageId: number) => void;
+  onSelectApp?: (questionId: number, appId: number) => void;
 };
 
 const appIcons: Record<string, JSX.Element> = {

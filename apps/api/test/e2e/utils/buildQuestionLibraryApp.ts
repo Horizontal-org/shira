@@ -9,29 +9,109 @@ import { TYPES as QUESTION_LIBRARY_TYPES } from '../../../src/modules/question_l
 import { TYPES as AUTH_TYPES } from '../../../src/modules/auth/interfaces/types';
 import { Question } from '../../../src/modules/question/domain/question.entity';
 
-export type RawRow = Record<string, any>;
+export type RawRow = {
+  q_id: number;
+  q_name: string;
+  q_is_phishing: number;
+  q_type: string;
+  qt_content: string | null;
+  lang_id: number;
+  lang_name: string;
+  app_name: string;
+  e_position: number | null;
+  e_text: string | null;
+  e_index: number | null;
+};
 
-export function makeQb(rawRows: RawRow[]) {
+/**
+ * Transforma rawRows en entidades Question con sus relaciones,
+ * cuidando de:
+ *  - no duplicar lenguajes
+ *  - incluir traducciones aunque content sea vacío
+ *  - separar entidades por app
+ */
+function rowsToEntities(rawRows: RawRow[]): Question[] {
+  const grouped = new Map<string, Question>();
+
+  for (const row of rawRows) {
+    // agrupar por questionId + app_name
+    const key = `${row.q_id}-${row.app_name ?? ''}`;
+    let q = grouped.get(key);
+    if (!q) {
+      q = {
+        id: row.q_id,
+        name: row.q_name,
+        isPhising: row.q_is_phishing,
+        type: row.q_type as any,
+        apps: row.app_name ? [{ id: 1, name: row.app_name, type: 'email' }] : [],
+        questionTranslations: [],
+        explanations: [],
+      } as any;
+      grouped.set(key, q);
+    }
+
+    // añadir traducción de la pregunta (siempre, aunque content sea vacío)
+    if (row.lang_id) {
+      let qt = (q.questionTranslations as any).find((t: any) => t.languageId === row.lang_id);
+      if (!qt) {
+        qt = {
+          content: row.qt_content ?? '',
+          languageId: row.lang_id,
+          language: { id: row.lang_id, name: row.lang_name },
+        };
+        (q.questionTranslations as any).push(qt);
+      }
+    }
+
+    // añadir explicaciones si existen
+    if (row.e_index != null && row.e_text != null) {
+      const exp = {
+        index: row.e_index,
+        position: row.e_position,
+        explanationTranslations: [
+          {
+            content: row.e_text,
+            languageId: row.lang_id,
+            language: { id: row.lang_id, name: row.lang_name },
+          },
+        ],
+      };
+      (q.explanations as any).push(exp);
+    }
+  }
+
+  return Array.from(grouped.values());
+}
+
+export async function buildQuestionLibraryApp(
+  rawRows: RawRow[],
+): Promise<{ app: INestApplication; repoMock: any; qb: any }> {
+  const entities = rowsToEntities(rawRows);
+
   const qb: any = {
     leftJoin: jest.fn(() => qb),
-    select: jest.fn(() => qb),
+    leftJoinAndSelect: jest.fn(() => qb),
+    leftJoinAndMapOne: jest.fn(() => qb),
     where: jest.fn(() => qb),
     andWhere: jest.fn(() => qb),
     orderBy: jest.fn(() => qb),
-    getRawMany: jest.fn(async () => rawRows),
+    addOrderBy: jest.fn(() => qb),
+    getMany: jest.fn(async () => entities),
   };
-  return qb;
-}
 
-export async function buildQuestionLibraryApp(rawRows: RawRow[]): Promise<{ app: INestApplication, repoMock: any, qb: any }> {
-  const qb = makeQb(rawRows);
   const repoMock = { createQueryBuilder: jest.fn(() => qb) };
 
   const moduleRef: TestingModule = await Test.createTestingModule({
     controllers: [QuestionLibraryController],
     providers: [
-      { provide: QUESTION_LIBRARY_TYPES.services.IGetLibraryQuestionService, useClass: GetLibraryQuestionService },
-      { provide: QUESTION_LIBRARY_TYPES.services.IDuplicateLibraryQuestionService, useValue: { execute: jest.fn() } },
+      {
+        provide: QUESTION_LIBRARY_TYPES.services.IGetLibraryQuestionService,
+        useClass: GetLibraryQuestionService,
+      },
+      {
+        provide: QUESTION_LIBRARY_TYPES.services.IDuplicateLibraryQuestionService,
+        useValue: { execute: jest.fn() },
+      },
       { provide: getRepositoryToken(Question), useValue: repoMock },
       { provide: AUTH_TYPES.services.IUserContextService, useValue: mockUserContextService },
     ],

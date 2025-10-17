@@ -4,7 +4,7 @@ import "../../fonts/GoogleSans/style.css";
 import "../../fonts/Segoe/style.css";
 import { MdBlock } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
-import { Explanation, QuestionToDuplicate } from "../../fetch/question_library";
+import { ExplanationDto, QuestionToDuplicate } from "../../fetch/question_library";
 import { AppLayout } from "./AppLayout";
 
 export type UIExplanation = {
@@ -16,7 +16,7 @@ export type UIExplanation = {
 interface Props {
   question?: QuestionToDuplicate;
   onClose?: () => void;
-  explanations: Explanation[];
+  explanations: ExplanationDto[];
 }
 
 export const QuestionPreview: FunctionComponent<Props> = ({ question, onClose, explanations }) => {
@@ -33,7 +33,7 @@ export const QuestionPreview: FunctionComponent<Props> = ({ question, onClose, e
 
   if (!question) return null;
 
-  const mapToUIExplanations = (items: Explanation[]): UIExplanation[] =>
+  const mapToUIExplanations = (items: ExplanationDto[]): UIExplanation[] =>
     items.map((e) => ({
       position: e.position.toString(),
       text: e.text,

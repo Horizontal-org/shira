@@ -12,7 +12,7 @@ export interface Language {
   name: string;
 }
 
-export interface Explanation {
+export interface ExplanationDto {
   position: number;
   text: string;
   index: number;
@@ -26,14 +26,14 @@ export interface QuestionToDuplicate {
   content: string;
   language: Language;
   app: App;
-  explanations: Explanation[];
+  explanations: ExplanationDto[];
 };
 
 export type LanguageDto = {
   id: number;
   name: string;
   content: string;
-  explanations: Explanation[];
+  explanations: ExplanationDto[];
 };
 
 export type QuestionLibraryDto = {
@@ -41,7 +41,7 @@ export type QuestionLibraryDto = {
   name: string;
   isPhishing: boolean;
   type: string;
-  app: App;
+  app: App[];
   language: LanguageDto[];
 };
 

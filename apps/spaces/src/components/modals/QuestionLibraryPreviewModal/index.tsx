@@ -1,13 +1,13 @@
 import { FunctionComponent } from "react";
 import { styled, Button, defaultTheme } from "@shira/ui";
 import { QuestionPreview } from "../../QuestionPreview";
-import { Explanation } from "../../../fetch/question_library";
+import { ExplanationDto } from "../../../fetch/question_library";
 import { FiPlus } from "react-icons/fi";
 import { QuestionToDuplicate } from "../../../fetch/question_library";
 
 type Props = {
   question: QuestionToDuplicate;
-  explanations: Explanation[];
+  explanations: ExplanationDto[];
   onAdd: () => void;
   onClose: () => void;
 };

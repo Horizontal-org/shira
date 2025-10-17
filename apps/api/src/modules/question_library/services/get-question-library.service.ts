@@ -16,7 +16,7 @@ export class GetLibraryQuestionService implements IGetLibraryQuestionService {
   async execute(): Promise<QuestionLibraryDto[]> {
     const questions = await this.questionRepo
       .createQueryBuilder('q')
-      .leftJoinAndSelect('q.apps', 'app')
+      .leftJoinAndSelect('q.apps', 'apps')
       .leftJoinAndSelect('q.questionTranslations', 'qt')
       .leftJoinAndMapOne('qt.language', Language, 'lang', 'lang.id = qt.languageId')
       .leftJoinAndSelect('q.explanations', 'exp')
@@ -29,7 +29,10 @@ export class GetLibraryQuestionService implements IGetLibraryQuestionService {
       .getMany();
 
     return questions.map(q => {
-      const firstApp = q.apps?.[0]; // TODO handle multiple apps
+      const apps = q.apps?.map(app => ({
+        id: app.id,
+        name: app.name,
+      })) || [];
 
       const languages = q.questionTranslations
         .filter(tr => tr.content)
@@ -63,7 +66,7 @@ export class GetLibraryQuestionService implements IGetLibraryQuestionService {
         name: q.name,
         isPhishing: Boolean(q.isPhising),
         type: q.type,
-        app: { id: firstApp.id, name: firstApp.name, type: firstApp.type },
+        app: apps,
         language: languages,
       };
     });

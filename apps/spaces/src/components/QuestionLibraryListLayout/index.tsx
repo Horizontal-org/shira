@@ -12,7 +12,8 @@ import { libraryToActiveQuestion } from "../../utils/active_question/libraryToQu
 import { QuizSuccessStates } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
 import { getColumns } from "./components/Columns";
-import type { RowType, LanguageVariant } from "./components/Columns";
+import type { RowType } from "./components/Columns";
+import { libraryQuestionToRow } from "./components/Columns/libraryQuestionToRow";
 
 type Props = {
   rows?: RowType[];
@@ -32,10 +33,10 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
     setQuizActionSuccess: state.setQuizActionSuccess
   }), shallow)
 
-  const [preview, setPreview] = useState<{ active: ActiveQuestion; original: RowType } | null>(null);
+  const [preview, setPreview] = useState<{ active: ActiveQuestion; original: RowType }>(null);
   const [rows, setRows] = useState<RowType[]>(rowsProp ?? []);
   const [loading, setLoading] = useState(false);
-  const [err, setErr] = useState<string | null>(null);
+  const [err, setErr] = useState<string>("");
 
   useEffect(() => {
     if (actionFeedback === LibraryQuestionFeedback.Success) {
@@ -48,43 +49,6 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
     }
   }, [actionFeedback, navigate, quizId, setQuizActionSuccess]);
 
-  const normalize = (apiObj: any): RowType[] => {
-    const entries = Object.values(apiObj ?? {}) as any[];
-
-    return entries.map((q) => {
-      const variants: LanguageVariant[] = (q.language ?? []).map((l: any) => ({
-        id: Number(l.id),
-        name: String(l.name),
-        content: String(l.content ?? ""),
-        explanations: (l.explanations ?? []).map((e: any) => ({
-          index: Number(e.index),
-          position: Number(e.position),
-          text: String(e.text ?? ""),
-        })),
-      }));
-
-      const defaultLang =
-        variants.find((v) => v.name.toLowerCase().startsWith("english")) ??
-        variants[0];
-
-      return {
-        id: Number(q.id),
-        name: String(q.name),
-        isPhishing: Boolean(q.isPhishing),
-        type: String(q.type),
-        app: {
-          id: Number(q.app?.id),
-          name: String(q.app?.name),
-          type: String(q.app?.type),
-        },
-        language: { id: defaultLang?.id, name: defaultLang?.name },
-        content: defaultLang?.content ?? "",
-        explanations: defaultLang?.explanations ?? [],
-        languages: variants,
-      } as RowType;
-    });
-  };
-
   useEffect(() => {
     if (controlled) {
       setRows(rowsProp ?? []);
@@ -96,7 +60,7 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
       setLoading(true);
       try {
         const data = await getLibraryQuestions();
-        const normalized = normalize(data);
+        const normalized = libraryQuestionToRow(data);
         if (alive) setRows(normalized);
       } catch (e: any) {
         if (alive) setErr(e?.message ? String(e.message) : "Failed to load questions");
@@ -118,7 +82,7 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
   };
 
   const handleAdd = (q: RowType) => {
-    duplicate(parseInt(quizId), q.id, q.language.id, Number(q.app.id));
+    duplicate(parseInt(quizId), q.id, q.language.id, Number(q.apps[0].id)); // TODO handle multiple apps
   };
 
   const handleSelectLanguage = (questionId: number, languageId: number) => {
@@ -173,9 +137,7 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
             {!controlled && (
               <RetryButton
                 type="button"
-                onClick={() =>
-                  getLibraryQuestions().then((d) => setRows(normalize(d)))
-                }
+                onClick={() => getLibraryQuestions()}
               >
                 Retry
               </RetryButton>
@@ -276,7 +238,7 @@ const TheadRow = styled("tr")`
   background-color: ${defaultTheme.colors.light.paleGreen};
 `;
 
-const Th = styled("th")<{ $first?: boolean; $last?: boolean }>`
+const Th = styled("th") <{ $first?: boolean; $last?: boolean }>`
   text-align: left;
   padding: 14px 16px;
   font-weight: 600;
