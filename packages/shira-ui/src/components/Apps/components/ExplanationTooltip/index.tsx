@@ -125,6 +125,9 @@ const TooltipContent = styled.div<{ isUrl: boolean }>`
     word-wrap: break-word;
     max-width: 280px;
   `}
+
+  max-height: 600px;
+  overflow-y: auto;
 `
 
 export default ExplanationTooltip
