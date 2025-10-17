@@ -2,7 +2,7 @@ import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { useNavigate, useLocation } from "react-router-dom";
 import { shallow } from "zustand/shallow";
-import { styled, Body1, H2, Box, defaultTheme } from "@shira/ui";
+import { styled, Body1, H2, Box, defaultTheme, Body3 } from "@shira/ui";
 import { QuestionLibraryFlowManagement } from "../QuestionLibraryFlowManagement";
 import { QuestionLibraryPreviewModal } from "../modals/QuestionLibraryPreviewModal";
 import { LibraryQuestionFeedback, getLibraryQuestions, useLibraryQuestionCRUD } from "../../fetch/question_library";
@@ -200,13 +200,13 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
             {loading ? (
               <Tr>
                 <Td colSpan={totalColumns}>
-                  <Body1>Loading questions…</Body1>
+                  <CenteredBody>Loading questions…</CenteredBody>
                 </Td>
               </Tr>
             ) : table.getRowModel().rows.length === 0 ? (
               <Tr>
                 <Td colSpan={totalColumns}>
-                  <Body1>No questions found.</Body1>
+                  <CenteredBody>No questions found.</CenteredBody>
                 </Td>
               </Tr>
             ) : (
@@ -297,6 +297,12 @@ const Tr = styled("tr")`
 const Td = styled("td")`
   padding: 14px 16px;
   vertical-align: middle;
+`;
+
+const CenteredBody = styled(Body3)`
+  text-align: center;
+  font-weight: 400;
+  font-size: 14px;
 `;
 
 const MiddleBody = styled(Body1)`
