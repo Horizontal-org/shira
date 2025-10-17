@@ -6,6 +6,6 @@ export class QuestionLibraryDto {
   name: string;
   isPhishing: boolean;
   type: string;
-  language: Language[];
-  app: App[];
+  languages: Language[];
+  apps: App[];
 }

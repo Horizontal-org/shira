@@ -33,6 +33,7 @@ export type RowType = {
   type: string;
 
   language: Language;
+  app: App;
   content: string;
   explanations: Explanation[];
 
@@ -108,16 +109,29 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
   },
   {
     header: "App",
-    accessorKey: "app",
     id: "app",
-    cell: (c) => {
-      const app = c.getValue() as App;
-      const appName = app.name;
+    cell: ({ row }) => {
+      console.log("row", row);
+      const current = row.original.app;
+      const apps = row.original.apps;
+
       return (
-        <AppCell>
-          {appIcons[appName.toLowerCase()]}
-          {appName}
-        </AppCell>
+        <AppSelectRow>
+          <StyledSelect
+            value={String(current?.id ?? "")}
+            onChange={(e) => {
+              const pickedId = Number(e.target.value);
+              handlers.onSelectApp?.(row.original.id, pickedId);
+            }}
+            aria-label="Select app"
+          >
+            {apps.map((app) => (
+              <StyledOption key={app.id} value={String(app.id)}>
+                {app.name}
+              </StyledOption>
+            ))}
+          </StyledSelect>
+        </AppSelectRow>
       );
     },
   },
@@ -125,6 +139,7 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
     header: "Actions",
     id: "actions",
     cell: ({ row }) => (
+      console.log("row in actions:", row),
       <ActionsCell>
         <ActionButton
           aria-label="Preview question"
@@ -205,4 +220,10 @@ const StyledSelect = styled("select")`
 const StyledOption = styled("option")`
   font-size: 14px;
   padding: 6px 10px;
+`;
+
+const AppSelectRow = styled("div")`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 `;

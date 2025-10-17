@@ -32,6 +32,7 @@ export class GetLibraryQuestionService implements IGetLibraryQuestionService {
       const apps = q.apps?.map(app => ({
         id: app.id,
         name: app.name,
+        type: app.type,
       })) || [];
 
       const languages = q.questionTranslations
@@ -66,9 +67,9 @@ export class GetLibraryQuestionService implements IGetLibraryQuestionService {
         name: q.name,
         isPhishing: Boolean(q.isPhising),
         type: q.type,
-        app: apps,
-        language: languages,
-      };
+        apps: apps,
+        languages: languages,
+      } as QuestionLibraryDto;
     });
   }
 

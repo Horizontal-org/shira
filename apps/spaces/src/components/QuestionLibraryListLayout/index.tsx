@@ -8,7 +8,7 @@ import { QuestionLibraryPreviewModal } from "../modals/QuestionLibraryPreviewMod
 import { LibraryQuestionFeedback, getLibraryQuestions, useLibraryQuestionCRUD } from "../../fetch/question_library";
 import type { ActiveQuestion } from "../../store/types/active_question";
 import { useStore } from "../../store";
-import { libraryToActiveQuestion } from "../../utils/active_question/libraryToQuestion";
+import { libraryToActiveQuestion } from "../../utils/active_question/libraryToActiveQuestion";
 import { QuizSuccessStates } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
 import { getColumns } from "./components/Columns";
@@ -75,14 +75,14 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
     useStore((s: any) => s.setActiveQuestion) ||
     ((aq: ActiveQuestion) => useStore.setState({ activeQuestion: aq }));
 
-  const handlePreview = (q: RowType) => {
-    const active = libraryToActiveQuestion(q);
+  const handlePreview = (row: RowType) => {
+    const active = libraryToActiveQuestion(row);
     setActiveQuestion(active);
-    setPreview({ active, original: q });
+    setPreview({ active, original: row });
   };
 
   const handleAdd = (q: RowType) => {
-    duplicate(parseInt(quizId), q.id, q.language.id, Number(q.apps[0].id)); // TODO handle multiple apps
+    duplicate(parseInt(quizId), q.id, q.language.id, q.app.id);
   };
 
   const handleSelectLanguage = (questionId: number, languageId: number) => {
