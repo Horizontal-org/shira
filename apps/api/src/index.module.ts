@@ -7,6 +7,7 @@ import { IndexService } from './index.service';
 import { typeOrmModuleOptions } from './ormconfig';
 import { AppModule } from './modules/app/app.module';
 import { FieldOfWorkModule } from './modules/field_of_work/field_of_work.module';
+import { QuestionLibraryModule } from './modules/question_library/question.library.module';
 import { QuestionModule } from './modules/question/question.module';
 import { LanguageModule } from './modules/languages/language.module';
 import { TranslationModule } from './modules/translation/translation.module';
@@ -23,6 +24,7 @@ import { QuestionImageModule } from './modules/question_image/question_image.mod
 import { ImageModule } from './modules/image/image.module';
 import { OrganizationModule } from './modules/organization/organization.module';
 import { BillingModule } from './modules/billing/billing.module';
+import { QuizResultModule } from './modules/quiz_result/quiz-result.module';
 
 @Module({
   imports: [
@@ -35,6 +37,7 @@ import { BillingModule } from './modules/billing/billing.module';
     EmailModule,
     ConsoleModule,
     FieldOfWorkModule,
+    QuestionLibraryModule,
     QuestionModule,
     QuestionImageModule,
     UserModule,
@@ -44,6 +47,7 @@ import { BillingModule } from './modules/billing/billing.module';
     LanguageModule,
     PassphraseModule,
     QuizModule,
+    QuizResultModule,
     OrganizationModule,
     BillingModule
   ],

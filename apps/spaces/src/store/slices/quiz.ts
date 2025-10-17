@@ -1,6 +1,5 @@
 import { StateCreator } from "zustand"
 import { createQuiz, deleteQuiz, getQuizzes, reorderQuiz, ReorderQuizPayload, updateQuiz, UpdateQuizPayload } from "../../fetch/quiz";
-import { Type } from "typescript";
 
 export enum QuizSuccessStates {
   update = 'UPDATE',
@@ -10,6 +9,7 @@ export enum QuizSuccessStates {
   question_created = 'QUESTION_CREATED',
   question_updated = 'QUESTION_UPDATED',
   question_deleted = 'QUESTION_DELETED',
+  question_added_from_library = 'QUESTION_ADDED_FROM_LIBRARY',
 }
 
 export const SUCCESS_MESSAGES = {
@@ -20,6 +20,7 @@ export const SUCCESS_MESSAGES = {
   [QuizSuccessStates.question_created]: 'Question created',
   [QuizSuccessStates.question_updated]: 'Question updated',
   [QuizSuccessStates.question_deleted]: 'Question deleted',
+  [QuizSuccessStates.question_added_from_library]: 'The question has been added to your quiz',
 };
 
 export interface QuizQuestion {

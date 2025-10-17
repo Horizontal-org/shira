@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react'
 import { Explanation } from '../../../../domain/explanation';
 import useParseHTML from '../../../../hooks/useParseHTML';
 import { useStore } from '../../../../store';
-import { Gmail } from '@shira/ui';
+import { Gmail, Outlook } from '@shira/ui';
 
 interface Props {
   content: string;
@@ -32,6 +32,20 @@ export const MailApps: FunctionComponent<Props> = ({ content, name, explanations
     <>
       { name === 'Gmail' && (
         <Gmail 
+          senderName={parseCustomElement('component-required-sender-name')}
+          senderEmail={parseCustomElement('component-required-sender-email')}
+          receiverEmail={persistedEmail}
+          receiverName={persistedName}
+          subject={parseCustomElement('component-optional-subject')}
+          content={parseContent()}
+          attachments={parseAttachments()}
+          explanations={explanations}
+          explanationNumber={explanationNumber}
+          showExplanations={showExplanations}
+        />
+      )}
+      { name === 'Outlook' && (
+        <Outlook 
           senderName={parseCustomElement('component-required-sender-name')}
           senderEmail={parseCustomElement('component-required-sender-email')}
           receiverEmail={persistedEmail}

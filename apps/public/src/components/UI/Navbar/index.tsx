@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from 'react'
-import { styled } from '@shira/ui'
+import { styled, Button } from '@shira/ui'
 import Logo  from '../Icons/Logo'
 import { useNavigate } from 'react-router-dom'
 import { MobileMenu } from './components/MobileMenu'
@@ -15,6 +15,10 @@ export const Navbar: FunctionComponent<Props> = ({ color }) => {
 
   const [mobileMenu, handleMobileMenu] = useState(false)
 
+  const handleExternalLink = (url: string) => {
+    window.location.href = url
+  }
+
   return (
     <NavbarWrapper color={color}>
       <div>     
@@ -25,14 +29,38 @@ export const Navbar: FunctionComponent<Props> = ({ color }) => {
             <Link onClick={() => { navigate('/') }}>
               {t('navbar.home')}
             </Link>
-            {/* <Link onClick={() => { navigate('/resources') }}>
-              Resources
-            </Link> */}
-            <Link onClick={() => { navigate('/about') }}>
-            {t('navbar.about')}
+
+            <Link onClick={() => { handleExternalLink('https://www.shira.app/features') }}>
+              {t('navbar.features')}
+            </Link>
+
+            <Link onClick={() => { handleExternalLink('https://www.shira.app/pricing') }}>
+              {t('navbar.pricing')}
+            </Link>
+
+            <Link onClick={() => { window.location.reload() }}>
+              {t('navbar.take_a_quiz')}
+            </Link>
+
+            <Link onClick={() => { handleExternalLink('https://www.shira.app/phishing') }}>
+              {t('navbar.learn')}
+            </Link>
+            
+            <Link onClick={() => { handleExternalLink('https://www.shira.app/about') }}>
+              {t('navbar.about')}
             </Link>
           </Nav>
         </LeftNavbar>
+
+        <DesktopRightNavbar>
+          <Button
+              text={t('navbar.get_started')}
+              type="primary"
+              color='#849D29'
+              onClick={() => { handleExternalLink('https://www.shira.app/contact') }}
+            />
+        </DesktopRightNavbar>
+
         
         <RightNavbar onClick={() => {
           handleMobileMenu(true)
@@ -80,6 +108,16 @@ const LeftNavbar = styled.div`
   padding: ${props => props.theme.spacing.md};
   position: relative;
   background: ${props => props.color ? props.color : 'transparent'};
+`
+
+const DesktopRightNavbar = styled.div`
+  display: flex;
+  align-items: center;
+  padding: ${props => props.theme.spacing.md};
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    display: none;
+  }
 `
 
 const RightNavbar = styled.div`

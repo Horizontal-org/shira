@@ -7,6 +7,7 @@ import { GetByIdUserApplication } from './applications/get-by-id.user.applicatio
 import { FindByidUserService } from './services/find-by-id.user.service';
 import { CreateUserApplication } from './applications/create.user.application';
 import { CreateUserService } from './services/create.user.service';
+import { MarkUserLoginService } from './services/mark.user.login.service';
 
 
 // export const findByUsernameUserApplicationProvider = {
@@ -49,6 +50,11 @@ export const findByIdUserServiceProvider = {
   useClass: FindByidUserService,
 };
 
+export const markUserLoginServiceProvider = {
+  provide: TYPES.services.IMarkUserLoginService,
+  useClass: MarkUserLoginService,
+};
+
 
 export const applicationsUserProviders = [
   checkPasswordUserApplicationProvider,
@@ -59,5 +65,6 @@ export const applicationsUserProviders = [
 export const servicesUserProviders = [
   findByUernameUserServiceProvider,
   findByIdUserServiceProvider,
-  createUserServiceProvider
+  createUserServiceProvider,
+  markUserLoginServiceProvider
 ];
