@@ -24,7 +24,8 @@ export const SelectLanguage: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (!initiallyShowPlaceholder) return;
-  }, [valueId, initiallyShowPlaceholder]);
+    setShowPlaceholder(true);
+  }, [initiallyShowPlaceholder]);
 
   const selectOptions = useMemo(
     () =>
