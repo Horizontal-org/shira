@@ -1,100 +1,101 @@
-import {
-  FunctionComponent,
-  useState,
-  useRef,
-} from "react";
-import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
-import { MobileOptions } from "./MobileOptions";
-import { Option } from "./Option";
-import { useLanguageSelection } from "./useLanguageSelection";
+import { FunctionComponent, useState, useRef } from "react";
+import { Option as SelectOption } from "./Option";
 import { useOnClickOutside } from "./useOnClickOutside";
-import { Body4 } from "../Typography";
-import LanguageIcon from "../Icons/LanguageIcon";
 import { styled } from "styled-components";
 import { defaultTheme } from "../../theme";
+import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { MobileOptions } from "./MobileOptions";
 
 export interface OptionInterface {
   label: string;
-  labelEnglish: string;
   value: string;
+  labelEnglish?: string;
+  leftIcon?: React.ReactNode;
 }
 
 export interface SmallSelectProps {
-  autoselect?: boolean;
   options: OptionInterface[];
+  value?: string;
   onChange: (value: string) => void;
-  placeholder?: string;
+  initialPlaceholder?: string;
+  placeholderLeftIcon?: React.ReactNode;
+  fixedLeftIcon?: React.ReactNode;
 }
 
 export const SmallSelect: FunctionComponent<SmallSelectProps> = ({
   options,
-  autoselect,
+  value,
   onChange,
-  placeholder,
+  initialPlaceholder,
+  placeholderLeftIcon,
+  fixedLeftIcon
 }) => {
 
-  const optionsRef = useRef(null)
-  useOnClickOutside(optionsRef, () => {
-    if (open) handleOpen(false)
-  })
+  const optionsRef = useRef(null);
+  const [open, setOpen] = useState(false);
 
-  const [open, handleOpen] = useState<boolean>(false)
-  const { selected, handleSelected } = useLanguageSelection({
-    options,
-    autoselect,
-    onChange
+  useOnClickOutside(optionsRef, () => {
+    if (open) { setOpen(false); isSelected = false; }
   });
 
-  const hasSelection = Boolean(selected);
+  const selected = options.find((o) => o.value === value);
+
+  let isSelected = Boolean(selected);
+  const currentLeftIcon =
+    fixedLeftIcon ?? (
+      isSelected
+        ? selected?.leftIcon
+        : placeholderLeftIcon
+    );
 
   return (
     <StyledSelect ref={optionsRef}>
 
-      <SelectBox onClick={() => { handleOpen(!open) }}>
-        <div>
+      <SelectBox
+        tabIndex={0}
+        onClick={() => { setOpen(!open) }}
+      >
+        <OptionWrapper>
           <LeftIcon>
-            <LanguageIcon />
+            {currentLeftIcon}
           </LeftIcon>
           <Label
-            aria-label={hasSelection ? selected!.label : placeholder}
-            data-placeholder={hasSelection ? "false" : "true"}
+            aria-label={isSelected ? selected!.label : (initialPlaceholder ?? '')}
+            data-placeholder={isSelected ? "false" : "true"}
           >
-            {hasSelection ? selected!.label : placeholder}
+            {isSelected ? selected!.label : initialPlaceholder}
           </Label>
-        </div>
+        </OptionWrapper>
         {open ? <FiChevronUp size={16} /> : <FiChevronDown size={16} />}
       </SelectBox>
 
-      {open && (
-        <>
-          <Options>
-            {options.map((o, i) => (
-              <Body4>
-                <Option
-                  key={o.value}
-                  option={o}
-                  index={i}
+      {
+        open && (
+          <>
+            <Options role="listbox">
+              {options.map((option, index) => (
+                <SelectOption
+                  key={option.value}
+                  option={option}
+                  index={index}
                   submit={() => {
-                    handleSelected(o)
-                    handleOpen(false)
-                    onChange(o.value)
+                    setOpen(false)
+                    onChange(option.value)
                   }}
                 />
-              </Body4>
-            ))}
-          </Options>
+              ))}
+            </Options>
 
-          <MobileOptions
-            cancel={() => { handleOpen(false) }}
-            options={options}
-            submit={(o) => {
-              handleSelected(o)
-              handleOpen(false)
-              onChange(o.value)
-            }}
-          />
-        </>
-      )
+            <MobileOptions
+              cancel={() => { setOpen(false) }}
+              options={options}
+              submit={(o) => {
+                setOpen(false)
+                onChange(o.value)
+              }}
+            />
+          </>
+        )
       }
     </StyledSelect >
   )
@@ -102,19 +103,22 @@ export const SmallSelect: FunctionComponent<SmallSelectProps> = ({
 
 const StyledSelect = styled.div`
   position: relative;
-  min-width: 210px;
+  min-width: 100px;
 `;
 
 const SelectBox = styled.div`
-
-  background: white;
+  background: ${defaultTheme.colors.light.white};
+  color: ${defaultTheme.colors.dark.darkGrey};
   border-radius: 100px;
   padding: 6px 10px;
   cursor: pointer;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  box-shadow: rgba(0, 0, 0, 0.4) 5px 2px 28px -8px;
+  justify-content: space-between;
+  gap: 6px;
+  box-shadow: rgba(0, 0, 0, 0.3) 5px 2px 28px -8px;
+  position: relative;
+  z-index: 1;
   
   > div {
     display: flex;
@@ -125,40 +129,36 @@ const SelectBox = styled.div`
       padding-left: 18px;
     }
   } 
-  
-  > svg {
-    stroke: ${defaultTheme.colors.dark.mediumGrey};
-  }
 `;
 
 const Options = styled.div`
-  background: white;
-  box-sizing: border-box;
+  display: grid;
+  background: ${defaultTheme.colors.light.white};
   position: absolute;
-  top: 70px;
+  top: 45px;
   min-width: 170px;
+  padding: 6px 0;
   cursor: pointer;
   border-radius: 12px;
-  box-shadow: rgba(0, 0, 0, 0.4) 5px 2px 28px -8px;
+  z-index: 9999; 
+  box-shadow: rgba(0, 0, 0, 0.2) 5px 2px 28px -8px;
+  overflow: hidden;
+`;
 
-  @media (max-width: ${props => props.theme.breakpoints.xs}) {
-    display: none;
-  }
+const OptionWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
 `;
 
 const LeftIcon = styled.div`
   display: flex;
+  justify-content: center;
   align-items: center;
   padding-left: 4px;
 `;
 
 const Label = styled.span`
-  padding-left: 18px;
   font-weight: 400;
   color: ${defaultTheme.colors.dark.black};
-
-  &[data-placeholder="true"] {
-    color: ${defaultTheme.colors.dark.mediumGrey};
-    opacity: .9;
-  }
 `;

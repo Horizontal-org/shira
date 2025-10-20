@@ -6,7 +6,7 @@ import { defaultTheme } from "../../theme";
 interface Props {
   option: OptionInterface;
   index: number;
-  submit: () => void
+  submit: () => void;
 }
 
 export const Option: FunctionComponent<Props> = ({
@@ -16,49 +16,63 @@ export const Option: FunctionComponent<Props> = ({
 }) => {
 
   return (
-    <OptionWrapper onClick={submit}>
-      {index > 0 && (
-        <Separate />
-      )}
-      <Label
-        key={option.value}
-      >
+    <OptionWrapper
+      role="option"
+      onClick={submit}
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          submit();
+        }
+      }}
+    >
+      {index > 0 && <Separate />}
+      <Label key={option.value}>
+        {option.leftIcon && <IconWrapper>{option.leftIcon}</IconWrapper>}
         {option.label}
       </Label>
-      <LabelEnglish>
-        {option.labelEnglish}
-      </LabelEnglish>
     </OptionWrapper>
   )
 }
 
-const Label = styled.div`
-  padding: 11px 0 8px 11px;
-
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    padding-top: 16px;
-  }  
-`;
-
-const Separate = styled.div`
-  height: 1px;
-  background: ${defaultTheme.colors.dark.mediumGrey};
-`;
-
-const LabelEnglish = styled.p`
-  font-size: 14px;
-  padding: 0 0 9px 11px;
-  margin: 0;
-
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    padding-bottom: 16px;
-  }
-`;
-
 const OptionWrapper = styled.div`
-  transition: all 0.2s;
-  text-align: left;
-  &:hover {
-    background: #eee;
+  width: 100%;
+  padding: 12px 16px;
+  cursor: pointer;
+  line-height: 1;
+  background: transparent;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid ${defaultTheme.colors.dark.lightGrey};
   }
+
+  &:hover { background: ${defaultTheme.colors.light.paleGrey}; }
+
+  &:focus-visible {
+    outline: 2px solid ${defaultTheme.colors.dark.lightGrey};
+    outline-offset: -2px;
+  }
+`;
+
+const Label = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  gap: 6px;
+`;
+
+const IconWrapper = styled.span`
+  display: inline-flex;
+  width: 22px;
+  height: 22px;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 22px;
+`;
+
+const Separate = styled.span`
+  color: ${props => props.theme.colors.dark.black};
+  font-weight: 400;
+  font-size: 16px;
 `;

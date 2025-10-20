@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
 import { styled } from 'styled-components';
-import { SmallSelect } from './SmallSelect';
+import { SmallSelect, LanguageIcon } from '@shira/ui';
+import type { StoryObj } from '@storybook/react';
 
 const meta = {
   title: 'Components/SmallSelect',
@@ -11,9 +11,9 @@ const meta = {
   },
   tags: ['autodocs'],
   argTypes: {
-    autoselect: {
-      control: 'boolean',
-      description: 'If true, automatically selects the first option.',
+    value: {
+      control: 'text',
+      description: 'Currently selected value.',
     },
     options: {
       control: 'object',
@@ -27,6 +27,10 @@ const meta = {
       control: 'text',
       description: 'Placeholder text when no option is selected.',
     },
+    placeholderLeftIcon: {
+      control: false,
+      description: 'Optional icon displayed on the left side.',
+    },
   },
   decorators: [
     (Story) => (
@@ -35,7 +39,7 @@ const meta = {
       </Container>
     ),
   ],
-} satisfies Meta<typeof SmallSelect>;
+};
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -47,21 +51,22 @@ const Container = styled.div`
 
 export const Default: Story = {
   args: {
-    autoselect: false,
     options: [
-      { label: 'Español', labelEnglish: 'Spanish', value: 'es' },
-      { label: 'English', labelEnglish: 'English', value: 'en' },
-      { label: 'Français', labelEnglish: 'French', value: 'fr' },
+      { label: 'Español', labelEnglish: 'Spanish', value: 'es', leftIcon: <LanguageIcon /> },
+      { label: 'English', labelEnglish: 'English', value: 'en', leftIcon: <LanguageIcon /> },
+      { label: 'Français', labelEnglish: 'French', value: 'fr', leftIcon: <LanguageIcon /> },
     ],
+    value: "1",
     onChange: () => { },
-    placeholder: 'Language',
+    initialPlaceholder: 'Language',
+    placeholderLeftIcon: <LanguageIcon />,
   },
 };
 
 export const WithAutoselect: Story = {
   args: {
     ...Default.args,
-    autoselect: true,
+    value: "1",
   },
 };
 
@@ -70,32 +75,32 @@ export const OnlyTwoOptions: Story = {
     ...Default.args,
     options: [
       { label: 'Español', labelEnglish: 'Spanish', value: 'es' },
-      { label: 'English', labelEnglish: 'English', value: 'en' }
-    ].slice(0, 2),
+      { label: 'English', labelEnglish: 'English', value: 'en' },
+    ],
   },
 };
 
 export const CustomPlaceholder: Story = {
   args: {
     ...Default.args,
-    placeholder: 'Select a language…',
+    initialPlaceholder: 'Select a language…',
   },
 };
 
-// Interactive example
 export const Interactive = () => {
   const [selected, setSelected] = useState<string | null>(null);
 
   return (
     <div style={{ display: 'grid', gap: 12 }}>
       <SmallSelect
-        autoselect={false}
+        value={selected}
         options={[
           { label: 'Español', labelEnglish: 'Spanish', value: 'es' },
           { label: 'English', labelEnglish: 'English', value: 'en' },
           { label: 'Français', labelEnglish: 'French', value: 'fr' },
         ]}
-        placeholder="Choose language"
+        initialPlaceholder="Language"
+        placeholderLeftIcon={<LanguageIcon />}
         onChange={(val) => setSelected(val)}
       />
       <small>

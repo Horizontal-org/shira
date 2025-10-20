@@ -36,7 +36,6 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
   const [preview, setPreview] = useState<{ active: ActiveQuestion; original: RowType }>(null);
   const [rows, setRows] = useState<RowType[]>(rowsProp ?? []);
   const [loading, setLoading] = useState(false);
-  const [err, setErr] = useState<string>("");
 
   useEffect(() => {
     if (actionFeedback === LibraryQuestionFeedback.Success) {
@@ -56,14 +55,13 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
     }
     let alive = true;
     (async () => {
-      setErr(null);
       setLoading(true);
       try {
         const data = await getLibraryQuestions();
         const normalized = libraryQuestionToRow(data);
         if (alive) setRows(normalized);
       } catch (e: any) {
-        if (alive) setErr(e?.message ? String(e.message) : "Failed to load questions");
+        if (alive) console.error(e);
       } finally {
         if (alive) setLoading(false);
       }
@@ -109,7 +107,7 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
         if (!picked) return r;
         return {
           ...r,
-          app: { id: picked.id, name: picked.name },
+          app: { id: picked.id, name: picked.name, type: picked.type },
         };
       })
     );
@@ -145,20 +143,6 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
             </MiddleBody>
           </div>
         </HeaderRow>
-
-        {err && (
-          <ErrorBox role="alert">
-            <Body1>Failed to load: {err}</Body1>
-            {!controlled && (
-              <RetryButton
-                type="button"
-                onClick={() => getLibraryQuestions()}
-              >
-                Retry
-              </RetryButton>
-            )}
-          </ErrorBox>
-        )}
 
         <Table aria-busy={loading || undefined}>
           <thead>
@@ -233,20 +217,6 @@ const Table = styled("table")`
   font-size: 14px;
   background: ${defaultTheme.colors.light.white};
   overflow: hidden;
-`;
-
-const ErrorBox = styled("div")`
-  background: #fff5f5;
-  border: 1px solid #ffd6d6;
-  color: #7a1e1e;
-  display: inline-flex;
-  align-items: center;
-`;
-
-const RetryButton = styled("button")`
-  padding: 6px 10px;
-  border: 1px solid;
-  cursor: pointer;
 `;
 
 const TheadRow = styled("tr")`
