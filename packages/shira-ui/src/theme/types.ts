@@ -71,6 +71,7 @@ export interface Theme {
         white: string;
         paleGrey: string;
         paleGreen: string;
+        paleRed: string;
       };
       others: {
         whatsapp: string;

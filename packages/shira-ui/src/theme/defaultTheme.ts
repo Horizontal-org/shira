@@ -71,7 +71,8 @@ export const defaultTheme: Theme = {
       light: {
         white: '#fff',
         paleGrey: '#f3f3f3',
-        paleGreen: '#F3F5E4'
+        paleGreen: '#F3F5E4',
+        paleRed: '#FFECEA'
       },
       others: {
         whatsapp: '#25D366',
