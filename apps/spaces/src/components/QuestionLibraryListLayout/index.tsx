@@ -216,7 +216,6 @@ const Table = styled("table")`
   border-spacing: 0;
   font-size: 14px;
   background: ${defaultTheme.colors.light.white};
-  overflow: hidden;
 `;
 
 const TheadRow = styled("tr")`

@@ -138,7 +138,6 @@ const Options = styled.div`
   position: absolute;
   top: 45px;
   min-width: 170px;
-  padding: 6px 0;
   cursor: pointer;
   border-radius: 12px;
   z-index: 9999;

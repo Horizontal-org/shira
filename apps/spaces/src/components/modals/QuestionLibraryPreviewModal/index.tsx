@@ -14,6 +14,7 @@ type Props = {
 export const QuestionLibraryPreviewModal: FunctionComponent<Props> = ({
   question,
   explanations,
+  onAdd,
   onClose,
 }) => {
   return (
@@ -21,10 +22,11 @@ export const QuestionLibraryPreviewModal: FunctionComponent<Props> = ({
       <Overlay role="dialog" aria-modal="true">
         <Dialog>
           <Body>
-            <QuestionPreview 
-              onClose={onClose} 
-              explanations={explanations} 
-              question={question} 
+            <QuestionPreview
+              onAdd={onAdd}
+              onClose={onClose}
+              explanations={explanations}
+              question={question}
             />
           </Body>
         </Dialog>

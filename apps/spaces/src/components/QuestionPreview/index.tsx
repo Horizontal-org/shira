@@ -16,14 +16,16 @@ export type UIExplanation = {
 
 interface Props {
   question?: QuestionToDuplicate;
-  onClose?: () => void;
   explanations: ExplanationDto[];
+  onAdd?: () => void;
+  onClose?: () => void;
 }
 
-export const QuestionPreview: FunctionComponent<Props> = ({ 
-  question, 
-  onClose, 
+export const QuestionPreview: FunctionComponent<Props> = ({
+  question,
   explanations,
+  onAdd,
+  onClose,
 }) => {
   const [explanationNumber, setExplanationNumber] = useState<number>(0);
   const [explanationsOrder, handleExplanationsOrder] = useState<Array<number>>([]);
