@@ -6,6 +6,7 @@ import { MdBlock } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
 import { ExplanationDto, QuestionToDuplicate } from "../../fetch/question_library";
 import { AppLayout } from "./AppLayout";
+import { FiPlus } from "react-icons/fi";
 
 export type UIExplanation = {
   index: string;
@@ -19,7 +20,11 @@ interface Props {
   explanations: ExplanationDto[];
 }
 
-export const QuestionPreview: FunctionComponent<Props> = ({ question, onClose, explanations }) => {
+export const QuestionPreview: FunctionComponent<Props> = ({ 
+  question, 
+  onClose, 
+  explanations,
+}) => {
   const [explanationNumber, setExplanationNumber] = useState<number>(0);
   const [explanationsOrder, handleExplanationsOrder] = useState<Array<number>>([]);
   const [showExplanations, handleShowExplanations] = useState<boolean>(false);
@@ -88,6 +93,15 @@ export const QuestionPreview: FunctionComponent<Props> = ({ question, onClose, e
               )}
             </ExplanationButtonWrapper>
           )}
+
+          <SubmitButtonWrapper>
+            <Button
+              aria-label="Add to quiz"
+              leftIcon={<FiPlus size={16} />}
+              text="Add to quiz"
+              onClick={onAdd}
+            />
+          </SubmitButtonWrapper>
         </Header>
       </ExplanationHeader>
 
@@ -117,6 +131,7 @@ const Header = styled("div")`
   width: 100%;
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   gap: 12px;
 `;
 
@@ -149,7 +164,7 @@ const Overlay = styled("div")`
   top: 0;
   left: 0;
   z-index: 3;
-  height: 800px;
+  height: 100%;
   width: 100%;
   background: rgba(0, 0, 0, 0.5);
 `;
@@ -170,3 +185,9 @@ const CloseWrapper = styled("div")`
   padding: 16px 20px;
   cursor: pointer;
 `;
+
+
+const SubmitButtonWrapper = styled.div`
+  padding-left: 12px;
+  border-left: 1px solid rgb(172, 173, 174)
+`

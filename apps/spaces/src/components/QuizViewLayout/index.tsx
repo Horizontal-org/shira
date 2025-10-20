@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   Sidebar,
@@ -24,6 +24,7 @@ import toast from "react-hot-toast";
 import { useQuestionCRUD } from "../../fetch/question";
 import { UnpublishedQuizModal } from "../modals/UnpublishedQuizModal";
 import { handleCopyUrl, handleCopyUrlAndNotify } from "../../utils/quiz";
+import { getQuizResults, PublicQuizResultsResponse } from "../../fetch/results";
 
 
 interface Props {}
@@ -51,12 +52,17 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   const [isPublished, setIsPublished] = useState(false);
 
   const [quiz, handleQuiz] = useState<Quiz | null>(null)
+  console.log("🚀 ~ QuizViewLayout ~ quiz:", quiz)
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
   const [isUnpublishedQuizModalOpen, setIsUnpublishedQuizModalOpen] = useState(false);
   const { destroy, actionFeedback } = useQuestionCRUD()
   
+  // results handling
+  const [resultsData, setResultsData] = useState<PublicQuizResultsResponse | null>(null);
+  const [resultsLoading, setResultsLoading] = useState(false);
+
   const getQuiz = async () => {
     try {
       const parsedId = parseInt(id)      
@@ -69,6 +75,27 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
       navigate('/dashboard')
     }
   }
+
+  
+  
+  useEffect(() => {
+    const fetchResults = async () => {
+      setResultsLoading(true);
+      try {
+        const data = await getQuizResults(quiz.id);
+        setResultsData(data);
+      } catch (error) {
+        console.error('Failed to fetch quiz results:', error);
+      } finally {
+        setResultsLoading(false);
+      }
+    }
+
+    if (quiz) {
+      fetchResults()
+    }
+  }, [quiz])
+      // fetchResults();
 
   useEffect(() => {
     // test date zones
@@ -97,7 +124,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   
       cleanQuizActionSuccess()
     }
-}, [quizActionSuccess])
+  }, [quizActionSuccess])
 
 
   const handleTogglePublished = (cardId: number, published: boolean) => {
@@ -109,6 +136,9 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     setIsPublished(published)    
   };
 
+  const hasResults = useMemo(() => {
+    return resultsData && resultsData.metrics && !!(resultsData.metrics.completedCount)
+  }, [resultsData])
 
   return (
     <Container>
@@ -171,6 +201,9 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
               <TabContainer
                 quizId={quiz.id}
                 quizQuestions={quiz.quizQuestions}
+                resultsData={resultsData}
+                resultsLoading={resultsLoading}
+                hasResults={hasResults}
                 onEdit={(questionId) => { navigate(`/quiz/${id}/question/${questionId}`)}}
                 onDelete={(id) => { destroy(quiz.id, id) }}
                 onAdd={() => { navigate(`/quiz/${id}/question`) }}
@@ -196,46 +229,46 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
               />
 
               <DeleteModal
-                  title={`Are you sure you want to delete "${quiz.title}"`}
-                  content={
-                    <div>
-                      Deleting this quiz is permanent and cannot be undone.
-                      <br /><br />
-                      <QuizWarningNote>Note:</QuizWarningNote> The quiz's Results will also be deleted.
-                    </div>
-                  }
-                  setIsModalOpen={setIsDeleteModalOpen}
-                  onDelete={() => { 
-                    deleteQuiz(quiz.id) 
-                  }}
-                  onCancel={() => {
-                    setIsDeleteModalOpen(false)
-                  }}
-                  isModalOpen={isDeleteModalOpen}
-                />
+                title={`Are you sure you want to delete "${quiz.title}"`}
+                content={
+                  <div>
+                    Deleting this quiz is permanent and cannot be undone.
+                    <br /><br />
+                    <QuizWarningNote>Note:</QuizWarningNote> The quiz's Results will also be deleted.
+                  </div>
+                }
+                setIsModalOpen={setIsDeleteModalOpen}
+                onDelete={() => { 
+                  deleteQuiz(quiz.id) 
+                }}
+                onCancel={() => {
+                  setIsDeleteModalOpen(false)
+                }}
+                isModalOpen={isDeleteModalOpen}
+              />
 
-                <UnpublishedQuizModal
-                  setIsModalOpen={setIsUnpublishedQuizModalOpen}
-                  isModalOpen={isUnpublishedQuizModalOpen}
-                  onConfirm={() => {
-                    handleTogglePublished(quiz.id, true)
-                  }}
-                />
+              <UnpublishedQuizModal
+                setIsModalOpen={setIsUnpublishedQuizModalOpen}
+                isModalOpen={isUnpublishedQuizModalOpen}
+                onConfirm={() => {
+                  handleTogglePublished(quiz.id, true)
+                }}
+              />
         
-                <RenameQuizModal
-                  quiz={quiz}
-                  setIsModalOpen={setIsRenameModalOpen}
-                  onRename={(title) => { 
-                    updateQuiz({
-                      id: quiz.id,
-                      title
-                    }) 
-                  }}
-                  onCancel={() => {
-                    setIsRenameModalOpen(false)
-                  }}
-                  isModalOpen={isRenameModalOpen}
-                />
+              <RenameQuizModal
+                quiz={quiz}
+                setIsModalOpen={setIsRenameModalOpen}
+                onRename={(title) => { 
+                  updateQuiz({
+                    id: quiz.id,
+                    title
+                  }) 
+                }}
+                onCancel={() => {
+                  setIsRenameModalOpen(false)
+                }}
+                isModalOpen={isRenameModalOpen}
+              />
             </>
           ) : (
             <Header>

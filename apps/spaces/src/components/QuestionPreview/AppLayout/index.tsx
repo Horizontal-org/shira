@@ -46,23 +46,13 @@ export const AppLayout: FunctionComponent<Props> = ({
         showExplanations={showExplanations}
       />
 
-      {showExplanations && (<Overlay />)}
-
     </Wrapper>
   )
 }
 
 const Wrapper = styled.div`
-  max-height: calc(100vh - 86px);
   background: ${props => props.theme.colors.light.white};
-`
-
-const Overlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 3;
-  height: calc(100vh - 86px);
-  width: 100%;
-  background: rgba(0,0,0,0.5);
+  height: 100%;
+  padding-bottom: 10px;
+  box-sizing: border-box;
 `

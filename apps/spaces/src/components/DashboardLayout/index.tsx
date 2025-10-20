@@ -250,7 +250,13 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
           <DeleteModal
             title={`Are you sure you want to delete "${selectedCard?.title}"?`}
-            content="Deleting this quiz is permanent and cannot be undone."
+            content={(
+              <div>
+                Deleting this quiz is permanent and cannot be undone.
+                <br /><br />
+                <QuizWarningNote>Note:</QuizWarningNote> The quiz's Results will also be deleted.
+              </div>
+            )}
             setIsModalOpen={setIsDeleteModalOpen}
             onDelete={() => { 
               deleteQuiz(selectedCard?.id) 
@@ -370,3 +376,8 @@ const ButtonContainer = styled.div`
   display: flex;
   align-items: flex-start;
 `
+
+const QuizWarningNote = styled.span`
+  color: #d73527;
+  font-weight: 500;
+`;

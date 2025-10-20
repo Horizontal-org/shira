@@ -1,8 +1,7 @@
 import { FunctionComponent } from "react";
-import { styled, Button, defaultTheme } from "@shira/ui";
+import { styled, defaultTheme } from "@shira/ui";
 import { QuestionPreview } from "../../QuestionPreview";
 import { ExplanationDto } from "../../../fetch/question_library";
-import { FiPlus } from "react-icons/fi";
 import { QuestionToDuplicate } from "../../../fetch/question_library";
 
 type Props = {
@@ -15,7 +14,6 @@ type Props = {
 export const QuestionLibraryPreviewModal: FunctionComponent<Props> = ({
   question,
   explanations,
-  onAdd,
   onClose,
 }) => {
   return (
@@ -23,18 +21,12 @@ export const QuestionLibraryPreviewModal: FunctionComponent<Props> = ({
       <Overlay role="dialog" aria-modal="true">
         <Dialog>
           <Body>
-            <QuestionPreview onClose={onClose} explanations={explanations} question={question} />
+            <QuestionPreview 
+              onClose={onClose} 
+              explanations={explanations} 
+              question={question} 
+            />
           </Body>
-          <Footer>
-            <FixedButtonWrapper>
-              <Button
-                aria-label="Add to quiz"
-                leftIcon={<FiPlus size={16} />}
-                text="Add to quiz"
-                onClick={onAdd}
-              />
-            </FixedButtonWrapper>
-          </Footer>
         </Dialog>
       </Overlay>
     </>
@@ -51,13 +43,16 @@ const Overlay = styled.div`
 `;
 
 const Dialog = styled.div`
-  width: min(1100px, 92vw);
-  max-height: 90vh;
+  max-height: 98vh;
+  height: 100%;
+  max-width: 98vw;
+  width: 100%;
   background: ${defaultTheme.colors.light.white};
   border-radius: 16px;
   display: flex;
   flex-direction: column;
   overflow: auto;
+  margin: 0 10px;
 `;
 
 const Body = styled.div`
@@ -68,16 +63,5 @@ const Body = styled.div`
   overflow: hidden;
 `;
 
-const Footer = styled.div`
-  padding: 16px 20px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  background: ${defaultTheme.colors.light.white};
-  border-radius: 16px;
-`;
 
-const FixedButtonWrapper = styled.div`
-  min-width: 180px;
-  max-width: 300px;
-`;
+

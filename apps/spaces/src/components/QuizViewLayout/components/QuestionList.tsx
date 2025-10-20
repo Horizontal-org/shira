@@ -8,7 +8,8 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { duplicateQuestion } from "../../../fetch/quiz";
 import { QuizQuestion } from "../../../store/slices/quiz";
 import toast from "react-hot-toast";
-import DuplicateIcon from './DuplicateIcon';
+import DuplicateIcon from './DuplicateIcon'
+import { QuizHasResultsModal } from "../../modals/QuizHasResultsModal";
 
 interface QuestionsListProps {
   quizId: number;
@@ -20,6 +21,7 @@ interface QuestionsListProps {
 
   onReorder: (newOrder: QuizQuestion[]) => void;
   onDuplicate: () => void;
+  hasResults: boolean
 }
 
 export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
@@ -30,15 +32,22 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
   onAdd,
   onAddLibrary,
   onReorder,
-  onDuplicate
+  onDuplicate,
+  hasResults
 }) => {
   console.log("🚀 ~ quizQuestions:", quizQuestions)
+
   const [questionForDelete, handleQuestionForDelete] = useState(null)
+  const [confirmBeforeContinueModal, handleConfirmBeforeContinueModal] = useState<{
+    confirmType: string
+    confirmId?: string
+  }>(null)
+
   const [duplicatingQuestions, setDuplicatingQuestions] = useState(new Set())
 
-  const handleDuplicateQuestion = async (questionId: string, questionName: string) => {
+  const handleDuplicateQuestion = async (questionId: string) => {
     setDuplicatingQuestions(prev => new Set(prev).add(questionId))
-
+    const questionName = quizQuestions.find(qq => qq.question.id === questionId).question.name
     try {
       await duplicateQuestion(quizId, parseInt(questionId))
       toast.success(`"Copy of ${questionName}" created successfully`, { duration: 3000 })
@@ -92,8 +101,14 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
           leftIcon={<FiPlus size={16} />}
           text="Create question"
           type="primary"
-          color={defaultTheme.colors.green7}
-          onClick={onAdd}
+          color="#849D29"
+          onClick={() => {
+            if (hasResults) {
+              handleConfirmBeforeContinueModal({ confirmType: 'add' })
+            } else {
+              onAdd()
+            }
+          }}
         />
         <Button
           leftIcon={<MdOutlineMenuBook size={19} />}
@@ -105,64 +120,76 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
       </Header>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId='droppable'>
-          {(provided, snapshot) => (
-            <List
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
-              {quizQuestions.sort((a, b) => {
-                return a.position - b.position
-              }).map((qq, i) => (
-                <Draggable
-                  draggableId={qq.position + ''}
-                  index={i}
-                  id={qq.position + ''}
-                  key={qq.position + ''}
-                >
-                  {(draggableProvided, snapshot) => {
-                    const isBeingDuplicated = duplicatingQuestions.has(qq.question.id)
-                    return (
-                      <QuestionItem
-                        ref={draggableProvided.innerRef}
-                        isDragging={snapshot.isDragging}
-                        {...draggableProvided.draggableProps}
-                      >
-                        <LeftSection>
-                          <MenuIcon
-                            {...draggableProvided.dragHandleProps}
-                          >
-                            {isBeingDuplicated ? (
-                              <SpinningLoader size={20} color="#666" />
-                            ) : (
-                              <FiMenu size={20} color="#666" />
-                            )}
-                          </MenuIcon>
-                          <QuestionTitle>
-                            {isBeingDuplicated ? "Duplicating..." : qq.question.name}
-                          </QuestionTitle>
-                        </LeftSection>
-                        <Actions>
-                          <ActionButton onClick={() => onEdit(qq.question.id)}>
-                            <EditIcon />
-                          </ActionButton>
-                          <ActionButton
-                            onClick={() => handleDuplicateQuestion(qq.question.id, qq.question.name)}
-                            disabled={isBeingDuplicated}
-                          >
-                            <DuplicateIconWrapper><DuplicateIcon /></DuplicateIconWrapper>
-                          </ActionButton>
-                          <ActionButton onClick={() => handleQuestionForDelete(qq.question)}>
-                            <TrashIcon />
-                          </ActionButton>
-                        </Actions>
-                      </QuestionItem>
-                    )
-                  }}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </List>
-          )}
+        {(provided, snapshot) => (
+          <List
+            {...provided.droppableProps}
+            ref={provided.innerRef}    
+          >
+            {quizQuestions.sort((a, b) => {
+              return a.position - b.position
+            }).map((qq, i) => (
+              <Draggable 
+                draggableId={qq.position + ''} 
+                index={i}
+                id={qq.position + ''}   
+                key={qq.position + ''} 
+              >
+                {(draggableProvided, snapshot) => {
+                  const isBeingDuplicated = duplicatingQuestions.has(qq.question.id)
+                  return (
+                    <QuestionItem 
+                      ref={draggableProvided.innerRef}
+                      isDragging={snapshot.isDragging}
+                      {...draggableProvided.draggableProps}
+                    >
+                      <LeftSection>
+                        <MenuIcon
+                          {...draggableProvided.dragHandleProps}
+                        >
+                          {isBeingDuplicated ? (
+                            <SpinningLoader size={20} color="#666" />
+                          ) : (
+                            <FiMenu size={20} color="#666" />                            
+                          )}
+                        </MenuIcon>
+                        <QuestionTitle>
+                          {isBeingDuplicated ? "Duplicating..." : qq.question.name}
+                        </QuestionTitle>
+                      </LeftSection>
+                      <Actions>
+                        <ActionButton onClick={() => {
+                          if (hasResults) {
+                            handleConfirmBeforeContinueModal({ confirmType: 'edit', confirmId: qq.question.id })
+                          } else {
+                            onEdit(qq.question.id)
+                          }
+                        }}>
+                          <EditIcon />
+                        </ActionButton>
+                        <ActionButton 
+                          onClick={() => {
+                            if (hasResults) {
+                            handleConfirmBeforeContinueModal({ confirmType: 'duplicate', confirmId: qq.question.id })
+                          } else {
+                            handleDuplicateQuestion(qq.question.id)
+                          }
+                          }}
+                          disabled={isBeingDuplicated}
+                        >
+                          <DuplicateIconWrapper><DuplicateIcon /></DuplicateIconWrapper>
+                        </ActionButton>
+                        <ActionButton onClick={() => handleQuestionForDelete(qq.question)}>
+                          <TrashIcon />
+                        </ActionButton>
+                      </Actions>
+                    </QuestionItem>
+                  )
+                }}
+              </Draggable>
+            ))}
+            { provided.placeholder }
+          </List>
+        )}
         </Droppable>
       </DragDropContext>
       <DeleteModal
@@ -184,6 +211,31 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
           handleQuestionForDelete(null)
         }}
         isModalOpen={!!(questionForDelete)}
+      />
+
+      <QuizHasResultsModal
+        title={`Are you sure you want to edit this quiz?`}
+        content={
+          <div>
+            Some learners have already taken this quiz. Adding or editing questions may affect the accuracy of Results.
+          </div>
+        }
+        setIsModalOpen={() => {
+          handleConfirmBeforeContinueModal(null)
+        }}
+        onContinue={() => { 
+          if (confirmBeforeContinueModal.confirmType === 'add') {
+            onAdd()
+          } else if  (confirmBeforeContinueModal.confirmType === 'edit') {
+            onEdit(confirmBeforeContinueModal.confirmId)
+          } else if (confirmBeforeContinueModal.confirmType === 'duplicate') {
+            handleDuplicateQuestion(confirmBeforeContinueModal.confirmId)
+          }
+        }}
+        onCancel={() => {
+          handleConfirmBeforeContinueModal(null)
+        }}
+        isModalOpen={!!(confirmBeforeContinueModal)}
       />
     </div>
   );
