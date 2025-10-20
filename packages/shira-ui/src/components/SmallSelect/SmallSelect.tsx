@@ -117,7 +117,7 @@ const SelectBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: rgba(0, 0, 0, 0.3) 5px 2px 28px -8px;
+  border: 1px solid ${defaultTheme.colors.dark.lightGrey};
   position: relative;
   z-index: 1;
 
