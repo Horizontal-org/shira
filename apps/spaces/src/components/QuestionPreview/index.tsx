@@ -4,7 +4,7 @@ import "../../fonts/GoogleSans/style.css";
 import "../../fonts/Segoe/style.css";
 import { MdBlock } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
-import { Explanation, QuestionToDuplicate } from "../../fetch/question_library";
+import { ExplanationDto, QuestionToDuplicate } from "../../fetch/question_library";
 import { AppLayout } from "./AppLayout";
 import { FiPlus } from "react-icons/fi";
 
@@ -16,16 +16,16 @@ export type UIExplanation = {
 
 interface Props {
   question?: QuestionToDuplicate;
+  explanations: ExplanationDto[];
+  onAdd?: () => void;
   onClose?: () => void;
-  explanations: Explanation[];
-  onAdd: () => void;
 }
 
-export const QuestionPreview: FunctionComponent<Props> = ({ 
-  question, 
-  onClose, 
+export const QuestionPreview: FunctionComponent<Props> = ({
+  question,
   explanations,
-  onAdd
+  onAdd,
+  onClose,
 }) => {
   const [explanationNumber, setExplanationNumber] = useState<number>(0);
   const [explanationsOrder, handleExplanationsOrder] = useState<Array<number>>([]);
@@ -40,7 +40,7 @@ export const QuestionPreview: FunctionComponent<Props> = ({
 
   if (!question) return null;
 
-  const mapToUIExplanations = (items: Explanation[]): UIExplanation[] =>
+  const mapToUIExplanations = (items: ExplanationDto[]): UIExplanation[] =>
     items.map((e) => ({
       position: e.position.toString(),
       text: e.text,

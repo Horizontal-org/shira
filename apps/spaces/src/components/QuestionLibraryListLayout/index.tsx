@@ -8,11 +8,12 @@ import { QuestionLibraryPreviewModal } from "../modals/QuestionLibraryPreviewMod
 import { LibraryQuestionFeedback, getLibraryQuestions, useLibraryQuestionCRUD } from "../../fetch/question_library";
 import type { ActiveQuestion } from "../../store/types/active_question";
 import { useStore } from "../../store";
-import { libraryToActiveQuestion } from "../../utils/active_question/libraryToQuestion";
+import { libraryToActiveQuestion } from "../../utils/active_question/libraryToActiveQuestion";
 import { QuizSuccessStates } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
 import { getColumns } from "./components/Columns";
-import type { RowType, LanguageVariant } from "./components/Columns";
+import type { RowType } from "./components/Columns";
+import { libraryQuestionToRow } from "./components/Columns/libraryQuestionToRow";
 
 type Props = {
   rows?: RowType[];
@@ -32,10 +33,9 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
     setQuizActionSuccess: state.setQuizActionSuccess
   }), shallow)
 
-  const [preview, setPreview] = useState<{ active: ActiveQuestion; original: RowType } | null>(null);
+  const [preview, setPreview] = useState<{ active: ActiveQuestion; original: RowType }>(null);
   const [rows, setRows] = useState<RowType[]>(rowsProp ?? []);
   const [loading, setLoading] = useState(false);
-  const [err, setErr] = useState<string | null>(null);
 
   useEffect(() => {
     if (actionFeedback === LibraryQuestionFeedback.Success) {
@@ -48,43 +48,6 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
     }
   }, [actionFeedback, navigate, quizId, setQuizActionSuccess]);
 
-  const normalize = (apiObj: any): RowType[] => {
-    const entries = Object.values(apiObj ?? {}) as any[];
-
-    return entries.map((q) => {
-      const variants: LanguageVariant[] = (q.language ?? []).map((l: any) => ({
-        id: Number(l.id),
-        name: String(l.name),
-        content: String(l.content ?? ""),
-        explanations: (l.explanations ?? []).map((e: any) => ({
-          index: Number(e.index),
-          position: Number(e.position),
-          text: String(e.text ?? ""),
-        })),
-      }));
-
-      const defaultLang =
-        variants.find((v) => v.name.toLowerCase().startsWith("english")) ??
-        variants[0];
-
-      return {
-        id: Number(q.id),
-        name: String(q.name),
-        isPhishing: Boolean(q.isPhishing),
-        type: String(q.type),
-        app: {
-          id: Number(q.app?.id),
-          name: String(q.app?.name),
-          type: String(q.app?.type),
-        },
-        language: { id: defaultLang?.id, name: defaultLang?.name },
-        content: defaultLang?.content ?? "",
-        explanations: defaultLang?.explanations ?? [],
-        languages: variants,
-      } as RowType;
-    });
-  };
-
   useEffect(() => {
     if (controlled) {
       setRows(rowsProp ?? []);
@@ -92,14 +55,13 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
     }
     let alive = true;
     (async () => {
-      setErr(null);
       setLoading(true);
       try {
         const data = await getLibraryQuestions();
-        const normalized = normalize(data);
+        const normalized = libraryQuestionToRow(data);
         if (alive) setRows(normalized);
       } catch (e: any) {
-        if (alive) setErr(e?.message ? String(e.message) : "Failed to load questions");
+        if (alive) console.error(e);
       } finally {
         if (alive) setLoading(false);
       }
@@ -111,14 +73,14 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
     useStore((s: any) => s.setActiveQuestion) ||
     ((aq: ActiveQuestion) => useStore.setState({ activeQuestion: aq }));
 
-  const handlePreview = (q: RowType) => {
-    const active = libraryToActiveQuestion(q);
+  const handlePreview = (row: RowType) => {
+    const active = libraryToActiveQuestion(row);
     setActiveQuestion(active);
-    setPreview({ active, original: q });
+    setPreview({ active, original: row });
   };
 
   const handleAdd = (q: RowType) => {
-    duplicate(parseInt(quizId), q.id, q.language.id, Number(q.app.id));
+    duplicate(parseInt(quizId), q.id, q.language.id, q.app.id);
   };
 
   const handleSelectLanguage = (questionId: number, languageId: number) => {
@@ -137,12 +99,27 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
     );
   };
 
+  const handleSelectApp = (questionId: number, appId: number) => {
+    setRows((prev) =>
+      prev.map((r) => {
+        if (r.id !== questionId) return r;
+        const picked = r.apps.find((av) => av.id === appId);
+        if (!picked) return r;
+        return {
+          ...r,
+          app: { id: picked.id, name: picked.name, type: picked.type },
+        };
+      })
+    );
+  }
+
   const columns = useMemo(
     () =>
       getColumns({
         onPreview: handlePreview,
         onAdd: handleAdd,
         onSelectLanguage: handleSelectLanguage,
+        onSelectApp: handleSelectApp
       }),
     []
   );
@@ -166,22 +143,6 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
             </MiddleBody>
           </div>
         </HeaderRow>
-
-        {err && (
-          <ErrorBox role="alert">
-            <Body1>Failed to load: {err}</Body1>
-            {!controlled && (
-              <RetryButton
-                type="button"
-                onClick={() =>
-                  getLibraryQuestions().then((d) => setRows(normalize(d)))
-                }
-              >
-                Retry
-              </RetryButton>
-            )}
-          </ErrorBox>
-        )}
 
         <Table aria-busy={loading || undefined}>
           <thead>
@@ -255,28 +216,13 @@ const Table = styled("table")`
   border-spacing: 0;
   font-size: 14px;
   background: ${defaultTheme.colors.light.white};
-  overflow: hidden;
-`;
-
-const ErrorBox = styled("div")`
-  background: #fff5f5;
-  border: 1px solid #ffd6d6;
-  color: #7a1e1e;
-  display: inline-flex;
-  align-items: center;
-`;
-
-const RetryButton = styled("button")`
-  padding: 6px 10px;
-  border: 1px solid;
-  cursor: pointer;
 `;
 
 const TheadRow = styled("tr")`
   background-color: ${defaultTheme.colors.light.paleGreen};
 `;
 
-const Th = styled("th")<{ $first?: boolean; $last?: boolean }>`
+const Th = styled("th") <{ $first?: boolean; $last?: boolean }>`
   text-align: left;
   padding: 14px 16px;
   font-weight: 600;

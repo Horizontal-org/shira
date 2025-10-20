@@ -7,4 +7,4 @@ export function VariableIcon() {
   )
 }
 
-export default VariableIcon
+export default VariableIcon;

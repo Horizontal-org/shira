@@ -63,6 +63,7 @@ export const defaultTheme: Theme = {
       error9: '#871408',
       dark: {
         black: '#333030',
+        lightGrey: '#DDDDDD',
         darkGrey: '#5F6368',
         mediumGrey: '#ACADAE',
         overlay: 'rgba(51, 48, 48, 0.64)'
@@ -70,7 +71,8 @@ export const defaultTheme: Theme = {
       light: {
         white: '#fff',
         paleGrey: '#f3f3f3',
-        paleGreen: '#F3F5E4'
+        paleGreen: '#F3F5E4',
+        paleRed: '#FFECEA'
       },
       others: {
         whatsapp: '#25D366',

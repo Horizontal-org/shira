@@ -1,12 +1,12 @@
 import { FunctionComponent } from "react";
-import { styled, Button, defaultTheme } from "@shira/ui";
+import { styled, defaultTheme } from "@shira/ui";
 import { QuestionPreview } from "../../QuestionPreview";
-import { Explanation } from "../../../fetch/question_library";
+import { ExplanationDto } from "../../../fetch/question_library";
 import { QuestionToDuplicate } from "../../../fetch/question_library";
 
 type Props = {
   question: QuestionToDuplicate;
-  explanations: Explanation[];
+  explanations: ExplanationDto[];
   onAdd: () => void;
   onClose: () => void;
 };
@@ -22,18 +22,13 @@ export const QuestionLibraryPreviewModal: FunctionComponent<Props> = ({
       <Overlay role="dialog" aria-modal="true">
         <Dialog>
           <Body>
-            <QuestionPreview 
+            <QuestionPreview
               onAdd={onAdd}
-              onClose={onClose} 
-              explanations={explanations} 
-              question={question} 
+              onClose={onClose}
+              explanations={explanations}
+              question={question}
             />
           </Body>
-          {/* <Footer>
-            <FixedButtonWrapper>
-              
-            </FixedButtonWrapper>
-          </Footer> */}
         </Dialog>
       </Overlay>
     </>
@@ -70,16 +65,5 @@ const Body = styled.div`
   overflow: hidden;
 `;
 
-const Footer = styled.div`
-  padding: 16px 20px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  background: ${defaultTheme.colors.light.white};
-  border-radius: 16px;
-`;
 
-const FixedButtonWrapper = styled.div`
-  min-width: 180px;
-  max-width: 300px;
-`;
+
