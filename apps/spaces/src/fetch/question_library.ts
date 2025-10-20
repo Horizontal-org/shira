@@ -12,7 +12,7 @@ export interface Language {
   name: string;
 }
 
-export interface Explanation {
+export interface ExplanationDto {
   position: number;
   text: string;
   index: number;
@@ -26,14 +26,14 @@ export interface QuestionToDuplicate {
   content: string;
   language: Language;
   app: App;
-  explanations: Explanation[];
+  explanations: ExplanationDto[];
 };
 
 export type LanguageDto = {
   id: number;
   name: string;
   content: string;
-  explanations: Explanation[];
+  explanations: ExplanationDto[];
 };
 
 export type QuestionLibraryDto = {
@@ -41,8 +41,8 @@ export type QuestionLibraryDto = {
   name: string;
   isPhishing: boolean;
   type: string;
-  app: App;
-  language: LanguageDto[];
+  apps: App[];
+  languages: LanguageDto[];
 };
 
 
@@ -60,6 +60,7 @@ export const useLibraryQuestionCRUD = () => {
   const [actionFeedback, handleActionFeedback] = useState(null);
 
   const duplicate = async (quizId: number, questionId: number, languageId: number, appId: number) => {
+    console.log("🚀 ~ duplicate ~ quizId, questionId, languageId, appId:", quizId, questionId, languageId, appId);
     handleActionFeedback(LibraryQuestionFeedback.Processing);
 
     try {
