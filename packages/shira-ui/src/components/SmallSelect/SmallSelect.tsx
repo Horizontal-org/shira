@@ -141,7 +141,12 @@ const Options = styled.div`
   cursor: pointer;
   border-radius: 12px;
   z-index: 9999;
-  box-shadow: rgba(0, 0, 0, 0.2) 5px 2px 28px -8px;
+  box-shadow:
+    0 -3px 8px 1px rgba(0, 0, 0, 0.05),
+    0 -4px 8px 0   rgba(0, 0, 0, 0.03),
+
+    0 3px 8px 1px rgba(0, 0, 0, 0.05),
+    0 4px 8px 0   rgba(0, 0, 0, 0.03);
   overflow: hidden;
 `;
 
