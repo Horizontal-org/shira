@@ -101,7 +101,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
           leftIcon={<FiPlus size={16} />}
           text="Create question"
           type="primary"
-          color="#849D29"
+          color={defaultTheme.colors.green7}
           onClick={() => {
             if (hasResults) {
               handleConfirmBeforeContinueModal({ confirmType: 'add' })
