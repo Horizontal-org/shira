@@ -148,11 +148,13 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
           <Thead>
             {table.getHeaderGroups().map((hg) => (
               <tr key={hg.id}>
-                {hg.headers.map((h) => (
-                  <Th key={h.id}>
-                    {flexRender(h.column.columnDef.header, h.getContext())}
-                  </Th>
-                ))}
+                {
+                  hg.headers.map((h) => (
+                    <Th key={h.id}>
+                      {flexRender(h.column.columnDef.header, h.getContext())}
+                    </Th>
+                  ))
+                }
               </tr>
             ))}
           </Thead>
@@ -191,7 +193,7 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
           />
         )}
       </StyledBox>
-    </QuestionLibraryFlowManagement>
+    </QuestionLibraryFlowManagement >
   );
 };
 
@@ -200,16 +202,14 @@ const StyledBox = styled(Box)`
   width: 72%;
   z-index: 1;
   border: none;
+  display: flex;
 `;
 
 const Table = styled("table")`
   background: ${defaultTheme.colors.light.paleGrey};
-  position: relative;
   width: 100%;
   font-size: 14px;
-  border-radius: 20px;
   border-collapse: collapse;
-  overflow: hidden;
 `;
 
 const HeaderRow = styled("div")`
@@ -220,8 +220,11 @@ const HeaderRow = styled("div")`
 `;
 
 const Thead = styled.thead`
-  background: ${defaultTheme.colors.light.paleGreen};
-  border-radius: 20px;
+  & Th {
+    background: ${defaultTheme.colors.light.paleGreen};
+    &:first-child { border-top-left-radius: 20px; }
+    &:last-child { border-top-right-radius: 20px; }
+  }
 `;
 
 const Th = styled.th`
@@ -235,7 +238,14 @@ const Th = styled.th`
 
 const Tr = styled("tr")`
   color: ${defaultTheme.colors.dark.darkGrey};
-  &:not(:last-child) td { border-bottom: 1px solid ${defaultTheme.colors.light.paleGrey}; }
+
+  &: not(: last-child) td { border-bottom: 1px solid ${defaultTheme.colors.light.paleGrey}; }
+
+  &:last-child td {
+    background-color: white;
+      &:first-child { border-bottom-left-radius: 20px; }
+      &:last-child { border-bottom-right-radius: 20px; }
+  }
 `;
 
 const Td = styled("td")`
