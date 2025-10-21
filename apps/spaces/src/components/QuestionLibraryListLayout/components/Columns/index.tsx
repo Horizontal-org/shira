@@ -191,7 +191,8 @@ const AppCell = styled(Body3)`
   color: ${defaultTheme.colors.dark.darkGrey};
   font-size: 14px;
   gap: 6px;
-  display: inline-flex;
+  display: flex;
+  justify-content: center;
   align-items: center;
   padding-left: 4px;
 `;
