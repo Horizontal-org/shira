@@ -209,6 +209,7 @@ const Table = styled("table")`
   font-size: 14px;
   border-radius: 20px;
   border-collapse: collapse;
+  overflow: hidden;
 `;
 
 const HeaderRow = styled("div")`
