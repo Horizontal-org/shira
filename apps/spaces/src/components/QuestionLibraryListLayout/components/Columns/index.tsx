@@ -66,7 +66,6 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
       const isPhishing = Boolean(c.getValue());
       return (
         <PhishingCell
-          htmlFor={isPhishing ? "phishing" : "legitimate"}
           $isPhishing={isPhishing}
         >
           {isPhishing ? (
@@ -150,7 +149,7 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
   },
 ];
 
-const PhishingCell = styled.label<{ $isPhishing?: boolean }>`
+const PhishingCell = styled.span<{ $isPhishing?: boolean }>`
   background: ${(props) => (
     props.$isPhishing
       ? defaultTheme.colors.light.paleRed

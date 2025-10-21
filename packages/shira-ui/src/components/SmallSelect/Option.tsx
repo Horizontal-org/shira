@@ -14,10 +14,12 @@ export const Option: FunctionComponent<Props> = ({
   index,
   submit
 }) => {
+  const isSelected = option.value === option.value;
 
   return (
     <OptionWrapper
       role="option"
+      aria-selected={isSelected}
       onClick={submit}
       tabIndex={0}
       onKeyDown={(e) => {
@@ -28,7 +30,7 @@ export const Option: FunctionComponent<Props> = ({
       }}
     >
       {index > 0 && <Separate />}
-      <Label key={option.value}>
+      <Label data-placeholder={isSelected ? "false" : "true"}>
         {option.leftIcon && <IconWrapper>{option.leftIcon}</IconWrapper>}
         {option.label}
       </Label>
