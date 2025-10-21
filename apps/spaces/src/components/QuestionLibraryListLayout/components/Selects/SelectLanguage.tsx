@@ -40,6 +40,7 @@ export const SelectLanguage: FunctionComponent<Props> = ({
 
   return (
     <SmallSelect
+      aria-label="language"
       value={showPlaceholder ? "" : (valueId ? String(valueId) : "")}
       options={selectOptions}
       initialPlaceholder={placeholder}

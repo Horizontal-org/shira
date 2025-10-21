@@ -145,17 +145,19 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
         </HeaderRow>
 
         <Table aria-busy={loading || undefined}>
-          <thead>
+          <Thead>
             {table.getHeaderGroups().map((hg) => (
-              <TheadRow key={hg.id}>
-                {hg.headers.map((h, i) => (
-                  <Th key={h.id} $first={i === 0} $last={i === hg.headers.length - 1}>
-                    {flexRender(h.column.columnDef.header, h.getContext())}
-                  </Th>
-                ))}
-              </TheadRow>
+              <tr key={hg.id}>
+                {
+                  hg.headers.map((h) => (
+                    <Th key={h.id}>
+                      {flexRender(h.column.columnDef.header, h.getContext())}
+                    </Th>
+                  ))
+                }
+              </tr>
             ))}
-          </thead>
+          </Thead>
 
           <tbody>
             {loading ? (
@@ -191,16 +193,23 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
           />
         )}
       </StyledBox>
-    </QuestionLibraryFlowManagement>
+    </QuestionLibraryFlowManagement >
   );
 };
 
 const StyledBox = styled(Box)`
-  position: relative;
-  z-index: 1;
-  width: 1024px;
   background: ${defaultTheme.colors.light.paleGrey};
+  width: 72%;
+  z-index: 1;
   border: none;
+  display: flex;
+`;
+
+const Table = styled("table")`
+  background: ${defaultTheme.colors.light.paleGrey};
+  width: 100%;
+  font-size: 14px;
+  border-collapse: collapse;
 `;
 
 const HeaderRow = styled("div")`
@@ -210,37 +219,37 @@ const HeaderRow = styled("div")`
   color: ${defaultTheme.colors.dark.black};
 `;
 
-const Table = styled("table")`
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  font-size: 14px;
-  background: ${defaultTheme.colors.light.white};
+const Thead = styled.thead`
+  & Th {
+    background: ${defaultTheme.colors.light.paleGreen};
+    &:first-child { border-top-left-radius: 20px; }
+    &:last-child { border-top-right-radius: 20px; }
+  }
 `;
 
-const TheadRow = styled("tr")`
-  background-color: ${defaultTheme.colors.light.paleGreen};
-`;
-
-const Th = styled("th") <{ $first?: boolean; $last?: boolean }>`
+const Th = styled.th`
   text-align: left;
   padding: 14px 16px;
   font-weight: 600;
   font-size: 16px;
   color: ${defaultTheme.colors.dark.black};
   vertical-align: middle;
-  user-select: none;
-  ${({ $first }) => $first && `border-top-left-radius: 10px;`};
-  ${({ $last }) => $last && `border-top-right-radius: 10px;`};
 `;
 
 const Tr = styled("tr")`
-  background: ${defaultTheme.colors.light.white};
   color: ${defaultTheme.colors.dark.darkGrey};
-  &:not(:last-child) td { border-bottom: 1px solid #ececec; }
+
+  &: not(: last-child) td { border-bottom: 1px solid ${defaultTheme.colors.light.paleGrey}; }
+
+  &:last-child td {
+    background-color: white;
+      &:first-child { border-bottom-left-radius: 20px; }
+      &:last-child { border-bottom-right-radius: 20px; }
+  }
 `;
 
 const Td = styled("td")`
+  background: ${defaultTheme.colors.light.white};
   padding: 14px 16px;
   vertical-align: middle;
 `;

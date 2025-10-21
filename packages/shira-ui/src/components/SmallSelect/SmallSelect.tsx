@@ -1,4 +1,4 @@
-import { FunctionComponent, useCallback, useMemo, useRef, useState } from "react";
+import { FunctionComponent, useCallback, useId, useMemo, useRef, useState } from "react";
 import { Option as SelectOption } from "./Option";
 import { useOnClickOutside } from "./useOnClickOutside";
 import { styled } from "styled-components";
@@ -33,9 +33,14 @@ export const SmallSelect: FunctionComponent<SmallSelectProps> = ({
 }) => {
   const optionsRef = useRef<HTMLDivElement | null>(null);
   const [open, setOpen] = useState(false);
-
+  const listboxId = useId();
   const toggleOpen = useCallback(() => setOpen((prev) => !prev), []);
   const close = useCallback(() => setOpen(false), []);
+
+  const selected = useMemo(
+    () => options.find((o) => o.value === value)
+    , [options, value]
+  );
 
   useOnClickOutside(optionsRef, () => {
     if (open) close();
@@ -46,18 +51,18 @@ export const SmallSelect: FunctionComponent<SmallSelectProps> = ({
     onClose: close,
   });
 
-  const selected = useMemo(() => options.find((o) => o.value === value), [options, value]);
   const isSelected = Boolean(selected);
-
   const currentLeftIcon = fixedLeftIcon ?? (isSelected ? selected?.leftIcon : placeholderLeftIcon);
 
   return (
     <StyledSelect ref={optionsRef}>
       <SelectBox
-        role="button"
-        tabIndex={0}
-        aria-haspopup="listbox"
+        role="combobox"
         aria-expanded={open}
+        aria-label={isSelected ? `Language: ${selected!.label}` : 'Select language'}
+        aria-controls={listboxId}
+        aria-haspopup="listbox"
+        tabIndex={0}
         onClick={toggleOpen}
         onKeyDown={handleKeyDown}
       >
@@ -75,18 +80,20 @@ export const SmallSelect: FunctionComponent<SmallSelectProps> = ({
 
       {open && (
         <>
-          <Options role="listbox">
-            {options.map((option, index) => (
-              <SelectOption
-                key={option.value}
-                option={option}
-                index={index}
-                submit={() => {
-                  close();
-                  onChange(option.value);
-                }}
-              />
-            ))}
+          <Options role="listbox" id={listboxId}>
+            {options.map((option, index) => {
+              return (
+                <SelectOption
+                  key={option.value}
+                  option={option}
+                  index={index}
+                  submit={() => {
+                    close();
+                    onChange(option.value);
+                  }}
+                />
+              );
+            })}
           </Options>
 
           <MobileOptions
