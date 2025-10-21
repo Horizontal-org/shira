@@ -64,7 +64,10 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
     cell: (c) => {
       const isPhishing = Boolean(c.getValue());
       return (
-        <PhishingCell $isPhishing={isPhishing}>
+        <PhishingCell
+          htmlFor={isPhishing ? "phishing" : "legitimate"}
+          $isPhishing={isPhishing}
+        >
           {isPhishing ? (
             <MdOutlinePhishing size={16} />
           ) : (
@@ -112,6 +115,8 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
     cell: ({ row }) => (
       <ActionsCell>
         <ActionButton
+          type="button"
+          name="Preview question"
           aria-label="Preview question"
           title="Preview"
           onClick={() => handlers.onPreview?.(row.original)}
@@ -119,6 +124,8 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
           <MdRemoveRedEye size={21} color={defaultTheme.colors.dark.overlay} />
         </ActionButton>
         <ActionButton
+          type="button"
+          name="Add question"
           aria-label="Add question"
           title="Add"
           onClick={() => handlers.onAdd?.(row.original)}
@@ -130,7 +137,7 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
   },
 ];
 
-const PhishingCell = styled.div<{ $isPhishing?: boolean }>`
+const PhishingCell = styled.label<{ $isPhishing?: boolean }>`
   background: ${(props) => (
     props.$isPhishing
       ? defaultTheme.colors.light.paleRed
