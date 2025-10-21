@@ -204,7 +204,6 @@ const StyledBox = styled(Box)`
 
 const Table = styled("table")`
   background: ${defaultTheme.colors.light.paleGrey};
-  overflow: hidden;
   position: relative;
   width: 100%;
   font-size: 14px;
