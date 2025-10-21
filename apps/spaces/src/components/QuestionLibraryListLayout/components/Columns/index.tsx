@@ -1,10 +1,11 @@
-import { Body3Bold, defaultTheme, styled } from "@shira/ui";
+import { Body3, Body3Bold, defaultTheme, styled } from "@shira/ui";
 import { ColumnDef } from "@tanstack/react-table";
 import { FaCircleCheck, FaCirclePlus } from "react-icons/fa6";
 import { MdOutlinePhishing, MdRemoveRedEye } from "react-icons/md";
 import type { App } from "../../../../fetch/question_library";
 import { SelectLanguage } from "../Selects/SelectLanguage";
 import { SelectApp } from "../Selects/SelectApp";
+import { appIcons } from "../AppIcons/appIcons";
 
 export type Explanation = {
   index: number;
@@ -98,6 +99,18 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
     id: "app",
     cell: ({ row }) => {
       const { id, app, apps } = row.original;
+
+      if (apps.length === 1) {
+        return (
+          <>
+            <AppCell>
+              {appIcons[app?.name.toLocaleLowerCase()]}
+              {app?.name}
+            </AppCell>
+          </>
+        );
+      }
+
       return (
         <SelectApp
           valueId={app?.id}
@@ -172,4 +185,13 @@ const ActionButton = styled("button")`
 
 const NameCell = styled(Body3Bold)`
   color: ${defaultTheme.colors.dark.darkGrey};
+`;
+
+const AppCell = styled(Body3)`
+  color: ${defaultTheme.colors.dark.darkGrey};
+  font-size: 14px;
+  gap: 6px;
+  display: inline-flex;
+  align-items: center;
+  padding-left: 4px;
 `;
