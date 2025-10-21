@@ -55,10 +55,8 @@ export const SmallSelect: FunctionComponent<SmallSelectProps> = ({
     <StyledSelect ref={optionsRef}>
       <SelectBox
         role="combobox"
-        aria-controls="select-options"
-        aria-labelledby="select-label"
-        aria-haspopup="listbox"
         aria-expanded={open}
+        aria-controls="select-options"
         tabIndex={0}
         onClick={toggleOpen}
         onKeyDown={handleKeyDown}
