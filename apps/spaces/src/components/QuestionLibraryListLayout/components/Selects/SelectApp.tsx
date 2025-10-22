@@ -40,6 +40,7 @@ export const SelectApp: FunctionComponent<Props> = ({
 
   return (
     <SmallSelect
+      aria-label="app"
       value={showPlaceholder ? "" : (valueId ? String(valueId) : "")}
       options={selectOptions}
       initialPlaceholder={placeholder}

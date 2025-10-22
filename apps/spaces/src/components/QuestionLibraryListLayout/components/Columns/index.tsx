@@ -1,10 +1,11 @@
-import { Body3Bold, defaultTheme, styled } from "@shira/ui";
+import { Body3, Body3Bold, defaultTheme, styled } from "@shira/ui";
 import { ColumnDef } from "@tanstack/react-table";
 import { FaCircleCheck, FaCirclePlus } from "react-icons/fa6";
 import { MdOutlinePhishing, MdRemoveRedEye } from "react-icons/md";
 import type { App } from "../../../../fetch/question_library";
 import { SelectLanguage } from "../Selects/SelectLanguage";
 import { SelectApp } from "../Selects/SelectApp";
+import { appIcons } from "../AppIcons/appIcons";
 
 export type Explanation = {
   index: number;
@@ -64,7 +65,9 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
     cell: (c) => {
       const isPhishing = Boolean(c.getValue());
       return (
-        <PhishingCell $isPhishing={isPhishing}>
+        <PhishingCell
+          $isPhishing={isPhishing}
+        >
           {isPhishing ? (
             <MdOutlinePhishing size={16} />
           ) : (
@@ -95,6 +98,18 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
     id: "app",
     cell: ({ row }) => {
       const { id, app, apps } = row.original;
+
+      if (apps.length === 1) {
+        return (
+          <>
+            <AppCell>
+              {appIcons[app?.name.toLocaleLowerCase()]}
+              {app?.name}
+            </AppCell>
+          </>
+        );
+      }
+
       return (
         <SelectApp
           valueId={app?.id}
@@ -112,6 +127,8 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
     cell: ({ row }) => (
       <ActionsCell>
         <ActionButton
+          type="button"
+          name="Preview question"
           aria-label="Preview question"
           title="Preview"
           onClick={() => handlers.onPreview?.(row.original)}
@@ -119,6 +136,8 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
           <MdRemoveRedEye size={21} color={defaultTheme.colors.dark.overlay} />
         </ActionButton>
         <ActionButton
+          type="button"
+          name="Add question"
           aria-label="Add question"
           title="Add"
           onClick={() => handlers.onAdd?.(row.original)}
@@ -130,7 +149,7 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
   },
 ];
 
-const PhishingCell = styled.div<{ $isPhishing?: boolean }>`
+const PhishingCell = styled.span<{ $isPhishing?: boolean }>`
   background: ${(props) => (
     props.$isPhishing
       ? defaultTheme.colors.light.paleRed
@@ -165,4 +184,14 @@ const ActionButton = styled("button")`
 
 const NameCell = styled(Body3Bold)`
   color: ${defaultTheme.colors.dark.darkGrey};
+`;
+
+const AppCell = styled(Body3)`
+  color: ${defaultTheme.colors.dark.darkGrey};
+  font-size: 14px;
+  gap: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 4px;
 `;
