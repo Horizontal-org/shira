@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { styled } from 'styled-components';
-import { SmallSelect, LanguageIcon } from '@shira/ui';
 import type { StoryObj } from '@storybook/react';
+import { SmallSelect } from './SmallSelect';
+import { LanguageIcon } from '../Icons';
 
 const meta = {
   title: 'Components/SmallSelect',
