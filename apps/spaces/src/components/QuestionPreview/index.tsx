@@ -50,7 +50,10 @@ export const QuestionPreview: FunctionComponent<Props> = ({
   return (
     <>
       <ExplanationHeader>
-        <CloseWrapper onClick={onClose}>
+        <CloseWrapper
+          type="button"
+          aria-label="Close preview"
+          onClick={onClose}>
           <IoClose color={defaultTheme.colors.dark.darkGrey} size={22} />
         </CloseWrapper>
 
@@ -181,15 +184,16 @@ const Content = styled("div")`
   background: ${defaultTheme.colors.light.paleGrey};
 `;
 
-const CloseWrapper = styled("div")`
+const CloseWrapper = styled("button")`
+  background: white;
+  border: none;
   display: flex;
   align-items: center;
   padding: 16px 20px;
   cursor: pointer;
 `;
 
-
-const SubmitButtonWrapper = styled.div`
+const SubmitButtonWrapper = styled("div")`
   padding-left: 12px;
-  border-left: 1px solid rgb(172, 173, 174)
-`
+  border-left: 1px solid rgb(172, 173, 174);
+`;
