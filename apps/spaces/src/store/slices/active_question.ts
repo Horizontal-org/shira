@@ -42,7 +42,8 @@ export const createActiveQuestionSlice: StateCreator<
     set((state) => ({ activeQuestion: {
       ...state.activeQuestion,
       app: app,
-      content: app.type === 'email' ? cloneDeep(defaultEmailContent) : cloneDeep(defaultMessageContent) 
+      content: (state.activeQuestion.app && app.type !== state.activeQuestion.app.type) 
+        ? (app.type === 'email' ? cloneDeep(defaultEmailContent) : cloneDeep(defaultMessageContent)) : state.activeQuestion.content 
     } }))
   },
   updateActiveQuestionInput: (objectKey, inputKey, value) => {
