@@ -242,8 +242,16 @@
                                 },
                                 "app": {
                                     "title": "App",
-                                    "messaging": "Messaging app",
-                                    "email": "Email app"
+                                    "messaging_type": "Messaging app",
+                                    "email": "Email app",
+                                    "apps": {
+                                        "whatsapp": "WhatsApp",
+                                        "facebook_messenger": "Messenger",
+                                        "dating_app": "Dating app",
+                                        "sms": "SMS",
+                                        "gmail": "Gmail",
+                                        "outlook": "Outlook"
+                                    }
                                 },
                                 "actions": {
                                     "title": "Actions",
