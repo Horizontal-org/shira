@@ -29,8 +29,12 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
   const { actionFeedback, duplicate } = useLibraryQuestionCRUD();
   const {
     setQuizActionSuccess,
+    setActiveQuestion,
+    clearActiveQuestion
   } = useStore((state) => ({
-    setQuizActionSuccess: state.setQuizActionSuccess
+    setQuizActionSuccess: state.setQuizActionSuccess,
+    setActiveQuestion: state.setActiveQuestion,
+    clearActiveQuestion: state.clearActiveQuestion,
   }), shallow)
 
   const [preview, setPreview] = useState<{ active: ActiveQuestion; original: RowType }>(null);
@@ -69,9 +73,11 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
     return () => { alive = false; };
   }, [controlled, rowsProp]);
 
-  const setActiveQuestion =
-    useStore((s: any) => s.setActiveQuestion) ||
-    ((aq: ActiveQuestion) => useStore.setState({ activeQuestion: aq }));
+  useEffect(() => {
+    return () => {
+      clearActiveQuestion();
+    };
+  }, []);
 
   const handlePreview = (row: RowType) => {
     const active = libraryToActiveQuestion(row);
