@@ -1,0 +1,298 @@
+{
+    "login": {
+        "title": "Log in",
+        "subtitle": "Log in to access your custom Shira space. If you have trouble logging in, contact us at contact@wearehorizontal.org",
+        "email_placeholder": "Email",
+        "password_placeholder": "Password",
+        "login_button": "Log in",
+        "login_header_button": "Log in"
+    },
+    "beta": {
+        "label": "BETA",
+        "message": "Shira is still in development and you may experience issues.",
+        "click_here": "Click here",
+        "feedback_text": "to share your feedback and help us improve!"
+    },
+    "left_menu": {
+        "dashboard": "Dashboard",
+        "support": "Support",
+        "logout": "Log out"
+    },
+    "dashboard": {
+        "title": "Welcome to your dashboard",
+        "subtitle": "This is where you can manage quizzes. Quiz links are public, so remember to avoid sharing sensitive information in them.",
+        "create_quiz_button": "Create new quiz",
+        "quizzes": {
+            "filter": {
+                "all_quizzes": "All quizzes",
+                "published": "Published",
+                "unpublished": "Unpublished"
+            },
+            "last_modified": {
+                "last_modified": "Last modified {{time}} ago",
+                "about": "about",
+                "less than": "less than",
+                "minute": "minute",
+                "minutes": "minutes",
+                "hour": "hour",
+                "hours": "hours",
+                "day": "day",
+                "days": "days",
+                "month": "month",
+                "months": "months",
+                "year": "year",
+                "years": "years"
+            },
+            "publish_toggle": "Published",
+            "actions": {
+                "edit": "Edit",
+                "duplicate": "Duplicate",
+                "duplicate_modal": {
+                    "title": "Duplicate quiz",
+                    "subtitle": "Set the name for the new quiz",
+                    "quiz_name": "Quiz name",
+                    "quiz_name_placeholder": "Copy of {{quiz_name}}",
+                    "save_button": "Save",
+                    "back_button": "Back"
+                },
+                "delete": "Delete",
+                "delete_modal": {
+                    "title": "Are you sure you want to delete",
+                    "subtitle": "Deleting this quiz is permanent and cannot be undone.",
+                    "note": "Note:",
+                    "message": "quiz's Results will also be deleted.",
+                    "delete_button": "Delete",
+                    "cancel_button": "Cancel"
+                }
+            }
+        },
+        "quiz": {
+            "subtitle": "Manage your quiz here, including adding, removing, and reordering questions",
+            "publish_toggle": {
+                "published": "Published",
+                "unpublished": "Unpublished"
+            },
+            "actions": {
+                "rename": "Rename",
+                "rename_modal": {
+                    "title": "Rename quiz",
+                    "input_placeholder": "Rename quiz",
+                    "save_button": "OK",
+                    "cancel_button": "Cancel"
+                },
+                "copy_link": "Copy quiz link",
+                "delete": "Delete"
+            },
+            "tabs": {
+                "questions": "Questions",
+                "results": "Results"
+            },
+            "questions_tab": {
+                "create_question_button": "Create question",
+                "add_from_library_button": "Add from library",
+                "questions": {
+                    "edit": {
+                        "tab_header": "Edit question"
+                    },
+                    "delete": {
+                        "title": "Delete question",
+                        "message": "Are you sure you want to delete this question? This action cannot be undone.",
+                        "delete_button": "Delete",
+                        "cancel_button": "Cancel"
+                    }
+                },
+                "no_questions": {
+                    "subtitle": "You don't have any questions yet. Create your own question or add one from the Shira library.",
+                    "create_question_button": "Create question",
+                    "add_from_library_button": "Add from library"
+                },
+                "create_question": {
+                    "header_title": "Create a new question",
+                    "back_button": "Back",
+                    "next_button": "Next",
+                    "save_button": "Save",
+                    "edit_confirmation_modal": {
+                        "title": "Are you sure you want to edit this quiz?",
+                        "message": "Some learners have already taken this quiz. Adding or editing questions may affect the accuracy of Results.",
+                        "cancel_button": "Cancel",
+                        "continue_button": "Continue"
+                    },
+                    "tabs": {
+                        "question_info": {
+                            "tab_title": "Question info",
+                            "question_name": {
+                                "title": "Question name",
+                                "subtitle": "This name will only visible to you, to help you remember what this question is about",
+                                "question_name_placeholder": "Question name"
+                            },
+                            "phishing": {
+                                "title": "Is it phishing?",
+                                "yes": "Yes",
+                                "no": "No"
+                            },
+                            "apps": {
+                                "title": "Selected app"
+                            }
+                        },
+                        "content": {
+                            "tab_title": "Content",
+                            "phishing": "You are writing a phishing message",
+                            "message": "On this screen, create the content that will be displayed in the question, including the {{variables}} and {{explanations}} to go with it.",
+                            "message_variables": "variables",
+                            "message_explanations": "explanations",
+                            "variables_modal": {
+                                "title": "Variables",
+                                "message": "Variables are placeholders that you can use to insert personalized information into a question.",
+                                "message2": "The information shown is relevant to each learner, based on what they entered or auto-generated during quiz setup.",
+                                "message3": "To add a variable, type the following:",
+                                "examples": {
+                                    "name": "name",
+                                    "name_example": "This will display the learner's name",
+                                    "email": "email",
+                                    "email_example": "This will display the learner's email address"
+                                },
+                                "ok": "ok"
+                            },
+                            "explanations_modal": {
+                                "title": "Explanations",
+                                "message": "Explanations are short notes that highlight specific elements of a question and explain why these elements may indicate that a message is a phishing attempt or not.",
+                                "message2": "To add an explanation, select the explanation icon on the right side of each row. Explanations can be attached to:",
+                                "list": {
+                                    "fields": "Fields, such as the sender's name or email address",
+                                    "content": "Specific parts of the message content",
+                                    "attachments": "File attachments."
+                                },
+                                "ok": "ok"
+                            },
+                            "explanation_content_placeholder": "New explanation",
+                            "sender": {
+                                "title": "Sender name",
+                                "subtitle": "This is the name that will be displayed in the {{sender}} field of the email.",
+                                "sender": "sender",
+                                "placeholder": "Sender name"
+                            },
+                            "sender_email_addres": {
+                                "title": "Sender email address",
+                                "subtitle": "This is the email address that will be displayed in the “Sender” field of the email.",
+                                "placeholder": "Sender email"
+                            },
+                            "email_subject": {
+                                "title": "Email subject",
+                                "subtitle": "This will be displayed in the “Subject” field of the email. If you keep this field empty, the subject field will show “(no subject)”.",
+                                "placeholder": "Subject"
+                            },
+                            "email_body_content": {
+                                "title": "Email body content",
+                                "subtitle": "Write the message that will be shown."
+                            },
+                            "attachment_button": "Add attachment",
+                            "attachment_modal": {
+                                "title": "Add attachment",
+                                "file_name": "File name",
+                                "field_type": {
+                                    "title:": "Field type",
+                                    "image": "Image",
+                                    "video": "Video",
+                                    "audio": "Audio",
+                                    "document": "Document",
+                                    "other": "Other"
+                                },
+                                "save_button": "Save",
+                                "cancel_button": "Cancel"
+                            },
+                            "explanations": {
+                                "title": "Explanations will be shown in the following order in the quiz.",
+                                "no_explanations_modal": {
+                                    "title": "Continue without explanations?",
+                                    "message": "You haven't created any explanations for this question, so learners will not see any text explaining why the message seems like phishing or seems legitimate.",
+                                    "add": "Add explanations",
+                                    "continue": "Continue"
+                                }
+                            },
+                            "preview": {
+                                "tab_title": "Preview",
+                                "subtitle": "This is how your question will look to learners, including the explanations you have written.",
+                                "show_explanations": "Show explanations",
+                                "hide_explanations": "Hide explanations",
+                                "next_explanation": "Next explanation",
+                                "previous_explanation": "Previous explanation",
+                                "no_explanations": "There are no explanations for this question."
+                            }
+                        },
+                        "question_library": {
+                            "tab_header_title": "Add a question from the library",
+                            "title": "Question library",
+                            "subtitle": "Select a question from list below to add it to your quiz. Once you've added it to your quiz, you can edit the question to fully customize it, including changing the text and explanations.",
+                            "columns": {
+                                "question_name": "Question name",
+                                "type_column": {
+                                    "title": "Type",
+                                    "options": {
+                                        "phishing": "Phishing",
+                                        "legitimate": "Legitimate"
+                                    }
+                                },
+                                "language": {
+                                    "title": "Language",
+                                    "placeholder": "Languages",
+                                    "english": "English",
+                                    "spanish": "Spanish",
+                                    "french": "French",
+                                    "mandarin": "Mandarin"
+                                },
+                                "app": {
+                                    "title": "App",
+                                    "messaging": "Messaging app",
+                                    "email": "Email app"
+                                },
+                                "actions": {
+                                    "title": "Actions",
+                                    "preview": {
+                                        "show_explanations": "Show explanations",
+                                        "hide_explanations": "Hide explanations",
+                                        "next_explanation": "Next explanation",
+                                        "previous_explanation": "Previous explanation",
+                                        "no_explanations": "There are no explanations for this question.",
+                                        "add": "Add to quiz"
+                                    }
+                                }
+                            }
+                        },
+                        "results_tab": {
+                            "completed_quizzes": {
+                                "title": "Number of completed quizzes",
+                                "subtitle": "This is the number of quizzes that have been completed."
+                            },
+                            "average_score": {
+                                "title": "Average score",
+                                "subtitle": "The average score received by all learners who took this quiz will be shown here."
+                            }
+                        }
+                    },
+                    "support": {
+                        "title": "Support",
+                        "subtitle": "If you need any support, including with deleting your account, please email the Shira team at contact@wearehorizontal.org"
+                    }
+                }
+            },
+            "error_messages": {},
+            "success_messages": {
+                "copied_quiz_link": "The public quiz link has been copied to your clipboard.",
+                "quiz_deleted": "The quiz has been deleted",
+                "quiz_created": "The quiz has been created",
+                "quiz_updated": "The quiz has been updated",
+                "quiz_order_updated": "The quiz order has been updated",
+                "question_created": "Question created",
+                "question_added": "The question has been added to your quiz",
+                "question_updated": "{{question_name}} created successfully",
+                "question_edited": "Question updated"
+            },
+            "loading_messages": {
+                "loading": "Loading...",
+                "saving": "Saving...",
+                "duplicating": "Duplicating...",
+                "loading_library_questions": "Loading questions..."
+            }
+        }
+    }
+}
