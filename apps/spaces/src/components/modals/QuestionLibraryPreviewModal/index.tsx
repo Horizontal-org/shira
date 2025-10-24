@@ -19,8 +19,11 @@ export const QuestionLibraryPreviewModal: FunctionComponent<Props> = ({
 }) => {
   return (
     <>
-      <Overlay role="dialog" aria-modal="true">
-        <Dialog>
+      <Overlay>
+        <Dialog
+          role="dialog"
+          aria-modal="true"
+        >
           <Body>
             <QuestionPreview
               onAdd={onAdd}
