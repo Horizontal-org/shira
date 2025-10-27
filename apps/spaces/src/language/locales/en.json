@@ -317,9 +317,10 @@
         "quiz_updated": "The quiz has been updated",
         "quiz_order_updated": "The quiz order has been updated",
         "question_created": "Question created",
+        "question_created_2": "{{question_name}} created successfully",
         "question_added": "The question has been added to your quiz",
-        "question_updated": "{{question_name}} created successfully",
-        "question_edited": "Question updated",
+        "question_updated": "Question updated",
+        "question_deleted": "Question deleted",
         "question_copied": "Copy of {{question_name}} created successfully",
         "no_questions_found": "No questions found."
     },

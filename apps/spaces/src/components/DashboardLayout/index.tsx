@@ -83,8 +83,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
 
   useEffect(() => {
-    if (SUCCESS_MESSAGES[quizActionSuccess]) {
-      const message = SUCCESS_MESSAGES[quizActionSuccess]
+    if (t(SUCCESS_MESSAGES[quizActionSuccess])) {
+      const message = t(SUCCESS_MESSAGES[quizActionSuccess]);
       toast.success(message, { duration: 3000 })
 
       if (quizActionSuccess !== QuizSuccessStates.delete) {
