@@ -168,11 +168,7 @@
             },
             "language": {
                 "title": "Language",
-                "placeholder": "Languages",
-                "english": "English",
-                "spanish": "Spanish",
-                "french": "French",
-                "mandarin": "Mandarin"
+                "placeholder": "Languages"
             },
             "app": {
                 "title": "App",
@@ -303,6 +299,12 @@
             "message": "You haven't created any explanations for this question, so learners will not see any text explaining why the message seems like phishing or seems legitimate.",
             "add": "Add explanations"
         }
+    },
+    "select_languages": {
+        "english": "English",
+        "spanish": "Spanish",
+        "french": "French",
+        "mandarin": "Mandarin"
     },
     "error_messages": {
         "duplicate_quiz_fail": "Failed to duplicate quiz",
