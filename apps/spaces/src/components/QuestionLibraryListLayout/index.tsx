@@ -29,8 +29,12 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
   const { actionFeedback, duplicate } = useLibraryQuestionCRUD();
   const {
     setQuizActionSuccess,
+    setActiveQuestion,
+    clearActiveQuestion
   } = useStore((state) => ({
-    setQuizActionSuccess: state.setQuizActionSuccess
+    setQuizActionSuccess: state.setQuizActionSuccess,
+    setActiveQuestion: state.setActiveQuestion,
+    clearActiveQuestion: state.clearActiveQuestion,
   }), shallow)
 
   const [preview, setPreview] = useState<{ active: ActiveQuestion; original: RowType }>(null);
@@ -69,9 +73,11 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
     return () => { alive = false; };
   }, [controlled, rowsProp]);
 
-  const setActiveQuestion =
-    useStore((s: any) => s.setActiveQuestion) ||
-    ((aq: ActiveQuestion) => useStore.setState({ activeQuestion: aq }));
+  useEffect(() => {
+    return () => {
+      clearActiveQuestion();
+    };
+  }, []);
 
   const handlePreview = (row: RowType) => {
     const active = libraryToActiveQuestion(row);
@@ -137,8 +143,8 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
       <StyledBox>
         <HeaderRow>
           <div>
-            <H2>Question Library</H2>
-            <MiddleBody>
+            <H2 role="heading" aria-level={1}>Question Library</H2>
+            <MiddleBody role="heading" aria-level={2}>
               Select a question from list below to add it to your quiz. Once you've added it to your quiz, you can edit the question to fully customize it, including changing the text and explanations.
             </MiddleBody>
           </div>
@@ -219,7 +225,7 @@ const HeaderRow = styled("div")`
   color: ${defaultTheme.colors.dark.black};
 `;
 
-const Thead = styled.thead`
+const Thead = styled("thead")`
   & Th {
     background: ${defaultTheme.colors.light.paleGreen};
     &:first-child { border-top-left-radius: 20px; }
@@ -227,7 +233,7 @@ const Thead = styled.thead`
   }
 `;
 
-const Th = styled.th`
+const Th = styled("th")`
   text-align: left;
   padding: 14px 16px;
   font-weight: 600;

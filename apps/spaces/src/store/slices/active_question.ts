@@ -1,7 +1,7 @@
 import { StateCreator } from "zustand"
 import { fetchQuestion, fetchQuestions, Question, QuestionPayload } from "../../fetch/question"
 import { App } from "../../fetch/app";
-import { ActiveQuestion, defaultEmailContent, defaultMessageContent, EmailContent } from "../types/active_question";
+import { ActiveQuestion, defaultEmailContent, defaultMessageContent, EmailContent, MessagingContent } from "../types/active_question";
 import { Explanation } from "../types/explanation";
 import { cloneDeep } from "lodash";
 
@@ -16,6 +16,24 @@ export interface ActiveQuestionSlice {
   getExplanationIds: () => Array<number>
   clearActiveQuestion: () => void
   setActiveQuestion: (activeQuestion: ActiveQuestion) => void
+}
+
+const getContentOnAppUpdate = (
+  app: App,
+  activeQuestion: ActiveQuestion,
+) => {
+  if (!activeQuestion.content || Object.keys(activeQuestion.content).length === 0 || activeQuestion.app.type !== app.type) {
+    if (app.type === 'email') {
+      return cloneDeep(defaultEmailContent)
+    } else {
+      return cloneDeep(defaultMessageContent)
+    }
+
+  }
+
+  return activeQuestion.content
+// content: (state.activeQuestion.app && app.type !== state.activeQuestion.app.type) 
+//         ? (app.type === 'email' ? cloneDeep(defaultEmailContent) : cloneDeep(defaultMessageContent)) : state.activeQuestion.content 
 }
 
 export const createActiveQuestionSlice: StateCreator<
@@ -42,8 +60,7 @@ export const createActiveQuestionSlice: StateCreator<
     set((state) => ({ activeQuestion: {
       ...state.activeQuestion,
       app: app,
-      content: (state.activeQuestion.app && app.type !== state.activeQuestion.app.type) 
-        ? (app.type === 'email' ? cloneDeep(defaultEmailContent) : cloneDeep(defaultMessageContent)) : state.activeQuestion.content 
+      content: getContentOnAppUpdate(app, state.activeQuestion)
     } }))
   },
   updateActiveQuestionInput: (objectKey, inputKey, value) => {
