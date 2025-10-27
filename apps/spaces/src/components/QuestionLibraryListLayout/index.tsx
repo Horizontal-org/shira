@@ -129,7 +129,7 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
         onAdd: handleAdd,
         onSelectLanguage: handleSelectLanguage,
         onSelectApp: handleSelectApp
-      }),
+      }, t),
     []
   );
 

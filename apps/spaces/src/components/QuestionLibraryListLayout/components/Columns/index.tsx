@@ -2,6 +2,7 @@ import { Body3, Body3Bold, defaultTheme, styled } from "@shira/ui";
 import { ColumnDef } from "@tanstack/react-table";
 import { FaCircleCheck, FaCirclePlus } from "react-icons/fa6";
 import { MdOutlinePhishing, MdRemoveRedEye } from "react-icons/md";
+import { TFunction } from "i18next";
 import type { App } from "../../../../fetch/question_library";
 import { SelectLanguage } from "../Selects/SelectLanguage";
 import { SelectApp } from "../Selects/SelectApp";
@@ -51,15 +52,15 @@ type ColumnHandlers = {
   onSelectApp?: (questionId: number, appId: number) => void;
 };
 
-export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
+export const getColumns = (handlers: ColumnHandlers, t: TFunction): ColumnDef<RowType>[] => [
   {
-    header: "Question name",
+    header: t("question_library.columns.question_name"),
     accessorKey: "name",
     id: "title",
     cell: (c) => <NameCell>{String(c.getValue())}</NameCell>,
   },
   {
-    header: "Type",
+    header: t("question_library.columns.type.title"),
     accessorKey: "isPhishing",
     id: "type",
     cell: (c) => {
@@ -73,13 +74,13 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
           ) : (
             <FaCircleCheck size={16} color={defaultTheme.colors.green6} />
           )}
-          {isPhishing ? "Phishing" : "Legitimate"}
+          {isPhishing ? t("question_library.columns.type.phishing") : t("question_library.columns.type.legitimate")}
         </PhishingCell>
       );
     },
   },
   {
-    header: "Language",
+    header: t("question_library.columns.language.title"),
     id: "language",
     cell: ({ row }) => {
       const { id, language, languages } = row.original;
@@ -94,7 +95,7 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
     },
   },
   {
-    header: "App",
+    header: t("question_library.columns.app.title"),
     id: "app",
     cell: ({ row }) => {
       const { id, app, apps } = row.original;
@@ -122,7 +123,7 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
     },
   },
   {
-    header: "Actions",
+    header: t("question_library.columns.actions.title"),
     id: "actions",
     cell: ({ row }) => (
       <ActionsCell>
@@ -137,7 +138,7 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
         </ActionButton>
         <ActionButton
           type="button"
-          name="Add question"
+          name={t("question_library.columns.type.title")}
           aria-label="Add question"
           title="Add"
           onClick={() => handlers.onAdd?.(row.original)}
