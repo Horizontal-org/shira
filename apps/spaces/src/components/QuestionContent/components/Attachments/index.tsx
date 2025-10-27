@@ -45,6 +45,11 @@ export const Attachments: FunctionComponent<Props> = ({
       />
 
       <AddAttachmentModal
+        titleLabel={t("modals.attachment_file.title")}
+        saveLabel={t("buttons.save")}
+        cancelLabel={t("buttons.cancel")}
+        fileNameLabel={t("modals.attachment_file.file_name")}
+
         fileName={fileName}
         handleFileName={setFileName}
         fileType={fileType}
