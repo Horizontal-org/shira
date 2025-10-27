@@ -10,6 +10,7 @@ import { IImageService } from "src/modules/image/interfaces/services/image.servi
 import { ExplanationTranslation } from "src/modules/translation/domain/explanationTranslation.entity";
 import { Language } from "src/modules/languages/domain/languages.entity";
 import { QuestionTranslation } from "src/modules/translation/domain/questionTranslation.entity";
+import { App } from "src/modules/app/domain";
 
 @Injectable()
 export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestionService {
@@ -43,6 +44,8 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
       if (!defaultLanguage) throw new Error("Default language not found");
 
 
+      const selectedApp = await manager.findOne(App, { where: { id: dto.appId } });
+
       // Duplicate Question (type 'quiz')
       const newQuestion = manager.create(Question, {
         name: originalQuestion.name,
@@ -50,7 +53,7 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
         isPhising: originalQuestion.isPhising,
         languageId: defaultLanguage.id,
         type: "quiz",
-        apps: originalQuestion.apps,
+        apps: selectedApp ? [selectedApp] : originalQuestion.apps,
       });
 
       const savedQuestion = await manager.save(newQuestion);
