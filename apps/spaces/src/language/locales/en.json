@@ -80,9 +80,6 @@
     },
     "create_question": {
         "header_title": "Create a new question",
-        "back_button": "Back",
-        "next_button": "Next",
-        "save_button": "Save",
         "tabs": {
             "question_info": {
                 "tab_title": "Question info",
@@ -231,6 +228,11 @@
         "continue": "Continue"
     },
     "modals": {
+        "create_quiz": {
+            "button": "Create new quiz",
+            "title": "Give a name to your new quiz",
+            "placeholder": "Quiz name"
+        },
         "duplicate_quiz": {
             "title": "Duplicate quiz",
             "subtitle": "Set the name for the new quiz",

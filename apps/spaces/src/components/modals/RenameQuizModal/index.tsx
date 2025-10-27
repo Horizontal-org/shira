@@ -33,9 +33,9 @@ export const RenameQuizModal: FunctionComponent<Props> = ({
   return quiz && (
       <Modal
         isOpen={isModalOpen}
-        title={t('modals.rename.title')}
-        primaryButtonText={t('modals.rename.saven')}
-        secondaryButtonText={t('modals.rename.cancel')}
+        title={t('modals.rename_quiz.title')}
+        primaryButtonText={t('buttons.save')}
+        secondaryButtonText={t('buttons.cancel')}
         onPrimaryClick={() => {
           setIsModalOpen(false);
           onRename(title)
@@ -48,7 +48,7 @@ export const RenameQuizModal: FunctionComponent<Props> = ({
     >
         <FormContent>
           <TextInput
-            label={t('modals.rename.input_placeholder')}
+            label={t('modals.rename_quiz.input_placeholder')}
             value={title}
             onChange={(e) => handleTitle(e.target.value)}
           />
