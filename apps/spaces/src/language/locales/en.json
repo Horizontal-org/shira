@@ -103,24 +103,26 @@
             "content": {
                 "tab_title": "Content",
                 "phishing": "You are writing a phishing message",
-                "message": "On this screen, create the content that will be displayed in the question, including the {{variables}} and {{explanations}} to go with it.",
+                "legitimate": "You are writing a legitimate message",
+                "message": "On this screen, create the content that will be displayed in the question, including the ",
+                "message2": "and ",
+                "message3": "to go with it.",
                 "message_variables": "variables",
                 "message_explanations": "explanations",
                 "explanation_content_placeholder": "New explanation",
                 "sender": {
                     "title": "Sender name",
-                    "subtitle": "This is the name that will be displayed in the {{sender}} field of the email.",
-                    "sender": "sender",
+                    "subtitle": "This is the name that will be displayed in the \"Sender\" field of the email.",
                     "placeholder": "Sender name"
                 },
-                "sender_email_addres": {
+                "sender_email": {
                     "title": "Sender email address",
-                    "subtitle": "This is the email address that will be displayed in the “Sender” field of the email.",
+                    "subtitle": "This is the email address that will be displayed in the \"Sender\" field of the email.",
                     "placeholder": "Sender email"
                 },
                 "email_subject": {
                     "title": "Email subject",
-                    "subtitle": "This will be displayed in the “Subject” field of the email. If you keep this field empty, the subject field will show “(no subject)”.",
+                    "subtitle": "This will be displayed in the \"Subject\" field of the email. If you keep this field empty, the subject field will show \"(no subject)\".",
                     "placeholder": "Subject"
                 },
                 "email_body_content": {
@@ -131,15 +133,28 @@
                 "explanations": {
                     "title": "Explanations will be shown in the following order in the quiz."
                 },
-                "preview": {
-                    "tab_title": "Preview",
-                    "subtitle": "This is how your question will look to learners, including the explanations you have written.",
-                    "show_explanations": "Show explanations",
-                    "hide_explanations": "Hide explanations",
-                    "next_explanation": "Next explanation",
-                    "previous_explanation": "Previous explanation",
-                    "no_explanations": "There are no explanations for this question."
-                }
+                "sender_phone": {
+                    "title": "Sender phone",
+                    "subtitle": "This is the phone number that will be displayed in the \"Sender\" field of the message.",
+                    "placeholder": "Sender phone number"
+                },
+                "message_content": {
+                    "title": "Message content",
+                    "subtitle": "Create the messages that will be shown. You can create multiple messages and image files. Add an explanation by selecting a portion of text and clicking on the explanation icon."
+                },
+                "add_message_text": "Add message text",
+                "add_image_attachment": "Add image",
+                "upload_image": "Upload from computer",
+                "message_text": "Message text"
+            },
+            "preview": {
+                "tab_title": "Preview",
+                "subtitle": "This is how your question will look to learners, including the explanations you have written.",
+                "show_explanations": "Show explanations",
+                "hide_explanations": "Hide explanations",
+                "next_explanation": "Next explanation",
+                "previous_explanation": "Previous explanation",
+                "no_explanations": "There are no explanations for this question."
             }
         }
     },
@@ -149,12 +164,10 @@
         "subtitle": "Select a question from list below to add it to your quiz. Once you've added it to your quiz, you can edit the question to fully customize it, including changing the text and explanations.",
         "columns": {
             "question_name": "Question name",
-            "type_column": {
+            "type": {
                 "title": "Type",
-                "options": {
-                    "phishing": "Phishing",
-                    "legitimate": "Legitimate"
-                }
+                "phishing": "Phishing",
+                "legitimate": "Legitimate"
             },
             "language": {
                 "title": "Language",
@@ -193,11 +206,13 @@
     "results_tab": {
         "completed_quizzes": {
             "title": "Number of completed quizzes",
-            "subtitle": "This is the number of quizzes that have been completed."
+            "subtitle": "This is the number of quizzes that have been completed",
+            "public_learners": " by public learners"
         },
         "average_score": {
             "title": "Average score",
-            "subtitle": "The average score received by all learners who took this quiz will be shown here."
+            "subtitle": "This is the average score received by all learners who took this quiz.",
+            "empty_subtitle": "The average score received by all learners who took this quiz will be shown here."
         }
     },
     "support": {
@@ -290,7 +305,8 @@
     "error_messages": {
         "duplicate_quiz_fail": "Failed to duplicate quiz",
         "duplicate_question_fail": "Failed to duplicate question",
-        "add_question_error": "Error adding question"
+        "add_question_error": "Error adding question",
+        "results_load_failed": "Failed to load results"
     },
     "success_messages": {
         "quiz_link_copied": "The public quiz link has been copied to your clipboard.",
