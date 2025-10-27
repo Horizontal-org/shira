@@ -177,7 +177,7 @@
             "app": {
                 "title": "App",
                 "messaging_type": "Messaging app",
-                "email": "Email app",
+                "email_type": "Email app",
                 "apps": {
                     "whatsapp": "WhatsApp",
                     "facebook_messenger": "Messenger",
