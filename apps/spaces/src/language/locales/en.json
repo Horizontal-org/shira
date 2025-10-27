@@ -126,6 +126,12 @@
                     "title": "Email body content",
                     "subtitle": "Write the message that will be shown."
                 },
+                "link_text": {
+                    "set_title": "Set Link",
+                    "edit_title": "Edit Link",
+                    "subtitle": "In the quiz, this link will appear clickable, but for safety reasons, clicking on it will not open the URL.",
+                    "placeholder": "Link URL"
+                },
                 "attachment_button": "Add attachment",
                 "explanations": {
                     "title": "Explanations will be shown in the following order in the quiz."
@@ -251,9 +257,7 @@
             "title": "Are you sure you want to delete {{question_name}}?",
             "message": "Deleting this question is permanent and cannot be undone.",
             "note": "Note: ",
-            "warning": "This question's Results will also be deleted, which will affect learners' average scores.",
-            "delete_button": "Delete",
-            "cancel_button": "Cancel"
+            "warning": "This question's Results will also be deleted, which will affect learners' average scores."
         },
         "exit_question": {
             "title": "Are you sure you want to exit the question?",
@@ -289,7 +293,7 @@
         "explanations_modal": {
             "title": "Explanations",
             "message": "Explanations are short notes that highlight specific elements of a question and explain why these elements may indicate that a message is a phishing attempt or not.",
-            "message2": "To add an explanation, select the explanation icon on the right side of each row. Explanations can be attached to:",
+            "message2": "To add an explanation, select the explanation icon on the right side of each row. Explanations can be attached to: ",
             "list": {
                 "fields": "Fields, such as the sender's name or email address",
                 "content": "Specific parts of the message content",
@@ -334,6 +338,7 @@
         "saving": "Saving...",
         "creating": "Creating...",
         "duplicating": "Duplicating...",
-        "loading_library_questions": "Loading questions..."
+        "loading_library_questions": "Loading questions...",
+        "uploading_image": "Uploading image..."
     }
 }
