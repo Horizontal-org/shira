@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
 import { Body1, ExplanationIcon, Modal, styled } from "@shira/ui";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   isModalOpen: boolean;
@@ -11,19 +12,21 @@ export const ExplanationsHelpModal: FunctionComponent<Props> = ({
   setIsModalOpen,
 }) => {
 
+  const { t } = useTranslation();
+
   return (
     <Modal
       isOpen={isModalOpen}
       titleIcon={<SvgWrapper><ExplanationIcon /></SvgWrapper>}
       title={`Explanations`}
-      primaryButtonText="OK"
+      primaryButtonText={t('buttons.ok')}
       primaryButtonDisabled={false}
-      secondaryButtonText="Cancel"
+      secondaryButtonText={t('buttons.cancel')}
       onPrimaryClick={() => {
-        setIsModalOpen(false);        
-      }}      
+        setIsModalOpen(false);
+      }}
     >
-      <div>        
+      <div>
         <Body1>
           Explanations are short notes that highlight specific elements of a question and explain why these elements may indicate that a message is a phishing attempt or not.
         </Body1>

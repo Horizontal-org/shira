@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 import { getColumns } from "./components/Columns";
 import type { RowType } from "./components/Columns";
 import { libraryQuestionToRow } from "./components/Columns/libraryQuestionToRow";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   rows?: RowType[];
@@ -37,6 +38,8 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
     clearActiveQuestion: state.clearActiveQuestion,
   }), shallow)
 
+  const { t } = useTranslation();
+
   const [preview, setPreview] = useState<{ active: ActiveQuestion; original: RowType }>(null);
   const [rows, setRows] = useState<RowType[]>(rowsProp ?? []);
   const [loading, setLoading] = useState(false);
@@ -48,7 +51,7 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
       return;
     }
     if (actionFeedback === LibraryQuestionFeedback.Error) {
-      toast.error("Error adding question", { duration: 3000 });
+      toast.error(t('error_messages.add_question_error'), { duration: 3000 });
     }
   }, [actionFeedback, navigate, quizId, setQuizActionSuccess]);
 
@@ -143,9 +146,9 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
       <StyledBox>
         <HeaderRow>
           <div>
-            <H2 role="heading" aria-level={1}>Question Library</H2>
+            <H2 role="heading" aria-level={1}>{t('question_library.title')}</H2>
             <MiddleBody role="heading" aria-level={2}>
-              Select a question from list below to add it to your quiz. Once you've added it to your quiz, you can edit the question to fully customize it, including changing the text and explanations.
+              {t('question_library.subtitle')}
             </MiddleBody>
           </div>
         </HeaderRow>
@@ -169,13 +172,13 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
             {loading ? (
               <Tr>
                 <Td colSpan={totalColumns}>
-                  <CenteredBody>Loading questions…</CenteredBody>
+                  <CenteredBody>{t('loading_messages.loading_library_questions')}</CenteredBody>
                 </Td>
               </Tr>
             ) : table.getRowModel().rows.length === 0 ? (
               <Tr>
                 <Td colSpan={totalColumns}>
-                  <CenteredBody>No questions found.</CenteredBody>
+                  <CenteredBody>{t('success_messages.no_questions_found')}</CenteredBody>
                 </Td>
               </Tr>
             ) : (

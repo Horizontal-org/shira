@@ -8,13 +8,15 @@ import {
   Navbar
 } from "@shira/ui";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import shallow from "zustand/shallow";
 import { useStore } from "../../store";
 import backgroundSvg from '../../assets/Background.svg';
 
-interface Props {}
+interface Props { }
 
 export const LoginLayout: FunctionComponent<Props> = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const { user, login } = useStore(
@@ -36,23 +38,21 @@ export const LoginLayout: FunctionComponent<Props> = () => {
 
   const description = (
     <>
-      Log in to access your custom Shira space. If you have trouble logging in, contact us at{' '}
-      <Link1 href="mailto:contact@wearehorizontal.org">
-        contact@wearehorizontal.org
-      </Link1>
+      {t('login.subtitle')}
+      <Link1 href="mailto:contact@wearehorizontal.org"> contact@wearehorizontal.org</Link1>
     </>
   );
   return (
     <Container>
       <Navbar
-        translatedTexts={{home: "", about: "", menu: "", logIn: "Log in", createSpace: "Create Space"}}
+        translatedTexts={{ home: "", about: "", menu: "", logIn: "Log in", createSpace: "Create Space" }}
         onNavigate={navigate}
       />
       <ContentWrapper>
         <BackgroundPattern />
-        <StyledForm 
-          title="Log in" 
-          description= {description}
+        <StyledForm
+          title={t('login.title')}
+          description={description}
           onSubmit={(e) => {
             e.preventDefault()
             login(email, pass)
@@ -60,13 +60,13 @@ export const LoginLayout: FunctionComponent<Props> = () => {
         >
           <InputsContainer>
             <TextInput
-              label="Email"
+              label={t('login.email_placeholder')}
               value={email}
               onChange={(e) => handleEmail(e.target.value)}
             />
             <TextInput
               type="password"
-              label="Password"
+              label={t('login.password_placeholder')}
               value={pass}
               onChange={(e) => handlePass(e.target.value)}
             />
@@ -74,7 +74,7 @@ export const LoginLayout: FunctionComponent<Props> = () => {
 
           <ButtonContainer>
             <Button
-              text="Log in"
+              text={t('login.login_button')}
               type="primary"
               disabled={!(email && pass)}
               onClick={(e) => {

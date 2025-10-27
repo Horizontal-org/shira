@@ -1,7 +1,8 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { Body1, Modal, ModalType, TextInput, styled } from "@shira/ui";
+import { Body1, Modal, TextInput, styled } from "@shira/ui";
 
 import { Quiz } from "../../../store/slices/quiz";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   quiz: Quiz;
@@ -15,27 +16,27 @@ interface Props {
 export const DuplicateQuizModal: FunctionComponent<Props> = ({
   quiz,
   isModalOpen,
-  setIsModalOpen,
   onDuplicate,
   onCancel,
   isLoading = false
 }) => {
 
+  const { t } = useTranslation();
   const [title, handleTitle] = useState('');
 
   useEffect(() => {
     if (quiz) {
-      handleTitle(`Copy of ${quiz.title}`);
+      handleTitle(t('quizzes.actions.duplicate_modal.quiz_name_placeholder', { quiz_name: quiz.title }));
     }
   }, [quiz]);
 
   return quiz && (
     <Modal
       isOpen={isModalOpen}
-      title="Duplicate quiz"
-      primaryButtonText={isLoading ? "Creating..." : "Save"}
+      title={t('modals.duplicate_quiz.title')}
+      primaryButtonText={isLoading ? t('loading_messages.creating') : t('buttons.save')}
       primaryButtonDisabled={title.length === 0 || isLoading}
-      secondaryButtonText="Back"
+      secondaryButtonText={t('buttons.back')}
       onPrimaryClick={() => {
         onDuplicate(title);
         handleTitle('');
@@ -46,10 +47,10 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
       }}
     >
       <FormContent>
-        <Description>Set the name for the new quiz</Description>
+        <Description>{t('modals.duplicate_quiz.subtitle')}</Description>
         <TextInput
           label="Quiz name"
-          placeholder={`Copy of ${quiz.title}`}
+          placeholder={t('modals.duplicate_quiz.quiz_name_placeholder', { quiz_name: quiz.title })}
           value={title}
           onChange={(e) => handleTitle(e.target.value)}
         />

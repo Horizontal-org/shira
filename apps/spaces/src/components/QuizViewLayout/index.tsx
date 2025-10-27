@@ -25,15 +25,17 @@ import { useQuestionCRUD } from "../../fetch/question";
 import { UnpublishedQuizModal } from "../modals/UnpublishedQuizModal";
 import { handleCopyUrl, handleCopyUrlAndNotify } from "../../utils/quiz";
 import { getQuizResults, PublicQuizResultsResponse } from "../../fetch/results";
+import { useTranslation } from "react-i18next";
 
 
-interface Props {}
+interface Props { }
 
 export const QuizViewLayout: FunctionComponent<Props> = () => {
 
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { id } = useParams()
-  
+
   const {
     updateQuiz,
     deleteQuiz,
@@ -58,14 +60,14 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
   const [isUnpublishedQuizModalOpen, setIsUnpublishedQuizModalOpen] = useState(false);
   const { destroy, actionFeedback } = useQuestionCRUD()
-  
+
   // results handling
   const [resultsData, setResultsData] = useState<PublicQuizResultsResponse | null>(null);
   const [resultsLoading, setResultsLoading] = useState(false);
 
   const getQuiz = async () => {
     try {
-      const parsedId = parseInt(id)      
+      const parsedId = parseInt(id)
       const quiz = await getQuizById(parsedId)
 
       handleQuiz(quiz)
@@ -76,8 +78,8 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     }
   }
 
-  
-  
+
+
   useEffect(() => {
     const fetchResults = async () => {
       setResultsLoading(true);
@@ -95,7 +97,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
       fetchResults()
     }
   }, [quiz])
-      // fetchResults();
+  // fetchResults();
 
   useEffect(() => {
     // test date zones
@@ -103,7 +105,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
       Date(),
       new Date()
     )
-    
+
     getQuiz()
 
     return () => {
@@ -115,13 +117,13 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     if (SUCCESS_MESSAGES[quizActionSuccess]) {
       const message = SUCCESS_MESSAGES[quizActionSuccess]
       toast.success(message, { duration: 3000 })
-  
+
       if (quizActionSuccess === QuizSuccessStates.delete) {
         navigate('/dashboard')
       } else {
         getQuiz()
       }
-  
+
       cleanQuizActionSuccess()
     }
   }, [quizActionSuccess])
@@ -133,7 +135,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
       published: published
     })
 
-    setIsPublished(published)    
+    setIsPublished(published)
   };
 
   const hasResults = useMemo(() => {
@@ -142,44 +144,44 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
 
   return (
     <Container>
-      <Sidebar 
+      <Sidebar
         menuItems={menuItems}
         onCollapse={handleCollapse}
       />
-     
+
       <MainContent $isCollapsed={isCollapsed}>
-        <BetaBanner url="/support"/>
+        <BetaBanner url="/support" />
         <MainContentWrapper>
 
-          { quiz ? (
+          {quiz ? (
             <>
               <Wrapper>
                 <Header>
                   <div>
                     <H2>{quiz.title}</H2>
-                    <Body1>Manage your quiz here, including adding, removing, and reordering questions</Body1>
+                    <Body1>{t('quiz.subtitle')}</Body1>
                   </div>
                   <Toggle
                     size='big'
                     isEnabled={isPublished}
                     onToggle={() => { handleTogglePublished(quiz.id, !quiz.published) }}
-                    rightLabel="Published"
-                    leftLabel="Unpublished"
+                    rightLabel={t('quiz.publish_toggle.published')}
+                    leftLabel={t('quiz.publish_toggle.unpublished')}
                   />
                 </Header>
                 <ButtonsContainer>
                   <LeftButtons>
-                    <Button 
+                    <Button
                       leftIcon={<RenameIcon />}
-                      text="Rename"
+                      text={t('quiz.actions.rename')}
                       type="outline"
                       onClick={() => { setIsRenameModalOpen(true) }}
                     />
-                    <Button 
+                    <Button
                       leftIcon={<CopyUrlIcon />}
-                      text="Copy quiz link"
+                      text={t('quiz.actions.copy_link')}
                       type="outline"
-                      onClick={() => { 
+                      onClick={() => {
                         if (quiz.published) {
                           handleCopyUrlAndNotify(quiz.hash)
                         } else {
@@ -188,13 +190,13 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                         }
                       }}
                     />
-                    <Button 
+                    <Button
                       leftIcon={<DeleteIcon />}
-                      text="Delete"
+                      text={t('buttons.delete')}
                       type="outline"
                       onClick={() => { setIsDeleteModalOpen(true) }}
                     />
-                  </LeftButtons>                
+                  </LeftButtons>
                 </ButtonsContainer>
               </Wrapper>
 
@@ -204,7 +206,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 resultsData={resultsData}
                 resultsLoading={resultsLoading}
                 hasResults={hasResults}
-                onEdit={(questionId) => { navigate(`/quiz/${id}/question/${questionId}`)}}
+                onEdit={(questionId) => { navigate(`/quiz/${id}/question/${questionId}`) }}
                 onDelete={(id) => { destroy(quiz.id, id) }}
                 onAdd={() => { navigate(`/quiz/${id}/question`) }}
                 onAddLibrary={() => { navigate(`/question/library`, { state: { quizId: quiz.id } }) }}
@@ -229,17 +231,20 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
               />
 
               <DeleteModal
-                title={`Are you sure you want to delete "${quiz.title}"`}
+                title={t('quizzes.actions.delete_modal.title', { quiz_name: quiz.title })}
                 content={
                   <div>
-                    Deleting this quiz is permanent and cannot be undone.
+                    {t('quizzes.actions.delete_modal.subtitle')}
                     <br /><br />
-                    <QuizWarningNote>Note:</QuizWarningNote> The quiz's Results will also be deleted.
+                    <QuizWarningNote>
+                      {t('quizzes.actions.delete_modal.note')}
+                    </QuizWarningNote>
+                    {t('quizzes.actions.delete_modal.message')}
                   </div>
                 }
                 setIsModalOpen={setIsDeleteModalOpen}
-                onDelete={() => { 
-                  deleteQuiz(quiz.id) 
+                onDelete={() => {
+                  deleteQuiz(quiz.id)
                 }}
                 onCancel={() => {
                   setIsDeleteModalOpen(false)
@@ -254,15 +259,15 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                   handleTogglePublished(quiz.id, true)
                 }}
               />
-        
+
               <RenameQuizModal
                 quiz={quiz}
                 setIsModalOpen={setIsRenameModalOpen}
-                onRename={(title) => { 
+                onRename={(title) => {
                   updateQuiz({
                     id: quiz.id,
                     title
-                  }) 
+                  })
                 }}
                 onCancel={() => {
                   setIsRenameModalOpen(false)
@@ -272,9 +277,9 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
             </>
           ) : (
             <Header>
-              <H2>Loading...</H2>
+              <H2>{t('loading_message.loading')}</H2>
             </Header>
-          )}         
+          )}
         </MainContentWrapper>
       </MainContent>
     </Container>

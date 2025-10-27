@@ -1,5 +1,5 @@
-import { FunctionComponent, useCallback, useEffect, useMemo, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { FunctionComponent, useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Card,
   Sidebar,
@@ -10,15 +10,13 @@ import {
   Button,
   FilterButton,
   useAdminSidebar,
-  Modal,
-  TextInput,
   BetaBanner
 } from "@shira/ui";
 import { FiPlus } from 'react-icons/fi';
 import { shallow } from "zustand/shallow";
 
 import { useStore } from "../../store";
-import { compareAsc, formatDistance } from "date-fns";
+import { formatDistance } from "date-fns";
 import { QuizSuccessStates, SUCCESS_MESSAGES } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
 import { FilterStates } from "./constants";
@@ -28,8 +26,9 @@ import { UnpublishedQuizModal } from "../modals/UnpublishedQuizModal";
 import { DuplicateQuizModal } from "../modals/DuplicateQuizModal";
 import { handleCopyUrl, handleCopyUrlAndNotify } from "../../utils/quiz";
 import { duplicateQuiz } from "../../fetch/quiz";
+import { useTranslation } from "react-i18next";
 
-interface Props {}
+interface Props { }
 
 export const DashboardLayout: FunctionComponent<Props> = () => {
 
@@ -52,7 +51,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     quizActionSuccess: state.quizActionSuccess,
     cleanQuizActionSuccess: state.cleanQuizActionSuccess
   }), shallow)
-    
+
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
 
@@ -67,7 +67,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const [selectedQuizForDuplicate, setSelectedQuizForDuplicate] = useState(null);
   const [isDuplicating, setIsDuplicating] = useState(false);
   const [unpublishedQuizId, handleUnpublishedQuizId] = useState<number | null>(null);
-  
+
 
   useEffect(() => {
     fetchQuizzes()
@@ -86,14 +86,14 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     if (SUCCESS_MESSAGES[quizActionSuccess]) {
       const message = SUCCESS_MESSAGES[quizActionSuccess]
       toast.success(message, { duration: 3000 })
-  
+
       if (quizActionSuccess !== QuizSuccessStates.delete) {
         fetchQuizzes()
       }
-  
+
       cleanQuizActionSuccess()
     }
-}, [quizActionSuccess])
+  }, [quizActionSuccess])
 
 
 
@@ -103,9 +103,9 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
       published
     })
 
-    setCards(currentCards => 
-      currentCards.map(card => 
-        card.id === cardId 
+    setCards(currentCards =>
+      currentCards.map(card =>
+        card.id === cardId
           ? { ...card, published: !card.published }
           : card
       )
@@ -124,7 +124,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
         new Promise(resolve => setTimeout(resolve, 1000))
       ]);
 
-      toast.success(`"${title}" created successfully`, { duration: 3000 });
+      toast.success(t('success_messages.question_updated', { quiz_name: title }), { duration: 3000 });
 
       // Refresh the quizzes list to show the new duplicated quiz
       fetchQuizzes();
@@ -135,15 +135,13 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     } catch (error) {
       // Even on error, ensure minimum 1-second delay
       await new Promise(resolve => setTimeout(resolve, 1000));
-      toast.error('Failed to duplicate quiz', { duration: 3000 });
+      toast.error(t('error_messages.duplicate_quiz_fail'), { duration: 3000 });
       console.error('Duplicate quiz error:', error);
     } finally {
       setIsDuplicating(false);
     }
-  };                
+  };
 
-  
-  
   const filteredCards = cards.filter(card => {
     switch (activeFilter) {
       case FilterStates.published:
@@ -158,34 +156,34 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
   const compareDate = useCallback((lastUpdate) => {
     // force utc to locale parse
-    const parsedLastUpdate = new Date(lastUpdate.replace(" ", "T") + "Z")    
+    const parsedLastUpdate = new Date(lastUpdate.replace(" ", "T") + "Z")
     return formatDistance(
       parsedLastUpdate,
-      new Date(), 
+      new Date(),
       { addSuffix: true }
-    )    
+    )
   }, [filteredCards])
 
   return (
     <Container>
-      <Sidebar 
-        menuItems={menuItems} 
+      <Sidebar
+        menuItems={menuItems}
         onCollapse={handleCollapse}
         selectedItemLabel={menuItems.find(m => m.path === '/dashboard').label}
       />
 
       <MainContent $isCollapsed={isCollapsed}>
-        <BetaBanner url="/support"/>
+        <BetaBanner url="/support" />
         <MainContentWrapper>
           <HeaderContainer>
             <StyledSubHeading3>{space && space.name}</StyledSubHeading3>
-            <H2>Welcome to your dashboard </H2>
-            <Body1>This is where you can manage quizzes. Quiz links are public, so remember to avoid sharing sensitive information in them.</Body1>
+            <H2>{t('dashboard.title')}</H2>
+            <Body1>{t('dashboard.subtitle')}</Body1>
             <ButtonContainer>
               <Button
                 type="primary"
                 leftIcon={<FiPlus />}
-                text="Create new quiz"
+                text={t('dashboard.create_quiz_button')}
                 onClick={() => {
                   setIsCreateModalOpen(true)
                 }}
@@ -195,28 +193,28 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           </HeaderContainer>
 
           <FilterButtonsContainer>
-            <FilterButton 
-              text="All quizzes"
+            <FilterButton
+              text={t('quizzes.filter.all_quizzes')}
               handleFilter={() => setActiveFilter(FilterStates.all)}
-              isActive={activeFilter ===  FilterStates.all}
+              isActive={activeFilter === FilterStates.all}
             />
 
-            <FilterButton 
-              text="Published"
+            <FilterButton
+              text={t('quizzes.filter.published')}
               handleFilter={() => setActiveFilter(FilterStates.published)}
-              isActive={activeFilter ===  FilterStates.published}
+              isActive={activeFilter === FilterStates.published}
             />
 
-            <FilterButton 
-              text="Unpublished"
+            <FilterButton
+              text={t('quizzes.filter.unpublished')}
               handleFilter={() => setActiveFilter(FilterStates.unpublished)}
-              isActive={activeFilter ===  FilterStates.unpublished}
+              isActive={activeFilter === FilterStates.unpublished}
             />
           </FilterButtonsContainer>
 
           <CardGrid>
             {filteredCards.map((card) => (
-              <Card 
+              <Card
                 onCardClick={() => {
                   navigate(`/quiz/${card.id}`)
                 }}
@@ -235,7 +233,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                 onTogglePublished={() => handleTogglePublished(card.id, !card.published)}
                 onEdit={() => {
                   navigate(`/quiz/${card.id}`)
-                }}  
+                }}
                 onDuplicate={() => {
                   setSelectedQuizForDuplicate(card);
                   setIsDuplicateModalOpen(true);
@@ -249,18 +247,21 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           </CardGrid>
 
           <DeleteModal
-            title={`Are you sure you want to delete "${selectedCard?.title}"?`}
+            title={t('modals.delete_quiz.title', { quiz_name: selectedCard?.title })}
             content={(
               <div>
-                Deleting this quiz is permanent and cannot be undone.
+                {t('modals.delete_quiz.subtitle')}
                 <br /><br />
-                <QuizWarningNote>Note:</QuizWarningNote> The quiz's Results will also be deleted.
+                <QuizWarningNote>
+                  {t('modals.delete_quiz.note')}
+                </QuizWarningNote>
+                {t('modals.delete_quiz.message')}
               </div>
             )}
             setIsModalOpen={setIsDeleteModalOpen}
-            onDelete={() => { 
-              deleteQuiz(selectedCard?.id) 
-              handleSelectedCard(null)            
+            onDelete={() => {
+              deleteQuiz(selectedCard?.id)
+              handleSelectedCard(null)
             }}
             onCancel={() => {
               setIsDeleteModalOpen(false)
@@ -269,12 +270,12 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             isModalOpen={isDeleteModalOpen}
           />
 
-          <CreateQuizModal 
+          <CreateQuizModal
             setIsModalOpen={setIsCreateModalOpen}
             onCreate={(title) => { createQuiz(title) }}
             isModalOpen={isCreateModalOpen}
           />
-          
+
           <UnpublishedQuizModal
             setIsModalOpen={() => { handleUnpublishedQuizId(null) }}
             isModalOpen={!!(unpublishedQuizId)}
