@@ -19,7 +19,7 @@ export const ExitQuestionHandleModal: FunctionComponent<Props> = ({
   return (
     <Modal
       isOpen={isModalOpen}
-      title={`Are you sure you want to exit the question?`}
+      title={t('modals.exit_question.title')}
       type={ModalType.Danger}
       primaryButtonText={t('buttons.exit')}
       primaryButtonDisabled={false}
@@ -34,7 +34,7 @@ export const ExitQuestionHandleModal: FunctionComponent<Props> = ({
     >
       <div>
         <Body1>
-          Any unsaved changes will be lost.
+          {t('modals.exit_question.message')}
         </Body1>
       </div>
     </Modal>

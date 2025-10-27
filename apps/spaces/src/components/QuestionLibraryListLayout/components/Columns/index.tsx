@@ -129,8 +129,8 @@ export const getColumns = (handlers: ColumnHandlers, t: TFunction): ColumnDef<Ro
       <ActionsCell>
         <ActionButton
           type="button"
-          name="Preview question"
-          aria-label="Preview question"
+          name={t("question_library.tabs.preview.aria_label")}
+          aria-label={t("question_library.tabs.preview.aria_label")}
           title="Preview"
           onClick={() => handlers.onPreview?.(row.original)}
         >
@@ -138,8 +138,8 @@ export const getColumns = (handlers: ColumnHandlers, t: TFunction): ColumnDef<Ro
         </ActionButton>
         <ActionButton
           type="button"
-          name={t("question_library.columns.type.title")}
-          aria-label="Add question"
+          name={t("question_library.columns.actions.aria_label")}
+          aria-label={t("question_library.columns.actions.aria_label")}
           title="Add"
           onClick={() => handlers.onAdd?.(row.original)}
         >

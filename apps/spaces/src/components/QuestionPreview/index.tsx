@@ -65,7 +65,7 @@ export const QuestionPreview: FunctionComponent<Props> = ({
             <IsNoExplanationWrapper>
               <Content>
                 <MdBlock size={18} color={defaultTheme.colors.error6} />
-                <Body1>{t('create_question.tabs.preview.no_explanations')}</Body1>
+                <Body1>{t('preview.no_explanations')}</Body1>
               </Content>
             </IsNoExplanationWrapper>
           ) : (
@@ -77,7 +77,7 @@ export const QuestionPreview: FunctionComponent<Props> = ({
                 }
                 handleShowExplanations(!showExplanations)
               }}
-              text={showExplanations ? t('create_question.tabs.preview.hide_explanations') : t('create_question.tabs.preview.show_explanations')}
+              text={showExplanations ? t('preview.hide_explanations') : t('preview.show_explanations')}
             />
           )}
 
@@ -88,7 +88,7 @@ export const QuestionPreview: FunctionComponent<Props> = ({
                   onClick={() => {
                     setExplanationNumber(explanationNumber - 1)
                   }}
-                  text={t('create_question.tabs.preview.previous_explanation')}
+                  text={t('preview.previous_explanation')}
                 />
               )}
               {explanationNumber < explanations.length - 1 && (
@@ -96,7 +96,7 @@ export const QuestionPreview: FunctionComponent<Props> = ({
                   onClick={() => {
                     setExplanationNumber(explanationNumber + 1)
                   }}
-                  text={t('create_question.tabs.preview.next_explanation')}
+                  text={t('preview.next_explanation')}
                 />
               )}
             </ExplanationButtonWrapper>
@@ -106,7 +106,7 @@ export const QuestionPreview: FunctionComponent<Props> = ({
             <Button
               aria-label="Add to quiz"
               leftIcon={<FiPlus size={16} />}
-              text={t('question_library.columns.actions.preview.add')}
+              text={t('preview.add')}
               onClick={onAdd}
             />
           </SubmitButtonWrapper>

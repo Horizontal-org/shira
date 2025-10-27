@@ -147,6 +147,7 @@
             "preview": {
                 "tab_title": "Preview",
                 "subtitle": "This is how your question will look to learners, including the explanations you have written.",
+                "aria_label": "Preview question",
                 "show_explanations": "Show explanations",
                 "hide_explanations": "Hide explanations",
                 "next_explanation": "Next explanation",
@@ -185,16 +186,17 @@
             },
             "actions": {
                 "title": "Actions",
-                "preview": {
-                    "show_explanations": "Show explanations",
-                    "hide_explanations": "Hide explanations",
-                    "next_explanation": "Next explanation",
-                    "previous_explanation": "Previous explanation",
-                    "no_explanations": "There are no explanations for this question.",
-                    "add": "Add to quiz"
-                }
+                "aria_label": "Add question"
             }
         }
+    },
+    "preview": {
+        "show_explanations": "Show explanations",
+        "hide_explanations": "Hide explanations",
+        "next_explanation": "Next explanation",
+        "previous_explanation": "Previous explanation",
+        "no_explanations": "There are no explanations for this question.",
+        "add": "Add to quiz"
     },
     "results_tab": {
         "completed_quizzes": {
@@ -254,7 +256,8 @@
             "cancel_button": "Cancel"
         },
         "exit_question": {
-            "title": "Are you sure you want to exit the question?"
+            "title": "Are you sure you want to exit the question?",
+            "message": "Any unsaved changes will be lost."
         },
         "edit_question_confirmation": {
             "title": "Are you sure you want to edit this quiz?",
