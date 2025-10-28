@@ -5,21 +5,25 @@ import { ICreateQuizService } from '../interfaces/services/create.quiz.service.i
 import { Quiz as QuizEntity } from '../domain/quiz.entity';
 import { CreateQuizDto } from '../dto/create.quiz.dto';
 import * as crypto from 'crypto'
+import { InvalidTitleException } from '../exceptions';
 
 @Injectable()
-export class CreateQuizService implements ICreateQuizService{
+export class CreateQuizService implements ICreateQuizService {
 
   constructor(
     @InjectRepository(QuizEntity)
     private readonly quizRepo: Repository<QuizEntity>,
-  ) {}
+  ) { }
 
-  async execute (createQuizDto: CreateQuizDto) {
-    const quiz = new QuizEntity()
-    quiz.title = createQuizDto.title
-    quiz.space = createQuizDto.space
-    quiz.hash = crypto.randomBytes(20).toString('hex') 
-    
-    await this.quizRepo.save(quiz)
+  async execute(createQuizDto: CreateQuizDto) {
+
+    if (!createQuizDto.title) throw new InvalidTitleException();
+
+    const quiz = new QuizEntity();
+    quiz.title = createQuizDto.title;
+    quiz.space = createQuizDto.space;
+    quiz.hash = crypto.randomBytes(20).toString('hex');
+
+    await this.quizRepo.save(quiz);
   }
 }
