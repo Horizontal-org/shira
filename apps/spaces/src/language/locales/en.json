@@ -126,12 +126,6 @@
                     "title": "Email body content",
                     "subtitle": "Write the message that will be shown."
                 },
-                "link_text": {
-                    "set_title": "Set Link",
-                    "edit_title": "Edit Link",
-                    "subtitle": "In the quiz, this link will appear clickable, but for safety reasons, clicking on it will not open the URL.",
-                    "placeholder": "Link URL"
-                },
                 "attachment_button": "Add attachment",
                 "explanations": {
                     "title": "Explanations will be shown in the following order in the quiz."
@@ -148,17 +142,23 @@
                 "add_message_text": "Add message text",
                 "add_image_attachment": "Add image",
                 "upload_image": "Upload from computer",
-                "message_text": "Message text"
+                "message_text": "Message text",
+                "link_text": {
+                    "set_title": "Set Link",
+                    "edit_title": "Edit Link",
+                    "subtitle": "In the quiz, this link will appear clickable, but for safety reasons, clicking on it will not open the URL.",
+                    "placeholder": "Link URL"
+                }
             },
             "preview": {
                 "tab_title": "Preview",
                 "subtitle": "This is how your question will look to learners, including the explanations you have written.",
-                "aria_label": "Preview question",
                 "show_explanations": "Show explanations",
                 "hide_explanations": "Hide explanations",
                 "next_explanation": "Next explanation",
                 "previous_explanation": "Previous explanation",
-                "no_explanations": "There are no explanations for this question."
+                "no_explanations": "There are no explanations for this question.",
+                "aria_label": "Preview question"
             }
         }
     },
@@ -195,14 +195,6 @@
                 "aria_label": "Add question"
             }
         }
-    },
-    "preview": {
-        "show_explanations": "Show explanations",
-        "hide_explanations": "Hide explanations",
-        "next_explanation": "Next explanation",
-        "previous_explanation": "Previous explanation",
-        "no_explanations": "There are no explanations for this question.",
-        "add": "Add to quiz"
     },
     "results_tab": {
         "completed_quizzes": {
@@ -307,12 +299,6 @@
             "add": "Add explanations"
         }
     },
-    "select_languages": {
-        "english": "English",
-        "spanish": "Spanish",
-        "french": "French",
-        "mandarin": "Mandarin"
-    },
     "error_messages": {
         "duplicate_quiz_fail": "Failed to duplicate quiz",
         "duplicate_question_fail": "Failed to duplicate question",
@@ -340,5 +326,19 @@
         "duplicating": "Duplicating...",
         "loading_library_questions": "Loading questions...",
         "uploading_image": "Uploading image..."
+    },
+    "preview": {
+        "show_explanations": "Show explanations",
+        "hide_explanations": "Hide explanations",
+        "next_explanation": "Next explanation",
+        "previous_explanation": "Previous explanation",
+        "no_explanations": "There are no explanations for this question.",
+        "add": "Add to quiz"
+    },
+    "select_languages": {
+        "english": "English",
+        "spanish": "Spanish",
+        "french": "French",
+        "mandarin": "Mandarin"
     }
 }
