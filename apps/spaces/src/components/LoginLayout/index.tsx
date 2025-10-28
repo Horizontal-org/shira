@@ -38,8 +38,12 @@ export const LoginLayout: FunctionComponent<Props> = () => {
 
   const description = (
     <>
-      {t('login.subtitle')}
-      <Link1 href="mailto:contact@wearehorizontal.org"> contact@wearehorizontal.org</Link1>
+      <div id="login-description-container">
+        <span id="login-description">{t('login.subtitle')}</span>
+        <Link1 id="contact-email" href="mailto:contact@wearehorizontal.org">
+          contact@wearehorizontal.org
+        </Link1>
+      </div>
     </>
   );
   return (
@@ -61,10 +65,13 @@ export const LoginLayout: FunctionComponent<Props> = () => {
           <InputsContainer>
             <TextInput
               label={t('login.email_placeholder')}
+              id="email-input"
+              label="Email"
               value={email}
               onChange={(e) => handleEmail(e.target.value)}
             />
             <TextInput
+              id="password-input"
               type="password"
               label={t('login.password_placeholder')}
               value={pass}
@@ -74,6 +81,7 @@ export const LoginLayout: FunctionComponent<Props> = () => {
 
           <ButtonContainer>
             <Button
+              id="login-button"
               text={t('login.login_button')}
               type="primary"
               disabled={!(email && pass)}
