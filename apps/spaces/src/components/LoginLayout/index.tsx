@@ -64,8 +64,8 @@ export const LoginLayout: FunctionComponent<Props> = () => {
         >
           <InputsContainer>
             <TextInput
-              label={t('login.email_placeholder')}
               id="email-input"
+              label={t('login.email_placeholder')}
               value={email}
               onChange={(e) => handleEmail(e.target.value)}
             />
