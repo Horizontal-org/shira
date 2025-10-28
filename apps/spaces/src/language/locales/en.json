@@ -1,7 +1,7 @@
 {
     "login": {
         "title": "Log in",
-        "subtitle": "Log in to access your custom Shira space. If you have trouble logging in, contact us at",
+        "subtitle": "Log in to access your custom Shira space. If you have trouble logging in, contact us at ",
         "email_placeholder": "Email",
         "password_placeholder": "Password",
         "login_button": "Log in",
