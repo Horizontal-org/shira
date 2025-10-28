@@ -30,7 +30,7 @@
             "unpublished": "Unpublished"
         },
         "last_modified": {
-            "last_modified": "Last modified {{time}} ago",
+            "last_modified": "Last modified ",
             "about": "about",
             "less than": "less than",
             "minute": "minute",

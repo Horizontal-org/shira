@@ -215,6 +215,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           <CardGrid>
             {filteredCards.map((card) => (
               <Card
+                publishedText={t('quizzes.filter.published')}
+                lastModifiedText={t('quizzes.last_modified.last_modified')}
                 onCardClick={() => {
                   navigate(`/quiz/${card.id}`)
                 }}
