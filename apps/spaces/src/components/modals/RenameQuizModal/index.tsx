@@ -33,6 +33,7 @@ export const RenameQuizModal: FunctionComponent<Props> = ({
         isOpen={isModalOpen}
         title={`Rename quiz`}
         primaryButtonText="OK"
+        primaryButtonDisabled={!title?.trim()}
         secondaryButtonText="Cancel"
         onPrimaryClick={() => {
           setIsModalOpen(false);
