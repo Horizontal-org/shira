@@ -1,1 +1,1 @@
-export * from './invalid-title.quiz.exceptions';
+export * from './invalid-field.quiz.exception';
