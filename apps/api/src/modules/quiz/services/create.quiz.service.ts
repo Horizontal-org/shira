@@ -17,7 +17,9 @@ export class CreateQuizService implements ICreateQuizService {
 
   async execute(createQuizDto: CreateQuizDto) {
 
-    if (!createQuizDto.title) throw new InvalidFieldException('title');
+    if (!createQuizDto.title || createQuizDto.title.trim() === "") {
+      throw new InvalidFieldException('title');
+    }
 
     const quiz = new QuizEntity();
     quiz.title = createQuizDto.title;
