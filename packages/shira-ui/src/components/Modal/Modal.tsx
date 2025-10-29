@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Button } from '../Button';
 import { SubHeading2 } from '../Typography';
+import { useEscapeClose } from '../../hooks/useEscapeClose';
 
 export interface ModalProps {
   isOpen: boolean;
@@ -17,6 +18,8 @@ export interface ModalProps {
   onLeftClick?: () => void
   leftButtonText?: string
   className?: string;
+
+  onClose?: () => void;
 }
 
 export enum ModalType {
@@ -28,7 +31,6 @@ const modalTypeColors = {
   'danger': '#BF2E1F',
   'primary': '#849D29'
 }
-
 
 export const Modal: React.FC<ModalProps> = ({
   isOpen,
@@ -43,7 +45,8 @@ export const Modal: React.FC<ModalProps> = ({
   onLeftClick,
   leftButtonText,
   className,
-  type = 'primary'
+  type = 'primary',
+  onClose
 }) => {
 
   useEffect(() => {
@@ -58,6 +61,11 @@ export const Modal: React.FC<ModalProps> = ({
     };
   }, [isOpen]);
 
+  useEscapeClose({
+    when: isOpen,
+    onClose: onClose ?? onSecondaryClick ?? (() => { }),
+  });
+
   if (!isOpen) return null;
 
   return (
@@ -65,7 +73,7 @@ export const Modal: React.FC<ModalProps> = ({
       <Overlay>
         <ModalContainer className={className}>
           <Header>
-            { titleIcon }
+            {titleIcon}
             <SubHeading2>{title}</SubHeading2>
           </Header>
 
@@ -75,8 +83,8 @@ export const Modal: React.FC<ModalProps> = ({
 
           <Footer>
             <div>
-              { onLeftClick && (
-                <Button  
+              {onLeftClick && (
+                <Button
                   text={leftButtonText}
                   type='primary'
                   color={modalTypeColors[ModalType.Danger]}
@@ -85,7 +93,7 @@ export const Modal: React.FC<ModalProps> = ({
               )}
             </div>
             <div>
-              { onSecondaryClick && (
+              {onSecondaryClick && (
                 <Button
                   text={secondaryButtonText}
                   type="outline"
@@ -106,7 +114,6 @@ export const Modal: React.FC<ModalProps> = ({
     </>
   );
 };
-
 
 const Overlay = styled.div`
   position: fixed;
