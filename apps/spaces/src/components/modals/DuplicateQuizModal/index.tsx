@@ -34,7 +34,7 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
       isOpen={isModalOpen}
       title="Duplicate quiz"
       primaryButtonText={isLoading ? "Creating..." : "Save"}
-      primaryButtonDisabled={title.length === 0 || isLoading}
+      primaryButtonDisabled={(!title || title.trim() === "") || isLoading}
       secondaryButtonText="Back"
       onPrimaryClick={() => {
         onDuplicate(title);
