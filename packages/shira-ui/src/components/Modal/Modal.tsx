@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Button } from '../Button';
 import { SubHeading2 } from '../Typography';
-import { useEscapeClose } from '../../hooks/useEscapeClose';
+import { useEscapeClose, useEnterSubmit } from '../../hooks';
 
 export interface ModalProps {
   isOpen: boolean;
@@ -64,6 +64,11 @@ export const Modal: React.FC<ModalProps> = ({
   useEscapeClose({
     when: isOpen,
     onClose: onClose ?? onSecondaryClick ?? (() => { }),
+  });
+
+  useEnterSubmit({
+    when: isOpen,
+    onEnter: onPrimaryClick,
   });
 
   if (!isOpen) return null;

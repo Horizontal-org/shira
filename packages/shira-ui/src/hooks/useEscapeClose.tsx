@@ -14,7 +14,10 @@ export function useEscapeClose({
   stopPropagation = true,
 }: UseEscapeCloseOptions) {
   useEffect(() => {
-    if (!when || !target) return;
+    if (!when) return;
+
+    const t = target ?? (typeof document !== "undefined" ? document : null);
+    if (!t) return;
 
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" || e.key === "Esc") {
@@ -23,7 +26,7 @@ export function useEscapeClose({
       }
     };
 
-    target.addEventListener("keydown", onKeyDown);
-    return () => target.removeEventListener("keydown", onKeyDown);
+    t.addEventListener("keydown", onKeyDown);
+    return () => t.removeEventListener("keydown", onKeyDown);
   }, [when, onClose, target, stopPropagation]);
 }
