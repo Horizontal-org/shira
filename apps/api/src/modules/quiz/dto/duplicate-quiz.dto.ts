@@ -5,6 +5,5 @@ export class DuplicateQuizDto {
   quizId: number;
 
   @IsString()
-  @MinLength(1, { message: 'Quiz title cannot be empty' })
   title: string;
 }
