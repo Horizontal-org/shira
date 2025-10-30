@@ -20,13 +20,13 @@ export class DuplicateQuizService implements IDuplicateQuizService {
     @Inject(TYPES.services.ISharedQuestionDuplicationService)
     private sharedQuestionDuplicationService: ISharedQuestionDuplicationService,
     private dataSource: DataSource
-  ) {}
+  ) { }
 
   async execute(duplicateQuizDto: DuplicateQuizDto): Promise<Quiz> {
     console.log("🚀 ~ DuplicateQuizService ~ execute ~ duplicateQuizDto:", duplicateQuizDto);
 
     return this.dataSource.transaction(async manager => {
-      
+
       const originalQuiz = await manager.findOne(Quiz, {
         where: { id: duplicateQuizDto.quizId },
         relations: [
@@ -49,7 +49,7 @@ export class DuplicateQuizService implements IDuplicateQuizService {
         title: duplicateQuizDto.title,
         published: false,
         hash: crypto.randomBytes(20).toString('hex'),
-        space: originalQuiz.space 
+        space: originalQuiz.space
       });
 
       const savedQuiz = await manager.save(Quiz, newQuiz);
