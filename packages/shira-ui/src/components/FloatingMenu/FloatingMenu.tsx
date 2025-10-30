@@ -37,8 +37,6 @@ export const FloatingMenu: FunctionComponent<FloatingMenuProps> = ({
   }, []);
 
   useLayoutEffect(() => {
-    console.log("🚀 ~ FloatingMenu ~ isOpen:", isOpen, anchorEl)
-    
     if (isOpen && anchorEl) {
       const updatePosition = () => {
         const rect = anchorEl.getBoundingClientRect();
