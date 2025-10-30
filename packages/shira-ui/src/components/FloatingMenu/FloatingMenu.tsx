@@ -34,16 +34,11 @@ export const FloatingMenu: FunctionComponent<FloatingMenuProps> = ({
     } else {
       setPortalContainer(document.getElementById('floating-menu-portal'));
     }
-
-    return () => {
-      const container = document.getElementById('floating-menu-portal');
-      if (container && container.childNodes.length === 0) {
-        document.body.removeChild(container);
-      }
-    };
   }, []);
 
   useLayoutEffect(() => {
+    console.log("🚀 ~ FloatingMenu ~ isOpen:", isOpen, anchorEl)
+    
     if (isOpen && anchorEl) {
       const updatePosition = () => {
         const rect = anchorEl.getBoundingClientRect();

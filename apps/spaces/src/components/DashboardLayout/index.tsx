@@ -1,4 +1,4 @@
-import { FunctionComponent, useCallback, useEffect, useMemo, useState } from "react";
+import { createRef, FunctionComponent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   Card,
@@ -68,7 +68,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const [isDuplicating, setIsDuplicating] = useState(false);
   const [unpublishedQuizId, handleUnpublishedQuizId] = useState<number | null>(null);
   
-
   useEffect(() => {
     fetchQuizzes()
 
@@ -93,8 +92,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   
       cleanQuizActionSuccess()
     }
-}, [quizActionSuccess])
-
+  }, [quizActionSuccess])
 
 
   const handleTogglePublished = (cardId: number, published: boolean) => {
@@ -141,8 +139,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
       setIsDuplicating(false);
     }
   };                
-
-  
   
   const filteredCards = cards.filter(card => {
     switch (activeFilter) {
@@ -155,6 +151,14 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
         return true;
     }
   });
+
+
+   // const cardsRef = useRef(Array<HTMLButtonElement>)
+  const cardRefs = useMemo(
+    () => filteredCards.map(() => createRef<HTMLButtonElement>()),
+    [filteredCards]
+  );
+  console.log("🚀 ~ DashboardLayout ~ cardRefs:", cardRefs)
 
   const compareDate = useCallback((lastUpdate) => {
     // force utc to locale parse
@@ -215,8 +219,9 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           </FilterButtonsContainer>
 
           <CardGrid>
-            {filteredCards.map((card) => (
-              <Card 
+            {filteredCards.map((card, i) => (
+              <Card   
+                menuButtonRef={cardRefs[i]}
                 onCardClick={() => {
                   navigate(`/quiz/${card.id}`)
                 }}

@@ -1,4 +1,4 @@
-import { FunctionComponent, useRef, useState } from 'react';
+import { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
 import { Body4, Body3Bold } from '../Typography';
 import { CopyUrlIcon } from '../Icons'
@@ -16,6 +16,7 @@ export interface CardProps {
   onDuplicate: () => void;
   onDelete: () => void;
   onCardClick: () => void;
+  menuButtonRef?:  React.MutableRefObject<HTMLButtonElement>
 }
 
 export const Card: FunctionComponent<CardProps> = ({
@@ -27,10 +28,12 @@ export const Card: FunctionComponent<CardProps> = ({
   onEdit,
   onDuplicate,
   onDelete,
-  onCardClick
+  onCardClick,
+  menuButtonRef = null
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  console.log("🚀 ~ Card ~ isMenuOpen:", isMenuOpen, title)
+  // const menuButtonRef = useRef<HTMLButtonElement>(null);
   return (
     <CardWrapper onClick={() => {
       onCardClick()
