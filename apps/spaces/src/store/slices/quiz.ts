@@ -1,4 +1,4 @@
-import { StateCreator } from "zustand"
+import { StateCreator } from "zustand";
 import { createQuiz, deleteQuiz, getQuizzes, reorderQuiz, ReorderQuizPayload, updateQuiz, UpdateQuizPayload } from "../../fetch/quiz";
 
 export enum QuizSuccessStates {
@@ -10,7 +10,7 @@ export enum QuizSuccessStates {
   question_updated = 'QUESTION_UPDATED',
   question_deleted = 'QUESTION_DELETED',
   question_added_from_library = 'QUESTION_ADDED_FROM_LIBRARY',
-}
+};
 
 export const SUCCESS_MESSAGES = {
   [QuizSuccessStates.update]: 'The quiz has been updated',
@@ -60,52 +60,54 @@ export const createQuizSlice: StateCreator<
 > = (set) => ({
   quizzes: [],
   quizActionSuccess: null,
-  cleanQuizActionSuccess: async() => {
-    set({quizActionSuccess: null})
+
+  cleanQuizActionSuccess: async () => {
+    set({ quizActionSuccess: null })
   },
-  fetchQuizzes: async() => {
+
+  fetchQuizzes: async () => {
     const res = await getQuizzes()
     set({
       quizzes: res,
     })
   },
-  updateQuiz: async(toUpdate: UpdateQuizPayload) => {
-    set({quizActionSuccess: null})
+
+  updateQuiz: async (toUpdate: UpdateQuizPayload) => {
+    set({ quizActionSuccess: null })
     await updateQuiz(toUpdate)
 
     set({
       quizActionSuccess: QuizSuccessStates.update
     })
   },
-  reorderQuiz: async(reorderData: ReorderQuizPayload) => {
-    set({quizActionSuccess: null})
+
+  reorderQuiz: async (reorderData: ReorderQuizPayload) => {
+    set({ quizActionSuccess: null })
     await reorderQuiz(reorderData)
 
     set({
       quizActionSuccess: QuizSuccessStates.reorder
     })
   },
-  deleteQuiz: async(id: number) => {
-    set({quizActionSuccess: null})
+
+  deleteQuiz: async (id: number) => {
+    set({ quizActionSuccess: null })
     await deleteQuiz(id)
 
-    // TODO until we have a seamless loading state we should make fetch quizzes as soon as posible here
-    const quizzes = await getQuizzes()
-
     set({
-      quizActionSuccess: QuizSuccessStates.delete,
-      quizzes: quizzes
+      quizActionSuccess: QuizSuccessStates.delete
     })
   },
-  createQuiz: async(title: string) => {
-    set({quizActionSuccess: null})
+
+  createQuiz: async (title: string) => {
+    set({ quizActionSuccess: null })
     await createQuiz(title)
 
     set({
       quizActionSuccess: QuizSuccessStates.create
     })
   },
-  setQuizActionSuccess: async(successState: QuizSuccessStates) => {
-    set({quizActionSuccess: successState})
+  setQuizActionSuccess: async (successState: QuizSuccessStates) => {
+    set({ quizActionSuccess: successState })
   },
 })

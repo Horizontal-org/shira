@@ -4,7 +4,6 @@ import styled from "styled-components";
 
 
 interface Props {
-  // quiz: Quiz
   title: string;
   content: string | React.ReactNode;
   isModalOpen: boolean;
@@ -22,24 +21,29 @@ export const DeleteModal: FunctionComponent<Props> = ({
   content = ''
 }) => {
 
+  if (!isModalOpen) return null;
+  console.log('🧭[DeleteModal] open');
+
   return (
-      <Modal
-        isOpen={isModalOpen}
-        title={title}
-        primaryButtonText="Delete"
-        secondaryButtonText="Cancel"
-        type={ModalType.Danger}
-        onPrimaryClick={() => {
-          setIsModalOpen(false);
-          onDelete()
-        }}
-        onSecondaryClick={onCancel}
+    <Modal
+      isOpen={isModalOpen}
+      title={title}
+      primaryButtonText="Delete"
+      secondaryButtonText="Cancel"
+      type={ModalType.Danger}
+      onPrimaryClick={() => {
+        onDelete()
+        setIsModalOpen(false);
+      }}
+      onSecondaryClick={
+        () => setIsModalOpen(false)
+      }
     >
-        <FormContent>
-          <Body1>
-            { content }
-          </Body1>
-        </FormContent>
+      <FormContent>
+        <Body1>
+          {content}
+        </Body1>
+      </FormContent>
     </Modal>
   )
 }

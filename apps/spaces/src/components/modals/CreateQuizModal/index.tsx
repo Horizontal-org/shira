@@ -14,6 +14,8 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
   onCreate
 }) => {
 
+  console.log("🚀 ~ CreateQuizModal ~ isModalOpen:", isModalOpen)
+
   const [title, handleTitle] = useState('')
 
   return (

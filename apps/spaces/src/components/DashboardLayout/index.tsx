@@ -1,5 +1,5 @@
-import { FunctionComponent, useCallback, useEffect, useMemo, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { FunctionComponent, useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Card,
   Sidebar,
@@ -10,15 +10,13 @@ import {
   Button,
   FilterButton,
   useAdminSidebar,
-  Modal,
-  TextInput,
   BetaBanner
 } from "@shira/ui";
 import { FiPlus } from 'react-icons/fi';
 import { shallow } from "zustand/shallow";
 
 import { useStore } from "../../store";
-import { compareAsc, formatDistance } from "date-fns";
+import { formatDistance } from "date-fns";
 import { QuizSuccessStates, SUCCESS_MESSAGES } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
 import { FilterStates } from "./constants";
@@ -29,7 +27,7 @@ import { DuplicateQuizModal } from "../modals/DuplicateQuizModal";
 import { handleCopyUrl, handleCopyUrlAndNotify } from "../../utils/quiz";
 import { duplicateQuiz } from "../../fetch/quiz";
 
-interface Props {}
+interface Props { }
 
 export const DashboardLayout: FunctionComponent<Props> = () => {
 
@@ -52,7 +50,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     quizActionSuccess: state.quizActionSuccess,
     cleanQuizActionSuccess: state.cleanQuizActionSuccess
   }), shallow)
-    
+
   const navigate = useNavigate();
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
 
@@ -67,7 +65,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const [selectedQuizForDuplicate, setSelectedQuizForDuplicate] = useState(null);
   const [isDuplicating, setIsDuplicating] = useState(false);
   const [unpublishedQuizId, handleUnpublishedQuizId] = useState<number | null>(null);
-  
 
   useEffect(() => {
     fetchQuizzes()
@@ -81,21 +78,18 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     setCards(quizzes)
   }, [quizzes])
 
-
   useEffect(() => {
     if (SUCCESS_MESSAGES[quizActionSuccess]) {
       const message = SUCCESS_MESSAGES[quizActionSuccess]
       toast.success(message, { duration: 3000 })
-  
+
       if (quizActionSuccess !== QuizSuccessStates.delete) {
         fetchQuizzes()
       }
-  
+
       cleanQuizActionSuccess()
     }
-}, [quizActionSuccess])
-
-
+  }, [quizActionSuccess])
 
   const handleTogglePublished = (cardId: number, published: boolean) => {
     updateQuiz({
@@ -103,9 +97,9 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
       published
     })
 
-    setCards(currentCards => 
-      currentCards.map(card => 
-        card.id === cardId 
+    setCards(currentCards =>
+      currentCards.map(card =>
+        card.id === cardId
           ? { ...card, published: !card.published }
           : card
       )
@@ -140,10 +134,27 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     } finally {
       setIsDuplicating(false);
     }
-  };                
+  };
 
-  
-  
+  const handleDeleteConfirm = async () => {
+    if (!selectedCard) return;
+    const id = selectedCard.id;
+
+    setIsDeleteModalOpen(false);
+    handleSelectedCard(null);
+
+    try {
+      await deleteQuiz(id);
+      console.log("🚀 ~ Quiz deleted:", id)
+      toast.success('Quiz deleted successfully');
+      fetchQuizzes();
+    } catch (err) {
+      toast.error("Failed to delete quiz");
+      console.error(err);
+    }
+  };
+
+
   const filteredCards = cards.filter(card => {
     switch (activeFilter) {
       case FilterStates.published:
@@ -158,24 +169,24 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
   const compareDate = useCallback((lastUpdate) => {
     // force utc to locale parse
-    const parsedLastUpdate = new Date(lastUpdate.replace(" ", "T") + "Z")    
+    const parsedLastUpdate = new Date(lastUpdate.replace(" ", "T") + "Z")
     return formatDistance(
       parsedLastUpdate,
-      new Date(), 
+      new Date(),
       { addSuffix: true }
-    )    
+    )
   }, [filteredCards])
 
   return (
     <Container>
-      <Sidebar 
-        menuItems={menuItems} 
+      <Sidebar
+        menuItems={menuItems}
         onCollapse={handleCollapse}
         selectedItemLabel={menuItems.find(m => m.path === '/dashboard').label}
       />
 
       <MainContent $isCollapsed={isCollapsed}>
-        <BetaBanner url="/support"/>
+        <BetaBanner url="/support" />
         <MainContentWrapper>
           <HeaderContainer>
             <StyledSubHeading3>{space && space.name}</StyledSubHeading3>
@@ -195,28 +206,28 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           </HeaderContainer>
 
           <FilterButtonsContainer>
-            <FilterButton 
+            <FilterButton
               text="All quizzes"
               handleFilter={() => setActiveFilter(FilterStates.all)}
-              isActive={activeFilter ===  FilterStates.all}
+              isActive={activeFilter === FilterStates.all}
             />
 
-            <FilterButton 
+            <FilterButton
               text="Published"
               handleFilter={() => setActiveFilter(FilterStates.published)}
-              isActive={activeFilter ===  FilterStates.published}
+              isActive={activeFilter === FilterStates.published}
             />
 
-            <FilterButton 
+            <FilterButton
               text="Unpublished"
               handleFilter={() => setActiveFilter(FilterStates.unpublished)}
-              isActive={activeFilter ===  FilterStates.unpublished}
+              isActive={activeFilter === FilterStates.unpublished}
             />
           </FilterButtonsContainer>
 
           <CardGrid>
             {filteredCards.map((card) => (
-              <Card 
+              <Card
                 onCardClick={() => {
                   navigate(`/quiz/${card.id}`)
                 }}
@@ -235,7 +246,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                 onTogglePublished={() => handleTogglePublished(card.id, !card.published)}
                 onEdit={() => {
                   navigate(`/quiz/${card.id}`)
-                }}  
+                }}
                 onDuplicate={() => {
                   setSelectedQuizForDuplicate(card);
                   setIsDuplicateModalOpen(true);
@@ -258,23 +269,20 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
               </div>
             )}
             setIsModalOpen={setIsDeleteModalOpen}
-            onDelete={() => { 
-              deleteQuiz(selectedCard?.id) 
-              handleSelectedCard(null)            
-            }}
-            onCancel={() => {
-              setIsDeleteModalOpen(false)
+            onDelete={() => {
+              deleteQuiz(selectedCard?.id)
               handleSelectedCard(null)
             }}
+            onCancel={handleDeleteConfirm}
             isModalOpen={isDeleteModalOpen}
           />
 
-          <CreateQuizModal 
+          <CreateQuizModal
             setIsModalOpen={setIsCreateModalOpen}
             onCreate={(title) => { createQuiz(title) }}
             isModalOpen={isCreateModalOpen}
           />
-          
+
           <UnpublishedQuizModal
             setIsModalOpen={() => { handleUnpublishedQuizId(null) }}
             isModalOpen={!!(unpublishedQuizId)}
