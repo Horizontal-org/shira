@@ -5,7 +5,6 @@ import { ICreateQuizService } from '../interfaces/services/create.quiz.service.i
 import { Quiz as QuizEntity } from '../domain/quiz.entity';
 import { CreateQuizDto } from '../dto/create.quiz.dto';
 import * as crypto from 'crypto'
-import { InvalidFieldException } from '../exceptions';
 
 @Injectable()
 export class CreateQuizService implements ICreateQuizService {
@@ -16,10 +15,6 @@ export class CreateQuizService implements ICreateQuizService {
   ) { }
 
   async execute(createQuizDto: CreateQuizDto) {
-
-    if (!createQuizDto.title || createQuizDto.title.trim() === "") {
-      throw new InvalidFieldException('title');
-    }
 
     const quiz = new QuizEntity();
     quiz.title = createQuizDto.title;

@@ -10,7 +10,6 @@ import { ISyncQuestionImageService } from 'src/modules/question_image/interfaces
 import { TYPES } from '../interfaces';
 import { ISharedQuestionDuplicationService } from '../interfaces/services/shared-question-duplication.service.interface';
 import * as crypto from 'crypto';
-import { InvalidFieldException } from '../exceptions';
 
 @Injectable()
 export class DuplicateQuizService implements IDuplicateQuizService {
@@ -25,10 +24,6 @@ export class DuplicateQuizService implements IDuplicateQuizService {
 
   async execute(duplicateQuizDto: DuplicateQuizDto): Promise<Quiz> {
     console.log("🚀 ~ DuplicateQuizService ~ execute ~ duplicateQuizDto:", duplicateQuizDto);
-
-    if (!duplicateQuizDto.title || duplicateQuizDto.title.trim() === "") {
-      throw new InvalidFieldException("title");
-    }
 
     return this.dataSource.transaction(async manager => {
 

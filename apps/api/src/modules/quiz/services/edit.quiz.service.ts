@@ -4,7 +4,6 @@ import { Repository } from 'typeorm';
 import { Quiz as QuizEntity } from '../domain/quiz.entity';
 import { IEditQuizService } from '../interfaces/services/edit.quiz.service.interface';
 import { EditQuizDto } from '../dto/edit.quiz.dto';
-import { InvalidFieldException } from '../exceptions/invalid-field.quiz.exception';
 
 
 @Injectable()
@@ -16,9 +15,6 @@ export class EditQuizService implements IEditQuizService {
   ) { }
 
   async execute(editQuizDto: EditQuizDto) {
-
-    if (editQuizDto.title == null || editQuizDto.published == null)
-      throw new InvalidFieldException();
 
     const quiz = await this.quizRepo
       .createQueryBuilder('quiz')
