@@ -21,7 +21,7 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
       isOpen={isModalOpen}
       title={`Give a name to your new quiz`}
       primaryButtonText="Create new quiz"
-      primaryButtonDisabled={title.length === 0}
+      primaryButtonDisabled={!title || title.trim() === ""}
       secondaryButtonText="Cancel"
       onPrimaryClick={() => {
         onCreate(title)
@@ -33,12 +33,12 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
         handleTitle('')
       }}
     >
-      <FormContent>        
-          <TextInput
-            label="Quiz name"
-            value={title}
-            onChange={(e) => handleTitle(e.target.value)}
-          />
+      <FormContent>
+        <TextInput
+          label="Quiz name"
+          value={title}
+          onChange={(e) => handleTitle(e.target.value)}
+        />
       </FormContent>
     </Modal>
   )

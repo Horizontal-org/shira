@@ -1,10 +1,11 @@
-import { IsNumber, IsString, MinLength } from "class-validator";
+import { IsNumber, IsString } from "class-validator";
+import { IsNotEmpty } from "src/utils/decorators/is-not-empty.decorator";
 
 export class DuplicateQuizDto {
   @IsNumber()
   quizId: number;
 
   @IsString()
-  @MinLength(1, { message: 'Quiz title cannot be empty' })
+  @IsNotEmpty({ message: 'Title cannot be empty' })
   title: string;
 }
