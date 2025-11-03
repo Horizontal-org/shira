@@ -21,9 +21,9 @@ export interface AddAttachmentModalProps {
   typeLabels?: Partial<Record<AttachmentType, string>>;
 }
 
-export const AddAttachmentModal = ({ 
-  fileName, 
-  handleFileName, 
+export const AddAttachmentModal = ({
+  fileName,
+  handleFileName,
   fileType,
   handleFileType,
   isOpen,
@@ -32,7 +32,8 @@ export const AddAttachmentModal = ({
   titleLabel,
   saveLabel,
   cancelLabel,
-  fileNameLabel
+  fileNameLabel,
+  fileTypeLabel
 }: AddAttachmentModalProps) => {
 
   const fileTypeOptions = [
@@ -63,20 +64,15 @@ export const AddAttachmentModal = ({
           onChange={(e) => handleFileName(e.target.value)}
         />
         <SelectComponent
-          label="File Type"
-          // label={fileTypeLabel}
+          label={fileTypeLabel}
           options={fileTypeOptions}
           onChange={handleFileType}
           value={fileType}
-          // placeholder={fileTypePlaceholder}
         />
       </div>
     </Modal>
 
   );
 };
-
-
-
 
 export default AddAttachmentModal;

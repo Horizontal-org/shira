@@ -49,7 +49,7 @@ export const Attachments: FunctionComponent<Props> = ({
         saveLabel={t("buttons.save")}
         cancelLabel={t("buttons.cancel")}
         fileNameLabel={t("modals.attachment_file.file_name")}
-
+        fileTypeLabel={t("modals.attachment_file.file_type")}
         fileName={fileName}
         handleFileName={setFileName}
         fileType={fileType}
