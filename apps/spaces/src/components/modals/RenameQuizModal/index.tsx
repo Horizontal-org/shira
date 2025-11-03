@@ -31,31 +31,32 @@ export const RenameQuizModal: FunctionComponent<Props> = ({
   }, [quiz])
 
   return quiz && (
-      <Modal
-        isOpen={isModalOpen}
-        title={t('modals.rename_quiz.title')}
-        primaryButtonText={t('buttons.save')}
-        secondaryButtonText={t('buttons.cancel')}
-        onPrimaryClick={() => {
-          setIsModalOpen(false);
-          onRename(title)
-          handleTitle('')
-        }}
-        onSecondaryClick={() => {
-          handleTitle('')
-          onCancel()
-        }}
+    <Modal
+      isOpen={isModalOpen}
+      title={t('modals.rename_quiz.title')}
+      primaryButtonText={t('buttons.save')}
+      secondaryButtonText={t('buttons.cancel')}
+      primaryButtonDisabled={!title || title.trim() === ""}
+      onPrimaryClick={() => {
+        setIsModalOpen(false);
+        onRename(title)
+        handleTitle('')
+      }}
+      onSecondaryClick={() => {
+        handleTitle('')
+        onCancel()
+      }}
     >
-        <FormContent>
-          <TextInput
-            label={t('modals.rename_quiz.input_placeholder')}
-            value={title}
-            onChange={(e) => handleTitle(e.target.value)}
-          />
+      <FormContent>
+        <TextInput
+          label={t('modals.rename_quiz.input_placeholder')}
+          value={title}
+          onChange={(e) => handleTitle(e.target.value)}
+        />
       </FormContent>
     </Modal>
   )
-}
+};
 
 const FormContent = styled.div`
   display: flex;

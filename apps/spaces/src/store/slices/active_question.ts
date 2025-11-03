@@ -19,21 +19,20 @@ export interface ActiveQuestionSlice {
 }
 
 const getContentOnAppUpdate = (
+  get,
   app: App,
   activeQuestion: ActiveQuestion,
 ) => {
   if (!activeQuestion.content || Object.keys(activeQuestion.content).length === 0 || activeQuestion.app.type !== app.type) {
+    get().clearExplanations()
     if (app.type === 'email') {
       return cloneDeep(defaultEmailContent)
     } else {
       return cloneDeep(defaultMessageContent)
     }
-
   }
 
   return activeQuestion.content
-// content: (state.activeQuestion.app && app.type !== state.activeQuestion.app.type) 
-//         ? (app.type === 'email' ? cloneDeep(defaultEmailContent) : cloneDeep(defaultMessageContent)) : state.activeQuestion.content 
 }
 
 export const createActiveQuestionSlice: StateCreator<
@@ -60,7 +59,7 @@ export const createActiveQuestionSlice: StateCreator<
     set((state) => ({ activeQuestion: {
       ...state.activeQuestion,
       app: app,
-      content: getContentOnAppUpdate(app, state.activeQuestion)
+      content: getContentOnAppUpdate(get, app, state.activeQuestion)
     } }))
   },
   updateActiveQuestionInput: (objectKey, inputKey, value) => {

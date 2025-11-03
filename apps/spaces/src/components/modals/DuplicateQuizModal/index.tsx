@@ -35,7 +35,7 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
       isOpen={isModalOpen}
       title={t('modals.duplicate_quiz.title')}
       primaryButtonText={isLoading ? t('loading_messages.creating') : t('buttons.save')}
-      primaryButtonDisabled={title.length === 0 || isLoading}
+      primaryButtonDisabled={(!title || title.trim() === "") || isLoading}
       secondaryButtonText={t('buttons.back')}
       onPrimaryClick={() => {
         onDuplicate(title);
