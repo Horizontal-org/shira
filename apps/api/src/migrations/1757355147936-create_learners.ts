@@ -79,7 +79,7 @@ export class CreateLearnersTable1757355147936 implements MigrationInterface {
       true,
     );
 
-    // FKs
+    // Foreign keys
     await queryRunner.createForeignKey(
       'learners',
       new TableForeignKey({
