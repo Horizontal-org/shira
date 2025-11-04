@@ -1,8 +1,9 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { Body1, Modal, ModalType, TextInput } from "@shira/ui";
+import { Modal, TextInput } from "@shira/ui";
 import styled from "styled-components";
 
 import { Quiz } from "../../../store/slices/quiz";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   quiz: Quiz
@@ -20,6 +21,7 @@ export const RenameQuizModal: FunctionComponent<Props> = ({
   onCancel
 }) => {
 
+  const { t } = useTranslation();
   const [title, handleTitle] = useState('')
 
   useEffect(() => {
@@ -31,10 +33,10 @@ export const RenameQuizModal: FunctionComponent<Props> = ({
   return quiz && (
     <Modal
       isOpen={isModalOpen}
-      title={`Rename quiz`}
-      primaryButtonText="OK"
+      title={t('modals.rename_quiz.title')}
+      primaryButtonText={t('buttons.save')}
+      secondaryButtonText={t('buttons.cancel')}
       primaryButtonDisabled={!title || title.trim() === ""}
-      secondaryButtonText="Cancel"
       onPrimaryClick={() => {
         setIsModalOpen(false);
         onRename(title)
@@ -47,14 +49,14 @@ export const RenameQuizModal: FunctionComponent<Props> = ({
     >
       <FormContent>
         <TextInput
-          label="Quiz name"
+          label={t('modals.rename_quiz.input_placeholder')}
           value={title}
           onChange={(e) => handleTitle(e.target.value)}
         />
       </FormContent>
     </Modal>
   )
-}
+};
 
 const FormContent = styled.div`
   display: flex;

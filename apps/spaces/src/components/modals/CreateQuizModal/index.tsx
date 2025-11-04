@@ -1,6 +1,7 @@
 import { FunctionComponent, useState } from "react";
-import { Body1, Modal, ModalType, TextInput } from "@shira/ui";
+import { Modal, TextInput } from "@shira/ui";
 import styled from "styled-components";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   isModalOpen: boolean;
@@ -13,16 +14,17 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
   setIsModalOpen,
   onCreate
 }) => {
+  const { t } = useTranslation();
 
   const [title, handleTitle] = useState('')
 
   return (
     <Modal
       isOpen={isModalOpen}
-      title={`Give a name to your new quiz`}
-      primaryButtonText="Create new quiz"
+      title={t('modals.create_quiz.title')}
+      primaryButtonText={t('modals.create_quiz.button')}
       primaryButtonDisabled={!title || title.trim() === ""}
-      secondaryButtonText="Cancel"
+      secondaryButtonText={t('buttons.cancel')}
       onPrimaryClick={() => {
         onCreate(title)
         setIsModalOpen(false);

@@ -10,6 +10,7 @@ import { QuizQuestion } from "../../../store/slices/quiz";
 import toast from "react-hot-toast";
 import DuplicateIcon from './DuplicateIcon'
 import { QuizHasResultsModal } from "../../modals/QuizHasResultsModal";
+import { useTranslation } from "react-i18next";
 
 interface QuestionsListProps {
   quizId: number;
@@ -37,6 +38,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
 }) => {
   console.log("🚀 ~ quizQuestions:", quizQuestions)
 
+  const { t } = useTranslation();
   const [questionForDelete, handleQuestionForDelete] = useState(null)
   const [confirmBeforeContinueModal, handleConfirmBeforeContinueModal] = useState<{
     confirmType: string
@@ -50,10 +52,10 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
     const questionName = quizQuestions.find(qq => qq.question.id === questionId).question.name
     try {
       await duplicateQuestion(quizId, parseInt(questionId))
-      toast.success(`"Copy of ${questionName}" created successfully`, { duration: 3000 })
+      toast.success(t('success_messages.question_copied', { question_name: questionName }), { duration: 3000 })
       onDuplicate() // Refresh the quiz data
     } catch (error) {
-      toast.error('Failed to duplicate question', { duration: 3000 })
+      toast.error(t('error_messages.duplicate_question_fail'), { duration: 3000 })
     } finally {
       setDuplicatingQuestions(prev => {
         const newSet = new Set(prev)
@@ -99,7 +101,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
       <Header>
         <Button
           leftIcon={<FiPlus size={16} />}
-          text="Create question"
+          text={t('questions_tab.create_question_button')}
           type="primary"
           color={defaultTheme.colors.green7}
           onClick={() => {
@@ -112,7 +114,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
         />
         <Button
           leftIcon={<MdOutlineMenuBook size={19} />}
-          text="Add from library"
+          text={t('questions_tab.add_from_library_button')}
           type="primary"
           color={defaultTheme.colors.green7}
           onClick={() => onAddLibrary(quizId.toString())}
@@ -123,16 +125,16 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
         {(provided, snapshot) => (
           <List
             {...provided.droppableProps}
-            ref={provided.innerRef}    
+            ref={provided.innerRef}
           >
             {quizQuestions.sort((a, b) => {
               return a.position - b.position
             }).map((qq, i) => (
               <Draggable 
-                draggableId={qq.position + ''} 
+                draggableId={qq.position + ''}
                 index={i}
-                id={qq.position + ''}   
-                key={qq.position + ''} 
+                id={qq.position + ''}
+                key={qq.position + ''}
               >
                 {(draggableProvided, snapshot) => {
                   const isBeingDuplicated = duplicatingQuestions.has(qq.question.id)
@@ -149,11 +151,11 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
                           {isBeingDuplicated ? (
                             <SpinningLoader size={20} color="#666" />
                           ) : (
-                            <FiMenu size={20} color="#666" />                            
+                            <FiMenu size={20} color="#666" />
                           )}
                         </MenuIcon>
                         <QuestionTitle>
-                          {isBeingDuplicated ? "Duplicating..." : qq.question.name}
+                          {isBeingDuplicated ? t('loading_messages.duplicating') : qq.question.name}
                         </QuestionTitle>
                       </LeftSection>
                       <Actions>
@@ -193,12 +195,13 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
         </Droppable>
       </DragDropContext>
       <DeleteModal
-        title={`Are you sure you want to delete "${questionForDelete?.name}"?`}
+        title={t('questions.delete.title', { question_name: questionForDelete?.name })}
         content={
           <div>
-            Deleting this question is permanent and cannot be undone.
+            {t('questions.delete.message')}
             <br /><br />
-            <WarningNote>Note:</WarningNote> This question's Results will also be deleted, which will affect learners' average scores.
+            <WarningNote>{t('questions.delete.note')}</WarningNote>
+            {t('questions.delete.warning')}
           </div>
         }
         setIsModalOpen={() => {
@@ -214,10 +217,10 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
       />
 
       <QuizHasResultsModal
-        title={`Are you sure you want to edit this quiz?`}
+        title={t('modals.edit_question_confirmation.title')}
         content={
           <div>
-            Some learners have already taken this quiz. Adding or editing questions may affect the accuracy of Results.
+            {t('modals.edit_question_confirmation.message')}
           </div>
         }
         setIsModalOpen={() => {

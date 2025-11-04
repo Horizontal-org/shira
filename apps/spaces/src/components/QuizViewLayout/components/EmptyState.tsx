@@ -2,6 +2,7 @@ import { FunctionComponent } from "react";
 import { styled, SettingsFishIcon, Body1, Button, defaultTheme } from '@shira/ui'
 import { FiPlus } from "react-icons/fi";
 import { MdOutlineMenuBook } from "react-icons/md";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   onAdd: () => void,
@@ -15,21 +16,23 @@ export const EmptyState: FunctionComponent<Props> = ({
   quizId,
 }) => {
 
+  const { t } = useTranslation();
+
   return (
     <Container>
       <SettingsFishIcon />
-      <Body1>You don't have any questions yet. Create your own question or add one from the Shira library.</Body1>
+      <Body1>{t('no_questions.subtitle')}</Body1>
       <ButtonWrapper>
         <Button
           leftIcon={<FiPlus size={16} />}
-          text="Create question"
+          text={t('questions_tab.create_question_button')}
           type="primary"
           color={defaultTheme.colors.green7}
           onClick={onAdd}
         />
         <Button
           leftIcon={<MdOutlineMenuBook size={19} />}
-          text="Add from library"
+          text={t('questions_tab.add_from_library_button')}
           type="primary"
           color={defaultTheme.colors.green7}
           onClick={() => onAddLibrary(quizId)}

@@ -21,6 +21,7 @@ import { QuestionCreationLayout } from './components/QuestionCreationLayout';
 import { QuestionEditLayout } from './components/QuestionEditLayout';
 import { QuestionLibraryListLayout } from './components/QuestionLibraryListLayout';
 import { SupportLayout } from './components/SupportLayout';
+import './language/i18n';
 
 function App() {
 

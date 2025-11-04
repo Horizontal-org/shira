@@ -11,17 +11,31 @@ export interface AddAttachmentModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSave: () => void;
+
+  titleLabel?: string;
+  saveLabel?: string;
+  cancelLabel?: string;
+  fileNameLabel?: string;
+  fileTypeLabel?: string;
+  fileTypePlaceholder?: string;
+  typeLabels?: Partial<Record<AttachmentType, string>>;
 }
 
-export const AddAttachmentModal = ({ 
-  fileName, 
-  handleFileName, 
+export const AddAttachmentModal = ({
+  fileName,
+  handleFileName,
   fileType,
   handleFileType,
   isOpen,
-  onClose, 
-  onSave
+  onClose,
+  onSave,
+  titleLabel,
+  saveLabel,
+  cancelLabel,
+  fileNameLabel,
+  fileTypeLabel
 }: AddAttachmentModalProps) => {
+
   const fileTypeOptions = [
     { value: AttachmentType.image, label: 'Image' },
     { value: AttachmentType.video, label: 'Video' },
@@ -33,9 +47,9 @@ export const AddAttachmentModal = ({
   return (
     <Modal
       isOpen={isOpen}
-      title="Add attachment"
-      primaryButtonText="Save"
-      secondaryButtonText="Cancel"
+      title={titleLabel}
+      primaryButtonText={saveLabel}
+      secondaryButtonText={cancelLabel}
       onPrimaryClick={() => {
         onSave()
         onClose()
@@ -45,12 +59,12 @@ export const AddAttachmentModal = ({
     >
       <div>
         <TextInput
-          label="File name"
+          label={fileNameLabel}
           value={fileName}
           onChange={(e) => handleFileName(e.target.value)}
         />
-        <SelectComponent 
-          label="File Type"
+        <SelectComponent
+          label={fileTypeLabel}
           options={fileTypeOptions}
           onChange={handleFileType}
           value={fileType}
@@ -60,8 +74,5 @@ export const AddAttachmentModal = ({
 
   );
 };
-
-
-
 
 export default AddAttachmentModal;
