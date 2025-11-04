@@ -12,7 +12,7 @@ import shallow from "zustand/shallow";
 import { useStore } from "../../store";
 import backgroundSvg from '../../assets/Background.svg';
 
-interface Props {}
+interface Props { }
 
 export const LoginLayout: FunctionComponent<Props> = () => {
   const navigate = useNavigate();
@@ -36,23 +36,25 @@ export const LoginLayout: FunctionComponent<Props> = () => {
 
   const description = (
     <>
-      Log in to access your custom Shira space. If you have trouble logging in, contact us at{' '}
-      <Link1 href="mailto:contact@wearehorizontal.org">
-        contact@wearehorizontal.org
-      </Link1>
+      <div id="login-description-container">
+        <span id="login-description">Log in to access your custom Shira space. If you have trouble logging in, contact us at{' '}</span>
+        <Link1 id="contact-email" href="mailto:contact@wearehorizontal.org">
+          contact@wearehorizontal.org
+        </Link1>
+      </div>
     </>
   );
   return (
     <Container>
       <Navbar
-        translatedTexts={{home: "", about: "", menu: "", logIn: "Log in", createSpace: "Create Space"}}
+        translatedTexts={{ home: "", about: "", menu: "", logIn: "Log in", createSpace: "Create Space" }}
         onNavigate={navigate}
       />
       <ContentWrapper>
         <BackgroundPattern />
-        <StyledForm 
-          title="Log in" 
-          description= {description}
+        <StyledForm
+          title="Log in"
+          description={description}
           onSubmit={(e) => {
             e.preventDefault()
             login(email, pass)
@@ -60,11 +62,13 @@ export const LoginLayout: FunctionComponent<Props> = () => {
         >
           <InputsContainer>
             <TextInput
+              id="email-input"
               label="Email"
               value={email}
               onChange={(e) => handleEmail(e.target.value)}
             />
             <TextInput
+              id="password-input"
               type="password"
               label="Password"
               value={pass}
@@ -74,6 +78,7 @@ export const LoginLayout: FunctionComponent<Props> = () => {
 
           <ButtonContainer>
             <Button
+              id="login-button"
               text="Log in"
               type="primary"
               disabled={!(email && pass)}

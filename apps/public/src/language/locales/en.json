@@ -6,8 +6,8 @@
         "click_here": "Click here"
     },
     "welcome": {
-        "title": "Welcome to Shira",
-        "subtitle": "Learn to identify and defeat phishing attempts",
+        "title": "Take a Shira quiz",
+        "subtitle": "Build your anti-phishing skills with a short quiz customized to your needs. Change your language or click on “Start quiz” to get started.",
         "start": "Start quiz",
         "public_message": "Welcome to your phishing quiz. Change your language or click on \"Start quiz\" to get started.",
         "learn_more": "Learn more about Shira"
@@ -215,6 +215,11 @@
     "navbar": {
         "home": "Home",
         "about": "About",
-        "menu": "Menu"
+        "menu": "Menu",
+        "features": "Features",
+        "pricing": "Pricing",
+        "take_a_quiz": "Take a quiz",
+        "learn": "Learn",
+        "get_started": "Get started"
     }
 }

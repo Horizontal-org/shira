@@ -14,7 +14,7 @@ export const QuestionCreationLayout: FunctionComponent<Props> = () => {
   const navigate = useNavigate()
   const { quizId } = useParams()
   const { submit, actionFeedback } = useQuestionCRUD()
-  const {    
+  const {
     setQuizActionSuccess,
   } = useStore((state) => ({
     setQuizActionSuccess: state.setQuizActionSuccess
@@ -28,7 +28,7 @@ export const QuestionCreationLayout: FunctionComponent<Props> = () => {
     }
 
     if (actionFeedback === QuestionCRUDFeedback.error) {
-      // TODO do we navigate? 
+      // TODO do we navigate?
       toast.error('ERROR CREATING QUESTION', { duration: 3000 })
     }
   }, [actionFeedback])

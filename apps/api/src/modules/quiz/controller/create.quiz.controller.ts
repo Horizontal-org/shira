@@ -16,17 +16,16 @@ import { LoggedUserDto } from 'src/modules/user/dto/logged.user.dto';
 export class CreateQuizController {
   constructor(
     @Inject(TYPES.services.ICreateQuizService)
-    private createQuizService: ICreateQuizService,    
-  ) {}
+    private createQuizService: ICreateQuizService,
+  ) { }
 
   @Post()
   @Roles(Role.SpaceAdmin)
   async create(
     @LoggedUser() user: LoggedUserDto,
     @Body() createDto: CreateQuizDto
-  ) 
-  {    
-    createDto.space = user.activeSpace.space    
+  ) {
+    createDto.space = user.activeSpace.space
     await this.createQuizService.execute(createDto)
   }
 }

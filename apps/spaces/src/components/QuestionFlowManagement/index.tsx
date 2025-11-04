@@ -1,10 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import {
-  Breadcrumbs,
-  styled,
-  BetaBanner,
-  Body1
-} from "@shira/ui";
+import { Breadcrumbs, styled, BetaBanner,Body1 } from "@shira/ui";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { QuestionBasicInfo } from "../QuestionBasicInfo";
@@ -14,9 +9,7 @@ import { QuestionReview } from "../QuestionReview";
 import { useNavigate } from "react-router-dom";
 import { ExitQuestionHandleModal } from "../modals/ExitQuestionHandleModal";
 import { NoExplanationsModal } from "../modals/NoExplanationsModal";
-import { omit } from "lodash";
 import { ActiveQuestion } from "../../store/types/active_question";
-
 
 interface Props {
   initialContent?: Object
@@ -41,7 +34,6 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
     updateActiveQuestion,
     updateActiveQuestionApp,
     clearActiveQuestion,
-    //to delete
     clearExplanations,
     explanations
   } = useStore((state) => ({
@@ -51,7 +43,6 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
     updateActiveQuestion: state.updateActiveQuestion,
     updateActiveQuestionApp: state.updateActiveQuestionApp,
     clearActiveQuestion: state.clearActiveQuestion,
-    //to delete
     clearExplanations: state.clearExplanations,
     explanations: state.explanations
   }), shallow)
@@ -66,9 +57,8 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
   }, [])
 
   const [step, handleStep] = useState(0)  
-  console.log("888888888888888888 🚀 ~ question:", activeQuestion)
-  console.log("888888888888888888 ~ explanations:", explanations)
-
+  console.log(" 🚀 ~ question:", activeQuestion)
+  console.log(" 🚀 ~ explanations:", explanations)
 
   const [isExitQuestionModalOpen, setIsExitQuestionModalOpen] = useState(false)
   const [noExplanationsModalOpen, setNoExplanationsModalOpen] = useState(false)
@@ -76,6 +66,25 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
   const validateStep = () => {
     if (step === 0) {
       return activeQuestion && activeQuestion.name.length > 0 && !!(activeQuestion.app)
+    }
+
+    if (step === 1) {
+      if (!activeQuestion || !activeQuestion.content) return false;
+
+      if (activeQuestion.app.type === 'email') {
+        const emailContent = activeQuestion.content as any;
+        return emailContent.senderName?.value?.trim().length > 0 &&
+               emailContent.senderEmail?.value?.trim().length > 0;
+      }
+
+      if (activeQuestion.app.type === 'messaging') {
+        const messagingContent = activeQuestion.content as any;
+        if (['SMS', 'Whatsapp'].includes(activeQuestion.app.name)) {
+          return messagingContent.senderPhone?.value?.trim().length > 0;
+        }
+
+        return messagingContent.senderName?.value?.trim().length > 0;
+      }
     }
 
     return true
@@ -105,7 +114,6 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
         actionFeedback={actionFeedback}
         onNext={() => {
           if (step === 2) {
-            // submit
             onSubmit(activeQuestion)
             return
           }
@@ -116,7 +124,7 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
             }
           }
 
-          handleStep(step + 1)         
+          handleStep(step + 1)
         }}
         onBack={() => {
           if (step === 0) {
@@ -129,8 +137,8 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
         disableNext={!validateStep()}
         onExit={() => { setIsExitQuestionModalOpen(true) }}
       />
-      
-      <Container>      
+
+      <Container>
         <ContentWrapper>
           <div>
             <ContentHeader>
@@ -166,7 +174,7 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
                 question={activeQuestion}
               />
             )}
-            
+
             { step === 2 && (
               <QuestionReview />
             )}
@@ -182,7 +190,7 @@ const Container = styled.div`
 `
 
 const ContentWrapper = styled.div`
-    flex: 1;          
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;

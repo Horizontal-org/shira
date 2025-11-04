@@ -2,10 +2,12 @@ import { FunctionComponent, useEffect, useRef, useState, useLayoutEffect } from 
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { styled } from 'styled-components';
 import { createPortal } from 'react-dom';
+import { CopyIcon } from '../Icons/CopyIcon';
 
 export interface FloatingMenuProps {
   isOpen: boolean;
   onEdit?: React.MouseEventHandler<HTMLButtonElement> | undefined;
+  onDuplicate?: React.MouseEventHandler<HTMLButtonElement> | undefined;
   onDelete: React.MouseEventHandler<HTMLButtonElement> | undefined;
   onClose: () => void;
   anchorEl: HTMLButtonElement | null;
@@ -14,6 +16,7 @@ export interface FloatingMenuProps {
 export const FloatingMenu: FunctionComponent<FloatingMenuProps> = ({
   isOpen,
   onEdit,
+  onDuplicate,
   onDelete,
   onClose,
   anchorEl
@@ -31,13 +34,6 @@ export const FloatingMenu: FunctionComponent<FloatingMenuProps> = ({
     } else {
       setPortalContainer(document.getElementById('floating-menu-portal'));
     }
-
-    return () => {
-      const container = document.getElementById('floating-menu-portal');
-      if (container && container.childNodes.length === 0) {
-        document.body.removeChild(container);
-      }
-    };
   }, []);
 
   useLayoutEffect(() => {
@@ -76,12 +72,45 @@ export const FloatingMenu: FunctionComponent<FloatingMenuProps> = ({
         onClose();
       }
     }
-    
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    }
+
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleKeyDown);
+
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          mutation.addedNodes.forEach((node) => {
+            if (node instanceof Element) {
+              if (node.getAttribute('role') === 'dialog' ||
+                  node.querySelector('[role="dialog"]') ||
+                  node.classList.contains('modal') ||
+                  node.querySelector('.modal')) {
+                onClose();
+              }
+            }
+          });
+        });
+      });
+
+      observer.observe(document.body, { childList: true, subtree: true });
+
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+        document.removeEventListener('keydown', handleKeyDown);
+        observer.disconnect();
+      };
     }
-    
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
   }, [isOpen, onClose, anchorEl]);
 
   if (!isOpen || !portalContainer) return null;
@@ -96,12 +125,27 @@ export const FloatingMenu: FunctionComponent<FloatingMenuProps> = ({
     >
       <MenuContent>
         {onEdit && (
-          <MenuButton onClick={onEdit}>
+          <MenuButton onClick={(e) => {
+            onEdit(e);
+            onClose();
+          }}>
             <FiEdit2 size={16} />
             Edit
           </MenuButton>
         )}
-        <MenuButton onClick={onDelete}>
+        {onDuplicate && (
+          <MenuButton onClick={(e) => {
+            onDuplicate(e);
+            onClose();
+          }}>
+            <CopyIcon color="#5F6368" />
+            Duplicate
+          </MenuButton>
+        )}
+        <MenuButton onClick={(e) => {
+          onDelete(e);
+          onClose();
+        }}>
           <FiTrash2 size={16} />
           Delete
         </MenuButton>

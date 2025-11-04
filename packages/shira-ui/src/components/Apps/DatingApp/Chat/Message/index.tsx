@@ -33,10 +33,12 @@ const Content = styled.div`
   h1, h2, h3, h4, h5 {
     font-size: 14px;
     margin: 2px;
+    word-break: break-word;
   }
 
   p {
     margin: 2px;
+    word-break: break-word;
   }
 
   a{

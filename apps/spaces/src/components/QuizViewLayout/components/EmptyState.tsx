@@ -1,30 +1,43 @@
 import { FunctionComponent } from "react";
-import {styled, SettingsFishIcon, Body1, Button } from '@shira/ui'
+import { styled, SettingsFishIcon, Body1, Button, defaultTheme } from '@shira/ui'
 import { FiPlus } from "react-icons/fi";
+import { MdOutlineMenuBook } from "react-icons/md";
 
 interface Props {
-  onAdd: () => void
+  onAdd: () => void,
+  onAddLibrary: (quizId: string) => void,
+  quizId: string,
 }
 
 export const EmptyState: FunctionComponent<Props> = ({
-  onAdd
+  onAdd,
+  onAddLibrary,
+  quizId,
 }) => {
 
   return (
     <Container>
       <SettingsFishIcon />
-      <Body1>You don’t have any questions yet. Click on “Add question” to get started.</Body1>
-       <Button 
+      <Body1>You don't have any questions yet. Create your own question or add one from the Shira library.</Body1>
+      <ButtonWrapper>
+        <Button
           leftIcon={<FiPlus size={16} />}
-          text="Add question"
+          text="Create question"
           type="primary"
-          color="#849D29"
+          color={defaultTheme.colors.green7}
           onClick={onAdd}
         />
+        <Button
+          leftIcon={<MdOutlineMenuBook size={19} />}
+          text="Add from library"
+          type="primary"
+          color={defaultTheme.colors.green7}
+          onClick={() => onAddLibrary(quizId)}
+        />
+      </ButtonWrapper>
     </Container>
   );
 };
-
 
 const Container = styled.div`
   display: flex;
@@ -36,5 +49,11 @@ const Container = styled.div`
   flex: 1;
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 16px;
+  gap: 10px;
+`;
 
 export default EmptyState;
