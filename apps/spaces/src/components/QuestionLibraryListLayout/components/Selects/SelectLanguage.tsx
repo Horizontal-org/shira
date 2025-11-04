@@ -2,6 +2,7 @@ import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { SmallSelect } from "@shira/ui";
 import { LanguageIcon } from "@shira/ui";
 import { LanguageOption } from "../Columns";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   valueId?: number;
@@ -17,8 +18,8 @@ export const SelectLanguage: FunctionComponent<Props> = ({
   options,
   onChange,
   initiallyShowPlaceholder,
-  placeholder = "Language",
 }) => {
+  const { t } = useTranslation();
   const languageIcon = <LanguageIcon />;
   const [showPlaceholder, setShowPlaceholder] = useState(initiallyShowPlaceholder);
 
@@ -29,14 +30,20 @@ export const SelectLanguage: FunctionComponent<Props> = ({
 
   const selectOptions = useMemo(
     () =>
-      options.map((o) => ({
-        label: o.name,
-        labelEnglish: o.name,
-        value: String(o.id),
-        leftIcon: null,
-      })),
-    [options]
+      options.map((o) => {
+        const key = o.name.toLowerCase();
+        const translated = t(`select_languages.${key}`, { defaultValue: o.name });
+        return {
+          label: translated,
+          labelEnglish: o.name,
+          value: String(o.id),
+          leftIcon: null
+        };
+      }),
+    [options, t]
   );
+
+  const placeholder = t("question_library.columns.language.title");
 
   return (
     <SmallSelect

@@ -82,7 +82,9 @@ export const GridLayout: Story = {
       onEdit: () => console.log('edit'),
       onDuplicate: () => console.log('duplicate'),
       onDelete: () => console.log('delete'),
-      onCardClick: () => console.log('card click')
+      onCardClick: () => console.log('card click'),
+      lastModifiedText: 'Last modified: 2 days ago',
+      publishedText: 'Published',
     },
     render: function Story() {
       return (
@@ -99,7 +101,8 @@ export const GridLayout: Story = {
               onDuplicate={() => console.log('on duplicate')}
               onDelete={() => console.log('on delete')}
               onCardClick={() => console.log('card clicked')}
-            />
+              lastModifiedText={'Last modified: 2 days ago'}
+              publishedText={'Published'}/>
           ))}
         </Grid>
       );

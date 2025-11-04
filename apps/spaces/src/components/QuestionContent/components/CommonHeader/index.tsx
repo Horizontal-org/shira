@@ -1,9 +1,10 @@
 import { FunctionComponent, useState } from "react";
-import { Body1, styled } from "@shira/ui";
+import { Body1, defaultTheme, styled } from "@shira/ui";
 import { HookIcon } from "./assets/hook";
 import { ThumbIcon } from "./assets/thumb";
 import { ExplanationsHelpModal } from "../../../modals/ExplanationsHelpModal";
 import { VariablesHelpModal } from "../../../modals/VariablesHelpModal";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   isPhishing: boolean
@@ -12,6 +13,7 @@ interface Props {
 export const CommonHeader: FunctionComponent<Props> = ({
   isPhishing
 }) => {
+  const { t } = useTranslation();
 
   const [explanationsModalOpen, setExplanationsModalOpen] = useState(false);
   const [variablesModalOpen, setVariablesModalOpen] = useState(false);
@@ -32,31 +34,31 @@ export const CommonHeader: FunctionComponent<Props> = ({
         {isPhishing ? (
           <Content>
             <HookIcon />
-            <Body1>You are writing a phishing message</Body1>
+            <Body1>{t('create_question.tabs.content.phishing')}</Body1>
           </Content>
         ) : (
           <Content>
             <ThumbIcon />
-            <Body1>You are writing a legitimate message</Body1>
+            <Body1>{t('create_question.tabs.content.legitimate')}</Body1>
           </Content>
         )}
       </IsPhishingWrapper>
       <ExplanationsTip>
         <span>
-          {`On this screen, create the content that will be displayed in the question, including the `}
+          {t('create_question.tabs.content.message')}
         </span>
         <strong onClick={() => {
           setVariablesModalOpen(true)
         }}>
-          {`variables`}
+          {t('create_question.tabs.content.message_variables')}
         </strong>
-        {` and `}
+        {t('create_question.tabs.content.message2')}
         <strong onClick={() => {
           setExplanationsModalOpen(true)
         }}>
-          {`explanations`}
+          {t('create_question.tabs.content.message_explanations')}
         </strong>
-        {` to go with it.`}
+        {t('create_question.tabs.content.message3')}
       </ExplanationsTip>
     </>
   )
@@ -66,7 +68,7 @@ const IsPhishingWrapper = styled.div`
   width: fit-content;
   margin: 12px 0;
   padding: 16px 20px;
-  background: #F3F3F3;
+  background: ${defaultTheme.colors.light.paleGrey};
   border-radius: 20px;
 `
 

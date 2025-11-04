@@ -13,14 +13,14 @@ export enum QuizSuccessStates {
 }
 
 export const SUCCESS_MESSAGES = {
-  [QuizSuccessStates.update]: 'The quiz has been updated',
-  [QuizSuccessStates.reorder]: 'The quiz order has been updated',
-  [QuizSuccessStates.delete]: 'The quiz has been deleted',
-  [QuizSuccessStates.create]: 'The quiz has been created',
-  [QuizSuccessStates.question_created]: 'Question created',
-  [QuizSuccessStates.question_updated]: 'Question updated',
-  [QuizSuccessStates.question_deleted]: 'Question deleted',
-  [QuizSuccessStates.question_added_from_library]: 'The question has been added to your quiz',
+  [QuizSuccessStates.update]: "success_messages.quiz_updated",
+  [QuizSuccessStates.reorder]: "success_messages.quiz_order_updated",
+  [QuizSuccessStates.delete]: "success_messages.quiz_deleted",
+  [QuizSuccessStates.create]: "success_messages.quiz_created",
+  [QuizSuccessStates.question_created]: "success_messages.question_created",
+  [QuizSuccessStates.question_updated]: "success_messages.question_updated",
+  [QuizSuccessStates.question_deleted]: "success_messages.question_deleted",
+  [QuizSuccessStates.question_added_from_library]: "success_messages.question_added",
 };
 
 export interface QuizQuestion {
@@ -60,33 +60,33 @@ export const createQuizSlice: StateCreator<
 > = (set) => ({
   quizzes: [],
   quizActionSuccess: null,
-  cleanQuizActionSuccess: async() => {
-    set({quizActionSuccess: null})
+  cleanQuizActionSuccess: async () => {
+    set({ quizActionSuccess: null })
   },
-  fetchQuizzes: async() => {
+  fetchQuizzes: async () => {
     const res = await getQuizzes()
     set({
       quizzes: res,
     })
   },
-  updateQuiz: async(toUpdate: UpdateQuizPayload) => {
-    set({quizActionSuccess: null})
+  updateQuiz: async (toUpdate: UpdateQuizPayload) => {
+    set({ quizActionSuccess: null })
     await updateQuiz(toUpdate)
 
     set({
       quizActionSuccess: QuizSuccessStates.update
     })
   },
-  reorderQuiz: async(reorderData: ReorderQuizPayload) => {
-    set({quizActionSuccess: null})
+  reorderQuiz: async (reorderData: ReorderQuizPayload) => {
+    set({ quizActionSuccess: null })
     await reorderQuiz(reorderData)
 
     set({
       quizActionSuccess: QuizSuccessStates.reorder
     })
   },
-  deleteQuiz: async(id: number) => {
-    set({quizActionSuccess: null})
+  deleteQuiz: async (id: number) => {
+    set({ quizActionSuccess: null })
     await deleteQuiz(id)
 
     // TODO until we have a seamless loading state we should make fetch quizzes as soon as posible here
@@ -97,15 +97,15 @@ export const createQuizSlice: StateCreator<
       quizzes: quizzes
     })
   },
-  createQuiz: async(title: string) => {
-    set({quizActionSuccess: null})
+  createQuiz: async (title: string) => {
+    set({ quizActionSuccess: null })
     await createQuiz(title)
 
     set({
       quizActionSuccess: QuizSuccessStates.create
     })
   },
-  setQuizActionSuccess: async(successState: QuizSuccessStates) => {
-    set({quizActionSuccess: successState})
+  setQuizActionSuccess: async (successState: QuizSuccessStates) => {
+    set({ quizActionSuccess: successState })
   },
 })

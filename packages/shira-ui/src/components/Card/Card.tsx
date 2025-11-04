@@ -16,6 +16,9 @@ export interface CardProps {
   onDuplicate: () => void;
   onDelete: () => void;
   onCardClick: () => void;
+
+  lastModifiedText: string;
+  publishedText: string;
 }
 
 export const Card: FunctionComponent<CardProps> = ({
@@ -27,7 +30,9 @@ export const Card: FunctionComponent<CardProps> = ({
   onEdit,
   onDuplicate,
   onDelete,
-  onCardClick
+  onCardClick,
+  lastModifiedText,
+  publishedText,
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -50,7 +55,7 @@ export const Card: FunctionComponent<CardProps> = ({
           <FloatingMenu
             isOpen={isMenuOpen}
             onClose={() => setIsMenuOpen(false)}
-            onEdit={(e) => { 
+            onEdit={(e) => {
               e.stopPropagation()
               onEdit()
             }}
@@ -68,12 +73,12 @@ export const Card: FunctionComponent<CardProps> = ({
       </TopSection>
 
       <BottomContainer>
-        <ModifiedText>Last modified {lastModified}</ModifiedText>
+        <ModifiedText>{lastModifiedText} {lastModified}</ModifiedText>
         <BottomSection>
-          <Toggle 
+          <Toggle
             isEnabled={isPublished}
             onToggle={onTogglePublished}
-            rightLabel="Published"
+            rightLabel={publishedText}
           />
 
           <CopyButton onClick={(e) => {

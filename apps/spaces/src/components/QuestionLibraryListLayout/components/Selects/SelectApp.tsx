@@ -2,6 +2,7 @@ import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { SmallSelect } from "@shira/ui";
 import { appIcons, appTypesIcons } from "../AppIcons/appIcons";
 import { AppOption } from "../Columns";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   valueId?: number;
@@ -18,6 +19,7 @@ export const SelectApp: FunctionComponent<Props> = ({
   onChange,
   initiallyShowPlaceholder
 }) => {
+  const { t } = useTranslation();
   const [showPlaceholder, setShowPlaceholder] = useState(initiallyShowPlaceholder);
 
   useEffect(() => {
@@ -35,7 +37,7 @@ export const SelectApp: FunctionComponent<Props> = ({
     [options]
   );
 
-  const placeholder = currentType && `${currentType.charAt(0).toUpperCase()}${currentType.slice(1)} app`;
+  const placeholder = t(`question_library.columns.app.${currentType}_type`);
   const placeholderIcon = currentType && appTypesIcons[currentType];
 
   return (
