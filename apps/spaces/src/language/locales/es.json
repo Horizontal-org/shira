@@ -1,7 +1,7 @@
 {
     "login": {
         "title": "Identificarse",
-        "subtitle": "Log in to access your custom Shira space. If you have trouble logging in, contact us at",
+        "subtitle": "Log in to access your custom Shira space. If you have trouble logging in, contact us at ",
         "email_placeholder": "Correo electrónico",
         "password_placeholder": "Contraseña",
         "login_button": "Identificarse",
@@ -30,7 +30,7 @@
             "unpublished": "Unpublished"
         },
         "last_modified": {
-            "last_modified": "Last modified {{time}} ago",
+            "last_modified": "Last modified ",
             "about": "about",
             "less than": "less than",
             "minute": "minute",
@@ -269,7 +269,8 @@
                 "audio": "Audio",
                 "document": "Document",
                 "other": "Other"
-            }
+            },
+            "file_type": "File type"
         },
         "variables_modal": {
             "title": "Variables",

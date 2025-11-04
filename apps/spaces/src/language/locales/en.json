@@ -262,7 +262,6 @@
         "attachment_file": {
             "title": "Add attachment",
             "file_name": "File name",
-            "file_type": "File type",
             "field_type": {
                 "title:": "Field type",
                 "image": "Image",
@@ -270,7 +269,8 @@
                 "audio": "Audio",
                 "document": "Document",
                 "other": "Other"
-            }
+            },
+            "file_type": "File type"
         },
         "variables_modal": {
             "title": "Variables",
