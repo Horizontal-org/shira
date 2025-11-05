@@ -29,21 +29,7 @@
             "published": "Published",
             "unpublished": "Unpublished"
         },
-        "last_modified": {
-            "last_modified": "Last modified ",
-            "about": "about",
-            "less than": "less than",
-            "minute": "minute",
-            "minutes": "minutes",
-            "hour": "hour",
-            "hours": "hours",
-            "day": "day",
-            "days": "days",
-            "month": "month",
-            "months": "months",
-            "year": "year",
-            "years": "years"
-        },
+        "last_modified": "Last modified {{date}}",
         "publish_toggle": "Published",
         "actions": {
             "edit": "Edit",
