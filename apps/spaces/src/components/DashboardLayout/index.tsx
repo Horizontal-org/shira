@@ -152,11 +152,11 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
         en: enUS,
         es: es,
         fr: fr,
-        cn: zhCN, // is this ok?
+        cn: zhCN
       };
       const locale = locales[i18n.language] ?? enUS;
 
-      const time =  formatDistance(parsedLastUpdate, new Date(), {
+      const time = formatDistance(parsedLastUpdate, new Date(), {
         addSuffix: true,
         locale,
       });
