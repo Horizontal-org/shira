@@ -16,8 +16,6 @@ export interface CardProps {
   onDuplicate: () => void;
   onDelete: () => void;
   onCardClick: () => void;
-
-  lastModifiedText: string;
   publishedText: string;
 }
 
@@ -31,7 +29,6 @@ export const Card: FunctionComponent<CardProps> = ({
   onDuplicate,
   onDelete,
   onCardClick,
-  lastModifiedText,
   publishedText,
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -73,7 +70,7 @@ export const Card: FunctionComponent<CardProps> = ({
       </TopSection>
 
       <BottomContainer>
-        <ModifiedText>{lastModifiedText} {lastModified}</ModifiedText>
+        <ModifiedText>{lastModified}</ModifiedText>
         <BottomSection>
           <Toggle
             isEnabled={isPublished}

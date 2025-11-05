@@ -64,7 +64,6 @@ export const Default: Story = {
     onDuplicate: () => console.log('duplicate'),
     onDelete: () => console.log('delete'),
     onCardClick: () => console.log('clicked card'),
-    lastModifiedText: 'Last modified',
     publishedText: 'Published'
   }
 };
