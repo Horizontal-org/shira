@@ -179,7 +179,7 @@ const Wrapper = styled.div`
   position: sticky;
   top: 0;
   overflow-y: scroll;
-  height: 80vh;
+  height: 98vh;
   
   margin-left: 8px;
   padding: 4px;
