@@ -78,7 +78,6 @@ pipeline {
       }
       steps {
         script {
-          // If deploy failed, skip tests
           if (currentBuild.result && currentBuild.result != 'SUCCESS') {
             echo "Skipping E2E because deploy failed."
             return
@@ -112,16 +111,13 @@ pipeline {
               // TODO: wait for service to be up - do we have /health endpoint?
 
               dir('e2e-tests') {
-                // Pull test repo
                 git branch: 'main',
                     url: 'git@github.com:Horizontal-org/Shira-Testing.git',
                     credentialsId: 'creds' //TODO add credentials
 
-                // Run tests pointing to env
                 sh "mvn test -DbaseUrl=${baseUrl}"
               }
 
-              // Publish reports
               junit 'e2e-tests/reports/**/*.xml' //TODO define path
 
               mattermostSend(
