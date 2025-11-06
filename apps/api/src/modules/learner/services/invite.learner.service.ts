@@ -12,7 +12,11 @@ export class InviteLearnerService implements IInviteLearnerService {
     private readonly learnerRepo: Repository<LearnerEntity>,
   ) { }
 
-  async execute(inviteLearnerDto: InviteLearnerDto) {
+  async sendInvitationEmail(email: string): Promise<void> {
+    console.log("🚀 ~ InviteLearnerService ~ sendInvitationEmail ~ email:", email);
+  }
+
+  async invite(inviteLearnerDto: InviteLearnerDto) {
     console.log("🚀 ~ inviteLearnerService ~ execute ~ inviteLearnerDto:", inviteLearnerDto);
 
     const { email, spaceId, name, assignedBy } = inviteLearnerDto;
