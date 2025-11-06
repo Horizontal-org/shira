@@ -1,4 +1,5 @@
 export class AssignLearnerDto {
-  emails: string[];
-  courseId: string;
+  spaceId: number;
+  email: string;
+  name: string;
 }
