@@ -1,9 +1,7 @@
 import { IsEmail } from "class-validator";
 
-export class InviteLearnerDto {
+export class InviteEmailLearnerDto {
   @IsEmail()
   email: string;
-  name: string;
   spaceId: number;
-  assignedByUser?: number;
 }

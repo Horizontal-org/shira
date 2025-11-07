@@ -18,10 +18,11 @@ export class LearnerController {
   @Post('invite')
   async invite(@Body() inviteLearnerDto: InviteLearnerDto) {
     try {
+      await this.inviteLearnerService.sendInvitationEmail(inviteLearnerDto.email);
       await this.inviteLearnerService.invite(inviteLearnerDto);
     } catch (e) {
-      console.log("🚀 ~ InviteLearnerController ~ invite ~ e:", e)
-      throw new UnprocessableEntityException()
+      console.error("🚀 ~ InviteLearnerController ~ invite ~ e:", e);
+      throw new UnprocessableEntityException();
     }
   }
 

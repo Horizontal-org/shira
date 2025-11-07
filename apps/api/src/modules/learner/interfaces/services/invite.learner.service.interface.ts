@@ -1,6 +1,7 @@
+import { InviteEmailLearnerDto } from "../../dto/invitation-email.learner.dto";
 import { InviteLearnerDto } from "../../dto/invitation.learner.dto";
 
 export interface IInviteLearnerService {
-    sendInvitationEmail(email: string): Promise<void>;
-    invite(inviteLearnerDto: InviteLearnerDto): Promise<void>;
+  sendInvitationEmail(dto: InviteEmailLearnerDto): Promise<void>;
+  invite(dto: InviteLearnerDto): Promise<void>;
 }
