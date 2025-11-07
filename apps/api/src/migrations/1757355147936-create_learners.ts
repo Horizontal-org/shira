@@ -33,7 +33,7 @@ export class CreateLearnersTable1757355147936 implements MigrationInterface {
           {
             name: 'status',
             type: 'enum',
-            enum: ['invited', 'registered', 'assigned'],
+            enum: ['invited', 'registered'],
             isNullable: false,
           },
           {
