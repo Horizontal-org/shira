@@ -26,13 +26,13 @@ export class Learner {
   @Column({
     name: 'status',
     type: 'enum',
-    enum: ['invited', 'registered', 'assigned'],
+    enum: ['invited', 'registered'],
   })
-  status: 'invited' | 'registered' | 'assigned';
+  status: 'invited' | 'registered';
 
   @Expose()
   @Column({ name: 'assigned_by', type: 'int', nullable: true })
-  assignedBy?: number;
+  assignedByUser?: number;
 
   @Expose()
   @Column({ name: 'invitation_token', type: 'varchar', length: 255, nullable: true })
@@ -70,6 +70,6 @@ export class Learner {
   @JoinColumn({ name: 'space_id' })
   space: SpaceEntity;
 
-  @OneToMany(() => LearnerQuiz, (lq) => lq.learner)
+  @OneToMany(() => LearnerQuiz, (lq) => lq.learner, { onDelete: 'CASCADE' })
   learnerQuizzes: LearnerQuiz[];
 }
