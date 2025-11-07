@@ -30,7 +30,15 @@ export class Quiz {
   @Expose()
   @Column()
   hash: string;
-  
+
+  @Expose()
+  @Column({
+    name: 'visibility',
+    type: 'enum',
+    enum: ['public', 'private'],
+  })
+  status: 'public' | 'private';
+
   @OneToMany(
     () => QuizQuestion,
     (quizQuestion: QuizQuestion) =>
