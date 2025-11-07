@@ -43,6 +43,10 @@ export class AppSeederService {
         name: 'Dating App',
         type: 'messaging'
       },
+      {
+        name: 'Outlook',
+        type: 'email'
+      }
     ]);
   }
 }
