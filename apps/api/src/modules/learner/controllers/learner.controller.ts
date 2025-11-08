@@ -34,7 +34,7 @@ export class LearnerController {
   @Post('assign')
   async assign(@Body() assignLearnerDto: AssignLearnerDto) {
     try {
-      await this.assignLearnerService.execute(assignLearnerDto);
+      await this.assignLearnerService.assign(assignLearnerDto);
     } catch (e) {
       console.log("🚀 ~ AssignLearnerController ~ assign ~ e:", e)
       throw new UnprocessableEntityException()
