@@ -1,4 +1,4 @@
-import { Body, Get, Inject, Post, UnprocessableEntityException } from '@nestjs/common';
+import { Body, Get, Inject, Post } from '@nestjs/common';
 import { AuthController } from 'src/utils/decorators/auth-controller.decorator';
 import { TYPES } from '../interfaces';
 import { InviteLearnerDto } from '../dto/invitation.learner.dto';
@@ -17,13 +17,9 @@ export class LearnerController {
 
   @Post('invite')
   async invite(@Body() inviteLearnerDto: InviteLearnerDto) {
-    try {
-      await this.inviteLearnerService.sendInvitationEmail(inviteLearnerDto.email);
-      await this.inviteLearnerService.invite(inviteLearnerDto);
-    } catch (e) {
-      console.error("🚀 ~ InviteLearnerController ~ invite ~ e:", e);
-      throw new UnprocessableEntityException();
-    }
+    await this.inviteLearnerService.invite(inviteLearnerDto);
+    await this.inviteLearnerService.sendInvitationEmail(inviteLearnerDto);
+    return { message: 'Learner invited' };
   }
 
   @Post('invite/bulk')
@@ -33,12 +29,8 @@ export class LearnerController {
 
   @Post('assign')
   async assign(@Body() assignLearnerDto: AssignLearnerDto) {
-    try {
-      await this.assignLearnerService.assign(assignLearnerDto);
-    } catch (e) {
-      console.log("🚀 ~ AssignLearnerController ~ assign ~ e:", e)
-      throw new UnprocessableEntityException()
-    }
+    await this.assignLearnerService.assign(assignLearnerDto);
+    return { message: 'Learner assigned' };
   }
 
   @Post('assign/bulk')
