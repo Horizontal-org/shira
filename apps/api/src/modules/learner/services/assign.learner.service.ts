@@ -6,6 +6,10 @@ import { Learner as LearnerEntity } from "../domain/learner.entity";
 import { LearnerQuiz as LearnerQuizEntity } from "../domain/learners_quizzes.entity";
 import { IAssignLearnerService } from "../interfaces/services/assign.learner.service.interface";
 import { NotFoundLearnerException } from "../exceptions";
+import { AssignToQuizException } from "../exceptions/assign-quiz.learner.exception";
+import { ConflictLearnerException } from "../exceptions/conflict.learner.exception";
+
+const UNIQUE_VIOLATION_CODE = '23505';
 
 @Injectable()
 export class AssignLearnerService implements IAssignLearnerService {
@@ -19,7 +23,7 @@ export class AssignLearnerService implements IAssignLearnerService {
   async assign(assignLearnerDto: AssignLearnerDto): Promise<void> {
     const { email, spaceId, quizId } = assignLearnerDto;
 
-    console.debug("🚀 ~ AssignLearnerService ~ assign ~ email:", email, "spaceId:", spaceId);
+    console.debug("AssignLearnerService ~ assign ~ email:", email, "spaceId:", spaceId);
 
     const learner = await this.learnerRepo.findOne({
       where: {
@@ -37,6 +41,14 @@ export class AssignLearnerService implements IAssignLearnerService {
       assignedAt: new Date(),
     });
 
-    await this.learnerQuizRepo.save(learnerQuiz);
+    try {
+      await this.learnerQuizRepo.save(learnerQuiz);
+    } catch (err) {
+      console.error('AssignLearnerService ~ error assigning quiz to learner', { email, spaceId, quizId, err });
+
+      if (err.code === UNIQUE_VIOLATION_CODE) throw new ConflictLearnerException();
+
+      throw new AssignToQuizException();
+    }
   }
 }
