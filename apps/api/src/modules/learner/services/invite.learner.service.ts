@@ -12,6 +12,7 @@ import { Queue } from "bullmq";
 import { InjectQueue } from "@nestjs/bullmq";
 import { createHash, randomBytes } from "crypto";
 import { TokenConflictLearnerException } from "../exceptions/token-conflict.learner.exception";
+import { NotFoundLearnerException } from "../exceptions";
 
 const UNIQUE_VIOLATION_CODE = '23505';
 
@@ -27,20 +28,32 @@ export class InviteLearnerService implements IInviteLearnerService {
   async invite(inviteLearnerDto: InviteLearnerDto) {
     const { email, spaceId, name, assignedByUser } = inviteLearnerDto;
 
-    console.debug("InviteLearnerService ~ invite ~ email:", email, "spaceId:", spaceId);
+    console.debug("InviteLearnerService ~ create ~ email:", email, "spaceId:", spaceId);
 
-    const learner = new LearnerEntity();
-    learner.email = email;
-    learner.name = name;
-    learner.spaceId = spaceId;
-    learner.status = 'invited';
-    learner.invitedAt = new Date();
-    learner.assignedByUser = assignedByUser ? assignedByUser : null;
+    let learner = await this.learnerRepo.findOne({ where: { spaceId, email } });
+
+    if (learner && learner.status === 'registered') {
+      console.error('InviteLearnerService ~ create ~ learner already exists', { email, spaceId });
+      throw new ConflictLearnerException();
+    }
+
+    const token = randomBytes(32).toString('base64url');
+    const tokenHash = createHash('sha256').update(token).digest('hex');
 
     try {
+      this.learnerRepo.create({
+        email,
+        name,
+        spaceId,
+        status: 'invited',
+        invitedAt: new Date(),
+        invitationToken: tokenHash,
+        assignedByUser: assignedByUser ? assignedByUser : null
+      });
+
       await this.learnerRepo.save(learner);
     } catch (err) {
-      console.error('InviteLearnerService ~ invite ~ error saving learner', { email, spaceId, err });
+      console.error('InviteLearnerService ~ create ~ error saving learner', { email, spaceId, err });
 
       if (err.code === UNIQUE_VIOLATION_CODE) throw new ConflictLearnerException();
 
@@ -86,7 +99,7 @@ export class InviteLearnerService implements IInviteLearnerService {
     });
 
     if (!learner) {
-      console.error('InviteLearnerService ~ accept ~ invalid token');
+      console.error('InviteLearnerService ~ accept ~ invalid token for learner');
       throw new TokenConflictLearnerException();
     }
 

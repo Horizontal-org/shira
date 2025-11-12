@@ -6,7 +6,7 @@ import { AssignLearnerDto } from '../dto/assign.learner.dto';
 import { IInviteLearnerService } from '../interfaces/services/invite.learner.service.interface';
 import { IAssignLearnerService } from '../interfaces/services/assign.learner.service.interface';
 
-@AuthController('learner')
+@AuthController('learners')
 export class LearnerController {
   constructor(
     @Inject(TYPES.services.IInviteLearnerService)
@@ -15,36 +15,31 @@ export class LearnerController {
     private readonly assignLearnerService: IAssignLearnerService
   ) { }
 
-  @Post('invite')
+  @Post('invitations')
   async invite(@Body() inviteLearnerDto: InviteLearnerDto) {
     await this.inviteLearnerService.invite(inviteLearnerDto);
     await this.inviteLearnerService.sendEmail(inviteLearnerDto);
-    return { message: 'Learner invited' };
+    return { message: 'Learner invited' }; // 201
   }
 
-  @Get('accept')
-  async acceptInvitation(@Query('token') token: string) {
-    //TODO accept invitation
-  }
-
-  @Post('invitations/accept')
-  async accept(@Body('token') token: string) {
+  @Post('invitations/:token/accept')
+  async accept(@Param('token') token: string) {
     await this.inviteLearnerService.accept(token);
-    return { message: 'Invitation accepted' };
+    return { message: 'Invitation accepted' }; // 204
   }
 
-  @Post('invite/bulk')
+  @Post('invitations/bulk')
   async inviteBulk() {
     //TODO invite bulk
   }
 
-  @Post('assign')
+  @Post('assignments')
   async assign(@Body() assignLearnerDto: AssignLearnerDto) {
     await this.assignLearnerService.assign(assignLearnerDto);
     return { message: 'Learner assigned' };
   }
 
-  @Post('assign/bulk')
+  @Post('assignments/bulk')
   async assignBulk() {
     //TODO assign bulk
   }
