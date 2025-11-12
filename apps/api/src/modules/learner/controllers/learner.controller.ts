@@ -1,4 +1,4 @@
-import { Body, Get, Inject, Param, Post, Query } from '@nestjs/common';
+import { Body, HttpCode, Inject, Param, Post } from '@nestjs/common';
 import { AuthController } from 'src/utils/decorators/auth-controller.decorator';
 import { TYPES } from '../interfaces';
 import { InviteLearnerDto } from '../dto/invitation.learner.dto';
@@ -17,15 +17,15 @@ export class LearnerController {
 
   @Post('invitations')
   async invite(@Body() inviteLearnerDto: InviteLearnerDto) {
-    await this.inviteLearnerService.invite(inviteLearnerDto);
-    await this.inviteLearnerService.sendEmail(inviteLearnerDto);
-    return { message: 'Learner invited' }; // 201
+    const response = await this.inviteLearnerService.invite(inviteLearnerDto);
+    await this.inviteLearnerService.sendEmail(response.email, response.spaceId, response.rawToken);
+    return { message: 'Learner invited' };
   }
 
+  @HttpCode(204)
   @Post('invitations/:token/accept')
   async accept(@Param('token') token: string) {
     await this.inviteLearnerService.accept(token);
-    return { message: 'Invitation accepted' }; // 204
   }
 
   @Post('invitations/bulk')
