@@ -1,4 +1,4 @@
-import { Body, Get, Inject, Post } from '@nestjs/common';
+import { Body, Get, Inject, Param, Post, Query } from '@nestjs/common';
 import { AuthController } from 'src/utils/decorators/auth-controller.decorator';
 import { TYPES } from '../interfaces';
 import { InviteLearnerDto } from '../dto/invitation.learner.dto';
@@ -18,8 +18,19 @@ export class LearnerController {
   @Post('invite')
   async invite(@Body() inviteLearnerDto: InviteLearnerDto) {
     await this.inviteLearnerService.invite(inviteLearnerDto);
-    await this.inviteLearnerService.sendInvitationEmail(inviteLearnerDto);
+    await this.inviteLearnerService.sendEmail(inviteLearnerDto);
     return { message: 'Learner invited' };
+  }
+
+  @Get('accept')
+  async acceptInvitation(@Query('token') token: string) {
+    //TODO accept invitation
+  }
+
+  @Post('invitations/accept')
+  async accept(@Body('token') token: string) {
+    await this.inviteLearnerService.accept(token);
+    return { message: 'Invitation accepted' };
   }
 
   @Post('invite/bulk')
@@ -36,15 +47,5 @@ export class LearnerController {
   @Post('assign/bulk')
   async assignBulk() {
     //TODO assign bulk
-  }
-
-  @Get(':id')
-  async getLearner() {
-    //TODO get learner by id
-  }
-
-  @Get('space/:spaceId')
-  async getLearnersBySpace() {
-    //TODO get learners by space
   }
 }
