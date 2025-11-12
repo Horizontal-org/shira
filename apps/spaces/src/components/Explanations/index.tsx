@@ -26,7 +26,6 @@ export const Explanations: FunctionComponent<Props> = ({
   onDelete
 }) => {
 
-  const  [show, handleShow] = useState(true)
   const {
     storeExplanations,
     changeSelected,
@@ -112,75 +111,77 @@ export const Explanations: FunctionComponent<Props> = ({
 
   return (
     <Wrapper>
-      
-      { show && (
-        <>        
-          <Body2Regular>Explanations will be shown in the following order in the quiz. </Body2Regular>
+      <>        
+        <Body2Regular>Explanations will be shown in the following order in the quiz. </Body2Regular>
 
-          <DragDropContext onDragEnd={onDragEnd}>
-            <Droppable droppableId='droppable'>
-              {(provided, snapshot) => (
-                <div
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >          
-                  { storeExplanations.map(((e, i) => (
-                    <ExplanationDragItem
-                      key={e.position + ''} 
-                      id={e.position + ''}   
-                      title={e.title}
-                      text={e.text}
-                      selected={+e.index === selectedExplanation}
-                      index={i}  
-                      component={(
-                        // ONLY INPUT
-                        <ExplanationBox
-                          key={e.index}
-                          selected={+e.index === selectedExplanation}
-                          onClick={() => {
-                            changeSelected(e.index)
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId='droppable'>
+            {(provided, snapshot) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >          
+                { storeExplanations.map(((e, i) => (
+                  <ExplanationDragItem
+                    key={e.position + ''} 
+                    id={e.position + ''}   
+                    title={e.title}
+                    text={e.text}
+                    selected={+e.index === selectedExplanation}
+                    index={i}  
+                    component={(
+                      // ONLY INPUT
+                      <ExplanationBox
+                        key={e.index}
+                        selected={+e.index === selectedExplanation}
+                        onClick={() => {
+                          changeSelected(e.index)
+                        }}
+                      >
+                        <ExplanationInput 
+                          text={e.text}
+                          unselect={() => { changeSelected(null) }}
+                          onUpdate={(text) => {
+                            updateExplanation(e.index, text, e.position, e.id, e.title)
                           }}
-                        >
-                          <ExplanationInput 
-                            text={e.text}
-                            unselect={() => { changeSelected(null) }}
-                            onUpdate={(text) => {
-                              updateExplanation(e.index, text, e.position, e.id, e.title)
-                            }}
-                          />
-                        </ExplanationBox>
-                      )}
-                      onDelete={() => {   
-                        // this removes the data-explanation attr from zustand                                     
-                        // cleanStateExplanations(e.index)
-                        // this removes the data-explanation attribute from the DOM
-                        // publish('delete-explanation', { deleteIndex: e.index })
-                        
-                        //TRY THIS ==
-                        deleteExplanationFromQuestion(e.index)                        
-                        deleteExplanation(e.index)                    
-                        //TRY THIS ==
-                        // onDelete(e.index)
-                        // this removes the explanation item
-                      }}
-                    />
-                  ))) }
-                  { provided.placeholder }
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
-        </>
-      )}
+                        />
+                      </ExplanationBox>
+                    )}
+                    onDelete={() => {   
+                      // this removes the data-explanation attr from zustand                                     
+                      // cleanStateExplanations(e.index)
+                      // this removes the data-explanation attribute from the DOM
+                      // publish('delete-explanation', { deleteIndex: e.index })
+                      
+                      //TRY THIS ==
+                      deleteExplanationFromQuestion(e.index)                        
+                      deleteExplanation(e.index)                    
+                      //TRY THIS ==
+                      // onDelete(e.index)
+                      // this removes the explanation item
+                    }}
+                  />
+                ))) }
+                { provided.placeholder }
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </>
       
 
     </Wrapper>
   )
 }
 
+// height: 100%;
 const Wrapper = styled.div`
+  position: sticky;
+  top: 0;
+  overflow-y: scroll;
+  height: 98vh;
+  
   margin-left: 8px;
-  height: 100%;
   padding: 4px;
   > p {
     margin: 0;
