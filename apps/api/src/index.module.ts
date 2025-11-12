@@ -25,6 +25,8 @@ import { ImageModule } from './modules/image/image.module';
 import { OrganizationModule } from './modules/organization/organization.module';
 import { BillingModule } from './modules/billing/billing.module';
 import { QuizResultModule } from './modules/quiz_result/quiz-result.module';
+import { Learner } from './modules/learner/domain/learner.entity';
+import { LearnerModule } from './modules/learner/learner.module';
 
 @Module({
   imports: [
@@ -49,9 +51,10 @@ import { QuizResultModule } from './modules/quiz_result/quiz-result.module';
     QuizModule,
     QuizResultModule,
     OrganizationModule,
-    BillingModule
+    BillingModule,
+    LearnerModule
   ],
   controllers: [IndexController],
   providers: [IndexService],
 })
-export class IndexModule {}
+export class IndexModule { }

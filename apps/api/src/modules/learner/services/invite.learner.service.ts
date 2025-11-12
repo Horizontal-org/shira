@@ -54,8 +54,8 @@ export class InviteLearnerService implements IInviteLearnerService {
   }
 
   async sendEmail(email: string, spaceId: number, rawToken: string) {
-    console.debug("InviteLearnerService ~ sendEmail ~ email:", email, "spaceId:", spaceId);
-    const magicLink = `${process.env.APP_PUBLIC_URL}/learners/invitations/${rawToken}/accept`;
+    console.info("InviteLearnerService ~ sendEmail ~ email:", email, "spaceId:", spaceId);
+    const magicLink = `${process.env.SPACE_URL}/learners/invitations/${rawToken}/accept`;
 
     try {
       await this.emailsQueue.add('send', {

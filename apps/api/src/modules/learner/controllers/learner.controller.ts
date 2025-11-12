@@ -1,12 +1,11 @@
-import { Body, HttpCode, Inject, Param, Post } from '@nestjs/common';
-import { AuthController } from 'src/utils/decorators/auth-controller.decorator';
+import { Body, Controller, HttpCode, Inject, Param, Post } from '@nestjs/common';
 import { TYPES } from '../interfaces';
 import { InviteLearnerDto } from '../dto/invitation.learner.dto';
 import { AssignLearnerDto } from '../dto/assign.learner.dto';
 import { IInviteLearnerService } from '../interfaces/services/invite.learner.service.interface';
 import { IAssignLearnerService } from '../interfaces/services/assign.learner.service.interface';
 
-@AuthController('learners')
+@Controller('learners')
 export class LearnerController {
   constructor(
     @Inject(TYPES.services.IInviteLearnerService)
