@@ -11,6 +11,7 @@ import { SavingLearnerException as SaveLearnerException } from "../exceptions/sa
 import { ConflictLearnerException } from "../exceptions/conflict.learner.exception";
 import { Queue } from "bullmq";
 import { InjectQueue } from "@nestjs/bullmq";
+import { randomBytes } from "crypto";
 
 const UNIQUE_VIOLATION_CODE = '23505';
 
@@ -34,6 +35,7 @@ export class InviteLearnerService implements IInviteLearnerService {
     learner.name = name;
     learner.spaceId = spaceId;
     learner.status = 'invited';
+    learner.invitedAt = new Date();
     learner.assignedByUser = assignedByUser ? assignedByUser : null;
 
     try {
@@ -52,18 +54,25 @@ export class InviteLearnerService implements IInviteLearnerService {
 
     console.debug("InviteLearnerService ~ sendInvitationEmail ~ email:", email, "spaceId:", spaceId);
 
+    const token = randomBytes(32).toString('base64url');
+    const magicLink = `${process.env.APP_PUBLIC_URL}/learner/invitations/accept?token=${token}`;
+    
     try {
       await this.emailsQueue.add('send', {
         to: email,
         from: process.env.SMTP_GLOBAL_FROM,
-        subject: 'Invitation to create a Shira space',
+        subject: 'Invitation to register as a Learner in a Shira space',
         template: 'learner-invitation',
         data: {
           email: email,
-          // magicLink: magicLink,
+          magicLink: magicLink,
           // passphrase: passphrase.code
         }
       })
+      this.learnerRepo.update(
+        { email, spaceId },
+        { invitationToken: token, registeredAt: new Date() }
+      );
     } catch (err) {
       console.error('InviteLearnerService ~ error sending learner invitation email', { email, spaceId, err });
       throw new EmailSendFailedException();
