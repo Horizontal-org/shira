@@ -23,7 +23,8 @@ export class LearnerController {
 
   @Post('invitations/:token/accept')
   async accept(@Param('token') token: string) {
-    await this.inviteLearnerService.accept(token);
+    const spaceName = await this.inviteLearnerService.accept(token);
+    return { message: 'Invitation accepted', spaceName };
   }
 
   @Post('invitations/bulk')

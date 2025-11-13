@@ -62,38 +62,40 @@ export class InviteLearnerService implements IInviteLearnerService {
     const magicLink = `${process.env.PUBLIC_APP_URL}/accept-invite/${token}`;
 
     try {
-      const spaceName = await this.spaceRepo.findOneOrFail({
-        where: { id: spaceId },
-        select: { name: true }
-      });
-
       await this.emailsQueue.add('send', {
         to: email,
         from: process.env.SMTP_GLOBAL_FROM,
         subject: 'Invitation to register as a Learner in a Shira space',
         template: 'learner-invitation',
-        data: { email, magicLink, spaceId, spaceName }
+        data: { email, magicLink, spaceId }
       })
     } catch {
       throw new EmailSendFailedException();
     }
   }
 
-  async accept(token: string) {
-    console.debug("InviteLearnerService ~ accept");
+  async accept(token: string): Promise<string> {
     const tokenHash = createHash("sha256").update(token).digest("hex");
-
+    
     const learner = await this.learnerRepo.findOne({
       where: { invitationToken: tokenHash }
     });
-
+    
     if (!learner) throw new TokenConflictLearnerException();
+
+    console.debug("InviteLearnerService ~ accept ~ learner:", learner.id, "spaceId:", learner.spaceId);
+
+    const space = await this.spaceRepo.findOne({
+      where: { id: learner.spaceId },
+      select: { name: true }
+    });
 
     try {
       await this.learnerRepo.update(
         { invitationToken: tokenHash },
         { status: 'registered', registeredAt: new Date() }
       );
+      return space.name;
     } catch {
       throw new SaveLearnerException();
     }

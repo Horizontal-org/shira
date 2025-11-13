@@ -4,5 +4,5 @@ import { InviteLearnerResponseDto } from "../../dto/invitation-response.learner.
 export interface IInviteLearnerService {
   invite(dto: InviteLearnerDto): Promise<InviteLearnerResponseDto>;
   sendEmail(email: string, spaceId: number, rawToken: string): Promise<void>;
-  accept(token: string): Promise<void>;
+  accept(token: string): Promise<string>;
 }

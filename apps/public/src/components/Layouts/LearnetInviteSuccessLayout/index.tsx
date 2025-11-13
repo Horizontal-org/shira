@@ -2,13 +2,14 @@ import { FunctionComponent } from "react";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 import { Body1, defaultTheme, Link2, SettingsFishIcon, SubHeading1 } from "@shira/ui";
+import { useLocation } from "react-router-dom";
 
-interface Props {
-  spaceName?: string
-}
+interface Props { }
 
-export const InviteSuccessLayout: FunctionComponent<Props> = ({ spaceName }) => {
+export const InviteSuccessLayout: FunctionComponent<Props> = () => {
   const { t } = useTranslation()
+  const { state } = useLocation() as { state?: { spaceName?: string } }
+  const spaceName = state?.spaceName || "";
 
   return (
     <SceneWrapper>
