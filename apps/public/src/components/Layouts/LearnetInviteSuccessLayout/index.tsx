@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
-import { Body1, defaultTheme, H1, Link2, SettingsFishIcon } from "@shira/ui";
+import { Body1, defaultTheme, Link2, SettingsFishIcon, SubHeading1 } from "@shira/ui";
 
 interface Props {
   spaceName?: string
@@ -13,7 +13,7 @@ export const InviteSuccessLayout: FunctionComponent<Props> = ({ spaceName }) => 
   return (
     <SceneWrapper>
       <Header>
-        <Logo>Shira</Logo>
+        <Logo>Shira logo</Logo>
         <Link2 href="https://shira.app" target="_blank">
           {t("learner_invitation.learn_more")}
         </Link2>
@@ -22,7 +22,7 @@ export const InviteSuccessLayout: FunctionComponent<Props> = ({ spaceName }) => 
       <Content>
         <SettingsFishIcon />
         <Card>
-          <H1>{t("learner_invitation.success_title")}</H1>
+          <SubHeading1>{t("learner_invitation.success_title")}</SubHeading1>
 
           <Body1>
             {t("learner_invitation.success_joined_space", { spaceName })}
@@ -42,7 +42,6 @@ const SceneWrapper = styled.div`
   flex-direction: column;
   min-height: 100vh;
   background-color: ${defaultTheme.colors.light.white};
-  font-family: "Open Sans", sans-serif;
 `;
 
 const Header = styled.header`
@@ -55,9 +54,8 @@ const Header = styled.header`
 const Logo = styled.div`
   font-size: 28px;
   font-weight: 600;
-  color: ${defaultTheme.colors.green8};
+  color: ${defaultTheme.colors.green7};
   letter-spacing: 1px;
-  font-family: "Comfortaa", sans-serif;
 `;
 
 const Content = styled.main`
@@ -80,21 +78,7 @@ const Card = styled.div`
   padding: 48px 64px;
   max-width: 520px;
   text-align: center;
-
-  h1 {
-    color: #333;
-    margin-bottom: 24px;
-    font-size: 28px;
-    font-weight: 700;
-  }
-
-  p {
-    color: #444;
-    line-height: 1.6;
-    margin-bottom: 12px;
-  }
-
-  @media (max-width: 768px) {
-    padding: 32px;
-  }
+  gap: 24px;
+  display: flex;
+  flex-direction: column;
 `;

@@ -1,12 +1,13 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { SceneWrapper } from "../../UI/SceneWrapper";
-import { styled, Body1, H2, Link2 } from "@shira/ui";
+import { styled, Link2, defaultTheme } from "@shira/ui";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ReactComponent as Hooked } from "../../../assets/HookedFish.svg";
 import { useStore } from "../../../store";
 import { shallow } from "zustand/shallow";
 import { useTranslation } from "react-i18next";
+import { Heading } from "../../UI/Title";
 
 interface Props { }
 
@@ -93,23 +94,10 @@ const GreenFishWrapper = styled.div`
   }
 `;
 
-const Heading = styled(H2)`
- color: ${(p) => p.theme.colors.green8};
-`;
-
 const CenterWrapper = styled.div`
-  display: flex; 
-  flex-grow: 1; 
+  display: flex;
   align-items: center;
   justify-content: center;
-
-  @media (max-width: 850px) {
-    flex-grow: 0;
-    flex-direction: column;
-    align-items: center;
-    text-align: center; 
-    padding: 16px;
-  }
 `;
 
 const StyledBox = styled.div`
@@ -121,19 +109,5 @@ const StyledBox = styled.div`
 
 const LinkWrapper = styled.div`
   display: none;
-
-  @media (max-width: ${(p) => p.theme.breakpoints.xs}) {
-    display: flex; 
-    justify-content: center; 
-    width: 100%;
-    position: absolute; 
-    bottom: 20px; 
-    left: 0; 
-    right: 0;
-    margin: 0 auto; 
-    padding: 0 16px; 
-    box-sizing: border-box;
-
-    > * { color: ${(p) => p.theme.colors.green7}; }
-  }
+  color: ${defaultTheme.colors.green8};
 `;

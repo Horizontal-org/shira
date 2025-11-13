@@ -216,8 +216,8 @@
         "learn_more": "Learn more about Shira",
         "success_title": "Success!",
         "error_title": "Something went wrong",
-        "success_joined_space": "You have joined {{spaceName}} on Shira",
-        "success_hint": "When your organization shares a quiz with you, you will receive an email invitation directly in your inbox.",
+        "success_joined_space": "You have joined {{spaceName}} on Shira.",
+        "success_hint": "When your organization shares a quiz with you, you will receive an email invitation directly in your inbox."
     },
     "navbar": {
         "home": "Home",
