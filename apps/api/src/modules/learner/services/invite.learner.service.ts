@@ -11,6 +11,7 @@ import { Queue } from "bullmq";
 import { InjectQueue } from "@nestjs/bullmq";
 import { createHash, randomBytes } from "crypto";
 import { TokenConflictLearnerException } from "../exceptions/token-conflict.learner.exception";
+import { SpaceEntity } from "src/modules/space/domain/space.entity";
 
 const UNIQUE_VIOLATION_CODE = '23505';
 
@@ -19,6 +20,8 @@ export class InviteLearnerService implements IInviteLearnerService {
   constructor(
     @InjectRepository(LearnerEntity)
     private readonly learnerRepo: Repository<LearnerEntity>,
+    @InjectRepository(SpaceEntity)
+    private readonly spaceRepo: Repository<SpaceEntity>,
     @InjectQueue('emails')
     private emailsQueue: Queue
   ) { }
@@ -55,15 +58,21 @@ export class InviteLearnerService implements IInviteLearnerService {
 
   async sendEmail(email: string, spaceId: number, token: string) {
     console.debug("InviteLearnerService ~ sendEmail ~ email:", email, "spaceId:", spaceId);
-    const magicLink = `${process.env.API_URL}/learners/invitations/${token}/accept`;
+
+    const magicLink = `${process.env.PUBLIC_APP_URL}/accept-invite/${token}`;
 
     try {
+      const spaceName = await this.spaceRepo.findOneOrFail({
+        where: { id: spaceId },
+        select: { name: true }
+      });
+
       await this.emailsQueue.add('send', {
         to: email,
         from: process.env.SMTP_GLOBAL_FROM,
         subject: 'Invitation to register as a Learner in a Shira space',
         template: 'learner-invitation',
-        data: { email, magicLink }
+        data: { email, magicLink, spaceId, spaceName }
       })
     } catch {
       throw new EmailSendFailedException();
