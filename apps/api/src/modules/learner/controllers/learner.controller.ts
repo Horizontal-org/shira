@@ -21,7 +21,6 @@ export class LearnerController {
     return { message: 'Learner invited' };
   }
 
-  @HttpCode(204)
   @Post('invitations/:token/accept')
   async accept(@Param('token') token: string) {
     await this.inviteLearnerService.accept(token);

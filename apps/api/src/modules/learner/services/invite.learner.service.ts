@@ -28,8 +28,8 @@ export class InviteLearnerService implements IInviteLearnerService {
 
     console.debug("InviteLearnerService ~ create ~ email:", email, "spaceId:", spaceId);
 
-    const rawToken = randomBytes(32).toString('base64url');
-    const tokenHash = createHash('sha256').update(rawToken).digest('hex');
+    const token = randomBytes(32).toString('base64url');
+    const tokenHash = createHash('sha256').update(token).digest('hex');
 
     let existing = await this.learnerRepo.findOne({ where: { spaceId, email } });
     if (existing) throw new ConflictLearnerException();
@@ -46,16 +46,16 @@ export class InviteLearnerService implements IInviteLearnerService {
       });
 
       await this.learnerRepo.save(learner);
-      return { rawToken, email, spaceId };
+      return { rawToken: token, email, spaceId };
     } catch (err) {
       if (err.code === UNIQUE_VIOLATION_CODE) throw new ConflictLearnerException();
       throw new SaveLearnerException();
     }
   }
 
-  async sendEmail(email: string, spaceId: number, rawToken: string) {
-    console.info("InviteLearnerService ~ sendEmail ~ email:", email, "spaceId:", spaceId);
-    const magicLink = `${process.env.SPACE_URL}/learners/invitations/${rawToken}/accept`;
+  async sendEmail(email: string, spaceId: number, token: string) {
+    console.debug("InviteLearnerService ~ sendEmail ~ email:", email, "spaceId:", spaceId);
+    const magicLink = `${process.env.API_URL}/learners/invitations/${token}/accept`;
 
     try {
       await this.emailsQueue.add('send', {
