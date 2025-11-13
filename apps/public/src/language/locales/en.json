@@ -212,6 +212,13 @@
             "section2": "If that sounds interesting to you or if you have questions, contact us at contact@wearehorizontal.org."
         }
     },
+    "learner_invitation": {
+        "learn_more": "Learn more about Shira",
+        "success_title": "Success!",
+        "error_title": "Something went wrong",
+        "success_joined_space": "You have joined {{spaceName}} on Shira",
+        "success_hint": "When your organization shares a quiz with you, you will receive an email invitation directly in your inbox.",
+    },
     "navbar": {
         "home": "Home",
         "about": "About",

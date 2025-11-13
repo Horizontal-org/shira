@@ -80,6 +80,7 @@ export class InviteLearnerService implements IInviteLearnerService {
   }
 
   async accept(token: string) {
+    console.debug("InviteLearnerService ~ accept");
     const tokenHash = createHash("sha256").update(token).digest("hex");
 
     const learner = await this.learnerRepo.findOne({

@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect } from "react";
-import { 
+import {
   BrowserRouter,
   Routes,
   Route,
@@ -11,26 +11,30 @@ import './language/i18n'
 import { PrivacyLayout } from "./components/Layouts/PrivacyLayout";
 import { ThemeProvider, defaultTheme, styled } from "@shira/ui";
 import { QuizLayout } from "./components/Layouts/QuizLayout";
+import { LearnerAcceptInviteLayout } from "./components/Layouts/LearnerAcceptInviteLayout";
+import { InviteSuccessLayout } from "./components/Layouts/LearnetInviteSuccessLayout";
 
-interface Props {}
+interface Props { }
 
 const App: FunctionComponent<Props> = () => {
 
   useEffect(() => {
-  // always show banner after refresh
-  localStorage.setItem('shira_hide_beta_banner', 'no')
+    // always show banner after refresh
+    localStorage.setItem('shira_hide_beta_banner', 'no')
   }, [])
-  
+
   return (
     <Wrapper>
       <ToastProvider>
         <ThemeProvider theme={defaultTheme}>
           <BrowserRouter>
-            <Routes>          
+            <Routes>
               <Route path="/" element={<MainLayout />} />
               <Route path="/about" element={<AboutLayout />} />
               <Route path='/privacy' element={<PrivacyLayout />} />
               <Route path='/quiz/:hash' element={<QuizLayout />} />
+              <Route path="/accept-invite/:token" element={<LearnerAcceptInviteLayout />} />
+              <Route path="/welcome" element={<InviteSuccessLayout />} />
             </Routes>
           </BrowserRouter>
         </ThemeProvider>
@@ -39,9 +43,8 @@ const App: FunctionComponent<Props> = () => {
   )
 }
 
-
 const Wrapper = styled.div`
   height: 100vh;
-`
+`;
 
-export default App 
+export default App;
