@@ -1,12 +1,13 @@
-import { Body, Controller, HttpCode, Inject, Param, Post } from '@nestjs/common';
+import { Body, Inject, Post } from '@nestjs/common';
 import { TYPES } from '../interfaces';
 import { InviteLearnerDto } from '../dto/invitation.learner.dto';
 import { AssignLearnerDto } from '../dto/assign.learner.dto';
 import { IInviteLearnerService } from '../interfaces/services/invite.learner.service.interface';
 import { IAssignLearnerService } from '../interfaces/services/assign.learner.service.interface';
+import { AuthController } from 'src/utils/decorators/auth-controller.decorator';
 
-@Controller('learners')
-export class LearnerController {
+@AuthController('learners')
+export class AuthLearnerController {
   constructor(
     @Inject(TYPES.services.IInviteLearnerService)
     private readonly inviteLearnerService: IInviteLearnerService,
@@ -19,12 +20,6 @@ export class LearnerController {
     const response = await this.inviteLearnerService.invite(inviteLearnerDto);
     await this.inviteLearnerService.sendEmail(response.email, response.spaceId, response.rawToken);
     return { message: 'Learner invited' };
-  }
-
-  @Post('invitations/:token/accept')
-  async accept(@Param('token') token: string) {
-    const spaceName = await this.inviteLearnerService.accept(token);
-    return { message: 'Invitation accepted', spaceName };
   }
 
   @Post('invitations/bulk')

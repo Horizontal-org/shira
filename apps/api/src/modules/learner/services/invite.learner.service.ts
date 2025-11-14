@@ -59,7 +59,7 @@ export class InviteLearnerService implements IInviteLearnerService {
   async sendEmail(email: string, spaceId: number, token: string) {
     console.debug("InviteLearnerService ~ sendEmail ~ email:", email, "spaceId:", spaceId);
 
-    const magicLink = `${process.env.PUBLIC_APP_URL}/accept-invite/${token}`;
+    const magicLink = `${process.env.PUBLIC_URL}/accept-invite/${token}`;
 
     try {
       await this.emailsQueue.add('send', {
@@ -76,11 +76,11 @@ export class InviteLearnerService implements IInviteLearnerService {
 
   async accept(token: string): Promise<string> {
     const tokenHash = createHash("sha256").update(token).digest("hex");
-    
+
     const learner = await this.learnerRepo.findOne({
       where: { invitationToken: tokenHash }
     });
-    
+
     if (!learner) throw new TokenConflictLearnerException();
 
     console.debug("InviteLearnerService ~ accept ~ learner:", learner.id, "spaceId:", learner.spaceId);
