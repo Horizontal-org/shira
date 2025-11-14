@@ -7,6 +7,7 @@ import { IAssignLearnerService } from '../interfaces/services/assign.learner.ser
 import { AuthController } from 'src/utils/decorators/auth-controller.decorator';
 import { Roles } from 'src/modules/auth/decorators/roles.decorators';
 import { Role } from 'src/modules/user/domain/role.enum';
+import { SpaceId } from 'src/modules/auth/decorators';
 
 @AuthController('learners')
 export class AuthLearnerController {
@@ -19,9 +20,11 @@ export class AuthLearnerController {
 
   @Post('invitations')
   @Roles(Role.SpaceAdmin)
-  async invite(@Body() inviteLearnerDto: InviteLearnerDto) {
+  async invite(
+    @Body() inviteLearnerDto: InviteLearnerDto,
+    @SpaceId() spaceId: number) {
     const response = await this.inviteLearnerService.invite(inviteLearnerDto);
-    await this.inviteLearnerService.sendEmail(response.email, response.spaceId, response.rawToken);
+    await this.inviteLearnerService.sendEmail(response.email, spaceId, response.rawToken);
     return { message: 'Learner invited' };
   }
 
@@ -32,7 +35,9 @@ export class AuthLearnerController {
 
   @Post('assignments')
   @Roles(Role.SpaceAdmin)
-  async assign(@Body() assignLearnerDto: AssignLearnerDto) {
+  async assign(
+    @Body() assignLearnerDto: AssignLearnerDto,
+    @SpaceId() spaceId: number) {
     await this.assignLearnerService.assign(assignLearnerDto);
     return { message: 'Learner assigned' };
   }

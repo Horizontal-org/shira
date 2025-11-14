@@ -2,12 +2,12 @@ import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { SceneWrapper } from "../../UI/SceneWrapper";
 import { styled, Link2, defaultTheme } from "@shira/ui";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { ReactComponent as Hooked } from "../../../assets/HookedFish.svg";
 import { useStore } from "../../../store";
 import { shallow } from "zustand/shallow";
 import { useTranslation } from "react-i18next";
 import { Heading } from "../../UI/Title";
+import { acceptInvitation } from "../../../fetch/learner_invitation";
 
 interface Props { }
 
@@ -17,7 +17,6 @@ export const LearnerAcceptInviteLayout: FunctionComponent<Props> = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { token } = useParams()
-  const API_URL = process.env.REACT_APP_API_URL
 
   const [state, setState] = useState<InviteState>(null)
   const [errorMsg, setErrorMsg] = useState<string>(null)
@@ -25,13 +24,13 @@ export const LearnerAcceptInviteLayout: FunctionComponent<Props> = () => {
   const { resetAll } = useStore((s) => ({ resetAll: s.resetAll }), shallow)
 
   const accept = useCallback(async () => {
-    if (!token || !API_URL) return
-    setErrorMsg(null)
+    if (!token) return;
+    setErrorMsg(null);
 
     try {
-      const res = await axios.post(`${API_URL}/learners/invitations/${encodeURI(token)}/accept`);
+      const res = await acceptInvitation(token);
 
-      const spaceName: string = res?.data?.spaceName || "";
+      const spaceName: string = res.data?.spaceName ?? "";
 
       if (res.status >= 200 && res.status < 300) {
         setState("accepted");
@@ -42,7 +41,7 @@ export const LearnerAcceptInviteLayout: FunctionComponent<Props> = () => {
       setState("error");
       setErrorMsg(e?.response?.data?.message || t("learner_invitation.error_title"));
     }
-  }, [API_URL, token, navigate, t])
+  }, [token, navigate, t])
 
   useEffect(() => {
     if (token) accept()
