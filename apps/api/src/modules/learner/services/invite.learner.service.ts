@@ -9,7 +9,7 @@ import { SavingLearnerException as SaveLearnerException } from "../exceptions/sa
 import { ConflictLearnerException } from "../exceptions/conflict.learner.exception";
 import { Queue } from "bullmq";
 import { InjectQueue } from "@nestjs/bullmq";
-import { createHash, randomBytes } from "crypto";
+import * as crypto from 'crypto';
 import { TokenConflictLearnerException } from "../exceptions/token-conflict.learner.exception";
 import { SpaceEntity } from "src/modules/space/domain/space.entity";
 
@@ -31,11 +31,10 @@ export class InviteLearnerService implements IInviteLearnerService {
 
     console.debug("InviteLearnerService ~ create ~ email:", email, "spaceId:", spaceId);
 
-    const token = randomBytes(32).toString('base64url');
-    const tokenHash = createHash('sha256').update(token).digest('hex');
-
     let existing = await this.learnerRepo.findOne({ where: { spaceId, email } });
     if (existing) throw new ConflictLearnerException();
+
+    const hash = crypto.randomBytes(20).toString('hex');
 
     try {
       const learner = this.learnerRepo.create({
@@ -44,12 +43,12 @@ export class InviteLearnerService implements IInviteLearnerService {
         spaceId,
         status: 'invited',
         invitedAt: new Date(),
-        invitationToken: tokenHash,
+        invitationToken: hash,
         assignedByUser: assignedByUser ? assignedByUser : null
       });
 
       await this.learnerRepo.save(learner);
-      return { rawToken: token, email, spaceId };
+      return { hash: hash, email, spaceId };
     } catch (err) {
       if (err.code === UNIQUE_VIOLATION_CODE) throw new ConflictLearnerException();
       throw new SaveLearnerException();

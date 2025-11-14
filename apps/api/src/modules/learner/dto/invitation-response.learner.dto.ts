@@ -1,5 +1,5 @@
 export class InviteLearnerResponseDto {
-  rawToken: string;
+  hash: string;
   email: string;
   spaceId: number;
 }

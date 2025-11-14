@@ -24,7 +24,7 @@ export class AuthLearnerController {
     @Body() inviteLearnerDto: InviteLearnerDto,
     @SpaceId() spaceId: number) {
     const response = await this.inviteLearnerService.invite(inviteLearnerDto);
-    await this.inviteLearnerService.sendEmail(response.email, spaceId, response.rawToken);
+    await this.inviteLearnerService.sendEmail(response.email, spaceId, response.hash);
     return { message: 'Learner invited' };
   }
 
