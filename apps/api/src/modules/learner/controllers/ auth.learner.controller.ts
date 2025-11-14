@@ -5,6 +5,8 @@ import { AssignLearnerDto } from '../dto/assign.learner.dto';
 import { IInviteLearnerService } from '../interfaces/services/invite.learner.service.interface';
 import { IAssignLearnerService } from '../interfaces/services/assign.learner.service.interface';
 import { AuthController } from 'src/utils/decorators/auth-controller.decorator';
+import { Roles } from 'src/modules/auth/decorators/roles.decorators';
+import { Role } from 'src/modules/user/domain/role.enum';
 
 @AuthController('learners')
 export class AuthLearnerController {
@@ -16,6 +18,7 @@ export class AuthLearnerController {
   ) { }
 
   @Post('invitations')
+  @Roles(Role.SpaceAdmin)
   async invite(@Body() inviteLearnerDto: InviteLearnerDto) {
     const response = await this.inviteLearnerService.invite(inviteLearnerDto);
     await this.inviteLearnerService.sendEmail(response.email, response.spaceId, response.rawToken);
@@ -28,6 +31,7 @@ export class AuthLearnerController {
   }
 
   @Post('assignments')
+  @Roles(Role.SpaceAdmin)
   async assign(@Body() assignLearnerDto: AssignLearnerDto) {
     await this.assignLearnerService.assign(assignLearnerDto);
     return { message: 'Learner assigned' };
