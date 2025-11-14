@@ -31,7 +31,7 @@ export class InviteLearnerService implements IInviteLearnerService {
 
     console.debug("InviteLearnerService ~ create ~ email:", email, "spaceId:", spaceId);
 
-    let existing = await this.learnerRepo.findOne({ where: { spaceId, email } });
+    const existing = await this.learnerRepo.findOne({ where: { spaceId, email } });
     if (existing) throw new ConflictLearnerException();
 
     const hash = crypto.randomBytes(20).toString('hex');
@@ -74,10 +74,8 @@ export class InviteLearnerService implements IInviteLearnerService {
   }
 
   async accept(token: string): Promise<string> {
-    const tokenHash = createHash("sha256").update(token).digest("hex");
-
     const learner = await this.learnerRepo.findOne({
-      where: { invitationToken: tokenHash }
+      where: { invitationToken: token }
     });
 
     if (!learner) throw new TokenConflictLearnerException();
@@ -91,7 +89,7 @@ export class InviteLearnerService implements IInviteLearnerService {
 
     try {
       await this.learnerRepo.update(
-        { invitationToken: tokenHash },
+        { invitationToken: token },
         { status: 'registered', registeredAt: new Date() }
       );
       return space.name;
