@@ -4,7 +4,6 @@ import { Repository } from "typeorm";
 import { Learner as LearnerEntity } from "../domain/learner.entity";
 import { InviteLearnerDto } from "../dto/invitation.learner.dto";
 import { IInviteLearnerService } from "../interfaces/services/invite.learner.service.interface";
-import { EmailSendFailedException } from "../exceptions/email-send.learner.exception";
 import { SavingLearnerException as SaveLearnerException } from "../exceptions/save.learner.exception";
 import { ConflictLearnerException } from "../exceptions/conflict.learner.exception";
 import { Queue } from "bullmq";
@@ -12,6 +11,7 @@ import { InjectQueue } from "@nestjs/bullmq";
 import * as crypto from 'crypto';
 import { TokenConflictLearnerException } from "../exceptions/token-conflict.learner.exception";
 import { SpaceEntity } from "src/modules/space/domain/space.entity";
+import { InvitationEmailSendFailedException } from "../exceptions/invitation-email-send.learner.exception";
 
 @Injectable()
 export class InviteLearnerService implements IInviteLearnerService {
@@ -47,7 +47,8 @@ export class InviteLearnerService implements IInviteLearnerService {
 
       await this.learnerRepo.save(learner);
       return { hash: hash, email, spaceId };
-    } catch {
+    } catch (err) {
+      console.error('InviteLearnerService ~ error creating learner invitation', { err });
       throw new SaveLearnerException();
     }
   }
@@ -65,8 +66,9 @@ export class InviteLearnerService implements IInviteLearnerService {
         template: 'learner-invitation',
         data: { email, magicLink, spaceId }
       })
-    } catch {
-      throw new EmailSendFailedException();
+    } catch (err) {
+      console.error('InviteLearnerService ~ error sending invitation email', { err });
+      throw new InvitationEmailSendFailedException();
     }
   }
 
