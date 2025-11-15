@@ -1,18 +1,13 @@
 import { FunctionComponent, useEffect } from "react";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-} from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { MainLayout } from "./components/Layouts/MainLayout";
 import { AboutLayout } from "./components/Layouts/AboutLayout";
 import { ToastProvider } from "./hooks/useToast";
-import './language/i18n'
+import './language/i18n';
 import { PrivacyLayout } from "./components/Layouts/PrivacyLayout";
 import { ThemeProvider, defaultTheme, styled } from "@shira/ui";
 import { QuizLayout } from "./components/Layouts/QuizLayout";
-import { LearnerAcceptInviteLayout } from "./components/Layouts/LearnerAcceptInviteLayout";
-import { InviteSuccessLayout } from "./components/Layouts/LearnetInviteSuccessLayout";
+import { LearnerAcceptInvitationLayout } from "./components/Layouts/LearnerAcceptInvitationLayout";
 
 interface Props { }
 
@@ -33,8 +28,7 @@ const App: FunctionComponent<Props> = () => {
               <Route path="/about" element={<AboutLayout />} />
               <Route path='/privacy' element={<PrivacyLayout />} />
               <Route path='/quiz/:hash' element={<QuizLayout />} />
-              <Route path="/accept-invite/:token" element={<LearnerAcceptInviteLayout />} />
-              <Route path="/welcome" element={<InviteSuccessLayout />} />
+              <Route path="/accept-invite/:token" element={<LearnerAcceptInvitationLayout />} />
             </Routes>
           </BrowserRouter>
         </ThemeProvider>
