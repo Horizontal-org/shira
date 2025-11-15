@@ -7,9 +7,6 @@ import { LearnerQuiz as LearnerQuizEntity } from "../domain/learners_quizzes.ent
 import { IAssignLearnerService } from "../interfaces/services/assign.learner.service.interface";
 import { NotFoundLearnerException } from "../exceptions";
 import { AssignToQuizException } from "../exceptions/assign-quiz.learner.exception";
-import { ConflictLearnerException } from "../exceptions/conflict.learner.exception";
-
-const UNIQUE_VIOLATION_CODE = '23505';
 
 @Injectable()
 export class AssignLearnerService implements IAssignLearnerService {
@@ -45,9 +42,6 @@ export class AssignLearnerService implements IAssignLearnerService {
       await this.learnerQuizRepo.save(learnerQuiz);
     } catch (err) {
       console.error('AssignLearnerService ~ error assigning quiz to learner', { email, spaceId, quizId, err });
-
-      if (err.code === UNIQUE_VIOLATION_CODE) throw new ConflictLearnerException();
-
       throw new AssignToQuizException();
     }
   }

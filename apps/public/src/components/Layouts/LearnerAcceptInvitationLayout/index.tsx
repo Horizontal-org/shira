@@ -1,5 +1,5 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
-import { styled, defaultTheme, Body1, SubHeading1, SettingsFishIcon, Link2, Logo } from "@shira/ui";
+import { styled, defaultTheme, Body1, SubHeading1, SettingsFishIcon, Link2 } from "@shira/ui";
 import { useParams, useLocation } from "react-router-dom";
 import { ReactComponent as Hooked } from "../../../assets/HookedFish.svg";
 import { useStore } from "../../../store";

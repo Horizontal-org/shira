@@ -13,8 +13,6 @@ import * as crypto from 'crypto';
 import { TokenConflictLearnerException } from "../exceptions/token-conflict.learner.exception";
 import { SpaceEntity } from "src/modules/space/domain/space.entity";
 
-const UNIQUE_VIOLATION_CODE = '23505';
-
 @Injectable()
 export class InviteLearnerService implements IInviteLearnerService {
   constructor(
@@ -49,8 +47,7 @@ export class InviteLearnerService implements IInviteLearnerService {
 
       await this.learnerRepo.save(learner);
       return { hash: hash, email, spaceId };
-    } catch (err) {
-      if (err.code === UNIQUE_VIOLATION_CODE) throw new ConflictLearnerException();
+    } catch {
       throw new SaveLearnerException();
     }
   }
@@ -93,7 +90,8 @@ export class InviteLearnerService implements IInviteLearnerService {
         { status: 'registered', registeredAt: new Date() }
       );
       return space.name;
-    } catch {
+    } catch (err) {
+      console.error('InviteLearnerService ~ error accepting invitation', { err });
       throw new SaveLearnerException();
     }
   }
