@@ -23,8 +23,8 @@ export class AssignLearnerService implements IAssignLearnerService {
     private emailsQueue: Queue
   ) { }
 
-  async assign(assignLearnerDto: AssignLearnerDto): Promise<void> {
-    const { email, spaceId, quizId } = assignLearnerDto;
+  async assign(assignLearnerDto: AssignLearnerDto, spaceId: number): Promise<void> {
+    const { email, quizId } = assignLearnerDto;
 
     const learner = await this.learnerRepo.findOne({
       where: {
@@ -38,15 +38,15 @@ export class AssignLearnerService implements IAssignLearnerService {
     console.debug("AssignLearnerService ~ assign ~ email:", email,
       "spaceId:", spaceId, "quizId:", quizId, "learnerId:", learner.id);
 
-    const learnerQuiz = this.learnerQuizRepo.create({
-      learnerId: learner.id,
-      quizId,
-      hash: crypto.randomBytes(20).toString('hex'),
-      status: 'assigned',
-      assignedAt: new Date(),
-    });
-
     try {
+      const learnerQuiz = this.learnerQuizRepo.create({
+        learnerId: learner.id,
+        quizId,
+        hash: crypto.randomBytes(20).toString('hex'),
+        status: 'assigned',
+        assignedAt: new Date(),
+      });
+
       await this.learnerQuizRepo.save(learnerQuiz);
     } catch (err) {
       console.error('AssignLearnerService ~ error assigning quiz to learner', { email, spaceId, quizId, err });

@@ -37,7 +37,7 @@ export class AuthLearnerController {
   async assign(
     @Body() assignLearnerDto: AssignLearnerDto,
     @SpaceId() spaceId: number) {
-    await this.assignLearnerService.assign(assignLearnerDto);
+    await this.assignLearnerService.assign(assignLearnerDto, spaceId);
   }
 
   @Post('assignments/bulk')
