@@ -8,6 +8,9 @@ import { LearnerQuiz as LearnerQuizEntity } from "../domain/learners_quizzes.ent
 import { IAssignLearnerService } from "../interfaces/services/assign.learner.service.interface";
 import { NotFoundLearnerException } from "../exceptions";
 import { AssignToQuizException } from "../exceptions/assign-quiz.learner.exception";
+import { Queue } from "bullmq";
+import { InjectQueue } from "@nestjs/bullmq";
+import { AssignmentEmailSendFailedException } from "../exceptions/assignment-email-send.learner.exception";
 
 @Injectable()
 export class AssignLearnerService implements IAssignLearnerService {
@@ -15,7 +18,9 @@ export class AssignLearnerService implements IAssignLearnerService {
     @InjectRepository(LearnerEntity)
     private learnerRepo: Repository<LearnerEntity>,
     @InjectRepository(LearnerQuizEntity)
-    private learnerQuizRepo: Repository<LearnerQuizEntity>
+    private learnerQuizRepo: Repository<LearnerQuizEntity>,
+    @InjectQueue('emails')
+    private emailsQueue: Queue
   ) { }
 
   async assign(assignLearnerDto: AssignLearnerDto): Promise<void> {
@@ -46,6 +51,25 @@ export class AssignLearnerService implements IAssignLearnerService {
     } catch (err) {
       console.error('AssignLearnerService ~ error assigning quiz to learner', { email, spaceId, quizId, err });
       throw new AssignToQuizException();
+    }
+  }
+
+  async sendEmail(email: string, spaceId: number, token: string) {
+    console.debug("AssignLearnerService ~ sendEmail ~ email:", email, "spaceId:", spaceId);
+
+    const magicLink = `${process.env.PUBLIC_URL}/accept-quiz-assignment/${token}`;
+
+    try {
+      await this.emailsQueue.add('send', {
+        to: email,
+        from: process.env.SMTP_GLOBAL_FROM,
+        subject: 'Invitation to take a quiz in a Shira space',
+        template: 'learner-quiz-assignment',
+        data: { email, magicLink, spaceId }
+      })
+    } catch (err) {
+      console.error('AssignLearnerService ~ error sending quiz assignment email', { err });
+      throw new AssignmentEmailSendFailedException();
     }
   }
 }
