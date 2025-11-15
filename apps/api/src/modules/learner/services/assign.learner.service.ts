@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
+import * as crypto from 'crypto';
 import { AssignLearnerDto } from "../dto/assign.learner.dto";
 import { Learner as LearnerEntity } from "../domain/learner.entity";
 import { LearnerQuiz as LearnerQuizEntity } from "../domain/learners_quizzes.entity";
@@ -20,8 +21,6 @@ export class AssignLearnerService implements IAssignLearnerService {
   async assign(assignLearnerDto: AssignLearnerDto): Promise<void> {
     const { email, spaceId, quizId } = assignLearnerDto;
 
-    console.debug("AssignLearnerService ~ assign ~ email:", email, "spaceId:", spaceId);
-
     const learner = await this.learnerRepo.findOne({
       where: {
         email,
@@ -31,9 +30,13 @@ export class AssignLearnerService implements IAssignLearnerService {
 
     if (!learner) throw new NotFoundLearnerException();
 
+    console.debug("AssignLearnerService ~ assign ~ email:", email,
+      "spaceId:", spaceId, "quizId:", quizId, "learnerId:", learner.id);
+
     const learnerQuiz = this.learnerQuizRepo.create({
       learnerId: learner.id,
       quizId,
+      hash: crypto.randomBytes(20).toString('hex'),
       status: 'assigned',
       assignedAt: new Date(),
     });
