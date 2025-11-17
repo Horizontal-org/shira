@@ -4,9 +4,10 @@ import { useParams } from "react-router-dom";
 import { ReactComponent as HookedFish } from "../../../assets/HookedFish.svg";
 import { useTranslation } from "react-i18next";
 import { Heading } from "../../UI/Title";
-import { acceptInvitation, acceptInvitationError } from "../../../fetch/learner_invitation";
+import { acceptInvitation } from "../../../fetch/learner_invitation";
 import { SceneWrapper } from "../../UI/SceneWrapper";
 import ShiraFullLogo from "../../UI/Icons/ShiraFullLogo";
+import { handleHttpError } from "../../../utils/handleError";
 
 export const LearnerAcceptInvitationLayout: FunctionComponent = () => {
   enum ViewState {
@@ -33,7 +34,7 @@ export const LearnerAcceptInvitationLayout: FunctionComponent = () => {
       setSpaceName(spaceName || "");
       setView(ViewState.Accepted);
     } catch (err) {
-      const error = acceptInvitationError(err);
+      const error = handleHttpError(err);
       setView(ViewState.Error);
       setErrorMsg(t(`error_messages.${error.message}`) || "");
     }
