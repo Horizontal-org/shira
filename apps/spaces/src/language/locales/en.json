@@ -291,7 +291,7 @@
         "duplicate_question_fail": "Failed to duplicate question",
         "add_question_error": "Error adding question",
         "results_load_failed": "Failed to load results",
-        "learner_already_exists": "A learner with this email already exists in this space.",
+        "learner_already_exists": "The email address has already been invited.",
         "learner_not_found": "The learner was not found in this space.",
         "learner_save_failed": "Failed to save learner.",
         "learner_email_send_failed": "Failed to send email invitation to learner.",
