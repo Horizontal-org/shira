@@ -51,7 +51,6 @@ export class AssignLearnerService implements IAssignLearnerService {
 
       await this.learnerQuizRepo.save(learnerQuiz);
     } catch (err) {
-      console.error('AssignLearnerService ~ error assigning quiz to learner', { email, spaceId, quizId, err });
       throw new AssignToQuizException();
     }
   }
@@ -70,7 +69,6 @@ export class AssignLearnerService implements IAssignLearnerService {
         data: { email, magicLink, spaceId }
       })
     } catch (err) {
-      console.error('AssignLearnerService ~ error sending quiz assignment email', { err });
       throw new AssignmentEmailSendFailedException();
     }
   }
