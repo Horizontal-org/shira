@@ -8,28 +8,24 @@ export type AcceptInvitationResponse = {
   spaceName: string;
 };
 
-export type Error = {
+export type ErrorResponse = {
   httpStatus?: number;
   code?: string;
   message?: string;
   details?: unknown;
 };
 
-export function acceptInvitationError(err: unknown): Error {
+export function acceptInvitationError(err: unknown): ErrorResponse {
   if (axios.isAxiosError(err)) {
     const ax = err as AxiosError<any>;
     const httpStatus = ax.response?.status;
     const payload = ax.response?.data;
 
-    const code = payload?.code || payload?.error || payload?.statusCode;
-    const message =
-      payload?.message ||
-      ax.message ||
-      (httpStatus ? `HTTP ${httpStatus}` : "Unknown error");
+    const code = payload.statusCode;
+    const message = payload?.message || ax.message || "";
 
     return { httpStatus, code, message, details: payload };
   }
-
 }
 
 export async function acceptInvitation(token: string): Promise<AcceptInvitationResponse> {
