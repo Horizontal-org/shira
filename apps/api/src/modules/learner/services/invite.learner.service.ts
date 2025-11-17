@@ -1,23 +1,27 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
+import { Learner as LearnerEntity } from "../domain/learner.entity";
 import { InviteLearnerDto } from "../dto/invitation.learner.dto";
 import { IInviteLearnerService } from "../interfaces/services/invite.learner.service.interface";
+import { EmailSendFailedException } from "../exceptions/email-send.learner.exception";
+import { SavingLearnerException as SaveLearnerException } from "../exceptions/save.learner.exception";
+import { ConflictLearnerException } from "../exceptions/conflict.learner.exception";
 import { Queue } from "bullmq";
 import { InjectQueue } from "@nestjs/bullmq";
 import * as crypto from 'crypto';
+import { TokenConflictLearnerException } from "../exceptions/token-conflict.learner.exception";
 import { SpaceEntity } from "src/modules/space/domain/space.entity";
-import { EmailSendFailedException, TokenConflictLearnerException, SavingLearnerException, ConflictLearnerException } from "../exceptions";
-import { LearnerRepositoryService } from "./learner-repository.service";
 
 @Injectable()
 export class InviteLearnerService implements IInviteLearnerService {
   constructor(
+    @InjectRepository(LearnerEntity)
+    private readonly learnerRepo: Repository<LearnerEntity>,
     @InjectRepository(SpaceEntity)
     private readonly spaceRepo: Repository<SpaceEntity>,
     @InjectQueue('emails')
-    private emailsQueue: Queue,
-    private readonly learnerRepoService: LearnerRepositoryService,
+    private emailsQueue: Queue
   ) { }
 
   async invite(inviteLearnerDto: InviteLearnerDto) {
@@ -25,22 +29,28 @@ export class InviteLearnerService implements IInviteLearnerService {
 
     console.debug("InviteLearnerService ~ create ~ email:", email, "spaceId:", spaceId);
 
-    await this.learnerRepoService.findOne({ where: { spaceId, email } });
+    const existing = await this.learnerRepo.findOne({ where: { spaceId, email } });
+    if (existing) throw new ConflictLearnerException();
 
     const hash = crypto.randomBytes(20).toString('hex');
 
-    const learner = await this.learnerRepoService.create({
-      email,
-      name,
-      spaceId,
-      invitationToken: hash,
-      status: 'invited',
-      assignedByUser: assignedByUser,
-      invitedAt: new Date(),
-    });
+    try {
+      const learner = this.learnerRepo.create({
+        email,
+        name,
+        spaceId,
+        status: 'invited',
+        invitedAt: new Date(),
+        invitationToken: hash,
+        assignedByUser: assignedByUser ? assignedByUser : null
+      });
 
-    await this.learnerRepoService.save(learner);
-    return { hash: hash, email, spaceId };
+      await this.learnerRepo.save(learner);
+      return { hash: hash, email, spaceId };
+    } catch (err) {
+      console.error('InviteLearnerService ~ error creating learner invitation', { err });
+      throw new SaveLearnerException();
+    }
   }
 
   async sendEmail(email: string, spaceId: number, token: string) {
@@ -63,7 +73,7 @@ export class InviteLearnerService implements IInviteLearnerService {
   }
 
   async accept(token: string): Promise<string> {
-    const learner = await this.learnerRepoService.findOne({
+    const learner = await this.learnerRepo.findOne({
       where: { invitationToken: token }
     });
 
@@ -77,14 +87,14 @@ export class InviteLearnerService implements IInviteLearnerService {
     });
 
     try {
-      await this.learnerRepoService.update(
+      await this.learnerRepo.update(
         { invitationToken: token },
-        { ...learner, status: 'registered', registeredAt: new Date() }
+        { status: 'registered', registeredAt: new Date() }
       );
       return space.name;
     } catch (err) {
       console.error('InviteLearnerService ~ error accepting invitation', { err });
-      throw new SavingLearnerException();
+      throw new SaveLearnerException();
     }
   }
 }

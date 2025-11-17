@@ -6,7 +6,7 @@ import { Learner as LearnerEntity } from "../domain/learner.entity";
 import { LearnerQuiz as LearnerQuizEntity } from "../domain/learners_quizzes.entity";
 import { IAssignLearnerService } from "../interfaces/services/assign.learner.service.interface";
 import { NotFoundLearnerException } from "../exceptions";
-import { AssignToQuizException } from "../exceptions/quiz-learner.exceptions";
+import { AssignToQuizException } from "../exceptions/assign-quiz.learner.exception";
 
 @Injectable()
 export class AssignLearnerService implements IAssignLearnerService {
