@@ -1,7 +1,7 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { styled, defaultTheme, Body1, SubHeading1, SettingsFishIcon, Link2 } from "@shira/ui";
 import { useParams, useLocation } from "react-router-dom";
-import { ReactComponent as Hooked } from "../../../assets/HookedFish.svg";
+import { ReactComponent as HookedFish } from "../../../assets/HookedFish.svg";
 import { useStore } from "../../../store";
 import { shallow } from "zustand/shallow";
 import { useTranslation } from "react-i18next";
@@ -15,13 +15,14 @@ type ViewState = "loading" | "accepted" | "error";
 export const LearnerAcceptInvitationLayout: FunctionComponent = () => {
   const { t } = useTranslation();
   const { token } = useParams();
-  const { state: navState } = useLocation() as { state?: { spaceName?: string } };
+  const { state: navState } = useLocation() as { state: { spaceName?: string } };
 
   const [view, setView] = useState<ViewState>(null);
   const [errorMsg, setErrorMsg] = useState<string>("");
   const [spaceName, setSpaceName] = useState<string>(navState?.spaceName ?? "");
 
   const { resetAll } = useStore((s) => ({ resetAll: s.resetAll }), shallow);
+  const isAccepted = view === "accepted";
 
   const accept = useCallback(async () => {
     if (!token) return;
@@ -31,10 +32,10 @@ export const LearnerAcceptInvitationLayout: FunctionComponent = () => {
 
     try {
       const res = await acceptInvitation(token);
-      const nameFromApi: string = res?.data?.spaceName ?? "";
+      const spaceName: string = res?.data?.spaceName ?? "";
 
       if (res.status >= 200 && res.status < 300) {
-        setSpaceName(nameFromApi);
+        setSpaceName(spaceName);
         setView("accepted");
         return;
       }
@@ -47,7 +48,7 @@ export const LearnerAcceptInvitationLayout: FunctionComponent = () => {
         e?.response?.data?.message || t("learner_invitation.error_title")
       );
     }
-  }, [token, t]);
+  }, [token]);
 
   useEffect(() => {
     if (token) {
@@ -59,7 +60,6 @@ export const LearnerAcceptInvitationLayout: FunctionComponent = () => {
     return () => resetAll();
   }, [accept, resetAll]);
 
-  const isAccepted = view === "accepted";
 
   return (
     <SceneWrapper bg="white">
@@ -72,7 +72,7 @@ export const LearnerAcceptInvitationLayout: FunctionComponent = () => {
 
       {isAccepted ? (
         <Content>
-          <SettingsFishIcon />
+          <SettingsFishIcon aria-hidden="true" />
           <Card>
             <SubHeading1>{t("learner_invitation.success_title")}</SubHeading1>
 
@@ -86,10 +86,10 @@ export const LearnerAcceptInvitationLayout: FunctionComponent = () => {
       ) : (
         <AcceptWrapper>
           <GreenFishWrapper>
-            <Hooked />
+            <HookedFish aria-hidden="true" />
           </GreenFishWrapper>
 
-          <AcceptBox>
+          <AcceptBox role={view === "loading" ? "status" : undefined} aria-live="polite">
             <Heading>
               {view === "error"
                 ? t("learner_invitation.error_title")
