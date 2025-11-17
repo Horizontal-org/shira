@@ -1,5 +1,4 @@
-export { NotFoundLearnerException } from './not-found.learner.exception';
-export { AssignToQuizException } from './assign-quiz.learner.exception';
-export { EmailSendFailedException } from './email-send.learner.exception';
-export { SavingLearnerException } from './save.learner.exception';
-export { ConflictLearnerException } from './conflict.learner.exception';
+export { AssignToQuizException } from './quiz-learner.exceptions';
+export { TokenConflictLearnerException } from './token.exceptions';
+export { LearnerException, ConflictLearnerException, NotFoundLearnerException, SavingLearnerException } from './learner.exceptions';
+export { EmailException, EmailAlreadyTakenException, EmailSendFailedException } from './email.exceptions';
