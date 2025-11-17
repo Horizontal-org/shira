@@ -23,8 +23,9 @@ export class AuthLearnerController {
   async invite(
     @Body() inviteLearnerDto: InviteLearnerDto,
     @SpaceId() spaceId: number) {
-    const response = await this.inviteLearnerService.invite(inviteLearnerDto);
+    const response = await this.inviteLearnerService.invite(inviteLearnerDto, spaceId);
     await this.inviteLearnerService.sendEmail(response.email, spaceId, response.hash);
+    return { message: 'learner_invited', email: response.email };
   }
 
   @Post('invitations/bulk')

@@ -7,8 +7,5 @@ export class InviteLearnerDto {
   @IsString() @IsNotEmpty() @MaxLength(255)
   name!: string;
 
-  @IsNotEmpty()
-  spaceId!: number;
-
   assignedByUser?: number;
 }

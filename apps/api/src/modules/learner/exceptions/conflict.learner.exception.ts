@@ -1,7 +1,9 @@
-import { ConflictException } from "@nestjs/common";
+import { HttpException, HttpStatus } from "@nestjs/common";
+import { LearnerErrorCodes } from "./errors/learner.error-codes";
 
-export class ConflictLearnerException extends ConflictException {
+export class ConflictLearnerException extends HttpException {
   constructor() {
-    super("Learner already exists in this space");
+    super(LearnerErrorCodes.Conflict, HttpStatus.CONFLICT,
+      { cause: "Learner already exists in this space" });
   }
 }

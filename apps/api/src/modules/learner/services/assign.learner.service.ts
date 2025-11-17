@@ -26,6 +26,8 @@ export class AssignLearnerService implements IAssignLearnerService {
   async assign(assignLearnerDto: AssignLearnerDto, spaceId: number): Promise<void> {
     const { email, quizId } = assignLearnerDto;
 
+    console.debug("AssignLearnerService ~ assign ~ email:", email, "spaceId:", spaceId);
+
     const learner = await this.learnerRepo.findOne({
       where: {
         email,

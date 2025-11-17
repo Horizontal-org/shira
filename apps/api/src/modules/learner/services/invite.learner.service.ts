@@ -24,8 +24,8 @@ export class InviteLearnerService implements IInviteLearnerService {
     private emailsQueue: Queue
   ) { }
 
-  async invite(inviteLearnerDto: InviteLearnerDto) {
-    const { email, spaceId, name, assignedByUser } = inviteLearnerDto;
+  async invite(inviteLearnerDto: InviteLearnerDto, spaceId: number) {
+    const { email, name, assignedByUser } = inviteLearnerDto;
 
     console.debug("InviteLearnerService ~ create ~ email:", email, "spaceId:", spaceId);
 
