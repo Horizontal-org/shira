@@ -1,6 +1,8 @@
-import { Learner } from "../domain/learner.entity";
-
 export class GetByHashLearnerQuizDto {
-  learner: Learner
+  learnerQuiz: {
+    learnerEmail: string;
+    learnerId: number;
+    status: string;
+  }
   quiz: Object
 }

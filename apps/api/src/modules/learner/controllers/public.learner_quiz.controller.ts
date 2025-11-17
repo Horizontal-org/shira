@@ -15,9 +15,9 @@ export class LearnerQuizController {
   async getLearnerQuizByHash(@Param('hash') hash: string) {
     try {
       const learnerQuiz =  await this.getLearnerQuizService.execute(hash);
-      console.log("🚀 ~ LearnerQuizController ~ getLearnerQuizByHash ~ learnerQuiz:", learnerQuiz)
       return learnerQuiz
     } catch (e) {
+      console.log("🚀 ~ LearnerQuizController ~ getLearnerQuizByHash ~ e:", e)
       throw new NotFoundException()
     }
   }

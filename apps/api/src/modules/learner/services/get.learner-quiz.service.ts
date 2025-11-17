@@ -30,10 +30,14 @@ export class GetLearnerQuizService implements IGetLearnerQuizService {
       throw new NotFoundException()
     }
 
-    const quiz = await this.getQuizByHash.execute(learnerQuiz.quiz.hash)
+    const quiz = await this.getQuizByHash.execute(learnerQuiz.quiz.hash, 'private')
     
     return {
-      learner: learnerQuiz.learner,
+      learnerQuiz: {
+        learnerEmail: learnerQuiz.learner.email,
+        learnerId: learnerQuiz.learner.id,
+        status: learnerQuiz.status
+      },
       quiz
     }
   }

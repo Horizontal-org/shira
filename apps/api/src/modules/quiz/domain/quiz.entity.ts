@@ -37,7 +37,7 @@ export class Quiz {
     type: 'enum',
     enum: ['public', 'private'],
   })
-  status: 'public' | 'private';
+  visibility: 'public' | 'private';
 
   @OneToMany(
     () => QuizQuestion,
