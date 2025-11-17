@@ -1,7 +1,8 @@
-import { InternalServerErrorException } from "@nestjs/common";
+import { HttpException, HttpStatus } from "@nestjs/common";
 
-export class AssignToQuizException extends InternalServerErrorException {
+export class AssignToQuizException extends HttpException {
   constructor() {
-    super("Failed to assign learner to quiz");
+    super("learner_assignment_failed", HttpStatus.INTERNAL_SERVER_ERROR,
+      { cause: "Failed to assign learner to quiz" });
   }
 }

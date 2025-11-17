@@ -6,7 +6,7 @@ import { useStore } from "../../../store";
 import { shallow } from "zustand/shallow";
 import { useTranslation } from "react-i18next";
 import { Heading } from "../../UI/Title";
-import { acceptInvitation } from "../../../fetch/learner_invitation";
+import { acceptInvitation, acceptInvitationError } from "../../../fetch/learner_invitation";
 import { SceneWrapper } from "../../UI/SceneWrapper";
 import ShiraFullLogo from "../../UI/Icons/ShiraFullLogo";
 
@@ -31,22 +31,13 @@ export const LearnerAcceptInvitationLayout: FunctionComponent = () => {
     setErrorMsg("");
 
     try {
-      const res = await acceptInvitation(token);
-      const spaceName: string = res?.data?.spaceName ?? "";
-
-      if (res.status >= 200 && res.status < 300) {
-        setSpaceName(spaceName);
-        setView("accepted");
-        return;
-      }
-
+      const { spaceName } = await acceptInvitation(token);
+      setSpaceName(spaceName || "");
+      setView("accepted");
+    } catch (err) {
+      const error = acceptInvitationError(err);
       setView("error");
-      setErrorMsg(t("learner_invitation.error_title"));
-    } catch (e: any) {
-      setView("error");
-      setErrorMsg(
-        e?.response?.data?.message || t("learner_invitation.error_title")
-      );
+      setErrorMsg(error.message || "Unknown error");
     }
   }, [token]);
 
@@ -94,7 +85,7 @@ export const LearnerAcceptInvitationLayout: FunctionComponent = () => {
               {view === "error"
                 ? t("learner_invitation.error_title")
                 : view === "loading"
-                  ? t("learner_invitation.loading")
+                  ? t("loading_messages.loading")
                   : null}
             </Heading>
 

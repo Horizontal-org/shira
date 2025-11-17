@@ -217,8 +217,7 @@
         "success_title": "Success!",
         "error_title": "Something went wrong",
         "success_joined_space": "You have joined {{spaceName}} on Shira.",
-        "success_hint": "When your organization shares a quiz with you, you will receive an email invitation directly in your inbox.",
-        "loading": "Loading…"
+        "success_hint": "When your organization shares a quiz with you, you will receive an email invitation directly in your inbox."
     },
     "navbar": {
         "home": "Home",
@@ -229,5 +228,16 @@
         "take_a_quiz": "Take a quiz",
         "learn": "Learn",
         "get_started": "Get started"
+    },
+    "error_messages": {
+        "learner_already_exists": "A learner with this email already exists in this space.",
+        "learner_not_found": "The learner was not found in this space.",
+        "learner_save_failed": "Failed to save learner.",
+        "learner_email_send_failed": "Failed to send email invitation to learner.",
+        "learner_token_conflict": "The token from the learner is invalid or has already been used.",
+        "learner_assignment_failed": "Failed to assign learner to the space."
+    },
+    "loading_messages": {
+        "loading": "Loading..."
     }
 }
