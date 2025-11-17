@@ -3,7 +3,7 @@ import { LearnerErrorCodes } from "./errors/learner.error-codes";
 
 export class ConflictLearnerException extends HttpException {
   constructor() {
-    super(LearnerErrorCodes.Conflict, HttpStatus.CONFLICT,
+    super(LearnerErrorCodes.AlreadyExists, HttpStatus.CONFLICT,
       { cause: "Learner already exists in this space" });
   }
 }
