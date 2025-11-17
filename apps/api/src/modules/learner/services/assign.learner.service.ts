@@ -17,8 +17,8 @@ export class AssignLearnerService implements IAssignLearnerService {
     private learnerQuizRepo: Repository<LearnerQuizEntity>
   ) { }
 
-  async assign(assignLearnerDto: AssignLearnerDto): Promise<void> {
-    const { email, spaceId, quizId } = assignLearnerDto;
+  async assign(assignLearnerDto: AssignLearnerDto, spaceId: number): Promise<void> {
+    const { email, quizId } = assignLearnerDto;
 
     console.debug("AssignLearnerService ~ assign ~ email:", email, "spaceId:", spaceId);
 

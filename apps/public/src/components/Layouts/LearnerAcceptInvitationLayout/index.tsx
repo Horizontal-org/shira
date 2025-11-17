@@ -37,7 +37,7 @@ export const LearnerAcceptInvitationLayout: FunctionComponent = () => {
     } catch (err) {
       const error = acceptInvitationError(err);
       setView("error");
-      setErrorMsg(error.message || "Unknown error");
+      setErrorMsg(t(`error_messages.${error.message}`) || "");
     }
   }, [token]);
 
@@ -55,7 +55,7 @@ export const LearnerAcceptInvitationLayout: FunctionComponent = () => {
   return (
     <SceneWrapper bg="white">
       <Header>
-        <ShiraFullLogo />
+        <ShiraFullLogo aria-hidden="true"/>
         <Link2 href="https://shira.app" target="_blank">
           {t("learner_invitation.learn_more")}
         </Link2>
