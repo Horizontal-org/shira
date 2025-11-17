@@ -47,7 +47,7 @@ export class InviteLearnerService implements IInviteLearnerService {
 
       await this.learnerRepo.save(learner);
       return { hash: hash, email, spaceId };
-    } catch (err) {
+    } catch {
       throw new SaveLearnerException();
     }
   }
@@ -65,7 +65,7 @@ export class InviteLearnerService implements IInviteLearnerService {
         template: 'learner-invitation',
         data: { email, magicLink, spaceId }
       })
-    } catch (err) {
+    } catch {
       throw new InvitationEmailSendFailedException();
     }
   }
@@ -90,7 +90,7 @@ export class InviteLearnerService implements IInviteLearnerService {
         { status: 'registered', registeredAt: new Date() }
       );
       return space.name;
-    } catch (err) {
+    } catch {
       throw new SaveLearnerException();
     }
   }

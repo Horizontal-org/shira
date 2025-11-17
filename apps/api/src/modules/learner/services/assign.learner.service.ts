@@ -11,6 +11,7 @@ import { AssignToQuizException } from "../exceptions/assign-quiz.learner.excepti
 import { Queue } from "bullmq";
 import { InjectQueue } from "@nestjs/bullmq";
 import { AssignmentEmailSendFailedException } from "../exceptions/assignment-email-send.learner.exception";
+import { NotFoundQuizException } from "../exceptions/not-found-quiz.learner.exception";
 
 @Injectable()
 export class AssignLearnerService implements IAssignLearnerService {
@@ -50,15 +51,21 @@ export class AssignLearnerService implements IAssignLearnerService {
       });
 
       await this.learnerQuizRepo.save(learnerQuiz);
-    } catch (err) {
+    } catch {
       throw new AssignToQuizException();
     }
   }
 
-  async sendEmail(email: string, spaceId: number, token: string) {
+  async sendEmail(email: string, spaceId: number) {
     console.debug("AssignLearnerService ~ sendEmail ~ email:", email, "spaceId:", spaceId);
 
-    const magicLink = `${process.env.PUBLIC_URL}/accept-quiz-assignment/${token}`;
+    const quiz = await this.learnerQuizRepo.findOne({
+      where: { learner: { email } }
+    });
+    
+    if (!quiz) throw new NotFoundQuizException();
+
+    const magicLink = `${process.env.PUBLIC_URL}/accept-quiz-assignment/${quiz.hash}`;
 
     try {
       await this.emailsQueue.add('send', {
@@ -68,7 +75,7 @@ export class AssignLearnerService implements IAssignLearnerService {
         template: 'learner-quiz-assignment',
         data: { email, magicLink, spaceId }
       })
-    } catch (err) {
+    } catch {
       throw new AssignmentEmailSendFailedException();
     }
   }
