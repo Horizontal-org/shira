@@ -41,7 +41,6 @@ export class AssignLearnerService implements IAssignLearnerService {
     try {
       await this.learnerQuizRepo.save(learnerQuiz);
     } catch (err) {
-      console.error('AssignLearnerService ~ error assigning quiz to learner', { email, spaceId, quizId, err });
       throw new AssignToQuizException();
     }
   }
