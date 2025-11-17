@@ -1,42 +1,40 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { styled, defaultTheme, Body1, SubHeading1, SettingsFishIcon, Link2 } from "@shira/ui";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { ReactComponent as HookedFish } from "../../../assets/HookedFish.svg";
-import { useStore } from "../../../store";
-import { shallow } from "zustand/shallow";
 import { useTranslation } from "react-i18next";
 import { Heading } from "../../UI/Title";
 import { acceptInvitation, acceptInvitationError } from "../../../fetch/learner_invitation";
 import { SceneWrapper } from "../../UI/SceneWrapper";
 import ShiraFullLogo from "../../UI/Icons/ShiraFullLogo";
 
-type ViewState = "loading" | "accepted" | "error";
-
 export const LearnerAcceptInvitationLayout: FunctionComponent = () => {
+  enum ViewState {
+    Loading = "loading",
+    Accepted = "accepted",
+    Error = "error"
+  }
+
   const { t } = useTranslation();
   const { token } = useParams();
-  const { state: navState } = useLocation() as { state: { spaceName?: string } };
 
   const [view, setView] = useState<ViewState>(null);
   const [errorMsg, setErrorMsg] = useState<string>("");
-  const [spaceName, setSpaceName] = useState<string>(navState?.spaceName ?? "");
-
-  const { resetAll } = useStore((s) => ({ resetAll: s.resetAll }), shallow);
-  const isAccepted = view === "accepted";
+  const [spaceName, setSpaceName] = useState<string>("");
 
   const accept = useCallback(async () => {
     if (!token) return;
 
-    setView("loading");
+    setView(ViewState.Loading);
     setErrorMsg("");
 
     try {
       const { spaceName } = await acceptInvitation(token);
       setSpaceName(spaceName || "");
-      setView("accepted");
+      setView(ViewState.Accepted);
     } catch (err) {
       const error = acceptInvitationError(err);
-      setView("error");
+      setView(ViewState.Error);
       setErrorMsg(t(`error_messages.${error.message}`) || "");
     }
   }, [token]);
@@ -44,57 +42,57 @@ export const LearnerAcceptInvitationLayout: FunctionComponent = () => {
   useEffect(() => {
     if (token) {
       accept();
-    } else if (spaceName) {
-      setView("accepted");
     }
-
-    return () => resetAll();
-  }, [accept, resetAll]);
-
+  }, [accept, token]);
 
   return (
     <SceneWrapper bg="white">
       <Header>
-        <ShiraFullLogo aria-hidden="true"/>
+        <ShiraFullLogo aria-hidden="true" />
         <Link2 href="https://shira.app" target="_blank">
           {t("learner_invitation.learn_more")}
         </Link2>
       </Header>
 
-      {isAccepted ? (
-        <Content>
-          <SettingsFishIcon aria-hidden="true" />
-          <Card>
-            <SubHeading1>{t("learner_invitation.success_title")}</SubHeading1>
+      <Main>
+        {view === ViewState.Accepted ? (
+          <Content>
+            <SettingsFishIcon aria-hidden="true" />
+            <Card>
+              <SubHeading1>{t("learner_invitation.success_title")}</SubHeading1>
+              <Body1>
+                {t("learner_invitation.success_joined_space", { spaceName })}
+              </Body1>
 
-            <Body1>
-              {t("learner_invitation.success_joined_space", { spaceName })}
-            </Body1>
+              <Body1>{t("learner_invitation.success_hint")}</Body1>
+            </Card>
+          </Content>
+        ) : (
+          <AcceptWrapper>
+            <GreenFishWrapper>
+              <HookedFish aria-hidden="true" />
+            </GreenFishWrapper>
 
-            <Body1>{t("learner_invitation.success_hint")}</Body1>
-          </Card>
-        </Content>
-      ) : (
-        <AcceptWrapper>
-          <GreenFishWrapper>
-            <HookedFish aria-hidden="true" />
-          </GreenFishWrapper>
+            <AcceptBox
+              aria-live="polite"
+              aria-describedby={view === ViewState.Error ? "invitation-error" : "loading"}
+            >
+              <Heading>
+                {view === ViewState.Error
+                  ? t("learner_invitation.error_title")
+                  : view === ViewState.Loading
+                    ? t("loading_messages.loading")
+                    : null}
+              </Heading>
 
-          <AcceptBox role={view === "loading" ? "status" : undefined} aria-live="polite">
-            <Heading>
-              {view === "error"
-                ? t("learner_invitation.error_title")
-                : view === "loading"
-                  ? t("loading_messages.loading")
-                  : null}
-            </Heading>
+              {view === ViewState.Error && errorMsg && (
+                <ErrorText id="invitation-error" role="alert">{errorMsg}</ErrorText>
+              )}
+            </AcceptBox>
+          </AcceptWrapper>
+        )}
 
-            {view === "error" && errorMsg && (
-              <ErrorText role="alert">{errorMsg}</ErrorText>
-            )}
-          </AcceptBox>
-        </AcceptWrapper>
-      )}
+      </Main>
     </SceneWrapper>
   );
 };
@@ -106,12 +104,18 @@ const Header = styled.header`
   padding: 24px 48px;
 `;
 
-const Content = styled.main`
+const Main = styled.main`
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 64px 24px;
+`;
+
+const Content = styled.section`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 48px;
 `;
 
