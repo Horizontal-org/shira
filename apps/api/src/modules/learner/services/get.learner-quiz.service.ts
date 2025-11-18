@@ -1,10 +1,8 @@
 import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Learner as LearnerEntity } from "../domain/learner.entity";
 import { Repository } from "typeorm";
 import { IGetLearnerQuizService } from "../interfaces/services/get.learner-quiz.service.interface";
 import { LearnerQuiz as LearnerQuizEntity} from "../domain/learners_quizzes.entity";
-import { Quiz as QuizEntity } from "src/modules/quiz/domain/quiz.entity";
 import { TYPES as QUIZ_TYPES } from "src/modules/quiz/interfaces";
 import { IGetByHashQuizService } from "src/modules/quiz/interfaces/services/get-by-hash.quiz.service.interface";
 
