@@ -1,5 +1,5 @@
 import { AssignLearnerDto } from "../../dto/assign.learner.dto";
 
 export interface IAssignLearnerService {
-  execute(assignLearnerDto: AssignLearnerDto): Promise<void>;
+  assign(assignLearnerDto: AssignLearnerDto, spaceId: number): Promise<void>;
 }

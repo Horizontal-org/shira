@@ -5,7 +5,7 @@ import { IGetLearnerQuizService } from '../interfaces/services/get.learner-quiz.
 
 // PUBLIC
 @Controller('learner-quiz')
-export class LearnerQuizController {
+export class PublicLearnerQuizController {
   constructor(
     @Inject(TYPES.services.IGetLearnerQuizService)
     private readonly getLearnerQuizService: IGetLearnerQuizService,    

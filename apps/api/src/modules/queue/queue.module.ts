@@ -7,7 +7,7 @@ import { ImagesProcessor } from "./processors/images.processor";
 
 @Global()
 @Module({
-  imports: [    
+  imports: [
     BullModule.forRoot({
       connection: {
         host: process.env.REDIS_HOST || 'redis',
@@ -30,4 +30,4 @@ import { ImagesProcessor } from "./processors/images.processor";
     BullModule,
   ]
 })
-export class QueueModule {}
+export class QueueModule { }

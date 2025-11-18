@@ -56,4 +56,4 @@ import { LearnerModule } from './modules/learner/learner.module';
   controllers: [IndexController],
   providers: [IndexService],
 })
-export class IndexModule {}
+export class IndexModule { }

@@ -1,22 +1,12 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Card,
-  Sidebar,
-  styled,
-  H2,
-  SubHeading3,
-  Body1,
-  Button,
-  FilterButton,
-  useAdminSidebar,
-  BetaBanner
-} from "@shira/ui";
+import { Card, Sidebar, styled, H2, SubHeading3, Body1, Button, FilterButton, useAdminSidebar, BetaBanner } from "@shira/ui";
 import { FiPlus } from 'react-icons/fi';
 import { shallow } from "zustand/shallow";
 
 import { useStore } from "../../store";
 import { formatDistance } from "date-fns";
+import { enUS, es, fr, zhCN } from "date-fns/locale";
 import { QuizSuccessStates, SUCCESS_MESSAGES } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
 import { FilterStates } from "./constants";
@@ -52,7 +42,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     cleanQuizActionSuccess: state.cleanQuizActionSuccess
   }), shallow)
 
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
 
@@ -154,15 +144,27 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     }
   });
 
-  const compareDate = useCallback((lastUpdate) => {
-    // force utc to locale parse
-    const parsedLastUpdate = new Date(lastUpdate.replace(" ", "T") + "Z")
-    return formatDistance(
-      parsedLastUpdate,
-      new Date(),
-      { addSuffix: true }
-    )
-  }, [filteredCards])
+  const getLastUpdateTime = useCallback(
+    (lastUpdate: string) => {
+      const parsedLastUpdate = new Date(lastUpdate.replace(" ", "T") + "Z");
+
+      const locales = {
+        en: enUS,
+        es: es,
+        fr: fr,
+        cn: zhCN
+      };
+      const locale = locales[i18n.language] ?? enUS;
+
+      const time = formatDistance(parsedLastUpdate, new Date(), {
+        addSuffix: true,
+        locale,
+      });
+
+      return t('quizzes.last_modified', { date: time });
+    },
+    [filteredCards, i18n.language]
+  );
 
   return (
     <Container>
@@ -216,13 +218,12 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             {filteredCards.map((card) => (
               <Card
                 publishedText={t('quizzes.filter.published')}
-                lastModifiedText={t('quizzes.last_modified.last_modified')}
                 onCardClick={() => {
                   navigate(`/quiz/${card.id}`)
                 }}
                 key={card.id}
                 title={card.title}
-                lastModified={compareDate(card.latestGlobalUpdate)}
+                lastModified={getLastUpdateTime(card.latestGlobalUpdate)}
                 isPublished={card.published}
                 onCopyUrl={() => {
                   if (card.published) {

@@ -5,6 +5,8 @@ import { AssignLearnerDto } from "../dto/assign.learner.dto";
 import { Learner as LearnerEntity } from "../domain/learner.entity";
 import { LearnerQuiz as LearnerQuizEntity } from "../domain/learners_quizzes.entity";
 import { IAssignLearnerService } from "../interfaces/services/assign.learner.service.interface";
+import { NotFoundLearnerException } from "../exceptions";
+import { AssignToQuizException } from "../exceptions/assign-quiz.learner.exception";
 
 @Injectable()
 export class AssignLearnerService implements IAssignLearnerService {
@@ -15,10 +17,10 @@ export class AssignLearnerService implements IAssignLearnerService {
     private learnerQuizRepo: Repository<LearnerQuizEntity>
   ) { }
 
-  async execute(assignLearnerDto: AssignLearnerDto): Promise<void> {
-    console.log("🚀 ~ AssignLearnerService ~ execute ~ assignLearnerDto:", assignLearnerDto);
+  async assign(assignLearnerDto: AssignLearnerDto, spaceId: number): Promise<void> {
+    const { email, quizId } = assignLearnerDto;
 
-    const { email, spaceId, quizId } = assignLearnerDto;
+    console.debug("AssignLearnerService ~ assign ~ email:", email, "spaceId:", spaceId);
 
     const learner = await this.learnerRepo.findOne({
       where: {
@@ -27,7 +29,7 @@ export class AssignLearnerService implements IAssignLearnerService {
       }
     });
 
-    if (!learner) { throw new Error('Learner not found in this space'); }
+    if (!learner) throw new NotFoundLearnerException();
 
     const learnerQuiz = this.learnerQuizRepo.create({
       learnerId: learner.id,
@@ -36,6 +38,10 @@ export class AssignLearnerService implements IAssignLearnerService {
       assignedAt: new Date(),
     });
 
-    await this.learnerQuizRepo.save(learnerQuiz);
+    try {
+      await this.learnerQuizRepo.save(learnerQuiz);
+    } catch (err) {
+      throw new AssignToQuizException();
+    }
   }
 }

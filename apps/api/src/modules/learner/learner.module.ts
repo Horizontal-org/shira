@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Learner as LearnerEntity } from './domain/learner.entity';
-import { LearnerController } from './controllers/learner.controller';
 import { serviceLearnerProviders, serviceLearnerQuizProviders } from './learner.providers';
 import { SpaceEntity } from '../space/domain/space.entity';
-import { LearnerQuizController } from './controllers/public.learner_quiz.controller';
+import { PublicLearnerQuizController } from './controllers/public.learner_quiz.controller';
 import { LearnerQuiz as LearnerQuizEntity } from './domain/learners_quizzes.entity';
 import { Quiz as QuizEntity } from '../quiz/domain/quiz.entity';
 import { QuizModule } from '../quiz/quiz.module';
+import { PublicLearnerController } from './controllers/public.learner.controller';
+import { AuthLearnerController } from './controllers/auth.learner.controller';
 
 @Module({
   imports: [
@@ -20,13 +21,15 @@ import { QuizModule } from '../quiz/quiz.module';
     QuizModule
   ],
   controllers: [
-    // LearnerController, 
-    LearnerQuizController
+    PublicLearnerQuizController,
+    PublicLearnerController,
+    AuthLearnerController
   ],
   providers: [
-    // ...serviceLearnerProviders, 
+    ...serviceLearnerProviders, 
     ...serviceLearnerQuizProviders
   ],
-  // exports: [...serviceLearnerProviders],
+  exports: [...serviceLearnerProviders],      
 })
+
 export class LearnerModule { }

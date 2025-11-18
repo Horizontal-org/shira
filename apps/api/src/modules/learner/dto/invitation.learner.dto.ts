@@ -1,6 +1,11 @@
+import { IsEmail, IsNotEmpty, IsString, MaxLength } from "class-validator";
+
 export class InviteLearnerDto {
-  spaceId: number;
-  email: string;
-  name: string;
-  assignedBy?: number;
+  @IsEmail()
+  email!: string;
+
+  @IsString() @IsNotEmpty() @MaxLength(255)
+  name!: string;
+
+  assignedByUser?: number;
 }
