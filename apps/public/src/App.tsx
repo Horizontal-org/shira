@@ -8,6 +8,7 @@ import { PrivacyLayout } from "./components/Layouts/PrivacyLayout";
 import { ThemeProvider, defaultTheme, styled } from "@shira/ui";
 import { QuizLayout } from "./components/Layouts/QuizLayout";
 import { LearnerAcceptInvitationLayout } from "./components/Layouts/LearnerAcceptInvitationLayout";
+import { LearnerAssignmentLayout } from "./components/Layouts/LearnerAssignmentLayout";
 
 interface Props { }
 
@@ -26,9 +27,10 @@ const App: FunctionComponent<Props> = () => {
             <Routes>
               <Route path="/" element={<MainLayout />} />
               <Route path="/about" element={<AboutLayout />} />
-              <Route path='/privacy' element={<PrivacyLayout />} />
-              <Route path='/quiz/:hash' element={<QuizLayout />} />
-              <Route path="/accept-invite/:token" element={<LearnerAcceptInvitationLayout />} />
+              <Route path="/privacy" element={<PrivacyLayout />} />
+              <Route path="/quiz/:hash" element={<QuizLayout />} />
+              <Route path="/accept-invite/:hash" element={<LearnerAcceptInvitationLayout />} />
+              <Route path="/quiz-assignment/:hash" element={<LearnerAssignmentLayout />} />
             </Routes>
           </BrowserRouter>
         </ThemeProvider>

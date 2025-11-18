@@ -62,10 +62,10 @@ export class AssignLearnerService implements IAssignLearnerService {
     const quiz = await this.learnerQuizRepo.findOne({
       where: { learner: { email } }
     });
-    
+
     if (!quiz) throw new NotFoundQuizException();
 
-    const magicLink = `${process.env.PUBLIC_URL}/accept-quiz-assignment/${quiz.hash}`;
+    const magicLink = `${process.env.PUBLIC_URL}/quiz-assignment/${quiz.hash}`;
 
     try {
       await this.emailsQueue.add('send', {
