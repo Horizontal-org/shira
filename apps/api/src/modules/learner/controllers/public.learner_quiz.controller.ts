@@ -1,9 +1,7 @@
-import { Body, Controller, Get, Inject, NotFoundException, Param, Post, UnprocessableEntityException } from '@nestjs/common';
-import { AuthController } from 'src/utils/decorators/auth-controller.decorator';
+import { Controller, Get, Inject, NotFoundException, Param } from '@nestjs/common';
 import { TYPES } from '../interfaces';
 import { IGetLearnerQuizService } from '../interfaces/services/get.learner-quiz.service.interface';
 
-// PUBLIC
 @Controller('learner-quiz')
 export class PublicLearnerQuizController {
   constructor(
