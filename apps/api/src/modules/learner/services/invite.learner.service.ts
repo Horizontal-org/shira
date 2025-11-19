@@ -9,9 +9,9 @@ import { ConflictLearnerException } from "../exceptions/conflict.learner.excepti
 import { Queue } from "bullmq";
 import { InjectQueue } from "@nestjs/bullmq";
 import * as crypto from 'crypto';
-import { TokenConflictLearnerException } from "../exceptions/token-conflict.learner.exception";
 import { SpaceEntity } from "src/modules/space/domain/space.entity";
 import { InvitationEmailSendFailedException } from "../exceptions/invitation-email-send.learner.exception";
+import { GenericErrorException } from "../exceptions/generic-error.learner.exception";
 
 @Injectable()
 export class InviteLearnerService implements IInviteLearnerService {
@@ -33,10 +33,10 @@ export class InviteLearnerService implements IInviteLearnerService {
       where: {
         spaceId,
         email,
-        status: Not('invited'),
       },
     });
-    if (existing) throw new ConflictLearnerException();
+
+    if (existing && existing.status !== 'invited') throw new ConflictLearnerException();
 
     const hash = crypto.randomBytes(20).toString('hex');
 
@@ -51,12 +51,12 @@ export class InviteLearnerService implements IInviteLearnerService {
         assignedByUser: assignedByUser ? assignedByUser : null
       });
 
-      // TODO: should update when user already exists with invited status
-      await this.learnerRepo.save(learner);
+      await this.handleExistingLearner(learner, existing);
       return { hash: hash, email, spaceId };
     } catch {
       throw new SaveLearnerException();
     }
+
   }
 
   async sendEmail(email: string, spaceId: number, token: string) {
@@ -79,10 +79,13 @@ export class InviteLearnerService implements IInviteLearnerService {
 
   async accept(token: string): Promise<string> {
     const learner = await this.learnerRepo.findOne({
-      where: { invitationToken: token }
+      where: {
+        invitationToken: token,
+        status: Not('registered')
+      }
     });
 
-    if (!learner) throw new TokenConflictLearnerException();
+    if (!learner) throw new GenericErrorException();
 
     console.debug("InviteLearnerService ~ accept ~ learner:", learner.id, "spaceId:", learner.spaceId);
 
@@ -99,6 +102,20 @@ export class InviteLearnerService implements IInviteLearnerService {
       return space.name;
     } catch {
       throw new SaveLearnerException();
+    }
+  }
+
+  private async handleExistingLearner(
+    learner: LearnerEntity,
+    existingLearner?: LearnerEntity
+  ) {
+    if (existingLearner && existingLearner.status === 'invited') {
+      await this.learnerRepo.update(
+        { id: existingLearner.id },
+        { invitedAt: new Date() }
+      );
+    } else {
+      await this.learnerRepo.save(learner);
     }
   }
 }
