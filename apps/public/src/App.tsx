@@ -30,7 +30,6 @@ const App: FunctionComponent<Props> = () => {
               <Route path="/privacy" element={<PrivacyLayout />} />
               <Route path="/quiz/:hash" element={<QuizLayout />} />
               <Route path="/accept-invite/:hash" element={<LearnerAcceptInvitationLayout />} />
-              <Route path="/quiz-assignment/:hash" element={<LearnerAssignmentLayout />} />
             </Routes>
           </BrowserRouter>
         </ThemeProvider>
