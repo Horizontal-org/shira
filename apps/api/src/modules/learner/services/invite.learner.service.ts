@@ -12,6 +12,7 @@ import { InjectQueue } from "@nestjs/bullmq";
 import * as crypto from 'crypto';
 import { TokenConflictLearnerException } from "../exceptions/token-conflict.learner.exception";
 import { SpaceEntity } from "src/modules/space/domain/space.entity";
+import { ApiLogger } from "src/utils/logger/api-logger.service";
 
 @Injectable()
 export class InviteLearnerService implements IInviteLearnerService {
@@ -24,10 +25,12 @@ export class InviteLearnerService implements IInviteLearnerService {
     private emailsQueue: Queue
   ) { }
 
+  private logger = new ApiLogger(InviteLearnerService.name);
+
   async invite(inviteLearnerDto: InviteLearnerDto, spaceId: number) {
     const { email, name, assignedByUser } = inviteLearnerDto;
 
-    console.debug("InviteLearnerService ~ create ~ email:", email, "spaceId:", spaceId);
+    this.logger.log(`Inviting learner with email: ${email} to spaceId: ${spaceId}`);
 
     const existing = await this.learnerRepo.findOne({ where: { spaceId, email } });
     if (existing) throw new ConflictLearnerException();
@@ -53,7 +56,7 @@ export class InviteLearnerService implements IInviteLearnerService {
   }
 
   async sendEmail(email: string, spaceId: number, token: string) {
-    console.debug("InviteLearnerService ~ sendEmail ~ email:", email, "spaceId:", spaceId);
+    this.logger.log(`Sending invitation email to: ${email} for spaceId: ${spaceId}`);
 
     const magicLink = `${process.env.PUBLIC_URL}/accept-invite/${token}`;
 
@@ -77,7 +80,7 @@ export class InviteLearnerService implements IInviteLearnerService {
 
     if (!learner) throw new TokenConflictLearnerException();
 
-    console.debug("InviteLearnerService ~ accept ~ learner:", learner.id, "spaceId:", learner.spaceId);
+    this.logger.log(`Accepting invitation for learner with email: ${learner.email}`);
 
     const space = await this.spaceRepo.findOne({
       where: { id: learner.spaceId },
