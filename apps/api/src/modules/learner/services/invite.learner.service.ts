@@ -70,7 +70,7 @@ export class InviteLearnerService implements IInviteLearnerService {
         from: process.env.SMTP_GLOBAL_FROM,
         subject: 'Invitation to register as a Learner in a Shira space',
         template: 'learner-invitation',
-        data: { email, magicLink, spaceId }
+        data: { email, magicLink }
       })
     } catch {
       throw new InvitationEmailSendFailedException();
