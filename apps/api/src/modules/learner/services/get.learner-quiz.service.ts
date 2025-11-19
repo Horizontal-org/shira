@@ -5,7 +5,7 @@ import { IGetLearnerQuizService } from "../interfaces/services/get.learner-quiz.
 import { LearnerQuiz as LearnerQuizEntity} from "../domain/learners_quizzes.entity";
 import { TYPES as QUIZ_TYPES } from "src/modules/quiz/interfaces";
 import { IGetByHashQuizService } from "src/modules/quiz/interfaces/services/get-by-hash.quiz.service.interface";
-
+import { AlreadyCompletedException, NotConfirmedException } from '../exceptions'
 @Injectable()
 export class GetLearnerQuizService implements IGetLearnerQuizService {
   constructor(
@@ -21,8 +21,12 @@ export class GetLearnerQuizService implements IGetLearnerQuizService {
       relations: ['quiz', 'learner']
     })
 
-    if (learnerQuiz.learner.status !== 'registered' || learnerQuiz.status === 'completed') {
-      throw new NotFoundException()
+     if (learnerQuiz.learner.status !== 'registered') {
+      throw new NotConfirmedException()
+    }
+
+    if (learnerQuiz.status === 'completed') {
+      throw new AlreadyCompletedException()
     }
 
     const quiz = await this.getQuizByHash.execute(learnerQuiz.quiz.hash, 'private')
