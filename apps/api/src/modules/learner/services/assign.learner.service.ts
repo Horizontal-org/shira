@@ -12,6 +12,7 @@ import { Queue } from "bullmq";
 import { InjectQueue } from "@nestjs/bullmq";
 import { AssignmentEmailSendFailedException } from "../exceptions/assignment-email-send.learner.exception";
 import { NotFoundQuizException } from "../exceptions/not-found-quiz.learner.exception";
+import { ApiLogger } from "src/utils/logger/api-logger.service";
 
 @Injectable()
 export class AssignLearnerService implements IAssignLearnerService {
@@ -24,6 +25,8 @@ export class AssignLearnerService implements IAssignLearnerService {
     private emailsQueue: Queue
   ) { }
 
+  private logger = new ApiLogger(AssignLearnerService.name);
+
   async assign(assignLearnerDto: AssignLearnerDto, spaceId: number): Promise<void> {
     const { email, quizId } = assignLearnerDto;
 
@@ -34,7 +37,7 @@ export class AssignLearnerService implements IAssignLearnerService {
   }
 
   private async findLearner(email: string, quizId: number, spaceId: number) {
-    console.debug("AssignLearnerService ~ findLearner ~ email:", email, "spaceId:", spaceId);
+    this.logger.log(`Finding learner with email: ${email} in spaceId: ${spaceId}`);
 
     const learner = await this.learnerRepo.findOne({
       where: {
@@ -45,7 +48,7 @@ export class AssignLearnerService implements IAssignLearnerService {
 
     if (!learner) throw new NotFoundLearnerException();
 
-    console.debug("AssignLearnerService ~ findLearner ~ learner:", learner.id);
+    this.logger.log(`Learner found with ID: ${learner.id}`);
 
     const quizAssignmentExists = await this.learnerQuizRepo.exists({
       where: {
@@ -62,7 +65,7 @@ export class AssignLearnerService implements IAssignLearnerService {
   }
 
   private async saveLearner(learnerId: number, quizId: number) {
-    console.debug("AssignLearnerService ~ saveLearner ~ learnerId:", learnerId, "quizId:", quizId);
+    this.logger.log(`Saving learner quiz assignment for learnerId: ${learnerId}, quizId: ${quizId}`);
 
     try {
       const learnerQuiz = this.learnerQuizRepo.create({
@@ -80,7 +83,8 @@ export class AssignLearnerService implements IAssignLearnerService {
   }
 
   private async sendEmail(email: string, quizId, spaceId: number) {
-    console.debug("AssignLearnerService ~ sendEmail ~ email:", email, "spaceId:", spaceId);
+    this.logger.log(`Sending assignment email to learner 
+      with email: ${email} for quizId: ${quizId} in spaceId: ${spaceId}`);
 
     const learnerQuiz = await this.learnerQuizRepo.findOne({
       where: { learner: { email }, quiz: { id: quizId, space: { id: spaceId } } },

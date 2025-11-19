@@ -56,7 +56,8 @@ export class InviteLearnerService implements IInviteLearnerService {
   }
 
   private async findLearner(spaceId: number, email: string) {
-    console.debug("InviteLearnerService ~ findLearner ~ email:", email, "spaceId:", spaceId);
+    this.logger.log(`Finding existing learner with email: ${email} in spaceId: ${spaceId}`);
+
     const existing = await this.learnerRepo.findOne({
       where: {
         spaceId,
@@ -69,7 +70,7 @@ export class InviteLearnerService implements IInviteLearnerService {
   }
 
   private async sendEmail(email: string, token: string) {
-    console.debug("InviteLearnerService ~ sendEmail ~ email:", email);
+    this.logger.log(`Sending invitation email to learner with email: ${email}`);
 
     const magicLink = `${process.env.PUBLIC_URL}/accept-invite/${token}`;
 
@@ -118,8 +119,7 @@ export class InviteLearnerService implements IInviteLearnerService {
     learner: LearnerEntity,
     existingLearner?: LearnerEntity
   ) {
-    console.debug("InviteLearnerService ~ handleExistingLearner ~ existingLearner:",
-      existingLearner ? existingLearner.id : 'none');
+    this.logger.log(`Handling existing learner with email: ${learner.email}`);
 
     if (existingLearner && existingLearner.status === 'invited') {
       await this.learnerRepo.update(
