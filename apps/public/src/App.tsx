@@ -28,6 +28,7 @@ const App: FunctionComponent<Props> = () => {
               <Route path="/about" element={<AboutLayout />} />
               <Route path='/privacy' element={<PrivacyLayout />} />
               <Route path='/quiz/:hash' element={<QuizLayout />} />
+              <Route path='/learner-quiz/:hash' element={<QuizLayout />} />
               <Route path="/accept-invite/:token" element={<LearnerAcceptInvitationLayout />} />
             </Routes>
           </BrowserRouter>

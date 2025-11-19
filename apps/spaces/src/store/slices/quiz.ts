@@ -38,6 +38,7 @@ export interface Quiz {
   quizQuestions?: QuizQuestion[]
   updatedAt: string
   hash?: string;
+  visibility?: string
 }
 
 export interface QuizSlice {

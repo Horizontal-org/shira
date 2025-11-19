@@ -25,6 +25,10 @@ export class ReadQuizDto {
 
   @Expose()
   @IsString()
+  visibility: string;
+
+  @Expose()
+  @IsString()
   readonly updatedAt: string;
 
   @Expose()

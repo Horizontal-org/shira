@@ -16,7 +16,12 @@ export class GetByHashQuizController {
     @Param('hash') hash: string    
   ) 
   {    
-    const quiz = await this.getQuizService.execute(hash)
-    return quiz
+    try {
+      const quiz = await this.getQuizService.execute(hash, 'public')
+      return quiz
+    } catch (e) {
+      console.log("🚀 ~ GetByHashQuizController ~ getByHash ~ e:", e)
+      throw e
+    }
   }
 }
