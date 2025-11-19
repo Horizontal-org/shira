@@ -15,7 +15,7 @@ export class PublicLearnerQuizController {
       const learnerQuiz =  await this.getLearnerQuizService.execute(hash);
       return learnerQuiz
     } catch (e) {
-      console.log("🚀 ~ LearnerQuizController ~ getLearnerQuizByHash ~ e:", e)
+      console.debug("🚀 ~ LearnerQuizController ~ getLearnerQuizByHash ~ e:", e)
       throw new NotFoundException()
     }
   }
