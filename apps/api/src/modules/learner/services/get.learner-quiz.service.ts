@@ -16,15 +16,12 @@ export class GetLearnerQuizService implements IGetLearnerQuizService {
   ) { }
 
   async execute(hash: string) {
-    const learnerQuiz = await this.learnerQuizRepo.findOne({ 
+    const learnerQuiz = await this.learnerQuizRepo.findOneOrFail({ 
       where: { hash: hash },
       relations: ['quiz', 'learner']
     })
 
-    // here maybe check status of learner ? pending decision...
-
-    //check learner_quiz status
-    if (learnerQuiz.status === 'completed') {
+    if (learnerQuiz.learner.status !== 'registered' || learnerQuiz.status === 'completed') {
       throw new NotFoundException()
     }
 

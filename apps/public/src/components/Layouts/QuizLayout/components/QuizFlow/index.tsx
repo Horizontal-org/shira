@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect } from "react"
 import { SceneWrapper } from "../../../../UI/SceneWrapper"
-import { styled, Body1, Button, BetaBanner, H2, Link2 } from "@shira/ui"
+import { styled, Body1, Button, BetaBanner, H2, Link2, useTheme } from "@shira/ui"
 import { ReactComponent as Hooked } from '../../../../../assets/HookedFish.svg';
 
 import { useStore } from "../../../../../store"
@@ -25,6 +25,7 @@ export const QuizFlow: FunctionComponent<Props> = ({
   learnerQuiz
 }) => {
   const { t, i18n } = useTranslation()
+  const theme = useTheme()
 
   const {
     changeScene,
@@ -60,7 +61,7 @@ export const QuizFlow: FunctionComponent<Props> = ({
               feedbackText={t('beta.feedback_text')}
             />
 
-            <CustomQuizNavbar color="#DBE3A3" />
+            <CustomQuizNavbar color={theme.colors.green2} />
 
             <CenterWrapper>
               <GreenFishWrapper>
