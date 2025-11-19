@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Not, Repository } from "typeorm";
 import { Learner as LearnerEntity } from "../domain/learner.entity";
@@ -9,7 +9,6 @@ import { ConflictLearnerException } from "../exceptions/conflict.learner.excepti
 import { Queue } from "bullmq";
 import { InjectQueue } from "@nestjs/bullmq";
 import * as crypto from 'crypto';
-import { TokenConflictLearnerException } from "../exceptions/token-conflict.learner.exception";
 import { SpaceEntity } from "src/modules/space/domain/space.entity";
 import { InvitationEmailSendFailedException } from "../exceptions/invitation-email-send.learner.exception";
 
@@ -79,10 +78,13 @@ export class InviteLearnerService implements IInviteLearnerService {
 
   async accept(token: string): Promise<string> {
     const learner = await this.learnerRepo.findOne({
-      where: { invitationToken: token }
+      where: {
+        invitationToken: token,
+        status: Not('registered')
+      }
     });
 
-    if (!learner) throw new TokenConflictLearnerException();
+    if (!learner) throw new NotFoundException();
 
     console.debug("InviteLearnerService ~ accept ~ learner:", learner.id, "spaceId:", learner.spaceId);
 
