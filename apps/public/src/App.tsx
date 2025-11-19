@@ -8,7 +8,6 @@ import { PrivacyLayout } from "./components/Layouts/PrivacyLayout";
 import { ThemeProvider, defaultTheme, styled } from "@shira/ui";
 import { QuizLayout } from "./components/Layouts/QuizLayout";
 import { LearnerAcceptInvitationLayout } from "./components/Layouts/LearnerAcceptInvitationLayout";
-import { LearnerAssignmentLayout } from "./components/Layouts/LearnerAssignmentLayout";
 
 interface Props { }
 
