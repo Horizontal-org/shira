@@ -59,13 +59,13 @@ export class AssignLearnerService implements IAssignLearnerService {
   async sendEmail(email: string, spaceId: number) {
     console.debug("AssignLearnerService ~ sendEmail ~ email:", email, "spaceId:", spaceId);
 
-    const quiz = await this.learnerQuizRepo.findOne({
+    const learnerQuiz = await this.learnerQuizRepo.findOne({
       where: { learner: { email } }
     });
 
-    if (!quiz) throw new NotFoundQuizException();
+    if (!learnerQuiz) throw new NotFoundQuizException();
 
-    const magicLink = `${process.env.PUBLIC_URL}/quiz-assignment/${quiz.hash}`;
+    const magicLink = `${process.env.PUBLIC_URL}/learner-quiz/${learnerQuiz.hash}`;
 
     try {
       await this.emailsQueue.add('send', {
