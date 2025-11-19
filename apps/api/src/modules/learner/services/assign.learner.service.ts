@@ -30,7 +30,7 @@ export class AssignLearnerService implements IAssignLearnerService {
     const learner = await this.findLearner(email, spaceId);
 
     await this.saveLearner(learner.id, quizId);
-    await this.sendEmail(email, spaceId);
+    await this.sendEmail(email, quizId, spaceId);
   }
 
   private async findLearner(email: string, spaceId: number) {
@@ -64,11 +64,12 @@ export class AssignLearnerService implements IAssignLearnerService {
     }
   }
 
-  private async sendEmail(email: string, spaceId: number) {
+  private async sendEmail(email: string, quizId, spaceId: number) {
     console.debug("AssignLearnerService ~ sendEmail ~ email:", email, "spaceId:", spaceId);
 
     const learnerQuiz = await this.learnerQuizRepo.findOne({
-      where: { learner: { email } }
+      where: { learner: { email }, quiz: { id: quizId, space: { id: spaceId } } },
+      relations: ['quiz', 'learner']
     });
 
     if (!learnerQuiz) throw new NotFoundQuizException();
@@ -81,7 +82,7 @@ export class AssignLearnerService implements IAssignLearnerService {
         from: process.env.SMTP_GLOBAL_FROM,
         subject: 'Invitation to take a quiz in a Shira space',
         template: 'learner-quiz-assignment',
-        data: { email, magicLink, spaceId }
+        data: { email, magicLink }
       })
     } catch {
       throw new AssignmentEmailSendFailedException();
