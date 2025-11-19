@@ -5,3 +5,4 @@ export { InvitationEmailSendFailedException } from './invitation-email-send.lear
 export { AssignmentEmailSendFailedException } from './assignment-email-send.learner.exception';
 export { SavingLearnerException } from './save.learner.exception';
 export { ConflictLearnerException } from './conflict.learner.exception';
+export { GenericErrorException } from './generic-error.learner.exception';

@@ -36,7 +36,7 @@ export const LearnerAcceptInvitationLayout: FunctionComponent = () => {
     } catch (err) {
       const error = handleHttpError(err);
       setView(ViewState.Error);
-      setErrorMsg(t(`error_messages.${error.message}`) || "");
+      setErrorMsg(t(`learner_invitation.${error.message}`) || "");
     }
   }, [hash]);
 
@@ -156,6 +156,6 @@ const AcceptBox = styled.div`
 `;
 
 const ErrorText = styled.p`
-  color: ${defaultTheme.colors.error9};
+  color: ${defaultTheme.colors.dark.black};
   margin: 0;
 `;

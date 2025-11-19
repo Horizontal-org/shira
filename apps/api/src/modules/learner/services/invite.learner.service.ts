@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Not, Repository } from "typeorm";
 import { Learner as LearnerEntity } from "../domain/learner.entity";
@@ -11,6 +11,7 @@ import { InjectQueue } from "@nestjs/bullmq";
 import * as crypto from 'crypto';
 import { SpaceEntity } from "src/modules/space/domain/space.entity";
 import { InvitationEmailSendFailedException } from "../exceptions/invitation-email-send.learner.exception";
+import { GenericErrorException } from "../exceptions/generic-error.learner.exception";
 
 @Injectable()
 export class InviteLearnerService implements IInviteLearnerService {
@@ -84,7 +85,7 @@ export class InviteLearnerService implements IInviteLearnerService {
       }
     });
 
-    if (!learner) throw new NotFoundException();
+    if (!learner) throw new GenericErrorException();
 
     console.debug("InviteLearnerService ~ accept ~ learner:", learner.id, "spaceId:", learner.spaceId);
 
