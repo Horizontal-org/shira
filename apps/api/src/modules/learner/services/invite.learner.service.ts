@@ -29,14 +29,7 @@ export class InviteLearnerService implements IInviteLearnerService {
 
     console.debug("InviteLearnerService ~ create ~ email:", email, "spaceId:", spaceId);
 
-    const existing = await this.learnerRepo.findOne({
-      where: {
-        spaceId,
-        email,
-      },
-    });
-
-    if (existing && existing.status !== 'invited') throw new ConflictLearnerException();
+    const existingLearner = await this.findLearner(spaceId, email);
 
     const hash = crypto.randomBytes(20).toString('hex');
 
@@ -51,16 +44,29 @@ export class InviteLearnerService implements IInviteLearnerService {
         assignedByUser: assignedByUser ? assignedByUser : null
       });
 
-      await this.handleExistingLearner(learner, existing);
-      return { hash: hash, email, spaceId };
+      await this.handleExistingLearner(learner, existingLearner);
     } catch {
       throw new SaveLearnerException();
     }
 
+    this.sendEmail(email, hash);
   }
 
-  async sendEmail(email: string, spaceId: number, token: string) {
-    console.debug("InviteLearnerService ~ sendEmail ~ email:", email, "spaceId:", spaceId);
+  private async findLearner(spaceId: number, email: string) {
+    console.debug("InviteLearnerService ~ findLearner ~ email:", email, "spaceId:", spaceId);
+    const existing = await this.learnerRepo.findOne({
+      where: {
+        spaceId,
+        email,
+      },
+    });
+
+    if (existing && existing.status !== 'invited') throw new ConflictLearnerException();
+    return existing;
+  }
+
+  private async sendEmail(email: string, token: string) {
+    console.debug("InviteLearnerService ~ sendEmail ~ email:", email);
 
     const magicLink = `${process.env.PUBLIC_URL}/accept-invite/${token}`;
 
@@ -109,6 +115,9 @@ export class InviteLearnerService implements IInviteLearnerService {
     learner: LearnerEntity,
     existingLearner?: LearnerEntity
   ) {
+    console.debug("InviteLearnerService ~ handleExistingLearner ~ existingLearner:",
+      existingLearner ? existingLearner.id : 'none');
+
     if (existingLearner && existingLearner.status === 'invited') {
       await this.learnerRepo.update(
         { id: existingLearner.id },
@@ -117,5 +126,6 @@ export class InviteLearnerService implements IInviteLearnerService {
     } else {
       await this.learnerRepo.save(learner);
     }
+
   }
 }

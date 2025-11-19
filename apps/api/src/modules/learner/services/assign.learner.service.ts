@@ -27,8 +27,14 @@ export class AssignLearnerService implements IAssignLearnerService {
   async assign(assignLearnerDto: AssignLearnerDto, spaceId: number): Promise<void> {
     const { email, quizId } = assignLearnerDto;
 
-    console.debug("AssignLearnerService ~ assign ~ email:", email, "spaceId:", spaceId);
+    const learner = await this.findLearner(email, spaceId);
 
+    await this.saveLearner(learner.id, quizId);
+    await this.sendEmail(email, spaceId);
+  }
+
+  private async findLearner(email: string, spaceId: number) {
+    console.debug("AssignLearnerService ~ findLearner ~ email:", email, "spaceId:", spaceId);
     const learner = await this.learnerRepo.findOne({
       where: {
         email,
@@ -37,13 +43,15 @@ export class AssignLearnerService implements IAssignLearnerService {
     });
 
     if (!learner) throw new NotFoundLearnerException();
+    return learner;
+  }
 
-    console.debug("AssignLearnerService ~ assign ~ email:", email,
-      "spaceId:", spaceId, "quizId:", quizId, "learnerId:", learner.id);
+  private async saveLearner(learnerId: number, quizId: number) {
+    console.debug("AssignLearnerService ~ saveLearner ~ learnerId:", learnerId, "quizId:", quizId);
 
     try {
       const learnerQuiz = this.learnerQuizRepo.create({
-        learnerId: learner.id,
+        learnerId: learnerId,
         quizId,
         hash: crypto.randomBytes(20).toString('hex'),
         status: 'assigned',
@@ -56,7 +64,7 @@ export class AssignLearnerService implements IAssignLearnerService {
     }
   }
 
-  async sendEmail(email: string, spaceId: number) {
+  private async sendEmail(email: string, spaceId: number) {
     console.debug("AssignLearnerService ~ sendEmail ~ email:", email, "spaceId:", spaceId);
 
     const learnerQuiz = await this.learnerQuizRepo.findOne({
