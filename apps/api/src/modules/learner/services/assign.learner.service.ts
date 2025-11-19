@@ -6,8 +6,8 @@ import { AssignLearnerDto } from "../dto/assign.learner.dto";
 import { Learner as LearnerEntity } from "../domain/learner.entity";
 import { LearnerQuiz as LearnerQuizEntity } from "../domain/learners_quizzes.entity";
 import { IAssignLearnerService } from "../interfaces/services/assign.learner.service.interface";
-import { NotFoundLearnerException } from "../exceptions";
-import { AssignToQuizException } from "../exceptions/assign-quiz.learner.exception";
+import { NotFoundLearnerException, QuizAssignmentAlreadyExistsException } from "../exceptions";
+import { QuizAssignmentFailedException } from "../exceptions/assign-quiz.learner.exception";
 import { Queue } from "bullmq";
 import { InjectQueue } from "@nestjs/bullmq";
 import { AssignmentEmailSendFailedException } from "../exceptions/assignment-email-send.learner.exception";
@@ -27,22 +27,31 @@ export class AssignLearnerService implements IAssignLearnerService {
   async assign(assignLearnerDto: AssignLearnerDto, spaceId: number): Promise<void> {
     const { email, quizId } = assignLearnerDto;
 
-    const learner = await this.findLearner(email, spaceId);
+    const learner = await this.findLearner(email, quizId, spaceId);
 
     await this.saveLearner(learner.id, quizId);
     await this.sendEmail(email, quizId, spaceId);
   }
 
-  private async findLearner(email: string, spaceId: number) {
+  private async findLearner(email: string, quizId: number, spaceId: number) {
     console.debug("AssignLearnerService ~ findLearner ~ email:", email, "spaceId:", spaceId);
+
     const learner = await this.learnerRepo.findOne({
       where: {
         email,
         space: { id: spaceId }
-      }
+      },
+      relations: ['learnerQuizzes']
     });
 
     if (!learner) throw new NotFoundLearnerException();
+
+    console.debug("AssignLearnerService ~ findLearner ~ learner:", learner.id);
+
+    if (learner.learnerQuizzes.some(lq => lq.quizId === quizId)) {
+      throw new QuizAssignmentAlreadyExistsException();
+    }
+
     return learner;
   }
 
@@ -60,7 +69,7 @@ export class AssignLearnerService implements IAssignLearnerService {
 
       await this.learnerQuizRepo.save(learnerQuiz);
     } catch {
-      throw new AssignToQuizException();
+      throw new QuizAssignmentFailedException();
     }
   }
 
