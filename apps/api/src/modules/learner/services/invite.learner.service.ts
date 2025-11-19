@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { Not, Repository } from "typeorm";
 import { Learner as LearnerEntity } from "../domain/learner.entity";
 import { InviteLearnerDto } from "../dto/invitation.learner.dto";
 import { IInviteLearnerService } from "../interfaces/services/invite.learner.service.interface";
@@ -29,7 +29,13 @@ export class InviteLearnerService implements IInviteLearnerService {
 
     console.debug("InviteLearnerService ~ create ~ email:", email, "spaceId:", spaceId);
 
-    const existing = await this.learnerRepo.findOne({ where: { spaceId, email } });
+    const existing = await this.learnerRepo.findOne({
+      where: {
+        spaceId,
+        email,
+        status: Not('invited'),
+      },
+    });
     if (existing) throw new ConflictLearnerException();
 
     const hash = crypto.randomBytes(20).toString('hex');
@@ -45,6 +51,7 @@ export class InviteLearnerService implements IInviteLearnerService {
         assignedByUser: assignedByUser ? assignedByUser : null
       });
 
+      // TODO: should update when user already exists with invited status
       await this.learnerRepo.save(learner);
       return { hash: hash, email, spaceId };
     } catch {
