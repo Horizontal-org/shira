@@ -16,7 +16,7 @@ export class AddTypeToQuiz1762533283164 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropColumn('quizzes', "organizations_subscriptions")
+        await queryRunner.dropColumn('quizzes', "visibility")
     }
 
 }
