@@ -32,10 +32,10 @@ export class InviteLearnerService implements IInviteLearnerService {
       where: {
         spaceId,
         email,
-        status: Not('invited'),
       },
     });
-    if (existing) throw new ConflictLearnerException();
+
+    if (existing && existing.status !== 'invited') throw new ConflictLearnerException();
 
     const hash = crypto.randomBytes(20).toString('hex');
 
@@ -50,12 +50,12 @@ export class InviteLearnerService implements IInviteLearnerService {
         assignedByUser: assignedByUser ? assignedByUser : null
       });
 
-      // TODO: should update when user already exists with invited status
-      await this.learnerRepo.save(learner);
+      await this.handleExistingLearner(learner, existing);
       return { hash: hash, email, spaceId };
     } catch {
       throw new SaveLearnerException();
     }
+
   }
 
   async sendEmail(email: string, spaceId: number, token: string) {
@@ -101,6 +101,17 @@ export class InviteLearnerService implements IInviteLearnerService {
       return space.name;
     } catch {
       throw new SaveLearnerException();
+    }
+  }
+
+  private async handleExistingLearner(learner: LearnerEntity, existing?: LearnerEntity) {
+    if (existing && existing.status === 'invited') {
+      await this.learnerRepo.update(
+        { id: existing.id },
+        { invitedAt: new Date() }
+      );
+    } else {
+      await this.learnerRepo.save(learner);
     }
   }
 }
