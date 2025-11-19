@@ -3,6 +3,6 @@ import { LearnerErrorCodes } from "./errors/learner.error-codes";
 
 export class GenericErrorException extends HttpException {
   constructor() {
-    super(LearnerErrorCodes.ErrorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+    super(LearnerErrorCodes.ErrorMessage, HttpStatus.NOT_FOUND);
   }
 }
