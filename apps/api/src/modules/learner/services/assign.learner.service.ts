@@ -40,15 +40,21 @@ export class AssignLearnerService implements IAssignLearnerService {
       where: {
         email,
         space: { id: spaceId }
-      },
-      relations: ['learnerQuizzes']
+      }
     });
 
     if (!learner) throw new NotFoundLearnerException();
 
     console.debug("AssignLearnerService ~ findLearner ~ learner:", learner.id);
 
-    if (learner.learnerQuizzes.some(lq => lq.quizId === quizId)) {
+    const quizAssignmentExists = await this.learnerQuizRepo.exists({
+      where: {
+        learner: { id: learner.id },
+        quiz: { id: quizId },
+      },
+    });
+
+    if (quizAssignmentExists) {
       throw new QuizAssignmentAlreadyExistsException();
     }
 
