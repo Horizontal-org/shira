@@ -105,10 +105,13 @@ export class InviteLearnerService implements IInviteLearnerService {
     }
   }
 
-  private async handleExistingLearner(learner: LearnerEntity, existing?: LearnerEntity) {
-    if (existing && existing.status === 'invited') {
+  private async handleExistingLearner(
+    learner: LearnerEntity,
+    existingLearner?: LearnerEntity
+  ) {
+    if (existingLearner && existingLearner.status === 'invited') {
       await this.learnerRepo.update(
-        { id: existing.id },
+        { id: existingLearner.id },
         { invitedAt: new Date() }
       );
     } else {
