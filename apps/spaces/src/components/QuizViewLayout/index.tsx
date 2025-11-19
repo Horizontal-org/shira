@@ -158,7 +158,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
               <Wrapper>
                 <Header>
                   <div>
-                    <H2>{quiz.title}</H2>
+                    <H2>{quiz.title} <VisibilityTag>{quiz.visibility}</VisibilityTag></H2>
                     <Body1>{t('quiz.subtitle')}</Body1>
                   </div>
                   <Toggle
@@ -321,17 +321,6 @@ const Header = styled.div`
   justify-content: space-between;
 `
 
-const TabsContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-`;
-
-const Separator = styled.span`
-  color: ${props => props.theme.colors.dark.black};
-  font-weight: 500;
-`;
-
 const Wrapper = styled.div`
   padding: 16px;
   display: flex;
@@ -349,14 +338,12 @@ const LeftButtons = styled.div`
   display: flex;
   gap: 8px;
 `
-const Footer = styled.div`
-  display: flex;
-  gap: 16px;
-  justify-content: flex-end;
-  margin: 16px;
-`
 
 const QuizWarningNote = styled.span`
   color: #d73527;
   font-weight: 500;
 `;
+
+const VisibilityTag = styled.span`
+  color: ${props => props.theme.primary.dark};
+`

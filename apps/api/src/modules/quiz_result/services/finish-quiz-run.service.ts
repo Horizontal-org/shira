@@ -4,6 +4,7 @@ import { DataSource, Repository } from 'typeorm';
 import { FinishQuizRunDto } from '../dto/finish-quiz-run.dto';
 import { QuizRun } from '../domain/quiz_runs.entity';
 import { QuestionRun } from '../domain/question_runs.entity';
+import { LearnerQuiz } from 'src/modules/learner/domain/learners_quizzes.entity';
 
 @Injectable()
 export class FinishQuizRunService {
@@ -33,6 +34,13 @@ export class FinishQuizRunService {
         await repo.save(rows);
       }
 
+      if (run.learnerId) {
+        const learnerQuizRepo = manager.getRepository(LearnerQuiz);
+        const learnerQuiz = await learnerQuizRepo.findOne({ where: { quizId: run.quizId, learnerId: run.learnerId }})
+        learnerQuiz.status = 'completed'
+        await learnerQuizRepo.save(learnerQuiz)
+      }
+      
       return run;
     });
   }
