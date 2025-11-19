@@ -1,10 +1,14 @@
 // Learner
 export { NotFoundLearnerException } from './not-found.learner.exception';
-export { AssignToQuizException } from './assign-quiz.learner.exception';
-export { EmailSendFailedException } from './email-send.learner.exception';
+export { NotFoundQuizException } from './not-found-quiz.learner.exception';
+export { QuizAssignmentFailedException } from './assign-quiz.learner.exception';
+export { QuizAssignmentAlreadyExistsException } from './already-assigned-quiz.learner.exception';
+export { InvitationEmailSendFailedException } from './invitation-email-send.learner.exception';
+export { AssignmentEmailSendFailedException } from './assignment-email-send.learner.exception';
 export { SavingLearnerException } from './save.learner.exception';
 export { ConflictLearnerException } from './conflict.learner.exception';
-export { NotConfirmedException } from './not-confirmed.learner.exception'
+export { GenericErrorException } from './generic-error.learner.exception';
+export { NotConfirmedException } from './not-confirmed.learner.exception';
 
 //LearnerQuiz
-export { AlreadyCompletedException } from './already-completed.learner-quiz.exception'
+export { AlreadyCompletedException } from './already-completed.learner-quiz.exception';
