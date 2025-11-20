@@ -8,6 +8,8 @@ import { AuthController } from 'src/utils/decorators/auth-controller.decorator';
 import { Roles } from 'src/modules/auth/decorators/roles.decorators';
 import { Role } from 'src/modules/user/domain/role.enum';
 import { SpaceId } from 'src/modules/auth/decorators';
+import { IDeleteLearnerService } from '../interfaces/services/delete.learner.service.interface';
+import { DeleteLearnerDto } from '../dto/delete.learner.dto';
 
 @AuthController('learners')
 export class AuthLearnerController {
@@ -15,7 +17,9 @@ export class AuthLearnerController {
     @Inject(TYPES.services.IInviteLearnerService)
     private readonly inviteLearnerService: IInviteLearnerService,
     @Inject(TYPES.services.IAssignLearnerService)
-    private readonly assignLearnerService: IAssignLearnerService
+    private readonly assignLearnerService: IAssignLearnerService,
+    @Inject(TYPES.services.IDeleteLearnerService)
+    private readonly deleteLearnerService: IDeleteLearnerService
   ) { }
 
   @Post('invitations')
@@ -31,6 +35,15 @@ export class AuthLearnerController {
   @Post('invitations/bulk')
   async inviteBulk() {
     //TODO invite bulk
+  }
+
+  @Post('delete')
+  @Roles(Role.SpaceAdmin)
+  async delete(
+    @Body() deleteLearnerDto: DeleteLearnerDto,
+    @SpaceId() spaceId: number
+  ) {
+    await this.deleteLearnerService.delete(deleteLearnerDto, spaceId)
   }
 
   @Post('assignments')
