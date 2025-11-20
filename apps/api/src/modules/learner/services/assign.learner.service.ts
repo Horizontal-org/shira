@@ -4,7 +4,7 @@ import { Repository } from "typeorm";
 import * as crypto from 'crypto';
 import { AssignLearnerDto } from "../dto/assign.learner.dto";
 import { Learner as LearnerEntity } from "../domain/learner.entity";
-import { LearnerQuiz as LearnerQuizEntity } from "../domain/learners_quizzes.entity";
+import { LearnerQuiz, LearnerQuiz as LearnerQuizEntity } from "../domain/learners_quizzes.entity";
 import { IAssignLearnerService } from "../interfaces/services/assign.learner.service.interface";
 import { NotFoundLearnerException, QuizAssignmentAlreadyExistsException } from "../exceptions";
 import { QuizAssignmentFailedException } from "../exceptions/assign-quiz.learner.exception";
@@ -29,8 +29,9 @@ export class AssignLearnerService implements IAssignLearnerService {
 
     const learner = await this.findLearner(email, quizId, spaceId);
 
-    await this.saveLearner(learner.id, quizId);
-    await this.sendEmail(email, quizId, spaceId);
+    const learnerQuiz = await this.saveLearner(learner.id, quizId);
+
+    await this.sendEmail(learnerQuiz, email);
   }
 
   private async findLearner(email: string, quizId: number, spaceId: number) {
@@ -73,22 +74,13 @@ export class AssignLearnerService implements IAssignLearnerService {
         assignedAt: new Date(),
       });
 
-      await this.learnerQuizRepo.save(learnerQuiz);
+      return await this.learnerQuizRepo.save(learnerQuiz);
     } catch {
       throw new QuizAssignmentFailedException();
     }
   }
 
-  private async sendEmail(email: string, quizId, spaceId: number) {
-    console.debug("AssignLearnerService ~ sendEmail ~ email:", email, "spaceId:", spaceId);
-
-    const learnerQuiz = await this.learnerQuizRepo.findOne({
-      where: { learner: { email }, quiz: { id: quizId, space: { id: spaceId } } },
-      relations: ['quiz', 'learner']
-    });
-
-    if (!learnerQuiz) throw new NotFoundQuizException();
-
+  private async sendEmail(learnerQuiz: LearnerQuizEntity, email: string) {
     const magicLink = `${process.env.PUBLIC_URL}/learner-quiz/${learnerQuiz.hash}`;
 
     try {
