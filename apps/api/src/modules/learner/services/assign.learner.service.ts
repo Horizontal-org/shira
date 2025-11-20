@@ -4,14 +4,13 @@ import { Repository } from "typeorm";
 import * as crypto from 'crypto';
 import { AssignLearnerDto } from "../dto/assign.learner.dto";
 import { Learner as LearnerEntity } from "../domain/learner.entity";
-import { LearnerQuiz, LearnerQuiz as LearnerQuizEntity } from "../domain/learners_quizzes.entity";
+import { LearnerQuiz as LearnerQuizEntity } from "../domain/learners_quizzes.entity";
 import { IAssignLearnerService } from "../interfaces/services/assign.learner.service.interface";
 import { NotFoundLearnerException, QuizAssignmentAlreadyExistsException } from "../exceptions";
 import { QuizAssignmentFailedException } from "../exceptions/assign-quiz.learner.exception";
 import { Queue } from "bullmq";
 import { InjectQueue } from "@nestjs/bullmq";
 import { AssignmentEmailSendFailedException } from "../exceptions/assignment-email-send.learner.exception";
-import { NotFoundQuizException } from "../exceptions/not-found-quiz.learner.exception";
 
 @Injectable()
 export class AssignLearnerService implements IAssignLearnerService {
