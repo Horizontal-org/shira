@@ -15,9 +15,9 @@ import { DeleteLearnerDto } from '../dto/delete.learner.dto';
 export class AuthLearnerController {
   constructor(
     @Inject(TYPES.services.IInviteLearnerService)
-    private readonly inviteLearnerService: IInviteLearnerService,
+    private readonly inviteService: IInviteLearnerService,
     @Inject(TYPES.services.IAssignLearnerService)
-    private readonly assignLearnerService: IAssignLearnerService,
+    private readonly assignService: IAssignLearnerService,
     @Inject(TYPES.services.IDeleteLearnerService)
     private readonly deleteLearnerService: IDeleteLearnerService
   ) { }
@@ -27,9 +27,8 @@ export class AuthLearnerController {
   async invite(
     @Body() inviteLearnerDto: InviteLearnerDto,
     @SpaceId() spaceId: number) {
-    const response = await this.inviteLearnerService.invite(inviteLearnerDto, spaceId);
-    await this.inviteLearnerService.sendEmail(response.email, spaceId, response.hash);
-    return { message: 'learner_invited', email: response.email };
+    await this.inviteService.invite(inviteLearnerDto, spaceId);
+    return { message: 'learner_invited', email: inviteLearnerDto.email };
   }
 
   @Post('invitations/bulk')
@@ -51,7 +50,8 @@ export class AuthLearnerController {
   async assign(
     @Body() assignLearnerDto: AssignLearnerDto,
     @SpaceId() spaceId: number) {
-    await this.assignLearnerService.assign(assignLearnerDto, spaceId);
+    await this.assignService.assign(assignLearnerDto, spaceId);
+    return { message: 'learner_assigned', email: assignLearnerDto.email };
   }
 
   @Post('assignments/bulk')
