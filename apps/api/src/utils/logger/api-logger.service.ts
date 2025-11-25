@@ -3,7 +3,7 @@ import { clc } from '@nestjs/common/utils/cli-colors.util';
 
 @Injectable()
 export class ApiLogger extends ConsoleLogger {
-  constructor(context?: string) {
+  constructor(context = 'App') {
     super(context, { timestamp: true });
   }
 
@@ -25,31 +25,26 @@ export class ApiLogger extends ConsoleLogger {
 
   private buildContext(level: LogLevel, context?: string): string {
     const baseContext = context ?? this.context ?? 'App';
-    const full = `${baseContext}`;
-    return this.colorByLevel(level, full);
+    return this.colorByLevel(level, baseContext);
   }
 
-  log(message: any, context?: string) {
-    super.log(message, this.buildContext('log' as LogLevel, context));
+  override log(message: unknown, context?: string) {
+    super.log(message, this.buildContext('log', context));
   }
 
-  error(message: any, stack?: string, context?: string) {
-    super.error(
-      message,
-      stack,
-      this.buildContext('error' as LogLevel, context),
-    );
+  override error(message: unknown, stack?: string, context?: string) {
+    super.error(message, stack, this.buildContext('error', context));
   }
 
-  warn(message: any, context?: string) {
-    super.warn(message, this.buildContext('warn' as LogLevel, context));
+  override warn(message: unknown, context?: string) {
+    super.warn(message, this.buildContext('warn', context));
   }
 
-  debug(message: any, context?: string) {
-    super.debug(message, this.buildContext('debug' as LogLevel, context));
+  override debug(message: unknown, context?: string) {
+    super.debug(message, this.buildContext('debug', context));
   }
 
-  verbose(message: any, context?: string) {
-    super.verbose(message, this.buildContext('verbose' as LogLevel, context));
+  override verbose(message: unknown, context?: string) {
+    super.verbose(message, this.buildContext('verbose', context));
   }
 }

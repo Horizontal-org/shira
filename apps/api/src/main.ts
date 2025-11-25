@@ -3,7 +3,7 @@ import { IndexModule } from './index.module';
 import { ResponseNoCacheInterceptor } from './utils/interceptors/no-cache.interceptor';
 import { ValidationPipe } from '@nestjs/common';
 import { ApiLogger } from './utils/logger/api-logger.service';
-import { AllExceptionsLoggerFilter } from './utils/logger/exceptions-logger.filter';
+import { GlobalExceptionFilter } from './utils/filters/global-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(IndexModule,
@@ -15,7 +15,7 @@ async function bootstrap() {
 
   app.enableCors();
   app.useGlobalInterceptors(new ResponseNoCacheInterceptor());
-  app.useGlobalFilters(new AllExceptionsLoggerFilter());
+  app.useGlobalFilters(new GlobalExceptionFilter());
 
   app.useGlobalPipes(
     new ValidationPipe({
