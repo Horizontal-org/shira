@@ -4,17 +4,18 @@ import { ResponseNoCacheInterceptor } from './utils/interceptors/no-cache.interc
 import { ValidationPipe } from '@nestjs/common';
 import { ApiLogger } from './utils/logger/api-logger.service';
 import { GlobalExceptionFilter } from './utils/filters/global-exception.filter';
+import { LoggingInterceptor } from './utils/interceptors/logging.interceptor';
 
 async function bootstrap() {
-  const app = await NestFactory.create(IndexModule,
-    { bufferLogs: true }
-  );
+  const app = await NestFactory.create(IndexModule);
 
-  const logger = new ApiLogger('API');
-  app.useLogger(logger);
+  const apiLogger = new ApiLogger();
 
-  app.enableCors();
+  app.enableCors();+
+
   app.useGlobalInterceptors(new ResponseNoCacheInterceptor());
+  app.useGlobalInterceptors(new LoggingInterceptor(apiLogger));
+
   app.useGlobalFilters(new GlobalExceptionFilter());
 
   app.useGlobalPipes(

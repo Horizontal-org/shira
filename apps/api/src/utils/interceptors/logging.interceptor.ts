@@ -10,41 +10,66 @@ export class LoggingInterceptor implements NestInterceptor {
   }
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    const now = Date.now();
-    const httpCtx = context.switchToHttp();
-    const request = httpCtx.getRequest<any>();
-
-    const method = request?.method;
-    const url = request?.url;
+    const { method, url } = this.getRequestInfo(context);
+    const startedAt = Date.now();
+    const baseContext: RequestLogContext = { method, url, startedAt };
 
     return next.handle().pipe(
-      tap(() => {
-        const ms = Date.now() - now;
-        this.logger.log(`HTTP ${method} ${url} -> 200 OK (${ms}ms)`);
-      }),
-      catchError((err) => {
-        const { status, message, cause } = this.buildErrorInfo(err);
-        const ms = Date.now() - now;
-
-        const logLines = [
-          `HTTP ${method} ${url} -> ${status}`,
-          `Message: ${message}`,
-          cause ? `Cause: ${cause}` : null,
-          `Duration: ${ms}ms`,
-        ]
-          .filter(Boolean)
-          .join(' | ');
-
-        const stack = this.extractStack(err);
-
-        this.logger.error(logLines, stack, 'Exception');
-
-        // Rethrow so the exception filter still handles the response shaping
-        return throwError(() => err);
-      }),
+      tap(() => this.logSuccess(baseContext)),
+      catchError((err) => this.logAndRethrowError(err, baseContext)),
     );
   }
 
+  // Check the context because non-HTTP routes may hit this interceptor
+  private getRequestInfo(context: ExecutionContext): { method: string; url: string } {
+    const httpCtx = context.switchToHttp();
+    const request = httpCtx.getRequest<any>();
+
+    return {
+      method: request?.method ?? '',
+      url: request?.url ?? '',
+    };
+  }
+
+  private logSuccess(ctx: RequestLogContext): void {
+    const duration = this.getDuration(ctx.startedAt);
+    this.logger.log(`HTTP ${ctx.method} ${ctx.url} -> 200 OK (${duration}ms)`);
+  }
+
+  // Capture metadata and stack traces and rethrow the error
+  private logAndRethrowError(err: unknown, ctx: RequestLogContext) {
+    const duration = this.getDuration(ctx.startedAt);
+    const { status, message, cause } = this.buildErrorInfo(err);
+    const logLine = this.formatErrorLog({ ctx, duration, status, message, cause });
+
+    this.logger.error(logLine, this.extractStack(err), 'Exception');
+
+    return throwError(() => err);
+  }
+
+  private getDuration(startedAt: number): number {
+    return Date.now() - startedAt;
+  }
+
+  private formatErrorLog(params: {
+    ctx: RequestLogContext;
+    duration: number;
+    status: number;
+    message: string;
+    cause: string | null;
+  }): string {
+    const { ctx, duration, status, message, cause } = params;
+    return [
+      `HTTP ${ctx.method} ${ctx.url} -> ${status}`,
+      `Message: ${message}`,
+      cause ? `Cause: ${cause}` : null,
+      `Duration: ${duration}ms`,
+    ]
+      .filter(Boolean)
+      .join(' | ');
+  }
+
+  // Normalize into a uniform structure
   private buildErrorInfo(err: unknown): {
     status: number;
     message: string;
@@ -63,6 +88,7 @@ export class LoggingInterceptor implements NestInterceptor {
       } else {
         const body = res as Record<string, any>;
         message = String(body.message ?? message);
+        console.log("LoggingInterceptor ~ buildErrorInfo ~ message:", message); // --- IGNORE ---
         if (body.cause) {
           cause = String(body.cause);
         }
@@ -77,6 +103,7 @@ export class LoggingInterceptor implements NestInterceptor {
     return { status, message, cause };
   }
 
+  // Only log stacks when present instead of assuming standard Error instances.
   private extractStack(err: unknown): string | undefined {
     if (err && typeof err === 'object' && 'stack' in err) {
       return (err as any).stack;
@@ -84,3 +111,9 @@ export class LoggingInterceptor implements NestInterceptor {
     return undefined;
   }
 }
+
+type RequestLogContext = {
+  method: string;
+  url: string;
+  startedAt: number;
+};
