@@ -30,7 +30,6 @@ export class AssignLearnerService implements IAssignLearnerService {
   }
 
   private async assignLearner(email: string, quizId: number, spaceId: number) {
-
     const learnerQuiz = await this.dataSource.transaction(async (manager) => {
       const learnerRepo = manager.getRepository(LearnerEntity);
 

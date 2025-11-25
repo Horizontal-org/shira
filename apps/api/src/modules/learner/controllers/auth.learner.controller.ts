@@ -33,7 +33,6 @@ export class AuthLearnerController {
     @SpaceId() spaceId: number
   ) {
     await this.inviteService.invite(inviteLearnerDto, spaceId);
-    return { message: 'learner_invited', email: inviteLearnerDto.email };
   }
 
   @Post('invitations/bulk')
@@ -47,7 +46,7 @@ export class AuthLearnerController {
     @Body() deleteLearnerDto: DeleteLearnerDto,
     @SpaceId() spaceId: number
   ) {
-    await this.deleteLearnerService.delete(deleteLearnerDto, spaceId)
+    await this.deleteLearnerService.delete(deleteLearnerDto, spaceId);
   }
 
   @Post('assignments')
@@ -56,9 +55,7 @@ export class AuthLearnerController {
     @Body() assignLearnerDto: AssignLearnerDto,
     @SpaceId() spaceId: number
   ) {
-    this.assignService.assign(assignLearnerDto, spaceId)
-    return { message: 'learners_assigned', total: assignLearnerDto.learners.length };
-
+    await this.assignService.assign(assignLearnerDto, spaceId);
   }
 
   @Delete('assignments')
@@ -68,6 +65,5 @@ export class AuthLearnerController {
     @SpaceId() spaceId: number
   ) {
     await this.unassignService.unassign(unassignLearnerDto, spaceId);
-    return { message: 'learners_unassigned', total: unassignLearnerDto.learners.length };
   }
 }
