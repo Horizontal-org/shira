@@ -20,9 +20,13 @@ export class AssignLearnerService implements IAssignLearnerService {
   async assign(assignLearnerDto: AssignLearnerDto, spaceId: number): Promise<void> {
     const { learners } = assignLearnerDto;
 
-    for (const { email, quizId } of learners) {
-      await this.assignLearner(email, quizId, spaceId);
-    }
+    await Promise.all(
+      learners.map(({ email, quizId }) =>
+        this.assignLearner(email, quizId, spaceId).catch((err) => {
+          console.error(`Failed assigning ${email}:`, err);
+        })
+      )
+    );
   }
 
   private async assignLearner(email: string, quizId: number, spaceId: number) {
@@ -53,9 +57,9 @@ export class AssignLearnerService implements IAssignLearnerService {
   }
 
   async saveLearner(learnerId: number, quizId: number, manager: EntityManager) {
-    const repo = manager.getRepository(LearnerQuizEntity);
+    const learnerQuizRepo = manager.getRepository(LearnerQuizEntity);
 
-    const learnerQuiz = repo.create({
+    const learnerQuiz = learnerQuizRepo.create({
       learnerId,
       quizId,
       hash: crypto.randomBytes(20).toString('hex'),
@@ -63,7 +67,7 @@ export class AssignLearnerService implements IAssignLearnerService {
       assignedAt: new Date(),
     });
 
-    return await repo.save(learnerQuiz);
+    return await learnerQuizRepo.save(learnerQuiz);
   }
 
   private async sendEmail(learnerQuiz: LearnerQuizEntity, email: string) {
