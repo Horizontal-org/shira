@@ -1,4 +1,4 @@
-import { Body, Inject, Post } from '@nestjs/common';
+import { Body, Delete, Inject, Post } from '@nestjs/common';
 import { TYPES } from '../interfaces';
 import { InviteLearnerDto } from '../dto/invitation.learner.dto';
 import { AssignLearnerDto } from '../dto/assign.learner.dto';
@@ -37,7 +37,7 @@ export class AuthLearnerController {
     //TODO invite bulk
   }
 
-  @Post('delete')
+  @Delete('delete')
   @Roles(Role.SpaceAdmin)
   async delete(
     @Body() deleteLearnerDto: DeleteLearnerDto,
