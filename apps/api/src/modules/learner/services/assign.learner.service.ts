@@ -6,7 +6,6 @@ import { AssignLearnerDto } from "../dto/assign.learner.dto";
 import { Learner as LearnerEntity } from "../domain/learner.entity";
 import { LearnerQuiz as LearnerQuizEntity } from "../domain/learners_quizzes.entity";
 import { IAssignLearnerService } from "../interfaces/services/assign.learner.service.interface";
-import { NotFoundLearnerException, QuizAssignmentAlreadyExistsException } from "../exceptions";
 import { QuizAssignmentFailedException } from "../exceptions/assign-quiz.learner.exception";
 import { Queue } from "bullmq";
 import { InjectQueue } from "@nestjs/bullmq";
@@ -24,41 +23,30 @@ export class AssignLearnerService implements IAssignLearnerService {
   ) { }
 
   async assign(assignLearnerDto: AssignLearnerDto, spaceId: number): Promise<void> {
-    const { email, quizId } = assignLearnerDto;
+    const { learners } = assignLearnerDto;
 
-    const learner = await this.findLearner(email, quizId, spaceId);
-
-    const learnerQuiz = await this.saveLearner(learner.id, quizId);
-
-    await this.sendEmail(learnerQuiz, email);
+    for (const { email, quizId } of learners) {
+      await this.assignLearner(email, quizId, spaceId);
+    }
   }
 
-  private async findLearner(email: string, quizId: number, spaceId: number) {
-    console.debug("AssignLearnerService ~ findLearner ~ email:", email, "spaceId:", spaceId);
+  private async assignLearner(email: string, quizId: number, spaceId: number) {
+    const learner = await this.learnerRepo
+      .createQueryBuilder('learner')
+      .leftJoin(
+        'learner.learnerQuizzes',
+        'learnerQuiz',
+        'learnerQuiz.quiz_id = :quizId', { quizId }
+      )
+      .where('learner.email = :email', { email })
+      .andWhere('learner.space_id = :spaceId', { spaceId })
+      .andWhere('learnerQuiz.id IS NULL')
+      .getOne();
 
-    const learner = await this.learnerRepo.findOne({
-      where: {
-        email,
-        space: { id: spaceId }
-      }
-    });
+    if (!learner) return;
 
-    if (!learner) throw new NotFoundLearnerException();
-
-    console.debug("AssignLearnerService ~ findLearner ~ learner:", learner.id);
-
-    const quizAssignmentExists = await this.learnerQuizRepo.exists({
-      where: {
-        learner: { id: learner.id },
-        quiz: { id: quizId },
-      },
-    });
-
-    if (quizAssignmentExists) {
-      throw new QuizAssignmentAlreadyExistsException();
-    }
-
-    return learner;
+    const learnerQuiz = await this.saveLearner(learner.id, quizId);
+    await this.sendEmail(learnerQuiz, email);
   }
 
   private async saveLearner(learnerId: number, quizId: number) {
