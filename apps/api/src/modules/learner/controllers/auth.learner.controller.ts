@@ -26,7 +26,8 @@ export class AuthLearnerController {
   @Roles(Role.SpaceAdmin)
   async invite(
     @Body() inviteLearnerDto: InviteLearnerDto,
-    @SpaceId() spaceId: number) {
+    @SpaceId() spaceId: number
+  ) {
     await this.inviteService.invite(inviteLearnerDto, spaceId);
     return { message: 'learner_invited', email: inviteLearnerDto.email };
   }
@@ -49,13 +50,10 @@ export class AuthLearnerController {
   @Roles(Role.SpaceAdmin)
   async assign(
     @Body() assignLearnerDto: AssignLearnerDto,
-    @SpaceId() spaceId: number) {
-    await this.assignService.assign(assignLearnerDto, spaceId);
-    return { message: 'learner_assigned', email: assignLearnerDto.email };
-  }
+    @SpaceId() spaceId: number
+  ) {
+    this.assignService.assign(assignLearnerDto, spaceId)
+    return { message: 'learners_assigned', total: assignLearnerDto.learners.length };
 
-  @Post('assignments/bulk')
-  async assignBulk() {
-    //TODO assign bulk
   }
 }
