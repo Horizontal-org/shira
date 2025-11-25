@@ -1,12 +1,10 @@
 import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { DataSource, EntityManager } from "typeorm";
 import * as crypto from 'crypto';
 import { AssignLearnerDto } from "../dto/assign.learner.dto";
 import { Learner as LearnerEntity } from "../domain/learner.entity";
 import { LearnerQuiz as LearnerQuizEntity } from "../domain/learners_quizzes.entity";
 import { IAssignLearnerService } from "../interfaces/services/assign.learner.service.interface";
-import { QuizAssignmentFailedException } from "../exceptions/assign-quiz.learner.exception";
 import { Queue } from "bullmq";
 import { InjectQueue } from "@nestjs/bullmq";
 import { AssignmentEmailSendFailedException } from "../exceptions/assignment-email-send.learner.exception";
@@ -14,10 +12,7 @@ import { AssignmentEmailSendFailedException } from "../exceptions/assignment-ema
 @Injectable()
 export class AssignLearnerService implements IAssignLearnerService {
   constructor(
-    @InjectRepository(LearnerEntity)
-    private learnerRepo: Repository<LearnerEntity>,
-    @InjectRepository(LearnerQuizEntity)
-    private learnerQuizRepo: Repository<LearnerQuizEntity>,
+    private dataSource: DataSource,
     @InjectQueue('emails')
     private emailsQueue: Queue
   ) { }
@@ -31,40 +26,44 @@ export class AssignLearnerService implements IAssignLearnerService {
   }
 
   private async assignLearner(email: string, quizId: number, spaceId: number) {
-    const learner = await this.learnerRepo
-      .createQueryBuilder('learner')
-      .leftJoin(
-        'learner.learnerQuizzes',
-        'learnerQuiz',
-        'learnerQuiz.quiz_id = :quizId', { quizId }
-      )
-      .where('learner.email = :email', { email })
-      .andWhere('learner.space_id = :spaceId', { spaceId })
-      .andWhere('learnerQuiz.id IS NULL')
-      .getOne();
 
-    if (!learner) return;
+    const learnerQuiz = await this.dataSource.transaction(async (manager) => {
+      const learnerRepo = manager.getRepository(LearnerEntity);
 
-    const learnerQuiz = await this.saveLearner(learner.id, quizId);
+      const learner = await learnerRepo
+        .createQueryBuilder('learner')
+        .leftJoin(
+          'learner.learnerQuizzes',
+          'learnerQuiz',
+          'learnerQuiz.quiz_id = :quizId', { quizId }
+        )
+        .where('learner.email = :email', { email })
+        .andWhere('learner.space_id = :spaceId', { spaceId })
+        .andWhere('learnerQuiz.id IS NULL')
+        .getOne();
+
+      if (!learner) return;
+
+      return await this.saveLearner(learner.id, quizId, manager);
+    });
+
+    if (!learnerQuiz) return;
+
     await this.sendEmail(learnerQuiz, email);
   }
 
-  private async saveLearner(learnerId: number, quizId: number) {
-    console.debug("AssignLearnerService ~ saveLearner ~ learnerId:", learnerId, "quizId:", quizId);
+  async saveLearner(learnerId: number, quizId: number, manager: EntityManager) {
+    const repo = manager.getRepository(LearnerQuizEntity);
 
-    try {
-      const learnerQuiz = this.learnerQuizRepo.create({
-        learnerId: learnerId,
-        quizId,
-        hash: crypto.randomBytes(20).toString('hex'),
-        status: 'assigned',
-        assignedAt: new Date(),
-      });
+    const learnerQuiz = repo.create({
+      learnerId,
+      quizId,
+      hash: crypto.randomBytes(20).toString('hex'),
+      status: 'assigned',
+      assignedAt: new Date(),
+    });
 
-      return await this.learnerQuizRepo.save(learnerQuiz);
-    } catch {
-      throw new QuizAssignmentFailedException();
-    }
+    return await repo.save(learnerQuiz);
   }
 
   private async sendEmail(learnerQuiz: LearnerQuizEntity, email: string) {
