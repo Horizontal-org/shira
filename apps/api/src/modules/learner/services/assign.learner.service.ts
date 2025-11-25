@@ -6,12 +6,9 @@ import { AssignLearnerDto } from "../dto/assign.learner.dto";
 import { Learner as LearnerEntity } from "../domain/learner.entity";
 import { LearnerQuiz as LearnerQuizEntity } from "../domain/learners_quizzes.entity";
 import { IAssignLearnerService } from "../interfaces/services/assign.learner.service.interface";
-import { NotFoundLearnerException, QuizAssignmentAlreadyExistsException } from "../exceptions";
-import { QuizAssignmentFailedException } from "../exceptions/assign-quiz.learner.exception";
+import { NotFoundLearnerException, QuizAssignmentAlreadyExistsException, QuizAssignmentFailedException, AssignmentEmailSendFailedException } from "../exceptions";
 import { Queue } from "bullmq";
 import { InjectQueue } from "@nestjs/bullmq";
-import { AssignmentEmailSendFailedException } from "../exceptions/assignment-email-send.learner.exception";
-import { NotFoundQuizException } from "../exceptions/not-found-quiz.learner.exception";
 import { ApiLogger } from "src/utils/logger/api-logger.service";
 
 @Injectable()
@@ -32,8 +29,9 @@ export class AssignLearnerService implements IAssignLearnerService {
 
     const learner = await this.findLearner(email, quizId, spaceId);
 
-    await this.saveLearner(learner.id, quizId);
-    await this.sendEmail(email, quizId, spaceId);
+    const learnerQuiz = await this.saveLearner(learner.id, quizId);
+
+    await this.sendEmail(learnerQuiz, email);
   }
 
   private async findLearner(email: string, quizId: number, spaceId: number) {
@@ -76,22 +74,15 @@ export class AssignLearnerService implements IAssignLearnerService {
         assignedAt: new Date(),
       });
 
-      await this.learnerQuizRepo.save(learnerQuiz);
+      return await this.learnerQuizRepo.save(learnerQuiz);
     } catch {
       throw new QuizAssignmentFailedException();
     }
   }
 
-  private async sendEmail(email: string, quizId, spaceId: number) {
+  private async sendEmail(learnerQuiz: LearnerQuizEntity, email: string) {
     this.logger.log(`Sending assignment email to learner 
-      with email: ${email} for quizId: ${quizId} in spaceId: ${spaceId}`);
-
-    const learnerQuiz = await this.learnerQuizRepo.findOne({
-      where: { learner: { email }, quiz: { id: quizId, space: { id: spaceId } } },
-      relations: ['quiz', 'learner']
-    });
-
-    if (!learnerQuiz) throw new NotFoundQuizException();
+      with email: ${email} for quizId: ${learnerQuiz.quizId} in spaceId: ${learnerQuiz.quiz.space.id}`);
 
     const magicLink = `${process.env.PUBLIC_URL}/learner-quiz/${learnerQuiz.hash}`;
 
