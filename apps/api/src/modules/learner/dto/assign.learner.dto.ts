@@ -1,5 +1,9 @@
+import { IsEmail, IsNumber } from "class-validator";
+
 export class AssignLearnerDto {
-  spaceId: number;
+  @IsNumber()
   quizId: number;
+
+  @IsEmail()
   email: string;
 }
