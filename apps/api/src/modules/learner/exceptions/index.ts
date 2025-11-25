@@ -1,7 +1,6 @@
 // Learner
 export { NotFoundQuizException } from './not-found-quiz.learner.exception';
 export { QuizAssignmentFailedException } from './assign-quiz.learner.exception';
-export { QuizAssignmentAlreadyExistsException } from './already-assigned-quiz.learner.exception';
 export { InvitationEmailSendFailedException } from './invitation-email-send.learner.exception';
 export { AssignmentEmailSendFailedException } from './assignment-email-send.learner.exception';
 export { SavingLearnerException } from './save.learner.exception';

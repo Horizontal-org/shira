@@ -8,6 +8,7 @@ import { IAssignLearnerService } from "../interfaces/services/assign.learner.ser
 import { Queue } from "bullmq";
 import { InjectQueue } from "@nestjs/bullmq";
 import { AssignmentEmailSendFailedException } from "../exceptions/assignment-email-send.learner.exception";
+import { QuizAssignmentFailedException } from "../exceptions";
 
 @Injectable()
 export class AssignLearnerService implements IAssignLearnerService {
@@ -66,7 +67,9 @@ export class AssignLearnerService implements IAssignLearnerService {
       assignedAt: new Date(),
     });
 
-    return await learnerQuizRepo.save(learnerQuiz);
+    return await learnerQuizRepo.save(learnerQuiz).catch((err) => {
+      throw new QuizAssignmentFailedException();
+    });
   }
 
   private async sendEmail(learnerQuiz: LearnerQuizEntity, email: string) {
