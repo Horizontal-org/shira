@@ -74,7 +74,10 @@ export class AssignLearnerService implements IAssignLearnerService {
         assignedAt: new Date(),
       });
 
-      return await this.learnerQuizRepo.save(learnerQuiz);
+      const savedLearner = await this.learnerQuizRepo.save(learnerQuiz);
+      this.logger.log(`Learner quiz assignment saved with ID: ${savedLearner.id}`);
+
+      return savedLearner
     } catch {
       throw new QuizAssignmentFailedException();
     }
@@ -94,6 +97,7 @@ export class AssignLearnerService implements IAssignLearnerService {
         template: 'learner-quiz-assignment',
         data: { email, magicLink }
       })
+      this.logger.log(`Assignment email queued successfully for email: ${email}`);
     } catch {
       throw new AssignmentEmailSendFailedException();
     }

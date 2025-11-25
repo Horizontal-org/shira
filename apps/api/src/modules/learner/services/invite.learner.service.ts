@@ -82,6 +82,7 @@ export class InviteLearnerService implements IInviteLearnerService {
         template: 'learner-invitation',
         data: { email, magicLink }
       })
+      this.logger.log(`Invitation email queued successfully for email: ${email}`);
     } catch {
       throw new InvitationEmailSendFailedException();
     }
@@ -119,16 +120,15 @@ export class InviteLearnerService implements IInviteLearnerService {
     learner: LearnerEntity,
     existingLearner?: LearnerEntity
   ) {
-    this.logger.log(`Handling existing learner with email: ${learner.email}`);
-
     if (existingLearner && existingLearner.status === 'invited') {
       await this.learnerRepo.update(
         { id: existingLearner.id },
         { invitedAt: new Date() }
       );
+      this.logger.log(`Updated invitation date for existing learner with ID: ${existingLearner.id}`);
     } else {
       await this.learnerRepo.save(learner);
+      this.logger.log(`Saved new learner with email: ${learner.email}`);
     }
-
   }
 }
