@@ -7,9 +7,14 @@ export const invite = async (email: string, name: string) => {
   return data;
 }
 
-export const assignToQuiz = async (email: string, quizId: number) => {
-  const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/learners/assignments`, {
-    email, quizId
+export interface AssignRequest {
+  email: string;
+  quizId: number;
+}
+
+export const assignToQuiz = async (learners: AssignRequest[]) => {
+  const response = await axios.post(`${process.env.REACT_APP_API_URL}/learners/assignments`, {
+    learners
   })
-  return data;
+  return response;
 }

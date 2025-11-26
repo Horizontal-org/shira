@@ -1,9 +1,12 @@
 import { FunctionComponent, useState } from "react";
+import toast from "react-hot-toast";
 import { invite } from "../../fetch/learner";
 import { assignToQuiz } from "../../fetch/learner";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { handleHttpError } from "../../fetch/handleError";
+import { EmailIcon, Button } from "@shira/ui";
+import { FiDownload } from "react-icons/fi";
 
 interface Props { }
 
@@ -12,40 +15,70 @@ export const ATestLayout: FunctionComponent<Props> = () => {
   enum ViewResult { Ok, Error };
 
   const [view, setView] = useState<ViewResult>(null);
-  const [errorMsg, setErrorMsg] = useState<string>("");
 
-  const error = view === ViewResult.Error;
   const { t } = useTranslation();
 
   const inv = async () => {
     try {
-      await invite("fredziaga@gmail.com", "ffffff");
+      await invite("22@gmail.com", "ffffff");
       setView(ViewResult.Ok);
+      toast.success("OK", { duration: 3000 });
     } catch (error) {
       setView(ViewResult.Error);
+
       const e = handleHttpError(error);
-      setErrorMsg(t(`error_messages.${e.message}`) || "Failed to invite");
+      const key = e.code ?? e.message ?? "generic_error";
+
+      toast.error(
+        t(`error_messages.${key}`, { defaultValue: "Failed to invite" }), { duration: 3000 }
+      );
     }
   };
 
   const assQuiz = async () => {
     try {
-      await assignToQuiz("fredziaga@gmail.com", 79);
-      setView(ViewResult.Ok);
+      const response = await assignToQuiz([{ email: "fredziaga@gmail.com", quizId: 79 }]);
+
+      //TODO write toast logic for one vs. bulk assignments
+      const firstResponseData = response.data[0];
+
+      if (firstResponseData.status !== "Error") {
+        setView(ViewResult.Ok);
+      }
+
+      if (firstResponseData.status === "Error") {
+        setView(ViewResult.Error);
+        toast.error(t(`error_messages.${firstResponseData.message}`) || "Failed to assign");
+      }
+
     } catch (error) {
       setView(ViewResult.Error);
+
       const e = handleHttpError(error);
-      setErrorMsg(t(`error_messages.${e.message}`) || "Failed to assign");
+      const key = e.code ?? e.message ?? "generic_error";
+
+      toast.error(
+        t(`error_messages.${key}`, { defaultValue: "Failed to assign" }), { duration: 3000 }
+      );
     }
   };
 
   return (
     <Container>
-      <button onClick={inv}>Invite</button>
-      <button onClick={assQuiz}>Assign</button>
-      <BottomItem>
-        {error && <div>{errorMsg}</div>}
-      </BottomItem>
+      <ButtonContainer>
+        <Button
+          text="Invite user to space"
+          type="outline"
+          leftIcon={<EmailIcon />}
+          onClick={inv}
+        />
+        <Button
+          text="Assign to quiz"
+          type="outline"
+          leftIcon={<FiDownload />}
+          onClick={assQuiz}
+        />
+      </ButtonContainer>
     </Container >
   )
 };
@@ -59,7 +92,9 @@ const Container = styled.div`
   gap: 10px;
 `;
 
-const BottomItem = styled.div`
-  flex-basis: 100%;
-  text-align: center;
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  gap: 10px;
 `;

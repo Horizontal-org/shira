@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
 export type ErrorResponse = {
   httpStatus?: number;
@@ -8,14 +8,22 @@ export type ErrorResponse = {
 };
 
 export function handleHttpError(err: unknown): ErrorResponse {
-  if (axios.isAxiosError(err)) {
-    const ax = err as AxiosError<any>;
-    const httpStatus = ax.response?.status;
-    const payload = ax.response?.data;
+  if (axios.isAxiosError(err) && err.response) {
+    const { status, data } = err.response as { status: number; data?: any };
 
-    const code = payload.statusCode;
-    const message = payload?.message || ax.message || "";
+    const code = data?.code ?? data?.statusCode;
+    const message =
+      (Array.isArray(data?.message) ? data.message[0] : data?.message) ??
+      err.message ??
+      "unknown_error";
 
-    return { httpStatus, code, message, details: payload };
+    return { httpStatus: status, code, message, details: data };
   }
+
+  return {
+    httpStatus: undefined,
+    code: "unknown_error",
+    message: err instanceof Error ? err.message : "unknown_error",
+    details: err
+  };
 }
