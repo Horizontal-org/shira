@@ -1,4 +1,10 @@
-import { CallHandler, ExecutionContext, Injectable, NestInterceptor, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  CallHandler,
+  ExecutionContext,
+  Injectable,
+  NestInterceptor,
+  HttpException
+} from '@nestjs/common';
 import { Observable, throwError } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { ApiLogger } from '../../modules/learner/logger/api-logger.service';
@@ -20,7 +26,7 @@ export class LoggingInterceptor implements NestInterceptor {
     );
   }
 
-  // Check the context
+  // get context
   private getRequestInfo(context: ExecutionContext): { method: string; url: string } {
     const httpCtx = context.switchToHttp();
     const request = httpCtx.getRequest<any>();
@@ -36,19 +42,24 @@ export class LoggingInterceptor implements NestInterceptor {
     this.logger.log(`HTTP ${ctx.method} ${ctx.url} -> 200 OK (${duration}ms)`);
   }
 
-  // Capture metadata and stack traces and rethrow the error
+  // capture metadata and stack traces
   private logAndRethrowError(err: unknown, ctx: RequestLogContext) {
-    const duration = this.getDuration(ctx.startedAt);
-    const { status, message, cause } = this.buildErrorInfo(err);
-    const logLine = this.formatErrorLog({ ctx, duration, status, message, cause });
+    try {
+      const duration = this.getDuration(ctx.startedAt);
+      const { status, message, cause } = this.buildErrorInfo(err);
+      const logLine = this.formatErrorLog({ ctx, duration, status, message, cause });
 
-    this.logger.error(logLine, this.extractStack(err), 'Exception');
+      this.logger.error(logLine, this.extractStack(err), 'Exception');
+    } catch (loggingErr) {
+      // never let the logger crash pipeline
+      this.logger.error(
+        `Error in LoggingInterceptor while logging original error: ${(loggingErr as any)?.message}`,
+        (loggingErr as any)?.stack,
+        'LoggingInterceptor',
+      );
+    }
 
     return throwError(() => err);
-  }
-
-  private getDuration(startedAt: number): number {
-    return Date.now() - startedAt;
   }
 
   private formatErrorLog(params: {
@@ -69,45 +80,46 @@ export class LoggingInterceptor implements NestInterceptor {
       .join(' | ');
   }
 
-  // Normalize into a uniform structure
+  // normalize into a uniform structure
   private buildErrorInfo(err: unknown): {
     status: number;
     message: string;
     cause: string | null;
   } {
-    let status = HttpStatus.INTERNAL_SERVER_ERROR;
-    let message = 'Internal server error';
-    let cause: string | null = null;
-
+    // HttpException handling
     if (err instanceof HttpException) {
-      status = err.getStatus();
+      const status = err.getStatus();
       const res = err.getResponse();
+
+      let message = 'Unknown error';
+      let cause: string | null = null;
 
       if (typeof res === 'string') {
         message = res;
       } else {
         const body = res as Record<string, any>;
-        message = String(body.message ?? message);
-        if (body.cause) {
-          cause = String(body.cause);
-        }
+        if (body.message) message = String(body.message);
+        if (body.cause) cause = String(body.cause);
       }
-    } else {
-      const anyErr = err as any;
-      if (anyErr?.message) message = String(anyErr.message);
-      if (anyErr?.cause) cause = String(anyErr.cause);
-      if (anyErr?.options?.cause) cause = String(anyErr.options.cause);
-    }
 
-    return { status, message, cause };
+      const anyErr = err as any;
+      if (!cause && anyErr?.cause) cause = String(anyErr.cause);
+      if (!cause && anyErr?.options?.cause) cause = String(anyErr.options.cause);
+
+      return { status, message, cause };
+    }
   }
 
-  // Only log stacks when present
+  // only log stacks when present
   private extractStack(err: unknown): string {
     if (err && typeof err === 'object' && 'stack' in err) {
       return (err as any).stack;
     }
     return '';
+  }
+
+  private getDuration(startedAt: number): number {
+    return Date.now() - startedAt;
   }
 }
 
