@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { handleHttpError } from "../../fetch/handleError";
 import { EmailIcon, Button } from "@shira/ui";
 import { FiDownload } from "react-icons/fi";
+import { InviteLearnerModal } from "../modals/InviteLearnerModal";
 
 interface Props { }
 
@@ -15,6 +16,7 @@ export const ATestLayout: FunctionComponent<Props> = () => {
   enum ViewResult { Ok, Error };
 
   const [view, setView] = useState<ViewResult>(null);
+  const [isInvitationModalOpen, setIsInvitationModalOpen] = useState(false);
 
   const { t } = useTranslation();
 
@@ -44,6 +46,7 @@ export const ATestLayout: FunctionComponent<Props> = () => {
 
       if (firstResponseData.status !== "Error") {
         setView(ViewResult.Ok);
+        setIsInvitationModalOpen(true);
       }
 
       if (firstResponseData.status === "Error") {
@@ -70,7 +73,7 @@ export const ATestLayout: FunctionComponent<Props> = () => {
           text="Invite user to space"
           type="outline"
           leftIcon={<EmailIcon />}
-          onClick={inv}
+          onClick={() => setIsInvitationModalOpen(true)}
         />
         <Button
           text="Assign to quiz"
@@ -79,6 +82,11 @@ export const ATestLayout: FunctionComponent<Props> = () => {
           onClick={assQuiz}
         />
       </ButtonContainer>
+      <InviteLearnerModal
+        isModalOpen={isInvitationModalOpen}
+        setIsModalOpen={setIsInvitationModalOpen}
+        onConfirm={inv}
+      />
     </Container >
   )
 };

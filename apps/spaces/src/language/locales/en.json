@@ -207,7 +207,8 @@
         "back": "Back",
         "delete": "Delete",
         "next": "Next",
-        "continue": "Continue"
+        "continue": "Continue",
+        "send_invitation": "Send invitation"
     },
     "modals": {
         "create_quiz": {
@@ -284,6 +285,12 @@
             "title": "Continue without explanations?",
             "message": "You haven't created any explanations for this question, so learners will not see any text explaining why the message seems like phishing or seems legitimate.",
             "add": "Add explanations"
+        },
+        "invite_learner": {
+            "title": "Invite new learner",
+            "subtitle": "Send an email invitation to ask a new learner to join your space.",
+            "name_placeholder": "Name (optional)",
+            "email_placeholder": "Email address (required)"
         }
     },
     "error_messages": {
