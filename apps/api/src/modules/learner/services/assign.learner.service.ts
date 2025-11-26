@@ -63,9 +63,7 @@ export class AssignLearnerService implements IAssignLearnerService {
   }
 
   private async saveLearner(learnerId: number, quizId: number) {
-    this.logger.log(`Saving learner quiz assignment
-      for learnerId: ${learnerId},
-      quizId: ${quizId}`);
+    this.logger.log(`Saving learner quiz assignment for learnerId: ${learnerId}, quizId: ${quizId}`);
 
     try {
       const learnerQuiz = this.learnerQuizRepo.create({
@@ -81,15 +79,12 @@ export class AssignLearnerService implements IAssignLearnerService {
 
       return savedLearner
     } catch {
-      throw new QuizAssignmentFailedException();
+      throw new QuizAssignmentFailedException(quizId.toString());
     }
   }
 
   private async sendEmail(learnerQuiz: LearnerQuizEntity, email: string) {
-    this.logger.log(`Sending assignment email to learner
-      with email: ${email}
-      for quizId: ${learnerQuiz.quizId}
-      in spaceId: ${learnerQuiz.quiz.space.id}`);
+    this.logger.log(`Sending assignment email to learner with email: ${email} for quizId: ${learnerQuiz.quizId} in spaceId: ${learnerQuiz.quiz.space.id}`);
 
     const magicLink = `${process.env.PUBLIC_URL}/learner-quiz/${learnerQuiz.hash}`;
 
@@ -103,7 +98,7 @@ export class AssignLearnerService implements IAssignLearnerService {
       })
       this.logger.log(`Assignment email queued successfully for email: ${email}`);
     } catch {
-      throw new AssignmentEmailSendFailedException();
+      throw new AssignmentEmailSendFailedException(email);
     }
   }
 }

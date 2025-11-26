@@ -26,14 +26,15 @@ export class GetLearnerQuizService implements IGetLearnerQuizService {
     })
 
     if (learnerQuiz.learner.status !== 'registered') {
-      throw new NotConfirmedException()
+      throw new NotConfirmedException(learnerQuiz.learnerId.toString());
     }
 
     if (learnerQuiz.status === 'completed') {
-      throw new AlreadyCompletedException()
+      throw new AlreadyCompletedException(learnerQuiz.quizId.toString(), learnerQuiz.learnerId.toString());
     }
 
-    this.logger.log(`Retrieved learner quiz with ID: ${learnerQuiz.id} for learner ID: ${learnerQuiz.learner.id}`)
+    this.logger.log(`Retrieved learner quiz with ID: ${learnerQuiz.id}
+      for learner ID: ${learnerQuiz.learner.id}`)
 
     const quiz = await this.getQuizByHash.execute(learnerQuiz.quiz.hash, 'private')
 

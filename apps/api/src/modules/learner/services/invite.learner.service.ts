@@ -49,7 +49,7 @@ export class InviteLearnerService implements IInviteLearnerService {
 
       await this.handleExistingLearner(learner, existingLearner);
     } catch {
-      throw new SaveLearnerException();
+      throw new SaveLearnerException(email);
     }
 
     this.sendEmail(email, hash);
@@ -84,7 +84,7 @@ export class InviteLearnerService implements IInviteLearnerService {
       })
       this.logger.log(`Invitation email queued successfully for email: ${email}`);
     } catch {
-      throw new InvitationEmailSendFailedException();
+      throw new InvitationEmailSendFailedException(email);
     }
   }
 
