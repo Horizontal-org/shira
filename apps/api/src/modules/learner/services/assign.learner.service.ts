@@ -10,6 +10,7 @@ import { InjectQueue } from "@nestjs/bullmq";
 import { AssignmentEmailSendFailedException } from "../exceptions/assignment-email-send.learner.exception";
 import { QuizAssignmentFailedException } from "../exceptions";
 import { LearnerOperationResponse } from "../dto/learner-operation-response.dto";
+
 @Injectable()
 export class AssignLearnerService implements IAssignLearnerService {
   constructor(
