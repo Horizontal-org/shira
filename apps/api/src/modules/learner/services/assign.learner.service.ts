@@ -56,6 +56,7 @@ export class AssignLearnerService implements IAssignLearnerService {
         try {
           await this.sendEmail(learnerQuiz, email);
         } catch (err) {
+          await this.rollbackAssignment(learnerQuiz.id);
           this.updateAssignmentStatusOnEmailError(results, email, quizId, err?.message);
         }
       })
@@ -68,7 +69,7 @@ export class AssignLearnerService implements IAssignLearnerService {
     email: string,
     quizId: number,
     spaceId: number
-  ): Promise<LearnerQuizEntity | undefined> {
+  ): Promise<LearnerQuizEntity> {
     const learnerQuiz = await this.dataSource.transaction(async (manager) => {
       const learnerRepo = manager.getRepository(LearnerEntity);
 
@@ -130,6 +131,12 @@ export class AssignLearnerService implements IAssignLearnerService {
     } catch {
       throw new AssignmentEmailSendFailedException();
     }
+  }
+
+  private async rollbackAssignment(learnerQuizId: number): Promise<void> {
+    await this.dataSource
+      .getRepository(LearnerQuizEntity)
+      .delete(learnerQuizId);
   }
 
   private createResponse(
