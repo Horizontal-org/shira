@@ -1,14 +1,14 @@
 import { Type } from "class-transformer";
 import { IsArray, IsEmail, IsNumber, ValidateNested } from "class-validator";
 
-export class AssignLearnerDto {
+export class UnassignLearnerDto {
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => LearnerToBeAssigned)
-  learners: LearnerToBeAssigned[];
+  @Type(() => LearnerToBeUnassigned)
+  learners: LearnerToBeUnassigned[];
 }
 
-export class LearnerToBeAssigned {
+export class LearnerToBeUnassigned {
   @IsNumber()
   quizId: number;
 

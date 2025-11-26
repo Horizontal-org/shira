@@ -1,17 +1,17 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { Not, Repository } from "typeorm";
 import { Learner as LearnerEntity } from "../domain/learner.entity";
 import { InviteLearnerDto } from "../dto/invitation.learner.dto";
 import { IInviteLearnerService } from "../interfaces/services/invite.learner.service.interface";
-import { EmailSendFailedException } from "../exceptions/email-send.learner.exception";
 import { SavingLearnerException as SaveLearnerException } from "../exceptions/save.learner.exception";
 import { ConflictLearnerException } from "../exceptions/conflict.learner.exception";
 import { Queue } from "bullmq";
 import { InjectQueue } from "@nestjs/bullmq";
 import * as crypto from 'crypto';
-import { TokenConflictLearnerException } from "../exceptions/token-conflict.learner.exception";
 import { SpaceEntity } from "src/modules/space/domain/space.entity";
+import { InvitationEmailSendFailedException } from "../exceptions/invitation-email-send.learner.exception";
+import { GenericErrorException } from "../exceptions/generic-error.learner.exception";
 
 @Injectable()
 export class InviteLearnerService implements IInviteLearnerService {
@@ -29,8 +29,7 @@ export class InviteLearnerService implements IInviteLearnerService {
 
     console.debug("InviteLearnerService ~ create ~ email:", email, "spaceId:", spaceId);
 
-    const existing = await this.learnerRepo.findOne({ where: { spaceId, email } });
-    if (existing) throw new ConflictLearnerException();
+    const existingLearner = await this.findLearner(spaceId, email);
 
     const hash = crypto.randomBytes(20).toString('hex');
 
@@ -45,15 +44,29 @@ export class InviteLearnerService implements IInviteLearnerService {
         assignedByUser: assignedByUser ? assignedByUser : null
       });
 
-      await this.learnerRepo.save(learner);
-      return { hash: hash, email, spaceId };
-    } catch (err) {
+      await this.handleExistingLearner(learner, existingLearner);
+    } catch {
       throw new SaveLearnerException();
     }
+
+    this.sendEmail(email, hash);
   }
 
-  async sendEmail(email: string, spaceId: number, token: string) {
-    console.debug("InviteLearnerService ~ sendEmail ~ email:", email, "spaceId:", spaceId);
+  private async findLearner(spaceId: number, email: string) {
+    console.debug("InviteLearnerService ~ findLearner ~ email:", email, "spaceId:", spaceId);
+    const existing = await this.learnerRepo.findOne({
+      where: {
+        spaceId,
+        email,
+      },
+    });
+
+    if (existing && existing.status !== 'invited') throw new ConflictLearnerException();
+    return existing;
+  }
+
+  private async sendEmail(email: string, token: string) {
+    console.debug("InviteLearnerService ~ sendEmail ~ email:", email);
 
     const magicLink = `${process.env.PUBLIC_URL}/accept-invite/${token}`;
 
@@ -63,19 +76,22 @@ export class InviteLearnerService implements IInviteLearnerService {
         from: process.env.SMTP_GLOBAL_FROM,
         subject: 'Invitation to register as a Learner in a Shira space',
         template: 'learner-invitation',
-        data: { email, magicLink, spaceId }
+        data: { email, magicLink }
       })
-    } catch (err) {
-      throw new EmailSendFailedException();
+    } catch {
+      throw new InvitationEmailSendFailedException();
     }
   }
 
   async accept(token: string): Promise<string> {
     const learner = await this.learnerRepo.findOne({
-      where: { invitationToken: token }
+      where: {
+        invitationToken: token,
+        status: Not('registered')
+      }
     });
 
-    if (!learner) throw new TokenConflictLearnerException();
+    if (!learner) throw new GenericErrorException();
 
     console.debug("InviteLearnerService ~ accept ~ learner:", learner.id, "spaceId:", learner.spaceId);
 
@@ -90,8 +106,26 @@ export class InviteLearnerService implements IInviteLearnerService {
         { status: 'registered', registeredAt: new Date() }
       );
       return space.name;
-    } catch (err) {
+    } catch {
       throw new SaveLearnerException();
     }
+  }
+
+  private async handleExistingLearner(
+    learner: LearnerEntity,
+    existingLearner?: LearnerEntity
+  ) {
+    console.debug("InviteLearnerService ~ handleExistingLearner ~ existingLearner:",
+      existingLearner ? existingLearner.id : 'none');
+
+    if (existingLearner && existingLearner.status === 'invited') {
+      await this.learnerRepo.update(
+        { id: existingLearner.id },
+        { invitedAt: new Date() }
+      );
+    } else {
+      await this.learnerRepo.save(learner);
+    }
+
   }
 }

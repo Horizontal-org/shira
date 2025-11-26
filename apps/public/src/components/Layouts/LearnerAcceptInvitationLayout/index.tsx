@@ -17,34 +17,34 @@ export const LearnerAcceptInvitationLayout: FunctionComponent = () => {
   }
 
   const { t } = useTranslation();
-  const { token } = useParams();
+  const { hash } = useParams();
 
   const [view, setView] = useState<ViewState>(null);
   const [errorMsg, setErrorMsg] = useState<string>("");
   const [spaceName, setSpaceName] = useState<string>("");
 
   const accept = useCallback(async () => {
-    if (!token) return;
+    if (!hash) return;
 
     setView(ViewState.Loading);
     setErrorMsg("");
 
     try {
-      const { spaceName } = await acceptInvitation(token);
+      const { spaceName } = await acceptInvitation(hash);
       setSpaceName(spaceName || "");
       setView(ViewState.Accepted);
     } catch (err) {
       const error = handleHttpError(err);
       setView(ViewState.Error);
-      setErrorMsg(t(`error_messages.${error.message}`) || "");
+      setErrorMsg(t(`learner_invitation.${error.message}`) || "");
     }
-  }, [token]);
+  }, [hash]);
 
   useEffect(() => {
-    if (token) {
+    if (hash) {
       accept();
     }
-  }, [accept, token]);
+  }, [accept, hash]);
 
   return (
     <SceneWrapper bg="white">
@@ -156,6 +156,6 @@ const AcceptBox = styled.div`
 `;
 
 const ErrorText = styled.p`
-  color: ${defaultTheme.colors.error9};
+  color: ${defaultTheme.colors.dark.black};
   margin: 0;
 `;

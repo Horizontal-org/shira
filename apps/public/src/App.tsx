@@ -26,10 +26,10 @@ const App: FunctionComponent<Props> = () => {
             <Routes>
               <Route path="/" element={<MainLayout />} />
               <Route path="/about" element={<AboutLayout />} />
-              <Route path='/privacy' element={<PrivacyLayout />} />
-              <Route path='/quiz/:hash' element={<QuizLayout />} />
+              <Route path="/privacy" element={<PrivacyLayout />} />
+              <Route path="/quiz/:hash" element={<QuizLayout />} />
               <Route path='/learner-quiz/:hash' element={<QuizLayout />} />
-              <Route path="/accept-invite/:token" element={<LearnerAcceptInvitationLayout />} />
+              <Route path="/accept-invite/:hash" element={<LearnerAcceptInvitationLayout />} />
             </Routes>
           </BrowserRouter>
         </ThemeProvider>
