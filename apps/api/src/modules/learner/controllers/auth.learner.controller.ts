@@ -55,7 +55,7 @@ export class AuthLearnerController {
     @Body() assignLearnerDto: AssignLearnerDto,
     @SpaceId() spaceId: number
   ) {
-    await this.assignService.assign(assignLearnerDto, spaceId);
+    return await this.assignService.assign(assignLearnerDto, spaceId);
   }
 
   @Delete('assignments')
@@ -64,6 +64,6 @@ export class AuthLearnerController {
     @Body() unassignLearnerDto: UnassignLearnerDto,
     @SpaceId() spaceId: number
   ) {
-    await this.unassignService.unassign(unassignLearnerDto, spaceId);
+    return await this.unassignService.unassign(unassignLearnerDto, spaceId);
   }
 }

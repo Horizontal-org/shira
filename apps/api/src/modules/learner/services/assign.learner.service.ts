@@ -9,7 +9,7 @@ import { Queue } from "bullmq";
 import { InjectQueue } from "@nestjs/bullmq";
 import { AssignmentEmailSendFailedException } from "../exceptions/assignment-email-send.learner.exception";
 import { QuizAssignmentFailedException } from "../exceptions";
-
+import { LearnerOperationResponse } from "../dto/learner-operation-response.dto";
 @Injectable()
 export class AssignLearnerService implements IAssignLearnerService {
   constructor(
@@ -18,19 +18,33 @@ export class AssignLearnerService implements IAssignLearnerService {
     private emailsQueue: Queue
   ) { }
 
-  async assign(assignLearnerDto: AssignLearnerDto, spaceId: number): Promise<void> {
+  async assign(assignLearnerDto: AssignLearnerDto, spaceId: number): Promise<LearnerOperationResponse[]> {
     const { learners } = assignLearnerDto;
 
-    await Promise.all(
-      learners.map(({ email, quizId }) =>
-        this.assignLearner(email, quizId, spaceId).catch((err) => {
-          console.error(`Failed assigning ${email}:`, err);
-        })
-      )
+    const assignmentResults = await Promise.all(
+      learners.map(async ({ email, quizId }): Promise<LearnerOperationResponse> => {
+        try {
+          const learnerQuiz = await this.assignLearner(email, quizId, spaceId);
+
+          if (!learnerQuiz) {
+            return {
+              email, quizId, status: 'Error', message: 'Learner not found in space or already assigned to quiz'
+            };
+          }
+
+          return { email, quizId, status: 'OK' };
+        } catch (err) {
+          return {
+            email, quizId, status: 'Error', message: err.message ? err.message : 'Unknown assignment error'
+          };
+        }
+      })
     );
+
+    return assignmentResults;
   }
 
-  private async assignLearner(email: string, quizId: number, spaceId: number) {
+  private async assignLearner(email: string, quizId: number, spaceId: number): Promise<LearnerQuizEntity> {
     const learnerQuiz = await this.dataSource.transaction(async (manager) => {
       const learnerRepo = manager.getRepository(LearnerEntity);
 
@@ -54,6 +68,8 @@ export class AssignLearnerService implements IAssignLearnerService {
     if (!learnerQuiz) return;
 
     await this.sendEmail(learnerQuiz, email);
+
+    return learnerQuiz;
   }
 
   async saveLearner(learnerId: number, quizId: number, manager: EntityManager) {
@@ -67,7 +83,7 @@ export class AssignLearnerService implements IAssignLearnerService {
       assignedAt: new Date(),
     });
 
-    return await learnerQuizRepo.save(learnerQuiz).catch((err) => {
+    return await learnerQuizRepo.save(learnerQuiz).catch(() => {
       throw new QuizAssignmentFailedException();
     });
   }
