@@ -9,7 +9,7 @@ import { IAssignLearnerService } from "../interfaces/services/assign.learner.ser
 import { NotFoundLearnerException, QuizAssignmentAlreadyExistsException, QuizAssignmentFailedException, AssignmentEmailSendFailedException } from "../exceptions";
 import { Queue } from "bullmq";
 import { InjectQueue } from "@nestjs/bullmq";
-import { ApiLogger } from "src/utils/logger/api-logger.service";
+import { ApiLogger } from "../logger/api-logger.service";
 
 @Injectable()
 export class AssignLearnerService implements IAssignLearnerService {

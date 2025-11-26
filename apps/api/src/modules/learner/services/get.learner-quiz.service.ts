@@ -6,7 +6,7 @@ import { LearnerQuiz as LearnerQuizEntity } from "../domain/learners_quizzes.ent
 import { TYPES as QUIZ_TYPES } from "src/modules/quiz/interfaces";
 import { IGetByHashQuizService } from "src/modules/quiz/interfaces/services/get-by-hash.quiz.service.interface";
 import { AlreadyCompletedException, NotConfirmedException } from '../exceptions'
-import { ApiLogger } from "src/utils/logger/api-logger.service";
+import { ApiLogger } from "../logger/api-logger.service";
 
 @Injectable()
 export class GetLearnerQuizService implements IGetLearnerQuizService {

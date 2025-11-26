@@ -4,7 +4,7 @@ import { In, Repository } from "typeorm";
 import { Learner as LearnerEntity } from "../domain/learner.entity";
 import { IDeleteLearnerService } from "../interfaces/services/delete.learner.service.interface";
 import { DeleteLearnerDto } from "../dto/delete.learner.dto";
-import { ApiLogger } from "src/utils/logger/api-logger.service";
+import { ApiLogger } from "../logger/api-logger.service";
 
 @Injectable()
 export class DeleteLearnerService implements IDeleteLearnerService {

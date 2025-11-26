@@ -12,7 +12,7 @@ import * as crypto from 'crypto';
 import { SpaceEntity } from "src/modules/space/domain/space.entity";
 import { InvitationEmailSendFailedException } from "../exceptions/invitation-email-send.learner.exception";
 import { GenericErrorException } from "../exceptions/generic-error.learner.exception";
-import { ApiLogger } from "src/utils/logger/api-logger.service";
+import { ApiLogger } from "../logger/api-logger.service";
 
 @Injectable()
 export class InviteLearnerService implements IInviteLearnerService {

@@ -1,7 +1,7 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor, HttpException, HttpStatus } from '@nestjs/common';
 import { Observable, throwError } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
-import { ApiLogger } from '../logger/api-logger.service';
+import { ApiLogger } from '../../modules/learner/logger/api-logger.service';
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
@@ -20,7 +20,7 @@ export class LoggingInterceptor implements NestInterceptor {
     );
   }
 
-  // Check the context because non-HTTP routes may hit this interceptor
+  // Check the context
   private getRequestInfo(context: ExecutionContext): { method: string; url: string } {
     const httpCtx = context.switchToHttp();
     const request = httpCtx.getRequest<any>();
@@ -88,7 +88,6 @@ export class LoggingInterceptor implements NestInterceptor {
       } else {
         const body = res as Record<string, any>;
         message = String(body.message ?? message);
-        console.log("LoggingInterceptor ~ buildErrorInfo ~ message:", message); // --- IGNORE ---
         if (body.cause) {
           cause = String(body.cause);
         }
@@ -103,12 +102,12 @@ export class LoggingInterceptor implements NestInterceptor {
     return { status, message, cause };
   }
 
-  // Only log stacks when present instead of assuming standard Error instances.
-  private extractStack(err: unknown): string | undefined {
+  // Only log stacks when present
+  private extractStack(err: unknown): string {
     if (err && typeof err === 'object' && 'stack' in err) {
       return (err as any).stack;
     }
-    return undefined;
+    return '';
   }
 }
 
