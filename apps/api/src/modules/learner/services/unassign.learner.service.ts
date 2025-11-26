@@ -14,27 +14,23 @@ export class UnassignLearnerService implements IUnassignLearnerService {
   async unassign(unassignLearnerDto: UnassignLearnerDto, spaceId: number): Promise<LearnerOperationResponse[]> {
     const { learners } = unassignLearnerDto;
 
-    const unassignmentResults = await Promise.all(
+    const results = await Promise.all(
       learners.map(async ({ email, quizId }): Promise<LearnerOperationResponse> => {
         try {
           const removed = await this.unassignLearner(email, quizId, spaceId);
 
           if (!removed) {
-            return {
-              email, quizId, status: 'Error', message: 'Learner not found in space or not assigned to quiz'
-            };
+            return this.createResponse(email, quizId, "Error", "Learner not found in space or not assigned to quiz");
           }
 
-          return { email, quizId, status: 'OK' };
+          return this.createResponse(email, quizId, "OK");
         } catch (err) {
-          return {
-            email, quizId, status: 'Error', message: err.message ? err.message : 'Unknown unassignment error',
-          };
+          return this.createResponse(email, quizId, "Error", err?.message ?? "Unknown unassignment error");
         }
       })
     );
 
-    return unassignmentResults;
+    return results;
   }
 
   private async unassignLearner(email: string, quizId: number, spaceId: number): Promise<boolean> {
@@ -54,5 +50,19 @@ export class UnassignLearnerService implements IUnassignLearnerService {
       await learnerQuizRepo.remove(learnerQuiz);
       return true;
     });
+  }
+
+  private createResponse(
+    email: string,
+    quizId: number,
+    status: "OK" | "Error",
+    message?: string
+  ): LearnerOperationResponse {
+    return {
+      email,
+      quizId,
+      status,
+      ...(message ? { message } : {})
+    };
   }
 }
