@@ -63,7 +63,9 @@ export class AssignLearnerService implements IAssignLearnerService {
   }
 
   private async saveLearner(learnerId: number, quizId: number) {
-    this.logger.log(`Saving learner quiz assignment for learnerId: ${learnerId}, quizId: ${quizId}`);
+    this.logger.log(`Saving learner quiz assignment
+      for learnerId: ${learnerId},
+      quizId: ${quizId}`);
 
     try {
       const learnerQuiz = this.learnerQuizRepo.create({
@@ -84,8 +86,10 @@ export class AssignLearnerService implements IAssignLearnerService {
   }
 
   private async sendEmail(learnerQuiz: LearnerQuizEntity, email: string) {
-    this.logger.log(`Sending assignment email to learner 
-      with email: ${email} for quizId: ${learnerQuiz.quizId} in spaceId: ${learnerQuiz.quiz.space.id}`);
+    this.logger.log(`Sending assignment email to learner
+      with email: ${email}
+      for quizId: ${learnerQuiz.quizId}
+      in spaceId: ${learnerQuiz.quiz.space.id}`);
 
     const magicLink = `${process.env.PUBLIC_URL}/learner-quiz/${learnerQuiz.hash}`;
 
