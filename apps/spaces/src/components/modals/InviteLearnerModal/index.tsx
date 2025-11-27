@@ -2,7 +2,6 @@ import { FunctionComponent } from "react";
 import { Modal, TextInput } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
-import { title } from "process";
 
 interface Props {
   isModalOpen: boolean;
@@ -34,18 +33,18 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
       }}
     >
       <FormContent>
-        <TextInput
-          label="Learner name"
-          value={t('modals.invite_learner.name_placeholder')}
-          onChange={() => { }}
-        />
-      </FormContent>
-      <FormContent>
-        <TextInput
-          label="Learner email"
-          value={t('modals.invite_learner.email_placeholder')}
-          onChange={() => { }}
-        />
+        <InputsContainer>
+          <TextInput
+            aria-label="name"
+            value={t('modals.invite_learner.name_placeholder')}
+            onChange={() => { }}
+          />
+          <TextInput
+            aria-label="email"
+            value={t('modals.invite_learner.email_placeholder')}
+            onChange={() => { }}
+          />
+        </InputsContainer>
       </FormContent>
     </Modal>
   )
@@ -54,4 +53,15 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
 const FormContent = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 16px;
+`;
+
+const InputsContainer = styled.div`
+  display: flex;
+  gap: 24px;
+  margin-top: 16px;
+
+  > * {
+    flex: 1;
+  }
 `;

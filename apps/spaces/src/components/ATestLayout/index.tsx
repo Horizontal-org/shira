@@ -82,11 +82,14 @@ export const ATestLayout: FunctionComponent<Props> = () => {
           onClick={assQuiz}
         />
       </ButtonContainer>
-      <InviteLearnerModal
-        isModalOpen={isInvitationModalOpen}
-        setIsModalOpen={setIsInvitationModalOpen}
-        onConfirm={inv}
-      />
+
+      <ModalWrapper>
+        <InviteLearnerModal
+          isModalOpen={isInvitationModalOpen}
+          setIsModalOpen={setIsInvitationModalOpen}
+          onConfirm={inv}
+        />
+      </ModalWrapper>
     </Container >
   )
 };
@@ -98,6 +101,10 @@ const Container = styled.div`
   align-items: center;
   height: 100vh;
   gap: 10px;
+`;
+
+const ModalWrapper = styled.div`
+  width: 1000px;
 `;
 
 const ButtonContainer = styled.div`
