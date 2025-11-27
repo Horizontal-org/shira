@@ -14,7 +14,7 @@ import { AuthLearnerController } from './controllers/auth.learner.controller';
   imports: [
     TypeOrmModule.forFeature([
       LearnerEntity,
-      LearnerQuizEntity, 
+      LearnerQuizEntity,
       SpaceEntity,
       QuizEntity
     ]),
@@ -26,10 +26,10 @@ import { AuthLearnerController } from './controllers/auth.learner.controller';
     AuthLearnerController
   ],
   providers: [
-    ...serviceLearnerProviders, 
+    ...serviceLearnerProviders,
     ...serviceLearnerQuizProviders
   ],
-  exports: [...serviceLearnerProviders],      
+  exports: [...serviceLearnerProviders],
 })
 
 export class LearnerModule { }

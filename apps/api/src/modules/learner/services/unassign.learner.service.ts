@@ -1,68 +1,51 @@
 import { Injectable } from "@nestjs/common";
-import { DataSource } from "typeorm";
+import { DataSource, In } from "typeorm";
 import { UnassignLearnerDto } from "../dto/unassign.learner.dto";
 import { LearnerQuiz as LearnerQuizEntity } from "../domain/learners_quizzes.entity";
 import { IUnassignLearnerService } from "../interfaces/services/unassign.learner.service.interface";
-import { LearnerOperationResponse } from "../dto/learner-operation-response.dto";
+import { ApiLogger } from "../logger/api-logger.service";
+import { QuizUnassignmentFailedException } from "../exceptions/unassign-quiz.learner.exception";
 
 @Injectable()
 export class UnassignLearnerService implements IUnassignLearnerService {
   constructor(
-    private dataSource: DataSource,
+    private readonly dataSource: DataSource,
   ) { }
 
-  async unassign(unassignLearnerDto: UnassignLearnerDto, spaceId: number): Promise<LearnerOperationResponse[]> {
+  private logger = new ApiLogger(UnassignLearnerService.name);
+
+  async unassign(unassignLearnerDto: UnassignLearnerDto, spaceId: number): Promise<void> {
     const { learners } = unassignLearnerDto;
 
-    const results = await Promise.all(
-      learners.map(async ({ email, quizId }): Promise<LearnerOperationResponse> => {
-        try {
-          const removed = await this.unassignLearner(email, quizId, spaceId);
+    this.logger.log(`Unassigning ${learners.length} learners from quizzes in space ${spaceId}`);
 
-          if (!removed) {
-            return this.createResponse(email, quizId, "Error", "Learner not found in space or not assigned to quiz");
-          }
-
-          return this.createResponse(email, quizId, "OK");
-        } catch (err) {
-          return this.createResponse(email, quizId, "Error", err?.message ?? "Unknown unassignment error");
-        }
-      })
-    );
-
-    return results;
-  }
-
-  private async unassignLearner(email: string, quizId: number, spaceId: number): Promise<boolean> {
-    return await this.dataSource.transaction(async (manager) => {
+    await this.dataSource.transaction(async (manager) => {
       const learnerQuizRepo = manager.getRepository(LearnerQuizEntity);
 
-      const learnerQuiz = await learnerQuizRepo
-        .createQueryBuilder('learnerQuiz')
-        .innerJoin('learnerQuiz.learner', 'learner')
-        .where('learner.email = :email', { email })
-        .andWhere('learner.space_id = :spaceId', { spaceId })
-        .andWhere('learnerQuiz.quiz_id = :quizId', { quizId })
-        .getOne();
+      const learnerQuizzes = await learnerQuizRepo.find({
+        where: {
+          quiz: In(learners.map(({ quizId }) => quizId)),
+          learner: { id: In(learners.map(({ learnerId }) => learnerId)), space: { id: spaceId } },
+        }
 
-      if (!learnerQuiz) return false;
+      });
 
-      await learnerQuizRepo.remove(learnerQuiz);
-      return true;
+      if (learnerQuizzes.length === 0) {
+        this.logger.error(`No learner quizzes found for unassignment in space ${spaceId}`);
+        throw new QuizUnassignmentFailedException();
+      }
+
+      if (learnerQuizzes.length !== learners.length) {
+        this.logger.error(`Learner quizzes and unassignment request size mismatch in space ${spaceId}: `);
+        throw new QuizUnassignmentFailedException();
+      }
+
+      await learnerQuizRepo.remove(learnerQuizzes);
+
+      this.logger.log(
+        `Successfully unassigned ${learnerQuizzes.length} learners from quizzes in space ${spaceId}`
+      );
     });
   }
 
-  private createResponse(
-    email: string,
-    quizId: number,
-    status: "OK" | "Error",
-    message?: string
-  ): LearnerOperationResponse {
-    return {
-      email,
-      quizId,
-      status,
-      ...(message ? { message } : {})
-    };
-  }
 }

@@ -10,6 +10,9 @@ export class UnassignLearnerDto {
 
 export class LearnerToBeUnassigned {
   @IsNumber()
+  learnerId: number;
+
+  @IsNumber()
   quizId: number;
 
   @IsEmail()

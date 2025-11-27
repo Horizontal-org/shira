@@ -12,19 +12,27 @@ import { SpaceId } from 'src/modules/auth/decorators';
 import { IDeleteLearnerService } from '../interfaces/services/delete.learner.service.interface';
 import { DeleteLearnerDto } from '../dto/delete.learner.dto';
 import { UnassignLearnerDto } from '../dto/unassign.learner.dto';
+import { InvitationBulkLearnerDto } from '../dto/invitation-bulk.learner.dto';
+import { IInviteBulkLearnerService } from '../interfaces/services/invite-bulk.learner.service.interface';
+import { GenericErrorException } from '../exceptions';
+import { ApiLogger } from '../logger/api-logger.service';
 
 @AuthController('learners')
 export class AuthLearnerController {
   constructor(
     @Inject(TYPES.services.IInviteLearnerService)
     private readonly inviteService: IInviteLearnerService,
+    @Inject(TYPES.services.IInviteBulkLearnerService)
+    private readonly inviteBulkService: IInviteBulkLearnerService,
     @Inject(TYPES.services.IAssignLearnerService)
     private readonly assignService: IAssignLearnerService,
     @Inject(TYPES.services.IUnassignLearnerService)
     private readonly unassignService: IUnassignLearnerService,
     @Inject(TYPES.services.IDeleteLearnerService)
-    private readonly deleteLearnerService: IDeleteLearnerService
+    private readonly deleteLearnerService: IDeleteLearnerService,
   ) { }
+
+  private readonly logger = new ApiLogger(AuthLearnerController.name);
 
   @Post('invitations')
   @Roles(Role.SpaceAdmin)
@@ -36,8 +44,12 @@ export class AuthLearnerController {
   }
 
   @Post('invitations/bulk')
-  async inviteBulk() {
-    //TODO invite bulk
+  async inviteBulk(
+    @Body() inviteBulkLearnerDto: InvitationBulkLearnerDto,
+    @SpaceId() spaceId: number
+  ) {
+    // WIP
+    // await this.inviteBulkService.invite(inviteBulkLearnerDto, spaceId);
   }
 
   @Delete('delete')
@@ -55,7 +67,12 @@ export class AuthLearnerController {
     @Body() assignLearnerDto: AssignLearnerDto,
     @SpaceId() spaceId: number
   ) {
-    return await this.assignService.assign(assignLearnerDto, spaceId);
+    try {
+      return await this.assignService.assign(assignLearnerDto, spaceId);
+    } catch (e) {
+      this.logger.error(`Error assigning learners: ${e}`);
+      throw new GenericErrorException();
+    }
   }
 
   @Delete('assignments')
@@ -64,6 +81,11 @@ export class AuthLearnerController {
     @Body() unassignLearnerDto: UnassignLearnerDto,
     @SpaceId() spaceId: number
   ) {
-    return await this.unassignService.unassign(unassignLearnerDto, spaceId);
+    try {
+      return await this.unassignService.unassign(unassignLearnerDto, spaceId);
+    } catch (e) {
+      this.logger.error(`Error unassigning learners: ${e}`);
+      throw new GenericErrorException();
+    }
   }
 }
