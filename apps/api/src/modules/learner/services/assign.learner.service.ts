@@ -5,8 +5,9 @@ import { AssignLearnerDto } from "../dto/assign.learner.dto";
 import { Learner as LearnerEntity } from "../domain/learner.entity";
 import { LearnerQuiz as LearnerQuizEntity } from "../domain/learners_quizzes.entity";
 import { IAssignLearnerService } from "../interfaces/services/assign.learner.service.interface";
-import { Queue } from "bullmq";
+import { ApiLogger } from "../logger/api-logger.service";
 import { InjectQueue } from "@nestjs/bullmq";
+import { Queue } from "bullmq";
 import { QuizAssignmentFailedException } from "../exceptions";
 
 @Injectable()
@@ -17,6 +18,8 @@ export class AssignLearnerService implements IAssignLearnerService {
     @InjectQueue("emails")
     private readonly emailsQueue: Queue
   ) { }
+
+  private logger = new ApiLogger(AssignLearnerService.name);
 
   async assign(assignLearnerDto: AssignLearnerDto, spaceId: number): Promise<void> {
     const { learners } = assignLearnerDto;
@@ -79,7 +82,6 @@ export class AssignLearnerService implements IAssignLearnerService {
       for (const saved of savedAssignments) {
         const { learnerId, hash } = saved;
 
-        // find email
         const email = existingLearners.find(l => l.id === learnerId)!.email;
 
         const magicLink = `${process.env.PUBLIC_URL}/learner-quiz/${hash}`;
