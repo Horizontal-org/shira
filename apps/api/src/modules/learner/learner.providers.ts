@@ -37,6 +37,7 @@ export const deleteLearnerService = {
 
 export const serviceLearnerProviders = [
   inviteLearnerService,
+  inviteBulkLearnerService,
   assignLearnerService,
   unassignLearnerService,
   deleteLearnerService
