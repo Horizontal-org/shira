@@ -70,10 +70,10 @@ export class AssignLearnerService implements IAssignLearnerService {
     learnersById: Map<number, LearnerEntity>,
     learnerQuizRepo: Repository<LearnerQuizEntity>
   ): LearnerQuizEntity[] {
+
     return learners.map(({ learnerId, quizId }) => {
       if (!learnersById.has(learnerId)) {
-        this.logger.error(`Learner ${learnerId} missing while preparing quiz assignments`);
-        throw new QuizAssignmentFailedException();
+        throw new QuizAssignmentFailedException(quizId.toString(), learnerId.toString());
       }
 
       return learnerQuizRepo.create({

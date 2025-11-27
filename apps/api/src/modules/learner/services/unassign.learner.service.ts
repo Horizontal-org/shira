@@ -21,19 +21,31 @@ export class UnassignLearnerService implements IUnassignLearnerService {
 
     await this.dataSource.transaction(async (manager) => {
       const learnerQuizRepo = manager.getRepository(LearnerQuizEntity);
-      const learnerIds = learners.map(l => l.learnerId);
 
-      const learnerQuiz = await learnerQuizRepo.find({
+      const learnerQuizzes = await learnerQuizRepo.find({
         where: {
-          id: In(learnerIds),
-          quizId: In(learners.map(l => l.quizId)),
-          learner: { space: { id: spaceId } }
+          quiz: In(learners.map(({ quizId }) => quizId)),
+          learner: { id: In(learners.map(({ learnerId }) => learnerId)), space: { id: spaceId } },
         }
+
       });
 
-      if (!learnerQuiz) { throw new QuizUnassignmentFailedException(); }
+      if (learnerQuizzes.length === 0) {
+        this.logger.error(`No learner quizzes found for unassignment in space ${spaceId}`);
+        throw new QuizUnassignmentFailedException();
+      }
 
-      await learnerQuizRepo.remove(learnerQuiz);
+      if (learnerQuizzes.length !== learners.length) {
+        this.logger.error(`Learner quizzes and unassignment request size mismatch in space ${spaceId}: `);
+        throw new QuizUnassignmentFailedException();
+      }
+
+      await learnerQuizRepo.remove(learnerQuizzes);
+
+      this.logger.log(
+        `Successfully unassigned ${learnerQuizzes.length} learners from quizzes in space ${spaceId}`
+      );
     });
   }
+
 }
