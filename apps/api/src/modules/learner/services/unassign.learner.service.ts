@@ -1,8 +1,10 @@
 import { Injectable } from "@nestjs/common";
-import { DataSource } from "typeorm";
+import { DataSource, In } from "typeorm";
 import { UnassignLearnerDto } from "../dto/unassign.learner.dto";
 import { LearnerQuiz as LearnerQuizEntity } from "../domain/learners_quizzes.entity";
 import { IUnassignLearnerService } from "../interfaces/services/unassign.learner.service.interface";
+import { ApiLogger } from "../logger/api-logger.service";
+import { QuizUnassignmentFailedException } from "../exceptions/unassign-quiz.learner.exception";
 
 @Injectable()
 export class UnassignLearnerService implements IUnassignLearnerService {
@@ -10,30 +12,28 @@ export class UnassignLearnerService implements IUnassignLearnerService {
     private readonly dataSource: DataSource,
   ) { }
 
+  private logger = new ApiLogger(UnassignLearnerService.name);
+
   async unassign(unassignLearnerDto: UnassignLearnerDto, spaceId: number): Promise<void> {
     const { learners } = unassignLearnerDto;
 
-    try {
-      await this.dataSource.transaction(async (manager) => {
-        const learnerQuizRepo = manager.getRepository(LearnerQuizEntity);
+    this.logger.log(`Unassigning ${learners.length} learners from quizzes in space ${spaceId}`);
 
-        for (const { email, quizId } of learners) {
-          const learnerQuiz = await learnerQuizRepo
-            .createQueryBuilder("learnerQuiz")
-            .innerJoin("learnerQuiz.learner", "learner")
-            .where("learner.email = :email", { email })
-            .andWhere("learner.space_id = :spaceId", { spaceId })
-            .andWhere("learnerQuiz.quiz_id = :quizId", { quizId })
-            .getOne();
+    await this.dataSource.transaction(async (manager) => {
+      const learnerQuizRepo = manager.getRepository(LearnerQuizEntity);
+      const learnerIds = learners.map(l => l.learnerId);
 
-          if (!learnerQuiz) { throw new Error(); }
-
-          await learnerQuizRepo.remove(learnerQuiz);
+      const learnerQuiz = await learnerQuizRepo.find({
+        where: {
+          id: In(learnerIds),
+          quizId: In(learners.map(l => l.quizId)),
+          learner: { space: { id: spaceId } }
         }
       });
-    } catch (err) {
-      console.error("Error during unassignment process:", err);
-      throw err;
-    }
+
+      if (!learnerQuiz) { throw new QuizUnassignmentFailedException(); }
+
+      await learnerQuizRepo.remove(learnerQuiz);
+    });
   }
 }

@@ -10,6 +10,9 @@ export class AssignLearnerDto {
 
 export class LearnerToBeAssigned {
   @IsNumber()
+  learnerId: number;
+
+  @IsNumber()
   quizId: number;
 
   @IsEmail()
