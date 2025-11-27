@@ -12,18 +12,22 @@ import { SpaceId } from 'src/modules/auth/decorators';
 import { IDeleteLearnerService } from '../interfaces/services/delete.learner.service.interface';
 import { DeleteLearnerDto } from '../dto/delete.learner.dto';
 import { UnassignLearnerDto } from '../dto/unassign.learner.dto';
+import { InvitationBulkLearnerDto } from '../dto/invitation-bulk.learner.dto';
+import { IInviteBulkLearnerService } from '../interfaces/services/invite-bulk.learner.service.interface';
 
 @AuthController('learners')
 export class AuthLearnerController {
   constructor(
     @Inject(TYPES.services.IInviteLearnerService)
     private readonly inviteService: IInviteLearnerService,
+    @Inject(TYPES.services.IInviteBulkLearnerService)
+    private readonly inviteBulkService: IInviteBulkLearnerService,
     @Inject(TYPES.services.IAssignLearnerService)
     private readonly assignService: IAssignLearnerService,
     @Inject(TYPES.services.IUnassignLearnerService)
     private readonly unassignService: IUnassignLearnerService,
     @Inject(TYPES.services.IDeleteLearnerService)
-    private readonly deleteLearnerService: IDeleteLearnerService
+    private readonly deleteLearnerService: IDeleteLearnerService,
   ) { }
 
   @Post('invitations')
@@ -36,8 +40,12 @@ export class AuthLearnerController {
   }
 
   @Post('invitations/bulk')
-  async inviteBulk() {
-    //TODO invite bulk
+  async inviteBulk(
+    @Body() inviteBulkLearnerDto: InvitationBulkLearnerDto,
+    @SpaceId() spaceId: number
+  ) {
+    // WIP
+    // await this.inviteBulkService.invite(inviteBulkLearnerDto, spaceId);
   }
 
   @Delete('delete')
