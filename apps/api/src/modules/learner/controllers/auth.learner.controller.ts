@@ -28,7 +28,6 @@ export class AuthLearnerController {
     @Body() inviteLearnerDto: InviteLearnerDto,
     @SpaceId() spaceId: number) {
     await this.inviteService.invite(inviteLearnerDto, spaceId);
-    return { message: 'learner_invited', email: inviteLearnerDto.email };
   }
 
   @Post('invitations/bulk')
@@ -51,7 +50,6 @@ export class AuthLearnerController {
     @Body() assignLearnerDto: AssignLearnerDto,
     @SpaceId() spaceId: number) {
     await this.assignService.assign(assignLearnerDto, spaceId);
-    return { message: 'learner_assigned', email: assignLearnerDto.email };
   }
 
   @Post('assignments/bulk')

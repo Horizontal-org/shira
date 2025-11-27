@@ -12,6 +12,7 @@ import * as crypto from 'crypto';
 import { SpaceEntity } from "src/modules/space/domain/space.entity";
 import { InvitationEmailSendFailedException } from "../exceptions/invitation-email-send.learner.exception";
 import { GenericErrorException } from "../exceptions/generic-error.learner.exception";
+import { ApiLogger } from "../logger/api-logger.service";
 
 @Injectable()
 export class InviteLearnerService implements IInviteLearnerService {
@@ -24,10 +25,12 @@ export class InviteLearnerService implements IInviteLearnerService {
     private emailsQueue: Queue
   ) { }
 
+  private logger = new ApiLogger(InviteLearnerService.name);
+
   async invite(inviteLearnerDto: InviteLearnerDto, spaceId: number) {
     const { email, name, assignedByUser } = inviteLearnerDto;
 
-    console.debug("InviteLearnerService ~ create ~ email:", email, "spaceId:", spaceId);
+    this.logger.log(`Inviting learner with email: ${email} to spaceId: ${spaceId}`);
 
     const existingLearner = await this.findLearner(spaceId, email);
 
@@ -46,14 +49,15 @@ export class InviteLearnerService implements IInviteLearnerService {
 
       await this.handleExistingLearner(learner, existingLearner);
     } catch {
-      throw new SaveLearnerException();
+      throw new SaveLearnerException(email);
     }
 
     this.sendEmail(email, hash);
   }
 
   private async findLearner(spaceId: number, email: string) {
-    console.debug("InviteLearnerService ~ findLearner ~ email:", email, "spaceId:", spaceId);
+    this.logger.log(`Finding existing learner with email: ${email} in spaceId: ${spaceId}`);
+
     const existing = await this.learnerRepo.findOne({
       where: {
         spaceId,
@@ -66,7 +70,7 @@ export class InviteLearnerService implements IInviteLearnerService {
   }
 
   private async sendEmail(email: string, token: string) {
-    console.debug("InviteLearnerService ~ sendEmail ~ email:", email);
+    this.logger.log(`Sending invitation email to learner with email: ${email}`);
 
     const magicLink = `${process.env.PUBLIC_URL}/accept-invite/${token}`;
 
@@ -78,8 +82,9 @@ export class InviteLearnerService implements IInviteLearnerService {
         template: 'learner-invitation',
         data: { email, magicLink }
       })
+      this.logger.log(`Invitation email queued successfully for email: ${email}`);
     } catch {
-      throw new InvitationEmailSendFailedException();
+      throw new InvitationEmailSendFailedException(email);
     }
   }
 
@@ -93,7 +98,7 @@ export class InviteLearnerService implements IInviteLearnerService {
 
     if (!learner) throw new GenericErrorException();
 
-    console.debug("InviteLearnerService ~ accept ~ learner:", learner.id, "spaceId:", learner.spaceId);
+    this.logger.log(`Accepting invitation for learner with email: ${learner.email}`);
 
     const space = await this.spaceRepo.findOne({
       where: { id: learner.spaceId },
@@ -115,17 +120,15 @@ export class InviteLearnerService implements IInviteLearnerService {
     learner: LearnerEntity,
     existingLearner?: LearnerEntity
   ) {
-    console.debug("InviteLearnerService ~ handleExistingLearner ~ existingLearner:",
-      existingLearner ? existingLearner.id : 'none');
-
     if (existingLearner && existingLearner.status === 'invited') {
       await this.learnerRepo.update(
         { id: existingLearner.id },
         { invitedAt: new Date() }
       );
+      this.logger.log(`Updated invitation date for existing learner with ID: ${existingLearner.id}`);
     } else {
       await this.learnerRepo.save(learner);
+      this.logger.log(`Saved new learner with email: ${learner.email}`);
     }
-
   }
 }
