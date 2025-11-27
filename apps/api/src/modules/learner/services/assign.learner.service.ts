@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { DataSource, EntityManager } from "typeorm";
+import { DataSource, In } from "typeorm";
 import * as crypto from "crypto";
 import { AssignLearnerDto } from "../dto/assign.learner.dto";
 import { Learner as LearnerEntity } from "../domain/learner.entity";
@@ -7,9 +7,7 @@ import { LearnerQuiz as LearnerQuizEntity } from "../domain/learners_quizzes.ent
 import { IAssignLearnerService } from "../interfaces/services/assign.learner.service.interface";
 import { Queue } from "bullmq";
 import { InjectQueue } from "@nestjs/bullmq";
-import { AssignmentEmailSendFailedException } from "../exceptions/assignment-email-send.learner.exception";
 import { QuizAssignmentFailedException } from "../exceptions";
-import { LearnerOperationResponse } from "../dto/learner-operation-response.dto";
 
 @Injectable()
 export class AssignLearnerService implements IAssignLearnerService {
@@ -20,156 +18,84 @@ export class AssignLearnerService implements IAssignLearnerService {
     private readonly emailsQueue: Queue
   ) { }
 
-  async assign(
-    assignLearnerDto: AssignLearnerDto,
-    spaceId: number
-  ): Promise<LearnerOperationResponse[]> {
+  async assign(assignLearnerDto: AssignLearnerDto, spaceId: number): Promise<void> {
     const { learners } = assignLearnerDto;
 
-    const okResults: Array<{ learnerQuiz: LearnerQuizEntity; email: string; quizId: number }> = [];
-
-    const results = await Promise.all(
-      learners.map(async ({ email, quizId }): Promise<LearnerOperationResponse> => {
-        try {
-          const learnerQuiz = await this.assignLearner(email, quizId, spaceId);
-
-          if (!learnerQuiz) {
-            return this.createResponse(
-              email,
-              quizId,
-              "Error",
-              "Learner not found in space or already assigned to quiz"
-            );
-          }
-
-          okResults.push({ learnerQuiz, email, quizId });
-          return this.createResponse(email, quizId, "OK");
-
-        } catch (err) {
-          return this.createResponse(email, quizId, "Error", err?.message ?? "Unknown assignment error");
-        }
-      })
-    );
-
-    await Promise.all(
-      okResults.map(async ({ learnerQuiz, email, quizId }) => {
-        try {
-          await this.sendEmail(learnerQuiz, email);
-        } catch (err) {
-          await this.rollbackAssignment(learnerQuiz.id);
-          this.updateAssignmentStatusOnEmailError(results, email, quizId, err?.message);
-        }
-      })
-    );
-
-    return results;
-  }
-
-  private async assignLearner(
-    email: string,
-    quizId: number,
-    spaceId: number
-  ): Promise<LearnerQuizEntity> {
-    const learnerQuiz = await this.dataSource.transaction(async (manager) => {
+    await this.dataSource.transaction(async (manager) => {
+      const emails = [...new Set(learners.map(l => l.email))];
       const learnerRepo = manager.getRepository(LearnerEntity);
 
-      const learner = await learnerRepo
-        .createQueryBuilder("learner")
-        .leftJoin(
-          "learner.learnerQuizzes",
-          "learnerQuiz",
-          "learnerQuiz.quiz_id = :quizId", { quizId }
-        )
-        .where("learner.email = :email", { email })
-        .andWhere("learner.space_id = :spaceId", { spaceId })
-        .andWhere("learnerQuiz.id IS NULL")
-        .getOne();
-
-      if (!learner) return;
-
-      return await this.saveLearner(learner.id, quizId, manager);
-    });
-
-    if (!learnerQuiz) return;
-
-    return learnerQuiz;
-  }
-
-  private async saveLearner(
-    learnerId: number,
-    quizId: number,
-    manager: EntityManager
-  ): Promise<LearnerQuizEntity> {
-    const learnerQuizRepo = manager.getRepository(LearnerQuizEntity);
-
-    const learnerQuiz = learnerQuizRepo.create({
-      learnerId,
-      quizId,
-      hash: crypto.randomBytes(20).toString("hex"),
-      status: "assigned",
-      assignedAt: new Date(),
-    });
-
-    try {
-      return await learnerQuizRepo.save(learnerQuiz);
-    } catch {
-      throw new QuizAssignmentFailedException();
-    }
-  }
-
-  private async sendEmail(learnerQuiz: LearnerQuizEntity, email: string): Promise<void> {
-    const magicLink = `${process.env.PUBLIC_URL}/learner-quiz/${learnerQuiz.hash}`;
-
-    try {
-      await this.emailsQueue.add("send", {
-        to: email,
-        from: process.env.SMTP_GLOBAL_FROM,
-        subject: "Invitation to take a quiz in a Shira space",
-        template: "learner-quiz-assignment",
-        data: { email, magicLink },
+      const existingLearners = await learnerRepo.find({
+        where: {
+          email: In(emails),
+          space: { id: spaceId }
+        }
       });
-    } catch {
-      throw new AssignmentEmailSendFailedException();
-    }
-  }
 
-  private async rollbackAssignment(learnerQuizId: number): Promise<void> {
-    await this.dataSource
-      .getRepository(LearnerQuizEntity)
-      .delete(learnerQuizId);
-  }
+      if (existingLearners.length === 0) {
+        throw new QuizAssignmentFailedException();
+      }
 
-  private createResponse(
-    email: string,
-    quizId: number,
-    status: "OK" | "Error",
-    message?: string
-  ): LearnerOperationResponse {
-    return {
-      email,
-      quizId,
-      status,
-      ...(message ? { message } : {})
-    };
-  }
+      const learnerByEmail = new Map(
+        existingLearners.map(l => [l.email, l])
+      );
 
-  private updateAssignmentStatusOnEmailError(
-    results: LearnerOperationResponse[],
-    email: string,
-    quizId: number,
-    errorMessage?: string
-  ) {
-    const result = results.find((r) => r.email === email && r.quizId === quizId);
-    if (!result) return;
+      for (const { email } of existingLearners) {
+        if (!learnerByEmail.has(email)) {
+          console.error(`Learner ${email} not found in space ${spaceId}`);
+          throw new QuizAssignmentFailedException();
+        }
+      }
+      const learnerQuizRepo = manager.getRepository(LearnerQuizEntity);
 
-    const updated = this.createResponse(
-      email,
-      quizId,
-      "Error",
-      errorMessage ?? "Unknown error while sending assignment email"
-    );
+      const alreadyAssigned = await learnerQuizRepo.find({
+        where: learners.map(({ email, quizId }) => ({
+          learner: { id: learnerByEmail.get(email).id },
+          quizId
+        }))
+      });
 
-    result.status = updated.status;
-    result.message = updated.message;
+      if (alreadyAssigned.length > 0) {
+        console.error("Some learners are already assigned:", alreadyAssigned);
+        throw new QuizAssignmentFailedException();
+      }
+
+      const inserts: LearnerQuizEntity[] = [];
+
+      for (const { email, quizId } of learners) {
+        inserts.push(
+          learnerQuizRepo.create({
+            learnerId: learnerByEmail.get(email).id,
+            quizId,
+            status: "assigned",
+            assignedAt: new Date(),
+            hash: crypto.randomBytes(20).toString("hex")
+          })
+        );
+      }
+
+      const savedAssignments = await learnerQuizRepo.save(inserts);
+
+      for (const saved of savedAssignments) {
+        const { learnerId, hash } = saved;
+
+        // find email
+        const email = existingLearners.find(l => l.id === learnerId)!.email;
+
+        const magicLink = `${process.env.PUBLIC_URL}/learner-quiz/${hash}`;
+
+        try {
+          await this.emailsQueue.add("send", {
+            to: email,
+            from: process.env.SMTP_GLOBAL_FROM,
+            subject: "Invitation to take a quiz in a Shira space",
+            template: "learner-quiz-assignment",
+            data: { email, magicLink }
+          });
+        } catch {
+          throw new QuizAssignmentFailedException();
+        }
+      }
+    });
   }
 }
