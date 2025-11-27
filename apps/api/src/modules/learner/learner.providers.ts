@@ -10,6 +10,11 @@ export const inviteLearnerService = {
   useClass: InviteLearnerService,
 };
 
+export const inviteBulkLearnerService = {
+  provide: TYPES.services.IInviteBulkLearnerService,
+  useClass: InviteLearnerService,
+};
+
 export const assignLearnerService = {
   provide: TYPES.services.IAssignLearnerService,
   useClass: AssignLearnerService,
