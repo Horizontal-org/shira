@@ -8,6 +8,7 @@ export const invite = async (email: string, name: string) => {
 }
 
 export interface AssignRequest {
+  learnerId: number;
   email: string;
   quizId: number;
 }

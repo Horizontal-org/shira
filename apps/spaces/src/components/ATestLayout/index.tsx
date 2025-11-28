@@ -29,7 +29,7 @@ export const ATestLayout: FunctionComponent<Props> = () => {
       setView(ViewResult.Error);
 
       const e = handleHttpError(error);
-      const key = e.code ?? e.message ?? "generic_error";
+      const key = e.code ?? e.message ?? "";
 
       toast.error(
         t(`error_messages.${key}`, { defaultValue: "Failed to invite" }), { duration: 3000 }
@@ -39,26 +39,23 @@ export const ATestLayout: FunctionComponent<Props> = () => {
 
   const assQuiz = async () => {
     try {
-      const response = await assignToQuiz([{ email: "fredziaga@gmail.com", quizId: 79 }]);
+      const response = await assignToQuiz([{ learnerId: 1, email: "fredziaga@gmail.com", quizId: 79 }]);
 
-      //TODO write toast logic for one vs. bulk assignments
-      const firstResponseData = response.data[0];
-
-      if (firstResponseData.status !== "Error") {
+      if (response.data.status !== "Error") {
         setView(ViewResult.Ok);
         setIsInvitationModalOpen(true);
       }
 
-      if (firstResponseData.status === "Error") {
+      if (response.data.status === "Error") {
         setView(ViewResult.Error);
-        toast.error(t(`error_messages.${firstResponseData.message}`) || "Failed to assign");
+        toast.error(t(`error_messages.${response.data.message}`) || "Failed to assign");
       }
 
     } catch (error) {
       setView(ViewResult.Error);
 
       const e = handleHttpError(error);
-      const key = e.code ?? e.message ?? "generic_error";
+      const key = e.code ?? e.message ?? "";
 
       toast.error(
         t(`error_messages.${key}`, { defaultValue: "Failed to assign" }), { duration: 3000 }
@@ -78,7 +75,7 @@ export const ATestLayout: FunctionComponent<Props> = () => {
         <Button
           text="Assign to quiz"
           type="outline"
-          leftIcon={<FiDownload />}
+          leftIcon={<FiDownload />} //TODO add download icon to shira ui
           onClick={assQuiz}
         />
       </ButtonContainer>

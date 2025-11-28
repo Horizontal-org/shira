@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 import { Modal, TextInput } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
@@ -17,12 +17,15 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
 
   const { t } = useTranslation();
 
+  const [name, handleName] = useState('');
+  const [email, handleEmail] = useState('');
+
   return (
     <Modal
       isOpen={isModalOpen}
       title={t('modals.invite_learner.title')}
       primaryButtonText={t('buttons.send_invitation')}
-      primaryButtonDisabled={true}
+      primaryButtonDisabled={!name || name.trim() === "" || !email || email.trim() === ""}
       secondaryButtonText={t('buttons.cancel')}
       onPrimaryClick={() => {
         onConfirm()
@@ -30,19 +33,23 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
       }}
       onSecondaryClick={() => {
         setIsModalOpen(false)
+        handleEmail('');
+        handleName('');
       }}
     >
       <FormContent>
         <InputsContainer>
           <TextInput
             aria-label="name"
-            value={t('modals.invite_learner.name_placeholder')}
-            onChange={() => { }}
+            value={name}
+            placeholder={t('modals.invite_learner.name_placeholder')}
+            onChange={(e) => handleName(e.target.value)}
           />
           <TextInput
             aria-label="email"
-            value={t('modals.invite_learner.email_placeholder')}
-            onChange={() => { }}
+            value={email}
+            placeholder={t('modals.invite_learner.email_placeholder')}
+            onChange={(e) => handleEmail(e.target.value)}
           />
         </InputsContainer>
       </FormContent>
