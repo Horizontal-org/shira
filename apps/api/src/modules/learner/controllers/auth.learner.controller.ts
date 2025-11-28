@@ -14,8 +14,9 @@ import { DeleteLearnerDto } from '../dto/delete.learner.dto';
 import { UnassignLearnerDto } from '../dto/unassign.learner.dto';
 import { InvitationBulkLearnerDto } from '../dto/invitation-bulk.learner.dto';
 import { IInviteBulkLearnerService } from '../interfaces/services/invite-bulk.learner.service.interface';
-import { GenericErrorException } from '../exceptions';
+import { QuizAssignmentFailedException } from '../exceptions';
 import { ApiLogger } from '../logger/api-logger.service';
+import { QuizUnassignmentFailedException } from '../exceptions/unassign-quiz.learner.exception';
 
 @AuthController('learners')
 export class AuthLearnerController {
@@ -71,7 +72,7 @@ export class AuthLearnerController {
       return await this.assignService.assign(assignLearnerDto, spaceId);
     } catch (e) {
       this.logger.error(`Error assigning learners: ${e}`);
-      throw new GenericErrorException();
+      throw new QuizAssignmentFailedException();
     }
   }
 
@@ -85,7 +86,7 @@ export class AuthLearnerController {
       return await this.unassignService.unassign(unassignLearnerDto, spaceId);
     } catch (e) {
       this.logger.error(`Error unassigning learners: ${e}`);
-      throw new GenericErrorException();
+      throw new QuizUnassignmentFailedException();
     }
   }
 }
