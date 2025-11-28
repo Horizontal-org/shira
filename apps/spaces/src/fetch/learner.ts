@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const invite = async (email: string, name: string) => {
+export const invite = async (name: string, email: string) => {
   const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/learners/invitations`, {
     email, name
   })

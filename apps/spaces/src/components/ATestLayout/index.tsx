@@ -20,18 +20,16 @@ export const ATestLayout: FunctionComponent<Props> = () => {
 
   const { t } = useTranslation();
 
-  const inviteLearner = async () => {
+  const inviteLearner = async (name: string, email: string) => {
     try {
-      await invite("22@gmail.com", "ffffff");
+      await invite(name, email);
       setView(ViewResult.Ok);
-      toast.success("OK", { duration: 3000 });
+      toast.success(t(`success_messages.learner_invitation_sent`), { duration: 3000 });
     } catch (error) {
       setView(ViewResult.Error);
 
       const e = handleHttpError(error);
       const key = e.message ?? "Failed to invite";
-      console.log(error);
-      console.log(`error_messages.${key}`)
 
       toast.error(
         t(`error_messages.${key}`), { duration: 3000 }
@@ -84,7 +82,7 @@ export const ATestLayout: FunctionComponent<Props> = () => {
         <InviteLearnerModal
           isModalOpen={isInvitationModalOpen}
           setIsModalOpen={setIsInvitationModalOpen}
-          onConfirm={inviteLearner}
+          onConfirm={(name, email) => inviteLearner(name, email)}
         />
       </ModalWrapper>
     </Container >
