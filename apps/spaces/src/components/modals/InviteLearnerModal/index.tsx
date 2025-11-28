@@ -30,6 +30,8 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
       onPrimaryClick={() => {
         onConfirm()
         setIsModalOpen(false);
+        handleEmail('');
+        handleName('');
       }}
       onSecondaryClick={() => {
         setIsModalOpen(false)
@@ -67,8 +69,4 @@ const InputsContainer = styled.div`
   display: flex;
   gap: 24px;
   margin-top: 16px;
-
-  > * {
-    flex: 1;
-  }
 `;

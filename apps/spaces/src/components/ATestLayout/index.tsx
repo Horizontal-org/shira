@@ -20,7 +20,7 @@ export const ATestLayout: FunctionComponent<Props> = () => {
 
   const { t } = useTranslation();
 
-  const inv = async () => {
+  const inviteLearner = async () => {
     try {
       await invite("22@gmail.com", "ffffff");
       setView(ViewResult.Ok);
@@ -29,15 +29,17 @@ export const ATestLayout: FunctionComponent<Props> = () => {
       setView(ViewResult.Error);
 
       const e = handleHttpError(error);
-      const key = e.code ?? e.message ?? "";
+      const key = e.message ?? "Failed to invite";
+      console.log(error);
+      console.log(`error_messages.${key}`)
 
       toast.error(
-        t(`error_messages.${key}`, { defaultValue: "Failed to invite" }), { duration: 3000 }
+        t(`error_messages.${key}`), { duration: 3000 }
       );
     }
   };
 
-  const assQuiz = async () => {
+  const assignQuizToLearner = async () => {
     try {
       const response = await assignToQuiz([{ learnerId: 1, email: "fredziaga@gmail.com", quizId: 79 }]);
 
@@ -55,11 +57,9 @@ export const ATestLayout: FunctionComponent<Props> = () => {
       setView(ViewResult.Error);
 
       const e = handleHttpError(error);
-      const key = e.code ?? e.message ?? "";
+      const key = e.message ?? "Failed to assign";
 
-      toast.error(
-        t(`error_messages.${key}`, { defaultValue: "Failed to assign" }), { duration: 3000 }
-      );
+      toast.error(t(`error_messages.${key}`), { duration: 3000 });
     }
   };
 
@@ -75,8 +75,8 @@ export const ATestLayout: FunctionComponent<Props> = () => {
         <Button
           text="Assign to quiz"
           type="outline"
-          leftIcon={<FiDownload />} //TODO add download icon to shira ui
-          onClick={assQuiz}
+          leftIcon={<FiDownload />}
+          onClick={assignQuizToLearner}
         />
       </ButtonContainer>
 
@@ -84,7 +84,7 @@ export const ATestLayout: FunctionComponent<Props> = () => {
         <InviteLearnerModal
           isModalOpen={isInvitationModalOpen}
           setIsModalOpen={setIsInvitationModalOpen}
-          onConfirm={inv}
+          onConfirm={inviteLearner}
         />
       </ModalWrapper>
     </Container >

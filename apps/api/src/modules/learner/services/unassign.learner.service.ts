@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { DataSource, In } from "typeorm";
-import { UnassignLearnerDto } from "../dto/unassign.learner.dto";
+import { LearnerToBeUnassigned, UnassignLearnerDto } from "../dto/unassign.learner.dto";
 import { LearnerQuiz as LearnerQuizEntity } from "../domain/learners_quizzes.entity";
 import { IUnassignLearnerService } from "../interfaces/services/unassign.learner.service.interface";
 import { ApiLogger } from "../logger/api-logger.service";
@@ -12,7 +12,7 @@ export class UnassignLearnerService implements IUnassignLearnerService {
     private readonly dataSource: DataSource,
   ) { }
 
-  private logger = new ApiLogger(UnassignLearnerService.name);
+  private readonly logger = new ApiLogger(UnassignLearnerService.name);
 
   async unassign(unassignLearnerDto: UnassignLearnerDto, spaceId: number): Promise<void> {
     const { learners } = unassignLearnerDto;
@@ -22,23 +22,9 @@ export class UnassignLearnerService implements IUnassignLearnerService {
     await this.dataSource.transaction(async (manager) => {
       const learnerQuizRepo = manager.getRepository(LearnerQuizEntity);
 
-      const learnerQuizzes = await learnerQuizRepo.find({
-        where: {
-          quiz: In(learners.map(({ quizId }) => quizId)),
-          learner: { id: In(learners.map(({ learnerId }) => learnerId)), space: { id: spaceId } },
-        }
+      const learnerQuizzes = await this.fetchLearnerQuizzes(learnerQuizRepo, learners, spaceId);
 
-      });
-
-      if (learnerQuizzes.length === 0) {
-        this.logger.error(`No learner quizzes found for unassignment in space ${spaceId}`);
-        throw new QuizUnassignmentFailedException();
-      }
-
-      if (learnerQuizzes.length !== learners.length) {
-        this.logger.error(`Learner quizzes and unassignment request size mismatch in space ${spaceId}: `);
-        throw new QuizUnassignmentFailedException();
-      }
+      this.validateLearnerQuizzes(learnerQuizzes, spaceId, learners);
 
       await learnerQuizRepo.remove(learnerQuizzes);
 
@@ -48,4 +34,27 @@ export class UnassignLearnerService implements IUnassignLearnerService {
     });
   }
 
+  private async fetchLearnerQuizzes(learnerQuizRepo, learners: LearnerToBeUnassigned[], spaceId: number) {
+    return await learnerQuizRepo.find({
+      where: {
+        quiz: In(learners.map(({ quizId }) => quizId)),
+        learner: {
+          id: In(learners.map(({ learnerId }) => learnerId)),
+          space: { id: spaceId }
+        },
+      }
+    });
+  }
+
+  private validateLearnerQuizzes(learnerQuizzes, spaceId: number, learners: LearnerToBeUnassigned[]) {
+    if (learnerQuizzes.length === 0) {
+      this.logger.error(`No learner quizzes found for unassignment in space ${spaceId}`);
+      throw new QuizUnassignmentFailedException();
+    }
+
+    if (learnerQuizzes.length !== learners.length) {
+      this.logger.error(`Learner quizzes and unassignment request size mismatch in space ${spaceId}`);
+      throw new QuizUnassignmentFailedException();
+    }
+  }
 }

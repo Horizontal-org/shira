@@ -92,29 +92,31 @@ export class AssignLearnerService implements IAssignLearnerService {
   ) {
     this.logger.log(`Sending quiz assignment emails to learners`);
 
-    for (const { learnerId, hash } of savedAssignments) {
-      const learner = learnersById.get(learnerId);
+    await Promise.all(
+      savedAssignments.map(async ({ learnerId, hash }) => {
+        const learner = learnersById.get(learnerId);
 
-      if (!learner) {
-        this.logger.error(`Learner ${learnerId} missing while sending quiz assignment emails`);
-        throw new QuizAssignmentFailedException();
-      }
+        if (!learner) {
+          this.logger.error(`Learner ${learnerId} not found for email sending`);
+          throw new QuizAssignmentFailedException();
+        }
 
-      const email = learner.email;
-      const magicLink = `${process.env.PUBLIC_URL}/learner-quiz/${hash}`;
+        const email = learner.email;
+        const magicLink = `${process.env.PUBLIC_URL}/learner-quiz/${hash}`;
 
-      try {
-        await this.emailsQueue.add("send", {
-          to: email,
-          from: process.env.SMTP_GLOBAL_FROM,
-          subject: "Invitation to take a quiz in a Shira space",
-          template: "learner-quiz-assignment",
-          data: { email, magicLink }
-        });
-      } catch {
-        this.logger.error(`Failed to send email to ${email} for quiz assignment`);
-        throw new QuizAssignmentFailedException();
-      }
-    }
+        try {
+          await this.emailsQueue.add("send", {
+            to: email,
+            from: process.env.SMTP_GLOBAL_FROM,
+            subject: "Invitation to take a quiz in a Shira space",
+            template: "learner-quiz-assignment",
+            data: { email, magicLink }
+          });
+        } catch {
+          this.logger.error(`Failed to send email to ${email} for quiz assignment`);
+          throw new QuizAssignmentFailedException();
+        }
+      })
+    );
   }
 }
