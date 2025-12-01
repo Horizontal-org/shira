@@ -57,11 +57,6 @@ export class AssignLearnerService implements IAssignLearnerService {
       }
     });
 
-    if (existingLearners.length !== learnerIds.length) {
-      this.logger.error("Some learners do not exist in the specified space");
-      throw new QuizAssignmentFailedException();
-    }
-
     return existingLearners;
   }
 
