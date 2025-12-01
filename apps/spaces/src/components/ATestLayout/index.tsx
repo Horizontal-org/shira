@@ -1,14 +1,14 @@
 import { FunctionComponent, useState } from "react";
 import toast from "react-hot-toast";
 import { assignToQuiz, deleteLearners, inviteLearner } from "../../fetch/learner";
-import { Trans, useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { handleHttpError } from "../../fetch/handleError";
 import { EmailIcon, Button, Body1, Modal, ModalType } from "@shira/ui";
 import { FiDownload } from "react-icons/fi";
 import { InviteLearnerModal } from "../modals/InviteLearnerModal";
 import { DeleteModal } from "../modals/DeleteModal";
-import i18n from "../../language/i18n";
+import { getContactUsLayout, getErrorContent } from "../../utils/getErrorContent";
 
 interface Props { }
 
@@ -25,39 +25,12 @@ export const ATestLayout: FunctionComponent<Props> = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
 
-  const [errorMessage, setErrorMessage] = useState<React.ReactNode>(null);
+  const [errorMessage, setErrorMessage] = useState<string>(null);
   const [retryAction, setRetryAction] = useState<(() => void) | null>(null);
 
   const { t } = useTranslation();
 
-  const getErrorContent = (fallbackKey: string, errorKey?: string) => {
-    const base = "error_messages";
-
-    const specificKey = `${base}.${errorKey}`;
-    const fallbackFullKey = `${base}.${fallbackKey}`;
-
-    const finalKey =
-      specificKey && i18n.exists(`${base}.${errorKey}`)
-        ? specificKey
-        : fallbackFullKey;
-
-    return (
-      <Trans
-        i18nKey={finalKey}
-        components={{
-          1: (
-            <a
-              href="mailto:contact@wearehorizontal.org"
-              target="_blank"
-              rel="noopener noreferrer"
-            />
-          )
-        }}
-      />
-    );
-  };
-
-  const openErrorModal = (content: React.ReactNode, retry: () => void) => {
+  const openErrorModal = (content: string, retry: () => void) => {
     setErrorMessage(content);
     setRetryAction(() => retry);
     setIsErrorModalOpen(true);
@@ -134,6 +107,10 @@ export const ATestLayout: FunctionComponent<Props> = () => {
     if (retryAction) { retryAction(); }
   };
 
+  const handleErrorContent = () => {
+    return getContactUsLayout(errorMessage);
+  }
+
   return (
     <Container>
       <ButtonContainer>
@@ -188,7 +165,7 @@ export const ATestLayout: FunctionComponent<Props> = () => {
       >
         <FormContent>
           <Body1>
-            {errorMessage}
+            {handleErrorContent()}
           </Body1>
         </FormContent>
       </Modal>
