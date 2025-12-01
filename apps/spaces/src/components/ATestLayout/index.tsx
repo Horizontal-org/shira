@@ -18,7 +18,7 @@ export const ATestLayout: FunctionComponent<Props> = () => {
   const [view, setView] = useState<ViewResult>(null);
 
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
-  function handleSelectLearner() { setSelectedIds([1, 2]); }
+  function handleSelectLearner() { setSelectedIds([1, 2]); } // Mock of learners
 
   const [isInvitationModalOpen, setIsInvitationModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -29,6 +29,8 @@ export const ATestLayout: FunctionComponent<Props> = () => {
     try {
       await inviteLearner(name, email);
       setView(ViewResult.Ok);
+
+      //TODO replace toast with modal
       toast.success(t(`success_messages.learner_invitation_sent`), { duration: 3000 });
     } catch (error) {
       setView(ViewResult.Error);
@@ -43,7 +45,7 @@ export const ATestLayout: FunctionComponent<Props> = () => {
   };
 
   const assignQuizToLearner = async () => {
-    handleSelectLearner(); // Mock of learners
+    handleSelectLearner();
 
     try {
       const response = await assignToQuiz([{ learnerId: 1, quizId: 79 }]);
@@ -55,21 +57,21 @@ export const ATestLayout: FunctionComponent<Props> = () => {
 
       if (response.data.status === "Error") {
         setView(ViewResult.Error);
-        toast.error(t(`error_messages.${response.data.message}`) || "Failed to assign");
+        const message = t(`error_messages.${response.data.message}`, { defaultValue: "Failed to assign" });
+        toast.error(message, { duration: 3000 });
       }
-
     } catch (error) {
       setView(ViewResult.Error);
 
       const e = handleHttpError(error);
-      const key = e.message ?? "Failed to assign";
+      const message = t(`error_messages.${e.message}`, { defaultValue: "Failed to assign" });
 
-      toast.error(t(`error_messages.${key}`), { duration: 3000 });
+      toast.error(message, { duration: 3000 });
     }
   };
 
   const deleteLearner = async () => {
-    handleSelectLearner(); // Mock of learners
+    handleSelectLearner();
 
     try {
       await deleteLearners(selectedIds);
@@ -79,11 +81,11 @@ export const ATestLayout: FunctionComponent<Props> = () => {
       setView(ViewResult.Error);
 
       const e = handleHttpError(error);
-      const key = e.message ?? "Failed to delete";
 
-      toast.error(
-        t(`error_messages.${key}`), { duration: 3000 }
-      );
+      const message = t(`error_messages.${e.message}`, { defaultValue: "Failed to delete" });
+
+      //TODO replace toast with modal
+      toast.error(message, { duration: 3000 });
     }
   }
 
@@ -125,7 +127,7 @@ export const ATestLayout: FunctionComponent<Props> = () => {
           </div>
         }
         setIsModalOpen={setIsDeleteModalOpen}
-        onDelete={() => { deleteLearners([]) }}
+        onDelete={deleteLearner}
         onCancel={() => { setIsDeleteModalOpen(false) }}
         isModalOpen={isDeleteModalOpen}
       />
