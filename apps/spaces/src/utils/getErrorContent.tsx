@@ -2,8 +2,7 @@ import { ReactNode } from "react";
 import { Trans } from "react-i18next";
 import i18n from "../language/i18n";
 
-export const getErrorContent = (fallbackKey: string, errorKey?: string): string => {
-  const base = "error_messages";
+export const getErrorContent = (base: string, fallbackKey: string, errorKey?: string): string => {
   const specificKey = `${base}.${errorKey}`;
   const fallbackFullKey = `${base}.${fallbackKey}`;
 

@@ -25,3 +25,10 @@ export const assignToQuiz = async (learners: AssignRequest[]) => {
   })
   return response;
 }
+
+export const unassignFromQuiz = async (learners: AssignRequest[]) => {
+  const response = await axios.delete(`${process.env.REACT_APP_API_URL}/learners/assignments`, {
+    data: { learners }
+  })
+  return response;
+}

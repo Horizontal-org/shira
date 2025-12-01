@@ -1,6 +1,6 @@
 import { FunctionComponent, useState } from "react";
 import toast from "react-hot-toast";
-import { assignToQuiz, deleteLearners, inviteLearner } from "../../fetch/learner";
+import { assignToQuiz, deleteLearners, inviteLearner, unassignFromQuiz } from "../../fetch/learner";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { handleHttpError } from "../../fetch/handleError";
@@ -9,6 +9,7 @@ import { FiDownload } from "react-icons/fi";
 import { InviteLearnerModal } from "../modals/InviteLearnerModal";
 import { DeleteModal } from "../modals/DeleteModal";
 import { getContactUsLayout, getErrorContent } from "../../utils/getErrorContent";
+import { FaPersonCircleMinus } from "react-icons/fa6";
 
 interface Props { }
 
@@ -46,26 +47,35 @@ export const ATestLayout: FunctionComponent<Props> = () => {
       setView(ViewResult.Error);
 
       const e = handleHttpError(error);
-      const content = getErrorContent("invite_learner_failed", e.message);
+      const content = getErrorContent("error_messages", "invite_learner_failed", e.message);
 
       openErrorModal(content, () => invite(name, email));
     }
   };
 
   const assignQuizToLearner = async () => {
-    handleSelectLearner();
-
     try {
-      const response = await assignToQuiz([{ learnerId: 1, quizId: 79 }]);
+      const learners = [{ learnerId: 9, quizId: 2 }, { learnerId: 8, quizId: 2 }]; // Mock of learners
+      const response = await assignToQuiz(learners);
 
       if (response.data.status !== "Error") {
         setView(ViewResult.Ok);
-        setIsInvitationModalOpen(true);
+
+        const message = () => {
+          if (learners.length === 1) {
+            return t(`success_messages.learner_assigned`, { count: learners.length });
+          } else {
+            return t(`success_messages.learners_assigned_plural`, { count: learners.length });
+          }
+        }
+
+        toast.success(message, { duration: 3000 });
       }
 
       if (response.data.status === "Error") {
         setView(ViewResult.Error);
-        const content = getErrorContent("assign_quiz_failed", response.data.message);
+
+        const content = getErrorContent("error_messages", "assign_quiz_failed", response.data.message);
 
         openErrorModal(content, assignQuizToLearner);
       }
@@ -73,9 +83,44 @@ export const ATestLayout: FunctionComponent<Props> = () => {
       setView(ViewResult.Error);
 
       const e = handleHttpError(error);
-      const content = getErrorContent("assign_quiz_failed", e.message);
+      const content = getErrorContent("error_messages", "assign_quiz_failed", e.message);
 
       openErrorModal(content, assignQuizToLearner);
+    }
+  };
+
+  const unassignQuizToLearner = async () => {
+    try {
+      const learners = [{ learnerId: 9, quizId: 2 }, { learnerId: 8, quizId: 2 }]; // Mock of learners
+      const response = await unassignFromQuiz(learners);
+
+      if (response.data.status !== "Error") {
+        setView(ViewResult.Ok);
+
+        const message = () => {
+          if (learners.length === 1) {
+            return t(`success_messages.learner_unassigned`, { count: learners.length });
+          } else {
+            return t(`success_messages.learners_unassigned_plural`, { count: learners.length });
+          }
+        }
+
+        toast.success(message, { duration: 3000 });
+      }
+
+      if (response.data.status === "Error") {
+        setView(ViewResult.Error);
+        const content = getErrorContent("error_messages", "unassign_quiz_failed", response.data.message);
+
+        openErrorModal(content, unassignQuizToLearner);
+      }
+    } catch (error) {
+      setView(ViewResult.Error);
+
+      const e = handleHttpError(error);
+      const content = getErrorContent("error_messages", "unassign_quiz_failed", e.message);
+
+      openErrorModal(content, unassignQuizToLearner);
     }
   };
 
@@ -90,7 +135,7 @@ export const ATestLayout: FunctionComponent<Props> = () => {
       setView(ViewResult.Error);
 
       const e = handleHttpError(error);
-      const content = getErrorContent("delete_learner_failed", e.message);
+      const content = getErrorContent("error_messages", "delete_learner_failed", e.message);
 
       openErrorModal(content, deleteLearner);
     }
@@ -115,7 +160,7 @@ export const ATestLayout: FunctionComponent<Props> = () => {
     <Container>
       <ButtonContainer>
         <Button
-          text="Invite user to space"
+          text="Invite learner to space"
           type="outline"
           leftIcon={<EmailIcon />}
           onClick={() => setIsInvitationModalOpen(true)}
@@ -125,6 +170,12 @@ export const ATestLayout: FunctionComponent<Props> = () => {
           type="outline"
           leftIcon={<FiDownload />}
           onClick={assignQuizToLearner}
+        />
+        <Button
+          text="Unassign to quiz"
+          type="outline"
+          leftIcon={<FaPersonCircleMinus />}
+          onClick={unassignQuizToLearner}
         />
         <Button
           text="Delete learner"

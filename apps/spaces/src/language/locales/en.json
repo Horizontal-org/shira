@@ -209,7 +209,8 @@
         "next": "Next",
         "continue": "Continue",
         "send_invitation": "Send invitation",
-        "try_again": "Try again"
+        "try_again": "Try again",
+        "unassign": "Unassign"
     },
     "modals": {
         "create_quiz": {
@@ -296,6 +297,10 @@
         "delete_learner": {
             "title": "Are you sure you want to delete this learner?",
             "subtitle": "Deleting this learner from your space is permanent and cannot be undone. The learner's quiz results will be deleted too."
+        },
+        "unassign_learner": {
+            "title": "Unassign quiz from learner?",
+            "subtitle": "Are you sure you want to unassign the quiz from this learner? Any quiz progress and results will be lost."
         }
     },
     "error_messages": {
@@ -313,7 +318,8 @@
         "something_went_wrong": "Something went wrong",
         "invite_learner_failed": "There was a problem inviting the learner. If this issue persists, <1>contact us</1>.",
         "delete_learner_failed": "There was a problem deleting the learner. If this issue persists, <1>contact us</1>.",
-        "assign_quiz_failed": "There was a problem assigning the quiz. If this issue persists, <1>contact us</1>."
+        "assign_quiz_failed": "There was a problem assigning this quiz to learners. If this issue persists, <1>contact us</1>.",
+        "unassign_quiz_failed": "There was a problem unassigning this quiz from learners. If this issue persists, <1>contact us</1>."
     },
     "success_messages": {
         "quiz_link_copied": "The public quiz link has been copied to your clipboard.",
@@ -329,7 +335,11 @@
         "question_copied": "Copy of {{question_name}} created successfully",
         "no_questions_found": "No questions found.",
         "learner_invitation_sent": "The invitation has been sent.",
-        "learner_deleted": "The learner has been deleted."
+        "learner_deleted": "The learner has been deleted.",
+        "learner_assigned": "This quiz has been assigned to {{count}} new learner.",
+        "learners_assigned_plural": "This quiz has been assigned to {{count}} new learners.",
+        "learner_unassigned": "This quiz has been unassigned to {{count}} new learner.",
+        "learners_unassigned_plural": "This quiz has been unassigned to {{count}} new learners."
     },
     "loading_messages": {
         "loading": "Loading...",
@@ -337,7 +347,9 @@
         "creating": "Creating...",
         "duplicating": "Duplicating...",
         "loading_library_questions": "Loading questions...",
-        "uploading_image": "Uploading image..."
+        "uploading_image": "Uploading image...",
+        "assigning_quiz_to_learners": "Assigning quiz to learners",
+        "assigning_quiz_to_learners_description": "Shira is working to assign the quiz to the selected learners."
     },
     "preview": {
         "show_explanations": "Show explanations",
