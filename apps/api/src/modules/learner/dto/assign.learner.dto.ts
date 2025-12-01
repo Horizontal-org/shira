@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsArray, IsEmail, IsNumber, ValidateNested } from "class-validator";
+import { IsArray, IsNumber, ValidateNested } from "class-validator";
 
 export class AssignLearnerDto {
   @IsArray()
@@ -14,7 +14,4 @@ export class LearnerToBeAssigned {
 
   @IsNumber()
   quizId: number;
-
-  @IsEmail()
-  email: string;
 }
