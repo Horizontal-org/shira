@@ -1,13 +1,14 @@
 import { FunctionComponent, useState } from "react";
 import toast from "react-hot-toast";
 import { assignToQuiz, deleteLearners, inviteLearner } from "../../fetch/learner";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { handleHttpError } from "../../fetch/handleError";
-import { EmailIcon, Button } from "@shira/ui";
+import { EmailIcon, Button, Body1, Modal, ModalType } from "@shira/ui";
 import { FiDownload } from "react-icons/fi";
 import { InviteLearnerModal } from "../modals/InviteLearnerModal";
 import { DeleteModal } from "../modals/DeleteModal";
+import i18n from "../../language/i18n";
 
 interface Props { }
 
@@ -18,29 +19,63 @@ export const ATestLayout: FunctionComponent<Props> = () => {
   const [view, setView] = useState<ViewResult>(null);
 
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
-  function handleSelectLearner() { setSelectedIds([1, 2]); } // Mock of learners
+  function handleSelectLearner() { setSelectedIds([10]); } // Mock of learners
 
   const [isInvitationModalOpen, setIsInvitationModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+
+  const [errorMessage, setErrorMessage] = useState<React.ReactNode>(null);
+  const [retryAction, setRetryAction] = useState<(() => void) | null>(null);
 
   const { t } = useTranslation();
+
+  const getErrorContent = (fallbackKey: string, errorKey?: string) => {
+    const base = "error_messages";
+
+    const specificKey = `${base}.${errorKey}`;
+    const fallbackFullKey = `${base}.${fallbackKey}`;
+
+    const finalKey =
+      specificKey && i18n.exists(`${base}.${errorKey}`)
+        ? specificKey
+        : fallbackFullKey;
+
+    return (
+      <Trans
+        i18nKey={finalKey}
+        components={{
+          1: (
+            <a
+              href="mailto:contact@wearehorizontal.org"
+              target="_blank"
+              rel="noopener noreferrer"
+            />
+          )
+        }}
+      />
+    );
+  };
+
+  const openErrorModal = (content: React.ReactNode, retry: () => void) => {
+    setErrorMessage(content);
+    setRetryAction(() => retry);
+    setIsErrorModalOpen(true);
+  };
 
   const invite = async (name: string, email: string) => {
     try {
       await inviteLearner(name, email);
       setView(ViewResult.Ok);
 
-      //TODO replace toast with modal
       toast.success(t(`success_messages.learner_invitation_sent`), { duration: 3000 });
     } catch (error) {
       setView(ViewResult.Error);
 
       const e = handleHttpError(error);
-      const key = e.message ?? "Failed to invite";
+      const content = getErrorContent("invite_learner_failed", e.message);
 
-      toast.error(
-        t(`error_messages.${key}`), { duration: 3000 }
-      );
+      openErrorModal(content, () => invite(name, email));
     }
   };
 
@@ -57,16 +92,17 @@ export const ATestLayout: FunctionComponent<Props> = () => {
 
       if (response.data.status === "Error") {
         setView(ViewResult.Error);
-        const message = t(`error_messages.${response.data.message}`, { defaultValue: "Failed to assign" });
-        toast.error(message, { duration: 3000 });
+        const content = getErrorContent("assign_quiz_failed", response.data.message);
+
+        openErrorModal(content, assignQuizToLearner);
       }
     } catch (error) {
       setView(ViewResult.Error);
 
       const e = handleHttpError(error);
-      const message = t(`error_messages.${e.message}`, { defaultValue: "Failed to assign" });
+      const content = getErrorContent("assign_quiz_failed", e.message);
 
-      toast.error(message, { duration: 3000 });
+      openErrorModal(content, assignQuizToLearner);
     }
   };
 
@@ -81,13 +117,22 @@ export const ATestLayout: FunctionComponent<Props> = () => {
       setView(ViewResult.Error);
 
       const e = handleHttpError(error);
+      const content = getErrorContent("delete_learner_failed", e.message);
 
-      const message = t(`error_messages.${e.message}`, { defaultValue: "Failed to delete" });
-
-      //TODO replace toast with modal
-      toast.error(message, { duration: 3000 });
+      openErrorModal(content, deleteLearner);
     }
   }
+
+  const handleErrorModalCancel = () => {
+    setIsErrorModalOpen(false);
+    setRetryAction(null);
+    setErrorMessage(null);
+  };
+
+  const handleErrorModalRetry = () => {
+    setIsErrorModalOpen(false);
+    if (retryAction) { retryAction(); }
+  };
 
   return (
     <Container>
@@ -128,9 +173,25 @@ export const ATestLayout: FunctionComponent<Props> = () => {
         }
         setIsModalOpen={setIsDeleteModalOpen}
         onDelete={deleteLearner}
-        onCancel={() => { setIsDeleteModalOpen(false) }}
+        onCancel={() => setIsDeleteModalOpen(false)}
         isModalOpen={isDeleteModalOpen}
       />
+
+      <Modal
+        isOpen={isErrorModalOpen}
+        title={t('error_messages.something_went_wrong')}
+        primaryButtonText={t('buttons.try_again')}
+        secondaryButtonText={t('buttons.cancel')}
+        type={ModalType.Danger}
+        onPrimaryClick={handleErrorModalRetry}
+        onSecondaryClick={handleErrorModalCancel}
+      >
+        <FormContent>
+          <Body1>
+            {errorMessage}
+          </Body1>
+        </FormContent>
+      </Modal>
     </Container >
   )
 };
@@ -153,4 +214,9 @@ const ButtonContainer = styled.div`
   justify-content: center;
   width: 100%;
   gap: 10px;
+`;
+
+const FormContent = styled.div`
+  display: flex;
+  flex-direction: column;
 `;

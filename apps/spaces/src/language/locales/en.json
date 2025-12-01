@@ -208,7 +208,8 @@
         "delete": "Delete",
         "next": "Next",
         "continue": "Continue",
-        "send_invitation": "Send invitation"
+        "send_invitation": "Send invitation",
+        "try_again": "Try again"
     },
     "modals": {
         "create_quiz": {
@@ -308,7 +309,11 @@
         "learner_email_send_failed": "Failed to send email invitation to learner.",
         "learner_token_conflict": "The token from the learner is invalid or has already been used.",
         "learner_assignment_failed": "Failed to assign learner to the space.",
-        "invalid_email": "Please enter a valid email address."
+        "invalid_email": "Please enter a valid email address.",
+        "something_went_wrong": "Something went wrong",
+        "invite_learner_failed": "There was a problem inviting the learner. If this issue persists, <1>contact us</1>.",
+        "delete_learner_failed": "There was a problem deleting the learner. If this issue persists, <1>contact us</1>.",
+        "assign_quiz_failed": "There was a problem assigning the quiz. If this issue persists, <1>contact us</1>."
     },
     "success_messages": {
         "quiz_link_copied": "The public quiz link has been copied to your clipboard.",
