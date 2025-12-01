@@ -291,6 +291,10 @@
             "subtitle": "Send an email invitation to ask a new learner to join your space.",
             "name_placeholder": "Name (optional)",
             "email_placeholder": "Email address (required)"
+        },
+        "delete_learner": {
+            "title": "Are you sure you want to delete this learner?",
+            "subtitle": "Deleting this learner from your space is permanent and cannot be undone. The learner's quiz results will be deleted too."
         }
     },
     "error_messages": {
@@ -319,7 +323,8 @@
         "question_deleted": "Question deleted",
         "question_copied": "Copy of {{question_name}} created successfully",
         "no_questions_found": "No questions found.",
-        "learner_invitation_sent": "The invitation has been sent."
+        "learner_invitation_sent": "The invitation has been sent.",
+        "learner_deleted": "The learner has been deleted."
     },
     "loading_messages": {
         "loading": "Loading...",

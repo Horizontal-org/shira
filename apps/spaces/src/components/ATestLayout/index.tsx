@@ -1,13 +1,13 @@
 import { FunctionComponent, useState } from "react";
 import toast from "react-hot-toast";
-import { invite } from "../../fetch/learner";
-import { assignToQuiz } from "../../fetch/learner";
+import { assignToQuiz, deleteLearners, inviteLearner } from "../../fetch/learner";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { handleHttpError } from "../../fetch/handleError";
 import { EmailIcon, Button } from "@shira/ui";
 import { FiDownload } from "react-icons/fi";
 import { InviteLearnerModal } from "../modals/InviteLearnerModal";
+import { DeleteModal } from "../modals/DeleteModal";
 
 interface Props { }
 
@@ -16,13 +16,18 @@ export const ATestLayout: FunctionComponent<Props> = () => {
   enum ViewResult { Ok, Error };
 
   const [view, setView] = useState<ViewResult>(null);
+
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  function handleSelectLearner() { setSelectedIds([1, 2]); }
+
   const [isInvitationModalOpen, setIsInvitationModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const { t } = useTranslation();
 
-  const inviteLearner = async (name: string, email: string) => {
+  const invite = async (name: string, email: string) => {
     try {
-      await invite(name, email);
+      await inviteLearner(name, email);
       setView(ViewResult.Ok);
       toast.success(t(`success_messages.learner_invitation_sent`), { duration: 3000 });
     } catch (error) {
@@ -38,8 +43,10 @@ export const ATestLayout: FunctionComponent<Props> = () => {
   };
 
   const assignQuizToLearner = async () => {
+    handleSelectLearner(); // Mock of learners
+
     try {
-      const response = await assignToQuiz([{ learnerId: 1, email: "fredziaga@gmail.com", quizId: 79 }]);
+      const response = await assignToQuiz([{ learnerId: 1, quizId: 79 }]);
 
       if (response.data.status !== "Error") {
         setView(ViewResult.Ok);
@@ -61,6 +68,25 @@ export const ATestLayout: FunctionComponent<Props> = () => {
     }
   };
 
+  const deleteLearner = async () => {
+    handleSelectLearner(); // Mock of learners
+
+    try {
+      await deleteLearners(selectedIds);
+      setView(ViewResult.Ok);
+      toast.success(t(`success_messages.learner_deleted`), { duration: 3000 });
+    } catch (error) {
+      setView(ViewResult.Error);
+
+      const e = handleHttpError(error);
+      const key = e.message ?? "Failed to delete";
+
+      toast.error(
+        t(`error_messages.${key}`), { duration: 3000 }
+      );
+    }
+  }
+
   return (
     <Container>
       <ButtonContainer>
@@ -76,15 +102,33 @@ export const ATestLayout: FunctionComponent<Props> = () => {
           leftIcon={<FiDownload />}
           onClick={assignQuizToLearner}
         />
+        <Button
+          text="Delete learner"
+          type="outline"
+          onClick={() => setIsDeleteModalOpen(true)}
+        />
       </ButtonContainer>
 
       <ModalWrapper>
         <InviteLearnerModal
           isModalOpen={isInvitationModalOpen}
           setIsModalOpen={setIsInvitationModalOpen}
-          onConfirm={(name, email) => inviteLearner(name, email)}
+          onConfirm={(name, email) => invite(name, email)}
         />
       </ModalWrapper>
+
+      <DeleteModal
+        title={t('modals.delete_learner.title')}
+        content={
+          <div>
+            {t('modals.delete_learner.subtitle')}
+          </div>
+        }
+        setIsModalOpen={setIsDeleteModalOpen}
+        onDelete={() => { deleteLearners([]) }}
+        onCancel={() => { setIsDeleteModalOpen(false) }}
+        isModalOpen={isDeleteModalOpen}
+      />
     </Container >
   )
 };

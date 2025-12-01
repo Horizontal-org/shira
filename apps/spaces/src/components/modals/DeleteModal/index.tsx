@@ -1,5 +1,5 @@
-import { FunctionComponent, useState } from "react";
-import { Body1, Modal, ModalType, TextInput } from "@shira/ui";
+import { FunctionComponent } from "react";
+import { Body1, Modal, ModalType } from "@shira/ui";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 
