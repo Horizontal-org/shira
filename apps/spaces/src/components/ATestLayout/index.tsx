@@ -25,9 +25,13 @@ export const ATestLayout: FunctionComponent<Props> = () => {
   const [isInvitationModalOpen, setIsInvitationModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+
 
   const [errorMessage, setErrorMessage] = useState<string>(null);
   const [retryAction, setRetryAction] = useState<(() => void) | null>(null);
+
+  //TODO loading state
 
   const { t } = useTranslation();
 
