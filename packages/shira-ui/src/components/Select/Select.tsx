@@ -82,7 +82,7 @@ export const SelectComponent = ({ label, options, onChange, value }: SelectProps
         {label && <Label>{label}</Label>}
       </LabelWrapper>
       <SelectBox onClick={() => setIsOpen(!isOpen)}>
-        <SelectedOption>
+        <SelectedOption id="selected-option">
           {
             getSelectedOption()?.label || "Select an option"
           }
@@ -93,7 +93,7 @@ export const SelectComponent = ({ label, options, onChange, value }: SelectProps
       </SelectBox>
       
       {isOpen && createPortal(
-        <OptionsContainer 
+        <OptionsContainer
           ref={optionsRef}
           style={{ 
             top: `${position.top}px`, 
