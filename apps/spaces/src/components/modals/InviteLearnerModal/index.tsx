@@ -21,38 +21,38 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
   const [email, handleEmail] = useState('');
   const [emailIsValid, setEmailIsValid] = useState(true);
 
-  const isValidEmail = (value: string) =>
+  const isEmailEmpty = !email || email.trim() === "";
+  const isNameEmpty = !name || name.trim() === "";
+
+  const verifyEmailPattern = (value: string) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
   return (
     <Modal
+      size="medium"
       isOpen={isModalOpen}
       title={t('modals.invite_learner.title')}
       primaryButtonText={t('buttons.send_invitation')}
-      primaryButtonDisabled={
-        !name || name.trim() === "" ||
-        !email || email.trim() === "" ||
-        !emailIsValid
-      }
+      primaryButtonDisabled={isNameEmpty || isEmailEmpty || !emailIsValid}
       secondaryButtonText={t('buttons.cancel')}
       onPrimaryClick={() => {
         onConfirm(name, email);
         setIsModalOpen(false);
         setEmailIsValid(true);
-        handleEmail('');
-        handleName('');
+        handleEmail("");
+        handleName("");
       }}
       onSecondaryClick={() => {
         setIsModalOpen(false)
         setEmailIsValid(true);
-        handleEmail('');
-        handleName('');
+        handleEmail("");
+        handleName("");
       }}
     >
       <FormContent>
         <InputsContainer>
           <TextInput
-            id="learner_name"
+            id="learner-name"
             value={name}
             placeholder={t('modals.invite_learner.name_placeholder')}
             onChange={(e) => handleName(e.target.value)}
@@ -60,7 +60,7 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
 
           <EmailField>
             <TextInput
-              id="learner_email"
+              id="learner-email"
               type="email"
               value={email}
               placeholder={t('modals.invite_learner.email_placeholder')}
@@ -71,13 +71,13 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
                   setEmailIsValid(true);
                   return;
                 }
-                setEmailIsValid(isValidEmail(value));
+                setEmailIsValid(verifyEmailPattern(value));
               }}
               aria-invalid={!emailIsValid}
               aria-describedby="learner-email-error"
             />
 
-            {!emailIsValid && email.trim() !== '' && (
+            {!isEmailEmpty && !emailIsValid && (
               <ErrorText
                 id="learner-email-error"
                 role="alert"
