@@ -222,7 +222,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             {filteredCards.map((card) => (
               <Card 
                 id={`quiz-card-${card.id}`}
-                publishedText="Published"
                 onCardClick={() => {
                   navigate(`/quiz/${card.id}`)
                 }}
