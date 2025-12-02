@@ -19,17 +19,17 @@ const defaultAdminPaths = {
 
 const createDefaultMenuItems = (): MenuItem[] => [
   {
-    icon: <FiHome size={24} color="white" />,
+    icon: <FiHome id="dashboard-icon" size={24} color="white" />,
     label: 'Dashboard',
     path: defaultAdminPaths.dashboard
   },
   {
-    icon: <FiHelpCircle size={24} color="white" />,
+    icon: <FiHelpCircle id="support-icon" size={24} color="white" />,
     label: 'Support',
     path: defaultAdminPaths.support
   },
   {
-    icon: <FiLogOut size={24} color="white" />,
+    icon: <FiLogOut id="logout-icon" size={24} color="white" />,
     label: 'Log out',
     path: defaultAdminPaths.logout
   }

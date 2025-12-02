@@ -143,7 +143,7 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
       <Container>
         <ContentWrapper>
           <div>
-            <ContentHeader>
+            <ContentHeader id="content-header">
               <Breadcrumbs
                 active={step}
                 items={[
@@ -153,7 +153,7 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
                 ]}
               />
               {step === 2 && (
-                <ExplanationTitle>
+                <ExplanationTitle id="explanation-title">
                   <Body1>
                     {t('create_question.tabs.preview.subtitle')}
                   </Body1>

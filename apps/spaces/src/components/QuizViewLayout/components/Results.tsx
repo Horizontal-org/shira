@@ -42,15 +42,15 @@ export const Results: FunctionComponent<ResultsProps> = ({ resultsData, loading 
     <div>
       <MetricsContainer>
         <MetricCard>
-          <MetricTitle>{t('results_tab.completed_quizzes.title')}</MetricTitle>
-          <MetricValue>{completedQuizzesData.value}</MetricValue>
-          <MetricDescription>{completedQuizzesData.description}</MetricDescription>
+          <MetricTitle id="completed-quizzes-title">{t('results_tab.completed_quizzes.title')}</MetricTitle>
+          <MetricValue id="completed-quizzes-value">{completedQuizzesData.value}</MetricValue>
+          <MetricDescription id="completed-quizzes-description">{completedQuizzesData.description}</MetricDescription>
         </MetricCard>
 
         <MetricCard>
-          <MetricTitle>{t('results_tab.average_score.title')}</MetricTitle>
-          <MetricValue>{averageScoreData.value}</MetricValue>
-          <MetricDescription>{averageScoreData.description}</MetricDescription>
+          <MetricTitle id="average-score-title">{t('results_tab.average_score.title')}</MetricTitle>
+          <MetricValue id="average-score-value">{averageScoreData.value}</MetricValue>
+          <MetricDescription id="average-score-description">{averageScoreData.description}</MetricDescription>
         </MetricCard>
       </MetricsContainer>
     </div>

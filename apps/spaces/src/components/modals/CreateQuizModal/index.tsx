@@ -20,6 +20,7 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
 
   return (
     <Modal
+      id="create-quiz-modal"
       isOpen={isModalOpen}
       title={t('modals.create_quiz.title')}
       primaryButtonText={t('modals.create_quiz.button')}
