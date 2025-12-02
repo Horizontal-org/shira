@@ -7,6 +7,7 @@ import { FloatingMenu } from '../FloatingMenu';
 import Toggle from '../Toggle/Toggle';
 
 export interface CardProps {
+  id?: string;
   title: string;
   lastModified: string;
   isPublished: boolean;
@@ -20,6 +21,7 @@ export interface CardProps {
 }
 
 export const Card: FunctionComponent<CardProps> = ({
+  id,
   title,
   lastModified,
   isPublished,
@@ -34,7 +36,7 @@ export const Card: FunctionComponent<CardProps> = ({
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   return (
-    <CardWrapper onClick={() => {
+    <CardWrapper id={id} onClick={() => {
       onCardClick()
     }}>
       <TopSection>

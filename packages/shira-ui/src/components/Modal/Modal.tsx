@@ -4,6 +4,7 @@ import { Button } from '../Button';
 import { SubHeading2 } from '../Typography';
 
 export interface ModalProps {
+  id?: string;
   isOpen: boolean;
   title: string;
   titleIcon?: React.ReactNode;
@@ -31,6 +32,7 @@ const modalTypeColors = {
 
 
 export const Modal: React.FC<ModalProps> = ({
+  id,
   isOpen,
   title,
   titleIcon = (<></>),
@@ -62,10 +64,10 @@ export const Modal: React.FC<ModalProps> = ({
 
   return (
     <>
-      <Overlay>
+      <Overlay id={id}>
         <ModalContainer className={className}>
           <Header>
-            { titleIcon }
+            {titleIcon}
             <SubHeading2>{title}</SubHeading2>
           </Header>
 
@@ -75,8 +77,8 @@ export const Modal: React.FC<ModalProps> = ({
 
           <Footer>
             <div>
-              { onLeftClick && (
-                <Button  
+              {onLeftClick && (
+                <Button
                   text={leftButtonText}
                   type='primary'
                   color={modalTypeColors[ModalType.Danger]}
@@ -85,7 +87,7 @@ export const Modal: React.FC<ModalProps> = ({
               )}
             </div>
             <div>
-              { onSecondaryClick && (
+              {onSecondaryClick && (
                 <Button
                   text={secondaryButtonText}
                   type="outline"

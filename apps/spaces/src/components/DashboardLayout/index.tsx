@@ -167,7 +167,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   );
 
   return (
-    <Container>
+    <Container id="dashboard-layout">
       <Sidebar
         menuItems={menuItems}
         onCollapse={handleCollapse}
@@ -178,11 +178,12 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
         <BetaBanner url="/support" />
         <MainContentWrapper>
           <HeaderContainer>
-            <StyledSubHeading3>{space && space.name}</StyledSubHeading3>
-            <H2>{t('dashboard.title')}</H2>
-            <Body1>{t('dashboard.subtitle')}</Body1>
+            <StyledSubHeading3 id="space-name">{space && space.name}</StyledSubHeading3>
+            <H2 id="dashboard-title">{t('dashboard.title')}</H2>
+            <Body1 id="dashboard-subtitle">{t('dashboard.subtitle')}</Body1>
             <ButtonContainer>
               <Button
+                id="create-quiz-button"
                 type="primary"
                 leftIcon={<FiPlus />}
                 text={t('dashboard.create_quiz_button')}
@@ -196,27 +197,31 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
           <FilterButtonsContainer>
             <FilterButton
+              id="filter-all-quizzes"
               text={t('quizzes.filter.all_quizzes')}
               handleFilter={() => setActiveFilter(FilterStates.all)}
               isActive={activeFilter === FilterStates.all}
             />
 
             <FilterButton
+              id="filter-published-quizzes"
               text={t('quizzes.filter.published')}
               handleFilter={() => setActiveFilter(FilterStates.published)}
               isActive={activeFilter === FilterStates.published}
             />
 
             <FilterButton
+              id="filter-unpublished-quizzes"
               text={t('quizzes.filter.unpublished')}
               handleFilter={() => setActiveFilter(FilterStates.unpublished)}
               isActive={activeFilter === FilterStates.unpublished}
             />
           </FilterButtonsContainer>
 
-          <CardGrid>
+          <CardGrid id="card-grid">
             {filteredCards.map((card) => (
               <Card
+                id={`quiz-card-${card.id}`}
                 publishedText={t('quizzes.filter.published')}
                 onCardClick={() => {
                   navigate(`/quiz/${card.id}`)

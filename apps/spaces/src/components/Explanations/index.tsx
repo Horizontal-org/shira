@@ -110,7 +110,7 @@ export const Explanations: FunctionComponent<Props> = ({
   // }
 
   return (
-    <Wrapper>
+    <Wrapper id="explanations-wrapper">
       <>        
         <Body2Regular>Explanations will be shown in the following order in the quiz. </Body2Regular>
 

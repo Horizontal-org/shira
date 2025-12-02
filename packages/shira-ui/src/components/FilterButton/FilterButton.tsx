@@ -1,14 +1,15 @@
-import { Button } from '../Button'
+import { Button } from '../Button';
 import styled from 'styled-components';
 
 export interface FilterButtonProps {
+  id?: string;
   text: string;
   handleFilter: () => void;
   isActive: boolean;
   color?: string;
 }
 
-export const FilterButton = ({ text, handleFilter, isActive, color }: FilterButtonProps) => {
+export const FilterButton = ({ id, text, handleFilter, isActive, color }: FilterButtonProps) => {
   const handleClick = () => {
     if (!isActive) {
       handleFilter()
@@ -16,7 +17,8 @@ export const FilterButton = ({ text, handleFilter, isActive, color }: FilterButt
   }
 
   return (
-    <StyledButton 
+    <StyledButton
+      id={id}
       onClick={handleClick}
       type='outline'
       text={text}
@@ -27,7 +29,7 @@ export const FilterButton = ({ text, handleFilter, isActive, color }: FilterButt
   )
 }
 
-const StyledButton = styled(Button)<{ $isActive: boolean }>`
+const StyledButton = styled(Button) <{ $isActive: boolean }>`
   ${props => props.$isActive && !props.color && `
     background: ${props.theme.colors.dark.darkGrey};
     color: ${props.theme.colors.light.white};

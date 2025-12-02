@@ -1,9 +1,9 @@
-import { FunctionComponent, useState, useEffect } from "react";
+import { FunctionComponent, useState } from "react";
 import { styled } from '@shira/ui'
 import { QuestionsList } from './QuestionList'
 import { Results } from './Results'
 import { QuizQuestion } from "../../../store/slices/quiz";
-import { getQuizResults, PublicQuizResultsResponse } from "../../../fetch/results";
+import { PublicQuizResultsResponse } from "../../../fetch/results";
 
 type TabType = 'questions' | 'results';
 
@@ -40,12 +40,14 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
       <Header>
         <TabsContainer>
           <TabButton
+            id="questions-tab"
             $isActive={activeTab === 'questions'}
             onClick={() => setActiveTab('questions')}
           >
             Questions
           </TabButton>
           <TabButton
+            id="results-tab"
             $isActive={activeTab === 'results'}
             onClick={() => setActiveTab('results')}
           >

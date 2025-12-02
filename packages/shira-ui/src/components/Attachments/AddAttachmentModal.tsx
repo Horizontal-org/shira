@@ -46,6 +46,7 @@ export const AddAttachmentModal = ({
 
   return (
     <Modal
+      id="add-attachment-modal"
       isOpen={isOpen}
       title={titleLabel}
       primaryButtonText={saveLabel}
@@ -59,6 +60,7 @@ export const AddAttachmentModal = ({
     >
       <div>
         <TextInput
+          id="file-name-input"
           label={fileNameLabel}
           value={fileName}
           onChange={(e) => handleFileName(e.target.value)}
