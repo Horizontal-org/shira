@@ -15,7 +15,7 @@ export const getContactUsLayout = (finalKey: string): ReactNode => {
     components={{
       1: (
         <a
-          href="mailto:contact@wearehorizontal.org"
+          href="/support"
           target="_blank"
           rel="noopener noreferrer" />
       )
