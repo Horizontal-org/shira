@@ -44,19 +44,23 @@ export class LoggingInterceptor implements NestInterceptor {
 
   // capture metadata and stack traces
   private logAndRethrowError(err: unknown, ctx: RequestLogContext) {
-    try {
-      const duration = this.getDuration(ctx.startedAt);
-      const { status, message, cause } = this.buildErrorInfo(err);
-      const logLine = this.formatErrorLog({ ctx, duration, status, message, cause });
+    const duration = this.getDuration(ctx.startedAt);
 
-      this.logger.error(logLine, this.extractStack(err), 'Exception');
-    } catch (loggingErr) {
-      // never let the logger crash pipeline
-      this.logger.error(
-        `Error in LoggingInterceptor while logging original error: ${(loggingErr as any)?.message}`,
-        (loggingErr as any)?.stack,
-        'LoggingInterceptor',
-      );
+    if (err instanceof HttpException) {
+      try {
+        const { status, message, cause } = this.buildErrorInfo(err);
+        const logLine = this.formatErrorLog({ ctx, duration, status, message, cause });
+
+        this.logger.error(logLine, this.extractStack(err), 'Exception');
+      } catch (loggingErr) {
+        // never let the logger crash the pipeline
+        const anyLoggingErr = loggingErr as any;
+        this.logger.error(
+          `Error in LoggingInterceptor while logging HttpException: ${anyLoggingErr?.message}`,
+          anyLoggingErr?.stack,
+          'LoggingInterceptor',
+        );
+      }
     }
 
     return throwError(() => err);
@@ -80,34 +84,31 @@ export class LoggingInterceptor implements NestInterceptor {
       .join(' | ');
   }
 
-  // normalize into a uniform structure
-  private buildErrorInfo(err: unknown): {
+  // normalize into a uniform structure (only for HttpExceptions)
+  private buildErrorInfo(err: HttpException): {
     status: number;
     message: string;
     cause: string | null;
   } {
-    // HttpException handling
-    if (err instanceof HttpException) {
-      const status = err.getStatus();
-      const res = err.getResponse();
+    const status = err.getStatus();
+    const res = err.getResponse();
 
-      let message = 'Unknown error';
-      let cause: string | null = null;
+    let message = 'Unknown error';
+    let cause: string | null = null;
 
-      if (typeof res === 'string') {
-        message = res;
-      } else {
-        const body = res as Record<string, any>;
-        if (body.message) message = String(body.message);
-        if (body.cause) cause = String(body.cause);
-      }
-
-      const anyErr = err as any;
-      if (!cause && anyErr?.cause) cause = String(anyErr.cause);
-      if (!cause && anyErr?.options?.cause) cause = String(anyErr.options.cause);
-
-      return { status, message, cause };
+    if (typeof res === 'string') {
+      message = res;
+    } else if (res && typeof res === 'object') {
+      const body = res as Record<string, any>;
+      if (body.message) message = String(body.message);
+      if (body.cause) cause = String(body.cause);
     }
+
+    const anyErr = err as any;
+    if (!cause && anyErr?.cause) cause = String(anyErr.cause);
+    if (!cause && anyErr?.options?.cause) cause = String(anyErr.options.cause);
+
+    return { status, message, cause };
   }
 
   // only log stacks when present

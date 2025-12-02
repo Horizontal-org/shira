@@ -1,104 +1,117 @@
 import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import * as crypto from 'crypto';
-import { AssignLearnerDto } from "../dto/assign.learner.dto";
+import { DataSource, In, Repository } from "typeorm";
+import * as crypto from "crypto";
+import { AssignLearnerDto, LearnerToBeAssigned } from "../dto/assign.learner.dto";
 import { Learner as LearnerEntity } from "../domain/learner.entity";
 import { LearnerQuiz as LearnerQuizEntity } from "../domain/learners_quizzes.entity";
 import { IAssignLearnerService } from "../interfaces/services/assign.learner.service.interface";
-import { NotFoundLearnerException, QuizAssignmentAlreadyExistsException, QuizAssignmentFailedException, AssignmentEmailSendFailedException } from "../exceptions";
 import { Queue } from "bullmq";
 import { InjectQueue } from "@nestjs/bullmq";
+import { QuizAssignmentFailedException } from "../exceptions";
 import { ApiLogger } from "../logger/api-logger.service";
 
 @Injectable()
 export class AssignLearnerService implements IAssignLearnerService {
   constructor(
-    @InjectRepository(LearnerEntity)
-    private learnerRepo: Repository<LearnerEntity>,
-    @InjectRepository(LearnerQuizEntity)
-    private learnerQuizRepo: Repository<LearnerQuizEntity>,
-    @InjectQueue('emails')
-    private emailsQueue: Queue
+    private readonly dataSource: DataSource,
+    @InjectQueue("emails")
+    private readonly emailsQueue: Queue
   ) { }
 
-  private logger = new ApiLogger(AssignLearnerService.name);
+  private readonly logger = new ApiLogger(AssignLearnerService.name);
 
   async assign(assignLearnerDto: AssignLearnerDto, spaceId: number): Promise<void> {
-    const { email, quizId } = assignLearnerDto;
+    const { learners } = assignLearnerDto;
 
-    const learner = await this.findLearner(email, quizId, spaceId);
+    this.logger.log(`Assigning ${learners.length} learners to quizzes in space ${spaceId}`);
 
-    const learnerQuiz = await this.saveLearner(learner.id, quizId);
+    await this.dataSource.transaction(async (manager) => {
+      const learnerRepo = manager.getRepository(LearnerEntity);
+      const learnerQuizRepo = manager.getRepository(LearnerQuizEntity);
 
-    await this.sendEmail(learnerQuiz, email);
+      const existingLearners = await this.fetchLearnersByIds(learners, learnerRepo, spaceId);
+      const learnersById = new Map(existingLearners.map(learner => [learner.id, learner]));
+
+      const assignments = this.prepareQuizAssignments(learners, learnersById, learnerQuizRepo);
+      const savedAssignments = await learnerQuizRepo.save(assignments);
+
+      await this.sendEmails(savedAssignments, learnersById);
+
+      this.logger.log(
+        `Successfully assigned ${savedAssignments.length} learners to quizzes in space ${spaceId}`
+      );
+    });
   }
 
-  private async findLearner(email: string, quizId: number, spaceId: number) {
-    this.logger.log(`Finding learner with email: ${email} in spaceId: ${spaceId}`);
+  private async fetchLearnersByIds(
+    learners: LearnerToBeAssigned[],
+    learnerRepo: Repository<LearnerEntity>,
+    spaceId: number
+  ): Promise<LearnerEntity[]> {
+    const learnerIds = learners.map(l => l.learnerId);
 
-    const learner = await this.learnerRepo.findOne({
+    const existingLearners = await learnerRepo.find({
       where: {
-        email,
+        id: In(learnerIds),
         space: { id: spaceId }
       }
     });
 
-    if (!learner) throw new NotFoundLearnerException();
-
-    this.logger.log(`Learner found with ID: ${learner.id}`);
-
-    const quizAssignmentExists = await this.learnerQuizRepo.exists({
-      where: {
-        learner: { id: learner.id },
-        quiz: { id: quizId },
-      },
-    });
-
-    if (quizAssignmentExists) {
-      throw new QuizAssignmentAlreadyExistsException();
-    }
-
-    return learner;
+    return existingLearners;
   }
 
-  private async saveLearner(learnerId: number, quizId: number) {
-    this.logger.log(`Saving learner quiz assignment for learnerId: ${learnerId}, quizId: ${quizId}`);
+  private prepareQuizAssignments(
+    learners: LearnerToBeAssigned[],
+    learnersById: Map<number, LearnerEntity>,
+    learnerQuizRepo: Repository<LearnerQuizEntity>
+  ): LearnerQuizEntity[] {
 
-    try {
-      const learnerQuiz = this.learnerQuizRepo.create({
-        learnerId: learnerId,
+    return learners.map(({ learnerId, quizId }) => {
+      if (!learnersById.has(learnerId)) {
+        throw new QuizAssignmentFailedException(quizId.toString(), learnerId.toString());
+      }
+
+      return learnerQuizRepo.create({
+        learnerId,
         quizId,
-        hash: crypto.randomBytes(20).toString('hex'),
-        status: 'assigned',
+        status: "assigned",
         assignedAt: new Date(),
+        hash: crypto.randomBytes(20).toString("hex")
       });
-
-      const savedLearner = await this.learnerQuizRepo.save(learnerQuiz);
-      this.logger.log(`Learner quiz assignment saved with ID: ${savedLearner.id}`);
-
-      return savedLearner
-    } catch {
-      throw new QuizAssignmentFailedException(quizId.toString());
-    }
+    });
   }
 
-  private async sendEmail(learnerQuiz: LearnerQuizEntity, email: string) {
-    this.logger.log(`Sending assignment email to learner with email: ${email} for quizId: ${learnerQuiz.quizId} in spaceId: ${learnerQuiz.quiz.space.id}`);
+  private async sendEmails(
+    savedAssignments: LearnerQuizEntity[],
+    learnersById: Map<number, LearnerEntity>
+  ) {
+    this.logger.log(`Sending quiz assignment emails to learners`);
 
-    const magicLink = `${process.env.PUBLIC_URL}/learner-quiz/${learnerQuiz.hash}`;
+    await Promise.all(
+      savedAssignments.map(async ({ learnerId, hash }) => {
+        const learner = learnersById.get(learnerId);
 
-    try {
-      await this.emailsQueue.add('send', {
-        to: email,
-        from: process.env.SMTP_GLOBAL_FROM,
-        subject: 'Invitation to take a quiz in a Shira space',
-        template: 'learner-quiz-assignment',
-        data: { email, magicLink }
+        if (!learner) {
+          this.logger.error(`Learner ${learnerId} not found for email sending`);
+          throw new QuizAssignmentFailedException();
+        }
+
+        const email = learner.email;
+        const magicLink = `${process.env.PUBLIC_URL}/learner-quiz/${hash}`;
+
+        try {
+          await this.emailsQueue.add("send", {
+            to: email,
+            from: process.env.SMTP_GLOBAL_FROM,
+            subject: "Invitation to take a quiz in a Shira space",
+            template: "learner-quiz-assignment",
+            data: { email, magicLink }
+          });
+        } catch {
+          this.logger.error(`Failed to send email to ${email} for quiz assignment`);
+          throw new QuizAssignmentFailedException();
+        }
       })
-      this.logger.log(`Assignment email queued successfully for email: ${email}`);
-    } catch {
-      throw new AssignmentEmailSendFailedException(email);
-    }
+    );
   }
 }
