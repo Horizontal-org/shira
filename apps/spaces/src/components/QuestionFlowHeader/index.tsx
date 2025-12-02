@@ -32,13 +32,13 @@ export const QuestionFlowHeader: FunctionComponent<Props> = ({
   const { t } = useTranslation();
 
   return (
-    <Wrapper>
+    <Wrapper id="question-flow-header">
       <Left>
         <LogoWrapper>
           <Logo />
         </LogoWrapper>
 
-        <CloseWrapper onClick={onExit}>
+        <CloseWrapper id="question-flow-header-close" onClick={onExit}>
           <IoClose
             color="#5F6368"
             size={24}
@@ -49,12 +49,14 @@ export const QuestionFlowHeader: FunctionComponent<Props> = ({
       </Left>
       <Right>
         <Button
+          id="question-flow-header-back"
           leftIcon={<FiChevronLeft size={16} />}
           onClick={onBack}
           text={t('buttons.back')}
           type="outline"
         />
         <ButtonWithTooltip
+          id="question-flow-header-next"
           color="#52752C"
           rightIcon={<FiChevronRight size={16} />}
           disabled={disableNext || actionFeedback === QuestionCRUDFeedback.processing}

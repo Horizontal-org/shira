@@ -27,6 +27,7 @@ export const DeleteModal: FunctionComponent<Props> = ({
 
   return (
       <Modal
+        id="delete-modal"
         isOpen={isModalOpen}
         title={title}
         primaryButtonText={t('buttons.delete')}

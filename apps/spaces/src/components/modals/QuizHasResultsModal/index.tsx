@@ -27,6 +27,7 @@ export const QuizHasResultsModal: FunctionComponent<Props> = ({
 
   return (
     <Modal
+      id="quiz-has-results-modal"
       isOpen={isModalOpen}
       title={title}
       primaryButtonText={t('buttons.continue')}
