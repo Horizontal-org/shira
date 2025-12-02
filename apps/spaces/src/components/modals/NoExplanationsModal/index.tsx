@@ -15,6 +15,7 @@ export const NoExplanationsModal: FunctionComponent<Props> = ({
 
   return (
     <Modal
+      id="no-explanations-modal"
       isOpen={isModalOpen}
       title={`Continue without explanations?`}
       primaryButtonText="Continue"

@@ -24,9 +24,10 @@ export const AppSelector: FunctionComponent<Props> = ({
 
   return (
     <>
-      { appName === 'Gmail' && (
-        <Gmail 
+      {appName === 'Gmail' && (
+        <Gmail
           {...customProps}
+          id="gmail-app"
           receiverEmail={'useremail@email.com'}
           receiverName={'User'}
           explanationNumber={explanationNumber}
@@ -34,9 +35,10 @@ export const AppSelector: FunctionComponent<Props> = ({
           showExplanations={showExplanations}
         />
       )}
-      { appName === 'Outlook' && (
-        <Outlook 
+      {appName === 'Outlook' && (
+        <Outlook
           {...customProps}
+          id="outlook-app"
           receiverEmail={'useremail@email.com'}
           receiverName={'User'}
           explanationNumber={explanationNumber}
@@ -44,33 +46,37 @@ export const AppSelector: FunctionComponent<Props> = ({
           showExplanations={showExplanations}
         />
       )}
-      { appName === 'Whatsapp' && (
-        <Whatsapp 
+      {appName === 'Whatsapp' && (
+        <Whatsapp
           {...customProps}
+          id="whatsapp-app"
           explanationNumber={explanationNumber}
           explanations={explanations}
           showExplanations={showExplanations}
         />
       )}
-      { appName === 'SMS' && (
-        <SMS 
+      {appName === 'SMS' && (
+        <SMS
           {...customProps}
+          id="sms-app"
           explanationNumber={explanationNumber}
           explanations={explanations}
           showExplanations={showExplanations}
         />
       )}
-      { appName === 'Messenger' && (
+      {appName === 'Messenger' && (
         <FBMessenger
           {...customProps}
+          id="messenger-app"
           explanationNumber={explanationNumber}
           explanations={explanations}
           showExplanations={showExplanations}
         />
       )}
-      { appName === 'Dating App' && (
-        <DatingApp 
+      {appName === 'Dating App' && (
+        <DatingApp
           {...customProps}
+          id="dating-app"
           explanationNumber={explanationNumber}
           explanations={explanations}
           showExplanations={showExplanations}

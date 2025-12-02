@@ -98,6 +98,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
     <div>
       <Header>
         <Button
+          id="create-question-button"
           leftIcon={<FiPlus size={16} />}
           text="Create question"
           type="primary"
@@ -111,6 +112,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
           }}
         />
         <Button
+          id="add-from-library-button"
           leftIcon={<MdOutlineMenuBook size={19} />}
           text="Add from library"
           type="primary"
@@ -138,12 +140,14 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
                   const isBeingDuplicated = duplicatingQuestions.has(qq.question.id)
                   return (
                     <QuestionItem 
+                      id={`question-item-${qq.question.id}`}
                       ref={draggableProvided.innerRef}
                       isDragging={snapshot.isDragging}
                       {...draggableProvided.draggableProps}
                     >
                       <LeftSection>
                         <MenuIcon
+                          id={`drag-handle-${qq.question.id}`}
                           {...draggableProvided.dragHandleProps}
                         >
                           {isBeingDuplicated ? (
@@ -152,12 +156,12 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
                             <FiMenu size={20} color="#666" />                            
                           )}
                         </MenuIcon>
-                        <QuestionTitle>
+                        <QuestionTitle id={`question-title-${qq.question.id}`}>
                           {isBeingDuplicated ? "Duplicating..." : qq.question.name}
                         </QuestionTitle>
                       </LeftSection>
                       <Actions>
-                        <ActionButton onClick={() => {
+                        <ActionButton id={`edit-button-${qq.question.id}`} onClick={() => {
                           if (hasResults) {
                             handleConfirmBeforeContinueModal({ confirmType: 'edit', confirmId: qq.question.id })
                           } else {
@@ -167,6 +171,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
                           <EditIcon />
                         </ActionButton>
                         <ActionButton 
+                          id={`duplicate-button-${qq.question.id}`}
                           onClick={() => {
                             if (hasResults) {
                             handleConfirmBeforeContinueModal({ confirmType: 'duplicate', confirmId: qq.question.id })
@@ -178,7 +183,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
                         >
                           <DuplicateIconWrapper><DuplicateIcon /></DuplicateIconWrapper>
                         </ActionButton>
-                        <ActionButton onClick={() => handleQuestionForDelete(qq.question)}>
+                        <ActionButton id={`delete-button-${qq.question.id}`} onClick={() => handleQuestionForDelete(qq.question)}>
                           <TrashIcon />
                         </ActionButton>
                       </Actions>

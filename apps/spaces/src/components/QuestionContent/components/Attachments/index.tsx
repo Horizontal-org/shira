@@ -50,7 +50,7 @@ export const Attachments: FunctionComponent<Props> = ({
   }
 
   return (
-    <div>
+    <div id="email-content-attachments">
       <AddAttachmentButtonWrapper>
         <Button 
           onClick={() => setIsOpen(true)}

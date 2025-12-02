@@ -30,6 +30,7 @@ export const RenameQuizModal: FunctionComponent<Props> = ({
 
   return quiz && (
     <Modal
+      id="rename-quiz-modal"
       isOpen={isModalOpen}
       title={`Rename quiz`}
       primaryButtonText="OK"
@@ -47,6 +48,7 @@ export const RenameQuizModal: FunctionComponent<Props> = ({
     >
       <FormContent>
         <TextInput
+          id="rename-quiz-input"
           label="Quiz name"
           value={title}
           onChange={(e) => handleTitle(e.target.value)}

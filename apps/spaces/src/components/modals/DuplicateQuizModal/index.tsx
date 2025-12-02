@@ -31,6 +31,7 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
 
   return quiz && (
     <Modal
+      id="duplicate-quiz-modal"
       isOpen={isModalOpen}
       title="Duplicate quiz"
       primaryButtonText={isLoading ? "Creating..." : "Save"}
