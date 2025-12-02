@@ -18,6 +18,7 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
 
   return (
     <Modal
+      id="create-quiz-modal"
       isOpen={isModalOpen}
       title={`Give a name to your new quiz`}
       primaryButtonText="Create new quiz"

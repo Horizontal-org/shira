@@ -125,7 +125,7 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
   }
 
   return (
-    <div>
+    <div id="draggable-messaging-list">
       <ButtonsWrapper>
         <Button 
           onClick={() => {

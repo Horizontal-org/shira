@@ -1,6 +1,5 @@
-import { FunctionComponent, useState } from "react";
-import { Body1, Modal, ModalType, TextInput } from "@shira/ui";
-import styled from "styled-components";
+import { FunctionComponent } from "react";
+import { Body1, Modal } from "@shira/ui";
 
 interface Props {
   isModalOpen: boolean;
@@ -16,6 +15,7 @@ export const UnpublishedQuizModal: FunctionComponent<Props> = ({
 
   return (
     <Modal
+      id="unpublished-quiz-modal"
       isOpen={isModalOpen}
       title={`Your quiz is unpublished`}
       primaryButtonText="Publish quiz"

@@ -141,8 +141,8 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
       <Container>
         <ContentWrapper>
           <div>
-            <ContentHeader>
-              <Breadcrumbs 
+            <ContentHeader id="content-header">
+              <Breadcrumbs
                 active={step}
                 items={[
                   { text: 'Question info' },
@@ -150,8 +150,8 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
                   { text: 'Preview' }
                 ]}
               />
-              { step === 2 && (
-                <ExplanationTitle>
+              {step === 2 && (
+                <ExplanationTitle id="explanation-title">
                   <Body1>
                     This is how your question will look to learners, including the explanations you have written.
                   </Body1>

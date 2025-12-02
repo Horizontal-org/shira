@@ -15,6 +15,7 @@ export const ExitQuestionHandleModal: FunctionComponent<Props> = ({
 
   return (
     <Modal
+      id="exit-question-modal"
       isOpen={isModalOpen}
       title={`Are you sure you want to exit the question?`}
       type={ModalType.Danger}

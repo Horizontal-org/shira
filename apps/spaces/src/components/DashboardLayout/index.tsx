@@ -29,7 +29,7 @@ import { DuplicateQuizModal } from "../modals/DuplicateQuizModal";
 import { handleCopyUrl, handleCopyUrlAndNotify } from "../../utils/quiz";
 import { duplicateQuiz } from "../../fetch/quiz";
 
-interface Props {}
+interface Props { }
 
 export const DashboardLayout: FunctionComponent<Props> = () => {
 
@@ -52,7 +52,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     quizActionSuccess: state.quizActionSuccess,
     cleanQuizActionSuccess: state.cleanQuizActionSuccess
   }), shallow)
-    
+
   const navigate = useNavigate();
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
 
@@ -67,7 +67,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const [selectedQuizForDuplicate, setSelectedQuizForDuplicate] = useState(null);
   const [isDuplicating, setIsDuplicating] = useState(false);
   const [unpublishedQuizId, handleUnpublishedQuizId] = useState<number | null>(null);
-  
+
 
   useEffect(() => {
     fetchQuizzes()
@@ -86,14 +86,14 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     if (SUCCESS_MESSAGES[quizActionSuccess]) {
       const message = SUCCESS_MESSAGES[quizActionSuccess]
       toast.success(message, { duration: 3000 })
-  
+
       if (quizActionSuccess !== QuizSuccessStates.delete) {
         fetchQuizzes()
       }
-  
+
       cleanQuizActionSuccess()
     }
-}, [quizActionSuccess])
+  }, [quizActionSuccess])
 
 
 
@@ -103,9 +103,9 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
       published
     })
 
-    setCards(currentCards => 
-      currentCards.map(card => 
-        card.id === cardId 
+    setCards(currentCards =>
+      currentCards.map(card =>
+        card.id === cardId
           ? { ...card, published: !card.published }
           : card
       )
@@ -140,10 +140,10 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     } finally {
       setIsDuplicating(false);
     }
-  };                
+  };
 
-  
-  
+
+
   const filteredCards = cards.filter(card => {
     switch (activeFilter) {
       case FilterStates.published:
@@ -158,31 +158,32 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
   const compareDate = useCallback((lastUpdate) => {
     // force utc to locale parse
-    const parsedLastUpdate = new Date(lastUpdate.replace(" ", "T") + "Z")    
+    const parsedLastUpdate = new Date(lastUpdate.replace(" ", "T") + "Z")
     return formatDistance(
       parsedLastUpdate,
-      new Date(), 
+      new Date(),
       { addSuffix: true }
-    )    
+    )
   }, [filteredCards])
 
   return (
-    <Container>
-      <Sidebar 
-        menuItems={menuItems} 
+    <Container id="dashboard-layout">
+      <Sidebar
+        menuItems={menuItems}
         onCollapse={handleCollapse}
         selectedItemLabel={menuItems.find(m => m.path === '/dashboard').label}
       />
 
       <MainContent $isCollapsed={isCollapsed}>
-        <BetaBanner url="/support"/>
+        <BetaBanner url="/support" />
         <MainContentWrapper>
           <HeaderContainer>
-            <StyledSubHeading3>{space && space.name}</StyledSubHeading3>
-            <H2>Welcome to your dashboard </H2>
-            <Body1>This is where you can manage quizzes. Quiz links are public, so remember to avoid sharing sensitive information in them.</Body1>
+            <StyledSubHeading3 id="space-name">{space && space.name}</StyledSubHeading3>
+            <H2 id="dashboard-title">Welcome to your dashboard </H2>
+            <Body1 id="dashboard-subtitle">This is where you can manage quizzes. Quiz links are public, so remember to avoid sharing sensitive information in them.</Body1>
             <ButtonContainer>
               <Button
+                id="create-quiz-button"
                 type="primary"
                 leftIcon={<FiPlus />}
                 text="Create new quiz"
@@ -195,28 +196,32 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           </HeaderContainer>
 
           <FilterButtonsContainer>
-            <FilterButton 
+            <FilterButton
+              id="filter-all-quizzes"
               text="All quizzes"
               handleFilter={() => setActiveFilter(FilterStates.all)}
               isActive={activeFilter ===  FilterStates.all}
             />
 
             <FilterButton 
+              id="filter-published-quizzes"
               text="Published"
               handleFilter={() => setActiveFilter(FilterStates.published)}
               isActive={activeFilter ===  FilterStates.published}
             />
 
             <FilterButton 
+              id="filter-unpublished-quizzes"
               text="Unpublished"
               handleFilter={() => setActiveFilter(FilterStates.unpublished)}
               isActive={activeFilter ===  FilterStates.unpublished}
             />
-          </FilterButtonsContainer>
+          </FilterButtonsContainer >
 
-          <CardGrid>
+          <CardGrid id="card-grid">
             {filteredCards.map((card) => (
               <Card 
+                id={`quiz-card-${card.id}`}
                 onCardClick={() => {
                   navigate(`/quiz/${card.id}`)
                 }}
@@ -294,10 +299,10 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             }}
             isLoading={isDuplicating}
           />
-        </MainContentWrapper>
-      </MainContent>
+        </MainContentWrapper >
+      </MainContent >
 
-    </Container>
+    </Container >
   );
 };
 

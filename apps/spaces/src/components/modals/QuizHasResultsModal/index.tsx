@@ -23,8 +23,9 @@ export const QuizHasResultsModal: FunctionComponent<Props> = ({
 }) => {
 
   return (
-      <Modal
-        isOpen={isModalOpen}
+    <Modal
+       id="quiz-has-results-modal"
+       isOpen={isModalOpen}
         title={title}
         primaryButtonText="Continue"
         secondaryButtonText="Cancel"
@@ -34,7 +35,7 @@ export const QuizHasResultsModal: FunctionComponent<Props> = ({
           onContinue()
         }}
         onSecondaryClick={onCancel}
-    >
+        >
         <FormContent>
           <Body1>
             { content }

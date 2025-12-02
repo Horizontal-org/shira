@@ -14,7 +14,7 @@ interface Props {
   question?: ActiveQuestion
 }
 
-export const QuestionReview: FunctionComponent<Props> = ({}) => {
+export const QuestionReview: FunctionComponent<Props> = ({ }) => {
   const {
     activeQuestion,
     explanations
@@ -22,7 +22,7 @@ export const QuestionReview: FunctionComponent<Props> = ({}) => {
     explanations: state.explanations,
     activeQuestion: state.activeQuestion
   }), shallow)
-   
+
   const [elementProps, handleElementProps] = useState(null)
   const [explanationNumber, setExplanationNumber] = useState<number>(0)
   const [explanationsOrder, handleExplanationsOrder] = useState<Array<number>>([])
@@ -34,8 +34,8 @@ export const QuestionReview: FunctionComponent<Props> = ({}) => {
       .map(e => e.index)
 
     handleExplanationsOrder(order)
-    
-    if (activeQuestion && activeQuestion.app) {      
+
+    if (activeQuestion && activeQuestion.app) {
       const contentProps = getContentProps(activeQuestion.app.name, activeQuestion)
       console.log("🚀 ~ QuestionReview ~ contentProps:", contentProps)
 
@@ -49,17 +49,18 @@ export const QuestionReview: FunctionComponent<Props> = ({}) => {
     return
   }
   return (
-    <>      
-      <ExplanationHeader>
-        { explanations.length === 0 ? (
+    <>
+      <ExplanationHeader id="explanation-header">
+        {explanations.length === 0 ? (
           <IsNoExplanationWrapper>
             <Content>
               <MdBlock size={18} color="red" />
-              <Body1>There are no explanations for this question.</Body1>
+              <Body1 id="no-explanations-message">There are no explanations for this question.</Body1>
             </Content>
           </IsNoExplanationWrapper>
         ) : (
           <Button
+            id="toggle-explanations-button"
             type="outline"
             onClick={() => {
               if (showExplanations) {
@@ -67,42 +68,46 @@ export const QuestionReview: FunctionComponent<Props> = ({}) => {
               }
               handleShowExplanations(!showExplanations)
             }}
-            text={showExplanations ? 'Hide explanations' : 'Show explanations' }
+            text={showExplanations ? 'Hide explanations' : 'Show explanations'}
           />
         )}
-                
-       {showExplanations && (
-        <ExplanationButtonWrapper>
-          {explanationNumber >= 1 && (
-            <Button
-              onClick={() => {
-                setExplanationNumber(explanationNumber - 1)
-              }}
-              text='Previous explanation'
-            />
-          )}
-          {explanationNumber < explanations.length - 1 && (
-            <Button
-              onClick={() => {
-                setExplanationNumber(explanationNumber + 1)
-              }}
-              text='Next explanation'
-            />
-          )}
-        </ExplanationButtonWrapper>
-      )}
-      </ExplanationHeader>
 
-      <StyledBox>
-        <AppSelector
-          appName={activeQuestion.app.name}
-          customProps={elementProps}
-          explanationNumber={explanationsOrder[explanationNumber]}
-          showExplanations={showExplanations}
-          explanations={explanations}
-        />
-        {showExplanations && <Overlay />}
-      </StyledBox>
+  {
+    showExplanations && (
+    <ExplanationButtonWrapper id="explanation-button-wrapper">
+        {explanationNumber >= 1 && (
+          <Button
+            id="previous-explanation-button"
+            onClick={() => {
+              setExplanationNumber(explanationNumber - 1)
+            }}
+            text='Previous explanation'
+          />
+        )}
+        {explanationNumber < explanations.length - 1 && (
+          <Button
+            id="next-explanation-button"
+            onClick={() => {
+              setExplanationNumber(explanationNumber + 1)
+            }}
+            text='Next explanation'
+          />
+        )}
+      </ExplanationButtonWrapper>
+    )
+  }
+      </ExplanationHeader >
+
+  <StyledBox>
+    <AppSelector
+      appName={activeQuestion.app.name}
+      customProps={elementProps}
+      explanationNumber={explanationsOrder[explanationNumber]}
+      showExplanations={showExplanations}
+      explanations={explanations}
+    />
+    {showExplanations && <Overlay />}
+  </StyledBox>
     </>
   )
 }

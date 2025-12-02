@@ -47,14 +47,15 @@ export const MessagingContent: FunctionComponent<Props> = ({
   }, [])
 
   return (
-    <Content>
+    <Content id="messaging-content">
    
       { senderPhoneEnabled ? (
         <div>
           <InputHeading $required={true}>
-            <SubHeading3>Sender phone</SubHeading3>
-            <Body3>This is the phone number that will be displayed in the “Sender” field of the message.</Body3>
+            <SubHeading3 id="messaging-content-sender-phone-title">Sender phone</SubHeading3>
+            <Body3 id="messaging-content-sender-phone-subtitle">This is the phone number that will be displayed in the “Sender” field of the message.</Body3>
           </InputHeading>
+
         
           <InputWithExplanation 
             id='component-required-phone'
@@ -67,8 +68,8 @@ export const MessagingContent: FunctionComponent<Props> = ({
       ) : (
         <div>
           <InputHeading $required={!senderPhoneEnabled}>
-            <SubHeading3>Sender name</SubHeading3>
-            <Body3>This is the name that will be displayed in the “Sender” field of the message.</Body3>
+            <SubHeading3 id="messaging-content-sender-title">Sender name</SubHeading3>
+            <Body3 id="messaging-content-sender-subtitle">This is the name that will be displayed in the “Sender” field of the message.</Body3>
           </InputHeading>
 
           <InputWithExplanation
@@ -83,10 +84,10 @@ export const MessagingContent: FunctionComponent<Props> = ({
 
       <div>
         <MessagingContentHead>
-          <Body1SemiBold>
+          <Body1SemiBold id="messaging-content-message-content-title">
             Message Content
           </Body1SemiBold>
-          <Body3>
+          <Body3 id="messaging-content-message-content-subtitle">
             Create the messages that will be shown. You can create multiple messages and image files. Add an explanation by selecting a portion of text and clicking on the explanation icon.
           </Body3>
         </MessagingContentHead>

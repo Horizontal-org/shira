@@ -39,15 +39,15 @@ export const Results: FunctionComponent<ResultsProps> = ({ resultsData, loading 
     <div>
       <MetricsContainer>
         <MetricCard>
-          <MetricTitle>Number of completed quizzes</MetricTitle>
-          <MetricValue>{completedQuizzesData.value}</MetricValue>
-          <MetricDescription>{completedQuizzesData.description}</MetricDescription>
+          <MetricTitle id="completed-quizzes-title">Number of completed quizzes</MetricTitle>
+          <MetricValue id="completed-quizzes-value">{completedQuizzesData.value}</MetricValue>
+          <MetricDescription id="completed-quizzes-description">{completedQuizzesData.description}</MetricDescription>
         </MetricCard>
         
         <MetricCard>
-          <MetricTitle>Average score</MetricTitle>
-          <MetricValue>{averageScoreData.value}</MetricValue>
-          <MetricDescription>{averageScoreData.description}</MetricDescription>
+          <MetricTitle id="average-score-title">Average score</MetricTitle>
+          <MetricValue id="average-score-value">{averageScoreData.value}</MetricValue>
+          <MetricDescription id="average-score-description">{averageScoreData.description}</MetricDescription>
         </MetricCard>
       </MetricsContainer>
     </div>

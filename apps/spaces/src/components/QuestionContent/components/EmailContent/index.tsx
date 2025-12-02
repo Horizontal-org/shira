@@ -27,12 +27,12 @@ export const EmailContent: FunctionComponent<Props> = ({
 
 
   return (
-    <Content>
+    <Content id="email-content">
    
       <div>
         <InputHeading $required={true}>
-          <SubHeading3>Sender name</SubHeading3>
-          <Body3>This is the name that will be displayed in the “Sender” field of the email.</Body3>
+          <SubHeading3 id="email-content-sender-title">Sender name</SubHeading3>
+          <Body3 id="email-content-sender-subtitle">This is the name that will be displayed in the “Sender” field of the email.</Body3>
         </InputHeading>
 
         <InputWithExplanation 
@@ -46,8 +46,8 @@ export const EmailContent: FunctionComponent<Props> = ({
 
       <div>
         <InputHeading $required={true}>
-          <SubHeading3>Sender email address</SubHeading3>
-          <Body3>This is the email address that will be displayed in the “Sender” field of the email.</Body3>
+          <SubHeading3 id="email-content-sender-email-title">Sender email address</SubHeading3>
+          <Body3 id="email-content-sender-email-subtitle">This is the email address that will be displayed in the “Sender” field of the email.</Body3>
         </InputHeading>
       
         <InputWithExplanation 
@@ -62,8 +62,8 @@ export const EmailContent: FunctionComponent<Props> = ({
 
       <div>
         <InputHeading $required={false}>
-          <SubHeading3>Email subject</SubHeading3>
-          <Body3>This will be displayed in the “Subject” field of the email. If you keep this field empty, the subject field will show “(no subject)”.</Body3>
+          <SubHeading3 id="email-content-subject-title">Email subject</SubHeading3>
+          <Body3 id="email-content-subject-subtitle">This will be displayed in the “Subject” field of the email. If you keep this field empty, the subject field will show “(no subject)”.</Body3>
         </InputHeading>
 
         <InputWithExplanation 
@@ -77,8 +77,8 @@ export const EmailContent: FunctionComponent<Props> = ({
       </div>
       
       <div>
-        <SubHeading3>Email body content</SubHeading3>
-        <Body2Regular>Write the message that will be shown.</Body2Regular>
+        <SubHeading3 id="email-content-email-body-content-title">Email body content</SubHeading3>
+        <Body2Regular id="email-content-email-body-content-subtitle">Write the message that will be shown.</Body2Regular>
         <EmailTipTapEditor 
           initialContent={content.body.value}
           onChange={(emailText) => {

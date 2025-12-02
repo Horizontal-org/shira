@@ -111,11 +111,10 @@ export const Explanations: FunctionComponent<Props> = ({
   // }
 
   return (
-    <Wrapper>
-      
-      { show && (
-        <>        
-          <Body2Regular>Explanations will be shown in the following order in the quiz. </Body2Regular>
+    <Wrapper id="explanations-wrapper">
+    { show && (
+      <>        
+        <Body2Regular>Explanations will be shown in the following order in the quiz. </Body2Regular>
 
           <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId='droppable'>

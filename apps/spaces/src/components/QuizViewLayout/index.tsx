@@ -156,8 +156,8 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
               <Wrapper>
                 <Header>
                   <div>
-                    <H2>{quiz.title}</H2>
-                    <Body1>Manage your quiz here, including adding, removing, and reordering questions</Body1>
+                    <H2 id="quiz-title">{quiz.title}</H2>
+                    <Body1 id="quiz-subtitle">Manage your quiz here, including adding, removing, and reordering questions</Body1>
                   </div>
                   <Toggle
                     size='big'
@@ -169,13 +169,15 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 </Header>
                 <ButtonsContainer>
                   <LeftButtons>
-                    <Button 
+                    <Button
+                      id="rename-quiz-button"
                       leftIcon={<RenameIcon />}
                       text="Rename"
                       type="outline"
                       onClick={() => { setIsRenameModalOpen(true) }}
                     />
-                    <Button 
+                    <Button
+                      id="copy-link-button"
                       leftIcon={<CopyUrlIcon />}
                       text="Copy quiz link"
                       type="outline"
@@ -188,7 +190,8 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                         }
                       }}
                     />
-                    <Button 
+                    <Button
+                      id="delete-quiz-button"
                       leftIcon={<DeleteIcon />}
                       text="Delete"
                       type="outline"
