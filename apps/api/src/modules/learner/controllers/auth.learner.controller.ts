@@ -53,7 +53,7 @@ export class AuthLearnerController {
     // await this.inviteBulkService.invite(inviteBulkLearnerDto, spaceId);
   }
 
-  @Delete('delete')
+  @Delete()
   @Roles(Role.SpaceAdmin)
   async delete(
     @Body() deleteLearnerDto: DeleteLearnerDto,
