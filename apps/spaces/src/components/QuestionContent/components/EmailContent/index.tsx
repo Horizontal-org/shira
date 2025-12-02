@@ -28,12 +28,12 @@ export const EmailContent: FunctionComponent<Props> = ({
 
 
   return (
-    <Content>
+    <Content id="email-content">
 
       <div>
         <InputHeading $required={true}>
-          <SubHeading3>{t('create_question.tabs.content.sender.title')}</SubHeading3>
-          <Body3>{t('create_question.tabs.content.sender.subtitle')}</Body3>
+          <SubHeading3 id="email-content-sender-title">{t('create_question.tabs.content.sender.title')}</SubHeading3>
+          <Body3 id="email-content-sender-subtitle">{t('create_question.tabs.content.sender.subtitle')}</Body3>
         </InputHeading>
 
         <InputWithExplanation
@@ -47,8 +47,8 @@ export const EmailContent: FunctionComponent<Props> = ({
 
       <div>
         <InputHeading $required={true}>
-          <SubHeading3>{t('create_question.tabs.content.sender_email.title')}</SubHeading3>
-          <Body3>{t('create_question.tabs.content.sender_email.subtitle')}</Body3>
+          <SubHeading3 id="email-content-sender-email-title">{t('create_question.tabs.content.sender_email.title')}</SubHeading3>
+          <Body3 id="email-content-sender-email-subtitle">{t('create_question.tabs.content.sender_email.subtitle')}</Body3>
         </InputHeading>
 
         <InputWithExplanation
@@ -63,8 +63,8 @@ export const EmailContent: FunctionComponent<Props> = ({
 
       <div>
         <InputHeading $required={false}>
-          <SubHeading3>{t('create_question.tabs.content.email_subject.title')}</SubHeading3>
-          <Body3>{t('create_question.tabs.content.email_subject.subtitle')}</Body3>
+          <SubHeading3 id="email-content-subject-title">{t('create_question.tabs.content.email_subject.title')}</SubHeading3>
+          <Body3 id="email-content-subject-subtitle">{t('create_question.tabs.content.email_subject.subtitle')}</Body3>
         </InputHeading>
 
         <InputWithExplanation
@@ -78,8 +78,8 @@ export const EmailContent: FunctionComponent<Props> = ({
       </div>
 
       <div>
-        <SubHeading3>{t('create_question.tabs.content.email_body_content.title')}</SubHeading3>
-        <Body2Regular>{t('create_question.tabs.content.email_body_content.subtitle')}</Body2Regular>
+        <SubHeading3 id="email-content-email-body-content-title">{t('create_question.tabs.content.email_body_content.title')}</SubHeading3>
+        <Body2Regular id="email-content-email-body-content-subtitle">{t('create_question.tabs.content.email_body_content.subtitle')}</Body2Regular>
         <EmailTipTapEditor
           initialContent={content.body.value}
           onChange={(emailText) => {

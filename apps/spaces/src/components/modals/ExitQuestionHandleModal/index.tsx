@@ -18,6 +18,7 @@ export const ExitQuestionHandleModal: FunctionComponent<Props> = ({
 
   return (
     <Modal
+      id="exit-question-modal"
       isOpen={isModalOpen}
       title={t('modals.exit_question.title')}
       type={ModalType.Danger}

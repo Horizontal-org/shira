@@ -158,8 +158,8 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
               <Wrapper>
                 <Header>
                   <div>
-                    <H2>{quiz.title} <VisibilityTag>{quiz.visibility}</VisibilityTag></H2>
-                    <Body1>{t('quiz.subtitle')}</Body1>
+                    <H2 id="quiz-title">{quiz.title} <VisibilityTag>{quiz.visibility}</VisibilityTag></H2>
+                    <Body1 id="quiz-subtitle">{t('quiz.subtitle')}</Body1>
                   </div>
                   <Toggle
                     size='big'
@@ -172,12 +172,14 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 <ButtonsContainer>
                   <LeftButtons>
                     <Button
+                      id="rename-quiz-button"
                       leftIcon={<RenameIcon />}
                       text={t('quiz.actions.rename')}
                       type="outline"
                       onClick={() => { setIsRenameModalOpen(true) }}
                     />
                     <Button
+                      id="copy-link-button"
                       leftIcon={<CopyUrlIcon />}
                       text={t('quiz.actions.copy_link')}
                       type="outline"
@@ -191,6 +193,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                       }}
                     />
                     <Button
+                      id="delete-quiz-button"
                       leftIcon={<DeleteIcon />}
                       text={t('buttons.delete')}
                       type="outline"

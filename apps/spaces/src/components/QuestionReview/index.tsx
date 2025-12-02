@@ -53,16 +53,17 @@ export const QuestionReview: FunctionComponent<Props> = ({ }) => {
   }
   return (
     <>
-      <ExplanationHeader>
+      <ExplanationHeader id="explanation-header">
         {explanations.length === 0 ? (
           <IsNoExplanationWrapper>
             <Content>
               <MdBlock size={18} color="red" />
-              <Body1>{t("preview.no_explanations")}</Body1>
+              <Body1 id="no-explanations-message">{t("preview.no_explanations")}</Body1>
             </Content>
           </IsNoExplanationWrapper>
         ) : (
           <Button
+            id="toggle-explanations-button"
             type="outline"
             onClick={() => {
               if (showExplanations) {
@@ -75,9 +76,10 @@ export const QuestionReview: FunctionComponent<Props> = ({ }) => {
         )}
 
         {showExplanations && (
-          <ExplanationButtonWrapper>
+          <ExplanationButtonWrapper id="explanation-button-wrapper">
             {explanationNumber >= 1 && (
               <Button
+                id="previous-explanation-button"
                 onClick={() => {
                   setExplanationNumber(explanationNumber - 1)
                 }}
@@ -86,6 +88,7 @@ export const QuestionReview: FunctionComponent<Props> = ({ }) => {
             )}
             {explanationNumber < explanations.length - 1 && (
               <Button
+                id="next-explanation-button"
                 onClick={() => {
                   setExplanationNumber(explanationNumber + 1)
                 }}

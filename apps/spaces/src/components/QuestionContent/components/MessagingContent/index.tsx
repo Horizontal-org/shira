@@ -50,13 +50,13 @@ export const MessagingContent: FunctionComponent<Props> = ({
   }, [])
 
   return (
-    <Content>
+    <Content id="messaging-content">
 
       {senderPhoneEnabled ? (
         <div>
           <InputHeading $required={true}>
-            <SubHeading3>{t('create_question.tabs.content.sender_phone.title')}</SubHeading3>
-            <Body3>{t('create_question.tabs.content.sender_phone.subtitle')}</Body3>
+            <SubHeading3 id="messaging-content-sender-phone-title">{t('create_question.tabs.content.sender_phone.title')}</SubHeading3>
+            <Body3 id="messaging-content-sender-phone-subtitle">{t('create_question.tabs.content.sender_phone.subtitle')}</Body3>
           </InputHeading>
 
           <InputWithExplanation
@@ -70,8 +70,8 @@ export const MessagingContent: FunctionComponent<Props> = ({
       ) : (
         <div>
           <InputHeading $required={!senderPhoneEnabled}>
-            <SubHeading3>{t('create_question.tabs.content.sender.title')}</SubHeading3>
-            <Body3>{t('create_question.tabs.content.sender.subtitle')}</Body3>
+            <SubHeading3 id="messaging-content-sender-title">{t('create_question.tabs.content.sender.title')}</SubHeading3>
+            <Body3 id="messaging-content-sender-subtitle">{t('create_question.tabs.content.sender.subtitle')}</Body3>
           </InputHeading>
 
           <InputWithExplanation
@@ -86,10 +86,10 @@ export const MessagingContent: FunctionComponent<Props> = ({
 
       <div>
         <MessagingContentHead>
-          <Body1SemiBold>
+          <Body1SemiBold id="messaging-content-message-content-title">
             {t('create_question.tabs.content.message_content.title')}
           </Body1SemiBold>
-          <Body3>
+          <Body3 id="messaging-content-message-content-subtitle">
             {t('create_question.tabs.content.message_content.subtitle')}
           </Body3>
         </MessagingContentHead>
