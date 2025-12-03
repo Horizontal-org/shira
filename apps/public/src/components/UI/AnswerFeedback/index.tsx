@@ -10,13 +10,13 @@ import QuestionMarkIcon from '../Icons/QuestionMark'
 import useGetWidth from "../../../hooks/useGetWidth";
 
 interface Props {
-  onNext:  () => void;
+  onNext: () => void;
   onAnswer: (answer: string) => void;
   realAnswer: string;
   userAnswer: string | null;
   explanationsLength: number
   explanationNumber: number
-  setExplanationNumber: (explanationNumber: number) => void  
+  setExplanationNumber: (explanationNumber: number) => void
   showExplanations: boolean;
   handleShowExplanations: Dispatch<SetStateAction<boolean>>
 }
@@ -55,10 +55,10 @@ export const AnswerFeedback: FunctionComponent<Props> = ({
   }
   return (
     <Wrapper>
-      { (userAnswer && width > 1024) && (
+      {(userAnswer && width > 1024) && (
         <UserAnswerWrapper hide={showExplanations}>
           {compareAnswers()}
-          { realAnswer === 'phishing' ? (
+          {realAnswer === 'phishing' ? (
             <p id="bottom-looks-like-phishing">{t("quiz.answers.results.bottom-bar_looks-like-phishing")}</p>
           ) : (
             <p id="bottom-looks-legit">{t("quiz.answers.results.bottom-bar_looks-legit")}</p>
@@ -68,75 +68,79 @@ export const AnswerFeedback: FunctionComponent<Props> = ({
 
       {
         (userAnswer && width <= 1024 && !showExplanations) && (
-          <UserAnswerWrapper hide={showExplanations}>          
-          {compareAnswers()}
-          { realAnswer === 'phishing' ? (
-            <p>{t("quiz.answers.results.bottom-bar_looks-like-phishing")}</p>
-          ) : (
-            <p>{t("quiz.answers.results.bottom-bar_looks-legit")}</p>
-          )}
-        </UserAnswerWrapper>)
+          <UserAnswerWrapper hide={showExplanations}>
+            {compareAnswers()}
+            {realAnswer === 'phishing' ? (
+              <p id="bottom-looks-like-phishing">{t("quiz.answers.results.bottom-bar_looks-like-phishing")}</p>
+            ) : (
+              <p id="bottom-looks-legit">{t("quiz.answers.results.bottom-bar_looks-legit")}</p>
+            )}
+          </UserAnswerWrapper>)
       }
 
       <OptionsWrapper>
         {(showExplanations && explanationNumber > 0) && <ActionButtonsWrapper>
           <Button
+            id="results-back-button"
             text={t("quiz.answers.results.back_button")}
             type='outline'
             onClick={() => {
-              if(explanationsLength > 0 && explanationNumber >= 0) {
+              if (explanationsLength > 0 && explanationNumber >= 0) {
                 setExplanationNumber(explanationNumber - 1)
               } else {
                 onAnswer(null)
               }
             }}
-            leftIcon={<FiChevronLeft size={18}/>}
+            leftIcon={<FiChevronLeft size={18} />}
           />
         </ActionButtonsWrapper>}
-          { 
-            explanationsLength > 0 && !showExplanations && (
-              <ActionButtonsWrapper size="lg">
-                <Button 
-                  text={t('quiz.answers.results.see_why')}
-                  size={width < 1024 ? 'lg' : 'md'}
-                  type='primary'
-                  onClick={() => handleShowExplanations(true)}
-                  leftIcon={<QuestionMarkIcon size={18} />}
-                />
-              </ActionButtonsWrapper>
+        {
+          explanationsLength > 0 && !showExplanations && (
+            <ActionButtonsWrapper size="lg">
+              <Button
+                id="results-see-why-button"
+                text={t('quiz.answers.results.see_why')}
+                size={width < 1024 ? 'lg' : 'md'}
+                type='primary'
+                onClick={() => handleShowExplanations(true)}
+                leftIcon={<QuestionMarkIcon size={18} />}
+              />
+            </ActionButtonsWrapper>
           )}
 
-          {
-            explanationsLength > 0 && explanationNumber < (explanationsLength - 1) && showExplanations && (
-              <ActionButtonsWrapper>
-                <Button 
-                  text={t("quiz.answers.results.next_button")}
-                  type='primary'
-                  onClick={() => setExplanationNumber(explanationNumber + 1)}
-                  rightIcon={<FiChevronRight size={18}/>}
-                />
-              </ActionButtonsWrapper>
-            )
-          }
+        {
+          explanationsLength > 0 && explanationNumber < (explanationsLength - 1) && showExplanations && (
+            <ActionButtonsWrapper>
+              <Button
+                id="results-next-button"
+                text={t("quiz.answers.results.next_button")}
+                type='primary'
+                onClick={() => setExplanationNumber(explanationNumber + 1)}
+                rightIcon={<FiChevronRight size={18} />}
+              />
+            </ActionButtonsWrapper>
+          )
+        }
 
-          {
-            ((explanationNumber === (explanationsLength - 1) && showExplanations) || explanationsLength === 0) && (
-              <ActionButtonsWrapper>
-                <Button 
-                  text={t("quiz.answers.results.next_question")}
-                  type='primary'
-                  onClick={onNext}
-                  rightIcon={<FiChevronRight size={18}/>}
-                />
-              </ActionButtonsWrapper>
-            )
-          }
+        {
+          ((explanationNumber === (explanationsLength - 1) && showExplanations) || explanationsLength === 0) && (
+            <ActionButtonsWrapper>
+              <Button
+                id="results-next-question-button"
+                text={t("quiz.answers.results.next_question")}
+                type='primary'
+                onClick={onNext}
+                rightIcon={<FiChevronRight size={18} />}
+              />
+            </ActionButtonsWrapper>
+          )
+        }
       </OptionsWrapper>
     </Wrapper>
   )
 }
 
-const UserAnswerWrapper = styled.div<{hide?: boolean}>`
+const UserAnswerWrapper = styled.div<{ hide?: boolean }>`
   padding-left: 50px;
   display: flex;
   align-items: center;
@@ -222,8 +226,8 @@ const ActionButtonsWrapper = styled.div<{ size?: string }>`
   }
   
   `
-  
-  
+
+
 
 const Wrapper = styled.div`
   display: flex;
