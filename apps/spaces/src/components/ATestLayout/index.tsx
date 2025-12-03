@@ -26,7 +26,7 @@ export const ATestLayout: FunctionComponent<Props> = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const [inviteErrorCode, setInviteErrorCode] = useState<string | null>(null);
 
   const [errorMessage, setErrorMessage] = useState<string>(null);
   const [retryAction, setRetryAction] = useState<(() => void) | null>(null);
@@ -52,6 +52,10 @@ export const ATestLayout: FunctionComponent<Props> = () => {
 
       const e = handleHttpError(error);
       const content = getErrorContent("error_messages", "invite_learner_failed", e.message);
+
+      if (e.message === "learner_already_exists") {
+        throw error;
+      }
 
       openErrorModal(content, () => invite(name, email));
     }

@@ -5,20 +5,21 @@ import styled from "styled-components";
 
 interface Props {
   isModalOpen: boolean;
-  setIsModalOpen: (handle: boolean) => void
-  onConfirm: (name: string, email: string) => void
+  setIsModalOpen: (handle: boolean) => void;
+  onConfirm: (name: string, email: string) => void;
+  learnerAlreadyExists?: boolean;
 }
 
 export const InviteLearnerModal: FunctionComponent<Props> = ({
   isModalOpen,
   setIsModalOpen,
-  onConfirm
+  onConfirm,
+  learnerAlreadyExists = false,
 }) => {
-
   const { t } = useTranslation();
 
-  const [name, handleName] = useState('');
-  const [email, handleEmail] = useState('');
+  const [name, handleName] = useState("");
+  const [email, handleEmail] = useState("");
   const [emailIsValid, setEmailIsValid] = useState(true);
 
   const isEmailEmpty = !email || email.trim() === "";
@@ -27,26 +28,41 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
   const verifyEmailPattern = (value: string) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
+  const showInvalidEmailError = !isEmailEmpty && !emailIsValid;
+  const showAlreadyExistsError = !isEmailEmpty && emailIsValid && learnerAlreadyExists;
+
+  const handlePrimaryClick = async () => {
+    try {
+      await Promise.resolve(onConfirm(name, email));
+      setIsModalOpen(false);
+      resetForm();
+    } catch (err) {
+      console.error("Error inviting learner:", err);
+    }
+  };
+
+  const resetForm = () => {
+    setEmailIsValid(true);
+    handleEmail("");
+    handleName("");
+  };
+
   return (
     <Modal
       size="medium"
       isOpen={isModalOpen}
-      title={t('modals.invite_learner.title')}
-      primaryButtonText={t('buttons.send_invitation')}
+      title={t("modals.invite_learner.title")}
+      primaryButtonText={t("buttons.send_invitation")}
       primaryButtonDisabled={isNameEmpty || isEmailEmpty || !emailIsValid}
-      secondaryButtonText={t('buttons.cancel')}
+      secondaryButtonText={t("buttons.cancel")}
       onPrimaryClick={() => {
-        onConfirm(name, email);
+        handlePrimaryClick();
         setIsModalOpen(false);
-        setEmailIsValid(true);
-        handleEmail("");
-        handleName("");
+        resetForm();
       }}
       onSecondaryClick={() => {
-        setIsModalOpen(false)
-        setEmailIsValid(true);
-        handleEmail("");
-        handleName("");
+        setIsModalOpen(false);
+        resetForm();
       }}
     >
       <FormContent>
@@ -54,7 +70,7 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
           <TextInput
             id="learner-name"
             value={name}
-            placeholder={t('modals.invite_learner.name_placeholder')}
+            placeholder={t("modals.invite_learner.name_placeholder")}
             onChange={(e) => handleName(e.target.value)}
           />
 
@@ -63,35 +79,45 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
               id="learner-email"
               type="email"
               value={email}
-              placeholder={t('modals.invite_learner.email_placeholder')}
+              placeholder={t("modals.invite_learner.email_placeholder")}
               onChange={(e) => {
                 const value = e.target.value;
                 handleEmail(value);
-                if (value.trim() === '') {
+
+                if (value.trim() === "") {
                   setEmailIsValid(true);
                   return;
                 }
+
                 setEmailIsValid(verifyEmailPattern(value));
               }}
-              aria-invalid={!emailIsValid}
-              aria-describedby="learner-email-error"
             />
 
-            {!isEmailEmpty && !emailIsValid && (
+            {showInvalidEmailError && (
               <ErrorText
                 id="learner-email-error"
                 role="alert"
                 aria-live="polite"
               >
-                {t('error_messages.invalid_email')}
+                {t("error_messages.invalid_email")}
+              </ErrorText>
+            )}
+
+            {showAlreadyExistsError && (
+              <ErrorText
+                id="learner-already-exists-error"
+                role="alert"
+                aria-live="polite"
+              >
+                {t("error_messages.learner_already_exists")}
               </ErrorText>
             )}
           </EmailField>
         </InputsContainer>
       </FormContent>
     </Modal>
-  )
-}
+  );
+};
 
 const FormContent = styled.div`
   display: flex;
@@ -113,7 +139,6 @@ const EmailField = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-height: 56px;
 `;
 
 const ErrorText = styled.p`
