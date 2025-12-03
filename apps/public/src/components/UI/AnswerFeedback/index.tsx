@@ -38,30 +38,30 @@ export const AnswerFeedback: FunctionComponent<Props> = ({
     if (userAnswer === 'unsure') {
       return (<div>
         <UnsureIcon />
-        <span>{t("quiz.answers.results.unsure")}</span>
+        <span id="unsure-result">{t("quiz.answers.results.unsure")}</span>
       </div>)
     }
     if (realAnswer === userAnswer) {
       return (<div>
         <CorrectIcon />
-        <span>{t("quiz.answers.results.correct")}</span>
+        <span id="correct-result">{t("quiz.answers.results.correct")}</span>
       </div>)
     } else {
       return (<div>
         <WrongIcon />
-        <span>{t("quiz.answers.results.incorrect")}</span>
+        <span id="wrong-result">{t("quiz.answers.results.incorrect")}</span>
       </div>)
     }
   }
   return (
     <Wrapper>
       { (userAnswer && width > 1024) && (
-        <UserAnswerWrapper hide={showExplanations}>          
+        <UserAnswerWrapper hide={showExplanations}>
           {compareAnswers()}
           { realAnswer === 'phishing' ? (
-            <p>{t("quiz.answers.results.bottom-bar_looks-like-phishing")}</p>
+            <p id="bottom-looks-like-phishing">{t("quiz.answers.results.bottom-bar_looks-like-phishing")}</p>
           ) : (
-            <p>{t("quiz.answers.results.bottom-bar_looks-legit")}</p>
+            <p id="bottom-looks-legit">{t("quiz.answers.results.bottom-bar_looks-legit")}</p>
           )}
         </UserAnswerWrapper>
       )}
@@ -80,7 +80,7 @@ export const AnswerFeedback: FunctionComponent<Props> = ({
 
       <OptionsWrapper>
         {(showExplanations && explanationNumber > 0) && <ActionButtonsWrapper>
-          <Button 
+          <Button
             text={t("quiz.answers.results.back_button")}
             type='outline'
             onClick={() => {
