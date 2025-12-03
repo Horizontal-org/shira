@@ -32,6 +32,7 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
 
   return quiz && (
     <Modal
+      id="duplicate-quiz-modal"
       isOpen={isModalOpen}
       title={t('modals.duplicate_quiz.title')}
       primaryButtonText={isLoading ? t('loading_messages.creating') : t('buttons.save')}
