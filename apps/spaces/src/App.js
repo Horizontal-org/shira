@@ -22,6 +22,7 @@ import { QuestionEditLayout } from './components/QuestionEditLayout';
 import { QuestionLibraryListLayout } from './components/QuestionLibraryListLayout';
 import { SupportLayout } from './components/SupportLayout';
 import './language/i18n';
+import { LearnersLayout } from './components/LearnersLayout';
 
 function App() {
 
@@ -78,6 +79,7 @@ function App() {
                   <Route path='/quiz/:quizId/question' element={<QuestionCreationLayout />}/>
                   <Route path='/quiz/:quizId/question/:questionId' element={<QuestionEditLayout />}/>
                   <Route path='/question/library' element={<QuestionLibraryListLayout />}/>
+                  <Route path='/learner' element={<LearnersLayout />} />
                   <Route path="/logout"  element={<LogoutLayout />} />
                   <Route path="/support"  element={<SupportLayout />} />
                 </>

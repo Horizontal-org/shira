@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker'
 
 export type Person = {
+  id: number
   name: string
   email: string
   dateInvited: Date
@@ -16,8 +17,9 @@ const range = (len: number) => {
   return arr
 }
 
-const newPerson = (): Person => {
+const newPerson = (i): Person => {
   return {
+    id: i,
     name: faker.person.fullName(),
     email: faker.internet.exampleEmail(),
     dateInvited: faker.date.recent(),
@@ -31,9 +33,9 @@ const newPerson = (): Person => {
 export function makeData(...lens: number[]) {
   const makeDataLevel = (depth = 0): Person[] => {
     const len = lens[depth]!
-    return range(len).map((d): Person => {
+    return range(len).map((d, i): Person => {
       return {
-        ...newPerson(),
+        ...newPerson(i + 1),
         subRows: lens[depth + 1] ? makeDataLevel(depth + 1) : undefined,
       }
     })

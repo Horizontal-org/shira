@@ -1,6 +1,6 @@
 import { StoryObj, Meta } from '@storybook/react';
 import { Table } from './Table'
-import { makeData, Person } from './components/FakeData'
+import { makeData } from './components/FakeData'
 import { useMemo, useState } from 'react';
 import { TableCheckbox } from './components/TableCheckbox';
 import { ColumnDef } from '@tanstack/react-table';
@@ -31,7 +31,9 @@ type Story = StoryObj<typeof Table>
 export const Default: Story = {
   args: {},
   render: function Render(args) {
-  const [data, setData] = useState(() => makeData(1000))
+  const [data] = useState(() => makeData(1000))
+  const [rowSelection, setRowSelection] = useState({})
+  console.log("🚀 ~ Render ~ rowSelection:", rowSelection)
   const columns = useMemo<ColumnDef<any>[]>(
     () => [
       {
@@ -100,6 +102,8 @@ export const Default: Story = {
         loading={false}
         data={data}
         columns={columns}
+        rowSelection={rowSelection}
+        setRowSelection={setRowSelection}
         colGroups={(
           <colgroup>
             <col style={{ width: "50px" }} />

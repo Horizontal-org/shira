@@ -1,5 +1,5 @@
 import { FunctionComponent, useRef, useState } from "react";
-import { FiMoreVertical, FiShare } from "react-icons/fi";
+import { FiMoreVertical } from "react-icons/fi";
 import styled from "styled-components";
 import { BaseFloatingMenu } from "../../FloatingMenu";
 import { MdEmail } from "react-icons/md";

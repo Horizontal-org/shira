@@ -1,3 +1,5 @@
+import { GetLearnersDto } from "../../dto/get-learner.dto";
+
 export interface IGetLearnerService {
-  execute(): Promise<void>;
+  execute(spaceId: number): Promise<GetLearnersDto[]>;
 }

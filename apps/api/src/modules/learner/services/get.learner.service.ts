@@ -3,6 +3,9 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Learner as LearnerEntity } from "../domain/learner.entity";
 import { Repository } from "typeorm";
 import { IGetLearnerService } from "../interfaces/services/get.learner.service.interface";
+import { plainToClass, plainToInstance } from "class-transformer";
+import { GetLearnersDto } from "../dto/get-learner.dto";
+import { GenericErrorException } from "../exceptions";
 
 @Injectable()
 export class GetLearnerService implements IGetLearnerService {
@@ -11,7 +14,18 @@ export class GetLearnerService implements IGetLearnerService {
     private readonly learnerRepo: Repository<LearnerEntity>,
   ) { }
 
-  async execute() {
-    // TODO implementation
+  async execute(spaceId:number) {
+    let learners = []
+    try {
+      learners = await this.learnerRepo.find({
+        where: {
+          spaceId: spaceId
+        }
+      })
+    } catch {
+      throw new GenericErrorException()
+    }
+
+    return await plainToInstance(GetLearnersDto, learners)
   }
 }

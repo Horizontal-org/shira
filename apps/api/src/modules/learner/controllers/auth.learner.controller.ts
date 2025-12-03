@@ -1,4 +1,4 @@
-import { Body, Delete, Inject, Post } from '@nestjs/common';
+import { Body, Delete, Get, Inject, Post } from '@nestjs/common';
 import { TYPES } from '../interfaces';
 import { InviteLearnerDto } from '../dto/invitation.learner.dto';
 import { AssignLearnerDto } from '../dto/assign.learner.dto';
@@ -10,6 +10,7 @@ import { Role } from 'src/modules/user/domain/role.enum';
 import { SpaceId } from 'src/modules/auth/decorators';
 import { IDeleteLearnerService } from '../interfaces/services/delete.learner.service.interface';
 import { DeleteLearnerDto } from '../dto/delete.learner.dto';
+import { IGetLearnerService } from '../interfaces/services/get.learner.service.interface';
 
 @AuthController('learners')
 export class AuthLearnerController {
@@ -19,7 +20,9 @@ export class AuthLearnerController {
     @Inject(TYPES.services.IAssignLearnerService)
     private readonly assignService: IAssignLearnerService,
     @Inject(TYPES.services.IDeleteLearnerService)
-    private readonly deleteLearnerService: IDeleteLearnerService
+    private readonly deleteLearnerService: IDeleteLearnerService,
+    @Inject(TYPES.services.IGetLearnerService)
+    private readonly getLearner: IGetLearnerService
   ) { }
 
   @Post('invitations')
@@ -57,5 +60,13 @@ export class AuthLearnerController {
   @Post('assignments/bulk')
   async assignBulk() {
     //TODO assign bulk
+  }
+
+  @Get('')
+  @Roles(Role.SpaceAdmin)
+  async getLearners(
+    @SpaceId() spaceId: number 
+  ){
+    return await this.getLearner.execute(spaceId)
   }
 }

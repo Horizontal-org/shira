@@ -3,6 +3,7 @@ export const TYPES = {
     IInviteLearnerService: 'IInviteLearnerService',
     IAssignLearnerService: 'IAssignLearnerService',
     IDeleteLearnerService: 'IDeleteLearnerService',
-    IGetLearnerQuizService: 'IGetLearnerQuizService'
+    IGetLearnerQuizService: 'IGetLearnerQuizService',
+    IGetLearnerService: 'IGetLearnerService'
   },
 };

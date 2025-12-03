@@ -17,16 +17,18 @@ export interface TableProps {
   data: Array<Object>
   colGroups?: HTMLElement
   loading: boolean
+  rowSelection: Object
+  setRowSelection: React.Dispatch<React.SetStateAction<any>>
 }
 
 export const Table = ({
   columns = [],
   data = null,
   colGroups = null,
-  loading
+  loading,
+  rowSelection,
+  setRowSelection
 }) => {
-  console.log("🚀 ~ Table ~ data:", data)
-  const [rowSelection, setRowSelection] = React.useState({})
   const [pagination, setPagination] = React.useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
@@ -36,6 +38,7 @@ export const Table = ({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getRowId: (row: any) => row.id,
     state: {
       rowSelection,
       pagination

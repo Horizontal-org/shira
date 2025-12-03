@@ -2,6 +2,7 @@ import { TYPES } from './interfaces';
 import { AssignLearnerService } from './services/assign.learner.service';
 import { DeleteLearnerService } from './services/delete.learner.service';
 import { GetLearnerQuizService } from './services/get.learner-quiz.service';
+import { GetLearnerService } from './services/get.learner.service';
 import { InviteLearnerService } from './services/invite.learner.service';
 
 export const inviteLearnerService = {
@@ -19,6 +20,11 @@ export const getLearnerQuizByHash = {
   useClass: GetLearnerQuizService,
 };
 
+export const getLearner = {
+  provide: TYPES.services.IGetLearnerService,
+  useClass: GetLearnerService
+}
+
 export const deleteLearnerService = {
   provide: TYPES.services.IDeleteLearnerService,
   useClass: DeleteLearnerService
@@ -27,7 +33,8 @@ export const deleteLearnerService = {
 export const serviceLearnerProviders = [
   inviteLearnerService,
   assignLearnerService,
-  deleteLearnerService
+  deleteLearnerService,
+  getLearner
 ];
 
 export const serviceLearnerQuizProviders = [
