@@ -14,11 +14,11 @@ interface Props {
   onAnswer: (answer: string) => void;
   realAnswer: string;
   userAnswer: string | null;
-  explanationsLength: number
-  explanationNumber: number
-  setExplanationNumber: (explanationNumber: number) => void
+  explanationsLength: number;
+  explanationNumber: number;
+  setExplanationNumber: (explanationNumber: number) => void;
   showExplanations: boolean;
-  handleShowExplanations: Dispatch<SetStateAction<boolean>>
+  handleShowExplanations: Dispatch<SetStateAction<boolean>>;
 }
 
 export const AnswerFeedback: FunctionComponent<Props> = ({
@@ -224,10 +224,7 @@ const ActionButtonsWrapper = styled.div<{ size?: string }>`
       }
     `};
   }
-  
-  `
-
-
+`
 
 const Wrapper = styled.div`
   display: flex;
