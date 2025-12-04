@@ -19,6 +19,7 @@ export interface TableProps {
   loading: boolean
   rowSelection: Object
   setRowSelection: React.Dispatch<React.SetStateAction<any>>
+  pageSize?: number
 }
 
 export const Table = ({
@@ -27,11 +28,12 @@ export const Table = ({
   colGroups = null,
   loading,
   rowSelection,
-  setRowSelection
+  setRowSelection,
+  pageSize = 25
 }) => {
   const [pagination, setPagination] = React.useState<PaginationState>({
     pageIndex: 0,
-    pageSize: 10,
+    pageSize: pageSize,
   })
   
   const table = useReactTable({
@@ -55,6 +57,7 @@ export const Table = ({
 
   return (
     <Wrapper>  
+      <Pagination table={table}/>   
       <TableHeader/>
       <StyledTable>
         { colGroups }
@@ -99,7 +102,7 @@ export const Table = ({
         </tbody>
       </StyledTable>
       <TableFooter />
-      <Pagination table={table}/>
+      <Pagination table={table}/>   
     </Wrapper>
   )
 }
@@ -159,12 +162,11 @@ const Th = styled("th")`
 
 const Td = styled("td")`
   background: ${props => props.theme.colors.light.white};
-  padding: 14px 16px;
+  padding: 9px 16px;
   vertical-align: middle;
   box-sizing: border-box;
   width: inherit;
 `;
-
 
   // &:not(:last-child) td {
   // }
@@ -182,7 +184,7 @@ const Tr = styled.tr<{ $selected?: boolean }>`
 
   &:hover {
     > td {
-      background-color: ${({ $selected, theme }) => $selected ? 'theme.colors.green1': '#FAFBF0'};
+      background-color: ${({ $selected, theme }) => $selected ? theme.colors.green1 : '#FAFBF0'};
     
       > label {
         visibility: visible; 
@@ -194,8 +196,8 @@ const Tr = styled.tr<{ $selected?: boolean }>`
   ${props => props.$selected && `
     &:hover {
       > td {
-        border-top: 0.5px solid ${props => props.theme.colors.green1};
-        border-bottom: 0.5px solid ${props => props.theme.colors.green1}; 
+        border-top: 0.5px solid ${props.theme.colors.green1};
+        border-bottom: 0.5px solid ${props.theme.colors.green1}; 
       }
     }
     > td {
