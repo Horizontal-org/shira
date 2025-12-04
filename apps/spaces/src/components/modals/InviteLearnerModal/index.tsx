@@ -7,7 +7,6 @@ interface Props {
   isModalOpen: boolean;
   setIsModalOpen: (handle: boolean) => void;
   onConfirm: (name: string, email: string) => void;
-  learnerAlreadyExists?: boolean;
   isLoading?: boolean;
 }
 
@@ -15,38 +14,54 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
   isModalOpen,
   setIsModalOpen,
   onConfirm,
-  learnerAlreadyExists = false,
   isLoading = false,
 }) => {
   const { t } = useTranslation();
 
-  const [name, handleName] = useState("");
-  const [email, handleEmail] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [emailIsValid, setEmailIsValid] = useState(true);
+  const [showAlreadyExistsError, setShowAlreadyExistsError] = useState(false);
 
-  const isEmailEmpty = !email || email.trim() === "";
-  const isNameEmpty = !name || name.trim() === "";
+  const isNameEmpty = !name.trim();
+  const isEmailEmpty = !email.trim();
+  const showInvalidEmailError = !isEmailEmpty && !emailIsValid;
 
   const verifyEmailPattern = (value: string) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
-  const showInvalidEmailError = !isEmailEmpty && !emailIsValid;
-  const showAlreadyExistsError = !isEmailEmpty && emailIsValid && learnerAlreadyExists;
+  const resetForm = () => {
+    setName("");
+    setEmail("");
+    setEmailIsValid(true);
+    setShowAlreadyExistsError(false);
+  };
+
+  const handleClose = () => {
+    setIsModalOpen(false);
+    resetForm();
+  };
+
+  const handleEmailChange = (value: string) => {
+    setEmail(value);
+    setShowAlreadyExistsError(false);
+
+    if (!value.trim()) {
+      setEmailIsValid(true);
+      return;
+    }
+
+    setEmailIsValid(verifyEmailPattern(value));
+  };
 
   const handlePrimaryClick = async () => {
     try {
       await Promise.resolve(onConfirm(name, email));
-      setIsModalOpen(false);
-      resetForm();
+      handleClose();
     } catch (err) {
+      setShowAlreadyExistsError(true);
       console.error("Error inviting learner:", err);
     }
-  };
-
-  const resetForm = () => {
-    setEmailIsValid(true);
-    handleEmail("");
-    handleName("");
   };
 
   return (
@@ -64,13 +79,8 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
         isLoading || isNameEmpty || isEmailEmpty || !emailIsValid
       }
       secondaryButtonText={t("buttons.cancel")}
-      onPrimaryClick={() => {
-        handlePrimaryClick();
-      }}
-      onSecondaryClick={() => {
-        setIsModalOpen(false);
-        resetForm();
-      }}
+      onPrimaryClick={handlePrimaryClick}
+      onSecondaryClick={handleClose}
     >
       <FormContent>
         <InputsContainer>
@@ -78,7 +88,7 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
             id="learner-name"
             value={name}
             placeholder={t("modals.invite_learner.name_placeholder")}
-            onChange={(e) => handleName(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
           />
 
           <EmailField>
@@ -87,17 +97,7 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
               type="email"
               value={email}
               placeholder={t("modals.invite_learner.email_placeholder")}
-              onChange={(e) => {
-                const value = e.target.value;
-                handleEmail(value);
-
-                if (value.trim() === "") {
-                  setEmailIsValid(true);
-                  return;
-                }
-
-                setEmailIsValid(verifyEmailPattern(value));
-              }}
+              onChange={(e) => handleEmailChange(e.target.value)}
             />
 
             {showInvalidEmailError && (
@@ -110,7 +110,7 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
               </ErrorText>
             )}
 
-            {showAlreadyExistsError && (
+            {!isEmailEmpty && emailIsValid && showAlreadyExistsError && (
               <ErrorText
                 id="learner-already-exists-error"
                 role="alert"

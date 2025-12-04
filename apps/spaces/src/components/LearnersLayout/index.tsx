@@ -36,7 +36,6 @@ export const LearnersLayout: FunctionComponent<Props> = ({ openErrorModal }) => 
     try {
       setLoading(true);
 
-      await new Promise((r) => setTimeout(r, 10500));
       await inviteLearner(name, email);
       toast.success(t(`success_messages.learner_invitation_sent`), { duration: 3000 });
 
