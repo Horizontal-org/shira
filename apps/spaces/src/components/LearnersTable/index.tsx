@@ -144,6 +144,7 @@ export const LearnersTable: FunctionComponent<Props> = ({ openErrorModal }) => {
   )
 
   useEffect(() => {
+    //move when merge
     const getLearners = async () => {
       try {
         const res = await fetchLearners();
