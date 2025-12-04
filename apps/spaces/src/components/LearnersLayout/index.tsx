@@ -13,7 +13,7 @@ import { handleHttpError } from "../../fetch/handleError";
 import { inviteLearner } from "../../fetch/learner";
 import { getContactUsLayout, getErrorContent } from "../../utils/getErrorContent";
 import { MdEmail } from "react-icons/md";
-import { FaFileImport } from "react-icons/fa6";
+import { PiDownloadSimpleBold } from "react-icons/pi";
 
 interface Props { }
 
@@ -103,7 +103,7 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
               id="invite-learners-bulk-button"
               text={t("buttons.invite_learners_bulk")}
               type="primary"
-              leftIcon={<FaFileImport />}
+              leftIcon={<PiDownloadSimpleBold />}
               color={defaultTheme.colors.green7}
             />
             <InviteLearnerModal
