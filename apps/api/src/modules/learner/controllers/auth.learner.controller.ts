@@ -33,7 +33,7 @@ export class AuthLearnerController {
     @Inject(TYPES.services.IDeleteLearnerService)
     private readonly deleteLearnerService: IDeleteLearnerService,
     @Inject(TYPES.services.IGetLearnerService)
-    private readonly getLearner: IGetLearnerService
+    private readonly getLearnerService: IGetLearnerService
   ) { }
 
   private readonly logger = new ApiLogger(AuthLearnerController.name);
@@ -93,12 +93,12 @@ export class AuthLearnerController {
     }
   }
 
-  @Get('')
+  @Get()
   @Roles(Role.SpaceAdmin)
   async getLearners(
     @SpaceId() spaceId: number 
   ){
-    return await this.getLearner.execute(spaceId)
+    return await this.getLearnerService.execute(spaceId)
   }
 }
 

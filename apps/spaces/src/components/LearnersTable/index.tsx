@@ -1,4 +1,4 @@
-import { Body3, Body3Bold, defaultTheme, styled, Table, TableActions, TableCheckbox } from "@shira/ui";
+import { Body3, Body3Bold, defaultTheme, styled, Table, TableActions, TableCheckbox, useTheme } from "@shira/ui";
 import { ColumnDef } from "@tanstack/react-table";
 import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -26,9 +26,11 @@ interface Props {
 
 export const LearnersTable: FunctionComponent<Props> = ({ openErrorModal }) => {
   const { t, i18n } = useTranslation()
+  const theme = useTheme()
 
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
+  
   //Key of row selection is DB ID of learner
   const [rowSelection, setRowSelection] = useState({})
   console.log("🚀 ~ LearnersTable ~ rowSelection:", rowSelection)
@@ -94,12 +96,11 @@ export const LearnersTable: FunctionComponent<Props> = ({ openErrorModal }) => {
       {
         header: () => {
           return (
-            <LearnerHeader>
-              <GoPersonFill size={18} color={defaultTheme.colors.dark.darkGrey} />
-              <span>{t('learners.table.learner')}</span>
-            </LearnerHeader>
-          )
-        },
+          <LearnerHeader>
+            <GoPersonFill size={18} color={theme.colors.dark.darkGrey} />
+            <span>{ t('learners.table.learner')}</span>
+          </LearnerHeader>
+          )},
         id: 'learner',
         cell: ({ row }) => {
           return (
@@ -137,7 +138,7 @@ export const LearnersTable: FunctionComponent<Props> = ({ openErrorModal }) => {
         }
       }
     ],
-    [currentDateLocal, t]
+    [currentDateLocal, t, theme]
   )
 
   useEffect(() => {
@@ -178,7 +179,7 @@ export const LearnersTable: FunctionComponent<Props> = ({ openErrorModal }) => {
 }
 
 const Wrapper = styled.div`
-  max-width: 1024px;
+  max-width: ${props => props.theme.breakpoints.lg};
 `
 
 const LearnerPersonInfo = styled.div`

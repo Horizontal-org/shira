@@ -26,12 +26,12 @@ export const unassignLearnerService = {
   useClass: UnassignLearnerService,
 };
 
-export const getLearnerQuizByHash = {
+export const getLearnerQuizByHashService = {
   provide: TYPES.services.IGetLearnerQuizService,
   useClass: GetLearnerQuizService,
 };
 
-export const getLearner = {
+export const getLearnerService = {
   provide: TYPES.services.IGetLearnerService,
   useClass: GetLearnerService
 }
@@ -46,10 +46,10 @@ export const serviceLearnerProviders = [
   inviteBulkLearnerService,
   assignLearnerService,
   deleteLearnerService,
-  getLearner,
+  getLearnerService,
   unassignLearnerService,
 ];
 
 export const serviceLearnerQuizProviders = [
-  getLearnerQuizByHash
+  getLearnerQuizByHashService
 ]

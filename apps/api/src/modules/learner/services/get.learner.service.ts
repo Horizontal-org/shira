@@ -3,7 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Learner as LearnerEntity } from "../domain/learner.entity";
 import { Repository } from "typeorm";
 import { IGetLearnerService } from "../interfaces/services/get.learner.service.interface";
-import { plainToClass, plainToInstance } from "class-transformer";
+import { plainToInstance } from "class-transformer";
 import { GetLearnersDto } from "../dto/get-learner.dto";
 import { GenericErrorException } from "../exceptions";
 
@@ -26,6 +26,6 @@ export class GetLearnerService implements IGetLearnerService {
       throw new GenericErrorException()
     }
 
-    return await plainToInstance(GetLearnersDto, learners)
+    return plainToInstance(GetLearnersDto, learners)
   }
 }
