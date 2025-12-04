@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect } from "react";
+import { FunctionComponent } from "react";
 import { LayoutMainContent, LayoutMainContentWrapper } from "../LayoutStyleComponents/LayoutMainContent";
 import { BetaBanner, Body1, H2, Sidebar, styled, SubHeading3, useAdminSidebar } from "@shira/ui";
 import { LayoutContainer } from "../LayoutStyleComponents/LayoutContainer";
