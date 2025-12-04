@@ -39,7 +39,6 @@ export const ATestLayout: FunctionComponent<Props> = () => {
       <ButtonContainer>
         <AssignLearnerAction openErrorModal={openErrorModal} />
         <UnassignLearnerAction openErrorModal={openErrorModal} />
-        <DeleteLearnerAction openErrorModal={openErrorModal} />
       </ButtonContainer>
 
       <Modal

@@ -1,6 +1,6 @@
 import { FunctionComponent, useState } from "react";
 import { LayoutMainContent, LayoutMainContentWrapper } from "../LayoutStyleComponents/LayoutMainContent";
-import { BetaBanner, Body1, Button, defaultTheme, H2, Sidebar, styled, SubHeading3, useAdminSidebar } from "@shira/ui";
+import { BetaBanner, Body1, Button, defaultTheme, H2, Modal, ModalType, Sidebar, styled, SubHeading3, useAdminSidebar } from "@shira/ui";
 import { LayoutContainer } from "../LayoutStyleComponents/LayoutContainer";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +11,7 @@ import { InviteLearnerModal } from "../modals/InviteLearnerModal";
 import toast from "react-hot-toast";
 import { handleHttpError } from "../../fetch/handleError";
 import { inviteLearner } from "../../fetch/learner";
-import { getErrorContent } from "../../utils/getErrorContent";
+import { getContactUsLayout, getErrorContent } from "../../utils/getErrorContent";
 import { MdEmail } from "react-icons/md";
 import { FaFileImport } from "react-icons/fa6";
 
@@ -29,18 +29,28 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
 
   const [isInvitationModalOpen, setIsInvitationModalOpen] = useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [retryAction, setRetryAction] = useState<(() => void) | null>(null);
   const [loading, setLoading] = useState(false);
 
   const openErrorModal = (content: string, retry: () => void) => {
+    setErrorMessage(content);
+    setRetryAction(() => retry);
     setIsErrorModalOpen(true);
+    setIsInvitationModalOpen(false);
   };
 
   const handleErrorModalCancel = () => {
     setIsErrorModalOpen(false);
+    setRetryAction(null);
+    setErrorMessage(null);
   };
 
   const handleErrorModalRetry = () => {
     setIsErrorModalOpen(false);
+    if (retryAction) {
+      retryAction();
+    }
   };
 
   const invite = async (name: string, email: string) => {
@@ -108,6 +118,21 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
               openErrorModal={openErrorModal}
             />
           </div>
+          <Modal
+            isOpen={isErrorModalOpen}
+            title={t('error_messages.something_went_wrong')}
+            primaryButtonText={t('buttons.try_again')}
+            secondaryButtonText={t('buttons.cancel')}
+            type={ModalType.Danger}
+            onPrimaryClick={handleErrorModalRetry}
+            onSecondaryClick={handleErrorModalCancel}
+          >
+            <FormContent>
+              <Body1>
+                {getContactUsLayout(errorMessage)}
+              </Body1>
+            </FormContent>
+          </Modal>
         </LayoutMainContentWrapper>
       </LayoutMainContent>
     </LayoutContainer>
@@ -133,4 +158,9 @@ const ActionContainer = styled.div`
   padding-right: 20px;
   padding-bottom: 12px;
   padding-left: 20px;
+`;
+
+const FormContent = styled.div`
+  display: flex;
+  flex-direction: column;
 `;

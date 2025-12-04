@@ -8,7 +8,7 @@ export const inviteLearner = async (name: string, email: string) => {
 }
 
 export const deleteLearners = async (ids: number[]) => {
-  const { data } = await axios.delete(`${process.env.REACT_APP_API_URL}/learners/delete`, {
+  const { data } = await axios.delete(`${process.env.REACT_APP_API_URL}/learners`, {
     data: { ids }
   })
   return data;

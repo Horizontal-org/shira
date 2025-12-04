@@ -1,32 +1,34 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, ReactNode, useState } from "react";
 import toast from "react-hot-toast";
-import { Button } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 import { deleteLearners } from "../../fetch/learner";
 import { handleHttpError } from "../../fetch/handleError";
 import { getErrorContent } from "../../utils/getErrorContent";
 import { DeleteModal } from "../modals/DeleteModal";
-import styled from "styled-components";
 
 interface Props {
-  openErrorModal: (content: string, retry: () => void) => void;
+  learnerId: number;
+  openErrorModal: (content: ReactNode, retry: () => void) => void;
+  onDeleted: (id: number) => void;
+  children: (openDeleteModal: () => void) => ReactNode;
 }
 
-export const DeleteLearnerAction: FunctionComponent<Props> = ({ openErrorModal }) => {
+export const DeleteLearnerAction: FunctionComponent<Props> = ({
+  learnerId,
+  openErrorModal,
+  onDeleted,
+  children,
+}) => {
   const { t } = useTranslation();
-  const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  function handleSelectLearner() {
-    setSelectedIds([10]); // Mock of learners
-  }
-
   const deleteLearnerHandler = async () => {
-    handleSelectLearner();
-
     try {
-      await deleteLearners(selectedIds);
-      toast.success(t(`success_messages.learner_deleted`), { duration: 3000 });
+      await deleteLearners([learnerId]);
+      toast.success(t("success_messages.learner_deleted"), { duration: 3000 });
+
+      setIsDeleteModalOpen(false);
+      onDeleted(learnerId);
     } catch (error) {
       const e = handleHttpError(error);
       const content = getErrorContent("error_messages", "delete_learner_failed", e.message);
@@ -35,32 +37,20 @@ export const DeleteLearnerAction: FunctionComponent<Props> = ({ openErrorModal }
     }
   };
 
+  const openDeleteModal = () => setIsDeleteModalOpen(true);
+
   return (
-    <ActionContainer>
-      <Button
-        text="Delete learner"
-        type="outline"
-        onClick={() => setIsDeleteModalOpen(true)}
-      />
+    <>
+      {children(openDeleteModal)}
 
       <DeleteModal
-        title={t('modals.delete_learner.title')}
-        content={
-          <div>
-            {t('modals.delete_learner.subtitle')}
-          </div>
-        }
+        title={t("modals.delete_learner.title")}
+        content={<div>{t("modals.delete_learner.subtitle")}</div>}
         setIsModalOpen={setIsDeleteModalOpen}
         onDelete={deleteLearnerHandler}
         onCancel={() => setIsDeleteModalOpen(false)}
         isModalOpen={isDeleteModalOpen}
       />
-    </ActionContainer>
+    </>
   );
 };
-
-const ActionContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;

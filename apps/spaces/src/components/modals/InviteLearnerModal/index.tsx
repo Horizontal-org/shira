@@ -59,8 +59,6 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
       await Promise.resolve(onConfirm(name, email));
     } catch {
       setShowAlreadyExistsError(true);
-    } finally {
-      handleClose();
     }
   };
 

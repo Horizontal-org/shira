@@ -11,6 +11,7 @@ import { deleteLearners, fetchLearners, inviteLearner } from "../../fetch/learne
 import toast from "react-hot-toast";
 import { handleHttpError } from "../../fetch/handleError";
 import { getErrorContent } from "../../utils/getErrorContent";
+import { DeleteLearnerAction } from "../ATestLayout/DeleteLearnerAction";
 
 type Learner = {
   id: number;
@@ -30,7 +31,7 @@ export const LearnersTable: FunctionComponent<Props> = ({ openErrorModal }) => {
 
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
-  
+
   //Key of row selection is DB ID of learner
   const [rowSelection, setRowSelection] = useState({})
   console.log("🚀 ~ LearnersTable ~ rowSelection:", rowSelection)
@@ -40,19 +41,8 @@ export const LearnersTable: FunctionComponent<Props> = ({ openErrorModal }) => {
     return dateLocales[i18n.language] ?? enUS;
   }, [i18n])
 
-  const handleDeleteLearner = async (learnerId: number) => {
-    try {
-      await deleteLearners([learnerId]);
-      toast.success(t("success_messages.learner_deleted"), { duration: 3000 });
-
-      // Actualizar tabla localmente
-      setData(prev => prev.filter(l => l.id !== learnerId));
-    } catch (error) {
-      const e = handleHttpError(error);
-      const content = getErrorContent("error_messages", "delete_learner_failed", e.message);
-
-      openErrorModal(content, () => handleDeleteLearner(learnerId));
-    }
+  const handleDeleted = (id: number) => {
+    setData(prev => prev.filter(l => l.id !== id));
   };
 
   const handleResendInvitation = async (learner: Learner) => {
@@ -96,11 +86,12 @@ export const LearnersTable: FunctionComponent<Props> = ({ openErrorModal }) => {
       {
         header: () => {
           return (
-          <LearnerHeader>
-            <GoPersonFill size={18} color={theme.colors.dark.darkGrey} />
-            <span>{ t('learners.table.learner')}</span>
-          </LearnerHeader>
-          )},
+            <LearnerHeader>
+              <GoPersonFill size={18} color={theme.colors.dark.darkGrey} />
+              <span>{t('learners.table.learner')}</span>
+            </LearnerHeader>
+          )
+        },
         id: 'learner',
         cell: ({ row }) => {
           return (
@@ -125,20 +116,29 @@ export const LearnersTable: FunctionComponent<Props> = ({ openErrorModal }) => {
         }
       },
       {
-        id: 'actions',
+        id: "actions",
         cell: ({ row }) => {
           const learner = row.original;
 
           return (
-            <TableActions
-              onDelete={() => handleDeleteLearner(learner.id)}
-              onResend={() => handleResendInvitation(learner)}
-            />
-          )
-        }
-      }
+            <DeleteLearnerAction
+              learnerId={learner.id}
+              openErrorModal={openErrorModal}
+              onDeleted={handleDeleted}
+            >
+              {(openDeleteModal) => (
+                <TableActions
+                  onDelete={openDeleteModal}
+                  onResend={() => handleResendInvitation(learner)}
+                />
+              )}
+            </DeleteLearnerAction>
+          );
+        },
+      },
+
     ],
-    [currentDateLocal, t, theme]
+    [currentDateLocal, t, theme, openErrorModal]
   )
 
   useEffect(() => {
