@@ -10,17 +10,27 @@ interface Props {
   onDelete: () => void
 }
 
-export const TableActions:FunctionComponent<Props> = ({
+export const TableActions: FunctionComponent<Props> = ({
   onResend,
   onDelete
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-    const buttonRef = useRef<HTMLButtonElement>(null);
-  
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  const closeMenu = () => setIsOpen(false);
+
+  const handleResend = () => {
+    closeMenu();
+    onResend();
+  };
+  const handleDelete = () => {
+    closeMenu();
+    onDelete();
+  };
 
   return (
     <>
-      <ActionButton 
+      <ActionButton
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
       >
@@ -29,16 +39,16 @@ export const TableActions:FunctionComponent<Props> = ({
 
       <BaseFloatingMenu
         isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
+        onClose={closeMenu}
         elements={[
           {
             text: 'Resend invitation',
-            onClick: onResend,
-            icon: <MdEmail color="#5F6368"/>
+            onClick: handleResend,
+            icon: <MdEmail color="#5F6368" />
           },
           {
             text: 'Delete',
-            onClick: onDelete,
+            onClick: handleDelete,
             icon: <IoMdTrash color="#5F6368" />
           }
         ]}
@@ -47,7 +57,6 @@ export const TableActions:FunctionComponent<Props> = ({
     </>
   )
 }
-
 
 const ActionButton = styled.button`
   background: none;
