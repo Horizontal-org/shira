@@ -75,6 +75,7 @@ function App() {
                   {/* <Route path="/legacy-questions" element={<HomeLayout />} /> */}
                   {/* <Route path="/question/:id"  element={<QuestionLayout />} />  */}
                   {/* LEGACY */}
+                  <Route path="/" element={<DashboardLayout />} />
                   <Route path="/dashboard" element={<DashboardLayout />} />
                   <Route path='/quiz/:id' element={<QuizViewLayout />} />
                   <Route path='/quiz/:quizId/question' element={<QuestionCreationLayout />} />
