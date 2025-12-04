@@ -48,7 +48,7 @@ export const LearnersTable: FunctionComponent<Props> = ({ openErrorModal }) => {
   const handleResendInvitation = async (learner: Learner) => {
     try {
       await inviteLearner(learner.name, learner.email);
-      toast.success(t("success_messages.invitation_resent"), { duration: 3000 });
+      toast.success(t("success_messages.learner_invitation_resent", { email: learner.email }), { duration: 3000 });
     } catch (error) {
       const e = handleHttpError(error);
       const content = getErrorContent("error_messages", "invite_learner_failed", e.message);

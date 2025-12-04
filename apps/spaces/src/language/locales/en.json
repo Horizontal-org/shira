@@ -348,6 +348,7 @@
         "question_copied": "Copy of {{question_name}} created successfully",
         "no_questions_found": "No questions found.",
         "learner_invitation_sent": "The invitation has been sent.",
+        "learner_invitation_resent": "The invitation has been re-sent to {{email}}",
         "learner_deleted": "The learner has been deleted.",
         "learner_assigned": "This quiz has been assigned to {{count}} new learner.",
         "learners_assigned_plural": "This quiz has been assigned to {{count}} new learners.",
