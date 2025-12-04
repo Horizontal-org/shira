@@ -30,11 +30,17 @@ export const LearnersLayout: FunctionComponent<Props> = ({ openErrorModal }) => 
   }), shallow)
 
   const [isInvitationModalOpen, setIsInvitationModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const invite = async (name: string, email: string) => {
     try {
+      setLoading(true);
+
+      await new Promise((r) => setTimeout(r, 10500));
       await inviteLearner(name, email);
       toast.success(t(`success_messages.learner_invitation_sent`), { duration: 3000 });
+
+      setIsInvitationModalOpen(false);
     } catch (error) {
       const e = handleHttpError(error);
       const content = getErrorContent("error_messages", "invite_learner_failed", e.message);
@@ -44,6 +50,8 @@ export const LearnersLayout: FunctionComponent<Props> = ({ openErrorModal }) => 
       }
 
       openErrorModal(content, () => invite(name, email));
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -82,6 +90,7 @@ export const LearnersLayout: FunctionComponent<Props> = ({ openErrorModal }) => 
               isModalOpen={isInvitationModalOpen}
               setIsModalOpen={setIsInvitationModalOpen}
               onConfirm={(name, email) => invite(name, email)}
+              isLoading={loading}
             />
           </ActionContainer>
           <div>

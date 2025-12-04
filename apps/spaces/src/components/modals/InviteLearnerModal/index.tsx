@@ -8,6 +8,7 @@ interface Props {
   setIsModalOpen: (handle: boolean) => void;
   onConfirm: (name: string, email: string) => void;
   learnerAlreadyExists?: boolean;
+  isLoading?: boolean;
 }
 
 export const InviteLearnerModal: FunctionComponent<Props> = ({
@@ -15,6 +16,7 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
   setIsModalOpen,
   onConfirm,
   learnerAlreadyExists = false,
+  isLoading = false,
 }) => {
   const { t } = useTranslation();
 
@@ -53,13 +55,17 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
       size="medium"
       isOpen={isModalOpen}
       title={t("modals.invite_learner.title")}
-      primaryButtonText={t("buttons.send_invitation")}
-      primaryButtonDisabled={isNameEmpty || isEmailEmpty || !emailIsValid}
+      primaryButtonText={
+        isLoading
+          ? t("loading_messages.sending_invitation")
+          : t("buttons.send_invitation")
+      }
+      primaryButtonDisabled={
+        isLoading || isNameEmpty || isEmailEmpty || !emailIsValid
+      }
       secondaryButtonText={t("buttons.cancel")}
       onPrimaryClick={() => {
         handlePrimaryClick();
-        setIsModalOpen(false);
-        resetForm();
       }}
       onSecondaryClick={() => {
         setIsModalOpen(false);

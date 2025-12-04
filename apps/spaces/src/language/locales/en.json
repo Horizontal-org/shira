@@ -362,7 +362,8 @@
         "loading_library_questions": "Loading questions...",
         "uploading_image": "Uploading image...",
         "assigning_quiz_to_learners": "Assigning quiz to learners",
-        "assigning_quiz_to_learners_description": "Shira is working to assign the quiz to the selected learners."
+        "assigning_quiz_to_learners_description": "Shira is working to assign the quiz to the selected learners.",
+        "sending_invitation": "Sending invitation"
     },
     "preview": {
         "show_explanations": "Show explanations",
