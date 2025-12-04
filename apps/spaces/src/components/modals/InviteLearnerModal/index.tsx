@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from "react";
-import { defaultTheme, Modal, TextInput } from "@shira/ui";
+import { Body1, defaultTheme, Modal, TextInput } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 
@@ -81,9 +81,12 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
       onSecondaryClick={handleClose}
     >
       <FormContent>
+        <Body1>{t("modals.invite_learner.subtitle")}</Body1>
+
         <InputsContainer>
           <TextInput
             id="learner-name"
+            type="text"
             value={name}
             placeholder={t("modals.invite_learner.name_placeholder")}
             onChange={(e) => setName(e.target.value)}
@@ -98,25 +101,17 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
               onChange={(e) => handleEmailChange(e.target.value)}
             />
 
-            {showInvalidEmailError && (
-              <ErrorText
-                id="learner-email-error"
-                role="alert"
-                aria-live="polite"
-              >
-                {t("error_messages.invalid_email")}
-              </ErrorText>
-            )}
+            <ErrorContainer role="alert" aria-live="polite">
+              {showInvalidEmailError && (
+                <ErrorText>{t("error_messages.invalid_email")}</ErrorText>
+              )}
 
-            {!isEmailEmpty && emailIsValid && showAlreadyExistsError && (
-              <ErrorText
-                id="learner-already-exists-error"
-                role="alert"
-                aria-live="polite"
-              >
-                {t("error_messages.learner_already_exists")}
-              </ErrorText>
-            )}
+              {!isEmailEmpty && emailIsValid && showAlreadyExistsError && (
+                <ErrorText>
+                  {t("error_messages.learner_already_exists")}
+                </ErrorText>
+              )}
+            </ErrorContainer>
           </EmailField>
         </InputsContainer>
       </FormContent>
@@ -144,6 +139,11 @@ const EmailField = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
+`;
+
+const ErrorContainer = styled.div`
+  min-height: 40px;
+  padding: 0 10px;
 `;
 
 const ErrorText = styled.p`

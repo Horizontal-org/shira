@@ -303,7 +303,7 @@
         },
         "invite_learner": {
             "title": "Invite new learner",
-            "subtitle": "Send an email invitation to ask a new learner to join your space.",
+            "subtitle": "Send an email invitation to ask  a new learner to join your space.",
             "name_placeholder": "Name (optional)",
             "email_placeholder": "Email address (required)"
         },
