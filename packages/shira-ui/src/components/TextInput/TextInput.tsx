@@ -30,7 +30,10 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(({
     required = false
 }, ref) => {
     const [showPassword, setShowPassword] = useState(false);
-    const showLabel = value !== '';
+
+    const hasLabel = Boolean(label);
+    const showLabel = hasLabel && value !== '';
+
     const inputPlaceholder = (!showLabel && label) ? label : placeholder;
 
     const isPassword = type === 'password';
