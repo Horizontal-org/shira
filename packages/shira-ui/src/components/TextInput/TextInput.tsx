@@ -8,7 +8,7 @@ export interface Props {
     value: string;
     label?: string;
     disabled?: boolean;
-    type?: 'text' | 'password';
+    type?: 'text' | 'password' | 'email';
     required?: boolean;
     onBlur?: React.FocusEventHandler<HTMLInputElement>
     onFocus?: React.FocusEventHandler<HTMLInputElement>
@@ -40,7 +40,7 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(({
         <InputWrapper>
             {showLabel && <Label $disabled={disabled}>{label}</Label>}
             <InputContainer>
-                <StyledInput 
+                <StyledInput
                     id={id}
                     name={name}
                     type={inputType}
@@ -55,13 +55,13 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(({
                 />
 
                 {isPassword && (
-                    <IconButton 
+                    <IconButton
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
                         disabled={disabled}
                     >
-                        {showPassword ? 
-                            <FiEyeOff size={20} color={disabled ? '#aaa' : '#666'} /> : 
+                        {showPassword ?
+                            <FiEyeOff size={20} color={disabled ? '#aaa' : '#666'} /> :
                             <FiEye size={20} color={disabled ? '#aaa' : '#666'} />
                         }
                     </IconButton>

@@ -18,6 +18,7 @@ export interface ModalProps {
   onLeftClick?: () => void
   leftButtonText?: string
   className?: string;
+  size?: 'small' | 'medium';
 }
 
 export enum ModalType {
@@ -45,7 +46,8 @@ export const Modal: React.FC<ModalProps> = ({
   onLeftClick,
   leftButtonText,
   className,
-  type = 'primary'
+  type = 'primary',
+  size = 'small',
 }) => {
 
   useEffect(() => {
@@ -65,7 +67,7 @@ export const Modal: React.FC<ModalProps> = ({
   return (
     <>
       <Overlay id={id}>
-        <ModalContainer className={className}>
+        <ModalContainer className={className} size={size}>
           <Header>
             {titleIcon}
             <SubHeading2>{title}</SubHeading2>
@@ -123,11 +125,12 @@ const Overlay = styled.div`
   z-index: 1000;
 `;
 
-const ModalContainer = styled.div`
+const ModalContainer = styled.div<{ size: 'small' | 'medium' }>`
   background: ${props => props.theme.colors.light.white};
   border-radius: 16px;
 
-  width: 480px;
+  width: ${({ size }) => ({ small: '480px', medium: '1119px' }[size])};
+
   display: flex;
   flex-direction: column;
 
