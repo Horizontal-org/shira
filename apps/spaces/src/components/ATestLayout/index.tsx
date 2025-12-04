@@ -5,7 +5,6 @@ import { Body1, Modal, ModalType } from "@shira/ui";
 import { getContactUsLayout } from "../../utils/getErrorContent";
 import { AssignLearnerAction } from "./AssignLearnerAction";
 import { UnassignLearnerAction } from "./UnassignLearnerAction";
-import { DeleteLearnerAction } from "./DeleteLearnerAction";
 
 interface Props { }
 

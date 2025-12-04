@@ -1,10 +1,10 @@
 import { FunctionComponent, ReactNode, useState } from "react";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
-import { deleteLearners } from "../../fetch/learner";
-import { handleHttpError } from "../../fetch/handleError";
-import { getErrorContent } from "../../utils/getErrorContent";
-import { DeleteModal } from "../modals/DeleteModal";
+import { deleteLearners } from "../../../../fetch/learner";
+import { handleHttpError } from "../../../../fetch/handleError";
+import { getErrorContent } from "../../../../utils/getErrorContent";
+import { DeleteModal } from "../../../modals/DeleteModal";
 
 interface Props {
   learnerId: number;

@@ -1,4 +1,4 @@
-import { Body3, Body3Bold, defaultTheme, styled, Table, TableActions, TableCheckbox, useTheme } from "@shira/ui";
+import { Body3, Body3Bold, styled, Table, TableActions, TableCheckbox, useTheme } from "@shira/ui";
 import { ColumnDef } from "@tanstack/react-table";
 import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -7,11 +7,11 @@ import { enUS } from "date-fns/locale";
 import { format } from "date-fns";
 import { GoPersonFill } from "react-icons/go";
 import { StatusTag } from "./components/StatusTag";
-import { deleteLearners, fetchLearners, inviteLearner } from "../../fetch/learner";
+import { fetchLearners, inviteLearner } from "../../fetch/learner";
 import toast from "react-hot-toast";
 import { handleHttpError } from "../../fetch/handleError";
 import { getErrorContent } from "../../utils/getErrorContent";
-import { DeleteLearnerAction } from "../ATestLayout/DeleteLearnerAction";
+import { DeleteLearnerAction } from "./components/DeleteLearnerAction";
 
 type Learner = {
   id: number;
@@ -48,7 +48,9 @@ export const LearnersTable: FunctionComponent<Props> = ({ openErrorModal }) => {
   const handleResendInvitation = async (learner: Learner) => {
     try {
       await inviteLearner(learner.name, learner.email);
-      toast.success(t("success_messages.learner_invitation_resent", { email: learner.email }), { duration: 3000 });
+      toast.success(
+        t("success_messages.learner_invitation_resent", { email: learner.email }), { duration: 3000 }
+      );
     } catch (error) {
       const e = handleHttpError(error);
       const content = getErrorContent("error_messages", "invite_learner_failed", e.message);
