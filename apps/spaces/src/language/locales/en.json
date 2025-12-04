@@ -221,7 +221,9 @@
         "continue": "Continue",
         "send_invitation": "Send invitation",
         "try_again": "Try again",
-        "unassign": "Unassign"
+        "unassign": "Unassign",
+        "invite_learner": "Invite new learner",
+        "invite_learners_bulk": "Import learners in bulk"
     },
     "modals": {
         "create_quiz": {

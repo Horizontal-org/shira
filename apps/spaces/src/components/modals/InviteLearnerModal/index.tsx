@@ -49,6 +49,7 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
 
   return (
     <Modal
+      id="invite-learner-modal"
       size="medium"
       isOpen={isModalOpen}
       title={t("modals.invite_learner.title")}
