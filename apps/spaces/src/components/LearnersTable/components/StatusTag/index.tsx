@@ -1,9 +1,8 @@
-import { useTheme } from "@shira/ui";
+import { styled, useTheme } from "@shira/ui";
 import { FunctionComponent } from "react";
 import { useTranslation } from "react-i18next";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import { IoCheckmarkCircleSharp } from "react-icons/io5";
-import styled from "styled-components";
 
 interface Props {
   status: string

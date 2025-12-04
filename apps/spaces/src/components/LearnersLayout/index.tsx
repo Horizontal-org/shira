@@ -47,7 +47,7 @@ export const LearnersLayout:FunctionComponent<Props> = () => {
 
 
 const StyledSubHeading3 = styled(SubHeading3)`
-  color: #52752C; 
+  color: ${props => props.theme.colors.green7}; 
 `
 
 const HeaderContainer = styled.div`

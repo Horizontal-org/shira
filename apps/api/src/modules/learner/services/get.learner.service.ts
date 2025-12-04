@@ -26,6 +26,6 @@ export class GetLearnerService implements IGetLearnerService {
       throw new GenericErrorException()
     }
 
-    return await plainToInstance(GetLearnersDto, learners)
+    return plainToInstance(GetLearnersDto, learners)
   }
 }
