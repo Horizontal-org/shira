@@ -56,7 +56,7 @@ export const AnswerFeedback: FunctionComponent<Props> = ({
   return (
     <Wrapper>
       {(userAnswer && width > 1024) && (
-        <UserAnswerWrapper hide={showExplanations}>
+        <UserAnswerWrapper id="user-answer-wrapper" hide={showExplanations}>
           {compareAnswers()}
           {realAnswer === 'phishing' ? (
             <p id="bottom-looks-like-phishing">{t("quiz.answers.results.bottom-bar_looks-like-phishing")}</p>
@@ -68,7 +68,7 @@ export const AnswerFeedback: FunctionComponent<Props> = ({
 
       {
         (userAnswer && width <= 1024 && !showExplanations) && (
-          <UserAnswerWrapper hide={showExplanations}>
+          <UserAnswerWrapper id="user-answer-wrapper" hide={showExplanations}>
             {compareAnswers()}
             {realAnswer === 'phishing' ? (
               <p id="bottom-looks-like-phishing">{t("quiz.answers.results.bottom-bar_looks-like-phishing")}</p>
@@ -78,8 +78,8 @@ export const AnswerFeedback: FunctionComponent<Props> = ({
           </UserAnswerWrapper>)
       }
 
-      <OptionsWrapper>
-        {(showExplanations && explanationNumber > 0) && <ActionButtonsWrapper>
+      <OptionsWrapper id="options-wrapper">
+        {(showExplanations && explanationNumber > 0) && <ActionButtonsWrapper id="results-back-button-wrapper">
           <Button
             id="results-back-button"
             text={t("quiz.answers.results.back_button")}
@@ -96,7 +96,7 @@ export const AnswerFeedback: FunctionComponent<Props> = ({
         </ActionButtonsWrapper>}
         {
           explanationsLength > 0 && !showExplanations && (
-            <ActionButtonsWrapper size="lg">
+            <ActionButtonsWrapper id="results-see-why-button-wrapper" size="lg">
               <Button
                 id="results-see-why-button"
                 text={t('quiz.answers.results.see_why')}
@@ -110,7 +110,7 @@ export const AnswerFeedback: FunctionComponent<Props> = ({
 
         {
           explanationsLength > 0 && explanationNumber < (explanationsLength - 1) && showExplanations && (
-            <ActionButtonsWrapper>
+            <ActionButtonsWrapper id="results-next-button-wrapper">
               <Button
                 id="results-next-button"
                 text={t("quiz.answers.results.next_button")}
