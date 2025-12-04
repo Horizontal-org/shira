@@ -1,4 +1,4 @@
-import { Body, Delete, Inject, Post } from '@nestjs/common';
+import { Body, Delete, Get, Inject, Post } from '@nestjs/common';
 import { TYPES } from '../interfaces';
 import { InviteLearnerDto } from '../dto/invitation.learner.dto';
 import { AssignLearnerDto } from '../dto/assign.learner.dto';
@@ -11,6 +11,7 @@ import { Role } from 'src/modules/user/domain/role.enum';
 import { SpaceId } from 'src/modules/auth/decorators';
 import { IDeleteLearnerService } from '../interfaces/services/delete.learner.service.interface';
 import { DeleteLearnerDto } from '../dto/delete.learner.dto';
+import { IGetLearnerService } from '../interfaces/services/get.learner.service.interface';
 import { UnassignLearnerDto } from '../dto/unassign.learner.dto';
 import { InvitationBulkLearnerDto } from '../dto/invitation-bulk.learner.dto';
 import { IInviteBulkLearnerService } from '../interfaces/services/invite-bulk.learner.service.interface';
@@ -31,6 +32,8 @@ export class AuthLearnerController {
     private readonly unassignService: IUnassignLearnerService,
     @Inject(TYPES.services.IDeleteLearnerService)
     private readonly deleteLearnerService: IDeleteLearnerService,
+    @Inject(TYPES.services.IGetLearnerService)
+    private readonly getLearnerService: IGetLearnerService
   ) { }
 
   private readonly logger = new ApiLogger(AuthLearnerController.name);
@@ -89,4 +92,13 @@ export class AuthLearnerController {
       throw new QuizUnassignmentFailedException();
     }
   }
+
+  @Get()
+  @Roles(Role.SpaceAdmin)
+  async getLearners(
+    @SpaceId() spaceId: number 
+  ){
+    return await this.getLearnerService.execute(spaceId)
+  }
 }
+

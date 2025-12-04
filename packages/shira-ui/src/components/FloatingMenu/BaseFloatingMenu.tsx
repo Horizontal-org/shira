@@ -122,7 +122,8 @@ const MenuWrapper = styled.div`
 `;
 
 const MenuContent = styled.div`
-  
+  border-radius: 8px;
+  overflow: hidden;
 `;
 
 const MenuButton = styled.button`
@@ -132,7 +133,6 @@ const MenuButton = styled.button`
   text-align: left;
   background: none;
   border: none;
-  border-radius: 8px;
   cursor: pointer;
   display: flex;
   align-items: center;

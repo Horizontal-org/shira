@@ -5,6 +5,7 @@ export const TYPES = {
     IAssignLearnerService: 'IAssignLearnerService',
     IUnassignLearnerService: 'IUnassignLearnerService',
     IDeleteLearnerService: 'IDeleteLearnerService',
-    IGetLearnerQuizService: 'IGetLearnerQuizService'
+    IGetLearnerQuizService: 'IGetLearnerQuizService',
+    IGetLearnerService: 'IGetLearnerService'
   },
 };

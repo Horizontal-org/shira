@@ -23,6 +23,17 @@
         "subtitle": "This is where you can manage quizzes. Quiz links are public, so remember to avoid sharing sensitive information in them.",
         "create_quiz_button": "Create new quiz"
     },
+    "learners": {
+        "title": "Learners",
+        "subtitle": "Manage who can take the private quizzes you create.",
+        "table": {
+            "learner": "Learner",
+            "registration": "Registration",
+            "invited_at": "Date invited",
+            "invited_tag": "Invited",
+            "registered_tag": "Registered"
+        }
+    },
     "quizzes": {
         "filter": {
             "all_quizzes": "All quizzes",

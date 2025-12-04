@@ -6,7 +6,7 @@ import { shallow } from "zustand/shallow";
 
 import { useStore } from "../../store";
 import { formatDistance } from "date-fns";
-import { enUS, es, fr, zhCN } from "date-fns/locale";
+import { enUS } from "date-fns/locale";
 import { QuizSuccessStates, SUCCESS_MESSAGES } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
 import { FilterStates } from "./constants";
@@ -17,6 +17,7 @@ import { DuplicateQuizModal } from "../modals/DuplicateQuizModal";
 import { handleCopyUrl, handleCopyUrlAndNotify } from "../../utils/quiz";
 import { duplicateQuiz } from "../../fetch/quiz";
 import { useTranslation } from "react-i18next";
+import { getCurrentDateFNSLocales } from "../../language/dateUtils";
 
 interface Props { }
 
@@ -148,12 +149,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     (lastUpdate: string) => {
       const parsedLastUpdate = new Date(lastUpdate.replace(" ", "T") + "Z");
 
-      const locales = {
-        en: enUS,
-        es: es,
-        fr: fr,
-        cn: zhCN
-      };
+      const locales = getCurrentDateFNSLocales()
       const locale = locales[i18n.language] ?? enUS;
 
       const time = formatDistance(parsedLastUpdate, new Date(), {
