@@ -14,6 +14,11 @@ export const deleteLearners = async (ids: number[]) => {
   return data;
 }
 
+export const fetchLearners = async () => {
+  const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/learners`)
+  return data;
+}
+
 export interface AssignRequest {
   learnerId: number;
   quizId: number;

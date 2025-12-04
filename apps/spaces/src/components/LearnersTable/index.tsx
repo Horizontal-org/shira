@@ -1,6 +1,5 @@
-import { Body3, Body3Bold, styled, Table, TableActions, TableCheckbox } from "@shira/ui";
+import { Body3, Body3Bold, defaultTheme, styled, Table, TableActions, TableCheckbox } from "@shira/ui";
 import { ColumnDef } from "@tanstack/react-table";
-import axios from "axios";
 import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getCurrentDateFNSLocales } from "../../language/dateUtils";
@@ -8,10 +7,24 @@ import { enUS } from "date-fns/locale";
 import { format } from "date-fns";
 import { GoPersonFill } from "react-icons/go";
 import { StatusTag } from "./components/StatusTag";
+import { deleteLearners, fetchLearners, inviteLearner } from "../../fetch/learner";
+import toast from "react-hot-toast";
+import { handleHttpError } from "../../fetch/handleError";
+import { getErrorContent } from "../../utils/getErrorContent";
 
-interface Props {}
+type Learner = {
+  id: number;
+  name: string;
+  email: string;
+  status: string;
+  invitedAt: string;
+};
 
-export const LearnersTable:FunctionComponent<Props> = () => {
+interface Props {
+  openErrorModal: (content: string, retry: () => void) => void;
+}
+
+export const LearnersTable: FunctionComponent<Props> = ({ openErrorModal }) => {
   const { t, i18n } = useTranslation()
 
   const [loading, setLoading] = useState(true)
@@ -22,8 +35,35 @@ export const LearnersTable:FunctionComponent<Props> = () => {
 
   const currentDateLocal = useMemo(() => {
     const dateLocales = getCurrentDateFNSLocales()
-    return dateLocales[i18n.language] ?? enUS;    
+    return dateLocales[i18n.language] ?? enUS;
   }, [i18n])
+
+  const handleDeleteLearner = async (learnerId: number) => {
+    try {
+      await deleteLearners([learnerId]);
+      toast.success(t("success_messages.learner_deleted"), { duration: 3000 });
+
+      // Actualizar tabla localmente
+      setData(prev => prev.filter(l => l.id !== learnerId));
+    } catch (error) {
+      const e = handleHttpError(error);
+      const content = getErrorContent("error_messages", "delete_learner_failed", e.message);
+
+      openErrorModal(content, () => handleDeleteLearner(learnerId));
+    }
+  };
+
+  const handleResendInvitation = async (learner: Learner) => {
+    try {
+      await inviteLearner(learner.name, learner.email);
+      toast.success(t("success_messages.invitation_resent"), { duration: 3000 });
+    } catch (error) {
+      const e = handleHttpError(error);
+      const content = getErrorContent("error_messages", "invite_learner_failed", e.message);
+
+      openErrorModal(content, () => handleResendInvitation(learner));
+    }
+  };
 
   const columns = useMemo<ColumnDef<any>[]>(
     () => [
@@ -48,17 +88,18 @@ export const LearnersTable:FunctionComponent<Props> = () => {
               onChange: row.getToggleSelectedHandler(),
               isTDCheckbox: true
             }}
-          />          
+          />
         ),
       },
       {
-        header: () => { 
+        header: () => {
           return (
-          <LearnerHeader>
-            <GoPersonFill size={18} color="#5F6368" />
-            <span>{ t('learners.table.learner')}</span>
-          </LearnerHeader>
-          )},        
+            <LearnerHeader>
+              <GoPersonFill size={18} color={defaultTheme.colors.dark.darkGrey} />
+              <span>{t('learners.table.learner')}</span>
+            </LearnerHeader>
+          )
+        },
         id: 'learner',
         cell: ({ row }) => {
           return (
@@ -84,11 +125,13 @@ export const LearnersTable:FunctionComponent<Props> = () => {
       },
       {
         id: 'actions',
-        cell: ({row}) => {
+        cell: ({ row }) => {
+          const learner = row.original;
+
           return (
-            <TableActions 
-              onDelete={() => { console.log('ON DELETE => ', row)}}
-              onResend={() => { console.log('ON RESEND => ', row)}}
+            <TableActions
+              onDelete={() => handleDeleteLearner(learner.id)}
+              onResend={() => handleResendInvitation(learner)}
             />
           )
         }
@@ -98,11 +141,10 @@ export const LearnersTable:FunctionComponent<Props> = () => {
   )
 
   useEffect(() => {
-     //move when merge
-    const fetchLearners = async() => {
+    const getLearners = async () => {
       try {
-        const res = await axios.get(`${process.env.REACT_APP_API_URL}/learners`)
-        setData(res.data)
+        const res = await fetchLearners();
+        setData(res);
       } catch (e) {
         console.log("🚀 ~ fetchLeaners ~ e:", e)
       } finally {
@@ -110,14 +152,12 @@ export const LearnersTable:FunctionComponent<Props> = () => {
       }
     }
 
-    fetchLearners()
+    getLearners()
   }, [])
-
-
 
   return (
     <Wrapper>
-      <Table 
+      <Table
         loading={loading}
         data={data}
         columns={columns}

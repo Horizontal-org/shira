@@ -15,11 +15,9 @@ import { getErrorContent } from "../../utils/getErrorContent";
 import { MdEmail } from "react-icons/md";
 import { FaFileImport } from "react-icons/fa6";
 
-interface Props {
-  openErrorModal: (content: string, retry: () => void) => void;
-}
+interface Props { }
 
-export const LearnersLayout: FunctionComponent<Props> = ({ openErrorModal }) => {
+export const LearnersLayout: FunctionComponent<Props> = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
@@ -30,7 +28,20 @@ export const LearnersLayout: FunctionComponent<Props> = ({ openErrorModal }) => 
   }), shallow)
 
   const [isInvitationModalOpen, setIsInvitationModalOpen] = useState(false);
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const openErrorModal = (content: string, retry: () => void) => {
+    setIsErrorModalOpen(true);
+  };
+
+  const handleErrorModalCancel = () => {
+    setIsErrorModalOpen(false);
+  };
+
+  const handleErrorModalRetry = () => {
+    setIsErrorModalOpen(false);
+  };
 
   const invite = async (name: string, email: string) => {
     try {
@@ -93,7 +104,9 @@ export const LearnersLayout: FunctionComponent<Props> = ({ openErrorModal }) => 
             />
           </ActionContainer>
           <div>
-            <LearnersTable />
+            <LearnersTable
+              openErrorModal={openErrorModal}
+            />
           </div>
         </LayoutMainContentWrapper>
       </LayoutMainContent>

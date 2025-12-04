@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { Body1, Modal, ModalType } from "@shira/ui";
 import { getContactUsLayout } from "../../utils/getErrorContent";
-import { InviteLearnerAction } from "./InviteLearnerAction";
 import { AssignLearnerAction } from "./AssignLearnerAction";
 import { UnassignLearnerAction } from "./UnassignLearnerAction";
 import { DeleteLearnerAction } from "./DeleteLearnerAction";
@@ -38,7 +37,6 @@ export const ATestLayout: FunctionComponent<Props> = () => {
   return (
     <Container>
       <ButtonContainer>
-        <InviteLearnerAction openErrorModal={openErrorModal} />
         <AssignLearnerAction openErrorModal={openErrorModal} />
         <UnassignLearnerAction openErrorModal={openErrorModal} />
         <DeleteLearnerAction openErrorModal={openErrorModal} />

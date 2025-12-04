@@ -57,10 +57,10 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
   const handlePrimaryClick = async () => {
     try {
       await Promise.resolve(onConfirm(name, email));
-      handleClose();
-    } catch (err) {
+    } catch {
       setShowAlreadyExistsError(true);
-      console.error("Error inviting learner:", err);
+    } finally {
+      handleClose();
     }
   };
 
