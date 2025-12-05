@@ -9,6 +9,7 @@ import { shallow } from "zustand/shallow";
 import { LearnersTable } from "../LearnersTable";
 import { InviteLearnerModal } from "../modals/InviteLearnerModal";
 import { LearnerErrorModal } from "../modals/ErrorModal";
+import { DeleteLearnerAction } from "../LearnersTable/components/DeleteLearnerAction";
 import toast from "react-hot-toast";
 import { handleHttpError } from "../../fetch/handleError";
 import { inviteLearner } from "../../fetch/learner";
@@ -28,17 +29,39 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
     space: state.space,
   }), shallow)
 
-  const [isInvitationModalOpen, setIsInvitationModalOpen] = useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [retryAction, setRetryAction] = useState<(() => void) | null>(null);
   const [loading, setLoading] = useState(false);
+  
+  const [isInvitationModalOpen, setIsInvitationModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [id, setLearnerIdToDelete] = useState<number | null>(null);
+  const [deleteSuccessCallback, setDeleteSuccessCallback] = useState<(() => void) | null>(null);
 
   const openErrorModal = (content: string, retry: () => void) => {
     setErrorMessage(content);
     setRetryAction(() => retry);
     setIsErrorModalOpen(true);
     setIsInvitationModalOpen(false);
+  };
+
+  const handleDeleteRequest = (learnerId: number, onDeleted: () => void) => {
+    setLearnerIdToDelete(learnerId);
+    setDeleteSuccessCallback(() => onDeleted);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleLearnerDeleted = () => {
+    deleteSuccessCallback?.();
+    setLearnerIdToDelete(null);
+    setDeleteSuccessCallback(null);
+  };
+
+  const handleDeleteModalCancel = () => {
+    setIsDeleteModalOpen(false);
+    setLearnerIdToDelete(null);
+    setDeleteSuccessCallback(null);
   };
 
   const handleErrorModalCancel = () => {
@@ -118,8 +141,17 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
           <div>
             <LearnersTable
               openErrorModal={openErrorModal}
+              onDeleteLearner={handleDeleteRequest}
             />
           </div>
+          <DeleteLearnerAction
+            learnerId={id}
+            isModalOpen={isDeleteModalOpen}
+            setIsModalOpen={setIsDeleteModalOpen}
+            openErrorModal={openErrorModal}
+            onDeleted={handleLearnerDeleted}
+            onCancel={handleDeleteModalCancel}
+          />
           <LearnerErrorModal
             isOpen={isErrorModalOpen}
             errorMessage={errorMessage}

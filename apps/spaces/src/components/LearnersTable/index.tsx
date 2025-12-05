@@ -11,7 +11,6 @@ import { fetchLearners, inviteLearner } from "../../fetch/learner";
 import toast from "react-hot-toast";
 import { handleHttpError } from "../../fetch/handleError";
 import { getErrorContent } from "../../utils/getErrorContent";
-import { DeleteLearnerAction } from "./components/DeleteLearnerAction";
 
 type Learner = {
   id: number;
@@ -23,9 +22,10 @@ type Learner = {
 
 interface Props {
   openErrorModal: (content: string, retry: () => void) => void;
+  onDeleteLearner: (learnerId: number, onDeleted: () => void) => void;
 }
 
-export const LearnersTable: FunctionComponent<Props> = ({ openErrorModal }) => {
+export const LearnersTable: FunctionComponent<Props> = ({ openErrorModal, onDeleteLearner }) => {
   const { t, i18n } = useTranslation()
   const theme = useTheme()
 
@@ -123,24 +123,15 @@ export const LearnersTable: FunctionComponent<Props> = ({ openErrorModal }) => {
           const learner = row.original;
 
           return (
-            <DeleteLearnerAction
-              learnerId={learner.id}
-              openErrorModal={openErrorModal}
-              onDeleted={handleDeleted}
-            >
-              {(openDeleteModal) => (
-                <TableActions
-                  onDelete={openDeleteModal}
-                  onResend={() => handleResendInvitation(learner)}
-                />
-              )}
-            </DeleteLearnerAction>
+            <TableActions
+              onDelete={() => onDeleteLearner(learner.id, () => handleDeleted(learner.id))}
+              onResend={() => handleResendInvitation(learner)}
+            />
           );
         },
       },
-
     ],
-    [currentDateLocal, t, theme, openErrorModal]
+    [currentDateLocal, t, theme, onDeleteLearner, handleResendInvitation]
   )
 
   useEffect(() => {

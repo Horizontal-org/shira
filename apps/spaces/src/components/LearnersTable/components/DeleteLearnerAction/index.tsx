@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode, useState } from "react";
+import { FunctionComponent, ReactNode } from "react";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { deleteLearners } from "../../../../fetch/learner";
@@ -8,49 +8,49 @@ import { DeleteModal } from "../../../modals/DeleteModal";
 
 interface Props {
   learnerId: number;
+  isModalOpen: boolean;
+  setIsModalOpen: (isOpen: boolean) => void;
   openErrorModal: (content: ReactNode, retry: () => void) => void;
   onDeleted: (id: number) => void;
-  children: (openDeleteModal: () => void) => ReactNode;
+  onCancel?: () => void;
 }
 
 export const DeleteLearnerAction: FunctionComponent<Props> = ({
   learnerId,
+  isModalOpen,
+  setIsModalOpen,
   openErrorModal,
   onDeleted,
-  children,
+  onCancel,
 }) => {
   const { t } = useTranslation();
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  const deleteLearnerHandler = async () => {
+  const deleteLearner = async () => {
     try {
       await deleteLearners([learnerId]);
       toast.success(t("success_messages.learner_deleted"), { duration: 3000 });
 
-      setIsDeleteModalOpen(false);
       onDeleted(learnerId);
+      setIsModalOpen(false);
     } catch (error) {
       const e = handleHttpError(error);
       const content = getErrorContent("error_messages", "delete_learner_failed", e.message);
 
-      openErrorModal(content, deleteLearnerHandler);
+      openErrorModal(content, deleteLearner);
     }
   };
 
-  const openDeleteModal = () => setIsDeleteModalOpen(true);
-
   return (
-    <>
-      {children(openDeleteModal)}
-
-      <DeleteModal
-        title={t("modals.delete_learner.title")}
-        content={<div>{t("modals.delete_learner.subtitle")}</div>}
-        setIsModalOpen={setIsDeleteModalOpen}
-        onDelete={deleteLearnerHandler}
-        onCancel={() => setIsDeleteModalOpen(false)}
-        isModalOpen={isDeleteModalOpen}
-      />
-    </>
+    <DeleteModal
+      title={t("modals.delete_learner.title")}
+      content={<div>{t("modals.delete_learner.subtitle")}</div>}
+      setIsModalOpen={setIsModalOpen}
+      onDelete={deleteLearner}
+      onCancel={() => {
+        setIsModalOpen(false);
+        onCancel?.();
+      }}
+      isModalOpen={isModalOpen}
+    />
   );
 };
