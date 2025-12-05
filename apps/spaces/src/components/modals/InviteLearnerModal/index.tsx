@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { Body1, defaultTheme, Modal, TextInput } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
@@ -23,7 +23,6 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
   const [emailIsValid, setEmailIsValid] = useState(true);
   const [showAlreadyExistsError, setShowAlreadyExistsError] = useState(false);
 
-  const isNameEmpty = !name.trim();
   const isEmailEmpty = !email.trim();
   const showInvalidEmailError = !isEmailEmpty && !emailIsValid;
 
@@ -62,6 +61,12 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
     }
   };
 
+  useEffect(() => {
+    if (!isModalOpen) {
+      resetForm();
+    }
+  }, [isModalOpen]);
+
   return (
     <Modal
       id="invite-learner-modal"
@@ -73,9 +78,7 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
           ? t("loading_messages.sending_invitation")
           : t("buttons.send_invitation")
       }
-      primaryButtonDisabled={
-        isLoading || isNameEmpty || isEmailEmpty || !emailIsValid
-      }
+      primaryButtonDisabled={isLoading || isEmailEmpty || !emailIsValid}
       secondaryButtonText={t("buttons.cancel")}
       onPrimaryClick={handlePrimaryClick}
       onSecondaryClick={handleClose}

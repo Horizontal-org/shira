@@ -1,6 +1,6 @@
 import { FunctionComponent, useState } from "react";
 import { LayoutMainContent, LayoutMainContentWrapper } from "../LayoutStyleComponents/LayoutMainContent";
-import { BetaBanner, Body1, Button, defaultTheme, H2, Modal, ModalType, Sidebar, styled, SubHeading3, useAdminSidebar } from "@shira/ui";
+import { BetaBanner, Body1, Button, defaultTheme, H2, Sidebar, styled, SubHeading3, useAdminSidebar } from "@shira/ui";
 import { LayoutContainer } from "../LayoutStyleComponents/LayoutContainer";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -8,10 +8,11 @@ import { useStore } from "../../store";
 import { shallow } from "zustand/shallow";
 import { LearnersTable } from "../LearnersTable";
 import { InviteLearnerModal } from "../modals/InviteLearnerModal";
+import { LearnerErrorModal } from "../modals/ErrorModal";
 import toast from "react-hot-toast";
 import { handleHttpError } from "../../fetch/handleError";
 import { inviteLearner } from "../../fetch/learner";
-import { getContactUsLayout, getErrorContent } from "../../utils/getErrorContent";
+import { getErrorContent } from "../../utils/getErrorContent";
 import { MdEmail } from "react-icons/md";
 import { PiDownloadSimpleBold } from "react-icons/pi";
 
@@ -57,6 +58,7 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
     try {
       setLoading(true);
 
+      await new Promise((resolve) => setTimeout(resolve, 5000));
       await inviteLearner(name, email);
       toast.success(t(`success_messages.learner_invitation_sent`), { duration: 3000 });
 
@@ -118,21 +120,12 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
               openErrorModal={openErrorModal}
             />
           </div>
-          <Modal
+          <LearnerErrorModal
             isOpen={isErrorModalOpen}
-            title={t('error_messages.something_went_wrong')}
-            primaryButtonText={t('buttons.try_again')}
-            secondaryButtonText={t('buttons.cancel')}
-            type={ModalType.Danger}
-            onPrimaryClick={handleErrorModalRetry}
-            onSecondaryClick={handleErrorModalCancel}
-          >
-            <FormContent>
-              <Body1>
-                {getContactUsLayout(errorMessage)}
-              </Body1>
-            </FormContent>
-          </Modal>
+            errorMessage={errorMessage}
+            onRetry={handleErrorModalRetry}
+            onCancel={handleErrorModalCancel}
+          />
         </LayoutMainContentWrapper>
       </LayoutMainContent>
     </LayoutContainer>
@@ -158,9 +151,4 @@ const ActionContainer = styled.div`
   padding-right: 20px;
   padding-bottom: 12px;
   padding-left: 20px;
-`;
-
-const FormContent = styled.div`
-  display: flex;
-  flex-direction: column;
 `;
