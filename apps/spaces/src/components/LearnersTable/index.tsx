@@ -38,14 +38,14 @@ export const LearnersTable: FunctionComponent<Props> = ({
   const theme = useTheme();
 
   const currentDateLocal = useMemo(() => {
-    const locales = getCurrentDateFNSLocales();
-    return locales[i18n.language] ?? enUS;
+    const dateLocales = getCurrentDateFNSLocales();
+    return dateLocales[i18n.language] ?? enUS;
   }, [i18n]);
 
   const columns = useMemo<ColumnDef<Learner>[]>(
     () => [
       {
-        id: "select",
+        id: 'select',
         header: ({ table }) => (
           <TableCheckbox
             {...{
@@ -71,36 +71,36 @@ export const LearnersTable: FunctionComponent<Props> = ({
       {
         header: () => {
           return (
-            <HeaderCell>
+            <LearnerHeader>
               <GoPersonFill size={18} color={theme.colors.dark.darkGrey} />
               <span>{t("learners.table.learner")}</span>
-            </HeaderCell>
+            </LearnerHeader>
           )
         },
         id: "learner",
         cell: ({ row }) => {
           return (
-            <LearnerInfo>
+            <LearnerPersonInfo>
               <LearnerName>{row.original.name}</LearnerName>
               <LearnerEmail>{row.original.email}</LearnerEmail>
-            </LearnerInfo>
+            </LearnerPersonInfo>
           )
         },
       },
       {
         header: t("learners.table.registration"),
-        accessorKey: "status",
-        cell: (info) => <StatusTag status={info.getValue() as string} />,
+        accessorKey: 'status',
+        cell: info => (<StatusTag status={info.getValue() as string} />)
       },
       {
         header: t("learners.table.invited_at"),
-        accessorKey: "invitedAt",
+        accessorKey: 'invitedAt',
         cell: (info) => {
           return format(info.getValue() as string, 'd MMMM y', { locale: currentDateLocal })
         },
       },
       {
-        id: "actions",
+        id: 'actions',
         cell: ({ row }) => {
           const learner = row.original;
           return (
@@ -123,7 +123,7 @@ export const LearnersTable: FunctionComponent<Props> = ({
         columns={columns}
         rowSelection={rowSelection}
         setRowSelection={setRowSelection}
-        colGroups={
+        colGroups={(
           <colgroup>
             <col style={{ width: "50px" }} />
             <col style={{ width: "50%" }} />
@@ -131,18 +131,18 @@ export const LearnersTable: FunctionComponent<Props> = ({
             <col />
             <col style={{ width: "80px" }} />
           </colgroup>
-        }
+        )}
       />
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  max-width: ${(p) => p.theme.breakpoints.lg};
+  max-width: ${(props) => props.theme.breakpoints.lg};
 `;
 
-const LearnerInfo = styled.div`
-  color: ${(p) => p.theme.colors.dark.darkGrey};
+const LearnerPersonInfo = styled.div`
+  color: ${(props) => props.theme.colors.dark.darkGrey};
 `;
 
 const LearnerName = styled(Body3Bold)`
@@ -153,7 +153,7 @@ const LearnerEmail = styled(Body3)`
   font-size: 14px;
 `;
 
-const HeaderCell = styled.div`
+const LearnerHeader = styled.div`
   display: flex;
   align-items: center;
   > svg {

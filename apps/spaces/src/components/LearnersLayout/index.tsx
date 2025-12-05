@@ -108,14 +108,17 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
 
   return (
     <LayoutContainer>
-      <Sidebar menuItems={menuItems} onCollapse={handleCollapse} />
+      <Sidebar
+        menuItems={menuItems}
+        onCollapse={handleCollapse}
+      />
 
       <LayoutMainContent $isCollapsed={isCollapsed}>
         <BetaBanner url="/support" />
 
         <LayoutMainContentWrapper>
           <HeaderContainer>
-            <StyledSubHeading3>{space?.name}</StyledSubHeading3>
+            <StyledSubHeading3>{space && space.name}</StyledSubHeading3>
             <H2>{t("learners.title")}</H2>
             <Body1>{t("learners.subtitle")}</Body1>
           </HeaderContainer>
@@ -204,7 +207,7 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
 };
 
 const StyledSubHeading3 = styled(SubHeading3)`
-  color: ${(p) => p.theme.colors.green7};
+  color: ${(props) => props.theme.colors.green7};
 `;
 
 const HeaderContainer = styled.div`
