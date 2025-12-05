@@ -17,83 +17,49 @@ import { fetchLearners, inviteLearner } from "../../fetch/learner";
 import { getErrorContent } from "../../utils/getErrorContent";
 import { MdEmail, MdDelete } from "react-icons/md";
 import { PiDownloadSimpleBold } from "react-icons/pi";
+import { RowSelectionState } from "@tanstack/react-table";
 
 interface Props { }
 
 export const LearnersLayout: FunctionComponent<Props> = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
-  const {
-    space,
-  } = useStore((state) => ({
-    space: state.space,
-  }), shallow)
+  const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate);
 
-  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [retryAction, setRetryAction] = useState<(() => void) | null>(null);
+  const { space } = useStore(
+    (state) => ({ space: state.space }),
+    shallow
+  );
 
   const [isInvitationModalOpen, setIsInvitationModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [id, setLearnerIdToDelete] = useState<number | null>(null);
-  const [learners, setLearners] = useState<Learner[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedLearners, setSelectedLearners] = useState<Learner[]>([]);
   const [isBulkDeleteModalOpen, setIsBulkDeleteModalOpen] = useState(false);
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
 
-  const selectedLearnerIds = useMemo(() => selectedLearners.map((learner) => learner.id), [selectedLearners]);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [retryAction, setRetryAction] = useState<(() => void) | null>(null);
+
+  const [learners, setLearners] = useState<Learner[]>([]);
+  const [learnerIdToDelete, setLearnerIdToDelete] = useState<number | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+
+  const selectedLearnerIds = useMemo(
+    () => Object.entries(rowSelection)
+      .filter(([_, isSelected]) => Boolean(isSelected))
+      .map(([id]) => Number(id)),
+    [rowSelection]
+  );
+
   const hasSelectedLearners = selectedLearnerIds.length > 0;
 
-  const handleSelectionChange = useCallback((selection: Learner[]) => {
-    setSelectedLearners(selection);
-  }, []);
-
-
-  const handleBulkDeleteCancel = useCallback(() => {
-    setIsBulkDeleteModalOpen(false);
-  }, []);
-
-  const openErrorModal = (content: string, retry: () => void) => {
-    setErrorMessage(content);
-    setRetryAction(() => retry);
-    setIsErrorModalOpen(true);
-    setIsInvitationModalOpen(false);
-  };
-
-  const handleDelete = (learnerId: number) => {
-    setLearnerIdToDelete(learnerId);
-    setIsDeleteModalOpen(true);
-  };
-
-  const handleLearnerDeleted = () => {
-    setLearnerIdToDelete(null);
-    getLearners();
-  };
-
-  const handleDeleteModalCancel = () => {
-    setIsDeleteModalOpen(false);
-    setLearnerIdToDelete(null);
-  };
-
-  const handleErrorModalCancel = () => {
-    setIsErrorModalOpen(false);
-    setRetryAction(null);
-    setErrorMessage(null);
-  };
-
-  const handleErrorModalRetry = () => {
-    setIsErrorModalOpen(false);
-    if (retryAction) {
-      retryAction();
-    }
-  };
-
-  const getLearners = useCallback(async () => {
+  const fetchLearnersHandler = useCallback(async () => {
     setLoading(true);
     try {
       const res = await fetchLearners();
       setLearners(res);
+      setRowSelection({});
     } catch (e) {
       console.log("🚀 ~ fetchLeaners ~ e:", e)
     } finally {
@@ -101,45 +67,79 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
     }
   }, []);
 
-  const handleBulkDeleteSuccess = useCallback(() => {
-    setSelectedLearners([]);
-    getLearners();
-  }, [getLearners]);
+  const openErrorModal = useCallback((content: string, retry: () => void) => {
+    setErrorMessage(content);
+    setRetryAction(() => retry);
+    setIsErrorModalOpen(true);
+    setIsInvitationModalOpen(false);
+  }, []);
+
+  const closeErrorModal = () => {
+    setIsErrorModalOpen(false);
+    setRetryAction(null);
+    setErrorMessage(null);
+  };
+
+  const handleResendInvitation = useCallback(
+    async (learner: Learner) => {
+      try {
+        await inviteLearner(learner.name, learner.email);
+        toast.success(
+          t("success_messages.learner_invitation_resent", { email: learner.email })
+        );
+        fetchLearnersHandler();
+      } catch (error) {
+        const errorObj = handleHttpError(error);
+        const content = getErrorContent(
+          "error_messages",
+          "invite_learner_failed",
+          errorObj.message
+        );
+
+        openErrorModal(content, () => handleResendInvitation(learner));
+      }
+    },
+    [t, fetchLearners, openErrorModal]
+  );
+
+  const handleDeleteModalCancel = () => {
+    setIsDeleteModalOpen(false);
+    setLearnerIdToDelete(null);
+  };
+
+  const handleOpenDeleteModal = (id: number) => {
+    setLearnerIdToDelete(id);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleLearnerDeleted = () => {
+    setLearnerIdToDelete(null);
+    fetchLearners();
+  };
+
+  const handleBulkDeleteSuccess = () => {
+    setRowSelection({});
+    fetchLearners();
+  };
 
   useEffect(() => {
-    getLearners();
-  }, [getLearners]);
-
-  const handleResendInvitation = async (learner: Learner) => {
-    try {
-      await inviteLearner(learner.name, learner.email);
-      toast.success(
-        t("success_messages.learner_invitation_resent", { email: learner.email }), { duration: 3000 }
-      );
-      getLearners();
-    } catch (error) {
-      const e = handleHttpError(error);
-      const content = getErrorContent("error_messages", "invite_learner_failed", e.message);
-
-      openErrorModal(content, () => handleResendInvitation(learner));
-    }
-  };
+    fetchLearnersHandler();
+  }, [fetchLearnersHandler]);
 
   return (
     <LayoutContainer>
-      <Sidebar
-        menuItems={menuItems}
-        onCollapse={handleCollapse}
-      />
+      <Sidebar menuItems={menuItems} onCollapse={handleCollapse} />
 
       <LayoutMainContent $isCollapsed={isCollapsed}>
         <BetaBanner url="/support" />
+
         <LayoutMainContentWrapper>
           <HeaderContainer>
-            <StyledSubHeading3>{space && space.name}</StyledSubHeading3>
-            <H2>{t('learners.title')}</H2>
-            <Body1>{t('learners.subtitle')}</Body1>
+            <StyledSubHeading3>{space?.name}</StyledSubHeading3>
+            <H2>{t("learners.title")}</H2>
+            <Body1>{t("learners.subtitle")}</Body1>
           </HeaderContainer>
+
           <ActionContainer>
             <Button
               id="invite-learner-button"
@@ -149,6 +149,7 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
               onClick={() => setIsInvitationModalOpen(true)}
               color={defaultTheme.colors.green7}
             />
+
             <Button
               id="invite-learners-bulk-button"
               text={t("buttons.invite_learners_bulk")}
@@ -156,12 +157,7 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
               leftIcon={<PiDownloadSimpleBold />}
               color={defaultTheme.colors.green7}
             />
-            <InviteLearnerModal
-              isModalOpen={isInvitationModalOpen}
-              setIsModalOpen={setIsInvitationModalOpen}
-              onInvite={getLearners}
-              openErrorModal={openErrorModal}
-            />
+
             {hasSelectedLearners && (
               <BulkActionContainer>
                 <Button
@@ -175,45 +171,60 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
               </BulkActionContainer>
             )}
           </ActionContainer>
+
           <TableSection>
             <LearnersTable
               data={learners}
               loading={loading}
-              onDeleteLearner={handleDelete}
+              onDeleteLearner={handleOpenDeleteModal}
               onResendInvitation={handleResendInvitation}
-              onSelectionChange={handleSelectionChange}
+              rowSelection={rowSelection}
+              setRowSelection={setRowSelection}
             />
           </TableSection>
+
+          <InviteLearnerModal
+            isModalOpen={isInvitationModalOpen}
+            setIsModalOpen={setIsInvitationModalOpen}
+            onInvite={fetchLearnersHandler}
+            openErrorModal={openErrorModal}
+          />
+
           <DeleteLearnerAction
-            learnerId={id}
+            learnerId={learnerIdToDelete}
             isModalOpen={isDeleteModalOpen}
             setIsModalOpen={setIsDeleteModalOpen}
             openErrorModal={openErrorModal}
             onDeleted={handleLearnerDeleted}
             onCancel={handleDeleteModalCancel}
           />
+
           <BulkDeleteLearnersAction
             learnerIds={selectedLearnerIds}
             isModalOpen={isBulkDeleteModalOpen}
             setIsModalOpen={setIsBulkDeleteModalOpen}
             openErrorModal={openErrorModal}
             onDeleted={handleBulkDeleteSuccess}
-            onCancel={handleBulkDeleteCancel}
+            onCancel={() => setIsBulkDeleteModalOpen(false)}
           />
+
           <LearnerErrorModal
             isOpen={isErrorModalOpen}
             errorMessage={errorMessage}
-            onRetry={handleErrorModalRetry}
-            onCancel={handleErrorModalCancel}
+            onRetry={() => {
+              closeErrorModal();
+              retryAction?.();
+            }}
+            onCancel={closeErrorModal}
           />
         </LayoutMainContentWrapper>
       </LayoutMainContent>
     </LayoutContainer>
-  )
-}
+  );
+};
 
 const StyledSubHeading3 = styled(SubHeading3)`
-  color: ${props => props.theme.colors.green7}; 
+  color: ${(p) => p.theme.colors.green7};
 `;
 
 const HeaderContainer = styled.div`
@@ -227,10 +238,7 @@ const ActionContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
-  padding-top: 12px;
-  padding-right: 20px;
-  padding-bottom: 12px;
-  padding-left: 20px;
+  padding: 12px 20px;
 `;
 
 const TableSection = styled.div`

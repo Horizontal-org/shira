@@ -1,6 +1,6 @@
 import { Body3, Body3Bold, styled, Table, TableActions, TableCheckbox, useTheme } from "@shira/ui";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
-import { FunctionComponent, useEffect, useMemo, useState } from "react";
+import { FunctionComponent, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { getCurrentDateFNSLocales } from "../../language/dateUtils";
 import { enUS } from "date-fns/locale";
@@ -21,7 +21,9 @@ interface Props {
   loading: boolean;
   onDeleteLearner: (learnerId: number) => void;
   onResendInvitation: (learner: Learner) => void;
-  onSelectionChange?: (selectedLearners: Learner[]) => void;
+
+  rowSelection: RowSelectionState;
+  setRowSelection: (updater: | RowSelectionState | ((prev: RowSelectionState) => RowSelectionState)) => void;
 }
 
 export const LearnersTable: FunctionComponent<Props> = ({
@@ -29,49 +31,27 @@ export const LearnersTable: FunctionComponent<Props> = ({
   loading,
   onDeleteLearner,
   onResendInvitation,
-  onSelectionChange,
+  rowSelection,
+  setRowSelection,
 }) => {
-  const { t, i18n } = useTranslation()
-  const theme = useTheme()
-  //Key of row selection is DB ID of learner
-  const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
-
-  useEffect(() => {
-    if (!onSelectionChange) {
-      return;
-    }
-
-    const selectedRowIds = Object.entries(rowSelection)
-      .filter(([, isSelected]) => Boolean(isSelected))
-      .map(([rowId]) => rowId);
-
-    const selectedIdSet = new Set(selectedRowIds);
-    const selectedLearners = data.filter((learner) =>
-      selectedIdSet.has(String(learner.id))
-    );
-
-    onSelectionChange(selectedLearners);
-  }, [rowSelection, data, onSelectionChange]);
-
-  useEffect(() => {
-    setRowSelection({});
-  }, [data]);
+  const { t, i18n } = useTranslation();
+  const theme = useTheme();
 
   const currentDateLocal = useMemo(() => {
-    const dateLocales = getCurrentDateFNSLocales()
-    return dateLocales[i18n.language] ?? enUS;
+    const locales = getCurrentDateFNSLocales();
+    return locales[i18n.language] ?? enUS;
   }, [i18n]);
 
-  const columns = useMemo<ColumnDef<any>[]>(
+  const columns = useMemo<ColumnDef<Learner>[]>(
     () => [
       {
-        id: 'select',
+        id: "select",
         header: ({ table }) => (
           <TableCheckbox
             {...{
               checked: table.getIsAllRowsSelected(),
               indeterminate: table.getIsSomeRowsSelected(),
-              onChange: table.getToggleAllRowsSelectedHandler(),
+              onChange: () => table.toggleAllRowsSelected(!table.getIsAllRowsSelected()),
               isTDCheckbox: false
             }}
           />
@@ -80,9 +60,9 @@ export const LearnersTable: FunctionComponent<Props> = ({
           <TableCheckbox
             {...{
               checked: row.getIsSelected(),
-              disabled: !row.getCanSelect(),
               indeterminate: row.getIsSomeSelected(),
-              onChange: row.getToggleSelectedHandler(),
+              disabled: !row.getCanSelect(),
+              onChange: () => row.toggleSelected(!row.getIsSelected()),
               isTDCheckbox: true
             }}
           />
@@ -91,40 +71,38 @@ export const LearnersTable: FunctionComponent<Props> = ({
       {
         header: () => {
           return (
-            <LearnerHeader>
+            <HeaderCell>
               <GoPersonFill size={18} color={theme.colors.dark.darkGrey} />
-              <span>{t('learners.table.learner')}</span>
-            </LearnerHeader>
+              <span>{t("learners.table.learner")}</span>
+            </HeaderCell>
           )
         },
-        id: 'learner',
+        id: "learner",
         cell: ({ row }) => {
           return (
-            <LearnerPersonInfo>
+            <LearnerInfo>
               <LearnerName>{row.original.name}</LearnerName>
               <LearnerEmail>{row.original.email}</LearnerEmail>
-            </LearnerPersonInfo>
+            </LearnerInfo>
           )
         },
       },
       {
-        header: t('learners.table.registration'),
-        accessorKey: 'status',
-        cell: info => (<StatusTag status={info.getValue() as string} />)
+        header: t("learners.table.registration"),
+        accessorKey: "status",
+        cell: (info) => <StatusTag status={info.getValue() as string} />,
       },
       {
-        header: t('learners.table.invited_at'),
-        accessorKey: 'invitedAt',
-        accessorFn: (r) => r.invitedAt,
+        header: t("learners.table.invited_at"),
+        accessorKey: "invitedAt",
         cell: (info) => {
           return format(info.getValue() as string, 'd MMMM y', { locale: currentDateLocal })
-        }
+        },
       },
       {
         id: "actions",
         cell: ({ row }) => {
           const learner = row.original;
-
           return (
             <TableActions
               onDelete={() => onDeleteLearner(learner.id)}
@@ -134,7 +112,7 @@ export const LearnersTable: FunctionComponent<Props> = ({
         },
       },
     ],
-    [currentDateLocal, t, theme, onDeleteLearner, onResendInvitation]
+    [currentDateLocal, onDeleteLearner, onResendInvitation, t, theme]
   );
 
   return (
@@ -145,7 +123,7 @@ export const LearnersTable: FunctionComponent<Props> = ({
         columns={columns}
         rowSelection={rowSelection}
         setRowSelection={setRowSelection}
-        colGroups={(
+        colGroups={
           <colgroup>
             <col style={{ width: "50px" }} />
             <col style={{ width: "50%" }} />
@@ -153,33 +131,32 @@ export const LearnersTable: FunctionComponent<Props> = ({
             <col />
             <col style={{ width: "80px" }} />
           </colgroup>
-        )}
+        }
       />
     </Wrapper>
-  )
-}
+  );
+};
 
 const Wrapper = styled.div`
-  max-width: ${props => props.theme.breakpoints.lg};
-`
+  max-width: ${(p) => p.theme.breakpoints.lg};
+`;
 
-const LearnerPersonInfo = styled.div`
-  color: ${props => props.theme.colors.dark.darkGrey};
-`
+const LearnerInfo = styled.div`
+  color: ${(p) => p.theme.colors.dark.darkGrey};
+`;
 
 const LearnerName = styled(Body3Bold)`
   margin: 0;
-  font-weight: 700;
-`
+`;
 
 const LearnerEmail = styled(Body3)`
   font-size: 14px;
-`
+`;
 
-const LearnerHeader = styled.div`
+const HeaderCell = styled.div`
   display: flex;
   align-items: center;
   > svg {
-    margin-right: 8px; 
+    margin-right: 8px;
   }
-`
+`;
