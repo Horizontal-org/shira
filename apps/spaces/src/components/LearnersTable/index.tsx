@@ -116,7 +116,6 @@ export const LearnersTable:FunctionComponent<Props> = () => {
   }, [])
 
 
-
   return (
     <Wrapper>
       <Table 
@@ -141,6 +140,8 @@ export const LearnersTable:FunctionComponent<Props> = () => {
 
 const Wrapper = styled.div`
   max-width: ${props => props.theme.breakpoints.lg};
+  padding: 16px;
+  box-sizing: border-box;
 `
 
 const LearnerPersonInfo = styled.div`
