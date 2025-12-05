@@ -77,7 +77,7 @@ export const LearnersTable: FunctionComponent<Props> = ({
             </LearnerHeader>
           )
         },
-        id: "learner",
+        id: 'learner',
         cell: ({ row }) => {
           return (
             <LearnerPersonInfo>
@@ -88,12 +88,12 @@ export const LearnersTable: FunctionComponent<Props> = ({
         },
       },
       {
-        header: t("learners.table.registration"),
+        header: t('learners.table.registration'),
         accessorKey: 'status',
         cell: info => (<StatusTag status={info.getValue() as string} />)
       },
       {
-        header: t("learners.table.invited_at"),
+        header: t('learners.table.invited_at'),
         accessorKey: 'invitedAt',
         cell: (info) => {
           return format(info.getValue() as string, 'd MMMM y', { locale: currentDateLocal })
@@ -138,11 +138,11 @@ export const LearnersTable: FunctionComponent<Props> = ({
 };
 
 const Wrapper = styled.div`
-  max-width: ${(props) => props.theme.breakpoints.lg};
+  max-width: ${props => props.theme.breakpoints.lg};
 `;
 
 const LearnerPersonInfo = styled.div`
-  color: ${(props) => props.theme.colors.dark.darkGrey};
+  color: ${props => props.theme.colors.dark.darkGrey};
 `;
 
 const LearnerName = styled(Body3Bold)`
