@@ -10,15 +10,15 @@ import { getErrorContent } from "../../../utils/getErrorContent";
 interface Props {
   isModalOpen: boolean;
   setIsModalOpen: (handle: boolean) => void;
-  onInvite: () => void;
+  onInviteSuccess: () => void;
   openErrorModal: (content: string, retry: () => void) => void;
 }
 
 export const InviteLearnerModal: FunctionComponent<Props> = ({
   isModalOpen,
   setIsModalOpen,
-  onInvite: onInvited,
   openErrorModal,
+  onInviteSuccess,
 }) => {
   const { t } = useTranslation();
 
@@ -65,7 +65,7 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
       await inviteLearner(values.name, values.email);
       toast.success(t(`success_messages.learner_invitation_sent`), { duration: 3000 });
       setIsModalOpen(false);
-      onInvited();
+      onInviteSuccess();
     } catch (error) {
       const e = handleHttpError(error);
       if (e.message === "learner_already_exists") {

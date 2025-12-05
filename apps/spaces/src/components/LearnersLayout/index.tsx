@@ -1,4 +1,4 @@
-import { FunctionComponent, useCallback, useEffect, useMemo, useState } from "react";
+import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { LayoutMainContent, LayoutMainContentWrapper } from "../LayoutStyleComponents/LayoutMainContent";
 import { BetaBanner, Body1, Button, defaultTheme, H2, Sidebar, styled, SubHeading3, useAdminSidebar } from "@shira/ui";
 import { LayoutContainer } from "../LayoutStyleComponents/LayoutContainer";
@@ -13,11 +13,11 @@ import { DeleteLearnerAction } from "../LearnersTable/components/DeleteLearnerAc
 import { BulkDeleteLearnersAction } from "../LearnersTable/components/BulkDeleteLearnersAction";
 import toast from "react-hot-toast";
 import { handleHttpError } from "../../fetch/handleError";
-import { fetchLearners, inviteLearner } from "../../fetch/learner";
+import { inviteLearner } from "../../fetch/learner";
 import { getErrorContent } from "../../utils/getErrorContent";
 import { MdEmail, MdDelete } from "react-icons/md";
 import { PiDownloadSimpleBold } from "react-icons/pi";
-import { RowSelectionState } from "@tanstack/react-table";
+import { useLearners } from "../../hooks/useLearners";
 
 interface Props { }
 
@@ -39,33 +39,18 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [retryAction, setRetryAction] = useState<(() => void) | null>(null);
 
-  const [learners, setLearners] = useState<Learner[]>([]);
   const [learnerIdToDelete, setLearnerIdToDelete] = useState<number | null>(null);
-  const [loading, setLoading] = useState(true);
 
-  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
-
-  const selectedLearnerIds = useMemo(
-    () => Object.entries(rowSelection)
-      .filter(([_, isSelected]) => Boolean(isSelected))
-      .map(([id]) => Number(id)),
-    [rowSelection]
-  );
+  const {
+    learners,
+    loading,
+    fetchLearners,
+    rowSelection,
+    setRowSelection,
+    selectedLearnerIds,
+  } = useLearners();
 
   const hasSelectedLearners = selectedLearnerIds.length > 0;
-
-  const fetchLearnersHandler = useCallback(async () => {
-    setLoading(true);
-    try {
-      const res = await fetchLearners();
-      setLearners(res);
-      setRowSelection({});
-    } catch (e) {
-      console.log("🚀 ~ fetchLeaners ~ e:", e)
-    } finally {
-      setLoading(false);
-    }
-  }, []);
 
   const openErrorModal = useCallback((content: string, retry: () => void) => {
     setErrorMessage(content);
@@ -87,14 +72,10 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
         toast.success(
           t("success_messages.learner_invitation_resent", { email: learner.email })
         );
-        fetchLearnersHandler();
-      } catch (error) {
-        const errorObj = handleHttpError(error);
-        const content = getErrorContent(
-          "error_messages",
-          "invite_learner_failed",
-          errorObj.message
-        );
+        await fetchLearners();
+      } catch (e) {
+        const error = handleHttpError(e);
+        const content = getErrorContent("error_messages", "invite_learner_failed", error.message);
 
         openErrorModal(content, () => handleResendInvitation(learner));
       }
@@ -118,13 +99,12 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
   };
 
   const handleBulkDeleteSuccess = () => {
-    setRowSelection({});
     fetchLearners();
   };
 
   useEffect(() => {
-    fetchLearnersHandler();
-  }, [fetchLearnersHandler]);
+    fetchLearners();
+  }, [fetchLearners]);
 
   return (
     <LayoutContainer>
@@ -186,12 +166,12 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
           <InviteLearnerModal
             isModalOpen={isInvitationModalOpen}
             setIsModalOpen={setIsInvitationModalOpen}
-            onInvite={fetchLearnersHandler}
+            onInviteSuccess={fetchLearners}
             openErrorModal={openErrorModal}
           />
 
           <DeleteLearnerAction
-            learnerId={learnerIdToDelete}
+            learnerId={learnerIdToDelete ?? 0}
             isModalOpen={isDeleteModalOpen}
             setIsModalOpen={setIsDeleteModalOpen}
             openErrorModal={openErrorModal}
