@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { LayoutMainContent, LayoutMainContentWrapper } from "../LayoutStyleComponents/LayoutMainContent";
 import { BetaBanner, Body1, Button, defaultTheme, H2, Sidebar, styled, SubHeading3, useAdminSidebar } from "@shira/ui";
 import { LayoutContainer } from "../LayoutStyleComponents/LayoutContainer";
@@ -6,13 +6,13 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../../store";
 import { shallow } from "zustand/shallow";
-import { LearnersTable } from "../LearnersTable";
+import { LearnersTable, Learner } from "../LearnersTable";
 import { InviteLearnerModal } from "../modals/InviteLearnerModal";
 import { LearnerErrorModal } from "../modals/ErrorModal";
 import { DeleteLearnerAction } from "../LearnersTable/components/DeleteLearnerAction";
 import toast from "react-hot-toast";
 import { handleHttpError } from "../../fetch/handleError";
-import { inviteLearner } from "../../fetch/learner";
+import { fetchLearners, inviteLearner } from "../../fetch/learner";
 import { getErrorContent } from "../../utils/getErrorContent";
 import { MdEmail } from "react-icons/md";
 import { PiDownloadSimpleBold } from "react-icons/pi";
@@ -32,12 +32,12 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [retryAction, setRetryAction] = useState<(() => void) | null>(null);
-  const [loading, setLoading] = useState(false);
-  
+
   const [isInvitationModalOpen, setIsInvitationModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [id, setLearnerIdToDelete] = useState<number | null>(null);
-  const [deleteSuccessCallback, setDeleteSuccessCallback] = useState<(() => void) | null>(null);
+  const [learners, setLearners] = useState<Learner[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const openErrorModal = (content: string, retry: () => void) => {
     setErrorMessage(content);
@@ -46,22 +46,19 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
     setIsInvitationModalOpen(false);
   };
 
-  const handleDeleteRequest = (learnerId: number, onDeleted: () => void) => {
+  const handleDelete = (learnerId: number) => {
     setLearnerIdToDelete(learnerId);
-    setDeleteSuccessCallback(() => onDeleted);
     setIsDeleteModalOpen(true);
   };
 
   const handleLearnerDeleted = () => {
-    deleteSuccessCallback?.();
     setLearnerIdToDelete(null);
-    setDeleteSuccessCallback(null);
+    getLearners();
   };
 
   const handleDeleteModalCancel = () => {
     setIsDeleteModalOpen(false);
     setLearnerIdToDelete(null);
-    setDeleteSuccessCallback(null);
   };
 
   const handleErrorModalCancel = () => {
@@ -77,26 +74,34 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
     }
   };
 
-  const invite = async (name: string, email: string) => {
+  const getLearners = useCallback(async () => {
+    setLoading(true);
     try {
-      setLoading(true);
+      const res = await fetchLearners();
+      setLearners(res);
+    } catch (e) {
+      console.log("🚀 ~ fetchLeaners ~ e:", e)
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-      await new Promise((resolve) => setTimeout(resolve, 5000));
-      await inviteLearner(name, email);
-      toast.success(t(`success_messages.learner_invitation_sent`), { duration: 3000 });
+  useEffect(() => {
+    getLearners();
+  }, [getLearners]);
 
-      setIsInvitationModalOpen(false);
+  const handleResendInvitation = async (learner: Learner) => {
+    try {
+      await inviteLearner(learner.name, learner.email);
+      toast.success(
+        t("success_messages.learner_invitation_resent", { email: learner.email }), { duration: 3000 }
+      );
+      getLearners();
     } catch (error) {
       const e = handleHttpError(error);
       const content = getErrorContent("error_messages", "invite_learner_failed", e.message);
 
-      if (e.message === "learner_already_exists") {
-        throw error;
-      }
-
-      openErrorModal(content, () => invite(name, email));
-    } finally {
-      setLoading(false);
+      openErrorModal(content, () => handleResendInvitation(learner));
     }
   };
 
@@ -134,14 +139,16 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
             <InviteLearnerModal
               isModalOpen={isInvitationModalOpen}
               setIsModalOpen={setIsInvitationModalOpen}
-              onConfirm={(name, email) => invite(name, email)}
-              isLoading={loading}
+              onInvite={getLearners}
+              openErrorModal={openErrorModal}
             />
           </ActionContainer>
           <div>
             <LearnersTable
-              openErrorModal={openErrorModal}
-              onDeleteLearner={handleDeleteRequest}
+              data={learners}
+              loading={loading}
+              onDeleteLearner={handleDelete}
+              onResendInvitation={handleResendInvitation}
             />
           </div>
           <DeleteLearnerAction

@@ -1,18 +1,14 @@
 import { Body3, Body3Bold, styled, Table, TableActions, TableCheckbox, useTheme } from "@shira/ui";
 import { ColumnDef } from "@tanstack/react-table";
-import { FunctionComponent, useEffect, useMemo, useState } from "react";
+import { FunctionComponent, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getCurrentDateFNSLocales } from "../../language/dateUtils";
 import { enUS } from "date-fns/locale";
 import { format } from "date-fns";
 import { GoPersonFill } from "react-icons/go";
 import { StatusTag } from "./components/StatusTag";
-import { fetchLearners, inviteLearner } from "../../fetch/learner";
-import toast from "react-hot-toast";
-import { handleHttpError } from "../../fetch/handleError";
-import { getErrorContent } from "../../utils/getErrorContent";
 
-type Learner = {
+export type Learner = {
   id: number;
   name: string;
   email: string;
@@ -21,17 +17,20 @@ type Learner = {
 };
 
 interface Props {
-  openErrorModal: (content: string, retry: () => void) => void;
-  onDeleteLearner: (learnerId: number, onDeleted: () => void) => void;
+  data: Learner[];
+  loading: boolean;
+  onDeleteLearner: (learnerId: number) => void;
+  onResendInvitation: (learner: Learner) => void;
 }
 
-export const LearnersTable: FunctionComponent<Props> = ({ openErrorModal, onDeleteLearner }) => {
+export const LearnersTable: FunctionComponent<Props> = ({
+  data,
+  loading,
+  onDeleteLearner,
+  onResendInvitation,
+}) => {
   const { t, i18n } = useTranslation()
   const theme = useTheme()
-
-  const [loading, setLoading] = useState(true)
-  const [data, setData] = useState([])
-
   //Key of row selection is DB ID of learner
   const [rowSelection, setRowSelection] = useState({})
   console.log("🚀 ~ LearnersTable ~ rowSelection:", rowSelection)
@@ -39,25 +38,7 @@ export const LearnersTable: FunctionComponent<Props> = ({ openErrorModal, onDele
   const currentDateLocal = useMemo(() => {
     const dateLocales = getCurrentDateFNSLocales()
     return dateLocales[i18n.language] ?? enUS;
-  }, [i18n])
-
-  const handleDeleted = (id: number) => {
-    setData(prev => prev.filter(l => l.id !== id));
-  };
-
-  const handleResendInvitation = async (learner: Learner) => {
-    try {
-      await inviteLearner(learner.name, learner.email);
-      toast.success(
-        t("success_messages.learner_invitation_resent", { email: learner.email }), { duration: 3000 }
-      );
-    } catch (error) {
-      const e = handleHttpError(error);
-      const content = getErrorContent("error_messages", "invite_learner_failed", e.message);
-
-      openErrorModal(content, () => handleResendInvitation(learner));
-    }
-  };
+  }, [i18n]);
 
   const columns = useMemo<ColumnDef<any>[]>(
     () => [
@@ -124,31 +105,15 @@ export const LearnersTable: FunctionComponent<Props> = ({ openErrorModal, onDele
 
           return (
             <TableActions
-              onDelete={() => onDeleteLearner(learner.id, () => handleDeleted(learner.id))}
-              onResend={() => handleResendInvitation(learner)}
+              onDelete={() => onDeleteLearner(learner.id)}
+              onResend={() => onResendInvitation(learner)}
             />
           );
         },
       },
     ],
-    [currentDateLocal, t, theme, onDeleteLearner, handleResendInvitation]
-  )
-
-  useEffect(() => {
-    //move when merge
-    const getLearners = async () => {
-      try {
-        const res = await fetchLearners();
-        setData(res);
-      } catch (e) {
-        console.log("🚀 ~ fetchLeaners ~ e:", e)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    getLearners()
-  }, [])
+    [currentDateLocal, t, theme, onDeleteLearner, onResendInvitation]
+  );
 
   return (
     <Wrapper>

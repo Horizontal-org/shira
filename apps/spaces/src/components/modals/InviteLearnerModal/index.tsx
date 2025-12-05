@@ -2,21 +2,27 @@ import { FunctionComponent, useEffect, useState } from "react";
 import { Body1, defaultTheme, Modal, TextInput } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
+import toast from "react-hot-toast";
+import { inviteLearner } from "../../../fetch/learner";
+import { handleHttpError } from "../../../fetch/handleError";
+import { getErrorContent } from "../../../utils/getErrorContent";
 
 interface Props {
   isModalOpen: boolean;
   setIsModalOpen: (handle: boolean) => void;
-  onConfirm: (name: string, email: string) => void;
-  isLoading?: boolean;
+  onInvite: () => void;
+  openErrorModal: (content: string, retry: () => void) => void;
 }
 
 export const InviteLearnerModal: FunctionComponent<Props> = ({
   isModalOpen,
   setIsModalOpen,
-  onConfirm,
-  isLoading = false,
+  onInvite: onInvited,
+  openErrorModal,
 }) => {
   const { t } = useTranslation();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -53,12 +59,29 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
     setEmailIsValid(verifyEmailPattern(value));
   };
 
-  const handlePrimaryClick = async () => {
+  const sendInvitation = async (values: { name: string; email: string }) => {
+    setIsLoading(true);
     try {
-      await Promise.resolve(onConfirm(name, email));
-    } catch {
-      setShowAlreadyExistsError(true);
+      await inviteLearner(values.name, values.email);
+      toast.success(t(`success_messages.learner_invitation_sent`), { duration: 3000 });
+      setIsModalOpen(false);
+      onInvited();
+    } catch (error) {
+      const e = handleHttpError(error);
+      if (e.message === "learner_already_exists") {
+        setShowAlreadyExistsError(true);
+        return;
+      }
+      const content = getErrorContent("error_messages", "invite_learner_failed", e.message);
+      openErrorModal(content, () => sendInvitation(values));
+    } finally {
+      setIsLoading(false);
     }
+  };
+
+  const handlePrimaryClick = async () => {
+    const values = { name, email };
+    await sendInvitation(values);
   };
 
   useEffect(() => {
