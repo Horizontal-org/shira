@@ -4,10 +4,11 @@ import styled from "styled-components";
 import { BaseFloatingMenu } from "../../FloatingMenu";
 import { MdEmail } from "react-icons/md";
 import { IoMdTrash } from "react-icons/io";
+import { defaultTheme } from "../../../theme";
 
 interface Props {
-  onResend: () => void
-  onDelete: () => void
+  onResend: () => void;
+  onDelete: () => void;
 }
 
 export const TableActions: FunctionComponent<Props> = ({
@@ -16,17 +17,6 @@ export const TableActions: FunctionComponent<Props> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
-
-  const closeMenu = () => setIsOpen(false);
-
-  const handleResend = () => {
-    closeMenu();
-    onResend();
-  };
-  const handleDelete = () => {
-    closeMenu();
-    onDelete();
-  };
 
   return (
     <>
@@ -39,17 +29,17 @@ export const TableActions: FunctionComponent<Props> = ({
 
       <BaseFloatingMenu
         isOpen={isOpen}
-        onClose={closeMenu}
+        onClose={() => setIsOpen(false)}
         elements={[
           {
             text: 'Resend invitation',
-            onClick: handleResend,
-            icon: <MdEmail color="#5F6368" />
+            onClick: onResend,
+            icon: <MdEmail color={defaultTheme.colors.dark.darkGrey} />
           },
           {
             text: 'Delete',
-            onClick: handleDelete,
-            icon: <IoMdTrash color="#5F6368" />
+            onClick: onDelete,
+            icon: <IoMdTrash color={defaultTheme.colors.dark.darkGrey} />
           }
         ]}
         anchorEl={buttonRef.current}
