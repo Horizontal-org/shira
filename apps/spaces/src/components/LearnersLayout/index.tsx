@@ -1,4 +1,4 @@
-import { FunctionComponent, useCallback, useEffect, useState } from "react";
+import { FunctionComponent, useCallback, useEffect, useMemo, useState } from "react";
 import { LayoutMainContent, LayoutMainContentWrapper } from "../LayoutStyleComponents/LayoutMainContent";
 import { BetaBanner, Body1, Button, defaultTheme, H2, Sidebar, styled, SubHeading3, useAdminSidebar } from "@shira/ui";
 import { LayoutContainer } from "../LayoutStyleComponents/LayoutContainer";
@@ -10,11 +10,12 @@ import { LearnersTable, Learner } from "../LearnersTable";
 import { InviteLearnerModal } from "../modals/InviteLearnerModal";
 import { LearnerErrorModal } from "../modals/ErrorModal";
 import { DeleteLearnerAction } from "../LearnersTable/components/DeleteLearnerAction";
+import { BulkDeleteLearnersAction } from "../LearnersTable/components/BulkDeleteLearnersAction";
 import toast from "react-hot-toast";
 import { handleHttpError } from "../../fetch/handleError";
 import { fetchLearners, inviteLearner } from "../../fetch/learner";
 import { getErrorContent } from "../../utils/getErrorContent";
-import { MdEmail } from "react-icons/md";
+import { MdEmail, MdDelete } from "react-icons/md";
 import { PiDownloadSimpleBold } from "react-icons/pi";
 
 interface Props { }
@@ -38,6 +39,20 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
   const [id, setLearnerIdToDelete] = useState<number | null>(null);
   const [learners, setLearners] = useState<Learner[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedLearners, setSelectedLearners] = useState<Learner[]>([]);
+  const [isBulkDeleteModalOpen, setIsBulkDeleteModalOpen] = useState(false);
+
+  const selectedLearnerIds = useMemo(() => selectedLearners.map((learner) => learner.id), [selectedLearners]);
+  const hasSelectedLearners = selectedLearnerIds.length > 0;
+
+  const handleSelectionChange = useCallback((selection: Learner[]) => {
+    setSelectedLearners(selection);
+  }, []);
+
+
+  const handleBulkDeleteCancel = useCallback(() => {
+    setIsBulkDeleteModalOpen(false);
+  }, []);
 
   const openErrorModal = (content: string, retry: () => void) => {
     setErrorMessage(content);
@@ -85,6 +100,11 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
       setLoading(false);
     }
   }, []);
+
+  const handleBulkDeleteSuccess = useCallback(() => {
+    setSelectedLearners([]);
+    getLearners();
+  }, [getLearners]);
 
   useEffect(() => {
     getLearners();
@@ -143,14 +163,27 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
               openErrorModal={openErrorModal}
             />
           </ActionContainer>
-          <div>
+          <TableSection>
+            {hasSelectedLearners && (
+              <BulkActionContainer>
+                <Button
+                  id="delete-learners-bulk-button"
+                  text={t("buttons.delete_learners")}
+                  type="primary"
+                  leftIcon={<MdDelete />}
+                  color={defaultTheme.colors.error7}
+                  onClick={() => setIsBulkDeleteModalOpen(true)}
+                />
+              </BulkActionContainer>
+            )}
             <LearnersTable
               data={learners}
               loading={loading}
               onDeleteLearner={handleDelete}
               onResendInvitation={handleResendInvitation}
+              onSelectionChange={handleSelectionChange}
             />
-          </div>
+          </TableSection>
           <DeleteLearnerAction
             learnerId={id}
             isModalOpen={isDeleteModalOpen}
@@ -158,6 +191,14 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
             openErrorModal={openErrorModal}
             onDeleted={handleLearnerDeleted}
             onCancel={handleDeleteModalCancel}
+          />
+          <BulkDeleteLearnersAction
+            learnerIds={selectedLearnerIds}
+            isModalOpen={isBulkDeleteModalOpen}
+            setIsModalOpen={setIsBulkDeleteModalOpen}
+            openErrorModal={openErrorModal}
+            onDeleted={handleBulkDeleteSuccess}
+            onCancel={handleBulkDeleteCancel}
           />
           <LearnerErrorModal
             isOpen={isErrorModalOpen}
@@ -190,4 +231,14 @@ const ActionContainer = styled.div`
   padding-right: 20px;
   padding-bottom: 12px;
   padding-left: 20px;
+`;
+
+const TableSection = styled.div`
+  position: relative;
+`;
+
+const BulkActionContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 20px 12px;
 `;

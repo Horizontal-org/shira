@@ -1,6 +1,6 @@
 import { Body3, Body3Bold, styled, Table, TableActions, TableCheckbox, useTheme } from "@shira/ui";
-import { ColumnDef } from "@tanstack/react-table";
-import { FunctionComponent, useMemo, useState } from "react";
+import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
+import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getCurrentDateFNSLocales } from "../../language/dateUtils";
 import { enUS } from "date-fns/locale";
@@ -21,6 +21,7 @@ interface Props {
   loading: boolean;
   onDeleteLearner: (learnerId: number) => void;
   onResendInvitation: (learner: Learner) => void;
+  onSelectionChange?: (selectedLearners: Learner[]) => void;
 }
 
 export const LearnersTable: FunctionComponent<Props> = ({
@@ -28,12 +29,33 @@ export const LearnersTable: FunctionComponent<Props> = ({
   loading,
   onDeleteLearner,
   onResendInvitation,
+  onSelectionChange,
 }) => {
   const { t, i18n } = useTranslation()
   const theme = useTheme()
   //Key of row selection is DB ID of learner
-  const [rowSelection, setRowSelection] = useState({})
-  console.log("🚀 ~ LearnersTable ~ rowSelection:", rowSelection)
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
+
+  useEffect(() => {
+    if (!onSelectionChange) {
+      return;
+    }
+
+    const selectedRowIds = Object.entries(rowSelection)
+      .filter(([, isSelected]) => Boolean(isSelected))
+      .map(([rowId]) => rowId);
+
+    const selectedIdSet = new Set(selectedRowIds);
+    const selectedLearners = data.filter((learner) =>
+      selectedIdSet.has(String(learner.id))
+    );
+
+    onSelectionChange(selectedLearners);
+  }, [rowSelection, data, onSelectionChange]);
+
+  useEffect(() => {
+    setRowSelection({});
+  }, [data]);
 
   const currentDateLocal = useMemo(() => {
     const dateLocales = getCurrentDateFNSLocales()

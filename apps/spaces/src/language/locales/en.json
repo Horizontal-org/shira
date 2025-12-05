@@ -223,7 +223,8 @@
         "try_again": "Try again",
         "unassign": "Unassign",
         "invite_learner": "Invite new learner",
-        "invite_learners_bulk": "Import learners in bulk"
+        "invite_learners_bulk": "Import learners in bulk",
+        "delete_learners": "Delete learners"
     },
     "modals": {
         "create_quiz": {
@@ -311,6 +312,10 @@
             "title": "Are you sure you want to delete this learner?",
             "subtitle": "Deleting this learner from your space is permanent and cannot be undone. The learner's quiz results will be deleted too."
         },
+        "delete_learners": {
+            "title": "Are you sure you want to delete the selected learners?",
+            "subtitle": "Deleting these learners from your space is permanent and cannot be undone. The learners' quiz results will be deleted too."
+        },
         "unassign_learner": {
             "title": "Unassign quiz from learner?",
             "subtitle": "Are you sure you want to unassign the quiz from this learner? Any quiz progress and results will be lost."
@@ -331,6 +336,7 @@
         "something_went_wrong": "Something went wrong",
         "invite_learner_failed": "There was a problem inviting the learner. If this issue persists, <1>contact us</1>.",
         "delete_learner_failed": "There was a problem deleting the learner. If this issue persists, <1>contact us</1>.",
+        "delete_learners_failed": "There was a problem deleting the learners. If this issue persists, <1>contact us</1>.",
         "assign_quiz_failed": "There was a problem assigning this quiz to learners. If this issue persists, <1>contact us</1>.",
         "unassign_quiz_failed": "There was a problem unassigning this quiz from learners. If this issue persists, <1>contact us</1>."
     },
@@ -350,6 +356,7 @@
         "learner_invitation_sent": "The invitation has been sent.",
         "learner_invitation_resent": "The invitation has been re-sent to {{email}}",
         "learner_deleted": "The learner has been deleted.",
+        "learners_deleted": "The selected learners have been deleted.",
         "learner_assigned": "This quiz has been assigned to {{count}} new learner.",
         "learners_assigned_plural": "This quiz has been assigned to {{count}} new learners.",
         "learner_unassigned": "This quiz has been unassigned to {{count}} new learner.",
