@@ -162,8 +162,6 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
               onInvite={getLearners}
               openErrorModal={openErrorModal}
             />
-          </ActionContainer>
-          <TableSection>
             {hasSelectedLearners && (
               <BulkActionContainer>
                 <Button
@@ -176,6 +174,8 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
                 />
               </BulkActionContainer>
             )}
+          </ActionContainer>
+          <TableSection>
             <LearnersTable
               data={learners}
               loading={loading}
@@ -239,6 +239,5 @@ const TableSection = styled.div`
 
 const BulkActionContainer = styled.div`
   display: flex;
-  justify-content: flex-end;
-  padding: 0 20px 12px;
+  margin-left: auto;
 `;
