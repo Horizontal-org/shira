@@ -12,13 +12,7 @@ export const getErrorContent = (base: string, fallbackKey: string, errorKey?: st
 export const getContactUsLayout = (finalKey: string): ReactNode => {
   return <Trans
     i18nKey={finalKey}
-    components={{
-      1: (
-        <a
-          href="/support"
-          target="_blank"
-          rel="noopener noreferrer" />
-      )
-    }} />;
+    components={{ 1: (<a href="/support" />) }}
+  />;
 }
 
