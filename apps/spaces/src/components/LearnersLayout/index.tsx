@@ -31,15 +31,15 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
     shallow
   );
 
-  const [isInvitationModalOpen, setIsInvitationModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [isBulkDeleteModalOpen, setIsBulkDeleteModalOpen] = useState(false);
+  const [isInviteLearnerModalOpen, setIsInviteLearnerModalOpen] = useState(false);
+  const [isDeleteLearnerModalOpen, setIsDeleteLearnerModalOpen] = useState(false);
+  const [isBulkDeleteLearnersModalOpen, setIsBulkDeleteLearnersModalOpen] = useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [retryAction, setRetryAction] = useState<(() => void) | null>(null);
 
-  const [learnerIdToDelete, setLearnerIdToDelete] = useState<number | null>(null);
+  const [selectedLearnerIdToDelete, setSelectedLearnerIdToDelete] = useState<number | null>(null);
 
   const {
     learners,
@@ -56,7 +56,7 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
     setErrorMessage(content);
     setRetryAction(() => retry);
     setIsErrorModalOpen(true);
-    setIsInvitationModalOpen(false);
+    setIsInviteLearnerModalOpen(false);
   }, []);
 
   const closeErrorModal = () => {
@@ -84,17 +84,17 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
   );
 
   const handleDeleteModalCancel = () => {
-    setIsDeleteModalOpen(false);
-    setLearnerIdToDelete(null);
+    setIsDeleteLearnerModalOpen(false);
+    setSelectedLearnerIdToDelete(null);
   };
 
   const handleOpenDeleteModal = (id: number) => {
-    setLearnerIdToDelete(id);
-    setIsDeleteModalOpen(true);
+    setSelectedLearnerIdToDelete(id);
+    setIsDeleteLearnerModalOpen(true);
   };
 
   const handleLearnerDeleted = () => {
-    setLearnerIdToDelete(null);
+    setSelectedLearnerIdToDelete(null);
     fetchLearners();
   };
 
@@ -125,21 +125,23 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
 
           <ActionContainer>
             <LeftActions>
-              <Button
-                id="invite-learner-button"
-                text={t("buttons.invite_learner")}
-                type="primary"
-                leftIcon={<MdEmail />}
-                onClick={() => setIsInvitationModalOpen(true)}
-                color={defaultTheme.colors.green7}
-              />
-              <Button
-                id="invite-learners-bulk-button"
-                text={t("buttons.invite_learners_bulk")}
-                type="primary"
-                leftIcon={<PiDownloadSimpleBold />}
-                color={defaultTheme.colors.green7}
-              />
+              {!hasSelectedLearners && (
+                <Button
+                  id="invite-learner-button"
+                  text={t("buttons.invite_learner")}
+                  type="primary"
+                  leftIcon={<MdEmail />}
+                  onClick={() => setIsInviteLearnerModalOpen(true)}
+                  color={defaultTheme.colors.green7}
+                />
+                // <Button
+                //   id="invite-learners-bulk-button"
+                //   text={t("buttons.invite_learners_bulk")}
+                //   type="primary"
+                //   leftIcon={<PiDownloadSimpleBold />}
+                //   color={defaultTheme.colors.green7}
+                // />
+              )}
             </LeftActions>
 
             <RightActions>
@@ -151,7 +153,7 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
                     type="primary"
                     leftIcon={<MdDelete />}
                     color={defaultTheme.colors.error7}
-                    onClick={() => setIsBulkDeleteModalOpen(true)}
+                    onClick={() => setIsBulkDeleteLearnersModalOpen(true)}
                   />
                 </BulkActionContainer>
               )}
@@ -170,16 +172,16 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
           </TableSection>
 
           <InviteLearnerModal
-            isModalOpen={isInvitationModalOpen}
-            setIsModalOpen={setIsInvitationModalOpen}
+            isModalOpen={isInviteLearnerModalOpen}
+            setIsModalOpen={setIsInviteLearnerModalOpen}
             onInviteSuccess={fetchLearners}
             openErrorModal={openErrorModal}
           />
 
           <DeleteLearnerAction
-            learnerId={learnerIdToDelete}
-            isModalOpen={isDeleteModalOpen}
-            setIsModalOpen={setIsDeleteModalOpen}
+            learnerId={selectedLearnerIdToDelete}
+            isModalOpen={isDeleteLearnerModalOpen}
+            setIsModalOpen={setIsDeleteLearnerModalOpen}
             openErrorModal={openErrorModal}
             onDeleted={handleLearnerDeleted}
             onCancel={handleDeleteModalCancel}
@@ -187,11 +189,11 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
 
           <BulkDeleteLearnersAction
             learnerIds={selectedLearnerIds}
-            isModalOpen={isBulkDeleteModalOpen}
-            setIsModalOpen={setIsBulkDeleteModalOpen}
+            isModalOpen={isBulkDeleteLearnersModalOpen}
+            setIsModalOpen={setIsBulkDeleteLearnersModalOpen}
             openErrorModal={openErrorModal}
             onDeleted={handleBulkDeleteSuccess}
-            onCancel={() => setIsBulkDeleteModalOpen(false)}
+            onCancel={() => setIsBulkDeleteLearnersModalOpen(false)}
           />
 
           <LearnerErrorModal
