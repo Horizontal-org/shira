@@ -124,35 +124,38 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
           </HeaderContainer>
 
           <ActionContainer>
-            <Button
-              id="invite-learner-button"
-              text={t("buttons.invite_learner")}
-              type="primary"
-              leftIcon={<MdEmail />}
-              onClick={() => setIsInvitationModalOpen(true)}
-              color={defaultTheme.colors.green7}
-            />
+            <LeftActions>
+              <Button
+                id="invite-learner-button"
+                text={t("buttons.invite_learner")}
+                type="primary"
+                leftIcon={<MdEmail />}
+                onClick={() => setIsInvitationModalOpen(true)}
+                color={defaultTheme.colors.green7}
+              />
+              <Button
+                id="invite-learners-bulk-button"
+                text={t("buttons.invite_learners_bulk")}
+                type="primary"
+                leftIcon={<PiDownloadSimpleBold />}
+                color={defaultTheme.colors.green7}
+              />
+            </LeftActions>
 
-            <Button
-              id="invite-learners-bulk-button"
-              text={t("buttons.invite_learners_bulk")}
-              type="primary"
-              leftIcon={<PiDownloadSimpleBold />}
-              color={defaultTheme.colors.green7}
-            />
-
-            {hasSelectedLearners && (
-              <BulkActionContainer>
-                <Button
-                  id="delete-learners-bulk-button"
-                  text={t("buttons.delete_learners")}
-                  type="primary"
-                  leftIcon={<MdDelete />}
-                  color={defaultTheme.colors.error7}
-                  onClick={() => setIsBulkDeleteModalOpen(true)}
-                />
-              </BulkActionContainer>
-            )}
+            <RightActions>
+              {hasSelectedLearners && (
+                <BulkActionContainer>
+                  <Button
+                    id="delete-learners-bulk-button"
+                    text={t("buttons.delete_learners")}
+                    type="primary"
+                    leftIcon={<MdDelete />}
+                    color={defaultTheme.colors.error7}
+                    onClick={() => setIsBulkDeleteModalOpen(true)}
+                  />
+                </BulkActionContainer>
+              )}
+            </RightActions>
           </ActionContainer>
 
           <TableSection>
@@ -174,7 +177,7 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
           />
 
           <DeleteLearnerAction
-            learnerId={learnerIdToDelete ?? 0}
+            learnerId={learnerIdToDelete}
             isModalOpen={isDeleteModalOpen}
             setIsModalOpen={setIsDeleteModalOpen}
             openErrorModal={openErrorModal}
@@ -219,9 +222,21 @@ const HeaderContainer = styled.div`
 
 const ActionContainer = styled.div`
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+`;
+
+const LeftActions = styled.div`
+  display: flex;
   align-items: center;
   gap: 8px;
-  padding: 12px 20px;
+`;
+
+const RightActions = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
 `;
 
 const TableSection = styled.div`
@@ -230,5 +245,4 @@ const TableSection = styled.div`
 
 const BulkActionContainer = styled.div`
   display: flex;
-  margin-left: auto;
 `;
