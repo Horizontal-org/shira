@@ -1,32 +1,26 @@
-import { Body3, Body3Bold, styled, Table, TableActions, TableCheckbox, useTheme } from "@shira/ui";
+import { styled, Table, TableCheckbox, useTheme } from "@shira/ui";
 import { ColumnDef } from "@tanstack/react-table";
-import axios from "axios";
-import { FunctionComponent, useEffect, useMemo, useState } from "react";
+import axios from "axios"
+import { FunctionComponent, useEffect, useMemo, useState } from "react"
 import { useTranslation } from "react-i18next";
-import { getCurrentDateFNSLocales } from "../../language/dateUtils";
-import { enUS } from "date-fns/locale";
-import { format } from "date-fns";
 import { GoPersonFill } from "react-icons/go";
-import { StatusTag } from "./components/StatusTag";
-import { LearnerEmail, LearnerHeader, LearnerName, LearnerPersonInfo } from "./components/LearnerHeader";
+import { LearnerEmail, LearnerHeader, LearnerName, LearnerPersonInfo } from "../LearnersTable/components/LearnerHeader";
+import { QuizStatusTag } from "./components/QuizStatusTag";
+import { IoPersonRemoveSharp } from "react-icons/io5";
 
-interface Props {}
+interface Props {
+  quizId: number
+}
 
-export const LearnersTable:FunctionComponent<Props> = () => {
-  const { t, i18n } = useTranslation()
+export const LearnerQuizView:FunctionComponent<Props> = ({quizId}) => {
+  const { t } = useTranslation()
   const theme = useTheme()
-
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
   
   //Key of row selection is DB ID of learner
   const [rowSelection, setRowSelection] = useState({})
   console.log("🚀 ~ LearnersTable ~ rowSelection:", rowSelection)
-
-  const currentDateLocal = useMemo(() => {
-    const dateLocales = getCurrentDateFNSLocales()
-    return dateLocales[i18n.language] ?? enUS;    
-  }, [i18n])
 
   const columns = useMemo<ColumnDef<any>[]>(
     () => [
@@ -75,50 +69,43 @@ export const LearnersTable:FunctionComponent<Props> = () => {
       {
         header: t('learners.table.registration'),
         accessorKey: 'status',
-        cell: info => (<StatusTag status={info.getValue() as string} />)
-      },
-      {
-        header: t('learners.table.invited_at'),
-        accessorKey: 'invitedAt',
-        accessorFn: (r) => r.invitedAt,
-        cell: (info) => {
-          return format(info.getValue() as string, 'd MMMM y', { locale: currentDateLocal })
-        }
+        cell: info => (<QuizStatusTag status={info.getValue() as string} />)
       },
       {
         id: 'actions',
         cell: ({row}) => {
           return (
-            <TableActions 
-              onDelete={() => { console.log('ON DELETE => ', row)}}
-              onResend={() => { console.log('ON RESEND => ', row)}}
-            />
+            <UnassignAction 
+             onClick={() => { console.log('UNASSING') }}  
+            >
+              <IoPersonRemoveSharp size={24} color={theme.colors.error9} />
+            </UnassignAction>
           )
         }
       }
     ],
-    [currentDateLocal, t, theme]
+    [t, theme]
   )
 
+
   useEffect(() => {
-     //move when merge
-    const fetchLearners = async() => {
+    const fetchLearnerQuiz = async () => {
       try {
-        const res = await axios.get(`${process.env.REACT_APP_API_URL}/learners`)
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/learner-quiz/assignments/${quizId}`)
+        console.log("🚀 ~ fetchLearnerQuiz ~ res:", res)
         setData(res.data)
-      } catch (e) {
+      }  catch (e) {
         console.log("🚀 ~ fetchLeaners ~ e:", e)
       } finally {
         setLoading(false)
-      }
+      }      
     }
 
-    fetchLearners()
-  }, [])
-
-
+    fetchLearnerQuiz()
+  }, [quizId])
+  
   return (
-    <Wrapper>
+    <div>
       <Table 
         loading={loading}
         data={data}
@@ -130,17 +117,16 @@ export const LearnersTable:FunctionComponent<Props> = () => {
             <col style={{ width: "50px" }} />
             <col style={{ width: "50%" }} />
             <col />
-            <col />
             <col style={{ width: "80px" }} />
           </colgroup>
         )}
       />
-    </Wrapper>
+    </div>
   )
 }
 
-const Wrapper = styled.div`
-  max-width: ${props => props.theme.breakpoints.lg};
-  padding: 16px;
-  box-sizing: border-box;
+const UnassignAction = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 `

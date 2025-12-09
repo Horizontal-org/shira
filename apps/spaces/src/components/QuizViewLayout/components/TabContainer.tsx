@@ -4,8 +4,9 @@ import { QuestionsList } from './QuestionList'
 import { Results } from './Results'
 import { QuizQuestion } from "../../../store/slices/quiz";
 import { PublicQuizResultsResponse } from "../../../fetch/results";
+import { LearnerQuizView } from "../../LearnerQuizView";
 
-type TabType = 'questions' | 'results';
+type TabType = 'questions' | 'results' | 'learners';
 
 interface TabContainerProps {
   quizId: number;
@@ -47,6 +48,13 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
             Questions
           </TabButton>
           <TabButton
+            id="learners-tab"
+            $isActive={activeTab === 'learners'}
+            onClick={() => setActiveTab('learners')}
+          >
+            Learners
+          </TabButton>
+          <TabButton
             id="results-tab"
             $isActive={activeTab === 'results'}
             onClick={() => setActiveTab('results')}
@@ -70,12 +78,20 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
             hasResults={hasResults}
           />
         )}
+
+        {activeTab === 'learners' && (
+          <LearnerQuizView
+            quizId={quizId}
+          />
+        )}
+
         {activeTab === 'results' && (
           <Results
             resultsData={resultsData}
             loading={resultsLoading}
           />
         )}
+ 
       </div>
     </Container>
   );
