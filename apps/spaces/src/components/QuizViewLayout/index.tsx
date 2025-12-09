@@ -158,7 +158,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
               <Wrapper>
                 <Header>
                   <div>
-                    <H2>{quiz.title} <VisibilityTag>{quiz.visibility}</VisibilityTag></H2>
+                    <H2 id="quiz-title">{quiz.title} <VisibilityTag>{quiz.visibility}</VisibilityTag></H2>
                     <Body1 id="quiz-subtitle">{t('quiz.subtitle')}</Body1>
                   </div>
                   <Toggle
