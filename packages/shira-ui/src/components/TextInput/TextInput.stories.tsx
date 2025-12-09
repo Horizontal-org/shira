@@ -24,8 +24,8 @@ const meta = {
     },
     type: {
       control: 'select',
-      options: ['text', 'password'],
-      description: 'Type of input (text or password)',
+      options: ['text', 'password', 'email'],
+      description: 'Type of input (text, password, or email)',
     }
   }
 } satisfies Meta<typeof TextInput>;

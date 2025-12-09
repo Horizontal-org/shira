@@ -4,23 +4,23 @@ import styled from "styled-components";
 import { BaseFloatingMenu } from "../../FloatingMenu";
 import { MdEmail } from "react-icons/md";
 import { IoMdTrash } from "react-icons/io";
+import { defaultTheme } from "../../../theme";
 
 interface Props {
-  onResend: () => void
-  onDelete: () => void
+  onResend: () => void;
+  onDelete: () => void;
 }
 
-export const TableActions:FunctionComponent<Props> = ({
+export const TableActions: FunctionComponent<Props> = ({
   onResend,
   onDelete
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-    const buttonRef = useRef<HTMLButtonElement>(null);
-  
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   return (
     <>
-      <ActionButton 
+      <ActionButton
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
       >
@@ -34,12 +34,12 @@ export const TableActions:FunctionComponent<Props> = ({
           {
             text: 'Resend invitation',
             onClick: onResend,
-            icon: <MdEmail color="#5F6368"/>
+            icon: <MdEmail color={defaultTheme.colors.dark.darkGrey} />
           },
           {
             text: 'Delete',
             onClick: onDelete,
-            icon: <IoMdTrash color="#5F6368" />
+            icon: <IoMdTrash color={defaultTheme.colors.dark.darkGrey} />
           }
         ]}
         anchorEl={buttonRef.current}
@@ -47,7 +47,6 @@ export const TableActions:FunctionComponent<Props> = ({
     </>
   )
 }
-
 
 const ActionButton = styled.button`
   background: none;

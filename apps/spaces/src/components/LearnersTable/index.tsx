@@ -1,7 +1,6 @@
-import { Body3, Body3Bold, styled, Table, TableActions, TableCheckbox, useTheme } from "@shira/ui";
-import { ColumnDef } from "@tanstack/react-table";
-import axios from "axios";
-import { FunctionComponent, useEffect, useMemo, useState } from "react";
+import { styled, Table, TableActions, TableCheckbox, useTheme } from "@shira/ui";
+import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
+import { FunctionComponent, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { getCurrentDateFNSLocales } from "../../language/dateUtils";
 import { enUS } from "date-fns/locale";
@@ -10,25 +9,41 @@ import { GoPersonFill } from "react-icons/go";
 import { StatusTag } from "./components/StatusTag";
 import { LearnerEmail, LearnerHeader, LearnerName, LearnerPersonInfo } from "./components/LearnerHeader";
 
-interface Props {}
+export type Learner = {
+  id: number;
+  name: string;
+  email: string;
+  status: string;
+  invitedAt: string;
+};
 
-export const LearnersTable:FunctionComponent<Props> = () => {
-  const { t, i18n } = useTranslation()
-  const theme = useTheme()
+interface Props {
+  data: Learner[];
+  loading: boolean;
+  onDeleteLearner: (learnerId: number) => void;
+  onResendInvitation: (learner: Learner) => void;
 
-  const [loading, setLoading] = useState(true)
-  const [data, setData] = useState([])
-  
-  //Key of row selection is DB ID of learner
-  const [rowSelection, setRowSelection] = useState({})
-  console.log("🚀 ~ LearnersTable ~ rowSelection:", rowSelection)
+  rowSelection: RowSelectionState;
+  setRowSelection: (updater: | RowSelectionState | ((prev: RowSelectionState) => RowSelectionState)) => void;
+}
+
+export const LearnersTable: FunctionComponent<Props> = ({
+  data,
+  loading,
+  onDeleteLearner,
+  onResendInvitation,
+  rowSelection,
+  setRowSelection,
+}) => {
+  const { t, i18n } = useTranslation();
+  const theme = useTheme();
 
   const currentDateLocal = useMemo(() => {
-    const dateLocales = getCurrentDateFNSLocales()
-    return dateLocales[i18n.language] ?? enUS;    
-  }, [i18n])
+    const dateLocales = getCurrentDateFNSLocales();
+    return dateLocales[i18n.language] ?? enUS;
+  }, [i18n]);
 
-  const columns = useMemo<ColumnDef<any>[]>(
+  const columns = useMemo<ColumnDef<Learner>[]>(
     () => [
       {
         id: 'select',
@@ -37,7 +52,7 @@ export const LearnersTable:FunctionComponent<Props> = () => {
             {...{
               checked: table.getIsAllRowsSelected(),
               indeterminate: table.getIsSomeRowsSelected(),
-              onChange: table.getToggleAllRowsSelectedHandler(),
+              onChange: () => table.toggleAllRowsSelected(!table.getIsAllRowsSelected()),
               isTDCheckbox: false
             }}
           />
@@ -46,22 +61,23 @@ export const LearnersTable:FunctionComponent<Props> = () => {
           <TableCheckbox
             {...{
               checked: row.getIsSelected(),
-              disabled: !row.getCanSelect(),
               indeterminate: row.getIsSomeSelected(),
-              onChange: row.getToggleSelectedHandler(),
+              disabled: !row.getCanSelect(),
+              onChange: () => row.toggleSelected(!row.getIsSelected()),
               isTDCheckbox: true
             }}
-          />          
+          />
         ),
       },
       {
-        header: () => { 
+        header: () => {
           return (
-          <LearnerHeader>
-            <GoPersonFill size={18} color={theme.colors.dark.darkGrey} />
-            <span>{ t('learners.table.learner')}</span>
-          </LearnerHeader>
-          )},        
+            <LearnerHeader>
+              <GoPersonFill size={18} color={theme.colors.dark.darkGrey} />
+              <span>{t("learners.table.learner")}</span>
+            </LearnerHeader>
+          )
+        },
         id: 'learner',
         cell: ({ row }) => {
           return (
@@ -80,46 +96,29 @@ export const LearnersTable:FunctionComponent<Props> = () => {
       {
         header: t('learners.table.invited_at'),
         accessorKey: 'invitedAt',
-        accessorFn: (r) => r.invitedAt,
         cell: (info) => {
           return format(info.getValue() as string, 'd MMMM y', { locale: currentDateLocal })
-        }
+        },
       },
       {
         id: 'actions',
-        cell: ({row}) => {
+        cell: ({ row }) => {
+          const learner = row.original;
           return (
-            <TableActions 
-              onDelete={() => { console.log('ON DELETE => ', row)}}
-              onResend={() => { console.log('ON RESEND => ', row)}}
+            <TableActions
+              onDelete={() => onDeleteLearner(learner.id)}
+              onResend={() => onResendInvitation(learner)}
             />
-          )
-        }
-      }
+          );
+        },
+      },
     ],
-    [currentDateLocal, t, theme]
-  )
-
-  useEffect(() => {
-     //move when merge
-    const fetchLearners = async() => {
-      try {
-        const res = await axios.get(`${process.env.REACT_APP_API_URL}/learners`)
-        setData(res.data)
-      } catch (e) {
-        console.log("🚀 ~ fetchLeaners ~ e:", e)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchLearners()
-  }, [])
-
+    [currentDateLocal, onDeleteLearner, onResendInvitation, t, theme]
+  );
 
   return (
     <Wrapper>
-      <Table 
+      <Table
         loading={loading}
         data={data}
         columns={columns}
@@ -136,8 +135,8 @@ export const LearnersTable:FunctionComponent<Props> = () => {
         )}
       />
     </Wrapper>
-  )
-}
+  );
+};
 
 const Wrapper = styled.div`
   max-width: ${props => props.theme.breakpoints.lg};
