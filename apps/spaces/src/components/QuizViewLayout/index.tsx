@@ -27,7 +27,7 @@ import { UnpublishedQuizModal } from "../modals/UnpublishedQuizModal";
 import { handleCopyUrl, handleCopyUrlAndNotify } from "../../utils/quiz";
 import { getQuizResults, PublicQuizResultsResponse } from "../../fetch/results";
 import { useTranslation } from "react-i18next";
-import { MdLockOutline } from "react-icons/md";
+import { MdLockOpen, MdLockOutline } from "react-icons/md";
 
 interface Props { }
 
@@ -162,7 +162,12 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
               <Wrapper>
                 <ActionHeader>
                   <VisibilityTag>
-                    <MdLockOutline size={16} />
+                    {quiz.visibility && quiz.visibility === 'private' && (
+                      <MdLockOutline size={16} />
+                    )}
+                    {quiz.visibility && quiz.visibility === 'public' && (
+                      <MdLockOpen size={16} />
+                    )}
                     <Body2Regular>{getQuizVisibility()}</Body2Regular>
                   </VisibilityTag>
                   <Toggle
@@ -290,7 +295,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
             </>
           ) : (
             <Header>
-              <H2>{t('loading_message.loading')}</H2>
+              <H2>{t('loading_messages.loading')}</H2>
             </Header>
           )}
         </MainContentWrapper>
