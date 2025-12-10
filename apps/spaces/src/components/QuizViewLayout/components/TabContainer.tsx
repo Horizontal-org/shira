@@ -1,7 +1,7 @@
 import { FunctionComponent, useState } from "react";
-import { styled } from '@shira/ui'
-import { QuestionsList } from './QuestionList'
-import { Results } from './Results'
+import { styled } from '@shira/ui';
+import { QuestionsList } from './QuestionList';
+import { Results } from './Results';
 import { QuizQuestion } from "../../../store/slices/quiz";
 import { PublicQuizResultsResponse } from "../../../fetch/results";
 import { LearnerQuizView } from "../../LearnerQuizView";
@@ -36,8 +36,15 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   resultsLoading,
   hasResults
 }) => {
-  const [activeTab, setActiveTab] = useState<TabType>('questions');
   const { t } = useTranslation();
+  
+  const [activeTab, setActiveTab] = useState<TabType>('questions');
+  const [isUnassignModalOpen, setIsUnassignModalOpen] = useState(false);
+
+  const handleOpenUnassignModal = (learnerId: number) => {
+    setIsUnassignModalOpen(true);
+    // Additional logic for unassigning learner can be added here
+  }
 
   return (
     <Container>
@@ -85,9 +92,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
         {activeTab === 'learners' && (
           <LearnerQuizView
             quizId={quizId}
-            onUnassignLearner={(learnerId: number) => {
-              console.log(`Unassign learner with ID: ${learnerId}`);
-            }}
+            onUnassignLearner={handleOpenUnassignModal}
           />
         )}
 

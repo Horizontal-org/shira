@@ -1,12 +1,13 @@
-import { styled, Table, TableCheckbox, useTheme } from "@shira/ui";
+import { Table, TableCheckbox, useTheme } from "@shira/ui";
 import { ColumnDef } from "@tanstack/react-table";
-import { FunctionComponent, useEffect, useMemo, useState } from "react"
+import { FunctionComponent, useCallback, useEffect, useMemo, useState } from "react"
 import { useTranslation } from "react-i18next";
 import { GoPersonFill } from "react-icons/go";
 import { LearnerEmail, LearnerHeader, LearnerName, LearnerPersonInfo } from "../LearnersTable/components/LearnerHeader";
 import { QuizStatusTag } from "./components/QuizStatusTag";
-import { IoPersonRemoveSharp } from "react-icons/io5";
 import { getAssignedLearners } from "../../fetch/learner_quiz";
+import { UnassignLearnerAction } from "./components/UnassignLearnerAction";
+import { LearnerErrorModal } from "../modals/ErrorModal";
 
 interface Props {
   quizId: number,
@@ -21,10 +22,48 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
   const theme = useTheme()
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [retryAction, setRetryAction] = useState<(() => void) | null>(null)
 
   //Key of row selection is DB ID of learner
   const [rowSelection, setRowSelection] = useState({})
   console.log("🚀 ~ LearnersTable ~ rowSelection:", rowSelection)
+
+  const openErrorModal = useCallback((content: string, retry: () => void) => {
+    setErrorMessage(content)
+    setRetryAction(() => retry)
+    setIsErrorModalOpen(true)
+  }, [])
+
+  const closeErrorModal = useCallback(() => {
+    setIsErrorModalOpen(false)
+    setRetryAction(null)
+    setErrorMessage(null)
+  }, []);
+
+  const handleErrorModalRetry = useCallback(() => {
+    const retry = retryAction
+    closeErrorModal()
+    retry?.()
+  }, [retryAction, closeErrorModal]);
+
+  const fetchLearnerQuiz = useCallback(async () => {
+    try {
+      setLoading(true)
+      const data = await getAssignedLearners(quizId)
+      setData(data)
+    } catch (e) {
+      console.log("🚀 ~ fetchLeaners ~ e:", e);
+    } finally {
+      setLoading(false)
+    }
+  }, [quizId]);
+
+  const handleUnassignSuccess = useCallback((learnerId: number) => {
+    fetchLearnerQuiz()
+    onUnassignLearner(learnerId)
+  }, [fetchLearnerQuiz, onUnassignLearner]);
 
   const columns = useMemo<ColumnDef<any>[]>(
     () => [
@@ -79,58 +118,51 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
       {
         id: 'actions',
         cell: ({ row }) => {
+          const learner = row.original;
           return (
-            <UnassignAction
-              onClick={() => { onUnassignLearner(row.original.id) }}
-            >
-              <IoPersonRemoveSharp size={24} color={theme.colors.error9} />
-            </UnassignAction>
+            <UnassignLearnerAction
+              learners={[{ learnerId: learner.id, quizId }]}
+              openErrorModal={openErrorModal}
+              onSuccess={() => handleUnassignSuccess(learner.id)}
+            />
           )
         }
       }
     ],
-    [t, theme]
+    [t, theme, quizId, openErrorModal, handleUnassignSuccess]
   )
 
 
   useEffect(() => {
-    const fetchLearnerQuiz = async () => {
-      try {
-        const data = await getAssignedLearners(quizId)
-        setData(data)
-      } catch (e) {
-        console.log("🚀 ~ fetchLeaners ~ e:", e)
-      } finally {
-        setLoading(false)
-      }
-    }
-
     fetchLearnerQuiz()
-  }, [quizId])
+  }, [fetchLearnerQuiz])
 
   return (
-    <div>
-      <Table
-        loading={loading}
-        data={data}
-        columns={columns}
-        rowSelection={rowSelection}
-        setRowSelection={setRowSelection}
-        colGroups={(
-          <colgroup>
-            <col style={{ width: "50px" }} />
-            <col style={{ width: "50%" }} />
-            <col />
-            <col style={{ width: "80px" }} />
-          </colgroup>
-        )}
+    <>
+      <div>
+        <Table
+          loading={loading}
+          data={data}
+          columns={columns}
+          rowSelection={rowSelection}
+          setRowSelection={setRowSelection}
+          colGroups={(
+            <colgroup>
+              <col style={{ width: "50px" }} />
+              <col style={{ width: "50%" }} />
+              <col />
+              <col style={{ width: "80px" }} />
+            </colgroup>
+          )}
+        />
+      </div>
+
+      <LearnerErrorModal
+        isOpen={isErrorModalOpen}
+        errorMessage={errorMessage}
+        onRetry={handleErrorModalRetry}
+        onCancel={closeErrorModal}
       />
-    </div>
+    </>
   )
 }
-
-const UnassignAction = styled.div`
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-`

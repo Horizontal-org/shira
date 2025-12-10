@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { LearnerErrorModal } from "../modals/ErrorModal";
 import { AssignLearnerAction } from "../LearnerQuizView/components/AssignLearnerAction";
 import { UnassignLearnerAction } from "../LearnerQuizView/components/UnassignLearnerAction";
+import { AssignRequest } from "../../fetch/learner_quiz";
 
 interface Props { }
 
@@ -10,6 +11,10 @@ export const ATestLayout: FunctionComponent<Props> = () => {
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [retryAction, setRetryAction] = useState<(() => void) | null>(null);
+  const mockLearnerAssignments: AssignRequest[] = [
+    { learnerId: 9, quizId: 2 },
+    { learnerId: 8, quizId: 2 }
+  ];
 
   const openErrorModal = (content: string, retry: () => void) => {
     setErrorMessage(content);
@@ -34,7 +39,10 @@ export const ATestLayout: FunctionComponent<Props> = () => {
     <Container>
       <ButtonContainer>
         <AssignLearnerAction openErrorModal={openErrorModal} />
-        <UnassignLearnerAction openErrorModal={openErrorModal} />
+        <UnassignLearnerAction
+          openErrorModal={openErrorModal}
+          learners={mockLearnerAssignments}
+        />
       </ButtonContainer>
 
       <LearnerErrorModal

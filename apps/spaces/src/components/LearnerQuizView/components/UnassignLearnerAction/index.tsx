@@ -1,23 +1,34 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 import toast from "react-hot-toast";
-import { Button } from "@shira/ui";
-import { FaPersonCircleMinus } from "react-icons/fa6";
+import { Body1, Modal, ModalType, useTheme } from "@shira/ui";
+import { IoPersonRemoveSharp } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
 import { handleHttpError } from "../../../../fetch/handleError";
 import { getErrorContent } from "../../../../utils/getErrorContent";
 import styled from "styled-components";
-import { unassignFromQuiz } from "../../../../fetch/learner_quiz";
+import { AssignRequest, unassignFromQuiz } from "../../../../fetch/learner_quiz";
 
 interface Props {
   openErrorModal: (content: string, retry: () => void) => void;
+  learners: AssignRequest[];
+  onSuccess?: () => void;
 }
 
-export const UnassignLearnerAction: FunctionComponent<Props> = ({ openErrorModal }) => {
+export const UnassignLearnerAction: FunctionComponent<Props> = ({
+  openErrorModal,
+  learners,
+  onSuccess,
+}) => {
   const { t } = useTranslation();
+  const theme = useTheme();
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
   const unassignQuizToLearner = async () => {
+    if (!learners.length) {
+      return;
+    }
+
     try {
-      const learners = [{ learnerId: 9, quizId: 2 }, { learnerId: 8, quizId: 2 }]; // Mock of learners
       const response = await unassignFromQuiz(learners);
 
       if (response.data.status !== "Error") {
@@ -29,7 +40,8 @@ export const UnassignLearnerAction: FunctionComponent<Props> = ({ openErrorModal
           return t(`success_messages.learners_unassigned_plural`, { count: learners.length });
         };
 
-        toast.success(message, { duration: 3000 });
+        toast.success(message(), { duration: 3000 });
+        onSuccess?.();
       }
 
       if (response.data.status === "Error") {
@@ -46,19 +58,44 @@ export const UnassignLearnerAction: FunctionComponent<Props> = ({ openErrorModal
   };
 
   return (
-    <ActionContainer>
-      <Button
-        text="Unassign to quiz"
-        type="outline"
-        leftIcon={<FaPersonCircleMinus />}
-        onClick={unassignQuizToLearner}
-      />
-    </ActionContainer>
+    <>
+      <IconButton
+        type="button"
+        onClick={() => setIsConfirmModalOpen(true)}>
+        <IoPersonRemoveSharp size={24} color={theme.colors.error9} />
+      </IconButton>
+
+      <Modal
+        isOpen={isConfirmModalOpen}
+        title={t("modals.unassign_learner.title")}
+        primaryButtonText={t("buttons.unassign")}
+        secondaryButtonText={t("buttons.cancel")}
+        type={ModalType.Danger}
+        onPrimaryClick={() => {
+          setIsConfirmModalOpen(false);
+          unassignQuizToLearner();
+        }}
+        onSecondaryClick={() => setIsConfirmModalOpen(false)}
+      >
+        <ModalContent>
+          <Body1>{t("modals.unassign_learner.subtitle")}</Body1>
+        </ModalContent>
+      </Modal>
+    </>
   );
 };
 
-const ActionContainer = styled.div`
+const IconButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+`;
+
+const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
 `;
