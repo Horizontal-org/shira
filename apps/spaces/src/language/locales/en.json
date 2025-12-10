@@ -31,7 +31,9 @@
             "registration": "Registration",
             "invited_at": "Date invited",
             "invited_tag": "Invited",
-            "registered_tag": "Registered"
+            "registered_tag": "Registered",
+            "submitted_tag": "Submitted",
+            "not_submitted_tag": "Not submitted"
         }
     },
     "quizzes": {
@@ -60,7 +62,8 @@
         },
         "tabs": {
             "questions": "Questions",
-            "results": "Results"
+            "results": "Results",
+            "learners": "Learners"
         }
     },
     "questions_tab": {

@@ -1,4 +1,4 @@
-import { Body3, Body3Bold, styled, Table, TableActions, TableCheckbox, useTheme } from "@shira/ui";
+import { styled, Table, TableActions, TableCheckbox, useTheme } from "@shira/ui";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { FunctionComponent, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -7,6 +7,7 @@ import { enUS } from "date-fns/locale";
 import { format } from "date-fns";
 import { GoPersonFill } from "react-icons/go";
 import { StatusTag } from "./components/StatusTag";
+import { LearnerEmail, LearnerHeader, LearnerName, LearnerPersonInfo } from "./components/LearnerHeader";
 
 export type Learner = {
   id: number;
@@ -139,24 +140,6 @@ export const LearnersTable: FunctionComponent<Props> = ({
 
 const Wrapper = styled.div`
   max-width: ${props => props.theme.breakpoints.lg};
-`;
-
-const LearnerPersonInfo = styled.div`
-  color: ${props => props.theme.colors.dark.darkGrey};
-`;
-
-const LearnerName = styled(Body3Bold)`
-  margin: 0;
-`;
-
-const LearnerEmail = styled(Body3)`
-  font-size: 14px;
-`;
-
-const LearnerHeader = styled.div`
-  display: flex;
-  align-items: center;
-  > svg {
-    margin-right: 8px;
-  }
-`;
+  padding: 16px;
+  box-sizing: border-box;
+`

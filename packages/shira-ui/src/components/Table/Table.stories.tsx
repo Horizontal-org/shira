@@ -18,7 +18,7 @@ export default {
   decorators: [
     (Story) => (
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <div style={{ width: '1024px' }}>
+        <div style={{ width: '1024px', background: '#F3F3F3' }}>
             <Story />
         </div>
       </div>

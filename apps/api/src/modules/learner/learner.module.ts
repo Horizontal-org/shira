@@ -9,6 +9,7 @@ import { Quiz as QuizEntity } from '../quiz/domain/quiz.entity';
 import { QuizModule } from '../quiz/quiz.module';
 import { PublicLearnerController } from './controllers/public.learner.controller';
 import { AuthLearnerController } from './controllers/auth.learner.controller';
+import { AuthLearnerQuizController } from './controllers/auth.learner_quiz.controller';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { AuthLearnerController } from './controllers/auth.learner.controller';
   controllers: [
     PublicLearnerQuizController,
     PublicLearnerController,
-    AuthLearnerController
+    AuthLearnerController,
+    AuthLearnerQuizController
   ],
   providers: [
     ...serviceLearnerProviders,
