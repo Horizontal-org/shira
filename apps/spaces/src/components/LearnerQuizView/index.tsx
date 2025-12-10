@@ -1,6 +1,5 @@
 import { styled, Table, TableCheckbox, useTheme } from "@shira/ui";
 import { ColumnDef } from "@tanstack/react-table";
-import axios from "axios"
 import { FunctionComponent, useEffect, useMemo, useState } from "react"
 import { useTranslation } from "react-i18next";
 import { GoPersonFill } from "react-icons/go";
@@ -13,12 +12,12 @@ interface Props {
   quizId: number
 }
 
-export const LearnerQuizView:FunctionComponent<Props> = ({quizId}) => {
+export const LearnerQuizView: FunctionComponent<Props> = ({ quizId }) => {
   const { t } = useTranslation()
   const theme = useTheme()
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
-  
+
   //Key of row selection is DB ID of learner
   const [rowSelection, setRowSelection] = useState({})
   console.log("🚀 ~ LearnersTable ~ rowSelection:", rowSelection)
@@ -46,17 +45,18 @@ export const LearnerQuizView:FunctionComponent<Props> = ({quizId}) => {
               onChange: row.getToggleSelectedHandler(),
               isTDCheckbox: true
             }}
-          />          
+          />
         ),
       },
       {
-        header: () => { 
+        header: () => {
           return (
-          <LearnerHeader>
-            <GoPersonFill size={18} color={theme.colors.dark.darkGrey} />
-            <span>{ t('learners.table.learner')}</span>
-          </LearnerHeader>
-          )},        
+            <LearnerHeader>
+              <GoPersonFill size={18} color={theme.colors.dark.darkGrey} />
+              <span>{t('learners.table.learner')}</span>
+            </LearnerHeader>
+          )
+        },
         id: 'learner',
         cell: ({ row }) => {
           return (
@@ -74,10 +74,10 @@ export const LearnerQuizView:FunctionComponent<Props> = ({quizId}) => {
       },
       {
         id: 'actions',
-        cell: ({row}) => {
+        cell: ({ row }) => {
           return (
-            <UnassignAction 
-             onClick={() => { console.log('UNASSING') }}  
+            <UnassignAction
+              onClick={() => { console.log('UNASSING') }}
             >
               <IoPersonRemoveSharp size={24} color={theme.colors.error9} />
             </UnassignAction>
@@ -94,19 +94,19 @@ export const LearnerQuizView:FunctionComponent<Props> = ({quizId}) => {
       try {
         const data = await getAssignedLearners(quizId)
         setData(data)
-      }  catch (e) {
+      } catch (e) {
         console.log("🚀 ~ fetchLeaners ~ e:", e)
       } finally {
         setLoading(false)
-      }      
+      }
     }
 
     fetchLearnerQuiz()
   }, [quizId])
-  
+
   return (
     <div>
-      <Table 
+      <Table
         loading={loading}
         data={data}
         columns={columns}

@@ -3,10 +3,10 @@ import toast from "react-hot-toast";
 import { Button } from "@shira/ui";
 import { FiDownload } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
-import { assignToQuiz } from "../../fetch/learner";
-import { handleHttpError } from "../../fetch/handleError";
-import { getErrorContent } from "../../utils/getErrorContent";
+import { handleHttpError } from "../../../../fetch/handleError";
+import { getErrorContent } from "../../../../utils/getErrorContent";
 import styled from "styled-components";
+import { assignToQuiz } from "../../../../fetch/learner_quiz";
 
 interface Props {
   openErrorModal: (content: string, retry: () => void) => void;

@@ -1,8 +1,8 @@
 import { FunctionComponent, useState } from "react";
 import styled from "styled-components";
 import { LearnerErrorModal } from "../modals/ErrorModal";
-import { AssignLearnerAction } from "./AssignLearnerAction";
-import { UnassignLearnerAction } from "./UnassignLearnerAction";
+import { AssignLearnerAction } from "../LearnerQuizView/components/AssignLearnerAction";
+import { UnassignLearnerAction } from "../LearnerQuizView/components/UnassignLearnerAction";
 
 interface Props { }
 

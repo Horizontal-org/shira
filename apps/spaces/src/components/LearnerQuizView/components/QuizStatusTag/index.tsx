@@ -7,7 +7,7 @@ interface Props {
   status: string
 }
 
-export const QuizStatusTag:FunctionComponent<Props> = ({
+export const QuizStatusTag: FunctionComponent<Props> = ({
   status
 }) => {
   const { t } = useTranslation()
@@ -15,31 +15,31 @@ export const QuizStatusTag:FunctionComponent<Props> = ({
 
   if (status === 'completed') {
     return (
-      <Wrapper 
+      <Wrapper
         customBackground={theme.colors.light.paleGreen}
         customColor={theme.colors.green9}
       >
         <div>
-          <IoCheckmarkCircleSharp size={12} color={theme.colors.green6}/>
-          <span>{ t('learners.table.submitted_tag')}</span>
+          <IoCheckmarkCircleSharp size={12} color={theme.colors.green6} />
+          <span>{t('learners.table.submitted_tag')}</span>
         </div>
       </Wrapper>
     )
-  } 
+  }
 
   if (status !== 'completed') {
     return (
-      <Wrapper 
+      <Wrapper
         customColor={theme.colors.error9}
         customBackground={theme.colors.light.paleRed}
       >
         <div>
-          <IoCloseCircleSharp size={12} color={theme.colors.error9}/>
-          <span>{ t('learners.table.not_submitted_tag')}</span>
+          <IoCloseCircleSharp size={12} color={theme.colors.error9} />
+          <span>{t('learners.table.not_submitted_tag')}</span>
         </div>
       </Wrapper>
     )
-  } 
+  }
 }
 
 const Wrapper = styled.div<{ customColor: string; customBackground: string }>`
@@ -50,11 +50,11 @@ const Wrapper = styled.div<{ customColor: string; customBackground: string }>`
     align-items: center;
     padding: 4px;
     gap: 4px;
-    background: ${props => props.customBackground};  
+    background: ${props => props.customBackground};
     border-radius: 2px;
-    
-    > span { 
+
+    > span {
       color: ${props => props.customColor};
-    }      
+    }
   }
 `
