@@ -87,8 +87,6 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
     [rowSelection]
   )
 
-  const hasSelectedLearners = selectedLearnerIds.length > 0;
-
   const handleBulkUnassignSuccess = useCallback(() => {
     fetchLearnerQuiz()
     setRowSelection({})
@@ -98,6 +96,8 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
     if (!selectedLearnerIds.length) return;
     setIsBulkUnassignModalOpen(true);
   }, [selectedLearnerIds.length]);
+
+  const hasSelectedLearners = selectedLearnerIds.length > 0;
 
   const columns = useMemo<ColumnDef<Learner>[]>(
     () => [

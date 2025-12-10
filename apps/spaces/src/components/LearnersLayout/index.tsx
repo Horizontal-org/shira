@@ -16,7 +16,6 @@ import { handleHttpError } from "../../fetch/handleError";
 import { inviteLearner } from "../../fetch/learner";
 import { getErrorContent } from "../../utils/getErrorContent";
 import { MdEmail, MdDelete } from "react-icons/md";
-import { PiDownloadSimpleBold } from "react-icons/pi";
 import { useLearners } from "../../hooks/useLearners";
 
 interface Props { }
