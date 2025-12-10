@@ -1,27 +1,27 @@
 import { Body1, Button, SettingsFishIcon, Table, TableCheckbox, styled, useTheme } from "@shira/ui";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { FunctionComponent, useCallback, useEffect, useMemo, useState } from "react"
 import { useTranslation } from "react-i18next";
 import { GoPersonFill } from "react-icons/go";
 import { FiUserPlus } from "react-icons/fi";
+import { IoPersonRemoveSharp } from "react-icons/io5";
 import { LearnerEmail, LearnerHeader, LearnerName, LearnerPersonInfo } from "../LearnersTable/components/LearnerHeader";
 import { QuizStatusTag } from "./components/QuizStatusTag";
 import { getAssignedLearners } from "../../fetch/learner_quiz";
 import { UnassignLearnerAction } from "./components/UnassignLearnerAction";
 import { LearnerErrorModal } from "../modals/ErrorModal";
+import { BulkUnassignLearnersAction } from "./components/BulkUnassignLearnersAction";
 
 interface Props {
   quizId: number,
-  onUnassignLearner: (learnerId: number) => void;
-  onUnassignLearners: (learnerIds: number[]) => void;
-  onAssignLearners: () => void;
+  onAssignLearners?: () => void;
+  onUnassignLearner?: (learnerId: number) => void;
 }
 
 export const LearnerQuizView: FunctionComponent<Props> = ({
   quizId,
-  onUnassignLearner,
-  onUnassignLearners,
-  onAssignLearners
+  onAssignLearners,
+  onUnassignLearner
 }) => {
   const { t } = useTranslation()
   const theme = useTheme()
@@ -32,7 +32,8 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
   const [retryAction, setRetryAction] = useState<(() => void) | null>(null)
 
   //Key of row selection is DB ID of learner
-  const [rowSelection, setRowSelection] = useState({})
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
+  const [isBulkUnassignModalOpen, setIsBulkUnassignModalOpen] = useState(false)
   console.log("🚀 ~ LearnersTable ~ rowSelection:", rowSelection)
 
   const openErrorModal = useCallback((content: string, retry: () => void) => {
@@ -58,6 +59,7 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
       setLoading(true)
       const data = await getAssignedLearners(quizId)
       setData(data)
+      setRowSelection({})
     } catch (e) {
       console.log("🚀 ~ fetchLeaners ~ e:", e);
     } finally {
@@ -67,12 +69,35 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
 
   const handleUnassignSuccess = useCallback((learnerId: number) => {
     fetchLearnerQuiz()
-    onUnassignLearner(learnerId)
+    onUnassignLearner?.(learnerId)
   }, [fetchLearnerQuiz, onUnassignLearner]);
 
   const handleAssignLearnersClick = useCallback(() => {
     onAssignLearners?.()
   }, [onAssignLearners]);
+
+  const selectedLearnerIds = useMemo(
+    () =>
+      Object.entries(rowSelection)
+        .filter(([, isSelected]) => Boolean(isSelected))
+        .map(([id]) => Number(id)),
+    [rowSelection]
+  )
+
+  const hasSelectedLearners = selectedLearnerIds.length > 0
+
+  const handleBulkUnassignSuccess = useCallback(() => {
+    fetchLearnerQuiz()
+    setRowSelection({})
+  }, [fetchLearnerQuiz])
+
+  const handleBulkUnassignClick = () => {
+    if (!selectedLearnerIds.length) {
+      return
+    }
+
+    setIsBulkUnassignModalOpen(true)
+  }
 
   const columns = useMemo<ColumnDef<any>[]>(
     () => [
@@ -151,6 +176,20 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
   return (
     <>
       <div>
+        {!isInitialLoading && !showEmptyState && (
+          <ActionBar>
+            {hasSelectedLearners && (
+              <Button
+                id="unassign-learners-bulk-button"
+                text={t('buttons.unassign_learners')}
+                type="primary"
+                leftIcon={<IoPersonRemoveSharp size={20} />}
+                color={theme.colors.error7}
+                onClick={handleBulkUnassignClick}
+              />
+            )}
+          </ActionBar>
+        )}
         {isInitialLoading ? (
           <LoadingState>
             <Body1>{t('loading_messages.loading')}</Body1>
@@ -194,6 +233,15 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
         onRetry={handleErrorModalRetry}
         onCancel={closeErrorModal}
       />
+
+      <BulkUnassignLearnersAction
+        quizId={quizId}
+        learnerIds={selectedLearnerIds}
+        isModalOpen={isBulkUnassignModalOpen}
+        setIsModalOpen={setIsBulkUnassignModalOpen}
+        openErrorModal={openErrorModal}
+        onSuccess={handleBulkUnassignSuccess}
+      />
     </>
   )
 }
@@ -217,4 +265,11 @@ const LoadingState = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 64px 16px;
+`;
+
+const ActionBar = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 16px;
 `;

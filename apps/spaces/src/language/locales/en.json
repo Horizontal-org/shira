@@ -233,7 +233,8 @@
         "unassign": "Unassign",
         "invite_learner": "Invite new learner",
         "invite_learners_bulk": "Import learners in bulk",
-        "delete_learners": "Delete learners"
+        "delete_learners": "Delete learners",
+        "unassign_learners": "Unassign from learners"
     },
     "modals": {
         "create_quiz": {
@@ -328,6 +329,10 @@
         "unassign_learner": {
             "title": "Unassign quiz from learner?",
             "subtitle": "Are you sure you want to unassign the quiz from this learner? Any quiz progress and results will be lost."
+        },
+        "unassign_learners": {
+            "title": "Unassign quiz from learners?",
+            "subtitle": "Are you sure you want to unassign the quiz from these learners? Any quiz progress and results will be lost."
         }
     },
     "error_messages": {
