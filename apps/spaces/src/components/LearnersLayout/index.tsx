@@ -16,7 +16,6 @@ import { handleHttpError } from "../../fetch/handleError";
 import { inviteLearner } from "../../fetch/learner";
 import { getErrorContent } from "../../utils/getErrorContent";
 import { MdEmail, MdDelete } from "react-icons/md";
-import { PiDownloadSimpleBold } from "react-icons/pi";
 import { useLearners } from "../../hooks/useLearners";
 
 interface Props { }
@@ -111,6 +110,7 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
       <Sidebar
         menuItems={menuItems}
         onCollapse={handleCollapse}
+        selectedItemLabel={menuItems.find(m => m.path === '/learner').label}
       />
 
       <LayoutMainContent $isCollapsed={isCollapsed}>

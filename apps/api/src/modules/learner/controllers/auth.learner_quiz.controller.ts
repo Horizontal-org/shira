@@ -8,6 +8,7 @@ import { ApiLogger } from '../logger/api-logger.service';
 import { TYPES as QUIZ_TYPES} from '../../quiz/interfaces'
 import { IValidateSpaceQuizService } from 'src/modules/quiz/interfaces/services/validate-space.quiz.service.interface';
 import { IGetAssignedLearnerService } from '../interfaces/services/get-assigned.learner.service.interface';
+import { IGetFreeLearnerService } from '../interfaces/services/get-free.learner.service.interface';
 
 @AuthController('learner-quiz')
 export class AuthLearnerQuizController {
@@ -15,7 +16,9 @@ export class AuthLearnerQuizController {
     @Inject(QUIZ_TYPES.services.IValidateSpaceQuizService)
     private readonly validateSpaceQuizService: IValidateSpaceQuizService,
     @Inject(TYPES.services.IGetAssignedLearnerService)
-    private readonly getAssignedLearnerService: IGetAssignedLearnerService
+    private readonly getAssignedLearnerService: IGetAssignedLearnerService,
+    @Inject(TYPES.services.IGetFreeLearnerService)
+    private readonly getFreeLearnerService: IGetFreeLearnerService
   ) { }
 
   @Get('assignments/:quizId')
@@ -27,6 +30,17 @@ export class AuthLearnerQuizController {
     await this.validateSpaceQuizService.execute(spaceId, quizId)
 
     return await this.getAssignedLearnerService.execute(quizId)
+  }
+
+  @Get('free/:quizId')
+  @Roles(Role.SpaceAdmin)
+  async getFreeLearners(
+    @SpaceId() spaceId: number,
+    @Param('quizId', ParseIntPipe) quizId: number,
+  ){
+    await this.validateSpaceQuizService.execute(spaceId, quizId)
+
+    return await this.getFreeLearnerService.execute(quizId, spaceId)
   }
 }
 

@@ -11,7 +11,7 @@ export class LearnerQuiz {
   id: number;
 
   @Expose()
-  @Column({ name: 'quiz_id', type: 'int' })
+  @Column({ name: 'quiz_id', type: 'int', nullable: true })
   quizId: number;
 
   @Expose()

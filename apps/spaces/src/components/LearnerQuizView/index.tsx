@@ -1,4 +1,4 @@
-import { styled, Table, TableCheckbox, useTheme } from "@shira/ui";
+import { Button, styled, Table, TableCheckbox, useTheme } from "@shira/ui";
 import { ColumnDef } from "@tanstack/react-table";
 import axios from "axios"
 import { FunctionComponent, useEffect, useMemo, useState } from "react"
@@ -8,20 +8,24 @@ import { LearnerEmail, LearnerHeader, LearnerName, LearnerPersonInfo } from "../
 import { QuizStatusTag } from "./components/QuizStatusTag";
 import { IoPersonRemoveSharp } from "react-icons/io5";
 import { getAssignedLearners } from "../../fetch/learner_quiz";
+import { AssignLearnersLayover } from "./components/AssignLearnersLayover";
 
 interface Props {
   quizId: number
+  quizTitle: string;
 }
 
-export const LearnerQuizView:FunctionComponent<Props> = ({quizId}) => {
+export const LearnerQuizView:FunctionComponent<Props> = ({
+  quizId,
+  quizTitle
+}) => {
   const { t } = useTranslation()
   const theme = useTheme()
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
-  
+  const [showAssignLayover, setAssignLayover] = useState(false)
   //Key of row selection is DB ID of learner
   const [rowSelection, setRowSelection] = useState({})
-  console.log("🚀 ~ LearnersTable ~ rowSelection:", rowSelection)
 
   const columns = useMemo<ColumnDef<any>[]>(
     () => [
@@ -106,6 +110,15 @@ export const LearnerQuizView:FunctionComponent<Props> = ({quizId}) => {
   
   return (
     <div>
+      <ActionsWrapper>
+        <Button 
+          text="Assign to learners"
+          onClick={() => { 
+            setAssignLayover(true) 
+            window.scrollTo(0,0)
+          }}
+        />
+      </ActionsWrapper>
       <Table 
         loading={loading}
         data={data}
@@ -121,6 +134,13 @@ export const LearnerQuizView:FunctionComponent<Props> = ({quizId}) => {
           </colgroup>
         )}
       />
+      { showAssignLayover && (
+        <AssignLearnersLayover 
+          title={`Assign "${quizTitle}" to learners`}
+          quizId={quizId}
+          onExit={() => { setAssignLayover(false) }}
+        />
+      )}
     </div>
   )
 }
@@ -129,4 +149,9 @@ const UnassignAction = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
+`
+
+const ActionsWrapper = styled.div`
+  display: flex;
+  padding: 12px 0;
 `

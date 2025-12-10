@@ -205,6 +205,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
 
               <TabContainer
                 quizId={quiz.id}
+                quizTitle={quiz.title}
                 quizQuestions={quiz.quizQuestions}
                 resultsData={resultsData}
                 resultsLoading={resultsLoading}

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { FiHome, FiHelpCircle, FiLogOut } from 'react-icons/fi';
-import { GoPersonFill } from 'react-icons/go';
+import { IoPersonOutline } from 'react-icons/io5';
 
 interface NavigateFunction {
   (path: string): void;
@@ -26,7 +26,7 @@ const createDefaultMenuItems = (): MenuItem[] => [
     path: defaultAdminPaths.dashboard
   },
   {
-    icon: <GoPersonFill id='learner-icon' size={24} color='white' />,
+    icon: <IoPersonOutline id='learner-icon' size={24} color='white' />,
     label: 'Learners',
     path: defaultAdminPaths.learners
   },
