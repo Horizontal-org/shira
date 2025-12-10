@@ -3,7 +3,6 @@ import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { FunctionComponent, useCallback, useEffect, useMemo, useState } from "react"
 import { useTranslation } from "react-i18next";
 import { GoPersonFill } from "react-icons/go";
-import { FiUserPlus } from "react-icons/fi";
 import { IoPersonRemoveSharp } from "react-icons/io5";
 import { LearnerEmail, LearnerHeader, LearnerName, LearnerPersonInfo } from "../LearnersTable/components/LearnerHeader";
 import { QuizStatusTag } from "./components/QuizStatusTag";
@@ -13,6 +12,13 @@ import { LearnerErrorModal } from "../modals/ErrorModal";
 import { BulkUnassignLearnersAction } from "./components/BulkUnassignLearnersAction";
 import { AssignLearnerAction } from "./components/AssignLearnerAction";
 
+interface Learner {
+  id: number;
+  name: string;
+  email: string;
+  status: string;
+}
+
 interface Props {
   quizId: number,
   onAssignLearners?: () => void;
@@ -21,13 +27,12 @@ interface Props {
 
 export const LearnerQuizView: FunctionComponent<Props> = ({
   quizId,
-  onAssignLearners,
   onUnassignLearner
 }) => {
   const { t } = useTranslation()
   const theme = useTheme()
   const [loading, setLoading] = useState(true)
-  const [data, setData] = useState([])
+  const [data, setData] = useState<Learner[]>([])
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [retryAction, setRetryAction] = useState<(() => void) | null>(null)
@@ -73,10 +78,6 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
     onUnassignLearner?.(learnerId)
   }, [fetchLearnerQuiz, onUnassignLearner]);
 
-  const handleAssignLearnersClick = useCallback(() => {
-    onAssignLearners?.()
-  }, [onAssignLearners]);
-
   const selectedLearnerIds = useMemo(
     () =>
       Object.entries(rowSelection)
@@ -85,22 +86,19 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
     [rowSelection]
   )
 
-  const hasSelectedLearners = selectedLearnerIds.length > 0
+  const hasSelectedLearners = selectedLearnerIds.length > 0;
 
   const handleBulkUnassignSuccess = useCallback(() => {
     fetchLearnerQuiz()
     setRowSelection({})
   }, [fetchLearnerQuiz])
 
-  const handleBulkUnassignClick = () => {
-    if (!selectedLearnerIds.length) {
-      return
-    }
+  const handleBulkUnassignClick = useCallback(() => {
+    if (!selectedLearnerIds.length) return;
+    setIsBulkUnassignModalOpen(true);
+  }, [selectedLearnerIds.length]);
 
-    setIsBulkUnassignModalOpen(true)
-  }
-
-  const columns = useMemo<ColumnDef<any>[]>(
+  const columns = useMemo<ColumnDef<Learner>[]>(
     () => [
       {
         id: 'select',
@@ -171,42 +169,48 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
     fetchLearnerQuiz()
   }, [fetchLearnerQuiz])
 
-  const isInitialLoading = loading && data.length === 0;
-  const showEmptyState = !loading && data.length === 0;
+  const hasData = data.length > 0;
+  const showLoadingState = loading && !hasData;
+  const showEmptyState = !loading && !hasData;
 
   return (
     <>
       <div>
-        {!isInitialLoading && !showEmptyState && (
-          <ActionBar>
+        {!showLoadingState && !showEmptyState && (
+          <DescriptionWrapper>
+            <LeftActions>
+              <Body1>{t("learner_quiz_tab.table.description")}</Body1>
+            </LeftActions>
+
             {hasSelectedLearners && (
-              <Button
-                id="unassign-learners-bulk-button"
-                text={t('buttons.unassign_learners')}
-                type="primary"
-                leftIcon={<IoPersonRemoveSharp size={20} />}
-                color={theme.colors.error7}
-                onClick={handleBulkUnassignClick}
-              />
+              <RightActions>
+                <Button
+                  id="unassign-learners-bulk-button"
+                  text={t("buttons.unassign_learners")}
+                  type="primary"
+                  leftIcon={<IoPersonRemoveSharp size={20} />}
+                  color={theme.colors.error7}
+                  onClick={handleBulkUnassignClick}
+                />
+              </RightActions>
             )}
-          </ActionBar>
+          </DescriptionWrapper>
         )}
-        {isInitialLoading ? (
+
+        {showLoadingState ? (
           <LoadingState>
-            <Body1>{t('loading_messages.loading')}</Body1>
+            <Body1>{t("loading_messages.loading")}</Body1>
           </LoadingState>
         ) : showEmptyState ? (
           <EmptyStateContainer>
             <SettingsFishIcon />
             <EmptyDescription>
-              {t('learner_quiz_tab.empty_state.description')}
+              {t("learner_quiz_tab.empty_state.description")}
             </EmptyDescription>
-            <Button
-              leftIcon={<FiUserPlus size={18} />}
-              text={t('learner_quiz_tab.empty_state.button')}
-              type="primary"
-              color={theme.colors.green7}
-              onClick={handleAssignLearnersClick}
+            <AssignLearnerAction
+              learnerIds={selectedLearnerIds}
+              quizId={quizId}
+              openErrorModal={openErrorModal}
             />
           </EmptyStateContainer>
         ) : (
@@ -216,14 +220,14 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
             columns={columns}
             rowSelection={rowSelection}
             setRowSelection={setRowSelection}
-            colGroups={(
+            colGroups={
               <colgroup>
                 <col style={{ width: "50px" }} />
                 <col style={{ width: "50%" }} />
                 <col />
                 <col style={{ width: "80px" }} />
               </colgroup>
-            )}
+            }
           />
         )}
       </div>
@@ -235,12 +239,6 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
         onCancel={closeErrorModal}
       />
 
-      <AssignLearnerAction
-        learnerIds={selectedLearnerIds}
-        quizId={quizId}
-        openErrorModal={openErrorModal}
-      />
-
       <BulkUnassignLearnersAction
         quizId={quizId}
         learnerIds={selectedLearnerIds}
@@ -250,8 +248,8 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
         onSuccess={handleBulkUnassignSuccess}
       />
     </>
-  )
-}
+  );
+};
 
 const EmptyStateContainer = styled.div`
   display: flex;
@@ -275,8 +273,21 @@ const LoadingState = styled.div`
   padding: 64px 16px;
 `;
 
-const ActionBar = styled.div`
+const DescriptionWrapper = styled.div`
   display: flex;
-  justify-content: flex-end;
-  padding-bottom: 16px;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 25px;
+`;
+
+const LeftActions = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+const RightActions = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
 `;

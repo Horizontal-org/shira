@@ -59,9 +59,7 @@ export const UnassignLearnerAction: FunctionComponent<Props> = ({
 
   return (
     <>
-      <IconButton
-      type="button"
-        onClick={() => setIsConfirmModalOpen(true)}>
+      <IconButton type="button" onClick={() => setIsConfirmModalOpen(true)}>
         <IoPersonRemoveSharp size={24} color={theme.colors.error9} />
       </IconButton>
 

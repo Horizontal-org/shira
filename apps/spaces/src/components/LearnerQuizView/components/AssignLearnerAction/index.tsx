@@ -1,8 +1,8 @@
 import { FunctionComponent } from "react";
 import toast from "react-hot-toast";
-import { Button } from "@shira/ui";
-import { FiDownload } from "react-icons/fi";
+import { Button, useTheme } from "@shira/ui";
 import { useTranslation } from "react-i18next";
+import { BsFillPersonPlusFill } from "react-icons/bs";
 import { handleHttpError } from "../../../../fetch/handleError";
 import { getErrorContent } from "../../../../utils/getErrorContent";
 import styled from "styled-components";
@@ -16,13 +16,14 @@ interface Props {
 
 export const AssignLearnerAction: FunctionComponent<Props> = ({ learnerIds, quizId, openErrorModal }) => {
   const { t } = useTranslation();
+  const theme = useTheme();
 
   const learnersPayload = learnerIds.map((learnerId) => ({
     learnerId,
     quizId,
   }));
 
-  const assignQuizToLearner = async () => {
+  const assign = async () => {
     try {
       const response = await assignToQuiz(learnersPayload);
 
@@ -41,23 +42,24 @@ export const AssignLearnerAction: FunctionComponent<Props> = ({ learnerIds, quiz
       if (response.data.status === "Error") {
         const content = getErrorContent("error_messages", "assign_quiz_failed", response.data.message);
 
-        openErrorModal(content, assignQuizToLearner);
+        openErrorModal(content, assign);
       }
     } catch (error) {
       const e = handleHttpError(error);
       const content = getErrorContent("error_messages", "assign_quiz_failed", e.message);
 
-      openErrorModal(content, assignQuizToLearner);
+      openErrorModal(content, assign);
     }
   };
 
   return (
     <ActionContainer>
       <Button
-        text="Assign to quiz"
-        type="outline"
-        leftIcon={<FiDownload />}
-        onClick={assignQuizToLearner}
+        text="Assign to learners"
+        type="primary"
+        leftIcon={<BsFillPersonPlusFill />}
+        color={theme.colors.green7}
+        onClick={assign}
       />
     </ActionContainer>
   );

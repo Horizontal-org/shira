@@ -80,8 +80,10 @@
     },
     "learner_quiz_tab": {
         "empty_state": {
-            "description": "This quiz doesn't have any learners yet. Click the \"Assign to learners\" button to get started.",
-            "button": "Assign to learners"
+            "description": "This quiz doesn't have any learners yet. Click the \"Assign to learners\" button to get started."
+        },
+        "table": {
+            "description": "These are the learners who have been assigned this quiz."
         }
     },
     "create_question": {
@@ -234,7 +236,8 @@
         "invite_learner": "Invite new learner",
         "invite_learners_bulk": "Import learners in bulk",
         "delete_learners": "Delete learners",
-        "unassign_learners": "Unassign from learners"
+        "unassign_learners": "Unassign from learners",
+        "assign_learners": "Assign to learners"
     },
     "modals": {
         "create_quiz": {

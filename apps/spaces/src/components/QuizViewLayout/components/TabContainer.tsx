@@ -86,7 +86,6 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
         {activeTab === 'learners' && (
           <LearnerQuizView
             quizId={quizId}
-            onAssignLearners={() => { /* Logic for assigning learners can be added here */ }}
           />
         )}
 
