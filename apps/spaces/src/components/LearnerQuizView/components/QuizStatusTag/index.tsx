@@ -1,7 +1,6 @@
 import { styled, useTheme } from "@shira/ui";
 import { FunctionComponent } from "react";
 import { useTranslation } from "react-i18next";
-import { AiOutlineClockCircle } from "react-icons/ai";
 import { IoCheckmarkCircleSharp, IoCloseCircleSharp } from "react-icons/io5";
 
 interface Props {
