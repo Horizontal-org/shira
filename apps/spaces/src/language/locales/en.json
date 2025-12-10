@@ -32,8 +32,8 @@
             "invited_at": "Date invited",
             "invited_tag": "Invited",
             "registered_tag": "Registered",
-            "submited_tag": "Submited",
-            "not_submited_tag": "Not submited"
+            "submitted_tag": "Submitted",
+            "not_submitted_tag": "Not submitted"
         }
     },
     "quizzes": {
