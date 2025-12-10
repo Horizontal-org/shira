@@ -17,7 +17,7 @@ export class GetAssignedLearnerService implements IGetAssignedLearnerService {
 
   private readonly logger = new ApiLogger(GetAssignedLearnerService.name);
 
-  async execute(quizId: number) {
+  async execute(quizId: number): Promise<GetLearnersQuizzesDto[]> {
     let learnerQuizzes = []
     try {
       learnerQuizzes = await this.learnerQuizRepo
