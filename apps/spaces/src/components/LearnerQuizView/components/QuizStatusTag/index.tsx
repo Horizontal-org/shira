@@ -21,7 +21,7 @@ export const QuizStatusTag:FunctionComponent<Props> = ({
       >
         <div>
           <IoCheckmarkCircleSharp size={12} color={theme.colors.green6}/>
-          <span>{ t('learners.table.submited_tag')}</span>
+          <span>{ t('learners.table.submitted_tag')}</span>
         </div>
       </Wrapper>
     )
@@ -35,7 +35,7 @@ export const QuizStatusTag:FunctionComponent<Props> = ({
       >
         <div>
           <IoCloseCircleSharp size={12} color={theme.colors.error9}/>
-          <span>{ t('learners.table.not_submited_tag')}</span>
+          <span>{ t('learners.table.not_submitted_tag')}</span>
         </div>
       </Wrapper>
     )

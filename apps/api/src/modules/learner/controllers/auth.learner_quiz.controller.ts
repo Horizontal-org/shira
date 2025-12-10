@@ -10,14 +10,13 @@ import { IValidateSpaceQuizService } from 'src/modules/quiz/interfaces/services/
 import { IGetAssignedLearnerService } from '../interfaces/services/get-assigned.learner.service.interface';
 
 @AuthController('learner-quiz')
+export class AuthLearnerQuizController {
   constructor(
     @Inject(QUIZ_TYPES.services.IValidateSpaceQuizService)
     private readonly validateSpaceQuizService: IValidateSpaceQuizService,
     @Inject(TYPES.services.IGetAssignedLearnerService)
     private readonly getAssignedLearnerService: IGetAssignedLearnerService
   ) { }
-
-  private readonly logger = new ApiLogger(AuthLearnerQuizController.name);
 
   @Get('assignments/:quizId')
   @Roles(Role.SpaceAdmin)

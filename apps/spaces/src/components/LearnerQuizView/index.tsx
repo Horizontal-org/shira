@@ -7,6 +7,7 @@ import { GoPersonFill } from "react-icons/go";
 import { LearnerEmail, LearnerHeader, LearnerName, LearnerPersonInfo } from "../LearnersTable/components/LearnerHeader";
 import { QuizStatusTag } from "./components/QuizStatusTag";
 import { IoPersonRemoveSharp } from "react-icons/io5";
+import { getAssignedLearners } from "../../fetch/learner_quiz";
 
 interface Props {
   quizId: number
@@ -91,9 +92,8 @@ export const LearnerQuizView:FunctionComponent<Props> = ({quizId}) => {
   useEffect(() => {
     const fetchLearnerQuiz = async () => {
       try {
-        const res = await axios.get(`${process.env.REACT_APP_API_URL}/learner-quiz/assignments/${quizId}`)
-        console.log("🚀 ~ fetchLearnerQuiz ~ res:", res)
-        setData(res.data)
+        const data = await getAssignedLearners(quizId)
+        setData(data)
       }  catch (e) {
         console.log("🚀 ~ fetchLeaners ~ e:", e)
       } finally {

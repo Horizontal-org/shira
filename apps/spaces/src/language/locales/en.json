@@ -62,7 +62,8 @@
         },
         "tabs": {
             "questions": "Questions",
-            "results": "Results"
+            "results": "Results",
+            "learners": "Learners"
         }
     },
     "questions_tab": {

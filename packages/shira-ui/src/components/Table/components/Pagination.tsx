@@ -16,10 +16,16 @@ export const Pagination:FunctionComponent<Props> = ({
   const theme = useTheme()
   const offSetPageIndex = table.getState().pagination.pageIndex + 1
 
+  const { pageIndex, pageSize } = table.getState().pagination;
+  const total = table.getPreFilteredRowModel().rows.length;
+
+  const start = total === 0 ? 0 : pageIndex * pageSize + 1;
+  const end = Math.min((pageIndex + 1) * pageSize, total);
+
   return (
     <PaginationWrapper>
       <StyledBody2SemiBold>
-        {`${table.getState().pagination.pageIndex * table.getState().pagination.pageSize } - ${offSetPageIndex * table.getState().pagination.pageSize} of ${table.getPreFilteredRowModel().rows.length}`}
+        {`${start} - ${end} of ${total}`}
       </StyledBody2SemiBold>
       <PaginationButtons>
         <PaginationButton 
