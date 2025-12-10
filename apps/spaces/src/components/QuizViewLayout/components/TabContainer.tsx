@@ -37,13 +37,16 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   hasResults
 }) => {
   const { t } = useTranslation();
-  
+
   const [activeTab, setActiveTab] = useState<TabType>('questions');
   const [isUnassignModalOpen, setIsUnassignModalOpen] = useState(false);
 
-  const handleOpenUnassignModal = (learnerId: number) => {
+  const handleOpenUnassignModal = () => {
     setIsUnassignModalOpen(true);
-    // Additional logic for unassigning learner can be added here
+  }
+
+  const handleOpenBulkUnassignModal = () => {
+    setIsUnassignModalOpen(true);
   }
 
   return (
@@ -93,6 +96,8 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
           <LearnerQuizView
             quizId={quizId}
             onUnassignLearner={handleOpenUnassignModal}
+            onUnassignLearners={handleOpenBulkUnassignModal}
+            onAssignLearners={() => { /* Logic for assigning learners can be added here */ }}
           />
         )}
 

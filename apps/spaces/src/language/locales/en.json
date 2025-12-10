@@ -78,6 +78,12 @@
     "no_questions": {
         "subtitle": "You don't have any questions yet. Create your own question or add one from the Shira library."
     },
+    "learner_quiz_tab": {
+        "empty_state": {
+            "description": "This quiz doesn't have any learners yet. Click the \"Assign to learners\" button to get started.",
+            "button": "Assign to learners"
+        }
+    },
     "create_question": {
         "header_title": "Create a new question",
         "tabs": {
