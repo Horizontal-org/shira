@@ -64,6 +64,10 @@
             "questions": "Questions",
             "results": "Results",
             "learners": "Learners"
+        },
+        "visibility": {
+            "public": "Public",
+            "private": "Private"
         }
     },
     "questions_tab": {

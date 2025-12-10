@@ -4,7 +4,6 @@ import { AuthController } from 'src/utils/decorators/auth-controller.decorator';
 import { Roles } from 'src/modules/auth/decorators/roles.decorators';
 import { Role } from 'src/modules/user/domain/role.enum';
 import { SpaceId } from 'src/modules/auth/decorators';
-import { ApiLogger } from '../logger/api-logger.service';
 import { TYPES as QUIZ_TYPES} from '../../quiz/interfaces'
 import { IValidateSpaceQuizService } from 'src/modules/quiz/interfaces/services/validate-space.quiz.service.interface';
 import { IGetAssignedLearnerService } from '../interfaces/services/get-assigned.learner.service.interface';

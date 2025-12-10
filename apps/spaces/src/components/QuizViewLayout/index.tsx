@@ -11,7 +11,8 @@ import {
   CopyUrlIcon,
   DeleteIcon,
   Toggle,
-  BetaBanner
+  BetaBanner,
+  Body2Regular
 } from "@shira/ui";
 import { TabContainer } from './components/TabContainer'
 import { shallow } from "zustand/shallow";
@@ -26,7 +27,7 @@ import { UnpublishedQuizModal } from "../modals/UnpublishedQuizModal";
 import { handleCopyUrl, handleCopyUrlAndNotify } from "../../utils/quiz";
 import { getQuizResults, PublicQuizResultsResponse } from "../../fetch/results";
 import { useTranslation } from "react-i18next";
-
+import { MdLockOutline } from "react-icons/md";
 
 interface Props { }
 
@@ -77,8 +78,6 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
       navigate('/dashboard')
     }
   }
-
-
 
   useEffect(() => {
     const fetchResults = async () => {
@@ -142,6 +141,11 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     return resultsData && resultsData.metrics && !!(resultsData.metrics.completedCount)
   }, [resultsData])
 
+  function getQuizVisibility() {
+    const translationKey = `quiz.visibility.${quiz.visibility}`;
+    return t(translationKey);
+  };
+
   return (
     <Container>
       <Sidebar
@@ -156,11 +160,11 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
           {quiz ? (
             <>
               <Wrapper>
-                <Header>
-                  <div>
-                    <H2 id="quiz-title">{quiz.title} <VisibilityTag>{quiz.visibility}</VisibilityTag></H2>
-                    <Body1 id="quiz-subtitle">{t('quiz.subtitle')}</Body1>
-                  </div>
+                <ActionHeader>
+                  <VisibilityTag>
+                    <MdLockOutline size={16} />
+                    <Body2Regular>{getQuizVisibility()}</Body2Regular>
+                  </VisibilityTag>
                   <Toggle
                     size='big'
                     isEnabled={isPublished}
@@ -168,6 +172,12 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                     rightLabel={t('quiz.publish_toggle.published')}
                     leftLabel={t('quiz.publish_toggle.unpublished')}
                   />
+                </ActionHeader>
+                <Header>
+                  <div>
+                    <H2 id="quiz-title">{quiz.title}</H2>
+                    <Body1 id="quiz-subtitle">{t('quiz.subtitle')}</Body1>
+                  </div>
                 </Header>
                 <ButtonsContainer>
                   <LeftButtons>
@@ -324,6 +334,12 @@ const Header = styled.div`
   justify-content: space-between;
 `
 
+const ActionHeader = styled.div`
+  padding: 0px 16px;
+  display: flex;
+  justify-content: space-between;
+`
+
 const Wrapper = styled.div`
   padding: 16px;
   display: flex;
@@ -348,5 +364,10 @@ const QuizWarningNote = styled.span`
 `;
 
 const VisibilityTag = styled.span`
-  color: ${props => props.theme.primary.dark};
-`
+  display: flex;
+  align-items: center;
+  border: 1px solid ${props => props.theme.colors.dark.darkGrey};
+  border-radius: 12px;
+  padding: 8px 12px;
+  gap: 8px;
+`;
