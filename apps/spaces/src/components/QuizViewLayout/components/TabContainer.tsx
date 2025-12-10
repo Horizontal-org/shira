@@ -38,7 +38,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<TabType>('questions');
   const { t } = useTranslation();
-  
+
   return (
     <Container>
       <Header>
@@ -85,6 +85,9 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
         {activeTab === 'learners' && (
           <LearnerQuizView
             quizId={quizId}
+            onUnassignLearner={(learnerId: number) => {
+              console.log(`Unassign learner with ID: ${learnerId}`);
+            }}
           />
         )}
 
@@ -94,7 +97,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
             loading={resultsLoading}
           />
         )}
- 
+
       </div>
     </Container>
   );

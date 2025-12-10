@@ -9,10 +9,14 @@ import { IoPersonRemoveSharp } from "react-icons/io5";
 import { getAssignedLearners } from "../../fetch/learner_quiz";
 
 interface Props {
-  quizId: number
+  quizId: number,
+  onUnassignLearner: (learnerId: number) => void;
 }
 
-export const LearnerQuizView: FunctionComponent<Props> = ({ quizId }) => {
+export const LearnerQuizView: FunctionComponent<Props> = ({
+  quizId,
+  onUnassignLearner
+}) => {
   const { t } = useTranslation()
   const theme = useTheme()
   const [loading, setLoading] = useState(true)
@@ -77,7 +81,7 @@ export const LearnerQuizView: FunctionComponent<Props> = ({ quizId }) => {
         cell: ({ row }) => {
           return (
             <UnassignAction
-              onClick={() => { console.log('UNASSING') }}
+              onClick={() => { onUnassignLearner(row.original.id) }}
             >
               <IoPersonRemoveSharp size={24} color={theme.colors.error9} />
             </UnassignAction>
