@@ -27,7 +27,7 @@ export const AssignLearnerAction: FunctionComponent<Props> = ({ learnerIds, quiz
     try {
       const response = await assignToQuiz(learnersPayload);
 
-      if (response.data.status !== "Error") {
+      if (response.status !== "Error") {
         const message = () => {
           if (learnerIds.length === 1) {
             return t(`success_messages.learner_assigned`, { count: learnerIds.length });
@@ -39,8 +39,8 @@ export const AssignLearnerAction: FunctionComponent<Props> = ({ learnerIds, quiz
         toast.success(message, { duration: 3000 });
       }
 
-      if (response.data.status === "Error") {
-        const content = getErrorContent("error_messages", "assign_quiz_failed", response.data.message);
+      if (response.status === "Error") {
+        const content = getErrorContent("error_messages", "assign_quiz_failed", response.message);
 
         openErrorModal(content, assign);
       }

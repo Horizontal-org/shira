@@ -49,21 +49,13 @@ export const BulkUnassignLearnersAction: FunctionComponent<Props> = ({
     try {
       const response = await unassignFromQuiz(learnersPayload);
 
-      if (response.data.status === "Error") {
-        const content = getErrorContent("error_messages", "unassign_quiz_failed", response.data.message);
+      if (response.status === "Error") {
+        const content = getErrorContent("error_messages", "unassign_quiz_failed", response.message);
         openErrorModal(content, unassignSelectedLearners);
         return;
       }
 
-      const message = () => {
-        if (learnerIds.length === 1) {
-          return t("success_messages.learner_unassigned", { count: learnerIds.length });
-        }
-
-        return t("success_messages.learners_unassigned_plural", { count: learnerIds.length });
-      };
-
-      toast.success(message(), { duration: 3000 });
+      toast.success(getSuccessMessage(), { duration: 3000 });
       onSuccess();
       closeModal();
     } catch (error) {
@@ -74,6 +66,15 @@ export const BulkUnassignLearnersAction: FunctionComponent<Props> = ({
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const getSuccessMessage = () => {
+    const key =
+      learnerIds.length === 1
+        ? "success_messages.learner_unassigned"
+        : "success_messages.learners_unassigned_plural";
+
+    return t(key, { count: learnerIds.length });
   };
 
   return (

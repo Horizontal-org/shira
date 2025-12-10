@@ -32,6 +32,7 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
   const { t } = useTranslation()
   const theme = useTheme()
   const [loading, setLoading] = useState(true)
+
   const [data, setData] = useState<Learner[]>([])
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
@@ -191,6 +192,7 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
                   leftIcon={<IoPersonRemoveSharp size={20} />}
                   color={theme.colors.error7}
                   onClick={handleBulkUnassignClick}
+                  disabled={!hasSelectedLearners}
                 />
               </RightActions>
             )}

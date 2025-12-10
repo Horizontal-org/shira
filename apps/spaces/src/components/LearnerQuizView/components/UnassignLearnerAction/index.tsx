@@ -31,7 +31,7 @@ export const UnassignLearnerAction: FunctionComponent<Props> = ({
     try {
       const response = await unassignFromQuiz(learners);
 
-      if (response.data.status !== "Error") {
+      if (response.status !== "Error") {
         const message = () => {
           if (learners.length === 1) {
             return t(`success_messages.learner_unassigned`, { count: learners.length });
@@ -44,8 +44,8 @@ export const UnassignLearnerAction: FunctionComponent<Props> = ({
         onSuccess?.();
       }
 
-      if (response.data.status === "Error") {
-        const content = getErrorContent("error_messages", "unassign_quiz_failed", response.data.message);
+      if (response.status === "Error") {
+        const content = getErrorContent("error_messages", "unassign_quiz_failed", response.message);
 
         openErrorModal(content, unassignQuizToLearner);
       }
