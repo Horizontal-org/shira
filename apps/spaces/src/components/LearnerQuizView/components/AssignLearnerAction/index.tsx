@@ -9,24 +9,30 @@ import styled from "styled-components";
 import { assignToQuiz } from "../../../../fetch/learner_quiz";
 
 interface Props {
+  learnerIds: number[];
+  quizId: number;
   openErrorModal: (content: string, retry: () => void) => void;
 }
 
-export const AssignLearnerAction: FunctionComponent<Props> = ({ openErrorModal }) => {
+export const AssignLearnerAction: FunctionComponent<Props> = ({ learnerIds, quizId, openErrorModal }) => {
   const { t } = useTranslation();
+
+  const learnersPayload = learnerIds.map((learnerId) => ({
+    learnerId,
+    quizId,
+  }));
 
   const assignQuizToLearner = async () => {
     try {
-      const learners = [{ learnerId: 9, quizId: 2 }, { learnerId: 8, quizId: 2 }]; // Mock of learners
-      const response = await assignToQuiz(learners);
+      const response = await assignToQuiz(learnersPayload);
 
       if (response.data.status !== "Error") {
         const message = () => {
-          if (learners.length === 1) {
-            return t(`success_messages.learner_assigned`, { count: learners.length });
+          if (learnerIds.length === 1) {
+            return t(`success_messages.learner_assigned`, { count: learnerIds.length });
           }
 
-          return t(`success_messages.learners_assigned_plural`, { count: learners.length });
+          return t(`success_messages.learners_assigned_plural`, { count: learnerIds.length });
         };
 
         toast.success(message, { duration: 3000 });

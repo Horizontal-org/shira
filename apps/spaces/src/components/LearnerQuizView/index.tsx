@@ -11,6 +11,7 @@ import { getAssignedLearners } from "../../fetch/learner_quiz";
 import { UnassignLearnerAction } from "./components/UnassignLearnerAction";
 import { LearnerErrorModal } from "../modals/ErrorModal";
 import { BulkUnassignLearnersAction } from "./components/BulkUnassignLearnersAction";
+import { AssignLearnerAction } from "./components/AssignLearnerAction";
 
 interface Props {
   quizId: number,
@@ -232,6 +233,12 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
         errorMessage={errorMessage}
         onRetry={handleErrorModalRetry}
         onCancel={closeErrorModal}
+      />
+
+      <AssignLearnerAction
+        learnerIds={selectedLearnerIds}
+        quizId={quizId}
+        openErrorModal={openErrorModal}
       />
 
       <BulkUnassignLearnersAction
