@@ -1,6 +1,6 @@
 import { Body1, Button, SettingsFishIcon, Table, TableCheckbox, styled, useTheme } from "@shira/ui";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
-import { FunctionComponent, useCallback, useEffect, useMemo, useState } from "react"
+import { FunctionComponent, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GoPersonFill } from "react-icons/go";
 import { IoPersonRemoveSharp } from "react-icons/io5";
@@ -8,7 +8,6 @@ import { LearnerEmail, LearnerHeader, LearnerName, LearnerPersonInfo } from "../
 import { QuizStatusTag } from "./components/QuizStatusTag";
 import { AssignRequest, getAssignedLearners } from "../../fetch/learner_quiz";
 import { LearnerErrorModal } from "../modals/ErrorModal";
-import { BulkUnassignLearnersAction } from "./components/BulkUnassignLearnersAction";
 import { AssignLearnerAction } from "./components/AssignLearnerAction";
 import { UnassignLearnerAction } from "./components/UnassignLearnerAction";
 
@@ -20,7 +19,7 @@ interface Learner {
 }
 
 interface Props {
-  quizId: number,
+  quizId: number;
   onAssignLearners?: () => void;
   onUnassignLearner?: (learnerId: number) => void;
 }
@@ -29,56 +28,56 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
   quizId,
   onUnassignLearner
 }) => {
-  const { t } = useTranslation()
-  const theme = useTheme()
-  const [loading, setLoading] = useState(true)
+  const { t } = useTranslation();
+  const theme = useTheme();
 
-  const [data, setData] = useState<Learner[]>([])
-  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false)
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
-  const [retryAction, setRetryAction] = useState<(() => void) | null>(null)
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<Learner[]>([]);
 
-  //Key of row selection is DB ID of learner
-  const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
-  const [isBulkUnassignModalOpen, setIsBulkUnassignModalOpen] = useState(false)
-  const [pendingUnassignLearner, setPendingUnassignLearner] = useState<AssignRequest | null>(null)
-  console.log("🚀 ~ LearnersTable ~ rowSelection:", rowSelection)
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [retryAction, setRetryAction] = useState<(() => void) | null>(null);
 
-  const openErrorModal = useCallback((content: string, retry: () => void) => {
-    setErrorMessage(content)
-    setRetryAction(() => retry)
-    setIsErrorModalOpen(true)
-  }, [])
+  // Key of row selection is DB ID of learner
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+
+  const [pendingUnassignLearners, setPendingUnassignLearners] = useState<AssignRequest[] | null>(null);
+
+  const isUnassignModalOpen = Boolean(pendingUnassignLearners);
+
+  const openErrorModal = useCallback(
+    (content: string, retry: () => void) => {
+      setErrorMessage(content);
+      setRetryAction(() => retry);
+      setIsErrorModalOpen(true);
+    },
+    []
+  );
 
   const closeErrorModal = useCallback(() => {
-    setIsErrorModalOpen(false)
-    setRetryAction(null)
-    setErrorMessage(null)
+    setIsErrorModalOpen(false);
+    setRetryAction(null);
+    setErrorMessage(null);
   }, []);
 
   const handleErrorModalRetry = useCallback(() => {
-    const retry = retryAction
-    closeErrorModal()
-    retry?.()
+    const retry = retryAction;
+    closeErrorModal();
+    retry?.();
   }, [retryAction, closeErrorModal]);
 
   const fetchLearnerQuiz = useCallback(async () => {
     try {
-      setLoading(true)
-      const data = await getAssignedLearners(quizId)
-      setData(data)
-      setRowSelection({})
+      setLoading(true);
+      const data = await getAssignedLearners(quizId);
+      setData(data);
+      setRowSelection({});
     } catch (e) {
       console.log("🚀 ~ fetchLeaners ~ e:", e);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }, [quizId]);
-
-  const handleUnassignSuccess = useCallback((learnerId: number) => {
-    fetchLearnerQuiz();
-    onUnassignLearner?.(learnerId);
-  }, [fetchLearnerQuiz, onUnassignLearner]);
 
   const selectedLearnerIds = useMemo(
     () =>
@@ -86,23 +85,20 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
         .filter(([, isSelected]) => Boolean(isSelected))
         .map(([id]) => Number(id)),
     [rowSelection]
-  )
+  );
 
-  const handleBulkUnassignSuccess = useCallback(() => {
-    fetchLearnerQuiz()
-    setRowSelection({})
-  }, [fetchLearnerQuiz])
+  const hasSelectedLearners = selectedLearnerIds.length > 0;
 
   const handleBulkUnassignClick = useCallback(() => {
     if (!selectedLearnerIds.length) return;
-    setIsBulkUnassignModalOpen(true);
-  }, [selectedLearnerIds.length]);
 
-  const handleSingleUnassignClick = useCallback((learnerId: number) => {
-    setPendingUnassignLearner({ learnerId, quizId });
-  }, [quizId]);
-
-  const hasSelectedLearners = selectedLearnerIds.length > 0;
+    setPendingUnassignLearners(
+      selectedLearnerIds.map((learnerId) => ({
+        learnerId,
+        quizId,
+      }))
+    );
+  }, [selectedLearnerIds, quizId]);
 
   const columns = useMemo<ColumnDef<Learner>[]>(
     () => [
@@ -155,25 +151,27 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
         cell: info => (<QuizStatusTag status={info.getValue() as string} />)
       },
       {
-        id: 'actions',
+        id: "actions",
         cell: ({ row }) => {
           const learner = row.original;
           return (
             <UnassignAction
-              onClick={() => handleSingleUnassignClick(learner.id)}
+              onClick={() => {
+                setPendingUnassignLearners([{ learnerId: learner.id, quizId }]);
+              }}
             >
               <IoPersonRemoveSharp size={24} color={theme.colors.error9} />
             </UnassignAction>
-          )
+          );
         },
-      }
+      },
     ],
-    [t, theme, handleSingleUnassignClick]
-  )
+    [t, theme, quizId]
+  );
 
   useEffect(() => {
-    fetchLearnerQuiz()
-  }, [fetchLearnerQuiz])
+    fetchLearnerQuiz();
+  }, [fetchLearnerQuiz]);
 
   const hasData = data.length > 0;
   const showLoadingState = loading && !hasData;
@@ -246,25 +244,27 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
         onCancel={closeErrorModal}
       />
 
-      {pendingUnassignLearner && (
+      {pendingUnassignLearners && (
         <UnassignLearnerAction
+          learners={pendingUnassignLearners}
+          isOpen={isUnassignModalOpen}
+          onClose={() => setPendingUnassignLearners(null)}
           openErrorModal={openErrorModal}
-          learners={[pendingUnassignLearner]}
           onSuccess={() => {
-            handleUnassignSuccess(pendingUnassignLearner.learnerId);
-            setPendingUnassignLearner(null);
+            fetchLearnerQuiz();
+
+            if (pendingUnassignLearners.length === 1) {
+              onUnassignLearner?.(pendingUnassignLearners[0].learnerId);
+            }
+
+            if (pendingUnassignLearners.length > 1) {
+              setRowSelection({});
+            }
+
+            setPendingUnassignLearners(null);
           }}
         />
       )}
-
-      <BulkUnassignLearnersAction
-        quizId={quizId}
-        learnerIds={selectedLearnerIds}
-        isModalOpen={isBulkUnassignModalOpen}
-        setIsModalOpen={setIsBulkUnassignModalOpen}
-        openErrorModal={openErrorModal}
-        onSuccess={handleBulkUnassignSuccess}
-      />
     </>
   );
 };

@@ -1,98 +1,80 @@
 import { FunctionComponent, useState } from "react";
 import toast from "react-hot-toast";
-import { Body1, Modal, ModalType, useTheme } from "@shira/ui";
-import { IoPersonRemoveSharp } from "react-icons/io5";
+import { Body1, Modal, ModalType } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 import { handleHttpError } from "../../../../fetch/handleError";
 import { getErrorContent } from "../../../../utils/getErrorContent";
-import styled from "styled-components";
 import { AssignRequest, unassignFromQuiz } from "../../../../fetch/learner_quiz";
 
 interface Props {
-  openErrorModal: (content: string, retry: () => void) => void;
   learners: AssignRequest[];
+  isOpen: boolean;
+  onClose: () => void;
+  openErrorModal: (content: string, retry: () => void) => void;
   onSuccess?: () => void;
 }
 
 export const UnassignLearnerAction: FunctionComponent<Props> = ({
-  openErrorModal,
   learners,
+  isOpen,
+  onClose,
+  openErrorModal,
   onSuccess,
 }) => {
   const { t } = useTranslation();
-  const theme = useTheme();
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const unassignQuizToLearner = async () => {
+  const learnerCount = learners.length;
+
+  const handleConfirm = async () => {
+    if (!learnerCount) {
+      onClose();
+      return;
+    }
+
+    setIsLoading(true);
+
     try {
       const response = await unassignFromQuiz(learners);
 
-      if (response.status !== "Error") {
-        const message = () => {
-          if (learners.length === 1) {
-            return t(`success_messages.learner_unassigned`, { count: learners.length });
-          }
-
-          return t(`success_messages.learners_unassigned_plural`, { count: learners.length });
-        };
-
-        toast.success(message(), { duration: 3000 });
-        onSuccess?.();
-      }
-
       if (response.status === "Error") {
         const content = getErrorContent("error_messages", "unassign_quiz_failed", response.message);
-
-        openErrorModal(content, unassignQuizToLearner);
+        openErrorModal(content, handleConfirm);
+        return;
       }
+
+      const key =
+        learnerCount === 1
+          ? "success_messages.learner_unassigned"
+          : "success_messages.learners_unassigned_plural";
+
+      toast.success(t(key, { count: learnerCount }), { duration: 3000 });
+      onSuccess?.();
+      onClose();
     } catch (error) {
       const e = handleHttpError(error);
       const content = getErrorContent("error_messages", "unassign_quiz_failed", e.message);
-
-      openErrorModal(content, unassignQuizToLearner);
+      openErrorModal(content, handleConfirm);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  return (
-    <>
-      <IconButton
-        type="button"
-        aria-label={t("buttons.unassign")}
-        onClick={() => setIsConfirmModalOpen(true)}>
-        <IoPersonRemoveSharp size={24} color={theme.colors.error9} />
-      </IconButton>
+  const title = t("modals.unassign_learners.title", { count: learnerCount });
+  const subtitle = t("modals.unassign_learners.subtitle", { count: learnerCount });
 
-      <Modal
-        isOpen={isConfirmModalOpen}
-        title={t("modals.unassign_learner.title")}
-        primaryButtonText={t("buttons.unassign")}
-        secondaryButtonText={t("buttons.cancel")}
-        type={ModalType.Danger}
-        onPrimaryClick={() => {
-          setIsConfirmModalOpen(false);
-          unassignQuizToLearner();
-        }}
-        onSecondaryClick={() => setIsConfirmModalOpen(false)}
-      >
-        <ModalContent>
-          <Body1>{t("modals.unassign_learner.subtitle")}</Body1>
-        </ModalContent>
-      </Modal>
-    </>
+  return (
+    <Modal
+      isOpen={isOpen}
+      title={title}
+      primaryButtonText={t("buttons.unassign")}
+      primaryButtonDisabled={isLoading}
+      secondaryButtonText={t("buttons.cancel")}
+      type={ModalType.Danger}
+      onPrimaryClick={handleConfirm}
+      onSecondaryClick={onClose}
+    >
+      <Body1>{subtitle}</Body1>
+    </Modal>
   );
 };
-
-const IconButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-`;
-
-const ModalContent = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
