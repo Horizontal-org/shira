@@ -79,26 +79,24 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
     }
   }, [quizId]);
 
-  const selectedLearnerIds = useMemo(
+  const selectedLearners = useMemo(
     () =>
       Object.entries(rowSelection)
         .filter(([, isSelected]) => Boolean(isSelected))
-        .map(([id]) => Number(id)),
-    [rowSelection]
+        .map(([id]) => ({
+          learnerId: Number(id),
+          quizId,
+        })),
+    [rowSelection, quizId]
   );
 
-  const hasSelectedLearners = selectedLearnerIds.length > 0;
+  const hasSelectedLearners = selectedLearners.length > 0;
 
   const handleBulkUnassignClick = useCallback(() => {
-    if (!selectedLearnerIds.length) return;
+    if (!selectedLearners.length) return;
 
-    setPendingUnassignLearners(
-      selectedLearnerIds.map((learnerId) => ({
-        learnerId,
-        quizId,
-      }))
-    );
-  }, [selectedLearnerIds, quizId]);
+    setPendingUnassignLearners(selectedLearners);
+  }, [selectedLearners]);
 
   const columns = useMemo<ColumnDef<Learner>[]>(
     () => [
@@ -212,11 +210,7 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
             <EmptyDescription>
               {t("learner_quiz_tab.empty_state.description")}
             </EmptyDescription>
-            <AssignLearnerAction
-              learnerIds={selectedLearnerIds}
-              quizId={quizId}
-              openErrorModal={openErrorModal}
-            />
+            <AssignLearnerAction learners={selectedLearners} openErrorModal={openErrorModal} />
           </EmptyStateContainer>
         ) : (
           <Table

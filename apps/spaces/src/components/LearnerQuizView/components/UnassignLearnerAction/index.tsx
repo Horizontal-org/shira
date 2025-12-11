@@ -24,14 +24,7 @@ export const UnassignLearnerAction: FunctionComponent<Props> = ({
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
 
-  const learnerCount = learners.length;
-
-  const handleConfirm = async () => {
-    if (!learnerCount) {
-      onClose();
-      return;
-    }
-
+  const unassign = async () => {
     setIsLoading(true);
 
     try {
@@ -39,29 +32,32 @@ export const UnassignLearnerAction: FunctionComponent<Props> = ({
 
       if (response.status === "Error") {
         const content = getErrorContent("error_messages", "unassign_quiz_failed", response.message);
-        openErrorModal(content, handleConfirm);
+        openErrorModal(content, unassign);
         return;
       }
 
-      const key =
-        learnerCount === 1
-          ? "success_messages.learner_unassigned"
-          : "success_messages.learners_unassigned_plural";
+      const successMessage =
+        learners.length === 1
+          ? t("success_messages.learner_assigned", { count: learners.length })
+          : t("success_messages.learners_assigned_plural", {
+            count: learners.length,
+          });
 
-      toast.success(t(key, { count: learnerCount }), { duration: 3000 });
+      toast.success(successMessage, { duration: 3000 });
+
       onSuccess?.();
       onClose();
     } catch (error) {
       const e = handleHttpError(error);
       const content = getErrorContent("error_messages", "unassign_quiz_failed", e.message);
-      openErrorModal(content, handleConfirm);
+      openErrorModal(content, unassign);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const title = t("modals.unassign_learners.title", { count: learnerCount });
-  const subtitle = t("modals.unassign_learners.subtitle", { count: learnerCount });
+  const title = t("modals.unassign_learners.title", { count: learners.length });
+  const subtitle = t("modals.unassign_learners.subtitle", { count: learners.length });
 
   return (
     <Modal
@@ -71,7 +67,7 @@ export const UnassignLearnerAction: FunctionComponent<Props> = ({
       primaryButtonDisabled={isLoading}
       secondaryButtonText={t("buttons.cancel")}
       type={ModalType.Danger}
-      onPrimaryClick={handleConfirm}
+      onPrimaryClick={unassign}
       onSecondaryClick={onClose}
     >
       <Body1>{subtitle}</Body1>
