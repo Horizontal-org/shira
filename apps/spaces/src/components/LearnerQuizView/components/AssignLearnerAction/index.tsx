@@ -27,23 +27,21 @@ export const AssignLearnerAction: FunctionComponent<Props> = ({ learnerIds, quiz
     try {
       const response = await assignToQuiz(learnersPayload);
 
-      if (response.status !== "Error") {
-        const message = () => {
-          if (learnerIds.length === 1) {
-            return t(`success_messages.learner_assigned`, { count: learnerIds.length });
-          }
-
-          return t(`success_messages.learners_assigned_plural`, { count: learnerIds.length });
-        };
-
-        toast.success(message, { duration: 3000 });
-      }
-
       if (response.status === "Error") {
         const content = getErrorContent("error_messages", "assign_quiz_failed", response.message);
 
         openErrorModal(content, assign);
+        return;
       }
+
+      const successMessage =
+        learnerIds.length === 1
+          ? t("success_messages.learner_assigned", { count: learnerIds.length })
+          : t("success_messages.learners_assigned_plural", {
+            count: learnerIds.length,
+          });
+
+      toast.success(successMessage, { duration: 3000 });
     } catch (error) {
       const e = handleHttpError(error);
       const content = getErrorContent("error_messages", "assign_quiz_failed", e.message);
@@ -55,7 +53,7 @@ export const AssignLearnerAction: FunctionComponent<Props> = ({ learnerIds, quiz
   return (
     <ActionContainer>
       <Button
-        text="Assign to learners"
+        text={t("buttons.assign_learners")}
         type="primary"
         leftIcon={<BsFillPersonPlusFill />}
         color={theme.colors.green7}
