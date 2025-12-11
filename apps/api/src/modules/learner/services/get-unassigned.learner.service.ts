@@ -1,29 +1,28 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Brackets, IsNull, Repository } from "typeorm";
+import { Brackets, Repository } from "typeorm";
 import { plainToInstance } from "class-transformer";
 import { GenericErrorException } from "../exceptions";
 import { Learner as LearnerEntity} from "../domain/learner.entity";
-import { GetLearnersQuizzesDto } from "../dto/get.learner-quiz.dto";
 import { ApiLogger } from "../logger/api-logger.service";
-import { IGetFreeLearnerService } from "../interfaces/services/get-free.learner.service.interface";
-import { GetFreeLearnersDto } from "../dto/get-free.learner.dto";
+import { IGetUnassignedLearnerService } from "../interfaces/services/get-unassigned.learner.service.interface";
+import { GetUnassignedLearnersDto } from "../dto/get-unassigned.learner.dto";
 
 @Injectable()
-export class GetFreeLearnerService implements IGetFreeLearnerService {
+export class GetUnassignedLearnerService implements IGetUnassignedLearnerService {
   constructor(
     @InjectRepository(LearnerEntity)
     private readonly learnerRepo: Repository<LearnerEntity>,
   ) { }
 
-  private readonly logger = new ApiLogger(GetFreeLearnerService.name);
+  private readonly logger = new ApiLogger(GetUnassignedLearnerService.name);
 
-  async execute(quizId: number, spaceId: number): Promise<GetFreeLearnersDto[]> {
+  async execute(quizId: number, spaceId: number): Promise<GetUnassignedLearnersDto[]> {
     let learnerQuizzes = []
     try {
       learnerQuizzes = await this.learnerRepo
         .createQueryBuilder('learners')
-        .leftJoin('learners_quizzes', 'lq',     'lq.learnerId = learners.id')
+        .leftJoin('learners_quizzes', 'lq', 'lq.learnerId = learners.id')
         .select([
           'lq.status',
           'lq.quizId',
@@ -43,7 +42,7 @@ export class GetFreeLearnerService implements IGetFreeLearnerService {
       throw new GenericErrorException()
     }
 
-    const parsed = plainToInstance(GetFreeLearnersDto, learnerQuizzes.map((l) => {
+    const parsed = plainToInstance(GetUnassignedLearnersDto, learnerQuizzes.map((l) => {
       return {
         id: l.id,
         email: l.email,

@@ -144,7 +144,7 @@ export const LearnerQuizView:FunctionComponent<Props> = ({
       />
       { showAssignLayover && (
         <AssignLearnersLayover 
-          title={t('learners.assign_dialog.assign_title', { quizTitle })}
+          title={t('learners.assign_dialog.assign_title', { quiz_title: quizTitle })}
           quizId={quizId}
           onExit={() => { setAssignLayover(false) }}
         />

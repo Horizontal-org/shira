@@ -8,6 +8,6 @@ export const TYPES = {
     IGetLearnerQuizService: 'IGetLearnerQuizService',
     IGetLearnerService: 'IGetLearnerService',
     IGetAssignedLearnerService: 'IGetAssignedLearnerService',
-    IGetFreeLearnerService: 'IGetFreeLearnerService'
+    IGetUnassignedLearnerService: 'IGetUnassignedLearnerService'
   },
 };

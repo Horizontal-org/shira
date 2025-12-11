@@ -1,10 +1,10 @@
 import { Body1, Button, FlowHeader, H2, styled, useTheme } from "@shira/ui";
 import { FunctionComponent, useEffect, useState } from "react";
 import { useTranslation, Trans } from "react-i18next";
-import { getFreeLearners } from "../../../../fetch/learner_quiz";
 import { Link } from "react-router-dom";
 import { IoPersonAdd } from "react-icons/io5";
 import { AssignLearnersTable } from "../AssignLearnersTable";
+import { getUnassignedLearners } from "../../../../fetch/learner_quiz";
 
 interface Props {
   quizId: number
@@ -23,7 +23,7 @@ export const AssignLearnersLayover:FunctionComponent<Props> = ({ quizId, title, 
   useEffect(() => {
     const fetchLearnerQuiz = async () => {
       try {
-        const data = await getFreeLearners(quizId)
+        const data = await getUnassignedLearners(quizId)
         setData(data)
       }  catch (e) {
         console.log("🚀 ~ fetchLeaners ~ e:", e)

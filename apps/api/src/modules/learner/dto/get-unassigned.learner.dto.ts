@@ -1,7 +1,7 @@
 import { Exclude, Expose } from "class-transformer";
 
 @Exclude()
-export class GetFreeLearnersDto {
+export class GetUnassignedLearnersDto {
   @Expose()
   id: number;
 
