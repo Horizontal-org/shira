@@ -6,11 +6,11 @@ import { GoPersonFill } from "react-icons/go";
 import { IoPersonRemoveSharp } from "react-icons/io5";
 import { LearnerEmail, LearnerHeader, LearnerName, LearnerPersonInfo } from "../LearnersTable/components/LearnerHeader";
 import { QuizStatusTag } from "./components/QuizStatusTag";
-import { getAssignedLearners } from "../../fetch/learner_quiz";
-import { UnassignLearnerAction } from "./components/UnassignLearnerAction";
+import { AssignRequest, getAssignedLearners } from "../../fetch/learner_quiz";
 import { LearnerErrorModal } from "../modals/ErrorModal";
 import { BulkUnassignLearnersAction } from "./components/BulkUnassignLearnersAction";
 import { AssignLearnerAction } from "./components/AssignLearnerAction";
+import { UnassignLearnerAction } from "./components/UnassignLearnerAction";
 
 interface Learner {
   id: number;
@@ -41,6 +41,7 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
   //Key of row selection is DB ID of learner
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
   const [isBulkUnassignModalOpen, setIsBulkUnassignModalOpen] = useState(false)
+  const [pendingUnassignLearner, setPendingUnassignLearner] = useState<AssignRequest | null>(null)
   console.log("🚀 ~ LearnersTable ~ rowSelection:", rowSelection)
 
   const openErrorModal = useCallback((content: string, retry: () => void) => {
@@ -75,8 +76,8 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
   }, [quizId]);
 
   const handleUnassignSuccess = useCallback((learnerId: number) => {
-    fetchLearnerQuiz()
-    onUnassignLearner?.(learnerId)
+    fetchLearnerQuiz();
+    onUnassignLearner?.(learnerId);
   }, [fetchLearnerQuiz, onUnassignLearner]);
 
   const selectedLearnerIds = useMemo(
@@ -96,6 +97,10 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
     if (!selectedLearnerIds.length) return;
     setIsBulkUnassignModalOpen(true);
   }, [selectedLearnerIds.length]);
+
+  const handleSingleUnassignClick = useCallback((learnerId: number) => {
+    setPendingUnassignLearner({ learnerId, quizId });
+  }, [quizId]);
 
   const hasSelectedLearners = selectedLearnerIds.length > 0;
 
@@ -154,16 +159,16 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
         cell: ({ row }) => {
           const learner = row.original;
           return (
-            <UnassignLearnerAction
-              learners={[{ learnerId: learner.id, quizId }]}
-              openErrorModal={openErrorModal}
-              onSuccess={() => handleUnassignSuccess(learner.id)}
-            />
+            <UnassignAction
+              onClick={() => handleSingleUnassignClick(learner.id)}
+            >
+              <IoPersonRemoveSharp size={24} color={theme.colors.error9} />
+            </UnassignAction>
           )
-        }
+        },
       }
     ],
-    [t, theme, quizId, openErrorModal, handleUnassignSuccess]
+    [t, theme, handleSingleUnassignClick]
   )
 
   useEffect(() => {
@@ -241,6 +246,17 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
         onCancel={closeErrorModal}
       />
 
+      {pendingUnassignLearner && (
+        <UnassignLearnerAction
+          openErrorModal={openErrorModal}
+          learners={[pendingUnassignLearner]}
+          onSuccess={() => {
+            handleUnassignSuccess(pendingUnassignLearner.learnerId);
+            setPendingUnassignLearner(null);
+          }}
+        />
+      )}
+
       <BulkUnassignLearnersAction
         quizId={quizId}
         learnerIds={selectedLearnerIds}
@@ -292,4 +308,12 @@ const RightActions = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
+`;
+
+const UnassignAction = styled.button`
+  display: flex;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
 `;

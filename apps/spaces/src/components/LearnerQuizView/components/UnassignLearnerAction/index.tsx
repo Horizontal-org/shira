@@ -24,10 +24,6 @@ export const UnassignLearnerAction: FunctionComponent<Props> = ({
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
   const unassignQuizToLearner = async () => {
-    if (!learners.length) {
-      return;
-    }
-
     try {
       const response = await unassignFromQuiz(learners);
 
@@ -59,7 +55,10 @@ export const UnassignLearnerAction: FunctionComponent<Props> = ({
 
   return (
     <>
-      <IconButton type="button" onClick={() => setIsConfirmModalOpen(true)}>
+      <IconButton
+        type="button"
+        aria-label={t("buttons.unassign")}
+        onClick={() => setIsConfirmModalOpen(true)}>
         <IoPersonRemoveSharp size={24} color={theme.colors.error9} />
       </IconButton>
 
