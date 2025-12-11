@@ -36,9 +36,8 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   resultsLoading,
   hasResults
 }) => {
-  const { t } = useTranslation();
-
   const [activeTab, setActiveTab] = useState<TabType>('questions');
+  const { t } = useTranslation();
 
   return (
     <Container>

@@ -151,7 +151,7 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
         cell: info => (<QuizStatusTag status={info.getValue() as string} />)
       },
       {
-        id: "actions",
+        id: 'actions',
         cell: ({ row }) => {
           const learner = row.original;
           return (
