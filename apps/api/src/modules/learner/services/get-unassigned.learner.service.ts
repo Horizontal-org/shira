@@ -3,7 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Brackets, Repository } from "typeorm";
 import { plainToInstance } from "class-transformer";
 import { GenericErrorException } from "../exceptions";
-import { Learner as LearnerEntity} from "../domain/learner.entity";
+import { Learner as LearnerEntity } from "../domain/learner.entity";
 import { ApiLogger } from "../logger/api-logger.service";
 import { IGetUnassignedLearnerService } from "../interfaces/services/get-unassigned.learner.service.interface";
 import { GetUnassignedLearnersDto } from "../dto/get-unassigned.learner.dto";
@@ -37,8 +37,8 @@ export class GetUnassignedLearnerService implements IGetUnassignedLearnerService
             .orWhere('lq.quizId <> :quizId', { quizId })
         }))
         .getMany()
-    } catch(e) {
-      this.logger.error('Error while getting learners-quizzes :' + e)
+    } catch (e) {
+      this.logger.error('Error while getting learners-quizzes', e)
       throw new GenericErrorException()
     }
 
@@ -50,7 +50,7 @@ export class GetUnassignedLearnerService implements IGetUnassignedLearnerService
         invitedAt: l.invitedAt
       }
     }), { excludeExtraneousValues: true })
-    
+
     return parsed
   }
 }
