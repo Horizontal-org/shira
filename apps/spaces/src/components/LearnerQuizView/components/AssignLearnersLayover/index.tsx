@@ -1,6 +1,6 @@
 import { Body1, Button, FlowHeader, H2, styled, useTheme } from "@shira/ui";
 import { FunctionComponent, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation, Trans } from "react-i18next";
 import { getFreeLearners } from "../../../../fetch/learner_quiz";
 import { Link } from "react-router-dom";
 import { IoPersonAdd } from "react-icons/io5";
@@ -43,8 +43,8 @@ export const AssignLearnersLayover:FunctionComponent<Props> = ({ quizId, title, 
         actions={(
           <Button 
             type="primary"
-            text="Assign to learners"
-            color={theme.colors.green7}            
+            text={t('learners.assign_dialog.assign_button')}
+            color={theme.colors.green7}
             leftIcon={(
               <IoPersonAdd
                 size={20}
@@ -57,9 +57,12 @@ export const AssignLearnersLayover:FunctionComponent<Props> = ({ quizId, title, 
       <Content>
         <div>
           <Header>
-            <H2 id="registered-learners-title">Registered Learners</H2>
+            <H2 id="registered-learners-title">{t('learners.assign_dialog.registered_title')}</H2>
             <Body1 id="registered-learners-subtitle">
-              These are the learners registered in your space. Select one or more learners to assign this quiz to them. You can manage registered learners and and invite new ones in the <StyledLink to="/learner">Learners</StyledLink>
+              <Trans
+                i18nKey="learners.assign_dialog.registered_description"
+                components={[<StyledLink to="/learner" />]}
+              />
             </Body1>
           </Header>
 

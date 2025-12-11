@@ -35,6 +35,13 @@
             "submitted_tag": "Submitted",
             "not_submitted_tag": "Not submitted"
         }
+        ,
+        "assign_dialog": {
+            "registered_title": "Registered Learners",
+            "registered_description": "These are the learners registered in your space. Select one or more learners to assign this quiz to them. You can manage registered learners and invite new ones in the <0>Learners section</0>.",
+            "assign_button": "Assign to learners",
+            "assign_title": "Assign \"{{quizTitle}}\" to learners"
+        }
     },
     "quizzes": {
         "filter": {

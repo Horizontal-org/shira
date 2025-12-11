@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { GoPersonFill } from "react-icons/go";
 import { LearnerEmail, LearnerHeader, LearnerName, LearnerPersonInfo } from "../LearnersTable/components/LearnerHeader";
 import { QuizStatusTag } from "./components/QuizStatusTag";
-import { IoPersonRemoveSharp } from "react-icons/io5";
+import { IoPersonAdd, IoPersonRemoveSharp } from "react-icons/io5";
 import { getAssignedLearners } from "../../fetch/learner_quiz";
 import { AssignLearnersLayover } from "./components/AssignLearnersLayover";
 
@@ -112,7 +112,15 @@ export const LearnerQuizView:FunctionComponent<Props> = ({
     <div>
       <ActionsWrapper>
         <Button 
-          text="Assign to learners"
+          type="primary"
+          text={t('learners.assign_dialog.assign_button')}
+          color={theme.colors.green7}
+          leftIcon={(
+            <IoPersonAdd
+              size={20}
+              color="white" 
+            />
+          )}
           onClick={() => { 
             setAssignLayover(true) 
             window.scrollTo(0,0)
@@ -136,7 +144,7 @@ export const LearnerQuizView:FunctionComponent<Props> = ({
       />
       { showAssignLayover && (
         <AssignLearnersLayover 
-          title={`Assign "${quizTitle}" to learners`}
+          title={t('learners.assign_dialog.assign_title', { quizTitle })}
           quizId={quizId}
           onExit={() => { setAssignLayover(false) }}
         />
