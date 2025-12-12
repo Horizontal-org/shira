@@ -337,7 +337,7 @@
             "title": "Unassign quiz from learner?",
             "subtitle": "Are you sure you want to unassign the quiz from this learner? Any quiz progress and results will be lost."
         },
-        "unassign_learners": {
+        "unassign_learners_plural": {
             "title": "Unassign quiz from learners?",
             "subtitle": "Are you sure you want to unassign the quiz from these learners? Any quiz progress and results will be lost."
         }
@@ -380,8 +380,8 @@
         "learners_deleted": "The selected learners have been deleted.",
         "learner_assigned": "This quiz has been assigned to {{count}} new learner.",
         "learners_assigned_plural": "This quiz has been assigned to {{count}} new learners.",
-        "learner_unassigned": "This quiz has been unassigned to {{count}} new learner.",
-        "learners_unassigned_plural": "This quiz has been unassigned to {{count}} new learners."
+        "learner_unassigned": "This quiz has been unassigned from {{count}} learner.",
+        "learners_unassigned_plural": "This quiz has been unassigned from {{count}} learners."
     },
     "loading_messages": {
         "loading": "Loading...",
