@@ -238,21 +238,19 @@ export const LearnerQuizView: FunctionComponent<Props> = ({ quizId }) => {
         onCancel={closeErrorModal}
       />
 
-      {isUnassignModalOpen && (
-        <UnassignLearnerAction
-          learners={selectedLearners}
-          isModalOpen={isUnassignModalOpen}
-          onSuccess={() => {
-            fetchLearnerQuiz();
-            setRowSelection({});
-          }}
-          onClose={() => {
-            setRowSelection({});
-            setIsUnassignModalOpen(false);
-          }}
-          openErrorModal={openErrorModal}
-        />
-      )}
+      <UnassignLearnerAction
+        learners={selectedLearners}
+        isModalOpen={isUnassignModalOpen}
+        onSuccess={() => {
+          fetchLearnerQuiz();
+          setRowSelection({});
+        }}
+        onClose={() => {
+          setRowSelection({});
+          setIsUnassignModalOpen(false);
+        }}
+        openErrorModal={openErrorModal}
+      />
     </>
   );
 };
