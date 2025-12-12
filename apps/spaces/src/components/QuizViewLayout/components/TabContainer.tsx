@@ -1,7 +1,7 @@
 import { FunctionComponent, useState } from "react";
-import { styled } from '@shira/ui'
-import { QuestionsList } from './QuestionList'
-import { Results } from './Results'
+import { styled } from '@shira/ui';
+import { QuestionsList } from './QuestionList';
+import { Results } from './Results';
 import { QuizQuestion } from "../../../store/slices/quiz";
 import { PublicQuizResultsResponse } from "../../../fetch/results";
 import { LearnerQuizView } from "../../LearnerQuizView";
@@ -38,7 +38,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<TabType>('questions');
   const { t } = useTranslation();
-  
+
   return (
     <Container>
       <Header>
@@ -94,7 +94,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
             loading={resultsLoading}
           />
         )}
- 
+
       </div>
     </Container>
   );
