@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useMemo, useState } from "react";
+import { FunctionComponent, useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Sidebar, styled, useAdminSidebar, H2, Body1, Button, RenameIcon, CopyUrlIcon, DeleteIcon, Toggle, BetaBanner, Body2Regular, defaultTheme } from "@shira/ui";
 import { TabContainer } from './components/TabContainer'
@@ -47,13 +47,13 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
   const [isUnpublishedQuizModalOpen, setIsUnpublishedQuizModalOpen] = useState(false);
-  const { destroy, actionFeedback } = useQuestionCRUD()
+  const { destroy } = useQuestionCRUD();
 
   // results handling
   const [resultsData, setResultsData] = useState<PublicQuizResultsResponse | null>(null);
   const [resultsLoading, setResultsLoading] = useState(false);
 
-  const getQuiz = async () => {
+  const getQuiz = useCallback(async () => {
     try {
       const parsedId = parseInt(id)
       const quiz = await getQuizById(parsedId)
@@ -64,7 +64,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
       // if error navigate to dashboard
       navigate('/dashboard')
     }
-  }
+  }, [id, navigate])
 
   useEffect(() => {
     const fetchResults = async () => {
@@ -97,7 +97,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     return () => {
       cleanQuizActionSuccess()
     }
-  }, [])
+  }, [getQuiz, cleanQuizActionSuccess])
 
   useEffect(() => {
     if (t(SUCCESS_MESSAGES[quizActionSuccess])) {
@@ -112,7 +112,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
 
       cleanQuizActionSuccess()
     }
-  }, [quizActionSuccess])
+  }, [quizActionSuccess, cleanQuizActionSuccess, getQuiz, navigate, t])
 
 
   const handleTogglePublished = (cardId: number, published: boolean) => {
@@ -351,7 +351,7 @@ const LeftButtons = styled.div`
 `
 
 const QuizWarningNote = styled.span`
-  color: #d73527;
+  color: ${props => props.theme.colors.error.main};
   font-weight: 500;
 `;
 

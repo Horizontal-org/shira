@@ -20,14 +20,9 @@ interface Learner {
 
 interface Props {
   quizId: number;
-  onAssignLearners?: () => void;
-  onUnassignLearner?: (learnerId: number) => void;
 }
 
-export const LearnerQuizView: FunctionComponent<Props> = ({
-  quizId,
-  onUnassignLearner
-}) => {
+export const LearnerQuizView: FunctionComponent<Props> = ({ quizId }) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
@@ -38,7 +33,6 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [retryAction, setRetryAction] = useState<(() => void) | null>(null);
 
-  // Key of row selection is DB ID of learner
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
   const [pendingUnassignLearners, setPendingUnassignLearners] = useState<AssignRequest[] | null>(null);
@@ -94,7 +88,6 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
 
   const handleBulkUnassignClick = useCallback(() => {
     if (!selectedLearners.length) return;
-
     setPendingUnassignLearners(selectedLearners);
   }, [selectedLearners]);
 
@@ -179,25 +172,37 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
     <>
       <div>
         {!showLoadingState && !showEmptyState && (
-          <DescriptionWrapper>
-            <LeftActions>
-              <Body1>{t("learner_quiz_tab.table.description")}</Body1>
-            </LeftActions>
+          <LearnersHeaderRow>
 
-            {hasSelectedLearners && (
+            <ActionsRow>
+              <LeftActions>
+                {!hasSelectedLearners && (
+                  <AssignLearnerAction
+                    learners={selectedLearners}
+                    openErrorModal={openErrorModal}
+                  />
+                )}
+              </LeftActions>
+
               <RightActions>
-                <Button
-                  id="unassign-learners-bulk-button"
-                  text={t("buttons.unassign_learners")}
-                  type="primary"
-                  leftIcon={<IoPersonRemoveSharp size={20} />}
-                  color={theme.colors.error7}
-                  onClick={handleBulkUnassignClick}
-                  disabled={!hasSelectedLearners}
-                />
+                {hasSelectedLearners && (
+                  <Button
+                    id="unassign-learners-bulk-button"
+                    text={t('buttons.unassign_learners')}
+                    type="primary"
+                    leftIcon={<IoPersonRemoveSharp size={20} />}
+                    color={theme.colors.error7}
+                    onClick={handleBulkUnassignClick}
+                  />
+                )}
               </RightActions>
-            )}
-          </DescriptionWrapper>
+            </ActionsRow>
+
+            <DescriptionWrapper>
+              <Body1>{t('learner_quiz_tab.table.description')}</Body1>
+            </DescriptionWrapper>
+
+          </LearnersHeaderRow>
         )}
 
         {showLoadingState ? (
@@ -247,10 +252,6 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
           onSuccess={() => {
             fetchLearnerQuiz();
 
-            if (pendingUnassignLearners.length === 1) {
-              onUnassignLearner?.(pendingUnassignLearners[0].learnerId);
-            }
-
             if (pendingUnassignLearners.length > 1) {
               setRowSelection({});
             }
@@ -285,11 +286,17 @@ const LoadingState = styled.div`
   padding: 64px 16px;
 `;
 
-const DescriptionWrapper = styled.div`
+const LearnersHeaderRow = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+`;
+
+const ActionsRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 25px;
 `;
 
 const LeftActions = styled.div`
@@ -302,6 +309,11 @@ const RightActions = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
+`;
+
+const DescriptionWrapper = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const UnassignAction = styled.button`
