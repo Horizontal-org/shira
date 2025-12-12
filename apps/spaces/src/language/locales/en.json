@@ -29,6 +29,7 @@
         "table": {
             "learner": "Learner",
             "registration": "Registration",
+            "quiz_status": "Quiz status",
             "invited_at": "Date invited",
             "invited_tag": "Invited",
             "registered_tag": "Registered",

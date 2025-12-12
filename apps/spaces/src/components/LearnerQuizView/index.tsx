@@ -143,7 +143,7 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
         },
       },
       {
-        header: t('learners.table.registration'),
+        header: t('learners.table.quiz_status'),
         accessorKey: 'status',
         cell: info => (<QuizStatusTag status={info.getValue() as string} />)
       },
