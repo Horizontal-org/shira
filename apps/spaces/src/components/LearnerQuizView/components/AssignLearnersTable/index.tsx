@@ -95,29 +95,25 @@ export const AssignLearnersTable: FunctionComponent<Props> = ({
     [currentDateLocal, t, theme]
   );
 
-  const shouldRenderTable = Boolean(assigning || loading || data.length > 0);
-
   return (
     <Wrapper>
-      {shouldRenderTable && (
-        <Table
-          loading={assigning || loading}
-          loadingMessage={<Body1>{t('loading_messages.assigning_quiz_to_learners')}</Body1>}
-          data={data}
-          columns={columns}
-          rowSelection={rowSelection}
-          setRowSelection={setRowSelection}
-          colGroups={(
-            <colgroup>
-              <col style={{ width: "50px" }} />
-              <col style={{ width: "70%" }} />
-              <col />
-            </colgroup>
-          )}
-        />
-      )}
+      <Table
+        loading={loading}
+        loadingMessage={<Body1>{t('loading_messages.assigning_quiz_to_learners')}</Body1>}
+        data={data}
+        columns={columns}
+        rowSelection={rowSelection}
+        setRowSelection={setRowSelection}
+        colGroups={(
+          <colgroup>
+            <col style={{ width: "50px" }} />
+            <col style={{ width: "70%" }} />
+            <col />
+          </colgroup>
+        )}
+      />
 
-      {!assigning && !loading && data.length === 0 && (
+      {!loading && data.length === 0 && (
         <NoResultsWrapper>
           <img src={HookedFish} alt="hooked-fish" />
           <Body1>{t('learners.assign_dialog.no_learners')}</Body1>

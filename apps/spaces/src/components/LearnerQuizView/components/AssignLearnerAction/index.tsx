@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent } from "react";
 import toast from "react-hot-toast";
 import { Button, useTheme } from "@shira/ui";
 import { useTranslation } from "react-i18next";
@@ -13,8 +13,8 @@ interface Props {
   openErrorModal: (content: string, retry: () => void) => void;
   onSuccess?: () => void;
   loading?: boolean;
+  setIsLoading?: (v: boolean) => void;
   disabled?: boolean;
-  onAssigningChange?: (loading: boolean) => void;
 }
 
 export const AssignLearnerAction: FunctionComponent<Props> = ({
@@ -23,20 +23,13 @@ export const AssignLearnerAction: FunctionComponent<Props> = ({
   loading,
   disabled,
   onSuccess,
-  onAssigningChange
+  setIsLoading
 }) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
-  const [assigning, setAssigning] = useState(false);
-
-  const updateAssigningState = (value: boolean) => {
-    setAssigning(value);
-    onAssigningChange?.(value);
-  };
-
   const assign = async () => {
-    updateAssigningState(true);
+    setIsLoading?.(true);
 
     try {
       const response = await assignToQuiz(learners);
@@ -65,7 +58,7 @@ export const AssignLearnerAction: FunctionComponent<Props> = ({
 
       openErrorModal(content, assign);
     } finally {
-      updateAssigningState(false);
+      setIsLoading?.(false);
     }
   };
 
@@ -78,7 +71,7 @@ export const AssignLearnerAction: FunctionComponent<Props> = ({
         leftIcon={(<IoPersonAdd size={20} color="white" />)}
         color={theme.colors.green7}
         onClick={assign}
-        disabled={disabled || assigning || loading}
+        disabled={disabled || loading}
       />
     </ActionContainer>
   );

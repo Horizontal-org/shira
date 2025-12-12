@@ -26,7 +26,6 @@ export const AssignLearnersLayover: FunctionComponent<Props> = ({
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [rowSelection, setRowSelection] = useState({});
-  const [assigning, setAssigning] = useState(false);
 
   const fetchLearnerQuiz = useCallback(async () => {
     try {
@@ -66,7 +65,6 @@ export const AssignLearnersLayover: FunctionComponent<Props> = ({
             openErrorModal={openErrorModal}
             loading={loading}
             disabled={rowSelection && Object.keys(rowSelection).length === 0}
-            onAssigningChange={setAssigning}
             onSuccess={() => {
               setRowSelection({});
               fetchLearnerQuiz();
@@ -90,7 +88,6 @@ export const AssignLearnersLayover: FunctionComponent<Props> = ({
           <AssignLearnersTable
             data={data}
             loading={loading}
-            assigning={assigning}
             rowSelection={rowSelection}
             setRowSelection={setRowSelection}
           />
