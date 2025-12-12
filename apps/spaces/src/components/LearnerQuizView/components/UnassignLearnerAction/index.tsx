@@ -24,6 +24,13 @@ export const UnassignLearnerAction: FunctionComponent<Props> = ({
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
 
+  const title = learners.length === 1
+    ? t("modals.unassign_learner.title")
+    : t("modals.unassign_learners_plural.title");
+  const subtitle = learners.length === 1
+    ? t("modals.unassign_learner.subtitle")
+    : t("modals.unassign_learners_plural.subtitle");
+
   const unassign = async () => {
     setIsLoading(true);
 
@@ -38,10 +45,8 @@ export const UnassignLearnerAction: FunctionComponent<Props> = ({
 
       const successMessage =
         learners.length === 1
-          ? t("success_messages.learner_assigned", { count: learners.length })
-          : t("success_messages.learners_assigned_plural", {
-            count: learners.length,
-          });
+          ? t("success_messages.learner_unassigned", { count: learners.length })
+          : t("success_messages.learners_unassigned_plural", { count: learners.length });
 
       toast.success(successMessage, { duration: 3000 });
 
@@ -55,9 +60,6 @@ export const UnassignLearnerAction: FunctionComponent<Props> = ({
       setIsLoading(false);
     }
   };
-
-  const title = t("modals.unassign_learners.title", { count: learners.length });
-  const subtitle = t("modals.unassign_learners.subtitle", { count: learners.length });
 
   return (
     <Modal
