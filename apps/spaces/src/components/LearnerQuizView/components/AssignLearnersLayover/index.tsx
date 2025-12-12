@@ -1,39 +1,59 @@
-import { Body1, Button, FlowHeader, H2, styled, useTheme } from "@shira/ui";
-import { FunctionComponent, useEffect, useState } from "react";
+import { Body1, FlowHeader, H2, styled } from "@shira/ui";
+import { FunctionComponent, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation, Trans } from "react-i18next";
 import { Link } from "react-router-dom";
-import { IoPersonAdd } from "react-icons/io5";
 import { AssignLearnersTable } from "../AssignLearnersTable";
-import { getUnassignedLearners } from "../../../../fetch/learner_quiz";
+import { AssignRequest, getUnassignedLearners } from "../../../../fetch/learner_quiz";
+import { AssignLearnerAction } from "../AssignLearnerAction";
 
 interface Props {
-  quizId: number
-  title: string
-  onExit: () => void
+  quizId: number;
+  title: string;
+  onExit: () => void;
+  openErrorModal: (content: string, retry: () => void) => void;
+  onSuccess: () => void;
 }
 
-export const AssignLearnersLayover: FunctionComponent<Props> = ({ quizId, title, onExit }) => {
+export const AssignLearnersLayover: FunctionComponent<Props> = ({
+  quizId,
+  title,
+  onExit,
+  openErrorModal,
+  onSuccess
+}) => {
 
-  const { t } = useTranslation()
-  const theme = useTheme()
-  const [loading, setLoading] = useState(true)
-  const [data, setData] = useState([])
-  const [rowSelection, setRowSelection] = useState({})
+  const { t } = useTranslation();
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+  const [rowSelection, setRowSelection] = useState({});
+  const [assigning, setAssigning] = useState(false);
+
+  const fetchLearnerQuiz = useCallback(async () => {
+    try {
+      setLoading(true);
+      const response = await getUnassignedLearners(quizId);
+      setData(response);
+    } catch (e) {
+      console.log("🚀 ~ fetchLeaners ~ e:", e);
+    } finally {
+      setLoading(false);
+    }
+  }, [quizId]);
+
+  const selectedLearners = useMemo<AssignRequest[]>(
+    () =>
+      Object.entries(rowSelection)
+        .filter(([, isSelected]) => Boolean(isSelected))
+        .map(([id]) => ({
+          learnerId: Number(id),
+          quizId,
+        })),
+    [rowSelection, quizId]
+  );
 
   useEffect(() => {
-    const fetchLearnerQuiz = async () => {
-      try {
-        const data = await getUnassignedLearners(quizId)
-        setData(data)
-      } catch (e) {
-        console.log("🚀 ~ fetchLeaners ~ e:", e)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchLearnerQuiz()
-  }, [quizId])
+    fetchLearnerQuiz();
+  }, [fetchLearnerQuiz]);
 
   return (
     <Wrapper>
@@ -41,17 +61,17 @@ export const AssignLearnersLayover: FunctionComponent<Props> = ({ quizId, title,
         onExit={onExit}
         title={title}
         actions={(
-          <Button
-            id="assign-via-email-button"
-            type="primary"
-            text={t('buttons.assign_via_email')}
-            color={theme.colors.green7}
-            leftIcon={(
-              <IoPersonAdd
-                size={20}
-                color="white"
-              />
-            )}
+          <AssignLearnerAction
+            learners={selectedLearners}
+            openErrorModal={openErrorModal}
+            loading={loading}
+            disabled={rowSelection && Object.keys(rowSelection).length === 0}
+            onAssigningChange={setAssigning}
+            onSuccess={() => {
+              setRowSelection({});
+              fetchLearnerQuiz();
+              onSuccess();
+            }}
           />
         )}
       />
@@ -70,6 +90,7 @@ export const AssignLearnersLayover: FunctionComponent<Props> = ({ quizId, title,
           <AssignLearnersTable
             data={data}
             loading={loading}
+            assigning={assigning}
             rowSelection={rowSelection}
             setRowSelection={setRowSelection}
           />
@@ -91,7 +112,7 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-`
+`;
 
 const Header = styled.div`
   padding: 48px 0;
@@ -99,7 +120,7 @@ const Header = styled.div`
   > p {
     padding-top: 12px; 
   }
-`
+`;
 
 const Content = styled.div`
   width: 100%;  
@@ -107,11 +128,11 @@ const Content = styled.div`
   overflow-y:scroll;
   display: flex;
   justify-content: center;
-`
+`;
 
 const StyledLink = styled(Link)`
   font-weight: 700;
   color: ${props => props.theme.primary.base};
   text-decoration-color: ${props => props.theme.primary.base};
 
-`
+`;

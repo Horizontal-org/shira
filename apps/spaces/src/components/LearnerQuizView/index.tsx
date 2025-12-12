@@ -1,5 +1,5 @@
 import { Body1, Button, SettingsFishIcon, Table, TableCheckbox, styled, useTheme } from "@shira/ui";
-import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
+import { ColumnDef } from "@tanstack/react-table";
 import { FunctionComponent, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GoPersonFill } from "react-icons/go";
@@ -164,7 +164,6 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
     [t, theme]
   );
 
-
   useEffect(() => {
     const fetchLearnerQuiz = async () => {
       try {
@@ -206,10 +205,6 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
                       window.scrollTo(0, 0)
                     }}
                   />
-                  // <AssignLearnerAction
-                  //   learners={selectedLearners}
-                  //   openErrorModal={openErrorModal}
-                  // />
                 )}
               </LeftActions>
 
@@ -290,7 +285,9 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
         <AssignLearnersLayover
           title={t('learners.assign_dialog.assign_title', { quiz_title: quizTitle })}
           quizId={quizId}
+          openErrorModal={openErrorModal}
           onExit={() => { setAssignLayover(false) }}
+          onSuccess={() => { fetchLearnerQuiz() }}
         />
       )}
     </>

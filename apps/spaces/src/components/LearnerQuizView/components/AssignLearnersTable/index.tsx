@@ -19,6 +19,7 @@ export type Learner = {
 interface Props {
   data: Learner[];
   loading: boolean;
+  assigning?: boolean;
   rowSelection: RowSelectionState;
   setRowSelection: (updater: | RowSelectionState | ((prev: RowSelectionState) => RowSelectionState)) => void;
 }
@@ -26,6 +27,7 @@ interface Props {
 export const AssignLearnersTable: FunctionComponent<Props> = ({
   data,
   loading,
+  assigning = false,
   rowSelection,
   setRowSelection,
 }) => {
@@ -93,11 +95,14 @@ export const AssignLearnersTable: FunctionComponent<Props> = ({
     [currentDateLocal, t, theme]
   );
 
+  const shouldRenderTable = Boolean(assigning || loading || data.length > 0);
+
   return (
     <Wrapper>
-      {!loading && data.length > 0 && (
+      {shouldRenderTable && (
         <Table
-          loading={loading}
+          loading={assigning || loading}
+          loadingMessage={<Body1>{t('loading_messages.assigning_quiz_to_learners')}</Body1>}
           data={data}
           columns={columns}
           rowSelection={rowSelection}
@@ -112,13 +117,12 @@ export const AssignLearnersTable: FunctionComponent<Props> = ({
         />
       )}
 
-      {!loading && data.length === 0 && (
+      {!assigning && !loading && data.length === 0 && (
         <NoResultsWrapper>
           <img src={HookedFish} alt="hooked-fish" />
           <Body1>{t('learners.assign_dialog.no_learners')}</Body1>
         </NoResultsWrapper>
       )}
-
     </Wrapper>
   );
 };

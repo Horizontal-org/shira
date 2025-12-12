@@ -1,27 +1,47 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 import toast from "react-hot-toast";
 import { Button, useTheme } from "@shira/ui";
 import { useTranslation } from "react-i18next";
-import { BsFillPersonPlusFill } from "react-icons/bs";
 import { handleHttpError } from "../../../../fetch/handleError";
 import { getErrorContent } from "../../../../utils/getErrorContent";
 import styled from "styled-components";
+import { IoPersonAdd } from "react-icons/io5";
 import { AssignRequest, assignToQuiz } from "../../../../fetch/learner_quiz";
 
 interface Props {
   learners: AssignRequest[];
   openErrorModal: (content: string, retry: () => void) => void;
+  onSuccess?: () => void;
+  loading?: boolean;
+  disabled?: boolean;
+  onAssigningChange?: (loading: boolean) => void;
 }
 
 export const AssignLearnerAction: FunctionComponent<Props> = ({
   learners,
-  openErrorModal }) => {
+  openErrorModal,
+  loading,
+  disabled,
+  onSuccess,
+  onAssigningChange
+}) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
+  const [assigning, setAssigning] = useState(false);
+
+  const updateAssigningState = (value: boolean) => {
+    setAssigning(value);
+    onAssigningChange?.(value);
+  };
+
   const assign = async () => {
+    updateAssigningState(true);
+
     try {
       const response = await assignToQuiz(learners);
+      const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+      await sleep(5000);
 
       if (response.status === "Error") {
         const content = getErrorContent("error_messages", "assign_quiz_failed", response.message);
@@ -38,11 +58,14 @@ export const AssignLearnerAction: FunctionComponent<Props> = ({
           });
 
       toast.success(successMessage, { duration: 3000 });
+      onSuccess?.();
     } catch (error) {
       const e = handleHttpError(error);
       const content = getErrorContent("error_messages", "assign_quiz_failed", e.message);
 
       openErrorModal(content, assign);
+    } finally {
+      updateAssigningState(false);
     }
   };
 
@@ -50,11 +73,12 @@ export const AssignLearnerAction: FunctionComponent<Props> = ({
     <ActionContainer>
       <Button
         id="assign-learner-button"
-        text={t("buttons.assign_learners")}
+        text={t("buttons.assign_via_email")}
         type="primary"
-        leftIcon={<BsFillPersonPlusFill />}
+        leftIcon={(<IoPersonAdd size={20} color="white" />)}
         color={theme.colors.green7}
         onClick={assign}
+        disabled={disabled || assigning || loading}
       />
     </ActionContainer>
   );
