@@ -12,8 +12,8 @@ interface Props {
   onExit: () => void
 }
 
-export const AssignLearnersLayover:FunctionComponent<Props> = ({ quizId, title, onExit }) => {
-  
+export const AssignLearnersLayover: FunctionComponent<Props> = ({ quizId, title, onExit }) => {
+
   const { t } = useTranslation()
   const theme = useTheme()
   const [loading, setLoading] = useState(true)
@@ -25,30 +25,31 @@ export const AssignLearnersLayover:FunctionComponent<Props> = ({ quizId, title, 
       try {
         const data = await getUnassignedLearners(quizId)
         setData(data)
-      }  catch (e) {
+      } catch (e) {
         console.log("🚀 ~ fetchLeaners ~ e:", e)
       } finally {
         setLoading(false)
-      }      
+      }
     }
 
     fetchLearnerQuiz()
   }, [quizId])
-    
+
   return (
     <Wrapper>
-      <FlowHeader 
+      <FlowHeader
         onExit={onExit}
         title={title}
         actions={(
-          <Button 
+          <Button
+            id="assign-via-email-button"
             type="primary"
-            text={t('learners.assign_dialog.assign_button')}
+            text={t('buttons.assign_via_email')}
             color={theme.colors.green7}
             leftIcon={(
               <IoPersonAdd
                 size={20}
-                color="white" 
+                color="white"
               />
             )}
           />
@@ -66,9 +67,9 @@ export const AssignLearnersLayover:FunctionComponent<Props> = ({ quizId, title, 
             </Body1>
           </Header>
 
-          <AssignLearnersTable 
+          <AssignLearnersTable
             data={data}
-            loading={loading}          
+            loading={loading}
             rowSelection={rowSelection}
             setRowSelection={setRowSelection}
           />

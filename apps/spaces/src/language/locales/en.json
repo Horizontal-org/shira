@@ -250,7 +250,8 @@
         "invite_learners_bulk": "Import learners in bulk",
         "delete_learners": "Delete learners",
         "unassign_learners": "Unassign from learners",
-        "assign_learners": "Assign to learners"
+        "assign_learners": "Assign to learners",
+        "assign_via_email": "Assign via email"
     },
     "modals": {
         "create_quiz": {

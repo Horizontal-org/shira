@@ -25,7 +25,7 @@ interface Props {
 
 export const AssignLearnersTable: FunctionComponent<Props> = ({
   data,
-  loading,  
+  loading,
   rowSelection,
   setRowSelection,
 }) => {
@@ -95,7 +95,7 @@ export const AssignLearnersTable: FunctionComponent<Props> = ({
 
   return (
     <Wrapper>
-      { !loading && data.length > 0 && (
+      {!loading && data.length > 0 && (
         <Table
           loading={loading}
           data={data}
@@ -112,12 +112,12 @@ export const AssignLearnersTable: FunctionComponent<Props> = ({
         />
       )}
 
-      { !loading && data.length === 0 && (
+      {!loading && data.length === 0 && (
         <NoResultsWrapper>
           <img src={HookedFish} alt="hooked-fish" />
           <Body1>{t('learners.assign_dialog.no_learners')}</Body1>
         </NoResultsWrapper>
-      ) }
+      )}
 
     </Wrapper>
   );
