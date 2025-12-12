@@ -1,6 +1,20 @@
-import { FunctionComponent, useCallback, useEffect, useMemo, useState } from "react";
+import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Sidebar, styled, useAdminSidebar, H2, Body1, Button, RenameIcon, CopyUrlIcon, DeleteIcon, Toggle, BetaBanner, Body2Regular, defaultTheme } from "@shira/ui";
+import {
+  Sidebar,
+  styled,
+  useAdminSidebar,
+  H2,
+  Body1,
+  Button,
+  RenameIcon,
+  CopyUrlIcon,
+  DeleteIcon,
+  Toggle,
+  BetaBanner,
+  Body2Regular,
+  defaultTheme
+} from "@shira/ui";
 import { TabContainer } from './components/TabContainer'
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
@@ -14,7 +28,7 @@ import { UnpublishedQuizModal } from "../modals/UnpublishedQuizModal";
 import { handleCopyUrl, handleCopyUrlAndNotify } from "../../utils/quiz";
 import { getQuizResults, PublicQuizResultsResponse } from "../../fetch/results";
 import { useTranslation } from "react-i18next";
-import { MdLockOpen, MdLockOutline } from "react-icons/md";
+import { MdLockOutline, MdLockOpen } from "react-icons/md";
 
 interface Props { }
 
@@ -47,13 +61,13 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
   const [isUnpublishedQuizModalOpen, setIsUnpublishedQuizModalOpen] = useState(false);
-  const { destroy } = useQuestionCRUD();
+  const { destroy } = useQuestionCRUD()
 
   // results handling
   const [resultsData, setResultsData] = useState<PublicQuizResultsResponse | null>(null);
   const [resultsLoading, setResultsLoading] = useState(false);
 
-  const getQuiz = useCallback(async () => {
+  const getQuiz = async () => {
     try {
       const parsedId = parseInt(id)
       const quiz = await getQuizById(parsedId)
@@ -64,7 +78,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
       // if error navigate to dashboard
       navigate('/dashboard')
     }
-  }, [id, navigate])
+  };
 
   useEffect(() => {
     const fetchResults = async () => {
@@ -97,7 +111,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     return () => {
       cleanQuizActionSuccess()
     }
-  }, [getQuiz, cleanQuizActionSuccess])
+  }, []);
 
   useEffect(() => {
     if (t(SUCCESS_MESSAGES[quizActionSuccess])) {
@@ -112,8 +126,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
 
       cleanQuizActionSuccess()
     }
-  }, [quizActionSuccess, cleanQuizActionSuccess, getQuiz, navigate, t])
-
+  }, [quizActionSuccess]);
 
   const handleTogglePublished = (cardId: number, published: boolean) => {
     updateQuiz({
