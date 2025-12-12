@@ -64,6 +64,7 @@ export const AssignLearnersLayover: FunctionComponent<Props> = ({
             learners={selectedLearners}
             openErrorModal={openErrorModal}
             loading={loading}
+            setIsLoading={setLoading}
             disabled={rowSelection && Object.keys(rowSelection).length === 0}
             onSuccess={() => {
               setRowSelection({});

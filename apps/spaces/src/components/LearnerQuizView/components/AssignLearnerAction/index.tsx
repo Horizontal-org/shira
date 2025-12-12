@@ -33,8 +33,6 @@ export const AssignLearnerAction: FunctionComponent<Props> = ({
 
     try {
       const response = await assignToQuiz(learners);
-      const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-      await sleep(5000);
 
       if (response.status === "Error") {
         const content = getErrorContent("error_messages", "assign_quiz_failed", response.message);

@@ -1,5 +1,5 @@
 import { Body1, Button, SettingsFishIcon, Table, TableCheckbox, styled, useTheme } from "@shira/ui";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { FunctionComponent, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GoPersonFill } from "react-icons/go";
@@ -37,12 +37,12 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
   const [showAssignLayover, setAssignLayover] = useState(false);
 
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [singleLearnerId, setSingleLearnerId] = useState<number | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [retryAction, setRetryAction] = useState<(() => void) | null>(null);
 
   //Key of row selection is DB ID of learner
-  const [rowSelection, setRowSelection] = useState({});
-  // const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [isUnassignModalOpen, setIsUnassignModalOpen] = useState(false);
 
   const openErrorModal = useCallback(
@@ -50,8 +50,7 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
       setErrorMessage(content);
       setRetryAction(() => retry);
       setIsErrorModalOpen(true);
-    },
-    []
+    }, []
   );
 
   const closeErrorModal = useCallback(() => {
@@ -67,7 +66,7 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
   }, [retryAction, closeErrorModal]);
 
   const handleSingleUnassign = useCallback((id: number): void => {
-    setRowSelection({ [id]: true });
+    setSingleLearnerId(id);
     setIsUnassignModalOpen(true);
   }, []);
 
@@ -94,6 +93,10 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
         })),
     [rowSelection, quizId]
   );
+
+  const learnersToUnassign = singleLearnerId !== null
+    ? [{ learnerId: singleLearnerId, quizId }]
+    : selectedLearners;
 
   const hasSelectedLearners = selectedLearners.length > 0;
 
@@ -161,7 +164,7 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
         }
       }
     ],
-    [t, theme]
+    [t, theme, handleSingleUnassign]
   );
 
   useEffect(() => {
@@ -239,7 +242,19 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
             <EmptyDescription>
               {t("learner_quiz_tab.empty_state.description")}
             </EmptyDescription>
-            <AssignLearnerAction learners={selectedLearners} openErrorModal={openErrorModal} />
+            <Button
+              id="assign-learners-button"
+              type="primary"
+              text={t('learners.assign_dialog.assign_button')}
+              color={theme.colors.green7}
+              leftIcon={(
+                <IoPersonAdd size={20} color="white" />
+              )}
+              onClick={() => {
+                setAssignLayover(true)
+                window.scrollTo(0, 0)
+              }}
+            />
           </EmptyStateContainer>
         ) : (
           <Table
@@ -268,7 +283,7 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
       />
 
       <UnassignLearnerAction
-        learners={selectedLearners}
+        learners={learnersToUnassign}
         isModalOpen={isUnassignModalOpen}
         onSuccess={() => {
           fetchLearnerQuiz();
@@ -276,6 +291,7 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
         }}
         onClose={() => {
           setRowSelection({});
+          setSingleLearnerId(null);
           setIsUnassignModalOpen(false);
         }}
         openErrorModal={openErrorModal}
