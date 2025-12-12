@@ -63,6 +63,7 @@ export const UnassignLearnerAction: FunctionComponent<Props> = ({
 
   return (
     <Modal
+      id="unassign-learner-modal"
       isOpen={isOpen}
       title={title}
       primaryButtonText={t("buttons.unassign")}

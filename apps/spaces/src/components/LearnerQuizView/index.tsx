@@ -37,8 +37,6 @@ export const LearnerQuizView: FunctionComponent<Props> = ({ quizId }) => {
 
   const [pendingUnassignLearners, setPendingUnassignLearners] = useState<AssignRequest[] | null>(null);
 
-  const isUnassignModalOpen = Boolean(pendingUnassignLearners);
-
   const openErrorModal = useCallback(
     (content: string, retry: () => void) => {
       setErrorMessage(content);
@@ -243,23 +241,20 @@ export const LearnerQuizView: FunctionComponent<Props> = ({ quizId }) => {
         onCancel={closeErrorModal}
       />
 
-      {pendingUnassignLearners && (
-        <UnassignLearnerAction
-          learners={pendingUnassignLearners}
-          isOpen={isUnassignModalOpen}
-          onClose={() => setPendingUnassignLearners(null)}
-          openErrorModal={openErrorModal}
-          onSuccess={() => {
-            fetchLearnerQuiz();
-
-            if (pendingUnassignLearners.length > 1) {
-              setRowSelection({});
-            }
-
-            setPendingUnassignLearners(null);
-          }}
-        />
-      )}
+      <UnassignLearnerAction
+        learners={pendingUnassignLearners}
+        isOpen={Boolean(pendingUnassignLearners)}
+        onClose={() => {
+          setRowSelection({});
+          setPendingUnassignLearners(null);
+        }}
+        openErrorModal={openErrorModal}
+        onSuccess={() => {
+          fetchLearnerQuiz();
+          setRowSelection({});
+          setPendingUnassignLearners(null);
+        }}
+      />
     </>
   );
 };
