@@ -1,19 +1,6 @@
 import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  Sidebar,
-  styled,
-  useAdminSidebar,
-  H2,
-  Body1,
-  Button,
-  RenameIcon,
-  CopyUrlIcon,
-  DeleteIcon,
-  Toggle,
-  BetaBanner,
-  Body2Regular
-} from "@shira/ui";
+import { Sidebar, styled, useAdminSidebar, H2, Body1, Button, RenameIcon, CopyUrlIcon, DeleteIcon, Toggle, BetaBanner, Body2Regular, defaultTheme } from "@shira/ui";
 import { TabContainer } from './components/TabContainer'
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
@@ -163,10 +150,10 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 <ActionHeader>
                   <VisibilityTag>
                     {quiz.visibility && quiz.visibility === 'private' && (
-                      <MdLockOutline size={16} />
+                      <MdLockOutline size={16} color={defaultTheme.colors.dark.darkGrey} />
                     )}
                     {quiz.visibility && quiz.visibility === 'public' && (
-                      <MdLockOpen size={16} />
+                      <MdLockOpen size={16} color={defaultTheme.colors.dark.darkGrey} />
                     )}
                     <Body2Regular>{getQuizVisibility()}</Body2Regular>
                   </VisibilityTag>
