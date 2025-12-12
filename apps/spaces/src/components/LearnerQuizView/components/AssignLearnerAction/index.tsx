@@ -49,6 +49,7 @@ export const AssignLearnerAction: FunctionComponent<Props> = ({
   return (
     <ActionContainer>
       <Button
+        id="assign-learner-button"
         text={t("buttons.assign_learners")}
         type="primary"
         leftIcon={<BsFillPersonPlusFill />}

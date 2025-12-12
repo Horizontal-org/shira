@@ -8,7 +8,7 @@ import { AssignRequest, unassignFromQuiz } from "../../../../fetch/learner_quiz"
 
 interface Props {
   learners: AssignRequest[];
-  isOpen: boolean;
+  isModalOpen: boolean;
   onClose: () => void;
   openErrorModal: (content: string, retry: () => void) => void;
   onSuccess?: () => void;
@@ -16,7 +16,7 @@ interface Props {
 
 export const UnassignLearnerAction: FunctionComponent<Props> = ({
   learners,
-  isOpen,
+  isModalOpen,
   onClose,
   openErrorModal,
   onSuccess,
@@ -64,7 +64,7 @@ export const UnassignLearnerAction: FunctionComponent<Props> = ({
   return (
     <Modal
       id="unassign-learner-modal"
-      isOpen={isOpen}
+      isOpen={isModalOpen}
       title={title}
       primaryButtonText={t("buttons.unassign")}
       primaryButtonDisabled={isLoading}
@@ -73,7 +73,7 @@ export const UnassignLearnerAction: FunctionComponent<Props> = ({
       onPrimaryClick={unassign}
       onSecondaryClick={onClose}
     >
-      <Body1>{subtitle}</Body1>
+      <Body1 id="unassign-learner-subtitle">{subtitle}</Body1>
     </Modal>
   );
 };

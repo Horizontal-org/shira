@@ -6,7 +6,7 @@ import { GoPersonFill } from "react-icons/go";
 import { IoPersonRemoveSharp } from "react-icons/io5";
 import { LearnerEmail, LearnerHeader, LearnerName, LearnerPersonInfo } from "../LearnersTable/components/LearnerHeader";
 import { QuizStatusTag } from "./components/QuizStatusTag";
-import { AssignRequest, getAssignedLearners } from "../../fetch/learner_quiz";
+import { getAssignedLearners } from "../../fetch/learner_quiz";
 import { LearnerErrorModal } from "../modals/ErrorModal";
 import { AssignLearnerAction } from "./components/AssignLearnerAction";
 import { UnassignLearnerAction } from "./components/UnassignLearnerAction";
@@ -34,8 +34,7 @@ export const LearnerQuizView: FunctionComponent<Props> = ({ quizId }) => {
   const [retryAction, setRetryAction] = useState<(() => void) | null>(null);
 
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
-
-  const [pendingUnassignLearners, setPendingUnassignLearners] = useState<AssignRequest[] | null>(null);
+  const [isUnassignModalOpen, setIsUnassignModalOpen] = useState(false);
 
   const openErrorModal = useCallback(
     (content: string, retry: () => void) => {
@@ -57,6 +56,11 @@ export const LearnerQuizView: FunctionComponent<Props> = ({ quizId }) => {
     closeErrorModal();
     retry?.();
   }, [retryAction, closeErrorModal]);
+
+  const handleSingleUnassign = useCallback((id: number): void => {
+    setRowSelection({ [id]: true });
+    setIsUnassignModalOpen(true);
+  }, []);
 
   const fetchLearnerQuiz = useCallback(async () => {
     try {
@@ -83,11 +87,6 @@ export const LearnerQuizView: FunctionComponent<Props> = ({ quizId }) => {
   );
 
   const hasSelectedLearners = selectedLearners.length > 0;
-
-  const handleBulkUnassignClick = useCallback(() => {
-    if (!selectedLearners.length) return;
-    setPendingUnassignLearners(selectedLearners);
-  }, [selectedLearners]);
 
   const columns = useMemo<ColumnDef<Learner>[]>(
     () => [
@@ -145,9 +144,7 @@ export const LearnerQuizView: FunctionComponent<Props> = ({ quizId }) => {
           const learner = row.original;
           return (
             <UnassignAction
-              onClick={() => {
-                setPendingUnassignLearners([{ learnerId: learner.id, quizId }]);
-              }}
+              onClick={() => { handleSingleUnassign(learner.id) }}
             >
               <IoPersonRemoveSharp size={24} color={theme.colors.error9} />
             </UnassignAction>
@@ -190,7 +187,7 @@ export const LearnerQuizView: FunctionComponent<Props> = ({ quizId }) => {
                     type="primary"
                     leftIcon={<IoPersonRemoveSharp size={20} />}
                     color={theme.colors.error7}
-                    onClick={handleBulkUnassignClick}
+                    onClick={() => setIsUnassignModalOpen(true)}
                   />
                 )}
               </RightActions>
@@ -241,20 +238,21 @@ export const LearnerQuizView: FunctionComponent<Props> = ({ quizId }) => {
         onCancel={closeErrorModal}
       />
 
-      <UnassignLearnerAction
-        learners={pendingUnassignLearners}
-        isOpen={Boolean(pendingUnassignLearners)}
-        onClose={() => {
-          setRowSelection({});
-          setPendingUnassignLearners(null);
-        }}
-        openErrorModal={openErrorModal}
-        onSuccess={() => {
-          fetchLearnerQuiz();
-          setRowSelection({});
-          setPendingUnassignLearners(null);
-        }}
-      />
+      {isUnassignModalOpen && (
+        <UnassignLearnerAction
+          learners={selectedLearners}
+          isModalOpen={isUnassignModalOpen}
+          onSuccess={() => {
+            fetchLearnerQuiz();
+            setRowSelection({});
+          }}
+          onClose={() => {
+            setRowSelection({});
+            setIsUnassignModalOpen(false);
+          }}
+          openErrorModal={openErrorModal}
+        />
+      )}
     </>
   );
 };
