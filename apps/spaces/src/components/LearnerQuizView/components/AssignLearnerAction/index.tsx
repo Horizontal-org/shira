@@ -2,24 +2,35 @@ import { FunctionComponent } from "react";
 import toast from "react-hot-toast";
 import { Button, useTheme } from "@shira/ui";
 import { useTranslation } from "react-i18next";
-import { BsFillPersonPlusFill } from "react-icons/bs";
 import { handleHttpError } from "../../../../fetch/handleError";
 import { getErrorContent } from "../../../../utils/getErrorContent";
 import styled from "styled-components";
+import { IoPersonAdd } from "react-icons/io5";
 import { AssignRequest, assignToQuiz } from "../../../../fetch/learner_quiz";
 
 interface Props {
   learners: AssignRequest[];
   openErrorModal: (content: string, retry: () => void) => void;
+  onSuccess?: () => void;
+  loading?: boolean;
+  setIsLoading?: (v: boolean) => void;
+  disabled?: boolean;
 }
 
 export const AssignLearnerAction: FunctionComponent<Props> = ({
   learners,
-  openErrorModal }) => {
+  openErrorModal,
+  loading,
+  disabled,
+  onSuccess,
+  setIsLoading
+}) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
   const assign = async () => {
+    setIsLoading?.(true);
+
     try {
       const response = await assignToQuiz(learners);
 
@@ -38,11 +49,14 @@ export const AssignLearnerAction: FunctionComponent<Props> = ({
           });
 
       toast.success(successMessage, { duration: 3000 });
+      onSuccess?.();
     } catch (error) {
       const e = handleHttpError(error);
       const content = getErrorContent("error_messages", "assign_quiz_failed", e.message);
 
       openErrorModal(content, assign);
+    } finally {
+      setIsLoading?.(false);
     }
   };
 
@@ -50,11 +64,12 @@ export const AssignLearnerAction: FunctionComponent<Props> = ({
     <ActionContainer>
       <Button
         id="assign-learner-button"
-        text={t("buttons.assign_learners")}
+        text={t("buttons.assign_via_email")}
         type="primary"
-        leftIcon={<BsFillPersonPlusFill />}
+        leftIcon={(<IoPersonAdd size={20} color="white" />)}
         color={theme.colors.green7}
         onClick={assign}
+        disabled={disabled || loading}
       />
     </ActionContainer>
   );

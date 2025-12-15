@@ -29,11 +29,20 @@
         "table": {
             "learner": "Learner",
             "registration": "Registration",
+            "quiz_status": "Quiz status",
             "invited_at": "Date invited",
             "invited_tag": "Invited",
             "registered_tag": "Registered",
             "submitted_tag": "Submitted",
             "not_submitted_tag": "Not submitted"
+        }
+        ,
+        "assign_dialog": {
+            "registered_title": "Registered Learners",
+            "registered_description": "These are the learners registered in your space. Select one or more learners to assign this quiz to them. You can manage registered learners and invite new ones in the <0>Learners section</0>.",
+            "assign_button": "Assign to learners",
+            "assign_title": "Assign \"{{quiz_title}}\" to learners",
+            "no_learners": "You don’t have any registered learners yet. Go to the Learners section and invite learners to get started."
         }
     },
     "quizzes": {
@@ -241,7 +250,8 @@
         "invite_learners_bulk": "Import learners in bulk",
         "delete_learners": "Delete learners",
         "unassign_learners": "Unassign from learners",
-        "assign_learners": "Assign to learners"
+        "assign_learners": "Assign to learners",
+        "assign_via_email": "Assign via email"
     },
     "modals": {
         "create_quiz": {
@@ -390,7 +400,7 @@
         "duplicating": "Duplicating...",
         "loading_library_questions": "Loading questions...",
         "uploading_image": "Uploading image...",
-        "assigning_quiz_to_learners": "Assigning quiz to learners",
+        "assigning_quiz_to_learners": "Assigning quiz to learners...",
         "assigning_quiz_to_learners_description": "Shira is working to assign the quiz to the selected learners.",
         "sending_invitation": "Sending invitation"
     },

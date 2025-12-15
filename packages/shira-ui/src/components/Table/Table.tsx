@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import {
   ColumnDef,
   flexRender,
@@ -20,6 +20,7 @@ export interface TableProps {
   rowSelection: Object
   setRowSelection: React.Dispatch<React.SetStateAction<any>>
   pageSize?: number
+  loadingMessage?: ReactNode
 }
 
 export const Table = ({
@@ -29,7 +30,8 @@ export const Table = ({
   loading,
   rowSelection,
   setRowSelection,
-  pageSize = 25
+  pageSize = 25,
+  loadingMessage = null
 }) => {
   const [pagination, setPagination] = React.useState<PaginationState>({
     pageIndex: 0,
@@ -78,7 +80,11 @@ export const Table = ({
           {loading ? (
             <Tr>
               <Td colSpan={totalColumns}>
-                <CenteredBody>loading...</CenteredBody>
+                {loadingMessage ? (
+                  <CenteredCellContent>{loadingMessage}</CenteredCellContent>
+                ) : (
+                  <CenteredBody>loading...</CenteredBody>
+                )}
               </Td>
             </Tr>
           ) : table.getRowModel().rows.length === 0 ? (
@@ -212,4 +218,13 @@ const CenteredBody = styled(Body3)`
   text-align: center;
   font-weight: 400;
   font-size: 14px;
+`;
+
+const CenteredCellContent = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 16px 0;
 `;

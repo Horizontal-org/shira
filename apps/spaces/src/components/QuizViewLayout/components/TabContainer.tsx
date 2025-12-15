@@ -11,6 +11,7 @@ type TabType = 'questions' | 'results' | 'learners';
 
 interface TabContainerProps {
   quizId: number;
+  quizTitle: string;
   quizQuestions: QuizQuestion[];
   resultsData: PublicQuizResultsResponse | null
   resultsLoading: boolean
@@ -25,6 +26,7 @@ interface TabContainerProps {
 
 export const TabContainer: FunctionComponent<TabContainerProps> = ({
   quizId,
+  quizTitle,
   quizQuestions,
   onEdit,
   onDelete,
@@ -85,6 +87,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
         {activeTab === 'learners' && (
           <LearnerQuizView
             quizId={quizId}
+            quizTitle={quizTitle}
           />
         )}
 

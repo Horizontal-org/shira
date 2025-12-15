@@ -110,6 +110,7 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
       <Sidebar
         menuItems={menuItems}
         onCollapse={handleCollapse}
+        selectedItemLabel={menuItems.find(m => m.path === '/learner').label}
       />
 
       <LayoutMainContent $isCollapsed={isCollapsed}>
