@@ -51,7 +51,7 @@ export const Card: FunctionComponent<CardProps> = ({
           <VisibilityTag>
             {isPublic && (<TbWorld size={16} color={defaultTheme.colors.dark.darkGrey} />)}
             {!isPublic && (<MdLockOutline size={16} color={defaultTheme.colors.dark.darkGrey} />)}
-            <Body2Regular>{visibilityText}</Body2Regular>
+            <VisibilityBody>{visibilityText}</VisibilityBody>
           </VisibilityTag>
         )}
         <TitleSection>
@@ -200,6 +200,9 @@ const CopyButton = styled.button`
 const VisibilityTag = styled.span`
   display: flex;
   align-items: center;
-  padding: 8px 12px;
-  gap: 8px;
+  gap: 4px;
+`;
+
+const VisibilityBody = styled(Body4)`
+  color: #5F6368;
 `;

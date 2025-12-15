@@ -248,7 +248,10 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                   setIsDeleteModalOpen(true)
                 }}
                 isPublic={card.visibility === 'public'}
-                visibilityText={card.visibility === 'public' ? t('quiz.visibility.public') : t('quiz.visibility.private')}
+                visibilityText={
+                  card.visibility === 'public'
+                    ? t('quiz.visibility.public')
+                    : t('quiz.visibility.private')}
               />
             ))}
           </CardGrid>
