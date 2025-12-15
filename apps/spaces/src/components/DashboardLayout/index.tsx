@@ -70,6 +70,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
   useEffect(() => {
     setCards(quizzes)
+    console.log("🚀 ~ useEffect ~ quizzes:", quizzes)
   }, [quizzes])
 
 
@@ -246,6 +247,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                   handleSelectedCard(card)
                   setIsDeleteModalOpen(true)
                 }}
+                isPublic={card.visibility === 'public'}
+                visibilityText={card.visibility === 'public' ? t('quiz.visibility.public') : t('quiz.visibility.private')}
               />
             ))}
           </CardGrid>
