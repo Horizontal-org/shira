@@ -1,10 +1,13 @@
 import { FunctionComponent, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { Body4, Body3Bold } from '../Typography';
+import { Body4, Body3Bold, Body2Regular } from '../Typography';
 import { CopyUrlIcon } from '../Icons'
 import { FiMoreVertical } from 'react-icons/fi';
 import { FloatingMenu } from '../FloatingMenu';
 import Toggle from '../Toggle/Toggle';
+import { MdLockOutline } from 'react-icons/md';
+import { TbWorld } from 'react-icons/tb';
+import { defaultTheme } from '../../theme';
 
 export interface CardProps {
   id?: string;
@@ -18,6 +21,8 @@ export interface CardProps {
   onDelete: () => void;
   onCardClick: () => void;
   publishedText: string;
+  isPublic?: boolean;
+  visibilityText?: string;
 }
 
 export const Card: FunctionComponent<CardProps> = ({
@@ -32,6 +37,8 @@ export const Card: FunctionComponent<CardProps> = ({
   onDelete,
   onCardClick,
   publishedText,
+  isPublic,
+  visibilityText
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -40,6 +47,13 @@ export const Card: FunctionComponent<CardProps> = ({
       onCardClick()
     }}>
       <TopSection>
+        {visibilityText && (
+          <VisibilityTag>
+            {isPublic && (<TbWorld size={16} color={defaultTheme.colors.dark.darkGrey} />)}
+            {!isPublic && (<MdLockOutline size={16} color={defaultTheme.colors.dark.darkGrey} />)}
+            <Body2Regular>{visibilityText}</Body2Regular>
+          </VisibilityTag>
+        )}
         <TitleSection>
           <TitleText>{title}</TitleText>
           <MenuButton
@@ -181,4 +195,11 @@ const CopyButton = styled.button`
   &:hover {
     color: ${props => props.theme.colors.dark.black};
   }
+`;
+
+const VisibilityTag = styled.span`
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  gap: 8px;
 `;
