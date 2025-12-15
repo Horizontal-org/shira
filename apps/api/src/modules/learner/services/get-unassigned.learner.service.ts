@@ -29,9 +29,11 @@ export class GetUnassignedLearnerService implements IGetUnassignedLearnerService
           'learners.email',
           'learners.name',
           'learners.id',
-          'learners.invitedAt'
+          'learners.invitedAt',
+          'learners.status'
         ])
         .where("learners.spaceId = :spaceId", { spaceId: spaceId })
+        .andWhere("learners.status = :status", { status: 'registered' })
         .andWhere(new Brackets(qb => {
           qb.where('lq.quizId IS NULL')
             .orWhere('lq.quizId <> :quizId', { quizId })
