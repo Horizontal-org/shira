@@ -28,7 +28,8 @@ import { UnpublishedQuizModal } from "../modals/UnpublishedQuizModal";
 import { handleCopyUrl, handleCopyUrlAndNotify } from "../../utils/quiz";
 import { getQuizResults, PublicQuizResultsResponse } from "../../fetch/results";
 import { useTranslation } from "react-i18next";
-import { MdLockOutline, MdLockOpen } from "react-icons/md";
+import { MdLockOutline } from "react-icons/md";
+import { TbWorld } from "react-icons/tb";
 
 interface Props { }
 
@@ -166,7 +167,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                       <MdLockOutline size={16} color={defaultTheme.colors.dark.darkGrey} />
                     )}
                     {quiz.visibility && quiz.visibility === 'public' && (
-                      <MdLockOpen size={16} color={defaultTheme.colors.dark.darkGrey} />
+                      <TbWorld size={16} color={defaultTheme.colors.dark.darkGrey} />
                     )}
                     <Body2Regular>{getQuizVisibility()}</Body2Regular>
                   </VisibilityTag>
