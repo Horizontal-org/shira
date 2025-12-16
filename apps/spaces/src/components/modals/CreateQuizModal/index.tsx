@@ -37,7 +37,7 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
       id="create-quiz-modal"
       isOpen={isModalOpen}
       title={t('modals.create_quiz.title')}
-      primaryButtonText={t('modals.create_quiz.button')}
+      primaryButtonText={t('buttons.next')}
       primaryButtonDisabled={!title || title.trim() === ""}
       onPrimaryClick={() => {
         onCreate(title.trim());
