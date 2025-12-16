@@ -153,8 +153,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     setCreateQuizStep(1);
     setNewQuizTitle("");
     setIsCreateModalOpen(false);
-
-    console.log("🚀 ~ resetCreateQuizFlow called")
   };
 
   const getLastUpdateTime = useCallback(
@@ -299,7 +297,11 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
               setNewQuizTitle(title);
               setCreateQuizStep(2);
             }}
-            onCancel={resetCreateQuizFlow}
+            onCancel={() => {
+              resetCreateQuizFlow();
+              console.log("🚀 ~ onCancel called");
+              console.log(newQuizTitle)
+            }}
           />
 
           <QuizVisibilityModal

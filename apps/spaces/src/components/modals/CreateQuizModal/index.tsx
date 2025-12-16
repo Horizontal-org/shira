@@ -26,6 +26,7 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
   const handleCancel = () => {
     if (onCancel) {
       onCancel();
+      setTitle("");
     } else {
       handleClose();
     }
