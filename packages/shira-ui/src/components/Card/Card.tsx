@@ -1,6 +1,6 @@
 import { FunctionComponent, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { Body4, Body3Bold, Body2Regular } from '../Typography';
+import { Body4, Body3Bold } from '../Typography';
 import { CopyUrlIcon } from '../Icons'
 import { FiMoreVertical } from 'react-icons/fi';
 import { FloatingMenu } from '../FloatingMenu';
