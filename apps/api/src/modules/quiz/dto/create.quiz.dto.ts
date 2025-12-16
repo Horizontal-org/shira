@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import { IsEnum, IsString } from 'class-validator';
 import { SpaceEntity } from 'src/modules/space/domain/space.entity';
 import { IsNotEmpty } from 'src/utils/decorators/is-not-empty.decorator';
 
@@ -7,5 +7,9 @@ export class CreateQuizDto {
   @IsNotEmpty({ message: 'Title cannot be empty' })
   title: string;
 
-  space?: SpaceEntity
+  @IsEnum(['public', 'private'])
+  @IsNotEmpty({ message: 'Visibility cannot be empty' })
+  visibility: 'public' | 'private';
+
+  space?: SpaceEntity;
 }

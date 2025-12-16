@@ -52,13 +52,12 @@ export class Quiz {
       questionImage.quiz,
   )
   images?: QuestionImage[];
-  
+
 
   @ManyToOne(() => SpaceEntity, (space: SpaceEntity) => space.quizzes)
   @JoinColumn({ name: 'space_id' })
   space: SpaceEntity;
 
-  
   @Expose()
   @Column({ name: 'created_at' })
   createdAt!: Date;
