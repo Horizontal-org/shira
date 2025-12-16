@@ -18,6 +18,11 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
 
   const [title, handleTitle] = useState('')
 
+  const handleClose = () => {
+    setIsModalOpen(false);
+    handleTitle("");
+  };
+
   return (
     <Modal
       id="create-quiz-modal"
@@ -29,12 +34,9 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
       onPrimaryClick={() => {
         onCreate(title)
         setIsModalOpen(false);
-        handleTitle('')
       }}
-      onSecondaryClick={() => {
-        setIsModalOpen(false)
-        handleTitle('')
-      }}
+      onSecondaryClick={handleClose}
+      onClose={handleClose}
     >
       <FormContent>
         <TextInput
