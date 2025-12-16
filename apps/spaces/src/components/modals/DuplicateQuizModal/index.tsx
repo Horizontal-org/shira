@@ -26,7 +26,7 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (quiz) {
-      handleTitle(t('quizzes.actions.duplicate_modal.quiz_name_placeholder', { quiz_name: quiz.title }));
+      handleTitle(t('modals.duplicate_quiz.quiz_name_placeholder', { quiz_name: quiz.title }));
     }
   }, [quiz]);
 
