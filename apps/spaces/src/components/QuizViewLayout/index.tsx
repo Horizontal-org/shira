@@ -21,7 +21,6 @@ import { useStore } from "../../store";
 import { getQuizById } from "../../fetch/quiz";
 import { Quiz, QuizSuccessStates, SUCCESS_MESSAGES } from "../../store/slices/quiz";
 import { DeleteModal } from "../modals/DeleteModal";
-import { RenameQuizModal } from "../modals/RenameQuizModal";
 import toast from "react-hot-toast";
 import { useQuestionCRUD } from "../../fetch/question";
 import { UnpublishedQuizModal } from "../modals/UnpublishedQuizModal";
@@ -30,6 +29,8 @@ import { getQuizResults, PublicQuizResultsResponse } from "../../fetch/results";
 import { useTranslation } from "react-i18next";
 import { MdLockOutline } from "react-icons/md";
 import { TbWorld } from "react-icons/tb";
+import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
+import { RenameQuizModal } from "../modals/RenameQuizModal";
 
 interface Props { }
 
@@ -278,6 +279,16 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 onConfirm={() => {
                   handleTogglePublished(quiz.id, true)
                 }}
+              />
+
+              <QuizVisibilityModal
+                quiz={quiz}
+                setIsModalOpen={setIsRenameModalOpen}
+                onSetQuizVisibility={() => { }}
+                onCancel={() => {
+                  setIsRenameModalOpen(false)
+                }}
+                isModalOpen={isRenameModalOpen}
               />
 
               <RenameQuizModal

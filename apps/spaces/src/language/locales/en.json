@@ -35,8 +35,7 @@
             "registered_tag": "Registered",
             "submitted_tag": "Submitted",
             "not_submitted_tag": "Not submitted"
-        }
-        ,
+        },
         "assign_dialog": {
             "registered_title": "Registered Learners",
             "registered_description": "These are the learners registered in your space. Select one or more learners to assign this quiz to them. You can manage registered learners and invite new ones in the <0>Learners section</0>.",
@@ -268,6 +267,19 @@
         "rename_quiz": {
             "title": "Rename quiz",
             "input_placeholder": "Quiz name"
+        },
+        "quiz_visibility": {
+            "title": "Set quiz privacy",
+            "subtitle": "Would you like your quiz to be public or private?",
+            "description": "This setting is permanent and cannot be changed. If you want to change it later, you will have to duplicate this quiz.",
+            "public_option": {
+                "title": "Public",
+                "description": "Anyone with the quiz URL can take the quiz"
+            },
+            "private_option": {
+                "title": "Private",
+                "description": "Only invited learners from your space can take the quiz"
+            }
         },
         "delete_quiz": {
             "title": "Are you sure you want to delete \"{{quiz_name}}\"?",
