@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from "react";
-import { Modal, Body1, styled, TextInput } from "@shira/ui";
+import { Modal, styled, TextInput } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 
 interface Props {
