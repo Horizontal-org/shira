@@ -75,7 +75,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
   useEffect(() => {
     setCards(quizzes)
-    console.log("🚀 ~ useEffect ~ quizzes:", quizzes)
   }, [quizzes])
 
 
@@ -299,8 +298,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             }}
             onCancel={() => {
               resetCreateQuizFlow();
-              console.log("🚀 ~ onCancel called");
-              console.log(newQuizTitle)
             }}
           />
 
