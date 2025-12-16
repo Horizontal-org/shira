@@ -18,6 +18,7 @@ import { handleCopyUrl, handleCopyUrlAndNotify } from "../../utils/quiz";
 import { duplicateQuiz } from "../../fetch/quiz";
 import { useTranslation } from "react-i18next";
 import { getCurrentDateFNSLocales } from "../../language/dateUtils";
+import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
 
 interface Props { }
 
@@ -59,6 +60,10 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const [isDuplicating, setIsDuplicating] = useState(false);
   const [unpublishedQuizId, handleUnpublishedQuizId] = useState<number | null>(null);
 
+  const [createQuizStep, setCreateQuizStep] = useState<1 | 2>(1);
+  const [newQuizTitle, setNewQuizTitle] = useState("");
+  const [newQuizVisibility, setNewQuizVisibility] =
+    useState<"public" | "private">("public");
 
   useEffect(() => {
     fetchQuizzes()
@@ -86,8 +91,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
       cleanQuizActionSuccess()
     }
   }, [quizActionSuccess])
-
-
 
   const handleTogglePublished = (cardId: number, published: boolean) => {
     updateQuiz({
@@ -146,6 +149,14 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     }
   });
 
+  const resetCreateQuizFlow = () => {
+    setCreateQuizStep(1);
+    setNewQuizTitle("");
+    setIsCreateModalOpen(false);
+
+    console.log("🚀 ~ resetCreateQuizFlow called")
+  };
+
   const getLastUpdateTime = useCallback(
     (lastUpdate: string) => {
       const parsedLastUpdate = new Date(lastUpdate.replace(" ", "T") + "Z");
@@ -185,7 +196,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                 leftIcon={<FiPlus />}
                 text={t('dashboard.create_quiz_button')}
                 onClick={() => {
-                  setIsCreateModalOpen(true)
+                  setIsCreateModalOpen(true);
+                  setCreateQuizStep(1);
                 }}
                 color="#849D29"
               />
@@ -281,9 +293,32 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           />
 
           <CreateQuizModal
-            setIsModalOpen={setIsCreateModalOpen}
-            onCreate={(title) => { createQuiz(title) }}
-            isModalOpen={isCreateModalOpen}
+            isModalOpen={isCreateModalOpen && createQuizStep === 1}
+            setIsModalOpen={() => setIsCreateModalOpen(true)}
+            onCreate={(title) => {
+              setNewQuizTitle(title);
+              setCreateQuizStep(2);
+            }}
+            onCancel={resetCreateQuizFlow}
+          />
+
+          <QuizVisibilityModal
+            isModalOpen={isCreateModalOpen && createQuizStep === 2}
+            setIsModalOpen={(open) => {
+              if (!open) {
+                resetCreateQuizFlow();
+              } else {
+                setIsCreateModalOpen(true);
+              }
+            }}
+            onBack={() => {
+              setCreateQuizStep(1);
+            }}
+            onConfirm={(visibility) => {
+              setNewQuizVisibility(visibility);
+              createQuiz(newQuizTitle, visibility.toString());
+              resetCreateQuizFlow();
+            }}
           />
 
           <UnpublishedQuizModal
@@ -344,7 +379,7 @@ const MainContentWrapper = styled.div`
 `
 
 const StyledSubHeading3 = styled(SubHeading3)`
-  color: #52752C; 
+  color: #52752C;
 `
 
 const HeaderContainer = styled.div`

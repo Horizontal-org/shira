@@ -281,7 +281,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 }}
               />
 
-              <QuizVisibilityModal
+              {/* <QuizVisibilityModal
                 quiz={quiz}
                 setIsModalOpen={setIsRenameModalOpen}
                 onSetQuizVisibility={() => { }}
@@ -289,7 +289,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                   setIsRenameModalOpen(false)
                 }}
                 isModalOpen={isRenameModalOpen}
-              />
+              /> */}
 
               <RenameQuizModal
                 quiz={quiz}

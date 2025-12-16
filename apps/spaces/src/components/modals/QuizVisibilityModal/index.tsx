@@ -1,84 +1,98 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { Body1, Body3, Body4, defaultTheme, Modal, styled } from "@shira/ui";
-import { Quiz } from "../../../store/slices/quiz";
+import { Body1, Body3, defaultTheme, Modal, styled } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 
 interface Props {
-  quiz: Quiz;
   isModalOpen: boolean;
-  setIsModalOpen: (handle: boolean) => void;
-  onSetQuizVisibility: (title: string) => void;
-  onCancel: () => void;
+  setIsModalOpen: (isOpen: boolean) => void;
+  onConfirm: (visibility: "public" | "private") => void;
+  onBack: () => void;
 }
 
 export const QuizVisibilityModal: FunctionComponent<Props> = ({
-  quiz,
   isModalOpen,
   setIsModalOpen,
-  onSetQuizVisibility,
-  onCancel
+  onConfirm,
+  onBack
 }) => {
-
   const { t } = useTranslation();
-  const [title, handleTitle] = useState('');
+  const [visibility, setVisibility] = useState<"public" | "private">("public");
 
   useEffect(() => {
-    if (quiz) {
-      handleTitle(quiz.title)
+    if (isModalOpen) {
+      setVisibility("public");
     }
-  }, [quiz])
+  }, [isModalOpen]);
 
-  return quiz && (
+  const handleClose = () => {
+    setIsModalOpen(false);
+  };
+
+  return (
     <Modal
       id="quiz-visibility-modal"
       isOpen={isModalOpen}
-      title={t('modals.quiz_visibility.title')}
-      primaryButtonText={t('buttons.save')}
-      secondaryButtonText={t('buttons.cancel')}
-      primaryButtonDisabled={!title || title.trim() === ""}
+      title={t("modals.quiz_visibility.title")}
+      primaryButtonText={t('modals.create_quiz.button')}
+      secondaryButtonText={t("buttons.back")}
+      primaryButtonDisabled={false}
       onPrimaryClick={() => {
-        setIsModalOpen(false);
-        onSetQuizVisibility(title);
-        handleTitle('');
+        onConfirm(visibility);
+        handleClose();
       }}
       onSecondaryClick={() => {
-        handleTitle('');
-        onCancel();
+        onBack();
       }}
     >
-      <Body1 id="quiz-visibility-modal-subtitle">{t('modals.quiz_visibility.subtitle')}</Body1>
+      <Body1 id="quiz-visibility-modal-subtitle">
+        {t("modals.quiz_visibility.subtitle")}
+      </Body1>
 
       <FieldSet id="quiz-visibility-options">
         <OptionWrapper>
           <OptionRow>
-            <input type="radio" id="public" name="visibility" value="public" checked />
-            <label htmlFor="public">
-              {t('modals.quiz_visibility.public_option.title')}
+            <input
+              id="quiz-visibility-public"
+              type="radio"
+              name="visibility"
+              value="public"
+              checked={visibility === "public"}
+              onChange={() => setVisibility("public")}
+            />
+            <label htmlFor="quiz-visibility-public">
+              {t("modals.quiz_visibility.public_option.title")}
             </label>
           </OptionRow>
 
           <OptionDescription>
-            {t('modals.quiz_visibility.public_option.description')}
+            {t("modals.quiz_visibility.public_option.description")}
           </OptionDescription>
         </OptionWrapper>
 
         <OptionWrapper>
           <OptionRow>
-            <input type="radio" id="private" name="visibility" value="private" />
-            <label htmlFor="private">
-              {t('modals.quiz_visibility.private_option.title')}
+            <input
+              id="quiz-visibility-private"
+              type="radio"
+              name="visibility"
+              value="private"
+              checked={visibility === "private"}
+              onChange={() => setVisibility("private")}
+            />
+            <label htmlFor="quiz-visibility-private">
+              {t("modals.quiz_visibility.private_option.title")}
             </label>
           </OptionRow>
 
           <OptionDescription>
-            {t('modals.quiz_visibility.private_option.description')}
+            {t("modals.quiz_visibility.private_option.description")}
           </OptionDescription>
         </OptionWrapper>
       </FieldSet>
 
-      <Body1>{t('modals.quiz_visibility.description')}</Body1>
+      <Body1>{t("modals.quiz_visibility.description")}</Body1>
     </Modal>
-  )
+  );
 };
 
 const FieldSet = styled.fieldset`

@@ -1,22 +1,35 @@
 import { FunctionComponent, useState } from "react";
-import { Modal, TextInput } from "@shira/ui";
-import styled from "styled-components";
+import { Modal, Body1, styled, TextInput } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 
 interface Props {
   isModalOpen: boolean;
-  setIsModalOpen: (handle: boolean) => void
-  onCreate: (title: string) => void
+  setIsModalOpen: (isOpen: boolean) => void;
+  onCreate: (title: string) => void;
+  onCancel?: () => void;
 }
 
 export const CreateQuizModal: FunctionComponent<Props> = ({
   isModalOpen,
   setIsModalOpen,
-  onCreate
+  onCreate,
+  onCancel,
 }) => {
   const { t } = useTranslation();
+  const [title, setTitle] = useState("");
 
-  const [title, handleTitle] = useState('')
+  const handleClose = () => {
+    setIsModalOpen(false);
+    setTitle("");
+  };
+
+  const handleCancel = () => {
+    if (onCancel) {
+      onCancel();
+    } else {
+      handleClose();
+    }
+  };
 
   return (
     <Modal
@@ -25,27 +38,24 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
       title={t('modals.create_quiz.title')}
       primaryButtonText={t('modals.create_quiz.button')}
       primaryButtonDisabled={!title || title.trim() === ""}
-      secondaryButtonText={t('buttons.cancel')}
       onPrimaryClick={() => {
-        onCreate(title)
-        setIsModalOpen(false);
-        handleTitle('')
+        onCreate(title.trim());
+        handleClose();
       }}
-      onSecondaryClick={() => {
-        setIsModalOpen(false)
-        handleTitle('')
-      }}
+      secondaryButtonText={t("buttons.cancel")}
+      onSecondaryClick={handleCancel}
     >
       <FormContent>
         <TextInput
+          id="create-quiz-title-input"
           label="Quiz name"
           value={title}
-          onChange={(e) => handleTitle(e.target.value)}
+          onChange={(e) => setTitle(e.target.value)}
         />
       </FormContent>
     </Modal>
-  )
-}
+  );
+};
 
 const FormContent = styled.div`
   display: flex;
