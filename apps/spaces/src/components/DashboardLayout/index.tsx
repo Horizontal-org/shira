@@ -5,7 +5,6 @@ import { FiPlus } from 'react-icons/fi';
 import { shallow } from "zustand/shallow";
 
 import { useStore } from "../../store";
-import type { Quiz } from "../../store/slices/quiz";
 import { formatDistance } from "date-fns";
 import { enUS } from "date-fns/locale";
 import { QuizSuccessStates, SUCCESS_MESSAGES } from "../../store/slices/quiz";
@@ -16,10 +15,10 @@ import { CreateQuizModal } from "../modals/CreateQuizModal";
 import { UnpublishedQuizModal } from "../modals/UnpublishedQuizModal";
 import { DuplicateQuizModal } from "../modals/DuplicateQuizModal";
 import { handleCopyUrl, handleCopyUrlAndNotify } from "../../utils/quiz";
-import { duplicateQuiz } from "../../fetch/quiz";
 import { useTranslation } from "react-i18next";
 import { getCurrentDateFNSLocales } from "../../language/dateUtils";
 import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
+import { useQuizVisibilityFlow } from "../../hooks/useQuizVisibilityFlow";
 
 interface Props { }
 
@@ -54,17 +53,28 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   console.log("🚀 ~ cards:", cards)
   const [selectedCard, handleSelectedCard] = useState(null)
 
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [isDuplicateModalOpen, setIsDuplicateModalOpen] = useState(false);
-  const [selectedQuizForDuplicate, setSelectedQuizForDuplicate] = useState(null);
-
-  const [isDuplicating, setIsDuplicating] = useState(false);
   const [unpublishedQuizId, handleUnpublishedQuizId] = useState<number | null>(null);
 
-  const [createQuizStep, setCreateQuizStep] = useState<1 | 2>(1);
-  const [newQuizTitle, setNewQuizTitle] = useState("");
-  const [quizFlowMode, setQuizFlowMode] = useState<"create" | "duplicate" | null>(null);
+  const {
+    mode: quizFlowMode,
+    step: createQuizStep,
+    selectedQuizForDuplicate,
+    isDuplicating,
+    isCreateTitleModalOpen,
+    isDuplicateTitleModalOpen,
+    isVisibilityModalOpen,
+    startCreateQuizFlow,
+    startDuplicateQuizFlow,
+    handleTitleSubmit,
+    handleBackFromVisibility,
+    handleConfirmVisibility,
+    cancelFlow
+  } = useQuizVisibilityFlow({
+    createQuiz,
+    fetchQuizzes,
+    t
+  });
 
   useEffect(() => {
     fetchQuizzes()
@@ -77,7 +87,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   useEffect(() => {
     setCards(quizzes)
   }, [quizzes])
-
 
   useEffect(() => {
     if (t(SUCCESS_MESSAGES[quizActionSuccess])) {
@@ -105,60 +114,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           : card
       )
     );
-  };
-
-  const handleDuplicateQuiz = async (title: string, visibility: string) => {
-    if (!selectedQuizForDuplicate) return;
-
-    setIsDuplicating(true);
-
-    try {
-      await Promise.all([
-        duplicateQuiz(selectedQuizForDuplicate.id, title, visibility),
-        new Promise(resolve => setTimeout(resolve, 1000))
-      ]);
-
-      toast.success(t('success_messages.question_updated', { quiz_name: title }), { duration: 3000 });
-
-      // Refresh the quizzes list to show the new duplicated quiz
-      fetchQuizzes();
-      resetQuizFlow();
-    } catch (error) {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      toast.error(t('error_messages.duplicate_quiz_fail'), { duration: 3000 });
-      console.error('Duplicate quiz error:', error);
-    } finally {
-      setIsDuplicating(false);
-    }
-  };
-
-  const resetQuizFlow = () => {
-    setCreateQuizStep(1);
-    setIsCreateModalOpen(false);
-    setIsDuplicateModalOpen(false);
-    setNewQuizTitle("");
-    setSelectedQuizForDuplicate(null);
-    setQuizFlowMode(null);
-  };
-
-  const startCreateQuizFlow = () => {
-    resetQuizFlow();
-    setQuizFlowMode("create");
-    setIsCreateModalOpen(true);
-  };
-
-  const startDuplicateQuizFlow = (quiz: Quiz) => {
-    resetQuizFlow();
-    setQuizFlowMode("duplicate");
-    setSelectedQuizForDuplicate(quiz);
-    setIsDuplicateModalOpen(true);
-  };
-
-  const handleDuplicateTitleSubmit = (title: string) => {
-    setNewQuizTitle(title);
-    setCreateQuizStep(2);
-    setIsCreateModalOpen(true);
-    setIsDuplicateModalOpen(false);
   };
 
   const filteredCards = cards.filter((card) => {
@@ -296,49 +251,40 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
               handleSelectedCard(null)
             }}
             onCancel={() => {
-              setIsDeleteModalOpen(false)
-              handleSelectedCard(null)
+              setIsDeleteModalOpen(false);
+              handleSelectedCard(null);
             }}
             isModalOpen={isDeleteModalOpen}
           />
 
           <CreateQuizModal
-            isModalOpen={quizFlowMode === "create" && isCreateModalOpen && createQuizStep === 1}
-            setIsModalOpen={setIsCreateModalOpen}
-            onCreate={(title) => {
-              setNewQuizTitle(title);
-              setCreateQuizStep(2);
+            isModalOpen={isCreateTitleModalOpen}
+            setIsModalOpen={(open) => {
+              if (!open) {
+                cancelFlow();
+              }
             }}
-            onCancel={() => { resetQuizFlow(); }}
-            keepOpenOnPrimary
+            onCreate={(title) => {
+              handleTitleSubmit(title);
+            }}
+            onCancel={() => {
+              cancelFlow();
+            }}
+            keepModalOpen
           />
 
           <QuizVisibilityModal
-            isModalOpen={quizFlowMode !== null && isCreateModalOpen && createQuizStep === 2}
+            isModalOpen={isVisibilityModalOpen}
             setIsModalOpen={(open) => {
               if (!open) {
-                resetQuizFlow();
-              } else {
-                setIsCreateModalOpen(true);
-                setCreateQuizStep(2);
+                cancelFlow();
               }
             }}
             onBack={() => {
-              setCreateQuizStep(1);
-              if (quizFlowMode === "duplicate") {
-                setIsCreateModalOpen(false);
-                setIsDuplicateModalOpen(true);
-              } else {
-                setIsCreateModalOpen(true);
-              }
+              handleBackFromVisibility();
             }}
             onConfirm={(visibility) => {
-              if (quizFlowMode === "duplicate") {
-                handleDuplicateQuiz(newQuizTitle, visibility);
-              } else if (quizFlowMode === "create") {
-                createQuiz(newQuizTitle, visibility.toString());
-                resetQuizFlow();
-              }
+              handleConfirmVisibility(visibility);
             }}
           />
 
@@ -352,19 +298,18 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
           <DuplicateQuizModal
             quiz={selectedQuizForDuplicate}
-            isModalOpen={isDuplicateModalOpen}
+            isModalOpen={isDuplicateTitleModalOpen}
             onDuplicate={(title) => {
-              handleDuplicateTitleSubmit(title);
+              handleTitleSubmit(title);
             }}
             onCancel={() => {
-              resetQuizFlow();
+              cancelFlow();
             }}
             isLoading={isDuplicating}
-            initialTitle={quizFlowMode === "duplicate" ? newQuizTitle : ""}
+            initialTitle={""}
           />
         </MainContentWrapper>
       </MainContent>
-
     </Container>
   );
 };
@@ -397,7 +342,6 @@ const MainContent = styled.div<{ $isCollapsed: boolean }>`
 
 const MainContentWrapper = styled.div`
   padding: 50px;
-
 `;
 
 const StyledSubHeading3 = styled(SubHeading3)`

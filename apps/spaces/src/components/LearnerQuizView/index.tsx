@@ -19,7 +19,7 @@ interface Learner {
 }
 
 interface Props {
-  quizId: number
+  quizId: number;
   quizTitle: string;
 }
 

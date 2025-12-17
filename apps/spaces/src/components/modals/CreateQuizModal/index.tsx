@@ -7,7 +7,7 @@ interface Props {
   setIsModalOpen: (isOpen: boolean) => void;
   onCreate: (title: string) => void;
   onCancel?: () => void;
-  keepOpenOnPrimary?: boolean;
+  keepModalOpen?: boolean;
 }
 
 export const CreateQuizModal: FunctionComponent<Props> = ({
@@ -15,7 +15,7 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
   setIsModalOpen,
   onCreate,
   onCancel,
-  keepOpenOnPrimary = false,
+  keepModalOpen = false,
 }) => {
   const { t } = useTranslation();
   const [title, setTitle] = useState("");
@@ -43,7 +43,7 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
       primaryButtonDisabled={!title || title.trim() === ""}
       onPrimaryClick={() => {
         onCreate(title.trim());
-        if (keepOpenOnPrimary) {
+        if (keepModalOpen) {
           setTitle("");
         } else {
           handleClose();

@@ -204,5 +204,5 @@ const VisibilityTag = styled.span`
 `;
 
 const VisibilityBody = styled(Body4)`
-  color: #5F6368;
+  color: ${props => props.theme.colors.dark.darkGrey};
 `;

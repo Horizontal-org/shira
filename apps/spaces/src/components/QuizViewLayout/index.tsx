@@ -29,7 +29,6 @@ import { getQuizResults, PublicQuizResultsResponse } from "../../fetch/results";
 import { useTranslation } from "react-i18next";
 import { MdLockOutline } from "react-icons/md";
 import { TbWorld } from "react-icons/tb";
-import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
 import { RenameQuizModal } from "../modals/RenameQuizModal";
 
 interface Props { }
