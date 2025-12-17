@@ -78,10 +78,11 @@ export const duplicateQuestion = async (quizId: number, questionId: number) => {
   }
 }
 
-export const duplicateQuiz = async (quizId: number, title: string) => {
+export const duplicateQuiz = async (quizId: number, title: string, visibility: string) => {
   try {
     const res = await axios.post(`${process.env.REACT_APP_API_URL}/quiz/${quizId}/duplicate`, {
-      title: title
+      title,
+      visibility
     })
     return res.data
   } catch (err) {
