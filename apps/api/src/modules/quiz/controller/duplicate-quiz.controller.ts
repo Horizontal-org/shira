@@ -14,10 +14,12 @@ export class DuplicateQuizController {
   async duplicateQuiz(
     @Param('quizId') quizId: string,
     @Body('title') title: string,
+    @Body('visibility') visibility: 'public' | 'private',
   ) {
     const duplicateQuizDto: DuplicateQuizDto = {
       quizId: parseInt(quizId),
       title: title,
+      visibility,
     };
 
     const newQuiz = await this.duplicateQuizService.execute(duplicateQuizDto);

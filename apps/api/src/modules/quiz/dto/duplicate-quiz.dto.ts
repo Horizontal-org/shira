@@ -1,4 +1,4 @@
-import { IsNumber, IsString } from "class-validator";
+import { IsIn, IsNumber, IsString } from "class-validator";
 import { IsNotEmpty } from "src/utils/decorators/is-not-empty.decorator";
 
 export class DuplicateQuizDto {
@@ -8,4 +8,8 @@ export class DuplicateQuizDto {
   @IsString()
   @IsNotEmpty({ message: 'Title cannot be empty' })
   title: string;
+
+  @IsString()
+  @IsIn(['public', 'private'])
+  visibility: 'public' | 'private';
 }
