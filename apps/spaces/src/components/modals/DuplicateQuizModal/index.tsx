@@ -4,7 +4,7 @@ import { Quiz } from "../../../store/slices/quiz";
 import { useTranslation } from "react-i18next";
 
 interface Props {
-  quiz: Quiz | null;
+  quiz: Quiz;
   isModalOpen: boolean;
   onDuplicate: (title: string) => void;
   onCancel: () => void;

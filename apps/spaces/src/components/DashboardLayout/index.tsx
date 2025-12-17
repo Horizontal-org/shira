@@ -57,13 +57,13 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isDuplicateModalOpen, setIsDuplicateModalOpen] = useState(false);
+  const [selectedQuizForDuplicate, setSelectedQuizForDuplicate] = useState(null);
 
   const [isDuplicating, setIsDuplicating] = useState(false);
   const [unpublishedQuizId, handleUnpublishedQuizId] = useState<number | null>(null);
 
   const [createQuizStep, setCreateQuizStep] = useState<1 | 2>(1);
   const [newQuizTitle, setNewQuizTitle] = useState("");
-  const [selectedQuizForDuplicate, setSelectedQuizForDuplicate] = useState<Quiz | null>(null);
   const [quizFlowMode, setQuizFlowMode] = useState<"create" | "duplicate" | null>(null);
 
   useEffect(() => {
