@@ -65,6 +65,7 @@
         },
         "actions": {
             "rename": "Rename",
+            "duplicate": "Duplicate",
             "copy_link": "Copy quiz link",
             "delete": "Delete"
         },

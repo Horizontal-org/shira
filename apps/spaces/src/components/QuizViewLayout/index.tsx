@@ -29,7 +29,11 @@ import { getQuizResults, PublicQuizResultsResponse } from "../../fetch/results";
 import { useTranslation } from "react-i18next";
 import { MdLockOutline } from "react-icons/md";
 import { TbWorld } from "react-icons/tb";
+import { FiCopy } from "react-icons/fi";
 import { RenameQuizModal } from "../modals/RenameQuizModal";
+import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
+import { DuplicateQuizModal } from "../modals/DuplicateQuizModal";
+import { useQuizVisibilityFlow } from "../../hooks/useQuizVisibilityFlow";
 
 interface Props { }
 
@@ -44,13 +48,17 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     deleteQuiz,
     quizActionSuccess,
     cleanQuizActionSuccess,
-    reorderQuiz
+    reorderQuiz,
+    createQuiz,
+    fetchQuizzes
   } = useStore((state) => ({
     updateQuiz: state.updateQuiz,
     deleteQuiz: state.deleteQuiz,
     reorderQuiz: state.reorderQuiz,
     quizActionSuccess: state.quizActionSuccess,
     cleanQuizActionSuccess: state.cleanQuizActionSuccess,
+    createQuiz: state.createQuiz,
+    fetchQuizzes: state.fetchQuizzes,
   }), shallow)
 
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
@@ -63,6 +71,21 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
   const [isUnpublishedQuizModalOpen, setIsUnpublishedQuizModalOpen] = useState(false);
   const { destroy } = useQuestionCRUD()
+  const {
+    selectedQuizForDuplicate,
+    isDuplicating,
+    isDuplicateTitleModalOpen,
+    isVisibilityModalOpen,
+    startDuplicateQuizFlow,
+    handleTitleSubmit,
+    handleBackFromVisibility,
+    handleConfirmVisibility,
+    cancelFlow
+  } = useQuizVisibilityFlow({
+    createQuiz,
+    fetchQuizzes,
+    t
+  });
 
   // results handling
   const [resultsData, setResultsData] = useState<PublicQuizResultsResponse | null>(null);
@@ -195,6 +218,17 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                       onClick={() => { setIsRenameModalOpen(true) }}
                     />
                     <Button
+                      id="duplicate-quiz-button"
+                      leftIcon={<FiCopy size={16} />}
+                      text={t('quiz.actions.duplicate')}
+                      type="outline"
+                      onClick={() => {
+                        if (quiz) {
+                          startDuplicateQuizFlow(quiz);
+                        }
+                      }}
+                    />
+                    <Button
                       id="copy-link-button"
                       leftIcon={<CopyUrlIcon />}
                       text={t('quiz.actions.copy_link')}
@@ -280,16 +314,6 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 }}
               />
 
-              {/* <QuizVisibilityModal
-                quiz={quiz}
-                setIsModalOpen={setIsRenameModalOpen}
-                onSetQuizVisibility={() => { }}
-                onCancel={() => {
-                  setIsRenameModalOpen(false)
-                }}
-                isModalOpen={isRenameModalOpen}
-              /> */}
-
               <RenameQuizModal
                 quiz={quiz}
                 setIsModalOpen={setIsRenameModalOpen}
@@ -303,6 +327,33 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                   setIsRenameModalOpen(false)
                 }}
                 isModalOpen={isRenameModalOpen}
+              />
+
+              <DuplicateQuizModal
+                quiz={selectedQuizForDuplicate}
+                isModalOpen={isDuplicateTitleModalOpen}
+                onDuplicate={(title) => {
+                  handleTitleSubmit(title);
+                }}
+                onCancel={() => {
+                  cancelFlow();
+                }}
+                isLoading={isDuplicating}
+              />
+
+              <QuizVisibilityModal
+                isModalOpen={isVisibilityModalOpen}
+                setIsModalOpen={(open) => {
+                  if (!open) {
+                    cancelFlow();
+                  }
+                }}
+                onBack={() => {
+                  handleBackFromVisibility();
+                }}
+                onConfirm={(visibility) => {
+                  handleConfirmVisibility(visibility);
+                }}
               />
             </>
           ) : (

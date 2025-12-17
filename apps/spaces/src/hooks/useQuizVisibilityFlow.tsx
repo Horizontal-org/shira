@@ -65,7 +65,7 @@ export const useQuizVisibilityFlow = ({ createQuiz, fetchQuizzes, t }: UseQuizFl
         ]);
 
         toast.success(
-          t("success_messages.quiz_updated", { quiz_name: title }),
+          t("success_messages.quiz_created", { quiz_name: title }),
           { duration: 3000 }
         );
 
