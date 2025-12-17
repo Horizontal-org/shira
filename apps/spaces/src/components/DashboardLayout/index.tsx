@@ -5,6 +5,7 @@ import { FiPlus } from 'react-icons/fi';
 import { shallow } from "zustand/shallow";
 
 import { useStore } from "../../store";
+import type { Quiz } from "../../store/slices/quiz";
 import { formatDistance } from "date-fns";
 import { enUS } from "date-fns/locale";
 import { QuizSuccessStates, SUCCESS_MESSAGES } from "../../store/slices/quiz";
@@ -56,14 +57,14 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isDuplicateModalOpen, setIsDuplicateModalOpen] = useState(false);
-  const [selectedQuizForDuplicate, setSelectedQuizForDuplicate] = useState(null);
+
   const [isDuplicating, setIsDuplicating] = useState(false);
   const [unpublishedQuizId, handleUnpublishedQuizId] = useState<number | null>(null);
 
   const [createQuizStep, setCreateQuizStep] = useState<1 | 2>(1);
   const [newQuizTitle, setNewQuizTitle] = useState("");
-  const [newQuizVisibility, setNewQuizVisibility] =
-    useState<"public" | "private">("public");
+  const [selectedQuizForDuplicate, setSelectedQuizForDuplicate] = useState<Quiz | null>(null);
+  const [quizFlowMode, setQuizFlowMode] = useState<"create" | "duplicate" | null>(null);
 
   useEffect(() => {
     fetchQuizzes()
@@ -106,15 +107,14 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     );
   };
 
-  const handleDuplicateQuiz = async (title: string) => {
+  const handleDuplicateQuiz = async (title: string, visibility: string) => {
     if (!selectedQuizForDuplicate) return;
 
     setIsDuplicating(true);
 
     try {
-      // Start both the API call and minimum 1-second delay
-      const [result] = await Promise.all([
-        duplicateQuiz(selectedQuizForDuplicate.id, title),
+      await Promise.all([
+        duplicateQuiz(selectedQuizForDuplicate.id, title, visibility),
         new Promise(resolve => setTimeout(resolve, 1000))
       ]);
 
@@ -122,12 +122,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
       // Refresh the quizzes list to show the new duplicated quiz
       fetchQuizzes();
-
-      // Close modal and reset state
-      setIsDuplicateModalOpen(false);
-      setSelectedQuizForDuplicate(null);
+      resetQuizFlow();
     } catch (error) {
-      // Even on error, ensure minimum 1-second delay
       await new Promise(resolve => setTimeout(resolve, 1000));
       toast.error(t('error_messages.duplicate_quiz_fail'), { duration: 3000 });
       console.error('Duplicate quiz error:', error);
@@ -136,7 +132,36 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     }
   };
 
-  const filteredCards = cards.filter(card => {
+  const resetQuizFlow = () => {
+    setCreateQuizStep(1);
+    setIsCreateModalOpen(false);
+    setIsDuplicateModalOpen(false);
+    setNewQuizTitle("");
+    setSelectedQuizForDuplicate(null);
+    setQuizFlowMode(null);
+  };
+
+  const startCreateQuizFlow = () => {
+    resetQuizFlow();
+    setQuizFlowMode("create");
+    setIsCreateModalOpen(true);
+  };
+
+  const startDuplicateQuizFlow = (quiz: Quiz) => {
+    resetQuizFlow();
+    setQuizFlowMode("duplicate");
+    setSelectedQuizForDuplicate(quiz);
+    setIsDuplicateModalOpen(true);
+  };
+
+  const handleDuplicateTitleSubmit = (title: string) => {
+    setNewQuizTitle(title);
+    setCreateQuizStep(2);
+    setIsCreateModalOpen(true);
+    setIsDuplicateModalOpen(false);
+  };
+
+  const filteredCards = cards.filter((card) => {
     switch (activeFilter) {
       case FilterStates.published:
         return card.published;
@@ -147,12 +172,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
         return true;
     }
   });
-
-  const resetCreateQuizFlow = () => {
-    setCreateQuizStep(1);
-    setNewQuizTitle("");
-    setIsCreateModalOpen(false);
-  };
 
   const getLastUpdateTime = useCallback(
     (lastUpdate: string) => {
@@ -192,10 +211,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                 type="primary"
                 leftIcon={<FiPlus />}
                 text={t('dashboard.create_quiz_button')}
-                onClick={() => {
-                  setIsCreateModalOpen(true);
-                  setCreateQuizStep(1);
-                }}
+                onClick={() => { startCreateQuizFlow(); }}
                 color="#849D29"
               />
             </ButtonContainer>
@@ -248,10 +264,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                 onEdit={() => {
                   navigate(`/quiz/${card.id}`)
                 }}
-                onDuplicate={() => {
-                  setSelectedQuizForDuplicate(card);
-                  setIsDuplicateModalOpen(true);
-                }}
+                onDuplicate={() => { startDuplicateQuizFlow(card); }}
                 onDelete={() => {
                   handleSelectedCard(card)
                   setIsDeleteModalOpen(true)
@@ -290,33 +303,42 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           />
 
           <CreateQuizModal
-            isModalOpen={isCreateModalOpen && createQuizStep === 1}
-            setIsModalOpen={() => setIsCreateModalOpen(true)}
+            isModalOpen={quizFlowMode === "create" && isCreateModalOpen && createQuizStep === 1}
+            setIsModalOpen={setIsCreateModalOpen}
             onCreate={(title) => {
               setNewQuizTitle(title);
               setCreateQuizStep(2);
             }}
-            onCancel={() => {
-              resetCreateQuizFlow();
-            }}
+            onCancel={() => { resetQuizFlow(); }}
+            keepOpenOnPrimary
           />
 
           <QuizVisibilityModal
-            isModalOpen={isCreateModalOpen && createQuizStep === 2}
+            isModalOpen={quizFlowMode !== null && isCreateModalOpen && createQuizStep === 2}
             setIsModalOpen={(open) => {
               if (!open) {
-                resetCreateQuizFlow();
+                resetQuizFlow();
               } else {
                 setIsCreateModalOpen(true);
+                setCreateQuizStep(2);
               }
             }}
             onBack={() => {
               setCreateQuizStep(1);
+              if (quizFlowMode === "duplicate") {
+                setIsCreateModalOpen(false);
+                setIsDuplicateModalOpen(true);
+              } else {
+                setIsCreateModalOpen(true);
+              }
             }}
             onConfirm={(visibility) => {
-              setNewQuizVisibility(visibility);
-              createQuiz(newQuizTitle, visibility.toString());
-              resetCreateQuizFlow();
+              if (quizFlowMode === "duplicate") {
+                handleDuplicateQuiz(newQuizTitle, visibility);
+              } else if (quizFlowMode === "create") {
+                createQuiz(newQuizTitle, visibility.toString());
+                resetQuizFlow();
+              }
             }}
           />
 
@@ -330,14 +352,15 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
           <DuplicateQuizModal
             quiz={selectedQuizForDuplicate}
-            setIsModalOpen={setIsDuplicateModalOpen}
             isModalOpen={isDuplicateModalOpen}
-            onDuplicate={handleDuplicateQuiz}
+            onDuplicate={(title) => {
+              handleDuplicateTitleSubmit(title);
+            }}
             onCancel={() => {
-              setIsDuplicateModalOpen(false);
-              setSelectedQuizForDuplicate(null);
+              resetQuizFlow();
             }}
             isLoading={isDuplicating}
+            initialTitle={quizFlowMode === "duplicate" ? newQuizTitle : ""}
           />
         </MainContentWrapper>
       </MainContent>
@@ -370,30 +393,30 @@ const MainContent = styled.div<{ $isCollapsed: boolean }>`
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     margin-left: 0;
   }
-`
+`;
 
 const MainContentWrapper = styled.div`
   padding: 50px;
 
-`
+`;
 
 const StyledSubHeading3 = styled(SubHeading3)`
   color: #52752C;
-`
+`;
 
 const HeaderContainer = styled.div`
   padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-`
+`;
 
 const FilterButtonsContainer = styled.div`
   margin-top: 8px;
   padding: 16px;
   display: flex;
   gap: 8px;
-`
+`;
 
 const CardGrid = styled.div`
   padding: 16px;
@@ -415,12 +438,12 @@ const CardGrid = styled.div`
     grid-template-columns: 1fr;
     gap: 16px;
   }
-`
+`;
 
 const ButtonContainer = styled.div`
   display: flex;
   align-items: flex-start;
-`
+`;
 
 const QuizWarningNote = styled.span`
   color: #d73527;

@@ -1,16 +1,15 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { Body1, Modal, TextInput, styled } from "@shira/ui";
-
 import { Quiz } from "../../../store/slices/quiz";
 import { useTranslation } from "react-i18next";
 
 interface Props {
-  quiz: Quiz;
+  quiz: Quiz | null;
   isModalOpen: boolean;
-  setIsModalOpen: (handle: boolean) => void;
   onDuplicate: (title: string) => void;
   onCancel: () => void;
   isLoading?: boolean;
+  initialTitle?: string;
 }
 
 export const DuplicateQuizModal: FunctionComponent<Props> = ({
@@ -18,7 +17,8 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
   isModalOpen,
   onDuplicate,
   onCancel,
-  isLoading = false
+  isLoading = false,
+  initialTitle,
 }) => {
 
   const { t } = useTranslation();
@@ -26,11 +26,21 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (quiz) {
-      handleTitle(t('modals.duplicate_quiz.quiz_name_placeholder', { quiz_name: quiz.title }));
+      if (initialTitle) {
+        handleTitle(initialTitle);
+      } else {
+        handleTitle(t('modals.duplicate_quiz.quiz_name_placeholder', { quiz_name: quiz.title }));
+      }
+    } else {
+      handleTitle('');
     }
-  }, [quiz]);
+  }, [quiz, initialTitle, t]);
 
-  return quiz && (
+  if (!quiz) {
+    return null;
+  }
+
+  return (
     <Modal
       id="duplicate-quiz-modal"
       isOpen={isModalOpen}
