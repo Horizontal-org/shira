@@ -18,17 +18,17 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
   keepModalOpen = false,
 }) => {
   const { t } = useTranslation();
-  const [title, setTitle] = useState("");
+  const [title, handleTitle] = useState("");
 
   const handleClose = () => {
     setIsModalOpen(false);
-    setTitle("");
+    handleTitle("");
   };
 
   const handleCancel = () => {
     if (onCancel) {
       onCancel();
-      setTitle("");
+      handleTitle("");
     } else {
       handleClose();
     }
@@ -44,7 +44,7 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
       onPrimaryClick={() => {
         onCreate(title.trim());
         if (keepModalOpen) {
-          setTitle("");
+          handleTitle("");
         } else {
           handleClose();
         }
@@ -57,7 +57,7 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
           id="create-quiz-title-input"
           label="Quiz name"
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) => handleTitle(e.target.value)}
         />
       </FormContent>
     </Modal>
