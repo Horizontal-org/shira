@@ -61,7 +61,6 @@ export const useQuizVisibilityFlow = ({ createQuiz, fetchQuizzes, t }: UseQuizFl
 
         await Promise.all([
           duplicateQuiz(selectedQuizForDuplicate.id, title, visibility),
-          new Promise(resolve => setTimeout(resolve, 1000))
         ]);
 
         toast.success(
