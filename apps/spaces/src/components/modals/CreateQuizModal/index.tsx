@@ -43,9 +43,7 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
       primaryButtonDisabled={!title || title.trim() === ""}
       onPrimaryClick={() => {
         onCreate(title.trim());
-        if (keepModalOpen) {
-          handleTitle("");
-        } else {
+        if (!keepModalOpen) {
           handleClose();
         }
       }}
