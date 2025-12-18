@@ -18,16 +18,6 @@ export const QuizVisibilityModal: FunctionComponent<Props> = ({
   const { t } = useTranslation();
   const [visibility, setVisibility] = useState<"public" | "private">("public");
 
-  useEffect(() => {
-    if (isModalOpen) {
-      setVisibility("public");
-    }
-  }, [isModalOpen]);
-
-  const handleClose = () => {
-    setIsModalOpen(false);
-  };
-
   return (
     <Modal
       id="quiz-visibility-modal"
@@ -38,7 +28,7 @@ export const QuizVisibilityModal: FunctionComponent<Props> = ({
       primaryButtonDisabled={false}
       onPrimaryClick={() => {
         onConfirm(visibility);
-        handleClose();
+        setIsModalOpen(false);
       }}
       onSecondaryClick={() => {
         onBack();
@@ -114,6 +104,15 @@ const OptionRow = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
+
+  input[type="radio"] {
+    accent-color: ${defaultTheme.colors.green6};
+    cursor: pointer;
+  }
+
+  label {
+    cursor: pointer;
+  }
 `;
 
 const OptionDescription = styled(Body3)`
