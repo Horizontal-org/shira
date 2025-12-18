@@ -47,42 +47,50 @@ export const Card: FunctionComponent<CardProps> = ({
       onCardClick()
     }}>
       <TopSection>
-        {visibilityText && (
-          <VisibilityTag>
-            {isPublic && (<TbWorld size={16} color={defaultTheme.colors.dark.darkGrey} />)}
-            {!isPublic && (<MdLockOutline size={16} color={defaultTheme.colors.dark.darkGrey} />)}
-            <VisibilityBody>{visibilityText}</VisibilityBody>
-          </VisibilityTag>
-        )}
-        <TitleSection>
-          <TitleText>{title}</TitleText>
+        <HeaderRow>
+          {visibilityText ? (
+            <VisibilityTag>
+              {isPublic ? (
+                <TbWorld size={16} color={defaultTheme.colors.dark.darkGrey} />
+              ) : (
+                <MdLockOutline size={16} color={defaultTheme.colors.dark.darkGrey} />
+              )}
+              <VisibilityBody>{visibilityText}</VisibilityBody>
+            </VisibilityTag>
+          ) : (
+            <span />
+          )}
+
           <MenuButton
             ref={menuButtonRef}
             onClick={(e) => {
-              e.stopPropagation()
-              setIsMenuOpen(!isMenuOpen)
+              e.stopPropagation();
+              setIsMenuOpen(!isMenuOpen);
             }}
           >
             <FiMoreVertical size={20} />
           </MenuButton>
+
           <FloatingMenu
             isOpen={isMenuOpen}
             onClose={() => setIsMenuOpen(false)}
             onEdit={(e) => {
-              e.stopPropagation()
-              onEdit()
+              e.stopPropagation();
+              onEdit();
             }}
             onDuplicate={(e) => {
-              e.stopPropagation()
-              onDuplicate()
+              e.stopPropagation();
+              onDuplicate();
             }}
             onDelete={(e) => {
-              e.stopPropagation()
-              onDelete()
+              e.stopPropagation();
+              onDelete();
             }}
             anchorEl={menuButtonRef.current}
           />
-        </TitleSection>
+        </HeaderRow>
+
+        <TitleText>{title}</TitleText>
       </TopSection>
 
       <BottomContainer>
@@ -127,15 +135,15 @@ const TopSection = styled.div`
   display: flex;
   flex-direction: column;
   padding: 16px;
-  gap: 16px;
+  gap: 2px;
   max-height: 90px;
-  overflow: hidden; 
+  overflow: hidden;
 `;
 
-const TitleSection = styled.div`
+const HeaderRow = styled.div`
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: flex-start;
   gap: 8px;
 `;
 
@@ -143,10 +151,9 @@ const TitleText = styled(Body3Bold)`
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   word-break: break-word;
-  flex: 1;
   line-height: 1.2;
 `;
 
