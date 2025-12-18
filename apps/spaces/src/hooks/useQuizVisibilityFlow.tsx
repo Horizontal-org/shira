@@ -16,7 +16,8 @@ export const useQuizVisibilityFlow = ({ createQuiz, fetchQuizzes, t }: UseQuizFl
   const [mode, setMode] = useState<QuizFlowMode>(null);
   const [step, setStep] = useState<QuizFlowStep>(1);
   const [title, setTitle] = useState("");
-  const [selectedQuizForDuplicate, setSelectedQuizForDuplicate] = useState<Quiz>(null);
+
+  const [selectedQuizForDuplicate, setSelectedQuizForDuplicate] = useState<Quiz | null>(null);
   const [isDuplicating, setIsDuplicating] = useState(false);
 
   const reset = () => {
@@ -24,19 +25,18 @@ export const useQuizVisibilityFlow = ({ createQuiz, fetchQuizzes, t }: UseQuizFl
     setStep(1);
     setTitle("");
     setSelectedQuizForDuplicate(null);
+    setIsDuplicating(false);
   };
 
   const startCreateQuizFlow = () => {
     reset();
     setMode("create");
-    setStep(1);
   };
 
   const startDuplicateQuizFlow = (quiz: Quiz) => {
     reset();
     setMode("duplicate");
     setSelectedQuizForDuplicate(quiz);
-    setStep(1);
   };
 
   const handleTitleSubmit = (newTitle: string) => {
@@ -48,9 +48,11 @@ export const useQuizVisibilityFlow = ({ createQuiz, fetchQuizzes, t }: UseQuizFl
     setStep(1);
   };
 
-  const handleConfirmVisibility = async (visibility: "public" | "private") => {
+  const handleConfirmVisibility = async (visibility: string) => {
+    if (!title || title.trim() === "") return;
+
     if (mode === "create") {
-      createQuiz(title, visibility);
+      createQuiz(title.trim(), visibility);
       reset();
       return;
     }
@@ -59,21 +61,16 @@ export const useQuizVisibilityFlow = ({ createQuiz, fetchQuizzes, t }: UseQuizFl
       try {
         setIsDuplicating(true);
 
-        await Promise.all([
-          duplicateQuiz(selectedQuizForDuplicate.id, title, visibility),
-        ]);
+        await duplicateQuiz(selectedQuizForDuplicate.id, title.trim(), visibility);
 
-        toast.success(
-          t("success_messages.quiz_created", { quiz_name: title }),
-          { duration: 3000 }
-        );
+        toast.success(t("success_messages.quiz_created", { quiz_name: title.trim() }), {
+          duration: 3000,
+        });
 
         fetchQuizzes();
         reset();
       } catch (error) {
-        await new Promise(resolve => setTimeout(resolve, 1000));
         toast.error(t("error_messages.duplicate_quiz_fail"), { duration: 3000 });
-        console.error("Duplicate quiz error:", error);
       } finally {
         setIsDuplicating(false);
       }
@@ -88,6 +85,7 @@ export const useQuizVisibilityFlow = ({ createQuiz, fetchQuizzes, t }: UseQuizFl
     mode,
     step,
     title,
+    setTitle,
     selectedQuizForDuplicate,
     isDuplicating,
 

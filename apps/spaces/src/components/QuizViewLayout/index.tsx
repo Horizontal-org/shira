@@ -72,6 +72,8 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   const [isUnpublishedQuizModalOpen, setIsUnpublishedQuizModalOpen] = useState(false);
   const { destroy } = useQuestionCRUD()
   const {
+    title,
+    setTitle,
     selectedQuizForDuplicate,
     isDuplicating,
     isDuplicateTitleModalOpen,
@@ -333,28 +335,20 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
               <DuplicateQuizModal
                 quiz={selectedQuizForDuplicate}
                 isModalOpen={isDuplicateTitleModalOpen}
-                onDuplicate={(title) => {
-                  handleTitleSubmit(title);
-                }}
-                onCancel={() => {
-                  cancelFlow();
-                }}
+                title={title}
+                setTitle={setTitle}
+                onDuplicate={(newTitle) => { handleTitleSubmit(newTitle); }}
+                onCancel={() => { cancelFlow(); }}
                 isLoading={isDuplicating}
               />
 
               <QuizVisibilityModal
                 isModalOpen={isVisibilityModalOpen}
                 setIsModalOpen={(open) => {
-                  if (!open) {
-                    cancelFlow();
-                  }
+                  if (!open) { cancelFlow(); }
                 }}
-                onBack={() => {
-                  handleBackFromVisibility();
-                }}
-                onConfirm={(visibility) => {
-                  handleConfirmVisibility(visibility);
-                }}
+                onBack={() => { handleBackFromVisibility(); }}
+                onConfirm={(visibility) => { handleConfirmVisibility(visibility); }}
               />
             </>
           ) : (
