@@ -257,6 +257,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 quizId={quiz.id}
                 quizTitle={quiz.title}
                 quizQuestions={quiz.quizQuestions}
+                quizVisibility={quiz.visibility}
                 resultsData={resultsData}
                 resultsLoading={resultsLoading}
                 hasResults={hasResults}
