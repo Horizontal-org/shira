@@ -22,6 +22,7 @@ import { QuestionEditLayout } from './components/QuestionEditLayout';
 import { QuestionLibraryListLayout } from './components/QuestionLibraryListLayout';
 import { SupportLayout } from './components/SupportLayout';
 import './language/i18n';
+import { GetStartedLayout } from './components/GetStartedLayout';
 
 function App() {
 
@@ -64,6 +65,7 @@ function App() {
               <Route path='/login' element={<LoginLayout />} />
               <Route path='/create-space/:passphraseCode' element={<CreateSpaceLayout />} />
               <Route path='/invitation-used' element={<InvitationExpiredLayout />} />
+              <Route path='/get-started' element={<GetStartedLayout />} />
               { user && (
                 <>
                   {/* LEGACY */}

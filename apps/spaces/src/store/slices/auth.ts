@@ -18,7 +18,10 @@ export interface AuthSlice {
 }
 
 const isPublicRoute = (path: string): boolean => {
-  return path === '/login' || path.startsWith('/create-space');
+  return path === '/login' 
+    || path.startsWith('/create-space')
+    || path.startsWith('/invitation-used')
+    || path.startsWith('/get-started');
 };
 
 export const createAuthSlice: StateCreator<

@@ -14,6 +14,13 @@ export class OrganizationEntity {
     @Column({ name: 'stripe_customer_id', nullable: true })
     stripeCustomerId?: string
 
+    @Column({
+        name: 'organization_type',
+        type: 'enum',
+        enum: ["business", "cibersecurity", "non-profit", "individual"],
+    })
+    organization_type: "business" | "cibersecurity" | "non-profit" | "individual"
+
     @OneToMany(() => SpaceEntity, (space) => space.organization)
     spaces: SpaceEntity[]
 
