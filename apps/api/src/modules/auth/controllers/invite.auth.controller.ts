@@ -7,7 +7,6 @@ import { Role } from "src/modules/user/domain/role.enum";
 import { SendInvitationDto } from "../domain/send-invitation.dto";
 
 @Controller('invitation')
-@UseGuards(AuthGuard('jwt'), RolesGuard)
 export class InviteAuthController {
     constructor(
         @Inject(TYPES.services.ISendInvitationAuthService)
@@ -15,7 +14,6 @@ export class InviteAuthController {
     ){}
 
     @Post()
-    @Roles(Role.SuperAdmin)
     async sendInvitation(@Body() invitationDto: SendInvitationDto) {
         await this.sendInvitationService.execute(invitationDto)
         return { success: true, message: 'Invitation sent successfully' }

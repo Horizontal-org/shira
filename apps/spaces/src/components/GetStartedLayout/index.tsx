@@ -1,30 +1,31 @@
-import { FunctionComponent, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { FunctionComponent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios"
 import {
   Form,
-  Link1,
-  H1,
-  SubHeading2,
   Button,
   TextInput,
   styled,
   Navbar
 } from "@shira/ui";
 import backgroundSvg from "../../assets/Background.svg";
-// import { CreateSpaceSuccess } from "./components/CreateSpaceSuccess";
-import { useStore } from "../../store";
-import { shallow } from "zustand/shallow";
+import { RadioGroup } from "./components/RadioGroup";
+import { GetStartedSuccess } from "./components/GetStartedSucess";
 
 interface Props {}
 
+export const ORG_TYPES = [
+  { value: "business", label: "Business" },
+  { value: "cibersecurity", label: "Cibersecurity" },
+  { value: "non-profit", label: "Non-profit" },
+  { value: "individual", label: "Individual" },
+];
+
 export const GetStartedLayout: FunctionComponent<Props> = () => {
 
-  const { passphraseCode } = useParams()
   const [email, handleEmail] = useState("");
-  const [pass, handlePass] = useState("");
-  const [passConfirmation, handlePassConfirmation] = useState("");
   const [name, handleName] = useState("");
+  const [orgType, handleOrgType] = useState(ORG_TYPES[0].value);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -32,32 +33,10 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // clean just in case session exists
-    // logout()
-  }, [])
-
-  const description = (
-    <>
-      {passphraseCode ? 
-        "Complete the form below to create your Shira space." : 
-        <>
-          Shira spaces are currently in closed beta. To obtain the passphrase
-          necessary to join the beta, email us at{" "}
-          <Link1 href="mailto:contact@wearehorizontal.org">
-            contact@wearehorizontal.org
-          </Link1>
-        </>
-      }
-    </>
-  );
-
   const validateForm = () => {
-    if (!name.trim()) return "Space name is required";
-    if (!email.trim()) return "Email is required";
-    if (!pass.trim()) return "Password is required";
-    if (pass.length < 8) return "Password must be at least 8 characters";
-    if (pass !== passConfirmation) return "Passwords do not match";
+    if (!name.trim()) return "Organization name is required"
+    if (!email.trim()) return "Email is required"
+    if(email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) === null) return "Please enter a valid email address"
     return "";
   };
 
@@ -74,14 +53,11 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
     setError("");
     
     try {
-      console.log('do something')
-      // await axios.post(`${process.env.REACT_APP_API_URL}/space-registration`, {
-      //   email,
-      //   password: pass,
-      //   spaceName: name,
-      //   passphrase: passphraseCode,
-      // });
-      // login(email, pass)
+      await axios.post(`${process.env.REACT_APP_API_URL}/invitation`, {
+        email,
+        slug: name,
+        orgType
+      });
       
       setSuccess(true);
       setLoading(false);            
@@ -103,10 +79,12 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
         onNavigate={navigate}
       />
       { success ? (
-        <>
-          <div>success</div>
-          {/* <CreateSpaceSuccess /> */}
-        </>
+        <ContentWrapper>
+          <BackgroundPattern />
+          <Content>
+            <GetStartedSuccess />
+          </Content>
+        </ContentWrapper>
       ) : (
         <ContentWrapper>
           <BackgroundPattern />
@@ -124,15 +102,23 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
               
               <InputsContainer>
                 <TextInput 
-                  label="Organization name" 
+                  label="Organization name (optional)" 
                   value={name} 
                   onChange={(e) => handleName(e.target.value)}
+                  disabled={loading}
                 />
                 <TextInput
-                  label="Email"
+                  required
+                  disabled={loading}
+                  label={"Email (required)"}
                   value={email}
                   onChange={(e) => handleEmail(e.target.value)}
                 />       
+                <RadioGroup 
+                  orgType={orgType}
+                  setOrgType={handleOrgType}
+                  disabled={loading}
+                />
               </InputsContainer>
 
               <ButtonContainer>
@@ -155,7 +141,6 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
 const Container = styled.div`
   box-sizing: border-box;
   width: 100%;
-  height: 100vh;
   padding: 24px;
   display: flex;
   flex-direction: column;  
@@ -188,19 +173,12 @@ const Content = styled.div`
     max-width: 800px;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 12px;
     margin: 48px auto; 
     width: 100%;
     height: auto;
 `;
 
-const Header = styled.div`
-  padding: 32px 0;
-
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-`
 
 const BackgroundPattern = styled.div`
    background-image: url(${backgroundSvg});
@@ -225,11 +203,13 @@ const StyledForm = styled(Form)`
   z-index:1;
   text-align: left;
   margin-bottom: 32px;
+  gap: 16px;
 `;
+
 const InputsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 24px;
 `;
 
 const ButtonContainer = styled.div`
@@ -256,19 +236,4 @@ const ErrorMessage = styled.div`
   border-radius: 4px;
   margin-bottom: 24px;
   font-weight: 500;
-`;
-
-const SuccessMessage = styled.div`
-  background-color: #e8f5e9;
-  color: #2e7d32;
-  padding: 16px;
-  border-radius: 4px;
-  margin-bottom: 24px;
-  font-weight: 500;
-`;
-
-const NoPassphraseMessage = styled.div`
-  margin-top: 16px;
-  text-align: center;
-  color: #757575;
 `;

@@ -19,7 +19,7 @@ export class OrganizationEntity {
         type: 'enum',
         enum: ["business", "cibersecurity", "non-profit", "individual"],
     })
-    organization_type: "business" | "cibersecurity" | "non-profit" | "individual"
+    organizationType: "business" | "cibersecurity" | "non-profit" | "individual"
 
     @OneToMany(() => SpaceEntity, (space) => space.organization)
     spaces: SpaceEntity[]

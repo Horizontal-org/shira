@@ -19,9 +19,14 @@ export class CreateOrganizationService implements ICreateOrganizationService {
         private readonly roleRepo: Repository<RoleEntity>
     ){}
 
-    async execute(name: string, firstUser: UserEntity): Promise<OrganizationEntity> {
+    async execute(
+        name: string, 
+        orgType: "business" | "cibersecurity" | "non-profit" | "individual", 
+        firstUser: UserEntity): Promise<OrganizationEntity> 
+    {
         const organization = new OrganizationEntity()
         organization.name = name
+        organization.organizationType = orgType
         const savedOrganization =  await this.organizationRepo.save(organization)
 
         const orgAdminRole = await this.roleRepo.findOne({

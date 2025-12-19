@@ -55,11 +55,12 @@ export class SpaceRegistrationAuthService implements ISpaceRegistrationAuthServi
       // create org
       const organization = await this.createOrganizationService.execute(
         passphrase.slug,
-        user
+        passphrase.organizationType,
+        user,        
       )
 
       await this.createSpaceService.execute({
-        name: registrationData.spaceName,
+        name: passphrase.slug,
         firstUser: user,
         slug: passphrase.slug,
         organizationId: organization.id

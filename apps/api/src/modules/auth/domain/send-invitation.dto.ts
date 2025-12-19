@@ -5,4 +5,6 @@ export class SendInvitationDto {
     email: string
     @IsString()
     slug: string
+    @IsString()
+    orgType: 'business' | 'cibersecurity' | 'non-profit' | 'individual'
 }
