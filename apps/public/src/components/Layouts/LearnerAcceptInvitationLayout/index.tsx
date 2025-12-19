@@ -8,6 +8,7 @@ import { acceptInvitation } from "../../../fetch/learner_invitation";
 import { SceneWrapper } from "../../UI/SceneWrapper";
 import ShiraFullLogo from "../../UI/Icons/ShiraFullLogo";
 import { handleHttpError } from "../../../utils/handleError";
+import i18n from "../../../language/i18n";
 
 export const LearnerAcceptInvitationLayout: FunctionComponent = () => {
   enum ViewState {
@@ -36,7 +37,11 @@ export const LearnerAcceptInvitationLayout: FunctionComponent = () => {
     } catch (err) {
       const error = handleHttpError(err);
       setView(ViewState.Error);
-      setErrorMsg(t(`learner_invitation.${error.message}`) || "");
+      setErrorMsg(
+        i18n.exists(`learner_invitation.${error.message}`) ?
+          t(`learner_invitation.${error.message}`) :
+          t(`learner_invitation.error_message`)
+      );
     }
   }, [hash]);
 
