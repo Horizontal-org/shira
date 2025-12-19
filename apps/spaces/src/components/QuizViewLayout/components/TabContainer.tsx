@@ -13,6 +13,7 @@ interface TabContainerProps {
   quizId: number;
   quizTitle: string;
   quizQuestions: QuizQuestion[];
+  quizVisibility: string;
   resultsData: PublicQuizResultsResponse | null
   resultsLoading: boolean
   hasResults: boolean
@@ -28,6 +29,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   quizId,
   quizTitle,
   quizQuestions,
+  quizVisibility,
   onEdit,
   onDelete,
   onAdd,
@@ -52,13 +54,15 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
           >
             {t('quiz.tabs.questions')}
           </TabButton>
-          <TabButton
-            id="learners-tab"
-            $isActive={activeTab === 'learners'}
-            onClick={() => setActiveTab('learners')}
-          >
-            {t('quiz.tabs.learners')}
-          </TabButton>
+          {quizVisibility === 'private' && (
+            <TabButton
+              id="learners-tab"
+              $isActive={activeTab === 'learners'}
+              onClick={() => setActiveTab('learners')}
+            >
+              {t('quiz.tabs.learners')}
+            </TabButton>
+          )}
           <TabButton
             id="results-tab"
             $isActive={activeTab === 'results'}

@@ -8,7 +8,6 @@ import { LearnerEmail, LearnerHeader, LearnerName, LearnerPersonInfo } from "../
 import { QuizStatusTag } from "./components/QuizStatusTag";
 import { getAssignedLearners } from "../../fetch/learner_quiz";
 import { LearnerErrorModal } from "../modals/ErrorModal";
-import { AssignLearnerAction } from "./components/AssignLearnerAction";
 import { UnassignLearnerAction } from "./components/UnassignLearnerAction";
 import { AssignLearnersLayover } from "./components/AssignLearnersLayover";
 
@@ -20,7 +19,7 @@ interface Learner {
 }
 
 interface Props {
-  quizId: number
+  quizId: number;
   quizTitle: string;
 }
 

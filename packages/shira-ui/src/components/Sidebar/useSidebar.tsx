@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { FiHome, FiHelpCircle, FiLogOut } from 'react-icons/fi';
+import { FiHelpCircle, FiLogOut } from 'react-icons/fi';
 import { IoPersonOutline } from 'react-icons/io5';
+import { LuNotepadText } from 'react-icons/lu';
 
 interface NavigateFunction {
   (path: string): void;
@@ -13,7 +14,7 @@ interface MenuItem {
 }
 
 const defaultAdminPaths = {
-  dashboard: '/dashboard',
+  quizzes: '/dashboard',
   learners: '/learner',
   support: '/support',
   logout: '/logout'
@@ -21,9 +22,9 @@ const defaultAdminPaths = {
 
 const createDefaultMenuItems = (): MenuItem[] => [
   {
-    icon: <FiHome id="dashboard-icon" size={24} color="white" />,
-    label: 'Dashboard',
-    path: defaultAdminPaths.dashboard
+    icon: <LuNotepadText id="dashboard-icon" size={24} color="white" />,
+    label: 'Quizzes',
+    path: defaultAdminPaths.quizzes
   },
   {
     icon: <IoPersonOutline id='learner-icon' size={24} color='white' />,

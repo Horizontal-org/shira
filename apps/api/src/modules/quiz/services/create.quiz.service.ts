@@ -19,6 +19,7 @@ export class CreateQuizService implements ICreateQuizService {
     const quiz = new QuizEntity();
     quiz.title = createQuizDto.title;
     quiz.space = createQuizDto.space;
+    quiz.visibility = createQuizDto.visibility;
     quiz.hash = crypto.randomBytes(20).toString('hex');
 
     await this.quizRepo.save(quiz);
