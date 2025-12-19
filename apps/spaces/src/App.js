@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { 
+import {
   BrowserRouter,
   Routes,
   Route,
@@ -22,6 +22,7 @@ import { QuestionEditLayout } from './components/QuestionEditLayout';
 import { QuestionLibraryListLayout } from './components/QuestionLibraryListLayout';
 import { SupportLayout } from './components/SupportLayout';
 import './language/i18n';
+import { LearnersLayout } from './components/LearnersLayout';
 
 function App() {
 
@@ -64,7 +65,7 @@ function App() {
               <Route path='/login' element={<LoginLayout />} />
               <Route path='/create-space/:passphraseCode' element={<CreateSpaceLayout />} />
               <Route path='/invitation-used' element={<InvitationExpiredLayout />} />
-              { user && (
+              {user && (
                 <>
                   {/* LEGACY */}
                   {/* <Route path="/legacy-question" element={<QuestionLayout />} /> */}
@@ -72,14 +73,15 @@ function App() {
                   {/* <Route path="/legacy-questions" element={<HomeLayout />} /> */}
                   {/* <Route path="/question/:id"  element={<QuestionLayout />} />  */}
                   {/* LEGACY */}
-                  <Route path="/"  element={<DashboardLayout />} />
-                  <Route path="/dashboard"  element={<DashboardLayout />} />
-                  <Route path='/quiz/:id' element={<QuizViewLayout />}/>
-                  <Route path='/quiz/:quizId/question' element={<QuestionCreationLayout />}/>
-                  <Route path='/quiz/:quizId/question/:questionId' element={<QuestionEditLayout />}/>
-                  <Route path='/question/library' element={<QuestionLibraryListLayout />}/>
-                  <Route path="/logout"  element={<LogoutLayout />} />
-                  <Route path="/support"  element={<SupportLayout />} />
+                  <Route path="/" element={<DashboardLayout />} />
+                  <Route path="/dashboard" element={<DashboardLayout />} />
+                  <Route path='/quiz/:id' element={<QuizViewLayout />} />
+                  <Route path='/quiz/:quizId/question' element={<QuestionCreationLayout />} />
+                  <Route path='/quiz/:quizId/question/:questionId' element={<QuestionEditLayout />} />
+                  <Route path='/question/library' element={<QuestionLibraryListLayout />} />
+                  <Route path='/learner' element={<LearnersLayout />} />
+                  <Route path="/logout" element={<LogoutLayout />} />
+                  <Route path="/support" element={<SupportLayout />} />
                 </>
               )}
             </Routes>
@@ -89,7 +91,7 @@ function App() {
           position="bottom-center"
         >
           {(t) => (
-            <StyledToastBar 
+            <StyledToastBar
               style={{
                 opacity: t.visible ? 1 : 0,
               }}

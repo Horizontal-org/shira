@@ -49,7 +49,8 @@ export class DuplicateQuizService implements IDuplicateQuizService {
         title: duplicateQuizDto.title,
         published: false,
         hash: crypto.randomBytes(20).toString('hex'),
-        space: originalQuiz.space
+        space: originalQuiz.space,
+        visibility: duplicateQuizDto.visibility,
       });
 
       const savedQuiz = await manager.save(Quiz, newQuiz);

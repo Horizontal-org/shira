@@ -11,7 +11,9 @@ import {
   CopyUrlIcon,
   DeleteIcon,
   Toggle,
-  BetaBanner
+  BetaBanner,
+  Body2Regular,
+  defaultTheme
 } from "@shira/ui";
 import { TabContainer } from './components/TabContainer'
 import { shallow } from "zustand/shallow";
@@ -19,14 +21,19 @@ import { useStore } from "../../store";
 import { getQuizById } from "../../fetch/quiz";
 import { Quiz, QuizSuccessStates, SUCCESS_MESSAGES } from "../../store/slices/quiz";
 import { DeleteModal } from "../modals/DeleteModal";
-import { RenameQuizModal } from "../modals/RenameQuizModal";
 import toast from "react-hot-toast";
 import { useQuestionCRUD } from "../../fetch/question";
 import { UnpublishedQuizModal } from "../modals/UnpublishedQuizModal";
 import { handleCopyUrl, handleCopyUrlAndNotify } from "../../utils/quiz";
 import { getQuizResults, PublicQuizResultsResponse } from "../../fetch/results";
 import { useTranslation } from "react-i18next";
-
+import { MdLockOutline } from "react-icons/md";
+import { TbWorld } from "react-icons/tb";
+import { FiCopy } from "react-icons/fi";
+import { RenameQuizModal } from "../modals/RenameQuizModal";
+import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
+import { DuplicateQuizModal } from "../modals/DuplicateQuizModal";
+import { useQuizVisibilityFlow } from "../../hooks/useQuizVisibilityFlow";
 
 interface Props { }
 
@@ -41,13 +48,17 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     deleteQuiz,
     quizActionSuccess,
     cleanQuizActionSuccess,
-    reorderQuiz
+    reorderQuiz,
+    createQuiz,
+    fetchQuizzes
   } = useStore((state) => ({
     updateQuiz: state.updateQuiz,
     deleteQuiz: state.deleteQuiz,
     reorderQuiz: state.reorderQuiz,
     quizActionSuccess: state.quizActionSuccess,
     cleanQuizActionSuccess: state.cleanQuizActionSuccess,
+    createQuiz: state.createQuiz,
+    fetchQuizzes: state.fetchQuizzes,
   }), shallow)
 
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
@@ -59,7 +70,24 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
   const [isUnpublishedQuizModalOpen, setIsUnpublishedQuizModalOpen] = useState(false);
-  const { destroy, actionFeedback } = useQuestionCRUD()
+  const { destroy } = useQuestionCRUD()
+  const {
+    title,
+    setTitle,
+    selectedQuizForDuplicate,
+    isDuplicating,
+    isDuplicateTitleModalOpen,
+    isVisibilityModalOpen,
+    startDuplicateQuizFlow,
+    handleTitleSubmit,
+    handleBackFromVisibility,
+    handleConfirmVisibility,
+    cancelFlow
+  } = useQuizVisibilityFlow({
+    createQuiz,
+    fetchQuizzes,
+    t
+  });
 
   // results handling
   const [resultsData, setResultsData] = useState<PublicQuizResultsResponse | null>(null);
@@ -76,9 +104,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
       // if error navigate to dashboard
       navigate('/dashboard')
     }
-  }
-
-
+  };
 
   useEffect(() => {
     const fetchResults = async () => {
@@ -111,7 +137,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     return () => {
       cleanQuizActionSuccess()
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (t(SUCCESS_MESSAGES[quizActionSuccess])) {
@@ -126,8 +152,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
 
       cleanQuizActionSuccess()
     }
-  }, [quizActionSuccess])
-
+  }, [quizActionSuccess]);
 
   const handleTogglePublished = (cardId: number, published: boolean) => {
     updateQuiz({
@@ -141,6 +166,11 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   const hasResults = useMemo(() => {
     return resultsData && resultsData.metrics && !!(resultsData.metrics.completedCount)
   }, [resultsData])
+
+  function getQuizVisibility() {
+    const translationKey = `quiz.visibility.${quiz.visibility}`;
+    return t(translationKey);
+  };
 
   return (
     <Container>
@@ -156,11 +186,16 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
           {quiz ? (
             <>
               <Wrapper>
-                <Header>
-                  <div>
-                    <H2 id="quiz-title">{quiz.title}</H2>
-                    <Body1 id="quiz-subtitle">{t('quiz.subtitle')}</Body1>
-                  </div>
+                <ActionHeader>
+                  <VisibilityTag>
+                    {quiz.visibility && quiz.visibility === 'private' && (
+                      <MdLockOutline size={16} color={defaultTheme.colors.dark.darkGrey} />
+                    )}
+                    {quiz.visibility && quiz.visibility === 'public' && (
+                      <TbWorld size={16} color={defaultTheme.colors.dark.darkGrey} />
+                    )}
+                    <Body2Regular>{getQuizVisibility()}</Body2Regular>
+                  </VisibilityTag>
                   <Toggle
                     size='big'
                     isEnabled={isPublished}
@@ -168,6 +203,12 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                     rightLabel={t('quiz.publish_toggle.published')}
                     leftLabel={t('quiz.publish_toggle.unpublished')}
                   />
+                </ActionHeader>
+                <Header>
+                  <div>
+                    <H2 id="quiz-title">{quiz.title}</H2>
+                    <Body1 id="quiz-subtitle">{t('quiz.subtitle')}</Body1>
+                  </div>
                 </Header>
                 <ButtonsContainer>
                   <LeftButtons>
@@ -177,6 +218,17 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                       text={t('quiz.actions.rename')}
                       type="outline"
                       onClick={() => { setIsRenameModalOpen(true) }}
+                    />
+                    <Button
+                      id="duplicate-quiz-button"
+                      leftIcon={<FiCopy size={16} />}
+                      text={t('quiz.actions.duplicate')}
+                      type="outline"
+                      onClick={() => {
+                        if (quiz) {
+                          startDuplicateQuizFlow(quiz);
+                        }
+                      }}
                     />
                     <Button
                       id="copy-link-button"
@@ -205,7 +257,9 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
 
               <TabContainer
                 quizId={quiz.id}
+                quizTitle={quiz.title}
                 quizQuestions={quiz.quizQuestions}
+                quizVisibility={quiz.visibility}
                 resultsData={resultsData}
                 resultsLoading={resultsLoading}
                 hasResults={hasResults}
@@ -277,10 +331,29 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 }}
                 isModalOpen={isRenameModalOpen}
               />
+
+              <DuplicateQuizModal
+                quiz={selectedQuizForDuplicate}
+                isModalOpen={isDuplicateTitleModalOpen}
+                title={title}
+                setTitle={setTitle}
+                onDuplicate={(newTitle) => { handleTitleSubmit(newTitle); }}
+                onCancel={() => { cancelFlow(); }}
+                isLoading={isDuplicating}
+              />
+
+              <QuizVisibilityModal
+                isModalOpen={isVisibilityModalOpen}
+                setIsModalOpen={(open) => {
+                  if (!open) { cancelFlow(); }
+                }}
+                onBack={() => { handleBackFromVisibility(); }}
+                onConfirm={(visibility) => { handleConfirmVisibility(visibility); }}
+              />
             </>
           ) : (
             <Header>
-              <H2>{t('loading_message.loading')}</H2>
+              <H2>{t('loading_messages.loading')}</H2>
             </Header>
           )}
         </MainContentWrapper>
@@ -324,16 +397,11 @@ const Header = styled.div`
   justify-content: space-between;
 `
 
-const TabsContainer = styled.div`
+const ActionHeader = styled.div`
+  padding: 0px 16px;
   display: flex;
-  align-items: center;
-  gap: 8px;
-`;
-
-const Separator = styled.span`
-  color: ${props => props.theme.colors.dark.black};
-  font-weight: 500;
-`;
+  justify-content: space-between;
+`
 
 const Wrapper = styled.div`
   padding: 16px;
@@ -352,14 +420,17 @@ const LeftButtons = styled.div`
   display: flex;
   gap: 8px;
 `
-const Footer = styled.div`
-  display: flex;
-  gap: 16px;
-  justify-content: flex-end;
-  margin: 16px;
-`
 
 const QuizWarningNote = styled.span`
-  color: #d73527;
+  color: ${props => props.theme.colors.error.main};
   font-weight: 500;
+`;
+
+const VisibilityTag = styled.span`
+  display: flex;
+  align-items: center;
+  border: 1px solid ${props => props.theme.colors.dark.darkGrey};
+  border-radius: 12px;
+  padding: 8px 12px;
+  gap: 8px;
 `;

@@ -30,7 +30,15 @@ export class Quiz {
   @Expose()
   @Column()
   hash: string;
-  
+
+  @Expose()
+  @Column({
+    name: 'visibility',
+    type: 'enum',
+    enum: ['public', 'private'],
+  })
+  visibility: 'public' | 'private';
+
   @OneToMany(
     () => QuizQuestion,
     (quizQuestion: QuizQuestion) =>
@@ -44,13 +52,12 @@ export class Quiz {
       questionImage.quiz,
   )
   images?: QuestionImage[];
-  
+
 
   @ManyToOne(() => SpaceEntity, (space: SpaceEntity) => space.quizzes)
   @JoinColumn({ name: 'space_id' })
   space: SpaceEntity;
 
-  
   @Expose()
   @Column({ name: 'created_at' })
   createdAt!: Date;
