@@ -57,8 +57,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const [unpublishedQuizId, handleUnpublishedQuizId] = useState<number | null>(null);
 
   const {
-    mode: quizFlowMode,
-    step: createQuizStep,
+    title,
+    setTitle,
     selectedQuizForDuplicate,
     isDuplicating,
     isCreateTitleModalOpen,
@@ -260,32 +260,22 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           <CreateQuizModal
             isModalOpen={isCreateTitleModalOpen}
             setIsModalOpen={(open) => {
-              if (!open) {
-                cancelFlow();
-              }
+              if (!open) cancelFlow();
             }}
-            onCreate={(title) => {
-              handleTitleSubmit(title);
-            }}
-            onCancel={() => {
-              cancelFlow();
-            }}
+            title={title}
+            setTitle={setTitle}
+            onCreate={(title) => { handleTitleSubmit(title); }}
+            onCancel={() => { cancelFlow(); }}
             keepModalOpen
           />
 
           <QuizVisibilityModal
             isModalOpen={isVisibilityModalOpen}
             setIsModalOpen={(open) => {
-              if (!open) {
-                cancelFlow();
-              }
+              if (!open) cancelFlow();
             }}
-            onBack={() => {
-              handleBackFromVisibility();
-            }}
-            onConfirm={(visibility) => {
-              handleConfirmVisibility(visibility);
-            }}
+            onBack={() => { handleBackFromVisibility(); }}
+            onConfirm={(visibility) => { handleConfirmVisibility(visibility); }}
           />
 
           <UnpublishedQuizModal
@@ -299,15 +289,13 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           <DuplicateQuizModal
             quiz={selectedQuizForDuplicate}
             isModalOpen={isDuplicateTitleModalOpen}
-            onDuplicate={(title) => {
-              handleTitleSubmit(title);
-            }}
-            onCancel={() => {
-              cancelFlow();
-            }}
+            title={title}
+            setTitle={setTitle}
+            onDuplicate={(title) => handleTitleSubmit(title)}
+            onCancel={() => cancelFlow()}
             isLoading={isDuplicating}
-            initialTitle={""}
           />
+
         </MainContentWrapper>
       </MainContent>
     </Container>

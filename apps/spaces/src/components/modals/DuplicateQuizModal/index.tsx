@@ -1,40 +1,34 @@
-import { FunctionComponent, useEffect, useState } from "react";
-import { Body1, Modal, TextInput, styled } from "@shira/ui";
-import { Quiz } from "../../../store/slices/quiz";
+import { FunctionComponent, useEffect } from "react";
+import { Body1, Modal, styled, TextInput } from "@shira/ui";
 import { useTranslation } from "react-i18next";
+import { Quiz } from "../../../store/slices/quiz";
 
 interface Props {
   quiz: Quiz;
   isModalOpen: boolean;
+  title: string;
+  setTitle: (title: string) => void;
   onDuplicate: (title: string) => void;
   onCancel: () => void;
   isLoading?: boolean;
-  initialTitle?: string;
 }
 
 export const DuplicateQuizModal: FunctionComponent<Props> = ({
   quiz,
   isModalOpen,
+  title,
+  setTitle,
   onDuplicate,
   onCancel,
   isLoading = false,
-  initialTitle,
 }) => {
-
   const { t } = useTranslation();
-  const [title, handleTitle] = useState('');
 
   useEffect(() => {
     if (quiz) {
-      if (initialTitle) {
-        handleTitle(initialTitle);
-      } else {
-        handleTitle(t('modals.duplicate_quiz.quiz_name_placeholder', { quiz_name: quiz.title }));
-      }
-    } else {
-      handleTitle('');
+      setTitle(`Copy of ${quiz.title}`);
     }
-  }, [quiz, initialTitle, t]);
+  }, [quiz]);
 
   if (!quiz) {
     return null;
@@ -48,27 +42,22 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
       primaryButtonText={isLoading ? t('loading_messages.creating') : t('buttons.next')}
       primaryButtonDisabled={(!title || title.trim() === "") || isLoading}
       secondaryButtonText={t('buttons.back')}
-      onPrimaryClick={() => {
-        onDuplicate(title);
-        handleTitle('');
-      }}
+      onPrimaryClick={() => { onDuplicate(title); }}
       onSecondaryClick={() => {
-        handleTitle('');
         onCancel();
       }}
     >
       <FormContent>
-        <Description>{t('modals.duplicate_quiz.subtitle')}</Description>
         <TextInput
           label="Quiz name"
           placeholder={t('modals.duplicate_quiz.quiz_name_placeholder', { quiz_name: quiz.title })}
           value={title}
-          onChange={(e) => handleTitle(e.target.value)}
+          onChange={(e) => setTitle(e.target.value)}
         />
       </FormContent>
     </Modal>
-  )
-}
+  );
+};
 
 const FormContent = styled.div`
   display: flex;
