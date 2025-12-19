@@ -123,7 +123,10 @@ export class InviteLearnerService implements IInviteLearnerService {
     if (existingLearner && existingLearner.status === 'invited') {
       await this.learnerRepo.update(
         { id: existingLearner.id },
-        { invitedAt: new Date() }
+        {
+          invitedAt: new Date(),
+          invitationToken: learner.invitationToken
+        }
       );
       this.logger.log(`Updated invitation date for existing learner with ID: ${existingLearner.id}`);
     } else {
