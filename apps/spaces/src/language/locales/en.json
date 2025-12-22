@@ -412,6 +412,7 @@
         "saving": "Saving...",
         "creating": "Creating...",
         "duplicating": "Duplicating...",
+        "learners": "Loading learners...",
         "loading_library_questions": "Loading questions...",
         "uploading_image": "Uploading image...",
         "assigning_quiz_to_learners": "Assigning quiz to learners...",

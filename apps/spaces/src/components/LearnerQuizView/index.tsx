@@ -321,21 +321,6 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
   );
 };
 
-const EmptyStateContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 64px 16px;
-  gap: 16px;
-`;
-
-const EmptyDescription = styled(Body1)`
-  text-align: center;
-  max-width: 800px;
-  padding-bottom: 20px;
-`;
-
 const LoadingState = styled.div`
   display: flex;
   align-items: center;
