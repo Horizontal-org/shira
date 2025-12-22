@@ -23,9 +23,10 @@ interface Props {
   loading: boolean;
   onDeleteLearner: (learnerId: number) => void;
   onResendInvitation: (learner: Learner) => void;
+  onInviteLearner: () => void;
 
   rowSelection: RowSelectionState;
-  setRowSelection: (updater: | RowSelectionState | ((prev: RowSelectionState) => RowSelectionState)) => void;
+  setRowSelection: (updater: RowSelectionState | ((prev: RowSelectionState) => RowSelectionState)) => void;
 }
 
 export const LearnersTable: FunctionComponent<Props> = ({
@@ -33,6 +34,7 @@ export const LearnersTable: FunctionComponent<Props> = ({
   loading,
   onDeleteLearner,
   onResendInvitation,
+  onInviteLearner,
   rowSelection,
   setRowSelection,
 }) => {
@@ -129,9 +131,7 @@ export const LearnersTable: FunctionComponent<Props> = ({
               text={t("buttons.invite_learner")}
               leftIcon={<MdEmail />}
               color={theme.colors.green7}
-              onClick={() => {
-                //InviteLearnerModal
-              }}
+              onClick={onInviteLearner}
             />
           ]}
         />

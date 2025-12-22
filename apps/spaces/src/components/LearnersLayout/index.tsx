@@ -164,6 +164,7 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
               loading={loading}
               onDeleteLearner={handleOpenDeleteModal}
               onResendInvitation={handleResendInvitation}
+              onInviteLearner={() => setIsInviteLearnerModalOpen(true)}
               rowSelection={rowSelection}
               setRowSelection={setRowSelection}
             />
