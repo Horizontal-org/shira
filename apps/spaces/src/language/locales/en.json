@@ -357,11 +357,11 @@
             "subtitle": "Deleting these learners from your space is permanent and cannot be undone. The learners' quiz results will be deleted too."
         },
         "unassign_learner": {
-            "title": "Unassign quiz from learner?",
+            "title": "Unassign \"{{quiz}}\" from {{learner}}?",
             "subtitle": "Are you sure you want to unassign the quiz from this learner? Any quiz progress and results will be lost."
         },
         "unassign_learners_plural": {
-            "title": "Unassign quiz from learners?",
+            "title": "Unassign \"{{quiz}}\" from {{count}} learners?",
             "subtitle": "Are you sure you want to unassign the quiz from these learners? Any quiz progress and results will be lost."
         }
     },

@@ -5,10 +5,13 @@ import { useTranslation } from "react-i18next";
 import { handleHttpError } from "../../../../fetch/handleError";
 import { getErrorContent } from "../../../../utils/getErrorContent";
 import { AssignRequest, unassignFromQuiz } from "../../../../fetch/learner_quiz";
+import { Learner } from "../..";
 
 interface Props {
   learners: AssignRequest[];
   isModalOpen: boolean;
+  quizTitle: string;
+  selectedLearner?: Learner;
   onClose: () => void;
   openErrorModal: (content: string, retry: () => void) => void;
   onSuccess?: () => void;
@@ -17,6 +20,8 @@ interface Props {
 export const UnassignLearnerAction: FunctionComponent<Props> = ({
   learners,
   isModalOpen,
+  quizTitle,
+  selectedLearner,
   onClose,
   openErrorModal,
   onSuccess,
@@ -24,10 +29,19 @@ export const UnassignLearnerAction: FunctionComponent<Props> = ({
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
 
-  const title = learners.length === 1
-    ? t("modals.unassign_learner.title")
-    : t("modals.unassign_learners_plural.title");
-  const subtitle = learners.length === 1
+  const isSingleLearner = learners.length === 1;
+
+  const title = isSingleLearner
+    ? t("modals.unassign_learner.title", {
+      quiz: quizTitle,
+      learner: selectedLearner?.name || selectedLearner?.email,
+    })
+    : t("modals.unassign_learners_plural.title", {
+      quiz: quizTitle,
+      count: learners.length,
+    });
+
+  const subtitle = isSingleLearner
     ? t("modals.unassign_learner.subtitle")
     : t("modals.unassign_learners_plural.subtitle");
 

@@ -11,7 +11,7 @@ import { LearnerErrorModal } from "../modals/ErrorModal";
 import { UnassignLearnerAction } from "./components/UnassignLearnerAction";
 import { AssignLearnersLayover } from "./components/AssignLearnersLayover";
 
-interface Learner {
+export interface Learner {
   id: number;
   name: string;
   email: string;
@@ -31,7 +31,7 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
   const theme = useTheme();
 
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Learner[]>([]);
 
   const [showAssignLayover, setAssignLayover] = useState(false);
 
@@ -89,6 +89,8 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
         .map(([id]) => ({
           learnerId: Number(id),
           quizId,
+          name: data.find(learner => learner.id === Number(id))?.name || '',
+          email: data.find(learner => learner.id === Number(id))?.email || ''
         })),
     [rowSelection, quizId]
   );
@@ -96,6 +98,19 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
   const learnersToUnassign = singleLearnerId !== null
     ? [{ learnerId: singleLearnerId, quizId }]
     : selectedLearners;
+
+  function getSelectedLearner(): Learner {
+    if (singleLearnerId !== null) {
+      return data.find(l => l.id === singleLearnerId);
+    }
+
+    const firstSelected = selectedLearners[0];
+    if (firstSelected) {
+      return data.find(l => l.id === firstSelected.learnerId);
+    }
+
+    return;
+  };
 
   const hasSelectedLearners = selectedLearners.length > 0;
 
@@ -284,6 +299,8 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
       <UnassignLearnerAction
         learners={learnersToUnassign}
         isModalOpen={isUnassignModalOpen}
+        quizTitle={quizTitle}
+        selectedLearner={getSelectedLearner()}
         onSuccess={() => {
           fetchLearnerQuiz();
           setRowSelection({});
