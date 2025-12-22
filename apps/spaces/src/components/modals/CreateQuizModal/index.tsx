@@ -1,53 +1,60 @@
-import { FunctionComponent, useState } from "react";
-import { Modal, TextInput } from "@shira/ui";
-import styled from "styled-components";
+import { FunctionComponent } from "react";
+import { Modal, styled, TextInput } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 
 interface Props {
   isModalOpen: boolean;
-  setIsModalOpen: (handle: boolean) => void
-  onCreate: (title: string) => void
+  setIsModalOpen: (isOpen: boolean) => void;
+
+  title: string;
+  setTitle: (title: string) => void;
+
+  onCreate: (title: string) => void;
+  onCancel?: () => void;
+  keepModalOpen?: boolean;
 }
 
 export const CreateQuizModal: FunctionComponent<Props> = ({
   isModalOpen,
   setIsModalOpen,
-  onCreate
+  title,
+  setTitle,
+  onCreate,
+  onCancel,
+  keepModalOpen = false,
 }) => {
   const { t } = useTranslation();
-
-  const [title, handleTitle] = useState('')
-
-  const handleClose = () => {
-    setIsModalOpen(false);
-    handleTitle("");
-  };
 
   return (
     <Modal
       id="create-quiz-modal"
       isOpen={isModalOpen}
       title={t('modals.create_quiz.title')}
-      primaryButtonText={t('modals.create_quiz.button')}
+      primaryButtonText={t('buttons.next')}
       primaryButtonDisabled={!title || title.trim() === ""}
-      secondaryButtonText={t('buttons.cancel')}
       onPrimaryClick={() => {
-        onCreate(title)
+        onCreate(title.trim());
+        if (!keepModalOpen) {
+          setIsModalOpen(false);
+        }
+      }}
+      secondaryButtonText={t("buttons.cancel")}
+      onSecondaryClick={() => {
+        onCancel?.();
         setIsModalOpen(false);
       }}
-      onSecondaryClick={handleClose}
-      onClose={handleClose}
     >
       <FormContent>
         <TextInput
+          id="create-quiz-title-input"
           label="Quiz name"
           value={title}
-          onChange={(e) => handleTitle(e.target.value)}
+          onChange={(e) => setTitle(e.target.value)}
         />
       </FormContent>
     </Modal>
-  )
-}
+  );
+};
 
 const FormContent = styled.div`
   display: flex;

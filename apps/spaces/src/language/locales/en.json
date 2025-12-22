@@ -23,6 +23,27 @@
         "subtitle": "This is where you can manage quizzes. Quiz links are public, so remember to avoid sharing sensitive information in them.",
         "create_quiz_button": "Create new quiz"
     },
+    "learners": {
+        "title": "Learners",
+        "subtitle": "Manage who can take the private quizzes you create.",
+        "table": {
+            "learner": "Learner",
+            "registration": "Registration",
+            "quiz_status": "Quiz status",
+            "invited_at": "Date invited",
+            "invited_tag": "Invited",
+            "registered_tag": "Registered",
+            "submitted_tag": "Submitted",
+            "not_submitted_tag": "Not submitted"
+        },
+        "assign_dialog": {
+            "registered_title": "Registered Learners",
+            "registered_description": "These are the learners registered in your space. Select one or more learners to assign this quiz to them. You can manage registered learners and invite new ones in the <0>Learners section</0>.",
+            "assign_button": "Assign to learners",
+            "assign_title": "Assign \"{{quiz_title}}\" to learners",
+            "no_learners": "You don’t have any registered learners yet. Go to the Learners section and invite learners to get started."
+        }
+    },
     "quizzes": {
         "filter": {
             "all_quizzes": "All quizzes",
@@ -44,12 +65,18 @@
         },
         "actions": {
             "rename": "Rename",
+            "duplicate": "Duplicate",
             "copy_link": "Copy quiz link",
             "delete": "Delete"
         },
         "tabs": {
             "questions": "Questions",
-            "results": "Results"
+            "results": "Results",
+            "learners": "Learners"
+        },
+        "visibility": {
+            "public": "Public",
+            "private": "Private"
         }
     },
     "questions_tab": {
@@ -63,6 +90,14 @@
     },
     "no_questions": {
         "subtitle": "You don't have any questions yet. Create your own question or add one from the Shira library."
+    },
+    "learner_quiz_tab": {
+        "empty_state": {
+            "description": "This quiz doesn't have any learners yet. Click the \"Assign to learners\" button to get started."
+        },
+        "table": {
+            "description": "These are the learners who have been assigned this quiz."
+        }
     },
     "create_question": {
         "header_title": "Create a new question",
@@ -207,7 +242,16 @@
         "back": "Back",
         "delete": "Delete",
         "next": "Next",
-        "continue": "Continue"
+        "continue": "Continue",
+        "send_invitation": "Send invitation",
+        "try_again": "Try again",
+        "unassign": "Unassign",
+        "invite_learner": "Invite new learner",
+        "invite_learners_bulk": "Import learners in bulk",
+        "delete_learners": "Delete learners",
+        "unassign_learners": "Unassign from learners",
+        "assign_learners": "Assign to learners",
+        "assign_via_email": "Assign via email"
     },
     "modals": {
         "create_quiz": {
@@ -224,6 +268,19 @@
         "rename_quiz": {
             "title": "Rename quiz",
             "input_placeholder": "Quiz name"
+        },
+        "quiz_visibility": {
+            "title": "Set quiz privacy",
+            "subtitle": "Would you like your quiz to be public or private?",
+            "description": "This setting is permanent and cannot be changed. If you want to change it later, you will have to duplicate this quiz.",
+            "public_option": {
+                "title": "Public",
+                "description": "Anyone with the quiz URL can take the quiz"
+            },
+            "private_option": {
+                "title": "Private",
+                "description": "Only invited learners from your space can take the quiz"
+            }
         },
         "delete_quiz": {
             "title": "Are you sure you want to delete \"{{quiz_name}}\"?",
@@ -284,13 +341,48 @@
             "title": "Continue without explanations?",
             "message": "You haven't created any explanations for this question, so learners will not see any text explaining why the message seems like phishing or seems legitimate.",
             "add": "Add explanations"
+        },
+        "invite_learner": {
+            "title": "Invite new learner",
+            "subtitle": "Send an email invitation to ask  a new learner to join your space.",
+            "name_placeholder": "Name (optional)",
+            "email_placeholder": "Email address (required)"
+        },
+        "delete_learner": {
+            "title": "Are you sure you want to delete this learner?",
+            "subtitle": "Deleting this learner from your space is permanent and cannot be undone. The learner's quiz results will be deleted too."
+        },
+        "delete_learners": {
+            "title": "Are you sure you want to delete the selected learners?",
+            "subtitle": "Deleting these learners from your space is permanent and cannot be undone. The learners' quiz results will be deleted too."
+        },
+        "unassign_learner": {
+            "title": "Unassign quiz from learner?",
+            "subtitle": "Are you sure you want to unassign the quiz from this learner? Any quiz progress and results will be lost."
+        },
+        "unassign_learners_plural": {
+            "title": "Unassign quiz from learners?",
+            "subtitle": "Are you sure you want to unassign the quiz from these learners? Any quiz progress and results will be lost."
         }
     },
     "error_messages": {
         "duplicate_quiz_fail": "Failed to duplicate quiz",
         "duplicate_question_fail": "Failed to duplicate question",
         "add_question_error": "Error adding question",
-        "results_load_failed": "Failed to load results"
+        "results_load_failed": "Failed to load results",
+        "learner_already_exists": "This email address is already registered.",
+        "learner_not_found": "The learner was not found in this space.",
+        "learner_save_failed": "Failed to save learner.",
+        "learner_email_send_failed": "Failed to send email invitation to learner.",
+        "learner_token_conflict": "The token from the learner is invalid or has already been used.",
+        "learner_assignment_failed": "Failed to assign learner to the space.",
+        "invalid_email": "Please enter a valid email address.",
+        "something_went_wrong": "Something went wrong",
+        "invite_learner_failed": "There was a problem inviting the learner. If this issue persists, <1>contact us</1>.",
+        "delete_learner_failed": "There was a problem deleting the learner. If this issue persists, <1>contact us</1>.",
+        "delete_learners_failed": "There was a problem deleting the learners. If this issue persists, <1>contact us</1>.",
+        "assign_quiz_failed": "There was a problem assigning this quiz to learners. If this issue persists, <1>contact us</1>.",
+        "unassign_quiz_failed": "There was a problem unassigning this quiz from learners. If this issue persists, <1>contact us</1>."
     },
     "success_messages": {
         "quiz_link_copied": "The public quiz link has been copied to your clipboard.",
@@ -304,7 +396,15 @@
         "question_updated": "Question updated",
         "question_deleted": "Question deleted",
         "question_copied": "Copy of {{question_name}} created successfully",
-        "no_questions_found": "No questions found."
+        "no_questions_found": "No questions found.",
+        "learner_invitation_sent": "The invitation has been sent.",
+        "learner_invitation_resent": "The invitation has been re-sent to {{email}}",
+        "learner_deleted": "The learner has been deleted.",
+        "learners_deleted": "The selected learners have been deleted.",
+        "learner_assigned": "This quiz has been assigned to {{count}} new learner.",
+        "learners_assigned_plural": "This quiz has been assigned to {{count}} new learners.",
+        "learner_unassigned": "This quiz has been unassigned from {{count}} learner.",
+        "learners_unassigned_plural": "This quiz has been unassigned from {{count}} learners."
     },
     "loading_messages": {
         "loading": "Loading...",
@@ -312,7 +412,10 @@
         "creating": "Creating...",
         "duplicating": "Duplicating...",
         "loading_library_questions": "Loading questions...",
-        "uploading_image": "Uploading image..."
+        "uploading_image": "Uploading image...",
+        "assigning_quiz_to_learners": "Assigning quiz to learners...",
+        "assigning_quiz_to_learners_description": "Shira is working to assign the quiz to the selected learners.",
+        "sending_invitation": "Sending invitation"
     },
     "preview": {
         "show_explanations": "Show explanations",

@@ -41,7 +41,7 @@ export const WelcomeScene: FunctionComponent = () => {
           <Hooked />
         </GreenFishWrapper>
         <StyledBox>
-          <Heading>{t('welcome.title')}</Heading>
+          <Heading>{t('welcome.title')}</Heading> 
           <Description>{t('welcome.subtitle')}</Description>
           <Buttons>
             <LanguageSelect

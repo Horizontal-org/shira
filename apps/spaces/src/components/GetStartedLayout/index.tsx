@@ -41,7 +41,7 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
   const validateForm = () => {
     if (!name.trim()) return t("get_started.validation.org_name_required")
     if (!email.trim()) return t("get_started.validation.email_required")
-    // if(email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) === null) return t("get_started.validation.invalid_email")
+    if(email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) === null) return t("get_started.validation.invalid_email")
     return "";
   };
 
@@ -117,6 +117,7 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
               
               <InputsContainer>
                 <TextInput 
+                  required
                   label={t('get_started.organization_name_required')} 
                   value={name} 
                   onChange={(e) => handleName(e.target.value)}

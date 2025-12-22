@@ -6,9 +6,9 @@ export interface Props {
     placeholder?: string;
     onChange: ChangeEventHandler<HTMLInputElement>;
     value: string;
-    label?: string | ReactNode;
+    label?: string;
     disabled?: boolean;
-    type?: 'text' | 'password';
+    type?: 'text' | 'password' | 'email';
     required?: boolean;
     onBlur?: React.FocusEventHandler<HTMLInputElement>
     onFocus?: React.FocusEventHandler<HTMLInputElement>
@@ -30,8 +30,10 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(({
     required = false
 }, ref) => {
     const [showPassword, setShowPassword] = useState(false);
-    const showLabel = value !== '';
-    const inputPlaceholder = (!showLabel && label && typeof label === 'string') ? label : placeholder;
+    const hasLabel = Boolean(label);
+    const showLabel = hasLabel && value !== '';
+
+    const inputPlaceholder = (!showLabel && label) ? label : placeholder;
 
     const isPassword = type === 'password';
     const inputType = isPassword && !showPassword ? 'password' : 'text';
@@ -43,7 +45,7 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(({
                 $required={required}
             >{label}</Label>}
             <InputContainer>
-                <StyledInput 
+                <StyledInput
                     id={id}
                     name={name}
                     type={inputType}
@@ -58,13 +60,13 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(({
                 />
 
                 {isPassword && (
-                    <IconButton 
+                    <IconButton
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
                         disabled={disabled}
                     >
-                        {showPassword ? 
-                            <FiEyeOff size={20} color={disabled ? '#aaa' : '#666'} /> : 
+                        {showPassword ?
+                            <FiEyeOff size={20} color={disabled ? '#aaa' : '#666'} /> :
                             <FiEye size={20} color={disabled ? '#aaa' : '#666'} />
                         }
                     </IconButton>

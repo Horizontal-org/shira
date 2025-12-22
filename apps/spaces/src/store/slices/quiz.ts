@@ -38,6 +38,7 @@ export interface Quiz {
   quizQuestions?: QuizQuestion[]
   updatedAt: string
   hash?: string;
+  visibility?: string
 }
 
 export interface QuizSlice {
@@ -46,7 +47,7 @@ export interface QuizSlice {
   updateQuiz: (data: UpdateQuizPayload) => void,
   reorderQuiz: (data: ReorderQuizPayload) => void
   deleteQuiz: (id: number) => void,
-  createQuiz: (title: string) => void,
+  createQuiz: (title: string, visibility: string) => void,
   quizActionSuccess: null | QuizSuccessStates
   cleanQuizActionSuccess: () => void
   setQuizActionSuccess: (successState: string) => void
@@ -97,9 +98,9 @@ export const createQuizSlice: StateCreator<
       quizzes: quizzes
     })
   },
-  createQuiz: async (title: string) => {
+  createQuiz: async (title: string, visibility: string) => {
     set({ quizActionSuccess: null })
-    await createQuiz(title)
+    await createQuiz(title, visibility)
 
     set({
       quizActionSuccess: QuizSuccessStates.create

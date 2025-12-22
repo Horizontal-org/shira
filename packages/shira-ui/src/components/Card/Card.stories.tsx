@@ -64,7 +64,9 @@ export const Default: Story = {
     onDuplicate: () => console.log('duplicate'),
     onDelete: () => console.log('delete'),
     onCardClick: () => console.log('clicked card'),
-    publishedText: 'Published'
+    publishedText: 'Published',
+    isPublic: true,
+    visibilityText: 'Public'
   }
 };
 

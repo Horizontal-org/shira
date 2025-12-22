@@ -6,7 +6,7 @@ import { shallow } from "zustand/shallow";
 
 import { useStore } from "../../store";
 import { formatDistance } from "date-fns";
-import { enUS, es, fr, zhCN } from "date-fns/locale";
+import { enUS } from "date-fns/locale";
 import { QuizSuccessStates, SUCCESS_MESSAGES } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
 import { FilterStates } from "./constants";
@@ -15,8 +15,10 @@ import { CreateQuizModal } from "../modals/CreateQuizModal";
 import { UnpublishedQuizModal } from "../modals/UnpublishedQuizModal";
 import { DuplicateQuizModal } from "../modals/DuplicateQuizModal";
 import { handleCopyUrl, handleCopyUrlAndNotify } from "../../utils/quiz";
-import { duplicateQuiz } from "../../fetch/quiz";
 import { useTranslation } from "react-i18next";
+import { getCurrentDateFNSLocales } from "../../language/dateUtils";
+import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
+import { useQuizVisibilityFlow } from "../../hooks/useQuizVisibilityFlow";
 
 interface Props { }
 
@@ -51,13 +53,28 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   console.log("🚀 ~ cards:", cards)
   const [selectedCard, handleSelectedCard] = useState(null)
 
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [isDuplicateModalOpen, setIsDuplicateModalOpen] = useState(false);
-  const [selectedQuizForDuplicate, setSelectedQuizForDuplicate] = useState(null);
-  const [isDuplicating, setIsDuplicating] = useState(false);
   const [unpublishedQuizId, handleUnpublishedQuizId] = useState<number | null>(null);
 
+  const {
+    title,
+    setTitle,
+    selectedQuizForDuplicate,
+    isDuplicating,
+    isCreateTitleModalOpen,
+    isDuplicateTitleModalOpen,
+    isVisibilityModalOpen,
+    startCreateQuizFlow,
+    startDuplicateQuizFlow,
+    handleTitleSubmit,
+    handleBackFromVisibility,
+    handleConfirmVisibility,
+    cancelFlow
+  } = useQuizVisibilityFlow({
+    createQuiz,
+    fetchQuizzes,
+    t
+  });
 
   useEffect(() => {
     fetchQuizzes()
@@ -71,7 +88,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     setCards(quizzes)
   }, [quizzes])
 
-
   useEffect(() => {
     if (t(SUCCESS_MESSAGES[quizActionSuccess])) {
       const message = t(SUCCESS_MESSAGES[quizActionSuccess]);
@@ -84,8 +100,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
       cleanQuizActionSuccess()
     }
   }, [quizActionSuccess])
-
-
 
   const handleTogglePublished = (cardId: number, published: boolean) => {
     updateQuiz({
@@ -102,37 +116,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     );
   };
 
-  const handleDuplicateQuiz = async (title: string) => {
-    if (!selectedQuizForDuplicate) return;
-
-    setIsDuplicating(true);
-
-    try {
-      // Start both the API call and minimum 1-second delay
-      const [result] = await Promise.all([
-        duplicateQuiz(selectedQuizForDuplicate.id, title),
-        new Promise(resolve => setTimeout(resolve, 1000))
-      ]);
-
-      toast.success(t('success_messages.question_updated', { quiz_name: title }), { duration: 3000 });
-
-      // Refresh the quizzes list to show the new duplicated quiz
-      fetchQuizzes();
-
-      // Close modal and reset state
-      setIsDuplicateModalOpen(false);
-      setSelectedQuizForDuplicate(null);
-    } catch (error) {
-      // Even on error, ensure minimum 1-second delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      toast.error(t('error_messages.duplicate_quiz_fail'), { duration: 3000 });
-      console.error('Duplicate quiz error:', error);
-    } finally {
-      setIsDuplicating(false);
-    }
-  };
-
-  const filteredCards = cards.filter(card => {
+  const filteredCards = cards.filter((card) => {
     switch (activeFilter) {
       case FilterStates.published:
         return card.published;
@@ -148,12 +132,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     (lastUpdate: string) => {
       const parsedLastUpdate = new Date(lastUpdate.replace(" ", "T") + "Z");
 
-      const locales = {
-        en: enUS,
-        es: es,
-        fr: fr,
-        cn: zhCN
-      };
+      const locales = getCurrentDateFNSLocales()
       const locale = locales[i18n.language] ?? enUS;
 
       const time = formatDistance(parsedLastUpdate, new Date(), {
@@ -187,9 +166,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                 type="primary"
                 leftIcon={<FiPlus />}
                 text={t('dashboard.create_quiz_button')}
-                onClick={() => {
-                  setIsCreateModalOpen(true)
-                }}
+                onClick={() => { startCreateQuizFlow(); }}
                 color="#849D29"
               />
             </ButtonContainer>
@@ -242,14 +219,16 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                 onEdit={() => {
                   navigate(`/quiz/${card.id}`)
                 }}
-                onDuplicate={() => {
-                  setSelectedQuizForDuplicate(card);
-                  setIsDuplicateModalOpen(true);
-                }}
+                onDuplicate={() => { startDuplicateQuizFlow(card); }}
                 onDelete={() => {
                   handleSelectedCard(card)
                   setIsDeleteModalOpen(true)
                 }}
+                isPublic={card.visibility === 'public'}
+                visibilityText={
+                  card.visibility === 'public'
+                    ? t('quiz.visibility.public')
+                    : t('quiz.visibility.private')}
               />
             ))}
           </CardGrid>
@@ -272,16 +251,31 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
               handleSelectedCard(null)
             }}
             onCancel={() => {
-              setIsDeleteModalOpen(false)
-              handleSelectedCard(null)
+              setIsDeleteModalOpen(false);
+              handleSelectedCard(null);
             }}
             isModalOpen={isDeleteModalOpen}
           />
 
           <CreateQuizModal
-            setIsModalOpen={setIsCreateModalOpen}
-            onCreate={(title) => { createQuiz(title) }}
-            isModalOpen={isCreateModalOpen}
+            isModalOpen={isCreateTitleModalOpen}
+            setIsModalOpen={(open) => {
+              if (!open) cancelFlow();
+            }}
+            title={title}
+            setTitle={setTitle}
+            onCreate={(title) => { handleTitleSubmit(title); }}
+            onCancel={() => { cancelFlow(); }}
+            keepModalOpen
+          />
+
+          <QuizVisibilityModal
+            isModalOpen={isVisibilityModalOpen}
+            setIsModalOpen={(open) => {
+              if (!open) cancelFlow();
+            }}
+            onBack={() => { handleBackFromVisibility(); }}
+            onConfirm={(visibility) => { handleConfirmVisibility(visibility); }}
           />
 
           <UnpublishedQuizModal
@@ -294,18 +288,16 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
           <DuplicateQuizModal
             quiz={selectedQuizForDuplicate}
-            setIsModalOpen={setIsDuplicateModalOpen}
-            isModalOpen={isDuplicateModalOpen}
-            onDuplicate={handleDuplicateQuiz}
-            onCancel={() => {
-              setIsDuplicateModalOpen(false);
-              setSelectedQuizForDuplicate(null);
-            }}
+            isModalOpen={isDuplicateTitleModalOpen}
+            title={title}
+            setTitle={setTitle}
+            onDuplicate={(title) => handleTitleSubmit(title)}
+            onCancel={() => cancelFlow()}
             isLoading={isDuplicating}
           />
+
         </MainContentWrapper>
       </MainContent>
-
     </Container>
   );
 };
@@ -334,30 +326,29 @@ const MainContent = styled.div<{ $isCollapsed: boolean }>`
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     margin-left: 0;
   }
-`
+`;
 
 const MainContentWrapper = styled.div`
   padding: 50px;
-
-`
+`;
 
 const StyledSubHeading3 = styled(SubHeading3)`
-  color: #52752C; 
-`
+  color: ${props => props.theme.colors.green7};
+`;
 
 const HeaderContainer = styled.div`
   padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-`
+`;
 
 const FilterButtonsContainer = styled.div`
   margin-top: 8px;
   padding: 16px;
   display: flex;
   gap: 8px;
-`
+`;
 
 const CardGrid = styled.div`
   padding: 16px;
@@ -379,12 +370,12 @@ const CardGrid = styled.div`
     grid-template-columns: 1fr;
     gap: 16px;
   }
-`
+`;
 
 const ButtonContainer = styled.div`
   display: flex;
   align-items: flex-start;
-`
+`;
 
 const QuizWarningNote = styled.span`
   color: #d73527;
