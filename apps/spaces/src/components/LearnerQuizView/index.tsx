@@ -1,4 +1,4 @@
-import { Body1, Button, SettingsFishIcon, Table, TableCheckbox, styled, useTheme } from "@shira/ui";
+import { Body1, Button, EmptyState, Table, TableCheckbox, styled, useTheme } from "@shira/ui";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { FunctionComponent, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -244,25 +244,25 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
             <Body1>{t("loading_messages.loading")}</Body1>
           </LoadingState>
         ) : showEmptyState ? (
-          <EmptyStateContainer>
-            <SettingsFishIcon />
-            <EmptyDescription>
-              {t("learner_quiz_tab.empty_state.description")}
-            </EmptyDescription>
-            <Button
-              id="assign-learners-button"
-              type="primary"
-              text={t('learners.assign_dialog.assign_button')}
-              color={theme.colors.green7}
-              leftIcon={(
-                <IoPersonAdd size={20} color="white" />
-              )}
-              onClick={() => {
-                setAssignLayover(true)
-                window.scrollTo(0, 0)
-              }}
-            />
-          </EmptyStateContainer>
+          <EmptyState
+            subtitle={t("learner_quiz_tab.empty_state.description")}
+            buttons={[
+              <Button
+                key="assign-learners"
+                id="assign-learners-button"
+                type="primary"
+                text={t('learners.assign_dialog.assign_button')}
+                color={theme.colors.green7}
+                leftIcon={(
+                  <IoPersonAdd size={20} color="white" />
+                )}
+                onClick={() => {
+                  setAssignLayover(true)
+                  window.scrollTo(0, 0)
+                }}
+              />
+            ]}
+          />
         ) : (
           <Table
             loading={loading}
@@ -306,15 +306,17 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
         openErrorModal={openErrorModal}
       />
 
-      {showAssignLayover && (
-        <AssignLearnersLayover
-          title={t('learners.assign_dialog.assign_title', { quiz_title: quizTitle })}
-          quizId={quizId}
-          openErrorModal={openErrorModal}
-          onExit={() => { setAssignLayover(false) }}
-          onSuccess={() => { fetchLearnerQuiz() }}
-        />
-      )}
+      {
+        showAssignLayover && (
+          <AssignLearnersLayover
+            title={t('learners.assign_dialog.assign_title', { quiz_title: quizTitle })}
+            quizId={quizId}
+            openErrorModal={openErrorModal}
+            onExit={() => { setAssignLayover(false) }}
+            onSuccess={() => { fetchLearnerQuiz() }}
+          />
+        )
+      }
     </>
   );
 };

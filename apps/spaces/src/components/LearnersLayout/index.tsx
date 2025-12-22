@@ -48,6 +48,7 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
     selectedLearnerIds,
   } = useLearners();
 
+  const hasLearners = !!learners?.length;
   const hasSelectedLearners = selectedLearnerIds.length > 0;
 
   const openErrorModal = useCallback((content: string) => {
@@ -122,7 +123,7 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
 
           <ActionContainer>
             <LeftActions>
-              {!hasSelectedLearners && (
+              {hasLearners && !hasSelectedLearners && (
                 <Button
                   id="invite-learner-button"
                   text={t("buttons.invite_learner")}

@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { SettingsFishIcon, Button, defaultTheme, EmptyState } from '@shira/ui';
+import { Button, defaultTheme, EmptyState } from '@shira/ui';
 import { FiPlus } from "react-icons/fi";
 import { MdOutlineMenuBook } from "react-icons/md";
 import { useTranslation } from "react-i18next";
@@ -41,8 +41,6 @@ export const QuestionEmptyState: FunctionComponent<Props> = ({
     <EmptyState
       subtitle={t('no_questions.subtitle')}
       buttons={buttons}
-      backgroundColor={defaultTheme.colors.light.paleGreen}
-      icon={<SettingsFishIcon />}
     />
   );
 };

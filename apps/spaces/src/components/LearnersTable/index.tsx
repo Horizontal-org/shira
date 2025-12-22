@@ -1,4 +1,4 @@
-import { styled, Table, TableActions, TableCheckbox, useTheme } from "@shira/ui";
+import { Button, EmptyState, styled, Table, TableActions, TableCheckbox, useTheme } from "@shira/ui";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { FunctionComponent, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -8,6 +8,7 @@ import { format } from "date-fns";
 import { GoPersonFill } from "react-icons/go";
 import { StatusTag } from "./components/StatusTag";
 import { LearnerEmail, LearnerHeader, LearnerName, LearnerPersonInfo } from "./components/LearnerHeader";
+import { MdEmail } from "react-icons/md";
 
 export type Learner = {
   id: number;
@@ -118,28 +119,46 @@ export const LearnersTable: FunctionComponent<Props> = ({
 
   return (
     <Wrapper>
-      <Table
-        loading={loading}
-        data={data}
-        columns={columns}
-        rowSelection={rowSelection}
-        setRowSelection={setRowSelection}
-        colGroups={(
-          <colgroup>
-            <col style={{ width: "50px" }} />
-            <col style={{ width: "50%" }} />
-            <col />
-            <col />
-            <col style={{ width: "80px" }} />
-          </colgroup>
-        )}
-      />
+      {data.length === 0 && !loading ? (
+        <EmptyState
+          subtitle={t("learners.empty_state")}
+          buttons={[
+            <Button
+              id="invite-learner-button"
+              type="primary"
+              text={t("buttons.invite_learner")}
+              leftIcon={<MdEmail />}
+              color={theme.colors.green7}
+              onClick={() => {
+                //InviteLearnerModal
+              }}
+            />
+          ]}
+        />
+      ) : (
+        <Table
+          loading={loading}
+          data={data}
+          columns={columns}
+          rowSelection={rowSelection}
+          setRowSelection={setRowSelection}
+          colGroups={(
+            <colgroup>
+              <col style={{ width: "50px" }} />
+              <col style={{ width: "50%" }} />
+              <col />
+              <col />
+              <col style={{ width: "80px" }} />
+            </colgroup>
+          )}
+        />
+      )}
     </Wrapper>
   );
-};
+}
 
 const Wrapper = styled.div`
-  max-width: ${props => props.theme.breakpoints.lg};
-  padding: 16px;
-  box-sizing: border-box;
-`
+      max-width: ${props => props.theme.breakpoints.lg};
+      padding: 16px;
+      box-sizing: border-box;
+      `;

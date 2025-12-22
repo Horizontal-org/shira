@@ -26,6 +26,7 @@
     "learners": {
         "title": "Learners",
         "subtitle": "Manage who can take the private quizzes you create.",
+        "empty_state": "There are no learners registered to your space yet. Invite a new learner to get started.",
         "table": {
             "learner": "Learner",
             "registration": "Registration",
