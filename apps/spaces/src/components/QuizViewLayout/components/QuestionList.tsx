@@ -200,13 +200,13 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
         </Droppable>
       </DragDropContext>
       <DeleteModal
-        title={t('questions.delete.title', { question_name: questionForDelete?.name })}
+        title={t('modals.delete_question.title', { question_name: questionForDelete?.name })}
         content={
           <div>
-            {t('questions.delete.message')}
+            {t('modals.delete_question.message')}
             <br /><br />
-            <WarningNote>{t('questions.delete.note')}</WarningNote>
-            {t('questions.delete.warning')}
+            <WarningNote>{t('modals.delete_question.note')}</WarningNote>
+            {t('modals.delete_question.warning')}
           </div>
         }
         setIsModalOpen={() => {
