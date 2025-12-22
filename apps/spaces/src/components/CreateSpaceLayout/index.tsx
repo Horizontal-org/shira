@@ -1,4 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios"
 import {
@@ -20,11 +21,12 @@ interface Props {}
 
 export const CreateSpaceLayout: FunctionComponent<Props> = () => {
 
+  const { t } = useTranslation();
+
   const { passphraseCode } = useParams()
   const [email, handleEmail] = useState("");
   const [pass, handlePass] = useState("");
   const [passConfirmation, handlePassConfirmation] = useState("");
-  const [name, handleName] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -72,10 +74,9 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
   const description = (
     <>
       {passphraseCode ? 
-        "Complete the form below to create your Shira space." : 
+        t('create_space.form_description') : 
         <>
-          Shira spaces are currently in closed beta. To obtain the passphrase
-          necessary to join the beta, email us at{" "}
+          {t('create_space.beta_lead')}{" "}
           <Link1 href="mailto:contact@wearehorizontal.org">
             contact@wearehorizontal.org
           </Link1>
@@ -85,11 +86,10 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
   );
 
   const validateForm = () => {
-    if (!name.trim()) return "Space name is required";
-    if (!email.trim()) return "Email is required";
-    if (!pass.trim()) return "Password is required";
-    if (pass.length < 8) return "Password must be at least 8 characters";
-    if (pass !== passConfirmation) return "Passwords do not match";
+    if (!email.trim()) return t('create_space.validation.email_required');
+    if (!pass.trim()) return t('create_space.validation.password_required');
+    if (pass.length < 8) return t('create_space.validation.password_min_length');
+    if (pass !== passConfirmation) return t('create_space.validation.passwords_mismatch');
     return "";
   };
 
@@ -109,7 +109,6 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
       await axios.post(`${process.env.REACT_APP_API_URL}/space-registration`, {
         email,
         password: pass,
-        spaceName: name,
         passphrase: passphraseCode,
       });
       login(email, pass)
@@ -122,7 +121,7 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
       if (err.response && err.response.data && err.response.data.message) {
         setError(err.response.data.message);
       } else {
-        setError("An error occurred while creating your space. Please try again.");
+        setError(t('create_space.errors.create_space_failed'));
       }
     }
   };
@@ -131,12 +130,12 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
     return (
       <Container>
         <Navbar
-          translatedTexts={{home: "", about: "", menu: "", logIn: "Log in", createSpace: "Create Space"}}
+          translatedTexts={{home: "", about: "", menu: "", logIn: t('login.login_header_button'), createSpace: t('create_space.button_create')}}
           onNavigate={navigate}
         />
         <ContentWrapper>
           <Content>
-            <div>Checking invitation...</div>
+            <div>{t('create_space.checking_invitation')}</div>
           </Content>
         </ContentWrapper>
       </Container>
@@ -146,7 +145,7 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
   return (
     <Container>
       <Navbar
-        translatedTexts={{home: "", about: "", menu: "", logIn: "Log in", createSpace: "Create Space"}}
+        translatedTexts={{home: "", about: "", menu: "", logIn: t('login.login_header_button'), createSpace: t('create_space.button_create') }}
         onNavigate={navigate}
       />
       { success ? (
@@ -156,15 +155,12 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
           <BackgroundPattern />
           <Content>
             <Header>
-              <H1>Shira spaces</H1>
-              <SubHeading2>
-                After you create a space, you will be able to create custom quizzes
-                and questions specifically relevant to your context and communities.
-              </SubHeading2>
+              <H1>{t('create_space.title')}</H1>
+              <SubHeading2>{t('create_space.subtitle')}</SubHeading2>
             </Header>
 
             <StyledForm
-              title="Create a new space"
+              title={t('create_space.form_title')}
               description={description}
               onSubmit={(e) => {
                 e.preventDefault();
@@ -174,26 +170,21 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
               {error && <ErrorMessage>{error}</ErrorMessage>}
               
               <InputsContainer>
-                <TextInput 
-                  label="Name your space" 
-                  value={name} 
-                  onChange={(e) => handleName(e.target.value)}
-                />
                 <TextInput
-                  label="Your email address"
+                  label={t('create_space.email_label')}
                   value={email}
                   onChange={(e) => handleEmail(e.target.value)}
                 />
                 <TextInput
                   type="password"
-                  label="Password"
+                  label={t('create_space.password_label')}
                   value={pass}
                   onChange={(e) => handlePass(e.target.value)}
                 />
 
                 <TextInput
                   type="password"
-                  label="Confirm Password"
+                  label={t('create_space.confirm_password_label')}
                   value={passConfirmation}
                   onChange={(e) => handlePassConfirmation(e.target.value)}
                 />
@@ -201,7 +192,7 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
 
               <ButtonContainer>
                 <Button
-                  text="Create new space"
+                  text={t('create_space.button_create')}
                   type="primary"
                   disabled={loading || !passphraseCode}
                   onClick={handleSubmit}

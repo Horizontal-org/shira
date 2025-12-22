@@ -30,7 +30,7 @@ export class SubmitRegistrationAuthService implements ISubmitRegistrationAuthSer
     registration.email = data.email
     registration.passphrase = data.passphrase
     registration.password = await hashPassword(data.password)
-    registration.spaceName = data.spaceName    
+    // registration.spaceName = data.spaceName    
     registration.expiresAt = expiresAt
     registration.invitationHash = crypto.randomBytes(20).toString('hex') 
 

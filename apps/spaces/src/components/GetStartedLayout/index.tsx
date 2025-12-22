@@ -1,4 +1,5 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"
 import {
@@ -11,17 +12,21 @@ import {
 import backgroundSvg from "../../assets/Background.svg";
 import { RadioGroup } from "./components/RadioGroup";
 import { GetStartedSuccess } from "./components/GetStartedSucess";
+import { useStore } from "../../store";
+import { shallow } from "zustand/shallow";
 
 interface Props {}
 
 export const ORG_TYPES = [
-  { value: "business", label: "Business" },
-  { value: "cibersecurity", label: "Cibersecurity" },
-  { value: "non-profit", label: "Non-profit" },
-  { value: "individual", label: "Individual" },
+  { value: "business", label: "get_started.org_types.business" },
+  { value: "cibersecurity", label: "get_started.org_types.cibersecurity" },
+  { value: "non-profit", label: "get_started.org_types.non_profit" },
+  { value: "individual", label: "get_started.org_types.individual" },
 ];
 
 export const GetStartedLayout: FunctionComponent<Props> = () => {
+
+  const { t } = useTranslation();
 
   const [email, handleEmail] = useState("");
   const [name, handleName] = useState("");
@@ -34,11 +39,22 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
   const navigate = useNavigate();
 
   const validateForm = () => {
-    if (!name.trim()) return "Organization name is required"
-    if (!email.trim()) return "Email is required"
-    if(email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) === null) return "Please enter a valid email address"
+    if (!name.trim()) return t("get_started.validation.org_name_required")
+    if (!email.trim()) return t("get_started.validation.email_required")
+    // if(email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) === null) return t("get_started.validation.invalid_email")
     return "";
   };
+
+
+  const {
+    logout,
+  } = useStore((state) => ({
+    logout: state.logout,
+  }), shallow)
+  
+  useEffect(() => {
+      logout()
+    }, [logout])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -75,7 +91,7 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
   return (
     <Container>
       <Navbar
-        translatedTexts={{home: "", about: "", menu: "", logIn: "Log in", createSpace: "Create Space"}}
+        translatedTexts={{home: "", about: "", menu: "", logIn: t('login.login_header_button'), createSpace: ""}}
         onNavigate={navigate}
       />
       { success ? (
@@ -91,18 +107,17 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
           <Content>
 
             <StyledForm
-              title="Get started"
-              description="Create your own Shira space to start building your own custom quizzes today. "
+              title={t('get_started.title')}
+              description={t('get_started.description')}
               onSubmit={(e) => {
                 e.preventDefault();
               }}
-            >
-              
+            >           
               {error && <ErrorMessage>{error}</ErrorMessage>}
               
               <InputsContainer>
                 <TextInput 
-                  label="Organization name (optional)" 
+                  label={t('get_started.organization_name_required')} 
                   value={name} 
                   onChange={(e) => handleName(e.target.value)}
                   disabled={loading}
@@ -110,7 +125,7 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
                 <TextInput
                   required
                   disabled={loading}
-                  label={"Email (required)"}
+                  label={t('get_started.email_required')}
                   value={email}
                   onChange={(e) => handleEmail(e.target.value)}
                 />       
@@ -123,7 +138,7 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
 
               <ButtonContainer>
                 <Button
-                  text="Sign up"
+                  text={t('get_started.button_sign_up')}
                   type="primary"
                   disabled={loading}
                   onClick={handleSubmit}

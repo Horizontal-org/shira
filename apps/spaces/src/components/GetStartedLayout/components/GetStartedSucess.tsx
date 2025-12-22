@@ -1,16 +1,19 @@
 import { Body1SemiBold, Form, styled } from "@shira/ui";
 import { FunctionComponent } from "react";
+import { useTranslation } from "react-i18next";
 
 interface Props {}
 
 export const GetStartedSuccess: FunctionComponent<Props> = () => {
+  const { t } = useTranslation()
   return (
     <StyledForm
-      title="Almost there!"
-      description="To complete the process, please open the email we sent to your email address and click on the link to create your Shira space."
+      title={t('get_started.success.title')}
+      description={t('get_started.success.description')}
     >
       <Body1SemiBold>
-        Didn’t receive an email? If it’s not in your spam folder, please contact us at <Contact>contact@wearehorizontal.org</Contact>
+        {t('get_started.success.didnt_receive')}{' '}
+        <Contact href="mailto:contact@wearehorizontal.org">contact@wearehorizontal.org</Contact>
       </Body1SemiBold>
     </StyledForm>
   );

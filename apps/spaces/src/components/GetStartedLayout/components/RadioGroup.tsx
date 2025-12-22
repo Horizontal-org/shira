@@ -1,6 +1,7 @@
-import { Body1, Body3, styled } from "@shira/ui";
+import { Body1, styled } from "@shira/ui";
 import { FunctionComponent } from "react"
 import { ORG_TYPES } from "..";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   orgType: string
@@ -9,12 +10,13 @@ interface Props {
 }
 
 export const RadioGroup: FunctionComponent<Props> = ({ orgType, setOrgType, disabled }) => { 
+  const { t } = useTranslation()
   return (
     <div>
 
       <FieldSet id="get-started-org-types">
         <div>
-          <Body1>I am creating a Shira space as (required):</Body1>
+          <Body1>{t('get_started.org_type_label')}</Body1>
         </div>
         { ORG_TYPES.map((option) => (
           <OptionWrapper key={option.value} disabled={disabled}>
@@ -28,7 +30,7 @@ export const RadioGroup: FunctionComponent<Props> = ({ orgType, setOrgType, disa
                 onChange={() => setOrgType(option.value)}
               />
               <OptionLabel htmlFor={`org-type-${option.value}`}>
-                <Body1>{option.label}</Body1>
+                <Body1>{t(option.label)}</Body1>
               </OptionLabel>
             </OptionRow>
           </OptionWrapper>
