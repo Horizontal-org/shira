@@ -22,22 +22,22 @@ export class GetUnassignedLearnerService implements IGetUnassignedLearnerService
 
     try {
       learners = await this.learnerRepo
-        .createQueryBuilder("learners")
+        .createQueryBuilder('learners')
         .leftJoin(
-          "learners_quizzes",
-          "lq",
-          "lq.learnerId = learners.id AND lq.quizId = :quizId",
+          'learners_quizzes',
+          'lq',
+          'lq.learnerId = learners.id AND lq.quizId = :quizId',
           { quizId },
         )
-        .where("learners.spaceId = :spaceId", { spaceId })
-        .andWhere("learners.status = :status", { status: "registered" })
-        .andWhere("lq.learnerId IS NULL")
+        .where('learners.spaceId = :spaceId', { spaceId })
+        .andWhere('learners.status = :status', { status: 'registered' })
+        .andWhere('lq.learnerId IS NULL')
         .select([
-          "learners.id",
-          "learners.email",
-          "learners.name",
-          "learners.invitedAt",
-          "learners.status",
+          'learners.id',
+          'learners.email',
+          'learners.name',
+          'learners.invitedAt',
+          'learners.status',
         ])
         .getMany();
 
