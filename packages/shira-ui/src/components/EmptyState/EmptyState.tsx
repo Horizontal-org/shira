@@ -1,23 +1,22 @@
 import { FunctionComponent, ReactNode } from 'react';
 import styled from 'styled-components';
 import { Body1 } from '../Typography';
+import { SettingsFishIcon } from '../..';
 
 export interface EmptyStateProps {
   subtitle: string;
   buttons?: ReactNode | ReactNode[];
   backgroundColor?: string;
-  icon?: ReactNode;
 }
 
 export const EmptyState: FunctionComponent<EmptyStateProps> = ({
   subtitle,
   buttons,
   backgroundColor = 'transparent',
-  icon,
 }) => {
   return (
     <Container backgroundColor={backgroundColor}>
-      {icon && <IconWrapper>{icon}</IconWrapper>}
+      <IconWrapper><SettingsFishIcon /></IconWrapper>
       {subtitle && <Body1>{subtitle}</Body1>}
       {buttons && <ButtonWrapper>{buttons}</ButtonWrapper>}
     </Container>
