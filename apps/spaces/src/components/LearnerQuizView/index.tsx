@@ -38,31 +38,24 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [singleLearnerId, setSingleLearnerId] = useState<number | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [retryAction, setRetryAction] = useState<(() => void) | null>(null);
 
   //Key of row selection is DB ID of learner
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [isUnassignModalOpen, setIsUnassignModalOpen] = useState(false);
 
-  const openErrorModal = useCallback(
-    (content: string, retry: () => void) => {
-      setErrorMessage(content);
-      setRetryAction(() => retry);
-      setIsErrorModalOpen(true);
-    }, []
-  );
+  const openErrorModal = useCallback((content: string) => {
+    setErrorMessage(content);
+    setIsErrorModalOpen(true);
+  }, []);
 
   const closeErrorModal = useCallback(() => {
     setIsErrorModalOpen(false);
-    setRetryAction(null);
     setErrorMessage(null);
   }, []);
 
   const handleErrorModalRetry = useCallback(() => {
-    const retry = retryAction;
     closeErrorModal();
-    retry?.();
-  }, [retryAction, closeErrorModal]);
+  }, [closeErrorModal]);
 
   const handleSingleUnassign = useCallback((id: number): void => {
     setSingleLearnerId(id);

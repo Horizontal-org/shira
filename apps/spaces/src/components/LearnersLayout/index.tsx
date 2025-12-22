@@ -36,7 +36,6 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [retryAction, setRetryAction] = useState<(() => void) | null>(null);
 
   const [selectedLearnerIdToDelete, setSelectedLearnerIdToDelete] = useState<number | null>(null);
 
@@ -51,16 +50,14 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
 
   const hasSelectedLearners = selectedLearnerIds.length > 0;
 
-  const openErrorModal = useCallback((content: string, retry: () => void) => {
+  const openErrorModal = useCallback((content: string) => {
     setErrorMessage(content);
-    setRetryAction(() => retry);
     setIsErrorModalOpen(true);
     setIsInviteLearnerModalOpen(false);
   }, []);
 
   const closeErrorModal = () => {
     setIsErrorModalOpen(false);
-    setRetryAction(null);
     setErrorMessage(null);
   };
 
@@ -76,7 +73,7 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
         const error = handleHttpError(e);
         const content = getErrorContent("error_messages", "invite_learner_failed", error.message);
 
-        openErrorModal(content, () => handleResendInvitation(learner));
+        openErrorModal(content);
       }
     },
     [t, fetchLearners, openErrorModal]
@@ -199,10 +196,7 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
           <LearnerErrorModal
             isOpen={isErrorModalOpen}
             errorMessage={errorMessage}
-            onRetry={() => {
-              closeErrorModal();
-              retryAction?.();
-            }}
+            onRetry={() => { closeErrorModal(); }}
             onCancel={closeErrorModal}
           />
         </LayoutMainContentWrapper>
