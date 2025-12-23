@@ -97,27 +97,29 @@ export const AssignLearnersTable: FunctionComponent<Props> = ({
 
   return (
     <Wrapper>
-      <Table
-        loading={loading}
-        loadingMessage={<Body1>{t('loading_messages.assigning_quiz_to_learners')}</Body1>}
-        data={data}
-        columns={columns}
-        rowSelection={rowSelection}
-        setRowSelection={setRowSelection}
-        colGroups={(
-          <colgroup>
-            <col style={{ width: "50px" }} />
-            <col style={{ width: "70%" }} />
-            <col />
-          </colgroup>
-        )}
-      />
-
       {!loading && data.length === 0 && (
         <NoResultsWrapper>
           <img src={HookedFish} alt="hooked-fish" />
           <Body1>{t('learners.assign_dialog.no_learners')}</Body1>
         </NoResultsWrapper>
+      )}
+
+      {data.length > 0 && (
+        <Table
+          loading={loading}
+          loadingMessage={<Body1>{t('loading_messages.assigning_quiz_to_learners')}</Body1>}
+          data={data}
+          columns={columns}
+          rowSelection={rowSelection}
+          setRowSelection={setRowSelection}
+          colGroups={(
+            <colgroup>
+              <col style={{ width: "50px" }} />
+              <col style={{ width: "70%" }} />
+              <col />
+            </colgroup>
+          )}
+        />
       )}
     </Wrapper>
   );

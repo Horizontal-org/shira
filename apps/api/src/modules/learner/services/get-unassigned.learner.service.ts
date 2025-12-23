@@ -18,41 +18,43 @@ export class GetUnassignedLearnerService implements IGetUnassignedLearnerService
   private readonly logger = new ApiLogger(GetUnassignedLearnerService.name);
 
   async execute(quizId: number, spaceId: number): Promise<GetUnassignedLearnersDto[]> {
-    let learnerQuizzes = []
+    let learners = [];
+
     try {
-      learnerQuizzes = await this.learnerRepo
+      learners = await this.learnerRepo
         .createQueryBuilder('learners')
-        .leftJoin('learners_quizzes', 'lq', 'lq.learnerId = learners.id')
+        .leftJoin(
+          'learners_quizzes',
+          'lq',
+          'lq.learnerId = learners.id AND lq.quizId = :quizId',
+          { quizId },
+        )
+        .where('learners.spaceId = :spaceId', { spaceId })
+        .andWhere('learners.status = :status', { status: 'registered' })
+        .andWhere('lq.learnerId IS NULL')
         .select([
-          'lq.status',
-          'lq.quizId',
+          'learners.id',
           'learners.email',
           'learners.name',
-          'learners.id',
           'learners.invitedAt',
-          'learners.status'
+          'learners.status',
         ])
-        .where("learners.spaceId = :spaceId", { spaceId: spaceId })
-        .andWhere("learners.status = :status", { status: 'registered' })
-        .andWhere(new Brackets(qb => {
-          qb.where('lq.quizId IS NULL')
-            .orWhere('lq.quizId <> :quizId', { quizId })
-        }))
-        .getMany()
+        .getMany();
+
     } catch (e) {
       this.logger.error('Error while getting learners-quizzes', e)
       throw new GenericErrorException()
-    }
+    };
 
-    const parsed = plainToInstance(GetUnassignedLearnersDto, learnerQuizzes.map((l) => {
+    const parsed = plainToInstance(GetUnassignedLearnersDto, learners.map((l) => {
       return {
         id: l.id,
         email: l.email,
         name: l.name,
         invitedAt: l.invitedAt
       }
-    }), { excludeExtraneousValues: true })
+    }), { excludeExtraneousValues: true });
 
-    return parsed
+    return parsed;
   }
 }

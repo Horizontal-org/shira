@@ -1,4 +1,4 @@
-import { Body1, Button, SettingsFishIcon, Table, TableCheckbox, styled, useTheme } from "@shira/ui";
+import { Body1, Button, EmptyState, Table, TableCheckbox, styled, useTheme } from "@shira/ui";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { FunctionComponent, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -11,7 +11,7 @@ import { LearnerErrorModal } from "../modals/ErrorModal";
 import { UnassignLearnerAction } from "./components/UnassignLearnerAction";
 import { AssignLearnersLayover } from "./components/AssignLearnersLayover";
 
-interface Learner {
+export interface Learner {
   id: number;
   name: string;
   email: string;
@@ -31,38 +31,31 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
   const theme = useTheme();
 
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Learner[]>([]);
 
   const [showAssignLayover, setAssignLayover] = useState(false);
 
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [singleLearnerId, setSingleLearnerId] = useState<number | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [retryAction, setRetryAction] = useState<(() => void) | null>(null);
 
   //Key of row selection is DB ID of learner
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [isUnassignModalOpen, setIsUnassignModalOpen] = useState(false);
 
-  const openErrorModal = useCallback(
-    (content: string, retry: () => void) => {
-      setErrorMessage(content);
-      setRetryAction(() => retry);
-      setIsErrorModalOpen(true);
-    }, []
-  );
+  const openErrorModal = useCallback((content: string) => {
+    setErrorMessage(content);
+    setIsErrorModalOpen(true);
+  }, []);
 
   const closeErrorModal = useCallback(() => {
     setIsErrorModalOpen(false);
-    setRetryAction(null);
     setErrorMessage(null);
   }, []);
 
   const handleErrorModalRetry = useCallback(() => {
-    const retry = retryAction;
     closeErrorModal();
-    retry?.();
-  }, [retryAction, closeErrorModal]);
+  }, [closeErrorModal]);
 
   const handleSingleUnassign = useCallback((id: number): void => {
     setSingleLearnerId(id);
@@ -89,6 +82,8 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
         .map(([id]) => ({
           learnerId: Number(id),
           quizId,
+          name: data.find(learner => learner.id === Number(id))?.name || '',
+          email: data.find(learner => learner.id === Number(id))?.email || ''
         })),
     [rowSelection, quizId]
   );
@@ -96,6 +91,19 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
   const learnersToUnassign = singleLearnerId !== null
     ? [{ learnerId: singleLearnerId, quizId }]
     : selectedLearners;
+
+  function getSelectedLearner(): Learner {
+    if (singleLearnerId !== null) {
+      return data.find(l => l.id === singleLearnerId);
+    }
+
+    const firstSelected = selectedLearners[0];
+    if (firstSelected) {
+      return data.find(l => l.id === firstSelected.learnerId);
+    }
+
+    return;
+  };
 
   const hasSelectedLearners = selectedLearners.length > 0;
 
@@ -236,25 +244,25 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
             <Body1>{t("loading_messages.loading")}</Body1>
           </LoadingState>
         ) : showEmptyState ? (
-          <EmptyStateContainer>
-            <SettingsFishIcon />
-            <EmptyDescription>
-              {t("learner_quiz_tab.empty_state.description")}
-            </EmptyDescription>
-            <Button
-              id="assign-learners-button"
-              type="primary"
-              text={t('learners.assign_dialog.assign_button')}
-              color={theme.colors.green7}
-              leftIcon={(
-                <IoPersonAdd size={20} color="white" />
-              )}
-              onClick={() => {
-                setAssignLayover(true)
-                window.scrollTo(0, 0)
-              }}
-            />
-          </EmptyStateContainer>
+          <EmptyState
+            subtitle={t("learner_quiz_tab.empty_state.description")}
+            buttons={[
+              <Button
+                key="assign-learners"
+                id="assign-learners-button"
+                type="primary"
+                text={t('learners.assign_dialog.assign_button')}
+                color={theme.colors.green7}
+                leftIcon={(
+                  <IoPersonAdd size={20} color="white" />
+                )}
+                onClick={() => {
+                  setAssignLayover(true)
+                  window.scrollTo(0, 0)
+                }}
+              />
+            ]}
+          />
         ) : (
           <Table
             loading={loading}
@@ -284,6 +292,8 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
       <UnassignLearnerAction
         learners={learnersToUnassign}
         isModalOpen={isUnassignModalOpen}
+        quizTitle={quizTitle}
+        selectedLearner={getSelectedLearner()}
         onSuccess={() => {
           fetchLearnerQuiz();
           setRowSelection({});
@@ -296,33 +306,20 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
         openErrorModal={openErrorModal}
       />
 
-      {showAssignLayover && (
-        <AssignLearnersLayover
-          title={t('learners.assign_dialog.assign_title', { quiz_title: quizTitle })}
-          quizId={quizId}
-          openErrorModal={openErrorModal}
-          onExit={() => { setAssignLayover(false) }}
-          onSuccess={() => { fetchLearnerQuiz() }}
-        />
-      )}
+      {
+        showAssignLayover && (
+          <AssignLearnersLayover
+            title={t('learners.assign_dialog.assign_title', { quiz_title: quizTitle })}
+            quizId={quizId}
+            openErrorModal={openErrorModal}
+            onExit={() => { setAssignLayover(false) }}
+            onSuccess={() => { fetchLearnerQuiz() }}
+          />
+        )
+      }
     </>
   );
 };
-
-const EmptyStateContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 64px 16px;
-  gap: 16px;
-`;
-
-const EmptyDescription = styled(Body1)`
-  text-align: center;
-  max-width: 800px;
-  padding-bottom: 20px;
-`;
 
 const LoadingState = styled.div`
   display: flex;

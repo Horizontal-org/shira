@@ -2,7 +2,7 @@ import { FunctionComponent, useState } from "react";
 import { FiMenu, FiPlus, FiLoader } from 'react-icons/fi';
 import { MdOutlineMenuBook } from "react-icons/md";
 import { styled, TrashIcon, EditIcon, Button, defaultTheme } from '@shira/ui'
-import EmptyState from "./EmptyState";
+import { QuestionEmptyState } from "./QuestionEmptyState";
 import { DeleteModal } from "../../modals/DeleteModal";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { duplicateQuestion } from "../../../fetch/quiz";
@@ -93,7 +93,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
   }
 
   if (!quizQuestions || quizQuestions.length === 0) {
-    return <EmptyState onAdd={onAdd} onAddLibrary={onAddLibrary} quizId={String(quizId)} />
+    return <QuestionEmptyState onAdd={onAdd} onAddLibrary={onAddLibrary} quizId={String(quizId)} />
   }
 
   return (
@@ -200,13 +200,13 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
         </Droppable>
       </DragDropContext>
       <DeleteModal
-        title={t('questions.delete.title', { question_name: questionForDelete?.name })}
+        title={t('modals.delete_question.title', { question_name: questionForDelete?.name })}
         content={
           <div>
-            {t('questions.delete.message')}
+            {t('modals.delete_question.message')}
             <br /><br />
-            <WarningNote>{t('questions.delete.note')}</WarningNote>
-            {t('questions.delete.warning')}
+            <WarningNote>{t('modals.delete_question.note')}</WarningNote>
+            {t('modals.delete_question.warning')}
           </div>
         }
         setIsModalOpen={() => {

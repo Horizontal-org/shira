@@ -36,7 +36,6 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [retryAction, setRetryAction] = useState<(() => void) | null>(null);
 
   const [selectedLearnerIdToDelete, setSelectedLearnerIdToDelete] = useState<number | null>(null);
 
@@ -49,18 +48,17 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
     selectedLearnerIds,
   } = useLearners();
 
+  const hasLearners = !!learners?.length;
   const hasSelectedLearners = selectedLearnerIds.length > 0;
 
-  const openErrorModal = useCallback((content: string, retry: () => void) => {
+  const openErrorModal = useCallback((content: string) => {
     setErrorMessage(content);
-    setRetryAction(() => retry);
     setIsErrorModalOpen(true);
     setIsInviteLearnerModalOpen(false);
   }, []);
 
   const closeErrorModal = () => {
     setIsErrorModalOpen(false);
-    setRetryAction(null);
     setErrorMessage(null);
   };
 
@@ -76,7 +74,7 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
         const error = handleHttpError(e);
         const content = getErrorContent("error_messages", "invite_learner_failed", error.message);
 
-        openErrorModal(content, () => handleResendInvitation(learner));
+        openErrorModal(content);
       }
     },
     [t, fetchLearners, openErrorModal]
@@ -125,7 +123,7 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
 
           <ActionContainer>
             <LeftActions>
-              {!hasSelectedLearners && (
+              {hasLearners && !hasSelectedLearners && (
                 <Button
                   id="invite-learner-button"
                   text={t("buttons.invite_learner")}
@@ -166,6 +164,7 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
               loading={loading}
               onDeleteLearner={handleOpenDeleteModal}
               onResendInvitation={handleResendInvitation}
+              onInviteLearner={() => setIsInviteLearnerModalOpen(true)}
               rowSelection={rowSelection}
               setRowSelection={setRowSelection}
             />
@@ -199,10 +198,7 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
           <LearnerErrorModal
             isOpen={isErrorModalOpen}
             errorMessage={errorMessage}
-            onRetry={() => {
-              closeErrorModal();
-              retryAction?.();
-            }}
+            onRetry={() => { closeErrorModal(); }}
             onCancel={closeErrorModal}
           />
         </LayoutMainContentWrapper>

@@ -26,6 +26,7 @@
     "learners": {
         "title": "Learners",
         "subtitle": "Manage who can take the private quizzes you create.",
+        "empty_state": "There are no learners registered to your space yet. Invite a new learner to get started.",
         "table": {
             "learner": "Learner",
             "registration": "Registration",
@@ -357,11 +358,11 @@
             "subtitle": "Deleting these learners from your space is permanent and cannot be undone. The learners' quiz results will be deleted too."
         },
         "unassign_learner": {
-            "title": "Unassign quiz from learner?",
+            "title": "Unassign \"{{quiz}}\" from {{learner}}?",
             "subtitle": "Are you sure you want to unassign the quiz from this learner? Any quiz progress and results will be lost."
         },
         "unassign_learners_plural": {
-            "title": "Unassign quiz from learners?",
+            "title": "Unassign \"{{quiz}}\" from {{count}} learners?",
             "subtitle": "Are you sure you want to unassign the quiz from these learners? Any quiz progress and results will be lost."
         }
     },
@@ -411,6 +412,7 @@
         "saving": "Saving...",
         "creating": "Creating...",
         "duplicating": "Duplicating...",
+        "learners": "Loading learners...",
         "loading_library_questions": "Loading questions...",
         "uploading_image": "Uploading image...",
         "assigning_quiz_to_learners": "Assigning quiz to learners...",
