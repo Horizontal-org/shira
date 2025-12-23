@@ -58,7 +58,8 @@ export class InviteLearnerService implements IInviteLearnerService {
       });
 
       await this.handleExistingLearner(learner, existingLearner);
-    } catch {
+    } catch (error) {
+      this.logger.error(`Error saving learner with email: ${email} - ${error.message}`);
       throw new SaveLearnerException(email);
     }
 
@@ -93,7 +94,8 @@ export class InviteLearnerService implements IInviteLearnerService {
         data: { email, magicLink, organization }
       })
       this.logger.log(`Invitation email queued successfully for email: ${email}`);
-    } catch {
+    } catch (error) {
+      this.logger.error(`Failed to send invitation email to ${email}: ${error.message}`);
       throw new InvitationEmailSendFailedException(email);
     }
   }
@@ -121,7 +123,8 @@ export class InviteLearnerService implements IInviteLearnerService {
         { status: 'registered', registeredAt: new Date() }
       );
       return space.name;
-    } catch {
+    } catch (error) {
+      this.logger.error(`Error updating learner ${learner.email}: - ${error.message}`);
       throw new SaveLearnerException();
     }
   }
