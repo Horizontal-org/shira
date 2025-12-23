@@ -13,6 +13,7 @@ import { SpaceEntity } from "src/modules/space/domain/space.entity";
 import { InvitationEmailSendFailedException } from "../exceptions/invitation-email-send.learner.exception";
 import { GenericErrorException } from "../exceptions/generic-error.learner.exception";
 import { ApiLogger } from "../logger/api-logger.service";
+import { OrganizationEntity } from "src/modules/organization/domain/organization.entity";
 
 @Injectable()
 export class InviteLearnerService implements IInviteLearnerService {
@@ -21,6 +22,8 @@ export class InviteLearnerService implements IInviteLearnerService {
     private readonly learnerRepo: Repository<LearnerEntity>,
     @InjectRepository(SpaceEntity)
     private readonly spaceRepo: Repository<SpaceEntity>,
+    @InjectRepository(OrganizationEntity)
+    private readonly organizationRepo: Repository<OrganizationEntity>,
     @InjectQueue('emails')
     private emailsQueue: Queue
   ) { }
@@ -33,6 +36,13 @@ export class InviteLearnerService implements IInviteLearnerService {
     this.logger.log(`Inviting learner with email: ${email} to spaceId: ${spaceId}`);
 
     const existingLearner = await this.findLearner(spaceId, email);
+
+    const organization = await this.organizationRepo
+      .createQueryBuilder('organization')
+      .innerJoin('organization.spaces', 'space')
+      .where('space.id = :spaceId', { spaceId })
+      .select(['organization.name'])
+      .getOne();
 
     const hash = crypto.randomBytes(20).toString('hex');
 
@@ -52,7 +62,7 @@ export class InviteLearnerService implements IInviteLearnerService {
       throw new SaveLearnerException(email);
     }
 
-    this.sendEmail(email, hash);
+    this.sendEmail(email, hash, organization.name);
   }
 
   private async findLearner(spaceId: number, email: string) {
@@ -69,7 +79,7 @@ export class InviteLearnerService implements IInviteLearnerService {
     return existing;
   }
 
-  private async sendEmail(email: string, token: string) {
+  private async sendEmail(email: string, token: string, organization: string) {
     this.logger.log(`Sending invitation email to learner with email: ${email}`);
 
     const magicLink = `${process.env.PUBLIC_URL}/accept-invite/${token}`;
@@ -78,9 +88,9 @@ export class InviteLearnerService implements IInviteLearnerService {
       await this.emailsQueue.add('send', {
         to: email,
         from: process.env.SMTP_GLOBAL_FROM,
-        subject: 'Invitation to register as a Learner in a Shira space',
+        subject: `${organization} invited to join their Shira space`,
         template: 'learner-invitation',
-        data: { email, magicLink }
+        data: { email, magicLink, organization }
       })
       this.logger.log(`Invitation email queued successfully for email: ${email}`);
     } catch {

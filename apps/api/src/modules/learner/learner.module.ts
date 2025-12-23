@@ -10,6 +10,7 @@ import { QuizModule } from '../quiz/quiz.module';
 import { PublicLearnerController } from './controllers/public.learner.controller';
 import { AuthLearnerController } from './controllers/auth.learner.controller';
 import { AuthLearnerQuizController } from './controllers/auth.learner_quiz.controller';
+import { OrganizationEntity } from '../organization/domain/organization.entity';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { AuthLearnerQuizController } from './controllers/auth.learner_quiz.contr
       LearnerEntity,
       LearnerQuizEntity,
       SpaceEntity,
-      QuizEntity
+      QuizEntity,
+      OrganizationEntity
     ]),
     QuizModule
   ],
