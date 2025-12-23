@@ -384,7 +384,8 @@
         "assign_quiz_failed": "There was a problem assigning this quiz to learners. If this issue persists, <1>contact us</1>.",
         "unassign_quiz_failed": "There was a problem unassigning this quiz from learners. If this issue persists, <1>contact us</1>.",
         "email_already_taken": "The email address is already taken.",
-        "invite_org_failed": "There was a problem creating your space. If this issue persists, <1>contact us</1>."
+        "invite_org_failed": "There was a problem creating your space. If this issue persists, <1>contact us</1>.",
+        "email_no_match": "The email address does not match the invitation."
     },
     "success_messages": {
         "quiz_link_copied": "The public quiz link has been copied to your clipboard.",

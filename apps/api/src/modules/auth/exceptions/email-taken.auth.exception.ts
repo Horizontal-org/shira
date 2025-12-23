@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus } from "@nestjs/common";
-import { AuthErrorCodes } from "./errors/learner-quiz.error-codes";
+import { AuthErrorCodes } from "./errors/auth.error-codes";
 
 export class EmailTakenException extends HttpException {
   constructor() {

@@ -1,13 +1,12 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"
 import {
-  Form,
   Button,
   TextInput,
   styled,
-  Navbar
+  Navbar,
+  Form
 } from "@shira/ui";
 import backgroundSvg from "../../assets/Background.svg";
 import { RadioGroup } from "./components/RadioGroup";
@@ -125,6 +124,7 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
 
             <StyledForm
               title={t('get_started.title')}
+              titleSize="large"
               description={t('get_started.description')}
               onSubmit={(e) => {
                 e.preventDefault()

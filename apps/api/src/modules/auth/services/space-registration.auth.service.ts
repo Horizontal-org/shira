@@ -83,8 +83,7 @@ export class SpaceRegistrationAuthService implements ISpaceRegistrationAuthServi
       
       return
     } catch (error){
-      console.error(error)
-      throw new UnprocessableEntityException(error)
+      throw error;
     }
   }
 }
