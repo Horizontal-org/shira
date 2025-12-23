@@ -1,4 +1,4 @@
-import { Body1SemiBold, Form, styled } from "@shira/ui";
+import { Body2Regular, Form, styled } from "@shira/ui";
 import { FunctionComponent } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -11,10 +11,10 @@ export const GetStartedSuccess: FunctionComponent<Props> = () => {
       title={t('get_started.success.title')}
       description={t('get_started.success.description')}
     >
-      <Body1SemiBold>
+      <Body2Regular>
         {t('get_started.success.didnt_receive')}{' '}
         <Contact href="mailto:contact@wearehorizontal.org">contact@wearehorizontal.org</Contact>
-      </Body1SemiBold>
+      </Body2Regular>
     </StyledForm>
   );
 };

@@ -8,6 +8,7 @@ import { ConflictException, Injectable } from "@nestjs/common";
 import { SendInvitationDto } from "../domain/send-invitation.dto";
 import { UserEntity } from "src/modules/user/domain/user.entity";
 import * as crypto from 'crypto'
+import { EmailTakenException } from "../exceptions";
 
 @Injectable()
 export class SendInvitationAuthService implements ISendInvitationAuthService {
@@ -28,7 +29,7 @@ export class SendInvitationAuthService implements ISendInvitationAuthService {
     });
 
     if (existingUser) {
-      throw new ConflictException(`User with email ${invitationEmail} already exists`)
+      throw new EmailTakenException()
     } 
 
     const passphrase = new PassphraseEntity()

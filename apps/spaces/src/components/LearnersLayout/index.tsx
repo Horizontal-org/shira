@@ -8,7 +8,6 @@ import { useStore } from "../../store";
 import { shallow } from "zustand/shallow";
 import { LearnersTable, Learner } from "../LearnersTable";
 import { InviteLearnerModal } from "../modals/InviteLearnerModal";
-import { LearnerErrorModal } from "../modals/ErrorModal";
 import { DeleteLearnerAction } from "../LearnersTable/components/DeleteLearnerAction";
 import { BulkDeleteLearnersAction } from "../LearnersTable/components/BulkDeleteLearnersAction";
 import toast from "react-hot-toast";
@@ -17,6 +16,7 @@ import { inviteLearner } from "../../fetch/learner";
 import { getErrorContent } from "../../utils/getErrorContent";
 import { MdEmail, MdDelete } from "react-icons/md";
 import { useLearners } from "../../hooks/useLearners";
+import { GenericErrorModal } from "../modals/ErrorModal";
 
 interface Props { }
 
@@ -196,7 +196,7 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
             onCancel={() => setIsBulkDeleteLearnersModalOpen(false)}
           />
 
-          <LearnerErrorModal
+          <GenericErrorModal
             isOpen={isErrorModalOpen}
             errorMessage={errorMessage}
             onRetry={() => {

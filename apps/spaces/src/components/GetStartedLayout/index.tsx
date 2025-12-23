@@ -14,6 +14,10 @@ import { RadioGroup } from "./components/RadioGroup";
 import { GetStartedSuccess } from "./components/GetStartedSucess";
 import { useStore } from "../../store";
 import { shallow } from "zustand/shallow";
+import { inviteOrg } from "../../fetch/registration";
+import { handleHttpError } from "../../fetch/handleError";
+import { getErrorContent } from "../../utils/getErrorContent";
+import { GenericErrorModal } from "../modals/ErrorModal";
 
 interface Props {}
 
@@ -29,22 +33,34 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
   const { t } = useTranslation();
 
   const [email, handleEmail] = useState("");
+  const [emailError, handleEmailError] = useState("");
   const [name, handleName] = useState("");
+  const [nameError, handleNameError] = useState("");
   const [orgType, handleOrgType] = useState(ORG_TYPES[0].value);
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+
+  const [errorModalOpen, setIsErrorModalOpen] = useState<string | null>(null);
 
   const navigate = useNavigate();
 
   const validateForm = () => {
-    if (!name.trim()) return t("get_started.validation.org_name_required")
-    if (!email.trim()) return t("get_started.validation.email_required")
-    if(email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) === null) return t("get_started.validation.invalid_email")
-    return "";
+    let hasError = false;
+    if (!name.trim()) { 
+      handleNameError(t("get_started.validation.org_name_required")) 
+      hasError = true;
+    }
+    if (!email.trim()) { 
+      handleEmailError(t("get_started.validation.email_required")) 
+      hasError = true;
+    }
+    if (email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) === null) { 
+      handleEmailError(t("get_started.validation.invalid_email")) 
+      hasError = true;
+    }
+    return hasError
   };
-
 
   const {
     logout,
@@ -56,35 +72,36 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
       logout()
     }, [logout])
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    handleEmailError('');
+    handleNameError('');
     
-    const validationError = validateForm();
-    if (validationError) {
-      setError(validationError);
-      return;
+    if(validateForm()) {
+      return
     }
-
+    
     setLoading(true);
-    setError("");
     
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/invitation`, {
-        email,
+      await inviteOrg({
         slug: name,
+        email,
         orgType
-      });
-      
+      })
+
       setSuccess(true);
       setLoading(false);            
     } catch (err) {
-      console.log("🚀 ~ handleSubmit ~ err:", err.response.message)
       setLoading(false);
-      if (err.response && err.response.data && err.response.data.message) {
-        setError(err.response.data.message);
-      } else {
-        setError("An error occurred while creating your space. Please try again.");
+      const error = handleHttpError(err)
+
+      if (error && error.message === 'email_already_taken') {
+        handleEmailError(t("error_messages.email_already_taken"))
+        return
       }
+
+      const content = getErrorContent("error_messages", "invite_org_failed", error.message);
+      setIsErrorModalOpen(content)
     }
   };
 
@@ -110,11 +127,10 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
               title={t('get_started.title')}
               description={t('get_started.description')}
               onSubmit={(e) => {
-                e.preventDefault();
+                e.preventDefault()
+                handleSubmit()
               }}
             >           
-              {error && <ErrorMessage>{error}</ErrorMessage>}
-              
               <InputsContainer>
                 <TextInput 
                   required
@@ -123,6 +139,7 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
                   onChange={(e) => handleName(e.target.value)}
                   disabled={loading}
                 />
+                { nameError && <InlineErrorMessage>{nameError}</InlineErrorMessage> }
                 <TextInput
                   required
                   disabled={loading}
@@ -130,6 +147,7 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
                   value={email}
                   onChange={(e) => handleEmail(e.target.value)}
                 />       
+                { emailError && <InlineErrorMessage>{emailError}</InlineErrorMessage> }
                 <RadioGroup 
                   orgType={orgType}
                   setOrgType={handleOrgType}
@@ -139,13 +157,26 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
 
               <ButtonContainer>
                 <Button
-                  text={t('get_started.button_sign_up')}
+                  text={loading ? t('get_started.loading') : t('get_started.button_sign_up')}
                   type="primary"
                   disabled={loading}
-                  onClick={handleSubmit}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    handleSubmit()
+                  }}
                 />
               </ButtonContainer>
             </StyledForm>
+
+            <GenericErrorModal 
+              isOpen={!!errorModalOpen}
+              errorMessage={errorModalOpen}
+              onRetry={() => {
+                setIsErrorModalOpen(null)
+                handleSubmit()
+              }}
+              onCancel={() => { setIsErrorModalOpen(null) }}
+            />
           </Content>
         </ContentWrapper>
       )}
@@ -245,11 +276,9 @@ const ButtonContainer = styled.div`
   }
 `;
 
-const ErrorMessage = styled.div`
-  background-color: #ffebee;
+const InlineErrorMessage = styled.div`
   color: #d32f2f;
-  padding: 16px;
-  border-radius: 4px;
-  margin-bottom: 24px;
-  font-weight: 500;
+  font-size: 14px;
+  margin-top: -12px;
+  padding-left: 4px;
 `;

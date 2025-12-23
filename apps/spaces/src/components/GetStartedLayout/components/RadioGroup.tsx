@@ -15,9 +15,9 @@ export const RadioGroup: FunctionComponent<Props> = ({ orgType, setOrgType, disa
     <div>
 
       <FieldSet id="get-started-org-types">
-        <div>
+        <RadioGroupLabel>
           <Body1>{t('get_started.org_type_label')}</Body1>
-        </div>
+        </RadioGroupLabel>
         { ORG_TYPES.map((option) => (
           <OptionWrapper key={option.value} disabled={disabled}>
             <OptionRow>
@@ -49,6 +49,7 @@ const FieldSet = styled.fieldset`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  padding: 8px 0;
 `;
 
 const OptionWrapper = styled.div<{ disabled?: boolean }>`
@@ -64,8 +65,8 @@ const OptionWrapper = styled.div<{ disabled?: boolean }>`
 
     font: inherit;
     color: currentColor;
-    width: 1.15em;
-    height: 1.15em;
+    width: 18px;
+    height: 18px;
     border: 0.15em solid ${props => props.theme.colors.green6};
     border-radius: 50%;
     transform: translateY(-0.075em);
@@ -76,8 +77,8 @@ const OptionWrapper = styled.div<{ disabled?: boolean }>`
 
   input[type="radio"]::before {
     content: "";
-    width: 0.55em;
-    height: 0.55em;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     transform: scale(0);
     transition: 120ms transform ease-in-out;
@@ -117,4 +118,15 @@ const OptionRow = styled.div`
 const OptionLabel = styled.label`
   font-weight: 400;
   font-size: 16px;
+`
+
+const RadioGroupLabel = styled.legend`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  &:before {
+    content: "* ";
+    color: red;
+  }
 `

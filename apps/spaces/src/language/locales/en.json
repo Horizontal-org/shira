@@ -382,7 +382,9 @@
         "delete_learner_failed": "There was a problem deleting the learner. If this issue persists, <1>contact us</1>.",
         "delete_learners_failed": "There was a problem deleting the learners. If this issue persists, <1>contact us</1>.",
         "assign_quiz_failed": "There was a problem assigning this quiz to learners. If this issue persists, <1>contact us</1>.",
-        "unassign_quiz_failed": "There was a problem unassigning this quiz from learners. If this issue persists, <1>contact us</1>."
+        "unassign_quiz_failed": "There was a problem unassigning this quiz from learners. If this issue persists, <1>contact us</1>.",
+        "email_already_taken": "The email address is already taken.",
+        "invite_org_failed": "There was a problem creating your space. If this issue persists, <1>contact us</1>."
     },
     "success_messages": {
         "quiz_link_copied": "The public quiz link has been copied to your clipboard.",
@@ -437,6 +439,7 @@
         "organization_name_required": "Organization name (required)",
         "email_required": "Email (required)",
         "org_type_label": "I am creating a Shira space as (required):",
+        "loading": "Signing up...",
         "org_types": {
             "business": "Business",
             "cibersecurity": "Cybersecurity",

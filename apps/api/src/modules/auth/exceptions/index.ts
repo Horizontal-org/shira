@@ -1,0 +1,1 @@
+export { EmailTakenException } from './email-taken.auth.exception';
