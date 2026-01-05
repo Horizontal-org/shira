@@ -9,11 +9,18 @@ import { Queue } from "bullmq";
 import { InjectQueue } from "@nestjs/bullmq";
 import { QuizAssignmentFailedException } from "../exceptions";
 import { ApiLogger } from "../logger/api-logger.service";
+import { InjectRepository } from "@nestjs/typeorm";
+import { OrganizationEntity } from "src/modules/organization/domain/organization.entity";
+import { Quiz as QuizEntity } from "src/modules/quiz/domain/quiz.entity";
 
 @Injectable()
 export class AssignLearnerService implements IAssignLearnerService {
   constructor(
     private readonly dataSource: DataSource,
+    @InjectRepository(OrganizationEntity)
+    private readonly organizationRepo: Repository<OrganizationEntity>,
+    @InjectRepository(QuizEntity)
+    private readonly quizRepo: Repository<QuizEntity>,
     @InjectQueue("emails")
     private readonly emailsQueue: Queue
   ) { }
@@ -25,6 +32,10 @@ export class AssignLearnerService implements IAssignLearnerService {
 
     this.logger.log(`Assigning ${learners.length} learners to quizzes in space ${spaceId}`);
 
+    const { organizationName, quizTitle } = await this.fetchOrganizationAndQuizTitle(spaceId, learners);
+
+    this.logger.log(`Fetched organization ${organizationName} and quiz title ${quizTitle}`);
+
     await this.dataSource.transaction(async (manager) => {
       const learnerRepo = manager.getRepository(LearnerEntity);
       const learnerQuizRepo = manager.getRepository(LearnerQuizEntity);
@@ -35,7 +46,7 @@ export class AssignLearnerService implements IAssignLearnerService {
       const assignments = this.prepareQuizAssignments(learners, learnersById, learnerQuizRepo);
       const savedAssignments = await learnerQuizRepo.save(assignments);
 
-      await this.sendEmails(savedAssignments, learnersById);
+      await this.sendEmails(savedAssignments, learnersById, organizationName, quizTitle);
 
       this.logger.log(
         `Successfully assigned ${savedAssignments.length} learners to quizzes in space ${spaceId}`
@@ -83,7 +94,9 @@ export class AssignLearnerService implements IAssignLearnerService {
 
   private async sendEmails(
     savedAssignments: LearnerQuizEntity[],
-    learnersById: Map<number, LearnerEntity>
+    learnersById: Map<number, LearnerEntity>,
+    organization: string,
+    quizTitle: string
   ) {
     this.logger.log(`Sending quiz assignment emails to learners`);
 
@@ -103,15 +116,34 @@ export class AssignLearnerService implements IAssignLearnerService {
           await this.emailsQueue.add("send", {
             to: email,
             from: process.env.SMTP_GLOBAL_FROM,
-            subject: "Invitation to take a quiz in a Shira space",
+            subject: `${organization} invited you to take the quiz "${quizTitle}" in Shira`,
             template: "learner-quiz-assignment",
-            data: { email, magicLink }
+            data: { email, magicLink, organization, quizTitle }
           });
-        } catch {
-          this.logger.error(`Failed to send email to ${email} for quiz assignment`);
+        } catch (error) {
+          this.logger.error(`Failed to send email to ${email} for quiz assignment: ${error.message}`);
           throw new QuizAssignmentFailedException();
         }
       })
     );
+  }
+
+  private async fetchOrganizationAndQuizTitle(spaceId: number, learners: LearnerToBeAssigned[]) {
+    const organizationName = await this.organizationRepo
+      .createQueryBuilder('organization')
+      .innerJoin('organization.spaces', 'space')
+      .where('space.id = :spaceId', { spaceId })
+      .select(['organization.name'])
+      .getOne()
+      .then(org => org.name);
+
+    const quizTitle = await this.quizRepo
+      .createQueryBuilder('quiz')
+      .where('quiz.id = :quizId', { quizId: learners[0].quizId })
+      .select(['quiz.title'])
+      .getOne()
+      .then(quiz => quiz.title);
+
+    return { organizationName, quizTitle };
   }
 }
