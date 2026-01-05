@@ -11,7 +11,7 @@ interface Props {
   onCancel: () => void;
 }
 
-export const LearnerErrorModal: FunctionComponent<Props> = ({
+export const GenericErrorModal: FunctionComponent<Props> = ({
   isOpen,
   errorMessage,
   onRetry,
@@ -40,4 +40,6 @@ export const LearnerErrorModal: FunctionComponent<Props> = ({
 const FormContent = styled.div`
   display: flex;
   flex-direction: column;
+
+  text-align: left;
 `;

@@ -7,9 +7,9 @@ import { IoPersonAdd, IoPersonRemoveSharp } from "react-icons/io5";
 import { LearnerEmail, LearnerHeader, LearnerName, LearnerPersonInfo } from "../LearnersTable/components/LearnerHeader";
 import { QuizStatusTag } from "./components/QuizStatusTag";
 import { getAssignedLearners } from "../../fetch/learner_quiz";
-import { LearnerErrorModal } from "../modals/ErrorModal";
 import { UnassignLearnerAction } from "./components/UnassignLearnerAction";
 import { AssignLearnersLayover } from "./components/AssignLearnersLayover";
+import { GenericErrorModal } from "../modals/ErrorModal";
 
 export interface Learner {
   id: number;
@@ -282,7 +282,7 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
         )}
       </div>
 
-      <LearnerErrorModal
+      <GenericErrorModal
         isOpen={isErrorModalOpen}
         errorMessage={errorMessage}
         onRetry={handleErrorModalRetry}

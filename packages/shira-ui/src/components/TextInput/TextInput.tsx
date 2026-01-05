@@ -30,7 +30,6 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(({
     required = false
 }, ref) => {
     const [showPassword, setShowPassword] = useState(false);
-
     const hasLabel = Boolean(label);
     const showLabel = hasLabel && value !== '';
 
@@ -41,14 +40,17 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(({
 
     return (
         <InputWrapper>
-            {showLabel && <Label $disabled={disabled}>{label}</Label>}
+            {showLabel && <Label 
+                $disabled={disabled}
+                $required={required}
+            >{label}</Label>}
             <InputContainer>
                 <StyledInput
                     id={id}
                     name={name}
                     type={inputType}
-                    placeholder={inputPlaceholder}
                     onChange={onChange}
+                    placeholder={inputPlaceholder}
                     value={value}
                     disabled={disabled}
                     required={required}
@@ -88,12 +90,20 @@ const InputContainer = styled.div`
     width: 100%;
 `;
 
-const Label = styled.label<{ $disabled?: boolean }>`
+const Label = styled.label<{ $disabled?: boolean, $required?: boolean }>`
     font-size: 16px;
     color: ${props => props.$disabled ? '#aaa' : props.theme.colors.dark.black};
+
+    ${props => props.$required && `
+        &:before {
+            content: "* ";
+            color: red;
+            margin-left: 4px;
+        }
+    `}
 `;
 
-const StyledInput = styled.input`
+const StyledInput = styled.input<{ required?: boolean }>`
     outline: none;
     -webkit-appearance: none;
     -moz-appearance: none;

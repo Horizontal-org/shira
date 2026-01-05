@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PassphraseEntity } from '../domain/passphrase.entity';
 import { ICheckPassphraseService } from '../interfaces/services/check.passphrase.service.interface';
+import { EmailNoMatchAuthException } from 'src/modules/auth/exceptions/email-no-match.passphrase.exception';
 
 
 @Injectable()
@@ -30,7 +31,7 @@ export class CheckPassphraseService implements ICheckPassphraseService{
 
     // check registration email match with passphrase
     if (entity.usedBy !== registrationEmail) {
-      throw new UnauthorizedException("Unauthorized email")
+      throw new EmailNoMatchAuthException()
     }
 
     return true
