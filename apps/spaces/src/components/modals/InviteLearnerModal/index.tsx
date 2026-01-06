@@ -29,6 +29,7 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
   const [emailIsValid, setEmailIsValid] = useState(true);
   const [showAlreadyExistsError, setShowAlreadyExistsError] = useState(false);
 
+  const isNameEmpty = !name.trim();
   const isEmailEmpty = !email.trim();
   const showInvalidEmailError = !isEmailEmpty && !emailIsValid;
 
@@ -80,7 +81,11 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
   };
 
   const handlePrimaryClick = async () => {
-    const values = { name, email };
+    if (isNameEmpty || isEmailEmpty || !emailIsValid) {
+      return;
+    }
+
+    const values = { name: name.trim(), email: email.trim() };
     await sendInvitation(values);
   };
 
@@ -101,7 +106,7 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
           ? t("loading_messages.sending_invitation")
           : t("buttons.send_invitation")
       }
-      primaryButtonDisabled={isLoading || isEmailEmpty || !emailIsValid}
+      primaryButtonDisabled={isLoading || isNameEmpty || isEmailEmpty || !emailIsValid}
       secondaryButtonText={t("buttons.cancel")}
       onPrimaryClick={handlePrimaryClick}
       onSecondaryClick={handleClose}
@@ -116,6 +121,7 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
             value={name}
             placeholder={t("modals.invite_learner.name_placeholder")}
             onChange={(e) => setName(e.target.value)}
+            required
           />
 
           <EmailField>
@@ -125,6 +131,7 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
               value={email}
               placeholder={t("modals.invite_learner.email_placeholder")}
               onChange={(e) => handleEmailChange(e.target.value)}
+              required
             />
 
             <ErrorContainer role="alert" aria-live="polite">
