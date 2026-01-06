@@ -6,10 +6,10 @@ import {
   TextInput,
   styled,
   Navbar,
-  Form
+  Form,
+  RadioGroup
 } from "@shira/ui";
 import backgroundSvg from "../../assets/Background.svg";
-import { RadioGroup } from "./components/RadioGroup";
 import { GetStartedSuccess } from "./components/GetStartedSucess";
 import { useStore } from "../../store";
 import { shallow } from "zustand/shallow";
@@ -18,7 +18,7 @@ import { handleHttpError } from "../../fetch/handleError";
 import { getErrorContent } from "../../utils/getErrorContent";
 import { GenericErrorModal } from "../modals/ErrorModal";
 
-interface Props {}
+interface Props { }
 
 export const ORG_TYPES = [
   { value: "business", label: "get_started.org_types.business" },
@@ -46,16 +46,16 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
 
   const validateForm = () => {
     let hasError = false;
-    if (!name.trim()) { 
-      handleNameError(t("get_started.validation.org_name_required")) 
+    if (!name.trim()) {
+      handleNameError(t("get_started.validation.org_name_required"))
       hasError = true;
     }
-    if (!email.trim()) { 
-      handleEmailError(t("get_started.validation.email_required")) 
+    if (!email.trim()) {
+      handleEmailError(t("get_started.validation.email_required"))
       hasError = true;
     }
-    if (email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) === null) { 
-      handleEmailError(t("get_started.validation.invalid_email")) 
+    if (email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) === null) {
+      handleEmailError(t("get_started.validation.invalid_email"))
       hasError = true;
     }
     return hasError
@@ -66,21 +66,21 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
   } = useStore((state) => ({
     logout: state.logout,
   }), shallow)
-  
+
   useEffect(() => {
-      logout()
-    }, [logout])
+    logout()
+  }, [logout])
 
   const handleSubmit = async () => {
     handleEmailError('');
     handleNameError('');
-    
-    if(validateForm()) {
+
+    if (validateForm()) {
       return
     }
-    
+
     setLoading(true);
-    
+
     try {
       await inviteOrg({
         slug: name,
@@ -89,7 +89,7 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
       })
 
       setSuccess(true);
-      setLoading(false);            
+      setLoading(false);
     } catch (err) {
       setLoading(false);
       const error = handleHttpError(err)
@@ -107,10 +107,10 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
   return (
     <Container>
       <Navbar
-        translatedTexts={{home: "", about: "", menu: "", logIn: t('login.login_header_button'), createSpace: ""}}
+        translatedTexts={{ home: "", about: "", menu: "", logIn: t('login.login_header_button'), createSpace: "" }}
         onNavigate={navigate}
       />
-      { success ? (
+      {success ? (
         <ContentWrapper>
           <BackgroundPattern />
           <Content>
@@ -130,28 +130,35 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
                 e.preventDefault()
                 handleSubmit()
               }}
-            >           
+            >
               <InputsContainer>
-                <TextInput 
+                <TextInput
                   required
-                  label={t('get_started.organization_name_required')} 
-                  value={name} 
+                  label={t('get_started.organization_name_required')}
+                  value={name}
                   onChange={(e) => handleName(e.target.value)}
                   disabled={loading}
                 />
-                { nameError && <InlineErrorMessage>{nameError}</InlineErrorMessage> }
+                {nameError && <InlineErrorMessage>{nameError}</InlineErrorMessage>}
                 <TextInput
                   required
                   disabled={loading}
                   label={t('get_started.email_required')}
                   value={email}
                   onChange={(e) => handleEmail(e.target.value)}
-                />       
-                { emailError && <InlineErrorMessage>{emailError}</InlineErrorMessage> }
-                <RadioGroup 
-                  orgType={orgType}
-                  setOrgType={handleOrgType}
+                />
+                {emailError && <InlineErrorMessage>{emailError}</InlineErrorMessage>}
+                <RadioGroup
+                  name="organization-type"
+                  legend={t('get_started.org_type_label')}
+                  value={orgType}
+                  onChange={handleOrgType}
+                  options={ORG_TYPES.map((option) => ({
+                    value: option.value,
+                    label: t(option.label)
+                  }))}
                   disabled={loading}
+                  required
                 />
               </InputsContainer>
 
@@ -168,7 +175,7 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
               </ButtonContainer>
             </StyledForm>
 
-            <GenericErrorModal 
+            <GenericErrorModal
               isOpen={!!errorModalOpen}
               errorMessage={errorModalOpen}
               onRetry={() => {
@@ -180,7 +187,7 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
           </Content>
         </ContentWrapper>
       )}
-      
+
     </Container>
   );
 };
