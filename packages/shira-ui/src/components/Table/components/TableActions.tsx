@@ -22,7 +22,10 @@ export const TableActions: FunctionComponent<Props> = ({
     <>
       <ActionButton
         ref={buttonRef}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={(event) => {
+          event.stopPropagation()
+          setIsOpen(!isOpen)
+        }}
       >
         <FiMoreVertical size={20} />
       </ActionButton>
@@ -55,7 +58,7 @@ const ActionButton = styled.button`
   cursor: pointer;
   display: flex;
   align-items: center;
-  color: #5f6368;
+  color: ${props => props.theme.colors.dark.darkGrey};
   
   &:hover {
     color: #202124;

@@ -37,7 +37,7 @@ export const Table = ({
     pageIndex: 0,
     pageSize: pageSize,
   })
-  
+
   const table = useReactTable({
     data,
     columns,
@@ -58,11 +58,11 @@ export const Table = ({
   const totalColumns = table.getAllLeafColumns().length;
 
   return (
-    <Wrapper>  
-      <Pagination table={table}/>   
-      <TableHeader/>
+    <Wrapper>
+      <Pagination table={table} />
+      <TableHeader />
       <StyledTable>
-        { colGroups }
+        {colGroups}
         <THead>
           {table.getHeaderGroups().map((hg) => (
             <tr key={hg.id}>
@@ -95,9 +95,14 @@ export const Table = ({
             </Tr>
           ) : (
             table.getRowModel().rows.map((r) => (
-              <Tr 
+              <Tr
                 key={r.id}
                 $selected={r.getIsSelected()}
+                $selectable={r.getCanSelect()}
+                onClick={() => {
+                  if (!r.getCanSelect()) return
+                  r.toggleSelected()
+                }}
               >
                 {r.getVisibleCells().map((c) => (
                   <Td key={c.id}>{flexRender(c.column.columnDef.cell, c.getContext())}</Td>
@@ -108,12 +113,12 @@ export const Table = ({
         </tbody>
       </StyledTable>
       <TableFooter />
-      <Pagination table={table}/>   
+      <Pagination table={table} />
     </Wrapper>
   )
 }
 
-const Wrapper =  styled.div`
+const Wrapper = styled.div`
   width: 100%;
 `
 
@@ -146,7 +151,7 @@ const StyledTable = styled('table')`
   border-left: 1px solid ${props => props.theme.colors.light.paleGreen};
   border-right: 1px solid ${props => props.theme.colors.light.paleGreen};
 `;
-  // border-collapse: collapse;
+// border-collapse: collapse;
 
 const THead = styled("thead")`
   & th {
@@ -174,10 +179,9 @@ const Td = styled("td")`
   width: inherit;
 `;
 
-  // &:not(:last-child) td {
-  // }
-const Tr = styled.tr<{ $selected?: boolean }>`
+const Tr = styled.tr<{ $selected?: boolean; $selectable?: boolean }>`
   color: ${props => props.theme.colors.dark.darkGrey};
+  cursor: ${({ $selectable }) => ($selectable ? 'pointer' : 'default')};
 
   > td {
     border-top: 0.5px solid ${props => props.theme.colors.light.paleGrey};

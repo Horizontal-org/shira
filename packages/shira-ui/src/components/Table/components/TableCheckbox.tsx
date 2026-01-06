@@ -16,7 +16,10 @@ export const TableCheckbox:FunctionComponent<Props> = ({
 }) => {
 
   return (
-    <Wrapper isVisible={isTDCheckbox && !checked}>
+    <Wrapper
+      isVisible={isTDCheckbox && !checked}
+      onClick={(event) => event.stopPropagation()}
+    >
       <input 
         type="checkbox"
         onChange={onChange}
