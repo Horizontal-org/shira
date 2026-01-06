@@ -1,5 +1,5 @@
-import { FunctionComponent, useEffect, useState } from "react";
-import { Body1, Body3, defaultTheme, Modal, styled } from "@shira/ui";
+import { FunctionComponent, useState } from "react";
+import { Body1, Body3, Modal, RadioGroup, styled } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 
 interface Props {
@@ -38,84 +38,58 @@ export const QuizVisibilityModal: FunctionComponent<Props> = ({
         {t("modals.quiz_visibility.subtitle")}
       </Body1>
 
-      <FieldSet id="quiz-visibility-options">
-        <OptionWrapper>
-          <OptionRow>
-            <input
-              id="quiz-visibility-public"
-              type="radio"
-              name="visibility"
-              value="public"
-              checked={visibility === "public"}
-              onChange={() => setVisibility("public")}
-            />
-            <label htmlFor="quiz-visibility-public">
-              {t("modals.quiz_visibility.public_option.title")}
-            </label>
-          </OptionRow>
-
-          <OptionDescription>
-            {t("modals.quiz_visibility.public_option.description")}
-          </OptionDescription>
-        </OptionWrapper>
-
-        <OptionWrapper>
-          <OptionRow>
-            <input
-              id="quiz-visibility-private"
-              type="radio"
-              name="visibility"
-              value="private"
-              checked={visibility === "private"}
-              onChange={() => setVisibility("private")}
-            />
-            <label htmlFor="quiz-visibility-private">
-              {t("modals.quiz_visibility.private_option.title")}
-            </label>
-          </OptionRow>
-
-          <OptionDescription>
-            {t("modals.quiz_visibility.private_option.description")}
-          </OptionDescription>
-        </OptionWrapper>
-      </FieldSet>
+      <RadioGroup
+        name="quiz-visibility"
+        value={visibility}
+        onChange={(value) => setVisibility(value as "public" | "private")}
+        options={
+          [
+            {
+              value: "public",
+              label: (
+                <OptionLabelContent>
+                  <OptionTitle>
+                    {t("modals.quiz_visibility.public_option.title")}
+                  </OptionTitle>
+                  <OptionDescription>
+                    {t("modals.quiz_visibility.public_option.description")}
+                  </OptionDescription>
+                </OptionLabelContent>
+              )
+            },
+            {
+              value: "private",
+              label: (
+                <OptionLabelContent>
+                  <OptionTitle>
+                    {t("modals.quiz_visibility.private_option.title")}
+                  </OptionTitle>
+                  <OptionDescription>
+                    {t("modals.quiz_visibility.private_option.description")}
+                  </OptionDescription>
+                </OptionLabelContent>
+              )
+            }
+          ]
+        }
+      />
 
       <Body1>{t("modals.quiz_visibility.description")}</Body1>
     </Modal>
   );
 };
 
-const FieldSet = styled.fieldset`
-  margin-top: 16px;
-  margin-bottom: 16px;
-  border: none;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-`;
-
-const OptionWrapper = styled.div`
+const OptionLabelContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
 `;
 
-const OptionRow = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  input[type="radio"] {
-    accent-color: ${defaultTheme.colors.green6};
-    cursor: pointer;
-  }
-
-  label {
-    cursor: pointer;
-  }
+const OptionTitle = styled(Body1)`
+  margin: 0;
 `;
 
 const OptionDescription = styled(Body3)`
-  margin-left: 28px;
-  color: ${defaultTheme.colors.dark.darkGrey};
+  margin: 0;
+  color: ${props => props.theme.colors.dark.darkGrey};
 `;
