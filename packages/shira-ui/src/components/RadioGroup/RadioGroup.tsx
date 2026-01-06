@@ -19,14 +19,6 @@ export interface RadioGroupProps {
   className?: string;
 }
 
-const showLabelContent = (content: ReactNode) => {
-  if (typeof content === 'string' || typeof content === 'number') {
-    return <Body1>{content}</Body1>;
-  }
-
-  return content;
-};
-
 export const RadioGroup: FunctionComponent<RadioGroupProps> = ({
   name,
   legend,
@@ -41,7 +33,7 @@ export const RadioGroup: FunctionComponent<RadioGroupProps> = ({
     <FieldSet className={className}>
       {legend && (
         <RadioGroupLabel $required={required}>
-          {showLabelContent(legend)}
+          <Body1>{legend}</Body1>
         </RadioGroupLabel>
       )}
       {options.map((option) => {
@@ -61,7 +53,7 @@ export const RadioGroup: FunctionComponent<RadioGroupProps> = ({
                 disabled={optionDisabled}
               />
               <OptionLabel htmlFor={optionId}>
-                {showLabelContent(option.label)}
+                <Body1>{option.label}</Body1>
               </OptionLabel>
             </OptionRow>
           </OptionWrapper>
