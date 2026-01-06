@@ -151,7 +151,6 @@ const StyledTable = styled('table')`
   border-left: 1px solid ${props => props.theme.colors.light.paleGreen};
   border-right: 1px solid ${props => props.theme.colors.light.paleGreen};
 `;
-// border-collapse: collapse;
 
 const THead = styled("thead")`
   & th {
