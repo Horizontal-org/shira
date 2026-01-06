@@ -18,12 +18,16 @@ export const TableActions: FunctionComponent<Props> = ({
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
+  function preventClickBubbling(event: any): void {
+    event.stopPropagation();
+  }
+
   return (
     <>
       <ActionButton
         ref={buttonRef}
         onClick={(event) => {
-          event.stopPropagation()
+          preventClickBubbling(event);
           setIsOpen(!isOpen)
         }}
       >
