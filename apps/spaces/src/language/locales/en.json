@@ -345,8 +345,8 @@
         },
         "invite_learner": {
             "title": "Invite new learner",
-            "subtitle": "Send an email invitation to ask  a new learner to join your space.",
-            "name_placeholder": "Name (optional)",
+            "subtitle": "Send an email invitation to ask a new learner to join your space.",
+            "name_placeholder": "Name (required)",
             "email_placeholder": "Email address (required)"
         },
         "delete_learner": {
