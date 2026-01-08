@@ -18,16 +18,13 @@ export class DeleteOrganizationService {
   
   async execute(id: number): Promise<void> {
     
-    const existing = await this.organizationRepo.find({ where: { id }});
-    console.log("🚀 ~ DeleteOrganizationService ~ execute ~ existing:", existing)
+    const existing = await this.organizationRepo.findOne({ where: { id }});
     if (!existing) {
       throw new NotFoundException(`Organization with id "${id}" not found`);
     }
     
-
     try {
       const spaces = await this.spaceRepo.find({ where: { organizationId: id }})
-      console.log("🚀 ~ DeleteOrganizationService ~ execute ~ spaces:", spaces)
       await this.spaceRepo.remove(spaces)
       await this.organizationRepo.remove(existing);
     } catch (err) {        
