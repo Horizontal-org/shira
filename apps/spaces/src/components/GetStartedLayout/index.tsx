@@ -35,7 +35,7 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
   const [emailError, handleEmailError] = useState("");
   const [name, handleName] = useState("");
   const [nameError, handleNameError] = useState("");
-  const [orgType, handleOrgType] = useState(ORG_TYPES[0].value);
+  const [orgType, handleOrgType] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -152,7 +152,7 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
                   name="organization-type"
                   legend={t('get_started.org_type_label')}
                   value={orgType}
-                  onChange={handleOrgType}
+                  onChange={(value) => handleOrgType(value)}
                   options={ORG_TYPES.map((option) => ({
                     value: option.value,
                     label: t(option.label)

@@ -16,7 +16,7 @@ export const QuizVisibilityModal: FunctionComponent<Props> = ({
   onBack
 }) => {
   const { t } = useTranslation();
-  const [visibility, setVisibility] = useState<"public" | "private">("public");
+  const [visibility, setVisibility] = useState<"public" | "private">(null);
 
   return (
     <Modal
