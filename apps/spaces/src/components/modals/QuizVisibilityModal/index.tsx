@@ -16,7 +16,7 @@ export const QuizVisibilityModal: FunctionComponent<Props> = ({
   onBack
 }) => {
   const { t } = useTranslation();
-  const [visibility, setVisibility] = useState<"public" | "private">(null);
+  const [visibility, setVisibility] = useState<"public" | "private" | null>(null);
 
   return (
     <Modal
@@ -25,8 +25,9 @@ export const QuizVisibilityModal: FunctionComponent<Props> = ({
       title={t("modals.quiz_visibility.title")}
       primaryButtonText={t('modals.create_quiz.button')}
       secondaryButtonText={t("buttons.back")}
-      primaryButtonDisabled={false}
+      primaryButtonDisabled={!visibility}
       onPrimaryClick={() => {
+        if (!visibility) { return; }
         onConfirm(visibility);
         setIsModalOpen(false);
       }}
