@@ -1,4 +1,4 @@
-import { Body1, styled, Table, TableActions, TableCheckbox, useTheme } from "@shira/ui";
+import { Body1, styled, Table, TableCheckbox, useTheme } from "@shira/ui";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { FunctionComponent, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -27,7 +27,6 @@ interface Props {
 export const AssignLearnersTable: FunctionComponent<Props> = ({
   data,
   loading,
-  assigning = false,
   rowSelection,
   setRowSelection,
 }) => {
