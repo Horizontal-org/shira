@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { Body1, Body3, Modal, RadioGroup, styled } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 
@@ -17,6 +17,12 @@ export const QuizVisibilityModal: FunctionComponent<Props> = ({
 }) => {
   const { t } = useTranslation();
   const [visibility, setVisibility] = useState<"public" | "private" | null>(null);
+
+  useEffect(() => {
+    if (!isModalOpen) {
+      setVisibility(null);
+    }
+  }, [isModalOpen]);
 
   return (
     <Modal
