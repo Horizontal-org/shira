@@ -120,7 +120,7 @@ export const Table = ({
 
 const Wrapper = styled.div`
   width: 100%;
-`
+`;
 
 const TableHeader = styled.div`
   box-sizing: border-box;
@@ -128,7 +128,7 @@ const TableHeader = styled.div`
   height: 16px;
   background: ${props => props.theme.colors.light.paleGreen};
   border-radius: 20px 20px 0 0 ;
-`
+`;
 
 const TableFooter = styled.div`
   box-sizing: border-box;
@@ -139,7 +139,7 @@ const TableFooter = styled.div`
   border-left: 1px solid ${props => props.theme.colors.light.paleGreen};
   border-right: 1px solid ${props => props.theme.colors.light.paleGreen};
   border-bottom: 1px solid ${props => props.theme.colors.light.paleGreen};
-`
+`;
 
 const StyledTable = styled('table')`
   background: ${props => props.theme.colors.light.paleGrey};
@@ -198,9 +198,8 @@ const Tr = styled.tr<{ $selected?: boolean; $selectable?: boolean }>`
       > label {
         visibility: visible; 
       }
-    }    
+    }
   }
-
 
   ${props => props.$selected && `
     &:hover {
@@ -215,7 +214,6 @@ const Tr = styled.tr<{ $selected?: boolean; $selectable?: boolean }>`
     }
   `}
 `;
-
 
 const CenteredBody = styled(Body3)`
   text-align: center;
