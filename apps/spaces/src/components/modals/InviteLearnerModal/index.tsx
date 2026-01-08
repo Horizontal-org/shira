@@ -85,7 +85,7 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
       return;
     }
 
-    const values = { name: name.trim(), email: email.trim() };
+    const values = { name, email };
     await sendInvitation(values);
   };
 
