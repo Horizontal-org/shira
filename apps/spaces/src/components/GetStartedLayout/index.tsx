@@ -75,7 +75,7 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
     handleEmailError('');
     handleNameError('');
 
-    if (validateForm()) {
+    if (validateForm() || !orgType) {
       return
     }
 
@@ -166,7 +166,7 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
                 <Button
                   text={loading ? t('get_started.loading') : t('get_started.button_sign_up')}
                   type="primary"
-                  disabled={loading}
+                  disabled={loading || !orgType}
                   onClick={(e) => {
                     e.preventDefault()
                     handleSubmit()
