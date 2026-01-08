@@ -8,6 +8,7 @@ import { OrganizationControllers } from "./controllers";
 import { OrganizationSubscriptionsEntity } from "./domain/organization_subscriptions.entity";
 import { SubscriptionEntity } from "../billing/domain/subscription.entity";
 import { Quiz } from "../quiz/domain/quiz.entity";
+import { SpaceEntity } from "../space/domain/space.entity";
 
 @Module({
     imports: [
@@ -17,6 +18,7 @@ import { Quiz } from "../quiz/domain/quiz.entity";
             RoleEntity,
             OrganizationSubscriptionsEntity,
             SubscriptionEntity,
+            SpaceEntity,
             Quiz
         ]),
     ],
