@@ -3,6 +3,7 @@ import {
   BrowserRouter,
   Routes,
   Route,
+  Outlet,
 } from 'react-router-dom'
 import { LoginLayout } from './components/LoginLayout';
 import { CreateSpaceLayout } from './components/CreateSpaceLayout';
@@ -24,6 +25,7 @@ import { SupportLayout } from './components/SupportLayout';
 import './language/i18n';
 import { GetStartedLayout } from './components/GetStartedLayout';
 import { LearnersLayout } from './components/LearnersLayout';
+import { FeedbackButton } from './components/FeedbackButton';
 
 function App() {
 
@@ -75,15 +77,24 @@ function App() {
                   {/* <Route path="/legacy-questions" element={<HomeLayout />} /> */}
                   {/* <Route path="/question/:id"  element={<QuestionLayout />} />  */}
                   {/* LEGACY */}
-                  <Route path="/" element={<DashboardLayout />} />
-                  <Route path="/dashboard" element={<DashboardLayout />} />
-                  <Route path='/quiz/:id' element={<QuizViewLayout />} />
-                  <Route path='/quiz/:quizId/question' element={<QuestionCreationLayout />} />
-                  <Route path='/quiz/:quizId/question/:questionId' element={<QuestionEditLayout />} />
-                  <Route path='/question/library' element={<QuestionLibraryListLayout />} />
-                  <Route path='/learner' element={<LearnersLayout />} />
-                  <Route path="/logout" element={<LogoutLayout />} />
-                  <Route path="/support" element={<SupportLayout />} />
+                  <Route
+                    element={(
+                    <>
+                      <Outlet />
+                      <FeedbackButton />
+                    </>
+                  )}
+                  >
+                    <Route path="/" element={<DashboardLayout />} />
+                    <Route path="/dashboard" element={<DashboardLayout />} />
+                    <Route path='/quiz/:id' element={<QuizViewLayout />} />
+                    <Route path='/quiz/:quizId/question' element={<QuestionCreationLayout />} />
+                    <Route path='/quiz/:quizId/question/:questionId' element={<QuestionEditLayout />} />
+                    <Route path='/question/library' element={<QuestionLibraryListLayout />} />
+                    <Route path='/learner' element={<LearnersLayout />} />
+                    <Route path="/logout" element={<LogoutLayout />} />
+                    <Route path="/support" element={<SupportLayout />} />
+                  </Route>
                 </>
               )}
             </Routes>
