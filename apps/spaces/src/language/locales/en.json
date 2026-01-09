@@ -19,7 +19,7 @@
         "logout": "Log out"
     },
     "dashboard": {
-        "title": "Welcome to your dashboard",
+        "title": "Quizzes",
         "subtitle": "This is where you can manage quizzes. Quiz links are public, so remember to avoid sharing sensitive information in them.",
         "create_quiz_button": "Create new quiz"
     },
@@ -59,7 +59,7 @@
         }
     },
     "quiz": {
-        "subtitle": "Manage your quiz here, including adding, removing, and reordering questions",
+        "subtitle": "Manage your quizzes here, including creating, publishing, unpublishing and deleting quizzes.",
         "publish_toggle": {
             "published": "Published",
             "unpublished": "Unpublished"
