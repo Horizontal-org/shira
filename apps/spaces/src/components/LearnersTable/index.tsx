@@ -109,7 +109,9 @@ export const LearnersTable: FunctionComponent<Props> = ({
           const learner = row.original;
           return (
             <TableActions
+              showDelete={true}
               onDelete={() => onDeleteLearner(learner.id)}
+              showResend={learner.status !== 'registered'}
               onResend={() => onResendInvitation(learner)}
             />
           );
