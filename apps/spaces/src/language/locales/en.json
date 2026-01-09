@@ -19,8 +19,8 @@
         "logout": "Log out"
     },
     "dashboard": {
-        "title": "Welcome to your dashboard",
-        "subtitle": "This is where you can manage quizzes. Quiz links are public, so remember to avoid sharing sensitive information in them.",
+        "title": "Quizzes",
+        "subtitle": "Manage your quizzes here, including creating, publishing, unpublishing and deleting quizzes.",
         "create_quiz_button": "Create new quiz"
     },
     "learners": {
