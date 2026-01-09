@@ -236,15 +236,15 @@
         "header_title": "Import learners in bulk",
         "tabs": {
             "upload_csv": {
-                "title": "Upload CSV",
+                "tab_title": "Upload CSV",
                 "subtitle": "You can invite multiple learners at once by uploading a CSV file containing their details. To prevent errors, we recommend downloading and filling this pre-formatted CSV template."
             },
             "verify_learners": {
-                "title": "Verify learners",
+                "tab_title": "Verify learners",
                 "subtitle": "Please check that all the data is accurate before importing it into Shira and sending out invitations."
             },
             "final_review": {
-                "title": "Final review"
+                "tab_title": "Final review"
             }
         }
     },

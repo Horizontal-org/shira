@@ -1,9 +1,14 @@
 import { FunctionComponent } from "react";
+import { useParams } from "react-router-dom";
+import { LearnerBulkImportFlow } from "../LearnerBulkImportFlow";
 
 interface Props { }
 
 export const LearnersBulkImportLayout: FunctionComponent<Props> = () => {
+
   return (
-    <div>Learners Bulk Import Layout - to be implemented</div>
+    <LearnerBulkImportFlow
+      onSubmit={() => console.log('Submitted')}
+    />
   )
 }
