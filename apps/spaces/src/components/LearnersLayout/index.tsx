@@ -46,20 +46,24 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
     rowSelection,
     setRowSelection,
     selectedLearnerIds,
+    clearSelectedLearners
   } = useLearners();
 
   const hasLearners = !!learners?.length;
   const hasSelectedLearners = selectedLearnerIds.length > 0;
 
-  const openErrorModal = useCallback((content: string) => {
+  const openErrorModal = (content: string) => {
     setErrorMessage(content);
     setIsErrorModalOpen(true);
     setIsInviteLearnerModalOpen(false);
-  }, []);
+    clearSelectedLearners();
+    setSelectedLearnerIdToDelete(null);
+  };
 
   const closeErrorModal = () => {
     setIsErrorModalOpen(false);
     setErrorMessage(null);
+    clearSelectedLearners();
   };
 
   const handleResendInvitation = useCallback(
@@ -75,6 +79,7 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
         const content = getErrorContent("error_messages", "invite_learner_failed", error.message);
 
         openErrorModal(content);
+        clearSelectedLearners();
       }
     },
     [t, fetchLearners, openErrorModal]
@@ -83,11 +88,13 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
   const handleDeleteModalCancel = () => {
     setIsDeleteLearnerModalOpen(false);
     setSelectedLearnerIdToDelete(null);
+    clearSelectedLearners();
   };
 
   const handleOpenDeleteModal = (id: number) => {
     setSelectedLearnerIdToDelete(id);
     setIsDeleteLearnerModalOpen(true);
+    clearSelectedLearners();
   };
 
   const handleLearnerDeleted = () => {
@@ -151,7 +158,10 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
                     type="primary"
                     leftIcon={<MdDelete />}
                     color={defaultTheme.colors.error7}
-                    onClick={() => setIsBulkDeleteLearnersModalOpen(true)}
+                    onClick={() => {
+                      setIsBulkDeleteLearnersModalOpen(true)
+                      clearSelectedLearners();
+                    }}
                   />
                 </BulkActionContainer>
               )}

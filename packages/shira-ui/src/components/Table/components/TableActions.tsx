@@ -22,6 +22,10 @@ export const TableActions: FunctionComponent<Props> = ({
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
+  function preventClickBubbling(event: any): void {
+    event.stopPropagation();
+  }
+
   const elements: Array<{
     onClick: () => void;
     text: string;
@@ -52,7 +56,10 @@ export const TableActions: FunctionComponent<Props> = ({
     <>
       <ActionButton
         ref={buttonRef}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={(event) => {
+          preventClickBubbling(event);
+          setIsOpen(!isOpen)
+        }}
       >
         <FiMoreVertical size={20} />
       </ActionButton>
@@ -74,7 +81,7 @@ const ActionButton = styled.button`
   cursor: pointer;
   display: flex;
   align-items: center;
-  color: #5f6368;
+  color: ${props => props.theme.colors.dark.darkGrey};
   
   &:hover {
     color: #202124;

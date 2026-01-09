@@ -8,20 +8,27 @@ interface Props {
   isTDCheckbox: boolean;
 }
 
-export const TableCheckbox:FunctionComponent<Props> = ({
+export const TableCheckbox: FunctionComponent<Props> = ({
   checked,
   indeterminate,
   onChange,
   isTDCheckbox = false
 }) => {
 
+  function preventClickBubbling(event: any): void {
+    event.stopPropagation();
+  }
+
   return (
-    <Wrapper isVisible={isTDCheckbox && !checked}>
-      <input 
+    <Wrapper
+      isVisible={isTDCheckbox && !checked}
+      onClick={(event) => preventClickBubbling(event)}
+    >
+      <input
         type="checkbox"
         onChange={onChange}
       />
-      <Checkmark 
+      <Checkmark
         checked={checked}
         ind={indeterminate}
       >
@@ -42,15 +49,14 @@ const Wrapper = styled.label<{ isVisible: boolean }>`
     cursor: pointer;
     height: 0;
     width: 0;
-  }    
+  }
 
   ${props => props.isVisible && `
-    visibility: hidden;  
+    visibility: hidden;
   `}
-`
-    
-    // display: block;
-const Checkmark = styled.span<{ 
+`;
+
+const Checkmark = styled.span<{
   checked: boolean;
   ind: boolean
 }>`
@@ -78,13 +84,13 @@ const Checkmark = styled.span<{
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
   }
-      
+
   ${props => props.checked && `
     background-color: ${props.theme.colors.green5};
     border: 2px solid ${props.theme.colors.green5};
     &:after {
       display: block;
-    }  
+    }
   `}
 
   ${props => props.ind && `
@@ -100,7 +106,7 @@ const Checkmark = styled.span<{
       left: 1px;
       width: 12px;
       height: 6px;
-      border-width: 0 0 3px 0;      
+      border-width: 0 0 3px 0;
     }
   `}
-`
+`;

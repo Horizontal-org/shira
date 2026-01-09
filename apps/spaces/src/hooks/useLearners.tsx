@@ -29,6 +29,10 @@ export const useLearners = () => {
     [rowSelection]
   );
 
+  const clearSelectedLearners = useCallback(() => {
+    setRowSelection({});
+  }, [rowSelection]);
+
   return {
     learners,
     loading,
@@ -36,5 +40,6 @@ export const useLearners = () => {
     rowSelection,
     setRowSelection,
     selectedLearnerIds,
+    clearSelectedLearners
   };
 };
