@@ -110,7 +110,7 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
         }}
       />
 
-      <BetaBanner url="/support" />
+      <BetaBanner url="https://shira.app/beta-user" />
 
       <QuestionFlowHeader
         actionFeedback={actionFeedback}

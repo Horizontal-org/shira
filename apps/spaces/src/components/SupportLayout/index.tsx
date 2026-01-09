@@ -20,7 +20,7 @@ export const SupportLayout: FunctionComponent<Props> = () => {
       />
 
       <MainContent $isCollapsed={isCollapsed}>
-        <BetaBanner url="/support" />
+        <BetaBanner url="https://shira.app/beta-user" />
         <MainContentWrapper>
           <HeaderContainer>
             <TextContainer>

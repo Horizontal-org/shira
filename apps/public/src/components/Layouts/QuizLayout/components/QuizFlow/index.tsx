@@ -67,7 +67,7 @@ export const QuizFlow: FunctionComponent<Props> = ({
           <SceneWrapper bg='white'>
 
             <BetaBanner
-              url="https://shira.app/contact"
+              url="https://shira.app/beta-user"
               label={t('beta.label')}
               message={t('beta.message')}
               clickHereText={t('beta.click_here')}
