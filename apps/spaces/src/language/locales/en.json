@@ -59,7 +59,8 @@
         }
     },
     "quiz": {
-        "subtitle": "Manage your quiz here, including adding, removing, and reordering questions",
+        "public_subtitle": "Create quiz questions, share your quiz link, and monitor results. Shira auto-saves your work whenever you are connected to the Internet.",
+        "private_subtitle": "Create quiz questions, manage learners and monitor results. Shira auto-saves your work whenever you are connected to the Internet.",
         "publish_toggle": {
             "published": "Published",
             "unpublished": "Unpublished"
