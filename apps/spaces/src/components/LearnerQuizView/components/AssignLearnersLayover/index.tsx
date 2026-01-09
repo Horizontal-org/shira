@@ -79,9 +79,12 @@ export const AssignLearnersLayover: FunctionComponent<Props> = ({
           <Header>
             <H2 id="registered-learners-title">{t('learners.assign_dialog.registered_title')}</H2>
             <Body1 id="registered-learners-subtitle">
+              {t('learners.assign_dialog.registered_description')}
+            </Body1>
+            <Body1>
               <Trans
-                i18nKey="learners.assign_dialog.registered_description"
-                components={[<StyledLink to="/learner" />]}
+              i18nKey="learners.assign_dialog.registered_description_2"
+              components={[<StyledLink to="/learner" />]}
               />
             </Body1>
           </Header>
@@ -113,24 +116,29 @@ const Wrapper = styled.div`
 `;
 
 const Header = styled.div`
-  padding: 48px 0;
-  max-width: 1024px;
+  padding: 30px 0;
+  max-width: 1200px;
+  margin: 0 auto;
   > p {
     padding-top: 12px; 
   }
 `;
 
 const Content = styled.div`
-  width: 100%;  
+  width: 100%;
   box-sizing: border-box;
-  overflow-y:scroll;
-  display: flex;
-  justify-content: center;
+  overflow-y: scroll;
+  padding: 0 32px 48px;
+
+  > div {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
 `;
 
 const StyledLink = styled(Link)`
   font-weight: 700;
   color: ${props => props.theme.primary.base};
   text-decoration-color: ${props => props.theme.primary.base};
-
 `;
