@@ -252,7 +252,8 @@
         "delete_learners": "Delete learners",
         "unassign_learners": "Unassign from learners",
         "assign_learners": "Assign to learners",
-        "assign_via_email": "Assign via email"
+        "assign_via_email": "Assign via email",
+        "feedback": "Tell us what you think"
     },
     "modals": {
         "create_quiz": {
