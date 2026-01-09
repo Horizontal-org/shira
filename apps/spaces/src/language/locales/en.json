@@ -441,16 +441,16 @@
     },
     "get_started": {
         "title": "Get started",
-        "description": "Create your own Shira space to start building your own custom quizzes today.",
+        "description": "Create your Shira space to start building your own custom quizzes today.",
         "organization_name_required": "Organization name (required)",
         "email_required": "Email (required)",
         "org_type_label": "I am creating a Shira space as (required):",
         "loading": "Signing up...",
         "org_types": {
-            "business": "Business",
-            "cibersecurity": "Cybersecurity",
-            "non_profit": "Non-profit",
-            "individual": "Individual"
+            "business": "A business",
+            "cibersecurity": "A cybersecurity service provider",
+            "non_profit": "A non-profit organization",
+            "individual": "An individual (consultant, trainer, etc)"
         },
         "button_sign_up": "Sign up",
         "validation": {
