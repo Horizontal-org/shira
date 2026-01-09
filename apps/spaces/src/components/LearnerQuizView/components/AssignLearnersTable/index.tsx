@@ -1,4 +1,4 @@
-import { Body1, styled, Table, TableActions, TableCheckbox, useTheme } from "@shira/ui";
+import { Body1, styled, Table, TableCheckbox, useTheme } from "@shira/ui";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { FunctionComponent, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -27,7 +27,6 @@ interface Props {
 export const AssignLearnersTable: FunctionComponent<Props> = ({
   data,
   loading,
-  assigning = false,
   rowSelection,
   setRowSelection,
 }) => {
@@ -127,7 +126,6 @@ export const AssignLearnersTable: FunctionComponent<Props> = ({
 
 const Wrapper = styled.div`
   max-width: ${props => props.theme.breakpoints.md};
-  padding: 16px 0;
   box-sizing: border-box;
 `
 
@@ -142,9 +140,10 @@ const NoResultsWrapper = styled.div`
   border-radius: 32px;
   text-align: center;
   color: ${props => props.theme.colors.dark.grey};
+  width: 100%;
 
   > img {
     width: 280px;
     height: auto;
   }
-`
+`;

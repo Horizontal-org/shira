@@ -39,10 +39,11 @@
         },
         "assign_dialog": {
             "registered_title": "Registered Learners",
-            "registered_description": "These are the learners registered in your space. Select one or more learners to assign this quiz to them. You can manage registered learners and invite new ones in the <0>Learners section</0>.",
+            "registered_description": "Select one or more learners to assign this quiz to them.",
+            "registered_description_2": "You can manage registered learners and invite new ones in the <0>Learners section</0>.",
             "assign_button": "Assign to learners",
             "assign_title": "Assign \"{{quiz_title}}\" to learners",
-            "no_learners": "You don’t have any registered learners yet. Go to the Learners section and invite learners to get started."
+            "no_learners": "There are no registered learners in your space."
         }
     },
     "quizzes": {
