@@ -20,7 +20,7 @@
     },
     "dashboard": {
         "title": "Quizzes",
-        "subtitle": "This is where you can manage quizzes. Quiz links are public, so remember to avoid sharing sensitive information in them.",
+        "subtitle": "Manage your quizzes here, including creating, publishing, unpublishing and deleting quizzes.",
         "create_quiz_button": "Create new quiz"
     },
     "learners": {
@@ -39,10 +39,11 @@
         },
         "assign_dialog": {
             "registered_title": "Registered Learners",
-            "registered_description": "These are the learners registered in your space. Select one or more learners to assign this quiz to them. You can manage registered learners and invite new ones in the <0>Learners section</0>.",
+            "registered_description": "Select one or more learners to assign this quiz to them.",
+            "registered_description_2": "You can manage registered learners and invite new ones in the <0>Learners section</0>.",
             "assign_button": "Assign to learners",
             "assign_title": "Assign \"{{quiz_title}}\" to learners",
-            "no_learners": "You don’t have any registered learners yet. Go to the Learners section and invite learners to get started."
+            "no_learners": "There are no registered learners in your space."
         }
     },
     "quizzes": {
@@ -59,7 +60,8 @@
         }
     },
     "quiz": {
-        "subtitle": "Manage your quizzes here, including creating, publishing, unpublishing and deleting quizzes.",
+        "public_subtitle": "Create quiz questions, share your quiz link, and monitor results. Shira auto-saves your work whenever you are connected to the Internet.",
+        "private_subtitle": "Create quiz questions, manage learners and monitor results. Shira auto-saves your work whenever you are connected to the Internet.",
         "publish_toggle": {
             "published": "Published",
             "unpublished": "Unpublished"
@@ -345,8 +347,8 @@
         },
         "invite_learner": {
             "title": "Invite new learner",
-            "subtitle": "Send an email invitation to ask  a new learner to join your space.",
-            "name_placeholder": "Name (optional)",
+            "subtitle": "Send an email invitation to ask a new learner to join your space.",
+            "name_placeholder": "Name (required)",
             "email_placeholder": "Email address (required)"
         },
         "delete_learner": {
