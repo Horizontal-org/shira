@@ -125,8 +125,7 @@ export const AssignLearnersTable: FunctionComponent<Props> = ({
 };
 
 const Wrapper = styled.div`
-  max-width: 100%;
-  width: 100%;
+  max-width: ${props => props.theme.breakpoints.md};
   box-sizing: border-box;
 `
 
