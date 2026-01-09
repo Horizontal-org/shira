@@ -30,16 +30,29 @@ export class OrganizationService implements IGetOrganizationService {
     const spaceIds = (organization.spaces ?? []).map(s => s.id);
     if (spaceIds.length === 0) return organization;
 
-    const raw = await this.quizRepo
+    const quizRunsBySpace = await this.quizRepo
       .createQueryBuilder('quiz')
+      .leftJoin(
+        'quiz_runs',
+        'run',
+        'run.quiz_id = quiz.id'
+      )
       .select('quiz.space_id', 'spaceId')
-      .addSelect('COUNT(quiz.id)', 'total')
+      .addSelect('COUNT(DISTINCT quiz.id)', 'totalQuizzes')
+      .addSelect('COUNT(run.started_at)', 'runsCount')
+      .addSelect('SUM(run.finished_at IS NOT NULL)', 'finishedRunsCount')
+      .addSelect('MAX(run.finished_at)', 'lastFinishedAt')
       .where('quiz.space_id IN (:...spaceIds)', { spaceIds })
       .groupBy('quiz.space_id')
-      .getRawMany<{ spaceId: string; total: string }>();
+      .getRawMany()
 
-    const counts = new Map(raw.map(r => [Number(r.spaceId), Number(r.total)]));
-    organization.spaces = organization.spaces.map(s => ({ ...s, totalQuizzes: counts.get(s.id) ?? 0 })) as any;
+    organization.spaces = organization.spaces.map(space => {
+      return {
+        ...space,
+        stats: quizRunsBySpace.find(qr => qr.spaceId === space.id) || null
+      }
+    });
+
     return organization;
   }
 

@@ -24,18 +24,21 @@ export const QuizFlow: FunctionComponent<Props> = ({
   quiz,
   learnerQuiz
 }) => {
+  console.log("🚀 ~ QuizFlow ~ learnerQuiz:", learnerQuiz)
   const { t, i18n } = useTranslation()
   const theme = useTheme()
 
   const {
     changeScene,
     scene,
-    resetAll
+    resetAll,          
+    updateUserInfo
   } = useStore(
     (state) => ({
       changeScene: state.changeScene,
       scene: state.scene,
-      resetAll: state.resetAll
+      resetAll: state.resetAll,
+      updateUserInfo: state.updateName,
     }),
     shallow
   )
@@ -47,6 +50,16 @@ export const QuizFlow: FunctionComponent<Props> = ({
       resetAll()
     }
   }, [resetAll])
+
+  const validateQuizStart = () => {
+    if (!learnerQuiz) {
+      changeScene('quiz-setup-name')
+      return
+    }
+
+    updateUserInfo(learnerQuiz.learnerName || 'John', learnerQuiz.learnerEmail)
+    changeScene('custom-quiz')
+  }
 
   return (
       <>
@@ -85,9 +98,7 @@ export const QuizFlow: FunctionComponent<Props> = ({
                   <Button
                     text={t('welcome.start')}
                     rightIcon={<FiChevronRight size={18} />}
-                    onClick={() => {
-                      changeScene('quiz-setup-name')
-                    }}
+                    onClick={validateQuizStart}
                   />
                 </Buttons>
                 <LinkWrapper>

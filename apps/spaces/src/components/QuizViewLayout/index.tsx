@@ -207,7 +207,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 <Header>
                   <div>
                     <H2 id="quiz-title">{quiz.title}</H2>
-                    <Body1 id="quiz-subtitle">{t('quiz.subtitle')}</Body1>
+                    <Body1 id="quiz-subtitle">{t(`quiz.${quiz.visibility}_subtitle`)}</Body1>
                   </div>
                 </Header>
                 <ButtonsContainer>
@@ -389,40 +389,41 @@ const MainContent = styled.div<{ $isCollapsed: boolean }>`
 
 const MainContentWrapper = styled.div`
   padding: 24px 40px;
-`
+`;
 
 const Header = styled.div`
   padding: 16px;
-  display: flex;
+  gap: 12px;
+  display: grid;
   justify-content: space-between;
-`
+`;
 
 const ActionHeader = styled.div`
   padding: 0px 16px;
   display: flex;
   justify-content: space-between;
-`
+`;
 
 const Wrapper = styled.div`
   padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-`
+`;
 
 const ButtonsContainer = styled.div`
   display: flex;
   gap: 8px;
   justify-content: space-between;
-`
+`;
 
 const LeftButtons = styled.div`
   display: flex;
   gap: 8px;
-`
+`;
 
 const QuizWarningNote = styled.span`
-  color: ${props => props.theme.colors.error.main};
+  color: #d73527;
   font-weight: 500;
 `;
 

@@ -1,4 +1,4 @@
-import { FunctionComponent, useRef, useState } from "react";
+import { FunctionComponent, ReactElement, useRef, useState } from "react";
 import { FiMoreVertical } from "react-icons/fi";
 import styled from "styled-components";
 import { BaseFloatingMenu } from "../../FloatingMenu";
@@ -7,19 +7,49 @@ import { IoMdTrash } from "react-icons/io";
 import { defaultTheme } from "../../../theme";
 
 interface Props {
-  onResend: () => void;
-  onDelete: () => void;
+  onResend?: () => void;
+  onDelete?: () => void;
+  showResend?: boolean;
+  showDelete?: boolean;
 }
 
 export const TableActions: FunctionComponent<Props> = ({
   onResend,
-  onDelete
+  onDelete,
+  showResend,
+  showDelete
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   function preventClickBubbling(event: any): void {
     event.stopPropagation();
+  }
+
+  const elements: Array<{
+    onClick: () => void;
+    text: string;
+    icon?: ReactElement;
+  }> = [];
+
+  if (showResend && onResend) {
+    elements.push({
+      text: 'Resend invitation',
+      onClick: onResend,
+      icon: <MdEmail color={defaultTheme.colors.dark.darkGrey} />
+    });
+  }
+
+  if (showDelete && onDelete) {
+    elements.push({
+      text: 'Delete',
+      onClick: onDelete,
+      icon: <IoMdTrash color={defaultTheme.colors.dark.darkGrey} />
+    });
+  }
+
+  if (elements.length === 0) {
+    return null;
   }
 
   return (
@@ -37,18 +67,7 @@ export const TableActions: FunctionComponent<Props> = ({
       <BaseFloatingMenu
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
-        elements={[
-          {
-            text: 'Resend invitation',
-            onClick: onResend,
-            icon: <MdEmail color={defaultTheme.colors.dark.darkGrey} />
-          },
-          {
-            text: 'Delete',
-            onClick: onDelete,
-            icon: <IoMdTrash color={defaultTheme.colors.dark.darkGrey} />
-          }
-        ]}
+        elements={elements}
         anchorEl={buttonRef.current}
       />
     </>

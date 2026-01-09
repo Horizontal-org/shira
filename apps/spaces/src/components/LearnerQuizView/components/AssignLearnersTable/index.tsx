@@ -126,7 +126,6 @@ export const AssignLearnersTable: FunctionComponent<Props> = ({
 
 const Wrapper = styled.div`
   max-width: ${props => props.theme.breakpoints.md};
-  padding: 16px 0;
   box-sizing: border-box;
 `
 
@@ -141,9 +140,10 @@ const NoResultsWrapper = styled.div`
   border-radius: 32px;
   text-align: center;
   color: ${props => props.theme.colors.dark.grey};
+  width: 100%;
 
   > img {
     width: 280px;
     height: auto;
   }
-`
+`;

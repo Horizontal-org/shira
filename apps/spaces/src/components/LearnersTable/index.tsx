@@ -109,7 +109,9 @@ export const LearnersTable: FunctionComponent<Props> = ({
           const learner = row.original;
           return (
             <TableActions
+              showDelete={true}
               onDelete={() => onDeleteLearner(learner.id)}
+              showResend={learner.status !== 'registered'}
               onResend={() => onResendInvitation(learner)}
             />
           );
@@ -159,7 +161,7 @@ export const LearnersTable: FunctionComponent<Props> = ({
 }
 
 const Wrapper = styled.div`
-      max-width: ${props => props.theme.breakpoints.lg};
-      padding: 16px;
-      box-sizing: border-box;
-      `;
+  max-width: ${props => props.theme.breakpoints.lg};
+  padding: 16px;
+  box-sizing: border-box;
+`;
