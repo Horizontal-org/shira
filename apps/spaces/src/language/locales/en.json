@@ -283,6 +283,13 @@
                 "description": "Only invited learners from your space can take the quiz"
             }
         },
+        "publish_private_quiz": {
+            "title": "Your quiz is unpublished",
+            "subtitle_1": "Learners assigned this quiz will not be able to open it because it is unpublished. ",
+            "subtitle_2": "Publish the quiz now so learners can start taking the quiz, or keep it unpublished until you are ready.",
+            "submit": "Publish quiz",
+            "close": "Keep quiz unpublished"
+        },
         "delete_quiz": {
             "title": "Are you sure you want to delete \"{{quiz_name}}\"?",
             "subtitle": "Deleting this quiz is permanent and cannot be undone.",
