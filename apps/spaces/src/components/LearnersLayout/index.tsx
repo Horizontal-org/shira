@@ -17,6 +17,7 @@ import { getErrorContent } from "../../utils/getErrorContent";
 import { MdEmail, MdDelete } from "react-icons/md";
 import { useLearners } from "../../hooks/useLearners";
 import { GenericErrorModal } from "../modals/ErrorModal";
+import { FiDownload } from "react-icons/fi";
 
 interface Props { }
 
@@ -131,21 +132,21 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
           <ActionContainer>
             <LeftActions>
               {hasLearners && !hasSelectedLearners && (
-                <Button
-                  id="invite-learner-button"
-                  text={t("buttons.invite_learner")}
-                  type="primary"
-                  leftIcon={<MdEmail />}
-                  onClick={() => setIsInviteLearnerModalOpen(true)}
-                  color={defaultTheme.colors.green7}
-                />
-                // <Button
-                //   id="invite-learners-bulk-button"
-                //   text={t("buttons.invite_learners_bulk")}
-                //   type="primary"
-                //   leftIcon={<PiDownloadSimpleBold />}
-                //   color={defaultTheme.colors.green7}
-                // />
+                <>
+                  <Button
+                    id="invite-learner-button"
+                    text={t("buttons.invite_learner")}
+                    type="primary"
+                    leftIcon={<MdEmail />}
+                    onClick={() => setIsInviteLearnerModalOpen(true)}
+                    color={defaultTheme.colors.green7} />
+                  <Button
+                    id="invite-learners-bulk-button"
+                    text={t("buttons.invite_learners_bulk")}
+                    type="primary"
+                    leftIcon={<FiDownload />}
+                    color={defaultTheme.colors.green7} />
+                </>
               )}
             </LeftActions>
 
