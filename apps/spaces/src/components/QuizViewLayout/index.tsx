@@ -177,6 +177,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
       <Sidebar
         menuItems={menuItems}
         onCollapse={handleCollapse}
+        selectedItemLabel={menuItems.find(m => m.path === '/dashboard').label}
       />
 
       <MainContent $isCollapsed={isCollapsed}>

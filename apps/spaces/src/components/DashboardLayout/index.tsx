@@ -1,6 +1,6 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, Sidebar, styled, H2, SubHeading3, Body1, Button, FilterButton, useAdminSidebar, BetaBanner } from "@shira/ui";
+import { Card, Sidebar, styled, H2, SubHeading3, Body1, Button, FilterButton, useAdminSidebar, BetaBanner, useTheme } from "@shira/ui";
 import { FiPlus } from 'react-icons/fi';
 import { shallow } from "zustand/shallow";
 
@@ -45,6 +45,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   }), shallow)
 
   const { t, i18n } = useTranslation();
+  const theme = useTheme();
   const navigate = useNavigate();
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
 
@@ -167,7 +168,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                 leftIcon={<FiPlus />}
                 text={t('dashboard.create_quiz_button')}
                 onClick={() => { startCreateQuizFlow(); }}
-                color="#849D29"
+                color={theme.colors.green7}
               />
             </ButtonContainer>
           </HeaderContainer>
