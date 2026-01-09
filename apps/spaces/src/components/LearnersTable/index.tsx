@@ -161,7 +161,7 @@ export const LearnersTable: FunctionComponent<Props> = ({
 }
 
 const Wrapper = styled.div`
-      max-width: ${props => props.theme.breakpoints.lg};
-      padding: 16px;
-      box-sizing: border-box;
-      `;
+  max-width: ${props => props.theme.breakpoints.lg};
+  padding: 16px;
+  box-sizing: border-box;
+`;

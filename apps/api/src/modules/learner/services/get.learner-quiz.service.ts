@@ -41,6 +41,7 @@ export class GetLearnerQuizService implements IGetLearnerQuizService {
     return {
       learnerQuiz: {
         learnerEmail: learnerQuiz.learner.email,
+        learnerName: learnerQuiz.learner.name,
         learnerId: learnerQuiz.learner.id,
         status: learnerQuiz.status
       },
