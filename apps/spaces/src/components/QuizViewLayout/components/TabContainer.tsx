@@ -13,6 +13,7 @@ interface TabContainerProps {
   quizId: number;
   quizTitle: string;
   quizQuestions: QuizQuestion[];
+  quizPublished: boolean;
   quizVisibility: string;
   resultsData: PublicQuizResultsResponse | null
   resultsLoading: boolean
@@ -23,11 +24,13 @@ interface TabContainerProps {
   onAddLibrary: (quizId: string) => void;
   onReorder: (newOrder: QuizQuestion[]) => void;
   onDuplicate: () => void;
+  onPublish: () => void
 }
 
 export const TabContainer: FunctionComponent<TabContainerProps> = ({
   quizId,
   quizTitle,
+  quizPublished,
   quizQuestions,
   quizVisibility,
   onEdit,
@@ -36,6 +39,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   onAddLibrary,
   onReorder,
   onDuplicate,
+  onPublish,
   resultsData,
   resultsLoading,
   hasResults
@@ -92,6 +96,8 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
           <LearnerQuizView
             quizId={quizId}
             quizTitle={quizTitle}
+            quizPublished={quizPublished}
+            onPublish={onPublish}
           />
         )}
 
