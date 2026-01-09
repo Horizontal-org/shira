@@ -232,6 +232,22 @@
             "empty_subtitle": "The average score received by all learners who took this quiz will be shown here."
         }
     },
+    "learners_bulk_import": {
+        "header_title": "Import learners in bulk",
+        "tabs": {
+            "upload_csv": {
+                "title": "Upload CSV",
+                "subtitle": "You can invite multiple learners at once by uploading a CSV file containing their details. To prevent errors, we recommend downloading and filling this pre-formatted CSV template."
+            },
+            "verify_learners": {
+                "title": "Verify learners",
+                "subtitle": "Please check that all the data is accurate before importing it into Shira and sending out invitations."
+            },
+            "final_review": {
+                "title": "Final review"
+            }
+        }
+    },
     "support": {
         "title": "Support",
         "subtitle": "If you need any support, including with deleting your account, please email the Shira team at contact@wearehorizontal.org"
@@ -255,6 +271,7 @@
         "unassign_learners": "Unassign from learners",
         "assign_learners": "Assign to learners",
         "assign_via_email": "Assign via email",
+        "start_over": "Start over",
         "feedback": "Tell us what you think"
     },
     "modals": {
