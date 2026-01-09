@@ -83,8 +83,8 @@ export const AssignLearnersLayover: FunctionComponent<Props> = ({
             </Body1>
             <Body1>
               <Trans
-              i18nKey="learners.assign_dialog.registered_description_2"
-              components={[<StyledLink to="/learner" />]}
+                i18nKey="learners.assign_dialog.registered_description_2"
+                components={[<StyledLink to="/learner" />]}
               />
             </Body1>
           </Header>
@@ -132,7 +132,7 @@ const Content = styled.div`
 
   > div {
     width: 100%;
-    max-width: 1000px;
+    max-width: ${props => props.theme.breakpoints.md};
     margin: 0 auto;
   }
 `;
