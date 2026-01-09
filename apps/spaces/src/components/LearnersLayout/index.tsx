@@ -119,7 +119,7 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
       />
 
       <LayoutMainContent $isCollapsed={isCollapsed}>
-        <BetaBanner url="/support" />
+        <BetaBanner url="https://shira.app/beta-user" />
 
         <LayoutMainContentWrapper>
           <HeaderContainer>

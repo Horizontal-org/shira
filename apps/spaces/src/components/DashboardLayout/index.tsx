@@ -155,7 +155,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
       />
 
       <MainContent $isCollapsed={isCollapsed}>
-        <BetaBanner url="/support" />
+        <BetaBanner url="https://shira.app/beta-user"  />
         <MainContentWrapper>
           <HeaderContainer>
             <StyledSubHeading3 id="space-name">{space && space.name}</StyledSubHeading3>
