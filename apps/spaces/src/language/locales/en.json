@@ -243,6 +243,7 @@
                 "or": "OR",
                 "file_type": "Accepted file type: .csv only",
                 "file_size": "Maximum file size: 10 MB",
+                "remove_file": "Remove selected file",
                 "upload_complete": "Upload complete",
                 "upload_success": "Your spreadsheet was successfully uploaded! Continue to the next step to verify your learners."
             },

@@ -6,7 +6,7 @@ import { LearnerBulkImportHeader } from "../LearnerBulkImportHeader";
 import { ExitLearnerBulkImportModal } from "../modals/ExitLearnerBulkImportModal";
 import { FormattingGuidelinesModal } from "../modals/FormattingGuidelinesModal";
 import { Learner } from "../LearnerQuizView";
-import { FiDownload, FiInfo } from "react-icons/fi";
+import { FiCheck, FiDownload, FiFileText, FiInfo, FiX } from "react-icons/fi";
 import { FaFileUpload } from "react-icons/fa";
 
 interface Props {
@@ -40,6 +40,21 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
   const handleFileChange = (file: File | null) => {
     if (!file) return;
     setSelectedFile(file);
+  };
+
+  const clearSelectedFile = () => {
+    setSelectedFile(null);
+    setIsDragging(false);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const formatFileSize = (size: number) => {
+    if (size < 1024) return `${size} B`;
+    const kb = size / 1024;
+    if (kb < 1024) return `${kb.toFixed(1)} KB`;
+    return `${(kb / 1024).toFixed(1)} MB`;
   };
 
   const handleBrowseClick = () => {
@@ -146,58 +161,94 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
 
                 <Divider />
 
-                <SectionTitle>
-                  <SubHeading1>{t('learners_bulk_import.tabs.upload_csv.section_title')}</SubHeading1>
-                </SectionTitle>
-                <Dropzone
-                  role="button"
-                  tabIndex={0}
-                  $isDragging={isDragging}
-                  onClick={handleBrowseClick}
-                  onKeyDown={handleDropzoneKeyDown}
-                  onDrop={handleDrop}
-                  onDragOver={handleDragOver}
-                  onDragLeave={handleDragLeave}
-                >
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept=".csv"
-                    hidden
-                    onChange={(event) => handleFileChange(event.target.files?.[0] ?? null)}
-                  />
-                  <DropzoneContent>
-                    <FaFileUpload size={56} color={theme.colors.blue4} />
-                    <DropzoneText>
-                      <SubHeading3>
-                        {t('learners_bulk_import.tabs.upload_csv.drag_title')}
-                      </SubHeading3>
-                    </DropzoneText>
-                    <OrText>
-                      <Body2Regular>{t('learners_bulk_import.tabs.upload_csv.or')}</Body2Regular>
-                    </OrText>
-                    <Button
-                      id="bulk-import-browse-files"
-                      text={t('buttons.browse_files')}
-                      type="outline"
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        handleBrowseClick();
-                      }}
-                    />
-                    {selectedFile && (
-                      <SelectedFile>
+                {!selectedFile ? (
+                  <>
+                    <SectionTitle>
+                      <SubHeading1>{t('learners_bulk_import.tabs.upload_csv.section_title')}</SubHeading1>
+                    </SectionTitle>
+                    <Dropzone
+                      role="button"
+                      tabIndex={0}
+                      $isDragging={isDragging}
+                      onClick={handleBrowseClick}
+                      onKeyDown={handleDropzoneKeyDown}
+                      onDrop={handleDrop}
+                      onDragOver={handleDragOver}
+                      onDragLeave={handleDragLeave}
+                    >
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept=".csv"
+                        hidden
+                        onChange={(event) => handleFileChange(event.target.files?.[0] ?? null)}
+                      />
+                      <DropzoneContent>
+                        <FaFileUpload size={56} color={theme.colors.blue4} />
+                        <DropzoneText>
+                          <SubHeading3>
+                            {t('learners_bulk_import.tabs.upload_csv.drag_title')}
+                          </SubHeading3>
+                        </DropzoneText>
+                        <OrText>
+                          <Body2Regular>{t('learners_bulk_import.tabs.upload_csv.or')}</Body2Regular>
+                        </OrText>
+                        <Button
+                          id="bulk-import-browse-files"
+                          text={t('buttons.browse_files')}
+                          type="outline"
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            handleBrowseClick();
+                          }}
+                        />
+                        <DropzoneMeta>
+                          <Body4>{t('learners_bulk_import.tabs.upload_csv.file_type')}</Body4>
+                          <Body4>{t('learners_bulk_import.tabs.upload_csv.file_size')}</Body4>
+                        </DropzoneMeta>
+                      </DropzoneContent>
+                    </Dropzone>
+                  </>
+                ) : (
+                  <>
+                    <CompleteHeader>
+                      <CompleteIcon>
+                        <FiCheck size={18} />
+                      </CompleteIcon>
+                      <SubHeading1>{t('learners_bulk_import.tabs.upload_csv.upload_complete')}</SubHeading1>
+                    </CompleteHeader>
+                    <CompleteBody>
+                      <SelectedFileCard>
+                        <FileIcon>
+                          <FiFileText size={20} />
+                        </FileIcon>
+                        <FileInfo>
+                          <Body2Regular title={selectedFile.name}>
+                            {selectedFile.name}
+                          </Body2Regular>
+                        </FileInfo>
+                        <FileMeta>
+                          <Body2Regular>{formatFileSize(selectedFile.size)}</Body2Regular>
+                        </FileMeta>
+                        <RemoveButton
+                          type="button"
+                          aria-label={t('learners_bulk_import.tabs.upload_csv.remove_file')}
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            clearSelectedFile();
+                          }}
+                        >
+                          <FiX size={18} />
+                        </RemoveButton>
+                      </SelectedFileCard>
+                      <SuccessText>
                         <Body2Regular>
-                          {selectedFile.name}
+                          {t('learners_bulk_import.tabs.upload_csv.upload_success')}
                         </Body2Regular>
-                      </SelectedFile>
-                    )}
-                    <DropzoneMeta>
-                      <Body4>{t('learners_bulk_import.tabs.upload_csv.file_type')}</Body4>
-                      <Body4>{t('learners_bulk_import.tabs.upload_csv.file_size')}</Body4>
-                    </DropzoneMeta>
-                  </DropzoneContent>
-                </Dropzone>
+                      </SuccessText>
+                    </CompleteBody>
+                  </>
+                )}
               </UploadCard>
             )}
 
@@ -278,6 +329,32 @@ const SectionTitle = styled.div`
   color: ${props => props.theme.colors.dark.black};
 `;
 
+const CompleteHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 24px;
+`;
+
+const CompleteIcon = styled.div`
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${props => props.theme.colors.light.white};
+  background: ${props => props.theme.colors.green7};
+`;
+
+const CompleteBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+`;
+
 const Dropzone = styled.div<{ $isDragging: boolean }>`
   border-radius: 20px;
   border: 2px dashed ${props => props.theme.colors.blue6};
@@ -304,9 +381,69 @@ const OrText = styled.div`
   color: ${props => props.theme.colors.dark.mediumGrey};
 `;
 
-const SelectedFile = styled.div`
-  margin-top: 8px;
+const SelectedFileCard = styled.div`
+  width: 100%;
+  margin-top: 12px;
+  border-radius: 16px;
+  border: 1px solid ${props => props.theme.colors.dark.lightGrey};
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: ${props => props.theme.colors.light.white};
+  max-width: 520px;
+`;
+
+const FileIcon = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${props => props.theme.colors.green7};
+  background: ${props => props.theme.colors.light.paleGreen};
+`;
+
+const FileInfo = styled.div`
+  flex: 1;
+  text-align: left;
+  color: ${props => props.theme.colors.dark.black};
+  min-width: 0;
+
+  > * {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+`;
+
+const FileMeta = styled.div`
   color: ${props => props.theme.colors.dark.mediumGrey};
+  white-space: nowrap;
+`;
+
+const RemoveButton = styled.button`
+  all: unset;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid ${props => props.theme.colors.dark.lightGrey};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: ${props => props.theme.colors.dark.mediumGrey};
+
+  &:hover {
+    color: ${props => props.theme.colors.dark.darkGrey};
+  }
+`;
+
+const SuccessText = styled.div`
+  color: ${props => props.theme.colors.dark.mediumGrey};
+  text-align: center;
+  max-width: 640px;
 `;
 
 const DropzoneMeta = styled.div`
