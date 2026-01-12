@@ -10,4 +10,8 @@ export const TYPES = {
     IGetAssignedLearnerService: 'IGetAssignedLearnerService',
     IGetUnassignedLearnerService: 'IGetUnassignedLearnerService'
   },
+  parsers: {
+    IBulkInviteParsers: 'IBulkInviteParsers',
+    IBulkInviteParserResolver: 'IBulkInviteParserResolver'
+  }
 };

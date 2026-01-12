@@ -101,8 +101,8 @@ export class AuthLearnerController {
   @Get()
   @Roles(Role.SpaceAdmin)
   async getLearners(
-    @SpaceId() spaceId: number 
-  ){
+    @SpaceId() spaceId: number
+  ) {
     return await this.getLearnerService.execute(spaceId)
   }
 

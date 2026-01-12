@@ -1,28 +1,43 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable } from "@nestjs/common";
 import { SavingLearnerException as SaveLearnerException } from "../exceptions/save.learner.exception";
 import { ConflictLearnerException } from "../exceptions/conflict.learner.exception";
 import { InvitationEmailSendFailedException } from "../exceptions/invitation-email-send.learner.exception";
 import { IInviteBulkLearnerService } from "../interfaces/services/invite-bulk.learner.service.interface";
-import { InviteLearnerService } from "./invite.learner.service";
+import { TYPES } from "../interfaces";
+import { IInviteLearnerService } from "../interfaces/services/invite.learner.service.interface";
+import { IBulkInviteParserResolver } from "../interfaces/parsers/bulk-invite-parser-resolver.interface";
 import { BulkLearnerRowResultDto } from "../dto/learner-bulk-invite-response.dto";
 
 @Injectable()
 export class InviteBulkLearnerService implements IInviteBulkLearnerService {
   constructor(
-    private readonly inviteLearnerService: InviteLearnerService
+    @Inject(TYPES.services.IInviteLearnerService)
+    private readonly inviteLearnerService: IInviteLearnerService,
+    @Inject(TYPES.parsers.IBulkInviteParserResolver)
+    private readonly parserResolver: IBulkInviteParserResolver
   ) { }
 
   async invite(
     file: Express.Multer.File,
     spaceId: number
   ): Promise<BulkLearnerRowResultDto[]> {
-    const parsed = this.parseCsv(file);
+    const parsed = this.parserResolver.parse(file);
+    if (!parsed) {
+      throw new BadRequestException("Unsupported file type");
+    }
+
+    const errorResults = parsed.errors.map(({ row, email, name, error }) =>
+      this.createResponse(row, email, "Error", error, name)
+    );
+    const skippedResults = parsed.skipped.map(({ row, email, name, reason }) =>
+      this.createResponse(row, email, "Skipped", reason, name)
+    );
 
     const results = await Promise.all(
       parsed.valid.map(async ({ row, email, name }): Promise<BulkLearnerRowResultDto> => {
         try {
           await this.inviteLearnerService.invite({ email, name }, spaceId);
-          return this.createResponse(row, email, "OK");
+          return this.createResponse(row, email, "OK", undefined, name);
         } catch (err) {
           let message = "Unknown invitation error";
 
@@ -39,97 +54,22 @@ export class InviteBulkLearnerService implements IInviteBulkLearnerService {
       })
     );
 
-    return results;
-  }
-
-  private parseCsv(file: Express.Multer.File) {
-    const content = file.buffer?.toString('utf8').replace(/^\uFEFF/, '') ?? '';
-    const lines = content.split(/\r?\n/).filter((line) => line.trim().length > 0);
-
-    if (lines.length <= 1) {
-      return { total: 0, valid: [], errors: [], skipped: [] };
-    }
-
-    const rows = lines.slice(1);
-    const valid: Array<{ row: number; name: string; email: string }> = [];
-    const errors: Array<{ row: number; name: string; email: string; error: string }> = [];
-    const skipped: Array<{ row: number; name: string; email: string; reason: string }> = [];
-
-    rows.forEach((line, index) => {
-      const [nameRaw = '', emailRaw = ''] = this.parseCsvRow(line);
-      const name = nameRaw.trim();
-      const email = emailRaw.trim();
-      const rowNumber = index + 2;
-
-      if (!email) {
-        errors.push({ row: rowNumber, name, email, error: 'Missing email address' });
-        return;
-      }
-
-      if (!this.isValidEmail(email)) {
-        errors.push({ row: rowNumber, name, email, error: 'Invalid email address' });
-        return;
-      }
-
-      valid.push({ row: rowNumber, name, email });
-    });
-
-    return {
-      total: rows.length,
-      valid,
-      errors,
-      skipped,
-    };
+    return [...errorResults, ...skippedResults, ...results].sort((a, b) => a.row - b.row);
   }
 
   private createResponse(
     row: number,
     email: string,
-    status: "OK" | "Error",
-    message?: string
+    status: "OK" | "Error" | "Skipped",
+    message?: string,
+    name?: string
   ): BulkLearnerRowResultDto {
     return {
       row,
       email,
+      ...(name ? { name } : {}),
       status,
       ...(message ? { message } : {}),
     };
-  }
-
-  private parseCsvRow(line: string): string[] {
-    const values: string[] = [];
-    let current = '';
-    let inQuotes = false;
-
-    for (let i = 0; i < line.length; i += 1) {
-      const char = line[i];
-      const next = line[i + 1];
-
-      if (char === '"' && next === '"') {
-        current += '"';
-        i += 1;
-        continue;
-      }
-
-      if (char === '"') {
-        inQuotes = !inQuotes;
-        continue;
-      }
-
-      if (char === ',' && !inQuotes) {
-        values.push(current);
-        current = '';
-        continue;
-      }
-
-      current += char;
-    }
-
-    values.push(current);
-    return values;
-  }
-
-  private isValidEmail(email: string) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
 }
