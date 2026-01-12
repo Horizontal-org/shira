@@ -14,8 +14,4 @@ export class RegisterAuthDto {
   @IsNotEmpty()
   @MinLength(8)
   password: string;
-
-  @IsString()
-  @IsNotEmpty()
-  spaceName: string;
 }

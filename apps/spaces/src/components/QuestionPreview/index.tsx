@@ -7,6 +7,7 @@ import { IoClose } from "react-icons/io5";
 import { ExplanationDto, QuestionToDuplicate } from "../../fetch/question_library";
 import { AppLayout } from "./AppLayout";
 import { FiPlus } from "react-icons/fi";
+import { useTranslation } from "react-i18next";
 
 export type UIExplanation = {
   index: string;
@@ -27,6 +28,8 @@ export const QuestionPreview: FunctionComponent<Props> = ({
   onAdd,
   onClose,
 }) => {
+  const { t } = useTranslation();
+
   const [explanationNumber, setExplanationNumber] = useState<number>(0);
   const [explanationsOrder, handleExplanationsOrder] = useState<Array<number>>([]);
   const [showExplanations, handleShowExplanations] = useState<boolean>(false);
@@ -62,7 +65,7 @@ export const QuestionPreview: FunctionComponent<Props> = ({
             <IsNoExplanationWrapper>
               <Content>
                 <MdBlock size={18} color={defaultTheme.colors.error6} />
-                <Body1>There are no explanations for this question.</Body1>
+                <Body1>{t('preview.no_explanations')}</Body1>
               </Content>
             </IsNoExplanationWrapper>
           ) : (
@@ -74,7 +77,7 @@ export const QuestionPreview: FunctionComponent<Props> = ({
                 }
                 handleShowExplanations(!showExplanations)
               }}
-              text={showExplanations ? 'Hide explanations' : 'Show explanations'}
+              text={showExplanations ? t('preview.hide_explanations') : t('preview.show_explanations')}
             />
           )}
 
@@ -85,7 +88,7 @@ export const QuestionPreview: FunctionComponent<Props> = ({
                   onClick={() => {
                     setExplanationNumber(explanationNumber - 1)
                   }}
-                  text='Previous explanation'
+                  text={t('preview.previous_explanation')}
                 />
               )}
               {explanationNumber < explanations.length - 1 && (
@@ -93,7 +96,7 @@ export const QuestionPreview: FunctionComponent<Props> = ({
                   onClick={() => {
                     setExplanationNumber(explanationNumber + 1)
                   }}
-                  text='Next explanation'
+                  text={t('preview.next_explanation')}
                 />
               )}
             </ExplanationButtonWrapper>
@@ -103,7 +106,7 @@ export const QuestionPreview: FunctionComponent<Props> = ({
             <Button
               aria-label="Add to quiz"
               leftIcon={<FiPlus size={16} />}
-              text="Add to quiz"
+              text={t('preview.add')}
               onClick={onAdd}
             />
           </SubmitButtonWrapper>

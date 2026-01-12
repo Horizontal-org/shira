@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Button } from '../Button';
 import { SubHeading2 } from '../Typography';
+import { useEscapeClose, useEnterSubmit } from '../../hooks';
 
 export interface ModalProps {
   id?: string;
@@ -18,6 +19,8 @@ export interface ModalProps {
   onLeftClick?: () => void
   leftButtonText?: string
   className?: string;
+  size?: 'small' | 'medium';
+  onClose?: () => void;
 }
 
 export enum ModalType {
@@ -29,7 +32,6 @@ const modalTypeColors = {
   'danger': '#BF2E1F',
   'primary': '#849D29'
 }
-
 
 export const Modal: React.FC<ModalProps> = ({
   id,
@@ -45,7 +47,9 @@ export const Modal: React.FC<ModalProps> = ({
   onLeftClick,
   leftButtonText,
   className,
-  type = 'primary'
+  type = 'primary',
+  size = 'small',
+  onClose
 }) => {
 
   useEffect(() => {
@@ -60,12 +64,22 @@ export const Modal: React.FC<ModalProps> = ({
     };
   }, [isOpen]);
 
+  useEscapeClose({
+    when: isOpen,
+    onClose: onClose ?? onSecondaryClick ?? (() => { }),
+  });
+
+  useEnterSubmit({
+    when: isOpen,
+    onEnter: onPrimaryClick,
+  });
+
   if (!isOpen) return null;
 
   return (
     <>
       <Overlay id={id}>
-        <ModalContainer className={className}>
+        <ModalContainer className={className} size={size}>
           <Header>
             {titleIcon}
             <SubHeading2>{title}</SubHeading2>
@@ -109,7 +123,6 @@ export const Modal: React.FC<ModalProps> = ({
   );
 };
 
-
 const Overlay = styled.div`
   position: fixed;
   top: 0;
@@ -123,11 +136,12 @@ const Overlay = styled.div`
   z-index: 1000;
 `;
 
-const ModalContainer = styled.div`
+const ModalContainer = styled.div<{ size: 'small' | 'medium' }>`
   background: ${props => props.theme.colors.light.white};
   border-radius: 16px;
 
-  width: 480px;
+  width: ${({ size }) => ({ small: '480px', medium: '1119px' }[size])};
+
   display: flex;
   flex-direction: column;
 

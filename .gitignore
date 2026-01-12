@@ -8,6 +8,8 @@ node_modules
 # Turbo
 .turbo
 
+#VSCode
+.vscode/settings.json
 
 # Build Outputs
 output-file.txt

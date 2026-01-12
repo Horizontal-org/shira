@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { Breadcrumbs, styled, BetaBanner,Body1 } from "@shira/ui";
+import { Breadcrumbs, styled, BetaBanner, Body1 } from "@shira/ui";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { QuestionBasicInfo } from "../QuestionBasicInfo";
@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { ExitQuestionHandleModal } from "../modals/ExitQuestionHandleModal";
 import { NoExplanationsModal } from "../modals/NoExplanationsModal";
 import { ActiveQuestion } from "../../store/types/active_question";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   initialContent?: Object
@@ -25,6 +26,7 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
   actionFeedback
 }) => {
 
+  const { t } = useTranslation();
   const navigate = useNavigate()
 
   const {
@@ -46,7 +48,7 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
     clearExplanations: state.clearExplanations,
     explanations: state.explanations
   }), shallow)
-  
+
   useEffect(() => {
     fetchApp()
 
@@ -56,7 +58,7 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
     }
   }, [])
 
-  const [step, handleStep] = useState(0)  
+  const [step, handleStep] = useState(0)
   console.log(" 🚀 ~ question:", activeQuestion)
   console.log(" 🚀 ~ explanations:", explanations)
 
@@ -74,7 +76,7 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
       if (activeQuestion.app.type === 'email') {
         const emailContent = activeQuestion.content as any;
         return emailContent.senderName?.value?.trim().length > 0 &&
-               emailContent.senderEmail?.value?.trim().length > 0;
+          emailContent.senderEmail?.value?.trim().length > 0;
       }
 
       if (activeQuestion.app.type === 'messaging') {
@@ -100,7 +102,7 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
         }}
       />
 
-      <NoExplanationsModal 
+      <NoExplanationsModal
         isModalOpen={noExplanationsModalOpen}
         setIsModalOpen={setNoExplanationsModalOpen}
         onConfirm={() => {
@@ -108,9 +110,9 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
         }}
       />
 
-      <BetaBanner url="/support"/>
-      
-      <QuestionFlowHeader 
+      <BetaBanner url="https://shira.app/beta-user" />
+
+      <QuestionFlowHeader
         actionFeedback={actionFeedback}
         onNext={() => {
           if (step === 2) {
@@ -145,21 +147,21 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
               <Breadcrumbs
                 active={step}
                 items={[
-                  { text: 'Question info' },
-                  { text: 'Content' },
-                  { text: 'Preview' }
+                  { text: t('create_question.tabs.question_info.tab_title') },
+                  { text: t('create_question.tabs.content.tab_title') },
+                  { text: t('create_question.tabs.preview.tab_title') }
                 ]}
               />
               {step === 2 && (
                 <ExplanationTitle id="explanation-title">
                   <Body1>
-                    This is how your question will look to learners, including the explanations you have written.
+                    {t('create_question.tabs.preview.subtitle')}
                   </Body1>
                 </ExplanationTitle>
               )}
             </ContentHeader>
 
-            { step === 0 && (
+            {step === 0 && (
               <QuestionBasicInfo
                 question={activeQuestion}
                 handleQuestion={updateActiveQuestion}
@@ -169,13 +171,13 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
               />
             )}
 
-            { step === 1 && (
-              <QuestionContent 
+            {step === 1 && (
+              <QuestionContent
                 question={activeQuestion}
               />
             )}
 
-            { step === 2 && (
+            {step === 2 && (
               <QuestionReview />
             )}
           </div>

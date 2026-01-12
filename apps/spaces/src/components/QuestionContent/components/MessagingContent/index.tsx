@@ -1,10 +1,11 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { Body1, Body1SemiBold, Body2Regular, Body3, styled, SubHeading3, TextInput } from '@shira/ui'
+import { Body1SemiBold, Body3, styled, SubHeading3 } from '@shira/ui'
 import { InputWithExplanation } from "../../../InputWithExplanation";
 import { DraggableMessagingList } from "./DraggableMessagingList";
 import { ActiveQuestion, MessagingContent as MessagingContentType } from "../../../../store/types/active_question";
 import { useStore } from "../../../../store";
 import { shallow } from "zustand/shallow";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   question: ActiveQuestion
@@ -23,21 +24,23 @@ export const MessagingContent: FunctionComponent<Props> = ({
   content,
 }) => {
 
-  const {    
+  const { t } = useTranslation();
+
+  const {
     updateActiveQuestionDraggableItems
   } = useStore((state) => ({
     updateActiveQuestionDraggableItems: state.updateActiveQuestionDraggableItems
   }), shallow)
-  
-  const hasSenderPhone = () => {
-      if (question && question.app) {
-        return !!([
-          MessagingAppsNames.SMS,
-          MessagingAppsNames.WHATSAPP
-        ].includes(question.app.name))
-      }
 
-      return false
+  const hasSenderPhone = () => {
+    if (question && question.app) {
+      return !!([
+        MessagingAppsNames.SMS,
+        MessagingAppsNames.WHATSAPP
+      ].includes(question.app.name))
+    }
+
+    return false
   }
 
   const [senderPhoneEnabled, handleSenderPhoneEnabled] = useState<boolean>(false)
@@ -48,19 +51,18 @@ export const MessagingContent: FunctionComponent<Props> = ({
 
   return (
     <Content id="messaging-content">
-   
-      { senderPhoneEnabled ? (
+
+      {senderPhoneEnabled ? (
         <div>
           <InputHeading $required={true}>
-            <SubHeading3 id="messaging-content-sender-phone-title">Sender phone</SubHeading3>
-            <Body3 id="messaging-content-sender-phone-subtitle">This is the phone number that will be displayed in the “Sender” field of the message.</Body3>
+            <SubHeading3 id="messaging-content-sender-phone-title">{t('create_question.tabs.content.sender_phone.title')}</SubHeading3>
+            <Body3 id="messaging-content-sender-phone-subtitle">{t('create_question.tabs.content.sender_phone.subtitle')}</Body3>
           </InputHeading>
 
-        
-          <InputWithExplanation 
+          <InputWithExplanation
             id='component-required-phone'
             name='senderPhone'
-            placeholder='Sender phone number'
+            placeholder={t('create_question.tabs.content.sender_phone.placeholder')}
             label="Sender phone number"
             contentObject={content.senderPhone}
           />
@@ -68,16 +70,16 @@ export const MessagingContent: FunctionComponent<Props> = ({
       ) : (
         <div>
           <InputHeading $required={!senderPhoneEnabled}>
-            <SubHeading3 id="messaging-content-sender-title">Sender name</SubHeading3>
-            <Body3 id="messaging-content-sender-subtitle">This is the name that will be displayed in the “Sender” field of the message.</Body3>
+            <SubHeading3 id="messaging-content-sender-title">{t('create_question.tabs.content.sender.title')}</SubHeading3>
+            <Body3 id="messaging-content-sender-subtitle">{t('create_question.tabs.content.sender.subtitle')}</Body3>
           </InputHeading>
 
           <InputWithExplanation
             id='component-required-fullname'
             name='senderName'
-            placeholder='Sender name'
+            placeholder={t('create_question.tabs.content.sender.placeholder')}
             label="Sender name"
-            contentObject={content.senderName}        
+            contentObject={content.senderName}
           />
         </div>
       )}
@@ -85,10 +87,10 @@ export const MessagingContent: FunctionComponent<Props> = ({
       <div>
         <MessagingContentHead>
           <Body1SemiBold id="messaging-content-message-content-title">
-            Message Content
+            {t('create_question.tabs.content.message_content.title')}
           </Body1SemiBold>
           <Body3 id="messaging-content-message-content-subtitle">
-            Create the messages that will be shown. You can create multiple messages and image files. Add an explanation by selecting a portion of text and clicking on the explanation icon.
+            {t('create_question.tabs.content.message_content.subtitle')}
           </Body3>
         </MessagingContentHead>
 
@@ -98,7 +100,7 @@ export const MessagingContent: FunctionComponent<Props> = ({
           onChange={(newItems) => { updateActiveQuestionDraggableItems(newItems) }}
         />
       </div>
-   
+
     </Content>
   )
 }

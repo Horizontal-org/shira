@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect } from "react"
+import { FunctionComponent } from "react"
 import {
   styled,
   Logo,
@@ -9,6 +9,7 @@ import { IoClose } from "react-icons/io5";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { QuestionCRUDFeedback } from "../../fetch/question";
 import { ButtonWithTooltip } from "../ButtonWithTooltip";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   onNext: () => void
@@ -28,6 +29,8 @@ export const QuestionFlowHeader: FunctionComponent<Props> = ({
   actionFeedback
 }) => {
 
+  const { t } = useTranslation();
+
   return (
     <Wrapper id="question-flow-header">
       <Left>
@@ -42,14 +45,14 @@ export const QuestionFlowHeader: FunctionComponent<Props> = ({
           />
         </CloseWrapper>
 
-        <Body2Regular>Create a new question</Body2Regular>
+        <Body2Regular>{t('create_question.header_title')}</Body2Regular>
       </Left>
       <Right>
         <Button
           id="question-flow-header-back"
           leftIcon={<FiChevronLeft size={16} />}
           onClick={onBack}
-          text="Back"
+          text={t('buttons.back')}
           type="outline"
         />
         <ButtonWithTooltip
@@ -58,7 +61,11 @@ export const QuestionFlowHeader: FunctionComponent<Props> = ({
           rightIcon={<FiChevronRight size={16} />}
           disabled={disableNext || actionFeedback === QuestionCRUDFeedback.processing}
           onClick={onNext}
-          text={step === 2 ? (actionFeedback === QuestionCRUDFeedback.processing ? 'Saving...' : 'Save') : 'Next'}
+          text={step === 2
+            ? (actionFeedback === QuestionCRUDFeedback.processing
+              ? t('loading_messages.saving')
+              : t('buttons.save'))
+            : t('buttons.next')}
           type="primary"
           showTooltipWhenDisabled={disableNext}
         />
@@ -78,7 +85,7 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: space-between;
 `
-  
+
 const LogoWrapper = styled.div`
   padding: 0 24px;
   border-right: 1px solid ${props => props.theme.colors.dark.mediumGrey};

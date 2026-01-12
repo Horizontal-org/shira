@@ -9,16 +9,14 @@ import toast from "react-hot-toast";
 import { ActiveQuestion } from "../../store/types/active_question";
 import { htmlToActiveQuestion } from "../../utils/active_question/htmlToQuestion";
 
-interface Props {
-
-}
+interface Props { }
 
 export const QuestionEditLayout: FunctionComponent<Props> = () => {
 
   const navigate = useNavigate()
   const { quizId, questionId } = useParams()
   const { edit, actionFeedback } = useQuestionCRUD()
-  const {    
+  const {
     setQuizActionSuccess,
     setInitialExplanations,
     clearExplanations,
@@ -30,12 +28,12 @@ export const QuestionEditLayout: FunctionComponent<Props> = () => {
     setActiveQuestion: state.setActiveQuestion
   }), shallow)
 
-  
+
   const [initialQuestion, handleQuestion] = useState<ActiveQuestion>(null)
   const [initialContent, handleContent] = useState({})
 
   useEffect(() => {
-    const getAndParseQuestion = async() => {
+    const getAndParseQuestion = async () => {
       const question = await fetchQuestion(questionId)
 
       // SET EXPLANATIONS
@@ -48,10 +46,10 @@ export const QuestionEditLayout: FunctionComponent<Props> = () => {
           }
         }))
       }
-      
+
       // careful, this persists
       const htmlContent = new DOMParser().parseFromString(question.content, 'text/html')
-      
+
       // PARSE QUESTION 
       const activeQuestion = htmlToActiveQuestion(question, htmlContent)
       setActiveQuestion(activeQuestion)
@@ -85,12 +83,12 @@ export const QuestionEditLayout: FunctionComponent<Props> = () => {
   }
 
   return (
-    <QuestionFlowManagement 
+    <QuestionFlowManagement
       onSubmit={(question) => {
         edit(quizId, question, questionId)
       }}
       initialAppType={initialQuestion.app.type}
       actionFeedback={actionFeedback}
     />
-  ) 
+  )
 }

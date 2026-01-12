@@ -1,15 +1,20 @@
 import { FunctionComponent, useState } from "react";
-import { styled } from '@shira/ui'
-import { QuestionsList } from './QuestionList'
-import { Results } from './Results'
+import { styled } from '@shira/ui';
+import { QuestionsList } from './QuestionList';
+import { Results } from './Results';
 import { QuizQuestion } from "../../../store/slices/quiz";
 import { PublicQuizResultsResponse } from "../../../fetch/results";
+import { LearnerQuizView } from "../../LearnerQuizView";
+import { useTranslation } from "react-i18next";
 
-type TabType = 'questions' | 'results';
+type TabType = 'questions' | 'results' | 'learners';
 
 interface TabContainerProps {
   quizId: number;
+  quizTitle: string;
   quizQuestions: QuizQuestion[];
+  quizPublished: boolean;
+  quizVisibility: string;
   resultsData: PublicQuizResultsResponse | null
   resultsLoading: boolean
   hasResults: boolean
@@ -19,22 +24,29 @@ interface TabContainerProps {
   onAddLibrary: (quizId: string) => void;
   onReorder: (newOrder: QuizQuestion[]) => void;
   onDuplicate: () => void;
+  onPublish: () => void
 }
 
 export const TabContainer: FunctionComponent<TabContainerProps> = ({
   quizId,
+  quizTitle,
+  quizPublished,
   quizQuestions,
+  quizVisibility,
   onEdit,
   onDelete,
   onAdd,
   onAddLibrary,
   onReorder,
   onDuplicate,
+  onPublish,
   resultsData,
   resultsLoading,
   hasResults
 }) => {
   const [activeTab, setActiveTab] = useState<TabType>('questions');
+  const { t } = useTranslation();
+
   return (
     <Container>
       <Header>
@@ -44,14 +56,23 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
             $isActive={activeTab === 'questions'}
             onClick={() => setActiveTab('questions')}
           >
-            Questions
+            {t('quiz.tabs.questions')}
           </TabButton>
+          {quizVisibility === 'private' && (
+            <TabButton
+              id="learners-tab"
+              $isActive={activeTab === 'learners'}
+              onClick={() => setActiveTab('learners')}
+            >
+              {t('quiz.tabs.learners')}
+            </TabButton>
+          )}
           <TabButton
             id="results-tab"
             $isActive={activeTab === 'results'}
             onClick={() => setActiveTab('results')}
           >
-            Results
+            {t('quiz.tabs.results')}
           </TabButton>
         </TabsContainer>
       </Header>
@@ -70,12 +91,23 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
             hasResults={hasResults}
           />
         )}
+
+        {activeTab === 'learners' && (
+          <LearnerQuizView
+            quizId={quizId}
+            quizTitle={quizTitle}
+            quizPublished={quizPublished}
+            onPublish={onPublish}
+          />
+        )}
+
         {activeTab === 'results' && (
           <Results
             resultsData={resultsData}
             loading={resultsLoading}
           />
         )}
+
       </div>
     </Container>
   );

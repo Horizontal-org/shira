@@ -73,6 +73,26 @@ export const WithoutTitle = {
   }
 };
 
+
+export const BigTitle = {
+  args: {
+    title: 'Log in',
+    titleSize: 'large',
+    description: 'Please enter your login credentials below.',
+    children: LoginContent
+  }
+};
+
+export const BigTitleAndHeader = {
+  args: {
+    title: 'Log in',
+    titleSize: 'large',
+    header: 'My company',
+    description: 'Please enter your login credentials below.',
+    children: LoginContent
+  }
+};
+
 export const ContentOnly = {
   args: {
     children: LoginContent

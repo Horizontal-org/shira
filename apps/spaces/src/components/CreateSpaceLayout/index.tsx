@@ -1,11 +1,9 @@
 import { FunctionComponent, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios"
 import {
   Form,
   Link1,
-  H1,
-  SubHeading2,
   Button,
   TextInput,
   styled,
@@ -15,22 +13,30 @@ import backgroundSvg from "../../assets/Background.svg";
 import { CreateSpaceSuccess } from "./components/CreateSpaceSuccess";
 import { useStore } from "../../store";
 import { shallow } from "zustand/shallow";
+import { checkPassphraseExpired, registerSpace } from "../../fetch/registration";
+import { handleHttpError } from "../../fetch/handleError";
+import { getErrorContent } from "../../utils/getErrorContent";
+import { GenericErrorModal } from "../modals/ErrorModal";
 
 interface Props {}
 
 export const CreateSpaceLayout: FunctionComponent<Props> = () => {
 
+  const { t } = useTranslation();
+
   const { passphraseCode } = useParams()
+  const [orgName, handleOrgName] = useState("");
   const [email, handleEmail] = useState("");
+  const [emailError, handleEmailError] = useState("");
   const [pass, handlePass] = useState("");
+  const [passError, handlePassError] = useState("");
   const [passConfirmation, handlePassConfirmation] = useState("");
-  const [name, handleName] = useState("");
+  const [passConfirmationError, handlePassConfirmationError] = useState(""); 
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [checkingPassphrase, setCheckingPassphrase] = useState(true);
-
+  const [errorModalOpen, setErrorModalOpen] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const {
@@ -54,16 +60,18 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
     }
 
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/passphrase/${passphraseCode}/check-expired`)
+      const data = await checkPassphraseExpired(passphraseCode)
+      console.log("🚀 ~ checkPassphraseExpiry ~ response:", data)
 
-      if (response.data.expired) {
+      if (data.expired) {
         navigate('/invitation-used')
         return
       }
 
+      handleOrgName(data.slug)
       setCheckingPassphrase(false)
-    } catch (error) {
-      console.error('Error checking passphrase:', error)
+    } catch (e) {
+      console.error('Error checking passphrase:', e)
       // If there's an error checking, show the form anyway (graceful degradation)
       setCheckingPassphrase(false)
     }
@@ -72,10 +80,9 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
   const description = (
     <>
       {passphraseCode ? 
-        "Complete the form below to create your Shira space." : 
+        t('create_space.form_description') : 
         <>
-          Shira spaces are currently in closed beta. To obtain the passphrase
-          necessary to join the beta, email us at{" "}
+          {t('create_space.beta_lead')}{" "}
           <Link1 href="mailto:contact@wearehorizontal.org">
             contact@wearehorizontal.org
           </Link1>
@@ -85,45 +92,64 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
   );
 
   const validateForm = () => {
-    if (!name.trim()) return "Space name is required";
-    if (!email.trim()) return "Email is required";
-    if (!pass.trim()) return "Password is required";
-    if (pass.length < 8) return "Password must be at least 8 characters";
-    if (pass !== passConfirmation) return "Passwords do not match";
-    return "";
+    let hasError = false;
+    if (!email.trim()) {
+      handleEmailError(t('create_space.validation.email_required'));
+      hasError = true;
+    }
+    if (email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) === null) { 
+      handleEmailError(t("get_started.validation.invalid_email")) 
+      hasError = true;
+    }
+    if (!pass.trim()) {
+      handlePassError(t('create_space.validation.password_required'));
+      hasError = true;
+    }
+    if (pass.length < 8) {
+      handlePassError(t('create_space.validation.password_min_length'));
+      hasError = true;
+    }
+    if (pass !== passConfirmation) {
+      handlePassConfirmationError(t('create_space.validation.passwords_mismatch'));
+      hasError = true;
+    }
+    return hasError;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    const validationError = validateForm();
-    if (validationError) {
-      setError(validationError);
-      return;
+  const handleSubmit = async () => {
+    handleEmailError('');
+    handlePassError('');
+    handlePassConfirmationError('');    
+
+    if (validateForm()) {
+      return
     }
 
     setLoading(true);
-    setError("");
     
-    try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/space-registration`, {
-        email,
+    try {    
+      await registerSpace({
         password: pass,
-        spaceName: name,
         passphrase: passphraseCode,
-      });
+        email,
+      })
+
       login(email, pass)
       
       setSuccess(true);
       setLoading(false);            
     } catch (err) {
-      console.log("🚀 ~ handleSubmit ~ err:", err.response.message)
       setLoading(false);
-      if (err.response && err.response.data && err.response.data.message) {
-        setError(err.response.data.message);
-      } else {
-        setError("An error occurred while creating your space. Please try again.");
+      
+      const error = handleHttpError(err)
+
+      if (error && error.message === 'email_no_match') {
+        handleEmailError(t("error_messages.email_no_match"))
+        return
       }
+
+      const content = getErrorContent("error_messages", "invite_org_failed", error.message);
+      setErrorModalOpen(content)
     }
   };
 
@@ -131,12 +157,12 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
     return (
       <Container>
         <Navbar
-          translatedTexts={{home: "", about: "", menu: "", logIn: "Log in", createSpace: "Create Space"}}
+          translatedTexts={{home: "", about: "", menu: "", logIn: t('login.login_header_button'), createSpace: t('create_space.button_create')}}
           onNavigate={navigate}
         />
         <ContentWrapper>
           <Content>
-            <div>Checking invitation...</div>
+            <div>{t('create_space.checking_invitation')}</div>
           </Content>
         </ContentWrapper>
       </Container>
@@ -146,7 +172,7 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
   return (
     <Container>
       <Navbar
-        translatedTexts={{home: "", about: "", menu: "", logIn: "Log in", createSpace: "Create Space"}}
+        translatedTexts={{home: "", about: "", menu: "", logIn: t('login.login_header_button'), createSpace: t('create_space.button_create') }}
         onNavigate={navigate}
       />
       { success ? (
@@ -155,60 +181,67 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
         <ContentWrapper>
           <BackgroundPattern />
           <Content>
-            <Header>
-              <H1>Shira spaces</H1>
-              <SubHeading2>
-                After you create a space, you will be able to create custom quizzes
-                and questions specifically relevant to your context and communities.
-              </SubHeading2>
-            </Header>
 
             <StyledForm
-              title="Create a new space"
+              title={t('create_space.form_title')}
+              titleSize="large"
+              header={orgName}
               description={description}
               onSubmit={(e) => {
                 e.preventDefault();
+                handleSubmit()
               }}
             >
               
-              {error && <ErrorMessage>{error}</ErrorMessage>}
-              
               <InputsContainer>
-                <TextInput 
-                  label="Name your space" 
-                  value={name} 
-                  onChange={(e) => handleName(e.target.value)}
-                />
                 <TextInput
-                  label="Your email address"
+                  required
+                  label={t('create_space.email_label')}
                   value={email}
                   onChange={(e) => handleEmail(e.target.value)}
                 />
+                { emailError && <InlineErrorMessage>{emailError}</InlineErrorMessage> }
                 <TextInput
+                  required
                   type="password"
-                  label="Password"
+                  label={t('create_space.password_label')}
                   value={pass}
                   onChange={(e) => handlePass(e.target.value)}
                 />
-
+                { passError && <InlineErrorMessage>{passError}</InlineErrorMessage> }   
                 <TextInput
+                  required
                   type="password"
-                  label="Confirm Password"
+                  label={t('create_space.confirm_password_label')}
                   value={passConfirmation}
                   onChange={(e) => handlePassConfirmation(e.target.value)}
                 />
+                { passConfirmationError && <InlineErrorMessage>{passConfirmationError}</InlineErrorMessage> }
               </InputsContainer>
 
               <ButtonContainer>
                 <Button
-                  text="Create new space"
+                  text={t('create_space.button_create')}
                   type="primary"
                   disabled={loading || !passphraseCode}
-                  onClick={handleSubmit}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    handleSubmit()
+                  }}
                 />
               </ButtonContainer>
             </StyledForm>
           </Content>
+
+          <GenericErrorModal 
+            isOpen={!!errorModalOpen}
+            errorMessage={errorModalOpen}
+            onCancel={() => setErrorModalOpen(null )}
+            onRetry={() => { 
+              setErrorModalOpen(null)
+              handleSubmit()
+            }}
+          />
         </ContentWrapper>
       )}
       
@@ -217,18 +250,16 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
 };
 
 const Container = styled.div`
-    box-sizing: border-box;
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    background: white;
-    position: relative;
-    height: auto;
-    padding-bottom: 16px;
-    @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
-        padding-bottom: 0; 
-    }
+  box-sizing: border-box;
+  width: 100%;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;  
+  position: relative; 
+
+  @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
+    padding: 16px;
+  }
 `;
 
 const ContentWrapper = styled.div`
@@ -253,19 +284,12 @@ const Content = styled.div`
     max-width: 800px;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 12px;
     margin: 48px auto; 
     width: 100%;
     height: auto;
 `;
 
-const Header = styled.div`
-  padding: 32px 0;
-
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-`
 
 const BackgroundPattern = styled.div`
    background-image: url(${backgroundSvg});
@@ -290,11 +314,13 @@ const StyledForm = styled(Form)`
   z-index:1;
   text-align: left;
   margin-bottom: 32px;
+  gap: 16px;
 `;
+
 const InputsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 24px;
 `;
 
 const ButtonContainer = styled.div`
@@ -314,26 +340,9 @@ const ButtonContainer = styled.div`
   }
 `;
 
-const ErrorMessage = styled.div`
-  background-color: #ffebee;
+const InlineErrorMessage = styled.div`
   color: #d32f2f;
-  padding: 16px;
-  border-radius: 4px;
-  margin-bottom: 24px;
-  font-weight: 500;
-`;
-
-const SuccessMessage = styled.div`
-  background-color: #e8f5e9;
-  color: #2e7d32;
-  padding: 16px;
-  border-radius: 4px;
-  margin-bottom: 24px;
-  font-weight: 500;
-`;
-
-const NoPassphraseMessage = styled.div`
-  margin-top: 16px;
-  text-align: center;
-  color: #757575;
+  font-size: 14px;
+  margin-top: -12px;
+  padding-left: 4px;
 `;

@@ -1,29 +1,31 @@
 import { FunctionComponent } from "react";
-import { Body1, H1, H2, SettingsFishIcon, Sidebar, styled, useAdminSidebar, BetaBanner } from '@shira/ui'
+import { Body1, H1, SettingsFishIcon, Sidebar, styled, useAdminSidebar, BetaBanner } from '@shira/ui'
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-interface Props {}
+interface Props { }
 
-export const SupportLayout:FunctionComponent<Props> = () => {
+export const SupportLayout: FunctionComponent<Props> = () => {
 
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
 
   return (
     <Container>
-      <Sidebar 
-        menuItems={menuItems} 
-        onCollapse={handleCollapse}      
+      <Sidebar
+        menuItems={menuItems}
+        onCollapse={handleCollapse}
         selectedItemLabel={menuItems.find(m => m.path === '/support').label}
       />
 
       <MainContent $isCollapsed={isCollapsed}>
-        <BetaBanner url="/support"/>
+        <BetaBanner url="https://shira.app/beta-user" />
         <MainContentWrapper>
-          <HeaderContainer> 
+          <HeaderContainer>
             <TextContainer>
-              <H1>Support</H1>
-              <Body1>If you need any support, including with deleting your account, please email the Shira team at contact@wearehorizontal.org</Body1>          
+              <H1>{t('support.title')}</H1>
+              <Body1>{t('support.subtitle')}</Body1>
             </TextContainer>
             <SettingsFishIcon />
           </HeaderContainer>

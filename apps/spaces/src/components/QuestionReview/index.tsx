@@ -9,6 +9,7 @@ import { useStore } from "../../store"
 import { shallow } from "zustand/shallow"
 import { MdBlock } from 'react-icons/md'
 import { ActiveQuestion } from "../../store/types/active_question"
+import { useTranslation } from "react-i18next"
 
 interface Props {
   question?: ActiveQuestion
@@ -22,6 +23,8 @@ export const QuestionReview: FunctionComponent<Props> = ({ }) => {
     explanations: state.explanations,
     activeQuestion: state.activeQuestion
   }), shallow)
+
+  const { t } = useTranslation();
 
   const [elementProps, handleElementProps] = useState(null)
   const [explanationNumber, setExplanationNumber] = useState<number>(0)
@@ -55,7 +58,7 @@ export const QuestionReview: FunctionComponent<Props> = ({ }) => {
           <IsNoExplanationWrapper>
             <Content>
               <MdBlock size={18} color="red" />
-              <Body1 id="no-explanations-message">There are no explanations for this question.</Body1>
+              <Body1 id="no-explanations-message">{t("preview.no_explanations")}</Body1>
             </Content>
           </IsNoExplanationWrapper>
         ) : (
@@ -68,46 +71,45 @@ export const QuestionReview: FunctionComponent<Props> = ({ }) => {
               }
               handleShowExplanations(!showExplanations)
             }}
-            text={showExplanations ? 'Hide explanations' : 'Show explanations'}
+            text={showExplanations ? t("preview.hide_explanations") : t("preview.show_explanations")}
           />
         )}
 
-  {
-    showExplanations && (
-    <ExplanationButtonWrapper id="explanation-button-wrapper">
-        {explanationNumber >= 1 && (
-          <Button
-            id="previous-explanation-button"
-            onClick={() => {
-              setExplanationNumber(explanationNumber - 1)
-            }}
-            text='Previous explanation'
-          />
+        {showExplanations && (
+          <ExplanationButtonWrapper id="explanation-button-wrapper">
+            {explanationNumber >= 1 && (
+              <Button
+                id="previous-explanation-button"
+                onClick={() => {
+                  setExplanationNumber(explanationNumber - 1)
+                }}
+                text={t("preview.previous_explanation")}
+              />
+            )}
+            {explanationNumber < explanations.length - 1 && (
+              <Button
+                id="next-explanation-button"
+                onClick={() => {
+                  setExplanationNumber(explanationNumber + 1)
+                }}
+                text={t("preview.next_explanation")}
+              />
+            )}
+          </ExplanationButtonWrapper>
         )}
-        {explanationNumber < explanations.length - 1 && (
-          <Button
-            id="next-explanation-button"
-            onClick={() => {
-              setExplanationNumber(explanationNumber + 1)
-            }}
-            text='Next explanation'
-          />
-        )}
-      </ExplanationButtonWrapper>
-    )
-  }
-      </ExplanationHeader >
+      </ExplanationHeader>
 
-  <StyledBox>
-    <AppSelector
-      appName={activeQuestion.app.name}
-      customProps={elementProps}
-      explanationNumber={explanationsOrder[explanationNumber]}
-      showExplanations={showExplanations}
-      explanations={explanations}
-    />
-    {showExplanations && <Overlay />}
-  </StyledBox>
+
+      <StyledBox>
+        <AppSelector
+          appName={activeQuestion.app.name}
+          customProps={elementProps}
+          explanationNumber={explanationsOrder[explanationNumber]}
+          showExplanations={showExplanations}
+          explanations={explanations}
+        />
+        {showExplanations && <Overlay />}
+      </StyledBox>
     </>
   )
 }
