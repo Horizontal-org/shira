@@ -242,7 +242,9 @@
                 "drag_title": "Drag and drop to upload your filled spreadsheet here",
                 "or": "OR",
                 "file_type": "Accepted file type: .csv only",
-                "file_size": "Maximum file size: 10 MB"
+                "file_size": "Maximum file size: 10 MB",
+                "upload_complete": "Upload complete",
+                "upload_success": "Your spreadsheet was successfully uploaded! Continue to the next step to verify your learners."
             },
             "verify_learners": {
                 "tab_title": "Verify learners",

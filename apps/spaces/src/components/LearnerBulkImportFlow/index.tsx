@@ -101,7 +101,7 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
           }
         }}
         step={step}
-        disableNext={!validateStep()}
+        disableNext={!validateStep() && selectedFile == null}
         onExit={() => {
           setIsExitBulkImportModalOpen(true);
         }}
@@ -188,7 +188,7 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
                     {selectedFile && (
                       <SelectedFile>
                         <Body2Regular>
-                          {t('learners_bulk_import.tabs.upload_csv.selected_file', { fileName: selectedFile.name })}
+                          {selectedFile.name}
                         </Body2Regular>
                       </SelectedFile>
                     )}

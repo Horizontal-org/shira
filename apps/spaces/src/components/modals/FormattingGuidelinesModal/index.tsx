@@ -17,11 +17,10 @@ export const FormattingGuidelinesModal: FunctionComponent<Props> = ({
     <Modal
       isOpen={isModalOpen}
       title={t("modals.csv_formatting_guidelines.title")}
-      primaryButtonText=""
+      primaryButtonText={t('buttons.ok')}
       primaryButtonDisabled={false}
       secondaryButtonText={t("buttons.close")}
       onPrimaryClick={() => setIsModalOpen(false)}
-      onSecondaryClick={() => setIsModalOpen(false)}
       onClose={() => setIsModalOpen(false)}
     >
       <Content>
