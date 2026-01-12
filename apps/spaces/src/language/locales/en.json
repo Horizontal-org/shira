@@ -319,6 +319,10 @@
             "title": "Are you sure you want to exit the question?",
             "message": "Any unsaved changes will be lost."
         },
+        "exit_bulk_import": {
+            "title": "Are you sure you want to exit bulk import?",
+            "message": "Any unsaved changes will be lost."
+        },
         "edit_question_confirmation": {
             "title": "Are you sure you want to edit this quiz?",
             "message": "Some learners have already taken this quiz. Adding or editing questions may affect the accuracy of Results."

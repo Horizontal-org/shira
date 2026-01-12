@@ -1,21 +1,25 @@
 import { FunctionComponent, useState } from "react";
 import { Breadcrumbs, styled, BetaBanner } from "@shira/ui";
 import { useNavigate } from "react-router-dom";
+import { ActiveQuestion } from "../../store/types/active_question";
 import { useTranslation } from "react-i18next";
 import { LearnerBulkImportHeader } from "../LearnerBulkImportHeader";
+import { ExitLearnerBulkImportModal } from "../modals/ExitLearnerBulkImportModal";
 
 interface Props {
+  onSubmit: (question: ActiveQuestion) => void;
 }
 
 export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
+  onSubmit,
 }) => {
 
   const { t } = useTranslation();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [step, handleStep] = useState(0);
 
-  // const [isExitQuestionModalOpen, setIsExitQuestionModalOpen] = useState(false)
+  const [isExitBulkImportModalOpen, setIsExitBulkImportModalOpen] = useState(false);
 
   const validateStep = () => {
     return true
@@ -23,13 +27,13 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
 
   return (
     <>
-      {/* <ExitQuestionHandleModal
-        isModalOpen={isExitQuestionModalOpen}
-        setIsModalOpen={setIsExitQuestionModalOpen}
+      <ExitLearnerBulkImportModal
+        isModalOpen={isExitBulkImportModalOpen}
+        setIsModalOpen={setIsExitBulkImportModalOpen}
         onConfirm={() => {
-          navigate(-1)
+          navigate(-1);
         }}
-      /> */}
+      />
 
       <BetaBanner url="/support" />
 
@@ -45,14 +49,16 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
         }}
         onBack={() => {
           if (step === 0) {
-            // setIsExitQuestionModalOpen(true)
+            setIsExitBulkImportModalOpen(true);
           } else {
             handleStep(step - 1)
           }
         }}
         step={step}
         disableNext={!validateStep()}
-        onExit={() => { /* setIsExitQuestionModalOpen(true) */ }}
+        onExit={() => {
+          setIsExitBulkImportModalOpen(true);
+        }}
       />
 
       <Container>
