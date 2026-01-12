@@ -55,9 +55,8 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
   return (
     <UploadCard>
       <H2>{t("learners_bulk_import.tabs.upload_csv.tab_title")}</H2>
-      <Subtitle>
-        <Body1>{t("learners_bulk_import.tabs.upload_csv.subtitle")}</Body1>
-      </Subtitle>
+      <Subtitle><Body1>{t("learners_bulk_import.tabs.upload_csv.subtitle")}</Body1></Subtitle>
+
       <ActionRow>
         <Button
           id="bulk-import-download-template"
@@ -116,6 +115,7 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
                   onBrowseClick();
                 }}
               />
+              
               <DropzoneMeta>
                 <Body4>{t("learners_bulk_import.tabs.upload_csv.file_type")}</Body4>
                 <Body4>{t("learners_bulk_import.tabs.upload_csv.file_size")}</Body4>
@@ -131,6 +131,7 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
             </CompleteIcon>
             <SubHeading1>{t("learners_bulk_import.tabs.upload_csv.upload_complete")}</SubHeading1>
           </CompleteHeader>
+
           <CompleteBody>
             <SelectedFileCard>
               <FileIcon>

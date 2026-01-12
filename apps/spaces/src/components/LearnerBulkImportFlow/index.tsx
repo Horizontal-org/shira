@@ -1,5 +1,5 @@
 import { DragEvent, FunctionComponent, KeyboardEvent, useRef, useState } from "react";
-import { Breadcrumbs, styled, BetaBanner, Body1, H2 } from "@shira/ui";
+import { Breadcrumbs, styled, BetaBanner } from "@shira/ui";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { LearnerBulkImportHeader } from "../LearnerBulkImportHeader";
@@ -8,6 +8,7 @@ import { FormattingGuidelinesModal } from "../modals/FormattingGuidelinesModal";
 import { Learner } from "../LearnerQuizView";
 import { UploadCsvStep } from "./components/UploadCsvStep";
 import { VerifyLearnersStep } from "./components/VerifyLearnersStep";
+import { FinalReviewStep } from "./components/FinalReviewStep";
 
 interface Props {
   onSubmit: (learners: Learner[]) => void;
@@ -117,13 +118,13 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
       <Container>
         <ContentWrapper>
           <div>
-            <ContentHeader id="content-header">
+            <ContentHeader id="learner-bulk-import-header">
               <Breadcrumbs
                 active={step}
                 items={[
                   { text: t('learners_bulk_import.tabs.upload_csv.tab_title') },
                   { text: t('learners_bulk_import.tabs.verify_learners.tab_title') },
-                  { text: t('learners_bulk_import.tabs.final_review.tab_title') }
+                  { text: t('learners_bulk_import.tabs.review.tab_title') }
                 ]}
               />
             </ContentHeader>
@@ -149,10 +150,7 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
             )}
 
             {step === 2 && (
-              <PlaceholderCard>
-                <H2>{t('learners_bulk_import.tabs.final_review.tab_title')}</H2>
-                <Body1>{t('learners_bulk_import.tabs.verify_learners.subtitle')}</Body1>
-              </PlaceholderCard>
+              <FinalReviewStep />
             )}
           </div>
         </ContentWrapper>
@@ -174,15 +172,4 @@ const ContentWrapper = styled.div`
 
 const ContentHeader = styled.div`
   padding-bottom: 12px;
-`;
-
-const PlaceholderCard = styled.div`
-  width: 1024px;
-  max-width: 100%;
-  background: ${props => props.theme.colors.light.white};
-  border-radius: 24px;
-  padding: 40px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
 `;

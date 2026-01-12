@@ -18,7 +18,7 @@ export const VerifyLearnersStep: FunctionComponent = () => {
       <H2>{t("learners_bulk_import.tabs.verify_learners.tab_title")}</H2>
       <Body1>{t("learners_bulk_import.tabs.verify_learners.subtitle")}</Body1>
 
-      <SectionDivider />
+      <Divider />
 
       <TabRow>
         <TabButton
@@ -73,7 +73,7 @@ const VerifyCard = styled.div`
   gap: 16px;
 `;
 
-const SectionDivider = styled.div`
+const Divider = styled.div`
   width: 100%;
   height: 1px;
   background: ${props => props.theme.colors.dark.lightGrey};
