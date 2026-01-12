@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement, useRef, useState } from "react";
+import { FunctionComponent, ReactElement, useRef, useState, MouseEventHandler } from "react";
 import { FiMoreVertical } from "react-icons/fi";
 import styled from "styled-components";
 import { BaseFloatingMenu } from "../../FloatingMenu";
@@ -27,7 +27,7 @@ export const TableActions: FunctionComponent<Props> = ({
   }
 
   const elements: Array<{
-    onClick: () => void;
+    onClick: MouseEventHandler<HTMLButtonElement>;
     text: string;
     icon?: ReactElement;
   }> = [];
@@ -35,7 +35,10 @@ export const TableActions: FunctionComponent<Props> = ({
   if (showResend && onResend) {
     elements.push({
       text: 'Resend invitation',
-      onClick: onResend,
+      onClick: (event) => {
+        preventClickBubbling(event);
+        onResend();
+      },
       icon: <MdEmail color={defaultTheme.colors.dark.darkGrey} />
     });
   }
@@ -43,7 +46,10 @@ export const TableActions: FunctionComponent<Props> = ({
   if (showDelete && onDelete) {
     elements.push({
       text: 'Delete',
-      onClick: onDelete,
+      onClick: (event) => {
+        preventClickBubbling(event);
+        onDelete();
+      },
       icon: <IoMdTrash color={defaultTheme.colors.dark.darkGrey} />
     });
   }
