@@ -10,6 +10,7 @@ import { getAssignedLearners } from "../../fetch/learner_quiz";
 import { UnassignLearnerAction } from "./components/UnassignLearnerAction";
 import { AssignLearnersLayover } from "./components/AssignLearnersLayover";
 import { GenericErrorModal } from "../modals/ErrorModal";
+import { PublishQuizAction } from "./components/PublishQuizAction";
 
 export interface Learner {
   id: number;
@@ -21,11 +22,15 @@ export interface Learner {
 interface Props {
   quizId: number;
   quizTitle: string;
+  quizPublished: boolean
+  onPublish: () => void
 }
 
 export const LearnerQuizView: FunctionComponent<Props> = ({
   quizId,
-  quizTitle
+  quizTitle,
+  quizPublished,
+  onPublish
 }) => {
   const { t } = useTranslation();
   const theme = useTheme();
@@ -34,6 +39,7 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
   const [data, setData] = useState<Learner[]>([]);
 
   const [showAssignLayover, setAssignLayover] = useState(false);
+  const [isPublishQuizModalOpen, setIsPublishQuizModalOpen] = useState(false)
 
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [singleLearnerId, setSingleLearnerId] = useState<number | null>(null);
@@ -88,6 +94,7 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
     [rowSelection, quizId]
   );
 
+  //TODO change to state management ?
   const learnersToUnassign = singleLearnerId !== null
     ? [{ learnerId: singleLearnerId, quizId }]
     : selectedLearners;
@@ -104,6 +111,15 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
 
     return;
   };
+
+  const handleAssignmentOpen = () => {
+    if (quizPublished) {
+      setAssignLayover(true)
+      window.scrollTo(0, 0)
+    } else {
+      setIsPublishQuizModalOpen(true)
+    }
+  }
 
   const hasSelectedLearners = selectedLearners.length > 0;
 
@@ -210,10 +226,7 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
                     leftIcon={(
                       <IoPersonAdd size={20} color="white" />
                     )}
-                    onClick={() => {
-                      setAssignLayover(true)
-                      window.scrollTo(0, 0)
-                    }}
+                    onClick={handleAssignmentOpen}
                   />
                 )}
               </LeftActions>
@@ -256,10 +269,7 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
                 leftIcon={(
                   <IoPersonAdd size={20} color="white" />
                 )}
-                onClick={() => {
-                  setAssignLayover(true)
-                  window.scrollTo(0, 0)
-                }}
+                onClick={handleAssignmentOpen}
               />
             ]}
           />
@@ -306,6 +316,20 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
         openErrorModal={openErrorModal}
       />
 
+      <PublishQuizAction 
+        isModalOpen={isPublishQuizModalOpen}
+        onPublish={() => { 
+          onPublish()
+          setIsPublishQuizModalOpen(false)
+          setAssignLayover(true)
+          window.scrollTo(0, 0)
+        }}
+        onClose={() => {
+          setIsPublishQuizModalOpen(false)
+          setAssignLayover(true)
+          window.scrollTo(0, 0)
+        }}  
+      />
       {
         showAssignLayover && (
           <AssignLearnersLayover

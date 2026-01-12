@@ -181,7 +181,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
       />
 
       <MainContent $isCollapsed={isCollapsed}>
-        <BetaBanner url="/support" />
+        <BetaBanner url="https://shira.app/beta-user" />
         <MainContentWrapper>
 
           {quiz ? (
@@ -261,10 +261,12 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 quizTitle={quiz.title}
                 quizQuestions={quiz.quizQuestions}
                 quizVisibility={quiz.visibility}
+                quizPublished={quiz.published}
                 resultsData={resultsData}
                 resultsLoading={resultsLoading}
                 hasResults={hasResults}
                 onEdit={(questionId) => { navigate(`/quiz/${id}/question/${questionId}`) }}
+                onPublish={() => handleTogglePublished(quiz.id, true)}
                 onDelete={(id) => { destroy(quiz.id, id) }}
                 onAdd={() => { navigate(`/quiz/${id}/question`) }}
                 onAddLibrary={() => { navigate(`/question/library`, { state: { quizId: quiz.id } }) }}
