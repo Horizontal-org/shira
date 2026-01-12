@@ -31,6 +31,7 @@ export interface Theme {
       green8: string;
       green9: string;
       green10: string;
+      blue0: string;
       blue1: string;
       blue2: string;
       blue3: string;
