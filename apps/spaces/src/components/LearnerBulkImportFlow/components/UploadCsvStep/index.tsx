@@ -12,7 +12,8 @@ import {
 } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 import { FaFileUpload } from "react-icons/fa";
-import { FiCheck, FiDownload, FiFileText, FiInfo, FiX } from "react-icons/fi";
+import { FiCheck, FiDownload, FiFileText, FiInfo } from "react-icons/fi";
+import { IoIosCloseCircle } from "react-icons/io";
 
 interface Props {
   selectedFile: File | null;
@@ -149,7 +150,7 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
                   onClearFile();
                 }}
               >
-                <FiX size={18} />
+                <IoIosCloseCircle size={26} />
               </RemoveButton>
             </SelectedFileCard>
             <SuccessText>
@@ -289,11 +290,8 @@ const FileMeta = styled.div`
 `;
 
 const RemoveButton = styled.button`
-  all: unset;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 1px solid ${props => props.theme.colors.dark.lightGrey};
+  background: none;
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
