@@ -14,14 +14,14 @@ export class InviteBulkLearnerService implements IInviteBulkLearnerService {
     @Inject(TYPES.services.IInviteLearnerService)
     private readonly inviteLearnerService: IInviteLearnerService,
     @Inject(TYPES.parsers.IBulkInviteParserResolver)
-    private readonly parserResolver: IBulkInviteParserResolver
+    private readonly parser: IBulkInviteParserResolver
   ) { }
 
   async invite(
     file: Express.Multer.File,
     spaceId: number
   ): Promise<BulkLearnerRowResultDto[]> {
-    const parsed = this.parserResolver.parse(file);
+    const parsed = this.parser.parse(file);
     if (!parsed) {
       throw new BadRequestException("Unsupported file type");
     }
@@ -54,7 +54,7 @@ export class InviteBulkLearnerService implements IInviteBulkLearnerService {
       })
     );
 
-    return [...errorResults, ...skippedResults, ...results].sort((a, b) => a.row - b.row);
+    return [...errorResults, ...skippedResults, ...results];
   }
 
   private createResponse(

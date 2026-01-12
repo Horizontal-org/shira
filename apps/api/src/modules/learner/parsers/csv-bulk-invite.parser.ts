@@ -1,28 +1,34 @@
 import { Injectable } from "@nestjs/common";
+import { parse } from "csv-parse/sync";
 import { IBulkInviteParser } from "../interfaces/parsers/bulk-invite-parser.interface";
 
 @Injectable()
 export class CsvBulkInviteParser implements IBulkInviteParser {
+
   supports(file: Express.Multer.File): boolean {
     const name = file.originalname?.toLowerCase() ?? "";
     return file.mimetype === "text/csv" || name.endsWith(".csv");
   }
 
   parse(file: Express.Multer.File) {
-    const content = file.buffer?.toString("utf8").replace(/^\uFEFF/, "") ?? "";
-    const lines = content.split(/\r?\n/).filter((line) => line.trim().length > 0);
+    const content = file.buffer?.toString("utf8") ?? "";
+    const rows = parse(content, {
+      bom: true,
+      skip_empty_lines: true,
+      relax_column_count: true,
+    }) as string[][];
 
-    if (lines.length <= 1) {
+    if (rows.length <= 1) {
       return { total: 0, valid: [], errors: [], skipped: [] };
     }
 
-    const rows = lines.slice(1);
+    const dataRows = rows.slice(1);
     const valid: Array<{ row: number; name: string; email: string }> = [];
     const errors: Array<{ row: number; name: string; email: string; error: string }> = [];
     const skipped: Array<{ row: number; name: string; email: string; reason: string }> = [];
 
-    rows.forEach((line, index) => {
-      const [nameRaw = "", emailRaw = ""] = this.parseCsvRow(line);
+    dataRows.forEach((row, index) => {
+      const [nameRaw = "", emailRaw = ""] = Array.isArray(row) ? row : [];
       const name = nameRaw.trim();
       const email = emailRaw.trim();
       const rowNumber = index + 2;
@@ -41,44 +47,11 @@ export class CsvBulkInviteParser implements IBulkInviteParser {
     });
 
     return {
-      total: rows.length,
+      total: dataRows.length,
       valid,
       errors,
       skipped,
     };
-  }
-
-  private parseCsvRow(line: string): string[] {
-    const values: string[] = [];
-    let current = "";
-    let inQuotes = false;
-
-    for (let i = 0; i < line.length; i += 1) {
-      const char = line[i];
-      const next = line[i + 1];
-
-      if (char === '"' && next === '"') {
-        current += '"';
-        i += 1;
-        continue;
-      }
-
-      if (char === '"') {
-        inQuotes = !inQuotes;
-        continue;
-      }
-
-      if (char === "," && !inQuotes) {
-        values.push(current);
-        current = "";
-        continue;
-      }
-
-      current += char;
-    }
-
-    values.push(current);
-    return values;
   }
 
   private isValidEmail(email: string) {
