@@ -2,9 +2,9 @@ import { Injectable } from "@nestjs/common";
 import { SavingLearnerException as SaveLearnerException } from "../exceptions/save.learner.exception";
 import { ConflictLearnerException } from "../exceptions/conflict.learner.exception";
 import { InvitationEmailSendFailedException } from "../exceptions/invitation-email-send.learner.exception";
-import { LearnerOperationResponse } from "../dto/learner-operation-response.dto";
 import { IInviteBulkLearnerService } from "../interfaces/services/invite-bulk.learner.service.interface";
 import { InviteLearnerService } from "./invite.learner.service";
+import { BulkLearnerRowResultDto } from "../dto/learner-bulk-invite-response.dto";
 
 @Injectable()
 export class InviteBulkLearnerService implements IInviteBulkLearnerService {
@@ -15,11 +15,11 @@ export class InviteBulkLearnerService implements IInviteBulkLearnerService {
   async invite(
     file: Express.Multer.File,
     spaceId: number
-  ): Promise<LearnerOperationResponse[]> {
+  ): Promise<BulkLearnerRowResultDto[]> {
     const parsed = this.parseCsv(file);
 
     const results = await Promise.all(
-      parsed.valid.map(async ({ row, email, name }): Promise<LearnerOperationResponse> => {
+      parsed.valid.map(async ({ row, email, name }): Promise<BulkLearnerRowResultDto> => {
         try {
           await this.inviteLearnerService.invite({ email, name }, spaceId);
           return this.createResponse(row, email, "OK");
@@ -83,13 +83,13 @@ export class InviteBulkLearnerService implements IInviteBulkLearnerService {
   }
 
   private createResponse(
-    quizId: number,
+    row: number,
     email: string,
     status: "OK" | "Error",
     message?: string
-  ): LearnerOperationResponse {
+  ): BulkLearnerRowResultDto {
     return {
-      quizId,
+      row,
       email,
       status,
       ...(message ? { message } : {}),
