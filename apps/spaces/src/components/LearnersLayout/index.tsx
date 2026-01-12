@@ -145,7 +145,7 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
                     text={t("buttons.invite_learners_bulk")}
                     type="primary"
                     leftIcon={<FiDownload />}
-                    onClick={() => navigate('/learner/bulkImport')}
+                    onClick={() => navigate('/learner/import/bulk')}
                     color={defaultTheme.colors.green7} />
                 </>
               )}
