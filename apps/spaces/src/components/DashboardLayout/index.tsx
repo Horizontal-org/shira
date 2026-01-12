@@ -194,7 +194,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
               handleFilter={() => setActiveFilter(FilterStates.unpublished)}
               isActive={activeFilter === FilterStates.unpublished}
             />
-          </FilterButtonsContainer>
+          </FilterButtonsContainer >
 
           <CardGrid id="card-grid">
             {filteredCards.map((card) => (
