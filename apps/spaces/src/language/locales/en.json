@@ -237,7 +237,12 @@
         "tabs": {
             "upload_csv": {
                 "tab_title": "Upload CSV",
-                "subtitle": "You can invite multiple learners at once by uploading a CSV file containing their details. To prevent errors, we recommend downloading and filling this pre-formatted CSV template."
+                "subtitle": "You can invite multiple learners at once by uploading a CSV file containing their details. To prevent errors, we recommend downloading and filling this pre-formatted CSV template.",
+                "section_title": "Upload your filled spreadsheet",
+                "drag_title": "Drag and drop to upload your filled spreadsheet here",
+                "or": "OR",
+                "file_type": "Accepted file type: .csv only",
+                "file_size": "Maximum file size: 10 MB"
             },
             "verify_learners": {
                 "tab_title": "Verify learners",
@@ -272,7 +277,10 @@
         "assign_learners": "Assign to learners",
         "assign_via_email": "Assign via email",
         "start_over": "Start over",
-        "feedback": "Tell us what you think"
+        "feedback": "Tell us what you think",
+        "download_template": "Download CSV template",
+        "view_guidelines": "View formatting guidelines",
+        "browse_files": "Browse files"
     },
     "modals": {
         "create_quiz": {
