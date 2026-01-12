@@ -8,6 +8,7 @@ import { FormattingGuidelinesModal } from "../modals/FormattingGuidelinesModal";
 import { Learner } from "../LearnerQuizView";
 import { FiCheck, FiDownload, FiFileText, FiInfo, FiX } from "react-icons/fi";
 import { FaFileUpload } from "react-icons/fa";
+import { IoIosCloseCircle } from "react-icons/io";
 
 interface Props {
   onSubmit: (learners: Learner[]) => void;
@@ -238,13 +239,11 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
                             clearSelectedFile();
                           }}
                         >
-                          <FiX size={18} />
+                          <IoIosCloseCircle size={26} />
                         </RemoveButton>
                       </SelectedFileCard>
                       <SuccessText>
-                        <Body2Regular>
-                          {t('learners_bulk_import.tabs.upload_csv.upload_success')}
-                        </Body2Regular>
+                        <Body1>{t('learners_bulk_import.tabs.upload_csv.upload_success')}</Body1>
                       </SuccessText>
                     </CompleteBody>
                   </>
@@ -424,11 +423,8 @@ const FileMeta = styled.div`
 `;
 
 const RemoveButton = styled.button`
-  all: unset;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 1px solid ${props => props.theme.colors.dark.lightGrey};
+  border: none;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -441,9 +437,7 @@ const RemoveButton = styled.button`
 `;
 
 const SuccessText = styled.div`
-  color: ${props => props.theme.colors.dark.mediumGrey};
   text-align: center;
-  max-width: 640px;
 `;
 
 const DropzoneMeta = styled.div`
