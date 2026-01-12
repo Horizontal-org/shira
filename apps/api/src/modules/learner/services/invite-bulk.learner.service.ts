@@ -1,49 +1,28 @@
 import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Not, Repository } from "typeorm";
-import * as crypto from "crypto";
-import { Queue } from "bullmq";
-import { InjectQueue } from "@nestjs/bullmq";
-import { Learner as LearnerEntity } from "../domain/learner.entity";
-import { SpaceEntity } from "src/modules/space/domain/space.entity";
 import { SavingLearnerException as SaveLearnerException } from "../exceptions/save.learner.exception";
 import { ConflictLearnerException } from "../exceptions/conflict.learner.exception";
 import { InvitationEmailSendFailedException } from "../exceptions/invitation-email-send.learner.exception";
-import { GenericErrorException } from "../exceptions/generic-error.learner.exception";
 import { LearnerOperationResponse } from "../dto/learner-operation-response.dto";
-import { InvitationBulkLearnerDto } from "../dto/invitation-bulk.learner.dto";
 import { IInviteBulkLearnerService } from "../interfaces/services/invite-bulk.learner.service.interface";
+import { InviteLearnerService } from "./invite.learner.service";
 
 @Injectable()
 export class InviteBulkLearnerService implements IInviteBulkLearnerService {
   constructor(
-    @InjectRepository(LearnerEntity)
-    private readonly learnerRepo: Repository<LearnerEntity>,
-    @InjectRepository(SpaceEntity)
-    private readonly spaceRepo: Repository<SpaceEntity>,
-    @InjectQueue("emails")
-    private readonly emailsQueue: Queue
+    private readonly inviteLearnerService: InviteLearnerService
   ) { }
 
   async invite(
-    inviteBulkLearnerDto: InvitationBulkLearnerDto,
+    file: Express.Multer.File,
     spaceId: number
   ): Promise<LearnerOperationResponse[]> {
-    const { learners } = inviteBulkLearnerDto;
-
-    const okResults: Array<{ email: string; token: string }> = [];
+    const parsed = this.parseCsv(file);
 
     const results = await Promise.all(
-      learners.map(async ({ quizId, email }): Promise<LearnerOperationResponse> => {
+      parsed.valid.map(async ({ row, email, name }): Promise<LearnerOperationResponse> => {
         try {
-          const { token } = await this.inviteSingle(
-            { email },
-            spaceId
-          );
-
-          okResults.push({ email, token });
-
-          return this.createResponse(quizId, email, "OK");
+          await this.inviteLearnerService.invite({ email, name }, spaceId);
+          return this.createResponse(row, email, "OK");
         } catch (err) {
           let message = "Unknown invitation error";
 
@@ -51,23 +30,11 @@ export class InviteBulkLearnerService implements IInviteBulkLearnerService {
             message = "The learner is already registered in this space.";
           } else if (err instanceof SaveLearnerException) {
             message = "Failed to save learner.";
+          } else if (err instanceof InvitationEmailSendFailedException) {
+            message = "Failed to send invitation email.";
           }
 
-          return this.createResponse(quizId, email, "Error", message);
-        }
-      })
-    );
-
-    await Promise.all(
-      okResults.map(async ({ email, token }) => {
-        try {
-          await this.sendEmail(email, token);
-        } catch (err) {
-          this.updateInvitationStatusOnEmailError(
-            results,
-            email,
-            err?.message
-          );
+          return this.createResponse(row, email, "Error", message);
         }
       })
     );
@@ -75,102 +42,44 @@ export class InviteBulkLearnerService implements IInviteBulkLearnerService {
     return results;
   }
 
-  private async inviteSingle(
-    learnerData: { email: string; name?: string; assignedByUser?: number },
-    spaceId: number
-  ): Promise<{ token: string }> {
-    const { email, name, assignedByUser } = learnerData;
+  private parseCsv(file: Express.Multer.File) {
+    const content = file.buffer?.toString('utf8').replace(/^\uFEFF/, '') ?? '';
+    const lines = content.split(/\r?\n/).filter((line) => line.trim().length > 0);
 
-    const existingLearner = await this.findLearner(spaceId, email);
+    if (lines.length <= 1) {
+      return { total: 0, valid: [], errors: [], skipped: [] };
+    }
 
-    const hash = crypto.randomBytes(20).toString("hex");
-    const token = existingLearner?.invitationToken ?? hash;
+    const rows = lines.slice(1);
+    const valid: Array<{ row: number; name: string; email: string }> = [];
+    const errors: Array<{ row: number; name: string; email: string; error: string }> = [];
+    const skipped: Array<{ row: number; name: string; email: string; reason: string }> = [];
 
-    const learner = this.learnerRepo.create({
-      email,
-      name,
-      spaceId,
-      status: "invited",
-      invitedAt: new Date(),
-      invitationToken: token,
-      assignedByUser: assignedByUser ?? null
+    rows.forEach((line, index) => {
+      const [nameRaw = '', emailRaw = ''] = this.parseCsvRow(line);
+      const name = nameRaw.trim();
+      const email = emailRaw.trim();
+      const rowNumber = index + 2;
+
+      if (!email) {
+        errors.push({ row: rowNumber, name, email, error: 'Missing email address' });
+        return;
+      }
+
+      if (!this.isValidEmail(email)) {
+        errors.push({ row: rowNumber, name, email, error: 'Invalid email address' });
+        return;
+      }
+
+      valid.push({ row: rowNumber, name, email });
     });
 
-    try {
-      await this.handleExistingLearner(learner, existingLearner);
-      return { token };
-    } catch {
-      throw new SaveLearnerException();
-    }
-  }
-
-  private async findLearner(spaceId: number, email: string) {
-
-    const existing = await this.learnerRepo.findOne({
-      where: { spaceId, email },
-    });
-
-    if (existing && existing.status !== "invited") {
-      throw new ConflictLearnerException();
-    }
-
-    return existing;
-  }
-
-  private async handleExistingLearner(
-    learner: LearnerEntity,
-    existingLearner?: LearnerEntity
-  ) {
-    if (existingLearner && existingLearner.status === "invited") {
-      await this.learnerRepo.update(
-        { id: existingLearner.id },
-        { invitedAt: new Date() }
-      );
-    } else {
-      await this.learnerRepo.save(learner);
-    }
-  }
-
-  private async sendEmail(email: string, token: string) {
-    const magicLink = `${process.env.PUBLIC_URL}/accept-invite/${token}`;
-
-    try {
-      await this.emailsQueue.add("send", {
-        to: email,
-        from: process.env.SMTP_GLOBAL_FROM,
-        subject: "Invitation to register as a Learner in a Shira space",
-        template: "learner-invitation",
-        data: { email, magicLink },
-      });
-    } catch {
-      throw new InvitationEmailSendFailedException();
-    }
-  }
-
-  async accept(token: string): Promise<string> {
-    const learner = await this.learnerRepo.findOne({
-      where: {
-        invitationToken: token,
-        status: Not("registered"),
-      },
-    });
-
-    if (!learner) throw new GenericErrorException();
-
-    const space = await this.spaceRepo.findOne({
-      where: { id: learner.spaceId },
-      select: { name: true },
-    });
-
-    try {
-      await this.learnerRepo.update(
-        { invitationToken: token },
-        { status: "registered", registeredAt: new Date() }
-      );
-      return space.name;
-    } catch {
-      throw new SaveLearnerException();
-    }
+    return {
+      total: rows.length,
+      valid,
+      errors,
+      skipped,
+    };
   }
 
   private createResponse(
@@ -187,22 +96,40 @@ export class InviteBulkLearnerService implements IInviteBulkLearnerService {
     };
   }
 
-  private updateInvitationStatusOnEmailError(
-    results: LearnerOperationResponse[],
-    email: string,
-    errorMessage?: string
-  ) {
-    const result = results.find((r) => r.email === email);
-    if (!result) return;
+  private parseCsvRow(line: string): string[] {
+    const values: string[] = [];
+    let current = '';
+    let inQuotes = false;
 
-    const updated = this.createResponse(
-      result.quizId,
-      email,
-      "Error",
-      errorMessage ?? "Unknown error while sending invitation email"
-    );
+    for (let i = 0; i < line.length; i += 1) {
+      const char = line[i];
+      const next = line[i + 1];
 
-    result.status = updated.status;
-    result.message = updated.message;
+      if (char === '"' && next === '"') {
+        current += '"';
+        i += 1;
+        continue;
+      }
+
+      if (char === '"') {
+        inQuotes = !inQuotes;
+        continue;
+      }
+
+      if (char === ',' && !inQuotes) {
+        values.push(current);
+        current = '';
+        continue;
+      }
+
+      current += char;
+    }
+
+    values.push(current);
+    return values;
+  }
+
+  private isValidEmail(email: string) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
 }
