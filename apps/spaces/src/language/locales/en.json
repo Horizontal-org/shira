@@ -249,7 +249,15 @@
             },
             "verify_learners": {
                 "tab_title": "Verify learners",
-                "subtitle": "Please check that all the data is accurate before importing it into Shira and sending out invitations."
+                "subtitle": "Please check that all the data is accurate before importing it into Shira and sending out invitations.",
+                "error_tab": "Error ({{count}})",
+                "skipped_tab": "Skipped ({{count}})",
+                "valid_tab": "Valid ({{count}})",
+                "description": "The rows below contain errors that prevent these learners from being invited. You may fix the errors in your CSV and re-upload, or continue despite the errors and not import these learners.",
+                "table_row": "Row",
+                "table_name": "Name",
+                "table_email": "Email address",
+                "table_error": "Type of error"
             },
             "final_review": {
                 "tab_title": "Final review"
