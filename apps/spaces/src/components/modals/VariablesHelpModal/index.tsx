@@ -32,22 +32,22 @@ export const VariablesHelpModal: FunctionComponent<Props> = ({
     >
       <div>
         <Body1>
-          {t('modals.variables.message')}
+          {t('modals.variables_modal.message')}
         </Body1>
         <MiddleBody1>
-          {t('modals.variables.message2')}
+          {t('modals.variables_modal.message2')}
         </MiddleBody1>
         <MiddleBody1>
-          {t('modals.variables.message3')}
+          {t('modals.variables_modal.message3')}
         </MiddleBody1>
         <VariableList role="list">
           <VariableItem role="listitem">
-            <VariableTag>{`{{${t('modals.variables.name')}}}`}</VariableTag>
-            <Body1>{t('modals.variables.name_explanation')}</Body1>
+            <VariableTag>{`{{${t('modals.variables_modal.name')}}}`}</VariableTag>
+            <Body1>{t('modals.variables_modal.name_explanation')}</Body1>
           </VariableItem>
           <VariableItem role="listitem">
-            <VariableTag>{`{{${t('modals.variables.email')}}}`}</VariableTag>
-            <Body1>{t('modals.variables.email_explanation')}</Body1>
+            <VariableTag>{`{{${t('modals.variables_modal.email')}}}`}</VariableTag>
+            <Body1>{t('modals.variables_modal.email_explanation')}</Body1>
           </VariableItem>
         </VariableList>
       </div>

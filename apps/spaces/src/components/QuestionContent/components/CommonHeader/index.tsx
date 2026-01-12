@@ -47,17 +47,13 @@ export const CommonHeader: FunctionComponent<Props> = ({
         <span>
           {t('create_question.tabs.content.message')}
         </span>
-        <strong onClick={() => {
-          setVariablesModalOpen(true)
-        }}>
+        <strong onClick={() => { setVariablesModalOpen(true) }}>
           {t('create_question.tabs.content.message_variables')}
-        </strong>
+        </strong> {" "}
         {t('create_question.tabs.content.message2')}
-        <strong onClick={() => {
-          setExplanationsModalOpen(true)
-        }}>
+        <strong onClick={() => { setExplanationsModalOpen(true) }}>
           {t('create_question.tabs.content.message_explanations')}
-        </strong>
+        </strong> {" "}
         {t('create_question.tabs.content.message3')}
       </ExplanationsTip>
     </>
