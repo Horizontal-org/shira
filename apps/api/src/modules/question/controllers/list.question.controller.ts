@@ -5,8 +5,11 @@ import { Question } from '../domain';
 import { Language } from 'src/modules/languages/domain';
 import { IGenerateUrlsQuestionImageService } from 'src/modules/question_image/interfaces/services/generate_urls.question_image.service.interface';
 import { TYPES as TYPES_QUESTION_IMAGE } from '../../question_image/interfaces'
+import { AuthController } from 'src/utils/decorators/auth-controller.decorator';
+import { Roles } from 'src/modules/auth/decorators/roles.decorators';
+import { Role } from 'src/modules/user/domain/role.enum';
 
-@Controller('question')
+@AuthController('question')
 export class ListQuestionController {
   constructor(
     @InjectRepository(Question)
@@ -18,6 +21,7 @@ export class ListQuestionController {
   ) {}
 
   @Get('')
+  @Roles(Role.SuperAdmin)
   async handler() {
     const languageId = 1;
     const questions = await this.questionRepository
@@ -32,9 +36,11 @@ export class ListQuestionController {
         'questionTranslations.languageId',
         'question.createdAt',
         'question.updatedAt',
+        'question.type',
         'fieldsOfWork.id'
       ])
       .where('questionTranslations.languageId = :languageId', { languageId })
+      .andWhere('question.type = :type', { type: 'demo' })
       .getMany();
       
 
@@ -53,6 +59,7 @@ export class ListQuestionController {
   }
 
   @Get(':id')
+  @Roles(Role.SpaceAdmin)
   async getQuestion(@Param('id') id: string, @Query('lang') lang: string) {
     // find language by code
     const { id: languageId } = await this.languageRepository.findOne({
@@ -63,6 +70,7 @@ export class ListQuestionController {
       .leftJoin('question.apps', 'apps')
       .leftJoin('question.explanations', 'explanations')
       .leftJoin('question.questionTranslations', 'questionTranslations')
+      .leftJoin('question.fieldsOfWork', 'fieldsOfWork')
       .leftJoin(
         'explanations.explanationTranslations',
         'explanationTranslations',
@@ -82,6 +90,7 @@ export class ListQuestionController {
         'explanations.updatedAt',
         'questionTranslations.content',
         'explanationTranslations.content',
+        'fieldsOfWork.id',
       ])
       .where('question.id = :id', { id })
       .andWhere('questionTranslations.languageId = :languageId', {
