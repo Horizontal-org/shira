@@ -1,5 +1,5 @@
 import { DuplicateQuestionQuizDto } from "../../dto/duplicate-question.quiz.dto";
 
 export interface IDuplicateQuestionQuizService {
-  execute(duplicateQuestionDto: DuplicateQuestionQuizDto): Promise<void>;
+  execute(duplicateQuestionDto: DuplicateQuestionQuizDto, spaceId: number): Promise<void>;
 }
