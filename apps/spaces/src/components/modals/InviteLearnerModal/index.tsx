@@ -167,6 +167,11 @@ const InputsContainer = styled.div`
   & > * {
     flex: 1;
   }
+
+  @media (max-width: ${defaultTheme.breakpoints.md}) {
+    flex-direction: column;
+    gap: 16px;
+  }
 `;
 
 const EmailField = styled.div`
