@@ -245,7 +245,8 @@
                 "file_size": "Maximum file size: 10 MB",
                 "remove_file": "Remove selected file",
                 "upload_complete": "Upload complete",
-                "upload_success": "Your spreadsheet was successfully uploaded! Continue to the next step to verify your learners."
+                "upload_success": "Your spreadsheet was successfully uploaded! Continue to the next step to verify your learners.",
+                "uploading": "Please wait while Shira uploads and validates your data. This may take a few seconds..."
             },
             "verify_learners": {
                 "tab_title": "Verify learners",

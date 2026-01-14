@@ -17,6 +17,7 @@ import { IoIosCloseCircle } from "react-icons/io";
 
 interface Props {
   selectedFile: File | null;
+  isFileLoading: boolean;
   isDragging: boolean;
   fileInputRef: RefObject<HTMLInputElement>;
   onBrowseClick: () => void;
@@ -31,6 +32,7 @@ interface Props {
 
 export const UploadCsvStep: FunctionComponent<Props> = ({
   selectedFile,
+  isFileLoading,
   isDragging,
   fileInputRef,
   onBrowseClick,
@@ -115,13 +117,47 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
                   onBrowseClick();
                 }}
               />
-              
+
               <DropzoneMeta>
                 <Body4>{t("learners_bulk_import.tabs.upload_csv.file_type")}</Body4>
                 <Body4>{t("learners_bulk_import.tabs.upload_csv.file_size")}</Body4>
               </DropzoneMeta>
             </DropzoneContent>
           </Dropzone>
+        </>
+      ) : isFileLoading ? (
+        <>
+          <LoadingHeader>
+            <LoadingIcon />
+            <SubHeading1>{t("loading_messages.loading")}</SubHeading1>
+          </LoadingHeader>
+
+          <LoadingBody>
+            <SelectedFileCard $isLoading>
+              <FileIcon>
+                <FiFileText size={20} />
+              </FileIcon>
+              <FileInfo>
+                <Body2Regular title={selectedFile.name}>{selectedFile.name}</Body2Regular>
+              </FileInfo>
+              <FileMeta>
+                <Body2Regular>{formatFileSize(selectedFile.size)}</Body2Regular>
+              </FileMeta>
+              <RemoveButton
+                type="button"
+                aria-label={t("learners_bulk_import.tabs.upload_csv.remove_file")}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  onClearFile();
+                }}
+              >
+                <IoIosCloseCircle size={26} />
+              </RemoveButton>
+            </SelectedFileCard>
+            <LoadingText>
+              <Body2Regular>{t("learners_bulk_import.tabs.upload_csv.uploading")}</Body2Regular>
+            </LoadingText>
+          </LoadingBody>
         </>
       ) : (
         <>
@@ -226,11 +262,47 @@ const CompleteBody = styled.div`
   gap: 16px;
 `;
 
+const LoadingHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 24px;
+`;
+
+const LoadingIcon = styled.div`
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    rgba(0, 0, 0, 0) 0deg,
+    #9FB747 160deg,
+    #DBE3A3 300deg,
+    rgba(0, 0, 0, 0) 360deg
+  );
+  mask: radial-gradient(circle, transparent 54%, black 56%);
+  -webkit-mask: radial-gradient(circle, transparent 54%, black 56%);
+  animation: spin 1.2s linear infinite;
+
+  @keyframes spin {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+`;
+
+const LoadingBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+`;
+
 const Dropzone = styled.div<{ $isDragging: boolean }>`
   border-radius: 20px;
-  border: 2px dashed ${props => props.theme.colors.blue6};
-  background: ${({ theme, $isDragging }) =>
-    $isDragging ? theme.colors.blue6 : theme.colors.blue0};
+  border: 2px dashed ${({ theme, $isDragging }) => $isDragging ? theme.colors.blue6 : theme.colors.blue4};
+  background: ${({ theme, $isDragging }) => $isDragging ? theme.colors.blue1 : theme.colors.blue0};
   padding: 32px;
   text-align: center;
   cursor: pointer;
@@ -248,7 +320,7 @@ const DropzoneText = styled.div`
   color: ${props => props.theme.colors.dark.darkGrey};
 `;
 
-const SelectedFileCard = styled.div`
+const SelectedFileCard = styled.div<{ $isLoading?: boolean }>`
   width: 100%;
   margin-top: 12px;
   border-radius: 16px;
@@ -256,9 +328,10 @@ const SelectedFileCard = styled.div`
   padding: 12px 16px;
   display: flex;
   align-items: center;
+  max-width: 520px;
   gap: 12px;
   background: ${props => props.theme.colors.light.white};
-  max-width: 520px;
+  opacity: ${props => (props.$isLoading ? 0.64 : 1)};
 `;
 
 const FileIcon = styled.div`
@@ -307,7 +380,13 @@ const RemoveButton = styled.button`
 const SuccessText = styled.div`
   color: ${props => props.theme.colors.dark.mediumGrey};
   text-align: center;
-  max-width: 640px;
+  max-width: ${props => props.theme.breakpoints.sm};
+`;
+
+const LoadingText = styled.div`
+  color: ${props => props.theme.colors.dark.mediumGrey};
+  text-align: center;
+  max-width: ${props => props.theme.breakpoints.sm};
 `;
 
 const DropzoneMeta = styled.div`

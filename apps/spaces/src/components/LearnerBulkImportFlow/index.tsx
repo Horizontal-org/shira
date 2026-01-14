@@ -1,4 +1,4 @@
-import { DragEvent, FunctionComponent, KeyboardEvent, useRef, useState } from "react";
+import { DragEvent, FunctionComponent, KeyboardEvent, useEffect, useRef, useState } from "react";
 import { Breadcrumbs, styled, BetaBanner } from "@shira/ui";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -26,12 +26,15 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
   const [isExitBulkImportModalOpen, setIsExitBulkImportModalOpen] = useState(false);
   const [isFormattingGuidelinesOpen, setIsFormattingGuidelinesOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isFileLoading, setIsFileLoading] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileLoadingDelayMs = 7000;
+  const fileLoadingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const validateStep = () => {
     if (step === 0) {
-      return !!selectedFile;
+      return !!selectedFile && !isFileLoading;
     }
 
     return true;
@@ -39,10 +42,22 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
 
   const handleFileChange = (file: File | null) => {
     if (!file) return;
+    if (fileLoadingTimeoutRef.current) {
+      clearTimeout(fileLoadingTimeoutRef.current);
+    }
+    setIsFileLoading(true);
     setSelectedFile(file);
+    fileLoadingTimeoutRef.current = setTimeout(() => {
+      setIsFileLoading(false);
+    }, fileLoadingDelayMs);
   };
 
   const clearSelectedFile = () => {
+    if (fileLoadingTimeoutRef.current) {
+      clearTimeout(fileLoadingTimeoutRef.current);
+      fileLoadingTimeoutRef.current = null;
+    }
+    setIsFileLoading(false);
     setSelectedFile(null);
     setIsDragging(false);
     if (fileInputRef.current) {
@@ -77,6 +92,14 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
     }
   };
 
+  useEffect(() => {
+    return () => {
+      if (fileLoadingTimeoutRef.current) {
+        clearTimeout(fileLoadingTimeoutRef.current);
+      }
+    };
+  }, []);
+
   return (
     <>
       <ExitLearnerBulkImportModal
@@ -109,7 +132,7 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
           }
         }}
         step={step}
-        disableNext={!validateStep() && selectedFile == null}
+        disableNext={!validateStep()}
         onExit={() => {
           setIsExitBulkImportModalOpen(true);
         }}
@@ -132,6 +155,7 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
             {step === 0 && (
               <UploadCsvStep
                 selectedFile={selectedFile}
+                isFileLoading={isFileLoading}
                 isDragging={isDragging}
                 fileInputRef={fileInputRef}
                 onBrowseClick={handleBrowseClick}
