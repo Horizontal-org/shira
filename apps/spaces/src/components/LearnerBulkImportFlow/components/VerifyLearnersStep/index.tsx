@@ -1,7 +1,7 @@
 import { FunctionComponent, useMemo, useState } from "react";
-import { Body1, Body2Regular, H2, styled } from "@shira/ui";
+import { Body1, Body2Regular, Body4, H2, styled } from "@shira/ui";
 import { useTranslation } from "react-i18next";
-import { FiX } from "react-icons/fi";
+import { FiCheck, FiX } from "react-icons/fi";
 import { BulkInviteLearnersResponse } from "../../../../fetch/learner";
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 
 export const VerifyLearnersStep: FunctionComponent<Props> = ({ response }) => {
   const { t } = useTranslation();
-  const [verifyTab, setVerifyTab] = useState<"error" | "skipped" | "valid">("error");
+  const [verifyTab, setVerifyTab] = useState<"error" | "skipped" | "valid">("skipped");
 
   const verifyResponse = response ?? [];
 
@@ -69,11 +69,17 @@ export const VerifyLearnersStep: FunctionComponent<Props> = ({ response }) => {
         </TabButton>
       </TabRow>
 
-      <Body1>{t("learners_bulk_import.tabs.verify_learners.description")}</Body1>
+      <Body1>
+        {verifyTab === "error" && t("learners_bulk_import.tabs.verify_learners.description_error")}
+        {verifyTab === "skipped" && t("learners_bulk_import.tabs.verify_learners.description_skipped")}
+        {verifyTab === "valid" && t("learners_bulk_import.tabs.verify_learners.description_valid")}
+      </Body1>
 
       <ResultsMeta>
         <Body2Regular>
-          {visibleRows.length} of {verifyCounts[verifyTab]}
+          {verifyCounts[verifyTab] === 0
+            ? "0 of 0"
+            : `1-${visibleRows.length} of ${verifyCounts[verifyTab]}`}
         </Body2Regular>
       </ResultsMeta>
 
@@ -82,7 +88,11 @@ export const VerifyLearnersStep: FunctionComponent<Props> = ({ response }) => {
           <TableCell>{t("learners_bulk_import.tabs.verify_learners.table_row")}</TableCell>
           <TableCell>{t("learners_bulk_import.tabs.verify_learners.table_name")}</TableCell>
           <TableCell>{t("learners_bulk_import.tabs.verify_learners.table_email")}</TableCell>
-          <TableCell>{t("learners_bulk_import.tabs.verify_learners.table_error")}</TableCell>
+          <TableCell>
+            {verifyTab === "error" && t("learners_bulk_import.tabs.verify_learners.table_error")}
+            {verifyTab === "skipped" && t("learners_bulk_import.tabs.verify_learners.table_skip_reason")}
+            {verifyTab === "valid" && t("learners_bulk_import.tabs.verify_learners.table_status")}
+          </TableCell>
         </TableHeader>
         <TableBody>
           {visibleRows.length === 0 ? (
@@ -96,14 +106,28 @@ export const VerifyLearnersStep: FunctionComponent<Props> = ({ response }) => {
                 <TableCellText>{row.name || "-"}</TableCellText>
                 <TableCellText>{row.email || "-"}</TableCellText>
                 <TableCellText>
-                  {row.message ? (
+                  {row.status === "OK" ? (
+                    <StatusPill $status={row.status}>
+                      <StatusIcon $variant="success">
+                        <FiCheck size={12} />
+                      </StatusIcon>
+                      <Body4>
+                        {t("learners_bulk_import.tabs.verify_learners.validated")}
+                      </Body4>
+                    </StatusPill>
+                  ) : row.message ? (
                     <StatusPill $status={row.status}>
                       {row.status === "Error" && (
                         <StatusIcon>
                           <FiX size={12} />
                         </StatusIcon>
                       )}
-                      {row.message}
+                      {row.status === "Skipped" && (
+                        <StatusIcon $variant="success">
+                          <FiCheck size={12} />
+                        </StatusIcon>
+                      )}
+                      <Body4>{row.message}</Body4>
                     </StatusPill>
                   ) : (
                     "-"
@@ -193,13 +217,13 @@ const TableRow = styled.div`
   align-items: center;
 `;
 
-const TableCellText = styled(Body2Regular)`
-  color: ${props => props.theme.colors.dark.mediumGrey};
+const TableCellText = styled(Body4)`
+  color: ${props => props.theme.colors.dark.darkGrey};
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
-const RowNumber = styled(Body2Regular)`
+const RowNumber = styled(Body4)`
   color: ${props => props.theme.colors.green7};
   font-weight: 600;
 `;
@@ -209,23 +233,34 @@ const StatusPill = styled.span<{ $status: "Error" | "Skipped" | "OK" }>`
   align-items: center;
   gap: 6px;
   padding: 4px 8px;
-  border-radius: 999px;
+  border-radius: 2px;
   font-weight: 600;
   font-size: 12px;
+
   color: ${({ theme, $status }) =>
-    $status === "Error" ? theme.colors.red6 : theme.colors.dark.darkGrey};
+    $status === "Error"
+      ? theme.colors.error9
+      : $status === "Skipped"
+        ? theme.colors.dark.darkGrey
+        : theme.colors.green9};
+
   background: ${({ theme, $status }) =>
-    $status === "Error" ? theme.colors.red1 : theme.colors.light.paleGreen};
+    $status === "Error"
+      ? theme.colors.light.paleRed
+      : $status === "Skipped"
+        ? theme.colors.dark.lightGrey
+        : theme.colors.light.paleGreen};
 `;
 
-const StatusIcon = styled.span`
+const StatusIcon = styled.span<{ $variant?: "success" }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: ${props => props.theme.colors.red6};
+  background: ${({ theme, $variant }) =>
+    $variant === "success" ? theme.colors.green6 : theme.colors.error6};
   color: ${props => props.theme.colors.light.white};
 `;
 

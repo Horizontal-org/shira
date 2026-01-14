@@ -254,11 +254,16 @@
                 "error_tab": "Error ({{count}})",
                 "skipped_tab": "Skipped ({{count}})",
                 "valid_tab": "Valid ({{count}})",
-                "description": "The rows below contain errors that prevent these learners from being invited. You may fix the errors in your CSV and re-upload, or continue despite the errors and not import these learners.",
+                "description_error": "The rows below contain errors that prevent these learners from being invited. You may fix the errors in your CSV and re-upload, or continue despite the errors and not import these learners.",
+                "description_skipped": "These rows will be skipped. You may ignore them and continue with uploading your spreadsheet.",
+                "description_valid": "These rows have been successfully validated, so these learners can be imported to your space.",
                 "table_row": "Row",
                 "table_name": "Name",
                 "table_email": "Email address",
-                "table_error": "Type of error"
+                "table_error": "Type of error",
+                "table_skip_reason": "Reason for skipping",
+                "table_status": "Status",
+                "validated": "Validated"
             },
             "review": {
                 "tab_title": "Final review",
