@@ -1,8 +1,8 @@
 import { FunctionComponent, useMemo, useState } from "react";
-import { Body1, Body2Regular, Body4, H2, styled } from "@shira/ui";
+import { Body1, Body2Regular, H2, styled } from "@shira/ui";
 import { useTranslation } from "react-i18next";
-import { FiCheck, FiX } from "react-icons/fi";
 import { BulkInviteLearnersResponse } from "../../../../fetch/learner";
+import { VerifyLearnersTable } from "./VerifyLearnersTable";
 
 interface Props {
   response: BulkInviteLearnersResponse | null;
@@ -10,9 +10,11 @@ interface Props {
 
 export const VerifyLearnersStep: FunctionComponent<Props> = ({ response }) => {
   const { t } = useTranslation();
+
   const [verifyTab, setVerifyTab] = useState<"error" | "skipped" | "valid">("skipped");
 
   const verifyResponse = response ?? [];
+  const isLoading = !response;
 
   const statusToTab = {
     Error: "error",
@@ -38,6 +40,18 @@ export const VerifyLearnersStep: FunctionComponent<Props> = ({ response }) => {
     [verifyResponse, verifyTab]
   );
 
+  const statusHeader = useMemo(() => {
+    if (verifyTab === "error") {
+      return t("learners_bulk_import.tabs.verify_learners.table_error");
+    }
+    if (verifyTab === "skipped") {
+      return t("learners_bulk_import.tabs.verify_learners.table_skip_reason");
+    }
+    return t("learners_bulk_import.tabs.verify_learners.table_status");
+  }, [t, verifyTab]);
+
+
+
   return (
     <VerifyCard>
       <H2>{t("learners_bulk_import.tabs.verify_learners.tab_title")}</H2>
@@ -47,6 +61,7 @@ export const VerifyLearnersStep: FunctionComponent<Props> = ({ response }) => {
 
       <TabRow>
         <TabButton
+          id="verify-tab-error"
           $active={verifyTab === "error"}
           onClick={() => setVerifyTab("error")}
           type="button"
@@ -75,69 +90,16 @@ export const VerifyLearnersStep: FunctionComponent<Props> = ({ response }) => {
         {verifyTab === "valid" && t("learners_bulk_import.tabs.verify_learners.description_valid")}
       </Body1>
 
-      <ResultsMeta>
-        <Body2Regular>
-          {verifyCounts[verifyTab] === 0
-            ? "0 of 0"
-            : `1-${visibleRows.length} of ${verifyCounts[verifyTab]}`}
-        </Body2Regular>
-      </ResultsMeta>
-
-      <TableCard>
-        <TableHeader>
-          <TableCell>{t("learners_bulk_import.tabs.verify_learners.table_row")}</TableCell>
-          <TableCell>{t("learners_bulk_import.tabs.verify_learners.table_name")}</TableCell>
-          <TableCell>{t("learners_bulk_import.tabs.verify_learners.table_email")}</TableCell>
-          <TableCell>
-            {verifyTab === "error" && t("learners_bulk_import.tabs.verify_learners.table_error")}
-            {verifyTab === "skipped" && t("learners_bulk_import.tabs.verify_learners.table_skip_reason")}
-            {verifyTab === "valid" && t("learners_bulk_import.tabs.verify_learners.table_status")}
-          </TableCell>
-        </TableHeader>
-        <TableBody>
-          {visibleRows.length === 0 ? (
-            <EmptyState>
-              <Body2Regular>{t("loading_messages.learners")}</Body2Regular>
-            </EmptyState>
-          ) : (
-            visibleRows.map((row) => (
-              <TableRow key={`${row.status}-${row.row}`}>
-                <RowNumber>{row.row}</RowNumber>
-                <TableCellText>{row.name || "-"}</TableCellText>
-                <TableCellText>{row.email || "-"}</TableCellText>
-                <TableCellText>
-                  {row.status === "OK" ? (
-                    <StatusPill $status={row.status}>
-                      <StatusIcon $variant="success">
-                        <FiCheck size={12} />
-                      </StatusIcon>
-                      <Body4>
-                        {t("learners_bulk_import.tabs.verify_learners.validated")}
-                      </Body4>
-                    </StatusPill>
-                  ) : row.message ? (
-                    <StatusPill $status={row.status}>
-                      {row.status === "Error" && (
-                        <StatusIcon>
-                          <FiX size={12} />
-                        </StatusIcon>
-                      )}
-                      {row.status === "Skipped" && (
-                        <StatusIcon $variant="success">
-                          <FiCheck size={12} />
-                        </StatusIcon>
-                      )}
-                      <Body4>{row.message}</Body4>
-                    </StatusPill>
-                  ) : (
-                    "-"
-                  )}
-                </TableCellText>
-              </TableRow>
-            ))
-          )}
-        </TableBody>
-      </TableCard>
+      <VerifyLearnersTable
+        rows={visibleRows}
+        isLoading={isLoading}
+        rowHeader={t("learners_bulk_import.tabs.verify_learners.table_row")}
+        nameHeader={t("learners_bulk_import.tabs.verify_learners.table_name")}
+        emailHeader={t("learners_bulk_import.tabs.verify_learners.table_email")}
+        statusHeader={statusHeader}
+        validatedLabel={t("learners_bulk_import.tabs.verify_learners.validated")}
+        loadingMessage={<Body2Regular>{t("loading_messages.learners")}</Body2Regular>}
+      />
 
     </VerifyCard>
   );
@@ -174,98 +136,4 @@ const TabButton = styled.button<{ $active: boolean }>`
   color: ${({ theme, $active }) => ($active ? theme.colors.green7 : theme.colors.dark.darkGrey)};
   border-bottom: 3px solid ${({ theme, $active }) => ($active ? theme.colors.green7 : "transparent")};
   padding-bottom: 8px;
-`;
-
-const ResultsMeta = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  color: ${props => props.theme.colors.dark.mediumGrey};
-`;
-
-const TableCard = styled.div`
-  border-radius: 16px;
-  border: 1px solid ${props => props.theme.colors.dark.lightGrey};
-  overflow: hidden;
-  background: ${props => props.theme.colors.light.white};
-`;
-
-const TableHeader = styled.div`
-  display: grid;
-  grid-template-columns: 100px 1fr 1fr 1fr;
-  gap: 16px;
-  padding: 14px 20px;
-  background: ${props => props.theme.colors.light.paleGreen};
-  color: ${props => props.theme.colors.dark.darkGrey};
-  font-weight: 600;
-`;
-
-const TableBody = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const TableCell = styled.div`
-  min-width: 0;
-`;
-
-const TableRow = styled.div`
-  display: grid;
-  grid-template-columns: 100px 1fr 1fr 1fr;
-  gap: 16px;
-  padding: 14px 20px;
-  border-top: 1px solid ${props => props.theme.colors.dark.lightGrey};
-  align-items: center;
-`;
-
-const TableCellText = styled(Body4)`
-  color: ${props => props.theme.colors.dark.darkGrey};
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-
-const RowNumber = styled(Body4)`
-  color: ${props => props.theme.colors.green7};
-  font-weight: 600;
-`;
-
-const StatusPill = styled.span<{ $status: "Error" | "Skipped" | "OK" }>`
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 8px;
-  border-radius: 2px;
-  font-weight: 600;
-  font-size: 12px;
-
-  color: ${({ theme, $status }) =>
-    $status === "Error"
-      ? theme.colors.error9
-      : $status === "Skipped"
-        ? theme.colors.dark.darkGrey
-        : theme.colors.green9};
-
-  background: ${({ theme, $status }) =>
-    $status === "Error"
-      ? theme.colors.light.paleRed
-      : $status === "Skipped"
-        ? theme.colors.dark.lightGrey
-        : theme.colors.light.paleGreen};
-`;
-
-const StatusIcon = styled.span<{ $variant?: "success" }>`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: ${({ theme, $variant }) =>
-    $variant === "success" ? theme.colors.green6 : theme.colors.error6};
-  color: ${props => props.theme.colors.light.white};
-`;
-
-const EmptyState = styled.div`
-  padding: 24px 20px;
-  text-align: center;
-  color: ${props => props.theme.colors.dark.mediumGrey};
 `;
