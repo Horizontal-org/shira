@@ -1,4 +1,4 @@
-import { DragEvent, FunctionComponent, KeyboardEvent, useEffect, useRef, useState } from "react";
+import { DragEvent, FunctionComponent, KeyboardEvent, useRef, useState } from "react";
 import { Breadcrumbs, styled, BetaBanner } from "@shira/ui";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -9,6 +9,7 @@ import { Learner } from "../LearnerQuizView";
 import { UploadCsvStep } from "./components/UploadCsvStep";
 import { VerifyLearnersStep } from "./components/VerifyLearnersStep";
 import { FinalReviewStep } from "./components/FinalReviewStep";
+import { BulkInviteLearnersResponse, inviteLearnersBulk } from "../../fetch/learner";
 
 interface Props {
   onSubmit: (learners: Learner[]) => void;
@@ -27,10 +28,9 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
   const [isFormattingGuidelinesOpen, setIsFormattingGuidelinesOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isFileLoading, setIsFileLoading] = useState(false);
+  const [bulkInviteResponse, setBulkInviteResponse] = useState<BulkInviteLearnersResponse | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const fileLoadingDelayMs = 7000;
-  const fileLoadingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const validateStep = () => {
     if (step === 0) {
@@ -40,25 +40,25 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
     return true;
   };
 
-  const handleFileChange = (file: File | null) => {
+  const handleFileChange = async (file: File | null) => {
     if (!file) return;
-    if (fileLoadingTimeoutRef.current) {
-      clearTimeout(fileLoadingTimeoutRef.current);
-    }
     setIsFileLoading(true);
     setSelectedFile(file);
-    fileLoadingTimeoutRef.current = setTimeout(() => {
+    setBulkInviteResponse(null);
+    try {
+      const response = await inviteLearnersBulk(file);
+      setBulkInviteResponse(response);
+    } catch (error) {
+      console.error("Failed to invite learners in bulk:", error);
+    } finally {
       setIsFileLoading(false);
-    }, fileLoadingDelayMs);
+    }
   };
 
   const clearSelectedFile = () => {
-    if (fileLoadingTimeoutRef.current) {
-      clearTimeout(fileLoadingTimeoutRef.current);
-      fileLoadingTimeoutRef.current = null;
-    }
     setIsFileLoading(false);
     setSelectedFile(null);
+    setBulkInviteResponse(null);
     setIsDragging(false);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
@@ -91,14 +91,6 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
       handleBrowseClick();
     }
   };
-
-  useEffect(() => {
-    return () => {
-      if (fileLoadingTimeoutRef.current) {
-        clearTimeout(fileLoadingTimeoutRef.current);
-      }
-    };
-  }, []);
 
   return (
     <>
@@ -170,7 +162,7 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
             )}
 
             {step === 1 && (
-              <VerifyLearnersStep />
+              <VerifyLearnersStep response={bulkInviteResponse} />
             )}
 
             {step === 2 && (

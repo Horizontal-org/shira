@@ -1,17 +1,42 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useMemo, useState } from "react";
 import { Body1, Body2Regular, H2, styled } from "@shira/ui";
 import { useTranslation } from "react-i18next";
+import { FiX } from "react-icons/fi";
+import { BulkInviteLearnersResponse } from "../../../../fetch/learner";
 
-export const VerifyLearnersStep: FunctionComponent = () => {
+interface Props {
+  response: BulkInviteLearnersResponse | null;
+}
+
+export const VerifyLearnersStep: FunctionComponent<Props> = ({ response }) => {
   const { t } = useTranslation();
   const [verifyTab, setVerifyTab] = useState<"error" | "skipped" | "valid">("error");
 
-  //Mock
-  const verifyCounts = {
-    error: 823,
-    skipped: 5,
-    valid: 172,
-  };
+  const verifyResponse = response ?? [];
+
+  const statusToTab = {
+    Error: "error",
+    Skipped: "skipped",
+    OK: "valid",
+  } as const;
+
+  const verifyCounts = useMemo(
+    () =>
+      verifyResponse.reduce(
+        (acc, row) => {
+          const key = statusToTab[row.status];
+          acc[key] += 1;
+          return acc;
+        },
+        { error: 0, skipped: 0, valid: 0 }
+      ),
+    [verifyResponse]
+  );
+
+  const visibleRows = useMemo(
+    () => verifyResponse.filter((row) => statusToTab[row.status] === verifyTab),
+    [verifyResponse, verifyTab]
+  );
 
   return (
     <VerifyCard>
@@ -46,6 +71,12 @@ export const VerifyLearnersStep: FunctionComponent = () => {
 
       <Body1>{t("learners_bulk_import.tabs.verify_learners.description")}</Body1>
 
+      <ResultsMeta>
+        <Body2Regular>
+          {visibleRows.length} of {verifyCounts[verifyTab]}
+        </Body2Regular>
+      </ResultsMeta>
+
       <TableCard>
         <TableHeader>
           <TableCell>{t("learners_bulk_import.tabs.verify_learners.table_row")}</TableCell>
@@ -54,7 +85,33 @@ export const VerifyLearnersStep: FunctionComponent = () => {
           <TableCell>{t("learners_bulk_import.tabs.verify_learners.table_error")}</TableCell>
         </TableHeader>
         <TableBody>
-          <Body2Regular>{t("loading_messages.learners")}</Body2Regular>
+          {visibleRows.length === 0 ? (
+            <EmptyState>
+              <Body2Regular>{t("loading_messages.learners")}</Body2Regular>
+            </EmptyState>
+          ) : (
+            visibleRows.map((row) => (
+              <TableRow key={`${row.status}-${row.row}`}>
+                <RowNumber>{row.row}</RowNumber>
+                <TableCellText>{row.name || "-"}</TableCellText>
+                <TableCellText>{row.email || "-"}</TableCellText>
+                <TableCellText>
+                  {row.message ? (
+                    <StatusPill $status={row.status}>
+                      {row.status === "Error" && (
+                        <StatusIcon>
+                          <FiX size={12} />
+                        </StatusIcon>
+                      )}
+                      {row.message}
+                    </StatusPill>
+                  ) : (
+                    "-"
+                  )}
+                </TableCellText>
+              </TableRow>
+            ))
+          )}
         </TableBody>
       </TableCard>
 
@@ -95,6 +152,12 @@ const TabButton = styled.button<{ $active: boolean }>`
   padding-bottom: 8px;
 `;
 
+const ResultsMeta = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  color: ${props => props.theme.colors.dark.mediumGrey};
+`;
+
 const TableCard = styled.div`
   border-radius: 16px;
   border: 1px solid ${props => props.theme.colors.dark.lightGrey};
@@ -113,11 +176,61 @@ const TableHeader = styled.div`
 `;
 
 const TableBody = styled.div`
-  padding: 24px 20px;
-  text-align: center;
-  color: ${props => props.theme.colors.dark.mediumGrey};
+  display: flex;
+  flex-direction: column;
 `;
 
 const TableCell = styled.div`
   min-width: 0;
+`;
+
+const TableRow = styled.div`
+  display: grid;
+  grid-template-columns: 100px 1fr 1fr 1fr;
+  gap: 16px;
+  padding: 14px 20px;
+  border-top: 1px solid ${props => props.theme.colors.dark.lightGrey};
+  align-items: center;
+`;
+
+const TableCellText = styled(Body2Regular)`
+  color: ${props => props.theme.colors.dark.mediumGrey};
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+const RowNumber = styled(Body2Regular)`
+  color: ${props => props.theme.colors.green7};
+  font-weight: 600;
+`;
+
+const StatusPill = styled.span<{ $status: "Error" | "Skipped" | "OK" }>`
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 12px;
+  color: ${({ theme, $status }) =>
+    $status === "Error" ? theme.colors.red6 : theme.colors.dark.darkGrey};
+  background: ${({ theme, $status }) =>
+    $status === "Error" ? theme.colors.red1 : theme.colors.light.paleGreen};
+`;
+
+const StatusIcon = styled.span`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: ${props => props.theme.colors.red6};
+  color: ${props => props.theme.colors.light.white};
+`;
+
+const EmptyState = styled.div`
+  padding: 24px 20px;
+  text-align: center;
+  color: ${props => props.theme.colors.dark.mediumGrey};
 `;
