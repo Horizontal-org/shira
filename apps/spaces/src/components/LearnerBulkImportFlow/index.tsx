@@ -172,9 +172,10 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
         onBack={() => {
           if (step === 0) {
             setIsExitBulkImportModalOpen(true);
-          } else {
-            handleStep(step - 1);
+            return;
           }
+          clearSelectedFile();
+          handleStep(0);
         }}
         step={step}
         disableNext={!validateStep()}
