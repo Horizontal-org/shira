@@ -24,6 +24,9 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
 
   const [isLoading, setIsLoading] = useState(false);
 
+  const EMAIL_REGEX = /^[^\s@]+@[A-Za-z0-9_-]+(\.[A-Za-z0-9_-]+)+$/;
+  const verifyEmailPattern = (value: string) => EMAIL_REGEX.test(value);
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [emailIsValid, setEmailIsValid] = useState(true);
@@ -31,10 +34,10 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
 
   const isNameEmpty = !name.trim();
   const isEmailEmpty = !email.trim();
+
   const showInvalidEmailError = !isEmailEmpty && !emailIsValid;
 
-  const verifyEmailPattern = (value: string) =>
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  const primaryButtonDisabled = isLoading || isNameEmpty || isEmailEmpty || !emailIsValid || showAlreadyExistsError;
 
   const resetForm = () => {
     setName("");
@@ -106,7 +109,7 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
           ? t("loading_messages.sending_invitation")
           : t("buttons.send_invitation")
       }
-      primaryButtonDisabled={isLoading || isNameEmpty || isEmailEmpty || !emailIsValid}
+      primaryButtonDisabled={primaryButtonDisabled}
       secondaryButtonText={t("buttons.cancel")}
       onPrimaryClick={handlePrimaryClick}
       onSecondaryClick={handleClose}
@@ -139,10 +142,8 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
                 <ErrorText>{t("error_messages.invalid_email")}</ErrorText>
               )}
 
-              {!isEmailEmpty && emailIsValid && showAlreadyExistsError && (
-                <ErrorText>
-                  {t("error_messages.learner_already_exists")}
-                </ErrorText>
+              {showAlreadyExistsError && !isEmailEmpty && emailIsValid && (
+                <ErrorText>{t("error_messages.learner_already_exists")}</ErrorText>
               )}
             </ErrorContainer>
           </EmailField>
