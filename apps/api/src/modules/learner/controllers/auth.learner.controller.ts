@@ -47,7 +47,7 @@ export class AuthLearnerController {
     await this.inviteService.invite(inviteLearnerDto, spaceId);
   }
 
-  @Post('invitations/bulk')
+  @Post('invitations/bulk/send')
   @Roles(Role.SpaceAdmin)
   @UseInterceptors(FileInterceptor('file'))
   async inviteBulk(
@@ -59,6 +59,20 @@ export class AuthLearnerController {
     }
 
     return this.inviteBulkService.invite(file, spaceId);
+  }
+
+  @Post('invitations/bulk/verify')
+  @Roles(Role.SpaceAdmin)
+  @UseInterceptors(FileInterceptor('file'))
+  async verifyBulkInvite(
+    @UploadedFile() file: Express.Multer.File,
+    @SpaceId() spaceId: number
+  ) {
+    if (!file) {
+      throw new BadRequestException('CSV file is required');
+    }
+
+    return this.inviteBulkService.verify(file, spaceId);
   }
 
   @Delete()

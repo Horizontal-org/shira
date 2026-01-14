@@ -24,7 +24,24 @@ export const inviteLearnersBulk = async (file: File) => {
   formData.append("file", file);
 
   const { data } = await axios.post(
-    `${process.env.REACT_APP_API_URL}/learners/invitations/bulk`,
+    `${process.env.REACT_APP_API_URL}/learners/invitations/bulk/send`,
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+
+  return data as BulkInviteLearnersResponse;
+};
+
+export const verifyLearnersBulk = async (file: File) => {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const { data } = await axios.post(
+    `${process.env.REACT_APP_API_URL}/learners/invitations/bulk/verify`,
     formData,
     {
       headers: {

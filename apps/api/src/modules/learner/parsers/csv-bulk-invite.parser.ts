@@ -1,9 +1,12 @@
 import { Injectable } from "@nestjs/common";
 import { parse } from "csv-parse/sync";
 import { IBulkInviteParser } from "../interfaces/parsers/bulk-invite-parser.interface";
+import { ApiLogger } from "../logger/api-logger.service";
 
 @Injectable()
 export class CsvBulkInviteParser implements IBulkInviteParser {
+
+  private readonly logger = new ApiLogger(CsvBulkInviteParser.name);
 
   supports(file: Express.Multer.File): boolean {
     const name = file.originalname?.toLowerCase() ?? "";
@@ -11,7 +14,10 @@ export class CsvBulkInviteParser implements IBulkInviteParser {
   }
 
   parse(file: Express.Multer.File) {
+    this.logger.debug(`Parsing CSV bulk invite file: ${file.originalname}`);
+
     const content = file.buffer?.toString("utf8") ?? "";
+
     const rows = parse(content, {
       bom: true,
       skip_empty_lines: true,

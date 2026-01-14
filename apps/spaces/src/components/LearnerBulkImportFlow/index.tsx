@@ -1,4 +1,4 @@
-import { DragEvent, FunctionComponent, KeyboardEvent, useRef, useState } from "react";
+import { DragEvent, FunctionComponent, KeyboardEvent, useEffect, useRef, useState } from "react";
 import { Breadcrumbs, styled, BetaBanner } from "@shira/ui";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -9,7 +9,7 @@ import { Learner } from "../LearnerQuizView";
 import { UploadCsvStep } from "./components/UploadCsvStep";
 import { VerifyLearnersStep } from "./components/VerifyLearnersStep";
 import { FinalReviewStep } from "./components/FinalReviewStep";
-import { BulkInviteLearnersResponse, inviteLearnersBulk } from "../../fetch/learner";
+import { BulkInviteLearnersResponse, inviteLearnersBulk, verifyLearnersBulk } from "../../fetch/learner";
 
 interface Props {
   onSubmit: (learners: Learner[]) => void;
@@ -28,13 +28,20 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
   const [isFormattingGuidelinesOpen, setIsFormattingGuidelinesOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isFileLoading, setIsFileLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [bulkInviteResponse, setBulkInviteResponse] = useState<BulkInviteLearnersResponse | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const lastVerifiedFileKey = useRef<string | null>(null);
+  const lastInvitedFileKey = useRef<string | null>(null);
 
   const validateStep = () => {
     if (step === 0) {
       return !!selectedFile && !isFileLoading;
+    }
+
+    if (step === 2) {
+      return !isSubmitting;
     }
 
     return true;
@@ -42,24 +49,20 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
 
   const handleFileChange = async (file: File | null) => {
     if (!file) return;
-    setIsFileLoading(true);
     setSelectedFile(file);
     setBulkInviteResponse(null);
-    try {
-      const response = await inviteLearnersBulk(file);
-      setBulkInviteResponse(response);
-    } catch (error) {
-      console.error("Failed to invite learners in bulk:", error);
-    } finally {
-      setIsFileLoading(false);
-    }
+    lastVerifiedFileKey.current = null;
+    lastInvitedFileKey.current = null;
   };
 
   const clearSelectedFile = () => {
     setIsFileLoading(false);
+    setIsSubmitting(false);
     setSelectedFile(null);
     setBulkInviteResponse(null);
     setIsDragging(false);
+    lastVerifiedFileKey.current = null;
+    lastInvitedFileKey.current = null;
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
@@ -92,6 +95,53 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
     }
   };
 
+  useEffect(() => {
+    if (step !== 1 || !selectedFile) {
+      return;
+    }
+
+    const fileKey = `${selectedFile.name}-${selectedFile.size}-${selectedFile.lastModified}`;
+    if (lastVerifiedFileKey.current === fileKey) {
+      return;
+    }
+
+    setIsFileLoading(true);
+    verifyLearnersBulk(selectedFile)
+      .then((response) => {
+        setBulkInviteResponse(response);
+        lastVerifiedFileKey.current = fileKey;
+      })
+      .catch((error) => {
+        console.error("Failed to verify learners in bulk:", error);
+      })
+      .finally(() => {
+        setIsFileLoading(false);
+      });
+  }, [selectedFile, step]);
+
+  useEffect(() => {
+    if (step !== 2 || !selectedFile) {
+      return;
+    }
+
+    const fileKey = `${selectedFile.name}-${selectedFile.size}-${selectedFile.lastModified}`;
+    if (lastInvitedFileKey.current === fileKey) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    inviteLearnersBulk(selectedFile)
+      .then(() => {
+        lastInvitedFileKey.current = fileKey;
+      })
+      .catch((error) => {
+        console.error("Failed to invite learners in bulk:", error);
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
+  }, [onSubmit, selectedFile, step]);
+
   return (
     <>
       <ExitLearnerBulkImportModal
@@ -111,6 +161,9 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
       <LearnerBulkImportHeader
         onNext={() => {
           if (step === 2) {
+            if (isSubmitting) {
+              return;
+            }
             onSubmit([]);
             return;
           }
