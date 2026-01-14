@@ -291,15 +291,15 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
               />
 
               <DeleteModal
-                title={t('quizzes.actions.delete_modal.title', { quiz_name: quiz.title })}
+                title={t('modals.delete_quiz.title', { quiz_name: quiz.title })}
                 content={
                   <div>
-                    {t('quizzes.actions.delete_modal.subtitle')}
+                    {t('modals.delete_quiz.subtitle')}
                     <br /><br />
                     <QuizWarningNote>
-                      {t('quizzes.actions.delete_modal.note')}
+                      {t('modals.delete_quiz.note')}
                     </QuizWarningNote>
-                    {t('quizzes.actions.delete_modal.message')}
+                    {t('modals.delete_quiz.message')}
                   </div>
                 }
                 setIsModalOpen={setIsDeleteModalOpen}

@@ -10,6 +10,9 @@ import { ISyncQuestionImageService } from 'src/modules/question_image/interfaces
 import { TYPES } from '../interfaces';
 import { ISharedQuestionDuplicationService } from '../interfaces/services/shared-question-duplication.service.interface';
 import * as crypto from 'crypto';
+import { DuplicateQuestionQuizService } from './duplicate-question.quiz.service';
+import { ApiLogger } from 'src/modules/learner/logger/api-logger.service';
+import { IValidateSpaceQuizService } from '../interfaces/services/validate-space.quiz.service.interface';
 
 @Injectable()
 export class DuplicateQuizService implements IDuplicateQuizService {
@@ -19,11 +22,18 @@ export class DuplicateQuizService implements IDuplicateQuizService {
     private syncImagesService: ISyncQuestionImageService,
     @Inject(TYPES.services.ISharedQuestionDuplicationService)
     private sharedQuestionDuplicationService: ISharedQuestionDuplicationService,
+    @Inject(TYPES.services.IValidateSpaceQuizService)
+    private validateSpaceQuizService: IValidateSpaceQuizService,
     private dataSource: DataSource
   ) { }
 
-  async execute(duplicateQuizDto: DuplicateQuizDto): Promise<Quiz> {
-    console.log("🚀 ~ DuplicateQuizService ~ execute ~ duplicateQuizDto:", duplicateQuizDto);
+  private readonly logger = new ApiLogger(DuplicateQuestionQuizService.name);
+
+  async execute(duplicateQuizDto: DuplicateQuizDto, spaceId: number): Promise<Quiz> {
+    this.logger.log(`Starting duplication of quiz ID ${duplicateQuizDto.quizId} for space ID ${spaceId} 
+      with title "${duplicateQuizDto.title}" and visibility "${duplicateQuizDto.visibility}"`);
+
+    await this.validateSpaceQuizService.execute(spaceId, duplicateQuizDto.quizId);
 
     return this.dataSource.transaction(async manager => {
 

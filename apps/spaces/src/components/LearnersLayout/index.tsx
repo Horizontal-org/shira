@@ -162,7 +162,6 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
                     color={defaultTheme.colors.error7}
                     onClick={() => {
                       setIsBulkDeleteLearnersModalOpen(true)
-                      clearSelectedLearners();
                     }}
                   />
                 </BulkActionContainer>
@@ -204,7 +203,10 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
             setIsModalOpen={setIsBulkDeleteLearnersModalOpen}
             openErrorModal={openErrorModal}
             onDeleted={handleBulkDeleteSuccess}
-            onCancel={() => setIsBulkDeleteLearnersModalOpen(false)}
+            onCancel={() => {
+              setIsBulkDeleteLearnersModalOpen(false);
+              clearSelectedLearners();
+            }}
           />
 
           <GenericErrorModal
