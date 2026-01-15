@@ -22,23 +22,21 @@ export const VerifyLearnersStep: FunctionComponent<Props> = ({ response }) => {
     OK: "valid",
   } as const;
 
-  const verifyCounts = useMemo(
-    () =>
-      verifyResponse.reduce(
-        (acc, row) => {
-          const key = statusToTab[row.status];
-          acc[key] += 1;
-          return acc;
-        },
-        { error: 0, skipped: 0, valid: 0 }
-      ),
-    [verifyResponse]
-  );
+  const { verifyCounts, visibleRows } = useMemo(() => {
+    const counts = { error: 0, skipped: 0, valid: 0 };
+    const rows = [];
 
-  const visibleRows = useMemo(
-    () => verifyResponse.filter((row) => statusToTab[row.status] === verifyTab),
-    [verifyResponse, verifyTab]
-  );
+    for (const row of verifyResponse) {
+      const tab = statusToTab[row.status];
+      counts[tab] += 1;
+
+      if (tab === verifyTab) {
+        rows.push(row);
+      }
+    }
+
+    return { verifyCounts: counts, visibleRows: rows };
+  }, [verifyResponse, verifyTab]);
 
   const statusHeader =
     verifyTab === "error"
