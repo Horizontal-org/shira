@@ -246,7 +246,15 @@
                 "remove_file": "Remove selected file",
                 "upload_complete": "Upload complete",
                 "upload_success": "Your spreadsheet was successfully uploaded! Continue to the next step to verify your learners.",
-                "uploading": "Please wait while Shira uploads and validates your data. This may take a few seconds..."
+                "uploading": "Please wait while Shira uploads and validates your data. This may take a few seconds",
+                "invalid_file_format": "Error: Invalid file format",
+                "invalid_file_format_description": "Please make sure the file is in CSV and try again.",
+                "upload_error": "Error: Your file could not be processed",
+                "upload_error_description": "We couldn't process the file. Please try again.",
+                "too_many_rows_error": "Error: Too many rows",
+                "too_many_rows_error_description": "Please make sure your spreadsheet contains a maximum of 1,000 rows and try again.",
+                "invalid_formatting": "Error: Invalid formatting",
+                "invalid_formatting_description": "Please make sure your spreadsheet is formatted according to the guidelines above and try again."
             },
             "verify_learners": {
                 "tab_title": "Verify learners",
@@ -458,6 +466,7 @@
         "delete_learners_failed": "There was a problem deleting the learners. If this issue persists, <1>contact us</1>.",
         "assign_quiz_failed": "There was a problem assigning this quiz to learners. If this issue persists, <1>contact us</1>.",
         "unassign_quiz_failed": "There was a problem unassigning this quiz from learners. If this issue persists, <1>contact us</1>.",
+        "bulk_import_failed": "There was a problem inviting the learners. If this issue persists, <1>contact us</1>.",
         "email_already_taken": "The email address is already taken.",
         "invite_org_failed": "There was a problem creating your space. If this issue persists, <1>contact us</1>.",
         "email_no_match": "The email address does not match the invitation."
