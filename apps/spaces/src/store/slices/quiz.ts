@@ -47,7 +47,7 @@ export interface QuizSlice {
   updateQuiz: (data: UpdateQuizPayload) => void,
   reorderQuiz: (data: ReorderQuizPayload) => void
   deleteQuiz: (id: number) => void,
-  createQuiz: (title: string, visibility: string) => void,
+  createQuiz: (title: string, visibility: string) => Promise<string | undefined>,
   quizActionSuccess: null | QuizSuccessStates
   cleanQuizActionSuccess: () => void
   setQuizActionSuccess: (successState: string) => void
@@ -98,14 +98,19 @@ export const createQuizSlice: StateCreator<
       quizzes: quizzes
     })
   },
+
+  // TODO better error handling
   createQuiz: async (title: string, visibility: string) => {
     set({ quizActionSuccess: null })
-    await createQuiz(title, visibility)
+    const data = await createQuiz(title, visibility);
 
-    set({
-      quizActionSuccess: QuizSuccessStates.create
-    })
+    console.log("🚀 ~ createQuiz ~ data:", data)
+
+    if (data?.message) {
+      return data.message
+    } else set({ quizActionSuccess: QuizSuccessStates.create })
   },
+
   setQuizActionSuccess: async (successState: QuizSuccessStates) => {
     set({ quizActionSuccess: successState })
   },

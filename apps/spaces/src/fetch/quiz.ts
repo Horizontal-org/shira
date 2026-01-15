@@ -46,6 +46,7 @@ export const createQuiz = async (title: string, visibility: string) => {
     })
   } catch (err) {
     console.log("🚀 ~ createQuiz ~ err:", err)
+    return err.response.data;
   }
 }
 

@@ -7,7 +7,7 @@ type QuizFlowMode = "create" | "duplicate" | null;
 type QuizFlowStep = 1 | 2;
 
 interface UseQuizFlowParams {
-  createQuiz: (title: string, visibility: string) => void;
+  createQuiz: (title: string, visibility: string) => Promise<string | undefined>;
   fetchQuizzes: () => void;
   t: (key: string, options?: any) => string;
 }
@@ -16,6 +16,7 @@ export const useQuizVisibilityFlow = ({ createQuiz, fetchQuizzes, t }: UseQuizFl
   const [mode, setMode] = useState<QuizFlowMode>(null);
   const [step, setStep] = useState<QuizFlowStep>(1);
   const [title, setTitle] = useState("");
+  const [createErrorMessage, setCreateErrorMessage] = useState<string | null>(null);
 
   const [selectedQuizForDuplicate, setSelectedQuizForDuplicate] = useState<Quiz | null>(null);
   const [isDuplicating, setIsDuplicating] = useState(false);
@@ -24,6 +25,7 @@ export const useQuizVisibilityFlow = ({ createQuiz, fetchQuizzes, t }: UseQuizFl
     setMode(null);
     setStep(1);
     setTitle("");
+    setCreateErrorMessage(null);
     setSelectedQuizForDuplicate(null);
     setIsDuplicating(false);
   };
@@ -44,6 +46,13 @@ export const useQuizVisibilityFlow = ({ createQuiz, fetchQuizzes, t }: UseQuizFl
     setStep(2);
   };
 
+  const handleTitleChange = (newTitle: string) => {
+    setTitle(newTitle);
+    if (createErrorMessage) {
+      setCreateErrorMessage(null);
+    }
+  };
+
   const handleBackFromVisibility = () => {
     setStep(1);
   };
@@ -51,8 +60,14 @@ export const useQuizVisibilityFlow = ({ createQuiz, fetchQuizzes, t }: UseQuizFl
   const handleConfirmVisibility = async (visibility: string) => {
     if (!title || title.trim() === "") return;
 
+    // TODO better error handling
     if (mode === "create") {
-      createQuiz(title.trim(), visibility);
+      const errorMessage = await createQuiz(title.trim(), visibility);
+      if (errorMessage) {
+        setCreateErrorMessage(errorMessage);
+        setStep(1);
+        return;
+      }
       reset();
       return;
     }
@@ -85,7 +100,8 @@ export const useQuizVisibilityFlow = ({ createQuiz, fetchQuizzes, t }: UseQuizFl
     mode,
     step,
     title,
-    setTitle,
+    setTitle: handleTitleChange,
+    createErrorMessage,
     selectedQuizForDuplicate,
     isDuplicating,
 

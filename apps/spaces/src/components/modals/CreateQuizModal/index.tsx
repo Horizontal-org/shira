@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { Modal, styled, TextInput } from "@shira/ui";
+import { Modal, styled, TextInput, defaultTheme } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 
 interface Props {
@@ -12,6 +12,7 @@ interface Props {
   onCreate: (title: string) => void;
   onCancel?: () => void;
   keepModalOpen?: boolean;
+  errorMessage?: string | null;
 }
 
 export const CreateQuizModal: FunctionComponent<Props> = ({
@@ -22,6 +23,7 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
   onCreate,
   onCancel,
   keepModalOpen = false,
+  errorMessage = null,
 }) => {
   const { t } = useTranslation();
 
@@ -51,6 +53,9 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
+        <ErrorContainer role="alert" aria-live="polite">
+          {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
+        </ErrorContainer>
       </FormContent>
     </Modal>
   );
@@ -59,4 +64,17 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
 const FormContent = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 8px;
+`;
+
+const ErrorContainer = styled.div`
+  min-height: 24px;
+  padding: 0 10px;
+`;
+
+const ErrorText = styled.p`
+  color: ${defaultTheme.colors.error7};
+  padding: 4px 10px;
+  margin-top: 4px;
+  font-size: 11px;
 `;

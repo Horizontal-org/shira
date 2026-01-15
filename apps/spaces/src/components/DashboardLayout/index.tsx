@@ -60,6 +60,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const {
     title,
     setTitle,
+    createErrorMessage,
     selectedQuizForDuplicate,
     isDuplicating,
     isCreateTitleModalOpen,
@@ -268,6 +269,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             onCreate={(title) => { handleTitleSubmit(title); }}
             onCancel={() => { cancelFlow(); }}
             keepModalOpen
+            errorMessage={createErrorMessage}
           />
 
           <QuizVisibilityModal
