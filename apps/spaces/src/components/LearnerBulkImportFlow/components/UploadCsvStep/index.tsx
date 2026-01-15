@@ -305,7 +305,7 @@ const Dropzone = styled.div<{ $isDragging: boolean }>`
   background: ${({ theme, $isDragging }) => $isDragging ? theme.colors.blue1 : theme.colors.blue0};
   padding: 32px;
   text-align: center;
-  cursor: pointer;
+  cursor: ${({ $isDragging }) => ($isDragging ? "copy" : "pointer")};
 `;
 
 const DropzoneContent = styled.div`

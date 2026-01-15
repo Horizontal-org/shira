@@ -81,6 +81,9 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
 
   const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
+    if (event.dataTransfer) {
+      event.dataTransfer.dropEffect = "copy";
+    }
     setIsDragging(true);
   };
 
