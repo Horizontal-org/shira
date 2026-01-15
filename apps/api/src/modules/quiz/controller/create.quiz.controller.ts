@@ -1,9 +1,5 @@
-import { Body, Controller, Inject, Post, Res, UnauthorizedException } from '@nestjs/common';
-
-import {
-  TYPES,
-} from '../interfaces';
-
+import { Body, Inject, Post } from '@nestjs/common';
+import { TYPES } from '../interfaces';
 import { Roles } from 'src/modules/auth/decorators/roles.decorators';
 import { Role } from 'src/modules/user/domain/role.enum';
 import { AuthController } from 'src/utils/decorators/auth-controller.decorator';

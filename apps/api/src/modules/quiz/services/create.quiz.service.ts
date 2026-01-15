@@ -5,6 +5,7 @@ import { ICreateQuizService } from '../interfaces/services/create.quiz.service.i
 import { Quiz as QuizEntity } from '../domain/quiz.entity';
 import { CreateQuizDto } from '../dto/create.quiz.dto';
 import * as crypto from 'crypto'
+import { NameAlreadyExistsException as TitleAlreadyExistsException } from '../exceptions';
 
 @Injectable()
 export class CreateQuizService implements ICreateQuizService {
@@ -21,6 +22,12 @@ export class CreateQuizService implements ICreateQuizService {
     quiz.space = createQuizDto.space;
     quiz.visibility = createQuizDto.visibility;
     quiz.hash = crypto.randomBytes(20).toString('hex');
+
+    //TODO make quiz title unique?
+    const existingQuizTitle = await this.quizRepo.findOne({
+      where: { title: createQuizDto.title, space: createQuizDto.space }
+    });
+    if (existingQuizTitle) throw new TitleAlreadyExistsException(createQuizDto.title);
 
     await this.quizRepo.save(quiz);
   }
