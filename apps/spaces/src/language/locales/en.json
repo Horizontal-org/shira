@@ -408,7 +408,7 @@
         "question_created_2": "{{question_name}} created successfully",
         "question_added": "The question has been added to your quiz",
         "question_updated": "Question updated",
-        "question_deleted": "Question deleted",
+        "question_deleted": "The question has been deleted",
         "question_copied": "Copy of {{question_name}} created successfully",
         "no_questions_found": "No questions found.",
         "learner_invitation_sent": "The invitation has been sent.",
