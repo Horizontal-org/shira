@@ -263,7 +263,10 @@
                 "table_error": "Type of error",
                 "table_skip_reason": "Reason for skipping",
                 "table_status": "Status",
-                "validated": "Validated"
+                "validated": "Validated",
+                "empty_error": "There are no rows with errors.",
+                "empty_skipped": "There are no skipped rows.",
+                "empty_valid": "There are no valid rows."
             },
             "review": {
                 "tab_title": "Final review",

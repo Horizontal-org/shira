@@ -40,17 +40,21 @@ export const VerifyLearnersStep: FunctionComponent<Props> = ({ response }) => {
     [verifyResponse, verifyTab]
   );
 
-  const statusHeader = useMemo(() => {
-    if (verifyTab === "error") {
-      return t("learners_bulk_import.tabs.verify_learners.table_error");
-    }
-    if (verifyTab === "skipped") {
-      return t("learners_bulk_import.tabs.verify_learners.table_skip_reason");
-    }
-    return t("learners_bulk_import.tabs.verify_learners.table_status");
-  }, [t, verifyTab]);
+  const statusHeader =
+    verifyTab === "error"
+      ? t("learners_bulk_import.tabs.verify_learners.table_error")
+      : verifyTab === "skipped"
+        ? t("learners_bulk_import.tabs.verify_learners.table_skip_reason")
+        : t("learners_bulk_import.tabs.verify_learners.table_status");
 
+  const emptyMessage =
+    verifyTab === "error"
+      ? t("learners_bulk_import.tabs.verify_learners.empty_error")
+      : verifyTab === "skipped"
+        ? t("learners_bulk_import.tabs.verify_learners.empty_skipped")
+        : t("learners_bulk_import.tabs.verify_learners.empty_valid");
 
+  const showTabDescription = isLoading || visibleRows.length > 0;
 
   return (
     <VerifyCard>
@@ -84,11 +88,13 @@ export const VerifyLearnersStep: FunctionComponent<Props> = ({ response }) => {
         </TabButton>
       </TabRow>
 
-      <Body1>
-        {verifyTab === "error" && t("learners_bulk_import.tabs.verify_learners.description_error")}
-        {verifyTab === "skipped" && t("learners_bulk_import.tabs.verify_learners.description_skipped")}
-        {verifyTab === "valid" && t("learners_bulk_import.tabs.verify_learners.description_valid")}
-      </Body1>
+      {showTabDescription && (
+        <Body1>
+          {verifyTab === "error" && t("learners_bulk_import.tabs.verify_learners.description_error")}
+          {verifyTab === "skipped" && t("learners_bulk_import.tabs.verify_learners.description_skipped")}
+          {verifyTab === "valid" && t("learners_bulk_import.tabs.verify_learners.description_valid")}
+        </Body1>
+      )}
 
       <VerifyLearnersTable
         rows={visibleRows}
@@ -99,6 +105,7 @@ export const VerifyLearnersStep: FunctionComponent<Props> = ({ response }) => {
         statusHeader={statusHeader}
         validatedLabel={t("learners_bulk_import.tabs.verify_learners.validated")}
         loadingMessage={<Body2Regular>{t("loading_messages.learners")}</Body2Regular>}
+        emptyMessage={emptyMessage}
       />
 
     </VerifyCard>

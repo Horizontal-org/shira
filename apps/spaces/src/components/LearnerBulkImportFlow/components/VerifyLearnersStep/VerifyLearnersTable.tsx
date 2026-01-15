@@ -1,5 +1,5 @@
 import { FunctionComponent, ReactNode, useMemo, useState } from "react";
-import { Body4, Table, styled } from "@shira/ui";
+import { Body4, EmptyState, Table, styled } from "@shira/ui";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { FiCheck, FiX } from "react-icons/fi";
 import { BulkLearnerRowResult } from "../../../../fetch/learner";
@@ -13,6 +13,7 @@ interface Props {
   statusHeader: string;
   validatedLabel: string;
   loadingMessage: ReactNode;
+  emptyMessage: string;
 }
 
 export const VerifyLearnersTable: FunctionComponent<Props> = ({
@@ -24,6 +25,7 @@ export const VerifyLearnersTable: FunctionComponent<Props> = ({
   statusHeader,
   validatedLabel,
   loadingMessage,
+  emptyMessage,
 }) => {
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
@@ -93,6 +95,12 @@ export const VerifyLearnersTable: FunctionComponent<Props> = ({
     ],
     [emailHeader, nameHeader, rowHeader, statusHeader, validatedLabel]
   );
+
+  if (!isLoading && tableData.length === 0) {
+    return (
+      <EmptyState subtitle={emptyMessage} backgroundColor="white" />
+    );
+  }
 
   return (
     <Table
