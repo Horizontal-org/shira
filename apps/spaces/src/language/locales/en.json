@@ -270,7 +270,7 @@
             },
             "review": {
                 "tab_title": "Final review",
-                "subtitle": "You are about to invite <strong>172 learners</strong> to your space.",
+                "subtitle": "You are about to invite <strong>{{count}} learners</strong> to your space.",
                 "table_row": "Row",
                 "table_name": "Name",
                 "table_email": "Email address",

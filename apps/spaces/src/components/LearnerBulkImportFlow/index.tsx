@@ -122,28 +122,35 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
       });
   }, [selectedFile, step]);
 
-  useEffect(() => {
-    if (step !== 2 || !selectedFile) {
+  const handleNext = () => {
+    if (step === 2) {
+      if (isSubmitting || !selectedFile) {
+        return;
+      }
+
+      const fileKey = `${selectedFile.name}-${selectedFile.size}-${selectedFile.lastModified}`;
+      if (lastInvitedFileKey.current === fileKey) {
+        onSubmit([]);
+        return;
+      }
+
+      setIsSubmitting(true);
+      inviteLearnersBulk(selectedFile)
+        .then(() => {
+          lastInvitedFileKey.current = fileKey;
+          onSubmit([]);
+        })
+        .catch((error) => {
+          console.error("Failed to invite learners in bulk:", error);
+        })
+        .finally(() => {
+          setIsSubmitting(false);
+        });
       return;
     }
 
-    const fileKey = `${selectedFile.name}-${selectedFile.size}-${selectedFile.lastModified}`;
-    if (lastInvitedFileKey.current === fileKey) {
-      return;
-    }
-
-    setIsSubmitting(true);
-    inviteLearnersBulk(selectedFile)
-      .then(() => {
-        lastInvitedFileKey.current = fileKey;
-      })
-      .catch((error) => {
-        console.error("Failed to invite learners in bulk:", error);
-      })
-      .finally(() => {
-        setIsSubmitting(false);
-      });
-  }, [onSubmit, selectedFile, step]);
+    handleStep(step + 1);
+  };
 
   return (
     <>
@@ -162,16 +169,7 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
       <BetaBanner url="/support" />
 
       <LearnerBulkImportHeader
-        onNext={() => {
-          if (step === 2) {
-            if (isSubmitting) {
-              return;
-            }
-            onSubmit([]);
-            return;
-          }
-          handleStep(step + 1);
-        }}
+        onNext={handleNext}
         onBack={() => {
           if (step === 0) {
             setIsExitBulkImportModalOpen(true);
@@ -223,7 +221,7 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
             )}
 
             {step === 2 && (
-              <FinalReviewStep />
+              <FinalReviewStep response={bulkInviteResponse} />
             )}
           </div>
         </ContentWrapper>
