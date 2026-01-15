@@ -367,7 +367,7 @@
             "footer": "Following this format will ensure a successful import of all eligible learners."
         },
         "exit_bulk_import": {
-            "title": "Are you sure you want to exit bulk import?",
+            "title": "Are you sure you want to exit?",
             "message": "Any unsaved changes will be lost."
         },
         "edit_question_confirmation": {
