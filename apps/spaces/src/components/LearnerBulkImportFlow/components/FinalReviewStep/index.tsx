@@ -46,6 +46,7 @@ export const FinalReviewStep: FunctionComponent<Props> = ({ response }) => {
         nameHeader={t("learners_bulk_import.tabs.review.table_name")}
         emailHeader={t("learners_bulk_import.tabs.review.table_email")}
         statusHeader={t("learners_bulk_import.tabs.review.table_status")}
+        validatedLabel={t("learners_bulk_import.tabs.verify_learners.validated")}
         loadingMessage={<Body2Regular>{t("loading_messages.learners")}</Body2Regular>}
       />
     </ReviewCard>
