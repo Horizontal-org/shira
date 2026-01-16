@@ -29,7 +29,7 @@ export class InviteBulkLearnerService implements IInviteBulkLearnerService {
     this.logger.debug(`Verifying ${parsed.total} learners in bulk for space ID ${spaceId}`);
 
     const validResults = parsed.valid.map(({ row, email, name }) =>
-      this.createResponse(row, email, "OK", undefined, name)
+      this.createResponse(row, email, "OK", name)
     );
 
     return [...errorResults, ...skippedResults, ...validResults];
@@ -47,7 +47,7 @@ export class InviteBulkLearnerService implements IInviteBulkLearnerService {
       parsed.valid.map(async ({ row, email, name }): Promise<BulkLearnerRowResultDto> => {
         try {
           await this.inviteLearnerService.invite({ email, name }, spaceId);
-          return this.createResponse(row, email, "OK", undefined, name);
+          return this.createResponse(row, email, "OK", name);
         } catch (err) {
           let message = "Unknown invitation error";
 
@@ -59,7 +59,7 @@ export class InviteBulkLearnerService implements IInviteBulkLearnerService {
             message = "Failed to send invitation email.";
           }
 
-          return this.createResponse(row, email, "Error", message);
+          return this.createResponse(row, email, "Error", name, message);
         }
       })
     );
@@ -74,10 +74,10 @@ export class InviteBulkLearnerService implements IInviteBulkLearnerService {
     }
 
     const errorResults = parsed.errors.map(({ row, email, name, error }) =>
-      this.createResponse(row, email, "Error", error, name)
+      this.createResponse(row, email, "Error", name, error)
     );
     const skippedResults = parsed.skipped.map(({ row, email, name, reason }) =>
-      this.createResponse(row, email, "Skipped", reason, name)
+      this.createResponse(row, email, "Skipped", name, reason)
     );
 
     return { parsed, errorResults, skippedResults };
@@ -87,13 +87,13 @@ export class InviteBulkLearnerService implements IInviteBulkLearnerService {
     row: number,
     email: string,
     status: "OK" | "Error" | "Skipped",
-    message?: string,
-    name?: string
+    name: string,
+    message?: string
   ): BulkLearnerRowResultDto {
     return {
       row,
       email,
-      ...(name ? { name } : {}),
+      name,
       status,
       ...(message ? { message } : {}),
     };

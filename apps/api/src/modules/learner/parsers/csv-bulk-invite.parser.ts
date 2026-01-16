@@ -3,6 +3,8 @@ import { parse } from "csv-parse/sync";
 import { IBulkInviteParser } from "../interfaces/parsers/bulk-invite-parser.interface";
 import { ApiLogger } from "../logger/api-logger.service";
 
+const EMAIL_REGEX = /^[^\s@]+@[A-Za-z0-9_-]+(\.[A-Za-z0-9_-]+)+$/;
+
 @Injectable()
 export class CsvBulkInviteParser implements IBulkInviteParser {
 
@@ -39,6 +41,11 @@ export class CsvBulkInviteParser implements IBulkInviteParser {
       const email = emailRaw.trim();
       const rowNumber = index + 2;
 
+      if (!name) {
+        errors.push({ row: rowNumber, name, email, error: "Missing name" });
+        return;
+      }
+
       if (!email) {
         errors.push({ row: rowNumber, name, email, error: "Missing email address" });
         return;
@@ -61,6 +68,6 @@ export class CsvBulkInviteParser implements IBulkInviteParser {
   }
 
   private isValidEmail(email: string) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    return EMAIL_REGEX.test(email);
   }
 }

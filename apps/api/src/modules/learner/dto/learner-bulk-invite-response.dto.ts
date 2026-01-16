@@ -3,7 +3,7 @@ export type BulkStatus = "OK" | "Error" | "Skipped";
 export class BulkLearnerRowResultDto {
   row: number;
   email: string;
-  name?: string;
+  name: string;
   status: BulkStatus;
   message?: string;
 }
