@@ -1,4 +1,4 @@
-import { FunctionComponent, useMemo, useState } from "react";
+import { FunctionComponent, useEffect, useMemo, useRef, useState } from "react";
 import { Body1, Body2Regular, H2, styled } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 import { BulkInviteLearnersResponse } from "../../../../fetch/learner";
@@ -11,7 +11,8 @@ interface Props {
 export const VerifyLearnersStep: FunctionComponent<Props> = ({ response }) => {
   const { t } = useTranslation();
 
-  const [verifyTab, setVerifyTab] = useState<"error" | "skipped" | "valid">("skipped");
+  const [verifyTab, setVerifyTab] = useState<"error" | "skipped" | "valid">("error");
+  const hasUserSelectedTabRef = useRef(false);
 
   const verifyResponse = response ?? [];
   const isLoading = !response;
@@ -22,20 +23,40 @@ export const VerifyLearnersStep: FunctionComponent<Props> = ({ response }) => {
     OK: "valid",
   } as const;
 
-  const { verifyCounts, visibleRows } = useMemo(() => {
+  const verifyCounts = useMemo(() => {
     const counts = { error: 0, skipped: 0, valid: 0 };
-    const rows = [];
 
     for (const row of verifyResponse) {
       const tab = statusToTab[row.status];
       counts[tab] += 1;
+    }
+
+    return counts;
+  }, [verifyResponse]);
+
+  const defaultTab = useMemo(() => {
+    if (verifyCounts.error > 0) return "error";
+    if (verifyCounts.skipped > 0) return "skipped";
+    return "valid";
+  }, [verifyCounts.error, verifyCounts.skipped]);
+
+  useEffect(() => {
+    if (isLoading || hasUserSelectedTabRef.current) return;
+    setVerifyTab(defaultTab);
+  }, [defaultTab, isLoading]);
+
+  const visibleRows = useMemo(() => {
+    const rows = [];
+
+    for (const row of verifyResponse) {
+      const tab = statusToTab[row.status];
 
       if (tab === verifyTab) {
         rows.push(row);
       }
     }
 
-    return { verifyCounts: counts, visibleRows: rows };
+    return rows;
   }, [verifyResponse, verifyTab]);
 
   const statusHeader =
@@ -65,21 +86,30 @@ export const VerifyLearnersStep: FunctionComponent<Props> = ({ response }) => {
         <TabButton
           id="verify-tab-error"
           $active={verifyTab === "error"}
-          onClick={() => setVerifyTab("error")}
+          onClick={() => {
+            hasUserSelectedTabRef.current = true;
+            setVerifyTab("error");
+          }}
           type="button"
         >
           {t("learners_bulk_import.tabs.verify_learners.error_tab", { count: verifyCounts.error })}
         </TabButton>
         <TabButton
           $active={verifyTab === "skipped"}
-          onClick={() => setVerifyTab("skipped")}
+          onClick={() => {
+            hasUserSelectedTabRef.current = true;
+            setVerifyTab("skipped");
+          }}
           type="button"
         >
           {t("learners_bulk_import.tabs.verify_learners.skipped_tab", { count: verifyCounts.skipped })}
         </TabButton>
         <TabButton
           $active={verifyTab === "valid"}
-          onClick={() => setVerifyTab("valid")}
+          onClick={() => {
+            hasUserSelectedTabRef.current = true;
+            setVerifyTab("valid");
+          }}
           type="button"
         >
           {t("learners_bulk_import.tabs.verify_learners.valid_tab", { count: verifyCounts.valid })}

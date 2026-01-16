@@ -34,6 +34,10 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const lastVerifiedFileKey = useRef<string | null>(null);
   const lastInvitedFileKey = useRef<string | null>(null);
+  const lastInvitedCount = useRef<number | null>(null);
+
+  const getInviteCount = (response: BulkInviteLearnersResponse | null) =>
+    response?.filter((row) => row.status === "OK").length ?? 0;
 
   const validateStep = () => {
     if (step === 0) {
@@ -131,14 +135,25 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
       const fileKey = `${selectedFile.name}-${selectedFile.size}-${selectedFile.lastModified}`;
       if (lastInvitedFileKey.current === fileKey) {
         onSubmit([]);
+        navigate("/learner", {
+          state: {
+            bulkInviteSent: { count: lastInvitedCount.current ?? getInviteCount(bulkInviteResponse) },
+          },
+        });
         return;
       }
 
       setIsSubmitting(true);
       inviteLearnersBulk(selectedFile)
-        .then(() => {
+        .then((response) => {
+          lastInvitedCount.current = getInviteCount(response);
           lastInvitedFileKey.current = fileKey;
           onSubmit([]);
+          navigate("/learner", {
+            state: {
+              bulkInviteSent: { count: lastInvitedCount.current },
+            },
+          });
         })
         .catch((error) => {
           console.error("Failed to invite learners in bulk:", error);

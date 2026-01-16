@@ -381,6 +381,10 @@
             "title": "Are you sure you want to exit?",
             "message": "Any unsaved changes will be lost."
         },
+        "bulk_invite_sent": {
+            "title": "Sending invitations",
+            "description": "Shira is sending email invitations to {{count}} learners. This process may take a few minutes. You can close this modal and continue working on Shira."
+        },
         "edit_question_confirmation": {
             "title": "Are you sure you want to edit this quiz?",
             "message": "Some learners have already taken this quiz. Adding or editing questions may affect the accuracy of Results."
