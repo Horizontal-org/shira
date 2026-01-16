@@ -31,6 +31,7 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [bulkInviteResponse, setBulkInviteResponse] = useState<BulkInviteLearnersResponse | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const lastVerifiedFileKey = useRef<string | null>(null);
   const lastInvitedFileKey = useRef<string | null>(null);

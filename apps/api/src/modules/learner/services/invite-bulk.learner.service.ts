@@ -26,7 +26,7 @@ export class InviteBulkLearnerService implements IInviteBulkLearnerService {
   ): Promise<BulkLearnerRowResultDto[]> {
     const { parsed, errorResults, skippedResults } = this.parseFile(file);
 
-    this.logger.debug(`Verifying ${parsed.total} learners in bulk for space ID ${spaceId}`);
+    this.logger.log(`Verifying ${parsed.total} learners in bulk for space ID ${spaceId}`);
 
     const validResults = parsed.valid.map(({ row, email, name }) =>
       this.createResponse(row, email, "OK", name)
@@ -41,7 +41,7 @@ export class InviteBulkLearnerService implements IInviteBulkLearnerService {
   ): Promise<BulkLearnerRowResultDto[]> {
     const { parsed, errorResults, skippedResults } = this.parseFile(file);
 
-    this.logger.debug(`Inviting ${parsed.total} learners in bulk for space ${spaceId}`);
+    this.logger.log(`Inviting ${parsed.total} learners in bulk for space ${spaceId}`);
 
     const results = await Promise.all(
       parsed.valid.map(async ({ row, email, name }): Promise<BulkLearnerRowResultDto> => {

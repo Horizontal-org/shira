@@ -16,7 +16,7 @@ export class CsvBulkInviteParser implements IBulkInviteParser {
   }
 
   parse(file: Express.Multer.File) {
-    this.logger.debug(`Parsing CSV bulk invite file: ${file.originalname}`);
+    this.logger.log(`Parsing CSV bulk invite file: ${file.originalname}`);
 
     const content = file.buffer?.toString("utf8") ?? "";
 
@@ -34,6 +34,7 @@ export class CsvBulkInviteParser implements IBulkInviteParser {
     const valid: Array<{ row: number; name: string; email: string }> = [];
     const errors: Array<{ row: number; name: string; email: string; error: string }> = [];
     const skipped: Array<{ row: number; name: string; email: string; reason: string }> = [];
+    const seenEmails = new Set<string>();
 
     dataRows.forEach((row, index) => {
       const [nameRaw = "", emailRaw = ""] = Array.isArray(row) ? row : [];
@@ -56,6 +57,13 @@ export class CsvBulkInviteParser implements IBulkInviteParser {
         return;
       }
 
+      const normalizedEmail = email.toLowerCase();
+      if (seenEmails.has(normalizedEmail)) {
+        skipped.push({ row: rowNumber, name, email, reason: "Duplicate email address" });
+        return;
+      }
+
+      seenEmails.add(normalizedEmail);
       valid.push({ row: rowNumber, name, email });
     });
 
