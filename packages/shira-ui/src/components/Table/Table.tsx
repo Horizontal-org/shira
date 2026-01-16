@@ -26,7 +26,7 @@ export interface TableProps {
 
 export const Table = ({
   columns = [],
-  data = [],
+  data = null,
   colGroups = null,
   loading,
   rowSelection,
@@ -108,22 +108,13 @@ export const Table = ({
                   aria-selected={selected}
                   onKeyDown={(e) => {
                     if (!selectable) return;
-
-                    // If user is interacting with a checkbox/button/etc inside the row,
-                    // do NOT toggle the row selection here (avoids double toggles).
-                    // if (isFromInteractive(e.target)) return;
-
                     if (e.key === "Enter" || e.key === " ") {
                       e.preventDefault();
                       r.toggleSelected();
                     }
                   }}
-                  onClick={(e) => {
+                  onClick={() => {
                     if (!selectable) return;
-
-                    // Avoid double-toggle when clicking checkbox / menu / link inside row
-                    // if (isFromInteractive(e.target)) return;
-
                     r.toggleSelected();
                   }}
                 >
@@ -213,7 +204,6 @@ const Tr = styled.tr<{ $selected?: boolean; $selectable?: boolean }>`
     $selected ? theme.colors.green1 : theme.colors.light.white};
   }
 
-  /* hover */
   &:hover {
     position: relative;
     z-index: 1;
@@ -226,7 +216,6 @@ const Tr = styled.tr<{ $selected?: boolean; $selectable?: boolean }>`
     $selected ? theme.colors.green1 : theme.colors.light.paleGreen};
   }
 
-  /* focus (keyboard) */
   &:focus-visible,
   &:focus-within {
     outline: 2px solid ${({ theme }) => theme.colors.green3};
