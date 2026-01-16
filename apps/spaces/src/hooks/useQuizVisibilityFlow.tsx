@@ -63,7 +63,7 @@ export const useQuizVisibilityFlow = ({ createQuiz, fetchQuizzes, t }: UseQuizFl
 
         await duplicateQuiz(selectedQuizForDuplicate.id, title.trim(), visibility);
 
-        toast.success(t("success_messages.quiz_created", { quiz_name: title.trim() }), {
+        toast.success(t("success_messages.quiz_duplicated", { quiz_name: title.trim() }), {
           duration: 3000,
         });
 
