@@ -3,7 +3,7 @@ import { parse } from "csv-parse/sync";
 import { IBulkInviteParser } from "../interfaces/parsers/bulk-invite-parser.interface";
 import { ApiLogger } from "../logger/api-logger.service";
 
-const EMAIL_REGEX = /^[^\s@]+@[A-Za-z0-9_-]+(\.[A-Za-z0-9_-]+)+$/;
+const EMAIL_REGEX = /^[^\s@]+@([A-Za-z0-9_-]+\.)+[A-Za-z0-9_-]{2,}$/;
 
 @Injectable()
 export class CsvBulkInviteParser implements IBulkInviteParser {
