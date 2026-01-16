@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import styled from 'styled-components'
+import styled from "styled-components";
 
 interface Props {
   checked: boolean;
@@ -21,24 +21,26 @@ export const TableCheckbox: FunctionComponent<Props> = ({
 
   return (
     <Wrapper
-      isVisible={isTDCheckbox && !checked}
-      onClick={(event) => preventClickBubbling(event)}
+      data-row-checkbox
+      $isHidden={isTDCheckbox && !checked}
+      onClick={preventClickBubbling}
+      onKeyDown={preventClickBubbling}
     >
       <input
         type="checkbox"
+        checked={checked}
         onChange={onChange}
       />
       <Checkmark
         checked={checked}
         ind={indeterminate}
-      >
-      </Checkmark>
+      />
     </Wrapper>
-  )
-}
+  );
+};
 
-const Wrapper = styled.label<{ isVisible: boolean }>`
-  position: relative; 
+const Wrapper = styled.label<{ $isHidden: boolean }>`
+  position: relative;
   height: 18px;
   width: 18px;
   display: block;
@@ -51,14 +53,16 @@ const Wrapper = styled.label<{ isVisible: boolean }>`
     width: 0;
   }
 
-  ${props => props.isVisible && `
-    visibility: hidden;
-  `}
+  ${({ $isHidden }) =>
+    $isHidden &&
+    `
+      visibility: hidden;
+    `}
 `;
 
 const Checkmark = styled.span<{
   checked: boolean;
-  ind: boolean
+  ind: boolean;
 }>`
   position: absolute;
   cursor: pointer;
@@ -66,10 +70,10 @@ const Checkmark = styled.span<{
   left: 0;
   height: 18px;
   width: 18px;
-  border: 2px solid ${props => props.theme.colors.dark.mediumGrey};
+  border: 2px solid ${({ theme }) => theme.colors.dark.mediumGrey};
   border-radius: 2px;
   box-sizing: border-box;
-  
+
   &:after {
     content: "";
     position: absolute;
@@ -80,33 +84,34 @@ const Checkmark = styled.span<{
     height: 9px;
     border: solid white;
     border-width: 0 3px 3px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
     transform: rotate(45deg);
   }
 
-  ${props => props.checked && `
-    background-color: ${props.theme.colors.green5};
-    border: 2px solid ${props.theme.colors.green5};
-    &:after {
-      display: block;
-    }
-  `}
+  ${({ checked, theme }) =>
+    checked &&
+    `
+      background-color: ${theme.colors.green5};
+      border-color: ${theme.colors.green5};
 
-  ${props => props.ind && `
-    background-color: ${props.theme.colors.green5};
-    border: 2px solid ${props.theme.colors.green5};
-    &:after {
-      display: block;
-      content: "";
-      transform: initial;
-      -webkit-transform: initial;
-      -ms-transform: initial;
-      top: auto;
-      left: 1px;
-      width: 12px;
-      height: 6px;
-      border-width: 0 0 3px 0;
-    }
-  `}
+      &:after {
+        display: block;
+      }
+    `}
+
+  ${({ ind, theme }) =>
+    ind &&
+    `
+      background-color: ${theme.colors.green5};
+      border-color: ${theme.colors.green5};
+
+      &:after {
+        display: block;
+        transform: none;
+        top: auto;
+        left: 1px;
+        width: 12px;
+        height: 6px;
+        border-width: 0 0 3px 0;
+      }
+    `}
 `;
