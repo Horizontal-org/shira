@@ -402,6 +402,7 @@
         "quiz_link_copied": "The public quiz link has been copied to your clipboard.",
         "quiz_deleted": "The quiz has been deleted",
         "quiz_created": "The quiz has been created",
+        "quiz_duplicated": "The quiz has been duplicated",
         "quiz_updated": "The quiz has been updated",
         "quiz_order_updated": "The quiz order has been updated",
         "question_created": "Question created",
