@@ -79,8 +79,8 @@ export const VerifyLearnersTable: FunctionComponent<Props> = ({
                     </StatusIcon>
                   )}
                   {rowData.status === "Skipped" && (
-                    <StatusIcon $variant="success">
-                      <FiCheck size={12} />
+                    <StatusIcon $variant="neutral">
+                      <FiX size={12} />
                     </StatusIcon>
                   )}
                   <Body4>{rowData.message}</Body4>
@@ -111,6 +111,7 @@ export const VerifyLearnersTable: FunctionComponent<Props> = ({
       columns={columns}
       rowSelection={rowSelection}
       setRowSelection={setRowSelection}
+      enableRowSelection={false}
       pageSize={Math.max(tableData.length, 1)}
       colGroups={(
         <colgroup>
@@ -140,26 +141,22 @@ const StatusPill = styled.span<{ $status: "Error" | "Skipped" | "OK" }>`
   align-items: center;
   gap: 6px;
   padding: 4px 8px;
-  border-radius: 2px;
+  border-radius: "2px";
   font-weight: 600;
   font-size: 12px;
 
   color: ${({ theme, $status }) =>
-    $status === "Error"
-      ? theme.colors.error9
-      : $status === "Skipped"
-        ? theme.colors.dark.darkGrey
+    $status === "Error" ? theme.colors.error9
+      : $status === "Skipped" ? theme.colors.dark.darkGrey
         : theme.colors.green9};
 
   background: ${({ theme, $status }) =>
-    $status === "Error"
-      ? theme.colors.light.paleRed
-      : $status === "Skipped"
-        ? theme.colors.dark.lightGrey
+    $status === "Error" ? theme.colors.light.paleRed
+      : $status === "Skipped" ? theme.colors.light.paleGrey
         : theme.colors.light.paleGreen};
 `;
 
-const StatusIcon = styled.span<{ $variant?: "success" }>`
+const StatusIcon = styled.span<{ $variant?: "success" | "neutral" }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -167,6 +164,8 @@ const StatusIcon = styled.span<{ $variant?: "success" }>`
   height: 16px;
   border-radius: 50%;
   background: ${({ theme, $variant }) =>
-    $variant === "success" ? theme.colors.green6 : theme.colors.error6};
+    $variant === "success" ? theme.colors.green6
+      : $variant === "neutral" ? theme.colors.dark.darkGrey
+        : theme.colors.error6};
   color: ${props => props.theme.colors.light.white};
 `;

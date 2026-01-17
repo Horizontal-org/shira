@@ -56,6 +56,7 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
     if (!file) return;
     setSelectedFile(file);
     setBulkInviteResponse(null);
+
     lastVerifiedFileKey.current = null;
     lastInvitedFileKey.current = null;
   };
@@ -66,6 +67,7 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
     setSelectedFile(null);
     setBulkInviteResponse(null);
     setIsDragging(false);
+
     lastVerifiedFileKey.current = null;
     lastInvitedFileKey.current = null;
     if (fileInputRef.current) {
