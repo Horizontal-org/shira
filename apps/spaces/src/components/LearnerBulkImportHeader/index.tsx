@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react"
-import { styled, Logo, Body2Regular, Button, useTheme } from "@shira/ui";
+import { styled, Logo, Body2Regular, Button, defaultTheme } from "@shira/ui";
 import { IoClose } from "react-icons/io5";
 import { FiChevronRight } from "react-icons/fi";
 import { ButtonWithTooltip } from "../ButtonWithTooltip";
@@ -18,11 +18,9 @@ export const LearnerBulkImportHeader: FunctionComponent<Props> = ({
   onNext,
   onBack,
   onExit,
-  disableNext,
-  step
-}) => {
+  step,
+  disableNext }) => {
 
-  const { theme } = useTheme();
   const { t } = useTranslation();
 
   return (
@@ -34,7 +32,7 @@ export const LearnerBulkImportHeader: FunctionComponent<Props> = ({
 
         <CloseWrapper id="learner-bulk-import-header-close" onClick={onExit}>
           <IoClose
-            color="#5F6368"
+            color={defaultTheme.colors.dark.darkGrey}
             size={24}
           />
         </CloseWrapper>
@@ -42,23 +40,39 @@ export const LearnerBulkImportHeader: FunctionComponent<Props> = ({
         <Body2Regular>{t('learners_bulk_import.header_title')}</Body2Regular>
       </Left>
       <Right>
-        <Button
-          id="learner-bulk-import-header-start-over"
-          leftIcon={<FaArrowRotateRight size={16} />}
-          onClick={onBack}
-          text={t('buttons.start_over')}
-          type="outline"
-        />
-        <ButtonWithTooltip
-          id="learner-bulk-import-header-next"
-          color="#52752C"
-          rightIcon={<FiChevronRight size={16} />}
-          disabled={disableNext}
-          onClick={onNext}
-          text={t('buttons.next')}
-          type="primary"
-          showTooltipWhenDisabled={disableNext}
-        />
+        {(step === 1 || step === 2) && (
+          <Button
+            id="learner-bulk-import-header-start-over"
+            leftIcon={<FaArrowRotateRight size={16} />}
+            onClick={onBack}
+            text={t('buttons.start_over')}
+            type="outline"
+          />
+        )}
+        {(step === 0 || step === 1) && (
+          <ButtonWithTooltip
+            id="learner-bulk-import-header-next"
+            color={defaultTheme.colors.green7}
+            rightIcon={<FiChevronRight size={16} />}
+            disabled={disableNext}
+            onClick={onNext}
+            text={t('buttons.next')}
+            type="primary"
+            showTooltipWhenDisabled={disableNext}
+          />
+        )}
+        {step === 2 && (
+          <ButtonWithTooltip
+            id="learner-bulk-import-header-send-invitations"
+            color={defaultTheme.colors.green7}
+            rightIcon={<FiChevronRight size={16} />}
+            disabled={disableNext}
+            onClick={onNext}
+            text={t('buttons.send_invitations')}
+            type="primary"
+            showTooltipWhenDisabled={disableNext}
+          />
+        )}
       </Right>
     </Wrapper>
   )
