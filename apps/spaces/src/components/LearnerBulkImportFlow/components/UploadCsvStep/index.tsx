@@ -12,8 +12,9 @@ import {
 } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 import { FaFileUpload } from "react-icons/fa";
-import { FiCheck, FiDownload, FiFileText, FiInfo } from "react-icons/fi";
+import { FiCheck, FiDownload, FiInfo } from "react-icons/fi";
 import { IoIosCloseCircle } from "react-icons/io";
+import { BiSolidSpreadsheet } from "react-icons/bi";
 
 interface Props {
   selectedFile: File | null;
@@ -135,7 +136,7 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
           <LoadingBody>
             <SelectedFileCard $isLoading>
               <FileIcon>
-                <FiFileText size={20} />
+                <BiSolidSpreadsheet size={20} />
               </FileIcon>
               <FileInfo>
                 <Body2Regular title={selectedFile.name}>{selectedFile.name}</Body2Regular>
@@ -171,7 +172,7 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
           <CompleteBody>
             <SelectedFileCard>
               <FileIcon>
-                <FiFileText size={20} />
+                <BiSolidSpreadsheet size={20} />
               </FileIcon>
               <FileInfo>
                 <Body2Regular title={selectedFile.name}>{selectedFile.name}</Body2Regular>
@@ -337,7 +338,7 @@ const SelectedFileCard = styled.div<{ $isLoading?: boolean }>`
 const FileIcon = styled.div`
   width: 40px;
   height: 40px;
-  border-radius: 12px;
+  border-radius: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
