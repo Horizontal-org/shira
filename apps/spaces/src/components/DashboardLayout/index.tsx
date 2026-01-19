@@ -106,7 +106,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     updateQuiz({
       id: cardId,
       published
-    })
+    }, published ? 'update_published' : 'update_unpublished');
 
     setCards(currentCards =>
       currentCards.map(card =>
@@ -155,7 +155,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
       />
 
       <MainContent $isCollapsed={isCollapsed}>
-        <BetaBanner url="https://shira.app/beta-user"  />
+        <BetaBanner url="https://shira.app/beta-user" />
         <MainContentWrapper>
           <HeaderContainer>
             <StyledSubHeading3 id="space-name">{space && space.name}</StyledSubHeading3>
