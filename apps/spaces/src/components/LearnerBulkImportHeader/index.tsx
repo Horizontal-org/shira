@@ -19,7 +19,8 @@ export const LearnerBulkImportHeader: FunctionComponent<Props> = ({
   onBack,
   onExit,
   step,
-  disableNext }) => {
+  disableNext
+}) => {
 
   const { t } = useTranslation();
 
@@ -59,6 +60,7 @@ export const LearnerBulkImportHeader: FunctionComponent<Props> = ({
             text={t('buttons.next')}
             type="primary"
             showTooltipWhenDisabled={disableNext}
+            tooltipText={t('learners_bulk_import.tabs.verify_learners.empty_valid')}
           />
         )}
         {step === 2 && (
@@ -71,6 +73,7 @@ export const LearnerBulkImportHeader: FunctionComponent<Props> = ({
             text={t('buttons.send_invitations')}
             type="primary"
             showTooltipWhenDisabled={disableNext}
+            tooltipText={t('learners_bulk_import.tabs.verify_learners.empty_valid')}
           />
         )}
       </Right>
