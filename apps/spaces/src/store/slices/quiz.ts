@@ -3,6 +3,8 @@ import { createQuiz, deleteQuiz, getQuizzes, reorderQuiz, ReorderQuizPayload, up
 
 export enum QuizSuccessStates {
   update = 'UPDATE',
+  update_published = 'UPDATE_PUBLISHED',
+  update_unpublished = 'UPDATE_UNPUBLISHED',
   delete = 'DELETE',
   create = 'CREATE',
   reorder = 'REORDER',
@@ -14,6 +16,8 @@ export enum QuizSuccessStates {
 
 export const SUCCESS_MESSAGES = {
   [QuizSuccessStates.update]: "success_messages.quiz_updated",
+  [QuizSuccessStates.update_published]: "success_messages.quiz_published",
+  [QuizSuccessStates.update_unpublished]: "success_messages.quiz_unpublished",
   [QuizSuccessStates.reorder]: "success_messages.quiz_order_updated",
   [QuizSuccessStates.delete]: "success_messages.quiz_deleted",
   [QuizSuccessStates.create]: "success_messages.quiz_created",
@@ -44,7 +48,7 @@ export interface Quiz {
 export interface QuizSlice {
   quizzes: Quiz[] | []
   fetchQuizzes: () => void
-  updateQuiz: (data: UpdateQuizPayload) => void,
+  updateQuiz: (data: UpdateQuizPayload, successAction?: string) => void,
   reorderQuiz: (data: ReorderQuizPayload) => void
   deleteQuiz: (id: number) => void,
   createQuiz: (title: string, visibility: string) => Promise<string | undefined>,
@@ -70,14 +74,19 @@ export const createQuizSlice: StateCreator<
       quizzes: res,
     })
   },
-  updateQuiz: async (toUpdate: UpdateQuizPayload) => {
+
+  updateQuiz: async (toUpdate: UpdateQuizPayload, successAction?: string) => {
     set({ quizActionSuccess: null })
     await updateQuiz(toUpdate)
 
-    set({
-      quizActionSuccess: QuizSuccessStates.update
-    })
+    // TODO refactor error/success handling
+    if (successAction) {
+      set({ quizActionSuccess: QuizSuccessStates[successAction] })
+    } else {
+      set({ quizActionSuccess: QuizSuccessStates.update })
+    }
   },
+
   reorderQuiz: async (reorderData: ReorderQuizPayload) => {
     set({ quizActionSuccess: null })
     await reorderQuiz(reorderData)

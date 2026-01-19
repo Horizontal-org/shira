@@ -405,6 +405,8 @@
         "quiz_duplicated": "The quiz has been duplicated",
         "quiz_updated": "The quiz has been updated",
         "quiz_order_updated": "The quiz order has been updated",
+        "quiz_published": "The quiz has been published",
+        "quiz_unpublished": "The quiz has been unpublished",
         "question_created": "Question created",
         "question_created_2": "{{question_name}} created successfully",
         "question_added": "The question has been added to your quiz",

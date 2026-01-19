@@ -158,7 +158,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     updateQuiz({
       id: cardId,
       published: published
-    })
+    }, published ? 'update_published' : 'update_unpublished')
 
     setIsPublished(published)
   };
