@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { SavingLearnerException as SaveLearnerException } from "../exceptions/save.learner.exception";
 import { ConflictLearnerException } from "../exceptions/conflict.learner.exception";
 import { InvitationEmailSendFailedException } from "../exceptions/invitation-email-send.learner.exception";
@@ -8,6 +8,9 @@ import { IInviteLearnerService } from "../interfaces/services/invite.learner.ser
 import { IBulkInviteParserResolver } from "../interfaces/parsers/bulk-invite-parser-resolver.interface";
 import { BulkLearnerRowResultDto } from "../dto/learner-bulk-invite-response.dto";
 import { ApiLogger } from "../logger/api-logger.service";
+import { BulkUploadException } from "../exceptions";
+import { BulkUploadErrorCode } from "../exceptions/errors/learner-bulk.error-codes";
+import { BulkInviteParsedResult } from "../interfaces/parsers/bulk-invite-parser.interface";
 
 @Injectable()
 export class InviteBulkLearnerService implements IInviteBulkLearnerService {
@@ -68,9 +71,12 @@ export class InviteBulkLearnerService implements IInviteBulkLearnerService {
   }
 
   private parseFile(file: Express.Multer.File) {
-    const parsed = this.parser.parse(file);
-    if (!parsed) {
-      throw new BadRequestException("Unsupported file type");
+    let parsed: BulkInviteParsedResult;
+
+    try {
+      parsed = this.parser.parse(file);
+    } catch (e) {
+      throw new BulkUploadException(BulkUploadErrorCode.CouldNotProcess);
     }
 
     const errorResults = parsed.errors.map(({ row, email, name, error }) =>

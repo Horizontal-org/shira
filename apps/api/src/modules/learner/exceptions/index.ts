@@ -8,5 +8,9 @@ export { ConflictLearnerException } from './conflict.learner.exception';
 export { GenericErrorException } from './generic-error.learner.exception';
 export { NotConfirmedException } from './not-confirmed.learner.exception';
 
-//LearnerQuiz
+// LearnerQuiz
 export { AlreadyCompletedException } from './already-completed.learner-quiz.exception';
+
+// Bulk Learner
+export { BulkUploadException } from './bulk-upload.learner.exception';
+export { BulkParseException } from './bulk-parse.learner.exception';
