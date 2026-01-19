@@ -496,103 +496,103 @@
                 "title": "Error: Invalid formatting",
                 "subtitle": "Please make sure your spreadsheet is formatted according to the guidelines above and try again."
             }
+        }
+    },
+    "success_messages": {
+        "quiz_link_copied": "The public quiz link has been copied to your clipboard.",
+        "quiz_deleted": "The quiz has been deleted",
+        "quiz_created": "The quiz has been created",
+        "quiz_updated": "The quiz has been updated",
+        "quiz_order_updated": "The quiz order has been updated",
+        "question_created": "Question created",
+        "question_created_2": "{{question_name}} created successfully",
+        "question_added": "The question has been added to your quiz",
+        "question_updated": "Question updated",
+        "question_deleted": "The question has been deleted",
+        "question_copied": "The question has been duplicated",
+        "no_questions_found": "No questions found.",
+        "learner_invitation_sent": "The invitation has been sent.",
+        "learner_invitation_resent": "The invitation has been re-sent to {{email}}",
+        "learner_deleted": "The learner has been deleted.",
+        "learners_deleted": "The selected learners have been deleted.",
+        "learner_assigned": "This quiz has been assigned to {{count}} new learner.",
+        "learners_assigned_plural": "This quiz has been assigned to {{count}} new learners.",
+        "learner_unassigned": "This quiz has been unassigned from {{count}} learner.",
+        "learners_unassigned_plural": "This quiz has been unassigned from {{count}} learners."
+    },
+    "loading_messages": {
+        "loading": "Loading...",
+        "saving": "Saving...",
+        "creating": "Creating...",
+        "duplicating": "Duplicating...",
+        "learners": "Loading learners...",
+        "loading_library_questions": "Loading questions...",
+        "uploading_image": "Uploading image...",
+        "assigning_quiz_to_learners": "Assigning quiz to learners...",
+        "assigning_quiz_to_learners_description": "Shira is working to assign the quiz to the selected learners.",
+        "sending_invitation": "Sending invitation"
+    },
+    "preview": {
+        "show_explanations": "Show explanations",
+        "hide_explanations": "Hide explanations",
+        "next_explanation": "Next explanation",
+        "previous_explanation": "Previous explanation",
+        "no_explanations": "There are no explanations for this question.",
+        "add": "Add to quiz"
+    },
+    "select_languages": {
+        "english": "English",
+        "spanish": "Spanish",
+        "french": "French",
+        "mandarin": "Mandarin"
+    },
+    "get_started": {
+        "title": "Get started",
+        "description": "Create your Shira space to start building your own custom quizzes today.",
+        "organization_name_required": "Organization name (required)",
+        "email_required": "Email (required)",
+        "org_type_label": "I am creating a Shira space as (required):",
+        "loading": "Signing up...",
+        "org_types": {
+            "business": "A business",
+            "cibersecurity": "A cybersecurity service provider",
+            "non_profit": "A non-profit organization",
+            "individual": "An individual (consultant, trainer, etc)"
         },
-        "success_messages": {
-            "quiz_link_copied": "The public quiz link has been copied to your clipboard.",
-            "quiz_deleted": "The quiz has been deleted",
-            "quiz_created": "The quiz has been created",
-            "quiz_updated": "The quiz has been updated",
-            "quiz_order_updated": "The quiz order has been updated",
-            "question_created": "Question created",
-            "question_created_2": "{{question_name}} created successfully",
-            "question_added": "The question has been added to your quiz",
-            "question_updated": "Question updated",
-            "question_deleted": "The question has been deleted",
-            "question_copied": "The question has been duplicated",
-            "no_questions_found": "No questions found.",
-            "learner_invitation_sent": "The invitation has been sent.",
-            "learner_invitation_resent": "The invitation has been re-sent to {{email}}",
-            "learner_deleted": "The learner has been deleted.",
-            "learners_deleted": "The selected learners have been deleted.",
-            "learner_assigned": "This quiz has been assigned to {{count}} new learner.",
-            "learners_assigned_plural": "This quiz has been assigned to {{count}} new learners.",
-            "learner_unassigned": "This quiz has been unassigned from {{count}} learner.",
-            "learners_unassigned_plural": "This quiz has been unassigned from {{count}} learners."
+        "button_sign_up": "Sign up",
+        "validation": {
+            "org_name_required": "Organization name is required",
+            "email_required": "Email is required",
+            "invalid_email": "Please enter a valid email address"
         },
-        "loading_messages": {
-            "loading": "Loading...",
-            "saving": "Saving...",
-            "creating": "Creating...",
-            "duplicating": "Duplicating...",
-            "learners": "Loading learners...",
-            "loading_library_questions": "Loading questions...",
-            "uploading_image": "Uploading image...",
-            "assigning_quiz_to_learners": "Assigning quiz to learners...",
-            "assigning_quiz_to_learners_description": "Shira is working to assign the quiz to the selected learners.",
-            "sending_invitation": "Sending invitation"
+        "errors": {
+            "create_space_failed": "An error occurred while creating your space. Please try again."
         },
-        "preview": {
-            "show_explanations": "Show explanations",
-            "hide_explanations": "Hide explanations",
-            "next_explanation": "Next explanation",
-            "previous_explanation": "Previous explanation",
-            "no_explanations": "There are no explanations for this question.",
-            "add": "Add to quiz"
+        "success": {
+            "title": "Almost there!",
+            "description": "To complete the process, please open the email we sent to your email address and click on the link to create your Shira space.",
+            "didnt_receive": "Didn’t receive an email? If it’s not in your spam folder, please contact us at"
+        }
+    },
+    "create_space": {
+        "title": "Shira spaces",
+        "subtitle": "After you create a space, you will be able to create custom quizzes and questions specifically relevant to your context and communities.",
+        "form_title": "Create a new space",
+        "form_description": "Complete the form below to create your Shira space.",
+        "beta_lead": "Shira spaces are currently in closed beta. To obtain the passphrase necessary to join the beta, email us at",
+        "checking_invitation": "Checking invitation...",
+        "email_label": "Your email address",
+        "password_label": "Password",
+        "confirm_password_label": "Confirm Password",
+        "button_create": "Create new space",
+        "validation": {
+            "email_required": "Email is required",
+            "password_required": "Password is required",
+            "password_min_length": "Password must be at least 8 characters",
+            "passwords_mismatch": "Passwords do not match"
         },
-        "select_languages": {
-            "english": "English",
-            "spanish": "Spanish",
-            "french": "French",
-            "mandarin": "Mandarin"
-        },
-        "get_started": {
-            "title": "Get started",
-            "description": "Create your Shira space to start building your own custom quizzes today.",
-            "organization_name_required": "Organization name (required)",
-            "email_required": "Email (required)",
-            "org_type_label": "I am creating a Shira space as (required):",
-            "loading": "Signing up...",
-            "org_types": {
-                "business": "A business",
-                "cibersecurity": "A cybersecurity service provider",
-                "non_profit": "A non-profit organization",
-                "individual": "An individual (consultant, trainer, etc)"
-            },
-            "button_sign_up": "Sign up",
-            "validation": {
-                "org_name_required": "Organization name is required",
-                "email_required": "Email is required",
-                "invalid_email": "Please enter a valid email address"
-            },
-            "errors": {
-                "create_space_failed": "An error occurred while creating your space. Please try again."
-            },
-            "success": {
-                "title": "Almost there!",
-                "description": "To complete the process, please open the email we sent to your email address and click on the link to create your Shira space.",
-                "didnt_receive": "Didn’t receive an email? If it’s not in your spam folder, please contact us at"
-            }
-        },
-        "create_space": {
-            "title": "Shira spaces",
-            "subtitle": "After you create a space, you will be able to create custom quizzes and questions specifically relevant to your context and communities.",
-            "form_title": "Create a new space",
-            "form_description": "Complete the form below to create your Shira space.",
-            "beta_lead": "Shira spaces are currently in closed beta. To obtain the passphrase necessary to join the beta, email us at",
-            "checking_invitation": "Checking invitation...",
-            "email_label": "Your email address",
-            "password_label": "Password",
-            "confirm_password_label": "Confirm Password",
-            "button_create": "Create new space",
-            "validation": {
-                "email_required": "Email is required",
-                "password_required": "Password is required",
-                "password_min_length": "Password must be at least 8 characters",
-                "passwords_mismatch": "Passwords do not match"
-            },
-            "errors": {
-                "create_space_failed": "An error occurred while creating your space. Please try again."
-            }
+        "errors": {
+            "create_space_failed": "An error occurred while creating your space. Please try again."
         }
     }
 }
