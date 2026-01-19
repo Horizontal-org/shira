@@ -8,10 +8,6 @@ import { IInviteLearnerService } from "../interfaces/services/invite.learner.ser
 import { IBulkInviteParserResolver } from "../interfaces/parsers/bulk-invite-parser-resolver.interface";
 import { BulkLearnerRowResultDto } from "../dto/learner-bulk-invite-response.dto";
 import { ApiLogger } from "../logger/api-logger.service";
-import { LearnerBulkUploadErrorCode } from "../exceptions/errors/learner-bulk.error-codes";
-import { BulkInviteParsedResult } from "../interfaces/parsers/bulk-invite-parser.interface";
-import { BulkCsvProcessingException } from "../exceptions/csv-bulk-could-not-process.learner.exception";
-import { TooManyRowsException } from "../exceptions/csv-bulk-too-many-rows.learner.exception";
 
 @Injectable()
 export class InviteBulkLearnerService implements IInviteBulkLearnerService {

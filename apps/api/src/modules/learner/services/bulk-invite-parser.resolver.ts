@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { TYPES } from "../interfaces";
 import { IBulkInviteParser, BulkInviteParsedResult } from "../interfaces/parsers/bulk-invite-parser.interface";
 import { IBulkInviteParserResolver } from "../interfaces/parsers/bulk-invite-parser-resolver.interface";
