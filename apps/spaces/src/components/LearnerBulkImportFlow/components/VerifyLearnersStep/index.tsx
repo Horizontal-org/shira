@@ -77,8 +77,12 @@ export const VerifyLearnersStep: FunctionComponent<Props> = ({ response }) => {
 
   return (
     <VerifyCard>
-      <H2>{t("learners_bulk_import.tabs.verify_learners.tab_title")}</H2>
-      <Body1>{t("learners_bulk_import.tabs.verify_learners.subtitle")}</Body1>
+      <H2 id="learner-bulk-verify-header">
+        {t("learners_bulk_import.tabs.verify_learners.tab_title")}
+      </H2>
+      <Body1 id="learner-bulk-verify-subtitle">
+        {t("learners_bulk_import.tabs.verify_learners.subtitle")}
+      </Body1>
 
       <Divider />
 
@@ -95,6 +99,7 @@ export const VerifyLearnersStep: FunctionComponent<Props> = ({ response }) => {
           {t("learners_bulk_import.tabs.verify_learners.error_tab", { count: verifyCounts.error })}
         </TabButton>
         <TabButton
+          id="verify-tab-skipped"
           $active={verifyTab === "skipped"}
           onClick={() => {
             hasUserSelectedTabRef.current = true;
@@ -105,6 +110,7 @@ export const VerifyLearnersStep: FunctionComponent<Props> = ({ response }) => {
           {t("learners_bulk_import.tabs.verify_learners.skipped_tab", { count: verifyCounts.skipped })}
         </TabButton>
         <TabButton
+          id="verify-tab-valid"
           $active={verifyTab === "valid"}
           onClick={() => {
             hasUserSelectedTabRef.current = true;

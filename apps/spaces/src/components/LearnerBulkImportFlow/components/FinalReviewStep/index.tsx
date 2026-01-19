@@ -28,8 +28,10 @@ export const FinalReviewStep: FunctionComponent<Props> = ({ response }) => {
 
   return (
     <ReviewCard>
-      <H2>{t("learners_bulk_import.tabs.review.tab_title")}</H2>
-      <Body1>
+      <H2 id="learner-bulk-final-review-header">
+        {t("learners_bulk_import.tabs.review.tab_title")}
+      </H2>
+      <Body1 id="learner-bulk-final-review-subtitle">
         <Trans
           i18nKey="learners_bulk_import.tabs.review.subtitle"
           values={{ count: tableData.length }}

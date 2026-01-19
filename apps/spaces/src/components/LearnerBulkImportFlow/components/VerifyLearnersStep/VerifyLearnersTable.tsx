@@ -1,5 +1,5 @@
 import { FunctionComponent, ReactNode, useMemo, useState } from "react";
-import { Body4, EmptyState, Table, styled } from "@shira/ui";
+import { Body4, EmptyState, Table, defaultTheme, styled } from "@shira/ui";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { FiCheck, FiX } from "react-icons/fi";
 import { BulkLearnerRowResult } from "../../../../fetch/learner";
@@ -102,7 +102,7 @@ export const VerifyLearnersTable: FunctionComponent<Props> = ({
 
   if (!isLoading && tableData.length === 0) {
     return (
-      <EmptyState subtitle={emptyMessage} backgroundColor="white" />
+      <EmptyState subtitle={emptyMessage} backgroundColor={defaultTheme.colors.light.white} />
     );
   }
 

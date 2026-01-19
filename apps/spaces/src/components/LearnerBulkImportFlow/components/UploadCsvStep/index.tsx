@@ -57,8 +57,12 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
 
   return (
     <UploadCard>
-      <H2>{t("learners_bulk_import.tabs.upload_csv.tab_title")}</H2>
-      <Subtitle><Body1>{t("learners_bulk_import.tabs.upload_csv.subtitle")}</Body1></Subtitle>
+      <H2 id="learner-bulk-import-header">
+        {t("learners_bulk_import.tabs.upload_csv.tab_title")}
+      </H2>
+      <Subtitle id="learner-bulk-import-subtitle">
+        <Body1>{t("learners_bulk_import.tabs.upload_csv.subtitle")}</Body1>
+      </Subtitle>
 
       <ActionRow>
         <Button
@@ -85,6 +89,7 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
             <SubHeading1>{t("learners_bulk_import.tabs.upload_csv.section_title")}</SubHeading1>
           </SectionTitle>
           <Dropzone
+            id="dropzone"
             role="button"
             tabIndex={0}
             $isDragging={isDragging}
