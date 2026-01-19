@@ -13,7 +13,7 @@ import { handleHttpError } from "../../fetch/handleError";
 
 interface Props { }
 
-export const LearnerBulkImportFlow: FunctionComponent<Props> = () => {
+export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
@@ -49,7 +49,7 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = () => {
     return true;
   };
 
-  const handleFileChange = async (file: File | null) => {
+  const handleFileChange = (file: File | null) => {
     if (!file) return;
     setSelectedFile(file);
     setBulkInviteResponse(null);

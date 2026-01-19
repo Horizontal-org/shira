@@ -21,7 +21,7 @@ import LogoutLayout from './components/LogoutLayout';
 import { QuestionCreationLayout } from './components/QuestionCreationLayout';
 import { QuestionEditLayout } from './components/QuestionEditLayout';
 import { QuestionLibraryListLayout } from './components/QuestionLibraryListLayout';
-import { LearnerBulkImportFlow } from './components/LearnerBulkImportFlow';
+import { LearnerBulkImportLayout } from './components/LearnerBulkImportFlow';
 import { SupportLayout } from './components/SupportLayout';
 import './language/i18n';
 import { GetStartedLayout } from './components/GetStartedLayout';
@@ -93,7 +93,7 @@ function App() {
                     <Route path='/quiz/:quizId/question/:questionId' element={<QuestionEditLayout />} />
                     <Route path='/question/library' element={<QuestionLibraryListLayout />} />
                     <Route path='/learner' element={<LearnersLayout />} />
-                    <Route path='/learner/import/bulk' element={<LearnerBulkImportFlow />} />
+                    <Route path='/learner/import/bulk' element={<LearnerBulkImportLayout />} />
                     <Route path="/logout" element={<LogoutLayout />} />
                     <Route path="/support" element={<SupportLayout />} />
                   </Route>
