@@ -4,7 +4,7 @@ import { IBulkInviteParser } from "../interfaces/parsers/bulk-invite-parser.inte
 import { ApiLogger } from "../logger/api-logger.service";
 import { CSVParsingException } from "../exceptions/csv-bulk-parse.learner.exception";
 import { TooManyRowsException } from "../exceptions/csv-bulk-too-many-rows.learner.exception";
-import { InvalidHeadersException } from "../exceptions/csv-bulk-invalid-format.learner.exception";
+import { InvalidFileFormatException } from "../exceptions/csv-bulk-invalid-format.learner.exception";
 
 const HEADERS = ["name", "email"];
 const MAX_ROWS = 1000;
@@ -33,17 +33,23 @@ export class CsvBulkInviteParser implements IBulkInviteParser {
       throw new CSVParsingException();
     }
 
-    if (rows.length <= 1) {
+    if (rows.length === 0) {
       return { total: 0, valid: [], errors: [], skipped: [] };
-    }
-
-    if (rows.length > MAX_ROWS) {
-      throw new TooManyRowsException(`There are too many rows in CSV - maxRows: ${MAX_ROWS}, detectedRows: ${rows.length}`);
     }
 
     this.hasValidHeaders(rows[0]);
 
+    if (rows.length === 1) {
+      return { total: 0, valid: [], errors: [], skipped: [] };
+    }
+
     const dataRows = rows.slice(1);
+    this.logger.log(`dataRows.length: ${dataRows.length}`);
+
+    if (dataRows.length > MAX_ROWS) {
+      throw new TooManyRowsException(`There are too many rows in CSV - maxRows: ${MAX_ROWS}, detectedRows: ${dataRows.length}`);
+    }
+
     const valid: Array<{ row: number; name: string; email: string }> = [];
     const errors: Array<{ row: number; name: string; email: string; error: string }> = [];
     const skipped: Array<{ row: number; name: string; email: string; reason: string }> = [];
@@ -91,11 +97,13 @@ export class CsvBulkInviteParser implements IBulkInviteParser {
       normalizedHeaders.includes(expected)
     );
 
+    this.logger.log(`CSV Headers found: ${normalizedHeaders.join(", ")}`);
+
     if (!hasAllHeaders) {
       const missing = HEADERS.filter(
         (expected) => !normalizedHeaders.includes(expected)
       );
-      throw new InvalidHeadersException(`Missing CSV headers: ${missing.join(", ")}`);
+      throw new InvalidFileFormatException(`Missing CSV headers: ${missing.join(", ")}`);
     }
   }
 

@@ -18,7 +18,7 @@ import { IInviteBulkLearnerService } from '../interfaces/services/invite-bulk.le
 import { QuizAssignmentFailedException } from '../exceptions';
 import { ApiLogger } from '../logger/api-logger.service';
 import { QuizUnassignmentFailedException } from '../exceptions/unassign-quiz.learner.exception';
-import { CouldNotProcessCsvException } from '../exceptions/csv-bulk-could-not-process.learner.exception';
+import { BulkCsvProcessingException } from '../exceptions/csv-bulk-could-not-process.learner.exception';
 
 @AuthController('learners')
 export class AuthLearnerController {
@@ -56,7 +56,7 @@ export class AuthLearnerController {
     @SpaceId() spaceId: number
   ) {
     if (!file) {
-      throw new CouldNotProcessCsvException('CSV file is required');
+      throw new BulkCsvProcessingException();
     }
 
     return this.inviteBulkService.invite(file, spaceId);
@@ -70,7 +70,7 @@ export class AuthLearnerController {
     @SpaceId() spaceId: number
   ) {
     if (!file) {
-      throw new CouldNotProcessCsvException();
+      throw new BulkCsvProcessingException();
     }
 
     return this.inviteBulkService.verify(file, spaceId);

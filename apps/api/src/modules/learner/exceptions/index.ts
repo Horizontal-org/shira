@@ -12,5 +12,7 @@ export { NotConfirmedException } from './not-confirmed.learner.exception';
 export { AlreadyCompletedException } from './already-completed.learner-quiz.exception';
 
 // Bulk Learner
-export { BulkUploadException } from './bulk-upload.learner.exception';
-export { CSVParsingException as BulkParseException } from './csv-bulk-parse.learner.exception';
+export { CSVParsingException } from './csv-bulk-parse.learner.exception';
+export { TooManyRowsException } from './csv-bulk-too-many-rows.learner.exception';
+export { InvalidFileFormatException } from './csv-bulk-invalid-format.learner.exception';
+export { BulkCsvProcessingException as CouldNotProcessCsvException } from './csv-bulk-could-not-process.learner.exception';
