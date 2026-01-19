@@ -9,7 +9,7 @@ import { IBulkInviteParserResolver } from "../interfaces/parsers/bulk-invite-par
 import { BulkLearnerRowResultDto } from "../dto/learner-bulk-invite-response.dto";
 import { ApiLogger } from "../logger/api-logger.service";
 import { BulkUploadException } from "../exceptions";
-import { BulkUploadErrorCode } from "../exceptions/errors/learner-bulk.error-codes";
+import { LearnerBulkUploadErrorCode } from "../exceptions/errors/learner-bulk.error-codes";
 import { BulkInviteParsedResult } from "../interfaces/parsers/bulk-invite-parser.interface";
 
 @Injectable()
@@ -76,7 +76,7 @@ export class InviteBulkLearnerService implements IInviteBulkLearnerService {
     try {
       parsed = this.parser.parse(file);
     } catch (e) {
-      throw new BulkUploadException(BulkUploadErrorCode.CouldNotProcess);
+      throw new BulkUploadException(LearnerBulkUploadErrorCode.CouldNotProcess);
     }
 
     const errorResults = parsed.errors.map(({ row, email, name, error }) =>

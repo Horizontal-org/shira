@@ -15,9 +15,10 @@ import { DeleteLearnerDto } from '../dto/delete.learner.dto';
 import { IGetLearnerService } from '../interfaces/services/get.learner.service.interface';
 import { UnassignLearnerDto } from '../dto/unassign.learner.dto';
 import { IInviteBulkLearnerService } from '../interfaces/services/invite-bulk.learner.service.interface';
-import { QuizAssignmentFailedException } from '../exceptions';
+import { BulkParseException, QuizAssignmentFailedException } from '../exceptions';
 import { ApiLogger } from '../logger/api-logger.service';
 import { QuizUnassignmentFailedException } from '../exceptions/unassign-quiz.learner.exception';
+import { LearnerBulkUploadErrorCode } from '../exceptions/errors/learner-bulk.error-codes';
 
 @AuthController('learners')
 export class AuthLearnerController {
@@ -68,6 +69,9 @@ export class AuthLearnerController {
     @UploadedFile() file: Express.Multer.File,
     @SpaceId() spaceId: number
   ) {
+
+    throw new BulkParseException(LearnerBulkUploadErrorCode.CSVParsingError);
+
     if (!file) {
       throw new BadRequestException('CSV file is required');
     }

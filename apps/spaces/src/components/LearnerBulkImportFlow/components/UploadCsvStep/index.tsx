@@ -7,6 +7,7 @@ import {
   H2,
   SubHeading1,
   SubHeading3,
+  defaultTheme,
   styled,
   useTheme,
 } from "@shira/ui";
@@ -15,6 +16,7 @@ import { FaFileUpload } from "react-icons/fa";
 import { FiCheck, FiDownload, FiInfo } from "react-icons/fi";
 import { IoIosCloseCircle } from "react-icons/io";
 import { BiSolidSpreadsheet } from "react-icons/bi";
+import { GoAlertFill } from "react-icons/go";
 
 interface Props {
   selectedFile: File | null;
@@ -29,6 +31,7 @@ interface Props {
   onFileChange: (file: File | null) => void;
   onClearFile: () => void;
   onOpenGuidelines: () => void;
+  uploadError: string;
 }
 
 export const UploadCsvStep: FunctionComponent<Props> = ({
@@ -44,6 +47,7 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
   onFileChange,
   onClearFile,
   onOpenGuidelines,
+  uploadError,
 }) => {
   const { t } = useTranslation();
   const theme = useTheme();
@@ -144,7 +148,7 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
                 <BiSolidSpreadsheet size={20} />
               </FileIcon>
               <FileInfo>
-                <Body2Regular title={selectedFile.name}>{selectedFile.name}</Body2Regular>
+                <FileName title={selectedFile.name}>{selectedFile.name}</FileName>
               </FileInfo>
               <FileMeta>
                 <Body2Regular>{formatFileSize(selectedFile.size)}</Body2Regular>
@@ -165,6 +169,54 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
             </LoadingText>
           </LoadingBody>
         </>
+      ) : uploadError ? (
+        <>
+          <ErrorHeader>
+              <GoAlertFill size={20} color={defaultTheme.colors.error7} />
+            <SubHeading1>
+              {t(`error_messages.learners_bulk_import.${uploadError}.title`)}
+            </SubHeading1>
+          </ErrorHeader>
+
+          <ErrorBody>
+            <SelectedFileCard>
+              <FileIcon>
+                <BiSolidSpreadsheet size={20} />
+              </FileIcon>
+              <FileInfo>
+                <FileName title={selectedFile.name} $isDisabled>{selectedFile.name}</FileName>
+              </FileInfo>
+              <FileMeta>
+                <Body2Regular>{formatFileSize(selectedFile.size)}</Body2Regular>
+              </FileMeta>
+              <RemoveButton
+                type="button"
+                aria-label={t("learners_bulk_import.tabs.upload_csv.remove_file")}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  onClearFile();
+                }}
+              >
+                <IoIosCloseCircle size={26} />
+              </RemoveButton>
+            </SelectedFileCard>
+
+            <ErrorText>
+              <Body1>
+                {t(`error_messages.learners_bulk_import.${uploadError}.subtitle`)}
+              </Body1>
+            </ErrorText>
+
+            <Button
+              id="bulk-import-try-again"
+              text={t("buttons.try_again")}
+              type="outline"
+              onClick={() => {
+                onClearFile();
+              }}
+            />
+          </ErrorBody>
+        </>
       ) : (
         <>
           <CompleteHeader>
@@ -180,7 +232,7 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
                 <BiSolidSpreadsheet size={20} />
               </FileIcon>
               <FileInfo>
-                <Body2Regular title={selectedFile.name}>{selectedFile.name}</Body2Regular>
+                <FileName title={selectedFile.name}>{selectedFile.name}</FileName>
               </FileInfo>
               <FileMeta>
                 <Body2Regular>{formatFileSize(selectedFile.size)}</Body2Regular>
@@ -364,6 +416,11 @@ const FileInfo = styled.div`
   }
 `;
 
+const FileName = styled(Body2Regular)<{ $isDisabled?: boolean }>`
+  color: ${({ theme, $isDisabled }) =>
+    $isDisabled ? theme.colors.dark.lightGrey : theme.colors.dark.black};
+`;
+
 const FileMeta = styled.div`
   color: ${props => props.theme.colors.dark.mediumGrey};
   white-space: nowrap;
@@ -407,4 +464,24 @@ const DropzoneMeta = styled.div`
     align-items: center;
     gap: 4px;
   }
+`;
+
+const ErrorHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 24px;
+`;
+
+const ErrorBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+`;
+
+const ErrorText = styled.div`
+  text-align: center;
+  max-width: ${props => props.theme.breakpoints.sm};
 `;

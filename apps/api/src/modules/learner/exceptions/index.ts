@@ -13,4 +13,4 @@ export { AlreadyCompletedException } from './already-completed.learner-quiz.exce
 
 // Bulk Learner
 export { BulkUploadException } from './bulk-upload.learner.exception';
-export { BulkParseException } from './bulk-parse.learner.exception';
+export { CSVParsingException as BulkParseException } from './csv-bulk-parse.learner.exception';

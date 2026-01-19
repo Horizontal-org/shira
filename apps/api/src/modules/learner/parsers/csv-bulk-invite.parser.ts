@@ -2,9 +2,9 @@ import { Injectable } from "@nestjs/common";
 import { parse } from "csv-parse/sync";
 import { IBulkInviteParser } from "../interfaces/parsers/bulk-invite-parser.interface";
 import { ApiLogger } from "../logger/api-logger.service";
-import { BulkParseException } from "../exceptions/bulk-parse.learner.exception";
-import { BulkCsvParseErrorCode, BulkUploadErrorCode } from "../exceptions/errors/learner-bulk.error-codes";
-import { BulkUploadException } from "../exceptions";
+import { CSVParsingException } from "../exceptions/csv-bulk-parse.learner.exception";
+import { TooManyRowsException } from "../exceptions/csv-bulk-too-many-rows.learner.exception";
+import { InvalidHeadersException } from "../exceptions/csv-bulk-invalid-headers.learner.exception";
 
 const HEADERS = ["name", "email"];
 const MAX_ROWS = 1000;
@@ -29,7 +29,8 @@ export class CsvBulkInviteParser implements IBulkInviteParser {
     try {
       rows = parse(content, { bom: true, skip_empty_lines: true, relax_column_count: true }) as string[][];
     } catch (e) {
-      throw new BulkParseException(BulkCsvParseErrorCode.CSVParsingError, { details: e.message });
+      this.logger.error(`Error parsing CSV file: ${e.message}`);
+      throw new CSVParsingException();
     }
 
     if (rows.length <= 1) {
@@ -37,8 +38,7 @@ export class CsvBulkInviteParser implements IBulkInviteParser {
     }
 
     if (rows.length > MAX_ROWS) {
-      throw new BulkUploadException(BulkUploadErrorCode.TooManyRows,
-        { maxRows: MAX_ROWS, detectedRows: rows.length });
+      throw new TooManyRowsException(`There are too many rows in CSV - maxRows: ${MAX_ROWS}, detectedRows: ${rows.length}`);
     }
 
     this.hasValidHeaders(rows[0]);
@@ -95,14 +95,13 @@ export class CsvBulkInviteParser implements IBulkInviteParser {
       const missing = HEADERS.filter(
         (expected) => !normalizedHeaders.includes(expected)
       );
-      this.logger.error(`Missing CSV headers: ${missing.join(", ")}`);
-      throw new BulkParseException(BulkCsvParseErrorCode.InvalidHeaders, { missing });
+      throw new InvalidHeadersException(`Missing CSV headers: ${missing.join(", ")}`);
     }
   }
 
   private hasValidName(errors, rowNumber: number, email: string, name: string) {
     if (!name) {
-      errors.push({ row: rowNumber, name, email, error: BulkUploadErrorCode.MissingName });
+      errors.push({ row: rowNumber, name, email, error: "missing_name" });
       return false;
     }
     return true;
@@ -110,12 +109,12 @@ export class CsvBulkInviteParser implements IBulkInviteParser {
 
   private hasValidEmail(errors, row: number, name: string, email: string) {
     if (!email) {
-      errors.push({ row, name, email, error: BulkUploadErrorCode.MissingEmail });
+      errors.push({ row, name, email, error: "missing_email" });
       return false;
     }
 
     if (!this.isValidEmail(email)) {
-      errors.push({ row, name, email, error: BulkUploadErrorCode.InvalidEmail });
+      errors.push({ row, name, email, error: "invalid_email" });
       return false;
     }
 
@@ -124,7 +123,7 @@ export class CsvBulkInviteParser implements IBulkInviteParser {
 
   private hasUniqueEmail(skipped, row: number, name: string, email: string, normalizedEmail: string, seenEmails) {
     if (seenEmails.has(normalizedEmail)) {
-      skipped.push({ row, name, email, reason: BulkUploadErrorCode.DuplicatedEmail });
+      skipped.push({ row, name, email, reason: "duplicated_email" });
       return false;
     }
 

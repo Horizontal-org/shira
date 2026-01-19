@@ -10,6 +10,7 @@ import { UploadCsvStep } from "./components/UploadCsvStep";
 import { VerifyLearnersStep } from "./components/VerifyLearnersStep";
 import { FinalReviewStep } from "./components/FinalReviewStep";
 import { BulkInviteLearnersResponse, inviteLearnersBulk, verifyLearnersBulk } from "../../fetch/learner";
+import { handleHttpError } from "../../fetch/handleError";
 
 interface Props {
   onSubmit: (learners: Learner[]) => void;
@@ -32,6 +33,8 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
   const [bulkInviteResponse, setBulkInviteResponse] = useState<BulkInviteLearnersResponse | null>(null);
   const [isDragging, setIsDragging] = useState(false);
 
+  const [uploadError, setUploadError] = useState<string | null>(null);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const lastVerifiedFileKey = useRef<string | null>(null);
   const lastInvitedFileKey = useRef<string | null>(null);
@@ -42,7 +45,7 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
 
   const validateStep = () => {
     if (step === 0) {
-      return !!selectedFile && !isFileLoading;
+      return !!selectedFile && !isFileLoading && !uploadError;
     }
 
     if (step === 2) {
@@ -56,6 +59,7 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
     if (!file) return;
     setSelectedFile(file);
     setBulkInviteResponse(null);
+    setUploadError(null);
 
     lastVerifiedFileKey.current = null;
     lastInvitedFileKey.current = null;
@@ -67,6 +71,7 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
     setSelectedFile(null);
     setBulkInviteResponse(null);
     setIsDragging(false);
+    setUploadError(null);
 
     lastVerifiedFileKey.current = null;
     lastInvitedFileKey.current = null;
@@ -122,7 +127,9 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
         lastVerifiedFileKey.current = fileKey;
       })
       .catch((error) => {
-        console.error("Failed to verify learners in bulk:", error);
+        const { message } = handleHttpError(error);
+        setUploadError(message);
+        handleStep(0);
       })
       .finally(() => {
         setIsFileLoading(false);
@@ -231,6 +238,7 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
                 onFileChange={handleFileChange}
                 onClearFile={clearSelectedFile}
                 onOpenGuidelines={() => setIsFormattingGuidelinesOpen(true)}
+                uploadError={uploadError}
               />
             )}
 
