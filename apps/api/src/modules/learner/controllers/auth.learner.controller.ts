@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Delete, Get, Inject, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Delete, Get, Inject, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { TYPES } from '../interfaces';
 import { InviteLearnerDto } from '../dto/invitation.learner.dto';
@@ -15,10 +15,10 @@ import { DeleteLearnerDto } from '../dto/delete.learner.dto';
 import { IGetLearnerService } from '../interfaces/services/get.learner.service.interface';
 import { UnassignLearnerDto } from '../dto/unassign.learner.dto';
 import { IInviteBulkLearnerService } from '../interfaces/services/invite-bulk.learner.service.interface';
-import { BulkParseException, QuizAssignmentFailedException } from '../exceptions';
+import { QuizAssignmentFailedException } from '../exceptions';
 import { ApiLogger } from '../logger/api-logger.service';
 import { QuizUnassignmentFailedException } from '../exceptions/unassign-quiz.learner.exception';
-import { LearnerBulkUploadErrorCode } from '../exceptions/errors/learner-bulk.error-codes';
+import { CouldNotProcessCsvException } from '../exceptions/csv-bulk-could-not-process.learner.exception';
 
 @AuthController('learners')
 export class AuthLearnerController {
@@ -56,7 +56,7 @@ export class AuthLearnerController {
     @SpaceId() spaceId: number
   ) {
     if (!file) {
-      throw new BadRequestException('CSV file is required');
+      throw new CouldNotProcessCsvException('CSV file is required');
     }
 
     return this.inviteBulkService.invite(file, spaceId);
@@ -69,11 +69,8 @@ export class AuthLearnerController {
     @UploadedFile() file: Express.Multer.File,
     @SpaceId() spaceId: number
   ) {
-
-    throw new BulkParseException(LearnerBulkUploadErrorCode.CSVParsingError);
-
     if (!file) {
-      throw new BadRequestException('CSV file is required');
+      throw new CouldNotProcessCsvException();
     }
 
     return this.inviteBulkService.verify(file, spaceId);

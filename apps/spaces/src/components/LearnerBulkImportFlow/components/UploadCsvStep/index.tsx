@@ -172,9 +172,9 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
       ) : uploadError ? (
         <>
           <ErrorHeader>
-              <GoAlertFill size={20} color={defaultTheme.colors.error7} />
+            <GoAlertFill size={20} color={defaultTheme.colors.error7} />
             <SubHeading1>
-              {t(`error_messages.learners_bulk_import.${uploadError}.title`)}
+              {t(`error_messages.learners_bulk_import.${uploadError}.title`, { defaultValue: t(`error_messages.something_went_wrong`) })}
             </SubHeading1>
           </ErrorHeader>
 
@@ -203,7 +203,7 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
 
             <ErrorText>
               <Body1>
-                {t(`error_messages.learners_bulk_import.${uploadError}.subtitle`)}
+                {t(`error_messages.learners_bulk_import.${uploadError}.subtitle`, { defaultValue: t(`error_messages.something_went_wrong`) })}
               </Body1>
             </ErrorText>
 
@@ -416,7 +416,7 @@ const FileInfo = styled.div`
   }
 `;
 
-const FileName = styled(Body2Regular)<{ $isDisabled?: boolean }>`
+const FileName = styled(Body2Regular) <{ $isDisabled?: boolean }>`
   color: ${({ theme, $isDisabled }) =>
     $isDisabled ? theme.colors.dark.lightGrey : theme.colors.dark.black};
 `;

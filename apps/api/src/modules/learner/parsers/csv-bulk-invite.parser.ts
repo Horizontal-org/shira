@@ -4,7 +4,7 @@ import { IBulkInviteParser } from "../interfaces/parsers/bulk-invite-parser.inte
 import { ApiLogger } from "../logger/api-logger.service";
 import { CSVParsingException } from "../exceptions/csv-bulk-parse.learner.exception";
 import { TooManyRowsException } from "../exceptions/csv-bulk-too-many-rows.learner.exception";
-import { InvalidHeadersException } from "../exceptions/csv-bulk-invalid-headers.learner.exception";
+import { InvalidHeadersException } from "../exceptions/csv-bulk-invalid-format.learner.exception";
 
 const HEADERS = ["name", "email"];
 const MAX_ROWS = 1000;
