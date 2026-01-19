@@ -479,7 +479,7 @@
             "missing_name": "Missing name",
             "missing_email": "Missing email address",
             "invalid_email": "Invalid email address",
-            "duplicate_email": "Duplicated email address",
+            "duplicated_email": "Duplicated email address",
             "invalid_file_format": {
                 "title": "Error: Invalid file format",
                 "subtitle": "Please make sure the file is in CSV and try again."

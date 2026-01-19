@@ -93,7 +93,7 @@ function App() {
                     <Route path='/quiz/:quizId/question/:questionId' element={<QuestionEditLayout />} />
                     <Route path='/question/library' element={<QuestionLibraryListLayout />} />
                     <Route path='/learner' element={<LearnersLayout />} />
-                    <Route path='/learner/import/bulk' element={<LearnerBulkImportFlow onSubmit={() => console.log('Submitted')} />} />
+                    <Route path='/learner/import/bulk' element={<LearnerBulkImportFlow />} />
                     <Route path="/logout" element={<LogoutLayout />} />
                     <Route path="/support" element={<SupportLayout />} />
                   </Route>

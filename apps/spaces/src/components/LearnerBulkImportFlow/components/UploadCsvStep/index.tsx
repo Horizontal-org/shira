@@ -1,15 +1,6 @@
 import { DragEvent, FunctionComponent, KeyboardEvent, RefObject } from "react";
 import {
-  Body1,
-  Body2Regular,
-  Body4,
-  Button,
-  H2,
-  SubHeading1,
-  SubHeading3,
-  defaultTheme,
-  styled,
-  useTheme,
+  Body1, Body2Regular, Body4, Button, H2, SubHeading1, SubHeading3, defaultTheme, styled, useTheme,
 } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 import { FaFileUpload } from "react-icons/fa";
@@ -52,11 +43,24 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
   const { t } = useTranslation();
   const theme = useTheme();
 
+  // Test
+  const templateFileName = "learner-bulk-import-template.csv";
+  const templateFilePath = `/${templateFileName}`;
+
   const formatFileSize = (size: number) => {
     if (size < 1024) return `${size} B`;
     const kb = size / 1024;
     if (kb < 1024) return `${kb.toFixed(1)} KB`;
     return `${(kb / 1024).toFixed(1)} MB`;
+  };
+
+  const onDownloadTemplate = () => {
+    const link = document.createElement("a");
+    link.href = templateFilePath;
+    link.download = templateFileName;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
   };
 
   return (
@@ -75,6 +79,8 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
           type="primary"
           color={theme.colors.green7}
           leftIcon={<FiDownload size={18} />}
+          onClick={onDownloadTemplate}
+          disabled={isFileLoading}
         />
         <Button
           id="bulk-import-view-guidelines"
@@ -82,6 +88,7 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
           type="outline"
           leftIcon={<FiInfo size={18} />}
           onClick={onOpenGuidelines}
+          disabled={isFileLoading}
         />
       </ActionRow>
 
@@ -143,7 +150,7 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
           </LoadingHeader>
 
           <LoadingBody>
-            <SelectedFileCard $isLoading>
+            <SelectedFileCard $isLoading aria-busy="true">
               <FileIcon>
                 <BiSolidSpreadsheet size={20} />
               </FileIcon>
@@ -156,6 +163,8 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
               <RemoveButton
                 type="button"
                 aria-label={t("learners_bulk_import.tabs.upload_csv.remove_file")}
+                disabled
+                aria-disabled="true"
                 onClick={(event) => {
                   event.stopPropagation();
                   onClearFile();
@@ -169,7 +178,7 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
             </LoadingText>
           </LoadingBody>
         </>
-      ) : uploadError ? (
+      ) : uploadError && selectedFile ? (
         <>
           <ErrorHeader>
             <GoAlertFill size={20} color={defaultTheme.colors.error7} />
@@ -437,6 +446,11 @@ const RemoveButton = styled.button`
 
   &:hover {
     color: ${props => props.theme.colors.dark.darkGrey};
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    color: ${props => props.theme.colors.dark.lightGrey};
   }
 `;
 

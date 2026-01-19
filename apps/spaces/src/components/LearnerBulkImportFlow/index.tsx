@@ -5,21 +5,15 @@ import { useTranslation } from "react-i18next";
 import { LearnerBulkImportHeader } from "../LearnerBulkImportHeader";
 import { ExitLearnerBulkImportModal } from "../modals/ExitLearnerBulkImportModal";
 import { FormattingGuidelinesModal } from "../modals/FormattingGuidelinesModal";
-import { Learner } from "../LearnerQuizView";
 import { UploadCsvStep } from "./components/UploadCsvStep";
 import { VerifyLearnersStep } from "./components/VerifyLearnersStep";
 import { FinalReviewStep } from "./components/FinalReviewStep";
 import { BulkInviteLearnersResponse, inviteLearnersBulk, verifyLearnersBulk } from "../../fetch/learner";
 import { handleHttpError } from "../../fetch/handleError";
 
-interface Props {
-  onSubmit: (learners: Learner[]) => void;
-}
+interface Props { }
 
-export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
-  onSubmit,
-}) => {
-
+export const LearnerBulkImportFlow: FunctionComponent<Props> = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
@@ -130,6 +124,7 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
         const { message } = handleHttpError(error);
         setUploadError(message);
         handleStep(0);
+        setBulkInviteResponse(null);
       })
       .finally(() => {
         setIsFileLoading(false);
@@ -144,7 +139,6 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
 
       const fileKey = `${selectedFile.name}-${selectedFile.size}-${selectedFile.lastModified}`;
       if (lastInvitedFileKey.current === fileKey) {
-        onSubmit([]);
         navigate("/learner", {
           state: {
             bulkInviteSent: { count: lastInvitedCount.current ?? getInviteCount(bulkInviteResponse) },
@@ -158,7 +152,6 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
         .then((response) => {
           lastInvitedCount.current = getInviteCount(response);
           lastInvitedFileKey.current = fileKey;
-          onSubmit([]);
           navigate("/learner", {
             state: {
               bulkInviteSent: { count: lastInvitedCount.current },
@@ -202,6 +195,7 @@ export const LearnerBulkImportFlow: FunctionComponent<Props> = ({
           }
           clearSelectedFile();
           handleStep(0);
+          setBulkInviteResponse(null);
         }}
         step={step}
         disableNext={!validateStep()}
