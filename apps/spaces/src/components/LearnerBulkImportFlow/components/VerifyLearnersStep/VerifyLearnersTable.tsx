@@ -3,6 +3,7 @@ import { Body4, EmptyState, Table, styled } from "@shira/ui";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { FiCheck, FiX } from "react-icons/fi";
 import { BulkLearnerRowResult } from "../../../../fetch/learner";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   rows: BulkLearnerRowResult[];
@@ -27,6 +28,8 @@ export const VerifyLearnersTable: FunctionComponent<Props> = ({
   loadingMessage,
   emptyMessage,
 }) => {
+  const { t } = useTranslation();
+
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
   const tableData = useMemo(
@@ -83,7 +86,8 @@ export const VerifyLearnersTable: FunctionComponent<Props> = ({
                       <FiX size={12} />
                     </StatusIcon>
                   )}
-                  <Body4>{rowData.message}</Body4>
+                  <Body4>{t(`error_messages.learners_bulk_import.${rowData.message}`,
+                    { defaultValue: rowData.message })}</Body4>
                 </StatusPill>
               ) : (
                 "-"

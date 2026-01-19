@@ -474,7 +474,13 @@
         "bulk_import_failed": "There was a problem inviting the learners. If this issue persists, <1>contact us</1>.",
         "email_already_taken": "The email address is already taken.",
         "invite_org_failed": "There was a problem creating your space. If this issue persists, <1>contact us</1>.",
-        "email_no_match": "The email address does not match the invitation."
+        "email_no_match": "The email address does not match the invitation.",
+        "learners_bulk_import": {
+            "missing_name": "Missing name",
+            "missing_email": "Missing email address",
+            "invalid_email": "Invalid email address",
+            "duplicate_email": "Duplicated email address"
+        }
     },
     "success_messages": {
         "quiz_link_copied": "The public quiz link has been copied to your clipboard.",

@@ -21,17 +21,6 @@ export const inviteBulkLearnerService = {
   useClass: InviteBulkLearnerService,
 };
 
-export const bulkInviteParserResolver = {
-  provide: TYPES.parsers.IBulkInviteParserResolver,
-  useClass: BulkInviteParserResolver,
-};
-
-export const bulkInviteParsers = {
-  provide: TYPES.parsers.IBulkInviteParsers,
-  useFactory: (csvParser: CsvBulkInviteParser) => [csvParser],
-  inject: [CsvBulkInviteParser],
-};
-
 export const assignLearnerService = {
   provide: TYPES.services.IAssignLearnerService,
   useClass: AssignLearnerService,
@@ -66,6 +55,17 @@ export const deleteLearnerService = {
   provide: TYPES.services.IDeleteLearnerService,
   useClass: DeleteLearnerService
 }
+
+export const bulkInviteParserResolver = {
+  provide: TYPES.parsers.IBulkInviteParserResolver,
+  useClass: BulkInviteParserResolver,
+};
+
+export const bulkInviteParsers = {
+  provide: TYPES.parsers.IBulkInviteParsers,
+  useFactory: (...parsers: CsvBulkInviteParser[]) => parsers,
+  inject: [CsvBulkInviteParser],
+};
 
 export const serviceLearnerProviders = [
   inviteLearnerService,
