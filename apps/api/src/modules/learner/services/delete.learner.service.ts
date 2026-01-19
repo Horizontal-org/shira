@@ -33,8 +33,6 @@ export class DeleteLearnerService implements IDeleteLearnerService {
 
     await this.learnerRepo.remove(learnersToDelete);
 
-    this.logger.log(`Successfully deleted learners
-      with IDs: ${amountOfIds.join(', ')}
-      from spaceId: ${spaceId}`);
+    this.logger.log(`Successfully deleted learners with IDs: ${amountOfIds.join(', ')} from spaceId: ${spaceId}`);
   }
 }
