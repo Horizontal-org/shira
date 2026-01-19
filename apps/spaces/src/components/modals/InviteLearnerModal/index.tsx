@@ -24,7 +24,7 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const EMAIL_REGEX = /^[^\s@]+@[A-Za-z0-9_-]+(\.[A-Za-z0-9_-]+)+$/;
+  const EMAIL_REGEX = /^[^\s@]+@([A-Za-z0-9_-]+\.)+[A-Za-z0-9_-]{2,}$/;
   const verifyEmailPattern = (value: string) => EMAIL_REGEX.test(value);
 
   const [name, setName] = useState("");
