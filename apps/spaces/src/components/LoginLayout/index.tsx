@@ -32,7 +32,7 @@ export const LoginLayout: FunctionComponent<Props> = () => {
 
   useEffect(() => {
     if (user) {
-      navigate("/");
+      navigate("/get-started");
     }
   }, [user]);
 
@@ -49,8 +49,8 @@ export const LoginLayout: FunctionComponent<Props> = () => {
   return (
     <Container>
       <Navbar
-        translatedTexts={{ home: "", about: "", menu: "", logIn: "Log in", createSpace: "Create Space" }}
-        onNavigate={navigate}
+        translatedTexts={{ home: "", about: "", menu: "", logIn: "Sign up", createSpace: "" }}
+        onNavigate={() => navigate("/get-started")}
       />
       <ContentWrapper>
         <BackgroundPattern />
@@ -97,33 +97,33 @@ export const LoginLayout: FunctionComponent<Props> = () => {
 };
 
 const Container = styled.div`
-    box-sizing: border-box;
-    width: 100%;
-    height: 100vh;
-    padding: 24px;
-    display: flex;
-    flex-direction: column;  
-    position: relative; 
+  box-sizing: border-box;
+  width: 100%;
+  height: 100vh;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  position: relative; 
 
-    @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
-        padding: 16px;
-    }
+  @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
+      padding: 16px;
+  }
 `;
 
 const ContentWrapper = styled.div`
-    flex: 1;          
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const StyledForm = styled(Form)`
   position: relative;
   z-index:1;
-`
+`;
 
 const BackgroundPattern = styled.div`
-   background-image: url(${backgroundSvg});
+  background-image: url(${backgroundSvg});
   background-repeat: no-repeat;
   background-size: cover;
   position: absolute;
