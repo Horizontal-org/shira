@@ -584,7 +584,7 @@
         "form_description": "Complete the form below to create your Shira space.",
         "beta_lead": "Shira spaces are currently in closed beta. To obtain the passphrase necessary to join the beta, email us at",
         "checking_invitation": "Checking invitation...",
-        "email_label": "Your email address",
+        "email_label": "Confirm your email address",
         "password_label": "Password",
         "confirm_password_label": "Confirm Password",
         "button_create": "Create new space",
