@@ -145,7 +145,7 @@ const StatusPill = styled.span<{ $status: "Error" | "Skipped" | "OK" }>`
   align-items: center;
   gap: 6px;
   padding: 4px 8px;
-  border-radius: "2px";
+  border-radius: 2px;
   font-weight: 600;
   font-size: 12px;
 

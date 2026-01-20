@@ -20,7 +20,7 @@ interface Props {
   onFileChange: (file: File | null) => void;
   onClearFile: () => void;
   onOpenGuidelines: () => void;
-  uploadError: string;
+  uploadError: string | null;
 }
 
 export const UploadCsvStep: FunctionComponent<Props> = ({
