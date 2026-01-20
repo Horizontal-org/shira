@@ -37,7 +37,7 @@ export class CsvBulkInviteParser implements IBulkInviteParser {
       return { total: 0, valid: [], errors: [], skipped: [] };
     }
 
-    this.hasValidHeaders(rows[0]);
+    const { nameIndex, emailIndex } = this.getHeaderIndexes(rows[0]);
 
     if (rows.length === 1) {
       return { total: 0, valid: [], errors: [], skipped: [] };
@@ -56,7 +56,9 @@ export class CsvBulkInviteParser implements IBulkInviteParser {
     const seenEmails = new Set<string>();
 
     dataRows.forEach((row, index) => {
-      const [nameRaw = "", emailRaw = ""] = Array.isArray(row) ? row : [];
+      const safeRow = Array.isArray(row) ? row : [];
+      const nameRaw = safeRow[nameIndex] ?? "";
+      const emailRaw = safeRow[emailIndex] ?? "";
       const name = nameRaw.trim();
       const email = emailRaw.trim();
       const rowNumber = index + 2;
@@ -84,27 +86,26 @@ export class CsvBulkInviteParser implements IBulkInviteParser {
     return EMAIL_REGEX.test(email);
   }
 
-  private hasValidHeaders(row: string[]) {
+  private getHeaderIndexes(row: string[]) {
     if (!Array.isArray(row)) {
-      return false;
+      throw new InvalidFileFormatException("Missing CSV header row");
     }
 
     const normalizedHeaders = row.map((value) =>
       (value ?? "").toString().trim().toLowerCase()
     );
 
-    const hasAllHeaders = HEADERS.every((expected) =>
-      normalizedHeaders.includes(expected)
-    );
+    const nameIndex = normalizedHeaders.indexOf("name");
+    const emailIndex = normalizedHeaders.indexOf("email");
 
     this.logger.log(`CSV Headers found: ${normalizedHeaders.join(", ")}`);
 
-    if (!hasAllHeaders) {
-      const missing = HEADERS.filter(
-        (expected) => !normalizedHeaders.includes(expected)
-      );
+    if (nameIndex === -1 || emailIndex === -1) {
+      const missing = HEADERS.filter((expected) => !normalizedHeaders.includes(expected));
       throw new InvalidFileFormatException(`Missing CSV headers: ${missing.join(", ")}`);
     }
+
+    return { nameIndex, emailIndex };
   }
 
   private hasValidName(errors, rowNumber: number, email: string, name: string) {
