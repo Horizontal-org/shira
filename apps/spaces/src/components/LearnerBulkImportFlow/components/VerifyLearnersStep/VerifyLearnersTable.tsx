@@ -2,6 +2,7 @@ import { FunctionComponent, ReactNode, useMemo, useState } from "react";
 import { Body4, EmptyState, Table, defaultTheme, styled } from "@shira/ui";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { FiCheck, FiX } from "react-icons/fi";
+import { MdOutlineQuestionMark } from "react-icons/md";
 import { BulkLearnerRowResult } from "../../../../fetch/learner";
 import { useTranslation } from "react-i18next";
 
@@ -65,29 +66,52 @@ export const VerifyLearnersTable: FunctionComponent<Props> = ({
         id: "statusMessage",
         cell: ({ row }) => {
           const rowData = row.original;
+
+          const isMissingError =
+            rowData.status === "Error" &&
+            rowData.message?.startsWith("missing_");
+
+          const pillKind: "success" | "error" | "neutral" =
+            rowData.status === "OK"
+              ? "success"
+              : rowData.status === "Error" && isMissingError
+                ? "error"
+                : "neutral";
+
           return (
             <TableCellText>
               {rowData.status === "OK" ? (
-                <StatusPill $status={rowData.status}>
+                <StatusPill $kind={pillKind}>
                   <StatusIcon $variant="success">
                     <FiCheck size={12} />
                   </StatusIcon>
                   <Body4>{validatedLabel}</Body4>
                 </StatusPill>
               ) : rowData.message ? (
-                <StatusPill $status={rowData.status}>
-                  {rowData.status === "Error" && (
-                    <StatusIcon>
+                <StatusPill $kind={pillKind}>
+                  {rowData.status === "Error" && isMissingError && (
+                    <StatusIcon $variant="error">
+                      <MdOutlineQuestionMark size={12} />
+                    </StatusIcon>
+                  )}
+
+                  {rowData.status === "Error" && !isMissingError && (
+                    <StatusIcon $variant="neutral">
                       <FiX size={12} />
                     </StatusIcon>
                   )}
+
                   {rowData.status === "Skipped" && (
                     <StatusIcon $variant="neutral">
                       <FiX size={12} />
                     </StatusIcon>
                   )}
-                  <Body4>{t(`error_messages.learners_bulk_import.${rowData.message}`,
-                    { defaultValue: rowData.message })}</Body4>
+
+                  <Body4>
+                    {t(`error_messages.learners_bulk_import.${rowData.message}`,
+                      { defaultValue: rowData.message }
+                    )}
+                  </Body4>
                 </StatusPill>
               ) : (
                 "-"
@@ -97,12 +121,15 @@ export const VerifyLearnersTable: FunctionComponent<Props> = ({
         },
       },
     ],
-    [emailHeader, nameHeader, rowHeader, statusHeader, validatedLabel]
+    [rowHeader, nameHeader, emailHeader, statusHeader, validatedLabel, t]
   );
 
   if (!isLoading && tableData.length === 0) {
     return (
-      <EmptyState subtitle={emptyMessage} backgroundColor={defaultTheme.colors.light.white} />
+      <EmptyState
+        subtitle={emptyMessage}
+        backgroundColor={defaultTheme.colors.light.white}
+      />
     );
   }
 
@@ -117,30 +144,30 @@ export const VerifyLearnersTable: FunctionComponent<Props> = ({
       setRowSelection={setRowSelection}
       enableRowSelection={false}
       pageSize={Math.max(tableData.length, 1)}
-      colGroups={(
+      colGroups={
         <colgroup>
           <col style={{ width: "80px" }} />
           <col style={{ width: "32%" }} />
           <col style={{ width: "32%" }} />
           <col />
         </colgroup>
-      )}
+      }
     />
   );
 };
 
 const TableCellText = styled(Body4)`
-  color: ${props => props.theme.colors.dark.darkGrey};
+  color: ${(props) => props.theme.colors.dark.darkGrey};
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
 const RowNumber = styled(Body4)`
-  color: ${props => props.theme.colors.green7};
+  color: ${(props) => props.theme.colors.green7};
   font-weight: 600;
 `;
 
-const StatusPill = styled.span<{ $status: "Error" | "Skipped" | "OK" }>`
+const StatusPill = styled.span<{ $kind: "success" | "neutral" | "error" }>`
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -149,27 +176,35 @@ const StatusPill = styled.span<{ $status: "Error" | "Skipped" | "OK" }>`
   font-weight: 600;
   font-size: 12px;
 
-  color: ${({ theme, $status }) =>
-    $status === "Error" ? theme.colors.error9
-      : $status === "Skipped" ? theme.colors.dark.darkGrey
+  color: ${({ theme, $kind }) =>
+    $kind === "error"
+      ? theme.colors.error9
+      : $kind === "neutral"
+        ? theme.colors.dark.darkGrey
         : theme.colors.green9};
 
-  background: ${({ theme, $status }) =>
-    $status === "Error" ? theme.colors.light.paleRed
-      : $status === "Skipped" ? theme.colors.light.paleGrey
+  background: ${({ theme, $kind }) =>
+    $kind === "error"
+      ? theme.colors.light.paleRed
+      : $kind === "neutral"
+        ? theme.colors.light.paleGrey
         : theme.colors.light.paleGreen};
 `;
 
-const StatusIcon = styled.span<{ $variant?: "success" | "neutral" }>`
+const StatusIcon = styled.span<{ $variant?: "success" | "neutral" | "error" }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 16px;
   height: 16px;
   border-radius: 50%;
+
   background: ${({ theme, $variant }) =>
-    $variant === "success" ? theme.colors.green6
-      : $variant === "neutral" ? theme.colors.dark.darkGrey
+    $variant === "success"
+      ? theme.colors.green6
+      : $variant === "neutral"
+        ? theme.colors.dark.darkGrey
         : theme.colors.error6};
-  color: ${props => props.theme.colors.light.white};
+
+  color: ${(props) => props.theme.colors.light.white};
 `;
