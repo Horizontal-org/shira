@@ -6,7 +6,10 @@ import { GetUnassignedLearnerService } from './services/get-unassigned.learner.s
 import { GetLearnerQuizService } from './services/get.learner-quiz.service';
 import { GetLearnerService } from './services/get.learner.service';
 import { InviteLearnerService } from './services/invite.learner.service';
+import { InviteBulkLearnerService } from './services/invite-bulk.learner.service';
 import { UnassignLearnerService } from './services/unassign.learner.service';
+import { CsvBulkInviteParser } from './parsers/csv-bulk-invite.parser';
+import { BulkInviteParserResolver } from './services/bulk-invite-parser.resolver';
 
 export const inviteLearnerService = {
   provide: TYPES.services.IInviteLearnerService,
@@ -15,7 +18,7 @@ export const inviteLearnerService = {
 
 export const inviteBulkLearnerService = {
   provide: TYPES.services.IInviteBulkLearnerService,
-  useClass: InviteLearnerService,
+  useClass: InviteBulkLearnerService,
 };
 
 export const assignLearnerService = {
@@ -53,9 +56,23 @@ export const deleteLearnerService = {
   useClass: DeleteLearnerService
 }
 
+export const bulkInviteParserResolver = {
+  provide: TYPES.parsers.IBulkInviteParserResolver,
+  useClass: BulkInviteParserResolver,
+};
+
+export const bulkInviteParsers = {
+  provide: TYPES.parsers.IBulkInviteParsers,
+  useFactory: (...parsers: CsvBulkInviteParser[]) => parsers,
+  inject: [CsvBulkInviteParser],
+};
+
 export const serviceLearnerProviders = [
   inviteLearnerService,
   inviteBulkLearnerService,
+  CsvBulkInviteParser,
+  bulkInviteParserResolver,
+  bulkInviteParsers,
   assignLearnerService,
   deleteLearnerService,
   getLearnerService,

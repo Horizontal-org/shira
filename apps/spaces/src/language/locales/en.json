@@ -232,6 +232,60 @@
             "empty_subtitle": "The average score received by all learners who took this quiz will be shown here."
         }
     },
+    "learners_bulk_import": {
+        "header_title": "Import learners in bulk",
+        "tabs": {
+            "upload_csv": {
+                "tab_title": "Upload CSV",
+                "subtitle": "You can invite multiple learners at once by uploading a CSV file containing their details. To prevent errors, we recommend downloading and filling this pre-formatted CSV template.",
+                "section_title": "Upload your filled spreadsheet",
+                "drag_title": "Drag and drop to upload your filled spreadsheet here",
+                "or": "OR",
+                "file_type": "Accepted file type: .csv only",
+                "file_size": "Maximum file size: 10 MB",
+                "remove_file": "Remove selected file",
+                "upload_complete": "Upload complete",
+                "upload_success": "Your spreadsheet was successfully uploaded! Continue to the next step to verify your learners.",
+                "uploading": "Please wait while Shira uploads and validates your data. This may take a few seconds",
+                "invalid_file_format": "Error: Invalid file format",
+                "invalid_file_format_description": "Please make sure the file is in CSV and try again.",
+                "upload_error": "Error: Your file could not be processed",
+                "upload_error_description": "We couldn't process the file. Please try again.",
+                "too_many_rows_error": "Error: Too many rows",
+                "too_many_rows_error_description": "Please make sure your spreadsheet contains a maximum of 1,000 rows and try again.",
+                "invalid_formatting": "Error: Invalid formatting",
+                "invalid_formatting_description": "Please make sure your spreadsheet is formatted according to the guidelines above and try again."
+            },
+            "verify_learners": {
+                "tab_title": "Verify learners",
+                "subtitle": "Please check that all the data is accurate before importing it into Shira and sending out invitations.",
+                "error_tab": "Error ({{count}})",
+                "skipped_tab": "Skipped ({{count}})",
+                "valid_tab": "Valid ({{count}})",
+                "description_error": "The rows below contain errors that prevent these learners from being invited. You may fix the errors in your CSV and re-upload, or continue despite the errors and not import these learners.",
+                "description_skipped": "These rows will be skipped. You may ignore them and continue with uploading your spreadsheet.",
+                "description_valid": "These rows have been successfully validated, so these learners can be imported to your space.",
+                "table_row": "Row",
+                "table_name": "Name",
+                "table_email": "Email address",
+                "table_error": "Type of error",
+                "table_skip_reason": "Reason for skipping",
+                "table_status": "Status",
+                "validated": "Validated",
+                "empty_error": "There are no rows with errors.",
+                "empty_skipped": "There are no skipped rows.",
+                "empty_valid": "There are no valid rows."
+            },
+            "review": {
+                "tab_title": "Final review",
+                "subtitle": "You are about to invite <strong>{{count}} learners</strong> to your space.",
+                "table_row": "Row",
+                "table_name": "Name",
+                "table_email": "Email address",
+                "table_status": "Status"
+            }
+        }
+    },
     "support": {
         "title": "Support",
         "subtitle": "If you need any support, including with deleting your account, please email the Shira team at contact@wearehorizontal.org"
@@ -247,6 +301,7 @@
         "next": "Next",
         "continue": "Continue",
         "send_invitation": "Send invitation",
+        "send_invitations": "Send invitations",
         "try_again": "Try again",
         "unassign": "Unassign",
         "invite_learner": "Invite new learner",
@@ -255,7 +310,11 @@
         "unassign_learners": "Unassign from learners",
         "assign_learners": "Assign to learners",
         "assign_via_email": "Assign via email",
-        "feedback": "Tell us what you think"
+        "start_over": "Start over",
+        "feedback": "Tell us what you think",
+        "download_template": "Download CSV template",
+        "view_guidelines": "View formatting guidelines",
+        "browse_files": "Browse files"
     },
     "modals": {
         "create_quiz": {
@@ -308,6 +367,24 @@
         "exit_question": {
             "title": "Are you sure you want to exit the question?",
             "message": "Any unsaved changes will be lost."
+        },
+        "csv_formatting_guidelines": {
+            "title": "CSV formatting guidelines",
+            "header_row_title": "Header Row:",
+            "header_row_body": "The first row should be reserved for headers. If a learner’s information is in the first row, it will not be imported.",
+            "first_column_title": "First Column:",
+            "first_column_body": "This column is for names of learners. Providing names is optional: you can still proceed with the import even if the name cell is empty in some or all rows.",
+            "second_column_title": "Second Column:",
+            "second_column_body": "This column must contain email addresses. Email addresses are mandatory, and any learner without an email address will not be added to your space.",
+            "footer": "Following this format will ensure a successful import of all eligible learners."
+        },
+        "exit_bulk_import": {
+            "title": "Are you sure you want to exit?",
+            "message": "Any unsaved changes will be lost."
+        },
+        "bulk_invite_sent": {
+            "title": "Sending invitations",
+            "description": "Shira is sending email invitations to {{count}} learners. This process may take a few minutes. You can close this modal and continue working on Shira."
         },
         "edit_question_confirmation": {
             "title": "Are you sure you want to edit this quiz?",
@@ -394,9 +471,32 @@
         "delete_learners_failed": "There was a problem deleting the learners. If this issue persists, <1>contact us</1>.",
         "assign_quiz_failed": "There was a problem assigning this quiz to learners. If this issue persists, <1>contact us</1>.",
         "unassign_quiz_failed": "There was a problem unassigning this quiz from learners. If this issue persists, <1>contact us</1>.",
+        "bulk_import_failed": "There was a problem inviting the learners. If this issue persists, <1>contact us</1>.",
         "email_already_taken": "The email address is already taken.",
         "invite_org_failed": "There was a problem creating your space. If this issue persists, <1>contact us</1>.",
-        "email_no_match": "The email address does not match the invitation."
+        "email_no_match": "The email address does not match the invitation.",
+        "learners_bulk_import": {
+            "missing_name": "Missing name",
+            "missing_email": "Missing email address",
+            "invalid_email": "Invalid email address",
+            "duplicated_email": "Duplicated email address",
+            "invalid_file_format": {
+                "title": "Error: Invalid file format",
+                "subtitle": "Please make sure the file is in CSV and try again."
+            },
+            "csv_parsing_error": {
+                "title": "Error: Your file could not be processed",
+                "subtitle": "We couldn't process the file. Please try again."
+            },
+            "too_many_rows": {
+                "title": "Error: Too many rows",
+                "subtitle": "Please make sure your spreadsheet contains a maximum of 1,000 rows and try again."
+            },
+            "invalid_formatting": {
+                "title": "Error: Invalid formatting",
+                "subtitle": "Please make sure your spreadsheet is formatted according to the guidelines above and try again."
+            }
+        }
     },
     "success_messages": {
         "quiz_link_copied": "The public quiz link has been copied to your clipboard.",

@@ -1,4 +1,5 @@
-import { Body, Delete, Get, Inject, Post } from '@nestjs/common';
+import { Body, Delete, Get, Inject, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { TYPES } from '../interfaces';
 import { InviteLearnerDto } from '../dto/invitation.learner.dto';
 import { AssignLearnerDto } from '../dto/assign.learner.dto';
@@ -13,11 +14,11 @@ import { IDeleteLearnerService } from '../interfaces/services/delete.learner.ser
 import { DeleteLearnerDto } from '../dto/delete.learner.dto';
 import { IGetLearnerService } from '../interfaces/services/get.learner.service.interface';
 import { UnassignLearnerDto } from '../dto/unassign.learner.dto';
-import { InvitationBulkLearnerDto } from '../dto/invitation-bulk.learner.dto';
 import { IInviteBulkLearnerService } from '../interfaces/services/invite-bulk.learner.service.interface';
 import { QuizAssignmentFailedException } from '../exceptions';
 import { ApiLogger } from '../logger/api-logger.service';
 import { QuizUnassignmentFailedException } from '../exceptions/unassign-quiz.learner.exception';
+import { BulkCsvProcessingException } from '../exceptions/csv-bulk-could-not-process.learner.exception';
 
 @AuthController('learners')
 export class AuthLearnerController {
@@ -47,13 +48,32 @@ export class AuthLearnerController {
     await this.inviteService.invite(inviteLearnerDto, spaceId);
   }
 
-  @Post('invitations/bulk')
+  @Post('invitations/bulk/send')
+  @Roles(Role.SpaceAdmin)
+  @UseInterceptors(FileInterceptor('file'))
   async inviteBulk(
-    @Body() inviteBulkLearnerDto: InvitationBulkLearnerDto,
+    @UploadedFile() file: Express.Multer.File,
     @SpaceId() spaceId: number
   ) {
-    // WIP
-    // await this.inviteBulkService.invite(inviteBulkLearnerDto, spaceId);
+    if (!file) {
+      throw new BulkCsvProcessingException();
+    }
+
+    return this.inviteBulkService.invite(file, spaceId);
+  }
+
+  @Post('invitations/bulk/verify')
+  @Roles(Role.SpaceAdmin)
+  @UseInterceptors(FileInterceptor('file'))
+  async verifyBulkInvite(
+    @UploadedFile() file: Express.Multer.File,
+    @SpaceId() spaceId: number
+  ) {
+    if (!file) {
+      throw new BulkCsvProcessingException();
+    }
+
+    return this.inviteBulkService.verify(file, spaceId);
   }
 
   @Delete()
@@ -96,9 +116,9 @@ export class AuthLearnerController {
   @Get()
   @Roles(Role.SpaceAdmin)
   async getLearners(
-    @SpaceId() spaceId: number 
-  ){
+    @SpaceId() spaceId: number
+  ) {
     return await this.getLearnerService.execute(spaceId)
   }
-}
 
+}
