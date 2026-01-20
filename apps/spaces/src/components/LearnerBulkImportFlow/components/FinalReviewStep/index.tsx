@@ -17,7 +17,7 @@ export const FinalReviewStep: FunctionComponent<Props> = ({ response }) => {
         .filter((row) => row.status === "OK")
         .map((row) => ({
           row: row.row,
-          name: row.name ?? "",
+          name: row.name,
           email: row.email,
           status: row.status,
         })),

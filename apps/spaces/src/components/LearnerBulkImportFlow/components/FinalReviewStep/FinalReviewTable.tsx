@@ -81,6 +81,7 @@ export const FinalReviewTable: FunctionComponent<Props> = ({
       loadingMessage={loadingMessage}
       data={rows}
       columns={columns}
+      enableRowSelection={false}
       rowSelection={rowSelection}
       setRowSelection={setRowSelection}
       colGroups={(
