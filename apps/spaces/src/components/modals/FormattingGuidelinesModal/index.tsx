@@ -27,19 +27,19 @@ export const FormattingGuidelinesModal: FunctionComponent<Props> = ({
         <GuidelinesList role="list">
           <li>
             <Body1>
-              <Body1>{t("modals.csv_formatting_guidelines.header_row_title")}</Body1>{" "}
+              <ItemTitle>{t("modals.csv_formatting_guidelines.header_row_title")}</ItemTitle>{" "}
               {t("modals.csv_formatting_guidelines.header_row_body")}
             </Body1>
           </li>
           <li>
             <Body1>
-              <Body1>{t("modals.csv_formatting_guidelines.first_column_title")}</Body1>{" "}
+              <ItemTitle>{t("modals.csv_formatting_guidelines.first_column_title")}</ItemTitle>{" "}
               {t("modals.csv_formatting_guidelines.first_column_body")}
             </Body1>
           </li>
           <li>
             <Body1>
-              <Body1>{t("modals.csv_formatting_guidelines.second_column_title")}</Body1>{" "}
+              <ItemTitle>{t("modals.csv_formatting_guidelines.second_column_title")}</ItemTitle>{" "}
               {t("modals.csv_formatting_guidelines.second_column_body")}
             </Body1>
           </li>
@@ -62,4 +62,8 @@ const GuidelinesList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 12px;
+`;
+
+const ItemTitle = styled("Body1")`
+  font-weight: 600;
 `;
