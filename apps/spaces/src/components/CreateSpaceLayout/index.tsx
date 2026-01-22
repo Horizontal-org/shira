@@ -17,6 +17,7 @@ import { checkPassphraseExpired, registerSpace } from "../../fetch/registration"
 import { handleHttpError } from "../../fetch/handleError";
 import { getErrorContent } from "../../utils/getErrorContent";
 import { GenericErrorModal } from "../modals/ErrorModal";
+import { isEmailValid, isRequired } from "../../utils/validation";
 
 interface Props {}
 
@@ -93,11 +94,11 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
 
   const validateForm = () => {
     let hasError = false;
-    if (!email.trim()) {
+    if (!isRequired(email)) {
       handleEmailError(t('create_space.validation.email_required'));
       hasError = true;
     }
-    if (email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) === null) { 
+    if (isRequired(email) && !isEmailValid(email)) { 
       handleEmailError(t("get_started.validation.invalid_email")) 
       hasError = true;
     }

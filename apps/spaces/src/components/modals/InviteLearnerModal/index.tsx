@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { inviteLearner } from "../../../fetch/learner";
 import { handleHttpError } from "../../../fetch/handleError";
 import { getErrorContent } from "../../../utils/getErrorContent";
+import { isEmailValid } from "../../../utils/validation";
 
 interface Props {
   isModalOpen: boolean;
@@ -23,9 +24,6 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
   const { t } = useTranslation();
 
   const [isLoading, setIsLoading] = useState(false);
-
-  const EMAIL_REGEX = /^[^\s@]+@([A-Za-z0-9_-]+\.)+[A-Za-z0-9_-]{2,}$/;
-  const verifyEmailPattern = (value: string) => EMAIL_REGEX.test(value);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -60,7 +58,7 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
       return;
     }
 
-    setEmailIsValid(verifyEmailPattern(value));
+    setEmailIsValid(isEmailValid(value));
   };
 
   const sendInvitation = async (values: { name: string; email: string }) => {
