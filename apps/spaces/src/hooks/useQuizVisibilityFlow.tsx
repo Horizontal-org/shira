@@ -2,6 +2,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { duplicateQuiz } from "../fetch/quiz";
 import { Quiz } from "../store/slices/quiz";
+import { hasRequiredValue } from "../utils/validation";
 
 type QuizFlowMode = "create" | "duplicate" | null;
 type QuizFlowStep = 1 | 2;
@@ -49,7 +50,7 @@ export const useQuizVisibilityFlow = ({ createQuiz, fetchQuizzes, t }: UseQuizFl
   };
 
   const handleConfirmVisibility = async (visibility: string) => {
-    if (!title || title.trim() === "") return;
+    if (!hasRequiredValue(title)) { return; }
 
     if (mode === "create") {
       createQuiz(title.trim(), visibility);
