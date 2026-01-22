@@ -225,8 +225,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                   handleSelectedCard(card)
                   setIsDeleteModalOpen(true)
                 }}
-                showLoading={true}
-                // showLoading={isDuplicating && selectedQuizForDuplicate?.id === card.id}
+                showLoading={isDuplicating && selectedQuizForDuplicate?.id === card.id}
                 actionLoadingLabel={t('loading_messages.duplicating')}
                 isPublic={card.visibility === 'public'}
                 visibilityText={
