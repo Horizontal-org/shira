@@ -1,6 +1,7 @@
 import { FunctionComponent } from "react";
 import { Modal, styled, TextInput } from "@shira/ui";
 import { useTranslation } from "react-i18next";
+import { hasRequiredValue } from "../../../utils/validation";
 
 interface Props {
   isModalOpen: boolean;
@@ -31,8 +32,11 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
       isOpen={isModalOpen}
       title={t('modals.create_quiz.title')}
       primaryButtonText={t('buttons.next')}
-      primaryButtonDisabled={!title || title.trim() === ""}
+      primaryButtonDisabled={!hasRequiredValue(title)}
       onPrimaryClick={() => {
+        if (!hasRequiredValue(title)) {
+          return;
+        }
         onCreate(title.trim());
         if (!keepModalOpen) {
           setIsModalOpen(false);
