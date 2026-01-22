@@ -44,6 +44,8 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
 
   const navigate = useNavigate();
 
+  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+
   const validateForm = () => {
     let hasError = false;
     if (!name.trim()) {
@@ -54,7 +56,7 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
       handleEmailError(t("get_started.validation.email_required"))
       hasError = true;
     }
-    if (email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) === null) {
+    if (email.trim() && !isEmailValid) {
       handleEmailError(t("get_started.validation.invalid_email"))
       hasError = true;
     }
@@ -166,7 +168,7 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
                 <Button
                   text={loading ? t('get_started.loading') : t('get_started.button_sign_up')}
                   type="primary"
-                  disabled={loading || !orgType}
+                  disabled={loading || !orgType || !name.trim() || !email.trim() || !isEmailValid}
                   onClick={(e) => {
                     e.preventDefault()
                     handleSubmit()
