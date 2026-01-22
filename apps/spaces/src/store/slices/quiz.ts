@@ -47,7 +47,7 @@ export interface Quiz {
 
 export interface QuizSlice {
   quizzes: Quiz[] | []
-  fetchQuizzes: () => void
+  fetchQuizzes: () => Promise<void>,
   updateQuiz: (data: UpdateQuizPayload, successAction?: string) => void,
   reorderQuiz: (data: ReorderQuizPayload) => void
   deleteQuiz: (id: number) => void,

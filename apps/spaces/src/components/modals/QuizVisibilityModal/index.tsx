@@ -4,16 +4,16 @@ import { useTranslation } from "react-i18next";
 
 interface Props {
   isModalOpen: boolean;
-  setIsModalOpen: (isOpen: boolean) => void;
-  onConfirm: (visibility: "public" | "private") => void;
+  onConfirm: (visibility: "public" | "private") => Promise<void>;
   onBack: () => void;
+  isSubmitting?: boolean;
 }
 
 export const QuizVisibilityModal: FunctionComponent<Props> = ({
   isModalOpen,
-  setIsModalOpen,
   onConfirm,
-  onBack
+  onBack,
+  isSubmitting = false,
 }) => {
   const { t } = useTranslation();
   const [visibility, setVisibility] = useState<"public" | "private" | null>(null);
@@ -31,13 +31,13 @@ export const QuizVisibilityModal: FunctionComponent<Props> = ({
       title={t("modals.quiz_visibility.title")}
       primaryButtonText={t('modals.create_quiz.button')}
       secondaryButtonText={t("buttons.back")}
-      primaryButtonDisabled={!visibility}
+      primaryButtonDisabled={!visibility || isSubmitting}
       onPrimaryClick={() => {
-        if (!visibility) { return; }
-        onConfirm(visibility);
-        setIsModalOpen(false);
+        if (!visibility || isSubmitting) return;
+        void onConfirm(visibility);
       }}
       onSecondaryClick={() => {
+        if (isSubmitting) return;
         onBack();
       }}
     >
