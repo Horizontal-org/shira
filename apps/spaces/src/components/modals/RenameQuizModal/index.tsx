@@ -4,13 +4,14 @@ import styled from "styled-components";
 
 import { Quiz } from "../../../store/slices/quiz";
 import { useTranslation } from "react-i18next";
+import { hasRequiredValue } from "../../../utils/validation";
 
 interface Props {
-  quiz: Quiz
+  quiz: Quiz;
   isModalOpen: boolean;
-  setIsModalOpen: (handle: boolean) => void
-  onRename: (title: string) => void
-  onCancel: () => void
+  setIsModalOpen: (handle: boolean) => void;
+  onRename: (title: string) => void;
+  onCancel: () => void;
 }
 
 export const RenameQuizModal: FunctionComponent<Props> = ({
@@ -37,15 +38,16 @@ export const RenameQuizModal: FunctionComponent<Props> = ({
       title={t('modals.rename_quiz.title')}
       primaryButtonText={t('buttons.save')}
       secondaryButtonText={t('buttons.cancel')}
-      primaryButtonDisabled={!title || title.trim() === ""}
+      primaryButtonDisabled={!hasRequiredValue(title)}
       onPrimaryClick={() => {
+        if (!hasRequiredValue(title)) { return; }
         setIsModalOpen(false);
-        onRename(title)
-        handleTitle('')
+        onRename(title);
+        handleTitle('');
       }}
       onSecondaryClick={() => {
-        handleTitle('')
-        onCancel()
+        handleTitle('');
+        onCancel();
       }}
     >
       <FormContent>

@@ -17,7 +17,7 @@ import { inviteOrg } from "../../fetch/registration";
 import { handleHttpError } from "../../fetch/handleError";
 import { getErrorContent } from "../../utils/getErrorContent";
 import { GenericErrorModal } from "../modals/ErrorModal";
-import { isEmailValid, isRequired } from "../../utils/validation";
+import { isEmailValid, hasRequiredValue } from "../../utils/validation";
 
 interface Props { }
 
@@ -49,15 +49,15 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
 
   const validateForm = () => {
     let hasError = false;
-    if (!isRequired(name)) {
+    if (!hasRequiredValue(name)) {
       handleNameError(t("get_started.validation.org_name_required"))
       hasError = true;
     }
-    if (!isRequired(email)) {
+    if (!hasRequiredValue(email)) {
       handleEmailError(t("get_started.validation.email_required"))
       hasError = true;
     }
-    if (isRequired(email) && !emailIsValid) {
+    if (hasRequiredValue(email) && !emailIsValid) {
       handleEmailError(t("get_started.validation.invalid_email"))
       hasError = true;
     }
@@ -169,7 +169,7 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
                 <Button
                   text={loading ? t('get_started.loading') : t('get_started.button_sign_up')}
                   type="primary"
-                  disabled={loading || !orgType || !isRequired(name) || !isRequired(email) || !emailIsValid}
+                  disabled={loading || !orgType || !hasRequiredValue(name) || !hasRequiredValue(email) || !emailIsValid}
                   onClick={(e) => {
                     e.preventDefault()
                     handleSubmit()
