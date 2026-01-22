@@ -1,5 +1,5 @@
 import { DragEvent, FunctionComponent, KeyboardEvent, RefObject } from "react";
-import { Body1, Body2Regular, Body4, Button, H2, SubHeading1, SubHeading3, defaultTheme, styled, useTheme } from "@shira/ui";
+import { Body1, Body2Regular, Body4, Button, H2, LoadingIcon, SubHeading1, SubHeading3, defaultTheme, styled, useTheme } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 import { FaFileUpload } from "react-icons/fa";
 import { FiCheck, FiDownload, FiInfo } from "react-icons/fi";
@@ -362,28 +362,6 @@ const CompleteIcon = styled.div`
   justify-content: center;
   color: ${(props) => props.theme.colors.light.white};
   background: ${(props) => props.theme.colors.green7};
-`;
-
-const LoadingIcon = styled.div`
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: conic-gradient(
-    from 0deg,
-    ${(props) => props.theme.colors.light.white} 0deg,
-    ${(props) => props.theme.colors.green4} 160deg,
-    ${(props) => props.theme.colors.green2} 300deg,
-    ${(props) => props.theme.colors.light.white}
-  );
-  mask: radial-gradient(circle, transparent 54%, black 56%);
-  -webkit-mask: radial-gradient(circle, transparent 54%, black 56%);
-  animation: spin 1.2s linear infinite;
-
-  @keyframes spin {
-    100% {
-      transform: rotate(360deg);
-    }
-  }
 `;
 
 const Dropzone = styled.div<{ $isDragging: boolean }>`

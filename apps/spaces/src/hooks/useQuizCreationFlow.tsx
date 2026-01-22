@@ -5,28 +5,30 @@ import { Quiz } from "../store/slices/quiz";
 import { hasRequiredValue } from "../utils/validation";
 
 type QuizFlowMode = "create" | "duplicate" | null;
-type QuizFlowStep = 1 | 2;
+type QuizFlowStep = 0 | 1 | 2;
 
-interface UseQuizFlowParams {
+interface UseQuizCreationFlowParams {
   createQuiz: (title: string, visibility: string) => void;
-  fetchQuizzes: () => void;
+  fetchQuizzes: () => Promise<void>;
   t: (key: string, options?: any) => string;
 }
 
-export const useQuizVisibilityFlow = ({ createQuiz, fetchQuizzes, t }: UseQuizFlowParams) => {
+export const useQuizCreationFlow = ({ createQuiz, fetchQuizzes, t }: UseQuizCreationFlowParams) => {
   const [mode, setMode] = useState<QuizFlowMode>(null);
   const [step, setStep] = useState<QuizFlowStep>(1);
   const [title, setTitle] = useState("");
 
   const [selectedQuizForDuplicate, setSelectedQuizForDuplicate] = useState<Quiz | null>(null);
-  const [isDuplicating, setIsDuplicating] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [submittingQuizId, setSubmittingQuizId] = useState<number | null>(null);
 
   const reset = () => {
     setMode(null);
     setStep(1);
     setTitle("");
     setSelectedQuizForDuplicate(null);
-    setIsDuplicating(false);
+    setSubmittingQuizId(null);
   };
 
   const startCreateQuizFlow = () => {
@@ -41,6 +43,7 @@ export const useQuizVisibilityFlow = ({ createQuiz, fetchQuizzes, t }: UseQuizFl
   };
 
   const handleTitleSubmit = (newTitle: string) => {
+    if (!hasRequiredValue(newTitle)) return;
     setTitle(newTitle);
     setStep(2);
   };
@@ -50,30 +53,35 @@ export const useQuizVisibilityFlow = ({ createQuiz, fetchQuizzes, t }: UseQuizFl
   };
 
   const handleConfirmVisibility = async (visibility: string) => {
-    if (!hasRequiredValue(title)) { return; }
+    if (!hasRequiredValue(title)) return;
 
     if (mode === "create") {
-      createQuiz(title.trim(), visibility);
+      setStep(0);
+      await createQuiz(title.trim(), visibility);
       reset();
       return;
     }
 
     if (mode === "duplicate" && selectedQuizForDuplicate) {
-      try {
-        setIsDuplicating(true);
+      const quizId = selectedQuizForDuplicate.id;
 
-        await duplicateQuiz(selectedQuizForDuplicate.id, title.trim(), visibility);
+      setStep(0);
+      setIsSubmitting(true);
+      setSubmittingQuizId(quizId);
+
+      try {
+        await duplicateQuiz(quizId, title.trim(), visibility);
 
         toast.success(t("success_messages.quiz_duplicated", { quiz_name: title.trim() }), {
           duration: 3000,
         });
 
-        fetchQuizzes();
-        reset();
+        await fetchQuizzes();
       } catch (error) {
         toast.error(t("error_messages.duplicate_quiz_fail"), { duration: 3000 });
       } finally {
-        setIsDuplicating(false);
+        setIsSubmitting(false);
+        reset();
       }
     }
   };
@@ -88,7 +96,8 @@ export const useQuizVisibilityFlow = ({ createQuiz, fetchQuizzes, t }: UseQuizFl
     title,
     setTitle,
     selectedQuizForDuplicate,
-    isDuplicating,
+    isSubmitting,
+    submittingQuizId,
 
     isCreateTitleModalOpen: mode === "create" && step === 1,
     isDuplicateTitleModalOpen: mode === "duplicate" && step === 1,
