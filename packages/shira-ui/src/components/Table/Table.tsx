@@ -152,7 +152,7 @@ const TableHeader = styled.div`
 const TableFooter = styled.div`
   box-sizing: border-box;
   width: 100%;
-  height: 16px;
+  height: 6px;
   background: white;
   border-radius: 0 0 20px 20px;
   border-left: 1px solid ${(props) => props.theme.colors.light.paleGreen};
@@ -204,6 +204,11 @@ const Tr = styled.tr<{ $selected?: boolean; $selectable?: boolean }>`
   & td {
     background-color: ${(props) =>
     props.$selected ? props.theme.colors.green1 : props.theme.colors.light.white};
+    border-bottom: 1px solid ${(props) => props.theme.colors.light.paleGrey};
+  }
+
+  &:last-child td {
+    border-bottom: none;
   }
 
   ${(props) =>

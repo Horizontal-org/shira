@@ -9,7 +9,7 @@ import { InviteLearnerService } from './services/invite.learner.service';
 import { InviteBulkLearnerService } from './services/invite-bulk.learner.service';
 import { UnassignLearnerService } from './services/unassign.learner.service';
 import { CsvBulkInviteParser } from './parsers/csv-bulk-invite.parser';
-import { BulkInviteParserResolver } from './services/bulk-invite-parser.resolver';
+import { BulkInviteParserResolver } from './parsers/bulk-invite-parser.resolver';
 
 export const inviteLearnerService = {
   provide: TYPES.services.IInviteLearnerService,

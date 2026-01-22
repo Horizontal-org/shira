@@ -44,14 +44,13 @@ export class CsvBulkInviteParser implements IBulkInviteParser {
     }
 
     const dataRows = rows.slice(1);
-    this.logger.log(`dataRows.length: ${dataRows.length}`);
 
     if (dataRows.length > MAX_ROWS) {
       throw new TooManyRowsException(`There are too many rows in CSV - maxRows: ${MAX_ROWS}, detectedRows: ${dataRows.length}`);
     }
 
     const valid: Array<{ row: number; name: string; email: string }> = [];
-    const errors: Array<{ row: number; name: string; email: string; error: string }> = [];
+    const errors: Array<{ row: number; name: string; email: string; error: string[] }> = [];
     const skipped: Array<{ row: number; name: string; email: string; reason: string }> = [];
     const seenEmails = new Set<string>();
 
@@ -63,12 +62,19 @@ export class CsvBulkInviteParser implements IBulkInviteParser {
       const email = emailRaw.trim();
       const rowNumber = index + 2;
 
+      const rowErrors: string[] = [];
+      this.hasValidName(rowErrors, name);
+      this.hasValidEmail(rowErrors, email);
+
+      if (rowErrors.length > 0) {
+        errors.push({ row: rowNumber, name, email, error: rowErrors });
+        return;
+      }
+
       const normalizedEmail = email.toLowerCase();
-      if (
-        !this.hasValidName(errors, rowNumber, email, name) ||
-        !this.hasValidEmail(errors, rowNumber, name, email) ||
-        !this.hasUniqueEmail(skipped, rowNumber, name, email, normalizedEmail, seenEmails)
-      ) { return; }
+      if (!this.hasUniqueEmail(skipped, rowNumber, name, email, normalizedEmail, seenEmails)) {
+        return;
+      }
 
       seenEmails.add(normalizedEmail);
       valid.push({ row: rowNumber, name, email });
@@ -98,8 +104,6 @@ export class CsvBulkInviteParser implements IBulkInviteParser {
     const nameIndex = normalizedHeaders.indexOf("name");
     const emailIndex = normalizedHeaders.indexOf("email");
 
-    this.logger.log(`CSV Headers found: ${normalizedHeaders.join(", ")}`);
-
     if (nameIndex === -1 || emailIndex === -1) {
       const missing = HEADERS.filter((expected) => !normalizedHeaders.includes(expected));
       throw new InvalidFileFormatException(`Missing CSV headers: ${missing.join(", ")}`);
@@ -108,22 +112,22 @@ export class CsvBulkInviteParser implements IBulkInviteParser {
     return { nameIndex, emailIndex };
   }
 
-  private hasValidName(errors, rowNumber: number, email: string, name: string) {
+  private hasValidName(rowErrors: string[], name: string) {
     if (!name) {
-      errors.push({ row: rowNumber, name, email, error: "missing_name" });
+      rowErrors.push("missing_name");
       return false;
     }
     return true;
   }
 
-  private hasValidEmail(errors, row: number, name: string, email: string) {
+  private hasValidEmail(rowErrors: string[], email: string) {
     if (!email) {
-      errors.push({ row, name, email, error: "missing_email" });
+      rowErrors.push("missing_email");
       return false;
     }
 
     if (!this.isValidEmail(email)) {
-      errors.push({ row, name, email, error: "invalid_email" });
+      rowErrors.push("invalid_email");
       return false;
     }
 
