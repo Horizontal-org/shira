@@ -70,7 +70,6 @@ export const useQuizCreationFlow = ({ createQuiz, fetchQuizzes, t }: UseQuizCrea
       setSubmittingQuizId(quizId);
 
       try {
-        await new Promise((resolve) => setTimeout(resolve, 5000)); // Simulate delay
         await duplicateQuiz(quizId, title.trim(), visibility);
 
         toast.success(t("success_messages.quiz_duplicated", { quiz_name: title.trim() }), {
