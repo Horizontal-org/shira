@@ -44,7 +44,6 @@ export class CsvBulkInviteParser implements IBulkInviteParser {
     }
 
     const dataRows = rows.slice(1);
-    this.logger.log(`dataRows.length: ${dataRows.length}`);
 
     if (dataRows.length > MAX_ROWS) {
       throw new TooManyRowsException(`There are too many rows in CSV - maxRows: ${MAX_ROWS}, detectedRows: ${dataRows.length}`);

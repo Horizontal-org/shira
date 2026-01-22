@@ -204,6 +204,11 @@ const Tr = styled.tr<{ $selected?: boolean; $selectable?: boolean }>`
   & td {
     background-color: ${(props) =>
     props.$selected ? props.theme.colors.green1 : props.theme.colors.light.white};
+    border-bottom: 1px solid ${(props) => props.theme.colors.light.paleGrey};
+  }
+
+  &:last-child td {
+    border-bottom: none;
   }
 
   ${(props) =>

@@ -123,7 +123,7 @@ export const VerifyLearnersTable: FunctionComponent<Props> = ({
             return <StatusList>{messages.map(renderMessagePill)}</StatusList>;
           }
 
-          return "-";
+          return <TableCellText>-</TableCellText>;
         },
       },
     ],
@@ -153,8 +153,8 @@ export const VerifyLearnersTable: FunctionComponent<Props> = ({
       colGroups={
         <colgroup>
           <col style={{ width: "80px" }} />
-          <col style={{ width: "32%" }} />
-          <col style={{ width: "32%" }} />
+          <col style={{ width: "26%" }} />
+          <col style={{ width: "30%" }} />
           <col />
         </colgroup>
       }
@@ -198,9 +198,11 @@ const StatusPill = styled.span<{ $kind: "success" | "neutral" | "error" }>`
 `;
 
 const StatusList = styled.div`
-  display: inline-flex;
-  flex-direction: column;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   gap: 6px;
+  max-width: 100%;
 `;
 
 const StatusIcon = styled.span<{ $variant?: "success" | "neutral" | "error" }>`
