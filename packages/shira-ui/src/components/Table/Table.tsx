@@ -152,7 +152,7 @@ const TableHeader = styled.div`
 const TableFooter = styled.div`
   box-sizing: border-box;
   width: 100%;
-  height: 16px;
+  height: 6px;
   background: white;
   border-radius: 0 0 20px 20px;
   border-left: 1px solid ${(props) => props.theme.colors.light.paleGreen};
