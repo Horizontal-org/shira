@@ -59,7 +59,7 @@ export class InviteBulkLearnerService implements IInviteBulkLearnerService {
             message = "Failed to send invitation email.";
           }
 
-          return this.createResponse(row, email, "Error", name, message);
+          return this.createResponse(row, email, "Error", name, [message]);
         }
       })
     );
@@ -74,7 +74,7 @@ export class InviteBulkLearnerService implements IInviteBulkLearnerService {
       this.createResponse(row, email, "Error", name, error)
     );
     const skippedResults = parsed.skipped.map(({ row, email, name, reason }) =>
-      this.createResponse(row, email, "Skipped", name, reason)
+      this.createResponse(row, email, "Skipped", name, [reason])
     );
 
     return { parsed, errorResults, skippedResults };
@@ -85,7 +85,7 @@ export class InviteBulkLearnerService implements IInviteBulkLearnerService {
     email: string,
     status: "OK" | "Error" | "Skipped",
     name: string,
-    message?: string
+    message?: string[]
   ): BulkLearnerRowResultDto {
     return {
       row,

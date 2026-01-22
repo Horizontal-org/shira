@@ -66,58 +66,64 @@ export const VerifyLearnersTable: FunctionComponent<Props> = ({
         id: "statusMessage",
         cell: ({ row }) => {
           const rowData = row.original;
+          const messages = rowData.message ?? [];
 
-          const isMissingError =
-            rowData.status === "Error" &&
-            rowData.message?.startsWith("missing_");
+          const renderMessagePill = (message: string) => {
+            const isMissingError =
+              rowData.status === "Error" && message.startsWith("missing_");
 
-          const pillKind: "success" | "error" | "neutral" =
-            rowData.status === "OK"
-              ? "success"
-              : rowData.status === "Error" && isMissingError
-                ? "error"
-                : "neutral";
+            const pillKind: "success" | "error" | "neutral" =
+              rowData.status === "OK"
+                ? "success"
+                : rowData.status === "Error" && isMissingError
+                  ? "error"
+                  : "neutral";
 
-          return (
-            <TableCellText>
-              {rowData.status === "OK" ? (
-                <StatusPill $kind={pillKind}>
+            const iconVariant: "success" | "neutral" | "error" =
+              rowData.status === "OK"
+                ? "success"
+                : isMissingError
+                  ? "error"
+                  : "neutral";
+
+            return (
+              <StatusPill key={`${rowData.row}-${message}`} $kind={pillKind}>
+                {rowData.status !== "OK" && (
+                  <StatusIcon $variant={iconVariant}>
+                    {isMissingError ? (
+                      <MdOutlineQuestionMark size={12} />
+                    ) : (
+                      <FiX size={12} />
+                    )}
+                  </StatusIcon>
+                )}
+                <Body4>
+                  {t(`error_messages.learners_bulk_import.${message}`, {
+                    defaultValue: message,
+                  })}
+                </Body4>
+              </StatusPill>
+            );
+          };
+
+          if (rowData.status === "OK") {
+            return (
+              <StatusList>
+                <StatusPill $kind="success">
                   <StatusIcon $variant="success">
                     <FiCheck size={12} />
                   </StatusIcon>
                   <Body4>{validatedLabel}</Body4>
                 </StatusPill>
-              ) : rowData.message ? (
-                <StatusPill $kind={pillKind}>
-                  {rowData.status === "Error" && isMissingError && (
-                    <StatusIcon $variant="error">
-                      <MdOutlineQuestionMark size={12} />
-                    </StatusIcon>
-                  )}
+              </StatusList>
+            );
+          }
 
-                  {rowData.status === "Error" && !isMissingError && (
-                    <StatusIcon $variant="neutral">
-                      <FiX size={12} />
-                    </StatusIcon>
-                  )}
+          if (messages.length > 0) {
+            return <StatusList>{messages.map(renderMessagePill)}</StatusList>;
+          }
 
-                  {rowData.status === "Skipped" && (
-                    <StatusIcon $variant="neutral">
-                      <FiX size={12} />
-                    </StatusIcon>
-                  )}
-
-                  <Body4>
-                    {t(`error_messages.learners_bulk_import.${rowData.message}`,
-                      { defaultValue: rowData.message }
-                    )}
-                  </Body4>
-                </StatusPill>
-              ) : (
-                "-"
-              )}
-            </TableCellText>
-          );
+          return "-";
         },
       },
     ],
@@ -189,6 +195,12 @@ const StatusPill = styled.span<{ $kind: "success" | "neutral" | "error" }>`
       : $kind === "neutral"
         ? theme.colors.light.paleGrey
         : theme.colors.light.paleGreen};
+`;
+
+const StatusList = styled.div`
+  display: inline-flex;
+  flex-direction: column;
+  gap: 6px;
 `;
 
 const StatusIcon = styled.span<{ $variant?: "success" | "neutral" | "error" }>`

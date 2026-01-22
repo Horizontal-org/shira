@@ -7,7 +7,7 @@ export type BulkLearnerRowResult = {
   email: string;
   name?: string;
   status: BulkStatus;
-  message?: string;
+  message?: string[];
 };
 
 export type BulkInviteLearnersResponse = BulkLearnerRowResult[];

@@ -5,7 +5,7 @@ export class BulkLearnerRowResultDto {
   email: string;
   name: string;
   status: BulkStatus;
-  message?: string;
+  message?: string[];
 }
 
 export class BulkInviteLearnersResponseDto {
