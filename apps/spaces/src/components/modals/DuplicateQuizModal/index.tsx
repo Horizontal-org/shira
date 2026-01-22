@@ -51,6 +51,11 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
         onCancel();
       }}
     >
+      <Body1>
+        <Description>
+          {t('modals.duplicate_quiz.subtitle')}
+        </Description>
+      </Body1>
       <FormContent>
         <TextInput
           label="Quiz name"
@@ -70,5 +75,5 @@ const FormContent = styled.div`
 `;
 
 const Description = styled(Body1)`
-  color: ${props => props.theme.colors.dark.darkGrey};
+  padding-bottom: 16px;
 `;
