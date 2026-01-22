@@ -42,11 +42,12 @@ export const Card: FunctionComponent<CardProps> = ({
   publishedText,
   isPublic,
   visibilityText,
+  loadingLabel,
   showLoading = false,
-  loadingLabel
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+
   return (
     <CardWrapper id={id} onClick={() => {
       onCardClick()

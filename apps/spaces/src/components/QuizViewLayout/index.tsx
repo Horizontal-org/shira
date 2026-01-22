@@ -33,7 +33,7 @@ import { FiCopy } from "react-icons/fi";
 import { RenameQuizModal } from "../modals/RenameQuizModal";
 import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
 import { DuplicateQuizModal } from "../modals/DuplicateQuizModal";
-import { useQuizVisibilityFlow } from "../../hooks/useQuizVisibilityFlow";
+import { useQuizCreationFlow } from "../../hooks/useQuizCreationFlow";
 
 interface Props { }
 
@@ -70,12 +70,13 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
   const [isUnpublishedQuizModalOpen, setIsUnpublishedQuizModalOpen] = useState(false);
+
   const { destroy } = useQuestionCRUD()
   const {
     title,
     setTitle,
     selectedQuizForDuplicate,
-    isDuplicating,
+    isSubmitting,
     isDuplicateTitleModalOpen,
     isVisibilityModalOpen,
     startDuplicateQuizFlow,
@@ -83,7 +84,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     handleBackFromVisibility,
     handleConfirmVisibility,
     cancelFlow
-  } = useQuizVisibilityFlow({
+  } = useQuizCreationFlow({
     createQuiz,
     fetchQuizzes,
     t
@@ -342,16 +343,14 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 setTitle={setTitle}
                 onDuplicate={(newTitle) => { handleTitleSubmit(newTitle); }}
                 onCancel={() => { cancelFlow(); }}
-                isLoading={isDuplicating}
+                isLoading={isSubmitting}
               />
 
               <QuizVisibilityModal
                 isModalOpen={isVisibilityModalOpen}
-                setIsModalOpen={(open) => {
-                  if (!open) { cancelFlow(); }
-                }}
                 onBack={() => { handleBackFromVisibility(); }}
-                onConfirm={(visibility) => { handleConfirmVisibility(visibility); }}
+                onConfirm={handleConfirmVisibility}
+                isSubmitting={isSubmitting}
               />
             </>
           ) : (

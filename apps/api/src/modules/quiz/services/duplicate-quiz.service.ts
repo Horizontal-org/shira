@@ -30,8 +30,7 @@ export class DuplicateQuizService implements IDuplicateQuizService {
   private readonly logger = new ApiLogger(DuplicateQuestionQuizService.name);
 
   async execute(duplicateQuizDto: DuplicateQuizDto, spaceId: number): Promise<Quiz> {
-    this.logger.log(`Starting duplication of quiz ID ${duplicateQuizDto.quizId} for space ID ${spaceId} 
-      with title "${duplicateQuizDto.title}" and visibility "${duplicateQuizDto.visibility}"`);
+    this.logger.log(`Starting duplication of quiz ID ${duplicateQuizDto.quizId} for space ID ${spaceId} with title "${duplicateQuizDto.title}" and visibility "${duplicateQuizDto.visibility}"`);
 
     await this.validateSpaceQuizService.execute(spaceId, duplicateQuizDto.quizId);
 

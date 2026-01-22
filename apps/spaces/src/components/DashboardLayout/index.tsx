@@ -18,7 +18,7 @@ import { handleCopyUrl, handleCopyUrlAndNotify } from "../../utils/quiz";
 import { useTranslation } from "react-i18next";
 import { getCurrentDateFNSLocales } from "../../language/dateUtils";
 import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
-import { useQuizVisibilityFlow } from "../../hooks/useQuizVisibilityFlow";
+import { useQuizCreationFlow } from "../../hooks/useQuizCreationFlow";
 
 interface Props { }
 
@@ -61,7 +61,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     title,
     setTitle,
     selectedQuizForDuplicate,
-    isDuplicating,
+    isSubmitting,
+    submittingQuizId,
     isCreateTitleModalOpen,
     isDuplicateTitleModalOpen,
     isVisibilityModalOpen,
@@ -71,7 +72,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     handleBackFromVisibility,
     handleConfirmVisibility,
     cancelFlow
-  } = useQuizVisibilityFlow({
+  } = useQuizCreationFlow({
     createQuiz,
     fetchQuizzes,
     t
@@ -225,8 +226,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                   handleSelectedCard(card)
                   setIsDeleteModalOpen(true)
                 }}
-                showLoading={isDuplicating && selectedQuizForDuplicate?.id === card.id}
-                actionLoadingLabel={t('loading_messages.duplicating')}
+                showLoading={isSubmitting && submittingQuizId === card.id}
+                loadingLabel={t('loading_messages.duplicating')}
                 isPublic={card.visibility === 'public'}
                 visibilityText={
                   card.visibility === 'public'
@@ -274,11 +275,9 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
           <QuizVisibilityModal
             isModalOpen={isVisibilityModalOpen}
-            setIsModalOpen={(open) => {
-              if (!open) cancelFlow();
-            }}
             onBack={() => { handleBackFromVisibility(); }}
-            onConfirm={(visibility) => { handleConfirmVisibility(visibility); }}
+            onConfirm={handleConfirmVisibility}
+            isSubmitting={isSubmitting}
           />
 
           <UnpublishedQuizModal
@@ -296,7 +295,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             setTitle={setTitle}
             onDuplicate={(title) => handleTitleSubmit(title)}
             onCancel={() => cancelFlow()}
-            isLoading={isDuplicating}
+            isLoading={isSubmitting}
           />
 
         </MainContentWrapper>
