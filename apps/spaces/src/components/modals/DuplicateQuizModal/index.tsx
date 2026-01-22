@@ -2,6 +2,7 @@ import { FunctionComponent, useEffect } from "react";
 import { Body1, Modal, styled, TextInput } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 import { Quiz } from "../../../store/slices/quiz";
+import { hasRequiredValue } from "../../../utils/validation";
 
 interface Props {
   quiz: Quiz;
@@ -40,9 +41,12 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
       isOpen={isModalOpen}
       title={t('modals.duplicate_quiz.title')}
       primaryButtonText={isLoading ? t('loading_messages.creating') : t('buttons.next')}
-      primaryButtonDisabled={(!title || title.trim() === "") || isLoading}
+      primaryButtonDisabled={!hasRequiredValue(title) || isLoading}
       secondaryButtonText={t('buttons.back')}
-      onPrimaryClick={() => { onDuplicate(title); }}
+      onPrimaryClick={() => {
+        if (!hasRequiredValue(title)) { return; }
+        onDuplicate(title);
+      }}
       onSecondaryClick={() => {
         onCancel();
       }}
