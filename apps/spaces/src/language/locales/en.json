@@ -246,7 +246,7 @@
                 "remove_file": "Remove selected file",
                 "upload_complete": "Upload complete",
                 "upload_success": "Your spreadsheet was successfully uploaded! Continue to the next step to verify your learners.",
-                "uploading": "Please wait while Shira uploads and validates your data. .",
+                "uploading": "Please wait while Shira uploads and validates your data.",
                 "invalid_file_format": "Error: Invalid file format",
                 "invalid_file_format_description": "Please make sure the file is in CSV and try again.",
                 "upload_error": "Error: Your file could not be processed",
