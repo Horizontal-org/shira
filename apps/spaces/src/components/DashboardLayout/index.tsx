@@ -211,7 +211,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                 isPublished={card.published}
                 onCopyUrl={() => {
                   if (card.published) {
-                    handleCopyUrlAndNotify(card.hash)
+                    handleCopyUrlAndNotify(card.hash, t('success_messages.quiz_link_copied'));
                   } else {
                     handleCopyUrl(card.hash)
                     handleUnpublishedQuizId(card.id)
