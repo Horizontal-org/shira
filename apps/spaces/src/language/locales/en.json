@@ -43,7 +43,8 @@
             "registered_description_2": "You can manage registered learners and invite new ones in the <0>Learners section</0>.",
             "assign_button": "Assign to learners",
             "assign_title": "Assign \"{{quiz_title}}\" to learners",
-            "no_learners": "There are no registered learners in your space."
+            "no_learners": "There are no registered learners in your space.",
+            "disabled_tooltip": "Create at least 1 question to assign this quiz to learners."
         }
     },
     "quizzes": {
