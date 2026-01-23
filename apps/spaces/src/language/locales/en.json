@@ -64,7 +64,8 @@
         "private_subtitle": "Create quiz questions, manage learners and monitor results. Shira auto-saves your work whenever you are connected to the Internet.",
         "publish_toggle": {
             "published": "Published",
-            "unpublished": "Unpublished"
+            "unpublished": "Unpublished",
+            "disabled_tooltip": "Create at least 1 question to publish your quiz."
         },
         "actions": {
             "rename": "Rename",
