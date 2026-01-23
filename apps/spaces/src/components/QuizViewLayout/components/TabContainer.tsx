@@ -14,6 +14,7 @@ interface TabContainerProps {
   quizTitle: string;
   quizQuestions: QuizQuestion[];
   quizPublished: boolean;
+  hasQuestions: boolean;
   quizVisibility: string;
   resultsData: PublicQuizResultsResponse | null
   resultsLoading: boolean
@@ -31,6 +32,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   quizId,
   quizTitle,
   quizPublished,
+  hasQuestions,
   quizQuestions,
   quizVisibility,
   onEdit,
@@ -97,6 +99,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
             quizId={quizId}
             quizTitle={quizTitle}
             quizPublished={quizPublished}
+            hasQuestions={hasQuestions}
             onPublish={onPublish}
           />
         )}
