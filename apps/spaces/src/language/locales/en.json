@@ -366,6 +366,11 @@
             "note": "Note: ",
             "warning": "This question's Results will also be deleted, which will affect learners' average scores."
         },
+        "unpublish_quiz_on_delete": {
+            "title": "Unpublish quiz",
+            "message": "Deleting the quiz's only question will also unpublish the quiz.",
+            "confirm": "Unpublish"
+        },
         "exit_question": {
             "title": "Are you sure you want to exit the question?",
             "message": "Any unsaved changes will be lost."
