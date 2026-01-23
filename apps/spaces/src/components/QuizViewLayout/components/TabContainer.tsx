@@ -84,6 +84,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
           <QuestionsList
             quizId={quizId}
             quizQuestions={quizQuestions}
+            quizPublished={quizPublished}
             onEdit={onEdit}
             onDelete={onDelete}
             onAdd={onAdd}

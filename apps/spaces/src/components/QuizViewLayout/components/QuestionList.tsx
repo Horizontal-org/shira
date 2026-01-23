@@ -16,6 +16,7 @@ import { useTranslation } from "react-i18next";
 interface QuestionsListProps {
   quizId: number;
   quizQuestions: QuizQuestion[];
+  quizPublished: boolean;
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;
   onAdd: () => void;
@@ -29,6 +30,7 @@ interface QuestionsListProps {
 export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
   quizId,
   quizQuestions,
+  quizPublished,
   onEdit,
   onDelete,
   onAdd,
@@ -98,6 +100,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
   }
 
   const isDeletingLastQuestion = !!questionForDelete && quizQuestions.length === 1;
+  const showUnpublishOnDeleteModal = isDeletingLastQuestion && quizPublished;
 
   return (
     <div>
@@ -202,7 +205,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
         )}
         </Droppable>
       </DragDropContext>
-      {isDeletingLastQuestion ? (
+      {showUnpublishOnDeleteModal ? (
         <UnpublishQuizOnDeleteModal
           setIsModalOpen={() => {
             handleQuestionForDelete(null)
