@@ -4,6 +4,7 @@ import { MdOutlineMenuBook } from "react-icons/md";
 import { styled, TrashIcon, EditIcon, Button, defaultTheme } from '@shira/ui'
 import { QuestionEmptyState } from "./QuestionEmptyState";
 import { DeleteModal } from "../../modals/DeleteModal";
+import { UnpublishQuizOnDeleteModal } from "../../modals/UnpublishQuizOnDeleteModal";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { duplicateQuestion } from "../../../fetch/quiz";
 import { QuizQuestion } from "../../../store/slices/quiz";
@@ -39,7 +40,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
   console.log("🚀 ~ quizQuestions:", quizQuestions)
 
   const { t } = useTranslation();
-  const [questionForDelete, handleQuestionForDelete] = useState(null)
+  const [questionForDelete, handleQuestionForDelete] = useState<QuizQuestion["question"] | null>(null)
   const [confirmBeforeContinueModal, handleConfirmBeforeContinueModal] = useState<{
     confirmType: string
     confirmId?: string
@@ -95,6 +96,8 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
   if (!quizQuestions || quizQuestions.length === 0) {
     return <QuestionEmptyState onAdd={onAdd} onAddLibrary={onAddLibrary} quizId={String(quizId)} />
   }
+
+  const isDeletingLastQuestion = !!questionForDelete && quizQuestions.length === 1;
 
   return (
     <div>
@@ -199,27 +202,46 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
         )}
         </Droppable>
       </DragDropContext>
-      <DeleteModal
-        title={t('modals.delete_question.title', { question_name: questionForDelete?.name })}
-        content={
-          <div>
-            {t('modals.delete_question.message')}
-            <br /><br />
-            <WarningNote>{t('modals.delete_question.note')}</WarningNote>
-            {t('modals.delete_question.warning')}
-          </div>
-        }
-        setIsModalOpen={() => {
-          handleQuestionForDelete(null)
-        }}
-        onDelete={() => {
-          onDelete(questionForDelete?.id)
-        }}
-        onCancel={() => {
-          handleQuestionForDelete(null)
-        }}
-        isModalOpen={!!(questionForDelete)}
-      />
+      {isDeletingLastQuestion ? (
+        <UnpublishQuizOnDeleteModal
+          setIsModalOpen={() => {
+            handleQuestionForDelete(null)
+          }}
+          onConfirm={() => {
+            if (questionForDelete) {
+              onDelete(questionForDelete.id)
+            }
+          }}
+          onCancel={() => {
+            handleQuestionForDelete(null)
+          }}
+          isModalOpen={isDeletingLastQuestion}
+        />
+      ) : (
+        <DeleteModal
+          title={t('modals.delete_question.title', { question_name: questionForDelete?.name })}
+          content={
+            <div>
+              {t('modals.delete_question.message')}
+              <br /><br />
+              <WarningNote>{t('modals.delete_question.note')}</WarningNote>
+              {t('modals.delete_question.warning')}
+            </div>
+          }
+          setIsModalOpen={() => {
+            handleQuestionForDelete(null)
+          }}
+          onDelete={() => {
+            if (questionForDelete) {
+              onDelete(questionForDelete.id)
+            }
+          }}
+          onCancel={() => {
+            handleQuestionForDelete(null)
+          }}
+          isModalOpen={!!(questionForDelete)}
+        />
+      )}
 
       <QuizHasResultsModal
         title={t('modals.edit_question_confirmation.title')}
