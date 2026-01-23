@@ -243,10 +243,8 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
 
                 </ActionHeader>
                 <Header>
-                  <div>
-                    <H2 id="quiz-title">{quiz.title}</H2>
-                    <Body1 id="quiz-subtitle">{t(`quiz.${quiz.visibility}_subtitle`)}</Body1>
-                  </div>
+                  <H2 id="quiz-title">{quiz.title}</H2>
+                  <Body1 id="quiz-subtitle">{t(`quiz.${quiz.visibility}_subtitle`)}</Body1>
                 </Header>
                 <ButtonsContainer>
                   <LeftButtons>
