@@ -14,28 +14,27 @@ export const PublishQuizAction: FunctionComponent<Props> = ({
   onPublish,
 }) => {
   const { t } = useTranslation();
- 
+
   return (
     <Modal
       id="publish-private-quiz-modal"
       isOpen={isModalOpen}
-      title={t('modals.publish_private_quiz.title')}
-      primaryButtonText={t('modals.publish_private_quiz.submit')}
-      secondaryButtonText={t('modals.publish_private_quiz.close')}
+      title={t('modals.publish_quiz.title')}
+      primaryButtonText={t('modals.publish_quiz.submit')}
+      secondaryButtonText={t('modals.publish_quiz.close')}
       onPrimaryClick={onPublish}
       onSecondaryClick={onClose}
     >
       <BodyWrapper>
-        <Body1 id="publish-private-quiz-subtitle-1">{t('modals.publish_private_quiz.subtitle_1')}</Body1>
-        <Body1 id="publish-private-quiz-subtitle-2">{t('modals.publish_private_quiz.subtitle_2')}</Body1>
+        <Body1 id="publish-private-quiz-subtitle-1">{t('modals.publish_quiz.private_subtitle_1')}</Body1>
+        <Body1 id="publish-private-quiz-subtitle-2">{t('modals.publish_quiz.private_subtitle_2')}</Body1>
       </BodyWrapper>
     </Modal>
   );
 };
 
-
 const BodyWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
-`
+`;

@@ -347,10 +347,11 @@
                 "description": "Only invited learners from your space can take the quiz"
             }
         },
-        "publish_private_quiz": {
+        "publish_quiz": {
             "title": "Your quiz is unpublished",
-            "subtitle_1": "Learners assigned this quiz will not be able to open it because it is unpublished. ",
-            "subtitle_2": "Publish the quiz now so learners can start taking the quiz, or keep it unpublished until you are ready.",
+            "private_subtitle_1": "Learners assigned this quiz will not be able to open it because it is unpublished. ",
+            "private_subtitle_2": "Publish the quiz now so learners can start taking the quiz, or keep it unpublished until you are ready.",
+            "public_subtitle_1": "The link was copied to your clipboard. However, learners will not be able to use the link because the quiz has not been published. Publish it now so learners can start taking the quiz.",
             "submit": "Publish quiz",
             "close": "Keep quiz unpublished"
         },
