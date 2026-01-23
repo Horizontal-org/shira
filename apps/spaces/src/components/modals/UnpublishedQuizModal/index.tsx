@@ -1,10 +1,11 @@
 import { FunctionComponent } from "react";
 import { Body1, Modal } from "@shira/ui";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   isModalOpen: boolean;
-  setIsModalOpen: (handle: boolean) => void
-  onConfirm: () => void
+  setIsModalOpen: (handle: boolean) => void;
+  onConfirm: () => void;
 }
 
 export const UnpublishedQuizModal: FunctionComponent<Props> = ({
@@ -13,13 +14,15 @@ export const UnpublishedQuizModal: FunctionComponent<Props> = ({
   onConfirm
 }) => {
 
+  const { t } = useTranslation();
+
   return (
     <Modal
       id="unpublished-quiz-modal"
       isOpen={isModalOpen}
-      title={`Your quiz is unpublished`}
-      primaryButtonText="Publish quiz"
-      secondaryButtonText="Keep quiz unpublished"
+      title={t('modals.publish_quiz.title')}
+      primaryButtonText={t('modals.publish_quiz.submit')}
+      secondaryButtonText={t('modals.publish_quiz.close')}
       onPrimaryClick={() => {
         onConfirm()
         setIsModalOpen(false);
@@ -30,7 +33,7 @@ export const UnpublishedQuizModal: FunctionComponent<Props> = ({
     >
       <div>
         <Body1>
-          The link was copied to your clipboard. However, learners will not be able to use the link because the quiz has not been published. Publish it now so learners can start taking the quiz.
+          {t('modals.publish_quiz.public_subtitle_1')}
         </Body1>
       </div>
     </Modal>

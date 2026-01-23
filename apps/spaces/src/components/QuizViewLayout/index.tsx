@@ -13,7 +13,8 @@ import {
   Toggle,
   BetaBanner,
   Body2Regular,
-  defaultTheme
+  defaultTheme,
+  Body4
 } from "@shira/ui";
 import { TabContainer } from './components/TabContainer'
 import { shallow } from "zustand/shallow";
@@ -70,6 +71,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
   const [isUnpublishedQuizModalOpen, setIsUnpublishedQuizModalOpen] = useState(false);
+  const [showPublishTooltip, setShowPublishTooltip] = useState(false);
 
   const { destroy } = useQuestionCRUD()
   const {
@@ -168,6 +170,12 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     return resultsData && resultsData.metrics && !!(resultsData.metrics.completedCount)
   }, [resultsData])
 
+  const hasQuestions = useMemo(() => {
+    return (quiz?.quizQuestions?.length ?? 0) > 0
+  }, [quiz])
+
+  const disablePublishToggle = !hasQuestions && !isPublished;
+
   function getQuizVisibility() {
     const translationKey = `quiz.visibility.${quiz.visibility}`;
     return t(translationKey);
@@ -198,19 +206,45 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                     )}
                     <Body2Regular>{getQuizVisibility()}</Body2Regular>
                   </VisibilityTag>
-                  <Toggle
-                    size='big'
-                    isEnabled={isPublished}
-                    onToggle={() => { handleTogglePublished(quiz.id, !quiz.published) }}
-                    rightLabel={t('quiz.publish_toggle.published')}
-                    leftLabel={t('quiz.publish_toggle.unpublished')}
-                  />
+
+                  <PublishToggleWrapper
+                    $showHelpCursor={disablePublishToggle}
+                    onMouseEnter={() => {
+                      if (disablePublishToggle) {
+                        setShowPublishTooltip(true)
+                      }
+                    }}
+                    onMouseLeave={() => { setShowPublishTooltip(false) }}
+                    onFocus={() => {
+                      if (disablePublishToggle) {
+                        setShowPublishTooltip(true)
+                      }
+                    }}
+                    onBlur={() => { setShowPublishTooltip(false) }}
+                    tabIndex={disablePublishToggle ? 0 : -1}
+                  >
+                    <Toggle
+                      size='big'
+                      isEnabled={isPublished}
+                      onToggle={() => {
+                        if (disablePublishToggle) { return }
+                        handleTogglePublished(quiz.id, !quiz.published)
+                      }}
+                      rightLabel={t('quiz.publish_toggle.published')}
+                      leftLabel={t('quiz.publish_toggle.unpublished')}
+                      disabled={disablePublishToggle}
+                    />
+                    {disablePublishToggle && showPublishTooltip && (
+                      <PublishToggleTooltip role="tooltip">
+                        <Body4>{t('quiz.publish_toggle.disabled_tooltip')}</Body4>
+                      </PublishToggleTooltip>
+                    )}
+                  </PublishToggleWrapper>
+
                 </ActionHeader>
                 <Header>
-                  <div>
-                    <H2 id="quiz-title">{quiz.title}</H2>
-                    <Body1 id="quiz-subtitle">{t(`quiz.${quiz.visibility}_subtitle`)}</Body1>
-                  </div>
+                  <H2 id="quiz-title">{quiz.title}</H2>
+                  <Body1 id="quiz-subtitle">{t(`quiz.${quiz.visibility}_subtitle`)}</Body1>
                 </Header>
                 <ButtonsContainer>
                   <LeftButtons>
@@ -263,6 +297,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 quizQuestions={quiz.quizQuestions}
                 quizVisibility={quiz.visibility}
                 quizPublished={quiz.published}
+                hasQuestions={hasQuestions}
                 resultsData={resultsData}
                 resultsLoading={resultsLoading}
                 hasResults={hasResults}
@@ -427,6 +462,36 @@ const LeftButtons = styled.div`
 const QuizWarningNote = styled.span`
   color: #d73527;
   font-weight: 500;
+`;
+
+const PublishToggleWrapper = styled.div<{ $showHelpCursor: boolean }>`
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+
+  ${props => props.$showHelpCursor && `
+    cursor: help;
+
+    button:disabled {
+      cursor: help !important;
+    }
+  `}
+`;
+
+const PublishToggleTooltip = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 6px;
+  padding: 4px 8px;
+  background-color: ${(props) => props.theme.colors.dark.black};
+  color: ${(props) => props.theme.colors.light.white};
+  border-radius: 10px;
+  width: max-content;
+  max-width: 520px;
+  white-space: nowrap;
+  z-index: 1000;
 `;
 
 const VisibilityTag = styled.span`

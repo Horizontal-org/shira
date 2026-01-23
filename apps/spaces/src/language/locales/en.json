@@ -43,7 +43,8 @@
             "registered_description_2": "You can manage registered learners and invite new ones in the <0>Learners section</0>.",
             "assign_button": "Assign to learners",
             "assign_title": "Assign \"{{quiz_title}}\" to learners",
-            "no_learners": "There are no registered learners in your space."
+            "no_learners": "There are no registered learners in your space.",
+            "disabled_tooltip": "Create at least 1 question to assign this quiz to learners."
         }
     },
     "quizzes": {
@@ -64,7 +65,8 @@
         "private_subtitle": "Create quiz questions, manage learners and monitor results. Shira auto-saves your work whenever you are connected to the Internet.",
         "publish_toggle": {
             "published": "Published",
-            "unpublished": "Unpublished"
+            "unpublished": "Unpublished",
+            "disabled_tooltip": "Create at least 1 question to publish your quiz."
         },
         "actions": {
             "rename": "Rename",
@@ -345,10 +347,11 @@
                 "description": "Only invited learners from your space can take the quiz"
             }
         },
-        "publish_private_quiz": {
+        "publish_quiz": {
             "title": "Your quiz is unpublished",
-            "subtitle_1": "Learners assigned this quiz will not be able to open it because it is unpublished. ",
-            "subtitle_2": "Publish the quiz now so learners can start taking the quiz, or keep it unpublished until you are ready.",
+            "private_subtitle_1": "Learners assigned this quiz will not be able to open it because it is unpublished. ",
+            "private_subtitle_2": "Publish the quiz now so learners can start taking the quiz, or keep it unpublished until you are ready.",
+            "public_subtitle_1": "The link was copied to your clipboard. However, learners will not be able to use the link because the quiz has not been published. Publish it now so learners can start taking the quiz.",
             "submit": "Publish quiz",
             "close": "Keep quiz unpublished"
         },
@@ -363,6 +366,11 @@
             "message": "Deleting this question is permanent and cannot be undone.",
             "note": "Note: ",
             "warning": "This question's Results will also be deleted, which will affect learners' average scores."
+        },
+        "unpublish_quiz_on_delete": {
+            "title": "Unpublish quiz",
+            "message": "Deleting the quiz's only question will also unpublish the quiz.",
+            "confirm": "Unpublish"
         },
         "exit_question": {
             "title": "Are you sure you want to exit the question?",
