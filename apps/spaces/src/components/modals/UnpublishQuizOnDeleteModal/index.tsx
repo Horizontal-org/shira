@@ -5,9 +5,9 @@ import { useTranslation } from "react-i18next";
 
 interface Props {
   isModalOpen: boolean;
-  setIsModalOpen: (handle: boolean) => void
-  onConfirm: () => void
-  onCancel: () => void
+  setIsModalOpen: (handle: boolean) => void;
+  onConfirm: () => void;
+  onCancel: () => void;
 }
 
 export const UnpublishQuizOnDeleteModal: FunctionComponent<Props> = ({
@@ -28,7 +28,7 @@ export const UnpublishQuizOnDeleteModal: FunctionComponent<Props> = ({
       type={ModalType.Danger}
       onPrimaryClick={() => {
         setIsModalOpen(false);
-        onConfirm()
+        onConfirm();
       }}
       onSecondaryClick={onCancel}
     >

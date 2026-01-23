@@ -7,11 +7,13 @@ import { DeleteModal } from "../../modals/DeleteModal";
 import { UnpublishQuizOnDeleteModal } from "../../modals/UnpublishQuizOnDeleteModal";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { duplicateQuestion } from "../../../fetch/quiz";
+import { shallow } from "zustand/shallow";
 import { QuizQuestion } from "../../../store/slices/quiz";
 import toast from "react-hot-toast";
 import DuplicateIcon from './DuplicateIcon'
 import { QuizHasResultsModal } from "../../modals/QuizHasResultsModal";
 import { useTranslation } from "react-i18next";
+import { useStore } from "../../../store";
 
 interface QuestionsListProps {
   quizId: number;
@@ -48,7 +50,12 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
     confirmId?: string
   }>(null)
 
-  const [duplicatingQuestions, setDuplicatingQuestions] = useState(new Set())
+  const [duplicatingQuestions, setDuplicatingQuestions] = useState(new Set());
+  const [isPublished, setIsPublished] = useState(false);
+
+  const { updateQuiz } = useStore((state) => ({
+    updateQuiz: state.updateQuiz
+  }), shallow);
 
   const handleDuplicateQuestion = async (questionId: string) => {
     setDuplicatingQuestions(prev => new Set(prev).add(questionId))
@@ -67,6 +74,15 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
       })
     }
   }
+
+  const handleTogglePublished = async (cardId: number, published: boolean) => {
+    updateQuiz({
+      id: cardId,
+      published: published
+    }, published ? 'update_published' : 'update_unpublished')
+
+    setIsPublished(published)
+  };
 
   const reorder = (startIndex, endIndex) => {
     const plainList: QuizQuestion[] = Array.from(quizQuestions);
@@ -134,11 +150,11 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
           <List
             {...provided.droppableProps}
             ref={provided.innerRef}
-          >
+        >
             {quizQuestions.sort((a, b) => {
               return a.position - b.position
             }).map((qq, i) => (
-              <Draggable 
+              <Draggable
                 draggableId={qq.position + ''}
                 index={i}
                 id={qq.position + ''}
@@ -147,7 +163,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
                 {(draggableProvided, snapshot) => {
                   const isBeingDuplicated = duplicatingQuestions.has(qq.question.id)
                   return (
-                    <QuestionItem 
+                    <QuestionItem
                       id={`question-item-${qq.question.id}`}
                       ref={draggableProvided.innerRef}
                       isDragging={snapshot.isDragging}
@@ -178,14 +194,14 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
                         }}>
                           <EditIcon />
                         </ActionButton>
-                        <ActionButton 
+                        <ActionButton
                           id={`duplicate-button-${qq.question.id}`}
                           onClick={() => {
                             if (hasResults) {
-                            handleConfirmBeforeContinueModal({ confirmType: 'duplicate', confirmId: qq.question.id })
-                          } else {
-                            handleDuplicateQuestion(qq.question.id)
-                          }
+                              handleConfirmBeforeContinueModal({ confirmType: 'duplicate', confirmId: qq.question.id })
+                            } else {
+                              handleDuplicateQuestion(qq.question.id)
+                            }
                           }}
                           disabled={isBeingDuplicated}
                         >
@@ -212,7 +228,8 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
           }}
           onConfirm={() => {
             if (questionForDelete) {
-              onDelete(questionForDelete.id)
+              onDelete(questionForDelete.id);
+              handleTogglePublished(quizId, false);
             }
           }}
           onCancel={() => {
@@ -256,10 +273,10 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
         setIsModalOpen={() => {
           handleConfirmBeforeContinueModal(null)
         }}
-        onContinue={() => { 
+        onContinue={() => {
           if (confirmBeforeContinueModal.confirmType === 'add') {
             onAdd()
-          } else if  (confirmBeforeContinueModal.confirmType === 'edit') {
+          } else if (confirmBeforeContinueModal.confirmType === 'edit') {
             onEdit(confirmBeforeContinueModal.confirmId)
           } else if (confirmBeforeContinueModal.confirmType === 'duplicate') {
             handleDuplicateQuestion(confirmBeforeContinueModal.confirmId)
