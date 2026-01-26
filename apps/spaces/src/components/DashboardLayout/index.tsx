@@ -13,12 +13,14 @@ import { FilterStates } from "./constants";
 import { DeleteModal } from "../modals/DeleteModal";
 import { CreateQuizModal } from "../modals/CreateQuizModal";
 import { UnpublishedQuizModal } from "../modals/UnpublishedQuizModal";
+import { UnpublishQuizWithQuestionsModal } from "../modals/UnpublishQuizWithQuestionsModal";
 import { DuplicateQuizModal } from "../modals/DuplicateQuizModal";
 import { handleCopyUrl, handleCopyUrlAndNotify } from "../../utils/quiz";
 import { useTranslation } from "react-i18next";
 import { getCurrentDateFNSLocales } from "../../language/dateUtils";
 import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
 import { useQuizCreationFlow } from "../../hooks/useQuizCreationFlow";
+import { getQuizById } from "../../fetch/quiz";
 
 interface Props { }
 
@@ -56,6 +58,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [unpublishedQuizId, handleUnpublishedQuizId] = useState<number | null>(null);
+  const [unpublishQuizId, setUnpublishQuizId] = useState<number | null>(null);
 
   const {
     title,
@@ -103,7 +106,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     }
   }, [quizActionSuccess])
 
-  const handleTogglePublished = (cardId: number, published: boolean) => {
+  const applyPublishState = (cardId: number, published: boolean) => {
     updateQuiz({
       id: cardId,
       published
@@ -116,6 +119,23 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           : card
       )
     );
+  };
+
+  const handleTogglePublished = async (cardId: number, shouldBePublished: boolean) => {
+    if (!shouldBePublished) {
+      try {
+        const quiz = await getQuizById(cardId);
+        const hasQuestions = (quiz?.quizQuestions?.length ?? 0) > 0;
+        if (hasQuestions) {
+          setUnpublishQuizId(cardId);
+          return;
+        }
+      } catch (error) {
+        console.error("Failed to load quiz details for unpublish check:", error);
+      }
+    }
+
+    applyPublishState(cardId, shouldBePublished);
   };
 
   const filteredCards = cards.filter((card) => {
@@ -285,7 +305,25 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             setIsModalOpen={() => { handleUnpublishedQuizId(null) }}
             isModalOpen={!!(unpublishedQuizId)}
             onConfirm={() => {
-              handleTogglePublished(unpublishedQuizId, true)
+              if (unpublishedQuizId != null) handleTogglePublished(unpublishedQuizId, true);
+            }}
+          />
+
+          <UnpublishQuizWithQuestionsModal
+            isModalOpen={!!unpublishQuizId}
+            setIsModalOpen={(isOpen) => {
+              if (!isOpen) {
+                setUnpublishQuizId(null);
+              }
+            }}
+            onConfirm={() => {
+              if (unpublishQuizId !== null) {
+                applyPublishState(unpublishQuizId, false);
+              }
+              setUnpublishQuizId(null);
+            }}
+            onCancel={() => {
+              setUnpublishQuizId(null);
             }}
           />
 
