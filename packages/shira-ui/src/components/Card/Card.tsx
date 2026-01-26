@@ -15,7 +15,7 @@ export interface CardProps {
   lastModified: string;
   isPublished: boolean;
   onTogglePublished: () => void;
-  onCopyUrl: () => void;
+  onCopyUrl?: () => void;
   onEdit: () => void;
   onDuplicate: () => void;
   onDelete: () => void;
@@ -37,6 +37,7 @@ export const Card: FunctionComponent<CardProps> = ({
   onEdit,
   onDuplicate,
   onDelete,
+  onCopyUrl,
   onCardClick,
   publishedText,
   unpublishedText,
@@ -97,10 +98,15 @@ export const Card: FunctionComponent<CardProps> = ({
               e.stopPropagation();
               onDuplicate();
             }}
+            onCopyUrl={(e) => {
+              e.stopPropagation();
+              onCopyUrl && onCopyUrl();
+            }}
             onDelete={(e) => {
               e.stopPropagation();
               onDelete();
             }}
+            isPublic={isPublic}
             anchorEl={menuButtonRef.current}
           />
         </HeaderRow>
