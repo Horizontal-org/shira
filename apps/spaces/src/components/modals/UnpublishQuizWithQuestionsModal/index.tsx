@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
 import { Body1, Modal } from "@shira/ui";
+import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 
 interface Props {
@@ -9,36 +10,38 @@ interface Props {
   onCancel?: () => void;
 }
 
-export const UnpublishedQuizCopyLinkModal: FunctionComponent<Props> = ({
+export const UnpublishQuizWithQuestionsModal: FunctionComponent<Props> = ({
   isModalOpen,
   setIsModalOpen,
   onConfirm,
   onCancel
 }) => {
-
   const { t } = useTranslation();
 
   return (
     <Modal
-      id="unpublished-quiz-copy-link-modal"
+      id="unpublish-quiz-modal"
       isOpen={isModalOpen}
-      title={t('modals.publish_quiz.title')}
-      primaryButtonText={t('modals.publish_quiz.submit')}
-      secondaryButtonText={t('modals.publish_quiz.close')}
+      title={t('modals.unpublish_quiz_with_questions.title')}
+      primaryButtonText={t('modals.unpublish_quiz_with_questions.confirm')}
+      secondaryButtonText={t('buttons.cancel')}
       onPrimaryClick={() => {
-        onConfirm();
         setIsModalOpen(false);
+        onConfirm();
       }}
       onSecondaryClick={() => {
         setIsModalOpen(false);
         onCancel?.();
       }}
     >
-      <div>
-        <Body1>
-          {t('modals.publish_quiz.public_subtitle_1')}
-        </Body1>
-      </div>
+      <FormContent>
+        <Body1>{t('modals.unpublish_quiz_with_questions.message')}</Body1>
+      </FormContent>
     </Modal>
   )
 }
+
+const FormContent = styled.div`
+  display: flex;
+  flex-direction: column;
+`;

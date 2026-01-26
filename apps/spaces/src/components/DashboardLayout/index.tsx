@@ -12,13 +12,15 @@ import toast from "react-hot-toast";
 import { FilterStates } from "./constants";
 import { DeleteModal } from "../modals/DeleteModal";
 import { CreateQuizModal } from "../modals/CreateQuizModal";
-import { UnpublishedQuizModal } from "../modals/UnpublishedQuizModal";
+import { UnpublishedQuizCopyLinkModal } from "../modals/UnpublishedQuizModal";
+import { UnpublishQuizWithQuestionsModal } from "../modals/UnpublishQuizWithQuestionsModal";
 import { DuplicateQuizModal } from "../modals/DuplicateQuizModal";
 import { handleCopyUrl, handleCopyUrlAndNotify } from "../../utils/quiz";
 import { useTranslation } from "react-i18next";
 import { getCurrentDateFNSLocales } from "../../language/dateUtils";
 import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
 import { useQuizCreationFlow } from "../../hooks/useQuizCreationFlow";
+import { getQuizById } from "../../fetch/quiz";
 
 interface Props { }
 
@@ -56,6 +58,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [unpublishedQuizId, handleUnpublishedQuizId] = useState<number | null>(null);
+  const [isUnpublishedQuizCopyLinkModalOpen, setIsUnpublishedQuizCopyLinkModalOpen] = useState(false);
+  const [isUnpublishQuizModalOpen, setIsUnpublishQuizModalOpen] = useState(false);
 
   const {
     title,
@@ -103,7 +107,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     }
   }, [quizActionSuccess])
 
-  const handleTogglePublished = (cardId: number, published: boolean) => {
+  const applyPublishState = (cardId: number, published: boolean) => {
     updateQuiz({
       id: cardId,
       published
@@ -116,6 +120,24 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           : card
       )
     );
+  };
+
+  const handleTogglePublished = async (cardId: number, shouldBePublished: boolean) => {
+    if (!shouldBePublished) {
+      try {
+        const quiz = await getQuizById(cardId);
+        const hasQuestions = (quiz?.quizQuestions?.length ?? 0) > 0;
+        if (hasQuestions) {
+          handleUnpublishedQuizId(cardId);
+          setIsUnpublishQuizModalOpen(true);
+          return;
+        }
+      } catch (error) {
+        console.error("Failed to load quiz details for unpublish check:", error);
+      }
+    }
+
+    applyPublishState(cardId, shouldBePublished);
   };
 
   const filteredCards = cards.filter((card) => {
@@ -216,6 +238,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                   } else {
                     handleCopyUrl(card.hash)
                     handleUnpublishedQuizId(card.id)
+                    setIsUnpublishedQuizCopyLinkModalOpen(true);
                   }
                 }}
                 onTogglePublished={() => handleTogglePublished(card.id, !card.published)}
@@ -281,11 +304,29 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             isSubmitting={isSubmitting}
           />
 
-          <UnpublishedQuizModal
-            setIsModalOpen={() => { handleUnpublishedQuizId(null) }}
-            isModalOpen={!!(unpublishedQuizId)}
+          <UnpublishedQuizCopyLinkModal
+            setIsModalOpen={setIsUnpublishedQuizCopyLinkModalOpen}
+            isModalOpen={isUnpublishedQuizCopyLinkModalOpen}
             onConfirm={() => {
-              handleTogglePublished(unpublishedQuizId, true)
+              if (unpublishedQuizId != null) handleTogglePublished(unpublishedQuizId, true);
+              handleUnpublishedQuizId(null);
+            }}
+            onCancel={() => { handleUnpublishedQuizId(null); }}
+          />
+
+          <UnpublishQuizWithQuestionsModal
+            isModalOpen={isUnpublishQuizModalOpen}
+            setIsModalOpen={setIsUnpublishQuizModalOpen}
+            onConfirm={() => {
+              if (unpublishedQuizId !== null) {
+                applyPublishState(unpublishedQuizId, false);
+              }
+              setIsUnpublishQuizModalOpen(false);
+              handleUnpublishedQuizId(null);
+            }}
+            onCancel={() => {
+              setIsUnpublishQuizModalOpen(false);
+              handleUnpublishedQuizId(null);
             }}
           />
 

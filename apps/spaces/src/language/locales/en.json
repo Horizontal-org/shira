@@ -355,6 +355,11 @@
             "submit": "Publish quiz",
             "close": "Keep quiz unpublished"
         },
+        "unpublish_quiz_with_questions": {
+            "title": "Are you sure you want to unpublish this quiz?",
+            "message": "Users will no longer be able to access the quiz.",
+            "confirm": "Unpublish"
+        },
         "delete_quiz": {
             "title": "Are you sure you want to delete \"{{quiz_name}}\"?",
             "subtitle": "Deleting this quiz is permanent and cannot be undone.",
