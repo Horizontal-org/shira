@@ -1,7 +1,6 @@
 import { FunctionComponent, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Body4, Body3Bold } from '../Typography';
-import { CopyUrlIcon } from '../Icons'
 import { FiMoreVertical } from 'react-icons/fi';
 import { FloatingMenu } from '../FloatingMenu';
 import Toggle from '../Toggle/Toggle';
@@ -22,6 +21,7 @@ export interface CardProps {
   onDelete: () => void;
   onCardClick: () => void;
   publishedText: string;
+  unpublishedText?: string;
   isPublic?: boolean;
   visibilityText?: string;
   showLoading?: boolean;
@@ -34,12 +34,12 @@ export const Card: FunctionComponent<CardProps> = ({
   lastModified,
   isPublished,
   onTogglePublished,
-  onCopyUrl,
   onEdit,
   onDuplicate,
   onDelete,
   onCardClick,
   publishedText,
+  unpublishedText,
   isPublic,
   visibilityText,
   loadingLabel,
@@ -47,6 +47,7 @@ export const Card: FunctionComponent<CardProps> = ({
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const toggleLabel = isPublished ? publishedText : unpublishedText ?? publishedText;
 
   return (
     <CardWrapper id={id} onClick={() => {
@@ -110,18 +111,11 @@ export const Card: FunctionComponent<CardProps> = ({
       <BottomContainer>
         <ModifiedText>{lastModified}</ModifiedText>
         <BottomSection>
+          <ToggleLabel>{toggleLabel}</ToggleLabel>
           <Toggle
             isEnabled={isPublished}
             onToggle={onTogglePublished}
-            rightLabel={publishedText}
           />
-
-          <CopyButton onClick={(e) => {
-            e.stopPropagation()
-            onCopyUrl()
-          }}>
-            <CopyUrlIcon />
-          </CopyButton>
         </BottomSection>
       </BottomContainer>
     </CardWrapper>
@@ -226,18 +220,8 @@ const BottomSection = styled.div`
   border-bottom-left-radius: 12px;
 `;
 
-const CopyButton = styled.button`
-  background: none;
-  border: none;
-  padding: 8px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
+const ToggleLabel = styled(Body4)`
   color: ${props => props.theme.colors.dark.darkGrey};
-  
-  &:hover {
-    color: ${props => props.theme.colors.dark.black};
-  }
 `;
 
 const VisibilityTag = styled.span`
