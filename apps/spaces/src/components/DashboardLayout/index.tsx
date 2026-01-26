@@ -202,6 +202,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
               <Card
                 id={`quiz-card-${card.id}`}
                 publishedText={t('quizzes.filter.published')}
+                unpublishedText={t('quizzes.filter.unpublished')}
                 onCardClick={() => {
                   navigate(`/quiz/${card.id}`)
                 }}

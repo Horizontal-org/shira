@@ -54,6 +54,14 @@ const InteractiveTemplate: StoryFn = () => {
           action('onEdit')();
           setIsOpen(false);
         }}
+        onDuplicate={() => {
+          action('onDuplicate')();
+          setIsOpen(false);
+        }}
+        onCopyUrl={() => {
+          action('onCopyUrl')();
+          setIsOpen(false);
+        }}
         onDelete={() => {
           action('onDelete')();
           setIsOpen(false);
@@ -94,6 +102,8 @@ OpenState.args = {
   isOpen: true,
   onClose: action('onClose'),
   onEdit: action('onEdit'),
+  onDuplicate: action('onDuplicate'),
+  onCopyUrl: action('onCopyUrl'),
   onDelete: action('onDelete'),
 };
 OpenState.parameters = {
@@ -110,6 +120,8 @@ ClosedState.args = {
   isOpen: false,
   onClose: action('onClose'),
   onEdit: action('onEdit'),
+  onDuplicate: action('onDuplicate'),
+  onCopyUrl: action('onCopyUrl'),
   onDelete: action('onDelete'),
 };
 ClosedState.parameters = {

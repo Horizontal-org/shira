@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useRef, useState, useLayoutEffect } from 'react';
-import { FiEdit2, FiTrash2 } from 'react-icons/fi';
+import { FiEdit2, FiLink, FiTrash2 } from 'react-icons/fi';
 import { styled } from 'styled-components';
 import { createPortal } from 'react-dom';
 import { CopyIcon } from '../Icons/CopyIcon';
@@ -8,8 +8,10 @@ export interface FloatingMenuProps {
   isOpen: boolean;
   onEdit?: React.MouseEventHandler<HTMLButtonElement> | undefined;
   onDuplicate?: React.MouseEventHandler<HTMLButtonElement> | undefined;
+  onCopyUrl?: React.MouseEventHandler<HTMLButtonElement> | undefined;
   onDelete: React.MouseEventHandler<HTMLButtonElement> | undefined;
   onClose: () => void;
+  isPublic?: boolean;
   anchorEl: HTMLButtonElement | null;
 }
 
@@ -17,8 +19,10 @@ export const FloatingMenu: FunctionComponent<FloatingMenuProps> = ({
   isOpen,
   onEdit,
   onDuplicate,
+  onCopyUrl,
   onDelete,
   onClose,
+  isPublic,
   anchorEl
 }) => {
   const menuRef = useRef<HTMLDivElement>(null);
@@ -140,6 +144,15 @@ export const FloatingMenu: FunctionComponent<FloatingMenuProps> = ({
           }}>
             <CopyIcon color="#5F6368" />
             Duplicate
+          </MenuButton>
+        )}
+        {onCopyUrl && isPublic && (
+          <MenuButton onClick={(e) => {
+            onCopyUrl(e);
+            onClose();
+          }}>
+            <FiLink size={16} />
+            Copy link
           </MenuButton>
         )}
         <MenuButton onClick={(e) => {
