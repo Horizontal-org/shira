@@ -2,7 +2,9 @@
     "welcome": {
         "title": "欢迎来到 Shira",
         "subtitle": "了解如何识别以及抵御网络钓鱼攻击",
-        "start": "开始测试"
+        "start": "开始测试",
+        "public_message": "Welcome to your phishing quiz. Change your language or click on \"Start quiz\" to get started.",
+        "learn_more": "Learn more about Shira"
     },
     "setup": {
         "name": {
@@ -29,12 +31,12 @@
             "back_button": "上一个",
             "next_button": "开始测试",
             "items": {
-                "human-rights": "",
-                "journalism-and-media": "",
-                "education": "",
-                "marketing": "",
-                "healthcare": "",
-                "general": ""
+                "human-rights": "Human rights",
+                "journalism-and-media": "Journalism and media",
+                "education": "Academia",
+                "marketing": "Marketing",
+                "healthcare": "Healthcare",
+                "general": "General"
             }
         }
     },
@@ -60,17 +62,17 @@
                 "incorrect": "错误",
                 "next_button": "下一个",
                 "back_button": "上一个",
-                "next_question": "",
-                "see_why": "",
+                "next_question": "Next Question",
+                "see_why": "See why",
                 "bottom-bar_looks-legit": "该信息不像是网络钓鱼。",
                 "bottom-bar_looks-like-phishing": "某些内容表明，该消息可能是网络钓鱼。"
             }
         },
         "exit": {
-            "title": "",
-            "action_description": "",
-            "description": "",
-            "cancel": ""
+            "title": "Exit quiz?",
+            "action_description": "Exit quiz",
+            "description": "Are you sure you want to exit the quiz? Your progress will not be saved.",
+            "cancel": "Cancel"
         }
     },
     "feedback": {
@@ -205,8 +207,30 @@
         }
     },
     "navbar": {
-        "home": "",
+        "home": "Home",
         "about": "关于 Shira",
-        "menu": ""
+        "menu": "Menu",
+        "features": "Features",
+        "pricing": "Pricing",
+        "take_a_quiz": "Take a quiz",
+        "learn": "Learn",
+        "get_started": "Get started"
+    },
+    "beta": {
+        "label": "BETA",
+        "message": "Shira is still in development and you may experience issues.",
+        "feedback_text": "to share your feedback and read about what’s next for Shira!",
+        "click_here": "Click here"
+    },
+    "learner_invitation": {
+        "learn_more": "Learn more about Shira",
+        "success_title": "Success!",
+        "error_title": "Something went wrong",
+        "success_joined_space": "You have joined {{spaceName}} on Shira.",
+        "success_hint": "When your organization shares a quiz with you, you will receive an email invitation directly in your inbox.",
+        "error_message": "Try again or contact the person who invited you."
+    },
+    "loading_messages": {
+        "loading": "Loading..."
     }
 }
