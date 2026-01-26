@@ -9,7 +9,7 @@ interface Props {
   onCancel?: () => void;
 }
 
-export const UnpublishedQuizModal: FunctionComponent<Props> = ({
+export const UnpublishedQuizCopyLinkModal: FunctionComponent<Props> = ({
   isModalOpen,
   setIsModalOpen,
   onConfirm,
@@ -20,7 +20,7 @@ export const UnpublishedQuizModal: FunctionComponent<Props> = ({
 
   return (
     <Modal
-      id="unpublished-quiz-modal"
+      id="unpublished-quiz-copy-link-modal"
       isOpen={isModalOpen}
       title={t('modals.publish_quiz.title')}
       primaryButtonText={t('modals.publish_quiz.submit')}

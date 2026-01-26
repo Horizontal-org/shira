@@ -24,7 +24,7 @@ import { Quiz, QuizSuccessStates, SUCCESS_MESSAGES } from "../../store/slices/qu
 import { DeleteModal } from "../modals/DeleteModal";
 import toast from "react-hot-toast";
 import { useQuestionCRUD } from "../../fetch/question";
-import { UnpublishedQuizModal } from "../modals/UnpublishedQuizModal";
+import { UnpublishedQuizCopyLinkModal } from "../modals/UnpublishedQuizModal";
 import { UnpublishQuizWithQuestionsModal } from "../modals/UnpublishQuizWithQuestionsModal";
 import { handleCopyUrlAndNotify } from "../../utils/quiz";
 import { getQuizResults, PublicQuizResultsResponse } from "../../fetch/results";
@@ -355,10 +355,11 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 isModalOpen={isDeleteModalOpen}
               />
 
-              <UnpublishedQuizModal
+              <UnpublishedQuizCopyLinkModal
                 setIsModalOpen={setIsUnpublishedQuizModalOpen}
                 isModalOpen={isUnpublishedQuizModalOpen}
                 onConfirm={() => {
+                  handleCopyUrlAndNotify(quiz.hash, t('success_messages.quiz_link_copied'));
                   handleTogglePublished(quiz.id, true);
                 }}
                 onCancel={() => {
