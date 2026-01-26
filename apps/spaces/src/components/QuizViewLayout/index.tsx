@@ -25,7 +25,7 @@ import { DeleteModal } from "../modals/DeleteModal";
 import toast from "react-hot-toast";
 import { useQuestionCRUD } from "../../fetch/question";
 import { UnpublishedQuizModal } from "../modals/UnpublishedQuizModal";
-import { handleCopyUrl, handleCopyUrlAndNotify } from "../../utils/quiz";
+import { handleCopyUrlAndNotify } from "../../utils/quiz";
 import { getQuizResults, PublicQuizResultsResponse } from "../../fetch/results";
 import { useTranslation } from "react-i18next";
 import { MdLockOutline } from "react-icons/md";
@@ -266,19 +266,21 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                         }
                       }}
                     />
-                    <Button
-                      id="copy-link-button"
-                      leftIcon={<CopyUrlIcon />}
-                      text={t('quiz.actions.copy_link')}
-                      type="outline"
-                      onClick={() => {
-                        if (quiz.published) {
-                          handleCopyUrlAndNotify(quiz.hash, t('success_messages.quiz_link_copied'));
-                        } else {
-                          setIsUnpublishedQuizModalOpen(true)
-                        }
-                      }}
-                    />
+                    {quiz.visibility !== 'private' && (
+                      <Button
+                        id="copy-link-button"
+                        leftIcon={<CopyUrlIcon />}
+                        text={t('quiz.actions.copy_link')}
+                        type="outline"
+                        onClick={() => {
+                          if (quiz.published) {
+                            handleCopyUrlAndNotify(quiz.hash, t('success_messages.quiz_link_copied'));
+                          } else {
+                            setIsUnpublishedQuizModalOpen(true)
+                          }
+                        }}
+                      />
+                    )}
                     <Button
                       id="delete-quiz-button"
                       leftIcon={<DeleteIcon />}
