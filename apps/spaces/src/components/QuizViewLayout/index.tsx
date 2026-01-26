@@ -273,9 +273,8 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                       type="outline"
                       onClick={() => {
                         if (quiz.published) {
-                          handleCopyUrlAndNotify(quiz.hash)
+                          handleCopyUrlAndNotify(quiz.hash, t('success_messages.quiz_link_copied'));
                         } else {
-                          handleCopyUrl(quiz.hash)
                           setIsUnpublishedQuizModalOpen(true)
                         }
                       }}
@@ -352,7 +351,10 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 setIsModalOpen={setIsUnpublishedQuizModalOpen}
                 isModalOpen={isUnpublishedQuizModalOpen}
                 onConfirm={() => {
-                  handleTogglePublished(quiz.id, true)
+                  handleTogglePublished(quiz.id, true);
+                }}
+                onCancel={() => {
+                  handleCopyUrlAndNotify(quiz.hash, t('success_messages.quiz_link_copied'));
                 }}
               />
 
