@@ -10,7 +10,7 @@ interface Props {
   onCancel?: () => void;
 }
 
-export const UnpublishQuizModal: FunctionComponent<Props> = ({
+export const UnpublishQuizWithQuestionsModal: FunctionComponent<Props> = ({
   isModalOpen,
   setIsModalOpen,
   onConfirm,

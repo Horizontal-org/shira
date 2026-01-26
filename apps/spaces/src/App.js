@@ -21,7 +21,7 @@ import LogoutLayout from './components/LogoutLayout';
 import { QuestionCreationLayout } from './components/QuestionCreationLayout';
 import { QuestionEditLayout } from './components/QuestionEditLayout';
 import { QuestionLibraryListLayout } from './components/QuestionLibraryListLayout';
-import { LearnerBulkImportLayout } from './components/LearnerBulkImportFlow';
+import { LearnerBulkImportLayout } from './components/LearnerBulkImportLayout';
 import { SupportLayout } from './components/SupportLayout';
 import './language/i18n';
 import { GetStartedLayout } from './components/GetStartedLayout';
