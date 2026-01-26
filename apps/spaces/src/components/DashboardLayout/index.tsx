@@ -236,7 +236,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                   if (card.published) {
                     handleCopyUrlAndNotify(card.hash, t('success_messages.quiz_link_copied'));
                   } else {
-                    handleCopyUrl(card.hash)
+                    handleCopyUrlAndNotify(card.hash, t('success_messages.quiz_link_copied'));
                     handleUnpublishedQuizId(card.id)
                     setIsUnpublishedQuizCopyLinkModalOpen(true);
                   }
