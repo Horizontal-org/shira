@@ -354,6 +354,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 isModalOpen={isUnpublishedQuizModalOpen}
                 onConfirm={() => {
                   handleTogglePublished(quiz.id, true);
+                  handleCopyUrlAndNotify(quiz.hash, t('success_messages.quiz_link_copied'));
                 }}
                 onCancel={() => {
                   handleCopyUrlAndNotify(quiz.hash, t('success_messages.quiz_link_copied'));
