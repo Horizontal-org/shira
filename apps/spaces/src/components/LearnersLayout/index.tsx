@@ -3,7 +3,7 @@ import { LayoutMainContent, LayoutMainContentWrapper } from "../LayoutStyleCompo
 import { BetaBanner, Body1, Button, defaultTheme, H2, Sidebar, styled, SubHeading3, useAdminSidebar } from "@shira/ui";
 import { LayoutContainer } from "../LayoutStyleComponents/LayoutContainer";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useStore } from "../../store";
 import { shallow } from "zustand/shallow";
 import { LearnersTable, Learner } from "../LearnersTable";
@@ -17,12 +17,15 @@ import { getErrorContent } from "../../utils/getErrorContent";
 import { MdEmail, MdDelete } from "react-icons/md";
 import { useLearners } from "../../hooks/useLearners";
 import { GenericErrorModal } from "../modals/ErrorModal";
+import { FiDownload } from "react-icons/fi";
+import { BulkInviteSentModal } from "../modals/BulkInviteSentModal";
 
 interface Props { }
 
 export const LearnersLayout: FunctionComponent<Props> = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate);
 
   const { space } = useStore(
@@ -34,6 +37,8 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
   const [isDeleteLearnerModalOpen, setIsDeleteLearnerModalOpen] = useState(false);
   const [isBulkDeleteLearnersModalOpen, setIsBulkDeleteLearnersModalOpen] = useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [isBulkInviteSentModalOpen, setIsBulkInviteSentModalOpen] = useState(false);
+  const [bulkInviteCount, setBulkInviteCount] = useState(0);
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -110,6 +115,17 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
     fetchLearners();
   }, [fetchLearners]);
 
+  useEffect(() => {
+    const state = location.state as { bulkInviteSent?: { count: number } } | null;
+    if (!state?.bulkInviteSent) {
+      return;
+    }
+
+    setBulkInviteCount(state.bulkInviteSent.count);
+    setIsBulkInviteSentModalOpen(true);
+    navigate(location.pathname, { replace: true, state: {} });
+  }, [location.state, location.pathname, navigate]);
+
   return (
     <LayoutContainer>
       <Sidebar
@@ -131,21 +147,22 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
           <ActionContainer>
             <LeftActions>
               {hasLearners && !hasSelectedLearners && (
-                <Button
-                  id="invite-learner-button"
-                  text={t("buttons.invite_learner")}
-                  type="primary"
-                  leftIcon={<MdEmail />}
-                  onClick={() => setIsInviteLearnerModalOpen(true)}
-                  color={defaultTheme.colors.green7}
-                />
-                // <Button
-                //   id="invite-learners-bulk-button"
-                //   text={t("buttons.invite_learners_bulk")}
-                //   type="primary"
-                //   leftIcon={<PiDownloadSimpleBold />}
-                //   color={defaultTheme.colors.green7}
-                // />
+                <>
+                  <Button
+                    id="invite-learner-button"
+                    text={t("buttons.invite_learner")}
+                    type="primary"
+                    leftIcon={<MdEmail />}
+                    onClick={() => setIsInviteLearnerModalOpen(true)}
+                    color={defaultTheme.colors.green7} />
+                  <Button
+                    id="invite-learners-bulk-button"
+                    text={t("buttons.invite_learners_bulk")}
+                    type="primary"
+                    leftIcon={<FiDownload />}
+                    onClick={() => navigate('/learner/import/bulk')}
+                    color={defaultTheme.colors.green7} />
+                </>
               )}
             </LeftActions>
 
@@ -205,6 +222,12 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
               setIsBulkDeleteLearnersModalOpen(false);
               clearSelectedLearners();
             }}
+          />
+
+          <BulkInviteSentModal
+            isModalOpen={isBulkInviteSentModalOpen}
+            inviteCount={bulkInviteCount}
+            onClose={() => setIsBulkInviteSentModalOpen(false)}
           />
 
           <GenericErrorModal

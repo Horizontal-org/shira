@@ -63,7 +63,7 @@ export class InviteLearnerService implements IInviteLearnerService {
       throw new SaveLearnerException(email);
     }
 
-    this.sendEmail(email, hash, organization.name);
+    await this.sendEmail(email, hash, organization.name);
   }
 
   private async findLearner(spaceId: number, email: string) {

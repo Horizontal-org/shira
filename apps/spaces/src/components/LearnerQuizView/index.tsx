@@ -1,4 +1,4 @@
-import { Body1, Button, EmptyState, Table, TableCheckbox, styled, useTheme } from "@shira/ui";
+import { Body1, Body4, Button, EmptyState, Table, TableCheckbox, styled, useTheme } from "@shira/ui";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { FunctionComponent, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -23,6 +23,7 @@ interface Props {
   quizId: number;
   quizTitle: string;
   quizPublished: boolean
+  hasQuestions: boolean
   onPublish: () => void
 }
 
@@ -30,6 +31,7 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
   quizId,
   quizTitle,
   quizPublished,
+  hasQuestions,
   onPublish
 }) => {
   const { t } = useTranslation();
@@ -40,6 +42,7 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
 
   const [showAssignLayover, setAssignLayover] = useState(false);
   const [isPublishQuizModalOpen, setIsPublishQuizModalOpen] = useState(false)
+  const [showAssignTooltip, setShowAssignTooltip] = useState(false);
 
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [singleLearnerId, setSingleLearnerId] = useState<number | null>(null);
@@ -113,6 +116,10 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
   };
 
   const handleAssignmentOpen = () => {
+    if (!hasQuestions) {
+      return
+    }
+
     if (quizPublished) {
       setAssignLayover(true)
       window.scrollTo(0, 0)
@@ -122,6 +129,7 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
   }
 
   const hasSelectedLearners = selectedLearners.length > 0;
+  const disableAssign = !hasQuestions;
 
   const columns = useMemo<ColumnDef<Learner>[]>(
     () => [
@@ -218,16 +226,43 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
             <ActionsRow>
               <LeftActions>
                 {!hasSelectedLearners && (
-                  <Button
-                    id="assign-learners-button"
-                    type="primary"
-                    text={t('learners.assign_dialog.assign_button')}
-                    color={theme.colors.green7}
-                    leftIcon={(
-                      <IoPersonAdd size={20} color="white" />
+                  <AssignButtonWrapper
+                    $showHelpCursor={disableAssign}
+                    onMouseEnter={() => {
+                      if (disableAssign) {
+                        setShowAssignTooltip(true)
+                      }
+                    }}
+                    onMouseLeave={() => {
+                      setShowAssignTooltip(false)
+                    }}
+                    onFocus={() => {
+                      if (disableAssign) {
+                        setShowAssignTooltip(true)
+                      }
+                    }}
+                    onBlur={() => {
+                      setShowAssignTooltip(false)
+                    }}
+                    tabIndex={disableAssign ? 0 : -1}
+                  >
+                    <Button
+                      id="assign-learners-button"
+                      type="primary"
+                      text={t('learners.assign_dialog.assign_button')}
+                      color={theme.colors.green7}
+                      leftIcon={(
+                        <IoPersonAdd size={20} color="white" />
+                      )}
+                      onClick={handleAssignmentOpen}
+                      disabled={disableAssign}
+                    />
+                    {disableAssign && showAssignTooltip && (
+                      <AssignButtonTooltip role="tooltip">
+                        <Body4>{t('learners.assign_dialog.disabled_tooltip')}</Body4>
+                      </AssignButtonTooltip>
                     )}
-                    onClick={handleAssignmentOpen}
-                  />
+                  </AssignButtonWrapper>
                 )}
               </LeftActions>
 
@@ -260,17 +295,44 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
           <EmptyState
             subtitle={t("learner_quiz_tab.empty_state.description")}
             buttons={[
-              <Button
+              <AssignButtonWrapper
                 key="assign-learners"
-                id="assign-learners-button"
-                type="primary"
-                text={t('learners.assign_dialog.assign_button')}
-                color={theme.colors.green7}
-                leftIcon={(
-                  <IoPersonAdd size={20} color="white" />
+                $showHelpCursor={disableAssign}
+                onMouseEnter={() => {
+                  if (disableAssign) {
+                    setShowAssignTooltip(true)
+                  }
+                }}
+                onMouseLeave={() => {
+                  setShowAssignTooltip(false)
+                }}
+                onFocus={() => {
+                  if (disableAssign) {
+                    setShowAssignTooltip(true)
+                  }
+                }}
+                onBlur={() => {
+                  setShowAssignTooltip(false)
+                }}
+                tabIndex={disableAssign ? 0 : -1}
+              >
+                <Button
+                  id="assign-learners-button"
+                  type="primary"
+                  text={t('learners.assign_dialog.assign_button')}
+                  color={theme.colors.green7}
+                  leftIcon={(
+                    <IoPersonAdd size={20} color="white" />
+                  )}
+                  onClick={handleAssignmentOpen}
+                  disabled={disableAssign}
+                />
+                {disableAssign && showAssignTooltip && (
+                  <AssignButtonTooltip role="tooltip">
+                    <Body4>{t('learners.assign_dialog.disabled_tooltip')}</Body4>
+                  </AssignButtonTooltip>
                 )}
-                onClick={handleAssignmentOpen}
-              />
+              </AssignButtonWrapper>
             ]}
           />
         ) : (
@@ -380,6 +442,36 @@ const RightActions = styled.div`
 const DescriptionWrapper = styled.div`
   display: flex;
   align-items: center;
+`;
+
+const AssignButtonWrapper = styled.div<{ $showHelpCursor: boolean }>`
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+
+  ${props => props.$showHelpCursor && `
+    cursor: help;
+
+    button:disabled {
+      cursor: help !important;
+    }
+  `}
+`;
+
+const AssignButtonTooltip = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 6px;
+  padding: 4px 8px;
+  background-color: ${(props) => props.theme.colors.dark.black};
+  color: ${(props) => props.theme.colors.light.white};
+  border-radius: 10px;
+  width: max-content;
+  max-width: 520px;
+  white-space: nowrap;
+  z-index: 1000;
 `;
 
 const UnassignAction = styled.button`

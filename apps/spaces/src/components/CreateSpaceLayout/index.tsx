@@ -17,8 +17,9 @@ import { checkPassphraseExpired, registerSpace } from "../../fetch/registration"
 import { handleHttpError } from "../../fetch/handleError";
 import { getErrorContent } from "../../utils/getErrorContent";
 import { GenericErrorModal } from "../modals/ErrorModal";
+import { isEmailValid, hasRequiredValue } from "../../utils/validation";
 
-interface Props {}
+interface Props { }
 
 export const CreateSpaceLayout: FunctionComponent<Props> = () => {
 
@@ -31,7 +32,7 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
   const [pass, handlePass] = useState("");
   const [passError, handlePassError] = useState("");
   const [passConfirmation, handlePassConfirmation] = useState("");
-  const [passConfirmationError, handlePassConfirmationError] = useState(""); 
+  const [passConfirmationError, handlePassConfirmationError] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -79,8 +80,8 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
 
   const description = (
     <>
-      {passphraseCode ? 
-        t('create_space.form_description') : 
+      {passphraseCode ?
+        t('create_space.form_description') :
         <>
           {t('create_space.beta_lead')}{" "}
           <Link1 href="mailto:contact@wearehorizontal.org">
@@ -93,12 +94,12 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
 
   const validateForm = () => {
     let hasError = false;
-    if (!email.trim()) {
+    if (!hasRequiredValue(email)) {
       handleEmailError(t('create_space.validation.email_required'));
       hasError = true;
     }
-    if (email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) === null) { 
-      handleEmailError(t("get_started.validation.invalid_email")) 
+    if (hasRequiredValue(email) && !isEmailValid(email)) {
+      handleEmailError(t("get_started.validation.invalid_email"))
       hasError = true;
     }
     if (!pass.trim()) {
@@ -119,15 +120,15 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
   const handleSubmit = async () => {
     handleEmailError('');
     handlePassError('');
-    handlePassConfirmationError('');    
+    handlePassConfirmationError('');
 
     if (validateForm()) {
       return
     }
 
     setLoading(true);
-    
-    try {    
+
+    try {
       await registerSpace({
         password: pass,
         passphrase: passphraseCode,
@@ -135,12 +136,12 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
       })
 
       login(email, pass)
-      
+
       setSuccess(true);
-      setLoading(false);            
+      setLoading(false);
     } catch (err) {
       setLoading(false);
-      
+
       const error = handleHttpError(err)
 
       if (error && error.message === 'email_no_match') {
@@ -157,7 +158,7 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
     return (
       <Container>
         <Navbar
-          translatedTexts={{home: "", about: "", menu: "", logIn: t('login.login_header_button'), createSpace: t('create_space.button_create')}}
+          translatedTexts={{ home: "", about: "", menu: "", logIn: t('login.login_header_button'), createSpace: t('create_space.button_create') }}
           onNavigate={navigate}
         />
         <ContentWrapper>
@@ -172,10 +173,10 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
   return (
     <Container>
       <Navbar
-        translatedTexts={{home: "", about: "", menu: "", logIn: t('login.login_header_button'), createSpace: t('create_space.button_create') }}
+        translatedTexts={{ home: "", about: "", menu: "", logIn: t('login.login_header_button'), createSpace: t('create_space.button_create') }}
         onNavigate={navigate}
       />
-      { success ? (
+      {success ? (
         <CreateSpaceSuccess />
       ) : (
         <ContentWrapper>
@@ -192,7 +193,7 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
                 handleSubmit()
               }}
             >
-              
+
               <InputsContainer>
                 <TextInput
                   required
@@ -200,7 +201,7 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
                   value={email}
                   onChange={(e) => handleEmail(e.target.value)}
                 />
-                { emailError && <InlineErrorMessage>{emailError}</InlineErrorMessage> }
+                {emailError && <InlineErrorMessage>{emailError}</InlineErrorMessage>}
                 <TextInput
                   required
                   type="password"
@@ -208,7 +209,7 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
                   value={pass}
                   onChange={(e) => handlePass(e.target.value)}
                 />
-                { passError && <InlineErrorMessage>{passError}</InlineErrorMessage> }   
+                {passError && <InlineErrorMessage>{passError}</InlineErrorMessage>}
                 <TextInput
                   required
                   type="password"
@@ -216,7 +217,7 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
                   value={passConfirmation}
                   onChange={(e) => handlePassConfirmation(e.target.value)}
                 />
-                { passConfirmationError && <InlineErrorMessage>{passConfirmationError}</InlineErrorMessage> }
+                {passConfirmationError && <InlineErrorMessage>{passConfirmationError}</InlineErrorMessage>}
               </InputsContainer>
 
               <ButtonContainer>
@@ -233,18 +234,18 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
             </StyledForm>
           </Content>
 
-          <GenericErrorModal 
+          <GenericErrorModal
             isOpen={!!errorModalOpen}
             errorMessage={errorModalOpen}
-            onCancel={() => setErrorModalOpen(null )}
-            onRetry={() => { 
+            onCancel={() => setErrorModalOpen(null)}
+            onRetry={() => {
               setErrorModalOpen(null)
               handleSubmit()
             }}
           />
         </ContentWrapper>
       )}
-      
+
     </Container>
   );
 };

@@ -8,7 +8,7 @@ import {
   PaginationState,
   useReactTable,
 } from '@tanstack/react-table'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { Body3 } from '../Typography'
 import { Pagination } from './components/Pagination'
 
@@ -19,6 +19,7 @@ export interface TableProps {
   loading: boolean
   rowSelection: Object
   setRowSelection: React.Dispatch<React.SetStateAction<any>>
+  enableRowSelection?: boolean
   pageSize?: number
   loadingMessage?: ReactNode
 }
@@ -31,6 +32,7 @@ export const Table = ({
   loading,
   rowSelection,
   setRowSelection,
+  enableRowSelection = true,
   pageSize = 25,
   loadingMessage = null
 }) => {
@@ -48,7 +50,7 @@ export const Table = ({
       rowSelection,
       pagination
     },
-    enableRowSelection: true, //enable row selection for all rows
+    enableRowSelection, //enable row selection for all rows
     onRowSelectionChange: setRowSelection,
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -150,7 +152,7 @@ const TableHeader = styled.div`
 const TableFooter = styled.div`
   box-sizing: border-box;
   width: 100%;
-  height: 16px;
+  height: 6px;
   background: white;
   border-radius: 0 0 20px 20px;
   border-left: 1px solid ${(props) => props.theme.colors.light.paleGreen};
@@ -200,39 +202,47 @@ const Tr = styled.tr<{ $selected?: boolean; $selectable?: boolean }>`
 
   /* base background */
   & td {
-    background-color: ${({ $selected, theme }) =>
-    $selected ? theme.colors.green1 : theme.colors.light.white};
+    background-color: ${(props) =>
+    props.$selected ? props.theme.colors.green1 : props.theme.colors.light.white};
+    border-bottom: 1px solid ${(props) => props.theme.colors.light.paleGrey};
   }
 
-  &:hover {
-    position: relative;
-    z-index: 1;
-    outline: 2px solid ${({ theme }) => theme.colors.green1};
-    outline-offset: -2px;
+  &:last-child td {
+    border-bottom: none;
   }
 
-  &:hover td {
-    background-color: ${({ $selected, theme }) =>
-    $selected ? theme.colors.green1 : theme.colors.light.paleGreen};
-  }
+  ${(props) =>
+    props.$selectable &&
+    css`
+      &:hover {
+        position: relative;
+        z-index: 1;
+        outline: 2px solid ${props.theme.colors.green1};
+        outline-offset: -2px;
+      }
 
-  &:focus-visible,
-  &:focus-within {
-    outline: 2px solid ${({ theme }) => theme.colors.green3};
-    outline-offset: -2px;
-    z-index: 1;
-    position: relative;
-  }
+      &:hover td {
+        background-color: ${props.$selected ? props.theme.colors.green1 : props.theme.colors.light.paleGreen};
+      }
 
-  &:focus {
-    outline: none;
-  }
+      &:focus-visible,
+      &:focus-within {
+        outline: 2px solid ${props.theme.colors.green3};
+        outline-offset: -2px;
+        z-index: 1;
+        position: relative;
+      }
 
-  &:hover [data-row-checkbox],
-  &:focus-within [data-row-checkbox],
-  &:focus-visible [data-row-checkbox] {
-    visibility: visible;
-  }
+      &:focus {
+        outline: none;
+      }
+
+      &:hover [data-row-checkbox],
+      &:focus-within [data-row-checkbox],
+      &:focus-visible [data-row-checkbox] {
+        visibility: visible;
+      }
+    `}
 `;
 
 const CenteredBody = styled(Body3)`

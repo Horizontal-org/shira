@@ -4,17 +4,21 @@ import { MdOutlineMenuBook } from "react-icons/md";
 import { styled, TrashIcon, EditIcon, Button, defaultTheme } from '@shira/ui'
 import { QuestionEmptyState } from "./QuestionEmptyState";
 import { DeleteModal } from "../../modals/DeleteModal";
+import { UnpublishQuizOnDeleteModal } from "../../modals/UnpublishQuizOnDeleteModal";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { duplicateQuestion } from "../../../fetch/quiz";
+import { shallow } from "zustand/shallow";
 import { QuizQuestion } from "../../../store/slices/quiz";
 import toast from "react-hot-toast";
 import DuplicateIcon from './DuplicateIcon'
 import { QuizHasResultsModal } from "../../modals/QuizHasResultsModal";
 import { useTranslation } from "react-i18next";
+import { useStore } from "../../../store";
 
 interface QuestionsListProps {
   quizId: number;
   quizQuestions: QuizQuestion[];
+  quizPublished: boolean;
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;
   onAdd: () => void;
@@ -28,6 +32,7 @@ interface QuestionsListProps {
 export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
   quizId,
   quizQuestions,
+  quizPublished,
   onEdit,
   onDelete,
   onAdd,
@@ -39,13 +44,18 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
   console.log("🚀 ~ quizQuestions:", quizQuestions)
 
   const { t } = useTranslation();
-  const [questionForDelete, handleQuestionForDelete] = useState(null)
+  const [questionForDelete, handleQuestionForDelete] = useState<QuizQuestion["question"] | null>(null)
   const [confirmBeforeContinueModal, handleConfirmBeforeContinueModal] = useState<{
     confirmType: string
     confirmId?: string
   }>(null)
 
-  const [duplicatingQuestions, setDuplicatingQuestions] = useState(new Set())
+  const [duplicatingQuestions, setDuplicatingQuestions] = useState(new Set());
+  const [isPublished, setIsPublished] = useState(false);
+
+  const { updateQuiz } = useStore((state) => ({
+    updateQuiz: state.updateQuiz
+  }), shallow);
 
   const handleDuplicateQuestion = async (questionId: string) => {
     setDuplicatingQuestions(prev => new Set(prev).add(questionId))
@@ -64,6 +74,15 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
       })
     }
   }
+
+  const handleTogglePublished = async (cardId: number, published: boolean) => {
+    updateQuiz({
+      id: cardId,
+      published: published
+    }, published ? 'update_published' : 'update_unpublished')
+
+    setIsPublished(published)
+  };
 
   const reorder = (startIndex, endIndex) => {
     const plainList: QuizQuestion[] = Array.from(quizQuestions);
@@ -95,6 +114,9 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
   if (!quizQuestions || quizQuestions.length === 0) {
     return <QuestionEmptyState onAdd={onAdd} onAddLibrary={onAddLibrary} quizId={String(quizId)} />
   }
+
+  const isDeletingLastQuestion = !!questionForDelete && quizQuestions.length === 1;
+  const showUnpublishOnDeleteModal = isDeletingLastQuestion && quizPublished;
 
   return (
     <div>
@@ -128,11 +150,11 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
           <List
             {...provided.droppableProps}
             ref={provided.innerRef}
-          >
+        >
             {quizQuestions.sort((a, b) => {
               return a.position - b.position
             }).map((qq, i) => (
-              <Draggable 
+              <Draggable
                 draggableId={qq.position + ''}
                 index={i}
                 id={qq.position + ''}
@@ -141,7 +163,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
                 {(draggableProvided, snapshot) => {
                   const isBeingDuplicated = duplicatingQuestions.has(qq.question.id)
                   return (
-                    <QuestionItem 
+                    <QuestionItem
                       id={`question-item-${qq.question.id}`}
                       ref={draggableProvided.innerRef}
                       isDragging={snapshot.isDragging}
@@ -172,14 +194,14 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
                         }}>
                           <EditIcon />
                         </ActionButton>
-                        <ActionButton 
+                        <ActionButton
                           id={`duplicate-button-${qq.question.id}`}
                           onClick={() => {
                             if (hasResults) {
-                            handleConfirmBeforeContinueModal({ confirmType: 'duplicate', confirmId: qq.question.id })
-                          } else {
-                            handleDuplicateQuestion(qq.question.id)
-                          }
+                              handleConfirmBeforeContinueModal({ confirmType: 'duplicate', confirmId: qq.question.id })
+                            } else {
+                              handleDuplicateQuestion(qq.question.id)
+                            }
                           }}
                           disabled={isBeingDuplicated}
                         >
@@ -199,27 +221,47 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
         )}
         </Droppable>
       </DragDropContext>
-      <DeleteModal
-        title={t('modals.delete_question.title', { question_name: questionForDelete?.name })}
-        content={
-          <div>
-            {t('modals.delete_question.message')}
-            <br /><br />
-            <WarningNote>{t('modals.delete_question.note')}</WarningNote>
-            {t('modals.delete_question.warning')}
-          </div>
-        }
-        setIsModalOpen={() => {
-          handleQuestionForDelete(null)
-        }}
-        onDelete={() => {
-          onDelete(questionForDelete?.id)
-        }}
-        onCancel={() => {
-          handleQuestionForDelete(null)
-        }}
-        isModalOpen={!!(questionForDelete)}
-      />
+      {showUnpublishOnDeleteModal ? (
+        <UnpublishQuizOnDeleteModal
+          setIsModalOpen={() => {
+            handleQuestionForDelete(null)
+          }}
+          onConfirm={() => {
+            if (questionForDelete) {
+              onDelete(questionForDelete.id);
+              handleTogglePublished(quizId, false);
+            }
+          }}
+          onCancel={() => {
+            handleQuestionForDelete(null)
+          }}
+          isModalOpen={isDeletingLastQuestion}
+        />
+      ) : (
+        <DeleteModal
+          title={t('modals.delete_question.title', { question_name: questionForDelete?.name })}
+          content={
+            <div>
+              {t('modals.delete_question.message')}
+              <br /><br />
+              <WarningNote>{t('modals.delete_question.note')}</WarningNote>
+              {t('modals.delete_question.warning')}
+            </div>
+          }
+          setIsModalOpen={() => {
+            handleQuestionForDelete(null)
+          }}
+          onDelete={() => {
+            if (questionForDelete) {
+              onDelete(questionForDelete.id)
+            }
+          }}
+          onCancel={() => {
+            handleQuestionForDelete(null)
+          }}
+          isModalOpen={!!(questionForDelete)}
+        />
+      )}
 
       <QuizHasResultsModal
         title={t('modals.edit_question_confirmation.title')}
@@ -231,10 +273,10 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
         setIsModalOpen={() => {
           handleConfirmBeforeContinueModal(null)
         }}
-        onContinue={() => { 
+        onContinue={() => {
           if (confirmBeforeContinueModal.confirmType === 'add') {
             onAdd()
-          } else if  (confirmBeforeContinueModal.confirmType === 'edit') {
+          } else if (confirmBeforeContinueModal.confirmType === 'edit') {
             onEdit(confirmBeforeContinueModal.confirmId)
           } else if (confirmBeforeContinueModal.confirmType === 'duplicate') {
             handleDuplicateQuestion(confirmBeforeContinueModal.confirmId)

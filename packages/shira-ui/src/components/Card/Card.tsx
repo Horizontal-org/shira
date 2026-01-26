@@ -8,6 +8,7 @@ import Toggle from '../Toggle/Toggle';
 import { MdLockOutline } from 'react-icons/md';
 import { TbWorld } from 'react-icons/tb';
 import { defaultTheme } from '../../theme';
+import { LoadingIcon } from '../LoadingIcon';
 
 export interface CardProps {
   id?: string;
@@ -23,6 +24,8 @@ export interface CardProps {
   publishedText: string;
   isPublic?: boolean;
   visibilityText?: string;
+  showLoading?: boolean;
+  loadingLabel?: string;
 }
 
 export const Card: FunctionComponent<CardProps> = ({
@@ -38,14 +41,25 @@ export const Card: FunctionComponent<CardProps> = ({
   onCardClick,
   publishedText,
   isPublic,
-  visibilityText
+  visibilityText,
+  loadingLabel,
+  showLoading = false,
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+
   return (
     <CardWrapper id={id} onClick={() => {
       onCardClick()
     }}>
+      {showLoading && (
+        <ActionLoadingOverlay role="status" aria-live="polite">
+          <ActionLoadingContent>
+            <LoadingIcon size={34} />
+            <ActionLoadingText>{loadingLabel}</ActionLoadingText>
+          </ActionLoadingContent>
+        </ActionLoadingOverlay>
+      )}
       <TopSection>
         <HeaderRow>
           {visibilityText ? (
@@ -129,6 +143,28 @@ const CardWrapper = styled.div`
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     max-width: 100%;
   }
+`;
+
+const ActionLoadingOverlay = styled.div`
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  z-index: 1;
+`;
+
+const ActionLoadingContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+`;
+
+const ActionLoadingText = styled(Body4)`
+  color: ${props => props.theme.colors.dark.darkGrey};
 `;
 
 const TopSection = styled.div`

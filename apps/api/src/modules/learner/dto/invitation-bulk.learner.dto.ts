@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsArray, ValidateNested, IsNumber, IsEmail } from "class-validator";
+import { IsArray, ValidateNested, IsNumber, IsEmail, IsString } from "class-validator";
 
 export class InvitationBulkLearnerDto {
   @IsArray()
@@ -9,6 +9,9 @@ export class InvitationBulkLearnerDto {
 }
 
 export class LearnerToBeInvited {
+  @IsString()
+  name: string;
+
   @IsNumber()
   quizId: number;
 
