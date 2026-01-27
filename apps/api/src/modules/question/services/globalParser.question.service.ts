@@ -27,6 +27,7 @@ export class GlobalParserQuestionService {
     const { id: languageId } = await this.languageRepository.findOne({
       where: { code: lang || 'en' },
     });
+    console.log("🚀 ~ GlobalParserQuestionService ~ export ~ languageId:", languageId)
 
     //get all questions with explanations and translations in the given language
     const query = this.questionRepository
@@ -97,7 +98,7 @@ export class GlobalParserQuestionService {
           .status(500)
           .send('Failed to export question translation content');
       } else {
-        console.log(`Question translation content exported to ${filePath}`);
+        // console.log(`Question translation content exported to ${filePath}`);
         return res.download(filePath, (err) => {
           if (err) {
             console.error(err);
@@ -113,13 +114,15 @@ export class GlobalParserQuestionService {
   }
 
   async import({ files, res }) {
+    console.log('GLOBAL IMPORT FILES', files.length);
     for (const file of files) {
       const fileName = file.originalname;
       const langCode = fileName.split('_')[3].split('.')[0];
-      console.log(langCode);
+      console.log('LANGCODE async import', langCode);
       const { id: languageId } = await this.languageRepository.findOne({
         where: { code: langCode },
       });
+      console.log("🚀 ~ GlobalParserQuestionService ~ import ~ languageId:", languageId)
 
       const filePath = path.join(__dirname, '..', fileName);
       fs.writeFileSync(filePath, file.buffer);
@@ -135,13 +138,17 @@ export class GlobalParserQuestionService {
           .find('div')
           .html()
           .replace(/>\s+</g, '><');
-        console.log(questionContent);
+        // console.log(questionContent);
         const explanations = $(question).find('div#explanations > div');
         // console.log('explanations', explanations);
-        const questionTranslated =
-          await this.QuestionTranslationRepository.findOne({
-            where: { questionId: parseInt(questionId), languageId },
-          });
+
+        const questionTranslated = await this.QuestionTranslationRepository
+          .createQueryBuilder('qt')
+          .where('qt.question_id = :qid', { qid: parseInt(questionId) })
+          .andWhere('qt.language_id = :langId', { langId: languageId })
+          .getOne();
+
+        console.log("🚀 ~ GlobalParse rQuestionService ~ import ~ questionTranslated:", questionTranslated)
 
         if (!questionTranslated) {
           const questionTranslation = new QuestionTranslation();
@@ -155,10 +162,11 @@ export class GlobalParserQuestionService {
           for (const explanation of explanations) {
             const explanationId = $(explanation).attr('data-explanation-id');
             const explanationContent = $(explanation).find('div').text();
-            const explanationTranslated =
-              await this.ExplanationTranslationRepository.findOne({
-                where: { explanationId: parseInt(explanationId), languageId },
-              });
+            const explanationTranslated = await this.ExplanationTranslationRepository
+              .createQueryBuilder('et')
+              .where('et.explanation_id = :eid', { eid: parseInt(explanationId) })
+              .andWhere('et.language_id = :langId', { langId: languageId })
+              .getOne();
             if (!explanationTranslated) {
               const explanationTranslation = new ExplanationTranslation();
               explanationTranslation.content = explanationContent;
@@ -183,10 +191,11 @@ export class GlobalParserQuestionService {
           for (const explanation of explanations) {
             const explanationId = $(explanation).attr('data-explanation-id');
             const explanationContent = $(explanation).find('div').text();
-            const explanationTranslated =
-              await this.ExplanationTranslationRepository.findOne({
-                where: { explanationId: parseInt(explanationId), languageId },
-              });
+            const explanationTranslated = await this.ExplanationTranslationRepository
+              .createQueryBuilder('et')
+              .where('et.explanation_id = :eid', { eid: parseInt(explanationId) })
+              .andWhere('et.language_id = :langId', { langId: languageId })
+              .getOne();
             if (!explanationTranslated) {
               const explanationTranslation = new ExplanationTranslation();
               explanationTranslation.content = explanationContent;

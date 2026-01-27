@@ -3,13 +3,16 @@ import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { styled } from 'styled-components';
 import { createPortal } from 'react-dom';
 import { CopyIcon } from '../Icons/CopyIcon';
+import { CopyUrlIcon } from '../..';
 
 export interface FloatingMenuProps {
   isOpen: boolean;
   onEdit?: React.MouseEventHandler<HTMLButtonElement> | undefined;
   onDuplicate?: React.MouseEventHandler<HTMLButtonElement> | undefined;
+  onCopyUrl?: React.MouseEventHandler<HTMLButtonElement> | undefined;
   onDelete: React.MouseEventHandler<HTMLButtonElement> | undefined;
   onClose: () => void;
+  isPublic?: boolean;
   anchorEl: HTMLButtonElement | null;
 }
 
@@ -17,8 +20,10 @@ export const FloatingMenu: FunctionComponent<FloatingMenuProps> = ({
   isOpen,
   onEdit,
   onDuplicate,
+  onCopyUrl,
   onDelete,
   onClose,
+  isPublic,
   anchorEl
 }) => {
   const menuRef = useRef<HTMLDivElement>(null);
@@ -40,23 +45,23 @@ export const FloatingMenu: FunctionComponent<FloatingMenuProps> = ({
     if (isOpen && anchorEl) {
       const updatePosition = () => {
         const rect = anchorEl.getBoundingClientRect();
-        
+
         let top = rect.bottom + window.scrollY + 8;
         let left = rect.left + window.scrollX;
-        
-        const menuWidth = 120; 
+
+        const menuWidth = 120;
         if (left + menuWidth > window.innerWidth) {
           left = rect.right - menuWidth + window.scrollX;
         }
-        
+
         setPosition({ top, left });
       };
-      
+
       updatePosition();
-      
+
       window.addEventListener('scroll', updatePosition, true);
       window.addEventListener('resize', updatePosition);
-      
+
       return () => {
         window.removeEventListener('scroll', updatePosition, true);
         window.removeEventListener('resize', updatePosition);
@@ -67,8 +72,8 @@ export const FloatingMenu: FunctionComponent<FloatingMenuProps> = ({
   useEffect(() => {
     function handleClickOutside(event: MouseEvent | Event) {
       if (menuRef.current && event.target instanceof Node &&
-          !menuRef.current.contains(event.target) &&
-          anchorEl && !anchorEl.contains(event.target)) {
+        !menuRef.current.contains(event.target) &&
+        anchorEl && !anchorEl.contains(event.target)) {
         onClose();
       }
     }
@@ -88,9 +93,9 @@ export const FloatingMenu: FunctionComponent<FloatingMenuProps> = ({
           mutation.addedNodes.forEach((node) => {
             if (node instanceof Element) {
               if (node.getAttribute('role') === 'dialog' ||
-                  node.querySelector('[role="dialog"]') ||
-                  node.classList.contains('modal') ||
-                  node.querySelector('.modal')) {
+                node.querySelector('[role="dialog"]') ||
+                node.classList.contains('modal') ||
+                node.querySelector('.modal')) {
                 onClose();
               }
             }
@@ -116,11 +121,11 @@ export const FloatingMenu: FunctionComponent<FloatingMenuProps> = ({
   if (!isOpen || !portalContainer) return null;
 
   return createPortal(
-    <MenuWrapper 
-      ref={menuRef} 
-      style={{ 
-        top: `${position.top}px`, 
-        left: `${position.left}px` 
+    <MenuWrapper
+      ref={menuRef}
+      style={{
+        top: `${position.top}px`,
+        left: `${position.left}px`
       }}
     >
       <MenuContent>
@@ -140,6 +145,15 @@ export const FloatingMenu: FunctionComponent<FloatingMenuProps> = ({
           }}>
             <CopyIcon color="#5F6368" />
             Duplicate
+          </MenuButton>
+        )}
+        {onCopyUrl && isPublic && (
+          <MenuButton onClick={(e) => {
+            onCopyUrl(e);
+            onClose();
+          }}>
+            <CopyUrlIcon size={18} />
+            Copy link
           </MenuButton>
         )}
         <MenuButton onClick={(e) => {
