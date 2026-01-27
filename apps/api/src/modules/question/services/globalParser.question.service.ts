@@ -141,10 +141,14 @@ export class GlobalParserQuestionService {
         // console.log(questionContent);
         const explanations = $(question).find('div#explanations > div');
         // console.log('explanations', explanations);
-        const questionTranslated =
-          await this.QuestionTranslationRepository.findOne({
-            where: { questionId: parseInt(questionId), languageId },
-          });
+
+        const questionTranslated = await this.QuestionTranslationRepository
+          .createQueryBuilder('qt')
+          .where('qt.question_id = :qid', { qid: parseInt(questionId) })
+          .andWhere('qt.language_id = :langId', { langId: languageId })
+          .getOne();
+
+        console.log("🚀 ~ GlobalParse rQuestionService ~ import ~ questionTranslated:", questionTranslated)
 
         if (!questionTranslated) {
           const questionTranslation = new QuestionTranslation();
@@ -158,10 +162,11 @@ export class GlobalParserQuestionService {
           for (const explanation of explanations) {
             const explanationId = $(explanation).attr('data-explanation-id');
             const explanationContent = $(explanation).find('div').text();
-            const explanationTranslated =
-              await this.ExplanationTranslationRepository.findOne({
-                where: { explanationId: parseInt(explanationId), languageId },
-              });
+            const explanationTranslated = await this.ExplanationTranslationRepository
+              .createQueryBuilder('et')
+              .where('et.explanation_id = :eid', { eid: parseInt(explanationId) })
+              .andWhere('et.language_id = :langId', { langId: languageId })
+              .getOne();
             if (!explanationTranslated) {
               const explanationTranslation = new ExplanationTranslation();
               explanationTranslation.content = explanationContent;
@@ -186,10 +191,11 @@ export class GlobalParserQuestionService {
           for (const explanation of explanations) {
             const explanationId = $(explanation).attr('data-explanation-id');
             const explanationContent = $(explanation).find('div').text();
-            const explanationTranslated =
-              await this.ExplanationTranslationRepository.findOne({
-                where: { explanationId: parseInt(explanationId), languageId },
-              });
+            const explanationTranslated = await this.ExplanationTranslationRepository
+              .createQueryBuilder('et')
+              .where('et.explanation_id = :eid', { eid: parseInt(explanationId) })
+              .andWhere('et.language_id = :langId', { langId: languageId })
+              .getOne();
             if (!explanationTranslated) {
               const explanationTranslation = new ExplanationTranslation();
               explanationTranslation.content = explanationContent;

@@ -58,7 +58,11 @@ export class CreateQuestionService {
       question.fieldsOfWork = [fieldOfWork];
       question.languageId = langId;
       question.content = '';
+      if (newQuestion.question.type) {
+        question.type = newQuestion.question.type;
+      }
       const saved = await this.questionRepo.save(question);
+      console.log("🚀 ~ CreateQuestionService ~ create ~ saved:", saved)
   
       // create or update questionTranslation based on questionId and languageId
       const questionTranslation = await this.questionTranslationRepo.findOne({
@@ -87,6 +91,7 @@ export class CreateQuestionService {
         getExplanations,
         [questionId],
       );
+      console.log("🚀 ~ CreateQuestionService ~ create ~ explanationResult:", explanationResult)
   
       if (newQuestion.explanations && newQuestion.explanations.length > 0) {
         const explanationsToDelete = explanationResult.filter((oldExp) => {
@@ -100,9 +105,15 @@ export class CreateQuestionService {
         }
   
         for (const newExplanation of newQuestion.explanations) {
-          const explanation = await this.explanationRepo.findOne({
-            where: { id: newExplanation.id },
-          });
+          console.log("🚀 ~ CreateQuestionService ~ create ~ newExplanation:", newExplanation)
+
+          let explanation = null
+          if (newExplanation.id) {
+            explanation = await this.explanationRepo.findOne({
+              where: { id: newExplanation.id },
+            });
+
+          }
   
           if (explanation) {
             explanation.position = newExplanation.position;
@@ -117,6 +128,7 @@ export class CreateQuestionService {
             explanationTranslation.content = newExplanation.text;
             await this.explanationTranslationRepo.save(explanationTranslation);
           } else {
+            console.log("🚀 SAVED QUESTION ON EXPLANATION ", saved)
             const savedExplanation = await this.explanationRepo.save(
               this.explanationRepo.create({
                 position: newExplanation.position,

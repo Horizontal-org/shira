@@ -8,6 +8,7 @@ export class CreateQuestionDto {
     isPhishing: boolean;
     fieldOfWork?: string;
     apps: string[];
+    type?: 'demo' | 'quiz';
   };
   @IsArray()
   explanations?: {
