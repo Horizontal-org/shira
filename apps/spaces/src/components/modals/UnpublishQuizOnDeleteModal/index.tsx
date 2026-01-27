@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 
 interface Props {
+  questionName: string;
   isModalOpen: boolean;
   setIsModalOpen: (handle: boolean) => void;
   onConfirm: () => void;
@@ -11,6 +12,7 @@ interface Props {
 }
 
 export const UnpublishQuizOnDeleteModal: FunctionComponent<Props> = ({
+  questionName,
   isModalOpen,
   setIsModalOpen,
   onConfirm,
@@ -22,7 +24,7 @@ export const UnpublishQuizOnDeleteModal: FunctionComponent<Props> = ({
     <Modal
       id="unpublish-quiz-on-delete-modal"
       isOpen={isModalOpen}
-      title={t('modals.unpublish_quiz_on_delete.title')}
+      title={t('modals.unpublish_quiz_on_delete.title', { question_name: questionName })}
       primaryButtonText={t('modals.unpublish_quiz_on_delete.confirm')}
       secondaryButtonText={t('buttons.cancel')}
       type={ModalType.Danger}
