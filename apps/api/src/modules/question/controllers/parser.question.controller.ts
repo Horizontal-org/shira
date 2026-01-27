@@ -24,7 +24,7 @@ export class ParserQuestionController {
   ) {}
 
   @Post(':id/import')
-  @Roles(Role.SpaceAdmin)
+  @Roles(Role.SuperAdmin)
   @UseInterceptors(FilesInterceptor('files'))
   async import(
     @UploadedFiles() files,
@@ -35,7 +35,7 @@ export class ParserQuestionController {
     this.parserQuestionService.import({ id, files, res });  }
 
   @Post('/global-import')
-  @Roles(Role.SpaceAdmin)
+  @Roles(Role.SuperAdmin)
   @UseInterceptors(FilesInterceptor('files'))
   async globalImport(@UploadedFiles() files, @Res() res) {
     this.globalParserQuestionService.import({ files, res });
