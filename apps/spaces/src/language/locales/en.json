@@ -4,6 +4,7 @@
         "subtitle": "Log in to access your custom Shira space. If you have trouble logging in, contact us at ",
         "email_placeholder": "Email",
         "password_placeholder": "Password",
+        "reset_password": "Reset password",
         "login_button": "Log in",
         "login_header_button": "Log in"
     },

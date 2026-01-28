@@ -77,6 +77,11 @@ export const LoginLayout: FunctionComponent<Props> = () => {
               onChange={(e) => handlePass(e.target.value)}
             />
           </InputsContainer>
+          <ResetPasswordContainer>
+            <Link1 id="reset-password-link">
+              {t('login.reset_password')}
+            </Link1>
+          </ResetPasswordContainer>
 
           <ButtonContainer>
             <Button
@@ -143,6 +148,13 @@ const InputsContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 32px;
+`;
+
+const ResetPasswordContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 12px;
 `;
 
 const ButtonContainer = styled.div`
