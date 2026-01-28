@@ -99,21 +99,19 @@ export const AssignLearnersTable: FunctionComponent<Props> = ({
 
   return (
     <Wrapper>
-      {!loading && data.length === 0 && (
-        <NoResultsWrapper>
-          <img
-            src={hasRegisteredLearners ? QuizEndFish : HookedFish}
-            alt={hasRegisteredLearners ? "quiz-end-fish" : "hooked-fish"}
-          />
-          <Body1>
-            {t(
-              hasRegisteredLearners
-                ? "learners.assign_dialog.all_learners_registered"
-                : "learners.assign_dialog.no_learners"
-            )}
-          </Body1>
-        </NoResultsWrapper>
-      )}
+      {!loading && data.length === 0 && (() => {
+        const img = hasRegisteredLearners ? QuizEndFish : HookedFish;
+        const alt = hasRegisteredLearners ? "quiz-end-fish" : "hooked-fish";
+
+        return (
+          <NoResultsWrapper>
+            <img src={img} alt={alt} />
+            <Body1>{t(hasRegisteredLearners
+              ? "learners.assign_dialog.all_learners_registered"
+              : "learners.assign_dialog.no_learners")}</Body1>
+          </NoResultsWrapper>
+        );
+      })()}
 
       {data.length > 0 && (
         <Table
