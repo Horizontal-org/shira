@@ -89,7 +89,7 @@ export class InviteLearnerService implements IInviteLearnerService {
       await this.emailsQueue.add('send', {
         to: email,
         from: process.env.SMTP_GLOBAL_FROM,
-        subject: `${organization} invited to join their Shira space`,
+        subject: `${organization} invited you to join their Shira space`,
         template: 'learner-invitation',
         data: { email, magicLink, organization }
       })
