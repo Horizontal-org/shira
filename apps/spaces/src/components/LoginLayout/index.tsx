@@ -78,7 +78,14 @@ export const LoginLayout: FunctionComponent<Props> = () => {
             />
           </InputsContainer>
           <ResetPasswordContainer>
-            <Link1 id="reset-password-link">
+            <Link1
+              id="reset-password-link"
+              href="/reset-password"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate("/reset-password");
+              }}
+            >
               {t('login.reset_password')}
             </Link1>
           </ResetPasswordContainer>

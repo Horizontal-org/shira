@@ -27,6 +27,7 @@ import './language/i18n';
 import { GetStartedLayout } from './components/GetStartedLayout';
 import { LearnersLayout } from './components/LearnersLayout';
 import { FeedbackButton } from './components/FeedbackButton';
+import { ResetPasswordLayout } from './components/ResetPasswordLayout';
 
 function App() {
 
@@ -67,6 +68,7 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path='/login' element={<LoginLayout />} />
+              <Route path='/reset-password' element={<ResetPasswordLayout />} />
               <Route path='/create-space/:passphraseCode' element={<CreateSpaceLayout />} />
               <Route path='/invitation-used' element={<InvitationExpiredLayout />} />
               <Route path='/get-started' element={<GetStartedLayout />} />
