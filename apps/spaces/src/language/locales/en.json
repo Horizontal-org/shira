@@ -8,6 +8,19 @@
         "login_button": "Log in",
         "login_header_button": "Log in"
     },
+    "reset_password": {
+        "title": "Reset password",
+        "subtitle": "Enter the email associated with your account and we'll send you a link to set a new password.",
+        "email_placeholder": "Email",
+        "send_button": "Send reset link",
+        "success_title": "Check your email",
+        "success_description": "If an account exists for {{email}}, you'll receive a password reset link shortly.",
+        "back_to_login": "Back to log in",
+        "validation": {
+            "email_required": "Email is required",
+            "invalid_email": "Enter a valid email address"
+        }
+    },
     "beta": {
         "label": "BETA",
         "message": "Shira is still in development and you may experience issues.",
