@@ -40,9 +40,6 @@ export const LoginLayout: FunctionComponent<Props> = () => {
     <>
       <div id="login-description-container">
         <span id="login-description">{t('login.subtitle')}</span>
-        <Link1 id="contact-email" href="mailto:contact@wearehorizontal.org">
-          contact@wearehorizontal.org
-        </Link1>
       </div>
     </>
   );
