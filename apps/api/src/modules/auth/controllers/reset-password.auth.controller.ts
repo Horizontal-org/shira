@@ -28,7 +28,7 @@ export class ResetPasswordAuthController {
     }
   }
 
-  @Post('confirm')
+  @Post('confirm/:token')
   async confirmReset(@Body() dto: ConfirmResetPasswordAuthDto) {
     await this.confirmPasswordResetService.execute(dto);
   }

@@ -63,13 +63,6 @@ export class CreatePasswordResetsTable1769707180000 implements MigrationInterfac
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        const table = await queryRunner.getTable('password_resets');
-        const userForeignKey = table?.foreignKeys.find(
-            (fk) => fk.columnNames.indexOf('user_id') !== -1,
-        );
-        if (userForeignKey) {
-            await queryRunner.dropForeignKey('password_resets', userForeignKey);
-        }
         await queryRunner.dropTable('password_resets');
     }
 }

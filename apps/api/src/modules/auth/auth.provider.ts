@@ -44,6 +44,16 @@ export const spaceRegistrationAuthServiceProvider = {
   useClass: SpaceRegistrationAuthService,
 };
 
+export const requestPasswordResetAuthServiceProvider = {
+  provide: TYPES.services.IRequestPasswordResetAuthService,
+  useClass: RequestPasswordResetAuthService,
+};
+
+export const confirmPasswordResetAuthServiceProvider = {
+  provide: TYPES.services.IConfirmPasswordResetAuthService,
+  useClass: ConfirmResetPasswordAuthService,
+};
+
 const userContextServiceProvider = {
   provide: TYPES.services.IUserContextService,
   useClass: UserContextService,
@@ -60,7 +70,7 @@ export const servicesAuthProviders = [
   confirmRegistrationAuthServiceProvider,
   sendInvitationAuthServiceProvider,
   spaceRegistrationAuthServiceProvider,
-  RequestPasswordResetAuthService,
-  ConfirmResetPasswordAuthService,
+  requestPasswordResetAuthServiceProvider,
+  confirmPasswordResetAuthServiceProvider,
   userContextServiceProvider,
 ];

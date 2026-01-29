@@ -69,6 +69,7 @@ function App() {
             <Routes>
               <Route path='/login' element={<LoginLayout />} />
               <Route path='/reset-password' element={<ResetPasswordLayout />} />
+              <Route path='/reset-password/confirm/:token' element={<ResetPasswordLayout />} />
               <Route path='/create-space/:passphraseCode' element={<CreateSpaceLayout />} />
               <Route path='/invitation-used' element={<InvitationExpiredLayout />} />
               <Route path='/get-started' element={<GetStartedLayout />} />

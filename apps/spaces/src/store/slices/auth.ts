@@ -21,7 +21,8 @@ const isPublicRoute = (path: string): boolean => {
   return path === '/login' 
     || path.startsWith('/create-space')
     || path.startsWith('/invitation-used')
-    || path.startsWith('/get-started');
+    || path.startsWith('/get-started')
+    || path.startsWith('/reset-password');
 };
 
 export const createAuthSlice: StateCreator<

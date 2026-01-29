@@ -1,11 +1,21 @@
 import { FunctionComponent, useMemo, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Button, Form, TextInput, styled, Navbar, Body3, Link3 } from "@shira/ui";
-import backgroundSvg from "../../assets/Background.svg";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Button, TextInput, Navbar, Link3 } from "@shira/ui";
 import { hasRequiredValue, isEmailValid } from "../../utils/validation";
 import { confirmPasswordReset, requestPasswordReset } from "../../fetch/password_reset";
 import { getErrorContent } from "../../utils/getErrorContent";
+import { ResetPasswordForm } from "./ResetPasswordForm";
+import {
+  BackgroundPattern,
+  ButtonContainer,
+  Container,
+  ContentWrapper,
+  InlineErrorMessage,
+  InputsContainer,
+  StyledForm,
+  SuccessInfo,
+} from "./styles";
 
 interface Props { }
 
@@ -13,8 +23,14 @@ export const ResetPasswordLayout: FunctionComponent<Props> = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { search } = useLocation();
+  const { token: tokenParam } = useParams();
 
-  const token = useMemo(() => new URLSearchParams(search).get("token") ?? "", [search]);
+  const token = useMemo(() => {
+    if (tokenParam) {
+      return tokenParam;
+    }
+    return new URLSearchParams(search).get("token") ?? "";
+  }, [search, tokenParam]);
   const isTokenFlow = Boolean(token);
 
   const [email, handleEmail] = useState("");
@@ -122,51 +138,22 @@ export const ResetPasswordLayout: FunctionComponent<Props> = () => {
               </ButtonContainer>
             </StyledForm>
           ) : (
-            <StyledForm
+            <ResetPasswordForm
               title={t("reset_password.create_title")}
               description={t("reset_password.create_subtitle")}
-              onSubmit={(e) => {
-                e.preventDefault();
-                handleResetSubmit();
-              }}
-            >
-              <PasswordInputsContainer>
-                <TextInput
-                  id="reset-new-password-input"
-                  required
-                  type="password"
-                  label={t("reset_password.new_password_placeholder")}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                {passwordError && <InlineErrorMessage>{passwordError}</InlineErrorMessage>}
-                <TextInput
-                  id="reset-confirm-password-input"
-                  required
-                  type="password"
-                  label={t("reset_password.confirm_password_placeholder")}
-                  value={passwordConfirmation}
-                  onChange={(e) => setPasswordConfirmation(e.target.value)}
-                />
-                {passwordConfirmationError && (
-                  <InlineErrorMessage>{passwordConfirmationError}</InlineErrorMessage>
-                )}
-                {submitError && <InlineErrorMessage>{submitError}</InlineErrorMessage>}
-              </PasswordInputsContainer>
-
-              <ButtonContainer>
-                <Button
-                  id="reset-password-confirm-button"
-                  text={t("reset_password.reset_button")}
-                  type="primary"
-                  disabled={!hasRequiredValue(password) || !hasRequiredValue(passwordConfirmation)}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleResetSubmit();
-                  }}
-                />
-              </ButtonContainer>
-            </StyledForm>
+              newPasswordLabel={t("reset_password.new_password_placeholder")}
+              confirmPasswordLabel={t("reset_password.confirm_password_placeholder")}
+              buttonText={t("reset_password.reset_button")}
+              password={password}
+              passwordConfirmation={passwordConfirmation}
+              passwordError={passwordError}
+              passwordConfirmationError={passwordConfirmationError}
+              submitError={submitError}
+              submitDisabled={!hasRequiredValue(password) || !hasRequiredValue(passwordConfirmation)}
+              onPasswordChange={setPassword}
+              onPasswordConfirmationChange={setPasswordConfirmation}
+              onSubmit={handleResetSubmit}
+            />
           )
         ) : submitted ? (
           <StyledForm
@@ -227,87 +214,3 @@ export const ResetPasswordLayout: FunctionComponent<Props> = () => {
     </Container>
   );
 };
-
-const Container = styled.div`
-  box-sizing: border-box;
-  width: 100%;
-  height: 100vh;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-
-  @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
-      padding: 16px;
-  }
-`;
-
-const ContentWrapper = styled.div`
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const StyledForm = styled(Form)`
-  position: relative;
-  z-index: 1;
-`;
-
-const BackgroundPattern = styled.div`
-  background-image: url(${backgroundSvg});
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  opacity: 0.15;
-
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    display: none;
-  }
-`;
-
-const InputsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-`;
-
-const PasswordInputsContainer = styled(InputsContainer)`
-  gap: 24px;
-`;
-
-const InlineErrorMessage = styled.div`
-  color: ${props => props.theme.colors.red7};
-`;
-
-const SuccessInfo = styled(Body3)`
-  margin-top: 16px;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    width: 100%;
-
-    button {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-  }
-`;
-
-const BackLinkContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-`;
