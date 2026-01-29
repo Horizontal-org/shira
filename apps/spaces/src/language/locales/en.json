@@ -10,12 +10,12 @@
     },
     "reset_password": {
         "title": "Reset password",
-        "subtitle": "Enter the email associated with your account and we'll send you a link to set a new password.",
-        "email_placeholder": "Email",
-        "send_button": "Send reset link",
+        "subtitle": "Enter the email associated with your Shira account. You will receive an email with instructions to reset your password.",
+        "email_placeholder": "Email (required)",
+        "send_button": "Send reset email",
         "success_title": "Check your email",
-        "success_description": "If an account exists for <strong>{{email}}</strong>, you'll receive a password reset link shortly.",
-        "back_to_login": "Back to log in",
+        "success_description": "We have sent a password reset email to your email address.",
+        "success_info": "Didn't receive an email? Make sure the email address you entered is correct, check your spam folder, or contact us at <0>{{contact_email}}</0>",
         "validation": {
             "email_required": "Email is required",
             "invalid_email": "Enter a valid email address"

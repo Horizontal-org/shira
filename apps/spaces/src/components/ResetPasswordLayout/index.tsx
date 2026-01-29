@@ -1,14 +1,7 @@
 import { FunctionComponent, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import {
-  Button,
-  Form,
-  Link1,
-  TextInput,
-  styled,
-  Navbar
-} from "@shira/ui";
+import { Button, Form, TextInput, styled, Navbar, Body3, Link3 } from "@shira/ui";
 import backgroundSvg from "../../assets/Background.svg";
 import { hasRequiredValue, isEmailValid } from "../../utils/validation";
 import { requestPasswordReset } from "../../fetch/password_reset";
@@ -53,82 +46,66 @@ export const ResetPasswordLayout: FunctionComponent<Props> = () => {
   return (
     <Container>
       <Navbar
-        translatedTexts={{ home: "", about: "", menu: "", logIn: "Sign up", createSpace: "" }}
-        onNavigate={() => navigate("/get-started")}
+        translatedTexts={{ home: "", about: "", menu: "", logIn: "Log in", createSpace: "" }}
+        onNavigate={() => navigate("/login")}
       />
       <ContentWrapper>
         <BackgroundPattern />
-        <Content>
-          {submitted ? (
-            <StyledForm
-              title={t("reset_password.success_title")}
-              description={
-                <Trans
-                  i18nKey="reset_password.success_description"
-                  values={{ email }}
-                  components={{ strong: <strong /> }}
-                />
-              }
-            >
-              <ButtonContainer>
-                <Button
-                  text={t("reset_password.back_to_login")}
-                  type="primary"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigate("/login");
-                  }}
-                />
-              </ButtonContainer>
-            </StyledForm>
-          ) : (
-            <StyledForm
-              title={t("reset_password.title")}
-              description={t("reset_password.subtitle")}
-              onSubmit={(e) => {
-                e.preventDefault();
-                handleSubmit();
-              }}
-            >
-              <InputsContainer>
-                <TextInput
-                  id="reset-email-input"
-                  required
-                  label={t("reset_password.email_placeholder")}
-                  value={email}
-                  onChange={(e) => handleEmail(e.target.value)}
-                />
-                {emailError && <InlineErrorMessage>{emailError}</InlineErrorMessage>}
-              </InputsContainer>
+        {submitted ? (
+          <StyledForm
+            title={t("reset_password.success_title")}
+            description={
+              <Trans
+                i18nKey="reset_password.success_description"
+                values={{ email }}
+                components={{ strong: <strong /> }}
+              />
+            }
+          >
+            <SuccessInfo>
+              <Trans
+                i18nKey="reset_password.success_info"
+                values={{ contact_email: "contact@wearehorizontal.org" }}
+                components={[
+                  <Link3 key="contact-email" href="mailto:contact@wearehorizontal.org" />
+                ]}
+              />
+            </SuccessInfo>
+          </StyledForm>
+        ) : (
+          <StyledForm
+            title={t("reset_password.title")}
+            description={t("reset_password.subtitle")}
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSubmit();
+            }}
+          >
+            <InputsContainer>
+              <TextInput
+                id="reset-email-input"
+                required
+                label={t("reset_password.email_placeholder")}
+                value={email}
+                onChange={(e) => handleEmail(e.target.value)}
+              />
+              {emailError && <InlineErrorMessage>{emailError}</InlineErrorMessage>}
+            </InputsContainer>
 
-              <ButtonContainer>
-                <Button
-                  id="reset-password-button"
-                  text={t("reset_password.send_button")}
-                  type="primary"
-                  disabled={!hasRequiredValue(email) || !isEmailValid(email)}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleSubmit();
-                  }}
-                />
-              </ButtonContainer>
-
-              <BackLinkContainer>
-                <Link1
-                  id="back-to-login-link"
-                  href="/login"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigate("/login");
-                  }}
-                >
-                  {t("reset_password.back_to_login")}
-                </Link1>
-              </BackLinkContainer>
-            </StyledForm>
-          )}
-        </Content>
+            <ButtonContainer>
+              <Button
+                id="reset-password-button"
+                text={t("reset_password.send_button")}
+                type="primary"
+                disabled={!hasRequiredValue(email) || !isEmailValid(email)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSubmit();
+                }}
+              />
+            </ButtonContainer>
+          </StyledForm>
+        )}
       </ContentWrapper>
     </Container>
   );
@@ -155,19 +132,9 @@ const ContentWrapper = styled.div`
   align-items: center;
 `;
 
-const Content = styled.div`
-  width: 100%;
-  max-width: 520px;
-  position: relative;
-  z-index: 1;
-`;
-
 const StyledForm = styled(Form)`
   position: relative;
   z-index: 1;
-  width: 100%;
-  max-width: 520px;
-  margin: 0 auto;
 `;
 
 const BackgroundPattern = styled.div`
@@ -195,6 +162,10 @@ const InputsContainer = styled.div`
 
 const InlineErrorMessage = styled.div`
   color: ${props => props.theme.colors.red7};
+`;
+
+const SuccessInfo = styled(Body3)`
+  margin-top: 16px;
 `;
 
 const ButtonContainer = styled.div`
