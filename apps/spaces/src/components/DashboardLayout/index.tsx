@@ -92,23 +92,16 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
   useEffect(() => {
     setCards(quizzes)
-  }, [quizzes])
+  }, [quizzes]);
 
   useEffect(() => {
-    let ignore = false;
-
-    const updateQuizHasQuestions = (cardId: number, hasQuestions: boolean) => {
-      if (ignore) {
-        return;
-      }
-
-      setQuizHasQuestions((prev) => (
-        prev[cardId] === hasQuestions ? prev : { ...prev, [cardId]: hasQuestions }
-      ));
-    };
+    let isActive = true;
 
     const fetchQuizQuestions = async () => {
       const unpublishedCards = cards.filter((card) => !card.published);
+      if (!unpublishedCards.length) {
+        return;
+      }
 
       await Promise.all(
         unpublishedCards.map(async (card) => {
@@ -119,9 +112,17 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           try {
             const quiz = await getQuizById(card.id);
             const hasQuestions = (quiz?.quizQuestions?.length ?? 0) > 0;
-            updateQuizHasQuestions(card.id, hasQuestions);
+            if (isActive) {
+              setQuizHasQuestions((prev) => (
+                prev[card.id] === hasQuestions ? prev : { ...prev, [card.id]: hasQuestions }
+              ));
+            }
           } catch (error) {
-            updateQuizHasQuestions(card.id, true);
+            if (isActive) {
+              setQuizHasQuestions((prev) => (
+                prev[card.id] !== undefined ? prev : { ...prev, [card.id]: true }
+              ));
+            }
           }
         })
       );
@@ -132,7 +133,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     }
 
     return () => {
-      ignore = true;
+      isActive = false;
     };
   }, [cards, quizHasQuestions]);
 
