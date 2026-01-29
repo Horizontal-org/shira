@@ -44,6 +44,7 @@
             "assign_button": "Assign to learners",
             "assign_title": "Assign \"{{quiz_title}}\" to learners",
             "no_learners": "There are no registered learners in your space.",
+            "all_learners_registered": "All registered learners have already been assigned this quiz.",
             "disabled_tooltip": "Create at least 1 question to assign this quiz to learners."
         }
     },
