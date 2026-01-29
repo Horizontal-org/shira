@@ -14,7 +14,7 @@
         "email_placeholder": "Email",
         "send_button": "Send reset link",
         "success_title": "Check your email",
-        "success_description": "If an account exists for {{email}}, you'll receive a password reset link shortly.",
+        "success_description": "If an account exists for <strong>{{email}}</strong>, you'll receive a password reset link shortly.",
         "back_to_login": "Back to log in",
         "validation": {
             "email_required": "Email is required",

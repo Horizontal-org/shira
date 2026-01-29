@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import {
   Button,
@@ -11,6 +11,7 @@ import {
 } from "@shira/ui";
 import backgroundSvg from "../../assets/Background.svg";
 import { hasRequiredValue, isEmailValid } from "../../utils/validation";
+import { requestPasswordReset } from "../../fetch/password_reset";
 
 interface Props { }
 
@@ -35,12 +36,18 @@ export const ResetPasswordLayout: FunctionComponent<Props> = () => {
     return hasError;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     handleEmailError("");
     if (validateForm()) {
       return;
     }
-    setSubmitted(true);
+    try {
+      await requestPasswordReset(email);
+    } catch (error) {
+      console.error("Failed to request password reset", error);
+    } finally {
+      setSubmitted(true);
+    }
   };
 
   return (
@@ -55,7 +62,13 @@ export const ResetPasswordLayout: FunctionComponent<Props> = () => {
           {submitted ? (
             <StyledForm
               title={t("reset_password.success_title")}
-              description={t("reset_password.success_description", { email })}
+              description={
+                <Trans
+                  i18nKey="reset_password.success_description"
+                  values={{ email }}
+                  components={{ strong: <strong /> }}
+                />
+              }
             >
               <ButtonContainer>
                 <Button
