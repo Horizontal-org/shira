@@ -37,11 +37,12 @@ export class RequestPasswordResetAuthService implements IRequestPasswordResetAut
     if (!user) { return; }
 
     await this.passwordResetRepo.update(
-      { email, usedAt: null },
+      { userId: user.id, usedAt: null },
       { usedAt: new Date() },
     );
 
     const reset = new PasswordResetEntity();
+    reset.userId = user.id;
     reset.email = email;
     reset.resetHash = crypto.randomBytes(20).toString('hex');
     reset.expiresAt = addMinutes(new Date(), RESET_PASSWORD_LINK_EXPIRES_MINUTES);
@@ -51,16 +52,15 @@ export class RequestPasswordResetAuthService implements IRequestPasswordResetAut
     const resetLink = `${process.env.SPACE_URL}/reset-password?token=${reset.resetHash}`;
 
     await this.emailsQueue.add('send', {
-      to: reset.email,
+      to: user.email,
       from: process.env.SMTP_GLOBAL_FROM,
       subject: 'Reset your Shira password',
       template: 'reset-password',
       data: {
-        email: reset.email,
+        email: user.email,
         resetLink,
         resetLinkExpiresInMinutes: RESET_PASSWORD_LINK_EXPIRES_MINUTES,
       },
     });
   }
 }
-

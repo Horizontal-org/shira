@@ -27,7 +27,7 @@ export class ConfirmResetPasswordAuthService implements IConfirmPasswordResetAut
   private readonly logger = new ApiLogger(ConfirmResetPasswordAuthService.name);
 
   async execute(confirmResetPasswordData: ConfirmResetPasswordAuthDto): Promise<void> {
-    this.logger.log(`Processing password reset confirmation for token: ${confirmResetPasswordData.token}`);
+    this.logger.log(`Processing password reset confirmation`);
 
     if (!confirmResetPasswordData.password
       || confirmResetPasswordData.password.length < MINIMUM_PASSWORD_LENGTH) {
@@ -51,7 +51,7 @@ export class ConfirmResetPasswordAuthService implements IConfirmPasswordResetAut
     }
 
     const user = await this.userRepo.findOne({
-      where: { email: reset.email },
+      where: { id: reset.userId },
     });
 
     if (!user) {

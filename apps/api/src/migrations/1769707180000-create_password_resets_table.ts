@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner, Table } from "typeorm";
+import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
 
 export class CreatePasswordResetsTable1769707180000 implements MigrationInterface {
 
@@ -15,9 +15,12 @@ export class CreatePasswordResetsTable1769707180000 implements MigrationInterfac
                         generationStrategy: 'increment',
                     },
                     {
+                        name: 'user_id',
+                        type: 'int',
+                    },
+                    {
                         name: 'email',
                         type: 'varchar',
-                        length: '80',
                     },
                     {
                         name: 'reset_hash',
@@ -47,9 +50,26 @@ export class CreatePasswordResetsTable1769707180000 implements MigrationInterfac
             true,
         );
 
+        await queryRunner.createForeignKey(
+            'password_resets',
+            new TableForeignKey({
+                columnNames: ['user_id'],
+                referencedColumnNames: ['id'],
+                referencedTableName: 'users',
+                onDelete: 'CASCADE',
+            }),
+        );
+
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
+        const table = await queryRunner.getTable('password_resets');
+        const userForeignKey = table?.foreignKeys.find(
+            (fk) => fk.columnNames.indexOf('user_id') !== -1,
+        );
+        if (userForeignKey) {
+            await queryRunner.dropForeignKey('password_resets', userForeignKey);
+        }
         await queryRunner.dropTable('password_resets');
     }
 }
