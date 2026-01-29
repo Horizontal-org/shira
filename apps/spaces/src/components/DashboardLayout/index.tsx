@@ -15,7 +15,7 @@ import { CreateQuizModal } from "../modals/CreateQuizModal";
 import { UnpublishedQuizCopyLinkModal } from "../modals/UnpublishedQuizModal";
 import { UnpublishQuizWithQuestionsModal } from "../modals/UnpublishQuizWithQuestionsModal";
 import { DuplicateQuizModal } from "../modals/DuplicateQuizModal";
-import { handleCopyUrl, handleCopyUrlAndNotify } from "../../utils/quiz";
+import { handleCopyUrlAndNotify } from "../../utils/quiz";
 import { useTranslation } from "react-i18next";
 import { getCurrentDateFNSLocales } from "../../language/dateUtils";
 import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
@@ -53,8 +53,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
   const [activeFilter, setActiveFilter] = useState<FilterStates>(FilterStates.all);
   const [cards, setCards] = useState([]);
-  console.log("🚀 ~ cards:", cards)
   const [selectedCard, handleSelectedCard] = useState(null)
+  const [quizHasQuestions, setQuizHasQuestions] = useState<Record<number, boolean>>({})
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [unpublishedQuizId, handleUnpublishedQuizId] = useState<number | null>(null);
@@ -93,6 +93,47 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   useEffect(() => {
     setCards(quizzes)
   }, [quizzes])
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchQuizQuestions = async () => {
+      const unpublishedCards = cards.filter((card) => !card.published);
+
+      await Promise.all(
+        unpublishedCards.map(async (card) => {
+          if (quizHasQuestions[card.id] !== undefined) {
+            return;
+          }
+
+          try {
+            const quiz = await getQuizById(card.id);
+            const hasQuestions = (quiz?.quizQuestions?.length ?? 0) > 0;
+
+            if (isMounted) {
+              setQuizHasQuestions((prev) => (
+                prev[card.id] === hasQuestions ? prev : { ...prev, [card.id]: hasQuestions }
+              ));
+            }
+          } catch (error) {
+            if (isMounted) {
+              setQuizHasQuestions((prev) => (
+                prev[card.id] !== undefined ? prev : { ...prev, [card.id]: true }
+              ));
+            }
+          }
+        })
+      );
+    };
+
+    if (cards.length) {
+      fetchQuizQuestions();
+    }
+
+    return () => {
+      isMounted = false;
+    };
+  }, [cards, quizHasQuestions])
 
   useEffect(() => {
     if (t(SUCCESS_MESSAGES[quizActionSuccess])) {
@@ -220,45 +261,57 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           </FilterButtonsContainer >
 
           <CardGrid id="card-grid">
-            {filteredCards.map((card) => (
-              <Card
-                id={`quiz-card-${card.id}`}
-                publishedText={t('quizzes.filter.published')}
-                unpublishedText={t('quizzes.filter.unpublished')}
-                onCardClick={() => {
-                  navigate(`/quiz/${card.id}`)
-                }}
-                key={card.id}
-                title={card.title}
-                lastModified={getLastUpdateTime(card.latestGlobalUpdate)}
-                isPublished={card.published}
-                onCopyUrl={() => {
-                  if (card.published) {
-                    handleCopyUrlAndNotify(card.hash, t('success_messages.quiz_link_copied'));
-                  } else {
-                    handleCopyUrlAndNotify(card.hash, t('success_messages.quiz_link_copied'));
-                    handleUnpublishedQuizId(card.id)
-                    setIsUnpublishedQuizCopyLinkModalOpen(true);
-                  }
-                }}
-                onTogglePublished={() => handleTogglePublished(card.id, !card.published)}
-                onEdit={() => {
-                  navigate(`/quiz/${card.id}`)
-                }}
-                onDuplicate={() => { startDuplicateQuizFlow(card); }}
-                onDelete={() => {
-                  handleSelectedCard(card)
-                  setIsDeleteModalOpen(true)
-                }}
-                showLoading={isSubmitting && submittingQuizId === card.id}
-                loadingLabel={t('loading_messages.duplicating')}
-                isPublic={card.visibility === 'public'}
-                visibilityText={
-                  card.visibility === 'public'
-                    ? t('quiz.visibility.public')
-                    : t('quiz.visibility.private')}
-              />
-            ))}
+            {filteredCards.map((card) => {
+              const hasQuestions = quizHasQuestions[card.id];
+              const disablePublishToggle = hasQuestions === false && !card.published;
+
+              return (
+                <Card
+                  id={`quiz-card-${card.id}`}
+                  publishedText={t('quizzes.filter.published')}
+                  unpublishedText={t('quizzes.filter.unpublished')}
+                  onCardClick={() => {
+                    navigate(`/quiz/${card.id}`)
+                  }}
+                  key={card.id}
+                  title={card.title}
+                  lastModified={getLastUpdateTime(card.latestGlobalUpdate)}
+                  isPublished={card.published}
+                  disablePublishToggle={disablePublishToggle}
+                  disabledTooltipLabel={t('quiz.publish_toggle.disabled_tooltip')}
+                  onCopyUrl={() => {
+                    if (card.published) {
+                      handleCopyUrlAndNotify(card.hash, t('success_messages.quiz_link_copied'));
+                    } else {
+                      handleCopyUrlAndNotify(card.hash, t('success_messages.quiz_link_copied'));
+                      handleUnpublishedQuizId(card.id)
+                      setIsUnpublishedQuizCopyLinkModalOpen(true);
+                    }
+                  }}
+                  onTogglePublished={() => {
+                    if (disablePublishToggle) {
+                      return;
+                    }
+                    handleTogglePublished(card.id, !card.published);
+                  }}
+                  onEdit={() => {
+                    navigate(`/quiz/${card.id}`)
+                  }}
+                  onDuplicate={() => { startDuplicateQuizFlow(card); }}
+                  onDelete={() => {
+                    handleSelectedCard(card)
+                    setIsDeleteModalOpen(true)
+                  }}
+                  showLoading={isSubmitting && submittingQuizId === card.id}
+                  loadingLabel={t('loading_messages.duplicating')}
+                  isPublic={card.visibility === 'public'}
+                  visibilityText={
+                    card.visibility === 'public'
+                      ? t('quiz.visibility.public')
+                      : t('quiz.visibility.private')}
+                />
+              );
+            })}
           </CardGrid>
 
           <DeleteModal
