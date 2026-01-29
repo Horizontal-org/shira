@@ -1,11 +1,16 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { IConfirmPasswordResetAuthService } from '../interfaces';
 import { ConfirmResetPasswordAuthDto } from '../domain/confirm-reset-password.auth.dto';
 import { PasswordResetEntity } from '../domain/password-reset.entity';
 import { UserEntity } from 'src/modules/user/domain/user.entity';
 import { hashPassword } from 'src/utils/password.utils';
+import { ResetPasswordTokenExpiredException } from '../exceptions/reset-password-token-expired.auth.exception';
+import { ResetPasswordTokenInvalidException } from '../exceptions/reset-password-token-invalid.auth.exception';
+import { ResetPasswordTokenUsedException } from '../exceptions/reset-password-token-used.auth.exception';
+import { ResetPasswordUserNotFoundException } from '../exceptions/reset-password-user-not-found.auth.exception';
+import { ResetPasswordWeakException } from '../exceptions/reset-password-weak.auth.exception';
+import { IConfirmPasswordResetAuthService } from '../interfaces/services/confirm-reset-password.auth.service.interface';
 
 @Injectable()
 export class ConfirmResetPasswordAuthService implements IConfirmPasswordResetAuthService {
@@ -17,16 +22,24 @@ export class ConfirmResetPasswordAuthService implements IConfirmPasswordResetAut
   ) { }
 
   async execute(confirmResetPasswordData: ConfirmResetPasswordAuthDto): Promise<void> {
+    if (!confirmResetPasswordData.password || confirmResetPasswordData.password.length < 8) {
+      throw new ResetPasswordWeakException();
+    }
+
     const reset = await this.passwordResetRepo.findOne({
       where: { resetHash: confirmResetPasswordData.token },
     });
 
-    if (!reset || reset.usedAt) {
-      throw new NotFoundException();
+    if (!reset) {
+      throw new ResetPasswordTokenInvalidException();
+    }
+
+    if (reset.usedAt) {
+      throw new ResetPasswordTokenUsedException();
     }
 
     if (reset.expiresAt.getTime() < new Date().getTime()) {
-      throw new UnauthorizedException();
+      throw new ResetPasswordTokenExpiredException();
     }
 
     const user = await this.userRepo.findOne({
@@ -34,7 +47,7 @@ export class ConfirmResetPasswordAuthService implements IConfirmPasswordResetAut
     });
 
     if (!user) {
-      throw new NotFoundException();
+      throw new ResetPasswordUserNotFoundException();
     }
 
     user.password = await hashPassword(confirmResetPasswordData.password);

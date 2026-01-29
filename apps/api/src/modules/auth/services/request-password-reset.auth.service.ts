@@ -1,14 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { addDays, addMinutes } from 'date-fns';
+import { addMinutes } from 'date-fns';
 import { Queue } from 'bullmq';
 import { InjectQueue } from '@nestjs/bullmq';
 import * as crypto from 'crypto';
 import { Repository } from 'typeorm';
-import { IRequestPasswordResetAuthService } from '../interfaces';
 import { ResetPasswordAuthDto } from '../domain/reset-password.auth.dto';
 import { PasswordResetEntity } from '../domain/password-reset.entity';
 import { UserEntity } from 'src/modules/user/domain/user.entity';
+import { ApiLogger } from 'src/modules/learner/logger/api-logger.service';
+import { IRequestPasswordResetAuthService } from '../interfaces/services/request-password-reset.auth.service.interface';
 
 const resetLinkExpiresInMinutes = 10;
 
@@ -23,15 +24,17 @@ export class RequestPasswordResetAuthService implements IRequestPasswordResetAut
     private readonly emailsQueue: Queue,
   ) { }
 
+  private readonly logger = new ApiLogger(RequestPasswordResetAuthService.name);
+
   async execute(resetPasswordData: ResetPasswordAuthDto): Promise<void> {
     const email = resetPasswordData.email.trim().toLowerCase();
+    this.logger.log(`Processing password reset request for email: ${email}`);
+
     const user = await this.userRepo.findOne({
       where: { email },
     });
 
-    if (!user) {
-      return;
-    }
+    if (!user) { return; }
 
     await this.passwordResetRepo.update(
       { email, usedAt: null },
@@ -60,3 +63,4 @@ export class RequestPasswordResetAuthService implements IRequestPasswordResetAut
     });
   }
 }
+

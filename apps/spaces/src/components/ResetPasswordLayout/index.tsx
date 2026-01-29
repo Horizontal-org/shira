@@ -1,20 +1,33 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useMemo, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button, Form, TextInput, styled, Navbar, Body3, Link3 } from "@shira/ui";
 import backgroundSvg from "../../assets/Background.svg";
 import { hasRequiredValue, isEmailValid } from "../../utils/validation";
-import { requestPasswordReset } from "../../fetch/password_reset";
+import { confirmPasswordReset, requestPasswordReset } from "../../fetch/password_reset";
+import { getErrorContent } from "../../utils/getErrorContent";
 
 interface Props { }
 
 export const ResetPasswordLayout: FunctionComponent<Props> = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { search } = useLocation();
+
+  const token = useMemo(() => new URLSearchParams(search).get("token") ?? "", [search]);
+  const isTokenFlow = Boolean(token);
 
   const [email, handleEmail] = useState("");
   const [emailError, handleEmailError] = useState("");
   const [submitted, setSubmitted] = useState(false);
+
+  const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [passwordConfirmationError, setPasswordConfirmationError] = useState("");
+
+  const [submitError, setSubmitError] = useState("");
+  const [resetComplete, setResetComplete] = useState(false);
 
   const validateForm = () => {
     let hasError = false;
@@ -24,6 +37,27 @@ export const ResetPasswordLayout: FunctionComponent<Props> = () => {
     }
     if (hasRequiredValue(email) && !isEmailValid(email)) {
       handleEmailError(t("reset_password.validation.invalid_email"));
+      hasError = true;
+    }
+    return hasError;
+  };
+
+  const validateResetForm = () => {
+    let hasError = false;
+    if (!hasRequiredValue(password)) {
+      setPasswordError(t("reset_password.validation.password_required"));
+      hasError = true;
+    }
+    if (hasRequiredValue(password) && password.length < 8) {
+      setPasswordError(t("reset_password.validation.password_min_length"));
+      hasError = true;
+    }
+    if (!hasRequiredValue(passwordConfirmation)) {
+      setPasswordConfirmationError(t("reset_password.validation.confirm_password_required"));
+      hasError = true;
+    }
+    if (hasRequiredValue(passwordConfirmation) && password !== passwordConfirmation) {
+      setPasswordConfirmationError(t("reset_password.validation.passwords_mismatch"));
       hasError = true;
     }
     return hasError;
@@ -43,6 +77,24 @@ export const ResetPasswordLayout: FunctionComponent<Props> = () => {
     }
   };
 
+  const handleResetSubmit = async () => {
+    setPasswordError("");
+    setPasswordConfirmationError("");
+    setSubmitError("");
+
+    if (validateResetForm()) {
+      return;
+    }
+
+    try {
+      await confirmPasswordReset(token, password);
+      setResetComplete(true);
+    } catch (error) {
+      const content = getErrorContent("error_messages", "something_went_wrong", error.message);
+      setSubmitError(content);
+    }
+  };
+
   return (
     <Container>
       <Navbar
@@ -51,7 +103,72 @@ export const ResetPasswordLayout: FunctionComponent<Props> = () => {
       />
       <ContentWrapper>
         <BackgroundPattern />
-        {submitted ? (
+        {isTokenFlow ? (
+          resetComplete ? (
+            <StyledForm
+              title={t("reset_password.reset_success_title")}
+              description={t("reset_password.reset_success_description")}
+            >
+              <ButtonContainer>
+                <Button
+                  id="reset-success-login-button"
+                  text={t("reset_password.reset_success_button")}
+                  type="primary"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate("/login");
+                  }}
+                />
+              </ButtonContainer>
+            </StyledForm>
+          ) : (
+            <StyledForm
+              title={t("reset_password.create_title")}
+              description={t("reset_password.create_subtitle")}
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleResetSubmit();
+              }}
+            >
+              <PasswordInputsContainer>
+                <TextInput
+                  id="reset-new-password-input"
+                  required
+                  type="password"
+                  label={t("reset_password.new_password_placeholder")}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                {passwordError && <InlineErrorMessage>{passwordError}</InlineErrorMessage>}
+                <TextInput
+                  id="reset-confirm-password-input"
+                  required
+                  type="password"
+                  label={t("reset_password.confirm_password_placeholder")}
+                  value={passwordConfirmation}
+                  onChange={(e) => setPasswordConfirmation(e.target.value)}
+                />
+                {passwordConfirmationError && (
+                  <InlineErrorMessage>{passwordConfirmationError}</InlineErrorMessage>
+                )}
+                {submitError && <InlineErrorMessage>{submitError}</InlineErrorMessage>}
+              </PasswordInputsContainer>
+
+              <ButtonContainer>
+                <Button
+                  id="reset-password-confirm-button"
+                  text={t("reset_password.reset_button")}
+                  type="primary"
+                  disabled={!hasRequiredValue(password) || !hasRequiredValue(passwordConfirmation)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleResetSubmit();
+                  }}
+                />
+              </ButtonContainer>
+            </StyledForm>
+          )
+        ) : submitted ? (
           <StyledForm
             title={t("reset_password.success_title")}
             description={
@@ -158,6 +275,10 @@ const InputsContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+`;
+
+const PasswordInputsContainer = styled(InputsContainer)`
+  gap: 24px;
 `;
 
 const InlineErrorMessage = styled.div`
