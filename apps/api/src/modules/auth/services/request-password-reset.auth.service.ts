@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { addDays } from 'date-fns';
+import { addDays, addMinutes } from 'date-fns';
 import { Queue } from 'bullmq';
 import { InjectQueue } from '@nestjs/bullmq';
 import * as crypto from 'crypto';
@@ -9,6 +9,8 @@ import { IRequestPasswordResetAuthService } from '../interfaces';
 import { ResetPasswordAuthDto } from '../domain/reset-password.auth.dto';
 import { PasswordResetEntity } from '../domain/password-reset.entity';
 import { UserEntity } from 'src/modules/user/domain/user.entity';
+
+const resetLinkExpiresInMinutes = 10;
 
 @Injectable()
 export class RequestPasswordResetAuthService implements IRequestPasswordResetAuthService {
@@ -39,7 +41,7 @@ export class RequestPasswordResetAuthService implements IRequestPasswordResetAut
     const reset = new PasswordResetEntity();
     reset.email = email;
     reset.resetHash = crypto.randomBytes(20).toString('hex');
-    reset.expiresAt = addDays(new Date(), 1);
+    reset.expiresAt = addMinutes(new Date(), resetLinkExpiresInMinutes);
 
     await this.passwordResetRepo.save(reset);
 
@@ -53,6 +55,7 @@ export class RequestPasswordResetAuthService implements IRequestPasswordResetAut
       data: {
         email: reset.email,
         resetLink,
+        resetLinkExpiresInMinutes,
       },
     });
   }
