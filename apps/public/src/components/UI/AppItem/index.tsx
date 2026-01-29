@@ -7,7 +7,7 @@ import WhatsappSvg from './assets/Whatsapp'
 import MessengerIcon from './assets/Messenger'
 import DatingAppIcon from "./assets/DatingApp";
 import SmsIcon from "./assets/Sms";
-
+import { OutlookIcon } from "@shira/ui";
 
 const icons = {
   'Whatsapp': <WhatsappSvg />,
@@ -15,7 +15,10 @@ const icons = {
   'Messenger': <MessengerIcon />,
   'Dating App': <DatingAppIcon />,
   'SMS': <SmsIcon />,
+  'Outlook': <OutlookIcon />
 }
+
+
 
 const getIcon = (name) => {
   return icons[name]

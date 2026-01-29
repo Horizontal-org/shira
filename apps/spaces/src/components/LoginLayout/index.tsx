@@ -8,6 +8,7 @@ import {
   Navbar
 } from "@shira/ui";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import shallow from "zustand/shallow";
 import { useStore } from "../../store";
 import backgroundSvg from '../../assets/Background.svg';
@@ -15,6 +16,7 @@ import backgroundSvg from '../../assets/Background.svg';
 interface Props { }
 
 export const LoginLayout: FunctionComponent<Props> = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const { user, login } = useStore(
@@ -37,7 +39,7 @@ export const LoginLayout: FunctionComponent<Props> = () => {
   const description = (
     <>
       <div id="login-description-container">
-        <span id="login-description">Log in to access your custom Shira space. If you have trouble logging in, contact us at{' '}</span>
+        <span id="login-description">{t('login.subtitle')}</span>
         <Link1 id="contact-email" href="mailto:contact@wearehorizontal.org">
           contact@wearehorizontal.org
         </Link1>
@@ -47,13 +49,13 @@ export const LoginLayout: FunctionComponent<Props> = () => {
   return (
     <Container>
       <Navbar
-        translatedTexts={{ home: "", about: "", menu: "", logIn: "Log in", createSpace: "Create Space" }}
-        onNavigate={navigate}
+        translatedTexts={{ home: "", about: "", menu: "", logIn: "Sign up", createSpace: "" }}
+        onNavigate={() => navigate("/get-started")}
       />
       <ContentWrapper>
         <BackgroundPattern />
         <StyledForm
-          title="Log in"
+          title={t('login.title')}
           description={description}
           onSubmit={(e) => {
             e.preventDefault()
@@ -63,14 +65,14 @@ export const LoginLayout: FunctionComponent<Props> = () => {
           <InputsContainer>
             <TextInput
               id="email-input"
-              label="Email"
+              label={t('login.email_placeholder')}
               value={email}
               onChange={(e) => handleEmail(e.target.value)}
             />
             <TextInput
               id="password-input"
               type="password"
-              label="Password"
+              label={t('login.password_placeholder')}
               value={pass}
               onChange={(e) => handlePass(e.target.value)}
             />
@@ -79,7 +81,7 @@ export const LoginLayout: FunctionComponent<Props> = () => {
           <ButtonContainer>
             <Button
               id="login-button"
-              text="Log in"
+              text={t('login.login_button')}
               type="primary"
               disabled={!(email && pass)}
               onClick={(e) => {
@@ -95,33 +97,33 @@ export const LoginLayout: FunctionComponent<Props> = () => {
 };
 
 const Container = styled.div`
-    box-sizing: border-box;
-    width: 100%;
-    height: 100vh;
-    padding: 24px;
-    display: flex;
-    flex-direction: column;  
-    position: relative; 
+  box-sizing: border-box;
+  width: 100%;
+  height: 100vh;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  position: relative; 
 
-    @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
-        padding: 16px;
-    }
+  @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
+      padding: 16px;
+  }
 `;
 
 const ContentWrapper = styled.div`
-    flex: 1;          
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const StyledForm = styled(Form)`
   position: relative;
   z-index:1;
-`
+`;
 
 const BackgroundPattern = styled.div`
-   background-image: url(${backgroundSvg});
+  background-image: url(${backgroundSvg});
   background-repeat: no-repeat;
   background-size: cover;
   position: absolute;

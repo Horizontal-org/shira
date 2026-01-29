@@ -10,7 +10,7 @@ const meta = {
   },
   tags: ['autodocs'],
   argTypes: {
-    title: { 
+    title: {
       control: 'text',
       description: 'Title of the card'
     },
@@ -63,7 +63,11 @@ export const Default: Story = {
     onEdit: () => console.log('edit'),
     onDuplicate: () => console.log('duplicate'),
     onDelete: () => console.log('delete'),
-    onCardClick: () => console.log('clicked card')
+    onCardClick: () => console.log('clicked card'),
+    publishedText: 'Published',
+    unpublishedText: 'Unpublished',
+    isPublic: true,
+    visibilityText: 'Public'
   }
 };
 

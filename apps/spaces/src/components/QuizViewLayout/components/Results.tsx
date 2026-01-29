@@ -1,6 +1,7 @@
 import { FunctionComponent } from "react";
 import { styled } from '@shira/ui'
 import { PublicQuizResultsResponse } from "../../../fetch/results";
+import { useTranslation } from "react-i18next";
 
 interface ResultsProps {
   resultsData: PublicQuizResultsResponse | null;
@@ -9,26 +10,28 @@ interface ResultsProps {
 
 export const Results: FunctionComponent<ResultsProps> = ({ resultsData, loading }) => {
 
+  const { t } = useTranslation();
+
   const getCompletedQuizzesData = () => {
-    if (loading) return { value: '...', description: 'Loading...' };
-    if (!resultsData) return { value: '-', description: 'Failed to load results' };
+    if (loading) return { value: '...', description: t('loading_messages.loading') };
+    if (!resultsData) return { value: '-', description: t('error_messages.results_load_failed') };
     const count = resultsData.metrics.completedCount;
     return {
       value: count,
-      description: `This is the number of quizzes that have been completed${count > 0 ? ' by public learners' : ''}.`
+      description: `${t('results_tab.completed_quizzes.subtitle')} ${count > 0 ? t('results_tab.completed_quizzes.public_learners') : ''}.`
     };
   };
 
   const getAverageScoreData = () => {
-    if (loading) return { value: '...', description: 'Loading...' };
-    if (!resultsData) return { value: '-', description: 'Failed to load results' };
+    if (loading) return { value: '...', description: t('loading_messages.loading') };
+    if (!resultsData) return { value: '-', description: t('error_messages.results_load_failed') };
     const { metrics } = resultsData;
     const averageScoreDisplay = metrics.completedCount > 0 ? `${metrics.averageScore}%` : '-';
     return {
       value: averageScoreDisplay,
-      description: metrics.completedCount > 0 
-        ? 'This is the average score received by all learners who took this quiz.'
-        : 'The average score received by all learners who took this quiz will be shown here.'
+      description: metrics.completedCount > 0
+        ? t('results_tab.average_score.subtitle')
+        : t('results_tab.average_score.empty_subtitle')
     };
   };
 
@@ -39,15 +42,15 @@ export const Results: FunctionComponent<ResultsProps> = ({ resultsData, loading 
     <div>
       <MetricsContainer>
         <MetricCard>
-          <MetricTitle>Number of completed quizzes</MetricTitle>
-          <MetricValue>{completedQuizzesData.value}</MetricValue>
-          <MetricDescription>{completedQuizzesData.description}</MetricDescription>
+          <MetricTitle id="completed-quizzes-title">{t('results_tab.completed_quizzes.title')}</MetricTitle>
+          <MetricValue id="completed-quizzes-value">{completedQuizzesData.value}</MetricValue>
+          <MetricDescription id="completed-quizzes-description">{completedQuizzesData.description}</MetricDescription>
         </MetricCard>
-        
+
         <MetricCard>
-          <MetricTitle>Average score</MetricTitle>
-          <MetricValue>{averageScoreData.value}</MetricValue>
-          <MetricDescription>{averageScoreData.description}</MetricDescription>
+          <MetricTitle id="average-score-title">{t('results_tab.average_score.title')}</MetricTitle>
+          <MetricValue id="average-score-value">{averageScoreData.value}</MetricValue>
+          <MetricDescription id="average-score-description">{averageScoreData.description}</MetricDescription>
         </MetricCard>
       </MetricsContainer>
     </div>

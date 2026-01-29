@@ -2,7 +2,7 @@
     "beta": {
         "label": "BETA",
         "message": "Shira is still in development and you may experience issues.",
-        "feedback_text": "to share your feedback and help us improve!",
+        "feedback_text": "to share your feedback and read about what’s next for Shira!",
         "click_here": "Click here"
     },
     "welcome": {
@@ -39,10 +39,12 @@
             "items": {
                 "human-rights": "Human rights",
                 "journalism-and-media": "Journalism and media",
+                "human-resources": "Human resources",
                 "education": "Academia",
                 "marketing": "Marketing",
                 "healthcare": "Healthcare",
-                "general": "General"
+                "general": "General",
+                "activist": "Activist"
             }
         }
     },
@@ -212,6 +214,14 @@
             "section2": "If that sounds interesting to you or if you have questions, contact us at contact@wearehorizontal.org."
         }
     },
+    "learner_invitation": {
+        "learn_more": "Learn more about Shira",
+        "success_title": "Success!",
+        "error_title": "Something went wrong",
+        "success_joined_space": "You have joined {{spaceName}} on Shira.",
+        "success_hint": "When your organization shares a quiz with you, you will receive an email invitation directly in your inbox.",
+        "error_message": "Try again or contact the person who invited you."
+    },
     "navbar": {
         "home": "Home",
         "about": "About",
@@ -221,5 +231,8 @@
         "take_a_quiz": "Take a quiz",
         "learn": "Learn",
         "get_started": "Get started"
+    },
+    "loading_messages": {
+        "loading": "Loading..."
     }
 }

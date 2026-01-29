@@ -7,20 +7,21 @@ import { Roles } from "src/modules/auth/decorators/roles.decorators";
 import { Role } from "src/modules/user/domain/role.enum";
 import { TYPES } from "../interfaces";
 import { IGetOrganizationService } from "../interfaces/services/get.organization.service.interface";
+import { IListOrganizationService } from "../interfaces/services/list.organization.service.interface";
 
 @AuthController('organization')
 export class ListOrganizationController {
     constructor(
-        @InjectRepository(OrganizationEntity)
-        private readonly organizationRepository: Repository<OrganizationEntity>,
         @Inject(TYPES.services.IGetOrganizationService)
         private readonly organizationService: IGetOrganizationService,
+        @Inject(TYPES.services.IListOrganizationService)
+        private readonly listOrganizationService: IListOrganizationService,
     ) { }
 
     @Get('')
     @Roles(Role.SuperAdmin)
     async handler() {
-        return this.organizationRepository.find()
+        return this.listOrganizationService.execute()
     }
 
     @Get('/:id')

@@ -2,8 +2,10 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Button } from '../Button';
 import { SubHeading2 } from '../Typography';
+import { useEscapeClose, useEnterSubmit } from '../../hooks';
 
 export interface ModalProps {
+  id?: string;
   isOpen: boolean;
   title: string;
   titleIcon?: React.ReactNode;
@@ -17,6 +19,8 @@ export interface ModalProps {
   onLeftClick?: () => void
   leftButtonText?: string
   className?: string;
+  size?: 'small' | 'medium';
+  onClose?: () => void;
 }
 
 export enum ModalType {
@@ -29,8 +33,8 @@ const modalTypeColors = {
   'primary': '#849D29'
 }
 
-
 export const Modal: React.FC<ModalProps> = ({
+  id,
   isOpen,
   title,
   titleIcon = (<></>),
@@ -43,7 +47,9 @@ export const Modal: React.FC<ModalProps> = ({
   onLeftClick,
   leftButtonText,
   className,
-  type = 'primary'
+  type = 'primary',
+  size = 'small',
+  onClose
 }) => {
 
   useEffect(() => {
@@ -58,14 +64,24 @@ export const Modal: React.FC<ModalProps> = ({
     };
   }, [isOpen]);
 
+  useEscapeClose({
+    when: isOpen,
+    onClose: onClose ?? onSecondaryClick ?? (() => { }),
+  });
+
+  useEnterSubmit({
+    when: isOpen,
+    onEnter: onPrimaryClick,
+  });
+
   if (!isOpen) return null;
 
   return (
     <>
-      <Overlay>
-        <ModalContainer className={className}>
+      <Overlay id={id}>
+        <ModalContainer className={className} size={size}>
           <Header>
-            { titleIcon }
+            {titleIcon}
             <SubHeading2>{title}</SubHeading2>
           </Header>
 
@@ -75,8 +91,8 @@ export const Modal: React.FC<ModalProps> = ({
 
           <Footer>
             <div>
-              { onLeftClick && (
-                <Button  
+              {onLeftClick && (
+                <Button
                   text={leftButtonText}
                   type='primary'
                   color={modalTypeColors[ModalType.Danger]}
@@ -85,7 +101,7 @@ export const Modal: React.FC<ModalProps> = ({
               )}
             </div>
             <div>
-              { onSecondaryClick && (
+              {onSecondaryClick && (
                 <Button
                   text={secondaryButtonText}
                   type="outline"
@@ -107,7 +123,6 @@ export const Modal: React.FC<ModalProps> = ({
   );
 };
 
-
 const Overlay = styled.div`
   position: fixed;
   top: 0;
@@ -121,11 +136,12 @@ const Overlay = styled.div`
   z-index: 1000;
 `;
 
-const ModalContainer = styled.div`
+const ModalContainer = styled.div<{ size: 'small' | 'medium' }>`
   background: ${props => props.theme.colors.light.white};
   border-radius: 16px;
 
-  width: 480px;
+  width: ${({ size }) => ({ small: '480px', medium: '1119px' }[size])};
+
   display: flex;
   flex-direction: column;
 

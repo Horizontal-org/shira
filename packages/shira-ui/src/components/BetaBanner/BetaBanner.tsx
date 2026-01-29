@@ -16,7 +16,7 @@ export const BetaBanner:FunctionComponent<BetaBannerProps> = ({
   label = 'BETA',
   message = 'Shira is still in development and you may experience issues.',
   clickHereText = 'Click here',
-  feedbackText = 'to share your feedback and help us improve!'
+  feedbackText = 'to share your feedback and read about what’s next for Shira!'
 }) => {
   const [showBanner, handleShowBanner] = useState(false)
 

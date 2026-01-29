@@ -20,8 +20,11 @@ export class GetByHashQuizService implements IGetByHashQuizService {
   ) { }
 
   async execute(
-    hash
+    hash,
+    visibility = 'public'
   ) {
+    console.log("🚀 ~ GetByHashQuizService ~ execute ~ visibility:", visibility)
+    console.log("🚀 ~ GetByHashQuizService ~ execute ~ hash:", hash)
     const { id: languageId } = await this.languageRepository.findOne({
       where: { code: 'en' },
     });
@@ -45,6 +48,7 @@ export class GetByHashQuizService implements IGetByHashQuizService {
         'question.id',
         'question.name',
         'quiz.title',
+        'quiz.visibility',
         'quizzes_questions.questionId',
         'quizzes_questions.position',
         'question.isPhising',
@@ -60,6 +64,7 @@ export class GetByHashQuizService implements IGetByHashQuizService {
       ])
       .where('quiz.hash = :hash', { hash: hash })
       .andWhere('published = 1')
+      .andWhere('quiz.visibility = :visibility', { visibility: visibility })
       .andWhere('questionTranslations.languageId = :languageId', {
         languageId,
       })

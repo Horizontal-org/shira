@@ -4,7 +4,7 @@ import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class EmailService {
-  constructor(private readonly mailerService: MailerService) {}
+  constructor(private readonly mailerService: MailerService) { }
 
   public async send(params) {
     console.log('SENDING EMAIL => ', params)
@@ -15,8 +15,8 @@ export class EmailService {
           from: process.env.SMTP_GLOBAL_FROM, // sender address
           subject: params.subject, // Subject line
           template: params.template,
-          context: { ...params.data }, 
-        })      
+          context: { ...params.data },
+        })
     } catch (e) {
       console.log(
         'ERROR AT EMAIL SEND => ',

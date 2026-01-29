@@ -1,15 +1,19 @@
 import { styled } from '@shira/ui'
+import { useTranslation } from 'react-i18next';
 
-export const LoadingOverlay = () => (
-  <Overlay>
-    <LoadingContent>
-      <LoadingText>Uploading image...</LoadingText>
-      <ProgressBar>
-        <ProgressFill />
-      </ProgressBar>
-    </LoadingContent>
-  </Overlay>
-)
+export const LoadingOverlay = () => {
+  const { t } = useTranslation();
+  return (
+    <Overlay>
+      <LoadingContent>
+        <LoadingText>{t('loading_messages.uploading_image')}</LoadingText>
+        <ProgressBar>
+          <ProgressFill />
+        </ProgressBar>
+      </LoadingContent>
+    </Overlay>
+  )
+}
 
 const Overlay = styled.div`
   position: absolute;

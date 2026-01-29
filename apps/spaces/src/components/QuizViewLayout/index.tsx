@@ -11,7 +11,10 @@ import {
   CopyUrlIcon,
   DeleteIcon,
   Toggle,
-  BetaBanner
+  BetaBanner,
+  Body2Regular,
+  defaultTheme,
+  Body4
 } from "@shira/ui";
 import { TabContainer } from './components/TabContainer'
 import { shallow } from "zustand/shallow";
@@ -19,33 +22,45 @@ import { useStore } from "../../store";
 import { getQuizById } from "../../fetch/quiz";
 import { Quiz, QuizSuccessStates, SUCCESS_MESSAGES } from "../../store/slices/quiz";
 import { DeleteModal } from "../modals/DeleteModal";
-import { RenameQuizModal } from "../modals/RenameQuizModal";
 import toast from "react-hot-toast";
 import { useQuestionCRUD } from "../../fetch/question";
-import { UnpublishedQuizModal } from "../modals/UnpublishedQuizModal";
-import { handleCopyUrl, handleCopyUrlAndNotify } from "../../utils/quiz";
+import { UnpublishedQuizCopyLinkModal } from "../modals/UnpublishedQuizModal";
+import { UnpublishQuizWithQuestionsModal } from "../modals/UnpublishQuizWithQuestionsModal";
+import { handleCopyUrlAndNotify } from "../../utils/quiz";
 import { getQuizResults, PublicQuizResultsResponse } from "../../fetch/results";
+import { useTranslation } from "react-i18next";
+import { MdLockOutline } from "react-icons/md";
+import { TbWorld } from "react-icons/tb";
+import { FiCopy } from "react-icons/fi";
+import { RenameQuizModal } from "../modals/RenameQuizModal";
+import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
+import { DuplicateQuizModal } from "../modals/DuplicateQuizModal";
+import { useQuizCreationFlow } from "../../hooks/useQuizCreationFlow";
 
-
-interface Props {}
+interface Props { }
 
 export const QuizViewLayout: FunctionComponent<Props> = () => {
 
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { id } = useParams()
-  
+
   const {
     updateQuiz,
     deleteQuiz,
     quizActionSuccess,
     cleanQuizActionSuccess,
-    reorderQuiz
+    reorderQuiz,
+    createQuiz,
+    fetchQuizzes
   } = useStore((state) => ({
     updateQuiz: state.updateQuiz,
     deleteQuiz: state.deleteQuiz,
     reorderQuiz: state.reorderQuiz,
     quizActionSuccess: state.quizActionSuccess,
     cleanQuizActionSuccess: state.cleanQuizActionSuccess,
+    createQuiz: state.createQuiz,
+    fetchQuizzes: state.fetchQuizzes,
   }), shallow)
 
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
@@ -57,15 +72,35 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
   const [isUnpublishedQuizModalOpen, setIsUnpublishedQuizModalOpen] = useState(false);
-  const { destroy, actionFeedback } = useQuestionCRUD()
-  
+  const [isUnpublishQuizModalOpen, setIsUnpublishQuizModalOpen] = useState(false);
+  const [showPublishTooltip, setShowPublishTooltip] = useState(false);
+
+  const { destroy } = useQuestionCRUD()
+  const {
+    title,
+    setTitle,
+    selectedQuizForDuplicate,
+    isSubmitting,
+    isDuplicateTitleModalOpen,
+    isVisibilityModalOpen,
+    startDuplicateQuizFlow,
+    handleTitleSubmit,
+    handleBackFromVisibility,
+    handleConfirmVisibility,
+    cancelFlow
+  } = useQuizCreationFlow({
+    createQuiz,
+    fetchQuizzes,
+    t
+  });
+
   // results handling
   const [resultsData, setResultsData] = useState<PublicQuizResultsResponse | null>(null);
   const [resultsLoading, setResultsLoading] = useState(false);
 
   const getQuiz = async () => {
     try {
-      const parsedId = parseInt(id)      
+      const parsedId = parseInt(id)
       const quiz = await getQuizById(parsedId)
 
       handleQuiz(quiz)
@@ -74,10 +109,8 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
       // if error navigate to dashboard
       navigate('/dashboard')
     }
-  }
+  };
 
-  
-  
   useEffect(() => {
     const fetchResults = async () => {
       setResultsLoading(true);
@@ -95,7 +128,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
       fetchResults()
     }
   }, [quiz])
-      // fetchResults();
+  // fetchResults();
 
   useEffect(() => {
     // test date zones
@@ -103,108 +136,180 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
       Date(),
       new Date()
     )
-    
+
     getQuiz()
 
     return () => {
       cleanQuizActionSuccess()
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
-    if (SUCCESS_MESSAGES[quizActionSuccess]) {
-      const message = SUCCESS_MESSAGES[quizActionSuccess]
+    if (t(SUCCESS_MESSAGES[quizActionSuccess])) {
+      const message = t(SUCCESS_MESSAGES[quizActionSuccess]);
       toast.success(message, { duration: 3000 })
-  
+
       if (quizActionSuccess === QuizSuccessStates.delete) {
         navigate('/dashboard')
       } else {
         getQuiz()
       }
-  
+
       cleanQuizActionSuccess()
     }
-  }, [quizActionSuccess])
-
+  }, [quizActionSuccess]);
 
   const handleTogglePublished = (cardId: number, published: boolean) => {
     updateQuiz({
       id: cardId,
       published: published
-    })
+    }, published ? 'update_published' : 'update_unpublished')
 
-    setIsPublished(published)    
+    setIsPublished(published)
   };
 
   const hasResults = useMemo(() => {
     return resultsData && resultsData.metrics && !!(resultsData.metrics.completedCount)
   }, [resultsData])
 
+  const hasQuestions = useMemo(() => {
+    return (quiz?.quizQuestions?.length ?? 0) > 0
+  }, [quiz])
+
+  const disablePublishToggle = !hasQuestions && !isPublished;
+
+  function getQuizVisibility() {
+    const translationKey = `quiz.visibility.${quiz.visibility}`;
+    return t(translationKey);
+  };
+
   return (
     <Container>
-      <Sidebar 
+      <Sidebar
         menuItems={menuItems}
         onCollapse={handleCollapse}
+        selectedItemLabel={menuItems.find(m => m.path === '/dashboard').label}
       />
-     
+
       <MainContent $isCollapsed={isCollapsed}>
-        <BetaBanner url="/support"/>
+        <BetaBanner url="https://shira.app/beta-user" />
         <MainContentWrapper>
 
-          { quiz ? (
+          {quiz ? (
             <>
               <Wrapper>
+                <ActionHeader>
+                  <VisibilityTag>
+                    {quiz.visibility && quiz.visibility === 'private' && (
+                      <MdLockOutline size={16} color={defaultTheme.colors.dark.darkGrey} />
+                    )}
+                    {quiz.visibility && quiz.visibility === 'public' && (
+                      <TbWorld size={16} color={defaultTheme.colors.dark.darkGrey} />
+                    )}
+                    <Body2Regular>{getQuizVisibility()}</Body2Regular>
+                  </VisibilityTag>
+
+                  <PublishToggleWrapper
+                    $showHelpCursor={disablePublishToggle}
+                    onMouseEnter={() => {
+                      if (disablePublishToggle) {
+                        setShowPublishTooltip(true)
+                      }
+                    }}
+                    onMouseLeave={() => { setShowPublishTooltip(false) }}
+                    onFocus={() => {
+                      if (disablePublishToggle) {
+                        setShowPublishTooltip(true)
+                      }
+                    }}
+                    onBlur={() => { setShowPublishTooltip(false) }}
+                    tabIndex={disablePublishToggle ? 0 : -1}
+                  >
+                    <Toggle
+                      size='big'
+                      isEnabled={isPublished}
+                      onToggle={() => {
+                        if (disablePublishToggle) { return }
+                        if (isPublished && hasQuestions) {
+                          setIsUnpublishQuizModalOpen(true);
+                          return;
+                        }
+                        handleTogglePublished(quiz.id, !isPublished)
+                      }}
+                      rightLabel={t('quiz.publish_toggle.published')}
+                      leftLabel={t('quiz.publish_toggle.unpublished')}
+                      disabled={disablePublishToggle}
+                    />
+                    {disablePublishToggle && showPublishTooltip && (
+                      <PublishToggleTooltip role="tooltip">
+                        <Body4>{t('quiz.publish_toggle.disabled_tooltip')}</Body4>
+                      </PublishToggleTooltip>
+                    )}
+                  </PublishToggleWrapper>
+
+                </ActionHeader>
                 <Header>
-                  <div>
-                    <H2>{quiz.title}</H2>
-                    <Body1>Manage your quiz here, including adding, removing, and reordering questions</Body1>
-                  </div>
-                  <Toggle
-                    size='big'
-                    isEnabled={isPublished}
-                    onToggle={() => { handleTogglePublished(quiz.id, !quiz.published) }}
-                    rightLabel="Published"
-                    leftLabel="Unpublished"
-                  />
+                  <H2 id="quiz-title">{quiz.title}</H2>
+                  <Body1 id="quiz-subtitle">{t(`quiz.${quiz.visibility}_subtitle`)}</Body1>
                 </Header>
                 <ButtonsContainer>
                   <LeftButtons>
-                    <Button 
+                    <Button
+                      id="rename-quiz-button"
                       leftIcon={<RenameIcon />}
-                      text="Rename"
+                      text={t('quiz.actions.rename')}
                       type="outline"
                       onClick={() => { setIsRenameModalOpen(true) }}
                     />
-                    <Button 
-                      leftIcon={<CopyUrlIcon />}
-                      text="Copy quiz link"
+                    <Button
+                      id="duplicate-quiz-button"
+                      leftIcon={<FiCopy size={16} />}
+                      text={t('quiz.actions.duplicate')}
                       type="outline"
-                      onClick={() => { 
-                        if (quiz.published) {
-                          handleCopyUrlAndNotify(quiz.hash)
-                        } else {
-                          handleCopyUrl(quiz.hash)
-                          setIsUnpublishedQuizModalOpen(true)
+                      onClick={() => {
+                        if (quiz) {
+                          startDuplicateQuizFlow(quiz);
                         }
                       }}
                     />
-                    <Button 
+                    {quiz.visibility !== 'private' && (
+                      <Button
+                        id="copy-link-button"
+                        leftIcon={<CopyUrlIcon />}
+                        text={t('quiz.actions.copy_link')}
+                        type="outline"
+                        onClick={() => {
+                          if (quiz.published) {
+                            handleCopyUrlAndNotify(quiz.hash, t('success_messages.quiz_link_copied'));
+                          } else {
+                            setIsUnpublishedQuizModalOpen(true)
+                          }
+                        }}
+                      />
+                    )}
+                    <Button
+                      id="delete-quiz-button"
                       leftIcon={<DeleteIcon />}
-                      text="Delete"
+                      text={t('buttons.delete')}
                       type="outline"
                       onClick={() => { setIsDeleteModalOpen(true) }}
                     />
-                  </LeftButtons>                
+                  </LeftButtons>
                 </ButtonsContainer>
               </Wrapper>
 
               <TabContainer
                 quizId={quiz.id}
+                quizTitle={quiz.title}
                 quizQuestions={quiz.quizQuestions}
+                quizVisibility={quiz.visibility}
+                quizPublished={quiz.published}
+                hasQuestions={hasQuestions}
                 resultsData={resultsData}
                 resultsLoading={resultsLoading}
                 hasResults={hasResults}
-                onEdit={(questionId) => { navigate(`/quiz/${id}/question/${questionId}`)}}
+                onEdit={(questionId) => { navigate(`/quiz/${id}/question/${questionId}`) }}
+                onPublish={() => handleTogglePublished(quiz.id, true)}
                 onDelete={(id) => { destroy(quiz.id, id) }}
                 onAdd={() => { navigate(`/quiz/${id}/question`) }}
                 onAddLibrary={() => { navigate(`/question/library`, { state: { quizId: quiz.id } }) }}
@@ -229,17 +334,20 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
               />
 
               <DeleteModal
-                title={`Are you sure you want to delete "${quiz.title}"`}
+                title={t('modals.delete_quiz.title', { quiz_name: quiz.title })}
                 content={
                   <div>
-                    Deleting this quiz is permanent and cannot be undone.
+                    {t('modals.delete_quiz.subtitle')}
                     <br /><br />
-                    <QuizWarningNote>Note:</QuizWarningNote> The quiz's Results will also be deleted.
+                    <QuizWarningNote>
+                      {t('modals.delete_quiz.note')}
+                    </QuizWarningNote>
+                    {t('modals.delete_quiz.message')}
                   </div>
                 }
                 setIsModalOpen={setIsDeleteModalOpen}
-                onDelete={() => { 
-                  deleteQuiz(quiz.id) 
+                onDelete={() => {
+                  deleteQuiz(quiz.id)
                 }}
                 onCancel={() => {
                   setIsDeleteModalOpen(false)
@@ -247,34 +355,64 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 isModalOpen={isDeleteModalOpen}
               />
 
-              <UnpublishedQuizModal
+              <UnpublishedQuizCopyLinkModal
                 setIsModalOpen={setIsUnpublishedQuizModalOpen}
                 isModalOpen={isUnpublishedQuizModalOpen}
                 onConfirm={() => {
-                  handleTogglePublished(quiz.id, true)
+                  handleCopyUrlAndNotify(quiz.hash, t('success_messages.quiz_link_copied'));
+                  handleTogglePublished(quiz.id, true);
+                  handleCopyUrlAndNotify(quiz.hash, t('success_messages.quiz_link_copied'));
+                }}
+                onCancel={() => {
+                  handleCopyUrlAndNotify(quiz.hash, t('success_messages.quiz_link_copied'));
                 }}
               />
-        
+
+              <UnpublishQuizWithQuestionsModal
+                isModalOpen={isUnpublishQuizModalOpen}
+                setIsModalOpen={setIsUnpublishQuizModalOpen}
+                onConfirm={() => {
+                  handleTogglePublished(quiz.id, false);
+                }}
+              />
+
               <RenameQuizModal
                 quiz={quiz}
                 setIsModalOpen={setIsRenameModalOpen}
-                onRename={(title) => { 
+                onRename={(title) => {
                   updateQuiz({
                     id: quiz.id,
                     title
-                  }) 
+                  })
                 }}
                 onCancel={() => {
                   setIsRenameModalOpen(false)
                 }}
                 isModalOpen={isRenameModalOpen}
               />
+
+              <DuplicateQuizModal
+                quiz={selectedQuizForDuplicate}
+                isModalOpen={isDuplicateTitleModalOpen}
+                title={title}
+                setTitle={setTitle}
+                onDuplicate={(newTitle) => { handleTitleSubmit(newTitle); }}
+                onCancel={() => { cancelFlow(); }}
+                isLoading={isSubmitting}
+              />
+
+              <QuizVisibilityModal
+                isModalOpen={isVisibilityModalOpen}
+                onBack={() => { handleBackFromVisibility(); }}
+                onConfirm={handleConfirmVisibility}
+                isSubmitting={isSubmitting}
+              />
             </>
           ) : (
             <Header>
-              <H2>Loading...</H2>
+              <H2>{t('loading_messages.loading')}</H2>
             </Header>
-          )}         
+          )}
         </MainContentWrapper>
       </MainContent>
     </Container>
@@ -308,23 +446,19 @@ const MainContent = styled.div<{ $isCollapsed: boolean }>`
 
 const MainContentWrapper = styled.div`
   padding: 24px 40px;
-`
+`;
 
 const Header = styled.div`
   padding: 16px;
-  display: flex;
+  gap: 12px;
+  display: grid;
   justify-content: space-between;
-`
-
-const TabsContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
 `;
 
-const Separator = styled.span`
-  color: ${props => props.theme.colors.dark.black};
-  font-weight: 500;
+const ActionHeader = styled.div`
+  padding: 0px 16px;
+  display: flex;
+  justify-content: space-between;
 `;
 
 const Wrapper = styled.div`
@@ -332,26 +466,59 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-`
+`;
 
 const ButtonsContainer = styled.div`
   display: flex;
   gap: 8px;
   justify-content: space-between;
-`
+`;
 
 const LeftButtons = styled.div`
   display: flex;
   gap: 8px;
-`
-const Footer = styled.div`
-  display: flex;
-  gap: 16px;
-  justify-content: flex-end;
-  margin: 16px;
-`
+`;
 
 const QuizWarningNote = styled.span`
   color: #d73527;
   font-weight: 500;
+`;
+
+const PublishToggleWrapper = styled.div<{ $showHelpCursor: boolean }>`
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+
+  ${props => props.$showHelpCursor && `
+    cursor: help;
+
+    button:disabled {
+      cursor: help !important;
+    }
+  `}
+`;
+
+const PublishToggleTooltip = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 6px;
+  padding: 4px 8px;
+  background-color: ${(props) => props.theme.colors.dark.black};
+  color: ${(props) => props.theme.colors.light.white};
+  border-radius: 10px;
+  width: max-content;
+  max-width: 520px;
+  white-space: nowrap;
+  z-index: 1000;
+`;
+
+const VisibilityTag = styled.span`
+  display: flex;
+  align-items: center;
+  border: 1px solid ${props => props.theme.colors.dark.darkGrey};
+  border-radius: 12px;
+  padding: 8px 12px;
+  gap: 8px;
 `;

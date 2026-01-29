@@ -2,26 +2,35 @@ import { Controller, Post, Param, Body, Inject } from '@nestjs/common';
 import { TYPES } from '../interfaces';
 import { IDuplicateQuizService } from '../interfaces/services/duplicate-quiz.service.interface';
 import { DuplicateQuizDto } from '../dto/duplicate-quiz.dto';
+import { QuizVisibility } from '../dto/quiz-visibility-enum.quiz';
+import { AuthController } from 'src/utils/decorators/auth-controller.decorator';
+import { Role } from 'src/modules/user/domain/role.enum';
+import { Roles } from 'src/modules/auth/decorators/roles.decorators';
+import { SpaceId } from 'src/modules/auth/decorators/space-id.decorator';
 
-@Controller()
+@AuthController('quiz')
 export class DuplicateQuizController {
   constructor(
     @Inject(TYPES.services.IDuplicateQuizService)
     private duplicateQuizService: IDuplicateQuizService,
-  ) {}
+  ) { }
 
-  @Post('quiz/:quizId/duplicate')
+  @Post(':quizId/duplicate')
+  @Roles(Role.SpaceAdmin)
   async duplicateQuiz(
     @Param('quizId') quizId: string,
     @Body('title') title: string,
+    @Body('visibility') visibility: QuizVisibility,
+    @SpaceId() spaceId: number
   ) {
     const duplicateQuizDto: DuplicateQuizDto = {
       quizId: parseInt(quizId),
       title: title,
+      visibility,
     };
 
-    const newQuiz = await this.duplicateQuizService.execute(duplicateQuizDto);
-    
+    const newQuiz = await this.duplicateQuizService.execute(duplicateQuizDto, spaceId);
+
     return {
       message: 'Quiz duplicated successfully',
       quiz: newQuiz,

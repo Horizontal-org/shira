@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
 import { Body1, Modal, styled, VariableIcon } from "@shira/ui";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   isModalOpen: boolean;
@@ -10,6 +11,9 @@ export const VariablesHelpModal: FunctionComponent<Props> = ({
   isModalOpen,
   setIsModalOpen,
 }) => {
+
+  const { t } = useTranslation();
+
   return (
     <Modal
       isOpen={isModalOpen}
@@ -19,33 +23,31 @@ export const VariablesHelpModal: FunctionComponent<Props> = ({
         </SvgWrapper>
       }
       title="Variables"
-      primaryButtonText="OK"
+      primaryButtonText={t('buttons.ok')}
       primaryButtonDisabled={false}
-      secondaryButtonText="Cancel"
+      secondaryButtonText={t('buttons.cancel')}
       onPrimaryClick={() => {
         setIsModalOpen(false);
       }}
     >
       <div>
         <Body1>
-          Variables are placeholders that you can use to insert personalized
-          information into a question.
+          {t('modals.variables_modal.message')}
         </Body1>
         <MiddleBody1>
-          The information shown is relevant to each learner, based on what they
-          entered or auto-generated during quiz setup.
+          {t('modals.variables_modal.message2')}
         </MiddleBody1>
         <MiddleBody1>
-          To add a variable, type the following:
+          {t('modals.variables_modal.message3')}
         </MiddleBody1>
         <VariableList role="list">
           <VariableItem role="listitem">
-            <VariableTag>{`{{name}}`}</VariableTag>
-            <Body1>This will display the learner's name</Body1>
+            <VariableTag>{`{{${t('modals.variables_modal.name')}}}`}</VariableTag>
+            <Body1>{t('modals.variables_modal.name_explanation')}</Body1>
           </VariableItem>
           <VariableItem role="listitem">
-            <VariableTag>{`{{email}}`}</VariableTag>
-            <Body1>This will display the learner's email address</Body1>
+            <VariableTag>{`{{${t('modals.variables_modal.email')}}}`}</VariableTag>
+            <Body1>{t('modals.variables_modal.email_explanation')}</Body1>
           </VariableItem>
         </VariableList>
       </div>

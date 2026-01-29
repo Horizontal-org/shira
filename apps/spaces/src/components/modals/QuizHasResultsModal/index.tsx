@@ -1,6 +1,7 @@
-import { FunctionComponent, useState } from "react";
-import { Body1, Modal, ModalType, TextInput } from "@shira/ui";
+import { FunctionComponent } from "react";
+import { Body1, Modal, ModalType } from "@shira/ui";
 import styled from "styled-components";
+import { useTranslation } from "react-i18next";
 
 
 interface Props {
@@ -22,24 +23,27 @@ export const QuizHasResultsModal: FunctionComponent<Props> = ({
   content = ''
 }) => {
 
+  const { t } = useTranslation();
+
   return (
-      <Modal
-        isOpen={isModalOpen}
-        title={title}
-        primaryButtonText="Continue"
-        secondaryButtonText="Cancel"
-        type={ModalType.Danger}
-        onPrimaryClick={() => {
-          setIsModalOpen(false);
-          onContinue()
-        }}
-        onSecondaryClick={onCancel}
+    <Modal
+      id="quiz-has-results-modal"
+      isOpen={isModalOpen}
+      title={title}
+      primaryButtonText={t('buttons.continue')}
+      secondaryButtonText={t('buttons.cancel')}
+      type={ModalType.Danger}
+      onPrimaryClick={() => {
+        setIsModalOpen(false);
+        onContinue()
+      }}
+      onSecondaryClick={onCancel}
     >
-        <FormContent>
-          <Body1>
-            { content }
-          </Body1>
-        </FormContent>
+      <FormContent>
+        <Body1>
+          {content}
+        </Body1>
+      </FormContent>
     </Modal>
   )
 }

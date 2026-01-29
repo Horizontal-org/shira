@@ -4,14 +4,13 @@ import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 
 import { IoMdAdd } from "react-icons/io";
 import { DraggableMessagingItem } from "../DraggableMessagingItem";
-import { MessagingDragItem } from "../interfaces/MessagingDragItem";
 import styled from "styled-components";
 import { FiShare } from "react-icons/fi";
 import { useImageUpload } from "../../../../../hooks/useImageUpload";
-import toast from "react-hot-toast";
 import { useStore } from "../../../../../store";
 import { shallow } from "zustand/shallow";
-import { ImageObject, QuestionDragEditor, QuestionDragImage } from "../../../../../store/types/active_question";
+import { QuestionDragEditor, QuestionDragImage } from "../../../../../store/types/active_question";
+import { useTranslation } from "react-i18next";
 
 
 interface Props {
@@ -32,12 +31,14 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
   onChange,
 }) => {
 
+  const { t } = useTranslation();
+
   const {
     deleteExplanation,
   } = useStore((state) => ({
     deleteExplanation: state.deleteExplanation,
   }), shallow)
-    
+
 
   const [imageFloatingMenu, handleImageFloatingMenu] = useState<boolean>(false)
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -46,7 +47,7 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
     const result: Array<QuestionDragEditor | QuestionDragImage> = Array.from(newItems);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
-  
+
     return result.map((r, i) => {
       return {
         ...r,
@@ -55,7 +56,7 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
       }
     })
   }
-  
+
   const remove = (deleteItem) => {
     const newItems = items
       .filter(i => i.htmlId !== deleteItem.htmlId)
@@ -65,7 +66,7 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
           htmlId: `component-${castType[r.contentType]}-${i + 1}`,
           position: i + 1
         }
-    })
+      })
     onChange(newItems)
   }
 
@@ -76,21 +77,21 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
     }
 
     const newItems = reorder(
-      items, 
+      items,
       result.source.index,
       result.destination.index
     )
 
     onChange(newItems)
   }
-        
+
   const images = useImageUpload({
     maxSizeInMB: 5,
     allowedTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
   })
 
-  const handleNewImage = async(e) => {
-    if (e.target.files && e.target.files.length > 0 ) {
+  const handleNewImage = async (e) => {
+    if (e.target.files && e.target.files.length > 0) {
       const newName = `component-image-${items.length + 1}`
       const newPosition = items.length + 1
       const newItems = [...items]
@@ -106,28 +107,28 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
       onChange(newItems)
 
       try {
-        const res = await images.onImageSelect(e)    
-        newItems[index] = { ...newItems[index], value: res} as QuestionDragImage
+        const res = await images.onImageSelect(e)
+        newItems[index] = { ...newItems[index], value: res } as QuestionDragImage
         onChange(newItems)
       } catch (e) {
-        onChange(items.filter((item, itemIndex) =>  itemIndex !== index))
-      }      
+        onChange(items.filter((item, itemIndex) => itemIndex !== index))
+      }
     }
-    
+
   }
 
   const cleanTextExplanations = (item: QuestionDragEditor) => {
     const htmlItemValue = new DOMParser().parseFromString(item.value as string, 'text/html')
-    const textExplanations = htmlItemValue.querySelectorAll('[data-explanation]') 
-    Array.from(textExplanations).forEach(e => {      
+    const textExplanations = htmlItemValue.querySelectorAll('[data-explanation]')
+    Array.from(textExplanations).forEach(e => {
       deleteExplanation(parseInt(e.getAttribute('data-explanation')))
     })
   }
 
   return (
-    <div>
+    <div id="draggable-messaging-list">
       <ButtonsWrapper>
-        <Button 
+        <Button
           onClick={() => {
             const newItems = [...items]
             newItems.push({
@@ -139,27 +140,27 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
             })
             onChange(newItems)
           }}
-          text="Add message text"
-          type="outline"    
-          leftIcon={<IoMdAdd color="#5F6368" size={14}/>}
+          text={t('create_question.tabs.content.add_message_text')}
+          type="outline"
+          leftIcon={<IoMdAdd color="#5F6368" size={14} />}
         />
 
         <ImageButtonWrapper>
-          <Button 
+          <Button
             onClick={() => {
-              handleImageFloatingMenu(true)              
+              handleImageFloatingMenu(true)
             }}
-            text="Add image"
-            type="outline"    
-            leftIcon={<IoMdAdd color="#5F6368" size={14}/>}        
+            text={t('create_question.tabs.content.add_image_attachment')}
+            type="outline"
+            leftIcon={<IoMdAdd color="#5F6368" size={14} />}
             ref={buttonRef}
           />
-          <BaseFloatingMenu          
+          <BaseFloatingMenu
             isOpen={imageFloatingMenu}
             onClose={() => handleImageFloatingMenu(false)}
             elements={[
               {
-                text: 'Upload from computer',
+                text: t('create_question.tabs.content.upload_image'),
                 onClick: () => {
                   handleImageFloatingMenu(false)
                   images.handleImageUpload()
@@ -184,12 +185,12 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
             <div
               {...provided.droppableProps}
               ref={provided.innerRef}
-            >          
-              { items.map(((item, index) => (
+            >
+              {items.map(((item, index) => (
                 <DraggableMessagingItem
                   item={item}
                   key={item.draggableId}
-                  index={index}  
+                  index={index}
                   onDelete={() => {
                     if (item.contentType === 'image' && item.explanation) {
                       deleteExplanation((parseInt(item.explanation)))
@@ -203,8 +204,8 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
                     remove(item)
                   }}
                 />
-              ))) }
-              { provided.placeholder }
+              )))}
+              {provided.placeholder}
             </div>
           )}
         </Droppable>
