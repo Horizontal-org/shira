@@ -10,7 +10,10 @@ import { ResetPasswordTokenInvalidException } from '../exceptions/reset-password
 import { ResetPasswordTokenUsedException } from '../exceptions/reset-password-token-used.auth.exception';
 import { ResetPasswordUserNotFoundException } from '../exceptions/reset-password-user-not-found.auth.exception';
 import { ResetPasswordWeakException } from '../exceptions/reset-password-weak.auth.exception';
+import { ApiLogger } from 'src/modules/learner/logger/api-logger.service';
 import { IConfirmPasswordResetAuthService } from '../interfaces/services/confirm-reset-password.auth.service.interface';
+
+const MINIMUM_PASSWORD_LENGTH = 8;
 
 @Injectable()
 export class ConfirmResetPasswordAuthService implements IConfirmPasswordResetAuthService {
@@ -21,8 +24,13 @@ export class ConfirmResetPasswordAuthService implements IConfirmPasswordResetAut
     private readonly userRepo: Repository<UserEntity>,
   ) { }
 
+  private readonly logger = new ApiLogger(ConfirmResetPasswordAuthService.name);
+
   async execute(confirmResetPasswordData: ConfirmResetPasswordAuthDto): Promise<void> {
-    if (!confirmResetPasswordData.password || confirmResetPasswordData.password.length < 8) {
+    this.logger.log(`Processing password reset confirmation for token: ${confirmResetPasswordData.token}`);
+
+    if (!confirmResetPasswordData.password
+      || confirmResetPasswordData.password.length < MINIMUM_PASSWORD_LENGTH) {
       throw new ResetPasswordWeakException();
     }
 
@@ -55,5 +63,7 @@ export class ConfirmResetPasswordAuthService implements IConfirmPasswordResetAut
 
     reset.usedAt = new Date();
     await this.passwordResetRepo.save(reset);
+
+    this.logger.log(`Password successfully reset for user with email: ${user.email}`);
   }
 }

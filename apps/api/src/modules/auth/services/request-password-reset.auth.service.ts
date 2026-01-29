@@ -11,7 +11,7 @@ import { UserEntity } from 'src/modules/user/domain/user.entity';
 import { ApiLogger } from 'src/modules/learner/logger/api-logger.service';
 import { IRequestPasswordResetAuthService } from '../interfaces/services/request-password-reset.auth.service.interface';
 
-const resetLinkExpiresInMinutes = 10;
+const RESET_PASSWORD_LINK_EXPIRES_MINUTES = 10;
 
 @Injectable()
 export class RequestPasswordResetAuthService implements IRequestPasswordResetAuthService {
@@ -44,7 +44,7 @@ export class RequestPasswordResetAuthService implements IRequestPasswordResetAut
     const reset = new PasswordResetEntity();
     reset.email = email;
     reset.resetHash = crypto.randomBytes(20).toString('hex');
-    reset.expiresAt = addMinutes(new Date(), resetLinkExpiresInMinutes);
+    reset.expiresAt = addMinutes(new Date(), RESET_PASSWORD_LINK_EXPIRES_MINUTES);
 
     await this.passwordResetRepo.save(reset);
 
@@ -58,7 +58,7 @@ export class RequestPasswordResetAuthService implements IRequestPasswordResetAut
       data: {
         email: reset.email,
         resetLink,
-        resetLinkExpiresInMinutes,
+        resetLinkExpiresInMinutes: RESET_PASSWORD_LINK_EXPIRES_MINUTES,
       },
     });
   }
