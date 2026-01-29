@@ -95,7 +95,17 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   }, [quizzes])
 
   useEffect(() => {
-    let isMounted = true;
+    let ignore = false;
+
+    const updateQuizHasQuestions = (cardId: number, hasQuestions: boolean) => {
+      if (ignore) {
+        return;
+      }
+
+      setQuizHasQuestions((prev) => (
+        prev[cardId] === hasQuestions ? prev : { ...prev, [cardId]: hasQuestions }
+      ));
+    };
 
     const fetchQuizQuestions = async () => {
       const unpublishedCards = cards.filter((card) => !card.published);
@@ -109,18 +119,9 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           try {
             const quiz = await getQuizById(card.id);
             const hasQuestions = (quiz?.quizQuestions?.length ?? 0) > 0;
-
-            if (isMounted) {
-              setQuizHasQuestions((prev) => (
-                prev[card.id] === hasQuestions ? prev : { ...prev, [card.id]: hasQuestions }
-              ));
-            }
+            updateQuizHasQuestions(card.id, hasQuestions);
           } catch (error) {
-            if (isMounted) {
-              setQuizHasQuestions((prev) => (
-                prev[card.id] !== undefined ? prev : { ...prev, [card.id]: true }
-              ));
-            }
+            updateQuizHasQuestions(card.id, true);
           }
         })
       );
@@ -131,9 +132,9 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     }
 
     return () => {
-      isMounted = false;
+      ignore = true;
     };
-  }, [cards, quizHasQuestions])
+  }, [cards, quizHasQuestions]);
 
   useEffect(() => {
     if (t(SUCCESS_MESSAGES[quizActionSuccess])) {
@@ -146,7 +147,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
       cleanQuizActionSuccess()
     }
-  }, [quizActionSuccess])
+  }, [quizActionSuccess]);
 
   const applyPublishState = (cardId: number, published: boolean) => {
     updateQuiz({
