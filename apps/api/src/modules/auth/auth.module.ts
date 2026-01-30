@@ -13,6 +13,7 @@ import { SpaceModule } from '../space/space.module';
 import { OrganizationModule } from '../organization/organization.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RegistrationEntity } from './domain/registration.entity';
+import { PasswordResetEntity } from './domain/password-reset.entity';
 import { SpaceEntity } from '../space/domain/space.entity';
 import { PassphraseEntity } from '../passphrase/domain/passphrase.entity';
 import { UserEntity } from '../user/domain/user.entity';
@@ -41,6 +42,7 @@ import { RolesGuard } from './guards/roles.guard';
       SpaceEntity,
       PassphraseEntity,
       UserEntity,
+      PasswordResetEntity,
       SpaceUserEntity,
       OrganizationUsersEntity,
       OrganizationEntity,

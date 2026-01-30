@@ -54,7 +54,7 @@ const LoginContent = (
 export const Default = {
   args: {
     title: 'Log in',
-    description: 'Log in to access your custom Shira space. If you have trouble logging in, contact us at contact@wearehorizontal.org',
+    description: 'Log in to access your custom Shira space.',
     children: LoginContent
   }
 };

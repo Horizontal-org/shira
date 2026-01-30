@@ -40,9 +40,6 @@ export const LoginLayout: FunctionComponent<Props> = () => {
     <>
       <div id="login-description-container">
         <span id="login-description">{t('login.subtitle')}</span>
-        <Link1 id="contact-email" href="mailto:contact@wearehorizontal.org">
-          contact@wearehorizontal.org
-        </Link1>
       </div>
     </>
   );
@@ -77,6 +74,19 @@ export const LoginLayout: FunctionComponent<Props> = () => {
               onChange={(e) => handlePass(e.target.value)}
             />
           </InputsContainer>
+
+          <ForgotPasswordContainer>
+            <Link1
+              id="reset-password-link"
+              href="/reset-password"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate("/reset-password");
+              }}
+            >
+              {t('login.reset_password')}
+            </Link1>
+          </ForgotPasswordContainer>
 
           <ButtonContainer>
             <Button
@@ -143,6 +153,12 @@ const InputsContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 32px;
+`;
+
+const ForgotPasswordContainer = styled.div`
+  display: flex;
+  width: 100%;
+  margin-top: 12px;
 `;
 
 const ButtonContainer = styled.div`

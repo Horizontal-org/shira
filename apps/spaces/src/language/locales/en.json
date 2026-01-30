@@ -1,11 +1,40 @@
 {
     "login": {
         "title": "Log in",
-        "subtitle": "Log in to access your custom Shira space. If you have trouble logging in, contact us at ",
+        "subtitle": "Log in to access your custom Shira space.",
         "email_placeholder": "Email",
         "password_placeholder": "Password",
+        "reset_password": "Forgot your password?",
         "login_button": "Log in",
         "login_header_button": "Log in"
+    },
+    "reset_password": {
+        "title": "Reset password",
+        "subtitle": "Enter the email associated with your Shira account. You will receive an email with instructions to reset your password.",
+        "email_placeholder": "Email (required)",
+        "send_button": "Send reset email",
+        "success_title": "Check your email",
+        "success_description": "We have sent a password reset email to your email address.",
+        "success_info": "Didn't receive an email? Make sure the email address you entered is correct, check your spam folder, or contact us at <0>{{contact_email}}</0>",
+        "create_title": "Create new password",
+        "create_subtitle": "Your password should contain at least 8 characters.",
+        "new_password_placeholder": "New password (required)",
+        "confirm_password_placeholder": "Confirm new password (required)",
+        "reset_button": "Reset password",
+        "reset_success_title": "Password updated",
+        "reset_success_description": "You can now log in with your new password.",
+        "reset_success_button": "Log in",
+        "errors": {
+            "invalid_or_expired": "This password reset link is invalid or has expired. Please request a new one."
+        },
+        "validation": {
+            "email_required": "Email is required",
+            "invalid_email": "Enter a valid email address",
+            "password_required": "Password is required",
+            "password_min_length": "Password must be at least 8 characters",
+            "confirm_password_required": "Please confirm your password",
+            "passwords_mismatch": "Passwords do not match"
+        }
     },
     "beta": {
         "label": "BETA",
