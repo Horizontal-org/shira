@@ -1,7 +1,5 @@
 import { FunctionComponent, ReactNode } from "react";
-import { Button, TextInput } from "@shira/ui";
-import { ButtonContainer, InlineErrorMessage, StyledForm } from "../styles";
-import styled from "styled-components";
+import { Button, TextInput, Form, styled } from "@shira/ui";
 
 interface Props {
   title: string;
@@ -46,27 +44,31 @@ export const ResetPasswordForm: FunctionComponent<Props> = ({
     }}
   >
     <PasswordInputsContainer>
-      <TextInput
-        id="reset-new-password-input"
-        required
-        type="password"
-        label={newPasswordLabel}
-        value={password}
-        onChange={(e) => onPasswordChange(e.target.value)}
-      />
-      {passwordError && <InlineErrorMessage>{passwordError}</InlineErrorMessage>}
-      <TextInput
-        id="reset-confirm-password-input"
-        required
-        type="password"
-        label={confirmPasswordLabel}
-        value={passwordConfirmation}
-        onChange={(e) => onPasswordConfirmationChange(e.target.value)}
-      />
-      {passwordConfirmationError && (
-        <InlineErrorMessage>{passwordConfirmationError}</InlineErrorMessage>
-      )}
-      {submitError && <InlineErrorMessage>{submitError}</InlineErrorMessage>}
+      <FieldGroup>
+        <TextInput
+          id="reset-new-password-input"
+          required
+          type="password"
+          label={newPasswordLabel}
+          value={password}
+          onChange={(e) => onPasswordChange(e.target.value)}
+        />
+        <FieldError $visible={Boolean(passwordError)}>{passwordError}</FieldError>
+      </FieldGroup>
+      <FieldGroup>
+        <TextInput
+          id="reset-confirm-password-input"
+          required
+          type="password"
+          label={confirmPasswordLabel}
+          value={passwordConfirmation}
+          onChange={(e) => onPasswordConfirmationChange(e.target.value)}
+        />
+        <FieldError $visible={Boolean(passwordConfirmationError)}>
+          {passwordConfirmationError}
+        </FieldError>
+      </FieldGroup>
+      <FormError $visible={Boolean(submitError)}>{submitError}</FormError>
     </PasswordInputsContainer>
 
     <ButtonContainer>
@@ -88,4 +90,47 @@ const PasswordInputsContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
+`;
+
+const FieldGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+`;
+
+const FieldError = styled.div<{ $visible?: boolean }>`
+  min-height: 18px;
+  color: #d32f2f;
+  font-size: 14px;
+  line-height: 18px;
+  padding-left: 4px;
+  margin-top: 8px;
+  visibility: ${props => (props.$visible ? "visible" : "hidden")};
+`;
+
+const FormError = styled(FieldError)``;
+
+const StyledForm = styled(Form)`
+  position: relative;
+  z-index: 1;
+  text-align: left;
+  margin-bottom: 32px;
+  gap: 16px;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    width: 100%;
+
+    button {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
 `;

@@ -632,10 +632,10 @@
         "confirm_password_label": "Confirm Password",
         "button_create": "Create new space",
         "validation": {
-            "email_required": "Email is required",
-            "password_required": "Password is required",
-            "password_min_length": "Password must be at least 8 characters",
-            "passwords_mismatch": "Passwords do not match"
+            "email_required": "Email is required.",
+            "password_required": "Password is required.",
+            "password_min_length": "Password must be at least 8 characters.",
+            "passwords_mismatch": "Passwords do not match."
         },
         "errors": {
             "create_space_failed": "An error occurred while creating your space. Please try again."
