@@ -24,6 +24,9 @@
         "reset_success_title": "Password updated",
         "reset_success_description": "You can now log in with your new password.",
         "reset_success_button": "Log in",
+        "expired_title": "Sorry, the link has expired.",
+        "expired_description": "The link to resetting your password has expired. Please start over by sending a new reset email.",
+        "expired_button": "Start over",
         "errors": {
             "invalid_or_expired": "This password reset link is invalid or has expired. Please request a new one."
         },
