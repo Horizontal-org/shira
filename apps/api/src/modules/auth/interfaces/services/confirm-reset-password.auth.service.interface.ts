@@ -1,5 +1,5 @@
 import { ConfirmResetPasswordAuthDto } from '../../domain/confirm-reset-password.auth.dto';
 
 export interface IConfirmPasswordResetAuthService {
-  execute(confirmResetPasswordData: ConfirmResetPasswordAuthDto): Promise<void>;
+  execute(dto: ConfirmResetPasswordAuthDto, token: string): Promise<void>;
 }

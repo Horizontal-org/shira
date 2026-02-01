@@ -32,7 +32,7 @@ import { RolesGuard } from './guards/roles.guard';
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '1d' },
     }),
-    UserModule,    
+    UserModule,
     SpaceModule,
     PassphraseModule,
     OrganizationModule,
@@ -47,7 +47,7 @@ import { RolesGuard } from './guards/roles.guard';
       OrganizationUsersEntity,
       OrganizationEntity,
       PlanEntity
-  ]),
+    ]),
   ],
   controllers: [...authControllers],
   providers: [
@@ -62,4 +62,4 @@ import { RolesGuard } from './guards/roles.guard';
     RolesGuard,
   ]
 })
-export class AuthModule {}
+export class AuthModule { }

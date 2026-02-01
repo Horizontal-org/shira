@@ -3,9 +3,9 @@ import { IsNotEmpty, IsString } from 'class-validator';
 export class ConfirmResetPasswordAuthDto {
   @IsString()
   @IsNotEmpty()
-  token: string;
+  newPassword: string;
 
   @IsString()
   @IsNotEmpty()
-  password: string;
+  confirmNewPassword: string;
 }

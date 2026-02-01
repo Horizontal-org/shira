@@ -8,6 +8,7 @@ import { SpaceRegistrationAuthService } from './services/space-registration.auth
 import { UserContextService } from './services/user-context.service';
 import { RequestPasswordResetAuthService } from './services/request-password-reset.auth.service';
 import { ConfirmResetPasswordAuthService } from './services/confirm-reset-password.auth.service';
+import { ValidateResetPasswordTokenAuthService } from './services/validate-reset-password-token.auth.service';
 
 export const generateTokenAuthServiceProvider = {
   provide: TYPES.services.IGenerateTokenAuthService,
@@ -54,6 +55,11 @@ export const confirmPasswordResetAuthServiceProvider = {
   useClass: ConfirmResetPasswordAuthService,
 };
 
+export const validatePasswordResetTokenAuthServiceProvider = {
+  provide: TYPES.services.IValidateResetPasswordTokenAuthService,
+  useClass: ValidateResetPasswordTokenAuthService,
+};
+
 const userContextServiceProvider = {
   provide: TYPES.services.IUserContextService,
   useClass: UserContextService,
@@ -72,5 +78,6 @@ export const servicesAuthProviders = [
   spaceRegistrationAuthServiceProvider,
   requestPasswordResetAuthServiceProvider,
   confirmPasswordResetAuthServiceProvider,
+  validatePasswordResetTokenAuthServiceProvider,
   userContextServiceProvider,
 ];

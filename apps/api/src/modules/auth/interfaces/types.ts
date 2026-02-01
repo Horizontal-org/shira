@@ -12,6 +12,7 @@ export const TYPES = {
     IMarkUserLoginService: 'IMarkUserLoginService',
     IRequestPasswordResetAuthService: 'IRequestPasswordResetAuthService',
     IConfirmPasswordResetAuthService: 'IConfirmPasswordResetAuthService',
+    IValidateResetPasswordTokenAuthService: 'IValidateResetPasswordTokenAuthService',
   },
   handlers: {},
 };

@@ -5,7 +5,6 @@
         "email_placeholder": "Email",
         "password_placeholder": "Password",
         "reset_password": "Forgot your password?",
-        "login_button": "Log in",
         "login_header_button": "Log in"
     },
     "reset_password": {
@@ -23,7 +22,6 @@
         "reset_button": "Reset password",
         "reset_success_title": "Password updated",
         "reset_success_description": "You can now log in with your new password.",
-        "reset_success_button": "Log in",
         "expired_title": "Sorry, the link has expired.",
         "expired_description": "The link to resetting your password has expired. Please start over by sending a new reset email.",
         "expired_button": "Start over",
@@ -335,6 +333,7 @@
         "delete": "Delete",
         "next": "Next",
         "continue": "Continue",
+        "login": "Log in",
         "send_invitation": "Send invitation",
         "send_invitations": "Send invitations",
         "try_again": "Try again",
@@ -521,6 +520,11 @@
         "email_already_taken": "The email address is already taken.",
         "invite_org_failed": "There was a problem creating your space. If this issue persists, <1>contact us</1>.",
         "email_no_match": "The email address does not match the invitation.",
+        "reset_user_not_found": "We could not find a user for this reset link.",
+        "reset_email_send_failed": "We could not send the reset email. Please try again.",
+        "reset_password_confirmation_mismatch": "Password confirmation does not match.",
+        "reset_password_weak": "Password must be at least 8 characters.",
+        "reset_invitation_used": "The invitation has already been used.",
         "learners_bulk_import": {
             "missing_name": "Missing name",
             "missing_email": "Missing email address",
@@ -567,7 +571,8 @@
         "learner_assigned": "This quiz has been assigned to {{count}} new learner.",
         "learners_assigned_plural": "This quiz has been assigned to {{count}} new learners.",
         "learner_unassigned": "This quiz has been unassigned from {{count}} learner.",
-        "learners_unassigned_plural": "This quiz has been unassigned from {{count}} learners."
+        "learners_unassigned_plural": "This quiz has been unassigned from {{count}} learners.",
+        "password_updated": "Your password was updated successfully."
     },
     "loading_messages": {
         "loading": "Loading...",

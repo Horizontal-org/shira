@@ -18,7 +18,7 @@ export interface AuthSlice {
 }
 
 const isPublicRoute = (path: string): boolean => {
-  return path === '/login' 
+  return path === '/login'
     || path.startsWith('/create-space')
     || path.startsWith('/invitation-used')
     || path.startsWith('/get-started')
@@ -31,32 +31,35 @@ export const createAuthSlice: StateCreator<
   [],
   AuthSlice
 > = (set) => ({
-  user:  null,
+  user: null,
   space: null,
   fetching: true,
-  login: async(email, pass) => {
+  login: async (email, pass) => {
     const user = await login(email, pass)
     set({
       user: user,
       space: user.spaces[0]
     })
   },
-  
-  logout: async() => {
+
+  logout: async () => {
     localStorage.removeItem("shira_access_token");
     localStorage.removeItem("shira_x_space");
+    // TODO: check this
+    // delete axios.defaults.headers.common['Authorization'];
+    // delete axios.defaults.headers.common['X-Space'];
     set({
       user: null,
       space: null
     })
   },
-  
+
   me: async () => {
     const res = await checkAuth();
     if (res) {
-      set({ 
+      set({
         user: res,
-        space: res.activeSpace.space 
+        space: res.activeSpace.space
       });
     } else if (!isPublicRoute(window.location.pathname)) {
       window.location.href = '/login';

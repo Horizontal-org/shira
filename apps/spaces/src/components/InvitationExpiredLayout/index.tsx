@@ -1,170 +1,164 @@
 import { FunctionComponent } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  H2,
-  SubHeading3,
-  Button,
-  styled,
-  Navbar
-} from "@shira/ui";
+import { H1, Body1, Button, styled, Navbar } from "@shira/ui";
 import notFoundSvg from "../../assets/404.svg";
+import { t } from "i18next";
 
-interface Props {}
+interface Props {
+  onButtonClick?: () => void;
+}
 
-export const InvitationExpiredLayout: FunctionComponent<Props> = () => {
+export const InvitationExpiredLayout: FunctionComponent<Props> = ({
+  onButtonClick,
+}) => {
   const navigate = useNavigate();
+  const handleButtonClick = onButtonClick ?? (() => navigate("/login"));
 
   return (
     <Container>
       <Navbar
-        translatedTexts={{home: "", about: "", menu: "", logIn: "Log in", createSpace: "Create Space"}}
+        translatedTexts={{ home: "", about: "", menu: "", logIn: t('buttons.login'), createSpace: "Create Space" }}
         onNavigate={navigate}
       />
-      <ContentWrapper>
+
+      <Body>
         <Content>
-          <LeftSection>
-            <Header>
-              <H2>The invitation has already been used.</H2>
-              <SubHeading3>
-                Log in to access your space or contact us if you are having trouble accessing your space: contact@wearehorizontal.org
-              </SubHeading3>
-            </Header>
-
-            <ButtonContainer>
+          <TextSection>
+            <StyledH1>{t('error_messages.reset_invitation_used')}</StyledH1>
+            <Body1>
+              <strong>
+                {/* TODO */}
+              </strong>
+            </Body1>
+            <ButtonWrapper>
               <Button
-                text="Log in"
+                text={t('buttons.login')}
                 type="outline"
-                onClick={() => navigate('/login')}
+                onClick={handleButtonClick}
               />
-            </ButtonContainer>
-          </LeftSection>
+            </ButtonWrapper>
+          </TextSection>
 
-          <RightSection>
-            <SvgContainer>
-              <img src={notFoundSvg} alt="Invitation already used" />
-            </SvgContainer>
-          </RightSection>
+          <SvgWrapper>
+            <img src={notFoundSvg} />
+          </SvgWrapper>
         </Content>
-      </ContentWrapper>
+      </Body>
+
+      <Backshot />
     </Container>
   );
 };
 
 const Container = styled.div`
-    box-sizing: border-box;
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    background: white;
-    position: relative;
-    height: auto;
-    padding-bottom: 16px;
-    @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
-        padding-bottom: 0;
-    }
-`;
-
-const ContentWrapper = styled.div`
-    padding: 24px;
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow-y: auto;
-    position: relative;
-    background: white;
-
-    &::after {
-        content: '';
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 50vh;
-        background: linear-gradient(to bottom, #D4F2FF 0%, #69C2E8 100%);
-        z-index: 0;
-    }
-
-    @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
-        padding: 16px;
-        align-items: flex-start;
-        padding-top: 48px;
-        flex-direction: column;
-    }
-`;
-
-const Content = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 60px;
-    max-width: 1200px;
-    width: 100%;
-    position: relative;
-    z-index: 1;
-    padding: 60px 0;
-
-    @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
-        flex-direction: column;
-        gap: 32px;
-        text-align: center;
-        padding: 40px 0;
-    }
-`;
-
-const Header = styled.div`
+  box-sizing: border-box;
+  width: 100%;
+  height: 100vh;
+  max-height: 100vh;
   display: flex;
   flex-direction: column;
-  gap: 24px;
-`;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: white;
 
-const LeftSection = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  text-align: left;
-
-  @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
-    text-align: center;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: white;
+    z-index: 0;
   }
 `;
 
-const RightSection = styled.div`
+const Body = styled.div`
+  z-index: 2;
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 24px;
 
   @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
-    margin-top: 32px;
+    padding: 16px;
+    align-items: flex-start;
+    padding-top: 40px;
   }
 `;
 
-const SvgContainer = styled.div`
-  max-width: 400px;
-  width: 100%;
+const Content = styled.div`
+  z-index: 2;
+  width: 1120px;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 48px;
+
+  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    padding: 20px 0;
+  }
+`;
+
+const TextSection = styled.div`
+  flex: 1;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+
+  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
+    min-width: 0;
+    text-align: center;
+  }
+`;
+
+const StyledH1 = styled(H1)`
+  padding-top: 45px;
+  padding-bottom: 18px;
+
+  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
+    padding-top: 0;
+  }
+`;
+
+const ButtonWrapper = styled.div`
+  padding-top: 18px;
+`;
+
+const SvgWrapper = styled.div`
+  flex: 1;
+  min-width: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   img {
-    width: 100%;
+    width: 500px;
+    max-width: 100%;
     height: auto;
+  }
+
+  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
+    min-width: 0;
+    width: 100%;
   }
 `;
 
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: flex-start;
+const Backshot = styled.div`
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  left: 0;
   width: 100%;
+  height: 480px;
+  background: linear-gradient(180deg, #d5f2ff 0%, #69c2e8 100%);
+  pointer-events: none;
 
-  @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
-    justify-content: center;
-    width: 100%;
-
-    button {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
+    height: 56%;
   }
 `;

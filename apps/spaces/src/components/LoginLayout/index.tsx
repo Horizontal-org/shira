@@ -91,7 +91,7 @@ export const LoginLayout: FunctionComponent<Props> = () => {
           <ButtonContainer>
             <Button
               id="login-button"
-              text={t('login.login_button')}
+              text={t('buttons.login')}
               type="primary"
               disabled={!(email && pass)}
               onClick={(e) => {
