@@ -27,17 +27,9 @@ export class ResetPasswordAuthController {
     try {
       return await this.requestPasswordResetService.execute(dto);
     } catch (e) {
-      this.logger.error("Failed to enqueue password reset email", e);
+      this.logger.error(`Failed to enqueue password reset for email: ${dto.email}`, e);
       throw new ResetPasswordEmailSendFailedException();
     }
-  }
-
-  @Post('confirm/:token')
-  async confirmReset(
-    @Param('token') token: string,
-    @Body() dto: ConfirmResetPasswordAuthDto,
-  ) {
-    await this.confirmPasswordResetService.execute(dto, token);
   }
 
   @Get('validate/:token')
@@ -48,5 +40,13 @@ export class ResetPasswordAuthController {
       this.logger.error(`Failed to validate reset password token: ${token}`, e);
       throw new ResetPasswordTokenInvalidException();
     }
+  }
+
+  @Post('confirm/:token')
+  async confirmReset(
+    @Param('token') token: string,
+    @Body() dto: ConfirmResetPasswordAuthDto,
+  ) {
+    await this.confirmPasswordResetService.execute(dto, token);
   }
 }

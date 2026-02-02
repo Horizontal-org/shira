@@ -130,7 +130,7 @@ export const ResetPasswordLayout: FunctionComponent = () => {
 
       toast.success(t("success_messages.password_updated"), { duration: 3000 });
       logout();
-      navigate("/login");
+      navigate("/login", { replace: true });
     } catch (error) {
       const { message } = handleHttpError(error);
       setSubmitError(t(getErrorContent("error_messages", "something_went_wrong", message)));

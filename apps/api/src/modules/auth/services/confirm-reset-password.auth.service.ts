@@ -18,9 +18,7 @@ const MINIMUM_PASSWORD_LENGTH = 8;
 export class ConfirmResetPasswordAuthService implements IConfirmPasswordResetAuthService {
   constructor(
     @InjectRepository(PasswordResetEntity)
-    private readonly passwordResetRepo: Repository<PasswordResetEntity>,
-    @Inject(TYPES.services.IValidateResetPasswordTokenAuthService)
-    private readonly validateResetPasswordTokenService: IValidateResetPasswordTokenAuthService,
+    private readonly passwordResetRepo: Repository<PasswordResetEntity>
   ) { }
 
   private readonly logger = new ApiLogger(ConfirmResetPasswordAuthService.name);
@@ -29,7 +27,6 @@ export class ConfirmResetPasswordAuthService implements IConfirmPasswordResetAut
     this.logger.log(`Processing password reset confirmation`);
 
     await this.passwordResetRepo.manager.transaction(async (entityManager) => {
-      const reset = await this.validateResetPasswordTokenService.execute(token, entityManager);
 
       if (!dto.newPassword || dto.newPassword.length < MINIMUM_PASSWORD_LENGTH) {
         throw new ResetPasswordWeakException();
@@ -39,9 +36,12 @@ export class ConfirmResetPasswordAuthService implements IConfirmPasswordResetAut
         throw new ResetPasswordConfirmationMismatchException();
       }
 
+      const reset = await entityManager.findOne(PasswordResetEntity, {
+        where: { resetHash: token },
+      });
+
       const user = await entityManager.findOne(UserEntity, {
-        where: { id: reset.userId },
-        lock: { mode: 'pessimistic_write' },
+        where: { id: reset.userId }
       });
 
       if (!user) {

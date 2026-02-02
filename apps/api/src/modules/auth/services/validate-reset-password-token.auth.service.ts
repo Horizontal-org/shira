@@ -18,17 +18,12 @@ export class ValidateResetPasswordTokenAuthService implements IValidateResetPass
 
   private readonly logger = new ApiLogger(ValidateResetPasswordTokenAuthService.name);
 
-  async execute(token: string, entityManager?: EntityManager): Promise<PasswordResetEntity> {
+  async execute(token: string): Promise<PasswordResetEntity> {
     this.logger.log(`Validating reset password token: ${token}`);
 
-    const reset = entityManager
-      ? await entityManager.findOne(PasswordResetEntity, {
-        where: { resetHash: token },
-        lock: { mode: 'pessimistic_write' },
-      })
-      : await this.passwordResetRepo.findOne({
-        where: { resetHash: token },
-      });
+    const reset = await this.passwordResetRepo.findOne({
+      where: { resetHash: token },
+    });
 
     if (!reset) {
       throw new ResetPasswordTokenInvalidException();
