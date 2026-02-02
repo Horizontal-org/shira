@@ -1,12 +1,13 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Inject, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
 import { ResetPasswordAuthDto } from '../domain/reset-password.auth.dto';
 import { ConfirmResetPasswordAuthDto } from '../domain/confirm-reset-password.auth.dto';
 import { ApiLogger } from 'src/modules/learner/logger/api-logger.service';
-import { ResetPasswordEmailSendFailedException } from '../exceptions/reset-password-email-send.auth.exception';
 import { TYPES } from '../interfaces';
 import { IConfirmPasswordResetAuthService } from '../interfaces/services/confirm-reset-password.auth.service.interface';
 import { IRequestPasswordResetAuthService } from '../interfaces/services/request-password-reset.auth.service.interface';
 import { IValidateResetPasswordTokenAuthService } from '../interfaces/services/validate-reset-password-token.auth.service.interface';
+import { ResetPasswordEmailSendFailedException } from '../exceptions/reset-password-email-send.auth.exception';
+import { ResetPasswordTokenInvalidException } from '../exceptions/reset-password-token-invalid.auth.exception';
 
 @Controller('reset-password')
 export class ResetPasswordAuthController {
@@ -41,6 +42,11 @@ export class ResetPasswordAuthController {
 
   @Get('validate/:token')
   async validateToken(@Param('token') token: string) {
-    await this.validateResetPasswordTokenService.execute(token);
+    try {
+      await this.validateResetPasswordTokenService.execute(token);
+    } catch (e) {
+      this.logger.error(`Failed to validate reset password token: ${token}`, e);
+      throw new ResetPasswordTokenInvalidException();
+    }
   }
 }

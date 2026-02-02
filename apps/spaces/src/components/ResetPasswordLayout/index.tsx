@@ -11,7 +11,7 @@ import { useStore } from "../../store";
 import { ResetPasswordForm } from "./ResetPasswordForm";
 import { ResetPasswordRequestForm } from "./ResetPasswordRequestForm";
 import backgroundSvg from "../../assets/Background.svg";
-import { InvitationExpiredLayout } from "../InvitationExpiredLayout";
+import { InvalidInvitationLayout } from "../InvalidInvitationLayout";
 
 export const ResetPasswordLayout: FunctionComponent = () => {
   const { t } = useTranslation();
@@ -33,21 +33,10 @@ export const ResetPasswordLayout: FunctionComponent = () => {
   const [passwordConfirmationError, setPasswordConfirmationError] = useState("");
 
   const [submitError, setSubmitError] = useState("");
-  const [resetTokenExpired, setResetTokenExpired] = useState(false);
-  const getTranslatedError = (message?: string) =>
-    t(getErrorContent("error_messages", "something_went_wrong", message));
-
-  const RESET_TOKEN_ERRORS = new Set([
-    "reset_token_expired",
-    "reset_token_invalid",
-    "reset_token_used",
-    "reset_user_not_found",
-  ]);
-
-  const isResetTokenError = (message?: string) => message && RESET_TOKEN_ERRORS.has(message);
+  const [resetTokenInvalid, setResetTokenInvalid] = useState(false);
 
   useEffect(() => {
-    setResetTokenExpired(false);
+    setResetTokenInvalid(false);
     setSubmitError("");
     setPasswordError("");
     setPasswordConfirmationError("");
@@ -60,10 +49,10 @@ export const ResetPasswordLayout: FunctionComponent = () => {
       } catch (error) {
         const { message } = handleHttpError(error);
 
-        if (isResetTokenError(message)) {
-          setResetTokenExpired(true);
+        if (message && message === "reset_token_invalid") {
+          setResetTokenInvalid(true);
         } else {
-          setSubmitError(getTranslatedError(message));
+          setSubmitError(t(getErrorContent("error_messages", "something_went_wrong", message)));
         }
       }
     };
@@ -83,23 +72,20 @@ export const ResetPasswordLayout: FunctionComponent = () => {
     return message;
   };
 
-  const validatePasswords = (
-    nextPassword: string,
-    nextConfirmation: string
-  ): { password: string; confirmation: string } => {
+  const validatePasswords = (newPassword: string, passwordConfirmation: string) => {
     const minPasswordLength = 8;
     let passwordMsg = "";
     let confirmationMsg = "";
 
-    if (!hasRequiredValue(nextPassword)) {
+    if (!hasRequiredValue(newPassword)) {
       passwordMsg = t("reset_password.validation.password_required");
-    } else if (nextPassword.length < minPasswordLength) {
+    } else if (newPassword.length < minPasswordLength) {
       passwordMsg = t("reset_password.validation.password_min_length");
     }
 
-    if (!hasRequiredValue(nextConfirmation)) {
+    if (!hasRequiredValue(passwordConfirmation)) {
       confirmationMsg = t("reset_password.validation.confirm_password_required");
-    } else if (nextPassword !== nextConfirmation) {
+    } else if (newPassword !== passwordConfirmation) {
       confirmationMsg = t("reset_password.validation.passwords_mismatch");
     }
 
@@ -118,9 +104,8 @@ export const ResetPasswordLayout: FunctionComponent = () => {
       await requestPasswordReset(email);
       setSubmitted(true);
     } catch (error) {
-      console.error("Failed to request password reset", error);
       const { message } = handleHttpError(error);
-      setRequestSubmitError(getTranslatedError(message));
+      setRequestSubmitError(t(getErrorContent("error_messages", "something_went_wrong", message)));
     }
   };
 
@@ -148,12 +133,7 @@ export const ResetPasswordLayout: FunctionComponent = () => {
       navigate("/login");
     } catch (error) {
       const { message } = handleHttpError(error);
-
-      if (isResetTokenError(message)) {
-        setResetTokenExpired(true);
-      } else {
-        setSubmitError(getTranslatedError(message));
-      }
+      setSubmitError(t(getErrorContent("error_messages", "something_went_wrong", message)));
     }
   };
 
@@ -163,122 +143,117 @@ export const ResetPasswordLayout: FunctionComponent = () => {
     if (requestSubmitError) setRequestSubmitError("");
   };
 
-  const renderContent = () => {
-    if (token) {
-      return (
-        <ResetPasswordForm
-          title={t("reset_password.create_title")}
-          description={t("reset_password.create_subtitle")}
-          newPasswordLabel={t("reset_password.new_password_placeholder")}
-          confirmPasswordLabel={t("reset_password.confirm_password_placeholder")}
-          buttonText={t("reset_password.reset_button")}
-          password={password}
-          passwordConfirmation={passwordConfirmation}
-          passwordError={passwordError}
-          passwordConfirmationError={passwordConfirmationError}
-          submitError={submitError}
-          submitDisabled={!hasRequiredValue(password) || !hasRequiredValue(passwordConfirmation)}
-          onPasswordChange={setPassword}
-          onPasswordConfirmationChange={setPasswordConfirmation}
-          onSubmit={onConfirmReset}
-        />
-      );
-    }
-
-    if (submitted) {
-      return (
-        <StyledForm
-          title={t("reset_password.success_title")}
-          description={
-            <Trans
-              i18nKey="reset_password.success_description"
-              values={{ email }}
-              components={{ strong: <strong /> }}
-            />
-          }
-        >
-          <SuccessInfo>
-            <Trans
-              i18nKey="reset_password.success_info"
-              values={{ contact_email: "contact@wearehorizontal.org" }}
-              components={[
-                <Link3
-                  key="contact-email"
-                  href="mailto:contact@wearehorizontal.org"
-                />,
-              ]}
-            />
-          </SuccessInfo>
-        </StyledForm>
-      );
-    }
-
-    return (
-      <ResetPasswordRequestForm
-        title={t("reset_password.title")}
-        description={t("reset_password.subtitle")}
-        emailLabel={t("reset_password.email_placeholder")}
-        buttonText={t("reset_password.send_button")}
-        email={email}
-        emailError={emailError}
-        submitError={requestSubmitError}
-        submitDisabled={!hasRequiredValue(email) || !isEmailValid(email)}
-        onEmailChange={handleEmailChange}
-        onSubmit={onRequestReset}
-      />
-    );
-  };
-
-  if (token && resetTokenExpired) {
-    return (
-      <InvitationExpiredLayout
-        onButtonClick={() => {
-          setResetTokenExpired(false);
-          navigate("/reset-password");
-        }}
-      />
-    );
-  }
-
   return (
-    <Container>
-      <Navbar
-        translatedTexts={{ home: "", about: "", menu: "", logIn: t("login.login_header_button"), createSpace: "" }}
-        onNavigate={navigate} />
-      <ContentWrapper>
-        <BackgroundPattern />
-        <Content>{renderContent()}</Content>
-      </ContentWrapper>
-    </Container>
-  );
+    <>
+      {token && resetTokenInvalid ? (
+        <InvalidInvitationLayout
+          onButtonClick={() => {
+            setResetTokenInvalid(false);
+            navigate("/reset-password");
+          }}
+        />
+      ) : (
+        <Container>
+          <Navbar
+            translatedTexts={{
+              home: "",
+              about: "",
+              menu: "",
+              logIn: t("login.login_header_button"),
+              createSpace: "",
+            }}
+            onNavigate={navigate}
+          />
+
+          <ContentWrapper>
+            <BackgroundPattern />
+
+            <Content>
+              {token ? (
+                <ResetPasswordForm
+                  title={t("reset_password.create_title")}
+                  description={t("reset_password.create_subtitle")}
+                  newPasswordLabel={t("reset_password.new_password_placeholder")}
+                  confirmPasswordLabel={t("reset_password.confirm_password_placeholder")}
+                  buttonText={t("reset_password.reset_button")}
+                  password={password}
+                  passwordConfirmation={passwordConfirmation}
+                  passwordError={passwordError}
+                  passwordConfirmationError={passwordConfirmationError}
+                  submitError={submitError}
+                  submitDisabled={
+                    !hasRequiredValue(password) ||
+                    !hasRequiredValue(passwordConfirmation)
+                  }
+                  onPasswordChange={setPassword}
+                  onPasswordConfirmationChange={setPasswordConfirmation}
+                  onSubmit={onConfirmReset}
+                />
+              ) : submitted ? (
+                <StyledForm
+                  title={t("reset_password.success_title")}
+                  description={
+                    <Trans
+                      i18nKey="reset_password.success_description"
+                      values={{ email }}
+                      components={{ strong: <strong /> }}
+                    />
+                  }
+                >
+                  <SuccessInfo>
+                    <Trans
+                      i18nKey="reset_password.success_info"
+                      values={{ contact_email: "contact@wearehorizontal.org" }}
+                      components={[
+                        <Link3
+                          key="contact-email"
+                          href="mailto:contact@wearehorizontal.org"
+                        />,
+                      ]}
+                    />
+                  </SuccessInfo>
+                </StyledForm>
+              ) : (
+                <ResetPasswordRequestForm
+                  title={t("reset_password.title")}
+                  description={t("reset_password.subtitle")}
+                  emailLabel={t("reset_password.email_placeholder")}
+                  buttonText={t("reset_password.send_button")}
+                  email={email}
+                  emailError={emailError}
+                  submitError={requestSubmitError}
+                  submitDisabled={!hasRequiredValue(email) || !isEmailValid(email)}
+                  onEmailChange={handleEmailChange}
+                  onSubmit={onRequestReset}
+                />
+              )}
+            </Content>
+          </ContentWrapper>
+        </Container>
+      )}
+    </>
+  )
 };
 
 const Container = styled.div`
   box-sizing: border-box;
   width: 100%;
+  height: 100vh;
   padding: 24px;
   display: flex;
   flex-direction: column;
-  position: relative;
+  position: relative; 
 
   @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
-    padding: 16px;
+      padding: 16px;
   }
 `;
 
 const ContentWrapper = styled.div`
-  padding: 24px;
   flex: 1;
-  position: relative;
   display: flex;
   justify-content: center;
-  overflow-y: auto;
-
-  @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
-    padding: 16px;
-    align-items: flex-start;
-    padding-top: 48px;
-  }
+  align-items: center;
 `;
 
 const Content = styled.div`
@@ -288,7 +263,7 @@ const Content = styled.div`
   max-width: 800px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 32px;
   margin: 48px auto;
   width: 100%;
   height: auto;

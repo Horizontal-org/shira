@@ -3,7 +3,7 @@ import { AuthErrorCodes } from "./errors/auth.error-codes";
 
 export class ResetPasswordTokenInvalidException extends HttpException {
   constructor() {
-    const cause = "Password reset token is invalid.";
-    super(AuthErrorCodes.ResetTokenInvalid, HttpStatus.NOT_FOUND, { cause });
+    const cause = "Invalid or expired reset link.";
+    super(AuthErrorCodes.ResetTokenInvalid, HttpStatus.BAD_REQUEST, { cause });
   }
 }

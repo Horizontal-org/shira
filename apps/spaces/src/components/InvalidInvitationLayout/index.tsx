@@ -8,7 +8,7 @@ interface Props {
   onButtonClick?: () => void;
 }
 
-export const InvitationExpiredLayout: FunctionComponent<Props> = ({
+export const InvalidInvitationLayout: FunctionComponent<Props> = ({
   onButtonClick,
 }) => {
   const navigate = useNavigate();
@@ -24,15 +24,15 @@ export const InvitationExpiredLayout: FunctionComponent<Props> = ({
       <Body>
         <Content>
           <TextSection>
-            <StyledH1>{t('error_messages.reset_invitation_used')}</StyledH1>
+            <StyledH1>{t('reset_password.expired_title')}</StyledH1>
             <Body1>
               <strong>
-                {/* TODO */}
+                {t('reset_password.expired_description')}
               </strong>
             </Body1>
             <ButtonWrapper>
               <Button
-                text={t('buttons.login')}
+                text={t('buttons.start_over')}
                 type="outline"
                 onClick={handleButtonClick}
               />
@@ -59,16 +59,7 @@ const Container = styled.div`
   flex-direction: column;
   position: relative;
   overflow: hidden;
-  isolation: isolate;
   background: white;
-
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: white;
-    z-index: 0;
-  }
 `;
 
 const Body = styled.div`
@@ -155,7 +146,7 @@ const Backshot = styled.div`
   left: 0;
   width: 100%;
   height: 480px;
-  background: linear-gradient(180deg, #d5f2ff 0%, #69c2e8 100%);
+  background: linear-gradient(180deg, ${(props) => props.theme.colors.blue1} 0%, ${(props) => props.theme.colors.blue4} 100%);
   pointer-events: none;
 
   @media (max-width: ${(props) => props.theme.breakpoints.md}) {

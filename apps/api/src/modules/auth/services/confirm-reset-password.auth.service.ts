@@ -5,11 +5,11 @@ import { ConfirmResetPasswordAuthDto } from '../domain/confirm-reset-password.au
 import { PasswordResetEntity } from '../domain/password-reset.entity';
 import { UserEntity } from 'src/modules/user/domain/user.entity';
 import { hashPassword } from 'src/utils/password.utils';
-import { ResetPasswordUserNotFoundException } from '../exceptions/reset-password-user-not-found.auth.exception';
 import { ResetPasswordWeakException } from '../exceptions/reset-password-weak.auth.exception';
 import { ApiLogger } from 'src/modules/learner/logger/api-logger.service';
 import { IConfirmPasswordResetAuthService } from '../interfaces/services/confirm-reset-password.auth.service.interface';
 import { ResetPasswordConfirmationMismatchException } from '../exceptions/reset-password-confirmation-mismatch.auth.exception';
+import { ResetPasswordTokenInvalidException } from '../exceptions/reset-password-token-invalid.auth.exception';
 import { IValidateResetPasswordTokenAuthService, TYPES } from '../interfaces';
 
 const MINIMUM_PASSWORD_LENGTH = 8;
@@ -45,7 +45,7 @@ export class ConfirmResetPasswordAuthService implements IConfirmPasswordResetAut
       });
 
       if (!user) {
-        throw new ResetPasswordUserNotFoundException();
+        throw new ResetPasswordTokenInvalidException();
       }
 
       const now = new Date();

@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom'
 import { LoginLayout } from './components/LoginLayout';
 import { CreateSpaceLayout } from './components/CreateSpaceLayout';
-import { InvitationExpiredLayout } from './components/InvitationExpiredLayout';
+import { InvalidInvitationLayout } from './components/InvalidInvitationLayout';
 import { DashboardLayout } from './components/DashboardLayout';
 import { shallow } from 'zustand/shallow';
 import { useStore } from './store';
@@ -71,7 +71,7 @@ function App() {
               <Route path='/reset-password' element={<ResetPasswordLayout />} />
               <Route path='/reset-password/confirm/:token' element={<ResetPasswordLayout />} />
               <Route path='/create-space/:passphraseCode' element={<CreateSpaceLayout />} />
-              <Route path='/invitation-used' element={<InvitationExpiredLayout />} />
+              <Route path='/invitation-used' element={<InvalidInvitationLayout />} />
               <Route path='/get-started' element={<GetStartedLayout />} />
               {user && (
                 <>

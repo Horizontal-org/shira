@@ -22,12 +22,8 @@
         "reset_button": "Reset password",
         "reset_success_title": "Password updated",
         "reset_success_description": "You can now log in with your new password.",
-        "expired_title": "Sorry, the link has expired.",
+        "expired_title": "Sorry, the link is invalid or expired.",
         "expired_description": "The link to resetting your password has expired. Please start over by sending a new reset email.",
-        "expired_button": "Start over",
-        "errors": {
-            "invalid_or_expired": "This password reset link is invalid or has expired. Please request a new one."
-        },
         "validation": {
             "email_required": "Email is required",
             "invalid_email": "Enter a valid email address",
@@ -342,7 +338,6 @@
         "invite_learners_bulk": "Import learners in bulk",
         "delete_learners": "Delete learners",
         "unassign_learners": "Unassign from learners",
-        "assign_learners": "Assign to learners",
         "assign_via_email": "Assign via email",
         "start_over": "Start over",
         "feedback": "Tell us what you think",
@@ -520,11 +515,8 @@
         "email_already_taken": "The email address is already taken.",
         "invite_org_failed": "There was a problem creating your space. If this issue persists, <1>contact us</1>.",
         "email_no_match": "The email address does not match the invitation.",
-        "reset_user_not_found": "We could not find a user for this reset link.",
-        "reset_email_send_failed": "We could not send the reset email. Please try again.",
         "reset_password_confirmation_mismatch": "Password confirmation does not match.",
         "reset_password_weak": "Password must be at least 8 characters.",
-        "reset_invitation_used": "The invitation has already been used.",
         "learners_bulk_import": {
             "missing_name": "Missing name",
             "missing_email": "Missing email address",
