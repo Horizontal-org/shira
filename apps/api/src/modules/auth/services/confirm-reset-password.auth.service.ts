@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ConfirmResetPasswordAuthDto } from '../domain/confirm-reset-password.auth.dto';
@@ -6,11 +6,10 @@ import { PasswordResetEntity } from '../domain/password-reset.entity';
 import { UserEntity } from 'src/modules/user/domain/user.entity';
 import { hashPassword } from 'src/utils/password.utils';
 import { ResetPasswordWeakException } from '../exceptions/reset-password-weak.auth.exception';
-import { ApiLogger } from 'src/modules/learner/logger/api-logger.service';
+import { ApiLogger } from 'src/utils/logger/api-logger.service';
 import { IConfirmPasswordResetAuthService } from '../interfaces/services/confirm-reset-password.auth.service.interface';
 import { ResetPasswordConfirmationMismatchException } from '../exceptions/reset-password-confirmation-mismatch.auth.exception';
 import { ResetPasswordTokenInvalidException } from '../exceptions/reset-password-token-invalid.auth.exception';
-import { IValidateResetPasswordTokenAuthService, TYPES } from '../interfaces';
 
 const MINIMUM_PASSWORD_LENGTH = 8;
 
@@ -39,6 +38,10 @@ export class ConfirmResetPasswordAuthService implements IConfirmPasswordResetAut
       const reset = await entityManager.findOne(PasswordResetEntity, {
         where: { resetHash: token },
       });
+
+      if (!reset || reset.usedAt || reset.expiresAt < new Date()) {
+        throw new ResetPasswordTokenInvalidException();
+      }
 
       const user = await entityManager.findOne(UserEntity, {
         where: { id: reset.userId }

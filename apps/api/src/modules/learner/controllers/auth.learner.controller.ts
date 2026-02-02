@@ -16,7 +16,7 @@ import { IGetLearnerService } from '../interfaces/services/get.learner.service.i
 import { UnassignLearnerDto } from '../dto/unassign.learner.dto';
 import { IInviteBulkLearnerService } from '../interfaces/services/invite-bulk.learner.service.interface';
 import { QuizAssignmentFailedException } from '../exceptions';
-import { ApiLogger } from '../logger/api-logger.service';
+import { ApiLogger } from 'src/utils/logger/api-logger.service';
 import { QuizUnassignmentFailedException } from '../exceptions/unassign-quiz.learner.exception';
 import { BulkCsvProcessingException } from '../exceptions/csv-bulk-could-not-process.learner.exception';
 

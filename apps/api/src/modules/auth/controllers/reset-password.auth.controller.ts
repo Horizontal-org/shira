@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
 import { ResetPasswordAuthDto } from '../domain/reset-password.auth.dto';
 import { ConfirmResetPasswordAuthDto } from '../domain/confirm-reset-password.auth.dto';
-import { ApiLogger } from 'src/modules/learner/logger/api-logger.service';
+import { ApiLogger } from 'src/utils/logger/api-logger.service';
 import { TYPES } from '../interfaces';
 import { IConfirmPasswordResetAuthService } from '../interfaces/services/confirm-reset-password.auth.service.interface';
 import { IRequestPasswordResetAuthService } from '../interfaces/services/request-password-reset.auth.service.interface';

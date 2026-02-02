@@ -2,7 +2,7 @@ import { Controller, Get, Param, HttpException, HttpStatus } from '@nestjs/commo
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PassphraseEntity } from '../domain/passphrase.entity';
-import { ApiLogger } from 'src/modules/learner/logger/api-logger.service';
+import { ApiLogger } from 'src/utils/logger/api-logger.service';
 import { GenericPassphraseErrorException } from '../exceptions';
 
 @Controller('passphrase')

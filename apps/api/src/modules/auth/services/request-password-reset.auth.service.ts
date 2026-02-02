@@ -8,8 +8,9 @@ import { Repository } from 'typeorm';
 import { ResetPasswordAuthDto } from '../domain/reset-password.auth.dto';
 import { PasswordResetEntity } from '../domain/password-reset.entity';
 import { UserEntity } from 'src/modules/user/domain/user.entity';
-import { ApiLogger } from 'src/modules/learner/logger/api-logger.service';
+import { ApiLogger } from 'src/utils/logger/api-logger.service';
 import { IRequestPasswordResetAuthService } from '../interfaces/services/request-password-reset.auth.service.interface';
+import { hashResetToken } from 'src/utils/token.utils';
 
 const RESET_PASSWORD_LINK_EXPIRES_MINUTES = 10;
 
@@ -44,12 +45,14 @@ export class RequestPasswordResetAuthService implements IRequestPasswordResetAut
     const reset = new PasswordResetEntity();
     reset.userId = user.id;
     reset.email = email;
-    reset.resetHash = crypto.randomBytes(20).toString('hex');
+
+    const rawToken = crypto.randomBytes(32).toString('hex');
+    reset.resetHash = hashResetToken(rawToken);
     reset.expiresAt = addMinutes(new Date(), RESET_PASSWORD_LINK_EXPIRES_MINUTES);
 
     await this.passwordResetRepo.save(reset);
 
-    const resetLink = `${process.env.SPACE_URL}/reset-password/confirm/${reset.resetHash}`;
+    const resetLink = `${process.env.SPACE_URL}/reset-password/confirm/${rawToken}`;
 
     await this.emailsQueue.add('send', {
       to: user.email,

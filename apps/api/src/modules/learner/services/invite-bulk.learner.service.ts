@@ -7,7 +7,7 @@ import { TYPES } from "../interfaces";
 import { IInviteLearnerService } from "../interfaces/services/invite.learner.service.interface";
 import { IBulkInviteParserResolver } from "../interfaces/parsers/bulk-invite-parser-resolver.interface";
 import { BulkLearnerRowResultDto } from "../dto/learner-bulk-invite-response.dto";
-import { ApiLogger } from "../logger/api-logger.service";
+import { ApiLogger } from "src/utils/logger/api-logger.service";
 
 @Injectable()
 export class InviteBulkLearnerService implements IInviteBulkLearnerService {

@@ -1,15 +1,11 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { UserEntity } from 'src/modules/user/domain/user.entity';
-import { Expose } from 'class-transformer';
 
-@Expose()
 @Entity({ name: 'password_resets' })
 export class PasswordResetEntity {
-  @Expose()
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Expose()
   @Column({ name: 'user_id' })
   userId: number;
 
@@ -17,7 +13,6 @@ export class PasswordResetEntity {
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 
-  @Expose()
   @Column()
   email: string;
 

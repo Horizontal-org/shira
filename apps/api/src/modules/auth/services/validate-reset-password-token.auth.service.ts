@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { EntityManager } from 'typeorm';
 import { Repository } from 'typeorm';
 import { PasswordResetEntity } from '../domain/password-reset.entity';
 import { ResetPasswordTokenInvalidException } from '../exceptions/reset-password-token-invalid.auth.exception';
 import { ResetPasswordTokenUsedException } from '../exceptions/reset-password-token-used.auth.exception';
 import { IValidateResetPasswordTokenAuthService } from '../interfaces/services/validate-reset-password-token.auth.service.interface';
-import { ApiLogger } from 'src/modules/learner/logger/api-logger.service';
+import { ApiLogger } from 'src/utils/logger/api-logger.service';
 import { ResetPasswordExpiredTokenException } from '../exceptions/reset-password-token-expired.auth.exception';
+import { hashResetToken } from 'src/utils/token.utils';
 
 @Injectable()
 export class ValidateResetPasswordTokenAuthService implements IValidateResetPasswordTokenAuthService {
@@ -19,10 +19,12 @@ export class ValidateResetPasswordTokenAuthService implements IValidateResetPass
   private readonly logger = new ApiLogger(ValidateResetPasswordTokenAuthService.name);
 
   async execute(token: string): Promise<PasswordResetEntity> {
-    this.logger.log(`Validating reset password token: ${token}`);
+    this.logger.log(`Validating reset password token`);
+
+    const tokenHash = hashResetToken(token);
 
     const reset = await this.passwordResetRepo.findOne({
-      where: { resetHash: token },
+      where: { resetHash: tokenHash },
     });
 
     if (!reset) {
@@ -33,8 +35,7 @@ export class ValidateResetPasswordTokenAuthService implements IValidateResetPass
       throw new ResetPasswordTokenUsedException();
     }
 
-    const now = new Date();
-    if (reset.expiresAt.getTime() < now.getTime()) {
+    if (reset.expiresAt.getTime() < new Date().getTime()) {
       throw new ResetPasswordExpiredTokenException();
     }
 
