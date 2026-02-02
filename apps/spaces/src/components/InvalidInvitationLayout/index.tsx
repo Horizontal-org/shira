@@ -12,7 +12,6 @@ export const InvalidInvitationLayout: FunctionComponent<Props> = ({
   onButtonClick,
 }) => {
   const navigate = useNavigate();
-  const handleButtonClick = onButtonClick ?? (() => navigate("/login"));
 
   return (
     <Container>
@@ -34,7 +33,7 @@ export const InvalidInvitationLayout: FunctionComponent<Props> = ({
               <Button
                 text={t('buttons.start_over')}
                 type="outline"
-                onClick={handleButtonClick}
+                onClick={onButtonClick}
               />
             </ButtonWrapper>
           </TextSection>
