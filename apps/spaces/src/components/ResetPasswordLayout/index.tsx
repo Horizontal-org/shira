@@ -8,7 +8,7 @@ import { confirmPasswordReset, requestPasswordReset, validatePasswordResetToken 
 import { handleHttpError } from "../../fetch/handleError";
 import { getErrorContent } from "../../utils/getErrorContent";
 import { useStore } from "../../store";
-import { ResetPasswordForm } from "./ResetPasswordForm";
+import { SetNewPasswordForm } from "./SetNewPasswordForm";
 import { ResetPasswordRequestForm } from "./ResetPasswordRequestForm";
 import backgroundSvg from "../../assets/Background.svg";
 import { InvalidInvitationLayout } from "../InvalidInvitationLayout";
@@ -170,12 +170,7 @@ export const ResetPasswordLayout: FunctionComponent = () => {
 
             <Content>
               {token ? (
-                <ResetPasswordForm
-                  title={t("reset_password.create_title")}
-                  description={t("reset_password.create_subtitle")}
-                  newPasswordLabel={t("reset_password.new_password_placeholder")}
-                  confirmPasswordLabel={t("reset_password.confirm_password_placeholder")}
-                  buttonText={t("reset_password.reset_button")}
+                <SetNewPasswordForm
                   password={password}
                   passwordConfirmation={passwordConfirmation}
                   passwordError={passwordError}
@@ -215,10 +210,6 @@ export const ResetPasswordLayout: FunctionComponent = () => {
                 </StyledForm>
               ) : (
                 <ResetPasswordRequestForm
-                  title={t("reset_password.title")}
-                  description={t("reset_password.subtitle")}
-                  emailLabel={t("reset_password.email_placeholder")}
-                  buttonText={t("reset_password.send_button")}
                   email={email}
                   emailError={emailError}
                   submitError={requestSubmitError}

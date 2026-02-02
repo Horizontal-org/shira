@@ -27,7 +27,7 @@ export const ExpiredResetPassword: FunctionComponent<Props> = ({
         </ExpiredButtonContainer>
       </ExpiredLeft>
       <ExpiredRight>
-        <ExpiredImage src={notFoundSvg} alt={title} />
+        <ExpiredImage src={notFoundSvg} />
       </ExpiredRight>
     </ExpiredContent>
   );

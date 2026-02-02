@@ -1,11 +1,8 @@
-import { FunctionComponent, ReactNode } from "react";
+import { FunctionComponent } from "react";
 import { Button, Form, TextInput, styled } from "@shira/ui";
+import { useTranslation } from "react-i18next";
 
 interface Props {
-  title: string;
-  description: ReactNode;
-  emailLabel: string;
-  buttonText: string;
   email: string;
   emailError: string;
   submitError: string;
@@ -15,51 +12,51 @@ interface Props {
 }
 
 export const ResetPasswordRequestForm: FunctionComponent<Props> = ({
-  title,
-  description,
-  emailLabel,
-  buttonText,
   email,
   emailError,
   submitError,
   submitDisabled,
   onEmailChange,
   onSubmit,
-}) => (
-  <StyledForm
-    title={title}
-    description={description}
-    onSubmit={(e) => {
-      e.preventDefault();
-      onSubmit();
-    }}
-  >
-    <InputsContainer>
-      <TextInput
-        id="reset-email-input"
-        required
-        label={emailLabel}
-        value={email}
-        onChange={(e) => onEmailChange(e.target.value)}
-      />
-      {emailError && <InlineErrorMessage>{emailError}</InlineErrorMessage>}
-      {submitError && <InlineErrorMessage>{submitError}</InlineErrorMessage>}
-    </InputsContainer>
+}) => {
+  const { t } = useTranslation();
 
-    <ButtonContainer>
-      <Button
-        id="reset-password-button"
-        text={buttonText}
-        type="primary"
-        disabled={submitDisabled}
-        onClick={(e) => {
-          e.preventDefault();
-          onSubmit();
-        }}
-      />
-    </ButtonContainer>
-  </StyledForm>
-);
+  return (
+    <StyledForm
+      title={t("reset_password.title")}
+      description={t("reset_password.subtitle")}
+      onSubmit={(e) => {
+        e.preventDefault();
+        onSubmit();
+      }}
+    >
+      <InputsContainer>
+        <TextInput
+          id="reset-email-input"
+          required
+          label={t("reset_password.email_placeholder")}
+          value={email}
+          onChange={(e) => onEmailChange(e.target.value)}
+        />
+        {emailError && <InlineErrorMessage>{emailError}</InlineErrorMessage>}
+        {submitError && <InlineErrorMessage>{submitError}</InlineErrorMessage>}
+      </InputsContainer>
+
+      <ButtonContainer>
+        <Button
+          id="reset-password-button"
+          text={t("reset_password.send_button")}
+          type="primary"
+          disabled={submitDisabled}
+          onClick={(e) => {
+            e.preventDefault();
+            onSubmit();
+          }}
+        />
+      </ButtonContainer>
+    </StyledForm>
+  );
+};
 
 const StyledForm = styled(Form)`
   position: relative;
