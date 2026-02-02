@@ -52,7 +52,7 @@ export class RequestPasswordResetAuthService implements IRequestPasswordResetAut
 
     await this.passwordResetRepo.save(reset);
 
-    const resetLink = `${process.env.SPACE_URL}/reset-password/confirm/${rawToken}`;
+    const resetLink = `${process.env.SPACE_URL}/reset-password?token=${rawToken}`;
 
     await this.emailsQueue.add('send', {
       to: user.email,

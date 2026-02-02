@@ -60,7 +60,7 @@ export class ConfirmResetPasswordAuthService implements IConfirmPasswordResetAut
       await entityManager.save(UserEntity, user);
       await entityManager.save(PasswordResetEntity, reset);
 
-      this.logger.log(`Password successfully reset for user with email: ${user.email}`);
+      this.logger.log(`Password successfully reset for user: ${user.id}`);
     });
   }
 }
