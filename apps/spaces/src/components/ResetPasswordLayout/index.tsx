@@ -58,7 +58,7 @@ export const ResetPasswordLayout: FunctionComponent = () => {
     };
 
     validateToken();
-  }, [t, token]);
+  }, [navigate, t, token]);
 
   const validateEmail = (value: string): string => {
     let message = "";
@@ -89,14 +89,14 @@ export const ResetPasswordLayout: FunctionComponent = () => {
       confirmationMsg = t("reset_password.validation.passwords_mismatch");
     }
 
-    return { password: passwordMsg, confirmation: confirmationMsg };
+    return { passwordMsg, confirmationMsg };
   };
 
   const onRequestReset = async () => {
     setRequestSubmitError("");
 
     const errorMsg = validateEmail(email);
-    setEmailError(errorMsg);
+    setEmailError(errorMsg ?? "");
 
     if (errorMsg) return;
 
@@ -112,15 +112,15 @@ export const ResetPasswordLayout: FunctionComponent = () => {
   const onConfirmReset = async () => {
     setSubmitError("");
 
-    const { password: pwdErr, confirmation: confErr } = validatePasswords(
+    const { passwordMsg, confirmationMsg } = validatePasswords(
       password,
       passwordConfirmation
     );
 
-    setPasswordError(pwdErr);
-    setPasswordConfirmationError(confErr);
+    setPasswordError(passwordMsg);
+    setPasswordConfirmationError(confirmationMsg);
 
-    if (pwdErr || confErr) return;
+    if (passwordMsg || confirmationMsg) return;
 
     try {
       await confirmPasswordReset(token, {
@@ -129,6 +129,7 @@ export const ResetPasswordLayout: FunctionComponent = () => {
       });
 
       toast.success(t("success_messages.password_updated"), { duration: 3000 });
+
       logout();
       navigate("/login", { replace: true });
     } catch (error) {
@@ -145,11 +146,13 @@ export const ResetPasswordLayout: FunctionComponent = () => {
 
   return (
     <>
-      {token && resetTokenInvalid ? (
+      {hasRequiredValue(token) && resetTokenInvalid ? (
         <InvalidInvitationLayout
-          onButtonClick={() => {
+          onClick={() => {
             setResetTokenInvalid(false);
-            navigate("/reset-password");
+            navigate("/reset-password", {
+              replace: true
+            });
           }}
         />
       ) : (

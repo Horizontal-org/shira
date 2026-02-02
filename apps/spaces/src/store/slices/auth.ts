@@ -45,9 +45,6 @@ export const createAuthSlice: StateCreator<
   logout: async () => {
     localStorage.removeItem("shira_access_token");
     localStorage.removeItem("shira_x_space");
-    // TODO: check this
-    // delete axios.defaults.headers.common['Authorization'];
-    // delete axios.defaults.headers.common['X-Space'];
     set({
       user: null,
       space: null

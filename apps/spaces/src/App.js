@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom'
 import { LoginLayout } from './components/LoginLayout';
 import { CreateSpaceLayout } from './components/CreateSpaceLayout';
-import { InvalidInvitationLayout } from './components/InvalidInvitationLayout';
+import { InvitationExpiredLayout } from './components/InvitationExpiredLayout';
 import { DashboardLayout } from './components/DashboardLayout';
 import { shallow } from 'zustand/shallow';
 import { useStore } from './store';

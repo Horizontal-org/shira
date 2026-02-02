@@ -39,7 +39,7 @@ export class ValidateResetPasswordTokenAuthService implements IValidateResetPass
       throw new ResetPasswordExpiredTokenException();
     }
 
-    this.logger.log(`Reset password token is valid for email: ${reset.email}`);
+    this.logger.log(`Reset password token is valid for user: ${reset.userId}`);
     return reset;
   }
 }

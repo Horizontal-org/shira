@@ -5,11 +5,11 @@ import notFoundSvg from "../../assets/404.svg";
 import { t } from "i18next";
 
 interface Props {
-  onButtonClick?: () => void;
+  onClick?: () => void;
 }
 
 export const InvalidInvitationLayout: FunctionComponent<Props> = ({
-  onButtonClick,
+  onClick,
 }) => {
   const navigate = useNavigate();
 
@@ -33,7 +33,7 @@ export const InvalidInvitationLayout: FunctionComponent<Props> = ({
               <Button
                 text={t('buttons.start_over')}
                 type="outline"
-                onClick={onButtonClick}
+                onClick={onClick}
               />
             </ButtonWrapper>
           </TextSection>

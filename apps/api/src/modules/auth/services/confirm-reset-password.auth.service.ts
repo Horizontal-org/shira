@@ -10,6 +10,7 @@ import { ApiLogger } from 'src/utils/logger/api-logger.service';
 import { IConfirmPasswordResetAuthService } from '../interfaces/services/confirm-reset-password.auth.service.interface';
 import { ResetPasswordConfirmationMismatchException } from '../exceptions/reset-password-confirmation-mismatch.auth.exception';
 import { ResetPasswordTokenInvalidException } from '../exceptions/reset-password-token-invalid.auth.exception';
+import { hashResetToken } from 'src/utils/token.utils';
 
 const MINIMUM_PASSWORD_LENGTH = 8;
 
@@ -35,8 +36,10 @@ export class ConfirmResetPasswordAuthService implements IConfirmPasswordResetAut
         throw new ResetPasswordConfirmationMismatchException();
       }
 
+      const tokenHash = hashResetToken(token);
+
       const reset = await entityManager.findOne(PasswordResetEntity, {
-        where: { resetHash: token },
+        where: { resetHash: tokenHash },
       });
 
       if (!reset || reset.usedAt || reset.expiresAt < new Date()) {
