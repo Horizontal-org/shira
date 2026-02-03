@@ -49,7 +49,7 @@ export const ResetPasswordLayout: FunctionComponent = () => {
       } catch (error) {
         const { message } = handleHttpError(error);
 
-        if (message && message === "reset_token_invalid") {
+        if (message === "reset_token_invalid") {
           setResetTokenInvalid(true);
         } else {
           setSubmitError(t(getErrorContent("error_messages", "something_went_wrong", message)));
@@ -61,7 +61,7 @@ export const ResetPasswordLayout: FunctionComponent = () => {
   }, [navigate, t, token]);
 
   const validateEmail = (value: string): string => {
-    let message = "";
+    let message: string;
 
     if (!hasRequiredValue(value)) {
       message = t("reset_password.validation.email_required");
@@ -74,29 +74,29 @@ export const ResetPasswordLayout: FunctionComponent = () => {
 
   const validatePasswords = (newPassword: string, passwordConfirmation: string) => {
     const minPasswordLength = 8;
-    let passwordMsg = "";
-    let confirmationMsg = "";
+    let passwordError = "";
+    let confirmationError = "";
 
     if (!hasRequiredValue(newPassword)) {
-      passwordMsg = t("reset_password.validation.password_required");
+      passwordError = t("reset_password.validation.password_required");
     } else if (newPassword.length < minPasswordLength) {
-      passwordMsg = t("reset_password.validation.password_min_length");
+      passwordError = t("reset_password.validation.password_min_length");
     }
 
     if (!hasRequiredValue(passwordConfirmation)) {
-      confirmationMsg = t("reset_password.validation.confirm_password_required");
+      confirmationError = t("reset_password.validation.confirm_password_required");
     } else if (newPassword !== passwordConfirmation) {
-      confirmationMsg = t("reset_password.validation.passwords_mismatch");
+      confirmationError = t("reset_password.validation.passwords_mismatch");
     }
 
-    return { passwordMsg, confirmationMsg };
+    return { passwordError, confirmationError };
   };
 
   const onRequestReset = async () => {
     setRequestSubmitError("");
 
     const errorMsg = validateEmail(email);
-    setEmailError(errorMsg ?? "");
+    setEmailError(errorMsg);
 
     if (errorMsg) return;
 
@@ -112,15 +112,15 @@ export const ResetPasswordLayout: FunctionComponent = () => {
   const onConfirmReset = async () => {
     setSubmitError("");
 
-    const { passwordMsg, confirmationMsg } = validatePasswords(
+    const { passwordError, confirmationError } = validatePasswords(
       password,
       passwordConfirmation
     );
 
-    setPasswordError(passwordMsg);
-    setPasswordConfirmationError(confirmationMsg);
+    setPasswordError(passwordError);
+    setPasswordConfirmationError(confirmationError);
 
-    if (passwordMsg || confirmationMsg) return;
+    if (passwordError || confirmationError) return;
 
     try {
       await confirmPasswordReset(token, {
@@ -150,9 +150,7 @@ export const ResetPasswordLayout: FunctionComponent = () => {
         <InvalidInvitationLayout
           onClick={() => {
             setResetTokenInvalid(false);
-            navigate("/reset-password", {
-              replace: true
-            });
+            navigate("/reset-password", { replace: true });
           }}
         />
       ) : (
@@ -226,7 +224,7 @@ export const ResetPasswordLayout: FunctionComponent = () => {
         </Container>
       )}
     </>
-  )
+  );
 };
 
 const Container = styled.div`

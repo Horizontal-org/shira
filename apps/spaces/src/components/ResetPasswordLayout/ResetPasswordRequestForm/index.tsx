@@ -59,17 +59,13 @@ export const ResetPasswordRequestForm: FunctionComponent<Props> = ({
 };
 
 const StyledForm = styled(Form)`
-  position: relative;
-  z-index: 1;
   text-align: left;
   margin-bottom: 32px;
-  gap: 16px;
 `;
 
 const InputsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 24px;
 `;
 
 const InlineErrorMessage = styled.div`
