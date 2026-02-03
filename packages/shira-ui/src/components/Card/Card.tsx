@@ -14,6 +14,8 @@ export interface CardProps {
   title: string;
   lastModified: string;
   isPublished: boolean;
+  disablePublishToggle?: boolean;
+  disabledTooltipLabel?: string;
   onTogglePublished: () => void;
   onCopyUrl?: () => void;
   onEdit: () => void;
@@ -33,6 +35,8 @@ export const Card: FunctionComponent<CardProps> = ({
   title,
   lastModified,
   isPublished,
+  disablePublishToggle = false,
+  disabledTooltipLabel,
   onTogglePublished,
   onEdit,
   onDuplicate,
@@ -47,6 +51,7 @@ export const Card: FunctionComponent<CardProps> = ({
   showLoading = false,
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showPublishTooltip, setShowPublishTooltip] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const toggleLabel = isPublished ? publishedText : unpublishedText ?? publishedText;
 
@@ -118,10 +123,37 @@ export const Card: FunctionComponent<CardProps> = ({
         <ModifiedText>{lastModified}</ModifiedText>
         <BottomSection>
           <ToggleLabel>{toggleLabel}</ToggleLabel>
-          <Toggle
-            isEnabled={isPublished}
-            onToggle={onTogglePublished}
-          />
+          <PublishToggleWrapper
+            $showHelpCursor={disablePublishToggle}
+            onMouseEnter={() => {
+              if (disablePublishToggle) {
+                setShowPublishTooltip(true);
+              }
+            }}
+            onMouseLeave={() => { setShowPublishTooltip(false); }}
+            onFocus={() => {
+              if (disablePublishToggle) {
+                setShowPublishTooltip(true);
+              }
+            }}
+            onBlur={() => { setShowPublishTooltip(false); }}
+            onClick={(e) => { e.stopPropagation(); }}
+            tabIndex={disablePublishToggle ? 0 : -1}
+          >
+            <Toggle
+              isEnabled={isPublished}
+              onToggle={() => {
+                if (disablePublishToggle) { return; }
+                onTogglePublished();
+              }}
+              disabled={disablePublishToggle}
+            />
+            {disablePublishToggle && showPublishTooltip && disabledTooltipLabel && (
+              <PublishToggleTooltip role="tooltip">
+                <Body4>{disabledTooltipLabel}</Body4>
+              </PublishToggleTooltip>
+            )}
+          </PublishToggleWrapper>
         </BottomSection>
       </BottomContainer>
     </CardWrapper>
@@ -228,6 +260,36 @@ const BottomSection = styled.div`
 
 const ToggleLabel = styled(Body4)`
   color: ${props => props.theme.colors.dark.darkGrey};
+`;
+
+const PublishToggleWrapper = styled.div<{ $showHelpCursor: boolean }>`
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+
+  ${props => props.$showHelpCursor && `
+    cursor: help;
+
+    button:disabled {
+      cursor: help !important;
+    }
+  `}
+`;
+
+const PublishToggleTooltip = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 6px;
+  padding: 4px 8px;
+  background-color: ${(props) => props.theme.colors.dark.black};
+  color: ${(props) => props.theme.colors.light.white};
+  border-radius: 10px;
+  width: max-content;
+  max-width: 520px;
+  white-space: nowrap;
+  z-index: 1000;
 `;
 
 const VisibilityTag = styled.span`
