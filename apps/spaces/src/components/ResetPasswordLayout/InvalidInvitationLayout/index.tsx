@@ -1,8 +1,8 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useTransition } from "react";
 import { useNavigate } from "react-router-dom";
 import { H1, Body1, Button, styled, Navbar } from "@shira/ui";
-import notFoundSvg from "../../assets/404.svg";
-import { t } from "i18next";
+import notFoundSvg from "../../../assets/404.svg";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   onClick?: () => void;
@@ -12,6 +12,7 @@ export const InvalidInvitationLayout: FunctionComponent<Props> = ({
   onClick,
 }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <Container>

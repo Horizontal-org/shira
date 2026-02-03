@@ -27,7 +27,7 @@ import './language/i18n';
 import { GetStartedLayout } from './components/GetStartedLayout';
 import { LearnersLayout } from './components/LearnersLayout';
 import { FeedbackButton } from './components/FeedbackButton';
-import { ResetPasswordLayout } from './components/ResetPasswordLayout';
+import { ResetPasswordRequestLayout, SetNewPasswordLayout } from './components/ResetPasswordLayout/ResetPasswordRequestLayout';
 
 function App() {
 
@@ -68,7 +68,8 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path='/login' element={<LoginLayout />} />
-              <Route path='/reset-password' element={<ResetPasswordLayout />} />
+              <Route path='/reset-password' element={<ResetPasswordRequestLayout />} />
+              <Route path='/reset-password/:token' element={<SetNewPasswordLayout />} />
               <Route path='/create-space/:passphraseCode' element={<CreateSpaceLayout />} />
               <Route path='/invitation-used' element={<InvitationExpiredLayout />} />
               <Route path='/get-started' element={<GetStartedLayout />} />
