@@ -40,11 +40,6 @@ export class CreatePasswordResetsTable1769707180000 implements MigrationInterfac
                         type: 'timestamp',
                         default: 'now()',
                     },
-                    {
-                        name: 'updated_at',
-                        type: 'timestamp',
-                        default: 'now()',
-                    },
                 ],
             }),
             true,
