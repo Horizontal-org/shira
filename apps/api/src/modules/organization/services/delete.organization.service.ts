@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { OrganizationEntity } from '../domain/organization.entity';
-import { ApiLogger } from 'src/modules/learner/logger/api-logger.service';
+import { ApiLogger } from 'src/utils/logger/api-logger.service';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SpaceEntity } from 'src/modules/space/domain/space.entity';

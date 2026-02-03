@@ -3,7 +3,7 @@ import { DataSource, In } from "typeorm";
 import { LearnerToBeUnassigned, UnassignLearnerDto } from "../dto/unassign.learner.dto";
 import { LearnerQuiz as LearnerQuizEntity } from "../domain/learners_quizzes.entity";
 import { IUnassignLearnerService } from "../interfaces/services/unassign.learner.service.interface";
-import { ApiLogger } from "../logger/api-logger.service";
+import { ApiLogger } from "src/utils/logger/api-logger.service";
 import { QuizUnassignmentFailedException } from "../exceptions/unassign-quiz.learner.exception";
 
 @Injectable()

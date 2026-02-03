@@ -8,7 +8,7 @@ import { DuplicateQuestionQuizDto } from '../dto/duplicate-question.quiz.dto';
 import { Question } from 'src/modules/question/domain';
 import { TYPES } from '../interfaces';
 import { ISharedQuestionDuplicationService } from '../interfaces/services/shared-question-duplication.service.interface';
-import { ApiLogger } from 'src/modules/learner/logger/api-logger.service';
+import { ApiLogger } from 'src/utils/logger/api-logger.service';
 import { IValidateSpaceQuizService } from '../interfaces/services/validate-space.quiz.service.interface';
 
 @Injectable()

@@ -6,7 +6,7 @@ import { GenericErrorException } from "../exceptions";
 import { IGetAssignedLearnerService } from "../interfaces/services/get-assigned.learner.service.interface";
 import { LearnerQuiz as LearnerQuizEntity} from "../domain/learners_quizzes.entity";
 import { GetLearnersQuizzesDto } from "../dto/get.learner-quiz.dto";
-import { ApiLogger } from "../logger/api-logger.service";
+import { ApiLogger } from "src/utils/logger/api-logger.service";
 
 @Injectable()
 export class GetAssignedLearnerService implements IGetAssignedLearnerService {
