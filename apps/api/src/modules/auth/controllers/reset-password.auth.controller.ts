@@ -20,14 +20,11 @@ export class ResetPasswordAuthController {
     private readonly validateResetPasswordTokenService: IValidateResetPasswordTokenAuthService,
   ) { }
 
-  private readonly logger = new ApiLogger(ResetPasswordAuthController.name);
-
   @Post()
   async requestReset(@Body() dto: ResetPasswordAuthDto) {
     try {
       return await this.requestPasswordResetService.execute(dto);
     } catch (e) {
-      this.logger.error(`Failed to enqueue password reset for email: ${dto.email}`, e);
       throw new ResetPasswordEmailSendFailedException();
     }
   }
@@ -37,7 +34,6 @@ export class ResetPasswordAuthController {
     try {
       await this.validateResetPasswordTokenService.execute(token);
     } catch (e) {
-      this.logger.error(`Failed to validate reset password token: ${token}`, e);
       throw new ResetPasswordTokenInvalidException();
     }
   }
