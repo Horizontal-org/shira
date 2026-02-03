@@ -284,7 +284,7 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
 
             <MutedCenteredText>
               <Body2Regular>
-                {t("learners_bulk_import.tabs.upload_csv.uploading")}
+                {t("learners_bulk_import.tabs.upload_csv.upload_success")}
               </Body2Regular>
             </MutedCenteredText>
           </CenteredBodyColumn>
