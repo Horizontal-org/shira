@@ -171,26 +171,24 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     cardId: number,
     shouldBePublished: boolean
   ) => {
-    const fetchHasQuestions = async () => {
+    const fetchHasQuestions = async (fallbackOnError: boolean) => {
       try {
         const quiz = await getQuizById(cardId);
         return (quiz?.quizQuestions?.length ?? 0) > 0;
       } catch (error) {
         console.error("Error fetching quiz questions:", error);
-        return;
+        return fallbackOnError;
       }
     };
 
-    const hasQuestions = await fetchHasQuestions();
-
     if (shouldBePublished) {
-      if (hasQuestions !== undefined) {
-        setQuizHasQuestions(prev => ({ ...prev, [cardId]: hasQuestions }));
-        if (!hasQuestions) return;
-      }
+      const hasQuestions = await fetchHasQuestions(false);
+      setQuizHasQuestions(prev => ({ ...prev, [cardId]: hasQuestions }));
+      if (!hasQuestions) return;
     }
 
     if (!shouldBePublished) {
+      const hasQuestions = await fetchHasQuestions(false);
       if (hasQuestions) {
         handleUnpublishedQuizId(cardId);
         setIsUnpublishQuizModalOpen(true);
