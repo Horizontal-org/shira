@@ -22,6 +22,7 @@ export interface TableProps {
   enableRowSelection?: boolean
   pageSize?: number
   loadingMessage?: ReactNode
+  enablePagination?: boolean
 }
 
 
@@ -34,7 +35,8 @@ export const Table = ({
   setRowSelection,
   enableRowSelection = true,
   pageSize = 25,
-  loadingMessage = null
+  loadingMessage = null,
+  enablePagination = true
 }) => {
   const [pagination, setPagination] = React.useState<PaginationState>({
     pageIndex: 0,
@@ -46,23 +48,24 @@ export const Table = ({
     columns,
     getCoreRowModel: getCoreRowModel(),
     getRowId: (row: any) => row.id,
-    state: {
-      rowSelection,
-      pagination
-    },
     enableRowSelection, //enable row selection for all rows
     onRowSelectionChange: setRowSelection,
     getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onPaginationChange: setPagination,
     debugTable: true,
+    //pagination options
+    state: enablePagination ? { pagination, rowSelection }: {},
+    onPaginationChange: enablePagination ? setPagination : undefined,    
+    getPaginationRowModel: enablePagination ? getPaginationRowModel() : undefined,
   });
 
   const totalColumns = table.getAllLeafColumns().length;
 
   return (
     <Wrapper>
-      <Pagination table={table} />
+      
+      { enablePagination && (
+        <Pagination table={table} />
+      )}
       <TableHeader />
       <StyledTable>
         {colGroups}
@@ -132,7 +135,10 @@ export const Table = ({
         </tbody>
       </StyledTable>
       <TableFooter />
-      <Pagination table={table} />
+
+      { enablePagination && (
+        <Pagination table={table} />
+      )}
     </Wrapper>
   );
 };

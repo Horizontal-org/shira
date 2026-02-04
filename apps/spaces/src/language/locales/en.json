@@ -250,6 +250,7 @@
         }
     },
     "results_tab": {
+        "title": "Overall results",
         "completed_quizzes": {
             "title": "Number of completed quizzes",
             "subtitle": "This is the number of quizzes that have been completed",
@@ -259,6 +260,32 @@
             "title": "Average score",
             "subtitle": "This is the average score received by all learners who took this quiz.",
             "empty_subtitle": "The average score received by all learners who took this quiz will be shown here."
+        },
+        "rate": {
+            "title": "Completion rate",
+            "subtitle": "This is the percentage of learners who have submitted the quiz out of all the learners assigned this quiz."
+        },
+        "by_question": {
+            "title": "Results by question",
+            "description": "The average score is the percentage of learners who answered each question correctly.",
+            "empty_state": "The quiz does not have any questions answered.",
+            "table": {
+                "type": "Type",
+                "question_name": "Name",
+                "score": "Average score",
+                "loading": "Loading questions..."
+            }
+        },
+        "by_learner": {
+            "title": "Results by learner",
+            "description": "These are all the learners who have submitted the quiz and their individual quiz scores.",
+            "empty_state": "No learners have submitted this quiz so far.",
+            "table": {
+                "learner": "Learner",
+                "date": "Date submitted",
+                "score": "Quiz score",
+                "loading": "Loading learners..."
+            }
         }
     },
     "learners_bulk_import": {
