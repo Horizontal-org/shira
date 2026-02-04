@@ -99,16 +99,16 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
     const fetchQuizQuestions = async () => {
       const unpublishedCards = cards.filter((card) => !card.published);
+
       if (!unpublishedCards.length) {
+        if (isActive) {
+          setQuizHasQuestions({})
+        }
         return;
       }
 
       await Promise.all(
         unpublishedCards.map(async (card) => {
-          if (quizHasQuestions[card.id] !== undefined) {
-            return;
-          }
-
           try {
             const quiz = await getQuizById(card.id);
             const hasQuestions = (quiz?.quizQuestions?.length ?? 0) > 0;
@@ -130,12 +130,14 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
     if (cards.length) {
       fetchQuizQuestions();
-    }
+    } else {
+      setQuizHasQuestions({})
+    };
 
     return () => {
       isActive = false;
     };
-  }, [cards, quizHasQuestions]);
+  }, [cards]);
 
   useEffect(() => {
     if (t(SUCCESS_MESSAGES[quizActionSuccess])) {
@@ -159,24 +161,40 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     setCards(currentCards =>
       currentCards.map(card =>
         card.id === cardId
-          ? { ...card, published: !card.published }
+          ? { ...card, published }
           : card
       )
     );
   };
 
-  const handleTogglePublished = async (cardId: number, shouldBePublished: boolean) => {
-    if (!shouldBePublished) {
+  const handleTogglePublished = async (
+    cardId: number,
+    shouldBePublished: boolean
+  ) => {
+    const fetchHasQuestions = async () => {
       try {
         const quiz = await getQuizById(cardId);
-        const hasQuestions = (quiz?.quizQuestions?.length ?? 0) > 0;
-        if (hasQuestions) {
-          handleUnpublishedQuizId(cardId);
-          setIsUnpublishQuizModalOpen(true);
-          return;
-        }
+        return (quiz?.quizQuestions?.length ?? 0) > 0;
       } catch (error) {
-        console.error("Failed to load quiz details for unpublish check:", error);
+        console.error("Error fetching quiz questions:", error);
+        return;
+      }
+    };
+
+    const hasQuestions = await fetchHasQuestions();
+
+    if (shouldBePublished) {
+      if (hasQuestions !== undefined) {
+        setQuizHasQuestions(prev => ({ ...prev, [cardId]: hasQuestions }));
+        if (!hasQuestions) return;
+      }
+    }
+
+    if (!shouldBePublished) {
+      if (hasQuestions) {
+        handleUnpublishedQuizId(cardId);
+        setIsUnpublishQuizModalOpen(true);
+        return;
       }
     }
 
