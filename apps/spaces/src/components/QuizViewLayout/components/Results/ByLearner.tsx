@@ -67,7 +67,7 @@ export const ByLearner: FunctionComponent<Props> = ({
     <div>
       {resultsByLearner.length === 0 && !loading ? (
         <EmptyState
-          subtitle={t("results_tab.by_learner.empty_state")}          
+          subtitle={t("results_tab.by_learner.empty_state")}
         />
       ) : (
       <Table
