@@ -1,4 +1,4 @@
-import { FunctionComponent, useTransition } from "react";
+import { FunctionComponent } from "react";
 import { useNavigate } from "react-router-dom";
 import { H1, Body1, Button, styled, Navbar } from "@shira/ui";
 import notFoundSvg from "../../../assets/404.svg";
@@ -66,9 +66,9 @@ const Body = styled.div`
   z-index: 2;
   flex: 1;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  padding: 24px;
+  padding: 24px 48px 24px 160px;
 
   @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
     padding: 16px;
@@ -79,11 +79,11 @@ const Body = styled.div`
 
 const Content = styled.div`
   z-index: 2;
-  width: 1120px;
-  max-width: 100%;
+  width: 100%;
+  max-width: 1400px;
   display: flex;
   align-items: center;
-  gap: 48px;
+  gap: 24px;
 
   @media (max-width: ${(props) => props.theme.breakpoints.md}) {
     flex-wrap: wrap;
@@ -95,8 +95,9 @@ const Content = styled.div`
 `;
 
 const TextSection = styled.div`
-  flex: 1;
+  flex: 1 1 680px;
   min-width: 320px;
+  max-width: 680px;
   display: flex;
   flex-direction: column;
   text-align: left;
@@ -121,21 +122,21 @@ const ButtonWrapper = styled.div`
 `;
 
 const SvgWrapper = styled.div`
-  flex: 1;
+  flex: 1 1 620px;
   min-width: 320px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
-
-  img {
-    width: 500px;
-    max-width: 100%;
-    height: auto;
-  }
+  overflow: visible;
 
   @media (max-width: ${(props) => props.theme.breakpoints.md}) {
     min-width: 0;
     width: 100%;
+
+    img {
+      width: 500px;
+      transform: none;
+    }
   }
 `;
 
