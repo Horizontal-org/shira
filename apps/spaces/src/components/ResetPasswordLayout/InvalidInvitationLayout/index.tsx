@@ -95,7 +95,6 @@ const Content = styled.div`
 `;
 
 const TextSection = styled.div`
-  flex: 1 1 680px;
   min-width: 320px;
   max-width: 680px;
   display: flex;
@@ -122,7 +121,6 @@ const ButtonWrapper = styled.div`
 `;
 
 const SvgWrapper = styled.div`
-  flex: 1 1 620px;
   min-width: 320px;
   display: flex;
   justify-content: flex-end;
