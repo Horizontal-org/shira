@@ -81,7 +81,9 @@ export const Results: FunctionComponent<ResultsProps> = ({ resultsData, loading,
       <>
         <MetricsHeader>
           <MetricTitle>{t('results_tab.by_question.title')}</MetricTitle>
-          <Body2Regular>{t('results_tab.by_question.description')}</Body2Regular>        
+          { resultsData?.metrics.byQuestion && resultsData?.metrics.byQuestion.length > 0 && (
+            <Body2Regular>{t('results_tab.by_question.description')}</Body2Regular>        
+          )}
         </MetricsHeader>
         <ByQuestion 
           loading={loading}
@@ -89,10 +91,6 @@ export const Results: FunctionComponent<ResultsProps> = ({ resultsData, loading,
         />
       </>
 
-   {/* <EmptyState
-      subtitle={t('no_questions.subtitle')}
-      buttons={buttons}
-    /> */}
 
       {quizVisibility === 'private' && (
         <>
@@ -152,7 +150,7 @@ const MetricDescription = styled.p`
 
 const MetricsSeparator = styled.hr`
   border: none;
-  border-top: 1px solid ${props => props.theme.colors.green2};
+  border-top: 1px solid ${props => props.theme.colors.dark.lightGrey};
   margin: 48px 0;
 `;
 
