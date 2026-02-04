@@ -132,16 +132,17 @@ export class GetResultQuizService implements IGetResultQuizService {
       .innerJoin('questions', 'q', 'q.id = qr.question_id')
       .innerJoin('quizzes_questions', 'qq', 'qq.question_id = qr.question_id')
       .innerJoin('quizzes', 'qz', 'qz.id = qq.quiz_id')
-      .where('qz.id = :quizId', { quizId })
       .select([
         'l.id as learnerId',
         'l.name as learnerName',
         'l.email as learnerEmail',
         'qrun.finishedAt as dateSubmitted',
+        'qz.id as quizId',
         'COUNT(qr.id) as totalQuestionRuns',
         "SUM(CASE WHEN qr.answer = (CASE WHEN q.is_phising = 1 THEN 'is_phishing' ELSE 'is_legitimate' END) THEN 1 ELSE 0 END) as correctCount",
       ])
-      .where('qrun.finishedAt IS NOT NULL')
+      .where('qz.id = :quizId', { quizId })
+      .andWhere('qrun.finishedAt IS NOT NULL')
       .groupBy('l.id, l.name, l.email, qrun.finishedAt')
       .orderBy('l.name', 'ASC')
       .getRawMany();
