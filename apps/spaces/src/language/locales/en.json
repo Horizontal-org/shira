@@ -257,7 +257,7 @@
             "table": {
                 "learner": "Learner",
                 "date": "Date submitted",
-                "score": "Quiz Score",
+                "score": "Quiz score",
                 "loading": "Loading learners..."
             }
         }
