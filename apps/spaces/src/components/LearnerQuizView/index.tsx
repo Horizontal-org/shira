@@ -337,6 +337,7 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
           />
         ) : (
           <Table
+            size="compact"
             loading={loading}
             data={data}
             columns={columns}

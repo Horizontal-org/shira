@@ -142,6 +142,7 @@ export const VerifyLearnersTable: FunctionComponent<Props> = ({
   return (
     <Table
       key={tableKey}
+      size="compact"
       loading={isLoading}
       loadingMessage={loadingMessage}
       data={tableData}
