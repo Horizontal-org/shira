@@ -12,7 +12,7 @@ import styled, { css } from 'styled-components'
 import { Body3 } from '../Typography'
 import { Pagination } from './components/Pagination'
 
-type TableSize = 'standard' | 'compact';
+type TableSize = 'full' | 'compact';
 
 export interface TableProps {
   columns: Array<ColumnDef<any>>
@@ -38,13 +38,13 @@ export const Table = ({
   enableRowSelection = true,
   pageSize = 25,
   loadingMessage = null,
-  size = 'standard',
+  size = 'compact',
   enablePagination = true
 }: TableProps) => {
   const [pagination, setPagination] = React.useState<PaginationState>({
     pageIndex: 0,
     pageSize,
-  })
+  });
 
   const table = useReactTable({
     data,

@@ -77,7 +77,6 @@ export const FinalReviewTable: FunctionComponent<Props> = ({
 
   return (
     <Table
-      size="compact"
       loading={isLoading}
       loadingMessage={loadingMessage}
       data={rows}

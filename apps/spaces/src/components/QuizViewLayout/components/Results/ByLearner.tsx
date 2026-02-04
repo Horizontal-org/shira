@@ -71,7 +71,6 @@ export const ByLearner: FunctionComponent<Props> = ({
         />
       ) : (
       <Table
-        size="compact"
         loading={loading}
         loadingMessage={t('results_tab.by_learner.table.loading')}
         data={resultsByLearner}

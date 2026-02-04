@@ -139,7 +139,6 @@ export const LearnersTable: FunctionComponent<Props> = ({
         />
       ) : (
         <Table
-          size="compact"
           loading={loading}
           loadingMessage={t('loading_messages.learners')}
           data={data}

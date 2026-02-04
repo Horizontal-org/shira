@@ -115,7 +115,7 @@ export const AssignLearnersTable: FunctionComponent<Props> = ({
 
       {data.length > 0 && (
         <Table
-          size="compact"
+          size="full"
           loading={loading}
           loadingMessage={<Body1>{t('loading_messages.assigning_quiz_to_learners')}</Body1>}
           data={data}

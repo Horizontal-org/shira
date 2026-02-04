@@ -92,7 +92,6 @@ export const ByQuestion: FunctionComponent<Props> = ({
         />
       ) : (
         <Table
-          size="compact"
           loading={loading}
           loadingMessage={t('results_tab.by_question.table.loading')}
           data={resultsByQuestion}
