@@ -114,7 +114,7 @@ export const Table = ({
                   aria-selected={selected}
                   onKeyDown={(e) => {
                     if (!selectable) return
-                    if (e.key === 'Enter' || e.key === ' ') {
+                    if (e.key === "Enter" || e.key === " ") {
                       e.preventDefault()
                       r.toggleSelected()
                     }
@@ -164,25 +164,24 @@ const TableFooter = styled.div`
   border-bottom: 1px solid ${(props) => props.theme.colors.light.paleGreen};
 `
 
-const StyledTable = styled('table')`
+const StyledTable = styled("table")`
   background: ${(props) => props.theme.colors.light.paleGrey};
   width: 100%;
   table-layout: fixed;
+  font-size: 14px;
   border: none;
   border-spacing: 0;
   border-left: 1px solid ${(props) => props.theme.colors.light.paleGreen};
   border-right: 1px solid ${(props) => props.theme.colors.light.paleGreen};
-
-  font-size: 14px;
 `;
 
-const THead = styled('thead')`
+const THead = styled("thead")`
   & th {
     background: ${(props) => props.theme.colors.light.paleGreen};
   }
 `;
 
-const Th = styled('th') <{ $size: TableSize }>`
+const Th = styled("th") <{ $size: TableSize }>`
   text-align: left;
   padding: 0 16px 14px 16px;
   font-weight: 600;
@@ -192,7 +191,6 @@ const Th = styled('th') <{ $size: TableSize }>`
   box-sizing: border-box;
   width: inherit;
 
-  /* header typography */
   font-size: ${(props) => (props.$size === 'compact' ? '14px' : '16px')};
 `;
 
