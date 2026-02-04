@@ -20,75 +20,75 @@ export const ByQuestion: FunctionComponent<Props> = ({
   const { t } = useTranslation();
 
   const columns = useMemo<ColumnDef<Props['resultsByQuestion'][0]>[]>(
-      () => [
-        {
-          id: 'questionPosition',         
-          cell: ({ row }) => (
-            <TableId>{row.original.position}</TableId>
-          ),
+    () => [
+      {
+        id: 'questionPosition',
+        cell: ({ row }) => (
+          <TableId>{row.original.position}</TableId>
+        ),
+      },
+      {
+        header: t('results_tab.by_question.table.question_name'),
+        id: 'questionName',
+        cell: ({ row }) => {
+          return (
+            <StyledBody3Bold>{row.original.questionName}</StyledBody3Bold>
+          )
         },
-        {
-          header: t('results_tab.by_question.table.question_name'),
-          id: 'questionName',
-          cell: ({ row }) => {
-            return (
-              <StyledBody3Bold>{row.original.questionName}</StyledBody3Bold>
-            )
-          },
-        },
-        {
-          id: 'isPhising',
-          header: t('results_tab.by_question.table.type'),
-          accessorKey: 'isPhising',
-          cell: ({ row }) => {
-            const isPhishing = Boolean(row.original.isPhising);
-            return (
-              <PhishingCell
-                $isPhishing={isPhishing}
-              >
-                {isPhishing ? (
-                  <MdOutlinePhishing size={16} />
-                ) : (
-                  <FaCircleCheck size={16} color={defaultTheme.colors.green6} />
-                )}
-                {isPhishing ? t("question_library.columns.type.phishing") : t("question_library.columns.type.legitimate")}
-              </PhishingCell>
-            );
-          }
-        },
-        {
-          id: 'appName',
-          header: 'App',
-          cell: ({ row }) => {
-            return (
-              <AppCell>
-                {appIcons[row.original.appName] || null}
-                {row.original.appName}
-              </AppCell>
-            )
-          }
-        },
-        {
-          id: 'score',
-          header: t('results_tab.by_question.table.score'),
-          cell: ({ row }) => {
-            const totalRuns = parseInt(row.original.totalRuns);
-            const correctCount = parseInt(row.original.correctCount);
-            const score = totalRuns > 0 ? ((correctCount / totalRuns) * 100).toFixed(0) : '0';
-            return (
-              <TableAverageScore averageScore={score} />
-            )
-          }
-        },
-      ],
-      [t]
-    );
+      },
+      {
+        id: 'isPhising',
+        header: t('results_tab.by_question.table.type'),
+        accessorKey: 'isPhising',
+        cell: ({ row }) => {
+          const isPhishing = Boolean(row.original.isPhising);
+          return (
+            <PhishingCell
+              $isPhishing={isPhishing}
+            >
+              {isPhishing ? (
+                <MdOutlinePhishing size={16} />
+              ) : (
+                <FaCircleCheck size={16} color={defaultTheme.colors.green6} />
+              )}
+              {isPhishing ? t("question_library.columns.type.phishing") : t("question_library.columns.type.legitimate")}
+            </PhishingCell>
+          );
+        }
+      },
+      {
+        id: 'appName',
+        header: 'App',
+        cell: ({ row }) => {
+          return (
+            <AppCell>
+              {appIcons[row.original.appName] || null}
+              {row.original.appName}
+            </AppCell>
+          )
+        }
+      },
+      {
+        id: 'score',
+        header: t('results_tab.by_question.table.score'),
+        cell: ({ row }) => {
+          const totalRuns = parseInt(row.original.totalRuns);
+          const correctCount = parseInt(row.original.correctCount);
+          const score = totalRuns > 0 ? ((correctCount / totalRuns) * 100).toFixed(0) : '0';
+          return (
+            <TableAverageScore averageScore={score} />
+          )
+        }
+      },
+    ],
+    [t]
+  );
 
   return (
     <div>
       {resultsByQuestion.length === 0 && !loading ? (
         <EmptyState
-          subtitle={t("results_tab.by_question.empty_state")}          
+          subtitle={t("results_tab.by_question.empty_state")}
         />
       ) : (
         <Table
@@ -99,14 +99,14 @@ export const ByQuestion: FunctionComponent<Props> = ({
           enableRowSelection={false}
           enablePagination={false}
           rowSelection={{}}
-          setRowSelection={() => {}}
+          setRowSelection={() => { }}
           colGroups={
             <colgroup>
               <col style={{ width: "50px" }} />
               <col />
               <col />
               <col />
-              <col style={{ width: "350px" }}/>
+              <col style={{ width: "350px" }} />
             </colgroup>
           }
         />
