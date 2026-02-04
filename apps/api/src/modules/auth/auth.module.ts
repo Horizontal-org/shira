@@ -13,6 +13,7 @@ import { SpaceModule } from '../space/space.module';
 import { OrganizationModule } from '../organization/organization.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RegistrationEntity } from './domain/registration.entity';
+import { PasswordResetEntity } from './domain/password-reset.entity';
 import { SpaceEntity } from '../space/domain/space.entity';
 import { PassphraseEntity } from '../passphrase/domain/passphrase.entity';
 import { UserEntity } from '../user/domain/user.entity';
@@ -31,7 +32,7 @@ import { RolesGuard } from './guards/roles.guard';
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '1d' },
     }),
-    UserModule,    
+    UserModule,
     SpaceModule,
     PassphraseModule,
     OrganizationModule,
@@ -41,11 +42,12 @@ import { RolesGuard } from './guards/roles.guard';
       SpaceEntity,
       PassphraseEntity,
       UserEntity,
+      PasswordResetEntity,
       SpaceUserEntity,
       OrganizationUsersEntity,
       OrganizationEntity,
       PlanEntity
-  ]),
+    ]),
   ],
   controllers: [...authControllers],
   providers: [
@@ -60,4 +62,4 @@ import { RolesGuard } from './guards/roles.guard';
     RolesGuard,
   ]
 })
-export class AuthModule {}
+export class AuthModule { }
