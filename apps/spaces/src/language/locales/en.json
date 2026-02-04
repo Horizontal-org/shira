@@ -22,8 +22,8 @@
         "reset_button": "Reset password",
         "reset_success_title": "Password updated",
         "reset_success_description": "You can now log in with your new password.",
-        "expired_title": "Sorry, the link is invalid or expired.",
-        "expired_description": "The link to resetting your password has expired. Please start over by sending a new reset email.",
+        "expired_title": "Sorry, something went wrong",
+        "expired_description": "The link you opened is invalid or has expired. Please contact your organization or email contact@wearehorizontal.org for support.",
         "validation": {
             "email_required": "Email is required",
             "invalid_email": "Enter a valid email address",
