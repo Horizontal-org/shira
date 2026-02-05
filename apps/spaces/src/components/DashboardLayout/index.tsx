@@ -250,12 +250,12 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
               return (
                 <Card
                   id={`quiz-card-${card.id}`}
+                  publishedText={t('quizzes.filter.published')}
+                  unpublishedText={t('quizzes.filter.unpublished')}
                   key={card.id}
                   title={card.title}
                   lastModified={getLastUpdateTime(card.latestGlobalUpdate)}
                   isPublished={card.published}
-                  publishedText={t('quizzes.filter.published')}
-                  unpublishedText={t('quizzes.filter.unpublished')}
                   disablePublishToggle={disablePublishToggle}
                   disabledTooltipLabel={t('quiz.publish_toggle.disabled_tooltip')}
                   onCardClick={() => navigate(`/quiz/${card.id}`)}
