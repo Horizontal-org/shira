@@ -17,7 +17,7 @@ export class ListQuizService implements IListQuizService {
 
   async execute(spaceId: number) {
 
-    const rawQuizzes = await this.quizRepo
+    const quizzes = await this.quizRepo
       .createQueryBuilder('quiz')
       .leftJoin(
         qb => {
@@ -51,6 +51,6 @@ export class ListQuizService implements IListQuizService {
       .where('space_id = :spaceId', { spaceId: spaceId })
       .getRawMany()
 
-    return plainToInstance(ReadPlainQuizDto, rawQuizzes);
+    return plainToInstance(ReadPlainQuizDto, quizzes);
   }
 }
