@@ -54,7 +54,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const [selectedCard, setSelectedCard] = useState(null);
 
   const [unpublishedQuizId, setUnpublishedQuizId] = useState<number | null>(null);
-  const [unpublishQuizId, setUnpublishQuizId] = useState<number | null>(null);
+  const [quizIdToUnpublish, setQuizIdToUnpublish] = useState<number | null>(null);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isUnpublishedQuizCopyLinkModalOpen, setIsUnpublishedQuizCopyLinkModalOpen] = useState(false);
@@ -254,7 +254,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                   }}
                   onTogglePublished={() => {
                     if (card.published && getHasQuestions(card)) {
-                      setUnpublishQuizId(card.id);
+                      setQuizIdToUnpublish(card.id);
                       setIsUnpublishQuizModalOpen(true);
                       return;
                     }
@@ -326,15 +326,15 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             isModalOpen={isUnpublishQuizModalOpen}
             setIsModalOpen={setIsUnpublishQuizModalOpen}
             onConfirm={() => {
-              if (cards.find((card) => card.id === unpublishQuizId)) {
-                applyPublishState(unpublishQuizId, false, true);
+              if (cards.find((card) => card.id === quizIdToUnpublish)) {
+                applyPublishState(quizIdToUnpublish, false, true);
               }
-              setUnpublishQuizId(null);
+              setQuizIdToUnpublish(null);
               setIsUnpublishQuizModalOpen(false);
             }}
             onCancel={() => {
               setIsUnpublishQuizModalOpen(false);
-              setUnpublishQuizId(null);
+              setQuizIdToUnpublish(null);
             }}
           />
 
