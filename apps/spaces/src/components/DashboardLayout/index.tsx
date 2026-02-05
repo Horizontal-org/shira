@@ -1,4 +1,4 @@
-import { FunctionComponent, useCallback, useEffect, useMemo, useState } from "react";
+import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, Sidebar, styled, H2, SubHeading3, Body1, Button, FilterButton, useAdminSidebar, BetaBanner, useTheme } from "@shira/ui";
 import { FiPlus } from 'react-icons/fi';
@@ -291,6 +291,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             content={(
               <div>
                 {t('modals.delete_quiz.subtitle')}
+                <br /><br />
                 <QuizWarningNote>
                   {t('modals.delete_quiz.note')}
                 </QuizWarningNote>
@@ -340,8 +341,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             setIsModalOpen={setIsUnpublishQuizModalOpen}
             onConfirm={handleConfirmUnpublishModal}
             onCancel={() => {
-              setUnpublishQuizId(null);
               setIsUnpublishQuizModalOpen(false);
+              setUnpublishQuizId(null);
             }}
           />
 
@@ -392,7 +393,7 @@ const MainContentWrapper = styled.div`
 `;
 
 const StyledSubHeading3 = styled(SubHeading3)`
-  color: ${(props) => props.theme.colors.green7};
+  color: ${props => props.theme.colors.green7};
 `;
 
 const HeaderContainer = styled.div`
