@@ -31,4 +31,8 @@ export class ReadPlainQuizDto {
   @Expose()
   @IsString()
   visibility: string;
+
+  @Expose()
+  @IsNumber()
+  questionsCount: number;
 }
