@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { Card, Sidebar, styled, H2, SubHeading3, Body1, Button, FilterButton, useAdminSidebar, BetaBanner, useTheme } from "@shira/ui";
 import { FiPlus } from 'react-icons/fi';
 import { shallow } from "zustand/shallow";
-import toast from "react-hot-toast";
+import { useStore } from "../../store";
 import { formatDistance } from "date-fns";
 import { enUS } from "date-fns/locale";
 import { useTranslation } from "react-i18next";
-import { useStore } from "../../store";
 import { QuizSuccessStates, SUCCESS_MESSAGES } from "../../store/slices/quiz";
+import toast from "react-hot-toast";
 import { FilterStates } from "./constants";
 import { DeleteModal } from "../modals/DeleteModal";
 import { CreateQuizModal } from "../modals/CreateQuizModal";
@@ -42,16 +42,16 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     space: state.space,
     quizActionSuccess: state.quizActionSuccess,
     cleanQuizActionSuccess: state.cleanQuizActionSuccess
-  }), shallow);
+  }), shallow)
 
   const { t, i18n } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
-  const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate);
+  const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
 
   const [activeFilter, setActiveFilter] = useState<FilterStates>(FilterStates.all);
   const [cards, setCards] = useState([]);
-  const [selectedCard, setSelectedCard] = useState<any>(null);
+  const [selectedCard, setSelectedCard] = useState(null);
 
   const [unpublishedQuizId, setUnpublishedQuizId] = useState<number | null>(null);
   const [unpublishQuizId, setUnpublishQuizId] = useState<number | null>(null);
@@ -222,7 +222,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           </FilterButtonsContainer >
 
           <CardGrid id="card-grid">
-            {filteredCards.map((card: any) => {
+            {filteredCards.map((card) => {
               const hasQuestions = getHasQuestions(card);
               const disablePublishToggle = !hasQuestions && !card.published;
 
