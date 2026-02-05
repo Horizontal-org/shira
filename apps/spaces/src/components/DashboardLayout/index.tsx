@@ -110,12 +110,12 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     return Number(card?.questionsCount ?? 0) > 0;
   }
 
-  const applyPublishState = useCallback((quizId: number, nextPublished: boolean, hasQuestions: boolean) => {
-    if (nextPublished && !hasQuestions) return;
+  const applyPublishState = useCallback((quizId: number, published: boolean, hasQuestions: boolean) => {
+    if (published && !hasQuestions) return;
 
     updateQuiz(
-      { id: quizId, published: nextPublished },
-      nextPublished ? "update_published" : "update_unpublished"
+      { id: quizId, published: published },
+      published ? "update_published" : "update_unpublished"
     );
   }, [updateQuiz]);
 
@@ -148,18 +148,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     [filteredCards, i18n.language]
   );
 
-  const handleTogglePublished = useCallback((card) => {
-    const hasQuestions = getHasQuestions(card);
-
-    if (card.published && hasQuestions) {
-      setUnpublishQuizId(card.id);
-      setIsUnpublishQuizModalOpen(true);
-      return;
-    }
-
-    applyPublishState(card.id, !card.published, hasQuestions);
-  }, [applyPublishState, getHasQuestions]);
-
   const handleConfirmCopyLinkModal = useCallback(() => {
     const quiz = cards.find((card) => card.id === unpublishedQuizId);
     if (!quiz) {
@@ -176,20 +164,11 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
   const handleCancelCopyLinkModal = useCallback(() => {
     const quiz = cards.find((card) => card.id === unpublishedQuizId);
-    if (cards.find((card) => card.id === unpublishedQuizId)) {
+    if (quiz) {
       handleCopyUrlAndNotify(quiz.hash, t("success_messages.quiz_link_copied"));
     }
     setUnpublishedQuizId(null);
   }, [cards, unpublishedQuizId, t]);
-
-  const handleConfirmUnpublishModal = useCallback(() => {
-    const quiz = cards.find((card) => card.id === unpublishQuizId);
-    if (quiz) {
-      applyPublishState(quiz.id, false, true);
-    }
-    setUnpublishQuizId(null);
-    setIsUnpublishQuizModalOpen(false);
-  }, [cards, unpublishQuizId, applyPublishState]);
 
   return (
     <Container id="dashboard-layout">
@@ -273,7 +252,14 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                     setUnpublishedQuizId(card.id);
                     setIsUnpublishedQuizCopyLinkModalOpen(true);
                   }}
-                  onTogglePublished={() => handleTogglePublished(card)}
+                  onTogglePublished={() => {
+                    if (card.published && getHasQuestions(card)) {
+                      setUnpublishQuizId(card.id);
+                      setIsUnpublishQuizModalOpen(true);
+                      return;
+                    }
+                    applyPublishState(card.id, !card.published, getHasQuestions(card));
+                  }}
                   showLoading={isSubmitting && submittingQuizId === card.id}
                   loadingLabel={t('loading_messages.duplicating')}
                   isPublic={card.visibility === 'public'}
@@ -339,7 +325,13 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           <UnpublishQuizWithQuestionsModal
             isModalOpen={isUnpublishQuizModalOpen}
             setIsModalOpen={setIsUnpublishQuizModalOpen}
-            onConfirm={handleConfirmUnpublishModal}
+            onConfirm={() => {
+              if (cards.find((card) => card.id === unpublishQuizId)) {
+                applyPublishState(unpublishQuizId, false, true);
+              }
+              setUnpublishQuizId(null);
+              setIsUnpublishQuizModalOpen(false);
+            }}
             onCancel={() => {
               setIsUnpublishQuizModalOpen(false);
               setUnpublishQuizId(null);
