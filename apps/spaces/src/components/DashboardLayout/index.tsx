@@ -53,7 +53,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const [activeFilter, setActiveFilter] = useState<FilterStates>(FilterStates.all);
   const [cards, setCards] = useState([]);
   const [selectedCard, handleSelectedCard] = useState(null)
-  const [unpublishedQuizId, handleUnpublishedQuizId] = useState<number | null>(null);
+  const [unpublishedQuizId, setUnpublishedQuizId] = useState<number | null>(null);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isUnpublishedQuizCopyLinkModalOpen, setIsUnpublishedQuizCopyLinkModalOpen] = useState(false);
@@ -127,13 +127,33 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     if (!hasQuestions && !isPublished) { return };
 
     if (!hasQuestions && isPublished) {
-      handleUnpublishedQuizId(card.id);
+      setUnpublishedQuizId(card.id);
       setIsUnpublishQuizModalOpen(true);
       return;
     }
 
     applyPublishState(card.id, !isPublished);
   };
+
+  // UI-level handler: decides whether to open modals or apply immediately
+  const requestTogglePublished = useCallback((card: any) => {
+    const hasQuestions = card.questionsCount;
+    const isPublished = !!card.published;
+    const nextPublished = !isPublished;
+
+    // publishing requires at least 1 question -> do nothing (toggle should already be disabled)
+    if (nextPublished && !hasQuestions) return;
+
+    // unpublishing with questions -> confirm modal
+    if (!nextPublished && hasQuestions) {
+      setUnpublishedQuizId(card.id);
+      setIsUnpublishQuizModalOpen(true);
+      return;
+    }
+
+    // otherwise, just apply
+    applyPublishState(card.id, nextPublished);
+  }, [applyPublishState]);
 
   const filteredCards = cards.filter((card) => {
     switch (activeFilter) {
@@ -234,12 +254,12 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                   onCopyUrl={() => {
                     handleCopyUrlAndNotify(card.hash, t('success_messages.quiz_link_copied'));
                     if (!isPublished) {
-                      handleUnpublishedQuizId(card.id)
+                      setUnpublishedQuizId(card.id)
                       setIsUnpublishedQuizCopyLinkModalOpen(true);
                     }
                   }}
                   onTogglePublished={() => {
-                    handleTogglePublished(card);
+                    requestTogglePublished(card);
                   }}
                   onEdit={() => {
                     navigate(`/quiz/${card.id}`)
@@ -308,27 +328,27 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             setIsModalOpen={setIsUnpublishedQuizCopyLinkModalOpen}
             isModalOpen={isUnpublishedQuizCopyLinkModalOpen}
             onConfirm={() => {
-              if (unpublishedQuizId != null) {
-                // handleTogglePublished(unpublishedQuizId, true)
-              };
-              handleUnpublishedQuizId(null);
+              if (unpublishedQuizId !== null) {
+                applyPublishState(unpublishedQuizId, true);
+              }
+              setUnpublishedQuizId(null);
             }}
-            onCancel={() => { handleUnpublishedQuizId(null); }}
+            onCancel={() => setUnpublishedQuizId(null)}
           />
 
           <UnpublishQuizWithQuestionsModal
             isModalOpen={isUnpublishQuizModalOpen}
             setIsModalOpen={setIsUnpublishQuizModalOpen}
             onConfirm={() => {
-              if (unpublishedQuizId !== null) {
+              if (unpublishedQuizId) {
                 applyPublishState(unpublishedQuizId, false);
               }
               setIsUnpublishQuizModalOpen(false);
-              handleUnpublishedQuizId(null);
+              setUnpublishedQuizId(null);
             }}
             onCancel={() => {
               setIsUnpublishQuizModalOpen(false);
-              handleUnpublishedQuizId(null);
+              setUnpublishedQuizId(null);
             }}
           />
 
@@ -356,8 +376,9 @@ const Container = styled.div`
   height: auto;
 
   @media(max-width: ${props => props.theme.breakpoints.sm}) {
-  display: block;
-}`;
+    display: block;
+  }
+`;
 
 const MainContent = styled.div<{ $isCollapsed: boolean }>`
   flex: 1;
@@ -403,17 +424,17 @@ const CardGrid = styled.div`
 
   @media (max-width: ${props => props.theme.breakpoints.lg}) {
     grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+    gap: 20px;
   }
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+    gap: 16px;
   }
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     grid-template-columns: 1fr;
-  gap: 16px;
+    gap: 16px;
   }
 `;
 
