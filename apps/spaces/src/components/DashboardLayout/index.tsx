@@ -5,7 +5,7 @@ import { FiPlus } from 'react-icons/fi';
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { formatDistance } from "date-fns";
-import { enUS } from "date-fns/locale";
+import { enUS, is } from "date-fns/locale";
 import { useTranslation } from "react-i18next";
 import { QuizSuccessStates, SUCCESS_MESSAGES } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
@@ -19,6 +19,7 @@ import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
 import { handleCopyUrlAndNotify } from "../../utils/quiz";
 import { getCurrentDateFNSLocales } from "../../language/dateUtils";
 import { useQuizCreationFlow } from "../../hooks/useQuizCreationFlow";
+import { getQuizById } from "../../fetch/quiz";
 
 interface Props { }
 
@@ -51,10 +52,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
   const [activeFilter, setActiveFilter] = useState<FilterStates>(FilterStates.all);
   const [cards, setCards] = useState([]);
-  const [selectedCard, setSelectedCard] = useState(null);
-
-  const [unpublishedQuizId, setUnpublishedQuizId] = useState<number | null>(null);
-  const [quizIdToUnpublish, setQuizIdToUnpublish] = useState<number | null>(null);
+  const [selectedCard, handleSelectedCard] = useState(null)
+  const [unpublishedQuizId, handleUnpublishedQuizId] = useState<number | null>(null);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isUnpublishedQuizCopyLinkModalOpen, setIsUnpublishedQuizCopyLinkModalOpen] = useState(false);
@@ -87,7 +86,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     return () => {
       cleanQuizActionSuccess()
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     setCards(quizzes)
@@ -106,18 +105,35 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     }
   }, [quizActionSuccess]);
 
-  function getHasQuestions(card) {
-    return Number(card?.questionsCount ?? 0) > 0;
-  }
+  const applyPublishState = (cardId: number, published: boolean) => {
+    updateQuiz({
+      id: cardId,
+      published
+    }, published ? 'update_published' : 'update_unpublished');
 
-  const applyPublishState = useCallback((quizId: number, published: boolean, hasQuestions: boolean) => {
-    if (published && !hasQuestions) return;
-
-    updateQuiz(
-      { id: quizId, published: published },
-      published ? "update_published" : "update_unpublished"
+    setCards(currentCards =>
+      currentCards.map(card =>
+        card.id === cardId
+          ? { ...card, published: !card.published }
+          : card
+      )
     );
-  }, [updateQuiz]);
+  };
+
+  const handleTogglePublished = async (card: any) => {
+    const hasQuestions = card.questionsCount;
+    const isPublished = card.published;
+
+    if (!hasQuestions && !isPublished) { return };
+
+    if (!hasQuestions && isPublished) {
+      handleUnpublishedQuizId(card.id);
+      setIsUnpublishQuizModalOpen(true);
+      return;
+    }
+
+    applyPublishState(card.id, !isPublished);
+  };
 
   const filteredCards = cards.filter((card) => {
     switch (activeFilter) {
@@ -144,31 +160,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
       });
 
       return t('quizzes.last_modified', { date: time });
-    },
-    [filteredCards, i18n.language]
-  );
-
-  const handleConfirmCopyLinkModal = useCallback(() => {
-    const quiz = cards.find((card) => card.id === unpublishedQuizId);
-    if (!quiz) {
-      setUnpublishedQuizId(null);
-      return;
-    }
-
-    const hasQuestions = getHasQuestions(quiz);
-    handleCopyUrlAndNotify(quiz.hash, t("success_messages.quiz_link_copied"));
-    applyPublishState(quiz.id, true, hasQuestions);
-
-    setUnpublishedQuizId(null);
-  }, [cards, unpublishedQuizId, getHasQuestions, t, applyPublishState]);
-
-  const handleCancelCopyLinkModal = useCallback(() => {
-    const quiz = cards.find((card) => card.id === unpublishedQuizId);
-    if (quiz) {
-      handleCopyUrlAndNotify(quiz.hash, t("success_messages.quiz_link_copied"));
-    }
-    setUnpublishedQuizId(null);
-  }, [cards, unpublishedQuizId, t]);
+    }, [filteredCards, i18n.language]);
 
   return (
     <Container id="dashboard-layout">
@@ -180,7 +172,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
       <MainContent $isCollapsed={isCollapsed}>
         <BetaBanner url="https://shira.app/beta-user" />
-
         <MainContentWrapper>
           <HeaderContainer>
             <StyledSubHeading3 id="space-name">{space && space.name}</StyledSubHeading3>
@@ -223,42 +214,40 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
           <CardGrid id="card-grid">
             {filteredCards.map((card) => {
-              const hasQuestions = getHasQuestions(card);
-              const disablePublishToggle = !hasQuestions && !card.published;
+              const hasQuestions = card.questionsCount;
+              const isPublished = card.published;
 
               return (
                 <Card
                   id={`quiz-card-${card.id}`}
                   publishedText={t('quizzes.filter.published')}
                   unpublishedText={t('quizzes.filter.unpublished')}
+                  onCardClick={() => {
+                    navigate(`/quiz/${card.id}`)
+                  }}
                   key={card.id}
                   title={card.title}
                   lastModified={getLastUpdateTime(card.latestGlobalUpdate)}
-                  isPublished={card.published}
-                  disablePublishToggle={disablePublishToggle}
+                  isPublished={isPublished}
+                  disablePublishToggle={!hasQuestions && !isPublished}
                   disabledTooltipLabel={t('quiz.publish_toggle.disabled_tooltip')}
-                  onCardClick={() => navigate(`/quiz/${card.id}`)}
-                  onEdit={() => navigate(`/quiz/${card.id}`)}
-                  onDuplicate={() => startDuplicateQuizFlow(card)}
-                  onDelete={() => {
-                    setSelectedCard(card);
-                    setIsDeleteModalOpen(true);
-                  }}
                   onCopyUrl={() => {
-                    if (card.published) {
-                      handleCopyUrlAndNotify(card.hash, t("success_messages.quiz_link_copied"));
-                      return;
+                    handleCopyUrlAndNotify(card.hash, t('success_messages.quiz_link_copied'));
+                    if (!isPublished) {
+                      handleUnpublishedQuizId(card.id)
+                      setIsUnpublishedQuizCopyLinkModalOpen(true);
                     }
-                    setUnpublishedQuizId(card.id);
-                    setIsUnpublishedQuizCopyLinkModalOpen(true);
                   }}
                   onTogglePublished={() => {
-                    if (card.published && getHasQuestions(card)) {
-                      setQuizIdToUnpublish(card.id);
-                      setIsUnpublishQuizModalOpen(true);
-                      return;
-                    }
-                    applyPublishState(card.id, !card.published, getHasQuestions(card));
+                    handleTogglePublished(card);
+                  }}
+                  onEdit={() => {
+                    navigate(`/quiz/${card.id}`)
+                  }}
+                  onDuplicate={() => { startDuplicateQuizFlow(card); }}
+                  onDelete={() => {
+                    handleSelectedCard(card)
+                    setIsDeleteModalOpen(true)
                   }}
                   showLoading={isSubmitting && submittingQuizId === card.id}
                   loadingLabel={t('loading_messages.duplicating')}
@@ -286,12 +275,12 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             )}
             setIsModalOpen={setIsDeleteModalOpen}
             onDelete={() => {
-              deleteQuiz(selectedCard?.id);
-              setSelectedCard(null);
+              deleteQuiz(selectedCard?.id)
+              handleSelectedCard(null);
             }}
             onCancel={() => {
               setIsDeleteModalOpen(false);
-              setSelectedCard(null);
+              handleSelectedCard(null);
             }}
             isModalOpen={isDeleteModalOpen}
           />
@@ -318,23 +307,28 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           <UnpublishedQuizCopyLinkModal
             setIsModalOpen={setIsUnpublishedQuizCopyLinkModalOpen}
             isModalOpen={isUnpublishedQuizCopyLinkModalOpen}
-            onConfirm={handleConfirmCopyLinkModal}
-            onCancel={handleCancelCopyLinkModal}
+            onConfirm={() => {
+              if (unpublishedQuizId != null) {
+                // handleTogglePublished(unpublishedQuizId, true)
+              };
+              handleUnpublishedQuizId(null);
+            }}
+            onCancel={() => { handleUnpublishedQuizId(null); }}
           />
 
           <UnpublishQuizWithQuestionsModal
             isModalOpen={isUnpublishQuizModalOpen}
             setIsModalOpen={setIsUnpublishQuizModalOpen}
             onConfirm={() => {
-              if (cards.find((card) => card.id === quizIdToUnpublish)) {
-                applyPublishState(quizIdToUnpublish, false, true);
+              if (unpublishedQuizId !== null) {
+                applyPublishState(unpublishedQuizId, false);
               }
-              setQuizIdToUnpublish(null);
               setIsUnpublishQuizModalOpen(false);
+              handleUnpublishedQuizId(null);
             }}
             onCancel={() => {
               setIsUnpublishQuizModalOpen(false);
-              setQuizIdToUnpublish(null);
+              handleUnpublishedQuizId(null);
             }}
           />
 
@@ -355,81 +349,81 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 };
 
 const Container = styled.div`
-  position: relative;
-  display: flex;
-  background: ${props => props.theme.colors.light.paleGrey};
+              position: relative;
+              display: flex;
+              background: ${props => props.theme.colors.light.paleGrey};
 
-  height: auto;
+              height: auto;
 
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    display: block;
+              @media(max - width: ${props => props.theme.breakpoints.sm}) {
+              display: block;
   }
-`;
+            `;
 
 const MainContent = styled.div<{ $isCollapsed: boolean }>`
-  flex: 1;
-  margin-left: ${props => props.$isCollapsed ? '116px' : '264px'};
-  transition: margin-left 0.3s ease;
+            flex: 1;
+            margin-left: ${props => props.$isCollapsed ? '116px' : '264px'};
+            transition: margin-left 0.3s ease;
 
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
-    margin-left: 80px;
+            @media (max-width: ${props => props.theme.breakpoints.md}) {
+              margin - left: 80px;
   }
 
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    margin-left: 0;
+            @media (max-width: ${props => props.theme.breakpoints.sm}) {
+              margin - left: 0;
   }
-`;
+            `;
 
 const MainContentWrapper = styled.div`
-  padding: 50px;
-`;
+            padding: 50px;
+            `;
 
 const StyledSubHeading3 = styled(SubHeading3)`
-  color: ${props => props.theme.colors.green7};
-`;
+            color: ${props => props.theme.colors.green7};
+            `;
 
 const HeaderContainer = styled.div`
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-`;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            `;
 
 const FilterButtonsContainer = styled.div`
-  margin-top: 8px;
-  padding: 16px;
-  display: flex;
-  gap: 8px;
-`;
+            margin-top: 8px;
+            padding: 16px;
+            display: flex;
+            gap: 8px;
+            `;
 
 const CardGrid = styled.div`
-  padding: 16px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
+            padding: 16px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
 
-  @media (max-width: ${props => props.theme.breakpoints.lg}) {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+            @media (max-width: ${props => props.theme.breakpoints.lg}) {
+              grid - template - columns: repeat(3, 1fr);
+            gap: 20px;
   }
 
-   @media (max-width: ${props => props.theme.breakpoints.md}) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+            @media (max-width: ${props => props.theme.breakpoints.md}) {
+              grid - template - columns: repeat(2, 1fr);
+            gap: 16px;
   }
 
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    grid-template-columns: 1fr;
-    gap: 16px;
+            @media (max-width: ${props => props.theme.breakpoints.sm}) {
+              grid - template - columns: 1fr;
+            gap: 16px;
   }
-`;
+            `;
 
 const ButtonContainer = styled.div`
-  display: flex;
-  align-items: flex-start;
-`;
+            display: flex;
+            align-items: flex-start;
+            `;
 
 const QuizWarningNote = styled.span`
-  color: #d73527;
-  font-weight: 500;
-`;
+            color: #d73527;
+            font-weight: 500;
+            `;
