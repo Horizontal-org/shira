@@ -135,23 +135,19 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     applyPublishState(card.id, !isPublished);
   };
 
-  // UI-level handler: decides whether to open modals or apply immediately
   const requestTogglePublished = useCallback((card: any) => {
     const hasQuestions = card.questionsCount;
     const isPublished = !!card.published;
     const nextPublished = !isPublished;
 
-    // publishing requires at least 1 question -> do nothing (toggle should already be disabled)
     if (nextPublished && !hasQuestions) return;
 
-    // unpublishing with questions -> confirm modal
     if (!nextPublished && hasQuestions) {
       setUnpublishedQuizId(card.id);
       setIsUnpublishQuizModalOpen(true);
       return;
     }
 
-    // otherwise, just apply
     applyPublishState(card.id, nextPublished);
   }, [applyPublishState]);
 
