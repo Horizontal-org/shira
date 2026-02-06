@@ -54,7 +54,8 @@ export interface QuizSlice {
   createQuiz: (title: string, visibility: string) => void,
   quizActionSuccess: null | QuizSuccessStates
   cleanQuizActionSuccess: () => void
-  setQuizActionSuccess: (successState: string) => void
+  setQuizActionSuccess: (successState: string) => void,
+  cleanQuizzes: () => void
 }
 
 export const createQuizSlice: StateCreator<
@@ -65,9 +66,11 @@ export const createQuizSlice: StateCreator<
 > = (set) => ({
   quizzes: [],
   quizActionSuccess: null,
+
   cleanQuizActionSuccess: async () => {
     set({ quizActionSuccess: null })
   },
+
   fetchQuizzes: async () => {
     const res = await getQuizzes()
     set({
@@ -118,4 +121,7 @@ export const createQuizSlice: StateCreator<
   setQuizActionSuccess: async (successState: QuizSuccessStates) => {
     set({ quizActionSuccess: successState })
   },
+  cleanQuizzes: () => {
+    set({ quizzes: [] })
+  }
 })
