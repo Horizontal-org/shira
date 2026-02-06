@@ -120,35 +120,23 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     );
   };
 
-  const handleTogglePublished = async (card: any) => {
+  const togglePublished = (card: any) => {
     const hasQuestions = card.questionsCount;
     const isPublished = card.published;
+    const shouldPublish = !isPublished;
 
-    if (!hasQuestions && !isPublished) { return };
+    // don't publish empty quizzes
+    if (shouldPublish && !hasQuestions) return;
 
-    if (!hasQuestions && isPublished) {
+    // confirm before unpublishing quizzes with questions
+    if (!shouldPublish && hasQuestions) {
       setUnpublishedQuizId(card.id);
       setIsUnpublishQuizModalOpen(true);
       return;
     }
 
-    applyPublishState(card.id, !isPublished);
+    applyPublishState(card.id, shouldPublish);
   };
-
-  const requestTogglePublished = useCallback((card: any) => {
-    const hasQuestions = card.questionsCount;
-    const isPublished = !!card.published;
-
-    if (!isPublished && !hasQuestions) return;
-
-    if (isPublished && hasQuestions) {
-      setUnpublishedQuizId(card.id);
-      setIsUnpublishQuizModalOpen(true);
-      return;
-    }
-
-    applyPublishState(card.id, !isPublished);
-  }, [applyPublishState]);
 
   const filteredCards = cards.filter((card) => {
     switch (activeFilter) {
@@ -249,13 +237,11 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                   onCopyUrl={() => {
                     handleCopyUrlAndNotify(card.hash, t('success_messages.quiz_link_copied'));
                     if (!isPublished) {
-                      setUnpublishedQuizId(card.id)
+                      setUnpublishedQuizId(card.id);
                       setIsUnpublishedQuizCopyLinkModalOpen(true);
                     }
                   }}
-                  onTogglePublished={() => {
-                    requestTogglePublished(card);
-                  }}
+                  onTogglePublished={() => { togglePublished(card) }}
                   onEdit={() => {
                     navigate(`/quiz/${card.id}`)
                   }}
@@ -323,9 +309,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             setIsModalOpen={setIsUnpublishedQuizCopyLinkModalOpen}
             isModalOpen={isUnpublishedQuizCopyLinkModalOpen}
             onConfirm={() => {
-              if (unpublishedQuizId !== null) {
-                applyPublishState(unpublishedQuizId, true);
-              }
+              if (unpublishedQuizId == null) return;
+              applyPublishState(unpublishedQuizId, true);
               setUnpublishedQuizId(null);
             }}
             onCancel={() => setUnpublishedQuizId(null)}
