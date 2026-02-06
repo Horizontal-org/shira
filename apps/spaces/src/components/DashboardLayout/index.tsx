@@ -138,17 +138,16 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const requestTogglePublished = useCallback((card: any) => {
     const hasQuestions = card.questionsCount;
     const isPublished = !!card.published;
-    const nextPublished = !isPublished;
 
-    if (nextPublished && !hasQuestions) return;
+    if (!isPublished && !hasQuestions) return;
 
-    if (!nextPublished && hasQuestions) {
+    if (isPublished && hasQuestions) {
       setUnpublishedQuizId(card.id);
       setIsUnpublishQuizModalOpen(true);
       return;
     }
 
-    applyPublishState(card.id, nextPublished);
+    applyPublishState(card.id, !isPublished);
   }, [applyPublishState]);
 
   const filteredCards = cards.filter((card) => {
