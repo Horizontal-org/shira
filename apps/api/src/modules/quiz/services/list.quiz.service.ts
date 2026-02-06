@@ -27,7 +27,6 @@ export class ListQuizService implements IListQuizService {
             .select('qq.quizId', 'quizId')
             .addSelect('MAX(question.updatedAt)', 'updatedAt')
             .addSelect('MAX(qq.updatedAt)', 'lastQuizQuestionUpdatedAt')
-            .addSelect('COUNT(question.id)', 'questionsCount')
             .groupBy('qq.quizId')
         },
         'latest_question',
@@ -40,7 +39,7 @@ export class ListQuizService implements IListQuizService {
         'quiz.hash AS hash',
         'quiz.published AS published',
         'quiz.visibility AS visibility',
-        'COALESCE(latest_question.questionsCount, 0) AS questionsCount'
+        `(SELECT COUNT(*) FROM quizzes_questions qq_count WHERE qq_count.quiz_id = quiz.id) AS questionsCount`
       ])
       .addSelect(`GREATEST
         (
