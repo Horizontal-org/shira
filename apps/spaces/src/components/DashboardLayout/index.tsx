@@ -5,7 +5,7 @@ import { FiPlus } from 'react-icons/fi';
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { formatDistance } from "date-fns";
-import { enUS, is } from "date-fns/locale";
+import { enUS } from "date-fns/locale";
 import { useTranslation } from "react-i18next";
 import { QuizSuccessStates, SUCCESS_MESSAGES } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
@@ -19,7 +19,6 @@ import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
 import { handleCopyUrlAndNotify } from "../../utils/quiz";
 import { getCurrentDateFNSLocales } from "../../language/dateUtils";
 import { useQuizCreationFlow } from "../../hooks/useQuizCreationFlow";
-import { getQuizById } from "../../fetch/quiz";
 
 interface Props { }
 
@@ -33,7 +32,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     quizzes,
     space,
     quizActionSuccess,
-    cleanQuizActionSuccess
+    cleanQuizActionSuccess,
+    cleanQuizzes
   } = useStore((state) => ({
     fetchQuizzes: state.fetchQuizzes,
     updateQuiz: state.updateQuiz,
@@ -42,7 +42,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     quizzes: state.quizzes,
     space: state.space,
     quizActionSuccess: state.quizActionSuccess,
-    cleanQuizActionSuccess: state.cleanQuizActionSuccess
+    cleanQuizActionSuccess: state.cleanQuizActionSuccess,
+    cleanQuizzes: state.cleanQuizzes
   }), shallow)
 
   const { t, i18n } = useTranslation();
@@ -84,7 +85,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     fetchQuizzes()
 
     return () => {
-      cleanQuizActionSuccess()
+      cleanQuizActionSuccess();
+      cleanQuizzes();
     }
   }, []);
 
