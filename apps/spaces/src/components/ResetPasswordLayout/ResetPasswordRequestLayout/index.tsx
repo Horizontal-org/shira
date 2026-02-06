@@ -106,10 +106,10 @@ const StyledForm = styled(Form)`
   z-index: 1;
   text-align: left;
   margin-bottom: 32px;
-  gap: 16px;
   color: ${(props) => props.theme.colors.dark.darkGrey};
 `;
 
 const SuccessInfo = styled(Body3)`
   margin-top: 16px;
+  font-size: 14px;
 `;
