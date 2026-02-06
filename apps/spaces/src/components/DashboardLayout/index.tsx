@@ -349,81 +349,80 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 };
 
 const Container = styled.div`
-              position: relative;
-              display: flex;
-              background: ${props => props.theme.colors.light.paleGrey};
+  position: relative;
+  display: flex;
+  background: ${props => props.theme.colors.light.paleGrey};
 
-              height: auto;
+  height: auto;
 
-              @media(max - width: ${props => props.theme.breakpoints.sm}) {
-              display: block;
-  }
-            `;
+  @media(max-width: ${props => props.theme.breakpoints.sm}) {
+  display: block;
+}`;
 
 const MainContent = styled.div<{ $isCollapsed: boolean }>`
-            flex: 1;
-            margin-left: ${props => props.$isCollapsed ? '116px' : '264px'};
-            transition: margin-left 0.3s ease;
+  flex: 1;
+  margin-left: ${props => props.$isCollapsed ? '116px' : '264px'};
+  transition: margin-left 0.3s ease;
 
-            @media (max-width: ${props => props.theme.breakpoints.md}) {
-              margin - left: 80px;
+  @media (max-width: ${props => props.theme.breakpoints.md}) {
+    margin-left: 80px;
   }
 
-            @media (max-width: ${props => props.theme.breakpoints.sm}) {
-              margin - left: 0;
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    margin-left: 0;
   }
-            `;
+`;
 
 const MainContentWrapper = styled.div`
-            padding: 50px;
-            `;
+  padding: 50px;
+`;
 
 const StyledSubHeading3 = styled(SubHeading3)`
-            color: ${props => props.theme.colors.green7};
-            `;
+  color: ${props => props.theme.colors.green7};
+`;
 
 const HeaderContainer = styled.div`
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            `;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
 
 const FilterButtonsContainer = styled.div`
-            margin-top: 8px;
-            padding: 16px;
-            display: flex;
-            gap: 8px;
-            `;
+  margin-top: 8px;
+  padding: 16px;
+  display: flex;
+  gap: 8px;
+`;
 
 const CardGrid = styled.div`
-            padding: 16px;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
+  padding: 16px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
 
-            @media (max-width: ${props => props.theme.breakpoints.lg}) {
-              grid - template - columns: repeat(3, 1fr);
-            gap: 20px;
+  @media (max-width: ${props => props.theme.breakpoints.lg}) {
+    grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
   }
 
-            @media (max-width: ${props => props.theme.breakpoints.md}) {
-              grid - template - columns: repeat(2, 1fr);
-            gap: 16px;
+  @media (max-width: ${props => props.theme.breakpoints.md}) {
+    grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
   }
 
-            @media (max-width: ${props => props.theme.breakpoints.sm}) {
-              grid - template - columns: 1fr;
-            gap: 16px;
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    grid-template-columns: 1fr;
+  gap: 16px;
   }
-            `;
+`;
 
 const ButtonContainer = styled.div`
-            display: flex;
-            align-items: flex-start;
-            `;
+  display: flex;
+  align-items: flex-start;
+`;
 
 const QuizWarningNote = styled.span`
-            color: #d73527;
-            font-weight: 500;
-            `;
+  color: #d73527;
+  font-weight: 500;
+`;
