@@ -1,4 +1,4 @@
-import { Exclude, Expose } from 'class-transformer';
+import { Exclude, Expose, Transform } from 'class-transformer';
 import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
 
 @Exclude()
@@ -33,6 +33,7 @@ export class ReadPlainQuizDto {
   visibility: string;
 
   @Expose()
+  @Transform(({ value }) => Number(value))
   @IsNumber()
   questionsCount: number;
 }

@@ -40,7 +40,7 @@ export class ListQuizService implements IListQuizService {
         'quiz.hash AS hash',
         'quiz.published AS published',
         'quiz.visibility AS visibility',
-        'COALESCE(latest_question.questionsCount, 0) AS questionsCount',
+        'COALESCE(latest_question.questionsCount, 0) AS questionsCount'
       ])
       .addSelect(`GREATEST
         (
