@@ -282,11 +282,9 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
               </RemoveButton>
             </SelectedFileCard>
 
-            <MutedCenteredText>
-              <Body2Regular>
-                {t("learners_bulk_import.tabs.upload_csv.upload_success")}
-              </Body2Regular>
-            </MutedCenteredText>
+            <Body1>
+              {t("learners_bulk_import.tabs.upload_csv.upload_success")}
+            </Body1>
           </CenteredBodyColumn>
         </>
       )}
@@ -347,10 +345,6 @@ const CenteredBodyColumn = styled.div`
 const CenteredText = styled.div`
   text-align: center;
   max-width: ${(props) => props.theme.breakpoints.sm};
-`;
-
-const MutedCenteredText = styled(CenteredText)`
-  color: ${(props) => props.theme.colors.dark.mediumGrey};
 `;
 
 const CompleteIcon = styled.div`
