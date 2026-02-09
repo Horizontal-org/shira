@@ -37,13 +37,19 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
   const getInviteCount = (response: BulkInviteLearnersResponse | null) =>
     response?.filter((row) => row.status === "OK").length ?? 0;
 
+  const validInviteCount = getInviteCount(bulkInviteResponse);
+
   const validateStep = () => {
     if (step === 0) {
       return !!selectedFile && !isFileLoading && !uploadError;
     }
 
+    if (step === 1) {
+      return !isFileLoading && validInviteCount > 0;
+    }
+
     if (step === 2) {
-      return !isSubmitting;
+      return !isSubmitting && validInviteCount > 0;
     }
 
     return true;
