@@ -42,12 +42,11 @@ export class InviteBulkLearnerService implements IInviteBulkLearnerService {
       .then(org => org.name);
 
     const validatedEmails = learners.map((v) => v.email);
-
     const existing = await this.findExistingLearners(spaceId, validatedEmails);
 
-    const results = [];
     const toInsert = [];
     const toEmail = [];
+    const results = [];
 
     for (const { row, email, name } of learners) {
       const token = crypto.randomBytes(20).toString("hex");
@@ -59,15 +58,20 @@ export class InviteBulkLearnerService implements IInviteBulkLearnerService {
       }
 
       toInsert.push(
-        this.learnerRepo.create({
+        {
+          entity: this.learnerRepo.create({
+            email,
+            name,
+            spaceId,
+            status: "invited",
+            invitedAt: new Date(),
+            invitationToken: token,
+            assignedByUser: null,
+          }),
+          row,
           email,
           name,
-          spaceId,
-          status: "invited",
-          invitedAt: new Date(),
-          invitationToken: token,
-          assignedByUser: null,
-        })
+        }
       );
       toEmail.push({ email, token, row, name });
     }
@@ -76,8 +80,8 @@ export class InviteBulkLearnerService implements IInviteBulkLearnerService {
 
     this.logger.log(`Inviting ${toInsert.length} learners in bulk for space ${spaceId}`);
 
-    await this.saveLearners(toInsert, okEmails);
-    await this.sendInvitations(toEmail, okEmails, organizationName);
+    await this.saveLearners(toInsert, okEmails, results);
+    await this.sendInvitations(toEmail, okEmails, organizationName, results);
 
     return results;
   }
@@ -96,23 +100,29 @@ export class InviteBulkLearnerService implements IInviteBulkLearnerService {
   private async sendInvitations(
     toEmail: { email: string; token: string; row: number; name: string; }[],
     okEmails: Set<string>,
-    organizationName: string
+    organizationName: string,
+    results: BulkLearnerRowResultDto[]
   ) {
     for (const e of toEmail) {
       if (!okEmails.has(e.email)) continue;
 
       try {
         await this.sendEmail(e.email, e.token, organizationName);
+        results.push(this.createResponse(e.row, e.email, "OK", e.name));
       } catch (error) {
         this.logger.error(`Failed to send email to ${e.email}: ${error?.message ?? error}`);
       }
     }
   }
 
-  private async saveLearners(toInsert: LearnerEntity[], okEmails: Set<string>) {
+  private async saveLearners(
+    toInsert: Array<{ entity: LearnerEntity; row: number; email: string; name: string }>,
+    okEmails: Set<string>,
+    results: BulkLearnerRowResultDto[]
+  ) {
     if (toInsert.length > 0) {
       try {
-        await this.learnerRepo.save(toInsert);
+        await this.learnerRepo.save(toInsert.map((item) => item.entity));
         for (const l of toInsert) okEmails.add(l.email);
       } catch (error) {
         this.logger.error(`Bulk insert failed: ${error?.message ?? error}`);
@@ -138,5 +148,21 @@ export class InviteBulkLearnerService implements IInviteBulkLearnerService {
       this.logger.error(`Failed to send invitation email to ${email}: ${error?.message ?? error}`);
       throw new InvitationEmailSendFailedException(email);
     }
+  }
+
+  private createResponse(
+    row: number,
+    email: string,
+    status: "OK" | "Error" | "Skipped",
+    name: string,
+    message?: string[]
+  ): BulkLearnerRowResultDto {
+    return {
+      row,
+      email,
+      name,
+      status,
+      ...(message ? { message } : {}),
+    };
   }
 }
