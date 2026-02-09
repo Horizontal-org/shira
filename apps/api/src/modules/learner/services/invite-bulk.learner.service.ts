@@ -1,7 +1,4 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { In, Repository } from "typeorm";
-import { Learner as LearnerEntity } from "../domain/learner.entity";
 import { SavingLearnerException as SaveLearnerException } from "../exceptions/save.learner.exception";
 import { ConflictLearnerException } from "../exceptions/conflict.learner.exception";
 import { InvitationEmailSendFailedException } from "../exceptions/invitation-email-send.learner.exception";
@@ -19,45 +16,9 @@ export class InviteBulkLearnerService implements IInviteBulkLearnerService {
     private readonly inviteLearnerService: IInviteLearnerService,
     @Inject(TYPES.parsers.IBulkInviteParserResolver)
     private readonly parser: IBulkInviteParserResolver,
-    @InjectRepository(LearnerEntity)
-    private readonly learnerRepo: Repository<LearnerEntity>,
   ) { }
 
   private readonly logger = new ApiLogger(InviteBulkLearnerService.name);
-
-  async verify(
-    file: Express.Multer.File,
-    spaceId: number
-  ): Promise<BulkLearnerRowResultDto[]> {
-    const { parsed, errorResults, skippedResults } = this.parseFile(file);
-
-    this.logger.log(`Verifying ${parsed.total} learners in bulk for space ID ${spaceId}`);
-
-    const existingLearners = await this.learnerRepo.find({
-      where: {
-        spaceId,
-        email: In(parsed.valid.map(v => v.email)),
-      },
-    });
-
-    this.logger.log(`Found ${existingLearners.length} existing learners in space ID ${spaceId}`);
-
-    const rowByEmail = new Map(
-      parsed.valid.map(({ email, row }) => [email.toLowerCase(), row])
-    );
-    const alreadyRegisteredResults = existingLearners.map(({ email, name }) =>
-      this.createResponse(rowByEmail.get(email.toLowerCase()), email, "Skipped", name, ["already_registered"])
-    );
-
-    const validResults = parsed.valid.map(({ row, email, name }) =>
-      this.createResponse(row, email, "OK", name)
-    );
-    const newValidResults = validResults.filter(
-      vr => !alreadyRegisteredResults.some(arr => arr.email.toLowerCase() === vr.email.toLowerCase())
-    );
-
-    return [...errorResults, ...skippedResults, ...alreadyRegisteredResults, ...newValidResults];
-  }
 
   async invite(
     file: Express.Multer.File,

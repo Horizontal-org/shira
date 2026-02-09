@@ -15,6 +15,7 @@ import { DeleteLearnerDto } from '../dto/delete.learner.dto';
 import { IGetLearnerService } from '../interfaces/services/get.learner.service.interface';
 import { UnassignLearnerDto } from '../dto/unassign.learner.dto';
 import { IInviteBulkLearnerService } from '../interfaces/services/invite-bulk.learner.service.interface';
+import { IVerifyBulkLearnerService } from '../interfaces/services/verify-bulk.learner.service.interface';
 import { QuizAssignmentFailedException } from '../exceptions';
 import { ApiLogger } from 'src/utils/logger/api-logger.service';
 import { QuizUnassignmentFailedException } from '../exceptions/unassign-quiz.learner.exception';
@@ -27,6 +28,8 @@ export class AuthLearnerController {
     private readonly inviteService: IInviteLearnerService,
     @Inject(TYPES.services.IInviteBulkLearnerService)
     private readonly inviteBulkService: IInviteBulkLearnerService,
+    @Inject(TYPES.services.IVerifyBulkLearnerService)
+    private readonly verifyBulkService: IVerifyBulkLearnerService,
     @Inject(TYPES.services.IAssignLearnerService)
     private readonly assignService: IAssignLearnerService,
     @Inject(TYPES.services.IUnassignLearnerService)
@@ -73,7 +76,7 @@ export class AuthLearnerController {
       throw new BulkCsvProcessingException();
     }
 
-    return this.inviteBulkService.verify(file, spaceId);
+    return this.verifyBulkService.verify(file, spaceId);
   }
 
   @Delete()
