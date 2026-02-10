@@ -1,8 +1,8 @@
 import { FunctionComponent, useEffect, useMemo, useState } from "react";
-import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import type { RowSelectionState } from "@tanstack/react-table";
 import { useNavigate, useLocation } from "react-router-dom";
 import { shallow } from "zustand/shallow";
-import { styled, Body1, H2, Box, defaultTheme, Body3 } from "@shira/ui";
+import { styled, Body1, H2, Box, defaultTheme, Table } from "@shira/ui";
 import { QuestionLibraryFlowManagement } from "../QuestionLibraryFlowManagement";
 import { QuestionLibraryPreviewModal } from "../modals/QuestionLibraryPreviewModal";
 import { LibraryQuestionFeedback, getLibraryQuestions, useLibraryQuestionCRUD } from "../../fetch/question_library";
@@ -43,6 +43,7 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
   const [preview, setPreview] = useState<{ active: ActiveQuestion; original: RowType }>(null);
   const [rows, setRows] = useState<RowType[]>(rowsProp ?? []);
   const [loading, setLoading] = useState(false);
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
   useEffect(() => {
     if (actionFeedback === LibraryQuestionFeedback.Success) {
@@ -133,14 +134,6 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
     []
   );
 
-  const table = useReactTable({
-    data: rows,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
-
-  const totalColumns = table.getAllLeafColumns().length;
-
   return (
     <QuestionLibraryFlowManagement>
       <StyledBox>
@@ -153,45 +146,28 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
           </div>
         </HeaderRow>
 
-        <Table aria-busy={loading || undefined}>
-          <Thead>
-            {table.getHeaderGroups().map((hg) => (
-              <tr key={hg.id}>
-                {
-                  hg.headers.map((h) => (
-                    <Th key={h.id}>
-                      {flexRender(h.column.columnDef.header, h.getContext())}
-                    </Th>
-                  ))
-                }
-              </tr>
-            ))}
-          </Thead>
-
-          <tbody>
-            {loading ? (
-              <Tr>
-                <Td colSpan={totalColumns}>
-                  <CenteredBody>{t('loading_messages.loading_library_questions')}</CenteredBody>
-                </Td>
-              </Tr>
-            ) : table.getRowModel().rows.length === 0 ? (
-              <Tr>
-                <Td colSpan={totalColumns}>
-                  <CenteredBody>{t('success_messages.no_questions_found')}</CenteredBody>
-                </Td>
-              </Tr>
-            ) : (
-              table.getRowModel().rows.map((r) => (
-                <Tr key={r.id}>
-                  {r.getVisibleCells().map((c) => (
-                    <Td key={c.id}>{flexRender(c.column.columnDef.cell, c.getContext())}</Td>
-                  ))}
-                </Tr>
-              ))
-            )}
-          </tbody>
-        </Table>
+        <Table
+          size="full"
+          aria-busy={loading || undefined}
+          loading={loading}
+          loadingMessage={t('loading_messages.loading_library_questions')}
+          emptyMessage={t('success_messages.no_questions_found')}
+          data={rows}
+          columns={columns}
+          rowSelection={rowSelection}
+          setRowSelection={setRowSelection}
+          enableRowSelection={false}
+          enablePagination={false}
+          colGroups={(
+            <colgroup>
+              <col style={{ width: "28%" }} />
+              <col style={{ width: "16%" }} />
+              <col style={{ width: "22%" }} />
+              <col style={{ width: "22%" }} />
+              <col style={{ width: "12%" }} />
+            </colgroup>
+          )}
+        />
 
         {preview && (
           <QuestionLibraryPreviewModal
@@ -214,59 +190,11 @@ const StyledBox = styled(Box)`
   display: flex;
 `;
 
-const Table = styled("table")`
-  background: ${defaultTheme.colors.light.paleGrey};
-  width: 100%;
-  font-size: 14px;
-  border-collapse: collapse;
-`;
-
 const HeaderRow = styled("div")`
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   color: ${defaultTheme.colors.dark.black};
-`;
-
-const Thead = styled("thead")`
-  & Th {
-    background: ${defaultTheme.colors.light.paleGreen};
-    &:first-child { border-top-left-radius: 20px; }
-    &:last-child { border-top-right-radius: 20px; }
-  }
-`;
-
-const Th = styled("th")`
-  text-align: left;
-  padding: 14px 16px;
-  font-weight: 600;
-  font-size: 16px;
-  color: ${defaultTheme.colors.dark.black};
-  vertical-align: middle;
-`;
-
-const Tr = styled("tr")`
-  color: ${defaultTheme.colors.dark.darkGrey};
-
-  &: not(: last-child) td { border-bottom: 1px solid ${defaultTheme.colors.light.paleGrey}; }
-
-  &:last-child td {
-    background-color: white;
-      &:first-child { border-bottom-left-radius: 20px; }
-      &:last-child { border-bottom-right-radius: 20px; }
-  }
-`;
-
-const Td = styled("td")`
-  background: ${defaultTheme.colors.light.white};
-  padding: 14px 16px;
-  vertical-align: middle;
-`;
-
-const CenteredBody = styled(Body3)`
-  text-align: center;
-  font-weight: 400;
-  font-size: 14px;
 `;
 
 const MiddleBody = styled(Body1)`
