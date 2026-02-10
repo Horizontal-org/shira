@@ -1,9 +1,8 @@
 import { Type } from "class-transformer";
-import { ArrayNotEmpty, IsArray, IsEmail, IsInt, IsNotEmpty, IsString, Min, ValidateNested } from "class-validator";
+import { IsArray, IsEmail, IsNotEmpty, IsNumber, IsString, ValidateNested } from "class-validator";
 
 export class BulkInviteValidatedLearnerDto {
-  @IsInt()
-  @Min(1)
+  @IsNumber()
   row: number;
 
   @IsEmail()

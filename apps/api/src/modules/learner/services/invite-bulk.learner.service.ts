@@ -42,7 +42,7 @@ export class InviteBulkLearnerService implements IInviteBulkLearnerService {
       .then(org => org.name);
 
     const validatedEmails = learners.map((v) => v.email);
-    const existing = await this.findExistingLearners(spaceId, validatedEmails);
+    const existingLearners = await this.findExistingLearners(spaceId, validatedEmails);
 
     const toInsert = [];
     const toEmail = [];
@@ -50,7 +50,8 @@ export class InviteBulkLearnerService implements IInviteBulkLearnerService {
     for (const { row, email, name } of learners) {
       const token = crypto.randomBytes(20).toString("hex");
 
-      const existingLearner = existing.get(email);
+      // resend the invitation to invited learners
+      const existingLearner = existingLearners.get(email);
       if (existingLearner && existingLearner.status === "invited") {
         toEmail.push({ email, token, row, name });
         continue;
