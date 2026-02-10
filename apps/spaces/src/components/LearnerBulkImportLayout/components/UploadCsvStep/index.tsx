@@ -1,5 +1,5 @@
 import { DragEvent, FunctionComponent, KeyboardEvent, RefObject } from "react";
-import { Body1, Body2Regular, Body4, Button, H2, LoadingIcon, SubHeading1, SubHeading3, defaultTheme, styled, useTheme } from "@shira/ui";
+import { Body1, Body2Regular, Body3, Body4, Button, H2, LoadingIcon, SubHeading1, SubHeading3, defaultTheme, styled, useTheme } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 import { FaFileUpload } from "react-icons/fa";
 import { FiCheck, FiDownload, FiInfo } from "react-icons/fi";
@@ -214,7 +214,7 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
               </FileInfo>
 
               <FileMeta>
-                <Body2Regular>{formatFileSize(selectedFile.size)}</Body2Regular>
+                <FileBody3>{formatFileSize(selectedFile.size)}</FileBody3>
               </FileMeta>
 
               <RemoveButton
@@ -267,7 +267,7 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
               </FileInfo>
 
               <FileMeta>
-                <Body2Regular>{formatFileSize(selectedFile.size)}</Body2Regular>
+                <FileBody3>{formatFileSize(selectedFile.size)}</FileBody3>
               </FileMeta>
 
               <RemoveButton
@@ -282,11 +282,9 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
               </RemoveButton>
             </SelectedFileCard>
 
-            <MutedCenteredText>
-              <Body2Regular>
-                {t("learners_bulk_import.tabs.upload_csv.uploading")}
-              </Body2Regular>
-            </MutedCenteredText>
+            <Body1>
+              {t("learners_bulk_import.tabs.upload_csv.upload_success")}
+            </Body1>
           </CenteredBodyColumn>
         </>
       )}
@@ -347,10 +345,6 @@ const CenteredBodyColumn = styled.div`
 const CenteredText = styled.div`
   text-align: center;
   max-width: ${(props) => props.theme.breakpoints.sm};
-`;
-
-const MutedCenteredText = styled(CenteredText)`
-  color: ${(props) => props.theme.colors.dark.mediumGrey};
 `;
 
 const CompleteIcon = styled.div`
@@ -441,8 +435,12 @@ const FileName = styled(Body2Regular) <{ $isDisabled?: boolean }>`
 `;
 
 const FileMeta = styled.div`
-  color: ${(props) => props.theme.colors.dark.mediumGrey};
   white-space: nowrap;
+`;
+
+const FileBody3 = styled(Body3)`
+  color: ${(props) => props.theme.colors.dark.darkGrey};
+  font-size: 14px;
 `;
 
 const RemoveButton = styled.button`
