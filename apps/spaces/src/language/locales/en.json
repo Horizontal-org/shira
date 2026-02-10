@@ -253,8 +253,7 @@
         "title": "Overall results",
         "completed_quizzes": {
             "title": "Number of completed quizzes",
-            "subtitle": "This is the number of quizzes that have been completed",
-            "public_learners": " by public learners"
+            "subtitle": "This is the number of quizzes that have been completed by learners."
         },
         "average_score": {
             "title": "Average score",
