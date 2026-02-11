@@ -1,5 +1,5 @@
 import { FunctionComponent, useMemo } from "react";
-import { Body2Regular, H1, H2, styled, SubHeading3 } from '@shira/ui'
+import { Body2Regular, styled, SubHeading3 } from '@shira/ui'
 import { QuizResultsResponse } from "../../../../fetch/results";
 import { useTranslation } from "react-i18next";
 import { ByQuestion } from "./ByQuestion";
@@ -12,7 +12,7 @@ interface ResultsProps {
 }
 
 export const Results: FunctionComponent<ResultsProps> = ({ resultsData, loading, quizVisibility }) => {
-  
+
   console.log("🚀 ~ Results ~ resultsData:", resultsData)
 
   const { t } = useTranslation();
@@ -23,7 +23,7 @@ export const Results: FunctionComponent<ResultsProps> = ({ resultsData, loading,
     const count = resultsData.metrics.completedCount;
     return {
       value: count,
-      description: `${t('results_tab.completed_quizzes.subtitle')} ${count > 0 ? t('results_tab.completed_quizzes.public_learners') : ''}.`
+      description: `${t('results_tab.completed_quizzes.subtitle')}`
     };
   };
 
@@ -66,7 +66,7 @@ export const Results: FunctionComponent<ResultsProps> = ({ resultsData, loading,
           <MetricDescription id="average-score-description">{averageScoreData.description}</MetricDescription>
         </MetricCard>
 
-        { quizVisibility === 'private' && (
+        {quizVisibility === 'private' && (
           <MetricCard>
             <MetricTitle id="rate-title">{t('results_tab.rate.title')}</MetricTitle>
             <MetricValue id="rate-value">{getRate}</MetricValue>
@@ -81,11 +81,11 @@ export const Results: FunctionComponent<ResultsProps> = ({ resultsData, loading,
       <>
         <MetricsHeader>
           <MetricTitle>{t('results_tab.by_question.title')}</MetricTitle>
-          { resultsData?.metrics.byQuestion && resultsData?.metrics.byQuestion.length > 0 && (
-            <Body2Regular>{t('results_tab.by_question.description')}</Body2Regular>        
+          {resultsData?.metrics.byQuestion && resultsData?.metrics.byQuestion.length > 0 && (
+            <Body2Regular>{t('results_tab.by_question.description')}</Body2Regular>
           )}
         </MetricsHeader>
-        <ByQuestion 
+        <ByQuestion
           loading={loading}
           resultsByQuestion={resultsData?.metrics.byQuestion || []}
         />
@@ -98,9 +98,9 @@ export const Results: FunctionComponent<ResultsProps> = ({ resultsData, loading,
 
           <MetricsHeader>
             <MetricTitle>{t('results_tab.by_learner.title')}</MetricTitle>
-            <Body2Regular>{t('results_tab.by_learner.description')}</Body2Regular>          
+            <Body2Regular>{t('results_tab.by_learner.description')}</Body2Regular>
           </MetricsHeader>
-          <ByLearner 
+          <ByLearner
             loading={loading}
             resultsByLearner={resultsData?.metrics.byLearner || []}
           />
@@ -116,12 +116,23 @@ const MetricsHeader = styled.div`
 
 const MetricsContainer = styled.div`
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 24px;
+
+  @media (max-width: ${props => props.theme.breakpoints.xs}) {
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: ${props => props.theme.breakpoints.xl}) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 `;
 
 const MetricCard = styled.div`
-  flex: 1;
+  width: 100%;
+  justify-self: stretch;
+  box-sizing: border-box;
+  min-width: 0;
   border: 1px solid ${props => props.theme.colors.green2};
   border-radius: 12px;
   padding: 24px;
@@ -137,7 +148,7 @@ const MetricTitle = styled(SubHeading3)`
 const MetricValue = styled.div`
   font-size: 48px;
   font-weight: bold;
-  color: #849D29;
+  color: ${props => props.theme.colors.green5};
   margin-bottom: 8px;
 `;
 

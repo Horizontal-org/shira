@@ -11,7 +11,7 @@ export const TableAverageScore: FunctionComponent<Props> = ({
   return (
     <Score>
       <StyledBody3>{averageScore}%</StyledBody3>
-      <ScoreBar 
+      <ScoreBar
         score={parseInt(averageScore)}
       />
     </Score>
@@ -21,7 +21,7 @@ export const TableAverageScore: FunctionComponent<Props> = ({
 const Score = styled.div`
   display: flex;
   align-items: center;
-  gap: 40px;
+  gap: 24px;
   color: ${props => props.theme.colors.dark.darkGrey};
 `
 
