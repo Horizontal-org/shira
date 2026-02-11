@@ -549,6 +549,7 @@
             "missing_email": "Missing email address",
             "invalid_email": "Invalid email address",
             "duplicated_email": "Duplicated email address",
+            "already_registered": "Already registered",
             "invalid_file_format": {
                 "title": "Error: Invalid file format",
                 "subtitle": "Please make sure the file is in CSV and try again."

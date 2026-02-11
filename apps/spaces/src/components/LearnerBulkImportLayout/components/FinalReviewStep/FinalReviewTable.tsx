@@ -1,7 +1,7 @@
 import { FunctionComponent, ReactNode, useMemo, useState } from "react";
 import { Body4, Table, styled } from "@shira/ui";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
-import { FiCheck } from "react-icons/fi";
+import { StatusIconPill } from "../VerifyLearnersStep/StatusIconPill";
 
 export interface ReviewRow {
   row: number;
@@ -58,12 +58,7 @@ export const FinalReviewTable: FunctionComponent<Props> = ({
           return (
             <TableCellText>
               {status === "OK" ? (
-                <StatusPill>
-                  <StatusIcon>
-                    <FiCheck size={12} />
-                  </StatusIcon>
-                  <Body4>{validatedLabel}</Body4>
-                </StatusPill>
+                <StatusIconPill status="OK" label={validatedLabel} />
               ) : (
                 "-"
               )}
@@ -105,27 +100,4 @@ const TableCellText = styled(Body4)`
 const RowNumber = styled(Body4)`
   color: ${props => props.theme.colors.green7};
   font-weight: 600;
-`;
-
-const StatusPill = styled.span`
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 8px;
-  border-radius: 2px;
-  font-weight: 600;
-  font-size: 12px;
-  color: ${props => props.theme.colors.green9};
-  background: ${props => props.theme.colors.light.paleGreen};
-`;
-
-const StatusIcon = styled.span`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: ${props => props.theme.colors.green6};
-  color: ${props => props.theme.colors.light.white};
 `;
