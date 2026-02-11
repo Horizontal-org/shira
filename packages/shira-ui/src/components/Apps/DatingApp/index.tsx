@@ -29,7 +29,7 @@ export const DatingApp: FunctionComponent<Props> = ({
   showExplanations 
 }) => {
   return (
-    <Phone className='grindr' background='#1f1f20'>
+    <Phone background='#1f1f20'>
       {explanations && explanations.map(explanation => (
         <ExplanationTooltip 
           explanation={explanation}
