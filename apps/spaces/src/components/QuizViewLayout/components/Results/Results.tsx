@@ -137,7 +137,7 @@ const MetricTitle = styled(SubHeading3)`
 const MetricValue = styled.div`
   font-size: 48px;
   font-weight: bold;
-  color: #849D29;
+  color: ${props => props.theme.colors.green5};
   margin-bottom: 8px;
 `;
 
