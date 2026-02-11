@@ -31,10 +31,11 @@ export class VerifyBulkLearnerService implements IVerifyBulkLearnerService {
       where: {
         spaceId,
         email: In(parsed.valid.map(v => v.email)),
+        status: "registered",
       },
     });
 
-    this.logger.log(`Found ${existingLearners.length} existing learners in space ID ${spaceId}`);
+    this.logger.log(`Found ${existingLearners.length} registered learners in space ID ${spaceId}`);
 
     const rowByEmail = new Map(parsed.valid.map(({ email, row }) => [email, row]));
 
