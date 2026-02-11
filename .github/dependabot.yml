@@ -1,19 +1,17 @@
 version: 2
 updates:
+  # Root package.json / package-lock.json
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "monthly"
+      interval: "weekly"
     target-branch: "development"
+    open-pull-requests-limit: 10
 
+  # apps/api/package.json
   - package-ecosystem: "npm"
-    directory: "/"
+    directory: "/apps/api"
     schedule:
-      interval: "daily"
-    target-branch: "chore/update-dependencies"
-
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "monthly"
-    target-branch: "main"
+      interval: "weekly"
+    target-branch: "development"
+    open-pull-requests-limit: 10
