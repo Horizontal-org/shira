@@ -9,5 +9,11 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
+      interval: "daily"
+    target-branch: "chore/update-dependencies"
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
       interval: "monthly"
     target-branch: "main"
