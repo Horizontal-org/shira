@@ -13,7 +13,6 @@ import { LanguageModule } from './modules/languages/language.module';
 import { TranslationModule } from './modules/translation/translation.module';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { ConsoleModule } from 'nestjs-console';
 import { SurveyModule } from './modules/survey/survey.module';
 import { PassphraseModule } from './modules/passphrase/passphrase.module';
 import { SpaceModule } from './modules/space/space.module';
@@ -36,7 +35,6 @@ import { LearnerModule } from './modules/learner/learner.module';
     QueueModule,
     ImageModule,
     EmailModule,
-    ConsoleModule,
     FieldOfWorkModule,
     QuestionLibraryModule,
     QuestionModule,
@@ -56,4 +54,4 @@ import { LearnerModule } from './modules/learner/learner.module';
   controllers: [IndexController],
   providers: [IndexService],
 })
-export class IndexModule { }
+export class IndexModule {}

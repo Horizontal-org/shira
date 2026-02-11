@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConsoleModule } from 'nestjs-console';
 import { UserCommander } from './commander';
 import { UserEntity } from './domain/user.entity';
-import { userControllers } from './controllers'
+import { userControllers } from './controllers';
 import {
   applicationsUserProviders,
   servicesUserProviders,
@@ -21,7 +20,6 @@ import { SpaceEntity } from '../space/domain/space.entity';
       UserEntity,
       SpaceEntity
     ]),
-    ConsoleModule,
   ],
   providers: [
     UserCommander,

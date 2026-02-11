@@ -3,6 +3,7 @@
   "description": "A barebones Turborepo example for working with Task Graphs.",
   "private": true,
   "devDependencies": {
+    "@types/babel__template": "^7.4.4",
     "turbo": "^2.4.0"
   },
   "scripts": {
