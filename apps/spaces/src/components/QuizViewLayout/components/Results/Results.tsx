@@ -1,5 +1,5 @@
 import { FunctionComponent, useMemo } from "react";
-import { Body2Regular, H1, H2, styled, SubHeading3 } from '@shira/ui'
+import { Body2Regular, styled, SubHeading3 } from '@shira/ui'
 import { QuizResultsResponse } from "../../../../fetch/results";
 import { useTranslation } from "react-i18next";
 import { ByQuestion } from "./ByQuestion";
@@ -116,12 +116,23 @@ const MetricsHeader = styled.div`
 
 const MetricsContainer = styled.div`
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 24px;
+
+  @media (max-width: ${props => props.theme.breakpoints.xs}) {
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: ${props => props.theme.breakpoints.xl}) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 `;
 
 const MetricCard = styled.div`
-  flex: 1;
+  width: 100%;
+  justify-self: stretch;
+  box-sizing: border-box;
+  min-width: 0;
   border: 1px solid ${props => props.theme.colors.green2};
   border-radius: 12px;
   padding: 24px;
