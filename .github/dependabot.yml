@@ -1,0 +1,72 @@
+version: 2
+
+updates:
+  # Root workspace
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    target-branch: "development"
+    open-pull-requests-limit: 10
+    groups:
+      workspace-dependencies:
+        patterns:
+          - "*"
+
+  # API
+  - package-ecosystem: "npm"
+    directory: "/apps/api"
+    schedule:
+      interval: "weekly"
+    target-branch: "development"
+    open-pull-requests-limit: 10
+    groups:
+      workspace-dependencies:
+        patterns:
+          - "*"
+
+  # Frontend apps
+  - package-ecosystem: "npm"
+    directory: "/apps/public"
+    schedule:
+      interval: "weekly"
+    target-branch: "development"
+    open-pull-requests-limit: 10
+    groups:
+      workspace-dependencies:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
+    directory: "/apps/spaces"
+    schedule:
+      interval: "weekly"
+    target-branch: "development"
+    open-pull-requests-limit: 10
+    groups:
+      workspace-dependencies:
+        patterns:
+          - "*"
+
+  # Shared packages
+  - package-ecosystem: "npm"
+    directory: "/packages/shira-ui"
+    schedule:
+      interval: "weekly"
+    target-branch: "development"
+    open-pull-requests-limit: 10
+    groups:
+      workspace-dependencies:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
+    directory: "/packages/tooling-config"
+    schedule:
+      interval: "weekly"
+    target-branch: "development"
+    open-pull-requests-limit: 10
+    groups:
+      workspace-dependencies:
+        patterns:
+          - "*"
