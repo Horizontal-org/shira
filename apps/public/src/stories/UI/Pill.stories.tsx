@@ -1,14 +1,13 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { Pill } from '../../components/UI/Pill';
-import UnsureIcon from '../../components/UI/Icons/Unsure';
-import { GlobalStyle } from '../../utils/storybook';
+import type { StoryObj, Meta } from "@storybook/react";
+import { Pill } from "../../components/UI/Pill";
+import UnsureIcon from "../../components/UI/Icons/Unsure";
+import { GlobalStyle } from "../../utils/storybook";
 
-export default {
-  title: 'UI/Pill',
+const meta: Meta<typeof Pill> = {
+  title: "UI/Pill",
   component: Pill,
   parameters: {
-    layout: 'padded',
+    layout: "padded",
   },
   decorators: [
     (Story) => (
@@ -17,15 +16,17 @@ export default {
         <Story />
       </div>
     ),
-  ]
-} as ComponentMeta<typeof Pill>;
+  ],
+};
 
-const Template: ComponentStory<typeof Pill> = (args) => <Pill {...args} />;
+export default meta;
 
-export const Default = Template.bind({})
+type Story = StoryObj<typeof Pill>;
 
-Default.args = {
-  selected: false,
-  label: 'Complicated',
-  icon: <UnsureIcon />
-}
+export const Default: Story = {
+  args: {
+    selected: false,
+    label: "Complicated",
+    icon: <UnsureIcon />,
+  },
+};

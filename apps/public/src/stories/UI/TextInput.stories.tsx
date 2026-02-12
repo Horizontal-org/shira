@@ -1,14 +1,11 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { TextInput } from '../../components/UI/TextInput';
-import { GlobalStyle } from '../../utils/storybook';
+import type { Meta, StoryObj } from "@storybook/react";
+import { TextInput } from "../../components/UI/TextInput";
+import { GlobalStyle } from "../../utils/storybook";
 
-export default {
-  title: 'UI/TextInput',
+const meta = {
+  title: "UI/TextInput",
   component: TextInput,
-  parameters: {
-    layout: 'padded',
-  },
+  parameters: { layout: "padded" },
   decorators: [
     (Story) => (
       <div style={{ width: 600 }}>
@@ -16,13 +13,17 @@ export default {
         <Story />
       </div>
     ),
-  ]
-} as ComponentMeta<typeof TextInput>;
+  ],
+} satisfies Meta<typeof TextInput>;
 
-const Template: ComponentStory<typeof TextInput> = (args) => <TextInput {...args} />;
+export default meta;
 
-export const Default = Template.bind({})
+type Story = StoryObj<typeof meta>;
 
-Default.args = {
-  placeholder: 'Placeholder',
-}
+export const Default: Story = {
+  args: {
+    placeholder: "Placeholder",
+    value: "",
+    onChange: () => {},
+  },
+};

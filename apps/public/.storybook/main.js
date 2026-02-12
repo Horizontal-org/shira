@@ -1,20 +1,27 @@
+import { dirname, join } from "path";
 module.exports = {
-  "stories": [
-    "../src/**/*.stories.mdx",
-    "../src/**/*.stories.@(js|jsx|ts|tsx)"
-  ],
+  stories: ["../src/**/*.stories.@(js|jsx|ts|tsx|mdx)"],
+
   "addons": [
-    "@storybook/addon-links",
+    getAbsolutePath("@storybook/addon-links"),
+    getAbsolutePath("@storybook/preset-create-react-app"),
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
-    "@storybook/preset-create-react-app",
-    "@storybook/addon-a11y"
+    "@storybook/addon-a11y",
+    "@chromatic-com/storybook"
   ],
-  "framework": "@storybook/react",
-  "core": {
-    "builder": "@storybook/builder-webpack5"
+
+  "framework": {
+    name: "@storybook/react-webpack5",
+    options: {}
   },
-  "typescript": {
-    "reactDocgen": false,
-  },
+  staticDirs: ["../public"],
+
+  docs: {
+    autodocs: true
+  }
+}
+
+function getAbsolutePath(value) {
+  return dirname(require.resolve(join(value, "package.json")));
 }
