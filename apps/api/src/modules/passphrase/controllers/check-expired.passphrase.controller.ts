@@ -22,7 +22,8 @@ export class CheckExpiredPassphraseController {
       });
   
       return {
-        expired: passphrase.expired,
+        // check if used or if a week has passed
+        expired: passphrase.expired || passphrase.createdAt < new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
         exists: true,
         slug: passphrase.slug,
       };
