@@ -1,13 +1,12 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { AppItem } from '../../components/UI/AppItem';
-import { GlobalStyle } from '../../utils/storybook';
+import type { StoryObj, Meta } from "@storybook/react";
+import { AppItem } from "../../components/UI/AppItem";
+import { GlobalStyle } from "../../utils/storybook";
 
-export default {
-  title: 'UI/AppItem',
+const meta: Meta<typeof AppItem> = {
+  title: "UI/AppItem",
   component: AppItem,
   parameters: {
-    layout: 'padded',
+    layout: "padded",
   },
   decorators: [
     (Story) => (
@@ -16,21 +15,23 @@ export default {
         <Story />
       </div>
     ),
-  ]
-} as ComponentMeta<typeof AppItem>;
+  ],
+};
 
-const Template: ComponentStory<typeof AppItem> = (args) => <AppItem {...args} />;
+export default meta;
 
-export const Default = Template.bind({})
+type Story = StoryObj<typeof AppItem>;
 
-export const Selected = Template.bind({})
+export const Default: Story = {
+  args: {
+    name: "Gmail",
+    selected: false,
+  },
+};
 
-Default.args = {
-  name: 'Gmail',
-  selected: false
-}
-
-Selected.args = {
-  name: 'Gmail',
-  selected: true
-}
+export const Selected: Story = {
+  args: {
+    name: "Gmail",
+    selected: true,
+  },
+};
