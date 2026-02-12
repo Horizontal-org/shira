@@ -36,7 +36,9 @@
                 "education": "Universitaire",
                 "marketing": "Marketing",
                 "healthcare": "Santé",
-                "general": "Général"
+                "general": "Général",
+                "activist": "Activist",
+                "human-resources": "Human resources"
             }
         }
     },
