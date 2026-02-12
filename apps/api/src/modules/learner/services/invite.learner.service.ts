@@ -14,6 +14,7 @@ import { InvitationEmailSendFailedException } from "../exceptions/invitation-ema
 import { GenericErrorException } from "../exceptions/generic-error.learner.exception";
 import { ApiLogger } from "src/utils/logger/api-logger.service";
 import { OrganizationEntity } from "src/modules/organization/domain/organization.entity";
+import { InvitationExpiredException } from "../exceptions/invitation-expired.learner.exception";
 
 @Injectable()
 export class InviteLearnerService implements IInviteLearnerService {
@@ -109,6 +110,12 @@ export class InviteLearnerService implements IInviteLearnerService {
     });
 
     if (!learner) throw new GenericErrorException();
+
+    // a week ago 
+    if (learner.invitedAt < new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)) {
+      this.logger.log(`Invitation token expired for learner with email: ${learner.email}`);
+      throw new InvitationExpiredException();
+    }
 
     this.logger.log(`Accepting invitation for learner with email: ${learner.email}`);
 
