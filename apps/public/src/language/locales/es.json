@@ -42,7 +42,9 @@
                 "education": "Academia",
                 "marketing": "Marketing",
                 "healthcare": "Salud",
-                "general": "General"
+                "general": "General",
+                "activist": "Activist",
+                "human-resources": "Human resources"
             }
         }
     },
