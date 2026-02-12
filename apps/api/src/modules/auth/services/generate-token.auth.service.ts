@@ -1,11 +1,7 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import { ReadUserDto } from '../../user/dto';
-import {
-  ICheckPasswordUserApplication,
-  TYPES as TYPES_USER,
-} from '../../user/interfaces';
 
 import { JWTPayload, JWTResponse } from '../domain';
 import { IGenerateTokenAuthService } from '../interfaces';
