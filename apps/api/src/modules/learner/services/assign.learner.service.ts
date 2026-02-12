@@ -8,7 +8,7 @@ import { IAssignLearnerService } from "../interfaces/services/assign.learner.ser
 import { Queue } from "bullmq";
 import { InjectQueue } from "@nestjs/bullmq";
 import { QuizAssignmentFailedException } from "../exceptions";
-import { ApiLogger } from "../logger/api-logger.service";
+import { ApiLogger } from "src/utils/logger/api-logger.service";
 import { InjectRepository } from "@nestjs/typeorm";
 import { OrganizationEntity } from "src/modules/organization/domain/organization.entity";
 import { Quiz as QuizEntity } from "src/modules/quiz/domain/quiz.entity";

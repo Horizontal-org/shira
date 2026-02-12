@@ -12,6 +12,12 @@ export type BulkLearnerRowResult = {
 
 export type BulkInviteLearnersResponse = BulkLearnerRowResult[];
 
+export type BulkInviteValidatedLearner = {
+  row: number;
+  email: string;
+  name: string;
+};
+
 export const inviteLearner = async (name: string, email: string) => {
   const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/learners/invitations`, {
     email, name
@@ -19,18 +25,10 @@ export const inviteLearner = async (name: string, email: string) => {
   return data;
 }
 
-export const inviteLearnersBulk = async (file: File) => {
-  const formData = new FormData();
-  formData.append("file", file);
-
+export const inviteLearnersBulk = async (learners: BulkInviteValidatedLearner[]) => {
   const { data } = await axios.post(
     `${process.env.REACT_APP_API_URL}/learners/invitations/bulk/send`,
-    formData,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    }
+    { learners }
   );
 
   return data as BulkInviteLearnersResponse;

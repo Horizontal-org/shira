@@ -24,9 +24,10 @@ import { Quiz, QuizSuccessStates, SUCCESS_MESSAGES } from "../../store/slices/qu
 import { DeleteModal } from "../modals/DeleteModal";
 import toast from "react-hot-toast";
 import { useQuestionCRUD } from "../../fetch/question";
-import { UnpublishedQuizModal } from "../modals/UnpublishedQuizModal";
-import { handleCopyUrl, handleCopyUrlAndNotify } from "../../utils/quiz";
-import { getQuizResults, PublicQuizResultsResponse } from "../../fetch/results";
+import { UnpublishedQuizCopyLinkModal } from "../modals/UnpublishedQuizModal";
+import { UnpublishQuizWithQuestionsModal } from "../modals/UnpublishQuizWithQuestionsModal";
+import { handleCopyUrlAndNotify } from "../../utils/quiz";
+import { getQuizResults, QuizResultsResponse } from "../../fetch/results";
 import { useTranslation } from "react-i18next";
 import { MdLockOutline } from "react-icons/md";
 import { TbWorld } from "react-icons/tb";
@@ -71,6 +72,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
   const [isUnpublishedQuizModalOpen, setIsUnpublishedQuizModalOpen] = useState(false);
+  const [isUnpublishQuizModalOpen, setIsUnpublishQuizModalOpen] = useState(false);
   const [showPublishTooltip, setShowPublishTooltip] = useState(false);
 
   const { destroy } = useQuestionCRUD()
@@ -93,7 +95,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   });
 
   // results handling
-  const [resultsData, setResultsData] = useState<PublicQuizResultsResponse | null>(null);
+  const [resultsData, setResultsData] = useState<QuizResultsResponse | null>(null);
   const [resultsLoading, setResultsLoading] = useState(false);
 
   const getQuiz = async () => {
@@ -228,7 +230,11 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                       isEnabled={isPublished}
                       onToggle={() => {
                         if (disablePublishToggle) { return }
-                        handleTogglePublished(quiz.id, !quiz.published)
+                        if (isPublished && hasQuestions) {
+                          setIsUnpublishQuizModalOpen(true);
+                          return;
+                        }
+                        handleTogglePublished(quiz.id, !isPublished)
                       }}
                       rightLabel={t('quiz.publish_toggle.published')}
                       leftLabel={t('quiz.publish_toggle.unpublished')}
@@ -266,20 +272,21 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                         }
                       }}
                     />
-                    <Button
-                      id="copy-link-button"
-                      leftIcon={<CopyUrlIcon />}
-                      text={t('quiz.actions.copy_link')}
-                      type="outline"
-                      onClick={() => {
-                        if (quiz.published) {
-                          handleCopyUrlAndNotify(quiz.hash)
-                        } else {
-                          handleCopyUrl(quiz.hash)
-                          setIsUnpublishedQuizModalOpen(true)
-                        }
-                      }}
-                    />
+                    {quiz.visibility !== 'private' && (
+                      <Button
+                        id="copy-link-button"
+                        leftIcon={<CopyUrlIcon />}
+                        text={t('quiz.actions.copy_link')}
+                        type="outline"
+                        onClick={() => {
+                          if (quiz.published) {
+                            handleCopyUrlAndNotify(quiz.hash, t('success_messages.quiz_link_copied'));
+                          } else {
+                            setIsUnpublishedQuizModalOpen(true)
+                          }
+                        }}
+                      />
+                    )}
                     <Button
                       id="delete-quiz-button"
                       leftIcon={<DeleteIcon />}
@@ -348,11 +355,24 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 isModalOpen={isDeleteModalOpen}
               />
 
-              <UnpublishedQuizModal
+              <UnpublishedQuizCopyLinkModal
                 setIsModalOpen={setIsUnpublishedQuizModalOpen}
                 isModalOpen={isUnpublishedQuizModalOpen}
                 onConfirm={() => {
-                  handleTogglePublished(quiz.id, true)
+                  handleCopyUrlAndNotify(quiz.hash, t('success_messages.quiz_link_copied'));
+                  handleTogglePublished(quiz.id, true);
+                  handleCopyUrlAndNotify(quiz.hash, t('success_messages.quiz_link_copied'));
+                }}
+                onCancel={() => {
+                  handleCopyUrlAndNotify(quiz.hash, t('success_messages.quiz_link_copied'));
+                }}
+              />
+
+              <UnpublishQuizWithQuestionsModal
+                isModalOpen={isUnpublishQuizModalOpen}
+                setIsModalOpen={setIsUnpublishQuizModalOpen}
+                onConfirm={() => {
+                  handleTogglePublished(quiz.id, false);
                 }}
               />
 

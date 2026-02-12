@@ -12,8 +12,9 @@ import * as crypto from 'crypto';
 import { SpaceEntity } from "src/modules/space/domain/space.entity";
 import { InvitationEmailSendFailedException } from "../exceptions/invitation-email-send.learner.exception";
 import { GenericErrorException } from "../exceptions/generic-error.learner.exception";
-import { ApiLogger } from "../logger/api-logger.service";
+import { ApiLogger } from "src/utils/logger/api-logger.service";
 import { OrganizationEntity } from "src/modules/organization/domain/organization.entity";
+import { InvitationExpiredException } from "../exceptions/invitation-expired.learner.exception";
 
 @Injectable()
 export class InviteLearnerService implements IInviteLearnerService {
@@ -89,7 +90,7 @@ export class InviteLearnerService implements IInviteLearnerService {
       await this.emailsQueue.add('send', {
         to: email,
         from: process.env.SMTP_GLOBAL_FROM,
-        subject: `${organization} invited to join their Shira space`,
+        subject: `${organization} invited you to join their Shira space`,
         template: 'learner-invitation',
         data: { email, magicLink, organization }
       })
@@ -109,6 +110,12 @@ export class InviteLearnerService implements IInviteLearnerService {
     });
 
     if (!learner) throw new GenericErrorException();
+
+    // a week ago 
+    if (learner.invitedAt < new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)) {
+      this.logger.log(`Invitation token expired for learner with email: ${learner.email}`);
+      throw new InvitationExpiredException();
+    }
 
     this.logger.log(`Accepting invitation for learner with email: ${learner.email}`);
 

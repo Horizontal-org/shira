@@ -8,6 +8,7 @@ import { GoPersonFill } from "react-icons/go";
 import { getCurrentDateFNSLocales } from "../../../../language/dateUtils";
 import { LearnerEmail, LearnerHeader, LearnerName, LearnerPersonInfo } from "../../../LearnersTable/components/LearnerHeader";
 import HookedFish from '../../../../assets/HookedFish.svg';
+import QuizEndFish from '../../../../assets/QuizEndFish.svg';
 
 export type Learner = {
   id: number;
@@ -22,6 +23,7 @@ interface Props {
   assigning?: boolean;
   rowSelection: RowSelectionState;
   setRowSelection: (updater: | RowSelectionState | ((prev: RowSelectionState) => RowSelectionState)) => void;
+  hasRegisteredLearners?: boolean;
 }
 
 export const AssignLearnersTable: FunctionComponent<Props> = ({
@@ -29,6 +31,7 @@ export const AssignLearnersTable: FunctionComponent<Props> = ({
   loading,
   rowSelection,
   setRowSelection,
+  hasRegisteredLearners = false,
 }) => {
   const { t, i18n } = useTranslation();
   const theme = useTheme();
@@ -96,15 +99,23 @@ export const AssignLearnersTable: FunctionComponent<Props> = ({
 
   return (
     <Wrapper>
-      {!loading && data.length === 0 && (
-        <NoResultsWrapper>
-          <img src={HookedFish} alt="hooked-fish" />
-          <Body1>{t('learners.assign_dialog.no_learners')}</Body1>
-        </NoResultsWrapper>
-      )}
+      {!loading && data.length === 0 && (() => {
+        const img = hasRegisteredLearners ? QuizEndFish : HookedFish;
+        const alt = hasRegisteredLearners ? "quiz-end-fish" : "hooked-fish";
+
+        return (
+          <NoResultsWrapper>
+            <img src={img} alt={alt} />
+            <Body1>{t(hasRegisteredLearners
+              ? "learners.assign_dialog.all_learners_registered"
+              : "learners.assign_dialog.no_learners")}</Body1>
+          </NoResultsWrapper>
+        );
+      })()}
 
       {data.length > 0 && (
         <Table
+          size="full"
           loading={loading}
           loadingMessage={<Body1>{t('loading_messages.assigning_quiz_to_learners')}</Body1>}
           data={data}

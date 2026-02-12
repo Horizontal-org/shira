@@ -378,9 +378,9 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
         openErrorModal={openErrorModal}
       />
 
-      <PublishQuizAction 
+      <PublishQuizAction
         isModalOpen={isPublishQuizModalOpen}
-        onPublish={() => { 
+        onPublish={() => {
           onPublish()
           setIsPublishQuizModalOpen(false)
           setAssignLayover(true)
@@ -390,7 +390,7 @@ export const LearnerQuizView: FunctionComponent<Props> = ({
           setIsPublishQuizModalOpen(false)
           setAssignLayover(true)
           window.scrollTo(0, 0)
-        }}  
+        }}
       />
       {
         showAssignLayover && (

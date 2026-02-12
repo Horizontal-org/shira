@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { AssignLearnersTable } from "../AssignLearnersTable";
 import { AssignRequest, getUnassignedLearners } from "../../../../fetch/learner_quiz";
 import { AssignLearnerAction } from "../AssignLearnerAction";
+import { fetchLearners } from "../../../../fetch/learner";
 
 interface Props {
   quizId: number;
@@ -26,12 +27,17 @@ export const AssignLearnersLayover: FunctionComponent<Props> = ({
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [rowSelection, setRowSelection] = useState({});
+  const [hasRegisteredLearners, setHasRegisteredLearners] = useState(false);
 
   const fetchLearnerQuiz = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await getUnassignedLearners(quizId);
-      setData(response);
+      const [unassignedLearners, learners] = await Promise.all([
+        getUnassignedLearners(quizId),
+        fetchLearners(),
+      ]);
+      setData(unassignedLearners);
+      setHasRegisteredLearners(learners.some((learner: { status?: string }) => learner.status === "registered"));
     } catch (e) {
       console.log("🚀 ~ fetchLeaners ~ e:", e);
     } finally {
@@ -94,6 +100,7 @@ export const AssignLearnersLayover: FunctionComponent<Props> = ({
             loading={loading}
             rowSelection={rowSelection}
             setRowSelection={setRowSelection}
+            hasRegisteredLearners={hasRegisteredLearners}
           />
         </div>
       </Content>

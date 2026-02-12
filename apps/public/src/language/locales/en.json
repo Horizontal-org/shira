@@ -39,10 +39,12 @@
             "items": {
                 "human-rights": "Human rights",
                 "journalism-and-media": "Journalism and media",
+                "human-resources": "Human resources",
                 "education": "Academia",
                 "marketing": "Marketing",
                 "healthcare": "Healthcare",
-                "general": "General"
+                "general": "General",
+                "activist": "Activist"
             }
         }
     },

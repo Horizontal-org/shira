@@ -4,26 +4,29 @@ import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
-  getPaginationRowModel,
   PaginationState,
+  RowSelectionState,
   useReactTable,
 } from '@tanstack/react-table'
 import styled, { css } from 'styled-components'
 import { Body3 } from '../Typography'
 import { Pagination } from './components/Pagination'
 
+type TableSize = 'full' | 'compact';
+
 export interface TableProps {
   columns: Array<ColumnDef<any>>
   data: Array<Object>
-  colGroups?: HTMLElement
+  colGroups?: React.ReactNode
   loading: boolean
-  rowSelection: Object
+  rowSelection: RowSelectionState
   setRowSelection: React.Dispatch<React.SetStateAction<any>>
   enableRowSelection?: boolean
   pageSize?: number
   loadingMessage?: ReactNode
+  size?: TableSize
+  enablePagination?: boolean
 }
-
 
 export const Table = ({
   columns = [],
@@ -34,8 +37,10 @@ export const Table = ({
   setRowSelection,
   enableRowSelection = true,
   pageSize = 25,
-  loadingMessage = null
-}) => {
+  loadingMessage = null,
+  size = 'compact',
+  enablePagination = true
+}: TableProps) => {
   const [pagination, setPagination] = React.useState<PaginationState>({
     pageIndex: 0,
     pageSize,
@@ -48,21 +53,22 @@ export const Table = ({
     getRowId: (row: any) => row.id,
     state: {
       rowSelection,
-      pagination
+      pagination,
     },
-    enableRowSelection, //enable row selection for all rows
+    enableRowSelection, // enable row selection for all rows
     onRowSelectionChange: setRowSelection,
     getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onPaginationChange: setPagination,
     debugTable: true,
-  });
+  })
 
-  const totalColumns = table.getAllLeafColumns().length;
+  const totalColumns = table.getAllLeafColumns().length
 
   return (
     <Wrapper>
-      <Pagination table={table} />
+
+      {enablePagination && (
+        <Pagination table={table} />
+      )}
       <TableHeader />
       <StyledTable>
         {colGroups}
@@ -70,7 +76,7 @@ export const Table = ({
           {table.getHeaderGroups().map((hg) => (
             <tr key={hg.id}>
               {hg.headers.map((h) => (
-                <Th key={h.id}>
+                <Th key={h.id} $size={size}>
                   {flexRender(h.column.columnDef.header, h.getContext())}
                 </Th>
               ))}
@@ -97,8 +103,8 @@ export const Table = ({
             </Tr>
           ) : (
             table.getRowModel().rows.map((r) => {
-              const selectable = r.getCanSelect();
-              const selected = r.getIsSelected();
+              const selectable = r.getCanSelect()
+              const selected = r.getIsSelected()
 
               return (
                 <Tr
@@ -109,15 +115,15 @@ export const Table = ({
                   role="row"
                   aria-selected={selected}
                   onKeyDown={(e) => {
-                    if (!selectable) return;
+                    if (!selectable) return
                     if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      r.toggleSelected();
+                      e.preventDefault()
+                      r.toggleSelected()
                     }
                   }}
                   onClick={() => {
-                    if (!selectable) return;
-                    r.toggleSelected();
+                    if (!selectable) return
+                    r.toggleSelected()
                   }}
                 >
                   {r.getVisibleCells().map((c) => (
@@ -126,20 +132,23 @@ export const Table = ({
                     </Td>
                   ))}
                 </Tr>
-              );
+              )
             })
           )}
         </tbody>
       </StyledTable>
       <TableFooter />
-      <Pagination table={table} />
+
+      {enablePagination && (
+        <Pagination table={table} />
+      )}
     </Wrapper>
-  );
-};
+  )
+}
 
 const Wrapper = styled.div`
   width: 100%;
-`;
+`
 
 const TableHeader = styled.div`
   box-sizing: border-box;
@@ -147,7 +156,7 @@ const TableHeader = styled.div`
   height: 16px;
   background: ${(props) => props.theme.colors.light.paleGreen};
   border-radius: 20px 20px 0 0;
-`;
+`
 
 const TableFooter = styled.div`
   box-sizing: border-box;
@@ -158,7 +167,7 @@ const TableFooter = styled.div`
   border-left: 1px solid ${(props) => props.theme.colors.light.paleGreen};
   border-right: 1px solid ${(props) => props.theme.colors.light.paleGreen};
   border-bottom: 1px solid ${(props) => props.theme.colors.light.paleGreen};
-`;
+`
 
 const StyledTable = styled("table")`
   background: ${(props) => props.theme.colors.light.paleGrey};
@@ -177,24 +186,26 @@ const THead = styled("thead")`
   }
 `;
 
-const Th = styled("th")`
+const Th = styled("th") <{ $size: TableSize }>`
   text-align: left;
   padding: 0 16px 14px 16px;
   font-weight: 600;
-  font-size: 16px;
   color: ${(props) => props.theme.colors.dark.black};
   vertical-align: middle;
   border: none;
   box-sizing: border-box;
   width: inherit;
+
+  font-size: ${(props) => (props.$size === 'compact' ? '14px' : '16px')};
 `;
 
-const Td = styled("td")`
+const Td = styled('td')`
   background: ${(props) => props.theme.colors.light.white};
   padding: 9px 16px;
   vertical-align: middle;
   box-sizing: border-box;
   width: inherit;
+  font-size: inherit;
 `;
 
 const Tr = styled.tr<{ $selected?: boolean; $selectable?: boolean }>`
@@ -222,7 +233,9 @@ const Tr = styled.tr<{ $selected?: boolean; $selectable?: boolean }>`
       }
 
       &:hover td {
-        background-color: ${props.$selected ? props.theme.colors.green1 : props.theme.colors.light.paleGreen};
+        background-color: ${props.$selected
+        ? props.theme.colors.green1
+        : props.theme.colors.light.paleGreen};
       }
 
       &:focus-visible,
@@ -248,7 +261,6 @@ const Tr = styled.tr<{ $selected?: boolean; $selectable?: boolean }>`
 const CenteredBody = styled(Body3)`
   text-align: center;
   font-weight: 400;
-  font-size: 14px;
 `;
 
 const CenteredCellContent = styled.div`

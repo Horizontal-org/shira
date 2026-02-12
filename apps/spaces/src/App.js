@@ -21,12 +21,14 @@ import LogoutLayout from './components/LogoutLayout';
 import { QuestionCreationLayout } from './components/QuestionCreationLayout';
 import { QuestionEditLayout } from './components/QuestionEditLayout';
 import { QuestionLibraryListLayout } from './components/QuestionLibraryListLayout';
-import { LearnerBulkImportLayout } from './components/LearnerBulkImportFlow';
+import { LearnerBulkImportLayout } from './components/LearnerBulkImportLayout';
 import { SupportLayout } from './components/SupportLayout';
 import './language/i18n';
 import { GetStartedLayout } from './components/GetStartedLayout';
 import { LearnersLayout } from './components/LearnersLayout';
 import { FeedbackButton } from './components/FeedbackButton';
+import { ResetPasswordRequestLayout } from './components/ResetPasswordLayout/ResetPasswordRequestLayout';
+import { SetNewPasswordLayout } from './components/ResetPasswordLayout/SetNewPasswordLayout';
 
 function App() {
 
@@ -67,6 +69,8 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path='/login' element={<LoginLayout />} />
+              <Route path='/reset-password' element={<ResetPasswordRequestLayout />} />
+              <Route path='/reset-password/:token' element={<SetNewPasswordLayout />} />
               <Route path='/create-space/:passphraseCode' element={<CreateSpaceLayout />} />
               <Route path='/invitation-used' element={<InvitationExpiredLayout />} />
               <Route path='/get-started' element={<GetStartedLayout />} />

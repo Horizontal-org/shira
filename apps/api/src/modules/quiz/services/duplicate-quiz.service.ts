@@ -11,7 +11,7 @@ import { TYPES } from '../interfaces';
 import { ISharedQuestionDuplicationService } from '../interfaces/services/shared-question-duplication.service.interface';
 import * as crypto from 'crypto';
 import { DuplicateQuestionQuizService } from './duplicate-question.quiz.service';
-import { ApiLogger } from 'src/modules/learner/logger/api-logger.service';
+import { ApiLogger } from 'src/utils/logger/api-logger.service';
 import { IValidateSpaceQuizService } from '../interfaces/services/validate-space.quiz.service.interface';
 
 @Injectable()

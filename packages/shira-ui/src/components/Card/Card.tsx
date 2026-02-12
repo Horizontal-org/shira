@@ -1,7 +1,6 @@
 import { FunctionComponent, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Body4, Body3Bold } from '../Typography';
-import { CopyUrlIcon } from '../Icons'
 import { FiMoreVertical } from 'react-icons/fi';
 import { FloatingMenu } from '../FloatingMenu';
 import Toggle from '../Toggle/Toggle';
@@ -15,13 +14,16 @@ export interface CardProps {
   title: string;
   lastModified: string;
   isPublished: boolean;
+  disablePublishToggle?: boolean;
+  disabledTooltipLabel?: string;
   onTogglePublished: () => void;
-  onCopyUrl: () => void;
+  onCopyUrl?: () => void;
   onEdit: () => void;
   onDuplicate: () => void;
   onDelete: () => void;
   onCardClick: () => void;
   publishedText: string;
+  unpublishedText?: string;
   isPublic?: boolean;
   visibilityText?: string;
   showLoading?: boolean;
@@ -33,20 +35,25 @@ export const Card: FunctionComponent<CardProps> = ({
   title,
   lastModified,
   isPublished,
+  disablePublishToggle = false,
+  disabledTooltipLabel,
   onTogglePublished,
-  onCopyUrl,
   onEdit,
   onDuplicate,
   onDelete,
+  onCopyUrl,
   onCardClick,
   publishedText,
+  unpublishedText,
   isPublic,
   visibilityText,
   loadingLabel,
   showLoading = false,
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showPublishTooltip, setShowPublishTooltip] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const toggleLabel = isPublished ? publishedText : unpublishedText ?? publishedText;
 
   return (
     <CardWrapper id={id} onClick={() => {
@@ -96,10 +103,15 @@ export const Card: FunctionComponent<CardProps> = ({
               e.stopPropagation();
               onDuplicate();
             }}
+            onCopyUrl={(e) => {
+              e.stopPropagation();
+              onCopyUrl && onCopyUrl();
+            }}
             onDelete={(e) => {
               e.stopPropagation();
               onDelete();
             }}
+            isPublic={isPublic}
             anchorEl={menuButtonRef.current}
           />
         </HeaderRow>
@@ -110,18 +122,38 @@ export const Card: FunctionComponent<CardProps> = ({
       <BottomContainer>
         <ModifiedText>{lastModified}</ModifiedText>
         <BottomSection>
-          <Toggle
-            isEnabled={isPublished}
-            onToggle={onTogglePublished}
-            rightLabel={publishedText}
-          />
-
-          <CopyButton onClick={(e) => {
-            e.stopPropagation()
-            onCopyUrl()
-          }}>
-            <CopyUrlIcon />
-          </CopyButton>
+          <ToggleLabel>{toggleLabel}</ToggleLabel>
+          <PublishToggleWrapper
+            $showHelpCursor={disablePublishToggle}
+            onMouseEnter={() => {
+              if (disablePublishToggle) {
+                setShowPublishTooltip(true);
+              }
+            }}
+            onMouseLeave={() => { setShowPublishTooltip(false); }}
+            onFocus={() => {
+              if (disablePublishToggle) {
+                setShowPublishTooltip(true);
+              }
+            }}
+            onBlur={() => { setShowPublishTooltip(false); }}
+            onClick={(e) => { e.stopPropagation(); }}
+            tabIndex={disablePublishToggle ? 0 : -1}
+          >
+            <Toggle
+              isEnabled={isPublished}
+              onToggle={() => {
+                if (disablePublishToggle) { return; }
+                onTogglePublished();
+              }}
+              disabled={disablePublishToggle}
+            />
+            {disablePublishToggle && showPublishTooltip && disabledTooltipLabel && (
+              <PublishToggleTooltip role="tooltip">
+                <Body4>{disabledTooltipLabel}</Body4>
+              </PublishToggleTooltip>
+            )}
+          </PublishToggleWrapper>
         </BottomSection>
       </BottomContainer>
     </CardWrapper>
@@ -226,18 +258,38 @@ const BottomSection = styled.div`
   border-bottom-left-radius: 12px;
 `;
 
-const CopyButton = styled.button`
-  background: none;
-  border: none;
-  padding: 8px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
+const ToggleLabel = styled(Body4)`
   color: ${props => props.theme.colors.dark.darkGrey};
-  
-  &:hover {
-    color: ${props => props.theme.colors.dark.black};
-  }
+`;
+
+const PublishToggleWrapper = styled.div<{ $showHelpCursor: boolean }>`
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+
+  ${props => props.$showHelpCursor && `
+    cursor: help;
+
+    button:disabled {
+      cursor: help !important;
+    }
+  `}
+`;
+
+const PublishToggleTooltip = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 6px;
+  padding: 4px 8px;
+  background-color: ${(props) => props.theme.colors.dark.black};
+  color: ${(props) => props.theme.colors.light.white};
+  border-radius: 10px;
+  width: max-content;
+  max-width: 520px;
+  white-space: nowrap;
+  z-index: 1000;
 `;
 
 const VisibilityTag = styled.span`

@@ -6,29 +6,32 @@ interface Props {
   isModalOpen: boolean;
   setIsModalOpen: (handle: boolean) => void;
   onConfirm: () => void;
+  onCancel?: () => void;
 }
 
-export const UnpublishedQuizModal: FunctionComponent<Props> = ({
+export const UnpublishedQuizCopyLinkModal: FunctionComponent<Props> = ({
   isModalOpen,
   setIsModalOpen,
-  onConfirm
+  onConfirm,
+  onCancel
 }) => {
 
   const { t } = useTranslation();
 
   return (
     <Modal
-      id="unpublished-quiz-modal"
+      id="unpublished-quiz-copy-link-modal"
       isOpen={isModalOpen}
       title={t('modals.publish_quiz.title')}
       primaryButtonText={t('modals.publish_quiz.submit')}
       secondaryButtonText={t('modals.publish_quiz.close')}
       onPrimaryClick={() => {
-        onConfirm()
+        onConfirm();
         setIsModalOpen(false);
       }}
       onSecondaryClick={() => {
-        setIsModalOpen(false)
+        setIsModalOpen(false);
+        onCancel?.();
       }}
     >
       <div>

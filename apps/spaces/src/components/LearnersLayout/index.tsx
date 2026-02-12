@@ -3,6 +3,7 @@ import { LayoutMainContent, LayoutMainContentWrapper } from "../LayoutStyleCompo
 import { BetaBanner, Body1, Button, defaultTheme, H2, Sidebar, styled, SubHeading3, useAdminSidebar } from "@shira/ui";
 import { LayoutContainer } from "../LayoutStyleComponents/LayoutContainer";
 import { useTranslation } from "react-i18next";
+import { isFeatureEnabled } from "../../utils/featureFlags";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useStore } from "../../store";
 import { shallow } from "zustand/shallow";
@@ -155,13 +156,16 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
                     leftIcon={<MdEmail />}
                     onClick={() => setIsInviteLearnerModalOpen(true)}
                     color={defaultTheme.colors.green7} />
-                  <Button
-                    id="invite-learners-bulk-button"
-                    text={t("buttons.invite_learners_bulk")}
-                    type="primary"
-                    leftIcon={<FiDownload />}
-                    onClick={() => navigate('/learner/import/bulk')}
-                    color={defaultTheme.colors.green7} />
+
+                  {isFeatureEnabled('learner_bulk_invite') &&
+                    <Button
+                      id="invite-learners-bulk-button"
+                      text={t("buttons.invite_learners_bulk")}
+                      type="primary"
+                      leftIcon={<FiDownload />}
+                      onClick={() => navigate('/learner/import/bulk')}
+                      color={defaultTheme.colors.green7} />
+                  }
                 </>
               )}
             </LeftActions>

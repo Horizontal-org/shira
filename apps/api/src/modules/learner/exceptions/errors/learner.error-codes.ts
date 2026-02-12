@@ -3,8 +3,9 @@ export enum LearnerErrorCodes {
   SaveFailed = "learner_save_failed",
   EmailSendFailed = "learner_email_send_failed",
   TokenConflict = "learner_token_conflict",
+  TokenExpired = "learner_token_expired",
   AssignmentFailed = "learner_assignment_failed",
   UnassignmentFailed = "learner_unassignment_failed",
   NotConfirmed = 'learner_not_confirmed',
-  ErrorMessage = "error_message"
+  ErrorMessage = "error_message",
 }

@@ -1,7 +1,7 @@
 import { Table } from "@tanstack/react-table";
 import { FunctionComponent } from "react";
 import styled, { useTheme } from "styled-components";
-import { Body2SemiBold, Body3 } from "../../Typography";
+import { Body2Regular, Body2SemiBold, Body3 } from "../../Typography";
 import { FiChevronLeft, FiChevronRight, FiChevronsLeft, FiChevronsRight } from "react-icons/fi";
 import { darken } from "polished";
 
@@ -9,7 +9,7 @@ interface Props {
   table: Table<unknown>
 }
 
-export const Pagination:FunctionComponent<Props> = ({ 
+export const Pagination: FunctionComponent<Props> = ({
   table
 }) => {
 
@@ -25,55 +25,69 @@ export const Pagination:FunctionComponent<Props> = ({
   return (
     <PaginationWrapper>
       <StyledBody2SemiBold>
-        {`${start} - ${end} of ${total}`}
+        {`${start}-${end} of ${total}`}
       </StyledBody2SemiBold>
       <PaginationButtons>
-        <PaginationButton 
+        <PaginationButton
           disabled={!table.getCanPreviousPage()}
           onClick={table.firstPage}
         >
-          <FiChevronsLeft size={16} color={theme.colors.dark.darkGrey}/>
+          <FiChevronsLeft size={16} color={theme.colors.dark.darkGrey} />
           <Body3>First</Body3>
         </PaginationButton>
         <PaginationButton
           disabled={!table.getCanPreviousPage()}
           onClick={table.previousPage}
         >
-          <FiChevronLeft size={16} color={theme.colors.dark.darkGrey}/>
+          <FiChevronLeft size={16} color={theme.colors.dark.darkGrey} />
           <Body3>Back</Body3>
         </PaginationButton>
-        <StyledBody2SemiBold>
-          {`${offSetPageIndex} of ${table.getPageCount()}`}
-        </StyledBody2SemiBold>
-        <PaginationButton 
+
+        <PaginationNavButton>
+          <StyledBody2Bold>{`${offSetPageIndex} `}</StyledBody2Bold>
+          <Body2>{`of ${table.getPageCount()}`}</Body2>
+        </PaginationNavButton>
+
+        <PaginationButton
           disabled={!table.getCanNextPage()}
           onClick={table.nextPage}
         >
           <Body3>Next</Body3>
-          <FiChevronRight size={16} color={theme.colors.dark.darkGrey}/>
+          <FiChevronRight size={16} color={theme.colors.dark.darkGrey} />
         </PaginationButton>
         <PaginationButton
           disabled={!table.getCanNextPage()}
           onClick={table.lastPage}
         >
           <Body3>Last</Body3>
-          <FiChevronsRight size={16} color={theme.colors.dark.darkGrey}/>
+          <FiChevronsRight size={16} color={theme.colors.dark.darkGrey} />
         </PaginationButton>
       </PaginationButtons>
     </PaginationWrapper>
   )
 }
 
+const StyledBody2Bold = styled(Body2SemiBold)`
+  color: ${props => props.theme.colors.dark.darkGrey};
+  font-weight: 700;
+`;
+
 const StyledBody2SemiBold = styled(Body2SemiBold)`
   color: ${props => props.theme.colors.dark.darkGrey};
-`
+`;
+
+const Body2 = styled(Body2Regular)`
+  color: ${props => props.theme.colors.dark.darkGrey};
+`;
 
 const PaginationWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 12px 0;
   width: 100%;
-`
+  margin: 0;
+`;
 
 const PaginationButton = styled.button<{
   disabled: boolean
@@ -91,10 +105,10 @@ const PaginationButton = styled.button<{
 
   ${({ disabled }) => disabled && `
     opacity: 0.5;
-    cursor: not-allowed;    
+    cursor: not-allowed;
   `}
   
-  ${({ disabled, theme }) => !disabled && `    
+  ${({ disabled, theme }) => !disabled && `
     &:hover {
       background: ${darken(0.1, 'white')};
       border-color: ${darken(0.1, 'white')};
@@ -112,4 +126,10 @@ const PaginationButtons = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-`
+`;
+
+const PaginationNavButton = styled(PaginationButtons)`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+`;

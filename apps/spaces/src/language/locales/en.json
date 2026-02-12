@@ -1,11 +1,37 @@
 {
     "login": {
         "title": "Log in",
-        "subtitle": "Log in to access your custom Shira space. If you have trouble logging in, contact us at ",
+        "subtitle": "Log in to access your custom Shira space.",
         "email_placeholder": "Email",
         "password_placeholder": "Password",
-        "login_button": "Log in",
+        "reset_password": "Forgot your password?",
         "login_header_button": "Log in"
+    },
+    "reset_password": {
+        "title": "Reset password",
+        "subtitle": "Enter the email associated with your Shira account. You will receive an email with instructions to reset your password.",
+        "email_placeholder": "Email (required)",
+        "send_button": "Send reset email",
+        "success_title": "Check your email",
+        "success_description": "We have sent a password reset email to your email address.",
+        "success_info": "Didn't receive an email? Make sure the email address you entered is correct, check your spam folder, or contact us at <0>{{contact_email}}</0>",
+        "create_title": "Create new password",
+        "create_subtitle": "Your password should contain at least 8 characters.",
+        "new_password_placeholder": "New password (required)",
+        "confirm_password_placeholder": "Confirm new password (required)",
+        "reset_button": "Reset password",
+        "reset_success_title": "Password updated",
+        "reset_success_description": "You can now log in with your new password.",
+        "expired_title": "Sorry, something went wrong",
+        "expired_description": "The link you opened is invalid or has expired. Please contact your organization or email contact@wearehorizontal.org for support.",
+        "validation": {
+            "email_required": "Email is required",
+            "invalid_email": "Enter a valid email address",
+            "password_required": "Password is required",
+            "password_min_length": "Password must be at least 8 characters",
+            "confirm_password_required": "Please confirm your password",
+            "passwords_mismatch": "Passwords do not match"
+        }
     },
     "beta": {
         "label": "BETA",
@@ -44,6 +70,7 @@
             "assign_button": "Assign to learners",
             "assign_title": "Assign \"{{quiz_title}}\" to learners",
             "no_learners": "There are no registered learners in your space.",
+            "all_learners_registered": "All registered learners have already been assigned this quiz.",
             "disabled_tooltip": "Create at least 1 question to assign this quiz to learners."
         }
     },
@@ -223,15 +250,41 @@
         }
     },
     "results_tab": {
+        "title": "Overall results",
         "completed_quizzes": {
             "title": "Number of completed quizzes",
-            "subtitle": "This is the number of quizzes that have been completed",
-            "public_learners": " by public learners"
+            "subtitle": "This is the number of quizzes that have been completed by learners."
         },
         "average_score": {
             "title": "Average score",
             "subtitle": "This is the average score received by all learners who took this quiz.",
             "empty_subtitle": "The average score received by all learners who took this quiz will be shown here."
+        },
+        "rate": {
+            "title": "Completion rate",
+            "subtitle": "This is the percentage of learners who have submitted the quiz out of all the learners assigned this quiz."
+        },
+        "by_question": {
+            "title": "Results by question",
+            "description": "The average score is the percentage of learners who answered each question correctly.",
+            "empty_state": "The quiz does not have any questions answered.",
+            "table": {
+                "type": "Type",
+                "question_name": "Name",
+                "score": "Average score",
+                "loading": "Loading questions..."
+            }
+        },
+        "by_learner": {
+            "title": "Results by learner",
+            "description": "These are all the learners who have submitted the quiz and their individual quiz scores.",
+            "empty_state": "No learners have submitted this quiz so far.",
+            "table": {
+                "learner": "Learner",
+                "date": "Date submitted",
+                "score": "Quiz score",
+                "loading": "Loading learners..."
+            }
         }
     },
     "learners_bulk_import": {
@@ -302,6 +355,7 @@
         "delete": "Delete",
         "next": "Next",
         "continue": "Continue",
+        "login": "Log in",
         "send_invitation": "Send invitation",
         "send_invitations": "Send invitations",
         "try_again": "Try again",
@@ -310,7 +364,6 @@
         "invite_learners_bulk": "Import learners in bulk",
         "delete_learners": "Delete learners",
         "unassign_learners": "Unassign from learners",
-        "assign_learners": "Assign to learners",
         "assign_via_email": "Assign via email",
         "start_over": "Start over",
         "feedback": "Tell us what you think",
@@ -355,6 +408,11 @@
             "submit": "Publish quiz",
             "close": "Keep quiz unpublished"
         },
+        "unpublish_quiz_with_questions": {
+            "title": "Are you sure you want to unpublish this quiz?",
+            "message": "Users will no longer be able to access the quiz.",
+            "confirm": "Unpublish"
+        },
         "delete_quiz": {
             "title": "Are you sure you want to delete \"{{quiz_name}}\"?",
             "subtitle": "Deleting this quiz is permanent and cannot be undone.",
@@ -362,15 +420,15 @@
             "message": "The quiz's Results will also be deleted."
         },
         "delete_question": {
-            "title": "Are you sure you want to delete {{question_name}}?",
+            "title": "Are you sure you want to delete \"{{question_name}}\"?",
             "message": "Deleting this question is permanent and cannot be undone.",
             "note": "Note: ",
             "warning": "This question's Results will also be deleted, which will affect learners' average scores."
         },
         "unpublish_quiz_on_delete": {
-            "title": "Unpublish quiz",
-            "message": "Deleting the quiz's only question will also unpublish the quiz.",
-            "confirm": "Unpublish"
+            "title": "Are you sure you want to delete \"{{question_name}}\" and unpublish your quiz?",
+            "message": "Deleting this question is permanent and cannot be undone. This will also unpublish the quiz, as you are deleting the quiz's only question.",
+            "confirm": "Delete and unpublish"
         },
         "exit_question": {
             "title": "Are you sure you want to exit the question?",
@@ -483,11 +541,14 @@
         "email_already_taken": "The email address is already taken.",
         "invite_org_failed": "There was a problem creating your space. If this issue persists, <1>contact us</1>.",
         "email_no_match": "The email address does not match the invitation.",
+        "reset_password_confirmation_mismatch": "Password confirmation does not match.",
+        "reset_password_weak": "Password must be at least 8 characters.",
         "learners_bulk_import": {
             "missing_name": "Missing name",
             "missing_email": "Missing email address",
             "invalid_email": "Invalid email address",
             "duplicated_email": "Duplicated email address",
+            "already_registered": "Already registered",
             "invalid_file_format": {
                 "title": "Error: Invalid file format",
                 "subtitle": "Please make sure the file is in CSV and try again."
@@ -529,7 +590,8 @@
         "learner_assigned": "This quiz has been assigned to {{count}} new learner.",
         "learners_assigned_plural": "This quiz has been assigned to {{count}} new learners.",
         "learner_unassigned": "This quiz has been unassigned from {{count}} learner.",
-        "learners_unassigned_plural": "This quiz has been unassigned from {{count}} learners."
+        "learners_unassigned_plural": "This quiz has been unassigned from {{count}} learners.",
+        "password_updated": "Your password was updated successfully."
     },
     "loading_messages": {
         "loading": "Loading...",
@@ -597,10 +659,10 @@
         "confirm_password_label": "Confirm Password",
         "button_create": "Create new space",
         "validation": {
-            "email_required": "Email is required",
-            "password_required": "Password is required",
-            "password_min_length": "Password must be at least 8 characters",
-            "passwords_mismatch": "Passwords do not match"
+            "email_required": "Email is required.",
+            "password_required": "Password is required.",
+            "password_min_length": "Password must be at least 8 characters.",
+            "passwords_mismatch": "Passwords do not match."
         },
         "errors": {
             "create_space_failed": "An error occurred while creating your space. Please try again."
