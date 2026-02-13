@@ -150,7 +150,7 @@ const NoResultsWrapper = styled.div`
   background: white;
   border-radius: 32px;
   text-align: center;
-  color: ${props => props.theme.colors.dark.grey};
+  color: ${props => props.theme.colors.dark.darkGrey};
   width: 100%;
 
   > img {
