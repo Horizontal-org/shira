@@ -42,7 +42,9 @@
                 "education": "Academia",
                 "marketing": "Marketing",
                 "healthcare": "Salud",
-                "general": "General"
+                "general": "General",
+                "activist": "Activist",
+                "human-resources": "Human resources"
             }
         }
     },
@@ -114,7 +116,7 @@
         "back_button": "Volver al inicio",
         "next_button": "Nuevo cuestionario",
         "heavy_subtitle_1": "Respondiste correctamente ",
-        "heavy_subtitle_2": "{{correctQuestions}} de {{questions}}",
+        "heavy_subtitle_2": "{{correctQuestions}} de {{questions}} ",
         "heavy_subtitle_3": " preguntas.",
         "greeting_title": "Thanks for using Shira!"
     },
@@ -128,7 +130,7 @@
                 "description": "Shira fue creada considerando las comunidades que corren el mayor riesgo de ataques de phishing, especialmente los usuarios con escasa alfabetización digital."
             },
             "option_2": {
-                "title": "2. Personalizable",
+                "title": "2. Personalizable ",
                 "description": "Intentamos hacer que los mensajes de phishing sean lo más realistas posible para simular lo que los usuarios de internet enfrentan en su vida diaria y los ataques de phishing a los que probablemente se enfrentan."
             },
             "option_3": {
@@ -221,5 +223,16 @@
         "take_a_quiz": "Tomar un quiz",
         "learn": "Aprender",
         "get_started": "Comenzar"
+    },
+    "learner_invitation": {
+        "learn_more": "Learn more about Shira",
+        "success_title": "Success!",
+        "error_title": "Something went wrong",
+        "success_joined_space": "You have joined {{spaceName}} on Shira.",
+        "success_hint": "When your organization shares a quiz with you, you will receive an email invitation directly in your inbox.",
+        "error_message": "Try again or contact the person who invited you."
+    },
+    "loading_messages": {
+        "loading": "Loading..."
     }
 }

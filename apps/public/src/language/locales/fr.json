@@ -2,7 +2,9 @@
     "welcome": {
         "title": "Bienvenue à Shira",
         "subtitle": "Apprendre à identifier et à déjouer les tentatives d'hameçonnage",
-        "start": "Lancer le quiz"
+        "start": "Lancer le quiz",
+        "public_message": "Welcome to your phishing quiz. Change your language or click on \"Start quiz\" to get started.",
+        "learn_more": "Learn more about Shira"
     },
     "setup": {
         "name": {
@@ -34,7 +36,9 @@
                 "education": "Universitaire",
                 "marketing": "Marketing",
                 "healthcare": "Santé",
-                "general": "Général"
+                "general": "Général",
+                "activist": "Activist",
+                "human-resources": "Human resources"
             }
         }
     },
@@ -109,7 +113,6 @@
         "heavy_subtitle_2": "{{correctQuestions}} sur {{questions}}",
         "heavy_subtitle_3": ".",
         "greeting_title": "Thanks for using Shira!"
-
     },
     "about": {
         "title": "À propos",
@@ -152,7 +155,7 @@
             "section4": "C’est pourquoi nous avons créé Shira."
         },
         "advisors": {
-            "title": "Conseillers\/Conseillères",
+            "title": "Conseillers/Conseillères",
             "subtitle": "Shira est soutenue par un comité de conseillers et conseillères composé d’expert(e)s en sécurité numérique et en cybersécurité:",
             "person1": {
                 "name": "Amir Rashidi",
@@ -208,6 +211,28 @@
     "navbar": {
         "home": "Accueil",
         "about": "À propos",
-        "menu": "Menu"
+        "menu": "Menu",
+        "features": "Features",
+        "pricing": "Pricing",
+        "take_a_quiz": "Take a quiz",
+        "learn": "Learn",
+        "get_started": "Get started"
+    },
+    "beta": {
+        "label": "BETA",
+        "message": "Shira is still in development and you may experience issues.",
+        "feedback_text": "to share your feedback and read about what’s next for Shira!",
+        "click_here": "Click here"
+    },
+    "learner_invitation": {
+        "learn_more": "Learn more about Shira",
+        "success_title": "Success!",
+        "error_title": "Something went wrong",
+        "success_joined_space": "You have joined {{spaceName}} on Shira.",
+        "success_hint": "When your organization shares a quiz with you, you will receive an email invitation directly in your inbox.",
+        "error_message": "Try again or contact the person who invited you."
+    },
+    "loading_messages": {
+        "loading": "Loading..."
     }
 }
