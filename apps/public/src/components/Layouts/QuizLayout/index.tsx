@@ -1,25 +1,24 @@
 import { FunctionComponent, useEffect, useState } from "react"
 import { useLocation, useParams } from "react-router-dom"
 
-import { InvalidQuiz } from "./components/InvalidQuiz"
 import { QuizFlow } from "./components/QuizFlow"
 import { getLearnerQuizByHash } from "../../../fetch/learner"
 import { getCustomQuizByHash } from "../../../fetch/quiz"
+import { InvalidLink } from "../../UI/InvalidLink"
+import { useTranslation } from "react-i18next"
 
 interface Props { }
 
 export const QuizLayout: FunctionComponent<Props> = () => {
   const { hash } = useParams()
   let location = useLocation()
-  console.log("🚀 ~ QuizLayout ~ hash:", hash)
-  console.log("🚀 ~ QuizLayout ~ location:", location)
+  const { t } = useTranslation()
 
   const [quiz, handleQuiz] = useState(null)
   const [learnerQuiz, handleLearnerQuiz] = useState(null)
 
   const [showUnavailable, handleShowUnavailable] = useState(false)
   
-  console.log("🚀 ~ QuizLayout ~ quiz:", quiz)
 
   const getQuiz = async (hash) => {
     let rawQuiz = null
@@ -44,7 +43,13 @@ export const QuizLayout: FunctionComponent<Props> = () => {
     getQuiz(hash)    
   }, [hash])
 
-  if (showUnavailable) return <InvalidQuiz />
+  if (showUnavailable) return (
+    <InvalidLink 
+      title={t("invalid_quiz.title")}
+      description={t("invalid_quiz.description")}
+      homeButtonText={t("invalid_quiz.home_button")}
+    />
+  )
 
   if (!quiz) return null
 
