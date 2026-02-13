@@ -51,7 +51,7 @@
     "dotenv": "^17.3.1",
     "handlebars": "^4.7.8",
     "minio": "^8.0.5",
-    "mysql2": "^3.11.3",
+    "mysql2": "^3.17.1",
     "nestjs-console": "^10.0.0",
     "nodemailer": "^8.0.1",
     "passport": "^0.7.0",
