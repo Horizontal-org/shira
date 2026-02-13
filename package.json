@@ -19,10 +19,19 @@
     "packages/*"
   ],
   "overrides": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "@types/react": "18.2.66",
+    "@types/react-dom": "18.2.22",
     "@nestjs/common": "11.1.13",
     "@nestjs/core": "11.1.13",
-    "@nestjs/platform-express": "11.1.13"
+    "@nestjs/platform-express": "11.1.13",
+    "natural-compare-lite": "^1.4.0",
+    "tsutils": "^3.21.0",
+    "@babel/eslint-parser": "^7.23.0",
+    "@emotion/stylis": "^0.8.5"
+  },
+  "dependencies": {
+    "react-icons": "^5.5.0"
   }
 }

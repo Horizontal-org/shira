@@ -63,7 +63,7 @@
     "react-dev-utils": "^12.0.1",
     "react-dom": "^18.2.0",
     "react-i18next": "^12.1.1",
-    "react-icons": "^4.4.0",
+    "react-icons": "^5.5.0",
     "react-popper": "^2.3.0",
     "react-refresh": "^0.11.0",
     "react-router-dom": "^6.3.0",
@@ -144,8 +144,10 @@
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^4.6.2",
+    "natural-compare-lite": "^1.4.0",
     "string-natural-compare": "^3.0.1",
-    "typescript": "^4.9.5",
+    "tsutils": "^3.21.0",
+    "typescript": "^5.1.6",
     "webpack": "^5.72.0"
   },
   "jest": {

@@ -154,7 +154,7 @@ const MetricValue = styled.div`
 
 const MetricDescription = styled.p`
   font-size: 14px;
-  color: ${props => props.theme.colors.dark.grey};
+  color: ${props => props.theme.colors.dark.darkGrey};
   margin: 0;
   line-height: 1.5;
 `;
