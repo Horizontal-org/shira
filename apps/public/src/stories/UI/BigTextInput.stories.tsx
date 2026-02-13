@@ -1,13 +1,12 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { BigTextInput } from '../../components/UI/BigTextInput';
-import { GlobalStyle } from '../../utils/storybook';
+import type { StoryObj, Meta } from "@storybook/react";
+import { BigTextInput } from "../../components/UI/BigTextInput";
+import { GlobalStyle } from "../../utils/storybook";
 
-export default {
-  title: 'UI/BigTextInput',
+const meta: Meta<typeof BigTextInput> = {
+  title: "UI/BigTextInput",
   component: BigTextInput,
   parameters: {
-    layout: 'padded',
+    layout: "padded",
   },
   decorators: [
     (Story) => (
@@ -16,13 +15,15 @@ export default {
         <Story />
       </div>
     ),
-  ]
-} as ComponentMeta<typeof BigTextInput>;
+  ],
+};
 
-const Template: ComponentStory<typeof BigTextInput> = (args) => <BigTextInput {...args} />;
+export default meta;
 
-export const Default = Template.bind({})
+type Story = StoryObj<typeof BigTextInput>;
 
-Default.args = {
-  placeholder: 'Placeholder',
-}
+export const Default: Story = {
+  args: {
+    placeholder: "Placeholder",
+  },
+};

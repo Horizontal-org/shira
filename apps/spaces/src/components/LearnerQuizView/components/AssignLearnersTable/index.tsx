@@ -115,6 +115,7 @@ export const AssignLearnersTable: FunctionComponent<Props> = ({
 
       {data.length > 0 && (
         <Table
+          size="full"
           loading={loading}
           loadingMessage={<Body1>{t('loading_messages.assigning_quiz_to_learners')}</Body1>}
           data={data}
@@ -149,7 +150,7 @@ const NoResultsWrapper = styled.div`
   background: white;
   border-radius: 32px;
   text-align: center;
-  color: ${props => props.theme.colors.dark.grey};
+  color: ${props => props.theme.colors.dark.darkGrey};
   width: 100%;
 
   > img {

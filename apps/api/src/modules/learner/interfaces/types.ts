@@ -2,6 +2,7 @@ export const TYPES = {
   services: {
     IInviteLearnerService: 'IInviteLearnerService',
     IInviteBulkLearnerService: 'IInviteBulkLearnerService',
+    IVerifyBulkLearnerService: 'IVerifyBulkLearnerService',
     IAssignLearnerService: 'IAssignLearnerService',
     IUnassignLearnerService: 'IUnassignLearnerService',
     IDeleteLearnerService: 'IDeleteLearnerService',

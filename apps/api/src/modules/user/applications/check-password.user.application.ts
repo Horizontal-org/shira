@@ -20,15 +20,12 @@ export class CheckPasswordUserApplication
   ) {}
 
   async execute(userCredentials: CredentialUserDto): Promise<ReadUserDto> {
-    console.log(Object.getPrototypeOf(userCredentials));
     const errors = await validate(userCredentials, { forbidUnknownValues: false });
-    console.log("🚀 ~ execute ~ errors:", errors)
     if (errors.length > 0) throw new InvalidCredentailsUserException();
     
     const user = await this.findByUsernameUserService.execute(
       userCredentials.email,
     );
-    console.log("🚀 ~ execute ~ user:", user)
 
     if (!user) throw new InvalidCredentailsUserException();
 
@@ -36,7 +33,6 @@ export class CheckPasswordUserApplication
       userCredentials.password,
       user.password,
     );
-    console.log("🚀 ~ execute ~ isValid:", isValid)
 
     if (!isValid) throw new InvalidCredentailsUserException();
 

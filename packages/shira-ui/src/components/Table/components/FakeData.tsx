@@ -17,7 +17,7 @@ const range = (len: number) => {
   return arr
 }
 
-const newPerson = (i): Person => {
+const newPerson = (i: number): Person => {
   return {
     id: i,
     name: faker.person.fullName(),
@@ -33,7 +33,7 @@ const newPerson = (i): Person => {
 export function makeData(...lens: number[]) {
   const makeDataLevel = (depth = 0): Person[] => {
     const len = lens[depth]!
-    return range(len).map((d, i): Person => {
+    return range(len).map((_d, i): Person => {
       return {
         ...newPerson(i + 1),
         subRows: lens[depth + 1] ? makeDataLevel(depth + 1) : undefined,

@@ -1,30 +1,32 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
-import Tooltip from '../../components/UI/Tooltip';
-import { GlobalStyle } from '../../utils/storybook';
+import type { Meta, StoryObj } from "@storybook/react";
+import Tooltip from "../../components/UI/Tooltip";
+import { GlobalStyle } from "../../utils/storybook";
 
-export default {
-  title: 'UI/Tooltip',
+const meta = {
+  title: "UI/Tooltip",
   component: Tooltip,
   parameters: {
-    layout: 'padded',
+    layout: "padded",
   },
   decorators: [
     (Story) => (
-      <div style={{ width: 600, backgroundColor: '#111111' }}>
+      <div style={{ width: 600, backgroundColor: "#111111" }}>
         <GlobalStyle />
         <Story />
       </div>
     ),
-  ]
-} as ComponentMeta<typeof Tooltip>;
+  ],
+} satisfies Meta<typeof Tooltip>;
 
-const Template: ComponentStory<typeof Tooltip> = (args) => <Tooltip {...args} />;
+export default meta;
 
-export const Default = Template.bind({})
+type Story = StoryObj<typeof meta>;
 
-Default.args = {
-  position: '20',
-  text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo at aperiam quis cupiditate corrupti ipsa amet sit voluptatem autem porro est in quos laboriosam praesentium, repellendus labore iure cum necessitatibus?',
-  hide: false
-}
+export const Default: Story = {
+  args: {
+    explanationIndex: "20",
+    text:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo at aperiam quis cupiditate corrupti ipsa amet sit voluptatem autem porro est in quos laboriosam praesentium, repellendus labore iure cum necessitatibus?",
+    hide: false,
+  },
+};

@@ -1,13 +1,12 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { GlobalStyle } from '../../utils/storybook';
-import { Title } from '../../components/UI/Title';
+import type { Meta, StoryObj } from "@storybook/react";
+import { GlobalStyle } from "../../utils/storybook";
+import { Title } from "../../components/UI/Title";
 
-export default {
-  title: 'UI/Title',
+const meta = {
+  title: "UI/Title",
   component: Title,
   parameters: {
-    layout: 'padded',
+    layout: "padded",
   },
   decorators: [
     (Story) => (
@@ -16,13 +15,15 @@ export default {
         <Story />
       </div>
     ),
-  ]
-} as ComponentMeta<typeof Title>;
+  ],
+} satisfies Meta<typeof Title>;
 
-const Template: ComponentStory<typeof Title> = (args) => <Title {...args} />;
+export default meta;
 
-export const Default = Template.bind({})
+type Story = StoryObj<typeof meta>;
 
-Default.args = {
-  children: "Title"
-}
+export const Default: Story = {
+  args: {
+    children: "Title",
+  },
+};

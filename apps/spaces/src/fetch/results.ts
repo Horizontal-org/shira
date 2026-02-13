@@ -1,8 +1,6 @@
 import axios from "axios"
-// for Juan or any other engineer that will implement the backend of results. 
-// set the USE_MOCK_DATA to false and replace the endpoint variable with the proper route
-// everything should work okay but in case of any issue just ping gus :)
-export interface PublicQuizResultsResponse {
+
+export interface QuizResultsResponse {
   quiz: {
     id: number;
     title: string;
@@ -12,49 +10,30 @@ export interface PublicQuizResultsResponse {
   metrics: {
     completedCount: number;
     averageScore: number;
+    completionRate: string | null;
+    byQuestion: {
+      questionId: number;
+      questionName: string;
+      questionContent: string;
+      position: number;
+      isPhising: number;
+      appId: number;
+      appName: string;
+      totalRuns: string;
+      correctCount: string;
+    }[];
+    byLearner?: {
+      learnerId: number;
+      learnerName: string;
+      learnerEmail: string;
+      dateSubmitted: string;
+      totalQuestionRuns: string;
+      correctCount: string;
+    }[] | null;
   };
 }
 
-const USE_MOCK_DATA = false;
-
-
-// Mock data for empty state
-const mockEmptyResults: PublicQuizResultsResponse = {
-  quiz: {
-    id: 1,
-    title: "Email quiz for activists",
-    totalQuestions: 8
-  },
-  metrics: {
-    completedCount: 0,
-    averageScore: 0
-  }
-};
-
-// Mock data for filled state
-const mockFilledResults: PublicQuizResultsResponse = {
-  quiz: {
-    id: 1,
-    title: "Email quiz for activists", 
-    totalQuestions: 8
-  },
-  metrics: {
-    completedCount: 27,
-    averageScore: 74.3
-  }
-};
-
-// Mock function (for development)
-const getMockQuizResults = async (quizId: number): Promise<PublicQuizResultsResponse> => {
-  // Simulate network delay
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  console.log(quizId)
-  // return mockEmptyResults
-  return mockFilledResults;
-};
-
-// Real API function (follows same pattern as quiz.ts)
-const getQuizResultsFromAPI = async (quizId: number): Promise<PublicQuizResultsResponse> => {
+const getQuizResultsFromAPI = async (quizId: number): Promise<QuizResultsResponse> => {
   try {
     const endpoint = `/quiz/${quizId}/results`
     const res = await axios.get(`${process.env.REACT_APP_API_URL}${endpoint}`);
@@ -65,11 +44,6 @@ const getQuizResultsFromAPI = async (quizId: number): Promise<PublicQuizResultsR
   }
 };
 
-// Main export function - automatically switches between mock and real API
-export const getQuizResults = async (quizId: number): Promise<PublicQuizResultsResponse> => {
-  if (USE_MOCK_DATA) {
-    return getMockQuizResults(quizId);
-  } else {
-    return getQuizResultsFromAPI(quizId);
-  }
+export const getQuizResults = async (quizId: number): Promise<QuizResultsResponse> => {  
+  return getQuizResultsFromAPI(quizId);
 };
