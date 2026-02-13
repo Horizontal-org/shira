@@ -66,8 +66,7 @@
     "sanitize-html": "^2.17.0",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
-    "typeorm": "0.3",
-    "typescript": "^5.6.3"
+    "typeorm": "0.3"
   },
   "devDependencies": {
     "@nestjs/schematics": "^10.2.2",
@@ -76,8 +75,8 @@
     "@types/jest": "29.5.13",
     "@types/node": "^22.7.7",
     "@types/supertest": "^6.0.2",
-    "@typescript-eslint/eslint-plugin": "^8.11.0",
-    "@typescript-eslint/parser": "^8.11.0",
+    "@typescript-eslint/eslint-plugin": "^8.55.0",
+    "@typescript-eslint/parser": "^8.55.0",
     "eslint": "^9.13.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
@@ -86,7 +85,8 @@
     "source-map-support": "^0.5.21",
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.5",
-    "ts-loader": "^9.5.1"
+    "ts-loader": "^9.5.1",
+    "typescript": "5.9.3"
   },
   "jest": {
     "moduleFileExtensions": [
