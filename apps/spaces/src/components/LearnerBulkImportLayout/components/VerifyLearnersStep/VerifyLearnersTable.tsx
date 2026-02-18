@@ -1,10 +1,9 @@
 import { FunctionComponent, ReactNode, useMemo, useState } from "react";
 import { Body4, EmptyState, Table, defaultTheme, styled } from "@shira/ui";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
-import { FiCheck, FiX } from "react-icons/fi";
-import { MdOutlineQuestionMark } from "react-icons/md";
 import { BulkLearnerRowResult } from "../../../../fetch/learner";
 import { useTranslation } from "react-i18next";
+import { StatusIconPill } from "./StatusIconPill";
 
 interface Props {
   rows: BulkLearnerRowResult[];
@@ -68,59 +67,27 @@ export const VerifyLearnersTable: FunctionComponent<Props> = ({
           const rowData = row.original;
           const messages = rowData.message ?? [];
 
-          const renderMessagePill = (message: string) => {
-            const isMissingError =
-              rowData.status === "Error" && message.startsWith("missing_");
-
-            const pillKind: "success" | "error" | "neutral" =
-              rowData.status === "OK"
-                ? "success"
-                : rowData.status === "Error" && isMissingError
-                  ? "error"
-                  : "neutral";
-
-            const iconVariant: "success" | "neutral" | "error" =
-              rowData.status === "OK"
-                ? "success"
-                : isMissingError
-                  ? "error"
-                  : "neutral";
-
-            return (
-              <StatusPill key={`${rowData.row}-${message}`} $kind={pillKind}>
-                {rowData.status !== "OK" && (
-                  <StatusIcon $variant={iconVariant}>
-                    {isMissingError ? (
-                      <MdOutlineQuestionMark size={12} />
-                    ) : (
-                      <FiX size={12} />
-                    )}
-                  </StatusIcon>
-                )}
-                <Body4>
-                  {t(`error_messages.learners_bulk_import.${message}`, {
-                    defaultValue: message,
-                  })}
-                </Body4>
-              </StatusPill>
-            );
-          };
+          const messagePill = (message: string) => (
+            <StatusIconPill
+              key={`${rowData.row}-${message}`}
+              status={rowData.status}
+              message={message}
+              label={t(`error_messages.learners_bulk_import.${message}`, {
+                defaultValue: message,
+              })}
+            />
+          );
 
           if (rowData.status === "OK") {
             return (
               <StatusList>
-                <StatusPill $kind="success">
-                  <StatusIcon $variant="success">
-                    <FiCheck size={12} />
-                  </StatusIcon>
-                  <Body4>{validatedLabel}</Body4>
-                </StatusPill>
+                <StatusIconPill status="OK" label={validatedLabel} />
               </StatusList>
             );
           }
 
           if (messages.length > 0) {
-            return <StatusList>{messages.map(renderMessagePill)}</StatusList>;
+            return <StatusList>{messages.map(messagePill)}</StatusList>;
           }
 
           return <TableCellText>-</TableCellText>;
@@ -173,52 +140,10 @@ const RowNumber = styled(Body4)`
   font-weight: 600;
 `;
 
-const StatusPill = styled.span<{ $kind: "success" | "neutral" | "error" }>`
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 8px;
-  border-radius: 2px;
-  font-weight: 600;
-  font-size: 12px;
-
-  color: ${({ theme, $kind }) =>
-    $kind === "error"
-      ? theme.colors.error9
-      : $kind === "neutral"
-        ? theme.colors.dark.darkGrey
-        : theme.colors.green9};
-
-  background: ${({ theme, $kind }) =>
-    $kind === "error"
-      ? theme.colors.light.paleRed
-      : $kind === "neutral"
-        ? theme.colors.light.paleGrey
-        : theme.colors.light.paleGreen};
-`;
-
 const StatusList = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 6px;
   max-width: 100%;
-`;
-
-const StatusIcon = styled.span<{ $variant?: "success" | "neutral" | "error" }>`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-
-  background: ${({ theme, $variant }) =>
-    $variant === "success"
-      ? theme.colors.green6
-      : $variant === "neutral"
-        ? theme.colors.dark.darkGrey
-        : theme.colors.error6};
-
-  color: ${(props) => props.theme.colors.light.white};
 `;

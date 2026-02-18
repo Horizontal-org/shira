@@ -7,6 +7,7 @@ import { GetLearnerQuizService } from './services/get.learner-quiz.service';
 import { GetLearnerService } from './services/get.learner.service';
 import { InviteLearnerService } from './services/invite.learner.service';
 import { InviteBulkLearnerService } from './services/invite-bulk.learner.service';
+import { VerifyBulkLearnerService } from './services/verify-bulk.learner.service';
 import { UnassignLearnerService } from './services/unassign.learner.service';
 import { CsvBulkInviteParser } from './parsers/csv-bulk-invite.parser';
 import { BulkInviteParserResolver } from './parsers/bulk-invite-parser.resolver';
@@ -19,6 +20,11 @@ export const inviteLearnerService = {
 export const inviteBulkLearnerService = {
   provide: TYPES.services.IInviteBulkLearnerService,
   useClass: InviteBulkLearnerService,
+};
+
+export const verifyBulkLearnerService = {
+  provide: TYPES.services.IVerifyBulkLearnerService,
+  useClass: VerifyBulkLearnerService,
 };
 
 export const assignLearnerService = {
@@ -70,6 +76,7 @@ export const bulkInviteParsers = {
 export const serviceLearnerProviders = [
   inviteLearnerService,
   inviteBulkLearnerService,
+  verifyBulkLearnerService,
   CsvBulkInviteParser,
   bulkInviteParserResolver,
   bulkInviteParsers,

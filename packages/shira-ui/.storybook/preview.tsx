@@ -1,4 +1,3 @@
-import React from 'react';
 import type { Preview } from "@storybook/react";
 import { defaultTheme, ThemeProvider } from "../src/theme";
 import { createGlobalStyle } from 'styled-components'
@@ -24,14 +23,15 @@ const preview: Preview = {
       },
     },
   },
-  decorators:[
+  decorators: [
     (Story) => (
       <ThemeProvider theme={defaultTheme}>
         <GlobalStyle />
         <Story />
       </ThemeProvider>
     )
-  ]
+  ],
+  tags: ['autodocs'],
 };
 
 export default preview;

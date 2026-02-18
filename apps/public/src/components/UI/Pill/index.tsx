@@ -1,11 +1,12 @@
-import { FunctionComponent } from 'react'
-import { styled } from '@shira/ui'
+import { FunctionComponent } from 'react';
+import type { ReactNode } from "react";
+import { styled } from '@shira/ui';
 
 interface Props {
   label: string;
   onClick: () => void;
   selected: boolean;
-  icon: string;
+  icon: ReactNode;
 }
 
 export const Pill: FunctionComponent<Props> = ({
@@ -19,7 +20,7 @@ export const Pill: FunctionComponent<Props> = ({
     <Wrapper selected={selected} onClick={onClick}>
       <Content>
         <Icon>{icon}</Icon>
-        { label }
+        {label}
       </Content>
     </Wrapper>
   )

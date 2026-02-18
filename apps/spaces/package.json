@@ -8,9 +8,9 @@
     "@hello-pangea/dnd": "^18.0.1",
     "@shira/ui": "*",
     "@tanstack/react-table": "^8.0.0",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
     "@tiptap/extension-blockquote": "^2.11.6",
     "@tiptap/extension-bubble-menu": "^2.0.0-beta.196",
     "@tiptap/extension-color": "^2.11.6",
@@ -56,12 +56,11 @@
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-i18next": "^12.3.1",
-    "react-icons": "^4.6.0",
+    "react-icons": "^5.5.0",
     "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",
     "sort-by": "^1.2.0",
-    "styled-components": "^5.3.5",
-    "typescript": "^4.8.3",
+    "styled-components": "^5.3.11",
     "web-vitals": "^2.1.4",
     "zustand": "^4.1.1"
   },
@@ -90,6 +89,10 @@
     ]
   },
   "devDependencies": {
-    "turbo": "^2.4.0"
+    "@babel/eslint-parser": "^7.28.6",
+    "@emotion/stylis": "^0.8.5",
+    "eslint-config-react-app": "^7.0.1",
+    "turbo": "^2.4.0",
+    "typescript": "^5.1.6"
   }
 }

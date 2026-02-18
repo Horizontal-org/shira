@@ -43,7 +43,7 @@ export const Table = ({
   size = 'compact',
   enablePagination = true
 }: TableProps) => {
-  const [pagination, setPagination] = React.useState<PaginationState>({
+  const [pagination] = React.useState<PaginationState>({
     pageIndex: 0,
     pageSize,
   });

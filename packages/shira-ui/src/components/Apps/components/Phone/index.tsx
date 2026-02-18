@@ -7,7 +7,7 @@ import Signal from './Icons/SignalIcon'
 import WiFi from './Icons/WiFiIcon'
 interface Props {
   children: ReactNode,
-  className: string,
+  className?: string,
   background: string
 }
 

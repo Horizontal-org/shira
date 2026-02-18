@@ -31,16 +31,16 @@ interface Props {
   onClick?: () => void
 }
 
-export const AppItem: FunctionComponent<Props> = ({ 
-  id, 
-  name, 
-  selected, 
+export const AppItem: FunctionComponent<Props> = ({
+  id,
+  name,
+  selected,
   onClick
-}) => { 
+}) => {
   return (
     <Wrapper selected={selected}>
       <Box onClick={onClick} name={name.toLowerCase().replace(/\s/g, '')}>
-        { getIcon(name) }
+        {getIcon(name)}
       </Box>
       <span>{name}</span>
     </Wrapper>
@@ -81,7 +81,7 @@ const Box = styled.div<BoxProps>`
     font-size: 18px;
     line-height: 22px;
     font-weight: 700;
-    color: ${props => props.theme.secondary.dark.darkGrey};
+    color: ${props => props.theme.colors.dark.darkGrey};
     padding-top: 8px;
   }
 

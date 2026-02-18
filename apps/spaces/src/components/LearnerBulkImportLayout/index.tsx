@@ -8,7 +8,7 @@ import { FormattingGuidelinesModal } from "../modals/FormattingGuidelinesModal";
 import { UploadCsvStep } from "./components/UploadCsvStep";
 import { VerifyLearnersStep } from "./components/VerifyLearnersStep";
 import { FinalReviewStep } from "./components/FinalReviewStep";
-import { BulkInviteLearnersResponse, inviteLearnersBulk, verifyLearnersBulk } from "../../fetch/learner";
+import { BulkInviteLearnersResponse, BulkInviteValidatedLearner, inviteLearnersBulk, verifyLearnersBulk } from "../../fetch/learner";
 import { handleHttpError } from "../../fetch/handleError";
 
 interface Props { }
@@ -37,13 +37,28 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
   const getInviteCount = (response: BulkInviteLearnersResponse | null) =>
     response?.filter((row) => row.status === "OK").length ?? 0;
 
+  const getValidLearners = (response: BulkInviteLearnersResponse | null): BulkInviteValidatedLearner[] =>
+    (response ?? [])
+      .filter((row) => row.status === "OK" && row.name)
+      .map((row) => ({
+        row: row.row,
+        email: row.email,
+        name: row.name!,
+      }));
+
+  const validInviteCount = getInviteCount(bulkInviteResponse);
+
   const validateStep = () => {
     if (step === 0) {
       return !!selectedFile && !isFileLoading && !uploadError;
     }
 
+    if (step === 1) {
+      return !isFileLoading && validInviteCount > 0;
+    }
+
     if (step === 2) {
-      return !isSubmitting;
+      return !isSubmitting && validInviteCount > 0;
     }
 
     return true;
@@ -148,7 +163,13 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
       }
 
       setIsSubmitting(true);
-      inviteLearnersBulk(selectedFile)
+      const validLearners = getValidLearners(bulkInviteResponse);
+      if (validLearners.length === 0) {
+        setIsSubmitting(false);
+        return;
+      }
+
+      inviteLearnersBulk(validLearners)
         .then((response) => {
           lastInvitedCount.current = getInviteCount(response);
           lastInvitedFileKey.current = fileKey;

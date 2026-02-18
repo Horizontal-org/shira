@@ -1,6 +1,6 @@
 import { BulkLearnerRowResultDto } from "../../dto/learner-bulk-invite-response.dto";
+import { BulkInviteValidatedLearnerDto } from "../../dto/learner-bulk-invite-request.dto";
 
 export interface IInviteBulkLearnerService {
-  verify(file: Express.Multer.File, spaceId: number): Promise<BulkLearnerRowResultDto[]>;
-  invite(file: Express.Multer.File, spaceId: number): Promise<BulkLearnerRowResultDto[]>;
+  invite(learners: BulkInviteValidatedLearnerDto[], spaceId: number): Promise<BulkLearnerRowResultDto[]>;
 }

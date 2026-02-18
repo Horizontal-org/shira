@@ -1,12 +1,16 @@
 import { FunctionComponent } from "react"
 import { Body1, styled, H1, Button } from "@shira/ui"
-import { SceneWrapper } from "../../../../UI/SceneWrapper"
-import { CustomQuizNavbar } from "../../../../UI/CustomQuizNavbar"
-import FishTail from '../../../../../assets/FishTail'
+import FishTail from '../../../assets/FishTail'
+import { CustomQuizNavbar } from "../CustomQuizNavbar"
+import { SceneWrapper } from "../SceneWrapper"
 
-interface Props {}
+interface Props {
+  title: string;
+  description: string;
+  homeButtonText: string;
+}
 
-export const InvalidQuiz: FunctionComponent<Props> = () => {
+export const InvalidLink: FunctionComponent<Props> = ({ title, description, homeButtonText }) => {
   return (
     <CustomSceneWrapper>
       <CustomQuizNavbar color="#DBE3A3"/>
@@ -14,13 +18,13 @@ export const InvalidQuiz: FunctionComponent<Props> = () => {
       <Body>
         <Content>
           <div>
-            <StyledH1>Sorry, this quiz link is invalid.</StyledH1>
+            <StyledH1>{title}</StyledH1>
             <Body1>
-              <strong>You may have used the wrong URL, or the quiz was unpublished and is no longer available</strong>
+              <strong>{description}</strong>
             </Body1>
             <ButtonWrapper>
               <Button 
-                text="Go to Shira"
+                text={homeButtonText}
                 type="outline"
                 onClick={() => {
                   window.location.href = "https://shira.app";

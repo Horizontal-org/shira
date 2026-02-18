@@ -9,6 +9,8 @@ import { GoPersonFill } from "react-icons/go";
 import { StatusTag } from "./components/StatusTag";
 import { LearnerEmail, LearnerHeader, LearnerName, LearnerPersonInfo } from "./components/LearnerHeader";
 import { MdEmail } from "react-icons/md";
+import { FiDownload } from "react-icons/fi";
+import { useNavigate } from "react-router";
 
 export type Learner = {
   id: number;
@@ -39,6 +41,7 @@ export const LearnersTable: FunctionComponent<Props> = ({
   setRowSelection,
 }) => {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const theme = useTheme();
 
   const currentDateLocal = useMemo(() => {
@@ -134,6 +137,14 @@ export const LearnersTable: FunctionComponent<Props> = ({
               leftIcon={<MdEmail />}
               color={theme.colors.green7}
               onClick={onInviteLearner}
+            />,
+            <Button
+              id="export-learner-button"
+              type="primary"
+              text={t("buttons.invite_learners_bulk")}
+              leftIcon={<FiDownload />}
+              color={theme.colors.green7}
+              onClick={() => navigate('/learner/import/bulk')}
             />
           ]}
         />

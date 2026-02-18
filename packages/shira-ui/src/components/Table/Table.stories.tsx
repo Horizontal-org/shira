@@ -30,7 +30,7 @@ type Story = StoryObj<typeof Table>
 
 export const Default: Story = {
   args: {},
-  render: function Render(args) {
+  render: function Render() {
   const [data] = useState(() => makeData(1000))
   const [rowSelection, setRowSelection] = useState({})
   console.log("🚀 ~ Render ~ rowSelection:", rowSelection)

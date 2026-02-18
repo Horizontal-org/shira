@@ -253,8 +253,7 @@
         "title": "Overall results",
         "completed_quizzes": {
             "title": "Number of completed quizzes",
-            "subtitle": "This is the number of quizzes that have been completed",
-            "public_learners": " by public learners"
+            "subtitle": "This is the number of quizzes that have been completed by learners."
         },
         "average_score": {
             "title": "Average score",
@@ -549,6 +548,7 @@
             "missing_email": "Missing email address",
             "invalid_email": "Invalid email address",
             "duplicated_email": "Duplicated email address",
+            "already_registered": "Already registered",
             "invalid_file_format": {
                 "title": "Error: Invalid file format",
                 "subtitle": "Please make sure the file is in CSV and try again."

@@ -27,7 +27,8 @@ import './language/i18n';
 import { GetStartedLayout } from './components/GetStartedLayout';
 import { LearnersLayout } from './components/LearnersLayout';
 import { FeedbackButton } from './components/FeedbackButton';
-import { ResetPasswordRequestLayout, SetNewPasswordLayout } from './components/ResetPasswordLayout/ResetPasswordRequestLayout';
+import { ResetPasswordRequestLayout } from './components/ResetPasswordLayout/ResetPasswordRequestLayout';
+import { SetNewPasswordLayout } from './components/ResetPasswordLayout/SetNewPasswordLayout';
 
 function App() {
 
