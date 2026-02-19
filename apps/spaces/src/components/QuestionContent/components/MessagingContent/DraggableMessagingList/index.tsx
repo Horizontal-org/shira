@@ -27,7 +27,6 @@ const castType = {
 
 export const DraggableMessagingList: FunctionComponent<Props> = ({
   items,
-  content,
   onChange,
 }) => {
 
@@ -38,7 +37,6 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
   } = useStore((state) => ({
     deleteExplanation: state.deleteExplanation,
   }), shallow)
-
 
   const [imageFloatingMenu, handleImageFloatingMenu] = useState<boolean>(false)
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -181,7 +179,7 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
 
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId='droppable'>
-          {(provided, snapshot) => (
+          {(provided) => (
             <div
               {...provided.droppableProps}
               ref={provided.innerRef}
@@ -191,6 +189,7 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
                   item={item}
                   key={item.draggableId}
                   index={index}
+                  isImageUploading={item.contentType === 'image' && !item.value && images.isUploading}
                   onDelete={() => {
                     if (item.contentType === 'image' && item.explanation) {
                       deleteExplanation((parseInt(item.explanation)))

@@ -1,5 +1,4 @@
-import { useCallback, useRef, useState } from 'react'
-import { NodeSelection } from 'prosemirror-state'
+import { useCallback, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
@@ -8,6 +7,7 @@ interface ImageUploadResponse {
   url: string;
   originalFilename: string;
 }
+
 interface UseImageUploadOptions {
   maxSizeInMB?: number
   allowedTypes?: string[]
@@ -19,7 +19,7 @@ const defaultUploadImage = async (file: File, quizId: string, questionId: string
     const formData = new FormData()
     formData.append('file', file)
 
-    let url = `${process.env.REACT_APP_API_URL}/question-image/upload?quizId=${quizId}` 
+    let url = `${process.env.REACT_APP_API_URL}/question-image/upload?quizId=${quizId}`
     if (questionId) {
       url = url + `&questionId${questionId}`
     }
@@ -29,7 +29,7 @@ const defaultUploadImage = async (file: File, quizId: string, questionId: string
         'Content-Type': 'multipart/form-data'
       }
     })
-    
+
     return {
       id: res.data.imageId,
       url: res.data.url,
@@ -50,7 +50,7 @@ export const useImageUpload = (
     uploadFunction = defaultUploadImage
   } = options
 
-  const { quizId, questionId = null } = useParams()  
+  const { quizId, questionId = null } = useParams()
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const [isUploading, setIsUploading] = useState(false)
@@ -73,7 +73,7 @@ export const useImageUpload = (
   }, [isUploading])
 
 
-  const onImageSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onImageSelect = async (event: React.ChangeEvent<HTMLInputElement>): Promise<ImageUploadResponse | null> => {
     const file = event.target.files?.[0]
     if (!file) return
 
@@ -85,62 +85,21 @@ export const useImageUpload = (
 
     setIsUploading(true)
     try {
-      const uploadResponse = await uploadFunction(file, quizId, questionId)
-      setIsUploading(false)
-      event.target.value = ''
-      return uploadResponse   
-      // editor.chain().focus().setImage({ 
-      //   src: uploadResponse.presignedUrl,
-      //   'data-image-id': uploadResponse.id,
-      //   'data-original-filename': uploadResponse.originalFilename,
-      //   alt: uploadResponse.originalFilename
-      // }).run()
+      return await uploadFunction(file, quizId, questionId)
     } catch (error) {
       console.error('Error uploading image:', error)
       alert('Failed to upload image')
+      return null
+    } finally {
+      setIsUploading(false)
+      event.target.value = ''
     }
   }
-
-  // const isImageSelected = useCallback(() => {
-  //   if (!editor) return false
-  //   return editor.state.selection instanceof NodeSelection && 
-  //          editor.state.selection.node?.type.name === 'image'
-  // }, [editor])
-
-  // const selectedImageHasExplanation = useCallback(() => {
-  //   if (!editor || !isImageSelected()) return false
-    
-  //   const { selection } = editor.state
-  //   return selection instanceof NodeSelection &&
-  //          selection.node?.attrs['data-explanation']
-  // }, [editor, isImageSelected])
-
-
-  // const getSelectedImageAttrs = useCallback(() => {
-  //   if (!editor || !isImageSelected()) return null
-    
-  //   const { selection } = editor.state
-  //   if (selection instanceof NodeSelection) {
-  //     return selection.node.attrs
-  //   }
-  //   return null
-  // }, [editor, isImageSelected])
-
-  // const updateSelectedImage = useCallback((attrs: Record<string, any>) => {
-  //   if (!editor || !isImageSelected()) return false
-
-  //   editor.chain().focus().updateAttributes('image', attrs).run()
-  //   return true
-  // }, [editor, isImageSelected])
 
   return {
     fileInputRef,
     handleImageUpload,
     onImageSelect,
-    // isImageSelected: isImageSelected(),
-    // selectedImageHasExplanation: selectedImageHasExplanation(),
-    // getSelectedImageAttrs,
-    // updateSelectedImage,
     validateFile,
     isUploading
   }

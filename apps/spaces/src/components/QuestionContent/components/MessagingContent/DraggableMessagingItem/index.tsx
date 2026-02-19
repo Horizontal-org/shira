@@ -1,67 +1,68 @@
-import { FunctionComponent, ReactNode } from 'react'
-// import { Draggable } from "react-beautiful-dnd";
+import { FunctionComponent } from 'react'
 import { Draggable } from "@hello-pangea/dnd";
-import { Body2Regular, Body3, Body3Bold, styled } from '@shira/ui';
-import { DragItemOptions } from '../../../../DragItemOptions';
+import { styled } from '@shira/ui';
 import { TextDragItem } from '../TextDragItem';
 import { ImageDragItem } from '../ImageDragItem';
-import { ImageObject, QuestionDragEditor, QuestionDragImage } from '../../../../../store/types/active_question';
+import { QuestionDragEditor, QuestionDragImage } from '../../../../../store/types/active_question';
 import { QuestionContentDragItemOptions } from '../../QuestionContentDragItemOptions';
 
 interface Props {
   index: number;
   item: QuestionDragEditor | QuestionDragImage;
-  onDelete: () => void  
+  onDelete: () => void
+  isImageUploading?: boolean
 }
 
-export const DraggableMessagingItem: FunctionComponent<Props> = ({  
+export const DraggableMessagingItem: FunctionComponent<Props> = ({
   index,
   item,
-  onDelete,  
+  onDelete,
+  isImageUploading = false,
 }) => {
   return (
     <>
-    <Draggable 
-      draggableId={item.draggableId} 
-      index={index}
-    >
-      {(draggableProvided, snapshot) => (
-        <>
-          <Container
-            ref={draggableProvided.innerRef}
-            {...draggableProvided.draggableProps}
-          >
-            <Wrapper>
+      <Draggable
+        draggableId={item.draggableId}
+        index={index}
+      >
+        {(draggableProvided) => (
+          <>
+            <Container
+              ref={draggableProvided.innerRef}
+              {...draggableProvided.draggableProps}
+            >
+              <Wrapper>
 
-              { item.contentType === 'editor' ? (<SmallText>Message text</SmallText>) : (<SmallText>Image</SmallText>)}
- 
-              <ContentWrapper>
-                <QuestionContentDragItemOptions
-                  dragHandleProps={draggableProvided.dragHandleProps}
-                  onDelete={onDelete}
-                  typeOffset={item.contentType === 'editor' ? '52px' : ''}
-                />
-                { item.contentType === 'editor' && (
-                  <TextDragItem 
-                    name={item.htmlId}
-                    index={index}
-                    initialValue={item.value}                
+                {item.contentType === 'editor' ? (<SmallText>Message text</SmallText>) : (<SmallText>Image</SmallText>)}
+
+                <ContentWrapper>
+                  <QuestionContentDragItemOptions
+                    dragHandleProps={draggableProvided.dragHandleProps}
+                    onDelete={onDelete}
+                    typeOffset={item.contentType === 'editor' ? '52px' : ''}
                   />
-                )}
-                { item.contentType === 'image' && (
-                  <ImageDragItem 
-                    index={index}
-                    explanationId={item.explanation}
-                    value={item.value}
-                  />
-                )}
-              </ContentWrapper>
-            </Wrapper>
-            
-          </Container>
-        </>
-      )}
-    </Draggable>
+                  {item.contentType === 'editor' && (
+                    <TextDragItem
+                      name={item.htmlId}
+                      index={index}
+                      initialValue={item.value}
+                    />
+                  )}
+                  {item.contentType === 'image' && (
+                    <ImageDragItem
+                      index={index}
+                      explanationId={item.explanation}
+                      value={item.value}
+                      isLoading={isImageUploading}
+                    />
+                  )}
+                </ContentWrapper>
+              </Wrapper>
+
+            </Container>
+          </>
+        )}
+      </Draggable>
     </>
   )
 }
