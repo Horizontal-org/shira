@@ -89,11 +89,15 @@ export const Question: FunctionComponent<Props> = ({
     }, [onAnswer, question.id]
   )
 
+  const content = question.content
+    .replace(/{{name}}/g, persistedName)
+    .replace(/{{email}}/g, persistedEmail);
+
   return (
     <SceneWithFooter>
       <AppLayout
         app={question.app}
-        content={question.content.replace('{{name}}', persistedName).replace('{{email}}', persistedEmail)}
+        content={content}
         explanations={parseExplanations(question.explanations)}
         explanationNumber={explanationsOrder[explanationNumber]}
         answer={answer}
