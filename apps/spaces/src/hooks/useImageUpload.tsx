@@ -72,15 +72,16 @@ export const useImageUpload = (
     fileInputRef.current?.click()
   }, [isUploading])
 
-
-  const onImageSelect = async (event: React.ChangeEvent<HTMLInputElement>): Promise<ImageUploadResponse | null> => {
+  const onImageSelect = async (event: React.ChangeEvent<HTMLInputElement>)
+    : Promise<ImageUploadResponse | null> => {
     const file = event.target.files?.[0]
-    if (!file) return
+    if (!file) return null
 
     const validationError = validateFile(file)
     if (validationError) {
       alert(validationError)
-      return
+      event.target.value = ''
+      return null
     }
 
     setIsUploading(true)

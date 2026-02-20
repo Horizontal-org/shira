@@ -106,6 +106,10 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
 
       try {
         const res = await images.onImageSelect(e)
+        if (!res) {
+          onChange(items)
+          return
+        }
         newItems[index] = { ...newItems[index], value: res } as QuestionDragImage
         onChange(newItems)
       } catch (e) {
