@@ -29,6 +29,7 @@ updates:
       workspace-dependencies:
         patterns:
           - "*"
+    versioning-strategy: increase
 
   # Frontend apps
   - package-ecosystem: "npm"
@@ -45,6 +46,7 @@ updates:
       - dependency-name: "*react*"
         update-types: 
           - "version-update:semver-major"
+    versioning-strategy: increase
 
   - package-ecosystem: "npm"
     directory: "/apps/spaces"
@@ -60,6 +62,7 @@ updates:
       - dependency-name: "*react*"
         update-types: 
           - "version-update:semver-major"
+    versioning-strategy: increase
 
   # Shared packages
   - package-ecosystem: "npm"
@@ -76,6 +79,7 @@ updates:
       - dependency-name: "*react*"
         update-types: 
           - "version-update:semver-major"
+    versioning-strategy: increase
 
   - package-ecosystem: "npm"
     directory: "/packages/tooling-config"
@@ -87,3 +91,4 @@ updates:
       workspace-dependencies:
         patterns:
           - "*"
+    versioning-strategy: increase
