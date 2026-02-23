@@ -1,4 +1,4 @@
-import { Exclude, Expose } from 'class-transformer';
+import { Exclude, Expose, Transform } from 'class-transformer';
 import { IsEnum, IsNumber, IsString, IsBoolean } from 'class-validator';
 import { SpaceEntity } from 'src/modules/space/domain/space.entity';
 
@@ -11,6 +11,7 @@ export class ReadUserDto {
 
   @Expose()
   @IsString()
+  @Transform(({ value }) => value?.toLowerCase().trim())
   email: string;
 
   @Expose()

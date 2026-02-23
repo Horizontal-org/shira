@@ -18,26 +18,27 @@ export class SubmitRegistrationAuthService implements ISubmitRegistrationAuthSer
     private readonly regRepo: Repository<RegistrationEntity>,
     @InjectQueue('emails')
     private emailsQueue: Queue
-  ) {}
+  ) { }
 
   async execute(data: RegisterAuthDto): Promise<void> {
     const registration = new RegistrationEntity()
 
     //TODO CHECK TIMEZONES createdAt !== expiresAt
-  
-    const expiresAt = addDays(new Date(), 1) ;
 
-    registration.email = data.email
+    const expiresAt = addDays(new Date(), 1);
+    const normalizedEmail = data.email.trim().toLowerCase();
+
+    registration.email = normalizedEmail
     registration.passphrase = data.passphrase
     registration.password = await hashPassword(data.password)
     // registration.spaceName = data.spaceName    
     registration.expiresAt = expiresAt
-    registration.invitationHash = crypto.randomBytes(20).toString('hex') 
+    registration.invitationHash = crypto.randomBytes(20).toString('hex')
 
     await this.regRepo.save(registration)
 
     this.emailsQueue.add('send', {
-      to: registration.email,
+      to: normalizedEmail,
       from: process.env.SMTP_GLOBAL_FROM, // sender address
       subject: 'CONFIRM REGISTRATION', // Subject line
       template: 'confirm-registration',
