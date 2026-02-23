@@ -13,7 +13,8 @@ updates:
         patterns:
           - "*"
     ignore:
-      - dependency-name: "react"
+      - dependency-name: "*react*"
+      - update-types: "version-update:semver-major"
 
   # API
   - package-ecosystem: "npm"
@@ -39,7 +40,8 @@ updates:
         patterns:
           - "*"
     ignore:
-      - dependency-name: "react"
+      - dependency-name: "*react*"
+      - update-types: "version-update:semver-major"
 
   - package-ecosystem: "npm"
     directory: "/apps/spaces"
@@ -52,7 +54,8 @@ updates:
         patterns:
           - "*"
     ignore:
-      - dependency-name: "react"
+      - dependency-name: "*react*"
+      - update-types: "version-update:semver-major"
 
   # Shared packages
   - package-ecosystem: "npm"
@@ -66,7 +69,8 @@ updates:
         patterns:
           - "*"
     ignore:
-      - dependency-name: "react"
+      - dependency-name: "*react*"
+      - update-types: "version-update:semver-major"
 
   - package-ecosystem: "npm"
     directory: "/packages/tooling-config"
