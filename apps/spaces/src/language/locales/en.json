@@ -245,7 +245,8 @@
             },
             "actions": {
                 "title": "Actions",
-                "aria_label": "Add question"
+                "aria_label": "Add question",
+                "disabled_tooltip": "Select a language and an app to use this question."
             }
         }
     },
