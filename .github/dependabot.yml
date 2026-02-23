@@ -5,19 +5,21 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "semiannually"
     target-branch: "development"
     open-pull-requests-limit: 10
     groups:
       workspace-dependencies:
         patterns:
           - "*"
+    ignore:
+      - dependency-name: "react"
 
   # API
   - package-ecosystem: "npm"
     directory: "/apps/api"
     schedule:
-      interval: "weekly"
+      interval: "semiannually"
     target-branch: "development"
     open-pull-requests-limit: 10
     groups:
@@ -29,41 +31,47 @@ updates:
   - package-ecosystem: "npm"
     directory: "/apps/public"
     schedule:
-      interval: "weekly"
+      interval: "semiannually"
     target-branch: "development"
     open-pull-requests-limit: 10
     groups:
       workspace-dependencies:
         patterns:
           - "*"
+    ignore:
+      - dependency-name: "react"
 
   - package-ecosystem: "npm"
     directory: "/apps/spaces"
     schedule:
-      interval: "weekly"
+      interval: "semiannually"
     target-branch: "development"
     open-pull-requests-limit: 10
     groups:
       workspace-dependencies:
         patterns:
           - "*"
+    ignore:
+      - dependency-name: "react"
 
   # Shared packages
   - package-ecosystem: "npm"
     directory: "/packages/shira-ui"
     schedule:
-      interval: "weekly"
+      interval: "semiannually"
     target-branch: "development"
     open-pull-requests-limit: 10
     groups:
       workspace-dependencies:
         patterns:
           - "*"
+    ignore:
+      - dependency-name: "react"
 
   - package-ecosystem: "npm"
     directory: "/packages/tooling-config"
     schedule:
-      interval: "weekly"
+      interval: "semiannually"
     target-branch: "development"
     open-pull-requests-limit: 10
     groups:
