@@ -36,8 +36,7 @@ export class CheckPassphraseService implements ICheckPassphraseService {
     }
 
     // check registration email match with passphrase
-    const normalizedEmail = registrationEmail.trim().toLowerCase();
-    if (entity.usedBy !== normalizedEmail) {
+    if (entity.usedBy !== registrationEmail) {
       throw new EmailNoMatchAuthException()
     }
 
