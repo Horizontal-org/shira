@@ -19,8 +19,8 @@
         "build-storybook": "storybook build -o public"
     },
     "peerDependencies": {
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
+        "react": "^19.2.4",
+        "react-dom": "^19.2.4",
         "styled-components": "^6.1.13"
     },
     "devDependencies": {
@@ -28,11 +28,11 @@
         "@storybook/addon-onboarding": "^10.2.8",
         "@storybook/react": "^10.2.8",
         "@storybook/react-vite": "^10.2.8",
-        "@types/react": "^18.2.66",
-        "@types/react-dom": "^18.2.22",
+        "@types/react": "^19.2.14",
+        "@types/react-dom": "^19.2.3",
         "@vitejs/plugin-react": "^5.1.4",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
+        "react": "^19.2.4",
+        "react-dom": "^19.2.4",
         "storybook": "^10.2.8",
         "styled-components": "^6.1.13",
         "typescript": "^5.7.2",
