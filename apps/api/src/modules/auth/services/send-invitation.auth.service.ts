@@ -22,11 +22,10 @@ export class SendInvitationAuthService implements ISendInvitationAuthService {
   ) { }
 
   async execute(invitationData: SendInvitationDto): Promise<void> {
-    const { email: invitationEmail, slug } = invitationData;
-    const normalizedEmail = invitationEmail.toLocaleLowerCase();
+    const { email, slug } = invitationData;
 
     const existingUser = await this.userRepo.findOne({
-      where: { email: normalizedEmail }
+      where: { email }
     });
 
     if (existingUser) {
@@ -37,19 +36,19 @@ export class SendInvitationAuthService implements ISendInvitationAuthService {
     passphrase.code = crypto.randomBytes(20).toString('hex');
     passphrase.slug = slug
     passphrase.organizationType = invitationData.orgType
-    passphrase.usedBy = normalizedEmail // we use this to check the owner of the passphrase
+    passphrase.usedBy = email // we use this to check the owner of the passphrase
 
     await this.passphraseRepo.save(passphrase)
 
     const magicLink = `${process.env.SPACE_URL}/create-space/${passphrase.code}`;
 
     await this.emailsQueue.add('send', {
-      to: normalizedEmail,
+      to: email,
       from: process.env.SMTP_GLOBAL_FROM,
       subject: 'Invitation to create a Shira space',
       template: 'space-invitation',
       data: {
-        email: normalizedEmail,
+        email: email,
         magicLink: magicLink,
         passphrase: passphrase.code
       }

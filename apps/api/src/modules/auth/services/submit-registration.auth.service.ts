@@ -26,9 +26,8 @@ export class SubmitRegistrationAuthService implements ISubmitRegistrationAuthSer
     //TODO CHECK TIMEZONES createdAt !== expiresAt
 
     const expiresAt = addDays(new Date(), 1);
-    const normalizedEmail = data.email.trim().toLowerCase();
 
-    registration.email = normalizedEmail
+    registration.email = data.email
     registration.passphrase = data.passphrase
     registration.password = await hashPassword(data.password)
     // registration.spaceName = data.spaceName    
@@ -38,7 +37,7 @@ export class SubmitRegistrationAuthService implements ISubmitRegistrationAuthSer
     await this.regRepo.save(registration)
 
     this.emailsQueue.add('send', {
-      to: normalizedEmail,
+      to: data.email,
       from: process.env.SMTP_GLOBAL_FROM, // sender address
       subject: 'CONFIRM REGISTRATION', // Subject line
       template: 'confirm-registration',

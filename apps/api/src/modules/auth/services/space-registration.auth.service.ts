@@ -40,15 +40,14 @@ export class SpaceRegistrationAuthService implements ISpaceRegistrationAuthServi
       await this.validateRegistrationService.execute(registrationData)
 
       // invalidate the passphrase once checked
-      const normalizedEmail = registrationData.email.trim().toLowerCase();
       const passphrase = await this.usePassphrasesService.execute(
         registrationData.passphrase,
-        normalizedEmail
+        registrationData.email
       )
 
       const hashedPassword = await hashPassword(registrationData.password)
       const user = await this.createUserApplication.execute({
-        email: normalizedEmail,
+        email: registrationData.email,
         password: hashedPassword,
         role: Role.SpaceAdmin
       })
