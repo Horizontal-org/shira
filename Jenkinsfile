@@ -107,5 +107,30 @@ pipeline {
             }
         }
 
-    }
+        stage('Trigger automated tests') {
+          when { branch 'development' }
+          steps {
+            script {
+              def scmVars = checkout(scm)
+              gitSha = scmVars.GIT_COMMIT
+
+              withCredentials([
+                usernamePassword(
+                  credentialsId: 'jenkins-api-creds',
+                  usernameVariable: 'JENKINS_USER',
+                  passwordVariable: 'JENKINS_API_TOKEN'
+                )
+              ])
+              {
+                sh """
+                  curl -sS -X POST \
+                    -u "${JENKINS_USER}:${JENKINS_API_TOKEN}" \
+                    "${env.JENKINS_URL}/job/${env.JOB_NAME}/buildWithParameters?GIT_SHA=${gitSha}"
+                """
+              }
+            }
+          }
+        }
+
+  }
 }
