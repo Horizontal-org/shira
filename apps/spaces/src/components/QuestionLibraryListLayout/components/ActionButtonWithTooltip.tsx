@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode, useEffect, useRef, useState } from "react";
+import { FunctionComponent, ReactNode, useState } from "react";
 import { defaultTheme, styled } from "@shira/ui";
 
 type ActionButtonWithTooltipProps = {
@@ -21,34 +21,22 @@ export const ActionButtonWithTooltip: FunctionComponent<ActionButtonWithTooltipP
   children,
 }) => {
   const [showTooltip, setShowTooltip] = useState(false);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const clearTooltipTimeout = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
-  };
-
-  const showTooltipNow = () => {
+  const show = () => {
     if (!disabled) return;
-    clearTooltipTimeout();
     setShowTooltip(true);
   };
 
-  const hideTooltip = () => {
-    clearTooltipTimeout();
+  const hide = () => {
     setShowTooltip(false);
   };
 
-  useEffect(() => () => clearTooltipTimeout(), []);
-
   return (
     <TooltipWrapper
-      onMouseEnter={showTooltipNow}
-      onMouseLeave={hideTooltip}
-      onFocus={showTooltipNow}
-      onBlur={hideTooltip}
+      onMouseEnter={show}
+      onMouseLeave={hide}
+      onFocus={show}
+      onBlur={hide}
       tabIndex={disabled ? 0 : undefined}
       aria-disabled={disabled || undefined}
     >
@@ -62,6 +50,7 @@ export const ActionButtonWithTooltip: FunctionComponent<ActionButtonWithTooltipP
       >
         {children}
       </ActionButton>
+
       {showTooltip && disabled && (
         <Tooltip role="tooltip">{tooltipText}</Tooltip>
       )}
