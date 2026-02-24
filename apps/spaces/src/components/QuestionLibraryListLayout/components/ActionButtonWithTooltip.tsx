@@ -4,7 +4,6 @@ import { defaultTheme, styled } from "@shira/ui";
 type ActionButtonWithTooltipProps = {
   disabled?: boolean;
   tooltipText: string;
-  ariaLabel: string;
   title?: string;
   onClick?: () => void;
   children: ReactNode;
@@ -13,7 +12,6 @@ type ActionButtonWithTooltipProps = {
 export const ActionButtonWithTooltip: FunctionComponent<ActionButtonWithTooltipProps> = ({
   disabled,
   tooltipText,
-  ariaLabel,
   title,
   onClick,
   children,
@@ -51,9 +49,8 @@ export const ActionButtonWithTooltip: FunctionComponent<ActionButtonWithTooltipP
       aria-disabled={disabled || undefined}
     >
       <ActionButton
+        id="action-button"
         type="button"
-        name={ariaLabel}
-        aria-label={ariaLabel}
         title={title}
         onClick={onClick}
         disabled={disabled}
