@@ -113,7 +113,7 @@ pipeline {
             script {
               withCredentials([
                 usernamePassword(
-                  credentialsId: 'jenkins-api-creds',
+                  credentialsId: 'shira-tests-pat-token',
                   usernameVariable: 'JENKINS_USER',
                   passwordVariable: 'JENKINS_API_TOKEN'
                 )
