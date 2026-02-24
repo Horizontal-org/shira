@@ -2,16 +2,20 @@ import { FunctionComponent, ReactNode, useEffect, useRef, useState } from "react
 import { defaultTheme, styled } from "@shira/ui";
 
 type ActionButtonWithTooltipProps = {
+  id: string;
   disabled?: boolean;
   tooltipText: string;
+  ariaLabel: string;
   title?: string;
   onClick?: () => void;
   children: ReactNode;
 };
 
 export const ActionButtonWithTooltip: FunctionComponent<ActionButtonWithTooltipProps> = ({
+  id,
   disabled,
   tooltipText,
+  ariaLabel,
   title,
   onClick,
   children,
@@ -49,8 +53,9 @@ export const ActionButtonWithTooltip: FunctionComponent<ActionButtonWithTooltipP
       aria-disabled={disabled || undefined}
     >
       <ActionButton
-        id="action-button"
+        id={id}
         type="button"
+        aria-label={ariaLabel}
         title={title}
         onClick={onClick}
         disabled={disabled}

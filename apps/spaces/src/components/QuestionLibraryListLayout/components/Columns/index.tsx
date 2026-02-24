@@ -146,16 +146,20 @@ export const getColumns = (handlers: ColumnHandlers, t: TFunction): ColumnDef<Ro
       return (
         <ActionsCell>
           <ActionButtonWithTooltip
+            id={`preview-button-${row.id}`}
             disabled={disableActions}
             tooltipText={tooltipText}
+            ariaLabel={t("question_library.tabs.preview.aria_label")}
             title="Preview"
             onClick={() => handlers.onPreview?.(row.original)}
           >
             <MdRemoveRedEye size={21} color={previewColor} />
           </ActionButtonWithTooltip>
           <ActionButtonWithTooltip
+            id={`add-button-${row.id}`}
             disabled={disableActions}
             tooltipText={tooltipText}
+            ariaLabel={t("question_library.columns.actions.aria_label")}
             title="Add"
             onClick={() => handlers.onAdd?.(row.original)}
           >
