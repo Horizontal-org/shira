@@ -149,7 +149,7 @@ export const getColumns = (handlers: ColumnHandlers, t: TFunction): ColumnDef<Ro
             id={`preview-button-${row.id}`}
             disabled={disableActions}
             tooltipText={tooltipText}
-            ariaLabel={t("question_library.tabs.preview.aria_label")}
+            ariaLabel={t("question_library.columns.actions.preview.aria_label")}
             title="Preview"
             onClick={() => handlers.onPreview?.(row.original)}
           >
@@ -159,7 +159,7 @@ export const getColumns = (handlers: ColumnHandlers, t: TFunction): ColumnDef<Ro
             id={`add-button-${row.id}`}
             disabled={disableActions}
             tooltipText={tooltipText}
-            ariaLabel={t("question_library.columns.actions.aria_label")}
+            ariaLabel={t("question_library.columns.actions.add.aria_label")}
             title="Add"
             onClick={() => handlers.onAdd?.(row.original)}
           >
