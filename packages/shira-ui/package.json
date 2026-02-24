@@ -19,29 +19,29 @@
         "build-storybook": "storybook build -o public"
     },
     "peerDependencies": {
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "styled-components": "^6.1.13"
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "styled-components": "^6.3.11"
     },
     "devDependencies": {
-        "@storybook/addon-links": "^10.2.8",
-        "@storybook/addon-onboarding": "^10.2.8",
-        "@storybook/react": "^10.2.8",
-        "@storybook/react-vite": "^10.2.8",
-        "@types/react": "^18.2.66",
-        "@types/react-dom": "^18.2.22",
+        "@storybook/addon-links": "^10.2.11",
+        "@storybook/addon-onboarding": "^10.2.11",
+        "@storybook/react": "^10.2.11",
+        "@storybook/react-vite": "^10.2.11",
+        "@types/react": "^18.3.28",
+        "@types/react-dom": "^18.3.7",
         "@vitejs/plugin-react": "^5.1.4",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "storybook": "^10.2.8",
-        "styled-components": "^6.1.13",
-        "typescript": "^5.7.2",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "storybook": "^10.2.11",
+        "styled-components": "^6.3.11",
+        "typescript": "^5.9.3",
         "vite": "^7.3.1",
-        "vite-plugin-dts": "^4.3.0"
+        "vite-plugin-dts": "^4.5.4"
     },
     "dependencies": {
-        "@faker-js/faker": "^10.1.0",
-        "@floating-ui/react": "^0.27.8",
+        "@faker-js/faker": "^10.3.0",
+        "@floating-ui/react": "^0.27.18",
         "@tanstack/react-table": "^8.21.3",
         "date-fns": "^4.1.0",
         "polished": "^4.3.1",
