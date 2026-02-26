@@ -162,11 +162,12 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
           enablePagination={false}
           colGroups={(
             <colgroup>
-              <col style={{ width: "28%" }} />
+              <col style={{ width: "6%" }} />
+              <col style={{ width: "26%" }} />
               <col style={{ width: "16%" }} />
               <col style={{ width: "22%" }} />
               <col style={{ width: "22%" }} />
-              <col style={{ width: "12%" }} />
+              <col style={{ width: "10%" }} />
             </colgroup>
           )}
         />
