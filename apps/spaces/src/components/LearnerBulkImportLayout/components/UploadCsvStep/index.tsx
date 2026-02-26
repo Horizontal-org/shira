@@ -431,7 +431,8 @@ const FileInfo = styled.div`
 
 const FileName = styled(Body2Regular) <{ $isDisabled?: boolean }>`
   color: ${({ theme, $isDisabled }) =>
-    $isDisabled ? theme.colors.dark.lightGrey : theme.colors.dark.black};
+    $isDisabled ? theme.colors.dark.darkGrey : theme.colors.dark.black};
+  opacity: ${({ $isDisabled }) => ($isDisabled ? 0.64 : 1)};
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
