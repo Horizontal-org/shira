@@ -199,7 +199,7 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
           <CenteredHeaderRow>
             <GoAlertFill size={20} color={defaultTheme.colors.error7} />
             <SubHeading1>
-              {t(`error_messages.learners_bulk_import.${uploadError}.title`, {
+              {t(`${uploadError}.title`, {
                 defaultValue: t(`error_messages.something_went_wrong`),
               })}
             </SubHeading1>
@@ -235,7 +235,7 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
 
             <CenteredText>
               <Body1>
-                {t(`error_messages.learners_bulk_import.${uploadError}.subtitle`, {
+                {t(`${uploadError}.subtitle`, {
                   defaultValue: t(`error_messages.something_went_wrong`),
                 })}
               </Body1>

@@ -15,4 +15,5 @@ export { AlreadyCompletedException } from './already-completed.learner-quiz.exce
 export { CSVParsingException } from './csv-bulk-parse.learner.exception';
 export { TooManyRowsException } from './csv-bulk-too-many-rows.learner.exception';
 export { InvalidFileFormatException } from './csv-bulk-invalid-format.learner.exception';
+export { BulkCsvFileTooLargeException } from './csv-bulk-file-too-large.learner.exception';
 export { BulkCsvProcessingException as CouldNotProcessCsvException } from './csv-bulk-could-not-process.learner.exception';
