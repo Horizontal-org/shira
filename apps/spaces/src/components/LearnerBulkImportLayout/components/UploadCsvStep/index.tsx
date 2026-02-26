@@ -117,8 +117,7 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
               accept=".csv"
               hidden
               onChange={(event) => {
-                const file = event.target.files?.[0] ?? null;
-                onFileChange(file);
+                onFileChange(event.target.files?.[0] ?? null);
                 event.target.value = "";
               }}
             />
