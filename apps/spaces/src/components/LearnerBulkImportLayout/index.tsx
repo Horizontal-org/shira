@@ -76,7 +76,7 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
     lastInvitedFileKey.current = null;
 
     if (file.size > MAX_CSV_FILE_SIZE_BYTES) {
-      setUploadError("error_messages.learners_bulk_import.file_too_large");
+      setUploadError("file_too_large");
       return;
     }
   };
