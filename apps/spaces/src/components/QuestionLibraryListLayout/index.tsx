@@ -148,29 +148,31 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
           </div>
         </HeaderRow>
 
-        <Table
-          size="full"
-          aria-busy={loading || undefined}
-          loading={loading}
-          loadingMessage={t('loading_messages.loading_library_questions')}
-          emptyMessage={t('success_messages.no_questions_found')}
-          data={rows}
-          columns={columns}
-          rowSelection={rowSelection}
-          setRowSelection={setRowSelection}
-          enableRowSelection={false}
-          enablePagination={false}
-          colGroups={(
-            <colgroup>
-              <col style={{ width: "6%" }} />
-              <col style={{ width: "26%" }} />
-              <col style={{ width: "16%" }} />
-              <col style={{ width: "22%" }} />
-              <col style={{ width: "22%" }} />
-              <col style={{ width: "10%" }} />
-            </colgroup>
-          )}
-        />
+        <TableWrapper>
+          <Table
+            size="full"
+            aria-busy={loading || undefined}
+            loading={loading}
+            loadingMessage={t('loading_messages.loading_library_questions')}
+            emptyMessage={t('success_messages.no_questions_found')}
+            data={rows}
+            columns={columns}
+            rowSelection={rowSelection}
+            setRowSelection={setRowSelection}
+            enableRowSelection={false}
+            enablePagination={false}
+            colGroups={(
+              <colgroup>
+                <col style={{ width: "6%" }} />
+                <col style={{ width: "26%" }} />
+                <col style={{ width: "16%" }} />
+                <col style={{ width: "22%" }} />
+                <col style={{ width: "22%" }} />
+                <col style={{ width: "10%" }} />
+              </colgroup>
+            )}
+          />
+        </TableWrapper>
 
         {preview && (
           <QuestionLibraryPreviewModal
@@ -198,6 +200,12 @@ const HeaderRow = styled("div")`
   align-items: flex-end;
   justify-content: space-between;
   color: ${defaultTheme.colors.dark.black};
+`;
+
+const TableWrapper = styled("div")`
+  & table td {
+    padding: 14px 16px;
+  }
 `;
 
 const MiddleBody = styled(Body1)`
