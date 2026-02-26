@@ -58,6 +58,11 @@ type ColumnHandlers = {
 
 export const getColumns = (handlers: ColumnHandlers, t: TFunction): ColumnDef<RowType>[] => [
   {
+    header: "",
+    id: "rowNumber",
+    cell: ({ row }) => <RowIndexCell>{row.index + 1}</RowIndexCell>,
+  },
+  {
     header: t("question_library.columns.question_name"),
     accessorKey: "name",
     id: "title",
@@ -191,6 +196,10 @@ const PhishingCell = styled.span<{ $isPhishing?: boolean }>`
 const ActionsCell = styled("div")`
   display: flex;
   align-items: center;
+`;
+
+const RowIndexCell = styled(Body3Bold)`
+  color: ${defaultTheme.colors.green6};
 `;
 
 const NameCell = styled(Body3Bold)`

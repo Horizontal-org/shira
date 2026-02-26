@@ -24,6 +24,7 @@ export interface TableProps {
   enableRowSelection?: boolean
   pageSize?: number
   loadingMessage?: ReactNode
+  emptyMessage?: ReactNode
   size?: TableSize
   enablePagination?: boolean
 }
@@ -38,6 +39,7 @@ export const Table = ({
   enableRowSelection = true,
   pageSize = 25,
   loadingMessage = null,
+  emptyMessage = null,
   size = 'compact',
   enablePagination = true
 }: TableProps) => {
@@ -98,7 +100,11 @@ export const Table = ({
           ) : table.getRowModel().rows.length === 0 ? (
             <Tr>
               <Td colSpan={totalColumns}>
-                <CenteredBody>no questions found</CenteredBody>
+                {emptyMessage ? (
+                  <CenteredCellContent>{emptyMessage}</CenteredCellContent>
+                ) : (
+                  <CenteredBody>no questions found</CenteredBody>
+                )}
               </Td>
             </Tr>
           ) : (
