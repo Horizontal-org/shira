@@ -4,6 +4,7 @@ import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
+  getPaginationRowModel,
   PaginationState,
   RowSelectionState,
   useReactTable,
@@ -41,9 +42,9 @@ export const Table = ({
   loadingMessage = null,
   emptyMessage = null,
   size = 'compact',
-  enablePagination = true
+  enablePagination = true,
 }: TableProps) => {
-  const [pagination] = React.useState<PaginationState>({
+  const [pagination, setPagination] = React.useState<PaginationState>({
     pageIndex: 0,
     pageSize,
   });
@@ -59,6 +60,8 @@ export const Table = ({
     },
     enableRowSelection, // enable row selection for all rows
     onRowSelectionChange: setRowSelection,
+    getPaginationRowModel: getPaginationRowModel(),
+    onPaginationChange: setPagination,
     getFilteredRowModel: getFilteredRowModel(),
     debugTable: true,
   })
