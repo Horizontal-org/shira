@@ -81,9 +81,7 @@ export const Results: FunctionComponent<ResultsProps> = ({ resultsData, loading,
       <>
         <MetricsHeader>
           <MetricTitle>{t('results_tab.by_question.title')}</MetricTitle>
-          {resultsData?.metrics.byQuestion && resultsData?.metrics.byQuestion.length > 0 && (
-            <Body2Regular>{t('results_tab.by_question.description')}</Body2Regular>
-          )}
+          <Body2Regular>{t('results_tab.by_question.description')}</Body2Regular>
         </MetricsHeader>
         <ByQuestion
           loading={loading}
