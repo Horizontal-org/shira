@@ -104,6 +104,7 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
           language: { id: picked.id, name: picked.name },
           content: picked.content,
           explanations: picked.explanations,
+          languageSelected: true,
         };
       })
     );
@@ -118,6 +119,7 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
         return {
           ...r,
           app: { id: picked.id, name: picked.name, type: picked.type },
+          appSelected: true,
         };
       })
     );

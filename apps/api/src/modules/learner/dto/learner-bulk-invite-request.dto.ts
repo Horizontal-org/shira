@@ -1,4 +1,4 @@
-import { Type } from "class-transformer";
+import { Transform, Type } from "class-transformer";
 import { IsArray, IsEmail, IsNotEmpty, IsNumber, IsString, ValidateNested } from "class-validator";
 
 export class BulkInviteValidatedLearnerDto {
@@ -6,6 +6,7 @@ export class BulkInviteValidatedLearnerDto {
   row: number;
 
   @IsEmail()
+  @Transform(({ value }) => value?.toLowerCase().trim())
   email: string;
 
   @IsString()

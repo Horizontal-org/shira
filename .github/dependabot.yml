@@ -5,68 +5,90 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "semiannually"
     target-branch: "development"
     open-pull-requests-limit: 10
     groups:
       workspace-dependencies:
         patterns:
           - "*"
+    ignore:
+      - dependency-name: "*react*"
+        update-types: 
+          - "version-update:semver-major"
+    versioning-strategy: increase
 
   # API
   - package-ecosystem: "npm"
     directory: "/apps/api"
     schedule:
-      interval: "weekly"
+      interval: "semiannually"
     target-branch: "development"
     open-pull-requests-limit: 10
     groups:
       workspace-dependencies:
         patterns:
           - "*"
+    versioning-strategy: increase
 
   # Frontend apps
   - package-ecosystem: "npm"
     directory: "/apps/public"
     schedule:
-      interval: "weekly"
+      interval: "semiannually"
     target-branch: "development"
     open-pull-requests-limit: 10
     groups:
       workspace-dependencies:
         patterns:
           - "*"
+    ignore:
+      - dependency-name: "*react*"
+        update-types: 
+          - "version-update:semver-major"
+    versioning-strategy: increase
 
   - package-ecosystem: "npm"
     directory: "/apps/spaces"
     schedule:
-      interval: "weekly"
+      interval: "semiannually"
     target-branch: "development"
     open-pull-requests-limit: 10
     groups:
       workspace-dependencies:
         patterns:
           - "*"
+    ignore:
+      - dependency-name: "*react*"
+        update-types: 
+          - "version-update:semver-major"
+    versioning-strategy: increase
 
   # Shared packages
   - package-ecosystem: "npm"
     directory: "/packages/shira-ui"
     schedule:
-      interval: "weekly"
+      interval: "semiannually"
     target-branch: "development"
     open-pull-requests-limit: 10
     groups:
       workspace-dependencies:
         patterns:
           - "*"
+    ignore:
+      - dependency-name: "*react*"
+        update-types: 
+          - "version-update:semver-major"
+    versioning-strategy: increase
 
   - package-ecosystem: "npm"
     directory: "/packages/tooling-config"
     schedule:
-      interval: "weekly"
+      interval: "semiannually"
     target-branch: "development"
     open-pull-requests-limit: 10
     groups:
       workspace-dependencies:
         patterns:
           - "*"
+    versioning-strategy: increase
