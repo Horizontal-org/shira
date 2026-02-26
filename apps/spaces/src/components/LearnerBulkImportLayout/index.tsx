@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { LearnerBulkImportHeader } from "../LearnerBulkImportHeader";
 import { ExitLearnerBulkImportModal } from "../modals/ExitLearnerBulkImportModal";
+import { StartOverLearnerBulkImportModal } from "../modals/StartOverLearnerBulkImportModal";
 import { FormattingGuidelinesModal } from "../modals/FormattingGuidelinesModal";
 import { UploadCsvStep } from "./components/UploadCsvStep";
 import { VerifyLearnersStep } from "./components/VerifyLearnersStep";
@@ -20,6 +21,7 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
   const [step, handleStep] = useState(0);
 
   const [isExitBulkImportModalOpen, setIsExitBulkImportModalOpen] = useState(false);
+  const [isStartOverBulkImportModalOpen, setIsStartOverBulkImportModalOpen] = useState(false);
   const [isFormattingGuidelinesOpen, setIsFormattingGuidelinesOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isFileLoading, setIsFileLoading] = useState(false);
@@ -119,6 +121,12 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
     }
   };
 
+  const handleStartOver = () => {
+    clearSelectedFile();
+    handleStep(0);
+    setBulkInviteResponse(null);
+  };
+
   useEffect(() => {
     if (step !== 1 || !selectedFile) {
       return;
@@ -200,6 +208,11 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
           navigate(-1);
         }}
       />
+      <StartOverLearnerBulkImportModal
+        isModalOpen={isStartOverBulkImportModalOpen}
+        setIsModalOpen={setIsStartOverBulkImportModalOpen}
+        onConfirm={handleStartOver}
+      />
       <FormattingGuidelinesModal
         isModalOpen={isFormattingGuidelinesOpen}
         setIsModalOpen={setIsFormattingGuidelinesOpen}
@@ -214,9 +227,7 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
             setIsExitBulkImportModalOpen(true);
             return;
           }
-          clearSelectedFile();
-          handleStep(0);
-          setBulkInviteResponse(null);
+          setIsStartOverBulkImportModalOpen(true);
         }}
         step={step}
         disableNext={!validateStep()}
