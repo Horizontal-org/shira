@@ -519,6 +519,10 @@
         "unassign_learners_plural": {
             "title": "Unassign \"{{quiz}}\" from {{count}} learners?",
             "subtitle": "Are you sure you want to unassign the quiz from these learners? Any quiz progress and results will be lost."
+        },
+        "start_over_bulk_import": {
+            "title": "Are you sure you want to start over?",
+            "message": "This will discard the spreadsheet you uploaded. Any progress you have made will be lost."
         }
     },
     "error_messages": {
