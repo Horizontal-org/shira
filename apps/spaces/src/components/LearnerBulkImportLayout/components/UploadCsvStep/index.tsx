@@ -15,8 +15,9 @@ interface Props {
   onBrowseClick: () => void;
   onDropzoneKeyDown: (event: KeyboardEvent<HTMLDivElement>) => void;
   onDrop: (event: DragEvent<HTMLDivElement>) => void;
+  onDragEnter: (event: DragEvent<HTMLDivElement>) => void;
   onDragOver: (event: DragEvent<HTMLDivElement>) => void;
-  onDragLeave: () => void;
+  onDragLeave: (event: DragEvent<HTMLDivElement>) => void;
   onFileChange: (file: File | null) => void;
   onClearFile: () => void;
   onOpenGuidelines: () => void;
@@ -31,6 +32,7 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
   onBrowseClick,
   onDropzoneKeyDown,
   onDrop,
+  onDragEnter,
   onDragOver,
   onDragLeave,
   onFileChange,
@@ -108,6 +110,7 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
             onClick={onBrowseClick}
             onKeyDown={onDropzoneKeyDown}
             onDrop={onDrop}
+            onDragEnter={onDragEnter}
             onDragOver={onDragOver}
             onDragLeave={onDragLeave}
           >
