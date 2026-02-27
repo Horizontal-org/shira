@@ -1,6 +1,5 @@
 import { FunctionComponent } from "react";
 import styled from 'styled-components'
-import { MdDeleteOutline, MdOutlineDragIndicator } from 'react-icons/md'
 
 import Trash from '../../../../icons/Trash'
 import Reorder from '../../../../icons/Reorder'

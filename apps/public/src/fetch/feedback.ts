@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { CreateSurvey } from '../domain/survey'
 
 export const submitFeedback = async(data) => {
   try {

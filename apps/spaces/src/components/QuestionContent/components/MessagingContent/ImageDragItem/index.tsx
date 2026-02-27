@@ -1,11 +1,9 @@
-import { FunctionComponent, useEffect, useRef } from "react";
-import { Body2Regular, styled } from "@shira/ui";
-import { MessageTipTapEditor } from "../../../../TipTapEditor/MessageTipTapEditor";
+import { FunctionComponent, useRef } from "react";
+import { styled } from "@shira/ui";
 import { LoadingOverlay } from "../../../../LoadingOverlay/LoadingOverlay";
 import { ExplanationButton } from "../../../../Explanations/components/ExplanationButton";
 import { useStore } from "../../../../../store";
 import { shallow } from "zustand/shallow";
-import { subscribe, unsubscribe } from "../../../../../utils/customEvent";
 import { ImageObject } from "../../../../../store/types/active_question";
 
 interface Props {

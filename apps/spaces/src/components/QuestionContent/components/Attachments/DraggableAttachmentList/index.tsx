@@ -1,16 +1,10 @@
-import { Button, BaseFloatingMenu } from "@shira/ui";
-import { FunctionComponent, useRef, useState } from "react";
+import { FunctionComponent } from "react";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 
-import { IoMdAdd } from "react-icons/io";
-import styled from "styled-components";
-import { FiShare } from "react-icons/fi";
-import { useImageUpload } from "../../../../../hooks/useImageUpload";
-import toast from "react-hot-toast";
 import { useStore } from "../../../../../store";
 import { shallow } from "zustand/shallow";
 import { DraggableAttachmentItem } from "../DraggableAttachmentItem";
-import { QuestionDragAttachment, QuestionDragEditor } from "../../../../../store/types/active_question";
+import { QuestionDragAttachment } from "../../../../../store/types/active_question";
 
 
 interface Props {

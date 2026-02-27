@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent } from "react";
 import { Body1, Modal, styled } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 

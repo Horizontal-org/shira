@@ -167,7 +167,3 @@ const AcceptBox = styled.div`
   gap: 24px;
 `;
 
-const ErrorText = styled.p`
-  color: ${defaultTheme.colors.dark.black};
-  margin: 0;
-`;

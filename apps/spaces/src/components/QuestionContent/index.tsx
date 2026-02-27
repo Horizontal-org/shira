@@ -1,9 +1,7 @@
-import { FunctionComponent, useEffect } from "react";
-import { styled, Box, Body2Regular } from '@shira/ui'
+import { FunctionComponent } from "react";
+import { styled, Box } from '@shira/ui'
 import { EmailContent } from "./components/EmailContent";
 import { Explanations } from "../Explanations";
-import { subscribe, unsubscribe } from "../../utils/customEvent";
-import { cleanDeletedExplanations } from "../../utils/explanations";
 import { CommonHeader } from "./components/CommonHeader";
 import { MessagingContent } from "./components/MessagingContent";
 import { ActiveQuestion } from "../../store/types/active_question";
