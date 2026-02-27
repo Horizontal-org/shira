@@ -60,12 +60,6 @@ export const Results: FunctionComponent<ResultsProps> = ({ resultsData, loading,
           <MetricDescription id="completed-quizzes-description">{completedQuizzesData.description}</MetricDescription>
         </MetricCard>
 
-        <MetricCard>
-          <MetricTitle id="average-score-title">{t('results_tab.average_score.title')}</MetricTitle>
-          <MetricValue id="average-score-value">{averageScoreData.value}</MetricValue>
-          <MetricDescription id="average-score-description">{averageScoreData.description}</MetricDescription>
-        </MetricCard>
-
         {quizVisibility === 'private' && (
           <MetricCard>
             <MetricTitle id="rate-title">{t('results_tab.rate.title')}</MetricTitle>
@@ -73,6 +67,13 @@ export const Results: FunctionComponent<ResultsProps> = ({ resultsData, loading,
             <MetricDescription id="rate-description">{t('results_tab.rate.subtitle')}</MetricDescription>
           </MetricCard>
         )}
+
+        <MetricCard>
+          <MetricTitle id="average-score-title">{t('results_tab.average_score.title')}</MetricTitle>
+          <MetricValue id="average-score-value">{averageScoreData.value}</MetricValue>
+          <MetricDescription id="average-score-description">{averageScoreData.description}</MetricDescription>
+        </MetricCard>
+
       </MetricsContainer>
 
       <MetricsSeparator />
@@ -81,9 +82,7 @@ export const Results: FunctionComponent<ResultsProps> = ({ resultsData, loading,
       <>
         <MetricsHeader>
           <MetricTitle>{t('results_tab.by_question.title')}</MetricTitle>
-          {resultsData?.metrics.byQuestion && resultsData?.metrics.byQuestion.length > 0 && (
-            <Body2Regular>{t('results_tab.by_question.description')}</Body2Regular>
-          )}
+          <Body2Regular>{t('results_tab.by_question.description')}</Body2Regular>
         </MetricsHeader>
         <ByQuestion
           loading={loading}

@@ -1,8 +1,10 @@
+import { Transform } from 'class-transformer'
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator'
 
 export class SendInvitationDto {
     @IsNotEmpty()
     @IsEmail()
+    @Transform(({ value }) => value?.toLowerCase().trim())
     email: string
 
     @IsNotEmpty()

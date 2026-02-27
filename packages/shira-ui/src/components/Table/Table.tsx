@@ -4,6 +4,7 @@ import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
+  getPaginationRowModel,
   PaginationState,
   RowSelectionState,
   useReactTable,
@@ -24,6 +25,7 @@ export interface TableProps {
   enableRowSelection?: boolean
   pageSize?: number
   loadingMessage?: ReactNode
+  emptyMessage?: ReactNode
   size?: TableSize
   enablePagination?: boolean
 }
@@ -38,10 +40,11 @@ export const Table = ({
   enableRowSelection = true,
   pageSize = 25,
   loadingMessage = null,
+  emptyMessage = null,
   size = 'compact',
-  enablePagination = true
+  enablePagination = true,
 }: TableProps) => {
-  const [pagination] = React.useState<PaginationState>({
+  const [pagination, setPagination] = React.useState<PaginationState>({
     pageIndex: 0,
     pageSize,
   });
@@ -57,6 +60,8 @@ export const Table = ({
     },
     enableRowSelection, // enable row selection for all rows
     onRowSelectionChange: setRowSelection,
+    getPaginationRowModel: getPaginationRowModel(),
+    onPaginationChange: setPagination,
     getFilteredRowModel: getFilteredRowModel(),
     debugTable: true,
   })
@@ -98,7 +103,11 @@ export const Table = ({
           ) : table.getRowModel().rows.length === 0 ? (
             <Tr>
               <Td colSpan={totalColumns}>
-                <CenteredBody>no questions found</CenteredBody>
+                {emptyMessage ? (
+                  <CenteredCellContent>{emptyMessage}</CenteredCellContent>
+                ) : (
+                  <CenteredBody>no questions found</CenteredBody>
+                )}
               </Td>
             </Tr>
           ) : (
