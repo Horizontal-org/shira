@@ -119,7 +119,10 @@ export const UploadCsvStep: FunctionComponent<Props> = ({
               type="file"
               accept=".csv"
               hidden
-              onChange={(event) => onFileChange(event.target.files?.[0] ?? null)}
+              onChange={(event) => {
+                onFileChange(event.target.files?.[0] ?? null);
+                event.target.value = "";
+              }}
             />
 
             <DropzoneContent>

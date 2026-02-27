@@ -571,6 +571,10 @@
             "invalid_formatting": {
                 "title": "Error: Invalid formatting",
                 "subtitle": "Please make sure your spreadsheet is formatted according to the guidelines above and try again."
+            },
+            "file_too_large": {
+                "title": "Error: File is too large",
+                "subtitle": "Please upload a CSV that is 10 MB or smaller and try again."
             }
         }
     },

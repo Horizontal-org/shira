@@ -18,6 +18,8 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
+  const MAX_CSV_FILE_SIZE_BYTES = 10 * 1024 * 1024;
+
   const [step, handleStep] = useState(0);
 
   const [isExitBulkImportModalOpen, setIsExitBulkImportModalOpen] = useState(false);
@@ -75,6 +77,11 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
 
     lastVerifiedFileKey.current = null;
     lastInvitedFileKey.current = null;
+
+    if (file.size > MAX_CSV_FILE_SIZE_BYTES) {
+      setUploadError("file_too_large");
+      return;
+    }
   };
 
   const clearSelectedFile = () => {
