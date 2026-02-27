@@ -32,6 +32,7 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
   const [uploadError, setUploadError] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const dragDepth = useRef(0);
   const lastVerifiedFileKey = useRef<string | null>(null);
   const lastInvitedFileKey = useRef<string | null>(null);
   const lastInvitedCount = useRef<number | null>(null);
@@ -83,6 +84,7 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
     setBulkInviteResponse(null);
     setIsDragging(false);
     setUploadError(null);
+    dragDepth.current = 0;
 
     lastVerifiedFileKey.current = null;
     lastInvitedFileKey.current = null;
@@ -97,9 +99,18 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
 
   const handleDrop = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
+    dragDepth.current = 0;
     setIsDragging(false);
     const file = event.dataTransfer.files?.[0] ?? null;
     handleFileChange(file);
+  };
+
+  const handleDragEnter = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    dragDepth.current += 1;
+    if (!isDragging) {
+      setIsDragging(true);
+    }
   };
 
   const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
@@ -107,11 +118,17 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
     if (event.dataTransfer) {
       event.dataTransfer.dropEffect = "copy";
     }
-    setIsDragging(true);
+    if (!isDragging) {
+      setIsDragging(true);
+    }
   };
 
-  const handleDragLeave = () => {
-    setIsDragging(false);
+  const handleDragLeave = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    dragDepth.current = Math.max(0, dragDepth.current - 1);
+    if (dragDepth.current === 0) {
+      setIsDragging(false);
+    }
   };
 
   const handleDropzoneKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
@@ -259,6 +276,7 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
                 onBrowseClick={handleBrowseClick}
                 onDropzoneKeyDown={handleDropzoneKeyDown}
                 onDrop={handleDrop}
+                onDragEnter={handleDragEnter}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onFileChange={handleFileChange}
