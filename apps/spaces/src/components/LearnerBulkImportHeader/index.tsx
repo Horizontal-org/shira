@@ -24,6 +24,24 @@ export const LearnerBulkImportHeader: FunctionComponent<Props> = ({
 
   const { t } = useTranslation();
 
+  const stepConfig = {
+    0: {
+      id: 'learner-bulk-import-header-next',
+      text: t('buttons.next'),
+      tooltipText: t('learners_bulk_import.tabs.verify_learners.upload_tooltip'),
+    },
+    1: {
+      id: 'learner-bulk-import-header-next',
+      text: t('buttons.next'),
+      tooltipText: t('learners_bulk_import.tabs.verify_learners.empty_valid'),
+    },
+    2: {
+      id: 'learner-bulk-import-header-send-invitations',
+      text: t('buttons.send_invitations'),
+      tooltipText: t('learners_bulk_import.tabs.verify_learners.empty_valid'),
+    },
+  };
+
   return (
     <Wrapper id="learner-bulk-import-header">
       <Left>
@@ -50,30 +68,17 @@ export const LearnerBulkImportHeader: FunctionComponent<Props> = ({
             type="outline"
           />
         )}
-        {(step === 0 || step === 1) && (
+        {stepConfig[step] && (
           <ButtonWithTooltip
-            id="learner-bulk-import-header-next"
+            id={stepConfig[step].id}
             color={defaultTheme.colors.green7}
             rightIcon={<FiChevronRight size={16} />}
             disabled={disableNext}
             onClick={onNext}
-            text={t('buttons.next')}
+            text={stepConfig[step].text}
             type="primary"
             showTooltipWhenDisabled={disableNext}
-            tooltipText={t('learners_bulk_import.tabs.verify_learners.empty_valid')}
-          />
-        )}
-        {step === 2 && (
-          <ButtonWithTooltip
-            id="learner-bulk-import-header-send-invitations"
-            color={defaultTheme.colors.green7}
-            rightIcon={<FiChevronRight size={16} />}
-            disabled={disableNext}
-            onClick={onNext}
-            text={t('buttons.send_invitations')}
-            type="primary"
-            showTooltipWhenDisabled={disableNext}
-            tooltipText={t('learners_bulk_import.tabs.verify_learners.empty_valid')}
+            tooltipText={stepConfig[step].tooltipText}
           />
         )}
       </Right>

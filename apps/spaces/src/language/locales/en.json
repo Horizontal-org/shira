@@ -331,7 +331,8 @@
                 "validated": "Validated",
                 "empty_error": "There are no rows with errors.",
                 "empty_skipped": "There are no skipped rows.",
-                "empty_valid": "There are no valid rows."
+                "empty_valid": "There are no valid rows.",
+                "upload_tooltip": "Upload a spreadsheet to continue."
             },
             "review": {
                 "tab_title": "Final review",
