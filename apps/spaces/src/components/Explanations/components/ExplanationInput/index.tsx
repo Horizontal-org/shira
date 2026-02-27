@@ -1,7 +1,6 @@
-import React, { FunctionComponent, useRef, useEffect, useState } from 'react'
+import { FunctionComponent, useRef, useEffect } from 'react'
 import styled from 'styled-components'
-import shallow from 'zustand/shallow';
-import { useStore } from '../../../../store';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   onUpdate: (text: string) => void;
@@ -14,6 +13,8 @@ export const ExplanationInput: FunctionComponent<Props> = ({
   onUpdate,
   unselect
 }) => {
+
+  const { t } = useTranslation();
 
   const textAreaRef = useRef(null);
 
@@ -31,7 +32,7 @@ export const ExplanationInput: FunctionComponent<Props> = ({
   return (
     <StyledTextArea 
       ref={textAreaRef}
-        placeholder="New explanation"
+        placeholder={t('create_question.tabs.content.explanation_content_placeholder')}
       rows={1}
       value={text}
       onChange={(e) => {

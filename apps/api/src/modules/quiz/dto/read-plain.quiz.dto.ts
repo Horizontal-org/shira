@@ -1,5 +1,5 @@
-import { Exclude, Expose } from 'class-transformer';
-import { IsArray, IsBoolean, IsEnum, IsNumber, IsOptional, IsString, IsUUID } from 'class-validator';
+import { Exclude, Expose, Transform } from 'class-transformer';
+import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
 
 @Exclude()
 export class ReadPlainQuizDto {
@@ -27,4 +27,13 @@ export class ReadPlainQuizDto {
   @IsString()
   @IsOptional()
   latestGlobalUpdate: string
+
+  @Expose()
+  @IsString()
+  visibility: string;
+
+  @Expose()
+  @Transform(({ value }) => Number(value))
+  @IsNumber()
+  questionsCount: number;
 }

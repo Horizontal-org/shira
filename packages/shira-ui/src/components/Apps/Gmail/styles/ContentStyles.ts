@@ -11,6 +11,7 @@ export const DynamicContent = styled.div`
   img {
     object-fit: contain;
   }
+   
 
   table {
     border-collapse: collapse;

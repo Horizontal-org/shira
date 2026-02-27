@@ -1,11 +1,16 @@
+import { IsArray, IsObject } from "class-validator";
+
 export class CreateQuestionDto {
+  @IsObject()
   question: {
     name: string;
     content: string;
-    isPhishing: number;
+    isPhishing: boolean;
     fieldOfWork?: string;
     apps: string[];
+    type?: 'demo' | 'quiz';
   };
+  @IsArray()
   explanations?: {
     id?: number;
     position: string;

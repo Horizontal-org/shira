@@ -5,7 +5,7 @@ interface Props {
   placeholder?: string;
   onChange: ChangeEventHandler<HTMLInputElement>;
   value: string;
-} 
+}
 
 export const BigTextInput: FunctionComponent<Props> = ({
   placeholder,
@@ -13,7 +13,7 @@ export const BigTextInput: FunctionComponent<Props> = ({
   value
 }) => {
   return (
-    <StyledInput 
+    <StyledInput
       type={'text'}
       placeholder={placeholder}
       onChange={onChange}
@@ -36,6 +36,6 @@ const StyledInput = styled.input`
   border-radius: 16px;
 
   &::placeholder {
-    color: ${props => props.theme.colors.dark.dakGrey};
+    color: ${props => props.theme.colors.dark.darkGrey};
   }
 `

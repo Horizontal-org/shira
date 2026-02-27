@@ -1,12 +1,13 @@
-import { FunctionComponent, useState } from "react";
-import { Body1, Modal, ModalType, TextInput } from "@shira/ui";
+import { FunctionComponent } from "react";
+import { Body1, Modal, ModalType } from "@shira/ui";
 import styled from "styled-components";
+import { useTranslation } from "react-i18next";
 
 
 interface Props {
   // quiz: Quiz
   title: string;
-  content: string;
+  content: string | React.ReactNode;
   isModalOpen: boolean;
   setIsModalOpen: (handle: boolean) => void
   onDelete: () => void
@@ -22,17 +23,19 @@ export const DeleteModal: FunctionComponent<Props> = ({
   content = ''
 }) => {
 
+  const { t } = useTranslation();
+
   return (
       <Modal
+        id="delete-modal"
         isOpen={isModalOpen}
         title={title}
-        primaryButtonText="Delete"
-        secondaryButtonText="Cancel"
+        primaryButtonText={t('buttons.delete')}
+        secondaryButtonText={t('buttons.cancel')}
         type={ModalType.Danger}
         onPrimaryClick={() => {
           setIsModalOpen(false);
           onDelete()
-          // onDelete(quiz.id)
         }}
         onSecondaryClick={onCancel}
     >

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Sidebar } from './Sidebar';
 import { FiHome, FiHelpCircle, FiLogOut } from 'react-icons/fi';
+import { IoPersonOutline } from 'react-icons/io5';
 
 const meta = {
   title: 'Components/Sidebar',
@@ -26,6 +27,11 @@ const defaultMenuItems = [
     icon: <FiHome size={24} color="white" />,
     label: 'Dashboard',
     onClick: () => console.log('Dashboard clicked'),
+  },
+  {
+    icon: <IoPersonOutline size={24} color="white" />,
+    label: 'Learners',
+    onClick: () => console.log('Learners clicked'),
   },
   {
     icon: <FiHelpCircle size={24} color="white" />,

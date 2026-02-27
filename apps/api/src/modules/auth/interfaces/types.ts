@@ -9,6 +9,10 @@ export const TYPES = {
     ISendInvitationAuthService: 'ISendInvitationAuthService',
     ISpaceRegistrationAuthService:'ISpaceRegistrationAuthService',
     IUserContextService: 'IUserContextService',
+    IMarkUserLoginService: 'IMarkUserLoginService',
+    IRequestPasswordResetAuthService: 'IRequestPasswordResetAuthService',
+    IConfirmPasswordResetAuthService: 'IConfirmPasswordResetAuthService',
+    IValidateResetPasswordTokenAuthService: 'IValidateResetPasswordTokenAuthService',
   },
   handlers: {},
 };

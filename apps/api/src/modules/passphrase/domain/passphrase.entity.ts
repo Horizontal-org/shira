@@ -11,6 +11,13 @@ export class PassphraseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({
+    name: 'organization_type',
+    type: 'enum',
+    enum: ["business", "cibersecurity", "non-profit", "individual"],
+  })
+  organizationType: "business" | "cibersecurity" | "non-profit" | "individual"
+
   @Column({ length: 150 })
   code: string;
 

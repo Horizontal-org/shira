@@ -1,6 +1,7 @@
-import { FunctionComponent, useEffect, useState } from "react";
-import { Body1, Modal, ModalType, TextInput } from "@shira/ui";
+import { FunctionComponent, useState } from "react";
+import { Body1, Modal, TextInput } from "@shira/ui";
 import styled from "styled-components";
+import { useTranslation } from "react-i18next";
 
 
 interface Props {
@@ -15,37 +16,38 @@ export const EditLinkModal: FunctionComponent<Props> = ({
   url
 }) => {
 
+  const { t } = useTranslation();
   const [newUrl, handleUrl] = useState(url)
 
   return (
-      <Modal
-        isOpen={true}
-        title={`Edit link`}
-        primaryButtonText="Save"
-        secondaryButtonText="Cancel"
-        leftButtonText="Delete"
-        onLeftClick={() => {
-          onSubmit('')
-          handleUrl('')
-        }}
-        onPrimaryClick={() => {
-          onSubmit(newUrl)
-          handleUrl('')
-        }}
-        onSecondaryClick={() => {
-          handleUrl('')
-          onCancel()
-        }}
+    <Modal
+      isOpen={true}
+      title={t('create_question.tabs.content.link_text.edit_title')}
+      primaryButtonText={t('buttons.save')}
+      secondaryButtonText={t('buttons.cancel')}
+      leftButtonText={t('buttons.delete')}
+      onLeftClick={() => {
+        onSubmit('')
+        handleUrl('')
+      }}
+      onPrimaryClick={() => {
+        onSubmit(newUrl)
+        handleUrl('')
+      }}
+      onSecondaryClick={() => {
+        handleUrl('')
+        onCancel()
+      }}
     >
-        <FormContent>        
-          <Body1>
-            In the quiz, this link will appear clickable, but for safety reasons, clicking on it will not open the URL.
-          </Body1>
-          <TextInput
-            label="Link URL"
-            value={newUrl}
-            onChange={(e) => handleUrl(e.target.value)}
-          />
+      <FormContent>
+        <Body1>
+          {t('create_question.tabs.content.link_text.subtitle')}
+        </Body1>
+        <TextInput
+          label={t('create_question.tabs.content.link_text.placeholder')}
+          value={newUrl}
+          onChange={(e) => handleUrl(e.target.value)}
+        />
       </FormContent>
     </Modal>
   )

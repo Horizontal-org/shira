@@ -1,11 +1,12 @@
-import { FunctionComponent, useEffect, useState } from "react";
-import { Body2Regular, Body3, styled, SubHeading3, TextInput } from '@shira/ui'
+import { FunctionComponent } from "react";
+import { Body2Regular, Body3, styled, SubHeading3 } from '@shira/ui'
 import { EmailTipTapEditor } from "../../../TipTapEditor/EmailTipTapEditor";
 import { Attachments } from "../Attachments";
 import { InputWithExplanation } from "../../../InputWithExplanation";
 import { ActiveQuestion, EmailContent as EmailContentType, QuestionDragAttachment } from "../../../../store/types/active_question";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../../../store";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   question: ActiveQuestion
@@ -13,11 +14,11 @@ interface Props {
 }
 
 export const EmailContent: FunctionComponent<Props> = ({
-  question,
   content,
 }) => {
+  const { t } = useTranslation();
 
-  const {    
+  const {
     updateActiveQuestionInput,
     updateActiveQuestionDraggableItems
   } = useStore((state) => ({
@@ -27,18 +28,18 @@ export const EmailContent: FunctionComponent<Props> = ({
 
 
   return (
-    <Content>
-   
+    <Content id="email-content">
+
       <div>
         <InputHeading $required={true}>
-          <SubHeading3>Sender name</SubHeading3>
-          <Body3>This is the name that will be displayed in the “Sender” field of the email.</Body3>
+          <SubHeading3 id="email-content-sender-title">{t('create_question.tabs.content.sender.title')}</SubHeading3>
+          <Body3 id="email-content-sender-subtitle">{t('create_question.tabs.content.sender.subtitle')}</Body3>
         </InputHeading>
 
-        <InputWithExplanation 
+        <InputWithExplanation
           id='component-required-sender-name'
           name='senderName'
-          placeholder='Sender name'
+          placeholder={t('create_question.tabs.content.sender.placeholder')}
           label="Sender name"
           contentObject={content.senderName}
         />
@@ -46,40 +47,40 @@ export const EmailContent: FunctionComponent<Props> = ({
 
       <div>
         <InputHeading $required={true}>
-          <SubHeading3>Sender email address</SubHeading3>
-          <Body3>This is the email address that will be displayed in the “Sender” field of the email.</Body3>
+          <SubHeading3 id="email-content-sender-email-title">{t('create_question.tabs.content.sender_email.title')}</SubHeading3>
+          <Body3 id="email-content-sender-email-subtitle">{t('create_question.tabs.content.sender_email.subtitle')}</Body3>
         </InputHeading>
-      
-        <InputWithExplanation 
+
+        <InputWithExplanation
           id='component-required-sender-email'
           name='senderEmail'
-          placeholder='Sender email'
+          placeholder={t('create_question.tabs.content.sender_email.placeholder')}
           label="Sender email"
           contentObject={content.senderEmail}
-        />      
+        />
 
       </div>
 
       <div>
         <InputHeading $required={false}>
-          <SubHeading3>Email subject</SubHeading3>
-          <Body3>This will be displayed in the “Subject” field of the email. If you keep this field empty, the subject field will show “(no subject)”.</Body3>
+          <SubHeading3 id="email-content-subject-title">{t('create_question.tabs.content.email_subject.title')}</SubHeading3>
+          <Body3 id="email-content-subject-subtitle">{t('create_question.tabs.content.email_subject.subtitle')}</Body3>
         </InputHeading>
 
-        <InputWithExplanation 
+        <InputWithExplanation
           id='component-optional-subject'
           name='subject'
-          placeholder='Subject'
+          placeholder={t('create_question.tabs.content.email_subject.placeholder')}
           contentObject={content.subject}
           label="Subject"
         />
 
       </div>
-      
+
       <div>
-        <SubHeading3>Email body content</SubHeading3>
-        <Body2Regular>Write the message that will be shown.</Body2Regular>
-        <EmailTipTapEditor 
+        <SubHeading3 id="email-content-email-body-content-title">{t('create_question.tabs.content.email_body_content.title')}</SubHeading3>
+        <Body2Regular id="email-content-email-body-content-subtitle">{t('create_question.tabs.content.email_body_content.subtitle')}</Body2Regular>
+        <EmailTipTapEditor
           initialContent={content.body.value}
           onChange={(emailText) => {
             updateActiveQuestionInput('body', 'value', emailText)
@@ -90,7 +91,7 @@ export const EmailContent: FunctionComponent<Props> = ({
       <div>
         <Attachments
           content={content}
-          files={content.draggableItems}          
+          files={content.draggableItems}
           onChange={(filesList: QuestionDragAttachment[]) => {
             console.log("🚀 ~ filesList:", filesList)
             updateActiveQuestionDraggableItems(filesList)

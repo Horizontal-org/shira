@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
-import { Body1, Modal, ModalType } from "@shira/ui";
+import { Body1, Modal } from "@shira/ui";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   isModalOpen: boolean;
@@ -13,24 +14,27 @@ export const NoExplanationsModal: FunctionComponent<Props> = ({
   onConfirm
 }) => {
 
+  const { t } = useTranslation();
+
   return (
     <Modal
+      id="no-explanations-modal"
       isOpen={isModalOpen}
-      title={`Continue without explanations?`}
-      primaryButtonText="Continue"
+      title={t('modals.no_explanations.title')}
+      primaryButtonText={t('buttons.continue')}
       primaryButtonDisabled={false}
-      secondaryButtonText="Add explanations"
+      secondaryButtonText={t('modals.no_explanations.add')}
       onPrimaryClick={() => {
         onConfirm()
-        setIsModalOpen(false);        
+        setIsModalOpen(false);
       }}
       onSecondaryClick={() => {
         setIsModalOpen(false)
       }}
     >
-      <div>        
+      <div>
         <Body1>
-          You haven’t created any explanations for this question, so learners will not see any text explaining why the message seems like phishing or seems legitimate. 
+          {t('modals.no_explanations.message')}
         </Body1>
       </div>
     </Modal>

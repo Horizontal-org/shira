@@ -4,10 +4,11 @@ import { PassphraseEntity } from "src/modules/passphrase/domain/passphrase.entit
 import { Repository } from "typeorm";
 import { InjectQueue } from "@nestjs/bullmq";
 import { Queue } from "bullmq";
-import { ConflictException, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { SendInvitationDto } from "../domain/send-invitation.dto";
 import { UserEntity } from "src/modules/user/domain/user.entity";
 import * as crypto from 'crypto'
+import { EmailTakenException } from "../exceptions";
 
 @Injectable()
 export class SendInvitationAuthService implements ISendInvitationAuthService {
@@ -18,35 +19,36 @@ export class SendInvitationAuthService implements ISendInvitationAuthService {
     private readonly userRepo: Repository<UserEntity>,
     @InjectQueue('emails')
     private emailsQueue: Queue
-  ) {}
+  ) { }
 
   async execute(invitationData: SendInvitationDto): Promise<void> {
-    const { email: invitationEmail, slug } = invitationData
+    const { email, slug } = invitationData;
 
     const existingUser = await this.userRepo.findOne({
-      where: { email: invitationEmail }
+      where: { email }
     });
 
     if (existingUser) {
-      throw new ConflictException(`User with email ${invitationEmail} already exists`)
-    } 
+      throw new EmailTakenException();
+    }
 
     const passphrase = new PassphraseEntity()
     passphrase.code = crypto.randomBytes(20).toString('hex');
     passphrase.slug = slug
-    passphrase.usedBy = invitationEmail // we use this to check the owner of the passphrase
+    passphrase.organizationType = invitationData.orgType
+    passphrase.usedBy = email // we use this to check the owner of the passphrase
 
     await this.passphraseRepo.save(passphrase)
 
     const magicLink = `${process.env.SPACE_URL}/create-space/${passphrase.code}`;
 
     await this.emailsQueue.add('send', {
-      to: invitationEmail,
+      to: email,
       from: process.env.SMTP_GLOBAL_FROM,
       subject: 'Invitation to create a Shira space',
       template: 'space-invitation',
       data: {
-        email: invitationEmail,
+        email: email,
         magicLink: magicLink,
         passphrase: passphrase.code
       }

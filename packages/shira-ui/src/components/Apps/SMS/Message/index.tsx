@@ -33,12 +33,19 @@ const Content = styled.div`
   h1, h2, h3, h4, h5 {
     font-size: 12px;
     margin: 2px;
+    word-break: break-word;
   }
 
+
+  a {
+    word-wrap: break-word;
+  }
+  
   p {
     margin: 2px;
+    word-break: break-word;
   }
 
   overflow-x: hidden;
-  word-break: break-all;
+  word-break: break-word;
 `

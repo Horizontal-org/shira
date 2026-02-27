@@ -1,4 +1,3 @@
-import { FunctionComponent } from "react"
 import {  
   Body1,
   Button,
@@ -9,8 +8,6 @@ import FullFish from './assets/FullFish'
 import { useStore } from "../../../../store";
 import { shallow } from "zustand/shallow";
 import { useNavigate } from "react-router-dom";
-
-interface Props {}
 
 export const CreateSpaceSuccess = () => {
 

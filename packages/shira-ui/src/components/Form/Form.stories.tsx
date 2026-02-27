@@ -54,7 +54,7 @@ const LoginContent = (
 export const Default = {
   args: {
     title: 'Log in',
-    description: 'Log in to access your custom Shira space. If you have trouble logging in, contact us at contact@wearehorizontal.org',
+    description: 'Log in to access your custom Shira space.',
     children: LoginContent
   }
 };
@@ -68,6 +68,26 @@ export const WithoutDescription = {
 
 export const WithoutTitle = {
   args: {
+    description: 'Please enter your login credentials below.',
+    children: LoginContent
+  }
+};
+
+
+export const BigTitle = {
+  args: {
+    title: 'Log in',
+    titleSize: 'large',
+    description: 'Please enter your login credentials below.',
+    children: LoginContent
+  }
+};
+
+export const BigTitleAndHeader = {
+  args: {
+    title: 'Log in',
+    titleSize: 'large',
+    header: 'My company',
     description: 'Please enter your login credentials below.',
     children: LoginContent
   }

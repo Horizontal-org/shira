@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { darken } from 'polished';
 
 export interface ButtonProps {
+  id?: string;
   text: string
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   type?: 'primary' | 'outline';

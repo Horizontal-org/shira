@@ -10,7 +10,7 @@ const meta = {
   },
   tags: ['autodocs'],
   argTypes: {
-    title: { 
+    title: {
       control: 'text',
       description: 'Title of the card'
     },
@@ -27,6 +27,9 @@ const meta = {
     },
     onCopyUrl: {
       description: 'Callback when copy URL button is clicked'
+    },
+    onDuplicate: {
+      description: 'Callback when duplicate button is clicked'
     },
     onCardClick: {
       description: 'Callback when click the whole card'
@@ -58,8 +61,13 @@ export const Default: Story = {
     onTogglePublished: () => console.log('Toggle published'),
     onCopyUrl: () => console.log('Copy URL clicked'),
     onEdit: () => console.log('edit'),
+    onDuplicate: () => console.log('duplicate'),
     onDelete: () => console.log('delete'),
-    onCardClick: () => console.log('clicked card')
+    onCardClick: () => console.log('clicked card'),
+    publishedText: 'Published',
+    unpublishedText: 'Unpublished',
+    isPublic: true,
+    visibilityText: 'Public'
   }
 };
 

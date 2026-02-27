@@ -1,27 +1,34 @@
 import styled from 'styled-components'
-import { 
+import {
   BrowserRouter,
   Routes,
   Route,
+  Outlet,
 } from 'react-router-dom'
-import { HomeLayout } from './components/HomeLayout';
 import { LoginLayout } from './components/LoginLayout';
 import { CreateSpaceLayout } from './components/CreateSpaceLayout';
+import { InvitationExpiredLayout } from './components/InvitationExpiredLayout';
 import { DashboardLayout } from './components/DashboardLayout';
 import { shallow } from 'zustand/shallow';
 import { useStore } from './store';
 import { useEffect } from 'react';
 import { ManageQuestionLanguages } from './components/ManageQuestionLanguages';
-import { ManageGlobalLanguages } from './components/ManageGlobalLanguages';
-import { ToastBar, Toaster, resolveValue, toast } from 'react-hot-toast';
-import { SmallCloseButton } from './components/SmallCloseButton';
+import { Toaster, resolveValue } from 'react-hot-toast';
 import { Body1, ThemeProvider } from '@shira/ui';
 import { QuizViewLayout } from './components/QuizViewLayout';
 import { IoMdCheckmarkCircle } from 'react-icons/io'
 import LogoutLayout from './components/LogoutLayout';
 import { QuestionCreationLayout } from './components/QuestionCreationLayout';
 import { QuestionEditLayout } from './components/QuestionEditLayout';
+import { QuestionLibraryListLayout } from './components/QuestionLibraryListLayout';
+import { LearnerBulkImportLayout } from './components/LearnerBulkImportLayout';
 import { SupportLayout } from './components/SupportLayout';
+import './language/i18n';
+import { GetStartedLayout } from './components/GetStartedLayout';
+import { LearnersLayout } from './components/LearnersLayout';
+import { FeedbackButton } from './components/FeedbackButton';
+import { ResetPasswordRequestLayout } from './components/ResetPasswordLayout/ResetPasswordRequestLayout';
+import { SetNewPasswordLayout } from './components/ResetPasswordLayout/SetNewPasswordLayout';
 
 function App() {
 
@@ -60,10 +67,14 @@ function App() {
       <>
         <Wrapper hideOverflow={showTranslationsScene || false}>
           <BrowserRouter>
-            <Routes>          
+            <Routes>
               <Route path='/login' element={<LoginLayout />} />
+              <Route path='/reset-password' element={<ResetPasswordRequestLayout />} />
+              <Route path='/reset-password/:token' element={<SetNewPasswordLayout />} />
               <Route path='/create-space/:passphraseCode' element={<CreateSpaceLayout />} />
-              { user && (
+              <Route path='/invitation-used' element={<InvitationExpiredLayout />} />
+              <Route path='/get-started' element={<GetStartedLayout />} />
+              {user && (
                 <>
                   {/* LEGACY */}
                   {/* <Route path="/legacy-question" element={<QuestionLayout />} /> */}
@@ -71,26 +82,38 @@ function App() {
                   {/* <Route path="/legacy-questions" element={<HomeLayout />} /> */}
                   {/* <Route path="/question/:id"  element={<QuestionLayout />} />  */}
                   {/* LEGACY */}
-                  <Route path="/"  element={<DashboardLayout />} /> 
-                  <Route path="/dashboard"  element={<DashboardLayout />} /> 
-                  <Route path='/quiz/:id' element={<QuizViewLayout />}/>
-                  <Route path='/quiz/:quizId/question' element={<QuestionCreationLayout />}/>
-                  <Route path='/quiz/:quizId/question/:questionId' element={<QuestionEditLayout />}/>
-                  <Route path="/logout"  element={<LogoutLayout />} /> 
-                  <Route path="/support"  element={<SupportLayout />} /> 
+                  <Route
+                    element={(
+                      <>
+                        <Outlet />
+                        <FeedbackButton />
+                      </>
+                    )}
+                  >
+                    <Route path="/" element={<DashboardLayout />} />
+                    <Route path="/dashboard" element={<DashboardLayout />} />
+                    <Route path='/quiz/:id' element={<QuizViewLayout />} />
+                    <Route path='/quiz/:quizId/question' element={<QuestionCreationLayout />} />
+                    <Route path='/quiz/:quizId/question/:questionId' element={<QuestionEditLayout />} />
+                    <Route path='/question/library' element={<QuestionLibraryListLayout />} />
+                    <Route path='/learner' element={<LearnersLayout />} />
+                    <Route path='/learner/import/bulk' element={<LearnerBulkImportLayout />} />
+                    <Route path="/logout" element={<LogoutLayout />} />
+                    <Route path="/support" element={<SupportLayout />} />
+                  </Route>
                 </>
               )}
             </Routes>
           </BrowserRouter>
         </Wrapper>
         <Toaster
-          position="bottom-center"        
+          position="bottom-center"
         >
           {(t) => (
-            <StyledToastBar 
+            <StyledToastBar
               style={{
                 opacity: t.visible ? 1 : 0,
-              }}          
+              }}
             >
               <IoMdCheckmarkCircle color='#658840' size={24} />
               <Body1>{resolveValue(t.message, t)}</Body1>

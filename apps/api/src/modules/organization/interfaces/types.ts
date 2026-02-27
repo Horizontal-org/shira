@@ -1,5 +1,8 @@
 export const TYPES = {
-  services: {    
+  services: {
     ICreateOrganizationService: 'ICreateOrganizationService',
+    IGetOrganizationService: 'IGetOrganizationService',
+    IListOrganizationService: 'IListOrganizationService',
+    IDeleteOrganizationService: 'IDeleteOrganizationService'
   },
 };

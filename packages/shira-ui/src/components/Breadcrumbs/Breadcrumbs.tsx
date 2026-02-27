@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import { Body2SemiBold } from '../Typography';
 import { FaChevronRight } from "react-icons/fa6";
 
@@ -12,20 +12,22 @@ export interface BreadcrumbsProps {
 }
 
 export const Breadcrumbs = ({ items, active }: BreadcrumbsProps) => {
+  const theme = useTheme();
+
   return (
     <StyledWrapper>
-      { items.map((i, k) => (
+      {items.map((i, k) => (
         <>
           <Breadcrumb $active={active === k}>
             <Position>{k + 1}</Position>
             <Body2SemiBold>
-              { i.text }
+              {i.text}
             </Body2SemiBold>
           </Breadcrumb>
-          { k < items.length -1 && (
+          {k < items.length - 1 && (
             <Chevron>
-              <FaChevronRight 
-                color={'#658840'}
+              <FaChevronRight
+                color={theme.colors.green6}
               />
             </Chevron>
           )}
@@ -53,11 +55,11 @@ const Breadcrumb = styled.div<StyledBreadcrumbProps>`
   color: ${props => props.theme.colors.dark.darkGrey};
 
   ${props => props.$active && `
-    color: ${props.theme.colors.green5};
-    border-bottom: 4px solid ${props.theme.colors.green5};
+    color: ${props.theme.colors.green7};
+    border-bottom: 4px solid ${props.theme.colors.green7};
 
     > div {
-      background: ${props.theme.colors.green5};
+      background: ${props.theme.colors.green7};
     }
   `}
 `

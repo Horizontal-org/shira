@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent } from "react";
 import { 
   Body3, 
   Box, 
@@ -26,9 +26,8 @@ export const QuestionBasicInfo: FunctionComponent<Props> = ({
   initialAppType
 }) => {
 
-  
   return (
-    <StyledBox>   
+    <StyledBox>
       <div>
         <SubHeading3>Question name</SubHeading3>
         <Body3>This name will only visible to you, to help you remember what this question is about</Body3>

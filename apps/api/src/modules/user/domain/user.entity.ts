@@ -6,7 +6,6 @@ import {
   ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Role } from './role.enum';
 import { SpaceEntity } from 'src/modules/space/domain/space.entity';
 
 
@@ -21,10 +20,9 @@ export class UserEntity {
   @Column({ length: 80 })
   email: string;
 
-
   @ManyToMany(
-    () => SpaceEntity, 
-    {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
+    () => SpaceEntity,
+    { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   @JoinTable({
     name: 'spaces_users',
     joinColumn: {
@@ -37,15 +35,22 @@ export class UserEntity {
     },
   })
   spaces: SpaceEntity[]
-  
 
   @Column()
   password: string;
 
-  @Column({ name: 'is_super_admin'})
+  @Column({ name: 'is_super_admin' })
   isSuperAdmin: boolean;
 
   @Expose()
   @Column({ name: 'created_at' })
   createdAt!: Date;
+
+  @Column({
+    name: 'last_login_at',
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    nullable: false,
+  })
+  lastLoginAt: Date;
 }

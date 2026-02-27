@@ -38,12 +38,6 @@ export class ValidateRegistrationAuthService implements IValidateRegistrationAut
       throw new AlreadyExistUserException(data.email);      
     }
 
-    // check space name is available
-    const spaceTaken = await this.checkSpace.execute(data.spaceName)
-    if (spaceTaken) {
-        throw new UnauthorizedException('Space taken')
-    }
-
     return true
   }
 }

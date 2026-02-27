@@ -34,7 +34,7 @@ export class QuestionTranslation {
     () => Language,
     (language: Language) => language.questionTranslations,
     {
-      // eager: true,
+      eager: true,
       onDelete: 'CASCADE',
     },
   )

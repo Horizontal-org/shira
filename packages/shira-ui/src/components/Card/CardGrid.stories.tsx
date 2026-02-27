@@ -80,8 +80,10 @@ export const GridLayout: Story = {
       onTogglePublished: () => console.log('Toggle published'),
       onCopyUrl: () => console.log('Copy URL'),
       onEdit: () => console.log('edit'),
+      onDuplicate: () => console.log('duplicate'),
       onDelete: () => console.log('delete'),
-      onCardClick: () => console.log('card click')
+      onCardClick: () => console.log('card click'),
+      publishedText: 'Published',
     },
     render: function Story() {
       return (
@@ -95,9 +97,10 @@ export const GridLayout: Story = {
               onTogglePublished={() => console.log('Toggle published for card', index)}
               onCopyUrl={() => console.log('Copy URL for card', index)}
               onEdit={() => console.log('on edit')}
+              onDuplicate={() => console.log('on duplicate')}
               onDelete={() => console.log('on delete')}
               onCardClick={() => console.log('card clicked')}
-            />
+              publishedText={'Published'}/>
           ))}
         </Grid>
       );

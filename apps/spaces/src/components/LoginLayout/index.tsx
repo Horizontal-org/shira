@@ -8,13 +8,15 @@ import {
   Navbar
 } from "@shira/ui";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import shallow from "zustand/shallow";
 import { useStore } from "../../store";
 import backgroundSvg from '../../assets/Background.svg';
 
-interface Props {}
+interface Props { }
 
 export const LoginLayout: FunctionComponent<Props> = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const { user, login } = useStore(
@@ -36,23 +38,22 @@ export const LoginLayout: FunctionComponent<Props> = () => {
 
   const description = (
     <>
-      Log in to access your custom Shira space. If you have trouble logging in, contact us at{' '}
-      <Link1 href="mailto:contact@wearehorizontal.org">
-        contact@wearehorizontal.org
-      </Link1>
+      <div id="login-description-container">
+        <span id="login-description">{t('login.subtitle')}</span>
+      </div>
     </>
   );
   return (
     <Container>
       <Navbar
-        translatedTexts={{home: "", about: "", menu: "", logIn: "Log in", createSpace: "Create Space"}}
-        onNavigate={navigate}
+        translatedTexts={{ home: "", about: "", menu: "", logIn: "Sign up", createSpace: "" }}
+        onNavigate={() => navigate("/get-started")}
       />
       <ContentWrapper>
         <BackgroundPattern />
-        <StyledForm 
-          title="Log in" 
-          description= {description}
+        <StyledForm
+          title={t('login.title')}
+          description={description}
           onSubmit={(e) => {
             e.preventDefault()
             login(email, pass)
@@ -60,21 +61,37 @@ export const LoginLayout: FunctionComponent<Props> = () => {
         >
           <InputsContainer>
             <TextInput
-              label="Email"
+              id="email-input"
+              label={t('login.email_placeholder')}
               value={email}
               onChange={(e) => handleEmail(e.target.value)}
             />
             <TextInput
+              id="password-input"
               type="password"
-              label="Password"
+              label={t('login.password_placeholder')}
               value={pass}
               onChange={(e) => handlePass(e.target.value)}
             />
           </InputsContainer>
 
+          <ForgotPasswordContainer>
+            <Link1
+              id="reset-password-link"
+              href="/reset-password"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate("/reset-password");
+              }}
+            >
+              {t('login.reset_password')}
+            </Link1>
+          </ForgotPasswordContainer>
+
           <ButtonContainer>
             <Button
-              text="Log in"
+              id="login-button"
+              text={t('buttons.login')}
               type="primary"
               disabled={!(email && pass)}
               onClick={(e) => {
@@ -90,33 +107,33 @@ export const LoginLayout: FunctionComponent<Props> = () => {
 };
 
 const Container = styled.div`
-    box-sizing: border-box;
-    width: 100%;
-    height: 100vh;
-    padding: 24px;
-    display: flex;
-    flex-direction: column;  
-    position: relative; 
+  box-sizing: border-box;
+  width: 100%;
+  height: 100vh;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  position: relative; 
 
-    @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
-        padding: 16px;
-    }
+  @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
+      padding: 16px;
+  }
 `;
 
 const ContentWrapper = styled.div`
-    flex: 1;          
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const StyledForm = styled(Form)`
   position: relative;
   z-index:1;
-`
+`;
 
 const BackgroundPattern = styled.div`
-   background-image: url(${backgroundSvg});
+  background-image: url(${backgroundSvg});
   background-repeat: no-repeat;
   background-size: cover;
   position: absolute;
@@ -136,6 +153,12 @@ const InputsContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 32px;
+`;
+
+const ForgotPasswordContainer = styled.div`
+  display: flex;
+  width: 100%;
+  margin-top: 12px;
 `;
 
 const ButtonContainer = styled.div`

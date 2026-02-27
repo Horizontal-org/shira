@@ -25,6 +25,8 @@ export const Toggle: FunctionComponent<ToggleProps> = ({
     <ToggleWrapper className={className}>
       {leftLabel && <ToggleText>{leftLabel}</ToggleText>}
       <ToggleSwitch
+        role="switch"
+        aria-checked={isEnabled}
         $size={size}
         $isEnabled={isEnabled}
         onClick={(e) => {

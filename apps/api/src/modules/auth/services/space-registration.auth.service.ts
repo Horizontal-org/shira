@@ -33,7 +33,7 @@ export class SpaceRegistrationAuthService implements ISpaceRegistrationAuthServi
     private readonly createSubscriptionService: ICreateSubscriptionService,
     @InjectRepository(PlanEntity)
     private readonly planRepository: Repository<PlanEntity>
-  ){}
+  ) { }
   async execute(registrationData: RegisterAuthDto): Promise<void> {
     try {
       // check if passphrase is valid
@@ -55,11 +55,12 @@ export class SpaceRegistrationAuthService implements ISpaceRegistrationAuthServi
       // create org
       const organization = await this.createOrganizationService.execute(
         passphrase.slug,
-        user
+        passphrase.organizationType,
+        user,
       )
 
       await this.createSpaceService.execute({
-        name: registrationData.spaceName,
+        name: passphrase.slug,
         firstUser: user,
         slug: passphrase.slug,
         organizationId: organization.id
@@ -69,7 +70,7 @@ export class SpaceRegistrationAuthService implements ISpaceRegistrationAuthServi
         where: { name: PlanName.STARTER } // create an enum for this
       })
 
-      if(!starterPlan) {
+      if (!starterPlan) {
         throw new Error('Starter plan not found')
       }
 
@@ -79,11 +80,10 @@ export class SpaceRegistrationAuthService implements ISpaceRegistrationAuthServi
         status: SubscriptionStatus.TRIALING,
         trialEndDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
       })
-      
+
       return
-    } catch (error){
-      console.error(error)
-      throw new UnprocessableEntityException(error)
+    } catch (error) {
+      throw error;
     }
   }
 }

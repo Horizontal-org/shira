@@ -1,44 +1,21 @@
-import { FunctionComponent, useEffect, useState } from "react";
-import { AddAttachmentModal, Button, styled, Attachment, AttachmentType } from "@shira/ui";
+import { FunctionComponent, useState } from "react";
+import { AddAttachmentModal, Button, styled, AttachmentType } from "@shira/ui";
 import { IoMdAdd } from "react-icons/io";
 import { DraggableAttachmentList } from "./DraggableAttachmentList";
 import { QuestionDragAttachment } from "../../../../store/types/active_question";
+import { useTranslation } from "react-i18next";
 
-interface Props { 
+interface Props {
   onChange: (persistentList: QuestionDragAttachment[]) => void
   files?: QuestionDragAttachment[]
   content: Object
-  // onChangeList: (f: AttachmentFile[]) => void
-  // startAttachments?: AttachmentFile[] 
 }
 
-// const componentFinalId = `component-attachment-${componentId}`
-// const { parseCustomElement } = useParseHTML(initialContent)
-// const parseHtml = () => {
-//   const attachmentExplanation = inputRef.current.getAttribute('data-explanation')
-//   const explanation = attachmentExplanation ? ` data-explanation='${attachmentExplanation}' ` : ''  
-//   const position = ` data-position=${componentPosition} `
-//   setContent(componentFinalId, `<span ${explanation}${position}id='${componentFinalId}'>${inputRef.current.value}</span>`)
-// }
-// interface File {
-//   id: number;
-//   type: AttachmentType;
-//   name: string;
-// }
-
-
-// onDelete={() => {
-//   const newComponents = components.filter(cf => cf.position !== c.position)                
-//   handleComponents(newComponents)
-//   setLastIndex(newComponents.length)
-//   deleteExplanations(c.position, c.type)
-//   deleteContent(`component-${c.type}-${c.position}`)
-// }}
-
 export const Attachments: FunctionComponent<Props> = ({
-  onChange,  
+  onChange,
   files,
 }) => {
+  const { t } = useTranslation();
 
   const [isOpen, setIsOpen] = useState(false);
   const [fileName, setFileName] = useState('')
@@ -50,31 +27,36 @@ export const Attachments: FunctionComponent<Props> = ({
   }
 
   return (
-    <div>
+    <div id="email-content-attachments">
       <AddAttachmentButtonWrapper>
-        <Button 
+        <Button
           onClick={() => setIsOpen(true)}
-          text="Add attachment"
-          type="outline"    
-          leftIcon={<IoMdAdd color="#5F6368" size={14}/>}        
+          text={t("create_question.tabs.content.attachment_button")}
+          type="outline"
+          leftIcon={<IoMdAdd color="#5F6368" size={14} />}
         />
       </AddAttachmentButtonWrapper>
 
       <DraggableAttachmentList
         items={files}
         onChange={(newItems) => {
-          onChange(newItems)        
+          onChange(newItems)
         }}
       />
 
-      <AddAttachmentModal 
-        fileName={fileName} 
+      <AddAttachmentModal
+        titleLabel={t("modals.attachment_file.title")}
+        saveLabel={t("buttons.save")}
+        cancelLabel={t("buttons.cancel")}
+        fileNameLabel={t("modals.attachment_file.file_name")}
+        fileTypeLabel={t("modals.attachment_file.file_type")}
+        fileName={fileName}
         handleFileName={setFileName}
         fileType={fileType}
         handleFileType={setFileType}
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
-        onSave={() => {              
+        onSave={() => {
           const newName = `component-attachment-${files.length + 1}`
           const newFile: QuestionDragAttachment = {
             htmlId: newName,

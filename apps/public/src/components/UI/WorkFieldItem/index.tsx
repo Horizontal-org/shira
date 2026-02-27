@@ -17,7 +17,7 @@ const icons = {
   'general': '🌐'
 }
 
-const getIcon = (slug) => {
+const getIcon = (slug: string) => {
   return icons[slug]
 }
 
@@ -29,14 +29,12 @@ interface Props {
   onClick?: () => void
 }
 
-export const WorkFieldItem: FunctionComponent<Props> = ({ 
-  id, 
-  name, 
-  selected, 
+export const WorkFieldItem: FunctionComponent<Props> = ({
+  selected,
   slug,
-  onClick 
+  onClick
 }) => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   return (
     <Box selected={selected} onClick={onClick}>
@@ -44,7 +42,7 @@ export const WorkFieldItem: FunctionComponent<Props> = ({
       <span>{t(`setup.fields_of_work.items.${slug}`)}</span>
     </Box>
   )
-}
+};
 
 interface BoxProps {
   selected: boolean;
@@ -83,5 +81,4 @@ const Box = styled.div<BoxProps>`
     width: 100%;
     margin-right: 0;
   }
-
-`
+`;

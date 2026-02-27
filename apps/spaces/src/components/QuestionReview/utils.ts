@@ -1,4 +1,4 @@
-import { DatingApp, FBMessenger, Gmail, SMS, Whatsapp } from "@shira/ui"
+import { DatingApp, FBMessenger, Gmail, Outlook, SMS, Whatsapp } from "@shira/ui"
 import { remapHtml } from "../../utils/remapHtml"
 import { ActiveQuestion, QuestionDragAttachment, QuestionDragEditor, QuestionDragImage, QuestionEditorInput } from "../../store/types/active_question"
 import { parseDragItem } from "../../utils/active_question/questionToHtml"
@@ -24,6 +24,7 @@ const parseEditorContent = (activeQuestionItem: QuestionEditorInput): HTMLElemen
 
 export const AppComponents = {
   'Gmail': (Gmail),
+  'Outlook': Outlook,
   'SMS': SMS,
   'Dating App': DatingApp,
   'Whatsapp': Whatsapp,
@@ -31,7 +32,7 @@ export const AppComponents = {
 }
 
 export const getContentProps = (appName, activeQuestion: ActiveQuestion) => {
-  if (appName === 'Gmail') {
+  if (appName === 'Gmail' || appName === 'Outlook') {
     return {
       senderName: getActiveQuestionElement(activeQuestion, 'component-required-sender-name'),
       senderEmail: getActiveQuestionElement(activeQuestion, 'component-required-sender-email'),

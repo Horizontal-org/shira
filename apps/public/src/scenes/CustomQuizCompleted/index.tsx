@@ -1,51 +1,54 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Navbar } from '../../components/UI/Navbar'
-import { FiHome } from 'react-icons/fi'
-import { HiOutlineRefresh } from 'react-icons/hi'
-import { styled, Button, Body1, Body2SemiBold, Body3, Body2Regular, Body3Bold } from '@shira/ui'
+import { styled } from '@shira/ui'
 import shallow from 'zustand/shallow'
 import CompletedIcon from './assets/CompletedIcon'
-
 import { Heading } from '../../components/UI/Title'
 import { useStore } from '../../store'
 import { CustomQuizNavbar } from '../../components/UI/CustomQuizNavbar'
 
-
 interface Props {
- quizNumber: Number
+  quizNumber: Number
+  finish: () => void
 }
 
-
-export const CustomQuizCompletedScene: FunctionComponent<Props> = ({quizNumber}) => {
+export const CustomQuizCompletedScene: FunctionComponent<Props> = ({
+  quizNumber,
+  finish
+}) => {
 
   const { t } = useTranslation()
-const {
+  const {
     correctQuestions
   } = useStore((state) => ({
     correctQuestions: state.correctedQuestions,
   }), shallow)
+
+  useEffect(() => {
+    finish()
+  }, [])
+
   return (
     <Wrapper>
       <CustomQuizNavbar />
       <StyledSectionWrapper>
         <StyledSection>
           <MobileIconWrapper>
-             <CompletedIcon /> 
+            <CompletedIcon />
           </MobileIconWrapper>
-          <Heading>{ t('completed.title') } </Heading>
-        <HeavySubtitle>
-         { t('completed.heavy_subtitle_1')}
-         <strong>
-            { t('completed.heavy_subtitle_2', 
-              {correctQuestions: correctQuestions.length, questions: quizNumber}) 
-            }
-         </strong>
-           {t('completed.heavy_subtitle_3')}
-         </HeavySubtitle>
-        <InfoSubtitle>
-          {t('completed.greeting_title')}
-        </InfoSubtitle>
+          <Heading>{t('completed.title')} </Heading>
+          <HeavySubtitle>
+            {t('completed.heavy_subtitle_1')}
+            <strong>
+              {t('completed.heavy_subtitle_2',
+                { correctQuestions: correctQuestions.length, questions: quizNumber })
+              }
+            </strong>
+            {t('completed.heavy_subtitle_3')}
+          </HeavySubtitle>
+          <InfoSubtitle>
+            {t('completed.greeting_title')}
+          </InfoSubtitle>
         </StyledSection>
       </StyledSectionWrapper>
     </Wrapper>
@@ -53,7 +56,7 @@ const {
 }
 
 const Wrapper = styled.div`
-`
+`;
 
 const HeavySubtitle = styled.p`
   font-weight: 300;
@@ -71,14 +74,14 @@ const HeavySubtitle = styled.p`
     font-weight: 400;
     font-size: 17px;
   }
-`
+`;
 const InfoSubtitle = styled(HeavySubtitle)` 
   @media(max-width: ${props => props.theme.breakpoints.xs}) { 
     font-weight: 400; 
     font-size: 16px; 
     line-height: 21.79px; 
   } 
-  `
+`;
 
 const StyledSection = styled.div`
   max-width: 688px;
@@ -89,7 +92,7 @@ const StyledSection = styled.div`
  @media(max-width: ${props => props.theme.breakpoints.sm}) { 
    align-items: flex-start;
  }
-`
+`;
 
 const StyledSectionWrapper = styled.div`
   display: flex;
@@ -113,7 +116,7 @@ const StyledSectionWrapper = styled.div`
     padding-bottom: 0;
     box-sizing: border-box;
   }
-`
+`;
 
 const MobileIconWrapper = styled.div`
   display: flex;
@@ -133,4 +136,4 @@ const MobileIconWrapper = styled.div`
     width: 290px;
    } 
   }
-`
+`;

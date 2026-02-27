@@ -1,4 +1,4 @@
-import { DatingApp, FBMessenger, Gmail, SMS, Whatsapp } from "@shira/ui";
+import { DatingApp, FBMessenger, Gmail, Outlook, SMS, Whatsapp } from "@shira/ui";
 import { FunctionComponent } from "react";
 import { Explanation } from "../../../../store/slices/explanation";
 // TODO repeated code, check how to fix  
@@ -24,9 +24,10 @@ export const AppSelector: FunctionComponent<Props> = ({
 
   return (
     <>
-      { appName === 'Gmail' && (
-        <Gmail 
+      {appName === 'Gmail' && (
+        <Gmail
           {...customProps}
+          id="gmail-app"
           receiverEmail={'useremail@email.com'}
           receiverName={'User'}
           explanationNumber={explanationNumber}
@@ -34,33 +35,48 @@ export const AppSelector: FunctionComponent<Props> = ({
           showExplanations={showExplanations}
         />
       )}
-      { appName === 'Whatsapp' && (
-        <Whatsapp 
+      {appName === 'Outlook' && (
+        <Outlook
           {...customProps}
+          id="outlook-app"
+          receiverEmail={'useremail@email.com'}
+          receiverName={'User'}
           explanationNumber={explanationNumber}
           explanations={explanations}
           showExplanations={showExplanations}
         />
       )}
-      { appName === 'SMS' && (
-        <SMS 
+      {appName === 'Whatsapp' && (
+        <Whatsapp
           {...customProps}
+          id="whatsapp-app"
           explanationNumber={explanationNumber}
           explanations={explanations}
           showExplanations={showExplanations}
         />
       )}
-      { appName === 'Messenger' && (
+      {appName === 'SMS' && (
+        <SMS
+          {...customProps}
+          id="sms-app"
+          explanationNumber={explanationNumber}
+          explanations={explanations}
+          showExplanations={showExplanations}
+        />
+      )}
+      {appName === 'Messenger' && (
         <FBMessenger
           {...customProps}
+          id="messenger-app"
           explanationNumber={explanationNumber}
           explanations={explanations}
           showExplanations={showExplanations}
         />
       )}
-      { appName === 'Dating App' && (
-        <DatingApp 
+      {appName === 'Dating App' && (
+        <DatingApp
           {...customProps}
+          id="dating-app"
           explanationNumber={explanationNumber}
           explanations={explanations}
           showExplanations={showExplanations}

@@ -29,7 +29,7 @@ export const Whatsapp: FunctionComponent<Props> = ({
   showExplanations
 }) => {
   return (
-    <DesktopWrapper>
+    <DesktopWrapper className="whatsapp">
       {explanations && explanations.map(explanation => (
         <ExplanationTooltip
           explanation={explanation}
@@ -37,6 +37,7 @@ export const Whatsapp: FunctionComponent<Props> = ({
           showExplanations={showExplanations}
         />
       ))}
+      <Font />
       <StyledScrollbar />
       <Background>
         <Content>
@@ -51,6 +52,11 @@ export const Whatsapp: FunctionComponent<Props> = ({
   )
 }
 
+const Font = createGlobalStyle`
+  .whatsapp {
+    font-family: 'Segoe UI Regular';
+  }
+`
 
 const DesktopWrapper = styled.div`
   width: 100%;

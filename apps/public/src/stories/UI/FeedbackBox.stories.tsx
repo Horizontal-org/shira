@@ -1,14 +1,12 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { FeedbackBox } from '../../components/UI/FeedbackBox';
-import { GlobalStyle } from '../../utils/storybook';
-import { FiChevronRight } from 'react-icons/fi'
+import type { StoryObj, Meta } from "@storybook/react";
+import { FeedbackBox } from "../../components/UI/FeedbackBox";
+import { GlobalStyle } from "../../utils/storybook";
 
-export default {
-  title: 'UI/FeedbackBox',
+const meta: Meta<typeof FeedbackBox> = {
+  title: "UI/FeedbackBox",
   component: FeedbackBox,
   parameters: {
-    layout: 'padded',
+    layout: "padded",
   },
   decorators: [
     (Story) => (
@@ -17,18 +15,20 @@ export default {
         <Story />
       </div>
     ),
-  ]
-} as ComponentMeta<typeof FeedbackBox>;
+  ],
+};
 
-const Template: ComponentStory<typeof FeedbackBox> = (args) => <FeedbackBox {...args} />;
+export default meta;
 
-export const Default = Template.bind({})
+type Story = StoryObj<typeof FeedbackBox>;
 
-Default.args = {
-  easyness: 'complicated',
-  recommend: 'very-easy',
-  improve: '',
-  onEasyness: () => {},
-  onRecommend: () => {},
-  onImprove: () => {}
-}
+export const Default: Story = {
+  args: {
+    easyness: "complicated",
+    recommend: "very-easy",
+    improve: "",
+    onEasyness: () => {},
+    onRecommend: () => {},
+    onImprove: () => {},
+  },
+};

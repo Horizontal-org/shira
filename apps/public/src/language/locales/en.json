@@ -2,12 +2,12 @@
     "beta": {
         "label": "BETA",
         "message": "Shira is still in development and you may experience issues.",
-        "feedback_text": "to share your feedback and help us improve!",
+        "feedback_text": "to share your feedback and read about what’s next for Shira!",
         "click_here": "Click here"
     },
     "welcome": {
-        "title": "Welcome to Shira",
-        "subtitle": "Learn to identify and defeat phishing attempts",
+        "title": "Take a Shira quiz",
+        "subtitle": "Build your anti-phishing skills with a short quiz customized to your needs. Change your language or click on “Start quiz” to get started.",
         "start": "Start quiz",
         "public_message": "Welcome to your phishing quiz. Change your language or click on \"Start quiz\" to get started.",
         "learn_more": "Learn more about Shira"
@@ -39,10 +39,12 @@
             "items": {
                 "human-rights": "Human rights",
                 "journalism-and-media": "Journalism and media",
+                "human-resources": "Human resources",
                 "education": "Academia",
                 "marketing": "Marketing",
                 "healthcare": "Healthcare",
-                "general": "General"
+                "general": "General",
+                "activist": "Activist"
             }
         }
     },
@@ -212,9 +214,35 @@
             "section2": "If that sounds interesting to you or if you have questions, contact us at contact@wearehorizontal.org."
         }
     },
+    "learner_invitation": {
+        "learn_more": "Learn more about Shira",
+        "success_title": "Success!",
+        "error_title": "Something went wrong",
+        "success_joined_space": "You have joined {{spaceName}} on Shira.",
+        "success_hint": "When your organization shares a quiz with you, you will receive an email invitation directly in your inbox.",
+        "error_message": "Try again or contact the person who invited you."
+    },
     "navbar": {
         "home": "Home",
         "about": "About",
-        "menu": "Menu"
+        "menu": "Menu",
+        "features": "Features",
+        "pricing": "Pricing",
+        "take_a_quiz": "Take a quiz",
+        "learn": "Learn",
+        "get_started": "Get started"
+    },
+    "loading_messages": {
+        "loading": "Loading..."
+    },
+    "invalid_quiz": {
+        "title": "Sorry, this quiz link is invalid.",
+        "description": "You may have used the wrong URL, or the quiz was unpublished and is no longer available",
+        "home_button": "Go to Shira"
+    },
+    "invalid_invitation": {
+        "title": "Sorry, this invitation link is invalid.",
+        "description": "You may have used the wrong URL, or the invitation may have expired. Try again or contact the person who invited you.",
+        "home_button": "Go to Shira"    
     }
 }

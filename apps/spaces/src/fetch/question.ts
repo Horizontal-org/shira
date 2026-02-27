@@ -3,7 +3,6 @@ import { useStore } from '../store'
 import { App } from './app';
 import { Explanation } from '../store/slices/explanation';
 import { useState } from 'react';
-import { shallow } from 'zustand/shallow';
 import { QuizSuccessStates } from '../store/slices/quiz';
 import { activeQuestionToHtml } from '../utils/active_question/questionToHtml';
 import { ActiveQuestion } from '../store/types/active_question';
@@ -39,7 +38,7 @@ export const fetchQuestions = async() => {
     const res = await axios.get<Question[]>(`${process.env.REACT_APP_API_URL}/question`) 
     return res.data
   } catch (err) {
-    console.log("🚀 ~ file: question.ts ~ line 20 ~ submit ~ err", err)    
+    console.log("🚀 ~ file: question.ts ~ line 20 ~ submit ~ err", err)
   }
 }
 
@@ -48,7 +47,7 @@ export const fetchQuestion = async(id: string) => {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/question/${id}`) 
     return res.data
   } catch(err) {
-    console.log("🚀 ~ file: question.ts ~ line 37 ~ submit ~ err", err)   
+    console.log("🚀 ~ file: question.ts ~ line 37 ~ submit ~ err", err)
   }
 }
 
@@ -57,7 +56,7 @@ export const deleteQuestion = async(id) => {
     const res = await axios.delete(`${process.env.REACT_APP_API_URL}/question/${id}`) 
     return res.data
   } catch (err) {
-    console.log("🚀 ~ file: question.ts ~ line 20 ~ submit ~ err", err)    
+    console.log("🚀 ~ file: question.ts ~ line 20 ~ submit ~ err", err)
   }
 }
 
@@ -125,7 +124,7 @@ export const useQuestionCRUD = () => {
       handleActionFeedback(QuestionCRUDFeedback.success)
     } catch (err) {
       handleActionFeedback(QuestionCRUDFeedback.error)
-      console.log("🚀 ~ file: question.ts ~ line 20 ~ submit ~ err", err)    
+      console.log("🚀 ~ file: question.ts ~ line 20 ~ submit ~ err", err)
     }
   }
 
@@ -148,7 +147,7 @@ export const useQuestionCRUD = () => {
       handleActionFeedback(QuestionCRUDFeedback.success)
     } catch (err) {
       handleActionFeedback(QuestionCRUDFeedback.error)
-      console.log("🚀 ~ file: question.ts ~ line 20 ~ submit ~ err", err)    
+      console.log("🚀 ~ file: question.ts ~ line 20 ~ submit ~ err", err)
     }
   }
 
@@ -168,11 +167,9 @@ export const useQuestionCRUD = () => {
       handleActionFeedback(QuestionCRUDFeedback.success)
     } catch (err) {
       handleActionFeedback(QuestionCRUDFeedback.error)
-      console.log("🚀 ~ file: question.ts ~ line 20 ~ submit ~ err", err)    
+      console.log("🚀 ~ file: question.ts ~ line 20 ~ submit ~ err", err)
     }
   }
-
-  
 
   return {
     submit,

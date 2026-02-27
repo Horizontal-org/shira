@@ -10,6 +10,9 @@ import { GetByIdQuizService } from './services/get-by-id.quiz.service';
 import { ListQuizService } from './services/list.quiz.service';
 import { ReorderQuestionQuizService } from './services/reorder-question.quiz.service';
 import { ValidateSpaceQuizService } from './services/validate-space.quiz.service';
+import { DuplicateQuestionQuizService } from './services/duplicate-question.quiz.service';
+import { DuplicateQuizService } from './services/duplicate-quiz.service';
+import { SharedQuestionDuplicationService } from './services/shared-question-duplication.service';
 
 export const createQuizServiceProvider = {
   provide: TYPES.services.ICreateQuizService,
@@ -30,7 +33,6 @@ export const deleteQuizServiceProvider = {
   provide: TYPES.services.IDeleteQuizService,
   useClass: DeleteQuizService
 }
-
 
 export const getByIdQuizServiceProvider = {
   provide: TYPES.services.IGetByIdQuizService,
@@ -67,6 +69,21 @@ export const reorderQuestionQuizServiceProvider = {
   useClass: ReorderQuestionQuizService
 }
 
+export const duplicateQuestionQuizServiceProvider = {
+  provide: TYPES.services.IDuplicateQuestionQuizService,
+  useClass: DuplicateQuestionQuizService
+}
+
+export const duplicateQuizServiceProvider = {
+  provide: TYPES.services.IDuplicateQuizService,
+  useClass: DuplicateQuizService
+}
+
+export const sharedQuestionDuplicationServiceProvider = {
+  provide: TYPES.services.ISharedQuestionDuplicationService,
+  useClass: SharedQuestionDuplicationService
+}
+
 export const servicesQuizProviders = [
   createQuizServiceProvider,
   listQuizServiceProvider,
@@ -78,5 +95,8 @@ export const servicesQuizProviders = [
   editQuizQuestionServiceProvider,
   validateSpaceQuizServiceProvider,
   deleteQuestionQuizServiceProvider,
-  reorderQuestionQuizServiceProvider
+  reorderQuestionQuizServiceProvider,
+  duplicateQuestionQuizServiceProvider,
+  duplicateQuizServiceProvider,
+  sharedQuestionDuplicationServiceProvider
 ];

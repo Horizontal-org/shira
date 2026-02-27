@@ -7,6 +7,7 @@ export const TYPES = {
   services: {
     IFindByIdUserService: 'IFindByIdUserService',
     IFindByUsernameUserService: 'IFindByUsernameUserService',
-    ICreateUserService: 'ICreateUserService'
+    ICreateUserService: 'ICreateUserService',
+    IMarkUserLoginService: 'IMarkUserLoginService'
   },
 };

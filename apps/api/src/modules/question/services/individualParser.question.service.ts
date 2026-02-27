@@ -128,11 +128,12 @@ export class ParserQuestionService {
       const questionTranslationContent = $('body')
         .html()
         .replace(/>\s+</g, '><');
-      // find a questionTranslation with id as question is and lang. If does not exist create it
-      const questionTranslated =
-        await this.QuestionTranslationRepository.findOne({
-          where: { question: id, languageId: lang },
-        });
+      
+      const questionTranslated = await this.QuestionTranslationRepository
+        .createQueryBuilder('qt')
+        .where('qt.question_id = :qid', { qid: id })
+        .andWhere('qt.language_id = :langId', { langId: lang })
+        .getOne();
 
       if (!questionTranslated) {
         // create new questionTranslation with new fileContents
@@ -142,10 +143,11 @@ export class ParserQuestionService {
         questionTranslation.question = id;
         await this.QuestionTranslationRepository.save(questionTranslation);
         for (const explanationContent of explanationContents) {
-          const explanationTranslated =
-            await this.ExplanationTranslationRepository.findOne({
-              where: { explanation: explanationContent.id, languageId: lang },
-            });
+          const explanationTranslated = await this.ExplanationTranslationRepository
+            .createQueryBuilder('et')
+            .where('et.explanation_id = :eid', { eid: parseInt(explanationContent.id) })
+            .andWhere('et.language_id = :langId', { langId: lang })
+            .getOne();
 
           if (!explanationTranslated) {
             const explanationTranslation = new ExplanationTranslation();
@@ -169,10 +171,11 @@ export class ParserQuestionService {
         await this.QuestionTranslationRepository.save(questionTranslated);
 
         for (const explanationContent of explanationContents) {
-          const explanationTranslated =
-            await this.ExplanationTranslationRepository.findOne({
-              where: { explanation: explanationContent.id, languageId: lang },
-            });
+          const explanationTranslated = await this.ExplanationTranslationRepository
+            .createQueryBuilder('et')
+            .where('et.explanation_id = :eid', { eid: parseInt(explanationContent.id) })
+            .andWhere('et.language_id = :langId', { langId: lang })
+            .getOne();
 
           if (!explanationTranslated) {
             const explanationTranslation = new ExplanationTranslation();

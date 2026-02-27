@@ -20,10 +20,10 @@ export class DeleteQuestionController {
   @Delete(':id')
   @Roles(Role.SpaceAdmin)
   async handler(
-    @Param('id', ParseIntPipe)
-    id: DeleteQuestionDto,
+    @Param('id') id: number
   ) {
-    await this.questionTranslationRepository.delete({ question: id });
+    console.log('Deleting question with id:', id);
+    await this.questionTranslationRepository.delete({ questionId: id });
     await this.questionRepository.delete(id);
 
     return true;

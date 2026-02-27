@@ -47,7 +47,7 @@ export class ConfirmRegistrationAuthService implements IConfirmRegistrationAuthS
         email: registration.email,
         passphrase: registration.passphrase,
         password: registration.password,
-        spaceName: registration.spaceName
+        // spaceName: registration.spaceName
     })
 
 

@@ -1,13 +1,12 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { WorkFieldItem } from '../../components/UI/WorkFieldItem';
-import { GlobalStyle } from '../../utils/storybook';
+import type { Meta, StoryObj } from "@storybook/react";
+import { WorkFieldItem } from "../../components/UI/WorkFieldItem";
+import { GlobalStyle } from "../../utils/storybook";
 
-export default {
-  title: 'UI/WorkFieldItem',
+const meta = {
+  title: "UI/WorkFieldItem",
   component: WorkFieldItem,
   parameters: {
-    layout: 'padded',
+    layout: "padded",
   },
   decorators: [
     (Story) => (
@@ -16,23 +15,25 @@ export default {
         <Story />
       </div>
     ),
-  ]
-} as ComponentMeta<typeof WorkFieldItem>;
+  ],
+} satisfies Meta<typeof WorkFieldItem>;
 
-const Template: ComponentStory<typeof WorkFieldItem> = (args) => <WorkFieldItem {...args} />;
+export default meta;
 
-export const Default = Template.bind({})
+type Story = StoryObj<typeof meta>;
 
-export const Selected = Template.bind({})
+export const Default: Story = {
+  args: {
+    name: "Human resources",
+    slug: "human-resources",
+    selected: false,
+  },
+};
 
-Default.args = {
-  name: 'Human resources',
-  slug: 'human-resources',
-  selected: false
-}
-
-Selected.args = {
-  name: 'Human resources',
-  slug: 'human-resources',
-  selected: true
-}
+export const Selected: Story = {
+  args: {
+    name: "Human resources",
+    slug: "human-resources",
+    selected: true,
+  },
+};

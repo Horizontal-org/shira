@@ -7,21 +7,21 @@ import { EditQuizDto } from '../dto/edit.quiz.dto';
 
 
 @Injectable()
-export class EditQuizService implements IEditQuizService{
+export class EditQuizService implements IEditQuizService {
 
   constructor(
     @InjectRepository(QuizEntity)
     private readonly quizRepo: Repository<QuizEntity>,
-  ) {}
+  ) { }
 
-  async execute (editQuizDto: EditQuizDto) {
-    
+  async execute(editQuizDto: EditQuizDto) {
+
     const quiz = await this.quizRepo
       .createQueryBuilder('quiz')
       .where('id = :id ', { id: editQuizDto.id })
       .andWhere('space_id = :spaceId', { spaceId: editQuizDto.spaceId })
       .getOne()
-      
+
     if (!quiz) {
       throw new NotFoundException()
     }

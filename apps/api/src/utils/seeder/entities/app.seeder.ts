@@ -35,6 +35,14 @@ export class AppSeederService {
         name: 'SMS',
         type: 'messaging'
       },
+      {
+        name: 'Messenger',
+        type: 'messaging'
+      },
+      {
+        name: 'Dating App',
+        type: 'messaging'
+      },
     ]);
   }
 }
