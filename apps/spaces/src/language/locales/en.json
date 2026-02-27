@@ -245,7 +245,9 @@
             },
             "actions": {
                 "title": "Actions",
-                "aria_label": "Add question"
+                "add_aria_label": "Add",
+                "preview_aria_label": "Preview",
+                "disabled_tooltip": "Select a language and an app to use this question."
             }
         }
     },
@@ -329,7 +331,8 @@
                 "validated": "Validated",
                 "empty_error": "There are no rows with errors.",
                 "empty_skipped": "There are no skipped rows.",
-                "empty_valid": "There are no valid rows."
+                "empty_valid": "There are no valid rows.",
+                "upload_tooltip": "Upload a spreadsheet to continue."
             },
             "review": {
                 "tab_title": "Final review",
@@ -517,6 +520,10 @@
         "unassign_learners_plural": {
             "title": "Unassign \"{{quiz}}\" from {{count}} learners?",
             "subtitle": "Are you sure you want to unassign the quiz from these learners? Any quiz progress and results will be lost."
+        },
+        "start_over_bulk_import": {
+            "title": "Are you sure you want to start over?",
+            "message": "This will discard the spreadsheet you uploaded. Any progress you have made will be lost."
         }
     },
     "error_messages": {
@@ -564,6 +571,10 @@
             "invalid_formatting": {
                 "title": "Error: Invalid formatting",
                 "subtitle": "Please make sure your spreadsheet is formatted according to the guidelines above and try again."
+            },
+            "file_too_large": {
+                "title": "Error: File is too large",
+                "subtitle": "Please upload a CSV that is 10 MB or smaller and try again."
             }
         }
     },
