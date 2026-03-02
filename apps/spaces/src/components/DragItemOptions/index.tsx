@@ -1,9 +1,7 @@
 import { FunctionComponent } from "react";
-import styled from 'styled-components'
-import { MdDeleteOutline, MdOutlineDragIndicator } from 'react-icons/md'
-
-import Trash from '../../icons/Trash'
-import Reorder from '../../icons/Reorder'
+import styled from 'styled-components';
+import Trash from '../../icons/Trash';
+import Reorder from '../../icons/Reorder';
 
 interface Props {
   onDelete: () => void
@@ -19,10 +17,10 @@ export const DragItemOptions: FunctionComponent<Props> = ({
       <SvgWrapper
         {...dragHandleProps}
       >
-        <Reorder/>
+        <Reorder />
       </SvgWrapper>
       <SvgWrapper onClick={onDelete}>
-        <Trash/>      
+        <Trash />
       </SvgWrapper>
     </Wrapper>
   )
