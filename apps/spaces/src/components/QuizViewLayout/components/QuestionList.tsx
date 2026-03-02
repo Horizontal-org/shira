@@ -44,6 +44,11 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
   console.log("🚀 ~ quizQuestions:", quizQuestions)
 
   const { t } = useTranslation();
+  const editTooltip = t('questions_tab.action_tooltips.edit');
+  const duplicateTooltip = t('questions_tab.action_tooltips.duplicate');
+  const deleteTooltip = t('questions_tab.action_tooltips.delete');
+  const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
+
   const [questionForDelete, handleQuestionForDelete] = useState<QuizQuestion["question"] | null>(null)
   const [confirmBeforeContinueModal, handleConfirmBeforeContinueModal] = useState<{
     confirmType: string
@@ -185,31 +190,73 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
                           </QuestionTitle>
                         </LeftSection>
                         <Actions>
-                          <ActionButton id={`edit-button-${qq.question.id}`} onClick={() => {
-                            if (hasResults) {
-                              handleConfirmBeforeContinueModal({ confirmType: 'edit', confirmId: qq.question.id })
-                            } else {
-                              onEdit(qq.question.id)
-                            }
-                          }}>
-                            <EditIcon />
-                          </ActionButton>
-                          <ActionButton
-                            id={`duplicate-button-${qq.question.id}`}
-                            onClick={() => {
-                              if (hasResults) {
-                                handleConfirmBeforeContinueModal({ confirmType: 'duplicate', confirmId: qq.question.id })
-                              } else {
-                                handleDuplicateQuestion(qq.question.id)
-                              }
-                            }}
-                            disabled={isBeingDuplicated}
+                          <ActionButtonTooltip
+                            onMouseEnter={() => setActiveTooltip(`edit-${qq.question.id}`)}
+                            onMouseLeave={() => setActiveTooltip(null)}
+                            onFocus={() => setActiveTooltip(`edit-${qq.question.id}`)}
+                            onBlur={() => setActiveTooltip(null)}
                           >
-                            <DuplicateIconWrapper><DuplicateIcon /></DuplicateIconWrapper>
-                          </ActionButton>
-                          <ActionButton id={`delete-button-${qq.question.id}`} onClick={() => handleQuestionForDelete(qq.question)}>
-                            <TrashIcon />
-                          </ActionButton>
+                            <ActionButton
+                              id={`edit-button-${qq.question.id}`}
+                              type="button"
+                              aria-label={editTooltip}
+                              onClick={() => {
+                                if (hasResults) {
+                                  handleConfirmBeforeContinueModal({ confirmType: 'edit', confirmId: qq.question.id })
+                                } else {
+                                  onEdit(qq.question.id)
+                                }
+                              }}
+                            >
+                              <EditIcon />
+                            </ActionButton>
+                            {activeTooltip === `edit-${qq.question.id}` && (
+                              <Tooltip role="tooltip">{editTooltip}</Tooltip>
+                            )}
+                          </ActionButtonTooltip>
+                          <ActionButtonTooltip
+                            onMouseEnter={() => setActiveTooltip(`duplicate-${qq.question.id}`)}
+                            onMouseLeave={() => setActiveTooltip(null)}
+                            onFocus={() => setActiveTooltip(`duplicate-${qq.question.id}`)}
+                            onBlur={() => setActiveTooltip(null)}
+                          >
+                            <ActionButton
+                              id={`duplicate-button-${qq.question.id}`}
+                              type="button"
+                              aria-label={duplicateTooltip}
+                              onClick={() => {
+                                if (hasResults) {
+                                  handleConfirmBeforeContinueModal({ confirmType: 'duplicate', confirmId: qq.question.id })
+                                } else {
+                                  handleDuplicateQuestion(qq.question.id)
+                                }
+                              }}
+                              disabled={isBeingDuplicated}
+                            >
+                              <DuplicateIconWrapper><DuplicateIcon /></DuplicateIconWrapper>
+                            </ActionButton>
+                            {activeTooltip === `duplicate-${qq.question.id}` && (
+                              <Tooltip role="tooltip">{duplicateTooltip}</Tooltip>
+                            )}
+                          </ActionButtonTooltip>
+                          <ActionButtonTooltip
+                            onMouseEnter={() => setActiveTooltip(`delete-${qq.question.id}`)}
+                            onMouseLeave={() => setActiveTooltip(null)}
+                            onFocus={() => setActiveTooltip(`delete-${qq.question.id}`)}
+                            onBlur={() => setActiveTooltip(null)}
+                          >
+                            <ActionButton
+                              id={`delete-button-${qq.question.id}`}
+                              type="button"
+                              aria-label={deleteTooltip}
+                              onClick={() => handleQuestionForDelete(qq.question)}
+                            >
+                              <TrashIcon />
+                            </ActionButton>
+                            {activeTooltip === `delete-${qq.question.id}` && (
+                              <Tooltip role="tooltip">{deleteTooltip}</Tooltip>
+                            )}
+                          </ActionButtonTooltip>
                         </Actions>
                       </QuestionItem>
                     )
@@ -356,6 +403,36 @@ const ActionButton = styled.button`
 
   &:hover {
     background: ${props => props.theme.colors.light.paleGreen};
+  }
+`;
+
+const ActionButtonTooltip = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+`;
+
+const Tooltip = styled.div`
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  padding: 8px 12px;
+  border-radius: 4px;
+  background: ${props => props.theme.colors.dark.black};
+  color: ${props => props.theme.colors.light.white};
+  font-size: 12px;
+  line-height: 1.4;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1000;
+
+  &::before {
+    position: absolute;
+    bottom: 100%;
+    right: 12px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent ${props => props.theme.colors.dark.black} transparent;
   }
 `;
 
