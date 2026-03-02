@@ -74,6 +74,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   const [isUnpublishedQuizModalOpen, setIsUnpublishedQuizModalOpen] = useState(false);
   const [isUnpublishQuizModalOpen, setIsUnpublishQuizModalOpen] = useState(false);
   const [showPublishTooltip, setShowPublishTooltip] = useState(false);
+  const [showCopyLinkTooltip, setShowCopyLinkTooltip] = useState(false);
 
   const { destroy } = useQuestionCRUD()
   const {
@@ -177,6 +178,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   }, [quiz])
 
   const disablePublishToggle = !hasQuestions && !isPublished;
+  const disableCopyLinkButton = quiz?.visibility === 'public' && !hasQuestions;
 
   function getQuizVisibility() {
     const translationKey = `quiz.visibility.${quiz.visibility}`;
@@ -273,19 +275,43 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                       }}
                     />
                     {quiz.visibility !== 'private' && (
-                      <Button
-                        id="copy-link-button"
-                        leftIcon={<CopyUrlIcon />}
-                        text={t('quiz.actions.copy_link')}
-                        type="outline"
-                        onClick={() => {
-                          if (quiz.published) {
-                            handleCopyUrlAndNotify(quiz.hash, t('success_messages.quiz_link_copied'));
-                          } else {
-                            setIsUnpublishedQuizModalOpen(true)
+                      <PublishToggleWrapper
+                        $showHelpCursor={disableCopyLinkButton}
+                        onMouseEnter={() => {
+                          if (disableCopyLinkButton) {
+                            setShowCopyLinkTooltip(true)
                           }
                         }}
-                      />
+                        onMouseLeave={() => { setShowCopyLinkTooltip(false) }}
+                        onFocus={() => {
+                          if (disableCopyLinkButton) {
+                            setShowCopyLinkTooltip(true)
+                          }
+                        }}
+                        onBlur={() => { setShowCopyLinkTooltip(false) }}
+                        tabIndex={disableCopyLinkButton ? 0 : -1}
+                      >
+                        <Button
+                          id="copy-link-button"
+                          leftIcon={<CopyUrlIcon />}
+                          text={t('quiz.actions.copy_link')}
+                          type="outline"
+                          disabled={disableCopyLinkButton}
+                          onClick={() => {
+                            if (disableCopyLinkButton) { return }
+                            if (quiz.published) {
+                              handleCopyUrlAndNotify(quiz.hash, t('success_messages.quiz_link_copied'));
+                            } else {
+                              setIsUnpublishedQuizModalOpen(true)
+                            }
+                          }}
+                        />
+                        {disableCopyLinkButton && showCopyLinkTooltip && (
+                          <PublishToggleTooltip role="tooltip">
+                            <Body4>{t('quiz.actions.disabled_tooltip')}</Body4>
+                          </PublishToggleTooltip>
+                        )}
+                      </PublishToggleWrapper>
                     )}
                     <Button
                       id="delete-quiz-button"
