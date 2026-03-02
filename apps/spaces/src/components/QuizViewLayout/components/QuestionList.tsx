@@ -1,6 +1,6 @@
 import { FunctionComponent, useState } from "react";
-import { FiMenu, FiPlus, FiLoader } from 'react-icons/fi';
-import { MdOutlineMenuBook } from "react-icons/md";
+import { FiPlus, FiLoader } from 'react-icons/fi';
+import { MdDragIndicator, MdOutlineMenuBook } from "react-icons/md";
 import { styled, TrashIcon, EditIcon, Button, defaultTheme } from '@shira/ui'
 import { QuestionEmptyState } from "./QuestionEmptyState";
 import { DeleteModal } from "../../modals/DeleteModal";
@@ -180,9 +180,9 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
                             {...draggableProvided.dragHandleProps}
                           >
                             {isBeingDuplicated ? (
-                              <SpinningLoader size={20} color="#666" />
+                              <SpinningLoader size={20} color={defaultTheme.colors.dark.darkGrey} />
                             ) : (
-                              <FiMenu size={20} color="#666" />
+                              <MdDragIndicator size={20} color={defaultTheme.colors.dark.darkGrey} />
                             )}
                           </MenuIcon>
                           <QuestionTitle id={`question-title-${qq.question.id}`}>
