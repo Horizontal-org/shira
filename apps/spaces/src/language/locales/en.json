@@ -99,6 +99,7 @@
             "rename": "Rename",
             "duplicate": "Duplicate",
             "copy_link": "Copy quiz link",
+            "disabled_tooltip": "Create at least 1 question to copy your quiz link.",
             "delete": "Delete"
         },
         "tabs": {
