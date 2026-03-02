@@ -19,7 +19,7 @@
 
 
 # Use the official Node.js image as the base image
-FROM node:20 as development
+FROM node:20 AS development
 
 ARG NODE_ENV=development
 
