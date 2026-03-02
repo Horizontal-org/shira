@@ -116,7 +116,6 @@ export const VerifyLearnersTable: FunctionComponent<Props> = ({
       rowSelection={rowSelection}
       setRowSelection={setRowSelection}
       enableRowSelection={false}
-      pageSize={Math.max(tableData.length, 1)}
       colGroups={
         <colgroup>
           <col style={{ width: "80px" }} />

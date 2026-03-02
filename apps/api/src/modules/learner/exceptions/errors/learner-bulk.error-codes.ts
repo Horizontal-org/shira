@@ -3,4 +3,5 @@ export enum LearnerBulkUploadErrorCode {
   InvalidFormatting = "invalid_formatting",
   InvalidFileFormat = "invalid_file_format",
   CSVParsingError = "csv_parsing_error",
+  FileTooLarge = "file_too_large",
 }

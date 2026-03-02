@@ -27,6 +27,9 @@ export const libraryQuestionToRow = (libraryQuestion: any): RowType[] => {
 
     const defaultApp = appOptions[0];
 
+    const languageSelected = langOptions.length <= 1;
+    const appSelected = appOptions.length <= 1;
+
     return {
       id: q.id,
       name: q.name,
@@ -38,6 +41,8 @@ export const libraryQuestionToRow = (libraryQuestion: any): RowType[] => {
       explanations: defaultLang?.explanations ?? [],
       apps: appOptions,
       languages: langOptions,
+      languageSelected,
+      appSelected,
     } as RowType;
   });
 };
