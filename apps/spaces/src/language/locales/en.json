@@ -357,7 +357,18 @@
     },
     "settings": {
         "title": "Settings",
-        "subtitle": "Manage your Shira space settings here."
+        "subtitle": "Manage your Shira space settings here.",
+        "sections": {
+            "email": {
+                "title": "Email address",
+                "action": "Change email address"
+            },
+            "password": {
+                "title": "Password",
+                "last_updated": "Last updated: {{date}}",
+                "action": "Change password"
+            }
+        }
     },
     "buttons": {
         "ok": "OK",
@@ -535,6 +546,11 @@
         "start_over_bulk_import": {
             "title": "Are you sure you want to start over?",
             "message": "This will discard the spreadsheet you uploaded. Any progress you have made will be lost."
+        },
+        "change_email": {
+            "title": "Change email address",
+            "subtitle": "Enter your new email address here.",
+            "input_placeholder": "New email address (required)"
         }
     },
     "error_messages": {
