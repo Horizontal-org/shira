@@ -7,7 +7,7 @@ import { hasRequiredValue, isEmailValid } from "../../../utils/validation";
 interface Props {
   isModalOpen: boolean;
   setIsModalOpen: (handle: boolean) => void;
-  onSave?: (email: string) => void;
+  onSave?: (email: string) => Promise<void>;
 }
 
 export const ChangeEmailModal: FunctionComponent<Props> = ({
@@ -32,12 +32,12 @@ export const ChangeEmailModal: FunctionComponent<Props> = ({
     setIsModalOpen(false);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (disableSave) {
       return;
     }
 
-    onSave?.(newEmail.trim());
+    await onSave?.(newEmail.trim());
     setIsModalOpen(false);
   };
 

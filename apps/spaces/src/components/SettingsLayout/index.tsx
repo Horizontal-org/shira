@@ -1,5 +1,5 @@
 import { FunctionComponent, useCallback, useState } from "react";
-import { BetaBanner, Body1, Body1SemiBold, Body2Italic, Body2Regular, Button, H1, H2, Sidebar, styled, useAdminSidebar } from '@shira/ui';
+import { BetaBanner, Body1, Body1SemiBold, Body2Italic, Body2Regular, Button, H2, Sidebar, styled, useAdminSidebar } from '@shira/ui';
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useStore } from "../../store";
@@ -11,6 +11,7 @@ import { getCurrentDateFNSLocales } from "../../language/dateUtils";
 import i18n from "../../language/i18n";
 import { enUS } from "date-fns/locale";
 import { format } from "date-fns";
+import { updateAuthEmail, updateAuthPassword } from "../../fetch/auth_update";
 
 interface Props { }
 
@@ -22,17 +23,18 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
   const [isEmailSuccessModalOpen, setIsEmailSuccessModalOpen] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
 
-  const { email } = useStore((state) => ({
-    email: state.user.email,
+  const { currentEmail: email, updateUserEmail, logout } = useStore((state) => ({
+    currentEmail: state.user.email,
+    updateUserEmail: state.updateUserEmail,
+    logout: state.logout,
   }), shallow)
 
   // TODO get last password change date from store and update it when password is changed
   const mockLastPasswordChangeDate = "2026-01-02 00:00:00";
 
-  const getLastUpdateDate = useCallback(
+  const getLastPasswordUpdateDate = useCallback(
     (lastUpdate: string) => {
       const parsedLastUpdate = new Date(lastUpdate.replace(" ", "T") + "Z");
-
       const locales = getCurrentDateFNSLocales();
       const locale = locales[i18n.language] ?? enUS;
 
@@ -42,6 +44,30 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
 
       return t('settings.sections.password.last_updated', { date: lastPasswordChangeDate });
     }, [i18n.language, t]);
+
+  const handlePasswordChange = async ({
+    currentPassword,
+    newPassword,
+  }: {
+    currentPassword: string;
+    newPassword: string;
+  }): Promise<void> => {
+    await updateAuthPassword({
+      passphrase: '',
+      currentPassword,
+      newPassword,
+    });
+    logout();
+  };
+
+  const updateEmailAddress = async (newEmail: string): Promise<void> => {
+    if (!email) { return; }
+
+    await updateAuthEmail({ currentEmail: email, newEmail });
+    updateUserEmail(newEmail);
+
+    setIsEmailSuccessModalOpen(true);
+  };
 
   return (
     <Container id="settings-layout">
@@ -82,9 +108,7 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
             <SettingRow key={t('settings.sections.password.title')}>
               <SettingDetails>
                 <Body1SemiBold>{t('settings.sections.password.title')}</Body1SemiBold>
-                <MutedValue>
-                  {getLastUpdateDate(mockLastPasswordChangeDate)}
-                </MutedValue>
+                <MutedValue>{getLastPasswordUpdateDate(mockLastPasswordChangeDate)}</MutedValue>
               </SettingDetails>
 
               <ActionButton
@@ -101,10 +125,7 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
       <ChangeEmailModal
         isModalOpen={isEmailModalOpen}
         setIsModalOpen={setIsEmailModalOpen}
-        onSave={() => {
-          // TODO change email request and open success modal on real success
-          setIsEmailSuccessModalOpen(true);
-        }}
+        onSave={updateEmailAddress}
       />
 
       <ChangeEmailSuccessModal
@@ -115,9 +136,7 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
       <ChangePasswordModal
         isModalOpen={isPasswordModalOpen}
         setIsModalOpen={setIsPasswordModalOpen}
-        onSave={() => {
-          // TODO connect to change password request and open success modal on real success 
-        }}
+        onSave={handlePasswordChange}
       />
     </Container >
   );

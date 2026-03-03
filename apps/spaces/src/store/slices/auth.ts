@@ -5,6 +5,7 @@ export interface AuthSlice {
   login: (email, pass) => void
   logout: () => void
   me: () => void
+  updateUserEmail: (email: string) => void
   user: {
     email?: string;
     spaces?: {
@@ -49,6 +50,15 @@ export const createAuthSlice: StateCreator<
       user: null,
       space: null
     })
+  },
+
+  updateUserEmail: (email: string) => {
+    set((state) => ({
+      user: state.user ? {
+        ...state.user,
+        email,
+      } : state.user,
+    }))
   },
 
   me: async () => {

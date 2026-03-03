@@ -10,7 +10,7 @@ interface Props {
     currentPassword: string;
     newPassword: string;
     confirmPassword: string;
-  }) => void;
+  }) => Promise<void>;
 }
 
 export const ChangePasswordModal: FunctionComponent<Props> = ({
@@ -53,12 +53,12 @@ export const ChangePasswordModal: FunctionComponent<Props> = ({
     setIsModalOpen(false);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (submitDisabled) {
       return;
     }
 
-    onSave?.({
+    await onSave?.({
       currentPassword: currentPassword.trim(),
       newPassword: newPassword.trim(),
       confirmPassword: confirmPassword.trim(),
