@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Sidebar } from './Sidebar';
-import { FiHome, FiHelpCircle, FiLogOut } from 'react-icons/fi';
+import { FiHelpCircle, FiLogOut } from 'react-icons/fi';
 import { IoPersonOutline } from 'react-icons/io5';
 import { IoMdSettings } from 'react-icons/io';
+import { LuNotepadText } from 'react-icons/lu';
 
 const meta = {
   title: 'Components/Sidebar',
@@ -25,27 +26,27 @@ type Story = StoryObj<typeof meta>;
 
 const defaultMenuItems = [
   {
-    icon: <FiHome size={24} color="white" />,
-    label: 'Dashboard',
-    onClick: () => console.log('Dashboard clicked'),
+    icon: <LuNotepadText id="dashboard-icon" size={24} color="white" />,
+    label: 'Quizzes',
+    onClick: () => console.log('Quizzes clicked'),
   },
   {
-    icon: <IoPersonOutline size={24} color="white" />,
+    icon: <IoPersonOutline id="learner-icon" size={24} color="white" />,
     label: 'Learners',
     onClick: () => console.log('Learners clicked'),
   },
   {
-    icon: <FiHelpCircle size={24} color="white" />,
+    icon: <FiHelpCircle id="support-icon" size={24} color="white" />,
     label: 'Support',
     onClick: () => console.log('Support clicked'),
   },
-    {
+  {
     icon: <IoMdSettings id="settings-icon" size={24} color="white" />,
     label: 'Settings',
     onClick: () => console.log('Settings clicked'),
   },
   {
-    icon: <FiLogOut size={24} color="white" />,
+    icon: <FiLogOut id="logout-icon" size={24} color="white" />,
     label: 'Log out',
     onClick: () => console.log('Log out clicked'),
   },

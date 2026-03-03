@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { FiHelpCircle, FiLogOut } from 'react-icons/fi';
-import { IoMdSettings } from 'react-icons/io';
-import { IoPersonOutline } from 'react-icons/io5';
+import { FiLogOut } from 'react-icons/fi';
+import { IoMdHelpCircle, IoMdSettings } from 'react-icons/io';
+import { IoPerson } from 'react-icons/io5';
 import { LuNotepadText } from 'react-icons/lu';
 
 interface NavigateFunction {
@@ -29,12 +29,12 @@ const createDefaultMenuItems = (): MenuItem[] => [
     path: defaultAdminPaths.quizzes
   },
   {
-    icon: <IoPersonOutline id='learner-icon' size={24} color='white' />,
+    icon: <IoPerson id='learner-icon' size={24} color='white' />,
     label: 'Learners',
     path: defaultAdminPaths.learners
   },
   {
-    icon: <FiHelpCircle id="support-icon" size={24} color="white" />,
+    icon: <IoMdHelpCircle id="support-icon" size={24} color="white" />,
     label: 'Support',
     path: defaultAdminPaths.support
   },
