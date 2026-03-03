@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useStore } from "../../store";
 import { shallow } from "zustand/shallow";
 import { ChangeEmailModal } from "../modals/ChangeEmailModal";
+import { ChangeEmailSuccessModal } from "../modals/ChangeEmailSuccessModal";
 import { getCurrentDateFNSLocales } from "../../language/dateUtils";
 import i18n from "../../language/i18n";
 import { enUS } from "date-fns/locale";
@@ -17,6 +18,7 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
   const navigate = useNavigate();
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate);
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
+  const [isEmailSuccessModalOpen, setIsEmailSuccessModalOpen] = useState(false);
 
   const { email } = useStore((state) => ({
     email: state.user.email,
@@ -94,8 +96,14 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
         isModalOpen={isEmailModalOpen}
         setIsModalOpen={setIsEmailModalOpen}
         onSave={() => {
-          // TODO go to change email request and update store
+          // TODO connect to change email request and open success modal on real success
+          setIsEmailSuccessModalOpen(true);
         }}
+      />
+
+      <ChangeEmailSuccessModal
+        isModalOpen={isEmailSuccessModalOpen}
+        onClose={() => setIsEmailSuccessModalOpen(false)}
       />
     </Container >
   );

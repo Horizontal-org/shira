@@ -394,7 +394,8 @@
         "feedback": "Tell us what you think",
         "download_template": "Download CSV template",
         "view_guidelines": "View formatting guidelines",
-        "browse_files": "Browse files"
+        "browse_files": "Browse files",
+        "i_understand": "I understand"
     },
     "modals": {
         "create_quiz": {
@@ -551,6 +552,11 @@
             "title": "Change email address",
             "subtitle": "Enter your new email address here.",
             "input_placeholder": "New email address (required)"
+        },
+        "change_email_success": {
+            "title": "Almost there!",
+            "description": "To complete the process, please open the email we sent to your email address and click on the link to create your Shira space.",
+            "didnt_receive": "Didn’t receive an email? If it’s not in your spam folder, please contact us at <0>{{contact_email}}</0>"
         }
     },
     "error_messages": {
