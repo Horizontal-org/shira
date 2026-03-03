@@ -42,6 +42,7 @@
     "left_menu": {
         "dashboard": "Dashboard",
         "support": "Support",
+        "settings": "Settings",
         "logout": "Log out"
     },
     "dashboard": {
@@ -353,6 +354,10 @@
     "support": {
         "title": "Support",
         "subtitle": "If you need any support, including with deleting your account, please email the Shira team at contact@wearehorizontal.org"
+    },
+    "settings": {
+        "title": "Settings",
+        "subtitle": "Manage your Shira space settings here."
     },
     "buttons": {
         "ok": "OK",
