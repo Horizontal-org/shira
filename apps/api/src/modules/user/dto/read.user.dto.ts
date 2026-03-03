@@ -1,7 +1,6 @@
 import { Exclude, Expose, Transform } from 'class-transformer';
-import { IsEnum, IsNumber, IsString, IsBoolean } from 'class-validator';
+import { IsNumber, IsString, IsBoolean } from 'class-validator';
 import { SpaceEntity } from 'src/modules/space/domain/space.entity';
-
 
 @Exclude()
 export class ReadUserDto {
@@ -18,10 +17,14 @@ export class ReadUserDto {
   @IsBoolean()
   isSuperAdmin: boolean;
 
-  @Expose()  
+  @Expose()
   spaces?: SpaceEntity[];
 
   @Expose()
   @IsString()
   readonly createdAt: string;
+
+  @Expose()
+  @IsString()
+  readonly lastPasswordChangeAt: string;
 }

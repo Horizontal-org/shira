@@ -27,18 +27,21 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
   const {
     currentEmail: email,
     updateUserEmail,
+    lastPasswordChangeAt,
     logout
   } = useStore((state) => ({
     currentEmail: state.user.email,
     updateUserEmail: state.updateUserEmail,
+    lastPasswordChangeAt: state.user.lastPasswordChangeAt,
     logout: state.logout,
   }), shallow);
 
-  // TODO get last password change date from store and update it when password is changed
-  const mockLastPasswordChangeDate = "2026-01-02 00:00:00";
-
   const getLastPasswordUpdateDate = useCallback(
-    (lastUpdate: string) => {
+    (lastUpdate: string | null) => {
+      if (!lastUpdate) {
+        return t('settings.sections.password.last_updated', { date: '-' });
+      }
+
       const parsedLastUpdate = new Date(lastUpdate.replace(" ", "T") + "Z");
       const locales = getCurrentDateFNSLocales();
       const locale = locales[i18n.language] ?? enUS;
@@ -50,7 +53,7 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
       return t('settings.sections.password.last_updated', { date: lastPasswordChangeDate });
     }, [i18n.language, t]);
 
-  const handlePasswordChange = async ({
+  const updateUserPassword = async ({
     currentPassword,
     newPassword,
   }: {
@@ -113,7 +116,7 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
             <SettingRow key={t('settings.sections.password.title')}>
               <SettingDetails>
                 <Body1SemiBold>{t('settings.sections.password.title')}</Body1SemiBold>
-                <MutedValue>{getLastPasswordUpdateDate(mockLastPasswordChangeDate)}</MutedValue>
+                <MutedValue>{getLastPasswordUpdateDate(lastPasswordChangeAt)}</MutedValue>
               </SettingDetails>
 
               <ActionButton
@@ -141,7 +144,7 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
       <ChangePasswordModal
         isModalOpen={isPasswordModalOpen}
         setIsModalOpen={setIsPasswordModalOpen}
-        onSave={handlePasswordChange}
+        onSave={updateUserPassword}
       />
     </Container >
   );
