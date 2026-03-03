@@ -556,7 +556,15 @@
         "change_email_success": {
             "title": "Almost there!",
             "description": "To complete the process, please open the email we sent to your email address and click on the link to create your Shira space.",
-            "didnt_receive": "Didn’t receive an email? If it’s not in your spam folder, please contact us at <0>{{contact_email}}</0>"
+            "didnt_receive": "Didn’t receive an email? If it’s not in your spam folder, please contact us at <0>{{contact_email}}</0>",
+            "button": "I understand"
+        },
+        "change_password": {
+            "title": "Create new password",
+            "subtitle": "Your password should contain at least 8 characters.",
+            "current_password_placeholder": "Current password (required)",
+            "new_password_placeholder": "New password (required)",
+            "confirm_password_placeholder": "Confirm new password (required)"
         }
     },
     "error_messages": {

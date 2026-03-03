@@ -1,0 +1,154 @@
+import { Body1, Modal, TextInput, styled } from "@shira/ui";
+import { FunctionComponent, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { hasRequiredValue } from "../../../utils/validation";
+
+interface Props {
+  isModalOpen: boolean;
+  setIsModalOpen: (handle: boolean) => void;
+  onSave?: (values: {
+    currentPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+  }) => void;
+}
+
+export const ChangePasswordModal: FunctionComponent<Props> = ({
+  isModalOpen,
+  setIsModalOpen,
+  onSave,
+}) => {
+  const { t } = useTranslation();
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const currentPasswordError = !hasRequiredValue(currentPassword)
+    ? t("reset_password.validation.password_required")
+    : "";
+  const newPasswordError = hasRequiredValue(newPassword) && newPassword.length < 8
+    ? t("reset_password.validation.password_min_length")
+    : "";
+  const confirmPasswordError = hasRequiredValue(confirmPassword) && confirmPassword !== newPassword
+    ? t("reset_password.validation.passwords_mismatch")
+    : "";
+
+  const submitDisabled =
+    !hasRequiredValue(currentPassword) ||
+    !hasRequiredValue(newPassword) ||
+    !hasRequiredValue(confirmPassword) ||
+    Boolean(newPasswordError) ||
+    Boolean(confirmPasswordError);
+
+  useEffect(() => {
+    if (!isModalOpen) {
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+    }
+  }, [isModalOpen]);
+
+  const handleClose = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleSave = () => {
+    if (submitDisabled) {
+      return;
+    }
+
+    onSave?.({
+      currentPassword: currentPassword.trim(),
+      newPassword: newPassword.trim(),
+      confirmPassword: confirmPassword.trim(),
+    });
+    setIsModalOpen(false);
+  };
+
+  return (
+    <Modal
+      id="change-password-modal"
+      isOpen={isModalOpen}
+      title={t("modals.change_password.title")}
+      primaryButtonText={t("buttons.save")}
+      primaryButtonDisabled={submitDisabled}
+      secondaryButtonText={t("buttons.cancel")}
+      onPrimaryClick={handleSave}
+      onSecondaryClick={handleClose}
+      onClose={handleClose}
+    >
+      <ModalContent>
+        <Body1>{t("modals.change_password.subtitle")}</Body1>
+
+        <Fields>
+          <FieldGroup>
+            <TextInput
+              id="change-password-current-input"
+              type="password"
+              label={t("modals.change_password.current_password_placeholder")}
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
+            />
+            <FieldError $visible={Boolean(currentPasswordError)}>
+              {currentPasswordError}
+            </FieldError>
+          </FieldGroup>
+
+          <FieldGroup>
+            <TextInput
+              id="change-password-new-input"
+              type="password"
+              label={t("modals.change_password.new_password_placeholder")}
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+            />
+            <FieldError $visible={Boolean(newPasswordError)}>
+              {newPasswordError}
+            </FieldError>
+          </FieldGroup>
+
+          <FieldGroup>
+            <TextInput
+              id="change-password-confirm-input"
+              type="password"
+              label={t("modals.change_password.confirm_password_placeholder")}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+            <FieldError $visible={Boolean(confirmPasswordError)}>
+              {confirmPasswordError}
+            </FieldError>
+          </FieldGroup>
+        </Fields>
+      </ModalContent>
+    </Modal>
+  );
+};
+
+const ModalContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-height: 420px;
+`;
+
+const Fields = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
+const FieldGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const FieldError = styled.div<{ $visible?: boolean }>`
+  min-height: 18px;
+  color: ${props => props.theme.colors.error7};
+  font-size: 14px;
+  line-height: 18px;
+  padding-left: 4px;
+  margin-top: 8px;
+  visibility: ${props => (props.$visible ? "visible" : "hidden")};
+`;

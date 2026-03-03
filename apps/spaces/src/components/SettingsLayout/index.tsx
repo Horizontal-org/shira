@@ -1,11 +1,12 @@
 import { FunctionComponent, useCallback, useState } from "react";
-import { BetaBanner, Body1, Body1SemiBold, Body2Italic, Body2Regular, Button, H1, Sidebar, styled, useAdminSidebar } from '@shira/ui';
+import { BetaBanner, Body1, Body1SemiBold, Body2Italic, Body2Regular, Button, H1, H2, Sidebar, styled, useAdminSidebar } from '@shira/ui';
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useStore } from "../../store";
 import { shallow } from "zustand/shallow";
 import { ChangeEmailModal } from "../modals/ChangeEmailModal";
 import { ChangeEmailSuccessModal } from "../modals/ChangeEmailSuccessModal";
+import { ChangePasswordModal } from "../modals/ChangePasswordModal";
 import { getCurrentDateFNSLocales } from "../../language/dateUtils";
 import i18n from "../../language/i18n";
 import { enUS } from "date-fns/locale";
@@ -19,6 +20,7 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate);
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [isEmailSuccessModalOpen, setIsEmailSuccessModalOpen] = useState(false);
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
 
   const { email } = useStore((state) => ({
     email: state.user.email,
@@ -55,7 +57,7 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
         <MainContentWrapper>
           <HeaderContainer>
             <TextContainer>
-              <H1>{t('settings.title')}</H1>
+              <H2>{t('settings.title')}</H2>
               <Body1>{t('settings.subtitle')}</Body1>
             </TextContainer>
           </HeaderContainer>
@@ -85,7 +87,11 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
                 </MutedValue>
               </SettingDetails>
 
-              <ActionButton type="outline" text={t('settings.sections.password.action')} />
+              <ActionButton
+                type="outline"
+                text={t('settings.sections.password.action')}
+                onClick={() => setIsPasswordModalOpen(true)}
+              />
             </SettingRow>
 
           </SettingsCard>
@@ -96,7 +102,7 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
         isModalOpen={isEmailModalOpen}
         setIsModalOpen={setIsEmailModalOpen}
         onSave={() => {
-          // TODO connect to change email request and open success modal on real success
+          // TODO change email request and open success modal on real success
           setIsEmailSuccessModalOpen(true);
         }}
       />
@@ -104,6 +110,14 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
       <ChangeEmailSuccessModal
         isModalOpen={isEmailSuccessModalOpen}
         onClose={() => setIsEmailSuccessModalOpen(false)}
+      />
+
+      <ChangePasswordModal
+        isModalOpen={isPasswordModalOpen}
+        setIsModalOpen={setIsPasswordModalOpen}
+        onSave={() => {
+          // TODO connect to change password request and open success modal on real success 
+        }}
       />
     </Container >
   );
