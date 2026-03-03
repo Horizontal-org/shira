@@ -25,9 +25,10 @@ export const ChangePasswordModal: FunctionComponent<Props> = ({
 
   const currentPasswordError = !hasRequiredValue(currentPassword)
     ? t("reset_password.validation.password_required")
-    : "";
-  const newPasswordError = hasRequiredValue(newPassword) && newPassword.length < 8
-    ? t("reset_password.validation.password_min_length")
+    : t("reset_password.validation.incorrect_password"); // TODO get error from API
+  const newPasswordError = hasRequiredValue(newPassword) && confirmPassword !== newPassword
+    ? t("reset_password.validation.passwords_mismatch")
+    // ? t("reset_password.validation.password_min_length")
     : "";
   const confirmPasswordError = hasRequiredValue(confirmPassword) && confirmPassword !== newPassword
     ? t("reset_password.validation.passwords_mismatch")

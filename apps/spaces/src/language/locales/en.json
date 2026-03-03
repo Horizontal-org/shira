@@ -30,7 +30,8 @@
             "password_required": "Password is required",
             "password_min_length": "Password must be at least 8 characters",
             "confirm_password_required": "Please confirm your password",
-            "passwords_mismatch": "Passwords do not match"
+            "passwords_mismatch": "Passwords do not match",
+            "incorrect_password": "Incorrect password."
         }
     },
     "beta": {
