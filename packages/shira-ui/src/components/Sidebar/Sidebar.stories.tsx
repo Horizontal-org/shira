@@ -26,27 +26,27 @@ type Story = StoryObj<typeof meta>;
 
 const defaultMenuItems = [
   {
-    icon: <LuNotepadText id="dashboard-icon" size={24} color="white" />,
+    icon: <LuNotepadText id="dashboard-icon" size={24} color="currentColor" />,
     label: 'Quizzes',
     onClick: () => console.log('Quizzes clicked'),
   },
   {
-    icon: <IoPersonOutline id="learner-icon" size={24} color="white" />,
+    icon: <IoPersonOutline id="learner-icon" size={24} color="currentColor" />,
     label: 'Learners',
     onClick: () => console.log('Learners clicked'),
   },
   {
-    icon: <FiHelpCircle id="support-icon" size={24} color="white" />,
+    icon: <FiHelpCircle id="support-icon" size={24} color="currentColor" />,
     label: 'Support',
     onClick: () => console.log('Support clicked'),
   },
   {
-    icon: <IoMdSettings id="settings-icon" size={24} color="white" />,
+    icon: <IoMdSettings id="settings-icon" size={24} color="currentColor" />,
     label: 'Settings',
     onClick: () => console.log('Settings clicked'),
   },
   {
-    icon: <FiLogOut id="logout-icon" size={24} color="white" />,
+    icon: <FiLogOut id="logout-icon" size={24} color="currentColor" />,
     label: 'Log out',
     onClick: () => console.log('Log out clicked'),
   },

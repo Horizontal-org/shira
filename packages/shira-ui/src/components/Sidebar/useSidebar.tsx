@@ -24,27 +24,27 @@ const defaultAdminPaths = {
 
 const createDefaultMenuItems = (): MenuItem[] => [
   {
-    icon: <LuNotepadText id="dashboard-icon" size={24} color="white" />,
+    icon: <LuNotepadText id="dashboard-icon" size={24} color="currentColor" />,
     label: 'Quizzes',
     path: defaultAdminPaths.quizzes
   },
   {
-    icon: <IoPerson id='learner-icon' size={24} color='white' />,
+    icon: <IoPerson id='learner-icon' size={24} color='currentColor' />,
     label: 'Learners',
     path: defaultAdminPaths.learners
   },
   {
-    icon: <IoMdHelpCircle id="support-icon" size={24} color="white" />,
+    icon: <IoMdHelpCircle id="support-icon" size={24} color="currentColor" />,
     label: 'Support',
     path: defaultAdminPaths.support
   },
   {
-    icon: <IoMdSettings id="settings-icon" size={24} color="white" />,
+    icon: <IoMdSettings id="settings-icon" size={24} color="currentColor" />,
     label: 'Settings',
     path: defaultAdminPaths.settings
   },
   {
-    icon: <FiLogOut id="logout-icon" size={24} color="white" />,
+    icon: <FiLogOut id="logout-icon" size={24} color="currentColor" />,
     label: 'Log out',
     path: defaultAdminPaths.logout
   }

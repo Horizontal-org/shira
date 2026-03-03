@@ -5,18 +5,18 @@ import { useTranslation } from "react-i18next";
 
 interface Props { }
 
-export const SupportLayout: FunctionComponent<Props> = () => {
+export const SettingsLayout: FunctionComponent<Props> = () => {
 
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
 
   return (
-    <Container id="support-layout">
+    <Container id="settings-layout">
       <Sidebar
         menuItems={menuItems}
         onCollapse={handleCollapse}
-        selectedItemLabel={menuItems.find(m => m.path === '/support').label}
+        selectedItemLabel={menuItems.find(m => m.path === '/settings').label}
       />
 
       <MainContent $isCollapsed={isCollapsed}>
@@ -24,10 +24,9 @@ export const SupportLayout: FunctionComponent<Props> = () => {
         <MainContentWrapper>
           <HeaderContainer>
             <TextContainer>
-              <H1>{t('support.title')}</H1>
-              <Body1>{t('support.subtitle')}</Body1>
+              <H1>{t('settings.title')}</H1>
+              <Body1>{t('settings.subtitle')}</Body1>
             </TextContainer>
-            <SettingsFishIcon />
           </HeaderContainer>
         </MainContentWrapper>
       </MainContent>
