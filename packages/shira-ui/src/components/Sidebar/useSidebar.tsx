@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { FiHelpCircle, FiLogOut } from 'react-icons/fi';
+import { IoMdSettings } from 'react-icons/io';
 import { IoPersonOutline } from 'react-icons/io5';
 import { LuNotepadText } from 'react-icons/lu';
 
@@ -17,7 +18,8 @@ const defaultAdminPaths = {
   quizzes: '/dashboard',
   learners: '/learner',
   support: '/support',
-  logout: '/logout'
+  logout: '/logout',
+  settings: '/settings'
 } as const;
 
 const createDefaultMenuItems = (): MenuItem[] => [
@@ -35,6 +37,11 @@ const createDefaultMenuItems = (): MenuItem[] => [
     icon: <FiHelpCircle id="support-icon" size={24} color="white" />,
     label: 'Support',
     path: defaultAdminPaths.support
+  },
+  {
+    icon: <IoMdSettings id="settings-icon" size={24} color="white" />,
+    label: 'Settings',
+    path: defaultAdminPaths.settings
   },
   {
     icon: <FiLogOut id="logout-icon" size={24} color="white" />,
