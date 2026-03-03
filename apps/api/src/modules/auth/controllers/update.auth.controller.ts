@@ -1,5 +1,5 @@
 import { Body, Controller, Inject, Put } from '@nestjs/common';
-import { TYPES } from '../interfaces';
+import { IValidateAuthService, TYPES } from '../interfaces';
 import { UpdateEmailAuthDto } from '../domain/update-email.auth.dto';
 import { UpdatePasswordAuthDto } from '../domain/update-password.auth.dto';
 import { IConfirmUpdateAuthService } from '../interfaces/services/update-space.auth.service.interface';
@@ -9,6 +9,8 @@ import { Roles } from '../decorators/roles.decorators';
 @Controller('space/update')
 export class UpdateAuthController {
   constructor(
+    @Inject(TYPES.services.IValidateAuthService)
+    private validateAuthService: IValidateAuthService,
     @Inject(TYPES.services.IConfirmUpdateAuthService)
     private confirmEmailUpdateAuthService: IConfirmUpdateAuthService,
     private confirmPasswordUpdateAuthService: IConfirmUpdateAuthService,
@@ -23,6 +25,7 @@ export class UpdateAuthController {
   @Put('password')
   @Roles(Role.SuperAdmin)
   async updatePassword(@Body() dto: UpdatePasswordAuthDto) {
+    await this.validateAuthService.execute({ email: dto.email, password: dto.password });
     await this.confirmPasswordUpdateAuthService.execute(dto);
   }
 }

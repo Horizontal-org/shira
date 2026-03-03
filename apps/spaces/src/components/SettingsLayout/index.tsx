@@ -19,15 +19,20 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate);
+
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [isEmailSuccessModalOpen, setIsEmailSuccessModalOpen] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
 
-  const { currentEmail: email, updateUserEmail, logout } = useStore((state) => ({
+  const {
+    currentEmail: email,
+    updateUserEmail,
+    logout
+  } = useStore((state) => ({
     currentEmail: state.user.email,
     updateUserEmail: state.updateUserEmail,
     logout: state.logout,
-  }), shallow)
+  }), shallow);
 
   // TODO get last password change date from store and update it when password is changed
   const mockLastPasswordChangeDate = "2026-01-02 00:00:00";
