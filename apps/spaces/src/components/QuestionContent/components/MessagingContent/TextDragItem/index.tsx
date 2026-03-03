@@ -1,7 +1,6 @@
 import { FunctionComponent } from "react";
-import { Body2Regular, styled } from "@shira/ui";
+import { styled } from "@shira/ui";
 import { MessageTipTapEditor } from "../../../../TipTapEditor/MessageTipTapEditor";
-import { ExplanationButton } from "../../../../Explanations/components/ExplanationButton";
 import { useStore } from "../../../../../store";
 import { shallow } from "zustand/shallow";
 

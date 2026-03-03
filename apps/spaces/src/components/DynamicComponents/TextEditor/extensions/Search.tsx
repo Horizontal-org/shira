@@ -132,16 +132,6 @@ function processSearches(doc: ProsemirrorNode, searchTerm: RegExp, searchResultC
   }
 }
 
-const replace = (replaceTerm: string, results: Result[], { state, dispatch }: any) => {
-  const firstResult = results[0]
-
-  if (!firstResult) return
-
-  const { from, to } = results[0]
-
-  if (dispatch) dispatch(state.tr.insertText(replaceTerm, from, to))
-}
-
 const rebaseNextResult = (replaceTerm: string, index: number, lastOffset: number, results: Result[]): [number, Result[]] | null => {
   const nextIndex = index + 1
 
@@ -161,28 +151,6 @@ const rebaseNextResult = (replaceTerm: string, index: number, lastOffset: number
   return [offset, results]
 }
 
-const replaceAll = (replaceTerm: string, results: Result[], { tr, dispatch }: any) => {
-  let offset = 0
-
-  let ourResults = results.slice()
-
-  if (!ourResults.length) return
-
-  for (let i = 0; i < ourResults.length; i += 1) {
-    const { from, to } = ourResults[i]
-
-    tr.insertText(replaceTerm, from, to)
-
-    const rebaseNextResultResponse = rebaseNextResult(replaceTerm, i, offset, ourResults)
-
-    if (rebaseNextResultResponse) {
-      offset = rebaseNextResultResponse[0]
-      ourResults = rebaseNextResultResponse[1]
-    }
-  }
-
-  dispatch(tr)
-}
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export const SearchNReplace = Extension.create<SearchOptions>({

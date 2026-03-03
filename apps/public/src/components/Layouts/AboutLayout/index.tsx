@@ -9,7 +9,7 @@ import ReadIcon from './assets/ReadIcon'
 import Background from './assets/backgroundabout.png'
 import { useNavigate } from "react-router-dom";
 
-interface Props {}
+interface Props { }
 
 export const AboutLayout: FunctionComponent<Props> = () => {
   const { t } = useTranslation()
@@ -21,10 +21,10 @@ export const AboutLayout: FunctionComponent<Props> = () => {
       <BackgroundWrapper>
         <img src={Background} alt='background-image' />
       </BackgroundWrapper>
-      <Navbar color="#DBE3A3"/>
+      <Navbar color="#DBE3A3" />
       <AboutWrapper>
         <Heading>{t('about.title')}</Heading>
-        <p>{t('about.subtitle')}</p>       
+        <p>{t('about.subtitle')}</p>
       </AboutWrapper>
       <ContentWrapper>
         <SectionWrapper>
@@ -100,7 +100,7 @@ export const AboutLayout: FunctionComponent<Props> = () => {
             <Button
               text={t('about.created_by.website_cta')}
               type="primary"
-              onClick={() => {window.open('https://wearehorizontal.org')}}
+              onClick={() => { window.open('https://wearehorizontal.org') }}
             />
           </div>
           <HorizontalLogo />
@@ -161,7 +161,7 @@ export const AboutLayout: FunctionComponent<Props> = () => {
               </Advisor>
             </p>
           </AdvisorsWrapper>
-        
+
         </SectionWrapper>
 
         <LastSection>
@@ -172,11 +172,11 @@ export const AboutLayout: FunctionComponent<Props> = () => {
             </p>
             <p>
               <OptionDescription>{t('about.bring.section2')}</OptionDescription>
-            </p>      
+            </p>
           </LastSectionWrapper>
         </LastSection>
       </ContentWrapper>
-      
+
 
       <ContactWrapper>
         <Heading>{t('about.footer_title')}</Heading>
@@ -196,12 +196,6 @@ const Contact = styled.span`
     font-size: 18px;
   }
 `
-const HeaderButtonWrapper = styled.div`
-  padding: 20px 0;
-  display: flex;
-  justify-content: center;
-`
-
 const BackgroundWrapper = styled.div`
   position: absolute;
   top: 0;

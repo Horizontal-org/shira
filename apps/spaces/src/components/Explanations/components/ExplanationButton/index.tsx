@@ -1,5 +1,4 @@
-import React, { FunctionComponent } from 'react'
-import { HiOutlineChatBubbleBottomCenter } from 'react-icons/hi2'
+import { FunctionComponent } from 'react'
 import { ExplanationIcon, styled } from '@shira/ui'
 
 interface Props {

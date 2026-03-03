@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { useStore } from '../store'
 
 export interface App {
   name: string;

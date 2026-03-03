@@ -1,5 +1,4 @@
 import { FunctionComponent, useState } from "react";
-import { Select } from "../../../Select";
 import { ControlledSelect } from "../../../ControlledSelect";
 import { filterExplanationsByCode } from "../../utils/explanations";
 import StyledContent from "../StyledContent";

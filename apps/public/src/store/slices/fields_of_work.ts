@@ -1,5 +1,4 @@
 import { StateCreator } from "zustand"
-import axios from 'axios'
 import { FieldOfWork } from "../../domain/field_of_work"
 import { getFieldsOfWork } from "../../fetch/field_of_work"
 

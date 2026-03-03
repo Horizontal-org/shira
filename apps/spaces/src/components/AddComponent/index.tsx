@@ -1,4 +1,4 @@
-import { FunctionComponent, useState, SetStateAction, useRef } from 'react'
+import { FunctionComponent, useState, useRef } from 'react'
 import styled from 'styled-components'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
 

@@ -1,6 +1,5 @@
 import { FunctionComponent, useState } from 'react'
-import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
-import { styled, Button } from '@shira/ui'
+import { styled } from '@shira/ui'
 import { AppItem } from '../../components/UI/AppItem'
 import { Footer } from '../../components/UI/Footer'
 import { SceneWithFooter } from '../../components/UI/SceneWithFooter'
@@ -9,14 +8,12 @@ import { Section } from '../../components/UI/Section'
 import { useStore } from '../../store'
 import shallow from 'zustand/shallow'
 import { useTranslation } from 'react-i18next'
-import useGetWidth from '../../hooks/useGetWidth'
 import { FooterButtonsSetup } from '../../components/UI/FooterSetup'
 
-interface Props {}
+interface Props { }
 
 export const QuizSetupAppsScene: FunctionComponent<Props> = () => {
   const { t } = useTranslation()
-  const { width } = useGetWidth()
   const { changeScene, apps, updateApps, persistedApps } = useStore(
     (state) => ({
       changeScene: state.changeScene,
@@ -36,14 +33,14 @@ export const QuizSetupAppsScene: FunctionComponent<Props> = () => {
           title={t('setup.apps.title')}
         >
           <>
-          <p>
-              <i>{t('setup.apps.select')}</i>    
+            <p>
+              <i>{t('setup.apps.select')}</i>
             </p>
           </>
 
           <Apps>
-            { apps.map((a, i) => (
-              <AppItem 
+            {apps.map((a) => (
+              <AppItem
                 key={a.id}
                 selected={selected.includes(a.id + '')}
                 name={a.name}
@@ -62,22 +59,22 @@ export const QuizSetupAppsScene: FunctionComponent<Props> = () => {
         </Section>
 
         <Footer
-            title={t('setup.apps.footer_title')}
-            action={(
-              <FooterButtonsSetup
-                onBack={() => { 
-                  changeScene('quiz-setup-name')
-                }}
-                onNext={() => { 
-                  updateApps(selected)
-                  changeScene('quiz-setup-work')
-                }}
-                backText={t('setup.apps.back_button')}
-                nextText={t('setup.apps.next_button')}
-                disabled={selected.length === 0} 
-              />
-            )}
-          />
+          title={t('setup.apps.footer_title')}
+          action={(
+            <FooterButtonsSetup
+              onBack={() => {
+                changeScene('quiz-setup-name')
+              }}
+              onNext={() => {
+                updateApps(selected)
+                changeScene('quiz-setup-work')
+              }}
+              backText={t('setup.apps.back_button')}
+              nextText={t('setup.apps.next_button')}
+              disabled={selected.length === 0}
+            />
+          )}
+        />
       </SceneWithFooter>
     </SceneWrapper>
   )

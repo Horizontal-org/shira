@@ -1,7 +1,5 @@
 import { StateCreator } from "zustand"
 import produce from 'immer' 
-import { App } from "../../domain/app"
-import { FieldOfWork } from "../../domain/field_of_work";
 
 interface QuizSetup {
   name?: string;
