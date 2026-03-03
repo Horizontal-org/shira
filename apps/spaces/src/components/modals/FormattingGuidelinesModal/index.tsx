@@ -20,6 +20,7 @@ export const FormattingGuidelinesModal: FunctionComponent<Props> = ({
       primaryButtonText={t('buttons.ok')}
       primaryButtonDisabled={false}
       secondaryButtonText={t("buttons.close")}
+      size="medium"
       onPrimaryClick={() => setIsModalOpen(false)}
       onClose={() => setIsModalOpen(false)}
     >

@@ -19,7 +19,7 @@ export interface ModalProps {
   onLeftClick?: () => void
   leftButtonText?: string
   className?: string;
-  size?: 'small' | 'medium';
+  size?: 'small' | 'medium' | 'large';
   onClose?: () => void;
 }
 
@@ -136,11 +136,11 @@ const Overlay = styled.div`
   z-index: 1000;
 `;
 
-const ModalContainer = styled.div<{ size: 'small' | 'medium' }>`
+const ModalContainer = styled.div<{ size: 'small' | 'medium' | 'large' }>`
   background: ${props => props.theme.colors.light.white};
   border-radius: 16px;
 
-  width: ${({ size }) => ({ small: '480px', medium: '1119px' }[size])};
+  width: ${({ size }) => ({ small: '480px', medium: '735px', large: '1119px' }[size])};
 
   display: flex;
   flex-direction: column;

@@ -24,7 +24,7 @@ type Story = StoryObj<typeof FlowHeader>
 
 export const Default: Story = {
   args: {},
-  render: function Render(args) {
+  render: function Render() {
     return (
       <div style={{ padding: '40px', background: '#f3f3f3'}}>
         <FlowHeader

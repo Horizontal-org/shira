@@ -99,7 +99,7 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
   return (
     <Modal
       id="invite-learner-modal"
-      size="medium"
+      size="large"
       isOpen={isModalOpen}
       title={t("modals.invite_learner.title")}
       primaryButtonText={

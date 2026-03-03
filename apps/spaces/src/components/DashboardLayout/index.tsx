@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { Card, Sidebar, styled, H2, SubHeading3, Body1, Button, FilterButton, useAdminSidebar, BetaBanner, useTheme } from "@shira/ui";
 import { FiPlus } from 'react-icons/fi';
 import { shallow } from "zustand/shallow";
-
 import { useStore } from "../../store";
 import { formatDistance } from "date-fns";
 import { enUS } from "date-fns/locale";
+import { useTranslation } from "react-i18next";
 import { QuizSuccessStates, SUCCESS_MESSAGES } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
 import { FilterStates } from "./constants";
@@ -15,12 +15,10 @@ import { CreateQuizModal } from "../modals/CreateQuizModal";
 import { UnpublishedQuizCopyLinkModal } from "../modals/UnpublishedQuizModal";
 import { UnpublishQuizWithQuestionsModal } from "../modals/UnpublishQuizWithQuestionsModal";
 import { DuplicateQuizModal } from "../modals/DuplicateQuizModal";
-import { handleCopyUrlAndNotify } from "../../utils/quiz";
-import { useTranslation } from "react-i18next";
-import { getCurrentDateFNSLocales } from "../../language/dateUtils";
 import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
+import { handleCopyUrlAndNotify } from "../../utils/quiz";
+import { getCurrentDateFNSLocales } from "../../language/dateUtils";
 import { useQuizCreationFlow } from "../../hooks/useQuizCreationFlow";
-import { getQuizById } from "../../fetch/quiz";
 
 interface Props { }
 
@@ -34,7 +32,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     quizzes,
     space,
     quizActionSuccess,
-    cleanQuizActionSuccess
+    cleanQuizActionSuccess,
+    cleanQuizzes
   } = useStore((state) => ({
     fetchQuizzes: state.fetchQuizzes,
     updateQuiz: state.updateQuiz,
@@ -43,7 +42,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     quizzes: state.quizzes,
     space: state.space,
     quizActionSuccess: state.quizActionSuccess,
-    cleanQuizActionSuccess: state.cleanQuizActionSuccess
+    cleanQuizActionSuccess: state.cleanQuizActionSuccess,
+    cleanQuizzes: state.cleanQuizzes
   }), shallow)
 
   const { t, i18n } = useTranslation();
@@ -54,10 +54,9 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const [activeFilter, setActiveFilter] = useState<FilterStates>(FilterStates.all);
   const [cards, setCards] = useState([]);
   const [selectedCard, handleSelectedCard] = useState(null)
-  const [quizHasQuestions, setQuizHasQuestions] = useState<Record<number, boolean>>({})
+  const [unpublishedQuizId, setUnpublishedQuizId] = useState<number | null>(null);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [unpublishedQuizId, handleUnpublishedQuizId] = useState<number | null>(null);
   const [isUnpublishedQuizCopyLinkModalOpen, setIsUnpublishedQuizCopyLinkModalOpen] = useState(false);
   const [isUnpublishQuizModalOpen, setIsUnpublishQuizModalOpen] = useState(false);
 
@@ -86,56 +85,14 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     fetchQuizzes()
 
     return () => {
-      cleanQuizActionSuccess()
+      cleanQuizActionSuccess();
+      cleanQuizzes();
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     setCards(quizzes)
   }, [quizzes]);
-
-  useEffect(() => {
-    let isActive = true;
-
-    const fetchQuizQuestions = async () => {
-      const unpublishedCards = cards.filter((card) => !card.published);
-      if (!unpublishedCards.length) {
-        return;
-      }
-
-      await Promise.all(
-        unpublishedCards.map(async (card) => {
-          if (quizHasQuestions[card.id] !== undefined) {
-            return;
-          }
-
-          try {
-            const quiz = await getQuizById(card.id);
-            const hasQuestions = (quiz?.quizQuestions?.length ?? 0) > 0;
-            if (isActive) {
-              setQuizHasQuestions((prev) => (
-                prev[card.id] === hasQuestions ? prev : { ...prev, [card.id]: hasQuestions }
-              ));
-            }
-          } catch (error) {
-            if (isActive) {
-              setQuizHasQuestions((prev) => (
-                prev[card.id] !== undefined ? prev : { ...prev, [card.id]: true }
-              ));
-            }
-          }
-        })
-      );
-    };
-
-    if (cards.length) {
-      fetchQuizQuestions();
-    }
-
-    return () => {
-      isActive = false;
-    };
-  }, [cards, quizHasQuestions]);
 
   useEffect(() => {
     if (t(SUCCESS_MESSAGES[quizActionSuccess])) {
@@ -165,22 +122,22 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     );
   };
 
-  const handleTogglePublished = async (cardId: number, shouldBePublished: boolean) => {
-    if (!shouldBePublished) {
-      try {
-        const quiz = await getQuizById(cardId);
-        const hasQuestions = (quiz?.quizQuestions?.length ?? 0) > 0;
-        if (hasQuestions) {
-          handleUnpublishedQuizId(cardId);
-          setIsUnpublishQuizModalOpen(true);
-          return;
-        }
-      } catch (error) {
-        console.error("Failed to load quiz details for unpublish check:", error);
-      }
+  const togglePublished = (card: any) => {
+    const hasQuestions = card.questionsCount;
+    const isPublished = card.published;
+    const shouldPublish = !isPublished;
+
+    // don't publish empty quizzes
+    if (shouldPublish && !hasQuestions) return;
+
+    // confirm before unpublishing quizzes with questions
+    if (!shouldPublish && hasQuestions) {
+      setUnpublishedQuizId(card.id);
+      setIsUnpublishQuizModalOpen(true);
+      return;
     }
 
-    applyPublishState(cardId, shouldBePublished);
+    applyPublishState(card.id, shouldPublish);
   };
 
   const filteredCards = cards.filter((card) => {
@@ -208,9 +165,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
       });
 
       return t('quizzes.last_modified', { date: time });
-    },
-    [filteredCards, i18n.language]
-  );
+    }, [filteredCards, i18n.language]);
 
   return (
     <Container id="dashboard-layout">
@@ -264,8 +219,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
           <CardGrid id="card-grid">
             {filteredCards.map((card) => {
-              const hasQuestions = quizHasQuestions[card.id];
-              const disablePublishToggle = hasQuestions === false && !card.published;
+              const hasQuestions = card.questionsCount;
+              const isPublished = card.published;
 
               return (
                 <Card
@@ -278,24 +233,17 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                   key={card.id}
                   title={card.title}
                   lastModified={getLastUpdateTime(card.latestGlobalUpdate)}
-                  isPublished={card.published}
-                  disablePublishToggle={disablePublishToggle}
+                  isPublished={isPublished}
+                  disablePublishToggle={!hasQuestions && !isPublished}
                   disabledTooltipLabel={t('quiz.publish_toggle.disabled_tooltip')}
                   onCopyUrl={() => {
-                    if (card.published) {
-                      handleCopyUrlAndNotify(card.hash, t('success_messages.quiz_link_copied'));
-                    } else {
-                      handleCopyUrlAndNotify(card.hash, t('success_messages.quiz_link_copied'));
-                      handleUnpublishedQuizId(card.id)
+                    handleCopyUrlAndNotify(card.hash, t('success_messages.quiz_link_copied'));
+                    if (!isPublished) {
+                      setUnpublishedQuizId(card.id);
                       setIsUnpublishedQuizCopyLinkModalOpen(true);
                     }
                   }}
-                  onTogglePublished={() => {
-                    if (disablePublishToggle) {
-                      return;
-                    }
-                    handleTogglePublished(card.id, !card.published);
-                  }}
+                  onTogglePublished={() => { togglePublished(card) }}
                   onEdit={() => {
                     navigate(`/quiz/${card.id}`)
                   }}
@@ -331,7 +279,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             setIsModalOpen={setIsDeleteModalOpen}
             onDelete={() => {
               deleteQuiz(selectedCard?.id)
-              handleSelectedCard(null)
+              handleSelectedCard(null);
             }}
             onCancel={() => {
               setIsDeleteModalOpen(false);
@@ -348,13 +296,13 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             title={title}
             setTitle={setTitle}
             onCreate={(title) => { handleTitleSubmit(title); }}
-            onCancel={() => { cancelFlow(); }}
+            onCancel={cancelFlow}
             keepModalOpen
           />
 
           <QuizVisibilityModal
             isModalOpen={isVisibilityModalOpen}
-            onBack={() => { handleBackFromVisibility(); }}
+            onBack={handleBackFromVisibility}
             onConfirm={handleConfirmVisibility}
             isSubmitting={isSubmitting}
           />
@@ -363,25 +311,26 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             setIsModalOpen={setIsUnpublishedQuizCopyLinkModalOpen}
             isModalOpen={isUnpublishedQuizCopyLinkModalOpen}
             onConfirm={() => {
-              if (unpublishedQuizId != null) handleTogglePublished(unpublishedQuizId, true);
-              handleUnpublishedQuizId(null);
+              if (unpublishedQuizId == null) return;
+              applyPublishState(unpublishedQuizId, true);
+              setUnpublishedQuizId(null);
             }}
-            onCancel={() => { handleUnpublishedQuizId(null); }}
+            onCancel={() => setUnpublishedQuizId(null)}
           />
 
           <UnpublishQuizWithQuestionsModal
             isModalOpen={isUnpublishQuizModalOpen}
             setIsModalOpen={setIsUnpublishQuizModalOpen}
             onConfirm={() => {
-              if (unpublishedQuizId !== null) {
+              if (unpublishedQuizId) {
                 applyPublishState(unpublishedQuizId, false);
               }
               setIsUnpublishQuizModalOpen(false);
-              handleUnpublishedQuizId(null);
+              setUnpublishedQuizId(null);
             }}
             onCancel={() => {
               setIsUnpublishQuizModalOpen(false);
-              handleUnpublishedQuizId(null);
+              setUnpublishedQuizId(null);
             }}
           />
 
@@ -391,7 +340,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             title={title}
             setTitle={setTitle}
             onDuplicate={(title) => handleTitleSubmit(title)}
-            onCancel={() => cancelFlow()}
+            onCancel={cancelFlow}
             isLoading={isSubmitting}
           />
 
@@ -408,7 +357,7 @@ const Container = styled.div`
 
   height: auto;
 
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+  @media(max-width: ${props => props.theme.breakpoints.sm}) {
     display: block;
   }
 `;
@@ -460,7 +409,7 @@ const CardGrid = styled.div`
     gap: 20px;
   }
 
-   @media (max-width: ${props => props.theme.breakpoints.md}) {
+  @media (max-width: ${props => props.theme.breakpoints.md}) {
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
   }

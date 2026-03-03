@@ -15,11 +15,9 @@ export class ListQuizService implements IListQuizService {
     private readonly quizRepo: Repository<QuizEntity>,
   ) { }
 
-  async execute(
-    spaceId,
-  ) {
+  async execute(spaceId: number) {
 
-    const rawQuizzes = await this.quizRepo
+    const quizzes = await this.quizRepo
       .createQueryBuilder('quiz')
       .leftJoin(
         qb => {
@@ -41,17 +39,17 @@ export class ListQuizService implements IListQuizService {
         'quiz.hash AS hash',
         'quiz.published AS published',
         'quiz.visibility AS visibility',
+        `(SELECT COUNT(*) FROM quizzes_questions qq_count WHERE qq_count.quiz_id = quiz.id) AS questionsCount`
       ])
       .addSelect(`GREATEST
         (
-          quiz.updated_at, 
+          quiz.updated_at,
           COALESCE(latest_question.updatedAt, '1900-01-01'),
           COALESCE(latest_question.lastQuizQuestionUpdatedAt, '1900-01-01')
         )`, 'latestGlobalUpdate')
       .where('space_id = :spaceId', { spaceId: spaceId })
       .getRawMany()
 
-    const quizzes = await plainToInstance(ReadPlainQuizDto, rawQuizzes);
-    return quizzes
+    return plainToInstance(ReadPlainQuizDto, quizzes);
   }
 }

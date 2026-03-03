@@ -7,6 +7,7 @@ import type { App } from "../../../../fetch/question_library";
 import { SelectLanguage } from "../Selects/SelectLanguage";
 import { SelectApp } from "../Selects/SelectApp";
 import { appIcons } from "../AppIcons/appIcons";
+import { ActionButtonWithTooltip } from "../ActionButtonWithTooltip";
 
 export type Explanation = {
   index: number;
@@ -43,6 +44,9 @@ export type RowType = {
 
   apps: AppOption[];
   languages: LanguageOption[];
+
+  languageSelected?: boolean;
+  appSelected?: boolean;
 };
 
 type ColumnHandlers = {
@@ -53,6 +57,11 @@ type ColumnHandlers = {
 };
 
 export const getColumns = (handlers: ColumnHandlers, t: TFunction): ColumnDef<RowType>[] => [
+  {
+    header: "",
+    id: "rowNumber",
+    cell: ({ row }) => <RowIndexCell>{row.index + 1}</RowIndexCell>,
+  },
   {
     header: t("question_library.columns.question_name"),
     accessorKey: "name",
@@ -89,7 +98,7 @@ export const getColumns = (handlers: ColumnHandlers, t: TFunction): ColumnDef<Ro
           valueId={language?.id}
           options={languages}
           onChange={(languageId) => handlers.onSelectLanguage?.(id, languageId)}
-          initiallyShowPlaceholder={true}
+          initiallyShowPlaceholder={languages.length > 1}
         />
       );
     },
@@ -117,7 +126,7 @@ export const getColumns = (handlers: ColumnHandlers, t: TFunction): ColumnDef<Ro
           options={apps}
           currentType={app?.type}
           onChange={(appId) => handlers.onSelectApp?.(id, appId)}
-          initiallyShowPlaceholder={true}
+          initiallyShowPlaceholder={apps.length > 1}
         />
       );
     },
@@ -125,28 +134,45 @@ export const getColumns = (handlers: ColumnHandlers, t: TFunction): ColumnDef<Ro
   {
     header: t("question_library.columns.actions.title"),
     id: "actions",
-    cell: ({ row }) => (
-      <ActionsCell>
-        <ActionButton
-          type="button"
-          name={t("question_library.tabs.preview.aria_label")}
-          aria-label={t("question_library.tabs.preview.aria_label")}
-          title="Preview"
-          onClick={() => handlers.onPreview?.(row.original)}
-        >
-          <MdRemoveRedEye size={21} color={defaultTheme.colors.dark.overlay} />
-        </ActionButton>
-        <ActionButton
-          type="button"
-          name={t("question_library.columns.actions.aria_label")}
-          aria-label={t("question_library.columns.actions.aria_label")}
-          title="Add"
-          onClick={() => handlers.onAdd?.(row.original)}
-        >
-          <FaCirclePlus size={18} color={defaultTheme.colors.green6} />
-        </ActionButton>
-      </ActionsCell>
-    ),
+    cell: ({ row }) => {
+      const { apps, languages, languageSelected, appSelected } = row.original;
+      const hasLanguage = languageSelected ?? languages.length <= 1;
+      const hasApp = appSelected ?? apps.length <= 1;
+      const disableActions = !hasLanguage || !hasApp;
+
+      const tooltipText = t("question_library.columns.actions.disabled_tooltip");
+      const previewColor = disableActions
+        ? defaultTheme.colors.dark.mediumGrey
+        : defaultTheme.colors.dark.overlay;
+      const addColor = disableActions
+        ? defaultTheme.colors.dark.mediumGrey
+        : defaultTheme.colors.green6;
+
+      return (
+        <ActionsCell>
+          <ActionButtonWithTooltip
+            id={`preview-button-${row.id}`}
+            disabled={disableActions}
+            tooltipText={tooltipText}
+            ariaLabel={t("question_library.columns.actions.preview.aria_label")}
+            title="Preview"
+            onClick={() => handlers.onPreview?.(row.original)}
+          >
+            <MdRemoveRedEye size={21} color={previewColor} />
+          </ActionButtonWithTooltip>
+          <ActionButtonWithTooltip
+            id={`add-button-${row.id}`}
+            disabled={disableActions}
+            tooltipText={tooltipText}
+            ariaLabel={t("question_library.columns.actions.add.aria_label")}
+            title="Add"
+            onClick={() => handlers.onAdd?.(row.original)}
+          >
+            <FaCirclePlus size={18} color={addColor} />
+          </ActionButtonWithTooltip>
+        </ActionsCell>
+      );
+    },
   },
 ];
 
@@ -172,15 +198,8 @@ const ActionsCell = styled("div")`
   align-items: center;
 `;
 
-const ActionButton = styled("button")`
-  width: 32px;
-  height: 32px;
-  padding: 0;
-  display: inline-flex;
-  align-items: center;
-  background: transparent;
-  border: none;
-  cursor: pointer;
+const RowIndexCell = styled(Body3Bold)`
+  color: ${defaultTheme.colors.green6};
 `;
 
 const NameCell = styled(Body3Bold)`

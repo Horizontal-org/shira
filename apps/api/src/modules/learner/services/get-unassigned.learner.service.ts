@@ -4,7 +4,7 @@ import { Brackets, Repository } from "typeorm";
 import { plainToInstance } from "class-transformer";
 import { GenericErrorException } from "../exceptions";
 import { Learner as LearnerEntity } from "../domain/learner.entity";
-import { ApiLogger } from "../logger/api-logger.service";
+import { ApiLogger } from "src/utils/logger/api-logger.service";
 import { IGetUnassignedLearnerService } from "../interfaces/services/get-unassigned.learner.service.interface";
 import { GetUnassignedLearnersDto } from "../dto/get-unassigned.learner.dto";
 

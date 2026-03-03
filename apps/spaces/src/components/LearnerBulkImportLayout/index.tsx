@@ -4,11 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { LearnerBulkImportHeader } from "../LearnerBulkImportHeader";
 import { ExitLearnerBulkImportModal } from "../modals/ExitLearnerBulkImportModal";
+import { StartOverLearnerBulkImportModal } from "../modals/StartOverLearnerBulkImportModal";
 import { FormattingGuidelinesModal } from "../modals/FormattingGuidelinesModal";
 import { UploadCsvStep } from "./components/UploadCsvStep";
 import { VerifyLearnersStep } from "./components/VerifyLearnersStep";
 import { FinalReviewStep } from "./components/FinalReviewStep";
-import { BulkInviteLearnersResponse, inviteLearnersBulk, verifyLearnersBulk } from "../../fetch/learner";
+import { BulkInviteLearnersResponse, BulkInviteValidatedLearner, inviteLearnersBulk, verifyLearnersBulk } from "../../fetch/learner";
 import { handleHttpError } from "../../fetch/handleError";
 
 interface Props { }
@@ -17,9 +18,12 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
+  const MAX_CSV_FILE_SIZE_BYTES = 10 * 1024 * 1024;
+
   const [step, handleStep] = useState(0);
 
   const [isExitBulkImportModalOpen, setIsExitBulkImportModalOpen] = useState(false);
+  const [isStartOverBulkImportModalOpen, setIsStartOverBulkImportModalOpen] = useState(false);
   const [isFormattingGuidelinesOpen, setIsFormattingGuidelinesOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isFileLoading, setIsFileLoading] = useState(false);
@@ -30,6 +34,7 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
   const [uploadError, setUploadError] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const dragEnterCount = useRef(0);
   const lastVerifiedFileKey = useRef<string | null>(null);
   const lastInvitedFileKey = useRef<string | null>(null);
   const lastInvitedCount = useRef<number | null>(null);
@@ -37,13 +42,28 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
   const getInviteCount = (response: BulkInviteLearnersResponse | null) =>
     response?.filter((row) => row.status === "OK").length ?? 0;
 
+  const getValidLearners = (response: BulkInviteLearnersResponse | null): BulkInviteValidatedLearner[] =>
+    (response ?? [])
+      .filter((row) => row.status === "OK" && row.name)
+      .map((row) => ({
+        row: row.row,
+        email: row.email,
+        name: row.name!,
+      }));
+
+  const validInviteCount = getInviteCount(bulkInviteResponse);
+
   const validateStep = () => {
     if (step === 0) {
       return !!selectedFile && !isFileLoading && !uploadError;
     }
 
+    if (step === 1) {
+      return !isFileLoading && validInviteCount > 0;
+    }
+
     if (step === 2) {
-      return !isSubmitting;
+      return !isSubmitting && validInviteCount > 0;
     }
 
     return true;
@@ -57,6 +77,11 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
 
     lastVerifiedFileKey.current = null;
     lastInvitedFileKey.current = null;
+
+    if (file.size > MAX_CSV_FILE_SIZE_BYTES) {
+      setUploadError("file_too_large");
+      return;
+    }
   };
 
   const clearSelectedFile = () => {
@@ -66,6 +91,7 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
     setBulkInviteResponse(null);
     setIsDragging(false);
     setUploadError(null);
+    dragEnterCount.current = 0;
 
     lastVerifiedFileKey.current = null;
     lastInvitedFileKey.current = null;
@@ -80,9 +106,18 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
 
   const handleDrop = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
+    dragEnterCount.current = 0;
     setIsDragging(false);
     const file = event.dataTransfer.files?.[0] ?? null;
     handleFileChange(file);
+  };
+
+  const handleDragEnter = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    dragEnterCount.current += 1;
+    if (!isDragging) {
+      setIsDragging(true);
+    }
   };
 
   const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
@@ -90,11 +125,17 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
     if (event.dataTransfer) {
       event.dataTransfer.dropEffect = "copy";
     }
-    setIsDragging(true);
+    if (!isDragging) {
+      setIsDragging(true);
+    }
   };
 
-  const handleDragLeave = () => {
-    setIsDragging(false);
+  const handleDragLeave = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    dragEnterCount.current = Math.max(0, dragEnterCount.current - 1);
+    if (dragEnterCount.current === 0) {
+      setIsDragging(false);
+    }
   };
 
   const handleDropzoneKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
@@ -102,6 +143,12 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
       event.preventDefault();
       handleBrowseClick();
     }
+  };
+
+  const handleStartOver = () => {
+    clearSelectedFile();
+    handleStep(0);
+    setBulkInviteResponse(null);
   };
 
   useEffect(() => {
@@ -148,7 +195,13 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
       }
 
       setIsSubmitting(true);
-      inviteLearnersBulk(selectedFile)
+      const validLearners = getValidLearners(bulkInviteResponse);
+      if (validLearners.length === 0) {
+        setIsSubmitting(false);
+        return;
+      }
+
+      inviteLearnersBulk(validLearners)
         .then((response) => {
           lastInvitedCount.current = getInviteCount(response);
           lastInvitedFileKey.current = fileKey;
@@ -179,6 +232,11 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
           navigate(-1);
         }}
       />
+      <StartOverLearnerBulkImportModal
+        isModalOpen={isStartOverBulkImportModalOpen}
+        setIsModalOpen={setIsStartOverBulkImportModalOpen}
+        onConfirm={handleStartOver}
+      />
       <FormattingGuidelinesModal
         isModalOpen={isFormattingGuidelinesOpen}
         setIsModalOpen={setIsFormattingGuidelinesOpen}
@@ -193,9 +251,7 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
             setIsExitBulkImportModalOpen(true);
             return;
           }
-          clearSelectedFile();
-          handleStep(0);
-          setBulkInviteResponse(null);
+          setIsStartOverBulkImportModalOpen(true);
         }}
         step={step}
         disableNext={!validateStep()}
@@ -227,6 +283,7 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
                 onBrowseClick={handleBrowseClick}
                 onDropzoneKeyDown={handleDropzoneKeyDown}
                 onDrop={handleDrop}
+                onDragEnter={handleDragEnter}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onFileChange={handleFileChange}

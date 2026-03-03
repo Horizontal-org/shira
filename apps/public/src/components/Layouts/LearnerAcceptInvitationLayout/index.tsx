@@ -7,8 +7,7 @@ import { Heading } from "../../UI/Title";
 import { acceptInvitation } from "../../../fetch/learner_invitation";
 import { SceneWrapper } from "../../UI/SceneWrapper";
 import ShiraFullLogo from "../../UI/Icons/ShiraFullLogo";
-import { handleHttpError } from "../../../utils/handleError";
-import i18n from "../../../language/i18n";
+import { InvalidLink } from "../../UI/InvalidLink";
 
 export const LearnerAcceptInvitationLayout: FunctionComponent = () => {
   enum ViewState {
@@ -20,28 +19,20 @@ export const LearnerAcceptInvitationLayout: FunctionComponent = () => {
   const { t } = useTranslation();
   const { hash } = useParams();
 
-  const [view, setView] = useState<ViewState>(null);
-  const [errorMsg, setErrorMsg] = useState<string>("");
+  const [view, setView] = useState<ViewState>(ViewState.Loading);
   const [spaceName, setSpaceName] = useState<string>("");
 
   const accept = useCallback(async () => {
     if (!hash) return;
 
     setView(ViewState.Loading);
-    setErrorMsg("");
 
     try {
       const { spaceName } = await acceptInvitation(hash);
       setSpaceName(spaceName || "");
       setView(ViewState.Accepted);
     } catch (err) {
-      const error = handleHttpError(err);
-      setView(ViewState.Error);
-      setErrorMsg(
-        i18n.exists(`learner_invitation.${error.message}`) ?
-          t(`learner_invitation.${error.message}`) :
-          t(`learner_invitation.error_message`)
-      );
+      setView(ViewState.Error);      
     }
   }, [hash]);
 
@@ -52,54 +43,70 @@ export const LearnerAcceptInvitationLayout: FunctionComponent = () => {
   }, [accept, hash]);
 
   return (
-    <SceneWrapper bg="white">
-      <Header>
-        <ShiraFullLogo aria-hidden="true" />
-        <Link2 href="https://shira.app" target="_blank">
-          {t("learner_invitation.learn_more")}
-        </Link2>
-      </Header>
+      <>
+        {view === ViewState.Accepted && (
+          <SceneWrapper bg="white">
+            <Header>
+              <ShiraFullLogo aria-hidden="true" />
+              <Link2 href="https://shira.app" target="_blank">
+                {t("learner_invitation.learn_more")}
+              </Link2>
+            </Header>
 
-      <Main>
-        {view === ViewState.Accepted ? (
-          <Content>
-            <SettingsFishIcon aria-hidden="true" />
-            <Card>
-              <SubHeading1>{t("learner_invitation.success_title")}</SubHeading1>
-              <Body1>
-                {t("learner_invitation.success_joined_space", { spaceName })}
-              </Body1>
+            <Main>
+              <Content>
+                <SettingsFishIcon aria-hidden="true" />
+                <Card>
+                  <SubHeading1>{t("learner_invitation.success_title")}</SubHeading1>
+                  <Body1>
+                    {t("learner_invitation.success_joined_space", { spaceName })}
+                  </Body1>
 
-              <Body1>{t("learner_invitation.success_hint")}</Body1>
-            </Card>
-          </Content>
-        ) : (
-          <AcceptWrapper>
-            <GreenFishWrapper>
-              <HookedFish aria-hidden="true" />
-            </GreenFishWrapper>
-
-            <AcceptBox
-              aria-live="polite"
-              aria-describedby={view === ViewState.Error ? "invitation-error" : "loading"}
-            >
-              <Heading>
-                {view === ViewState.Error
-                  ? t("learner_invitation.error_title")
-                  : view === ViewState.Loading
-                    ? t("loading_messages.loading")
-                    : null}
-              </Heading>
-
-              {view === ViewState.Error && errorMsg && (
-                <ErrorText id="invitation-error" role="alert">{errorMsg}</ErrorText>
-              )}
-            </AcceptBox>
-          </AcceptWrapper>
+                  <Body1>{t("learner_invitation.success_hint")}</Body1>
+                </Card>
+              </Content>
+            </Main>
+          </SceneWrapper>
+        )}
+        
+        {view === ViewState.Error && (
+          <InvalidLink 
+            title={t("invalid_invitation.title")}
+            description={t("invalid_invitation.description")}
+            homeButtonText={t("invalid_invitation.home_button")}
+          />          
         )}
 
-      </Main>
-    </SceneWrapper>
+        {view === ViewState.Loading && (
+          <SceneWrapper bg="white">
+            <Header>
+              <ShiraFullLogo aria-hidden="true" />
+              <Link2 href="https://shira.app" target="_blank">
+                {t("learner_invitation.learn_more")}
+              </Link2>
+            </Header>
+            
+            <Main>
+              <Content>
+                <AcceptWrapper>
+                  <GreenFishWrapper>
+                    <HookedFish aria-hidden="true" />
+                  </GreenFishWrapper>
+
+                  <AcceptBox
+                    aria-live="polite"
+                    aria-describedby={"loading"}
+                  >
+                    <Heading>
+                      {t("loading_messages.loading")}
+                    </Heading>
+                  </AcceptBox>
+                </AcceptWrapper>
+              </Content>
+            </Main>
+          </SceneWrapper>
+        )}
+    </>
   );
 };
 

@@ -6,4 +6,7 @@ export { IConfirmRegistrationAuthService } from './services/confirm-registration
 export { ISendInvitationAuthService } from './services/send-invitation.auth.service.interface'
 export { ISpaceRegistrationAuthService } from './services/space-registration.auth.service.interface'
 export { IUserContextService } from './services/user-context.service.interface'
+export { IRequestPasswordResetAuthService } from './services/request-password-reset.auth.service.interface'
+export { IConfirmPasswordResetAuthService } from './services/confirm-reset-password.auth.service.interface'
+export { IValidateResetPasswordTokenAuthService } from './services/validate-reset-password-token.auth.service.interface'
 export { TYPES } from './types';

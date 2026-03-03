@@ -27,7 +27,7 @@ import { useQuestionCRUD } from "../../fetch/question";
 import { UnpublishedQuizCopyLinkModal } from "../modals/UnpublishedQuizModal";
 import { UnpublishQuizWithQuestionsModal } from "../modals/UnpublishQuizWithQuestionsModal";
 import { handleCopyUrlAndNotify } from "../../utils/quiz";
-import { getQuizResults, PublicQuizResultsResponse } from "../../fetch/results";
+import { getQuizResults, QuizResultsResponse } from "../../fetch/results";
 import { useTranslation } from "react-i18next";
 import { MdLockOutline } from "react-icons/md";
 import { TbWorld } from "react-icons/tb";
@@ -95,7 +95,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   });
 
   // results handling
-  const [resultsData, setResultsData] = useState<PublicQuizResultsResponse | null>(null);
+  const [resultsData, setResultsData] = useState<QuizResultsResponse | null>(null);
   const [resultsLoading, setResultsLoading] = useState(false);
 
   const getQuiz = async () => {

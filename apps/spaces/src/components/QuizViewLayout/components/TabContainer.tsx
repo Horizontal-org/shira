@@ -1,9 +1,9 @@
 import { FunctionComponent, useState } from "react";
 import { styled } from '@shira/ui';
 import { QuestionsList } from './QuestionList';
-import { Results } from './Results';
+import { Results } from './Results/Results';
 import { QuizQuestion } from "../../../store/slices/quiz";
-import { PublicQuizResultsResponse } from "../../../fetch/results";
+import { QuizResultsResponse } from "../../../fetch/results";
 import { LearnerQuizView } from "../../LearnerQuizView";
 import { useTranslation } from "react-i18next";
 
@@ -16,7 +16,7 @@ interface TabContainerProps {
   quizPublished: boolean;
   hasQuestions: boolean;
   quizVisibility: string;
-  resultsData: PublicQuizResultsResponse | null
+  resultsData: QuizResultsResponse | null
   resultsLoading: boolean
   hasResults: boolean
   onEdit: (id: string) => void;
@@ -109,6 +109,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
           <Results
             resultsData={resultsData}
             loading={resultsLoading}
+            quizVisibility={quizVisibility}
           />
         )}
 

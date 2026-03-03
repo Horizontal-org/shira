@@ -12,5 +12,8 @@ export class ReadResultQuizDto {
   metrics: {
     completedCount: number;
     averageScore: number;
+    completionRate: string | null;
+    byQuestion?: any;
+    byLearner?: any
   };
 }

@@ -2,8 +2,10 @@
 
 echo "Running on beta"
 
-# check node exists
-node --version
+# LOAD NODE [USE THIS ONLY FOR NVM]
+export NVM_DIR="/root/.nvm"
+source "$NVM_DIR/nvm.sh"
+nvm use default
 
 # STRICT FAIL
 set -e 

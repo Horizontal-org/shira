@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { parse } from "csv-parse/sync";
-import { IBulkInviteParser } from "../interfaces/parsers/bulk-invite-parser.interface";
-import { ApiLogger } from "../logger/api-logger.service";
+import { BulkInviteParsedResult, IBulkInviteParser } from "../interfaces/parsers/bulk-invite-parser.interface";
+import { ApiLogger } from "src/utils/logger/api-logger.service";
 import { CSVParsingException } from "../exceptions/csv-bulk-parse.learner.exception";
 import { TooManyRowsException } from "../exceptions/csv-bulk-too-many-rows.learner.exception";
 import { InvalidFileFormatException } from "../exceptions/csv-bulk-invalid-format.learner.exception";
@@ -20,7 +20,7 @@ export class CsvBulkInviteParser implements IBulkInviteParser {
     return file.mimetype === "text/csv" || name.endsWith(".csv");
   }
 
-  parse(file: Express.Multer.File) {
+  parse(file: Express.Multer.File): BulkInviteParsedResult {
     this.logger.log(`Parsing CSV bulk invite file: ${file.originalname}`);
 
     const content = file.buffer?.toString("utf8") ?? "";

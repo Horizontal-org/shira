@@ -10,6 +10,7 @@ import { QuizQuestion as QuizQuestionEntity } from '../quiz/domain/quizzes_quest
 import { QuizModule } from '../quiz/quiz.module';
 import { QuizRunController } from './controller/quiz-run.controller';
 import { QuestionRunController } from './controller/question-run.controller';
+import { LearnerQuiz as LearnerQuizEntity } from '../learner/domain/learners_quizzes.entity';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { QuestionRunController } from './controller/question-run.controller';
       QuizQuestionEntity,
       QuizRunEntity,
       QuestionRunEntity,
+      LearnerQuizEntity
     ]),
     QuizModule,
   ],

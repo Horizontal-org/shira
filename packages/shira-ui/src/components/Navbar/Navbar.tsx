@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { styled } from "styled-components";
 import { Button } from "../Button";
 import { Logo, MenuIcon } from "../Icons";
 import { MobileMenu } from "../MobileMenu";
+import { styled } from "styled-components";
 
 export interface NavbarProps {
   color?: string;

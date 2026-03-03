@@ -43,7 +43,7 @@ export const IconWrapper = styled.div<StyledIconWrapper>`
 
   ${props => props.active && `
     > svg {
-      stroke: ${props.theme.secondary.dark};
+      stroke: ${props.theme.colors.dark.darkGrey};
     }
 
     &:hover {
@@ -148,10 +148,10 @@ export const Heading = styled.div<StyledIconWrapper>`
   color: #aaa;
 
   ${props => props.active && `
-    color: ${props.theme.secondary.dark};
+    color: ${props.theme.colors.dark};
 
     &:hover {
-      color: ${props.theme.secondary.dark};
+      color: ${props.theme.colors.dark};
     }
   `}
 `

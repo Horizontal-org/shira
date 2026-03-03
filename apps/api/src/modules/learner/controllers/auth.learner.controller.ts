@@ -1,4 +1,4 @@
-import { Body, Delete, Get, Inject, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Delete, Get, Inject, Post, UploadedFile, UseFilters, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { TYPES } from '../interfaces';
 import { InviteLearnerDto } from '../dto/invitation.learner.dto';
@@ -15,10 +15,15 @@ import { DeleteLearnerDto } from '../dto/delete.learner.dto';
 import { IGetLearnerService } from '../interfaces/services/get.learner.service.interface';
 import { UnassignLearnerDto } from '../dto/unassign.learner.dto';
 import { IInviteBulkLearnerService } from '../interfaces/services/invite-bulk.learner.service.interface';
-import { QuizAssignmentFailedException } from '../exceptions';
-import { ApiLogger } from '../logger/api-logger.service';
+import { IVerifyBulkLearnerService } from '../interfaces/services/verify-bulk.learner.service.interface';
+import { GenericErrorException, QuizAssignmentFailedException } from '../exceptions';
+import { ApiLogger } from 'src/utils/logger/api-logger.service';
 import { QuizUnassignmentFailedException } from '../exceptions/unassign-quiz.learner.exception';
 import { BulkCsvProcessingException } from '../exceptions/csv-bulk-could-not-process.learner.exception';
+import { BulkInviteValidatedRequestDto } from '../dto/learner-bulk-invite-request.dto';
+import { MulterBulkCsvExceptionFilter } from '../filters/multer-bulk-csv-exception.filter';
+
+const MAX_CSV_FILE_SIZE_BYTES = 10 * 1024 * 1024;
 
 @AuthController('learners')
 export class AuthLearnerController {
@@ -27,6 +32,8 @@ export class AuthLearnerController {
     private readonly inviteService: IInviteLearnerService,
     @Inject(TYPES.services.IInviteBulkLearnerService)
     private readonly inviteBulkService: IInviteBulkLearnerService,
+    @Inject(TYPES.services.IVerifyBulkLearnerService)
+    private readonly verifyBulkService: IVerifyBulkLearnerService,
     @Inject(TYPES.services.IAssignLearnerService)
     private readonly assignService: IAssignLearnerService,
     @Inject(TYPES.services.IUnassignLearnerService)
@@ -50,21 +57,22 @@ export class AuthLearnerController {
 
   @Post('invitations/bulk/send')
   @Roles(Role.SpaceAdmin)
-  @UseInterceptors(FileInterceptor('file'))
-  async inviteBulk(
-    @UploadedFile() file: Express.Multer.File,
+  async inviteBulkValidated(
+    @Body() dto: BulkInviteValidatedRequestDto,
     @SpaceId() spaceId: number
   ) {
-    if (!file) {
-      throw new BulkCsvProcessingException();
+    try {
+      return this.inviteBulkService.invite(dto.learners, spaceId);
+    } catch (e) {
+      this.logger.error(`Error inviting learners in bulk: ${e}`);
+      throw new GenericErrorException();
     }
-
-    return this.inviteBulkService.invite(file, spaceId);
   }
 
   @Post('invitations/bulk/verify')
   @Roles(Role.SpaceAdmin)
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FileInterceptor('file', { limits: { fileSize: MAX_CSV_FILE_SIZE_BYTES } }))
+  @UseFilters(MulterBulkCsvExceptionFilter)
   async verifyBulkInvite(
     @UploadedFile() file: Express.Multer.File,
     @SpaceId() spaceId: number
@@ -73,7 +81,7 @@ export class AuthLearnerController {
       throw new BulkCsvProcessingException();
     }
 
-    return this.inviteBulkService.verify(file, spaceId);
+    return this.verifyBulkService.verify(file, spaceId);
   }
 
   @Delete()
