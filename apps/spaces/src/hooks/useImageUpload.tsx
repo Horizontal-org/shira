@@ -1,5 +1,4 @@
 import { useCallback, useRef, useState } from 'react'
-import { NodeSelection } from 'prosemirror-state'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 

@@ -1,4 +1,3 @@
-import { AttachmentType } from "@shira/ui"
 import { QuestionPayload } from "../../fetch/question"
 
 

@@ -10,9 +10,7 @@ interface Props {
 }
 
 export const MobileMenu: FunctionComponent<Props> = ({
-  onClose,
-  onNavigate
-}) => {
+  onClose}) => {
 
   return (
     <Wrapper>
@@ -77,14 +75,5 @@ const Nav = styled.div`
     font-weight: 700;
     font-size: 24px;
     color: white;
-  }
-`
-
-const SvgWrapper = styled.div`
-  margin-right: 20px;
-
-  > svg {
-    width: 32px;
-    height: 32px;
   }
 `

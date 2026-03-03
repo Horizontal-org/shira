@@ -1,7 +1,6 @@
 import { FunctionComponent, useState } from "react";
 import styled from 'styled-components'
 import { Question } from "../../../../fetch/question";
-import { Select } from "../../../Select";
 import { ControlledSelect } from "../../../ControlledSelect";
 import { SmallCloseButton } from "../../../SmallCloseButton";
 import { QuestionComparison } from "../../../QuestionComparison";

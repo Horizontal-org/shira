@@ -1,7 +1,6 @@
-import { FunctionComponent, ReactNode, useEffect, useRef } from 'react'
+import { FunctionComponent, useRef } from 'react'
 import { Draggable } from "@hello-pangea/dnd";
 import { Attachment, styled } from '@shira/ui';
-import { DragItemOptions } from '../../../../DragItemOptions';
 import { shallow } from 'zustand/shallow';
 import { useStore } from '../../../../../store';
 import { ExplanationButton } from '../../../../Explanations/components/ExplanationButton';

@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import styled, { createGlobalStyle } from 'styled-components'
+import styled from 'styled-components'
 import { useStore } from "../../store";
 import shallow from "zustand/shallow";
 import axios from "axios";
@@ -9,7 +9,6 @@ import { Languages } from "./components/Languages";
 import { Exporter } from "./components/Exporter";
 import { SmallCloseButton } from "../SmallCloseButton";
 import { QuestionComparison } from "../QuestionComparison";
-import { Select } from "../Select";
 import { ControlledSelect } from "../ControlledSelect";
 import { Button } from "../Button";
 import { toast } from "react-hot-toast";

@@ -1,8 +1,6 @@
 import { StateCreator } from "zustand"
-import { fetchQuestion, fetchQuestions, Question, QuestionPayload } from "../../fetch/question"
 import { App } from "../../fetch/app";
-import { ActiveQuestion, defaultEmailContent, defaultMessageContent, EmailContent, MessagingContent } from "../types/active_question";
-import { Explanation } from "../types/explanation";
+import { ActiveQuestion, defaultEmailContent, defaultMessageContent } from "../types/active_question";
 import { cloneDeep } from "lodash";
 
 export interface ActiveQuestionSlice {

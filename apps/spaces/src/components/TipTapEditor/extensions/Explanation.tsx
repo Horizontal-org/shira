@@ -1,4 +1,4 @@
-import { Extension, Mark, mergeAttributes } from '@tiptap/core'
+import { Mark, mergeAttributes } from '@tiptap/core'
 
 export interface HighlightOptions {
   HTMLAttributes: Record<string, any>,

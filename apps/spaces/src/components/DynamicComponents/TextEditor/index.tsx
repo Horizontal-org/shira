@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 
 import { EditorContent, useEditor } from '@tiptap/react'
@@ -72,13 +72,10 @@ export const TextEditor = ({ componentId, componentPosition, initialContent }: P
   const {
     changeSelected,
     selectedExplanation,
-    setContent,
-    storeExplanations
-  } = useStore((state) => ({
+    setContent  } = useStore((state) => ({
     changeSelected: state.changeSelected,
     selectedExplanation: state.selectedExplanation,
     setContent: state.setContent,
-    storeExplanations: state.explanations
   }), shallow)
 
   const editorId = `component-text-${componentId}`

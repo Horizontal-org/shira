@@ -1,11 +1,9 @@
-import { FunctionComponent, ReactNode } from 'react'
-// import { Draggable } from "react-beautiful-dnd";
+import { FunctionComponent } from 'react'
 import { Draggable } from "@hello-pangea/dnd";
-import { Body2Regular, Body3, Body3Bold, styled } from '@shira/ui';
-import { DragItemOptions } from '../../../../DragItemOptions';
+import { styled } from '@shira/ui';
 import { TextDragItem } from '../TextDragItem';
 import { ImageDragItem } from '../ImageDragItem';
-import { ImageObject, QuestionDragEditor, QuestionDragImage } from '../../../../../store/types/active_question';
+import { QuestionDragEditor, QuestionDragImage } from '../../../../../store/types/active_question';
 import { QuestionContentDragItemOptions } from '../../QuestionContentDragItemOptions';
 
 interface Props {

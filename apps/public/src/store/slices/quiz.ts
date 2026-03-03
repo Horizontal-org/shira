@@ -1,8 +1,6 @@
 import { StateCreator } from "zustand"
 import { getQuiz } from "../../fetch/quiz";
-import { Quiz } from "../../domain/quiz";
 import { Question } from "../../domain/question";
-
 
 export interface QuizSlice {
   fetchQuiz: (
@@ -20,16 +18,18 @@ export const createQuizSlice: StateCreator<
   [],
   [],
   QuizSlice
-> = (set) => ({  
-  fetchQuiz: async (apps, fieldsOfWork, language) => { 
+> = (set) => ({
+  fetchQuiz: async (apps, fieldsOfWork, language) => {
     const res = await getQuiz(apps, fieldsOfWork, language)
-    set({quiz: res})
+    set({ quiz: res })
   },
   quiz: [],
   correctedQuestions: [],
   setCorrectQuestions: (question) => {
-    set(state => ({correctedQuestions: [...state.correctedQuestions.filter((c) => { 
-      return c.id !== question.id
-    }), question]}))
+    set(state => ({
+      correctedQuestions: [...state.correctedQuestions.filter((c) => {
+        return c.id !== question.id
+      }), question]
+    }))
   }
 })

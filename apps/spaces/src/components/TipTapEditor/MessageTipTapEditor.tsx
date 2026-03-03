@@ -1,17 +1,11 @@
 import { styled } from '@shira/ui'
 import { useEditor, EditorContent } from '@tiptap/react'
-import { MenuBar } from './MenuBar'
 import { useExplanations } from './hooks/useExplanations'
-import { useImageUpload } from './hooks/useImageUpload'
-import { useLink } from './hooks/useLink'
-import { useTable } from './hooks/useTable'
 
 import { MessageEditorStyles } from './styles/MessageEditorStyles'
 import { getMessageExtensions } from './config/editorExtensions'
-import { LoadingOverlay } from '../LoadingOverlay/LoadingOverlay'
 import { MessagesMenuBar } from './MessagesMenuBar'
 import { ExplanationButton } from '../Explanations/components/ExplanationButton'
-import { useEffect } from 'react'
 
 interface Props {
   onChange: (body: string) => void;

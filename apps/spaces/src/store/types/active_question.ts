@@ -1,6 +1,5 @@
 import { AttachmentType } from "@shira/ui";
 import { App } from "../../fetch/app";
-import { Explanation } from "./explanation";
 
 export const defaultEmailContent: EmailContent = {
   senderEmail: {
