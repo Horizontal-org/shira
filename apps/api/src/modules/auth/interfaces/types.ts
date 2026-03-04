@@ -13,7 +13,8 @@ export const TYPES = {
     IRequestPasswordResetAuthService: 'IRequestPasswordResetAuthService',
     IConfirmPasswordResetAuthService: 'IConfirmPasswordResetAuthService',
     IValidateResetPasswordTokenAuthService: 'IValidateResetPasswordTokenAuthService',
-    IConfirmUpdateAuthService: 'IConfirmUpdateAuthService',
+    IRequestEmailUpdateAuthService: 'IRequestEmailUpdateAuthService',
+    IConfirmUpdateAuthService: 'IConfirmUpdateAuthService'
   },
   handlers: {},
 };

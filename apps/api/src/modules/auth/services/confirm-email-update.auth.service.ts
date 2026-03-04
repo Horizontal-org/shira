@@ -1,11 +1,11 @@
 import { Injectable } from "@nestjs/common";
-import { IConfirmUpdateAuthService } from "../interfaces/services/update-space.auth.service.interface";
 import { ApiLogger } from "src/utils/logger/api-logger.service";
-import { UpdateEmailAuthDto } from "../domain/update-email.auth.dto";
 import { Repository } from "typeorm";
 import { UserEntity } from "src/modules/user/domain/user.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { InvalidEmailUpdateException, UserNotFoundException } from "../exceptions";
+import { IConfirmUpdateAuthService } from "../interfaces/services/update-space.auth.service.interface";
+import { UpdateEmailAuthDto } from "../domain/update-email.auth.dto";
 
 @Injectable()
 export class ConfirmEmailUpdateAuthService implements IConfirmUpdateAuthService {

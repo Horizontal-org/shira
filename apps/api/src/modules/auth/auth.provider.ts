@@ -11,6 +11,7 @@ import { ConfirmResetPasswordAuthService } from './services/confirm-reset-passwo
 import { ValidateResetPasswordTokenAuthService } from './services/validate-reset-password-token.auth.service';
 import { ConfirmEmailUpdateAuthService } from './services/confirm-email-update.auth.service';
 import { ConfirmPasswordUpdateAuthService } from './services/confirm-password-update.auth.service';
+import { RequestEmailUpdateAuthService } from './services/request-email-update.auth.service';
 
 export const generateTokenAuthServiceProvider = {
   provide: TYPES.services.IGenerateTokenAuthService,
@@ -72,6 +73,11 @@ export const confirmPasswordUpdateAuthServiceProvider = {
   useClass: ConfirmPasswordUpdateAuthService,
 };
 
+export const requestEmailUpdateAuthServiceProvider = {
+  provide: TYPES.services.IRequestEmailUpdateAuthService,
+  useClass: RequestEmailUpdateAuthService,
+};
+
 const userContextServiceProvider = {
   provide: TYPES.services.IUserContextService,
   useClass: UserContextService,
@@ -91,5 +97,8 @@ export const servicesAuthProviders = [
   requestPasswordResetAuthServiceProvider,
   confirmPasswordResetAuthServiceProvider,
   validatePasswordResetTokenAuthServiceProvider,
+  requestEmailUpdateAuthServiceProvider,
+  confirmEmailUpdateAuthServiceProvider,
+  confirmPasswordUpdateAuthServiceProvider,
   userContextServiceProvider,
 ];

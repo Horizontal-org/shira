@@ -4,6 +4,7 @@ export enum AuthErrorCodes {
     EmailNoMatch = "email_no_match",
     UserNotFound = "user_not_found",
     InvalidEmailUpdate = "invalid_email_update",
+    EmailUpdateTokenInvalid = "email_update_token_invalid",
     ResetTokenInvalid = "reset_token_invalid",
     ResetTokenExpired = "reset_token_expired",
     ResetTokenUsed = "reset_token_used",

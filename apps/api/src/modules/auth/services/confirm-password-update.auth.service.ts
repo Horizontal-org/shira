@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { IConfirmUpdateAuthService } from "../interfaces/services/update-space.auth.service.interface";
 import { ApiLogger } from "src/utils/logger/api-logger.service";
 import { UpdatePasswordAuthDto } from "../domain/update-password.auth.dto";
+import { IConfirmUpdateAuthService } from "../interfaces/services/update-space.auth.service.interface";
 
 @Injectable()
 export class ConfirmPasswordUpdateAuthService implements IConfirmUpdateAuthService {
