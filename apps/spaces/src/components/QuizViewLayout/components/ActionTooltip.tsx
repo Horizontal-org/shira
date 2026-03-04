@@ -29,7 +29,6 @@ const Container = styled.div<{ delayMs: number }>`
 
   &:hover [data-action-tooltip='content'],
   &:focus-within [data-action-tooltip='content'] {
-    opacity: 1;
     visibility: visible;
     transition-delay: ${({ delayMs }) => delayMs}ms;
   }
@@ -46,9 +45,11 @@ const Tooltip = styled.div`
   font-size: 12px;
   line-height: 1.4;
   white-space: nowrap;
+  pointer-events: none;
   z-index: 1000;
   visibility: hidden;
-  transform: translateY(4px);
+  transition: visibility 0s linear;
+  transition-delay: 0ms;
 
   &::before {
     position: absolute;
