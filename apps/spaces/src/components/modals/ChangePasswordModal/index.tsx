@@ -3,6 +3,7 @@ import { FunctionComponent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { handleHttpError } from "../../../fetch/handleError";
 import { hasRequiredValue } from "../../../utils/validation";
+import { getErrorContent } from "../../../utils/getErrorContent";
 
 interface Props {
   isModalOpen: boolean;
@@ -31,13 +32,11 @@ export const ChangePasswordModal: FunctionComponent<Props> = ({
     || (hasSubmitted && !hasRequiredValue(currentPassword)
       ? t("reset_password.validation.password_required")
       : "");
-
   const newPasswordError = hasRequiredValue(newPassword) && newPassword.length < 8
     ? t("reset_password.validation.password_min_length")
-    : hasRequiredValue(newPassword) && confirmPassword !== newPassword
-    ? t("reset_password.validation.passwords_mismatch")
     : "";
-  const confirmPasswordError = hasRequiredValue(confirmPassword) && confirmPassword !== newPassword
+  const confirmPasswordError = hasRequiredValue(confirmPassword)
+    && newPassword.length > 0 && confirmPassword !== newPassword
     ? t("reset_password.validation.passwords_mismatch")
     : "";
 
@@ -84,13 +83,9 @@ export const ChangePasswordModal: FunctionComponent<Props> = ({
       setIsModalOpen(false);
     } catch (error) {
       const { message } = handleHttpError(error);
-
-      if (message === "current_password_incorrect") {
-        setCurrentPasswordApiError(t("reset_password.validation.incorrect_password"));
-        return;
-      }
-
-      setRequestSubmitError(t("error_messages.something_went_wrong"));
+      setCurrentPasswordApiError(
+        getErrorContent("error_messages", "something_went_wrong", message)
+      );
     }
   };
 

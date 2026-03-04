@@ -32,8 +32,9 @@ export class UpdateUserController {
   @Roles(Role.SpaceAdmin)
   async updatePassword(
     @Body() dto: UpdatePasswordAuthDto,
+    @SpaceId() spaceId: number,
     @LoggedUser() user: LoggedUserDto
   ) {
-    await this.confirmPasswordUpdateAuthService.execute(dto, Number(user.id));
+    await this.confirmPasswordUpdateAuthService.execute(dto, Number(user.id), spaceId);
   }
 }

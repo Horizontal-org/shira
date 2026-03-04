@@ -17,10 +17,10 @@ export class ConfirmPasswordUpdateAuthService implements IConfirmUpdateAuthServi
 
   private readonly logger = new ApiLogger(ConfirmPasswordUpdateAuthService.name);
 
-  async execute(dto: UpdatePasswordAuthDto, userId: number): Promise<void> {
+  async execute(dto: UpdatePasswordAuthDto, userId: number, spaceId: number): Promise<void> {
     this.logger.log(`Processing password update for user ${userId}`);
 
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const user = await this.findUserByIdAndSpace(String(userId), spaceId);
 
     if (!user) {
       throw new UserNotFoundException(String(userId));
@@ -41,5 +41,13 @@ export class ConfirmPasswordUpdateAuthService implements IConfirmUpdateAuthServi
     await this.userRepository.save(user);
 
     this.logger.log(`Password updated for user ${user.id}`);
+  }
+
+  private async findUserByIdAndSpace(userId: string, spaceId: number): Promise<UserEntity | null> {
+    return this.userRepository
+      .createQueryBuilder('user')
+      .innerJoin('user.spaces', 'space', 'space.id = :spaceId', { spaceId })
+      .where('user.id = :userId', { userId })
+      .getOne();
   }
 }

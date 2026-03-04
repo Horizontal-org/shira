@@ -25,7 +25,6 @@ export class ReadUserDto {
   readonly createdAt: string;
 
   @Expose()
-  @IsOptional()
   @IsString()
-  readonly lastPasswordChangeAt?: string | null;
+  readonly lastPasswordChangeAt: string;
 }

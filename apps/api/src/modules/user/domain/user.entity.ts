@@ -62,7 +62,8 @@ export class UserEntity {
   @Column({
     name: 'last_password_change_at',
     type: 'timestamp',
-    nullable: true,
+    default: () => 'CURRENT_TIMESTAMP',
+    nullable: false,
   })
-  lastPasswordChangeAt: Date | null;
+  lastPasswordChangeAt: Date;
 }

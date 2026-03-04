@@ -26,51 +26,32 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
 
   const {
     currentEmail: email,
-    lastPasswordChangeAt,
-    logout
-  } = useStore((state) => ({
-    currentEmail: state.user?.email,
-    lastPasswordChangeAt: state.user?.lastPasswordChangeAt,
-    logout: state.logout,
-  }), shallow);
+    lastPasswordChangeAt } = useStore((state) => ({
+      currentEmail: state.user?.email,
+      lastPasswordChangeAt: state.user?.lastPasswordChangeAt,
+    }), shallow);
 
-  const getLastPasswordUpdateDate = useCallback(
-    (lastUpdate: string | null) => {
-      if (!lastUpdate) {
-        return t('settings.sections.password.last_updated', { date: '-' });
-      }
+  const getLastPasswordUpdateDate = useCallback((lastUpdate?: string | null) => {
+    if (!lastUpdate) {
+      return t('settings.sections.password.last_updated', { date: '-' });
+    }
 
-      const normalizedLastUpdate = lastUpdate.trim().replace(" ", "T");
-      const hasTimezone = /(?:Z|[+-]\d{2}:\d{2})$/.test(normalizedLastUpdate);
-      const parsedLastUpdate = new Date(
-        hasTimezone ? normalizedLastUpdate : `${normalizedLastUpdate}Z`
-      );
+    const parsedLastUpdate = new Date(lastUpdate.replace(" ", "T"));
 
-      if (!isValid(parsedLastUpdate)) {
-        return t('settings.sections.password.last_updated', { date: '-' });
-      }
+    if (!isValid(parsedLastUpdate)) {
+      return t('settings.sections.password.last_updated', { date: '-' });
+    }
 
-      const locales = getCurrentDateFNSLocales();
-      const locale = locales[i18n.language] ?? enUS;
+    const locales = getCurrentDateFNSLocales();
+    const locale = locales[i18n.language] ?? enUS;
 
-      const lastPasswordChangeDate = format(parsedLastUpdate, "d MMMM yyyy", {
-        locale,
-      });
+    const lastPasswordChangeDate = format(parsedLastUpdate, "d MMMM yyyy", { locale });
 
-      return t('settings.sections.password.last_updated', { date: lastPasswordChangeDate });
-    }, [i18n.language, t]);
+    return t('settings.sections.password.last_updated', { date: lastPasswordChangeDate });
+  }, [i18n.language, t]);
 
-  const updateUserPassword = async ({
-    currentPassword,
-    newPassword,
-  }: {
-    currentPassword: string;
-    newPassword: string;
-  }): Promise<void> => {
-    await updateAuthPassword({
-      currentPassword,
-      newPassword,
-    });
+  const updateUserPassword = async ({ currentPassword, newPassword }): Promise<void> => {
+    await updateAuthPassword({ currentPassword, newPassword });
   };
 
   const updateEmailAddress = async (newEmail: string): Promise<void> => {
