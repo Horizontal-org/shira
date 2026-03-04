@@ -618,7 +618,8 @@
                 "title": "Error: File is too large",
                 "subtitle": "Please upload a CSV that is 10 MB or smaller and try again."
             }
-        }
+        },
+        "invalid_email_update": "This email address is already associated with a Shira space."
     },
     "success_messages": {
         "quiz_link_copied": "The public quiz link has been copied to your clipboard.",
