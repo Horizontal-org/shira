@@ -10,7 +10,7 @@ import { ChangePasswordModal } from "../modals/ChangePasswordModal";
 import { getCurrentDateFNSLocales } from "../../language/dateUtils";
 import i18n from "../../language/i18n";
 import { enUS } from "date-fns/locale";
-import { format } from "date-fns";
+import { format, isValid } from "date-fns";
 import { updateAuthEmail, updateAuthPassword } from "../../fetch/auth_update";
 
 interface Props { }
@@ -42,7 +42,16 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
         return t('settings.sections.password.last_updated', { date: '-' });
       }
 
-      const parsedLastUpdate = new Date(lastUpdate.replace(" ", "T") + "Z");
+      const normalizedLastUpdate = lastUpdate.trim().replace(" ", "T");
+      const hasTimezone = /(?:Z|[+-]\d{2}:\d{2})$/.test(normalizedLastUpdate);
+      const parsedLastUpdate = new Date(
+        hasTimezone ? normalizedLastUpdate : `${normalizedLastUpdate}Z`
+      );
+
+      if (!isValid(parsedLastUpdate)) {
+        return t('settings.sections.password.last_updated', { date: '-' });
+      }
+
       const locales = getCurrentDateFNSLocales();
       const locale = locales[i18n.language] ?? enUS;
 

@@ -8,7 +8,7 @@ export interface AuthSlice {
   updateUserEmail: (email: string) => void
   user: {
     email?: string;
-    lastPasswordChangeAt?: string;
+    lastPasswordChangeAt?: string | null;
     spaces?: {
       name: string
     }[]
