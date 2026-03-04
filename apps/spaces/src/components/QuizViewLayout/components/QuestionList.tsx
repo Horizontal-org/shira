@@ -14,6 +14,7 @@ import DuplicateIcon from './DuplicateIcon'
 import { QuizHasResultsModal } from "../../modals/QuizHasResultsModal";
 import { useTranslation } from "react-i18next";
 import { useStore } from "../../../store";
+import { ActionTooltip } from "./ActionTooltip";
 
 interface QuestionsListProps {
   quizId: number;
@@ -47,7 +48,6 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
   const editTooltip = t('questions_tab.action_tooltips.edit');
   const duplicateTooltip = t('questions_tab.action_tooltips.duplicate');
   const deleteTooltip = t('questions_tab.action_tooltips.delete');
-  const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
 
   const [questionForDelete, handleQuestionForDelete] = useState<QuizQuestion["question"] | null>(null)
   const [confirmBeforeContinueModal, handleConfirmBeforeContinueModal] = useState<{
@@ -190,12 +190,8 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
                           </QuestionTitle>
                         </LeftSection>
                         <Actions>
-                          <ActionButtonTooltip
-                            onMouseEnter={() => setActiveTooltip(`edit-${qq.question.id}`)}
-                            onMouseLeave={() => setActiveTooltip(null)}
-                            onFocus={() => setActiveTooltip(`edit-${qq.question.id}`)}
-                            onBlur={() => setActiveTooltip(null)}
-                          >
+
+                          <ActionTooltip content={editTooltip}>
                             <ActionButton
                               id={`edit-button-${qq.question.id}`}
                               type="button"
@@ -210,16 +206,9 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
                             >
                               <EditIcon />
                             </ActionButton>
-                            {activeTooltip === `edit-${qq.question.id}` && (
-                              <Tooltip role="tooltip">{editTooltip}</Tooltip>
-                            )}
-                          </ActionButtonTooltip>
-                          <ActionButtonTooltip
-                            onMouseEnter={() => setActiveTooltip(`duplicate-${qq.question.id}`)}
-                            onMouseLeave={() => setActiveTooltip(null)}
-                            onFocus={() => setActiveTooltip(`duplicate-${qq.question.id}`)}
-                            onBlur={() => setActiveTooltip(null)}
-                          >
+                          </ActionTooltip>
+
+                          <ActionTooltip content={duplicateTooltip}>
                             <ActionButton
                               id={`duplicate-button-${qq.question.id}`}
                               type="button"
@@ -235,16 +224,9 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
                             >
                               <DuplicateIconWrapper><DuplicateIcon /></DuplicateIconWrapper>
                             </ActionButton>
-                            {activeTooltip === `duplicate-${qq.question.id}` && (
-                              <Tooltip role="tooltip">{duplicateTooltip}</Tooltip>
-                            )}
-                          </ActionButtonTooltip>
-                          <ActionButtonTooltip
-                            onMouseEnter={() => setActiveTooltip(`delete-${qq.question.id}`)}
-                            onMouseLeave={() => setActiveTooltip(null)}
-                            onFocus={() => setActiveTooltip(`delete-${qq.question.id}`)}
-                            onBlur={() => setActiveTooltip(null)}
-                          >
+                          </ActionTooltip>
+
+                          <ActionTooltip content={deleteTooltip}>
                             <ActionButton
                               id={`delete-button-${qq.question.id}`}
                               type="button"
@@ -253,10 +235,8 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
                             >
                               <TrashIcon />
                             </ActionButton>
-                            {activeTooltip === `delete-${qq.question.id}` && (
-                              <Tooltip role="tooltip">{deleteTooltip}</Tooltip>
-                            )}
-                          </ActionButtonTooltip>
+                          </ActionTooltip>
+
                         </Actions>
                       </QuestionItem>
                     )
@@ -403,36 +383,6 @@ const ActionButton = styled.button`
 
   &:hover {
     background: ${props => props.theme.colors.light.paleGreen};
-  }
-`;
-
-const ActionButtonTooltip = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
-`;
-
-const Tooltip = styled.div`
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  padding: 8px 12px;
-  border-radius: 4px;
-  background: ${props => props.theme.colors.dark.black};
-  color: ${props => props.theme.colors.light.white};
-  font-size: 12px;
-  line-height: 1.4;
-  white-space: nowrap;
-  pointer-events: none;
-  z-index: 1000;
-
-  &::before {
-    position: absolute;
-    bottom: 100%;
-    right: 12px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: transparent transparent ${props => props.theme.colors.dark.black} transparent;
   }
 `;
 
