@@ -1,6 +1,6 @@
 import { Controller, Inject, Param, Post } from '@nestjs/common';
 import { TYPES } from '../interfaces/types';
-import { IConfirmUpdateAuthService } from '../interfaces/services/update-space.auth.service.interface';
+import { IConfirmUpdateAuthService } from '../interfaces/services/confirm-update-space.auth.service.interface';
 
 @Controller('space/update')
 export class ConfirmEmailUpdateAuthController {

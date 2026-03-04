@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { UserEntity } from 'src/modules/user/domain/user.entity';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'password_resets' })
 export class PasswordResetEntity {
@@ -7,6 +8,13 @@ export class PasswordResetEntity {
 
   @Column({ name: 'user_id' })
   userId: number;
+
+  @ManyToOne(() => UserEntity, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'user_id' })
+  user: UserEntity;
+
+  @Column()
+  email: string;
 
   @Column({ name: 'reset_hash' })
   resetHash: string;

@@ -6,7 +6,7 @@ import { Roles } from '../decorators/roles.decorators';
 import { AuthController } from 'src/utils/decorators/auth-controller.decorator';
 import { TYPES } from '../interfaces/types';
 import { IRequestEmailUpdateAuthService } from '../interfaces/services/request-email-update.auth.service.interface';
-import { IConfirmUpdateAuthService } from '../interfaces/services/update-space.auth.service.interface';
+import { IConfirmUpdateAuthService } from '../interfaces/services/confirm-update-space.auth.service.interface';
 import { SpaceId } from '../decorators';
 
 @AuthController('space/update')

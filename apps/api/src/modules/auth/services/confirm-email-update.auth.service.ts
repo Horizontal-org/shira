@@ -5,7 +5,7 @@ import { Repository } from "typeorm";
 import { UserEntity } from "src/modules/user/domain/user.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { EmailUpdateTokenInvalidException, InvalidEmailUpdateException, UserNotFoundException } from "../exceptions";
-import { IConfirmUpdateAuthService } from "../interfaces/services/update-space.auth.service.interface";
+import { IConfirmUpdateAuthService } from "../interfaces/services/confirm-update-space.auth.service.interface";
 
 @Injectable()
 export class ConfirmEmailUpdateAuthService implements IConfirmUpdateAuthService {

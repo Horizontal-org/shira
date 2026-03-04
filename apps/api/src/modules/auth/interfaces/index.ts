@@ -10,5 +10,5 @@ export { IRequestPasswordResetAuthService } from './services/request-password-re
 export { IConfirmPasswordResetAuthService } from './services/confirm-reset-password.auth.service.interface'
 export { IValidateResetPasswordTokenAuthService } from './services/validate-reset-password-token.auth.service.interface'
 export { IRequestEmailUpdateAuthService } from './services/request-email-update.auth.service.interface'
-export { IConfirmUpdateAuthService } from './services/update-space.auth.service.interface'
+export { IConfirmUpdateAuthService } from './services/confirm-update-space.auth.service.interface'
 export { TYPES } from './types';
