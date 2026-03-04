@@ -34,6 +34,12 @@
             "incorrect_password": "Incorrect password."
         }
     },
+    "confirm_email_update": {
+        "success_title": "Email address updated",
+        "success_description": "Your email address has been confirmed. You can now log in with your new email address.",
+        "invalid_title": "Sorry, something went wrong",
+        "invalid_description": "The email confirmation link is invalid or has expired. Please request a new email change from Settings."
+    },
     "beta": {
         "label": "BETA",
         "message": "Shira is still in development and you may experience issues.",
@@ -556,7 +562,7 @@
         },
         "change_email_success": {
             "title": "Almost there!",
-            "description": "To complete the process, please open the email we sent to your email address and click on the link to create your Shira space.",
+            "description": "To complete the process, please open the email we sent to your new email address and click the confirmation link.",
             "didnt_receive": "Didn’t receive an email? If it’s not in your spam folder, please contact us at <0>{{contact_email}}</0>",
             "button": "I understand"
         },

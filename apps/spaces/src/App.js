@@ -30,6 +30,7 @@ import { LearnersLayout } from './components/LearnersLayout';
 import { FeedbackButton } from './components/FeedbackButton';
 import { ResetPasswordRequestLayout } from './components/ResetPasswordLayout/ResetPasswordRequestLayout';
 import { SetNewPasswordLayout } from './components/ResetPasswordLayout/SetNewPasswordLayout';
+import { ConfirmEmailUpdateLayout } from './components/ConfirmEmailUpdateLayout';
 
 function App() {
 
@@ -70,6 +71,7 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path='/login' element={<LoginLayout />} />
+              <Route path='/confirm-email-update/:token' element={<ConfirmEmailUpdateLayout />} />
               <Route path='/reset-password' element={<ResetPasswordRequestLayout />} />
               <Route path='/reset-password/:token' element={<SetNewPasswordLayout />} />
               <Route path='/create-space/:passphraseCode' element={<CreateSpaceLayout />} />
