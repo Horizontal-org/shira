@@ -1,6 +1,7 @@
 import { Body1, Modal, TextInput, styled } from "@shira/ui";
 import { FunctionComponent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { handleHttpError } from "../../../fetch/handleError";
 import { hasRequiredValue } from "../../../utils/validation";
 
 interface Props {
@@ -22,13 +23,19 @@ export const ChangePasswordModal: FunctionComponent<Props> = ({
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [currentPasswordApiError, setCurrentPasswordApiError] = useState("");
+  const [requestSubmitError, setRequestSubmitError] = useState("");
 
-  const currentPasswordError = !hasRequiredValue(currentPassword)
-    ? t("reset_password.validation.password_required")
-    : t("reset_password.validation.incorrect_password"); // TODO get error from API
-  const newPasswordError = hasRequiredValue(newPassword) && confirmPassword !== newPassword
+  const currentPasswordError = currentPasswordApiError
+    || (hasSubmitted && !hasRequiredValue(currentPassword)
+      ? t("reset_password.validation.password_required")
+      : "");
+
+  const newPasswordError = hasRequiredValue(newPassword) && newPassword.length < 8
+    ? t("reset_password.validation.password_min_length")
+    : hasRequiredValue(newPassword) && confirmPassword !== newPassword
     ? t("reset_password.validation.passwords_mismatch")
-    // ? t("reset_password.validation.password_min_length")
     : "";
   const confirmPasswordError = hasRequiredValue(confirmPassword) && confirmPassword !== newPassword
     ? t("reset_password.validation.passwords_mismatch")
@@ -46,24 +53,45 @@ export const ChangePasswordModal: FunctionComponent<Props> = ({
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
+      setHasSubmitted(false);
+      setCurrentPasswordApiError("");
+      setRequestSubmitError("");
     }
   }, [isModalOpen]);
 
   const handleClose = () => {
+    setHasSubmitted(false);
+    setCurrentPasswordApiError("");
+    setRequestSubmitError("");
     setIsModalOpen(false);
   };
 
   const handleSave = async () => {
+    setHasSubmitted(true);
+    setCurrentPasswordApiError("");
+    setRequestSubmitError("");
+
     if (submitDisabled) {
       return;
     }
 
-    await onSave?.({
-      currentPassword: currentPassword.trim(),
-      newPassword: newPassword.trim(),
-      confirmPassword: confirmPassword.trim(),
-    });
-    setIsModalOpen(false);
+    try {
+      await onSave?.({
+        currentPassword: currentPassword.trim(),
+        newPassword: newPassword.trim(),
+        confirmPassword: confirmPassword.trim(),
+      });
+      setIsModalOpen(false);
+    } catch (error) {
+      const { message } = handleHttpError(error);
+
+      if (message === "current_password_incorrect") {
+        setCurrentPasswordApiError(t("reset_password.validation.incorrect_password"));
+        return;
+      }
+
+      setRequestSubmitError(t("error_messages.something_went_wrong"));
+    }
   };
 
   return (
@@ -88,7 +116,12 @@ export const ChangePasswordModal: FunctionComponent<Props> = ({
               type="password"
               label={t("modals.change_password.current_password_placeholder")}
               value={currentPassword}
-              onChange={(e) => setCurrentPassword(e.target.value)}
+              onChange={(e) => {
+                setCurrentPassword(e.target.value);
+                if (currentPasswordApiError) {
+                  setCurrentPasswordApiError("");
+                }
+              }}
             />
             <FieldError $visible={Boolean(currentPasswordError)}>
               {currentPasswordError}
@@ -121,6 +154,9 @@ export const ChangePasswordModal: FunctionComponent<Props> = ({
             </FieldError>
           </FieldGroup>
         </Fields>
+        <FieldError $visible={Boolean(requestSubmitError)}>
+          {requestSubmitError}
+        </FieldError>
       </ModalContent>
     </Modal>
   );

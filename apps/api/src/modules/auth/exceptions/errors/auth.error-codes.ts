@@ -10,5 +10,6 @@ export enum AuthErrorCodes {
     ResetTokenUsed = "reset_token_used",
     ResetEmailSendFailed = "reset_email_send_failed",
     ResetPasswordWeak = "reset_password_weak",
-    ResetPasswordConfirmationMismatch = "reset_password_confirmation_mismatch"
+    ResetPasswordConfirmationMismatch = "reset_password_confirmation_mismatch",
+    CurrentPasswordIncorrect = "current_password_incorrect"
 }

@@ -3,7 +3,7 @@ import { FunctionComponent, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import notFoundSvg from "../../assets/404.svg";
-import { confirmAuthEmailUpdate } from "../../fetch/auth_update";
+import { confirmAuthEmailUpdate } from "../../fetch/user";
 import { handleHttpError } from "../../fetch/handleError";
 import { useStore } from "../../store";
 

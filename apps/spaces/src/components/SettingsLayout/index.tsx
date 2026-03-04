@@ -11,7 +11,7 @@ import { getCurrentDateFNSLocales } from "../../language/dateUtils";
 import i18n from "../../language/i18n";
 import { enUS } from "date-fns/locale";
 import { format, isValid } from "date-fns";
-import { updateAuthEmail, updateAuthPassword } from "../../fetch/auth_update";
+import { updateAuthEmail, updateAuthPassword } from "../../fetch/user";
 
 interface Props { }
 
@@ -68,11 +68,9 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
     newPassword: string;
   }): Promise<void> => {
     await updateAuthPassword({
-      passphrase: '',
       currentPassword,
       newPassword,
     });
-    logout();
   };
 
   const updateEmailAddress = async (newEmail: string): Promise<void> => {

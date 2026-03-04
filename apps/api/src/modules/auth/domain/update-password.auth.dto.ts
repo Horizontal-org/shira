@@ -1,21 +1,15 @@
-import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 export class UpdatePasswordAuthDto {
-  @IsEmail()
-  @IsNotEmpty()
-  email: string;
-
   @IsString()
   @IsNotEmpty()
-  passphrase: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @MinLength(8)
-  password: string;
+  @Transform(({ value }) => value?.trim())
+  currentPassword: string;
 
   @IsString()
   @IsNotEmpty()
   @MinLength(8)
+  @Transform(({ value }) => value?.trim())
   newPassword: string;
 }
