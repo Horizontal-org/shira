@@ -14,7 +14,8 @@ export const TYPES = {
     IConfirmPasswordResetAuthService: 'IConfirmPasswordResetAuthService',
     IValidateResetPasswordTokenAuthService: 'IValidateResetPasswordTokenAuthService',
     IRequestEmailUpdateAuthService: 'IRequestEmailUpdateAuthService',
-    IConfirmUpdateAuthService: 'IConfirmUpdateAuthService'
+    IConfirmEmailUpdateAuthService: 'IConfirmEmailUpdateAuthService',
+    IConfirmPasswordUpdateAuthService: 'IConfirmPasswordUpdateAuthService'
   },
   handlers: {},
 };

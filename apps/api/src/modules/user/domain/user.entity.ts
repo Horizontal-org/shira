@@ -5,6 +5,7 @@ import {
   JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { SpaceEntity } from 'src/modules/space/domain/space.entity';
 
@@ -45,6 +46,10 @@ export class UserEntity {
   @Expose()
   @Column({ name: 'created_at' })
   createdAt!: Date;
+
+  @Expose()
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt!: Date;
 
   @Column({
     name: 'last_login_at',

@@ -26,13 +26,11 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
 
   const {
     currentEmail: email,
-    updateUserEmail,
     lastPasswordChangeAt,
     logout
   } = useStore((state) => ({
-    currentEmail: state.user.email,
-    updateUserEmail: state.updateUserEmail,
-    lastPasswordChangeAt: state.user.lastPasswordChangeAt,
+    currentEmail: state.user?.email,
+    lastPasswordChangeAt: state.user?.lastPasswordChangeAt,
     logout: state.logout,
   }), shallow);
 
@@ -78,11 +76,12 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
   };
 
   const updateEmailAddress = async (newEmail: string): Promise<void> => {
-    if (!email) { return; }
+    if (!email) {
+      return;
+    }
 
     await updateAuthEmail({ currentEmail: email, newEmail });
-    updateUserEmail(newEmail);
-
+    setIsEmailModalOpen(false);
     setIsEmailSuccessModalOpen(true);
   };
 
@@ -91,7 +90,7 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
       <Sidebar
         menuItems={menuItems}
         onCollapse={handleCollapse}
-        selectedItemLabel={menuItems.find(m => m.path === '/settings').label}
+        selectedItemLabel={menuItems.find(m => m.path === '/settings')?.label ?? ''}
       />
 
       <MainContent $isCollapsed={isCollapsed}>

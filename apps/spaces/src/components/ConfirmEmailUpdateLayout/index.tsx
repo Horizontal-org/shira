@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import notFoundSvg from "../../assets/404.svg";
 import { confirmAuthEmailUpdate } from "../../fetch/auth_update";
 import { handleHttpError } from "../../fetch/handleError";
+import { useStore } from "../../store";
 
 type ConfirmationStatus = "checking" | "success" | "invalid" | "error";
 
@@ -15,6 +16,10 @@ export const ConfirmEmailUpdateLayout: FunctionComponent = () => {
   const [status, setStatus] = useState<ConfirmationStatus>("checking");
   const [errorMessage, setErrorMessage] = useState("");
 
+  const { logout } = useStore((state) => ({
+    logout: state.logout,
+  }));
+
   useEffect(() => {
     if (!token) {
       navigate("/login", { replace: true });
@@ -24,7 +29,9 @@ export const ConfirmEmailUpdateLayout: FunctionComponent = () => {
     const confirmEmailUpdate = async () => {
       try {
         await confirmAuthEmailUpdate(token);
-        setStatus("success");
+
+        logout();
+        navigate("/login", { replace: true });
       } catch (error) {
         const { message } = handleHttpError(error);
 

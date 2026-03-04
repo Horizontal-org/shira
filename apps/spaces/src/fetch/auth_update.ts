@@ -16,9 +16,11 @@ export const updateAuthEmail = async (payload: UpdateEmailPayload) => {
 };
 
 export const updateAuthPassword = async (payload: UpdatePasswordPayload) => {
+  console.log('Updating password with payload:', payload);
   await axios.put(`${process.env.REACT_APP_API_URL}/space/update/password`, payload);
 };
 
 export const confirmAuthEmailUpdate = async (token: string) => {
+  console.log("[confirmAuthEmailUpdate] request", token);
   await axios.post(`${process.env.REACT_APP_API_URL}/space/update/email/confirm/${token}`);
 };

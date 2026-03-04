@@ -64,12 +64,12 @@ export const validatePasswordResetTokenAuthServiceProvider = {
 };
 
 export const confirmEmailUpdateAuthServiceProvider = {
-  provide: TYPES.services.IConfirmUpdateAuthService,
+  provide: TYPES.services.IConfirmEmailUpdateAuthService,
   useClass: ConfirmEmailUpdateAuthService,
 };
 
 export const confirmPasswordUpdateAuthServiceProvider = {
-  provide: TYPES.services.IConfirmUpdateAuthService,
+  provide: TYPES.services.IConfirmPasswordUpdateAuthService,
   useClass: ConfirmPasswordUpdateAuthService,
 };
 

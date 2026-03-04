@@ -10,7 +10,7 @@ import { UpdateEmailAuthDto } from "../domain/update-email.auth.dto";
 import { EmailTakenException, InvalidEmailUpdateException, UserNotFoundException } from "../exceptions";
 import { IRequestEmailUpdateAuthService } from "../interfaces/services/request-email-update.auth.service.interface";
 
-const EMAIL_UPDATE_LINK_EXPIRES = '1d';
+const EMAIL_UPDATE_LINK_EXPIRES = "10h";
 
 @Injectable()
 export class RequestEmailUpdateAuthService implements IRequestEmailUpdateAuthService {
@@ -24,15 +24,13 @@ export class RequestEmailUpdateAuthService implements IRequestEmailUpdateAuthSer
 
   private readonly logger = new ApiLogger(RequestEmailUpdateAuthService.name);
 
-  async execute(dto: UpdateEmailAuthDto): Promise<void> {
-    this.logger.log(`Processing email update request for ${dto.newEmail}`);
+  async execute(dto: UpdateEmailAuthDto, spaceId: number): Promise<void> {
+    this.logger.log(`Processing email update request for ${dto.newEmail} in space ${spaceId}`);
 
     const currentEmail = dto.currentEmail.trim().toLowerCase();
     const newEmail = dto.newEmail.trim().toLowerCase();
 
-    const user = await this.userRepository.findOne({
-      where: { email: currentEmail },
-    });
+    const user = await this.findUserByEmailAndSpace(currentEmail, spaceId);
 
     if (!user) {
       throw new UserNotFoundException(currentEmail);
@@ -42,9 +40,7 @@ export class RequestEmailUpdateAuthService implements IRequestEmailUpdateAuthSer
       throw new InvalidEmailUpdateException(currentEmail, newEmail);
     }
 
-    const existingUser = await this.userRepository.findOne({
-      where: { email: newEmail },
-    });
+    const existingUser = await this.findUserByEmailAndSpace(newEmail, spaceId);
 
     if (existingUser) {
       throw new EmailTakenException();
@@ -67,10 +63,17 @@ export class RequestEmailUpdateAuthService implements IRequestEmailUpdateAuthSer
       subject: 'Confirm your Shira email change',
       template: 'confirm-email-update',
       data: {
-        currentEmail,
         newEmail,
         confirmLink,
       },
     });
+  }
+
+  private async findUserByEmailAndSpace(email: string, spaceId: number): Promise<UserEntity | null> {
+    return this.userRepository
+      .createQueryBuilder('user')
+      .innerJoin('user.spaces', 'space', 'space.id = :spaceId', { spaceId })
+      .where('user.email = :email', { email })
+      .getOne();
   }
 }
