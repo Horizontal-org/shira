@@ -5,7 +5,7 @@ export class AddLastPasswordChangeAtToUsers1769707180001 implements MigrationInt
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
             ALTER TABLE users
-              ADD COLUMN last_password_change_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+              ADD COLUMN last_password_change_at TIMESTAMP NULL DEFAULT NULL
         `);
     }
 

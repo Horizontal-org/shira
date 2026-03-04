@@ -19,10 +19,6 @@ export class CreatePasswordResetsTable1769707180000 implements MigrationInterfac
                         type: 'int',
                     },
                     {
-                        name: 'email',
-                        type: 'varchar',
-                    },
-                    {
                         name: 'reset_hash',
                         type: 'varchar',
                     },
