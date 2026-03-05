@@ -1,7 +1,7 @@
-import { FunctionComponent, ReactNode } from "react";
-import { styled } from "@shira/ui";
+import { FunctionComponent, ReactNode } from 'react';
+import styled from 'styled-components';
 
-interface ActionTooltipProps {
+export interface ActionTooltipProps {
   content: string;
   children: ReactNode;
   delayMs?: number;
@@ -40,8 +40,8 @@ const Tooltip = styled.div`
   right: 0;
   padding: 8px 12px;
   border-radius: 4px;
-  background: ${props => props.theme.colors.dark.black};
-  color: ${props => props.theme.colors.light.white};
+  background: ${(props) => props.theme.colors.dark.black};
+  color: ${(props) => props.theme.colors.light.white};
   font-size: 12px;
   line-height: 1.4;
   white-space: nowrap;
@@ -57,7 +57,6 @@ const Tooltip = styled.div`
     right: 12px;
     border-width: 5px;
     border-style: solid;
-    border-color: transparent transparent ${props => props.theme.colors.dark.black} transparent;
+    border-color: transparent transparent ${(props) => props.theme.colors.dark.black} transparent;
   }
 `;
-

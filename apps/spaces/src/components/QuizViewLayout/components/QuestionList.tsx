@@ -1,7 +1,7 @@
 import { FunctionComponent, useState } from "react";
 import { FiPlus, FiLoader } from 'react-icons/fi';
 import { MdDragIndicator, MdOutlineMenuBook } from "react-icons/md";
-import { styled, TrashIcon, EditIcon, Button, defaultTheme } from '@shira/ui'
+import { styled, TrashIcon, EditIcon, Button, defaultTheme, ActionTooltip } from '@shira/ui'
 import { QuestionEmptyState } from "./QuestionEmptyState";
 import { DeleteModal } from "../../modals/DeleteModal";
 import { UnpublishQuizOnDeleteModal } from "../../modals/UnpublishQuizOnDeleteModal";
@@ -14,7 +14,6 @@ import DuplicateIcon from './DuplicateIcon'
 import { QuizHasResultsModal } from "../../modals/QuizHasResultsModal";
 import { useTranslation } from "react-i18next";
 import { useStore } from "../../../store";
-import { ActionTooltip } from "./ActionTooltip";
 
 interface QuestionsListProps {
   quizId: number;
