@@ -21,7 +21,7 @@ export class UpdateUserController {
 
   @Put('email')
   @Roles(Role.SpaceAdmin)
-  async updateEmail(
+  async requestEmailUpdate(
     @Body() dto: UpdateEmailAuthDto,
     @SpaceId() spaceId: number
   ) {

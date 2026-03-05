@@ -598,6 +598,7 @@
         "email_no_match": "The email address does not match the invitation.",
         "reset_password_confirmation_mismatch": "Password confirmation does not match.",
         "reset_password_weak": "Password must be at least 8 characters.",
+        "current_password_incorrect": "Incorrect password.",
         "learners_bulk_import": {
             "missing_name": "Missing name",
             "missing_email": "Missing email address",

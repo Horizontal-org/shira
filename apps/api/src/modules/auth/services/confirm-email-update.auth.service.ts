@@ -35,12 +35,7 @@ export class ConfirmEmailUpdateAuthService implements IConfirmUpdateAuthService 
     const currentEmail = payload.currentEmail?.trim().toLowerCase();
     const newEmail = payload.newEmail?.trim().toLowerCase();
 
-    if (
-      payload.type !== "email_update" ||
-      !payload.userId ||
-      !currentEmail ||
-      !newEmail
-    ) {
+    if (payload.type !== "email_update" || !payload.userId || !currentEmail || !newEmail) {
       throw new EmailUpdateTokenInvalidException();
     }
 

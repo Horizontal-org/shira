@@ -50,7 +50,14 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
     return t('settings.sections.password.last_updated', { date: lastPasswordChangeDate });
   }, [i18n.language, t]);
 
-  const updateUserPassword = async ({ currentPassword, newPassword }): Promise<void> => {
+  const updateUserPassword = async ({
+    currentPassword,
+    newPassword,
+  }: {
+    currentPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+  }): Promise<void> => {
     await changeUserPassword({ currentPassword, newPassword });
   };
 

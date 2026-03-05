@@ -35,10 +35,13 @@ export class ConfirmPasswordUpdateAuthService implements IConfirmUpdateAuthServi
       throw new CurrentPasswordIncorrectException();
     }
 
-    user.password = await hashPassword(dto.newPassword);
-    user.lastPasswordChangeAt = new Date();
+    const updatedUser = this.userRepository.create({
+      ...user,
+      password: await hashPassword(dto.newPassword),
+      lastPasswordChangeAt: new Date(),
+    });
 
-    await this.userRepository.save(user);
+    await this.userRepository.save(updatedUser);
 
     this.logger.log(`Password updated for user ${user.id}`);
   }

@@ -83,9 +83,9 @@ export const ChangePasswordModal: FunctionComponent<Props> = ({
       setIsModalOpen(false);
     } catch (error) {
       const { message } = handleHttpError(error);
-      setCurrentPasswordApiError(
-        getErrorContent("error_messages", "something_went_wrong", message)
-      );
+
+      setCurrentPasswordApiError(t(getErrorContent("error_messages", "something_went_wrong", message)));
+      setRequestSubmitError(t(getErrorContent("error_messages", "something_went_wrong", message)));
     }
   };
 
