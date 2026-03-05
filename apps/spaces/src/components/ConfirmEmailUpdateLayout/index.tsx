@@ -7,6 +7,7 @@ import { confirmUserEmailChange } from "../../fetch/user";
 import { handleHttpError } from "../../fetch/handleError";
 import { useStore } from "../../store";
 import toast from "react-hot-toast";
+import { getErrorContent } from "../../utils/getErrorContent";
 
 type ConfirmationStatus = "checking" | "success" | "invalid" | "error";
 
@@ -36,13 +37,7 @@ export const ConfirmEmailUpdateLayout: FunctionComponent = () => {
         toast.success(t("success_messages.email_updated"), { duration: 3000 });
       } catch (error) {
         const { message } = handleHttpError(error);
-
-        if (message === "email_update_token_invalid") {
-          setStatus("invalid");
-          return;
-        }
-
-        setErrorMessage(t("error_messages.something_went_wrong"));
+        setErrorMessage(t(getErrorContent("error_messages", "something_went_wrong", message)));
         setStatus("error");
       }
     };
@@ -57,11 +52,10 @@ export const ConfirmEmailUpdateLayout: FunctionComponent = () => {
   const isSuccess = status === "success";
   const title = isSuccess
     ? t("confirm_email_update.success_title")
-    : t("confirm_email_update.invalid_title");
+    : t("error_messages.invalid_title");
   const description = isSuccess
     ? t("confirm_email_update.success_description")
-    : errorMessage || t("confirm_email_update.invalid_description");
-  const buttonText = isSuccess ? t("buttons.login") : t("buttons.back");
+    : errorMessage || t("error_messages.invalid_description");
 
   return (
     <Container>
@@ -79,7 +73,7 @@ export const ConfirmEmailUpdateLayout: FunctionComponent = () => {
             </Body1>
             <ButtonWrapper>
               <Button
-                text={buttonText}
+                text={t('buttons.back_home')}
                 type="outline"
                 onClick={() => navigate("/login")}
               />

@@ -36,9 +36,7 @@
     },
     "confirm_email_update": {
         "success_title": "Email address updated",
-        "success_description": "Your email address has been confirmed. You can now log in with your new email address.",
-        "invalid_title": "Sorry, something went wrong",
-        "invalid_description": "The email confirmation link is invalid or has expired. Please request a new email change from Settings."
+        "success_description": "Your email address has been confirmed. You can now log in with your new email address."
     },
     "beta": {
         "label": "BETA",
@@ -402,7 +400,8 @@
         "download_template": "Download CSV template",
         "view_guidelines": "View formatting guidelines",
         "browse_files": "Browse files",
-        "i_understand": "I understand"
+        "i_understand": "I understand",
+        "back_home": "Back to home"
     },
     "modals": {
         "create_quiz": {
@@ -599,6 +598,8 @@
         "reset_password_confirmation_mismatch": "Password confirmation does not match.",
         "reset_password_weak": "Password must be at least 8 characters.",
         "current_password_incorrect": "Incorrect password.",
+        "invalid_title": "Sorry, something went wrong",
+        "user_not_found": "The link you opened is invalid or has expired. Please contact your organization or email contact@wearehorizontal.org for support.",
         "learners_bulk_import": {
             "missing_name": "Missing name",
             "missing_email": "Missing email address",
