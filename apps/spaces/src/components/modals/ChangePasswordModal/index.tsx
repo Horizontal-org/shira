@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { handleHttpError } from "../../../fetch/handleError";
 import { hasRequiredValue } from "../../../utils/validation";
 import { getErrorContent } from "../../../utils/getErrorContent";
+import toast from "react-hot-toast";
 
 interface Props {
   isModalOpen: boolean;
@@ -81,6 +82,7 @@ export const ChangePasswordModal: FunctionComponent<Props> = ({
         confirmPassword: confirmPassword.trim(),
       });
       setIsModalOpen(false);
+      toast.success(t("success_messages.password_updated"), { duration: 3000 });
     } catch (error) {
       const { message } = handleHttpError(error);
 

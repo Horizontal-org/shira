@@ -6,6 +6,7 @@ import notFoundSvg from "../../assets/404.svg";
 import { confirmUserEmailChange } from "../../fetch/user";
 import { handleHttpError } from "../../fetch/handleError";
 import { useStore } from "../../store";
+import toast from "react-hot-toast";
 
 type ConfirmationStatus = "checking" | "success" | "invalid" | "error";
 
@@ -32,6 +33,7 @@ export const ConfirmEmailUpdateLayout: FunctionComponent = () => {
 
         logout();
         navigate("/login", { replace: true });
+        toast.success(t("success_messages.email_updated"), { duration: 3000 });
       } catch (error) {
         const { message } = handleHttpError(error);
 
