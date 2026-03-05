@@ -8,6 +8,9 @@ export const TYPES = {
     IFindByIdUserService: 'IFindByIdUserService',
     IFindByUsernameUserService: 'IFindByUsernameUserService',
     ICreateUserService: 'ICreateUserService',
-    IMarkUserLoginService: 'IMarkUserLoginService'
+    IMarkUserLoginService: 'IMarkUserLoginService',
+    IRequestPasswordResetUserService: 'IRequestPasswordResetUserService',
+    IConfirmEmailUpdateUserService: 'IConfirmEmailUpdateUserService',
+    IConfirmPasswordUpdateUserService: 'IConfirmPasswordUpdateUserService'
   },
 };

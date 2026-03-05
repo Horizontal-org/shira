@@ -4,18 +4,18 @@ import { ApiLogger } from "src/utils/logger/api-logger.service";
 import { Repository } from "typeorm";
 import { UserEntity } from "src/modules/user/domain/user.entity";
 import { comparePassword, hashPassword } from "src/utils/password.utils";
-import { UpdatePasswordAuthDto } from "../domain/update-password.auth.dto";
-import { IConfirmUpdateAuthService } from "../interfaces/services/confirm-update-space.auth.service.interface";
-import { CurrentPasswordIncorrectException, UserNotFoundException } from "../exceptions";
+import { UpdatePasswordAuthDto } from "src/modules/auth/domain/update-password.auth.dto";
+import { IConfirmUpdateUserService } from "../interfaces/services/confirm-update.user.service.interface";
+import { CurrentPasswordIncorrectException, UserNotFoundException } from "src/modules/auth/exceptions";
 
 @Injectable()
-export class ConfirmPasswordUpdateAuthService implements IConfirmUpdateAuthService {
+export class ConfirmPasswordUpdateUserService implements IConfirmUpdateUserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
   ) { }
 
-  private readonly logger = new ApiLogger(ConfirmPasswordUpdateAuthService.name);
+  private readonly logger = new ApiLogger(ConfirmPasswordUpdateUserService.name);
 
   async execute(dto: UpdatePasswordAuthDto, userId: number, spaceId: number): Promise<void> {
     this.logger.log(`Processing password update for user ${userId}`);

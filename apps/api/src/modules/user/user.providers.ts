@@ -8,6 +8,9 @@ import { FindByidUserService } from './services/find-by-id.user.service';
 import { CreateUserApplication } from './applications/create.user.application';
 import { CreateUserService } from './services/create.user.service';
 import { MarkUserLoginService } from './services/mark.user.login.service';
+import { RequestPasswordResetUserService } from './services/request-password-reset.user.service';
+import { ConfirmEmailUpdateUserService } from './services/confirm-email-update.user.service';
+import { ConfirmPasswordUpdateUserService } from './services/confirm-password-update.user.service';
 
 
 // export const findByUsernameUserApplicationProvider = {
@@ -55,6 +58,21 @@ export const markUserLoginServiceProvider = {
   useClass: MarkUserLoginService,
 };
 
+export const requestPasswordResetUserServiceProvider = {
+  provide: TYPES.services.IRequestPasswordResetUserService,
+  useClass: RequestPasswordResetUserService,
+};
+
+export const confirmEmailUpdateUserServiceProvider = {
+  provide: TYPES.services.IConfirmEmailUpdateUserService,
+  useClass: ConfirmEmailUpdateUserService,
+};
+
+export const confirmPasswordUpdateUserServiceProvider = {
+  provide: TYPES.services.IConfirmPasswordUpdateUserService,
+  useClass: ConfirmPasswordUpdateUserService,
+};
+
 
 export const applicationsUserProviders = [
   checkPasswordUserApplicationProvider,
@@ -66,5 +84,8 @@ export const servicesUserProviders = [
   findByUernameUserServiceProvider,
   findByIdUserServiceProvider,
   createUserServiceProvider,
-  markUserLoginServiceProvider
+  markUserLoginServiceProvider,
+  requestPasswordResetUserServiceProvider,
+  confirmEmailUpdateUserServiceProvider,
+  confirmPasswordUpdateUserServiceProvider
 ];

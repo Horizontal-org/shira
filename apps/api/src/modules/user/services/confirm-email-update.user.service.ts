@@ -4,19 +4,18 @@ import { ApiLogger } from "src/utils/logger/api-logger.service";
 import { Repository } from "typeorm";
 import { UserEntity } from "src/modules/user/domain/user.entity";
 import { InjectRepository } from "@nestjs/typeorm";
-import { EmailUpdateTokenInvalidException, InvalidEmailUpdateException, UserNotFoundException } from "../exceptions";
-import { IConfirmUpdateAuthService } from "../interfaces/services/confirm-update-space.auth.service.interface";
+import { EmailUpdateTokenInvalidException, InvalidEmailUpdateException, UserNotFoundException } from "src/modules/auth/exceptions";
+import { IConfirmUpdateUserService } from "../interfaces/services/confirm-update.user.service.interface";
 
 @Injectable()
-export class ConfirmEmailUpdateAuthService implements IConfirmUpdateAuthService {
-
+export class ConfirmEmailUpdateUserService implements IConfirmUpdateUserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
     private readonly jwtService: JwtService,
   ) { }
 
-  private readonly logger = new ApiLogger(ConfirmEmailUpdateAuthService.name);
+  private readonly logger = new ApiLogger(ConfirmEmailUpdateUserService.name);
 
   async execute(token: string): Promise<void> {
     let payload: {
