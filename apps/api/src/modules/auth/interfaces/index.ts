@@ -9,5 +9,4 @@ export { IUserContextService } from './services/user-context.service.interface'
 export { IRequestPasswordResetAuthService } from './services/request-password-reset.auth.service.interface'
 export { IConfirmPasswordResetAuthService } from './services/confirm-reset-password.auth.service.interface'
 export { IValidateResetPasswordTokenAuthService } from './services/validate-reset-password-token.auth.service.interface'
-export { IRequestEmailUpdateAuthService } from './services/request-email-update.auth.service.interface'
 export { TYPES } from './types';

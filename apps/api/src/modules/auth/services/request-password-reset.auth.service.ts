@@ -44,6 +44,7 @@ export class RequestPasswordResetAuthService implements IRequestPasswordResetAut
 
     const reset = new PasswordResetEntity();
     reset.userId = user.id;
+    reset.email = email;
 
     const rawToken = crypto.randomBytes(20).toString('hex');
     reset.resetHash = hashResetToken(rawToken);

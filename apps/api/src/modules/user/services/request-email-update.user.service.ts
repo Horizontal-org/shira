@@ -6,14 +6,14 @@ import { Queue } from "bullmq";
 import { Repository } from "typeorm";
 import { ApiLogger } from "src/utils/logger/api-logger.service";
 import { UserEntity } from "src/modules/user/domain/user.entity";
-import { UpdateEmailAuthDto } from "../domain/update-email.auth.dto";
-import { EmailTakenException, InvalidEmailUpdateException, UserNotFoundException } from "../exceptions";
-import { IRequestEmailUpdateAuthService } from "../interfaces/services/request-email-update.auth.service.interface";
+import { UpdateEmailAuthDto } from "src/modules/auth/domain/update-email.auth.dto";
+import { EmailTakenException, InvalidEmailUpdateException, UserNotFoundException } from "src/modules/auth/exceptions";
+import { IRequestEmailUpdateUserService } from "../interfaces/services/request-email-update.user.service.interface";
 
-const EMAIL_UPDATE_LINK_EXPIRES = "10h";
+const EMAIL_UPDATE_LINK_EXPIRES = "10m";
 
 @Injectable()
-export class RequestEmailUpdateAuthService implements IRequestEmailUpdateAuthService {
+export class RequestEmailUpdateUserService implements IRequestEmailUpdateUserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
@@ -22,7 +22,7 @@ export class RequestEmailUpdateAuthService implements IRequestEmailUpdateAuthSer
     private readonly jwtService: JwtService,
   ) { }
 
-  private readonly logger = new ApiLogger(RequestEmailUpdateAuthService.name);
+  private readonly logger = new ApiLogger(RequestEmailUpdateUserService.name);
 
   async execute(dto: UpdateEmailAuthDto, spaceId: number): Promise<void> {
     this.logger.log(`Processing email update request for ${dto.newEmail} in space ${spaceId}`);

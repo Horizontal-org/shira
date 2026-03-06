@@ -13,6 +13,7 @@ import {
   findByUernameUserServiceProvider,
   createUserApplicationProvider,
   markUserLoginServiceProvider,
+  requestEmailUpdateUserServiceProvider,
   confirmEmailUpdateUserServiceProvider,
   confirmPasswordUpdateUserServiceProvider
 } from './user.providers';
@@ -42,6 +43,7 @@ import { SpaceEntity } from '../space/domain/space.entity';
     findByUernameUserServiceProvider,
     createUserApplicationProvider,
     markUserLoginServiceProvider,
+    requestEmailUpdateUserServiceProvider,
     confirmEmailUpdateUserServiceProvider,
     confirmPasswordUpdateUserServiceProvider
   ],

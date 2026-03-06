@@ -9,6 +9,7 @@ export const TYPES = {
     IFindByUsernameUserService: 'IFindByUsernameUserService',
     ICreateUserService: 'ICreateUserService',
     IMarkUserLoginService: 'IMarkUserLoginService',
+    IRequestEmailUpdateUserService: 'IRequestEmailUpdateUserService',
     IConfirmEmailUpdateUserService: 'IConfirmEmailUpdateUserService',
     IConfirmPasswordUpdateUserService: 'IConfirmPasswordUpdateUserService'
   },

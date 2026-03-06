@@ -10,6 +10,7 @@ import { CreateUserService } from './services/create.user.service';
 import { MarkUserLoginService } from './services/mark.user.login.service';
 import { ConfirmEmailUpdateUserService } from './services/confirm-email-update.user.service';
 import { ConfirmPasswordUpdateUserService } from './services/confirm-password-update.user.service';
+import { RequestEmailUpdateUserService } from './services/request-email-update.user.service';
 
 
 // export const findByUsernameUserApplicationProvider = {
@@ -57,6 +58,11 @@ export const markUserLoginServiceProvider = {
   useClass: MarkUserLoginService,
 };
 
+export const requestEmailUpdateUserServiceProvider = {
+  provide: TYPES.services.IRequestEmailUpdateUserService,
+  useClass: RequestEmailUpdateUserService,
+};
+
 export const confirmEmailUpdateUserServiceProvider = {
   provide: TYPES.services.IConfirmEmailUpdateUserService,
   useClass: ConfirmEmailUpdateUserService,
@@ -79,6 +85,7 @@ export const servicesUserProviders = [
   findByIdUserServiceProvider,
   createUserServiceProvider,
   markUserLoginServiceProvider,
+  requestEmailUpdateUserServiceProvider,
   confirmEmailUpdateUserServiceProvider,
   confirmPasswordUpdateUserServiceProvider
 ];

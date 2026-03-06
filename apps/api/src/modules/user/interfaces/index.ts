@@ -6,5 +6,6 @@ export { IFindByIdUserService } from './services/find-by-id.user.service.interfa
 export { IFindByUsernameUserService } from './services/find-by-username.user.service.interface';
 export { ICreateUserService } from './services/create.user.service.interface'
 export { IConfirmUpdateUserService } from './services/confirm-update.user.service.interface'
+export { IRequestEmailUpdateUserService } from './services/request-email-update.user.service.interface'
 
 export { TYPES } from './types';
