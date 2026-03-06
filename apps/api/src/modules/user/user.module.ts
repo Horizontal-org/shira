@@ -13,19 +13,16 @@ import {
   findByUernameUserServiceProvider,
   createUserApplicationProvider,
   markUserLoginServiceProvider,
-  requestPasswordResetUserServiceProvider,
   confirmEmailUpdateUserServiceProvider,
   confirmPasswordUpdateUserServiceProvider
 } from './user.providers';
 import { SpaceEntity } from '../space/domain/space.entity';
-import { PasswordResetEntity } from '../auth/domain/password-reset.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       UserEntity,
-      SpaceEntity,
-      PasswordResetEntity
+      SpaceEntity
     ]),
     JwtModule.register({
       secret: process.env.JWT_SECRET,
@@ -45,7 +42,6 @@ import { PasswordResetEntity } from '../auth/domain/password-reset.entity';
     findByUernameUserServiceProvider,
     createUserApplicationProvider,
     markUserLoginServiceProvider,
-    requestPasswordResetUserServiceProvider,
     confirmEmailUpdateUserServiceProvider,
     confirmPasswordUpdateUserServiceProvider
   ],

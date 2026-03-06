@@ -5,17 +5,17 @@ import { Queue } from 'bullmq';
 import { InjectQueue } from '@nestjs/bullmq';
 import * as crypto from 'crypto';
 import { Repository } from 'typeorm';
-import { ResetPasswordAuthDto } from 'src/modules/auth/domain/reset-password.auth.dto';
-import { PasswordResetEntity } from 'src/modules/auth/domain/password-reset.entity';
+import { ResetPasswordAuthDto } from '../domain/reset-password.auth.dto';
+import { PasswordResetEntity } from '../domain/password-reset.entity';
 import { UserEntity } from 'src/modules/user/domain/user.entity';
 import { ApiLogger } from 'src/utils/logger/api-logger.service';
-import { IRequestPasswordResetUserService } from '../interfaces/services/request-password-reset.user.service.interface';
+import { IRequestPasswordResetAuthService } from '../interfaces/services/request-password-reset.auth.service.interface';
 import { hashResetToken } from 'src/utils/token.utils';
 
 const RESET_PASSWORD_LINK_EXPIRES_MINUTES = 10;
 
 @Injectable()
-export class RequestPasswordResetUserService implements IRequestPasswordResetUserService {
+export class RequestPasswordResetAuthService implements IRequestPasswordResetAuthService {
   constructor(
     @InjectRepository(PasswordResetEntity)
     private readonly passwordResetRepo: Repository<PasswordResetEntity>,
@@ -25,7 +25,7 @@ export class RequestPasswordResetUserService implements IRequestPasswordResetUse
     private readonly emailsQueue: Queue,
   ) { }
 
-  private readonly logger = new ApiLogger(RequestPasswordResetUserService.name);
+  private readonly logger = new ApiLogger(RequestPasswordResetAuthService.name);
 
   async execute(resetPasswordData: ResetPasswordAuthDto): Promise<void> {
     const email = resetPasswordData.email.trim().toLowerCase();
