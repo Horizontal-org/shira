@@ -6,7 +6,7 @@ import { UserEntity } from "src/modules/user/domain/user.entity";
 import { comparePassword, hashPassword } from "src/utils/password.utils";
 import { UpdatePasswordAuthDto } from "src/modules/auth/domain/update-password.auth.dto";
 import { IConfirmUpdateUserService } from "../interfaces/services/confirm-update.user.service.interface";
-import { CurrentPasswordIncorrectException, UserNotFoundException } from "src/modules/auth/exceptions";
+import { CurrentPasswordIncorrectException, UserNotFoundException } from "../exceptions";
 
 @Injectable()
 export class ConfirmPasswordUpdateUserService implements IConfirmUpdateUserService {

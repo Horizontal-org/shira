@@ -7,8 +7,8 @@ import { Repository } from "typeorm";
 import { ApiLogger } from "src/utils/logger/api-logger.service";
 import { UserEntity } from "src/modules/user/domain/user.entity";
 import { UpdateEmailAuthDto } from "src/modules/auth/domain/update-email.auth.dto";
-import { EmailTakenException, InvalidEmailUpdateException, UserNotFoundException } from "src/modules/auth/exceptions";
 import { IRequestEmailUpdateUserService } from "../interfaces/services/request-email-update.user.service.interface";
+import { EmailTakenException, InvalidEmailUpdateException, UserNotFoundException } from "../exceptions";
 
 const EMAIL_UPDATE_LINK_EXPIRES = "10m";
 

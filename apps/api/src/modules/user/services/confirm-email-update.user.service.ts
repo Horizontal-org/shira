@@ -4,8 +4,8 @@ import { ApiLogger } from "src/utils/logger/api-logger.service";
 import { Repository } from "typeorm";
 import { UserEntity } from "src/modules/user/domain/user.entity";
 import { InjectRepository } from "@nestjs/typeorm";
-import { EmailUpdateTokenInvalidException, InvalidEmailUpdateException, UserNotFoundException } from "src/modules/auth/exceptions";
 import { IConfirmUpdateUserService } from "../interfaces/services/confirm-update.user.service.interface";
+import { EmailUpdateTokenInvalidException, InvalidEmailUpdateException, UserNotFoundException } from "../exceptions";
 
 @Injectable()
 export class ConfirmEmailUpdateUserService implements IConfirmUpdateUserService {

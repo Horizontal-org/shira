@@ -599,7 +599,7 @@
         "reset_password_weak": "Password must be at least 8 characters.",
         "current_password_incorrect": "Incorrect password.",
         "invalid_title": "Sorry, something went wrong",
-        "user_not_found": "The link you opened is invalid or has expired. Please contact your organization or email contact@wearehorizontal.org for support.",
+        "email_update_token_invalid": "The link you opened is invalid or has expired. Please contact your organization or email contact@wearehorizontal.org for support.",
         "learners_bulk_import": {
             "missing_name": "Missing name",
             "missing_email": "Missing email address",

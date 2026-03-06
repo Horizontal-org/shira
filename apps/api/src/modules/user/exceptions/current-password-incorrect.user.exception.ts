@@ -1,9 +1,9 @@
 import { HttpException, HttpStatus } from "@nestjs/common";
-import { AuthErrorCodes } from "./errors/auth.error-codes";
+import { UserErrorCodes } from "./errors/user.error-codes";
 
 export class CurrentPasswordIncorrectException extends HttpException {
   constructor() {
     const cause = "Current password is incorrect.";
-    super(AuthErrorCodes.CurrentPasswordIncorrect, HttpStatus.FORBIDDEN, { cause });
+    super(UserErrorCodes.CurrentPasswordIncorrect, HttpStatus.FORBIDDEN, { cause });
   }
 }
