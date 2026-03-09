@@ -50,12 +50,8 @@ export class ConfirmEmailUpdateUserService implements IConfirmUpdateUserService 
       throw new InvalidEmailUpdateException(currentEmail, newEmail);
     }
 
-    const updatedUser = this.userRepository.create({
-      ...user,
-      email: newEmail
-    });
-
-    await this.userRepository.save(updatedUser);
+    user.email = newEmail;
+    await this.userRepository.save(user);
 
     this.logger.log(`Email update confirmed for user ${user.id}, new email: ${newEmail}`);
   }
