@@ -56,10 +56,10 @@ export const createAuthSlice: StateCreator<
 
   updateUserEmail: (email: string) => {
     set((state) => ({
-      user: state.user ? {
-        ...state.user,
+      user: {
+        ...state.user!,
         email,
-      } : state.user,
+      },
     }))
   },
 
