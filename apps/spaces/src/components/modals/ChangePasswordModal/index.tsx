@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 interface Props {
   isModalOpen: boolean;
   setIsModalOpen: (handle: boolean) => void;
-  onSave?: (values: {
+  onSave: (values: {
     currentPassword: string;
     newPassword: string;
     confirmPassword: string;
