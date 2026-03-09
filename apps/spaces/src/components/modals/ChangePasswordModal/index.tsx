@@ -1,5 +1,5 @@
 import { Body1, Modal, TextInput, styled } from "@shira/ui";
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { handleHttpError } from "../../../fetch/handleError";
 import { hasRequiredValue } from "../../../utils/validation";
@@ -41,12 +41,20 @@ export const ChangePasswordModal: FunctionComponent<Props> = ({
     ? t("reset_password.validation.passwords_mismatch")
     : "";
 
-  const submitDisabled =
+  const submitDisabled = useMemo(() =>
     !hasRequiredValue(currentPassword) ||
     !hasRequiredValue(newPassword) ||
     !hasRequiredValue(confirmPassword) ||
     Boolean(newPasswordError) ||
-    Boolean(confirmPasswordError);
+    Boolean(confirmPasswordError),
+    [
+      currentPassword,
+      newPassword,
+      confirmPassword,
+      newPasswordError,
+      confirmPasswordError,
+    ],
+  );
 
   useEffect(() => {
     if (!isModalOpen) {
@@ -76,7 +84,7 @@ export const ChangePasswordModal: FunctionComponent<Props> = ({
     }
 
     try {
-      await onSave?.({
+      await onSave({
         currentPassword: currentPassword.trim(),
         newPassword: newPassword.trim(),
         confirmPassword: confirmPassword.trim(),

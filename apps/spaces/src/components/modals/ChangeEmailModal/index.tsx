@@ -9,7 +9,7 @@ import { hasRequiredValue, isEmailValid } from "../../../utils/validation";
 interface Props {
   isModalOpen: boolean;
   setIsModalOpen: (handle: boolean) => void;
-  onSave?: (email: string) => Promise<void>;
+  onSave: (email: string) => Promise<void>;
 }
 
 export const ChangeEmailModal: FunctionComponent<Props> = ({
@@ -43,7 +43,7 @@ export const ChangeEmailModal: FunctionComponent<Props> = ({
     setRequestSubmitError("");
 
     try {
-      await onSave?.(newEmail.trim());
+      await onSave(newEmail.trim());
     } catch (error) {
       const { message } = handleHttpError(error);
       setRequestSubmitError(t(getErrorContent("error_messages", "something_went_wrong", message)));
