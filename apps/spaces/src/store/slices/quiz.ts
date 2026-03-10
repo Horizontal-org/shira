@@ -1,5 +1,5 @@
 import { StateCreator } from "zustand"
-import { createQuiz, deleteQuiz, getQuizzes, reorderQuiz, ReorderQuizPayload, updateQuiz, UpdateQuizPayload } from "../../fetch/quiz";
+import { createQuiz, deleteQuiz, getQuizzes, reorderQuiz, ReorderQuizPayload, updateQuiz, UpdateQuizPayload, validateQuizTitle } from "../../fetch/quiz";
 
 export enum QuizSuccessStates {
   update = 'UPDATE',
@@ -51,8 +51,10 @@ export interface QuizSlice {
   updateQuiz: (data: UpdateQuizPayload, successAction?: string) => void,
   reorderQuiz: (data: ReorderQuizPayload) => void
   deleteQuiz: (id: number) => void,
+  validateQuizName: (title: string, spaceId: number) => void,
+  isQuizNameValid?: boolean,
   createQuiz: (title: string, visibility: string) => void,
-  quizActionSuccess: null | QuizSuccessStates
+  quizActionSuccess: null | QuizSuccessStates,
   cleanQuizActionSuccess: () => void
   setQuizActionSuccess: (successState: string) => void,
   cleanQuizzes: () => void
@@ -98,6 +100,7 @@ export const createQuizSlice: StateCreator<
       quizActionSuccess: QuizSuccessStates.reorder
     })
   },
+
   deleteQuiz: async (id: number) => {
     set({ quizActionSuccess: null })
     await deleteQuiz(id)
@@ -110,6 +113,12 @@ export const createQuizSlice: StateCreator<
       quizzes: quizzes
     })
   },
+
+  validateQuizName: async (title: string, spaceId: number) => {
+    const res = await validateQuizTitle(title, spaceId)
+    set({ isQuizNameValid: res })
+  },
+
   createQuiz: async (title: string, visibility: string) => {
     set({ quizActionSuccess: null })
     await createQuiz(title, visibility)
@@ -118,9 +127,11 @@ export const createQuizSlice: StateCreator<
       quizActionSuccess: QuizSuccessStates.create
     })
   },
+
   setQuizActionSuccess: async (successState: QuizSuccessStates) => {
     set({ quizActionSuccess: successState })
   },
+
   cleanQuizzes: () => {
     set({ quizzes: [] })
   }

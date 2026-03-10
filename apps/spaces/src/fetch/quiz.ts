@@ -90,3 +90,10 @@ export const duplicateQuiz = async (quizId: number, title: string, visibility: s
     throw new Error('Failed to duplicate quiz')
   }
 }
+
+export const validateQuizTitle = async (title: string, spaceId: number) => {
+  const { data } = await axios.get(
+    `${process.env.REACT_APP_API_URL}/quiz/validate-name`, { params: { title, spaceId } }
+  )
+  return data;
+}
