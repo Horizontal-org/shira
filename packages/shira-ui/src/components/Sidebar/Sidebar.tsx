@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { Logo, MenuIcon } from '../Icons';
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
+const bottomMenuLabels = ['Settings', 'Support', 'Log out'];
+
 export interface SidebarProps {
   menuItems: Array<{
     icon: React.ReactNode;
@@ -16,6 +18,12 @@ export interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ menuItems, onClose, onCollapse, selectedItemLabel }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
+
+  const topMenuItems = menuItems
+    .filter(item => !bottomMenuLabels.includes(item.label));
+
+  const bottomMenuItems = bottomMenuLabels
+    .map(label => menuItems.find(item => item.label === label));
 
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
@@ -38,9 +46,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ menuItems, onClose, onCollapse
 
           <MenuContainer>
             <MainMenu>
-              {menuItems.slice(0, -1).map((item, index) => (
-                <MenuItem 
-                  key={index} 
+              {topMenuItems.map((item, index) => (
+                <MenuItem
+                  key={index}
                   onClick={item.onClick}
                   isSelected={selectedItemLabel === item.label}
                 >
@@ -49,22 +57,26 @@ export const Sidebar: React.FC<SidebarProps> = ({ menuItems, onClose, onCollapse
                 </MenuItem>
               ))}
             </MainMenu>
-    
+
             <BottomMenu>
-              <MenuItem 
-                onClick={menuItems[menuItems.length - 1].onClick}
-              >
-                <IconContainer>{menuItems[menuItems.length - 1].icon}</IconContainer>
-                {!isCollapsed && <Label>{menuItems[menuItems.length - 1].label}</Label>}
-              </MenuItem>
+              {bottomMenuItems.map((item, index) => (
+                <MenuItem
+                  key={index}
+                  onClick={item.onClick}
+                  isSelected={selectedItemLabel === item.label}
+                >
+                  <IconContainer>{item.icon}</IconContainer>
+                  {!isCollapsed && <Label>{item.label}</Label>}
+                </MenuItem>
+              ))}
             </BottomMenu>
           </MenuContainer>
         </SidebarContainer>
 
         <CollapseContainer onClick={toggleCollapse}>
-            <CollapseButton>
-                {isCollapsed ? <FiChevronRight color='#333030' size={20}/> : <FiChevronLeft color='#333030' size={20} />}
-            </CollapseButton>
+          <CollapseButton>
+            {isCollapsed ? <FiChevronRight color='#333030' size={20} /> : <FiChevronLeft color='#333030' size={20} />}
+          </CollapseButton>
         </CollapseContainer>
       </Wrapper>
     </>
@@ -160,20 +172,25 @@ const MenuItem = styled.div<{ isSelected?: boolean }>`
 
   ${props => props.isSelected && `
     background: ${props.theme.colors.green3};
-    color: #12320F;
+    color: ${props.theme.colors.dark.black};
 
     > div {
-      > svg {        
-        stroke: ${props.theme.colors.dark.black};
+        color: ${props.theme.colors.dark.black};
+
+      > svg {
+        color: inherit;
       }
     }
 
     &:hover {
       background-color: ${props => props.theme.colors.dark.darkGrey};
       color: white;
+
       > div {
-        > svg {        
-          stroke: white;
+        color: white;
+
+        > svg {
+          color: inherit;
         }
       }
     }

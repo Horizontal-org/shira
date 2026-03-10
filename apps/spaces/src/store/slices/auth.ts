@@ -5,8 +5,10 @@ export interface AuthSlice {
   login: (email, pass) => void
   logout: () => void
   me: () => void
+  updateUserEmail: (email: string) => void
   user: {
     email?: string;
+    lastPasswordChangeAt?: string | null;
     spaces?: {
       name: string
     }[]
@@ -19,6 +21,7 @@ export interface AuthSlice {
 
 const isPublicRoute = (path: string): boolean => {
   return path === '/login'
+    || path.startsWith('/confirm-email-update')
     || path.startsWith('/create-space')
     || path.startsWith('/invitation-used')
     || path.startsWith('/get-started')
@@ -49,6 +52,15 @@ export const createAuthSlice: StateCreator<
       user: null,
       space: null
     })
+  },
+
+  updateUserEmail: (email: string) => {
+    set((state) => ({
+      user: {
+        ...state.user!,
+        email,
+      },
+    }))
   },
 
   me: async () => {

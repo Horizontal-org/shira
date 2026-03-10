@@ -7,12 +7,12 @@ export const TYPES = {
     ISubmitRegistrationAuthService: 'ISubmitRegistrationAuthService',
     IConfirmRegistrationAuthService: 'IConfirmRegistrationAuthService',
     ISendInvitationAuthService: 'ISendInvitationAuthService',
-    ISpaceRegistrationAuthService:'ISpaceRegistrationAuthService',
+    ISpaceRegistrationAuthService: 'ISpaceRegistrationAuthService',
     IUserContextService: 'IUserContextService',
     IMarkUserLoginService: 'IMarkUserLoginService',
     IRequestPasswordResetAuthService: 'IRequestPasswordResetAuthService',
     IConfirmPasswordResetAuthService: 'IConfirmPasswordResetAuthService',
-    IValidateResetPasswordTokenAuthService: 'IValidateResetPasswordTokenAuthService',
+    IValidateResetPasswordTokenAuthService: 'IValidateResetPasswordTokenAuthService'
   },
   handlers: {},
 };

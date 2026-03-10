@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { FiHelpCircle, FiLogOut } from 'react-icons/fi';
-import { IoPersonOutline } from 'react-icons/io5';
+import { FiLogOut } from 'react-icons/fi';
+import { IoMdHelpCircle, IoMdSettings } from 'react-icons/io';
+import { IoPerson } from 'react-icons/io5';
 import { LuNotepadText } from 'react-icons/lu';
 
 interface NavigateFunction {
@@ -17,27 +18,33 @@ const defaultAdminPaths = {
   quizzes: '/dashboard',
   learners: '/learner',
   support: '/support',
-  logout: '/logout'
+  logout: '/logout',
+  settings: '/settings'
 } as const;
 
 const createDefaultMenuItems = (): MenuItem[] => [
   {
-    icon: <LuNotepadText id="dashboard-icon" size={24} color="white" />,
+    icon: <LuNotepadText id="dashboard-icon" size={24} color="currentColor" />,
     label: 'Quizzes',
     path: defaultAdminPaths.quizzes
   },
   {
-    icon: <IoPersonOutline id='learner-icon' size={24} color='white' />,
+    icon: <IoPerson id='learner-icon' size={24} color='currentColor' />,
     label: 'Learners',
     path: defaultAdminPaths.learners
   },
   {
-    icon: <FiHelpCircle id="support-icon" size={24} color="white" />,
+    icon: <IoMdHelpCircle id="support-icon" size={24} color="currentColor" />,
     label: 'Support',
     path: defaultAdminPaths.support
   },
   {
-    icon: <FiLogOut id="logout-icon" size={24} color="white" />,
+    icon: <IoMdSettings id="settings-icon" size={24} color="currentColor" />,
+    label: 'Settings',
+    path: defaultAdminPaths.settings
+  },
+  {
+    icon: <FiLogOut id="logout-icon" size={24} color="currentColor" />,
     label: 'Log out',
     path: defaultAdminPaths.logout
   }

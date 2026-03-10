@@ -55,6 +55,7 @@ export class ConfirmResetPasswordAuthService implements IConfirmPasswordResetAut
       }
 
       user.password = await hashPassword(dto.newPassword);
+      user.lastPasswordChangeAt = new Date();
       reset.usedAt = new Date();
 
       await entityManager.save(UserEntity, user);

@@ -35,7 +35,7 @@ export const confirmRegistrationAuthServiceProvider = {
   useClass: ConfirmRegistrationAuthService,
 };
 
-export const sendInvitationAuthServiceProvider= {
+export const sendInvitationAuthServiceProvider = {
   provide: TYPES.services.ISendInvitationAuthService,
   useClass: SendInvitationAuthService
 }
