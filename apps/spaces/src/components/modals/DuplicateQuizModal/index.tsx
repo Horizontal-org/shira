@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect } from "react";
-import { Body1, Modal, styled, TextInput } from "@shira/ui";
+import { Body1, Modal, defaultTheme, styled, TextInput } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 import { Quiz } from "../../../store/slices/quiz";
 import { hasRequiredValue } from "../../../utils/validation";
@@ -12,6 +12,7 @@ interface Props {
   onDuplicate: (title: string) => void;
   onCancel: () => void;
   isLoading?: boolean;
+  errorMessage?: string | null;
 }
 
 export const DuplicateQuizModal: FunctionComponent<Props> = ({
@@ -22,8 +23,10 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
   onDuplicate,
   onCancel,
   isLoading = false,
+  errorMessage = null,
 }) => {
   const { t } = useTranslation();
+  const hasError = Boolean(errorMessage);
 
   useEffect(() => {
     if (quiz) {
@@ -40,11 +43,11 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
       id="duplicate-quiz-modal"
       isOpen={isModalOpen}
       title={t('modals.duplicate_quiz.title')}
-      primaryButtonText={isLoading ? t('loading_messages.creating') : t('buttons.next')}
-      primaryButtonDisabled={!hasRequiredValue(title) || isLoading}
+      primaryButtonText={isLoading ? t('loading_messages.loading') : t('buttons.next')}
+      primaryButtonDisabled={!hasRequiredValue(title) || isLoading || hasError}
       secondaryButtonText={t('buttons.back')}
       onPrimaryClick={() => {
-        if (!hasRequiredValue(title)) { return; }
+        if (!hasRequiredValue(title) || hasError) { return; }
         onDuplicate(title);
       }}
       onSecondaryClick={() => {
@@ -63,6 +66,9 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
+        <ErrorContainer role="alert" aria-live="polite">
+          {hasError && <ErrorText>{t(errorMessage)}</ErrorText>}
+        </ErrorContainer>
       </FormContent>
     </Modal>
   );
@@ -71,9 +77,21 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
 const FormContent = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
 `;
 
 const Description = styled(Body1)`
   padding-bottom: 16px;
+`;
+
+const ErrorContainer = styled.div`
+  min-height: 32px;
+  padding: 0 10px;
+`;
+
+const ErrorText = styled.p`
+  color: ${defaultTheme.colors.error7};
+  margin: 0;
+  padding: 4px 10px;
+  font-size: 14px;
 `;

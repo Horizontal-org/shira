@@ -28,6 +28,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     fetchQuizzes,
     updateQuiz,
     deleteQuiz,
+    validateQuizName,
     createQuiz,
     quizzes,
     space,
@@ -37,6 +38,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   } = useStore((state) => ({
     fetchQuizzes: state.fetchQuizzes,
     updateQuiz: state.updateQuiz,
+    validateQuizName: state.validateQuizName,
     createQuiz: state.createQuiz,
     deleteQuiz: state.deleteQuiz,
     quizzes: state.quizzes,
@@ -65,6 +67,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     setTitle,
     selectedQuizForDuplicate,
     isSubmitting,
+    isValidatingTitle,
+    titleError,
     submittingQuizId,
     isCreateTitleModalOpen,
     isDuplicateTitleModalOpen,
@@ -78,6 +82,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   } = useQuizCreationFlow({
     createQuiz,
     fetchQuizzes,
+    validateQuizName,
     t
   });
 
@@ -295,6 +300,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             }}
             title={title}
             setTitle={setTitle}
+            isLoading={isValidatingTitle}
+            errorMessage={titleError}
             onCreate={(title) => { handleTitleSubmit(title); }}
             onCancel={cancelFlow}
             keepModalOpen
@@ -339,9 +346,10 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             isModalOpen={isDuplicateTitleModalOpen}
             title={title}
             setTitle={setTitle}
+            errorMessage={titleError}
             onDuplicate={(title) => handleTitleSubmit(title)}
             onCancel={cancelFlow}
-            isLoading={isSubmitting}
+            isLoading={isSubmitting || isValidatingTitle}
           />
 
         </MainContentWrapper>

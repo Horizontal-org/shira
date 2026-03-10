@@ -50,6 +50,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     deleteQuiz,
     quizActionSuccess,
     cleanQuizActionSuccess,
+    validateQuizName,
     reorderQuiz,
     createQuiz,
     fetchQuizzes
@@ -59,6 +60,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     reorderQuiz: state.reorderQuiz,
     quizActionSuccess: state.quizActionSuccess,
     cleanQuizActionSuccess: state.cleanQuizActionSuccess,
+    validateQuizName: state.validateQuizName,
     createQuiz: state.createQuiz,
     fetchQuizzes: state.fetchQuizzes,
   }), shallow)
@@ -82,6 +84,8 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     setTitle,
     selectedQuizForDuplicate,
     isSubmitting,
+    isValidatingTitle,
+    titleError,
     isDuplicateTitleModalOpen,
     isVisibilityModalOpen,
     startDuplicateQuizFlow,
@@ -92,6 +96,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   } = useQuizCreationFlow({
     createQuiz,
     fetchQuizzes,
+    validateQuizName,
     t
   });
 
@@ -422,9 +427,10 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 isModalOpen={isDuplicateTitleModalOpen}
                 title={title}
                 setTitle={setTitle}
+                errorMessage={titleError}
                 onDuplicate={(newTitle) => { handleTitleSubmit(newTitle); }}
                 onCancel={() => { cancelFlow(); }}
-                isLoading={isSubmitting}
+                isLoading={isSubmitting || isValidatingTitle}
               />
 
               <QuizVisibilityModal

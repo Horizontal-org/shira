@@ -1,8 +1,9 @@
-import { ConflictException } from '@nestjs/common';
+import { HttpException, HttpStatus } from '@nestjs/common';
+import { QuizErrorCodes } from './errors/quiz.error-codes';
 
-export class AlreadyExistsQuizNameException extends ConflictException {
+export class AlreadyExistsQuizNameException extends HttpException {
   constructor(quizTitle: string) {
-    const message = `Quiz ${quizTitle} already exists in the space`;
-    super(message);
+    const cause = `Quiz ${quizTitle} already exists in the space`;
+    super(QuizErrorCodes.QuizNameAlreadyExists, HttpStatus.CONFLICT, { cause });
   }
 }

@@ -534,6 +534,7 @@
     },
     "error_messages": {
         "duplicate_quiz_fail": "Failed to duplicate quiz",
+        "quiz_name_already_exists": "Quiz name taken. Please use a different one.",
         "duplicate_question_fail": "Failed to duplicate question",
         "add_question_error": "Error adding question",
         "results_load_failed": "Failed to load results",

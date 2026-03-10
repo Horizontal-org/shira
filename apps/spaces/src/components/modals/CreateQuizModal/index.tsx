@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { Modal, styled, TextInput } from "@shira/ui";
+import { Modal, defaultTheme, styled, TextInput } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 import { hasRequiredValue } from "../../../utils/validation";
 
@@ -13,6 +13,8 @@ interface Props {
   onCreate: (title: string) => void;
   onCancel?: () => void;
   keepModalOpen?: boolean;
+  isLoading?: boolean;
+  errorMessage?: string | null;
 }
 
 export const CreateQuizModal: FunctionComponent<Props> = ({
@@ -23,18 +25,21 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
   onCreate,
   onCancel,
   keepModalOpen = false,
+  isLoading = false,
+  errorMessage = null,
 }) => {
   const { t } = useTranslation();
+  const hasError = Boolean(errorMessage);
 
   return (
     <Modal
       id="create-quiz-modal"
       isOpen={isModalOpen}
       title={t('modals.create_quiz.title')}
-      primaryButtonText={t('buttons.next')}
-      primaryButtonDisabled={!hasRequiredValue(title)}
+      primaryButtonText={isLoading ? t('loading_messages.loading') : t('buttons.next')}
+      primaryButtonDisabled={!hasRequiredValue(title) || isLoading || hasError}
       onPrimaryClick={() => {
-        if (!hasRequiredValue(title)) {
+        if (!hasRequiredValue(title) || isLoading || hasError) {
           return;
         }
         onCreate(title.trim());
@@ -55,6 +60,9 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
+        <ErrorContainer role="alert" aria-live="polite">
+          {hasError && <ErrorText>{t(errorMessage)}</ErrorText>}
+        </ErrorContainer>
       </FormContent>
     </Modal>
   );
@@ -63,4 +71,16 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
 const FormContent = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+const ErrorContainer = styled.div`
+  min-height: 32px;
+  padding: 0 10px;
+`;
+
+const ErrorText = styled.p`
+  color: ${defaultTheme.colors.error7};
+  margin: 0;
+  padding: 4px 10px;
+  font-size: 14px;
 `;
