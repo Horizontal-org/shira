@@ -79,7 +79,9 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(({
                 )}
 
                 {isLoading && (
-                    <LoadingIcon size={20} />
+                    <LoadingSpinner>
+                        <LoadingIcon size={20} />
+                    </LoadingSpinner>
                 )}
             </InputContainer >
         </InputWrapper >
@@ -152,6 +154,18 @@ const StyledInput = styled.input<{ required?: boolean, $hasTrailingAdornment?: b
         color: ${props => props.theme.colors.dark.darkGrey};
         cursor: not-allowed;
     }
+`;
+
+const LoadingSpinner = styled.div`
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 
 const IconButton = styled.button`

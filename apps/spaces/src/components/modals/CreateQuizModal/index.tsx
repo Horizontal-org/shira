@@ -36,7 +36,7 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
       id="create-quiz-modal"
       isOpen={isModalOpen}
       title={t('modals.create_quiz.title')}
-      primaryButtonText={isLoading ? t('loading_messages.loading') : t('buttons.next')}
+      primaryButtonText={t('buttons.next')}
       primaryButtonDisabled={!hasRequiredValue(title) || isLoading || hasError}
       onPrimaryClick={() => {
         if (!hasRequiredValue(title) || isLoading || hasError) {
