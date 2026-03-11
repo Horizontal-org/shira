@@ -4,6 +4,7 @@ import { duplicateQuiz } from "../fetch/quiz";
 import { handleHttpError } from "../fetch/handleError";
 import { Quiz } from "../store/slices/quiz";
 import { hasRequiredValue } from "../utils/validation";
+import { getErrorContent } from "../utils/getErrorContent";
 
 type QuizFlowMode = "create" | "duplicate" | null;
 type QuizFlowStep = 0 | 1 | 2;
@@ -77,24 +78,10 @@ export const useQuizCreationFlow = ({
         setTitleError(null);
       }
       return true;
-    } catch (error) {
-      const { code, message } = handleHttpError(error);
-      const errorCode = code || message;
-
-      if (errorCode === "quiz_name_already_exists") {
-        if (canUpdateValidationState) {
-          setTitleError("error_messages.quiz_name_already_exists");
-        }
-        return false;
-      }
-
-      if (canUpdateValidationState) {
-        setTitleError(null);
-      }
-      if (showUnexpectedErrorToast) {
-        toast.error(t("error_messages.something_went_wrong"), { duration: 3000 });
-      }
-      return false;
+    } catch (e) {
+      const error = handleHttpError(e);
+      const content = getErrorContent("error_messages", "invite_learner_failed", error.message);
+      setTitleError(content);
     }
   };
 
