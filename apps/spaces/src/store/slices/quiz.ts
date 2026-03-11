@@ -52,7 +52,6 @@ export interface QuizSlice {
   reorderQuiz: (data: ReorderQuizPayload) => void
   deleteQuiz: (id: number) => void,
   validateQuizName: (title: string) => Promise<void>,
-  isQuizNameValid?: boolean,
   createQuiz: (title: string, visibility: string) => void,
   quizActionSuccess: null | QuizSuccessStates,
   cleanQuizActionSuccess: () => void
@@ -115,13 +114,7 @@ export const createQuizSlice: StateCreator<
   },
 
   validateQuizName: async (title: string) => {
-    try {
-      await validateQuizTitle(title)
-      set({ isQuizNameValid: true })
-    } catch (error) {
-      set({ isQuizNameValid: false })
-      throw error
-    }
+    await validateQuizTitle(title)
   },
 
   createQuiz: async (title: string, visibility: string) => {

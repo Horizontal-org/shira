@@ -12,7 +12,7 @@ const TITLE_VALIDATION_MIN_LENGTH = 3;
 const TITLE_VALIDATION_DEBOUNCE_MS = 300;
 
 interface UseQuizCreationFlowParams {
-  createQuiz: (title: string, visibility: string) => void | Promise<void>;
+  createQuiz: (title: string, visibility: string) => void;
   fetchQuizzes: () => Promise<void>;
   validateQuizName: (title: string) => Promise<void>;
   t: (key: string, options?: any) => string;
@@ -36,6 +36,14 @@ export const useQuizCreationFlow = ({
   const [submittingQuizId, setSubmittingQuizId] = useState<number | null>(null);
   const titleValidationRequestId = useRef(0);
 
+  const setTitleValidationError = (error: string | null, requestId?: number) => {
+    if (requestId !== undefined && titleValidationRequestId.current !== requestId) {
+      return;
+    }
+
+    setTitleError(error);
+  };
+
   const reset = () => {
     setMode(null);
     setStep(1);
@@ -58,30 +66,24 @@ export const useQuizCreationFlow = ({
 
   const validateTitle = async (
     titleToValidate: string,
-    options?: { showUnexpectedErrorToast?: boolean; requestId?: number }
+    requestId?: number
   ) => {
     const trimmedTitle = titleToValidate.trim();
-    const showUnexpectedErrorToast = options?.showUnexpectedErrorToast ?? true;
-    const canUpdateValidationState =
-      options?.requestId === undefined || titleValidationRequestId.current === options.requestId;
 
     if (!hasRequiredValue(trimmedTitle)) {
-      if (canUpdateValidationState) {
-        setTitleError(null);
-      }
+      setTitleValidationError(null, requestId);
       return true;
     }
 
     try {
       await validateQuizName(trimmedTitle);
-      if (canUpdateValidationState) {
-        setTitleError(null);
-      }
+      setTitleValidationError(null, requestId);
       return true;
     } catch (e) {
       const error = handleHttpError(e);
-      const content = getErrorContent("error_messages", "invite_learner_failed", error.message);
-      setTitleError(content);
+      const content = getErrorContent("error_messages", "something_went_wrong", error.message);
+      setTitleValidationError(content, requestId);
+      return false;
     }
   };
 
@@ -114,7 +116,7 @@ export const useQuizCreationFlow = ({
     const trimmedTitle = title.trim();
 
     if (trimmedTitle.length < TITLE_VALIDATION_MIN_LENGTH) {
-      setTitleError(null);
+      setTitleValidationError(null);
       return;
     }
 
@@ -123,17 +125,10 @@ export const useQuizCreationFlow = ({
       setIsValidatingTitle(true);
 
       try {
-        const isTitleValid = await validateTitle(trimmedTitle, {
-          showUnexpectedErrorToast: false,
-          requestId,
-        });
+        await validateTitle(trimmedTitle, requestId);
 
         if (titleValidationRequestId.current !== requestId) {
           return;
-        }
-
-        if (isTitleValid) {
-          setTitleError(null);
         }
       } finally {
         if (titleValidationRequestId.current === requestId) {
