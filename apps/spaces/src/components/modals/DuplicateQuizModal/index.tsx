@@ -43,8 +43,8 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
       id="duplicate-quiz-modal"
       isOpen={isModalOpen}
       title={t('modals.duplicate_quiz.title')}
-      primaryButtonText={isLoading ? t('loading_messages.loading') : t('buttons.next')}
-      primaryButtonDisabled={!hasRequiredValue(title) || isLoading || hasError}
+      primaryButtonText={t('buttons.next')}
+      primaryButtonDisabled={!hasRequiredValue(title) || hasError}
       secondaryButtonText={t('buttons.back')}
       onPrimaryClick={() => {
         if (!hasRequiredValue(title) || hasError) { return; }
@@ -65,6 +65,7 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
           placeholder={t('modals.duplicate_quiz.quiz_name_placeholder', { quiz_name: quiz.title })}
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          isLoading={isLoading}
         />
         <ErrorContainer role="alert" aria-live="polite">
           {hasError && <ErrorText>{t(errorMessage)}</ErrorText>}

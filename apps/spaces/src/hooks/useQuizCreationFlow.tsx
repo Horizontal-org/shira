@@ -9,7 +9,7 @@ import { getErrorContent } from "../utils/getErrorContent";
 type QuizFlowMode = "create" | "duplicate" | null;
 type QuizFlowStep = 0 | 1 | 2;
 const TITLE_VALIDATION_MIN_LENGTH = 3;
-const TITLE_VALIDATION_DEBOUNCE_MS = 300;
+const TITLE_VALIDATION_DELAY_MS = 300;
 
 interface UseQuizCreationFlowParams {
   createQuiz: (title: string, visibility: string) => void;
@@ -135,7 +135,7 @@ export const useQuizCreationFlow = ({
           setIsValidatingTitle(false);
         }
       }
-    }, TITLE_VALIDATION_DEBOUNCE_MS);
+    }, TITLE_VALIDATION_DELAY_MS);
 
     return () => {
       window.clearTimeout(timeoutId);

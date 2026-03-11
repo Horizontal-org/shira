@@ -59,6 +59,7 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
           label="Quiz name"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          isLoading={isLoading}
         />
         <ErrorContainer role="alert" aria-live="polite">
           {hasError && <ErrorText>{t(errorMessage)}</ErrorText>}
