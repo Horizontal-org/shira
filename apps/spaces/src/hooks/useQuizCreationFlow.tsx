@@ -8,7 +8,8 @@ import { getErrorContent } from "../utils/getErrorContent";
 
 type QuizFlowMode = "create" | "duplicate" | null;
 type QuizFlowStep = 0 | 1 | 2;
-const TITLE_VALIDATION_MIN_LENGTH = 3;
+
+const TITLE_VALIDATION_MIN_LENGTH = 1;
 const TITLE_VALIDATION_DELAY_MS = 300;
 
 interface UseQuizCreationFlowParams {

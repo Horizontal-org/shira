@@ -78,7 +78,7 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
 const FormContent = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 16px;
 `;
 
 const Description = styled(Body1)`
