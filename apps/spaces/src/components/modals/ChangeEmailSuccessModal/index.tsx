@@ -15,6 +15,7 @@ export const ChangeEmailSuccessModal: FunctionComponent<Props> = ({
 
   return (
     <Modal
+      size="medium"
       id="change-email-success-modal"
       isOpen={isModalOpen}
       title={t("modals.change_email_success.title")}
@@ -46,7 +47,6 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   gap: 40px;
-  min-height: 260px;
 `;
 
 const Contact = styled.a`
