@@ -141,17 +141,15 @@ const TabButton = styled.div<{ $isActive: boolean }>`
   padding: 8px 0;
   font-size: 16px;
   font-weight: 500;
-  color: ${props => props.$isActive ? '#52752C' : props.theme.colors.dark.black};
+  color: ${props => props.$isActive ? props.theme.colors.green7 : props.theme.colors.dark.black};
   cursor: pointer;
-  border-bottom: 4px solid ${props => props.$isActive ? '#52752C' : 'transparent'};
+  border-bottom: 4px solid ${props => props.$isActive ? props.theme.colors.green7 : 'transparent'};
   transition: all 0.2s ease;
 
   &:hover {
-    border-bottom: 4px solid ${props => props.$isActive ? '#52752C' : '#ccc'};
-    color: ${props => props.$isActive ? '#52752C' : props.theme.colors.dark.black};
+    border-bottom: 4px solid ${props => props.$isActive ? props.theme.colors.green7 : '#ccc'};
+    color: ${props => props.$isActive ? props.theme.colors.green7 : props.theme.colors.dark.black};
   }
 `;
-
-
 
 export default TabContainer;
