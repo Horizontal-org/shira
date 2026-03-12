@@ -4,8 +4,8 @@ import { Card, Sidebar, styled, H2, SubHeading3, Body1, Button, FilterButton, us
 import { FiPlus } from 'react-icons/fi';
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
-import { formatDistance } from "date-fns";
-import { enUS } from "date-fns/locale";
+import { formatDistance, set } from "date-fns";
+import { enUS, is } from "date-fns/locale";
 import { useTranslation } from "react-i18next";
 import { QuizSuccessStates, SUCCESS_MESSAGES } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
@@ -63,19 +63,19 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const [isUnpublishQuizModalOpen, setIsUnpublishQuizModalOpen] = useState(false);
 
   const {
-    name,
-    setName,
+    title,
+    setTitle,
     selectedQuizForDuplicate,
     isSubmitting,
-    isValidatingName,
-    nameError,
+    isValidatingTitle,
+    titleError,
     submittingQuizId,
-    isCreateNameModalOpen,
-    isDuplicateNameModalOpen,
+    isCreateTitleModalOpen,
+    isDuplicateTitleModalOpen,
     isVisibilityModalOpen,
     startCreateQuizFlow,
     startDuplicateQuizFlow,
-    handleNameSubmit,
+    handleTitleSubmit,
     handleBackFromVisibility,
     handleConfirmVisibility,
     cancelFlow
@@ -294,15 +294,15 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           />
 
           <CreateQuizModal
-            isModalOpen={isCreateNameModalOpen}
+            isModalOpen={isCreateTitleModalOpen}
             setIsModalOpen={(open) => {
               if (!open) cancelFlow();
             }}
-            title={name}
-            setTitle={setName}
-            isLoading={isValidatingName}
-            errorMessage={nameError}
-            onCreate={(title) => { handleNameSubmit(title); }}
+            title={title}
+            setTitle={setTitle}
+            isLoading={isValidatingTitle}
+            errorMessage={titleError}
+            onCreate={(title) => { handleTitleSubmit(title); }}
             onCancel={cancelFlow}
             keepModalOpen
           />
@@ -343,13 +343,13 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
           <DuplicateQuizModal
             quiz={selectedQuizForDuplicate}
-            isModalOpen={isDuplicateNameModalOpen}
-            title={name}
-            setTitle={setName}
-            errorMessage={nameError}
-            onDuplicate={(title) => handleNameSubmit(title)}
+            isModalOpen={isDuplicateTitleModalOpen}
+            title={title}
+            setTitle={setTitle}
+            errorMessage={titleError}
+            onDuplicate={(title) => handleTitleSubmit(title)}
             onCancel={cancelFlow}
-            isLoading={isSubmitting || isValidatingName}
+            isLoading={isSubmitting || isValidatingTitle}
           />
 
         </MainContentWrapper>

@@ -27,12 +27,12 @@ export const useQuizCreationFlow = ({
 }: UseQuizCreationFlowParams) => {
   const [mode, setMode] = useState<QuizFlowMode>(null);
   const [step, setStep] = useState<QuizFlowStep>(1);
-  const [name, setName] = useState("");
+  const [title, setTitle] = useState("");
 
   const [selectedQuizForDuplicate, setSelectedQuizForDuplicate] = useState<Quiz | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isValidatingName, setIsValidatingName] = useState(false);
-  const [nameError, setNameError] = useState<string | null>(null);
+  const [isValidatingTitle, setIsValidatingTitle] = useState(false);
+  const [titleError, setTitleError] = useState<string | null>(null);
   const [submittingQuizId, setSubmittingQuizId] = useState<number | null>(null);
 
   const latestValidationIdRef = useRef(0);
@@ -40,9 +40,9 @@ export const useQuizCreationFlow = ({
   const reset = () => {
     setMode(null);
     setStep(1);
-    setName("");
-    setIsValidatingName(false);
-    setNameError(null);
+    setTitle("");
+    setIsValidatingTitle(false);
+    setTitleError(null);
     setSelectedQuizForDuplicate(null);
     setSubmittingQuizId(null);
     latestValidationIdRef.current += 1;
@@ -59,28 +59,28 @@ export const useQuizCreationFlow = ({
     setSelectedQuizForDuplicate(quiz);
   };
 
-  const handleNameSubmit = async (newName: string) => {
-    const trimmedName = newName.trim();
+  const handleTitleSubmit = async (newTitle: string) => {
+    const trimmedTitle = newTitle.trim();
 
-    if (!hasRequiredValue(trimmedName) || isValidatingName) {
+    if (!hasRequiredValue(trimmedTitle) || isValidatingTitle) {
       return;
     }
 
-    setIsValidatingName(true);
+    setIsValidatingTitle(true);
 
     const error = await getQuizNameValidationError({
-      name: trimmedName,
+      name: trimmedTitle,
       validateQuizName,
     });
 
-    setNameError(error);
-    setIsValidatingName(false);
+    setTitleError(error);
+    setIsValidatingTitle(false);
 
     if (error) {
       return;
     }
 
-    setName(trimmedName);
+    setTitle(trimmedTitle);
     setStep(2);
   };
 
@@ -89,21 +89,21 @@ export const useQuizCreationFlow = ({
       return;
     }
 
-    const trimmedName = name.trim();
+    const trimmedTitle = title.trim();
 
-    if (trimmedName.length < QUIZ_NAME_VALIDATION_MIN_LENGTH) {
-      setNameError(null);
-      setIsValidatingName(false);
+    if (trimmedTitle.length < QUIZ_NAME_VALIDATION_MIN_LENGTH) {
+      setTitleError(null);
+      setIsValidatingTitle(false);
       return;
     }
 
     const validationId = ++latestValidationIdRef.current;
 
     const timeoutId = window.setTimeout(async () => {
-      setIsValidatingName(true);
+      setIsValidatingTitle(true);
 
       const error = await getQuizNameValidationError({
-        name: trimmedName,
+        name: trimmedTitle,
         validateQuizName,
       });
 
@@ -111,14 +111,14 @@ export const useQuizCreationFlow = ({
         return;
       }
 
-      setNameError(error);
-      setIsValidatingName(false);
+      setTitleError(error);
+      setIsValidatingTitle(false);
     }, QUIZ_NAME_VALIDATION_DELAY_MS);
 
     return () => {
       window.clearTimeout(timeoutId);
     };
-  }, [mode, step, name, validateQuizName]);
+  }, [mode, step, title, validateQuizName]);
 
   useEffect(() => {
     return () => {
@@ -131,11 +131,11 @@ export const useQuizCreationFlow = ({
   };
 
   const handleConfirmVisibility = async (visibility: string) => {
-    if (!hasRequiredValue(name)) return;
+    if (!hasRequiredValue(title)) return;
 
     if (mode === "create") {
       setStep(0);
-      await createQuiz(name.trim(), visibility);
+      await createQuiz(title.trim(), visibility);
       reset();
       return;
     }
@@ -148,9 +148,9 @@ export const useQuizCreationFlow = ({
       setSubmittingQuizId(quizId);
 
       try {
-        await duplicateQuiz(quizId, name.trim(), visibility);
+        await duplicateQuiz(quizId, title.trim(), visibility);
 
-        toast.success(t("success_messages.quiz_duplicated", { quiz_name: name.trim() }), {
+        toast.success(t("success_messages.quiz_duplicated", { quiz_name: title.trim() }), {
           duration: 3000,
         });
 
@@ -171,21 +171,21 @@ export const useQuizCreationFlow = ({
   return {
     mode,
     step,
-    name,
-    setName,
+    title,
+    setTitle,
     selectedQuizForDuplicate,
     isSubmitting,
-    isValidatingName,
-    nameError,
+    isValidatingTitle,
+    titleError,
     submittingQuizId,
 
-    isCreateNameModalOpen: mode === "create" && step === 1,
-    isDuplicateNameModalOpen: mode === "duplicate" && step === 1,
+    isCreateTitleModalOpen: mode === "create" && step === 1,
+    isDuplicateTitleModalOpen: mode === "duplicate" && step === 1,
     isVisibilityModalOpen: mode !== null && step === 2,
 
     startCreateQuizFlow,
     startDuplicateQuizFlow,
-    handleNameSubmit,
+    handleTitleSubmit,
     handleBackFromVisibility,
     handleConfirmVisibility,
     cancelFlow,

@@ -80,16 +80,16 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
 
   const { destroy } = useQuestionCRUD()
   const {
-    name,
-    setName,
+    title,
+    setTitle,
     selectedQuizForDuplicate,
     isSubmitting,
-    isValidatingName,
-    nameError,
-    isDuplicateNameModalOpen,
+    isValidatingTitle,
+    titleError,
+    isDuplicateTitleModalOpen,
     isVisibilityModalOpen,
     startDuplicateQuizFlow,
-    handleNameSubmit,
+    handleTitleSubmit,
     handleBackFromVisibility,
     handleConfirmVisibility,
     cancelFlow
@@ -424,13 +424,13 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
 
               <DuplicateQuizModal
                 quiz={selectedQuizForDuplicate}
-                isModalOpen={isDuplicateNameModalOpen}
-                title={name}
-                setTitle={setName}
-                errorMessage={nameError}
-                onDuplicate={(newTitle) => { handleNameSubmit(newTitle); }}
+                isModalOpen={isDuplicateTitleModalOpen}
+                title={title}
+                setTitle={setTitle}
+                errorMessage={titleError}
+                onDuplicate={(newTitle) => { handleTitleSubmit(newTitle); }}
                 onCancel={() => { cancelFlow(); }}
-                isLoading={isSubmitting || isValidatingName}
+                isLoading={isSubmitting || isValidatingTitle}
               />
 
               <QuizVisibilityModal
