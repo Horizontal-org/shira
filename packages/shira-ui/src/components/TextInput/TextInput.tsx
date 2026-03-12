@@ -40,7 +40,7 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(({
 
     const isPassword = type === 'password';
     const inputType = isPassword && !showPassword ? 'password' : 'text';
-    const hasTrailingAdornment = isPassword || isLoading;
+    const hasTrailingIcon = isPassword || isLoading;
 
     return (
         <InputWrapper>
@@ -51,7 +51,7 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(({
 
             <InputContainer>
                 <StyledInput
-                    $hasTrailingAdornment={hasTrailingAdornment}
+                    $hasTrailingAdornment={hasTrailingIcon}
                     id={id}
                     name={name}
                     type={inputType}
