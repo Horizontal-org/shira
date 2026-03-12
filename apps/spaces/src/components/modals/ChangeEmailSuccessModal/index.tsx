@@ -15,7 +15,6 @@ export const ChangeEmailSuccessModal: FunctionComponent<Props> = ({
 
   return (
     <Modal
-      size="medium"
       id="change-email-success-modal"
       isOpen={isModalOpen}
       title={t("modals.change_email_success.title")}
@@ -49,11 +48,3 @@ const Content = styled.div`
   gap: 40px;
 `;
 
-const Contact = styled.a`
-  color: ${props => props.theme.colors.blue6};
-  text-decoration: underline;
-
-  &:hover {
-    text-decoration: none;
-  }
-`;
