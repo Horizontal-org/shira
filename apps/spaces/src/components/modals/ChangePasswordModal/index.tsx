@@ -27,7 +27,6 @@ export const ChangePasswordModal: FunctionComponent<Props> = ({
   const [confirmPassword, setConfirmPassword] = useState("");
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [currentPasswordApiError, setCurrentPasswordApiError] = useState("");
-  const [requestSubmitError, setRequestSubmitError] = useState("");
 
   const currentPasswordError = currentPasswordApiError
     || (hasSubmitted && !hasRequiredValue(currentPassword)
@@ -63,21 +62,18 @@ export const ChangePasswordModal: FunctionComponent<Props> = ({
       setConfirmPassword("");
       setHasSubmitted(false);
       setCurrentPasswordApiError("");
-      setRequestSubmitError("");
     }
   }, [isModalOpen]);
 
   const handleClose = () => {
     setHasSubmitted(false);
     setCurrentPasswordApiError("");
-    setRequestSubmitError("");
     setIsModalOpen(false);
   };
 
   const handleSave = async () => {
     setHasSubmitted(true);
     setCurrentPasswordApiError("");
-    setRequestSubmitError("");
 
     if (submitDisabled) {
       return;
@@ -95,7 +91,6 @@ export const ChangePasswordModal: FunctionComponent<Props> = ({
       const { message } = handleHttpError(error);
 
       setCurrentPasswordApiError(t(getErrorContent("error_messages", "something_went_wrong", message)));
-      setRequestSubmitError(t(getErrorContent("error_messages", "something_went_wrong", message)));
     }
   };
 
@@ -159,9 +154,6 @@ export const ChangePasswordModal: FunctionComponent<Props> = ({
             </FieldError>
           </FieldGroup>
         </Fields>
-        <FieldError $visible={Boolean(requestSubmitError)}>
-          {requestSubmitError}
-        </FieldError>
       </ModalContent>
     </Modal>
   );
