@@ -46,9 +46,9 @@ export const RenameQuizModal: FunctionComponent<Props> = ({
       title={t('modals.rename_quiz.title')}
       primaryButtonText={t('buttons.save')}
       secondaryButtonText={t('buttons.cancel')}
-      primaryButtonDisabled={!hasRequiredValue(trimmedTitle) || isLoading || hasError}
+      primaryButtonDisabled={!hasRequiredValue(trimmedTitle) || hasError}
       onPrimaryClick={() => {
-        if (!hasRequiredValue(trimmedTitle) || isLoading || hasError) { return; }
+        if (!hasRequiredValue(trimmedTitle) || hasError) { return; }
         setIsModalOpen(false);
         onRename(trimmedTitle);
         setTitle("");
