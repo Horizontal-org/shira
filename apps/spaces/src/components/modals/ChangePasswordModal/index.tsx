@@ -171,7 +171,6 @@ const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  min-height: 420px;
 `;
 
 const Fields = styled.div`
