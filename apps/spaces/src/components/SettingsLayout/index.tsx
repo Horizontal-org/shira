@@ -226,7 +226,7 @@ const SettingDetails = styled.div`
 `;
 
 const MutedValue = styled(Body2Italic)`
-  color: ${props => props.theme.colors.dark.mediumGrey};
+  color: ${props => props.theme.colors.dark.darkGrey};
 `;
 
 const ActionButton = styled(Button)`
