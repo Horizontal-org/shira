@@ -78,8 +78,12 @@ export const EmailContent: FunctionComponent<Props> = ({
       </div>
 
       <div>
-        <SubHeading3 id="email-content-email-body-content-title">{t('create_question.tabs.content.email_body_content.title')}</SubHeading3>
-        <Body2Regular id="email-content-email-body-content-subtitle">{t('create_question.tabs.content.email_body_content.subtitle')}</Body2Regular>
+        <SubHeading3 id="email-content-email-body-content-title">
+          {t('create_question.tabs.content.email_body_content.title')}
+        </SubHeading3>
+        <Body2Regular id="email-content-email-body-content-subtitle">
+          {t('create_question.tabs.content.email_body_content.subtitle')}
+        </Body2Regular>
         <EmailTipTapEditor
           initialContent={content.body.value}
           onChange={(emailText) => {

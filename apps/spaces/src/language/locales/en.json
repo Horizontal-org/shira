@@ -189,7 +189,7 @@
                 },
                 "email_body_content": {
                     "title": "Email body content",
-                    "subtitle": "Write the message that will be shown."
+                    "subtitle": "Write the message that will be shown. Add an explanation by selecting a portion of text, an image or a table, and clicking on the explanation icon."
                 },
                 "attachment_button": "Add attachment",
                 "explanations": {
