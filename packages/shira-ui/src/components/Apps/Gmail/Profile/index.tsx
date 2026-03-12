@@ -99,7 +99,11 @@ export const Profile: FunctionComponent<Props> = ({
                   <BoxLeftInfo>security:</BoxLeftInfo>
                   <BoxRightInfo>
                     <IoMdLock size={14} color="#666"/>
-                    Standard encryption (TLS) <a href="#" onClick={(e) => { e.preventDefault() }}>Learn more</a></BoxRightInfo>
+                    Standard encryption (TLS){" "}
+                    <LearnMoreText title="https://support.google.com/mail?hl=en-GB&p=tls">
+                      Learn more
+                    </LearnMoreText>
+                  </BoxRightInfo>
                 </div>
               </MessageInfoBox>
             </FloatingFocusManager>
@@ -211,6 +215,12 @@ const BoxRightInfo = styled.span`
     vertical-align: sub;
     margin-right: 4px; 
   }
+`
+
+const LearnMoreText = styled.span`
+  color: #1155cc;
+  text-decoration: underline;
+  cursor: default;
 `
 
 const SenderName = styled.span`
