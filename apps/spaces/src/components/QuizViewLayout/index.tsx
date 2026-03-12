@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useMemo, useState } from "react";
+import { FunctionComponent, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   Sidebar,
@@ -36,6 +36,12 @@ import { RenameQuizModal } from "../modals/RenameQuizModal";
 import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
 import { DuplicateQuizModal } from "../modals/DuplicateQuizModal";
 import { useQuizCreationFlow } from "../../hooks/useQuizCreationFlow";
+import {
+  QUIZ_NAME_VALIDATION_DELAY_MS,
+  QUIZ_NAME_VALIDATION_MIN_LENGTH,
+  getQuizNameValidationError,
+} from "../../utils/quizNameValidation";
+import { hasRequiredValue } from "../../utils/validation";
 
 interface Props { }
 
@@ -73,10 +79,14 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
+  const [renameTitle, setRenameTitle] = useState("");
+  const [isValidatingRenameTitle, setIsValidatingRenameTitle] = useState(false);
+  const [renameTitleError, setRenameTitleError] = useState<string | null>(null);
   const [isUnpublishedQuizModalOpen, setIsUnpublishedQuizModalOpen] = useState(false);
   const [isUnpublishQuizModalOpen, setIsUnpublishQuizModalOpen] = useState(false);
   const [showPublishTooltip, setShowPublishTooltip] = useState(false);
   const [showCopyLinkTooltip, setShowCopyLinkTooltip] = useState(false);
+  const latestRenameValidationIdRef = useRef(0);
 
   const { destroy } = useQuestionCRUD()
   const {
@@ -164,6 +174,50 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
       cleanQuizActionSuccess()
     }
   }, [quizActionSuccess]);
+
+  useEffect(() => {
+    if (!isRenameModalOpen || !quiz) {
+      latestRenameValidationIdRef.current += 1;
+      setIsValidatingRenameTitle(false);
+      setRenameTitleError(null);
+      return;
+    }
+
+    const trimmedRenameTitle = renameTitle.trim();
+    const isUnchangedTitle = trimmedRenameTitle === quiz.title.trim();
+
+    if (
+      trimmedRenameTitle.length < QUIZ_NAME_VALIDATION_MIN_LENGTH ||
+      isUnchangedTitle ||
+      !hasRequiredValue(trimmedRenameTitle)
+    ) {
+      setRenameTitleError(null);
+      setIsValidatingRenameTitle(false);
+      return;
+    }
+
+    const validationId = ++latestRenameValidationIdRef.current;
+
+    const timeoutId = window.setTimeout(async () => {
+      setIsValidatingRenameTitle(true);
+
+      const error = await getQuizNameValidationError({
+        name: trimmedRenameTitle,
+        validateQuizName,
+      });
+
+      if (latestRenameValidationIdRef.current !== validationId) {
+        return;
+      }
+
+      setRenameTitleError(error);
+      setIsValidatingRenameTitle(false);
+    }, QUIZ_NAME_VALIDATION_DELAY_MS);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [isRenameModalOpen, quiz, renameTitle, validateQuizName]);
 
   const handleTogglePublished = (cardId: number, published: boolean) => {
     updateQuiz({
@@ -410,6 +464,10 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
               <RenameQuizModal
                 quiz={quiz}
                 setIsModalOpen={setIsRenameModalOpen}
+                title={renameTitle}
+                setTitle={setRenameTitle}
+                errorMessage={renameTitleError}
+                isLoading={isValidatingRenameTitle}
                 onRename={(title) => {
                   updateQuiz({
                     id: quiz.id,
@@ -417,6 +475,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                   })
                 }}
                 onCancel={() => {
+                  setRenameTitleError(null)
                   setIsRenameModalOpen(false)
                 }}
                 isModalOpen={isRenameModalOpen}

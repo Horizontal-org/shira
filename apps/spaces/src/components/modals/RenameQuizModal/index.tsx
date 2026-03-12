@@ -1,5 +1,5 @@
-import { FunctionComponent, useEffect, useState } from "react";
-import { Modal, TextInput } from "@shira/ui";
+import { FunctionComponent, useEffect } from "react";
+import { Modal, TextInput, defaultTheme } from "@shira/ui";
 import styled from "styled-components";
 
 import { Quiz } from "../../../store/slices/quiz";
@@ -10,26 +10,34 @@ interface Props {
   quiz: Quiz;
   isModalOpen: boolean;
   setIsModalOpen: (handle: boolean) => void;
+  title: string;
+  setTitle: (title: string) => void;
   onRename: (title: string) => void;
   onCancel: () => void;
+  isLoading?: boolean;
+  errorMessage?: string | null;
 }
 
 export const RenameQuizModal: FunctionComponent<Props> = ({
   quiz,
   isModalOpen,
   setIsModalOpen,
+  title,
+  setTitle,
   onRename,
-  onCancel
+  onCancel,
+  isLoading = false,
+  errorMessage = null,
 }) => {
-
   const { t } = useTranslation();
-  const [title, handleTitle] = useState('')
+  const trimmedTitle = title.trim();
+  const hasError = Boolean(errorMessage);
 
   useEffect(() => {
     if (quiz) {
-      handleTitle(quiz.title)
+      setTitle(quiz.title);
     }
-  }, [quiz])
+  }, [quiz, setTitle]);
 
   return quiz && (
     <Modal
@@ -38,15 +46,15 @@ export const RenameQuizModal: FunctionComponent<Props> = ({
       title={t('modals.rename_quiz.title')}
       primaryButtonText={t('buttons.save')}
       secondaryButtonText={t('buttons.cancel')}
-      primaryButtonDisabled={!hasRequiredValue(title)}
+      primaryButtonDisabled={!hasRequiredValue(trimmedTitle) || isLoading || hasError}
       onPrimaryClick={() => {
-        if (!hasRequiredValue(title)) { return; }
+        if (!hasRequiredValue(trimmedTitle) || isLoading || hasError) { return; }
         setIsModalOpen(false);
-        onRename(title);
-        handleTitle('');
+        onRename(trimmedTitle);
+        setTitle("");
       }}
       onSecondaryClick={() => {
-        handleTitle('');
+        setTitle("");
         onCancel();
       }}
     >
@@ -55,8 +63,12 @@ export const RenameQuizModal: FunctionComponent<Props> = ({
           id="rename-quiz-input"
           label={t('modals.rename_quiz.input_placeholder')}
           value={title}
-          onChange={(e) => handleTitle(e.target.value)}
+          onChange={(e) => setTitle(e.target.value)}
+          isLoading={isLoading}
         />
+        <ErrorContainer role="alert" aria-live="polite">
+          {hasError && <ErrorText>{t(errorMessage)}</ErrorText>}
+        </ErrorContainer>
       </FormContent>
     </Modal>
   )
@@ -65,4 +77,16 @@ export const RenameQuizModal: FunctionComponent<Props> = ({
 const FormContent = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+const ErrorContainer = styled.div`
+  min-height: 32px;
+  padding: 0 10px;
+`;
+
+const ErrorText = styled.p`
+  color: ${defaultTheme.colors.error7};
+  margin: 0;
+  padding: 4px 10px;
+  font-size: 14px;
 `;
