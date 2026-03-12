@@ -226,11 +226,10 @@ const SettingDetails = styled.div`
 `;
 
 const MutedValue = styled(Body2Italic)`
-  color: ${props => props.theme.colors.dark.mediumGrey};
+  color: ${props => props.theme.colors.dark.darkGrey};
 `;
 
 const ActionButton = styled(Button)`
-  min-width: 240px;
   justify-content: center;
   font-size: 16px;
   line-height: 1.4;

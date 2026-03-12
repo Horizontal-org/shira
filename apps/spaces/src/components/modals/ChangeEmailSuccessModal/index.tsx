@@ -46,14 +46,5 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   gap: 40px;
-  min-height: 260px;
 `;
 
-const Contact = styled.a`
-  color: ${props => props.theme.colors.blue6};
-  text-decoration: underline;
-
-  &:hover {
-    text-decoration: none;
-  }
-`;
