@@ -96,7 +96,7 @@
                 "very_likely": "Très probable"
             },
             "question_3": {
-                "title": "3. Comment pouvons-nous améliorer Shira?",
+                "title": "3. Comment pouvons-nous améliorer Shira ?",
                 "input_placeholder": "Écrivez vos commentaires ici"
             },
             "bottom_text": "Vos commentaires seront envoyés lorsque vous cliquerez sur \"voir les résultats\""
@@ -221,7 +221,8 @@
     "beta": {
         "feedback_text": "to share your feedback and read about what’s next for Shira!",
         "message": "Shira is still in development and you may experience issues.",
-        "click_here": "Click here"
+        "click_here": "Click here",
+        "label": "BETA"
     },
     "learner_invitation": {
         "success_title": "Success!",
