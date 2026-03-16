@@ -2,7 +2,9 @@
     "welcome": {
         "title": "Bienvenue à Shira",
         "subtitle": "Apprendre à identifier et à déjouer les tentatives d'hameçonnage",
-        "start": "Lancer le quiz"
+        "start": "Lancer le quiz",
+        "public_message": "Welcome to your phishing quiz. Change your language or click on \"Start quiz\" to get started.",
+        "learn_more": "Learn more about Shira"
     },
     "setup": {
         "name": {
@@ -23,7 +25,7 @@
             "next_button": "Suivant"
         },
         "fields_of_work": {
-            "title": "Quels sont les domaines qui vous intéressent?",
+            "title": "Quels sont les domaines qui vous intéressent ?",
             "select": "Sélectionner jusqu'à 3 éléments",
             "footer_title": "Configuration du quiz",
             "back_button": "Retour",
@@ -34,7 +36,9 @@
                 "education": "Universitaire",
                 "marketing": "Marketing",
                 "healthcare": "Santé",
-                "general": "Général"
+                "general": "Général",
+                "activist": "Activist",
+                "human-resources": "Human resources"
             }
         }
     },
@@ -109,13 +113,12 @@
         "heavy_subtitle_2": "{{correctQuestions}} sur {{questions}}",
         "heavy_subtitle_3": ".",
         "greeting_title": "Thanks for using Shira!"
-
     },
     "about": {
         "title": "À propos",
         "subtitle": "Shira aide les utilisateurs à développer les compétences nécessaires pour identifier et vaincre les attaques d’hameçonnage sur les applications pour le courrier électronique et la messagerie",
         "why_shira": {
-            "title": "Pourquoi Shira?",
+            "title": "Pourquoi Shira ?",
             "option_1": {
                 "title": "1. Facile à utiliser",
                 "description": "Shira a été créée en tenant compte des communautés les plus à risque d’attaques d’hameçonnage, en particulier les utilisateurs ayant une connaissance limitée de la technologie."
@@ -152,7 +155,7 @@
             "section4": "C’est pourquoi nous avons créé Shira."
         },
         "advisors": {
-            "title": "Conseillers\/Conseillères",
+            "title": "Conseillers/Conseillères",
             "subtitle": "Shira est soutenue par un comité de conseillers et conseillères composé d’expert(e)s en sécurité numérique et en cybersécurité:",
             "person1": {
                 "name": "Amir Rashidi",
@@ -208,6 +211,35 @@
     "navbar": {
         "home": "Accueil",
         "about": "À propos",
-        "menu": "Menu"
+        "menu": "Menu",
+        "learn": "Learn",
+        "take_a_quiz": "Take a quiz",
+        "features": "Features",
+        "get_started": "Get started",
+        "pricing": "Pricing"
+    },
+    "beta": {
+        "feedback_text": "to share your feedback and read about what’s next for Shira!",
+        "message": "Shira is still in development and you may experience issues.",
+        "click_here": "Click here"
+    },
+    "learner_invitation": {
+        "success_title": "Success!",
+        "success_joined_space": "You have joined {{spaceName}} on Shira.",
+        "error_message": "Try again or contact the person who invited you.",
+        "learn_more": "Learn more about Shira",
+        "success_hint": "When your organization shares a quiz with you, you will receive an email invitation directly in your inbox.",
+        "error_title": "Something went wrong"
+    },
+    "invalid_quiz": {
+        "title": "Sorry, this quiz link is invalid.",
+        "description": "You may have used the wrong URL, or the quiz was unpublished and is no longer available"
+    },
+    "invalid_invitation": {
+        "description": "You may have used the wrong URL, or the invitation may have expired. Try again or contact the person who invited you.",
+        "title": "Sorry, this invitation link is invalid."
+    },
+    "loading_messages": {
+        "loading": "Loading..."
     }
 }
