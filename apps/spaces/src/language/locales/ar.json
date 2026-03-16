@@ -1,0 +1,87 @@
+{
+    "login": {
+        "message": ""
+    },
+    "reset_password": {
+        "message": ""
+    },
+    "confirm_email_update": {
+        "message": ""
+    },
+    "beta": {
+        "message": ""
+    },
+    "left_menu": {
+        "message": ""
+    },
+    "dashboard": {
+        "message": ""
+    },
+    "learners": {
+        "message": ""
+    },
+    "quizzes": {
+        "message": ""
+    },
+    "quiz": {
+        "message": ""
+    },
+    "questions_tab": {
+        "message": ""
+    },
+    "questions": {
+        "message": ""
+    },
+    "no_questions": {
+        "message": ""
+    },
+    "learner_quiz_tab": {
+        "message": ""
+    },
+    "create_question": {
+        "message": ""
+    },
+    "question_library": {
+        "message": ""
+    },
+    "results_tab": {
+        "message": ""
+    },
+    "learners_bulk_import": {
+        "message": ""
+    },
+    "support": {
+        "message": ""
+    },
+    "settings": {
+        "message": ""
+    },
+    "buttons": {
+        "message": ""
+    },
+    "modals": {
+        "message": ""
+    },
+    "error_messages": {
+        "message": ""
+    },
+    "success_messages": {
+        "message": ""
+    },
+    "loading_messages": {
+        "message": ""
+    },
+    "preview": {
+        "message": ""
+    },
+    "select_languages": {
+        "message": ""
+    },
+    "get_started": {
+        "message": "",
+        "description": "Create your Shira space to start building your own custom quizzes today."
+    },
+    "create_space": {
+        "message": ""
+    }
+}
