@@ -234,11 +234,13 @@
     },
     "invalid_quiz": {
         "title": "Sorry, this quiz link is invalid.",
-        "description": "You may have used the wrong URL, or the quiz was unpublished and is no longer available"
+        "description": "You may have used the wrong URL, or the quiz was unpublished and is no longer available",
+        "home_button": "Go to Shira"
     },
     "invalid_invitation": {
         "description": "You may have used the wrong URL, or the invitation may have expired. Try again or contact the person who invited you.",
-        "title": "Sorry, this invitation link is invalid."
+        "title": "Sorry, this invitation link is invalid.",
+        "home_button": "Go to Shira"
     },
     "loading_messages": {
         "loading": "Loading..."
