@@ -24,9 +24,9 @@ interface StyledButtonProps {
   $color?: string;
 }
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ 
-  text, 
-  onClick, 
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
+  text,
+  onClick,
   type = 'primary',
   leftIcon,
   rightIcon,
@@ -103,6 +103,7 @@ const StyledButton = styled.button<StyledButtonProps>`
   `}
 
   ${({ $size }) => $size === 'sm' && `
+    font-size: 12px;
     padding: 8px 16px;
   `}
 `;
