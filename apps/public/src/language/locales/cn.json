@@ -36,7 +36,7 @@
                 "education": "Academia",
                 "marketing": "Marketing",
                 "healthcare": "Healthcare",
-                "general": "",
+                "general": "General",
                 "activist": "Activist",
                 "human-resources": "Human resources"
             }
@@ -64,7 +64,7 @@
                 "incorrect": "错误",
                 "next_button": "下一个",
                 "back_button": "上一个",
-                "next_question": "",
+                "next_question": "Next Question",
                 "see_why": "See why",
                 "bottom-bar_looks-legit": "该信息不像是网络钓鱼。",
                 "bottom-bar_looks-like-phishing": "某些内容表明，该消息可能是网络钓鱼。"
@@ -209,9 +209,9 @@
         }
     },
     "navbar": {
-        "home": "",
+        "home": "Home",
         "about": "关于 Shira",
-        "menu": "",
+        "menu": "Menu",
         "learn": "Learn",
         "take_a_quiz": "Take a quiz",
         "features": "Features",
@@ -234,11 +234,13 @@
     },
     "invalid_quiz": {
         "title": "Sorry, this quiz link is invalid.",
-        "description": "You may have used the wrong URL, or the quiz was unpublished and is no longer available"
+        "description": "You may have used the wrong URL, or the quiz was unpublished and is no longer available",
+        "home_button": "Go to Shira"
     },
     "invalid_invitation": {
         "description": "You may have used the wrong URL, or the invitation may have expired. Try again or contact the person who invited you.",
-        "title": "Sorry, this invitation link is invalid."
+        "title": "Sorry, this invitation link is invalid.",
+        "home_button": "Go to Shira"
     },
     "loading_messages": {
         "loading": "Loading..."
