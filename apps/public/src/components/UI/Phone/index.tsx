@@ -1,12 +1,17 @@
-import { FunctionComponent, ReactNode } from 'react'
-import { styled, createGlobalStyle } from '@shira/ui'
-import { lighten } from 'polished'
-import Battery from './Icons/BatteryIcon'
-import Signal from './Icons/SignalIcon'
-import WiFi from './Icons/WiFiIcon'
+import { FunctionComponent, ReactNode } from 'react';
+import { styled, createGlobalStyle } from '@shira/ui';
+import { lighten } from 'polished';
+import Battery from './Icons/BatteryIcon';
+import Signal from './Icons/SignalIcon';
+import WiFi from './Icons/WiFiIcon';
+
 interface Props {
   children: ReactNode,
   className: string,
+  background: string
+}
+
+interface PhoneProps {
   background: string
 }
 
@@ -25,7 +30,7 @@ export const Phone: FunctionComponent<Props> = ({ children, className, backgroun
             </IconWrapper>
           </FlexWrapper>
         </Header>
-        { children }
+        {children}
       </Mobile>
     </DesktopWrapper>
   )
@@ -35,7 +40,7 @@ const Font = createGlobalStyle`
   .android {
     font-family: 'Product Sans Regular';
   }
-`
+`;
 
 const DesktopWrapper = styled.div`
   width: 100%;
@@ -44,39 +49,35 @@ const DesktopWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`
-
-interface PhoneProps {
-  background: string
-}
+`;
 
 const Header = styled.div`
   padding: 8px 24px 16px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #5F6368;
+  color: ${props => props.theme.colors.dark.darkGrey};
   font-weight: 500;
   font-size: 14px;
-`
+`;
 
 const IconWrapper = styled.div`
   height: 15px;
   padding-left: 4px;
-`
+`;
 
 const FlexWrapper = styled.div`
   display: flex;
   align-items: center;
-`
+`;
 
-const Mobile = styled('div')<PhoneProps>`
+const Mobile = styled('div') <PhoneProps>`
   box-sizing: border-box;
   height: 80vh;
   aspect-ratio: 1/2;
   background: ${props => props.background};
   border-radius: 50px;
-  border: 17px solid #F3F3F3;
+  border: 17px solid ${props => props.theme.colors.light.paleGrey};
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -92,4 +93,4 @@ const Mobile = styled('div')<PhoneProps>`
     height: 100%;
     width: 100%;
   }
-`
+`;
