@@ -1,19 +1,24 @@
-import { FunctionComponent, ReactNode, useState } from "react";
-import { styled } from "@shira/ui";
+import { FunctionComponent, useState } from "react";
+import { Body1SemiBold, Body2Italic, Body2Regular, Button, styled, useTheme } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 
 type TabType = "account" | "subscription";
 
 interface TabContainerProps {
-  accountContent: ReactNode;
-  subscriptionContent: ReactNode;
+  email?: string;
+  lastPasswordUpdateText: string;
+  onChangeEmail: () => void;
+  onChangePassword: () => void;
 }
 
 export const TabContainer: FunctionComponent<TabContainerProps> = ({
-  accountContent,
-  subscriptionContent,
+  email,
+  lastPasswordUpdateText,
+  onChangeEmail,
+  onChangePassword,
 }) => {
   const { t } = useTranslation();
+  const theme = useTheme();
   const [activeTab, setActiveTab] = useState<TabType>("account");
 
   return (
@@ -38,8 +43,59 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
       </Header>
 
       <div>
-        {activeTab === "account" && accountContent}
-        {activeTab === "subscription" && subscriptionContent}
+        {activeTab === "account" && (
+          <SettingsCard>
+            <SettingRow>
+              <SettingDetails>
+                <Body1SemiBold>{t('settings.sections.email.title')}</Body1SemiBold>
+                <Body2Regular>{email}</Body2Regular>
+              </SettingDetails>
+
+              <ActionButton
+                type="outline"
+                text={t('settings.sections.email.action')}
+                onClick={onChangeEmail}
+              />
+            </SettingRow>
+
+            <Divider />
+
+            <SettingRow>
+              <SettingDetails>
+                <Body1SemiBold>{t('settings.sections.password.title')}</Body1SemiBold>
+                <MutedValue>{lastPasswordUpdateText}</MutedValue>
+              </SettingDetails>
+
+              <ActionButton
+                type="outline"
+                text={t('settings.sections.password.action')}
+                onClick={onChangePassword}
+              />
+            </SettingRow>
+          </SettingsCard>
+        )}
+
+        {activeTab === "subscription" && (
+          <SettingsCard>
+            <SettingRow>
+              <SettingDetails>
+                <Body1Bold>{t('settings.subscription.current_plan', { plan_name: 'Starter' })}</Body1Bold>
+              </SettingDetails>
+
+              <SubscriptionActions>
+                <SubscriptionButton
+                  type="outline"
+                  text={t('settings.subscription.view_plans')}
+                />
+                <SubscriptionButton
+                  type="primary"
+                  text={t('settings.subscription.manage_plan')}
+                  color={theme.colors.green7}
+                />
+              </SubscriptionActions>
+            </SettingRow>
+          </SettingsCard>
+        )}
       </div>
     </Container>
   );
@@ -75,6 +131,90 @@ const TabButton = styled.div<{ $isActive: boolean }>`
   &:hover {
     border-bottom: 4px solid ${props => props.$isActive ? props.theme.colors.green7 : "#ccc"};
   }
+`;
+
+const SettingsCard = styled.section`
+  background: ${props => props.theme.colors.light.white};
+  border-radius: 32px;
+  padding: 8px 42px;
+  max-width: 1280px;
+
+  @media (max-width: ${props => props.theme.breakpoints.md}) {
+    padding: 8px 24px;
+  }
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    border-radius: 24px;
+    padding: 8px 20px;
+  }
+`;
+
+const SettingRow = styled.div`
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: center;
+  padding: 20px 0;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+`;
+
+const SettingDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+`;
+
+const MutedValue = styled(Body2Italic)`
+  color: ${props => props.theme.colors.dark.darkGrey};
+`;
+
+const ActionButton = styled(Button)`
+  justify-content: center;
+  font-size: 16px;
+  line-height: 1.4;
+  padding: 16px 24px;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    min-width: 100%;
+  }
+`;
+
+const Body1Bold = styled(Body1SemiBold)`
+  font-weight: 700;
+`;
+
+const SubscriptionActions = styled.div`
+  display: flex;
+  gap: 12px;
+  align-items: center;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    width: 100%;
+    flex-direction: column;
+  }
+`;
+
+const SubscriptionButton = styled(Button)`
+  justify-content: center;
+  font-size: 16px;
+  line-height: 1.4;
+  
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    width: 100%;
+  }
+`;
+
+const Divider = styled.div`
+  width: 100%;
+  height: 1px;
+  background: ${props => props.theme.colors.dark.lightGrey};
+  margin: 4px 0;
 `;
 
 export default TabContainer;

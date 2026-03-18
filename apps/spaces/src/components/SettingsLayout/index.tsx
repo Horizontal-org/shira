@@ -1,5 +1,5 @@
 import { FunctionComponent, useCallback, useState } from "react";
-import { BetaBanner, Body1, Body1SemiBold, Body2Italic, Body2Regular, Button, H2, Sidebar, styled, useAdminSidebar, useTheme } from '@shira/ui';
+import { BetaBanner, Body1, H2, Sidebar, styled, useAdminSidebar } from '@shira/ui';
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useStore } from "../../store";
@@ -18,7 +18,6 @@ interface Props { }
 
 export const SettingsLayout: FunctionComponent<Props> = () => {
   const { t } = useTranslation();
-  const theme = useTheme();
   const navigate = useNavigate();
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate);
 
@@ -91,58 +90,10 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
           </HeaderContainer>
 
           <TabContainer
-            accountContent={(
-              <SettingsCard>
-                <SettingRow key={t('settings.sections.email.title')}>
-                  <SettingDetails>
-                    <Body1SemiBold>{t('settings.sections.email.title')}</Body1SemiBold>
-                    <Body2Regular>{email}</Body2Regular>
-                  </SettingDetails>
-
-                  <ActionButton
-                    type="outline"
-                    text={t('settings.sections.email.action')}
-                    onClick={() => setIsEmailModalOpen(true)}
-                  />
-                </SettingRow>
-
-                <Divider />
-
-                <SettingRow key={t('settings.sections.password.title')}>
-                  <SettingDetails>
-                    <Body1SemiBold>{t('settings.sections.password.title')}</Body1SemiBold>
-                    <MutedValue>{getLastPasswordUpdateDate(lastPasswordChangeAt)}</MutedValue>
-                  </SettingDetails>
-
-                  <ActionButton
-                    type="outline"
-                    text={t('settings.sections.password.action')}
-                    onClick={() => setIsPasswordModalOpen(true)}
-                  />
-                </SettingRow>
-              </SettingsCard>
-            )}
-            subscriptionContent={(
-              <SettingsCard>
-                <SettingRow>
-                  <SettingDetails>
-                    <Body1Bold>{t('settings.subscription.current_plan', { plan_name: 'Starter' })}</Body1Bold>
-                  </SettingDetails>
-
-                  <SubscriptionActions>
-                    <SubscriptionButton
-                      type="outline"
-                      text={t('settings.subscription.view_plans')}
-                    />
-                    <SubscriptionButton
-                      type="primary"
-                      text={t('settings.subscription.manage_plan')}
-                      color={theme.colors.green7}
-                    />
-                  </SubscriptionActions>
-                </SettingRow>
-              </SettingsCard>
-            )}
+            email={email}
+            lastPasswordUpdateText={getLastPasswordUpdateDate(lastPasswordChangeAt)}
+            onChangeEmail={() => setIsEmailModalOpen(true)}
+            onChangePassword={() => setIsPasswordModalOpen(true)}
           />
         </MainContentWrapper>
       </MainContent>
@@ -210,88 +161,4 @@ const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-`;
-
-const SettingsCard = styled.section`
-  background: ${props => props.theme.colors.light.white};
-  border-radius: 32px;
-  padding: 8px 42px;
-  max-width: 1280px;
-
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
-    padding: 8px 24px;
-  }
-
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    border-radius: 24px;
-    padding: 8px 20px;
-  }
-`;
-
-const SettingRow = styled.div`
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 24px;
-  align-items: center;
-  padding: 20px 0;
-
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-`;
-
-const SettingDetails = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-`;
-
-const MutedValue = styled(Body2Italic)`
-  color: ${props => props.theme.colors.dark.darkGrey};
-`;
-
-const ActionButton = styled(Button)`
-  justify-content: center;
-  font-size: 16px;
-  line-height: 1.4;
-  padding: 16px 24px;
-
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    min-width: 100%;
-  }
-`;
-
-const Body1Bold = styled(Body1SemiBold)`
-  font-weight: 700;
-`;
-
-const SubscriptionActions = styled.div`
-  display: flex;
-  gap: 12px;
-  align-items: center;
-
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    width: 100%;
-    flex-direction: column;
-  }
-`;
-
-const SubscriptionButton = styled(Button)`
-  justify-content: center;
-  font-size: 16px;
-  line-height: 1.4;
-
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    width: 100%;
-  }
-`;
-
-const Divider = styled.div`
-  width: 100%;
-  height: 1px;
-  background: ${props => props.theme.colors.dark.lightGrey};
-  margin: 4px 0;
 `;
