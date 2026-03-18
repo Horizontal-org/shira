@@ -363,6 +363,10 @@
     "settings": {
         "title": "Settings",
         "subtitle": "Manage your Shira space settings here.",
+        "tabs": {
+            "account": "Account",
+            "subscription": "Subscription"
+        },
         "subscription": {
             "current_plan": "Current plan: {{plan_name}}",
             "view_plans": "View plans",

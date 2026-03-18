@@ -1,5 +1,6 @@
 import { FunctionComponent, ReactNode, useState } from "react";
 import { styled } from "@shira/ui";
+import { useTranslation } from "react-i18next";
 
 type TabType = "account" | "subscription";
 
@@ -12,6 +13,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   accountContent,
   subscriptionContent,
 }) => {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<TabType>("account");
 
   return (
@@ -23,14 +25,14 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
             $isActive={activeTab === "account"}
             onClick={() => setActiveTab("account")}
           >
-            Account
+            {t('settings.tabs.account')}
           </TabButton>
           <TabButton
             id="settings-subscription-tab"
             $isActive={activeTab === "subscription"}
             onClick={() => setActiveTab("subscription")}
           >
-            Subscription
+            {t('settings.tabs.subscription')}
           </TabButton>
         </TabsContainer>
       </Header>
