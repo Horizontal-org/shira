@@ -36,9 +36,11 @@ export const Content: FunctionComponent<Props> = ({ data }) => {
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: column-reverse;  
+  flex-direction: column-reverse;
   height: 100%;
   overflow-y: scroll;
+  padding: 32px 0 20px;
+  box-sizing: border-box;
 
   mark {
     background: transparent;

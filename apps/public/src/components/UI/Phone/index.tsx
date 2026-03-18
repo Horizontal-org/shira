@@ -49,6 +49,8 @@ const DesktopWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 24px;
+  box-sizing: border-box;
 `;
 
 const Header = styled.div`
@@ -73,7 +75,7 @@ const FlexWrapper = styled.div`
 
 const Mobile = styled('div') <PhoneProps>`
   box-sizing: border-box;
-  height: 80vh;
+  width: min(360px, calc(100vw - 48px), calc((100vh - 48px) / 2));
   aspect-ratio: 1/2;
   background: ${props => props.background};
   border-radius: 50px;
@@ -82,15 +84,4 @@ const Mobile = styled('div') <PhoneProps>`
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
-
-  @media (max-width: ${props => props.theme.breakpoints.md}) and (max-height: 860px) {
-    width: 90%;
-  }
-
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    border-radius: 0;
-    border: none;
-    height: 100%;
-    width: 100%;
-  }
 `;
