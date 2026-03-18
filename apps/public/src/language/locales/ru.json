@@ -1,16 +1,16 @@
 {
     "beta": {
-        "label": "",
-        "message": "",
-        "feedback_text": "",
-        "click_here": ""
+        "label": "БЕТА",
+        "message": "Shira is still in development and you may experience issues.",
+        "feedback_text": "поделиться своим отзывом и узнать, что ждёт Ширу в будущем!",
+        "click_here": "Нажмите здесь"
     },
     "welcome": {
-        "title": "",
-        "subtitle": "",
-        "start": "",
-        "public_message": "",
-        "learn_more": ""
+        "title": "Пройди тест «Shira»",
+        "subtitle": "Развивайте свои навыки борьбы с фишингом с помощью короткого теста, адаптированного к вашим потребностям. Выберите язык или нажмите «Начать тест», чтобы приступить к тестированию.",
+        "start": "Начать викторину",
+        "public_message": "Добро пожаловать на тест по фишингу. Выберите язык или нажмите «Начать тест», чтобы приступить к тестированию.",
+        "learn_more": "Узнайте больше о Shira"
     },
     "setup": {
         "name": {
