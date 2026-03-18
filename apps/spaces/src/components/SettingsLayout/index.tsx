@@ -1,5 +1,5 @@
 import { FunctionComponent, useCallback, useState } from "react";
-import { BetaBanner, Body1, Body1SemiBold, Body2Italic, Body2Regular, Button, H2, Sidebar, styled, useAdminSidebar } from '@shira/ui';
+import { BetaBanner, Body1, Body1SemiBold, Body2Italic, Body2Regular, Button, H2, Sidebar, styled, useAdminSidebar, useTheme } from '@shira/ui';
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useStore } from "../../store";
@@ -12,11 +12,13 @@ import i18n from "../../language/i18n";
 import { enUS } from "date-fns/locale";
 import { format, isValid } from "date-fns";
 import { requestChangeUserEmail, changeUserPassword } from "../../fetch/user";
+import { TabContainer } from "./components/TabContainer";
 
 interface Props { }
 
 export const SettingsLayout: FunctionComponent<Props> = () => {
   const { t } = useTranslation();
+  const theme = useTheme();
   const navigate = useNavigate();
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate);
 
@@ -88,37 +90,60 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
             </TextContainer>
           </HeaderContainer>
 
-          <SettingsCard>
+          <TabContainer
+            accountContent={(
+              <SettingsCard>
+                <SettingRow key={t('settings.sections.email.title')}>
+                  <SettingDetails>
+                    <Body1SemiBold>{t('settings.sections.email.title')}</Body1SemiBold>
+                    <Body2Regular>{email}</Body2Regular>
+                  </SettingDetails>
 
-            <SettingRow key={t('settings.sections.email.title')}>
-              <SettingDetails>
-                <Body1SemiBold>{t('settings.sections.email.title')}</Body1SemiBold>
-                <Body2Regular>{email}</Body2Regular>
-              </SettingDetails>
+                  <ActionButton
+                    type="outline"
+                    text={t('settings.sections.email.action')}
+                    onClick={() => setIsEmailModalOpen(true)}
+                  />
+                </SettingRow>
 
-              <ActionButton
-                type="outline"
-                text={t('settings.sections.email.action')}
-                onClick={() => setIsEmailModalOpen(true)}
-              />
-            </SettingRow>
+                <Divider />
 
-            <Divider />
+                <SettingRow key={t('settings.sections.password.title')}>
+                  <SettingDetails>
+                    <Body1SemiBold>{t('settings.sections.password.title')}</Body1SemiBold>
+                    <MutedValue>{getLastPasswordUpdateDate(lastPasswordChangeAt)}</MutedValue>
+                  </SettingDetails>
 
-            <SettingRow key={t('settings.sections.password.title')}>
-              <SettingDetails>
-                <Body1SemiBold>{t('settings.sections.password.title')}</Body1SemiBold>
-                <MutedValue>{getLastPasswordUpdateDate(lastPasswordChangeAt)}</MutedValue>
-              </SettingDetails>
+                  <ActionButton
+                    type="outline"
+                    text={t('settings.sections.password.action')}
+                    onClick={() => setIsPasswordModalOpen(true)}
+                  />
+                </SettingRow>
+              </SettingsCard>
+            )}
+            subscriptionContent={(
+              <SettingsCard>
+                <SettingRow>
+                  <SettingDetails>
+                    <Body1Bold>{t('settings.subscription.current_plan', { plan_name: 'Starter' })}</Body1Bold>
+                  </SettingDetails>
 
-              <ActionButton
-                type="outline"
-                text={t('settings.sections.password.action')}
-                onClick={() => setIsPasswordModalOpen(true)}
-              />
-            </SettingRow>
-
-          </SettingsCard>
+                  <SubscriptionActions>
+                    <SubscriptionButton
+                      type="outline"
+                      text={t('settings.subscription.view_plans')}
+                    />
+                    <SubscriptionButton
+                      type="primary"
+                      text={t('settings.subscription.manage_plan')}
+                      color={theme.colors.green7}
+                    />
+                  </SubscriptionActions>
+                </SettingRow>
+              </SettingsCard>
+            )}
+          />
         </MainContentWrapper>
       </MainContent>
 
@@ -182,7 +207,6 @@ const HeaderContainer = styled.div`
 `;
 
 const TextContainer = styled.div`
-  padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -237,6 +261,31 @@ const ActionButton = styled(Button)`
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     min-width: 100%;
+  }
+`;
+
+const Body1Bold = styled(Body1SemiBold)`
+  font-weight: 700;
+`;
+
+const SubscriptionActions = styled.div`
+  display: flex;
+  gap: 12px;
+  align-items: center;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    width: 100%;
+    flex-direction: column;
+  }
+`;
+
+const SubscriptionButton = styled(Button)`
+  justify-content: center;
+  font-size: 16px;
+  line-height: 1.4;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    width: 100%;
   }
 `;
 
