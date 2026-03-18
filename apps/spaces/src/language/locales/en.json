@@ -363,6 +363,11 @@
     "settings": {
         "title": "Settings",
         "subtitle": "Manage your Shira space settings here.",
+        "subscription": {
+            "current_plan": "Current plan: {{plan_name}}",
+            "view_plans": "View plans",
+            "manage_plan": "Manage plan"
+        },
         "sections": {
             "email": {
                 "title": "Email address",
