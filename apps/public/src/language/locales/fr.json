@@ -1,16 +1,16 @@
 {
     "welcome": {
         "title": "Bienvenue à Shira",
-        "subtitle": "Apprendre à identifier et à déjouer les tentatives d'hameçonnage",
+        "subtitle": "Renforcez vos compétences contre le phishing avec un court quiz personnalisé. Changez de langue ou cliquez sur “Commencer le quiz” pour débuter.",
         "start": "Lancer le quiz",
-        "public_message": "Welcome to your phishing quiz. Change your language or click on \"Start quiz\" to get started.",
-        "learn_more": "Learn more about Shira"
+        "public_message": "Bienvenue dans votre quiz de phishing. Changez de langue ou cliquez sur \"Commencer le quiz\" pour débuter.",
+        "learn_more": "En savoir plus sur Shira"
     },
     "setup": {
         "name": {
             "title": "Ajouter un nom et une adresse e-mail",
-            "subtitle": "Nous demandons un nom et une adresse e-mail pour que le quiz d’hameçonnage soit plus réaliste. Ces informations ne seront ni enregistrées, ni envoyées à nos serveurs voire partagées avec quiconque.",
-            "recommendation": "Pour plus de sécurité, vous pouvez utiliser un faux nom et une fausse adresse électronique, ou en générer unes au hasard.",
+            "subtitle": "Nous demandons un nom et une adresse email pour que le quiz d’hameçonnage soit plus réaliste. Ces informations ne seront ni enregistrées,ni envoyées à nos serveurs, ni partagées avec des tiers.",
+            "recommendation": "Pour plus de sécurité, vous pouvez utiliser un faux nom et une fausse adresse électronique, ou en générer au hasard.",
             "name": "Nom",
             "email": "E-mail",
             "random_button": "Générer un nom et une adresse email aléatoires",
@@ -37,8 +37,8 @@
                 "marketing": "Marketing",
                 "healthcare": "Santé",
                 "general": "Général",
-                "activist": "Activist",
-                "human-resources": "Human resources"
+                "activist": "Activiste",
+                "human-resources": "Ressources humaines"
             }
         }
     },
@@ -46,7 +46,7 @@
         "how_it_works": {
             "title": "Comment ça marche",
             "explanation_1": "Ce quiz comporte 10 questions.",
-            "question_count": "Ce quiz comporte {{ count }} questions.",
+            "question_count": "Ce quiz comporte {{ count }} questions",
             "explanation_2": "Pour chaque question, choisissez si le message affiché ressemble à une tentative d'hameçonnage ou semble légitime.",
             "explanation_3": "Si vous n'êtes pas sûr, vous pouvez sélectionner l'option \"Je ne sais pas\".",
             "footer_title": "Intro du quiz",
@@ -79,7 +79,7 @@
     },
     "feedback": {
         "title": "Aidez-nous à nous améliorer",
-        "subtitle": "Une dernière chose avant d'accéder aux résultats du quiz: donnez-nous votre avis pour nous aider à améliorer la situation pour les futurs utilisateurs.",
+        "subtitle": "Une dernière chose avant d'accéder aux résultats du quiz : donnez-nous votre avis pour nous aider à améliorer la situation pour les futurs utilisateurs.",
         "box": {
             "question_1": {
                 "title": "1. Shira est-il facile à utiliser ?",
@@ -110,13 +110,13 @@
         "back_button": "Retour a l'accueil",
         "next_button": "Nouveau quiz",
         "heavy_subtitle_1": "Vous avez répondu correctement à ",
-        "heavy_subtitle_2": "{{correctQuestions}} sur {{questions}}",
+        "heavy_subtitle_2": "{{correctQuestions}} questions sur {{questions}} ",
         "heavy_subtitle_3": ".",
-        "greeting_title": "Thanks for using Shira!"
+        "greeting_title": "Merci d'utiliser Shira !"
     },
     "about": {
         "title": "À propos",
-        "subtitle": "Shira aide les utilisateurs à développer les compétences nécessaires pour identifier et vaincre les attaques d’hameçonnage sur les applications pour le courrier électronique et la messagerie",
+        "subtitle": "Shira aide les utilisateurs à développer les compétences nécessaires pour identifier et déjouer les attaques de phishing sur les emails et les applications de messagerie.",
         "why_shira": {
             "title": "Pourquoi Shira ?",
             "option_1": {
@@ -124,7 +124,7 @@
                 "description": "Shira a été créée en tenant compte des communautés les plus à risque d’attaques d’hameçonnage, en particulier les utilisateurs ayant une connaissance limitée de la technologie."
             },
             "option_2": {
-                "title": "2. Personnalisable",
+                "title": "2. Personnalisable ",
                 "description": "Nous essayons de rendre les messages d’hameçonnage aussi réalistes que possible, de simuler ce à quoi les internautes sont confrontés dans leur vie quotidienne et les attaques d’hameçonnage auxquelles ils sont susceptibles de faire face."
             },
             "option_3": {
@@ -135,7 +135,7 @@
             "security_audit_cta": "Audit de sécurité"
         },
         "created_by": {
-            "title": "Qui est derrière Shira?",
+            "title": "Qui est derrière Shira ?",
             "website_cta": "En savoir plus sur Horizontal",
             "description": {
                 "section1": "Shira est un projet d’Horizontal, une organisation à but non lucratif qui soutient les défenseurs de première ligne, les militants et les journalistes à travers la sécurité numérique et le développement d’outils.",
@@ -156,10 +156,10 @@
         },
         "advisors": {
             "title": "Conseillers/Conseillères",
-            "subtitle": "Shira est soutenue par un comité de conseillers et conseillères composé d’expert(e)s en sécurité numérique et en cybersécurité:",
+            "subtitle": "Shira est soutenue par un comité de conseillers et conseillères composé d’expert(e)s en sécurité numérique et en cybersécurité :",
             "person1": {
                 "name": "Amir Rashidi",
-                "job": "Directrice des droits numériques et de la sécurité, Miaan"
+                "job": "Directeur des droits numériques et de la sécurité, Miaan"
             },
             "person2": {
                 "name": "Cheekay Cinco",
@@ -175,7 +175,7 @@
             },
             "person5": {
                 "name": "Harlo Holmes",
-                "job": "Chef de la sécurité de l’information et directeur de la sécurité numérique, Freedom of the Press Foundation"
+                "job": "Cheffe de la sécurité de l'information et directrice de la sécurité numérique, Freedom of the Press Foundation"
             },
             "person6": {
                 "name": "Lobsang Gyatso",
@@ -191,11 +191,11 @@
             },
             "person9": {
                 "name": "Nick Carr",
-                "job": "Renseignement sur la cybercriminalité et tactiques des adversaires, Microsoft"
+                "job": "Renseignement sur la cybercriminalité et méthodes d'attaque des adversaires, Microsoft"
             },
             "person10": {
                 "name": "Sadibou Sow",
-                "job": "Conseiller en technologie de l’éducation"
+                "job": "Consultant en technologies éducatives"
             },
             "person11": {
                 "name": "Trinh Nguyen",
@@ -212,37 +212,37 @@
         "home": "Accueil",
         "about": "À propos",
         "menu": "Menu",
-        "learn": "Learn",
-        "take_a_quiz": "Take a quiz",
-        "features": "Features",
-        "get_started": "Get started",
-        "pricing": "Pricing"
+        "learn": "Apprendre",
+        "take_a_quiz": "Commencer le quiz",
+        "features": "Caractéristiques",
+        "get_started": "Commencez",
+        "pricing": "Tarifs"
     },
     "beta": {
-        "feedback_text": "to share your feedback and read about what’s next for Shira!",
-        "message": "Shira is still in development and you may experience issues.",
-        "click_here": "Click here",
+        "feedback_text": "pour partager votre avis et découvrir la suite du projet Shira !",
+        "message": "Shira est encore en développement et vous pourriez rencontrer des problèmes.",
+        "click_here": "Cliquez ici",
         "label": "BETA"
     },
     "learner_invitation": {
-        "success_title": "Success!",
-        "success_joined_space": "You have joined {{spaceName}} on Shira.",
-        "error_message": "Try again or contact the person who invited you.",
-        "learn_more": "Learn more about Shira",
-        "success_hint": "When your organization shares a quiz with you, you will receive an email invitation directly in your inbox.",
-        "error_title": "Something went wrong"
+        "success_title": "Succès !",
+        "success_joined_space": "Vous avez rejoint {{spaceName}} sur Shira.",
+        "error_message": "Réessayez ou contactez la personne qui vous a invité.",
+        "learn_more": "En savoir plus sur Shira",
+        "success_hint": "Lorsque votre organisation partagera un quiz avec vous, vous recevrez une invitation par courriel directement dans votre boîte de réception.",
+        "error_title": "Quelque chose s'est mal passé"
     },
     "invalid_quiz": {
-        "title": "Sorry, this quiz link is invalid.",
-        "description": "You may have used the wrong URL, or the quiz was unpublished and is no longer available",
-        "home_button": "Go to Shira"
+        "title": "Désolé, ce lien vers le quiz est invalide.",
+        "description": "Vous avez peut-être utilisé la mauvaise URL, ou le quiz a été dépublié et n'est plus disponible",
+        "home_button": "Aller sur Shira"
     },
     "invalid_invitation": {
-        "description": "You may have used the wrong URL, or the invitation may have expired. Try again or contact the person who invited you.",
-        "title": "Sorry, this invitation link is invalid.",
-        "home_button": "Go to Shira"
+        "description": "Vous avez peut-être utilisé la mauvaise URL, ou l'invitation a expiré. Réessayez ou contactez la personne qui vous a invité.",
+        "title": "Désolé, ce lien d'invitation est invalide.",
+        "home_button": "Aller sur Shira"
     },
     "loading_messages": {
-        "loading": "Loading..."
+        "loading": "Chargement..."
     }
 }
