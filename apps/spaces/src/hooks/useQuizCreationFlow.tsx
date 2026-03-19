@@ -59,6 +59,13 @@ export const useQuizCreationFlow = ({
     setSelectedQuizForDuplicate(quiz);
   };
 
+  const moveToVisibilityStep = (newTitle: string) => {
+    if (!hasRequiredValue(newTitle)) { return; }
+
+    setTitle(newTitle);
+    setStep(2);
+  };
+
   const handleTitleSubmit = async (newTitle: string) => {
     const trimmedTitle = newTitle.trim();
 
@@ -185,6 +192,7 @@ export const useQuizCreationFlow = ({
 
     startCreateQuizFlow,
     startDuplicateQuizFlow,
+    moveToVisibilityStep,
     handleTitleSubmit,
     handleBackFromVisibility,
     handleConfirmVisibility,

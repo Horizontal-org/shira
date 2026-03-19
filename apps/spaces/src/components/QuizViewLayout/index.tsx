@@ -80,13 +80,20 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
   const [renameTitle, setRenameTitle] = useState("");
+
   const [isValidatingRenameTitle, setIsValidatingRenameTitle] = useState(false);
   const [renameTitleError, setRenameTitleError] = useState<string | null>(null);
+
+  const [isValidatingTitle, setIsValidatingTitle] = useState(false);
+  const [titleError, setTitleError] = useState<string | null>(null);
+
   const [isUnpublishedQuizModalOpen, setIsUnpublishedQuizModalOpen] = useState(false);
   const [isUnpublishQuizModalOpen, setIsUnpublishQuizModalOpen] = useState(false);
   const [showPublishTooltip, setShowPublishTooltip] = useState(false);
   const [showCopyLinkTooltip, setShowCopyLinkTooltip] = useState(false);
+
   const latestRenameValidationIdRef = useRef(0);
+  const latestDuplicateValidationIdRef = useRef(0);
 
   const { destroy } = useQuestionCRUD()
   const {
@@ -94,12 +101,10 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     setTitle,
     selectedQuizForDuplicate,
     isSubmitting,
-    isValidatingTitle,
-    titleError,
     isDuplicateTitleModalOpen,
     isVisibilityModalOpen,
     startDuplicateQuizFlow,
-    handleTitleSubmit,
+    moveToVisibilityStep,
     handleBackFromVisibility,
     handleConfirmVisibility,
     cancelFlow
@@ -144,7 +149,6 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
       fetchResults()
     }
   }, [quiz])
-  // fetchResults();
 
   useEffect(() => {
     // test date zones
@@ -218,6 +222,74 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
       window.clearTimeout(timeoutId);
     };
   }, [isRenameModalOpen, quiz, renameTitle, validateQuizName]);
+
+  const clearDuplicateValidation = () => {
+    latestDuplicateValidationIdRef.current += 1;
+
+    setIsValidatingTitle(false);
+    setTitleError(null);
+  };
+
+  const handleDuplicateTitleChange = (newTitle: string) => {
+    setTitle(newTitle);
+
+    clearDuplicateValidation();
+
+    if (!hasRequiredValue(newTitle) || newTitle.length < QUIZ_NAME_VALIDATION_MIN_LENGTH) {
+      return;
+    }
+
+    const validationId = ++latestDuplicateValidationIdRef.current;
+
+    window.setTimeout(async () => {
+      if (latestDuplicateValidationIdRef.current !== validationId) {
+        return;
+      }
+
+      setIsValidatingTitle(true);
+
+      const error = await getQuizNameValidationError({
+        name: newTitle,
+        validateQuizName,
+      });
+
+      if (latestDuplicateValidationIdRef.current !== validationId) {
+        return;
+      }
+
+      setTitleError(error);
+      setIsValidatingTitle(false);
+    }, QUIZ_NAME_VALIDATION_DELAY_MS);
+  };
+
+  const handleTitleSubmit = async (newTitle: string) => {
+    if (!hasRequiredValue(newTitle) || isValidatingTitle) {
+      return;
+    }
+
+    clearDuplicateValidation();
+    setIsValidatingTitle(true);
+
+    const validationId = ++latestDuplicateValidationIdRef.current;
+
+    const error = await getQuizNameValidationError({
+      name: newTitle,
+      validateQuizName,
+    });
+
+    if (latestDuplicateValidationIdRef.current !== validationId) {
+      return;
+    }
+
+    setTitleError(error);
+    setIsValidatingTitle(false);
+
+    if (error) {
+      return;
+    }
+
+    moveToVisibilityStep(newTitle);
+  };
 
   const handleTogglePublished = (cardId: number, published: boolean) => {
     updateQuiz({
@@ -329,6 +401,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                       type="outline"
                       onClick={() => {
                         if (quiz) {
+                          clearDuplicateValidation();
                           startDuplicateQuizFlow(quiz);
                         }
                       }}
@@ -485,10 +558,13 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 quiz={selectedQuizForDuplicate}
                 isModalOpen={isDuplicateTitleModalOpen}
                 title={title}
-                setTitle={setTitle}
+                setTitle={handleDuplicateTitleChange}
                 errorMessage={titleError}
                 onDuplicate={(newTitle) => { handleTitleSubmit(newTitle); }}
-                onCancel={() => { cancelFlow(); }}
+                onCancel={() => {
+                  clearDuplicateValidation();
+                  cancelFlow();
+                }}
                 isLoading={isSubmitting || isValidatingTitle}
               />
 
