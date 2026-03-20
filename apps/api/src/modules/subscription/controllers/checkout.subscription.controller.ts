@@ -7,7 +7,7 @@ import { CreateCheckoutDto } from '../dto/create-checkout.dto';
 export class CheckoutSubscriptionController {
   constructor(
     private readonly shiraPaymentsService: ShiraPaymentsService,
-  ) {}
+  ) { }
 
   @Post()
   async handler(@Body() dto: CreateCheckoutDto) {

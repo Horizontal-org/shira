@@ -9,7 +9,7 @@ export class ShiraPaymentsService {
   private readonly baseUrl = 'http://localhost:3001';
   private readonly apiKey = 'mock-internal-shira-key';
 
-  constructor(private readonly httpService: HttpService) {}
+  constructor(private readonly httpService: HttpService) { }
 
   private get headers() {
     return { 'x-internal-shira-key': this.apiKey };
