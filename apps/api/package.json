@@ -27,13 +27,15 @@
   "dependencies": {
     "@date-fns/utc": "^2.1.0",
     "@nestjs-modules/mailer": "^2.0.2",
+    "@nestjs/axios": "^4.0.1",
     "@nestjs/bullmq": "^11.0.4",
+    "@nestjs/cli": "^11.0.16",
     "@nestjs/common": "^11.1.13",
     "@nestjs/config": "^4.0.3",
     "@nestjs/core": "^11.1.13",
-    "@nestjs/platform-express": "^11.1.13",
     "@nestjs/jwt": "^11.0.2",
     "@nestjs/passport": "^11.0.5",
+    "@nestjs/platform-express": "^11.1.13",
     "@nestjs/typeorm": "^11.0.0",
     "@types/multer": "^2.0.0",
     "@types/passport": "^1.0.17",
@@ -41,6 +43,7 @@
     "@types/passport-jwt": "^4.0.1",
     "@types/passport-local": "^1.0.38",
     "@types/sanitize-html": "^2.16.0",
+    "axios": "^1.13.6",
     "bcrypt": "6.0.0",
     "bullmq": "^5.69.1",
     "cheerio": "^1.2.0",
@@ -65,8 +68,7 @@
     "sanitize-html": "^2.17.0",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
-    "typeorm": "^0.3.28",
-    "@nestjs/cli": "^11.0.16"
+    "typeorm": "^0.3.28"
   },
   "devDependencies": {
     "@nestjs/schematics": "^11.0.9",
