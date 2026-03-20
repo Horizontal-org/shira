@@ -34,7 +34,7 @@ interface StyledSvgWrapper {
 
 const SvgWrapper = styled.div<StyledSvgWrapper>`
   cursor: pointer;
-  margin-left: 12px;  
+  margin-left: 12px;
   border-radius: 50%;
   padding: 4px;
   display: flex;
@@ -44,15 +44,15 @@ const SvgWrapper = styled.div<StyledSvgWrapper>`
   height: 28px;
   
   transition: 0.2s all;
-  color: #ddd;
+  color: #ACADAE;
 
   > svg {
-    stroke: #ddd;
-    fill: #ddd;
+    stroke: #ACADAE;
+    fill: #ACADAE;
   }
 
   > svg > path {
-    fill: #ddd;
+    fill: #ACADAE;
   }
 
   &:hover {
