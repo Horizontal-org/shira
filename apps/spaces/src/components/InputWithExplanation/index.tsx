@@ -52,7 +52,7 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
         label={label}
         value={contentObject.value}
         placeholder={placeholder}
-        onChange={(e) => { 
+        onChange={(e) => {
           // if(RE_VALIDATIONS[validation] && !RE_VALIDATIONS[validation]?.test(ref.current.value)) return
           // setValue(ref.current.value)
           // onChange(
@@ -75,7 +75,7 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
           }
         }}
       />
-      
+
       <ExplanationButtonWrapper>
         <ExplanationButton
           active={selectedExplanationIndex && selectedExplanationIndex + '' === contentObject.explanation}
@@ -86,7 +86,7 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
             } else {
               const index = explanationIndex + 1
               addExplanation(index, label)
-              updateActiveQuestionInput(name, 'explanation', index + '')            
+              updateActiveQuestionInput(name, 'explanation', index + '')
             }
           }}
         />

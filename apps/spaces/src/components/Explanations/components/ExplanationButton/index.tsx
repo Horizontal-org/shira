@@ -1,24 +1,27 @@
 import { FunctionComponent } from 'react'
 import { ExplanationIcon, styled } from '@shira/ui'
+import ExplanationText from '../../../../icons/ExplanationText'
 
 interface Props {
   onClick: () => void
   active: boolean
   disabled?: boolean
+  isText?: boolean
 }
 
-export const ExplanationButton: FunctionComponent<Props> = ({ 
-  onClick, 
+export const ExplanationButton: FunctionComponent<Props> = ({
+  onClick,
   active,
-  disabled = false
+  disabled = false,
+  isText = false
 }) => {
   return (
-    <SvgWrapper 
+    <SvgWrapper
       disabled={disabled}
       onClick={disabled ? null : onClick}
       active={active}
     >
-      <ExplanationIcon /> 
+      {isText ? <ExplanationText /> : <ExplanationIcon />}
     </SvgWrapper>
 
   )
@@ -41,17 +44,36 @@ const SvgWrapper = styled.div<StyledSvgWrapper>`
   height: 28px;
   
   transition: 0.2s all;
+  color: #ddd;
+
   > svg {
     stroke: #ddd;
+    fill: #ddd;
+  }
+
+  > svg > path {
+    fill: #ddd;
   }
 
   &:hover {
     stroke: ${props => props.theme.secondary.base};
     fill: ${props => props.theme.secondary.base};
     background: #f1f2f4;
+    color: ${props => props.theme.secondary.base};
+
+    > svg {
+      stroke: ${props => props.theme.secondary.base};
+      fill: ${props => props.theme.secondary.base};
+    }
+
+    > svg > path {
+      fill: ${props => props.theme.secondary.base};
+    }
   }
   
-  ${props =>  props.active && `
+  ${props => props.active && `
+    color: ${props.theme.secondary.base};
+
     > svg {
       stroke: ${props.theme.secondary.base};
       fill: ${props.theme.secondary.base};
