@@ -219,8 +219,8 @@
         "pricing": "Pricing"
     },
     "beta": {
-        "feedback_text": "to share your feedback and read about what’s next for Shira!",
-        "click_here": "Click here",
+        "feedback_text": "提交反馈，并了解 Shira 的后续计划！",
+        "click_here": "点击此处",
         "message": "Shira 仍在开发中，可能出现问题。",
         "label": "BETA"
     },
