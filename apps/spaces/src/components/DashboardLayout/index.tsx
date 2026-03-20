@@ -4,8 +4,8 @@ import { Card, Sidebar, styled, H2, SubHeading3, Body1, Button, FilterButton, us
 import { FiPlus } from 'react-icons/fi';
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
-import { formatDistance, set } from "date-fns";
-import { enUS, is } from "date-fns/locale";
+import { formatDistance } from "date-fns";
+import { enUS } from "date-fns/locale";
 import { useTranslation } from "react-i18next";
 import { QuizSuccessStates, SUCCESS_MESSAGES } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
@@ -19,6 +19,7 @@ import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
 import { handleCopyUrlAndNotify } from "../../utils/quiz";
 import { getCurrentDateFNSLocales } from "../../language/dateUtils";
 import { useQuizCreationFlow } from "../../hooks/useQuizCreationFlow";
+import { useTitleUpdate } from "../../hooks/useTitleUpdate";
 
 interface Props { }
 
@@ -67,23 +68,32 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     setTitle,
     selectedQuizForDuplicate,
     isSubmitting,
-    isValidatingTitle,
-    titleError,
     submittingQuizId,
     isCreateTitleModalOpen,
     isDuplicateTitleModalOpen,
     isVisibilityModalOpen,
     startCreateQuizFlow,
     startDuplicateQuizFlow,
-    handleTitleSubmit,
+    moveToVisibilityStep,
     handleBackFromVisibility,
     handleConfirmVisibility,
     cancelFlow
   } = useQuizCreationFlow({
     createQuiz,
     fetchQuizzes,
-    validateQuizName,
     t
+  });
+
+  const {
+    isValidatingTitle,
+    titleError,
+    clearTitleValidation,
+    handleTitleChange,
+    handleTitleSubmit,
+  } = useTitleUpdate({
+    setTitle,
+    validateQuizName,
+    onValidTitle: moveToVisibilityStep,
   });
 
   useEffect(() => {
@@ -193,7 +203,10 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                 type="primary"
                 leftIcon={<FiPlus />}
                 text={t('dashboard.create_quiz_button')}
-                onClick={() => { startCreateQuizFlow(); }}
+                onClick={() => {
+                  clearTitleValidation();
+                  startCreateQuizFlow();
+                }}
                 color={theme.colors.green7}
               />
             </ButtonContainer>
@@ -252,7 +265,10 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                   onEdit={() => {
                     navigate(`/quiz/${card.id}`)
                   }}
-                  onDuplicate={() => { startDuplicateQuizFlow(card); }}
+                  onDuplicate={() => {
+                    clearTitleValidation();
+                    startDuplicateQuizFlow(card);
+                  }}
                   onDelete={() => {
                     handleSelectedCard(card)
                     setIsDeleteModalOpen(true)
@@ -296,14 +312,20 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           <CreateQuizModal
             isModalOpen={isCreateTitleModalOpen}
             setIsModalOpen={(open) => {
-              if (!open) cancelFlow();
+              if (!open) {
+                clearTitleValidation();
+                cancelFlow();
+              }
             }}
             title={title}
-            setTitle={setTitle}
+            setTitle={handleTitleChange}
             isLoading={isValidatingTitle}
             errorMessage={titleError}
             onCreate={(title) => { handleTitleSubmit(title); }}
-            onCancel={cancelFlow}
+            onCancel={() => {
+              clearTitleValidation();
+              cancelFlow();
+            }}
             keepModalOpen
           />
 
@@ -345,10 +367,13 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             quiz={selectedQuizForDuplicate}
             isModalOpen={isDuplicateTitleModalOpen}
             title={title}
-            setTitle={setTitle}
+            setTitle={handleTitleChange}
             errorMessage={titleError}
             onDuplicate={(title) => handleTitleSubmit(title)}
-            onCancel={cancelFlow}
+            onCancel={() => {
+              clearTitleValidation();
+              cancelFlow();
+            }}
             isLoading={isSubmitting || isValidatingTitle}
           />
 

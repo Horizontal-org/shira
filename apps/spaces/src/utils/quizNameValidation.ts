@@ -2,9 +2,6 @@ import { handleHttpError } from "../fetch/handleError";
 import { getErrorContent } from "./getErrorContent";
 import { hasRequiredValue } from "./validation";
 
-export const QUIZ_NAME_VALIDATION_MIN_LENGTH = 1;
-export const QUIZ_NAME_VALIDATION_DELAY_MS = 300;
-
 interface ValidateQuizNameParams {
   name: string;
   validateQuizName: (title: string) => Promise<void>;

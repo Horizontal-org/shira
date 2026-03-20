@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useMemo, useRef, useState } from "react";
+import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   Sidebar,
@@ -36,12 +36,7 @@ import { RenameQuizModal } from "../modals/RenameQuizModal";
 import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
 import { DuplicateQuizModal } from "../modals/DuplicateQuizModal";
 import { useQuizCreationFlow } from "../../hooks/useQuizCreationFlow";
-import {
-  QUIZ_NAME_VALIDATION_DELAY_MS,
-  QUIZ_NAME_VALIDATION_MIN_LENGTH,
-  getQuizNameValidationError,
-} from "../../utils/quizNameValidation";
-import { hasRequiredValue } from "../../utils/validation";
+import { useTitleUpdate } from "../../hooks/useTitleUpdate";
 
 interface Props { }
 
@@ -81,19 +76,10 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
   const [renameTitle, setRenameTitle] = useState("");
 
-  const [isValidatingRenameTitle, setIsValidatingRenameTitle] = useState(false);
-  const [renameTitleError, setRenameTitleError] = useState<string | null>(null);
-
-  const [isValidatingTitle, setIsValidatingTitle] = useState(false);
-  const [titleError, setTitleError] = useState<string | null>(null);
-
   const [isUnpublishedQuizModalOpen, setIsUnpublishedQuizModalOpen] = useState(false);
   const [isUnpublishQuizModalOpen, setIsUnpublishQuizModalOpen] = useState(false);
   const [showPublishTooltip, setShowPublishTooltip] = useState(false);
   const [showCopyLinkTooltip, setShowCopyLinkTooltip] = useState(false);
-
-  const latestRenameValidationIdRef = useRef(0);
-  const latestDuplicateValidationIdRef = useRef(0);
 
   const { destroy } = useQuestionCRUD()
   const {
@@ -111,8 +97,44 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   } = useQuizCreationFlow({
     createQuiz,
     fetchQuizzes,
-    validateQuizName,
     t
+  });
+
+  const {
+    isValidatingTitle,
+    titleError,
+    clearTitleValidation,
+    handleTitleChange,
+    handleTitleSubmit,
+  } = useTitleUpdate({
+    setTitle,
+    validateQuizName,
+    onValidTitle: moveToVisibilityStep,
+  });
+
+  const {
+    isValidatingTitle: isValidatingRenameTitle,
+    titleError: renameTitleError,
+    clearTitleValidation: clearRenameValidation,
+    handleTitleChange: handleRenameTitleChange,
+    handleTitleSubmit: handleRenameTitleSubmit,
+  } = useTitleUpdate({
+    setTitle: setRenameTitle,
+    validateQuizName,
+    onValidTitle: (newTitle) => {
+      if (!quiz) {
+        return;
+      }
+
+      updateQuiz({
+        id: quiz.id,
+        title: newTitle,
+      });
+    },
+    shouldValidateTitle: (trimmedTitle) => {
+      if (!quiz) { return false; }
+      return trimmedTitle !== quiz.title.trim();
+    },
   });
 
   // results handling
@@ -178,118 +200,6 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
       cleanQuizActionSuccess()
     }
   }, [quizActionSuccess]);
-
-  useEffect(() => {
-    if (!isRenameModalOpen || !quiz) {
-      latestRenameValidationIdRef.current += 1;
-      setIsValidatingRenameTitle(false);
-      setRenameTitleError(null);
-      return;
-    }
-
-    const trimmedRenameTitle = renameTitle.trim();
-    const isUnchangedTitle = trimmedRenameTitle === quiz.title.trim();
-
-    if (
-      trimmedRenameTitle.length < QUIZ_NAME_VALIDATION_MIN_LENGTH ||
-      isUnchangedTitle ||
-      !hasRequiredValue(trimmedRenameTitle)
-    ) {
-      setRenameTitleError(null);
-      setIsValidatingRenameTitle(false);
-      return;
-    }
-
-    const validationId = ++latestRenameValidationIdRef.current;
-
-    const timeoutId = window.setTimeout(async () => {
-      setIsValidatingRenameTitle(true);
-
-      const error = await getQuizNameValidationError({
-        name: trimmedRenameTitle,
-        validateQuizName,
-      });
-
-      if (latestRenameValidationIdRef.current !== validationId) {
-        return;
-      }
-
-      setRenameTitleError(error);
-      setIsValidatingRenameTitle(false);
-    }, QUIZ_NAME_VALIDATION_DELAY_MS);
-
-    return () => {
-      window.clearTimeout(timeoutId);
-    };
-  }, [isRenameModalOpen, quiz, renameTitle, validateQuizName]);
-
-  const clearDuplicateValidation = () => {
-    latestDuplicateValidationIdRef.current += 1;
-
-    setIsValidatingTitle(false);
-    setTitleError(null);
-  };
-
-  const handleDuplicateTitleChange = (newTitle: string) => {
-    setTitle(newTitle);
-
-    clearDuplicateValidation();
-
-    if (!hasRequiredValue(newTitle) || newTitle.length < QUIZ_NAME_VALIDATION_MIN_LENGTH) {
-      return;
-    }
-
-    const validationId = ++latestDuplicateValidationIdRef.current;
-
-    window.setTimeout(async () => {
-      if (latestDuplicateValidationIdRef.current !== validationId) {
-        return;
-      }
-
-      setIsValidatingTitle(true);
-
-      const error = await getQuizNameValidationError({
-        name: newTitle,
-        validateQuizName,
-      });
-
-      if (latestDuplicateValidationIdRef.current !== validationId) {
-        return;
-      }
-
-      setTitleError(error);
-      setIsValidatingTitle(false);
-    }, QUIZ_NAME_VALIDATION_DELAY_MS);
-  };
-
-  const handleTitleSubmit = async (newTitle: string) => {
-    if (!hasRequiredValue(newTitle) || isValidatingTitle) {
-      return;
-    }
-
-    clearDuplicateValidation();
-    setIsValidatingTitle(true);
-
-    const validationId = ++latestDuplicateValidationIdRef.current;
-
-    const error = await getQuizNameValidationError({
-      name: newTitle,
-      validateQuizName,
-    });
-
-    if (latestDuplicateValidationIdRef.current !== validationId) {
-      return;
-    }
-
-    setTitleError(error);
-    setIsValidatingTitle(false);
-
-    if (error) {
-      return;
-    }
-
-    moveToVisibilityStep(newTitle);
-  };
 
   const handleTogglePublished = (cardId: number, published: boolean) => {
     updateQuiz({
@@ -401,7 +311,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                       type="outline"
                       onClick={() => {
                         if (quiz) {
-                          clearDuplicateValidation();
+                          clearTitleValidation();
                           startDuplicateQuizFlow(quiz);
                         }
                       }}
@@ -538,17 +448,12 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 quiz={quiz}
                 setIsModalOpen={setIsRenameModalOpen}
                 title={renameTitle}
-                setTitle={setRenameTitle}
+                setTitle={handleRenameTitleChange}
                 errorMessage={renameTitleError}
                 isLoading={isValidatingRenameTitle}
-                onRename={(title) => {
-                  updateQuiz({
-                    id: quiz.id,
-                    title
-                  })
-                }}
+                onRename={handleRenameTitleSubmit}
                 onCancel={() => {
-                  setRenameTitleError(null)
+                  clearRenameValidation()
                   setIsRenameModalOpen(false)
                 }}
                 isModalOpen={isRenameModalOpen}
@@ -558,11 +463,11 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 quiz={selectedQuizForDuplicate}
                 isModalOpen={isDuplicateTitleModalOpen}
                 title={title}
-                setTitle={handleDuplicateTitleChange}
+                setTitle={handleTitleChange}
                 errorMessage={titleError}
                 onDuplicate={(newTitle) => { handleTitleSubmit(newTitle); }}
                 onCancel={() => {
-                  clearDuplicateValidation();
+                  clearTitleValidation();
                   cancelFlow();
                 }}
                 isLoading={isSubmitting || isValidatingTitle}
