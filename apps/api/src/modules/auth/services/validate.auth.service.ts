@@ -14,7 +14,7 @@ export class ValidateAuthService implements IValidateAuthService {
   constructor(
     @Inject(TYPES_USER.applications.ICheckPasswordUserApplication)
     private checkPasswordUserApplication: ICheckPasswordUserApplication,
-  ) {}
+  ) { }
 
   async execute({ email, password }: LoginAuthDto): Promise<ReadUserDto> {
     try {

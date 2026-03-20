@@ -30,6 +30,11 @@ export const FilterButton = ({ id, text, handleFilter, isActive, color }: Filter
 }
 
 const StyledButton = styled(Button) <{ $isActive: boolean }>`
+  span {
+    font-weight: 400;
+    font-size: 12px;
+  }
+
   ${props => props.$isActive && !props.color && `
     background: ${props.theme.colors.dark.darkGrey};
     color: ${props.theme.colors.light.white};
@@ -41,7 +46,6 @@ const StyledButton = styled(Button) <{ $isActive: boolean }>`
       border-color: ${props.theme.colors.light.white};
     }
   `}
-
 
   ${props => props.$isActive && props.color === 'green' && `
     background: ${props.theme.colors.green2};

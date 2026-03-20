@@ -23,12 +23,14 @@ import { QuestionEditLayout } from './components/QuestionEditLayout';
 import { QuestionLibraryListLayout } from './components/QuestionLibraryListLayout';
 import { LearnerBulkImportLayout } from './components/LearnerBulkImportLayout';
 import { SupportLayout } from './components/SupportLayout';
+import { SettingsLayout } from './components/SettingsLayout';
 import './language/i18n';
 import { GetStartedLayout } from './components/GetStartedLayout';
 import { LearnersLayout } from './components/LearnersLayout';
 import { FeedbackButton } from './components/FeedbackButton';
 import { ResetPasswordRequestLayout } from './components/ResetPasswordLayout/ResetPasswordRequestLayout';
 import { SetNewPasswordLayout } from './components/ResetPasswordLayout/SetNewPasswordLayout';
+import { ConfirmEmailUpdateLayout } from './components/ConfirmEmailUpdateLayout';
 
 function App() {
 
@@ -69,6 +71,7 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path='/login' element={<LoginLayout />} />
+              <Route path='/confirm-email-update/:token' element={<ConfirmEmailUpdateLayout />} />
               <Route path='/reset-password' element={<ResetPasswordRequestLayout />} />
               <Route path='/reset-password/:token' element={<SetNewPasswordLayout />} />
               <Route path='/create-space/:passphraseCode' element={<CreateSpaceLayout />} />
@@ -100,6 +103,7 @@ function App() {
                     <Route path='/learner/import/bulk' element={<LearnerBulkImportLayout />} />
                     <Route path="/logout" element={<LogoutLayout />} />
                     <Route path="/support" element={<SupportLayout />} />
+                    <Route path="/settings" element={<SettingsLayout />} />
                   </Route>
                 </>
               )}

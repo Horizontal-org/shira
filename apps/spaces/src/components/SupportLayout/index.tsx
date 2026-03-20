@@ -12,7 +12,7 @@ export const SupportLayout: FunctionComponent<Props> = () => {
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
 
   return (
-    <Container>
+    <Container id="support-layout">
       <Sidebar
         menuItems={menuItems}
         onCollapse={handleCollapse}

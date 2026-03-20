@@ -256,3 +256,13 @@ export const Link3 = styled.a`
     font-size: 12px;
   }
 `;
+
+export const Button2 = styled.span`
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    font-size: 14px;
+  }
+`;
