@@ -42,7 +42,7 @@ const SvgWrapper = styled.div<StyledSvgWrapper>`
   justify-content: center;
   width: 28px;
   height: 28px;
-  
+
   transition: 0.2s all;
   color: #ACADAE;
 
@@ -85,6 +85,6 @@ const SvgWrapper = styled.div<StyledSvgWrapper>`
   `}
 
   ${props => props.disabled && `
-    cursor: auto;  
+    cursor: auto;
   `}
 `
