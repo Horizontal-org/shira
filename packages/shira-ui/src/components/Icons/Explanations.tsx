@@ -5,3 +5,5 @@ export function ExplanationIcon() {
         </svg>
     )
 }
+
+export default ExplanationIcon;
