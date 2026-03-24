@@ -1,35 +1,35 @@
 {
     "welcome": {
-        "title": "欢迎来到 Shira",
-        "subtitle": "了解如何识别以及抵御网络钓鱼攻击",
-        "start": "开始测试",
-        "public_message": "Welcome to your phishing quiz. Change your language or click on \"Start quiz\" to get started.",
-        "learn_more": "Learn more about Shira"
+        "title": "参加 Shira 测验",
+        "subtitle": "通过按需定制的简短测验，提升防钓鱼能力。可更改语言，或点击“开始测验”立即开始。",
+        "start": "开始测验",
+        "public_message": "欢迎参加钓鱼测验。可更改语言，或点击“开始测验”立即开始。",
+        "learn_more": "了解更多 Shira"
     },
     "setup": {
         "name": {
-            "title": "请输入名字和电子邮件地址",
-            "subtitle": "我们要求提供姓名和邮箱地址，是为了使网络钓鱼测试更加真实。这些信息不会被保存、发送到服务器或分享给其他人。",
-            "recommendation": "为了更安全，可以使用虚假的姓名和电子邮箱地址，或者随机生成。",
-            "name": "名字",
+            "title": "填写姓名和邮箱地址",
+            "subtitle": "我们要求提供姓名和邮箱地址，以便让网络钓鱼测验更加真实。这些信息不会被保存、发送到服务器或分享给其他人。",
+            "recommendation": "为了更安全，可使用虚假的姓名和邮箱，或者随机生成。",
+            "name": "姓名",
             "email": "电子邮箱",
-            "random_button": "随机生成名字和电子邮箱地址",
-            "next_button": "下一个",
-            "footer_title": "测试设置"
+            "random_button": "生成随机姓名和电子邮箱地址",
+            "next_button": "下一步",
+            "footer_title": "测验设置"
         },
         "apps": {
             "title": "你使用哪些应用？",
             "select": "至少选择 1 个",
-            "footer_title": "测试设置",
-            "back_button": "上一个",
-            "next_button": "下一个"
+            "footer_title": "测验设置",
+            "back_button": "上一步",
+            "next_button": "下一步"
         },
         "fields_of_work": {
             "title": "哪些领域和你有关？",
             "select": "最多选择 3 个项目",
-            "footer_title": "测试设置",
+            "footer_title": "测验设置",
             "back_button": "上一个",
-            "next_button": "开始测试",
+            "next_button": "开始测验",
             "items": {
                 "human-rights": "Human rights",
                 "journalism-and-media": "Journalism and media",
@@ -45,11 +45,11 @@
     "quiz": {
         "how_it_works": {
             "title": "如何进行",
-            "question_count": "本测试包括 {{ count }} 个问题。",
-            "explanation_1": "本测试包括 10 个问题。",
+            "question_count": "本测验包括 {{ count }} 个问题。",
+            "explanation_1": "本测验包括 10 个问题。",
             "explanation_2": "对于每个问题，选择看起来是网络钓鱼或真实的。",
             "explanation_3": "如果不确定，可以选择“不确定”这个选项。",
-            "footer_title": "测试简介",
+            "footer_title": "测验简介",
             "next": "确定"
         },
         "answers": {
@@ -79,7 +79,7 @@
     },
     "feedback": {
         "title": "帮助我们改进",
-        "subtitle": "在显示测试结果之前，请进行评价，以便帮助我们进行改进。",
+        "subtitle": "在显示测验结果之前，请进行评价，以便帮助我们进行改进。",
         "box": {
             "question_1": {
                 "title": "1. Shira 使用起来有多简单？",
@@ -101,12 +101,12 @@
             },
             "bottom_text": "点击“查看结果”之后将发送反馈"
         },
-        "footer_title": "完成了！继续查看测试结果和后续步骤。",
+        "footer_title": "完成了！继续查看测验结果和后续步骤。",
         "next_button": "查看结果"
     },
     "completed": {
-        "title": "测试完成",
-        "subtitle": "参加新的测试或查看下面的建议，以继续加强技能，从而更好地抵御网络钓鱼。",
+        "title": "测验完成",
+        "subtitle": "参加新的测验或查看下面的建议，以继续加强技能，从而更好地抵御网络钓鱼。",
         "back_button": "返回首页",
         "next_button": "新测验",
         "heavy_subtitle_1": "您正确回答了 ",
@@ -204,7 +204,7 @@
         },
         "bring": {
             "title": "将 Shira 带到你的机构",
-            "section1": "Shira 默认提供多个选项来定制测试，以使测试题和每个用户（应用程序、工作领域等）息息相关。但是，如果想使得测试对你的员工、合作伙伴或者会员来说更加实际，我们可以基于你的工作、背景、甚至是你在真实生活中受到的网络钓鱼攻击来定制测试，并对你的机构进行培训。",
+            "section1": "Shira 默认提供多个选项来定制测验，以使测验题和每个用户（应用程序、工作领域等）息息相关。但是，如果想使得测验对你的员工、合作伙伴或者会员来说更加实际，我们可以基于你的工作、背景、甚至是你在真实生活中受到的网络钓鱼攻击来定制测验，并对你的机构进行培训。",
             "section2": "如果对此有兴趣或疑问，请联系 contact@wearehorizontal.org。"
         }
     },
