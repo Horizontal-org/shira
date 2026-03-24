@@ -1,21 +1,21 @@
 {
     "login": {
-        "message": ""
+        "message": " "
     },
     "reset_password": {
-        "message": ""
+        "message": " "
     },
     "confirm_email_update": {
-        "message": ""
+        "message": " "
     },
     "beta": {
-        "message": ""
+        "message": "Shira все еще находится в стадии разработки, поэтому могут возникнуть некоторые проблемы."
     },
     "left_menu": {
-        "message": ""
+        "message": " "
     },
     "dashboard": {
-        "message": ""
+        "message": " "
     },
     "learners": {
         "message": ""
