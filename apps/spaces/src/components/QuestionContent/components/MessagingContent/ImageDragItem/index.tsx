@@ -5,19 +5,25 @@ import { ExplanationButton } from "../../../../Explanations/components/Explanati
 import { useStore } from "../../../../../store";
 import { shallow } from "zustand/shallow";
 import { ImageObject } from "../../../../../store/types/active_question";
+import { MdOutlineImage } from "react-icons/md";
 
 interface Props {
-  value: ImageObject;
+  value?: ImageObject | null;
   index: number
   explanationId?: string
+  isLoading?: boolean
+  uploadError?: string | null
+  uploadFilename?: string | null
 }
 
 export const ImageDragItem: FunctionComponent<Props> = ({
   value,
   explanationId,
-  index
+  index,
+  isLoading = false,
+  uploadError,
+  uploadFilename
 }) => {
-
   const {
     addExplanation,
     explanationIndex,
@@ -36,6 +42,12 @@ export const ImageDragItem: FunctionComponent<Props> = ({
 
   return (
     <Wrapper>
+      {uploadError && (
+        <ErrorBanner role="alert" aria-live="polite">
+          {uploadError}
+        </ErrorBanner>
+      )}
+
       {value ? (
         <ImageWrapper>
           <ImageElement
@@ -58,9 +70,17 @@ export const ImageDragItem: FunctionComponent<Props> = ({
             }}
           />
         </ImageWrapper>
-      ) : (
+      ) : isLoading ? (
         <LoadingOverlay />
-      )}
+      ) : uploadFilename ? (
+        <PlaceholderCard>
+          <PlaceholderTitle>{uploadFilename}</PlaceholderTitle>
+          <PlaceholderIconWrapper>
+            <MdOutlineImage size={56} />
+          </PlaceholderIconWrapper>
+        </PlaceholderCard>
+      ) : null
+      }
 
     </Wrapper>
   )
@@ -68,6 +88,7 @@ export const ImageDragItem: FunctionComponent<Props> = ({
 
 const Wrapper = styled.div`
   padding-left: 12px;
+  width: 100%;
 `
 
 const ImageWrapper = styled.div`
@@ -75,18 +96,53 @@ const ImageWrapper = styled.div`
   align-items: center;
 `
 
+const ErrorBanner = styled.div`
+  background: ${props => props.theme.colors.light.paleRed};
+  color: ${props => props.theme.colors.error9};
+  padding: 16px 24px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  width: fit-content;
+  max-width: min(100%, 880px);
+`
+
+const PlaceholderCard = styled.div`
+  width: 410px;
+  min-height: 280px;
+  border: 2px solid ${props => props.theme.colors.light.paleGrey};
+  background: ${props => props.theme.colors.light.white};
+  overflow: hidden;
+`
+
+const PlaceholderTitle = styled.div`
+  background: ${props => props.theme.colors.light.paleGrey};
+  color: ${props => props.theme.colors.dark.darkGrey};
+  font-size: 18px;
+  line-height: 1.4;
+  padding: 20px 20px 16px;
+`
+
+const PlaceholderIconWrapper = styled.div`
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${props => props.theme.colors.dark.darkGrey};
+`
+
 const ImageElement = styled.img`
-  border-radius: 4px;      
+  border-radius: 4px;
   max-width: 500px;
   max-height: 400px;
   min-width: 50px;
   min-height: 30px;
   cursor: pointer;
   object-fit: contain;
-  border: 2px solid #F3F3F3 !important;
+  border: 2px solid ${props => props.theme.colors.light.paleGrey} !important;
 
   &.has-explanation {
-    border: 2px solid #F3F9CF !important;
+    border: 2px solid ${props => props.theme.colors.green1} !important;
   }
     
   &.mark-active {
