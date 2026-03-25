@@ -22,8 +22,6 @@ export class OrganizationService implements IGetOrganizationService {
         'organizationUsers',
         'organizationUsers.user',
         'organizationUsers.role',
-        'organizationSubscriptions',
-        'organizationSubscriptions.subscription',
       ],
     });
 
