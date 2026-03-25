@@ -1,4 +1,4 @@
-import { Get, Param, ParseIntPipe } from "@nestjs/common";
+import { Get, Param } from "@nestjs/common";
 import { AuthController } from "src/utils/decorators/auth-controller.decorator";
 import { SubscriptionCacheService } from "../services/subscription-cache.service";
 
@@ -9,7 +9,9 @@ export class GetSubscriptionController {
   ) { }
 
   @Get(':organizationId')
-  async handler(@Param('organizationId', ParseIntPipe) organizationId: number) {
+  async handler(
+    @Param('organizationId') organizationId: string
+  ) {
     const subscription = await this.subscriptionCacheService.getCurrentSubscription(organizationId);
 
     return { subscription };

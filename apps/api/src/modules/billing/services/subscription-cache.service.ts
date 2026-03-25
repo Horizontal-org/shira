@@ -4,7 +4,7 @@ import { REDIS } from "../providers/redis.provider";
 import { ShiraPaymentsService } from "./shira-payments.service";
 
 type CachedSubscription = {
-  organizationId: number
+  organizationId: string
   status: string
   stripeCustomerId: string | null
   createdAt: string | null
@@ -20,11 +20,11 @@ export class SubscriptionCacheService {
     private readonly shiraPaymentsService: ShiraPaymentsService,
   ) { }
 
-  private key(organizationId: number) {
+  private key(organizationId: string) {
     return `subscription:organization:${organizationId}`;
   }
 
-  async getCurrentSubscription(organizationId: number) {
+  async getCurrentSubscription(organizationId: string) {
     const cached = await this.redis.get(this.key(organizationId));
 
     if (cached) {
@@ -34,7 +34,7 @@ export class SubscriptionCacheService {
     return this.refresh(organizationId);
   }
 
-  async refresh(organizationId: number) {
+  async refresh(organizationId: string) {
     const response = await this.shiraPaymentsService.getSubscription(organizationId);
     const subscription = response.subscription as Record<string, unknown>;
 
@@ -58,7 +58,7 @@ export class SubscriptionCacheService {
     return normalized;
   }
 
-  async invalidate(organizationId: number) {
+  async invalidate(organizationId: string) {
     await this.redis.del(this.key(organizationId));
   }
 }
