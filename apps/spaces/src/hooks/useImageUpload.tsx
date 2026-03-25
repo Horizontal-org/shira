@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { t } from 'i18next';
 
 interface ImageUploadResponse {
   id: string;
@@ -14,7 +15,15 @@ interface UseImageUploadOptions {
   uploadFunction?: (file: File) => Promise<ImageUploadResponse>
 }
 
+export class ImageUploadError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'ImageUploadError'
+  }
+}
+
 const defaultUploadImage = async (file: File, quizId: string, questionId: string = null): Promise<ImageUploadResponse> => {
+
   try {
     const formData = new FormData()
     formData.append('file', file)
@@ -37,7 +46,7 @@ const defaultUploadImage = async (file: File, quizId: string, questionId: string
     }
   } catch (e) {
     console.log("🚀 ~ defaultUploadImage ~ e:", e)
-    throw new Error(e)
+    throw new ImageUploadError(t('error_messages.image_upload_failed'))
   }
 }
 
@@ -56,16 +65,16 @@ export const useImageUpload = (
   const [isUploading, setIsUploading] = useState(false)
 
   const validateFile = useCallback((file: File): string | null => {
-    if (!allowedTypes.some(type => file.type.startsWith(type.split('/')[0]))) {
+    if (!allowedTypes.includes(file.type)) {
       return 'Please select an image file'
     }
 
     if (file.size > maxSizeInMB * 1024 * 1024) {
-      return `Image size should be less than ${maxSizeInMB}MB`
+      return t('error_messages.image_too_large', { size: maxSizeInMB })
     }
 
     return null
-  }, [allowedTypes, maxSizeInMB])
+  }, [allowedTypes, maxSizeInMB, t])
 
   const handleImageUpload = useCallback(() => {
     if (isUploading) return
@@ -79,9 +88,8 @@ export const useImageUpload = (
 
     const validationError = validateFile(file)
     if (validationError) {
-      alert(validationError)
       event.target.value = ''
-      return null
+      throw new ImageUploadError(validationError)
     }
 
     setIsUploading(true)
@@ -89,8 +97,7 @@ export const useImageUpload = (
       return await uploadFunction(file, quizId, questionId)
     } catch (error) {
       console.error('Error uploading image:', error)
-      alert('Failed to upload image')
-      return null
+      throw new ImageUploadError(t('error_messages.image_upload_failed'))
     } finally {
       setIsUploading(false)
       event.target.value = ''

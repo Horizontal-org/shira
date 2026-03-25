@@ -55,6 +55,8 @@ export const DraggableMessagingItem: FunctionComponent<Props> = ({
                       index={index}
                       explanationId={item.explanation}
                       value={item.value}
+                      uploadError={item.uploadError}
+                      uploadFilename={item.uploadFilename}
                       isLoading={isImageUploading}
                     />
                   )}

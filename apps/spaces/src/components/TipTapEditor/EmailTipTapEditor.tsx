@@ -91,7 +91,7 @@ export const EmailTipTapEditor = ({
         <HiddenFileInput
           ref={images.fileInputRef}
           type="file"
-          accept="image/*"
+          accept="image/jpeg,image/png,image/gif,image/webp,.jpg,.jpeg,.png,.gif,.webp"
           onChange={images.onImageSelect}
         />
       </EditorWrapper>
