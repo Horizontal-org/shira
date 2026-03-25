@@ -10,12 +10,14 @@ interface Props {
   index: number;
   item: QuestionDragEditor | QuestionDragImage;
   onDelete: () => void
+  isImageUploading?: boolean
 }
 
 export const DraggableMessagingItem: FunctionComponent<Props> = ({
   index,
   item,
   onDelete,
+  isImageUploading = false,
 }) => {
   return (
     <>
@@ -53,6 +55,9 @@ export const DraggableMessagingItem: FunctionComponent<Props> = ({
                       index={index}
                       explanationId={item.explanation}
                       value={item.value}
+                      uploadError={item.uploadError}
+                      uploadFilename={item.uploadFilename}
+                      isLoading={isImageUploading}
                     />
                   )}
                 </ContentWrapper>

@@ -49,6 +49,10 @@ const parseQuestionEditorInput = (editorInput: QuestionEditorInput, returnType: 
 }
 
 const parseQuestionDragImage = (imageInput: QuestionDragImage) => {
+  if (!imageInput.value) {
+    return null
+  }
+
   const imageElement = document.createElement('img')
   imageElement.setAttribute('id', imageInput.htmlId)
   imageElement.setAttribute('alt', imageInput.value.originalFilename)
@@ -80,6 +84,10 @@ export const parseDragItem = (item: QuestionDragEditor | QuestionDragImage | Que
     element = parseQuestionEditorInput(item, 'html')    
   } else if (item.contentType === 'attachment') {
     element = parseQuestionDragAttachment(item)
+  }
+
+  if (!element) {
+    return ''
   }
 
   element.setAttribute('data-position', item.position)
