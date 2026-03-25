@@ -9,57 +9,59 @@ import { QuestionContentDragItemOptions } from '../../QuestionContentDragItemOpt
 interface Props {
   index: number;
   item: QuestionDragEditor | QuestionDragImage;
-  onDelete: () => void  
+  onDelete: () => void
 }
 
-export const DraggableMessagingItem: FunctionComponent<Props> = ({  
+export const DraggableMessagingItem: FunctionComponent<Props> = ({
   index,
   item,
-  onDelete,  
+  onDelete,
 }) => {
   return (
     <>
-    <Draggable 
-      draggableId={item.draggableId} 
-      index={index}
-    >
-      {(draggableProvided, snapshot) => (
-        <>
-          <Container
-            ref={draggableProvided.innerRef}
-            {...draggableProvided.draggableProps}
-          >
-            <Wrapper>
+      <Draggable
+        draggableId={item.draggableId}
+        index={index}
+      >
+        {(draggableProvided) => (
+          <>
+            <Container
+              ref={draggableProvided.innerRef}
+              {...draggableProvided.draggableProps}
+            >
+              <Wrapper>
 
-              { item.contentType === 'editor' ? (<SmallText>Message text</SmallText>) : (<SmallText>Image</SmallText>)}
- 
-              <ContentWrapper>
-                <QuestionContentDragItemOptions
-                  dragHandleProps={draggableProvided.dragHandleProps}
-                  onDelete={onDelete}
-                  typeOffset={item.contentType === 'editor' ? '52px' : ''}
-                />
-                { item.contentType === 'editor' && (
-                  <TextDragItem 
-                    name={item.htmlId}
-                    index={index}
-                    initialValue={item.value}                
+                {item.contentType === 'editor'
+                  ? (<SmallText>Message text</SmallText>)
+                  : (<SmallText>Image</SmallText>)}
+
+                <ContentWrapper>
+                  <QuestionContentDragItemOptions
+                    dragHandleProps={draggableProvided.dragHandleProps}
+                    onDelete={onDelete}
+                    typeOffset={item.contentType === 'editor' ? '52px' : ''}
                   />
-                )}
-                { item.contentType === 'image' && (
-                  <ImageDragItem 
-                    index={index}
-                    explanationId={item.explanation}
-                    value={item.value}
-                  />
-                )}
-              </ContentWrapper>
-            </Wrapper>
-            
-          </Container>
-        </>
-      )}
-    </Draggable>
+                  {item.contentType === 'editor' && (
+                    <TextDragItem
+                      name={item.htmlId}
+                      index={index}
+                      initialValue={item.value}
+                    />
+                  )}
+                  {item.contentType === 'image' && (
+                    <ImageDragItem
+                      index={index}
+                      explanationId={item.explanation}
+                      value={item.value}
+                    />
+                  )}
+                </ContentWrapper>
+              </Wrapper>
+
+            </Container>
+          </>
+        )}
+      </Draggable>
     </>
   )
 }
