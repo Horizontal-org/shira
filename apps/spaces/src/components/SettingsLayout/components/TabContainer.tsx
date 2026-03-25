@@ -9,6 +9,7 @@ interface TabContainerProps {
   lastPasswordUpdateText: string;
   onChangeEmail: () => void;
   onChangePassword: () => void;
+  onViewPlans: () => void;
 }
 
 export const TabContainer: FunctionComponent<TabContainerProps> = ({
@@ -16,6 +17,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   lastPasswordUpdateText,
   onChangeEmail,
   onChangePassword,
+  onViewPlans,
 }) => {
   const { t } = useTranslation();
   const theme = useTheme();
@@ -90,6 +92,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
                 <SubscriptionButton
                   type="outline"
                   text={t('settings.subscription.view_plans')}
+                  onClick={onViewPlans}
                 />
                 <SubscriptionButton
                   type="primary"

@@ -7,6 +7,7 @@ import { shallow } from "zustand/shallow";
 import { ChangeEmailModal } from "../modals/ChangeEmailModal";
 import { ChangeEmailSuccessModal } from "../modals/ChangeEmailSuccessModal";
 import { ChangePasswordModal } from "../modals/ChangePasswordModal";
+import { ViewPlansModal } from "../modals/ViewPlansModal";
 import { getCurrentDateFNSLocales } from "../../language/dateUtils";
 import i18n from "../../language/i18n";
 import { enUS } from "date-fns/locale";
@@ -24,6 +25,7 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [isEmailSuccessModalOpen, setIsEmailSuccessModalOpen] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [isViewPlansModalOpen, setIsViewPlansModalOpen] = useState(false);
 
   const {
     currentEmail: email,
@@ -94,6 +96,7 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
             lastPasswordUpdateText={getLastPasswordUpdateDate(lastPasswordChangeAt)}
             onChangeEmail={() => setIsEmailModalOpen(true)}
             onChangePassword={() => setIsPasswordModalOpen(true)}
+            onViewPlans={() => setIsViewPlansModalOpen(true)}
           />
         </MainContentWrapper>
       </MainContent>
@@ -113,6 +116,11 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
         isModalOpen={isPasswordModalOpen}
         setIsModalOpen={setIsPasswordModalOpen}
         onSave={updateUserPassword}
+      />
+
+      <ViewPlansModal
+        isModalOpen={isViewPlansModalOpen}
+        onClose={() => setIsViewPlansModalOpen(false)}
       />
     </Container >
   );
