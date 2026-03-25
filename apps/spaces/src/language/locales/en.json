@@ -370,7 +370,8 @@
         "subscription": {
             "current_plan": "Current plan: {{plan_name}}",
             "view_plans": "View plans",
-            "manage_plan": "Manage plan"
+            "manage_plan": "Manage plan",
+            "upgrade": "Upgrade"
         },
         "sections": {
             "email": {

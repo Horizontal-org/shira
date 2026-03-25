@@ -20,6 +20,10 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   const { t } = useTranslation();
   const theme = useTheme();
   const [activeTab, setActiveTab] = useState<TabType>("account");
+  const currentPlanName = 'Starter';
+  const subscriptionActionText = currentPlanName === 'Starter'
+    ? t('settings.subscription.upgrade')
+    : t('settings.subscription.manage_plan');
 
   return (
     <Container>
@@ -79,7 +83,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
           <SettingsCard>
             <SettingRow>
               <SettingDetails>
-                <Body1Bold>{t('settings.subscription.current_plan', { plan_name: 'Starter' })}</Body1Bold>
+                <Body1Bold>{t('settings.subscription.current_plan', { plan_name: currentPlanName })}</Body1Bold>
               </SettingDetails>
 
               <SubscriptionActions>
@@ -89,7 +93,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
                 />
                 <SubscriptionButton
                   type="primary"
-                  text={t('settings.subscription.manage_plan')}
+                  text={subscriptionActionText}
                   color={theme.colors.green7}
                 />
               </SubscriptionActions>
