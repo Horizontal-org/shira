@@ -1,64 +1,108 @@
 import {
+  Inject,
   Injectable,
   InternalServerErrorException,
+  ServiceUnavailableException,
 } from "@nestjs/common";
-import { ApiLogger } from "src/utils/logger/api-logger.service";
+import { randomUUID } from "crypto";
+import { ShiraPaymentsLoggerService } from "./shira-payments-logger.service";
 
 @Injectable()
 export class ShiraPaymentsService {
-
-  private readonly logger = new ApiLogger(ShiraPaymentsService.name);
+  constructor(
+    @Inject(ShiraPaymentsLoggerService)
+    private readonly logger: ShiraPaymentsLoggerService,
+  ) { }
 
   async createCheckout(dto: { organizationId: string; priceId?: string }) {
-    this.logger.log(`Creating checkout for organization: ${dto.organizationId}`);
     return this.request<{ url: string }>('/payments/checkout', {
       method: 'POST',
       body: JSON.stringify(dto),
-    });
+    }, dto.organizationId);
   }
   async cancelSubscription(organizationId: string) {
-    this.logger.log(`Cancelling subscription for organization: ${organizationId}`);
     return this.request<{ success: boolean }>(`/subscriptions/${organizationId}`, {
       method: 'DELETE',
-    });
+    }, organizationId);
   }
   async manageSubscription(organizationId: string) {
-    this.logger.log(`Managing subscription for organization: ${organizationId}`);
     return this.request<{ url: string }>(`/subscriptions/manage/${organizationId}`, {
       method: 'POST',
-    });
+    }, organizationId);
   }
 
   async getSubscription(organizationId: string) {
-    this.logger.log(`Getting subscription for organization: ${organizationId}`);
     return this.request<{ subscription: Record<string, unknown> }>(
       `/subscriptions/${organizationId}`,
+      undefined,
+      organizationId,
     );
   }
 
-  private async request<T>(path: string, init?: RequestInit): Promise<T> {
+  private async request<T>(
+    path: string,
+    init?: RequestInit,
+    organizationId?: string,
+  ): Promise<T> {
     const baseUrl = process.env.SHIRA_PAYMENTS_URL;
     const apiKey = process.env.SHIRA_PAYMENTS_INTERNAL_KEY;
     const trimmedBaseUrl = baseUrl?.trim();
+    const method = init?.method ?? 'GET';
+    const requestId = randomUUID();
 
     const url = new URL(path, trimmedBaseUrl.endsWith('/') ? trimmedBaseUrl : `${trimmedBaseUrl}/`);
+    const startedAt = Date.now();
+    const logContext = {
+      requestId,
+      organizationId,
+      method,
+      url: url.toString(),
+    };
 
-    const response = await fetch(url, {
-      ...init,
-      headers: {
-        'content-type': 'application/json',
-        'x-internal-shira-key': apiKey,
-        ...(init?.headers ?? {}),
-      },
-    });
+    this.logger.started(logContext);
 
-    if (!response.ok) {
-      const message = await response.text();
+    try {
+      const response = await fetch(url, {
+        ...init,
+        headers: {
+          'content-type': 'application/json',
+          'x-request-id': requestId,
+          'x-internal-shira-key': apiKey,
+          ...(init?.headers ?? {}),
+        },
+      });
+
+      const duration = Date.now() - startedAt;
+
+      if (!response.ok) {
+        const message = await response.text();
+        this.logger.failed(logContext, response.status, duration, message);
+        throw new InternalServerErrorException(
+          `Shira Payments API request failed with ${response.status}: ${message}`,
+        );
+      }
+
+      this.logger.succeeded(logContext, response.status, duration);
+
+      return response.json();
+    } catch (error) {
+      if (error instanceof InternalServerErrorException || error instanceof ServiceUnavailableException) {
+        throw error;
+      }
+
+      const duration = Date.now() - startedAt;
+      const message = error instanceof Error ? error.message : String(error);
+
+      this.logger.requestError(
+        logContext,
+        duration,
+        message,
+        error instanceof Error ? error.stack : undefined,
+      );
+
       throw new InternalServerErrorException(
-        `Shira Payments API request failed with ${response.status}: ${message}`,
+        `Shira Payments API request error: ${message}`,
       );
     }
-
-    return response.json();
   }
 }
