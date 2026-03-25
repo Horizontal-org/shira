@@ -33,6 +33,12 @@ export class SubscriptionCacheService implements ISubscriptionCacheService {
 
   async refresh(organizationId: string) {
     const response = await this.shiraPaymentsService.getSubscription(organizationId);
+
+    if (!response || !response.subscription) {
+      await this.redis.del(this.key(organizationId));
+      return null;
+    }
+
     const subscription = response.subscription as Record<string, unknown>;
 
     const normalized: CachedSubscription = {

@@ -1,13 +1,13 @@
 import { Get, Inject, Param } from "@nestjs/common";
 import { AuthController } from "src/utils/decorators/auth-controller.decorator";
-import { SubscriptionCacheService } from "../services/subscription-cache.service";
 import { TYPES } from "../interfaces";
+import { ISubscriptionCacheService } from "../interfaces/services/subscription-cache.service.interface";
 
 @AuthController('subscription')
 export class GetSubscriptionController {
   constructor(
     @Inject(TYPES.services.ISubscriptionCacheService)
-    private readonly subscriptionCacheService: SubscriptionCacheService,
+    private readonly subscriptionCacheService: ISubscriptionCacheService,
   ) { }
 
   @Get(':organizationId')

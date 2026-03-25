@@ -24,6 +24,7 @@ import { DuplicateQuestionQuizController } from './controller/duplicate-question
 import { DuplicateQuizController } from './controller/duplicate-quiz.controller';
 import { QuestionImage } from '../question_image/domain';
 import { QuestionImageModule } from '../question_image/question_image.module';
+import { SubscriptionModule } from '../subscription/subscription.module';
 
 @Module({
   imports: [
@@ -39,7 +40,8 @@ import { QuestionImageModule } from '../question_image/question_image.module';
         QuestionImage,
         App
     ]),
-    QuestionImageModule
+    QuestionImageModule,
+    SubscriptionModule
   ],
   controllers: [
     CreateQuizController,

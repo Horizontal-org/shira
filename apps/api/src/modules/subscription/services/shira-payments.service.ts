@@ -43,7 +43,7 @@ export class ShiraPaymentsService implements IShiraPaymentsService {
     organizationId?: string,
   ): Promise<T> {
     const baseUrl = process.env.SHIRA_PAYMENTS_URL;
-    const apiKey = process.env.SHIRA_PAYMENTS_INTERNAL_KEY;
+    const apiKey = process.env.INTERNAL_SHIRA_API_KEY;
     const trimmedBaseUrl = baseUrl?.trim();
     const method = init?.method ?? 'GET';
     const requestId = randomUUID();
