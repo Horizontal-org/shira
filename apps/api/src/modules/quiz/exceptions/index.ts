@@ -1,0 +1,1 @@
+export { AlreadyExistsQuizNameException } from './already-exists-name.quiz.exception';

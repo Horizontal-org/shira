@@ -1,6 +1,5 @@
 import { App } from 'src/modules/app/domain';
 import { FieldOfWork } from 'src/modules/field_of_work/domain';
-import { MessageType } from 'src/modules/message_type/domain/message_type.entity';
 import {
   Entity,
   Column,
@@ -8,14 +7,11 @@ import {
   UpdateDateColumn,
   CreateDateColumn,
   OneToMany,
-  JoinColumn,
-  ManyToOne,
   ManyToMany,
   JoinTable,
 } from 'typeorm';
 import { Explanation } from './explanation.entity';
 import { QuestionTranslation } from '../../translation/domain/questionTranslation.entity';
-import { Language } from 'src/modules/languages/domain';
 import { QuizQuestion } from 'src/modules/quiz/domain/quizzes_questions.entity';
 import { QuestionImage } from 'src/modules/question_image/domain/question_images.entity';
 

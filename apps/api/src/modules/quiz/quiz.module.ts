@@ -24,20 +24,21 @@ import { DuplicateQuestionQuizController } from './controller/duplicate-question
 import { DuplicateQuizController } from './controller/duplicate-quiz.controller';
 import { QuestionImage } from '../question_image/domain';
 import { QuestionImageModule } from '../question_image/question_image.module';
+import { ValidateQuizNameController } from './controller/validate-name.quiz.controller';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
-        QuizEntity,
-        QuizQuestionEntity,
-        SpaceEntity,
-        QuestionEntity,
-        Explanation,
-        QuestionTranslation,
-        ExplanationTranslation,
-        Language,
-        QuestionImage,
-        App
+      QuizEntity,
+      QuizQuestionEntity,
+      SpaceEntity,
+      QuestionEntity,
+      Explanation,
+      QuestionTranslation,
+      ExplanationTranslation,
+      Language,
+      QuestionImage,
+      App
     ]),
     QuestionImageModule
   ],
@@ -54,6 +55,7 @@ import { QuestionImageModule } from '../question_image/question_image.module';
     DuplicateQuestionQuizController,
     DuplicateQuizController,
     EditQuizController,
+    ValidateQuizNameController
   ],
   providers: [
     ...servicesQuizProviders
@@ -62,4 +64,4 @@ import { QuestionImageModule } from '../question_image/question_image.module';
     ...servicesQuizProviders
   ],
 })
-export class QuizModule {}
+export class QuizModule { }

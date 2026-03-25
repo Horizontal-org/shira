@@ -28,6 +28,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     fetchQuizzes,
     updateQuiz,
     deleteQuiz,
+    validateQuizName,
     createQuiz,
     quizzes,
     space,
@@ -37,6 +38,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   } = useStore((state) => ({
     fetchQuizzes: state.fetchQuizzes,
     updateQuiz: state.updateQuiz,
+    validateQuizName: state.validateQuizName,
     createQuiz: state.createQuiz,
     deleteQuiz: state.deleteQuiz,
     quizzes: state.quizzes,
@@ -61,8 +63,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const [isUnpublishQuizModalOpen, setIsUnpublishQuizModalOpen] = useState(false);
 
   const {
-    title,
-    setTitle,
     selectedQuizForDuplicate,
     isSubmitting,
     submittingQuizId,
@@ -71,7 +71,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     isVisibilityModalOpen,
     startCreateQuizFlow,
     startDuplicateQuizFlow,
-    handleTitleSubmit,
+    moveToVisibilityStep,
     handleBackFromVisibility,
     handleConfirmVisibility,
     cancelFlow
@@ -188,7 +188,9 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                 type="primary"
                 leftIcon={<FiPlus />}
                 text={t('dashboard.create_quiz_button')}
-                onClick={() => { startCreateQuizFlow(); }}
+                onClick={() => {
+                  startCreateQuizFlow();
+                }}
                 color={theme.colors.green7}
               />
             </ButtonContainer>
@@ -247,7 +249,9 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                   onEdit={() => {
                     navigate(`/quiz/${card.id}`)
                   }}
-                  onDuplicate={() => { startDuplicateQuizFlow(card); }}
+                  onDuplicate={() => {
+                    startDuplicateQuizFlow(card);
+                  }}
                   onDelete={() => {
                     handleSelectedCard(card)
                     setIsDeleteModalOpen(true)
@@ -291,12 +295,15 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           <CreateQuizModal
             isModalOpen={isCreateTitleModalOpen}
             setIsModalOpen={(open) => {
-              if (!open) cancelFlow();
+              if (!open) {
+                cancelFlow();
+              }
             }}
-            title={title}
-            setTitle={setTitle}
-            onCreate={(title) => { handleTitleSubmit(title); }}
-            onCancel={cancelFlow}
+            validateQuizName={validateQuizName}
+            onCreate={moveToVisibilityStep}
+            onCancel={() => {
+              cancelFlow();
+            }}
             keepModalOpen
           />
 
@@ -337,10 +344,11 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           <DuplicateQuizModal
             quiz={selectedQuizForDuplicate}
             isModalOpen={isDuplicateTitleModalOpen}
-            title={title}
-            setTitle={setTitle}
-            onDuplicate={(title) => handleTitleSubmit(title)}
-            onCancel={cancelFlow}
+            validateQuizName={validateQuizName}
+            onDuplicate={moveToVisibilityStep}
+            onCancel={() => {
+              cancelFlow();
+            }}
             isLoading={isSubmitting}
           />
 
