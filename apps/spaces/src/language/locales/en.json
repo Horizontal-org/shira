@@ -411,7 +411,9 @@
         "view_guidelines": "View formatting guidelines",
         "browse_files": "Browse files",
         "i_understand": "I understand",
-        "back_home": "Back to home"
+        "back_home": "Back to home",
+        "learn_more": "Learn more",
+        "manage_plan": "Manage plan"
     },
     "modals": {
         "create_quiz": {
@@ -581,6 +583,64 @@
             "current_password_placeholder": "Current password (required)",
             "new_password_placeholder": "New password (required)",
             "confirm_password_placeholder": "Confirm new password (required)"
+        },
+        "view_plans": {
+            "title": "Available plans",
+            "modal_title": "Shira plans and pricing",
+            "comparison": {
+                "title": "What's included?",
+                "admin_management": "Admin management",
+                "customization": "Customization",
+                "access_control": "Access control",
+                "compliance": "Compliance",
+                "custom_support": "Custom support",
+                "rows": {
+                    "hosting": "Hosting",
+                    "admin_dashboard": "Admin dashboard",
+                    "number_of_admins": "Number of admins",
+                    "customizable_questions": "Fully customizable quiz questions",
+                    "question_library": "Access to the question's library",
+                    "custom_quizzes": "Number of custom quizzes",
+                    "apps": "6 apps",
+                    "public_quizzes": "Public quizzes",
+                    "private_quizzes": "Private quizzes",
+                    "basic_analytics": "Basic analytics",
+                    "detailed_analytics": "Detailed analytics",
+                    "analysis_tools": "Analysis and compliance tools",
+                    "tailor_made_training": "Tailor-made user training",
+                    "priority_support": "Priority support"
+                },
+                "values": {
+                    "cloud": "Cloud",
+                    "cloud_on_premise": "Cloud & on-premise",
+                    "one_admin": "1 admin",
+                    "unlimited": "Unlimited",
+                    "up_to_three_custom_quizzes": "Up to 3 custom quizzes"
+                }
+            },
+            "plans": {
+                "starter": {
+                    "title": "Starter",
+                    "description": "To try things out and get familiar with Shira",
+                    "price": "$0/month",
+                    "note": "Free, no strings attached",
+                    "cta": "Get started"
+                },
+                "pro": {
+                    "title": "Pro",
+                    "description": "The full power of Shira",
+                    "price": "$50/month + $1 per quiz taken",
+                    "note": "Start with a 14-day free trial.",
+                    "cta": "Start 14-day free trial"
+                },
+                "enterprise": {
+                    "title": "Enterprise",
+                    "description": "Best for large organizations and service providers",
+                    "price": "Custom pricing",
+                    "note": "Rates tailored to your needs",
+                    "cta": "Get started"
+                }
+            }
         }
     },
     "error_messages": {
