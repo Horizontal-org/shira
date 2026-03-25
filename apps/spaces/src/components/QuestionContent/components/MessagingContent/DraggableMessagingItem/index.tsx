@@ -33,7 +33,9 @@ export const DraggableMessagingItem: FunctionComponent<Props> = ({
             >
               <Wrapper>
 
-                {item.contentType === 'editor' ? (<SmallText>Message text</SmallText>) : (<SmallText>Image</SmallText>)}
+                {item.contentType === 'editor'
+                  ? (<SmallText>Message text</SmallText>)
+                  : (<SmallText>Image</SmallText>)}
 
                 <ContentWrapper>
                   <QuestionContentDragItemOptions

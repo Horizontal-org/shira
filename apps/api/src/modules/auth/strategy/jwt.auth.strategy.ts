@@ -37,6 +37,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     loggedUser.id = user.id
     loggedUser.email = user.email
     loggedUser.isSuperAdmin = user.isSuperAdmin
+    loggedUser.lastPasswordChangeAt = user.lastPasswordChangeAt
 
     return loggedUser
   }

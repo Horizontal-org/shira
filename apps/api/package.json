@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@date-fns/utc": "^2.1.0",
-    "@nestjs-modules/mailer": "^2.0.2",
+    "@nestjs-modules/mailer": "^2.1.0",
     "@nestjs/bullmq": "^11.0.4",
     "@nestjs/common": "^11.1.13",
     "@nestjs/config": "^4.0.3",

@@ -18,6 +18,10 @@ export class LoggedUserDto {
   isSuperAdmin: boolean;
 
   @Expose()
+  @IsString()
+  lastPasswordChangeAt: string;
+
+  @Expose()
   activeOrganization?: {
     id: number;
     name: string;

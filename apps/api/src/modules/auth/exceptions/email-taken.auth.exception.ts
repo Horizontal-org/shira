@@ -3,7 +3,7 @@ import { AuthErrorCodes } from "./errors/auth.error-codes";
 
 export class EmailTakenException extends HttpException {
   constructor() {
-    const cause = "The email address is already taken."
-    super(AuthErrorCodes.EmailAlreadyTaken, HttpStatus.FORBIDDEN, { cause });
+    const cause = "The email address is already taken.";
+    super(AuthErrorCodes.EmailAlreadyTaken, HttpStatus.CONFLICT, { cause });
   }
 }

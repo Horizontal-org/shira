@@ -30,8 +30,13 @@
             "password_required": "Password is required",
             "password_min_length": "Password must be at least 8 characters",
             "confirm_password_required": "Please confirm your password",
-            "passwords_mismatch": "Passwords do not match"
+            "passwords_mismatch": "Passwords do not match",
+            "incorrect_password": "Incorrect password."
         }
+    },
+    "confirm_email_update": {
+        "success_title": "Email address updated",
+        "success_description": "Your email address has been confirmed. You can now log in with your new email address."
     },
     "beta": {
         "label": "BETA",
@@ -42,6 +47,7 @@
     "left_menu": {
         "dashboard": "Dashboard",
         "support": "Support",
+        "settings": "Settings",
         "logout": "Log out"
     },
     "dashboard": {
@@ -354,6 +360,21 @@
         "title": "Support",
         "subtitle": "If you need any support, including with deleting your account, please email the Shira team at contact@wearehorizontal.org"
     },
+    "settings": {
+        "title": "Settings",
+        "subtitle": "Manage your Shira space settings here.",
+        "sections": {
+            "email": {
+                "title": "Email address",
+                "action": "Change email address"
+            },
+            "password": {
+                "title": "Password",
+                "last_updated": "Last updated: {{date}}",
+                "action": "Change password"
+            }
+        }
+    },
     "buttons": {
         "ok": "OK",
         "cancel": "Cancel",
@@ -378,7 +399,9 @@
         "feedback": "Tell us what you think",
         "download_template": "Download CSV template",
         "view_guidelines": "View formatting guidelines",
-        "browse_files": "Browse files"
+        "browse_files": "Browse files",
+        "i_understand": "I understand",
+        "back_home": "Back to home"
     },
     "modals": {
         "create_quiz": {
@@ -530,6 +553,24 @@
         "start_over_bulk_import": {
             "title": "Are you sure you want to start over?",
             "message": "This will discard the spreadsheet you uploaded. Any progress you have made will be lost."
+        },
+        "change_email": {
+            "title": "Change email address",
+            "subtitle": "Enter your new email address here.",
+            "input_placeholder": "New email address (required)"
+        },
+        "change_email_success": {
+            "title": "Almost there!",
+            "description": "To complete the process, please open the email we sent to your new email address and click the confirmation link.",
+            "didnt_receive": "Didn’t receive an email? If it’s not in your spam folder, please contact us at <0>{{contact_email}}</0>",
+            "button": "I understand"
+        },
+        "change_password": {
+            "title": "Create new password",
+            "subtitle": "Your password should contain at least 8 characters.",
+            "current_password_placeholder": "Current password (required)",
+            "new_password_placeholder": "New password (required)",
+            "confirm_password_placeholder": "Confirm new password (required)"
         }
     },
     "error_messages": {
@@ -556,6 +597,9 @@
         "email_no_match": "The email address does not match the invitation.",
         "reset_password_confirmation_mismatch": "Password confirmation does not match.",
         "reset_password_weak": "Password must be at least 8 characters.",
+        "current_password_incorrect": "Incorrect password.",
+        "invalid_title": "Sorry, something went wrong",
+        "email_update_token_invalid": "The link you opened is invalid or has expired. Please contact your organization or email contact@wearehorizontal.org for support.",
         "learners_bulk_import": {
             "missing_name": "Missing name",
             "missing_email": "Missing email address",
@@ -582,7 +626,8 @@
                 "title": "Error: File is too large",
                 "subtitle": "Please upload a CSV that is 10 MB or smaller and try again."
             }
-        }
+        },
+        "invalid_email_update": "This email address is already associated with a Shira space."
     },
     "success_messages": {
         "quiz_link_copied": "The public quiz link has been copied to your clipboard.",
@@ -608,7 +653,8 @@
         "learners_assigned_plural": "This quiz has been assigned to {{count}} new learners.",
         "learner_unassigned": "This quiz has been unassigned from {{count}} learner.",
         "learners_unassigned_plural": "This quiz has been unassigned from {{count}} learners.",
-        "password_updated": "Your password was updated successfully."
+        "password_updated": "Your password was updated successfully.",
+        "email_updated": "Your email address was updated successfully."
     },
     "loading_messages": {
         "loading": "Loading...",
