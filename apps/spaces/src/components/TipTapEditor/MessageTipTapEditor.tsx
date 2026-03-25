@@ -22,15 +22,15 @@ export const MessageTipTapEditor = ({
   const editor = useEditor({
     extensions: getMessageExtensions(),
     content: initialContent ?? null,
-    onSelectionUpdate() {  },
+    onSelectionUpdate() { },
     onUpdate(props) {
       onChange(props.editor.getHTML())
-      
+
       setTimeout(() => {
         explanations.cleanupOrphanedExplanations()
       }, 500)
     },
-    onCreate() {}
+    onCreate() { }
   })
 
   const explanations = useExplanations(editor, editorId)
@@ -47,7 +47,7 @@ export const MessageTipTapEditor = ({
         <MessageEditorStyles />
         <div></div>
         <EditorContainer>
-          <MessagesMenuBar 
+          <MessagesMenuBar
             editor={editor}
             onAddTextExplanation={explanations.addTextExplanation}
             onRemoveTextExplanation={explanations.removeTextExplanation}
@@ -55,13 +55,14 @@ export const MessageTipTapEditor = ({
             isTextExplanationActive={explanations.isTextExplanationActive()}
           />
           <EditorContentWithExplanation>
-            <EditorContent 
-              id={editorId} 
-              editor={editor} 
+            <EditorContent
+              id={editorId}
+              editor={editor}
               style={{ width: '100%' }}
             />
             <ExplanationButtonWrapper>
               <ExplanationButton
+                isText={true}
                 active={explanations.isTextExplanationActive()}
                 disabled={!explanations.canAddTextExplanation()}
                 onClick={() => {
@@ -71,7 +72,7 @@ export const MessageTipTapEditor = ({
             </ExplanationButtonWrapper>
           </EditorContentWithExplanation>
         </EditorContainer>
-      </EditorWrapper>      
+      </EditorWrapper>
     </Wrapper>
   )
 }
@@ -91,7 +92,7 @@ const EditorContainer = styled.div`
   position: relative;
 `
 
-const EditorContentWithExplanation =  styled.div`
+const EditorContentWithExplanation = styled.div`
   display: flex;
   flex: 1;
   width: 100%;

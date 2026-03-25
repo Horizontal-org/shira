@@ -19,47 +19,47 @@ export const ImageDragItem: FunctionComponent<Props> = ({
 }) => {
 
   const {
-      addExplanation,
-      explanationIndex,      
-      changeSelected,
-      selectedExplanation,
-      updateActiveQuestionDraggableItem
-    } = useStore((state) => ({
-      addExplanation: state.addExplanation,
-      explanationIndex: state.explanationIndex,
-      changeSelected: state.changeSelected,
-      selectedExplanation: state.selectedExplanation,
-      updateActiveQuestionDraggableItem: state.updateActiveQuestionDraggableItem
-    }), shallow)
-  
-    const ref = useRef(null)
+    addExplanation,
+    explanationIndex,
+    changeSelected,
+    selectedExplanation,
+    updateActiveQuestionDraggableItem
+  } = useStore((state) => ({
+    addExplanation: state.addExplanation,
+    explanationIndex: state.explanationIndex,
+    changeSelected: state.changeSelected,
+    selectedExplanation: state.selectedExplanation,
+    updateActiveQuestionDraggableItem: state.updateActiveQuestionDraggableItem
+  }), shallow)
+
+  const ref = useRef(null)
 
   return (
     <Wrapper>
-      { value ? (
+      {value ? (
         <ImageWrapper>
-          <ImageElement 
+          <ImageElement
             ref={ref}
             src={value.url}
             alt={value.originalFilename}
-          />          
+          />
           <ExplanationButton
             active={selectedExplanation && selectedExplanation + '' == explanationId}
             disabled={false}
-             onClick={() => {
-                const hasExplanation = explanationId
-                if (hasExplanation) {
-                  changeSelected(parseInt(hasExplanation))
-                } else {
-                  const newExplanationIndex = explanationIndex + 1
-                  addExplanation(newExplanationIndex, '')
-                  updateActiveQuestionDraggableItem(index, 'explanation', newExplanationIndex + '')
-                }
+            onClick={() => {
+              const hasExplanation = explanationId
+              if (hasExplanation) {
+                changeSelected(parseInt(hasExplanation))
+              } else {
+                const newExplanationIndex = explanationIndex + 1
+                addExplanation(newExplanationIndex, '')
+                updateActiveQuestionDraggableItem(index, 'explanation', newExplanationIndex + '')
+              }
             }}
           />
         </ImageWrapper>
       ) : (
-        <LoadingOverlay/>
+        <LoadingOverlay />
       )}
 
     </Wrapper>
