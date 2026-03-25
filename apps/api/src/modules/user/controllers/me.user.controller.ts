@@ -18,6 +18,7 @@ export class MeUserController {
   @Get()
   @Roles(Role.SpaceAdmin)
   async me(@LoggedUser() user: LoggedUserDto) {
+    console.log("🚀 ~ MeUserController ~ me ~ user:", user)
     await this.markUserLoginService.execute(user.id);
     return user
   }

@@ -1,14 +1,17 @@
-import { Body, Post } from "@nestjs/common";
+import { Body, Inject, Post } from "@nestjs/common";
 import { AuthController } from "src/utils/decorators/auth-controller.decorator";
 import { ManageSubscriptionDto } from "../dto/manage-subscription.dto";
-import { SubscriptionCacheService } from "../services/subscription-cache.service";
-import { ShiraPaymentsService } from "../services/shira-payments.service";
+import { TYPES } from "../interfaces";
+import { ISubscriptionCacheService } from "../interfaces/services/subscription-cache.service.interface";
+import { IShiraPaymentsService } from "../interfaces/services/shira-payments.service.interface";
 
 @AuthController('subscription/manage')
 export class ManageSubscriptionController {
   constructor(
-    private readonly shiraPaymentsService: ShiraPaymentsService,
-    private readonly subscriptionCacheService: SubscriptionCacheService,
+    @Inject(TYPES.services.IShiraPaymentsService)
+    private readonly shiraPaymentsService: IShiraPaymentsService,
+    @Inject(TYPES.services.ISubscriptionCacheService)
+    private readonly subscriptionCacheService: ISubscriptionCacheService,
   ) { }
 
   @Post()

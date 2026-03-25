@@ -1,23 +1,20 @@
 import { Inject, Injectable } from "@nestjs/common";
 import Redis from "ioredis";
 import { REDIS } from "../providers/redis.provider";
-import { ShiraPaymentsService } from "./shira-payments.service";
-
-type CachedSubscription = {
-  organizationId: string
-  status: string
-  stripeCustomerId: string | null
-  createdAt: string | null
-  source: 'payments-api'
-}
+import { CachedSubscription } from "../dto/cached-response.dto";
+import { ISubscriptionCacheService } from "../interfaces/services/subscription-cache.service.interface";
+import { IShiraPaymentsService } from "../interfaces/services/shira-payments.service.interface";
+import { TYPES } from "../interfaces";
 
 @Injectable()
-export class SubscriptionCacheService {
+export class SubscriptionCacheService implements ISubscriptionCacheService {
   private readonly ttlSeconds = Number(process.env.SUBSCRIPTION_CACHE_TTL || 300);
 
   constructor(
-    @Inject(REDIS) private readonly redis: Redis,
-    private readonly shiraPaymentsService: ShiraPaymentsService,
+    @Inject(REDIS) 
+    private readonly redis: Redis,
+    @Inject(TYPES.services.IShiraPaymentsService)
+    private readonly shiraPaymentsService: IShiraPaymentsService,
   ) { }
 
   private key(organizationId: string) {

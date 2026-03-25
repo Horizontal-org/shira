@@ -5,26 +5,24 @@ import {
   ServiceUnavailableException,
 } from "@nestjs/common";
 import { randomUUID } from "crypto";
-import { ShiraPaymentsLoggerService } from "./shira-payments-logger.service";
+import { IShiraPaymentsService } from "../interfaces/services/shira-payments.service.interface";
+import { IShiraPaymentsLoggerService } from "../interfaces/services/shira-payments-logger.service.interface";
+import { TYPES } from "../interfaces";
 
 @Injectable()
-export class ShiraPaymentsService {
+export class ShiraPaymentsService implements IShiraPaymentsService {
   constructor(
-    @Inject(ShiraPaymentsLoggerService)
-    private readonly logger: ShiraPaymentsLoggerService,
+    @Inject(TYPES.services.IShiraPaymentsLoggerService)
+    private readonly logger: IShiraPaymentsLoggerService,
   ) { }
 
-  async createCheckout(dto: { organizationId: string; priceId?: string }) {
+  async createCheckout(orgId: string) {
     return this.request<{ url: string }>('/payments/checkout', {
       method: 'POST',
-      body: JSON.stringify(dto),
-    }, dto.organizationId);
+      body: JSON.stringify({ organizationId: orgId }),
+    }, orgId);
   }
-  async cancelSubscription(organizationId: string) {
-    return this.request<{ success: boolean }>(`/subscriptions/${organizationId}`, {
-      method: 'DELETE',
-    }, organizationId);
-  }
+  
   async manageSubscription(organizationId: string) {
     return this.request<{ url: string }>(`/subscriptions/manage/${organizationId}`, {
       method: 'POST',

@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { ApiLogger } from "src/utils/logger/api-logger.service";
+import { IShiraPaymentsLoggerService } from "../interfaces/services/shira-payments-logger.service.interface";
 
 type ShiraPaymentsLogContext = {
   requestId: string;
@@ -9,7 +10,7 @@ type ShiraPaymentsLogContext = {
 };
 
 @Injectable()
-export class ShiraPaymentsLoggerService {
+export class ShiraPaymentsLoggerService implements IShiraPaymentsLoggerService {
   private readonly logger = new ApiLogger(ShiraPaymentsLoggerService.name);
 
   started(context: ShiraPaymentsLogContext) {

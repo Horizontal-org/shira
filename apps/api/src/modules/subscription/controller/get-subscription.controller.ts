@@ -1,10 +1,12 @@
-import { Get, Param } from "@nestjs/common";
+import { Get, Inject, Param } from "@nestjs/common";
 import { AuthController } from "src/utils/decorators/auth-controller.decorator";
 import { SubscriptionCacheService } from "../services/subscription-cache.service";
+import { TYPES } from "../interfaces";
 
 @AuthController('subscription')
 export class GetSubscriptionController {
   constructor(
+    @Inject(TYPES.services.ISubscriptionCacheService)
     private readonly subscriptionCacheService: SubscriptionCacheService,
   ) { }
 
