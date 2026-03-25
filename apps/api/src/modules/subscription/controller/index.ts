@@ -2,7 +2,7 @@ import { CheckoutSubscriptionController } from "./checkout.subscription.controll
 import { GetSubscriptionController } from "./get-subscription.controller";
 import { ManageSubscriptionController } from "./manage.subscription.controller";
 
-export const billingControllers = [
+export const subscriptionControllers = [
   CheckoutSubscriptionController,
   GetSubscriptionController,
   ManageSubscriptionController,
