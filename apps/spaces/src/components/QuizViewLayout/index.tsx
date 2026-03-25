@@ -36,7 +36,6 @@ import { RenameQuizModal } from "../modals/RenameQuizModal";
 import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
 import { DuplicateQuizModal } from "../modals/DuplicateQuizModal";
 import { useQuizCreationFlow } from "../../hooks/useQuizCreationFlow";
-import { useTitleUpdate } from "../../hooks/useTitleUpdate";
 
 interface Props { }
 
@@ -74,7 +73,6 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
-  const [renameTitle, setRenameTitle] = useState("");
 
   const [isUnpublishedQuizModalOpen, setIsUnpublishedQuizModalOpen] = useState(false);
   const [isUnpublishQuizModalOpen, setIsUnpublishQuizModalOpen] = useState(false);
@@ -83,8 +81,6 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
 
   const { destroy } = useQuestionCRUD()
   const {
-    title,
-    setTitle,
     selectedQuizForDuplicate,
     isSubmitting,
     isDuplicateTitleModalOpen,
@@ -98,43 +94,6 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     createQuiz,
     fetchQuizzes,
     t
-  });
-
-  const {
-    isValidatingTitle,
-    titleError,
-    clearTitleValidation,
-    handleTitleChange,
-    handleTitleSubmit,
-  } = useTitleUpdate({
-    setTitle,
-    validateQuizName,
-    onValidTitle: moveToVisibilityStep,
-  });
-
-  const {
-    isValidatingTitle: isValidatingRenameTitle,
-    titleError: renameTitleError,
-    clearTitleValidation: clearRenameValidation,
-    handleTitleChange: handleRenameTitleChange,
-    handleTitleSubmit: handleRenameTitleSubmit,
-  } = useTitleUpdate({
-    setTitle: setRenameTitle,
-    validateQuizName,
-    onValidTitle: (newTitle) => {
-      if (!quiz) {
-        return;
-      }
-
-      updateQuiz({
-        id: quiz.id,
-        title: newTitle,
-      });
-    },
-    shouldValidateTitle: (trimmedTitle) => {
-      if (!quiz) { return false; }
-      return trimmedTitle !== quiz.title.trim();
-    },
   });
 
   // results handling
@@ -311,7 +270,6 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                       type="outline"
                       onClick={() => {
                         if (quiz) {
-                          clearTitleValidation();
                           startDuplicateQuizFlow(quiz);
                         }
                       }}
@@ -447,13 +405,14 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
               <RenameQuizModal
                 quiz={quiz}
                 setIsModalOpen={setIsRenameModalOpen}
-                title={renameTitle}
-                setTitle={handleRenameTitleChange}
-                errorMessage={renameTitleError}
-                isLoading={isValidatingRenameTitle}
-                onRename={handleRenameTitleSubmit}
+                validateQuizName={validateQuizName}
+                onRename={(newTitle) => {
+                  updateQuiz({
+                    id: quiz.id,
+                    title: newTitle,
+                  });
+                }}
                 onCancel={() => {
-                  clearRenameValidation()
                   setIsRenameModalOpen(false)
                 }}
                 isModalOpen={isRenameModalOpen}
@@ -462,15 +421,12 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
               <DuplicateQuizModal
                 quiz={selectedQuizForDuplicate}
                 isModalOpen={isDuplicateTitleModalOpen}
-                title={title}
-                setTitle={handleTitleChange}
-                errorMessage={titleError}
-                onDuplicate={(newTitle) => { handleTitleSubmit(newTitle); }}
+                validateQuizName={validateQuizName}
+                onDuplicate={moveToVisibilityStep}
                 onCancel={() => {
-                  clearTitleValidation();
                   cancelFlow();
                 }}
-                isLoading={isSubmitting || isValidatingTitle}
+                isLoading={isSubmitting}
               />
 
               <QuizVisibilityModal

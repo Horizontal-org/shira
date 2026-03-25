@@ -19,7 +19,6 @@ import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
 import { handleCopyUrlAndNotify } from "../../utils/quiz";
 import { getCurrentDateFNSLocales } from "../../language/dateUtils";
 import { useQuizCreationFlow } from "../../hooks/useQuizCreationFlow";
-import { useTitleUpdate } from "../../hooks/useTitleUpdate";
 
 interface Props { }
 
@@ -64,8 +63,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const [isUnpublishQuizModalOpen, setIsUnpublishQuizModalOpen] = useState(false);
 
   const {
-    title,
-    setTitle,
     selectedQuizForDuplicate,
     isSubmitting,
     submittingQuizId,
@@ -82,18 +79,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     createQuiz,
     fetchQuizzes,
     t
-  });
-
-  const {
-    isValidatingTitle,
-    titleError,
-    clearTitleValidation,
-    handleTitleChange,
-    handleTitleSubmit,
-  } = useTitleUpdate({
-    setTitle,
-    validateQuizName,
-    onValidTitle: moveToVisibilityStep,
   });
 
   useEffect(() => {
@@ -204,7 +189,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                 leftIcon={<FiPlus />}
                 text={t('dashboard.create_quiz_button')}
                 onClick={() => {
-                  clearTitleValidation();
                   startCreateQuizFlow();
                 }}
                 color={theme.colors.green7}
@@ -266,7 +250,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                     navigate(`/quiz/${card.id}`)
                   }}
                   onDuplicate={() => {
-                    clearTitleValidation();
                     startDuplicateQuizFlow(card);
                   }}
                   onDelete={() => {
@@ -313,17 +296,12 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             isModalOpen={isCreateTitleModalOpen}
             setIsModalOpen={(open) => {
               if (!open) {
-                clearTitleValidation();
                 cancelFlow();
               }
             }}
-            title={title}
-            setTitle={handleTitleChange}
-            isLoading={isValidatingTitle}
-            errorMessage={titleError}
-            onCreate={(title) => { handleTitleSubmit(title); }}
+            validateQuizName={validateQuizName}
+            onCreate={moveToVisibilityStep}
             onCancel={() => {
-              clearTitleValidation();
               cancelFlow();
             }}
             keepModalOpen
@@ -366,15 +344,12 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           <DuplicateQuizModal
             quiz={selectedQuizForDuplicate}
             isModalOpen={isDuplicateTitleModalOpen}
-            title={title}
-            setTitle={handleTitleChange}
-            errorMessage={titleError}
-            onDuplicate={(title) => handleTitleSubmit(title)}
+            validateQuizName={validateQuizName}
+            onDuplicate={moveToVisibilityStep}
             onCancel={() => {
-              clearTitleValidation();
               cancelFlow();
             }}
-            isLoading={isSubmitting || isValidatingTitle}
+            isLoading={isSubmitting}
           />
 
         </MainContentWrapper>

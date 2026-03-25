@@ -1,38 +1,48 @@
-import { FunctionComponent, useEffect } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { Body1, Modal, defaultTheme, styled, TextInput } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 import { Quiz } from "../../../store/slices/quiz";
 import { hasRequiredValue } from "../../../utils/validation";
+import { useTitleUpdate } from "../../../hooks/useTitleUpdate";
 
 interface Props {
-  quiz: Quiz;
+  quiz: Quiz | null;
   isModalOpen: boolean;
-  title: string;
-  setTitle: (title: string) => void;
+  validateQuizName: (name: string) => Promise<void>;
   onDuplicate: (title: string) => void;
   onCancel: () => void;
   isLoading?: boolean;
-  errorMessage?: string | null;
 }
 
 export const DuplicateQuizModal: FunctionComponent<Props> = ({
   quiz,
   isModalOpen,
-  title,
-  setTitle,
+  validateQuizName,
   onDuplicate,
   onCancel,
   isLoading = false,
-  errorMessage = null,
 }) => {
   const { t } = useTranslation();
-  const hasError = Boolean(errorMessage);
+  const [title, setTitle] = useState("");
+  const {
+    isValidatingTitle,
+    titleError,
+    clearTitleValidation,
+    handleTitleChange,
+    handleTitleSubmit,
+  } = useTitleUpdate({
+    setTitle,
+    validateQuizName,
+    onValidTitle: onDuplicate,
+  });
+  const hasError = Boolean(titleError);
 
   useEffect(() => {
-    if (quiz) {
+    if (quiz && isModalOpen) {
       setTitle(`Copy of ${quiz.title}`);
+      clearTitleValidation();
     }
-  }, [quiz]);
+  }, [quiz, isModalOpen]);
 
   if (!quiz) {
     return null;
@@ -44,13 +54,14 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
       isOpen={isModalOpen}
       title={t('modals.duplicate_quiz.title')}
       primaryButtonText={t('buttons.next')}
-      primaryButtonDisabled={!hasRequiredValue(title) || hasError}
+      primaryButtonDisabled={!hasRequiredValue(title) || isLoading || isValidatingTitle || hasError}
       secondaryButtonText={t('buttons.back')}
       onPrimaryClick={() => {
-        if (!hasRequiredValue(title) || hasError) { return; }
-        onDuplicate(title);
+        if (!hasRequiredValue(title) || isLoading || isValidatingTitle || hasError) { return; }
+        handleTitleSubmit(title);
       }}
       onSecondaryClick={() => {
+        clearTitleValidation();
         onCancel();
       }}
     >
@@ -64,11 +75,11 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
           label="Quiz name"
           placeholder={t('modals.duplicate_quiz.quiz_name_placeholder', { quiz_name: quiz.title })}
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          isLoading={isLoading}
+          onChange={(e) => handleTitleChange(e.target.value)}
+          isLoading={isLoading || isValidatingTitle}
         />
         <ErrorContainer role="alert" aria-live="polite">
-          {hasError && <ErrorText>{t(errorMessage)}</ErrorText>}
+          {hasError && <ErrorText>{t(titleError)}</ErrorText>}
         </ErrorContainer>
       </FormContent>
     </Modal>
