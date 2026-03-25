@@ -10,6 +10,6 @@ export const handleCopyUrlAndNotify = async (hash: string, successMessage?: stri
 }
 
 export const handleCopyUrl = async (hash: string) => {
-  const quizUrl = `${process.env.REACT_APP_PUBLIC_URL}/quiz/${hash}`;
+  const quizUrl = `${import.meta.env.VITE_PUBLIC_URL}/quiz/${hash}`;
   await navigator.clipboard.writeText(quizUrl);
 }

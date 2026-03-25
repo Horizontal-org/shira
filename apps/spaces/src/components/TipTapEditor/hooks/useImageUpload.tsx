@@ -19,7 +19,7 @@ const defaultUploadImage = async (file: File, quizId: string, questionId: string
     const formData = new FormData()
     formData.append('file', file)
 
-    let url = `${process.env.REACT_APP_API_URL}/question-image/upload?quizId=${quizId}` 
+    let url = `${import.meta.env.VITE_API_URL}/question-image/upload?quizId=${quizId}` 
     if (questionId) {
       url = url + `&questionId${questionId}`
     }

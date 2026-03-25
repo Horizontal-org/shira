@@ -36,7 +36,7 @@ export interface QuizResultsResponse {
 const getQuizResultsFromAPI = async (quizId: number): Promise<QuizResultsResponse> => {
   try {
     const endpoint = `/quiz/${quizId}/results`
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}${endpoint}`);
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}${endpoint}`);
     return res.data;
   } catch (err) {
     console.log("🚀 ~ getQuizResults ~ err:", err);

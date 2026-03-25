@@ -11,7 +11,7 @@ interface Props {}
 const exportTranslations = async(langs) => {
   langs.forEach(async(l) => {      
     try {
-      const res = await axios.get(`${process.env.REACT_APP_API_URL}/question/global-export/${l.code}`)
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/question/global-export/${l.code}`)
       var link = document.createElement('a');
       link.setAttribute('download', `questions_global_translations_${l.code}.html`);
       link.setAttribute('href', 'data:' + 'text/plain'  +  ';charset=utf-8,' + res.data);

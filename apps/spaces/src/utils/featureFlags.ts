@@ -1,5 +1,5 @@
 const FEATURE_FLAG_ENV_MAP: Record<string, string> = {
-  "learner_bulk_invite": "REACT_APP_FLAG_LEARNER_BULK_INVITE"
+  "learner_bulk_invite": "VITE_FLAG_LEARNER_BULK_INVITE"
 };
 
 export const isFeatureEnabled = (flagName: string) => {
@@ -8,6 +8,6 @@ export const isFeatureEnabled = (flagName: string) => {
   }
 
   const envKey = FEATURE_FLAG_ENV_MAP[flagName];
-  const envValue = (process.env as Record<string, string | undefined>)[envKey];
+  const envValue = (import.meta.env as Record<string, string | undefined>)[envKey];
   return envValue?.toLowerCase() === "true";
 };

@@ -1,0 +1,1 @@
+import{r as t}from"./iframe-5Ndfg9Cb.js";const d=()=>{const[n,i]=t.useState(window.innerWidth);function e(){i(window.innerWidth)}return t.useEffect(()=>(window.addEventListener("resize",e),()=>{window.removeEventListener("resize",e)}),[]),{width:n}};export{d as u};

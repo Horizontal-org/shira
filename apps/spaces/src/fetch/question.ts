@@ -35,7 +35,7 @@ export interface CustomElements {
 
 export const fetchQuestions = async() => {
   try {
-    const res = await axios.get<Question[]>(`${process.env.REACT_APP_API_URL}/question`) 
+    const res = await axios.get<Question[]>(`${import.meta.env.VITE_API_URL}/question`) 
     return res.data
   } catch (err) {
     console.log("🚀 ~ file: question.ts ~ line 20 ~ submit ~ err", err)
@@ -44,7 +44,7 @@ export const fetchQuestions = async() => {
 
 export const fetchQuestion = async(id: string) => {
   try {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/question/${id}`) 
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/question/${id}`) 
     return res.data
   } catch(err) {
     console.log("🚀 ~ file: question.ts ~ line 37 ~ submit ~ err", err)
@@ -53,7 +53,7 @@ export const fetchQuestion = async(id: string) => {
 
 export const deleteQuestion = async(id) => {
   try {
-    const res = await axios.delete(`${process.env.REACT_APP_API_URL}/question/${id}`) 
+    const res = await axios.delete(`${import.meta.env.VITE_API_URL}/question/${id}`) 
     return res.data
   } catch (err) {
     console.log("🚀 ~ file: question.ts ~ line 20 ~ submit ~ err", err)
@@ -120,7 +120,7 @@ export const useQuestionCRUD = () => {
     const payload = parseRequest(question, explanations, quizId)
 
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/quiz/question`, payload)
+      await axios.post(`${import.meta.env.VITE_API_URL}/quiz/question`, payload)
       handleActionFeedback(QuestionCRUDFeedback.success)
     } catch (err) {
       handleActionFeedback(QuestionCRUDFeedback.error)
@@ -142,7 +142,7 @@ export const useQuestionCRUD = () => {
     }
 
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/quiz/question/delete`, payload)
+      await axios.post(`${import.meta.env.VITE_API_URL}/quiz/question/delete`, payload)
       setQuizActionSuccess(QuizSuccessStates.question_deleted)
       handleActionFeedback(QuestionCRUDFeedback.success)
     } catch (err) {
@@ -163,7 +163,7 @@ export const useQuestionCRUD = () => {
     payload['questionId'] = parseInt(questionId)
 
     try {
-      await axios.put(`${process.env.REACT_APP_API_URL}/quiz/question`, payload)
+      await axios.put(`${import.meta.env.VITE_API_URL}/quiz/question`, payload)
       handleActionFeedback(QuestionCRUDFeedback.success)
     } catch (err) {
       handleActionFeedback(QuestionCRUDFeedback.error)

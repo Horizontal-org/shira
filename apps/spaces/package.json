@@ -58,40 +58,20 @@
     "react-i18next": "^12.3.1",
     "react-icons": "^5.5.0",
     "react-router-dom": "^6.4.2",
-    "react-scripts": "5.0.1",
     "styled-components": "^5.3.11",
-    "web-vitals": "^2.1.4",
     "zustand": "^4.1.1"
   },
   "scripts": {
-    "dev": "PORT=3002 react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "dev": "vite --port 3002",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.28.6",
     "@emotion/stylis": "^0.8.5",
-    "eslint-config-react-app": "^7.0.1",
+    "@vitejs/plugin-react": "^5.1.4",
     "turbo": "^2.4.0",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "vite": "^7.3.1",
+    "vite-plugin-svgr": "^4.5.0"
   }
 }

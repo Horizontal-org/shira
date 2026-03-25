@@ -23,7 +23,7 @@ interface WrapperProps {
 const exportTranslations = async(id, langs) => {
     langs.forEach(async(l) => {      
       try {
-        const res = await axios.get(`${process.env.REACT_APP_API_URL}/question/${id}/export/${l.code}`)
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/question/${id}/export/${l.code}`)
         var link = document.createElement('a');
         link.setAttribute('download', `question_${id}_translation_${l.code}.html`);
         link.setAttribute('href', 'data:' + 'text/plain'  +  ';charset=utf-8,' + res.data);
@@ -43,7 +43,7 @@ const submit = async(validFiles, id) => {
     formData.append('files', files[i])
     formData.append('id', id)
 
-    const promise = axios.post(`${process.env.REACT_APP_API_URL}/question/${id}/import`, formData, {
+    const promise = axios.post(`${import.meta.env.VITE_API_URL}/question/${id}/import`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }

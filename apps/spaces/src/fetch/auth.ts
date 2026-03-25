@@ -3,7 +3,7 @@ import axios from "axios"
 export const fetchUser = async(token: string, spaceId: string) => {
   console.log("🚀 ~ fetchUser ~ spaceId:", spaceId)
   try {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/user`, {
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/user`, {
       headers: {
         Authorization: `Bearer ${token}`,
         'X-Space': spaceId
@@ -19,7 +19,7 @@ export const fetchUser = async(token: string, spaceId: string) => {
 
 export const login = async(email, pass) => {
   try {
-    const res = await axios.post(`${process.env.REACT_APP_API_URL}/login`, {
+    const res = await axios.post(`${import.meta.env.VITE_API_URL}/login`, {
       email: email,
       password: pass
     })

@@ -1,0 +1,17 @@
+export declare const H1: any;
+export declare const H2: any;
+export declare const SubHeading1: any;
+export declare const SubHeading2: any;
+export declare const SubHeading3: any;
+export declare const Body1: any;
+export declare const Body1SemiBold: any;
+export declare const Body2Regular: any;
+export declare const Body2SemiBold: any;
+export declare const Body2Italic: any;
+export declare const Body3: any;
+export declare const Body3Bold: any;
+export declare const Body4: any;
+export declare const Link0: any;
+export declare const Link1: any;
+export declare const Link2: any;
+export declare const Link3: any;

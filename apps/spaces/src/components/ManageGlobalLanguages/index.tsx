@@ -19,7 +19,7 @@ const submit = async(globalTranslations) => {
     const formData = new FormData()
     formData.append('files', gb.file)
 
-    const promise = axios.post(`${process.env.REACT_APP_API_URL}/question/global-import`, formData, {
+    const promise = axios.post(`${import.meta.env.VITE_API_URL}/question/global-import`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }

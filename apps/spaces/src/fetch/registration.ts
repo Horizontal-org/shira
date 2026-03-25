@@ -13,14 +13,14 @@ interface ConfirmRegistrationPayload {
 }
 
 export const inviteOrg = async (payload: InviteOrgRequest) => {
-  await axios.post(`${process.env.REACT_APP_API_URL}/invitation`, payload)
+  await axios.post(`${import.meta.env.VITE_API_URL}/invitation`, payload)
 }
 
 export const checkPassphraseExpired = async (code: string) => {
-  const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/passphrase/${code}/check-expired`)
+  const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/passphrase/${code}/check-expired`)
   return data
 }
 
 export const registerSpace = async (payload: ConfirmRegistrationPayload) => {
-  await axios.post(`${process.env.REACT_APP_API_URL}/space-registration`, payload)
+  await axios.post(`${import.meta.env.VITE_API_URL}/space-registration`, payload)
 }

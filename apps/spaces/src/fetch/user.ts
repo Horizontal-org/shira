@@ -11,13 +11,13 @@ interface ChangePasswordPayload {
 }
 
 export const requestChangeUserEmail = async (payload: ChangeEmailPayload) => {
-  await axios.put(`${process.env.REACT_APP_API_URL}/user/update/email`, payload);
+  await axios.put(`${import.meta.env.VITE_API_URL}/user/update/email`, payload);
 };
 
 export const changeUserPassword = async (payload: ChangePasswordPayload) => {
-  await axios.put(`${process.env.REACT_APP_API_URL}/user/update/password`, payload);
+  await axios.put(`${import.meta.env.VITE_API_URL}/user/update/password`, payload);
 };
 
 export const confirmUserEmailChange = async (token: string) => {
-  await axios.post(`${process.env.REACT_APP_API_URL}/user/update/email/confirm/${token}`);
+  await axios.post(`${import.meta.env.VITE_API_URL}/user/update/email/confirm/${token}`);
 };

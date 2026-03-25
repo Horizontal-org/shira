@@ -19,7 +19,7 @@ export type BulkInviteValidatedLearner = {
 };
 
 export const inviteLearner = async (name: string, email: string) => {
-  const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/learners/invitations`, {
+  const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/learners/invitations`, {
     email, name
   })
   return data;
@@ -27,7 +27,7 @@ export const inviteLearner = async (name: string, email: string) => {
 
 export const inviteLearnersBulk = async (learners: BulkInviteValidatedLearner[]) => {
   const { data } = await axios.post(
-    `${process.env.REACT_APP_API_URL}/learners/invitations/bulk/send`,
+    `${import.meta.env.VITE_API_URL}/learners/invitations/bulk/send`,
     { learners }
   );
 
@@ -39,7 +39,7 @@ export const verifyLearnersBulk = async (file: File) => {
   formData.append("file", file);
 
   const { data } = await axios.post(
-    `${process.env.REACT_APP_API_URL}/learners/invitations/bulk/verify`,
+    `${import.meta.env.VITE_API_URL}/learners/invitations/bulk/verify`,
     formData,
     {
       headers: {
@@ -52,13 +52,13 @@ export const verifyLearnersBulk = async (file: File) => {
 };
 
 export const deleteLearners = async (ids: number[]) => {
-  const { data } = await axios.delete(`${process.env.REACT_APP_API_URL}/learners`, {
+  const { data } = await axios.delete(`${import.meta.env.VITE_API_URL}/learners`, {
     data: { ids }
   })
   return data;
 }
 
 export const fetchLearners = async () => {
-  const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/learners`)
+  const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/learners`)
   return data;
 }

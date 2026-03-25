@@ -48,7 +48,7 @@ export type QuestionLibraryDto = {
 
 export const getLibraryQuestions = async () => {
   try {
-    const { data } = await axios.get<QuestionLibraryDto>(`${process.env.REACT_APP_API_URL}/question/library`);
+    const { data } = await axios.get<QuestionLibraryDto>(`${import.meta.env.VITE_API_URL}/question/library`);
     return data;
   } catch (err) {
     console.log("🚀 ~ getLibraryQuestions ~ err:", err);
@@ -65,7 +65,7 @@ export const useLibraryQuestionCRUD = () => {
 
     try {
       const { data } = await axios.post(
-        `${process.env.REACT_APP_API_URL}/question/library/${questionId}/duplicate`,
+        `${import.meta.env.VITE_API_URL}/question/library/${questionId}/duplicate`,
         { quizId, languageId, appId }
       );
       handleActionFeedback(LibraryQuestionFeedback.Success);

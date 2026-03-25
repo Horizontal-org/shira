@@ -8,7 +8,7 @@ export interface UpdateQuizPayload {
 
 export const updateQuiz = async (toUpdate: UpdateQuizPayload) => {
   try {
-    await axios.put(`${process.env.REACT_APP_API_URL}/quiz/${toUpdate.id}`, toUpdate)
+    await axios.put(`${import.meta.env.VITE_API_URL}/quiz/${toUpdate.id}`, toUpdate)
   } catch (err) {
     console.log("🚀 ~ updateQuiz ~ err:", err)
   }
@@ -24,7 +24,7 @@ export interface ReorderQuizPayload {
 
 export const reorderQuiz = async (reorderData: ReorderQuizPayload) => {
   try {
-    await axios.post(`${process.env.REACT_APP_API_URL}/quiz/reorder`, reorderData)
+    await axios.post(`${import.meta.env.VITE_API_URL}/quiz/reorder`, reorderData)
   } catch (err) {
     console.log("🚀 ~ reorderQuiz ~ err:", err)
   }
@@ -32,7 +32,7 @@ export const reorderQuiz = async (reorderData: ReorderQuizPayload) => {
 
 export const deleteQuiz = async (id: number) => {
   try {
-    await axios.delete(`${process.env.REACT_APP_API_URL}/quiz/${id}`)
+    await axios.delete(`${import.meta.env.VITE_API_URL}/quiz/${id}`)
   } catch (err) {
     console.log("🚀 ~ deleteQuiz ~ err:", err)
   }
@@ -40,7 +40,7 @@ export const deleteQuiz = async (id: number) => {
 
 export const createQuiz = async (title: string, visibility: string) => {
   try {
-    await axios.post(`${process.env.REACT_APP_API_URL}/quiz`, {
+    await axios.post(`${import.meta.env.VITE_API_URL}/quiz`, {
       title: title,
       visibility: visibility
     })
@@ -51,7 +51,7 @@ export const createQuiz = async (title: string, visibility: string) => {
 
 export const getQuizzes = async () => {
   try {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/quiz`)
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/quiz`)
     return res.data
   } catch (err) {
     console.log("🚀 ~ file: question.ts ~ line 20 ~ submit ~ err", err)
@@ -60,7 +60,7 @@ export const getQuizzes = async () => {
 
 export const getQuizById = async (id: number) => {
   try {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/quiz/${id}`)
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/quiz/${id}`)
     console.log("🚀 ~ getQuizById ~ res:", res.data)
     return res.data
   } catch (err) {
@@ -71,7 +71,7 @@ export const getQuizById = async (id: number) => {
 
 export const duplicateQuestion = async (quizId: number, questionId: number) => {
   try {
-    await axios.post(`${process.env.REACT_APP_API_URL}/quiz/${quizId}/questions/${questionId}/duplicate`)
+    await axios.post(`${import.meta.env.VITE_API_URL}/quiz/${quizId}/questions/${questionId}/duplicate`)
   } catch (err) {
     console.log("🚀 ~ duplicateQuestion ~ err:", err)
     throw new Error('Failed to duplicate question')
@@ -80,7 +80,7 @@ export const duplicateQuestion = async (quizId: number, questionId: number) => {
 
 export const duplicateQuiz = async (quizId: number, title: string, visibility: string) => {
   try {
-    const res = await axios.post(`${process.env.REACT_APP_API_URL}/quiz/${quizId}/duplicate`, {
+    const res = await axios.post(`${import.meta.env.VITE_API_URL}/quiz/${quizId}/duplicate`, {
       title,
       visibility
     })
