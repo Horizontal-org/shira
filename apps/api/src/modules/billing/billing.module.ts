@@ -8,14 +8,14 @@ import { billingControllers } from './controller';
 import { servicesBillingProviders } from './billing.providers';
 import { redisProvider } from './providers/redis.provider';
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([
-      PlanEntity,
-      SubscriptionEntity,
-      OrganizationEntity,
-      OrganizationSubscriptionsEntity
-    ])
-  ],
+    imports: [
+        TypeOrmModule.forFeature([
+            PlanEntity,
+            SubscriptionEntity,
+            OrganizationEntity,
+            OrganizationSubscriptionsEntity,
+        ])
+    ],
   controllers: [...billingControllers],
   providers: [
     ...servicesBillingProviders,

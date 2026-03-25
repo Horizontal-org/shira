@@ -20,8 +20,6 @@ import { UserEntity } from '../user/domain/user.entity';
 import { SpaceUserEntity } from '../space/domain/space-users.entity';
 import { OrganizationUsersEntity } from '../organization/domain/organization_users.entity';
 import { OrganizationEntity } from '../organization/domain/organization.entity';
-import { PlanEntity } from '../billing/domain/plan.entity';
-import { BillingModule } from '../billing/billing.module';
 import { UserContextService } from './services/user-context.service';
 import { RolesGuard } from './guards/roles.guard';
 
@@ -36,7 +34,6 @@ import { RolesGuard } from './guards/roles.guard';
     SpaceModule,
     PassphraseModule,
     OrganizationModule,
-    BillingModule,
     TypeOrmModule.forFeature([
       RegistrationEntity,
       SpaceEntity,
@@ -46,7 +43,6 @@ import { RolesGuard } from './guards/roles.guard';
       SpaceUserEntity,
       OrganizationUsersEntity,
       OrganizationEntity,
-      PlanEntity
     ]),
   ],
   controllers: [...authControllers],
