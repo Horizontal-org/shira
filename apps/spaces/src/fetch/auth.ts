@@ -39,10 +39,19 @@ export const checkAuth = async() => {
   const token = window.localStorage.getItem('shira_access_token')
   const spaceId = window.localStorage.getItem('shira_x_space')
   if (token && spaceId) {
-    const user = await fetchUser(token, spaceId)
-    return user 
+    const fetchUserResponse = await fetchUser(token, spaceId)
+    return fetchUserResponse
   } else {
     return null
   }
 
+}
+
+export const getSub = async() => {
+  try {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/subscription`)
+    return res.data    
+  } catch (err) {
+    console.log("🚀 ~ getSub ~ err:", err)  
+  } 
 }

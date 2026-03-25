@@ -1,5 +1,5 @@
 import { StateCreator } from "zustand"
-import { checkAuth, login } from "../../fetch/auth";
+import { checkAuth, getSub, login } from "../../fetch/auth";
 
 export interface AuthSlice {
   login: (email, pass) => void
@@ -16,6 +16,9 @@ export interface AuthSlice {
   space: {
     name: string
   };
+  subscription: {
+    status: string;
+  }
   fetching: boolean;
 }
 
@@ -36,12 +39,15 @@ export const createAuthSlice: StateCreator<
 > = (set) => ({
   user: null,
   space: null,
+  subscription: null,
   fetching: true,
   login: async (email, pass) => {
     const user = await login(email, pass)
+    const sub = await getSub()
     set({
       user: user,
-      space: user.spaces[0]
+      space: user.spaces[0],
+      subscription: sub
     })
   },
 
@@ -67,8 +73,9 @@ export const createAuthSlice: StateCreator<
     const res = await checkAuth();
     if (res) {
       set({
-        user: res,
-        space: res.activeSpace.space
+        user: res.user,
+        space: res.user.activeSpace.space,
+        subscription: res.subscription
       });
     } else if (!isPublicRoute(window.location.pathname)) {
       window.location.href = '/login';

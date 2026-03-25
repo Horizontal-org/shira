@@ -3,7 +3,7 @@ import { GetSubscriptionController } from "./get-subscription.controller";
 import { ManageSubscriptionController } from "./manage.subscription.controller";
 
 export const subscriptionControllers = [
-  CheckoutSubscriptionController,
   GetSubscriptionController,
+  CheckoutSubscriptionController,
   ManageSubscriptionController,
 ]

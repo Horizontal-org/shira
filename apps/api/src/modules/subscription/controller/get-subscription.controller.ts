@@ -2,6 +2,10 @@ import { Get, Inject, Param } from "@nestjs/common";
 import { AuthController } from "src/utils/decorators/auth-controller.decorator";
 import { TYPES } from "../interfaces";
 import { ISubscriptionCacheService } from "../interfaces/services/subscription-cache.service.interface";
+import { LoggedUser } from "src/modules/auth/decorators";
+import { LoggedUserDto } from "src/modules/user/dto/logged.user.dto";
+import { Roles } from "src/modules/auth/decorators/roles.decorators";
+import { Role } from "src/modules/user/domain/role.enum";
 
 @AuthController('subscription')
 export class GetSubscriptionController {
@@ -10,11 +14,12 @@ export class GetSubscriptionController {
     private readonly subscriptionCacheService: ISubscriptionCacheService,
   ) { }
 
-  @Get(':organizationId')
+  @Get()
+  @Roles(Role.SpaceAdmin)
   async handler(
-    @Param('organizationId') organizationId: string
+    @LoggedUser() user: LoggedUserDto,
   ) {
-    const subscription = await this.subscriptionCacheService.getCurrentSubscription(organizationId);
+    const subscription = await this.subscriptionCacheService.getCurrentSubscription(user.activeOrganization.id + '');
 
     return { subscription };
   }
