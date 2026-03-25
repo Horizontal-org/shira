@@ -1,11 +1,10 @@
-
 import { Module } from '@nestjs/common';
-import { 
-    emailServiceProvider,
-    servicesPassphraseProviders,
+import {
+  emailServiceProvider,
+  servicesPassphraseProviders,
 } from './email.providers';
-import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/adapters/handlebars.adapter';
 import { join } from 'path';
 
 @Module({
@@ -22,7 +21,7 @@ import { join } from 'path';
         auth: {
           user: process.env.SMTP_USER,
           pass: process.env.SMTP_PASS,
-        } 
+        }
       },
       defaults: {
         from: '"No Reply" <noreply@example.com>',
@@ -48,8 +47,8 @@ import { join } from 'path';
     ...servicesPassphraseProviders
   ],
   exports: [
-    emailServiceProvider,    
+    emailServiceProvider,
   ]
 })
 
-export class EmailModule {}
+export class EmailModule { }
