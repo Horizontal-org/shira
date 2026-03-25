@@ -8,19 +8,22 @@ type QuizFlowMode = "create" | "duplicate" | null;
 type QuizFlowStep = 0 | 1 | 2;
 
 interface UseQuizCreationFlowParams {
-  createQuiz: (title: string, visibility: string) => void;
+  createQuiz: (name: string, visibility: string) => void;
   fetchQuizzes: () => Promise<void>;
   t: (key: string, options?: any) => string;
 }
 
-export const useQuizCreationFlow = ({ createQuiz, fetchQuizzes, t }: UseQuizCreationFlowParams) => {
+export const useQuizCreationFlow = ({
+  createQuiz,
+  fetchQuizzes,
+  t,
+}: UseQuizCreationFlowParams) => {
   const [mode, setMode] = useState<QuizFlowMode>(null);
   const [step, setStep] = useState<QuizFlowStep>(1);
   const [title, setTitle] = useState("");
 
   const [selectedQuizForDuplicate, setSelectedQuizForDuplicate] = useState<Quiz | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const [submittingQuizId, setSubmittingQuizId] = useState<number | null>(null);
 
   const reset = () => {
@@ -42,8 +45,9 @@ export const useQuizCreationFlow = ({ createQuiz, fetchQuizzes, t }: UseQuizCrea
     setSelectedQuizForDuplicate(quiz);
   };
 
-  const handleTitleSubmit = (newTitle: string) => {
-    if (!hasRequiredValue(newTitle)) return;
+  const moveToVisibilityStep = (newTitle: string) => {
+    if (!hasRequiredValue(newTitle)) { return; }
+
     setTitle(newTitle);
     setStep(2);
   };
@@ -57,7 +61,7 @@ export const useQuizCreationFlow = ({ createQuiz, fetchQuizzes, t }: UseQuizCrea
 
     if (mode === "create") {
       setStep(0);
-      await createQuiz(title.trim(), visibility);
+      createQuiz(title.trim(), visibility);
       reset();
       return;
     }
@@ -77,7 +81,7 @@ export const useQuizCreationFlow = ({ createQuiz, fetchQuizzes, t }: UseQuizCrea
         });
 
         await fetchQuizzes();
-      } catch (error) {
+      } catch {
         toast.error(t("error_messages.duplicate_quiz_fail"), { duration: 3000 });
       } finally {
         setIsSubmitting(false);
@@ -105,7 +109,7 @@ export const useQuizCreationFlow = ({ createQuiz, fetchQuizzes, t }: UseQuizCrea
 
     startCreateQuizFlow,
     startDuplicateQuizFlow,
-    handleTitleSubmit,
+    moveToVisibilityStep,
     handleBackFromVisibility,
     handleConfirmVisibility,
     cancelFlow,
