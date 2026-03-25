@@ -6,20 +6,24 @@ import { OrganizationEntity } from '../organization/domain/organization.entity';
 import { OrganizationSubscriptionsEntity } from '../organization/domain/organization_subscriptions.entity';
 import { billingControllers } from './controller';
 import { servicesBillingProviders } from './billing.providers';
+import { redisProvider } from './providers/redis.provider';
 @Module({
-    imports: [
-        TypeOrmModule.forFeature([
-            PlanEntity,
-            SubscriptionEntity,
-            OrganizationEntity,
-            OrganizationSubscriptionsEntity
-        ])
-    ],
-    controllers: [...billingControllers],
-    providers: [...servicesBillingProviders],
-    exports: [
-        ...servicesBillingProviders,
-        TypeOrmModule
-    ]
+  imports: [
+    TypeOrmModule.forFeature([
+      PlanEntity,
+      SubscriptionEntity,
+      OrganizationEntity,
+      OrganizationSubscriptionsEntity
+    ])
+  ],
+  controllers: [...billingControllers],
+  providers: [
+    ...servicesBillingProviders,
+    redisProvider,
+  ],
+  exports: [
+    ...servicesBillingProviders,
+    TypeOrmModule
+  ]
 })
-export class BillingModule {}
+export class BillingModule { }
