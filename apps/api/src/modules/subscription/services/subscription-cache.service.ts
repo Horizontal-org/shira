@@ -83,9 +83,6 @@ export class SubscriptionCacheService implements ISubscriptionCacheService {
     return {
       organizationId,
       status: String(subscription.status || "unknown"),
-      stripeCustomerId: subscription.stripeCustomerId
-        ? String(subscription.stripeCustomerId)
-        : null,
       createdAt: subscription.createdAt
         ? String(subscription.createdAt)
         : null,
@@ -109,7 +106,6 @@ export class SubscriptionCacheService implements ISubscriptionCacheService {
         return {
           organizationId,
           status: "unknown",
-          stripeCustomerId: null,
           createdAt: null,
         };
       }
