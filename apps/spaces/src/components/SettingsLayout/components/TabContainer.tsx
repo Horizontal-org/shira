@@ -24,7 +24,8 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   const { t } = useTranslation();
   const theme = useTheme();
   const [activeTab, setActiveTab] = useState<TabType>("account");
-  const currentPlanName = subscription?.planName ?? 'Starter';
+  const subscriptionStatus = String(subscription?.status ?? "unknown").toLowerCase();
+  const currentPlanName = subscriptionStatus === "active" ? "Pro" : "Starter";
 
   const subscriptionActionText = currentPlanName === 'Starter'
     ? t('settings.subscription.upgrade')
