@@ -3,5 +3,4 @@ export type CachedSubscription = {
   status: string
   stripeCustomerId: string | null
   createdAt: string | null
-  source: 'payments-api'
 }

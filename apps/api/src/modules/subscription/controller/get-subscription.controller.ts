@@ -19,8 +19,6 @@ export class GetSubscriptionController {
   async handler(
     @LoggedUser() user: LoggedUserDto,
   ) {
-    const subscription = await this.subscriptionCacheService.getCurrentSubscription(user.activeOrganization.id + '');
-
-    return { subscription };
+    return await this.subscriptionCacheService.getCurrentSubscription(user.activeOrganization.id.toString());
   }
 }

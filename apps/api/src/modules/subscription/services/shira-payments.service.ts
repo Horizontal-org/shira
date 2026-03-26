@@ -1,8 +1,6 @@
 import {
   Inject,
   Injectable,
-  InternalServerErrorException,
-  ServiceUnavailableException,
 } from "@nestjs/common";
 import { randomUUID } from "crypto";
 import { IShiraPaymentsService } from "../interfaces/services/shira-payments.service.interface";
@@ -22,7 +20,7 @@ export class ShiraPaymentsService implements IShiraPaymentsService {
       body: JSON.stringify({ organizationId: orgId }),
     }, orgId);
   }
-  
+
   async manageSubscription(organizationId: string) {
     return this.request<{ url: string }>(`/subscriptions/manage/${organizationId}`, {
       method: 'POST',
@@ -32,7 +30,7 @@ export class ShiraPaymentsService implements IShiraPaymentsService {
   async getSubscription(organizationId: string) {
     return this.request<{ subscription: Record<string, unknown> }>(
       `/subscriptions/${organizationId}`,
-      undefined,
+      { method: 'GET' },
       organizationId,
     );
   }
@@ -44,7 +42,7 @@ export class ShiraPaymentsService implements IShiraPaymentsService {
   ): Promise<T> {
     const baseUrl = process.env.SHIRA_PAYMENTS_URL;
     const apiKey = process.env.INTERNAL_SHIRA_API_KEY;
-    const trimmedBaseUrl = baseUrl?.trim();
+    const trimmedBaseUrl = baseUrl?.trim() ?? '';
     const method = init?.method ?? 'GET';
     const requestId = randomUUID();
 
@@ -59,48 +57,26 @@ export class ShiraPaymentsService implements IShiraPaymentsService {
 
     this.logger.started(logContext);
 
-    try {
-      const response = await fetch(url, {
-        ...init,
-        headers: {
-          'content-type': 'application/json',
-          'x-request-id': requestId,
-          'x-internal-shira-key': apiKey,
-          ...(init?.headers ?? {}),
-        },
-      });
+    const response = await fetch(url, {
+      ...init,
+      headers: {
+        'content-type': 'application/json',
+        'x-request-id': requestId,
+        'x-internal-shira-key': apiKey,
+        ...(init?.headers ?? {}),
+      },
+    });
 
-      const duration = Date.now() - startedAt;
+    const duration = Date.now() - startedAt;
 
-      if (!response.ok) {
-        const message = await response.text();
-        this.logger.failed(logContext, response.status, duration, message);
-        throw new InternalServerErrorException(
-          `Shira Payments API request failed with ${response.status}: ${message}`,
-        );
-      }
-
-      this.logger.succeeded(logContext, response.status, duration);
-
-      return response.json();
-    } catch (error) {
-      if (error instanceof InternalServerErrorException || error instanceof ServiceUnavailableException) {
-        throw error;
-      }
-
-      const duration = Date.now() - startedAt;
-      const message = error instanceof Error ? error.message : String(error);
-
-      this.logger.requestError(
-        logContext,
-        duration,
-        message,
-        error instanceof Error ? error.stack : undefined,
-      );
-
-      throw new InternalServerErrorException(
-        `Shira Payments API request error: ${message}`,
-      );
+    if (!response.ok) {
+      const message = await response.text();
+      this.logger.failed(logContext, response.status, duration, message);
+      throw new Error(message);
     }
+
+    this.logger.succeeded(logContext, response.status, duration);
+
+    return response.json();
   }
 }
