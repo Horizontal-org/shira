@@ -37,6 +37,12 @@ export class ShiraPaymentsService implements IShiraPaymentsService {
     );
   }
 
+  async recordUsage(organizationId: string): Promise<void> {
+    await this.request<{ url: string }>(`/subscriptions/manage/${organizationId}`, {
+      method: 'POST',
+    }, organizationId);
+  }
+
   private async request<T>(
     path: string,
     init?: RequestInit,

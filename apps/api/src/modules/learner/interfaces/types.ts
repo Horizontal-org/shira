@@ -9,7 +9,8 @@ export const TYPES = {
     IGetLearnerQuizService: 'IGetLearnerQuizService',
     IGetLearnerService: 'IGetLearnerService',
     IGetAssignedLearnerService: 'IGetAssignedLearnerService',
-    IGetUnassignedLearnerService: 'IGetUnassignedLearnerService'
+    IGetUnassignedLearnerService: 'IGetUnassignedLearnerService',
+    IValidateLearnerQuizService: 'IValidateLearnerQuizService'
   },
   parsers: {
     IBulkInviteParsers: 'IBulkInviteParsers',
