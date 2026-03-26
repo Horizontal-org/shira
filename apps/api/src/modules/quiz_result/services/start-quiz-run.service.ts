@@ -9,7 +9,6 @@ import { Queue } from 'bullmq';
 import { LearnerQuiz } from 'src/modules/learner/domain/learners_quizzes.entity';
 import { TYPES as LEARNER_TYPES } from '../../learner/interfaces'
 import { IValidateLearnerQuizService } from 'src/modules/learner/interfaces/services/validate.learner-quiz.service.interface';
-import { SpaceEntity } from 'src/modules/space/domain/space.entity';
 
 @Injectable()
 export class StartQuizRunService {
@@ -18,8 +17,6 @@ export class StartQuizRunService {
     private readonly quizRunRepo: Repository<QuizRun>,
     @InjectRepository(Quiz)
     private readonly quizRepo: Repository<Quiz>,
-    @InjectRepository(SpaceEntity)
-    private readonly spaceRepo: Repository<SpaceEntity>,
     @InjectQueue("payments")
     private readonly paymentsQueue: Queue,
     @Inject(LEARNER_TYPES.services.IValidateLearnerQuizService)
@@ -35,12 +32,11 @@ export class StartQuizRunService {
     }
 
     if (dto.learnerId) {
-      // check learner_quiz ? 
+      // check learner_quiz
       const learnerQuiz = await this.validateLearnerQuiz.execute(quizIdNum, dto.learnerId)
       const orgId = await this.getOrgByLearnerQuiz(learnerQuiz)
       // record sub usage  
-      // this.paymentsQueue.add('record-usage', orgId)
-
+      this.paymentsQueue.add('record-usage', orgId + '')
     }  
 
     const run = this.quizRunRepo.create({
@@ -52,12 +48,12 @@ export class StartQuizRunService {
     return this.quizRunRepo.save(run);
   }
 
-  private  getOrgByLearnerQuiz = async (learnerQuiz: LearnerQuiz) => {
-    console.log("🚀 ~ StartQuizRunService ~ learnerQuiz:", learnerQuiz)
-    
-    // const space = await this.spaceRepo.findOneOrFail({
-    //   where: { id: learnerQuiz.quiz. }
-    //   relations: ['quiz', 'learner']
-    // })
+  private  getOrgByLearnerQuiz = async (learnerQuiz: LearnerQuiz) => {    
+    const quiz = await this.quizRepo.findOneOrFail({
+      where: { id: learnerQuiz.quiz.id },
+      relations: ['space']
+    })
+
+    return quiz.space.organizationId
   }
 }

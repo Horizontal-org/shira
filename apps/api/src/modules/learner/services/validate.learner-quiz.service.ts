@@ -30,10 +30,8 @@ export class ValidateLearnerQuizService implements IValidateLearnerQuizService {
       throw new GenericErrorException();
     }
 
-    this.logger.log(`Retrieved learner quiz with ID: ${learnerQuiz.id}
-      for learner ID: ${learnerQuiz.learner.id}`)
-
-
+    this.logger.log(`Retrieved learner quiz with ID: ${learnerQuiz.id}`)
+    
     return learnerQuiz
   }
 }
