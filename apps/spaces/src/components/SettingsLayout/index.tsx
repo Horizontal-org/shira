@@ -29,10 +29,13 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
 
   const {
     currentEmail: email,
-    lastPasswordChangeAt } = useStore((state) => ({
-      currentEmail: state.user?.email,
-      lastPasswordChangeAt: state.user?.lastPasswordChangeAt,
-    }), shallow);
+    lastPasswordChangeAt,
+    subscription
+  } = useStore((state) => ({
+    currentEmail: state.user?.email,
+    lastPasswordChangeAt: state.user?.lastPasswordChangeAt,
+    subscription: state.subscription
+  }), shallow);
 
   const getLastPasswordUpdateDate = useCallback((lastUpdate?: string | null) => {
     if (!lastUpdate) {
@@ -94,6 +97,7 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
           <TabContainer
             email={email}
             lastPasswordUpdateText={getLastPasswordUpdateDate(lastPasswordChangeAt)}
+            subscription={subscription}
             onChangeEmail={() => setIsEmailModalOpen(true)}
             onChangePassword={() => setIsPasswordModalOpen(true)}
             onViewPlans={() => setIsViewPlansModalOpen(true)}

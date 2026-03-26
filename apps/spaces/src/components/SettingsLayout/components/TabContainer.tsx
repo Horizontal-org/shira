@@ -6,6 +6,7 @@ type TabType = "account" | "subscription";
 
 interface TabContainerProps {
   email?: string;
+  subscription?: any;
   lastPasswordUpdateText: string;
   onChangeEmail: () => void;
   onChangePassword: () => void;
@@ -14,6 +15,7 @@ interface TabContainerProps {
 
 export const TabContainer: FunctionComponent<TabContainerProps> = ({
   email,
+  subscription,
   lastPasswordUpdateText,
   onChangeEmail,
   onChangePassword,
@@ -22,7 +24,8 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   const { t } = useTranslation();
   const theme = useTheme();
   const [activeTab, setActiveTab] = useState<TabType>("account");
-  const currentPlanName = 'Starter';
+  const currentPlanName = subscription?.planName ?? 'Starter';
+
   const subscriptionActionText = currentPlanName === 'Starter'
     ? t('settings.subscription.upgrade')
     : t('settings.subscription.manage_plan');
