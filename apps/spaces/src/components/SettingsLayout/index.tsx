@@ -1,5 +1,5 @@
 import { FunctionComponent, useCallback, useState } from "react";
-import { BetaBanner, Body1, Body1SemiBold, Body2Italic, Body2Regular, Button, H2, Sidebar, styled, useAdminSidebar } from '@shira/ui';
+import { BetaBanner, Body1, H2, Sidebar, styled, useAdminSidebar } from '@shira/ui';
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useStore } from "../../store";
@@ -7,11 +7,13 @@ import { shallow } from "zustand/shallow";
 import { ChangeEmailModal } from "../modals/ChangeEmailModal";
 import { ChangeEmailSuccessModal } from "../modals/ChangeEmailSuccessModal";
 import { ChangePasswordModal } from "../modals/ChangePasswordModal";
+import { ViewPlansModal } from "../modals/ViewPlansModal";
 import { getCurrentDateFNSLocales } from "../../language/dateUtils";
 import i18n from "../../language/i18n";
 import { enUS } from "date-fns/locale";
 import { format, isValid } from "date-fns";
 import { requestChangeUserEmail, changeUserPassword } from "../../fetch/user";
+import { TabContainer } from "./components/TabContainer";
 
 interface Props { }
 
@@ -23,6 +25,7 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [isEmailSuccessModalOpen, setIsEmailSuccessModalOpen] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [isViewPlansModalOpen, setIsViewPlansModalOpen] = useState(false);
 
   const {
     currentEmail: email,
@@ -88,37 +91,13 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
             </TextContainer>
           </HeaderContainer>
 
-          <SettingsCard>
-
-            <SettingRow key={t('settings.sections.email.title')}>
-              <SettingDetails>
-                <Body1SemiBold>{t('settings.sections.email.title')}</Body1SemiBold>
-                <Body2Regular>{email}</Body2Regular>
-              </SettingDetails>
-
-              <ActionButton
-                type="outline"
-                text={t('settings.sections.email.action')}
-                onClick={() => setIsEmailModalOpen(true)}
-              />
-            </SettingRow>
-
-            <Divider />
-
-            <SettingRow key={t('settings.sections.password.title')}>
-              <SettingDetails>
-                <Body1SemiBold>{t('settings.sections.password.title')}</Body1SemiBold>
-                <MutedValue>{getLastPasswordUpdateDate(lastPasswordChangeAt)}</MutedValue>
-              </SettingDetails>
-
-              <ActionButton
-                type="outline"
-                text={t('settings.sections.password.action')}
-                onClick={() => setIsPasswordModalOpen(true)}
-              />
-            </SettingRow>
-
-          </SettingsCard>
+          <TabContainer
+            email={email}
+            lastPasswordUpdateText={getLastPasswordUpdateDate(lastPasswordChangeAt)}
+            onChangeEmail={() => setIsEmailModalOpen(true)}
+            onChangePassword={() => setIsPasswordModalOpen(true)}
+            onViewPlans={() => setIsViewPlansModalOpen(true)}
+          />
         </MainContentWrapper>
       </MainContent>
 
@@ -137,6 +116,11 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
         isModalOpen={isPasswordModalOpen}
         setIsModalOpen={setIsPasswordModalOpen}
         onSave={updateUserPassword}
+      />
+
+      <ViewPlansModal
+        isModalOpen={isViewPlansModalOpen}
+        onClose={() => setIsViewPlansModalOpen(false)}
       />
     </Container >
   );
@@ -182,67 +166,7 @@ const HeaderContainer = styled.div`
 `;
 
 const TextContainer = styled.div`
-  padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-`;
-
-const SettingsCard = styled.section`
-  background: ${props => props.theme.colors.light.white};
-  border-radius: 32px;
-  padding: 8px 42px;
-  max-width: 1280px;
-
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
-    padding: 8px 24px;
-  }
-
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    border-radius: 24px;
-    padding: 8px 20px;
-  }
-`;
-
-const SettingRow = styled.div`
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 24px;
-  align-items: center;
-  padding: 20px 0;
-
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-`;
-
-const SettingDetails = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-`;
-
-const MutedValue = styled(Body2Italic)`
-  color: ${props => props.theme.colors.dark.darkGrey};
-`;
-
-const ActionButton = styled(Button)`
-  justify-content: center;
-  font-size: 16px;
-  line-height: 1.4;
-  padding: 16px 24px;
-
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    min-width: 100%;
-  }
-`;
-
-const Divider = styled.div`
-  width: 100%;
-  height: 1px;
-  background: ${props => props.theme.colors.dark.lightGrey};
-  margin: 4px 0;
 `;
