@@ -21,36 +21,36 @@
             "title": "你使用哪些应用？",
             "select": "至少选择 1 个",
             "footer_title": "测验设置",
-            "back_button": "上一步",
+            "back_button": "返回",
             "next_button": "下一步"
         },
         "fields_of_work": {
             "title": "哪些领域和你有关？",
-            "select": "最多选择 3 个项目",
+            "select": "最多选择 3 项",
             "footer_title": "测验设置",
-            "back_button": "上一个",
+            "back_button": "返回",
             "next_button": "开始测验",
             "items": {
-                "human-rights": "Human rights",
-                "journalism-and-media": "Journalism and media",
-                "education": "Academia",
-                "marketing": "Marketing",
-                "healthcare": "Healthcare",
-                "general": "General",
-                "activist": "Activist",
-                "human-resources": "Human resources"
+                "human-rights": "人权",
+                "journalism-and-media": "新闻和媒体",
+                "education": "学术",
+                "marketing": "市场营销",
+                "healthcare": "健康医疗",
+                "general": "常规",
+                "activist": "活动人士",
+                "human-resources": "人力资源"
             }
         }
     },
     "quiz": {
         "how_it_works": {
-            "title": "如何进行",
-            "question_count": "本测验包括 {{ count }} 个问题。",
-            "explanation_1": "本测验包括 10 个问题。",
-            "explanation_2": "对于每个问题，选择看起来是网络钓鱼或真实的。",
+            "title": "使用说明",
+            "question_count": "本测验包含 {{count}} 道题",
+            "explanation_1": "本测验包含 10 道题。",
+            "explanation_2": "对于每道题，请判断所展示的信息是钓鱼内容还是正常信息。",
             "explanation_3": "如果不确定，可以选择“不确定”这个选项。",
             "footer_title": "测验简介",
-            "next": "确定"
+            "next": "好的"
         },
         "answers": {
             "options": {
@@ -60,29 +60,29 @@
             },
             "results": {
                 "unsure": "“不确定”",
-                "correct": "干得不错！",
+                "correct": "做得不错！",
                 "incorrect": "错误",
                 "next_button": "下一个",
-                "back_button": "上一个",
-                "next_question": "Next Question",
-                "see_why": "See why",
+                "back_button": "返回",
+                "next_question": "下一题",
+                "see_why": "查看原因",
                 "bottom-bar_looks-legit": "该信息不像是网络钓鱼。",
                 "bottom-bar_looks-like-phishing": "某些内容表明，该消息可能是网络钓鱼。"
             }
         },
         "exit": {
-            "title": "Exit quiz?",
-            "action_description": "Exit quiz",
-            "description": "Are you sure you want to exit the quiz? Your progress will not be saved.",
-            "cancel": "Cancel"
+            "title": "退出测验？",
+            "action_description": "退出测验",
+            "description": "确定要退出测验吗？你的进度不会被保存。",
+            "cancel": "取消"
         }
     },
     "feedback": {
         "title": "帮助我们改进",
-        "subtitle": "在显示测验结果之前，请进行评价，以便帮助我们进行改进。",
+        "subtitle": "在查看测验结果之前，请告诉我们你的看法，帮助我们进行改进。",
         "box": {
             "question_1": {
-                "title": "1. Shira 使用起来有多简单？",
+                "title": "1. Shira 使用起来是否容易？",
                 "very_complicated": "非常复杂",
                 "complicated": "复杂",
                 "easy": "简单",
@@ -90,46 +90,46 @@
             },
             "question_2": {
                 "title": "2. 是否推荐 Shira 给朋友或同事？",
-                "not_likely": "不可能",
-                "somewhat_likely": "有一些可能",
-                "likely": "可能",
+                "not_likely": "不太可能",
+                "somewhat_likely": "有一定可能",
+                "likely": "比较可能",
                 "very_likely": "非常可能"
             },
             "question_3": {
                 "title": "3. 如何改进 Shira？",
-                "input_placeholder": "在这里写下您的反馈"
+                "input_placeholder": "在这里写下你的反馈"
             },
             "bottom_text": "点击“查看结果”之后将发送反馈"
         },
-        "footer_title": "完成了！继续查看测验结果和后续步骤。",
+        "footer_title": "马上就完成了！继续查看测验结果和推荐的后续步骤。",
         "next_button": "查看结果"
     },
     "completed": {
         "title": "测验完成",
-        "subtitle": "参加新的测验或查看下面的建议，以继续加强技能，从而更好地抵御网络钓鱼。",
+        "subtitle": "开始新的测验，或查看下方推荐内容，继续提升你的识别能力，避免钓鱼攻击。",
         "back_button": "返回首页",
         "next_button": "新测验",
-        "heavy_subtitle_1": "您正确回答了 ",
-        "heavy_subtitle_2": "{{correctQuestions}} 个问题，共 {{questions}}",
-        "heavy_subtitle_3": " 个问题。",
-        "greeting_title": "Thanks for using Shira!"
+        "heavy_subtitle_1": "你答对了 ",
+        "heavy_subtitle_2": "{{correctQuestions}} 道题目，共 {{questions}} 道 ",
+        "heavy_subtitle_3": "题目。",
+        "greeting_title": "感谢使用 Shira！"
     },
     "about": {
-        "title": "关于 Shira",
-        "subtitle": "Shira 帮助用户培养这样的技能：识别并抵御电子邮件和通讯应用程序上网络钓鱼攻击。",
+        "title": "关于",
+        "subtitle": "Shira 帮助培养用户的技能：识别并抵御电子邮件和通讯应用程序中的网络钓鱼攻击。",
         "why_shira": {
             "title": "为什么选择 Shira？",
             "option_1": {
-                "title": "1. 使用简单",
-                "description": "在开发 Shira 时，我们考虑到了最容易受到网络钓鱼攻击的社区，尤其是技术素养有限的用户。"
+                "title": "1. 易于使用",
+                "description": "Shira 在设计时重点考虑了最容易遭受钓鱼攻击的人群，尤其是技术素养有限的用户。"
             },
             "option_2": {
-                "title": "2. 可定制",
-                "description": "为了模拟日常生活中用户面临的实际的或潜在的网络钓鱼攻击，我们尽可能使网络钓鱼信息看似真实。"
+                "title": "2. 可定制 ",
+                "description": "我们尽可能让钓鱼信息看起来真实，模拟用户在日常生活中实际会遇到的攻击场景。"
             },
             "option_3": {
                 "title": "3. 保护隐私",
-                "description": "有关用户访问 Shira 或参加测验的任何数据，我们不进行收集、保持或共享。想要了解更多信息，请查看我们的隐私政策和安全审计，其中最近的安全审计由一家独立安全公司执行。"
+                "description": "我们不会收集、保存或分享任何访问或参与测验用户的数据。如需更多信息，请查看隐私政策及独立安全审计报告。"
             },
             "privacy_policy_cta": "隐私政策",
             "security_audit_cta": "安全审计"
