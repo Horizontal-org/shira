@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Post, Res, UnauthorizedException, UseGuards } from '@nestjs/common';
+import { Get, Inject, UseGuards } from '@nestjs/common';
 
 import {
   TYPES,

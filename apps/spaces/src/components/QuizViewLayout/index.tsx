@@ -50,6 +50,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     deleteQuiz,
     quizActionSuccess,
     cleanQuizActionSuccess,
+    validateQuizName,
     reorderQuiz,
     createQuiz,
     fetchQuizzes
@@ -59,6 +60,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     reorderQuiz: state.reorderQuiz,
     quizActionSuccess: state.quizActionSuccess,
     cleanQuizActionSuccess: state.cleanQuizActionSuccess,
+    validateQuizName: state.validateQuizName,
     createQuiz: state.createQuiz,
     fetchQuizzes: state.fetchQuizzes,
   }), shallow)
@@ -71,6 +73,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
+
   const [isUnpublishedQuizModalOpen, setIsUnpublishedQuizModalOpen] = useState(false);
   const [isUnpublishQuizModalOpen, setIsUnpublishQuizModalOpen] = useState(false);
   const [showPublishTooltip, setShowPublishTooltip] = useState(false);
@@ -78,14 +81,12 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
 
   const { destroy } = useQuestionCRUD()
   const {
-    title,
-    setTitle,
     selectedQuizForDuplicate,
     isSubmitting,
     isDuplicateTitleModalOpen,
     isVisibilityModalOpen,
     startDuplicateQuizFlow,
-    handleTitleSubmit,
+    moveToVisibilityStep,
     handleBackFromVisibility,
     handleConfirmVisibility,
     cancelFlow
@@ -129,7 +130,6 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
       fetchResults()
     }
   }, [quiz])
-  // fetchResults();
 
   useEffect(() => {
     // test date zones
@@ -405,11 +405,12 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
               <RenameQuizModal
                 quiz={quiz}
                 setIsModalOpen={setIsRenameModalOpen}
-                onRename={(title) => {
+                validateQuizName={validateQuizName}
+                onRename={(newTitle) => {
                   updateQuiz({
                     id: quiz.id,
-                    title
-                  })
+                    title: newTitle,
+                  });
                 }}
                 onCancel={() => {
                   setIsRenameModalOpen(false)
@@ -420,10 +421,11 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
               <DuplicateQuizModal
                 quiz={selectedQuizForDuplicate}
                 isModalOpen={isDuplicateTitleModalOpen}
-                title={title}
-                setTitle={setTitle}
-                onDuplicate={(newTitle) => { handleTitleSubmit(newTitle); }}
-                onCancel={() => { cancelFlow(); }}
+                validateQuizName={validateQuizName}
+                onDuplicate={moveToVisibilityStep}
+                onCancel={() => {
+                  cancelFlow();
+                }}
                 isLoading={isSubmitting}
               />
 

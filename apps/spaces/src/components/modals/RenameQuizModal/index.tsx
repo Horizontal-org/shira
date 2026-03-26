@@ -1,15 +1,17 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { Modal, TextInput } from "@shira/ui";
+import { Modal, TextInput, defaultTheme } from "@shira/ui";
 import styled from "styled-components";
 
 import { Quiz } from "../../../store/slices/quiz";
 import { useTranslation } from "react-i18next";
 import { hasRequiredValue } from "../../../utils/validation";
+import { useTitleUpdate } from "../../../hooks/useTitleUpdate";
 
 interface Props {
   quiz: Quiz;
   isModalOpen: boolean;
   setIsModalOpen: (handle: boolean) => void;
+  validateQuizName: (name: string) => Promise<void>;
   onRename: (title: string) => void;
   onCancel: () => void;
 }
@@ -18,18 +20,36 @@ export const RenameQuizModal: FunctionComponent<Props> = ({
   quiz,
   isModalOpen,
   setIsModalOpen,
+  validateQuizName,
   onRename,
-  onCancel
+  onCancel,
 }) => {
-
   const { t } = useTranslation();
-  const [title, handleTitle] = useState('')
+  const [title, setTitle] = useState("");
+  const {
+    isValidatingTitle,
+    titleError,
+    clearTitleValidation,
+    handleTitleChange,
+    handleTitleSubmit,
+  } = useTitleUpdate({
+    setTitle,
+    validateQuizName,
+    onValidTitle: (newTitle) => {
+      setIsModalOpen(false);
+      onRename(newTitle);
+    },
+    shouldValidateTitle: (trimmedTitle) => trimmedTitle !== quiz.title.trim(),
+  });
+  const trimmedTitle = title.trim();
+  const hasError = Boolean(titleError);
 
   useEffect(() => {
-    if (quiz) {
-      handleTitle(quiz.title)
+    if (quiz && isModalOpen) {
+      setTitle(quiz.title);
+      clearTitleValidation();
     }
-  }, [quiz])
+  }, [quiz, isModalOpen]);
 
   return quiz && (
     <Modal
@@ -38,15 +58,14 @@ export const RenameQuizModal: FunctionComponent<Props> = ({
       title={t('modals.rename_quiz.title')}
       primaryButtonText={t('buttons.save')}
       secondaryButtonText={t('buttons.cancel')}
-      primaryButtonDisabled={!hasRequiredValue(title)}
+      primaryButtonDisabled={!hasRequiredValue(trimmedTitle) || isValidatingTitle || hasError}
       onPrimaryClick={() => {
-        if (!hasRequiredValue(title)) { return; }
-        setIsModalOpen(false);
-        onRename(title);
-        handleTitle('');
+        if (!hasRequiredValue(trimmedTitle) || isValidatingTitle || hasError) { return; }
+        handleTitleSubmit(title);
       }}
       onSecondaryClick={() => {
-        handleTitle('');
+        clearTitleValidation();
+        setTitle("");
         onCancel();
       }}
     >
@@ -55,8 +74,12 @@ export const RenameQuizModal: FunctionComponent<Props> = ({
           id="rename-quiz-input"
           label={t('modals.rename_quiz.input_placeholder')}
           value={title}
-          onChange={(e) => handleTitle(e.target.value)}
+          onChange={(e) => handleTitleChange(e.target.value)}
+          isLoading={isValidatingTitle}
         />
+        <ErrorContainer role="alert" aria-live="polite">
+          {hasError && <ErrorText>{t(titleError)}</ErrorText>}
+        </ErrorContainer>
       </FormContent>
     </Modal>
   )
@@ -65,4 +88,16 @@ export const RenameQuizModal: FunctionComponent<Props> = ({
 const FormContent = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+const ErrorContainer = styled.div`
+  min-height: 32px;
+  padding: 0 10px;
+`;
+
+const ErrorText = styled.p`
+  color: ${defaultTheme.colors.error7};
+  margin: 0;
+  padding: 4px 10px;
+  font-size: 14px;
 `;

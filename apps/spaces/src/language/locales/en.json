@@ -575,6 +575,7 @@
     },
     "error_messages": {
         "duplicate_quiz_fail": "Failed to duplicate quiz",
+        "quiz_name_already_exists": "Quiz name taken. Please use a different one.",
         "duplicate_question_fail": "Failed to duplicate question",
         "add_question_error": "Error adding question",
         "results_load_failed": "Failed to load results",
@@ -595,6 +596,9 @@
         "email_already_taken": "The email address is already taken.",
         "invite_org_failed": "There was a problem creating your space. If this issue persists, <1>contact us</1>.",
         "email_no_match": "The email address does not match the invitation.",
+        "image_too_large": "Image size exceeds {{size}}MB. Please try again with a smaller image.",
+        "image_type_unsupported": "File type not supported.  Please make sure your image is a JPEG, PNG, GIF or WebP.",
+        "image_upload_failed": "There was a problem with uploading your image. Please try again.",
         "reset_password_confirmation_mismatch": "Password confirmation does not match.",
         "reset_password_weak": "Password must be at least 8 characters.",
         "current_password_incorrect": "Incorrect password.",

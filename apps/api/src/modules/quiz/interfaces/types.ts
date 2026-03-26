@@ -13,6 +13,7 @@ export const TYPES = {
     IReorderQuestionQuizService: 'IReorderQuestionQuizService',
     IDuplicateQuestionQuizService: 'IDuplicateQuestionQuizService',
     IDuplicateQuizService: 'IDuplicateQuizService',
-    ISharedQuestionDuplicationService: 'ISharedQuestionDuplicationService'
+    ISharedQuestionDuplicationService: 'ISharedQuestionDuplicationService',
+    IValidateQuizNameService: 'IValidateQuizNameService',
   },
 };

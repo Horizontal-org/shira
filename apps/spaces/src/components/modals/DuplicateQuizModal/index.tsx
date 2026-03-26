@@ -1,14 +1,14 @@
-import { FunctionComponent, useEffect } from "react";
-import { Body1, Modal, styled, TextInput } from "@shira/ui";
+import { FunctionComponent, useEffect, useState } from "react";
+import { Body1, Modal, defaultTheme, styled, TextInput } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 import { Quiz } from "../../../store/slices/quiz";
 import { hasRequiredValue } from "../../../utils/validation";
+import { useTitleUpdate } from "../../../hooks/useTitleUpdate";
 
 interface Props {
-  quiz: Quiz;
+  quiz: Quiz | null;
   isModalOpen: boolean;
-  title: string;
-  setTitle: (title: string) => void;
+  validateQuizName: (name: string) => Promise<void>;
   onDuplicate: (title: string) => void;
   onCancel: () => void;
   isLoading?: boolean;
@@ -17,19 +17,32 @@ interface Props {
 export const DuplicateQuizModal: FunctionComponent<Props> = ({
   quiz,
   isModalOpen,
-  title,
-  setTitle,
+  validateQuizName,
   onDuplicate,
   onCancel,
   isLoading = false,
 }) => {
   const { t } = useTranslation();
+  const [title, setTitle] = useState("");
+  const {
+    isValidatingTitle,
+    titleError,
+    clearTitleValidation,
+    handleTitleChange,
+    handleTitleSubmit,
+  } = useTitleUpdate({
+    setTitle,
+    validateQuizName,
+    onValidTitle: onDuplicate,
+  });
+  const hasError = Boolean(titleError);
 
   useEffect(() => {
-    if (quiz) {
+    if (quiz && isModalOpen) {
       setTitle(`Copy of ${quiz.title}`);
+      clearTitleValidation();
     }
-  }, [quiz]);
+  }, [quiz, isModalOpen]);
 
   if (!quiz) {
     return null;
@@ -40,14 +53,15 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
       id="duplicate-quiz-modal"
       isOpen={isModalOpen}
       title={t('modals.duplicate_quiz.title')}
-      primaryButtonText={isLoading ? t('loading_messages.creating') : t('buttons.next')}
-      primaryButtonDisabled={!hasRequiredValue(title) || isLoading}
+      primaryButtonText={t('buttons.next')}
+      primaryButtonDisabled={!hasRequiredValue(title) || isLoading || isValidatingTitle || hasError}
       secondaryButtonText={t('buttons.back')}
       onPrimaryClick={() => {
-        if (!hasRequiredValue(title)) { return; }
-        onDuplicate(title);
+        if (!hasRequiredValue(title) || isLoading || isValidatingTitle || hasError) { return; }
+        handleTitleSubmit(title);
       }}
       onSecondaryClick={() => {
+        clearTitleValidation();
         onCancel();
       }}
     >
@@ -61,8 +75,12 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
           label="Quiz name"
           placeholder={t('modals.duplicate_quiz.quiz_name_placeholder', { quiz_name: quiz.title })}
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) => handleTitleChange(e.target.value)}
+          isLoading={isLoading || isValidatingTitle}
         />
+        <ErrorContainer role="alert" aria-live="polite">
+          {hasError && <ErrorText>{t(titleError)}</ErrorText>}
+        </ErrorContainer>
       </FormContent>
     </Modal>
   );
@@ -76,4 +94,16 @@ const FormContent = styled.div`
 
 const Description = styled(Body1)`
   padding-bottom: 16px;
+`;
+
+const ErrorContainer = styled.div`
+  min-height: 32px;
+  padding: 0 10px;
+`;
+
+const ErrorText = styled.p`
+  color: ${defaultTheme.colors.error7};
+  margin: 0;
+  padding: 4px 10px;
+  font-size: 14px;
 `;

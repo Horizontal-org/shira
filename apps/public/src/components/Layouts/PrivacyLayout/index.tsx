@@ -1,4 +1,4 @@
-import { FunctionComponent, useRef } from "react";
+import { FunctionComponent } from "react";
 import { styled } from '@shira/ui'
 import { Navbar } from "../../UI/Navbar";
 import { SceneWrapper } from "../../UI/SceneWrapper";

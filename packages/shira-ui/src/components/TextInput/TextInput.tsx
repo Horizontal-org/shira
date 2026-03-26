@@ -1,6 +1,7 @@
 import { ChangeEventHandler, useState, forwardRef } from "react";
 import styled from 'styled-components';
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import { LoadingIcon } from "../LoadingIcon";
 
 export interface Props {
     placeholder?: string;
@@ -8,12 +9,13 @@ export interface Props {
     value: string;
     label?: string;
     disabled?: boolean;
+    isLoading?: boolean;
     type?: 'text' | 'password' | 'email';
     required?: boolean;
-    onBlur?: React.FocusEventHandler<HTMLInputElement>
-    onFocus?: React.FocusEventHandler<HTMLInputElement>
-    id?: string
-    name?: string
+    onBlur?: React.FocusEventHandler<HTMLInputElement>;
+    onFocus?: React.FocusEventHandler<HTMLInputElement>;
+    id?: string;
+    name?: string;
 }
 
 export const TextInput = forwardRef<HTMLInputElement, Props>(({
@@ -27,7 +29,8 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(({
     id,
     disabled = false,
     type = 'text',
-    required = false
+    required = false,
+    isLoading = false
 }, ref) => {
     const [showPassword, setShowPassword] = useState(false);
     const hasLabel = Boolean(label);
@@ -37,15 +40,18 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(({
 
     const isPassword = type === 'password';
     const inputType = isPassword && !showPassword ? 'password' : 'text';
+    const hasTrailingIcon = isPassword || isLoading;
 
     return (
         <InputWrapper>
-            {showLabel && <Label 
+            {showLabel && <Label
                 $disabled={disabled}
                 $required={required}
             >{label}</Label>}
+
             <InputContainer>
                 <StyledInput
+                    $hasTrailingAdornment={hasTrailingIcon}
                     id={id}
                     name={name}
                     type={inputType}
@@ -71,8 +77,14 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(({
                         }
                     </IconButton>
                 )}
-            </InputContainer>
-        </InputWrapper>
+
+                {isLoading && (
+                    <LoadingSpinner>
+                        <LoadingIcon size={20} />
+                    </LoadingSpinner>
+                )}
+            </InputContainer >
+        </InputWrapper >
     )
 })
 
@@ -103,7 +115,7 @@ const Label = styled.label<{ $disabled?: boolean, $required?: boolean }>`
     `}
 `;
 
-const StyledInput = styled.input<{ required?: boolean }>`
+const StyledInput = styled.input<{ required?: boolean, $hasTrailingAdornment?: boolean }>`
     outline: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -111,6 +123,7 @@ const StyledInput = styled.input<{ required?: boolean }>`
     border: none;
     border-radius: 16px;
     padding: 12px 16px;
+    padding-right: ${props => props.$hasTrailingAdornment ? '48px' : '16px'};
     width: 100%;
     font-weight: 300;
     font-size: 18px;
@@ -141,6 +154,18 @@ const StyledInput = styled.input<{ required?: boolean }>`
         color: ${props => props.theme.colors.dark.darkGrey};
         cursor: not-allowed;
     }
+`;
+
+const LoadingSpinner = styled.div`
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 
 const IconButton = styled.button`
