@@ -38,7 +38,6 @@ export class ShiraPaymentsService implements IShiraPaymentsService {
   }
 
   async recordUsage(organizationId: string): Promise<void> {
-    console.log("🚀 ~ ShiraPaymentsService ~ recordUsage ~ organizationId:", organizationId)
     await this.request<{ url: string }>(`/payments/usage`, {
       method: 'POST',
       body: JSON.stringify({ organizationId: organizationId }),
