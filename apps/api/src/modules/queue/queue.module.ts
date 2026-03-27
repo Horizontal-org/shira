@@ -4,6 +4,8 @@ import { EmailsProcessor } from "./processors/emails.processor";
 import { EmailModule } from "../email/email.module";
 import { ImageModule } from "../image/image.module";
 import { ImagesProcessor } from "./processors/images.processor";
+import { SubscriptionModule } from "../subscription/subscription.module";
+import { PaymentsProcessor } from "./processors/usage.processor";
 
 @Global()
 @Module({
@@ -17,14 +19,17 @@ import { ImagesProcessor } from "./processors/images.processor";
     }),
     BullModule.registerQueue(
       { name: 'emails' },
-      { name: 'images' }
+      { name: 'images' },
+      { name: 'payments' }
     ),
     EmailModule,
-    ImageModule
+    ImageModule,
+    SubscriptionModule
   ],
   providers: [
     EmailsProcessor,
-    ImagesProcessor
+    ImagesProcessor,
+    PaymentsProcessor
   ],
   exports: [
     BullModule,
