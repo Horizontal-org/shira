@@ -3,7 +3,7 @@
         "message": ""
     },
     "beta": {
-        "message": "Shira is still in development and you may experience issues."
+        "message": "Shira aún está en desarrollo y puede que experimentes problemas."
     },
     "left_menu": {
         "message": ""
@@ -51,7 +51,8 @@
         "message": ""
     },
     "loading_messages": {
-        "message": ""
+        "message": "",
+        "loading": "Cargando..."
     },
     "preview": {
         "message": ""
