@@ -31,7 +31,7 @@ export class ListQuizController {
 
     if (!subscription || subscription.status !== 'active') {
       // return first three public quizzes
-      return quizzes.filter(q => q.visibility === 'public').slice(0, 2)
+      return quizzes.filter(q => q.visibility === 'public').slice(0, 3)
     }
 
     return quizzes

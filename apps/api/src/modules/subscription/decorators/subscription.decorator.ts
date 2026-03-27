@@ -4,6 +4,6 @@ import { CachedSubscription } from '../dto/cached-response.dto';
 export const SubscriptionDecorator = createParamDecorator(
   (_: unknown, ctx: ExecutionContext): Partial<CachedSubscription> => {
     const request = ctx.switchToHttp().getRequest();
-    return request.subscription;
+    return request.subscription || null;
   },
 );

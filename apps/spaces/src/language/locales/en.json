@@ -53,7 +53,8 @@
     "dashboard": {
         "title": "Quizzes",
         "subtitle": "Manage your quizzes here, including creating, publishing, unpublishing and deleting quizzes.",
-        "create_quiz_button": "Create new quiz"
+        "create_quiz_button": "Create new quiz",
+        "create_limit_reached": "Upgrade your plan to create more quizzes."
     },
     "learners": {
         "title": "Learners",

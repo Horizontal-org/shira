@@ -1,7 +1,6 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, Sidebar, styled, H2, SubHeading3, Body1, Button, FilterButton, useAdminSidebar, BetaBanner, useTheme } from "@shira/ui";
-import { FiPlus } from 'react-icons/fi';
+import { Card, Sidebar, styled, H2, SubHeading3, Body1, Button, FilterButton, useAdminSidebar, BetaBanner, useTheme, ActionTooltip } from "@shira/ui";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { formatDistance } from "date-fns";
@@ -19,6 +18,7 @@ import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
 import { handleCopyUrlAndNotify } from "../../utils/quiz";
 import { getCurrentDateFNSLocales } from "../../language/dateUtils";
 import { useQuizCreationFlow } from "../../hooks/useQuizCreationFlow";
+import { CreateQuizButton } from "./components/CreateQuizButton";
 
 interface Props { }
 
@@ -32,6 +32,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     createQuiz,
     quizzes,
     space,
+    sub,
     quizActionSuccess,
     cleanQuizActionSuccess,
     cleanQuizzes
@@ -43,13 +44,15 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     deleteQuiz: state.deleteQuiz,
     quizzes: state.quizzes,
     space: state.space,
+    sub: state.subscription,
     quizActionSuccess: state.quizActionSuccess,
     cleanQuizActionSuccess: state.cleanQuizActionSuccess,
     cleanQuizzes: state.cleanQuizzes
   }), shallow)
 
+  console.log("🚀 ~ DashboardLayout ~ sub:", sub)
+
   const { t, i18n } = useTranslation();
-  const theme = useTheme();
   const navigate = useNavigate();
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
 
@@ -182,18 +185,12 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             <StyledSubHeading3 id="space-name">{space && space.name}</StyledSubHeading3>
             <H2 id="dashboard-title">{t('dashboard.title')}</H2>
             <Body1 id="dashboard-subtitle">{t('dashboard.subtitle')}</Body1>
-            <ButtonContainer>
-              <Button
-                id="create-quiz-button"
-                type="primary"
-                leftIcon={<FiPlus />}
-                text={t('dashboard.create_quiz_button')}
-                onClick={() => {
-                  startCreateQuizFlow();
-                }}
-                color={theme.colors.green7}
-              />
-            </ButtonContainer>
+            
+            <CreateQuizButton 
+              sub={sub}
+              quizCount={quizzes ? quizzes.length : 0}
+              startCreateQuizFlow={startCreateQuizFlow}
+            />
           </HeaderContainer>
 
           <FilterButtonsContainer>
@@ -428,10 +425,6 @@ const CardGrid = styled.div`
   }
 `;
 
-const ButtonContainer = styled.div`
-  display: flex;
-  align-items: flex-start;
-`;
 
 const QuizWarningNote = styled.span`
   color: #d73527;
