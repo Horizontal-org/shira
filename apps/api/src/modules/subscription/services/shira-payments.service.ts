@@ -1,6 +1,7 @@
 import {
   Inject,
   Injectable,
+  Logger,
 } from "@nestjs/common";
 import { randomUUID } from "crypto";
 import { IShiraPaymentsService } from "../interfaces/services/shira-payments.service.interface";
@@ -14,11 +15,11 @@ export class ShiraPaymentsService implements IShiraPaymentsService {
     private readonly logger: IShiraPaymentsLoggerService,
   ) { }
 
-  async createCheckout(orgId: string) {
+  async createCheckout(organizationId: string) {
     return this.request<{ url: string }>('/payments/checkout', {
       method: 'POST',
-      body: JSON.stringify({ organizationId: orgId }),
-    }, orgId);
+      body: JSON.stringify({ organizationId }),
+    }, organizationId);
   }
 
   async manageSubscription(organizationId: string) {

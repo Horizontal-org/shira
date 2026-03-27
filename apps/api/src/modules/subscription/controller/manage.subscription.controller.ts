@@ -1,6 +1,7 @@
-import { Body, Inject, Post } from "@nestjs/common";
+import { Inject, Param, Post } from "@nestjs/common";
+import { Roles } from "src/modules/auth/decorators/roles.decorators";
+import { Role } from "src/modules/user/domain/role.enum";
 import { AuthController } from "src/utils/decorators/auth-controller.decorator";
-import { ManageSubscriptionDto } from "../dto/manage-subscription.dto";
 import { TYPES } from "../interfaces";
 import { ISubscriptionCacheService } from "../interfaces/services/subscription-cache.service.interface";
 import { IShiraPaymentsService } from "../interfaces/services/shira-payments.service.interface";
@@ -14,11 +15,12 @@ export class ManageSubscriptionController {
     private readonly subscriptionCacheService: ISubscriptionCacheService,
   ) { }
 
-  @Post('manage/:organizationId')
-  async handler(@Body() dto: ManageSubscriptionDto) {
-    const response = await this.shiraPaymentsService.manageSubscription(dto.organizationId);
+  @Post(':organizationId')
+  @Roles(Role.SpaceAdmin)
+  async handler(@Param('organizationId') organizationId: string) {
+    const response = await this.shiraPaymentsService.manageSubscription(organizationId);
 
-    await this.subscriptionCacheService.invalidate(dto.organizationId);
+    await this.subscriptionCacheService.invalidate(organizationId);
 
     return response;
   }
