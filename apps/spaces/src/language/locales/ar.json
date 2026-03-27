@@ -1,30 +1,67 @@
 {
     "login": {
-        "message": ""
+        "message": "",
+        "email_placeholder": "البريد الإلكتروني",
+        "title": "تسجيل الدخول",
+        "login_header_button": "تسجيل الدخول",
+        "password_placeholder": "‮كلمة السر"
     },
     "reset_password": {
-        "message": ""
+        "message": "",
+        "title": "إعادة ضبط كلمة السر",
+        "reset_button": "إعادة ضبط كلمة السر",
+        "create_title": "إنشاء كلمة سر جديدة",
+        "expired_title": "عذرًا، لقد حدث خطأ ما"
     },
     "confirm_email_update": {
         "message": ""
     },
     "beta": {
-        "message": "ما تزال منصة Shira في مرحلة التطوير، لذا قد تواجهون بعض المشكلات التقنية."
+        "message": "ما تزال منصة Shira في مرحلة التطوير، لذا قد تواجهون بعض المشكلات التقنية.",
+        "label": "الإصدار التجريبي",
+        "click_here": "اضغط هنا",
+        "feedback_text": "لمشاركة ملاحظاتك وقراءة ما هو قادم لـ Shira!"
     },
     "left_menu": {
-        "message": ""
+        "message": "",
+        "settings": "الإعدادات",
+        "logout": "تسجيل الخروج"
     },
     "dashboard": {
-        "message": ""
+        "message": "",
+        "title": "اختبارات"
     },
     "learners": {
-        "message": ""
+        "message": "",
+        "title": "المتعلمون"
     },
     "quizzes": {
-        "message": ""
+        "message": "",
+        "publish_toggle": "تم نشره",
+        "actions": {
+            "edit": "تعديل",
+            "duplicate": "استنساخ"
+        }
     },
     "quiz": {
-        "message": ""
+        "message": "",
+        "tabs": {
+            "questions": "الأسئلة",
+            "results": "النتائج",
+            "learners": "المتعلمون"
+        },
+        "publish_toggle": {
+            "published": "تم نشره",
+            "unpublished": "لم يتم نشره"
+        },
+        "actions": {
+            "duplicate": "استنساخ",
+            "delete": "حذف"
+        },
+        "visibility": {
+            "public": "عمومي",
+            "private": "خاص"
+        }
     },
     "questions_tab": {
         "message": ""
@@ -42,34 +79,92 @@
         "message": ""
     },
     "question_library": {
-        "message": ""
+        "message": "",
+        "columns": {
+            "language": {
+                "placeholder": "اللغات"
+            },
+            "app": {
+                "apps": {
+                    "whatsapp": "WhatsApp",
+                    "sms": "الرسائل النصية",
+                    "gmail": "Gmail",
+                    "outlook": "Outlook"
+                }
+            }
+        }
     },
     "results_tab": {
-        "message": ""
+        "message": "",
+        "by_question": {
+            "table": {
+                "question_name": "الاسم"
+            }
+        }
     },
     "learners_bulk_import": {
-        "message": ""
+        "message": "",
+        "tabs": {
+            "verify_learners": {
+                "table_name": "الاسم"
+            },
+            "review": {
+                "table_name": "الاسم"
+            }
+        }
     },
     "support": {
         "message": ""
     },
     "settings": {
-        "message": ""
+        "message": "",
+        "sections": {
+            "password": {
+                "title": "‮كلمة السر"
+            }
+        },
+        "title": "الإعدادات"
     },
     "buttons": {
-        "message": ""
+        "message": "",
+        "ok": "حسنا",
+        "cancel": "إلغاء",
+        "close": "إغلاق",
+        "back": "السابق",
+        "next": "التالي",
+        "try_again": "يرجى المحاولة مجددا",
+        "back_home": "العودة إلى الرئيسية",
+        "login": "تسجيل الدخول",
+        "delete": "حذف"
     },
     "modals": {
-        "message": ""
+        "message": "",
+        "variables_modal": {
+            "message": "المتغيرات هي نصوص بديلة يمكنكم استخدامها لإدراج معلومات مُخصَّصة في السؤال."
+        },
+        "change_password": {
+            "title": "إنشاء كلمة سر جديدة"
+        },
+        "quiz_visibility": {
+            "public_option": {
+                "title": "عمومي"
+            },
+            "private_option": {
+                "title": "خاص"
+            }
+        }
     },
     "error_messages": {
-        "message": ""
+        "message": "",
+        "something_went_wrong": "لقد حدث خطأ ما",
+        "invalid_title": "عذرًا، لقد حدث خطأ ما"
     },
     "success_messages": {
         "message": ""
     },
     "loading_messages": {
-        "message": ""
+        "message": "",
+        "loading": "تحميل…"
     },
     "preview": {
         "message": ""
@@ -79,9 +174,11 @@
     },
     "get_started": {
         "message": "",
-        "description": "Create your Shira space to start building your own custom quizzes today."
+        "description": "",
+        "title": "بدء الآن"
     },
     "create_space": {
-        "message": ""
+        "message": "",
+        "password_label": "‮كلمة السر"
     }
 }
