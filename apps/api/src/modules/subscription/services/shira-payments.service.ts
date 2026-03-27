@@ -1,7 +1,6 @@
 import {
   Inject,
   Injectable,
-  Logger,
 } from "@nestjs/common";
 import { randomUUID } from "crypto";
 import { IShiraPaymentsService } from "../interfaces/services/shira-payments.service.interface";

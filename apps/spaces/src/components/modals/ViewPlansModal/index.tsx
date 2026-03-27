@@ -3,10 +3,12 @@ import { Body3, Button, Modal, styled, SubHeading1, SubHeading3, useTheme } from
 import { useTranslation } from "react-i18next";
 import { IoMdCheckmarkCircle, IoMdHelpCircle } from "react-icons/io";
 import { FiX } from "react-icons/fi";
+import { checkoutSubscription } from "../../../fetch/auth";
 
 interface Props {
   isModalOpen: boolean;
   onClose: () => void;
+  organizationId: string;
 }
 
 type ComparisonValue = boolean | string;
@@ -14,9 +16,25 @@ type ComparisonValue = boolean | string;
 export const ViewPlansModal: FunctionComponent<Props> = ({
   isModalOpen,
   onClose,
+  organizationId,
 }) => {
   const { t } = useTranslation();
   const theme = useTheme();
+
+  const navigateToCheckout = async (): Promise<void> => {
+    try {
+      const response = await checkoutSubscription(organizationId);
+      const stripeUrl = response?.url;
+
+      if (stripeUrl) {
+        onClose();
+        window.location.assign(stripeUrl);
+      }
+    } catch (error) {
+      // TODO: handle checkout error state in the modal
+      console.error("Error navigating to checkout:", error);
+    }
+  };
 
   const comparisonSections = [
     {
@@ -157,7 +175,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
             <PlanButton
               text={t("modals.view_plans.plans.starter.cta")}
               color={theme.colors.green7}
-              onClick={onClose}
+              onClick={navigateToCheckout}
             />
           </PlanCard>
 
@@ -173,7 +191,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
             <PlanButton
               text={t("modals.view_plans.plans.pro.cta")}
               color={theme.colors.green7}
-              onClick={onClose}
+              onClick={navigateToCheckout}
             />
           </PlanCard>
 
@@ -189,7 +207,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
             <PlanButton
               text={t("modals.view_plans.plans.enterprise.cta")}
               color={theme.colors.green7}
-              onClick={onClose}
+              onClick={navigateToCheckout}
             />
           </PlanCard>
         </PlansList>

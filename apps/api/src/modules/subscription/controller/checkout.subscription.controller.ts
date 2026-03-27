@@ -1,6 +1,5 @@
-import { Body, Inject, Post } from "@nestjs/common";
+import { Inject, Param, Post } from "@nestjs/common";
 import { AuthController } from "src/utils/decorators/auth-controller.decorator";
-import { CreateCheckoutDto } from "../dto/create-checkout.dto";
 import { Role } from "src/modules/user/domain/role.enum";
 import { Roles } from "src/modules/auth/decorators/roles.decorators";
 import { TYPES } from "../interfaces";
@@ -16,12 +15,12 @@ export class CheckoutSubscriptionController {
     private readonly subscriptionCacheService: ISubscriptionCacheService,
   ) { }
 
-  @Post()
+  @Post(':organizationId')
   @Roles(Role.SpaceAdmin)
-  async handler(@Body() dto: CreateCheckoutDto) {
-    const response = await this.shiraPaymentsService.createCheckout(dto.organizationId);
+  async handler(@Param('organizationId') organizationId: string) {
+    const response = await this.shiraPaymentsService.createCheckout(organizationId);
 
-    await this.subscriptionCacheService.invalidate(dto.organizationId);
+    await this.subscriptionCacheService.invalidate(organizationId);
 
     return response;
   }
