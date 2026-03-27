@@ -14,7 +14,7 @@ export class ManageSubscriptionController {
     private readonly subscriptionCacheService: ISubscriptionCacheService,
   ) { }
 
-  @Post()
+  @Post('manage/:organizationId')
   async handler(@Body() dto: ManageSubscriptionDto) {
     const response = await this.shiraPaymentsService.manageSubscription(dto.organizationId);
 
