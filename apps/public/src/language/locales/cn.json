@@ -135,24 +135,24 @@
             "security_audit_cta": "安全审计"
         },
         "created_by": {
-            "title": "谁开发了 Shira？",
+            "title": "Shira 由谁开发？",
             "website_cta": "了解 Horizontal",
             "description": {
-                "section1": "Shira 是非营利组织 Horizontal 推出的一个项目。该组织通过数字安全和工具开发为前线维权人士、活动人士和记者提供支持。",
-                "section2": "正如 Horizontal 其他的工具， Shira 是免费和开源的。可通过以下方式帮助改进和维持 Shira：",
+                "section1": "Shira 是 Horizontal 发起的项目。Horizontal 是一家非营利组织，致力于通过数字安全与工具开发支持前线守护者、活动人士和记者。",
+                "section2": "与 Horizontal 的其他工具一样，Shira 免费且开源。可通过以下方式帮助改进和维持 Shira：",
                 "donation_link": "在此捐款。",
-                "section3": "如果想帮助翻译 Shira，请发邮件至 contact@wearehorizontal.org。"
+                "section3": "如果想参与 Shira 翻译，请发邮件至 contact@wearehorizontal.org。"
             }
         },
         "footer_title": "联系",
         "footer_description": "如果有功能请求、错误报告或者需要联系我们，请发送电子邮件到 contact@wearehorizontal.org。",
-        "bring_shira_button": "将 Shira 带到你的机构",
+        "bring_shira_button": "将 Shira 引入你的机构",
         "background": {
-            "title": "背景介绍",
-            "subtitle": "网络钓鱼是世界各地互联网用户面临的主要安全威胁。",
-            "section1": "电子邮件和消息常常自称来自可信的机构、公司和个人，但真实企图是诱骗用户共享敏感信息（如银行账户信息和密码）或安装恶意软件。",
+            "title": "背景",
+            "subtitle": "钓鱼攻击是全球互联网用户面临的重大安全威胁。",
+            "section1": "电子邮件和消息常常自称来自可信的机构、公司和个人，但实际上是诱导用户泄露敏感信息（如银行账户信息和密码）或安装恶意软件。",
             "section3": "这种威胁非常普遍并令人担忧，对于边缘群体，实际后果尤为严重，但是，对此几乎没有简单易用的解决方法，能够培养有效检测和抵御网络钓鱼攻击的技能。",
-            "section4": "以上是我们开发 Shira 的原因。"
+            "section4": "这正是我们开发 Shira 的原因。"
         },
         "advisors": {
             "title": "顾问",
@@ -203,20 +203,20 @@
             }
         },
         "bring": {
-            "title": "将 Shira 带到你的机构",
-            "section1": "Shira 默认提供多个选项来定制测验，以使测验题和每个用户（应用程序、工作领域等）息息相关。但是，如果想使得测验对你的员工、合作伙伴或者会员来说更加实际，我们可以基于你的工作、背景、甚至是你在真实生活中受到的网络钓鱼攻击来定制测验，并对你的机构进行培训。",
+            "title": "将 Shira 引入你的机构",
+            "section1": "Shira 默认提供多个选项来定制测验，以使测验和每个用户（应用程序、工作领域等）息息相关。但是，对你的员工、合作伙伴或者会员来说，如果想要这些测验更加逼真，我们可根据你的工作、背景、甚至真实生活中受到的网络钓鱼攻击来定制测验，并对你的机构进行培训。",
             "section2": "如果对此有兴趣或疑问，请联系 contact@wearehorizontal.org。"
         }
     },
     "navbar": {
-        "home": "Home",
-        "about": "关于 Shira",
-        "menu": "Menu",
-        "learn": "Learn",
-        "take_a_quiz": "Take a quiz",
-        "features": "Features",
-        "get_started": "Get started",
-        "pricing": "Pricing"
+        "home": "首页",
+        "about": "关于",
+        "menu": "菜单",
+        "learn": "学习",
+        "take_a_quiz": "参加测验",
+        "features": "功能",
+        "get_started": "开始使用",
+        "pricing": "定价"
     },
     "beta": {
         "feedback_text": "提交反馈，并了解 Shira 的后续计划！",
@@ -225,24 +225,24 @@
         "label": "BETA"
     },
     "learner_invitation": {
-        "success_title": "Success!",
-        "success_joined_space": "You have joined {{spaceName}} on Shira.",
-        "error_message": "Try again or contact the person who invited you.",
-        "learn_more": "Learn more about Shira",
-        "success_hint": "When your organization shares a quiz with you, you will receive an email invitation directly in your inbox.",
-        "error_title": "Something went wrong"
+        "success_title": "成功！",
+        "success_joined_space": "你已加入 Shira 空间 {{spaceName}}。",
+        "error_message": "请重试或联系邀请你的人。",
+        "learn_more": "了解更多 Shira",
+        "success_hint": "当你的组织向你分享测验时，你会在邮箱中收到邀请。",
+        "error_title": "出错"
     },
     "invalid_quiz": {
-        "title": "Sorry, this quiz link is invalid.",
-        "description": "You may have used the wrong URL, or the quiz was unpublished and is no longer available",
-        "home_button": "Go to Shira"
+        "title": "抱歉，该测验链接无效。",
+        "description": "可能是链接错误，或该测验已取消发布并且不再可用",
+        "home_button": "前往 Shira"
     },
     "invalid_invitation": {
-        "description": "You may have used the wrong URL, or the invitation may have expired. Try again or contact the person who invited you.",
-        "title": "Sorry, this invitation link is invalid.",
-        "home_button": "Go to Shira"
+        "description": "可能是链接错误，或邀请已过期。请重试或联系邀请你的人。",
+        "title": "抱歉，该邀请链接无效。",
+        "home_button": "前往 Shira"
     },
     "loading_messages": {
-        "loading": "Loading..."
+        "loading": "加载中..."
     }
 }
