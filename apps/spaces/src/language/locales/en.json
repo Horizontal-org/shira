@@ -442,7 +442,9 @@
             },
             "private_option": {
                 "title": "Private",
-                "description": "Only invited learners from your space can take the quiz"
+                "description": "Only invited learners from your space can take the quiz",
+                "forbidden_tooltip": "Upgrade your plan to access private quizzes.",
+                "forbidden": "Only invited learners from your space can take the quiz. This feature is only available on paid plans. <0>{{learn_more}}</0>"
             }
         },
         "publish_quiz": {

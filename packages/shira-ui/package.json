@@ -41,7 +41,7 @@
     },
     "dependencies": {
         "@faker-js/faker": "^10.1.0",
-        "@floating-ui/react": "^0.27.8",
+        "@floating-ui/react": "^0.27.19",
         "@tanstack/react-table": "^8.21.3",
         "date-fns": "^4.1.0",
         "polished": "^4.3.1",

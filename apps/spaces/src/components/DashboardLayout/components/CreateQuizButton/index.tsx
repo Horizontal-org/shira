@@ -27,12 +27,12 @@ export const CreateQuizButton:FunctionComponent<Props> = ({
 
   return (
     <ButtonContainer>
-    <GeneralTooltip
-      enabled={!hasSub && hasReachedLimit}
-      show={showTooltip}
-      setShow={setShowTooltip}
-      label={t('dashboard.create_limit_reached')}
-    >
+      <GeneralTooltip
+        enabled={!hasSub && hasReachedLimit}
+        show={showTooltip}
+        setShow={setShowTooltip}
+        label={t('dashboard.create_limit_reached')}
+      >
         <Button
           id="create-quiz-button"
           type="primary"
@@ -42,8 +42,8 @@ export const CreateQuizButton:FunctionComponent<Props> = ({
           onClick={startCreateQuizFlow}
           color={theme.colors.green7}
         />
-    </GeneralTooltip>
-      </ButtonContainer>
+      </GeneralTooltip>
+    </ButtonContainer>
   )
 }
 

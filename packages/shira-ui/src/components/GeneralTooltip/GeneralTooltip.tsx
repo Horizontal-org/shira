@@ -1,6 +1,18 @@
 import { FunctionComponent, ReactNode } from "react";
 import styled from 'styled-components'
 import { Body4 } from "../Typography";
+import {
+  useFloating,
+  autoUpdate,
+  offset,
+  flip,
+  shift,
+  useHover,
+  useFocus,
+  useDismiss,
+  useInteractions,
+  FloatingPortal,
+} from "@floating-ui/react";
 
 interface Props {
   children: ReactNode
@@ -17,34 +29,50 @@ export const GeneralTooltip:FunctionComponent<Props> = ({
   setShow,
   label
 }) => {
+  const { refs, floatingStyles, context } = useFloating({
+    open: show,
+    onOpenChange: (open) => {
+      if (enabled) setShow(open);
+    },
+    placement: "bottom",
+    middleware: [offset(6), flip(), shift()],
+    whileElementsMounted: autoUpdate,
+  });
+
+  const hover = useHover(context, { enabled });
+  const focus = useFocus(context, { enabled });
+  const dismiss = useDismiss(context);
+
+  const { getReferenceProps, getFloatingProps } = useInteractions([
+    hover,
+    focus,
+    dismiss,
+  ]);
+
   return (
     <>
       <Wrapper
+        ref={refs.setReference}
         $showHelpCursor={enabled}
-        onMouseEnter={() => {
-          if (enabled) {
-            setShow(true);
-          }
-        }}
-        onMouseLeave={() => { setShow(false); }}
-        onFocus={() => {
-          if (enabled) {
-            setShow(true);
-          }
-        }}
-        onBlur={() => { setShow(false); }}
         onClick={(e) => { e.stopPropagation(); }}
         tabIndex={enabled ? 0 : -1}
+        {...getReferenceProps()}
       >
-
         { children }
+      </Wrapper>
 
-        {enabled && show && label && (
-          <Tooltip role="tooltip">
+      {enabled && show && label && (
+        <FloatingPortal>
+          <Tooltip
+            ref={refs.setFloating}
+            style={floatingStyles}
+            role="tooltip"
+            {...getFloatingProps()}
+          >
             <Body4>{label}</Body4>
           </Tooltip>
-        )}
-      </Wrapper>
+        </FloatingPortal>
+      )}
     </>
   )
 }
@@ -64,11 +92,6 @@ const Wrapper = styled.div<{ $showHelpCursor: boolean }>`
 `;
 
 const Tooltip = styled.div`
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  margin-top: 6px;
   padding: 4px 8px;
   background-color: ${(props) => props.theme.colors.dark.black};
   color: ${(props) => props.theme.colors.light.white};
@@ -76,5 +99,5 @@ const Tooltip = styled.div`
   width: max-content;
   max-width: 520px;
   white-space: nowrap;
-  z-index: 1000;
+  z-index: 10000;
 `;

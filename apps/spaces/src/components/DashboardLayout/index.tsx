@@ -50,7 +50,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     cleanQuizzes: state.cleanQuizzes
   }), shallow)
 
-  console.log("🚀 ~ DashboardLayout ~ sub:", sub)
 
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
@@ -309,6 +308,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             onBack={handleBackFromVisibility}
             onConfirm={handleConfirmVisibility}
             isSubmitting={isSubmitting}
+            privateForbidden={!sub || sub.status !== 'active'}
           />
 
           <UnpublishedQuizCopyLinkModal
