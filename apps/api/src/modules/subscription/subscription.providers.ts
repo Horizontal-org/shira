@@ -3,9 +3,8 @@ import { ShiraPaymentsLoggerService } from './services/shira-payments-logger.ser
 import { ShiraPaymentsService } from './services/shira-payments.service'
 import { SubscriptionCacheService } from './services/subscription-cache.service'
 
-
 export const paymentsLogger = {
-  provide: TYPES.services.IShiraPaymentsLoggerService ,
+  provide: TYPES.services.IShiraPaymentsLoggerService,
   useClass: ShiraPaymentsLoggerService,
 };
 
