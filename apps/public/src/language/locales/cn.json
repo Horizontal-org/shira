@@ -221,7 +221,7 @@
     "beta": {
         "feedback_text": "提交反馈，并了解 Shira 的后续计划！",
         "click_here": "点击此处",
-        "message": "Shira 仍在开发中，可能出现问题。",
+        "message": "Shira 仍在开发阶段，您可能会遇到一些问题。",
         "label": "BETA"
     },
     "learner_invitation": {
