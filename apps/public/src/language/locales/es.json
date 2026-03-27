@@ -1,7 +1,7 @@
 {
     "beta": {
         "label": "BETA",
-        "message": "Shira todavía está en desarrollo y puedes experimentar problemas.",
+        "message": "Shira aún está en desarrollo y puede que experimentes problemas.",
         "feedback_text": "¡para compartir tus comentarios y ayudarnos a mejorar!",
         "click_here": "Haz clic aquí"
     },
@@ -225,7 +225,7 @@
         "get_started": "Comenzar"
     },
     "learner_invitation": {
-        "success_title": "¡Exito!",
+        "success_title": "¡Éxito!",
         "success_joined_space": "Te has unido a {{spaceName}} en Shira.",
         "error_message": "Vuelve a intentar o contacta a la persona que te invitó.",
         "learn_more": "Aprende más sobre Shira",
@@ -234,12 +234,12 @@
     },
     "invalid_quiz": {
         "title": "Lo sentimos, este enlace de cuestionario es inválido.",
-        "description": "Puede que hayas utilizado la URL equivocada, o el cuestionario fue despublicado y ya no está disponible.",
+        "description": "Puede que hayas utilizado la URL equivocada, o el cuestionario fue despublicado y ya no está disponible",
         "home_button": "Ir a Shira"
     },
     "invalid_invitation": {
         "description": "Puede que hayas utilizado la URL equivocada, o la invitación puede haber expirado. Vuelve a intentar o contacta a la persona que te invitó.",
-        "title": "Lo sentimos, este enlace de invitación es inválido,",
+        "title": "Lo sentimos, este enlace de invitación es inválido.",
         "home_button": "Ir a Shira"
     },
     "loading_messages": {
