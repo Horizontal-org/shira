@@ -56,11 +56,6 @@ export const getSub = async () => {
 }
 
 export const manageSubscription = async (organizationId: string) => {
-  try {
-    const res = await axios.post(`${process.env.REACT_APP_API_URL}/subscription/manage/${organizationId}`)
-    console.log("🚀 ~ manageSubscription ~ res:", res)
-    return res.data
-  } catch (err) {
-    console.log("🚀 ~ manageSub ~ err:", err)
-  }
+  const res = await axios.post(`${process.env.REACT_APP_API_URL}/subscription/manage/${organizationId}`)
+  return res.data
 }

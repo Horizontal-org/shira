@@ -33,11 +33,16 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
     : t('settings.subscription.manage_plan');
 
   async function navigateToStripe(): Promise<void> {
-    const response = await manageSubscription(subscription?.organizationId);
-    const stripeUrl = typeof response === "string" ? response : response?.url;
+    try {
+      const response = await manageSubscription(subscription?.organizationId);
+      const stripeUrl = response?.url;
 
-    if (stripeUrl) {
-      window.location.assign(stripeUrl);
+      if (stripeUrl) {
+        window.location.assign(stripeUrl);
+      }
+    } catch (error) {
+      //TODO handle error
+      console.error("Error navigating to Stripe:", error);
     }
   }
 
