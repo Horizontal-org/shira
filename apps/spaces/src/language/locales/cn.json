@@ -1,36 +1,199 @@
 {
     "login": {
-        "message": ""
+        "message": "",
+        "title": "登录",
+        "subtitle": "登录访问你的定制 Shira 空间。",
+        "email_placeholder": "电子邮箱",
+        "password_placeholder": "密码",
+        "reset_password": "忘记密码？",
+        "login_header_button": "登录"
     },
     "beta": {
-        "message": "Shira is still in development and you may experience issues."
+        "message": "Shira 仍在开发阶段，您可能会遇到一些问题。",
+        "label": "BETA",
+        "click_here": "点击此处",
+        "feedback_text": "提交反馈，并了解 Shira 的后续计划！"
     },
     "left_menu": {
-        "message": ""
+        "message": "",
+        "dashboard": "仪表板",
+        "support": "支持",
+        "settings": "设置",
+        "logout": "退出"
     },
     "dashboard": {
-        "message": ""
+        "message": "",
+        "title": "测验",
+        "subtitle": "在此管理您的测验，包括创建、发布、取消发布和删除测验。",
+        "create_quiz_button": "创建新测验"
     },
     "quizzes": {
-        "message": ""
+        "message": "",
+        "filter": {
+            "all_quizzes": "全部测验",
+            "published": "已发布",
+            "unpublished": "未发布"
+        },
+        "last_modified": "最后修改于 {{date}}",
+        "publish_toggle": "已发布",
+        "actions": {
+            "edit": "编辑",
+            "duplicate": "复制"
+        }
     },
     "quiz": {
-        "message": ""
+        "message": "",
+        "public_subtitle": "创建测验题目、分享测验链接并监控结果。只要已连接到互联网，Shira 将自动保存您的工作。",
+        "private_subtitle": "创建测验题目、管理学员并监控结果。只要已连接到互联网，Shira 将自动保存您的工作。",
+        "publish_toggle": {
+            "published": "已发布",
+            "unpublished": "未发布",
+            "disabled_tooltip": "创建至少 1 道题目，以便发布测验。"
+        },
+        "actions": {
+            "rename": "重命名",
+            "duplicate": "复制",
+            "copy_link": "复制测验链接",
+            "disabled_tooltip": "创建至少 1 道题目，以便复制测验链接。",
+            "delete": "删除"
+        },
+        "tabs": {
+            "questions": "题目",
+            "results": "结果",
+            "learners": "学员"
+        },
+        "visibility": {
+            "public": "公开",
+            "private": "私有"
+        }
     },
     "questions_tab": {
-        "message": ""
+        "message": "",
+        "create_question_button": "创建题目",
+        "add_from_library_button": "从题库添加",
+        "action_tooltips": {
+            "edit": "编辑题目",
+            "duplicate": "复制题目",
+            "delete": "删除题目"
+        }
     },
     "questions": {
-        "message": ""
+        "message": "",
+        "edit": {
+            "tab_header": "编辑题目"
+        }
     },
     "no_questions": {
-        "message": ""
+        "message": "",
+        "subtitle": "您还没有任何题目。请创建您自己的题目，或从 Shira 题库中添加。"
     },
     "create_question": {
-        "message": ""
+        "message": "",
+        "header_title": "创建新题目",
+        "tabs": {
+            "question_info": {
+                "tab_title": "题目信息",
+                "question_name": {
+                    "title": "题目名称",
+                    "subtitle": "此名称仅对您可见，以便记住该题目的内容",
+                    "question_name_placeholder": "题目名称"
+                },
+                "phishing": {
+                    "title": "是否为钓鱼？",
+                    "yes": "是",
+                    "no": "否"
+                },
+                "apps": {
+                    "title": "所选应用"
+                }
+            },
+            "content": {
+                "tab_title": "内容",
+                "phishing": "您正在编写钓鱼消息",
+                "legitimate": "您正在编写正常消息",
+                "message": "在此页面中，创建将在题目中显示的内容，包括 ",
+                "message2": "以及 ",
+                "message3": "，两者相配套。",
+                "message_variables": "变量",
+                "message_explanations": "解析",
+                "explanation_content_placeholder": "新解析",
+                "sender": {
+                    "title": "发件人姓名",
+                    "subtitle": "此姓名将在电子邮件的“发件人”字段显示。",
+                    "placeholder": "发件人姓名"
+                },
+                "sender_email": {
+                    "title": "发件人电子邮箱",
+                    "subtitle": "此地址将在电子邮件的“发件人”字段显示。",
+                    "placeholder": "发件人邮箱"
+                },
+                "email_subject": {
+                    "title": "邮件主题",
+                    "subtitle": "此内容将在邮件的“主题”字段显示。如果留空，主题栏将显示“（无主题）”。",
+                    "placeholder": "主题"
+                },
+                "email_body_content": {
+                    "title": "邮件正文内容",
+                    "subtitle": "请填写将要显示的邮件内容。"
+                },
+                "attachment_button": "添加附件",
+                "explanations": {
+                    "title": "解析将按以下顺序在测验中显示。"
+                },
+                "sender_phone": {
+                    "title": "发件人电话",
+                    "subtitle": "此电话号码将在消息的“发件人”字段显示。",
+                    "placeholder": "发件人电话号码"
+                },
+                "message_content": {
+                    "title": "消息内容",
+                    "subtitle": "创建将要显示的消息。您可以创建多条消息和图片文件。选中一段文字并点击解析图标，即可添加解析。"
+                },
+                "add_message_text": "添加消息文本",
+                "add_image_attachment": "添加图片",
+                "upload_image": "从电脑上传",
+                "message_text": "消息文本",
+                "link_text": {
+                    "set_title": "设置链接",
+                    "edit_title": "编辑链接",
+                    "subtitle": "在测验中，此链接将显示为可点击状态，但出于安全原因，点击后不会跳转至该网址。",
+                    "placeholder": "链接网址"
+                }
+            },
+            "preview": {
+                "tab_title": "预览",
+                "subtitle": "这是学员看到的题目效果，包含您填写的解析。",
+                "show_explanations": "显示解析",
+                "hide_explanations": "隐藏解析",
+                "next_explanation": "下一条解析",
+                "previous_explanation": "上一条解析",
+                "no_explanations": "此题目暂无解析。",
+                "aria_label": "预览题目"
+            }
+        }
     },
     "question_library": {
-        "message": ""
+        "message": "",
+        "tab_header_title": "从题库添加题目",
+        "title": "题库",
+        "subtitle": "从下方列表中选择一道题目添加到您的测验。添加后，您可以编辑题目并进行完整自定义，包括修改文本和解析。",
+        "columns": {
+            "question_name": "题目名称",
+            "type": {
+                "title": "类型",
+                "phishing": "钓鱼",
+                "legitimate": "正常"
+            },
+            "language": {
+                "title": "语言",
+                "placeholder": "语言"
+            },
+            "app": {
+                "title": "应用",
+                "messaging_type": "即时通讯应用",
+                "email_type": "电子邮件应用"
+            }
+        }
     },
     "results_tab": {
         "message": ""
@@ -64,16 +227,72 @@
         "message": ""
     },
     "learners": {
-        "message": ""
+        "message": "",
+        "title": "学员",
+        "subtitle": "管理可以参加您所创建私有测验的人员。",
+        "empty_state": "您的空间目前没有注册学员，请邀请新学员以开始使用。",
+        "table": {
+            "learner": "学员",
+            "registration": "注册情况",
+            "quiz_status": "测验状态",
+            "invited_at": "邀请日期",
+            "invited_tag": "已邀请",
+            "registered_tag": "已注册",
+            "submitted_tag": "已提交",
+            "not_submitted_tag": "未提交"
+        },
+        "assign_dialog": {
+            "registered_title": "已注册学员",
+            "registered_description": "选择一位或多位学员，并分配此测验。",
+            "registered_description_2": "您可以在<0>学员页面</0>管理已注册学员并邀请新成员。",
+            "assign_button": "分配给学员",
+            "assign_title": "将“{{quiz_title}}”分配给学员",
+            "no_learners": "空间没有注册学员。",
+            "all_learners_registered": "此测验已分配给所有已注册学员。",
+            "disabled_tooltip": "创建至少 1 道题目，以将其分配给学员。"
+        }
     },
     "confirm_email_update": {
-        "message": ""
+        "message": "",
+        "success_title": "电子邮箱已更新",
+        "success_description": "您的电子邮箱已确认。现在可使用新邮箱地址登录。"
     },
     "reset_password": {
-        "message": ""
+        "message": "",
+        "title": "重置密码",
+        "subtitle": "请输入与 Shira 账号关联的电子邮箱，你将收到重置密码指南的电子邮件。",
+        "email_placeholder": "电子邮箱（必填）",
+        "send_button": "发送重置邮件",
+        "success_title": "请查收邮件",
+        "success_description": "我们已向您的电子邮箱发送了密码重置邮件。",
+        "success_info": "没有收到邮件？请确认输入的电子邮箱地址是否正确，检查垃圾邮件文件夹，或通过 <0>{{contact_email}}</0> 联系我们",
+        "create_title": "创建新密码",
+        "create_subtitle": "密码长度不少于 8 个字符。",
+        "new_password_placeholder": "新密码（必填）",
+        "confirm_password_placeholder": "\"确认新密码（必填）",
+        "reset_button": "重置密码",
+        "reset_success_title": "密码已更新",
+        "reset_success_description": "现在可以使用新密码登录。",
+        "expired_title": "抱歉，出错了",
+        "expired_description": "您打开的链接无效或已过期。请联系您的组织，或发送邮件至 contact@wearehorizontal.org 寻求支持。",
+        "validation": {
+            "email_required": "电子邮箱为必填项",
+            "invalid_email": "请输入有效的电子邮箱地址",
+            "password_required": "密码为必填项",
+            "password_min_length": "密码长度不少于 8 个字符",
+            "confirm_password_required": "请确认密码",
+            "passwords_mismatch": "密码不一致",
+            "incorrect_password": "密码不正确。"
+        }
     },
     "learner_quiz_tab": {
-        "message": ""
+        "message": "",
+        "empty_state": {
+            "description": "此测验暂无学员。点击“分配给学员”按钮以开始使用。"
+        },
+        "table": {
+            "description": "以下是已被分配此测验的学员。"
+        }
     },
     "learners_bulk_import": {
         "message": ""
