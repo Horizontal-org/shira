@@ -36,7 +36,7 @@ export class StartQuizRunService {
       const learnerQuiz = await this.validateLearnerQuiz.execute(quizIdNum, dto.learnerId)
       const orgId = await this.getOrgByLearnerQuiz(learnerQuiz)
       // record sub usage  
-      this.paymentsQueue.add('record-usage', orgId + '')
+      this.paymentsQueue.add('record-usage', String(orgId))
     }  
 
     const run = this.quizRunRepo.create({
