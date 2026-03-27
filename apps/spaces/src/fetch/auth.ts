@@ -1,6 +1,6 @@
 import axios from "axios"
 
-export const fetchUser = async(token: string, spaceId: string) => {
+export const fetchUser = async (token: string, spaceId: string) => {
   console.log("🚀 ~ fetchUser ~ spaceId:", spaceId)
   try {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/user`, {
@@ -17,13 +17,13 @@ export const fetchUser = async(token: string, spaceId: string) => {
   }
 }
 
-export const login = async(email, pass) => {
+export const login = async (email, pass) => {
   try {
     const res = await axios.post(`${process.env.REACT_APP_API_URL}/login`, {
       email: email,
       password: pass
     })
-    
+
     window.localStorage.setItem('shira_access_token', res.data.access_token)
     axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.access_token}`;
     // you need to have at least one space
@@ -35,7 +35,7 @@ export const login = async(email, pass) => {
   }
 }
 
-export const checkAuth = async() => {
+export const checkAuth = async () => {
   const token = window.localStorage.getItem('shira_access_token')
   const spaceId = window.localStorage.getItem('shira_x_space')
   if (token && spaceId) {
@@ -44,14 +44,18 @@ export const checkAuth = async() => {
   } else {
     return null
   }
-
 }
 
-export const getSub = async() => {
+export const getSub = async () => {
   try {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/subscription`)
-    return res.data    
+    return res.data
   } catch (err) {
-    console.log("🚀 ~ getSub ~ err:", err)  
-  } 
+    console.log("🚀 ~ getSub ~ err:", err)
+  }
+}
+
+export const manageSubscription = async (organizationId: string) => {
+  const res = await axios.post(`${process.env.REACT_APP_API_URL}/subscription/manage/${organizationId}`)
+  return res.data
 }
