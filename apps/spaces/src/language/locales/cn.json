@@ -191,7 +191,13 @@
             "app": {
                 "title": "应用",
                 "messaging_type": "即时通讯应用",
-                "email_type": "电子邮件应用"
+                "email_type": "电子邮件应用",
+                "apps": {
+                    "whatsapp": "WhatsApp",
+                    "facebook_messenger": "Messenger",
+                    "dating_app": "交友应用",
+                    "sms": "短信（SMS）"
+                }
             }
         }
     },
