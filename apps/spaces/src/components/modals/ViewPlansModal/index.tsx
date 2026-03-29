@@ -152,7 +152,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
       id="view-plans-modal"
       isOpen={isModalOpen}
       title={t("modals.view_plans.modal_title")}
-      titleIcon={<CloseButton onClick={onClose} aria-label={t("buttons.close")}><FiX size={28} /></CloseButton>}
+      titleIcon={<CloseButton onClick={onClose} aria-label={t("buttons.close")}><FiX size={22} /></CloseButton>}
       primaryButtonText={t("buttons.close")}
       secondaryButtonText=""
       onPrimaryClick={onClose}
