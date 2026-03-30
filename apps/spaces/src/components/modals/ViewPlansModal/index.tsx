@@ -3,9 +3,8 @@ import { Body3, Button, DatingAppIcon, FacebookIcon, GmailIcon, Modal, OutlookIc
 import { useTranslation } from "react-i18next";
 import { IoMdCheckmarkCircle, IoMdHelpCircle } from "react-icons/io";
 import { FiX } from "react-icons/fi";
-import { checkoutSubscription } from "../../../fetch/auth";
+import { checkoutSubscription, navigateToManageSubscription } from "../../../fetch/auth";
 import { useStore } from "../../../store";
-import { SubscriptionType } from "../../../types/subscription";
 
 interface Props {
   isModalOpen: boolean;
@@ -37,9 +36,9 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
       ? t("modals.view_plans.actions.downgrade")
       : t("modals.view_plans.plans.starter.cta");
 
-  const navigateToCheckout = async (selectedSubscriptionType: SubscriptionType): Promise<void> => {
+  const navigateToCheckout = async (): Promise<void> => {
     try {
-      const response = await checkoutSubscription(organizationId, selectedSubscriptionType);
+      const response = await checkoutSubscription(organizationId);
       const stripeUrl = response?.url;
 
       if (stripeUrl) {
@@ -47,12 +46,23 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
         window.location.assign(stripeUrl);
       }
     } catch (error) {
-      // TODO: handle checkout error state in the modal
       console.error("Error navigating to checkout:", error);
     }
   };
 
-  const contactSales = (): void => {
+  const navigateToStripe = async (): Promise<void> => {
+    await navigateToManageSubscription(organizationId);
+  };
+
+  const handleStarterPlanClick = (): Promise<void> => {
+    if (isCurrentProPlan) {
+      return navigateToStripe();
+    }
+
+    return navigateToCheckout();
+  };
+
+  const contact = (): void => {
     window.location.assign(`mailto:${contactEmail}`);
   };
 
@@ -83,7 +93,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
             <PlanButton
               text={starterButtonText}
               type="outline"
-              onClick={() => navigateToCheckout("starter")}
+              onClick={handleStarterPlanClick}
               disabled={isCurrentStarterPlan}
             />
           </PlanCard>
@@ -99,7 +109,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
             <PlanButton
               text={isCurrentProPlan ? t("modals.view_plans.actions.current_plan") : t("modals.view_plans.plans.pro.cta")}
               color={theme.colors.green7}
-              onClick={() => navigateToCheckout("pro")}
+              onClick={navigateToCheckout}
               disabled={isCurrentProPlan}
             />
           </PlanCard>
@@ -115,7 +125,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
             <PlanButton
               text={isCurrentEnterprisePlan ? t("modals.view_plans.actions.current_plan") : t("modals.view_plans.plans.enterprise.cta")}
               type="outline"
-              onClick={contactSales}
+              onClick={contact}
               disabled={isCurrentEnterprisePlan}
             />
           </PlanCard>
