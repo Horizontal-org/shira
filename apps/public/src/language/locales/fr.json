@@ -230,7 +230,7 @@
         "error_message": "Réessayez ou contactez la personne qui vous a invité.",
         "learn_more": "En savoir plus sur Shira",
         "success_hint": "Lorsque votre organisation partagera un quiz avec vous, vous recevrez une invitation par courriel directement dans votre boîte de réception.",
-        "error_title": "Quelque chose s'est mal passé"
+        "error_title": "Une erreur s'est produite"
     },
     "invalid_quiz": {
         "title": "Désolé, ce lien vers le quiz est invalide.",
@@ -243,6 +243,6 @@
         "home_button": "Aller sur Shira"
     },
     "loading_messages": {
-        "loading": "Chargement..."
+        "loading": "Chargement…"
     }
 }
