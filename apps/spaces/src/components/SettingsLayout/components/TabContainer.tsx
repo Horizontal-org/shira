@@ -25,10 +25,10 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   const { t } = useTranslation();
   const theme = useTheme();
   const [activeTab, setActiveTab] = useState<TabType>("account");
-  const subscriptionStatus = String(subscription?.status ?? "unknown").toLowerCase();
-  const currentPlanName = subscriptionStatus === "active" ? "Pro" : "Starter";
+  const currentPlanName = String(subscription?.type ?? "unknown").toLowerCase();
+  const formattedCurrentPlanName = currentPlanName.charAt(0).toUpperCase() + currentPlanName.slice(1);
 
-  const subscriptionActionText = currentPlanName === 'Starter'
+  const subscriptionActionText = formattedCurrentPlanName === 'Starter'
     ? t('settings.subscription.upgrade')
     : t('settings.subscription.manage_plan');
 
@@ -104,7 +104,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
           <SettingsCard>
             <SettingRow>
               <SettingDetails>
-                <Body1Bold>{t('settings.subscription.current_plan', { plan_name: currentPlanName })}</Body1Bold>
+                <Body1Bold>{t('settings.subscription.current_plan', { plan_name: formattedCurrentPlanName })}</Body1Bold>
               </SettingDetails>
 
               <SubscriptionActions>

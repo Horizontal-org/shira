@@ -18,6 +18,7 @@ export interface AuthSlice {
   };
   subscription: {
     status: string;
+    type: string;
     organizationId: string;
   }
   fetching: boolean;

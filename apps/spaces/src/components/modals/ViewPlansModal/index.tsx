@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { IoMdCheckmarkCircle, IoMdHelpCircle } from "react-icons/io";
 import { FiX } from "react-icons/fi";
 import { checkoutSubscription } from "../../../fetch/auth";
+import { useStore } from "../../../store";
 
 interface Props {
   isModalOpen: boolean;
@@ -19,6 +20,21 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
   const { t } = useTranslation();
   const theme = useTheme();
   const contactEmail = "contact@wearehorizontal.org";
+  const subscriptionType = useStore((state) => state.subscription?.type);
+  const subscriptionStatus = useStore((state) => state.subscription?.status);
+
+  const normalizedSubscriptionType = subscriptionType?.toLowerCase().trim();
+  const isActiveSubscription = subscriptionStatus === "active";
+
+  const isCurrentStarterPlan = normalizedSubscriptionType === "starter" && isActiveSubscription;
+  const isCurrentProPlan = normalizedSubscriptionType === "pro" && isActiveSubscription;
+  const isCurrentEnterprisePlan = normalizedSubscriptionType === "enterprise" && isActiveSubscription;
+
+  const starterButtonText = isCurrentStarterPlan
+    ? t("modals.view_plans.actions.current_plan")
+    : isCurrentProPlan
+      ? t("modals.view_plans.actions.downgrade")
+      : t("modals.view_plans.plans.starter.cta");
 
   const navigateToCheckout = async (): Promise<void> => {
     try {
@@ -64,9 +80,10 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
               <PlanDescription>{t("modals.view_plans.plans.starter.description")}</PlanDescription>
             </PlanCopy>
             <PlanButton
-              text={t("modals.view_plans.plans.starter.cta")}
-              color={theme.colors.green7}
+              text={starterButtonText}
+              type="outline"
               onClick={navigateToCheckout}
+              disabled={isCurrentStarterPlan}
             />
           </PlanCard>
 
@@ -79,9 +96,10 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
               <PlanDescription>{t("modals.view_plans.plans.pro.description")}</PlanDescription>
             </PlanCopy>
             <PlanButton
-              text={t("modals.view_plans.plans.pro.cta")}
+              text={isCurrentProPlan ? t("modals.view_plans.actions.current_plan") : t("modals.view_plans.plans.pro.cta")}
               color={theme.colors.green7}
               onClick={navigateToCheckout}
+              disabled={isCurrentProPlan}
             />
           </PlanCard>
 
@@ -94,9 +112,10 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
               <PlanDescription>{t("modals.view_plans.plans.enterprise.description")}</PlanDescription>
             </PlanCopy>
             <PlanButton
-              text={t("modals.view_plans.plans.enterprise.cta")}
+              text={isCurrentEnterprisePlan ? t("modals.view_plans.actions.current_plan") : t("modals.view_plans.plans.enterprise.cta")}
               type="outline"
               onClick={contactSales}
+              disabled={isCurrentEnterprisePlan}
             />
           </PlanCard>
         </PlansList>
