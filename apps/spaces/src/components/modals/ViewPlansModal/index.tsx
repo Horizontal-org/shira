@@ -1,9 +1,10 @@
-import { FunctionComponent } from "react";
-import { Body3, Button, Modal, styled, SubHeading1, SubHeading3, useTheme } from "@shira/ui";
+import { FunctionComponent, ReactNode } from "react";
+import { Body3, Button, DatingAppIcon, FacebookIcon, GmailIcon, Modal, OutlookIcon, SMSIcon, styled, SubHeading1, SubHeading3, useTheme, WhatsappIcon } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 import { IoMdCheckmarkCircle, IoMdHelpCircle } from "react-icons/io";
 import { FiX } from "react-icons/fi";
 import { checkoutSubscription } from "../../../fetch/auth";
+import { TbMessageCircleQuestion } from "react-icons/tb";
 
 interface Props {
   isModalOpen: boolean;
@@ -11,7 +12,7 @@ interface Props {
   organizationId: string;
 }
 
-type ComparisonValue = boolean | string;
+type ComparisonValue = boolean | string | ReactNode[];
 
 export const ViewPlansModal: FunctionComponent<Props> = ({
   isModalOpen,
@@ -83,9 +84,34 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
           ],
         },
         {
-          label: t("modals.view_plans.comparison.rows.apps"),
+          label: t("modals.view_plans.comparison.rows.apps_available"),
           hasInfo: true,
-          values: [true, true, true],
+          values: [
+            [
+              <DatingAppIcon />,
+              <FacebookIcon />,
+              <GmailIcon />,
+              <OutlookIcon />,
+              <SMSIcon />,
+              <WhatsappIcon />
+            ],
+            [
+              <DatingAppIcon />,
+              <FacebookIcon />,
+              <GmailIcon />,
+              <OutlookIcon />,
+              <SMSIcon />,
+              <WhatsappIcon />
+            ],
+            [
+              <DatingAppIcon />,
+              <FacebookIcon />,
+              <GmailIcon />,
+              <OutlookIcon />,
+              <SMSIcon />,
+              <WhatsappIcon />
+            ]
+          ],
         },
       ],
     },
@@ -142,6 +168,10 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
   const renderValue = (value: ComparisonValue) => {
     if (typeof value === "boolean") {
       return <IoMdCheckmarkCircle size={28} color={theme.colors.green6} />;
+    }
+
+    if (Array.isArray(value)) {
+      return <AppsIconRow>{value}</AppsIconRow>;
     }
 
     return <ValueText>{value}</ValueText>;
@@ -441,4 +471,11 @@ const ValueText = styled.span`
   color: ${props => props.theme.colors.dark.darkGrey};
   font-size: 15px;
   line-height: 1.35;
+`;
+
+const AppsIconRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
 `;
