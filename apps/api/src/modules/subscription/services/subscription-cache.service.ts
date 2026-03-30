@@ -82,11 +82,11 @@ export class SubscriptionCacheService implements ISubscriptionCacheService {
   ): CachedSubscription {
     return {
       organizationId,
-      status: String(subscription.status || "unknown"),
+      status: String(subscription.status || "active"),
+      type: String(subscription.type || "starter"),
       createdAt: subscription.createdAt
         ? String(subscription.createdAt)
         : null,
-      type: String(subscription.type || "unknown"),
     };
   }
 
@@ -106,9 +106,9 @@ export class SubscriptionCacheService implements ISubscriptionCacheService {
       if (parsed.statusCode === 404 && parsed.error === "Not Found") {
         return {
           organizationId,
-          status: "unknown",
+          status: "active",
+          type: "starter",
           createdAt: null,
-          type: "unknown",
         };
       }
 

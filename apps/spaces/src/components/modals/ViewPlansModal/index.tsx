@@ -26,7 +26,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
   const normalizedSubscriptionType = subscriptionType?.toLowerCase().trim();
   const isActiveSubscription = subscriptionStatus === "active";
 
-  const isCurrentStarterPlan = normalizedSubscriptionType === "starter" && isActiveSubscription;
+  const isCurrentStarterPlan = normalizedSubscriptionType === "starter";
   const isCurrentProPlan = normalizedSubscriptionType === "pro" && isActiveSubscription;
   const isCurrentEnterprisePlan = normalizedSubscriptionType === "enterprise" && isActiveSubscription;
 
