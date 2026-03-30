@@ -17,7 +17,7 @@ export class ListQuizController {
   constructor(
     @Inject(TYPES.services.IListQuizService)
     private listQuizService: IListQuizService,
-  ) {}
+  ) { }
 
   @Get()
   @Roles(Role.SpaceAdmin)
@@ -25,8 +25,7 @@ export class ListQuizController {
   async list(
     @SpaceId() spaceId: number,
     @SubscriptionDecorator() subscription: Partial<CachedSubscription>
-  ) 
-  { 
+  ) { 
     const quizzes = await this.listQuizService.execute(spaceId)
 
     if (!subscription || subscription.status !== 'active') {

@@ -4,9 +4,8 @@ import { ShiraPaymentsService } from './services/shira-payments.service'
 import { SubscriptionCacheService } from './services/subscription-cache.service'
 import { ValidateSubscriptionService } from './services/validate.subscription.service';
 
-
 export const paymentsLogger = {
-  provide: TYPES.services.IShiraPaymentsLoggerService ,
+  provide: TYPES.services.IShiraPaymentsLoggerService,
   useClass: ShiraPaymentsLoggerService,
 };
 

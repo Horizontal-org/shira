@@ -86,6 +86,7 @@ export class SubscriptionCacheService implements ISubscriptionCacheService {
       createdAt: subscription.createdAt
         ? String(subscription.createdAt)
         : null,
+      type: String(subscription.type || "unknown"),
     };
   }
 
@@ -107,6 +108,7 @@ export class SubscriptionCacheService implements ISubscriptionCacheService {
           organizationId,
           status: "unknown",
           createdAt: null,
+          type: "unknown",
         };
       }
 
