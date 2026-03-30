@@ -1,18 +1,15 @@
-import { FunctionComponent, ReactNode } from "react";
+import { FunctionComponent } from "react";
 import { Body3, Button, DatingAppIcon, FacebookIcon, GmailIcon, Modal, OutlookIcon, SMSIcon, styled, SubHeading1, SubHeading3, useTheme, WhatsappIcon } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 import { IoMdCheckmarkCircle, IoMdHelpCircle } from "react-icons/io";
 import { FiX } from "react-icons/fi";
 import { checkoutSubscription } from "../../../fetch/auth";
-import { TbMessageCircleQuestion } from "react-icons/tb";
 
 interface Props {
   isModalOpen: boolean;
   onClose: () => void;
   organizationId: string;
 }
-
-type ComparisonValue = boolean | string | ReactNode[];
 
 export const ViewPlansModal: FunctionComponent<Props> = ({
   isModalOpen,
@@ -37,146 +34,6 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
     }
   };
 
-  const comparisonSections = [
-    {
-      title: t("modals.view_plans.comparison.admin_management"),
-      rows: [
-        {
-          label: t("modals.view_plans.comparison.rows.hosting"),
-          values: [
-            t("modals.view_plans.comparison.values.cloud"),
-            t("modals.view_plans.comparison.values.cloud"),
-            t("modals.view_plans.comparison.values.cloud_on_premise"),
-          ],
-        },
-        {
-          label: t("modals.view_plans.comparison.rows.admin_dashboard"),
-          values: [true, true, true],
-        },
-        {
-          label: t("modals.view_plans.comparison.rows.number_of_admins"),
-          hasInfo: true,
-          values: [
-            t("modals.view_plans.comparison.values.one_admin"),
-            t("modals.view_plans.comparison.values.unlimited"),
-            t("modals.view_plans.comparison.values.unlimited"),
-          ],
-        },
-      ],
-    },
-    {
-      title: t("modals.view_plans.comparison.customization"),
-      rows: [
-        {
-          label: t("modals.view_plans.comparison.rows.customizable_questions"),
-          values: [true, true, true],
-        },
-        {
-          label: t("modals.view_plans.comparison.rows.question_library"),
-          values: [true, true, true],
-        },
-        {
-          label: t("modals.view_plans.comparison.rows.custom_quizzes"),
-          values: [
-            t("modals.view_plans.comparison.values.up_to_three_custom_quizzes"),
-            t("modals.view_plans.comparison.values.unlimited"),
-            t("modals.view_plans.comparison.values.unlimited"),
-          ],
-        },
-        {
-          label: t("modals.view_plans.comparison.rows.apps_available"),
-          hasInfo: true,
-          values: [
-            [
-              <DatingAppIcon />,
-              <FacebookIcon />,
-              <GmailIcon />,
-              <OutlookIcon />,
-              <SMSIcon />,
-              <WhatsappIcon />
-            ],
-            [
-              <DatingAppIcon />,
-              <FacebookIcon />,
-              <GmailIcon />,
-              <OutlookIcon />,
-              <SMSIcon />,
-              <WhatsappIcon />
-            ],
-            [
-              <DatingAppIcon />,
-              <FacebookIcon />,
-              <GmailIcon />,
-              <OutlookIcon />,
-              <SMSIcon />,
-              <WhatsappIcon />
-            ]
-          ],
-        },
-      ],
-    },
-    {
-      title: t("modals.view_plans.comparison.access_control"),
-      rows: [
-        {
-          label: t("modals.view_plans.comparison.rows.public_quizzes"),
-          hasInfo: true,
-          values: [true, true, true],
-        },
-        {
-          label: t("modals.view_plans.comparison.rows.private_quizzes"),
-          hasInfo: true,
-          values: ["-", true, true],
-        },
-      ],
-    },
-    {
-      title: t("modals.view_plans.comparison.compliance"),
-      rows: [
-        {
-          label: t("modals.view_plans.comparison.rows.basic_analytics"),
-          hasInfo: true,
-          values: [true, true, true],
-        },
-        {
-          label: t("modals.view_plans.comparison.rows.detailed_analytics"),
-          hasInfo: true,
-          values: ["-", true, true],
-        },
-        {
-          label: t("modals.view_plans.comparison.rows.analysis_tools"),
-          hasInfo: true,
-          values: ["-", true, true],
-        },
-      ],
-    },
-    {
-      title: t("modals.view_plans.comparison.custom_support"),
-      rows: [
-        {
-          label: t("modals.view_plans.comparison.rows.tailor_made_training"),
-          values: ["-", "-", true],
-        },
-        {
-          label: t("modals.view_plans.comparison.rows.priority_support"),
-          values: ["-", "-", true],
-        },
-      ],
-    },
-  ];
-
-  const renderValue = (value: ComparisonValue) => {
-    if (typeof value === "boolean") {
-      return <IoMdCheckmarkCircle size={28} color={theme.colors.green6} />;
-    }
-
-    if (Array.isArray(value)) {
-      return <AppsIconRow>{value}</AppsIconRow>;
-    }
-
-    return <ValueText>{value}</ValueText>;
-  };
-
   return (
     <StyledModal
       id="view-plans-modal"
@@ -194,14 +51,12 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
           <PlanSpacer />
 
           <PlanCard>
-            <PlanContent>
-              <PlanTitle>{t("modals.view_plans.plans.starter.title")}</PlanTitle>
-              <PlanDescription>{t("modals.view_plans.plans.starter.description")}</PlanDescription>
-              <PriceBlock>
-                <PlanPrice>{t("modals.view_plans.plans.starter.price")}</PlanPrice>
-                <PlanNote>{t("modals.view_plans.plans.starter.note")}</PlanNote>
-              </PriceBlock>
-            </PlanContent>
+            <PlanTitle>{t("modals.view_plans.plans.starter.title")}</PlanTitle>
+            <PlanDescription>{t("modals.view_plans.plans.starter.description")}</PlanDescription>
+            <PriceBlock>
+              <PlanPrice>{t("modals.view_plans.plans.starter.price")}</PlanPrice>
+              <PlanNote>{t("modals.view_plans.plans.starter.note")}</PlanNote>
+            </PriceBlock>
             <PlanButton
               text={t("modals.view_plans.plans.starter.cta")}
               color={theme.colors.green7}
@@ -210,14 +65,12 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
           </PlanCard>
 
           <PlanCard $isHighlighted>
-            <PlanContent>
-              <PlanTitle>{t("modals.view_plans.plans.pro.title")}</PlanTitle>
-              <PlanDescription>{t("modals.view_plans.plans.pro.description")}</PlanDescription>
-              <PriceBlock>
-                <PlanPrice>{t("modals.view_plans.plans.pro.price")}</PlanPrice>
-                <PlanNote>{t("modals.view_plans.plans.pro.note")}</PlanNote>
-              </PriceBlock>
-            </PlanContent>
+            <PlanTitle>{t("modals.view_plans.plans.pro.title")}</PlanTitle>
+            <PlanDescription>{t("modals.view_plans.plans.pro.description")}</PlanDescription>
+            <PriceBlock>
+              <PlanPrice>{t("modals.view_plans.plans.pro.price")}</PlanPrice>
+              <PlanNote>{t("modals.view_plans.plans.pro.note")}</PlanNote>
+            </PriceBlock>
             <PlanButton
               text={t("modals.view_plans.plans.pro.cta")}
               color={theme.colors.green7}
@@ -226,14 +79,12 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
           </PlanCard>
 
           <PlanCard>
-            <PlanContent>
-              <PlanTitle>{t("modals.view_plans.plans.enterprise.title")}</PlanTitle>
-              <PlanDescription>{t("modals.view_plans.plans.enterprise.description")}</PlanDescription>
-              <PriceBlock>
-                <PlanPrice>{t("modals.view_plans.plans.enterprise.price")}</PlanPrice>
-                <PlanNote>{t("modals.view_plans.plans.enterprise.note")}</PlanNote>
-              </PriceBlock>
-            </PlanContent>
+            <PlanTitle>{t("modals.view_plans.plans.enterprise.title")}</PlanTitle>
+            <PlanDescription>{t("modals.view_plans.plans.enterprise.description")}</PlanDescription>
+            <PriceBlock>
+              <PlanPrice>{t("modals.view_plans.plans.enterprise.price")}</PlanPrice>
+              <PlanNote>{t("modals.view_plans.plans.enterprise.note")}</PlanNote>
+            </PriceBlock>
             <PlanButton
               text={t("modals.view_plans.plans.enterprise.cta")}
               color={theme.colors.green7}
@@ -245,34 +96,194 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
         <ComparisonGrid>
           <ComparisonScroller>
             <ComparisonTable>
-              <ComparisonHeader>{t("modals.view_plans.comparison.title")}</ComparisonHeader>
-              <EmptyHeaderCell />
-              <EmptyHeaderCell />
-              <EmptyHeaderCell />
+              <SectionTitle $isFirst>{t("modals.view_plans.comparison.admin_management")}</SectionTitle>
+              <EmptySectionCell $isFirst />
+              <EmptySectionCell $isFirst />
+              <EmptySectionCell $isFirst />
 
-              {comparisonSections.map((section, sectionIndex) => (
-                <SectionGroup key={section.title}>
-                  <SectionTitle $isFirst={sectionIndex === 0}>{section.title}</SectionTitle>
-                  <EmptySectionCell $isFirst={sectionIndex === 0} />
-                  <EmptySectionCell $isFirst={sectionIndex === 0} />
-                  <EmptySectionCell $isFirst={sectionIndex === 0} />
+              <FeatureCell>
+                <FeatureLabel>{t("modals.view_plans.comparison.rows.hosting")}</FeatureLabel>
+              </FeatureCell>
+              <ValueCell>
+                <ValueText>{t("modals.view_plans.comparison.values.cloud")}</ValueText>
+              </ValueCell>
+              <ValueCell>
+                <ValueText>{t("modals.view_plans.comparison.values.cloud")}</ValueText>
+              </ValueCell>
+              <ValueCell>
+                <ValueText>{t("modals.view_plans.comparison.values.cloud_on_premise")}</ValueText>
+              </ValueCell>
 
-                  {section.rows.map((row) => (
-                    <RowGroup key={row.label}>
-                      <FeatureCell>
-                        <FeatureLabel>{row.label}</FeatureLabel>
-                        {row.hasInfo && <IoMdHelpCircle size={20} color={theme.colors.dark.mediumGrey} />}
-                      </FeatureCell>
+              <FeatureCell>
+                <FeatureLabel>{t("modals.view_plans.comparison.rows.admin_dashboard")}</FeatureLabel>
+              </FeatureCell>
+              <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
+              <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
+              <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
 
-                      {row.values.map((value, index) => (
-                        <ValueCell key={`${row.label}-${index}`}>
-                          {renderValue(value)}
-                        </ValueCell>
-                      ))}
-                    </RowGroup>
-                  ))}
-                </SectionGroup>
-              ))}
+              <FeatureCell>
+                <FeatureLabel>{t("modals.view_plans.comparison.rows.number_of_admins")}</FeatureLabel>
+                <IoMdHelpCircle size={20} color={theme.colors.dark.mediumGrey} />
+              </FeatureCell>
+              <ValueCell>
+                <ValueText>{t("modals.view_plans.comparison.values.one_admin")}</ValueText>
+              </ValueCell>
+              <ValueCell>
+                <ValueText>{t("modals.view_plans.comparison.values.unlimited")}</ValueText>
+              </ValueCell>
+              <ValueCell>
+                <ValueText>{t("modals.view_plans.comparison.values.unlimited")}</ValueText>
+              </ValueCell>
+
+              <SectionTitle>{t("modals.view_plans.comparison.customization")}</SectionTitle>
+              <EmptySectionCell />
+              <EmptySectionCell />
+              <EmptySectionCell />
+
+              <FeatureCell>
+                <FeatureLabel>{t("modals.view_plans.comparison.rows.customizable_questions")}</FeatureLabel>
+              </FeatureCell>
+              <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
+              <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
+              <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
+
+              <FeatureCell>
+                <FeatureLabel>{t("modals.view_plans.comparison.rows.question_library")}</FeatureLabel>
+              </FeatureCell>
+              <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
+              <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
+              <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
+
+              <FeatureCell>
+                <FeatureLabel>{t("modals.view_plans.comparison.rows.custom_quizzes")}</FeatureLabel>
+              </FeatureCell>
+              <ValueCell>
+                <ValueText>{t("modals.view_plans.comparison.values.up_to_three_custom_quizzes")}</ValueText>
+              </ValueCell>
+              <ValueCell>
+                <ValueText>{t("modals.view_plans.comparison.values.unlimited")}</ValueText>
+              </ValueCell>
+              <ValueCell>
+                <ValueText>{t("modals.view_plans.comparison.values.unlimited")}</ValueText>
+              </ValueCell>
+
+              <FeatureCell>
+                <FeatureLabel>{t("modals.view_plans.comparison.rows.apps_available")}</FeatureLabel>
+                <IoMdHelpCircle size={20} color={theme.colors.dark.mediumGrey} />
+              </FeatureCell>
+              <ValueCell>
+                <AppsIconRow>
+                  <DatingAppIcon />
+                  <FacebookIcon />
+                  <GmailIcon />
+                  <OutlookIcon />
+                  <SMSIcon />
+                  <WhatsappIcon />
+                </AppsIconRow>
+              </ValueCell>
+              <ValueCell>
+                <AppsIconRow>
+                  <DatingAppIcon />
+                  <FacebookIcon />
+                  <GmailIcon />
+                  <OutlookIcon />
+                  <SMSIcon />
+                  <WhatsappIcon />
+                </AppsIconRow>
+              </ValueCell>
+              <ValueCell>
+                <AppsIconRow>
+                  <DatingAppIcon />
+                  <FacebookIcon />
+                  <GmailIcon />
+                  <OutlookIcon />
+                  <SMSIcon />
+                  <WhatsappIcon />
+                </AppsIconRow>
+              </ValueCell>
+
+              <SectionTitle>{t("modals.view_plans.comparison.access_control")}</SectionTitle>
+              <EmptySectionCell />
+              <EmptySectionCell />
+              <EmptySectionCell />
+
+              <FeatureCell>
+                <FeatureLabel>{t("modals.view_plans.comparison.rows.public_quizzes")}</FeatureLabel>
+                <IoMdHelpCircle size={20} color={theme.colors.dark.mediumGrey} />
+              </FeatureCell>
+              <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
+              <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
+              <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
+
+              <FeatureCell>
+                <FeatureLabel>{t("modals.view_plans.comparison.rows.private_quizzes")}</FeatureLabel>
+                <IoMdHelpCircle size={20} color={theme.colors.dark.mediumGrey} />
+              </FeatureCell>
+              <ValueCell>
+                <ValueText>-</ValueText>
+              </ValueCell>
+              <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
+              <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
+
+              <SectionTitle>{t("modals.view_plans.comparison.compliance")}</SectionTitle>
+              <EmptySectionCell />
+              <EmptySectionCell />
+              <EmptySectionCell />
+
+              <FeatureCell>
+                <FeatureLabel>{t("modals.view_plans.comparison.rows.basic_analytics")}</FeatureLabel>
+                <IoMdHelpCircle size={20} color={theme.colors.dark.mediumGrey} />
+              </FeatureCell>
+              <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
+              <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
+              <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
+
+              <FeatureCell>
+                <FeatureLabel>{t("modals.view_plans.comparison.rows.detailed_analytics")}</FeatureLabel>
+                <IoMdHelpCircle size={20} color={theme.colors.dark.mediumGrey} />
+              </FeatureCell>
+              <ValueCell>
+                <ValueText>-</ValueText>
+              </ValueCell>
+              <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
+              <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
+
+              <FeatureCell>
+                <FeatureLabel>{t("modals.view_plans.comparison.rows.analysis_tools")}</FeatureLabel>
+                <IoMdHelpCircle size={20} color={theme.colors.dark.mediumGrey} />
+              </FeatureCell>
+              <ValueCell>
+                <ValueText>-</ValueText>
+              </ValueCell>
+              <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
+              <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
+
+              <SectionTitle>{t("modals.view_plans.comparison.custom_support")}</SectionTitle>
+              <EmptySectionCell />
+              <EmptySectionCell />
+              <EmptySectionCell />
+
+              <FeatureCell>
+                <FeatureLabel>{t("modals.view_plans.comparison.rows.tailor_made_training")}</FeatureLabel>
+              </FeatureCell>
+              <ValueCell>
+                <ValueText>-</ValueText>
+              </ValueCell>
+              <ValueCell>
+                <ValueText>-</ValueText>
+              </ValueCell>
+              <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
+
+              <FeatureCell>
+                <FeatureLabel>{t("modals.view_plans.comparison.rows.priority_support")}</FeatureLabel>
+              </FeatureCell>
+              <ValueCell>
+                <ValueText>-</ValueText>
+              </ValueCell>
+              <ValueCell>
+                <ValueText>-</ValueText>
+              </ValueCell>
+              <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
             </ComparisonTable>
           </ComparisonScroller>
         </ComparisonGrid>
@@ -351,11 +362,6 @@ const PlanCard = styled.div<{ $isHighlighted?: boolean }>`
   }
 `;
 
-const PlanContent = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
 const PlanTitle = styled(SubHeading1)`
   margin: 0 0 8px;
   color: ${props => props.theme.colors.dark.black};
@@ -390,7 +396,6 @@ const PlanNote = styled(Body3)`
 
 const PlanButton = styled(Button)`
   margin-top: 24px;
-  justify-content: center;
 `;
 
 const ComparisonGrid = styled.div`
@@ -408,25 +413,6 @@ const ComparisonTable = styled.div`
   display: grid;
   grid-template-columns: minmax(320px, 1.45fr) repeat(3, minmax(240px, 1fr));
   min-width: 1120px;
-`;
-
-const ComparisonHeader = styled.div`
-  padding: 8px 32px 28px;
-  color: ${props => props.theme.colors.dark.darkGrey};
-  font-size: 22px;
-  line-height: 1.3;
-  font-weight: 600;
-`;
-
-const EmptyHeaderCell = styled.div`
-`;
-
-const SectionGroup = styled.div`
-  display: contents;
-`;
-
-const RowGroup = styled.div`
-  display: contents;
 `;
 
 const SectionTitle = styled.div<{ $isFirst?: boolean }>`
