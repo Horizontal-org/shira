@@ -1,6 +1,6 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, Sidebar, styled, H2, SubHeading3, Body1, Button, FilterButton, useAdminSidebar, BetaBanner, useTheme, ActionTooltip } from "@shira/ui";
+import { Sidebar, styled, H2, SubHeading3, Body1, Button, FilterButton, useAdminSidebar, BetaBanner, useTheme, ActionTooltip, Card } from "@shira/ui";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { formatDistance } from "date-fns";
@@ -19,6 +19,7 @@ import { handleCopyUrlAndNotify } from "../../utils/quiz";
 import { getCurrentDateFNSLocales } from "../../language/dateUtils";
 import { useQuizCreationFlow } from "../../hooks/useQuizCreationFlow";
 import { CreateQuizButton } from "./components/CreateQuizButton";
+import { useSub } from "../../hooks/useSub";
 
 interface Props { }
 
@@ -32,7 +33,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     createQuiz,
     quizzes,
     space,
-    sub,
     quizActionSuccess,
     cleanQuizActionSuccess,
     cleanQuizzes
@@ -44,7 +44,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     deleteQuiz: state.deleteQuiz,
     quizzes: state.quizzes,
     space: state.space,
-    sub: state.subscription,
     quizActionSuccess: state.quizActionSuccess,
     cleanQuizActionSuccess: state.cleanQuizActionSuccess,
     cleanQuizzes: state.cleanQuizzes
@@ -54,6 +53,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
+  const { isSubActive } = useSub()
 
   const [activeFilter, setActiveFilter] = useState<FilterStates>(FilterStates.all);
   const [cards, setCards] = useState([]);
@@ -186,7 +186,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             <Body1 id="dashboard-subtitle">{t('dashboard.subtitle')}</Body1>
             
             <CreateQuizButton 
-              sub={sub}
+              isSubActive={isSubActive}
               quizCount={quizzes ? quizzes.length : 0}
               startCreateQuizFlow={startCreateQuizFlow}
             />
@@ -255,6 +255,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                   showLoading={isSubmitting && submittingQuizId === card.id}
                   loadingLabel={t('loading_messages.duplicating')}
                   isPublic={card.visibility === 'public'}
+                  canDuplicate={isSubActive || quizzes.length < 3}
                   visibilityText={
                     card.visibility === 'public'
                       ? t('quiz.visibility.public')
@@ -308,7 +309,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             onBack={handleBackFromVisibility}
             onConfirm={handleConfirmVisibility}
             isSubmitting={isSubmitting}
-            privateForbidden={!sub || sub.status !== 'active'}
+            privateForbidden={!isSubActive}
           />
 
           <UnpublishedQuizCopyLinkModal
