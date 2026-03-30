@@ -419,6 +419,14 @@ const PlanButton = styled(Button)`
   width: 100%;
   margin-top: auto;
   justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+
+  &:focus,
+  &:active {
+    margin-top: auto;
+    top: 0;
+  }
 `;
 
 const ComparisonGrid = styled.div`
