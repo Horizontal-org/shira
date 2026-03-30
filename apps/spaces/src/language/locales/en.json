@@ -383,6 +383,10 @@
                 "last_updated": "Last updated: {{date}}",
                 "action": "Change password"
             }
+        },
+        "checkout_success": {
+            "all_done": "All done!",
+            "success_message": "Your checkout was successful. We're activating your subscription now."
         }
     },
     "buttons": {
@@ -413,7 +417,9 @@
         "i_understand": "I understand",
         "back_home": "Back to home",
         "learn_more": "Learn more",
-        "manage_plan": "Manage plan"
+        "manage_plan": "Manage plan",
+        "back_to_quizzes": "Back to quizzes",
+        "go_to_settings": "Go to settings"
     },
     "modals": {
         "create_quiz": {
@@ -587,6 +593,10 @@
         "view_plans": {
             "title": "Available plans",
             "modal_title": "Shira plans and pricing",
+            "actions": {
+                "current_plan": "Current plan",
+                "downgrade": "Downgrade"
+            },
             "comparison": {
                 "title": "What's included?",
                 "admin_management": "Admin management",

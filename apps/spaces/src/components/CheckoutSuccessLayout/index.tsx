@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   Body1,
   Button,
@@ -13,11 +14,12 @@ interface Props {}
 
 export const CheckoutSuccessLayout: FunctionComponent<Props> = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <Container>
       <Navbar
-        translatedTexts={{ home: "", about: "", menu: "", logIn: "Log in", createSpace: "" }}
+        translatedTexts={{ home: "", about: "", menu: "", logIn: t("buttons.login"), createSpace: "" }}
         onNavigate={navigate}
       />
 
@@ -28,18 +30,18 @@ export const CheckoutSuccessLayout: FunctionComponent<Props> = () => {
           </SvgWrapper>
 
           <TextContent>
-            <H1>All done!</H1>
+            <H1>{t("settings.checkout_success.all_done")}</H1>
             <Body1>
-              <strong>Your checkout was successful. We&apos;re activating your subscription now.</strong>
+              <strong>{t("settings.checkout_success.success_message")}</strong>
             </Body1>
             <ButtonGroup>
               <Button
-                text="Go to settings"
+                text={t("buttons.go_to_settings")}
                 type="outline"
                 onClick={() => navigate("/settings")}
               />
               <Button
-                text="Back to dashboard"
+                text={t("buttons.back_to_quizzes")}
                 onClick={() => navigate("/dashboard")}
               />
             </ButtonGroup>
