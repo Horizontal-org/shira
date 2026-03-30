@@ -18,6 +18,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
 }) => {
   const { t } = useTranslation();
   const theme = useTheme();
+  const contactEmail = "contact@wearehorizontal.org";
 
   const navigateToCheckout = async (): Promise<void> => {
     try {
@@ -32,6 +33,10 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
       // TODO: handle checkout error state in the modal
       console.error("Error navigating to checkout:", error);
     }
+  };
+
+  const contactSales = (): void => {
+    window.location.assign(`mailto:${contactEmail}`);
   };
 
   return (
@@ -51,12 +56,13 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
           <PlanSpacer />
 
           <PlanCard>
-            <PlanTitle>{t("modals.view_plans.plans.starter.title")}</PlanTitle>
-            <PlanDescription>{t("modals.view_plans.plans.starter.description")}</PlanDescription>
-            <PriceBlock>
-              <PlanPrice>{t("modals.view_plans.plans.starter.price")}</PlanPrice>
-              <PlanNote>{t("modals.view_plans.plans.starter.note")}</PlanNote>
-            </PriceBlock>
+            <PlanCopy>
+              <PlanTitle>{t("modals.view_plans.plans.starter.title")}</PlanTitle>
+              <PriceBlock>
+                <PlanPrice>{t("modals.view_plans.plans.starter.price")}</PlanPrice>
+              </PriceBlock>
+              <PlanDescription>{t("modals.view_plans.plans.starter.description")}</PlanDescription>
+            </PlanCopy>
             <PlanButton
               text={t("modals.view_plans.plans.starter.cta")}
               color={theme.colors.green7}
@@ -65,12 +71,13 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
           </PlanCard>
 
           <PlanCard $isHighlighted>
-            <PlanTitle>{t("modals.view_plans.plans.pro.title")}</PlanTitle>
-            <PlanDescription>{t("modals.view_plans.plans.pro.description")}</PlanDescription>
-            <PriceBlock>
-              <PlanPrice>{t("modals.view_plans.plans.pro.price")}</PlanPrice>
-              <PlanNote>{t("modals.view_plans.plans.pro.note")}</PlanNote>
-            </PriceBlock>
+            <PlanCopy>
+              <PlanTitle>{t("modals.view_plans.plans.pro.title")}</PlanTitle>
+              <PriceBlock>
+                <PlanPrice>{t("modals.view_plans.plans.pro.price")}</PlanPrice>
+              </PriceBlock>
+              <PlanDescription>{t("modals.view_plans.plans.pro.description")}</PlanDescription>
+            </PlanCopy>
             <PlanButton
               text={t("modals.view_plans.plans.pro.cta")}
               color={theme.colors.green7}
@@ -79,16 +86,17 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
           </PlanCard>
 
           <PlanCard>
-            <PlanTitle>{t("modals.view_plans.plans.enterprise.title")}</PlanTitle>
-            <PlanDescription>{t("modals.view_plans.plans.enterprise.description")}</PlanDescription>
-            <PriceBlock>
-              <PlanPrice>{t("modals.view_plans.plans.enterprise.price")}</PlanPrice>
-              <PlanNote>{t("modals.view_plans.plans.enterprise.note")}</PlanNote>
-            </PriceBlock>
+            <PlanCopy>
+              <PlanTitle>{t("modals.view_plans.plans.enterprise.title")}</PlanTitle>
+              <PriceBlock>
+                <PlanPrice>{t("modals.view_plans.plans.enterprise.price")}</PlanPrice>
+              </PriceBlock>
+              <PlanDescription>{t("modals.view_plans.plans.enterprise.description")}</PlanDescription>
+            </PlanCopy>
             <PlanButton
               text={t("modals.view_plans.plans.enterprise.cta")}
-              color={theme.colors.green7}
-              onClick={navigateToCheckout}
+              type="outline"
+              onClick={contactSales}
             />
           </PlanCard>
         </PlansList>
@@ -344,10 +352,9 @@ const PlanSpacer = styled.div`
 `;
 
 const PlanCard = styled.div<{ $isHighlighted?: boolean }>`
-  min-height: 300px;
+  min-height: 220px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   padding: 28px 24px 22px;
   border: 1px solid ${props => props.theme.colors.dark.lightGrey};
   border-radius: 36px;
@@ -362,40 +369,37 @@ const PlanCard = styled.div<{ $isHighlighted?: boolean }>`
   }
 `;
 
+const PlanCopy = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const PlanTitle = styled(SubHeading1)`
-  margin: 0 0 8px;
+  margin: 0;
   color: ${props => props.theme.colors.dark.black};
   font-size: 26px;
 `;
 
-const PlanDescription = styled(Body3)`
-  margin: 0;
-  color: ${props => props.theme.colors.dark.darkGrey};
-  font-size: 14px;
-`;
-
-const PriceBlock = styled.div`
-  margin-top: 22px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-`;
-
 const PlanPrice = styled(SubHeading3)`
-  margin: 0;
   color: ${props => props.theme.colors.green7};
   font-size: 21px;
   font-weight: 600;
 `;
 
-const PlanNote = styled(Body3)`
-  margin: 0;
+const PriceBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+`;
+
+const PlanDescription = styled(Body3)`
   color: ${props => props.theme.colors.dark.darkGrey};
-  font-size: 14px;
 `;
 
 const PlanButton = styled(Button)`
-  margin-top: 24px;
+  width: 100%;
+  margin-top: auto;
+  justify-content: center;
 `;
 
 const ComparisonGrid = styled.div`

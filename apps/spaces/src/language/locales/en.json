@@ -622,23 +622,20 @@
                 "starter": {
                     "title": "Starter",
                     "description": "To try things out and get familiar with Shira",
-                    "price": "$0/month",
-                    "note": "Free, no strings attached",
+                    "price": "Free",
                     "cta": "Get started"
                 },
                 "pro": {
                     "title": "Pro",
-                    "description": "The full power of Shira",
+                    "description": "Experience the full power of Shira",
                     "price": "$50/month + $1 per quiz taken",
-                    "note": "Start with a 14-day free trial.",
                     "cta": "Start 14-day free trial"
                 },
                 "enterprise": {
                     "title": "Enterprise",
-                    "description": "Best for large organizations and service providers",
+                    "description": "Tailor Shira for large organizations and service providers",
                     "price": "Custom pricing",
-                    "note": "Rates tailored to your needs",
-                    "cta": "Get started"
+                    "cta": "Contact us"
                 }
             }
         }
