@@ -125,6 +125,7 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
       <ViewPlansModal
         isModalOpen={isViewPlansModalOpen}
         onClose={() => setIsViewPlansModalOpen(false)}
+        organizationId={subscription?.organizationId}
       />
     </Container >
   );

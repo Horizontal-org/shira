@@ -1,4 +1,4 @@
-import { Get, Inject, Param } from "@nestjs/common";
+import { Get, Inject } from "@nestjs/common";
 import { AuthController } from "src/utils/decorators/auth-controller.decorator";
 import { TYPES } from "../interfaces";
 import { ISubscriptionCacheService } from "../interfaces/services/subscription-cache.service.interface";
@@ -19,6 +19,6 @@ export class GetSubscriptionController {
   async handler(
     @LoggedUser() user: LoggedUserDto,
   ) {
-    return await this.subscriptionCacheService.getCurrentSubscription(user.activeOrganization.id.toString());
+    return await this.subscriptionCacheService.getCurrentSubscription(String(user.activeOrganization.id));
   }
 }

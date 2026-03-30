@@ -1,4 +1,5 @@
 import axios from "axios"
+import { SubscriptionType } from "../types/subscription";
 
 export const fetchUser = async (token: string, spaceId: string) => {
   console.log("🚀 ~ fetchUser ~ spaceId:", spaceId)
@@ -57,5 +58,12 @@ export const getSub = async () => {
 
 export const manageSubscription = async (organizationId: string) => {
   const res = await axios.post(`${process.env.REACT_APP_API_URL}/subscription/manage/${organizationId}`)
+  return res.data
+}
+
+export const checkoutSubscription = async (organizationId: string, selectedSubscriptionType: SubscriptionType) => {
+  const res = await axios.post(`${process.env.REACT_APP_API_URL}/subscription/checkout/${organizationId}`, {
+    selectedSubscriptionType,
+  })
   return res.data
 }
