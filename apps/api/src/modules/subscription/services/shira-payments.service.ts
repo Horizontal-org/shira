@@ -3,6 +3,7 @@ import {
   Injectable,
 } from "@nestjs/common";
 import { randomUUID } from "crypto";
+import { CheckoutSubscriptionType } from "../dto/checkout-subscription.dto";
 import { IShiraPaymentsService } from "../interfaces/services/shira-payments.service.interface";
 import { IShiraPaymentsLoggerService } from "../interfaces/services/shira-payments-logger.service.interface";
 import { TYPES } from "../interfaces";
@@ -14,9 +15,13 @@ export class ShiraPaymentsService implements IShiraPaymentsService {
     private readonly logger: IShiraPaymentsLoggerService,
   ) { }
 
-  async createCheckout(organizationId: string) {
+  async createCheckout(
+    organizationId: string,
+    selectedSubscriptionType: CheckoutSubscriptionType,
+  ) {
     return this.request<{ url: string }>(`/payments/checkout/${organizationId}`, {
       method: 'POST',
+      body: JSON.stringify({ selectedSubscriptionType }),
     }, organizationId);
   }
 

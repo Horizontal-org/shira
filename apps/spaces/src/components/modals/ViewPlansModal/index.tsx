@@ -5,6 +5,7 @@ import { IoMdCheckmarkCircle, IoMdHelpCircle } from "react-icons/io";
 import { FiX } from "react-icons/fi";
 import { checkoutSubscription } from "../../../fetch/auth";
 import { useStore } from "../../../store";
+import { SubscriptionType } from "../../../types/subscription";
 
 interface Props {
   isModalOpen: boolean;
@@ -36,9 +37,9 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
       ? t("modals.view_plans.actions.downgrade")
       : t("modals.view_plans.plans.starter.cta");
 
-  const navigateToCheckout = async (): Promise<void> => {
+  const navigateToCheckout = async (selectedSubscriptionType: SubscriptionType): Promise<void> => {
     try {
-      const response = await checkoutSubscription(organizationId);
+      const response = await checkoutSubscription(organizationId, selectedSubscriptionType);
       const stripeUrl = response?.url;
 
       if (stripeUrl) {
@@ -82,7 +83,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
             <PlanButton
               text={starterButtonText}
               type="outline"
-              onClick={navigateToCheckout}
+              onClick={() => navigateToCheckout("starter")}
               disabled={isCurrentStarterPlan}
             />
           </PlanCard>
@@ -98,7 +99,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
             <PlanButton
               text={isCurrentProPlan ? t("modals.view_plans.actions.current_plan") : t("modals.view_plans.plans.pro.cta")}
               color={theme.colors.green7}
-              onClick={navigateToCheckout}
+              onClick={() => navigateToCheckout("pro")}
               disabled={isCurrentProPlan}
             />
           </PlanCard>
