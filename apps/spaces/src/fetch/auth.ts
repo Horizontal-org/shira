@@ -59,3 +59,8 @@ export const manageSubscription = async (organizationId: string) => {
   const res = await axios.post(`${process.env.REACT_APP_API_URL}/subscription/manage/${organizationId}`)
   return res.data
 }
+
+export const checkoutSubscription = async (organizationId: string) => {
+  const res = await axios.post(`${process.env.REACT_APP_API_URL}/subscription/checkout/${organizationId}`)
+  return res.data
+}

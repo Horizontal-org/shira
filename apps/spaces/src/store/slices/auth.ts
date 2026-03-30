@@ -18,6 +18,7 @@ export interface AuthSlice {
   };
   subscription: {
     status: string;
+    organizationId: string;
   }
   fetching: boolean;
 }
@@ -28,6 +29,7 @@ const isPublicRoute = (path: string): boolean => {
     || path.startsWith('/create-space')
     || path.startsWith('/invitation-used')
     || path.startsWith('/get-started')
+    || path.startsWith('/checkout-success')
     || path.startsWith('/reset-password');
 };
 

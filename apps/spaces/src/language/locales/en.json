@@ -383,6 +383,10 @@
                 "last_updated": "Last updated: {{date}}",
                 "action": "Change password"
             }
+        },
+        "checkout_success": {
+            "all_done": "All done!",
+            "success_message": "Your checkout was successful. We're activating your subscription now."
         }
     },
     "buttons": {
@@ -413,7 +417,9 @@
         "i_understand": "I understand",
         "back_home": "Back to home",
         "learn_more": "Learn more",
-        "manage_plan": "Manage plan"
+        "manage_plan": "Manage plan",
+        "back_to_quizzes": "Back to quizzes",
+        "go_to_settings": "Go to settings"
     },
     "modals": {
         "create_quiz": {
@@ -587,6 +593,10 @@
         "view_plans": {
             "title": "Available plans",
             "modal_title": "Shira plans and pricing",
+            "actions": {
+                "current_plan": "Current plan",
+                "downgrade": "Downgrade"
+            },
             "comparison": {
                 "title": "What's included?",
                 "admin_management": "Admin management",
@@ -601,7 +611,7 @@
                     "customizable_questions": "Fully customizable quiz questions",
                     "question_library": "Access to the question's library",
                     "custom_quizzes": "Number of custom quizzes",
-                    "apps": "6 apps",
+                    "apps_available": "Apps available",
                     "public_quizzes": "Public quizzes",
                     "private_quizzes": "Private quizzes",
                     "basic_analytics": "Basic analytics",
@@ -622,23 +632,20 @@
                 "starter": {
                     "title": "Starter",
                     "description": "To try things out and get familiar with Shira",
-                    "price": "$0/month",
-                    "note": "Free, no strings attached",
+                    "price": "Free",
                     "cta": "Get started"
                 },
                 "pro": {
                     "title": "Pro",
-                    "description": "The full power of Shira",
+                    "description": "Experience the full power of Shira",
                     "price": "$50/month + $1 per quiz taken",
-                    "note": "Start with a 14-day free trial.",
                     "cta": "Start 14-day free trial"
                 },
                 "enterprise": {
                     "title": "Enterprise",
-                    "description": "Best for large organizations and service providers",
+                    "description": "Tailor Shira for large organizations and service providers",
                     "price": "Custom pricing",
-                    "note": "Rates tailored to your needs",
-                    "cta": "Get started"
+                    "cta": "Contact us"
                 }
             }
         }
