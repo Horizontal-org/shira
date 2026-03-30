@@ -264,7 +264,8 @@
                     "facebook_messenger": "Мессенджер",
                     "dating_app": "Приложение для знакомств",
                     "sms": "СМС",
-                    "gmail": "Gmail"
+                    "gmail": "Gmail",
+                    "whatsapp": "WhatsApp"
                 }
             },
             "actions": {
@@ -711,7 +712,7 @@
     },
     "get_started": {
         "message": "",
-        "description": "Create your Shira space to start building your own custom quizzes today.",
+        "description": "Создайте свой личный кабинет в Shira и начните разрабатывать собственные викторины уже сегодня.",
         "title": "Начать работу",
         "organization_name_required": "Название организации (обязательно)",
         "email_required": "Электронная почта (обязательно)",
