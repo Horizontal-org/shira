@@ -726,7 +726,25 @@
     },
     "create_space": {
         "message": "",
-        "title": "Shira 空间"
+        "title": "Shira 空间",
+        "subtitle": "创建空间后，您将能够创建与您的使用场景和社群高度相关的自定义测验和题目。",
+        "form_title": "创建新空间",
+        "form_description": "请填写以下表单以创建您的 Shira 空间。",
+        "beta_lead": "Shira 空间目前处于封闭测试阶段。如需获取加入测试所需的密码短语，请发送邮件至：",
+        "checking_invitation": "正在验证邀请...",
+        "email_label": "确认您的电子邮箱地址",
+        "password_label": "密码",
+        "confirm_password_label": "确认密码",
+        "button_create": "创建新空间",
+        "validation": {
+            "email_required": "电子邮箱为必填项。",
+            "password_required": "密码为必填项。",
+            "password_min_length": "密码长度不少于 8 个字符。",
+            "passwords_mismatch": "两次输入的密码不一致。"
+        },
+        "errors": {
+            "create_space_failed": "创建空间时出现错误，请重试。"
+        }
     },
     "settings": {
         "message": "",
