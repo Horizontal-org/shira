@@ -26,7 +26,6 @@ export class ListQuizController {
     @SpaceId() spaceId: number,
     @SubscriptionDecorator() subscription: Partial<CachedSubscription>
   ) {
-    //TODO here limit quiz if no sub
     const quizzes = await this.listQuizService.execute(spaceId)
 
     if (!subscription || subscription.status !== 'active') {
