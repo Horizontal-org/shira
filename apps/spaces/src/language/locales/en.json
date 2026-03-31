@@ -629,6 +629,22 @@
                     "one_admin": "1 admin",
                     "unlimited": "Unlimited",
                     "up_to_three_custom_quizzes": "Up to 3 custom quizzes"
+                },
+                "tooltips": {
+                    "hosting": "[ADD TOOLTIP COPY]",
+                    "admin_dashboard": "[ADD TOOLTIP COPY]",
+                    "number_of_admins": "Unlimited admins coming soon",
+                    "customizable_questions": "[ADD TOOLTIP COPY]",
+                    "question_library": "[ADD TOOLTIP COPY]",
+                    "custom_quizzes": "[ADD TOOLTIP COPY]",
+                    "apps_available": "Gmail, Outlook, SMS, WhatsApp, Messenger, Dating app",
+                    "public_quizzes": "Anyone can take your quiz through an easy-to-share URL",
+                    "private_quizzes": "Only learners registered in your space can take your quizzes",
+                    "basic_analytics": "Track results on the quiz level",
+                    "detailed_analytics": "Track results on the learner and question levels",
+                    "analysis_tools": "Coming soon",
+                    "tailor_made_training": "[ADD TOOLTIP COPY]",
+                    "priority_support": "[ADD TOOLTIP COPY]"
                 }
             },
             "plans": {

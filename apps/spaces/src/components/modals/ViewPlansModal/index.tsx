@@ -1,10 +1,11 @@
 import { FunctionComponent } from "react";
 import { Body3, Button, DatingAppIcon, FacebookIcon, GmailIcon, Modal, OutlookIcon, SMSIcon, styled, SubHeading1, SubHeading3, useTheme, WhatsappIcon } from "@shira/ui";
 import { useTranslation } from "react-i18next";
-import { IoMdCheckmarkCircle, IoMdHelpCircle } from "react-icons/io";
+import { IoMdCheckmarkCircle } from "react-icons/io";
 import { FiX } from "react-icons/fi";
 import { checkoutSubscription, navigateToManageSubscription } from "../../../fetch/auth";
 import { useStore } from "../../../store";
+import { HelpTooltipIcon } from "./utils";
 
 interface Props {
   isModalOpen: boolean;
@@ -19,7 +20,6 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
 }) => {
   const { t } = useTranslation();
   const theme = useTheme();
-  const contactEmail = "contact@wearehorizontal.org";
   const subscriptionType = useStore((state) => state.subscription?.type);
   const subscriptionStatus = useStore((state) => state.subscription?.status);
 
@@ -137,6 +137,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
 
               <FeatureCell>
                 <FeatureLabel>{t("modals.view_plans.comparison.rows.hosting")}</FeatureLabel>
+                <HelpTooltipIcon label={t("modals.view_plans.comparison.tooltips.hosting")} />
               </FeatureCell>
               <ValueCell>
                 <ValueText>{t("modals.view_plans.comparison.values.cloud")}</ValueText>
@@ -150,6 +151,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
 
               <FeatureCell>
                 <FeatureLabel>{t("modals.view_plans.comparison.rows.admin_dashboard")}</FeatureLabel>
+                <HelpTooltipIcon label={t("modals.view_plans.comparison.tooltips.admin_dashboard")} />
               </FeatureCell>
               <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
               <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
@@ -157,7 +159,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
 
               <FeatureCell>
                 <FeatureLabel>{t("modals.view_plans.comparison.rows.number_of_admins")}</FeatureLabel>
-                <IoMdHelpCircle size={20} color={theme.colors.dark.mediumGrey} />
+                <HelpTooltipIcon label={t("modals.view_plans.comparison.tooltips.number_of_admins")} />
               </FeatureCell>
               <ValueCell>
                 <ValueText>{t("modals.view_plans.comparison.values.one_admin")}</ValueText>
@@ -176,6 +178,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
 
               <FeatureCell>
                 <FeatureLabel>{t("modals.view_plans.comparison.rows.customizable_questions")}</FeatureLabel>
+                <HelpTooltipIcon label={t("modals.view_plans.comparison.tooltips.customizable_questions")} />
               </FeatureCell>
               <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
               <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
@@ -183,6 +186,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
 
               <FeatureCell>
                 <FeatureLabel>{t("modals.view_plans.comparison.rows.question_library")}</FeatureLabel>
+                <HelpTooltipIcon label={t("modals.view_plans.comparison.tooltips.question_library")} />
               </FeatureCell>
               <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
               <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
@@ -190,6 +194,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
 
               <FeatureCell>
                 <FeatureLabel>{t("modals.view_plans.comparison.rows.custom_quizzes")}</FeatureLabel>
+                <HelpTooltipIcon label={t("modals.view_plans.comparison.tooltips.custom_quizzes")} />
               </FeatureCell>
               <ValueCell>
                 <ValueText>{t("modals.view_plans.comparison.values.up_to_three_custom_quizzes")}</ValueText>
@@ -203,7 +208,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
 
               <FeatureCell>
                 <FeatureLabel>{t("modals.view_plans.comparison.rows.apps_available")}</FeatureLabel>
-                <IoMdHelpCircle size={20} color={theme.colors.dark.mediumGrey} />
+                <HelpTooltipIcon label={t("modals.view_plans.comparison.tooltips.apps_available")} />
               </FeatureCell>
               <ValueCell>
                 <AppsIconRow>
@@ -243,7 +248,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
 
               <FeatureCell>
                 <FeatureLabel>{t("modals.view_plans.comparison.rows.public_quizzes")}</FeatureLabel>
-                <IoMdHelpCircle size={20} color={theme.colors.dark.mediumGrey} />
+                <HelpTooltipIcon label={t("modals.view_plans.comparison.tooltips.public_quizzes")} />
               </FeatureCell>
               <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
               <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
@@ -251,7 +256,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
 
               <FeatureCell>
                 <FeatureLabel>{t("modals.view_plans.comparison.rows.private_quizzes")}</FeatureLabel>
-                <IoMdHelpCircle size={20} color={theme.colors.dark.mediumGrey} />
+                <HelpTooltipIcon label={t("modals.view_plans.comparison.tooltips.private_quizzes")} />
               </FeatureCell>
               <ValueCell>
                 <ValueText>-</ValueText>
@@ -266,7 +271,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
 
               <FeatureCell>
                 <FeatureLabel>{t("modals.view_plans.comparison.rows.basic_analytics")}</FeatureLabel>
-                <IoMdHelpCircle size={20} color={theme.colors.dark.mediumGrey} />
+                <HelpTooltipIcon label={t("modals.view_plans.comparison.tooltips.basic_analytics")} />
               </FeatureCell>
               <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
               <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
@@ -274,7 +279,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
 
               <FeatureCell>
                 <FeatureLabel>{t("modals.view_plans.comparison.rows.detailed_analytics")}</FeatureLabel>
-                <IoMdHelpCircle size={20} color={theme.colors.dark.mediumGrey} />
+                <HelpTooltipIcon label={t("modals.view_plans.comparison.tooltips.detailed_analytics")} />
               </FeatureCell>
               <ValueCell>
                 <ValueText>-</ValueText>
@@ -284,7 +289,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
 
               <FeatureCell>
                 <FeatureLabel>{t("modals.view_plans.comparison.rows.analysis_tools")}</FeatureLabel>
-                <IoMdHelpCircle size={20} color={theme.colors.dark.mediumGrey} />
+                <HelpTooltipIcon label={t("modals.view_plans.comparison.tooltips.analysis_tools")} />
               </FeatureCell>
               <ValueCell>
                 <ValueText>-</ValueText>
@@ -299,6 +304,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
 
               <FeatureCell>
                 <FeatureLabel>{t("modals.view_plans.comparison.rows.tailor_made_training")}</FeatureLabel>
+                <HelpTooltipIcon label={t("modals.view_plans.comparison.tooltips.tailor_made_training")} />
               </FeatureCell>
               <ValueCell>
                 <ValueText>-</ValueText>
@@ -310,6 +316,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
 
               <FeatureCell>
                 <FeatureLabel>{t("modals.view_plans.comparison.rows.priority_support")}</FeatureLabel>
+                <HelpTooltipIcon label={t("modals.view_plans.comparison.tooltips.priority_support")} />
               </FeatureCell>
               <ValueCell>
                 <ValueText>-</ValueText>
