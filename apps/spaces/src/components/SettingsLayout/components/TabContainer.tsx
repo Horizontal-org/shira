@@ -1,7 +1,7 @@
 import { FunctionComponent, useState } from "react";
 import { Body1SemiBold, Body2Italic, Body2Regular, Button, styled, useTheme } from "@shira/ui";
 import { useTranslation } from "react-i18next";
-import { manageSubscription } from "../../../fetch/auth";
+import { navigateToManageSubscription } from "../../../fetch/auth";
 
 type TabType = "account" | "subscription";
 
@@ -31,20 +31,6 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   const subscriptionActionText = formattedCurrentPlanName === 'Starter'
     ? t('settings.subscription.upgrade')
     : t('settings.subscription.manage_plan');
-
-  async function navigateToStripe(): Promise<void> {
-    try {
-      const response = await manageSubscription(subscription?.organizationId);
-      const stripeUrl = response?.url;
-
-      if (stripeUrl) {
-        window.location.assign(stripeUrl);
-      }
-    } catch (error) {
-      //TODO handle error
-      console.error("Error navigating to Stripe:", error);
-    }
-  }
 
   return (
     <Container>
@@ -117,7 +103,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
                   type="primary"
                   text={subscriptionActionText}
                   color={theme.colors.green7}
-                  onClick={navigateToStripe}
+                  onClick={() => navigateToManageSubscription(subscription?.organizationId)}
                 />
               </SubscriptionActions>
             </SettingRow>

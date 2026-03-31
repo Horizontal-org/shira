@@ -1,5 +1,4 @@
 import axios from "axios"
-import { SubscriptionType } from "../types/subscription";
 
 export const fetchUser = async (token: string, spaceId: string) => {
   console.log("🚀 ~ fetchUser ~ spaceId:", spaceId)
@@ -61,9 +60,23 @@ export const manageSubscription = async (organizationId: string) => {
   return res.data
 }
 
-export const checkoutSubscription = async (organizationId: string, selectedSubscriptionType: SubscriptionType) => {
-  const res = await axios.post(`${process.env.REACT_APP_API_URL}/subscription/checkout/${organizationId}`, {
-    selectedSubscriptionType,
-  })
+export const navigateToManageSubscription = async (
+  organizationId: string,
+) => {
+  try {
+    const response = await manageSubscription(organizationId)
+    const stripeUrl = response?.url
+
+    if (stripeUrl) {
+      window.location.assign(stripeUrl)
+    }
+  } catch (error) {
+    //TODO error handling?
+    console.error("Error navigating to Stripe:", error)
+  }
+}
+
+export const checkoutSubscription = async (organizationId: string) => {
+  const res = await axios.post(`${process.env.REACT_APP_API_URL}/subscription/checkout/${organizationId}`)
   return res.data
 }

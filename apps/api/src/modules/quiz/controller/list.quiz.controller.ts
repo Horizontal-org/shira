@@ -25,7 +25,7 @@ export class ListQuizController {
   async list(
     @SpaceId() spaceId: number,
     @SubscriptionDecorator() subscription: Partial<CachedSubscription>
-  ) { 
+  ) {
     const quizzes = await this.listQuizService.execute(spaceId)
 
     if (!subscription || subscription.status !== 'active') {
