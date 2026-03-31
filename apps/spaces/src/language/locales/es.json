@@ -1,39 +1,251 @@
 {
     "login": {
-        "message": ""
+        "message": "",
+        "title": "Iniciar Sesión",
+        "subtitle": "Inicia sesión para acceder a tu espacio Shira personalizado.",
+        "email_placeholder": "Email",
+        "password_placeholder": "Contraseña",
+        "reset_password": "¿Olvidaste tu contraseña?",
+        "login_header_button": "Iniciar Sesión"
     },
     "beta": {
-        "message": "Shira aún está en desarrollo y puede que experimentes problemas."
+        "message": "Shira aún está en desarrollo y puede que experimentes problemas.",
+        "label": "BETA",
+        "click_here": "Haz clic aquí",
+        "feedback_text": "¡para compartir tus comentarios y ayudarnos a mejorar!"
     },
     "left_menu": {
-        "message": ""
+        "message": "",
+        "support": "Soporte",
+        "settings": "Configuración",
+        "logout": "Cerrar sesión"
     },
     "dashboard": {
-        "message": ""
+        "message": "",
+        "title": "Cuestionarios",
+        "subtitle": "Administra tus cuestionarios aquí, incluyendo crear, publicar, despublicar y eliminar cuestionarios.",
+        "create_quiz_button": "Crear nuevo cuestionario"
     },
     "quizzes": {
-        "message": ""
+        "message": "",
+        "filter": {
+            "all_quizzes": "Todos los cuestionarios",
+            "published": "Publicado",
+            "unpublished": "Despublicado"
+        },
+        "last_modified": "Última modificación {{date}}",
+        "publish_toggle": "Publicado",
+        "actions": {
+            "edit": "Editar",
+            "duplicate": "Duplicar"
+        }
     },
     "quiz": {
-        "message": ""
+        "message": "",
+        "public_subtitle": "Crea preguntas, comparte el enlace de tu cuestionario y supervisa resultados. Shira guarda de manera automática tu trabajo siempre que te conectes a internet.",
+        "private_subtitle": "Crea preguntas del cuestionario, gestiona aprendices y supervisa resultados. Shira guarda de manera automática tu trabajo siempre que te conectes a internet.",
+        "publish_toggle": {
+            "published": "Publicado",
+            "unpublished": "Despublicado",
+            "disabled_tooltip": "Crea al menos 1 pregunta para publicar tu cuestionario."
+        },
+        "actions": {
+            "rename": "Renombrar",
+            "duplicate": "Duplicar",
+            "copy_link": "Copiar enlace del cuestionario",
+            "disabled_tooltip": "Crea al menos 1 pregunta para copiar el enlace de tu cuestionario.",
+            "delete": "Eliminar"
+        },
+        "tabs": {
+            "questions": "Preguntas",
+            "results": "Resultados",
+            "learners": "Estudiantes"
+        },
+        "visibility": {
+            "public": "Público",
+            "private": "Privado"
+        }
     },
     "questions_tab": {
-        "message": ""
+        "message": "",
+        "create_question_button": "Crear pregunta",
+        "add_from_library_button": "Añadir desde la biblioteca",
+        "action_tooltips": {
+            "edit": "Editar pregunta",
+            "duplicate": "Duplicar pregunta",
+            "delete": "Eliminar pregunta"
+        }
     },
     "questions": {
-        "message": ""
+        "message": "",
+        "edit": {
+            "tab_header": "Editar pregunta"
+        }
     },
     "no_questions": {
-        "message": ""
+        "message": "",
+        "subtitle": "Aún no tienes ninguna pregunta. Crea tu propia pregunta o añade una desde la biblioteca de Shira."
     },
     "create_question": {
-        "message": ""
+        "message": "",
+        "header_title": "Crear una nueva pregunta",
+        "tabs": {
+            "question_info": {
+                "tab_title": "Información de la pregunta",
+                "question_name": {
+                    "title": "Nombre de la pregunta",
+                    "subtitle": "Este nombre solo será visible para ti, para ayudarte a recordar sobre qué es esta pregunta.",
+                    "question_name_placeholder": "Nombre de la pregunta"
+                },
+                "phishing": {
+                    "title": "¿Es phishing?",
+                    "yes": "Sí",
+                    "no": "No"
+                },
+                "apps": {
+                    "title": "App seleccionada"
+                }
+            },
+            "content": {
+                "tab_title": "Contenido",
+                "phishing": "Estás escribiendo un mensaje de phishing",
+                "legitimate": "Estás escribiendo un mensaje legítimo",
+                "message": "En esta pantalla, crea el contenido que se mostrará en la pregunta, incluyendo ",
+                "message2": "y ",
+                "message3": "para acompañarlo.",
+                "message_variables": "variables",
+                "message_explanations": "explicaciones",
+                "explanation_content_placeholder": "Nueva explicación",
+                "sender": {
+                    "title": "Nombre de remitente",
+                    "subtitle": "Este es el nombre que se mostrará en el campo \"Remitente\" del correo.",
+                    "placeholder": "Nombre de remitente"
+                },
+                "sender_email": {
+                    "title": "Dirección de correo electrónico de remitente",
+                    "subtitle": "Esta es la dirección de email que se mostrará en el campo \"Remitente\" del correo.",
+                    "placeholder": "Correo de remitente"
+                },
+                "email_subject": {
+                    "title": "Asunto del correo",
+                    "subtitle": "Esto se mostrará en el campo \"Asunto\" del correo. Si dejas este campo vacío, el asunto se mostrará como \"(sin asunto)\".",
+                    "placeholder": "Asunto"
+                },
+                "email_body_content": {
+                    "title": "Contenido del cuerpo del correo",
+                    "subtitle": "Escribe el mensaje que se mostrará."
+                },
+                "attachment_button": "Añadir adjunto",
+                "explanations": {
+                    "title": "Las explicaciones se mostrarán en el siguiente orden en el cuestionario."
+                },
+                "sender_phone": {
+                    "title": "Teléfono de remitente",
+                    "subtitle": "Este es el número de teléfono que se mostrará en el campo \"Remitente\" del mensaje.",
+                    "placeholder": "Número de teléfono de remitente"
+                },
+                "message_content": {
+                    "title": "Contenido del mensaje",
+                    "subtitle": "Crea el mensaje que se mostrará. Puedes crear múltiples mensajes y archivos de imagen. Añade una explicación seleccionando una porción de texto y haciendo clic en el icono de explicación."
+                },
+                "add_message_text": "Añadir texto del mensaje",
+                "add_image_attachment": "Añadir imagen",
+                "upload_image": "Subir desde la computadora",
+                "message_text": "Texto del mensaje",
+                "link_text": {
+                    "set_title": "Establecer enlace",
+                    "edit_title": "Editar Enlace",
+                    "subtitle": "En el cuestionario, este enlace aparecerá clicable, pero por motivos de seguridad, hacer clic en él no abrirá la URL.",
+                    "placeholder": "Enlace URL"
+                }
+            },
+            "preview": {
+                "tab_title": "Previsualizar",
+                "subtitle": "Así es como se mostrará tu pregunta a estudiantes, incluyendo las explicaciones que has escrito.",
+                "show_explanations": "Mostrar explicaciones",
+                "hide_explanations": "Ocultar explicaciones",
+                "next_explanation": "Siguiente explicación",
+                "previous_explanation": "Explicación anterior",
+                "no_explanations": "No hay explicaciones para esta pregunta.",
+                "aria_label": "Previsualizar pregunta"
+            }
+        }
     },
     "question_library": {
-        "message": ""
+        "message": "",
+        "tab_header_title": "Añadir una pregunta desde la biblioteca",
+        "title": "Biblioteca de pregunta",
+        "subtitle": "Selecciona una pregunta de la lista a continuación para añadirla a tu cuestionario. Una vez que la hayas añadido, puedes editarla para personalizarla completamente, incluyendo cambiar el texto y las explicaciones.",
+        "columns": {
+            "question_name": "Nombre de la pregunta",
+            "type": {
+                "title": "Tipo",
+                "phishing": "Phishing",
+                "legitimate": "Legítimo"
+            },
+            "language": {
+                "title": "Idioma",
+                "placeholder": "Idiomas"
+            },
+            "app": {
+                "title": "Aplicación",
+                "messaging_type": "App de mensajería",
+                "email_type": "App de correo electrónico",
+                "apps": {
+                    "whatsapp": "WhatsApp",
+                    "facebook_messenger": "Messenger",
+                    "dating_app": "App de Citas",
+                    "sms": "SMS",
+                    "gmail": "Gmail",
+                    "outlook": "Outlook"
+                }
+            },
+            "actions": {
+                "title": "Acciones",
+                "add_aria_label": "Añadir",
+                "preview_aria_label": "Previsualizar",
+                "disabled_tooltip": "Seleccionar un idioma y una app para usar esta pregunta."
+            }
+        }
     },
     "results_tab": {
-        "message": ""
+        "message": "",
+        "title": "Resultados generales",
+        "completed_quizzes": {
+            "title": "Número de cuestionarios completados",
+            "subtitle": "Este es el número de cuestionarios que han sido completados por estudiantes."
+        },
+        "average_score": {
+            "title": "Puntuación promedio",
+            "subtitle": "Esta es la puntuación promedio recibida por todas las personas estudiantes que completaron este cuestionario.",
+            "empty_subtitle": "La puntuación promedio recibida por todas las personas estudiantes se mostrará aquí."
+        },
+        "rate": {
+            "title": "Tasa de finalización",
+            "subtitle": "Este es el porcentaje de estudiantes que han completado este cuestionario del total de personas estudiantes a las que se les asignó."
+        },
+        "by_question": {
+            "title": "Resultados por pregunta",
+            "description": "La puntuación promedio es el porcentaje de estudiantes que respondieron cada pregunta correctamente.",
+            "empty_state": "Este cuestionario no tiene ninguna pregunta respondida.",
+            "table": {
+                "type": "Tipo",
+                "question_name": "Nombre",
+                "score": "Puntuación promedio",
+                "loading": "Cargando preguntas..."
+            }
+        },
+        "by_learner": {
+            "title": "Resultados por estudiantes",
+            "description": "Estas son todas las personas estudiantes que han completado el cuestionario y sus puntuación individual.",
+            "empty_state": "Ninguna persona estudiante ha completado este cuestionario aún.",
+            "table": {
+                "learner": "Estudiante",
+                "date": "Fecha de envío",
+                "score": "Puntuación del cuestionario",
+                "loading": "Cargando estudiantes..."
+            }
+        }
     },
     "support": {
         "message": ""
@@ -64,19 +276,106 @@
         "message": ""
     },
     "learners": {
-        "message": ""
+        "message": "",
+        "title": "Estudiantes",
+        "subtitle": "Gestiona quienes pueden completar los cuestionarios privados que creas.",
+        "empty_state": "No hay estudiantes con registro en tu espacio aún. Invita estudiantes para comenzar.",
+        "table": {
+            "learner": "Estudiante",
+            "registration": "Registro",
+            "quiz_status": "Estado del cuestionario",
+            "invited_at": "Fecha de invitación",
+            "invited_tag": "Invitado",
+            "registered_tag": "Registrado",
+            "submitted_tag": "Enviado",
+            "not_submitted_tag": "No enviado"
+        },
+        "assign_dialog": {
+            "registered_title": "Aprendices en registro",
+            "registered_description": "Selecciona 1 o más aprendices para asignarles este cuestionario.",
+            "registered_description_2": "Puedes gestionar aprendices con registro e invitar a más in la <0>sección Aprendices</0>.",
+            "assign_button": "Asignar a aprendices",
+            "assign_title": "Asignar \"{{quiz_title}}\" a aprendices",
+            "no_learners": "No hay aprendices con registro en tu espacio.",
+            "all_learners_registered": "Ya se le ha asignado este cuestionario a todas las personas aprendices registradas.",
+            "disabled_tooltip": "Crea al menos 1 pregunta para asignar a aprendices."
+        }
     },
     "confirm_email_update": {
-        "message": ""
+        "message": "",
+        "success_title": "Dirección de correo electrónico actualizada",
+        "success_description": "Tu dirección de correo electrónico ha sido confirmada. Ahora puedes iniciar sesión con tu nueva dirección correo electrónico."
     },
     "reset_password": {
-        "message": ""
+        "message": "",
+        "title": "Restablecer contraseña",
+        "subtitle": "Introduce la dirección de correo electrónico asociada con tu cuenta de Shira. Recibirás un correo con las instrucciones para restablecer tu contraseña.",
+        "email_placeholder": "Email (obligatorio)",
+        "send_button": "Enviar correo de restablecimiento",
+        "success_title": "Revisa tu correo",
+        "success_description": "Hemos enviado un correo de restablecimiento de contraseña a tu correo electrónico.",
+        "success_info": "¿No recibiste un correo? Asegúrate de que la dirección de correo que introdujiste es válida, revisa tu carpeta de spam o contáctanos a <0>{{contact_email}}</0>",
+        "create_title": "Crear contraseña nueva",
+        "create_subtitle": "Tu contraseña debe contener al menos 8 caracteres.",
+        "new_password_placeholder": "Contraseña nueva (obligatorio)",
+        "confirm_password_placeholder": "Confirmar contraseña nueva (obligatorio)",
+        "reset_button": "Restablecer contraseña",
+        "reset_success_title": "Contraseña actualizada",
+        "reset_success_description": "Ahora puedes iniciar sesión con tu contraseña nueva.",
+        "expired_title": "Lo sentimos, algo salió mal.",
+        "expired_description": "El enlace que abriste es inválido o ha expirado. Por favor contacta a tu organización o envía un correo a contact@wearehorizontal.org para soporte.",
+        "validation": {
+            "email_required": "El correo es obligatorio",
+            "invalid_email": "Introduce una dirección de correo electrónico válida",
+            "password_required": "La contraseña es obligatoria",
+            "password_min_length": "La contraseña debe contener al menos 8 caracteres",
+            "confirm_password_required": "Por favor, confirma tu contraseña.",
+            "passwords_mismatch": "Las contraseñas no coinciden",
+            "incorrect_password": "Contraseña incorrecta."
+        }
     },
     "learner_quiz_tab": {
-        "message": ""
+        "message": "",
+        "empty_state": {
+            "description": "Este cuestionario aún no tiene estudiantes. Haz clic en el botón \"Asignar a Estudiantes\" para comenzar."
+        },
+        "table": {
+            "description": "Aquí están las personas estudiantes a las que se les ha asignado este cuestionario."
+        }
     },
     "learners_bulk_import": {
-        "message": ""
+        "message": "",
+        "header_title": "Importar estudiantes por lote",
+        "tabs": {
+            "upload_csv": {
+                "tab_title": "Subir CSV",
+                "subtitle": "Puedes invitar a múltiples estudiantes a la vez subiendo un archivo CSV que contenga sus detalles. Para prevenir errores, recomendamos descargar y completar esta plantilla CVS pre-formateada.",
+                "section_title": "Sube tu hoja de cálculos rellenada",
+                "drag_title": "Arrastra y suelta tu hoja de cálculos rellenada aquí",
+                "or": "O",
+                "file_type": "Tipos de activos aceptados: solo .csv",
+                "file_size": "Tamaño máximo de archivo: 10 MB",
+                "remove_file": "Recuperar archivo seleccionado",
+                "upload_complete": "Carga completada",
+                "upload_success": "¡Tu hoja de cálculos subió exitosamente! Continúa al proximo paso para verificar a tus estudiantes.",
+                "uploading": "Por favor espera mientras Shira sube y valida tus datos.",
+                "invalid_file_format": "Error: formato de archivo inválido",
+                "invalid_file_format_description": "Por favor asegúrate de que el archivo es formato CSV e intenta de nuevo.",
+                "upload_error": "Error: tu archivo no pudo ser procesado",
+                "upload_error_description": "No pudimos procesar el archivo. Por favor, vuelve a intentar.",
+                "too_many_rows_error": "Error: demasiadas filas",
+                "too_many_rows_error_description": "Por favor, asegúrate de que tu archivo contiene un máximo de 1,000 filas y vuelve a intentar.",
+                "invalid_formatting": "Error: formato inválido",
+                "invalid_formatting_description": "Por favor asegúrate de que tu hoja de cálculos esté formateada según las reglas anteriores y vuelve a intentar."
+            },
+            "verify_learners": {
+                "tab_title": "Verificar estudiantes",
+                "subtitle": "Por favor asegúrate de que todos los datos son precisos antes de importarlos a Shira y enviar las invitaciones.",
+                "error_tab": "Error ({{count}})",
+                "skipped_tab": "Omitidos ({{count}})",
+                "valid_tab": "Válidos ({{count}})"
+            }
+        }
     },
     "create_space": {
         "message": ""
