@@ -62,16 +62,12 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
     return navigateToCheckout();
   };
 
-  const contact = (): void => {
-    window.location.assign(`mailto:${contactEmail}`);
-  };
-
   return (
     <StyledModal
       id="view-plans-modal"
       isOpen={isModalOpen}
       title={t("modals.view_plans.modal_title")}
-      titleIcon={<CloseButton onClick={onClose} aria-label={t("buttons.close")}><FiX size={22} /></CloseButton>}
+      titleIcon={<CloseButton onClick={onClose} aria-label={t("buttons.close")}><FiX size={18} /></CloseButton>}
       primaryButtonText={t("buttons.close")}
       secondaryButtonText=""
       onPrimaryClick={onClose}
@@ -125,7 +121,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
             <PlanButton
               text={isCurrentEnterprisePlan ? t("modals.view_plans.actions.current_plan") : t("modals.view_plans.plans.enterprise.cta")}
               type="outline"
-              onClick={contact}
+              onClick={() => { window.open('https://shira.app/contact', '_blank') }}
               disabled={isCurrentEnterprisePlan}
             />
           </PlanCard>
@@ -336,6 +332,15 @@ const StyledModal = styled(Modal)`
 
   > div:first-child {
     padding-bottom: 12px;
+
+    > h4 {
+      font-weight: 400;
+      font-size: 16px;
+
+      @media (max-width: ${props => props.theme.breakpoints.sm}) {
+        font-size: 14px;
+      }
+    }
   }
 
   > div:nth-child(2) {
