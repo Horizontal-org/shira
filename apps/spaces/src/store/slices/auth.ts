@@ -59,7 +59,8 @@ export const createAuthSlice: StateCreator<
     localStorage.removeItem("shira_x_space");
     set({
       user: null,
-      space: null
+      space: null,
+      subscription: null
     })
   },
 

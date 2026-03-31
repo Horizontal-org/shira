@@ -1,12 +1,14 @@
-import { FunctionComponent, useEffect, useState } from "react";
-import { Body1, Body3, Modal, RadioGroup, styled } from "@shira/ui";
-import { useTranslation } from "react-i18next";
+import { FunctionComponent, useEffect, useMemo, useState } from "react";
+import { Body1, Body1SemiBold, Body3, GeneralTooltip, Link3, Modal, RadioGroup, styled, useTheme } from "@shira/ui";
+import { Trans, useTranslation } from "react-i18next";
+import { RiProhibitedLine } from "react-icons/ri";
 
 interface Props {
   isModalOpen: boolean;
   onConfirm: (visibility: "public" | "private") => Promise<void>;
   onBack: () => void;
   isSubmitting?: boolean;
+  privateForbidden?: boolean
 }
 
 export const QuizVisibilityModal: FunctionComponent<Props> = ({
@@ -14,15 +16,53 @@ export const QuizVisibilityModal: FunctionComponent<Props> = ({
   onConfirm,
   onBack,
   isSubmitting = false,
+  privateForbidden = false
 }) => {
   const { t } = useTranslation();
+  const theme = useTheme();
   const [visibility, setVisibility] = useState<"public" | "private" | null>(null);
+  const [showTooltip, setShowTooltip] = useState(false)
 
   useEffect(() => {
     if (!isModalOpen) {
       setVisibility(null);
     }
   }, [isModalOpen]);
+
+  const options = useMemo(() => {
+    const aux = [{
+      value: "public",
+      label: (
+        <OptionLabelContent>
+          <OptionTitle>
+            {t("modals.quiz_visibility.public_option.title")}
+          </OptionTitle>
+          <OptionDescription>
+            {t("modals.quiz_visibility.public_option.description")}
+          </OptionDescription>
+        </OptionLabelContent>
+      )
+    }]
+
+    if (!privateForbidden) {
+      aux.push({
+        value: "private",
+        label: (
+          <OptionLabelContent>
+            <OptionTitle>
+              {t("modals.quiz_visibility.private_option.title")}
+            </OptionTitle>
+            <OptionDescription>
+              {t("modals.quiz_visibility.private_option.description")}
+            </OptionDescription>
+          </OptionLabelContent>
+        )
+      })
+    }
+    
+    return aux
+
+  }, [t, privateForbidden])
 
   return (
     <Modal
@@ -49,39 +89,47 @@ export const QuizVisibilityModal: FunctionComponent<Props> = ({
         name="quiz-visibility"
         value={visibility}
         onChange={(value) => setVisibility(value as "public" | "private")}
-        options={
-          [
-            {
-              value: "public",
-              label: (
-                <OptionLabelContent>
-                  <OptionTitle>
-                    {t("modals.quiz_visibility.public_option.title")}
-                  </OptionTitle>
-                  <OptionDescription>
-                    {t("modals.quiz_visibility.public_option.description")}
-                  </OptionDescription>
-                </OptionLabelContent>
-              )
-            },
-            {
-              value: "private",
-              label: (
-                <OptionLabelContent>
-                  <OptionTitle>
-                    {t("modals.quiz_visibility.private_option.title")}
-                  </OptionTitle>
-                  <OptionDescription>
-                    {t("modals.quiz_visibility.private_option.description")}
-                  </OptionDescription>
-                </OptionLabelContent>
-              )
-            }
-          ]
-        }
+        options={options}
       />
 
-      <Body1>{t("modals.quiz_visibility.description")}</Body1>
+      { privateForbidden && (
+        <PrivateForbidden>
+          <PrivateIconWrapper>
+            <GeneralTooltip
+              enabled={true}
+              show={showTooltip}
+              setShow={setShowTooltip}
+              label={t('modals.quiz_visibility.private_option.forbidden_tooltip')}
+            >
+              <RiProhibitedLine 
+                size={22}
+                color={theme.colors.error6}
+              />
+            </GeneralTooltip>
+          </PrivateIconWrapper>
+          <div>
+            <OptionTitle>
+              {t("modals.quiz_visibility.private_option.title")}
+            </OptionTitle>
+            <OptionDescription>
+              <Trans
+                i18nKey="modals.quiz_visibility.private_option.forbidden"
+                values={{ learn_more: "Learn more" }}
+                components={[
+                  <Link3
+                    key="learn-more"
+                    href="https://shira.app/pricing"
+                  />
+                ]}
+              />
+            </OptionDescription>
+          </div>
+        </PrivateForbidden>
+      )}
+
+      { !privateForbidden && (
+        <Body1>{t("modals.quiz_visibility.description")}</Body1>
+      )}
     </Modal>
   );
 };
@@ -89,10 +137,10 @@ export const QuizVisibilityModal: FunctionComponent<Props> = ({
 const OptionLabelContent = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  padding-left: 4px;
 `;
 
-const OptionTitle = styled(Body1)`
+const OptionTitle = styled(Body1SemiBold)`
   margin: 0;
 `;
 
@@ -100,3 +148,16 @@ const OptionDescription = styled(Body3)`
   margin: 0;
   color: ${props => props.theme.colors.dark.darkGrey};
 `;
+
+
+const PrivateForbidden = styled.div`
+  display: flex;
+  
+`
+
+const PrivateIconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 10px;
+`

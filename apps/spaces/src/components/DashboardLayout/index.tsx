@@ -1,7 +1,6 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, Sidebar, styled, H2, SubHeading3, Body1, Button, FilterButton, useAdminSidebar, BetaBanner, useTheme } from "@shira/ui";
-import { FiPlus } from 'react-icons/fi';
+import { Sidebar, styled, H2, SubHeading3, Body1, Button, FilterButton, useAdminSidebar, BetaBanner, useTheme, ActionTooltip, Card } from "@shira/ui";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { formatDistance } from "date-fns";
@@ -19,6 +18,8 @@ import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
 import { handleCopyUrlAndNotify } from "../../utils/quiz";
 import { getCurrentDateFNSLocales } from "../../language/dateUtils";
 import { useQuizCreationFlow } from "../../hooks/useQuizCreationFlow";
+import { CreateQuizButton } from "./components/CreateQuizButton";
+import { useSub } from "../../hooks/useSub";
 
 interface Props { }
 
@@ -48,10 +49,11 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     cleanQuizzes: state.cleanQuizzes
   }), shallow)
 
+
   const { t, i18n } = useTranslation();
-  const theme = useTheme();
   const navigate = useNavigate();
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
+  const { isSubActive } = useSub()
 
   const [activeFilter, setActiveFilter] = useState<FilterStates>(FilterStates.all);
   const [cards, setCards] = useState([]);
@@ -182,18 +184,12 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             <StyledSubHeading3 id="space-name">{space && space.name}</StyledSubHeading3>
             <H2 id="dashboard-title">{t('dashboard.title')}</H2>
             <Body1 id="dashboard-subtitle">{t('dashboard.subtitle')}</Body1>
-            <ButtonContainer>
-              <Button
-                id="create-quiz-button"
-                type="primary"
-                leftIcon={<FiPlus />}
-                text={t('dashboard.create_quiz_button')}
-                onClick={() => {
-                  startCreateQuizFlow();
-                }}
-                color={theme.colors.green7}
-              />
-            </ButtonContainer>
+            
+            <CreateQuizButton 
+              isSubActive={isSubActive}
+              quizCount={quizzes ? quizzes.length : 0}
+              startCreateQuizFlow={startCreateQuizFlow}
+            />
           </HeaderContainer>
 
           <FilterButtonsContainer>
@@ -259,6 +255,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                   showLoading={isSubmitting && submittingQuizId === card.id}
                   loadingLabel={t('loading_messages.duplicating')}
                   isPublic={card.visibility === 'public'}
+                  canDuplicate={isSubActive || quizzes.length < 3}
                   visibilityText={
                     card.visibility === 'public'
                       ? t('quiz.visibility.public')
@@ -312,6 +309,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             onBack={handleBackFromVisibility}
             onConfirm={handleConfirmVisibility}
             isSubmitting={isSubmitting}
+            privateForbidden={!isSubActive}
           />
 
           <UnpublishedQuizCopyLinkModal
@@ -428,10 +426,6 @@ const CardGrid = styled.div`
   }
 `;
 
-const ButtonContainer = styled.div`
-  display: flex;
-  align-items: flex-start;
-`;
 
 const QuizWarningNote = styled.span`
   color: #d73527;
