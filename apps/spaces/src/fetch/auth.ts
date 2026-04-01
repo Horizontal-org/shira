@@ -62,9 +62,10 @@ export const manageSubscription = async (organizationId: string) => {
 
 export const navigateToManageSubscription = async (
   organizationId: string,
+  wantsToUpgrade: boolean
 ) => {
   try {
-    const response = await manageSubscription(organizationId)
+    const response = wantsToUpgrade ? await checkoutSubscription(organizationId) : await manageSubscription(organizationId)
     const stripeUrl = response?.url
 
     if (stripeUrl) {

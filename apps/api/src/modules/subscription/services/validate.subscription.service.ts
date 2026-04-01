@@ -12,7 +12,7 @@ export class ValidateSubscriptionService implements IValidateSubscriptionService
   async execute (
     sub
   ) {
-    if (!sub || sub.status !== 'active') {
+    if (!sub || sub.status !== 'active' || sub.type !== 'pro') {
       throw new SubscriptionRequiredException()
     }
   }

@@ -28,7 +28,7 @@ export class ListQuizController {
   ) {
     const quizzes = await this.listQuizService.execute(spaceId)
 
-    if (!subscription || subscription.status !== 'active') {
+    if (!subscription || subscription.status !== 'active' || subscription.type !== 'pro') {
       // return first three public quizzes
       return quizzes.filter(q => q.visibility === 'public').slice(0, 3)
     }

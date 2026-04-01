@@ -32,7 +32,7 @@ export class ValidateCreateQuizService implements IValidateCreateQuizService {
   }
 
   private checkSub = (sub: CachedSubscription) => {
-    if (!sub || sub.status !== 'active') {
+    if (!sub || sub.status !== 'active' || sub.type !== 'pro') {
       throw new SubscriptionRequiredException()
     }
   } 

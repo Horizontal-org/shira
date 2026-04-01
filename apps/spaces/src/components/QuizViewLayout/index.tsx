@@ -74,9 +74,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   const [isPublished, setIsPublished] = useState(false);
 
   const { isSubActive } = useSub()
-  console.log("🚀 ~ QuizViewLayout ~ isSubActive:", isSubActive)
   const hasReachedLimit = useMemo(() => quizzes.length >= 3, [quizzes.length])
-  console.log("🚀 ~ QuizViewLayout ~ hasReachedLimit:", hasReachedLimit)
   const [showDuplicateTooltip, setShowDuplicateTooltip] = useState(false)
 
   const [quiz, handleQuiz] = useState<Quiz | null>(null)
