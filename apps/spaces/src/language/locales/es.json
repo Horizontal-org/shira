@@ -248,19 +248,228 @@
         }
     },
     "support": {
-        "message": ""
+        "message": "",
+        "title": "Soporte",
+        "subtitle": "Si necesitas cualquier ayuda, incluso eliminar tu cuenta, por favor escribe al equipo de Shira a contact@wearehorizontal.org"
     },
     "buttons": {
-        "message": ""
+        "message": "",
+        "ok": "OK",
+        "cancel": "Cancelar",
+        "close": "Cerrar",
+        "exit": "Salir",
+        "save": "Guardar",
+        "back": "Atrás",
+        "delete": "Eliminar",
+        "next": "Siguiente",
+        "continue": "Continuar",
+        "login": "Iniciar sesión",
+        "send_invitation": "Inviar invitación",
+        "send_invitations": "Enviar invitaciones",
+        "try_again": "Volver a intentar",
+        "unassign": "Desasignar",
+        "invite_learner": "Invitar nuevos estudiantes",
+        "invite_learners_bulk": "Importar estudiantes por lote",
+        "delete_learners": "Eliminar estudiantes",
+        "unassign_learners": "Desasignar de estudiantes",
+        "assign_via_email": "Asignar por email",
+        "start_over": "Volver a empezar",
+        "feedback": "Dinos que piensas",
+        "download_template": "Descargar plantilla CSV",
+        "view_guidelines": "Ver reglas de formato",
+        "browse_files": "Explorar archivos",
+        "i_understand": "Entiendo",
+        "back_home": "Volver al inicio"
     },
     "modals": {
-        "message": ""
+        "message": "",
+        "create_quiz": {
+            "button": "Crear nuevo cuestionario",
+            "title": "Dale un nombre a tu nuevo cuestionario",
+            "placeholder": "Nombre del cuestionario"
+        },
+        "duplicate_quiz": {
+            "title": "Duplicar cuestionario",
+            "subtitle": "Establecer el nombre para el nuevo cuestionario",
+            "quiz_name": "Nombre del cuestionario",
+            "quiz_name_placeholder": "Copia de {{quiz_name}}"
+        },
+        "rename_quiz": {
+            "title": "Renombrar cuestionario",
+            "input_placeholder": "Nombre del cuestionario"
+        },
+        "quiz_visibility": {
+            "title": "Establecer privacidad del cuestionario",
+            "subtitle": "¿Te gustaría que tu cuestionario sea público o privado?",
+            "description": "Esta configuración es permanente y no se puede cambiar. Si quieres cambiarla luego, deberás duplicar el cuestionario.",
+            "public_option": {
+                "title": "Público",
+                "description": "Cualquiera conn la URL del cuestionario puede completarlo."
+            },
+            "private_option": {
+                "title": "Privado",
+                "description": "Solo estudiantes con invitación de tu espacio pueden completarlo"
+            }
+        },
+        "publish_quiz": {
+            "title": "Tu cuestionario está despublicado",
+            "private_subtitle_1": "Las personas estudiantes asignadas a este cuestionario no podrán abrirlo porque fue despublicado. ",
+            "private_subtitle_2": "Publica el cuestionario ahora para que las personas estudiantes puedan empezar a completarlo, o mantenlo despublicado hasta que esté todo listo.",
+            "public_subtitle_1": "Se copió el enlace a tu portapapeles. Sin embargo, las personas estudiantes no podrá usarlo porque el cuestionario no ha sido publicado. Publícalo ahora para que puedan empezar a completar el cuestionario.",
+            "submit": "Publicar cuestionario",
+            "close": "Mantener cuestionario despublicado"
+        },
+        "unpublish_quiz_with_questions": {
+            "title": "¿Confirmas que deseas despublicar este cuestionario?",
+            "message": "Las personas usuarias ya no podrán acceder al cuestionario.",
+            "confirm": "Despublicar"
+        },
+        "delete_quiz": {
+            "title": "¿Confirmas que deseas eliminar \"{{quiz_name}}\"?",
+            "subtitle": "Eliminar este cuestionario es una acción permanente y no se puede deshacer.",
+            "note": "Nota: ",
+            "message": "Los Resultados del cuestionario también serán eliminados."
+        },
+        "delete_question": {
+            "title": "¿Confirma que desea eliminar \"{{question_name}}\"?",
+            "message": "Eliminar esta pregunta es una acción permanente y no se puede deshacer.",
+            "note": "Nota: ",
+            "warning": "Los Resultados de esta pregunta también serán eliminados, lo que afectará la puntuación promedio de estudiantes."
+        },
+        "unpublish_quiz_on_delete": {
+            "title": "¿Confirmas que deseas eliminar \"{{question_name}}\" y despublicar tu cuestionario?",
+            "message": "Eliminar esta pregunta es una acción permanente y no se puede deshacer. Esto también despublicará el cuestionario, ya que estás eliminando la única pregunta del cuestionario.",
+            "confirm": "Eliminar y despublicar"
+        },
+        "exit_question": {
+            "title": "¿Deseas salir de la pregunta?",
+            "message": "Se perderá cualquier cambio no guardado."
+        },
+        "csv_formatting_guidelines": {
+            "title": "Reglas de formato CSV",
+            "header_row_title": "Fila de encabezado:",
+            "second_column_title": "Segunda Columna:",
+            "header_row_body": "La primera fila debe reservarse para los encabezados. Si la información de una persona estudiante está en la primera fila, no será importada.",
+            "first_column_title": "Primera Columna:",
+            "first_column_body": "Esta columna es para los nombres de estudiantes. Proporcionar los nombres es opcional: aún puedes proceder con la importación incluso si la celda de nombre está vacía en algunas o en todas las filas.",
+            "second_column_body": "Esta columna debe contener las direcciones de correo electrónico. Las direcciones de correo electrónico son obligatorias, y no se añadirán a tu espacio estudiantes sin correo electrónico.",
+            "footer": "Seguir este formato garantizará la importación exitosa de todas las personas estudiantes."
+        },
+        "exit_bulk_import": {
+            "title": "¿Confirmas que deseas salir?",
+            "message": "Se perderá cualquier cambio no guardado."
+        },
+        "bulk_invite_sent": {
+            "title": "Enviando invitaciones",
+            "description": "Shira está enviando invitaciones por email a {{count}} estudiantes. Este proceso puede tomar algunos minutos. Puedes cerrar este modal y continuar trabajando en Shira."
+        },
+        "edit_question_confirmation": {
+            "title": "¿Confirmas que deseas editar este cuestionario?",
+            "message": "Algunas personas estudiantes ya han completado este cuestionario. Añadir o editar las preguntas puede afectar la precisión de los Resultados."
+        },
+        "attachment_file": {
+            "title": "Añadir adjunto",
+            "file_name": "Nombre de archivo",
+            "file_type": "Tipo de archivo",
+            "field_type": {
+                "title:": "Campo",
+                "image": "Imagen",
+                "video": "Video",
+                "audio": "Audio",
+                "document": "Documento",
+                "other": "Otro"
+            }
+        },
+        "variables_modal": {
+            "title": "Variables",
+            "message": "Las variables son marcadores que puedes utilizar para insertar información personalizada dentro de una pregunta.",
+            "message2": "La información mostrada es relevante para cada estudiante, basada en lo que introdujeron o auto-generaron durante la configuración del cuestionario.",
+            "message3": "Para añadir una variable, escribe lo siguiente:",
+            "name": "nombre",
+            "name_explanation": "Esto mostrará el nombre de la persona estudiante",
+            "email": "correo electrónico",
+            "email_explanation": "Esto mostrará el correo electrónico de la persona estudiante",
+            "ok": "ok"
+        },
+        "explanations_modal": {
+            "title": "Explicaciones",
+            "message": "Las explicaciones son notas cortas que destacan elementos específicos de una pregunta y explica por que estos elementos pueden indicar que un mensaje es un intento de phishing o no.",
+            "message2": "Para añadir una explicación, selecciona el icono de explicación en la parte derecha de cada fila. Las explicaciones se pueden adjuntar a: ",
+            "list": {
+                "fields": "Campos, como el nombre o el correo electrónico de remitente",
+                "content": "Partes especificas del contenido del mensaje",
+                "attachments": "Archivos adjuntos."
+            },
+            "ok": "ok"
+        },
+        "no_explanations": {
+            "title": "¿Continuar sin explicaciones?",
+            "message": "No has creado ninguna explicación para esta pregunta, por lo que las personas estudiantes no verán ningún texto explicando por qué el mensaje parece phishing o parece legitimo.",
+            "add": "Añadir explicaciones"
+        },
+        "invite_learner": {
+            "title": "Invitar nuevos estudiantes",
+            "subtitle": "Enviar invitación por correo para pedir a un nuevo estudiante unirse a tu espacio.",
+            "name_placeholder": "Nombre (obligatorio)",
+            "email_placeholder": "Correo electrónico (obligatorio)"
+        },
+        "delete_learner": {
+            "title": "¿Confirmas que deseas eliminar esta persona estudiante?"
+        }
     },
     "error_messages": {
-        "message": ""
+        "message": "",
+        "image_type_unsupported": "Tipo de archivo no admitido. Por favor asegúrate de que tu imagen sea JPEG, PNG, GIF o WebP.",
+        "image_upload_failed": "Hubo un problema al subir tu imagen. Por favor vuelve a intentar.",
+        "current_password_incorrect": "Contraseña incorrecta.",
+        "invalid_title": "Lo sentimos, algo salió mal",
+        "email_update_token_invalid": "El enlace que abriste es inválido o ha expirado. Por favor contacta a tu organización o envía un correo a contact@wearehorizontal.org para soporte.",
+        "learners_bulk_import": {
+            "missing_name": "Falta el nombre",
+            "missing_email": "Falta el correo electrónico",
+            "invalid_email": "Correo electrónico inválido",
+            "duplicated_email": "Correo electrónico duplicado",
+            "already_registered": "Ya cuenta con registro",
+            "invalid_file_format": {
+                "title": "Error: formato inválido",
+                "subtitle": "Por favor asegúrate de que el archivo está en formato CSV y vuelve a intentar."
+            },
+            "csv_parsing_error": {
+                "title": "Error: tu archivo no pudo ser procesado",
+                "subtitle": "No pudimos procesar el archivo. Por favor, vuelve a intentar."
+            },
+            "too_many_rows": {
+                "title": "Error: demasiadas filas",
+                "subtitle": "Por favor, asegúrate de que tu archivo contiene un máximo de 1,000 filas y vuelve a intentar."
+            },
+            "invalid_formatting": {
+                "title": "Error: formato inválido",
+                "subtitle": "Por favor asegúrate de que tu hoja de cálculos esté formateada según las reglas anteriores y vuelve a intentar."
+            },
+            "file_too_large": {
+                "title": "Error: el archivo es demasiado grande",
+                "subtitle": "Por favor sube un archivo que sea de 10 MB o más pequeño y vuelve a intentar."
+            }
+        },
+        "invalid_email_update": "Esta dirección de correo electrónico ya está asociada con un espacio Shira."
     },
     "success_messages": {
-        "message": ""
+        "message": "",
+        "quiz_link_copied": "El enlace del cuestionario público ha sido copiado a tu portapapeles.",
+        "quiz_deleted": "El cuestionario ha sido eliminado",
+        "quiz_created": "El cuestionario ha sido creado",
+        "quiz_duplicated": "El cuestionario ha sido duplicado",
+        "quiz_updated": "El cuestionario ha sido actualizado",
+        "quiz_order_updated": "El orden del cuestionario ha sido actualizado",
+        "quiz_published": "El cuestionario ha sido publicado",
+        "quiz_unpublished": "El cuestionario ha sido despublicado",
+        "question_created": "Pregunta creada",
+        "question_created_2": "{{question_name}} creada exitosamente",
+        "question_added": "La pregunta ha sido añadida a tu cuestionario",
+        "question_updated": "Pregunta actualizada",
+        "question_deleted": "La pregunta ha sido eliminada",
+        "question_copied": "La pregunta ha sido duplicada",
+        "no_questions_found": "No se encontraron preguntas."
     },
     "loading_messages": {
         "message": "",
@@ -273,7 +482,28 @@
         "message": ""
     },
     "get_started": {
-        "message": ""
+        "message": "",
+        "loading": "Registrando...",
+        "org_types": {
+            "business": "Una empresa",
+            "cibersecurity": "Un proveedor de servicios de ciberseguridad",
+            "non_profit": "Una organización sin fines de lucro",
+            "individual": "Una persona individual (consultora, docente, etc)"
+        },
+        "button_sign_up": "Registrarse",
+        "validation": {
+            "org_name_required": "El nombre de la organización es obligatorio",
+            "email_required": "El email es obligatorio",
+            "invalid_email": "Por favor introduce una dirección de correo electrónico válida"
+        },
+        "errors": {
+            "create_space_failed": "Ocurrió un error al crear tu espacio. Por favor vuelve a intentar."
+        },
+        "success": {
+            "title": "¡Ya casi!",
+            "description": "Para completar el proceso, por favor abre el correo que te enviamos a tu dirección de correo electrónico y has clic en el enlace para crear tu espacio Shira.",
+            "didnt_receive": "¿No recibiste un correo? Si no está en tu carpeta de spam, por favor contáctanos en"
+        }
     },
     "learners": {
         "message": "",
@@ -373,14 +603,68 @@
                 "subtitle": "Por favor asegúrate de que todos los datos sean precisos antes de importarlos a Shira y de enviar las invitaciones.",
                 "error_tab": "Error ({{count}})",
                 "skipped_tab": "Omitidos ({{count}})",
-                "valid_tab": "Válidos ({{count}})"
+                "valid_tab": "Válidos ({{count}})",
+                "description_error": "Las filas a continuación contienen errores que impiden que estas personas estudiantes sean invitadas. Puedes corregir los errores de tu CSV y volver a subirlos, o continuar a pesar de los errores y no importar estas personas estudiantes.",
+                "description_skipped": "Estas filas serán omitidas. Puedes ignorarlas y continuar subiendo tu hoja de cálculo.",
+                "description_valid": "Estas filas han sido validadas exitosamente, por lo que estas personas estudiantes pueden ser importadas a tu espacio.",
+                "table_row": "Fila",
+                "table_name": "Nombre",
+                "table_email": "Correo Electrónico",
+                "table_error": "Tipo de error",
+                "table_skip_reason": "Motivo para omitir",
+                "table_status": "Estado",
+                "validated": "Validada",
+                "empty_error": "No hay filas con errores.",
+                "empty_skipped": "No hay filas omitidas.",
+                "empty_valid": "No hay filas válidas.",
+                "upload_tooltip": "Sube una hoja de cálculo para continuar."
+            },
+            "review": {
+                "tab_title": "Revisión final",
+                "subtitle": "Estás a punto de invitar <strong>{{count}} estudiantes </strong> a tu espacio.",
+                "table_row": "Fila",
+                "table_name": "Nombre",
+                "table_email": "Correo Electrónico",
+                "table_status": "Estado"
             }
         }
     },
     "create_space": {
-        "message": ""
+        "message": "",
+        "title": "Espacio Shira",
+        "subtitle": "Después que crees tu espacio, podrás crear cuestionarios y preguntas personalizadas que sean relevantes específicamente para tu contexto y comunidades.",
+        "form_title": "Crear un nuevo espacio",
+        "form_description": "Completa el formulario a continuación para crear tu espacio Shira.",
+        "beta_lead": "Los espacios Shira actualmente están en fase beta cerrada. Para obtener la frase de acceso necesaria para unirte a la beta, escríbenos a",
+        "checking_invitation": "Verificando invitación...",
+        "email_label": "Confirma tu correo electrónico",
+        "password_label": "Contraseña",
+        "confirm_password_label": "Confirmar contraseña",
+        "button_create": "Crear un nuevo espacio",
+        "validation": {
+            "email_required": "El email es obligatorio.",
+            "password_required": "La contraseña es obligatoria.",
+            "password_min_length": "La contraseña debe tener al menos 8 caracteres.",
+            "passwords_mismatch": "Las contraseñas no coinciden."
+        },
+        "errors": {
+            "create_space_failed": "Ocurrió un error al crear tu espacio. Por favor vuelve a intentar."
+        }
     },
     "settings": {
-        "message": ""
+        "message": "",
+        "title": "Configuración",
+        "subtitle": "Gestiona la configuración de tu espacio Shira aquí.",
+        "sections": {
+            "email": {
+                "title": "Correo Electrónico",
+                "action": "Cambiar correo electrónico"
+            },
+            "password": {
+                "title": "Contraseña",
+                "last_updated": "Última actualización: {{date}}",
+                "action": "Cambiar contraseña"
+            }
+        }
     }
 }
