@@ -60,6 +60,7 @@
         "title": "Learners",
         "subtitle": "Manage who can take the private quizzes you create.",
         "empty_state": "There are no learners registered to your space yet. Invite a new learner to get started.",
+        "sub_required": "This feature is not available under your current plan. <0>View plans</0>",
         "table": {
             "learner": "Learner",
             "registration": "Registration",
