@@ -63,6 +63,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
               </SettingDetails>
 
               <ActionButton
+                id="change-email-button"
                 type="outline"
                 text={t('settings.sections.email.action')}
                 onClick={onChangeEmail}
@@ -78,6 +79,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
               </SettingDetails>
 
               <ActionButton
+                id="change-password-button"
                 type="outline"
                 text={t('settings.sections.password.action')}
                 onClick={onChangePassword}
@@ -95,11 +97,13 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
 
               <SubscriptionActions>
                 <SubscriptionButton
+                  id="view-plans-button"
                   type="outline"
                   text={t('settings.subscription.view_plans')}
                   onClick={onViewPlans}
                 />
                 <SubscriptionButton
+                  id="manage-subscription-button"
                   type="primary"
                   text={subscriptionActionText}
                   color={theme.colors.green7}

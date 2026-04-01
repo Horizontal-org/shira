@@ -78,7 +78,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
         <PlansList>
           <PlanSpacer />
 
-          <PlanCard>
+          <PlanCard id="starter-plan-card">
             <PlanCopy>
               <PlanTitle>{t("modals.view_plans.plans.starter.title")}</PlanTitle>
               <PriceBlock>
@@ -94,7 +94,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
             />
           </PlanCard>
 
-          <PlanCard $isHighlighted>
+          <PlanCard id="pro-plan-card" $isHighlighted>
             <PlanCopy>
               <PlanTitle>{t("modals.view_plans.plans.pro.title")}</PlanTitle>
               <PriceBlock>
@@ -110,7 +110,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
             />
           </PlanCard>
 
-          <PlanCard>
+          <PlanCard id="enterprise-plan-card">
             <PlanCopy>
               <PlanTitle>{t("modals.view_plans.plans.enterprise.title")}</PlanTitle>
               <PriceBlock>
@@ -129,7 +129,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
 
         <ComparisonGrid>
           <ComparisonScroller>
-            <ComparisonTable>
+            <ComparisonTable id="plans-comparison-table">
               <SectionTitle $isFirst>{t("modals.view_plans.comparison.admin_management")}</SectionTitle>
               <EmptySectionCell $isFirst />
               <EmptySectionCell $isFirst />
@@ -328,6 +328,15 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
             </ComparisonTable>
           </ComparisonScroller>
         </ComparisonGrid>
+
+        <BottomAction>
+          <Button
+            id="plans-learn-more"
+            text={t("modals.view_plans.actions.learn_more")}
+            type="outline"
+            onClick={() => { window.open("https://shira.app/pricing", "_blank"); }}
+          />
+        </BottomAction>
       </Content>
     </StyledModal>
   );
@@ -456,6 +465,12 @@ const ComparisonGrid = styled.div`
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     display: none;
   }
+`;
+
+const BottomAction = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 10px 0 4px;
 `;
 
 const ComparisonScroller = styled.div`
