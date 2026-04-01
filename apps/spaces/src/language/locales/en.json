@@ -598,7 +598,8 @@
             "modal_title": "Shira plans and pricing",
             "actions": {
                 "current_plan": "Current plan",
-                "downgrade": "Downgrade"
+                "downgrade": "Downgrade",
+                "learn_more": "Learn more about Shira plans"
             },
             "comparison": {
                 "title": "What's included?",
