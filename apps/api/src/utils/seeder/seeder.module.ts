@@ -9,8 +9,6 @@ import { AppSeederService } from './entities/app.seeder';
 import { FieldOfWorkSeederService } from './entities/field_of_work.seeder';
 import { MessageTypeSeederService } from './entities/message_type.seeder';
 import { Seeder } from './seeder.provider';
-import { PlanEntity } from 'src/modules/billing/domain/plan.entity';
-import { PlanSeederService } from './entities/plans.seeder';
 import { Language } from 'src/modules/languages/domain';
 import { QuestionTranslation } from 'src/modules/translation/domain/questionTranslation.entity';
 import { ExplanationTranslation } from 'src/modules/translation/domain/explanationTranslation.entity';
@@ -19,8 +17,6 @@ import { SpaceEntity } from 'src/modules/space/domain/space.entity';
 import { SpaceUserEntity } from 'src/modules/space/domain/space-users.entity';
 import { Quiz } from 'src/modules/quiz/domain/quiz.entity';
 import { QuizQuestion } from 'src/modules/quiz/domain/quizzes_questions.entity';
-import { SubscriptionEntity } from 'src/modules/billing/domain/subscription.entity';
-import { OrganizationSubscriptionsEntity } from 'src/modules/organization/domain/organization_subscriptions.entity';
 import { OrganizationEntity } from 'src/modules/organization/domain/organization.entity';
 import { OrganizationUsersEntity } from 'src/modules/organization/domain/organization_users.entity';
 import { RoleEntity } from 'src/modules/user/domain/role.entity';
@@ -47,9 +43,6 @@ import { QuestionImage } from 'src/modules/question_image/domain';
       SpaceUserEntity,
       Quiz,
       QuizQuestion,
-      PlanEntity,
-      SubscriptionEntity,
-      OrganizationSubscriptionsEntity,
       OrganizationEntity,
       OrganizationUsersEntity,
       RoleEntity,
@@ -61,7 +54,6 @@ import { QuestionImage } from 'src/modules/question_image/domain';
     Seeder,
     AppSeederService,
     FieldOfWorkSeederService,
-    PlanSeederService
   ],
 })
 export class SeederModule {}

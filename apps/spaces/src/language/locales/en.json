@@ -53,7 +53,8 @@
     "dashboard": {
         "title": "Quizzes",
         "subtitle": "Manage your quizzes here, including creating, publishing, unpublishing and deleting quizzes.",
-        "create_quiz_button": "Create new quiz"
+        "create_quiz_button": "Create new quiz",
+        "create_limit_reached": "Upgrade your plan to create more quizzes."
     },
     "learners": {
         "title": "Learners",
@@ -363,6 +364,16 @@
     "settings": {
         "title": "Settings",
         "subtitle": "Manage your Shira space settings here.",
+        "tabs": {
+            "account": "Account",
+            "subscription": "Subscription"
+        },
+        "subscription": {
+            "current_plan": "Current plan: {{plan_name}}",
+            "view_plans": "View plans",
+            "manage_plan": "Manage plan",
+            "upgrade": "Upgrade"
+        },
         "sections": {
             "email": {
                 "title": "Email address",
@@ -373,6 +384,10 @@
                 "last_updated": "Last updated: {{date}}",
                 "action": "Change password"
             }
+        },
+        "checkout_success": {
+            "all_done": "All done!",
+            "success_message": "Your checkout was successful. We're activating your subscription now."
         }
     },
     "buttons": {
@@ -401,7 +416,11 @@
         "view_guidelines": "View formatting guidelines",
         "browse_files": "Browse files",
         "i_understand": "I understand",
-        "back_home": "Back to home"
+        "back_home": "Back to home",
+        "learn_more": "Learn more",
+        "manage_plan": "Manage plan",
+        "back_to_quizzes": "Back to quizzes",
+        "go_to_settings": "Go to settings"
     },
     "modals": {
         "create_quiz": {
@@ -429,7 +448,9 @@
             },
             "private_option": {
                 "title": "Private",
-                "description": "Only invited learners from your space can take the quiz"
+                "description": "Only invited learners from your space can take the quiz",
+                "forbidden_tooltip": "Upgrade your plan to access private quizzes.",
+                "forbidden": "Only invited learners from your space can take the quiz. This feature is only available on paid plans. <0>{{learn_more}}</0>"
             }
         },
         "publish_quiz": {
@@ -571,6 +592,81 @@
             "current_password_placeholder": "Current password (required)",
             "new_password_placeholder": "New password (required)",
             "confirm_password_placeholder": "Confirm new password (required)"
+        },
+        "view_plans": {
+            "title": "Available plans",
+            "modal_title": "Shira plans and pricing",
+            "actions": {
+                "current_plan": "Current plan",
+                "downgrade": "Downgrade"
+            },
+            "comparison": {
+                "title": "What's included?",
+                "admin_management": "Admin management",
+                "customization": "Customization",
+                "access_control": "Access control",
+                "compliance": "Compliance",
+                "custom_support": "Custom support",
+                "rows": {
+                    "hosting": "Hosting",
+                    "admin_dashboard": "Admin dashboard",
+                    "number_of_admins": "Number of admins",
+                    "customizable_questions": "Fully customizable quiz questions",
+                    "question_library": "Access to the question's library",
+                    "custom_quizzes": "Number of custom quizzes",
+                    "apps_available": "Apps available",
+                    "public_quizzes": "Public quizzes",
+                    "private_quizzes": "Private quizzes",
+                    "basic_analytics": "Basic analytics",
+                    "detailed_analytics": "Detailed analytics",
+                    "analysis_tools": "Analysis and compliance tools",
+                    "tailor_made_training": "Tailor-made user training",
+                    "priority_support": "Priority support"
+                },
+                "values": {
+                    "cloud": "Cloud",
+                    "cloud_on_premise": "Cloud & on-premise",
+                    "one_admin": "1 admin",
+                    "unlimited": "Unlimited",
+                    "up_to_three_custom_quizzes": "Up to 3 custom quizzes"
+                },
+                "tooltips": {
+                    "hosting": "[ADD TOOLTIP COPY]",
+                    "admin_dashboard": "[ADD TOOLTIP COPY]",
+                    "number_of_admins": "Unlimited admins coming soon",
+                    "customizable_questions": "[ADD TOOLTIP COPY]",
+                    "question_library": "[ADD TOOLTIP COPY]",
+                    "custom_quizzes": "[ADD TOOLTIP COPY]",
+                    "apps_available": "Gmail, Outlook, SMS, WhatsApp, Messenger, Dating app",
+                    "public_quizzes": "Anyone can take your quiz through an easy-to-share URL",
+                    "private_quizzes": "Only learners registered in your space can take your quizzes",
+                    "basic_analytics": "Track results on the quiz level",
+                    "detailed_analytics": "Track results on the learner and question levels",
+                    "analysis_tools": "Coming soon",
+                    "tailor_made_training": "[ADD TOOLTIP COPY]",
+                    "priority_support": "[ADD TOOLTIP COPY]"
+                }
+            },
+            "plans": {
+                "starter": {
+                    "title": "Starter",
+                    "description": "To try things out and get familiar with Shira",
+                    "price": "Free",
+                    "cta": "Get started"
+                },
+                "pro": {
+                    "title": "Pro",
+                    "description": "Experience the full power of Shira",
+                    "price": "$50/month + $1 per quiz taken",
+                    "cta": "Start 14-day free trial"
+                },
+                "enterprise": {
+                    "title": "Enterprise",
+                    "description": "Tailor Shira for large organizations and service providers",
+                    "price": "Custom pricing",
+                    "cta": "Contact us"
+                }
+            }
         }
     },
     "error_messages": {

@@ -11,6 +11,7 @@ import { PublicLearnerController } from './controllers/public.learner.controller
 import { AuthLearnerController } from './controllers/auth.learner.controller';
 import { AuthLearnerQuizController } from './controllers/auth.learner_quiz.controller';
 import { OrganizationEntity } from '../organization/domain/organization.entity';
+import { SubscriptionModule } from '../subscription/subscription.module';
 
 @Module({
   imports: [
@@ -21,7 +22,8 @@ import { OrganizationEntity } from '../organization/domain/organization.entity';
       QuizEntity,
       OrganizationEntity
     ]),
-    QuizModule
+    QuizModule,
+    SubscriptionModule
   ],
   controllers: [
     PublicLearnerQuizController,

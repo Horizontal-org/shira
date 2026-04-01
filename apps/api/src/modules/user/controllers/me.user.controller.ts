@@ -1,4 +1,4 @@
-import { Get, Inject } from '@nestjs/common';
+import { Get, Inject, UseGuards } from '@nestjs/common';
 import { LoggedUser } from 'src/modules/auth/decorators';
 
 import { AuthController } from 'src/utils/decorators/auth-controller.decorator';
@@ -7,6 +7,9 @@ import { Role } from '../domain/role.enum';
 import { LoggedUserDto } from '../dto/logged.user.dto';
 import { TYPES } from '../interfaces';
 import { IMarkUserLoginService } from '../interfaces/services/mark.user.login.service.interface';
+import { SubscriptionGuard } from 'src/modules/subscription/guards/subscription.guard';
+import { SubscriptionDecorator } from 'src/modules/subscription/decorators/subscription.decorator';
+import { CachedSubscription } from 'src/modules/subscription/dto/cached-response.dto';
 
 @AuthController('user')
 export class MeUserController {
@@ -17,9 +20,16 @@ export class MeUserController {
 
   @Get()
   @Roles(Role.SpaceAdmin)
-  async me(@LoggedUser() user: LoggedUserDto) {
+  @UseGuards(SubscriptionGuard)
+  async me(
+    @LoggedUser() user: LoggedUserDto,
+    @SubscriptionDecorator() subscription: Partial<CachedSubscription>
+  ) {    
     await this.markUserLoginService.execute(user.id);
-    return user
+    return {
+      user,
+      subscription
+    }
   }
 }
 

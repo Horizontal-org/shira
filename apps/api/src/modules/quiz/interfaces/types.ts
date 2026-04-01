@@ -15,5 +15,6 @@ export const TYPES = {
     IDuplicateQuizService: 'IDuplicateQuizService',
     ISharedQuestionDuplicationService: 'ISharedQuestionDuplicationService',
     IValidateQuizNameService: 'IValidateQuizNameService',
+    IValidateCreateQuizService: 'IValidateCreateQuizService'
   },
 };

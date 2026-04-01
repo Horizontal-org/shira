@@ -1,6 +1,6 @@
 import axios from "axios"
 
-export const fetchUser = async(token: string, spaceId: string) => {
+export const fetchUser = async (token: string, spaceId: string) => {
   console.log("🚀 ~ fetchUser ~ spaceId:", spaceId)
   try {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/user`, {
@@ -17,13 +17,13 @@ export const fetchUser = async(token: string, spaceId: string) => {
   }
 }
 
-export const login = async(email, pass) => {
+export const login = async (email, pass) => {
   try {
     const res = await axios.post(`${process.env.REACT_APP_API_URL}/login`, {
       email: email,
       password: pass
     })
-    
+
     window.localStorage.setItem('shira_access_token', res.data.access_token)
     axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.access_token}`;
     // you need to have at least one space
@@ -35,14 +35,48 @@ export const login = async(email, pass) => {
   }
 }
 
-export const checkAuth = async() => {
+export const checkAuth = async () => {
   const token = window.localStorage.getItem('shira_access_token')
   const spaceId = window.localStorage.getItem('shira_x_space')
   if (token && spaceId) {
-    const user = await fetchUser(token, spaceId)
-    return user 
+    const fetchUserResponse = await fetchUser(token, spaceId)
+    return fetchUserResponse
   } else {
     return null
   }
+}
 
+export const getSub = async () => {
+  try {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/subscription`)
+    return res.data
+  } catch (err) {
+    console.log("🚀 ~ getSub ~ err:", err)
+  }
+}
+
+export const manageSubscription = async (organizationId: string) => {
+  const res = await axios.post(`${process.env.REACT_APP_API_URL}/subscription/manage/${organizationId}`)
+  return res.data
+}
+
+export const navigateToManageSubscription = async (
+  organizationId: string,
+) => {
+  try {
+    const response = await manageSubscription(organizationId)
+    const stripeUrl = response?.url
+
+    if (stripeUrl) {
+      window.location.assign(stripeUrl)
+    }
+  } catch (error) {
+    //TODO error handling?
+    console.error("Error navigating to Stripe:", error)
+  }
+}
+
+export const checkoutSubscription = async (organizationId: string) => {
+  const res = await axios.post(`${process.env.REACT_APP_API_URL}/subscription/checkout/${organizationId}`)
+  return res.data
 }
