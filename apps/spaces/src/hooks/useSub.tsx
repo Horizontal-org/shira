@@ -11,7 +11,7 @@ export const useSub = () => {
     sub: state.subscription,      
   }), shallow)
 
-  const isSubActive = useMemo(() => sub && sub.status === 'active', [sub])
+  const isSubActive = useMemo(() => sub && sub.status === 'active' && (sub.type === 'pro' || sub.type === 'enterprise') , [sub])
 
   return {
     sub: sub as Subscription | null,

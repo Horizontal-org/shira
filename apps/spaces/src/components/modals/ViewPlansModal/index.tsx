@@ -51,7 +51,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
   };
 
   const navigateToStripe = async (): Promise<void> => {
-    await navigateToManageSubscription(organizationId);
+    await navigateToManageSubscription(organizationId, false);
   };
 
   const handleStarterPlanClick = (): Promise<void> => {

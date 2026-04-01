@@ -88,7 +88,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
           </SettingsCard>
         )}
 
-        {activeTab === "subscription" && (
+        {activeTab === "subscription" && !!(subscription) && (
           <SettingsCard>
             <SettingRow>
               <SettingDetails>
@@ -107,7 +107,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
                   type="primary"
                   text={subscriptionActionText}
                   color={theme.colors.green7}
-                  onClick={() => navigateToManageSubscription(subscription?.organizationId)}
+                  onClick={() => navigateToManageSubscription(subscription.organizationId, subscription.type === 'starter')}
                 />
               </SubscriptionActions>
             </SettingRow>
