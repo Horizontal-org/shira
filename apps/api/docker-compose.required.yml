@@ -5,10 +5,10 @@ services:
     image: mysql:5.7
     restart: always
     environment:
-      MYSQL_DATABASE: "${MYSQL_DATABASE}"
-      MYSQL_USER: "${MYSQL_USER}"
-      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
-      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"    
+      MYSQL_DATABASE: '${MYSQL_DATABASE}'
+      MYSQL_USER: '${MYSQL_USER}'
+      MYSQL_PASSWORD: '${MYSQL_PASSWORD}'
+      MYSQL_ROOT_PASSWORD: '${MYSQL_ROOT_PASSWORD}'
     expose:
       - '3306'
     ports:
@@ -16,23 +16,23 @@ services:
     volumes:
       - db-data:/var/lib/mysql
     networks:
-      - nestjs-network
+      - shira-network
   redis:
     image: 'bitnami/redis:latest'
     environment:
-      REDIS_PASSWORD: "${REDIS_PASSWORD}"
+      REDIS_PASSWORD: '${REDIS_PASSWORD}'
     networks:
-      - nestjs-network
+      - shira-network
     expose:
       - '6379'
     ports:
-      - 6379:6379
-    volumes: 
+      - '127.0.0.1:6379:6379'
+    volumes:
       - redis-data:/data
-  
 
 networks:
-  nestjs-network:
+  shira-network:
+    external: true
 
 volumes:
   db-data:

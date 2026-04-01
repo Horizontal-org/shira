@@ -22,16 +22,21 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-
 ## Required clients to install
-  - nestjs cli
-  - typeorm cli
+
+- nestjs cli
+- typeorm cli
+
+## Required steps for using docker containers
+
+- docker network create shira-network
 
 ## Run migration
-  this needs to be inside docker container
 
-   - to run migrations `npm run typeorm -- migration:run -d ./src/utils/datasources/mysql.datasource.ts`
-   - to create migrations `npm run typeorm migration:create ./src/migrations/your_migration`
+this needs to be inside docker container
+
+- to run migrations `npm run typeorm -- migration:run -d ./src/utils/datasources/mysql.datasource.ts`
+- to create migrations `npm run typeorm migration:create ./src/migrations/your_migration`
 
 ## Description
 
@@ -40,9 +45,11 @@
 ## Diagrams
 
 ### Database ERD
+
 ![ERD: quizzes, quiz_runs, questions, quizzes_questions, question_runs](docs/img/db-sql-quiz-question-diagram.png)
 
 ### Relationships overview
+
 ![High-level relationships between quiz and question entities](docs/img/db-quiz-question-relationship-diagram.png)
 
 ## Installation
