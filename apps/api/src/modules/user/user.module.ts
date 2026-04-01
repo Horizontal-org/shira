@@ -18,6 +18,7 @@ import {
   confirmPasswordUpdateUserServiceProvider
 } from './user.providers';
 import { SpaceEntity } from '../space/domain/space.entity';
+import { SubscriptionModule } from '../subscription/subscription.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { SpaceEntity } from '../space/domain/space.entity';
       signOptions: { expiresIn: '1d' },
     }),
     ConsoleModule,
+    SubscriptionModule
   ],
   providers: [
     UserCommander,

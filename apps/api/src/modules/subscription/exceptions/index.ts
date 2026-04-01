@@ -1,0 +1,1 @@
+export { SubscriptionRequiredException } from './subscription-required.quiz.exception';

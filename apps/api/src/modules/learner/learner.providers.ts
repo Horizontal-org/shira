@@ -11,6 +11,7 @@ import { VerifyBulkLearnerService } from './services/verify-bulk.learner.service
 import { UnassignLearnerService } from './services/unassign.learner.service';
 import { CsvBulkInviteParser } from './parsers/csv-bulk-invite.parser';
 import { BulkInviteParserResolver } from './parsers/bulk-invite-parser.resolver';
+import { ValidateLearnerQuizService } from './services/validate.learner-quiz.service';
 
 export const inviteLearnerService = {
   provide: TYPES.services.IInviteLearnerService,
@@ -62,6 +63,11 @@ export const deleteLearnerService = {
   useClass: DeleteLearnerService
 }
 
+export const validateLearnerQuizService = {
+  provide: TYPES.services.IValidateLearnerQuizService,
+  useClass: ValidateLearnerQuizService
+}
+
 export const bulkInviteParserResolver = {
   provide: TYPES.parsers.IBulkInviteParserResolver,
   useClass: BulkInviteParserResolver,
@@ -84,6 +90,7 @@ export const serviceLearnerProviders = [
   deleteLearnerService,
   getLearnerService,
   unassignLearnerService,
+  validateLearnerQuizService
 ];
 
 export const serviceLearnerQuizProviders = [

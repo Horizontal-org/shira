@@ -23,7 +23,7 @@ import { QuizModule } from './modules/quiz/quiz.module';
 import { QuestionImageModule } from './modules/question_image/question_image.module';
 import { ImageModule } from './modules/image/image.module';
 import { OrganizationModule } from './modules/organization/organization.module';
-import { BillingModule } from './modules/billing/billing.module';
+import { SubscriptionModule } from './modules/subscription/subscription.module';
 import { QuizResultModule } from './modules/quiz_result/quiz-result.module';
 import { LearnerModule } from './modules/learner/learner.module';
 
@@ -50,7 +50,7 @@ import { LearnerModule } from './modules/learner/learner.module';
     QuizModule,
     QuizResultModule,
     OrganizationModule,
-    BillingModule,
+    SubscriptionModule,
     LearnerModule
   ],
   controllers: [IndexController],

@@ -14,7 +14,8 @@ import {
   BetaBanner,
   Body2Regular,
   defaultTheme,
-  Body4
+  Body4,
+  GeneralTooltip
 } from "@shira/ui";
 import { TabContainer } from './components/TabContainer'
 import { shallow } from "zustand/shallow";
@@ -36,6 +37,7 @@ import { RenameQuizModal } from "../modals/RenameQuizModal";
 import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
 import { DuplicateQuizModal } from "../modals/DuplicateQuizModal";
 import { useQuizCreationFlow } from "../../hooks/useQuizCreationFlow";
+import { useSub } from "../../hooks/useSub";
 
 interface Props { }
 
@@ -53,7 +55,8 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     validateQuizName,
     reorderQuiz,
     createQuiz,
-    fetchQuizzes
+    fetchQuizzes,
+    quizzes
   } = useStore((state) => ({
     updateQuiz: state.updateQuiz,
     deleteQuiz: state.deleteQuiz,
@@ -63,10 +66,18 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     validateQuizName: state.validateQuizName,
     createQuiz: state.createQuiz,
     fetchQuizzes: state.fetchQuizzes,
+    quizzes: state.quizzes,
   }), shallow)
+    console.log("🚀 ~ QuizViewLayout ~ quizzes:", quizzes)
 
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
   const [isPublished, setIsPublished] = useState(false);
+
+  const { isSubActive } = useSub()
+  console.log("🚀 ~ QuizViewLayout ~ isSubActive:", isSubActive)
+  const hasReachedLimit = useMemo(() => quizzes.length >= 3, [quizzes.length])
+  console.log("🚀 ~ QuizViewLayout ~ hasReachedLimit:", hasReachedLimit)
+  const [showDuplicateTooltip, setShowDuplicateTooltip] = useState(false)
 
   const [quiz, handleQuiz] = useState<Quiz | null>(null)
   console.log("🚀 ~ QuizViewLayout ~ quiz:", quiz)
@@ -139,7 +150,8 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     )
 
     getQuiz()
-
+    fetchQuizzes()
+    
     return () => {
       cleanQuizActionSuccess()
     }
@@ -263,17 +275,27 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                       type="outline"
                       onClick={() => { setIsRenameModalOpen(true) }}
                     />
-                    <Button
-                      id="duplicate-quiz-button"
-                      leftIcon={<FiCopy size={16} />}
-                      text={t('quiz.actions.duplicate')}
-                      type="outline"
-                      onClick={() => {
-                        if (quiz) {
-                          startDuplicateQuizFlow(quiz);
-                        }
-                      }}
-                    />
+
+                    <GeneralTooltip
+                        enabled={!isSubActive && hasReachedLimit}
+                        show={showDuplicateTooltip}
+                        setShow={setShowDuplicateTooltip}
+                        label={t('dashboard.create_limit_reached')}
+                      >
+                        <Button
+                          id="duplicate-quiz-button"
+                          leftIcon={<FiCopy size={16} />}
+                          text={t('quiz.actions.duplicate')}
+                          type="outline"
+                          disabled={!isSubActive && hasReachedLimit}
+                          onClick={() => {
+                            if (quiz) {
+                              startDuplicateQuizFlow(quiz);
+                            }
+                          }}
+                        />
+                    </GeneralTooltip>
+                    
                     {quiz.visibility !== 'private' && (
                       <PublishToggleWrapper
                         $showHelpCursor={disableCopyLinkButton}
@@ -434,6 +456,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 onBack={() => { handleBackFromVisibility(); }}
                 onConfirm={handleConfirmVisibility}
                 isSubmitting={isSubmitting}
+                privateForbidden={!isSubActive}
               />
             </>
           ) : (

@@ -1,4 +1,4 @@
-import { Body, Delete, Get, Inject, Post, UploadedFile, UseFilters, UseInterceptors } from '@nestjs/common';
+import { Body, Delete, Get, Inject, Post, UploadedFile, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { TYPES } from '../interfaces';
 import { InviteLearnerDto } from '../dto/invitation.learner.dto';
@@ -22,7 +22,11 @@ import { QuizUnassignmentFailedException } from '../exceptions/unassign-quiz.lea
 import { BulkCsvProcessingException } from '../exceptions/csv-bulk-could-not-process.learner.exception';
 import { BulkInviteValidatedRequestDto } from '../dto/learner-bulk-invite-request.dto';
 import { MulterBulkCsvExceptionFilter } from '../filters/multer-bulk-csv-exception.filter';
-
+import { SubscriptionGuard } from 'src/modules/subscription/guards/subscription.guard';
+import { TYPES as SUB_TYPES } from 'src/modules/subscription/interfaces/types';
+import { IValidateSubscriptionService } from 'src/modules/subscription/interfaces/services/validate.subscription.service';
+import { CachedSubscription } from 'src/modules/subscription/dto/cached-response.dto';
+import { SubscriptionDecorator } from 'src/modules/subscription/decorators/subscription.decorator';
 const MAX_CSV_FILE_SIZE_BYTES = 10 * 1024 * 1024;
 
 @AuthController('learners')
@@ -41,26 +45,34 @@ export class AuthLearnerController {
     @Inject(TYPES.services.IDeleteLearnerService)
     private readonly deleteLearnerService: IDeleteLearnerService,
     @Inject(TYPES.services.IGetLearnerService)
-    private readonly getLearnerService: IGetLearnerService
+    private readonly getLearnerService: IGetLearnerService,
+    @Inject(SUB_TYPES.services.IValidateSubscriptionService)
+    private readonly validateSubscriptionService: IValidateSubscriptionService
   ) { }
 
   private readonly logger = new ApiLogger(AuthLearnerController.name);
 
   @Post('invitations')
   @Roles(Role.SpaceAdmin)
+  @UseGuards(SubscriptionGuard)
   async invite(
     @Body() inviteLearnerDto: InviteLearnerDto,
-    @SpaceId() spaceId: number
+    @SpaceId() spaceId: number,
+    @SubscriptionDecorator() subscription?: CachedSubscription
   ) {
+    await this.validateSubscriptionService.execute(subscription)
     await this.inviteService.invite(inviteLearnerDto, spaceId);
   }
 
   @Post('invitations/bulk/send')
   @Roles(Role.SpaceAdmin)
+  @UseGuards(SubscriptionGuard)
   async inviteBulkValidated(
     @Body() dto: BulkInviteValidatedRequestDto,
-    @SpaceId() spaceId: number
+    @SpaceId() spaceId: number,
+    @SubscriptionDecorator() subscription?: CachedSubscription
   ) {
+    await this.validateSubscriptionService.execute(subscription)
     try {
       return this.inviteBulkService.invite(dto.learners, spaceId);
     } catch (e) {
@@ -71,12 +83,15 @@ export class AuthLearnerController {
 
   @Post('invitations/bulk/verify')
   @Roles(Role.SpaceAdmin)
+  @UseGuards(SubscriptionGuard)
   @UseInterceptors(FileInterceptor('file', { limits: { fileSize: MAX_CSV_FILE_SIZE_BYTES } }))
   @UseFilters(MulterBulkCsvExceptionFilter)
   async verifyBulkInvite(
     @UploadedFile() file: Express.Multer.File,
-    @SpaceId() spaceId: number
+    @SpaceId() spaceId: number,
+    @SubscriptionDecorator() subscription?: CachedSubscription
   ) {
+    await this.validateSubscriptionService.execute(subscription)
     if (!file) {
       throw new BulkCsvProcessingException();
     }
@@ -86,19 +101,25 @@ export class AuthLearnerController {
 
   @Delete()
   @Roles(Role.SpaceAdmin)
+  @UseGuards(SubscriptionGuard)
   async delete(
     @Body() deleteLearnerDto: DeleteLearnerDto,
-    @SpaceId() spaceId: number
+    @SpaceId() spaceId: number,
+    @SubscriptionDecorator() subscription?: CachedSubscription
   ) {
+    await this.validateSubscriptionService.execute(subscription)
     await this.deleteLearnerService.delete(deleteLearnerDto, spaceId);
   }
 
   @Post('assignments')
   @Roles(Role.SpaceAdmin)
+  @UseGuards(SubscriptionGuard)
   async assign(
     @Body() assignLearnerDto: AssignLearnerDto,
-    @SpaceId() spaceId: number
+    @SpaceId() spaceId: number,
+    @SubscriptionDecorator() subscription?: CachedSubscription
   ) {
+    await this.validateSubscriptionService.execute(subscription)
     try {
       return await this.assignService.assign(assignLearnerDto, spaceId);
     } catch (e) {
@@ -109,10 +130,13 @@ export class AuthLearnerController {
 
   @Delete('assignments')
   @Roles(Role.SpaceAdmin)
+  @UseGuards(SubscriptionGuard)
   async unassign(
     @Body() unassignLearnerDto: UnassignLearnerDto,
-    @SpaceId() spaceId: number
+    @SpaceId() spaceId: number,
+    @SubscriptionDecorator() subscription?: CachedSubscription
   ) {
+    await this.validateSubscriptionService.execute(subscription)
     try {
       return await this.unassignService.unassign(unassignLearnerDto, spaceId);
     } catch (e) {
@@ -123,9 +147,12 @@ export class AuthLearnerController {
 
   @Get()
   @Roles(Role.SpaceAdmin)
+  @UseGuards(SubscriptionGuard)
   async getLearners(
-    @SpaceId() spaceId: number
+    @SpaceId() spaceId: number,
+    @SubscriptionDecorator() subscription?: CachedSubscription
   ) {
+    await this.validateSubscriptionService.execute(subscription)
     return await this.getLearnerService.execute(spaceId)
   }
 
