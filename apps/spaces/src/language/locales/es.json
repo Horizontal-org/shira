@@ -265,17 +265,17 @@
         "next": "Siguiente",
         "continue": "Continuar",
         "login": "Iniciar sesión",
-        "send_invitation": "Inviar invitación",
+        "send_invitation": "Enviar invitación",
         "send_invitations": "Enviar invitaciones",
         "try_again": "Volver a intentar",
         "unassign": "Desasignar",
-        "invite_learner": "Invitar nuevos estudiantes",
+        "invite_learner": "Invitar nuevas personas estudiantes",
         "invite_learners_bulk": "Importar estudiantes por lote",
         "delete_learners": "Eliminar estudiantes",
         "unassign_learners": "Desasignar de estudiantes",
         "assign_via_email": "Asignar por email",
         "start_over": "Volver a empezar",
-        "feedback": "Dinos que piensas",
+        "feedback": "Dinos qué piensas",
         "download_template": "Descargar plantilla CSV",
         "view_guidelines": "Ver reglas de formato",
         "browse_files": "Explorar archivos",
@@ -284,7 +284,7 @@
         "learn_more": "Aprende más",
         "manage_plan": "Administrar plan",
         "back_to_quizzes": "Volver a cuestionarios",
-        "go_to_settings": "Ir a configuración"
+        "go_to_settings": "Ir a las configuraciones"
     },
     "modals": {
         "message": "",
@@ -306,14 +306,14 @@
         "quiz_visibility": {
             "title": "Establecer privacidad del cuestionario",
             "subtitle": "¿Te gustaría que tu cuestionario sea público o privado?",
-            "description": "Esta configuración es permanente y no se puede cambiar. Si quieres cambiarla luego, deberás duplicar el cuestionario.",
+            "description": "Esta configuración es permanente y no se puede cambiar. Si quieres cambiarla luego, deberás duplicar este cuestionario.",
             "public_option": {
                 "title": "Público",
-                "description": "Cualquiera conn la URL del cuestionario puede completarlo."
+                "description": "Cualquiera con la URL cuestionario puede completar el cuestionario."
             },
             "private_option": {
                 "title": "Privado",
-                "description": "Solo estudiantes con invitación de tu espacio pueden completarlo",
+                "description": "Solo estudiantes con invitación de tu espacio pueden completar el formulario",
                 "forbidden_tooltip": "Actualiza tu plan para acceder a cuestionarios privados.",
                 "forbidden": "Solo estudiantes con invitación de tu espacio pueden tomar el cuestionario. Esta función solo está disponible en planes de pago. <0>{{learn_more}}</0>"
             }
@@ -322,7 +322,7 @@
             "title": "Tu cuestionario está despublicado",
             "private_subtitle_1": "Las personas estudiantes asignadas a este cuestionario no podrán abrirlo porque fue despublicado. ",
             "private_subtitle_2": "Publica el cuestionario ahora para que las personas estudiantes puedan empezar a completarlo, o mantenlo despublicado hasta que esté todo listo.",
-            "public_subtitle_1": "Se copió el enlace a tu portapapeles. Sin embargo, las personas estudiantes no podrá usarlo porque el cuestionario no ha sido publicado. Publícalo ahora para que puedan empezar a completar el cuestionario.",
+            "public_subtitle_1": "Se copió el enlace a tu portapapeles. Sin embargo, las personas estudiantes no podrá usarlo porque el cuestionario no ha sido publicado. Publícalo ahora para que estudiantes puedan empezar a completar el cuestionario.",
             "submit": "Publicar cuestionario",
             "close": "Mantener cuestionario despublicado"
         },
@@ -332,13 +332,13 @@
             "confirm": "Despublicar"
         },
         "delete_quiz": {
-            "title": "¿Confirmas que deseas eliminar \"{{quiz_name}}\"?",
+            "title": "¿Tienes seguridad de querer eliminar \"{{quiz_name}}\"?",
             "subtitle": "Eliminar este cuestionario es una acción permanente y no se puede deshacer.",
             "note": "Nota: ",
             "message": "Los Resultados del cuestionario también serán eliminados."
         },
         "delete_question": {
-            "title": "¿Confirma que desea eliminar \"{{question_name}}\"?",
+            "title": "¿Tienes seguridad de querer eliminar \"{{question_name}}\"?",
             "message": "Eliminar esta pregunta es una acción permanente y no se puede deshacer.",
             "note": "Nota: ",
             "warning": "Los Resultados de esta pregunta también serán eliminados, lo que afectará la puntuación promedio de estudiantes."
@@ -744,12 +744,12 @@
                 "error_tab": "Error ({{count}})",
                 "skipped_tab": "Omitidos ({{count}})",
                 "valid_tab": "Válidos ({{count}})",
-                "description_error": "Las filas a continuación contienen errores que impiden que estas personas estudiantes sean invitadas. Puedes corregir los errores de tu CSV y volver a subirlos, o continuar a pesar de los errores y no importar estas personas estudiantes.",
-                "description_skipped": "Estas filas serán omitidas. Puedes ignorarlas y continuar subiendo tu hoja de cálculo.",
+                "description_error": "Las filas a continuación contienen errores que impiden que estas personas estudiantes sean invitadas. Puedes corregir los errores de tu CSV y volver a subirlos, o continuar a pesar de los errores y no importar a estas personas estudiantes.",
+                "description_skipped": "Estas filas serán omitidas. Puedes ignorarlas y continuar cargando tu hoja de cálculo.",
                 "description_valid": "Estas filas han sido validadas exitosamente, por lo que estas personas estudiantes pueden ser importadas a tu espacio.",
                 "table_row": "Fila",
                 "table_name": "Nombre",
-                "table_email": "Correo Electrónico",
+                "table_email": "Correo electrónico",
                 "table_error": "Tipo de error",
                 "table_skip_reason": "Motivo para omitir",
                 "table_status": "Estado",
@@ -764,7 +764,7 @@
                 "subtitle": "Estás a punto de invitar <strong>{{count}} estudiantes </strong> a tu espacio.",
                 "table_row": "Fila",
                 "table_name": "Nombre",
-                "table_email": "Correo Electrónico",
+                "table_email": "Correo electrónico",
                 "table_status": "Estado"
             }
         }
@@ -797,7 +797,7 @@
         "subtitle": "Gestiona la configuración de tu espacio Shira aquí.",
         "sections": {
             "email": {
-                "title": "Correo Electrónico",
+                "title": "Correo electrónico",
                 "action": "Cambiar correo electrónico"
             },
             "password": {
