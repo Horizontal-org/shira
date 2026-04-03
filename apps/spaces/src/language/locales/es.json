@@ -425,7 +425,7 @@
             "subtitle": "Eliminar a esta persona estudiante de tu espacio es una acción permanente y no se puede deshacer. Sus resultados también se eliminarán."
         },
         "delete_learners": {
-            "title": "¿Confirmas que quieres eliminar a esta persona estudiante?",
+            "title": "¿Confirmas que quieres eliminar a estas personas estudiantes?",
             "subtitle": "Eliminar a estas personas estudiantes de tu espacio es una acción permanente y no se puede deshacer. Sus resultados de los cuestionarios también serán eliminados."
         },
         "unassign_learner": {
@@ -571,8 +571,8 @@
         "add_question_error": "Error al añadir pregunta",
         "results_load_failed": "Error al cargar los resultados",
         "learner_already_exists": "Este correo electrónico ya está registrado.",
-        "learner_not_found": "No se encontró a la persona aprendiz en este espacio.",
-        "learner_save_failed": "Error al guardar aprendiz.",
+        "learner_not_found": "No se encontró a la persona estudiante en este espacio.",
+        "learner_save_failed": "Error al guardar estudiante.",
         "learner_email_send_failed": "Error al enviar correo de invitación a estudiante.",
         "learner_token_conflict": "El token de estudiante es inválido o ya ha sido utilizado.",
         "learner_assignment_failed": "Error al asignar estudiante al espacio.",
@@ -609,17 +609,44 @@
         "question_copied": "La pregunta ha sido duplicada",
         "no_questions_found": "No se encontraron preguntas.",
         "learner_invitation_sent": "La invitación ha sido enviada.",
-        "learner_invitation_resent": "Se ha reenviado la invitación a {{email}}"
+        "learner_invitation_resent": "Se ha reenviado la invitación a {{email}}",
+        "learner_deleted": "Se ha sido eliminado la persona estudiante.",
+        "learners_deleted": "Se ha sido eliminado la persona estudiante seleccionada.",
+        "learner_assigned": "Se ha asignado este cuestionario a {{count}} nueva persona estudiante.",
+        "learners_assigned_plural": "Se ha asignado este cuestionario a {{count}} nuevas personas estudiantes.",
+        "learner_unassigned": "Este cuestionario ha sido desasignado de {{count}} estudiante.",
+        "learners_unassigned_plural": "Este cuestionario ha sido desasignado de {{count}} estudiantes.",
+        "password_updated": "Tu contraseña se actualizó exitosamente.",
+        "email_updated": "Tu correo electrónico se actualizó exitosamente."
     },
     "loading_messages": {
         "message": "",
-        "loading": "Cargando..."
+        "loading": "Cargando...",
+        "saving": "Guardando...",
+        "creating": "Creando...",
+        "duplicating": "Duplicando...",
+        "learners": "Cargando estudiantes...",
+        "loading_library_questions": "Cargando preguntas...",
+        "uploading_image": "Subiendo imagen...",
+        "assigning_quiz_to_learners": "Asignando cuestionario a estudiantes...",
+        "assigning_quiz_to_learners_description": "Shira está asignando el cuestionario a las cuentas seleccionadas.",
+        "sending_invitation": "Enviando invitación"
     },
     "preview": {
-        "message": ""
+        "message": "",
+        "show_explanations": "Mostrar explicaciones",
+        "hide_explanations": "Ocultar explicaciones",
+        "next_explanation": "Siguiente explicación",
+        "previous_explanation": "Explicación anterior",
+        "no_explanations": "No hay explicaciones para esta pregunta.",
+        "add": "Añadir al cuestionario"
     },
     "select_languages": {
-        "message": ""
+        "message": "",
+        "english": "Inglés",
+        "spanish": "Español",
+        "french": "Francés",
+        "mandarin": "Mandarín"
     },
     "get_started": {
         "message": "",
@@ -643,7 +670,12 @@
             "title": "¡Ya casi!",
             "description": "Para completar el proceso, por favor abre el correo que te enviamos a tu dirección de correo electrónico y has clic en el enlace para crear tu espacio Shira.",
             "didnt_receive": "¿No recibiste un correo? Si no está en tu carpeta de spam, por favor contáctanos en"
-        }
+        },
+        "title": "Comenzar",
+        "description": "Crea tu espacio Shira para empezar a elaborar tus propios cuestionarios personalizados hoy.",
+        "organization_name_required": "Nombre de la organización (obligatorio)",
+        "email_required": "Correo electrónico (obligatorio)",
+        "org_type_label": "Estoy creando un espacio Shira como (obligatorio):"
     },
     "learners": {
         "message": "",
