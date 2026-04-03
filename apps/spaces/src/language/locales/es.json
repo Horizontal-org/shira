@@ -360,18 +360,18 @@
             "first_column_title": "Primera Columna:",
             "first_column_body": "Esta columna es para los nombres de estudiantes. Proporcionar los nombres es opcional: aún puedes proceder con la importación incluso si la celda de nombre está vacía en algunas o en todas las filas.",
             "second_column_body": "Esta columna debe contener las direcciones de correo electrónico. Las direcciones de correo electrónico son obligatorias, y no se añadirán a tu espacio estudiantes sin correo electrónico.",
-            "footer": "Seguir este formato garantizará la importación exitosa de todas las personas estudiantes."
+            "footer": "Seguir este formato garantizará la importación exitosa de todas las personas estudiantes elegibles."
         },
         "exit_bulk_import": {
             "title": "¿Confirmas que deseas salir?",
-            "message": "Se perderá cualquier cambio no guardado."
+            "message": "Cualquier cambio no guardado se perderá."
         },
         "bulk_invite_sent": {
             "title": "Enviando invitaciones",
             "description": "Shira está enviando invitaciones por email a {{count}} estudiantes. Este proceso puede tomar algunos minutos. Puedes cerrar este modal y continuar trabajando en Shira."
         },
         "edit_question_confirmation": {
-            "title": "¿Confirmas que deseas editar este cuestionario?",
+            "title": "¿Tienes seguridad de querer editar este cuestionario?",
             "message": "Algunas personas estudiantes ya han completado este cuestionario. Añadir o editar las preguntas puede afectar la precisión de los Resultados."
         },
         "attachment_file": {
@@ -379,7 +379,7 @@
             "file_name": "Nombre de archivo",
             "file_type": "Tipo de archivo",
             "field_type": {
-                "title:": "Campo",
+                "title:": "Tipo de campo",
                 "image": "Imagen",
                 "video": "Video",
                 "audio": "Audio",
@@ -400,41 +400,41 @@
         },
         "explanations_modal": {
             "title": "Explicaciones",
-            "message": "Las explicaciones son notas cortas que destacan elementos específicos de una pregunta y explica por que estos elementos pueden indicar que un mensaje es un intento de phishing o no.",
+            "message": "Las explicaciones son notas cortas que destacan elementos específicos de una pregunta y explican por qué estos elementos pueden indicar que un mensaje es un intento de phishing o no.",
             "message2": "Para añadir una explicación, selecciona el icono de explicación en la parte derecha de cada fila. Las explicaciones se pueden adjuntar a: ",
             "list": {
-                "fields": "Campos, como el nombre o el correo electrónico de remitente",
-                "content": "Partes especificas del contenido del mensaje",
+                "fields": "Campos, como el nombre o el correo electrónico de quien envía",
+                "content": "Partes específicas del contenido del mensaje",
                 "attachments": "Archivos adjuntos."
             },
             "ok": "ok"
         },
         "no_explanations": {
             "title": "¿Continuar sin explicaciones?",
-            "message": "No has creado ninguna explicación para esta pregunta, por lo que las personas estudiantes no verán ningún texto explicando por qué el mensaje parece phishing o parece legitimo.",
+            "message": "No has creado ninguna explicación para esta pregunta, por lo que las personas estudiantes no verán ningún texto explicando por qué el mensaje parece phishing o parece legítimo.",
             "add": "Añadir explicaciones"
         },
         "invite_learner": {
-            "title": "Invitar nuevos estudiantes",
-            "subtitle": "Enviar invitación por correo para pedir a un nuevo estudiante unirse a tu espacio.",
+            "title": "Invitar nuevas personas estudiantes",
+            "subtitle": "Enviar invitación por correo para pedir a una nueva persona estudiante a que se una a tu espacio.",
             "name_placeholder": "Nombre (obligatorio)",
             "email_placeholder": "Correo electrónico (obligatorio)"
         },
         "delete_learner": {
             "title": "¿Confirmas que deseas eliminar esta persona estudiante?",
-            "subtitle": "Eliminar a esta persona estudiante de tu espacio es una acción permanente y no se puede deshacer. Sus resultados también se eliminarán."
+            "subtitle": "La eliminación de esta persona estudiante de tu espacio es permanente y no se puede deshacer. Los resultados de la persona estudiante se eliminarán también."
         },
         "delete_learners": {
-            "title": "¿Confirmas que quieres eliminar a estas personas estudiantes?",
-            "subtitle": "Eliminar a estas personas estudiantes de tu espacio es una acción permanente y no se puede deshacer. Sus resultados de los cuestionarios también serán eliminados."
+            "title": "¿Tienes seguridad de querer eliminar a estas personas estudiantes?",
+            "subtitle": "La eliminación de estas personas estudiantes de tu espacio es permanente y no se puede deshacer. Sus resultados de los cuestionarios de las personas estudiantes también serán eliminados."
         },
         "unassign_learner": {
             "title": "¿Desasignar \"{{quiz}}\" de {{learner}}?",
-            "subtitle": "¿Confirmas que quieres desasignar el cuestionario a esta persona estudiante? Se perderá cualquier progreso o resultado del cuestionario."
+            "subtitle": "¿Tienes seguridad de querer desasignar el cuestionario a esta persona estudiante? Se perderá cualquier progreso o resultado del cuestionario."
         },
         "unassign_learners_plural": {
             "title": "¿Desasignar \"{{quiz}}\" de {{count}} estudiantes?",
-            "subtitle": "¿Confirmas que deseas desasignar el cuestionario de estas personas estudiantes? Se perderá cualquier progreso o resultados del cuestionario."
+            "subtitle": "¿Tienes seguridad de querer desasignar el cuestionario de estas personas estudiantes? Se perderá cualquier progreso o resultados del cuestionario."
         },
         "start_over_bulk_import": {
             "title": "¿Confirmas que quieres empezar de nuevo?",
@@ -447,8 +447,8 @@
         },
         "change_email_success": {
             "title": "¡Ya casi!",
-            "description": "Para completar el proceso, por favor abre el correo que enviamos a tu nueva dirección de correo electrónico y has clic en el enlace de confirmación.",
-            "didnt_receive": "¿Aún no has recibido un correo? Si no está en tu carpeta de spam, por favor contáctanos en <0>{{contact_email}}</0>",
+            "description": "Para completar el proceso, por favor abre el correo que enviamos a tu nueva dirección de correo electrónico y cliquea en el enlace de confirmación.",
+            "didnt_receive": "¿No has recibido un correo? Si no está en tu carpeta de spam, por favor contáctanos en <0>{{contact_email}}</0>",
             "button": "Entiendo"
         },
         "change_password": {
@@ -463,8 +463,8 @@
             "modal_title": "Planes y precios de Shira",
             "actions": {
                 "current_plan": "Plan actual",
-                "downgrade": "Degradar",
-                "learn_more": "Lee más sobre los planes de Shira"
+                "downgrade": "Descender",
+                "learn_more": "Aprende más sobre los planes de Shira"
             },
             "comparison": {
                 "title": "¿Qué incluye?",
@@ -479,19 +479,19 @@
                     "number_of_admins": "Cantidad de admins",
                     "customizable_questions": "Preguntas del cuestionario completamente personalizables",
                     "question_library": "Acceso a la biblioteca de preguntas",
-                    "custom_quizzes": "Cantidad de preguntas personalizadas",
-                    "apps_available": "Aplicaciones disponibles",
+                    "custom_quizzes": "Número de cuestionarios personalizados",
+                    "apps_available": "Apps disponibles",
                     "public_quizzes": "Cuestionarios públicos",
                     "private_quizzes": "Cuestionarios privados",
                     "basic_analytics": "Analíticas básicas",
                     "detailed_analytics": "Analíticas detalladas",
-                    "analysis_tools": "Herramientas de análisis y cumplimiento",
-                    "tailor_made_training": "Capacitación personalizada",
+                    "analysis_tools": "Herramientas de análisis y de cumplimiento",
+                    "tailor_made_training": "Capacitación personalizada a las personas usuarias",
                     "priority_support": "Soporte prioritario"
                 },
                 "values": {
                     "cloud": "Cloud",
-                    "cloud_on_premise": "Cloud & en infraestructura propia",
+                    "cloud_on_premise": "Cloud y en infraestructura propia",
                     "one_admin": "1 admin",
                     "unlimited": "Ilimitado",
                     "up_to_three_custom_quizzes": "Hasta 3 cuestionarios personalizados"
@@ -501,11 +501,11 @@
                     "admin_dashboard": "[ADD TOOLTIP COPY]",
                     "number_of_admins": "Cuentas admin ilimitadas próximamente",
                     "customizable_questions": "[ADD TOOLTIP COPY]",
-                    "apps_available": "Gmail, Outlook, SMS, WhatsApp, Messenger, App de Citas",
+                    "apps_available": "Gmail, Outlook, SMS, WhatsApp, Messenger, app de Citas",
                     "public_quizzes": "Cualquiera puede completar tu cuestionario a través de una URL fácil de compartir",
                     "private_quizzes": "Solo estudiantes con registro en tu espacio pueden tomar tus cuestionarios",
                     "basic_analytics": "Monitorea resultados a nivel de cuestionario",
-                    "detailed_analytics": "Monitorea resultados a nivel de estudiantes y preguntas",
+                    "detailed_analytics": "Monitorea resultados en los niveles de estudiante y pregunta",
                     "analysis_tools": "Próximamente"
                 }
             },
@@ -522,7 +522,7 @@
                     "cta": "Iniciar prueba gratuita de 14 días"
                 },
                 "enterprise": {
-                    "title": "Enterprise",
+                    "title": "Enterprise (Empresa)",
                     "description": "Adapta Shira a grandes organizaciones y proveedores de servicio",
                     "price": "Precio personalizado",
                     "cta": "Contáctanos"
@@ -565,25 +565,25 @@
             }
         },
         "invalid_email_update": "Esta dirección de correo electrónico ya está asociada con un espacio Shira.",
-        "duplicate_quiz_fail": "Error al duplicar el cuestionario",
+        "duplicate_quiz_fail": "Fallo al duplicar el cuestionario",
         "quiz_name_already_exists": "El nombre del cuestionario ya existe. Por favor utiliza uno diferente.",
-        "duplicate_question_fail": "Error al duplicar pregunta",
+        "duplicate_question_fail": "Fallo al duplicar pregunta",
         "add_question_error": "Error al añadir pregunta",
         "results_load_failed": "Error al cargar los resultados",
         "learner_already_exists": "Este correo electrónico ya está registrado.",
         "learner_not_found": "No se encontró a la persona estudiante en este espacio.",
         "learner_save_failed": "Error al guardar estudiante.",
-        "learner_email_send_failed": "Error al enviar correo de invitación a estudiante.",
-        "learner_token_conflict": "El token de estudiante es inválido o ya ha sido utilizado.",
+        "learner_email_send_failed": "Fallo al enviar correo de invitación a estudiante.",
+        "learner_token_conflict": "El token de la persona estudiante es inválido o ya ha sido utilizado.",
         "learner_assignment_failed": "Error al asignar estudiante al espacio.",
         "invalid_email": "Por favor introduce un correo electrónico válido.",
         "something_went_wrong": "Algo salió mal",
-        "invite_learner_failed": "Hubo un problema al invitar estudiante. Si el problema persiste, <1>contáctanos</1>.",
-        "delete_learner_failed": "Hubo un problema al eliminar estudiante. Si el problema persiste, <1>contáctanos</1>.",
-        "delete_learners_failed": "Hubo un problema al eliminar estudiantes. Si el problema persiste, <1>contáctanos</1>.",
-        "assign_quiz_failed": "Hubo un problema al asignar este cuestionario a estudiantes. Si el problema persiste, <1>contáctanos</1>.",
-        "unassign_quiz_failed": "Hubo un problema al desasignar este cuestionario a estudiantes. Si el problema persiste, <1>contáctanos</1>.",
-        "bulk_import_failed": "Hubo un problema al invitar estudiantes. Si el problema persiste, <1>contáctanos</1>.",
+        "invite_learner_failed": "Hubo un problema al invitar a la persona estudiante. Si el problema persiste, <1>contáctanos</1>.",
+        "delete_learner_failed": "Hubo un problema al eliminar a la persona estudiante. Si el problema persiste, <1>contáctanos</1>.",
+        "delete_learners_failed": "Hubo un problema al eliminar a las personas estudiantes. Si el problema persiste, <1>contáctanos</1>.",
+        "assign_quiz_failed": "Hubo un problema al asignar este cuestionario a las personas estudiantes. Si el problema persiste, <1>contáctanos</1>.",
+        "unassign_quiz_failed": "Hubo un problema al desasignar este cuestionario de las personas estudiantes. Si el problema persiste, <1>contáctanos</1>.",
+        "bulk_import_failed": "Hubo un problema al invitar a las personas estudiantes. Si el problema persiste, <1>contáctanos</1>.",
         "email_already_taken": "Este correo electrónico ya está en uso.",
         "invite_org_failed": "Hubo un problema al crear tu espacio. Si el problema persiste, <1>contáctanos</1>.",
         "email_no_match": "Este correo electrónico no coincide con el de la invitación.",
