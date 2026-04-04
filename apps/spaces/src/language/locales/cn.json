@@ -10,7 +10,7 @@
     },
     "beta": {
         "message": "Shira 仍在开发阶段，您可能会遇到一些问题。",
-        "label": "BETA",
+        "label": "测试版",
         "click_here": "点击此处",
         "feedback_text": "提交反馈，并了解 Shira 的后续计划！"
     },
@@ -25,7 +25,8 @@
         "message": "",
         "title": "测验",
         "subtitle": "在此管理您的测验，包括创建、发布、取消发布和删除测验。",
-        "create_quiz_button": "创建新测验"
+        "create_quiz_button": "创建新测验",
+        "create_limit_reached": "升级方案创建更多测验。"
     },
     "quizzes": {
         "message": "",
@@ -280,7 +281,11 @@
         "view_guidelines": "查看格式规范",
         "browse_files": "浏览文件",
         "i_understand": "我明白",
-        "back_home": "返回首页"
+        "back_home": "返回首页",
+        "learn_more": "了解更多",
+        "manage_plan": "管理方案",
+        "back_to_quizzes": "返回测验",
+        "go_to_settings": "前往设置"
     },
     "modals": {
         "message": "",
@@ -309,7 +314,9 @@
             },
             "private_option": {
                 "title": "私有",
-                "description": "仅空间中受邀学员可以参加"
+                "description": "仅空间中受邀学员可以参加",
+                "forbidden_tooltip": "升级方案访问私有测验。",
+                "forbidden": "仅空间受邀学员可参与测验。此功能仅对付费方案使用。<0>{{learn_more}}</0>"
             }
         },
         "publish_quiz": {
@@ -451,6 +458,82 @@
             "current_password_placeholder": "当前密码（必填）",
             "new_password_placeholder": "新密码（必填）",
             "confirm_password_placeholder": "确认新密码（必填）"
+        },
+        "view_plans": {
+            "comparison": {
+                "access_control": "访问控制",
+                "compliance": "合规管理",
+                "custom_support": "定制化支持",
+                "rows": {
+                    "hosting": "托管",
+                    "admin_dashboard": "管理员仪表板",
+                    "number_of_admins": "管理员数量",
+                    "customizable_questions": "测验题目全面可定制",
+                    "question_library": "访问题库",
+                    "custom_quizzes": "定制测验数量",
+                    "apps_available": "可用应用",
+                    "public_quizzes": "公开测验",
+                    "private_quizzes": "私有测验",
+                    "basic_analytics": "基础分析",
+                    "detailed_analytics": "详细分析",
+                    "analysis_tools": "分析与合规工具",
+                    "tailor_made_training": "量身定制的用户培训",
+                    "priority_support": "优先支持"
+                },
+                "values": {
+                    "cloud": "云端",
+                    "cloud_on_premise": "云端和本地部署",
+                    "one_admin": "1 位管理员",
+                    "unlimited": "不限数量",
+                    "up_to_three_custom_quizzes": "最多 3 个定制测验"
+                },
+                "tooltips": {
+                    "hosting": "[添加工具提示副本]",
+                    "admin_dashboard": "[添加工具提示副本]",
+                    "number_of_admins": "不限数量管理员即将推出",
+                    "customizable_questions": "[添加工具提示副本]",
+                    "question_library": "[添加工具提示副本]",
+                    "custom_quizzes": "[添加工具提示副本]",
+                    "apps_available": "Gmail、Outlook、短信、WhatsApp、Messenger、交友应用",
+                    "public_quizzes": "轻松分享测验 URL，任何人都可参加",
+                    "private_quizzes": "只有您的空间注册学员才能参加测验",
+                    "basic_analytics": "追踪测验层面的结果",
+                    "detailed_analytics": "追踪学员和题目层面的结果",
+                    "analysis_tools": "即将推出",
+                    "tailor_made_training": "[添加工具提示副本]",
+                    "priority_support": "[添加工具提示副本]"
+                },
+                "title": "包含什么功能？",
+                "admin_management": "管理员管理",
+                "customization": "自定义"
+            },
+            "plans": {
+                "starter": {
+                    "title": "入门版",
+                    "description": "试用和了解 Shira",
+                    "price": "免费版",
+                    "cta": "开始使用"
+                },
+                "pro": {
+                    "title": "专业版",
+                    "description": "体验 Shira 完整功能",
+                    "price": "50 美元/月 + 每次测验 1 美元",
+                    "cta": "开始 14 天免费试用"
+                },
+                "enterprise": {
+                    "title": "企业版",
+                    "description": "可定制 Shira，适用大型组织和服务提供商",
+                    "price": "可定制定价",
+                    "cta": "联系我们"
+                }
+            },
+            "title": "可选方案",
+            "modal_title": "Shira 方案和定价",
+            "actions": {
+                "current_plan": "当前方案",
+                "downgrade": "降级",
+                "learn_more": "了解更多 Shira 方案"
+            }
         }
     },
     "error_messages": {
@@ -716,7 +799,7 @@
             },
             "review": {
                 "tab_title": "最后确认",
-                "subtitle": "即将邀请 <strong>{{count}} 位学员</strong>加入您的空间。",
+                "subtitle": "即将邀请<strong>{{count}} 位学员</strong>加入您的空间。",
                 "table_row": "行",
                 "table_name": "姓名",
                 "table_email": "电子邮箱",
@@ -760,6 +843,20 @@
                 "last_updated": "最后更新：{{date}}",
                 "action": "更改密码"
             }
+        },
+        "tabs": {
+            "account": "账号",
+            "subscription": "订阅"
+        },
+        "subscription": {
+            "current_plan": "当前方案：{{plan_name}}",
+            "view_plans": "查看方案",
+            "manage_plan": "管理方案",
+            "upgrade": "升级"
+        },
+        "checkout_success": {
+            "all_done": "完成！",
+            "success_message": "结算成功，正在激活您的订阅。"
         }
     }
 }
