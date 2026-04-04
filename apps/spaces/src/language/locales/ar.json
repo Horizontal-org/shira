@@ -58,7 +58,8 @@
         "message": "",
         "title": "اختبارات",
         "subtitle": "إدارة الاختبارات من هنا، بما في ذلك إنشاؤها، ونشرها، وإلغاء نشرها، وحذفها.",
-        "create_quiz_button": "إنشاء اختبار جديد"
+        "create_quiz_button": "إنشاء اختبار جديد",
+        "create_limit_reached": "رَقّوا خطتكم لإنشاء المزيد من الاختبارات."
     },
     "learners": {
         "message": "",
@@ -391,7 +392,21 @@
             }
         },
         "title": "الإعدادات",
-        "subtitle": "إدارة إعدادات مساحتكم في Shira من هنا."
+        "subtitle": "إدارة إعدادات مساحتكم في Shira من هنا.",
+        "tabs": {
+            "account": "حساب",
+            "subscription": "اشتراك"
+        },
+        "subscription": {
+            "current_plan": "الخطة الحالية: {{plan_name}}",
+            "view_plans": "عرض الخطط",
+            "manage_plan": "إدارة الخطة",
+            "upgrade": "ترقية"
+        },
+        "checkout_success": {
+            "all_done": "تم كل شيء!",
+            "success_message": "نجحت عملية الدفع. نحن ننشط اشتراككم الآن."
+        }
     },
     "buttons": {
         "message": "",
@@ -420,7 +435,11 @@
         "download_template": "تنزيل نموذج CSV",
         "view_guidelines": "عرض إرشادات التنسيق",
         "browse_files": "تصفح الملفات",
-        "i_understand": "فهمت"
+        "i_understand": "فهمت",
+        "learn_more": "التعرف على المزيد",
+        "manage_plan": "إدارة الخطة",
+        "back_to_quizzes": "العودة إلى الاختبارات",
+        "go_to_settings": "الذهاب إلى الإعدادات"
     },
     "modals": {
         "message": "",
@@ -449,7 +468,9 @@
             },
             "private_option": {
                 "title": "خاص",
-                "description": "يمكن فقط للمتعلمين المدعوين إلى مساحتكم إجراء الاختبار"
+                "description": "يمكن فقط للمتعلمين المدعوين إلى مساحتكم إجراء الاختبار",
+                "forbidden_tooltip": "رَقّوا خطتكم للوصول إلى الاختبارات الخاصة.",
+                "forbidden": "يمكن للمتعلمين فقط المدعوين من مساحتكم خوض الاختبار. تتوفر هذه الميزة في الخطط المدفوعة فقط. <0>{{learn_more}}</0>"
             },
             "title": "تحديد خصوصية الاختبار",
             "subtitle": "هل تودون أن يكون اختباركم عمومياً أم خاصاً؟",
@@ -591,6 +612,82 @@
             "description": "لإكمال العملية، افتحوا البريد الإلكتروني الذي أرسلناه إلى عنوان بريدكم الإلكتروني الجديد، واضغطوا على رابط التأكيد.",
             "didnt_receive": "ألم تتلقوا بريداً إلكترونياً؟ إذا لم تجدوه في مجلد الرسائل المزعجة، فاتصلوا بنا عبر <0>{{contact_email}}</0>",
             "button": "فهمت"
+        },
+        "view_plans": {
+            "actions": {
+                "current_plan": "الخطة الحالية",
+                "learn_more": "تعلم المزيد عن خطط Shira",
+                "downgrade": "تخفيض الترقية"
+            },
+            "comparison": {
+                "admin_management": "التسيير الإداري",
+                "customization": "التخصيص",
+                "access_control": "التحكم في الوصول",
+                "compliance": "الامتثال",
+                "custom_support": "دعم مخصص",
+                "rows": {
+                    "admin_dashboard": "لوحة تحكم المسؤول",
+                    "customizable_questions": "أسئلة الاختبار قابلة للتخصيص بالكامل",
+                    "question_library": "الوصول إلى مكتبة الأسئلة",
+                    "public_quizzes": "الاختبارات العمومية",
+                    "private_quizzes": "الاختبارات الخاصة",
+                    "analysis_tools": "أدوات التحليل والامتثال",
+                    "tailor_made_training": "تدريب المستخدمين على المقاس",
+                    "priority_support": "دعم أولوي",
+                    "hosting": "استضافة",
+                    "number_of_admins": "عدد المسؤولين",
+                    "custom_quizzes": "عدد الاختبارات المخصصة",
+                    "apps_available": "التطبيقات المتاحة",
+                    "basic_analytics": "التحليلات الأساسية",
+                    "detailed_analytics": "التحليلات المفصلة"
+                },
+                "values": {
+                    "cloud": "سحابي",
+                    "one_admin": "مسؤول واحد",
+                    "unlimited": "غير محدود",
+                    "up_to_three_custom_quizzes": "3 اختبارات مخصصة على الأكثر",
+                    "cloud_on_premise": "سحابي ومحلي"
+                },
+                "title": "ماذا يتضمن؟",
+                "tooltips": {
+                    "hosting": "[ADD TOOLTIP COPY]",
+                    "admin_dashboard": "[ADD TOOLTIP COPY]",
+                    "number_of_admins": "قريباً، عدد المسؤولين غير محدود",
+                    "customizable_questions": "[ADD TOOLTIP COPY]",
+                    "question_library": "[ADD TOOLTIP COPY]",
+                    "custom_quizzes": "[ADD TOOLTIP COPY]",
+                    "apps_available": "Gmail، Outlook، الرسائل النصية، WhatsApp، Messenger، تطبيقات المواعدة",
+                    "public_quizzes": "يمكن لأي شخص أن يجتاز اختباركم من خلال رابط سهل المشاركة",
+                    "private_quizzes": "يستطيع المتعلمون المسجلون في مساحتكم فقط خوض اختباراتكم",
+                    "basic_analytics": "تتبع النتائج على مستوى الاختبار",
+                    "detailed_analytics": "تتبع نتائج حسب المتعلم والأسئلة",
+                    "analysis_tools": "قريبا",
+                    "tailor_made_training": "[ADD TOOLTIP COPY]",
+                    "priority_support": "[ADD TOOLTIP COPY]"
+                }
+            },
+            "title": "الخطط المتاحة",
+            "modal_title": "خطط وأسعار Shira",
+            "plans": {
+                "starter": {
+                    "title": "الأولية",
+                    "description": "لتجربة المنصة والتعرف على مزايا Shira",
+                    "price": "مجانية",
+                    "cta": "بدء الآن"
+                },
+                "pro": {
+                    "title": "الباقة الاحترافية",
+                    "description": "جربوا القوة الكاملة لـ Shira",
+                    "price": "50$ شهرياً + 1$ لكل اختبار يُخاض",
+                    "cta": "ابدؤوا الفترة التجريبية المجانية لمدة 14 يوماً"
+                },
+                "enterprise": {
+                    "title": "باقة الشركات",
+                    "description": "تفصيل Shira للمنظمات الكبيرة ومزودي الخدمات",
+                    "price": "تسعير مخصص",
+                    "cta": "للتواصل معنا"
+                }
+            }
         }
     },
     "error_messages": {
