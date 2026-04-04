@@ -145,7 +145,7 @@
             }
         },
         "footer_title": "联系",
-        "footer_description": "如果有功能请求、错误报告或者需要联系我们，请发送电子邮件到 contact@wearehorizontal.org。",
+        "footer_description": "如果有功能请求、错误报告或者需要联系我们，请发送电子邮件到 contact@wearehorizontal.org",
         "bring_shira_button": "将 Shira 引入你的机构",
         "background": {
             "title": "背景",
@@ -222,7 +222,7 @@
         "feedback_text": "提交反馈，并了解 Shira 的后续计划！",
         "click_here": "点击此处",
         "message": "Shira 仍在开发阶段，您可能会遇到一些问题。",
-        "label": "BETA"
+        "label": "测试版"
     },
     "learner_invitation": {
         "success_title": "成功！",
