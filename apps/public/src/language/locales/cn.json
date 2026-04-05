@@ -120,7 +120,7 @@
         "why_shira": {
             "title": "为什么选择 Shira？",
             "option_1": {
-                "title": "1. 易于使用",
+                "title": "1. 简单易用",
                 "description": "Shira 在设计时重点考虑了最容易遭受钓鱼攻击的人群，尤其是技术素养有限的用户。"
             },
             "option_2": {
