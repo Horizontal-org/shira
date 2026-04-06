@@ -315,7 +315,7 @@
                 "title": "Privado",
                 "description": "Solo estudiantes con invitación de tu espacio pueden completar el formulario",
                 "forbidden_tooltip": "Actualiza tu plan para acceder a cuestionarios privados.",
-                "forbidden": "Solo estudiantes con invitación de tu espacio pueden tomar el cuestionario. Esta función solo está disponible en planes de pago. <0>{{learn_more}}</0>"
+                "forbidden": "Solo estudiantes con invitación de tu espacio pueden completar el cuestionario. Esta función solo está disponible en planes de pago. <0>{{learn_more}}</0>"
             }
         },
         "publish_quiz": {
@@ -503,7 +503,7 @@
                     "customizable_questions": "[ADD TOOLTIP COPY]",
                     "apps_available": "Gmail, Outlook, SMS, WhatsApp, Messenger, app de Citas",
                     "public_quizzes": "Cualquiera puede completar tu cuestionario a través de una URL fácil de compartir",
-                    "private_quizzes": "Solo estudiantes con registro en tu espacio pueden tomar tus cuestionarios",
+                    "private_quizzes": "Solo estudiantes con registro en tu espacio pueden completar tus cuestionarios",
                     "basic_analytics": "Monitorea resultados a nivel de cuestionario",
                     "detailed_analytics": "Monitorea resultados en los niveles de estudiante y pregunta",
                     "analysis_tools": "Próximamente"
