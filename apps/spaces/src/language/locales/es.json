@@ -532,7 +532,7 @@
     },
     "error_messages": {
         "message": "",
-        "image_type_unsupported": "Tipo de archivo no admitido. Por favor asegúrate de que tu imagen sea JPEG, PNG, GIF o WebP.",
+        "image_type_unsupported": "Tipo de archivo no admitido.  Por favor asegúrate de que tu imagen sea JPEG, PNG, GIF o WebP.",
         "image_upload_failed": "Hubo un problema al subir tu imagen. Por favor vuelve a intentar.",
         "current_password_incorrect": "Contraseña incorrecta.",
         "invalid_title": "Lo sentimos, algo salió mal",
@@ -544,24 +544,24 @@
             "duplicated_email": "Correo electrónico duplicado",
             "already_registered": "Ya cuenta con registro",
             "invalid_file_format": {
-                "title": "Error: formato inválido",
+                "title": "Error: Formato de archivo inválido",
                 "subtitle": "Por favor asegúrate de que el archivo está en formato CSV y vuelve a intentar."
             },
             "csv_parsing_error": {
-                "title": "Error: tu archivo no pudo ser procesado",
-                "subtitle": "No pudimos procesar el archivo. Por favor, vuelve a intentar."
+                "title": "Error: Tu archivo no pudo ser procesado",
+                "subtitle": "No pudimos procesar el archivo. Por favor vuelve a intentar."
             },
             "too_many_rows": {
-                "title": "Error: demasiadas filas",
-                "subtitle": "Por favor, asegúrate de que tu archivo contiene un máximo de 1,000 filas y vuelve a intentar."
+                "title": "Error: Demasiadas filas",
+                "subtitle": "Por favor asegúrate de que tu planilla contenga un máximo de 1.000 filas y vuelve a intentar."
             },
             "invalid_formatting": {
-                "title": "Error: formato inválido",
-                "subtitle": "Por favor asegúrate de que tu hoja de cálculos esté formateada según las reglas anteriores y vuelve a intentar."
+                "title": "Error: Formato inválido",
+                "subtitle": "Por favor asegúrate de que tu planilla esté formateada según las reglas anteriores y vuelve a intentar."
             },
             "file_too_large": {
-                "title": "Error: el archivo es demasiado grande",
-                "subtitle": "Por favor sube un archivo que sea de 10 MB o más pequeño y vuelve a intentar."
+                "title": "Error: El archivo es demasiado grande",
+                "subtitle": "Por favor sube un CSV que sea de 10 MB o más pequeño y vuelve a intentar."
             }
         },
         "invalid_email_update": "Esta dirección de correo electrónico ya está asociada con un espacio Shira.",
@@ -609,11 +609,11 @@
         "question_copied": "La pregunta ha sido duplicada",
         "no_questions_found": "No se encontraron preguntas.",
         "learner_invitation_sent": "La invitación ha sido enviada.",
-        "learner_invitation_resent": "Se ha reenviado la invitación a {{email}}",
-        "learner_deleted": "Se ha sido eliminado la persona estudiante.",
-        "learners_deleted": "Se ha sido eliminado la persona estudiante seleccionada.",
-        "learner_assigned": "Se ha asignado este cuestionario a {{count}} nueva persona estudiante.",
-        "learners_assigned_plural": "Se ha asignado este cuestionario a {{count}} nuevas personas estudiantes.",
+        "learner_invitation_resent": "La invitación ha sido reenviada a {{email}}",
+        "learner_deleted": "La persona estudiante ha sido eliminada.",
+        "learners_deleted": "La persona estudiante seleccionada ha sido eliminada.",
+        "learner_assigned": "Este cuestionario ha sido asignado a {{count}} nuevas personas estudiantes.",
+        "learners_assigned_plural": "Este cuestionario ha sido asignado a {{count}} nuevas personas estudiantes.",
         "learner_unassigned": "Este cuestionario ha sido desasignado de {{count}} estudiante.",
         "learners_unassigned_plural": "Este cuestionario ha sido desasignado de {{count}} estudiantes.",
         "password_updated": "Tu contraseña se actualizó exitosamente.",
@@ -629,7 +629,7 @@
         "loading_library_questions": "Cargando preguntas...",
         "uploading_image": "Subiendo imagen...",
         "assigning_quiz_to_learners": "Asignando cuestionario a estudiantes...",
-        "assigning_quiz_to_learners_description": "Shira está asignando el cuestionario a las cuentas seleccionadas.",
+        "assigning_quiz_to_learners_description": "Shira está asignando el cuestionario a las personas estudiantes seleccionadas.",
         "sending_invitation": "Enviando invitación"
     },
     "preview": {
@@ -668,7 +668,7 @@
         },
         "success": {
             "title": "¡Ya casi!",
-            "description": "Para completar el proceso, por favor abre el correo que te enviamos a tu dirección de correo electrónico y has clic en el enlace para crear tu espacio Shira.",
+            "description": "Para completar el proceso, por favor abre el correo que te enviamos a tu dirección de correo electrónico y cliquea en el enlace para crear tu espacio Shira.",
             "didnt_receive": "¿No recibiste un correo? Si no está en tu carpeta de spam, por favor contáctanos en"
         },
         "title": "Comenzar",
@@ -803,15 +803,15 @@
     },
     "create_space": {
         "message": "",
-        "title": "Espacio Shira",
-        "subtitle": "Después que crees tu espacio, podrás crear cuestionarios y preguntas personalizadas que sean relevantes específicamente para tu contexto y comunidades.",
+        "title": "Espacios Shira",
+        "subtitle": "Después de que crees tu espacio, podrás crear cuestionarios y preguntas personalizadas que sean relevantes específicamente para tu contexto y comunidades.",
         "form_title": "Crear un nuevo espacio",
         "form_description": "Completa el formulario a continuación para crear tu espacio Shira.",
-        "beta_lead": "Los espacios Shira actualmente están en fase beta cerrada. Para obtener la frase de acceso necesaria para unirte a la beta, escríbenos a",
+        "beta_lead": "Los espacios Shira están actualmente en fase beta cerrada. Para obtener la frase de acceso necesaria para unirte a la beta, envíanos un correo electrónico a",
         "checking_invitation": "Verificando invitación...",
         "email_label": "Confirma tu correo electrónico",
         "password_label": "Contraseña",
-        "confirm_password_label": "Confirmar contraseña",
+        "confirm_password_label": "Confirmar Contraseña",
         "button_create": "Crear un nuevo espacio",
         "validation": {
             "email_required": "El email es obligatorio.",
