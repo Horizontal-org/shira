@@ -17,13 +17,15 @@ export class ListQuestionService {
     private readonly getImageUrls: IGenerateUrlsQuestionImageService,
   ) { }
 
-  async getQuestions() {
+  async getQuestions(spaceId: number) {
     const languageId = 1;
 
-    const questions = await this.questionRepository
+    const query = this.questionRepository
       .createQueryBuilder('question')
       .leftJoin('question.questionTranslations', 'questionTranslations')
       .leftJoinAndSelect('question.fieldsOfWork', 'fieldsOfWork')
+      .leftJoin('question.quizQuestions', 'quizQuestions')
+      .leftJoin('quizQuestions.quiz', 'quiz')
       .select([
         'question.id',
         'question.isPhising',
@@ -36,8 +38,10 @@ export class ListQuestionService {
         'fieldsOfWork.id',
       ])
       .where('questionTranslations.languageId = :languageId', { languageId })
-      .andWhere('question.type = :type', { type: 'demo' })
-      .getMany();
+      .andWhere('(question.type = :demoType OR quiz.space_id = :spaceId)', { demoType: 'demo', spaceId })
+      .distinct(true);
+
+    const questions = await query.getMany();
 
     return questions.map((question) => ({
       id: question.id,
@@ -50,7 +54,7 @@ export class ListQuestionService {
     }));
   }
 
-  async getQuestion(id: string, lang?: string) {
+  async getQuestion(spaceId: number, id: string, lang?: string) {
     const language = await this.languageRepository.findOne({
       where: { code: lang || 'en' },
     });
@@ -63,6 +67,8 @@ export class ListQuestionService {
       .leftJoin('question.explanations', 'explanations')
       .leftJoin('question.questionTranslations', 'questionTranslations')
       .leftJoin('question.fieldsOfWork', 'fieldsOfWork')
+      .leftJoin('question.quizQuestions', 'quizQuestions')
+      .leftJoin('quizQuestions.quiz', 'quiz')
       .leftJoin(
         'explanations.explanationTranslations',
         'explanationTranslations',
@@ -84,9 +90,8 @@ export class ListQuestionService {
         'fieldsOfWork.id',
       ])
       .where('question.id = :id', { id })
-      .andWhere('questionTranslations.languageId = :languageId', {
-        languageId,
-      });
+      .andWhere('questionTranslations.languageId = :languageId', { languageId })
+      .andWhere('quiz.space_id = :spaceId)', { spaceId });
 
     const res = (await query.getMany()).shift();
 
