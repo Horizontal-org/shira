@@ -4,7 +4,7 @@ import { Body1 } from '../Typography';
 import { SettingsFishIcon } from '../..';
 
 export interface EmptyStateProps {
-  subtitle: string;
+  subtitle: string | ReactNode;
   buttons?: ReactNode | ReactNode[];
   backgroundColor?: string;
 }
