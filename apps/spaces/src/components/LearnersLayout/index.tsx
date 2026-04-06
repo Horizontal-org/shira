@@ -1,8 +1,8 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { LayoutMainContent, LayoutMainContentWrapper } from "../LayoutStyleComponents/LayoutMainContent";
-import { BetaBanner, Body1, Button, defaultTheme, H2, Sidebar, styled, SubHeading3, useAdminSidebar } from "@shira/ui";
+import { BetaBanner, Body1, Button, defaultTheme, EmptyState, H2, Link3, Sidebar, styled, SubHeading3, useAdminSidebar } from "@shira/ui";
 import { LayoutContainer } from "../LayoutStyleComponents/LayoutContainer";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useStore } from "../../store";
 import { shallow } from "zustand/shallow";
@@ -19,6 +19,7 @@ import { useLearners } from "../../hooks/useLearners";
 import { GenericErrorModal } from "../modals/ErrorModal";
 import { FiDownload } from "react-icons/fi";
 import { BulkInviteSentModal } from "../modals/BulkInviteSentModal";
+import { useSub } from "../../hooks/useSub";
 
 interface Props { }
 
@@ -56,6 +57,7 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
 
   const hasLearners = !!learners?.length;
   const hasSelectedLearners = selectedLearnerIds.length > 0;
+  const { isSubActive } = useSub()
 
   const openErrorModal = (content: string) => {
     setErrorMessage(content);
@@ -144,99 +146,123 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
             <Body1>{t("learners.subtitle")}</Body1>
           </HeaderContainer>
 
-          <ActionContainer>
-            <LeftActions>
-              {hasLearners && !hasSelectedLearners && (
+          { loading ? (
+            <Body1>{t("loading_messages.loading")}</Body1>
+          ) : (
+            <>
+              { isSubActive ? (
                 <>
-                  <Button
-                    id="invite-learner-button"
-                    text={t("buttons.invite_learner")}
-                    type="primary"
-                    leftIcon={<MdEmail />}
-                    onClick={() => setIsInviteLearnerModalOpen(true)}
-                    color={defaultTheme.colors.green7} />
+                  <ActionContainer>
+                    <LeftActions>
+                      {hasLearners && !hasSelectedLearners && (
+                        <>
+                          <Button
+                            id="invite-learner-button"
+                            text={t("buttons.invite_learner")}
+                            type="primary"
+                            leftIcon={<MdEmail />}
+                            onClick={() => setIsInviteLearnerModalOpen(true)}
+                            color={defaultTheme.colors.green7} />
 
-                  <Button
-                    id="invite-learners-bulk-button"
-                    text={t("buttons.invite_learners_bulk")}
-                    type="primary"
-                    leftIcon={<FiDownload />}
-                    onClick={() => navigate('/learner/import/bulk')}
-                    color={defaultTheme.colors.green7} />
-                </>
-              )}
-            </LeftActions>
+                          <Button
+                            id="invite-learners-bulk-button"
+                            text={t("buttons.invite_learners_bulk")}
+                            type="primary"
+                            leftIcon={<FiDownload />}
+                            onClick={() => navigate('/learner/import/bulk')}
+                            color={defaultTheme.colors.green7} />
+                        </>
+                      )}
+                    </LeftActions>
 
-            <RightActions>
-              {hasSelectedLearners && (
-                <BulkActionContainer>
-                  <Button
-                    id="delete-learners-bulk-button"
-                    text={t("buttons.delete_learners")}
-                    type="primary"
-                    leftIcon={<MdDelete />}
-                    color={defaultTheme.colors.error7}
-                    onClick={() => {
-                      setIsBulkDeleteLearnersModalOpen(true)
+                    <RightActions>
+                      {hasSelectedLearners && (
+                        <BulkActionContainer>
+                          <Button
+                            id="delete-learners-bulk-button"
+                            text={t("buttons.delete_learners")}
+                            type="primary"
+                            leftIcon={<MdDelete />}
+                            color={defaultTheme.colors.error7}
+                            onClick={() => {
+                              setIsBulkDeleteLearnersModalOpen(true)
+                            }}
+                          />
+                        </BulkActionContainer>
+                      )}
+                    </RightActions>
+                  </ActionContainer>
+
+                  <TableSection>
+                    <LearnersTable
+                      data={learners}
+                      loading={loading}
+                      onDeleteLearner={handleOpenDeleteModal}
+                      onResendInvitation={handleResendInvitation}
+                      onInviteLearner={() => setIsInviteLearnerModalOpen(true)}
+                      rowSelection={rowSelection}
+                      setRowSelection={setRowSelection}
+                    />
+                  </TableSection>
+
+                  <InviteLearnerModal
+                    isModalOpen={isInviteLearnerModalOpen}
+                    setIsModalOpen={setIsInviteLearnerModalOpen}
+                    onInviteSuccess={fetchLearners}
+                    openErrorModal={openErrorModal}
+                  />
+
+                  <DeleteLearnerAction
+                    learnerId={selectedLearnerIdToDelete}
+                    isModalOpen={isDeleteLearnerModalOpen}
+                    setIsModalOpen={setIsDeleteLearnerModalOpen}
+                    openErrorModal={openErrorModal}
+                    onDeleted={handleLearnerDeleted}
+                    onCancel={handleDeleteModalCancel}
+                  />
+
+                  <BulkDeleteLearnersAction
+                    learnerIds={selectedLearnerIds}
+                    isModalOpen={isBulkDeleteLearnersModalOpen}
+                    setIsModalOpen={setIsBulkDeleteLearnersModalOpen}
+                    openErrorModal={openErrorModal}
+                    onDeleted={handleBulkDeleteSuccess}
+                    onCancel={() => {
+                      setIsBulkDeleteLearnersModalOpen(false);
+                      clearSelectedLearners();
                     }}
                   />
-                </BulkActionContainer>
-              )}
-            </RightActions>
-          </ActionContainer>
 
-          <TableSection>
-            <LearnersTable
-              data={learners}
-              loading={loading}
-              onDeleteLearner={handleOpenDeleteModal}
-              onResendInvitation={handleResendInvitation}
-              onInviteLearner={() => setIsInviteLearnerModalOpen(true)}
-              rowSelection={rowSelection}
-              setRowSelection={setRowSelection}
-            />
-          </TableSection>
+                  <BulkInviteSentModal
+                    isModalOpen={isBulkInviteSentModalOpen}
+                    inviteCount={bulkInviteCount}
+                    onClose={() => setIsBulkInviteSentModalOpen(false)}
+                  />
 
-          <InviteLearnerModal
-            isModalOpen={isInviteLearnerModalOpen}
-            setIsModalOpen={setIsInviteLearnerModalOpen}
-            onInviteSuccess={fetchLearners}
-            openErrorModal={openErrorModal}
-          />
-
-          <DeleteLearnerAction
-            learnerId={selectedLearnerIdToDelete}
-            isModalOpen={isDeleteLearnerModalOpen}
-            setIsModalOpen={setIsDeleteLearnerModalOpen}
-            openErrorModal={openErrorModal}
-            onDeleted={handleLearnerDeleted}
-            onCancel={handleDeleteModalCancel}
-          />
-
-          <BulkDeleteLearnersAction
-            learnerIds={selectedLearnerIds}
-            isModalOpen={isBulkDeleteLearnersModalOpen}
-            setIsModalOpen={setIsBulkDeleteLearnersModalOpen}
-            openErrorModal={openErrorModal}
-            onDeleted={handleBulkDeleteSuccess}
-            onCancel={() => {
-              setIsBulkDeleteLearnersModalOpen(false);
-              clearSelectedLearners();
-            }}
-          />
-
-          <BulkInviteSentModal
-            isModalOpen={isBulkInviteSentModalOpen}
-            inviteCount={bulkInviteCount}
-            onClose={() => setIsBulkInviteSentModalOpen(false)}
-          />
-
-          <GenericErrorModal
-            isOpen={isErrorModalOpen}
-            errorMessage={errorMessage}
-            onRetry={() => { closeErrorModal(); }}
-            onCancel={closeErrorModal}
-          />
+                  <GenericErrorModal
+                    isOpen={isErrorModalOpen}
+                    errorMessage={errorMessage}
+                    onRetry={() => { closeErrorModal(); }}
+                    onCancel={closeErrorModal}
+                  />
+                </>
+              ) : (
+                <EmptyState
+                  subtitle={(
+                    <Trans 
+                      i18nKey="learners.sub_required" 
+                      components={[
+                        <Link3
+                          key="view-plans"
+                          href="https://shira.app/pricing"
+                        />
+                      ]}
+                    />
+                  )}
+                />
+              )}              
+            </>
+          )}
         </LayoutMainContentWrapper>
       </LayoutMainContent>
     </LayoutContainer>
