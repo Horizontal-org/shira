@@ -173,6 +173,7 @@
                 "message_variables": "variables",
                 "message_explanations": "explanations",
                 "explanation_content_placeholder": "New explanation",
+                "explanation_tooltip": "Select some text or an image to add an explanation.",
                 "sender": {
                     "title": "Sender name",
                     "subtitle": "This is the name that will be displayed in the \"Sender\" field of the email.",
