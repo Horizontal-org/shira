@@ -9,7 +9,7 @@
     "setup": {
         "name": {
             "title": "填写姓名和邮箱地址",
-            "subtitle": "我们要求提供姓名和邮箱地址，以便让网络钓鱼测验更加真实。这些信息不会被保存、发送到服务器或分享给其他人。",
+            "subtitle": "我们要求提供姓名和邮箱地址，以便让钓鱼测验更加真实。这些信息不会被保存、发送到服务器或分享给其他人。",
             "recommendation": "为了更安全，可使用虚假的姓名和邮箱，或者随机生成。",
             "name": "姓名",
             "email": "电子邮箱",
@@ -18,14 +18,14 @@
             "footer_title": "测验设置"
         },
         "apps": {
-            "title": "你使用哪些应用？",
+            "title": "您使用哪些应用？",
             "select": "至少选择 1 个",
             "footer_title": "测验设置",
             "back_button": "返回",
             "next_button": "下一步"
         },
         "fields_of_work": {
-            "title": "哪些领域和你有关？",
+            "title": "哪些领域和您有关？",
             "select": "最多选择 3 项",
             "footer_title": "测验设置",
             "back_button": "返回",
@@ -45,18 +45,18 @@
     "quiz": {
         "how_it_works": {
             "title": "使用说明",
-            "question_count": "本测验包含 {{count}} 道题",
-            "explanation_1": "本测验包含 10 道题。",
-            "explanation_2": "对于每道题，请判断所展示的信息是钓鱼内容还是正常信息。",
-            "explanation_3": "如果不确定，可以选择“不确定”这个选项。",
+            "question_count": "本测验包含 {{count}} 道题目",
+            "explanation_1": "本测验包含 10 道题目。",
+            "explanation_2": "对于每道题目，请判断所示消息看似钓鱼攻击或正规内容。",
+            "explanation_3": "如果不确定，可以选择“不确定”。",
             "footer_title": "测验简介",
             "next": "好的"
         },
         "answers": {
             "options": {
                 "unsure": "不确定",
-                "legitimate": "像真的",
-                "phising": "像网络钓鱼"
+                "legitimate": "看似正规",
+                "phising": "看似钓鱼攻击"
             },
             "results": {
                 "unsure": "“不确定”",
@@ -64,25 +64,25 @@
                 "incorrect": "错误",
                 "next_button": "下一个",
                 "back_button": "返回",
-                "next_question": "下一题",
+                "next_question": "下一题目",
                 "see_why": "查看原因",
-                "bottom-bar_looks-legit": "该信息不像是网络钓鱼。",
-                "bottom-bar_looks-like-phishing": "某些内容表明，该消息可能是网络钓鱼。"
+                "bottom-bar_looks-legit": "该消息不像是钓鱼。",
+                "bottom-bar_looks-like-phishing": "某些内容表明该消息可能是钓鱼。"
             }
         },
         "exit": {
             "title": "退出测验？",
             "action_description": "退出测验",
-            "description": "确定要退出测验吗？你的进度不会被保存。",
+            "description": "确定退出测验吗？您的进度将不会被保存。",
             "cancel": "取消"
         }
     },
     "feedback": {
         "title": "帮助我们改进",
-        "subtitle": "在查看测验结果之前，请告诉我们你的看法，帮助我们进行改进。",
+        "subtitle": "在查看测验结果之前，请告诉我们您的看法，帮助我们改进。",
         "box": {
             "question_1": {
-                "title": "1. Shira 使用起来是否容易？",
+                "title": "1. 使用 Shira 简单吗？",
                 "very_complicated": "非常复杂",
                 "complicated": "复杂",
                 "easy": "简单",
@@ -91,13 +91,13 @@
             "question_2": {
                 "title": "2. 是否推荐 Shira 给朋友或同事？",
                 "not_likely": "不太可能",
-                "somewhat_likely": "有一定可能",
-                "likely": "比较可能",
-                "very_likely": "非常可能"
+                "somewhat_likely": "比较可能",
+                "likely": "很可能",
+                "very_likely": "极有可能"
             },
             "question_3": {
                 "title": "3. 如何改进 Shira？",
-                "input_placeholder": "在这里写下你的反馈"
+                "input_placeholder": "在这里写下您的反馈"
             },
             "bottom_text": "点击“查看结果”之后将发送反馈"
         },
@@ -106,26 +106,26 @@
     },
     "completed": {
         "title": "测验完成",
-        "subtitle": "开始新的测验，或查看下方推荐内容，继续提升你的识别能力，避免钓鱼攻击。",
+        "subtitle": "开始新的测验，或查看下方推荐内容，继续提升您的识别能力，防范钓鱼攻击。",
         "back_button": "返回首页",
         "next_button": "新测验",
-        "heavy_subtitle_1": "你答对了 ",
+        "heavy_subtitle_1": "您答对了 ",
         "heavy_subtitle_2": "{{correctQuestions}} 道题目，共 {{questions}} 道 ",
         "heavy_subtitle_3": "题目。",
         "greeting_title": "感谢使用 Shira！"
     },
     "about": {
         "title": "关于",
-        "subtitle": "Shira 帮助培养用户的技能：识别并抵御电子邮件和通讯应用程序中的网络钓鱼攻击。",
+        "subtitle": "Shira 帮助用户提升技能：识别并抵御电子邮件和通讯应用中的钓鱼攻击。",
         "why_shira": {
             "title": "为什么选择 Shira？",
             "option_1": {
                 "title": "1. 简单易用",
-                "description": "Shira 在设计时重点考虑了最容易遭受钓鱼攻击的人群，尤其是技术素养有限的用户。"
+                "description": "Shira 关注高风险群体，让技术新手也能轻松识别并防范钓鱼攻击。"
             },
             "option_2": {
                 "title": "2. 可定制 ",
-                "description": "我们尽可能让钓鱼信息看起来真实，模拟用户在日常生活中实际会遇到的攻击场景。"
+                "description": "我们尽可能让钓鱼消息看起来真实，模拟用户在日常生活中实际会遇到的攻击场景。"
             },
             "option_3": {
                 "title": "3. 保护隐私",
@@ -138,7 +138,7 @@
             "title": "Shira 由谁开发？",
             "website_cta": "了解 Horizontal",
             "description": {
-                "section1": "Shira 是 Horizontal 发起的项目。Horizontal 是一家非营利组织，致力于通过数字安全与工具开发支持前线守护者、活动人士和记者。",
+                "section1": "Shira 是 Horizontal 发起的项目。Horizontal 是一家非营利组织，致力于通过数字安全和工具开发，为前线捍卫者、活动人士及新闻工作者提供支持。",
                 "section2": "与 Horizontal 的其他工具一样，Shira 免费且开源。可通过以下方式帮助改进和维持 Shira：",
                 "donation_link": "在此捐款。",
                 "section3": "如果想参与 Shira 翻译，请发邮件至 contact@wearehorizontal.org。"
@@ -146,17 +146,17 @@
         },
         "footer_title": "联系",
         "footer_description": "如果有功能请求、错误报告或者需要联系我们，请发送电子邮件到 contact@wearehorizontal.org",
-        "bring_shira_button": "将 Shira 引入你的机构",
+        "bring_shira_button": "将 Shira 引入您的机构",
         "background": {
             "title": "背景",
             "subtitle": "钓鱼攻击是全球互联网用户面临的重大安全威胁。",
             "section1": "电子邮件和消息常常自称来自可信的机构、公司和个人，但实际上是诱导用户泄露敏感信息（如银行账户信息和密码）或安装恶意软件。",
-            "section3": "这种威胁非常普遍并令人担忧，对于边缘群体，实际后果尤为严重，但是，对此几乎没有简单易用的解决方法，能够培养有效检测和抵御网络钓鱼攻击的技能。",
+            "section3": "这种威胁非常普遍且令人担忧，对于边缘群体，实际后果尤为严重。然后，对此几乎没有简单可信的解决方案，来培养有效检测和抵御钓鱼攻击的技能。",
             "section4": "这正是我们开发 Shira 的原因。"
         },
         "advisors": {
             "title": "顾问",
-            "subtitle": "Shira 由顾问委员会提供支持，顾问委员会由下列数字安全与网络安全专家组成：",
+            "subtitle": "Shira 设有顾问委员会，成员由数字安全与网络安全领域的专家组成：",
             "person1": {
                 "name": "Amir Rashidi",
                 "job": "Miaan 数字权利与安全总监"
@@ -191,7 +191,7 @@
             },
             "person9": {
                 "name": "Nick Carr",
-                "job": "微软网络犯罪情报和攻击技术"
+                "job": "微软网络犯罪情报与对手攻击战术专家"
             },
             "person10": {
                 "name": "Sadibou Sow",
@@ -203,8 +203,8 @@
             }
         },
         "bring": {
-            "title": "将 Shira 引入你的机构",
-            "section1": "Shira 默认提供多个选项来定制测验，以使测验和每个用户（应用程序、工作领域等）息息相关。但是，对你的员工、合作伙伴或者会员来说，如果想要这些测验更加逼真，我们可根据你的工作、背景、甚至真实生活中受到的网络钓鱼攻击来定制测验，并对你的机构进行培训。",
+            "title": "将 Shira 引入您的机构",
+            "section1": "Shira 默认提供多种自定义选项，确保测验和每位用户高度相关（包括应用类型、工作领域等）。但如果希望让测验对您的员工、合作伙伴或成员而言更具真实感，我们可提供进一步支持：根据您的工作内容和具体场景量身定制测验，甚至可利用您实际遭遇的真实钓鱼攻击案例，为您的组织提供专门的培训服务。",
             "section2": "如果对此有兴趣或疑问，请联系 contact@wearehorizontal.org。"
         }
     },
@@ -226,19 +226,19 @@
     },
     "learner_invitation": {
         "success_title": "成功！",
-        "success_joined_space": "你已加入 Shira 空间 {{spaceName}}。",
-        "error_message": "请重试或联系邀请你的人。",
-        "learn_more": "了解更多 Shira",
-        "success_hint": "当你的组织向你分享测验时，你会在邮箱中收到邀请。",
+        "success_joined_space": "您已加入 Shira 空间 {{spaceName}}。",
+        "error_message": "请重试或联系邀请您的人。",
+        "learn_more": "了解更多 Shira 相关信息",
+        "success_hint": "当您的组织向您分发测验时，您将在邮箱中收到邀请。",
         "error_title": "出错"
     },
     "invalid_quiz": {
         "title": "抱歉，该测验链接无效。",
-        "description": "可能是链接错误，或该测验已取消发布并且不再可用",
+        "description": "可能链接错误，或该测验已取消发布且不再可用",
         "home_button": "前往 Shira"
     },
     "invalid_invitation": {
-        "description": "可能是链接错误，或邀请已过期。请重试或联系邀请你的人。",
+        "description": "可能链接错误，或邀请已过期。请重试或联系邀请您的人。",
         "title": "抱歉，该邀请链接无效。",
         "home_button": "前往 Shira"
     },
