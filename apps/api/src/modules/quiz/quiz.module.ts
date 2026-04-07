@@ -18,7 +18,6 @@ import { ExplanationTranslation } from '../translation/domain/explanationTransla
 import { Language } from '../languages/domain';
 import { App } from '../app/domain';
 import { EditQuestionQuizController } from './controller/edit-question.quiz.controller';
-import { DeleteQuestionQuizController } from './controller/delete-question.quiz.controller';
 import { ReorderQuestionQuizController } from './controller/reorder-question.quiz.controller';
 import { DuplicateQuestionQuizController } from './controller/duplicate-question.quiz.controller';
 import { DuplicateQuizController } from './controller/duplicate-quiz.controller';
@@ -53,7 +52,6 @@ import { ValidateQuizNameController } from './controller/validate-name.quiz.cont
     ReorderQuestionQuizController,
     CreateQuestionQuizController,
     EditQuestionQuizController,
-    DeleteQuestionQuizController,
     DuplicateQuestionQuizController,
     DuplicateQuizController,
     EditQuizController,
