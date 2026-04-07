@@ -63,7 +63,9 @@ export const EmailTipTapEditor = ({
         { links.editLinkModal }
         <EditorContainer>
           <EditorContentWithExplanation>
-            <EditorContent id={editorId} editor={editor} />
+            <EditorContentWrapper>
+              <EditorContent id={editorId} editor={editor} />
+            </EditorContentWrapper>
             <GeneralTooltip
               enabled={!explanations.canAddTextExplanation() && !explanations.isTextExplanationActive() && !images.selectedImageHasExplanation}
               show={showExplanationButtonTooltip}
@@ -123,6 +125,7 @@ const Wrapper = styled.div`
 const EditorWrapper = styled.div`
   display: inline-block;
   width: 100%;
+  max-width: 100%;
 `
 
 const HiddenFileInput = styled.input`
@@ -133,11 +136,13 @@ const EditorContainer = styled.div`
   position: relative;
 `
 
-
-
 const EditorContentWithExplanation = styled.div`
   display: flex;
   flex: 1;
   width: 100%;
   align-items: center;
+`
+
+const EditorContentWrapper = styled.div`
+  width: 100%;
 `

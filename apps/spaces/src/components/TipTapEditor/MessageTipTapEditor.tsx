@@ -84,7 +84,6 @@ export const MessageTipTapEditor = ({
                   }}
                 />
               </GeneralTooltip>
-
             </ExplanationButtonWrapper>
           </EditorContentWithExplanation>
         </EditorContainer>
@@ -113,4 +112,5 @@ const EditorContentWithExplanation = styled.div`
   flex: 1;
   width: 100%;
   align-items: center;
+  justify-content: space-between;
 `
