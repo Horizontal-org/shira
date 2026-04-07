@@ -306,17 +306,17 @@
         },
         "quiz_visibility": {
             "title": "设置测验可见性",
-            "subtitle": "您希望测验设为公开还是私有？",
-            "description": "此设置为永久性，无法更改。如需日后修改，必须复制此测验。",
+            "subtitle": "测验设为公开还是私有？",
+            "description": "此设置是永久性的，无法更改。如需日后修改，必须复制此测验。",
             "public_option": {
                 "title": "公开",
-                "description": "任何拥有测验链接的人均可参加"
+                "description": "任何获得测验链接的用户均可参加"
             },
             "private_option": {
                 "title": "私有",
-                "description": "仅空间中受邀学员可以参加",
+                "description": "仅空间的受邀学员可以参加",
                 "forbidden_tooltip": "升级方案访问私有测验。",
-                "forbidden": "仅空间受邀学员可参与测验。此功能仅对付费方案使用。<0>{{learn_more}}</0>"
+                "forbidden": "仅空间的受邀学员可参加测验。此功能仅对付费方案使用。<0>{{learn_more}}</0>"
             }
         },
         "publish_quiz": {
@@ -346,22 +346,22 @@
         },
         "unpublish_quiz_on_delete": {
             "title": "确定删除“{{question_name}}”并取消发布测验吗？",
-            "message": "删除此题目为永久性操作，无法撤销。由于您正在删除测验中的唯一题目，测验也将同时被取消发布。",
+            "message": "删除题目为永久性操作，无法撤销。由于您将要删除测验中的唯一题目，测验也将同时被取消发布。",
             "confirm": "删除并取消发布"
         },
         "exit_question": {
             "title": "确定退出题目编辑吗？",
-            "message": "未保存的更改将会丢失。"
+            "message": "未保存的更改将丢失。"
         },
         "csv_formatting_guidelines": {
             "title": "CSV 格式规范",
             "header_row_title": "标题行：",
-            "header_row_body": "第一行应留作标题行。若学员信息位于第一行，将不会导入。",
+            "header_row_body": "第一行应保留为标题行。如果第一行包含学员信息，该行将不会被导入。",
             "first_column_title": "第一列：",
-            "first_column_body": "此列用于填写学员姓名。姓名为可选项：即使部分或全部行的姓名栏为空，仍可继续导入。",
+            "first_column_body": "此列用于填写学员姓名。姓名为选填项：即使部分或全部行的姓名单元格为空，仍可继续导入。",
             "second_column_title": "第二列：",
-            "second_column_body": "此列必须包含电子邮箱地址。邮箱为必填项，未填写邮箱的学员将不会被添加到您的空间。",
-            "footer": "遵循此格式可确保所有符合条件的学员成功导入。"
+            "second_column_body": "此列必须包含电子邮箱地址。邮箱为必填项，未填写邮箱的学员将不会添加到空间。",
+            "footer": "遵循此格式可确保成功导入所有符合条件的学员。"
         },
         "exit_bulk_import": {
             "title": "确定退出吗？",
@@ -391,17 +391,17 @@
         "variables_modal": {
             "title": "变量",
             "message": "变量是占位符，用于在题目中插入个性化信息。",
-            "message2": "显示的信息与每位学员相关，来源于他们在测验设置时填写的内容或系统自动生成的数据。",
+            "message2": "显示的信息与每位学员相关，源于在测验设置期间学员输入的内容或自动生成的数据。",
             "message3": "要添加变量，请输入以下内容：",
             "name": "姓名",
             "name_explanation": "这将显示学员的姓名",
-            "email": "邮箱",
+            "email": "电子邮箱",
             "email_explanation": "这将显示学员的电子邮箱地址",
             "ok": "好的"
         },
         "explanations_modal": {
             "title": "解析",
-            "message": "解析是简短的注释，用于突出题目中的特定元素，并说明这些元素为何可能表明该消息是或不是钓鱼攻击。",
+            "message": "解析是简短的注释，用于突出显示题目中的特定元素，并解释为什么这些元素可能表明该消息是或不是钓鱼攻击。",
             "message2": "要添加解析，请点击每行右侧的解析图标。解析可附加到： ",
             "list": {
                 "fields": "字段，例如发件人姓名或电子邮箱地址",
@@ -412,7 +412,7 @@
         },
         "no_explanations": {
             "title": "是否在没有解析的情况下继续？",
-            "message": "尚未为此题目创建任何解析，因此学员将看不到相关说明文字：该消息看似钓鱼攻击或正常消息。",
+            "message": "尚未为此题目创建任何解析，因此学员将看不到相关解释：为什么该消息看似钓鱼攻击或正规消息。",
             "add": "添加解析"
         },
         "invite_learner": {
@@ -496,7 +496,7 @@
                     "custom_quizzes": "[添加工具提示副本]",
                     "apps_available": "Gmail、Outlook、短信、WhatsApp、Messenger、交友应用",
                     "public_quizzes": "轻松分享测验 URL，任何人都可参加",
-                    "private_quizzes": "只有您的空间注册学员才能参加测验",
+                    "private_quizzes": "只有空间的注册学员才能参加测验",
                     "basic_analytics": "追踪测验层面的结果",
                     "detailed_analytics": "追踪学员和题目层面的结果",
                     "analysis_tools": "即将推出",
@@ -522,7 +522,7 @@
                 },
                 "enterprise": {
                     "title": "企业版",
-                    "description": "可定制 Shira，适用大型组织和服务提供商",
+                    "description": "为大型组织和服务提供商量身定制 Shira",
                     "price": "可定制定价",
                     "cta": "联系我们"
                 }
@@ -679,7 +679,7 @@
         },
         "success": {
             "title": "即将完成！",
-            "description": "要完成此操作，请打开我们发送至您邮箱的邮件，并点击链接以创建您的 Shira 空间。",
+            "description": "为了完成此操作，请打开我们发送至您邮箱的邮件，并点击链接创建您的 Shira 空间。",
             "didnt_receive": "未收到邮件？如果垃圾邮件文件夹中也没有，请通过以下方式联系我们："
         }
     },
@@ -811,10 +811,10 @@
     "create_space": {
         "message": "",
         "title": "Shira 空间",
-        "subtitle": "创建空间后，您将能够创建与您的使用场景和社群高度相关的自定义测验和题目。",
+        "subtitle": "创建空间后，可针对您的具体场景和群体，定制高度相关的测验与题目。",
         "form_title": "创建新空间",
         "form_description": "请填写以下表单以创建您的 Shira 空间。",
-        "beta_lead": "Shira 空间目前处于封闭测试阶段。如需获取加入测试所需的密码短语，请发送邮件至：",
+        "beta_lead": "Shira 空间目前处于封闭测试阶段。如需获取加入测试所需的通行口令，请发送邮件至：",
         "checking_invitation": "正在验证邀请...",
         "email_label": "确认您的电子邮箱地址",
         "password_label": "密码",
