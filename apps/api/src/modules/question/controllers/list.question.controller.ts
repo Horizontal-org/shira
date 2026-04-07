@@ -11,8 +11,8 @@ export class ListQuestionController {
 
   @Get('')
   @Roles(Role.SuperAdmin)
-  async getQuestions(@SpaceId() spaceId: number) {
-    return this.listQuestionService.getQuestions(spaceId);
+  async getQuestions() {
+    return this.listQuestionService.getQuestions();
   }
 
   @Get(':id')

@@ -17,15 +17,13 @@ export class ListQuestionService {
     private readonly getImageUrls: IGenerateUrlsQuestionImageService,
   ) { }
 
-  async getQuestions(spaceId: number) {
+  async getQuestions() {
     const languageId = 1;
 
-    const query = this.questionRepository
+    const questions = await this.questionRepository
       .createQueryBuilder('question')
       .leftJoin('question.questionTranslations', 'questionTranslations')
       .leftJoinAndSelect('question.fieldsOfWork', 'fieldsOfWork')
-      .leftJoin('question.quizQuestions', 'quizQuestions')
-      .leftJoin('quizQuestions.quiz', 'quiz')
       .select([
         'question.id',
         'question.isPhising',
@@ -35,13 +33,11 @@ export class ListQuestionService {
         'question.createdAt',
         'question.updatedAt',
         'question.type',
-        'fieldsOfWork.id',
+        'fieldsOfWork.id'
       ])
       .where('questionTranslations.languageId = :languageId', { languageId })
-      .andWhere('(question.type = :demoType OR quiz.space_id = :spaceId)', { demoType: 'demo', spaceId })
-      .distinct(true);
-
-    const questions = await query.getMany();
+      .andWhere('question.type = :type', { type: 'demo' })
+      .getMany();
 
     return questions.map((question) => ({
       id: question.id,
