@@ -25,13 +25,15 @@
         "message": "",
         "title": "Les quiz",
         "subtitle": "Gérez vos quiz ici : vous pouvez notamment les créer, les publier, les retirer de la publication et les supprimer.",
-        "create_quiz_button": "Créer un nouveau quiz"
+        "create_quiz_button": "Créer un nouveau quiz",
+        "create_limit_reached": "Passez à un forfait supérieur pour créer plus de quiz."
     },
     "quizzes": {
         "message": "",
         "filter": {
             "published": "Publié",
-            "unpublished": "Non publié"
+            "unpublished": "Non publié",
+            "all_quizzes": "Tous les quiz"
         },
         "last_modified": "Dernière modification {{date}}",
         "publish_toggle": "Publié",
@@ -279,7 +281,11 @@
         "view_guidelines": "Voir les consignes de formatage",
         "browse_files": "Parcourir les fichiers",
         "i_understand": "J'ai compris",
-        "back_home": "Retour a l'accueil"
+        "back_home": "Retour a l'accueil",
+        "learn_more": "En apprendre davantage",
+        "manage_plan": "Gérer le forfait",
+        "back_to_quizzes": "Retour aux quiz",
+        "go_to_settings": "Aller aux paramètres"
     },
     "modals": {
         "message": "",
@@ -424,7 +430,9 @@
             },
             "private_option": {
                 "title": "Privé",
-                "description": "Seuls les apprenants invités de votre espace peuvent répondre au quiz"
+                "description": "Seuls les apprenants invités de votre espace peuvent répondre au quiz",
+                "forbidden_tooltip": "Passez au forfait supérieur pour accéder aux quiz privés.",
+                "forbidden": "Seuls les apprenants invités de votre espace peuvent participer au quiz. Cette fonctionnalité est disponible uniquement avec les forfaits payants. <0>{{learn_more}}</0>"
             }
         },
         "publish_quiz": {
@@ -450,6 +458,82 @@
             "button": "Créer un nouveau quiz",
             "title": "Nommer votre nouveau quiz",
             "placeholder": "Nom du quiz"
+        },
+        "view_plans": {
+            "title": "Forfaits disponibles",
+            "modal_title": "Forfaits et tarifs de Shira",
+            "actions": {
+                "current_plan": "Forfait actuel",
+                "downgrade": "Passer à une version inférieure",
+                "learn_more": "En savoir plus sur les forfaits Shira"
+            },
+            "comparison": {
+                "title": "Ce qui est inclus ?",
+                "admin_management": "Gestion des administrateurs",
+                "customization": "Personnalisation",
+                "access_control": "Contrôle d'accès",
+                "compliance": "Conformité",
+                "custom_support": "Assistance personnalisée",
+                "rows": {
+                    "hosting": "Hébergement",
+                    "admin_dashboard": "Tableau de bord administrateur",
+                    "number_of_admins": "Nombre d'administrateurs",
+                    "customizable_questions": "Questions de quiz entièrement personnalisables",
+                    "question_library": "Accès à la bibliothèque de questions",
+                    "custom_quizzes": "Nombre de quiz personnalisés",
+                    "apps_available": "Applications disponibles",
+                    "public_quizzes": "Quiz publics",
+                    "private_quizzes": "Quiz privés",
+                    "basic_analytics": "Analyses de base",
+                    "detailed_analytics": "Analyses détaillées",
+                    "analysis_tools": "Outils d'analyse et de conformité",
+                    "tailor_made_training": "Formation utilisateur sur mesure",
+                    "priority_support": "Assistance prioritaire"
+                },
+                "values": {
+                    "cloud": "Cloud",
+                    "cloud_on_premise": "Cloud et sur site",
+                    "one_admin": "1 administrateur",
+                    "unlimited": "Illimité",
+                    "up_to_three_custom_quizzes": "Jusqu'à 3 quiz personnalisés"
+                },
+                "tooltips": {
+                    "hosting": "[AJOUTER LE TEXTE DE L'INFOBULLE]",
+                    "admin_dashboard": "[AJOUTER LE TEXTE DE L'INFOBULLE]",
+                    "number_of_admins": "Administrateurs illimités bientôt disponible",
+                    "customizable_questions": "[AJOUTER LE TEXTE DE L'INFOBULLE]",
+                    "question_library": "[AJOUTER LE TEXTE DE L'INFOBULLE]",
+                    "custom_quizzes": "[AJOUTER LE TEXTE DE L'INFOBULLE]",
+                    "apps_available": "Gmail, Outlook, SMS, WhatsApp, Messenger, Applications de rencontre",
+                    "public_quizzes": "N'importe qui peut répondre à votre quiz via une URL facile à partager",
+                    "private_quizzes": "Seuls les apprenants inscrits dans votre espace peuvent répondre à vos quiz",
+                    "basic_analytics": "Suivi des résultats au niveau du quiz",
+                    "detailed_analytics": "Suivi des résultats au niveau de l'apprenant et de la question",
+                    "analysis_tools": "Bientôt disponible",
+                    "tailor_made_training": "[AJOUTER LE TEXTE DE L'INFOBULLE]",
+                    "priority_support": "[AJOUTER LE TEXTE DE L'INFOBULLE]"
+                }
+            },
+            "plans": {
+                "enterprise": {
+                    "cta": "Contactez-nous",
+                    "title": "Entreprise",
+                    "description": "Adaptez Shira pour les grandes organisations et les prestataires de services",
+                    "price": "Tarif personnalisé"
+                },
+                "starter": {
+                    "title": "Initial",
+                    "description": "Pour essayer et se familiariser avec Shira",
+                    "price": "Gratuit",
+                    "cta": "Commencez"
+                },
+                "pro": {
+                    "title": "Pro",
+                    "description": "Découvrez toute la puissance de Shira",
+                    "price": "50 $/mois + 1 $ par quiz effectué",
+                    "cta": "Commencer l'essai gratuit de 14 jours"
+                }
+            }
         }
     },
     "error_messages": {
@@ -613,6 +697,17 @@
             "registered_tag": "Inscrit(e)",
             "submitted_tag": "Soumis",
             "not_submitted_tag": "Non soumis"
+        },
+        "sub_required": "Cette fonctionnalité n'est pas disponible avec votre forfait actuel. <0>Voir les forfaits</0>",
+        "assign_dialog": {
+            "registered_title": "Apprenants inscrits",
+            "registered_description": "Sélectionnez un ou plusieurs apprenants pour leur attribuer ce quiz.",
+            "registered_description_2": "Vous pouvez gérer les apprenants inscrits et en inviter de nouveaux dans la section <0>Apprenants</0>.",
+            "assign_button": "Attribuer aux apprenants",
+            "assign_title": "Attribuez \"{{quiz_title}}\" aux apprenants",
+            "no_learners": "Aucun apprenant n'est inscrit dans votre espace.",
+            "all_learners_registered": "Tous les apprenants inscrits ont déjà été affectés à ce quiz.",
+            "disabled_tooltip": "Créez au moins une question pour attribuer ce quiz aux apprenants."
         }
     },
     "confirm_email_update": {
@@ -749,6 +844,20 @@
             }
         },
         "title": "Paramètres",
-        "subtitle": "Gérez les paramètres de votre espace Shira ici."
+        "subtitle": "Gérez les paramètres de votre espace Shira ici.",
+        "tabs": {
+            "account": "Compte",
+            "subscription": "Abonnement"
+        },
+        "subscription": {
+            "current_plan": "Plan actuel : {{plan_name}}",
+            "view_plans": "Voir les forfaits",
+            "manage_plan": "Gérer le forfait",
+            "upgrade": "Mise à niveau"
+        },
+        "checkout_success": {
+            "all_done": "C'est terminé !",
+            "success_message": "Votre paiement a été validé avec succès. Nous activons votre forfait dès maintenant."
+        }
     }
 }
