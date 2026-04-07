@@ -81,12 +81,6 @@ function App() {
               <Route path='/checkout-success' element={<CheckoutSuccessLayout />} />
               {user && (
                 <>
-                  {/* LEGACY */}
-                  {/* <Route path="/legacy-question" element={<QuestionLayout />} /> */}
-                  {/* <Route path="/translations" element={<ManageGlobalLanguages />} /> */}
-                  {/* <Route path="/legacy-questions" element={<HomeLayout />} /> */}
-                  {/* <Route path="/question/:id"  element={<QuestionLayout />} />  */}
-                  {/* LEGACY */}
                   <Route
                     element={(
                       <>
