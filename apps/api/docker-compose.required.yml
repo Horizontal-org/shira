@@ -19,6 +19,7 @@ services:
       - shira-network
   redis:
     image: 'bitnami/redis:latest'
+    restart: always
     environment:
       REDIS_PASSWORD: '${REDIS_PASSWORD}'
     networks:
