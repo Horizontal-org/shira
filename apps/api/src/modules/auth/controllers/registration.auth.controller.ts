@@ -8,6 +8,7 @@ import {
 } from '../interfaces';
 import { RegisterAuthDto } from '../domain/register.auth.dto';
 
+//DEPRECATED
 @Controller('register')
 export class RegisterAuthController {
   constructor(

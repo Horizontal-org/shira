@@ -14,4 +14,8 @@ export class SendInvitationDto {
     @IsNotEmpty()
     @IsString()
     orgType: 'business' | 'cibersecurity' | 'non-profit' | 'individual'
+
+    @IsNotEmpty()
+    @IsString()
+    subIntent: "starter" | "pro" | "enterprise"
 }
