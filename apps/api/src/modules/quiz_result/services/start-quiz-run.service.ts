@@ -38,7 +38,7 @@ export class StartQuizRunService {
       // check learner_quiz
       const learnerQuiz = await this.validateLearnerQuiz.execute(quizIdNum, dto.learnerId)
       const orgId = await this.getOrgByLearnerQuiz(learnerQuiz)
-      // Usage recording is best-effort and should not block quiz runs.
+      // record sub usage
       this.recordUsage(orgId);
     }
 
