@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { StartQuizRunDto } from '../dto/start-quiz-run.dto';
@@ -12,6 +12,8 @@ import { IValidateLearnerQuizService } from 'src/modules/learner/interfaces/serv
 
 @Injectable()
 export class StartQuizRunService {
+  private readonly logger = new Logger(StartQuizRunService.name);
+
   constructor(
     @InjectRepository(QuizRun)
     private readonly quizRunRepo: Repository<QuizRun>,
@@ -35,8 +37,8 @@ export class StartQuizRunService {
       // check learner_quiz
       const learnerQuiz = await this.validateLearnerQuiz.execute(quizIdNum, dto.learnerId)
       const orgId = await this.getOrgByLearnerQuiz(learnerQuiz)
-      // record sub usage  
-      this.paymentsQueue.add('record-usage', String(orgId))
+      // Usage recording is best-effort and should not block quiz runs.
+      void this.recordUsage(orgId)
     }  
 
     const run = this.quizRunRepo.create({
@@ -55,5 +57,16 @@ export class StartQuizRunService {
     })
 
     return quiz.space.organizationId
+  }
+
+  private async recordUsage(orgId: number | string): Promise<void> {
+    try {
+      await this.paymentsQueue.add('record-usage', String(orgId))
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error)
+      this.logger.warn(
+        `Failed to enqueue payments usage for organizationId=${orgId}: ${message}`,
+      )
+    }
   }
 }

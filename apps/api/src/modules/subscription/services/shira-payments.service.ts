@@ -66,15 +66,26 @@ export class ShiraPaymentsService implements IShiraPaymentsService {
 
     this.logger.started(logContext);
 
-    const response = await fetch(url, {
-      ...init,
-      headers: {
-        'content-type': 'application/json',
-        'x-request-id': requestId,
-        'x-internal-shira-key': apiKey,
-        ...(init?.headers ?? {}),
-      },
-    });
+    let response: Response;
+
+    try {
+      response = await fetch(url, {
+        ...init,
+        headers: {
+          'content-type': 'application/json',
+          'x-request-id': requestId,
+          'x-internal-shira-key': apiKey,
+          ...(init?.headers ?? {}),
+        },
+      });
+    } catch (error) {
+      const duration = Date.now() - startedAt;
+      const message = error instanceof Error ? error.message : String(error);
+      const stack = error instanceof Error ? error.stack : undefined;
+
+      this.logger.requestError(logContext, duration, message, stack);
+      throw error;
+    }
 
     const duration = Date.now() - startedAt;
 

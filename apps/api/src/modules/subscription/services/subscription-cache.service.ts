@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable, Logger } from "@nestjs/common";
 import Redis from "ioredis";
 import { REDIS } from "../providers/redis.provider";
 import { CachedSubscription } from "../dto/cached-response.dto";
@@ -9,6 +9,7 @@ import { TYPES } from "../interfaces";
 @Injectable()
 export class SubscriptionCacheService implements ISubscriptionCacheService {
   private readonly ttlSeconds = Number(process.env.SUBSCRIPTION_CACHE_TTL || 300);
+  private readonly logger = new Logger(SubscriptionCacheService.name);
 
   constructor(
     @Inject(REDIS)
@@ -56,6 +57,9 @@ export class SubscriptionCacheService implements ISubscriptionCacheService {
         throw error;
       }
 
+      this.logger.error(
+        `Falling back to starter subscription because shira-payments is unavailable`,
+      );
       await this.setCache(cacheKey, fallbackSubscription);
       return fallbackSubscription;
     }
@@ -96,6 +100,10 @@ export class SubscriptionCacheService implements ISubscriptionCacheService {
   ): CachedSubscription | null {
     const message = error instanceof Error ? error.message : String(error);
 
+    if (this.isConnectionError(error)) {
+      return this.buildFallbackSubscription(organizationId);
+    }
+
     try {
       const parsed = JSON.parse(message) as {
         message?: string;
@@ -104,17 +112,36 @@ export class SubscriptionCacheService implements ISubscriptionCacheService {
       };
 
       if (parsed.statusCode === 404 && parsed.error === "Not Found") {
-        return {
-          organizationId,
-          status: "active",
-          type: "starter",
-          createdAt: null,
-        };
+        return this.buildFallbackSubscription(organizationId);
       }
 
       return null;
     } catch {
       return null;
     }
+  }
+
+  private buildFallbackSubscription(organizationId: string): CachedSubscription {
+    return {
+      organizationId,
+      status: "active",
+      type: "starter",
+      createdAt: null,
+    };
+  }
+
+  private isConnectionError(error: unknown): boolean {
+    if (!(error instanceof Error)) {
+      return false;
+    }
+
+    const cause = error.cause as { code?: string } | undefined;
+
+    return (
+      error.message === "fetch failed" ||
+      cause?.code === "ECONNREFUSED" ||
+      cause?.code === "ENOTFOUND" ||
+      cause?.code === "EAI_AGAIN"
+    );
   }
 }
