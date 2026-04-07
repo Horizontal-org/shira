@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { Body, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
 import { TYPES } from '../interfaces';
 import { Inject } from '@nestjs/common';
 import { IStartQuizRunService } from '../interfaces/services/start-quiz-run.service.interface';
@@ -6,8 +6,9 @@ import { IFinishQuizRunService } from '../interfaces/services/finish-quiz-run.se
 import { StartQuizRunDto } from '../dto/start-quiz-run.dto';
 import { FinishQuizRunDto } from '../dto/finish-quiz-run.dto';
 import { IGetQuizRunsService } from '../interfaces/services/get-quiz-runs-by-quiz.service.interface';
+import { AuthController } from 'src/utils/decorators/auth-controller.decorator';
 
-@Controller('quiz-run')
+@AuthController('quiz-run')
 export class QuizRunController {
   constructor(
     @Inject(TYPES.services.IStartQuizRunService)
