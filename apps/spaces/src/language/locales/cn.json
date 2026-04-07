@@ -2,7 +2,7 @@
     "login": {
         "message": "",
         "title": "登录",
-        "subtitle": "登录访问你的定制 Shira 空间。",
+        "subtitle": "登录访问您的定制化 Shira 空间。",
         "email_placeholder": "电子邮箱",
         "password_placeholder": "密码",
         "reset_password": "忘记密码？",
@@ -31,7 +31,7 @@
     "quizzes": {
         "message": "",
         "filter": {
-            "all_quizzes": "全部测验",
+            "all_quizzes": "所有测验",
             "published": "已发布",
             "unpublished": "未发布"
         },
@@ -86,7 +86,7 @@
     },
     "no_questions": {
         "message": "",
-        "subtitle": "您还没有任何题目。请创建您自己的题目，或从 Shira 题库中添加。"
+        "subtitle": "目前没有任何题目。请创建您自己的题目，或从 Shira 题库中添加。"
     },
     "create_question": {
         "message": "",
@@ -96,7 +96,7 @@
                 "tab_title": "题目信息",
                 "question_name": {
                     "title": "题目名称",
-                    "subtitle": "此名称仅对您可见，以便记住该题目的内容",
+                    "subtitle": "此名称仅对您可见，可帮助您记住该题目的内容",
                     "question_name_placeholder": "题目名称"
                 },
                 "phishing": {
@@ -111,7 +111,7 @@
             "content": {
                 "tab_title": "内容",
                 "phishing": "您正在编写钓鱼消息",
-                "legitimate": "您正在编写正常消息",
+                "legitimate": "您正在编写正规消息",
                 "message": "在此页面中，创建将在题目中显示的内容，包括 ",
                 "message2": "以及 ",
                 "message3": "，两者相配套。",
@@ -130,7 +130,7 @@
                 },
                 "email_subject": {
                     "title": "邮件主题",
-                    "subtitle": "此内容将在邮件的“主题”字段显示。如果留空，主题栏将显示“（无主题）”。",
+                    "subtitle": "此内容将在邮件的“主题”字段显示。如果留空，主题将显示为“（无主题）”。",
                     "placeholder": "主题"
                 },
                 "email_body_content": {
@@ -157,8 +157,8 @@
                 "link_text": {
                     "set_title": "设置链接",
                     "edit_title": "编辑链接",
-                    "subtitle": "在测验中，此链接将显示为可点击状态，但出于安全原因，点击后不会跳转至该网址。",
-                    "placeholder": "链接网址"
+                    "subtitle": "在测验中，此链接将显示为可点击状态，但为了安全，点击后不会跳转至该网址。",
+                    "placeholder": "链接 URL"
                 }
             },
             "preview": {
@@ -177,13 +177,13 @@
         "message": "",
         "tab_header_title": "从题库添加题目",
         "title": "题库",
-        "subtitle": "从下方列表中选择一道题目添加到您的测验。添加后，您可以编辑题目并进行完整自定义，包括修改文本和解析。",
+        "subtitle": "从下方列表中选择一道题目添加到您的测验。添加后，您可以对题目进行完全自定义编辑，包括修改文本和解析。",
         "columns": {
             "question_name": "题目名称",
             "type": {
                 "title": "类型",
                 "phishing": "钓鱼",
-                "legitimate": "正常"
+                "legitimate": "正规"
             },
             "language": {
                 "title": "语言",
@@ -219,8 +219,8 @@
         },
         "average_score": {
             "title": "平均分",
-            "subtitle": "这是参加此测验的所有学员的平均得分。",
-            "empty_subtitle": "参加此测验的所有学员的平均得分将在此处显示。"
+            "subtitle": "这是参加此测验的所有学员的平均分。",
+            "empty_subtitle": "参加此测验的所有学员的平均分将在此处显示。"
         },
         "rate": {
             "title": "完成率",
@@ -229,7 +229,7 @@
         "by_question": {
             "title": "按题目查看结果",
             "description": "平均分为每道题目答对的学员所占百分比。",
-            "empty_state": "此测验暂无已作答的题目。",
+            "empty_state": "此测验暂无已回答的题目。",
             "table": {
                 "type": "类型",
                 "question_name": "名称",
@@ -239,12 +239,12 @@
         },
         "by_learner": {
             "title": "按学员查看结果",
-            "description": "以下是所有已提交测验的学员及各自的测验成绩。",
+            "description": "这些是所有已提交测验的学员及其个人成绩。",
             "empty_state": "目前尚无学员提交此测验。",
             "table": {
                 "learner": "学员",
                 "date": "提交日期",
-                "score": "测验成绩",
+                "score": "测验得分",
                 "loading": "正在加载学员..."
             }
         }
@@ -290,7 +290,7 @@
     "modals": {
         "message": "",
         "create_quiz": {
-            "button": "新建测验",
+            "button": "创建新测验",
             "title": "命名新测验",
             "placeholder": "测验名称"
         },
@@ -448,7 +448,7 @@
         },
         "change_email_success": {
             "title": "即将完成！",
-            "description": "要完成此操作，请打开我们发送至您新邮箱的邮件并点击确认链接。",
+            "description": "为了完成此操作，请打开我们发送至您新邮箱的邮件，并点击确认链接。",
             "didnt_receive": "未收到邮件？如果垃圾邮件文件夹中也没有，请通过 <0>{{contact_email}}</0> 联系我们",
             "button": "我明白"
         },
@@ -686,7 +686,7 @@
     "learners": {
         "message": "",
         "title": "学员",
-        "subtitle": "管理可以参加您所创建私有测验的人员。",
+        "subtitle": "管理可参加您所创建私有测验的人员。",
         "empty_state": "您的空间目前没有注册学员，请邀请新学员以开始使用。",
         "table": {
             "learner": "学员",
@@ -701,35 +701,36 @@
         "assign_dialog": {
             "registered_title": "已注册学员",
             "registered_description": "选择一位或多位学员，并分配此测验。",
-            "registered_description_2": "您可以在<0>学员页面</0>管理已注册学员并邀请新成员。",
+            "registered_description_2": "可在<0>学员页面</0>管理已注册学员并邀请新成员。",
             "assign_button": "分配给学员",
-            "assign_title": "将“{{quiz_title}}”分配给学员",
+            "assign_title": "分配“{{quiz_title}}”给学员",
             "no_learners": "空间没有注册学员。",
             "all_learners_registered": "此测验已分配给所有已注册学员。",
             "disabled_tooltip": "创建至少 1 道题目，以将其分配给学员。"
-        }
+        },
+        "sub_required": "当前方案不提供该功能。<0>查看方案</0>"
     },
     "confirm_email_update": {
         "message": "",
-        "success_title": "电子邮箱已更新",
-        "success_description": "您的电子邮箱已确认。现在可使用新邮箱地址登录。"
+        "success_title": "电子邮箱地址已更新",
+        "success_description": "电子邮箱地址已确认。现在可使用新的电子邮箱地址登录。"
     },
     "reset_password": {
         "message": "",
         "title": "重置密码",
-        "subtitle": "请输入与 Shira 账号关联的电子邮箱，你将收到重置密码指南的电子邮件。",
+        "subtitle": "请输入与 Shira 账号关联的电子邮箱，您将收到密码重置指南的电子邮件。",
         "email_placeholder": "电子邮箱（必填）",
         "send_button": "发送重置邮件",
         "success_title": "请查收邮件",
-        "success_description": "我们已向您的电子邮箱发送了密码重置邮件。",
+        "success_description": "已向您的电子邮箱发送了密码重置邮件。",
         "success_info": "没有收到邮件？请确认输入的电子邮箱地址是否正确，检查垃圾邮件文件夹，或通过 <0>{{contact_email}}</0> 联系我们",
         "create_title": "创建新密码",
         "create_subtitle": "密码不少于 8 个字符。",
         "new_password_placeholder": "新密码（必填）",
-        "confirm_password_placeholder": "\"确认新密码（必填）",
+        "confirm_password_placeholder": "确认新密码（必填）",
         "reset_button": "重置密码",
         "reset_success_title": "密码已更新",
-        "reset_success_description": "现在可以使用新密码登录。",
+        "reset_success_description": "现在可使用新密码登录。",
         "expired_title": "抱歉，出错了",
         "expired_description": "您打开的链接无效或已过期。请联系您的组织，或发送邮件至 contact@wearehorizontal.org 寻求支持。",
         "validation": {
@@ -748,7 +749,7 @@
             "description": "此测验暂无学员。点击“分配给学员”按钮以开始使用。"
         },
         "table": {
-            "description": "以下是已被分配此测验的学员。"
+            "description": "这些是已分配此测验的学员。"
         }
     },
     "learners_bulk_import": {
@@ -757,7 +758,7 @@
         "tabs": {
             "upload_csv": {
                 "tab_title": "上传 CSV",
-                "subtitle": "通过上传包含学员信息的 CSV 文件，可一次性邀请多位学员。为了避免出错，建议下载并填写预格式化的 CSV 模板。",
+                "subtitle": "上传包含学员详情的 CSV 文件，可一次性邀请多位学员。为了防止出错，建议下载并填写预设格式的 CSV 模板。",
                 "section_title": "上传已填写的表格",
                 "drag_title": "将已填写的表格拖放到此处上传",
                 "or": "或",
@@ -783,8 +784,8 @@
                 "skipped_tab": "已跳过 ({{count}})",
                 "valid_tab": "有效 ({{count}})",
                 "description_error": "以下行存在错误，无法邀请这些学员。可在 CSV 文件中修正错误后重新上传，或忽略错误继续操作，但不会导入这些学员。",
-                "description_skipped": "跳过这些行。您可以忽略它们并继续上传表格。",
-                "description_valid": "这些行已成功验证，对应的学员可以被导入您的空间。",
+                "description_skipped": "跳过这些行。可忽略并继续上传表格。",
+                "description_valid": "这些行已成功验证，可将这些学员导入您的空间。",
                 "table_row": "行",
                 "table_name": "姓名",
                 "table_email": "电子邮箱",
@@ -792,17 +793,17 @@
                 "table_skip_reason": "跳过原因",
                 "table_status": "状态",
                 "validated": "已验证",
-                "empty_error": "没有包含错误的行。",
-                "empty_skipped": "没有跳过的行。",
-                "empty_valid": "没有有效的行。",
+                "empty_error": "未发现存在错误的行。",
+                "empty_skipped": "未发现已跳过的行。",
+                "empty_valid": "未发现有效的行。",
                 "upload_tooltip": "请上传表格以继续。"
             },
             "review": {
-                "tab_title": "最后确认",
+                "tab_title": "最后核对",
                 "subtitle": "即将邀请<strong>{{count}} 位学员</strong>加入您的空间。",
                 "table_row": "行",
                 "table_name": "姓名",
-                "table_email": "电子邮箱",
+                "table_email": "电子邮箱地址",
                 "table_status": "状态"
             }
         }
@@ -822,7 +823,7 @@
         "validation": {
             "email_required": "电子邮箱为必填项。",
             "password_required": "密码为必填项。",
-            "password_min_length": "密码长度不少于 8 个字符。",
+            "password_min_length": "密码不少于 8 个字符。",
             "passwords_mismatch": "两次输入的密码不一致。"
         },
         "errors": {
@@ -835,8 +836,8 @@
         "subtitle": "在此管理您的 Shira 空间设置。",
         "sections": {
             "email": {
-                "title": "电子邮箱",
-                "action": "更改电子邮箱"
+                "title": "电子邮箱地址",
+                "action": "更改电子邮箱地址"
             },
             "password": {
                 "title": "密码",
