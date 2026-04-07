@@ -9,6 +9,7 @@ import { Queue } from 'bullmq';
 import { LearnerQuiz } from 'src/modules/learner/domain/learners_quizzes.entity';
 import { TYPES as LEARNER_TYPES } from '../../learner/interfaces'
 import { IValidateLearnerQuizService } from 'src/modules/learner/interfaces/services/validate.learner-quiz.service.interface';
+import { RecordUsageEnqueueQuizResultException } from '../exceptions/record-usage-enqueue.quiz-result.exception';
 
 @Injectable()
 export class StartQuizRunService {
@@ -23,7 +24,7 @@ export class StartQuizRunService {
     private readonly paymentsQueue: Queue,
     @Inject(LEARNER_TYPES.services.IValidateLearnerQuizService)
     private readonly validateLearnerQuiz: IValidateLearnerQuizService
-  ) {}
+  ) { }
 
   async execute(dto: StartQuizRunDto): Promise<QuizRun> {
     const quizIdNum = Number(dto.quizId);
@@ -38,8 +39,8 @@ export class StartQuizRunService {
       const learnerQuiz = await this.validateLearnerQuiz.execute(quizIdNum, dto.learnerId)
       const orgId = await this.getOrgByLearnerQuiz(learnerQuiz)
       // Usage recording is best-effort and should not block quiz runs.
-      void this.recordUsage(orgId)
-    }  
+      this.recordUsage(orgId);
+    }
 
     const run = this.quizRunRepo.create({
       quizId: quizIdNum,
@@ -50,7 +51,7 @@ export class StartQuizRunService {
     return this.quizRunRepo.save(run);
   }
 
-  private  getOrgByLearnerQuiz = async (learnerQuiz: LearnerQuiz) => {    
+  private getOrgByLearnerQuiz = async (learnerQuiz: LearnerQuiz) => {
     const quiz = await this.quizRepo.findOneOrFail({
       where: { id: learnerQuiz.quiz.id },
       relations: ['space']
@@ -59,14 +60,11 @@ export class StartQuizRunService {
     return quiz.space.organizationId
   }
 
-  private async recordUsage(orgId: number | string): Promise<void> {
+  private async recordUsage(orgId: number) {
     try {
       await this.paymentsQueue.add('record-usage', String(orgId))
     } catch (error) {
-      const message = error instanceof Error ? error.message : String(error)
-      this.logger.warn(
-        `Failed to enqueue payments usage for organizationId=${orgId}: ${message}`,
-      )
+      throw new RecordUsageEnqueueQuizResultException(orgId, error)
     }
   }
 }
