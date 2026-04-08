@@ -159,7 +159,8 @@
                     "edit_title": "编辑链接",
                     "subtitle": "在测验中，此链接将显示为可点击状态，但为了安全，点击后不会跳转至该网址。",
                     "placeholder": "链接 URL"
-                }
+                },
+                "explanation_tooltip": "选择一些文本或图片以添加解析。"
             },
             "preview": {
                 "tab_title": "预览",
