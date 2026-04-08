@@ -2,12 +2,9 @@ import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { QuestionImage as QuestionImageEntity } from '../domain';
-import { CreateQuestionImageDto } from '../dto/create.question_image.dto';
-import { CreateQuestionImageServiceResponse, ICreateQuestionImageService } from '../interfaces/services/create.question_image.service.interface';
 import { IImageService } from 'src/modules/image/interfaces/services/image.service.interface';
 import { TYPES as TYPES_IMAGE } from 'src/modules/image/interfaces';
 import { IGenerateUrlsQuestionImageService } from '../interfaces/services/generate_urls.question_image.service.interface';
-import { GenerateUrlsQuestionImageDto } from '../dto/generate_urls.question_image.dto';
 import { ReadQuestionImageDto } from '../dto/read.question_image.dto';
 import { plainToInstance } from 'class-transformer';
 

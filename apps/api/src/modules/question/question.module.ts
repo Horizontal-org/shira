@@ -14,6 +14,7 @@ import { CreateQuestionService } from './services/create.question.service';
 import { GenerateQuizQuestionService } from './services/quiz.question.service';
 import { ParserQuestionService } from './services/individualParser.question.service';
 import { GlobalParserQuestionService } from './services/globalParser.question.service';
+import { ListQuestionService } from './services/list.question.service';
 import { QuestionImage } from '../question_image/domain';
 import { QuestionImageModule } from '../question_image/question_image.module';
 
@@ -34,6 +35,7 @@ import { QuestionImageModule } from '../question_image/question_image.module';
   controllers: [...questionControllers],
   providers: [
     CreateQuestionService,
+    ListQuestionService,
     GenerateQuizQuestionService,
     ParserQuestionService,
     GlobalParserQuestionService,

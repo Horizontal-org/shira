@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Param, ParseIntPipe, Post, Res } from '@nestjs/common';
+import { Get, Inject, Param, ParseIntPipe } from '@nestjs/common';
 
 import {
   TYPES,
