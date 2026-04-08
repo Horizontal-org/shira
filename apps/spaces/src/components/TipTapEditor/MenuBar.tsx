@@ -67,13 +67,6 @@ export const MenuBar = ({
   setLink,
   onImageUpload,
   isImageSelected = false,
-  selectedImageHasExplanation = false,
-  onAddTextExplanation,
-  onRemoveTextExplanation,
-  canAddTextExplanation = false,
-  isTextExplanationActive = false,
-  onAddImageExplanation,
-  onRemoveImageExplanation,
 
   isInTable = false,
   isTableCellSelected = false,
@@ -332,53 +325,6 @@ export const MenuBar = ({
           >
             <TbTableMinus size={18} />
           </IconWrapper>
-        </>
-      )}
-
-      <ExplanationIconWrapper
-        onClick={onAddTextExplanation}
-        disabled={
-          !canAddTextExplanation || 
-          isTableCellEmpty(editor) ||
-          editor.view.state.selection.empty
-        }
-        title="Add text explanation"
-      >
-        <ExplanationIcon />
-      </ExplanationIconWrapper>
-
-
-      {isTextExplanationActive && (
-        <ExplanationIconWrapper
-          onClick={onRemoveTextExplanation}
-          title="Remove text explanation"
-        >
-          <ExplanationIcon/>          
-          <MdClear color='#e91e63' size={18}/>
-        </ExplanationIconWrapper>
-      )} 
-
-      {isImageSelected && (
-        <>
-          <Separate />
-          
-          {!selectedImageHasExplanation ? (
-            <ExplanationIconWrapper
-              onClick={onAddImageExplanation}
-              title="Add image explanation"
-            >
-              <ExplanationIcon />
-              <span style={{ fontSize: '10px', marginLeft: '2px' }}>IMG</span>
-            </ExplanationIconWrapper>
-          ) : (
-            <ExplanationIconWrapper
-              onClick={onRemoveImageExplanation}
-              title="Remove image explanation"
-            >
-              <ExplanationIcon />
-              <MdClear color='#e91e63' size={14}/>
-            </ExplanationIconWrapper>
-          )}
         </>
       )}
 

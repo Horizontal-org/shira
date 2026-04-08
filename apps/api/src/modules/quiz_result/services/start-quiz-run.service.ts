@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { StartQuizRunDto } from '../dto/start-quiz-run.dto';
@@ -10,9 +10,11 @@ import { LearnerQuiz } from 'src/modules/learner/domain/learners_quizzes.entity'
 import { TYPES as LEARNER_TYPES } from '../../learner/interfaces'
 import { IValidateLearnerQuizService } from 'src/modules/learner/interfaces/services/validate.learner-quiz.service.interface';
 import { IStartQuizRunService } from '../interfaces/services/start-quiz-run.service.interface';
+import { RecordUsageEnqueueQuizResultException } from '../exceptions/record-usage-enqueue.quiz-result.exception';
 
 @Injectable()
 export class StartQuizRunService implements IStartQuizRunService {
+
   constructor(
     @InjectRepository(QuizRun)
     private readonly quizRunRepo: Repository<QuizRun>,
@@ -37,7 +39,7 @@ export class StartQuizRunService implements IStartQuizRunService {
       const learnerQuiz = await this.validateLearnerQuiz.execute(quizIdNum, dto.learnerId)
       const orgId = await this.getOrgByLearnerQuiz(learnerQuiz)
       // record sub usage
-      this.paymentsQueue.add('record-usage', String(orgId))
+      this.recordUsage(orgId);
     }
 
     const run = this.quizRunRepo.create({
@@ -56,5 +58,13 @@ export class StartQuizRunService implements IStartQuizRunService {
     })
 
     return quiz.space.organizationId
+  }
+
+  private async recordUsage(orgId: number) {
+    try {
+      await this.paymentsQueue.add('record-usage', String(orgId))
+    } catch (error) {
+      throw new RecordUsageEnqueueQuizResultException(String(orgId), error)
+    }
   }
 }
