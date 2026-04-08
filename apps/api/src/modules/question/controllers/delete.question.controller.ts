@@ -1,5 +1,4 @@
-import { Delete, Param, ParseIntPipe } from '@nestjs/common';
-import { DeleteQuestionDto } from '../dto/delete.question.dto';
+import { Delete, Param } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthController } from 'src/utils/decorators/auth-controller.decorator';
 import { Repository } from 'typeorm';
@@ -8,6 +7,7 @@ import { QuestionTranslation } from '../../translation/domain/questionTranslatio
 import { Roles } from 'src/modules/auth/decorators/roles.decorators';
 import { Role } from 'src/modules/user/domain/role.enum';
 
+// DEPRECATED
 @AuthController('question')
 export class DeleteQuestionController {
   constructor(

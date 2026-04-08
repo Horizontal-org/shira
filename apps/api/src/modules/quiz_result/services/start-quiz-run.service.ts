@@ -1,4 +1,4 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { StartQuizRunDto } from '../dto/start-quiz-run.dto';
@@ -9,11 +9,11 @@ import { Queue } from 'bullmq';
 import { LearnerQuiz } from 'src/modules/learner/domain/learners_quizzes.entity';
 import { TYPES as LEARNER_TYPES } from '../../learner/interfaces'
 import { IValidateLearnerQuizService } from 'src/modules/learner/interfaces/services/validate.learner-quiz.service.interface';
+import { IStartQuizRunService } from '../interfaces/services/start-quiz-run.service.interface';
 import { RecordUsageEnqueueQuizResultException } from '../exceptions/record-usage-enqueue.quiz-result.exception';
 
 @Injectable()
-export class StartQuizRunService {
-  private readonly logger = new Logger(StartQuizRunService.name);
+export class StartQuizRunService implements IStartQuizRunService {
 
   constructor(
     @InjectRepository(QuizRun)
