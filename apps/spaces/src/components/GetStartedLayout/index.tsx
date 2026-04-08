@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   Button,
   TextInput,
@@ -44,6 +44,7 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
   const [errorModalOpen, setIsErrorModalOpen] = useState<string | null>(null);
 
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const emailIsValid = isEmailValid(email);
 
@@ -63,6 +64,15 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
     }
     return hasError
   };
+
+  const validateUrl = () => {
+    const plan = searchParams.get('plan');
+    const validPlans = ['starter', 'pro', 'enterprise'];
+    if (!plan || !validPlans.includes(plan)) {
+      return 'starter';
+    }
+    return plan
+  }
 
   const {
     logout,
@@ -88,7 +98,8 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
       await inviteOrg({
         slug: name,
         email,
-        orgType
+        orgType,
+        subIntent: validateUrl()
       })
 
       setSuccess(true);
