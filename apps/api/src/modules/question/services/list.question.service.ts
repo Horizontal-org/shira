@@ -87,7 +87,7 @@ export class ListQuestionService {
       ])
       .where('question.id = :id', { id })
       .andWhere('questionTranslations.languageId = :languageId', { languageId })
-      .andWhere('quiz.space_id = :spaceId)', { spaceId });
+      .andWhere('quiz.space_id = :spaceId', { spaceId });
 
     const res = (await query.getMany()).shift();
 
