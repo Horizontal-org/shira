@@ -631,7 +631,10 @@
                     "cloud_on_premise": "Cloud & on-premise",
                     "one_admin": "1 admin",
                     "unlimited": "Unlimited",
-                    "up_to_three_custom_quizzes": "Up to 3 custom quizzes"
+                    "up_to_three_custom_quizzes": "Up to 3 custom quizzes",
+                    "available_upon_request": "Available upon request",
+                    "three_business_day_response_time": "3-business-day response time",
+                    "one_business_day_response_time": "Up to 1-business day-response time"
                 },
                 "tooltips": {
                     "hosting": "[ADD TOOLTIP COPY]",
