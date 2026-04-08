@@ -18,7 +18,7 @@ export class SubscriptionCacheService implements ISubscriptionCacheService {
     private readonly shiraPaymentsService: IShiraPaymentsService,
   ) { }
 
-  async getCurrentSubscription(organizationId: string): Promise<CachedSubscription | null> {
+  async getCurrentSubscription(organizationId: string): Promise<CachedSubscription> {
     const cacheKey = this.buildKey(organizationId);
     const cached = await this.redis.get(cacheKey);
 
@@ -29,34 +29,20 @@ export class SubscriptionCacheService implements ISubscriptionCacheService {
     return this.refresh(organizationId);
   }
 
-  async refresh(organizationId: string): Promise<CachedSubscription | null> {
+  async refresh(organizationId: string): Promise<CachedSubscription> {
     const cacheKey = this.buildKey(organizationId);
+    const fallbackSubscription = this.buildDefaultSubscription(organizationId);
 
     try {
       const response = await this.shiraPaymentsService.getSubscription(organizationId);
-
-      if (!response?.subscription) {
-        await this.redis.del(cacheKey);
-        return null;
-      }
-
       const normalized = this.normalizeSubscription(
         organizationId,
-        response.subscription as Record<string, unknown>,
+        (response?.subscription as Record<string, unknown> | undefined) ?? fallbackSubscription,
       );
 
       await this.setCache(cacheKey, normalized);
       return normalized;
     } catch (error) {
-      const fallbackSubscription = this.buildUnknownSubscriptionFromError(
-        organizationId,
-        error,
-      );
-
-      if (!fallbackSubscription) {
-        throw error;
-      }
-
       this.logger.error(
         `Falling back to starter subscription because shira-payments is unavailable`,
       );
@@ -94,54 +80,12 @@ export class SubscriptionCacheService implements ISubscriptionCacheService {
     };
   }
 
-  private buildUnknownSubscriptionFromError(
-    organizationId: string,
-    error: unknown,
-  ): CachedSubscription | null {
-    const message = error instanceof Error ? error.message : String(error);
-
-    if (this.isConnectionError(error)) {
-      return this.buildFallbackSubscription(organizationId);
-    }
-
-    try {
-      const parsed = JSON.parse(message) as {
-        message?: string;
-        error?: string;
-        statusCode?: number;
-      };
-
-      if (parsed.statusCode === 404 && parsed.error === "Not Found") {
-        return this.buildFallbackSubscription(organizationId);
-      }
-
-      return null;
-    } catch {
-      return null;
-    }
-  }
-
-  private buildFallbackSubscription(organizationId: string): CachedSubscription {
+  private buildDefaultSubscription(organizationId: string): CachedSubscription {
     return {
       organizationId,
       status: "active",
       type: "starter",
       createdAt: null,
     };
-  }
-
-  private isConnectionError(error: unknown): boolean {
-    if (!(error instanceof Error)) {
-      return false;
-    }
-
-    const cause = error.cause as { code?: string } | undefined;
-
-    return (
-      error.message === "fetch failed" ||
-      cause?.code === "ECONNREFUSED" ||
-      cause?.code === "ENOTFOUND" ||
-      cause?.code === "EAI_AGAIN"
-    );
   }
 }
