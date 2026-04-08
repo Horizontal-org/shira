@@ -55,25 +55,9 @@ const SvgWrapper = styled.div<StyledSvgWrapper>`
     fill: #ACADAE;
   }
 
-  &:hover {
-    stroke: ${props => props.theme.secondary.base};
-    fill: ${props => props.theme.secondary.base};
-    background: #f1f2f4;
-    color: ${props => props.theme.secondary.base};
-
-    > svg {
-      stroke: ${props => props.theme.secondary.base};
-      fill: ${props => props.theme.secondary.base};
-    }
-
-    > svg > path {
-      fill: ${props => props.theme.secondary.base};
-    }
-  }
-  
   ${props => props.active && `
     color: ${props.theme.secondary.base};
-
+    cursor: pointer;
     > svg {
       stroke: ${props.theme.secondary.base};
       fill: ${props.theme.secondary.base};
@@ -85,6 +69,30 @@ const SvgWrapper = styled.div<StyledSvgWrapper>`
   `}
 
   ${props => props.disabled && `
-    cursor: auto;
+    cursor: help;
+    background: white;
+    > svg {
+      fill: rgba(241,242,244,0.6);
+      stroke: rgba(241,242,244,0.6);
+    }
+  `}
+
+
+  ${props => !props.disabled && `
+    &:hover {
+      stroke: ${props.theme.secondary.base};
+      fill: ${props.theme.secondary.base};
+      background: #f1f2f4;
+      color: ${props.theme.secondary.base};
+
+      > svg {
+        stroke: ${props.theme.secondary.base};
+        fill: ${props.theme.secondary.base};
+      }
+
+      > svg > path {
+        fill: ${props.theme.secondary.base};
+      }      
+    }  
   `}
 `
