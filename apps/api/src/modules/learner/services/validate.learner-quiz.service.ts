@@ -1,15 +1,10 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { IGetLearnerQuizService } from "../interfaces/services/get.learner-quiz.service.interface";
 import { LearnerQuiz as LearnerQuizEntity } from "../domain/learners_quizzes.entity";
-import { TYPES as QUIZ_TYPES } from "src/modules/quiz/interfaces";
-import { IGetByHashQuizService } from "src/modules/quiz/interfaces/services/get-by-hash.quiz.service.interface";
-import { AlreadyCompletedException, GenericErrorException, NotConfirmedException } from '../exceptions'
+import { GenericErrorException } from '../exceptions'
 import { ApiLogger } from "src/utils/logger/api-logger.service";
 import { IValidateLearnerQuizService } from "../interfaces/services/validate.learner-quiz.service.interface";
-import { plainToInstance } from "class-transformer";
-import { GetLearnersQuizzesDto } from "../dto/get.learner-quiz.dto";
 
 @Injectable()
 export class ValidateLearnerQuizService implements IValidateLearnerQuizService {

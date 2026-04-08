@@ -5,7 +5,6 @@ import {
   RemoveEvent,
 } from 'typeorm';
 import { QuestionImage } from '../domain';
-import { AfterQueryEvent, BeforeQueryEvent } from 'typeorm/subscriber/event/QueryEvent';
 
 @EventSubscriber()
 export class QuestionImageSubscriber implements EntitySubscriberInterface<QuestionImage> {
