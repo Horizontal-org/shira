@@ -57,7 +57,11 @@ export class SpaceRegistrationAuthService implements ISpaceRegistrationAuthServi
         organizationId: organization.id
       })
 
-      return { subscriptionIntent: passphrase.subscriptionIntent }
+      return { 
+        subscriptionIntent: passphrase.subscriptionIntent,
+        organizationId: organization.id
+      }
+      
     } catch (error) {
       throw error;
     }

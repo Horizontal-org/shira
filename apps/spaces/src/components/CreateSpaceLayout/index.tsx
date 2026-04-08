@@ -18,6 +18,7 @@ import { handleHttpError } from "../../fetch/handleError";
 import { getErrorContent } from "../../utils/getErrorContent";
 import { GenericErrorModal } from "../modals/ErrorModal";
 import { isEmailValid, hasRequiredValue } from "../../utils/validation";
+import { login as fetchLogin, navigateToManageSubscription } from "../../fetch/auth";
 
 interface Props { }
 
@@ -128,18 +129,23 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
     setLoading(true);
 
     try {
-      //this needs to return orgId
       const res = await registerSpace({
         password: pass,
         passphrase: passphraseCode,
         email,
       })
-      console.log("🚀 ~ handleSubmit ~ res:", res)
 
-      //call fetch login instead of zustand
+      //if subIntent = pro, redirect to stripe
+      if (res.data.subscriptionIntent === 'pro' && !!(res.data.organizationId)) {
+        //call fetch login instead of zustand
+        await fetchLogin(email, pass)
+
+        await navigateToManageSubscription(res.data.organizationId, true)
+
+        return
+      }
+
       login(email, pass)
-
-      //if sub = pro, redirect to stripe
       setSuccess(true);
       setLoading(false);
     } catch (err) {
