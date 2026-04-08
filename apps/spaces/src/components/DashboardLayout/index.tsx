@@ -1,5 +1,5 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Sidebar, styled, H2, SubHeading3, Body1, Button, FilterButton, useAdminSidebar, BetaBanner, useTheme, ActionTooltip, Card } from "@shira/ui";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
@@ -20,6 +20,7 @@ import { getCurrentDateFNSLocales } from "../../language/dateUtils";
 import { useQuizCreationFlow } from "../../hooks/useQuizCreationFlow";
 import { CreateQuizButton } from "./components/CreateQuizButton";
 import { useSub } from "../../hooks/useSub";
+import { CheckoutSuccessModal } from "../modals/CheckoutSuccessModal";
 
 interface Props { }
 
@@ -49,9 +50,10 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     cleanQuizzes: state.cleanQuizzes
   }), shallow)
 
-
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+
+  const [searchParams, setSearchParams] = useSearchParams();
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
   const { isSubActive } = useSub()
 
@@ -63,6 +65,9 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isUnpublishedQuizCopyLinkModalOpen, setIsUnpublishedQuizCopyLinkModalOpen] = useState(false);
   const [isUnpublishQuizModalOpen, setIsUnpublishQuizModalOpen] = useState(false);
+  const [isCheckoutSuccessModalOpen, setIsCheckoutSuccessModalOpen] = useState(
+    searchParams.get("checkout") === "success"
+  );
 
   const {
     selectedQuizForDuplicate,
@@ -108,6 +113,17 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
       cleanQuizActionSuccess()
     }
   }, [quizActionSuccess]);
+
+  useEffect(() => {
+    setIsCheckoutSuccessModalOpen(searchParams.get("checkout") === "success");
+  }, [searchParams]);
+
+  const closeCheckoutSuccessModal = () => {
+    const nextSearchParams = new URLSearchParams(searchParams);
+    nextSearchParams.delete("checkout");
+    setSearchParams(nextSearchParams, { replace: true });
+    setIsCheckoutSuccessModalOpen(false);
+  };
 
   const applyPublishState = (cardId: number, published: boolean) => {
     updateQuiz({
@@ -184,8 +200,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             <StyledSubHeading3 id="space-name">{space && space.name}</StyledSubHeading3>
             <H2 id="dashboard-title">{t('dashboard.title')}</H2>
             <Body1 id="dashboard-subtitle">{t('dashboard.subtitle')}</Body1>
-            
-            <CreateQuizButton 
+
+            <CreateQuizButton
               isSubActive={isSubActive}
               quizCount={quizzes ? quizzes.length : 0}
               startCreateQuizFlow={startCreateQuizFlow}
@@ -348,6 +364,11 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
               cancelFlow();
             }}
             isLoading={isSubmitting}
+          />
+
+          <CheckoutSuccessModal
+            isModalOpen={isCheckoutSuccessModalOpen}
+            onClose={closeCheckoutSuccessModal}
           />
 
         </MainContentWrapper>
