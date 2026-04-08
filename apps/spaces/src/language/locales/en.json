@@ -637,20 +637,20 @@
                     "one_business_day_response_time": "Up to 1-business day-response time"
                 },
                 "tooltips": {
-                    "hosting": "[ADD TOOLTIP COPY]",
-                    "admin_dashboard": "[ADD TOOLTIP COPY]",
-                    "number_of_admins": "Unlimited admins coming soon",
-                    "customizable_questions": "[ADD TOOLTIP COPY]",
-                    "question_library": "[ADD TOOLTIP COPY]",
-                    "custom_quizzes": "[ADD TOOLTIP COPY]",
-                    "apps_available": "Gmail, Outlook, SMS, WhatsApp, Messenger, Dating app",
+                    "hosting": "Let the Shira team host and maintain your Shira (cloud) or install it on your servers (on-premise)",
+                    "admin_dashboard": "A central place to manage your phishing education campaigns",
+                    "number_of_admins": "Admins are users who can create and manage phishing education campaigns",
+                    "customizable_questions": "Create quiz questions adapted to the needs of your learners",
+                    "question_library": "Access dozens of ready-made question templates",
+                    "custom_quizzes": "The number of quizzes you can create in your Space",
+                    "apps_available": "Create quiz questions using interfaces that look exactly like actual apps your learners use",
                     "public_quizzes": "Anyone can take your quiz through an easy-to-share URL",
                     "private_quizzes": "Only learners registered in your space can take your quizzes",
-                    "basic_analytics": "Track results on the quiz level",
-                    "detailed_analytics": "Track results on the learner and question levels",
-                    "analysis_tools": "Coming soon",
-                    "tailor_made_training": "[ADD TOOLTIP COPY]",
-                    "priority_support": "[ADD TOOLTIP COPY]"
+                    "basic_analytics": "Track results at the quiz level",
+                    "detailed_analytics": "Track results at the learner and question levels",
+                    "analysis_tools": "Export your team's results into CSV or PDF reports",
+                    "tailor_made_training": "Skill-building workshops customized by the Shira team for your organization",
+                    "priority_support": "Quick response time to ensure a smooth experience"
                 }
             },
             "plans": {
