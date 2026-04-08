@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable, Logger } from "@nestjs/common";
 import Redis from "ioredis";
 import { REDIS } from "../providers/redis.provider";
 import { CachedSubscription } from "../dto/cached-response.dto";
@@ -9,6 +9,7 @@ import { TYPES } from "../interfaces";
 @Injectable()
 export class SubscriptionCacheService implements ISubscriptionCacheService {
   private readonly ttlSeconds = Number(process.env.SUBSCRIPTION_CACHE_TTL || 300);
+  private readonly logger = new Logger(SubscriptionCacheService.name);
 
   constructor(
     @Inject(REDIS)
@@ -17,7 +18,7 @@ export class SubscriptionCacheService implements ISubscriptionCacheService {
     private readonly shiraPaymentsService: IShiraPaymentsService,
   ) { }
 
-  async getCurrentSubscription(organizationId: string): Promise<CachedSubscription | null> {
+  async getCurrentSubscription(organizationId: string): Promise<CachedSubscription> {
     const cacheKey = this.buildKey(organizationId);
     const cached = await this.redis.get(cacheKey);
 
@@ -28,34 +29,23 @@ export class SubscriptionCacheService implements ISubscriptionCacheService {
     return this.refresh(organizationId);
   }
 
-  async refresh(organizationId: string): Promise<CachedSubscription | null> {
+  async refresh(organizationId: string): Promise<CachedSubscription> {
     const cacheKey = this.buildKey(organizationId);
+    const fallbackSubscription = this.buildDefaultSubscription(organizationId);
 
     try {
       const response = await this.shiraPaymentsService.getSubscription(organizationId);
-
-      if (!response?.subscription) {
-        await this.redis.del(cacheKey);
-        return null;
-      }
-
       const normalized = this.normalizeSubscription(
         organizationId,
-        response.subscription as Record<string, unknown>,
+        (response?.subscription as Record<string, unknown> | undefined) ?? fallbackSubscription,
       );
 
       await this.setCache(cacheKey, normalized);
       return normalized;
     } catch (error) {
-      const fallbackSubscription = this.buildUnknownSubscriptionFromError(
-        organizationId,
-        error,
+      this.logger.error(
+        `Falling back to starter subscription because shira-payments is unavailable`,
       );
-
-      if (!fallbackSubscription) {
-        throw error;
-      }
-
       await this.setCache(cacheKey, fallbackSubscription);
       return fallbackSubscription;
     }
@@ -90,31 +80,12 @@ export class SubscriptionCacheService implements ISubscriptionCacheService {
     };
   }
 
-  private buildUnknownSubscriptionFromError(
-    organizationId: string,
-    error: unknown,
-  ): CachedSubscription | null {
-    const message = error instanceof Error ? error.message : String(error);
-
-    try {
-      const parsed = JSON.parse(message) as {
-        message?: string;
-        error?: string;
-        statusCode?: number;
-      };
-
-      if (parsed.statusCode === 404 && parsed.error === "Not Found") {
-        return {
-          organizationId,
-          status: "active",
-          type: "starter",
-          createdAt: null,
-        };
-      }
-
-      return null;
-    } catch {
-      return null;
-    }
+  private buildDefaultSubscription(organizationId: string): CachedSubscription {
+    return {
+      organizationId,
+      status: "active",
+      type: "starter",
+      createdAt: null,
+    };
   }
 }
