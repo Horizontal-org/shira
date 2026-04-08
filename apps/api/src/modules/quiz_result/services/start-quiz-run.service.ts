@@ -64,7 +64,7 @@ export class StartQuizRunService {
     try {
       await this.paymentsQueue.add('record-usage', String(orgId))
     } catch (error) {
-      throw new RecordUsageEnqueueQuizResultException(orgId, error)
+      throw new RecordUsageEnqueueQuizResultException(String(orgId), error)
     }
   }
 }

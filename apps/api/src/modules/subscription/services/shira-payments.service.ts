@@ -3,7 +3,7 @@ import {
   Injectable,
 } from "@nestjs/common";
 import { randomUUID } from "crypto";
-import { CheckoutSubscriptionType } from "../dto/checkout-subscription.dto";
+import { ShiraPaymentsRequestFailedException } from "../exceptions";
 import { IShiraPaymentsService } from "../interfaces/services/shira-payments.service.interface";
 import { IShiraPaymentsLoggerService } from "../interfaces/services/shira-payments-logger.service.interface";
 import { TYPES } from "../interfaces";
@@ -79,12 +79,7 @@ export class ShiraPaymentsService implements IShiraPaymentsService {
         },
       });
     } catch (error) {
-      const duration = Date.now() - startedAt;
-      const message = error instanceof Error ? error.message : String(error);
-      const stack = error instanceof Error ? error.stack : undefined;
-
-      this.logger.requestError(logContext, duration, message, stack);
-      throw error;
+      throw new ShiraPaymentsRequestFailedException();
     }
 
     const duration = Date.now() - startedAt;
@@ -92,7 +87,7 @@ export class ShiraPaymentsService implements IShiraPaymentsService {
     if (!response.ok) {
       const message = await response.text();
       this.logger.failed(logContext, response.status, duration, message);
-      throw new Error(message);
+      throw new ShiraPaymentsRequestFailedException();
     }
 
     this.logger.succeeded(logContext, response.status, duration);
