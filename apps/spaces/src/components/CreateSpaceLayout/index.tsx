@@ -42,17 +42,17 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
 
   const {
     logout,
-    login
+    login,
   } = useStore((state) => ({
     logout: state.logout,
-    login: state.login
+    login: state.login,
   }), shallow)
 
   useEffect(() => {
     // clean just in case session exists
     logout()
     checkPassphraseExpiry()
-  }, [])
+  }, []) 
 
   const checkPassphraseExpiry = async () => {
     if (!passphraseCode) {
@@ -62,7 +62,6 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
 
     try {
       const data = await checkPassphraseExpired(passphraseCode)
-      console.log("🚀 ~ checkPassphraseExpiry ~ response:", data)
 
       if (data.expired) {
         navigate('/invitation-used')
@@ -129,14 +128,18 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
     setLoading(true);
 
     try {
-      await registerSpace({
+      //this needs to return orgId
+      const res = await registerSpace({
         password: pass,
         passphrase: passphraseCode,
         email,
       })
+      console.log("🚀 ~ handleSubmit ~ res:", res)
 
+      //call fetch login instead of zustand
       login(email, pass)
 
+      //if sub = pro, redirect to stripe
       setSuccess(true);
       setLoading(false);
     } catch (err) {

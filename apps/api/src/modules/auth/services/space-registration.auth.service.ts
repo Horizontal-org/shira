@@ -10,6 +10,7 @@ import { IUsePassphraseService } from "src/modules/passphrase/interfaces/service
 import { ICreateSpaceService } from "src/modules/space/interfaces/services/create.space.service.interface";
 import { hashPassword } from "src/utils/password.utils";
 import { Role } from "src/modules/user/domain/role.enum";
+import { SpaceRegistrationResponse } from "../domain/space-registration-response.auth.dto";
 
 export class SpaceRegistrationAuthService implements ISpaceRegistrationAuthService {
   constructor(
@@ -24,7 +25,7 @@ export class SpaceRegistrationAuthService implements ISpaceRegistrationAuthServi
     @Inject(TYPES_ORGANIZATION.services.ICreateOrganizationService)
     private readonly createOrganizationService: ICreateOrganizationService,
   ) { }
-  async execute(registrationData: RegisterAuthDto): Promise<void> {
+  async execute(registrationData: RegisterAuthDto): Promise<SpaceRegistrationResponse> {
     try {
       // check if passphrase is valid
       await this.validateRegistrationService.execute(registrationData)
@@ -56,7 +57,7 @@ export class SpaceRegistrationAuthService implements ISpaceRegistrationAuthServi
         organizationId: organization.id
       })
 
-      return
+      return { subscriptionIntent: passphrase.subscriptionIntent }
     } catch (error) {
       throw error;
     }
