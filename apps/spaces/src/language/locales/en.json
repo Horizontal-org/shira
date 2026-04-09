@@ -395,6 +395,7 @@
     "buttons": {
         "ok": "OK",
         "cancel": "Cancel",
+        "no_thanks": "No, thanks",
         "close": "Close",
         "exit": "Exit",
         "save": "Save",
@@ -435,6 +436,11 @@
             "subtitle": "Set the name for the new quiz",
             "quiz_name": "Quiz name",
             "quiz_name_placeholder": "Copy of {{quiz_name}}"
+        },
+        "quiz_limit": {
+            "title": "Ready to upgrade?",
+            "message_1": "On the Starter plan, you can create up to 3 quizzes.",
+            "message_2": "Try a 14-day free trial of Shira Pro today, to build more custom quizzes."
         },
         "rename_quiz": {
             "title": "Rename quiz",

@@ -1,6 +1,6 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Sidebar, styled, H2, SubHeading3, Body1, Button, FilterButton, useAdminSidebar, BetaBanner, useTheme, ActionTooltip, Card } from "@shira/ui";
+import { Sidebar, styled, H2, SubHeading3, Body1, FilterButton, useAdminSidebar, BetaBanner, Card } from "@shira/ui";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { formatDistance } from "date-fns";
@@ -21,6 +21,8 @@ import { useQuizCreationFlow } from "../../hooks/useQuizCreationFlow";
 import { CreateQuizButton } from "./components/CreateQuizButton";
 import { useSub } from "../../hooks/useSub";
 import { CheckoutSuccessModal } from "../modals/CheckoutSuccessModal";
+import { QuizLimitModal } from "../modals/QuizLimitModal";
+import { ViewPlansModal } from "../modals/ViewPlansModal";
 
 interface Props { }
 
@@ -34,6 +36,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     createQuiz,
     quizzes,
     space,
+    subscription,
     quizActionSuccess,
     cleanQuizActionSuccess,
     cleanQuizzes
@@ -45,6 +48,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     deleteQuiz: state.deleteQuiz,
     quizzes: state.quizzes,
     space: state.space,
+    subscription: state.subscription,
     quizActionSuccess: state.quizActionSuccess,
     cleanQuizActionSuccess: state.cleanQuizActionSuccess,
     cleanQuizzes: state.cleanQuizzes
@@ -68,6 +72,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const [isCheckoutSuccessModalOpen, setIsCheckoutSuccessModalOpen] = useState(
     searchParams.get("checkout") === "success"
   );
+  const [isQuizLimitModalOpen, setIsQuizLimitModalOpen] = useState(false);
+  const [isViewPlansModalOpen, setIsViewPlansModalOpen] = useState(false);
 
   const {
     selectedQuizForDuplicate,
@@ -123,6 +129,11 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     nextSearchParams.delete("checkout");
     setSearchParams(nextSearchParams, { replace: true });
     setIsCheckoutSuccessModalOpen(false);
+  };
+
+  const openViewPlansFromLimitModal = () => {
+    setIsQuizLimitModalOpen(false);
+    setIsViewPlansModalOpen(true);
   };
 
   const applyPublishState = (cardId: number, published: boolean) => {
@@ -205,6 +216,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
               isSubActive={isSubActive}
               quizCount={quizzes ? quizzes.length : 0}
               startCreateQuizFlow={startCreateQuizFlow}
+              onLimitReached={() => setIsQuizLimitModalOpen(true)}
             />
           </HeaderContainer>
 
@@ -369,6 +381,18 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           <CheckoutSuccessModal
             isModalOpen={isCheckoutSuccessModalOpen}
             onClose={closeCheckoutSuccessModal}
+          />
+
+          <QuizLimitModal
+            isModalOpen={isQuizLimitModalOpen}
+            onClose={() => setIsQuizLimitModalOpen(false)}
+            onViewPlans={openViewPlansFromLimitModal}
+          />
+
+          <ViewPlansModal
+            isModalOpen={isViewPlansModalOpen}
+            onClose={() => setIsViewPlansModalOpen(false)}
+            organizationId={subscription.organizationId}
           />
 
         </MainContentWrapper>
