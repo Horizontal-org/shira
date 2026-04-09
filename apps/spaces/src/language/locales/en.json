@@ -440,7 +440,20 @@
         "quiz_limit": {
             "title": "Ready to upgrade?",
             "message_1": "On the Starter plan, you can create up to 3 quizzes.",
-            "message_2": "Try a 14-day free trial of Shira Pro today, to build more custom quizzes."
+            "message_2": "Try a 14-day free trial of Shira Pro today to build more custom quizzes."
+        },
+        "first_login": {
+            "title": "Welcome to your Space",
+            "description": "You are currently on the {{planName}} plan.",
+            "actions": {
+                "view_plans": "View plans",
+                "get_started": "Get started"
+            },
+            "plan_names": {
+                "starter": "Starter",
+                "pro": "Pro",
+                "enterprise": "Enterprise"
+            }
         },
         "rename_quiz": {
             "title": "Rename quiz",
