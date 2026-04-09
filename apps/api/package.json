@@ -49,7 +49,7 @@
     "csv-parse": "^6.1.0",
     "date-fns": "^4.1.0",
     "dotenv": "^17.3.1",
-    "handlebars": "^4.7.8",
+    "handlebars": "^4.7.9",
     "minio": "^8.0.5",
     "mysql2": "^3.17.1",
     "nestjs-console": "^10.0.0",
