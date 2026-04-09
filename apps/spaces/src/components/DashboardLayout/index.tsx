@@ -1,5 +1,5 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { Sidebar, styled, H2, SubHeading3, Body1, FilterButton, useAdminSidebar, BetaBanner, Card } from "@shira/ui";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
@@ -27,7 +27,7 @@ import { FirstLoginModal } from "../modals/FirstLoginModal";
 
 interface Props { }
 
-const FIRST_LOGIN_MODAL_MS = 3 * 60 * 1000;
+const FIRST_LOGIN_MODAL_MS = 5 * 60 * 1000; // 5 minutes
 
 export const DashboardLayout: FunctionComponent<Props> = () => {
 
@@ -61,6 +61,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation() as { state?: { fromLogin?: boolean } };
 
   const [searchParams, setSearchParams] = useSearchParams();
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
@@ -131,15 +132,17 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   }, [searchParams]);
 
   const isRecentlyCreated = Date.now() - new Date(user.createdAt).getTime() <= FIRST_LOGIN_MODAL_MS;
+  const isFromLogin = Boolean(location.state?.fromLogin);
 
   useEffect(() => {
     setIsFirstLoginModalOpen(
       Boolean(
+        isFromLogin &&
         isRecentlyCreated &&
         searchParams.get("checkout") !== "success"
       )
     );
-  }, [isRecentlyCreated, searchParams]);
+  }, [isFromLogin, isRecentlyCreated, searchParams]);
 
   const closeCheckoutSuccessModal = () => {
     const nextSearchParams = new URLSearchParams(searchParams);
