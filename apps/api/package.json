@@ -53,7 +53,7 @@
     "minio": "^8.0.5",
     "mysql2": "^3.17.1",
     "nestjs-console": "^10.0.0",
-    "nodemailer": "^8.0.1",
+    "nodemailer": "^8.0.5",
     "passport": "^0.7.0",
     "passport-http": "^0.3.0",
     "passport-jwt": "^4.0.1",
