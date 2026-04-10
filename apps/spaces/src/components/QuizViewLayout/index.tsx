@@ -14,7 +14,8 @@ import {
   BetaBanner,
   Body2Regular,
   defaultTheme,
-  Body4
+  Body4,
+  GeneralTooltip
 } from "@shira/ui";
 import { TabContainer } from './components/TabContainer'
 import { shallow } from "zustand/shallow";
@@ -36,6 +37,7 @@ import { RenameQuizModal } from "../modals/RenameQuizModal";
 import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
 import { DuplicateQuizModal } from "../modals/DuplicateQuizModal";
 import { useQuizCreationFlow } from "../../hooks/useQuizCreationFlow";
+import { useSub } from "../../hooks/useSub";
 
 interface Props { }
 
@@ -50,41 +52,50 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     deleteQuiz,
     quizActionSuccess,
     cleanQuizActionSuccess,
+    validateQuizName,
     reorderQuiz,
     createQuiz,
-    fetchQuizzes
+    fetchQuizzes,
+    quizzes
   } = useStore((state) => ({
     updateQuiz: state.updateQuiz,
     deleteQuiz: state.deleteQuiz,
     reorderQuiz: state.reorderQuiz,
     quizActionSuccess: state.quizActionSuccess,
     cleanQuizActionSuccess: state.cleanQuizActionSuccess,
+    validateQuizName: state.validateQuizName,
     createQuiz: state.createQuiz,
     fetchQuizzes: state.fetchQuizzes,
+    quizzes: state.quizzes,
   }), shallow)
+    console.log("🚀 ~ QuizViewLayout ~ quizzes:", quizzes)
 
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
   const [isPublished, setIsPublished] = useState(false);
+
+  const { isSubActive } = useSub()
+  const hasReachedLimit = useMemo(() => quizzes.length >= 3, [quizzes.length])
+  const [showDuplicateTooltip, setShowDuplicateTooltip] = useState(false)
 
   const [quiz, handleQuiz] = useState<Quiz | null>(null)
   console.log("🚀 ~ QuizViewLayout ~ quiz:", quiz)
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
+
   const [isUnpublishedQuizModalOpen, setIsUnpublishedQuizModalOpen] = useState(false);
   const [isUnpublishQuizModalOpen, setIsUnpublishQuizModalOpen] = useState(false);
   const [showPublishTooltip, setShowPublishTooltip] = useState(false);
+  const [showCopyLinkTooltip, setShowCopyLinkTooltip] = useState(false);
 
   const { destroy } = useQuestionCRUD()
   const {
-    title,
-    setTitle,
     selectedQuizForDuplicate,
     isSubmitting,
     isDuplicateTitleModalOpen,
     isVisibilityModalOpen,
     startDuplicateQuizFlow,
-    handleTitleSubmit,
+    moveToVisibilityStep,
     handleBackFromVisibility,
     handleConfirmVisibility,
     cancelFlow
@@ -128,7 +139,6 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
       fetchResults()
     }
   }, [quiz])
-  // fetchResults();
 
   useEffect(() => {
     // test date zones
@@ -138,7 +148,8 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     )
 
     getQuiz()
-
+    fetchQuizzes()
+    
     return () => {
       cleanQuizActionSuccess()
     }
@@ -177,6 +188,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   }, [quiz])
 
   const disablePublishToggle = !hasQuestions && !isPublished;
+  const disableCopyLinkButton = quiz?.visibility === 'public' && !hasQuestions;
 
   function getQuizVisibility() {
     const translationKey = `quiz.visibility.${quiz.visibility}`;
@@ -261,31 +273,65 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                       type="outline"
                       onClick={() => { setIsRenameModalOpen(true) }}
                     />
-                    <Button
-                      id="duplicate-quiz-button"
-                      leftIcon={<FiCopy size={16} />}
-                      text={t('quiz.actions.duplicate')}
-                      type="outline"
-                      onClick={() => {
-                        if (quiz) {
-                          startDuplicateQuizFlow(quiz);
-                        }
-                      }}
-                    />
+
+                    <GeneralTooltip
+                        enabled={!isSubActive && hasReachedLimit}
+                        show={showDuplicateTooltip}
+                        setShow={setShowDuplicateTooltip}
+                        label={t('dashboard.create_limit_reached')}
+                      >
+                        <Button
+                          id="duplicate-quiz-button"
+                          leftIcon={<FiCopy size={16} />}
+                          text={t('quiz.actions.duplicate')}
+                          type="outline"
+                          disabled={!isSubActive && hasReachedLimit}
+                          onClick={() => {
+                            if (quiz) {
+                              startDuplicateQuizFlow(quiz);
+                            }
+                          }}
+                        />
+                    </GeneralTooltip>
+                    
                     {quiz.visibility !== 'private' && (
-                      <Button
-                        id="copy-link-button"
-                        leftIcon={<CopyUrlIcon />}
-                        text={t('quiz.actions.copy_link')}
-                        type="outline"
-                        onClick={() => {
-                          if (quiz.published) {
-                            handleCopyUrlAndNotify(quiz.hash, t('success_messages.quiz_link_copied'));
-                          } else {
-                            setIsUnpublishedQuizModalOpen(true)
+                      <PublishToggleWrapper
+                        $showHelpCursor={disableCopyLinkButton}
+                        onMouseEnter={() => {
+                          if (disableCopyLinkButton) {
+                            setShowCopyLinkTooltip(true)
                           }
                         }}
-                      />
+                        onMouseLeave={() => { setShowCopyLinkTooltip(false) }}
+                        onFocus={() => {
+                          if (disableCopyLinkButton) {
+                            setShowCopyLinkTooltip(true)
+                          }
+                        }}
+                        onBlur={() => { setShowCopyLinkTooltip(false) }}
+                        tabIndex={disableCopyLinkButton ? 0 : -1}
+                      >
+                        <Button
+                          id="copy-link-button"
+                          leftIcon={<CopyUrlIcon />}
+                          text={t('quiz.actions.copy_link')}
+                          type="outline"
+                          disabled={disableCopyLinkButton}
+                          onClick={() => {
+                            if (disableCopyLinkButton) { return }
+                            if (quiz.published) {
+                              handleCopyUrlAndNotify(quiz.hash, t('success_messages.quiz_link_copied'));
+                            } else {
+                              setIsUnpublishedQuizModalOpen(true)
+                            }
+                          }}
+                        />
+                        {disableCopyLinkButton && showCopyLinkTooltip && (
+                          <PublishToggleTooltip role="tooltip">
+                            <Body4>{t('quiz.actions.disabled_tooltip')}</Body4>
+                          </PublishToggleTooltip>
+                        )}
+                      </PublishToggleWrapper>
                     )}
                     <Button
                       id="delete-quiz-button"
@@ -379,11 +425,12 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
               <RenameQuizModal
                 quiz={quiz}
                 setIsModalOpen={setIsRenameModalOpen}
-                onRename={(title) => {
+                validateQuizName={validateQuizName}
+                onRename={(newTitle) => {
                   updateQuiz({
                     id: quiz.id,
-                    title
-                  })
+                    title: newTitle,
+                  });
                 }}
                 onCancel={() => {
                   setIsRenameModalOpen(false)
@@ -394,10 +441,11 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
               <DuplicateQuizModal
                 quiz={selectedQuizForDuplicate}
                 isModalOpen={isDuplicateTitleModalOpen}
-                title={title}
-                setTitle={setTitle}
-                onDuplicate={(newTitle) => { handleTitleSubmit(newTitle); }}
-                onCancel={() => { cancelFlow(); }}
+                validateQuizName={validateQuizName}
+                onDuplicate={moveToVisibilityStep}
+                onCancel={() => {
+                  cancelFlow();
+                }}
                 isLoading={isSubmitting}
               />
 
@@ -406,6 +454,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 onBack={() => { handleBackFromVisibility(); }}
                 onConfirm={handleConfirmVisibility}
                 isSubmitting={isSubmitting}
+                privateForbidden={!isSubActive}
               />
             </>
           ) : (

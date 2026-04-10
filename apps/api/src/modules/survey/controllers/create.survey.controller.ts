@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, ParseIntPipe, Post, Query } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { CreateSurveyDto } from '../dto/create.survey.dto';
 import { CreateSurveyService } from '../services/create.survey.service';
 

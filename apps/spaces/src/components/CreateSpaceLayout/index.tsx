@@ -18,6 +18,7 @@ import { handleHttpError } from "../../fetch/handleError";
 import { getErrorContent } from "../../utils/getErrorContent";
 import { GenericErrorModal } from "../modals/ErrorModal";
 import { isEmailValid, hasRequiredValue } from "../../utils/validation";
+import { login as fetchLogin, navigateToManageSubscription } from "../../fetch/auth";
 
 interface Props { }
 
@@ -42,17 +43,17 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
 
   const {
     logout,
-    login
+    login,
   } = useStore((state) => ({
     logout: state.logout,
-    login: state.login
+    login: state.login,
   }), shallow)
 
   useEffect(() => {
     // clean just in case session exists
     logout()
     checkPassphraseExpiry()
-  }, [])
+  }, []) 
 
   const checkPassphraseExpiry = async () => {
     if (!passphraseCode) {
@@ -62,7 +63,6 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
 
     try {
       const data = await checkPassphraseExpired(passphraseCode)
-      console.log("🚀 ~ checkPassphraseExpiry ~ response:", data)
 
       if (data.expired) {
         navigate('/invitation-used')
@@ -129,14 +129,23 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
     setLoading(true);
 
     try {
-      await registerSpace({
+      const res = await registerSpace({
         password: pass,
         passphrase: passphraseCode,
         email,
       })
 
-      login(email, pass)
+      //if subIntent = pro, redirect to stripe
+      if (res.data.subscriptionIntent === 'pro' && !!(res.data.organizationId)) {
+        //call fetch login instead of zustand
+        await fetchLogin(email, pass)
 
+        await navigateToManageSubscription(res.data.organizationId, true)
+
+        return
+      }
+
+      login(email, pass)
       setSuccess(true);
       setLoading(false);
     } catch (err) {

@@ -1,7 +1,4 @@
-import { ChangeEvent } from 'react'
-import { ExplanationIcon } from '@shira/ui'
-
-import { FiBold, FiItalic, FiCode, FiList, FiLink, FiUnderline, FiImage } from 'react-icons/fi'
+import { FiBold, FiItalic } from 'react-icons/fi'
 import { 
   TbStrikethrough, 
 } from 'react-icons/tb'
@@ -19,11 +16,7 @@ interface MessagesMenuBarProps {
 }
 
 export const MessagesMenuBar = ({ 
-  editor, 
-  onAddTextExplanation,
-  onRemoveTextExplanation,
-  canAddTextExplanation = false,
-  isTextExplanationActive = false,
+  editor,
 }: MessagesMenuBarProps) => {
 
   if (!editor) {

@@ -26,24 +26,24 @@ export const DeleteModal: FunctionComponent<Props> = ({
   const { t } = useTranslation();
 
   return (
-      <Modal
-        id="delete-modal"
-        isOpen={isModalOpen}
-        title={title}
-        primaryButtonText={t('buttons.delete')}
-        secondaryButtonText={t('buttons.cancel')}
-        type={ModalType.Danger}
-        onPrimaryClick={() => {
-          setIsModalOpen(false);
-          onDelete()
-        }}
-        onSecondaryClick={onCancel}
+    <Modal
+      id="delete-modal"
+      isOpen={isModalOpen}
+      title={title}
+      primaryButtonText={t('buttons.delete')}
+      secondaryButtonText={t('buttons.cancel')}
+      type={ModalType.Danger}
+      onPrimaryClick={() => {
+        setIsModalOpen(false);
+        onDelete()
+      }}
+      onSecondaryClick={onCancel}
     >
-        <FormContent>
-          <Body1>
-            { content }
-          </Body1>
-        </FormContent>
+      <FormContent>
+        <Body1>
+          {content}
+        </Body1>
+      </FormContent>
     </Modal>
   )
 }

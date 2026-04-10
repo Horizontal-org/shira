@@ -5,17 +5,12 @@ import { TYPES as TYPES_PASSPHRASE } from '../../passphrase/interfaces'
 import { ICreateUserApplication, TYPES as TYPES_USER } from '../../user/interfaces'
 import { TYPES as TYPES_SPACE } from '../../space/interfaces'
 import { TYPES as TYPES_ORGANIZATION } from '../../organization/interfaces'
-import { TYPES as TYPES_BILLING } from '../../billing/interfaces'
 import { ICreateOrganizationService } from "src/modules/organization/interfaces/services/create.organization.service.interface";
 import { IUsePassphraseService } from "src/modules/passphrase/interfaces/services/use.passphrase.service.interface";
 import { ICreateSpaceService } from "src/modules/space/interfaces/services/create.space.service.interface";
-import { ICreateSubscriptionService } from "../../billing/interfaces";
 import { hashPassword } from "src/utils/password.utils";
 import { Role } from "src/modules/user/domain/role.enum";
-import { InjectRepository } from "@nestjs/typeorm";
-import { PlanEntity, PlanName } from "src/modules/billing/domain/plan.entity";
-import { Repository } from "typeorm";
-import { SubscriptionStatus } from "src/modules/billing/domain/subscription.entity";
+import { SpaceRegistrationResponse } from "../domain/space-registration-response.auth.dto";
 
 export class SpaceRegistrationAuthService implements ISpaceRegistrationAuthService {
   constructor(
@@ -29,12 +24,8 @@ export class SpaceRegistrationAuthService implements ISpaceRegistrationAuthServi
     private readonly validateRegistrationService: IValidateRegistrationAuthService,
     @Inject(TYPES_ORGANIZATION.services.ICreateOrganizationService)
     private readonly createOrganizationService: ICreateOrganizationService,
-    @Inject(TYPES_BILLING.services.ICreateSubscriptionService)
-    private readonly createSubscriptionService: ICreateSubscriptionService,
-    @InjectRepository(PlanEntity)
-    private readonly planRepository: Repository<PlanEntity>
   ) { }
-  async execute(registrationData: RegisterAuthDto): Promise<void> {
+  async execute(registrationData: RegisterAuthDto): Promise<SpaceRegistrationResponse> {
     try {
       // check if passphrase is valid
       await this.validateRegistrationService.execute(registrationData)
@@ -66,22 +57,11 @@ export class SpaceRegistrationAuthService implements ISpaceRegistrationAuthServi
         organizationId: organization.id
       })
 
-      const starterPlan = await this.planRepository.findOne({
-        where: { name: PlanName.STARTER } // create an enum for this
-      })
-
-      if (!starterPlan) {
-        throw new Error('Starter plan not found')
+      return { 
+        subscriptionIntent: passphrase.subscriptionIntent,
+        organizationId: organization.id
       }
-
-      await this.createSubscriptionService.execute({
-        organizationId: organization.id,
-        planId: starterPlan.id,
-        status: SubscriptionStatus.TRIALING,
-        trialEndDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
-      })
-
-      return
+      
     } catch (error) {
       throw error;
     }

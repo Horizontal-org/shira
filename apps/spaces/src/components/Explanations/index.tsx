@@ -1,16 +1,12 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent, useEffect } from 'react'
 import { shallow } from 'zustand/shallow'
 import { useStore } from '../../store'
-import { DragItem } from '../LegacyQuestionContent/components/DragItem'
 import { ExplanationInput } from './components/ExplanationInput'
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { Component } from '../../utils/dynamicComponents'
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { Explanation } from '../../store/slices/explanation'
 import { publish } from '../../utils/customEvent'
-import { cleanDeletedExplanations } from '../../utils/explanations'
 import { ExplanationDragItem } from './components/ExplanationDragItem'
-import { Body2Regular, Button, styled } from '@shira/ui'
-import { remapHtml } from '../../utils/remapHtml'
+import { Body2Regular, styled } from '@shira/ui'
 
 interface Props {
   initialData?: Explanation[]

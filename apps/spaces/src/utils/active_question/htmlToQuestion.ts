@@ -1,6 +1,6 @@
 import { AttachmentType } from "@shira/ui"
 import { QuestionPayload } from "../../fetch/question"
-import { ActiveQuestion, EmailContent, QuestionDragAttachment, QuestionDragEditor, QuestionDragImage, QuestionEditorInput, QuestionTextInput } from "../../store/types/active_question"
+import { ActiveQuestion, QuestionDragAttachment, QuestionDragEditor, QuestionDragImage, QuestionEditorInput, QuestionTextInput } from "../../store/types/active_question"
 
 const replaceImage = (question: QuestionPayload, htmlContent: Document) => {
   // images 

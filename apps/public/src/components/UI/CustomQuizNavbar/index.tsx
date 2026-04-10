@@ -108,18 +108,3 @@ const RightNavbar = styled.div`
   padding: 24px;
 
 `
-
-const Nav = styled.nav`
-  padding-left: 5px;
-
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    display: none;
-  }
-`
-
-const Link = styled.span`
-  padding-left: 40px;
-  color: #333030;
-  cursor: pointer;
-  font-weight: 600;
-`

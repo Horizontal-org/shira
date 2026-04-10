@@ -16,7 +16,8 @@ export class SpaceRegistrationAuthController {
   @Post()
   async register(@Body() registerDto: RegisterAuthDto) {
     try {
-      await this.spaceRegistrationService.execute(registerDto)
+      const response = await this.spaceRegistrationService.execute(registerDto);
+      return response;
     } catch (error) {
       this.logger.error('Error during space registration', error);
       throw error;

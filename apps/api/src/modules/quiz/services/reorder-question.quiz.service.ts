@@ -1,10 +1,7 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Quiz as QuizEntity } from '../domain/quiz.entity';
 import { QuizQuestion } from '../domain/quizzes_questions.entity';
-import { QuestionTranslation } from 'src/modules/translation/domain/questionTranslation.entity';
-import { Question } from 'src/modules/question/domain';
 import { IReorderQuestionQuizService } from '../interfaces/services/reorder-question.quiz.service.interface';
 import { ReorderQuestionQuizDto } from '../dto/reorder-question.quiz.dto';
 

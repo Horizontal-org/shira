@@ -1,17 +1,13 @@
-import { styled } from '@shira/ui'
+import { GeneralTooltip, styled } from '@shira/ui'
 import { useEditor, EditorContent } from '@tiptap/react'
-import { MenuBar } from './MenuBar'
 import { useExplanations } from './hooks/useExplanations'
-import { useImageUpload } from './hooks/useImageUpload'
-import { useLink } from './hooks/useLink'
-import { useTable } from './hooks/useTable'
 
 import { MessageEditorStyles } from './styles/MessageEditorStyles'
 import { getMessageExtensions } from './config/editorExtensions'
-import { LoadingOverlay } from '../LoadingOverlay/LoadingOverlay'
 import { MessagesMenuBar } from './MessagesMenuBar'
 import { ExplanationButton } from '../Explanations/components/ExplanationButton'
-import { useEffect } from 'react'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   onChange: (body: string) => void;
@@ -25,27 +21,33 @@ export const MessageTipTapEditor = ({
   initialContent = null
 }: Props) => {
 
+  const { t } = useTranslation()
   const editor = useEditor({
     extensions: getMessageExtensions(),
     content: initialContent ?? null,
-    onSelectionUpdate() {  },
+    onSelectionUpdate() { },
     onUpdate(props) {
       onChange(props.editor.getHTML())
-      
+
       setTimeout(() => {
         explanations.cleanupOrphanedExplanations()
       }, 500)
     },
-    onCreate() {}
+    onCreate() { }
   })
 
   const explanations = useExplanations(editor, editorId)
+  console.log(`EDITORID: ${editorId} ~ MessageTipTapEditor ~ explanations:`, 
+    explanations.isTextExplanationActive(),
+    explanations.canAddTextExplanation()
+  )
 
   // Connect editor events to hooks
   if (editor) {
     editor.off('selectionUpdate').on('selectionUpdate', explanations.handleSelectionUpdate)
   }
 
+  const [showExplanationButtonTooltip, setShowExplanationButtonTooltip] = useState(false)
 
   return (
     <Wrapper>
@@ -53,7 +55,7 @@ export const MessageTipTapEditor = ({
         <MessageEditorStyles />
         <div></div>
         <EditorContainer>
-          <MessagesMenuBar 
+          <MessagesMenuBar
             editor={editor}
             onAddTextExplanation={explanations.addTextExplanation}
             onRemoveTextExplanation={explanations.removeTextExplanation}
@@ -61,23 +63,31 @@ export const MessageTipTapEditor = ({
             isTextExplanationActive={explanations.isTextExplanationActive()}
           />
           <EditorContentWithExplanation>
-            <EditorContent 
-              id={editorId} 
-              editor={editor} 
+            <EditorContent
+              id={editorId}
+              editor={editor}
               style={{ width: '100%' }}
             />
             <ExplanationButtonWrapper>
-              <ExplanationButton
-                active={explanations.isTextExplanationActive()}
-                disabled={!explanations.canAddTextExplanation()}
-                onClick={() => {
-                  explanations.addTextExplanation()
-                }}
-              />
+              <GeneralTooltip
+                enabled={!explanations.canAddTextExplanation() && !explanations.isTextExplanationActive()}
+                show={showExplanationButtonTooltip}
+                setShow={setShowExplanationButtonTooltip}
+                label={t('create_question.tabs.content.explanation_tooltip')}
+              >
+                <ExplanationButton
+                  isText={true}
+                  active={explanations.isTextExplanationActive()}
+                  disabled={!explanations.canAddTextExplanation() && !explanations.isTextExplanationActive()}
+                  onClick={() => {
+                    explanations.addTextExplanation()
+                  }}
+                />
+              </GeneralTooltip>
             </ExplanationButtonWrapper>
           </EditorContentWithExplanation>
         </EditorContainer>
-      </EditorWrapper>      
+      </EditorWrapper>
     </Wrapper>
   )
 }
@@ -97,9 +107,10 @@ const EditorContainer = styled.div`
   position: relative;
 `
 
-const EditorContentWithExplanation =  styled.div`
+const EditorContentWithExplanation = styled.div`
   display: flex;
   flex: 1;
   width: 100%;
   align-items: center;
+  justify-content: space-between;
 `

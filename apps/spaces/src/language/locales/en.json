@@ -30,8 +30,13 @@
             "password_required": "Password is required",
             "password_min_length": "Password must be at least 8 characters",
             "confirm_password_required": "Please confirm your password",
-            "passwords_mismatch": "Passwords do not match"
+            "passwords_mismatch": "Passwords do not match",
+            "incorrect_password": "Incorrect password."
         }
+    },
+    "confirm_email_update": {
+        "success_title": "Email address updated",
+        "success_description": "Your email address has been confirmed. You can now log in with your new email address."
     },
     "beta": {
         "label": "BETA",
@@ -42,17 +47,20 @@
     "left_menu": {
         "dashboard": "Dashboard",
         "support": "Support",
+        "settings": "Settings",
         "logout": "Log out"
     },
     "dashboard": {
         "title": "Quizzes",
         "subtitle": "Manage your quizzes here, including creating, publishing, unpublishing and deleting quizzes.",
-        "create_quiz_button": "Create new quiz"
+        "create_quiz_button": "Create new quiz",
+        "create_limit_reached": "Upgrade your plan to create more quizzes."
     },
     "learners": {
         "title": "Learners",
         "subtitle": "Manage who can take the private quizzes you create.",
         "empty_state": "There are no learners registered to your space yet. Invite a new learner to get started.",
+        "sub_required": "This feature is not available under your current plan. <0>View plans</0>",
         "table": {
             "learner": "Learner",
             "registration": "Registration",
@@ -99,6 +107,7 @@
             "rename": "Rename",
             "duplicate": "Duplicate",
             "copy_link": "Copy quiz link",
+            "disabled_tooltip": "Create at least 1 question to copy your quiz link.",
             "delete": "Delete"
         },
         "tabs": {
@@ -113,7 +122,12 @@
     },
     "questions_tab": {
         "create_question_button": "Create question",
-        "add_from_library_button": "Add from library"
+        "add_from_library_button": "Add from library",
+        "action_tooltips": {
+            "edit": "Edit question",
+            "duplicate": "Duplicate question",
+            "delete": "Delete question"
+        }
     },
     "questions": {
         "edit": {
@@ -160,6 +174,7 @@
                 "message_variables": "variables",
                 "message_explanations": "explanations",
                 "explanation_content_placeholder": "New explanation",
+                "explanation_tooltip": "Select some text or an image to add an explanation.",
                 "sender": {
                     "title": "Sender name",
                     "subtitle": "This is the name that will be displayed in the \"Sender\" field of the email.",
@@ -348,9 +363,39 @@
         "title": "Support",
         "subtitle": "If you need any support, including with deleting your account, please email the Shira team at contact@wearehorizontal.org"
     },
+    "settings": {
+        "title": "Settings",
+        "subtitle": "Manage your Shira space settings here.",
+        "tabs": {
+            "account": "Account",
+            "subscription": "Subscription"
+        },
+        "subscription": {
+            "current_plan": "Current plan: {{plan_name}}",
+            "view_plans": "View plans",
+            "manage_plan": "Manage plan",
+            "upgrade": "Upgrade"
+        },
+        "sections": {
+            "email": {
+                "title": "Email address",
+                "action": "Change email address"
+            },
+            "password": {
+                "title": "Password",
+                "last_updated": "Last updated: {{date}}",
+                "action": "Change password"
+            }
+        },
+        "checkout_success": {
+            "all_done": "All done!",
+            "success_message": "Your checkout was successful. We're activating your subscription now."
+        }
+    },
     "buttons": {
         "ok": "OK",
         "cancel": "Cancel",
+        "no_thanks": "No, thanks",
         "close": "Close",
         "exit": "Exit",
         "save": "Save",
@@ -372,7 +417,13 @@
         "feedback": "Tell us what you think",
         "download_template": "Download CSV template",
         "view_guidelines": "View formatting guidelines",
-        "browse_files": "Browse files"
+        "browse_files": "Browse files",
+        "i_understand": "I understand",
+        "back_home": "Back to home",
+        "learn_more": "Learn more",
+        "manage_plan": "Manage plan",
+        "back_to_quizzes": "Back to quizzes",
+        "go_to_settings": "Go to settings"
     },
     "modals": {
         "create_quiz": {
@@ -385,6 +436,24 @@
             "subtitle": "Set the name for the new quiz",
             "quiz_name": "Quiz name",
             "quiz_name_placeholder": "Copy of {{quiz_name}}"
+        },
+        "quiz_limit": {
+            "title": "Ready to upgrade?",
+            "message_1": "On the Starter plan, you can create up to 3 quizzes.",
+            "message_2": "Try a 14-day free trial of Shira Pro today to build more custom quizzes."
+        },
+        "first_login": {
+            "title": "Welcome to your Space",
+            "description": "You are currently on the {{planName}} plan.",
+            "actions": {
+                "view_plans": "View plans",
+                "get_started": "Get started"
+            },
+            "plan_names": {
+                "starter": "Starter",
+                "pro": "Pro",
+                "enterprise": "Enterprise"
+            }
         },
         "rename_quiz": {
             "title": "Rename quiz",
@@ -400,7 +469,9 @@
             },
             "private_option": {
                 "title": "Private",
-                "description": "Only invited learners from your space can take the quiz"
+                "description": "Only invited learners from your space can take the quiz",
+                "forbidden_tooltip": "Upgrade your plan to access private quizzes.",
+                "forbidden": "Only invited learners from your space can take the quiz. This feature is only available on paid plans. <0>{{learn_more}}</0>"
             }
         },
         "publish_quiz": {
@@ -524,10 +595,108 @@
         "start_over_bulk_import": {
             "title": "Are you sure you want to start over?",
             "message": "This will discard the spreadsheet you uploaded. Any progress you have made will be lost."
+        },
+        "change_email": {
+            "title": "Change email address",
+            "subtitle": "Enter your new email address here.",
+            "input_placeholder": "New email address (required)"
+        },
+        "change_email_success": {
+            "title": "Almost there!",
+            "description": "To complete the process, please open the email we sent to your new email address and click the confirmation link.",
+            "didnt_receive": "Didn’t receive an email? If it’s not in your spam folder, please contact us at <0>{{contact_email}}</0>",
+            "button": "I understand"
+        },
+        "change_password": {
+            "title": "Create new password",
+            "subtitle": "Your password should contain at least 8 characters.",
+            "current_password_placeholder": "Current password (required)",
+            "new_password_placeholder": "New password (required)",
+            "confirm_password_placeholder": "Confirm new password (required)"
+        },
+        "view_plans": {
+            "title": "Available plans",
+            "modal_title": "Shira plans and pricing",
+            "actions": {
+                "current_plan": "Current plan",
+                "downgrade": "Downgrade",
+                "learn_more": "Learn more about Shira plans"
+            },
+            "comparison": {
+                "title": "What's included?",
+                "admin_management": "Admin management",
+                "customization": "Customization",
+                "access_control": "Access control",
+                "compliance": "Compliance",
+                "custom_support": "Custom support",
+                "rows": {
+                    "hosting": "Hosting",
+                    "admin_dashboard": "Admin dashboard",
+                    "number_of_admins": "Number of admins",
+                    "customizable_questions": "Fully customizable quiz questions",
+                    "question_library": "Access to the question's library",
+                    "custom_quizzes": "Number of custom quizzes",
+                    "apps_available": "Apps available",
+                    "public_quizzes": "Public quizzes",
+                    "private_quizzes": "Private quizzes",
+                    "basic_analytics": "Basic analytics",
+                    "detailed_analytics": "Detailed analytics",
+                    "analysis_tools": "Analysis and compliance tools",
+                    "tailor_made_training": "Tailor-made user training",
+                    "priority_support": "Priority support"
+                },
+                "values": {
+                    "cloud": "Cloud",
+                    "cloud_on_premise": "Cloud & on-premise",
+                    "one_admin": "1 admin",
+                    "unlimited": "Unlimited",
+                    "up_to_three_custom_quizzes": "Up to 3 custom quizzes",
+                    "available_upon_request": "Available upon request",
+                    "three_business_day_response_time": "3-business-day response time",
+                    "one_business_day_response_time": "Up to 1-business day-response time"
+                },
+                "tooltips": {
+                    "hosting": "Let the Shira team host and maintain your Shira (cloud) or install it on your servers (on-premise)",
+                    "admin_dashboard": "A central place to manage your phishing education campaigns",
+                    "number_of_admins": "Admins are users who can create and manage phishing education campaigns",
+                    "customizable_questions": "Create quiz questions adapted to the needs of your learners",
+                    "question_library": "Access dozens of ready-made question templates",
+                    "custom_quizzes": "The number of quizzes you can create in your Space",
+                    "apps_available": "Create quiz questions using interfaces that look exactly like actual apps your learners use",
+                    "public_quizzes": "Anyone can take your quiz through an easy-to-share URL",
+                    "private_quizzes": "Only learners registered in your space can take your quizzes",
+                    "basic_analytics": "Track results at the quiz level",
+                    "detailed_analytics": "Track results at the learner and question levels",
+                    "analysis_tools": "Export your team's results into CSV or PDF reports",
+                    "tailor_made_training": "Skill-building workshops customized by the Shira team for your organization",
+                    "priority_support": "Quick response time to ensure a smooth experience"
+                }
+            },
+            "plans": {
+                "starter": {
+                    "title": "Starter",
+                    "description": "To try things out and get familiar with Shira",
+                    "price": "Free",
+                    "cta": "Get started"
+                },
+                "pro": {
+                    "title": "Pro",
+                    "description": "Experience the full power of Shira",
+                    "price": "$50/month + $1 per quiz taken",
+                    "cta": "Start 14-day free trial"
+                },
+                "enterprise": {
+                    "title": "Enterprise",
+                    "description": "Tailor Shira for large organizations and service providers",
+                    "price": "Custom pricing",
+                    "cta": "Contact us"
+                }
+            }
         }
     },
     "error_messages": {
         "duplicate_quiz_fail": "Failed to duplicate quiz",
+        "quiz_name_already_exists": "Quiz name taken. Please use a different one.",
         "duplicate_question_fail": "Failed to duplicate question",
         "add_question_error": "Error adding question",
         "results_load_failed": "Failed to load results",
@@ -548,8 +717,14 @@
         "email_already_taken": "The email address is already taken.",
         "invite_org_failed": "There was a problem creating your space. If this issue persists, <1>contact us</1>.",
         "email_no_match": "The email address does not match the invitation.",
+        "image_too_large": "Image size exceeds {{size}}MB. Please try again with a smaller image.",
+        "image_type_unsupported": "File type not supported.  Please make sure your image is a JPEG, PNG, GIF or WebP.",
+        "image_upload_failed": "There was a problem with uploading your image. Please try again.",
         "reset_password_confirmation_mismatch": "Password confirmation does not match.",
         "reset_password_weak": "Password must be at least 8 characters.",
+        "current_password_incorrect": "Incorrect password.",
+        "invalid_title": "Sorry, something went wrong",
+        "email_update_token_invalid": "The link you opened is invalid or has expired. Please contact your organization or email contact@wearehorizontal.org for support.",
         "learners_bulk_import": {
             "missing_name": "Missing name",
             "missing_email": "Missing email address",
@@ -576,7 +751,8 @@
                 "title": "Error: File is too large",
                 "subtitle": "Please upload a CSV that is 10 MB or smaller and try again."
             }
-        }
+        },
+        "invalid_email_update": "This email address is already associated with a Shira space."
     },
     "success_messages": {
         "quiz_link_copied": "The public quiz link has been copied to your clipboard.",
@@ -602,7 +778,8 @@
         "learners_assigned_plural": "This quiz has been assigned to {{count}} new learners.",
         "learner_unassigned": "This quiz has been unassigned from {{count}} learner.",
         "learners_unassigned_plural": "This quiz has been unassigned from {{count}} learners.",
-        "password_updated": "Your password was updated successfully."
+        "password_updated": "Your password was updated successfully.",
+        "email_updated": "Your email address was updated successfully."
     },
     "loading_messages": {
         "loading": "Loading...",

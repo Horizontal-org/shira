@@ -36,6 +36,7 @@ export class SendInvitationAuthService implements ISendInvitationAuthService {
     passphrase.code = crypto.randomBytes(20).toString('hex');
     passphrase.slug = slug
     passphrase.organizationType = invitationData.orgType
+    passphrase.subscriptionIntent = invitationData.subIntent
     passphrase.usedBy = email // we use this to check the owner of the passphrase
 
     await this.passphraseRepo.save(passphrase)

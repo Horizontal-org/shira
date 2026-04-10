@@ -1,0 +1,58 @@
+import { Injectable } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
+import { ApiLogger } from "src/utils/logger/api-logger.service";
+import { Repository } from "typeorm";
+import { UserEntity } from "src/modules/user/domain/user.entity";
+import { InjectRepository } from "@nestjs/typeorm";
+import { IConfirmUpdateUserService } from "../interfaces/services/confirm-update.user.service.interface";
+import { EmailUpdateTokenInvalidException, InvalidEmailUpdateException, UserNotFoundException } from "../exceptions";
+
+@Injectable()
+export class ConfirmEmailUpdateUserService implements IConfirmUpdateUserService {
+  constructor(
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
+    private readonly jwtService: JwtService,
+  ) { }
+
+  private readonly logger = new ApiLogger(ConfirmEmailUpdateUserService.name);
+
+  async execute(token: string): Promise<void> {
+    let payload: {
+      type?: string;
+      userId?: string;
+      currentEmail?: string;
+      newEmail?: string;
+    };
+
+    try {
+      payload = await this.jwtService.verify(token);
+    } catch {
+      throw new EmailUpdateTokenInvalidException();
+    }
+
+    const currentEmail = payload.currentEmail?.trim().toLowerCase();
+    const newEmail = payload.newEmail?.trim().toLowerCase();
+
+    if (payload.type !== "email_update" || !payload.userId || !currentEmail || !newEmail) {
+      throw new EmailUpdateTokenInvalidException();
+    }
+
+    const user = await this.userRepository.findOne({
+      where: { id: Number(payload.userId), email: currentEmail },
+    });
+
+    if (!user) {
+      throw new UserNotFoundException(currentEmail);
+    }
+
+    if (user.email === newEmail) {
+      throw new InvalidEmailUpdateException(currentEmail, newEmail);
+    }
+
+    user.email = newEmail;
+    await this.userRepository.save(user);
+
+    this.logger.log(`Email update confirmed for user ${user.id}, new email: ${newEmail}`);
+  }
+}

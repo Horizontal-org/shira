@@ -1,8 +1,14 @@
 import { FunctionComponent, useMemo } from "react";
 import styled, { createGlobalStyle } from 'styled-components'
 
-import { renderToStaticMarkup } from "react-dom/server";
-import { QuestionWithLanguages } from "../ManageGlobalLanguages/components/QuestionDetails";
+interface QuestionWithLanguages {
+  langs: {
+    lang: string;
+    questionElement: HTMLElement;
+    explanationElement: HTMLElement | null;
+    file?: File;
+  }[];
+}
 
 interface Props {
   currentQuestion: any;

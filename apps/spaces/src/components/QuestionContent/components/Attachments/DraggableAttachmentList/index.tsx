@@ -1,16 +1,10 @@
-import { Button, BaseFloatingMenu } from "@shira/ui";
-import { FunctionComponent, useRef, useState } from "react";
+import { FunctionComponent } from "react";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 
-import { IoMdAdd } from "react-icons/io";
-import styled from "styled-components";
-import { FiShare } from "react-icons/fi";
-import { useImageUpload } from "../../../../../hooks/useImageUpload";
-import toast from "react-hot-toast";
 import { useStore } from "../../../../../store";
 import { shallow } from "zustand/shallow";
 import { DraggableAttachmentItem } from "../DraggableAttachmentItem";
-import { QuestionDragAttachment, QuestionDragEditor } from "../../../../../store/types/active_question";
+import { QuestionDragAttachment } from "../../../../../store/types/active_question";
 
 
 interface Props {
@@ -28,12 +22,12 @@ export const DraggableAttachmentList: FunctionComponent<Props> = ({
   } = useStore((state) => ({
     deleteExplanation: state.deleteExplanation,
   }), shallow)
-  
+
   const reorder = (newItems, startIndex, endIndex) => {
     const result: Array<QuestionDragAttachment> = Array.from(newItems);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
-  
+
     return result.map((r, i) => {
       return {
         ...r,
@@ -42,7 +36,7 @@ export const DraggableAttachmentList: FunctionComponent<Props> = ({
       }
     })
   }
-  
+
   const remove = (deleteItem) => {
     const newItems = items
       .filter(i => i.htmlId !== deleteItem.htmlId)
@@ -52,7 +46,7 @@ export const DraggableAttachmentList: FunctionComponent<Props> = ({
           htmlId: `component-attachment-${i + 1}`,
           position: i + 1
         }
-    })
+      })
     onChange(newItems)
   }
 
@@ -63,7 +57,7 @@ export const DraggableAttachmentList: FunctionComponent<Props> = ({
     }
 
     const newItems = reorder(
-      items, 
+      items,
       result.source.index,
       result.destination.index
     )
@@ -74,15 +68,15 @@ export const DraggableAttachmentList: FunctionComponent<Props> = ({
 
   return (
     <div>
-    
+
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId='droppable'>
           {(provided, snapshot) => (
             <div
               {...provided.droppableProps}
               ref={provided.innerRef}
-            >          
-              { items.map(((item, index) => (
+            >
+              {items.map(((item, index) => (
                 <DraggableAttachmentItem
                   item={item}
                   key={item.draggableId}
@@ -95,8 +89,8 @@ export const DraggableAttachmentList: FunctionComponent<Props> = ({
                     remove(item)
                   }}
                 />
-              ))) }
-              { provided.placeholder }
+              )))}
+              {provided.placeholder}
             </div>
           )}
         </Droppable>

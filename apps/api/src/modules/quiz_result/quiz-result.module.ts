@@ -11,6 +11,8 @@ import { QuizModule } from '../quiz/quiz.module';
 import { QuizRunController } from './controller/quiz-run.controller';
 import { QuestionRunController } from './controller/question-run.controller';
 import { LearnerQuiz as LearnerQuizEntity } from '../learner/domain/learners_quizzes.entity';
+import { SpaceEntity } from '../space/domain/space.entity';
+import { LearnerModule } from '../learner/learner.module';
 
 @Module({
   imports: [
@@ -19,9 +21,11 @@ import { LearnerQuiz as LearnerQuizEntity } from '../learner/domain/learners_qui
       QuizQuestionEntity,
       QuizRunEntity,
       QuestionRunEntity,
-      LearnerQuizEntity
+      LearnerQuizEntity,
+      SpaceEntity
     ]),
     QuizModule,
+    LearnerModule
   ],
   controllers: [
     GetResultQuizController,

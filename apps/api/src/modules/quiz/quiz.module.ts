@@ -18,28 +18,30 @@ import { ExplanationTranslation } from '../translation/domain/explanationTransla
 import { Language } from '../languages/domain';
 import { App } from '../app/domain';
 import { EditQuestionQuizController } from './controller/edit-question.quiz.controller';
-import { DeleteQuestionQuizController } from './controller/delete-question.quiz.controller';
 import { ReorderQuestionQuizController } from './controller/reorder-question.quiz.controller';
 import { DuplicateQuestionQuizController } from './controller/duplicate-question.quiz.controller';
 import { DuplicateQuizController } from './controller/duplicate-quiz.controller';
 import { QuestionImage } from '../question_image/domain';
 import { QuestionImageModule } from '../question_image/question_image.module';
+import { SubscriptionModule } from '../subscription/subscription.module';
+import { ValidateQuizNameController } from './controller/validate-name.quiz.controller';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
-        QuizEntity,
-        QuizQuestionEntity,
-        SpaceEntity,
-        QuestionEntity,
-        Explanation,
-        QuestionTranslation,
-        ExplanationTranslation,
-        Language,
-        QuestionImage,
-        App
+      QuizEntity,
+      QuizQuestionEntity,
+      SpaceEntity,
+      QuestionEntity,
+      Explanation,
+      QuestionTranslation,
+      ExplanationTranslation,
+      Language,
+      QuestionImage,
+      App
     ]),
-    QuestionImageModule
+    QuestionImageModule,
+    SubscriptionModule
   ],
   controllers: [
     CreateQuizController,
@@ -50,10 +52,10 @@ import { QuestionImageModule } from '../question_image/question_image.module';
     ReorderQuestionQuizController,
     CreateQuestionQuizController,
     EditQuestionQuizController,
-    DeleteQuestionQuizController,
     DuplicateQuestionQuizController,
     DuplicateQuizController,
     EditQuizController,
+    ValidateQuizNameController
   ],
   providers: [
     ...servicesQuizProviders
@@ -62,4 +64,4 @@ import { QuestionImageModule } from '../question_image/question_image.module';
     ...servicesQuizProviders
   ],
 })
-export class QuizModule {}
+export class QuizModule { }

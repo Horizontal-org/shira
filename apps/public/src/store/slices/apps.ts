@@ -1,5 +1,4 @@
 import { StateCreator } from "zustand"
-import axios from 'axios'
 import { App } from "../../domain/app"
 import { getApps } from "../../fetch/app"
 

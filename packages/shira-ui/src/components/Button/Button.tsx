@@ -1,6 +1,7 @@
 import { forwardRef, ReactNode } from 'react';
 import styled from 'styled-components';
 import { darken } from 'polished';
+import { Button2 } from '../Typography';
 
 export interface ButtonProps {
   id?: string;
@@ -13,7 +14,7 @@ export interface ButtonProps {
   size?: string;
   color?: string;
   className?: string;
-  ref?:  React.MutableRefObject<HTMLButtonElement> 
+  ref?: React.MutableRefObject<HTMLButtonElement>
 }
 
 interface StyledButtonProps {
@@ -23,9 +24,9 @@ interface StyledButtonProps {
   $color?: string;
 }
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ 
-  text, 
-  onClick, 
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
+  text,
+  onClick,
   type = 'primary',
   leftIcon,
   rightIcon,
@@ -33,23 +34,26 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   size = 'default',
   color,
   className,
-}: ButtonProps, ref = null) => 
-  (
-    <StyledButton 
-      onClick={onClick} 
-      className={className}
-      $type={type}
-      disabled={disabled}
-      $size={size}
-      $color={color}
-      ref={ref}
-    >
-      { leftIcon && <Left>{leftIcon}</Left>}
-      <span>{ text }</span>
-      { rightIcon && <Right>{ rightIcon }</Right>}
-    </StyledButton>
-  ));
+}: ButtonProps, ref = null) =>
+(
+  <StyledButton
+    onClick={onClick}
+    className={className}
+    $type={type}
+    disabled={disabled}
+    $size={size}
+    $color={color}
+    ref={ref}
+  >
+    {leftIcon && <Left>{leftIcon}</Left>}
+    <ButtonText>{text}</ButtonText>
+    {rightIcon && <Right>{rightIcon}</Right>}
+  </StyledButton>
+));
 
+const ButtonText = styled(Button2)`
+  color: inherit;
+`;
 
 const StyledButton = styled.button<StyledButtonProps>`
   all: unset;
@@ -57,7 +61,6 @@ const StyledButton = styled.button<StyledButtonProps>`
   border-radius: 100px;
   padding: 12px 20px;
   cursor: pointer;
-  font-weight: 400;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -91,7 +94,7 @@ const StyledButton = styled.button<StyledButtonProps>`
 
   ${({ disabled }) => disabled && `
     opacity: 0.5;
-    cursor: not-allowed;    
+    cursor: not-allowed;
   `}
 
   ${({ $size }) => $size === 'lg' && `
@@ -103,7 +106,7 @@ const StyledButton = styled.button<StyledButtonProps>`
     font-size: 12px;
     padding: 8px 16px;
   `}
-`
+`;
 
 const SvgWrapper = styled.div`
   display: flex;
@@ -115,6 +118,6 @@ const Left = styled(SvgWrapper)`
   margin-right: 12px;
 `;
 
-const Right = styled(SvgWrapper)`  
+const Right = styled(SvgWrapper)`
   margin-left: 12px;
 `;
