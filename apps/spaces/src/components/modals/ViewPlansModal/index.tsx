@@ -312,7 +312,9 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
               <ValueCell>
                 <ValueText>-</ValueText>
               </ValueCell>
-              <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
+              <ValueCell>
+                <ValueText>{t("modals.view_plans.comparison.values.available_upon_request")}</ValueText>
+              </ValueCell>
 
               <FeatureCell>
                 <FeatureLabel>{t("modals.view_plans.comparison.rows.priority_support")}</FeatureLabel>
@@ -322,9 +324,11 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
                 <ValueText>-</ValueText>
               </ValueCell>
               <ValueCell>
-                <ValueText>-</ValueText>
+                <ValueText>{t("modals.view_plans.comparison.values.three_business_day_response_time")}</ValueText>
               </ValueCell>
-              <ValueCell><IoMdCheckmarkCircle size={28} color={theme.colors.green6} /></ValueCell>
+              <ValueCell>
+                <ValueText>{t("modals.view_plans.comparison.values.one_business_day_response_time")}</ValueText>
+              </ValueCell>
             </ComparisonTable>
           </ComparisonScroller>
         </ComparisonGrid>
