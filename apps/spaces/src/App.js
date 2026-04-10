@@ -31,7 +31,7 @@ import { FeedbackButton } from './components/FeedbackButton';
 import { ResetPasswordRequestLayout } from './components/ResetPasswordLayout/ResetPasswordRequestLayout';
 import { SetNewPasswordLayout } from './components/ResetPasswordLayout/SetNewPasswordLayout';
 import { ConfirmEmailUpdateLayout } from './components/ConfirmEmailUpdateLayout';
-import { CheckoutSuccessLayout } from './components/CheckoutSuccessLayout';
+import { CheckoutSuccessRedirect } from './components/CheckoutSuccessRedirect';
 
 function App() {
 
@@ -78,7 +78,7 @@ function App() {
               <Route path='/create-space/:passphraseCode' element={<CreateSpaceLayout />} />
               <Route path='/invitation-used' element={<InvitationExpiredLayout />} />
               <Route path='/get-started' element={<GetStartedLayout />} />
-              <Route path='/checkout-success' element={<CheckoutSuccessLayout />} />
+              <Route path='/checkout-success' element={<CheckoutSuccessRedirect />} />
               {user && (
                 <>
                   <Route
