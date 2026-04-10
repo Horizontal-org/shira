@@ -92,7 +92,7 @@ const SvgWrapper = styled.div<StyledSvgWrapper>`
 
       > svg > path {
         fill: ${props.theme.secondary.base};
-      }      
-    }  
+      }
+    }
   `}
 `
