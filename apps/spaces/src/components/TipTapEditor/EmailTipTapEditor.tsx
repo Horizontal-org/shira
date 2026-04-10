@@ -22,19 +22,19 @@ export const EmailTipTapEditor = ({
   onChange,
   initialContent = null
 }: Props) => {
-  const editorId = `component-text-1`  
+  const editorId = `component-text-1`
   const editor = useEditor({
     extensions: getEmailExtensions(),
     content: initialContent ?? null,
-    onSelectionUpdate() {  },
+    onSelectionUpdate() { },
     onUpdate(props) {
       onChange(props.editor.getHTML())
-      
+
       setTimeout(() => {
         explanations.cleanupOrphanedExplanations()
       }, 500)
     },
-    onCreate() {}
+    onCreate() { }
   })
 
   const explanations = useExplanations(editor, editorId)
@@ -59,8 +59,8 @@ export const EmailTipTapEditor = ({
       <EditorWrapper>
         <EditorStyles />
         <div></div>
-        { links.setLinkModal }
-        { links.editLinkModal }
+        {links.setLinkModal}
+        {links.editLinkModal}
         <EditorContainer>
           <EditorContentWithExplanation>
             <EditorContentWrapper>
@@ -73,6 +73,7 @@ export const EmailTipTapEditor = ({
               label={t('create_question.tabs.content.explanation_tooltip')}
             >
               <ExplanationButton
+                isText={true}
                 active={explanations.isTextExplanationActive() || images.selectedImageHasExplanation}
                 disabled={!explanations.canAddTextExplanation() && !explanations.isTextExplanationActive() && !images.selectedImageHasExplanation}
                 onClick={() => {
@@ -87,11 +88,11 @@ export const EmailTipTapEditor = ({
           </EditorContentWithExplanation>
           {images.isUploading && <LoadingOverlay />}
         </EditorContainer>
-        <MenuBar 
-          editor={editor} 
+        <MenuBar
+          editor={editor}
           setLink={links.setLink}
           onImageUpload={images.handleImageUpload}
-          isImageSelected={images.isImageSelected}        
+          isImageSelected={images.isImageSelected}
 
           isInTable={tables.isInTable}
           isTableCellSelected={tables.isTableCellSelected}
