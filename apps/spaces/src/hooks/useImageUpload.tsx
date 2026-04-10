@@ -66,7 +66,7 @@ export const useImageUpload = (
 
   const validateFile = useCallback((file: File): string | null => {
     if (!allowedTypes.includes(file.type)) {
-      return 'Please select an image file'
+      return t('error_messages.image_type_unsupported')
     }
 
     if (file.size > maxSizeInMB * 1024 * 1024) {
