@@ -24,11 +24,11 @@ export class PublicQuizLimitHandlerService implements IPublicQuizLimitHandlerSer
         (qb) =>
           qb
             .from(Question, 'question')
-            .innerJoin('quizzes_questions', 'qq', 'qq.questionId = question.id')
-            .select('qq.quizId', 'quizId')
-            .addSelect('MAX(question.updatedAt)', 'questionUpdatedAt')
-            .addSelect('MAX(qq.updatedAt)', 'quizQuestionUpdatedAt')
-            .groupBy('qq.quizId'),
+            .innerJoin('quizzes_questions', 'qq', 'qq.question_id = question.id')
+            .select('qq.quiz_id', 'quizId')
+            .addSelect('MAX(question.updated_at)', 'questionUpdatedAt')
+            .addSelect('MAX(qq.updated_at)', 'quizQuestionUpdatedAt')
+            .groupBy('qq.quiz_id'),
         'latest_question',
         'latest_question.quizId = quiz.id'
       )
@@ -37,6 +37,7 @@ export class PublicQuizLimitHandlerService implements IPublicQuizLimitHandlerSer
         organizationId,
       })
       .andWhere('quiz.visibility = :visibility', { visibility: 'public' })
+      .andWhere('quiz.published = :published', { published: true })
       .orderBy(`GREATEST
         (
           quiz.updated_at,
