@@ -57,11 +57,13 @@ export const createAuthSlice: StateCreator<
 
   logout: async () => {
     await logoutApi();
+    console.log('HEREHERE')
     set({
       user: null,
       space: null,
       subscription: null
     })
+    window.location.href = '/login'
   },
 
   updateUserEmail: (email: string) => {
