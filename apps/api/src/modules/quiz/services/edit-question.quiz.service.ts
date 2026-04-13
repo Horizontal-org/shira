@@ -105,10 +105,11 @@ export class EditQuestionQuizService implements ICreateQuestionQuizService{
         })
       )
       
+      console.log('to sanitize explanation content:', explanation.text);
       const newExplanationTranslation =
         this.explanationTranslationRepo.create({
           explanation: savedExplanation,
-          content: explanation.text,
+          content: QuestionSanitizer.sanitizeQuestionContent(explanation.text),
           languageId: language.id,
         })
       await this.explanationTranslationRepo.save(newExplanationTranslation);    
