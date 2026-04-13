@@ -1,19 +1,31 @@
 import axios from "axios"
 
-export const fetchUser = async (token: string, spaceId: string) => {
-  console.log("🚀 ~ fetchUser ~ spaceId:", spaceId)
+const isProduction = () => {
+  return process.env.NODE_ENV === 'production';
+}
+
+export const fetchUser = async (spaceId: string) => {
   try {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/user`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'X-Space': spaceId
-      }
-    })
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+    let headers = {
+      'X-Space': spaceId
+    }
+
+    if (isProduction()) {
+      axios.defaults.withCredentials = true;
+    } else {
+      //DEV MODE
+      const token = window.localStorage.getItem('shira_access_token');
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    }
+
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/user`, { headers })
+
     axios.defaults.headers.common['X-Space'] = spaceId;
+
     return res.data
   } catch (err) {
-    console.log("🚀 ~ file: auth.ts ~ line 12 ~ fetchUser ~ err", err)
+    console.log("🚀 ~ file: auth.ts ~ fetchUser ~ err", err)
   }
 }
 
@@ -24,11 +36,20 @@ export const login = async (email, pass) => {
       password: pass
     })
 
-    window.localStorage.setItem('shira_access_token', res.data.access_token)
-    axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.access_token}`;
-    // you need to have at least one space
-    window.localStorage.setItem('shira_x_space', res.data.user.spaces[0].id)
-    axios.defaults.headers.common['X-Space'] = `${res.data.user.spaces[0].id}`;
+    // In production, the token is stored in an HttpOnly cookie, so we don't need to set it in the headers manually.
+    if (isProduction()) {
+      axios.defaults.withCredentials = true;
+    } else {
+      //DEV MODE
+      console.log('Login successful, setting token in localStorage and axios headers')
+      const token = res.data.access_token;
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      window.localStorage.setItem('shira_access_token', res.data.access_token)
+    }
+
+    const spaceId = res.data.user.spaces[0].id
+    window.localStorage.setItem('shira_x_space', spaceId)
+    axios.defaults.headers.common['X-Space'] = `${spaceId}`;
     return res.data.user
   } catch (e) {
     alert('Unauthorized')
@@ -36,13 +57,23 @@ export const login = async (email, pass) => {
 }
 
 export const checkAuth = async () => {
-  const token = window.localStorage.getItem('shira_access_token')
   const spaceId = window.localStorage.getItem('shira_x_space')
-  if (token && spaceId) {
-    const fetchUserResponse = await fetchUser(token, spaceId)
+  if (spaceId) {
+    const fetchUserResponse = await fetchUser(spaceId)
     return fetchUserResponse
-  } else {
-    return null
+  }
+  return null
+}
+
+export const logout = async () => {
+  try {
+    await axios.post(`${process.env.REACT_APP_API_URL}/logout`)
+    window.localStorage.removeItem('shira_x_space')
+    window.localStorage.removeItem('shira_access_token')
+    axios.defaults.headers.common['X-Space'] = undefined;
+    axios.defaults.headers.common['Authorization'] = undefined;
+  } catch (err) {
+    console.log("🚀 ~ logout ~ err:", err)
   }
 }
 
@@ -72,7 +103,6 @@ export const navigateToManageSubscription = async (
       window.location.assign(stripeUrl)
     }
   } catch (error) {
-    //TODO error handling?
     console.error("Error navigating to Stripe:", error)
   }
 }
