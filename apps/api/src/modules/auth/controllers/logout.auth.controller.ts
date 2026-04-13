@@ -5,6 +5,7 @@ import { Response } from 'express';
 export class LogoutAuthController {
   @Post()
   logout(@Res() response: Response) {
+    console.log('[AUTH] logout - clearing httpOnly cookie');
     response
       .cookie('access_token', '', {
         expires: new Date(0),
