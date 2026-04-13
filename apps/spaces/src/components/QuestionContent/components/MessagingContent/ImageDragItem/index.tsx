@@ -6,6 +6,7 @@ import { useStore } from "../../../../../store";
 import { shallow } from "zustand/shallow";
 import { ImageObject } from "../../../../../store/types/active_question";
 import { MdOutlineImage } from "react-icons/md";
+import { ErrorBanner } from "../ErrorBanner";
 
 interface Props {
   value?: ImageObject | null;
@@ -94,17 +95,6 @@ const Wrapper = styled.div`
 const ImageWrapper = styled.div`
   display: flex;
   align-items: center;
-`
-
-const ErrorBanner = styled.div`
-  background: ${props => props.theme.colors.light.paleRed};
-  color: ${props => props.theme.colors.error9};
-  padding: 16px 24px;
-  margin-bottom: 20px;
-  font-size: 16px;
-  font-weight: 600;
-  width: fit-content;
-  max-width: min(100%, 880px);
 `
 
 const PlaceholderCard = styled.div`

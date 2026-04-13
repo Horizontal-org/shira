@@ -11,6 +11,7 @@ import { useStore } from "../../../../../store";
 import { shallow } from "zustand/shallow";
 import { QuestionDragEditor, QuestionDragImage } from "../../../../../store/types/active_question";
 import { useTranslation } from "react-i18next";
+import { ErrorBanner } from "../ErrorBanner";
 
 interface Props {
   items: Array<QuestionDragEditor | QuestionDragImage>
@@ -244,17 +245,6 @@ const ButtonsWrapper = styled.div`
   display: flex;
   gap: 12px;
   margin-bottom: 30px;
-`
-
-const ErrorBanner = styled.div`
-  background: ${(props) => props.theme.colors.light.paleRed};
-  color: ${(props) => props.theme.colors.error9};
-  padding: 16px 24px;
-  margin-bottom: 20px;
-  font-size: 16px;
-  font-weight: 600;
-  width: fit-content;
-  max-width: min(100%, 880px);
 `
 
 const ImageButtonWrapper = styled.div`
