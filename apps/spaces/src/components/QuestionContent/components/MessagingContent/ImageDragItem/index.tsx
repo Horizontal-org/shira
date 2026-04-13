@@ -6,7 +6,7 @@ import { useStore } from "../../../../../store";
 import { shallow } from "zustand/shallow";
 import { ImageObject } from "../../../../../store/types/active_question";
 import { MdOutlineImage } from "react-icons/md";
-import { ErrorBanner } from "../ErrorBanner";
+import { ErrorBanner } from "../../../../ErrorBanner";
 
 interface Props {
   value?: ImageObject | null;

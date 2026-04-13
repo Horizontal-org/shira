@@ -12,6 +12,7 @@ import { LoadingOverlay } from '../LoadingOverlay/LoadingOverlay'
 import { ExplanationButton } from '../Explanations/components/ExplanationButton'
 import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
+import { ErrorBanner as BaseErrorBanner } from '../ErrorBanner'
 
 interface Props {
   onChange: (body: string) => void;
@@ -151,15 +152,8 @@ const EditorContainer = styled.div`
   position: relative;
 `
 
-const ErrorBanner = styled.div`
-  background: ${(props) => props.theme.colors.light.paleRed};
-  color: ${(props) => props.theme.colors.error9};
-  padding: 16px 24px;
+const ErrorBanner = styled(BaseErrorBanner)`
   margin-top: 20px;
-  font-size: 16px;
-  font-weight: 600;
-  width: fit-content;
-  max-width: min(100%, 880px);
 `
 
 const EditorContentWithExplanation = styled.div`
