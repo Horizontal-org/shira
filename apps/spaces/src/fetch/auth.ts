@@ -86,9 +86,7 @@ export const logout = async () => {
     console.log(`[AUTH] logout - initiating`);
     await axios.post(`${process.env.REACT_APP_API_URL}/logout`)
     window.localStorage.removeItem('shira_x_space')
-    window.localStorage.removeItem('shira_access_token')
-    axios.defaults.headers.common['X-Space'] = undefined;
-    axios.defaults.headers.common['Authorization'] = undefined;
+    window.localStorage.removeItem('shira_access_token')    
     console.log(`[AUTH] logout - success`);
   } catch (err) {
     console.log(`[AUTH] logout - error:`, err);

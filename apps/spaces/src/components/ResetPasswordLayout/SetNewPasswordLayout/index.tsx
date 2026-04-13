@@ -92,8 +92,7 @@ export const SetNewPasswordLayout: FunctionComponent = () => {
 
       toast.success(t("success_messages.password_updated"), { duration: 3000 });
 
-      logout();
-      navigate("/login", { replace: true });
+      logout(navigate);
     } catch (error) {
       const { message } = handleHttpError(error);
       setSubmitError(t(getErrorContent("error_messages", "something_went_wrong", message)));
