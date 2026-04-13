@@ -38,7 +38,7 @@ const defaultUploadImage = async (file: File, quizId: string, questionId: string
     }
   } catch (e) {
     console.log("🚀 ~ defaultUploadImage ~ e:", e)
-    throw new Error(e)
+    throw new Error(t('error_messages.image_upload_failed'))
   }
 }
 
@@ -81,8 +81,8 @@ export const useImageUpload = (
 
     const validationError = validateFile(file)
     if (validationError) {
-      alert(validationError)
-      return
+      event.target.value = ''
+      throw new Error(validationError)
     }
 
     setIsUploading(true)
@@ -96,7 +96,7 @@ export const useImageUpload = (
       }).run()
     } catch (error) {
       console.error('Error uploading image:', error)
-      alert('Failed to upload image')
+      throw new Error(t('error_messages.image_upload_failed'))
     } finally {
       setIsUploading(false)
       event.target.value = ''
