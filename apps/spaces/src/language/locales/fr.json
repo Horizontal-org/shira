@@ -142,7 +142,8 @@
                     "title": "Corps du courriel",
                     "subtitle": "Écrivez le message qui s'affichera."
                 },
-                "attachment_button": "Ajouter une pièce jointe"
+                "attachment_button": "Ajouter une pièce jointe",
+                "explanation_tooltip": "Sélectionnez du texte ou une image pour ajouter une explication."
             },
             "preview": {
                 "tab_title": "Aperçu",
@@ -285,7 +286,8 @@
         "learn_more": "En apprendre davantage",
         "manage_plan": "Gérer le forfait",
         "back_to_quizzes": "Retour aux quiz",
-        "go_to_settings": "Aller aux paramètres"
+        "go_to_settings": "Aller aux paramètres",
+        "no_thanks": "Non, merci"
     },
     "modals": {
         "message": "",
@@ -495,23 +497,26 @@
                     "cloud_on_premise": "Cloud et sur site",
                     "one_admin": "1 administrateur",
                     "unlimited": "Illimité",
-                    "up_to_three_custom_quizzes": "Jusqu'à 3 quiz personnalisés"
+                    "up_to_three_custom_quizzes": "Jusqu'à 3 quiz personnalisés",
+                    "one_business_day_response_time": "Temps de réponse jusqu'à 1 jour ouvré",
+                    "three_business_day_response_time": "Temps de réponse de 3 jours ouvrés",
+                    "available_upon_request": "Disponible sur demande"
                 },
                 "tooltips": {
-                    "hosting": "[AJOUTER LE TEXTE DE L'INFOBULLE]",
-                    "admin_dashboard": "[AJOUTER LE TEXTE DE L'INFOBULLE]",
-                    "number_of_admins": "Administrateurs illimités bientôt disponible",
-                    "customizable_questions": "[AJOUTER LE TEXTE DE L'INFOBULLE]",
-                    "question_library": "[AJOUTER LE TEXTE DE L'INFOBULLE]",
-                    "custom_quizzes": "[AJOUTER LE TEXTE DE L'INFOBULLE]",
-                    "apps_available": "Gmail, Outlook, SMS, WhatsApp, Messenger, Applications de rencontre",
+                    "hosting": "Laissez l'équipe Shira héberger et maintenir votre instance (cloud) ou installez-la sur vos serveurs (sur site)",
+                    "admin_dashboard": "Un lieu centralisé pour gérer vos campagnes de sensibilisation au phishing",
+                    "number_of_admins": "Les administrateurs sont les utilisateurs qui peuvent créer et gérer des campagnes de sensibilisation au phishing",
+                    "customizable_questions": "Créez des questions de quiz adaptées aux besoins de vos apprenants",
+                    "question_library": "Accédez à des dizaines de modèles de questions prêts à l'emploi",
+                    "custom_quizzes": "Le nombre de quiz que vous pouvez créer dans votre Espace",
+                    "apps_available": "Créez des questions de quiz via des interfaces identiques aux applications réelles utilisées par vos apprenants",
                     "public_quizzes": "N'importe qui peut répondre à votre quiz via une URL facile à partager",
                     "private_quizzes": "Seuls les apprenants inscrits dans votre espace peuvent répondre à vos quiz",
-                    "basic_analytics": "Suivi des résultats au niveau du quiz",
-                    "detailed_analytics": "Suivi des résultats au niveau de l'apprenant et de la question",
-                    "analysis_tools": "Bientôt disponible",
-                    "tailor_made_training": "[AJOUTER LE TEXTE DE L'INFOBULLE]",
-                    "priority_support": "[AJOUTER LE TEXTE DE L'INFOBULLE]"
+                    "basic_analytics": "Suivez les résultats au niveau du quiz",
+                    "detailed_analytics": "Suivez les résultats au niveau de l'apprenant et de la question",
+                    "analysis_tools": "Exportez les résultats de votre équipe en rapports CSV ou PDF",
+                    "tailor_made_training": "Ateliers de renforcement des compétences personnalisés par l'équipe Shira pour votre organisation",
+                    "priority_support": "Temps de réponse rapide pour garantir une expérience fluide"
                 }
             },
             "plans": {
@@ -534,6 +539,24 @@
                     "cta": "Commencer l'essai gratuit de 14 jours"
                 }
             }
+        },
+        "first_login": {
+            "plan_names": {
+                "enterprise": "Entreprise",
+                "pro": "Professionnel",
+                "starter": "Initial"
+            },
+            "actions": {
+                "get_started": "Commencez",
+                "view_plans": "Voir les forfaits"
+            },
+            "description": "Vous utilisez actuellement le forfait {{planName}}.",
+            "title": "Bienvenue dans votre Espace"
+        },
+        "quiz_limit": {
+            "message_2": "Essayez l'essai gratuit de 14 jours de Shira Pro dès aujourd'hui pour créer plus de quiz personnalisés.",
+            "message_1": "Avec le forfait Initial, vous pouvez créer jusqu'à 3 quiz.",
+            "title": "Prêt à passer au forfait supérieur ?"
         }
     },
     "error_messages": {
