@@ -39,6 +39,8 @@ export const EmailTipTapEditor = ({
 
   const explanations = useExplanations(editor, editorId)
   const [showExplanationButtonTooltip, setShowExplanationButtonTooltip] = useState(false)
+  const [imageUploadError, setImageUploadError] = useState<string | null>(null)
+
   const { t } = useTranslation()
 
   const images = useImageUpload(editor, {
@@ -112,8 +114,20 @@ export const EmailTipTapEditor = ({
           ref={images.fileInputRef}
           type="file"
           accept="image/jpeg,image/png,image/gif,image/webp,.jpg,.jpeg,.png,.gif,.webp"
-          onChange={images.onImageSelect}
+          onChange={async (event) => {
+            try {
+              await images.onImageSelect(event)
+              setImageUploadError(null)
+            } catch (error) {
+              setImageUploadError(error instanceof Error ? error.message : String(error))
+            }
+          }}
         />
+        {imageUploadError && (
+          <ErrorBanner role="alert" aria-live="polite">
+            {imageUploadError}
+          </ErrorBanner>
+        )}
       </EditorWrapper>
     </Wrapper>
   )
@@ -135,6 +149,17 @@ const HiddenFileInput = styled.input`
 
 const EditorContainer = styled.div`
   position: relative;
+`
+
+const ErrorBanner = styled.div`
+  background: ${(props) => props.theme.colors.light.paleRed};
+  color: ${(props) => props.theme.colors.error9};
+  padding: 16px 24px;
+  margin-top: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  width: fit-content;
+  max-width: min(100%, 880px);
 `
 
 const EditorContentWithExplanation = styled.div`
