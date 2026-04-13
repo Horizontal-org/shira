@@ -12,10 +12,9 @@ const LogoutLayout = () => {
     logout: state.logout,    
   }), shallow)
   
-  useEffect(() => {
-    logout()
-    navigate('/login')
-  }, []);
+  useEffect(() => {   
+    logout(navigate)    
+  }, [logout, navigate]);
 
   return null;
 };

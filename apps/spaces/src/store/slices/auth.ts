@@ -1,9 +1,10 @@
 import { StateCreator } from "zustand"
 import { checkAuth, getSub, login, logout as logoutApi } from "../../fetch/auth";
+import { NavigateFunction } from "react-router-dom";
 
 export interface AuthSlice {
   login: (email, pass) => void
-  logout: () => void
+  logout: (navigate?: NavigateFunction) => void
   me: () => void
   updateUserEmail: (email: string) => void
   user: {
@@ -55,15 +56,16 @@ export const createAuthSlice: StateCreator<
     })
   },
 
-  logout: async () => {
-    await logoutApi();
-    console.log('HEREHERE')
+  logout: async (navigate?: NavigateFunction) => {
+    await logoutApi();    
     set({
       user: null,
       space: null,
       subscription: null
     })
-    window.location.href = '/login'
+    if (navigate) {
+      navigate('/login')
+    }
   },
 
   updateUserEmail: (email: string) => {
