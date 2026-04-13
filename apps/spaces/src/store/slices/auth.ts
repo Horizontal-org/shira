@@ -1,5 +1,5 @@
 import { StateCreator } from "zustand"
-import { checkAuth, getSub, login } from "../../fetch/auth";
+import { checkAuth, getSub, login, logout as logoutApi } from "../../fetch/auth";
 
 export interface AuthSlice {
   login: (email, pass) => void
@@ -56,8 +56,7 @@ export const createAuthSlice: StateCreator<
   },
 
   logout: async () => {
-    localStorage.removeItem("shira_access_token");
-    localStorage.removeItem("shira_x_space");
+    await logoutApi();
     set({
       user: null,
       space: null,
