@@ -39,7 +39,6 @@ export class CreateQuestionQuizService implements ICreateQuestionQuizService{
   ) {}
 
   async execute (createQuestionDto: CreateQuestionQuizDto) {
-    console.log("🚀 ~ CreateQuestionQuizService ~ execute ~ createQuestionDto:", createQuestionDto)
     
     let question: Question;
           
@@ -99,7 +98,7 @@ export class CreateQuestionQuizService implements ICreateQuestionQuizService{
       const newExplanationTranslation =
         this.explanationTranslationRepo.create({
           explanation: savedExplanation,
-          content: explanation.text,
+          content: QuestionSanitizer.sanitizeQuestionContent(explanation.text),
           languageId: language.id,
         })
       await this.explanationTranslationRepo.save(newExplanationTranslation);    
