@@ -10,7 +10,10 @@ async function bootstrap() {
 
   const apiLogger = new ApiLogger();
 
-  app.enableCors();
+  app.enableCors({
+    origin: process.env.SPACE_URL,
+    credentials: true,
+  });
 
   app.useGlobalInterceptors(new ResponseNoCacheInterceptor());
   app.useGlobalInterceptors(new LoggingInterceptor(apiLogger));
