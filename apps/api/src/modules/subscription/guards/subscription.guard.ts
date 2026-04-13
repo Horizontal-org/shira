@@ -18,14 +18,18 @@ export class SubscriptionGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user: LoggedUserDto = request.user
 
-
-    if (!user || !user.activeOrganization) {
+    if (!user) {
       throw new ForbiddenException('User does not have an active organization context');
     }
 
-    const subscription = await this.subscriptionCacheService.getCurrentSubscription(user.activeOrganization.id + '');
+    let subscription = null
+    if (user.activeOrganization) {
+      subscription = await this.subscriptionCacheService.getCurrentSubscription(user.activeOrganization.id + '');
+    } else if (!user.isSuperAdmin) {
+     throw new ForbiddenException('User does not have an active organization context'); 
+    }
 
-    request.subscription = subscription || null
+    request.subscription = subscription
     return true
   }
 }

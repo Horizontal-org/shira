@@ -1,9 +1,10 @@
 import { StateCreator } from "zustand"
-import { checkAuth, getSub, login } from "../../fetch/auth";
+import { checkAuth, getSub, login, logout as logoutApi } from "../../fetch/auth";
+import { NavigateFunction } from "react-router-dom";
 
 export interface AuthSlice {
   login: (email, pass) => void
-  logout: () => void
+  logout: (navigate?: NavigateFunction) => void
   me: () => void
   updateUserEmail: (email: string) => void
   user: {
@@ -55,14 +56,16 @@ export const createAuthSlice: StateCreator<
     })
   },
 
-  logout: async () => {
-    localStorage.removeItem("shira_access_token");
-    localStorage.removeItem("shira_x_space");
+  logout: async (navigate?: NavigateFunction) => {
+    await logoutApi();    
     set({
       user: null,
       space: null,
       subscription: null
     })
+    if (navigate) {
+      navigate('/login')
+    }
   },
 
   updateUserEmail: (email: string) => {
