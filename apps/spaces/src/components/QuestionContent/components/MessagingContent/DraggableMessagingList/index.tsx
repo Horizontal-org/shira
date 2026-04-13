@@ -11,7 +11,8 @@ import { useStore } from "../../../../../store";
 import { shallow } from "zustand/shallow";
 import { QuestionDragEditor, QuestionDragImage } from "../../../../../store/types/active_question";
 import { useTranslation } from "react-i18next";
-import { ErrorBanner } from "../../../../../ErrorBanner";
+import { ErrorBanner } from "../../../../ErrorBanner";
+
 
 interface Props {
   items: Array<QuestionDragEditor | QuestionDragImage>
