@@ -695,9 +695,9 @@
         "assign_dialog": {
             "registered_title": "Estudiantes con registro",
             "registered_description": "Selecciona una o más estudiantes para asignarles este cuestionario.",
-            "registered_description_2": "Puedes gestionar personas estudiantes con registro e invitar nuevas en la <0>sección Aprendices</0>.",
+            "registered_description_2": "Puedes gestionar personas estudiantes con registro e invitar nuevas en la <0>sección Estudiantes</0>.",
             "assign_button": "Asignar a estudiantes",
-            "assign_title": "Asignar \"{{quiz_title}}\" a aprendices",
+            "assign_title": "Asignar \"{{quiz_title}}\" a estudiantes",
             "no_learners": "No hay estudiantes con registro en tu espacio.",
             "all_learners_registered": "Ya se le ha asignado este cuestionario a todas las personas estudiantes registradas.",
             "disabled_tooltip": "Crea al menos 1 pregunta para asignar este cuestionario a estudiantes."
