@@ -1,6 +1,6 @@
 import { GeneralTooltip, styled } from '@shira/ui'
 import { useEditor, EditorContent } from '@tiptap/react'
-import { MenuBar } from './MenuBar'
+import { MenuBar } from './components/MenuBar'
 import { useExplanations } from './hooks/useExplanations'
 import { useImageUpload } from './hooks/useImageUpload'
 import { useLink } from './hooks/useLink'

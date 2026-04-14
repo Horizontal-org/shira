@@ -25,6 +25,9 @@ const baseExtensions = [
   Placeholder.configure({        
     placeholder: 'Message text',
   }),
+  Link.configure({
+    openOnClick: false,
+  }),
 ]
 
 export const getMessageExtensions = () => baseExtensions
@@ -41,9 +44,6 @@ export const getEmailExtensions = () => [
   Typography,
   Placeholder.configure({        
     placeholder: 'Write something …',
-  }),
-  Link.configure({
-    openOnClick: false,
   }),
   ImageWithExplanation.configure({
     inline: false,

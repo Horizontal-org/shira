@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react'
 import { ExplanationIcon } from '@shira/ui'
-import { useLink } from './hooks/useLink'
+import { useLink } from '../hooks/useLink'
 import { FiBold, FiItalic, FiCode, FiList, FiLink, FiUnderline, FiImage } from 'react-icons/fi'
 import { 
   TbStrikethrough, 
@@ -27,8 +27,9 @@ import {
   InputColorWrapper,
   InputColor,
   ExplanationIconWrapper
-} from './styles/MenuBarStyles'
-import {  isTableCellEmpty } from './utils'
+} from '../styles/MenuBarStyles'
+import {  isTableCellEmpty } from '../utils'
+import { MenuLink } from './MenuLink'
 
 interface MenuBarProps {
   editor: any
@@ -197,50 +198,13 @@ export const MenuBar = ({
         h5
       </Heading>
 
-      <IconWrapper 
-        active={!!(editor.isActive('link') || (isImageSelected && links.getCurrentLink()))}
-        disabled={!!(
-        !editor.isActive('link') && 
-        (
-          editor.view.state.selection.empty || 
-          isTableCellEmpty(editor)
-        ) &&
-        !isImageSelected
-      )}
-        onClick={() => {
-          const selection = editor.view.state.selection
-          
-          const isCellSelection = selection.$anchorCell && selection.$headCell
-          
-          if (isImageSelected) {
-            const currentLink = links.getCurrentLink()
-            if (currentLink) {
-              setLink(currentLink)
-            } else {
-              setLink()
-            }
-            return
-          }
-          
-          // Check if should return early (disabled)
-          if (!editor.isActive('link') && 
-              (selection.empty || (isCellSelection && isTableCellEmpty(editor)))) {
-              console.log('link disabled')
-              return 
-          }
-          
-          const isActive = editor.isActive('link')
-          if (isActive) {
-            setLink(editor.getAttributes('link').href || null)
-          } else {
-            setLink()
-          }
-        }}
-      >
-        <FiLink size={18} />
-      </IconWrapper>
-
-
+      <MenuLink 
+        editor={editor}
+        setLink={setLink}
+        links={links}
+        isImageSelected={isImageSelected}
+      />
+      
       <Separate />
 
       <InputColorWrapper>
