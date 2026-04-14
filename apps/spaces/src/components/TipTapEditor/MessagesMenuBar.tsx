@@ -6,18 +6,20 @@ import {
   MenuWrapper,
   IconWrapper,
 } from './styles/MessagesMenuBarStyles'
+import { MenuLink } from './components/MenuLink'
+import { useLink } from './hooks/useLink'
 
 interface MessagesMenuBarProps {
   editor: any
-  onAddTextExplanation?: () => void
-  onRemoveTextExplanation?: () => void
-  canAddTextExplanation?: boolean
-  isTextExplanationActive?: boolean
+  setLink: (url?: string | null) => void
 }
 
 export const MessagesMenuBar = ({ 
   editor,
+  setLink,
 }: MessagesMenuBarProps) => {
+
+  const links = useLink(editor)
 
   if (!editor) {
     return null
@@ -46,25 +48,12 @@ export const MessagesMenuBar = ({
         <TbStrikethrough size={19} />
       </IconWrapper>
 
-      {/* pending decision */}
-      {/* <ExplanationIconWrapper
-        onClick={onAddTextExplanation}
-        disabled={!canAddTextExplanation}
-        title="Add text explanation"
-      >
-        <ExplanationIcon />
-      </ExplanationIconWrapper>
-
-
-      {isTextExplanationActive && (
-        <ExplanationIconWrapper
-          onClick={onRemoveTextExplanation}
-          title="Remove text explanation"
-        >
-          <ExplanationIcon/>          
-          <MdClear color='#e91e63' size={18}/>
-        </ExplanationIconWrapper>
-      )}  */}
+      <MenuLink 
+        editor={editor}
+        setLink={setLink}
+        links={links}
+        isImageSelected={false}
+      />
 
     </MenuWrapper>
   )

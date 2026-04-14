@@ -1,6 +1,6 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { LayoutMainContent, LayoutMainContentWrapper } from "../LayoutStyleComponents/LayoutMainContent";
-import { BetaBanner, Body1, Button, defaultTheme, EmptyState, H2, Link1, Sidebar, styled, SubHeading3, useAdminSidebar } from "@shira/ui";
+import { Body1, Button, defaultTheme, EmptyState, H2, Link1, Sidebar, styled, SubHeading3, useAdminSidebar } from "@shira/ui";
 import { LayoutContainer } from "../LayoutStyleComponents/LayoutContainer";
 import { Trans, useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -21,6 +21,7 @@ import { FiDownload } from "react-icons/fi";
 import { BulkInviteSentModal } from "../modals/BulkInviteSentModal";
 import { useSub } from "../../hooks/useSub";
 import { ViewPlansModal } from "../modals/ViewPlansModal";
+import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
 
 interface Props { }
 
@@ -143,7 +144,8 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
       />
 
       <LayoutMainContent $isCollapsed={isCollapsed}>
-        <BetaBanner url="https://shira.app/beta-user" />
+
+        <MobileResponsivenessBanner />
 
         <LayoutMainContentWrapper>
           <HeaderContainer>
