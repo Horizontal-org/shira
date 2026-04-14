@@ -1,3 +1,4 @@
+import { StarterQuizRestrictionHandlerService } from './services/starter-quiz-restriction-handler.subscription.service';
 import { TYPES } from './interfaces'
 import { ShiraPaymentsLoggerService } from './services/shira-payments-logger.service'
 import { ShiraPaymentsService } from './services/shira-payments.service'
@@ -19,6 +20,11 @@ export const subscriptionCache = {
   useClass: SubscriptionCacheService,
 };
 
+export const starterQuizRestrictionHandlerService = {
+  provide: TYPES.services.IStarterQuizRestrictionHandlerService,
+  useClass: StarterQuizRestrictionHandlerService,
+};
+
 export const validateSubscriptionService = {
   provide: TYPES.services.IValidateSubscriptionService,
   useClass: ValidateSubscriptionService,
@@ -28,5 +34,6 @@ export const subscriptionServiceProviders = [
   paymentsLogger,
   shiraPayments,
   subscriptionCache,
-  validateSubscriptionService
+  starterQuizRestrictionHandlerService,
+  validateSubscriptionService,
 ]

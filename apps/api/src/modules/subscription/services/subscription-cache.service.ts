@@ -2,6 +2,7 @@ import { Inject, Injectable, Logger } from "@nestjs/common";
 import Redis from "ioredis";
 import { REDIS } from "../providers/redis.provider";
 import { CachedSubscription } from "../dto/cached-response.dto";
+import { IStarterQuizRestrictionHandlerService } from "../interfaces/services/starter-quiz-restriction-handler.subscription.service.interface";
 import { ISubscriptionCacheService } from "../interfaces/services/subscription-cache.service.interface";
 import { IShiraPaymentsService } from "../interfaces/services/shira-payments.service.interface";
 import { TYPES } from "../interfaces";
@@ -16,6 +17,8 @@ export class SubscriptionCacheService implements ISubscriptionCacheService {
     private readonly redis: Redis,
     @Inject(TYPES.services.IShiraPaymentsService)
     private readonly shiraPaymentsService: IShiraPaymentsService,
+    @Inject(TYPES.services.IStarterQuizRestrictionHandlerService)
+    private readonly starterQuizRestrictionHandlerService: IStarterQuizRestrictionHandlerService,
   ) { }
 
   async getCurrentSubscription(organizationId: string): Promise<CachedSubscription> {
@@ -39,6 +42,10 @@ export class SubscriptionCacheService implements ISubscriptionCacheService {
         organizationId,
         (response?.subscription as Record<string, unknown> | undefined) ?? fallbackSubscription,
       );
+
+      if (this.isSubscriptionRestricted(normalized)) {
+        await this.starterQuizRestrictionHandlerService.execute(organizationId);
+      }
 
       await this.setCache(cacheKey, normalized);
       return normalized;
@@ -87,5 +94,9 @@ export class SubscriptionCacheService implements ISubscriptionCacheService {
       type: "starter",
       createdAt: null,
     };
+  }
+
+  private isSubscriptionRestricted(subscription: CachedSubscription): boolean {
+    return subscription.status === "canceled" || subscription.type === "starter";
   }
 }

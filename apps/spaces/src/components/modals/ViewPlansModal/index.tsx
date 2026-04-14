@@ -6,6 +6,7 @@ import { FiX } from "react-icons/fi";
 import { checkoutSubscription, navigateToManageSubscription } from "../../../fetch/auth";
 import { useStore } from "../../../store";
 import { HelpTooltipIcon } from "./utils";
+import { useSub } from "../../../hooks/useSub";
 
 interface Props {
   isModalOpen: boolean;
@@ -20,15 +21,15 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
 }) => {
   const { t } = useTranslation();
   const theme = useTheme();
+  const { isSubActive } = useSub();
+
   const subscriptionType = useStore((state) => state.subscription?.type);
-  const subscriptionStatus = useStore((state) => state.subscription?.status);
 
   const normalizedSubscriptionType = subscriptionType?.toLowerCase().trim();
-  const isActiveSubscription = subscriptionStatus === "active";
 
-  const isCurrentStarterPlan = normalizedSubscriptionType === "starter";
-  const isCurrentProPlan = normalizedSubscriptionType === "pro" && isActiveSubscription;
-  const isCurrentEnterprisePlan = normalizedSubscriptionType === "enterprise" && isActiveSubscription;
+  const isCurrentStarterPlan = normalizedSubscriptionType === "starter" || !isSubActive;
+  const isCurrentProPlan = normalizedSubscriptionType === "pro" && isSubActive;
+  const isCurrentEnterprisePlan = normalizedSubscriptionType === "enterprise" && isSubActive;
 
   const starterButtonText = isCurrentStarterPlan
     ? t("modals.view_plans.actions.current_plan")
