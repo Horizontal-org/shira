@@ -1,6 +1,6 @@
 export const TYPES = {
   services: {
-    IPublicQuizLimitHandlerService: 'IEnforceStarterPublicQuizLimitService',
+    IStarterQuizRestrictionHandlerService: 'IStarterQuizRestrictionHandlerService',
     ISubscriptionCacheService: 'ISubscriptionCacheService',
     IShiraPaymentsService: 'IShiraPaymentsService',
     IShiraPaymentsLoggerService: 'IShiraPaymentsLoggerService',

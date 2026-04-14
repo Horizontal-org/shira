@@ -1,4 +1,4 @@
-import { PublicQuizLimitHandlerService } from './services/public-quiz-limit-handler.subscription.service';
+import { StarterQuizRestrictionHandlerService } from './services/starter-quiz-restriction-handler.subscription.service';
 import { TYPES } from './interfaces'
 import { ShiraPaymentsLoggerService } from './services/shira-payments-logger.service'
 import { ShiraPaymentsService } from './services/shira-payments.service'
@@ -20,9 +20,9 @@ export const subscriptionCache = {
   useClass: SubscriptionCacheService,
 };
 
-export const enforceStarterPublicQuizLimitService = {
-  provide: TYPES.services.IPublicQuizLimitHandlerService,
-  useClass: PublicQuizLimitHandlerService,
+export const starterQuizRestrictionHandlerService = {
+  provide: TYPES.services.IStarterQuizRestrictionHandlerService,
+  useClass: StarterQuizRestrictionHandlerService,
 };
 
 export const validateSubscriptionService = {
@@ -34,6 +34,6 @@ export const subscriptionServiceProviders = [
   paymentsLogger,
   shiraPayments,
   subscriptionCache,
-  enforceStarterPublicQuizLimitService,
+  starterQuizRestrictionHandlerService,
   validateSubscriptionService,
 ]
