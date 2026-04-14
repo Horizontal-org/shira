@@ -5,6 +5,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { ApiLogger } from './utils/logger/api-logger.service';
 import { LoggingInterceptor } from './utils/interceptors/logging.interceptor';
 import * as cookieParser from 'cookie-parser';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function validateJwt() {
   const JWT_SECRET = process.env.JWT_SECRET
@@ -17,7 +18,7 @@ async function validateJwt() {
 async function bootstrap() {
   validateJwt()
 
-  const app = await NestFactory.create(IndexModule);
+  const app = await NestFactory.create<NestExpressApplication>(IndexModule);
 
   const apiLogger = new ApiLogger();
 
@@ -38,6 +39,8 @@ async function bootstrap() {
     }),
   );
 
+  app.set('trust proxy', 1); // TRUST NGINX
+  
   await app.listen(3000);
 }
 
