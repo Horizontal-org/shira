@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Question } from 'src/modules/question/domain';
 import { Quiz } from 'src/modules/quiz/domain/quiz.entity';
@@ -17,7 +17,10 @@ export class StarterQuizRestrictionHandlerService implements IStarterQuizRestric
     private readonly quizRepo: Repository<Quiz>,
   ) { }
 
+  private readonly logger = new Logger(StarterQuizRestrictionHandlerService.name);
+
   async execute(organizationId: string): Promise<void> {
+    this.logger.debug(`Unpublishing quizzes for organization ${organizationId}`);
     await this.unpublishPublicQuizzes(organizationId);
     await this.unpublishPrivateQuizzes(organizationId);
   }
