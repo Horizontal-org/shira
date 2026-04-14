@@ -11,7 +11,6 @@ import {
   CopyUrlIcon,
   DeleteIcon,
   Toggle,
-  BetaBanner,
   Body2Regular,
   defaultTheme,
   Body4,
@@ -38,6 +37,7 @@ import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
 import { DuplicateQuizModal } from "../modals/DuplicateQuizModal";
 import { useQuizCreationFlow } from "../../hooks/useQuizCreationFlow";
 import { useSub } from "../../hooks/useSub";
+import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
 
 interface Props { }
 
@@ -204,7 +204,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
       />
 
       <MainContent $isCollapsed={isCollapsed}>
-        <BetaBanner url="https://shira.app/beta-user" />
+        <MobileResponsivenessBanner />
         <MainContentWrapper>
 
           {quiz ? (

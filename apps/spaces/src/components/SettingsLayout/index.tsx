@@ -1,5 +1,5 @@
 import { FunctionComponent, useCallback, useState } from "react";
-import { BetaBanner, Body1, H2, Sidebar, styled, useAdminSidebar } from '@shira/ui';
+import { Body1, H2, Sidebar, styled, useAdminSidebar } from '@shira/ui';
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useStore } from "../../store";
@@ -14,6 +14,7 @@ import { enUS } from "date-fns/locale";
 import { format, isValid } from "date-fns";
 import { requestChangeUserEmail, changeUserPassword } from "../../fetch/user";
 import { TabContainer } from "./components/TabContainer";
+import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
 
 interface Props { }
 
@@ -84,7 +85,8 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
       />
 
       <MainContent $isCollapsed={isCollapsed}>
-        <BetaBanner url="https://shira.app/beta-user" />
+
+        <MobileResponsivenessBanner />
 
         <MainContentWrapper>
           <HeaderContainer>

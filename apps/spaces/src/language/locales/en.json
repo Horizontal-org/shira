@@ -1,4 +1,8 @@
 {
+    "banner": {
+        "label": "NOTE",
+        "message": "Shira spaces is not yet available on smaller screens. For a better experience, please access spaces using a screen wider than 800px."
+    },
     "login": {
         "title": "Log in",
         "subtitle": "Log in to access your custom Shira space.",
