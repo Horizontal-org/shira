@@ -2,6 +2,7 @@ import { FunctionComponent, useState } from "react";
 import { Body1SemiBold, Body2Italic, Body2Regular, Button, styled, useTheme } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 import { navigateToManageSubscription } from "../../../fetch/auth";
+import { useSub } from "../../../hooks/useSub";
 
 type TabType = "account" | "subscription";
 
@@ -25,12 +26,17 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   const { t } = useTranslation();
   const theme = useTheme();
   const [activeTab, setActiveTab] = useState<TabType>("account");
-  const currentPlanName = String(subscription?.type ?? "unknown").toLowerCase();
+
+  const { isSubActive } = useSub();
+
+  const currentPlanName = isSubActive ? String(subscription?.type ?? "unknown").toLowerCase() : "starter";
   const formattedCurrentPlanName = currentPlanName.charAt(0).toUpperCase() + currentPlanName.slice(1);
 
   const subscriptionActionText = formattedCurrentPlanName === 'Starter'
     ? t('settings.subscription.upgrade')
     : t('settings.subscription.manage_plan');
+
+  console.log('subscriptionActionText:', subscriptionActionText);
 
   return (
     <Container>
