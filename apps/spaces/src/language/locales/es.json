@@ -18,7 +18,8 @@
         "message": "",
         "support": "Soporte",
         "settings": "Configuración",
-        "logout": "Cerrar sesión"
+        "logout": "Cerrar sesión",
+        "dashboard": "Panel"
     },
     "dashboard": {
         "message": "",
@@ -158,7 +159,8 @@
                     "edit_title": "Editar Enlace",
                     "subtitle": "En el cuestionario, este enlace aparecerá cliqueable, pero por motivos de seguridad, hacer clic en él no abrirá la URL.",
                     "placeholder": "Enlace URL"
-                }
+                },
+                "explanation_tooltip": "Selecciona algún texto o imagen para añadir una explicación."
             },
             "preview": {
                 "tab_title": "Previsualizar",
@@ -284,7 +286,8 @@
         "learn_more": "Aprende más",
         "manage_plan": "Administrar plan",
         "back_to_quizzes": "Volver a cuestionarios",
-        "go_to_settings": "Ir a las configuraciones"
+        "go_to_settings": "Ir a las configuraciones",
+        "no_thanks": "No, gracias"
     },
     "modals": {
         "message": "",
@@ -494,26 +497,34 @@
                     "cloud_on_premise": "Cloud y en infraestructura propia",
                     "one_admin": "1 admin",
                     "unlimited": "Ilimitado",
-                    "up_to_three_custom_quizzes": "Hasta 3 cuestionarios personalizados"
+                    "up_to_three_custom_quizzes": "Hasta 3 cuestionarios personalizados",
+                    "available_upon_request": "Disponible a solicitud",
+                    "three_business_day_response_time": "Tiempo de respuesta de 3 días hábiles",
+                    "one_business_day_response_time": "Tiempo de respuesta de hasta 1 día hábil"
                 },
                 "tooltips": {
-                    "hosting": "[ADD TOOLTIP COPY]",
-                    "admin_dashboard": "[ADD TOOLTIP COPY]",
-                    "number_of_admins": "Cuentas admin ilimitadas próximamente",
-                    "customizable_questions": "[ADD TOOLTIP COPY]",
-                    "apps_available": "Gmail, Outlook, SMS, WhatsApp, Messenger, app de Citas",
+                    "hosting": "Deja que el equipo de Shira aloje y de mantenimiento a tu Shira (cloud) o instálala en tus propios servidores (on-premise)",
+                    "admin_dashboard": "Un lugar central donde gestionar tus campañas de educación sobre phishing",
+                    "number_of_admins": "Las Admins son personas usuarias que pueden crear y gestionar campañas de educación sobre el phishing.",
+                    "customizable_questions": "Crea preguntas de cuestionarios adaptadas a las necesidades de tus estudiantes",
+                    "apps_available": "Crea preguntas de cuestionarios utilizando interfaces que se ven exactamente cómo las aplicaciones reales que tus estudiantes usan.",
                     "public_quizzes": "Cualquiera puede completar tu cuestionario a través de una URL fácil de compartir",
                     "private_quizzes": "Solo estudiantes con registro en tu espacio pueden completar tus cuestionarios",
                     "basic_analytics": "Monitorea resultados a nivel de cuestionario",
-                    "detailed_analytics": "Monitorea resultados en los niveles de estudiante y pregunta",
-                    "analysis_tools": "Próximamente"
+                    "detailed_analytics": "Monitorea resultados a niveles de estudiantes y preguntas",
+                    "analysis_tools": "Exporta los resultados de tu equipo a informes CSV o PDF",
+                    "question_library": "Accede a decenas de plantillas de preguntas predefinidas",
+                    "custom_quizzes": "La cantidad de cuestionarios que puedes crear en tu Espacio",
+                    "tailor_made_training": "Taller de desarrollo de habilidades personalizado por el equipo de Shira para tu organización",
+                    "priority_support": "Tiempo de respuesta rápido para garantizar una experiencia fluida"
                 }
             },
             "plans": {
                 "starter": {
                     "title": "Inicial",
                     "description": "Para probar y familiarizarse con Shira",
-                    "cta": "Empezar"
+                    "cta": "Empezar",
+                    "price": "Gratuito"
                 },
                 "pro": {
                     "title": "Pro",
@@ -527,6 +538,24 @@
                     "price": "Precio personalizado",
                     "cta": "Contáctanos"
                 }
+            }
+        },
+        "quiz_limit": {
+            "title": "¿Todo listo para actualizar?",
+            "message_1": "En el Plan Inicial, puedes crear hasta 3 cuestionarios.",
+            "message_2": "Prueba Shira Pro de manera gratuita durante 14 días para crear más cuestionarios personalizados."
+        },
+        "first_login": {
+            "title": "Te damos la bienvenida a tu Espacio",
+            "description": "Actualmente estás en el plan {{planName}}.",
+            "actions": {
+                "view_plans": "Ver planes",
+                "get_started": "Empezar"
+            },
+            "plan_names": {
+                "starter": "Inicial",
+                "pro": "Pro",
+                "enterprise": "Enterprise"
             }
         }
     },
@@ -701,7 +730,8 @@
             "no_learners": "No hay estudiantes con registro en tu espacio.",
             "all_learners_registered": "Ya se le ha asignado este cuestionario a todas las personas estudiantes registradas.",
             "disabled_tooltip": "Crea al menos 1 pregunta para asignar este cuestionario a estudiantes."
-        }
+        },
+        "sub_required": "Esta función no está disponible en tu plan actual. <0> Ver planes</0>"
     },
     "confirm_email_update": {
         "message": "",
@@ -852,5 +882,9 @@
             "all_done": "¡Todo listo!",
             "success_message": "Tu pago fue exitoso. Estamos activando tu suscripción ahora."
         }
+    },
+    "banner": {
+        "label": "NOTA",
+        "message": "Los espacios de Shira aún no están disponibles en pantallas pequeñas. Para una mejor experiencia, por favor accede a espacios utilizando una pantalla mayor a 800px."
     }
 }
