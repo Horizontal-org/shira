@@ -1,6 +1,6 @@
-import { FunctionComponent, MouseEvent, useCallback, useEffect, useState } from "react";
+import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { LayoutMainContent, LayoutMainContentWrapper } from "../LayoutStyleComponents/LayoutMainContent";
-import { BetaBanner, Body1, Button, defaultTheme, EmptyState, H2, Link1, Link3, Sidebar, styled, SubHeading3, useAdminSidebar } from "@shira/ui";
+import { BetaBanner, Body1, Button, defaultTheme, EmptyState, H2, Link1, Sidebar, styled, SubHeading3, useAdminSidebar } from "@shira/ui";
 import { LayoutContainer } from "../LayoutStyleComponents/LayoutContainer";
 import { Trans, useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
