@@ -1,0 +1,859 @@
+{
+    "login": {
+        "title": "",
+        "subtitle": "",
+        "email_placeholder": "",
+        "password_placeholder": "",
+        "reset_password": "",
+        "login_header_button": ""
+    },
+    "reset_password": {
+        "title": "",
+        "subtitle": "",
+        "email_placeholder": "",
+        "send_button": "",
+        "success_title": "",
+        "success_description": "",
+        "success_info": "",
+        "create_title": "",
+        "create_subtitle": "",
+        "new_password_placeholder": "",
+        "confirm_password_placeholder": "",
+        "reset_button": "",
+        "reset_success_title": "",
+        "reset_success_description": "",
+        "expired_title": "",
+        "expired_description": "",
+        "validation": {
+            "email_required": "",
+            "invalid_email": "",
+            "password_required": "",
+            "password_min_length": "",
+            "confirm_password_required": "",
+            "passwords_mismatch": "",
+            "incorrect_password": ""
+        }
+    },
+    "confirm_email_update": {
+        "success_title": "",
+        "success_description": ""
+    },
+    "beta": {
+        "label": "",
+        "message": "",
+        "click_here": "",
+        "feedback_text": ""
+    },
+    "left_menu": {
+        "dashboard": "",
+        "support": "",
+        "settings": "",
+        "logout": ""
+    },
+    "dashboard": {
+        "title": "",
+        "subtitle": "",
+        "create_quiz_button": "",
+        "create_limit_reached": ""
+    },
+    "learners": {
+        "title": "",
+        "subtitle": "",
+        "empty_state": "",
+        "sub_required": "",
+        "table": {
+            "learner": "",
+            "registration": "",
+            "quiz_status": "",
+            "invited_at": "",
+            "invited_tag": "",
+            "registered_tag": "",
+            "submitted_tag": "",
+            "not_submitted_tag": ""
+        },
+        "assign_dialog": {
+            "registered_title": "",
+            "registered_description": "",
+            "registered_description_2": "",
+            "assign_button": "",
+            "assign_title": "",
+            "no_learners": "",
+            "all_learners_registered": "",
+            "disabled_tooltip": ""
+        }
+    },
+    "quizzes": {
+        "filter": {
+            "all_quizzes": "",
+            "published": "",
+            "unpublished": ""
+        },
+        "last_modified": "",
+        "publish_toggle": "",
+        "actions": {
+            "edit": "",
+            "duplicate": ""
+        }
+    },
+    "quiz": {
+        "public_subtitle": "",
+        "private_subtitle": "",
+        "publish_toggle": {
+            "published": "",
+            "unpublished": "",
+            "disabled_tooltip": ""
+        },
+        "actions": {
+            "rename": "",
+            "duplicate": "",
+            "copy_link": "",
+            "disabled_tooltip": "",
+            "delete": ""
+        },
+        "tabs": {
+            "questions": "",
+            "results": "",
+            "learners": ""
+        },
+        "visibility": {
+            "public": "",
+            "private": ""
+        }
+    },
+    "questions_tab": {
+        "create_question_button": "",
+        "add_from_library_button": "",
+        "action_tooltips": {
+            "edit": "",
+            "duplicate": "",
+            "delete": ""
+        }
+    },
+    "questions": {
+        "edit": {
+            "tab_header": ""
+        }
+    },
+    "no_questions": {
+        "subtitle": ""
+    },
+    "learner_quiz_tab": {
+        "empty_state": {
+            "description": ""
+        },
+        "table": {
+            "description": ""
+        }
+    },
+    "create_question": {
+        "header_title": "",
+        "tabs": {
+            "question_info": {
+                "tab_title": "",
+                "question_name": {
+                    "title": "",
+                    "subtitle": "",
+                    "question_name_placeholder": ""
+                },
+                "phishing": {
+                    "title": "",
+                    "yes": "",
+                    "no": ""
+                },
+                "apps": {
+                    "title": ""
+                }
+            },
+            "content": {
+                "tab_title": "",
+                "phishing": "",
+                "legitimate": "",
+                "message": "",
+                "message2": "",
+                "message3": "",
+                "message_variables": "",
+                "message_explanations": "",
+                "explanation_content_placeholder": "",
+                "explanation_tooltip": "",
+                "sender": {
+                    "title": "",
+                    "subtitle": "",
+                    "placeholder": ""
+                },
+                "sender_email": {
+                    "title": "",
+                    "subtitle": "",
+                    "placeholder": ""
+                },
+                "email_subject": {
+                    "title": "",
+                    "subtitle": "",
+                    "placeholder": ""
+                },
+                "email_body_content": {
+                    "title": "",
+                    "subtitle": ""
+                },
+                "attachment_button": "",
+                "explanations": {
+                    "title": ""
+                },
+                "sender_phone": {
+                    "title": "",
+                    "subtitle": "",
+                    "placeholder": ""
+                },
+                "message_content": {
+                    "title": "",
+                    "subtitle": ""
+                },
+                "add_message_text": "",
+                "add_image_attachment": "",
+                "upload_image": "",
+                "message_text": "",
+                "link_text": {
+                    "set_title": "",
+                    "edit_title": "",
+                    "subtitle": "",
+                    "placeholder": ""
+                }
+            },
+            "preview": {
+                "tab_title": "",
+                "subtitle": "",
+                "show_explanations": "",
+                "hide_explanations": "",
+                "next_explanation": "",
+                "previous_explanation": "",
+                "no_explanations": "",
+                "aria_label": ""
+            }
+        }
+    },
+    "question_library": {
+        "tab_header_title": "",
+        "title": "",
+        "subtitle": "",
+        "columns": {
+            "question_name": "",
+            "type": {
+                "title": "",
+                "phishing": "",
+                "legitimate": ""
+            },
+            "language": {
+                "title": "",
+                "placeholder": ""
+            },
+            "app": {
+                "title": "",
+                "messaging_type": "",
+                "email_type": "",
+                "apps": {
+                    "whatsapp": "",
+                    "facebook_messenger": "",
+                    "dating_app": "",
+                    "sms": "",
+                    "gmail": "",
+                    "outlook": ""
+                }
+            },
+            "actions": {
+                "title": "",
+                "add_aria_label": "",
+                "preview_aria_label": "",
+                "disabled_tooltip": ""
+            }
+        }
+    },
+    "results_tab": {
+        "title": "",
+        "completed_quizzes": {
+            "title": "",
+            "subtitle": ""
+        },
+        "average_score": {
+            "title": "",
+            "subtitle": "",
+            "empty_subtitle": ""
+        },
+        "rate": {
+            "title": "",
+            "subtitle": ""
+        },
+        "by_question": {
+            "title": "",
+            "description": "",
+            "empty_state": "",
+            "table": {
+                "type": "",
+                "question_name": "",
+                "score": "",
+                "loading": ""
+            }
+        },
+        "by_learner": {
+            "title": "",
+            "description": "",
+            "empty_state": "",
+            "table": {
+                "learner": "",
+                "date": "",
+                "score": "",
+                "loading": ""
+            }
+        }
+    },
+    "learners_bulk_import": {
+        "header_title": "",
+        "tabs": {
+            "upload_csv": {
+                "tab_title": "",
+                "subtitle": "",
+                "section_title": "",
+                "drag_title": "",
+                "or": "",
+                "file_type": "",
+                "file_size": "",
+                "remove_file": "",
+                "upload_complete": "",
+                "upload_success": "",
+                "uploading": "",
+                "invalid_file_format": "",
+                "invalid_file_format_description": "",
+                "upload_error": "",
+                "upload_error_description": "",
+                "too_many_rows_error": "",
+                "too_many_rows_error_description": "",
+                "invalid_formatting": "",
+                "invalid_formatting_description": ""
+            },
+            "verify_learners": {
+                "tab_title": "",
+                "subtitle": "",
+                "error_tab": "",
+                "skipped_tab": "",
+                "valid_tab": "",
+                "description_error": "",
+                "description_skipped": "",
+                "description_valid": "",
+                "table_row": "",
+                "table_name": "",
+                "table_email": "",
+                "table_error": "",
+                "table_skip_reason": "",
+                "table_status": "",
+                "validated": "",
+                "empty_error": "",
+                "empty_skipped": "",
+                "empty_valid": "",
+                "upload_tooltip": ""
+            },
+            "review": {
+                "tab_title": "",
+                "subtitle": "",
+                "table_row": "",
+                "table_name": "",
+                "table_email": "",
+                "table_status": ""
+            }
+        }
+    },
+    "support": {
+        "title": "",
+        "subtitle": ""
+    },
+    "settings": {
+        "title": "",
+        "subtitle": "",
+        "tabs": {
+            "account": "",
+            "subscription": ""
+        },
+        "subscription": {
+            "current_plan": "",
+            "view_plans": "",
+            "manage_plan": "",
+            "upgrade": ""
+        },
+        "sections": {
+            "email": {
+                "title": "",
+                "action": ""
+            },
+            "password": {
+                "title": "",
+                "last_updated": "",
+                "action": ""
+            }
+        },
+        "checkout_success": {
+            "all_done": "",
+            "success_message": ""
+        }
+    },
+    "buttons": {
+        "ok": "",
+        "cancel": "",
+        "no_thanks": "",
+        "close": "",
+        "exit": "",
+        "save": "",
+        "back": "",
+        "delete": "",
+        "next": "",
+        "continue": "",
+        "login": "",
+        "send_invitation": "",
+        "send_invitations": "",
+        "try_again": "",
+        "unassign": "",
+        "invite_learner": "",
+        "invite_learners_bulk": "",
+        "delete_learners": "",
+        "unassign_learners": "",
+        "assign_via_email": "",
+        "start_over": "",
+        "feedback": "",
+        "download_template": "",
+        "view_guidelines": "",
+        "browse_files": "",
+        "i_understand": "",
+        "back_home": "",
+        "learn_more": "",
+        "manage_plan": "",
+        "back_to_quizzes": "",
+        "go_to_settings": ""
+    },
+    "modals": {
+        "create_quiz": {
+            "button": "",
+            "title": "",
+            "placeholder": ""
+        },
+        "duplicate_quiz": {
+            "title": "",
+            "subtitle": "",
+            "quiz_name": "",
+            "quiz_name_placeholder": ""
+        },
+        "quiz_limit": {
+            "title": "",
+            "message_1": "",
+            "message_2": ""
+        },
+        "first_login": {
+            "title": "",
+            "description": "",
+            "actions": {
+                "view_plans": "",
+                "get_started": ""
+            },
+            "plan_names": {
+                "starter": "",
+                "pro": "",
+                "enterprise": ""
+            }
+        },
+        "rename_quiz": {
+            "title": "",
+            "input_placeholder": ""
+        },
+        "quiz_visibility": {
+            "title": "",
+            "subtitle": "",
+            "description": "",
+            "public_option": {
+                "title": "",
+                "description": ""
+            },
+            "private_option": {
+                "title": "",
+                "description": "",
+                "forbidden_tooltip": "",
+                "forbidden": ""
+            }
+        },
+        "publish_quiz": {
+            "title": "",
+            "private_subtitle_1": "",
+            "private_subtitle_2": "",
+            "public_subtitle_1": "",
+            "submit": "",
+            "close": ""
+        },
+        "unpublish_quiz_with_questions": {
+            "title": "",
+            "message": "",
+            "confirm": ""
+        },
+        "delete_quiz": {
+            "title": "",
+            "subtitle": "",
+            "note": "",
+            "message": ""
+        },
+        "delete_question": {
+            "title": "",
+            "message": "",
+            "note": "",
+            "warning": ""
+        },
+        "unpublish_quiz_on_delete": {
+            "title": "",
+            "message": "",
+            "confirm": ""
+        },
+        "exit_question": {
+            "title": "",
+            "message": ""
+        },
+        "csv_formatting_guidelines": {
+            "title": "",
+            "header_row_title": "",
+            "header_row_body": "",
+            "first_column_title": "",
+            "first_column_body": "",
+            "second_column_title": "",
+            "second_column_body": "",
+            "footer": ""
+        },
+        "exit_bulk_import": {
+            "title": "",
+            "message": ""
+        },
+        "bulk_invite_sent": {
+            "title": "",
+            "description": ""
+        },
+        "edit_question_confirmation": {
+            "title": "",
+            "message": ""
+        },
+        "attachment_file": {
+            "title": "",
+            "file_name": "",
+            "file_type": "",
+            "field_type": {
+                "title:": "",
+                "image": "",
+                "video": "",
+                "audio": "",
+                "document": "",
+                "other": ""
+            }
+        },
+        "variables_modal": {
+            "title": "",
+            "message": "",
+            "message2": "",
+            "message3": "",
+            "name": "",
+            "name_explanation": "",
+            "email": "",
+            "email_explanation": "",
+            "ok": ""
+        },
+        "explanations_modal": {
+            "title": "",
+            "message": "",
+            "message2": "",
+            "list": {
+                "fields": "",
+                "content": "",
+                "attachments": ""
+            },
+            "ok": ""
+        },
+        "no_explanations": {
+            "title": "",
+            "message": "",
+            "add": ""
+        },
+        "invite_learner": {
+            "title": "",
+            "subtitle": "",
+            "name_placeholder": "",
+            "email_placeholder": ""
+        },
+        "delete_learner": {
+            "title": "",
+            "subtitle": ""
+        },
+        "delete_learners": {
+            "title": "",
+            "subtitle": ""
+        },
+        "unassign_learner": {
+            "title": "",
+            "subtitle": ""
+        },
+        "unassign_learners_plural": {
+            "title": "",
+            "subtitle": ""
+        },
+        "start_over_bulk_import": {
+            "title": "",
+            "message": ""
+        },
+        "change_email": {
+            "title": "",
+            "subtitle": "",
+            "input_placeholder": ""
+        },
+        "change_email_success": {
+            "title": "",
+            "description": "",
+            "didnt_receive": "",
+            "button": ""
+        },
+        "change_password": {
+            "title": "",
+            "subtitle": "",
+            "current_password_placeholder": "",
+            "new_password_placeholder": "",
+            "confirm_password_placeholder": ""
+        },
+        "view_plans": {
+            "title": "",
+            "modal_title": "",
+            "actions": {
+                "current_plan": "",
+                "downgrade": "",
+                "learn_more": ""
+            },
+            "comparison": {
+                "title": "",
+                "admin_management": "",
+                "customization": "",
+                "access_control": "",
+                "compliance": "",
+                "custom_support": "",
+                "rows": {
+                    "hosting": "",
+                    "admin_dashboard": "",
+                    "number_of_admins": "",
+                    "customizable_questions": "",
+                    "question_library": "",
+                    "custom_quizzes": "",
+                    "apps_available": "",
+                    "public_quizzes": "",
+                    "private_quizzes": "",
+                    "basic_analytics": "",
+                    "detailed_analytics": "",
+                    "analysis_tools": "",
+                    "tailor_made_training": "",
+                    "priority_support": ""
+                },
+                "values": {
+                    "cloud": "",
+                    "cloud_on_premise": "",
+                    "one_admin": "",
+                    "unlimited": "",
+                    "up_to_three_custom_quizzes": "",
+                    "available_upon_request": "",
+                    "three_business_day_response_time": "",
+                    "one_business_day_response_time": ""
+                },
+                "tooltips": {
+                    "hosting": "",
+                    "admin_dashboard": "",
+                    "number_of_admins": "",
+                    "customizable_questions": "",
+                    "question_library": "",
+                    "custom_quizzes": "",
+                    "apps_available": "",
+                    "public_quizzes": "",
+                    "private_quizzes": "",
+                    "basic_analytics": "",
+                    "detailed_analytics": "",
+                    "analysis_tools": "",
+                    "tailor_made_training": "",
+                    "priority_support": ""
+                }
+            },
+            "plans": {
+                "starter": {
+                    "title": "",
+                    "description": "",
+                    "price": "",
+                    "cta": ""
+                },
+                "pro": {
+                    "title": "",
+                    "description": "",
+                    "price": "",
+                    "cta": ""
+                },
+                "enterprise": {
+                    "title": "",
+                    "description": "",
+                    "price": "",
+                    "cta": ""
+                }
+            }
+        }
+    },
+    "error_messages": {
+        "duplicate_quiz_fail": "",
+        "quiz_name_already_exists": "",
+        "duplicate_question_fail": "",
+        "add_question_error": "",
+        "results_load_failed": "",
+        "learner_already_exists": "",
+        "learner_not_found": "",
+        "learner_save_failed": "",
+        "learner_email_send_failed": "",
+        "learner_token_conflict": "",
+        "learner_assignment_failed": "",
+        "invalid_email": "",
+        "something_went_wrong": "",
+        "invite_learner_failed": "",
+        "delete_learner_failed": "",
+        "delete_learners_failed": "",
+        "assign_quiz_failed": "",
+        "unassign_quiz_failed": "",
+        "bulk_import_failed": "",
+        "email_already_taken": "",
+        "invite_org_failed": "",
+        "email_no_match": "",
+        "image_too_large": "",
+        "image_type_unsupported": "",
+        "image_upload_failed": "",
+        "reset_password_confirmation_mismatch": "",
+        "reset_password_weak": "",
+        "current_password_incorrect": "",
+        "invalid_title": "",
+        "email_update_token_invalid": "",
+        "learners_bulk_import": {
+            "missing_name": "",
+            "missing_email": "",
+            "invalid_email": "",
+            "duplicated_email": "",
+            "already_registered": "",
+            "invalid_file_format": {
+                "title": "",
+                "subtitle": ""
+            },
+            "csv_parsing_error": {
+                "title": "",
+                "subtitle": ""
+            },
+            "too_many_rows": {
+                "title": "",
+                "subtitle": ""
+            },
+            "invalid_formatting": {
+                "title": "",
+                "subtitle": ""
+            },
+            "file_too_large": {
+                "title": "",
+                "subtitle": ""
+            }
+        },
+        "invalid_email_update": ""
+    },
+    "success_messages": {
+        "quiz_link_copied": "",
+        "quiz_deleted": "",
+        "quiz_created": "",
+        "quiz_duplicated": "",
+        "quiz_updated": "",
+        "quiz_order_updated": "",
+        "quiz_published": "",
+        "quiz_unpublished": "",
+        "question_created": "",
+        "question_created_2": "",
+        "question_added": "",
+        "question_updated": "",
+        "question_deleted": "",
+        "question_copied": "",
+        "no_questions_found": "",
+        "learner_invitation_sent": "",
+        "learner_invitation_resent": "",
+        "learner_deleted": "",
+        "learners_deleted": "",
+        "learner_assigned": "",
+        "learners_assigned_plural": "",
+        "learner_unassigned": "",
+        "learners_unassigned_plural": "",
+        "password_updated": "",
+        "email_updated": ""
+    },
+    "loading_messages": {
+        "loading": "",
+        "saving": "",
+        "creating": "",
+        "duplicating": "",
+        "learners": "",
+        "loading_library_questions": "",
+        "uploading_image": "",
+        "assigning_quiz_to_learners": "",
+        "assigning_quiz_to_learners_description": "",
+        "sending_invitation": ""
+    },
+    "preview": {
+        "show_explanations": "",
+        "hide_explanations": "",
+        "next_explanation": "",
+        "previous_explanation": "",
+        "no_explanations": "",
+        "add": ""
+    },
+    "select_languages": {
+        "english": "",
+        "spanish": "",
+        "french": "",
+        "mandarin": ""
+    },
+    "get_started": {
+        "title": "",
+        "description": "",
+        "organization_name_required": "",
+        "email_required": "",
+        "org_type_label": "",
+        "loading": "",
+        "org_types": {
+            "business": "",
+            "cibersecurity": "",
+            "non_profit": "",
+            "individual": ""
+        },
+        "button_sign_up": "",
+        "validation": {
+            "org_name_required": "",
+            "email_required": "",
+            "invalid_email": ""
+        },
+        "errors": {
+            "create_space_failed": ""
+        },
+        "success": {
+            "title": "",
+            "description": "",
+            "didnt_receive": ""
+        }
+    },
+    "create_space": {
+        "title": "",
+        "subtitle": "",
+        "form_title": "",
+        "form_description": "",
+        "beta_lead": "",
+        "checking_invitation": "",
+        "email_label": "",
+        "password_label": "",
+        "confirm_password_label": "",
+        "button_create": "",
+        "validation": {
+            "email_required": "",
+            "password_required": "",
+            "password_min_length": "",
+            "passwords_mismatch": ""
+        },
+        "errors": {
+            "create_space_failed": ""
+        }
+    }
+}
