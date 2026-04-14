@@ -1,13 +1,7 @@
 {
-    "beta": {
-        "label": "BETA",
-        "message": "Shira is still in development and you may experience issues.",
-        "feedback_text": "to share your feedback and read about what’s next for Shira!",
-        "click_here": "Click here"
-    },
     "welcome": {
-        "title": "Take a Shira quiz",
-        "subtitle": "Build your anti-phishing skills with a short quiz customized to your needs. Change your language or click on “Start quiz” to get started.",
+        "title": "Welcome to Shira",
+        "subtitle": "Learn to identify and defeat phishing attempts",
         "start": "Start quiz",
         "public_message": "Welcome to your phishing quiz. Change your language or click on \"Start quiz\" to get started.",
         "learn_more": "Learn more about Shira"
@@ -39,11 +33,11 @@
             "items": {
                 "human-rights": "Human rights",
                 "journalism-and-media": "Journalism and media",
-                "human-resources": "Human resources",
                 "education": "Academia",
                 "marketing": "Marketing",
                 "healthcare": "Healthcare",
                 "general": "General",
+                "human-resources": "Human resources",
                 "activist": "Activist"
             }
         }
@@ -51,12 +45,12 @@
     "quiz": {
         "how_it_works": {
             "title": "How it works",
-            "question_count": "This quiz contains {{count}} questions",
             "explanation_1": "This quiz contains 10 questions.",
             "explanation_2": "For each question, select whether the message shown seems like a phishing attempt or seems legitimate.",
             "explanation_3": "If you are not sure, you can select the “I don’t know” option.",
             "footer_title": "Quiz intro",
-            "next": "OK"
+            "next": "OK",
+            "question_count": "This quiz contains {{count}} questions"
         },
         "answers": {
             "options": {
@@ -103,7 +97,7 @@
             },
             "question_3": {
                 "title": "3. How can we improve Shira?",
-                "input_placeholder": "Write your feedback here"
+                "input_placeholder": "Placeholder"
             },
             "bottom_text": "Your feedback will be sent when you click “see results”"
         },
@@ -214,14 +208,8 @@
             "section2": "If that sounds interesting to you or if you have questions, contact us at contact@wearehorizontal.org."
         }
     },
-    "learner_invitation": {
-        "learn_more": "Learn more about Shira",
-        "success_title": "Success!",
-        "error_title": "Something went wrong",
-        "success_joined_space": "You have joined {{spaceName}} on Shira.",
-        "success_hint": "When your organization shares a quiz with you, you will receive an email invitation directly in your inbox.",
-        "error_message": "Try again or contact the person who invited you."
-    },
+    "bottom-bar_looks-legit": "This message does not look like a phishing attempt.",
+    "bottom-bar_looks-like-phishing": "Some elements suggest that this message may be a phishing attempt.",
     "navbar": {
         "home": "Home",
         "about": "About",
@@ -231,6 +219,20 @@
         "take_a_quiz": "Take a quiz",
         "learn": "Learn",
         "get_started": "Get started"
+    },
+    "beta": {
+        "label": "BETA",
+        "message": "Shira is still in development and you may experience issues.",
+        "feedback_text": "to share your feedback and help us improve!",
+        "click_here": "Click here"
+    },
+    "learner_invitation": {
+        "learn_more": "Learn more about Shira",
+        "success_title": "Success!",
+        "error_title": "Something went wrong",
+        "success_joined_space": "You have joined {{spaceName}} on Shira.",
+        "success_hint": "When your organization shares a quiz with you, you will receive an email invitation directly in your inbox.",
+        "error_message": "Try again or contact the person who invited you."
     },
     "loading_messages": {
         "loading": "Loading..."
@@ -243,6 +245,6 @@
     "invalid_invitation": {
         "title": "Sorry, this invitation link is invalid.",
         "description": "You may have used the wrong URL, or the invitation may have expired. Try again or contact the person who invited you.",
-        "home_button": "Go to Shira"    
+        "home_button": "Go to Shira"
     }
 }
