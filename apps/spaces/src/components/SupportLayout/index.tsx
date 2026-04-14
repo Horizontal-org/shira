@@ -1,7 +1,8 @@
 import { FunctionComponent } from "react";
-import { Body1, H1, SettingsFishIcon, Sidebar, styled, useAdminSidebar, BetaBanner } from '@shira/ui'
+import { Body1, H1, SettingsFishIcon, Sidebar, styled, useAdminSidebar } from '@shira/ui'
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
 
 interface Props { }
 
@@ -20,7 +21,7 @@ export const SupportLayout: FunctionComponent<Props> = () => {
       />
 
       <MainContent $isCollapsed={isCollapsed}>
-        <BetaBanner url="https://shira.app/beta-user" />
+        <MobileResponsivenessBanner />
         <MainContentWrapper>
           <HeaderContainer>
             <TextContainer>
