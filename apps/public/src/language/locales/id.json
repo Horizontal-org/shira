@@ -1,0 +1,248 @@
+{
+    "beta": {
+        "label": "",
+        "message": "",
+        "feedback_text": "",
+        "click_here": ""
+    },
+    "welcome": {
+        "title": "",
+        "subtitle": "",
+        "start": "",
+        "public_message": "",
+        "learn_more": ""
+    },
+    "setup": {
+        "name": {
+            "title": "",
+            "subtitle": "",
+            "recommendation": "",
+            "name": "",
+            "email": "",
+            "random_button": "",
+            "next_button": "",
+            "footer_title": ""
+        },
+        "apps": {
+            "title": "",
+            "select": "",
+            "footer_title": "",
+            "back_button": "",
+            "next_button": ""
+        },
+        "fields_of_work": {
+            "title": "",
+            "select": "",
+            "footer_title": "",
+            "back_button": "",
+            "next_button": "",
+            "items": {
+                "human-rights": "",
+                "journalism-and-media": "",
+                "human-resources": "",
+                "education": "",
+                "marketing": "",
+                "healthcare": "",
+                "general": "",
+                "activist": ""
+            }
+        }
+    },
+    "quiz": {
+        "how_it_works": {
+            "title": "",
+            "question_count": "",
+            "explanation_1": "",
+            "explanation_2": "",
+            "explanation_3": "",
+            "footer_title": "",
+            "next": ""
+        },
+        "answers": {
+            "options": {
+                "unsure": "",
+                "legitimate": "",
+                "phising": ""
+            },
+            "results": {
+                "unsure": "",
+                "correct": "",
+                "incorrect": "",
+                "next_button": "",
+                "back_button": "",
+                "next_question": "",
+                "see_why": "",
+                "bottom-bar_looks-legit": "",
+                "bottom-bar_looks-like-phishing": ""
+            }
+        },
+        "exit": {
+            "title": "",
+            "action_description": "",
+            "description": "",
+            "cancel": ""
+        }
+    },
+    "feedback": {
+        "title": "",
+        "subtitle": "",
+        "box": {
+            "question_1": {
+                "title": "",
+                "very_complicated": "",
+                "complicated": "",
+                "easy": "",
+                "very_easy": ""
+            },
+            "question_2": {
+                "title": "",
+                "not_likely": "",
+                "somewhat_likely": "",
+                "likely": "",
+                "very_likely": ""
+            },
+            "question_3": {
+                "title": "",
+                "input_placeholder": ""
+            },
+            "bottom_text": ""
+        },
+        "footer_title": "",
+        "next_button": ""
+    },
+    "completed": {
+        "title": "",
+        "subtitle": "",
+        "back_button": "",
+        "next_button": "",
+        "heavy_subtitle_1": "",
+        "heavy_subtitle_2": "",
+        "heavy_subtitle_3": "",
+        "greeting_title": ""
+    },
+    "about": {
+        "title": "",
+        "subtitle": "",
+        "why_shira": {
+            "title": "",
+            "option_1": {
+                "title": "",
+                "description": ""
+            },
+            "option_2": {
+                "title": "",
+                "description": ""
+            },
+            "option_3": {
+                "title": "",
+                "description": ""
+            },
+            "privacy_policy_cta": "",
+            "security_audit_cta": ""
+        },
+        "created_by": {
+            "title": "",
+            "website_cta": "",
+            "description": {
+                "section1": "",
+                "section2": "",
+                "donation_link": "",
+                "section3": ""
+            }
+        },
+        "footer_title": "",
+        "footer_description": "",
+        "bring_shira_button": "",
+        "background": {
+            "title": "",
+            "subtitle": "",
+            "section1": "",
+            "section3": "",
+            "section4": ""
+        },
+        "advisors": {
+            "title": "",
+            "subtitle": "",
+            "person1": {
+                "name": "",
+                "job": ""
+            },
+            "person2": {
+                "name": "",
+                "job": ""
+            },
+            "person3": {
+                "name": "",
+                "job": ""
+            },
+            "person4": {
+                "name": "",
+                "job": ""
+            },
+            "person5": {
+                "name": "",
+                "job": ""
+            },
+            "person6": {
+                "name": "",
+                "job": ""
+            },
+            "person7": {
+                "name": "",
+                "job": ""
+            },
+            "person8": {
+                "name": "",
+                "job": ""
+            },
+            "person9": {
+                "name": "",
+                "job": ""
+            },
+            "person10": {
+                "name": "",
+                "job": ""
+            },
+            "person11": {
+                "name": "",
+                "job": ""
+            }
+        },
+        "bring": {
+            "title": "",
+            "section1": "",
+            "section2": ""
+        }
+    },
+    "learner_invitation": {
+        "learn_more": "",
+        "success_title": "",
+        "error_title": "",
+        "success_joined_space": "",
+        "success_hint": "",
+        "error_message": ""
+    },
+    "navbar": {
+        "home": "",
+        "about": "",
+        "menu": "",
+        "features": "",
+        "pricing": "",
+        "take_a_quiz": "",
+        "learn": "",
+        "get_started": ""
+    },
+    "loading_messages": {
+        "loading": ""
+    },
+    "invalid_quiz": {
+        "title": "",
+        "description": "",
+        "home_button": ""
+    },
+    "invalid_invitation": {
+        "title": "",
+        "description": "",
+        "home_button": ""
+    }
+}
