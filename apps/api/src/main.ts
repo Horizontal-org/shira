@@ -6,7 +6,17 @@ import { ApiLogger } from './utils/logger/api-logger.service';
 import { LoggingInterceptor } from './utils/interceptors/logging.interceptor';
 import * as cookieParser from 'cookie-parser';
 
+async function validateJwt() {
+  const JWT_SECRET = process.env.JWT_SECRET
+
+  if (!JWT_SECRET || JWT_SECRET.length < 6) {
+    throw new Error('JWT_SECRET not valid');
+  }
+}
+
 async function bootstrap() {
+  validateJwt()
+
   const app = await NestFactory.create(IndexModule);
 
   const apiLogger = new ApiLogger();
@@ -30,4 +40,5 @@ async function bootstrap() {
 
   await app.listen(3000);
 }
+
 bootstrap();
