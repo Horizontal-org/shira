@@ -8,6 +8,7 @@ import { MessagesMenuBar } from './MessagesMenuBar'
 import { ExplanationButton } from '../Explanations/components/ExplanationButton'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useLink } from './hooks/useLink'
 
 interface Props {
   onChange: (body: string) => void;
@@ -42,6 +43,8 @@ export const MessageTipTapEditor = ({
     explanations.canAddTextExplanation()
   )
 
+  const links = useLink(editor)
+
   // Connect editor events to hooks
   if (editor) {
     editor.off('selectionUpdate').on('selectionUpdate', explanations.handleSelectionUpdate)
@@ -52,15 +55,13 @@ export const MessageTipTapEditor = ({
   return (
     <Wrapper>
       <EditorWrapper>
-        <MessageEditorStyles />
         <div></div>
+        {links.setLinkModal}
+        {links.editLinkModal}
         <EditorContainer>
           <MessagesMenuBar
             editor={editor}
-            onAddTextExplanation={explanations.addTextExplanation}
-            onRemoveTextExplanation={explanations.removeTextExplanation}
-            canAddTextExplanation={explanations.canAddTextExplanation()}
-            isTextExplanationActive={explanations.isTextExplanationActive()}
+            setLink={links.setLink}
           />
           <EditorContentWithExplanation>
             <EditorContent
