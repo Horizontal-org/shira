@@ -22,6 +22,9 @@ export const ExplanationButton: FunctionComponent<Props> = ({
       isText={isText}
       type="button"
       aria-pressed={active}
+      // onMouseDown={(event) => {
+      //   event.preventDefault()
+      // }}
       onClick={onClick}
     >
       {isText ? <ExplanationText /> : <ExplanationIcon />}
@@ -37,58 +40,74 @@ interface StyledSvgWrapper {
 
 const SvgWrapper = styled.button<StyledSvgWrapper>`
   appearance: none;
-  border: 1px solid transparent;
+  border: none;
+  border-radius: 0;
   background: transparent;
   cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
   margin-left: 12px;
-  border-radius: 6px;
   padding: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: ${props => props.isText ? '48px' : '28px'};
-  height: ${props => props.isText ? '48px' : '28px'};
-  min-width: ${props => props.isText ? '48px' : '28px'};
-  min-height: ${props => props.isText ? '48px' : '28px'};
+  width: ${props => props.isText ? '48px' : '32px'};
+  height: ${props => props.isText ? '48px' : '32px'};
+  min-width: ${props => props.isText ? '48px' : '32px'};
+  min-height: ${props => props.isText ? '48px' : '32px'};
   color: ${props => {
     if (props.disabled) return props.theme.colors.green2
-    if (props.active) return props.theme.colors.green4
+    if (props.active) return props.theme.colors.green5
     return props.theme.colors.green5
   }};
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 
   > svg {
     flex-shrink: 0;
   }
 
   ${props => props.active && `
-    color: ${props.theme.colors.green4};
-    border-color: ${props.theme.colors.green3};
-    background: ${props.isText ? 'transparent' : props.theme.secondary.base};
+    color: ${props.theme.colors.green5};
+    border: ${props.isText ? `3px solid ${props.theme.colors.green2}` : 'none'};
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+  `}
+
+  ${props => props.active && !props.isText && `
+    > svg {
+      overflow: visible;
+    }
+
+    > svg path {
+      stroke: ${props.theme.colors.green3};
+      stroke-width: 2px;
+      stroke-linejoin: round;
+      paint-order: stroke fill;
+    }
   `}
 
   ${props => props.disabled && `
     background: transparent;
-    border-color: transparent;
+    border: none;
+    border-radius: 0;
     box-shadow: none;
     pointer-events: none;
+    color: ${props.theme.colors.green5};
+    opacity: 0.60;
   `}
 
   ${props => !props.disabled && `
     &:hover {
-      color: ${props.active ? props.theme.colors.green4 : props.theme.secondary.dark};
-      border-color: ${props.active ? props.theme.colors.green3 : 'transparent'};
-      background: ${props.active
-        ? (props.isText ? 'transparent' : props.theme.colors.green4)
-        : 'transparent'};
+      color: ${props.theme.colors.green4};
+      background: transparent;
+      box-shadow: none;
+      border-radius: 0;
     }
 
     &:focus-visible {
       outline: none;
       color: ${props.theme.colors.green5};
-      background: ${props.active ? (props.isText ? 'transparent' : props.theme.secondary.base) : 'transparent'};
-      border-color: ${props.theme.secondary.base};
-      box-shadow: 0 0 0 3px ${props.theme.secondary.light};
+      border: 2px solid ${props.theme.colors.green2};
+      box-shadow: none;
+      border-radius: 0;
     }
   `}
-`
+`;
