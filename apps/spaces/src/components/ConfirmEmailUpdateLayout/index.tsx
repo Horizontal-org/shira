@@ -32,8 +32,7 @@ export const ConfirmEmailUpdateLayout: FunctionComponent = () => {
       try {
         await confirmUserEmailChange(token);
 
-        logout();
-        navigate("/login", { replace: true });
+        logout(navigate);
         toast.success(t("success_messages.email_updated"), { duration: 3000 });
       } catch (error) {
         const { message } = handleHttpError(error);

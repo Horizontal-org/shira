@@ -1,5 +1,5 @@
 import { DragEvent, FunctionComponent, KeyboardEvent, useEffect, useRef, useState } from "react";
-import { Breadcrumbs, styled, BetaBanner } from "@shira/ui";
+import { Breadcrumbs, styled } from "@shira/ui";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { LearnerBulkImportHeader } from "../LearnerBulkImportHeader";
@@ -11,6 +11,7 @@ import { VerifyLearnersStep } from "./components/VerifyLearnersStep";
 import { FinalReviewStep } from "./components/FinalReviewStep";
 import { BulkInviteLearnersResponse, BulkInviteValidatedLearner, inviteLearnersBulk, verifyLearnersBulk } from "../../fetch/learner";
 import { handleHttpError } from "../../fetch/handleError";
+import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
 
 interface Props { }
 
@@ -242,7 +243,7 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
         setIsModalOpen={setIsFormattingGuidelinesOpen}
       />
 
-      <BetaBanner url="/support" />
+      <MobileResponsivenessBanner />
 
       <LearnerBulkImportHeader
         onNext={handleNext}

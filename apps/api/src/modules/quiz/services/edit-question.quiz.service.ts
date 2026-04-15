@@ -108,7 +108,7 @@ export class EditQuestionQuizService implements ICreateQuestionQuizService{
       const newExplanationTranslation =
         this.explanationTranslationRepo.create({
           explanation: savedExplanation,
-          content: explanation.text,
+          content: QuestionSanitizer.sanitizeQuestionContent(explanation.text),
           languageId: language.id,
         })
       await this.explanationTranslationRepo.save(newExplanationTranslation);    

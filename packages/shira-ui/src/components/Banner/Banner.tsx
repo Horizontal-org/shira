@@ -3,20 +3,22 @@ import { IoMdClose } from "react-icons/io";
 import styled from 'styled-components'
 import { Body3 } from "../Typography";
 
-export interface BetaBannerProps {
+export interface BannerProps {
   url?: string;
   label?: string;
   message?: string;
   clickHereText?: string;
   feedbackText?: string;
+  brand?: string;
 }
 
-export const BetaBanner:FunctionComponent<BetaBannerProps> = ({ 
-  url = '/support',
-  label = 'BETA',
-  message = 'Shira is still in development and you may experience issues.',
-  clickHereText = 'Click here',
-  feedbackText = 'to share your feedback and read about what’s next for Shira!'
+export const Banner:FunctionComponent<BannerProps> = ({ 
+  url, 
+  label, 
+  message, 
+  clickHereText, 
+  feedbackText,
+  brand = 'secondary'
 }) => {
   const [showBanner, handleShowBanner] = useState(false)
 
@@ -26,17 +28,20 @@ export const BetaBanner:FunctionComponent<BetaBannerProps> = ({
   }, [])
 
   return showBanner && (
-     <Wrapper>
+     <Wrapper $brand={brand}>
       <Empty></Empty>
       <Body3>
         <strong>{label}</strong>: {message} {' '}
-        <a 
-          target={url.includes('https:') ? '_blank' : '_self'} 
-          href={url}
-        >
-          {clickHereText}
-        </a> {' '}
-        {feedbackText}
+        { clickHereText && (
+          <a 
+            target={url.includes('https:') ? '_blank' : '_self'} 
+            href={url}
+          >
+            {clickHereText}
+          </a> 
+        )}
+        {' '}
+        {feedbackText || ''}
       </Body3>
       <SvgWrapper onClick={() => {
         handleShowBanner(false)
@@ -55,13 +60,12 @@ const Empty = styled.div`
     display: none;
   }
 `
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ $brand: string }>`
   z-index: 2;
   width: 100%;
   height: 48px;
   min-height: 48px;
   padding: 0 8px;
-  background: #DBE3A3;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -75,6 +79,14 @@ const Wrapper = styled.div`
     height: 80px;
     justify-content: space-between;
   }
+
+  ${props => props.$brand === 'primary' && `
+    background: ${props.theme.colors.blue0}
+  `}
+
+  ${props => props.$brand === 'secondary' && `
+    background: #DBE3A3;    
+  `}
 `
 
 const SvgWrapper = styled.div`

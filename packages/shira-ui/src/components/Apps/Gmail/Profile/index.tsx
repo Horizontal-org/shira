@@ -23,10 +23,10 @@ export const Profile: FunctionComponent<Props> = ({
   receiverName,
   receiverEmail,
   subject
-}) => {  
+}) => {
 
   const [isOpen, setIsOpen] = useState(false);
-  const {refs, floatingStyles, context} = useFloating({
+  const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
     whileElementsMounted: autoUpdate,
@@ -34,45 +34,45 @@ export const Profile: FunctionComponent<Props> = ({
   })
 
   const click = useClick(context);
-  const dismiss = useDismiss(context); 
+  const dismiss = useDismiss(context);
   const role = useRole(context);
 
-  const {getReferenceProps, getFloatingProps} = useInteractions([
+  const { getReferenceProps, getFloatingProps } = useInteractions([
     dismiss,
     click,
-    role 
+    role
   ]);
 
   return (
     <ProfileWrapper>
       <Icon>
-        <img src={ProfileIcon} alt='profile-pic'/>
+        <img src={ProfileIcon} alt='profile-pic' />
       </Icon>
       <SenderWrapper>
         <Sender>
-          <SenderName 
+          <SenderName
             data-explanation={senderName.explanationPosition}
           >
-              {senderName.textContent || ''}
+            {senderName.textContent || ''}
           </SenderName>
-          <SenderEmail 
+          <SenderEmail
             data-explanation={senderEmail.explanationPosition}
           >
-              {`<${senderEmail.textContent || ''}>`}
+            {`<${senderEmail.textContent || ''}>`}
           </SenderEmail>
         </Sender>
         <Receiver>
           <span>to me</span>
-          <ArrowWrapper 
+          <ArrowWrapper
             ref={refs.setReference}
-             {...getReferenceProps()}            
+            {...getReferenceProps()}
           >
-            <IoMdArrowDropdown size={14} color="#666"/>
+            <IoMdArrowDropdown size={14} color="#666" />
           </ArrowWrapper>
-          { isOpen && (
+          {isOpen && (
             <FloatingFocusManager context={context} modal={false}>
-              <MessageInfoBox 
-                ref={refs.setFloating} 
+              <MessageInfoBox
+                ref={refs.setFloating}
                 style={floatingStyles}
                 {...getFloatingProps()}
               >
@@ -83,13 +83,16 @@ export const Profile: FunctionComponent<Props> = ({
                     <span style={{ color: '#5e5e5e' }}>{`<${senderEmail.textContent || ''}>`}</span>
                   </BoxRightInfo>
                 </div>
-                { receiverEmail && receiverName && (
+                {receiverEmail && receiverName && (
                   <div>
                     <BoxLeftInfo>to:</BoxLeftInfo>
-                    <BoxRightInfo><strong>{receiverName}</strong>{`<${receiverEmail}>`}</BoxRightInfo>
+                    <BoxRightInfo>
+                      <strong>{receiverName}</strong>
+                      <span style={{ color: '#5e5e5e' }}>{`<${receiverEmail}>`}</span>
+                    </BoxRightInfo>
                   </div>
                 )}
-                { subject && (
+                {subject && (
                   <div>
                     <BoxLeftInfo>subject:</BoxLeftInfo>
                     <BoxRightInfo>{subject}</BoxRightInfo>
@@ -98,9 +101,19 @@ export const Profile: FunctionComponent<Props> = ({
                 <div>
                   <BoxLeftInfo>security:</BoxLeftInfo>
                   <BoxRightInfo>
-                    <IoMdLock size={14} color="#666"/>
+                    <IoMdLock size={14} color="#666" />
                     Standard encryption (TLS){" "}
-                    <LearnMoreText title="https://support.google.com/mail?hl=en-GB&p=tls">
+                    <LearnMoreText
+                      href="https://support.google.com/mail?hl=en-GB&p=tls"
+                      target="_blank"
+                      rel="noreferrer"
+                      onClick={(event) => {
+                        event.preventDefault()
+                      }}
+                      onContextMenu={(event) => {
+                        event.preventDefault()
+                      }}
+                    >
                       Learn more
                     </LearnMoreText>
                   </BoxRightInfo>
@@ -217,10 +230,10 @@ const BoxRightInfo = styled.span`
   }
 `
 
-const LearnMoreText = styled.span`
+const LearnMoreText = styled.a`
   color: #1155cc;
   text-decoration: underline;
-  cursor: default;
+  cursor: pointer;
 `
 
 const SenderName = styled.span`

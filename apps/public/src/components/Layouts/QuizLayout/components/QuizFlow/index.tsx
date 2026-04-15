@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect } from "react"
 import { SceneWrapper } from "../../../../UI/SceneWrapper"
-import { styled, Body1, Button, BetaBanner, H2, Link2, useTheme } from "@shira/ui"
+import { styled, Body1, Button, H2, Link2, useTheme } from "@shira/ui"
 import { ReactComponent as Hooked } from '../../../../../assets/HookedFish.svg';
 
 import { useStore } from "../../../../../store"
@@ -65,14 +65,6 @@ export const QuizFlow: FunctionComponent<Props> = ({
       <>
         { scene === 'welcome' && (
           <SceneWrapper bg='white'>
-
-            <BetaBanner
-              url="https://shira.app/beta-user"
-              label={t('beta.label')}
-              message={t('beta.message')}
-              clickHereText={t('beta.click_here')}
-              feedbackText={t('beta.feedback_text')}
-            />
 
             <CustomQuizNavbar color={theme.colors.green2} />
 

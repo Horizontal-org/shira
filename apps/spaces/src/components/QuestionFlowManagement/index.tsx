@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { Breadcrumbs, styled, BetaBanner, Body1 } from "@shira/ui";
+import { Breadcrumbs, styled, Body1 } from "@shira/ui";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { QuestionBasicInfo } from "../QuestionBasicInfo";
@@ -11,6 +11,7 @@ import { ExitQuestionHandleModal } from "../modals/ExitQuestionHandleModal";
 import { NoExplanationsModal } from "../modals/NoExplanationsModal";
 import { ActiveQuestion } from "../../store/types/active_question";
 import { useTranslation } from "react-i18next";
+import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
 
 interface Props {
   initialContent?: Object
@@ -110,7 +111,7 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
         }}
       />
 
-      <BetaBanner url="https://shira.app/beta-user" />
+      <MobileResponsivenessBanner />
 
       <QuestionFlowHeader
         actionFeedback={actionFeedback}

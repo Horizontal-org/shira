@@ -1,48 +1,95 @@
 import axios from "axios"
 
-export const fetchUser = async (token: string, spaceId: string) => {
-  console.log("🚀 ~ fetchUser ~ spaceId:", spaceId)
+const isProduction = () => {
+  return process.env.NODE_ENV === 'production';
+}
+
+export const fetchUser = async (spaceId: string) => {
   try {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/user`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'X-Space': spaceId
-      }
-    })
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    console.log(`[AUTH] fetchUser - spaceId: ${spaceId}, isProduction: ${isProduction()}`);
+
+    let headers = {
+      'X-Space': spaceId
+    }
+
+    if (isProduction()) {
+      axios.defaults.withCredentials = true;
+    } else {
+      const token = window.localStorage.getItem('shira_access_token');
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    }
+
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/user`, { headers })
+
     axios.defaults.headers.common['X-Space'] = spaceId;
+    console.log(`[AUTH] fetchUser - success, userId: ${res.data?.user?.id}`);
+
     return res.data
   } catch (err) {
-    console.log("🚀 ~ file: auth.ts ~ line 12 ~ fetchUser ~ err", err)
+    console.log(`[AUTH] fetchUser - error:`, err);
+    throw err;
   }
 }
 
 export const login = async (email, pass) => {
   try {
+    console.log(`[AUTH] login - attempting for email: ${email}`);
+    
     const res = await axios.post(`${process.env.REACT_APP_API_URL}/login`, {
       email: email,
       password: pass
     })
 
-    window.localStorage.setItem('shira_access_token', res.data.access_token)
-    axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.access_token}`;
-    // you need to have at least one space
-    window.localStorage.setItem('shira_x_space', res.data.user.spaces[0].id)
-    axios.defaults.headers.common['X-Space'] = `${res.data.user.spaces[0].id}`;
+    if (isProduction()) {
+      axios.defaults.withCredentials = true;
+      console.log(`[AUTH] login - success, using httpOnly cookie`);
+    } else {
+      const token = res.data.access_token;
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      window.localStorage.setItem('shira_access_token', res.data.access_token);
+      console.log(`[AUTH] login - success, using Bearer token (dev mode)`);
+    }
+
+    const spaceId = res.data.user.spaces[0].id
+    window.localStorage.setItem('shira_x_space', spaceId)
+    axios.defaults.headers.common['X-Space'] = `${spaceId}`;
+    console.log(`[AUTH] login - userId: ${res.data.user.id}, spaceId: ${spaceId}`);
+    
     return res.data.user
   } catch (e) {
+    console.log(`[AUTH] login - error:`, e);
     alert('Unauthorized')
   }
 }
 
 export const checkAuth = async () => {
-  const token = window.localStorage.getItem('shira_access_token')
   const spaceId = window.localStorage.getItem('shira_x_space')
-  if (token && spaceId) {
-    const fetchUserResponse = await fetchUser(token, spaceId)
-    return fetchUserResponse
-  } else {
-    return null
+  console.log(`[AUTH] checkAuth - spaceId in localStorage: ${!!spaceId}, value: ${spaceId}`);
+  
+  if (spaceId) {
+    try {
+      const fetchUserResponse = await fetchUser(spaceId)
+      console.log(`[AUTH] checkAuth - success, userId: ${fetchUserResponse?.user?.id}`);
+      return fetchUserResponse
+    } catch (err) {
+      console.log(`[AUTH] checkAuth - failed:`, err?.response?.status);
+      return null;
+    }
+  }
+  
+  console.log(`[AUTH] checkAuth - no X-Space in localStorage, skipping`);
+  return null
+}
+
+export const logout = async () => {
+  try {
+    console.log(`[AUTH] logout - initiating`);
+    await axios.post(`${process.env.REACT_APP_API_URL}/logout`)
+    window.localStorage.removeItem('shira_x_space')
+    window.localStorage.removeItem('shira_access_token')    
+    console.log(`[AUTH] logout - success`);
+  } catch (err) {
+    console.log(`[AUTH] logout - error:`, err);
   }
 }
 
@@ -72,7 +119,6 @@ export const navigateToManageSubscription = async (
       window.location.assign(stripeUrl)
     }
   } catch (error) {
-    //TODO error handling?
     console.error("Error navigating to Stripe:", error)
   }
 }
