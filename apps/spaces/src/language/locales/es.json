@@ -505,13 +505,13 @@
                 "tooltips": {
                     "hosting": "Deja que el equipo de Shira aloje y de mantenimiento a tu Shira (cloud) o instálala en tus propios servidores (on-premise)",
                     "admin_dashboard": "Un lugar central donde gestionar tus campañas de educación sobre phishing",
-                    "number_of_admins": "Las Admins son personas usuarias que pueden crear y gestionar campañas de educación sobre el phishing.",
+                    "number_of_admins": "Las Admins son personas usuarias que pueden crear y gestionar campañas de educación sobre el phishing",
                     "customizable_questions": "Crea preguntas de cuestionarios adaptadas a las necesidades de tus estudiantes",
-                    "apps_available": "Crea preguntas de cuestionarios utilizando interfaces que se ven exactamente cómo las aplicaciones reales que tus estudiantes usan.",
+                    "apps_available": "Crea preguntas de cuestionarios utilizando interfaces que se ven exactamente como las apps reales que tus estudiantes usan",
                     "public_quizzes": "Cualquiera puede completar tu cuestionario a través de una URL fácil de compartir",
                     "private_quizzes": "Solo estudiantes con registro en tu espacio pueden completar tus cuestionarios",
                     "basic_analytics": "Monitorea resultados a nivel de cuestionario",
-                    "detailed_analytics": "Monitorea resultados a niveles de estudiantes y preguntas",
+                    "detailed_analytics": "Monitorea resultados en niveles de estudiante y pregunta",
                     "analysis_tools": "Exporta los resultados de tu equipo a informes CSV o PDF",
                     "question_library": "Accede a decenas de plantillas de preguntas predefinidas",
                     "custom_quizzes": "La cantidad de cuestionarios que puedes crear en tu Espacio",
@@ -542,8 +542,8 @@
         },
         "quiz_limit": {
             "title": "¿Todo listo para actualizar?",
-            "message_1": "En el Plan Inicial, puedes crear hasta 3 cuestionarios.",
-            "message_2": "Prueba Shira Pro de manera gratuita durante 14 días para crear más cuestionarios personalizados."
+            "message_1": "En el Plan inicial, puedes crear hasta 3 cuestionarios.",
+            "message_2": "Probar una prueba gratis de 14 días de Shira Pro hoy para crear más cuestionarios personalizados."
         },
         "first_login": {
             "title": "Te damos la bienvenida a tu Espacio",
@@ -554,8 +554,8 @@
             },
             "plan_names": {
                 "starter": "Inicial",
-                "pro": "Pro",
-                "enterprise": "Enterprise"
+                "pro": "Profesional (\"Pro\")",
+                "enterprise": "Empresa (\"Enterprise\")"
             }
         }
     },
