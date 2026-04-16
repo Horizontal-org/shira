@@ -1,0 +1,1 @@
+export { FileInvalidException } from './invalid.question_image.exception';

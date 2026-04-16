@@ -16,7 +16,11 @@ export class CreateQuestionImageController {
  
   @Post('upload')
   @Roles(Role.SpaceAdmin)
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FileInterceptor('file', {
+    limits: {
+      fileSize: 5 * 1024 * 1024, // 5MB
+    }
+  }))
   async uploadFile(
     @UploadedFile('file') file: Express.Multer.File,
     @Query('quizId') quizId: number, 

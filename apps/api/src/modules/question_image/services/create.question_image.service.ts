@@ -1,4 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { fileTypeFromBuffer } from 'file-type';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { QuestionImage as QuestionImageEntity } from '../domain';
@@ -7,6 +8,7 @@ import { CreateQuestionImageServiceResponse, ICreateQuestionImageService } from 
 import { IImageService } from 'src/modules/image/interfaces/services/image.service.interface';
 import { TYPES as TYPES_IMAGE } from 'src/modules/image/interfaces';
 import { formatISO } from 'date-fns';
+import { FileInvalidException } from '../exceptions';
 @Injectable()
 export class CreateQuestionImageService implements ICreateQuestionImageService{
 
@@ -18,6 +20,9 @@ export class CreateQuestionImageService implements ICreateQuestionImageService{
   ) {}
 
   async execute (createQuestionImageDto: CreateQuestionImageDto): Promise<CreateQuestionImageServiceResponse> {
+    
+    await this.validateFile(createQuestionImageDto.file)
+
     const fileInfo = await this.createFilePath(createQuestionImageDto)
     const questionImage = new QuestionImageEntity()
 
@@ -40,6 +45,14 @@ export class CreateQuestionImageService implements ICreateQuestionImageService{
     return {
       imageId: savedQI.id,
       url: await this.imageService.get(fileInfo.path)
+    }
+  }
+
+  private async validateFile(file: Express.Multer.File) {
+    const type = await fileTypeFromBuffer(file.buffer);
+
+    if (!type || !['image/jpeg', 'image/png', 'image/webp'].includes(type.mime)) {
+      throw new FileInvalidException()
     }
   }
 
