@@ -6,7 +6,6 @@ const isProduction = () => {
 
 export const fetchUser = async (spaceId: string) => {
   try {
-    console.log(`[AUTH] fetchUser - spaceId: ${spaceId}, isProduction: ${isProduction()}`);
 
     let headers = {
       'X-Space': spaceId
@@ -22,7 +21,6 @@ export const fetchUser = async (spaceId: string) => {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/user`, { headers })
 
     axios.defaults.headers.common['X-Space'] = spaceId;
-    console.log(`[AUTH] fetchUser - success, userId: ${res.data?.user?.id}`);
 
     return res.data
   } catch (err) {
@@ -53,7 +51,6 @@ export const login = async (email, pass) => {
     const spaceId = res.data.user.spaces[0].id
     window.localStorage.setItem('shira_x_space', spaceId)
     axios.defaults.headers.common['X-Space'] = `${spaceId}`;
-    console.log(`[AUTH] login - userId: ${res.data.user.id}, spaceId: ${spaceId}`);
     
     return res.data.user
   } catch (e) {
@@ -64,12 +61,10 @@ export const login = async (email, pass) => {
 
 export const checkAuth = async () => {
   const spaceId = window.localStorage.getItem('shira_x_space')
-  console.log(`[AUTH] checkAuth - spaceId in localStorage: ${!!spaceId}, value: ${spaceId}`);
   
   if (spaceId) {
     try {
       const fetchUserResponse = await fetchUser(spaceId)
-      console.log(`[AUTH] checkAuth - success, userId: ${fetchUserResponse?.user?.id}`);
       return fetchUserResponse
     } catch (err) {
       console.log(`[AUTH] checkAuth - failed:`, err?.response?.status);
@@ -77,7 +72,6 @@ export const checkAuth = async () => {
     }
   }
   
-  console.log(`[AUTH] checkAuth - no X-Space in localStorage, skipping`);
   return null
 }
 

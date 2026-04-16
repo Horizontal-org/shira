@@ -1,8 +1,6 @@
 export { IGenerateTokenAuthService } from './services/generate-token.auth.service.interface';
 export { IValidateAuthService } from './services/validate.auth.service.interface';
 export { IValidateRegistrationAuthService } from './services/validate-registration.auth.service.interface'
-export { ISubmitRegistrationAuthService } from './services/submit-registration.auth.service.interface'
-export { IConfirmRegistrationAuthService } from './services/confirm-registration.auth.service.interface'
 export { ISendInvitationAuthService } from './services/send-invitation.auth.service.interface'
 export { ISpaceRegistrationAuthService } from './services/space-registration.auth.service.interface'
 export { IUserContextService } from './services/user-context.service.interface'
