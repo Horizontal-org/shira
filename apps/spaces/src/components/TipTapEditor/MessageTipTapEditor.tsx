@@ -40,6 +40,7 @@ export const MessageTipTapEditor = ({
   const explanations = useExplanations(editor, editorId)
   const links = useLink(editor)
   const isSelectedTextExplanation = explanations.isSelectedTextExplanation()
+  const canFocusTextExplanation = explanations.hasTextExplanation()
 
   // Connect editor events to hooks
   if (editor) {
@@ -67,7 +68,7 @@ export const MessageTipTapEditor = ({
             />
             <ExplanationButtonWrapper>
               <GeneralTooltip
-                enabled={!explanations.canAddTextExplanation() && !explanations.isTextExplanationActive()}
+                enabled={!explanations.canAddTextExplanation() && !canFocusTextExplanation && !explanations.isTextExplanationActive()}
                 show={showExplanationButtonTooltip}
                 setShow={setShowExplanationButtonTooltip}
                 label={t('create_question.tabs.content.explanation_tooltip')}
@@ -76,7 +77,7 @@ export const MessageTipTapEditor = ({
                   isText={true}
                   active={isSelectedTextExplanation}
                   showBorder={isSelectedTextExplanation}
-                  disabled={!explanations.canAddTextExplanation() && !explanations.isTextExplanationActive()}
+                  disabled={!explanations.canAddTextExplanation() && !canFocusTextExplanation && !explanations.isTextExplanationActive()}
                   onClick={() => {
                     if (explanations.focusTextExplanation()) {
                       return

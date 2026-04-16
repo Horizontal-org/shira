@@ -52,6 +52,7 @@ export const EmailTipTapEditor = ({
   const links = useLink(editor)
   const tables = useTable(editor)
   const isSelectedTextExplanation = explanations.isSelectedTextExplanation()
+  const canFocusTextExplanation = explanations.hasTextExplanation()
 
   // Connect editor events to hooks
   if (editor) {
@@ -71,7 +72,7 @@ export const EmailTipTapEditor = ({
               <EditorContent id={editorId} editor={editor} />
             </EditorContentWrapper>
             <GeneralTooltip
-              enabled={!explanations.canAddTextExplanation() && !explanations.isTextExplanationActive() && !images.selectedImageHasExplanation}
+              enabled={!explanations.canAddTextExplanation() && !canFocusTextExplanation && !explanations.isTextExplanationActive() && !images.selectedImageHasExplanation}
               show={showExplanationButtonTooltip}
               setShow={setShowExplanationButtonTooltip}
               label={t('create_question.tabs.content.explanation_tooltip')}
@@ -80,7 +81,7 @@ export const EmailTipTapEditor = ({
                 isText={true}
                 active={isSelectedTextExplanation || images.selectedImageHasExplanation}
                 showBorder={isSelectedTextExplanation}
-                disabled={!explanations.canAddTextExplanation() && !explanations.isTextExplanationActive() && !images.selectedImageHasExplanation}
+                disabled={!explanations.canAddTextExplanation() && !canFocusTextExplanation && !explanations.isTextExplanationActive() && !images.selectedImageHasExplanation}
                 onClick={() => {
                   if (images.isImageSelected) {
                     explanations.addImageExplanation()

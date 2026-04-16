@@ -25,6 +25,9 @@ export const ExplanationButton: FunctionComponent<Props> = ({
       isText={isText}
       type="button"
       aria-pressed={active}
+      onMouseDown={(event) => {
+        event.preventDefault()
+      }}
       onClick={onClick}
     >
       {isText ? <ExplanationText /> : <ExplanationIcon />}
@@ -99,7 +102,7 @@ const SvgWrapper = styled.button<StyledSvgWrapper>`
 
   ${props => !props.disabled && `
     &:hover {
-      color: ${props.theme.colors.green4};
+      color: ${props.theme.colors.green5};
       background: transparent;
       box-shadow: none;
       border-radius: 0;

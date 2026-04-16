@@ -263,6 +263,22 @@ export const useExplanations = (editor: any, editorId: string) => {
     return +activeTextExplanationIndex === +selectedExplanation
   }, [getActiveTextExplanationIndex, selectedExplanation])
 
+  const hasTextExplanation = useCallback(() => {
+    if (!editor) return false
+
+    let found = false
+
+    editor.state.doc.descendants((node) => {
+      if (!node.isText || found) return
+
+      if (node.marks.some(mark => !!mark.attrs['data-explanation'])) {
+        found = true
+      }
+    })
+
+    return found
+  }, [editor])
+
   const focusTextExplanation = useCallback(() => {
     if (!editor) return false
 
@@ -333,6 +349,7 @@ export const useExplanations = (editor: any, editorId: string) => {
     canAddTextExplanation,
     isTextExplanationActive,
     isSelectedTextExplanation,
+    hasTextExplanation,
     focusTextExplanation,
     addImageExplanation,
     removeImageExplanation,
