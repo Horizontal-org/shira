@@ -1,14 +1,14 @@
-import { FunctionComponent } from "react"
+import { FunctionComponent, useState } from "react"
 import {
   styled,
   Logo,
   Body2Regular,
-  Button
+  Button,
+  GeneralTooltip
 } from "@shira/ui"
 import { IoClose } from "react-icons/io5";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { QuestionCRUDFeedback } from "../../fetch/question";
-import { ButtonWithTooltip } from "../ButtonWithTooltip";
 import { useTranslation } from "react-i18next";
 
 interface Props {
@@ -30,7 +30,7 @@ export const QuestionFlowHeader: FunctionComponent<Props> = ({
 }) => {
 
   const { t } = useTranslation();
-
+  const [showNextTooltip, setShowNextTooltip] = useState(false)
   return (
     <Wrapper id="question-flow-header">
       <Left>
@@ -55,20 +55,27 @@ export const QuestionFlowHeader: FunctionComponent<Props> = ({
           text={t('buttons.back')}
           type="outline"
         />
-        <ButtonWithTooltip
-          id="question-flow-header-next"
-          color="#52752C"
-          rightIcon={<FiChevronRight size={16} />}
-          disabled={disableNext || actionFeedback === QuestionCRUDFeedback.processing}
-          onClick={onNext}
-          text={step === 2
-            ? (actionFeedback === QuestionCRUDFeedback.processing
-              ? t('loading_messages.saving')
-              : t('buttons.save'))
-            : t('buttons.next')}
-          type="primary"
-          showTooltipWhenDisabled={disableNext}
-        />
+
+         <GeneralTooltip
+            enabled={disableNext}
+            show={showNextTooltip}
+            setShow={setShowNextTooltip}
+            label={t('create_question.header_required_tooltip')}
+          >
+             <Button
+              id="question-flow-header-next"
+              color="#52752C"
+              rightIcon={<FiChevronRight size={16} />}
+              disabled={disableNext || actionFeedback === QuestionCRUDFeedback.processing}
+              onClick={onNext}
+              text={step === 2
+                ? (actionFeedback === QuestionCRUDFeedback.processing
+                  ? t('loading_messages.saving')
+                  : t('buttons.save'))
+                : t('buttons.next')}
+              type="primary"
+            />
+        </GeneralTooltip>
       </Right>
     </Wrapper>
   )
