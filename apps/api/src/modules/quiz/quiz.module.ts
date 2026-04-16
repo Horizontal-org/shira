@@ -25,6 +25,7 @@ import { QuestionImage } from '../question_image/domain';
 import { QuestionImageModule } from '../question_image/question_image.module';
 import { SubscriptionModule } from '../subscription/subscription.module';
 import { ValidateQuizNameController } from './controller/validate-name.quiz.controller';
+import { DeleteQuestionQuizController } from './controller/delete-question.quiz.controller';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { ValidateQuizNameController } from './controller/validate-name.quiz.cont
     CreateQuizController,
     ListQuizController,
     DeleteQuizController,
+    DeleteQuestionQuizController,
     GetByIdQuizController,
     GetByHashQuizController,
     ReorderQuestionQuizController,
