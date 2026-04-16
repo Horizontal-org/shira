@@ -151,6 +151,7 @@
     },
     "create_question": {
         "header_title": "Create a new question",
+        "header_required_tooltip": "Required fields cannot be left blank",
         "tabs": {
             "question_info": {
                 "tab_title": "Question info",
@@ -673,7 +674,7 @@
                     "detailed_analytics": "Track results at the learner and question levels",
                     "analysis_tools": "Export your team's results into CSV or PDF reports",
                     "tailor_made_training": "Skill-building workshops customized by the Shira team for your organization",
-                    "priority_support": "Quick response time to ensure a smooth experience"
+                    "priority_support": "Quick response time to ensure a smooth experience"                    
                 }
             },
             "plans": {
