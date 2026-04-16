@@ -247,6 +247,65 @@ export const useExplanations = (editor: any, editorId: string) => {
     return editor?.isActive('explanation') || false
   }, [editor])
 
+  const getActiveTextExplanationIndex = useCallback(() => {
+    if (!editor?.isActive('explanation')) return null
+
+    return editor.getAttributes('explanation')['data-explanation'] ?? null
+  }, [editor])
+
+  const isSelectedTextExplanation = useCallback(() => {
+    const activeTextExplanationIndex = getActiveTextExplanationIndex()
+
+    if (activeTextExplanationIndex === null || selectedExplanation === null) {
+      return false
+    }
+
+    return +activeTextExplanationIndex === +selectedExplanation
+  }, [getActiveTextExplanationIndex, selectedExplanation])
+
+  const focusTextExplanation = useCallback(() => {
+    if (!editor) return false
+
+    let firstExplanationRange: { from: number, to: number, index: number } | null = null
+    let selectedExplanationRange: { from: number, to: number, index: number } | null = null
+
+    editor.state.doc.descendants((node, pos) => {
+      if (!node.isText) return
+
+      node.marks.forEach(mark => {
+        const explanationAttr = mark.attrs['data-explanation']
+
+        if (!explanationAttr) return
+
+        const range = {
+          from: pos,
+          to: pos + node.nodeSize,
+          index: parseInt(explanationAttr)
+        }
+
+        if (!firstExplanationRange) {
+          firstExplanationRange = range
+        }
+
+        if (+explanationAttr === +selectedExplanation) {
+          selectedExplanationRange = range
+        }
+      })
+    })
+
+    const targetRange = selectedExplanationRange ?? firstExplanationRange
+
+    if (!targetRange) return false
+
+    changeSelected(targetRange.index)
+    editor.chain().focus().setTextSelection({
+      from: targetRange.from,
+      to: targetRange.to
+    }).run()
+
+    return true
+  }, [editor, selectedExplanation, changeSelected])
+
   useEffect(() => {
     if (!editor) return
 
@@ -273,6 +332,8 @@ export const useExplanations = (editor: any, editorId: string) => {
     removeTextExplanation,
     canAddTextExplanation,
     isTextExplanationActive,
+    isSelectedTextExplanation,
+    focusTextExplanation,
     addImageExplanation,
     removeImageExplanation,
     handleSelectionUpdate,

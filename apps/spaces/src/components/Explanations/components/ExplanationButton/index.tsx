@@ -5,6 +5,7 @@ import ExplanationText from '../../../../icons/ExplanationText'
 interface Props {
   onClick: () => void
   active: boolean
+  showBorder?: boolean
   disabled?: boolean
   isText?: boolean
 }
@@ -12,19 +13,18 @@ interface Props {
 export const ExplanationButton: FunctionComponent<Props> = ({
   onClick,
   active,
+  showBorder = false,
   disabled = false,
   isText = false
 }) => {
   return (
     <SvgWrapper
       active={active}
+      showBorder={showBorder}
       disabled={disabled}
       isText={isText}
       type="button"
       aria-pressed={active}
-      // onMouseDown={(event) => {
-      //   event.preventDefault()
-      // }}
       onClick={onClick}
     >
       {isText ? <ExplanationText /> : <ExplanationIcon />}
@@ -34,6 +34,7 @@ export const ExplanationButton: FunctionComponent<Props> = ({
 
 interface StyledSvgWrapper {
   active: boolean
+  showBorder: boolean
   disabled: boolean
   isText: boolean
 }
@@ -56,22 +57,24 @@ const SvgWrapper = styled.button<StyledSvgWrapper>`
   color: ${props => {
     if (props.disabled) return props.theme.colors.green2
     if (props.active) return props.theme.colors.green5
-    return props.theme.colors.green5
+    return props.theme.colors.green4
   }};
 
   > svg {
     flex-shrink: 0;
   }
 
-  ${props => props.active && `
+  ${props => props.active && props.isText && `
     color: ${props.theme.colors.green5};
-    border: ${props.isText ? `3px solid ${props.theme.colors.green2}` : 'none'};
+    border: ${props.showBorder ? `2px solid ${props.theme.colors.green3}` : 'none'};
     background: transparent;
     box-shadow: none;
     border-radius: 0;
   `}
 
   ${props => props.active && !props.isText && `
+    border: none;
+
     > svg {
       overflow: visible;
     }
@@ -105,7 +108,7 @@ const SvgWrapper = styled.button<StyledSvgWrapper>`
     &:focus-visible {
       outline: none;
       color: ${props.theme.colors.green5};
-      border: 2px solid ${props.theme.colors.green2};
+      border: ${props.isText ? 'none' : `2px solid ${props.theme.colors.green2}`};
       box-shadow: none;
       border-radius: 0;
     }
