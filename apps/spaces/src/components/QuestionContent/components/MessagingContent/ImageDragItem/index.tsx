@@ -57,7 +57,7 @@ export const ImageDragItem: FunctionComponent<Props> = ({
             alt={value.originalFilename}
           />
           <ExplanationButton
-            active={selectedExplanation && selectedExplanation + '' == explanationId}
+            active={Boolean(selectedExplanation && selectedExplanation + '' == explanationId)}
             disabled={false}
             onClick={() => {
               const hasExplanation = explanationId

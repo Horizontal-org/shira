@@ -12,21 +12,25 @@ interface Props {
 
 export const ExplanationButton: FunctionComponent<Props> = ({
   onClick,
-  active,
+  active = false,
   showBorder = false,
   disabled = false,
   isText = false
 }) => {
+  const isActive = Boolean(active)
+
   return (
     <SvgWrapper
-      active={active}
+      active={isActive}
       showBorder={showBorder}
       disabled={disabled}
       isText={isText}
       type="button"
-      aria-pressed={active}
+      aria-pressed={isActive}
       onMouseDown={(event) => {
-        event.preventDefault()
+        if (isText) {
+          event.preventDefault()
+        }
       }}
       onClick={onClick}
     >
@@ -60,7 +64,7 @@ const SvgWrapper = styled.button<StyledSvgWrapper>`
   color: ${props => {
     if (props.disabled) return props.theme.colors.green2
     if (props.active) return props.theme.colors.green5
-    return props.theme.colors.green4
+    return props.isText ? props.theme.colors.green4 : props.theme.colors.green5
   }};
 
   > svg {
