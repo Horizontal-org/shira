@@ -128,9 +128,9 @@
         "create_question_button": "Create question",
         "add_from_library_button": "Add from library",
         "action_tooltips": {
-            "edit": "Edit question",
-            "duplicate": "Duplicate question",
-            "delete": "Delete question"
+            "edit": "Edit",
+            "duplicate": "Duplicate",
+            "delete": "Delete"
         }
     },
     "questions": {
