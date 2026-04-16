@@ -51,7 +51,7 @@ export class CreateQuestionImageService implements ICreateQuestionImageService{
   private async validateFile(file: Express.Multer.File) {
     const type = await fileTypeFromBuffer(file.buffer);
 
-    if (!type || !['image/jpeg', 'image/png', 'image/webp'].includes(type.mime)) {
+    if (!type || !['image/jpeg', 'image/png', 'image/webp', 'image/gif'].includes(type.mime)) {
       throw new FileInvalidException()
     }
   }
