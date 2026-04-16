@@ -23,19 +23,19 @@ export class DeleteQuestionQuizService implements IDeleteQuestionQuizService {
     private readonly questionTranslationRepo: Repository<QuestionTranslation>,
     @InjectRepository(Question)
     private readonly questionRepo: Repository<Question>,
-  ) {}
+  ) { }
 
-  async execute (deleteDto: DeleteQuestionQuizDto) {
+  async execute(deleteDto: DeleteQuestionQuizDto) {
 
     const quizQuestions = await this.quizQuestionRepo
       .createQueryBuilder('quizzes_questions')
-      .where('quiz_id = :quizId', { quizId: deleteDto.quizId })      
+      .where('quiz_id = :quizId', { quizId: deleteDto.quizId })
       .getMany()
-      
-    const quiz = await this.quizRepo.findOneBy({ id: deleteDto.quizId })  
-    
+
+    const quiz = await this.quizRepo.findOneBy({ id: deleteDto.quizId })
+
     //validate question is part of this list
-    const quizQuestionToDelete = quizQuestions.find(qq => qq.questionId === deleteDto.questionId)      
+    const quizQuestionToDelete = quizQuestions.find(qq => qq.questionId === deleteDto.questionId)
     if (!quizQuestionToDelete) {
       throw new NotFoundException()
     }
@@ -53,9 +53,9 @@ export class DeleteQuestionQuizService implements IDeleteQuestionQuizService {
 
     await this.quizQuestionRepo.save(newList)
     await this.quizQuestionRepo.delete(quizQuestionToDelete.id)
-    
+
     await this.questionTranslationRepo.delete({ 'questionId': quizQuestionToDelete.questionId })
     await this.questionRepo.delete(quizQuestionToDelete.questionId);
-    
+
   }
 }
