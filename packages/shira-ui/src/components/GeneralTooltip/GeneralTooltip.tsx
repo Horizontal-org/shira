@@ -100,7 +100,7 @@ const Tooltip = styled.div`
   color: ${(props) => props.theme.colors.light.white};
   border-radius: 10px;
   width: max-content;
-  max-width: 520px;
-  white-space: nowrap;
+  max-width: calc(100vw - 16px);
+  white-space: normal;
   z-index: 10000;
 `;
