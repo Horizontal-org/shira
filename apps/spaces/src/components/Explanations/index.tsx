@@ -130,6 +130,12 @@ export const Explanations: FunctionComponent<Props> = ({
                       <ExplanationBox
                         key={e.index}
                         selected={+e.index === selectedExplanation}
+                        onMouseDown={() => {
+                          if (document.activeElement instanceof HTMLElement) {
+                            document.activeElement.blur()
+                          }
+                          changeSelected(e.index)
+                        }}
                         onClick={() => {
                           changeSelected(e.index)
                         }}
