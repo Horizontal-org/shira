@@ -38,10 +38,6 @@ export const MessageTipTapEditor = ({
   })
 
   const explanations = useExplanations(editor, editorId)
-  console.log(`EDITORID: ${editorId} ~ MessageTipTapEditor ~ explanations:`, 
-    explanations.isTextExplanationActive(),
-    explanations.canAddTextExplanation()
-  )
 
   const links = useLink(editor)
 
@@ -78,7 +74,7 @@ export const MessageTipTapEditor = ({
               >
                 <ExplanationButton
                   isText={true}
-                  active={explanations.isTextExplanationActive()}
+                  active={explanations.isTextExplanationSelected()}
                   disabled={!explanations.canAddTextExplanation() && !explanations.isTextExplanationActive()}
                   onClick={() => {
                     explanations.addTextExplanation()

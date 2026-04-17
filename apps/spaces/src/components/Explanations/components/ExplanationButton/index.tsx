@@ -9,90 +9,120 @@ interface Props {
   isText?: boolean
 }
 
+type Variant = 'icon-only' | 'icon-with-text';
+
 export const ExplanationButton: FunctionComponent<Props> = ({
   onClick,
   active,
   disabled = false,
   isText = false
 }) => {
+  const variant: Variant = isText ? 'icon-with-text' : 'icon-only';
+
   return (
-    <SvgWrapper
+    <StyledButton
+      type="button"
       disabled={disabled}
-      onClick={disabled ? null : onClick}
-      active={active}
+      onClick={onClick}
+      aria-pressed={active}
+      $active={active}
+      $variant={variant}
     >
       {isText ? <ExplanationText /> : <ExplanationIcon />}
-    </SvgWrapper>
-
+    </StyledButton>
   )
 }
 
-interface StyledSvgWrapper {
-  active: boolean;
-  disabled: boolean
+interface StyledButtonProps {
+  $active: boolean
+  $variant: Variant
 }
 
-const SvgWrapper = styled.div<StyledSvgWrapper>`
-  cursor: pointer;
+const StyledButton = styled.button<StyledButtonProps>`
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 0;
   margin-left: 12px;
-  border-radius: 50%;
-  padding: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
-
-  transition: 0.2s all;
-  color: #ACADAE;
+  flex-shrink: 0;
+  line-height: 0;
+  cursor: pointer;
+  color: ${props => props.theme.colors.green5};
+  transition: color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
 
   > svg {
-    stroke: #ACADAE;
-    fill: #ACADAE;
+    display: block;
   }
 
-  > svg > path {
-    fill: #ACADAE;
+  > svg path {
+    transition: fill 0.2s ease, stroke 0.2s ease, stroke-width 0.2s ease;
   }
 
-  ${props => props.active && `
-    color: ${props.theme.secondary.base};
-    cursor: pointer;
+  ${props => props.$variant === 'icon-only' && `
+    padding: 4px;
+    border-radius: 0;
+
     > svg {
-      stroke: ${props.theme.secondary.base};
-      fill: ${props.theme.secondary.base};
-
-      > path {
-       fill: ${props.theme.secondary.base};
-      }
+      width: 22px;
+      height: 22px;
     }
-  `}
 
-  ${props => props.disabled && `
-    cursor: help;
-    background: white;
-    > svg {
-      fill: rgba(241,242,244,0.6);
-      stroke: rgba(241,242,244,0.6);
-    }
-  `}
-
-
-  ${props => !props.disabled && `
     &:hover {
-      stroke: ${props.theme.secondary.base};
-      fill: ${props.theme.secondary.base};
-      background: #f1f2f4;
-      color: ${props.theme.secondary.base};
+      color: ${props.theme.colors.green4};
+    }
 
-      > svg {
-        stroke: ${props.theme.secondary.base};
-        fill: ${props.theme.secondary.base};
-      }
-
-      > svg > path {
-        fill: ${props.theme.secondary.base};
-      }
+    &:focus-visible {
+      outline: none;
+      color: ${props.theme.colors.green5};
     }
   `}
-`
+
+  ${props => props.$variant === 'icon-with-text' && `
+    min-width: 40px;
+    min-height: 40px;
+    padding: 2px;
+    border: 2px solid transparent;
+
+    &:hover {
+      color: ${props.theme.colors.green4};
+    }
+
+    &:focus-visible {
+      outline: none;
+      border-color: ${props.theme.colors.green2};
+    }
+  `}
+
+  ${props => props.$active && props.$variant === 'icon-only' && `
+    color: ${props.theme.colors.green5};
+
+    > svg path {
+      fill: ${props.theme.colors.green5};
+      stroke: ${props.theme.colors.green3};
+      stroke-width: 2px;
+      stroke-linejoin: round;
+      paint-order: stroke fill;
+    }
+  `}
+
+  ${props => props.$active && props.$variant === 'icon-with-text' && `
+    color: ${props.theme.colors.green5};
+    border-color: ${props.theme.colors.green2};
+    border-radius: 0px;
+  `}
+
+  &:disabled {
+    cursor: not-allowed;
+    color: ${props => props.theme.colors.green2};
+    filter: none;
+    box-shadow: none;
+    border-color: transparent;
+
+    > svg path {
+      stroke: none;
+    }
+  }
+`;
