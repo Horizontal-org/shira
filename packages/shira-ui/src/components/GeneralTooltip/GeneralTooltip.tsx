@@ -12,6 +12,7 @@ import {
   useDismiss,
   useInteractions,
   FloatingPortal,
+  type Placement,
 } from "@floating-ui/react";
 
 interface Props {
@@ -20,6 +21,7 @@ interface Props {
   show: boolean
   setShow: (value: boolean) => void
   label: string
+  placement?: Placement
 }
 
 export const GeneralTooltip:FunctionComponent<Props> = ({
@@ -27,14 +29,15 @@ export const GeneralTooltip:FunctionComponent<Props> = ({
   show,
   enabled,
   setShow,
-  label
+  label,
+  placement = "bottom",
 }) => {
   const { refs, floatingStyles, context } = useFloating({
     open: show,
     onOpenChange: (open) => {
       if (enabled) setShow(open);
     },
-    placement: "bottom",
+    placement,
     middleware: [offset(6), flip(), shift()],
     whileElementsMounted: autoUpdate,
   });
