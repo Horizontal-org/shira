@@ -16,6 +16,7 @@ export const HelpTooltipIcon: FunctionComponent<HelpTooltipIconProps> = ({ label
       show={showTooltip}
       setShow={setShowTooltip}
       label={label}
+      placement="bottom-start"
     >
       <IoMdHelpCircle size={20} color={theme.colors.dark.mediumGrey} />
     </GeneralTooltip>
