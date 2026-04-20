@@ -82,7 +82,7 @@ const StyledButton = styled.button<StyledButtonProps>`
     }
 
     > svg .bubble-outline {
-      fill: ${props.theme.colors.green4};
+      fill: transparent;
     }
   `}
 
@@ -160,7 +160,10 @@ const StyledButton = styled.button<StyledButtonProps>`
       fill: ${props.theme.colors.green1};
     }
 
-    > svg .bubble-outline,
+    > svg .bubble-outline {
+      fill: transparent;
+    }
+
     > svg .bubble-label {
       fill: ${props.theme.colors.green2};
     }
