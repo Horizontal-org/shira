@@ -73,9 +73,9 @@
         "create_question_button": "创建题目",
         "add_from_library_button": "从题库添加",
         "action_tooltips": {
-            "edit": "编辑题目",
-            "duplicate": "复制题目",
-            "delete": "删除题目"
+            "edit": "编辑",
+            "duplicate": "复制",
+            "delete": "删除"
         }
     },
     "questions": {
@@ -172,7 +172,8 @@
                 "no_explanations": "此题目暂无解析。",
                 "aria_label": "预览题目"
             }
-        }
+        },
+        "header_required_tooltip": "必填字段不可留空"
     },
     "question_library": {
         "message": "",
@@ -286,7 +287,8 @@
         "learn_more": "了解更多",
         "manage_plan": "管理方案",
         "back_to_quizzes": "返回测验",
-        "go_to_settings": "前往设置"
+        "go_to_settings": "前往设置",
+        "no_thanks": "不，谢谢"
     },
     "modals": {
         "message": "",
@@ -534,6 +536,24 @@
                 "current_plan": "当前方案",
                 "downgrade": "降级",
                 "learn_more": "了解更多 Shira 方案"
+            }
+        },
+        "quiz_limit": {
+            "title": "准备升级？",
+            "message_1": "入门版方案最多可创建 3 个测验。",
+            "message_2": "马上免费试用 Shira 专业版 14 天，创建更多定制测验。"
+        },
+        "first_login": {
+            "title": "欢迎使用空间",
+            "description": "当前方案为{{planName}}。",
+            "actions": {
+                "view_plans": "查看方案",
+                "get_started": "开始使用"
+            },
+            "plan_names": {
+                "starter": "入门版",
+                "pro": "专业版",
+                "enterprise": "企业版"
             }
         }
     },
@@ -860,5 +880,9 @@
             "all_done": "完成！",
             "success_message": "结算成功，正在激活您的订阅。"
         }
+    },
+    "banner": {
+        "label": "注意",
+        "message": "Shira 空间尚不支持较小屏幕。为了获得更好的体验，请使用宽度超过 800 像素的屏幕访问空间。"
     }
 }
