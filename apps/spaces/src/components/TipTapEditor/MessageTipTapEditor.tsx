@@ -74,6 +74,7 @@ export const MessageTipTapEditor = ({
               >
                 <ExplanationButton
                   isText={true}
+                  filled={explanations.isTextExplanationActive()}
                   active={explanations.isTextExplanationSelected()}
                   disabled={!explanations.canAddTextExplanation() && !explanations.isTextExplanationActive()}
                   onClick={() => {

@@ -78,6 +78,7 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
 
       <ExplanationButtonWrapper>
         <ExplanationButton
+          filled={Boolean(contentObject.explanation)}
           active={selectedExplanationIndex && selectedExplanationIndex + '' === contentObject.explanation}
           onClick={() => {
             const hasExplanation = contentObject.explanation

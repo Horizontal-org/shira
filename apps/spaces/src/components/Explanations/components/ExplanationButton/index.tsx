@@ -5,6 +5,7 @@ import ExplanationText from '../../../../icons/ExplanationText'
 interface Props {
   onClick: () => void
   active: boolean
+  filled?: boolean
   disabled?: boolean
   isText?: boolean
 }
@@ -14,6 +15,7 @@ type Variant = 'icon-only' | 'icon-with-text';
 export const ExplanationButton: FunctionComponent<Props> = ({
   onClick,
   active,
+  filled = false,
   disabled = false,
   isText = false
 }) => {
@@ -26,6 +28,7 @@ export const ExplanationButton: FunctionComponent<Props> = ({
       onClick={onClick}
       aria-pressed={active}
       $active={active}
+      $filled={filled}
       $variant={variant}
     >
       {isText ? <ExplanationText /> : <ExplanationIcon />}
@@ -35,6 +38,7 @@ export const ExplanationButton: FunctionComponent<Props> = ({
 
 interface StyledButtonProps {
   $active: boolean
+  $filled: boolean
   $variant: Variant
 }
 
@@ -57,13 +61,34 @@ const StyledButton = styled.button<StyledButtonProps>`
     display: block;
   }
 
-  > svg path {
-    transition: fill 0.2s ease, stroke 0.2s ease, stroke-width 0.2s ease;
+  > svg .bubble-fill,
+  > svg .bubble-outline,
+  > svg .bubble-label {
+    transition: fill 0.2s ease, opacity 0.2s ease;
   }
+
+  > svg .bubble-fill {
+    fill: transparent;
+  }
+
+  > svg .bubble-outline,
+  > svg .bubble-label {
+    fill: currentColor;
+  }
+
+  ${props => props.$filled && `
+    > svg .bubble-fill {
+      fill: ${props.theme.colors.green2};
+    }
+
+    > svg .bubble-outline {
+      fill: ${props.theme.colors.green4};
+    }
+  `}
 
   ${props => props.$variant === 'icon-only' && `
     padding: 4px;
-    border-radius: 0;
+    border-radius: 4px;
 
     > svg {
       width: 22px;
@@ -99,19 +124,27 @@ const StyledButton = styled.button<StyledButtonProps>`
   ${props => props.$active && props.$variant === 'icon-only' && `
     color: ${props.theme.colors.green5};
 
-    > svg path {
+    > svg .bubble-fill {
+      fill: ${props.theme.colors.green3};
+    }
+
+    > svg .bubble-outline {
       fill: ${props.theme.colors.green5};
-      stroke: ${props.theme.colors.green3};
-      stroke-width: 2px;
-      stroke-linejoin: round;
-      paint-order: stroke fill;
     }
   `}
 
   ${props => props.$active && props.$variant === 'icon-with-text' && `
     color: ${props.theme.colors.green5};
     border-color: ${props.theme.colors.green2};
-    border-radius: 0px;
+    border-radius: 4px;
+
+    > svg .bubble-fill {
+      fill: ${props.theme.colors.green3};
+    }
+
+    > svg .bubble-outline {
+      fill: ${props.theme.colors.green5};
+    }
   `}
 
   &:disabled {
@@ -120,9 +153,16 @@ const StyledButton = styled.button<StyledButtonProps>`
     filter: none;
     box-shadow: none;
     border-color: transparent;
-
-    > svg path {
-      stroke: none;
-    }
   }
+
+  ${props => props.disabled && props.$filled && `
+    > svg .bubble-fill {
+      fill: ${props.theme.colors.green1};
+    }
+
+    > svg .bubble-outline,
+    > svg .bubble-label {
+      fill: ${props.theme.colors.green2};
+    }
+  `}
 `;
