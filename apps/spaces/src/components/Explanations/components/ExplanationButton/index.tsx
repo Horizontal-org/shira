@@ -54,6 +54,7 @@ const StyledButton = styled.button<StyledButtonProps>`
   flex-shrink: 0;
   line-height: 0;
   cursor: pointer;
+
   color: ${props => props.theme.colors.green5};
   transition: color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
 
@@ -111,6 +112,14 @@ const StyledButton = styled.button<StyledButtonProps>`
     padding: 2px;
     border: 2px solid transparent;
 
+    > svg .bubble-fill {
+      fill: currentColor;
+    }
+
+    > svg .bubble-outline {
+      fill: transparent;
+    }
+
     &:hover {
       color: ${props.theme.colors.green4};
     }
@@ -118,6 +127,18 @@ const StyledButton = styled.button<StyledButtonProps>`
     &:focus-visible {
       outline: none;
       border-color: ${props.theme.colors.green2};
+    }
+  `}
+
+  ${props => props.$filled && !props.$active && `
+    &:hover {
+      > svg .bubble-fill {
+        fill: ${props.theme.colors.green4};
+      }
+
+      > svg .bubble-outline {
+        fill: transparent;
+      }
     }
   `}
 
@@ -136,14 +157,14 @@ const StyledButton = styled.button<StyledButtonProps>`
   ${props => props.$active && props.$variant === 'icon-with-text' && `
     color: ${props.theme.colors.green5};
     border-color: ${props.theme.colors.green2};
-    border-radius: 4px;
+    border-radius: 0px;
 
     > svg .bubble-fill {
-      fill: ${props.theme.colors.green3};
+      fill: currentColor;
     }
 
     > svg .bubble-outline {
-      fill: ${props.theme.colors.green5};
+      fill: transparent;
     }
   `}
 
