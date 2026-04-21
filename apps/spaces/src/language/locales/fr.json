@@ -73,9 +73,9 @@
         "create_question_button": "Créer une question",
         "add_from_library_button": "Ajouter depuis la bibliothèque",
         "action_tooltips": {
-            "edit": "Modifier la question",
-            "duplicate": "Dupliquer la question",
-            "delete": "Supprimer la question"
+            "edit": "Modifier",
+            "duplicate": "Dupliquer",
+            "delete": "Supprimer"
         }
     },
     "questions": {
@@ -172,7 +172,8 @@
                 }
             }
         },
-        "header_title": "Créer une nouvelle question"
+        "header_title": "Créer une nouvelle question",
+        "header_required_tooltip": "Les champs obligatoires ne peuvent pas être laissés vides"
     },
     "question_library": {
         "message": "",
@@ -882,5 +883,9 @@
             "all_done": "C'est terminé !",
             "success_message": "Votre paiement a été validé avec succès. Nous activons votre forfait dès maintenant."
         }
+    },
+    "banner": {
+        "message": "Les espaces Shira ne sont pas encore disponibles sur les petits écrans. Pour une expérience optimale, veuillez utiliser un écran d'une largeur supérieure à 800 pixels.",
+        "label": "NOTE"
     }
 }
