@@ -77,7 +77,7 @@ const StyledButton = styled.button<StyledButtonProps>`
     fill: currentColor;
   }
 
-  ${props => props.$filled && `
+  ${props => props.$filled && props.$variant === 'icon-only' && `
     > svg .bubble-fill {
       fill: ${props.theme.colors.green2};
     }
@@ -112,6 +112,17 @@ const StyledButton = styled.button<StyledButtonProps>`
     padding: 2px;
     border: 2px solid transparent;
 
+    &:hover {
+      color: ${props.theme.colors.green4};
+    }
+
+    &:focus-visible {
+      outline: none;
+      color: ${props.theme.colors.green5};
+    }
+  `}
+
+  ${props => props.$filled && props.$variant === 'icon-with-text' && `
     > svg .bubble-fill {
       fill: currentColor;
     }
@@ -119,18 +130,9 @@ const StyledButton = styled.button<StyledButtonProps>`
     > svg .bubble-outline {
       fill: transparent;
     }
-
-    &:hover {
-      color: ${props.theme.colors.green4};
-    }
-
-    &:focus-visible {
-      outline: none;
-      border-color: ${props.theme.colors.green2};
-    }
   `}
 
-  ${props => props.$filled && !props.$active && `
+  ${props => props.$filled && !props.$active && props.$variant === 'icon-only' && `
     &:hover {
       > svg .bubble-fill {
         fill: ${props.theme.colors.green4};
@@ -158,14 +160,6 @@ const StyledButton = styled.button<StyledButtonProps>`
     color: ${props.theme.colors.green5};
     border-color: ${props.theme.colors.green2};
     border-radius: 0px;
-
-    > svg .bubble-fill {
-      fill: currentColor;
-    }
-
-    > svg .bubble-outline {
-      fill: transparent;
-    }
   `}
 
   &:disabled {
@@ -176,7 +170,7 @@ const StyledButton = styled.button<StyledButtonProps>`
     border-color: transparent;
   }
 
-  ${props => props.disabled && props.$filled && `
+  ${props => props.disabled && props.$filled && props.$variant === 'icon-only' && `
     > svg .bubble-fill {
       fill: ${props.theme.colors.green1};
     }
@@ -187,6 +181,23 @@ const StyledButton = styled.button<StyledButtonProps>`
 
     > svg .bubble-label {
       fill: ${props.theme.colors.green2};
+    }
+  `}
+
+  ${props => props.disabled && props.$filled && props.$variant === 'icon-with-text' && `
+    color: ${props.theme.colors.green5};
+    border-color: transparent;
+
+    > svg .bubble-fill {
+      fill: currentColor;
+    }
+
+    > svg .bubble-outline {
+      fill: transparent;
+    }
+
+    > svg .bubble-label {
+      fill: currentColor;
     }
   `}
 `;
