@@ -5,13 +5,14 @@ import { FinishQuizRunDto } from '../dto/finish-quiz-run.dto';
 import { QuizRun } from '../domain/quiz_runs.entity';
 import { QuestionRun } from '../domain/question_runs.entity';
 import { LearnerQuiz } from 'src/modules/learner/domain/learners_quizzes.entity';
+import { IFinishQuizRunService } from '../interfaces/services/finish-quiz-run.service.interface';
 
 @Injectable()
-export class FinishQuizRunService {
+export class FinishQuizRunService implements IFinishQuizRunService {
   constructor(
     private readonly dataSource: DataSource,
     @InjectRepository(QuizRun) private readonly quizRunRepo: Repository<QuizRun>,
-  ) {}
+  ) { }
 
   async execute(runId: number, dto: FinishQuizRunDto): Promise<QuizRun> {
     const run = await this.quizRunRepo.findOne({ where: { id: runId } });
@@ -36,11 +37,11 @@ export class FinishQuizRunService {
 
       if (run.learnerId) {
         const learnerQuizRepo = manager.getRepository(LearnerQuiz);
-        const learnerQuiz = await learnerQuizRepo.findOne({ where: { quizId: run.quizId, learnerId: run.learnerId }})
+        const learnerQuiz = await learnerQuizRepo.findOne({ where: { quizId: run.quizId, learnerId: run.learnerId } })
         learnerQuiz.status = 'completed'
         await learnerQuizRepo.save(learnerQuiz)
       }
-      
+
       return run;
     });
   }

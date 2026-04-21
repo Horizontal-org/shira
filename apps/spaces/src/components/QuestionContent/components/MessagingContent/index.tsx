@@ -6,6 +6,7 @@ import { ActiveQuestion, MessagingContent as MessagingContentType } from "../../
 import { useStore } from "../../../../store";
 import { shallow } from "zustand/shallow";
 import { useTranslation } from "react-i18next";
+import { MessageEditorStyles } from "../../../TipTapEditor/styles/MessageEditorStyles";
 
 interface Props {
   question: ActiveQuestion
@@ -93,6 +94,8 @@ export const MessagingContent: FunctionComponent<Props> = ({
             {t('create_question.tabs.content.message_content.subtitle')}
           </Body3>
         </MessagingContentHead>
+
+        <MessageEditorStyles />
 
         <DraggableMessagingList
           content={content}

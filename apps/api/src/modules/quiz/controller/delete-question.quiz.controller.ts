@@ -15,7 +15,7 @@ export class DeleteQuestionQuizController {
     private deleteQuestionQuizService: IDeleteQuestionQuizService,
     @Inject(TYPES.services.IValidateSpaceQuizService)
     private validateSpaceQuizService: IValidateSpaceQuizService
-  ) {}
+  ) { }
 
   @Post('question/delete')
   @Roles(Role.SpaceAdmin)
@@ -24,7 +24,7 @@ export class DeleteQuestionQuizController {
     @SpaceId() spaceId: number
   ) {
     await this.validateSpaceQuizService.execute(spaceId, deleteDto.quizId)
- 
+
     try {
       await this.deleteQuestionQuizService.execute(deleteDto);
     } catch (e) {

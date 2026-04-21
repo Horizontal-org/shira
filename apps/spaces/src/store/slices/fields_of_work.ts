@@ -1,5 +1,4 @@
 import { StateCreator } from "zustand"
-import { App, getApps } from "../../fetch/app"
 import { FieldOfWork, getFieldsOfWork } from "../../fetch/field_of_work"
 
 export interface FieldsOfWorkSlice {

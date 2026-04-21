@@ -1,7 +1,6 @@
-import { FunctionComponent, ReactNode, useEffect, useRef } from 'react'
+import { FunctionComponent, useRef } from 'react'
 import { Draggable } from "@hello-pangea/dnd";
 import { Attachment, styled } from '@shira/ui';
-import { DragItemOptions } from '../../../../DragItemOptions';
 import { shallow } from 'zustand/shallow';
 import { useStore } from '../../../../../store';
 import { ExplanationButton } from '../../../../Explanations/components/ExplanationButton';
@@ -11,17 +10,17 @@ import { QuestionContentDragItemOptions } from '../../QuestionContentDragItemOpt
 interface Props {
   index: number;
   item: QuestionDragAttachment;
-  onDelete: () => void  
+  onDelete: () => void
 }
 
-export const DraggableAttachmentItem: FunctionComponent<Props> = ({  
+export const DraggableAttachmentItem: FunctionComponent<Props> = ({
   index,
   item,
-  onDelete,  
+  onDelete,
 }) => {
   const {
     addExplanation,
-    explanationIndex,      
+    explanationIndex,
     changeSelected,
     selectedExplanation,
     updateActiveQuestionDraggableItem
@@ -32,39 +31,40 @@ export const DraggableAttachmentItem: FunctionComponent<Props> = ({
     selectedExplanation: state.selectedExplanation,
     updateActiveQuestionDraggableItem: state.updateActiveQuestionDraggableItem
   }), shallow)
-    
+
   const ref = useRef(null)
-  
+
   return (
     <>
-    <Draggable 
-      draggableId={item.draggableId} 
-      index={index}
-    >
-      {(draggableProvided, snapshot) => (
-        <>
-          <Container
-            ref={draggableProvided.innerRef}
-            {...draggableProvided.draggableProps}
-          >
-            <Wrapper>
-              <ContentWrapper>
-                <QuestionContentDragItemOptions
-                  dragHandleProps={draggableProvided.dragHandleProps}
-                  onDelete={onDelete}
-                  typeOffset=''
-                />
-                <AttachmentWrapper
-                  ref={ref}
-                >
-                  <Attachment                     
-                    name={item.value.name}
-                    type={item.value.type}
-                  />                   
-                </AttachmentWrapper>
-                <ExplanationButton
-                  active={selectedExplanation && selectedExplanation + '' === item.explanation}
-                  disabled={false}
+      <Draggable
+        draggableId={item.draggableId}
+        index={index}
+      >
+        {(draggableProvided, snapshot) => (
+          <>
+            <Container
+              ref={draggableProvided.innerRef}
+              {...draggableProvided.draggableProps}
+            >
+              <Wrapper>
+                <ContentWrapper>
+                  <QuestionContentDragItemOptions
+                    dragHandleProps={draggableProvided.dragHandleProps}
+                    onDelete={onDelete}
+                    typeOffset=''
+                  />
+                  <AttachmentWrapper
+                    ref={ref}
+                  >
+                    <Attachment
+                      name={item.value.name}
+                      type={item.value.type}
+                    />
+                  </AttachmentWrapper>
+
+                  <ExplanationButton
+                    active={selectedExplanation && selectedExplanation + '' === item.explanation}
+                    disabled={false}
                     onClick={() => {
                       if (item.explanation) {
                         changeSelected(parseInt(item.explanation))
@@ -73,15 +73,15 @@ export const DraggableAttachmentItem: FunctionComponent<Props> = ({
                         addExplanation(newExplanationIndex, '')
                         updateActiveQuestionDraggableItem(index, 'explanation', newExplanationIndex + '')
                       }
-                  }}
-                />
-              </ContentWrapper>
-            </Wrapper>
-            
-          </Container>
-        </>
-      )}
-    </Draggable>
+                    }}
+                  />
+                </ContentWrapper>
+              </Wrapper>
+
+            </Container>
+          </>
+        )}
+      </Draggable>
     </>
   )
 }

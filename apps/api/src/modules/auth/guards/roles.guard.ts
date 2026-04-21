@@ -7,7 +7,6 @@ import {
   IUserContextService,
   TYPES 
 } from '../interfaces';
-import { UserSpaceContext, UserOrganizationContext } from '../interfaces/services/user-context.service.interface';
 import { SpaceEntity } from 'src/modules/space/domain/space.entity';
 import { LoggedUserDto } from 'src/modules/user/dto/logged.user.dto';
 

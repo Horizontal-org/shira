@@ -1,12 +1,7 @@
 import {
   Get,
   Param,
-  Post,
   Res,
-  UploadedFiles,
-  Body,
-  UseInterceptors,
-  Controller,
 } from '@nestjs/common';
 
 import { ParserQuestionService } from '../services/individualParser.question.service';

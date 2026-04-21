@@ -1,15 +1,13 @@
-import { FunctionComponent } from "react";
-import { Modal, styled, TextInput } from "@shira/ui";
+import { FunctionComponent, useEffect, useState } from "react";
+import { Modal, defaultTheme, styled, TextInput } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 import { hasRequiredValue } from "../../../utils/validation";
+import { useTitleUpdate } from "../../../hooks/useTitleUpdate";
 
 interface Props {
   isModalOpen: boolean;
   setIsModalOpen: (isOpen: boolean) => void;
-
-  title: string;
-  setTitle: (title: string) => void;
-
+  validateQuizName: (name: string) => Promise<void>;
   onCreate: (title: string) => void;
   onCancel?: () => void;
   keepModalOpen?: boolean;
@@ -18,13 +16,38 @@ interface Props {
 export const CreateQuizModal: FunctionComponent<Props> = ({
   isModalOpen,
   setIsModalOpen,
-  title,
-  setTitle,
+  validateQuizName,
   onCreate,
   onCancel,
   keepModalOpen = false,
 }) => {
   const { t } = useTranslation();
+  const [title, setTitle] = useState("");
+  const {
+    isValidatingTitle,
+    titleError,
+    clearTitleValidation,
+    handleTitleChange,
+    handleTitleSubmit,
+  } = useTitleUpdate({
+    setTitle,
+    validateQuizName,
+    onValidTitle: (newTitle) => {
+      onCreate(newTitle);
+
+      if (!keepModalOpen) {
+        setIsModalOpen(false);
+      }
+    },
+  });
+  const hasError = Boolean(titleError);
+
+  useEffect(() => {
+    if (!isModalOpen) {
+      setTitle("");
+      clearTitleValidation();
+    }
+  }, [isModalOpen]);
 
   return (
     <Modal
@@ -32,18 +55,17 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
       isOpen={isModalOpen}
       title={t('modals.create_quiz.title')}
       primaryButtonText={t('buttons.next')}
-      primaryButtonDisabled={!hasRequiredValue(title)}
+      primaryButtonDisabled={!hasRequiredValue(title) || isValidatingTitle || hasError}
       onPrimaryClick={() => {
-        if (!hasRequiredValue(title)) {
+        if (!hasRequiredValue(title) || isValidatingTitle || hasError) {
           return;
         }
-        onCreate(title.trim());
-        if (!keepModalOpen) {
-          setIsModalOpen(false);
-        }
+        handleTitleSubmit(title);
       }}
       secondaryButtonText={t("buttons.cancel")}
       onSecondaryClick={() => {
+        clearTitleValidation();
+        setTitle("");
         onCancel?.();
         setIsModalOpen(false);
       }}
@@ -53,8 +75,12 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
           id="create-quiz-title-input"
           label="Quiz name"
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) => handleTitleChange(e.target.value)}
+          isLoading={isValidatingTitle}
         />
+        <ErrorContainer role="alert" aria-live="polite">
+          {hasError && <ErrorText>{t(titleError)}</ErrorText>}
+        </ErrorContainer>
       </FormContent>
     </Modal>
   );
@@ -63,4 +89,16 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
 const FormContent = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+const ErrorContainer = styled.div`
+  min-height: 32px;
+  padding: 0 10px;
+`;
+
+const ErrorText = styled.p`
+  color: ${defaultTheme.colors.error7};
+  margin: 0;
+  padding: 4px 10px;
+  font-size: 14px;
 `;

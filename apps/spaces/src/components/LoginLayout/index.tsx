@@ -32,9 +32,9 @@ export const LoginLayout: FunctionComponent<Props> = () => {
 
   useEffect(() => {
     if (user) {
-      navigate("/");
+      navigate("/", { state: { fromLogin: true }, replace: true });
     }
-  }, [user]);
+  }, [navigate, user]);
 
   const description = (
     <>

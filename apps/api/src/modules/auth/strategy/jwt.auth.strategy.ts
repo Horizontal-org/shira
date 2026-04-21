@@ -29,7 +29,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate(payload: JWTPayload): Promise<LoggedUserDto> {
     const user = await this.getByIdUserApplication.execute(parseInt(payload.userId))
 
-    if(!user) {
+    if (!user) {
       throw new UnauthorizedException('User not found')
     }
 
@@ -37,6 +37,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     loggedUser.id = user.id
     loggedUser.email = user.email
     loggedUser.isSuperAdmin = user.isSuperAdmin
+    loggedUser.lastPasswordChangeAt = user.lastPasswordChangeAt
 
     return loggedUser
   }

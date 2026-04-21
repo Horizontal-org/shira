@@ -1,15 +1,11 @@
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
+import { FunctionComponent, useRef } from 'react'
 import styled from 'styled-components'
 import { shallow } from 'zustand/shallow'
 import { useStore } from '../../store'
 import { ExplanationButton } from '../Explanations/components/ExplanationButton'
-import { CustomElements } from '../../fetch/question'
 import { TextInput } from '@shira/ui'
 import { QuestionTextInput } from '../../store/types/active_question'
 
-const RE_VALIDATIONS = {
-  phone:  /^[0-9\W]*$/
-}
 
 interface Props {
   placeholder?: string;
@@ -56,7 +52,7 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
         label={label}
         value={contentObject.value}
         placeholder={placeholder}
-        onChange={(e) => { 
+        onChange={(e) => {
           // if(RE_VALIDATIONS[validation] && !RE_VALIDATIONS[validation]?.test(ref.current.value)) return
           // setValue(ref.current.value)
           // onChange(
@@ -66,7 +62,7 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
 
           updateActiveQuestionInput(name, 'value', e.target.value)
         }}
-        onBlur={(e) => {
+        onBlur={() => {
           const hasExplanation = contentObject.explanation
           if (hasExplanation) {
             changeSelected(null)
@@ -79,7 +75,7 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
           }
         }}
       />
-      
+
       <ExplanationButtonWrapper>
         <ExplanationButton
           active={selectedExplanationIndex && selectedExplanationIndex + '' === contentObject.explanation}
@@ -90,7 +86,7 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
             } else {
               const index = explanationIndex + 1
               addExplanation(index, label)
-              updateActiveQuestionInput(name, 'explanation', index + '')            
+              updateActiveQuestionInput(name, 'explanation', index + '')
             }
           }}
         />

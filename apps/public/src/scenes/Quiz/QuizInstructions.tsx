@@ -9,7 +9,6 @@ import PhisingIcon from '../../components/UI/Icons/Alert'
 import { SceneWithFooter } from '../../components/UI/SceneWithFooter'
 import { Heading } from '../../components/UI/Title'
 import { FiChevronRight } from 'react-icons/fi'
-import HowItWorks from '../../components/UI/Icons/HowItWorks'
 import useGetWidth from '../../hooks/useGetWidth'
 interface Props {
   onNext: () => void

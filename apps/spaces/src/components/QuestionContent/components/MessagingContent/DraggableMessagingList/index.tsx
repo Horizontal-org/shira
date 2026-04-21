@@ -1,16 +1,17 @@
-import { Button, BaseFloatingMenu } from "@shira/ui";
+import { Button, BaseFloatingMenu, useTheme, styled } from "@shira/ui";
 import { FunctionComponent, useRef, useState } from "react";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 
 import { IoMdAdd } from "react-icons/io";
 import { DraggableMessagingItem } from "../DraggableMessagingItem";
-import styled from "styled-components";
+
 import { FiShare } from "react-icons/fi";
 import { useImageUpload } from "../../../../../hooks/useImageUpload";
 import { useStore } from "../../../../../store";
 import { shallow } from "zustand/shallow";
 import { QuestionDragEditor, QuestionDragImage } from "../../../../../store/types/active_question";
 import { useTranslation } from "react-i18next";
+import { ErrorBanner } from "../../../../ErrorBanner";
 
 
 interface Props {
@@ -27,7 +28,6 @@ const castType = {
 
 export const DraggableMessagingList: FunctionComponent<Props> = ({
   items,
-  content,
   onChange,
 }) => {
 
@@ -39,8 +39,8 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
     deleteExplanation: state.deleteExplanation,
   }), shallow)
 
-
   const [imageFloatingMenu, handleImageFloatingMenu] = useState<boolean>(false)
+  const [imageUploadError, setImageUploadError] = useState<string | null>(null)
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const reorder = (newItems, startIndex, endIndex) => {
@@ -92,6 +92,16 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
 
   const handleNewImage = async (e) => {
     if (e.target.files && e.target.files.length > 0) {
+      const selectedFile = e.target.files[0]
+      const validationError = images.validateFile(selectedFile)
+
+      if (validationError) {
+        setImageUploadError(validationError)
+        e.target.value = ''
+        return
+      }
+
+      setImageUploadError(null)
       const newName = `component-image-${items.length + 1}`
       const newPosition = items.length + 1
       const newItems = [...items]
@@ -108,13 +118,19 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
 
       try {
         const res = await images.onImageSelect(e)
-        newItems[index] = { ...newItems[index], value: res } as QuestionDragImage
+        if (!res) {
+          return
+        }
+        newItems[index] = {
+          ...newItems[index],
+          value: res
+        } as QuestionDragImage
         onChange(newItems)
       } catch (e) {
-        onChange(items.filter((item, itemIndex) => itemIndex !== index))
+        setImageUploadError(e instanceof Error ? e.message : String(e))
+        onChange(items.filter((_item, itemIndex) => itemIndex !== index))
       }
     }
-
   }
 
   const cleanTextExplanations = (item: QuestionDragEditor) => {
@@ -173,15 +189,21 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
           <HiddenFileInput
             ref={images.fileInputRef}
             type="file"
-            accept="image/*"
+            accept="image/jpeg,image/png,image/gif,image/webp,.jpg,.jpeg,.png,.gif,.webp"
             onChange={handleNewImage}
           />
         </ImageButtonWrapper>
       </ButtonsWrapper>
 
+      {imageUploadError && (
+        <ErrorBanner role="alert" aria-live="polite">
+          {imageUploadError}
+        </ErrorBanner>
+      )}
+
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId='droppable'>
-          {(provided, snapshot) => (
+          {(provided) => (
             <div
               {...provided.droppableProps}
               ref={provided.innerRef}
@@ -191,6 +213,7 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
                   item={item}
                   key={item.draggableId}
                   index={index}
+                  isImageUploading={item.contentType === 'image' && !item.value && images.isUploading}
                   onDelete={() => {
                     if (item.contentType === 'image' && item.explanation) {
                       deleteExplanation((parseInt(item.explanation)))

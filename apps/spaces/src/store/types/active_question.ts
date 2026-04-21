@@ -1,6 +1,5 @@
 import { AttachmentType } from "@shira/ui";
 import { App } from "../../fetch/app";
-import { Explanation } from "./explanation";
 
 export const defaultEmailContent: EmailContent = {
   senderEmail: {
@@ -107,6 +106,8 @@ export interface QuestionDragImage {
   draggableId: string;
   position: number;
   explanation: string | null
+  uploadError?: string | null
+  uploadFilename?: string | null
 }
 
 export interface ImageObject {

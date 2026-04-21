@@ -1,4 +1,4 @@
-import { IsArray, IsNumber, isObject, IsObject, IsOptional, IsString } from "class-validator";
+import { IsNumber, IsString } from "class-validator";
 
 export class ReadQuestionImageDto {
   @IsNumber()

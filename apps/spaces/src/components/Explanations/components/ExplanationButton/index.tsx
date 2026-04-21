@@ -1,25 +1,27 @@
-import React, { FunctionComponent } from 'react'
-import { HiOutlineChatBubbleBottomCenter } from 'react-icons/hi2'
+import { FunctionComponent } from 'react'
 import { ExplanationIcon, styled } from '@shira/ui'
+import ExplanationText from '../../../../icons/ExplanationText'
 
 interface Props {
   onClick: () => void
   active: boolean
   disabled?: boolean
+  isText?: boolean
 }
 
-export const ExplanationButton: FunctionComponent<Props> = ({ 
-  onClick, 
+export const ExplanationButton: FunctionComponent<Props> = ({
+  onClick,
   active,
-  disabled = false
+  disabled = false,
+  isText = false
 }) => {
   return (
-    <SvgWrapper 
+    <SvgWrapper
       disabled={disabled}
       onClick={disabled ? null : onClick}
       active={active}
     >
-      <ExplanationIcon /> 
+      {isText ? <ExplanationText /> : <ExplanationIcon />}
     </SvgWrapper>
 
   )
@@ -32,7 +34,7 @@ interface StyledSvgWrapper {
 
 const SvgWrapper = styled.div<StyledSvgWrapper>`
   cursor: pointer;
-  margin-left: 12px;  
+  margin-left: 12px;
   border-radius: 50%;
   padding: 4px;
   display: flex;
@@ -40,19 +42,22 @@ const SvgWrapper = styled.div<StyledSvgWrapper>`
   justify-content: center;
   width: 28px;
   height: 28px;
-  
+
   transition: 0.2s all;
+  color: #ACADAE;
+
   > svg {
-    stroke: #ddd;
+    stroke: #ACADAE;
+    fill: #ACADAE;
   }
 
-  &:hover {
-    stroke: ${props => props.theme.secondary.base};
-    fill: ${props => props.theme.secondary.base};
-    background: #f1f2f4;
+  > svg > path {
+    fill: #ACADAE;
   }
-  
-  ${props =>  props.active && `
+
+  ${props => props.active && `
+    color: ${props.theme.secondary.base};
+    cursor: pointer;
     > svg {
       stroke: ${props.theme.secondary.base};
       fill: ${props.theme.secondary.base};
@@ -64,6 +69,30 @@ const SvgWrapper = styled.div<StyledSvgWrapper>`
   `}
 
   ${props => props.disabled && `
-    cursor: auto;  
+    cursor: help;
+    background: white;
+    > svg {
+      fill: rgba(241,242,244,0.6);
+      stroke: rgba(241,242,244,0.6);
+    }
+  `}
+
+
+  ${props => !props.disabled && `
+    &:hover {
+      stroke: ${props.theme.secondary.base};
+      fill: ${props.theme.secondary.base};
+      background: #f1f2f4;
+      color: ${props.theme.secondary.base};
+
+      > svg {
+        stroke: ${props.theme.secondary.base};
+        fill: ${props.theme.secondary.base};
+      }
+
+      > svg > path {
+        fill: ${props.theme.secondary.base};
+      }
+    }
   `}
 `

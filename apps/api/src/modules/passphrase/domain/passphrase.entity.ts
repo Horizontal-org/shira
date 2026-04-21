@@ -18,6 +18,13 @@ export class PassphraseEntity {
   })
   organizationType: "business" | "cibersecurity" | "non-profit" | "individual"
 
+  @Column({
+    name: 'subscription_intent',
+    type: 'enum',
+    enum: ["starter", "pro", "enterprise"],
+  })
+  subscriptionIntent: "starter" | "pro" | "enterprise";
+  
   @Column({ length: 150 })
   code: string;
 

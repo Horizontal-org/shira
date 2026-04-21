@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConsoleModule } from 'nestjs-console';
+import { JwtModule } from '@nestjs/jwt';
 import { UserCommander } from './commander';
 import { UserEntity } from './domain/user.entity';
 import { userControllers } from './controllers'
@@ -11,9 +12,13 @@ import {
   getByIdUserApplicationProvider,
   findByUernameUserServiceProvider,
   createUserApplicationProvider,
-  markUserLoginServiceProvider
+  markUserLoginServiceProvider,
+  requestEmailUpdateUserServiceProvider,
+  confirmEmailUpdateUserServiceProvider,
+  confirmPasswordUpdateUserServiceProvider
 } from './user.providers';
 import { SpaceEntity } from '../space/domain/space.entity';
+import { SubscriptionModule } from '../subscription/subscription.module';
 
 @Module({
   imports: [
@@ -21,7 +26,12 @@ import { SpaceEntity } from '../space/domain/space.entity';
       UserEntity,
       SpaceEntity
     ]),
+    JwtModule.register({
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '1d' },
+    }),
     ConsoleModule,
+    SubscriptionModule
   ],
   providers: [
     UserCommander,
@@ -34,7 +44,10 @@ import { SpaceEntity } from '../space/domain/space.entity';
     getByIdUserApplicationProvider,
     findByUernameUserServiceProvider,
     createUserApplicationProvider,
-    markUserLoginServiceProvider
+    markUserLoginServiceProvider,
+    requestEmailUpdateUserServiceProvider,
+    confirmEmailUpdateUserServiceProvider,
+    confirmPasswordUpdateUserServiceProvider
   ],
 })
 export class UserModule {}

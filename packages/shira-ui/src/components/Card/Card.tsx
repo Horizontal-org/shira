@@ -28,6 +28,7 @@ export interface CardProps {
   visibilityText?: string;
   showLoading?: boolean;
   loadingLabel?: string;
+  canDuplicate?: boolean;
 }
 
 export const Card: FunctionComponent<CardProps> = ({
@@ -49,6 +50,7 @@ export const Card: FunctionComponent<CardProps> = ({
   visibilityText,
   loadingLabel,
   showLoading = false,
+  canDuplicate = true
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showPublishTooltip, setShowPublishTooltip] = useState(false);
@@ -99,10 +101,10 @@ export const Card: FunctionComponent<CardProps> = ({
               e.stopPropagation();
               onEdit();
             }}
-            onDuplicate={(e) => {
+            onDuplicate={canDuplicate ? (e) => {
               e.stopPropagation();
               onDuplicate();
-            }}
+            } : undefined}
             onCopyUrl={(e) => {
               e.stopPropagation();
               onCopyUrl && onCopyUrl();

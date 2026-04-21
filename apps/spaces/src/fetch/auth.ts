@@ -1,48 +1,123 @@
 import axios from "axios"
 
-export const fetchUser = async(token: string, spaceId: string) => {
-  console.log("🚀 ~ fetchUser ~ spaceId:", spaceId)
+const isProduction = () => {
+  return process.env.NODE_ENV === 'production';
+}
+
+export const fetchUser = async (spaceId: string) => {
   try {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/user`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'X-Space': spaceId
-      }
-    })
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+    let headers = {
+      'X-Space': spaceId
+    }
+
+    if (isProduction()) {
+      axios.defaults.withCredentials = true;
+    } else {
+      const token = window.localStorage.getItem('shira_access_token');
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    }
+
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/user`, { headers })
+
     axios.defaults.headers.common['X-Space'] = spaceId;
+
     return res.data
   } catch (err) {
-    console.log("🚀 ~ file: auth.ts ~ line 12 ~ fetchUser ~ err", err)
+    console.log(`[AUTH] fetchUser - error:`, err);
+    throw err;
   }
 }
 
-export const login = async(email, pass) => {
+export const login = async (email, pass) => {
   try {
+    console.log(`[AUTH] login - attempting for email: ${email}`);
+    
     const res = await axios.post(`${process.env.REACT_APP_API_URL}/login`, {
       email: email,
       password: pass
     })
+
+    if (isProduction()) {
+      axios.defaults.withCredentials = true;
+      console.log(`[AUTH] login - success, using httpOnly cookie`);
+    } else {
+      const token = res.data.access_token;
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      window.localStorage.setItem('shira_access_token', res.data.access_token);
+      console.log(`[AUTH] login - success, using Bearer token (dev mode)`);
+    }
+
+    const spaceId = res.data.user.spaces[0].id
+    window.localStorage.setItem('shira_x_space', spaceId)
+    axios.defaults.headers.common['X-Space'] = `${spaceId}`;
     
-    window.localStorage.setItem('shira_access_token', res.data.access_token)
-    axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.access_token}`;
-    // you need to have at least one space
-    window.localStorage.setItem('shira_x_space', res.data.user.spaces[0].id)
-    axios.defaults.headers.common['X-Space'] = `${res.data.user.spaces[0].id}`;
     return res.data.user
   } catch (e) {
+    console.log(`[AUTH] login - error:`, e);
     alert('Unauthorized')
   }
 }
 
-export const checkAuth = async() => {
-  const token = window.localStorage.getItem('shira_access_token')
+export const checkAuth = async () => {
   const spaceId = window.localStorage.getItem('shira_x_space')
-  if (token && spaceId) {
-    const user = await fetchUser(token, spaceId)
-    return user 
-  } else {
-    return null
+  
+  if (spaceId) {
+    try {
+      const fetchUserResponse = await fetchUser(spaceId)
+      return fetchUserResponse
+    } catch (err) {
+      console.log(`[AUTH] checkAuth - failed:`, err?.response?.status);
+      return null;
+    }
   }
+  
+  return null
+}
 
+export const logout = async () => {
+  try {
+    console.log(`[AUTH] logout - initiating`);
+    await axios.post(`${process.env.REACT_APP_API_URL}/logout`)
+    window.localStorage.removeItem('shira_x_space')
+    window.localStorage.removeItem('shira_access_token')    
+    console.log(`[AUTH] logout - success`);
+  } catch (err) {
+    console.log(`[AUTH] logout - error:`, err);
+  }
+}
+
+export const getSub = async () => {
+  try {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/subscription`)
+    return res.data
+  } catch (err) {
+    console.log("🚀 ~ getSub ~ err:", err)
+  }
+}
+
+export const manageSubscription = async (organizationId: string) => {
+  const res = await axios.post(`${process.env.REACT_APP_API_URL}/subscription/manage/${organizationId}`)
+  return res.data
+}
+
+export const navigateToManageSubscription = async (
+  organizationId: string,
+  wantsToUpgrade: boolean
+) => {
+  try {
+    const response = wantsToUpgrade ? await checkoutSubscription(organizationId) : await manageSubscription(organizationId)
+    const stripeUrl = response?.url
+
+    if (stripeUrl) {
+      window.location.assign(stripeUrl)
+    }
+  } catch (error) {
+    console.error("Error navigating to Stripe:", error)
+  }
+}
+
+export const checkoutSubscription = async (organizationId: string) => {
+  const res = await axios.post(`${process.env.REACT_APP_API_URL}/subscription/checkout/${organizationId}`)
+  return res.data
 }

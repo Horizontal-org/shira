@@ -1,12 +1,9 @@
 import { Controller, Get, ParseArrayPipe, Query } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { EntityManager, getManager, Repository } from 'typeorm';
-import { Question } from '../domain';
 import { GenerateQuizQuestionService } from '../services/quiz.question.service';
 
 @Controller('question')
 export class DemoQuestionController {
-  constructor(private generateQuizService: GenerateQuizQuestionService) {}
+  constructor(private generateQuizService: GenerateQuizQuestionService) { }
 
   @Get('demo')
   async handler(

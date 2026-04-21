@@ -1,7 +1,7 @@
 import { FunctionComponent, useState } from "react";
-import { FiMenu, FiPlus, FiLoader } from 'react-icons/fi';
-import { MdOutlineMenuBook } from "react-icons/md";
-import { styled, TrashIcon, EditIcon, Button, defaultTheme } from '@shira/ui'
+import { FiPlus, FiLoader } from 'react-icons/fi';
+import { MdDragIndicator, MdOutlineMenuBook } from "react-icons/md";
+import { styled, TrashIcon, EditIcon, Button, defaultTheme, ActionTooltip } from '@shira/ui'
 import { QuestionEmptyState } from "./QuestionEmptyState";
 import { DeleteModal } from "../../modals/DeleteModal";
 import { UnpublishQuizOnDeleteModal } from "../../modals/UnpublishQuizOnDeleteModal";
@@ -44,6 +44,10 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
   console.log("🚀 ~ quizQuestions:", quizQuestions)
 
   const { t } = useTranslation();
+  const editTooltip = t('questions_tab.action_tooltips.edit');
+  const duplicateTooltip = t('questions_tab.action_tooltips.duplicate');
+  const deleteTooltip = t('questions_tab.action_tooltips.delete');
+
   const [questionForDelete, handleQuestionForDelete] = useState<QuizQuestion["question"] | null>(null)
   const [confirmBeforeContinueModal, handleConfirmBeforeContinueModal] = useState<{
     confirmType: string
@@ -175,9 +179,9 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
                             {...draggableProvided.dragHandleProps}
                           >
                             {isBeingDuplicated ? (
-                              <SpinningLoader size={20} color="#666" />
+                              <SpinningLoader size={20} color={defaultTheme.colors.dark.darkGrey} />
                             ) : (
-                              <FiMenu size={20} color="#666" />
+                              <MdDragIndicator size={20} color={defaultTheme.colors.dark.darkGrey} />
                             )}
                           </MenuIcon>
                           <QuestionTitle id={`question-title-${qq.question.id}`}>
@@ -185,31 +189,53 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
                           </QuestionTitle>
                         </LeftSection>
                         <Actions>
-                          <ActionButton id={`edit-button-${qq.question.id}`} onClick={() => {
-                            if (hasResults) {
-                              handleConfirmBeforeContinueModal({ confirmType: 'edit', confirmId: qq.question.id })
-                            } else {
-                              onEdit(qq.question.id)
-                            }
-                          }}>
-                            <EditIcon />
-                          </ActionButton>
-                          <ActionButton
-                            id={`duplicate-button-${qq.question.id}`}
-                            onClick={() => {
-                              if (hasResults) {
-                                handleConfirmBeforeContinueModal({ confirmType: 'duplicate', confirmId: qq.question.id })
-                              } else {
-                                handleDuplicateQuestion(qq.question.id)
-                              }
-                            }}
-                            disabled={isBeingDuplicated}
-                          >
-                            <DuplicateIconWrapper><DuplicateIcon /></DuplicateIconWrapper>
-                          </ActionButton>
-                          <ActionButton id={`delete-button-${qq.question.id}`} onClick={() => handleQuestionForDelete(qq.question)}>
-                            <TrashIcon />
-                          </ActionButton>
+
+                          <ActionTooltip content={editTooltip}>
+                            <ActionButton
+                              id={`edit-button-${qq.question.id}`}
+                              type="button"
+                              aria-label={editTooltip}
+                              onClick={() => {
+                                if (hasResults) {
+                                  handleConfirmBeforeContinueModal({ confirmType: 'edit', confirmId: qq.question.id })
+                                } else {
+                                  onEdit(qq.question.id)
+                                }
+                              }}
+                            >
+                              <EditIcon />
+                            </ActionButton>
+                          </ActionTooltip>
+
+                          <ActionTooltip content={duplicateTooltip}>
+                            <ActionButton
+                              id={`duplicate-button-${qq.question.id}`}
+                              type="button"
+                              aria-label={duplicateTooltip}
+                              onClick={() => {
+                                if (hasResults) {
+                                  handleConfirmBeforeContinueModal({ confirmType: 'duplicate', confirmId: qq.question.id })
+                                } else {
+                                  handleDuplicateQuestion(qq.question.id)
+                                }
+                              }}
+                              disabled={isBeingDuplicated}
+                            >
+                              <DuplicateIconWrapper><DuplicateIcon /></DuplicateIconWrapper>
+                            </ActionButton>
+                          </ActionTooltip>
+
+                          <ActionTooltip content={deleteTooltip}>
+                            <ActionButton
+                              id={`delete-button-${qq.question.id}`}
+                              type="button"
+                              aria-label={deleteTooltip}
+                              onClick={() => handleQuestionForDelete(qq.question)}
+                            >
+                              <TrashIcon />
+                            </ActionButton>
+                          </ActionTooltip>
+
                         </Actions>
                       </QuestionItem>
                     )

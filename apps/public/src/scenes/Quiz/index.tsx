@@ -60,7 +60,7 @@ export const Quiz:FunctionComponent<Props> = () => {
   const [questions, handleQuestions] = useState([])
   const [started, handleStarted] = useState(false)
   const [questionIndex, handleQuestionIndex] = useState(0)
-  const { t, i18n } = useTranslation()
+  const { i18n } = useTranslation()
 
   useEffect(() => {
     const startQuiz = async() => {

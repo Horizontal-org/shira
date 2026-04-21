@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import { Button } from '../Button';
 import { SubHeading2 } from '../Typography';
 import { useEscapeClose, useEnterSubmit } from '../../hooks';
@@ -28,11 +28,6 @@ export enum ModalType {
   Primary = 'primary',
 }
 
-const modalTypeColors = {
-  'danger': '#BF2E1F',
-  'primary': '#849D29'
-}
-
 export const Modal: React.FC<ModalProps> = ({
   id,
   isOpen,
@@ -51,6 +46,12 @@ export const Modal: React.FC<ModalProps> = ({
   size = 'small',
   onClose
 }) => {
+  const theme = useTheme();
+
+  const modalTypeColors = {
+    [ModalType.Danger]: theme.colors.error7,
+    [ModalType.Primary]: theme.colors.green7,
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -133,7 +134,7 @@ const Overlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 999;
 `;
 
 const ModalContainer = styled.div<{ size: 'small' | 'medium' | 'large' }>`

@@ -4,13 +4,30 @@ import { ResponseNoCacheInterceptor } from './utils/interceptors/no-cache.interc
 import { ValidationPipe } from '@nestjs/common';
 import { ApiLogger } from './utils/logger/api-logger.service';
 import { LoggingInterceptor } from './utils/interceptors/logging.interceptor';
+import * as cookieParser from 'cookie-parser';
+import { NestExpressApplication } from '@nestjs/platform-express';
+
+async function validateJwt() {
+  const JWT_SECRET = process.env.JWT_SECRET
+
+  if (!JWT_SECRET || JWT_SECRET.length < 6) {
+    throw new Error('JWT_SECRET not valid');
+  }
+}
 
 async function bootstrap() {
-  const app = await NestFactory.create(IndexModule);
+  validateJwt()
+
+  const app = await NestFactory.create<NestExpressApplication>(IndexModule);
 
   const apiLogger = new ApiLogger();
 
-  app.enableCors();
+  app.use(cookieParser());
+
+  app.enableCors({
+    origin: [process.env.SPACE_URL, process.env.PUBLIC_URL, process.env.SUPERADMIN_URL],
+    credentials: true,
+  });
 
   app.useGlobalInterceptors(new ResponseNoCacheInterceptor());
   app.useGlobalInterceptors(new LoggingInterceptor(apiLogger));
@@ -22,6 +39,9 @@ async function bootstrap() {
     }),
   );
 
+  app.set('trust proxy', 1); // TRUST NGINX
+  
   await app.listen(3000);
 }
+
 bootstrap();

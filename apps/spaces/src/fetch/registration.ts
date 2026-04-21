@@ -4,6 +4,7 @@ interface InviteOrgRequest {
   slug: string;
   email: string;
   orgType: string;
+  subIntent: string
 }
 
 interface ConfirmRegistrationPayload {
@@ -22,5 +23,5 @@ export const checkPassphraseExpired = async (code: string) => {
 }
 
 export const registerSpace = async (payload: ConfirmRegistrationPayload) => {
-  await axios.post(`${process.env.REACT_APP_API_URL}/space-registration`, payload)
+  return await axios.post(`${process.env.REACT_APP_API_URL}/space-registration`, payload)
 }

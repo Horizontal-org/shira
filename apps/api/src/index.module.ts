@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 import { IndexController } from './index.controller';
 import { IndexService } from './index.service';
@@ -23,13 +24,22 @@ import { QuizModule } from './modules/quiz/quiz.module';
 import { QuestionImageModule } from './modules/question_image/question_image.module';
 import { ImageModule } from './modules/image/image.module';
 import { OrganizationModule } from './modules/organization/organization.module';
-import { BillingModule } from './modules/billing/billing.module';
+import { SubscriptionModule } from './modules/subscription/subscription.module';
 import { QuizResultModule } from './modules/quiz_result/quiz-result.module';
 import { LearnerModule } from './modules/learner/learner.module';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    ThrottlerModule.forRoot({      
+      throttlers: [
+        {
+          ttl: 60000,
+          limit: 30,
+        },
+      ],
+    }),
     TypeOrmModule.forRoot(typeOrmModuleOptions),
     AppModule,
     SpaceModule,
@@ -50,10 +60,16 @@ import { LearnerModule } from './modules/learner/learner.module';
     QuizModule,
     QuizResultModule,
     OrganizationModule,
-    BillingModule,
+    SubscriptionModule,
     LearnerModule
   ],
   controllers: [IndexController],
-  providers: [IndexService],
+  providers: [
+    IndexService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class IndexModule { }
