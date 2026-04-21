@@ -250,7 +250,7 @@
             },
             "app": {
                 "apps": {
-                    "whatsapp": "WhatsApp",
+                    "whatsapp": "واتساب",
                     "sms": "الرسائل النصية",
                     "gmail": "Gmail",
                     "outlook": "Outlook",
@@ -687,6 +687,16 @@
                     "price": "تسعير مخصص",
                     "cta": "للتواصل معنا"
                 }
+            }
+        },
+        "first_login": {
+            "actions": {
+                "get_started": "بدء الآن"
+            },
+            "plan_names": {
+                "starter": "الأولية",
+                "pro": "الباقة الاحترافية",
+                "enterprise": "باقة الشركات"
             }
         }
     },
