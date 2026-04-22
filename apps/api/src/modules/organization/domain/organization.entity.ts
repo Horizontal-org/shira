@@ -7,7 +7,7 @@ export class OrganizationEntity {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({ unique: true })
+    @Column()
     name: string
 
     @Column({ name: 'stripe_customer_id', nullable: true })

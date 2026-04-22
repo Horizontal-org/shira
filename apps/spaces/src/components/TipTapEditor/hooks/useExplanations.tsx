@@ -243,9 +243,21 @@ export const useExplanations = (editor: any, editorId: string) => {
     return from !== to && !editor.isActive('explanation')
   }, [editor])
 
+  const getActiveTextExplanationIndex = useCallback(() => {
+    if (!editor?.isActive('explanation')) return null
+
+    const explanationIndex = editor.getAttributes('explanation')['data-explanation']
+    return explanationIndex ? Number(explanationIndex) : null
+  }, [editor])
+
   const isTextExplanationActive = useCallback(() => {
     return editor?.isActive('explanation') || false
   }, [editor])
+
+  const isTextExplanationSelected = useCallback(() => {
+    const explanationIndex = getActiveTextExplanationIndex()
+    return explanationIndex !== null && explanationIndex === selectedExplanation
+  }, [getActiveTextExplanationIndex, selectedExplanation])
 
   useEffect(() => {
     if (!editor) return
@@ -272,7 +284,9 @@ export const useExplanations = (editor: any, editorId: string) => {
     addTextExplanation,
     removeTextExplanation,
     canAddTextExplanation,
+    getActiveTextExplanationIndex,
     isTextExplanationActive,
+    isTextExplanationSelected,
     addImageExplanation,
     removeImageExplanation,
     handleSelectionUpdate,
