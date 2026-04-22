@@ -7,7 +7,7 @@
     },
     "welcome": {
         "title": "Comienza un cuestionario de Shira",
-        "subtitle": "Desarrolla tus habilidades anti phishing con un cuestionario corto adaptado a tus necesidades. Cambia tu idioma o cliquea en \"Iniciar cuestionario\" para comenzar.",
+        "subtitle": "Desarrolla tus habilidades anti-phishing con un cuestionario corto adaptado a tus necesidades. Cambia tu idioma o cliquea en \"Iniciar cuestionario\" para comenzar.",
         "start": "Iniciar cuestionario",
         "public_message": "Te damos la bienvenida a tu cuestionario de phishing. Cambia tu idioma o cliquea en \"Iniciar cuestionario\" para comenzar.",
         "learn_more": "Aprende más sobre Shira"
