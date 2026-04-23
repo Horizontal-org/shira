@@ -259,6 +259,30 @@ export const useExplanations = (editor: any, editorId: string) => {
     return explanationIndex !== null && explanationIndex === selectedExplanation
   }, [getActiveTextExplanationIndex, selectedExplanation])
 
+  const hasAnyExplanation = useCallback(() => {
+    if (!editor) return false
+
+    let foundExplanation = false
+
+    editor.state.doc.descendants((node) => {
+      if (foundExplanation) {
+        return false
+      }
+
+      const hasMarkedExplanation = node.marks?.some(mark => Boolean(mark.attrs['data-explanation']))
+      const hasNodeExplanation = Boolean(node.attrs?.['data-explanation'])
+
+      if (hasMarkedExplanation || hasNodeExplanation) {
+        foundExplanation = true
+        return false
+      }
+
+      return true
+    })
+
+    return foundExplanation
+  }, [editor])
+
   useEffect(() => {
     if (!editor) return
 
@@ -287,6 +311,7 @@ export const useExplanations = (editor: any, editorId: string) => {
     getActiveTextExplanationIndex,
     isTextExplanationActive,
     isTextExplanationSelected,
+    hasAnyExplanation,
     addImageExplanation,
     removeImageExplanation,
     handleSelectionUpdate,
