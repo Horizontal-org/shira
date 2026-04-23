@@ -30,130 +30,25 @@ export class GetLibraryQuestionService implements IGetLibraryQuestionService {
       return [];
     }
 
-    const questionIds = questionRows.map(({ questionId }) => Number(questionId));
-    const questions: QuestionLibraryDto[] = questionRows.map((row) => ({
-      id: Number(row.questionId),
-      name: row.questionName,
-      isPhishing: Boolean(Number(row.questionIsPhishing)),
-      type: row.questionType,
-      apps: [],
-      languages: [],
-    }));
-
-    const questionMap = new Map<number, QuestionLibraryDto>(
+    const questions = questionRows.map((row) => this.mapQuestion(row));
+    const questionIds = questions.map((question) => question.id);
+    const questionsById = new Map(
       questions.map((question) => [question.id, question]),
     );
-    const questionAppIds = new Map<number, Set<number>>();
-    const questionLanguages = new Map<
+    const languagesByQuestionId = new Map<
       number,
       Map<number, QuestionLibraryDto['languages'][number]>
     >();
 
     const [appRows, languageRows, explanationRows] = await Promise.all([
-      this.questionRepo
-        .createQueryBuilder('q')
-        .leftJoin('q.apps', 'app')
-        .select([
-          'q.id AS questionId',
-          'app.id AS appId',
-          'app.name AS appName',
-          'app.type AS appType',
-        ])
-        .where('q.id IN (:...questionIds)', { questionIds })
-        .andWhere('app.id IS NOT NULL')
-        .orderBy('app.name', 'ASC')
-        .getRawMany(),
-
-      this.questionRepo
-        .createQueryBuilder('q')
-        .innerJoin('q.questionTranslations', 'qt', 'qt.content IS NOT NULL')
-        .innerJoin(Language, 'lang', 'lang.id = qt.languageId')
-        .select([
-          'q.id AS questionId',
-          'lang.id AS languageId',
-          'lang.name AS languageName',
-          'qt.content AS questionContent',
-        ])
-        .where('q.id IN (:...questionIds)', { questionIds })
-        .orderBy('lang.name', 'ASC')
-        .getRawMany(),
-        
-      this.questionRepo
-        .createQueryBuilder('q')
-        .innerJoin('q.explanations', 'exp')
-        .innerJoin('exp.explanationTranslations', 'et', 'et.content IS NOT NULL')
-        .innerJoin(Language, 'lang', 'lang.id = et.languageId')
-        .select([
-          'q.id AS questionId',
-          'lang.id AS languageId',
-          'exp.index AS explanationIndex',
-          'exp.position AS explanationPosition',
-          'et.content AS explanationText',
-        ])
-        .where('q.id IN (:...questionIds)', { questionIds })
-        .orderBy('exp.index', 'ASC')
-        .addOrderBy('exp.position', 'ASC')
-        .getRawMany(),
+      this.getAppRows(questionIds),
+      this.getLanguageRows(questionIds),
+      this.getExplanationRows(questionIds),
     ]);
 
-    for (const row of appRows) {
-      if (!row.appId) {
-        continue;
-      }
-
-      const question = questionMap.get(Number(row.questionId));
-      const appId = Number(row.appId);
-      const appIds = questionAppIds.get(Number(row.questionId)) ?? new Set<number>();
-
-      if (!question || appIds.has(appId)) {
-        continue;
-      }
-
-      question.apps.push({
-        id: appId,
-        name: row.appName ?? '',
-        type: row.appType ?? undefined,
-      });
-      appIds.add(appId);
-      questionAppIds.set(question.id, appIds);
-    }
-
-    for (const row of languageRows) {
-      const question = questionMap.get(Number(row.questionId));
-      const languageId = Number(row.languageId);
-      const languagesById = questionLanguages.get(Number(row.questionId)) ?? new Map();
-
-      if (!question || languagesById.has(languageId)) {
-        continue;
-      }
-
-      const language = {
-        id: languageId,
-        name: row.languageName,
-        content: row.questionContent,
-        explanations: [],
-      };
-
-      question.languages.push(language);
-      languagesById.set(languageId, language);
-      questionLanguages.set(question.id, languagesById);
-    }
-
-    for (const row of explanationRows) {
-      const language = questionLanguages
-        .get(Number(row.questionId))
-        ?.get(Number(row.languageId));
-
-      if (!language) {
-        continue;
-      }
-
-      language.explanations.push({
-        index: Number(row.explanationIndex),
-        position: Number(row.explanationPosition),
-        text: row.explanationText,
-      });
-    }
+    this.mapAppsToQuestions(appRows, questionsById);
+    this.mapLanguagesToQuestions(languageRows, questionsById, languagesByQuestionId);
+    this.mapExplanationsToLanguages(explanationRows, languagesByQuestionId);
 
     return questions.map((question) => ({
       ...question,
@@ -168,4 +63,145 @@ export class GetLibraryQuestionService implements IGetLibraryQuestionService {
     }));
   }
 
+  private mapQuestion(row: any): QuestionLibraryDto {
+    return {
+      id: row.questionId,
+      name: row.questionName,
+      isPhishing: Boolean(row.questionIsPhishing),
+      type: row.questionType,
+      apps: [],
+      languages: [],
+    };
+  }
+
+  private getAppRows(questionIds: number[]) {
+    return this.questionRepo
+      .createQueryBuilder('q')
+      .leftJoin('q.apps', 'app')
+      .select([
+        'q.id AS questionId',
+        'app.id AS appId',
+        'app.name AS appName',
+        'app.type AS appType',
+      ])
+      .where('q.id IN (:...questionIds)', { questionIds })
+      .andWhere('app.id IS NOT NULL')
+      .orderBy('app.name', 'ASC')
+      .getRawMany();
+  }
+
+  private getLanguageRows(questionIds: number[]) {
+    return this.questionRepo
+      .createQueryBuilder('q')
+      .innerJoin('q.questionTranslations', 'qt', 'qt.content IS NOT NULL')
+      .innerJoin(Language, 'lang', 'lang.id = qt.languageId')
+      .select([
+        'q.id AS questionId',
+        'lang.id AS languageId',
+        'lang.name AS languageName',
+        'qt.content AS questionContent',
+      ])
+      .where('q.id IN (:...questionIds)', { questionIds })
+      .orderBy('lang.name', 'ASC')
+      .getRawMany();
+  }
+
+  private getExplanationRows(questionIds: number[]) {
+    return this.questionRepo
+      .createQueryBuilder('q')
+      .innerJoin('q.explanations', 'exp')
+      .innerJoin('exp.explanationTranslations', 'et', 'et.content IS NOT NULL')
+      .innerJoin(Language, 'lang', 'lang.id = et.languageId')
+      .select([
+        'q.id AS questionId',
+        'lang.id AS languageId',
+        'exp.index AS explanationIndex',
+        'exp.position AS explanationPosition',
+        'et.content AS explanationText',
+      ])
+      .where('q.id IN (:...questionIds)', { questionIds })
+      .orderBy('exp.index', 'ASC')
+      .addOrderBy('exp.position', 'ASC')
+      .getRawMany();
+  }
+
+  private mapAppsToQuestions(appRows: any[], questionsById: Map<number, QuestionLibraryDto>) {
+    for (const row of appRows) {
+      const questionId = row.questionId;
+      const appId = row.appId;
+      const question = questionsById.get(questionId);
+
+      if (!question || !appId) {
+        continue;
+      }
+
+      const alreadyAdded = question.apps.some((app) => app.id === appId);
+
+      if (alreadyAdded) {
+        continue;
+      }
+
+      question.apps.push({
+        id: appId,
+        name: row.appName ?? '',
+        type: row.appType ?? undefined,
+      });
+    }
+  }
+
+  private mapLanguagesToQuestions(
+    languageRows: any[],
+    questionsById: Map<number, QuestionLibraryDto>,
+    languagesByQuestionId: Map<number, Map<number, QuestionLibraryDto['languages'][number]>>,
+  ) {
+    for (const row of languageRows) {
+      const questionId = row.questionId;
+      const languageId = row.languageId;
+      const question = questionsById.get(questionId);
+
+      if (!question) {
+        continue;
+      }
+
+      const languagesById =
+        languagesByQuestionId.get(questionId) ??
+        new Map<number, QuestionLibraryDto['languages'][number]>();
+
+      if (languagesById.has(languageId)) {
+        continue;
+      }
+
+      const language = {
+        id: languageId,
+        name: row.languageName,
+        content: row.questionContent,
+        explanations: [],
+      };
+
+      question.languages.push(language);
+      languagesById.set(languageId, language);
+      languagesByQuestionId.set(questionId, languagesById);
+    }
+  }
+
+  private mapExplanationsToLanguages(
+    explanationRows: any[],
+    languagesByQuestionId: Map<number, Map<number, QuestionLibraryDto['languages'][number]>>,
+  ) {
+    for (const row of explanationRows) {
+      const questionId = row.questionId;
+      const languageId = row.languageId;
+      const language = languagesByQuestionId.get(questionId)?.get(languageId);
+
+      if (!language) {
+        continue;
+      }
+
+      language.explanations.push({
+        index: row.explanationIndex,
+        position: row.explanationPosition,
+        text: row.explanationText,
+      });
+    }
+  }
 }
