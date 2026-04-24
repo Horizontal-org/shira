@@ -41,6 +41,7 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
   }), shallow)
 
   const ref = useRef(null)
+  const isFilled = contentObject.value.trim().length > 0
 
   return (
     <Wrapper>
@@ -78,6 +79,7 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
 
       <ExplanationButtonWrapper>
         <ExplanationButton
+          filled={isFilled}
           active={selectedExplanationIndex && selectedExplanationIndex + '' === contentObject.explanation}
           onClick={() => {
             const hasExplanation = contentObject.explanation

@@ -81,6 +81,7 @@ export const EmailTipTapEditor = ({
             >
               <ExplanationButton
                 isText={true}
+                filled={explanations.hasAnyExplanation()}
                 active={isExplanationButtonSelected}
                 disabled={!explanations.canAddTextExplanation() && !explanations.isTextExplanationActive() && !images.selectedImageHasExplanation}
                 onClick={() => {
