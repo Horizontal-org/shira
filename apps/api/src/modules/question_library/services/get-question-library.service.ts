@@ -1,16 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Question } from '../../question/domain/question.entity';
 import { IGetLibraryQuestionService } from '../interfaces/services/get-question-library.service.interface';
 import { QuestionLibraryDto } from '../dto/question.library.dto';
-import { Language } from 'src/modules/languages/domain/languages.entity';
+import { Question } from 'src/modules/question/domain';
+import { QuestionTranslation } from 'src/modules/translation/domain/questionTranslation.entity';
+import { Explanation } from 'src/modules/question/domain/explanation.entity';
+import { App } from 'src/modules/app/domain/app.entity';
 
 @Injectable()
 export class GetLibraryQuestionService implements IGetLibraryQuestionService {
   constructor(
     @InjectRepository(Question)
     private readonly questionRepo: Repository<Question>,
+    @InjectRepository(App)
+    private readonly appRepo: Repository<App>,
+    @InjectRepository(QuestionTranslation)
+    private readonly questionTranslationRepo: Repository<QuestionTranslation>,
+    @InjectRepository(Explanation)
+    private readonly explanationRepo: Repository<Explanation>,
   ) { }
 
   async execute(): Promise<QuestionLibraryDto[]> {
@@ -75,46 +83,54 @@ export class GetLibraryQuestionService implements IGetLibraryQuestionService {
   }
 
   private getAppRows(questionIds: number[]) {
-    return this.questionRepo
-      .createQueryBuilder('q')
-      .leftJoin('q.apps', 'app')
+    return this.appRepo
+      .createQueryBuilder('app')
+      .innerJoin(
+        'apps_questions',
+        'aq',
+        'aq.app_id = app.id',
+      )
       .select([
-        'q.id AS questionId',
+        'aq.question_id AS questionId',
         'app.id AS appId',
         'app.name AS appName',
         'app.type AS appType',
       ])
-      .where('q.id IN (:...questionIds)', { questionIds })
-      .andWhere('app.id IS NOT NULL')
+      .where('aq.question_id IN (:...questionIds)', { questionIds })
       .orderBy('app.name', 'ASC')
       .getRawMany();
   }
 
   private getLanguageRows(questionIds: number[]) {
-    return this.questionRepo
-      .createQueryBuilder('q')
-      .innerJoin('q.questionTranslations', 'qt', 'qt.content IS NOT NULL')
-      .innerJoin(Language, 'lang', 'lang.id = qt.languageId')
+    return this.questionTranslationRepo
+      .createQueryBuilder('qt')
+      .innerJoin('qt.languageId', 'lang')
       .select([
-        'q.id AS questionId',
+        'qt.questionId AS questionId',
         'lang.id AS languageId',
         'lang.name AS languageName',
         'qt.content AS questionContent',
       ])
-      .where('q.id IN (:...questionIds)', { questionIds })
+      .where('qt.questionId IN (:...questionIds)', { questionIds })
+      .andWhere('qt.content IS NOT NULL')
       .orderBy('lang.name', 'ASC')
       .getRawMany();
   }
 
   private getExplanationRows(questionIds: number[]) {
-    return this.questionRepo
-      .createQueryBuilder('q')
-      .innerJoin('q.explanations', 'exp')
-      .innerJoin('exp.explanationTranslations', 'et', 'et.content IS NOT NULL')
-      .innerJoin(Language, 'lang', 'lang.id = et.languageId')
+    return this.explanationRepo
+      .createQueryBuilder('exp')
+      .innerJoin('exp.question', 'q')
+      .innerJoin(
+        'exp.explanationTranslations',
+        'et',
+        'et.content IS NOT NULL',
+      )
+      .innerJoin('et.languageId', 'lang')
       .select([
         'q.id AS questionId',
         'lang.id AS languageId',
+        'lang.name AS languageName',
         'exp.index AS explanationIndex',
         'exp.position AS explanationPosition',
         'et.content AS explanationText',
