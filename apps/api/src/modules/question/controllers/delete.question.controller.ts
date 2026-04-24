@@ -7,7 +7,6 @@ import { QuestionTranslation } from '../../translation/domain/questionTranslatio
 import { Roles } from 'src/modules/auth/decorators/roles.decorators';
 import { Role } from 'src/modules/user/domain/role.enum';
 
-// DEPRECATED
 @AuthController('question')
 export class DeleteQuestionController {
   constructor(
@@ -18,11 +17,10 @@ export class DeleteQuestionController {
   ) {}
 
   @Delete(':id')
-  @Roles(Role.SpaceAdmin)
+  @Roles(Role.SuperAdmin)
   async handler(
     @Param('id') id: number
   ) {
-    console.log('Deleting question with id:', id);
     await this.questionTranslationRepository.delete({ questionId: id });
     await this.questionRepository.delete(id);
 
