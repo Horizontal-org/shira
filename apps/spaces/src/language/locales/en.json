@@ -622,6 +622,11 @@
         "view_plans": {
             "title": "Available plans",
             "modal_title": "Shira plans and pricing",
+            "billing_toggle": {
+                "label": "Billing:",
+                "monthly": "Monthly",
+                "annual": "Annual (save 20%)"
+            },
             "actions": {
                 "current_plan": "Current plan",
                 "downgrade": "Downgrade",
@@ -681,19 +686,22 @@
                 "starter": {
                     "title": "Starter",
                     "description": "To try things out and get familiar with Shira",
-                    "price": "Free",
+                    "monthly_price": "Free",
+                    "annual_price": "Free",
                     "cta": "Get started"
                 },
                 "pro": {
                     "title": "Pro",
                     "description": "Experience the full power of Shira",
-                    "price": "$50/month + $1 per quiz taken",
+                    "monthly_price": "$50/month + $1 per quiz taken",
+                    "annual_price": "$40/month + $1 per quiz taken",
                     "cta": "Start 14-day free trial"
                 },
                 "enterprise": {
                     "title": "Enterprise",
                     "description": "Tailor Shira for large organizations and service providers",
-                    "price": "Custom pricing",
+                    "monthly_price": "Custom pricing",
+                    "annual_price": "Custom pricing",
                     "cta": "Contact us"
                 }
             }

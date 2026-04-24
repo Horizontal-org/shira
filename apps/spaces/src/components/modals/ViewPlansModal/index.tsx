@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 import { Body3, Button, DatingAppIcon, FacebookIcon, GmailIcon, Modal, OutlookIcon, SMSIcon, styled, SubHeading1, SubHeading3, useTheme, WhatsappIcon } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 import { IoMdCheckmarkCircle } from "react-icons/io";
@@ -22,6 +22,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
   const { t } = useTranslation();
   const theme = useTheme();
   const { isSubActive } = useSub();
+  const [billingPeriod, setBillingPeriod] = useState<"monthly" | "annual">("monthly");
 
   const subscriptionType = useStore((state) => state.subscription?.type);
 
@@ -39,7 +40,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
 
   const navigateToCheckout = async (): Promise<void> => {
     try {
-      const response = await checkoutSubscription(organizationId);
+      const response = await checkoutSubscription(organizationId, billingPeriod);
       const stripeUrl = response?.url;
 
       if (stripeUrl) {
@@ -63,6 +64,9 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
     return navigateToCheckout();
   };
 
+  const getPlanPriceKey = (plan: "starter" | "pro" | "enterprise"): string =>
+    `modals.view_plans.plans.${plan}.${billingPeriod}_price`;
+
   return (
     <StyledModal
       id="view-plans-modal"
@@ -76,6 +80,25 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
       size="large"
     >
       <Content>
+        <BillingToggleWrapper>
+          <BillingToggle>
+            <BillingToggleOption
+              type="button"
+              $isActive={billingPeriod === "monthly"}
+              onClick={() => setBillingPeriod("monthly")}
+            >
+              {t("modals.view_plans.billing_toggle.monthly")}
+            </BillingToggleOption>
+            <BillingToggleOption
+              type="button"
+              $isActive={billingPeriod === "annual"}
+              onClick={() => setBillingPeriod("annual")}
+            >
+              {t("modals.view_plans.billing_toggle.annual")}
+            </BillingToggleOption>
+          </BillingToggle>
+        </BillingToggleWrapper>
+
         <PlansList>
           <PlanSpacer />
 
@@ -83,7 +106,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
             <PlanCopy>
               <PlanTitle>{t("modals.view_plans.plans.starter.title")}</PlanTitle>
               <PriceBlock>
-                <PlanPrice>{t("modals.view_plans.plans.starter.price")}</PlanPrice>
+                <PlanPrice>{t(getPlanPriceKey("starter"))}</PlanPrice>
               </PriceBlock>
               <PlanDescription>{t("modals.view_plans.plans.starter.description")}</PlanDescription>
             </PlanCopy>
@@ -99,7 +122,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
             <PlanCopy>
               <PlanTitle>{t("modals.view_plans.plans.pro.title")}</PlanTitle>
               <PriceBlock>
-                <PlanPrice>{t("modals.view_plans.plans.pro.price")}</PlanPrice>
+                <PlanPrice>{t(getPlanPriceKey("pro"))}</PlanPrice>
               </PriceBlock>
               <PlanDescription>{t("modals.view_plans.plans.pro.description")}</PlanDescription>
             </PlanCopy>
@@ -115,7 +138,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
             <PlanCopy>
               <PlanTitle>{t("modals.view_plans.plans.enterprise.title")}</PlanTitle>
               <PriceBlock>
-                <PlanPrice>{t("modals.view_plans.plans.enterprise.price")}</PlanPrice>
+                <PlanPrice>{t(getPlanPriceKey("enterprise"))}</PlanPrice>
               </PriceBlock>
               <PlanDescription>{t("modals.view_plans.plans.enterprise.description")}</PlanDescription>
             </PlanCopy>
@@ -391,6 +414,53 @@ const Content = styled.div`
   gap: 28px;
 `;
 
+const BillingToggleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;  
+`;
+
+const BillingToggle = styled.div`
+  height: 58px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  background: ${props => props.theme.colors.light.white};
+  border: 1px solid ${props => props.theme.colors.dark.lightGrey};
+  border-radius: 999px;
+  padding: 5px;
+  gap: 6px;
+
+  box-shadow: 0px -3px 8px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px -4px 8px 0px rgba(0, 0, 0, 0.03);
+`;
+
+const BillingToggleOption = styled.button<{ $isActive: boolean }>`
+  height: 46px;
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  border: none;
+  border-radius: 999px;
+  padding: 0 16px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  
+  transition: background-color 0.2s ease, color 0.2s ease;
+  background: transparent;
+  color: ${props => props.theme.colors.dark.darkGrey};
+
+  ${props => props.$isActive && `
+    background: ${props.theme.colors.green2};
+    color: ${props.theme.colors.dark.black};
+  `}
+`;
+
 const PlansList = styled.div`
   display: grid;
   grid-template-columns: minmax(320px, 1.45fr) repeat(3, minmax(240px, 1fr));
@@ -411,6 +481,7 @@ const PlanCard = styled.div<{ $isHighlighted?: boolean }>`
   min-height: 220px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   padding: 28px 24px 22px;
   border: 1px solid ${props => props.theme.colors.dark.lightGrey};
   border-radius: 36px;
@@ -453,17 +524,8 @@ const PlanDescription = styled(Body3)`
 `;
 
 const PlanButton = styled(Button)`
-  width: 100%;
-  margin-top: auto;
   justify-content: center;
-  flex-shrink: 0;
-  position: relative;
-
-  &:focus,
-  &:active {
-    margin-top: auto;
-    top: 0;
-  }
+  
 `;
 
 const ComparisonGrid = styled.div`

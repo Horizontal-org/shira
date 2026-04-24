@@ -17,8 +17,9 @@ export class ShiraPaymentsService implements IShiraPaymentsService {
 
   async createCheckout(
     organizationId: string,
+    subLength: string
   ) {
-    return this.request<{ url: string }>(`/payments/checkout/${organizationId}`, {
+    return this.request<{ url: string }>(`/payments/checkout/${organizationId}?subLength=${subLength}`, {
       method: 'POST',
     }, organizationId);
   }
