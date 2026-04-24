@@ -60,14 +60,7 @@ export class GetLibraryQuestionService implements IGetLibraryQuestionService {
 
     return questions.map((question) => ({
       ...question,
-      languages: question.languages
-        .map((language) => ({
-          ...language,
-          explanations: language.explanations.sort(
-            (a, b) => a.index - b.index || a.position - b.position,
-          ),
-        }))
-        .sort((a, b) => a.name.localeCompare(b.name)),
+      languages: question.languages.sort((a, b) => a.name.localeCompare(b.name)),
     }));
   }
 
