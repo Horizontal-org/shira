@@ -26,6 +26,7 @@
     "@nestjs/common": "11.1.13",
     "@nestjs/core": "11.1.13",
     "@nestjs/platform-express": "11.1.13",
+    "styled-components": "6.3.9",
     "natural-compare-lite": "^1.4.0",
     "tsutils": "^3.21.0",
     "@babel/eslint-parser": "^7.23.0",
