@@ -59,7 +59,8 @@ const Container = styled.div<{ selected: boolean }>`
   padding: 12px;
   display: flex;
   border-radius: 16px;
-  background: ${props => props.theme.colors.green1};
+  border: 2px solid ${props => props.theme.colors.green2};
+  background: ${props => props.theme.colors.light.paleGreen};
   margin-bottom: 24px;
 
   ${props => props.selected && `
