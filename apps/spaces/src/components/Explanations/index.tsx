@@ -200,7 +200,7 @@ interface StyledExplanation {
 }
 
 const ExplanationBox = styled.div<StyledExplanation>`
-  padding: 8px;
+  padding: 0px;
   border-radius: 16px;
   background-color: ${props => props.theme.colors.light.paleGreen};
   

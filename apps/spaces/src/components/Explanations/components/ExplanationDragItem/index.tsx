@@ -24,33 +24,33 @@ export const ExplanationDragItem: FunctionComponent<Props> = ({
 }) => {
   return (
     <>
-    <Draggable 
-      draggableId={id} 
-      index={index}
-    >
-      {(draggableProvided, snapshot) => (
-        <>
-          <Container
-            selected={selected}
-            ref={draggableProvided.innerRef}
-            isDragging={snapshot.isDragging}
-            {...draggableProvided.draggableProps}
+      <Draggable
+        draggableId={id}
+        index={index}
+      >
+        {(draggableProvided, snapshot) => (
+          <>
+            <Container
+              selected={selected}
+              ref={draggableProvided.innerRef}
+              isDragging={snapshot.isDragging}
+              {...draggableProvided.draggableProps}
             >
               <ContentWrapper>
                 <Body3Bold>{title}</Body3Bold>
-                  <div>
-                    { component }
-                  </div>                
+                <div>
+                  {component}
+                </div>
               </ContentWrapper>
-            
-            <DragItemOptions
-              dragHandleProps={draggableProvided.dragHandleProps}
-              onDelete={onDelete}
-            />
-          </Container>
-        </>
-      )}
-    </Draggable>
+
+              <DragItemOptions
+                dragHandleProps={draggableProvided.dragHandleProps}
+                onDelete={onDelete}
+              />
+            </Container>
+          </>
+        )}
+      </Draggable>
     </>
   )
 }
@@ -70,5 +70,5 @@ const Container = styled.div<{ selected: boolean }>`
 `
 
 const ContentWrapper = styled.div`
-    width: 100%;
+  width: 100%;
 `
