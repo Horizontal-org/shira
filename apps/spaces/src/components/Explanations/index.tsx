@@ -181,12 +181,16 @@ const Wrapper = styled.div`
   top: 0;
   overflow-y: scroll;
   height: 98vh;
-  
+  box-sizing: border-box;
   margin-left: 8px;
-  padding: 4px;
+  padding: 32px;
+  border: 2px solid ${props => props.theme.colors.light.white};
+  border-radius: 16px;
+  background: ${props => props.theme.colors.light.white};
+
   > p {
     margin: 0;
-    padding: 10px;
+    padding: 0 0 24px;
     font-weight: 600;
   }
 `
