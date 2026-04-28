@@ -7,6 +7,7 @@ import { Explanation } from '../../store/slices/explanation'
 import { publish } from '../../utils/customEvent'
 import { ExplanationDragItem } from './components/ExplanationDragItem'
 import { Body1, styled } from '@shira/ui'
+import { t } from 'i18next';
 
 interface Props {
   initialData?: Explanation[]
@@ -29,7 +30,7 @@ export const Explanations: FunctionComponent<Props> = ({
     deleteExplanation,
     updateExplanation,
     updateExplanations,
-    setInitialExplanations, 
+    setInitialExplanations,
     removeActiveQuestionExplanation,
   } = useStore((state) => ({
     storeExplanations: state.explanations,
@@ -108,7 +109,7 @@ export const Explanations: FunctionComponent<Props> = ({
   return (
     <Wrapper id="explanations-wrapper">
       <>
-        <Body1>Explanations will be shown in the following order in the quiz.</Body1>
+        <Body1>{t('create_question.tabs.content.explanations.title')}</Body1>
 
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId='droppable'>
@@ -191,7 +192,6 @@ const Wrapper = styled.div`
   > p {
     margin: 0;
     padding: 0 0 24px;
-    font-weight: 600;
   }
 `
 
