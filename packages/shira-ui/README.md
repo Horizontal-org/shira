@@ -4,10 +4,10 @@ A shared UI component library for Shira's admin and public quiz applications. Bu
 
 ## Features
 
-* Common React components designed for both admin and public interfaces
-* Built with TypeScript for type safety
-* Documented with Storybook for easy visualization and testing
-* Published as a public npm package under `@shira/ui`
+- Common React components designed for both admin and public interfaces
+- Built with TypeScript for type safety
+- Documented with Storybook for easy visualization and testing
+- Published as a public npm package under `@shira/ui`
 
 ## Installation
 
@@ -18,21 +18,25 @@ npm install @shira/ui
 ## Local Development
 
 1. Install dependencies:
+
 ```bash
 npm install
 ```
 
 2. Run Storybook to view and develop components:
+
 ```bash
 npm run storybook
 ```
 
 3. Build the library:
+
 ```bash
 npm run build
 ```
 
 4. Validate the publish tarball:
+
 ```bash
 npm run pack:check
 ```
@@ -40,13 +44,11 @@ npm run pack:check
 ## Usage
 
 ```jsx
-import { Button } from '@shira/ui'
-import '@shira/ui/styles.css'
+import { Button } from "@shira/ui";
+import "@shira/ui/styles.css";
 
 function App() {
-  return (
-    <Button>Click me</Button>
-  )
+  return <Button>Click me</Button>;
 }
 ```
 
