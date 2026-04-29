@@ -5,22 +5,23 @@ import ExplanationText from '../../../../icons/ExplanationText';
 interface Props {
   onClick: () => void
   active: boolean
-  filled?: boolean
   disabled?: boolean
   isText?: boolean
+  hasExplanation?: boolean
 }
 
 interface BaseProps {
   $active: boolean
-  $filled: boolean
+  $disabled: boolean
+  $hasExplanation: boolean
 }
 
 export const ExplanationButton: FunctionComponent<Props> = ({
   onClick,
   active,
-  filled = false,
   disabled = false,
   isText = false,
+  hasExplanation = false
 }) => {
   const icon = isText ? <ExplanationText /> : <ExplanationIcon />
 
@@ -32,7 +33,8 @@ export const ExplanationButton: FunctionComponent<Props> = ({
         disabled={disabled}
         aria-pressed={active}
         $active={active}
-        $filled={filled}
+        $hasExplanation={hasExplanation}
+        $disabled={disabled}
       >
         {icon}
       </TextButton>
@@ -46,7 +48,8 @@ export const ExplanationButton: FunctionComponent<Props> = ({
       disabled={disabled}
       aria-pressed={active}
       $active={active}
-      $filled={filled}
+      $hasExplanation={hasExplanation}
+      $disabled={disabled}
     >
       {icon}
     </IconButton>
@@ -111,57 +114,45 @@ const IconButton = styled(BaseButton) <BaseProps>`
     height: 22px;
   }
 
-  ${props => props.$filled && `
+  ${props => !props.$hasExplanation && `
     > svg .bubble-fill {
-      fill: ${props.theme.colors.green2};
+      fill: transparent;
+    }
+
+    > svg .bubble-outline {
+      fill: currentColor;
+    }
+  `}
+
+  ${props => props.$hasExplanation && `
+    color: ${props.theme.colors.green3};
+
+    > svg .bubble-fill {
+      fill: currentColor;
     }
 
     > svg .bubble-outline {
       fill: transparent;
     }
-  `}
 
-  ${props => props.$active && `
-    color: ${props.theme.colors.green5};
-
-    > svg .bubble-fill {
-      fill: ${props.theme.colors.green3};
-    }
-
-    > svg .bubble-outline {
-      fill: ${props.theme.colors.green5};
-    }
-  `}
-
-  ${props => props.$filled && !props.$active && `
-    &:hover:not(:disabled) {
+    ${props.$disabled && `
       > svg .bubble-fill {
-        fill: ${props.theme.colors.green4};
+        fill: ${props.theme.colors.green2};
       }
 
       > svg .bubble-outline {
         fill: transparent;
       }
-    }
+
+      > svg .bubble-label {
+        fill: ${props.theme.colors.green2};
+      }
+    `}
   `}
 
   &:disabled {
     color: ${props => props.theme.colors.green2};
   }
-
-  ${props => props.disabled && props.$filled && `
-    > svg .bubble-fill {
-      fill: ${props.theme.colors.green1};
-    }
-
-    > svg .bubble-outline {
-      fill: transparent;
-    }
-
-    > svg .bubble-label {
-      fill: ${props.theme.colors.green2};
-    }
-  `}
 `
 
 const TextButton = styled(BaseButton) <BaseProps>`
@@ -170,7 +161,9 @@ const TextButton = styled(BaseButton) <BaseProps>`
   padding: 2px;
   border: 2px solid transparent;
 
-  ${props => props.$filled && `
+  ${props => props.$hasExplanation && `
+    color: ${props.theme.colors.green3};
+
     > svg .bubble-fill {
       fill: currentColor;
     }
@@ -178,10 +171,17 @@ const TextButton = styled(BaseButton) <BaseProps>`
     > svg .bubble-outline {
       fill: transparent;
     }
+
+    ${props.$disabled && `
+      color: ${props.theme.colors.green5};
+
+      > svg .bubble-label {
+        fill: currentColor;
+      }
+    `}
   `}
 
   ${props => props.$active && `
-    color: ${props.theme.colors.green5};
     border-color: ${props.theme.colors.green2};
     border-radius: 0;
   `}
@@ -190,20 +190,4 @@ const TextButton = styled(BaseButton) <BaseProps>`
     color: ${props => props.theme.colors.green2};
     border-color: transparent;
   }
-
-  ${props => props.disabled && props.$filled && `
-    color: ${props.theme.colors.green5};
-
-    > svg .bubble-fill {
-      fill: currentColor;
-    }
-
-    > svg .bubble-outline {
-      fill: transparent;
-    }
-
-    > svg .bubble-label {
-      fill: currentColor;
-    }
-  `}
 `
