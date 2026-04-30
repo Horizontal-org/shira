@@ -78,7 +78,7 @@
         "assign_dialog": {
             "registered_title": "Registered Learners",
             "registered_description": "Select one or more learners to assign this quiz to them.",
-            "registered_description_2": "You can manage registered learners and invite new ones in the <0>Learners section</0>.",
+            "registered_description_2": "The list below only shows Learners who have completed their registration. You can manage registered learners and invite new ones in the <0>Learners section</0> or read about <1> here</1>.",
             "assign_button": "Assign to learners",
             "assign_title": "Assign \"{{quiz_title}}\" to learners",
             "no_learners": "There are no registered learners in your space.",
