@@ -96,7 +96,7 @@ export const SenderFloatingInfo:FunctionComponent<Props> = ({
 
 const Wrapper = styled.div`
   width: 340px;  
-  z-index: 2;
+  z-index: 1;
   background: white;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.4);
   border-radius: 4px;

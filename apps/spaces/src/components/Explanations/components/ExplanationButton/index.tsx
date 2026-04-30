@@ -113,7 +113,6 @@ const BaseButton = styled.button<BaseProps>`
 
 const IconButton = styled(BaseButton) <BaseProps>`
   padding: 4px;
-  border-radius: 4px;
 
   > svg {
     width: 22px;
@@ -172,6 +171,7 @@ const TextButton = styled(BaseButton) <BaseProps>`
   min-height: 40px;
   padding: 2px;
   border: 2px solid transparent;
+  border-radius: 0;
   box-sizing: border-box;
 
   ${props => props.$hasExplanation && `
@@ -197,6 +197,7 @@ const TextButton = styled(BaseButton) <BaseProps>`
   ${props => props.$active && props.$hasExplanation && !props.$disabled && `
     color: ${props.theme.colors.green5};
     border: 2px solid ${props.theme.colors.green3};
+    border-radius: 0;
   `}
 
   &:disabled {
