@@ -197,7 +197,6 @@ const TextButton = styled(BaseButton) <BaseProps>`
   ${props => props.$active && props.$hasExplanation && !props.$disabled && `
     color: ${props.theme.colors.green5};
     border: 2px solid ${props.theme.colors.green3};
-    border-radius: 0;
   `}
 
   &:disabled {
