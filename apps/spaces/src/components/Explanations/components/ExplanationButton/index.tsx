@@ -72,12 +72,18 @@ const BaseButton = styled.button<BaseProps>`
 
   > svg {
     display: block;
+    overflow: visible;
   }
 
+  > svg .bubble-border,
   > svg .bubble-fill,
   > svg .bubble-outline,
   > svg .bubble-label {
     transition: fill 0.2s ease, opacity 0.2s ease;
+  }
+
+  > svg .bubble-border {
+    fill: transparent;
   }
 
   > svg .bubble-fill {
@@ -135,6 +141,12 @@ const IconButton = styled(BaseButton) <BaseProps>`
       fill: transparent;
     }
 
+    ${props.$active && `
+      > svg .bubble-outline {
+        fill: ${props.theme.colors.green2};
+      }
+    `}
+
     ${props.$disabled && `
       > svg .bubble-fill {
         fill: ${props.theme.colors.green2};
@@ -160,9 +172,10 @@ const TextButton = styled(BaseButton) <BaseProps>`
   min-height: 40px;
   padding: 2px;
   border: 2px solid transparent;
+  box-sizing: border-box;
 
   ${props => props.$hasExplanation && `
-    color: ${props.theme.colors.green3};
+    color: ${props.theme.colors.green5};
 
     > svg .bubble-fill {
       fill: currentColor;
@@ -181,8 +194,9 @@ const TextButton = styled(BaseButton) <BaseProps>`
     `}
   `}
 
-  ${props => props.$active && `
-    border-color: ${props.theme.colors.green2};
+  ${props => props.$active && props.$hasExplanation && !props.$disabled && `
+    color: ${props.theme.colors.green5};
+    border: 2px solid ${props.theme.colors.green3};
     border-radius: 0;
   `}
 
