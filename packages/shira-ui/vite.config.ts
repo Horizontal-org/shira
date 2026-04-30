@@ -5,18 +5,18 @@ import { resolve } from 'path'
 const external = [
   'react',
   'react-dom',
+  'react/jsx-runtime',
   'styled-components',
-  '@floating-ui/react',
-  '@tanstack/react-table',
-  'date-fns',
-  'polished',
-  'react-popper',
   'react-icons',
   /^react-icons\//
 ]
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react({
+      jsxRuntime: 'automatic',
+    }),
+  ],
   publicDir: false,
   build: {
     lib: {

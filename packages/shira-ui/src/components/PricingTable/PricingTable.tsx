@@ -2,9 +2,9 @@ import { FunctionComponent, ReactNode, useState } from "react";
 import { Button } from "../Button";
 import { Body3, SubHeading1, SubHeading3 } from "../Typography";
 import { GeneralTooltip } from "../GeneralTooltip";
-import styled, { useTheme } from "styled-components";
+import styled from "styled-components";
 import { IoMdCheckmarkCircle, IoMdHelpCircle } from "react-icons/io";
-
+import { defaultTheme } from "../../theme";
 type PlanButtonType = "primary" | "outline";
 type PlanId = "starter" | "pro" | "enterprise";
 
@@ -45,7 +45,7 @@ export interface PricingTableProps {
 }
 
 const FeatureTooltipIcon: FunctionComponent<{ label: string }> = ({ label }) => {
-  const theme = useTheme();
+  const theme = defaultTheme;
   const [showTooltip, setShowTooltip] = useState(false);
 
   return (
@@ -67,7 +67,7 @@ export const PricingTable: FunctionComponent<PricingTableProps> = ({
   plans,
   sections,
 }) => {
-  const theme = useTheme();
+  const theme = defaultTheme;
 
   return (
     <Content>
