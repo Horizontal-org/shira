@@ -63,6 +63,7 @@ export const DraggableAttachmentItem: FunctionComponent<Props> = ({
                   </AttachmentWrapper>
 
                   <ExplanationButton
+                    hasExplanation={Boolean(item.explanation)}
                     active={selectedExplanation && selectedExplanation + '' === item.explanation}
                     disabled={false}
                     onClick={() => {

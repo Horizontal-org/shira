@@ -51,6 +51,10 @@ export const EmailTipTapEditor = ({
 
   const links = useLink(editor)
   const tables = useTable(editor)
+  const selectedImageExplanationIndex = images.getSelectedImageExplanationIndex()
+  const isExplanationButtonSelected =
+    explanations.isTextExplanationSelected() ||
+    selectedImageExplanationIndex === explanations.selectedExplanation
 
   // Connect editor events to hooks
   if (editor) {
@@ -77,7 +81,8 @@ export const EmailTipTapEditor = ({
             >
               <ExplanationButton
                 isText={true}
-                active={explanations.isTextExplanationActive() || images.selectedImageHasExplanation}
+                hasExplanation={explanations.hasAnyExplanation()}
+                active={isExplanationButtonSelected}
                 disabled={!explanations.canAddTextExplanation() && !explanations.isTextExplanationActive() && !images.selectedImageHasExplanation}
                 onClick={() => {
                   if (images.isImageSelected) {

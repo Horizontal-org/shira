@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import styled from 'styled-components';
+import { styled } from '@shira/ui';
 import Trash from '../../icons/Trash';
 import Reorder from '../../icons/Reorder';
 
@@ -37,14 +37,14 @@ const SvgWrapper = styled.div`
 
   > svg {
     > path {
-      fill: #ACADAE
+      fill: ${props => props.theme.colors.dark.mediumGrey};
     }
   }
 
   &:hover {
     > svg {
       > path {
-        fill: #ddd; 
+        fill: ${props => props.theme.colors.light.paleGrey};
       }
     } 
   }

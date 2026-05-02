@@ -117,6 +117,16 @@ export const useImageUpload = (
       selection.node?.attrs['data-explanation']
   }, [editor, isImageSelected])
 
+  const getSelectedImageExplanationIndex = useCallback(() => {
+    if (!editor || !isImageSelected()) return null
+
+    const { selection } = editor.state
+    if (!(selection instanceof NodeSelection)) return null
+
+    const explanationIndex = selection.node?.attrs['data-explanation']
+    return explanationIndex ? Number(explanationIndex) : null
+  }, [editor, isImageSelected])
+
 
   const getSelectedImageAttrs = useCallback(() => {
     if (!editor || !isImageSelected()) return null
@@ -141,6 +151,7 @@ export const useImageUpload = (
     onImageSelect,
     isImageSelected: isImageSelected(),
     selectedImageHasExplanation: selectedImageHasExplanation(),
+    getSelectedImageExplanationIndex,
     getSelectedImageAttrs,
     updateSelectedImage,
     validateFile,

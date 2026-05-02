@@ -41,6 +41,7 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
   }), shallow)
 
   const ref = useRef(null)
+  const hasValue = contentObject.value != null && contentObject.value.trim() !== "";
 
   return (
     <Wrapper>
@@ -53,13 +54,6 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
         value={contentObject.value}
         placeholder={placeholder}
         onChange={(e) => {
-          // if(RE_VALIDATIONS[validation] && !RE_VALIDATIONS[validation]?.test(ref.current.value)) return
-          // setValue(ref.current.value)
-          // onChange(
-          //   ref.current.getAttribute('data-explanation'),
-          //   ref.current.value,
-          // )
-
           updateActiveQuestionInput(name, 'value', e.target.value)
         }}
         onBlur={() => {
@@ -78,6 +72,8 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
 
       <ExplanationButtonWrapper>
         <ExplanationButton
+          disabled={!hasValue}
+          hasExplanation={contentObject.explanation != null && contentObject.explanation?.length > 0}
           active={selectedExplanationIndex && selectedExplanationIndex + '' === contentObject.explanation}
           onClick={() => {
             const hasExplanation = contentObject.explanation

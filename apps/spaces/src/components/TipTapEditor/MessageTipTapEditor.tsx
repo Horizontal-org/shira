@@ -1,8 +1,6 @@
 import { GeneralTooltip, styled } from '@shira/ui'
 import { useEditor, EditorContent } from '@tiptap/react'
 import { useExplanations } from './hooks/useExplanations'
-
-import { MessageEditorStyles } from './styles/MessageEditorStyles'
 import { getMessageExtensions } from './config/editorExtensions'
 import { MessagesMenuBar } from './MessagesMenuBar'
 import { ExplanationButton } from '../Explanations/components/ExplanationButton'
@@ -38,10 +36,6 @@ export const MessageTipTapEditor = ({
   })
 
   const explanations = useExplanations(editor, editorId)
-  console.log(`EDITORID: ${editorId} ~ MessageTipTapEditor ~ explanations:`, 
-    explanations.isTextExplanationActive(),
-    explanations.canAddTextExplanation()
-  )
 
   const links = useLink(editor)
 
@@ -78,7 +72,8 @@ export const MessageTipTapEditor = ({
               >
                 <ExplanationButton
                   isText={true}
-                  active={explanations.isTextExplanationActive()}
+                  hasExplanation={explanations.hasAnyExplanation()}
+                  active={explanations.isTextExplanationSelected()}
                   disabled={!explanations.canAddTextExplanation() && !explanations.isTextExplanationActive()}
                   onClick={() => {
                     explanations.addTextExplanation()
