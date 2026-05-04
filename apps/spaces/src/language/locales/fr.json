@@ -1,17 +1,17 @@
 {
     "login": {
         "message": "",
-        "title": "S'identifier",
-        "subtitle": "Connectez-vous pour accéder à votre espace Shira personnalisé.",
-        "email_placeholder": "Courriel",
+        "title": "Se connecter",
+        "subtitle": "Connectez-vous pour accéder à votre espace personnel Shira.",
+        "email_placeholder": "Email",
         "password_placeholder": "Mot de passe",
-        "reset_password": "Mot de passe oublié ?",
+        "reset_password": "Mot de passe oublié ?",
         "login_header_button": "Se connecter"
     },
     "beta": {
-        "message": "Shira est encore en développement et vous pourriez rencontrer des problèmes.",
+        "message": "Shira est actuellement en cours de développement et vous risquez de rencontrer des dysfonctionnements.",
         "click_here": "Cliquez ici",
-        "feedback_text": "pour partager votre avis et découvrir la suite du projet Shira !",
+        "feedback_text": "pour donner votre avis et découvrir quelles sont les prochaines étapes prévues pour Shira !",
         "label": "BETA"
     },
     "left_menu": {
@@ -745,14 +745,14 @@
         "reset_success_title": "Mot de passe mis à jour",
         "reset_success_description": "Vous pouvez maintenant vous connecter avec votre nouveau mot de passe.",
         "expired_title": "Désolé, une erreur s'est produite",
-        "expired_description": "Le lien que vous avez ouvert est invalide ou a expiré. Veuillez contacter votre organisation ou envoyer un courriel à contact@wearehorizontal.org pour obtenir de l'aide.",
+        "expired_description": "Le lien que vous avez ouvert n'est pas valide ou a expiré. Pour obtenir de l'aide, adressez-vous à votre organisation ou envoyez un e-mail à contact@wearehorizontal.org.",
         "validation": {
             "email_required": "Adresse email requise",
-            "invalid_email": "Veuillez saisir une adresse email valide",
+            "invalid_email": "Saisissez une adresse e-mail valide",
             "password_required": "Mot de passe requis",
             "password_min_length": "Le mot de passe doit comporter au moins 8 caractères",
-            "confirm_password_required": "Veuillez confirmer votre mot de passe",
-            "passwords_mismatch": "Les mots de passe ne correspondent pas",
+            "confirm_password_required": "Confirmez votre mot de passe",
+            "passwords_mismatch": "Les 2 mots de passe ne correspondent pas",
             "incorrect_password": "Mot de passe incorrect."
         },
         "title": "Réinitialiser le mot de passe",
@@ -761,7 +761,7 @@
         "send_button": "Envoyer l’email de réinitialisation",
         "success_title": "Consultez vos emails",
         "success_description": "Nous avons envoyé un email de réinitialisation de mot de passe à votre adresse email.",
-        "success_info": "Vous n’avez pas reçu l’email ? Assurez-vous que l’adresse email saisie est correcte, vérifiez votre dossier de courriers indésirables ou contactez-nous à l’adresse <0>{{contact_email}}</0>",
+        "success_info": "Vous n’avez pas reçu l’email ? Assurez-vous que l’adresse email saisie est correcte, vérifiez votre dossier de courriers indésirables ou contactez-nous à l’adresse <0>{{contact_email}}</0>",
         "create_title": "Créer un nouveau mot de passe",
         "create_subtitle": "Votre mot de passe doit contenir au moins 8 caractères.",
         "new_password_placeholder": "Nouveau mot de passe (obligatoire)",
@@ -885,7 +885,7 @@
         }
     },
     "banner": {
-        "message": "Les espaces Shira ne sont pas encore disponibles sur les petits écrans. Pour une expérience optimale, veuillez utiliser un écran d'une largeur supérieure à 800 pixels.",
+        "message": "Les espaces Shira ne sont pas encore disponibles sur les petits écrans. Pour une meilleure expérience, il faut utiliser un écran d'une largeur supérieure à 800 pixels.",
         "label": "NOTE"
     }
 }
