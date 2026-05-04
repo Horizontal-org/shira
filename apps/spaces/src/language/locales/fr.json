@@ -736,7 +736,7 @@
     },
     "confirm_email_update": {
         "message": "",
-        "success_title": "Adresse courriel mise à jour",
+        "success_title": "Adresse e-mail mise à jour",
         "success_description": "Votre adresse courriel a été confirmée. Vous pouvez maintenant vous connecter avec votre nouvelle adresse courriel."
     },
     "reset_password": {
