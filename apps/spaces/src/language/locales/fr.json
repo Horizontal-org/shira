@@ -24,9 +24,9 @@
     "dashboard": {
         "message": "",
         "title": "Les quiz",
-        "subtitle": "Gérez vos quiz ici : vous pouvez notamment les créer, les publier, les retirer de la publication et les supprimer.",
+        "subtitle": "Gérez vos quiz ici : vous pouvez, entre autres, les créer, les publier, les retirer de la publication et les supprimer.",
         "create_quiz_button": "Créer un nouveau quiz",
-        "create_limit_reached": "Passez à un forfait supérieur pour créer plus de quiz."
+        "create_limit_reached": "Passer à un forfait supérieur pour créer plus de quiz."
     },
     "quizzes": {
         "message": "",
@@ -44,7 +44,7 @@
     },
     "quiz": {
         "message": "",
-        "public_subtitle": "Créez des questions, partagez le lien de votre quiz et suivez les résultats. Shira enregistre automatiquement votre travail dès que vous êtes connecté à Internet.",
+        "public_subtitle": "Créez des questions, partagez le lien de votre quiz et suivez les scores. Shira enregistre automatiquement votre travail dès que vous êtes connecté à Internet.",
         "private_subtitle": "Créez des questions, gérez les apprenants et suivez les résultats. Shira enregistre automatiquement votre travail dès que vous êtes connecté à Internet.",
         "publish_toggle": {
             "published": "Publié",
@@ -60,11 +60,11 @@
         },
         "tabs": {
             "questions": "Questions",
-            "results": "Résultats",
-            "learners": "Apprenants"
+            "results": "Scores",
+            "learners": "Apprenant.e.s"
         },
         "visibility": {
-            "public": "Publique",
+            "public": "Public",
             "private": "Privé"
         }
     },
@@ -93,12 +93,12 @@
         "tabs": {
             "content": {
                 "explanations": {
-                    "title": "Les explications s'afficheront dans l'ordre suivant dans le quiz."
+                    "title": "Pendant le quiz, les explications apparaîtront dans l'ordre suivant."
                 },
                 "sender_phone": {
-                    "title": "Téléphone de l'expéditeur",
+                    "title": "Numéro de téléphone de l'expéditeur / expéditrice",
                     "subtitle": "Il s'agit du numéro de téléphone qui s'affichera dans le champ \"Expéditeur\" du message.",
-                    "placeholder": "Numéro de téléphone de l'expéditeur"
+                    "placeholder": "Numéro de téléphone de l'expéditeur / expéditrice"
                 },
                 "message_content": {
                     "title": "Contenu du message",
@@ -112,7 +112,7 @@
                     "set_title": "Définir le lien",
                     "edit_title": "Modifier le lien",
                     "subtitle": "Dans le quiz, ce lien apparaîtra cliquable, mais pour des raisons de sécurité, cliquer dessus n'ouvrira pas l'URL.",
-                    "placeholder": "URL du lien"
+                    "placeholder": "Lien URL"
                 },
                 "tab_title": "Contenu",
                 "phishing": "Vous rédigez un message d'hameçonnage",
@@ -124,30 +124,30 @@
                 "message_explanations": "explications",
                 "explanation_content_placeholder": "Nouvelle explication",
                 "sender": {
-                    "title": "Nom de l'expéditeur",
+                    "title": "Nom de l'expéditeur/ expéditrice",
                     "subtitle": "Il s'agit du nom qui s'affichera dans le champ \"Expéditeur\" de l'e-mail.",
-                    "placeholder": "Nom de l'expéditeur"
+                    "placeholder": "Nom de l'expéditeur/ expéditrice"
                 },
                 "sender_email": {
-                    "title": "Adresse email de l'expéditeur",
-                    "subtitle": "Voici l'adresse email qui apparaîtra dans le champ \"Expéditeur\" du courriel.",
-                    "placeholder": "Email de l'expéditeur"
+                    "title": "Adresse email de l'expéditeur/ expéditrice",
+                    "subtitle": "Il s'agit de l'adresse e-mail qui apparaîtra dans le champ « Expéditeur » du message.",
+                    "placeholder": "Email de l'expéditeur / expéditrice"
                 },
                 "email_subject": {
-                    "title": "Objet du courriel",
-                    "subtitle": "Ce texte apparaîtra dans le champ \"Objet\" du courriel. Si vous laissez ce champ vide, la mention \"(aucun objet)\" s'affichera.",
+                    "title": "Objet de l'e-mail",
+                    "subtitle": "Ce texte apparaîtra dans le champ « Objet » de l'e-mail. Si vous ne remplissez pas ce champ, celui-ci affichera « (sans objet) ».",
                     "placeholder": "Objet"
                 },
                 "email_body_content": {
-                    "title": "Corps du courriel",
+                    "title": "Contenu de l'e-mail",
                     "subtitle": "Écrivez le message qui s'affichera."
                 },
                 "attachment_button": "Ajouter une pièce jointe",
-                "explanation_tooltip": "Sélectionnez du texte ou une image pour ajouter une explication."
+                "explanation_tooltip": "Sélectionnez un texte ou une image pour l'accompagner d'une explication."
             },
             "preview": {
                 "tab_title": "Aperçu",
-                "subtitle": "Voici à quoi ressemblera votre question pour les apprenants, y compris les explications que vous avez rédigées.",
+                "subtitle": "Votre question s'affichera ainsi pour les apprenants, accompagnée des explications que vous avez rédigées.",
                 "show_explanations": "Afficher les explications",
                 "hide_explanations": "Masquer les explications",
                 "next_explanation": "Explication suivante",
@@ -158,12 +158,12 @@
             "question_info": {
                 "tab_title": "Informations sur la question",
                 "question_name": {
-                    "title": "Nom de la question",
-                    "subtitle": "Ce nom ne sera visible que par vous, afin de vous aider à vous souvenir du sujet de cette question",
-                    "question_name_placeholder": "Nom de la question"
+                    "title": "Titre de la question",
+                    "subtitle": "Ce titre ne sera visible que par vous. Son but est de vous aider à vous souvenir du contenu de cette question",
+                    "question_name_placeholder": "Titre de la question"
                 },
                 "phishing": {
-                    "title": "S'agit-il d'une tentative d'hameçonnage ?",
+                    "title": "S'agit-il d'une tentative d'hameçonnage ?",
                     "yes": "Oui",
                     "no": "Non"
                 },
@@ -178,10 +178,10 @@
     "question_library": {
         "message": "",
         "columns": {
-            "question_name": "Nom de la question",
+            "question_name": "Titre de la question",
             "type": {
                 "title": "Type",
-                "phishing": "Phishing",
+                "phishing": "Hameçonnage",
                 "legitimate": "Légitime"
             },
             "language": {
@@ -210,26 +210,26 @@
         },
         "tab_header_title": "Ajouter une question à partir de la bibliothèque",
         "title": "Bibliothèque de questions",
-        "subtitle": "Sélectionnez une question dans la liste ci-dessous pour l'ajouter à votre quiz. Une fois que vous l'avez ajoutée à votre quiz, vous pouvez modifier la question pour la personnaliser entièrement, y compris en modifiant le texte et les explications."
+        "subtitle": "Sélectionnez une question dans la liste ci-dessous pour l'ajouter à votre quiz. Une fois ajoutée, vous pouvez la modifier et la personnaliser entièrement, en changeant notamment le texte et les explications."
     },
     "results_tab": {
         "message": "",
         "completed_quizzes": {
             "title": "Nombre de quiz complétés",
-            "subtitle": "Il s'agit du nombre de quiz complétés par les apprenants."
+            "subtitle": "Il s'agit du nombre de quiz complétés par les apprenants et apprenantes."
         },
         "average_score": {
             "title": "Note moyenne",
-            "subtitle": "Il s'agit de la note moyenne obtenue par tous les apprenants ayant passé ce quiz.",
-            "empty_subtitle": "La note moyenne obtenue par tous les apprenants ayant passé ce quiz sera affichée ici."
+            "subtitle": "Il s'agit de la note moyenne obtenue par tous les apprenants et apprenantes ayant passé ce quiz.",
+            "empty_subtitle": "La note moyenne obtenue par tous les apprenants ou apprenantes ayant passé ce quiz sera affichée ici."
         },
         "rate": {
             "title": "Taux de participation",
-            "subtitle": "Il s'agit du pourcentage d'apprenants ayant rendu le quiz parmi tous ceux à qui il a été attribué."
+            "subtitle": "Il s'agit du pourcentage d'apprenants et d'apprenantes ayant rendu le quiz sur le nombre total de personnes auxquelles ce quiz a été attribué."
         },
         "by_question": {
-            "title": "Résultats par question",
-            "description": "La note moyenne correspond au pourcentage d'apprenants ayant répondu correctement à chaque question.",
+            "title": "Scores par question",
+            "description": "La note moyenne correspond au pourcentage d'apprenants ou d'apprenantes ayant répondu correctement à chaque question.",
             "empty_state": "Aucune question n'a encore été complétée pour ce quiz.",
             "table": {
                 "type": "Type",
@@ -239,17 +239,17 @@
             }
         },
         "by_learner": {
-            "title": "Résultats par apprenant",
-            "description": "Voici la liste de tous les apprenants ayant rendu le quiz et leurs notes individuelles.",
-            "empty_state": "Aucun apprenant n'a encore soumis ce quiz jusqu'ici.",
+            "title": "Scores par apprenant",
+            "description": "Voici la liste de tous les apprenants et apprenantes ayant rendu le quiz ainsi leurs scores individuels.",
+            "empty_state": "Aucun apprenant ou apprenante n'a encore répondu à ce quiz.",
             "table": {
-                "learner": "Apprenant",
+                "learner": "Apprenant.e",
                 "date": "Date de soumission",
                 "score": "Score au quiz",
-                "loading": "Chargement des apprenants…"
+                "loading": "Chargement des apprenant.e.s…"
             }
         },
-        "title": "Résultats globaux"
+        "title": "Scores globaux"
     },
     "support": {
         "message": "",
@@ -709,35 +709,35 @@
     },
     "learners": {
         "message": "",
-        "title": "Apprenants",
-        "subtitle": "Gérez les personnes autorisées à participer aux quiz privés que vous créez.",
-        "empty_state": "Aucun apprenant n’est encore inscrit à votre espace. Invitez un nouvel apprenant pour commencer.",
+        "title": "Apprenants et apprenantes",
+        "subtitle": "Définissez qui peut répondre aux quiz privés que vous créez.",
+        "empty_state": "Aucun apprenant ou apprenante n'est actuellement inscrit(e) à votre espace. Commencez par y inviter un nouvel apprenant ou une nouvelle apprenante.",
         "table": {
-            "learner": "Apprenant",
+            "learner": "Apprenant.e",
             "registration": "Inscription",
             "quiz_status": "Statut du quiz",
             "invited_at": "Date d’invitation",
-            "invited_tag": "Invité",
+            "invited_tag": "Invité.e",
             "registered_tag": "Inscrit(e)",
             "submitted_tag": "Soumis",
             "not_submitted_tag": "Non soumis"
         },
         "sub_required": "Cette fonctionnalité n'est pas disponible avec votre forfait actuel. <0>Voir les forfaits</0>",
         "assign_dialog": {
-            "registered_title": "Apprenants inscrits",
-            "registered_description": "Sélectionnez un ou plusieurs apprenants pour leur attribuer ce quiz.",
-            "registered_description_2": "Vous pouvez gérer les apprenants inscrits et en inviter de nouveaux dans la section <0>Apprenants</0>.",
-            "assign_button": "Attribuer aux apprenants",
-            "assign_title": "Attribuez \"{{quiz_title}}\" aux apprenants",
-            "no_learners": "Aucun apprenant n'est inscrit dans votre espace.",
-            "all_learners_registered": "Tous les apprenants inscrits ont déjà été affectés à ce quiz.",
-            "disabled_tooltip": "Créez au moins une question pour attribuer ce quiz aux apprenants."
+            "registered_title": "Apprenant.e.s inscrits",
+            "registered_description": "Sélectionnez un ou plusieurs apprenants ou apprenantes pour leur attribuer ce quiz.",
+            "registered_description_2": "Vous pouvez gérer les apprenants et apprenantes inscrits et en inviter de nouveaux dans la section <0>Apprenants</0>.",
+            "assign_button": "Attribuer aux apprenant.e.s",
+            "assign_title": "Attribuez \"{{quiz_title}}\" aux apprenant.e.s",
+            "no_learners": "Aucun apprenant ou apprenante n'est inscrit dans votre espace.",
+            "all_learners_registered": "Ce quiz a déjà été attribué à tous les apprenants et apprenantes inscrits.",
+            "disabled_tooltip": "Créez au moins une question pour attribuer ce quiz."
         }
     },
     "confirm_email_update": {
         "message": "",
         "success_title": "Adresse e-mail mise à jour",
-        "success_description": "Votre adresse courriel a été confirmée. Vous pouvez maintenant vous connecter avec votre nouvelle adresse courriel."
+        "success_description": "Votre adresse e-mail a été validée. Vous pouvez désormais vous connecter avec vos nouveaux identifiants."
     },
     "reset_password": {
         "message": "",
@@ -770,10 +770,10 @@
     "learner_quiz_tab": {
         "message": "",
         "table": {
-            "description": "Voici les apprenants auxquels ce quiz a été attribué."
+            "description": "Voici les apprenants et apprenantes auxquels ce quiz a été attribué."
         },
         "empty_state": {
-            "description": "Ce quiz n'a pas encore d'apprenants. Cliquez sur le bouton \"Attribuer aux apprenants\" pour commencer."
+            "description": "Ce quiz n'a pas encore d'apprenants ou apprenantes. Cliquez sur le bouton \"Attribuer aux apprenant.e.s\" pour commencer."
         }
     },
     "learners_bulk_import": {
@@ -781,22 +781,22 @@
         "tabs": {
             "verify_learners": {
                 "valid_tab": "Valide ({{count}})",
-                "description_error": "Les lignes ci-dessous contiennent des erreurs qui empêchent l'invitation de ces apprenants. Vous pouvez corriger les erreurs dans votre fichier CSV et le télécharger à nouveau, ou continuer malgré les erreurs sans importer ces apprenants.",
+                "description_error": "Les lignes ci-dessous contiennent des erreurs qui empêchent l'invitation de ces apprenants et des apprenantes. Vous pouvez corriger les erreurs dans votre fichier CSV et le télécharger à nouveau, ou continuer malgré les erreurs sans importer ces apprenant.e.s.",
                 "description_skipped": "Ces lignes seront ignorées. Vous pouvez ne pas en tenir compte et poursuivre le téléchargement de votre feuille de calcul.",
-                "description_valid": "Ces lignes ont été validées avec succès ; ces apprenants peuvent donc être importés dans votre espace.",
+                "description_valid": "Ces lignes ont été validées avec succès ; ces apprenant.e.s peuvent donc être importés dans votre espace.",
                 "table_row": "Ligne",
                 "table_name": "Nom",
-                "table_email": "Adresse courriel",
-                "table_error": "Type d ' erreur",
-                "table_skip_reason": "Motif du saut",
+                "table_email": "Adresse email",
+                "table_error": "Type d'erreur",
+                "table_skip_reason": "Raisons pour ignorer",
                 "table_status": "État",
                 "validated": "Validé",
                 "empty_error": "Il n'y a aucune ligne comportant des erreurs.",
                 "empty_skipped": "Il n'y a aucune ligne sautée.",
                 "empty_valid": "Il n'y a aucune ligne valide.",
                 "upload_tooltip": "Téléchargez une feuille de calcul pour continuer.",
-                "tab_title": "Vérifier les apprenants",
-                "subtitle": "Veuillez vérifier l’exactitude de toutes les données avant de les importer dans Shira et d’envoyer les invitations.",
+                "tab_title": "Vérifier les apprenant.e.s",
+                "subtitle": "Vérifiez l’exactitude de toutes les données avant de les importer dans Shira et d’envoyer les invitations.",
                 "error_tab": "Erreur ({{count}})",
                 "skipped_tab": "Ignoré ({{count}})"
             },
@@ -815,22 +815,22 @@
                 "file_size": "Taille maximale du fichier : 10 Mo",
                 "remove_file": "Supprimer le fichier sélectionné",
                 "upload_complete": "Téléchargement terminé",
-                "upload_success": "Votre feuille de calcul a été téléchargée avec succès ! Passez à l’étape suivante pour vérifier vos apprenants.",
-                "uploading": "Veuillez patienter pendant que Shira télécharge et valide vos données.",
+                "upload_success": "Votre feuille de calcul a été téléchargée avec succès ! Passez à l'étape suivante pour valider vos apprenants et apprenantes.",
+                "uploading": "Attendez que Shira télécharge et valide vos données.",
                 "invalid_file_format": "Erreur : Format de fichier invalide",
-                "invalid_file_format_description": "Veuillez vous assurer que le fichier est au format CSV et réessayer.",
-                "upload_error": "Erreur : Impossible de traiter votre fichier",
-                "upload_error_description": "Nous n'avons pas pu traiter le fichier. Veuillez réessayer.",
+                "invalid_file_format_description": "Assurez-vous que le fichier est en format CSV et réessayez.",
+                "upload_error": "Erreur : impossible de traiter votre fichier",
+                "upload_error_description": "Nous n'avons pas pu traiter le fichier. Réessayez.",
                 "too_many_rows_error": "Erreur : Nombre de lignes trop élevé",
-                "too_many_rows_error_description": "Veuillez vérifier que votre feuille de calcul contient au maximum 1 000 lignes et réessayer.",
-                "invalid_formatting": "Erreur : Formatage invalide",
-                "invalid_formatting_description": "Veuillez vérifier que votre feuille de calcul est formatée conformément aux instructions ci-dessus et réessayer.",
+                "too_many_rows_error_description": "Vérifiez que votre feuille de calcul contient au maximum 1 000 lignes et réessayez.",
+                "invalid_formatting": "Erreur : formatage invalide",
+                "invalid_formatting_description": "Vérifiez que votre feuille de calcul est formatée conformément aux instructions ci-dessus et réessayez.",
                 "tab_title": "Importer un fichier CSV",
-                "subtitle": "Vous pouvez inviter plusieurs apprenants simultanément en important un fichier CSV contenant leurs informations. Pour éviter les erreurs, nous vous recommandons de télécharger et de remplir ce modèle CSV préformaté.",
+                "subtitle": "Vous pouvez inviter plusieurs apprenants ou apprenantes simultanément en important un fichier CSV contenant leurs informations. Pour éviter les erreurs, nous vous recommandons de télécharger et de remplir ce modèle CSV préformaté.",
                 "section_title": "Importez votre feuille de calcul remplie"
             }
         },
-        "header_title": "Importer des apprenants en masse"
+        "header_title": "Importer des apprenant.e.s en masse"
     },
     "create_space": {
         "message": "",
