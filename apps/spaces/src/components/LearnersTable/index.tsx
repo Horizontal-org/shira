@@ -1,4 +1,4 @@
-import { Button, EmptyState, styled, Table, TableActions, TableCheckbox, useTheme } from "@shira/ui";
+import { Button, EmptyState, styled, Table, TableActions, TableCheckbox, useTheme } from "@horizontal-org/shira-ui";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { FunctionComponent, useMemo } from "react";
 import { useTranslation } from "react-i18next";

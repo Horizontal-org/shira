@@ -1,5 +1,5 @@
 import { DragEvent, FunctionComponent, KeyboardEvent, RefObject } from "react";
-import { Body1, Body2Regular, Body3, Body4, Button, H2, LoadingIcon, SubHeading1, SubHeading3, defaultTheme, styled, useTheme } from "@shira/ui";
+import { Body1, Body2Regular, Body3, Body4, Button, H2, LoadingIcon, SubHeading1, SubHeading3, defaultTheme, styled, useTheme } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
 import { FaFileUpload } from "react-icons/fa";
 import { FiCheck, FiDownload, FiInfo } from "react-icons/fi";

@@ -1,4 +1,4 @@
-import { Body1, Button, H1, Navbar, styled } from "@shira/ui";
+import { Body1, Button, H1, Navbar, styled } from "@horizontal-org/shira-ui";
 import { FunctionComponent, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";

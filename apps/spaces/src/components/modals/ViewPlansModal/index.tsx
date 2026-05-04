@@ -12,7 +12,7 @@ import {
   PricingTable,
   PricingFeatureSection,
   PricingPlan
-} from "@shira/ui";
+} from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
 import { checkoutSubscription, navigateToManageSubscription } from "../../../fetch/auth";
 import { useStore } from "../../../store";

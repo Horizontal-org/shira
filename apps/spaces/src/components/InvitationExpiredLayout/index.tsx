@@ -6,7 +6,7 @@ import {
   Button,
   styled,
   Navbar
-} from "@shira/ui";
+} from "@horizontal-org/shira-ui";
 import notFoundSvg from "../../assets/404.svg";
 
 interface Props {}

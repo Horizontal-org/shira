@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { Button, Form, TextInput, styled } from "@shira/ui";
+import { Button, Form, TextInput, styled } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
 
 interface Props {

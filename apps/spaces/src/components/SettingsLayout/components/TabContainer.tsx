@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from "react";
-import { Body1SemiBold, Body2Italic, Body2Regular, Button, styled, useTheme } from "@shira/ui";
+import { Body1SemiBold, Body2Italic, Body2Regular, Button, styled, useTheme } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
 import { navigateToManageSubscription } from "../../../fetch/auth";
 import { useSub } from "../../../hooks/useSub";

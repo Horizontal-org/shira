@@ -1,4 +1,4 @@
-import { GmailIcon, FacebookIcon, SMSIcon, WhatsappIcon, OutlookIcon, DatingAppIcon, EmailIcon, MessagingIcon } from "@shira/ui";
+import { GmailIcon, FacebookIcon, SMSIcon, WhatsappIcon, OutlookIcon, DatingAppIcon, EmailIcon, MessagingIcon } from "@horizontal-org/shira-ui";
 
 export const appIcons: Record<string, JSX.Element> = {
   'gmail': <GmailIcon />,

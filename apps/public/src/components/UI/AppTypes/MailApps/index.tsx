@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react'
 import { Explanation } from '../../../../domain/explanation';
 import useParseHTML from '../../../../hooks/useParseHTML';
 import { useStore } from '../../../../store';
-import { Gmail, Outlook } from '@shira/ui';
+import { Gmail, Outlook } from '@horizontal-org/shira-ui';
 
 interface Props {
   content: string;

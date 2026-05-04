@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import { ExplanationIcon, styled } from '@shira/ui';
+import { ExplanationIcon, styled } from '@horizontal-org/shira-ui';
 import ExplanationText from '../../../../icons/ExplanationText';
 
 interface Props {

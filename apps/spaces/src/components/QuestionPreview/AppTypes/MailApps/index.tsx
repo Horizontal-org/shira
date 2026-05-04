@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import { Gmail, Outlook } from '@shira/ui';
+import { Gmail, Outlook } from '@horizontal-org/shira-ui';
 import { UIExplanation } from '../..';
 import parseHtml from '../../../../utils/parseHtml';
 

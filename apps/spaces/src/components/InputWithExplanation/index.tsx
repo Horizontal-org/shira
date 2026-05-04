@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { shallow } from 'zustand/shallow'
 import { useStore } from '../../store'
 import { ExplanationButton } from '../Explanations/components/ExplanationButton'
-import { TextInput } from '@shira/ui'
+import { TextInput } from '@horizontal-org/shira-ui'
 import { QuestionTextInput } from '../../store/types/active_question'
 
 

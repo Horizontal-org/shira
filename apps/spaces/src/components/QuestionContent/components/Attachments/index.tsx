@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from "react";
-import { AddAttachmentModal, Button, styled, AttachmentType } from "@shira/ui";
+import { AddAttachmentModal, Button, styled, AttachmentType } from "@horizontal-org/shira-ui";
 import { IoMdAdd } from "react-icons/io";
 import { DraggableAttachmentList } from "./DraggableAttachmentList";
 import { QuestionDragAttachment } from "../../../../store/types/active_question";

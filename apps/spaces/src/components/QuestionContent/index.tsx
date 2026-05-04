@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { styled, Box } from '@shira/ui'
+import { styled, Box } from '@horizontal-org/shira-ui'
 import { EmailContent } from "./components/EmailContent";
 import { Explanations } from "../Explanations";
 import { CommonHeader } from "./components/CommonHeader";
