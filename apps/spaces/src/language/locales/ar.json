@@ -650,20 +650,20 @@
                 },
                 "title": "ماذا يتضمن؟",
                 "tooltips": {
-                    "hosting": "[ADD TOOLTIP COPY]",
-                    "admin_dashboard": "[ADD TOOLTIP COPY]",
-                    "number_of_admins": "قريباً، عدد المسؤولين غير محدود",
-                    "customizable_questions": "[ADD TOOLTIP COPY]",
-                    "question_library": "[ADD TOOLTIP COPY]",
-                    "custom_quizzes": "[ADD TOOLTIP COPY]",
-                    "apps_available": "Gmail، Outlook، الرسائل النصية، WhatsApp، Messenger، تطبيقات المواعدة",
+                    "hosting": "دعوا فريق Shira يستضيف ويحافظ على Shira (السحابي) أو تثبيته على خوادمك (في الموقع)",
+                    "admin_dashboard": "مكان مركزي لإدارة حملات التوعية الخاصة بكم حول التصيد الاحتيالي",
+                    "number_of_admins": "المسؤولون هم مستخدمون يمكنهم إنشاء وإدارة حملات التوعية حول التصيد الاحتيالي",
+                    "customizable_questions": "أنشئوا أسئلة اختبار تناسب احتياجات المتعلمين",
+                    "question_library": "احصلوا على عشرات القوالب من الأسئلة الجاهزة",
+                    "custom_quizzes": "عدد الاختبارات التي يمكنكم إنشاؤها في مساحتكم",
+                    "apps_available": "أنشئوا أسئلة الاختبارات باستخدام واجهات تشبه تماما التطبيقات الفعلية التي يستخدمها المتعلمون",
                     "public_quizzes": "يمكن لأي شخص أن يجتاز اختباركم من خلال رابط سهل المشاركة",
                     "private_quizzes": "يستطيع المتعلمون المسجلون في مساحتكم فقط خوض اختباراتكم",
                     "basic_analytics": "تتبع النتائج على مستوى الاختبار",
                     "detailed_analytics": "تتبع نتائج حسب المتعلم والأسئلة",
-                    "analysis_tools": "قريبا",
-                    "tailor_made_training": "[ADD TOOLTIP COPY]",
-                    "priority_support": "[ADD TOOLTIP COPY]"
+                    "analysis_tools": "صدِّروا نتائج فريقكم إلى تقارير بصيغة CSV أو بصيغة PDF",
+                    "tailor_made_training": "ورشات عمل تطوير المهارات التي يخصصها فريق Shira لمنظمتكم",
+                    "priority_support": "سرعة الاستجابة لضمان تجربة سلسة"
                 }
             },
             "title": "الخطط المتاحة",
@@ -791,16 +791,16 @@
     },
     "loading_messages": {
         "message": "",
-        "loading": "جاري التحميل...",
-        "saving": "جاري الحفظ...",
-        "creating": "جاري الإنشاء...",
-        "duplicating": "جاري الاستنساخ...",
-        "learners": "جاري تحميل المتعلّمين...",
-        "loading_library_questions": "جاري تحميل الأسئلة...",
-        "uploading_image": "جاري تحميل الصورة...",
-        "assigning_quiz_to_learners": "جاري تعيين الاختبار للمتعلّمين...",
+        "loading": "يجري التحميل…",
+        "saving": "يجري الحفظ…",
+        "creating": "يجري الإنشاء…",
+        "duplicating": "يجري الاستنساخ…",
+        "learners": "يجري تحميل المتعلّمين…",
+        "loading_library_questions": "يجري تحميل الأسئلة…",
+        "uploading_image": "يجري تحميل الصورة…",
+        "assigning_quiz_to_learners": "يجري تعيين الاختبار للمتعلّمين…",
         "assigning_quiz_to_learners_description": "يعمل Shira على تعيين الاختبار للمتعلّمين المحددين.",
-        "sending_invitation": "جاري إرسال الدعوة"
+        "sending_invitation": "يجري إرسال الدعوة"
     },
     "preview": {
         "message": "",
@@ -813,10 +813,10 @@
     },
     "select_languages": {
         "message": "",
-        "english": "الإنجليزية",
-        "spanish": "الإسبانية",
-        "french": "الفرنسية",
-        "mandarin": "الصينية"
+        "english": "الإنجليزية English",
+        "spanish": "الإسبانية Español",
+        "french": "الفرنسية Français",
+        "mandarin": "الصينية 中文"
     },
     "get_started": {
         "message": "",
@@ -827,13 +827,13 @@
             "create_space_failed": "حدث خطأ أثناء إنشاء مساحتكم. يرجى المحاولة مرة أخرى."
         },
         "success": {
-            "description": "لإكمال هذه العملية، يرجى فتح البريد الإلكتروني الذي أرسلناه إلى عنوان بريدكم الإلكتروني، والنقر على الرابط لإنشاء مساحتكم في Shira.",
+            "description": "لإكمال هذه العملية، يرجى فتح البريد الإلكتروني الذي أرسلناه إلى عنوان بريدكم الإلكتروني، والضغط على الرابط لإنشاء مساحتكم في Shira.",
             "title": "لم يتبقَّ الكثير!",
             "didnt_receive": "ألم تتلقوا بريداً إلكترونياً؟ إذا لم تجدوه في مجلد الرسائل المزعجة، فاتصلوا بنا عبر"
         },
         "organization_name_required": "اسم المنظمة (مطلوب)",
         "email_required": "البريد الإلكتروني (مطلوب)",
-        "loading": "جاري التسجيل...",
+        "loading": "يجري التسجيل…",
         "org_types": {
             "business": "شركة",
             "cibersecurity": "مزود خدمات الأمن السيبراني",
@@ -844,28 +844,28 @@
         "validation": {
             "org_name_required": "اسم المنظمة مطلوب",
             "email_required": "البريد الإلكتروني مطلوب",
-            "invalid_email": "أدخلوا عنوان بريد إلكتروني صالحاً"
+            "invalid_email": "أدخلوا عنوان بريد إلكتروني صالح"
         }
     },
     "create_space": {
         "message": "",
         "password_label": "‮كلمة السر",
         "errors": {
-            "create_space_failed": "حدث خطأ أثناء إنشاء مساحتكم. يرجى المحاولة مرة أخرى."
+            "create_space_failed": "لقد حدث خطأ أثناء إنشاء مساحتكم. يرجى المحاولة مرة أخرى."
         },
         "title": "مساحات Shira",
         "subtitle": "بعد إنشاء مساحتكم، ستتمكنون من إنشاء اختبارات وأسئلة مخصصة ذات صلة وثيقة بسياقكم ومجتمعاتكم.",
         "form_title": "إنشاء مساحة جديدة",
-        "form_description": "أكملوا النموذج أدناه لإنشاء مساحتكم في Shira.",
-        "beta_lead": "مساحات Shira حالياً في مرحلة الإصدار التجريبي المغلق. للحصول على كلمة المرور اللازمة للانضمام إلى هذا الإصدار، يرجى مراسلتنا عبر البريد الإلكتروني على",
-        "checking_invitation": "جاري التحقق من الدعوة...",
+        "form_description": "أكملوا الاستمارة أدناه لإنشاء مساحتكم في Shira.",
+        "beta_lead": "مساحات Shira حالياً في مرحلة الإصدار التجريبي المغلق. للحصول على كلمة السر اللازمة للانضمام إلى هذا الإصدار، يرجى مراسلتنا عبر البريد الإلكتروني على",
+        "checking_invitation": "يجري التحقق من الدعوة…",
         "email_label": "تأكيد عنوان بريدكم الإلكتروني",
         "confirm_password_label": "تأكيد كلمة السر",
         "button_create": "إنشاء مساحة جديدة",
         "validation": {
             "email_required": "البريد الإلكتروني مطلوب.",
             "password_required": "كلمة السر مطلوبة.",
-            "password_min_length": "كلمة السر يجب أن لا تقل عن 8 أحرف.",
+            "password_min_length": "يجب أن لا تقل كلمة السر عن 8 أحرف.",
             "passwords_mismatch": "كلمتا السر غير متطابقتين."
         }
     }
