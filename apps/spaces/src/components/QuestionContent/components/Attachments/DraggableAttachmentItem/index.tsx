@@ -1,9 +1,8 @@
 import { FunctionComponent, useRef } from 'react'
 import { Draggable } from "@hello-pangea/dnd";
-import { Attachment, styled } from '@shira/ui';
+import { Attachment, ExplanationButton, styled } from '@shira/ui';
 import { shallow } from 'zustand/shallow';
 import { useStore } from '../../../../../store';
-import { ExplanationButton } from '../../../../Explanations/components/ExplanationButton';
 import { QuestionDragAttachment } from '../../../../../store/types/active_question';
 import { QuestionContentDragItemOptions } from '../../QuestionContentDragItemOptions';
 

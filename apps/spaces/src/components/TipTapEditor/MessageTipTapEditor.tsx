@@ -1,11 +1,10 @@
-import { GeneralTooltip, styled } from '@shira/ui'
+import { ExplanationButton, GeneralTooltip, styled } from '@shira/ui'
 import { useEditor, EditorContent } from '@tiptap/react'
 import { useExplanations } from './hooks/useExplanations'
 
 import { MessageEditorStyles } from './styles/MessageEditorStyles'
 import { getMessageExtensions } from './config/editorExtensions'
 import { MessagesMenuBar } from './MessagesMenuBar'
-import { ExplanationButton } from '../Explanations/components/ExplanationButton'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLink } from './hooks/useLink'

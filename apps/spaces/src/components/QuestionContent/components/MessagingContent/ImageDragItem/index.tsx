@@ -1,7 +1,6 @@
 import { FunctionComponent, useRef } from "react";
-import { styled } from "@shira/ui";
+import { ExplanationButton, styled } from "@shira/ui";
 import { LoadingOverlay } from "../../../../LoadingOverlay/LoadingOverlay";
-import { ExplanationButton } from "../../../../Explanations/components/ExplanationButton";
 import { useStore } from "../../../../../store";
 import { shallow } from "zustand/shallow";
 import { ImageObject } from "../../../../../store/types/active_question";

@@ -2,8 +2,7 @@ import { FunctionComponent, useRef } from 'react'
 import styled from 'styled-components'
 import { shallow } from 'zustand/shallow'
 import { useStore } from '../../store'
-import { ExplanationButton } from '../Explanations/components/ExplanationButton'
-import { TextInput } from '@shira/ui'
+import { ExplanationButton, TextInput } from '@shira/ui'
 import { QuestionTextInput } from '../../store/types/active_question'
 
 
@@ -96,6 +95,4 @@ const Wrapper = styled.div`
   align-items: flex-end;
 `
 
-const ExplanationButtonWrapper = styled.div`
-  padding-bottom: 8px;
-`
+const ExplanationButtonWrapper = styled.div``

@@ -34,7 +34,7 @@ type Story = StoryObj<typeof ExplanationButton>;
 export const DefaultOutline: Story = {
   args: {
     active: false,
-    onClick: () => alert('Explanation button clicked!'),
+    onClick: () => console.log('clicked'),
     disabled: false,
     isText: false,
     hasExplanation: false
@@ -44,7 +44,17 @@ export const DefaultOutline: Story = {
 export const DefaultFilled: Story = {
   args: {
     active: false,
-    onClick: () => alert('Explanation button clicked!'),
+    onClick: () => console.log('clicked'),
+    disabled: false,
+    isText: false,
+    hasExplanation: true
+  },
+};
+
+export const ActiveExplanationFilled: Story = {
+  args: {
+    active: true,
+    onClick: () => console.log('clicked'),
     disabled: false,
     isText: false,
     hasExplanation: true
@@ -52,10 +62,41 @@ export const DefaultFilled: Story = {
 };
 
 
+export const TextOutline: Story = {
+  args: {
+    active: false,
+    onClick: () => console.log('clicked'),
+    disabled: false,
+    isText: true,
+    hasExplanation: false
+  },
+}
+
+export const TextFilled: Story = {
+  args: {
+    active: false,
+    onClick: () => console.log('clicked'),
+    disabled: false,
+    isText: true,
+    hasExplanation: true
+  },
+}
+
+
+export const ActiveExplanationTextFilled: Story = {
+  args: {
+    active: true,
+    onClick: () => console.log('clicked'),
+    disabled: false,
+    isText: true,
+    hasExplanation: true
+  },
+}
+
 export const DisabledOutline: Story = {
   args: {
     active: false,
-    onClick: () => alert('Explanation button clicked!'),
+    onClick: () => console.log('clicked'),
     disabled: true,
     isText: false,
     hasExplanation: false
@@ -66,7 +107,7 @@ export const DisabledOutline: Story = {
 export const DisabledFilled: Story = {
   args: {
     active: false,
-    onClick: () => alert('Explanation button clicked!'),
+    onClick: () => console.log('clicked'),
     disabled: true,
     isText: false,
     hasExplanation: true
