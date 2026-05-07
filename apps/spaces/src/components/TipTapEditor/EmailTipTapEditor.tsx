@@ -10,7 +10,7 @@ import { EditorStyles } from './styles/EditorStyles'
 import { getEmailExtensions } from './config/editorExtensions'
 import { LoadingOverlay } from '../LoadingOverlay/LoadingOverlay'
 import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { ErrorBanner as BaseErrorBanner } from '../ErrorBanner'
 
 interface Props {
@@ -60,6 +60,16 @@ export const EmailTipTapEditor = ({
     editor.off('selectionUpdate').on('selectionUpdate', explanations.handleSelectionUpdate)
   }
 
+  const showHasExplanation = useMemo(() => {
+    if (images.selectedImageHasExplanation) {
+      return true
+    }
+    if (!explanations.canAddTextExplanation() && explanations.hasAnyExplanation()) {
+      return true
+    }
+    return false
+  }, [explanations, images])
+
   return (
     <Wrapper>
       <EditorWrapper>
@@ -80,7 +90,7 @@ export const EmailTipTapEditor = ({
             >
               <ExplanationButton
                 isText={true}
-                hasExplanation={explanations.hasAnyExplanation()}
+                hasExplanation={showHasExplanation}
                 active={isExplanationButtonSelected}
                 disabled={!explanations.canAddTextExplanation() && !explanations.isTextExplanationActive() && !images.selectedImageHasExplanation}
                 onClick={() => {
