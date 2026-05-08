@@ -84,6 +84,7 @@ export const PricingTable: FunctionComponent<PricingTableProps> = ({
   return (
     <Content>
       <PlansList>
+        <PlanSpacer />
         {plans.map((plan, index) => (
           <PlanCard key={plan.id} id={`${plan.id}-plan-card`} $isHighlighted={plan.isHighlighted}>
             <PlanCopy>
@@ -338,6 +339,12 @@ const PlanFeatures = styled.div`
     flex-direction: column;
     box-sizing: border-box;
     padding: 12px 0;
+  }
+`;
+
+const PlanSpacer = styled.div`
+  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
+    display: none;
   }
 `;
 
