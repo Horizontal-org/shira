@@ -85,7 +85,8 @@
             "registered_tag": "تم التسجيل",
             "submitted_tag": "تم الإرسال",
             "not_submitted_tag": "لم يتم الإرسال"
-        }
+        },
+        "sub_required": "هذه الميزة ليست متاحة في إطار خطتك الحالية. <0>عرض الخطط </0>"
     },
     "quizzes": {
         "message": "",
@@ -132,9 +133,9 @@
         "create_question_button": "إنشاء سؤال",
         "add_from_library_button": "إضافة من المكتبة",
         "action_tooltips": {
-            "edit": "تعديل السؤال",
-            "duplicate": "استنساخ السؤال",
-            "delete": "حذف السؤال"
+            "edit": "تعديل",
+            "duplicate": "استنساخ",
+            "delete": "حذف"
         }
     },
     "questions": {
@@ -227,7 +228,8 @@
                     "edit_title": "تعديل الرابط",
                     "subtitle": "في الاختبار، سيظهر هذا الرابط قابلاً للضغط، ولكن لأسباب تتعلق بالسلامة، لن يؤدي الضغط عليه إلى فتح الرابط.",
                     "placeholder": "عنوان الرابط"
-                }
+                },
+                "explanation_tooltip": "اختاروا صورة أو ضعوا نصا إلى التفسير."
             },
             "preview": {
                 "tab_title": "معاينة",
@@ -239,7 +241,8 @@
                 "no_explanations": "لا توجد تفسيرات لهذا السؤال.",
                 "aria_label": "معاينة السؤال"
             }
-        }
+        },
+        "header_required_tooltip": "لا يمكن ترك الحقول الضرورية فارغة"
     },
     "question_library": {
         "message": "",
@@ -398,9 +401,9 @@
             "subscription": "الاشتراك"
         },
         "subscription": {
-            "current_plan": "الخطة الحالية: {{plan_name}}",
+            "current_plan": "الباقة الحالية: {{plan_name}}",
             "view_plans": "عرض الخطط",
-            "manage_plan": "إدارة الخطة",
+            "manage_plan": "إدارة الباقة",
             "upgrade": "ترقية"
         },
         "checkout_success": {
@@ -437,9 +440,10 @@
         "browse_files": "تصفح الملفات",
         "i_understand": "لقد فهمت",
         "learn_more": "التعرف على المزيد",
-        "manage_plan": "إدارة الخطة",
+        "manage_plan": "إدارة الباقة",
         "back_to_quizzes": "العودة إلى الاختبارات",
-        "go_to_settings": "الذهاب إلى الإعدادات"
+        "go_to_settings": "الذهاب إلى الإعدادات",
+        "no_thanks": "لا، شكراً"
     },
     "modals": {
         "message": "",
@@ -615,7 +619,7 @@
         },
         "view_plans": {
             "actions": {
-                "current_plan": "الخطة الحالية",
+                "current_plan": "الباقة الحالية",
                 "learn_more": "تعلم المزيد عن خطط Shira",
                 "downgrade": "تخفيض الترقية"
             },
@@ -646,7 +650,10 @@
                     "one_admin": "مسؤول واحد",
                     "unlimited": "غير محدود",
                     "up_to_three_custom_quizzes": "3 اختبارات مخصصة على الأكثر",
-                    "cloud_on_premise": "سحابي ومحلي"
+                    "cloud_on_premise": "سحابي ومحلي",
+                    "available_upon_request": "متاح عند الطلب",
+                    "three_business_day_response_time": "مهلة الاستجابة خلال 3 أيام عمل",
+                    "one_business_day_response_time": "مهلة الاستجابة خلال يوم عمل واحد على الأكثر"
                 },
                 "title": "ماذا يتضمن؟",
                 "tooltips": {
@@ -691,13 +698,21 @@
         },
         "first_login": {
             "actions": {
-                "get_started": "بدء الآن"
+                "get_started": "بدء الآن",
+                "view_plans": "عرض الخطط"
             },
             "plan_names": {
                 "starter": "الأولية",
                 "pro": "الباقة الاحترافية",
                 "enterprise": "باقة الشركات"
-            }
+            },
+            "title": "مرحبا بكم في مساحتكم",
+            "description": "إنكم حاليا في الباقة {{planName}}."
+        },
+        "quiz_limit": {
+            "title": "أ مستعدون للترقية؟",
+            "message_1": "يمكنكم إنشاء 3 اختبارات على الأكثر في الباقة الأولية.",
+            "message_2": "جربوا مجانا لمدة 14 يوما باقة Shira الاحترافية اليوم لإنشاء المزيد من الاختبارات المخصصة."
         }
     },
     "error_messages": {
@@ -868,5 +883,9 @@
             "password_min_length": "يجب أن لا تقل كلمة السر عن 8 أحرف.",
             "passwords_mismatch": "كلمتا السر غير متطابقتين."
         }
+    },
+    "banner": {
+        "label": "ملاحظة",
+        "message": "لا توجد بعد مساحات Shira على شاشات أصغر. لتجربة أفضل، يرجى الوصول إلى الأماكن باستخدام الشاشة أوسع من 800 بِكسْل."
     }
 }
