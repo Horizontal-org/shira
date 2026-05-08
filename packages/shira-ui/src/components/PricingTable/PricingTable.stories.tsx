@@ -1,5 +1,26 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { PricingTable } from "./PricingTable";
+import styled from "styled-components";
+import { DatingAppIcon, FacebookIcon, GmailIcon, OutlookIcon, SMSIcon, WhatsappIcon } from "../Icons";
+
+const AppsIconRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+`;
+
+const appIcons = (
+  <AppsIconRow>
+    <DatingAppIcon />
+    <FacebookIcon />
+    <GmailIcon />
+    <OutlookIcon />
+    <SMSIcon />
+    <WhatsappIcon />
+  </AppsIconRow>
+)
+
 
 const meta = {
   title: "Components/PricingTable",
@@ -71,11 +92,7 @@ export const Default: Story = {
         rows: [
           {
             label: "Priority support",
-            values: [
-              { type: "text", value: "-" },
-              { type: "text", value: "3 business days" },
-              { type: "text", value: "1 business day" },
-            ],
+            values: [{type: 'custom', value: appIcons}, {type: 'custom', value: appIcons}, {type: 'custom', value: appIcons}],
           },
         ],
       },

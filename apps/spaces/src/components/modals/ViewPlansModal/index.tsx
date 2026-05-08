@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode } from "react";
+import { FunctionComponent } from "react";
 import { 
   DatingAppIcon, 
   FacebookIcon, 
