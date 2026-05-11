@@ -1,6 +1,6 @@
 import { FunctionComponent, useState } from 'react'
 import { styled, Button } from '@shira/ui'
-import Logo  from '../Icons/Logo'
+import Logo from '../Icons/Logo'
 import { useNavigate } from 'react-router-dom'
 import { MobileMenu } from './components/MobileMenu'
 import MenuIcon from './components/MenuIcon'
@@ -21,10 +21,10 @@ export const Navbar: FunctionComponent<Props> = ({ color }) => {
 
   return (
     <NavbarWrapper color={color}>
-      <div>     
+      <div>
         <LeftNavbar>
           <Logo />
-          
+
           <Nav>
             <Link onClick={() => { navigate('/') }}>
               {t('navbar.home')}
@@ -34,10 +34,6 @@ export const Navbar: FunctionComponent<Props> = ({ color }) => {
               {t('navbar.features')}
             </Link>
 
-            <Link onClick={() => { handleExternalLink('https://www.shira.app/pricing') }}>
-              {t('navbar.pricing')}
-            </Link>
-
             <Link onClick={() => { window.location.reload() }}>
               {t('navbar.take_a_quiz')}
             </Link>
@@ -45,7 +41,11 @@ export const Navbar: FunctionComponent<Props> = ({ color }) => {
             <Link onClick={() => { handleExternalLink('https://www.shira.app/phishing') }}>
               {t('navbar.learn')}
             </Link>
-            
+
+            <Link onClick={() => { handleExternalLink('https://www.shira.app/pricing') }}>
+              {t('navbar.pricing')}
+            </Link>
+
             <Link onClick={() => { handleExternalLink('https://www.shira.app/about') }}>
               {t('navbar.about')}
             </Link>
@@ -54,25 +54,25 @@ export const Navbar: FunctionComponent<Props> = ({ color }) => {
 
         <DesktopRightNavbar>
           <Button
-              text={t('navbar.get_started')}
-              type="primary"
-              color='#849D29'
-              onClick={() => { handleExternalLink('https://www.shira.app/contact') }}
-            />
+            text={t('navbar.get_started')}
+            type="primary"
+            color='#849D29'
+            onClick={() => { handleExternalLink('https://www.shira.app/contact') }}
+          />
         </DesktopRightNavbar>
 
-        
+
         <RightNavbar onClick={() => {
           handleMobileMenu(true)
         }}>
           <span>
-          {t('navbar.menu')}
+            {t('navbar.menu')}
           </span>
           <MenuIcon />
         </RightNavbar>
 
-        { mobileMenu && (
-          <MobileMenu 
+        {mobileMenu && (
+          <MobileMenu
             onNavigate={(r) => {
               navigate(r)
               handleMobileMenu(false)
@@ -85,7 +85,7 @@ export const Navbar: FunctionComponent<Props> = ({ color }) => {
   )
 }
 
-const NavbarWrapper = styled.div<{color?: string}>`
+const NavbarWrapper = styled.div<{ color?: string }>`
   display: flex;
   justify-content: center;
   z-index: 3;

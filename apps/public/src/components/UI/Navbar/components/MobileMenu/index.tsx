@@ -1,7 +1,6 @@
 import { FunctionComponent } from "react";
 import { styled, createGlobalStyle } from "@shira/ui";
 
-
 import CloseIcon from '../CloseIcon'
 import HomeIcon from '../HomeIcon'
 import AboutIcon from '../AboutIcon'
@@ -33,7 +32,7 @@ export const MobileMenu: FunctionComponent<Props> = ({
       <Top>
         <CloseButton onClick={onClose}>
           <CloseIcon />
-        </CloseButton>              
+        </CloseButton>
       </Top>
 
       <Nav onClick={() => {
@@ -43,7 +42,7 @@ export const MobileMenu: FunctionComponent<Props> = ({
           <HomeIcon />
         </SvgWrapper>
         <p>
-        {t('navbar.home')}
+          {t('navbar.home')}
         </p>
       </Nav>
 
@@ -55,17 +54,6 @@ export const MobileMenu: FunctionComponent<Props> = ({
         </SvgWrapper>
         <p>
           {t('navbar.features')}
-        </p>
-      </Nav>
-
-      <Nav onClick={() => {
-        handleExternalLink('https://www.shira.app/pricing')
-      }}>
-        <SvgWrapper>
-          <Pricing />
-        </SvgWrapper>
-        <p>
-          {t('navbar.pricing')}
         </p>
       </Nav>
 
@@ -87,7 +75,18 @@ export const MobileMenu: FunctionComponent<Props> = ({
           <Learn />
         </SvgWrapper>
         <p>
-          {t('navbar.learn')} 
+          {t('navbar.learn')}
+        </p>
+      </Nav>
+
+      <Nav onClick={() => {
+        handleExternalLink('https://www.shira.app/pricing')
+      }}>
+        <SvgWrapper>
+          <Pricing />
+        </SvgWrapper>
+        <p>
+          {t('navbar.pricing')}
         </p>
       </Nav>
 
@@ -96,7 +95,7 @@ export const MobileMenu: FunctionComponent<Props> = ({
           <AboutIcon />
         </SvgWrapper>
         <p>
-        {t('navbar.about')}
+          {t('navbar.about')}
         </p>
       </Nav>
 
@@ -108,7 +107,6 @@ export const MobileMenu: FunctionComponent<Props> = ({
     </Wrapper>
   )
 }
-
 
 const GlobalStyle = createGlobalStyle`
   body {
