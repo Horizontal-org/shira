@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from "react";
-import { Body1, defaultTheme, styled } from "@horizontal-org/shira-ui";
+import { Body1, defaultTheme, styled, Link1 } from "@horizontal-org/shira-ui";
 import { HookIcon } from "./assets/hook";
 import { ThumbIcon } from "./assets/thumb";
 import { ExplanationsHelpModal } from "../../../modals/ExplanationsHelpModal";
@@ -43,19 +43,23 @@ export const CommonHeader: FunctionComponent<Props> = ({
           </Content>
         )}
       </IsPhishingWrapper>
-      <ExplanationsTip>
-        <span>
-          {t('create_question.tabs.content.message')}
-        </span>
-        <strong onClick={() => { setVariablesModalOpen(true) }}>
+      <Body1>
+        {t('create_question.tabs.content.message')}
+        <Link1
+          type="button"
+          onClick={() => { setVariablesModalOpen(true) }}
+        >
           {t('create_question.tabs.content.message_variables')}
-        </strong> {" "}
+        </Link1>{" "}
         {t('create_question.tabs.content.message2')}
-        <strong onClick={() => { setExplanationsModalOpen(true) }}>
+        <Link1
+          type="button"
+          onClick={() => { setExplanationsModalOpen(true) }}
+        >
           {t('create_question.tabs.content.message_explanations')}
-        </strong> {" "}
+        </Link1>{" "}
         {t('create_question.tabs.content.message3')}
-      </ExplanationsTip>
+      </Body1>
     </>
   )
 }
@@ -72,14 +76,4 @@ const Content = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-`
-
-const ExplanationsTip = styled.div`
-  padding: 12px 0;
-
-  > strong {
-    color: #099CDB;
-    text-decoration: underline;
-    cursor: pointer; 
-  }
 `

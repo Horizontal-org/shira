@@ -6,7 +6,9 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { Explanation } from '../../store/slices/explanation'
 import { publish } from '../../utils/customEvent'
 import { ExplanationDragItem } from './components/ExplanationDragItem'
-import { Body2Regular, styled } from '@horizontal-org/shira-ui'
+
+import { styled, Body1 } from '@horizontal-org/shira-ui'
+import { t } from 'i18next';
 
 interface Props {
   initialData?: Explanation[]
@@ -15,9 +17,9 @@ interface Props {
   onDelete?: (explId: number) => void
 }
 
-export const Explanations: FunctionComponent<Props> = ({ 
-  initialData, 
-  content, 
+export const Explanations: FunctionComponent<Props> = ({
+  initialData,
+  content,
   handleContent,
   onDelete
 }) => {
@@ -29,7 +31,7 @@ export const Explanations: FunctionComponent<Props> = ({
     deleteExplanation,
     updateExplanation,
     updateExplanations,
-    setInitialExplanations, 
+    setInitialExplanations,
     removeActiveQuestionExplanation,
   } = useStore((state) => ({
     storeExplanations: state.explanations,
@@ -38,14 +40,14 @@ export const Explanations: FunctionComponent<Props> = ({
     updateExplanation: state.updateExplanation,
     updateExplanations: state.updateExplanations,
     deleteExplanation: state.deleteExplanation,
-    setInitialExplanations: state.setInitialExplanations,    
+    setInitialExplanations: state.setInitialExplanations,
     activeQuestion: state.activeQuestion,
     getActiveQuestionExplanationIds: state.getExplanationIds,
     removeActiveQuestionExplanation: state.removeActiveQuestionExplanation
   }), shallow)
 
   useEffect(() => {
-    if(initialData?.length > 0) {
+    if (initialData?.length > 0) {
       const initialExplanations = initialData?.map(init => init)
       setInitialExplanations(initialExplanations)
     }
@@ -55,7 +57,7 @@ export const Explanations: FunctionComponent<Props> = ({
     const result: Explanation[] = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
-  
+
     return result.map((r, i) => {
       return {
         ...r,
@@ -107,8 +109,8 @@ export const Explanations: FunctionComponent<Props> = ({
 
   return (
     <Wrapper id="explanations-wrapper">
-      <>        
-        <Body2Regular>Explanations will be shown in the following order in the quiz. </Body2Regular>
+      <>
+        <Body1>{t('create_question.tabs.content.explanations.title')}</Body1>
 
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId='droppable'>
@@ -170,7 +172,6 @@ export const Explanations: FunctionComponent<Props> = ({
           </Droppable>
         </DragDropContext>
       </>
-      
 
     </Wrapper>
   )
@@ -182,13 +183,16 @@ const Wrapper = styled.div`
   top: 0;
   overflow-y: scroll;
   height: 98vh;
-  
+  box-sizing: border-box;
   margin-left: 8px;
-  padding: 4px;
+  padding: 32px;
+  border: 2px solid ${props => props.theme.colors.light.white};
+  border-radius: 16px;
+  background: ${props => props.theme.colors.light.white};
+
   > p {
     margin: 0;
-    padding: 10px;
-    font-weight: 600;
+    padding: 0 0 24px;
   }
 `
 
@@ -197,17 +201,16 @@ interface StyledExplanation {
 }
 
 const ExplanationBox = styled.div<StyledExplanation>`
-  padding: 8px;
-  border-radius: 16px; 
-  background-color: ${props => props.theme.colors.green1};
+  padding: 0px;
+  border-radius: 16px;
+  background-color: ${props => props.theme.colors.light.paleGreen};
   
   > textarea {
-   background-color: ${props => props.theme.colors.green1};
+   background-color: ${props => props.theme.colors.light.paleGreen};
   }
 
   ${props => props.selected && `
     background-color: white;
-
 
     > textarea {
       background-color: white;

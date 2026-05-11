@@ -1,11 +1,10 @@
-import { GeneralTooltip, styled } from '@horizontal-org/shira-ui'
+import { GeneralTooltip, styled, ExplanationButton } from '@horizontal-org/shira-ui'
 import { useEditor, EditorContent } from '@tiptap/react'
 import { useExplanations } from './hooks/useExplanations'
 
 import { MessageEditorStyles } from './styles/MessageEditorStyles'
 import { getMessageExtensions } from './config/editorExtensions'
 import { MessagesMenuBar } from './MessagesMenuBar'
-import { ExplanationButton } from '../Explanations/components/ExplanationButton'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLink } from './hooks/useLink'
@@ -74,7 +73,7 @@ export const MessageTipTapEditor = ({
               >
                 <ExplanationButton
                   isText={true}
-                  filled={explanations.hasAnyExplanation()}
+                  hasExplanation={!explanations.canAddTextExplanation() && explanations.hasAnyExplanation()}
                   active={explanations.isTextExplanationSelected()}
                   disabled={!explanations.canAddTextExplanation() && !explanations.isTextExplanationActive()}
                   onClick={() => {

@@ -90,7 +90,7 @@ export const AssignLearnersLayover: FunctionComponent<Props> = ({
             <Body1>
               <Trans
                 i18nKey="learners.assign_dialog.registered_description_2"
-                components={[<StyledLink to="/learner" />]}
+                components={[<StyledLink to="/learner" />, <StyledLink to="https://shira.app/help/" />]}
               />
             </Body1>
           </Header>

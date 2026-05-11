@@ -24,33 +24,33 @@ export const ExplanationDragItem: FunctionComponent<Props> = ({
 }) => {
   return (
     <>
-    <Draggable 
-      draggableId={id} 
-      index={index}
-    >
-      {(draggableProvided, snapshot) => (
-        <>
-          <Container
-            selected={selected}
-            ref={draggableProvided.innerRef}
-            isDragging={snapshot.isDragging}
-            {...draggableProvided.draggableProps}
+      <Draggable
+        draggableId={id}
+        index={index}
+      >
+        {(draggableProvided, snapshot) => (
+          <>
+            <Container
+              selected={selected}
+              ref={draggableProvided.innerRef}
+              isDragging={snapshot.isDragging}
+              {...draggableProvided.draggableProps}
             >
               <ContentWrapper>
                 <Body3Bold>{title}</Body3Bold>
-                  <div>
-                    { component }
-                  </div>                
+                <div>
+                  {component}
+                </div>
               </ContentWrapper>
-            
-            <DragItemOptions
-              dragHandleProps={draggableProvided.dragHandleProps}
-              onDelete={onDelete}
-            />
-          </Container>
-        </>
-      )}
-    </Draggable>
+
+              <DragItemOptions
+                dragHandleProps={draggableProvided.dragHandleProps}
+                onDelete={onDelete}
+              />
+            </Container>
+          </>
+        )}
+      </Draggable>
     </>
   )
 }
@@ -59,7 +59,8 @@ const Container = styled.div<{ selected: boolean }>`
   padding: 12px;
   display: flex;
   border-radius: 16px;
-  background: ${props => props.theme.colors.green1};
+  border: 2px solid ${props => props.theme.colors.green2};
+  background: ${props => props.theme.colors.light.paleGreen};
   margin-bottom: 24px;
 
   ${props => props.selected && `
@@ -69,5 +70,5 @@ const Container = styled.div<{ selected: boolean }>`
 `
 
 const ContentWrapper = styled.div`
-    width: 100%;
+  width: 100%;
 `

@@ -2,8 +2,7 @@ import { FunctionComponent, useRef } from 'react'
 import styled from 'styled-components'
 import { shallow } from 'zustand/shallow'
 import { useStore } from '../../store'
-import { ExplanationButton } from '../Explanations/components/ExplanationButton'
-import { TextInput } from '@horizontal-org/shira-ui'
+import { TextInput, ExplanationButton } from '@horizontal-org/shira-ui'
 import { QuestionTextInput } from '../../store/types/active_question'
 
 
@@ -41,7 +40,7 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
   }), shallow)
 
   const ref = useRef(null)
-  const isFilled = contentObject.value.trim().length > 0
+  const hasValue = contentObject.value != null && contentObject.value.trim() !== "";
 
   return (
     <Wrapper>
@@ -54,13 +53,6 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
         value={contentObject.value}
         placeholder={placeholder}
         onChange={(e) => {
-          // if(RE_VALIDATIONS[validation] && !RE_VALIDATIONS[validation]?.test(ref.current.value)) return
-          // setValue(ref.current.value)
-          // onChange(
-          //   ref.current.getAttribute('data-explanation'),
-          //   ref.current.value,
-          // )
-
           updateActiveQuestionInput(name, 'value', e.target.value)
         }}
         onBlur={() => {
@@ -79,7 +71,8 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
 
       <ExplanationButtonWrapper>
         <ExplanationButton
-          filled={isFilled}
+          disabled={!hasValue}
+          hasExplanation={contentObject.explanation != null && contentObject.explanation?.length > 0}
           active={selectedExplanationIndex && selectedExplanationIndex + '' === contentObject.explanation}
           onClick={() => {
             const hasExplanation = contentObject.explanation
@@ -102,6 +95,4 @@ const Wrapper = styled.div`
   align-items: flex-end;
 `
 
-const ExplanationButtonWrapper = styled.div`
-  padding-bottom: 8px;
-`
+const ExplanationButtonWrapper = styled.div``
