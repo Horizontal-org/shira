@@ -500,13 +500,13 @@
                     "customizable_questions": "根据学员需求定制测验题目",
                     "question_library": "访问数十个现成的题目模板",
                     "custom_quizzes": "在空间中可创建的测验数量",
-                    "apps_available": "使用与学员实际所用应用完全一致的界面来创建测验题目",
+                    "apps_available": "创建测验题目，界面与学员实际所用的应用完全一致",
                     "public_quizzes": "轻松分享测验 URL，任何人都可参加",
                     "private_quizzes": "只有空间的注册学员才能参加测验",
                     "basic_analytics": "追踪测验层面的结果",
                     "detailed_analytics": "追踪学员和题目层面的结果",
                     "analysis_tools": "导出团队结果为 CSV 或 PDF 报告",
-                    "tailor_made_training": "Shira 团队为您的组织量身打造的能力提升工作坊",
+                    "tailor_made_training": "能力提升工作坊，由 Shira 团队为您的组织量身打造",
                     "priority_support": "快速响应，确保流畅的体验"
                 },
                 "title": "包含什么功能？",
@@ -544,7 +544,7 @@
         "quiz_limit": {
             "title": "准备升级？",
             "message_1": "入门版方案最多可创建 3 个测验。",
-            "message_2": "马上免费试用 Shira 专业版 14 天，创建更多定制测验。"
+            "message_2": "马上开始 Shira 专业版 14 天免费试用，创建更多定制测验。"
         },
         "first_login": {
             "title": "欢迎使用空间",
