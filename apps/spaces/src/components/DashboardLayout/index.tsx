@@ -1,6 +1,6 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { Sidebar, styled, H2, SubHeading3, Body1, FilterButton, useAdminSidebar, Card, Banner } from "@shira/ui";
+import { Sidebar, styled, H2, SubHeading3, Body1, FilterButton, useAdminSidebar, Card } from "@shira/ui";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { formatDistance } from "date-fns";
@@ -25,6 +25,7 @@ import { QuizLimitModal } from "../modals/QuizLimitModal";
 import { ViewPlansModal } from "../modals/ViewPlansModal";
 import { FirstLoginModal } from "../modals/FirstLoginModal";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
+import { getQuizResults, QuizResultsResponse } from "../../fetch/results";
 
 interface Props { }
 
@@ -74,6 +75,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const [unpublishedQuizId, setUnpublishedQuizId] = useState<number | null>(null);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [resultsData, setResultsData] = useState<QuizResultsResponse | null>(null);
   const [isUnpublishedQuizCopyLinkModalOpen, setIsUnpublishedQuizCopyLinkModalOpen] = useState(false);
   const [isUnpublishQuizModalOpen, setIsUnpublishQuizModalOpen] = useState(false);
   const [isCheckoutSuccessModalOpen, setIsCheckoutSuccessModalOpen] = useState(
@@ -114,6 +116,25 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   useEffect(() => {
     setCards(quizzes)
   }, [quizzes]);
+
+  useEffect(() => {
+    const fetchSelectedQuizResults = async () => {
+      if (!selectedCard?.id || !isDeleteModalOpen) {
+        setResultsData(null);
+        return;
+      }
+
+      try {
+        const data = await getQuizResults(selectedCard.id);
+        setResultsData(data);
+      } catch (error) {
+        console.error('Failed to fetch quiz results:', error);
+        setResultsData(null);
+      }
+    };
+
+    fetchSelectedQuizResults();
+  }, [isDeleteModalOpen, selectedCard]);
 
   useEffect(() => {
     if (t(SUCCESS_MESSAGES[quizActionSuccess])) {
@@ -230,6 +251,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
       return t('quizzes.last_modified', { date: time });
     }, [filteredCards, i18n.language]);
 
+  const hasResults = !!resultsData?.metrics?.completedCount;
+
   return (
     <Container id="dashboard-layout">
       <Sidebar
@@ -332,21 +355,29 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             content={(
               <div>
                 {t('modals.delete_quiz.subtitle')}
-                <br /><br />
-                <QuizWarningNote>
-                  {t('modals.delete_quiz.note')}
-                </QuizWarningNote>
-                {t('modals.delete_quiz.message')}
+                {hasResults && (
+                  <>
+                    <br /><br />
+                    <QuizWarningLine>
+                      <QuizWarningNote>
+                        {t('modals.delete_quiz.note')}
+                      </QuizWarningNote>
+                      {t('modals.delete_quiz.message')}
+                    </QuizWarningLine>
+                  </>
+                )}
               </div>
             )}
             setIsModalOpen={setIsDeleteModalOpen}
             onDelete={() => {
               deleteQuiz(selectedCard?.id)
               handleSelectedCard(null);
+              setResultsData(null);
             }}
             onCancel={() => {
               setIsDeleteModalOpen(false);
               handleSelectedCard(null);
+              setResultsData(null);
             }}
             isModalOpen={isDeleteModalOpen}
           />
@@ -512,8 +543,11 @@ const CardGrid = styled.div`
   }
 `;
 
-
 const QuizWarningNote = styled.span`
   color: #d73527;
   font-weight: 500;
+`;
+
+const QuizWarningLine = styled.span`
+  display: inline;
 `;
