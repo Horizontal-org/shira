@@ -25,7 +25,7 @@ import { QuizLimitModal } from "../modals/QuizLimitModal";
 import { ViewPlansModal } from "../modals/ViewPlansModal";
 import { FirstLoginModal } from "../modals/FirstLoginModal";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
-import { getQuizResults, QuizResultsResponse } from "../../fetch/results";
+import { quizHasResults } from "../../fetch/results";
 
 interface Props { }
 
@@ -75,7 +75,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const [unpublishedQuizId, setUnpublishedQuizId] = useState<number | null>(null);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [resultsData, setResultsData] = useState<QuizResultsResponse | null>(null);
+  const [selectedQuizHasResults, setSelectedQuizHasResults] = useState(false);
   const [isUnpublishedQuizCopyLinkModalOpen, setIsUnpublishedQuizCopyLinkModalOpen] = useState(false);
   const [isUnpublishQuizModalOpen, setIsUnpublishQuizModalOpen] = useState(false);
   const [isCheckoutSuccessModalOpen, setIsCheckoutSuccessModalOpen] = useState(
@@ -120,16 +120,15 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   useEffect(() => {
     const fetchResults = async () => {
       if (!selectedCard?.id || !isDeleteModalOpen) {
-        setResultsData(null);
+        setSelectedQuizHasResults(false);
         return;
       }
 
       try {
-        const data = await getQuizResults(selectedCard.id);
-        setResultsData(data);
+        const hasResults = await quizHasResults(selectedCard.id);
+        setSelectedQuizHasResults(hasResults);
       } catch (error) {
-        console.error('Failed to fetch quiz results:', error);
-        setResultsData(null);
+        setSelectedQuizHasResults(false);
       }
     };
 
@@ -251,7 +250,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
       return t('quizzes.last_modified', { date: time });
     }, [filteredCards, i18n.language]);
 
-  const hasResults = !!resultsData?.metrics?.completedCount;
+  const hasResults = selectedQuizHasResults;
 
   return (
     <Container id="dashboard-layout">
@@ -372,12 +371,12 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             onDelete={() => {
               deleteQuiz(selectedCard?.id)
               handleSelectedCard(null);
-              setResultsData(null);
+              setSelectedQuizHasResults(false);
             }}
             onCancel={() => {
               setIsDeleteModalOpen(false);
               handleSelectedCard(null);
-              setResultsData(null);
+              setSelectedQuizHasResults(false);
             }}
             isModalOpen={isDeleteModalOpen}
           />
