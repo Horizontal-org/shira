@@ -272,8 +272,16 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
             <div>
               {t('modals.delete_question.message')}
               <br /><br />
-              <WarningNote>{t('modals.delete_question.note')}</WarningNote>
-              {t('modals.delete_question.warning')}
+              {hasResults && (
+                <>
+                  <WarningLine>
+                    <WarningNote>
+                      {t('modals.delete_question.note')}
+                    </WarningNote>
+                    {t('modals.delete_question.warning')}
+                  </WarningLine>
+                </>
+              )}
             </div>
           }
           setIsModalOpen={() => {
@@ -388,6 +396,10 @@ const ActionButton = styled.button`
 const WarningNote = styled.span`
   color: #d73527;
   font-weight: 500;
+`;
+
+const WarningLine = styled.span`
+  display: inline;
 `;
 
 const SpinningLoader = styled(FiLoader)`
