@@ -118,7 +118,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   }, [quizzes]);
 
   useEffect(() => {
-    const fetchSelectedQuizResults = async () => {
+    const fetchResults = async () => {
       if (!selectedCard?.id || !isDeleteModalOpen) {
         setResultsData(null);
         return;
@@ -133,8 +133,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
       }
     };
 
-    fetchSelectedQuizResults();
-  }, [isDeleteModalOpen, selectedCard]);
+    fetchResults();
+  }, [selectedCard]);
 
   useEffect(() => {
     if (t(SUCCESS_MESSAGES[quizActionSuccess])) {
