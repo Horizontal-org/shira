@@ -44,8 +44,7 @@ npm run pack:check
 ## Usage
 
 ```jsx
-import { Button } from "@shira/ui";
-import "@shira/ui/styles.css";
+import { Button } from "@horizontal-org/shira-ui";
 
 function App() {
   return <Button>Click me</Button>;
