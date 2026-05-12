@@ -1,6 +1,6 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { LayoutMainContent, LayoutMainContentWrapper } from "../LayoutStyleComponents/LayoutMainContent";
-import { Body1, Button, defaultTheme, EmptyState, H2, Link1, Sidebar, styled, SubHeading3, useAdminSidebar } from "@shira/ui";
+import { Body1, Button, defaultTheme, EmptyState, H2, Link1, Sidebar, styled, SubHeading3, useAdminSidebar } from "@horizontal-org/shira-ui";
 import { LayoutContainer } from "../LayoutStyleComponents/LayoutContainer";
 import { Trans, useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";

@@ -1,4 +1,4 @@
-import { ExplanationButton, GeneralTooltip, styled } from '@shira/ui'
+import { GeneralTooltip, styled, ExplanationButton } from '@horizontal-org/shira-ui'
 import { useEditor, EditorContent } from '@tiptap/react'
 import { useExplanations } from './hooks/useExplanations'
 

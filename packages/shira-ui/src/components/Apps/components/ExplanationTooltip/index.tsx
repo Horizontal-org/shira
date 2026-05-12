@@ -1,9 +1,10 @@
-import { FunctionComponent, useEffect, useState, useRef } from "react"
+import { FunctionComponent, useEffect, useRef } from "react"
 import styled from 'styled-components';
 import './styles.css'
 
-import { usePopper } from 'react-popper';
+// import { usePopper } from 'react-popper';
 import { Explanation } from "../../../../domain/explanation";
+import { arrow, autoUpdate, flip, offset, useFloating } from "@floating-ui/react";
 
 interface Props {
   explanation: Explanation
@@ -17,8 +18,9 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
   showExplanations,
 }) => {
 
-  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
-  const [arrowElement, setArrowElement] = useState<HTMLDivElement | null>(null);
+  // const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
+  // const [arrowElement, setArrowElement] = useState<HTMLDivElement | null>(null);
+  const arrowRef = useRef(null);
 
   const referenceElementRef = useRef<HTMLElement | null>(null);
 
@@ -31,17 +33,32 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
     }
   };
 
-  const { styles, attributes, update } = usePopper(referenceElementRef.current, popperElement, {
-    modifiers: [
-      { name: 'flip', options: { fallbackPlacements: ['top', 'bottom'], padding: 100 } },
-      { name: 'arrow', options: { element: arrowElement } },
-      { name: 'offset', options: { offset: [0, 8] } },
+  // const { styles, attributes, update } = usePopper(referenceElementRef.current, popperElement, {
+  //   modifiers: [
+  //     { name: 'flip', options: { fallbackPlacements: ['top', 'bottom'], padding: 100 } },
+  //     { name: 'arrow', options: { element: arrowElement } },
+  //     { name: 'offset', options: { offset: [0, 8] } },
+  //   ],
+  // });
+
+
+  const { refs, floatingStyles, update, middlewareData, placement } = useFloating({
+    placement: 'bottom',
+    middleware: [
+      offset(8),
+      flip({
+        fallbackPlacements: ['top', 'bottom'],
+        padding: 100,
+      }),
+      arrow({ element: arrowRef }),
     ],
+    whileElementsMounted: autoUpdate
   });
 
   useEffect(() => {
     const referenceElement = document.querySelector(`[data-explanation="${explanation.index}"]`) as HTMLElement;
     referenceElementRef.current = referenceElement;
+    refs.setReference(referenceElement)
   }, [explanation.index]);
 
   useEffect(() => {
@@ -87,17 +104,23 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
 
   return (
     <Wrapper
-      ref={setPopperElement}
+      ref={refs.setFloating}
       id={`explanation-${explanation.index}`}
       className="tooltip"
-      style={styles.popper}
-      {...attributes.popper}
+      style={floatingStyles}
       hide={parseInt(explanation.index) !== explanationNumber || !showExplanations}
     >
       <TooltipContent isUrl={isUrl(explanation.text)}>
         {explanation.text}
       </TooltipContent>
-      <div ref={setArrowElement} id='arrow' style={styles.arrow} />
+
+      <Arrow
+        id='arrow'
+        ref={arrowRef}
+        $x={middlewareData.arrow?.x}
+        $y={middlewareData.arrow?.y}
+        $side={placement.split('-')[0] as 'top' | 'bottom' | 'left' | 'right'}
+      />
     </Wrapper>
   )
 }
@@ -129,5 +152,40 @@ const TooltipContent = styled.div<{ isUrl: boolean }>`
   max-height: 600px;
   overflow-y: auto;
 `
+
+export const Arrow = styled.div<{
+  $x?: number;
+  $y?: number;
+  $side: 'top' | 'bottom' | 'left' | 'right';
+}>`
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  pointer-events: none;
+
+  ${({ $x }) => ($x != null ? `left: ${$x}px;` : '')}
+  ${({ $y }) => ($y != null ? `top: ${$y}px;` : '')}
+
+  ${({ $side }) => {
+    const map = {
+      top: 'bottom',
+      bottom: 'top',
+      left: 'right',
+      right: 'left',
+    };
+    return `${map[$side]}: -4px;`;
+  }}
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    background: white;
+    transform: rotate(45deg);
+
+  }
+`;
 
 export default ExplanationTooltip

@@ -1,5 +1,5 @@
 import { FunctionComponent, useRef } from "react";
-import { ExplanationButton, styled } from "@shira/ui";
+import { styled, ExplanationButton } from "@horizontal-org/shira-ui";
 import { LoadingOverlay } from "../../../../LoadingOverlay/LoadingOverlay";
 import { useStore } from "../../../../../store";
 import { shallow } from "zustand/shallow";

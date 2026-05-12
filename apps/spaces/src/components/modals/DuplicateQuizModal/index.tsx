@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { Body1, Modal, defaultTheme, styled, TextInput } from "@shira/ui";
+import { Body1, Modal, defaultTheme, styled, TextInput } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
 import { Quiz } from "../../../store/slices/quiz";
 import { hasRequiredValue } from "../../../utils/validation";

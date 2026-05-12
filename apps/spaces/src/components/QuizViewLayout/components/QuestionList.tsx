@@ -1,7 +1,7 @@
 import { FunctionComponent, useState } from "react";
 import { FiPlus, FiLoader } from 'react-icons/fi';
 import { MdDragIndicator, MdOutlineMenuBook } from "react-icons/md";
-import { styled, TrashIcon, EditIcon, Button, defaultTheme, ActionTooltip } from '@shira/ui'
+import { styled, TrashIcon, EditIcon, Button, defaultTheme, ActionTooltip } from '@horizontal-org/shira-ui'
 import { QuestionEmptyState } from "./QuestionEmptyState";
 import { DeleteModal } from "../../modals/DeleteModal";
 import { UnpublishQuizOnDeleteModal } from "../../modals/UnpublishQuizOnDeleteModal";

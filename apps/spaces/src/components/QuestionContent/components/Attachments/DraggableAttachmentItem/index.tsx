@@ -1,6 +1,6 @@
 import { FunctionComponent, useRef } from 'react'
 import { Draggable } from "@hello-pangea/dnd";
-import { Attachment, ExplanationButton, styled } from '@shira/ui';
+import { Attachment, styled, ExplanationButton } from '@horizontal-org/shira-ui';
 import { shallow } from 'zustand/shallow';
 import { useStore } from '../../../../../store';
 import { QuestionDragAttachment } from '../../../../../store/types/active_question';

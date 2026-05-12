@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect } from "react"
 import { SceneWrapper } from "../../../../UI/SceneWrapper"
-import { styled, Body1, Button, H2, Link2, useTheme } from "@shira/ui"
+import { styled, Body1, Button, H2, Link2, useTheme } from "@horizontal-org/shira-ui"
 import { ReactComponent as Hooked } from '../../../../../assets/HookedFish.svg';
 
 import { useStore } from "../../../../../store"

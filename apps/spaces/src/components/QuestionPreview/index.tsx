@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { Button, styled, Body1, defaultTheme } from "@shira/ui";
+import { Button, styled, Body1, defaultTheme } from "@horizontal-org/shira-ui";
 import "../../fonts/GoogleSans/style.css";
 import "../../fonts/Segoe/style.css";
 import { MdBlock } from "react-icons/md";

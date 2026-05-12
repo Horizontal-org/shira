@@ -1,5 +1,5 @@
 import "styled-components";
-import type { defaultTheme } from "@shira/ui";
+import type { defaultTheme } from "@horizontal-org/shira-ui";
 
 type ShiraTheme = typeof defaultTheme;
 

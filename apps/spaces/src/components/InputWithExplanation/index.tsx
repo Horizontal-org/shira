@@ -2,7 +2,7 @@ import { FunctionComponent, useRef } from 'react'
 import styled from 'styled-components'
 import { shallow } from 'zustand/shallow'
 import { useStore } from '../../store'
-import { ExplanationButton, TextInput } from '@shira/ui'
+import { TextInput, ExplanationButton } from '@horizontal-org/shira-ui'
 import { QuestionTextInput } from '../../store/types/active_question'
 
 

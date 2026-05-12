@@ -1,4 +1,4 @@
-import { Body1, Modal, styled } from "@shira/ui";
+import { Body1, Modal, styled } from "@horizontal-org/shira-ui";
 import { FunctionComponent } from "react";
 import { useTranslation } from "react-i18next";
 

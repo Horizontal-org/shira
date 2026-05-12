@@ -1,4 +1,4 @@
-import { Body3, styled } from "@shira/ui";
+import { Body3, styled } from "@horizontal-org/shira-ui";
 import { FunctionComponent } from "react";
 
 interface Props {

@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { Modal, TextInput, defaultTheme } from "@shira/ui";
+import { Modal, TextInput, defaultTheme } from "@horizontal-org/shira-ui";
 import styled from "styled-components";
 
 import { Quiz } from "../../../store/slices/quiz";

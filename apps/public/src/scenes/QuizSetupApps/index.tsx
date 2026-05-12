@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from 'react'
-import { styled } from '@shira/ui'
+import { styled } from '@horizontal-org/shira-ui'
 import { AppItem } from '../../components/UI/AppItem'
 import { Footer } from '../../components/UI/Footer'
 import { SceneWithFooter } from '../../components/UI/SceneWithFooter'

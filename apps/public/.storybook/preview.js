@@ -1,4 +1,4 @@
-import { ThemeProvider } from "@shira/ui"
+import { ThemeProvider } from "@horizontal-org/shira-ui"
 
 export const parameters = {
   controls: {
