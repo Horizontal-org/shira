@@ -47,8 +47,3 @@ const getQuizResultsFromAPI = async (quizId: number): Promise<QuizResultsRespons
 export const getQuizResults = async (quizId: number): Promise<QuizResultsResponse> => {
   return getQuizResultsFromAPI(quizId);
 };
-
-export const quizHasResults = async (quizId: number): Promise<boolean> => {
-  const results = await getQuizResults(quizId);
-  return results.metrics.completedCount > 0;
-}

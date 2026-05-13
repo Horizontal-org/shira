@@ -15,7 +15,7 @@ export class ListQuizService implements IListQuizService {
     private readonly quizRepo: Repository<QuizEntity>,
   ) { }
 
-  async execute(spaceId: number) {
+  async execute(spaceId: number): Promise<ReadPlainQuizDto[]> {
 
     const quizzes = await this.quizRepo
       .createQueryBuilder('quiz')
@@ -39,7 +39,11 @@ export class ListQuizService implements IListQuizService {
         'quiz.hash AS hash',
         'quiz.published AS published',
         'quiz.visibility AS visibility',
-        `(SELECT COUNT(*) FROM quizzes_questions qq_count WHERE qq_count.quiz_id = quiz.id) AS questionsCount`
+        `(SELECT COUNT(*) FROM quizzes_questions qq_count WHERE qq_count.quiz_id = quiz.id) AS questionsCount`,
+        `EXISTS(
+          SELECT 1 FROM quiz_runs qr
+          WHERE qr.quiz_id = quiz.id AND qr.finished_at IS NOT NULL
+        ) AS hasResults`,
       ])
       .addSelect(`GREATEST
         (
