@@ -1,4 +1,4 @@
-import { cloneElement, FunctionComponent, ReactElement, useState} from 'react'
+import { cloneElement, FunctionComponent, ReactElement, useState } from 'react'
 import styled from 'styled-components'
 import { FloatingFocusManager, safePolygon, useFloating, useHover, useInteractions } from '@floating-ui/react';
 import { SenderIcon } from './SenderIcon';
@@ -16,14 +16,14 @@ interface Props {
   children: ReactElement
 }
 
-export const SenderFloatingInfo:FunctionComponent<Props> = ({
+export const SenderFloatingInfo: FunctionComponent<Props> = ({
   senderName,
   senderEmail,
   children
 }) => {
 
   const [isOpen, setIsOpen] = useState(false);
-  const {refs, floatingStyles, context} = useFloating({
+  const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
     placement: 'bottom-start',
@@ -35,33 +35,33 @@ export const SenderFloatingInfo:FunctionComponent<Props> = ({
       requireIntent: false,
     }),
   })
-  const {getReferenceProps, getFloatingProps} = useInteractions([
+  const { getReferenceProps, getFloatingProps } = useInteractions([
     hover,
   ])
 
   return (
     <>
-      { cloneElement(children, { ref: refs.setReference, ...getReferenceProps } ) }
-      { isOpen && (
-        <FloatingFocusManager 
-          context={context} 
+      {cloneElement(children, { ref: refs.setReference, ...getReferenceProps })}
+      {isOpen && (
+        <FloatingFocusManager
+          context={context}
           modal={false}
           returnFocus={false}
           initialFocus={-1}
           restoreFocus={false}
         >
-          <div
-            ref={refs.setFloating} 
+          <FloatingContainer
+            ref={refs.setFloating}
             style={floatingStyles}
             {...getFloatingProps()}
           >
             <Wrapper>
               <SenderMain>
                 <StyledSenderIcon>
-                  { senderName.charAt(0) }
+                  {senderName.charAt(0)}
                 </StyledSenderIcon>
                 <SenderName>
-                  { senderName }
+                  {senderName}
                 </SenderName>
               </SenderMain>
               <SenderActions>
@@ -85,18 +85,21 @@ export const SenderFloatingInfo:FunctionComponent<Props> = ({
                 </SenderActionIconWrapper>
               </SenderActions>
               <Separator />
-              <Contact senderEmail={senderEmail}/>
+              <Contact senderEmail={senderEmail} />
             </Wrapper>
-          </div>
+          </FloatingContainer>
         </FloatingFocusManager>
       )}
     </>
   )
 }
 
+const FloatingContainer = styled.div`
+  z-index: 1;
+`
+
 const Wrapper = styled.div`
   width: 340px;  
-  z-index: 1;
   background: white;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.4);
   border-radius: 4px;
@@ -208,41 +211,3 @@ const Separator = styled.div`
   height: 1px;
   background: #e0e0e0;
 `
-// ent.style {
-// }
-// <style>
-// .primaryText-479 {
-//     overflow: hidden;
-//     text-overflow: ellipsis;
-//     white-space: nowrap;
-//     font-family: "Segoe UI", "Segoe UI Web (West European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
-//     -webkit-font-smoothing: antialiased;
-//     font-size: 20px;
-//     font-weight: 600;
-//     color: var(--neutralDark);
-//     line-height: 27px;
-//     margin: 0px 0px 2px;
-//     max-width: 176px;
-//     cursor: text;
-// }
-      // :host{
-      //   --lpcCardWidth:340px;
-      //   --lpcCardHeight:540px;
-      // }
-      // #root{
-      //   width:var(--lpcCardWidth);
-      //   height:var(--lpcCardHeight);
-      //   border-radius:var(--lpcBorderRadius, 4px);
-      //   box-shadow:var(--lpcBoxShadow, 0 0 5px 0 rgba(0, 0, 0, 0.4));
-      //   overflow:hidden;
-      //   position:fixed;
-      //   contain:size layout style
-      // }
-      // #modal-background{
-      //   background:gray;
-      //   width:100vw !important;
-      //   height:100vh !important;
-      //   position:fixed;
-      //   opacity:0;
-      //   z-index:-1;
-      // }
