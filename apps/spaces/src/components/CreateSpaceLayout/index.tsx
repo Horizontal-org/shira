@@ -22,6 +22,8 @@ import { login as fetchLogin, navigateToManageSubscription } from "../../fetch/a
 
 interface Props { }
 
+const SPACE_NAME_MAX_LENGTH = 150;
+
 export const CreateSpaceLayout: FunctionComponent<Props> = () => {
 
   const { t } = useTranslation();
@@ -53,7 +55,7 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
     // clean just in case session exists
     logout()
     checkPassphraseExpiry()
-  }, []) 
+  }, [])
 
   const checkPassphraseExpiry = async () => {
     if (!passphraseCode) {
@@ -209,6 +211,9 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
                   label={t('create_space.email_label')}
                   value={email}
                   onChange={(e) => handleEmail(e.target.value)}
+                  showCharacterCount={true}
+                  maxLength={SPACE_NAME_MAX_LENGTH}
+                  characterLimitErrorText={t('error_messages.character_limit_error')}
                 />
                 {emailError && <InlineErrorMessage>{emailError}</InlineErrorMessage>}
                 <TextInput

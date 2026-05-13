@@ -7,7 +7,7 @@ import { QuizSuccessStates } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
 import { QuestionFlowManagement } from "../QuestionFlowManagement";
 
-interface Props {}
+interface Props { }
 
 export const QuestionCreationLayout: FunctionComponent<Props> = () => {
 
@@ -19,7 +19,7 @@ export const QuestionCreationLayout: FunctionComponent<Props> = () => {
   } = useStore((state) => ({
     setQuizActionSuccess: state.setQuizActionSuccess
   }), shallow)
-  
+
   useEffect(() => {
     if (actionFeedback === QuestionCRUDFeedback.success) {
       setQuizActionSuccess(QuizSuccessStates.question_created)
@@ -32,13 +32,13 @@ export const QuestionCreationLayout: FunctionComponent<Props> = () => {
       toast.error('ERROR CREATING QUESTION', { duration: 3000 })
     }
   }, [actionFeedback])
-  
+
   return (
-    <QuestionFlowManagement 
+    <QuestionFlowManagement
       actionFeedback={actionFeedback}
       onSubmit={(question) => {
         submit(quizId, question)
       }}
     />
-  ) 
+  )
 }

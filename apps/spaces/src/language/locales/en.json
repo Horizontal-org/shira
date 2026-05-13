@@ -158,8 +158,7 @@
                 "question_name": {
                     "title": "Question name",
                     "subtitle": "This name will only visible to you, to help you remember what this question is about",
-                    "question_name_placeholder": "Question name",
-                    "character_limit_error": "Character limit exceeded."
+                    "question_name_placeholder": "Question name"
                 },
                 "phishing": {
                     "title": "Is it phishing?",
@@ -675,7 +674,7 @@
                     "detailed_analytics": "Track results at the learner and question levels",
                     "analysis_tools": "Export your team's results into CSV or PDF reports",
                     "tailor_made_training": "Skill-building workshops customized by the Shira team for your organization",
-                    "priority_support": "Quick response time to ensure a smooth experience"                    
+                    "priority_support": "Quick response time to ensure a smooth experience"
                 }
             },
             "plans": {
@@ -758,7 +757,8 @@
                 "subtitle": "Please upload a CSV that is 10 MB or smaller and try again."
             }
         },
-        "invalid_email_update": "This email address is already associated with a Shira space."
+        "invalid_email_update": "This email address is already associated with a Shira space.",
+        "character_limit_error": "Character limit exceeded."
     },
     "success_messages": {
         "quiz_link_copied": "The public quiz link has been copied to your clipboard.",

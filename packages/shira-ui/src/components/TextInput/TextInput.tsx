@@ -39,7 +39,6 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(({
     isLoading = false,
     maxLength,
     showCharacterCount = false,
-    supportingText,
     characterLimitErrorText
 }, ref) => {
     const [showPassword, setShowPassword] = useState(false);

@@ -13,6 +13,8 @@ interface Props {
   keepModalOpen?: boolean;
 }
 
+const QUIZ_NAME_MAX_LENGTH = 150;
+
 export const CreateQuizModal: FunctionComponent<Props> = ({
   isModalOpen,
   setIsModalOpen,
@@ -77,6 +79,9 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
           value={title}
           onChange={(e) => handleTitleChange(e.target.value)}
           isLoading={isValidatingTitle}
+          showCharacterCount={true}
+          maxLength={QUIZ_NAME_MAX_LENGTH}
+          characterLimitErrorText={t('error_messages.character_limit_error')}
         />
         <ErrorContainer role="alert" aria-live="polite">
           {hasError && <ErrorText>{t(titleError)}</ErrorText>}

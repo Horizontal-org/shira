@@ -41,9 +41,9 @@ export const QuestionBasicInfo: FunctionComponent<Props> = ({
         <TextInput
           label={t('create_question.tabs.question_info.question_name.question_name_placeholder')}
           value={question.name}
+          showCharacterCount={true}
           maxLength={QUESTION_NAME_MAX_LENGTH}
-          showCharacterCount
-          characterLimitErrorText={t('create_question.tabs.question_info.question_name.character_limit_error')}
+          characterLimitErrorText={t('error_messages.character_limit_error')}
           onChange={(e) => {
             handleQuestion('name', e.target.value)
           }}
