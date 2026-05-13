@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react"
-import { Body1, styled, H1, Button } from "@shira/ui"
+import { Body1, styled, H1, Button } from "@horizontal-org/shira-ui"
 import FishTail from '../../../assets/FishTail'
 import { CustomQuizNavbar } from "../CustomQuizNavbar"
 import { SceneWrapper } from "../SceneWrapper"

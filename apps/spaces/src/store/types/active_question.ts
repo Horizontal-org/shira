@@ -1,4 +1,4 @@
-import { AttachmentType } from "@shira/ui";
+import { AttachmentType } from "@horizontal-org/shira-ui";
 import { App } from "../../fetch/app";
 
 export const defaultEmailContent: EmailContent = {

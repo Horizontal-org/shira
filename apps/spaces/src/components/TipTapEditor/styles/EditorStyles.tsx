@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "@shira/ui";
+import { createGlobalStyle } from "@horizontal-org/shira-ui";
 
 export const EditorStyles = createGlobalStyle`
 .image-resize-container {
@@ -135,7 +135,7 @@ export const EditorStyles = createGlobalStyle`
   }
 
   mark[data-explanation] {
-    background: #F3F9CF;
+    background: #DBE3A3;
     padding: 1px 2px;
     border-radius: 2px;
     position: relative;
@@ -165,8 +165,8 @@ export const EditorStyles = createGlobalStyle`
       }
 
       &.has-explanation {
-        background-color: #F3F9CF !important;
-        border-color: #F3F9CF !important;
+        background-color: #DBE3A3 !important;
+        border-color: #DBE3A3 !important;
         
         &.mark-active {
           background-color: #FCC934 !important;

@@ -1,4 +1,4 @@
-import { Body3, Body3Bold, defaultTheme, styled } from "@shira/ui";
+import { Body3, Body3Bold, defaultTheme, styled } from "@horizontal-org/shira-ui";
 import { ColumnDef } from "@tanstack/react-table";
 import { FaCircleCheck, FaCirclePlus } from "react-icons/fa6";
 import { MdOutlinePhishing, MdRemoveRedEye } from "react-icons/md";

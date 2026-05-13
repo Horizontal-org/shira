@@ -1,5 +1,5 @@
-import { FunctionComponent, useRef, useEffect } from 'react'
-import styled from 'styled-components'
+import { FunctionComponent, useRef, useEffect } from 'react';
+import { styled } from '@horizontal-org/shira-ui';
 import { useTranslation } from 'react-i18next';
 
 interface Props {
@@ -30,9 +30,9 @@ export const ExplanationInput: FunctionComponent<Props> = ({
   }, [textAreaRef])
 
   return (
-    <StyledTextArea 
+    <StyledTextArea
       ref={textAreaRef}
-        placeholder={t('create_question.tabs.content.explanation_content_placeholder')}
+      placeholder={t('create_question.tabs.content.explanation_content_placeholder')}
       rows={1}
       value={text}
       onChange={(e) => {
@@ -44,13 +44,19 @@ export const ExplanationInput: FunctionComponent<Props> = ({
 }
 
 const StyledTextArea = styled.textarea`
+  height: auto;
+  min-height: 50px;
+  display: block;
+  box-sizing: border-box;
   resize: none;
   overflow-y: hidden;
   border: none;
   width: 100%;
-
+  border-radius: 16px;
+  
   &:focus {
-    border: none;
+    border: 2px solid ${props => props.theme.colors.light.paleGrey};
+    padding: 16px;
     outline: none;
   }
 `

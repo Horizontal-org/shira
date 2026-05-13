@@ -2,7 +2,7 @@ import { FunctionComponent, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { QuestionLibraryFlowHeader } from "../QuestionLibraryFlowHeader";
 import styled from "styled-components";
-import { defaultTheme } from "@shira/ui";
+import { defaultTheme } from "@horizontal-org/shira-ui";
 
 type Props = {
   initialAppType?: string | null;

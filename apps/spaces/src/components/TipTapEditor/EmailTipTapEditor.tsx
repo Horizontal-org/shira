@@ -1,4 +1,4 @@
-import { GeneralTooltip, styled } from '@shira/ui'
+import { GeneralTooltip, styled, ExplanationButton } from '@horizontal-org/shira-ui'
 import { useEditor, EditorContent } from '@tiptap/react'
 import { MenuBar } from './components/MenuBar'
 import { useExplanations } from './hooks/useExplanations'
@@ -9,9 +9,8 @@ import { useTable } from './hooks/useTable'
 import { EditorStyles } from './styles/EditorStyles'
 import { getEmailExtensions } from './config/editorExtensions'
 import { LoadingOverlay } from '../LoadingOverlay/LoadingOverlay'
-import { ExplanationButton } from '../Explanations/components/ExplanationButton'
 import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { ErrorBanner as BaseErrorBanner } from '../ErrorBanner'
 
 interface Props {
@@ -61,6 +60,16 @@ export const EmailTipTapEditor = ({
     editor.off('selectionUpdate').on('selectionUpdate', explanations.handleSelectionUpdate)
   }
 
+  const showHasExplanation = useMemo(() => {
+    if (images.selectedImageHasExplanation) {
+      return true
+    }
+    if (!explanations.canAddTextExplanation() && explanations.hasAnyExplanation()) {
+      return true
+    }
+    return false
+  }, [explanations, images])
+
   return (
     <Wrapper>
       <EditorWrapper>
@@ -81,7 +90,7 @@ export const EmailTipTapEditor = ({
             >
               <ExplanationButton
                 isText={true}
-                filled={explanations.hasAnyExplanation()}
+                hasExplanation={showHasExplanation}
                 active={isExplanationButtonSelected}
                 disabled={!explanations.canAddTextExplanation() && !explanations.isTextExplanationActive() && !images.selectedImageHasExplanation}
                 onClick={() => {

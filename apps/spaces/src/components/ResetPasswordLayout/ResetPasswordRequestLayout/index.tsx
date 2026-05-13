@@ -1,7 +1,7 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Body3, Form, Link3, styled } from "@shira/ui";
+import { Body3, Form, Link3, styled } from "@horizontal-org/shira-ui";
 import { hasRequiredValue, isEmailValid } from "../../../utils/validation";
 import { requestPasswordReset } from "../../../fetch/password_reset";
 import { handleHttpError } from "../../../fetch/handleError";

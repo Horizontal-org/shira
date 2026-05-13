@@ -1,5 +1,5 @@
 import { FunctionComponent, useMemo } from "react";
-import { Body1, Body2Regular, H2, styled } from "@shira/ui";
+import { Body1, Body2Regular, H2, styled } from "@horizontal-org/shira-ui";
 import { Trans, useTranslation } from "react-i18next";
 import { FinalReviewTable, ReviewRow } from "./FinalReviewTable";
 import { BulkInviteLearnersResponse } from "../../../../fetch/learner";

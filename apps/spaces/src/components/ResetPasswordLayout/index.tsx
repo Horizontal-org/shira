@@ -1,5 +1,5 @@
 import { FunctionComponent, ReactNode } from "react";
-import { Navbar, styled } from "@shira/ui";
+import { Navbar, styled } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import backgroundSvg from "../../assets/Background.svg";

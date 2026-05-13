@@ -1,4 +1,4 @@
-import { Body4, styled, useTheme } from "@shira/ui";
+import { Body4, styled, useTheme } from "@horizontal-org/shira-ui";
 import { FunctionComponent, ReactNode } from "react";
 import { FiCheck, FiX } from "react-icons/fi";
 import { MdOutlineQuestionMark } from "react-icons/md";

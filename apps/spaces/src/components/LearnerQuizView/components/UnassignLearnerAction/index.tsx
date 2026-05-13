@@ -1,6 +1,6 @@
 import { FunctionComponent, useState } from "react";
 import toast from "react-hot-toast";
-import { Body1, Modal, ModalType } from "@shira/ui";
+import { Body1, Modal, ModalType } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
 import { handleHttpError } from "../../../../fetch/handleError";
 import { getErrorContent } from "../../../../utils/getErrorContent";

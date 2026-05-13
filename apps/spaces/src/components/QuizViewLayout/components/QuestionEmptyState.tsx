@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { Button, defaultTheme, EmptyState } from '@shira/ui';
+import { Button, defaultTheme, EmptyState } from '@horizontal-org/shira-ui';
 import { FiPlus } from "react-icons/fi";
 import { MdOutlineMenuBook } from "react-icons/md";
 import { useTranslation } from "react-i18next";

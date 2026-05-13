@@ -1,4 +1,4 @@
-import { Button, defaultTheme, styled } from "@shira/ui";
+import { Button, defaultTheme, styled } from "@horizontal-org/shira-ui";
 import { FunctionComponent } from "react";
 import { useTranslation } from "react-i18next";
 import { MdOutlineChat } from "react-icons/md";
