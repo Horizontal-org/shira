@@ -2,6 +2,7 @@ import { TextInput } from '../TextInput';
 import { SelectComponent } from '../Select';
 import { Modal, ModalType } from '../Modal';
 import { AttachmentType } from './Attachment';
+import { useTranslation } from "react-i18next";
 
 export interface AddAttachmentModalProps {
   fileName: string;
@@ -36,6 +37,8 @@ export const AddAttachmentModal = ({
   fileTypeLabel
 }: AddAttachmentModalProps) => {
 
+  const { t } = useTranslation();
+
   const fileTypeOptions = [
     { value: AttachmentType.image, label: 'Image' },
     { value: AttachmentType.video, label: 'Video' },
@@ -64,6 +67,9 @@ export const AddAttachmentModal = ({
           label={fileNameLabel}
           value={fileName}
           onChange={(e) => handleFileName(e.target.value)}
+          showCharacterCount={true}
+          maxLength={100}
+          characterLimitErrorText={t('error_messages.character_limit_error')}
         />
         <SelectComponent
           label={fileTypeLabel}

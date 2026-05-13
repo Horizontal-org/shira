@@ -131,5 +131,4 @@ const InputHeading = styled.div<{ $required: boolean }>`
       }
     `}
   }
-  
 `
