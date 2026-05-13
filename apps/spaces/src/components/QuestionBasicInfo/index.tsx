@@ -51,10 +51,10 @@ export const QuestionBasicInfo: FunctionComponent<Props> = ({
       </div>
 
       <div>
-        <SubHeading3>Is it phishing?</SubHeading3>
+        <SubHeading3>{t('create_question.tabs.question_info.phishing.title')}</SubHeading3>
         <FilterButtonsContainer>
           <FilterButton
-            text="Yes"
+            text={t('create_question.tabs.question_info.phishing.yes')}
             color="green"
             handleFilter={() => {
               handleQuestion('isPhishing', true)
@@ -63,7 +63,7 @@ export const QuestionBasicInfo: FunctionComponent<Props> = ({
           />
 
           <FilterButton
-            text="No"
+            text={t('create_question.tabs.question_info.phishing.no')}
             color="green"
             handleFilter={() => {
               handleQuestion('isPhishing', false)
@@ -74,7 +74,7 @@ export const QuestionBasicInfo: FunctionComponent<Props> = ({
       </div>
 
       <div>
-        <SubHeading3>Selected app</SubHeading3>
+        <SubHeading3>{t('create_question.tabs.question_info.apps.title')}</SubHeading3>
         <FilterButtonsContainer>
 
           {apps && apps
