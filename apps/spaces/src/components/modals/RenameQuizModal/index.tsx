@@ -16,6 +16,8 @@ interface Props {
   onCancel: () => void;
 }
 
+const QUIZ_NAME_MAX_LENGTH = 150;
+
 export const RenameQuizModal: FunctionComponent<Props> = ({
   quiz,
   isModalOpen,
@@ -76,6 +78,9 @@ export const RenameQuizModal: FunctionComponent<Props> = ({
           value={title}
           onChange={(e) => handleTitleChange(e.target.value)}
           isLoading={isValidatingTitle}
+          showCharacterCount={true}
+          maxLength={QUIZ_NAME_MAX_LENGTH}
+          characterLimitErrorText={t('error_messages.character_limit_error')}
         />
         <ErrorContainer role="alert" aria-live="polite">
           {hasError && <ErrorText>{t(titleError)}</ErrorText>}

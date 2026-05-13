@@ -42,6 +42,9 @@ export const EmailContent: FunctionComponent<Props> = ({
           placeholder={t('create_question.tabs.content.sender.placeholder')}
           label="Sender name"
           contentObject={content.senderName}
+          showCharacterCount={true}
+          maxLength={80}
+          characterLimitErrorText={t('error_messages.character_limit_error')}
         />
       </div>
 
@@ -57,6 +60,9 @@ export const EmailContent: FunctionComponent<Props> = ({
           placeholder={t('create_question.tabs.content.sender_email.placeholder')}
           label="Sender email"
           contentObject={content.senderEmail}
+          showCharacterCount={true}
+          maxLength={150}
+          characterLimitErrorText={t('error_messages.character_limit_error')}
         />
 
       </div>
@@ -73,6 +79,9 @@ export const EmailContent: FunctionComponent<Props> = ({
           placeholder={t('create_question.tabs.content.email_subject.placeholder')}
           contentObject={content.subject}
           label="Subject"
+          showCharacterCount={true}
+          maxLength={150}
+          characterLimitErrorText={t('error_messages.character_limit_error')}
         />
 
       </div>

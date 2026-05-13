@@ -66,6 +66,9 @@ export const MessagingContent: FunctionComponent<Props> = ({
             placeholder={t('create_question.tabs.content.sender_phone.placeholder')}
             label="Sender phone number"
             contentObject={content.senderPhone}
+            showCharacterCount={true}
+            maxLength={25}
+            characterLimitErrorText={t('error_messages.character_limit_error')}
           />
         </div>
       ) : (

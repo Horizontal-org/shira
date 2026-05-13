@@ -5,14 +5,16 @@ import { useStore } from '../../store'
 import { ExplanationButton, TextInput } from '@shira/ui'
 import { QuestionTextInput } from '../../store/types/active_question'
 
-
 interface Props {
   placeholder?: string;
   name: string;
   id: string;
   required?: boolean;
   validation?: string,
-  label?: string
+  label?: string,
+  maxLength?: number,
+  characterLimitErrorText?: string,
+  showCharacterCount?: boolean,
   contentObject: QuestionTextInput
 }
 
@@ -22,7 +24,10 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
   id,
   label,
   required,
-  contentObject
+  maxLength,
+  characterLimitErrorText,
+  contentObject,
+  showCharacterCount
 }) => {
 
   const {
@@ -67,6 +72,9 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
             changeSelected(parseInt(hasExplanation))
           }
         }}
+        showCharacterCount={showCharacterCount}
+        maxLength={maxLength}
+        characterLimitErrorText={characterLimitErrorText}
       />
 
       <ExplanationButtonWrapper>
