@@ -1,12 +1,13 @@
 import { FunctionComponent } from "react";
-import { 
-  Body3, 
-  Box, 
-  FilterButton, 
-  styled, 
-  SubHeading3, 
-  TextInput 
+import {
+  Box,
+  Body3,
+  FilterButton,
+  styled,
+  SubHeading3,
+  TextInput
 } from '@shira/ui'
+import { useTranslation } from "react-i18next";
 import { App } from "../../fetch/app";
 import { ActiveQuestion } from "../../store/types/active_question";
 
@@ -18,6 +19,8 @@ interface Props {
   initialAppType: string
 }
 
+const QUESTION_NAME_MAX_LENGTH = 100;
+
 export const QuestionBasicInfo: FunctionComponent<Props> = ({
   handleQuestion,
   handleApp,
@@ -25,19 +28,23 @@ export const QuestionBasicInfo: FunctionComponent<Props> = ({
   apps,
   initialAppType
 }) => {
+  const { t } = useTranslation();
 
   return (
     <StyledBox>
       <div>
-        <SubHeading3>Question name</SubHeading3>
-        <Body3>This name will only visible to you, to help you remember what this question is about</Body3>
+        <SubHeading3>{t('create_question.tabs.question_info.question_name.title')}</SubHeading3>
+        <Body3>{t('create_question.tabs.question_info.question_name.subtitle')}</Body3>
       </div>
 
       <div>
         <TextInput
-          label="Question name"
+          label={t('create_question.tabs.question_info.question_name.question_name_placeholder')}
           value={question.name}
-          onChange={(e) => { 
+          maxLength={QUESTION_NAME_MAX_LENGTH}
+          showCharacterCount
+          characterLimitErrorText={t('create_question.tabs.question_info.question_name.character_limit_error')}
+          onChange={(e) => {
             handleQuestion('name', e.target.value)
           }}
         />
@@ -45,8 +52,8 @@ export const QuestionBasicInfo: FunctionComponent<Props> = ({
 
       <div>
         <SubHeading3>Is it phishing?</SubHeading3>
-        <FilterButtonsContainer>        
-          <FilterButton 
+        <FilterButtonsContainer>
+          <FilterButton
             text="Yes"
             color="green"
             handleFilter={() => {
@@ -55,7 +62,7 @@ export const QuestionBasicInfo: FunctionComponent<Props> = ({
             isActive={question.isPhishing}
           />
 
-          <FilterButton 
+          <FilterButton
             text="No"
             color="green"
             handleFilter={() => {
@@ -68,35 +75,32 @@ export const QuestionBasicInfo: FunctionComponent<Props> = ({
 
       <div>
         <SubHeading3>Selected app</SubHeading3>
-        <FilterButtonsContainer>        
+        <FilterButtonsContainer>
 
-          { apps && apps
-          .filter((a) => initialAppType ? initialAppType === a.type : true)          
-          .map((a) => (
-            <FilterButton 
-              key={a.id}
-              text={a.name}
-              color="green"
-              handleFilter={() => {
-                handleApp(a)
-              }}
-              isActive={question.app && question.app.id ===  a.id}
-            />
-          ))}
-          
+          {apps && apps
+            .filter((a) => initialAppType ? initialAppType === a.type : true)
+            .map((a) => (
+              <FilterButton
+                key={a.id}
+                text={a.name}
+                color="green"
+                handleFilter={() => {
+                  handleApp(a)
+                }}
+                isActive={question.app && question.app.id === a.id}
+              />
+            ))}
+
         </FilterButtonsContainer>
       </div>
-
-
 
     </StyledBox>
   )
 }
 
-
 const StyledBox = styled(Box)`
   position: relative;
-  z-index:1;
+  z-index: 1;
   padding: 48px;
   width: 1024px;
 `

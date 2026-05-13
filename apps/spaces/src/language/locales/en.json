@@ -158,7 +158,8 @@
                 "question_name": {
                     "title": "Question name",
                     "subtitle": "This name will only visible to you, to help you remember what this question is about",
-                    "question_name_placeholder": "Question name"
+                    "question_name_placeholder": "Question name",
+                    "character_limit_error": "Character limit exceeded."
                 },
                 "phishing": {
                     "title": "Is it phishing?",
