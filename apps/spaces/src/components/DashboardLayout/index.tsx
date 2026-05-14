@@ -1,6 +1,6 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { Sidebar, styled, H2, SubHeading3, Body1, FilterButton, useAdminSidebar, Card, Banner } from "@shira/ui";
+import { Sidebar, styled, H2, SubHeading3, Body1, FilterButton, useAdminSidebar, Card } from "@shira/ui";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { formatDistance } from "date-fns";
@@ -332,11 +332,17 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             content={(
               <div>
                 {t('modals.delete_quiz.subtitle')}
-                <br /><br />
-                <QuizWarningNote>
-                  {t('modals.delete_quiz.note')}
-                </QuizWarningNote>
-                {t('modals.delete_quiz.message')}
+                {selectedCard?.hasResults && (
+                  <>
+                    <br /><br />
+                    <QuizWarningLine>
+                      <QuizWarningNote>
+                        {t('modals.delete_quiz.note')}
+                      </QuizWarningNote>
+                      {t('modals.delete_quiz.message')}
+                    </QuizWarningLine>
+                  </>
+                )}
               </div>
             )}
             setIsModalOpen={setIsDeleteModalOpen}
@@ -512,8 +518,11 @@ const CardGrid = styled.div`
   }
 `;
 
-
 const QuizWarningNote = styled.span`
   color: #d73527;
   font-weight: 500;
+`;
+
+const QuizWarningLine = styled.span`
+  display: inline;
 `;
