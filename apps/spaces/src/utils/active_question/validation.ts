@@ -1,6 +1,7 @@
 import { ActiveQuestion, EmailContent, MessagingContent } from "../../store/types/active_question"
 import {
   EMAIL_CONTENT_MAX_LENGTH,
+  MESSAGE_CONTENT_MAX_LENGTH,
   QUESTION_NAME_MAX_LENGTH,
   SENDER_EMAIL_MAX_LENGTH,
   SENDER_NAME_MAX_LENGTH,
@@ -50,11 +51,17 @@ const isEmailContentValid = (content: EmailContent) => {
 }
 
 const isMessagingContentValid = (content: MessagingContent, appName: string) => {
+  const textItemsWithinLimit = (content.draggableItems ?? [])
+    .filter(item => item.contentType === 'editor')
+    .every(item => getEditorTextLength(item.value) <= MESSAGE_CONTENT_MAX_LENGTH)
+
   if (['SMS', 'Whatsapp'].includes(appName)) {
     return hasRequiredValue(content.senderPhone?.value ?? '')
       && content.senderPhone?.value.length <= SENDER_PHONE_MAX_LENGTH
+      && textItemsWithinLimit
   }
 
   return hasRequiredValue(content.senderName?.value ?? '')
     && content.senderName?.value.length <= SENDER_NAME_MAX_LENGTH
+    && textItemsWithinLimit
 }
