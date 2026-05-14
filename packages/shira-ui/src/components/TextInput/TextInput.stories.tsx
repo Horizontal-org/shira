@@ -35,6 +35,10 @@ const meta = {
       control: 'boolean',
       description: 'Shows the current character count below the input',
     },
+    supportingText: {
+      control: 'text',
+      description: 'Supporting text displayed below the input',
+    },
     characterLimitErrorText: {
       control: 'text',
       description: 'Error text shown when the value exceeds the character limit',
@@ -201,27 +205,13 @@ export const NoLabel: Story = {
 export const WithCharacterCount: Story = {
   render: InputTemplate,
   args: {
-    placeholder: 'Give this field a name',
+    placeholder: 'Question name',
     label: 'Question name',
     value: '',
     maxLength: 80,
     showCharacterCount: true,
     supportingText: 'Visible only to you',
     characterLimitErrorText: 'Character limit exceeded',
-    onChange: () => { }
-  }
-};
-
-export const CharacterCountExceeded: Story = {
-  render: InputTemplate,
-  args: {
-    placeholder: 'Give this field a name',
-    label: 'Question name',
-    value: 'This value starts out longer than the configured limit so you can preview the error state immediately.',
-    maxLength: 40,
-    showCharacterCount: true,
-    supportingText: 'Visible only to you',
-    characterLimitErrorText: 'Question name must be 40 characters or fewer',
     onChange: () => { }
   }
 };

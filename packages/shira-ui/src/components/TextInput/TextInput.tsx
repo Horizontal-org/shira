@@ -20,7 +20,6 @@ export interface Props {
     name?: string;
     maxLength?: number;
     showCharacterCount?: boolean;
-    supportingText?: string;
     characterLimitErrorText?: string;
 }
 

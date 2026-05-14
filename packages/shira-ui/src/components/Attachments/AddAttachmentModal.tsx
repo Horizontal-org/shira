@@ -2,7 +2,6 @@ import { TextInput } from '../TextInput';
 import { SelectComponent } from '../Select';
 import { Modal, ModalType } from '../Modal';
 import { AttachmentType } from './Attachment';
-import { useTranslation } from "react-i18next";
 
 export interface AddAttachmentModalProps {
   fileName: string;
