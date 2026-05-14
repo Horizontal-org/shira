@@ -149,7 +149,6 @@ const SupportingText = styled(Body4) <{ $disabled?: boolean; $isError?: boolean 
         if ($isError) return theme.colors.error7;
         return theme.colors.dark.darkGrey;
     }};
-    min-height: 19px;
     flex: 1;
     padding-left: 10px;
 `;

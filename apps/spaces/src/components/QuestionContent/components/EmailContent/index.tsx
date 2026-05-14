@@ -113,7 +113,7 @@ export const EmailContent: FunctionComponent<Props> = ({
 }
 
 const Content = styled.div`
-  gap: 48px;
+  gap: 30px;
   display: flex;
   flex-direction: column;
 `

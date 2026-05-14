@@ -39,8 +39,6 @@ export const AddAttachmentModal = ({
   fileTypeLabel
 }: AddAttachmentModalProps) => {
 
-  const { t } = useTranslation();
-
   const fileTypeOptions = [
     { value: AttachmentType.image, label: 'Image' },
     { value: AttachmentType.video, label: 'Video' },
@@ -56,6 +54,7 @@ export const AddAttachmentModal = ({
       title={titleLabel}
       primaryButtonText={saveLabel}
       secondaryButtonText={cancelLabel}
+      primaryButtonDisabled={fileName.trim().length > ATTACHMENT_FILENAME_MAX_LENGTH}
       onPrimaryClick={() => {
         onSave()
         onClose()
@@ -71,7 +70,7 @@ export const AddAttachmentModal = ({
           onChange={(e) => handleFileName(e.target.value)}
           showCharacterCount={true}
           maxLength={ATTACHMENT_FILENAME_MAX_LENGTH}
-          characterLimitErrorText={t('error_messages.character_limit_error')}
+          characterLimitErrorText="Character limit exceeded."
         />
         <SelectComponent
           label={fileTypeLabel}

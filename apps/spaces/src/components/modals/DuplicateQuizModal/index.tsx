@@ -36,7 +36,14 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
     validateQuizName,
     onValidTitle: onDuplicate,
   });
+  const trimmedTitle = title.trim();
   const hasError = Boolean(titleError);
+
+  const cannotSubmit = !hasRequiredValue(trimmedTitle)
+    || isLoading
+    || isValidatingTitle
+    || hasError
+    || title.length > QUIZ_NAME_MAX_LENGTH;
 
   useEffect(() => {
     if (quiz && isModalOpen) {
@@ -55,10 +62,10 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
       isOpen={isModalOpen}
       title={t('modals.duplicate_quiz.title')}
       primaryButtonText={t('buttons.next')}
-      primaryButtonDisabled={!hasRequiredValue(title) || isLoading || isValidatingTitle || hasError}
+      primaryButtonDisabled={cannotSubmit}
       secondaryButtonText={t('buttons.back')}
       onPrimaryClick={() => {
-        if (!hasRequiredValue(title) || isLoading || isValidatingTitle || hasError) { return; }
+        if (cannotSubmit) { return; }
         handleTitleSubmit(title);
       }}
       onSecondaryClick={() => {

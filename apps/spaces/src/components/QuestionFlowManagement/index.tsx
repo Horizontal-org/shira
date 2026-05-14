@@ -12,6 +12,7 @@ import { NoExplanationsModal } from "../modals/NoExplanationsModal";
 import { ActiveQuestion } from "../../store/types/active_question";
 import { useTranslation } from "react-i18next";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
+import { QUESTION_NAME_MAX_LENGTH } from "../../utils/inputLimits";
 
 interface Props {
   initialContent?: Object
@@ -68,7 +69,10 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
 
   const validateStep = () => {
     if (step === 0) {
-      return activeQuestion && activeQuestion.name.length > 0 && !!(activeQuestion.app)
+      return activeQuestion &&
+        activeQuestion.name.length > 0 &&
+        activeQuestion.name.length <= QUESTION_NAME_MAX_LENGTH &&
+        !!(activeQuestion.app)
     }
 
     if (step === 1) {

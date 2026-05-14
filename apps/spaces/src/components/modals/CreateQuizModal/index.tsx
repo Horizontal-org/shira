@@ -41,7 +41,13 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
       }
     },
   });
+  const trimmedTitle = title.trim();
   const hasError = Boolean(titleError);
+
+  const cannotSubmit = !hasRequiredValue(trimmedTitle)
+    || isValidatingTitle
+    || hasError
+    || title.length > QUIZ_NAME_MAX_LENGTH;
 
   useEffect(() => {
     if (!isModalOpen) {
@@ -56,9 +62,9 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
       isOpen={isModalOpen}
       title={t('modals.create_quiz.title')}
       primaryButtonText={t('buttons.next')}
-      primaryButtonDisabled={!hasRequiredValue(title) || isValidatingTitle || hasError}
+      primaryButtonDisabled={cannotSubmit}
       onPrimaryClick={() => {
-        if (!hasRequiredValue(title) || isValidatingTitle || hasError) {
+        if (cannotSubmit) {
           return;
         }
         handleTitleSubmit(title);
