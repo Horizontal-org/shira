@@ -22,6 +22,8 @@ export interface AddAttachmentModalProps {
   typeLabels?: Partial<Record<AttachmentType, string>>;
 }
 
+const ATTACHMENT_FILENAME_MAX_LENGTH = 100;
+
 export const AddAttachmentModal = ({
   fileName,
   handleFileName,
@@ -68,7 +70,7 @@ export const AddAttachmentModal = ({
           value={fileName}
           onChange={(e) => handleFileName(e.target.value)}
           showCharacterCount={true}
-          maxLength={100}
+          maxLength={ATTACHMENT_FILENAME_MAX_LENGTH}
           characterLimitErrorText={t('error_messages.character_limit_error')}
         />
         <SelectComponent

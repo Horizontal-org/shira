@@ -7,6 +7,7 @@ import { useStore } from "../../../../store";
 import { shallow } from "zustand/shallow";
 import { useTranslation } from "react-i18next";
 import { MessageEditorStyles } from "../../../TipTapEditor/styles/MessageEditorStyles";
+import { SENDER_NAME_MAX_LENGTH, SENDER_PHONE_MAX_LENGTH } from "../../../../utils/inputLimits";
 
 interface Props {
   question: ActiveQuestion
@@ -67,7 +68,7 @@ export const MessagingContent: FunctionComponent<Props> = ({
             label="Sender phone number"
             contentObject={content.senderPhone}
             showCharacterCount={true}
-            maxLength={25}
+            maxLength={SENDER_PHONE_MAX_LENGTH}
             characterLimitErrorText={t('error_messages.character_limit_error')}
           />
         </div>
@@ -85,7 +86,7 @@ export const MessagingContent: FunctionComponent<Props> = ({
             label="Sender name"
             contentObject={content.senderName}
             showCharacterCount={true}
-            maxLength={80}
+            maxLength={SENDER_NAME_MAX_LENGTH}
             characterLimitErrorText={t('error_messages.character_limit_error')}
           />
         </div>

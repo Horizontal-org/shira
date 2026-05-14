@@ -7,6 +7,7 @@ import { ActiveQuestion, EmailContent as EmailContentType, QuestionDragAttachmen
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../../../store";
 import { useTranslation } from "react-i18next";
+import { EMAIL_SUBJECT_MAX_LENGTH, SENDER_EMAIL_MAX_LENGTH, SENDER_NAME_MAX_LENGTH } from "../../../../utils/inputLimits";
 
 interface Props {
   question: ActiveQuestion
@@ -43,7 +44,7 @@ export const EmailContent: FunctionComponent<Props> = ({
           label="Sender name"
           contentObject={content.senderName}
           showCharacterCount={true}
-          maxLength={80}
+          maxLength={SENDER_NAME_MAX_LENGTH}
           characterLimitErrorText={t('error_messages.character_limit_error')}
         />
       </div>
@@ -61,7 +62,7 @@ export const EmailContent: FunctionComponent<Props> = ({
           label="Sender email"
           contentObject={content.senderEmail}
           showCharacterCount={true}
-          maxLength={150}
+          maxLength={SENDER_EMAIL_MAX_LENGTH}
           characterLimitErrorText={t('error_messages.character_limit_error')}
         />
 
@@ -80,7 +81,7 @@ export const EmailContent: FunctionComponent<Props> = ({
           contentObject={content.subject}
           label="Subject"
           showCharacterCount={true}
-          maxLength={150}
+          maxLength={EMAIL_SUBJECT_MAX_LENGTH}
           characterLimitErrorText={t('error_messages.character_limit_error')}
         />
 
