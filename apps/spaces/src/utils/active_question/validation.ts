@@ -1,11 +1,20 @@
 import { ActiveQuestion, EmailContent, MessagingContent } from "../../store/types/active_question"
 import {
+  EMAIL_CONTENT_MAX_LENGTH,
   QUESTION_NAME_MAX_LENGTH,
   SENDER_EMAIL_MAX_LENGTH,
   SENDER_NAME_MAX_LENGTH,
   SENDER_PHONE_MAX_LENGTH
 } from "../inputLimits"
 import { hasRequiredValue } from "../validation"
+
+const getEditorTextLength = (content?: string) => {
+  if (!content) {
+    return 0
+  }
+
+  return new DOMParser().parseFromString(content, 'text/html').body.textContent?.length ?? 0
+}
 
 export const isQuestionInfoStepValid = (question?: ActiveQuestion) => {
   if (!question?.app) {
@@ -37,6 +46,7 @@ const isEmailContentValid = (content: EmailContent) => {
     && hasRequiredValue(content.senderEmail?.value ?? '')
     && content.senderName?.value.length <= SENDER_NAME_MAX_LENGTH
     && content.senderEmail?.value.length <= SENDER_EMAIL_MAX_LENGTH
+    && getEditorTextLength(content.body?.value) <= EMAIL_CONTENT_MAX_LENGTH
 }
 
 const isMessagingContentValid = (content: MessagingContent, appName: string) => {
