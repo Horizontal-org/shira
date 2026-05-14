@@ -12,7 +12,7 @@ import { NoExplanationsModal } from "../modals/NoExplanationsModal";
 import { ActiveQuestion } from "../../store/types/active_question";
 import { useTranslation } from "react-i18next";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
-import { QUESTION_NAME_MAX_LENGTH } from "../../utils/inputLimits";
+import { QUESTION_NAME_MAX_LENGTH, SENDER_EMAIL_MAX_LENGTH, SENDER_NAME_MAX_LENGTH } from "../../utils/inputLimits";
 
 interface Props {
   initialContent?: Object
@@ -81,7 +81,9 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
       if (activeQuestion.app.type === 'email') {
         const emailContent = activeQuestion.content as any;
         return emailContent.senderName?.value?.trim().length > 0 &&
-          emailContent.senderEmail?.value?.trim().length > 0;
+          emailContent.senderEmail?.value?.trim().length > 0 &&
+          emailContent.senderName?.value?.length <= SENDER_NAME_MAX_LENGTH &&
+          emailContent.senderEmail?.value?.length <= SENDER_EMAIL_MAX_LENGTH;
       }
 
       if (activeQuestion.app.type === 'messaging') {
@@ -90,7 +92,8 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
           return messagingContent.senderPhone?.value?.trim().length > 0;
         }
 
-        return messagingContent.senderName?.value?.trim().length > 0;
+        return messagingContent.senderName?.value?.trim().length > 0 &&
+          messagingContent.senderName?.value?.length <= SENDER_NAME_MAX_LENGTH;
       }
     }
 
