@@ -19,10 +19,9 @@ import { getErrorContent } from "../../utils/getErrorContent";
 import { GenericErrorModal } from "../modals/ErrorModal";
 import { isEmailValid, hasRequiredValue } from "../../utils/validation";
 import { login as fetchLogin, navigateToManageSubscription } from "../../fetch/auth";
+import { SPACE_NAME_MAX_LENGTH } from "../../utils/inputLimits";
 
 interface Props { }
-
-const SPACE_NAME_MAX_LENGTH = 150;
 
 export const CreateSpaceLayout: FunctionComponent<Props> = () => {
 

@@ -6,6 +6,7 @@ import { Quiz } from "../../../store/slices/quiz";
 import { useTranslation } from "react-i18next";
 import { hasRequiredValue } from "../../../utils/validation";
 import { useTitleUpdate } from "../../../hooks/useTitleUpdate";
+import { QUIZ_NAME_MAX_LENGTH } from "../../../utils/inputLimits";
 
 interface Props {
   quiz: Quiz;
@@ -15,8 +16,6 @@ interface Props {
   onRename: (title: string) => void;
   onCancel: () => void;
 }
-
-const QUIZ_NAME_MAX_LENGTH = 150;
 
 export const RenameQuizModal: FunctionComponent<Props> = ({
   quiz,

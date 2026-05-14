@@ -1,0 +1,3 @@
+export const QUIZ_NAME_MAX_LENGTH = 150;
+export const QUESTION_NAME_MAX_LENGTH = 100;
+export const SPACE_NAME_MAX_LENGTH = 150;

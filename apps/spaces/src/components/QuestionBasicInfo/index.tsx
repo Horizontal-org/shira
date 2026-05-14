@@ -10,6 +10,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { App } from "../../fetch/app";
 import { ActiveQuestion } from "../../store/types/active_question";
+import { QUESTION_NAME_MAX_LENGTH } from "../../utils/inputLimits";
 
 interface Props {
   handleQuestion: (k, v) => void;
@@ -18,8 +19,6 @@ interface Props {
   apps: App[]
   initialAppType: string
 }
-
-const QUESTION_NAME_MAX_LENGTH = 100;
 
 export const QuestionBasicInfo: FunctionComponent<Props> = ({
   handleQuestion,

@@ -3,6 +3,7 @@ import { Modal, defaultTheme, styled, TextInput } from "@shira/ui";
 import { useTranslation } from "react-i18next";
 import { hasRequiredValue } from "../../../utils/validation";
 import { useTitleUpdate } from "../../../hooks/useTitleUpdate";
+import { QUIZ_NAME_MAX_LENGTH } from "../../../utils/inputLimits";
 
 interface Props {
   isModalOpen: boolean;
@@ -12,8 +13,6 @@ interface Props {
   onCancel?: () => void;
   keepModalOpen?: boolean;
 }
-
-const QUIZ_NAME_MAX_LENGTH = 150;
 
 export const CreateQuizModal: FunctionComponent<Props> = ({
   isModalOpen,
