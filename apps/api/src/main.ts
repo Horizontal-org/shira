@@ -18,9 +18,9 @@ async function validateJwt() {
 async function bootstrap() {
   validateJwt()
 
-  const app = await NestFactory.create<NestExpressApplication>(IndexModule);
-
   const apiLogger = new ApiLogger();
+
+  const app = await NestFactory.create<NestExpressApplication>(IndexModule, { logger: apiLogger });
 
   app.use(cookieParser());
 

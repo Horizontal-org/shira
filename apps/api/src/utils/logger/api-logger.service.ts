@@ -1,50 +1,71 @@
-import { ConsoleLogger, Injectable, LogLevel } from '@nestjs/common';
-import { clc } from '@nestjs/common/utils/cli-colors.util';
+import { Injectable, LoggerService } from '@nestjs/common';
+import pino, { Logger } from 'pino';
+
+const isDev = process.env.NODE_ENV !== 'production';
+
+const root = pino({
+  level: process.env.LOG_LEVEL ?? 'info',
+  ...(isDev && {
+    transport: {
+      target: 'pino-pretty',
+      options: { colorize: true, translateTime: 'SYS:HH:MM:ss.l', ignore: 'pid,hostname' },
+    },
+  }),
+});
 
 @Injectable()
-export class ApiLogger extends ConsoleLogger {
+export class ApiLogger implements LoggerService {
+  private logger: Logger;
+
   constructor(context = 'App') {
-    super(context);
+    this.logger = root.child({ context });
   }
 
-  private colorByLevel(level: LogLevel, text: string): string {
-    switch (level) {
-      case 'error':
-        return clc.red(text);
-      case 'warn':
-        return clc.yellow(text);
-      case 'debug':
-        return clc.cyanBright(text);
-      case 'verbose':
-        return clc.magentaBright(text);
-      case 'log':
-      default:
-        return clc.green(text);
+  setContext(context: string): void {
+    this.logger = root.child({ context });
+  }
+
+  log(message: unknown, contextOrDescription?: string): void {
+    if (typeof message === 'object' && message !== null) {
+      this.logger.info(message as object, contextOrDescription ?? '');
+    } else {
+      this.logger.info(String(message ?? ''));
     }
   }
 
-  private buildContext(level: LogLevel, context?: string): string {
-    const baseContext = context ?? this.context ?? 'App';
-    return this.colorByLevel(level, baseContext);
+  error(message: unknown, stack?: string, context?: string): void {
+    const meta = { ...(stack ? { stack } : {}), ...(context ? { context } : {}) };
+    if (typeof message === 'object' && message !== null) {
+      this.logger.error({ ...(message as object), ...meta }, '');
+    } else {
+      this.logger.error(meta, String(message ?? ''));
+    }
   }
 
-  override log(message: unknown, context?: string) {
-    super.log(message, this.buildContext('log', context));
+  warn(message: unknown, context?: string): void {
+    const meta = context ? { context } : {};
+    if (typeof message === 'object' && message !== null) {
+      this.logger.warn({ ...(message as object), ...meta }, '');
+    } else {
+      this.logger.warn(meta, String(message ?? ''));
+    }
   }
 
-  override error(message: unknown, stack?: string, context?: string) {
-    super.error(message, stack, this.buildContext('error', context));
+  debug(message: unknown, context?: string): void {
+    const meta = context ? { context } : {};
+    if (typeof message === 'object' && message !== null) {
+      this.logger.debug({ ...(message as object), ...meta }, '');
+    } else {
+      this.logger.debug(meta, String(message ?? ''));
+    }
   }
 
-  override warn(message: unknown, context?: string) {
-    super.warn(message, this.buildContext('warn', context));
-  }
-
-  override debug(message: unknown, context?: string) {
-    super.debug(message, this.buildContext('debug', context));
-  }
-
-  override verbose(message: unknown, context?: string) {
-    super.verbose(message, this.buildContext('verbose', context));
+  verbose(message: unknown, context?: string): void {
+    const meta = context ? { context } : {};
+    if (typeof message === 'object' && message !== null) {
+      this.logger.trace({ ...(message as object), ...meta }, '');
+    } else {
+      this.logger.trace(meta, String(message ?? ''));
+    }
   }
 }

@@ -15,54 +15,28 @@ export class ShiraPaymentsLoggerService implements IShiraPaymentsLoggerService {
 
   started(context: ShiraPaymentsLogContext) {
     this.logger.log(
-      `${this.buildBaseMessage(context)} started`,
+      { requestId: context.requestId, organizationId: context.organizationId, method: context.method, url: context.url },
+      'payments request started',
     );
   }
 
-  succeeded(
-    context: ShiraPaymentsLogContext,
-    status: number,
-    durationMs: number,
-  ) {
+  succeeded(context: ShiraPaymentsLogContext, status: number, durationMs: number) {
     this.logger.log(
-      `${this.buildBaseMessage(context)} succeeded status=${status} durationMs=${durationMs}`,
+      { requestId: context.requestId, organizationId: context.organizationId, method: context.method, url: context.url, status, durationMs },
+      'payments request succeeded',
     );
   }
 
-  failed(
-    context: ShiraPaymentsLogContext,
-    status: number,
-    durationMs: number,
-    message: string,
-  ) {
+  failed(context: ShiraPaymentsLogContext, status: number, durationMs: number, message: string) {
     this.logger.error(
-      `${this.buildBaseMessage(context)} failed status=${status} durationMs=${durationMs} message=${message}`,
+      { requestId: context.requestId, organizationId: context.organizationId, method: context.method, url: context.url, status, durationMs, message },
     );
   }
 
-  requestError(
-    context: ShiraPaymentsLogContext,
-    durationMs: number,
-    message: string,
-    stack?: string,
-  ) {
+  requestError(context: ShiraPaymentsLogContext, durationMs: number, message: string, stack?: string) {
     this.logger.error(
-      `${this.buildBaseMessage(context)} error durationMs=${durationMs} message=${message}`,
+      { requestId: context.requestId, organizationId: context.organizationId, method: context.method, url: context.url, durationMs, message },
       stack,
     );
-  }
-
-  private buildBaseMessage(context: Partial<ShiraPaymentsLogContext>) {
-    const parts = [
-      "ShiraPaymentsRequest",
-      context.requestId ? `requestId=${context.requestId}` : undefined,
-      context.organizationId
-        ? `organizationId=${context.organizationId}`
-        : undefined,
-      context.method ? `method=${context.method}` : undefined,
-      context.url ? `url=${context.url}` : undefined,
-    ];
-
-    return parts.filter(Boolean).join(" ");
   }
 }
