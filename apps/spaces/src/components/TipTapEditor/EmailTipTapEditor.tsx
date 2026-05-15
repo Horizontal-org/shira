@@ -20,7 +20,7 @@ interface Props {
   characterLimitErrorText?: string
 }
 
-const getEditorCharacterCount = (content?: string | null) => {
+const getTextContentLength = (content?: string | null) => {
   if (!content) {
     return 0
   }
@@ -37,7 +37,7 @@ export const EmailTipTapEditor = ({
   characterLimitErrorText
 }: Props) => {
   const editorId = `component-text-1`
-  const [characterCount, setCharacterCount] = useState(() => getEditorCharacterCount(initialContent))
+  const [characterCount, setCharacterCount] = useState(() => getTextContentLength(initialContent))
 
   const editor = useEditor({
     extensions: getEmailExtensions(),
@@ -62,7 +62,7 @@ export const EmailTipTapEditor = ({
   const isOverCharacterLimit = characterCount > maxLength
 
   useEffect(() => {
-    setCharacterCount(getEditorCharacterCount(initialContent))
+    setCharacterCount(getTextContentLength(initialContent))
   }, [initialContent])
 
   const images = useImageUpload(editor, {

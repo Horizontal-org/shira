@@ -16,7 +16,7 @@ interface Props {
   characterLimitErrorText?: string
 }
 
-const getEditorCharacterCount = (content?: string | null) => {
+const getTextContentLength = (content?: string | null) => {
   if (!content) {
     return 0
   }
@@ -34,7 +34,7 @@ export const MessageTipTapEditor = ({
   characterLimitErrorText
 }: Props) => {
   const { t } = useTranslation()
-  const [characterCount, setCharacterCount] = useState(() => getEditorCharacterCount(initialContent))
+  const [characterCount, setCharacterCount] = useState(() => getTextContentLength(initialContent))
   const isOverCharacterLimit = typeof maxLength === 'number' && characterCount > maxLength
 
   const editor = useEditor({
@@ -64,7 +64,7 @@ export const MessageTipTapEditor = ({
   const [showExplanationButtonTooltip, setShowExplanationButtonTooltip] = useState(false)
 
   useEffect(() => {
-    setCharacterCount(getEditorCharacterCount(initialContent))
+    setCharacterCount(getTextContentLength(initialContent))
   }, [initialContent])
 
   return (
