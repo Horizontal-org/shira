@@ -88,7 +88,15 @@
     },
     "library": {
         "title": "Library",
-        "subtitle": "Get started right away with ready-made templates."
+        "subtitle": "Get started right away with ready-made templates.",
+        "cards": {
+            "quizzes": {
+                "title": "Quizzes"
+            },
+            "questions": {
+                "title": "Questions"
+            }
+        }
     },
     "quizzes": {
         "filter": {
