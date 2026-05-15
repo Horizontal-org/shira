@@ -9,7 +9,6 @@ export interface CardProps {
   description?: string;
   onCardClick: () => void;
   showLoading?: boolean;
-  loadingLabel?: string;
 }
 
 const formatCardDate = (value: string) => {
@@ -29,25 +28,14 @@ export const QuizCard: FunctionComponent<CardProps> = ({
   author,
   description,
   onCardClick,
-  loadingLabel,
-  showLoading = false
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
-
-  const metadata = [author.toLocaleUpperCase(), formatCardDate(createdAt)].filter(Boolean).join(' | ');
 
   return (
     <CardWrapper id={id} onClick={() => {
       onCardClick()
     }}>
-      {showLoading && (
-        <ActionLoadingOverlay role="status" aria-live="polite">
-          <ActionLoadingContent>
-            <ActionLoadingText>{loadingLabel}</ActionLoadingText>
-          </ActionLoadingContent>
-        </ActionLoadingOverlay>
-      )}
       <TopSection>
         <HeaderRow>
           <MenuButton
@@ -141,7 +129,6 @@ const MenuButton = styled.button`
 
 const CardTitle = styled(SubHeading3)`
   margin: 0;
-  color: ${props => props.theme.colors.dark.darkGrey};
   line-height: 1.25;
   display: -webkit-box;
   -webkit-box-orient: vertical;

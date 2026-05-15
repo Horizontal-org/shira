@@ -1,27 +1,41 @@
 import { Body1, H2, Props, Sidebar, styled, SubHeading3, useAdminSidebar } from "@shira/ui";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
 import { t } from "i18next";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { QuizCard } from "./components/QuizCard";
+import { getLibraryQuizzes, type LibraryQuizDto } from "../../fetch/quiz_library";
 
 export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
 
   const navigate = useNavigate();
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate);
 
+  const [quizzes, setQuizzes] = useState<LibraryQuizDto[]>([]);
+  const [loading, setLoading] = useState(false);
+
   const { space } = useStore((state) => ({
     space: state.space
   }), shallow)
 
-  const quiz = {
-    title: '10 most common phishing attacks in the US (2026)',
-    createdAt: '2026-05-04',
-    author: 'Shira Team',
-    description: '10 questions using the actual top 10 email and social media scams.'
-  }
+  const loadQuizzes = async () => {
+    setLoading(true);
+
+    try {
+      const data = await getLibraryQuizzes();
+      setQuizzes(data);
+    } catch (error) {
+      console.error("Failed to get library quizzes:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadQuizzes();
+  }, []);
 
   return (
     <Container id="quiz-library-list-layout">
@@ -36,19 +50,25 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
         <MainContentWrapper>
           <HeaderContainer>
             <StyledSubHeading3 id="space-name">{space && space.name}</StyledSubHeading3>
-            <H2 id="dashboard-title">{t('dashboard.title')}</H2>
-            <Body1 id="dashboard-subtitle">{t('dashboard.subtitle')}</Body1>
+            <H2 id="quiz-library-title">{t('dashboard.title')}</H2>
+            <Body1 id="quiz-library-subtitle">{t('dashboard.subtitle')}</Body1>
           </HeaderContainer>
 
           <CardGrid id="quiz-card-grid">
-            <QuizCard
-              title={quiz.title}
-              author={quiz.author}
-              createdAt={quiz.createdAt}
-              description={quiz.description}
-              onCardClick={() => { }}
-              loadingLabel="Loading"
-            />
+            {loading ? (
+              <Body1>{t('loading_messages.loading')}</Body1>
+            ) : (
+              quizzes.map((quiz) => (
+                <QuizCard
+                  key={`${quiz.title}-${quiz.createdAt}`}
+                  title={quiz.title}
+                  author={quiz.author}
+                  createdAt={quiz.createdAt}
+                  description={quiz.description}
+                  onCardClick={() => { }}
+                />
+              ))
+            )}
           </CardGrid>
         </MainContentWrapper>
 
