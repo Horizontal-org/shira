@@ -27,6 +27,7 @@ import { SettingsLayout } from './components/SettingsLayout';
 import './language/i18n';
 import { GetStartedLayout } from './components/GetStartedLayout';
 import { LearnersLayout } from './components/LearnersLayout';
+import { LibraryLayout } from './components/LibraryLayout';
 import { FeedbackButton } from './components/FeedbackButton';
 import { ResetPasswordRequestLayout } from './components/ResetPasswordLayout/ResetPasswordRequestLayout';
 import { SetNewPasswordLayout } from './components/ResetPasswordLayout/SetNewPasswordLayout';
@@ -97,6 +98,7 @@ function App() {
                     <Route path='/question/library' element={<QuestionLibraryListLayout />} />
                     <Route path='/learner' element={<LearnersLayout />} />
                     <Route path='/learner/import/bulk' element={<LearnerBulkImportLayout />} />
+                    <Route path='/library' element={<LibraryLayout />} />
                     <Route path="/logout" element={<LogoutLayout />} />
                     <Route path="/support" element={<SupportLayout />} />
                     <Route path="/settings" element={<SettingsLayout />} />

@@ -86,6 +86,10 @@
             "disabled_tooltip": "Create at least 1 question to assign this quiz to learners."
         }
     },
+    "library": {
+        "title": "Library",
+        "subtitle": "Get started right away with ready-made templates."
+    },
     "quizzes": {
         "filter": {
             "all_quizzes": "All quizzes",
@@ -674,7 +678,7 @@
                     "detailed_analytics": "Track results at the learner and question levels",
                     "analysis_tools": "Export your team's results into CSV or PDF reports",
                     "tailor_made_training": "Skill-building workshops customized by the Shira team for your organization",
-                    "priority_support": "Quick response time to ensure a smooth experience"                    
+                    "priority_support": "Quick response time to ensure a smooth experience"
                 }
             },
             "plans": {
