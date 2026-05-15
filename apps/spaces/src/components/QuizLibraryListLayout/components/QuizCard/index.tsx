@@ -33,6 +33,14 @@ export const QuizCard: FunctionComponent<CardProps> = ({
     }}>
       <TopSection>
         <HeaderRow>
+          <LanguageRow>
+            {quiz.languages.map((language) => (
+              <LanguageChip key={language}>
+                <Body4>{language}</Body4>
+              </LanguageChip>
+            ))}
+          </LanguageRow>
+
           <MenuButton
             ref={menuButtonRef}
             onClick={(e) => {
@@ -50,6 +58,13 @@ export const QuizCard: FunctionComponent<CardProps> = ({
       {quiz.description && (
         <BottomContainer>
           <DescriptionText>{quiz.description}</DescriptionText>
+          <TagRow>
+            {quiz.tags.map((tag) => (
+              <TagChip>
+                <Body4>{tag}</Body4>
+              </TagChip>
+            ))}
+          </TagRow>
         </BottomContainer>
       )}
     </CardWrapper>
@@ -63,8 +78,8 @@ const CardWrapper = styled.div`
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  max-width: 300px;
-  min-height: 244px;
+  max-width: 436px;
+  min-height: 320px;
   cursor: pointer;
   
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
@@ -72,54 +87,50 @@ const CardWrapper = styled.div`
   }
 `;
 
-const ActionLoadingOverlay = styled.div`
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 24px;
-  z-index: 1;
-`;
-
-const ActionLoadingContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-`;
-
-const ActionLoadingText = styled(Body4)`
-  color: ${props => props.theme.colors.dark.darkGrey};
-`;
-
 const TopSection = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 24px 24px 0;
-  gap: 10px;
+  padding: 28px 28px 0;
+  gap: 12px;
 `;
 
 const HeaderRow = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+`;
+
+const LanguageRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
   gap: 8px;
 `;
 
 const MenuButton = styled.button`
   background: none;
   border: none;
-  padding: 4px;
+  padding: 0;
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
   color: ${props => props.theme.colors.dark.darkGrey};
   
   &:hover {
     color: ${props => props.theme.colors.dark.black};
   }
+`;
+
+const LanguageChip = styled.span`
+  display: inline-flex;
+  align-items: center;
+  min-height: 4px;
+  padding: 4px;
+  border-radius: 2px;
+  background: ${props => props.theme.colors.light.paleGrey};
+  color: ${props => props.theme.colors.dark.darkGrey};
+  line-height: 1;
 `;
 
 const CardTitle = styled(SubHeading3)`
@@ -141,7 +152,10 @@ const ModifiedText = styled(Body4)`
 
 const BottomContainer = styled.div`
   margin-top: auto;
-  padding: 12px 24px 24px;
+  padding: 14px 28px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 `;
 
 const DescriptionText = styled(Body3)`
@@ -152,4 +166,22 @@ const DescriptionText = styled(Body3)`
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
+`;
+
+const TagRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  color: ${props => props.theme.colors.blue7};
+`;
+
+const TagChip = styled.span`
+  display: inline-flex;
+  align-items: center;
+  min-height: 2px;
+  padding: 4px;
+  border: 1px solid ${props => props.theme.colors.blue4};
+  border-radius: 4px;
+  background: white;
+  line-height: 1;
 `;
