@@ -143,8 +143,8 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
           tooltip: t("modals.view_plans.comparison.tooltips.number_of_admins"),
           values: [
             {type: 'text', value: t("modals.view_plans.comparison.values.one_admin")},
-            {type: 'text', value: t("modals.view_plans.comparison.values.unlimited")},
-            {type: 'text', value: t("modals.view_plans.comparison.values.unlimited")},
+            {type: 'text', value: t("modals.view_plans.comparison.values.unlimited_coming_soon")},
+            {type: 'text', value: t("modals.view_plans.comparison.values.unlimited_coming_soon")},
           ],
         },
       ],
@@ -217,6 +217,16 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
       title: t("modals.view_plans.comparison.custom_support"),
       rows: [
         {
+          label: t("modals.view_plans.comparison.rows.phishing_readiness_assessment"),
+          tooltip: t("modals.view_plans.comparison.tooltips.phishing_readiness_assessment"),
+          values: [{type: 'text', value: '-'}, {type: 'text', value: '-'}, {type: 'check'}],
+        },
+        {
+          label: t("modals.view_plans.comparison.rows.preparedness_report"),
+          tooltip: t("modals.view_plans.comparison.tooltips.preparedness_report"),
+          values: [{type: 'text', value: '-'}, {type: 'text', value: '-'}, {type: 'check'}],
+        },
+        {
           label: t("modals.view_plans.comparison.rows.tailor_made_training"),
           tooltip: t("modals.view_plans.comparison.tooltips.tailor_made_training"),
           values: [
@@ -233,7 +243,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
             {type: 'text', value: t("modals.view_plans.comparison.values.three_business_day_response_time")},
             {type: 'text', value: t("modals.view_plans.comparison.values.one_business_day_response_time")}
           ],
-        },
+        },       
       ],
     },
   ];
