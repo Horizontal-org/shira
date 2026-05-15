@@ -22,21 +22,6 @@ export const LibraryLayout: FunctionComponent<Props> = () => {
     shallow
   );
 
-  const cards = [
-    {
-      title: t("library.cards.quizzes.title"),
-      image: HookedFish,
-      alt: "quizzes-illustration",
-      onClick: () => navigate("/dashboard")
-    },
-    {
-      title: t("library.cards.questions.title"),
-      image: QuizEndFish,
-      alt: "questions-illustration",
-      onClick: () => navigate("/question/library")
-    }
-  ];
-
   return (
     <LayoutContainer>
       <Sidebar
@@ -56,12 +41,16 @@ export const LibraryLayout: FunctionComponent<Props> = () => {
           </HeaderContainer>
 
           <CardsGrid>
-            {cards.map((card) => (
-              <LibraryCard key={card.title} type="button" onClick={card.onClick}>
-                <CardTitle>{card.title}</CardTitle>
-                <CardIllustration src={card.image} />
-              </LibraryCard>
-            ))}
+            <LibraryCard id="quizzes-card" type="button" onClick={() => navigate("/quiz/library")}>
+              <CardTitle>{t("library.cards.quizzes.title")}</CardTitle>
+              <CardIllustration src={HookedFish} />
+            </LibraryCard>
+
+            <LibraryCard id="questions-card" type="button" onClick={() => navigate("/question/library")}>
+              <CardTitle>{t("library.cards.questions.title")}</CardTitle>
+              <CardIllustration src={QuizEndFish} />
+            </LibraryCard>
+
           </CardsGrid>
         </LayoutMainContentWrapper>
 
