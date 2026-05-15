@@ -10,9 +10,7 @@ import {
 import { hasRequiredValue } from "../validation"
 
 const getEditorTextLength = (content?: string) => {
-  if (!content) {
-    return 0
-  }
+  if (!content) { return 0 }
 
   return new DOMParser().parseFromString(content, 'text/html').body.textContent?.length ?? 0
 }
