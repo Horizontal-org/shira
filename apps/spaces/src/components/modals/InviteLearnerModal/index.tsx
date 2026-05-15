@@ -36,7 +36,14 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
 
   const showInvalidEmailError = !isEmailEmpty && !emailIsValid;
 
-  const primaryButtonDisabled = isLoading || isNameEmpty || isEmailEmpty || !emailIsValid || showAlreadyExistsError;
+  const primaryButtonDisabled =
+    isLoading ||
+    isNameEmpty ||
+    isEmailEmpty ||
+    !emailIsValid ||
+    showAlreadyExistsError ||
+    name.length > LEARNER_NAME_MAX_LENGTH ||
+    email.length > LEARNER_EMAIL_MAX_LENGTH;
 
   const resetForm = () => {
     setName("");
