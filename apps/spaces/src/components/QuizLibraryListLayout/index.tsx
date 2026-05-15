@@ -61,10 +61,7 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
               quizzes.map((quiz) => (
                 <QuizCard
                   key={`${quiz.title}-${quiz.createdAt}`}
-                  title={quiz.title}
-                  author={quiz.author}
-                  createdAt={quiz.createdAt}
-                  description={quiz.description}
+                  quiz={quiz}
                   onCardClick={() => { }}
                 />
               ))

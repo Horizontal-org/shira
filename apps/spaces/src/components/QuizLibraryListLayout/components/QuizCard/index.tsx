@@ -1,12 +1,10 @@
 import { Body3, Body4, styled, SubHeading3 } from '@shira/ui';
 import { FunctionComponent, useRef, useState } from 'react';
+import { LibraryQuizDto } from '../../../../fetch/quiz_library';
 
 export interface CardProps {
   id?: string;
-  title: string;
-  createdAt: string;
-  author: string;
-  description?: string;
+  quiz: LibraryQuizDto;
   onCardClick: () => void;
   showLoading?: boolean;
 }
@@ -23,10 +21,7 @@ const formatCardDate = (value: string) => {
 
 export const QuizCard: FunctionComponent<CardProps> = ({
   id,
-  title,
-  createdAt,
-  author,
-  description,
+  quiz,
   onCardClick,
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -48,13 +43,13 @@ export const QuizCard: FunctionComponent<CardProps> = ({
           </MenuButton>
         </HeaderRow>
 
-        <CardTitle>{title}</CardTitle>
-        <ModifiedText>{[author.toLocaleUpperCase(), formatCardDate(createdAt)].join(' | ')}</ModifiedText>
+        <CardTitle>{quiz.title}</CardTitle>
+        <ModifiedText>{[quiz.author.toLocaleUpperCase(), formatCardDate(quiz.createdAt)].join(' | ')}</ModifiedText>
       </TopSection>
 
-      {description && (
+      {quiz.description && (
         <BottomContainer>
-          <DescriptionText>{description}</DescriptionText>
+          <DescriptionText>{quiz.description}</DescriptionText>
         </BottomContainer>
       )}
     </CardWrapper>
