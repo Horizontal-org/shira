@@ -1,11 +1,10 @@
-import { ExplanationButton, GeneralTooltip, styled } from '@shira/ui'
+import { Body4, CharacterCount, ExplanationButton, GeneralTooltip, styled } from '@shira/ui'
 import { useEditor, EditorContent } from '@tiptap/react'
 import { useExplanations } from './hooks/useExplanations'
 
-import { MessageEditorStyles } from './styles/MessageEditorStyles'
 import { getMessageExtensions } from './config/editorExtensions'
 import { MessagesMenuBar } from './MessagesMenuBar'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLink } from './hooks/useLink'
 
@@ -13,20 +12,37 @@ interface Props {
   onChange: (body: string) => void;
   editorId: string;
   initialContent?: string
+  maxLength?: number
+  characterLimitErrorText?: string
+}
+
+const getTextContentLength = (content?: string | null) => {
+  if (!content) {
+    return 0
+  }
+
+  const container = window.document.createElement('div')
+  container.innerHTML = content
+  return container.textContent?.length ?? 0
 }
 
 export const MessageTipTapEditor = ({
   onChange,
   editorId,
-  initialContent = null
+  initialContent = null,
+  maxLength,
+  characterLimitErrorText
 }: Props) => {
-
   const { t } = useTranslation()
+  const [characterCount, setCharacterCount] = useState(() => getTextContentLength(initialContent))
+  const isOverCharacterLimit = typeof maxLength === 'number' && characterCount > maxLength
+
   const editor = useEditor({
     extensions: getMessageExtensions(),
     content: initialContent ?? null,
     onSelectionUpdate() { },
     onUpdate(props) {
+      setCharacterCount(props.editor.getText().length)
       onChange(props.editor.getHTML())
 
       setTimeout(() => {
@@ -47,6 +63,10 @@ export const MessageTipTapEditor = ({
 
   const [showExplanationButtonTooltip, setShowExplanationButtonTooltip] = useState(false)
 
+  useEffect(() => {
+    setCharacterCount(getTextContentLength(initialContent))
+  }, [initialContent])
+
   return (
     <Wrapper>
       <EditorWrapper>
@@ -59,11 +79,26 @@ export const MessageTipTapEditor = ({
             setLink={links.setLink}
           />
           <EditorContentWithExplanation>
-            <EditorContent
-              id={editorId}
-              editor={editor}
-              style={{ width: '100%' }}
-            />
+
+            <EditorColumn>
+              <EditorContent
+                id={editorId}
+                editor={editor}
+                style={{ width: '100%' }}
+              />
+              {maxLength &&
+                <CharacterLimitRow>
+                  <CharacterLimitError $isVisible={isOverCharacterLimit}>
+                    {isOverCharacterLimit ? characterLimitErrorText : ''}
+                  </CharacterLimitError>
+                  <CharacterCount
+                    currentLength={characterCount}
+                    maxLength={maxLength}
+                  />
+                </CharacterLimitRow>
+              }
+            </EditorColumn>
+
             <ExplanationButtonWrapper>
               <GeneralTooltip
                 enabled={!explanations.canAddTextExplanation() && !explanations.isTextExplanationActive()}
@@ -108,6 +143,26 @@ const EditorContentWithExplanation = styled.div`
   display: flex;
   flex: 1;
   width: 100%;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
+`
+
+const EditorColumn = styled.div`
+  width: 100%;
+`
+
+const CharacterLimitRow = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  margin-top: 2px;
+`
+
+const CharacterLimitError = styled(Body4) <{ $isVisible: boolean }>`
+  color: ${({ theme }) => theme.colors.error7};
+  flex: 1;
+  padding-left: 10px;
+  visibility: ${({ $isVisible }) => ($isVisible ? 'visible' : 'hidden')};
 `

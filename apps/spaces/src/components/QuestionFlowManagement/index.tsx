@@ -12,6 +12,7 @@ import { NoExplanationsModal } from "../modals/NoExplanationsModal";
 import { ActiveQuestion } from "../../store/types/active_question";
 import { useTranslation } from "react-i18next";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
+import { isQuestionContentStepValid, isQuestionInfoStepValid } from "../../utils/active_question/validation";
 
 interface Props {
   initialContent?: Object
@@ -68,26 +69,11 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
 
   const validateStep = () => {
     if (step === 0) {
-      return activeQuestion && activeQuestion.name.length > 0 && !!(activeQuestion.app)
+      return isQuestionInfoStepValid(activeQuestion)
     }
 
     if (step === 1) {
-      if (!activeQuestion || !activeQuestion.content) return false;
-
-      if (activeQuestion.app.type === 'email') {
-        const emailContent = activeQuestion.content as any;
-        return emailContent.senderName?.value?.trim().length > 0 &&
-          emailContent.senderEmail?.value?.trim().length > 0;
-      }
-
-      if (activeQuestion.app.type === 'messaging') {
-        const messagingContent = activeQuestion.content as any;
-        if (['SMS', 'Whatsapp'].includes(activeQuestion.app.name)) {
-          return messagingContent.senderPhone?.value?.trim().length > 0;
-        }
-
-        return messagingContent.senderName?.value?.trim().length > 0;
-      }
+      return isQuestionContentStepValid(activeQuestion)
     }
 
     return true

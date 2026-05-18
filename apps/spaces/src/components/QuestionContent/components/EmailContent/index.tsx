@@ -7,6 +7,7 @@ import { ActiveQuestion, EmailContent as EmailContentType, QuestionDragAttachmen
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../../../store";
 import { useTranslation } from "react-i18next";
+import { EMAIL_CONTENT_MAX_LENGTH, EMAIL_SUBJECT_MAX_LENGTH, SENDER_EMAIL_MAX_LENGTH, SENDER_NAME_MAX_LENGTH } from "../../../../utils/inputLimits";
 
 interface Props {
   question: ActiveQuestion
@@ -42,6 +43,9 @@ export const EmailContent: FunctionComponent<Props> = ({
           placeholder={t('create_question.tabs.content.sender.placeholder')}
           label="Sender name"
           contentObject={content.senderName}
+          showCharacterCount={true}
+          maxLength={SENDER_NAME_MAX_LENGTH}
+          characterLimitErrorText={t('error_messages.character_limit_error')}
         />
       </div>
 
@@ -57,6 +61,9 @@ export const EmailContent: FunctionComponent<Props> = ({
           placeholder={t('create_question.tabs.content.sender_email.placeholder')}
           label="Sender email"
           contentObject={content.senderEmail}
+          showCharacterCount={true}
+          maxLength={SENDER_EMAIL_MAX_LENGTH}
+          characterLimitErrorText={t('error_messages.character_limit_error')}
         />
 
       </div>
@@ -73,6 +80,9 @@ export const EmailContent: FunctionComponent<Props> = ({
           placeholder={t('create_question.tabs.content.email_subject.placeholder')}
           contentObject={content.subject}
           label="Subject"
+          showCharacterCount={true}
+          maxLength={EMAIL_SUBJECT_MAX_LENGTH}
+          characterLimitErrorText={t('error_messages.character_limit_error')}
         />
 
       </div>
@@ -82,6 +92,8 @@ export const EmailContent: FunctionComponent<Props> = ({
         <Body2Regular id="email-content-email-body-content-subtitle">{t('create_question.tabs.content.email_body_content.subtitle')}</Body2Regular>
         <EmailTipTapEditor
           initialContent={content.body.value}
+          maxLength={EMAIL_CONTENT_MAX_LENGTH}
+          characterLimitErrorText={t('error_messages.character_limit_error')}
           onChange={(emailText) => {
             updateActiveQuestionInput('body', 'value', emailText)
           }}
@@ -103,7 +115,7 @@ export const EmailContent: FunctionComponent<Props> = ({
 }
 
 const Content = styled.div`
-  gap: 48px;
+  gap: 30px;
   display: flex;
   flex-direction: column;
 `
@@ -122,5 +134,4 @@ const InputHeading = styled.div<{ $required: boolean }>`
       }
     `}
   }
-  
 `
