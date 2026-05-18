@@ -1,3 +1,3 @@
 export interface IStarterQuizRestrictionHandlerService {
-  execute(organizationId: string): Promise<void>;
+  execute(organizationId: string, spaceId: number): Promise<void>;
 }

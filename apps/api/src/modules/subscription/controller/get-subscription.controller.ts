@@ -19,6 +19,6 @@ export class GetSubscriptionController {
   async handler(
     @LoggedUser() user: LoggedUserDto,
   ) {
-    return await this.subscriptionCacheService.getCurrentSubscription(String(user.activeOrganization.id));
+    return await this.subscriptionCacheService.getCurrentSubscription(String(user.activeOrganization.id), user.activeSpace.space.id);
   }
 }
