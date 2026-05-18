@@ -5,14 +5,16 @@ import { useStore } from '../../store'
 import { ExplanationButton, TextInput } from '@shira/ui'
 import { QuestionTextInput } from '../../store/types/active_question'
 
-
 interface Props {
   placeholder?: string;
   name: string;
   id: string;
   required?: boolean;
   validation?: string,
-  label?: string
+  label?: string,
+  maxLength?: number,
+  characterLimitErrorText?: string,
+  showCharacterCount?: boolean,
   contentObject: QuestionTextInput
 }
 
@@ -22,7 +24,10 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
   id,
   label,
   required,
-  contentObject
+  maxLength,
+  characterLimitErrorText,
+  contentObject,
+  showCharacterCount
 }) => {
 
   const {
@@ -67,9 +72,12 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
             changeSelected(parseInt(hasExplanation))
           }
         }}
+        showCharacterCount={showCharacterCount}
+        maxLength={maxLength}
+        characterLimitErrorText={characterLimitErrorText}
       />
 
-      <ExplanationButtonWrapper>
+      <ExplanationButtonWrapper $hasFloatingLabel={hasValue}>
         <ExplanationButton
           disabled={!hasValue}
           hasExplanation={contentObject.explanation != null && contentObject.explanation?.length > 0}
@@ -92,7 +100,9 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
 
 const Wrapper = styled.div`
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
 `
 
-const ExplanationButtonWrapper = styled.div``
+const ExplanationButtonWrapper = styled.div<{ $hasFloatingLabel: boolean }>`
+  padding-top: ${({ $hasFloatingLabel }) => $hasFloatingLabel ? '28px' : '0'};
+`

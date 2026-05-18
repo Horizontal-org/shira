@@ -3,6 +3,8 @@ import { styled } from "@shira/ui";
 import { MessageTipTapEditor } from "../../../../TipTapEditor/MessageTipTapEditor";
 import { useStore } from "../../../../../store";
 import { shallow } from "zustand/shallow";
+import { MESSAGE_CONTENT_MAX_LENGTH } from "../../../../../utils/inputLimits";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   name: string
@@ -15,22 +17,25 @@ export const TextDragItem: FunctionComponent<Props> = ({
   initialValue,
   index
 }) => {
+  const { t } = useTranslation();
 
   const {
     updateActiveQuestionDraggableItem,
   } = useStore((state) => ({
     updateActiveQuestionDraggableItem: state.updateActiveQuestionDraggableItem,
   }), shallow)
-    
+
   return (
     <Wrapper>
-      <MessageTipTapEditor 
+      <MessageTipTapEditor
         editorId={name}
         onChange={(editorText) => {
           updateActiveQuestionDraggableItem(index, 'value', editorText)
         }}
-        initialContent={initialValue}  
-      />      
+        initialContent={initialValue}
+        maxLength={MESSAGE_CONTENT_MAX_LENGTH}
+        characterLimitErrorText={t('error_messages.character_limit_error')}
+      />
     </Wrapper>
   )
 }

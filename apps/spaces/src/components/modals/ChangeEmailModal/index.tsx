@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { handleHttpError } from "../../../fetch/handleError";
 import { getErrorContent } from "../../../utils/getErrorContent";
 import { hasRequiredValue, isEmailValid } from "../../../utils/validation";
+import { ACCOUNT_SETTINGS_EMAIL_MAX_LENGTH } from "../../../utils/inputLimits";
 
 interface Props {
   isModalOpen: boolean;
@@ -23,7 +24,9 @@ export const ChangeEmailModal: FunctionComponent<Props> = ({
 
   const isNewEmailEmpty = !hasRequiredValue(newEmail);
   const emailIsValidValue = isNewEmailEmpty || isEmailValid(newEmail);
-  const disabledSave = isNewEmailEmpty || !emailIsValidValue;
+
+  const isNewEmailOverLimit = newEmail.length > ACCOUNT_SETTINGS_EMAIL_MAX_LENGTH;
+  const disabledSave = isNewEmailEmpty || !emailIsValidValue || isNewEmailOverLimit;
 
   useEffect(() => {
     if (!isModalOpen) {
@@ -77,6 +80,9 @@ export const ChangeEmailModal: FunctionComponent<Props> = ({
                 setRequestSubmitError("");
               }
             }}
+            showCharacterCount={true}
+            maxLength={ACCOUNT_SETTINGS_EMAIL_MAX_LENGTH}
+            characterLimitErrorText={t('error_messages.character_limit_error')}
           />
           {requestSubmitError && <InlineErrorMessage>{requestSubmitError}</InlineErrorMessage>}
         </InputBlock>
