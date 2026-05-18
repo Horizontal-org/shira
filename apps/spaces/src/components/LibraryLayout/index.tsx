@@ -43,12 +43,12 @@ export const LibraryLayout: FunctionComponent<Props> = () => {
           <CardsGrid>
             <LibraryCard id="quizzes-card" type="button" onClick={() => navigate("/quiz/library")}>
               <CardTitle>{t("library.cards.quizzes.title")}</CardTitle>
-              <CardIllustration src={HookedFish} />
+              {/* <CardIllustration src={HookedFish} /> */}
             </LibraryCard>
 
             <LibraryCard id="questions-card" type="button" onClick={() => navigate("/question/library")}>
               <CardTitle>{t("library.cards.questions.title")}</CardTitle>
-              <CardIllustration src={QuizEndFish} />
+              {/* <CardIllustration src={QuizEndFish} /> */}
             </LibraryCard>
 
           </CardsGrid>

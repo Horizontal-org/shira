@@ -91,7 +91,6 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
     if (!selectedQuiz) {
       return;
     }
-
     setIsSubmittingAddQuiz(true);
 
     try {
@@ -103,6 +102,10 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
       setIsSubmittingAddQuiz(false);
     }
   };
+
+  const canAddQuizzes = (isSubActive: boolean, quizzes) => {
+    return isSubActive || quizzes.length < 3;
+  }
 
   return (
     <LayoutContainer id="quiz-library-list-layout">
@@ -147,7 +150,7 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
                   key={`${quiz.title}-${quiz.createdAt}`}
                   quiz={quiz}
                   onMenuClick={async () => {
-                    if (!isSubActive && quizzes.length >= 3) {
+                    if (!canAddQuizzes(isSubActive, quizzes)) {
                       setIsQuizLimitModalOpen(true);
                       return;
                     }
