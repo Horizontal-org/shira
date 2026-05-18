@@ -7,6 +7,8 @@ import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { QuizCard } from "./components/QuizCard";
 import { getLibraryQuizzes, type LibraryQuizDto } from "../../fetch/quiz_library";
+import { LayoutContainer } from "../LayoutStyleComponents/LayoutContainer";
+import { LayoutMainContent, LayoutMainContentWrapper } from "../LayoutStyleComponents/LayoutMainContent";
 
 const PAGE_SIZE = 10;
 
@@ -52,16 +54,16 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
   }, [pageCount]);
 
   return (
-    <Container id="quiz-library-list-layout">
+    <LayoutContainer id="quiz-library-list-layout">
       <Sidebar
         menuItems={menuItems}
         onCollapse={handleCollapse}
         selectedItemLabel={menuItems.find(m => m.path === '/library').label}
       />
-      <MainContent $isCollapsed={isCollapsed}>
+      <LayoutMainContent $isCollapsed={isCollapsed}>
         <MobileResponsivenessBanner />
 
-        <MainContentWrapper>
+        <LayoutMainContentWrapper>
           <HeaderContainer>
             <StyledSubHeading3 id="space-name">{space && space.name}</StyledSubHeading3>
             <H2 id="quiz-library-title">{t('dashboard.title')}</H2>
@@ -114,35 +116,12 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
               />
             </PaginationWrapper>
           )}
-        </MainContentWrapper>
+        </LayoutMainContentWrapper>
 
-      </MainContent>
-    </Container>
+      </LayoutMainContent>
+    </LayoutContainer>
   );
 };
-
-const Container = styled.div`
-  position: relative;
-  display: flex;
-  background: ${props => props.theme.colors.light.paleGrey};
-
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    display: block;
-  }
-`;
-
-const MainContent = styled.div<{ $isCollapsed: boolean }>`
-  flex: 1;
-  margin-left: ${props => props.$isCollapsed ? '116px' : '264px'};
-  transition: margin-left 0.3s ease;
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
-    margin-left: 80px;
-  }
-
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    margin-left: 0;
-  }
-`;
 
 const HeaderContainer = styled.div`
   padding: 16px;
@@ -153,10 +132,6 @@ const HeaderContainer = styled.div`
 
 const StyledSubHeading3 = styled(SubHeading3)`
   color: ${props => props.theme.colors.green7};
-`;
-
-const MainContentWrapper = styled.div`
-  padding: 24px 40px;
 `;
 
 const PaginationWrapper = styled.div`
