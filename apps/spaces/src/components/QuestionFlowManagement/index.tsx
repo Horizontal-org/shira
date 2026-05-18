@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { Breadcrumbs, styled, Body1 } from "@shira/ui";
+import { Breadcrumbs, styled, Body1 } from "@horizontal-org/shira-ui";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { QuestionBasicInfo } from "../QuestionBasicInfo";

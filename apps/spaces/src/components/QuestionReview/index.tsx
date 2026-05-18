@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react"
-import { Button, styled, Body1 } from "@shira/ui"
+import { Button, styled, Body1 } from "@horizontal-org/shira-ui"
 import { getContentProps } from "./utils"
 import { AppSelector } from "./components/AppSelector"
 

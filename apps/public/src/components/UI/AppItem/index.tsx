@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { styled } from '@shira/ui'
+import { styled } from '@horizontal-org/shira-ui'
 
 // Icons
 import GmailSvg from './assets/Mail'
@@ -7,7 +7,7 @@ import WhatsappSvg from './assets/Whatsapp'
 import MessengerIcon from './assets/Messenger'
 import DatingAppIcon from "./assets/DatingApp";
 import SmsIcon from "./assets/Sms";
-import { OutlookIcon } from "@shira/ui";
+import { OutlookIcon } from "@horizontal-org/shira-ui";
 
 const icons = {
   'Whatsapp': <WhatsappSvg />,

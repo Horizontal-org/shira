@@ -10,6 +10,7 @@ import { Language as LanguageEntity } from '../languages/domain/languages.entity
 import { QuestionTranslation as QuestionTranslationEntity } from '../translation/domain/questionTranslation.entity';
 import { ExplanationTranslation as ExplanationTranslationEntity } from '../translation/domain/explanationTranslation.entity';
 import { Explanation as ExplanationEntity } from '../question/domain/explanation.entity';
+import { App as AppEntity } from 'src/modules/app/domain/app.entity';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { Explanation as ExplanationEntity } from '../question/domain/explanation
       LanguageEntity,
       QuestionTranslationEntity,
       ExplanationEntity,
-      ExplanationTranslationEntity
+      ExplanationTranslationEntity,
+      AppEntity
     ]),
     QuestionModule,
     QuizModule

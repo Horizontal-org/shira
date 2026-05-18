@@ -1,5 +1,5 @@
 import { FunctionComponent, useMemo } from "react";
-import { Body2Regular, styled, SubHeading3 } from '@shira/ui'
+import { Body2Regular, styled, SubHeading3 } from '@horizontal-org/shira-ui'
 import { QuizResultsResponse } from "../../../../fetch/results";
 import { useTranslation } from "react-i18next";
 import { ByQuestion } from "./ByQuestion";

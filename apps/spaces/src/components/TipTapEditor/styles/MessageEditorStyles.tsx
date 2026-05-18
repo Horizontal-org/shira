@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "@shira/ui";
+import { createGlobalStyle } from "@horizontal-org/shira-ui";
 
 export const MessageEditorStyles = createGlobalStyle`
 

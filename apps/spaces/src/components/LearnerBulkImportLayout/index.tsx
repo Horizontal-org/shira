@@ -1,5 +1,5 @@
 import { DragEvent, FunctionComponent, KeyboardEvent, useEffect, useRef, useState } from "react";
-import { Breadcrumbs, styled } from "@shira/ui";
+import { Breadcrumbs, styled } from "@horizontal-org/shira-ui";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { LearnerBulkImportHeader } from "../LearnerBulkImportHeader";

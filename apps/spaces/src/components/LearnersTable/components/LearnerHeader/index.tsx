@@ -1,4 +1,4 @@
-import { Body3, Body3Bold, styled } from "@shira/ui"
+import { Body3, Body3Bold, styled } from "@horizontal-org/shira-ui"
 
 export const LearnerPersonInfo = styled.div`
   color: ${props => props.theme.colors.dark.darkGrey};

@@ -1,4 +1,4 @@
-import { styled } from '@shira/ui'
+import { styled } from '@horizontal-org/shira-ui'
 import { useTranslation } from 'react-i18next';
 
 export const LoadingOverlay = () => {

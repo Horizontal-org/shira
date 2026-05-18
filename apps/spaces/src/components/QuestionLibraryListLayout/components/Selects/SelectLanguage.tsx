@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect, useMemo, useState } from "react";
-import { SmallSelect } from "@shira/ui";
-import { LanguageIcon } from "@shira/ui";
+import { SmallSelect } from "@horizontal-org/shira-ui";
+import { LanguageIcon } from "@horizontal-org/shira-ui";
 import { LanguageOption } from "../Columns";
 import { useTranslation } from "react-i18next";
 

@@ -1,5 +1,5 @@
 import { FunctionComponent, ReactNode, useState } from "react";
-import { defaultTheme, styled } from "@shira/ui";
+import { defaultTheme, styled } from "@horizontal-org/shira-ui";
 
 type ActionButtonWithTooltipProps = {
   id: string;

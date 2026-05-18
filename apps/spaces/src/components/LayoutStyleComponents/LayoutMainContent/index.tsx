@@ -1,4 +1,4 @@
-import { styled } from "@shira/ui";
+import { styled } from "@horizontal-org/shira-ui";
 
 export const LayoutMainContent = styled.div<{ $isCollapsed: boolean }>`
   flex: 1;

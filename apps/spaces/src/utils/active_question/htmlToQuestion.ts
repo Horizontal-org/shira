@@ -1,4 +1,4 @@
-import { AttachmentType } from "@shira/ui"
+import { AttachmentType } from "@horizontal-org/shira-ui"
 import { QuestionPayload } from "../../fetch/question"
 import { ActiveQuestion, QuestionDragAttachment, QuestionDragEditor, QuestionDragImage, QuestionEditorInput, QuestionTextInput } from "../../store/types/active_question"
 

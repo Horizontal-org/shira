@@ -2,7 +2,7 @@ import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import type { RowSelectionState } from "@tanstack/react-table";
 import { useNavigate, useLocation } from "react-router-dom";
 import { shallow } from "zustand/shallow";
-import { styled, Body1, H2, Box, defaultTheme, Table } from "@shira/ui";
+import { styled, Body1, H2, Box, defaultTheme, Table } from "@horizontal-org/shira-ui";
 import { QuestionLibraryFlowManagement } from "../QuestionLibraryFlowManagement";
 import { QuestionLibraryPreviewModal } from "../modals/QuestionLibraryPreviewModal";
 import { LibraryQuestionFeedback, getLibraryQuestions, useLibraryQuestionCRUD } from "../../fetch/question_library";

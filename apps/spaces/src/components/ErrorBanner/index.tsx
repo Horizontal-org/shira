@@ -1,4 +1,4 @@
-import { styled } from "@shira/ui";
+import { styled } from "@horizontal-org/shira-ui";
 
 export const ErrorBanner = styled.div`
   background: ${(props) => props.theme.colors.light.paleRed};
