@@ -69,19 +69,13 @@ export const QuizCard: FunctionComponent<CardProps> = ({
 };
 
 const CardWrapper = styled.div`
-  position: relative;
   background: white;
   border-radius: 24px;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
   width: 100%;
   min-height: 320px;
   cursor: pointer;
-  
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    width: 100%;
-  }
 `;
 
 const TopSection = styled.div`
@@ -118,7 +112,6 @@ const MenuButton = styled.button`
 const LanguageChip = styled.span`
   display: inline-flex;
   align-items: center;
-  min-height: 4px;
   padding: 4px;
   border-radius: 2px;
   background: ${props => props.theme.colors.light.paleGrey};
@@ -138,7 +131,6 @@ const CardTitle = styled(SubHeading3)`
 const ModifiedText = styled(Body4)`
   color: ${props => props.theme.colors.dark.darkGrey};
   margin: 0;
-  text-transform: uppercase;
   letter-spacing: 0.04em;
   line-height: 1.4;
 `;
@@ -171,7 +163,6 @@ const TagRow = styled.div`
 const TagChip = styled.span`
   display: inline-flex;
   align-items: center;
-  min-height: 2px;
   padding: 4px;
   border: 1px solid ${props => props.theme.colors.blue4};
   border-radius: 4px;
