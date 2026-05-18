@@ -6,6 +6,7 @@ import { LibraryQuizDto } from '../../../../fetch/quiz_library';
 export interface CardProps {
   quiz: LibraryQuizDto;
   onCardClick: () => void;
+  onMenuClick: () => void;
   showLoading?: boolean;
 }
 
@@ -22,6 +23,7 @@ const formatCardDate = (value: string) => {
 export const QuizCard: FunctionComponent<CardProps> = ({
   quiz,
   onCardClick,
+  onMenuClick,
 }) => {
   return (
     <CardWrapper onClick={() => {
@@ -42,6 +44,7 @@ export const QuizCard: FunctionComponent<CardProps> = ({
             aria-label="Quiz actions"
             onClick={(e) => {
               e.stopPropagation();
+              onMenuClick();
             }}
           >
             <BsThreeDotsVertical size={18} />

@@ -9,6 +9,7 @@ import { QuizCard } from "./components/QuizCard";
 import { getLibraryQuizzes, type LibraryQuizDto } from "../../fetch/quiz_library";
 import { LayoutContainer } from "../LayoutStyleComponents/LayoutContainer";
 import { LayoutMainContent, LayoutMainContentWrapper } from "../LayoutStyleComponents/LayoutMainContent";
+import { AddLibraryQuizModal } from "../modals/AddLibraryQuizModal";
 
 const PAGE_SIZE = 10;
 
@@ -21,8 +22,14 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
   const [loading, setLoading] = useState(false);
   const [pageIndex, setPageIndex] = useState(0);
 
-  const { space } = useStore((state) => ({
-    space: state.space
+  const [selectedQuiz, setSelectedQuiz] = useState<LibraryQuizDto | null>(null);
+  const [isAddQuizModalOpen, setIsAddQuizModalOpen] = useState(false);
+  const [isSubmittingAddQuiz, setIsSubmittingAddQuiz] = useState(false);
+
+  const { space, createQuiz, fetchQuizzes } = useStore((state) => ({
+    space: state.space,
+    createQuiz: state.createQuiz,
+    fetchQuizzes: state.fetchQuizzes,
   }), shallow)
 
   const loadQuizzes = async () => {
@@ -52,6 +59,32 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
   useEffect(() => {
     setPageIndex((prev) => Math.min(prev, pageCount - 1));
   }, [pageCount]);
+
+  const handleOpenAddQuizModal = (quiz: LibraryQuizDto) => {
+    setSelectedQuiz(quiz);
+    setIsAddQuizModalOpen(true);
+  };
+
+  const handleCloseAddQuizModal = () => {
+    setIsAddQuizModalOpen(false);
+    setSelectedQuiz(null);
+  };
+
+  const handleConfirmAddQuiz = async () => {
+    if (!selectedQuiz) {
+      return;
+    }
+
+    setIsSubmittingAddQuiz(true);
+
+    try {
+      await Promise.resolve(createQuiz(selectedQuiz.title, "public"));
+      await fetchQuizzes();
+      handleCloseAddQuizModal();
+    } finally {
+      setIsSubmittingAddQuiz(false);
+    }
+  };
 
   return (
     <LayoutContainer id="quiz-library-list-layout">
@@ -93,8 +126,12 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
             ) : (
               paginatedQuizzes.map((quiz) => (
                 <QuizCard
+                  key={`${quiz.title}-${quiz.createdAt}`}
                   quiz={quiz}
                   onCardClick={() => { }}
+                  onMenuClick={() => {
+                    handleOpenAddQuizModal(quiz);
+                  }}
                 />
               ))
             )}
@@ -117,6 +154,14 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
             </PaginationWrapper>
           )}
         </LayoutMainContentWrapper>
+
+        <AddLibraryQuizModal
+          quiz={selectedQuiz}
+          isModalOpen={isAddQuizModalOpen}
+          onClose={handleCloseAddQuizModal}
+          onConfirm={handleConfirmAddQuiz}
+          isSubmitting={isSubmittingAddQuiz}
+        />
 
       </LayoutMainContent>
     </LayoutContainer>
