@@ -4,23 +4,20 @@ const isProduction = () => {
   return process.env.NODE_ENV === 'production';
 }
 
-export const fetchUser = async (spaceId: string) => {
+export const fetchUser = async (spaceId?: string) => {
   try {
-
-    let headers = {
-      'X-Space': spaceId
-    }
-
     if (isProduction()) {
       axios.defaults.withCredentials = true;
     } else {
       const token = window.localStorage.getItem('shira_access_token');
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      if (spaceId) {
+        axios.defaults.headers.common['X-Space'] = spaceId;
+      }
     }
 
+    const headers = !isProduction() && spaceId ? { 'X-Space': spaceId } : {};
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/user`, { headers })
-
-    axios.defaults.headers.common['X-Space'] = spaceId;
 
     return res.data
   } catch (err) {
@@ -45,12 +42,13 @@ export const login = async (email, pass) => {
       const token = res.data.access_token;
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       window.localStorage.setItem('shira_access_token', res.data.access_token);
+      const spaceId = res.data.user.spaces?.[0]?.id
+      if (spaceId) {
+        window.localStorage.setItem('shira_x_space', String(spaceId));
+        axios.defaults.headers.common['X-Space'] = String(spaceId);
+      }
       console.log(`[AUTH] login - success, using Bearer token (dev mode)`);
     }
-
-    const spaceId = res.data.user.spaces[0].id
-    window.localStorage.setItem('shira_x_space', spaceId)
-    axios.defaults.headers.common['X-Space'] = `${spaceId}`;
     
     return res.data.user
   } catch (e) {
@@ -60,27 +58,28 @@ export const login = async (email, pass) => {
 }
 
 export const checkAuth = async () => {
-  const spaceId = window.localStorage.getItem('shira_x_space')
-  
-  if (spaceId) {
-    try {
-      const fetchUserResponse = await fetchUser(spaceId)
-      return fetchUserResponse
-    } catch (err) {
-      console.log(`[AUTH] checkAuth - failed:`, err?.response?.status);
-      return null;
+  try {
+    if (isProduction()) {
+      return await fetchUser()
     }
+
+    const spaceId = window.localStorage.getItem('shira_x_space')
+    if (!spaceId) return null
+    return await fetchUser(spaceId)
+  } catch (err) {
+    console.log(`[AUTH] checkAuth - failed:`, err?.response?.status);
+    return null;
   }
-  
-  return null
 }
 
 export const logout = async () => {
   try {
     console.log(`[AUTH] logout - initiating`);
     await axios.post(`${process.env.REACT_APP_API_URL}/logout`)
-    window.localStorage.removeItem('shira_x_space')
-    window.localStorage.removeItem('shira_access_token')    
+    window.localStorage.removeItem('shira_access_token')
+    if (!isProduction()) {
+      window.localStorage.removeItem('shira_x_space')
+    }
     console.log(`[AUTH] logout - success`);
   } catch (err) {
     console.log(`[AUTH] logout - error:`, err);
