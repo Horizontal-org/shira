@@ -1,24 +1,10 @@
 import axios from "axios"
 
-const isProduction = () => {
-  return process.env.NODE_ENV === 'production';
-}
+axios.defaults.withCredentials = true;
 
-export const fetchUser = async (spaceId?: string) => {
+export const fetchUser = async () => {
   try {
-    if (isProduction()) {
-      axios.defaults.withCredentials = true;
-    } else {
-      const token = window.localStorage.getItem('shira_access_token');
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      if (spaceId) {
-        axios.defaults.headers.common['X-Space'] = spaceId;
-      }
-    }
-
-    const headers = !isProduction() && spaceId ? { 'X-Space': spaceId } : {};
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/user`, { headers })
-
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/user`)
     return res.data
   } catch (err) {
     console.log(`[AUTH] fetchUser - error:`, err);
@@ -29,27 +15,11 @@ export const fetchUser = async (spaceId?: string) => {
 export const login = async (email, pass) => {
   try {
     console.log(`[AUTH] login - attempting for email: ${email}`);
-    
     const res = await axios.post(`${process.env.REACT_APP_API_URL}/login`, {
       email: email,
       password: pass
     })
-
-    if (isProduction()) {
-      axios.defaults.withCredentials = true;
-      console.log(`[AUTH] login - success, using httpOnly cookie`);
-    } else {
-      const token = res.data.access_token;
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      window.localStorage.setItem('shira_access_token', res.data.access_token);
-      const spaceId = res.data.user.spaces?.[0]?.id
-      if (spaceId) {
-        window.localStorage.setItem('shira_x_space', String(spaceId));
-        axios.defaults.headers.common['X-Space'] = String(spaceId);
-      }
-      console.log(`[AUTH] login - success, using Bearer token (dev mode)`);
-    }
-    
+    console.log(`[AUTH] login - success`);
     return res.data.user
   } catch (e) {
     console.log(`[AUTH] login - error:`, e);
@@ -59,13 +29,7 @@ export const login = async (email, pass) => {
 
 export const checkAuth = async () => {
   try {
-    if (isProduction()) {
-      return await fetchUser()
-    }
-
-    const spaceId = window.localStorage.getItem('shira_x_space')
-    if (!spaceId) return null
-    return await fetchUser(spaceId)
+    return await fetchUser()
   } catch (err) {
     console.log(`[AUTH] checkAuth - failed:`, err?.response?.status);
     return null;
@@ -76,10 +40,6 @@ export const logout = async () => {
   try {
     console.log(`[AUTH] logout - initiating`);
     await axios.post(`${process.env.REACT_APP_API_URL}/logout`)
-    window.localStorage.removeItem('shira_access_token')
-    if (!isProduction()) {
-      window.localStorage.removeItem('shira_x_space')
-    }
     console.log(`[AUTH] logout - success`);
   } catch (err) {
     console.log(`[AUTH] logout - error:`, err);
