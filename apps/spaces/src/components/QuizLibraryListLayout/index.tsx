@@ -1,4 +1,4 @@
-import { Body1, H2, Props, Sidebar, styled, SubHeading3, useAdminSidebar } from "@shira/ui";
+import { Body1, H2, Pagination, Props, Sidebar, styled, SubHeading3, useAdminSidebar } from "@shira/ui";
 import { FunctionComponent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
@@ -8,6 +8,8 @@ import { useStore } from "../../store";
 import { QuizCard } from "./components/QuizCard";
 import { getLibraryQuizzes, type LibraryQuizDto } from "../../fetch/quiz_library";
 
+const PAGE_SIZE = 10;
+
 export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
 
   const navigate = useNavigate();
@@ -15,6 +17,7 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
 
   const [quizzes, setQuizzes] = useState<LibraryQuizDto[]>([]);
   const [loading, setLoading] = useState(false);
+  const [pageIndex, setPageIndex] = useState(0);
 
   const { space } = useStore((state) => ({
     space: state.space
@@ -34,8 +37,19 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
   };
 
   useEffect(() => {
-    loadQuizzes();
+    void loadQuizzes();
   }, []);
+
+  const total = quizzes.length;
+  const pageCount = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  const startIndex = pageIndex * PAGE_SIZE;
+  const paginatedQuizzes = quizzes.slice(startIndex, startIndex + PAGE_SIZE);
+  const canPreviousPage = pageIndex > 0;
+  const canNextPage = pageIndex < pageCount - 1;
+
+  useEffect(() => {
+    setPageIndex((prev) => Math.min(prev, pageCount - 1));
+  }, [pageCount]);
 
   return (
     <Container id="quiz-library-list-layout">
@@ -54,19 +68,52 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
             <Body1 id="quiz-library-subtitle">{t('dashboard.subtitle')}</Body1>
           </HeaderContainer>
 
+          {!loading && quizzes.length > 0 && (
+            <PaginationWrapper>
+              <Pagination
+                pageIndex={pageIndex}
+                pageSize={PAGE_SIZE}
+                total={total}
+                pageCount={pageCount}
+                canPreviousPage={canPreviousPage}
+                canNextPage={canNextPage}
+                onFirstPage={() => { setPageIndex(0); }}
+                onPreviousPage={() => { setPageIndex((prev) => Math.max(0, prev - 1)); }}
+                onNextPage={() => { setPageIndex((prev) => Math.min(pageCount - 1, prev + 1)); }}
+                onLastPage={() => { setPageIndex(pageCount - 1); }}
+              />
+            </PaginationWrapper>
+          )}
+
           <CardGrid id="quiz-card-grid">
             {loading ? (
               <Body1>{t('loading_messages.loading')}</Body1>
             ) : (
-              quizzes.map((quiz) => (
+              paginatedQuizzes.map((quiz) => (
                 <QuizCard
-                  key={`${quiz.title}-${quiz.createdAt}`}
                   quiz={quiz}
                   onCardClick={() => { }}
                 />
               ))
             )}
           </CardGrid>
+
+          {!loading && quizzes.length > 0 && (
+            <PaginationWrapper>
+              <Pagination
+                pageIndex={pageIndex}
+                pageSize={PAGE_SIZE}
+                total={total}
+                pageCount={pageCount}
+                canPreviousPage={canPreviousPage}
+                canNextPage={canNextPage}
+                onFirstPage={() => { setPageIndex(0); }}
+                onPreviousPage={() => { setPageIndex((prev) => Math.max(0, prev - 1)); }}
+                onNextPage={() => { setPageIndex((prev) => Math.min(pageCount - 1, prev + 1)); }}
+                onLastPage={() => { setPageIndex(pageCount - 1); }}
+              />
+            </PaginationWrapper>
+          )}
         </MainContentWrapper>
 
       </MainContent>
@@ -78,8 +125,6 @@ const Container = styled.div`
   position: relative;
   display: flex;
   background: ${props => props.theme.colors.light.paleGrey};
-
-  height: auto;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     display: block;
@@ -114,6 +159,10 @@ const MainContentWrapper = styled.div`
   padding: 24px 40px;
 `;
 
+const PaginationWrapper = styled.div`
+  padding: 0 25px;
+`;
+
 const CardGrid = styled.div`
   padding: 16px;
   display: grid;
@@ -132,6 +181,5 @@ const CardGrid = styled.div`
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     grid-template-columns: 1fr;
-    gap: 16px;
   }
 `;

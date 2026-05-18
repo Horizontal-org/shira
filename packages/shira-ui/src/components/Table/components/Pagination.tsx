@@ -5,19 +5,63 @@ import { Body2Regular, Body2SemiBold, Body3 } from "../../Typography";
 import { FiChevronLeft, FiChevronRight, FiChevronsLeft, FiChevronsRight } from "react-icons/fi";
 import { darken } from "polished";
 
-interface Props {
+interface TablePaginationProps {
   table: Table<unknown>
 }
 
-export const Pagination: FunctionComponent<Props> = ({
-  table
-}) => {
+interface BasePaginationProps {
+  pageIndex: number
+  pageSize: number
+  total: number
+  pageCount: number
+  canPreviousPage: boolean
+  canNextPage: boolean
+  onFirstPage: () => void
+  onPreviousPage: () => void
+  onNextPage: () => void
+  onLastPage: () => void
+}
+
+type Props = TablePaginationProps | BasePaginationProps;
+
+const getPaginationProps = (props: Props): BasePaginationProps => {
+  if ("table" in props) {
+    const { table } = props;
+    const { pageIndex, pageSize } = table.getState().pagination;
+
+    return {
+      pageIndex,
+      pageSize,
+      total: table.getPreFilteredRowModel().rows.length,
+      pageCount: table.getPageCount(),
+      canPreviousPage: table.getCanPreviousPage(),
+      canNextPage: table.getCanNextPage(),
+      onFirstPage: table.firstPage,
+      onPreviousPage: table.previousPage,
+      onNextPage: table.nextPage,
+      onLastPage: table.lastPage,
+    };
+  }
+
+  return props;
+};
+
+export const Pagination: FunctionComponent<Props> = (props) => {
 
   const theme = useTheme()
-  const offSetPageIndex = table.getState().pagination.pageIndex + 1
-
-  const { pageIndex, pageSize } = table.getState().pagination;
-  const total = table.getPreFilteredRowModel().rows.length;
+  const {
+    pageIndex,
+    pageSize,
+    total,
+    pageCount,
+    canPreviousPage,
+    canNextPage,
+    onFirstPage,
+    onPreviousPage,
+    onNextPage,
+    onLastPage,
+  } = getPaginationProps(props);
+  const offSetPageIndex = pageIndex + 1
 
   const start = total === 0 ? 0 : pageIndex * pageSize + 1;
   const end = Math.min((pageIndex + 1) * pageSize, total);
@@ -29,15 +73,17 @@ export const Pagination: FunctionComponent<Props> = ({
       </StyledBody2SemiBold>
       <PaginationButtons>
         <PaginationButton
-          disabled={!table.getCanPreviousPage()}
-          onClick={table.firstPage}
+          type="button"
+          disabled={!canPreviousPage}
+          onClick={onFirstPage}
         >
           <FiChevronsLeft size={16} color={theme.colors.dark.darkGrey} />
           <Body3>First</Body3>
         </PaginationButton>
         <PaginationButton
-          disabled={!table.getCanPreviousPage()}
-          onClick={table.previousPage}
+          type="button"
+          disabled={!canPreviousPage}
+          onClick={onPreviousPage}
         >
           <FiChevronLeft size={16} color={theme.colors.dark.darkGrey} />
           <Body3>Back</Body3>
@@ -45,19 +91,21 @@ export const Pagination: FunctionComponent<Props> = ({
 
         <PaginationNavButton>
           <StyledBody2Bold>{`${offSetPageIndex} `}</StyledBody2Bold>
-          <Body2>{`of ${table.getPageCount()}`}</Body2>
+          <Body2>{`of ${pageCount}`}</Body2>
         </PaginationNavButton>
 
         <PaginationButton
-          disabled={!table.getCanNextPage()}
-          onClick={table.nextPage}
+          type="button"
+          disabled={!canNextPage}
+          onClick={onNextPage}
         >
           <Body3>Next</Body3>
           <FiChevronRight size={16} color={theme.colors.dark.darkGrey} />
         </PaginationButton>
         <PaginationButton
-          disabled={!table.getCanNextPage()}
-          onClick={table.lastPage}
+          type="button"
+          disabled={!canNextPage}
+          onClick={onLastPage}
         >
           <Body3>Last</Body3>
           <FiChevronsRight size={16} color={theme.colors.dark.darkGrey} />

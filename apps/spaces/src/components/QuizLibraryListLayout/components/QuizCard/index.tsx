@@ -1,9 +1,9 @@
 import { Body3, Body4, styled, SubHeading3 } from '@shira/ui';
-import { FunctionComponent, useRef, useState } from 'react';
+import { FunctionComponent } from 'react';
+import { BsThreeDotsVertical } from 'react-icons/bs';
 import { LibraryQuizDto } from '../../../../fetch/quiz_library';
 
 export interface CardProps {
-  id?: string;
   quiz: LibraryQuizDto;
   onCardClick: () => void;
   showLoading?: boolean;
@@ -20,15 +20,11 @@ const formatCardDate = (value: string) => {
 };
 
 export const QuizCard: FunctionComponent<CardProps> = ({
-  id,
   quiz,
   onCardClick,
 }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const menuButtonRef = useRef<HTMLButtonElement>(null);
-
   return (
-    <CardWrapper id={id} onClick={() => {
+    <CardWrapper onClick={() => {
       onCardClick()
     }}>
       <TopSection>
@@ -42,12 +38,13 @@ export const QuizCard: FunctionComponent<CardProps> = ({
           </LanguageRow>
 
           <MenuButton
-            ref={menuButtonRef}
+            type="button"
+            aria-label="Quiz actions"
             onClick={(e) => {
               e.stopPropagation();
-              setIsMenuOpen(!isMenuOpen);
             }}
           >
+            <BsThreeDotsVertical size={18} />
           </MenuButton>
         </HeaderRow>
 
@@ -60,7 +57,7 @@ export const QuizCard: FunctionComponent<CardProps> = ({
           <DescriptionText>{quiz.description}</DescriptionText>
           <TagRow>
             {quiz.tags.map((tag) => (
-              <TagChip>
+              <TagChip key={tag}>
                 <Body4>{tag}</Body4>
               </TagChip>
             ))}
@@ -78,12 +75,12 @@ const CardWrapper = styled.div`
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  max-width: 436px;
+  width: 100%;
   min-height: 320px;
   cursor: pointer;
   
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    max-width: 100%;
+    width: 100%;
   }
 `;
 
@@ -116,10 +113,6 @@ const MenuButton = styled.button`
   align-items: center;
   justify-content: center;
   color: ${props => props.theme.colors.dark.darkGrey};
-  
-  &:hover {
-    color: ${props => props.theme.colors.dark.black};
-  }
 `;
 
 const LanguageChip = styled.span`
