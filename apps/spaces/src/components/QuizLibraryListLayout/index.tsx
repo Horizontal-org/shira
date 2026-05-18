@@ -10,6 +10,9 @@ import { getLibraryQuizzes, type LibraryQuizDto } from "../../fetch/quiz_library
 import { LayoutContainer } from "../LayoutStyleComponents/LayoutContainer";
 import { LayoutMainContent, LayoutMainContentWrapper } from "../LayoutStyleComponents/LayoutMainContent";
 import { AddLibraryQuizModal } from "../modals/AddLibraryQuizModal";
+import { QuizLimitModal } from "../modals/QuizLimitModal";
+import { ViewPlansModal } from "../modals/ViewPlansModal";
+import { useSub } from "../../hooks/useSub";
 
 const PAGE_SIZE = 10;
 
@@ -18,26 +21,34 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
   const navigate = useNavigate();
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate);
 
-  const [quizzes, setQuizzes] = useState<LibraryQuizDto[]>([]);
+  const [libraryQuizzes, setLibraryQuizzes] = useState<LibraryQuizDto[]>([]);
+
   const [loading, setLoading] = useState(false);
   const [pageIndex, setPageIndex] = useState(0);
 
   const [selectedQuiz, setSelectedQuiz] = useState<LibraryQuizDto | null>(null);
-  const [isAddQuizModalOpen, setIsAddQuizModalOpen] = useState(false);
   const [isSubmittingAddQuiz, setIsSubmittingAddQuiz] = useState(false);
 
-  const { space, createQuiz, fetchQuizzes } = useStore((state) => ({
+  const [isAddQuizModalOpen, setIsAddQuizModalOpen] = useState(false);
+  const [isQuizLimitModalOpen, setIsQuizLimitModalOpen] = useState(false);
+  const [isViewPlansModalOpen, setIsViewPlansModalOpen] = useState(false);
+
+  const { space, createQuiz, fetchQuizzes, quizzes, subscription } = useStore((state) => ({
     space: state.space,
     createQuiz: state.createQuiz,
     fetchQuizzes: state.fetchQuizzes,
+    quizzes: state.quizzes,
+    subscription: state.subscription
   }), shallow)
+
+  const { isSubActive } = useSub();
 
   const loadQuizzes = async () => {
     setLoading(true);
 
     try {
       const data = await getLibraryQuizzes();
-      setQuizzes(data);
+      setLibraryQuizzes(data);
     } catch (error) {
       console.error("Failed to get library quizzes:", error);
     } finally {
@@ -47,12 +58,13 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
 
   useEffect(() => {
     void loadQuizzes();
+    void fetchQuizzes();
   }, []);
 
-  const total = quizzes.length;
+  const total = libraryQuizzes.length;
   const pageCount = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const startIndex = pageIndex * PAGE_SIZE;
-  const paginatedQuizzes = quizzes.slice(startIndex, startIndex + PAGE_SIZE);
+  const paginatedQuizzes = libraryQuizzes.slice(startIndex, startIndex + PAGE_SIZE);
   const canPreviousPage = pageIndex > 0;
   const canNextPage = pageIndex < pageCount - 1;
 
@@ -70,6 +82,11 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
     setSelectedQuiz(null);
   };
 
+  const openViewPlansFromLimitModal = () => {
+    setIsQuizLimitModalOpen(false);
+    setIsViewPlansModalOpen(true);
+  };
+
   const handleConfirmAddQuiz = async () => {
     if (!selectedQuiz) {
       return;
@@ -79,6 +96,7 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
 
     try {
       await Promise.resolve(createQuiz(selectedQuiz.title, "public"));
+      await fetchQuizzes();
       handleCloseAddQuizModal();
       // Should we go to quizzes here?
     } finally {
@@ -103,7 +121,7 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
             <Body1 id="quiz-library-subtitle">{t('dashboard.subtitle')}</Body1>
           </HeaderContainer>
 
-          {!loading && quizzes.length > 0 && (
+          {!loading && libraryQuizzes.length > 0 && (
             <PaginationWrapper>
               <Pagination
                 pageIndex={pageIndex}
@@ -128,7 +146,11 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
                 <QuizCard
                   key={`${quiz.title}-${quiz.createdAt}`}
                   quiz={quiz}
-                  onMenuClick={() => {
+                  onMenuClick={async () => {
+                    if (!isSubActive && quizzes.length >= 3) {
+                      setIsQuizLimitModalOpen(true);
+                      return;
+                    }
                     handleOpenAddQuizModal(quiz);
                   }}
                 />
@@ -136,7 +158,7 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
             )}
           </CardGrid>
 
-          {!loading && quizzes.length > 0 && (
+          {!loading && libraryQuizzes.length > 0 && (
             <PaginationWrapper>
               <Pagination
                 pageIndex={pageIndex}
@@ -160,6 +182,18 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
           onClose={handleCloseAddQuizModal}
           onConfirm={handleConfirmAddQuiz}
           isSubmitting={isSubmittingAddQuiz}
+        />
+
+        <QuizLimitModal
+          isModalOpen={isQuizLimitModalOpen}
+          onClose={() => setIsQuizLimitModalOpen(false)}
+          onViewPlans={openViewPlansFromLimitModal}
+        />
+
+        <ViewPlansModal
+          isModalOpen={isViewPlansModalOpen}
+          onClose={() => setIsViewPlansModalOpen(false)}
+          organizationId={subscription.organizationId}
         />
 
       </LayoutMainContent>
@@ -192,5 +226,4 @@ const CardGrid = styled.div`
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
   }
-
 `;
