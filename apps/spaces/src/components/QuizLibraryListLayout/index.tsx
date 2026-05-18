@@ -1,4 +1,4 @@
-import { Body1, H2, Pagination, Props, Sidebar, styled, SubHeading3, useAdminSidebar } from "@shira/ui";
+import { Body1, H2, CardPagination, Props, Sidebar, styled, SubHeading3, useAdminSidebar } from "@shira/ui";
 import { FunctionComponent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
@@ -33,7 +33,13 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
   const [isQuizLimitModalOpen, setIsQuizLimitModalOpen] = useState(false);
   const [isViewPlansModalOpen, setIsViewPlansModalOpen] = useState(false);
 
-  const { space, createQuiz, fetchQuizzes, quizzes, subscription } = useStore((state) => ({
+  const {
+    space,
+    createQuiz,
+    fetchQuizzes,
+    quizzes,
+    subscription
+  } = useStore((state) => ({
     space: state.space,
     createQuiz: state.createQuiz,
     fetchQuizzes: state.fetchQuizzes,
@@ -65,8 +71,6 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
   const pageCount = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const startIndex = pageIndex * PAGE_SIZE;
   const paginatedQuizzes = libraryQuizzes.slice(startIndex, startIndex + PAGE_SIZE);
-  const canPreviousPage = pageIndex > 0;
-  const canNextPage = pageIndex < pageCount - 1;
 
   useEffect(() => {
     setPageIndex((prev) => Math.min(prev, pageCount - 1));
@@ -127,13 +131,10 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
 
           {!loading && libraryQuizzes.length > 0 && (
             <PaginationWrapper>
-              <Pagination
+              <CardPagination
                 pageIndex={pageIndex}
-                pageSize={PAGE_SIZE}
                 total={total}
                 pageCount={pageCount}
-                canPreviousPage={canPreviousPage}
-                canNextPage={canNextPage}
                 onFirstPage={() => { setPageIndex(0); }}
                 onPreviousPage={() => { setPageIndex((prev) => Math.max(0, prev - 1)); }}
                 onNextPage={() => { setPageIndex((prev) => Math.min(pageCount - 1, prev + 1)); }}
@@ -164,13 +165,10 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
 
           {!loading && libraryQuizzes.length > 0 && (
             <PaginationWrapper>
-              <Pagination
+              <CardPagination
                 pageIndex={pageIndex}
-                pageSize={PAGE_SIZE}
                 total={total}
                 pageCount={pageCount}
-                canPreviousPage={canPreviousPage}
-                canNextPage={canNextPage}
                 onFirstPage={() => { setPageIndex(0); }}
                 onPreviousPage={() => { setPageIndex((prev) => Math.max(0, prev - 1)); }}
                 onNextPage={() => { setPageIndex((prev) => Math.min(pageCount - 1, prev + 1)); }}
