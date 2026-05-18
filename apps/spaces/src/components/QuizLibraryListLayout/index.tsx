@@ -88,7 +88,7 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
   };
 
   const handleConfirmAddQuiz = async () => {
-    if (!selectedQuiz) {
+    if (!selectedQuiz || !canAddQuizzes(isSubActive, quizzes)) {
       return;
     }
     setIsSubmittingAddQuiz(true);
@@ -96,8 +96,9 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
     try {
       await Promise.resolve(createQuiz(selectedQuiz.title, "public"));
       await fetchQuizzes();
+
       handleCloseAddQuizModal();
-      // Should we go to quizzes here?
+      navigate("/dashboard"); // Is it okay to navigate to the dashboard after copying a quiz?
     } finally {
       setIsSubmittingAddQuiz(false);
     }
