@@ -1,50 +1,42 @@
-import { ConsoleLogger, Injectable, LogLevel } from '@nestjs/common';
-import { clc } from '@nestjs/common/utils/cli-colors.util';
+import { Injectable, LoggerService, LogLevel } from '@nestjs/common';
 
 @Injectable()
-export class ApiLogger extends ConsoleLogger {
-  constructor(context = 'App') {
-    super(context);
-  }
+export class ApiLogger implements LoggerService {
+  private write(level: LogLevel, message: unknown, context?: string, stack?: string) {
+    const base: Record<string, unknown> = {
+      level,
+      timestamp: new Date().toISOString(),
+      context: context ?? 'App',
+    };
 
-  private colorByLevel(level: LogLevel, text: string): string {
-    switch (level) {
-      case 'error':
-        return clc.red(text);
-      case 'warn':
-        return clc.yellow(text);
-      case 'debug':
-        return clc.cyanBright(text);
-      case 'verbose':
-        return clc.magentaBright(text);
-      case 'log':
-      default:
-        return clc.green(text);
+    if (message && typeof message === 'object') {
+      Object.assign(base, message);
+    } else {
+      base.message = message;
     }
+
+    if (stack) base.stack = stack;
+
+    process.stdout.write(JSON.stringify(base) + '\n');
   }
 
-  private buildContext(level: LogLevel, context?: string): string {
-    const baseContext = context ?? this.context ?? 'App';
-    return this.colorByLevel(level, baseContext);
+  log(message: unknown, context?: string) {
+    this.write('log', message, context);
   }
 
-  override log(message: unknown, context?: string) {
-    super.log(message, this.buildContext('log', context));
+  error(message: unknown, stack?: string, context?: string) {
+    this.write('error', message, context, stack);
   }
 
-  override error(message: unknown, stack?: string, context?: string) {
-    super.error(message, stack, this.buildContext('error', context));
+  warn(message: unknown, context?: string) {
+    this.write('warn', message, context);
   }
 
-  override warn(message: unknown, context?: string) {
-    super.warn(message, this.buildContext('warn', context));
+  debug(message: unknown, context?: string) {
+    this.write('debug', message, context);
   }
 
-  override debug(message: unknown, context?: string) {
-    super.debug(message, this.buildContext('debug', context));
-  }
-
-  override verbose(message: unknown, context?: string) {
-    super.verbose(message, this.buildContext('verbose', context));
+  verbose(message: unknown, context?: string) {
+    this.write('verbose', message, context);
   }
 }
