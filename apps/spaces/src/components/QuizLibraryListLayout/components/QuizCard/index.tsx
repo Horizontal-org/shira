@@ -5,7 +5,6 @@ import { LibraryQuizDto } from '../../../../fetch/quiz_library';
 
 export interface CardProps {
   quiz: LibraryQuizDto;
-  onCardClick: () => void;
   onMenuClick: () => void;
   showLoading?: boolean;
 }
@@ -22,13 +21,10 @@ const formatCardDate = (value: string) => {
 
 export const QuizCard: FunctionComponent<CardProps> = ({
   quiz,
-  onCardClick,
   onMenuClick,
 }) => {
   return (
-    <CardWrapper onClick={() => {
-      onCardClick()
-    }}>
+    <CardWrapper>
       <TopSection>
         <HeaderRow>
           <LanguageRow>
@@ -78,7 +74,6 @@ const CardWrapper = styled.div`
   flex-direction: column;
   width: 100%;
   min-height: 320px;
-  cursor: pointer;
 `;
 
 const TopSection = styled.div`

@@ -79,8 +79,8 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
 
     try {
       await Promise.resolve(createQuiz(selectedQuiz.title, "public"));
-      await fetchQuizzes();
       handleCloseAddQuizModal();
+      // Should we go to quizzes here?
     } finally {
       setIsSubmittingAddQuiz(false);
     }
@@ -128,7 +128,6 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
                 <QuizCard
                   key={`${quiz.title}-${quiz.createdAt}`}
                   quiz={quiz}
-                  onCardClick={() => { }}
                   onMenuClick={() => {
                     handleOpenAddQuizModal(quiz);
                   }}
@@ -189,17 +188,9 @@ const CardGrid = styled.div`
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
 
-  @media (max-width: ${props => props.theme.breakpoints.lg}) {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
   }
 
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    grid-template-columns: 1fr;
-  }
 `;

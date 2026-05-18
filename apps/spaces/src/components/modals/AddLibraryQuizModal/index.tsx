@@ -1,6 +1,5 @@
 import { Body1, Modal } from "@shira/ui";
 import { FunctionComponent } from "react";
-import { useTranslation } from "react-i18next";
 import { LibraryQuizDto } from "../../../fetch/quiz_library";
 
 interface Props {
@@ -18,8 +17,6 @@ export const AddLibraryQuizModal: FunctionComponent<Props> = ({
   onConfirm,
   isSubmitting = false,
 }) => {
-  const { t } = useTranslation();
-
   if (!quiz) {
     return null;
   }
@@ -28,9 +25,9 @@ export const AddLibraryQuizModal: FunctionComponent<Props> = ({
     <Modal
       id="add-library-quiz-modal"
       isOpen={isModalOpen}
-      title={t("modals.add_library_quiz.title")}
-      primaryButtonText={t("buttons.add")}
-      secondaryButtonText={t("buttons.cancel")}
+      title={"Add Library Quiz"}
+      primaryButtonText={"Add"}
+      secondaryButtonText={"Cancel"}
       primaryButtonDisabled={isSubmitting}
       onPrimaryClick={() => {
         if (isSubmitting) {
@@ -42,7 +39,7 @@ export const AddLibraryQuizModal: FunctionComponent<Props> = ({
       onSecondaryClick={onClose}
       onClose={onClose}
     >
-      <Body1>{t("modals.add_library_quiz.message", { quiz_name: quiz.title })}</Body1>
+      <Body1>{`Are you sure you want to add the quiz "${quiz.title}" to your library?`}</Body1>
     </Modal>
   );
 };
