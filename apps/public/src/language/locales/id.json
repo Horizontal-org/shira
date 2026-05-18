@@ -1,13 +1,16 @@
 {
-    "welcome": {
+    "welcome":
+    {
         "title": "Selamat datang di Shira",
         "subtitle": "Pelajari cara mengidentifikasi dan menanggulangi upaya phising",
         "start": "Mulai kuis",
         "public_message": "Welcome to your phishing quiz. Change your language or click on \"Start quiz\" to get started.",
         "learn_more": "Learn more about Shira"
     },
-    "setup": {
-        "name": {
+    "setup":
+    {
+        "name":
+        {
             "title": "Tambahkan nama dan alamat surel",
             "subtitle": "Kami meminta nama dan alamat surel untuk membuat kuis phising terasa lebih realistis. Informasi ini tidak akan disimpan, dikirim ke server kami, atau dibagikan dengan orang lain.",
             "recommendation": "Agar lebih aman, Anda dapat menggunakan nama dan alamat surel palsu, atau membuatnya secara acak.",
@@ -17,20 +20,23 @@
             "next_button": "Berikutnya",
             "footer_title": "Pengaturan kuis"
         },
-        "apps": {
+        "apps":
+        {
             "title": "Aplikasi apa saja yang Anda gunakan?",
             "select": "Pilih setidaknya 1",
             "footer_title": "Pengaturan kuis",
             "back_button": "Kembali",
             "next_button": "Berikutnya"
         },
-        "fields_of_work": {
+        "fields_of_work":
+        {
             "title": "Topik apa saja yang relevan bagi Anda?",
             "select": "Pilih hingga 3 topik maksimal",
             "footer_title": "Pengaturan kuis",
             "back_button": "Kembali",
             "next_button": "Mulai kuis",
-            "items": {
+            "items":
+            {
                 "human-rights": "Hak asasi Manusia",
                 "journalism-and-media": "Jurnalisme dan media",
                 "education": "Akademisi",
@@ -42,8 +48,10 @@
             }
         }
     },
-    "quiz": {
-        "how_it_works": {
+    "quiz":
+    {
+        "how_it_works":
+        {
             "title": "Bagaimana ia bekerja",
             "explanation_1": "Kuis ini berisi 10 pertanyaan",
             "explanation_2": "Untuk tiap pertanyaan, pilih apakah pesan yang ditampilkan tersebut terlihat seperti upaya phising atau terlihat sah.",
@@ -52,13 +60,16 @@
             "next": "Oke",
             "question_count": "This quiz contains {{count}} questions"
         },
-        "answers": {
-            "options": {
+        "answers":
+        {
+            "options":
+            {
                 "unsure": "Saya tidak tahu",
                 "legitimate": "Terlihat sah",
                 "phising": "Terlihat seperti phising"
             },
-            "results": {
+            "results":
+            {
                 "unsure": "\"Saya tidak tahu\"",
                 "correct": "Kerja bagus!",
                 "incorrect": "Salah",
@@ -70,32 +81,38 @@
                 "bottom-bar_looks-like-phishing": "Beberapa elemen menunjukkan bahwa pesan ini mungkin merupakan upaya phishing."
             }
         },
-        "exit": {
+        "exit":
+        {
             "title": "Keluar dari kuis?",
             "action_description": "Keluar dari kuis",
             "description": "Anda yakin ingin keluar dari kuis? Progres Anda tidak akan tersimpan",
             "cancel": "Batalkan"
         }
     },
-    "feedback": {
+    "feedback":
+    {
         "title": "Bantu kami menjadi lebih baik",
         "subtitle": "Satu hal terakhir sebelum melihat hasil kuis: beri tahu kami tentang pendapat Anda agar membantu kami menjadi lebih baik bagi pengguna di masa mendatang.",
-        "box": {
-            "question_1": {
+        "box":
+        {
+            "question_1":
+            {
                 "title": "1. Seberapa mudah penggunaan Shira?",
                 "very_complicated": "Sangat rumit",
                 "complicated": "Rumit",
                 "easy": "Mudah",
                 "very_easy": "Sangat mudah"
             },
-            "question_2": {
+            "question_2":
+            {
                 "title": "2. Seberapa besar kemungkinan Anda untuk merekomendasikan Shira kepada teman atau kolega?",
                 "not_likely": "Tidak mungkin",
                 "somewhat_likely": "Agak mungkin",
                 "likely": "Mungkin",
                 "very_likely": "Sangat mungkin"
             },
-            "question_3": {
+            "question_3":
+            {
                 "title": "3. Bagaimana kami bisa membuat Shira lebih baik?",
                 "input_placeholder": "Placeholder"
             },
@@ -104,7 +121,8 @@
         "footer_title": "Anda hampir selesai! Terus lanjutkan untuk melihat hasil kuis Anda serta rekomendasi langkah selanjutnya.",
         "next_button": "Lihat hasil"
     },
-    "completed": {
+    "completed":
+    {
         "title": "Kuis selesai",
         "subtitle": "Ikuti kuis baru atau lihat beberapa rekomendasi berikut untuk terus memperkuat keterampilan Anda dan menjadi lebih baik dalam menghindari upaya phising",
         "back_button": "Kembali ke beranda",
@@ -114,30 +132,37 @@
         "heavy_subtitle_3": "questions correctly.",
         "greeting_title": "Thanks for using Shira!"
     },
-    "about": {
+    "about":
+    {
         "title": "Tentang",
         "subtitle": "Shira membantu pengguna mengembangkan keterampilan yang dibutuhkan untuk mengidentifikasi serta mengalahkan serangan phishing pada aplikasi surel dan perpesanan.",
-        "why_shira": {
+        "why_shira":
+        {
             "title": "Kenapa harus Shira?",
-            "option_1": {
+            "option_1":
+            {
                 "title": "1. Mudah digunakan",
                 "description": "Shira diciptakan dengan mempertimbangkan komunitas yang paling berisiko terhadap serangan phising, terutama pengguna dengan literasi teknologi yang terbatas."
             },
-            "option_2": {
+            "option_2":
+            {
                 "title": "2. Dapat diubah suai",
                 "description": "Kami mencoba untuk membuat pesan phising terlihat serealistis mungkin, untuk menyimulasikan apa yang sebenarnya dihadapi oleh pengguna internet dalam kehidupan sehari-hari mereka serta serangan phishing yang mungkin akan mereka hadapi."
             },
-            "option_3": {
+            "option_3":
+            {
                 "title": "3. Ramah privasi",
                 "description": "Kami tidak mengumpulkan, menyimpan, atau membagikan data apa pun tentang pengguna yang mengunjungi Shira atau mengikuti kuis. Untuk mempelajari lebih lanjut, lihat kebijakan privasi kami dan audit keamanan terbaru yang dilakukan oleh perusahaan keamanan independen."
             },
             "privacy_policy_cta": "Kebijakan Privasi",
             "security_audit_cta": "Audit Keamanan"
         },
-        "created_by": {
+        "created_by":
+        {
             "title": "Siapa yang membuat Shira?",
             "website_cta": "Pelajari tentang Horizontal",
-            "description": {
+            "description":
+            {
                 "section1": "Shira adalah proyek oleh Horizontal, sebuah organisasi nirlaba yang mendukung pembela garis depan, aktivis, dan jurnalis melalui keamanan digital dan pengembangan alat.",
                 "section2": "Seperti semua alat oleh Horizontal, Shira tersedia secara gratis dan sumber terbuka. Anda dapat membantu kami meningkatkan dan mempertahankan Shira dengan",
                 "donation_link": "memberikan donasi di sini.",
@@ -147,62 +172,76 @@
         "footer_title": "Kontak",
         "footer_description": "Punya permintaan fitur, laporan kutu, atau hanya ingin terhubung dengan kami? Kirim surel ke contact@wearehorizontal.org",
         "bring_shira_button": "Kenalkan Shira ke organisasi Anda",
-        "background": {
+        "background":
+        {
             "title": "Latar belakang",
             "subtitle": "Serangan phishing adalah ancaman keamanan utama bagi pengguna Internet di mana pun.",
             "section1": "Seringkali, surel dan pesan yang mengaku berasal dari organisasi, perusahaan, serta individu tepercaya sebenarnya merupakan upaya untuk mengelabui pengguna agar mereka membagikan informasi sensitif (seperti informasi rekening bank dan kata sandi) atau memasang perangkat lunak berbahaya.",
             "section3": "Terlepas dari seberapa luas dan mengkhawatirkannya ancaman ini -- dengan konsekuensi nyata terutama bagi komunitas yang terpinggirkan -- hanya ada sedikit solusi yang mudah digunakan untuk membangun keterampilan dalam mendeteksi dan mengalahkan serangan phishing secara efektif.",
             "section4": "Itu sebabnya kami menciptakan Shira."
         },
-        "advisors": {
+        "advisors":
+        {
             "title": "Penasihat",
             "subtitle": "Shira didukung oleh dewan penasihat, yang terdiri dari pakar keselamatan digital dan keamanan siber:",
-            "person1": {
+            "person1":
+            {
                 "name": "Amir Rashidi",
                 "job": "Direktur Hak dan Keamanan Digital di Miaan"
             },
-            "person2": {
+            "person2":
+            {
                 "name": "Cheekay Cinco",
                 "job": "Pelatih dan Fasilitator Keamanan Digital"
             },
-            "person3": {
+            "person3":
+            {
                 "name": "Esther Onfroy",
                 "job": "Salah satu pendiri di Defensive Lab Agency"
             },
-            "person4": {
+            "person4":
+            {
                 "name": "Happy Ayomirwoth Ongi",
                 "job": "Konsultan dan Fasilitator keamanan digital"
             },
-            "person5": {
+            "person5":
+            {
                 "name": "Harlo Holmes",
                 "job": "Chief Information Security Officer & Direktur Keamanan Digital di Freedom of the Press Foundation"
             },
-            "person6": {
+            "person6":
+            {
                 "name": "Lobsang Gyatso",
                 "job": "Direktur Teknologi di Tibet Action Institute"
             },
-            "person7": {
+            "person7":
+            {
                 "name": "Mario Felaco",
                 "job": "Direktur Eksekutif di Conexo"
             },
-            "person8": {
+            "person8":
+            {
                 "name": "Mohammed Al-Maskati",
                 "job": "Peneliti keamanan"
             },
-            "person9": {
+            "person9":
+            {
                 "name": "Nick Carr",
                 "job": "Cyber Crime Intelligence & Adversary Tradecraft di Microsoft"
             },
-            "person10": {
+            "person10":
+            {
                 "name": "Sadibou Sow",
                 "job": "Konsultan Teknologi Pendidikan"
             },
-            "person11": {
+            "person11":
+            {
                 "name": "Trinh Nguyen",
                 "job": "Pelatih Keamanan Holistik di Article19"
             }
         },
-        "bring": {
+        "bring":
+        {
             "title": "Kenalkan Shira ke organisasi Anda",
             "section1": "Secara bawaan, Shira menyertakan beberapa opsi untuk mengubahsuaikan kuis serta menjadikannya relevan bagi setiap pengguna (aplikasi, bidang pekerjaan, dll). Namun jika Anda ingin membuat kuis terlihat lebih realistis bagi staf, mitra, atau anggota Anda, kami dapat membantu: kami dapat membuat kuis ubah suaian berdasarkan pekerjaan dan konteks Anda, bahkan menggunakan serangan phishing di kehidupan nyata yang Anda terima, serta memberikan pelatihan ke organisasi Anda.",
             "section2": "Jika itu terdengar menarik bagi Anda atau jika Anda memiliki pertanyaan, hubungi kami di contact@wearehorizontal.org."
@@ -210,7 +249,8 @@
     },
     "bottom-bar_looks-legit": "Pesan ini terlihat bukan seperti upaya phishing.",
     "bottom-bar_looks-like-phishing": "Beberapa elemen menunjukkan bahwa pesan ini mungkin merupakan upaya phishing.",
-    "navbar": {
+    "navbar":
+    {
         "home": "Beranda",
         "about": "Tentang",
         "menu": "Menu",
@@ -220,13 +260,15 @@
         "learn": "Learn",
         "get_started": "Get started"
     },
-    "beta": {
+    "beta":
+    {
         "label": "BETA",
         "message": "Shira is still in development and you may experience issues.",
         "feedback_text": "to share your feedback and help us improve!",
         "click_here": "Click here"
     },
-    "learner_invitation": {
+    "learner_invitation":
+    {
         "learn_more": "Learn more about Shira",
         "success_title": "Success!",
         "error_title": "Something went wrong",
@@ -234,15 +276,18 @@
         "success_hint": "When your organization shares a quiz with you, you will receive an email invitation directly in your inbox.",
         "error_message": "Try again or contact the person who invited you."
     },
-    "loading_messages": {
+    "loading_messages":
+    {
         "loading": "Loading..."
     },
-    "invalid_quiz": {
+    "invalid_quiz":
+    {
         "title": "Sorry, this quiz link is invalid.",
         "description": "You may have used the wrong URL, or the quiz was unpublished and is no longer available",
         "home_button": "Go to Shira"
     },
-    "invalid_invitation": {
+    "invalid_invitation":
+    {
         "title": "Sorry, this invitation link is invalid.",
         "description": "You may have used the wrong URL, or the invitation may have expired. Try again or contact the person who invited you.",
         "home_button": "Go to Shira"
