@@ -2,11 +2,13 @@ import { Injectable, LoggerService, LogLevel } from '@nestjs/common';
 
 @Injectable()
 export class ApiLogger implements LoggerService {
+  constructor(private readonly context: string = 'App') {}
+
   private write(level: LogLevel, message: unknown, context?: string, stack?: string) {
     const base: Record<string, unknown> = {
       level,
       timestamp: new Date().toISOString(),
-      context: context ?? 'App',
+      context: context ?? this.context,
     };
 
     if (message && typeof message === 'object') {
