@@ -22,7 +22,7 @@ export const useExplanations = (editor: any, editorId: string) => {
     deleteExplanation: state.deleteExplanation,
     addExplanation: state.addExplanation,
     explanationIndex: state.explanationIndex,
-    getExplanationIds: state.getExplanationIds
+    getExplanationIds: state.getExplanationIds,
   }), shallow)
 
   const getTextExplanationIndexFromSelection = useCallback(() => {
@@ -38,9 +38,7 @@ export const useExplanations = (editor: any, editorId: string) => {
         if (!candidateNode) continue
 
         const candidateElement =
-          candidateNode instanceof Element
-            ? candidateNode
-            : candidateNode.parentElement
+          candidateNode instanceof Element ? candidateNode : candidateNode.parentElement
 
         const explanationElement = candidateElement?.closest?.('mark[data-explanation]')
         const explanationIndex = explanationElement?.getAttribute('data-explanation')
@@ -86,9 +84,34 @@ export const useExplanations = (editor: any, editorId: string) => {
     )
   }, [editor, editorId])
 
-  const markExplanations = useCallback((selectedExplanation) => {
-    if (!editorId) return
+  const hasSelectedTextExplanation = useCallback(() => {
+    if (!editor || selectedExplanation === null) return false
 
+    let found = false
+
+    editor.state.doc.descendants((node) => {
+      if (found) {
+        return false
+      }
+
+      const hasMatchingExplanation = node.marks?.some(mark =>
+        mark.type.name === 'explanation' &&
+        Number(mark.attrs['data-explanation']) === selectedExplanation
+      )
+
+      if (hasMatchingExplanation) {
+        found = true
+        return false
+      }
+
+      return true
+    })
+
+    return found
+  }, [editor, selectedExplanation])
+  const markExplanations = useCallback((selectedExplanation) => { 
+    if (!editorId) return
+    
     const explanations = document.getElementById(editorId)?.querySelectorAll('[data-explanation]')
     if (!explanations) return
 
@@ -97,56 +120,63 @@ export const useExplanations = (editor: any, editorId: string) => {
       markExplanationsFrameRef.current = null
     }
 
-    explanations.forEach((element) => {
-      element.classList.remove('mark-active')
+    explanations.forEach((e) => {        
+      if (e.classList.contains('mark-active')) {
+        e.classList.remove('mark-active')
+      }
 
-      if (element.tagName === 'IMG' && element instanceof HTMLElement && element.classList.contains('has-explanation')) {
-        element.style.border = '2px solid #F3F9CF'
+      if (e.tagName === 'IMG' && e instanceof HTMLElement) {
+        if (e.classList.contains('has-explanation')) {
+          e.style.border = '2px solid #F3F9CF'
+        }
       }
     })
 
     markExplanationsFrameRef.current = requestAnimationFrame(() => {
-      explanations.forEach((element) => {
-        const explanationIndex = element.getAttribute('data-explanation')
+      explanations.forEach((e) => {
+        const dataExplanation = e.getAttribute('data-explanation')
+        if (parseInt(dataExplanation) === +selectedExplanation) {          
+          e.classList.add('mark-active')
 
-        if (selectedExplanation !== null && Number(explanationIndex) === selectedExplanation) {
-          element.classList.add('mark-active')
-
-          if (element.tagName === 'IMG' && element instanceof HTMLElement) {
-            element.style.border = '2px solid #FCC934'
+          if (e.tagName === 'IMG' && e instanceof HTMLElement) {
+            e.style.border = '2px solid #FCC934'
           }
         }
       })
-
       markExplanationsFrameRef.current = null
     })
   }, [editorId])
 
   const cleanDeletedExplanations = useCallback((deleteIndex) => {
     if (!editor) return
-
+    
     const { tr } = editor.state
     let hasChanges = false
 
     editor.state.doc.descendants((node, pos) => {
       if (node.isText) {
         node.marks.forEach(mark => {
-          if (Number(mark.attrs['data-explanation']) === deleteIndex) {
+          if (mark.attrs['data-explanation'] === +deleteIndex) {
             tr.removeMark(pos, pos + node.nodeSize, mark.type)
             hasChanges = true
           }
         })
       }
-
-      if (
-        ['image', 'tableCell', 'tableHeader'].includes(node.type.name) &&
-        Number(node.attrs['data-explanation']) === deleteIndex
-      ) {
+      
+      if (node.type.name === 'image' && node.attrs['data-explanation'] === +deleteIndex) {
         tr.setNodeMarkup(pos, null, {
           ...node.attrs,
           'data-explanation': null
         })
+        hasChanges = true
+      }
 
+      if ((node.type.name === 'tableCell' || node.type.name === 'tableHeader') && 
+          node.attrs['data-explanation'] === +deleteIndex) {
+        tr.setNodeMarkup(pos, null, {
+          ...node.attrs,
+          'data-explanation': null
+        })
         hasChanges = true
       }
     })
@@ -158,48 +188,46 @@ export const useExplanations = (editor: any, editorId: string) => {
 
   const cleanupOrphanedExplanations = useCallback(() => {
     if (!editor) return
-
-    const editorExplanationIndexes = new Set<number>()
-
+    
+    
+    const editorExplanationIndexes = new Set()
+    
+    // first, get explanations from this editor
+    // TODO Why the distinction of types is necessary ?
     editor.state.doc.descendants((node) => {
       node.marks.forEach(mark => {
-        const explanationIndex = mark.attrs['data-explanation']
-
-        if (explanationIndex) {
-          editorExplanationIndexes.add(Number(explanationIndex))
+        if (mark.attrs['data-explanation']) {
+          editorExplanationIndexes.add(parseInt(mark.attrs['data-explanation']))
         }
       })
+      
+      if (node.type.name === 'image' && node.attrs['data-explanation']) {
+        editorExplanationIndexes.add(parseInt(node.attrs['data-explanation']))
+      }
 
-      const nodeExplanationIndex = node.attrs?.['data-explanation']
-
-      if (
-        ['image', 'tableCell', 'tableHeader'].includes(node.type.name) &&
-        nodeExplanationIndex
-      ) {
-        editorExplanationIndexes.add(Number(nodeExplanationIndex))
+      if ((node.type.name === 'tableCell' || node.type.name === 'tableHeader') && node.attrs['data-explanation']) {
+        editorExplanationIndexes.add(parseInt(node.attrs['data-explanation']))
       }
     })
 
-    document.querySelectorAll('[id*="component-text"]').forEach((component) => {
-      component.querySelectorAll('[data-explanation]').forEach((explanation) => {
-        const explanationIndex = explanation.getAttribute('data-explanation')
-
-        if (explanationIndex) {
-          editorExplanationIndexes.add(Number(explanationIndex))
-        }
+    // get all editor explanations
+    document.querySelectorAll('[id*="component-text"]').forEach((ca) => {
+      ca.querySelectorAll('[data-explanation]').forEach((de) => {
+          const explanationIndex = de.getAttribute('data-explanation')
+          if (explanationIndex && !editorExplanationIndexes.has(explanationIndex)) {
+            editorExplanationIndexes.add(parseInt(explanationIndex))
+          }           
       })
     })
 
-    const activeQuestionIds = getExplanationIds()
-    const activeExplanationIndexes = new Set([
-      ...activeQuestionIds,
-      ...editorExplanationIndexes
-    ])
+    // second, add explanations on activequestion
+    const activeQuestionIds = getExplanationIds()   
+    const activeExplanationIndexes = new Set([...activeQuestionIds, ...editorExplanationIndexes]) 
 
-    const orphanedExplanations = storeExplanations.filter(explanation =>
+
+    const orphanedExplanations = storeExplanations.filter(explanation => 
       !activeExplanationIndexes.has(explanation.index)
-    )
-
+    ) 
     orphanedExplanations.forEach(orphan => {
       deleteExplanation(orphan.index)
     })
@@ -209,31 +237,28 @@ export const useExplanations = (editor: any, editorId: string) => {
     if (!editor) return
 
     const { selection } = editor.state
-    const selectedTextExplanationIndex = getTextExplanationIndexFromSelection()
 
+    const selectedTextExplanationIndex = getTextExplanationIndexFromSelection()
+    
     if (selectedTextExplanationIndex !== null) {
       if (selectedTextExplanationIndex !== selectedExplanation) {
         changeSelected(selectedTextExplanationIndex)
       }
+    } 
 
-      return
-    }
-
-    if (selection instanceof NodeSelection && selection.node.type.name === 'image') {
+    else if (selection instanceof NodeSelection && selection.node.type.name === 'image') {
       const explanationIndex = selection.node.attrs['data-explanation']
       const normalizedExplanationIndex = explanationIndex ? Number(explanationIndex) : null
-
-      if (normalizedExplanationIndex !== null && normalizedExplanationIndex !== selectedExplanation) {
+      if (normalizedExplanationIndex && normalizedExplanationIndex !== selectedExplanation) {
         changeSelected(normalizedExplanationIndex)
-      } else if (normalizedExplanationIndex === null && selectedExplanation !== null) {
+      } else if (!explanationIndex && selectedExplanation !== null) {
         changeSelected(null)
       }
-
-      return
-    }
-
-    if (selectedExplanation !== null) {
-      changeSelected(null)
+    } 
+    else {
+      if (selectedExplanation !== null) {
+        changeSelected(null)
+      }
     }
   }, [editor, selectedExplanation, changeSelected, getTextExplanationIndexFromSelection])
 
@@ -244,32 +269,27 @@ export const useExplanations = (editor: any, editorId: string) => {
     const hasSelection = from !== to
     const canAdd = hasSelection && getTextExplanationIndexFromSelection() === null
 
-    if (!canAdd) return false
-
-    const newIndex = explanationIndex + 1
-
-    editor.chain().focus().setExplanation({
-      'data-explanation': newIndex
-    }).run()
-
-    addExplanation(newIndex)
-
-    return true
+    if (canAdd) {
+      const newIndex = explanationIndex + 1
+      editor.chain().focus().setExplanation({
+        'data-explanation': newIndex,
+      }).run()
+      addExplanation(newIndex)
+      return true
+    }
+    return false
   }, [editor, explanationIndex, addExplanation, getTextExplanationIndexFromSelection])
 
   const removeTextExplanation = useCallback(() => {
-    if (!editor) return false
+    const activeExplanationIndex = getTextExplanationIndexFromSelection()
 
-    const deleteIndex = getTextExplanationIndexFromSelection()
-
-    if (deleteIndex === null) {
+    if (!editor || activeExplanationIndex === null) {
       return false
     }
-
+    const deleteIndex = activeExplanationIndex
     deleteExplanation(deleteIndex)
     cleanDeletedExplanations(deleteIndex)
     editor.chain().focus().unsetExplanation().run()
-
     return true
   }, [editor, deleteExplanation, cleanDeletedExplanations, getTextExplanationIndexFromSelection])
 
@@ -277,19 +297,17 @@ export const useExplanations = (editor: any, editorId: string) => {
     if (!editor) return false
 
     const { selection } = editor.state
-
+    
     if (selection instanceof NodeSelection && selection.node.type.name === 'image') {
       const newIndex = explanationIndex + 1
-
+      
       editor.chain().focus().updateAttributes('image', {
         'data-explanation': newIndex
       }).run()
-
+      
       addExplanation(newIndex, 'Image')
-
       return true
     }
-
     return false
   }, [editor, explanationIndex, addExplanation])
 
@@ -297,31 +315,26 @@ export const useExplanations = (editor: any, editorId: string) => {
     if (!editor) return false
 
     const { selection } = editor.state
-
-    if (
-      selection instanceof NodeSelection &&
-      selection.node.type.name === 'image' &&
-      selection.node.attrs['data-explanation']
-    ) {
+    
+    if (selection instanceof NodeSelection && 
+        selection.node.type.name === 'image' && 
+        selection.node.attrs['data-explanation']) {
+      
       const explanationIndex = selection.node.attrs['data-explanation']
-
+      
       editor.chain().focus().updateAttributes('image', {
         'data-explanation': null
       }).run()
-
+      
       deleteExplanation(explanationIndex)
-
       return true
     }
-
     return false
   }, [editor, deleteExplanation])
 
   const canAddTextExplanation = useCallback(() => {
     if (!editor) return false
-
     const { from, to } = editor.state.selection
-
     return from !== to && getTextExplanationIndexFromSelection() === null
   }, [editor, getTextExplanationIndexFromSelection])
 
@@ -334,8 +347,13 @@ export const useExplanations = (editor: any, editorId: string) => {
   }, [getTextExplanationIndexFromSelection])
 
   const isTextExplanationSelected = useCallback(() => {
-    return getActiveTextExplanationIndex() === selectedExplanation
-  }, [getActiveTextExplanationIndex, selectedExplanation])
+    if (hasSelectedTextExplanation()) {
+      return true
+    }
+
+    const explanationIndex = getActiveTextExplanationIndex()
+    return explanationIndex !== null && explanationIndex === selectedExplanation
+  }, [getActiveTextExplanationIndex, hasSelectedTextExplanation, selectedExplanation])
 
   const hasAnyExplanation = useCallback(() => {
     if (!editor) return false
@@ -347,9 +365,7 @@ export const useExplanations = (editor: any, editorId: string) => {
         return false
       }
 
-      const hasMarkedExplanation = node.marks?.some(mark =>
-        Boolean(mark.attrs['data-explanation'])
-      )
+      const hasMarkedExplanation = node.marks?.some(mark => Boolean(mark.attrs['data-explanation']))
       const hasNodeExplanation = Boolean(node.attrs?.['data-explanation'])
 
       if (hasMarkedExplanation || hasNodeExplanation) {
@@ -382,7 +398,6 @@ export const useExplanations = (editor: any, editorId: string) => {
       if (selectedExplanation === null) return
 
       const target = event.target
-
       if (!(target instanceof Node)) return
 
       const editorElement = document.getElementById(editorId)
