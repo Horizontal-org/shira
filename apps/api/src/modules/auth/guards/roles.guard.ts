@@ -31,16 +31,16 @@ export class RolesGuard implements CanActivate {
       return false
     }
     
-    const spaceIdHeader = request.headers['x-space']
+    const spaceIdSource = request.cookies?.['active_space'] ?? request.headers['x-space']
     const orgIdHeader = request.headers['x-organization']
 
     let spaceId: number | null = null
     let orgId: number | null = null
 
-    if (spaceIdHeader) {
-      spaceId = parseInt(spaceIdHeader)
+    if (spaceIdSource) {
+      spaceId = parseInt(spaceIdSource)
       if (isNaN(spaceId)) {
-        throw new BadRequestException('Invalid X-Space header format')
+        throw new BadRequestException('Invalid space format')
       }
     }
 
