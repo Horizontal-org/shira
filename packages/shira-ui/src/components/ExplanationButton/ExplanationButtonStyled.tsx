@@ -124,8 +124,8 @@ const activeTextStates = css`
   &:hover {
     color: ${props => props.theme.colors.green4};
   }
-   
-  &:focus {
+
+  &:focus-visible {
     outline: solid 2px ${props => props.theme.colors.green2};
   }
 
