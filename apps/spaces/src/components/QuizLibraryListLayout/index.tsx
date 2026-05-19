@@ -13,6 +13,7 @@ import { AddLibraryQuizModal } from "../modals/AddLibraryQuizModal";
 import { QuizLimitModal } from "../modals/QuizLimitModal";
 import { ViewPlansModal } from "../modals/ViewPlansModal";
 import { useSub } from "../../hooks/useSub";
+import { QuizLibraryBreadcrumbs } from "./components/QuizLibraryBreadcrumbs";
 
 const PAGE_SIZE = 10;
 
@@ -124,6 +125,9 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
 
         <LayoutMainContentWrapper>
           <HeaderContainer>
+
+            <QuizLibraryBreadcrumbs />
+
             <StyledSubHeading3 id="space-name">{space && space.name}</StyledSubHeading3>
             <H2 id="quiz-library-title">{t('dashboard.title')}</H2>
             <Body1 id="quiz-library-subtitle">{t('dashboard.subtitle')}</Body1>
