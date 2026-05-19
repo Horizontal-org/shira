@@ -10,7 +10,7 @@ export interface Explanation {
 
 export interface ExplanationsSlice {
   explanations: Explanation[],
-  selectedExplanation: number;
+  selectedExplanation: number | null;
   // last explanation index
   explanationIndex: number;
   addExplanation: (index: number, title?: string) => void
@@ -19,7 +19,7 @@ export interface ExplanationsSlice {
   updateExplanations: (explanations: Explanation[]) => void
   deleteExplanation: (index: number) => void
   deleteExplanations: (componentId: number, componentType: string) => void
-  changeSelected: (index: number) => void
+  changeSelected: (index: number | null) => void
   clearExplanations: () => void
 }
 
@@ -30,7 +30,7 @@ export const createExplanationsSlice: StateCreator<
   ExplanationsSlice
 > = (set, get) => ({
   explanations: [],
-  selectedExplanation: 0,
+  selectedExplanation: null,
   explanationIndex: 0,
   addExplanation: (index, title) => {
     set((state) => ({
@@ -51,7 +51,7 @@ export const createExplanationsSlice: StateCreator<
     set(() => ({
       explanations,
       explanationIndex: +(explanations.reduce((prev, curr) => prev.index > curr.index ? prev : curr).index),
-      selectedExplanation: explanations.length
+      selectedExplanation: null
     }))
   },
   deleteExplanation: (index) => {
@@ -96,7 +96,7 @@ export const createExplanationsSlice: StateCreator<
   clearExplanations: () => {
     set((state) => ({
       explanations: [],
-      selectedExplanation: 0,
+      selectedExplanation: null,
       explanationIndex: 0,
     }))
   },

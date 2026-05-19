@@ -117,6 +117,14 @@ export const FilledIconButton = styled(BaseButton) <BaseProps>`
        stroke: ${props.theme.colors.green3};
       }
     `}
+
+    &[aria-pressed='true'] {
+      color: ${props => props.theme.colors.green4};
+
+      > svg {
+        stroke: ${props => props.theme.colors.green3};
+      }
+    }
   }
 `
 
@@ -175,5 +183,9 @@ export const TextFilledIconButton = styled(BaseButton) <BaseProps>`
     ${props => props.$active && `
       outline: solid 2px ${props.theme.colors.green3};
     `}
+
+    &[aria-pressed='true'] {
+      outline: solid 2px ${props => props.theme.colors.green3};
+    }
   }
 `
