@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { styled, Box } from '@shira/ui'
+import { styled, Box } from '@horizontal-org/shira-ui'
 import { EmailContent } from "./components/EmailContent";
 import { Explanations } from "../Explanations";
 import { CommonHeader } from "./components/CommonHeader";
@@ -50,7 +50,7 @@ const Wrapper = styled.div`
 const StyledBox = styled(Box)`
   position: relative;
   z-index:1;
-  padding: 48px;
+  padding: 32px 48px;
   width: 100%;
   max-width: 800px;
   box-sizing: border-box;

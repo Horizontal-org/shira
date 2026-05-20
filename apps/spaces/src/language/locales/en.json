@@ -78,7 +78,7 @@
         "assign_dialog": {
             "registered_title": "Registered Learners",
             "registered_description": "Select one or more learners to assign this quiz to them.",
-            "registered_description_2": "You can manage registered learners and invite new ones in the <0>Learners section</0>.",
+            "registered_description_2": "The list below only shows Learners who have completed their registration. You can manage registered learners and invite new ones in the <0>Learners section</0> or read about <1>here</1>.",
             "assign_button": "Assign to learners",
             "assign_title": "Assign \"{{quiz_title}}\" to learners",
             "no_learners": "There are no registered learners in your space.",
@@ -633,7 +633,7 @@
                 "customization": "Customization",
                 "access_control": "Access control",
                 "compliance": "Compliance",
-                "custom_support": "Custom support",
+                "custom_support": "Customer support",
                 "rows": {
                     "hosting": "Hosting",
                     "admin_dashboard": "Admin dashboard",
@@ -648,17 +648,20 @@
                     "detailed_analytics": "Detailed analytics",
                     "analysis_tools": "Analysis and compliance tools",
                     "tailor_made_training": "Tailor-made user training",
-                    "priority_support": "Priority support"
+                    "priority_support": "Support",
+                    "phishing_readiness_assessment": "Phishing Readiness Assessment",
+                    "preparedness_report": "Preparedness Report & Action Plan"
                 },
                 "values": {
                     "cloud": "Cloud",
                     "cloud_on_premise": "Cloud & on-premise",
                     "one_admin": "1 admin",
                     "unlimited": "Unlimited",
+                    "unlimited_coming_soon": "Unlimited (coming soon)",
                     "up_to_three_custom_quizzes": "Up to 3 custom quizzes",
                     "available_upon_request": "Available upon request",
-                    "three_business_day_response_time": "3-business-day response time",
-                    "one_business_day_response_time": "Up to 1-business day-response time"
+                    "three_business_day_response_time": "Priority support",
+                    "one_business_day_response_time": "Dedicated enterprise support"
                 },
                 "tooltips": {
                     "hosting": "Let the Shira team host and maintain your Shira (cloud) or install it on your servers (on-premise)",
@@ -674,7 +677,9 @@
                     "detailed_analytics": "Track results at the learner and question levels",
                     "analysis_tools": "Export your team's results into CSV or PDF reports",
                     "tailor_made_training": "Skill-building workshops customized by the Shira team for your organization",
-                    "priority_support": "Quick response time to ensure a smooth experience"                    
+                    "priority_support": "Quick response time to ensure a smooth experience",
+                    "phishing_readiness_assessment": "Snapshot of current organizational vulnerability to phishing attacks",
+                    "preparedness_report": "Concise report highlighting top risks and recommended training modules and timelines"
                 }
             },
             "plans": {

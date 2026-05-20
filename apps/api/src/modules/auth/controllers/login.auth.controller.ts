@@ -26,17 +26,24 @@ export class LoginAuthController {
     const user = await this.validateAuthService.execute({ email, password });
     const authToken = await this.generateTokenAuthService.execute(user);
 
-    response
-      .cookie('access_token', authToken.access_token, {
-        httpOnly: true,
-        expires: new Date(Date.now() + 1000 * 60 * 60),
-        domain: process.env.COOKIE_DOMAIN,
-        secure: true
-      })
-      .send({
-        ...authToken,
-        user,
-      });
+    const cookieOptions = {
+      httpOnly: true,
+      expires: new Date(Date.now() + 1000 * 60 * 60),
+      domain: process.env.COOKIE_DOMAIN,
+      secure: process.env.NODE_ENV === 'production',
+    };
+
+    const res = response
+      .cookie('access_token', authToken.access_token, cookieOptions)
+
+    if (user.spaces?.[0]?.id) {
+      res.cookie('active_space', String(user.spaces[0].id), cookieOptions);
+    }
+
+    res.send({
+      ...authToken,
+      user,
+    });
 
       await this.markUserLoginService.execute(user.id);
   }

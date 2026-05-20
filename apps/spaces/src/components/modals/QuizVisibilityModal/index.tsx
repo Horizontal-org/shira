@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useMemo, useState } from "react";
-import { Body1, Body1SemiBold, Body3, GeneralTooltip, Link3, Modal, RadioGroup, styled, useTheme } from "@shira/ui";
+import { Body1, Body1SemiBold, Body3, GeneralTooltip, Link3, Modal, RadioGroup, styled, useTheme } from "@horizontal-org/shira-ui";
 import { Trans, useTranslation } from "react-i18next";
 import { RiProhibitedLine } from "react-icons/ri";
 

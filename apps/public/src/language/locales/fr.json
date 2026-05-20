@@ -1,14 +1,16 @@
 {
     "welcome": {
-        "title": "Bienvenue à Shira",
-        "subtitle": "Apprendre à identifier et à déjouer les tentatives d'hameçonnage",
-        "start": "Lancer le quiz"
+        "title": "Passez un quizz Shira",
+        "subtitle": "Développez vos compétences en matière de protection contre l'hameçonnage avec un petit quiz adapté à vos besoins. Choisissez votre langue ou cliquez sur « Démarrer le quiz » pour commencer.",
+        "start": "Démarrer le quiz",
+        "public_message": "Bienvenue dans votre quiz sur l'hameçonnage. Changez de langue ou cliquez sur \"Démarrer le quiz\" pour commencer.",
+        "learn_more": "En savoir plus sur Shira"
     },
     "setup": {
         "name": {
             "title": "Ajouter un nom et une adresse e-mail",
-            "subtitle": "Nous demandons un nom et une adresse e-mail pour que le quiz d’hameçonnage soit plus réaliste. Ces informations ne seront ni enregistrées, ni envoyées à nos serveurs voire partagées avec quiconque.",
-            "recommendation": "Pour plus de sécurité, vous pouvez utiliser un faux nom et une fausse adresse électronique, ou en générer unes au hasard.",
+            "subtitle": "Nous demandons un nom et une adresse email pour que le quiz sur l'hameçonnage soit plus réaliste. Ces informations ne seront ni enregistrées, ni envoyées à nos serveurs, ni partagées avec des tiers.",
+            "recommendation": "Pour plus de sécurité, vous pouvez utiliser un faux nom et e-mail, ou en générer des aléatoires.",
             "name": "Nom",
             "email": "E-mail",
             "random_button": "Générer un nom et une adresse email aléatoires",
@@ -16,25 +18,27 @@
             "footer_title": "Configuration du quiz"
         },
         "apps": {
-            "title": "Quelles applications utilisez-vous ?",
-            "select": "Sélectionnez au moins 1",
+            "title": "Quelles applications utilisez-vous ?",
+            "select": "Sélectionnez en au moins 1",
             "footer_title": "Configuration du quiz",
             "back_button": "Retour",
             "next_button": "Suivant"
         },
         "fields_of_work": {
-            "title": "Quels sont les domaines qui vous intéressent?",
-            "select": "Sélectionner jusqu'à 3 éléments",
+            "title": "Quels sont les domaines qui vous intéressent ?",
+            "select": "Sélectionnez jusqu'à 3 éléments",
             "footer_title": "Configuration du quiz",
             "back_button": "Retour",
-            "next_button": "Lancer le quiz",
+            "next_button": "Démarrer le quiz",
             "items": {
                 "human-rights": "Droits humains",
                 "journalism-and-media": "Journalisme et médias",
-                "education": "Universitaire",
+                "education": "Monde académique",
                 "marketing": "Marketing",
                 "healthcare": "Santé",
-                "general": "Général"
+                "general": "Général",
+                "activist": "Activiste",
+                "human-resources": "Ressources humaines"
             }
         }
     },
@@ -42,7 +46,7 @@
         "how_it_works": {
             "title": "Comment ça marche",
             "explanation_1": "Ce quiz comporte 10 questions.",
-            "question_count": "Ce quiz comporte {{ count }} questions.",
+            "question_count": "Ce quiz comporte {{ count }} questions",
             "explanation_2": "Pour chaque question, choisissez si le message affiché ressemble à une tentative d'hameçonnage ou semble légitime.",
             "explanation_3": "Si vous n'êtes pas sûr, vous pouvez sélectionner l'option \"Je ne sais pas\".",
             "footer_title": "Intro du quiz",
@@ -56,7 +60,7 @@
             },
             "results": {
                 "unsure": "\"Je ne sais pas\"",
-                "correct": "Bon travail !",
+                "correct": "Bon travail !",
                 "incorrect": "Incorrect",
                 "next_button": "Suivant",
                 "back_button": "Retour",
@@ -67,38 +71,38 @@
             }
         },
         "exit": {
-            "title": "Quitter le quiz ?",
+            "title": "Quitter le quiz ?",
             "action_description": "Quitter le quiz",
-            "description": "Êtes-vous sûr de vouloir quitter le quiz ? Votre progression ne sera pas sauvegardée.",
+            "description": "Êtes-vous sûr de vouloir quitter le quiz ? Votre progrès ne sera pas enregistré.",
             "cancel": "Annuler"
         }
     },
     "feedback": {
         "title": "Aidez-nous à nous améliorer",
-        "subtitle": "Une dernière chose avant d'accéder aux résultats du quiz: donnez-nous votre avis pour nous aider à améliorer la situation pour les futurs utilisateurs.",
+        "subtitle": "Dernière chose avant de découvrir les scores du quiz : partagez-nous votre avis pour nous aider à améliorer notre offre destinée aux futurs utilisateurs et utilisatrices.",
         "box": {
             "question_1": {
-                "title": "1. Shira est-il facile à utiliser ?",
+                "title": "1. Shira est-il facile à utiliser ?",
                 "very_complicated": "Très compliqué",
                 "complicated": "Compliqué",
                 "easy": "Facile",
                 "very_easy": "Très facile"
             },
             "question_2": {
-                "title": "2. Quelle est la probabilité que vous recommandiez Shira à vos amis ou collègues ?",
+                "title": "2. Quelle est la probabilité que vous recommandiez Shira à vos ami.e.s ou collègues ?",
                 "not_likely": "Peu probable",
                 "somewhat_likely": "Assez probable",
                 "likely": "Probable",
                 "very_likely": "Très probable"
             },
             "question_3": {
-                "title": "3. Comment pouvons-nous améliorer Shira?",
-                "input_placeholder": "Écrivez vos commentaires ici"
+                "title": "3. Comment pouvons-nous améliorer Shira ?",
+                "input_placeholder": "Laissez vos commentaires ici"
             },
-            "bottom_text": "Vos commentaires seront envoyés lorsque vous cliquerez sur \"voir les résultats\""
+            "bottom_text": "Vos commentaires seront envoyés lorsque vous cliquerez sur \"voir les scores\""
         },
-        "footer_title": "Vous avez presque terminé ! Continuez pour voir les résultats de votre quiz et les prochaines étapes recommandées.",
-        "next_button": "Voir les résultats"
+        "footer_title": "Vous avez presque terminé ! Continuez pour voir les scores de votre quiz et les prochaines étapes recommandées.",
+        "next_button": "Voir les scores"
     },
     "completed": {
         "title": "Quiz terminé",
@@ -106,57 +110,56 @@
         "back_button": "Retour a l'accueil",
         "next_button": "Nouveau quiz",
         "heavy_subtitle_1": "Vous avez répondu correctement à ",
-        "heavy_subtitle_2": "{{correctQuestions}} sur {{questions}}",
-        "heavy_subtitle_3": ".",
-        "greeting_title": "Thanks for using Shira!"
-
+        "heavy_subtitle_2": "{{correctQuestions}} questions sur {{questions}} ",
+        "heavy_subtitle_3": "questions correctement.",
+        "greeting_title": "Merci d'utiliser Shira !"
     },
     "about": {
         "title": "À propos",
-        "subtitle": "Shira aide les utilisateurs à développer les compétences nécessaires pour identifier et vaincre les attaques d’hameçonnage sur les applications pour le courrier électronique et la messagerie",
+        "subtitle": "Shira aide les utilisateurs et utilisatrices à développer les compétences nécessaires pour identifier et déjouer les attaques d'hameçonnage sur les emails et les applications de messagerie.",
         "why_shira": {
-            "title": "Pourquoi Shira?",
+            "title": "Pourquoi Shira ?",
             "option_1": {
                 "title": "1. Facile à utiliser",
-                "description": "Shira a été créée en tenant compte des communautés les plus à risque d’attaques d’hameçonnage, en particulier les utilisateurs ayant une connaissance limitée de la technologie."
+                "description": "Shira a été créée en tenant compte des communautés les plus à risque d’attaques d’hameçonnage, en particulier les utilisateurs et utilisatrices ayant une connaissance limitée de la technologie."
             },
             "option_2": {
-                "title": "2. Personnalisable",
-                "description": "Nous essayons de rendre les messages d’hameçonnage aussi réalistes que possible, de simuler ce à quoi les internautes sont confrontés dans leur vie quotidienne et les attaques d’hameçonnage auxquelles ils sont susceptibles de faire face."
+                "title": "2. Personnalisable ",
+                "description": "Nous nous efforçons de rendre les messages d'hameçonnage / frauduleux aussi réalistes que possible, afin de reproduire ce à quoi les internautes sont confrontés au quotidien ainsi que les attaques d'hameçonnage auxquelles ils pourraient être exposés."
             },
             "option_3": {
                 "title": "3. Respect de la vie privée",
-                "description": "Nous ne collectons, n’enregistrons ni ne partageons aucune donnée concernant les utilisateurs visitant Shira ou participant à des quiz. Pour en savoir plus, consultez notre politique de confidentialité ainsi qu'un récent audit de sécurité effectué par un cabinet de sécurité indépendant."
+                "description": "Nous ne collectons, n’enregistrons ni ne partageons aucune donnée concernant les visiteurs ou visiteuses de Shira ou participant à des quiz. Pour en savoir plus, consultez notre politique de confidentialité ainsi qu'un récent audit de sécurité effectué par un cabinet de sécurité indépendant."
             },
             "privacy_policy_cta": "Politique de confidentialité",
             "security_audit_cta": "Audit de sécurité"
         },
         "created_by": {
-            "title": "Qui est derrière Shira?",
-            "website_cta": "En savoir plus sur Horizontal",
+            "title": "Qui est derrière Shira ?",
+            "website_cta": "A propos d'Horizontal",
             "description": {
-                "section1": "Shira est un projet d’Horizontal, une organisation à but non lucratif qui soutient les défenseurs de première ligne, les militants et les journalistes à travers la sécurité numérique et le développement d’outils.",
-                "section2": "Comme tous les outils d’Horizontal, Shira est gratuit et open source. Vous pouvez nous aider à améliorer et soutenir Shira par",
-                "donation_link": "Faites un don ici.",
-                "section3": "Pour contribuer à la traduction de Shira, écrivez-nous : contact@wearehorizontal.org."
+                "section1": "Shira est une initiative d'Horizontal, association à but non lucratif soutenant les défenseurs et défenseuses des droits humains, les activistes et les journalistes en leur proposant des solutions et outils informatiques sécurisés.",
+                "section2": "À l'instar de tous les outils d'Horizontal, Shira est un logiciel libre et en open source. Vous pouvez nous aider à améliorer et à poursuivre le développement de Shira en",
+                "donation_link": "faisant un don ici.",
+                "section3": "Pour nous aider à traduire Shira, envoyez-nous un e-mail à contact@wearehorizontal.org."
             }
         },
         "footer_title": "Contact",
-        "footer_description": "Vous avez une demande relative à l'utilisation de Shira ou à sa fonctionnalité? Vous souhaitez signaler un bogue ou simplement vous mettre en contact avec nous ? Écrivez-nous à l'adresse suivante : contact@wearehorizontal.org",
-        "bring_shira_button": "Intégrez Shira à votre organisation.",
+        "footer_description": "Vous souhaitez proposer une fonctionnalité, signaler un bug ou simplement nous contacter ? Envoyez-nous un e-mail à contact@wearehorizontal.org",
+        "bring_shira_button": "Adoptez Shira au sein de votre organisation",
         "background": {
             "title": "Contexte",
-            "subtitle": "L’hameçonnage représente une menace majeure pour la sécurité des internautes partout dans le monde.",
-            "section1": "Souvent, les e-mails et les messages prétendant provenir d’organisations, d’entreprises et de particuliers de confiance sont en fait des tentatives pour inciter les utilisateurs à partager des informations sensibles (telles que les informations bancaire et les mots de passe) ou à installer des logiciels malveillants.",
-            "section3": "Malgré l’étendue et l’alarme de cette menace -- avec des conséquences réelles, en particulier pour les communautés marginalisées -- il existe peu de solutions faciles à utiliser pour développer les compétences nécessaires pour détecter et vaincre efficacement les attaques d’hameçonnage.",
+            "subtitle": "L'hameçonnage menace sérieusement la sécurité des internautes partout dans le monde.",
+            "section1": "Souvent, les e-mails et les messages prétendant provenir d'organisations, d'entreprises ou de personnes de confiance ne sont en réalité que des tentatives visant à inciter les utilisateurs et utilisatrices à divulguer des informations sensibles (telles que leurs coordonnées bancaires et leurs mots de passe) ou à installer des logiciels malveillants.",
+            "section3": "Malgré l'ampleur et le caractère alarmant de cette menace — qui a des conséquences concrètes, en particulier pour les communautés marginalisées —, il existe peu de solutions simples à mettre en œuvre pour acquérir les compétences nécessaires à la détection et à la lutte efficace contre les attaques d'hameçonnage.",
             "section4": "C’est pourquoi nous avons créé Shira."
         },
         "advisors": {
-            "title": "Conseillers\/Conseillères",
-            "subtitle": "Shira est soutenue par un comité de conseillers et conseillères composé d’expert(e)s en sécurité numérique et en cybersécurité:",
+            "title": "Conseillers/Conseillères",
+            "subtitle": "Shira est soutenue par un comité de conseillers et conseillères composé d’expert(e)s en sécurité numérique et en cybersécurité :",
             "person1": {
                 "name": "Amir Rashidi",
-                "job": "Directrice des droits numériques et de la sécurité, Miaan"
+                "job": "Directeur des droits numériques et de la sécurité, Miaan"
             },
             "person2": {
                 "name": "Cheekay Cinco",
@@ -164,15 +167,15 @@
             },
             "person3": {
                 "name": "Esther Onfroy",
-                "job": "Cofondatrice, Defensive Lab Agency"
+                "job": "Cofondatrice: Defensive Lab Agency"
             },
             "person4": {
                 "name": "Happy Ayomirwoth Ongi",
-                "job": "Consultant et facilitateur en sécurité numérique"
+                "job": "Consultante et facilitatrice en sécurité numérique"
             },
             "person5": {
                 "name": "Harlo Holmes",
-                "job": "Chef de la sécurité de l’information et directeur de la sécurité numérique, Freedom of the Press Foundation"
+                "job": "Cheffe de la sécurité de l'information et directrice de la sécurité numérique, Freedom of the Press Foundation"
             },
             "person6": {
                 "name": "Lobsang Gyatso",
@@ -188,26 +191,58 @@
             },
             "person9": {
                 "name": "Nick Carr",
-                "job": "Renseignement sur la cybercriminalité et tactiques des adversaires, Microsoft"
+                "job": "Analyste en cybercriminalité et techniques des adversaires, Microsoft"
             },
             "person10": {
                 "name": "Sadibou Sow",
-                "job": "Conseiller en technologie de l’éducation"
+                "job": "Consultant en technologies éducatives"
             },
             "person11": {
                 "name": "Trinh Nguyen",
-                "job": "Formateur en sécurité holistique, Article19"
+                "job": "Formatrice en sécurité holistique, Article19"
             }
         },
         "bring": {
-            "title": "Intégrez Shira à votre organisation.",
-            "section1": "Par défaut, Shira propose plusieurs options pour personnaliser les quiz et les adapter à chaque utilisateur (applications, domaines d'activité, etc.). Mais si vous souhaitez rendre les quiz encore plus réalistes pour vos employés, partenaires ou membres, nous pouvons vous aider : nous pouvons créer des quiz personnalisés en fonction de votre travail et de votre contexte, en utilisant même des attaques d’hameçonnage réelles que vous avez reçues, et fournir une formation à votre organisation.",
-            "section2": "Si cela vous semble intéressant ou si vous avez des questions, contactez-nous à contact@wearehorizontal.org."
+            "title": "Adoptez Shira au sein de votre organisation",
+            "section1": "Par défaut, Shira propose plusieurs options pour personnaliser les quiz et les adapter à chaque utilisateur et utilisatrice (applications, domaines d'activité, etc.). Mais si vous souhaitez rendre les quiz encore plus réalistes pour vos employé.e.s, partenaires ou membres, nous pouvons vous aider : nous pouvons créer des quiz personnalisés en fonction de votre travail et de votre contexte, en utilisant même des attaques d’hameçonnage réelles que vous avez reçues, et fournir une formation à votre organisation.",
+            "section2": "Si cela vous semble intéressant ou si vous avez des questions à ce sujet, envoyez-nous un email à contact@wearehorizontal.org."
         }
     },
     "navbar": {
         "home": "Accueil",
         "about": "À propos",
-        "menu": "Menu"
+        "menu": "Menu",
+        "learn": "Apprendre",
+        "take_a_quiz": "Passer un Quiz",
+        "features": "Fonctionnalités",
+        "get_started": "Lancez-vous",
+        "pricing": "Tarifs"
+    },
+    "beta": {
+        "feedback_text": "pour donner votre avis et découvrir quelles sont les prochaines étapes prévues pour Shira !",
+        "message": "Shira est actuellement en cours de développement et vous risquez de rencontrer des dysfonctionnements.",
+        "click_here": "Cliquez ici",
+        "label": "BETA"
+    },
+    "learner_invitation": {
+        "success_title": "Succès !",
+        "success_joined_space": "Vous avez rejoint {{spaceName}} sur Shira.",
+        "error_message": "Réessayez ou contactez la personne qui vous a invité.",
+        "learn_more": "En savoir plus sur Shira",
+        "success_hint": "Si votre organisation partage un quiz avec vous, vous recevrez une invitation par e-mail directement dans votre boîte de réception.",
+        "error_title": "Une erreur s'est produite"
+    },
+    "invalid_quiz": {
+        "title": "Désolé, ce lien vers le quiz est invalide.",
+        "description": "Vous avez peut-être utilisé la mauvaise URL, ou alors le quiz a été dépublié et n'est plus disponible",
+        "home_button": "Accéder à Shira"
+    },
+    "invalid_invitation": {
+        "description": "Vous avez peut-être utilisé la mauvaise URL, ou l'invitation a expiré. Réessayez ou contactez la personne qui vous a invité.",
+        "title": "Désolé, ce lien d'invitation est invalide.",
+        "home_button": "Accéder à Shira"
+    },
+    "loading_messages": {
+        "loading": "Chargement…"
     }
 }

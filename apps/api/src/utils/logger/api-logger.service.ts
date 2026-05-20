@@ -4,7 +4,7 @@ import { clc } from '@nestjs/common/utils/cli-colors.util';
 @Injectable()
 export class ApiLogger extends ConsoleLogger {
   constructor(context = 'App') {
-    super(context, { timestamp: true });
+    super(context);
   }
 
   private colorByLevel(level: LogLevel, text: string): string {

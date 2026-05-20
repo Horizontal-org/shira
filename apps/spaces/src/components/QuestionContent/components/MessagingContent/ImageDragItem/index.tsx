@@ -1,7 +1,6 @@
 import { FunctionComponent, useRef } from "react";
-import { styled } from "@shira/ui";
+import { styled, ExplanationButton } from "@horizontal-org/shira-ui";
 import { LoadingOverlay } from "../../../../LoadingOverlay/LoadingOverlay";
-import { ExplanationButton } from "../../../../Explanations/components/ExplanationButton";
 import { useStore } from "../../../../../store";
 import { shallow } from "zustand/shallow";
 import { ImageObject } from "../../../../../store/types/active_question";
@@ -57,6 +56,7 @@ export const ImageDragItem: FunctionComponent<Props> = ({
             alt={value.originalFilename}
           />
           <ExplanationButton
+            hasExplanation={Boolean(explanationId)}
             active={selectedExplanation && selectedExplanation + '' == explanationId}
             disabled={false}
             onClick={() => {

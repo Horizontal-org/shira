@@ -6,7 +6,7 @@
     "@atlaskit/pragmatic-drag-and-drop": "^1.7.4",
     "@atlaskit/pragmatic-drag-and-drop-react-beautiful-dnd-migration": "^2.0.4",
     "@hello-pangea/dnd": "^18.0.1",
-    "@shira/ui": "*",
+    "@horizontal-org/shira-ui": "file:../../packages/shira-ui",
     "@tanstack/react-table": "^8.0.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
@@ -41,7 +41,7 @@
     "@types/react": "^18.0.20",
     "@types/react-dom": "^18.0.6",
     "autosize": "^5.0.1",
-    "axios": "^1.15.0",
+    "axios": "^1.16.0",
     "concat-stream": "^2.0.0",
     "date-fns": "^4.1.0",
     "i18next": "^22.5.1",
@@ -59,7 +59,7 @@
     "react-icons": "^5.5.0",
     "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",
-    "styled-components": "^5.3.11",
+    "styled-components": "^6.3.9",
     "web-vitals": "^2.1.4",
     "zustand": "^4.1.1"
   },
@@ -91,6 +91,7 @@
     "@babel/eslint-parser": "^7.28.6",
     "@emotion/stylis": "^0.8.5",
     "eslint-config-react-app": "^7.0.1",
+    "http-proxy-middleware": "^2.0.9",
     "turbo": "^2.4.0",
     "typescript": "^5.1.6"
   }

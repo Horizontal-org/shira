@@ -8,7 +8,7 @@ import {
   Navbar,
   Form,
   RadioGroup
-} from "@shira/ui";
+} from "@horizontal-org/shira-ui";
 import backgroundSvg from "../../assets/Background.svg";
 import { GetStartedSuccess } from "./components/GetStartedSucess";
 import { useStore } from "../../store";

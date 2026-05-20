@@ -5,7 +5,7 @@ import {
   Body2Regular,
   Button,
   GeneralTooltip
-} from "@shira/ui"
+} from "@horizontal-org/shira-ui"
 import { IoClose } from "react-icons/io5";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { QuestionCRUDFeedback } from "../../fetch/question";

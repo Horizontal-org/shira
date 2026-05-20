@@ -3,7 +3,7 @@ import {
   Button,
   H1,
   styled,
-} from "@shira/ui";
+} from "@horizontal-org/shira-ui";
 import FullFish from './assets/FullFish'
 import { useStore } from "../../../../store";
 import { shallow } from "zustand/shallow";

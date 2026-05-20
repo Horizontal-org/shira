@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useMemo, useState } from "react";
-import { SmallSelect } from "@shira/ui";
+import { SmallSelect } from "@horizontal-org/shira-ui";
 import { appIcons, appTypesIcons } from "../AppIcons/appIcons";
 import { AppOption } from "../Columns";
 import { useTranslation } from "react-i18next";
@@ -26,16 +26,16 @@ export const SelectApp: FunctionComponent<Props> = ({
     if (!initiallyShowPlaceholder) return;
   }, [valueId, initiallyShowPlaceholder]);
 
-  const selectOptions = useMemo(
-    () =>
-      options.map((a) => ({
-        label: a.name,
-        labelEnglish: a.name,
-        value: String(a.id),
-        leftIcon: appIcons[a.name.toLowerCase()],
-      })),
-    [options]
-  );
+  const filteredOptions = currentType
+    ? options.filter((a) => a.type === currentType)
+    : options;
+
+  const selectOptions = filteredOptions.map((a) => ({
+    label: a.name,
+    labelEnglish: a.name,
+    value: String(a.id),
+    leftIcon: appIcons[a.name.toLowerCase()],
+  }));
 
   const placeholder = t(`question_library.columns.app.${currentType}_type`);
   const placeholderIcon = currentType && appTypesIcons[currentType];

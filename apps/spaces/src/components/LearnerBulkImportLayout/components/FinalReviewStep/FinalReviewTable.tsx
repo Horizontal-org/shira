@@ -1,5 +1,5 @@
 import { FunctionComponent, ReactNode, useMemo, useState } from "react";
-import { Body4, Table, styled } from "@shira/ui";
+import { Body4, Table, styled } from "@horizontal-org/shira-ui";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { StatusIconPill } from "../VerifyLearnersStep/StatusIconPill";
 

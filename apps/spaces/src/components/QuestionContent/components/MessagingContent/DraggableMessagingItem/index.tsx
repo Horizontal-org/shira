@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react'
 import { Draggable } from "@hello-pangea/dnd";
-import { styled } from '@shira/ui';
+import { styled } from '@horizontal-org/shira-ui';
 import { TextDragItem } from '../TextDragItem';
 import { ImageDragItem } from '../ImageDragItem';
 import { QuestionDragEditor, QuestionDragImage } from '../../../../../store/types/active_question';

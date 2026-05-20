@@ -6,7 +6,7 @@ import {
   styled, 
   SubHeading3, 
   TextInput 
-} from '@shira/ui'
+} from '@horizontal-org/shira-ui'
 import { App } from "../../fetch/app";
 import { ActiveQuestion } from "../../store/types/active_question";
 
