@@ -297,7 +297,13 @@
             "tags": "Tags",
             "creator": "Creator",
             "created_on": "Created on",
-            "preview_full_quiz": "Preview full quiz"
+            "preview_full_quiz": "Preview full quiz",
+            "columns": {
+                "question_name": "Question name",
+                "type": "Type",
+                "language": "Language",
+                "app": "App"
+            }
         }
     },
     "results_tab": {

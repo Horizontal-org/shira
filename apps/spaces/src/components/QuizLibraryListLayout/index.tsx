@@ -234,7 +234,7 @@ const PaginationWrapper = styled.div`
 const CardGrid = styled.div`
   padding: 16px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {

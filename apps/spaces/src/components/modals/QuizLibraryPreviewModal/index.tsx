@@ -1,27 +1,17 @@
-import { Body1, Body4, Button, H2, defaultTheme, styled } from "@shira/ui";
+import { Body1, Button, H2, defaultTheme, styled } from "@shira/ui";
 import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FaCircleCheck, FaCirclePlus } from "react-icons/fa6";
+import { FaCirclePlus } from "react-icons/fa6";
 import { FiEye, FiX } from "react-icons/fi";
-import { MdOutlinePhishing } from "react-icons/md";
 import { getQuizTemplate, LibraryQuizDto, LibraryQuizQuestionDto } from "../../../fetch/quiz_library";
-import { appIcons } from "../../QuestionLibraryListLayout/components/AppIcons/appIcons";
 import { QuizPreviewDetailsCard } from "./components/QuizPreviewDetailsCard";
+import { PreviewQuestionRow, QuizPreviewQuestionsTable } from "./components/QuizPreviewQuestionsTable";
 
 type Props = {
   quiz: LibraryQuizDto | null;
   isOpen: boolean;
   onClose: () => void;
   onUseTemplate: () => void;
-};
-
-type PreviewQuestionRow = {
-  id: string;
-  name: string;
-  isPhishing: boolean | null;
-  typeLabel: string;
-  language: string;
-  app: string;
 };
 
 const formatLongDate = (value: string) => {
@@ -36,16 +26,20 @@ const formatLongDate = (value: string) => {
 
 const getTextValue = (...values: any[]) => {
   for (const value of values) {
-    if (value) {
-      if (value.name.trim()) {
+    if (typeof value === "string" && value.trim()) {
+      return value.trim();
+    }
+
+    if (value && typeof value === "object") {
+      if (typeof value.name === "string" && value.name.trim()) {
         return value.name.trim();
       }
 
-      if (value.title.trim()) {
+      if (typeof value.title === "string" && value.title.trim()) {
         return value.title.trim();
       }
 
-      if (value.label.trim()) {
+      if (typeof value.label === "string" && value.label.trim()) {
         return value.label.trim();
       }
     }
@@ -99,8 +93,7 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
     && quiz
     && resolvedQuiz.title === quiz.title
     && resolvedQuiz.createdAt === quiz.createdAt
-    ? resolvedQuiz
-    : quiz;
+    ? resolvedQuiz : quiz;
 
   useEffect(() => {
     if (!isOpen || !quiz) {
@@ -226,40 +219,7 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
           />
 
           <QuestionsSection id="quiz-library-preview-questions">
-            {questions.length > 0 && (
-              <QuestionsTable>
-                {/* Table */}
-                <tbody>
-                  {questions.map((question, index) => (
-                    <QuestionRow key={question.id}>
-                      <IndexCell>{index + 1}</IndexCell>
-                      <NameCell>{question.name}</NameCell>
-                      <Cell>
-                        {question.isPhishing !== null ? (
-                          <TypePill $isPhishing={question.isPhishing}>
-                            {question.isPhishing ? (
-                              <MdOutlinePhishing size={16} />
-                            ) : (
-                              <FaCircleCheck size={16} color={defaultTheme.colors.green6} />
-                            )}
-                            {question.typeLabel}
-                          </TypePill>
-                        ) : (
-                          <Body4>{question.typeLabel || "-"}</Body4>
-                        )}
-                      </Cell>
-                      <Cell>{question.language || "-"}</Cell>
-                      <Cell>
-                        <AppValue>
-                          {question.app && appIcons[question.app.toLocaleLowerCase()]}
-                          <span>{question.app || "-"}</span>
-                        </AppValue>
-                      </Cell>
-                    </QuestionRow>
-                  ))}
-                </tbody>
-              </QuestionsTable>
-            )}
+            <QuizPreviewQuestionsTable questions={questions} />
           </QuestionsSection>
 
         </Content>
@@ -360,63 +320,4 @@ const Subtitle = styled(Body1)`
 
 const QuestionsSection = styled.div`
   margin-top: 16px;
-`;
-
-const QuestionsTable = styled.table`
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  overflow: hidden;
-  border-radius: 18px;
-  margin-top: 12px;
-`;
-
-const QuestionRow = styled.tr`
-  td {
-    border-bottom: 1px solid ${defaultTheme.colors.light.paleGrey};
-  }
-
-  &:last-child td {
-    border-bottom: none;
-  }
-`;
-
-const Cell = styled.td`
-  background: ${defaultTheme.colors.light.white};
-  padding: 14px 16px;
-  color: ${defaultTheme.colors.dark.darkGrey};
-  vertical-align: middle;
-`;
-
-const IndexCell = styled(Cell)`
-  color: ${defaultTheme.colors.green6};
-  font-weight: 600;
-`;
-
-const NameCell = styled(Cell)`
-  font-weight: 600;
-`;
-
-const TypePill = styled.span<{ $isPhishing: boolean }>`
-  background: ${(props) => (
-    props.$isPhishing
-      ? defaultTheme.colors.light.paleRed
-      : defaultTheme.colors.light.paleGreen)};
-  color: ${(props) => (
-    props.$isPhishing
-      ? defaultTheme.colors.error9
-      : defaultTheme.colors.green9)};
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border-radius: 2px;
-  padding: 4px 8px;
-  font-size: 14px;
-  font-weight: 400;
-`;
-
-const AppValue = styled.div`
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
 `;

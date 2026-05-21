@@ -1,4 +1,4 @@
-import { ActionTooltip, BaseFloatingMenu, Body3, Body4, styled, SubHeading3, defaultTheme } from '@shira/ui';
+import { ActionTooltip, BaseFloatingMenu, Body3, Body4, styled, SubHeading3, defaultTheme, Body1, Body1SemiBold } from '@shira/ui';
 import { FunctionComponent, useRef, useState } from 'react';
 import { LibraryQuizDto } from '../../../../fetch/quiz_library';
 import { FaCirclePlus } from 'react-icons/fa6';
@@ -90,21 +90,19 @@ export const QuizCard: FunctionComponent<CardProps> = ({
         </HeaderRow>
 
         <CardTitle>{quiz.title}</CardTitle>
-        <ModifiedText>{[quiz.author.toLocaleUpperCase(), formatCardDate(quiz.createdAt)].join(' | ')}</ModifiedText>
       </TopSection>
 
-      {quiz.description && (
-        <BottomContainer>
-          <DescriptionText>{quiz.description}</DescriptionText>
-          <TagRow>
-            {quiz.tags.map((tag) => (
-              <TagChip key={tag}>
-                <Body4>{tag}</Body4>
-              </TagChip>
-            ))}
-          </TagRow>
-        </BottomContainer>
-      )}
+      <BottomContainer>
+        <ModifiedText>{[quiz.author.toLocaleUpperCase(), formatCardDate(quiz.createdAt)].join(' | ')}</ModifiedText>
+        <TagRow>
+          {quiz.tags.map((tag) => (
+            <TagChip key={tag}>
+              <Body4>{tag}</Body4>
+            </TagChip>
+          ))}
+        </TagRow>
+      </BottomContainer>
+
     </CardWrapper>
   );
 };
@@ -115,7 +113,6 @@ const CardWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-height: 320px;
 `;
 
 const TopSection = styled.div`
@@ -159,16 +156,11 @@ const LanguageChip = styled.span`
   line-height: 1;
 `;
 
-const CardTitle = styled(SubHeading3)`
-  margin: 0;
-  line-height: 1.25;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  overflow: hidden;
+const CardTitle = styled(Body1SemiBold)`
+  color: ${props => props.theme.colors.dark.darkGrey};
 `;
 
-const ModifiedText = styled(Body4)`
+const ModifiedText = styled(Body3)`
   color: ${props => props.theme.colors.green7};
   margin: 0;
   letter-spacing: 0.04em;
@@ -176,11 +168,11 @@ const ModifiedText = styled(Body4)`
 `;
 
 const BottomContainer = styled.div`
-  margin-top: auto;
+  margin-top: 10px;
   padding: 14px 28px 28px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
 `;
 
 const DescriptionText = styled(Body3)`
