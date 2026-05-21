@@ -5,8 +5,9 @@ import { shallow } from "zustand/shallow";
 import { useTranslation } from "react-i18next";
 import { useStore } from "../../store";
 import { QuizCard } from "./components/QuizCard";
+import { QuizLibrarySearchInput } from "./components/QuizLibrarySearchInput";
 import { getQuizTemplates, type LibraryQuizDto } from "../../fetch/quiz_library";
-import { AddLibraryQuizModal } from "../modals/AddLibraryQuizModal";
+import { AddQuizFromTemplateModal } from "../modals/AddQuizFromTemplateModal";
 import { QuizLimitModal } from "../modals/QuizLimitModal";
 import { ViewPlansModal } from "../modals/ViewPlansModal";
 import { QuizLibraryPreviewModal } from "../modals/QuizLibraryPreviewModal";
@@ -131,19 +132,15 @@ export const QuizLibraryListLayout: FunctionComponent = () => {
 
         <PageInner>
 
-          {!loading && libraryQuizzes.length > 0 && (
-            <PaginationWrapper>
-              <CardPagination
-                pageIndex={pageIndex}
-                total={total}
-                pageCount={pageCount}
-                onFirstPage={() => { setPageIndex(0); }}
-                onPreviousPage={() => { setPageIndex((prev) => Math.max(0, prev - 1)); }}
-                onNextPage={() => { setPageIndex((prev) => Math.min(pageCount - 1, prev + 1)); }}
-                onLastPage={() => { setPageIndex(pageCount - 1); }}
-              />
-            </PaginationWrapper>
-          )}
+          <QuizLibrarySearchInput
+            pageIndex={pageIndex}
+            total={total}
+            pageCount={pageCount}
+            onFirstPage={() => { setPageIndex(0); }}
+            onPreviousPage={() => { setPageIndex((prev) => Math.max(0, prev - 1)); }}
+            onNextPage={() => { setPageIndex((prev) => Math.min(pageCount - 1, prev + 1)); }}
+            onLastPage={() => { setPageIndex(pageCount - 1); }}
+          />
 
           <CardGrid id="quiz-card-grid">
             {loading ? (
@@ -175,7 +172,7 @@ export const QuizLibraryListLayout: FunctionComponent = () => {
           )}
         </PageInner>
 
-        <AddLibraryQuizModal
+        <AddQuizFromTemplateModal
           quiz={selectedQuiz}
           isModalOpen={isAddQuizModalOpen}
           onClose={handleCloseAddQuizModal}

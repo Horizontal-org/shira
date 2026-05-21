@@ -2,10 +2,11 @@ import { Body1, Button, H2, defaultTheme, styled } from "@shira/ui";
 import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaCirclePlus } from "react-icons/fa6";
-import { FiEye, FiX } from "react-icons/fi";
+import { FiX } from "react-icons/fi";
 import { getQuizTemplate, LibraryQuizDto, LibraryQuizQuestionDto } from "../../../fetch/quiz_library";
 import { QuizPreviewDetailsCard } from "./components/QuizPreviewDetailsCard";
 import { PreviewQuestionRow, QuizPreviewQuestionsTable } from "./components/QuizPreviewQuestionsTable";
+import { IoEyeSharp } from "react-icons/io5";
 
 type Props = {
   quiz: LibraryQuizDto | null;
@@ -135,8 +136,6 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
     [activeQuiz, t],
   );
 
-  const questionCount = questions.length || Number(activeQuiz?.questionCount ?? activeQuiz?.totalQuestions ?? 0);
-
   useEffect(() => {
     if (!isOpen) {
       return undefined;
@@ -180,22 +179,19 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
           </CloseButton>
 
           <ActionsRow>
-            {questionCount > 0 && (
-              <>
-                <Button
-                  text={t("quiz_library.preview.preview_full_quiz")}
-                  type="outline"
-                  leftIcon={<FiEye size={16} />}
-                  onClick={() => {
-                    document.getElementById("quiz-library-preview-questions")?.scrollIntoView({
-                      behavior: "smooth",
-                      block: "start",
-                    });
-                  }}
-                />
-                <ActionsDivider />
-              </>
-            )}
+
+            <Button
+              text={t("quiz_library.preview.preview_full_quiz")}
+              type="outline"
+              leftIcon={<IoEyeSharp size={20} color={defaultTheme.colors.dark.darkGrey} />}
+              onClick={() => {
+                document.getElementById("quiz-library-preview-questions")?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }}
+            />
+            <ActionsDivider />
 
             <Button
               text={t("dashboard.use_template_button")}
@@ -224,7 +220,7 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
 
         </Content>
       </Dialog>
-    </Overlay>
+    </Overlay >
   );
 };
 
@@ -250,7 +246,6 @@ const Dialog = styled.div`
 
 const TopBar = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
   gap: 24px;
   padding: 20px 28px 0;
@@ -266,16 +261,11 @@ const CloseButton = styled.button`
   all: unset;
   width: 40px;
   height: 40px;
-  border-radius: 999px;
   cursor: pointer;
   color: ${defaultTheme.colors.dark.darkGrey};
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
-  &:hover {
-    background: ${defaultTheme.colors.light.paleGrey};
-  }
 `;
 
 const ActionsRow = styled.div`
@@ -294,11 +284,11 @@ const ActionsRow = styled.div`
 const ActionsDivider = styled.div`
   width: 1px;
   height: 36px;
-  background: ${defaultTheme.colors.light.paleGrey};
+  background: ${defaultTheme.colors.dark.mediumGrey};
 `;
 
 const Content = styled.div`
-  padding: 24px 28px 32px;
+  padding: 32px 64px 32px;
   overflow-y: auto;
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
@@ -314,8 +304,6 @@ const Title = styled(H2)`
 const Subtitle = styled(Body1)`
   margin: 16px 0 0;
   color: ${defaultTheme.colors.dark.darkGrey};
-  max-width: 820px;
-  line-height: 1.6;
 `;
 
 const QuestionsSection = styled.div`

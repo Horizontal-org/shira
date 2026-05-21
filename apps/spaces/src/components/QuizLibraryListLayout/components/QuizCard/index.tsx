@@ -108,7 +108,7 @@ export const QuizCard: FunctionComponent<CardProps> = ({
 };
 
 const CardWrapper = styled.div`
-  background: white;
+  background: ${props => props.theme.colors.light.white};
   border-radius: 24px;
   display: flex;
   flex-direction: column;
@@ -175,16 +175,6 @@ const BottomContainer = styled.div`
   gap: 10px;
 `;
 
-const DescriptionText = styled(Body3)`
-  margin: 0;
-  color: ${props => props.theme.colors.dark.darkGrey};
-  line-height: 1.5;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-`;
-
 const TagRow = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -198,6 +188,6 @@ const TagChip = styled.span`
   padding: 4px;
   border: 1px solid ${props => props.theme.colors.blue4};
   border-radius: 4px;
-  background: white;
+  background: ${props => props.theme.colors.light.white};
   line-height: 1;
 `;

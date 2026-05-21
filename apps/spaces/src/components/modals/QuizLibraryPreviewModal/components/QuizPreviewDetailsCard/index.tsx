@@ -110,7 +110,6 @@ const SectionLabel = styled(Body3)`
   display: inline-flex;
   gap: 4px;
   text-transform: uppercase;
-  padding-right: 4px;
 `;
 
 const LabelIcon = styled.span`
@@ -148,7 +147,6 @@ const MetaSidebar = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
-  justify-content: flex-start;
   padding-top: 2px;
 `;
 

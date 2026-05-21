@@ -10,7 +10,7 @@ interface Props {
   isSubmitting?: boolean;
 }
 
-export const AddLibraryQuizModal: FunctionComponent<Props> = ({
+export const AddQuizFromTemplateModal: FunctionComponent<Props> = ({
   quiz,
   isModalOpen,
   onClose,
@@ -23,9 +23,9 @@ export const AddLibraryQuizModal: FunctionComponent<Props> = ({
 
   return (
     <Modal
-      id="add-library-quiz-modal"
+      id="add-quiz-from-template-modal"
       isOpen={isModalOpen}
-      title={"Add Library Quiz"}
+      title={"Add Quiz from Template"}
       primaryButtonText={"Add"}
       secondaryButtonText={"Cancel"}
       primaryButtonDisabled={isSubmitting}
