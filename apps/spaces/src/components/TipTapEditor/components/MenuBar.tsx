@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react'
 import { ExplanationIcon } from '@shira/ui'
 import { useLink } from '../hooks/useLink'
-import { FiBold, FiItalic, FiCode, FiList, FiLink, FiUnderline, FiImage } from 'react-icons/fi'
+import { FiBold, FiItalic, FiCode, FiList, FiUnderline, FiImage } from 'react-icons/fi'
 import { 
   TbStrikethrough, 
   TbTablePlus, 
@@ -28,7 +28,6 @@ import {
   InputColor,
   ExplanationIconWrapper
 } from '../styles/MenuBarStyles'
-import {  isTableCellEmpty } from '../utils'
 import { MenuLink } from './MenuLink'
 
 interface MenuBarProps {

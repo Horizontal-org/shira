@@ -7,8 +7,6 @@ import { useTranslation } from "react-i18next";
 import { useStore } from "../../store";
 import { shallow } from "zustand/shallow";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
-import HookedFish from "../../assets/HookedFish.svg";
-import QuizEndFish from "../../assets/QuizEndFish.svg";
 
 interface Props { }
 

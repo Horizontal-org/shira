@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useMemo, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { SmallSelect } from "@shira/ui";
 import { appIcons, appTypesIcons } from "../AppIcons/appIcons";
 import { AppOption } from "../Columns";
