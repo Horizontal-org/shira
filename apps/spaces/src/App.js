@@ -100,7 +100,6 @@ function App() {
                     <Route path='/question/library' element={<QuestionLibraryListLayout />} />
                     <Route path='/learner' element={<LearnersLayout />} />
                     <Route path='/learner/import/bulk' element={<LearnerBulkImportLayout />} />
-                    <Route path='/library' element={<LibraryLayout />} />
                     <Route path="/logout" element={<LogoutLayout />} />
                     <Route path="/support" element={<SupportLayout />} />
                     <Route path="/settings" element={<SettingsLayout />} />

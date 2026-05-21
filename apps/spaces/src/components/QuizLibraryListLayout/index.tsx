@@ -1,52 +1,43 @@
-import { Body1, H2, CardPagination, Props, Sidebar, styled, SubHeading3, useAdminSidebar } from "@shira/ui";
+import { Body1, CardPagination, styled } from "@shira/ui";
 import { FunctionComponent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
-import { t } from "i18next";
 import { shallow } from "zustand/shallow";
+import { useTranslation } from "react-i18next";
 import { useStore } from "../../store";
 import { QuizCard } from "./components/QuizCard";
 import { getQuizTemplates, type LibraryQuizDto } from "../../fetch/quiz_library";
-import { LayoutContainer } from "../LayoutStyleComponents/LayoutContainer";
-import { LayoutMainContent, LayoutMainContentWrapper } from "../LayoutStyleComponents/LayoutMainContent";
 import { AddLibraryQuizModal } from "../modals/AddLibraryQuizModal";
 import { QuizLimitModal } from "../modals/QuizLimitModal";
 import { ViewPlansModal } from "../modals/ViewPlansModal";
 import { useSub } from "../../hooks/useSub";
-import { QuizLibraryBreadcrumbs } from "./components/QuizLibraryBreadcrumbs";
+import { QuizLibraryFlowManagement } from "../QuizLibraryFlowManagement";
 
 const PAGE_SIZE = 10;
 
-export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
-
+export const QuizLibraryListLayout: FunctionComponent = () => {
   const navigate = useNavigate();
-  const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate);
+  const { t } = useTranslation();
 
   const [libraryQuizzes, setLibraryQuizzes] = useState<LibraryQuizDto[]>([]);
-
   const [loading, setLoading] = useState(false);
   const [pageIndex, setPageIndex] = useState(0);
-
   const [selectedQuiz, setSelectedQuiz] = useState<LibraryQuizDto | null>(null);
   const [isSubmittingAddQuiz, setIsSubmittingAddQuiz] = useState(false);
-
   const [isAddQuizModalOpen, setIsAddQuizModalOpen] = useState(false);
   const [isQuizLimitModalOpen, setIsQuizLimitModalOpen] = useState(false);
   const [isViewPlansModalOpen, setIsViewPlansModalOpen] = useState(false);
 
   const {
-    space,
     createQuiz,
     fetchQuizzes,
     quizzes,
     subscription
   } = useStore((state) => ({
-    space: state.space,
     createQuiz: state.createQuiz,
     fetchQuizzes: state.fetchQuizzes,
     quizzes: state.quizzes,
     subscription: state.subscription
-  }), shallow)
+  }), shallow);
 
   const { isSubActive } = useSub();
 
@@ -92,46 +83,32 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
     setIsViewPlansModalOpen(true);
   };
 
+  const canAddQuizzes = (isSubActive: boolean, currentQuizzes) => {
+    return isSubActive || currentQuizzes.length < 3;
+  };
+
   const handleConfirmAddQuiz = async () => {
     if (!selectedQuiz || !canAddQuizzes(isSubActive, quizzes)) {
       return;
     }
+
     setIsSubmittingAddQuiz(true);
 
     try {
       await Promise.resolve(createQuiz(selectedQuiz.title, "public"));
       await fetchQuizzes();
-
       handleCloseAddQuizModal();
-      navigate("/dashboard"); // Is it okay to navigate to the dashboard after copying a quiz?
+      navigate("/dashboard");
     } finally {
       setIsSubmittingAddQuiz(false);
     }
   };
 
-  const canAddQuizzes = (isSubActive: boolean, quizzes) => {
-    return isSubActive || quizzes.length < 3;
-  }
-
   return (
-    <LayoutContainer id="quiz-library-list-layout">
-      <Sidebar
-        menuItems={menuItems}
-        onCollapse={handleCollapse}
-        selectedItemLabel={menuItems.find(m => m.path === '/library').label}
-      />
-      <LayoutMainContent $isCollapsed={isCollapsed}>
-        <MobileResponsivenessBanner />
+    <QuizLibraryFlowManagement>
+      <PageContent id="quiz-library-list-layout">
 
-        <LayoutMainContentWrapper>
-          <HeaderContainer>
-
-            <QuizLibraryBreadcrumbs />
-
-            <StyledSubHeading3 id="space-name">{space && space.name}</StyledSubHeading3>
-            <H2 id="quiz-library-title">{t('dashboard.title')}</H2>
-            <Body1 id="quiz-library-subtitle">{t('dashboard.subtitle')}</Body1>
-          </HeaderContainer>
+        <PageInner>
 
           {!loading && libraryQuizzes.length > 0 && (
             <PaginationWrapper>
@@ -149,7 +126,7 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
 
           <CardGrid id="quiz-card-grid">
             {loading ? (
-              <Body1>{t('loading_messages.loading')}</Body1>
+              <Body1>{t("loading_messages.loading")}</Body1>
             ) : (
               paginatedQuizzes.map((quiz) => (
                 <QuizCard
@@ -160,6 +137,7 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
                       setIsQuizLimitModalOpen(true);
                       return;
                     }
+
                     handleOpenAddQuizModal(quiz);
                   }}
                 />
@@ -180,7 +158,7 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
               />
             </PaginationWrapper>
           )}
-        </LayoutMainContentWrapper>
+        </PageInner>
 
         <AddLibraryQuizModal
           quiz={selectedQuiz}
@@ -201,21 +179,26 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
           onClose={() => setIsViewPlansModalOpen(false)}
           organizationId={subscription.organizationId}
         />
-
-      </LayoutMainContent>
-    </LayoutContainer>
+      </PageContent>
+    </QuizLibraryFlowManagement>
   );
 };
 
-const HeaderContainer = styled.div`
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+const PageContent = styled.div`
+  width: min(1240px, calc(100% - 64px));
+  margin: 0 auto;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    width: calc(100% - 32px);
+  }
 `;
 
-const StyledSubHeading3 = styled(SubHeading3)`
-  color: ${props => props.theme.colors.green7};
+const PageInner = styled.div`
+  padding: 0 18px;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    padding: 0;
+  }
 `;
 
 const PaginationWrapper = styled.div`
@@ -231,5 +214,9 @@ const CardGrid = styled.div`
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
+  }
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    grid-template-columns: 1fr;
   }
 `;

@@ -3,7 +3,6 @@ import { FiLogOut } from 'react-icons/fi';
 import { IoMdHelpCircle, IoMdSettings } from 'react-icons/io';
 import { IoPerson } from 'react-icons/io5';
 import { LuNotepadText } from 'react-icons/lu';
-import { MdOutlineMenuBook } from 'react-icons/md';
 
 interface NavigateFunction {
   (path: string): void;
@@ -18,7 +17,6 @@ interface MenuItem {
 const defaultAdminPaths = {
   quizzes: '/dashboard',
   learners: '/learner',
-  library: '/library',
   support: '/support',
   logout: '/logout',
   settings: '/settings'
@@ -34,11 +32,6 @@ const createDefaultMenuItems = (): MenuItem[] => [
     icon: <IoPerson id='learner-icon' size={24} color='currentColor' />,
     label: 'Learners',
     path: defaultAdminPaths.learners
-  },
-  {
-    icon: <MdOutlineMenuBook id='library-icon' size={24} color='currentColor' />,
-    label: 'Library',
-    path: defaultAdminPaths.library
   },
   {
     icon: <IoMdHelpCircle id="support-icon" size={24} color="currentColor" />,

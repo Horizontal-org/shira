@@ -58,6 +58,7 @@
         "title": "Quizzes",
         "subtitle": "Manage your quizzes here, including creating, publishing, unpublishing and deleting quizzes.",
         "create_quiz_button": "Create new quiz",
+        "use_template_button": "Use a template",
         "create_limit_reached": "Upgrade your plan to create more quizzes."
     },
     "learners": {
@@ -282,6 +283,11 @@
                 "disabled_tooltip": "Select a language and an app to use this question."
             }
         }
+    },
+    "quiz_library": {
+        "header_title": "Select a quiz template",
+        "title": "Quiz library",
+        "subtitle": "Select a quiz from the list below to use it as a template for your new quiz."
     },
     "results_tab": {
         "title": "Overall results",

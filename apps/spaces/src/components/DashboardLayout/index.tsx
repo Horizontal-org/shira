@@ -25,6 +25,7 @@ import { QuizLimitModal } from "../modals/QuizLimitModal";
 import { ViewPlansModal } from "../modals/ViewPlansModal";
 import { FirstLoginModal } from "../modals/FirstLoginModal";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
+import { UseAQuizTemplateButton } from "../QuizLibraryListLayout/components/UseAQuizTemplateButton";
 
 interface Props { }
 
@@ -244,14 +245,22 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           <HeaderContainer>
             <StyledSubHeading3 id="space-name">{space && space.name}</StyledSubHeading3>
             <H2 id="dashboard-title">{t('dashboard.title')}</H2>
-            <Body1 id="dashboard-subtitle">{t('dashboard.subtitle')}</Body1>
+            <HeaderSubtitle id="dashboard-subtitle">{t('dashboard.subtitle')}</HeaderSubtitle>
 
-            <CreateQuizButton
-              isSubActive={isSubActive}
-              quizCount={quizzes ? quizzes.length : 0}
-              startCreateQuizFlow={startCreateQuizFlow}
-              onLimitReached={() => setIsQuizLimitModalOpen(true)}
-            />
+            <HeaderActions>
+              <CreateQuizButton
+                isSubActive={isSubActive}
+                quizCount={quizzes ? quizzes.length : 0}
+                startCreateQuizFlow={startCreateQuizFlow}
+                onLimitReached={() => setIsQuizLimitModalOpen(true)}
+              />
+
+              <UseAQuizTemplateButton
+                isSubActive={isSubActive}
+                quizCount={quizzes ? quizzes.length : 0}
+                onLimitReached={() => setIsQuizLimitModalOpen(true)}
+              />
+            </HeaderActions>
           </HeaderContainer>
 
           <FilterButtonsContainer>
@@ -486,14 +495,27 @@ const HeaderContainer = styled.div`
   padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 10px;
+`;
+
+const HeaderSubtitle = styled(Body1)`
+  max-width: 720px;
+`;
+
+const HeaderActions = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
 `;
 
 const FilterButtonsContainer = styled.div`
-  margin-top: 8px;
+  margin-top: 2px;
   padding: 16px;
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
 `;
 
 const CardGrid = styled.div`
