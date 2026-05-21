@@ -87,7 +87,7 @@ const TopRow = styled.div`
 `;
 
 const SearchColumn = styled.div`
-  flex: 1;
+  flex: 0.75;
   min-width: 0;
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
