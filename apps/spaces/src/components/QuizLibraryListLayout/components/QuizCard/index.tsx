@@ -1,7 +1,7 @@
-import { Body3, Body4, styled, SubHeading3 } from '@shira/ui';
+import { Body3, Body4, styled, SubHeading3, defaultTheme } from '@shira/ui';
 import { FunctionComponent } from 'react';
-import { BsThreeDotsVertical } from 'react-icons/bs';
 import { LibraryQuizDto } from '../../../../fetch/quiz_library';
+import { FaCirclePlus } from 'react-icons/fa6';
 
 export interface CardProps {
   quiz: LibraryQuizDto;
@@ -43,7 +43,7 @@ export const QuizCard: FunctionComponent<CardProps> = ({
               onMenuClick();
             }}
           >
-            <BsThreeDotsVertical size={18} />
+            <FaCirclePlus size={18} color={defaultTheme.colors.green7} />
           </MenuButton>
         </HeaderRow>
 
@@ -127,7 +127,7 @@ const CardTitle = styled(SubHeading3)`
 `;
 
 const ModifiedText = styled(Body4)`
-  color: ${props => props.theme.colors.dark.darkGrey};
+  color: ${props => props.theme.colors.green7};
   margin: 0;
   letter-spacing: 0.04em;
   line-height: 1.4;
