@@ -1,11 +1,9 @@
-import { BaseFloatingMenu, Body3, Body4, styled, SubHeading3, defaultTheme } from '@shira/ui';
+import { ActionTooltip, BaseFloatingMenu, Body3, Body4, styled, SubHeading3, defaultTheme } from '@shira/ui';
 import { FunctionComponent, useRef, useState } from 'react';
 import { LibraryQuizDto } from '../../../../fetch/quiz_library';
 import { FaCirclePlus } from 'react-icons/fa6';
 import { FiEye } from 'react-icons/fi';
 import { useTranslation } from 'react-i18next';
-import { GoAlertFill } from 'react-icons/go';
-import { RiAlertFill } from 'react-icons/ri';
 import { TbAlertTriangleFilled } from 'react-icons/tb';
 
 export interface CardProps {
@@ -46,22 +44,28 @@ export const QuizCard: FunctionComponent<CardProps> = ({
             ))}
           </LanguageRow>
 
-          <MenuButton
-            ref={menuButtonRef}
-            type="button"
-            aria-label={t('quiz_library.actions_aria_label', { defaultValue: 'Quiz actions' })}
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsMenuOpen((prev) => !prev);
-            }}
+          <ActionTooltip
+            content={t('quiz_library.actions_tooltip')}
+            disabled={isMenuOpen}
+            delayMs={50}
           >
-            <FaCirclePlus size={18} color={defaultTheme.colors.green7} />
-          </MenuButton>
+            <MenuButton
+              ref={menuButtonRef}
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsMenuOpen((prev) => !prev);
+              }}
+            >
+              <FaCirclePlus size={18} color={defaultTheme.colors.green7} />
+            </MenuButton>
+          </ActionTooltip>
 
           <BaseFloatingMenu
             isOpen={isMenuOpen}
             onClose={() => setIsMenuOpen(false)}
             anchorEl={menuButtonRef.current}
+            width={170}
             elements={[
               {
                 text: t('quiz_library.view_template'),
