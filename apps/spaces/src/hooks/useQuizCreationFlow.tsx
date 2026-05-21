@@ -1,10 +1,11 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { duplicateQuiz } from "../fetch/quiz";
+import { LibraryQuizDto } from "../fetch/quiz_library";
 import { Quiz } from "../store/slices/quiz";
 import { hasRequiredValue } from "../utils/validation";
 
-type QuizFlowMode = "create" | "duplicate" | null;
+type QuizFlowMode = "create" | "duplicate" | "template" | null;
 type QuizFlowStep = 0 | 1 | 2;
 
 interface UseQuizCreationFlowParams {
@@ -23,6 +24,7 @@ export const useQuizCreationFlow = ({
   const [title, setTitle] = useState("");
 
   const [selectedQuizForDuplicate, setSelectedQuizForDuplicate] = useState<Quiz | null>(null);
+  const [selectedTemplateQuiz, setSelectedTemplateQuiz] = useState<LibraryQuizDto | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittingQuizId, setSubmittingQuizId] = useState<number | null>(null);
 
@@ -31,6 +33,7 @@ export const useQuizCreationFlow = ({
     setStep(1);
     setTitle("");
     setSelectedQuizForDuplicate(null);
+    setSelectedTemplateQuiz(null);
     setSubmittingQuizId(null);
   };
 
@@ -43,6 +46,12 @@ export const useQuizCreationFlow = ({
     reset();
     setMode("duplicate");
     setSelectedQuizForDuplicate(quiz);
+  };
+
+  const startTemplateQuizFlow = (quiz: LibraryQuizDto) => {
+    reset();
+    setMode("template");
+    setSelectedTemplateQuiz(quiz);
   };
 
   const moveToVisibilityStep = (newTitle: string) => {
@@ -59,7 +68,7 @@ export const useQuizCreationFlow = ({
   const handleConfirmVisibility = async (visibility: string) => {
     if (!hasRequiredValue(title)) return;
 
-    if (mode === "create") {
+    if (mode === "create" || mode === "template") {
       setStep(0);
       createQuiz(title.trim(), visibility);
       reset();
@@ -100,15 +109,18 @@ export const useQuizCreationFlow = ({
     title,
     setTitle,
     selectedQuizForDuplicate,
+    selectedTemplateQuiz,
     isSubmitting,
     submittingQuizId,
 
     isCreateTitleModalOpen: mode === "create" && step === 1,
     isDuplicateTitleModalOpen: mode === "duplicate" && step === 1,
+    isTemplateTitleModalOpen: mode === "template" && step === 1,
     isVisibilityModalOpen: mode !== null && step === 2,
 
     startCreateQuizFlow,
     startDuplicateQuizFlow,
+    startTemplateQuizFlow,
     moveToVisibilityStep,
     handleBackFromVisibility,
     handleConfirmVisibility,

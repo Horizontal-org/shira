@@ -477,6 +477,11 @@
             "quiz_name": "Quiz name",
             "quiz_name_placeholder": "Copy of {{quiz_name}}"
         },
+        "add_quiz_from_template": {
+            "title": "Give your new quiz a name",
+            "subtitle": "The quiz name will be visible in your Space and to learners when they take it.",
+            "input_label": "Quiz name"
+        },
         "quiz_limit": {
             "title": "Ready to upgrade?",
             "message_1": "On the Starter plan, you can create up to 3 quizzes.",

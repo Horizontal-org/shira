@@ -183,7 +183,7 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
             <Button
               text={t("quiz_library.preview.preview_full_quiz")}
               type="outline"
-              leftIcon={<IoEyeSharp size={20} color={defaultTheme.colors.dark.darkGrey} />}
+              leftIcon={<IoEyeSharp size={16} color={defaultTheme.colors.dark.darkGrey} />}
               onClick={() => {
                 document.getElementById("quiz-library-preview-questions")?.scrollIntoView({
                   behavior: "smooth",

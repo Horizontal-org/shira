@@ -7,7 +7,6 @@ import { useStore } from "../../store";
 import { QuizCard } from "./components/QuizCard";
 import { QuizLibrarySearchInput } from "./components/QuizLibrarySearchInput";
 import { getQuizTemplates, type LibraryQuizDto } from "../../fetch/quiz_library";
-import { AddQuizFromTemplateModal } from "../modals/AddQuizFromTemplateModal";
 import { QuizLimitModal } from "../modals/QuizLimitModal";
 import { ViewPlansModal } from "../modals/ViewPlansModal";
 import { QuizLibraryPreviewModal } from "../modals/QuizLibraryPreviewModal";
@@ -24,22 +23,17 @@ export const QuizLibraryListLayout: FunctionComponent = () => {
   const [loading, setLoading] = useState(false);
   const [pageIndex, setPageIndex] = useState(0);
   const [previewQuiz, setPreviewQuiz] = useState<LibraryQuizDto | null>(null);
-  const [selectedQuiz, setSelectedQuiz] = useState<LibraryQuizDto | null>(null);
-  const [isSubmittingAddQuiz, setIsSubmittingAddQuiz] = useState(false);
-  const [isAddQuizModalOpen, setIsAddQuizModalOpen] = useState(false);
   const [isQuizLimitModalOpen, setIsQuizLimitModalOpen] = useState(false);
   const [isViewPlansModalOpen, setIsViewPlansModalOpen] = useState(false);
 
   const {
-    createQuiz,
     fetchQuizzes,
     quizzes,
-    subscription
+    subscription,
   } = useStore((state) => ({
-    createQuiz: state.createQuiz,
     fetchQuizzes: state.fetchQuizzes,
     quizzes: state.quizzes,
-    subscription: state.subscription
+    subscription: state.subscription,
   }), shallow);
 
   const { isSubActive } = useSub();
@@ -71,18 +65,8 @@ export const QuizLibraryListLayout: FunctionComponent = () => {
     setPageIndex((prev) => Math.min(prev, pageCount - 1));
   }, [pageCount]);
 
-  const handleOpenAddQuizModal = (quiz: LibraryQuizDto) => {
-    setSelectedQuiz(quiz);
-    setIsAddQuizModalOpen(true);
-  };
-
   const handleOpenPreviewModal = (quiz: LibraryQuizDto) => {
     setPreviewQuiz(quiz);
-  };
-
-  const handleCloseAddQuizModal = () => {
-    setIsAddQuizModalOpen(false);
-    setSelectedQuiz(null);
   };
 
   const handleClosePreviewModal = () => {
@@ -106,24 +90,13 @@ export const QuizLibraryListLayout: FunctionComponent = () => {
       return;
     }
 
-    handleOpenAddQuizModal(quiz);
-  };
-
-  const handleConfirmAddQuiz = async () => {
-    if (!selectedQuiz || !canAddQuizzes(isSubActive, quizzes)) {
-      return;
-    }
-
-    setIsSubmittingAddQuiz(true);
-
-    try {
-      await Promise.resolve(createQuiz(selectedQuiz.title, "public"));
-      await fetchQuizzes();
-      handleCloseAddQuizModal();
-      navigate("/dashboard");
-    } finally {
-      setIsSubmittingAddQuiz(false);
-    }
+    navigate("/dashboard", {
+      state: {
+        addQuizFromTemplate: {
+          quiz,
+        },
+      },
+    });
   };
 
   return (
@@ -171,14 +144,6 @@ export const QuizLibraryListLayout: FunctionComponent = () => {
             </PaginationWrapper>
           )}
         </PageInner>
-
-        <AddQuizFromTemplateModal
-          quiz={selectedQuiz}
-          isModalOpen={isAddQuizModalOpen}
-          onClose={handleCloseAddQuizModal}
-          onConfirm={handleConfirmAddQuiz}
-          isSubmitting={isSubmittingAddQuiz}
-        />
 
         <QuizLibraryPreviewModal
           quiz={previewQuiz}

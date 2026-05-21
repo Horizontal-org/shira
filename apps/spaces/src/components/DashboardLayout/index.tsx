@@ -26,8 +26,17 @@ import { ViewPlansModal } from "../modals/ViewPlansModal";
 import { FirstLoginModal } from "../modals/FirstLoginModal";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
 import { UseAQuizTemplateButton } from "../QuizLibraryListLayout/components/UseAQuizTemplateButton";
+import { AddQuizFromTemplateModal } from "../modals/AddQuizFromTemplateModal";
+import { LibraryQuizDto } from "../../fetch/quiz_library";
 
 interface Props { }
+
+interface DashboardLocationState {
+  fromLogin?: boolean;
+  addQuizFromTemplate?: {
+    quiz: LibraryQuizDto;
+  };
+}
 
 const FIRST_LOGIN_MODAL_MS = 5 * 60 * 1000; // 5 minutes
 
@@ -63,7 +72,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
-  const location = useLocation() as { state?: { fromLogin?: boolean } };
+  const location = useLocation() as { pathname: string; state?: DashboardLocationState };
 
   const [searchParams, setSearchParams] = useSearchParams();
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
@@ -86,13 +95,16 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
   const {
     selectedQuizForDuplicate,
+    selectedTemplateQuiz,
     isSubmitting,
     submittingQuizId,
     isCreateTitleModalOpen,
     isDuplicateTitleModalOpen,
+    isTemplateTitleModalOpen,
     isVisibilityModalOpen,
     startCreateQuizFlow,
     startDuplicateQuizFlow,
+    startTemplateQuizFlow,
     moveToVisibilityStep,
     handleBackFromVisibility,
     handleConfirmVisibility,
@@ -145,6 +157,24 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
       )
     );
   }, [isFromLogin, isRecentlyCreated, searchParams]);
+
+  useEffect(() => {
+    const templateQuiz = location.state?.addQuizFromTemplate?.quiz;
+
+    if (!templateQuiz) {
+      return;
+    }
+
+    startTemplateQuizFlow(templateQuiz);
+
+    const nextState = { ...(location.state || {}) };
+    delete nextState.addQuizFromTemplate;
+
+    navigate(location.pathname, {
+      replace: true,
+      state: nextState,
+    });
+  }, [location.pathname, location.state, navigate]);
 
   const closeCheckoutSuccessModal = () => {
     const nextSearchParams = new URLSearchParams(searchParams);
@@ -425,6 +455,15 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
               cancelFlow();
             }}
             isLoading={isSubmitting}
+          />
+
+          <AddQuizFromTemplateModal
+            quiz={selectedTemplateQuiz}
+            isModalOpen={isTemplateTitleModalOpen}
+            onClose={cancelFlow}
+            onConfirm={moveToVisibilityStep}
+            validateQuizName={validateQuizName}
+            isSubmitting={isSubmitting}
           />
 
           <CheckoutSuccessModal

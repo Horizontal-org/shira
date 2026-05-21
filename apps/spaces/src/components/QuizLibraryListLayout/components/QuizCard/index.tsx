@@ -1,10 +1,10 @@
-import { ActionTooltip, BaseFloatingMenu, Body3, Body4, styled, SubHeading3, defaultTheme, Body1, Body1SemiBold } from '@shira/ui';
+import { ActionTooltip, BaseFloatingMenu, Body3, Body4, styled, defaultTheme, Body1SemiBold } from '@shira/ui';
 import { FunctionComponent, useRef, useState } from 'react';
 import { LibraryQuizDto } from '../../../../fetch/quiz_library';
 import { FaCirclePlus } from 'react-icons/fa6';
-import { FiEye } from 'react-icons/fi';
 import { useTranslation } from 'react-i18next';
 import { TbAlertTriangleFilled } from 'react-icons/tb';
+import { IoEyeSharp } from 'react-icons/io5';
 
 export interface CardProps {
   quiz: LibraryQuizDto;
@@ -74,7 +74,7 @@ export const QuizCard: FunctionComponent<CardProps> = ({
                   setIsMenuOpen(false);
                   onViewTemplate();
                 },
-                icon: <FiEye color={defaultTheme.colors.dark.darkGrey} />
+                icon: <IoEyeSharp color={defaultTheme.colors.dark.darkGrey} />
               },
               {
                 text: t('quiz_library.report_issue'),
@@ -162,6 +162,7 @@ const CardTitle = styled(Body1SemiBold)`
 
 const ModifiedText = styled(Body3)`
   color: ${props => props.theme.colors.green7};
+  font-weight: 600;
   margin: 0;
   letter-spacing: 0.04em;
   line-height: 1.4;
