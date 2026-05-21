@@ -290,7 +290,15 @@
         "subtitle": "Select a quiz from the list below to use it as a template for your new quiz.",
         "actions_tooltip": "Use template",
         "view_template": "View template",
-        "report_issue": "Report an issue"
+        "report_issue": "Report an issue",
+        "preview": {
+            "subtitle": "You can preview the full quiz or each question individually, before using the quiz as a template to create your own own.",
+            "languages": "Languages",
+            "tags": "Tags",
+            "creator": "Creator",
+            "created_on": "Created on",
+            "preview_full_quiz": "Preview full quiz"
+        }
     },
     "results_tab": {
         "title": "Overall results",

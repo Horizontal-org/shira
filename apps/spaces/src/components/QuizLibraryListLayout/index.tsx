@@ -9,6 +9,7 @@ import { getQuizTemplates, type LibraryQuizDto } from "../../fetch/quiz_library"
 import { AddLibraryQuizModal } from "../modals/AddLibraryQuizModal";
 import { QuizLimitModal } from "../modals/QuizLimitModal";
 import { ViewPlansModal } from "../modals/ViewPlansModal";
+import { QuizLibraryPreviewModal } from "../modals/QuizLibraryPreviewModal";
 import { useSub } from "../../hooks/useSub";
 import { QuizLibraryFlowManagement } from "../QuizLibraryFlowManagement";
 
@@ -21,6 +22,7 @@ export const QuizLibraryListLayout: FunctionComponent = () => {
   const [libraryQuizzes, setLibraryQuizzes] = useState<LibraryQuizDto[]>([]);
   const [loading, setLoading] = useState(false);
   const [pageIndex, setPageIndex] = useState(0);
+  const [previewQuiz, setPreviewQuiz] = useState<LibraryQuizDto | null>(null);
   const [selectedQuiz, setSelectedQuiz] = useState<LibraryQuizDto | null>(null);
   const [isSubmittingAddQuiz, setIsSubmittingAddQuiz] = useState(false);
   const [isAddQuizModalOpen, setIsAddQuizModalOpen] = useState(false);
@@ -73,9 +75,17 @@ export const QuizLibraryListLayout: FunctionComponent = () => {
     setIsAddQuizModalOpen(true);
   };
 
+  const handleOpenPreviewModal = (quiz: LibraryQuizDto) => {
+    setPreviewQuiz(quiz);
+  };
+
   const handleCloseAddQuizModal = () => {
     setIsAddQuizModalOpen(false);
     setSelectedQuiz(null);
+  };
+
+  const handleClosePreviewModal = () => {
+    setPreviewQuiz(null);
   };
 
   const openViewPlansFromLimitModal = () => {
@@ -85,6 +95,17 @@ export const QuizLibraryListLayout: FunctionComponent = () => {
 
   const canAddQuizzes = (isSubActive: boolean, currentQuizzes) => {
     return isSubActive || currentQuizzes.length < 3;
+  };
+
+  const handleUseTemplate = (quiz: LibraryQuizDto) => {
+    setPreviewQuiz(null);
+
+    if (!canAddQuizzes(isSubActive, quizzes)) {
+      setIsQuizLimitModalOpen(true);
+      return;
+    }
+
+    handleOpenAddQuizModal(quiz);
   };
 
   const handleConfirmAddQuiz = async () => {
@@ -132,14 +153,7 @@ export const QuizLibraryListLayout: FunctionComponent = () => {
                 <QuizCard
                   key={`${quiz.title}-${quiz.createdAt}`}
                   quiz={quiz}
-                  onViewTemplate={async () => {
-                    if (!canAddQuizzes(isSubActive, quizzes)) {
-                      setIsQuizLimitModalOpen(true);
-                      return;
-                    }
-
-                    handleOpenAddQuizModal(quiz);
-                  }}
+                  onViewTemplate={() => { handleOpenPreviewModal(quiz); }}
                   onReportIssue={() => { navigate("/support"); }}
                 />
               ))
@@ -167,6 +181,17 @@ export const QuizLibraryListLayout: FunctionComponent = () => {
           onClose={handleCloseAddQuizModal}
           onConfirm={handleConfirmAddQuiz}
           isSubmitting={isSubmittingAddQuiz}
+        />
+
+        <QuizLibraryPreviewModal
+          quiz={previewQuiz}
+          isOpen={!!previewQuiz}
+          onClose={handleClosePreviewModal}
+          onUseTemplate={() => {
+            if (previewQuiz) {
+              handleUseTemplate(previewQuiz);
+            }
+          }}
         />
 
         <QuizLimitModal
