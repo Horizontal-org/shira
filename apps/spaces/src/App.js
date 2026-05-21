@@ -28,7 +28,6 @@ import { SettingsLayout } from './components/SettingsLayout';
 import './language/i18n';
 import { GetStartedLayout } from './components/GetStartedLayout';
 import { LearnersLayout } from './components/LearnersLayout';
-import { LibraryLayout } from './components/LibraryLayout';
 import { FeedbackButton } from './components/FeedbackButton';
 import { ResetPasswordRequestLayout } from './components/ResetPasswordLayout/ResetPasswordRequestLayout';
 import { SetNewPasswordLayout } from './components/ResetPasswordLayout/SetNewPasswordLayout';

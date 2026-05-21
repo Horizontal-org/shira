@@ -80,7 +80,6 @@ const ActionsGroup = styled.div`
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     width: 100%;
     margin-left: 0;
-    justify-content: stretch;
     flex-direction: column;
     gap: 16px;
   }
