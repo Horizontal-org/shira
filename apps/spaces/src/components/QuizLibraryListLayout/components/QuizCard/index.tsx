@@ -1,11 +1,17 @@
-import { Body3, Body4, styled, SubHeading3, defaultTheme } from '@shira/ui';
-import { FunctionComponent } from 'react';
+import { BaseFloatingMenu, Body3, Body4, styled, SubHeading3, defaultTheme } from '@shira/ui';
+import { FunctionComponent, useRef, useState } from 'react';
 import { LibraryQuizDto } from '../../../../fetch/quiz_library';
 import { FaCirclePlus } from 'react-icons/fa6';
+import { FiEye } from 'react-icons/fi';
+import { useTranslation } from 'react-i18next';
+import { GoAlertFill } from 'react-icons/go';
+import { RiAlertFill } from 'react-icons/ri';
+import { TbAlertTriangleFilled } from 'react-icons/tb';
 
 export interface CardProps {
   quiz: LibraryQuizDto;
-  onMenuClick: () => void;
+  onViewTemplate: () => void;
+  onReportIssue: () => void;
   showLoading?: boolean;
 }
 
@@ -21,8 +27,13 @@ const formatCardDate = (value: string) => {
 
 export const QuizCard: FunctionComponent<CardProps> = ({
   quiz,
-  onMenuClick,
+  onViewTemplate,
+  onReportIssue,
 }) => {
+  const { t } = useTranslation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+
   return (
     <CardWrapper>
       <TopSection>
@@ -36,15 +47,42 @@ export const QuizCard: FunctionComponent<CardProps> = ({
           </LanguageRow>
 
           <MenuButton
+            ref={menuButtonRef}
             type="button"
-            aria-label="Quiz actions"
+            aria-label={t('quiz_library.actions_aria_label', { defaultValue: 'Quiz actions' })}
             onClick={(e) => {
               e.stopPropagation();
-              onMenuClick();
+              setIsMenuOpen((prev) => !prev);
             }}
           >
             <FaCirclePlus size={18} color={defaultTheme.colors.green7} />
           </MenuButton>
+
+          <BaseFloatingMenu
+            isOpen={isMenuOpen}
+            onClose={() => setIsMenuOpen(false)}
+            anchorEl={menuButtonRef.current}
+            elements={[
+              {
+                text: t('quiz_library.view_template'),
+                onClick: (event) => {
+                  event.stopPropagation();
+                  setIsMenuOpen(false);
+                  onViewTemplate();
+                },
+                icon: <FiEye color={defaultTheme.colors.dark.darkGrey} />
+              },
+              {
+                text: t('quiz_library.report_issue'),
+                onClick: (event) => {
+                  event.stopPropagation();
+                  setIsMenuOpen(false);
+                  onReportIssue();
+                },
+                icon: <TbAlertTriangleFilled color={defaultTheme.colors.error7} />
+              }
+            ]}
+          />
         </HeaderRow>
 
         <CardTitle>{quiz.title}</CardTitle>

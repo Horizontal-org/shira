@@ -132,7 +132,7 @@ export const QuizLibraryListLayout: FunctionComponent = () => {
                 <QuizCard
                   key={`${quiz.title}-${quiz.createdAt}`}
                   quiz={quiz}
-                  onMenuClick={async () => {
+                  onViewTemplate={async () => {
                     if (!canAddQuizzes(isSubActive, quizzes)) {
                       setIsQuizLimitModalOpen(true);
                       return;
@@ -140,6 +140,7 @@ export const QuizLibraryListLayout: FunctionComponent = () => {
 
                     handleOpenAddQuizModal(quiz);
                   }}
+                  onReportIssue={() => { navigate("/support"); }}
                 />
               ))
             )}
@@ -210,11 +211,6 @@ const CardGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
-
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     grid-template-columns: 1fr;

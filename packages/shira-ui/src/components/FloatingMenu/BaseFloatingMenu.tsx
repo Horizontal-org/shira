@@ -10,7 +10,7 @@ interface MenuElement {
 
 export interface BaseFloatingMenuProps {
   isOpen: boolean;
-  elements: Array<MenuElement>  
+  elements: Array<MenuElement>
   onClose: () => void;
   anchorEl: HTMLButtonElement | null;
 }
@@ -19,7 +19,7 @@ export const BaseFloatingMenu: FunctionComponent<BaseFloatingMenuProps> = ({
   isOpen,
   elements,
   onClose,
-  anchorEl
+  anchorEl,
 }) => {
   const menuRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ top: 0, left: 0 });
@@ -94,7 +94,8 @@ export const BaseFloatingMenu: FunctionComponent<BaseFloatingMenuProps> = ({
       ref={menuRef} 
       style={{ 
         top: `${position.top}px`, 
-        left: `${position.left}px` 
+        left: `${position.left}px`,
+        width: `120px`
       }}
     >
       <MenuContent>

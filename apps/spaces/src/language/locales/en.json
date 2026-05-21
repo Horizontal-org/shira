@@ -287,7 +287,10 @@
     "quiz_library": {
         "header_title": "Select a quiz template",
         "title": "Quiz library",
-        "subtitle": "Select a quiz from the list below to use it as a template for your new quiz."
+        "subtitle": "Select a quiz from the list below to use it as a template for your new quiz.",
+        "actions_tooltip": "Use template",
+        "view_template": "View template",
+        "report_issue": "Report an issue"
     },
     "results_tab": {
         "title": "Overall results",
