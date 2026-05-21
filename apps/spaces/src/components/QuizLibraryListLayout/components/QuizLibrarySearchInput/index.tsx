@@ -1,28 +1,15 @@
 import { FunctionComponent } from "react";
-import { CardPagination, TextInput, Button, defaultTheme, styled } from "@shira/ui";
+import { TextInput, Button, defaultTheme, styled } from "@shira/ui";
+import { useTranslation } from "react-i18next";
 import { FiChevronDown } from "react-icons/fi";
 import { FiSearch } from "react-icons/fi";
 import { HiFunnel } from "react-icons/hi2";
 
-type Props = {
-  pageIndex: number;
-  total: number;
-  pageCount: number;
-  onFirstPage: () => void;
-  onPreviousPage: () => void;
-  onNextPage: () => void;
-  onLastPage: () => void;
-};
+type Props = {};
 
-export const QuizLibrarySearchInput: FunctionComponent<Props> = ({
-  pageIndex,
-  total,
-  pageCount,
-  onFirstPage,
-  onPreviousPage,
-  onNextPage,
-  onLastPage,
-}) => {
+export const QuizLibrarySearchInput: FunctionComponent<Props> = ({ }) => {
+  const { t } = useTranslation();
+
   return (
     <Controls>
       <TopRow>
@@ -41,30 +28,18 @@ export const QuizLibrarySearchInput: FunctionComponent<Props> = ({
 
         <ActionsGroup>
           <SortByButton
-            text="Sort by"
+            text={t("quiz_library.sort_by")}
             type="outline"
             rightIcon={<FiChevronDown size={20} />}
           />
 
           <FilterButton
-            text="Filters"
+            text={t("quiz_library.filters")}
             type="outline"
             leftIcon={<HiFunnel size={20} color={defaultTheme.colors.dark.darkGrey} />}
           />
         </ActionsGroup>
       </TopRow>
-
-      <PaginationRow>
-        <CardPagination
-          pageIndex={pageIndex}
-          total={total}
-          pageCount={pageCount}
-          onFirstPage={onFirstPage}
-          onPreviousPage={onPreviousPage}
-          onNextPage={onNextPage}
-          onLastPage={onLastPage}
-        />
-      </PaginationRow>
     </Controls>
   );
 };
@@ -143,10 +118,6 @@ const SearchIcon = styled.div`
   justify-content: center;
   pointer-events: none;
   z-index: 1;
-`;
-
-const PaginationRow = styled.div`
-  padding: 0 2px;
 `;
 
 const SortByButton = styled(Button)`

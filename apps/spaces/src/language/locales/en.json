@@ -289,6 +289,8 @@
         "title": "Quiz library",
         "subtitle": "Select a quiz from the list below to use it as a template for your new quiz.",
         "actions_tooltip": "Use template",
+        "sort_by": "Sort by",
+        "filters": "Filters",
         "view_template": "View template",
         "report_issue": "Report an issue",
         "preview": {

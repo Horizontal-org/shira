@@ -104,15 +104,19 @@ export const QuizLibraryListLayout: FunctionComponent = () => {
 
         <PageInner>
 
-          <QuizLibrarySearchInput
-            pageIndex={pageIndex}
-            total={total}
-            pageCount={pageCount}
-            onFirstPage={() => { setPageIndex(0); }}
-            onPreviousPage={() => { setPageIndex((prev) => Math.max(0, prev - 1)); }}
-            onNextPage={() => { setPageIndex((prev) => Math.min(pageCount - 1, prev + 1)); }}
-            onLastPage={() => { setPageIndex(pageCount - 1); }}
-          />
+          <QuizLibrarySearchInput />
+
+          <PaginationWrapper>
+            <CardPagination
+              pageIndex={pageIndex}
+              total={total}
+              pageCount={pageCount}
+              onFirstPage={() => { setPageIndex(0); }}
+              onPreviousPage={() => { setPageIndex((prev) => Math.max(0, prev - 1)); }}
+              onNextPage={() => { setPageIndex((prev) => Math.min(pageCount - 1, prev + 1)); }}
+              onLastPage={() => { setPageIndex(pageCount - 1); }}
+            />
+          </PaginationWrapper>
 
           <CardGrid id="quiz-card-grid" aria-busy={loading || undefined}>
             {loading ? (
