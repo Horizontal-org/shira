@@ -10,7 +10,6 @@ export interface CardProps {
   quiz: LibraryQuizDto;
   onViewTemplate: () => void;
   onReportIssue: () => void;
-  showLoading?: boolean;
 }
 
 const formatCardDate = (value: string) => {

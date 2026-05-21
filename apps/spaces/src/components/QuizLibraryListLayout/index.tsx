@@ -1,10 +1,10 @@
-import { Body1, CardPagination, styled } from "@shira/ui";
+import { CardPagination, styled } from "@shira/ui";
 import { FunctionComponent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { shallow } from "zustand/shallow";
-import { useTranslation } from "react-i18next";
 import { useStore } from "../../store";
 import { QuizCard } from "./components/QuizCard";
+import { QuizCardSkeleton } from "./components/QuizCardSkeleton";
 import { QuizLibrarySearchInput } from "./components/QuizLibrarySearchInput";
 import { getQuizTemplates, type LibraryQuizDto } from "../../fetch/quiz_library";
 import { QuizLimitModal } from "../modals/QuizLimitModal";
@@ -17,7 +17,6 @@ const PAGE_SIZE = 10;
 
 export const QuizLibraryListLayout: FunctionComponent = () => {
   const navigate = useNavigate();
-  const { t } = useTranslation();
 
   const [libraryQuizzes, setLibraryQuizzes] = useState<LibraryQuizDto[]>([]);
   const [loading, setLoading] = useState(false);
@@ -115,9 +114,11 @@ export const QuizLibraryListLayout: FunctionComponent = () => {
             onLastPage={() => { setPageIndex(pageCount - 1); }}
           />
 
-          <CardGrid id="quiz-card-grid">
+          <CardGrid id="quiz-card-grid" aria-busy={loading || undefined}>
             {loading ? (
-              <Body1>{t("loading_messages.loading")}</Body1>
+              Array.from({ length: PAGE_SIZE }, (_, index) => (
+                <QuizCardSkeleton key={`quiz-card-skeleton-${index}`} />
+              ))
             ) : (
               paginatedQuizzes.map((quiz) => (
                 <QuizCard
