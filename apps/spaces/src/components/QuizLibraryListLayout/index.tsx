@@ -6,7 +6,7 @@ import { t } from "i18next";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { QuizCard } from "./components/QuizCard";
-import { getLibraryQuizzes, type LibraryQuizDto } from "../../fetch/quiz_library";
+import { getQuizTemplates, type LibraryQuizDto } from "../../fetch/quiz_library";
 import { LayoutContainer } from "../LayoutStyleComponents/LayoutContainer";
 import { LayoutMainContent, LayoutMainContentWrapper } from "../LayoutStyleComponents/LayoutMainContent";
 import { AddLibraryQuizModal } from "../modals/AddLibraryQuizModal";
@@ -54,7 +54,7 @@ export const QuizLibraryListLayout: FunctionComponent<Props> = () => {
     setLoading(true);
 
     try {
-      const data = await getLibraryQuizzes();
+      const data = await getQuizTemplates();
       setLibraryQuizzes(data);
     } catch (error) {
       console.error("Failed to get library quizzes:", error);

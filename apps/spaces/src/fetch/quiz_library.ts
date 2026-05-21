@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export interface LibraryQuizDto {
   title: string;
   createdAt: string;
@@ -7,24 +9,18 @@ export interface LibraryQuizDto {
   tags: string[];
 }
 
-export const getLibraryQuizzes = async (): Promise<LibraryQuizDto[]> => {
-  // Replace with actual API call
-  return [
-    {
-      title: '10 most common phishing attacks in the US (2026)',
-      createdAt: '2026-05-04',
-      author: 'Shira Team',
-      description: '10 questions using the actual top 10 email and social media scams.',
-      languages: ['English', 'Spanish'],
-      tags: ['North America', 'actual attacks', 'another tag']
-    },
-    {
-      title: 'Banking scams',
-      createdAt: '2026-03-04',
-      author: 'Shira Team',
-      description: 'Bank-related phishing attacks over email and messaging apps.',
-      languages: ['English', 'French'],
-      tags: ['banking', 'actual attacks', 'another tag']
-    }
-  ];
+export const getQuizTemplates = async (): Promise<LibraryQuizDto[]> => {
+  try {
+    const res = await axios.get<LibraryQuizDto[]>(
+      `${process.env.REACT_APP_LIBRARY_API_URL}/quiz-templates`,
+      {
+        headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyLTEyMyIsInJvbGVzIjpbInNwYWNlLWFkbWluIl0sImlhdCI6MTc3OTI5ODgxMiwiZXhwIjoxNzc5OTAzNjEyfQ.j13kZcbjK0sBuIyKDKBtF-9wQ8bXS2q7_S-7gePisF8` }
+      }
+    );
+
+    return res.data;
+  } catch (err) {
+    console.error("Error fetching quiz-templates:", err);
+    return [];
+  }
 };
