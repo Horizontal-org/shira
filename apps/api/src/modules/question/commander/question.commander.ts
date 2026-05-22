@@ -1,6 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ConsoleService } from 'nestjs-console';
+import * as fs from 'fs';
+import * as path from 'path';
 import * as prompt from 'prompt';
 import { Repository } from 'typeorm';
 
@@ -10,6 +12,15 @@ import {
   TYPES as AUTH_TYPES,
 } from '../../auth/interfaces';
 import { Question } from '../domain';
+
+interface PublishedEntry {
+  questionId: number
+  langs: string[]
+}
+
+interface DemoPublishState {
+  published: PublishedEntry[]
+}
 
 @Injectable()
 export class QuestionCommander {
@@ -108,6 +119,7 @@ export class QuestionCommander {
       q.questionTranslations.forEach(qt => {
         const lang = { name: qt.languageId.name, code: qt.languageId.code }
         const question = {
+          questionId: q.id,
           name: q.name + ' - ' + lang.name,
           is_phishing: q.isPhising,
           is_demo: true,
@@ -141,13 +153,60 @@ export class QuestionCommander {
   async publishDemoQuestions() {
     prompt.start();
 
-    //here jwt retrieval
-
     const demoQuestions = await this.getDemoQuestions()
-    const readyQuestions = await this.prepareQuestionsForPublishing(demoQuestions);
+    const readyQuestions = await this.prepareQuestionsForPublishing(demoQuestions)
 
-    console.log('Ready to publish the following questions:');
-    console.log(JSON.stringify(readyQuestions, null, 2));
+    const state = this.loadState()
+    const toPublish = this.filterUnpublished(readyQuestions, state)
 
+    if (toPublish.length === 0) {
+      console.log('All demo questions are already published')
+      return
+    }
+
+    console.log(`Publishing ${toPublish.length} new question(s)...`)
+    console.log(JSON.stringify(toPublish, null, 2))
+
+    // TODO: POST toPublish to target API
+
+    this.saveState(state, toPublish)
+    console.log('State updated')
+  }
+
+  // -- Demo publish state --
+
+  private get statePath() {
+    return path.join(process.cwd(), 'demo-publish-state.json')
+  }
+
+  private loadState(): DemoPublishState {
+    try {
+      const raw = fs.readFileSync(this.statePath, 'utf8')
+      return JSON.parse(raw)
+    } catch {
+      return { published: [] }
+    }
+  }
+
+  private saveState(state: DemoPublishState, newlyPublished: any[]) {
+    for (const q of newlyPublished) {
+      const existing = state.published.find(p => p.questionId === q.questionId)
+      if (existing) {
+        if (!existing.langs.includes(q.lang.code)) {
+          existing.langs.push(q.lang.code)
+        }
+      } else {
+        state.published.push({ questionId: q.questionId, langs: [q.lang.code] })
+      }
+    }
+    fs.writeFileSync(this.statePath, JSON.stringify(state, null, 2))
+  }
+
+  private filterUnpublished(readyQuestions: any[], state: DemoPublishState) {
+    return readyQuestions.filter(q => {
+      const existing = state.published.find(p => p.questionId === q.questionId)
+      if (!existing) return true
+      return !existing.langs.includes(q.lang.code)
+    })
   }
 }
