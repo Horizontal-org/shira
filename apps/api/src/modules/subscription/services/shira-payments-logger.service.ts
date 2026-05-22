@@ -14,9 +14,11 @@ export class ShiraPaymentsLoggerService implements IShiraPaymentsLoggerService {
   private readonly logger = new ApiLogger(ShiraPaymentsLoggerService.name);
 
   started(context: ShiraPaymentsLogContext) {
-    this.logger.log(
-      `${this.buildBaseMessage(context)} started`,
-    );
+    this.logger.log({
+      name: 'ShiraPaymentsRequest',
+      event: 'started',
+      ...this.buildBaseContext(context),
+    });
   }
 
   succeeded(
@@ -24,9 +26,13 @@ export class ShiraPaymentsLoggerService implements IShiraPaymentsLoggerService {
     status: number,
     durationMs: number,
   ) {
-    this.logger.log(
-      `${this.buildBaseMessage(context)} succeeded status=${status} durationMs=${durationMs}`,
-    );
+    this.logger.log({
+      name: 'ShiraPaymentsRequest',
+      event: 'succeeded',
+      ...this.buildBaseContext(context),
+      status,
+      duration_ms: durationMs,
+    });
   }
 
   failed(
@@ -35,9 +41,14 @@ export class ShiraPaymentsLoggerService implements IShiraPaymentsLoggerService {
     durationMs: number,
     message: string,
   ) {
-    this.logger.error(
-      `${this.buildBaseMessage(context)} failed status=${status} durationMs=${durationMs} message=${message}`,
-    );
+    this.logger.error({
+      name: 'ShiraPaymentsRequest',
+      event: 'failed',
+      ...this.buildBaseContext(context),
+      status,
+      duration_ms: durationMs,
+      message,
+    });
   }
 
   requestError(
@@ -47,22 +58,23 @@ export class ShiraPaymentsLoggerService implements IShiraPaymentsLoggerService {
     stack?: string,
   ) {
     this.logger.error(
-      `${this.buildBaseMessage(context)} error durationMs=${durationMs} message=${message}`,
+      {
+        name: 'ShiraPaymentsRequest',
+        event: 'error',
+        ...this.buildBaseContext(context),
+        duration_ms: durationMs,
+        message,
+      },
       stack,
     );
   }
 
-  private buildBaseMessage(context: Partial<ShiraPaymentsLogContext>) {
-    const parts = [
-      "ShiraPaymentsRequest",
-      context.requestId ? `requestId=${context.requestId}` : undefined,
-      context.organizationId
-        ? `organizationId=${context.organizationId}`
-        : undefined,
-      context.method ? `method=${context.method}` : undefined,
-      context.url ? `url=${context.url}` : undefined,
-    ];
-
-    return parts.filter(Boolean).join(" ");
+  private buildBaseContext(context: Partial<ShiraPaymentsLogContext>): Record<string, unknown> {
+    const result: Record<string, unknown> = {};
+    if (context.requestId) result.requestId = context.requestId;
+    if (context.organizationId) result.organizationId = context.organizationId;
+    if (context.method) result.method = context.method;
+    if (context.url) result.url = context.url;
+    return result;
   }
 }
