@@ -18,11 +18,8 @@ export interface LibraryQuizDto {
   title: string;
   createdAt: string;
   author: string;
-  creator?: string;
   languages: string[];
   tags: string[];
-  questionCount?: number;
-  totalQuestions?: number;
   questions?: LibraryQuizQuestionDto[];
 }
 
