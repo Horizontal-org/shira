@@ -1,6 +1,10 @@
 import { Body3, Body4, defaultTheme, styled } from "@shira/ui";
 import { FunctionComponent } from "react";
 import { useTranslation } from "react-i18next";
+import { BiSolidTagAlt } from "react-icons/bi";
+import { FaUserLarge } from "react-icons/fa6";
+import { IoLanguage } from "react-icons/io5";
+import { MdCalendarMonth } from "react-icons/md";
 
 type Props = {
   languages: string[];
@@ -22,7 +26,7 @@ export const QuizPreviewDetailsCard: FunctionComponent<Props> = ({
       <MetaContent>
         <MetaSection>
           <SectionLabel>
-            <LabelIcon aria-hidden="true">🌐</LabelIcon>
+            <IoLanguage size={24} color={defaultTheme.colors.blue6} />
             {t("quiz_library.preview.languages")}
           </SectionLabel>
           <ChipRow>
@@ -37,7 +41,7 @@ export const QuizPreviewDetailsCard: FunctionComponent<Props> = ({
         {tags.length > 0 && (
           <MetaSection>
             <SectionLabel>
-              <LabelIcon aria-hidden="true">🏷️</LabelIcon>
+              <BiSolidTagAlt size={18} color={defaultTheme.colors.warning4} />
               {t("quiz_library.preview.tags")}
             </SectionLabel>
             <ChipRow>
@@ -54,7 +58,7 @@ export const QuizPreviewDetailsCard: FunctionComponent<Props> = ({
       <MetaSidebar>
         <SidebarRow>
           <SectionLabel>
-            <LabelIcon aria-hidden="true">🏛️</LabelIcon>
+            <FaUserLarge size={16} color={defaultTheme.colors.green7} />
             {t("quiz_library.preview.creator")}
           </SectionLabel>
           <SidebarValue>{creator}</SidebarValue>
@@ -62,7 +66,7 @@ export const QuizPreviewDetailsCard: FunctionComponent<Props> = ({
 
         <SidebarRow>
           <SectionLabel>
-            <LabelIcon aria-hidden="true">🗓️</LabelIcon>
+            <MdCalendarMonth size={18} color={defaultTheme.colors.error7} />
             {t("quiz_library.preview.created_on")}
           </SectionLabel>
           <SidebarValue>{createdAt}</SidebarValue>
