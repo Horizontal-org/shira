@@ -7,7 +7,7 @@ import { HiFunnel } from "react-icons/hi2";
 
 type Props = {};
 
-export const QuizLibrarySearchInput: FunctionComponent<Props> = ({ }) => {
+export const QuizLibrarySearchInput: FunctionComponent<Props> = () => {
   const { t } = useTranslation();
 
   return (

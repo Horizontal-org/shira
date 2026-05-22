@@ -1,5 +1,5 @@
 import { CardPagination, styled } from "@shira/ui";
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
@@ -37,7 +37,7 @@ export const QuizLibraryListLayout: FunctionComponent = () => {
 
   const { isSubActive } = useSub();
 
-  const loadQuizzes = async () => {
+  const loadQuizzes = useCallback(async () => {
     setLoading(true);
 
     try {
@@ -48,12 +48,12 @@ export const QuizLibraryListLayout: FunctionComponent = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     void loadQuizzes();
     void fetchQuizzes();
-  }, []);
+  }, [fetchQuizzes, loadQuizzes]);
 
   const total = libraryQuizzes.length;
   const pageCount = Math.max(1, Math.ceil(total / PAGE_SIZE));

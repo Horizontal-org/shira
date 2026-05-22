@@ -1,13 +1,13 @@
-import { BaseFloatingMenu, Body3, Body4, styled, defaultTheme, Body1SemiBold } from '@shira/ui';
+import { BaseFloatingMenu, Body4, styled, defaultTheme, Body1SemiBold } from '@shira/ui';
 import { FunctionComponent, useRef, useState } from 'react';
 import { LibraryQuizDto } from '../../../../fetch/quiz_library';
 import { BsThreeDotsVertical } from 'react-icons/bs';
-import { HiMiniUser } from 'react-icons/hi2';
 import { MdCalendarMonth } from 'react-icons/md';
 import { useTranslation } from 'react-i18next';
 import { TbAlertTriangleFilled } from 'react-icons/tb';
 import { IoEyeSharp } from 'react-icons/io5';
 import { FaCirclePlus, FaUserLarge } from 'react-icons/fa6';
+import { QuizCardTags } from '../QuizCardTags';
 
 export interface CardProps {
   quiz: LibraryQuizDto;
@@ -97,14 +97,7 @@ export const QuizCard: FunctionComponent<CardProps> = ({
 
         <CardBody>
           <CardTitle>{quiz.title}</CardTitle>
-
-          <TagRow>
-            {quiz.tags.map((tag) => (
-              <TagChip key={tag}>
-                <Body4>{tag}</Body4>
-              </TagChip>
-            ))}
-          </TagRow>
+          <QuizCardTags tags={quiz.tags} />
         </CardBody>
       </TopSection>
 
@@ -226,21 +219,4 @@ const FooterItem = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
-`;
-
-const TagRow = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  color: ${props => props.theme.colors.blue7};
-`;
-
-const TagChip = styled.span`
-  display: inline-flex;
-  align-items: center;
-  padding: 2px 4px 4px 4px;
-  border: 1px solid ${props => props.theme.colors.blue4};
-  border-radius: 2px;
-  background: ${props => props.theme.colors.light.white};
-  line-height: 1;
 `;
