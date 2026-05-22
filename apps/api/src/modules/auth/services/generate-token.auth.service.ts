@@ -13,7 +13,10 @@ export class GenerateTokenAuthService implements IGenerateTokenAuthService {
   ) {}
 
   async execute(user: ReadUserDto): Promise<JWTResponse> {
-    const payload: JWTPayload = { userId: user.id };
+    const payload: JWTPayload = {
+      userId: user.id,
+      roles: user.isSuperAdmin ? ['super-admin'] : ['space-admin'],
+    };
     return {
       access_token: this.jwtService.sign(payload, { expiresIn: '1h' }),
     };
