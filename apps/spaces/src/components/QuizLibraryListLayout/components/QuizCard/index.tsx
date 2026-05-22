@@ -1,4 +1,4 @@
-import { ActionTooltip, BaseFloatingMenu, Body3, Body4, styled, defaultTheme, Body1SemiBold } from '@shira/ui';
+import { BaseFloatingMenu, Body3, Body4, styled, defaultTheme, Body1SemiBold } from '@shira/ui';
 import { FunctionComponent, useRef, useState } from 'react';
 import { LibraryQuizDto } from '../../../../fetch/quiz_library';
 import { BsThreeDotsVertical } from 'react-icons/bs';
@@ -7,11 +7,12 @@ import { MdCalendarMonth } from 'react-icons/md';
 import { useTranslation } from 'react-i18next';
 import { TbAlertTriangleFilled } from 'react-icons/tb';
 import { IoEyeSharp } from 'react-icons/io5';
-import { FaUserLarge } from 'react-icons/fa6';
+import { FaCirclePlus, FaUserLarge } from 'react-icons/fa6';
 
 export interface CardProps {
   quiz: LibraryQuizDto;
   onViewTemplate: () => void;
+  onUseTemplate: () => void;
   onReportIssue: () => void;
 }
 
@@ -27,6 +28,7 @@ const formatCardDate = (value: string) => {
 export const QuizCard: FunctionComponent<CardProps> = ({
   quiz,
   onViewTemplate,
+  onUseTemplate,
   onReportIssue,
 }) => {
   const { t } = useTranslation();
@@ -45,28 +47,22 @@ export const QuizCard: FunctionComponent<CardProps> = ({
             ))}
           </LanguageRow>
 
-          <ActionTooltip
-            content={t('quiz_library.actions_tooltip')}
-            disabled={isMenuOpen}
-            delayMs={50}
+          <MenuButton
+            ref={menuButtonRef}
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsMenuOpen((prev) => !prev);
+            }}
           >
-            <MenuButton
-              ref={menuButtonRef}
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsMenuOpen((prev) => !prev);
-              }}
-            >
-              <BsThreeDotsVertical size={20} color={defaultTheme.colors.green7} />
-            </MenuButton>
-          </ActionTooltip>
+            <BsThreeDotsVertical size={20} color={defaultTheme.colors.green7} />
+          </MenuButton>
 
           <BaseFloatingMenu
             isOpen={isMenuOpen}
             onClose={() => setIsMenuOpen(false)}
             anchorEl={menuButtonRef.current}
-            width={170}
+            width={220}
             elements={[
               {
                 text: t('quiz_library.view_template'),
@@ -76,6 +72,15 @@ export const QuizCard: FunctionComponent<CardProps> = ({
                   onViewTemplate();
                 },
                 icon: <IoEyeSharp color={defaultTheme.colors.dark.darkGrey} />
+              },
+              {
+                text: t('quiz_library.use_template'),
+                onClick: (event) => {
+                  event.stopPropagation();
+                  setIsMenuOpen(false);
+                  onUseTemplate();
+                },
+                icon: <FaCirclePlus color={defaultTheme.colors.green7} />
               },
               {
                 text: t('quiz_library.report_issue'),

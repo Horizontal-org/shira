@@ -288,10 +288,10 @@
         "header_title": "Select a quiz template",
         "title": "Quiz library",
         "subtitle": "Select a quiz from the list below to use it as a template for your new quiz.",
-        "actions_tooltip": "Use template",
         "sort_by": "Sort by",
         "filters": "Filters",
         "view_template": "View template",
+        "use_template": "Use template",
         "report_issue": "Report an issue",
         "preview": {
             "subtitle": "You can preview the full quiz or each question individually, before using the quiz as a template to create your own own.",

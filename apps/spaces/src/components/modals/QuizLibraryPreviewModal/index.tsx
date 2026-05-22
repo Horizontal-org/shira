@@ -161,7 +161,6 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
     return null;
   }
 
-  const creator = activeQuiz.creator || activeQuiz.author;
   const createdAt = formatLongDate(activeQuiz.createdAt);
   const languages = Array.isArray(activeQuiz.languages)
     ? activeQuiz.languages.map((value: any) => getTextValue(value)).filter(Boolean)
@@ -210,7 +209,7 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
           <QuizPreviewDetailsCard
             languages={languages}
             tags={tags}
-            creator={creator}
+            creator={activeQuiz.author}
             createdAt={createdAt}
           />
 

@@ -129,6 +129,7 @@ export const QuizLibraryListLayout: FunctionComponent = () => {
                   key={`${quiz.title}-${quiz.createdAt}`}
                   quiz={quiz}
                   onViewTemplate={() => { handleOpenPreviewModal(quiz); }}
+                  onUseTemplate={() => { handleUseTemplate(quiz); }}
                   onReportIssue={() => { navigate("/support"); }}
                 />
               ))
