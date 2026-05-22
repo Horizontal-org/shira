@@ -179,16 +179,16 @@ export const QuizLibraryListLayout: FunctionComponent = () => {
 };
 
 const PageContent = styled.div`
-  width: min(1240px, calc(100% - 64px));
+  width: min(1320px, calc(100% - 32px));
   margin: 0 auto;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    width: calc(100% - 32px);
+    width: calc(100% - 20px);
   }
 `;
 
 const PageInner = styled.div`
-  padding: 0 18px;
+  padding: 0 8px;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     padding: 0;
@@ -196,16 +196,16 @@ const PageInner = styled.div`
 `;
 
 const PaginationWrapper = styled.div`
-  padding: 0 25px;
+  padding: 0 16px;
 `;
 
 const CardGrid = styled.div`
-  padding: 16px;
+  padding: 12px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
 
-    @media (max-width: ${props => props.theme.breakpoints.md}) {
+  @media (max-width: ${props => props.theme.breakpoints.md}) {
     grid-template-columns: repeat(3, 1fr);
   }
 

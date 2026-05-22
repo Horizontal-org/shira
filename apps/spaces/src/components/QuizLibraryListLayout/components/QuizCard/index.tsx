@@ -1,4 +1,4 @@
-import { BaseFloatingMenu, Body4, styled, defaultTheme, Body1SemiBold } from '@shira/ui';
+import { BaseFloatingMenu, Body4, styled, defaultTheme, Body1SemiBold, Button } from '@shira/ui';
 import { FunctionComponent, useRef, useState } from 'react';
 import { LibraryQuizDto } from '../../../../fetch/quiz_library';
 import { BsThreeDotsVertical } from 'react-icons/bs';
@@ -38,14 +38,26 @@ export const QuizCard: FunctionComponent<CardProps> = ({
   return (
     <CardWrapper>
       <TopSection>
-        <HeaderRow>
-          <LanguageRow>
-            {quiz.languages.map((language) => (
-              <LanguageChip key={language}>
-                <Body4>{language}</Body4>
-              </LanguageChip>
-            ))}
-          </LanguageRow>
+        <HeaderSection>
+          <HeaderRow>
+            <LanguageTemplateRow>
+              {quiz.languages.map((language) => (
+                <LanguageChip key={language}>
+                  <Body4>{language}</Body4>
+                </LanguageChip>
+              ))}
+            </LanguageTemplateRow>
+          </HeaderRow>
+
+          <SmallUseTemplateButton
+            onClick={(event) => {
+              event.stopPropagation();
+              onUseTemplate();
+            }}
+            leftIcon={<FaCirclePlus size={12} />}
+            text={t('quiz_library.use_template')}
+            color={defaultTheme.colors.green7}
+          />
 
           <MenuButton
             ref={menuButtonRef}
@@ -93,7 +105,7 @@ export const QuizCard: FunctionComponent<CardProps> = ({
               }
             ]}
           />
-        </HeaderRow>
+        </HeaderSection>
 
         <CardBody>
           <CardTitle>{quiz.title}</CardTitle>
@@ -118,6 +130,31 @@ export const QuizCard: FunctionComponent<CardProps> = ({
   );
 };
 
+const SmallUseTemplateButton = styled(Button)`
+  position: absolute;
+  top: 0;
+  right: 32px;
+  z-index: 2;
+  padding: 4px 10px;
+  white-space: nowrap;
+  min-height: 30px;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+
+  & > div:first-child {
+    margin-right: 6px;
+  }
+
+  & > span {
+    font-size: 12px;
+
+    @media (max-width: ${props => props.theme.breakpoints.sm}) {
+      font-size: 11px;
+    }
+  }
+`;
+
 const CardWrapper = styled.div`
   background: ${props => props.theme.colors.light.white};
   border: 1px solid ${props => props.theme.colors.dark.lightGrey};
@@ -127,30 +164,45 @@ const CardWrapper = styled.div`
   overflow: hidden;
   width: 100%;
   height: 100%;
+
+  &:hover ${SmallUseTemplateButton},
+  &:focus-within ${SmallUseTemplateButton} {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+  }
 `;
 
 const TopSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 28px 28px 24px;
+  padding: 18px;
   flex: 1;
+`;
+
+const HeaderSection = styled.div`
+  position: relative;
 `;
 
 const HeaderRow = styled.div`
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
+  padding-right: 24px;
 `;
 
-const LanguageRow = styled.div`
+const LanguageTemplateRow = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 8px;
+  white-space: nowrap;
+  flex: 0 0 auto;
 `;
 
 const MenuButton = styled.button`
+  position: absolute;
+  top: 0;
+  right: 0;
   background: none;
   border: none;
   padding: 2px;
@@ -200,7 +252,7 @@ const ModifiedText = styled(Body4)`
 
 const Footer = styled.div`
   background: ${props => props.theme.colors.light.paleGreen};
-  padding: 10px 20px;
+  padding: 5px 20px;
 `;
 
 const FooterMeta = styled.div`
