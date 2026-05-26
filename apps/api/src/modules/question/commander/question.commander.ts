@@ -44,8 +44,8 @@ export class QuestionCommander {
 
     this.consoleService.createCommand(
       {
-        command: 'list',
-        description: 'List demo questions',
+        command: 'publish',
+        description: 'Publish new demo questions',
       },
       async () => {
         try {
@@ -67,14 +67,19 @@ export class QuestionCommander {
       return;
     }
 
-    const user = await this.validateAuthService.execute({
-      email: email.toString(),
-      password: password.toString(),
-    });
+    try {
+      const user = await this.validateAuthService.execute({
+        email: email.toString(),
+        password: password.toString(),
+      });
 
-    const { access_token } = await this.generateTokenAuthService.execute(user);
-    console.log(`\nJWT token for ${user.email} generated`);
-    return access_token
+      const { access_token } = await this.generateTokenAuthService.execute(user);
+      console.log(`\nJWT token for ${user.email} generated`);
+      return access_token
+    } catch (e) {
+      console.log('Authentication failed:', e.message);
+      return
+    }
   }
 
   private async getDemoQuestions() {
@@ -108,7 +113,7 @@ export class QuestionCommander {
       .where('question.type = :type', { type: 'demo' })
       .getMany();
 
-    console.log(`Found ${questions.length} questions:`);
+    console.log(`Found ${questions.length} demo question(s) in DB`)
     return questions;
   }
 
@@ -120,7 +125,7 @@ export class QuestionCommander {
         const lang = { name: qt.languageId.name, code: qt.languageId.code }
         const question = {
           questionId: q.id,
-          name: q.name + ' - ' + lang.name,
+          name: q.name,
           is_phishing: q.isPhising,
           is_demo: true,
           content: qt.content,
@@ -130,11 +135,12 @@ export class QuestionCommander {
 
         let explanations = []
         q.explanations.forEach(e => {
+          const et = e.explanationTranslations.find(et => et.languageId.id === qt.languageId.id)
           const explanation = {
             question_id: q.id,
             position: e.position,
             index: e.index,
-            content: e.explanationTranslations.find(et => et.languageId.id === qt.languageId.id),
+            content: et ? et.content : '',
           }
 
           explanations.push(explanation)
@@ -156,21 +162,65 @@ export class QuestionCommander {
     const demoQuestions = await this.getDemoQuestions()
     const readyQuestions = await this.prepareQuestionsForPublishing(demoQuestions)
 
+    const totalCombinations = readyQuestions.length
+    console.log(`Expanded to ${totalCombinations} question/language combination(s)`)
+
     const state = this.loadState()
+    const trackedCombinations = state.published.reduce((sum, p) => sum + p.langs.length, 0)
+    console.log(`State: ${state.published.length} unique question(s) tracked (${trackedCombinations} combination(s))`)
+
     const toPublish = this.filterUnpublished(readyQuestions, state)
+    const skipped = totalCombinations - toPublish.length
+    if (skipped > 0) {
+      console.log(`Skipped ${skipped} already-published combination(s)`)
+    }
 
     if (toPublish.length === 0) {
       console.log('All demo questions are already published')
       return
     }
 
-    console.log(`Publishing ${toPublish.length} new question(s)...`)
-    console.log(JSON.stringify(toPublish, null, 2))
+    console.log(`\n${toPublish.length} question(s) to publish:`)
+    for (const q of toPublish) {
+      console.log(`  - "${q.name}" (id: ${q.questionId}, lang: ${q.lang.code})`)
+    }
 
-    // TODO: POST toPublish to target API
+    const { confirm } = await prompt.get(['confirm'])
+    if (confirm.toString().toLowerCase() !== 'yes' && confirm.toString().toLowerCase() !== 'y') {
+      console.log('Aborted.')
+      return
+    }
+
+    const token = await this.getAuthToken()
+    if (!token) return
+
+    console.log(`Uploading ${toPublish.length} combination(s)...`)
+    await this.postQuestions(toPublish, token)
+    console.log('Upload complete')
 
     this.saveState(state, toPublish)
-    console.log('State updated')
+    console.log(`State saved: now tracking ${state.published.length} question(s) with multiple languages`)
+  }
+
+  private async postQuestions(questions: any[], token: string) {
+    const baseUrl = process.env.SHIRA_LIBRARY_URL
+    if (!baseUrl) {
+      throw new Error('SHIRA_LIBRARY_URL env var is not set')
+    }
+
+    const res = await fetch(`${baseUrl}/questions/demo/batch`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(questions),
+    })
+
+    if (!res.ok) {
+      const body = await res.text()
+      throw new Error(`Batch post failed: ${res.status} ${body}`)
+    }
   }
 
   // -- Demo publish state --
