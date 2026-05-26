@@ -2,14 +2,10 @@ import axios from "axios";
 
 export interface LibraryQuizQuestionDto {
   id?: number | string;
-  name?: string;
   title?: string;
-  questionName?: string;
   isPhishing?: boolean;
   type?: string;
-  language?: string;
   languageName?: string;
-  app?: string;
   appName?: string;
 }
 

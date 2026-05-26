@@ -39,33 +39,13 @@ const normalizeQuestionRows = (
 
     return {
       id: String(question?.id ?? index + 1),
-      name: question?.title ?? question?.questionName ?? "",
+      name: question?.title ?? "",
       isPhishing,
       typeLabel: normalizedTypeText,
-      language: question?.language ?? question?.languageName ?? "",
-      app: question?.app ?? question?.appName ?? ""
+      language: question?.languageName ?? "",
+      app: question?.appName ?? ""
     };
   });
-};
-
-const normalizeStringList = (values: unknown): string[] => {
-  if (!Array.isArray(values)) {
-    return [];
-  }
-
-  return values
-    .map((value) => {
-      if (typeof value === "string") {
-        return value;
-      }
-
-      if (value && typeof value === "object" && "text" in value && typeof value.text === "string") {
-        return value.text;
-      }
-
-      return null;
-    })
-    .filter((value): value is string => Boolean(value));
 };
 
 export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
@@ -85,21 +65,21 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (!isOpen || !quiz) {
-      return undefined;
+      return;
     }
 
     setResolvedQuiz(quiz);
 
     if (!quiz.id) {
-      return undefined;
+      return;
     }
 
-    let alive = true;
+    let isCancelled = false;
 
-    void (async () => {
+    const loadDetailedQuiz = async () => {
       const detailedQuiz = await getQuizTemplate(quiz.id);
 
-      if (!alive || !detailedQuiz) {
+      if (isCancelled || !detailedQuiz) {
         return;
       }
 
@@ -107,12 +87,14 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
         ...quiz,
         ...detailedQuiz,
       });
-    })();
+    };
+
+    void loadDetailedQuiz();
 
     return () => {
-      alive = false;
+      isCancelled = true;
     };
-  }, [isOpen, quiz, setResolvedQuiz]);
+  }, [isOpen, quiz]);
 
   const questions = useMemo(
     () => normalizeQuestionRows(activeQuiz?.questions),
@@ -145,8 +127,8 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
   }
 
   const createdAt = formatLongDate(activeQuiz.createdAt);
-  const languages = normalizeStringList(activeQuiz.languages);
-  const tags = normalizeStringList(activeQuiz.tags);
+  const languages = activeQuiz.languages ?? [];
+  const tags = activeQuiz.tags ?? [];
 
   return (
     <Overlay onClick={onClose}>
@@ -162,12 +144,7 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
               text={t("quiz_library.preview.preview_full_quiz")}
               type="outline"
               leftIcon={<IoEyeSharp size={16} color={defaultTheme.colors.dark.darkGrey} />}
-              onClick={() => {
-                document.getElementById("quiz-library-preview-questions")?.scrollIntoView({
-                  behavior: "smooth",
-                  block: "start",
-                });
-              }}
+              onClick={() => { console.log("Preview full quiz") }}
             />
             <ActionsDivider />
 

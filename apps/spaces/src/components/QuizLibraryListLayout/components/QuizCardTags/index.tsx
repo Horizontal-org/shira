@@ -9,7 +9,6 @@ type Props = {
 const TAG_GAP_PX = 8;
 
 export const QuizCardTags: FunctionComponent<Props> = ({ tags }) => {
-  const { t } = useTranslation();
   const [visibleTagCount, setVisibleTagCount] = useState(tags.length);
   const tagRowRef = useRef<HTMLDivElement>(null);
   const ellipsisMeasureRef = useRef<HTMLSpanElement>(null);
