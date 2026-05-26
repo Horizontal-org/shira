@@ -55,20 +55,20 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
   onUseTemplate,
 }) => {
   const { t } = useTranslation();
-  const [resolvedQuiz, setResolvedQuiz] = useState<LibraryQuizDto | null>(quiz);
+  const [previewQuiz, setPreviewQuiz] = useState<LibraryQuizDto | null>(quiz);
 
-  const activeQuiz = resolvedQuiz
+  const activeQuiz = previewQuiz
     && quiz
-    && resolvedQuiz.title === quiz.title
-    && resolvedQuiz.createdAt === quiz.createdAt
-    ? resolvedQuiz : quiz;
+    && previewQuiz.title === quiz.title
+    && previewQuiz.createdAt === quiz.createdAt
+    ? previewQuiz : quiz;
 
   useEffect(() => {
     if (!isOpen || !quiz) {
       return;
     }
 
-    setResolvedQuiz(quiz);
+    setPreviewQuiz(quiz);
 
     if (!quiz.id) {
       return;
@@ -83,7 +83,7 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
         return;
       }
 
-      setResolvedQuiz({
+      setPreviewQuiz({
         ...quiz,
         ...detailedQuiz,
       });
@@ -103,11 +103,13 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
 
   useEffect(() => {
     if (!isOpen) {
-      return undefined;
+      return;
     }
 
+    // Lock page scroll while the modal is open
     document.body.style.overflow = "hidden";
 
+    // Close modal with Escape key
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         onClose();
