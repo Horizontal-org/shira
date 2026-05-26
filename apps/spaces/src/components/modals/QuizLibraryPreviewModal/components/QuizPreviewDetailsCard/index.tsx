@@ -116,14 +116,6 @@ const SectionLabel = styled(Body3)`
   text-transform: uppercase;
 `;
 
-const LabelIcon = styled.span`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  line-height: 1;
-`;
-
 const ChipRow = styled.div`
   display: flex;
   flex-wrap: wrap;

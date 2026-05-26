@@ -6,10 +6,10 @@ export interface LibraryQuizQuestionDto {
   title?: string;
   questionName?: string;
   isPhishing?: boolean;
-  type?: string | boolean;
-  language?: string | { name?: string };
+  type?: string;
+  language?: string;
   languageName?: string;
-  app?: string | { name?: string };
+  app?: string;
   appName?: string;
 }
 

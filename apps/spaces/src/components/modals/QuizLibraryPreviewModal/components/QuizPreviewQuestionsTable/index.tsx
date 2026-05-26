@@ -1,4 +1,4 @@
-import { Body3, Body3Bold, Body4, Table, defaultTheme, styled } from "@shira/ui";
+import { Body3, Body3Bold, Table, defaultTheme, styled } from "@shira/ui";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { FunctionComponent, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -9,7 +9,7 @@ import { appIcons } from "../../../../QuestionLibraryListLayout/components/AppIc
 export type PreviewQuestionRow = {
   id: string;
   name: string;
-  isPhishing: boolean | null;
+  isPhishing: boolean;
   typeLabel: string;
   language: string;
   app: string;
@@ -43,18 +43,14 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
         accessorKey: "typeLabel",
         id: "type",
         cell: ({ row }) => (
-          row.original.isPhishing !== null ? (
-            <TypePill $isPhishing={row.original.isPhishing}>
-              {row.original.isPhishing ? (
-                <MdOutlinePhishing size={16} />
-              ) : (
-                <FaCircleCheck size={16} color={defaultTheme.colors.green6} />
-              )}
-              {row.original.typeLabel}
-            </TypePill>
-          ) : (
-            <Body4>{row.original.typeLabel || "-"}</Body4>
-          )
+          <TypePill $isPhishing={row.original.isPhishing}>
+            {row.original.isPhishing ? (
+              <MdOutlinePhishing size={16} />
+            ) : (
+              <FaCircleCheck size={16} color={defaultTheme.colors.green6} />
+            )}
+            {row.original.typeLabel}
+          </TypePill>
         ),
       },
       {

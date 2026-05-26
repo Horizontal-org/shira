@@ -67,6 +67,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     subscription: state.subscription,
     quizActionSuccess: state.quizActionSuccess,
     cleanQuizActionSuccess: state.cleanQuizActionSuccess,
+    
     cleanQuizzes: state.cleanQuizzes
   }), shallow)
 

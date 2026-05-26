@@ -3,7 +3,7 @@ import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaCirclePlus } from "react-icons/fa6";
 import { FiX } from "react-icons/fi";
-import { getQuizTemplate, LibraryQuizDto, LibraryQuizQuestionDto } from "../../../fetch/quiz_library";
+import { getQuizTemplate, type LibraryQuizDto, type LibraryQuizQuestionDto } from "../../../fetch/quiz_library";
 import { QuizPreviewDetailsCard } from "./components/QuizPreviewDetailsCard";
 import { PreviewQuestionRow, QuizPreviewQuestionsTable } from "./components/QuizPreviewQuestionsTable";
 import { IoEyeSharp } from "react-icons/io5";
@@ -25,60 +25,47 @@ const formatLongDate = (value: string) => {
   });
 };
 
-const getTextValue = (...values: any[]) => {
-  for (const value of values) {
-    if (typeof value === "string" && value.trim()) {
-      return value.trim();
-    }
-
-    if (value && typeof value === "object") {
-      if (typeof value.name === "string" && value.name.trim()) {
-        return value.name.trim();
-      }
-
-      if (typeof value.title === "string" && value.title.trim()) {
-        return value.title.trim();
-      }
-
-      if (typeof value.label === "string" && value.label.trim()) {
-        return value.label.trim();
-      }
-    }
-  }
-
-  return "";
-};
-
 const normalizeQuestionRows = (
   questions: LibraryQuizQuestionDto[] | undefined,
-  phishingLabel: string,
-  legitimateLabel: string,
 ): PreviewQuestionRow[] => {
   if (!Array.isArray(questions)) {
     return [];
   }
 
   return questions.map((question, index) => {
-    const typeText = getTextValue(question?.type);
-    const normalizedTypeText = typeText.toLowerCase();
+    const normalizedTypeText = question?.type?.toLowerCase() ?? "";
 
-    const isPhishing = typeof question?.isPhishing === "boolean"
-      ? question.isPhishing
-      : normalizedTypeText.includes("phishing")
-        ? true
-        : normalizedTypeText.includes("legitimate")
-          ? false
-          : null;
+    const isPhishing = question.isPhishing;
 
     return {
       id: String(question?.id ?? index + 1),
-      name: getTextValue(question?.name, question?.title, question?.questionName, (question as any)?.question?.name) || `Question ${index + 1}`,
+      name: question?.title ?? question?.questionName ?? "",
       isPhishing,
-      typeLabel: typeText || (isPhishing === true ? phishingLabel : isPhishing === false ? legitimateLabel : ""),
-      language: getTextValue(question?.language, question?.languageName, (question as any)?.question?.language),
-      app: getTextValue(question?.app, question?.appName, (question as any)?.question?.app),
+      typeLabel: normalizedTypeText,
+      language: question?.language ?? question?.languageName ?? "",
+      app: question?.app ?? question?.appName ?? ""
     };
   });
+};
+
+const normalizeStringList = (values: unknown): string[] => {
+  if (!Array.isArray(values)) {
+    return [];
+  }
+
+  return values
+    .map((value) => {
+      if (typeof value === "string") {
+        return value;
+      }
+
+      if (value && typeof value === "object" && "text" in value && typeof value.text === "string") {
+        return value.text;
+      }
+
+      return null;
+    })
+    .filter((value): value is string => Boolean(value));
 };
 
 export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
@@ -128,12 +115,8 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
   }, [isOpen, quiz, setResolvedQuiz]);
 
   const questions = useMemo(
-    () => normalizeQuestionRows(
-      activeQuiz?.questions,
-      t("question_library.columns.type.phishing"),
-      t("question_library.columns.type.legitimate"),
-    ),
-    [activeQuiz, t],
+    () => normalizeQuestionRows(activeQuiz?.questions),
+    [activeQuiz],
   );
 
   useEffect(() => {
@@ -162,12 +145,8 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
   }
 
   const createdAt = formatLongDate(activeQuiz.createdAt);
-  const languages = Array.isArray(activeQuiz.languages)
-    ? activeQuiz.languages.map((value: any) => getTextValue(value)).filter(Boolean)
-    : [];
-  const tags = Array.isArray(activeQuiz.tags)
-    ? activeQuiz.tags.map((value: any) => getTextValue(value)).filter(Boolean)
-    : [];
+  const languages = normalizeStringList(activeQuiz.languages);
+  const tags = normalizeStringList(activeQuiz.tags);
 
   return (
     <Overlay onClick={onClose}>
