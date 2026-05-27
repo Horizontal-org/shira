@@ -51,8 +51,8 @@ export const QuizLibraryListLayout: FunctionComponent = () => {
   }, []);
 
   useEffect(() => {
-    void loadQuizzes();
-    void fetchQuizzes();
+    loadQuizzes();
+    fetchQuizzes();
   }, [fetchQuizzes, loadQuizzes]);
 
   const total = libraryQuizzes.length;
