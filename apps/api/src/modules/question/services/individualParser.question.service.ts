@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Question } from '../domain';
+import { Question, Explanation } from '../domain';
 import { QuestionTranslation } from 'src/modules/translation/domain/questionTranslation.entity';
 import { ExplanationTranslation } from 'src/modules/translation/domain/explanationTranslation.entity';
 import { Language } from 'src/modules/languages/domain';
@@ -14,6 +14,8 @@ export class ParserQuestionService {
   constructor(
     @InjectRepository(Question)
     private readonly questionRepository: Repository<Question>,
+    @InjectRepository(Explanation)
+    private readonly explanationRepository: Repository<Explanation>,
     @InjectRepository(QuestionTranslation)
     private readonly QuestionTranslationRepository: Repository<QuestionTranslation>,
     @InjectRepository(ExplanationTranslation)
@@ -55,10 +57,12 @@ export class ParserQuestionService {
       return res.status(404).send('Question not found');
     }
 
-    const explanations = resData.explanations.map(
-      (explanation) =>
-        `<div data-explanation-id='${explanation.id}'>${explanation.explanationTranslations[0].content}</div>`,
-    );
+    const explanations = resData.explanations
+      .filter((explanation) => explanation.explanationTranslations.length > 0)
+      .map(
+        (explanation) =>
+          `<div data-explanation-id='${explanation.id}'>${explanation.explanationTranslations[0].content}</div>`,
+      );
     const explanationsHtml = `<div id="explanations">\n${explanations.join(
       '\n',
     )}\n</div>\n`;
@@ -140,9 +144,14 @@ export class ParserQuestionService {
         const questionTranslation = new QuestionTranslation();
         questionTranslation.content = questionTranslationContent;
         questionTranslation.languageId = lang;
-        questionTranslation.question = id;
+        questionTranslation.question = { id } as any
         await this.QuestionTranslationRepository.save(questionTranslation);
         for (const explanationContent of explanationContents) {
+          const explanationExists = await this.explanationRepository.existsBy({ id: parseInt(explanationContent.id) })
+          if (!explanationExists) {
+            console.log(`explanation ${explanationContent.id} not found, skipping`)
+            continue
+          }
           const explanationTranslated = await this.ExplanationTranslationRepository
             .createQueryBuilder('et')
             .where('et.explanation_id = :eid', { eid: parseInt(explanationContent.id) })
@@ -153,7 +162,7 @@ export class ParserQuestionService {
             const explanationTranslation = new ExplanationTranslation();
             explanationTranslation.content = explanationContent.content;
             explanationTranslation.languageId = lang;
-            explanationTranslation.explanation = explanationContent.id;
+            explanationTranslation.explanation = { id: parseInt(explanationContent.id) } as any
             await this.ExplanationTranslationRepository.save(
               explanationTranslation,
             );
@@ -171,6 +180,11 @@ export class ParserQuestionService {
         await this.QuestionTranslationRepository.save(questionTranslated);
 
         for (const explanationContent of explanationContents) {
+          const explanationExists = await this.explanationRepository.existsBy({ id: parseInt(explanationContent.id) })
+          if (!explanationExists) {
+            console.log(`explanation ${explanationContent.id} not found, skipping`)
+            continue
+          }
           const explanationTranslated = await this.ExplanationTranslationRepository
             .createQueryBuilder('et')
             .where('et.explanation_id = :eid', { eid: parseInt(explanationContent.id) })
@@ -181,7 +195,7 @@ export class ParserQuestionService {
             const explanationTranslation = new ExplanationTranslation();
             explanationTranslation.content = explanationContent.content;
             explanationTranslation.languageId = lang;
-            explanationTranslation.explanation = explanationContent.id;
+            explanationTranslation.explanation = { id: parseInt(explanationContent.id) } as any
             await this.ExplanationTranslationRepository.save(
               explanationTranslation,
             );
