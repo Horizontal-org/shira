@@ -20,12 +20,7 @@
       "strict": false,
       "noUnusedLocals": true,
       "noUnusedParameters": true,
-      "noFallthroughCasesInSwitch": true,
-  
-      /* Output */
-      "declaration": true,
-      "declarationDir": "dist",
-      "outDir": "dist"
+      "noFallthroughCasesInSwitch": true
     },
     "include": ["src"],
     "references": [{ "path": "./tsconfig.node.json" }],

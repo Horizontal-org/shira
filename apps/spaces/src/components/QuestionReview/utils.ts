@@ -1,4 +1,4 @@
-import { DatingApp, FBMessenger, Gmail, Outlook, SMS, Whatsapp } from "@shira/ui"
+import { DatingApp, FBMessenger, Gmail, Outlook, SMS, Whatsapp } from "@horizontal-org/shira-ui"
 import { remapHtml } from "../../utils/remapHtml"
 import { ActiveQuestion, QuestionDragAttachment, QuestionDragEditor, QuestionDragImage, QuestionEditorInput } from "../../store/types/active_question"
 import { parseDragItem } from "../../utils/active_question/questionToHtml"

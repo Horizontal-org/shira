@@ -1,29 +1,42 @@
 {
-    "name": "@shira/ui",
-    "version": "1.0.0",
-    "private": true,
-    "main": "dist/index.js",
+    "name": "@horizontal-org/shira-ui",
+    "version": "1.0.46",
+    "main": "dist/index.cjs.js",
     "module": "dist/index.es.js",
     "types": "dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.es.js",
+            "require": "./dist/index.cjs.js"
+        },
+        "./styles.css": "./dist/styles.css"
+    },
     "files": [
-        "dist"
+        "dist",
+        "README.md"
     ],
     "publishConfig": {
-        "access": "public"
+        "access": "public",
+        "registry": "https://registry.npmjs.org/"
     },
-    "author": "horizontal",
+    "author": "horizontal_org",
     "license": "MIT",
     "scripts": {
-        "build": "vite build",
+        "clean": "rm -rf dist",
+        "build:js": "vite build",
+        "build:types": "tsc -p tsconfig.build.json",
+        "build": "npm run clean && npm run build:js && npm run build:types",
+        "pack:check": "npm_config_cache=/tmp/shira-ui-npm-cache npm pack --dry-run",
+        "prepublishOnly": "npm run build && npm run pack:check",
         "storybook": "storybook dev -p 6006",
-        "build-storybook": "storybook build -o public"
+        "build-storybook": "storybook build -o storybook-static"
     },
     "peerDependencies": {
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "styled-components": "^6.1.13"
+        "styled-components": "^6.3.9"
     },
     "devDependencies": {
+        "@faker-js/faker": "^10.1.0",
         "@storybook/addon-links": "^10.2.8",
         "@storybook/addon-onboarding": "^10.2.8",
         "@storybook/react": "^10.2.8",
@@ -31,21 +44,16 @@
         "@types/react": "^18.2.66",
         "@types/react-dom": "^18.2.22",
         "@vitejs/plugin-react": "^5.1.4",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
         "storybook": "^10.2.10",
-        "styled-components": "^6.1.13",
-        "typescript": "^5.7.2",
-        "vite": "^7.3.1",
-        "vite-plugin-dts": "^4.3.0"
+        "styled-components": "^6.3.9",
+        "typescript": "^5.9.3",
+        "vite": "^7.3.1"
     },
     "dependencies": {
-        "@faker-js/faker": "^10.1.0",
         "@floating-ui/react": "^0.27.19",
         "@tanstack/react-table": "^8.21.3",
         "date-fns": "^4.1.0",
         "polished": "^4.3.1",
-        "react-icons": "^5.5.0",
-        "react-popper": "^2.3.0"
+        "react-icons": "^5.5.0"
     }
 }

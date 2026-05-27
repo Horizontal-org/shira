@@ -15,7 +15,7 @@ export class ListQuizService implements IListQuizService {
     private readonly quizRepo: Repository<QuizEntity>,
   ) { }
 
-  async execute(spaceId: number): Promise<ReadPlainQuizDto[]> {
+  async execute(spaceId: number, descOrder = false): Promise<ReadPlainQuizDto[]> {
 
     const quizzes = await this.quizRepo
       .createQueryBuilder('quiz')
@@ -52,6 +52,7 @@ export class ListQuizService implements IListQuizService {
           COALESCE(latest_question.lastQuizQuestionUpdatedAt, '1900-01-01')
         )`, 'latestGlobalUpdate')
       .where('space_id = :spaceId', { spaceId: spaceId })
+      .orderBy('quiz.created_at', descOrder ? 'DESC' : 'ASC')
       .getRawMany()
 
     return plainToInstance(ReadPlainQuizDto, quizzes);

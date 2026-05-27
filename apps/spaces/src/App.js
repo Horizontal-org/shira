@@ -14,7 +14,7 @@ import { useStore } from './store';
 import { useEffect } from 'react';
 import { ManageQuestionLanguages } from './components/ManageQuestionLanguages';
 import { Toaster, resolveValue } from 'react-hot-toast';
-import { Body1, ThemeProvider } from '@shira/ui';
+import { Body1, ThemeProvider } from '@horizontal-org/shira-ui';
 import { QuizViewLayout } from './components/QuizViewLayout';
 import { IoMdCheckmarkCircle } from 'react-icons/io'
 import LogoutLayout from './components/LogoutLayout';

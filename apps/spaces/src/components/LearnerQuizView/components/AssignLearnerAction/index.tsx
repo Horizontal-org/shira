@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import toast from "react-hot-toast";
-import { Button, useTheme } from "@shira/ui";
+import { Button, useTheme } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
 import { handleHttpError } from "../../../../fetch/handleError";
 import { getErrorContent } from "../../../../utils/getErrorContent";

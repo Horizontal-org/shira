@@ -1,4 +1,4 @@
-import { Button, BaseFloatingMenu, styled } from "@shira/ui";
+import { Button, BaseFloatingMenu, useTheme, styled } from "@horizontal-org/shira-ui";
 import { FunctionComponent, useRef, useState } from "react";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 

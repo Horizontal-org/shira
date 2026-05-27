@@ -1,4 +1,4 @@
-import { CardPagination, styled } from "@shira/ui";
+import { CardPagination, styled } from "@horizontal-org/shira-ui";
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { shallow } from "zustand/shallow";

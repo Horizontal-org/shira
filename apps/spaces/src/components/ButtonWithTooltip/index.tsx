@@ -1,6 +1,6 @@
 import { forwardRef, useState } from 'react';
 import styled from 'styled-components';
-import { Button, ButtonProps } from '@shira/ui';
+import { Button, ButtonProps } from '@horizontal-org/shira-ui';
 
 interface ButtonWithTooltipProps extends ButtonProps {
   tooltipText?: string;

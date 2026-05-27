@@ -1,4 +1,4 @@
-import { Body2Regular, Form, styled } from "@shira/ui";
+import { Body2Regular, Form, styled } from "@horizontal-org/shira-ui";
 import { FunctionComponent } from "react";
 import { useTranslation } from "react-i18next";
 

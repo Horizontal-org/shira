@@ -15,7 +15,7 @@ import {
   defaultTheme,
   Body4,
   GeneralTooltip
-} from "@shira/ui";
+} from "@horizontal-org/shira-ui";
 import { TabContainer } from './components/TabContainer'
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";

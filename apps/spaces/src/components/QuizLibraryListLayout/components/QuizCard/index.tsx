@@ -1,4 +1,4 @@
-import { BaseFloatingMenu, Body4, styled, defaultTheme, Body1SemiBold, Button } from '@shira/ui';
+import { BaseFloatingMenu, Body4, styled, defaultTheme, Body1SemiBold, Button } from '@horizontal-org/shira-ui';
 import { FunctionComponent, useRef, useState } from 'react';
 import { LibraryQuizDto } from '../../../../fetch/quiz_library';
 import { BsThreeDotsVertical } from 'react-icons/bs';

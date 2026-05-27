@@ -1,4 +1,4 @@
-import { Body3, Body4, defaultTheme, styled } from "@shira/ui";
+import { Body3, Body4, defaultTheme, styled } from "@horizontal-org/shira-ui";
 import { FunctionComponent } from "react";
 import { useTranslation } from "react-i18next";
 import { BiSolidTagAlt } from "react-icons/bi";

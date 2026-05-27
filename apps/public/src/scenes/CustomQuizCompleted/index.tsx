@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { styled } from '@shira/ui'
+import { styled } from '@horizontal-org/shira-ui'
 import shallow from 'zustand/shallow'
 import CompletedIcon from './assets/CompletedIcon'
 import { Heading } from '../../components/UI/Title'

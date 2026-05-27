@@ -1,4 +1,4 @@
-import { Body3, Body3Bold, Table, defaultTheme, styled } from "@shira/ui";
+import { Body3, Body3Bold, Table, defaultTheme, styled } from "@horizontal-org/shira-ui";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { FunctionComponent, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";

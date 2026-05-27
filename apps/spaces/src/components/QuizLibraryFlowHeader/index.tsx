@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { styled, Logo, Body2Regular, defaultTheme } from "@shira/ui";
+import { styled, Logo, Body2Regular, defaultTheme } from "@horizontal-org/shira-ui;
 import { IoClose } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
 

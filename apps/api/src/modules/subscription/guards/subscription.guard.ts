@@ -23,8 +23,8 @@ export class SubscriptionGuard implements CanActivate {
     }
 
     let subscription = null
-    if (user.activeOrganization) {
-      subscription = await this.subscriptionCacheService.getCurrentSubscription(user.activeOrganization.id + '');
+    if (user.activeOrganization && user.activeSpace) {
+      subscription = await this.subscriptionCacheService.getCurrentSubscription(user.activeOrganization.id + '', user.activeSpace.space.id);
     } else if (!user.isSuperAdmin) {
      throw new ForbiddenException('User does not have an active organization context'); 
     }

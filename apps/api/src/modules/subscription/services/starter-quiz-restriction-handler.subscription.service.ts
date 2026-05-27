@@ -19,41 +19,21 @@ export class StarterQuizRestrictionHandlerService implements IStarterQuizRestric
 
   private readonly logger = new Logger(StarterQuizRestrictionHandlerService.name);
 
-  async execute(organizationId: string): Promise<void> {
+  async execute(organizationId: string, spaceId: number): Promise<void> {
     this.logger.debug(`Unpublishing quizzes for organization ${organizationId}`);
-    await this.unpublishPublicQuizzes(organizationId);
+    await this.unpublishPublicQuizzes(organizationId, spaceId);
     await this.unpublishPrivateQuizzes(organizationId);
   }
 
-  private async unpublishPublicQuizzes(organizationId: string) {
+  private async unpublishPublicQuizzes(organizationId: string, spaceId: number) {
     const publicQuizIds = await this.quizRepo
       .createQueryBuilder('quiz')
-      .leftJoin(
-        (qb) => qb
-          .from(Question, 'question')
-          .innerJoin('quizzes_questions', 'qq', 'qq.question_id = question.id')
-          .select('qq.quiz_id', 'quizId')
-          .addSelect('MAX(question.updated_at)', 'questionUpdatedAt')
-          .addSelect('MAX(qq.updated_at)', 'quizQuestionUpdatedAt')
-          .groupBy('qq.quiz_id'),
-        'latest_question',
-        'latest_question.quizId = quiz.id'
-      )
       .select('quiz.id', 'id')
-      .where('space_id IN (SELECT id FROM spaces WHERE organization_id = :organizationId)', {
-        organizationId,
-      })
+      .where('space_id = :spaceId', { spaceId })
       .andWhere('quiz.visibility = :visibility', { visibility: 'public' })
-      .andWhere('quiz.published = :published', { published: true })
-      .orderBy(`GREATEST
-        (
-          quiz.updated_at,
-          COALESCE(latest_question.questionUpdatedAt, '1900-01-01'),
-          COALESCE(latest_question.quizQuestionUpdatedAt, '1900-01-01')
-        )`,
-        'DESC'
-      )
+      .orderBy('quiz.created_at', 'DESC')
       .getRawMany();
+
 
     const quizzesToUnpublish = publicQuizIds.slice(MAX_STARTER_PUBLIC_QUIZZES);
 

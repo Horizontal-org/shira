@@ -1,5 +1,5 @@
 import { FunctionComponent, useMemo } from "react";
-import { Button, styled, useTheme } from '@shira/ui'
+import { Button, styled, useTheme } from '@horizontal-org/shira-ui'
 import { useTranslation } from "react-i18next";
 import { MdOutlineMenuBook } from "react-icons/md";
 import { useNavigate } from "react-router-dom";

@@ -1,6 +1,6 @@
 import { FunctionComponent, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { styled } from '@shira/ui'
+import { styled } from '@horizontal-org/shira-ui'
 import shallow from 'zustand/shallow'
 import { Footer } from '../../components/UI/Footer'
 import { SceneWithFooter } from '../../components/UI/SceneWithFooter'

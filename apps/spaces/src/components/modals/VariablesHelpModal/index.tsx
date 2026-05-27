@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { Body1, Modal, styled, VariableIcon } from "@shira/ui";
+import { Body1, Modal, styled, VariableIcon } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
 
 interface Props {

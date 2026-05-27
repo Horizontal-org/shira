@@ -1,7 +1,7 @@
 import { FunctionComponent, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { defaultTheme } from "@shira/ui";
+import { defaultTheme } from "@horizontal-org/shira-ui";
 import { QuizLibraryFlowHeader } from "../QuizLibraryFlowHeader";
 
 type Props = {

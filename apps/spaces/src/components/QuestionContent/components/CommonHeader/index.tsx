@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from "react";
-import { Body1, defaultTheme, Link1, styled } from "@shira/ui";
+import { Body1, defaultTheme, styled, Link1 } from "@horizontal-org/shira-ui";
 import { HookIcon } from "./assets/hook";
 import { ThumbIcon } from "./assets/thumb";
 import { ExplanationsHelpModal } from "../../../modals/ExplanationsHelpModal";

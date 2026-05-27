@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react'
-import { ExplanationIcon } from '@shira/ui'
+import { ExplanationIcon } from '@horizontal-org/shira-ui'
 import { useLink } from '../hooks/useLink'
 import { FiBold, FiItalic, FiCode, FiList, FiUnderline, FiImage } from 'react-icons/fi'
 import { 

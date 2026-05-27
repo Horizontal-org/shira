@@ -1,16 +1,16 @@
 import { FunctionComponent } from "react";
 import {
-  Box,
   Body3,
+  Box,
   FilterButton,
   styled,
   SubHeading3,
   TextInput
-} from '@shira/ui'
-import { useTranslation } from "react-i18next";
+} from '@horizontal-org/shira-ui'
 import { App } from "../../fetch/app";
 import { ActiveQuestion } from "../../store/types/active_question";
 import { QUESTION_NAME_MAX_LENGTH } from "../../utils/inputLimits";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   handleQuestion: (k, v) => void;

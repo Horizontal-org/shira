@@ -1,4 +1,4 @@
-import { Body4, styled } from '@shira/ui';
+import { Body4, styled } from '@horizontal-org/shira-ui';
 import { FunctionComponent, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 

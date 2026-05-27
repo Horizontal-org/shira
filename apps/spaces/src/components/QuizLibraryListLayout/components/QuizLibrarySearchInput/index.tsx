@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { TextInput, Button, defaultTheme, styled } from "@shira/ui";
+import { TextInput, Button, defaultTheme, styled } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
 import { FiChevronDown } from "react-icons/fi";
 import { FiSearch } from "react-icons/fi";

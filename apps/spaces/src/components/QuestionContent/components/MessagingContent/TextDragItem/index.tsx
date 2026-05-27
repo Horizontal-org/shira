@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { styled } from "@shira/ui";
+import { styled } from "@horizontal-org/shira-ui";
 import { MessageTipTapEditor } from "../../../../TipTapEditor/MessageTipTapEditor";
 import { useStore } from "../../../../../store";
 import { shallow } from "zustand/shallow";

@@ -1,4 +1,4 @@
-import { Body1, FlowHeader, H2, styled } from "@shira/ui";
+import { Body1, FlowHeader, H2, styled } from "@horizontal-org/shira-ui";
 import { FunctionComponent, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation, Trans } from "react-i18next";
 import { Link } from "react-router-dom";

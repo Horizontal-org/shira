@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import type { ReactNode } from "react";
-import { styled } from '@shira/ui';
+import { styled } from '@horizontal-org/shira-ui';
 
 interface Props {
   label: string;

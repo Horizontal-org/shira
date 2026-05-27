@@ -1,4 +1,4 @@
-import { Body1, Button, H2, defaultTheme, styled } from "@shira/ui";
+import { Body1, Button, H2, defaultTheme, styled } from "@horizontal-org/shira-ui";
 import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaCirclePlus } from "react-icons/fa6";
