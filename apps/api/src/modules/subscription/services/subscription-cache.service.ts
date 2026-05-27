@@ -1,4 +1,4 @@
-import { Inject, Injectable, Logger } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import Redis from "ioredis";
 import { REDIS } from "../providers/redis.provider";
 import { CachedSubscription } from "../dto/cached-response.dto";
@@ -7,11 +7,12 @@ import { ISubscriptionCacheService } from "../interfaces/services/subscription-c
 import { IShiraPaymentsService } from "../interfaces/services/shira-payments.service.interface";
 import { TYPES } from "../interfaces";
 import { SpaceEntity } from "src/modules/space/domain/space.entity";
+import { ApiLogger } from "src/utils/logger/api-logger.service";
 
 @Injectable()
 export class SubscriptionCacheService implements ISubscriptionCacheService {
   private readonly ttlSeconds = Number(process.env.SUBSCRIPTION_CACHE_TTL || 300);
-  private readonly logger = new Logger(SubscriptionCacheService.name);
+  private readonly logger = new ApiLogger(SubscriptionCacheService.name);
 
   constructor(
     @Inject(REDIS)

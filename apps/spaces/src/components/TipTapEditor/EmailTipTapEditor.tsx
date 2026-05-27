@@ -73,9 +73,11 @@ export const EmailTipTapEditor = ({
   const links = useLink(editor)
   const tables = useTable(editor)
   const selectedImageExplanationIndex = images.getSelectedImageExplanationIndex()
+
   const isExplanationButtonSelected =
     explanations.isTextExplanationSelected() ||
-    selectedImageExplanationIndex === explanations.selectedExplanation
+    (selectedImageExplanationIndex !== null &&
+      selectedImageExplanationIndex === explanations.selectedExplanation)
 
   // Connect editor events to hooks
   if (editor) {
