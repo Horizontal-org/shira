@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from "react";
-import { styled } from '@shira/ui';
+import { styled } from '@horizontal-org/shira-ui';
 import { QuestionsList } from './QuestionList';
 import { Results } from './Results/Results';
 import { QuizQuestion } from "../../../store/slices/quiz";

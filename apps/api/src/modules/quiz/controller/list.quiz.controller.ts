@@ -26,9 +26,10 @@ export class ListQuizController {
     @SpaceId() spaceId: number,
     @SubscriptionDecorator() subscription: Partial<CachedSubscription>
   ) {
-    const quizzes = await this.listQuizService.execute(spaceId)
+    const noSub = !subscription || subscription.status !== 'active' || subscription.type !== 'pro'
+    const quizzes = await this.listQuizService.execute(spaceId, !!(noSub))
 
-    if (!subscription || subscription.status !== 'active' || subscription.type !== 'pro') {
+    if (noSub) {
       // return first three public quizzes
       return quizzes.filter(q => q.visibility === 'public').slice(0, 3)
     }

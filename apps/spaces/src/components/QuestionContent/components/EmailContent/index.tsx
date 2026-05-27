@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { Body2Regular, Body3, styled, SubHeading3 } from '@shira/ui'
+import { Body2Regular, Body3, styled, SubHeading3 } from '@horizontal-org/shira-ui'
 import { EmailTipTapEditor } from "../../../TipTapEditor/EmailTipTapEditor";
 import { Attachments } from "../Attachments";
 import { InputWithExplanation } from "../../../InputWithExplanation";

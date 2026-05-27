@@ -1,7 +1,7 @@
 import { FunctionComponent, ReactNode } from 'react';
 import styled from 'styled-components';
 import { Body1 } from '../Typography';
-import { SettingsFishIcon } from '../..';
+import { SettingsFishIcon } from '../Icons';
 
 export interface EmptyStateProps {
   subtitle: string | ReactNode;

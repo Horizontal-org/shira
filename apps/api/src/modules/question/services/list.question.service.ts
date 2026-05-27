@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, SelectQueryBuilder } from 'typeorm';
 import { Language } from 'src/modules/languages/domain';
 import { TYPES as TYPES_QUESTION_IMAGE } from '../../question_image/interfaces';
 import { IGenerateUrlsQuestionImageService } from 'src/modules/question_image/interfaces/services/generate_urls.question_image.service.interface';
@@ -51,12 +51,33 @@ export class ListQuestionService {
   }
 
   async getQuestion(spaceId: number, id: string, lang?: string) {
+
+    const languageId = await this.getLanguage(lang);
+
+    const query = await this.baseQuestionQuery(languageId, id)
+    query.andWhere('quiz.space_id = :spaceId', { spaceId });
+
+    return await this.mapQuestionResponse(query);
+  }
+
+
+  async getSuperadminQuestion(id: string, lang?: string) {
+    const languageId = await this.getLanguage(lang);
+    const query = await this.baseQuestionQuery(languageId, id)
+    return await this.mapQuestionResponse(query);
+  }
+
+
+  /// PRIVATE METHODS
+  private async getLanguage(lang?) {
     const language = await this.languageRepository.findOne({
       where: { code: lang || 'en' },
     });
 
-    const languageId = language?.id ?? 1;
+    return language?.id ?? 1;
+  }
 
+  private async baseQuestionQuery(languageId: number, id: string): Promise<SelectQueryBuilder<Question>> {
     const query = this.questionRepository
       .createQueryBuilder('question')
       .leftJoin('question.apps', 'apps')
@@ -87,10 +108,12 @@ export class ListQuestionService {
       ])
       .where('question.id = :id', { id })
       .andWhere('questionTranslations.languageId = :languageId', { languageId })
-      .andWhere('quiz.space_id = :spaceId', { spaceId });
 
-    const res = (await query.getMany()).shift();
+    return query
+  }
 
+  private async mapQuestionResponse(query: SelectQueryBuilder<Question>) {
+    const res = (await query.getMany()).shift();  
     if (!res) return null;
 
     return {
@@ -101,6 +124,6 @@ export class ListQuestionService {
         text: explanation.explanationTranslations[0]?.content,
       })),
       images: await this.getImageUrls.byQuestion(res.id),
-    };
+    }
   }
 }

@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { styled, defaultTheme } from "@shira/ui";
+import { styled, defaultTheme } from "@horizontal-org/shira-ui";
 import { QuestionPreview } from "../../QuestionPreview";
 import { ExplanationDto } from "../../../fetch/question_library";
 import { QuestionToDuplicate } from "../../../fetch/question_library";

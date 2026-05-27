@@ -6,7 +6,8 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { Explanation } from '../../store/slices/explanation'
 import { publish } from '../../utils/customEvent'
 import { ExplanationDragItem } from './components/ExplanationDragItem'
-import { Body1, styled } from '@shira/ui'
+
+import { styled, Body1 } from '@horizontal-org/shira-ui'
 import { t } from 'i18next';
 
 interface Props {

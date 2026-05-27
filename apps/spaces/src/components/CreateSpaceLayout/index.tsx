@@ -8,7 +8,7 @@ import {
   TextInput,
   styled,
   Navbar
-} from "@shira/ui";
+} from "@horizontal-org/shira-ui";
 import backgroundSvg from "../../assets/Background.svg";
 import { CreateSpaceSuccess } from "./components/CreateSpaceSuccess";
 import { useStore } from "../../store";

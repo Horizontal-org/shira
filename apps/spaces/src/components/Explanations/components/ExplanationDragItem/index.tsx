@@ -1,6 +1,6 @@
 import { FunctionComponent, ReactNode } from 'react'
 import { Draggable } from "react-beautiful-dnd";
-import { Body3Bold, styled } from '@shira/ui';
+import { Body3Bold, styled } from '@horizontal-org/shira-ui';
 import { DragItemOptions } from '../../../DragItemOptions';
 
 interface Props {

@@ -1,4 +1,4 @@
-import { Body4, CharacterCount, ExplanationButton, GeneralTooltip, styled } from '@shira/ui'
+import { GeneralTooltip, styled, ExplanationButton, CharacterCount, Body4 } from '@horizontal-org/shira-ui'
 import { useEditor, EditorContent } from '@tiptap/react'
 import { useExplanations } from './hooks/useExplanations'
 

@@ -1,4 +1,4 @@
-import { Banner } from "@shira/ui";
+import { Banner } from "@horizontal-org/shira-ui";
 import { FunctionComponent } from "react";
 import { useTranslation } from "react-i18next";
 

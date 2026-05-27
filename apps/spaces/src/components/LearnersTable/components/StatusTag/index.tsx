@@ -1,4 +1,4 @@
-import { styled, useTheme } from "@shira/ui";
+import { styled, useTheme } from "@horizontal-org/shira-ui";
 import { FunctionComponent } from "react";
 import { useTranslation } from "react-i18next";
 import { AiOutlineClockCircle } from "react-icons/ai";

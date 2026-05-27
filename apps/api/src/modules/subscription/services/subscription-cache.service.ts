@@ -6,6 +6,7 @@ import { IStarterQuizRestrictionHandlerService } from "../interfaces/services/st
 import { ISubscriptionCacheService } from "../interfaces/services/subscription-cache.service.interface";
 import { IShiraPaymentsService } from "../interfaces/services/shira-payments.service.interface";
 import { TYPES } from "../interfaces";
+import { SpaceEntity } from "src/modules/space/domain/space.entity";
 
 @Injectable()
 export class SubscriptionCacheService implements ISubscriptionCacheService {
@@ -21,7 +22,7 @@ export class SubscriptionCacheService implements ISubscriptionCacheService {
     private readonly starterQuizRestrictionHandlerService: IStarterQuizRestrictionHandlerService,
   ) { }
 
-  async getCurrentSubscription(organizationId: string): Promise<CachedSubscription> {
+  async getCurrentSubscription(organizationId: string, spaceId: number): Promise<CachedSubscription> {
     const cacheKey = this.buildKey(organizationId);
     const cached = await this.redis.get(cacheKey);
 
@@ -29,10 +30,10 @@ export class SubscriptionCacheService implements ISubscriptionCacheService {
       return JSON.parse(cached) as CachedSubscription;
     }
 
-    return this.refresh(organizationId);
+    return this.refresh(organizationId, spaceId);
   }
 
-  async refresh(organizationId: string): Promise<CachedSubscription> {
+  async refresh(organizationId: string, spaceId: number): Promise<CachedSubscription> {
     const cacheKey = this.buildKey(organizationId);
     const fallbackSubscription = this.buildDefaultSubscription(organizationId);
 
@@ -44,7 +45,7 @@ export class SubscriptionCacheService implements ISubscriptionCacheService {
       );
 
       if (this.isSubscriptionRestricted(normalized)) {
-        await this.starterQuizRestrictionHandlerService.execute(organizationId);
+        await this.starterQuizRestrictionHandlerService.execute(organizationId, spaceId);
       }
 
       await this.setCache(cacheKey, normalized);

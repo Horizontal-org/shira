@@ -1,5 +1,5 @@
 import { FunctionComponent, ReactNode, useMemo, useState } from "react";
-import { Body4, EmptyState, Table, defaultTheme, styled } from "@shira/ui";
+import { Body4, EmptyState, Table, defaultTheme, styled } from "@horizontal-org/shira-ui";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { BulkLearnerRowResult } from "../../../../fetch/learner";
 import { useTranslation } from "react-i18next";

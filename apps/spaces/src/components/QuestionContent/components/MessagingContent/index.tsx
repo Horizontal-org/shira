@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { Body1SemiBold, Body3, styled, SubHeading3 } from '@shira/ui'
+import { Body1SemiBold, Body3, styled, SubHeading3 } from '@horizontal-org/shira-ui'
 import { InputWithExplanation } from "../../../InputWithExplanation";
 import { DraggableMessagingList } from "./DraggableMessagingList";
 import { ActiveQuestion, MessagingContent as MessagingContentType } from "../../../../store/types/active_question";
