@@ -2,6 +2,8 @@ import { ChangeEventHandler, useState, forwardRef } from "react";
 import styled from 'styled-components';
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { LoadingIcon } from "../LoadingIcon";
+import { Body4 } from "../Typography";
+import { CharacterCount } from "../CharacterCount";
 
 export interface Props {
     placeholder?: string;
@@ -16,6 +18,9 @@ export interface Props {
     onFocus?: React.FocusEventHandler<HTMLInputElement>;
     id?: string;
     name?: string;
+    maxLength?: number;
+    showCharacterCount?: boolean;
+    characterLimitErrorText?: string;
 }
 
 export const TextInput = forwardRef<HTMLInputElement, Props>(({
@@ -30,7 +35,10 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(({
     disabled = false,
     type = 'text',
     required = false,
-    isLoading = false
+    isLoading = false,
+    maxLength,
+    showCharacterCount = false,
+    characterLimitErrorText
 }, ref) => {
     const [showPassword, setShowPassword] = useState(false);
     const hasLabel = Boolean(label);
@@ -41,6 +49,9 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(({
     const isPassword = type === 'password';
     const inputType = isPassword && !showPassword ? 'password' : 'text';
     const hasTrailingIcon = isPassword || isLoading;
+
+    const isOverCharacterLimit = showCharacterCount && value.length > maxLength;
+    const footerText = isOverCharacterLimit ? characterLimitErrorText : null;
 
     return (
         <InputWrapper>
@@ -60,6 +71,8 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(({
                     value={value}
                     disabled={disabled}
                     required={required}
+                    maxLength={showCharacterCount ? undefined : maxLength}
+                    aria-invalid={isOverCharacterLimit}
                     ref={ref}
                     onBlur={onBlur}
                     onFocus={onFocus}
@@ -84,6 +97,25 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(({
                     </LoadingSpinner>
                 )}
             </InputContainer >
+
+            {(showCharacterCount || footerText) && (
+                <FooterRow>
+                    <SupportingText
+                        $disabled={disabled}
+                        $isError={isOverCharacterLimit}
+                    >
+                        {footerText}
+                    </SupportingText>
+
+                    {showCharacterCount && (
+                        <CharacterCount
+                            currentLength={value.length}
+                            maxLength={maxLength}
+                            disabled={disabled}
+                        />
+                    )}
+                </FooterRow>
+            )}
         </InputWrapper >
     )
 })
@@ -100,6 +132,24 @@ const InputContainer = styled.div`
     display: flex;
     align-items: center;
     width: 100%;
+`;
+
+const FooterRow = styled.div`
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+`;
+
+const SupportingText = styled(Body4) <{ $disabled?: boolean; $isError?: boolean }>`
+    color: ${({ theme, $disabled, $isError }) => {
+        if ($disabled) return theme.colors.dark.mediumGrey;
+        if ($isError) return theme.colors.error7;
+        return theme.colors.dark.darkGrey;
+    }};
+    flex: 1;
+    padding-left: 10px;
 `;
 
 const Label = styled.label<{ $disabled?: boolean, $required?: boolean }>`

@@ -7,6 +7,7 @@ import { inviteLearner } from "../../../fetch/learner";
 import { handleHttpError } from "../../../fetch/handleError";
 import { getErrorContent } from "../../../utils/getErrorContent";
 import { isEmailValid } from "../../../utils/validation";
+import { LEARNER_EMAIL_MAX_LENGTH, LEARNER_NAME_MAX_LENGTH } from "../../../utils/inputLimits";
 
 interface Props {
   isModalOpen: boolean;
@@ -35,7 +36,14 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
 
   const showInvalidEmailError = !isEmailEmpty && !emailIsValid;
 
-  const primaryButtonDisabled = isLoading || isNameEmpty || isEmailEmpty || !emailIsValid || showAlreadyExistsError;
+  const primaryButtonDisabled =
+    isLoading ||
+    isNameEmpty ||
+    isEmailEmpty ||
+    !emailIsValid ||
+    showAlreadyExistsError ||
+    name.length > LEARNER_NAME_MAX_LENGTH ||
+    email.length > LEARNER_EMAIL_MAX_LENGTH;
 
   const resetForm = () => {
     setName("");
@@ -123,6 +131,9 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
             placeholder={t("modals.invite_learner.name_placeholder")}
             onChange={(e) => setName(e.target.value)}
             required
+            showCharacterCount={true}
+            maxLength={LEARNER_NAME_MAX_LENGTH}
+            characterLimitErrorText={t("error_messages.character_limit_error")}
           />
 
           <EmailField>
@@ -133,6 +144,9 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
               placeholder={t("modals.invite_learner.email_placeholder")}
               onChange={(e) => handleEmailChange(e.target.value)}
               required
+              showCharacterCount={true}
+              maxLength={LEARNER_EMAIL_MAX_LENGTH}
+              characterLimitErrorText={t("error_messages.character_limit_error")}
             />
 
             <ErrorContainer role="alert" aria-live="polite">

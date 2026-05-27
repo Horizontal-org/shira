@@ -3,6 +3,7 @@ import { Modal, defaultTheme, styled, TextInput } from "@horizontal-org/shira-ui
 import { useTranslation } from "react-i18next";
 import { hasRequiredValue } from "../../../utils/validation";
 import { useTitleUpdate } from "../../../hooks/useTitleUpdate";
+import { QUIZ_NAME_MAX_LENGTH } from "../../../utils/inputLimits";
 
 interface Props {
   isModalOpen: boolean;
@@ -40,7 +41,13 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
       }
     },
   });
+  const trimmedTitle = title.trim();
   const hasError = Boolean(titleError);
+
+  const cannotSubmit = !hasRequiredValue(trimmedTitle)
+    || isValidatingTitle
+    || hasError
+    || title.length > QUIZ_NAME_MAX_LENGTH;
 
   useEffect(() => {
     if (!isModalOpen) {
@@ -55,9 +62,9 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
       isOpen={isModalOpen}
       title={t('modals.create_quiz.title')}
       primaryButtonText={t('buttons.next')}
-      primaryButtonDisabled={!hasRequiredValue(title) || isValidatingTitle || hasError}
+      primaryButtonDisabled={cannotSubmit}
       onPrimaryClick={() => {
-        if (!hasRequiredValue(title) || isValidatingTitle || hasError) {
+        if (cannotSubmit) {
           return;
         }
         handleTitleSubmit(title);
@@ -77,6 +84,9 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
           value={title}
           onChange={(e) => handleTitleChange(e.target.value)}
           isLoading={isValidatingTitle}
+          showCharacterCount={true}
+          maxLength={QUIZ_NAME_MAX_LENGTH}
+          characterLimitErrorText={t('error_messages.character_limit_error')}
         />
         <ErrorContainer role="alert" aria-live="polite">
           {hasError && <ErrorText>{t(titleError)}</ErrorText>}

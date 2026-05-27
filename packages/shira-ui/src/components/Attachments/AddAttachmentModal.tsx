@@ -21,6 +21,8 @@ export interface AddAttachmentModalProps {
   typeLabels?: Partial<Record<AttachmentType, string>>;
 }
 
+const ATTACHMENT_FILENAME_MAX_LENGTH = 100;
+
 export const AddAttachmentModal = ({
   fileName,
   handleFileName,
@@ -51,6 +53,7 @@ export const AddAttachmentModal = ({
       title={titleLabel}
       primaryButtonText={saveLabel}
       secondaryButtonText={cancelLabel}
+      primaryButtonDisabled={fileName.trim().length > ATTACHMENT_FILENAME_MAX_LENGTH}
       onPrimaryClick={() => {
         onSave()
         onClose()
@@ -64,6 +67,9 @@ export const AddAttachmentModal = ({
           label={fileNameLabel}
           value={fileName}
           onChange={(e) => handleFileName(e.target.value)}
+          showCharacterCount={true}
+          maxLength={ATTACHMENT_FILENAME_MAX_LENGTH}
+          characterLimitErrorText="Character limit exceeded."
         />
         <SelectComponent
           label={fileTypeLabel}

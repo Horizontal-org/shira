@@ -1,5 +1,6 @@
 export * from './Button'
 export * from './Breadcrumbs'
+export * from './CharacterCount'
 export * from './TextInput'
 export * from './Typography'
 export * from './Form'

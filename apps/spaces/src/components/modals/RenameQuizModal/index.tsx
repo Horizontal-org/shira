@@ -6,6 +6,7 @@ import { Quiz } from "../../../store/slices/quiz";
 import { useTranslation } from "react-i18next";
 import { hasRequiredValue } from "../../../utils/validation";
 import { useTitleUpdate } from "../../../hooks/useTitleUpdate";
+import { QUIZ_NAME_MAX_LENGTH } from "../../../utils/inputLimits";
 
 interface Props {
   quiz: Quiz;
@@ -44,6 +45,11 @@ export const RenameQuizModal: FunctionComponent<Props> = ({
   const trimmedTitle = title.trim();
   const hasError = Boolean(titleError);
 
+  const cannotSubmit = !hasRequiredValue(trimmedTitle)
+    || isValidatingTitle
+    || hasError
+    || title.length > QUIZ_NAME_MAX_LENGTH;
+
   useEffect(() => {
     if (quiz && isModalOpen) {
       setTitle(quiz.title);
@@ -58,9 +64,9 @@ export const RenameQuizModal: FunctionComponent<Props> = ({
       title={t('modals.rename_quiz.title')}
       primaryButtonText={t('buttons.save')}
       secondaryButtonText={t('buttons.cancel')}
-      primaryButtonDisabled={!hasRequiredValue(trimmedTitle) || isValidatingTitle || hasError}
+      primaryButtonDisabled={cannotSubmit}
       onPrimaryClick={() => {
-        if (!hasRequiredValue(trimmedTitle) || isValidatingTitle || hasError) { return; }
+        if (cannotSubmit) { return; }
         handleTitleSubmit(title);
       }}
       onSecondaryClick={() => {
@@ -76,6 +82,9 @@ export const RenameQuizModal: FunctionComponent<Props> = ({
           value={title}
           onChange={(e) => handleTitleChange(e.target.value)}
           isLoading={isValidatingTitle}
+          showCharacterCount={true}
+          maxLength={QUIZ_NAME_MAX_LENGTH}
+          characterLimitErrorText={t('error_messages.character_limit_error')}
         />
         <ErrorContainer role="alert" aria-live="polite">
           {hasError && <ErrorText>{t(titleError)}</ErrorText>}
