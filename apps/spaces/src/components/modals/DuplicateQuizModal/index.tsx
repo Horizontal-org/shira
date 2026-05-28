@@ -88,7 +88,7 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
           showCharacterCount={true}
           maxLength={QUIZ_NAME_MAX_LENGTH}
           characterLimitErrorText={t('error_messages.character_limit_error')}
-          supportingText={hasError && t(titleError)}
+          supportingText={hasError ? t(titleError) : undefined}
           supportingTextIsError={hasError}
         />
       </FormContent>
