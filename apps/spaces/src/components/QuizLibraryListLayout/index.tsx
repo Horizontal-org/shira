@@ -179,7 +179,7 @@ export const QuizLibraryListLayout: FunctionComponent = () => {
 };
 
 const PageContent = styled.div`
-  width: min(1320px, calc(100% - 32px));
+  width: min(${props => props.theme.breakpoints.lg}, calc(100% - 32px));
   margin: 0 auto;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
