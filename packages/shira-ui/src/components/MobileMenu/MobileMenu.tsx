@@ -1,7 +1,8 @@
 import { FunctionComponent } from "react";
 import { styled } from "styled-components"
 
-import { AboutIcon, CloseIcon, HomeIcon} from "../Icons"
+import { AboutIcon, HomeIcon} from "../Icons"
+import { CloseButton } from "../CloseButton";
 
 export interface MobileMenuProps {
   onNavigate: (route: string) => void;
@@ -23,9 +24,12 @@ export const MobileMenu: FunctionComponent<MobileMenuProps> = ({
   return (
     <Wrapper>
       <Top>
-        <CloseButton onClick={onClose}>
-          <CloseIcon />
-        </CloseButton>              
+        <CloseButton
+          aria-label="Close menu"
+          onClick={onClose}
+          size={44}
+          iconSize={16}
+        />
       </Top>
 
       <Nav onClick={() => {
@@ -92,18 +96,6 @@ const Top = styled.div`
   display: flex;
   justify-content: flex-end;
   padding: 10px;
-`
-
-const CloseButton = styled.div`
-  cursor: pointer;
-  background: white;
-  padding: 10px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 24px;
-  width: 24px;
 `
 
 const Nav = styled.div`

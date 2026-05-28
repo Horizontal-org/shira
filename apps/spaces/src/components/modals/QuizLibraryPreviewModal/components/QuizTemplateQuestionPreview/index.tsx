@@ -1,7 +1,6 @@
-import { Body1, Button, defaultTheme, styled } from "@horizontal-org/shira-ui";
+import { Body1, Button, CloseButton, defaultTheme, styled } from "@horizontal-org/shira-ui";
 import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FiX } from "react-icons/fi";
 import { MdBlock } from "react-icons/md";
 import { AppLayout } from "../../../../QuestionPreview/AppLayout";
 import parseHtml from "../../../../../utils/parseHtml";
@@ -37,12 +36,10 @@ export const QuizTemplateQuestionPreview: FunctionComponent<Props> = ({
     : 0;
 
   return (
-    <PreviewShell>
+    <QuestionPreviewContainer>
       <PreviewHeader>
         <PreviewHeaderStart>
-          <CloseButton type="button" onClick={onClose}>
-            <FiX size={22} />
-          </CloseButton>
+          <CloseButton aria-label={t("buttons.close")} iconSize={22} onClick={onClose} />
 
           <PreviewTitle>{t("create_question.tabs.preview.aria_label")}</PreviewTitle>
         </PreviewHeaderStart>
@@ -111,14 +108,14 @@ export const QuizTemplateQuestionPreview: FunctionComponent<Props> = ({
             />
           </PreviewAppFrame>
 
-          {showExplanations && <CanvasOverlay />}
+          {showExplanations && <QuizPreviewOverlay />}
         </PreviewCanvas>
       </PreviewCanvasWrapper>
-    </PreviewShell>
+    </QuestionPreviewContainer>
   );
 };
 
-const PreviewShell = styled.div`
+const QuestionPreviewContainer = styled.div`
   display: flex;
   flex: 1;
   min-height: 0;
@@ -166,17 +163,6 @@ const ActionsDivider = styled.div`
   width: 1px;
   height: 36px;
   background: ${defaultTheme.colors.dark.mediumGrey};
-`;
-
-const CloseButton = styled.button`
-  all: unset;
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-  color: ${defaultTheme.colors.dark.darkGrey};
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 const NoExplanationsNotice = styled.div`
@@ -230,7 +216,7 @@ const PreviewAppFrame = styled.div`
   max-width: 100%;
 `;
 
-const CanvasOverlay = styled.div`
+const QuizPreviewOverlay = styled.div`
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.45);
