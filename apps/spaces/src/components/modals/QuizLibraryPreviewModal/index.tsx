@@ -1,11 +1,15 @@
-import { Body1, Button, H2, defaultTheme, styled } from "@horizontal-org/shira-ui";
+import { Body1, Button, CloseButton, H2, defaultTheme, styled } from "@horizontal-org/shira-ui";
 import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaCirclePlus } from "react-icons/fa6";
-import { FiX } from "react-icons/fi";
-import { getQuizTemplate, type LibraryQuizDto, type LibraryQuizQuestionDto } from "../../../fetch/quiz_library";
+import {
+  getQuizTemplateQuestions,
+  type LibraryQuizDto,
+  type LibraryQuizQuestionTemplateDto,
+} from "../../../fetch/quiz_templates";
 import { QuizPreviewDetailsCard } from "./components/QuizPreviewDetailsCard";
 import { PreviewQuestionRow, QuizPreviewQuestionsTable } from "./components/QuizPreviewQuestionsTable";
+import { QuizTemplateQuestionPreview } from "./components/QuizTemplateQuestionPreview";
 import { IoEyeSharp } from "react-icons/io5";
 
 type Props = {
@@ -26,24 +30,20 @@ const formatLongDate = (value: string) => {
 };
 
 const normalizeQuestionRows = (
-  questions: LibraryQuizQuestionDto[] | undefined,
+  questions: LibraryQuizQuestionTemplateDto[],
 ): PreviewQuestionRow[] => {
-  if (!Array.isArray(questions)) {
-    return [];
-  }
-
-  return questions.map((question, index) => {
-    const normalizedTypeText = question?.type?.toLowerCase() ?? "";
-
-    const isPhishing = question.isPhishing;
+  return questions.map((question) => {
+    const isPhishing = question.type.toLowerCase() === "phishing";
 
     return {
-      id: String(question?.id ?? index + 1),
-      name: question?.title ?? "",
+      id: String(question.question_id),
+      name: question.question_name,
       isPhishing,
-      typeLabel: normalizedTypeText,
-      language: question?.languageName ?? "",
-      app: question?.appName ?? ""
+      typeLabel: isPhishing ? "phishing" : "legitimate",
+      language: question.language,
+      app: question.app,
+      content: question.content,
+      explanations: question.explanations,
     };
   });
 };
@@ -55,20 +55,17 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
   onUseTemplate,
 }) => {
   const { t } = useTranslation();
-  const [previewQuiz, setPreviewQuiz] = useState<LibraryQuizDto | null>(quiz);
-
-  const activeQuiz = previewQuiz
-    && quiz
-    && previewQuiz.title === quiz.title
-    && previewQuiz.createdAt === quiz.createdAt
-    ? previewQuiz : quiz;
+  const [questionTemplates, setQuestionTemplates] = useState<LibraryQuizQuestionTemplateDto[]>([]);
+  const [previewQuestionId, setPreviewQuestionId] = useState<string | null>(null);
 
   useEffect(() => {
     if (!isOpen || !quiz) {
+      setQuestionTemplates([]);
+      setPreviewQuestionId(null);
       return;
     }
 
-    setPreviewQuiz(quiz);
+    setQuestionTemplates([]);
 
     if (!quiz.id) {
       return;
@@ -76,20 +73,17 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
 
     let isCancelled = false;
 
-    const loadDetailedQuiz = async () => {
-      const detailedQuiz = await getQuizTemplate(quiz.id);
+    const loadQuestionTemplates = async () => {
+      const questions = await getQuizTemplateQuestions(quiz.id);
 
-      if (isCancelled || !detailedQuiz) {
+      if (isCancelled) {
         return;
       }
 
-      setPreviewQuiz({
-        ...quiz,
-        ...detailedQuiz,
-      });
+      setQuestionTemplates(questions);
     };
 
-    void loadDetailedQuiz();
+    loadQuestionTemplates();
 
     return () => {
       isCancelled = true;
@@ -97,9 +91,29 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
   }, [isOpen, quiz]);
 
   const questions = useMemo(
-    () => normalizeQuestionRows(activeQuiz?.questions),
-    [activeQuiz],
+    () => normalizeQuestionRows(questionTemplates),
+    [questionTemplates],
   );
+
+  const previewQuestion = useMemo(
+    () => questions.find((question) => question.id === previewQuestionId) ?? null,
+    [previewQuestionId, questions],
+  );
+
+  const firstPreviewableQuestion = useMemo(
+    () => questions.find((question) => question.content?.trim()),
+    [questions],
+  );
+
+  useEffect(() => {
+    if (!previewQuestionId) {
+      return;
+    }
+
+    if (!questions.some((question) => question.id === previewQuestionId)) {
+      setPreviewQuestionId(null);
+    }
+  }, [previewQuestionId, questions]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -124,58 +138,72 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
     };
   }, [isOpen, onClose]);
 
-  if (!isOpen || !quiz || !activeQuiz) {
+  if (!isOpen || !quiz) {
     return null;
   }
 
-  const createdAt = formatLongDate(activeQuiz.createdAt);
-  const languages = activeQuiz.languages ?? [];
-  const tags = activeQuiz.tags ?? [];
+  const languages = quiz.languages ?? [];
+  const tags = quiz.tags ?? [];
 
   return (
     <Overlay onClick={onClose}>
       <Dialog onClick={(event) => event.stopPropagation()}>
-        <TopBar>
-          <CloseButton type="button" onClick={onClose}>
-            <FiX size={22} />
-          </CloseButton>
-
-          <ActionsRow>
-
-            <Button
-              text={t("quiz_library.preview.preview_full_quiz")}
-              type="outline"
-              leftIcon={<IoEyeSharp size={16} color={defaultTheme.colors.dark.darkGrey} />}
-              onClick={() => { console.log("Preview full quiz") }}
-            />
-            <ActionsDivider />
-
-            <Button
-              text={t("dashboard.use_template_button")}
-              type="primary"
-              color={defaultTheme.colors.green7}
-              leftIcon={<FaCirclePlus size={16} />}
-              onClick={onUseTemplate}
-            />
-          </ActionsRow>
-        </TopBar>
-
-        <Content>
-          <Title id="quiz-library-preview-title">{activeQuiz.title}</Title>
-          <Subtitle>{t("quiz_library.preview.subtitle")}</Subtitle>
-
-          <QuizPreviewDetailsCard
-            languages={languages}
-            tags={tags}
-            creator={activeQuiz.author}
-            createdAt={createdAt}
+        {previewQuestion ? (
+          <QuizTemplateQuestionPreview
+            question={previewQuestion}
+            onBack={() => { setPreviewQuestionId(null); }}
+            onClose={onClose}
           />
+        ) : (
+          <>
+            <TopBar>
+              <CloseButton aria-label={t("buttons.close")} iconSize={22} onClick={onClose} />
 
-          <QuestionsSection id="quiz-library-preview-questions">
-            <QuizPreviewQuestionsTable questions={questions} />
-          </QuestionsSection>
+              <ActionsRow>
+                <Button
+                  text={t("quiz_library.preview.preview_full_quiz")}
+                  type="outline"
+                  leftIcon={<IoEyeSharp size={16} color={defaultTheme.colors.dark.darkGrey} />}
+                  disabled={!firstPreviewableQuestion}
+                  onClick={() => {
+                    if (firstPreviewableQuestion) {
+                      setPreviewQuestionId(firstPreviewableQuestion.id);
+                    }
+                  }}
+                />
 
-        </Content>
+                <ActionsDivider />
+
+                <Button
+                  text={t("dashboard.use_template_button")}
+                  type="primary"
+                  color={defaultTheme.colors.green7}
+                  leftIcon={<FaCirclePlus size={16} />}
+                  onClick={onUseTemplate}
+                />
+              </ActionsRow>
+            </TopBar>
+
+            <Content>
+              <Title id="quiz-library-preview-title">{quiz.title}</Title>
+              <Subtitle>{t("quiz_library.preview.subtitle")}</Subtitle>
+
+              <QuizPreviewDetailsCard
+                languages={languages}
+                tags={tags}
+                creator={quiz.author}
+                createdAt={formatLongDate(quiz.createdAt)}
+              />
+
+              <QuestionsSection id="quiz-library-preview-questions">
+                <QuizPreviewQuestionsTable
+                  questions={questions}
+                  onPreviewQuestion={(question) => { setPreviewQuestionId(question.id); }}
+                />
+              </QuestionsSection>
+            </Content>
+          </>
+        )}
       </Dialog>
     </Overlay >
   );
@@ -212,17 +240,6 @@ const TopBar = styled.div`
     align-items: stretch;
     padding: 20px 20px 0;
   }
-`;
-
-const CloseButton = styled.button`
-  all: unset;
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-  color: ${defaultTheme.colors.dark.darkGrey};
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 const ActionsRow = styled.div`

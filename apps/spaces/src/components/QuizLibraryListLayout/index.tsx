@@ -6,7 +6,7 @@ import { useStore } from "../../store";
 import { QuizCard } from "./components/QuizCard";
 import { QuizCardSkeleton } from "./components/QuizCardSkeleton";
 import { QuizLibrarySearchInput } from "./components/QuizLibrarySearchInput";
-import { getQuizTemplates, type LibraryQuizDto } from "../../fetch/quiz_library";
+import { getQuizTemplates, type LibraryQuizDto } from "../../fetch/quiz_templates";
 import { QuizLimitModal } from "../modals/QuizLimitModal";
 import { ViewPlansModal } from "../modals/ViewPlansModal";
 import { QuizLibraryPreviewModal } from "../modals/QuizLibraryPreviewModal";

@@ -1,6 +1,6 @@
 import { BaseFloatingMenu, Body4, styled, defaultTheme, Body1SemiBold, Button } from '@horizontal-org/shira-ui';
 import { FunctionComponent, useRef, useState } from 'react';
-import { LibraryQuizDto } from '../../../../fetch/quiz_library';
+import { LibraryQuizDto } from '../../../../fetch/quiz_templates';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { MdCalendarMonth } from 'react-icons/md';
 import { useTranslation } from 'react-i18next';

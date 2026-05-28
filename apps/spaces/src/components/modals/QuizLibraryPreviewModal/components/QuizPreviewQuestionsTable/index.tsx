@@ -4,6 +4,8 @@ import { FunctionComponent, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaCircleCheck } from "react-icons/fa6";
 import { MdOutlinePhishing } from "react-icons/md";
+import { MdRemoveRedEye } from "react-icons/md";
+import type { LibraryQuizQuestionTemplateDto } from "../../../../../fetch/quiz_templates";
 import { appIcons } from "../../../../QuestionLibraryListLayout/components/AppIcons/appIcons";
 
 export type PreviewQuestionRow = {
@@ -13,14 +15,18 @@ export type PreviewQuestionRow = {
   typeLabel: string;
   language: string;
   app: string;
+  content: string;
+  explanations: LibraryQuizQuestionTemplateDto["explanations"];
 };
 
 type Props = {
   questions: PreviewQuestionRow[];
+  onPreviewQuestion: (question: PreviewQuestionRow) => void;
 };
 
 export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
   questions,
+  onPreviewQuestion,
 }) => {
   const { t } = useTranslation();
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
@@ -74,14 +80,29 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
         header: t("quiz_library.preview.columns.actions"),
         accessorKey: "actions",
         id: "actions",
-        cell: ({ row }) => (
-          <AppValue>
-            <span>{"-"}</span>
-          </AppValue>
-        ),
+        cell: ({ row }) => {
+          const disabled = !row.original.content?.trim();
+
+          return (
+            <PreviewActionButton
+              type="button"
+              aria-label={t("question_library.columns.actions.preview.aria_label")}
+              title={t("question_library.columns.actions.preview.aria_label")}
+              disabled={disabled}
+              onClick={() => { onPreviewQuestion(row.original); }}
+            >
+              <MdRemoveRedEye
+                size={20}
+                color={disabled
+                  ? defaultTheme.colors.dark.mediumGrey
+                  : defaultTheme.colors.dark.overlay}
+              />
+            </PreviewActionButton>
+          );
+        },
       },
     ],
-    [t],
+    [t, onPreviewQuestion],
   );
 
   return (
@@ -149,4 +170,18 @@ const AppValue = styled.div`
   display: inline-flex;
   align-items: center;
   gap: 8px;
+`;
+
+const PreviewActionButton = styled.button`
+  all: unset;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 `;

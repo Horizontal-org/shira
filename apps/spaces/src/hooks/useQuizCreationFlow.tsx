@@ -1,7 +1,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { duplicateQuiz } from "../fetch/quiz";
-import { LibraryQuizDto } from "../fetch/quiz_library";
+import { LibraryQuizDto } from "../fetch/quiz_templates";
 import { Quiz } from "../store/slices/quiz";
 import { hasRequiredValue } from "../utils/validation";
 

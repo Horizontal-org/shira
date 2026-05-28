@@ -1,8 +1,8 @@
-import { forwardRef, useState } from 'react';
+import { ComponentProps, forwardRef, useState } from 'react';
 import styled from 'styled-components';
-import { Button, ButtonProps } from '@horizontal-org/shira-ui';
+import { Button } from '@horizontal-org/shira-ui';
 
-interface ButtonWithTooltipProps extends ButtonProps {
+interface ButtonWithTooltipProps extends ComponentProps<typeof Button> {
   tooltipText?: string;
   showTooltipWhenDisabled?: boolean;
 }

@@ -27,7 +27,7 @@ import { FirstLoginModal } from "../modals/FirstLoginModal";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
 import { UseAQuizTemplateButton } from "../QuizLibraryListLayout/components/UseAQuizTemplateButton";
 import { AddQuizFromTemplateModal } from "../modals/AddQuizFromTemplateModal";
-import { LibraryQuizDto } from "../../fetch/quiz_library";
+import { LibraryQuizDto } from "../../fetch/quiz_templates";
 
 interface Props { }
 
@@ -67,7 +67,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     subscription: state.subscription,
     quizActionSuccess: state.quizActionSuccess,
     cleanQuizActionSuccess: state.cleanQuizActionSuccess,
-    
     cleanQuizzes: state.cleanQuizzes
   }), shallow)
 
@@ -485,11 +484,13 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             onViewPlans={openViewPlansFromLimitModal}
           />
 
-          <ViewPlansModal
-            isModalOpen={isViewPlansModalOpen}
-            onClose={() => setIsViewPlansModalOpen(false)}
-            organizationId={subscription.organizationId}
-          />
+          {subscription && (
+            <ViewPlansModal
+              isModalOpen={isViewPlansModalOpen}
+              onClose={() => setIsViewPlansModalOpen(false)}
+              organizationId={subscription.organizationId}
+            />
+          )}
 
         </MainContentWrapper>
       </MainContent>
