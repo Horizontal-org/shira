@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { Modal, defaultTheme, styled, TextInput } from "@horizontal-org/shira-ui";
+import { Modal, styled, TextInput } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
 import { hasRequiredValue } from "../../../utils/validation";
 import { useTitleUpdate } from "../../../hooks/useTitleUpdate";
@@ -80,17 +80,16 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
       <FormContent>
         <TextInput
           id="create-quiz-title-input"
-          label="Quiz name"
+          label={t('modals.create_quiz.input_placeholder')}
           value={title}
           onChange={(e) => handleTitleChange(e.target.value)}
           isLoading={isValidatingTitle}
           showCharacterCount={true}
           maxLength={QUIZ_NAME_MAX_LENGTH}
           characterLimitErrorText={t('error_messages.character_limit_error')}
+          supportingText={hasError && t(titleError)}
+          supportingTextIsError={hasError}
         />
-        <ErrorContainer role="alert" aria-live="polite">
-          {hasError && <ErrorText>{t(titleError)}</ErrorText>}
-        </ErrorContainer>
       </FormContent>
     </Modal>
   );
@@ -99,16 +98,4 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
 const FormContent = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const ErrorContainer = styled.div`
-  min-height: 32px;
-  padding: 0 10px;
-`;
-
-const ErrorText = styled.p`
-  color: ${defaultTheme.colors.error7};
-  margin: 0;
-  padding: 4px 10px;
-  font-size: 14px;
 `;

@@ -45,8 +45,9 @@ export const SetNewPasswordForm: FunctionComponent<Props> = ({
             label={t("reset_password.new_password_placeholder")}
             value={password}
             onChange={(e) => onPasswordChange(e.target.value)}
+            supportingText={passwordError || ""}
+            supportingTextIsError={Boolean(passwordError)}
           />
-          <FieldError $visible={Boolean(passwordError)}>{passwordError}</FieldError>
         </FieldGroup>
         <FieldGroup>
           <TextInput
@@ -56,10 +57,9 @@ export const SetNewPasswordForm: FunctionComponent<Props> = ({
             label={t("reset_password.confirm_password_placeholder")}
             value={passwordConfirmation}
             onChange={(e) => onPasswordConfirmationChange(e.target.value)}
+            supportingText={passwordConfirmationError || ""}
+            supportingTextIsError={Boolean(passwordConfirmationError)}
           />
-          <FieldError $visible={Boolean(passwordConfirmationError)}>
-            {passwordConfirmationError}
-          </FieldError>
         </FieldGroup>
         <FormError $visible={Boolean(submitError)}>{submitError}</FormError>
       </PasswordInputsContainer>
@@ -92,7 +92,7 @@ const FieldGroup = styled.div`
   gap: 0;
 `;
 
-const FieldError = styled.div<{ $visible?: boolean }>`
+const FormError = styled.div<{ $visible?: boolean }>`
   min-height: 18px;
   color: #d32f2f;
   font-size: 14px;
@@ -101,8 +101,6 @@ const FieldError = styled.div<{ $visible?: boolean }>`
   margin-top: 8px;
   visibility: ${props => (props.$visible ? "visible" : "hidden")};
 `;
-
-const FormError = styled(FieldError)``;
 
 const StyledForm = styled(Form)`
   position: relative;

@@ -21,6 +21,8 @@ export interface Props {
     maxLength?: number;
     showCharacterCount?: boolean;
     characterLimitErrorText?: string;
+    supportingText?: string;
+    supportingTextIsError?: boolean;
 }
 
 export const TextInput = forwardRef<HTMLInputElement, Props>(({
@@ -38,7 +40,9 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(({
     isLoading = false,
     maxLength,
     showCharacterCount = false,
-    characterLimitErrorText
+    characterLimitErrorText,
+    supportingText,
+    supportingTextIsError = false
 }, ref) => {
     const [showPassword, setShowPassword] = useState(false);
     const hasLabel = Boolean(label);
@@ -51,7 +55,9 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(({
     const hasTrailingIcon = isPassword || isLoading;
 
     const isOverCharacterLimit = showCharacterCount && value.length > maxLength;
-    const footerText = isOverCharacterLimit ? characterLimitErrorText : null;
+
+    const footerText = isOverCharacterLimit ? characterLimitErrorText : supportingText ?? "";
+    const isFooterError = isOverCharacterLimit || (Boolean(footerText) && supportingTextIsError);
 
     return (
         <InputWrapper>
@@ -72,7 +78,6 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(({
                     disabled={disabled}
                     required={required}
                     maxLength={showCharacterCount ? undefined : maxLength}
-                    aria-invalid={isOverCharacterLimit}
                     ref={ref}
                     onBlur={onBlur}
                     onFocus={onFocus}
@@ -102,7 +107,7 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(({
                 <FooterRow>
                     <SupportingText
                         $disabled={disabled}
-                        $isError={isOverCharacterLimit}
+                        $isError={isFooterError}
                     >
                         {footerText}
                     </SupportingText>

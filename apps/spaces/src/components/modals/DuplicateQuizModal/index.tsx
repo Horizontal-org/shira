@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { Body1, Modal, defaultTheme, styled, TextInput } from "@horizontal-org/shira-ui";
+import { Body1, Modal, styled, TextInput } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
 import { Quiz } from "../../../store/slices/quiz";
 import { hasRequiredValue } from "../../../utils/validation";
@@ -88,10 +88,9 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
           showCharacterCount={true}
           maxLength={QUIZ_NAME_MAX_LENGTH}
           characterLimitErrorText={t('error_messages.character_limit_error')}
+          supportingText={hasError && t(titleError)}
+          supportingTextIsError={hasError}
         />
-        <ErrorContainer role="alert" aria-live="polite">
-          {hasError && <ErrorText>{t(titleError)}</ErrorText>}
-        </ErrorContainer>
       </FormContent>
     </Modal>
   );
@@ -105,16 +104,4 @@ const FormContent = styled.div`
 
 const Description = styled(Body1)`
   padding-bottom: 16px;
-`;
-
-const ErrorContainer = styled.div`
-  min-height: 32px;
-  padding: 0 10px;
-`;
-
-const ErrorText = styled.p`
-  color: ${defaultTheme.colors.error7};
-  margin: 0;
-  padding: 4px 10px;
-  font-size: 14px;
 `;

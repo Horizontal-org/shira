@@ -213,8 +213,9 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
                   showCharacterCount={true}
                   maxLength={SPACE_NAME_MAX_LENGTH}
                   characterLimitErrorText={t('error_messages.character_limit_error')}
+                  supportingText={emailError}
+                  supportingTextIsError={Boolean(emailError)}
                 />
-                {emailError && <InlineErrorMessage>{emailError}</InlineErrorMessage>}
                 <TextInput
                   required
                   type="password"
@@ -222,7 +223,9 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
                   value={pass}
                   onChange={(e) => handlePass(e.target.value)}
                 />
+
                 {passError && <InlineErrorMessage>{passError}</InlineErrorMessage>}
+
                 <TextInput
                   required
                   type="password"
@@ -230,6 +233,7 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
                   value={passConfirmation}
                   onChange={(e) => handlePassConfirmation(e.target.value)}
                 />
+
                 {passConfirmationError && <InlineErrorMessage>{passConfirmationError}</InlineErrorMessage>}
               </InputsContainer>
 
