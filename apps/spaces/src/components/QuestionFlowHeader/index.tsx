@@ -17,6 +17,7 @@ interface Props {
   onExit: () => void
   step: number
   disableNext: boolean
+  nextTooltipLabel?: string
   actionFeedback: string;
 }
 
@@ -26,6 +27,7 @@ export const QuestionFlowHeader: FunctionComponent<Props> = ({
   onExit,
   disableNext,
   step,
+  nextTooltipLabel,
   actionFeedback
 }) => {
 
@@ -60,7 +62,7 @@ export const QuestionFlowHeader: FunctionComponent<Props> = ({
             enabled={disableNext}
             show={showNextTooltip}
             setShow={setShowNextTooltip}
-            label={t('create_question.header_required_tooltip')}
+            label={nextTooltipLabel ?? t('create_question.header_required_tooltip')}
           >
              <Button
               id="question-flow-header-next"

@@ -152,6 +152,7 @@
     "create_question": {
         "header_title": "Create a new question",
         "header_required_tooltip": "Required fields cannot be left blank",
+        "header_character_limit_tooltip": "One or more fields exceed the character limit.",
         "tabs": {
             "question_info": {
                 "tab_title": "Question info",

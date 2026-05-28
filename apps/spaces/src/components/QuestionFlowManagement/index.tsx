@@ -12,7 +12,10 @@ import { NoExplanationsModal } from "../modals/NoExplanationsModal";
 import { ActiveQuestion } from "../../store/types/active_question";
 import { useTranslation } from "react-i18next";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
-import { isQuestionContentStepValid, isQuestionInfoStepValid } from "../../utils/active_question/validation";
+import {
+  getQuestionContentStepValidation,
+  getQuestionInfoStepValidation
+} from "../../utils/active_question/validation";
 
 interface Props {
   initialContent?: Object
@@ -67,17 +70,22 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
   const [isExitQuestionModalOpen, setIsExitQuestionModalOpen] = useState(false)
   const [noExplanationsModalOpen, setNoExplanationsModalOpen] = useState(false)
 
-  const validateStep = () => {
+  const getStepValidation = () => {
     if (step === 0) {
-      return isQuestionInfoStepValid(activeQuestion)
+      return getQuestionInfoStepValidation(activeQuestion)
     }
 
     if (step === 1) {
-      return isQuestionContentStepValid(activeQuestion)
+      return getQuestionContentStepValidation(activeQuestion)
     }
 
-    return true
+    return { isValid: true }
   }
+
+  const stepValidation = getStepValidation()
+  const nextTooltipLabel = stepValidation.reason === 'characterLimit'
+    ? t('create_question.header_character_limit_tooltip')
+    : t('create_question.header_required_tooltip')
 
   return (
     <>
@@ -123,7 +131,8 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
           }
         }}
         step={step}
-        disableNext={!validateStep()}
+        disableNext={!stepValidation.isValid}
+        nextTooltipLabel={nextTooltipLabel}
         onExit={() => { setIsExitQuestionModalOpen(true) }}
       />
 
