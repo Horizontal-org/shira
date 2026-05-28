@@ -300,6 +300,8 @@
             "creator": "Creator",
             "created_on": "Created on",
             "preview_full_quiz": "Preview full quiz",
+            "back_to_quiz_template": "Back to quiz template",
+            "no_questions": "No questions found for this quiz template.",
             "columns": {
                 "question_name": "Question name",
                 "type": "Type",
