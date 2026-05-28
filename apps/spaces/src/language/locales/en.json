@@ -304,7 +304,8 @@
                 "question_name": "Question name",
                 "type": "Type",
                 "language": "Language",
-                "app": "App"
+                "app": "App",
+                "actions": "Actions"
             }
         }
     },

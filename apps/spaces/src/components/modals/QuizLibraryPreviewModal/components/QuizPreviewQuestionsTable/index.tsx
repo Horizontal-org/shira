@@ -49,7 +49,7 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
             ) : (
               <FaCircleCheck size={16} color={defaultTheme.colors.green6} />
             )}
-            {row.original.typeLabel}
+            {row.original.isPhishing ? t("question_library.columns.type.phishing") : t("question_library.columns.type.legitimate")}
           </TypePill>
         ),
       },
@@ -67,6 +67,16 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
           <AppValue>
             {row.original.app && appIcons[row.original.app.toLocaleLowerCase()]}
             <span>{row.original.app || "-"}</span>
+          </AppValue>
+        ),
+      },
+      {
+        header: t("quiz_library.preview.columns.actions"),
+        accessorKey: "actions",
+        id: "actions",
+        cell: ({ row }) => (
+          <AppValue>
+            <span>{"-"}</span>
           </AppValue>
         ),
       },
@@ -88,11 +98,12 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
         emptyMessage={t("quiz_library.preview.no_questions")}
         colGroups={(
           <colgroup>
-            <col style={{ width: "6%" }} />
+            <col style={{ width: "4%" }} />
             <col style={{ width: "38%" }} />
-            <col style={{ width: "20%" }} />
             <col style={{ width: "16%" }} />
-            <col style={{ width: "20%" }} />
+            <col style={{ width: "16%" }} />
+            <col style={{ width: "16%" }} />
+            <col style={{ width: "10%" }} />
           </colgroup>
         )}
       />
