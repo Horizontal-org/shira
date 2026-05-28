@@ -2,8 +2,8 @@ import { FunctionComponent } from "react";
 import { TextInput, Button, defaultTheme, styled } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
 import { FiChevronDown } from "react-icons/fi";
-import { FiSearch } from "react-icons/fi";
 import { HiFunnel } from "react-icons/hi2";
+import { IoSearchOutline } from "react-icons/io5";
 
 type Props = {};
 
@@ -16,12 +16,12 @@ export const QuizLibrarySearchInput: FunctionComponent<Props> = () => {
         <SearchColumn>
           <SearchInputWrap>
             <SearchIcon aria-hidden="true">
-              <FiSearch size={18} />
+              <IoSearchOutline size={18} />
             </SearchIcon>
             <TextInput
               onChange={() => { }}
               value=""
-              placeholder="Search quiz titles"
+              placeholder={t("quiz_library.search_placeholder")}
             />
           </SearchInputWrap>
         </SearchColumn>

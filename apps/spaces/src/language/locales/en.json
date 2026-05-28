@@ -288,6 +288,7 @@
         "header_title": "Select a quiz template",
         "title": "Quiz library",
         "subtitle": "Select a quiz from the list below to use it as a template for your new quiz.",
+        "search_placeholder": "Search quiz titles",
         "sort_by": "Sort by",
         "filters": "Filters",
         "view_template": "View template",
