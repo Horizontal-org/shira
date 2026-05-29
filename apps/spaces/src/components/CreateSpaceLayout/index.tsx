@@ -213,8 +213,7 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
                   showCharacterCount={true}
                   maxLength={SPACE_NAME_MAX_LENGTH}
                   characterLimitErrorText={t('error_messages.character_limit_error')}
-                  supportingText={emailError}
-                  supportingTextIsError={Boolean(emailError)}
+                  errorText={emailError}
                 />
                 <TextInput
                   required

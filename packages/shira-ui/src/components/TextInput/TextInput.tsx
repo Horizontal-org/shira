@@ -21,8 +21,7 @@ export interface Props {
     maxLength?: number;
     showCharacterCount?: boolean;
     characterLimitErrorText?: string;
-    supportingText?: string;
-    supportingTextIsError?: boolean;
+    errorText?: string;
 }
 
 export const TextInput = forwardRef<HTMLInputElement, Props>(({
@@ -41,8 +40,7 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(({
     maxLength,
     showCharacterCount = false,
     characterLimitErrorText,
-    supportingText,
-    supportingTextIsError = false
+    errorText
 }, ref) => {
     const [showPassword, setShowPassword] = useState(false);
     const hasLabel = Boolean(label);
@@ -56,8 +54,8 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(({
 
     const isOverCharacterLimit = showCharacterCount && value.length > maxLength;
 
-    const footerText = isOverCharacterLimit ? characterLimitErrorText : supportingText ?? "";
-    const isFooterError = isOverCharacterLimit || (Boolean(footerText) && supportingTextIsError);
+    const footerText = isOverCharacterLimit ? characterLimitErrorText : errorText ?? "";
+    const isFooterError = isOverCharacterLimit || Boolean(errorText);
 
     return (
         <InputWrapper>

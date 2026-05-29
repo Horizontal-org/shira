@@ -148,8 +148,7 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
             showCharacterCount={true}
             maxLength={LEARNER_EMAIL_MAX_LENGTH}
             characterLimitErrorText={t("error_messages.character_limit_error")}
-            supportingText={emailSupportingText}
-            supportingTextIsError={Boolean(emailSupportingText)}
+            errorText={emailSupportingText}
           />
         </InputsContainer>
       </FormContent>

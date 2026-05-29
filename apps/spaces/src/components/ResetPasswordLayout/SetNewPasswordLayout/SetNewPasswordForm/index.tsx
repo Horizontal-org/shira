@@ -45,8 +45,7 @@ export const SetNewPasswordForm: FunctionComponent<Props> = ({
             label={t("reset_password.new_password_placeholder")}
             value={password}
             onChange={(e) => onPasswordChange(e.target.value)}
-            supportingText={passwordError || ""}
-            supportingTextIsError={Boolean(passwordError)}
+            errorText={passwordError}
           />
         </FieldGroup>
         <FieldGroup>
@@ -57,8 +56,7 @@ export const SetNewPasswordForm: FunctionComponent<Props> = ({
             label={t("reset_password.confirm_password_placeholder")}
             value={passwordConfirmation}
             onChange={(e) => onPasswordConfirmationChange(e.target.value)}
-            supportingText={passwordConfirmationError || ""}
-            supportingTextIsError={Boolean(passwordConfirmationError)}
+            errorText={passwordConfirmationError}
           />
         </FieldGroup>
         <FormError $visible={Boolean(submitError)}>{submitError}</FormError>

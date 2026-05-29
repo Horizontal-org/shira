@@ -133,8 +133,7 @@ export const ChangePasswordModal: FunctionComponent<Props> = ({
               showCharacterCount={true}
               maxLength={ACCOUNT_SETTINGS_PASSWORD_MAX_LENGTH}
               characterLimitErrorText={t('error_messages.character_limit_error')}
-              supportingText={currentPasswordError}
-              supportingTextIsError={Boolean(currentPasswordError)}
+              errorText={currentPasswordError}
             />
           </FieldGroup>
 
@@ -148,8 +147,7 @@ export const ChangePasswordModal: FunctionComponent<Props> = ({
               showCharacterCount={true}
               maxLength={ACCOUNT_SETTINGS_PASSWORD_MAX_LENGTH}
               characterLimitErrorText={t('error_messages.character_limit_error')}
-              supportingText={newPasswordError}
-              supportingTextIsError={Boolean(newPasswordError)}
+              errorText={newPasswordError}
             />
           </FieldGroup>
 
@@ -163,8 +161,7 @@ export const ChangePasswordModal: FunctionComponent<Props> = ({
               showCharacterCount={true}
               maxLength={ACCOUNT_SETTINGS_PASSWORD_MAX_LENGTH}
               characterLimitErrorText={t('error_messages.character_limit_error')}
-              supportingText={confirmPasswordError}
-              supportingTextIsError={Boolean(confirmPasswordError)}
+              errorText={confirmPasswordError}
             />
           </FieldGroup>
         </Fields>
