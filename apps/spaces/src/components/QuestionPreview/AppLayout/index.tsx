@@ -1,11 +1,6 @@
 import { FunctionComponent } from 'react'
 import { styled } from '@horizontal-org/shira-ui'
 import { UIExplanation } from '../../QuestionPreview'
-
-//TODO FIX DOUBLE IMPORT, PROBLEM WITH SHIRA-UI
-import '../../../fonts/GoogleSans/style.css'
-import '../../../fonts/Segoe/style.css'
-import './styles.css'
 import { MailApps } from '../AppTypes/MailApps'
 import { MessagingApps } from '../AppTypes/MessagingApps'
 

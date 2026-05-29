@@ -25,8 +25,18 @@ import { QuizLimitModal } from "../modals/QuizLimitModal";
 import { ViewPlansModal } from "../modals/ViewPlansModal";
 import { FirstLoginModal } from "../modals/FirstLoginModal";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
+import { UseAQuizTemplateButton } from "../QuizLibraryListLayout/components/UseAQuizTemplateButton";
+import { AddQuizFromTemplateModal } from "../modals/AddQuizFromTemplateModal";
+import { LibraryQuizDto } from "../../fetch/quiz_library";
 
 interface Props { }
+
+interface DashboardLocationState {
+  fromLogin?: boolean;
+  addQuizFromTemplate?: {
+    quiz: LibraryQuizDto;
+  };
+}
 
 const FIRST_LOGIN_MODAL_MS = 5 * 60 * 1000; // 5 minutes
 
@@ -57,12 +67,13 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     subscription: state.subscription,
     quizActionSuccess: state.quizActionSuccess,
     cleanQuizActionSuccess: state.cleanQuizActionSuccess,
+    
     cleanQuizzes: state.cleanQuizzes
   }), shallow)
 
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
-  const location = useLocation() as { state?: { fromLogin?: boolean } };
+  const location = useLocation() as { pathname: string; state?: DashboardLocationState };
 
   const [searchParams, setSearchParams] = useSearchParams();
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
@@ -85,13 +96,16 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
   const {
     selectedQuizForDuplicate,
+    selectedTemplateQuiz,
     isSubmitting,
     submittingQuizId,
     isCreateTitleModalOpen,
     isDuplicateTitleModalOpen,
+    isTemplateTitleModalOpen,
     isVisibilityModalOpen,
     startCreateQuizFlow,
     startDuplicateQuizFlow,
+    startTemplateQuizFlow,
     moveToVisibilityStep,
     handleBackFromVisibility,
     handleConfirmVisibility,
@@ -144,6 +158,24 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
       )
     );
   }, [isFromLogin, isRecentlyCreated, searchParams]);
+
+  useEffect(() => {
+    const templateQuiz = location.state?.addQuizFromTemplate?.quiz;
+
+    if (!templateQuiz) {
+      return;
+    }
+
+    startTemplateQuizFlow(templateQuiz);
+
+    const nextState = { ...(location.state || {}) };
+    delete nextState.addQuizFromTemplate;
+
+    navigate(location.pathname, {
+      replace: true,
+      state: nextState,
+    });
+  }, [location.pathname, location.state, navigate]);
 
   const closeCheckoutSuccessModal = () => {
     const nextSearchParams = new URLSearchParams(searchParams);
@@ -244,14 +276,22 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           <HeaderContainer>
             <StyledSubHeading3 id="space-name">{space && space.name}</StyledSubHeading3>
             <H2 id="dashboard-title">{t('dashboard.title')}</H2>
-            <Body1 id="dashboard-subtitle">{t('dashboard.subtitle')}</Body1>
+            <HeaderSubtitle id="dashboard-subtitle">{t('dashboard.subtitle')}</HeaderSubtitle>
 
-            <CreateQuizButton
-              isSubActive={isSubActive}
-              quizCount={quizzes ? quizzes.length : 0}
-              startCreateQuizFlow={startCreateQuizFlow}
-              onLimitReached={() => setIsQuizLimitModalOpen(true)}
-            />
+            <HeaderActions>
+              <CreateQuizButton
+                isSubActive={isSubActive}
+                quizCount={quizzes ? quizzes.length : 0}
+                startCreateQuizFlow={startCreateQuizFlow}
+                onLimitReached={() => setIsQuizLimitModalOpen(true)}
+              />
+
+              <UseAQuizTemplateButton
+                isSubActive={isSubActive}
+                quizCount={quizzes ? quizzes.length : 0}
+                onLimitReached={() => setIsQuizLimitModalOpen(true)}
+              />
+            </HeaderActions>
           </HeaderContainer>
 
           <FilterButtonsContainer>
@@ -418,6 +458,15 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             isLoading={isSubmitting}
           />
 
+          <AddQuizFromTemplateModal
+            quiz={selectedTemplateQuiz}
+            isModalOpen={isTemplateTitleModalOpen}
+            onClose={cancelFlow}
+            onConfirm={moveToVisibilityStep}
+            validateQuizName={validateQuizName}
+            isSubmitting={isSubmitting}
+          />
+
           <CheckoutSuccessModal
             isModalOpen={isCheckoutSuccessModalOpen}
             onClose={closeCheckoutSuccessModal}
@@ -486,14 +535,27 @@ const HeaderContainer = styled.div`
   padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 10px;
+`;
+
+const HeaderSubtitle = styled(Body1)`
+  max-width: 720px;
+`;
+
+const HeaderActions = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
 `;
 
 const FilterButtonsContainer = styled.div`
-  margin-top: 8px;
+  margin-top: 2px;
   padding: 16px;
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
 `;
 
 const CardGrid = styled.div`

@@ -21,6 +21,7 @@ import LogoutLayout from './components/LogoutLayout';
 import { QuestionCreationLayout } from './components/QuestionCreationLayout';
 import { QuestionEditLayout } from './components/QuestionEditLayout';
 import { QuestionLibraryListLayout } from './components/QuestionLibraryListLayout';
+import { QuizLibraryListLayout } from './components/QuizLibraryListLayout';
 import { LearnerBulkImportLayout } from './components/LearnerBulkImportLayout';
 import { SupportLayout } from './components/SupportLayout';
 import { SettingsLayout } from './components/SettingsLayout';
@@ -94,6 +95,7 @@ function App() {
                     <Route path='/quiz/:id' element={<QuizViewLayout />} />
                     <Route path='/quiz/:quizId/question' element={<QuestionCreationLayout />} />
                     <Route path='/quiz/:quizId/question/:questionId' element={<QuestionEditLayout />} />
+                    <Route path='/quiz/library' element={<QuizLibraryListLayout />} />
                     <Route path='/question/library' element={<QuestionLibraryListLayout />} />
                     <Route path='/learner' element={<LearnersLayout />} />
                     <Route path='/learner/import/bulk' element={<LearnerBulkImportLayout />} />
