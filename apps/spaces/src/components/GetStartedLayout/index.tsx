@@ -18,6 +18,7 @@ import { handleHttpError } from "../../fetch/handleError";
 import { getErrorContent } from "../../utils/getErrorContent";
 import { GenericErrorModal } from "../modals/ErrorModal";
 import { isEmailValid, hasRequiredValue } from "../../utils/validation";
+import { SPACE_NAME_MAX_LENGTH } from "../../utils/inputLimits";
 
 interface Props { }
 
@@ -52,6 +53,9 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
     let hasError = false;
     if (!hasRequiredValue(name)) {
       handleNameError(t("get_started.validation.org_name_required"))
+      hasError = true;
+    }
+    if (name.length > SPACE_NAME_MAX_LENGTH) {
       hasError = true;
     }
     if (!hasRequiredValue(email)) {
@@ -152,6 +156,9 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
                   value={name}
                   onChange={(e) => handleName(e.target.value)}
                   disabled={loading}
+                  showCharacterCount={true}
+                  maxLength={SPACE_NAME_MAX_LENGTH}
+                  characterLimitErrorText={t('error_messages.character_limit_error')}
                 />
                 {nameError && <InlineErrorMessage>{nameError}</InlineErrorMessage>}
                 <TextInput
@@ -180,7 +187,7 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
                 <Button
                   text={loading ? t('get_started.loading') : t('get_started.button_sign_up')}
                   type="primary"
-                  disabled={loading || !orgType || !hasRequiredValue(name) || !hasRequiredValue(email) || !emailIsValid}
+                  disabled={loading || !orgType || !hasRequiredValue(name) || name.length > SPACE_NAME_MAX_LENGTH || !hasRequiredValue(email) || !emailIsValid}
                   onClick={(e) => {
                     e.preventDefault()
                     handleSubmit()

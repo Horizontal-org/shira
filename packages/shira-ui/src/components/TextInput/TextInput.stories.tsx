@@ -35,9 +35,9 @@ const meta = {
       control: 'boolean',
       description: 'Shows the current character count below the input',
     },
-    supportingText: {
+    errorText: {
       control: 'text',
-      description: 'Supporting text displayed below the input',
+      description: 'Error text displayed below the input',
     },
     characterLimitErrorText: {
       control: 'text',
@@ -210,8 +210,18 @@ export const WithCharacterCount: Story = {
     value: '',
     maxLength: 80,
     showCharacterCount: true,
-    supportingText: 'Visible only to you',
     characterLimitErrorText: 'Character limit exceeded',
+    onChange: () => { }
+  }
+};
+
+export const WithErrorText: Story = {
+  render: InputTemplate,
+  args: {
+    placeholder: 'Enter email...',
+    label: 'Email',
+    value: 'not-an-email',
+    errorText: 'Please enter a valid email address',
     onChange: () => { }
   }
 };
