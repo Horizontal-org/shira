@@ -36,8 +36,8 @@ const normalizeQuestionRows = (
     const isPhishing = question.type.toLowerCase() === "phishing";
 
     return {
-      id: String(question.question_id),
-      name: question.question_name,
+      id: String(question.questionId),
+      name: question.questionName,
       isPhishing,
       typeLabel: isPhishing ? "phishing" : "legitimate",
       language: question.language,

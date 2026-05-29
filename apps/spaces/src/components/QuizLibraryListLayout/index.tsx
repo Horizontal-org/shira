@@ -15,7 +15,7 @@ import { QuizLibraryFlowManagement } from "../QuizLibraryFlowManagement";
 
 const PAGE_SIZE = 10;
 
-export const QuizLibraryListLayout: FunctionComponent = () => {
+export const QuizTemplatesListLayout: FunctionComponent = () => {
   const navigate = useNavigate();
 
   const [libraryQuizzes, setLibraryQuizzes] = useState<LibraryQuizDto[]>([]);

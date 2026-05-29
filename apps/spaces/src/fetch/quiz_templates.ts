@@ -11,8 +11,8 @@ export interface LibraryQuizDto {
 }
 
 export interface LibraryQuizQuestionTemplateDto {
-  question_id: number;
-  question_name: string;
+  questionId: number;
+  questionName: string;
   type: string;
   language: string;
   app: string;
@@ -40,8 +40,8 @@ type LibraryQuizApiDto = {
 };
 
 type LibraryQuizQuestionTemplateApiDto = {
-  question_id: number;
-  question_name: string;
+  questionId: number;
+  questionName: string;
   type: string;
   language: string;
   app: string;
@@ -65,8 +65,8 @@ const DEFAULT_LIBRARY_AUTHOR = "Shira Team";
 
 const normalizeQuestionTemplate = (question: LibraryQuizQuestionTemplateApiDto) => {
   return {
-    question_id: question.question_id,
-    question_name: question.question_name,
+    questionId: question.questionId,
+    questionName: question.questionName,
     type: question.type,
     language: question.language,
     app: normalizePreviewAppName(question.app),
@@ -114,7 +114,7 @@ export const getQuizTemplates = async (): Promise<LibraryQuizDto[]> => {
   }
 };
 
-export const getQuizTemplateQuestions = async (quizId: string | number, questionId: string | number)
+export const getQuizTemplateQuestions = async (quizId: string | number)
   : Promise<LibraryQuizQuestionTemplateDto[]> => {
   try {
     const res = await axios.get(

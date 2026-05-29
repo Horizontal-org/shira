@@ -26,7 +26,7 @@ export const UseAQuizTemplateButton: FunctionComponent<Props> = ({
       return;
     }
 
-    navigate("/quiz/library");
+    navigate("/quiz/templates");
   };
 
   return (
