@@ -10,7 +10,7 @@ import {
 } from "../inputLimits"
 import { hasRequiredValue } from "../validation"
 
-export type QuestionStepValidationReason = 'required' | 'characterLimit'
+type QuestionStepValidationReason = 'required' | 'characterLimit'
 
 export interface QuestionStepValidationResult {
   isValid: boolean
@@ -23,7 +23,7 @@ const getEditorTextLength = (content?: string) => {
   return new DOMParser().parseFromString(content, 'text/html').body.textContent?.length ?? 0
 }
 
-export const getQuestionInfoStepValidation = (question?: ActiveQuestion) => {
+export const isQuestionInfoStepValid = (question?: ActiveQuestion) => {
   if (!question?.app) {
     return {
       isValid: false,
@@ -48,7 +48,7 @@ export const getQuestionInfoStepValidation = (question?: ActiveQuestion) => {
   return { isValid: true }
 }
 
-export const getQuestionContentStepValidation = (question?: ActiveQuestion) => {
+export const isQuestionContentStepValid = (question?: ActiveQuestion) => {
   if (!question?.app || !question.content) {
     return {
       isValid: false,
@@ -67,12 +67,9 @@ export const getQuestionContentStepValidation = (question?: ActiveQuestion) => {
   return { isValid: true }
 }
 
-export const isQuestionContentStepValid = (question?: ActiveQuestion) => {
-  return getQuestionContentStepValidation(question).isValid
-}
-
 const getEmailContentValidation = (content: EmailContent) => {
-  if (!hasRequiredValue(content.senderName?.value ?? '') || !hasRequiredValue(content.senderEmail?.value ?? '')) {
+  if (!hasRequiredValue(content.senderName?.value ?? '')
+    || !hasRequiredValue(content.senderEmail?.value ?? '')) {
     return {
       isValid: false,
       reason: 'required'

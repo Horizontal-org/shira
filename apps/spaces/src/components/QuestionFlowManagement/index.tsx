@@ -12,10 +12,7 @@ import { NoExplanationsModal } from "../modals/NoExplanationsModal";
 import { ActiveQuestion } from "../../store/types/active_question";
 import { useTranslation } from "react-i18next";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
-import {
-  getQuestionContentStepValidation,
-  getQuestionInfoStepValidation
-} from "../../utils/active_question/validation";
+import { isQuestionContentStepValid, isQuestionInfoStepValid } from "../../utils/active_question/validation";
 
 interface Props {
   initialContent?: Object
@@ -72,11 +69,11 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
 
   const getStepValidation = () => {
     if (step === 0) {
-      return getQuestionInfoStepValidation(activeQuestion)
+      return isQuestionInfoStepValid(activeQuestion)
     }
 
     if (step === 1) {
-      return getQuestionContentStepValidation(activeQuestion)
+      return isQuestionContentStepValid(activeQuestion)
     }
 
     return { isValid: true }
