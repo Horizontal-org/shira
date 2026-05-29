@@ -80,7 +80,7 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
       </Body1>
       <FormContent>
         <TextInput
-          label="Quiz name"
+          label={t('modals.duplicate_quiz.quiz_name')}
           placeholder={t('modals.duplicate_quiz.quiz_name_placeholder', { quiz_name: quiz.title })}
           value={title}
           onChange={(e) => handleTitleChange(e.target.value)}

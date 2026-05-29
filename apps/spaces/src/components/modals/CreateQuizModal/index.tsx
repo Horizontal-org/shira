@@ -80,7 +80,7 @@ export const CreateQuizModal: FunctionComponent<Props> = ({
       <FormContent>
         <TextInput
           id="create-quiz-title-input"
-          label={t('modals.create_quiz.input_placeholder')}
+          label={t('modals.create_quiz.placeholder')}
           value={title}
           onChange={(e) => handleTitleChange(e.target.value)}
           isLoading={isValidatingTitle}
