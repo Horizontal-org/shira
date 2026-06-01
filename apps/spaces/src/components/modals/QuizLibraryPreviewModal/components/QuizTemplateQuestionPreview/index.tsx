@@ -40,7 +40,6 @@ export const QuizTemplateQuestionPreview: FunctionComponent<Props> = ({
       <PreviewHeader>
         <PreviewHeaderStart>
           <CloseButton iconSize={22} onClick={onClose} />
-
           <PreviewTitle>{t("create_question.tabs.preview.aria_label")}</PreviewTitle>
         </PreviewHeaderStart>
 
