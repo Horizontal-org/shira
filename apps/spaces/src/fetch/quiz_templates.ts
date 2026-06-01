@@ -14,13 +14,14 @@ export interface LibraryQuizQuestionTemplateDto {
   questionId: number;
   questionName: string;
   type: string;
+  isPhishing: boolean;
   language: string;
   app: string;
   content: string;
   explanations: {
-    position: number;
+    position: number | string;
     text: string;
-    index: number;
+    index: number | string;
   }[];
 }
 
@@ -42,14 +43,15 @@ type LibraryQuizApiDto = {
 type LibraryQuizQuestionTemplateApiDto = {
   questionId: number;
   questionName: string;
-  type: string;
+  type?: string | null;
+  isPhishing?: boolean | null;
   language: string;
-  app: string;
+  app?: string | null;
   content?: string | null;
   explanations?: {
-    position: number;
+    position: number | string;
     text: string;
-    index: number;
+    index: number | string;
   }[];
 };
 
@@ -64,12 +66,15 @@ type LibraryQuizTemplateDetailApiDto = {
 const DEFAULT_LIBRARY_AUTHOR = "Shira Team";
 
 const normalizeQuestionTemplate = (question: LibraryQuizQuestionTemplateApiDto) => {
+  const isPhishing = question.isPhishing ?? question.type?.toLowerCase() === "phishing";
+
   return {
     questionId: question.questionId,
     questionName: question.questionName,
-    type: question.type,
+    type: question.type ?? (isPhishing ? "phishing" : "legitimate"),
+    isPhishing,
     language: question.language,
-    app: normalizePreviewAppName(question.app),
+    app: question.app ? normalizePreviewAppName(question.app) : "",
     content: question.content ?? "",
     explanations: question.explanations ?? [],
   };
@@ -98,7 +103,7 @@ const getQuestionTemplatesFromResponse = (
 
 export const getQuizTemplates = async (): Promise<LibraryQuizDto[]> => {
   try {
-    const res = await axios.get<LibraryQuizApiDto[]>(
+    const res = await axios.get(
       `${process.env.REACT_APP_LIBRARY_API_URL}/quiz-templates`,
       {
         headers: {
@@ -107,6 +112,7 @@ export const getQuizTemplates = async (): Promise<LibraryQuizDto[]> => {
       }
     );
 
+    console.log(`Fetched ${res.data.length} quiz templates from library API.`);
     return res.data.map(normalizeQuizTemplate);
   } catch (err) {
     console.error("Error fetching quiz templates:", err);
@@ -116,6 +122,7 @@ export const getQuizTemplates = async (): Promise<LibraryQuizDto[]> => {
 
 export const getQuizTemplateQuestions = async (quizId: string | number)
   : Promise<LibraryQuizQuestionTemplateDto[]> => {
+    console.log(`Fetching quiz template questions for quiz ID ${quizId} from library API...`);
   try {
     const res = await axios.get(
       `${process.env.REACT_APP_LIBRARY_API_URL}/quiz-templates/${quizId}/questions`,

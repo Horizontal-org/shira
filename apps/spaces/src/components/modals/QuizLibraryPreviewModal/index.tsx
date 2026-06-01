@@ -33,7 +33,7 @@ const normalizeQuestionRows = (
   questions: LibraryQuizQuestionTemplateDto[],
 ): PreviewQuestionRow[] => {
   return questions.map((question) => {
-    const isPhishing = question.type.toLowerCase() === "phishing";
+    const isPhishing = question.isPhishing ?? question.type.toLowerCase() === "phishing";
 
     return {
       id: String(question.questionId),
