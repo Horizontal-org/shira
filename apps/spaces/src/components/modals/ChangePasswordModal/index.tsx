@@ -133,10 +133,8 @@ export const ChangePasswordModal: FunctionComponent<Props> = ({
               showCharacterCount={true}
               maxLength={ACCOUNT_SETTINGS_PASSWORD_MAX_LENGTH}
               characterLimitErrorText={t('error_messages.character_limit_error')}
+              errorText={currentPasswordError}
             />
-            <FieldError $visible={Boolean(currentPasswordError)}>
-              {currentPasswordError}
-            </FieldError>
           </FieldGroup>
 
           <FieldGroup>
@@ -149,10 +147,8 @@ export const ChangePasswordModal: FunctionComponent<Props> = ({
               showCharacterCount={true}
               maxLength={ACCOUNT_SETTINGS_PASSWORD_MAX_LENGTH}
               characterLimitErrorText={t('error_messages.character_limit_error')}
+              errorText={newPasswordError}
             />
-            <FieldError $visible={Boolean(newPasswordError)}>
-              {newPasswordError}
-            </FieldError>
           </FieldGroup>
 
           <FieldGroup>
@@ -165,10 +161,8 @@ export const ChangePasswordModal: FunctionComponent<Props> = ({
               showCharacterCount={true}
               maxLength={ACCOUNT_SETTINGS_PASSWORD_MAX_LENGTH}
               characterLimitErrorText={t('error_messages.character_limit_error')}
+              errorText={confirmPasswordError}
             />
-            <FieldError $visible={Boolean(confirmPasswordError)}>
-              {confirmPasswordError}
-            </FieldError>
           </FieldGroup>
         </Fields>
       </ModalContent>
@@ -191,14 +185,4 @@ const Fields = styled.div`
 const FieldGroup = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const FieldError = styled.div<{ $visible?: boolean }>`
-  min-height: 18px;
-  color: ${props => props.theme.colors.error7};
-  font-size: 14px;
-  line-height: 18px;
-  padding-left: 4px;
-  margin-top: 8px;
-  visibility: ${props => (props.$visible ? "visible" : "hidden")};
 `;

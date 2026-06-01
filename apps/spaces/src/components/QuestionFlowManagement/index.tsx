@@ -67,7 +67,7 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
   const [isExitQuestionModalOpen, setIsExitQuestionModalOpen] = useState(false)
   const [noExplanationsModalOpen, setNoExplanationsModalOpen] = useState(false)
 
-  const validateStep = () => {
+  const getStepValidation = () => {
     if (step === 0) {
       return isQuestionInfoStepValid(activeQuestion)
     }
@@ -76,8 +76,13 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
       return isQuestionContentStepValid(activeQuestion)
     }
 
-    return true
+    return { isValid: true }
   }
+
+  const stepValidation = getStepValidation()
+  const nextTooltipLabel = stepValidation.reason === 'characterLimit'
+    ? t('create_question.header_character_limit_tooltip')
+    : t('create_question.header_required_tooltip')
 
   return (
     <>
@@ -123,7 +128,8 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
           }
         }}
         step={step}
-        disableNext={!validateStep()}
+        disableNext={!stepValidation.isValid}
+        nextTooltipLabel={nextTooltipLabel}
         onExit={() => { setIsExitQuestionModalOpen(true) }}
       />
 
