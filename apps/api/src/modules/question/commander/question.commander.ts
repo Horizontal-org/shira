@@ -87,6 +87,7 @@ export class QuestionCommander {
       .createQueryBuilder('question')
       .leftJoinAndSelect('question.questionTranslations', 'qt')
       .leftJoinAndSelect('qt.languageId', 'qtLang')
+      .leftJoinAndSelect('question.apps', 'app')
       .leftJoinAndSelect('question.explanations', 'explanation')
       .leftJoinAndSelect('explanation.explanationTranslations', 'explanationTranslation')
       .leftJoinAndSelect('explanationTranslation.languageId', 'etLang')
@@ -101,6 +102,9 @@ export class QuestionCommander {
         'qtLang.id',
         'qtLang.code',
         'qtLang.name',
+        'app.id',
+        'app.name',
+        'app.type',
         'explanation.id',
         'explanation.position',
         'explanation.index',
@@ -123,6 +127,9 @@ export class QuestionCommander {
       let questions = []
       q.questionTranslations.forEach(qt => {
         const lang = { name: qt.languageId.name, code: qt.languageId.code }
+        if (!q.apps || q.apps.length === 0) return
+
+        const firstApp = q.apps[0]
         const question = {
           questionId: q.id,
           name: q.name,
@@ -130,17 +137,20 @@ export class QuestionCommander {
           is_demo: true,
           content: qt.content,
           lang: lang,
+          default_app: firstApp.id,
+          app_type: firstApp.type,
           explanations: []
         }
 
         let explanations = []
         q.explanations.forEach(e => {
           const et = e.explanationTranslations.find(et => et.languageId.id === qt.languageId.id)
+          if (!et) return
           const explanation = {
             question_id: q.id,
             position: e.position,
             index: e.index,
-            content: et ? et.content : '',
+            content: et.content,
           }
 
           explanations.push(explanation)
@@ -182,7 +192,7 @@ export class QuestionCommander {
 
     console.log(`\n${toPublish.length} question(s) to publish:`)
     for (const q of toPublish) {
-      console.log(`  - "${q.name}" (id: ${q.questionId}, lang: ${q.lang.code})`)
+      console.log(`  - "${q.name}" (id: ${q.questionId}, lang: ${q.lang.code}, app_type: ${q.app_type}, default_app: ${q.default_app})`)
     }
 
     const { confirm } = await prompt.get(['confirm'])
