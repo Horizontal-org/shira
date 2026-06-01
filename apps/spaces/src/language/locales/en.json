@@ -165,6 +165,7 @@
     "create_question": {
         "header_title": "Create a new question",
         "header_required_tooltip": "Required fields cannot be left blank",
+        "header_character_limit_tooltip": "One or more fields exceed the character limit.",
         "tabs": {
             "question_info": {
                 "tab_title": "Question info",
@@ -762,7 +763,7 @@
         "learner_email_send_failed": "Failed to send email invitation to learner.",
         "learner_token_conflict": "The token from the learner is invalid or has already been used.",
         "learner_assignment_failed": "Failed to assign learner to the space.",
-        "invalid_email": "Please enter a valid email address.",
+        "invalid_email": "Please enter a valid email address",
         "something_went_wrong": "Something went wrong",
         "invite_learner_failed": "There was a problem inviting the learner. If this issue persists, <1>contact us</1>.",
         "delete_learner_failed": "There was a problem deleting the learner. If this issue persists, <1>contact us</1>.",
@@ -805,11 +806,11 @@
             },
             "file_too_large": {
                 "title": "Error: File is too large",
-                "subtitle": "Please upload a CSV that is 10 MB or smaller and try again."
+                "subtitle": "Please upload a CSV that is 10 MB or smaller and try again"
             }
         },
-        "invalid_email_update": "This email address is already associated with a Shira space.",
-        "character_limit_error": "Character limit exceeded."
+        "invalid_email_update": "This email address is already associated with a Shira space",
+        "character_limit_error": "Character limit exceeded"
     },
     "success_messages": {
         "quiz_link_copied": "The public quiz link has been copied to your clipboard.",

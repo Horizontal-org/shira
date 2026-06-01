@@ -35,6 +35,8 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
   const isEmailEmpty = !email.trim();
 
   const showInvalidEmailError = !isEmailEmpty && !emailIsValid;
+  const emailSupportingText = showInvalidEmailError ? t("error_messages.invalid_email")
+    : showAlreadyExistsError && !isEmailEmpty && emailIsValid && t("error_messages.learner_already_exists");
 
   const primaryButtonDisabled =
     isLoading ||
@@ -130,35 +132,24 @@ export const InviteLearnerModal: FunctionComponent<Props> = ({
             value={name}
             placeholder={t("modals.invite_learner.name_placeholder")}
             onChange={(e) => setName(e.target.value)}
-            required
+            required={true}
             showCharacterCount={true}
             maxLength={LEARNER_NAME_MAX_LENGTH}
             characterLimitErrorText={t("error_messages.character_limit_error")}
           />
 
-          <EmailField>
-            <TextInput
-              id="learner-email"
-              type="email"
-              value={email}
-              placeholder={t("modals.invite_learner.email_placeholder")}
-              onChange={(e) => handleEmailChange(e.target.value)}
-              required
-              showCharacterCount={true}
-              maxLength={LEARNER_EMAIL_MAX_LENGTH}
-              characterLimitErrorText={t("error_messages.character_limit_error")}
-            />
-
-            <ErrorContainer role="alert" aria-live="polite">
-              {showInvalidEmailError && (
-                <ErrorText>{t("error_messages.invalid_email")}</ErrorText>
-              )}
-
-              {showAlreadyExistsError && !isEmailEmpty && emailIsValid && (
-                <ErrorText>{t("error_messages.learner_already_exists")}</ErrorText>
-              )}
-            </ErrorContainer>
-          </EmailField>
+          <TextInput
+            id="learner-email"
+            type="email"
+            value={email}
+            placeholder={t("modals.invite_learner.email_placeholder")}
+            onChange={(e) => handleEmailChange(e.target.value)}
+            required={true}
+            showCharacterCount={true}
+            maxLength={LEARNER_EMAIL_MAX_LENGTH}
+            characterLimitErrorText={t("error_messages.character_limit_error")}
+            errorText={emailSupportingText}
+          />
         </InputsContainer>
       </FormContent>
     </Modal>
@@ -184,23 +175,4 @@ const InputsContainer = styled.div`
     flex-direction: column;
     gap: 16px;
   }
-`;
-
-const EmailField = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-`;
-
-const ErrorContainer = styled.div`
-  min-height: 40px;
-  padding: 0 10px;
-`;
-
-const ErrorText = styled.p`
-  color: ${defaultTheme.colors.error7};
-  padding: 4px 10px;
-  gap: 10px;
-  margin-top: 4px;
-  font-size: 11px;
 `;
