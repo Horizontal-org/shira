@@ -92,7 +92,7 @@
     "@emotion/stylis": "^0.8.5",
     "eslint-config-react-app": "^7.0.1",
     "http-proxy-middleware": "^2.0.9",
-    "turbo": "^2.4.0",
+    "turbo": "^2.9.16",
     "typescript": "^5.1.6"
   }
 }
