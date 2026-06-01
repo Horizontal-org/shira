@@ -7,6 +7,13 @@ import { MdOutlinePhishing } from "react-icons/md";
 import { MdRemoveRedEye } from "react-icons/md";
 import type { LibraryQuizQuestionTemplateDto } from "../../../../../fetch/quiz_templates";
 import { appIcons } from "../../../../QuestionLibraryListLayout/components/AppIcons/appIcons";
+import { SelectApp } from "../../../../QuestionLibraryListLayout/components/Selects/SelectApp";
+
+export type PreviewAppOption = {
+  id: number;
+  name: string;
+  type: string;
+};
 
 export type PreviewQuestionRow = {
   id: string;
@@ -15,6 +22,9 @@ export type PreviewQuestionRow = {
   typeLabel: string;
   language: string;
   app: string;
+  appType?: string;
+  selectedAppId?: number;
+  appOptions: PreviewAppOption[];
   content: string;
   explanations: LibraryQuizQuestionTemplateDto["explanations"];
 };
@@ -22,11 +32,13 @@ export type PreviewQuestionRow = {
 type Props = {
   questions: PreviewQuestionRow[];
   onPreviewQuestion: (question: PreviewQuestionRow) => void;
+  onSelectApp: (questionId: string, appId: number) => void;
 };
 
 export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
   questions,
   onPreviewQuestion,
+  onSelectApp,
 }) => {
   const { t } = useTranslation();
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
@@ -71,12 +83,28 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
         header: t("quiz_library.preview.columns.app"),
         accessorKey: "app",
         id: "app",
-        cell: ({ row }) => (
-          <AppValue>
-            {row.original.app && appIcons[row.original.app.toLocaleLowerCase()]}
-            <span>{row.original.app || "-"}</span>
-          </AppValue>
-        ),
+        cell: ({ row }) => {
+          const { id, app, appType, appOptions, selectedAppId } = row.original;
+
+          if (appType && appOptions.length > 0) {
+            return (
+              <SelectApp
+                valueId={selectedAppId}
+                options={appOptions}
+                currentType={appType}
+                initiallyShowPlaceholder={!app}
+                onChange={(appId) => { onSelectApp(id, appId); }}
+              />
+            );
+          }
+
+          return (
+            <AppValue>
+              {app && appIcons[app.toLocaleLowerCase()]}
+              <span>{app || "-"}</span>
+            </AppValue>
+          );
+        },
       },
       {
         header: t("quiz_library.preview.columns.actions"),
@@ -98,7 +126,7 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
         },
       },
     ],
-    [t, onPreviewQuestion],
+    [t, onPreviewQuestion, onSelectApp],
   );
 
   return (
@@ -116,10 +144,10 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
         colGroups={(
           <colgroup>
             <col style={{ width: "4%" }} />
-            <col style={{ width: "38%" }} />
+            <col style={{ width: "34%" }} />
             <col style={{ width: "16%" }} />
             <col style={{ width: "16%" }} />
-            <col style={{ width: "16%" }} />
+            <col style={{ width: "20%" }} />
             <col style={{ width: "10%" }} />
           </colgroup>
         )}

@@ -1,5 +1,4 @@
 import axios from "axios";
-import { normalizePreviewAppName } from "../utils/appNames";
 
 export interface LibraryQuizDto {
   id: number;
@@ -17,6 +16,7 @@ export interface LibraryQuizQuestionTemplateDto {
   isPhishing: boolean;
   language: string;
   app: string;
+  appType?: string;
   content: string;
   explanations: {
     position: number | string;
@@ -46,7 +46,8 @@ type LibraryQuizQuestionTemplateApiDto = {
   type?: string | null;
   isPhishing?: boolean | null;
   language: string;
-  app?: string | null;
+  appName?: string | null;
+  appType: string;
   content?: string | null;
   explanations?: {
     position: number | string;
@@ -74,7 +75,8 @@ const normalizeQuestionTemplate = (question: LibraryQuizQuestionTemplateApiDto) 
     type: question.type ?? (isPhishing ? "phishing" : "legitimate"),
     isPhishing,
     language: question.language,
-    app: question.app ? normalizePreviewAppName(question.app) : "",
+    app: question.appName,
+    appType: question.appType,
     content: question.content ?? "",
     explanations: question.explanations ?? [],
   };
@@ -122,7 +124,7 @@ export const getQuizTemplates = async (): Promise<LibraryQuizDto[]> => {
 
 export const getQuizTemplateQuestions = async (quizId: string | number)
   : Promise<LibraryQuizQuestionTemplateDto[]> => {
-    console.log(`Fetching quiz template questions for quiz ID ${quizId} from library API...`);
+  console.log(`Fetching quiz template questions for quiz ID ${quizId} from library API...`);
   try {
     const res = await axios.get(
       `${process.env.REACT_APP_LIBRARY_API_URL}/quiz-templates/${quizId}/questions`,
