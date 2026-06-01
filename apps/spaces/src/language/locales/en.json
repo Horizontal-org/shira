@@ -308,7 +308,8 @@
                 "type": "Type",
                 "language": "Language",
                 "app": "App",
-                "actions": "Actions"
+                "actions": "Actions",
+                "preview": "Preview"
             }
         }
     },

@@ -55,7 +55,9 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
             ) : (
               <FaCircleCheck size={16} color={defaultTheme.colors.green6} />
             )}
-            {row.original.isPhishing ? t("question_library.columns.type.phishing") : t("question_library.columns.type.legitimate")}
+            {row.original.isPhishing
+              ? t("question_library.columns.type.phishing")
+              : t("question_library.columns.type.legitimate")}
           </TypePill>
         ),
       },
@@ -81,21 +83,15 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
         accessorKey: "actions",
         id: "actions",
         cell: ({ row }) => {
-          const disabled = !row.original.content?.trim();
-
           return (
             <PreviewActionButton
               type="button"
-              aria-label={t("question_library.columns.actions.preview.aria_label")}
-              title={t("question_library.columns.actions.preview.aria_label")}
-              disabled={disabled}
+              title={t("quiz_library.preview.columns.preview")}
               onClick={() => { onPreviewQuestion(row.original); }}
             >
               <MdRemoveRedEye
                 size={20}
-                color={disabled
-                  ? defaultTheme.colors.dark.mediumGrey
-                  : defaultTheme.colors.dark.overlay}
+                color={defaultTheme.colors.dark.darkGrey}
               />
             </PreviewActionButton>
           );

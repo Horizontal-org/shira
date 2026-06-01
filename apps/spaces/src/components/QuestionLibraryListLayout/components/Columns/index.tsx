@@ -154,8 +154,8 @@ export const getColumns = (handlers: ColumnHandlers, t: TFunction): ColumnDef<Ro
             id={`preview-button-${row.id}`}
             disabled={disableActions}
             tooltipText={tooltipText}
-            ariaLabel={t("question_library.columns.actions.preview.aria_label")}
-            title="Preview"
+            ariaLabel={t("question_library.columns.actions.preview_aria_label")}
+            title={t("question_library.columns.actions.preview_aria_label")}
             onClick={() => handlers.onPreview?.(row.original)}
           >
             <MdRemoveRedEye size={21} color={previewColor} />
@@ -164,8 +164,8 @@ export const getColumns = (handlers: ColumnHandlers, t: TFunction): ColumnDef<Ro
             id={`add-button-${row.id}`}
             disabled={disableActions}
             tooltipText={tooltipText}
-            ariaLabel={t("question_library.columns.actions.add.aria_label")}
-            title="Add"
+            ariaLabel={t("question_library.columns.actions.add_aria_label")}
+            title={t("question_library.columns.actions.add_aria_label")}
             onClick={() => handlers.onAdd?.(row.original)}
           >
             <FaCirclePlus size={18} color={addColor} />
