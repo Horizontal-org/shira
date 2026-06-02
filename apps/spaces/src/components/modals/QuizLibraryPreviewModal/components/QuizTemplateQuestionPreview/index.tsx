@@ -109,7 +109,7 @@ export const QuizTemplateQuestionPreview: FunctionComponent<Props> = ({
         <PreviewCanvas>
           {showExplanations && <QuizPreviewOverlay />}
 
-          <PreviewAppFrame>
+          <PreviewAppFrame key={`${question.questionId}-${question.appName ?? ""}`}>
             <AppLayout
               appName={question.appName ?? ""}
               content={question.content}
@@ -215,6 +215,7 @@ const PreviewCanvas = styled.div`
   display: flex;
   justify-content: center;
   padding: 24px;
+  background: ${defaultTheme.colors.light.paleGreen};
 `
 
 const PreviewAppFrame = styled.div`

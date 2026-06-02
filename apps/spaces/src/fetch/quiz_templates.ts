@@ -56,6 +56,7 @@ export const getQuizTemplates = async (): Promise<LibraryQuizDto[]> => {
   try {
     const response = await axios.get<LibraryQuizApiDto[]>(
       `${process.env.REACT_APP_LIBRARY_API_URL}/quiz-templates`,
+      { withCredentials: false },
     )
 
     return response.data.map(normalizeQuizTemplate)
@@ -66,12 +67,12 @@ export const getQuizTemplates = async (): Promise<LibraryQuizDto[]> => {
   }
 }
 
-export const getQuizTemplateQuestions = async (
-  quizId: string | number,
-): Promise<LibraryQuizQuestionTemplateDto[] | null> => {
+export const getQuizTemplateQuestions = async (quizId: string)
+  : Promise<LibraryQuizQuestionTemplateDto[] | null> => {
   try {
     const response = await axios.get<LibraryQuizQuestionTemplateDto[] | null>(
       `${process.env.REACT_APP_LIBRARY_API_URL}/quiz-templates/${quizId}/questions`,
+      { withCredentials: false },
     )
 
     return response.data

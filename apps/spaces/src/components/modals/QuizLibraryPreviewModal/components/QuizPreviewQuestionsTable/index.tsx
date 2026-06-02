@@ -73,8 +73,10 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
           const selectedApp = appOptions.find(
             (appOption) => appOption.name === row.original.appName,
           );
+          const canChooseKnownApp =
+            appOptions.length > 1 && (!row.original.appName || Boolean(selectedApp));
 
-          if (row.original.appType && appOptions.length > 1) {
+          if (row.original.appType && canChooseKnownApp) {
             return (
               <SelectApp
                 valueId={selectedApp?.id}
