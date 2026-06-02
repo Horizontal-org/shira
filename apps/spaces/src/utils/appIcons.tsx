@@ -1,17 +1,15 @@
-import { GmailIcon, FacebookIcon, SMSIcon, WhatsappIcon, OutlookIcon, DatingAppIcon } from "@horizontal-org/shira-ui";
+import { GmailIcon, FacebookIcon, SMSIcon, WhatsappIcon, OutlookIcon, DatingAppIcon, EmailIcon, MessagingIcon } from "@horizontal-org/shira-ui";
 
 export const appIcons: Record<string, JSX.Element> = {
-  'Gmail': <GmailIcon />,
-  'Messenger': <FacebookIcon />,
-  'SMS': <SMSIcon />,
-  'Whatsapp': <WhatsappIcon />,
-  'Outlook': <OutlookIcon />,
-  'Dating App': <DatingAppIcon />,
+  'gmail': <GmailIcon />,
+  'messenger': <FacebookIcon />,
+  'sms': <SMSIcon />,
+  'whatsapp': <WhatsappIcon />,
+  'outlook': <OutlookIcon />,
+  'dating app': <DatingAppIcon />,
 };
 
-
-
-
-
-
-
+export const appTypesIcons: Record<string, JSX.Element> = {
+  'email': <EmailIcon />,
+  'messaging': <MessagingIcon />,
+};

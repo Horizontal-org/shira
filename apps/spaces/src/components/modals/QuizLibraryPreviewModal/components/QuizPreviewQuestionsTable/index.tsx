@@ -6,33 +6,14 @@ import { FaCircleCheck } from "react-icons/fa6";
 import { MdOutlinePhishing } from "react-icons/md";
 import { MdRemoveRedEye } from "react-icons/md";
 import type { LibraryQuizQuestionTemplateDto } from "../../../../../fetch/quiz_templates";
-import { appIcons } from "../../../../QuestionLibraryListLayout/components/AppIcons/appIcons";
+import { appIcons } from "../../../../../utils/appIcons";
 import { SelectApp } from "../../../../QuestionLibraryListLayout/components/Selects/SelectApp";
-
-export type PreviewAppOption = {
-  id: number;
-  name: string;
-  type: string;
-};
-
-export type PreviewQuestionRow = {
-  id: string;
-  name: string;
-  isPhishing: boolean;
-  typeLabel: string;
-  language: string;
-  app: string;
-  appType?: string;
-  selectedAppId?: number;
-  appOptions: PreviewAppOption[];
-  content: string;
-  explanations: LibraryQuizQuestionTemplateDto["explanations"];
-};
+import { getAppsByType } from "../../../../../utils/appNames";
 
 type Props = {
-  questions: PreviewQuestionRow[];
-  onPreviewQuestion: (question: PreviewQuestionRow) => void;
-  onSelectApp: (questionId: string, appId: number) => void;
+  questions: LibraryQuizQuestionTemplateDto[];
+  onPreviewQuestion: (question: LibraryQuizQuestionTemplateDto) => void;
+  onSelectApp: (questionId: number, appId: number) => void;
 };
 
 export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
@@ -43,7 +24,7 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
   const { t } = useTranslation();
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
-  const questionColumns = useMemo<ColumnDef<PreviewQuestionRow>[]>(
+  const columns = useMemo<ColumnDef<LibraryQuizQuestionTemplateDto>[]>(
     () => [
       {
         header: "",
@@ -52,13 +33,15 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
       },
       {
         header: t("quiz_library.preview.columns.question_name"),
-        accessorKey: "name",
-        id: "name",
-        cell: ({ row }) => <QuestionNameCell>{row.original.name}</QuestionNameCell>,
+        accessorKey: "questionName",
+        id: "questionName",
+        cell: ({ row }) => (
+          <QuestionNameCell>{row.original.questionName}</QuestionNameCell>
+        ),
       },
       {
         header: t("quiz_library.preview.columns.type"),
-        accessorKey: "typeLabel",
+        accessorKey: "isPhishing",
         id: "type",
         cell: ({ row }) => (
           <TypePill $isPhishing={row.original.isPhishing}>
@@ -81,34 +64,38 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
       },
       {
         header: t("quiz_library.preview.columns.app"),
-        accessorKey: "app",
+        accessorKey: "appName",
         id: "app",
         cell: ({ row }) => {
-          const { id, app, appType, appOptions, selectedAppId } = row.original;
+          const appOptions = row.original.appType
+            ? getAppsByType(row.original.appType)
+            : [];
+          const selectedApp = appOptions.find(
+            (appOption) => appOption.name === row.original.appName,
+          );
 
-          if (appType && appOptions.length > 0) {
+          if (row.original.appType && appOptions.length > 1) {
             return (
               <SelectApp
-                valueId={selectedAppId}
+                valueId={selectedApp?.id}
                 options={appOptions}
-                currentType={appType}
-                initiallyShowPlaceholder={!app}
-                onChange={(appId) => { onSelectApp(id, appId); }}
+                currentType={row.original.appType}
+                initiallyShowPlaceholder={!row.original.appName}
+                onChange={(appId) => { onSelectApp(row.original.questionId, appId); }}
               />
             );
           }
 
           return (
             <AppValue>
-              {app && appIcons[app.toLocaleLowerCase()]}
-              <span>{app || "-"}</span>
+              {row.original.appName && appIcons[row.original.appName.toLowerCase()]}
+              <Body3>{row.original.appName || "-"}</Body3>
             </AppValue>
-          );
+          )
         },
       },
       {
         header: t("quiz_library.preview.columns.actions"),
-        accessorKey: "actions",
         id: "actions",
         cell: ({ row }) => {
           return (
@@ -134,7 +121,7 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
       <Table
         size="full"
         data={questions}
-        columns={questionColumns}
+        columns={columns}
         loading={false}
         rowSelection={rowSelection}
         setRowSelection={setRowSelection}
@@ -162,25 +149,23 @@ const QuestionsTableWrapper = styled.div`
   & table td {
     padding: 14px 16px;
   }
-`;
+`
 
 const RowIndexCell = styled(Body3Bold)`
   color: ${defaultTheme.colors.green6};
-`;
+`
 
 const QuestionNameCell = styled(Body3Bold)`
   color: ${defaultTheme.colors.dark.darkGrey};
-`;
+`
 
 const TypePill = styled.span<{ $isPhishing: boolean }>`
-  background: ${(props) => (
+  background: ${(props) =>
     props.$isPhishing
       ? defaultTheme.colors.light.paleRed
-      : defaultTheme.colors.light.paleGreen)};
-  color: ${(props) => (
-    props.$isPhishing
-      ? defaultTheme.colors.error9
-      : defaultTheme.colors.green9)};
+      : defaultTheme.colors.light.paleGreen};
+  color: ${(props) =>
+    props.$isPhishing ? defaultTheme.colors.error9 : defaultTheme.colors.green9};
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -188,13 +173,13 @@ const TypePill = styled.span<{ $isPhishing: boolean }>`
   padding: 4px 8px;
   font-size: 14px;
   font-weight: 400;
-`;
+`
 
 const AppValue = styled.div`
   display: inline-flex;
   align-items: center;
   gap: 8px;
-`;
+`
 
 const PreviewActionButton = styled.button`
   all: unset;
@@ -208,4 +193,4 @@ const PreviewActionButton = styled.button`
   &:disabled {
     cursor: not-allowed;
   }
-`;
+`

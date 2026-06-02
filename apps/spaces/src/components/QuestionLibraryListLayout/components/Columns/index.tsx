@@ -6,7 +6,7 @@ import { TFunction } from "i18next";
 import type { App } from "../../../../fetch/question_library";
 import { SelectLanguage } from "../Selects/SelectLanguage";
 import { SelectApp } from "../Selects/SelectApp";
-import { appIcons } from "../AppIcons/appIcons";
+import { appIcons } from "../../../../utils/appIcons";
 import { ActionButtonWithTooltip } from "../ActionButtonWithTooltip";
 
 export type Explanation = {
