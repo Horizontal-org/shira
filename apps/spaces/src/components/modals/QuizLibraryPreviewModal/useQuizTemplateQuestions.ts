@@ -12,24 +12,43 @@ export const useQuizTemplateQuestions = (
 ) => {
   const [questions, setQuestions] = useState<LibraryQuizQuestionTemplateDto[]>([]);
   const [hasLoadedQuestions, setHasLoadedQuestions] = useState(false);
+  const [isLoadingQuestions, setIsLoadingQuestions] = useState(false);
+  const [hasQuestionLoadError, setHasQuestionLoadError] = useState(false);
   const [previewQuestionId, setPreviewQuestionId] = useState<number | null>(null);
 
   useEffect(() => {
     if (!isOpen || !quiz) {
       setQuestions([]);
       setHasLoadedQuestions(false);
+      setIsLoadingQuestions(false);
+      setHasQuestionLoadError(false);
       setPreviewQuestionId(null);
       return;
     }
 
     let isCancelled = false;
 
+    setQuestions([]);
+    setHasLoadedQuestions(false);
+    setIsLoadingQuestions(true);
+    setHasQuestionLoadError(false);
+    setPreviewQuestionId(null);
+
     const loadQuestions = async () => {
       const loadedQuestions = await getQuizTemplateQuestions(quiz.id);
 
       if (!isCancelled) {
-        setQuestions(loadedQuestions ?? []);
+        if (loadedQuestions === null) {
+          setQuestions([]);
+          setHasLoadedQuestions(false);
+          setHasQuestionLoadError(true);
+          setIsLoadingQuestions(false);
+          return;
+        }
+
+        setQuestions(loadedQuestions);
         setHasLoadedQuestions(true);
+        setIsLoadingQuestions(false);
       }
     };
 
@@ -84,6 +103,8 @@ export const useQuizTemplateQuestions = (
   return {
     questions,
     hasLoadedQuestions,
+    isLoadingQuestions,
+    hasQuestionLoadError,
     previewQuestion,
     firstPreviewableQuestion,
     openPreviewQuestion,

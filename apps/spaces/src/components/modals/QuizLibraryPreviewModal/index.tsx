@@ -44,6 +44,8 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
   const {
     questions,
     hasLoadedQuestions,
+    isLoadingQuestions,
+    hasQuestionLoadError,
     previewQuestion,
     firstPreviewableQuestion,
     openPreviewQuestion,
@@ -78,6 +80,12 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
 
   const languages = quiz.languages ?? []
   const tags = quiz.tags ?? []
+  const disableUseTemplateButton = (
+    isLoadingQuestions
+    || hasQuestionLoadError
+    || !hasLoadedQuestions
+    || questions.length === 0
+  )
 
   return (
     <Overlay onClick={onClose}>
@@ -113,7 +121,8 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
                   type="primary"
                   color={defaultTheme.colors.green7}
                   leftIcon={<FaCirclePlus size={16} />}
-                  onClick={() => { onUseTemplate(hasLoadedQuestions ? questions : []) }}
+                  disabled={disableUseTemplateButton}
+                  onClick={() => { onUseTemplate(questions) }}
                 />
               </ActionsRow>
             </TopBar>
@@ -130,8 +139,13 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
               />
 
               <QuestionsSection>
+                {hasQuestionLoadError && (
+                  <QuestionsErrorText>{t("error_messages.something_went_wrong")}</QuestionsErrorText>
+                )}
+
                 <QuizPreviewQuestionsTable
                   questions={questions}
+                  loading={isLoadingQuestions}
                   onPreviewQuestion={(question) => {
                     openPreviewQuestion(question.questionId)
                   }}
@@ -219,4 +233,9 @@ const Subtitle = styled(Body1)`
 
 const QuestionsSection = styled.div`
   margin-top: 16px;
+`
+
+const QuestionsErrorText = styled(Body1)`
+  margin: 12px 0 0;
+  color: ${defaultTheme.colors.error7};
 `

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import {
-  createQuiz as createQuizRequest,
   createQuizFromTemplate,
   duplicateQuiz,
   type CreateTemplateQuizQuestionPayload,
@@ -67,7 +66,7 @@ export const useQuizCreationFlow = ({
     reset();
     setMode("template");
     setSelectedTemplateQuiz(quiz);
-    setSelectedTemplateQuestions(questions ?? null);
+    setSelectedTemplateQuestions(questions && questions.length > 0 ? questions : null);
   };
 
   const resolveTemplateAppId = (question: LibraryQuizQuestionTemplateDto) => {
@@ -133,7 +132,7 @@ export const useQuizCreationFlow = ({
       try {
         const templateQuestions = selectedTemplateQuestions ?? await getQuizTemplateQuestions(selectedTemplateQuiz.id);
 
-        if (!templateQuestions) {
+        if (!templateQuestions || templateQuestions.length === 0) {
           throw new Error("Failed to load template questions");
         }
 

@@ -12,12 +12,14 @@ import { getAppsByType } from "../../../../../utils/appNames";
 
 type Props = {
   questions: LibraryQuizQuestionTemplateDto[];
+  loading?: boolean;
   onPreviewQuestion: (question: LibraryQuizQuestionTemplateDto) => void;
   onSelectApp: (questionId: number, appId: number) => void;
 };
 
 export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
   questions,
+  loading = false,
   onPreviewQuestion,
   onSelectApp,
 }) => {
@@ -124,7 +126,8 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
         size="full"
         data={questions}
         columns={columns}
-        loading={false}
+        loading={loading}
+        loadingMessage={t("loading_messages.loading_library_questions")}
         rowSelection={rowSelection}
         setRowSelection={setRowSelection}
         enableRowSelection={false}
