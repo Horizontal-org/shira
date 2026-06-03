@@ -487,13 +487,11 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             onViewPlans={openViewPlansFromLimitModal}
           />
 
-          {subscription && (
-            <ViewPlansModal
-              isModalOpen={isViewPlansModalOpen}
-              onClose={() => setIsViewPlansModalOpen(false)}
-              organizationId={subscription.organizationId}
-            />
-          )}
+          <ViewPlansModal
+            isModalOpen={isViewPlansModalOpen}
+            onClose={() => setIsViewPlansModalOpen(false)}
+            organizationId={subscription.organizationId}
+          />
 
         </MainContentWrapper>
       </MainContent>
