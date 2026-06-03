@@ -6,19 +6,18 @@ import {
   defaultTheme,
   styled,
 } from "@horizontal-org/shira-ui"
-import { FunctionComponent, useEffect, useMemo, useState } from "react"
+import { FunctionComponent, useEffect } from "react"
 import { useTranslation } from "react-i18next"
 import { FaCirclePlus } from "react-icons/fa6"
 import { IoEyeSharp } from "react-icons/io5"
 import {
-  getQuizTemplateQuestions,
   type LibraryQuizDto,
   type LibraryQuizQuestionTemplateDto,
 } from "../../../fetch/quiz_templates"
-import { getAppsByType } from "../../../utils/appNames"
 import { QuizPreviewDetailsCard } from "./components/QuizPreviewDetailsCard"
 import { QuizPreviewQuestionsTable } from "./components/QuizPreviewQuestionsTable"
 import { QuizTemplateQuestionPreview } from "./components/QuizTemplateQuestionPreview"
+import { useQuizTemplateQuestions } from "./useQuizTemplateQuestions"
 
 type Props = {
   quiz: LibraryQuizDto | null
@@ -42,35 +41,15 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
   onUseTemplate,
 }) => {
   const { t, i18n } = useTranslation()
-  const [questions, setQuestions] = useState<LibraryQuizQuestionTemplateDto[]>([])
-  const [hasLoadedQuestions, setHasLoadedQuestions] = useState(false)
-  const [previewQuestionId, setPreviewQuestionId] = useState<number | null>(null)
-
-  useEffect(() => {
-    if (!isOpen || !quiz) {
-      setQuestions([])
-      setHasLoadedQuestions(false)
-      setPreviewQuestionId(null)
-      return
-    }
-
-    let isCancelled = false
-
-    const loadQuestions = async () => {
-      const loadedQuestions = await getQuizTemplateQuestions(quiz.id)
-
-      if (!isCancelled) {
-        setQuestions(loadedQuestions ?? [])
-        setHasLoadedQuestions(true)
-      }
-    }
-
-    loadQuestions()
-
-    return () => {
-      isCancelled = true
-    }
-  }, [isOpen, quiz])
+  const {
+    questions,
+    hasLoadedQuestions,
+    previewQuestion,
+    firstPreviewableQuestion,
+    openPreviewQuestion,
+    closePreviewQuestion,
+    updateQuestionApp,
+  } = useQuizTemplateQuestions(quiz, isOpen)
 
   useEffect(() => {
     if (!isOpen) {
@@ -93,18 +72,6 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
     }
   }, [isOpen, onClose])
 
-  const previewQuestion = useMemo(
-    () =>
-      questions.find((question) => question.questionId === previewQuestionId) ??
-      null,
-    [previewQuestionId, questions],
-  )
-
-  const firstPreviewableQuestion = useMemo(
-    () => questions.find((question) => question.content.trim()),
-    [questions],
-  )
-
   if (!isOpen || !quiz) {
     return null
   }
@@ -118,7 +85,7 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
         {previewQuestion ? (
           <QuizTemplateQuestionPreview
             question={previewQuestion}
-            onBack={() => setPreviewQuestionId(null)}
+            onBack={closePreviewQuestion}
             onClose={onClose}
           />
         ) : (
@@ -134,7 +101,7 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
                   disabled={!firstPreviewableQuestion}
                   onClick={() => {
                     if (firstPreviewableQuestion) {
-                      setPreviewQuestionId(firstPreviewableQuestion.questionId)
+                      openPreviewQuestion(firstPreviewableQuestion.questionId)
                     }
                   }}
                 />
@@ -166,30 +133,9 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
                 <QuizPreviewQuestionsTable
                   questions={questions}
                   onPreviewQuestion={(question) => {
-                    setPreviewQuestionId(question.questionId)
+                    openPreviewQuestion(question.questionId)
                   }}
-                  onSelectApp={(questionId, appId) => {
-                    setQuestions((currentQuestions) =>
-                      currentQuestions.map((question) => {
-                        if (question.questionId !== questionId || !question.appType) {
-                          return question
-                        }
-
-                        const selectedApp = getAppsByType(question.appType).find(
-                          (app) => app.id === appId,
-                        )
-
-                        if (!selectedApp) {
-                          return question
-                        }
-
-                        return {
-                          ...question,
-                          appName: selectedApp.name,
-                        }
-                      }),
-                    )
-                  }}
+                  onSelectApp={updateQuestionApp}
                 />
               </QuestionsSection>
             </Content>
