@@ -17,7 +17,7 @@ import { QuizLibraryPreviewModal } from "../modals/QuizLibraryPreviewModal";
 import { useSub } from "../../hooks/useSub";
 import { QuizLibraryFlowManagement } from "../QuizLibraryFlowManagement";
 
-const PAGE_SIZE = 10;
+const DEFAULT_PAGE_SIZE = 10;
 
 export const QuizTemplatesListLayout: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
   const [libraryQuizzes, setLibraryQuizzes] = useState<LibraryQuizDto[]>([]);
   const [loading, setLoading] = useState(false);
   const [pageIndex, setPageIndex] = useState(0);
-  const [pageSize, setPageSize] = useState(PAGE_SIZE);
+  const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
   const [total, setTotal] = useState(0);
   const [previewQuiz, setPreviewQuiz] = useState<LibraryQuizDto | null>(null);
   const [isQuizLimitModalOpen, setIsQuizLimitModalOpen] = useState(false);
@@ -77,6 +77,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     pageIndex,
     total,
     pageCount,
+    pageSize,
     onFirstPage: () => { setPageIndex(0); },
     onPreviousPage: () => { setPageIndex((prev) => Math.max(0, prev - 1)); },
     onNextPage: () => { setPageIndex((prev) => Math.min(pageCount - 1, prev + 1)); },

@@ -23,9 +23,9 @@ export const QuizTemplateQuestionPreview: FunctionComponent<Props> = ({
   onBack,
   onClose,
 }) => {
-  const { t } = useTranslation()
-  const [explanationNumber, setExplanationNumber] = useState(0)
-  const [showExplanations, setShowExplanations] = useState(false)
+  const { t } = useTranslation();
+  const [explanationNumber, setExplanationNumber] = useState(0);
+  const [showExplanations, setShowExplanations] = useState(false);
 
   const explanations = useMemo(
     () => parseHtml(question.content).parseExplanations(question.explanations),
@@ -39,7 +39,7 @@ export const QuizTemplateQuestionPreview: FunctionComponent<Props> = ({
 
   const activeExplanation = explanations[explanationNumber]
     ? Number(explanations[explanationNumber].index)
-    : 0
+    : 0;
 
   return (
     <QuestionPreviewContainer>
