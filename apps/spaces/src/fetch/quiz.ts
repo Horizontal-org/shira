@@ -1,10 +1,21 @@
 import axios from "axios";
-import type { Quiz } from "../store/slices/quiz";
 
 export interface UpdateQuizPayload {
   id: number
   title?: string
   published?: boolean
+}
+
+export interface CreateTemplateQuizQuestionPayload {
+  questionName: string
+  content: string
+  isPhishing: boolean
+  appId: number
+  explanations?: {
+    position: string
+    index: string
+    text: string
+  }[]
 }
 
 export const updateQuiz = async (toUpdate: UpdateQuizPayload) => {
@@ -45,9 +56,28 @@ export const createQuiz = async (title: string, visibility: string) => {
       title: title,
       visibility: visibility
     })
-    return res.data.quiz
+    return res.data?.quiz ?? res.data
   } catch (err) {
     console.log("🚀 ~ createQuiz ~ err:", err)
+    throw new Error('Failed to create quiz')
+  }
+}
+
+export const createQuizFromTemplate = async (
+  title: string,
+  visibility: string,
+  questions: CreateTemplateQuizQuestionPayload[],
+) => {
+  try {
+    const res = await axios.post(`${process.env.REACT_APP_API_URL}/quiz-from-template`, {
+      title,
+      visibility,
+      questions,
+    })
+    return res.data?.quiz ?? res.data
+  } catch (err) {
+    console.log("🚀 ~ createQuizFromTemplate ~ err:", err)
+    throw new Error('Failed to create quiz from template')
   }
 }
 

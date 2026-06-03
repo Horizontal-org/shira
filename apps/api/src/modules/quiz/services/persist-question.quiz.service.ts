@@ -1,0 +1,117 @@
+import { Inject, Injectable } from "@nestjs/common";
+import { EntityManager } from "typeorm";
+import * as cheerio from "cheerio";
+import { QuizQuestion as QuizQuestionEntity } from "../domain/quizzes_questions.entity";
+import { Explanation, Question } from "src/modules/question/domain";
+import { QuestionTranslation } from "src/modules/translation/domain/questionTranslation.entity";
+import { ExplanationTranslation } from "src/modules/translation/domain/explanationTranslation.entity";
+import { Language } from "src/modules/languages/domain";
+import { App } from "src/modules/app/domain";
+import { QuestionSanitizer } from "src/utils/question-sanitizer.util";
+import { TYPES as TYPES_QUESTION_IMAGE } from "../../question_image/interfaces";
+import { ISyncQuestionImageService } from "src/modules/question_image/interfaces/services/sync.question_image.service.interface";
+import { CreateQuestionQuizDto } from "../dto/create-question.quiz.dto";
+
+@Injectable()
+export class PersistQuizQuestionService {
+  constructor(
+    @Inject(TYPES_QUESTION_IMAGE.services.ISyncQuestionImageService)
+    private syncImagesService: ISyncQuestionImageService
+  ) {}
+
+  async execute(manager: EntityManager, createQuestionDto: CreateQuestionQuizDto): Promise<void> {
+    const quizQuestionRepo = manager.getRepository(QuizQuestionEntity);
+    const questionRepo = manager.getRepository(Question);
+    const appRepo = manager.getRepository(App);
+    const explanationRepo = manager.getRepository(Explanation);
+    const questionTranslationRepo = manager.getRepository(QuestionTranslation);
+    const explanationTranslationRepo = manager.getRepository(ExplanationTranslation);
+    const languageRepo = manager.getRepository(Language);
+
+    const app = await appRepo.findOne({
+      where: { id: createQuestionDto.question.app },
+    });
+
+    if (!app) {
+      throw new Error(`App with id ${createQuestionDto.question.app} not found`);
+    }
+
+    const language = await languageRepo.findOne({
+      where: { code: "en" },
+    });
+
+    if (!language) {
+      throw new Error("Default language not found");
+    }
+
+    const question = new Question();
+    question.name = createQuestionDto.question.name;
+    question.isPhising = createQuestionDto.question.isPhishing ? 1 : 0;
+    question.apps = [app];
+    question.languageId = language.id;
+    question.content = "";
+    question.type = "quiz";
+
+    const questionEntity = await questionRepo.save(question);
+
+    const imageIds = this.getImageIds(createQuestionDto.question.content);
+    await this.syncImagesService.execute({
+      imageIds,
+      questionId: questionEntity.id,
+      quizId: createQuestionDto.quizId,
+    });
+
+    const originalContent = createQuestionDto.question.content;
+    const sanitizedContent = QuestionSanitizer.sanitizeQuestionContent(originalContent);
+
+    const newQuestionTranslation = new QuestionTranslation();
+    newQuestionTranslation.content = sanitizedContent;
+    newQuestionTranslation.question = questionEntity;
+    newQuestionTranslation.languageId = language.id;
+    await questionTranslationRepo.save(newQuestionTranslation);
+
+    for (const explanation of createQuestionDto.explanations ?? []) {
+      const savedExplanation = await explanationRepo.save(
+        explanationRepo.create({
+          position: explanation.position,
+          index: explanation.index,
+          text: "",
+          question: questionEntity,
+        })
+      );
+
+      const newExplanationTranslation = explanationTranslationRepo.create({
+        explanation: savedExplanation,
+        content: QuestionSanitizer.sanitizeQuestionContent(explanation.text),
+        languageId: language.id,
+      });
+      await explanationTranslationRepo.save(newExplanationTranslation);
+    }
+
+    const position = await quizQuestionRepo.count({
+      where: { quizId: createQuestionDto.quizId },
+    });
+
+    const quizQuestion = quizQuestionRepo.create({
+      position: position + 1,
+      quizId: createQuestionDto.quizId,
+      questionId: questionEntity.id,
+    });
+    await quizQuestionRepo.save(quizQuestion);
+  }
+
+  private getImageIds = (content: string) => {
+    const sanitizedContent = QuestionSanitizer.sanitizeQuestionContent(content);
+    const $ = cheerio.load(sanitizedContent);
+    const data = $.extract({
+      imageIds: [
+        {
+          selector: "img",
+          value: "data-image-id",
+        }
+      ],
+    });
+
+    return data.imageIds;
+  }
+}

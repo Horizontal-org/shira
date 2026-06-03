@@ -2,13 +2,10 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import {
   createQuiz as createQuizRequest,
-  deleteQuiz as deleteQuizRequest,
+  createQuizFromTemplate,
   duplicateQuiz,
+  type CreateTemplateQuizQuestionPayload,
 } from "../fetch/quiz";
-import {
-  submitQuizQuestion,
-  type CreateQuestionInQuizPayload,
-} from "../fetch/question";
 import {
   getQuizTemplateQuestions,
   LibraryQuizDto,
@@ -98,15 +95,13 @@ export const useQuizCreationFlow = ({
 
   const mapTemplateQuestions = (
     questions: LibraryQuizQuestionTemplateDto[],
-  ): Omit<CreateQuestionInQuizPayload, "quizId">[] => {
+  ): CreateTemplateQuizQuestionPayload[] => {
     return questions.map((question) => ({
-      question: {
-        name: question.questionName,
-        content: question.content,
-        isPhishing: question.isPhishing,
-        app: resolveTemplateAppId(question),
-      },
-      explanations: question.explanations,
+      questionName: question.questionName,
+      content: question.content,
+      isPhishing: question.isPhishing,
+      appId: resolveTemplateAppId(question),
+      explanations: question.explanations ?? [],
     }));
   };
 
@@ -132,8 +127,6 @@ export const useQuizCreationFlow = ({
     }
 
     if (mode === "template" && selectedTemplateQuiz) {
-      let createdQuizId: number | null = null;
-
       setStep(0);
       setIsSubmitting(true);
 
@@ -145,16 +138,7 @@ export const useQuizCreationFlow = ({
         }
 
         const mappedQuestions = mapTemplateQuestions(templateQuestions);
-        const createdQuiz = await createQuizRequest(title.trim(), visibility);
-
-        createdQuizId = createdQuiz.id;
-
-        for (const templateQuestion of mappedQuestions) {
-          await submitQuizQuestion({
-            quizId: createdQuiz.id,
-            ...templateQuestion,
-          });
-        }
+        await createQuizFromTemplate(title.trim(), visibility, mappedQuestions);
 
         toast.success(t("success_messages.quiz_created"), {
           duration: 3000,
@@ -162,14 +146,6 @@ export const useQuizCreationFlow = ({
 
         await fetchQuizzes();
       } catch {
-        if (createdQuizId != null) {
-          try {
-            await deleteQuizRequest(createdQuizId);
-          } catch {
-            console.error(`Failed to delete quiz with id ${createdQuizId} after template quiz creation failure`);
-          }
-        }
-
         toast.error(t("error_messages.duplicate_quiz_fail"), { duration: 3000 });
       } finally {
         setIsSubmitting(false);
