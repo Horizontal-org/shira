@@ -1,12 +1,19 @@
 import axios from "axios";
 
 export interface LibraryQuizDto {
-  id: string;
+  id: string | number;
   title: string;
   createdAt: string;
   author: string;
   languages: string[];
   tags: string[];
+}
+
+export interface LibraryQuizTemplatesPageDto {
+  data: LibraryQuizDto[];
+  total: number;
+  page: number;
+  limit: number;
 }
 
 export interface LibraryQuizQuestionTemplateDto {
@@ -25,7 +32,7 @@ export interface LibraryQuizQuestionTemplateDto {
 }
 
 type LibraryQuizApiDto = {
-  id: string;
+  id: string | number;
   title: string;
   createdAt: string;
   langTags?: {
@@ -39,6 +46,13 @@ type LibraryQuizApiDto = {
   }[]
 }
 
+type LibraryQuizTemplatesApiResponseDto = {
+  data: LibraryQuizApiDto[];
+  total: number;
+  page: number;
+  limit: number;
+}
+
 const normalizeQuizTemplate = (quiz: LibraryQuizApiDto): LibraryQuizDto => ({
   id: quiz.id,
   title: quiz.title,
@@ -48,22 +62,36 @@ const normalizeQuizTemplate = (quiz: LibraryQuizApiDto): LibraryQuizDto => ({
   tags: (quiz.tags ?? []).map((tag) => tag.name.trim()),
 })
 
-export const getQuizTemplates = async (): Promise<LibraryQuizDto[]> => {
+export const getQuizTemplates = async (
+  page = 1,
+  limit = 10,
+): Promise<LibraryQuizTemplatesPageDto> => {
   try {
-    const response = await axios.get(
+    const response = await axios.get<LibraryQuizTemplatesApiResponseDto>(
       `${process.env.REACT_APP_LIBRARY_API_URL}/quiz-templates`,
-      { withCredentials: false },
+      {
+        params: {
+          page,
+          limit,
+        },
+        withCredentials: false,
+      },
     )
 
-    return response.data.data.map(normalizeQuizTemplate)
+    return {
+      data: response.data.data.map(normalizeQuizTemplate),
+      total: response.data.total,
+      page: response.data.page,
+      limit: response.data.limit,
+    }
   } catch (error) {
     console.error("Error fetching quiz templates:", error)
     // TODO check error response
-    return []
+    return { data: [], total: 0, page, limit }
   }
 }
 
-export const getQuizTemplateQuestions = async (quizId: string)
+export const getQuizTemplateQuestions = async (quizId: string | number)
   : Promise<LibraryQuizQuestionTemplateDto[] | null> => {
   try {
     const response = await axios.get<LibraryQuizQuestionTemplateDto[] | null>(

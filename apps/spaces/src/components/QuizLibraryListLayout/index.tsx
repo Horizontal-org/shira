@@ -25,6 +25,8 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
   const [libraryQuizzes, setLibraryQuizzes] = useState<LibraryQuizDto[]>([]);
   const [loading, setLoading] = useState(false);
   const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(PAGE_SIZE);
+  const [total, setTotal] = useState(0);
   const [previewQuiz, setPreviewQuiz] = useState<LibraryQuizDto | null>(null);
   const [isQuizLimitModalOpen, setIsQuizLimitModalOpen] = useState(false);
   const [isViewPlansModalOpen, setIsViewPlansModalOpen] = useState(false);
@@ -45,24 +47,32 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     setLoading(true);
 
     try {
-      const data = await getQuizTemplates();
-      setLibraryQuizzes(data);
+      const response = await getQuizTemplates(pageIndex + 1, pageSize);
+
+      setLibraryQuizzes(response.data);
+      setTotal(response.total);
+      setPageSize(response.limit);
+      setPageIndex((currentPageIndex) => {
+        const nextPageIndex = Math.max(0, response.page - 1);
+
+        return currentPageIndex === nextPageIndex ? currentPageIndex : nextPageIndex;
+      });
     } catch (error) {
       console.error("Failed to get library quizzes:", error);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [pageIndex, pageSize]);
+
+  useEffect(() => {
+    fetchQuizzes();
+  }, [fetchQuizzes]);
 
   useEffect(() => {
     loadQuizzes();
-    fetchQuizzes();
-  }, [fetchQuizzes, loadQuizzes]);
+  }, [loadQuizzes]);
 
-  const total = libraryQuizzes.length;
-  const pageCount = Math.max(1, Math.ceil(total / PAGE_SIZE));
-  const startIndex = pageIndex * PAGE_SIZE;
-  const paginatedQuizzes = libraryQuizzes.slice(startIndex, startIndex + PAGE_SIZE);
+  const pageCount = Math.max(1, Math.ceil(total / pageSize));
   const paginationProps = {
     pageIndex,
     total,
@@ -74,8 +84,12 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
   };
 
   useEffect(() => {
-    setPageIndex((prev) => Math.min(prev, pageCount - 1));
-  }, [pageCount]);
+    if (pageIndex <= pageCount - 1) {
+      return;
+    }
+
+    setPageIndex(Math.max(0, pageCount - 1));
+  }, [pageCount, pageIndex]);
 
   const handleOpenPreviewModal = (quiz: LibraryQuizDto) => {
     setPreviewQuiz(quiz);
@@ -129,11 +143,11 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
 
           <CardGrid id="quiz-card-grid" aria-busy={loading || undefined}>
             {loading ? (
-              Array.from({ length: PAGE_SIZE }, (_, index) => (
+              Array.from({ length: pageSize }, (_, index) => (
                 <QuizCardSkeleton key={`quiz-card-skeleton-${index}`} />
               ))
             ) : (
-              paginatedQuizzes.map((quiz) => (
+              libraryQuizzes.map((quiz) => (
                 <QuizCard
                   key={`${quiz.title}-${quiz.createdAt}`}
                   quiz={quiz}
