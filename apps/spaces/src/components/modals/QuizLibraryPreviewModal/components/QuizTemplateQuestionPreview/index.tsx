@@ -50,7 +50,7 @@ export const QuizTemplateQuestionPreview: FunctionComponent<Props> = ({
             iconSize={22}
             onClick={onClose}
           />
-          <PreviewTitle>{t("create_question.tabs.preview.aria_label")}</PreviewTitle>
+          <Body1>{t("create_question.tabs.preview.aria_label")}</Body1>
         </PreviewHeaderStart>
 
         <PreviewActions>
@@ -63,19 +63,41 @@ export const QuizTemplateQuestionPreview: FunctionComponent<Props> = ({
           <ActionsDivider />
 
           {explanations.length > 0 ? (
-            <Button
-              text={showExplanations
-                ? t("create_question.tabs.preview.hide_explanations")
-                : t("create_question.tabs.preview.show_explanations")}
-              type="outline"
-              onClick={() => {
-                if (showExplanations) {
-                  setExplanationNumber(0);
-                }
+            <ExplanationActions>
+              <Button
+                text={showExplanations
+                  ? t("create_question.tabs.preview.hide_explanations")
+                  : t("create_question.tabs.preview.show_explanations")}
+                type="outline"
+                onClick={() => {
+                  if (showExplanations) {
+                    setExplanationNumber(0)
+                  }
 
-                setShowExplanations((current) => !current);
-              }}
-            />
+                  setShowExplanations((current) => !current)
+                }}
+              />
+
+              {showExplanations && explanations.length > 1 && explanationNumber > 0 && (
+                <Button
+                  text={t("create_question.tabs.preview.previous_explanation")}
+                  type="outline"
+                  onClick={() => {
+                    setExplanationNumber((current) => current - 1)
+                  }}
+                />
+              )}
+
+              {showExplanations && explanations.length > 1 && explanationNumber < explanations.length - 1 && (
+                <Button
+                  text={t("create_question.tabs.preview.next_explanation")}
+                  type="outline"
+                  onClick={() => {
+                    setExplanationNumber((current) => current + 1)
+                  }}
+                />
+              )}
+            </ExplanationActions>
           ) : (
             <NoExplanationsNotice>
               <MdBlock />
@@ -84,26 +106,6 @@ export const QuizTemplateQuestionPreview: FunctionComponent<Props> = ({
           )}
         </PreviewActions>
       </PreviewHeader>
-
-      {showExplanations && explanations.length > 1 && (
-        <ExplanationControls>
-          {explanationNumber > 0 && (
-            <Button
-              text={t("create_question.tabs.preview.previous_explanation")}
-              type="outline"
-              onClick={() => { setExplanationNumber((current) => current - 1); }}
-            />
-          )}
-
-          {explanationNumber < explanations.length - 1 && (
-            <Button
-              text={t("create_question.tabs.preview.next_explanation")}
-              type="outline"
-              onClick={() => { setExplanationNumber((current) => current + 1); }}
-            />
-          )}
-        </ExplanationControls>
-      )}
 
       <PreviewCanvasWrapper>
         <PreviewCanvas>
@@ -120,7 +122,7 @@ export const QuizTemplateQuestionPreview: FunctionComponent<Props> = ({
           </PreviewAppFrame>
         </PreviewCanvas>
       </PreviewCanvasWrapper>
-    </QuestionPreviewContainer >
+    </QuestionPreviewContainer>
   )
 }
 
@@ -149,10 +151,6 @@ const PreviewHeaderStart = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-`
-
-const PreviewTitle = styled(Body1)`
-  color: ${defaultTheme.colors.dark.darkGrey};
 `
 
 const PreviewActions = styled.div`
@@ -184,15 +182,15 @@ const NoExplanationsNotice = styled.div`
   color: ${defaultTheme.colors.dark.darkGrey};
 `
 
-const ExplanationControls = styled.div`
+const ExplanationActions = styled.div`
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
   gap: 12px;
-  padding: 20px 28px 0;
+  flex-wrap: nowrap;
 
   @media (max-width: ${(props) => props.theme.breakpoints.md}) {
-    padding: 20px 20px 0;
     flex-wrap: wrap;
+    justify-content: flex-end;
   }
 `
 
