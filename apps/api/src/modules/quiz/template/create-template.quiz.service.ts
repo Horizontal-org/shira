@@ -1,5 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { DataSource, EntityManager } from "typeorm";
+import { InjectRepository } from "@nestjs/typeorm";
+import { EntityManager, Repository } from "typeorm";
 import * as crypto from "crypto";
 import * as cheerio from "cheerio";
 import { Quiz } from "../domain/quiz.entity";
@@ -19,13 +20,14 @@ import { ISyncQuestionImageService } from "src/modules/question_image/interfaces
 @Injectable()
 export class CreateTemplateQuizService implements ICreateTemplateQuizService {
   constructor(
-    private dataSource: DataSource,
+    @InjectRepository(Quiz)
+    private readonly quizRepo: Repository<Quiz>,
     @Inject(TYPES_QUESTION_IMAGE.services.ISyncQuestionImageService)
     private syncImagesService: ISyncQuestionImageService,
   ) { }
 
   async execute(createTemplateQuizDto: CreateTemplateQuizDto) {
-    return this.dataSource.transaction(async (manager) => {
+    return this.quizRepo.manager.transaction(async (manager) => {
       const quiz = manager.create(Quiz, {
         title: createTemplateQuizDto.title,
         space: createTemplateQuizDto.space,
