@@ -15,7 +15,6 @@ import { DuplicateQuizService } from './services/duplicate-quiz.service';
 import { SharedQuestionDuplicationService } from './services/shared-question-duplication.service';
 import { ValidateQuizNameService } from './services/validate-name.quiz.service';
 import { ValidateCreateQuizService } from './services/validate-create.quiz.service';
-import { PersistQuizQuestionService } from './services/persist-question.quiz.service';
 import { CreateTemplateQuizService } from './template/create-template.quiz.service';
 
 export const createQuizServiceProvider = {
@@ -121,5 +120,4 @@ export const servicesQuizProviders = [
   validateQuizNameServiceProvider,
   validateQuizCreateServiceProvider,
   createTemplateQuizServiceProvider,
-  PersistQuizQuestionService
 ];
