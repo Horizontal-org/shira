@@ -63,6 +63,15 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
   const pageCount = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const startIndex = pageIndex * PAGE_SIZE;
   const paginatedQuizzes = libraryQuizzes.slice(startIndex, startIndex + PAGE_SIZE);
+  const paginationProps = {
+    pageIndex,
+    total,
+    pageCount,
+    onFirstPage: () => { setPageIndex(0); },
+    onPreviousPage: () => { setPageIndex((prev) => Math.max(0, prev - 1)); },
+    onNextPage: () => { setPageIndex((prev) => Math.min(pageCount - 1, prev + 1)); },
+    onLastPage: () => { setPageIndex(pageCount - 1); },
+  };
 
   useEffect(() => {
     setPageIndex((prev) => Math.min(prev, pageCount - 1));
@@ -115,15 +124,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
           <QuizLibrarySearchInput />
 
           <PaginationWrapper>
-            <CardPagination
-              pageIndex={pageIndex}
-              total={total}
-              pageCount={pageCount}
-              onFirstPage={() => { setPageIndex(0); }}
-              onPreviousPage={() => { setPageIndex((prev) => Math.max(0, prev - 1)); }}
-              onNextPage={() => { setPageIndex((prev) => Math.min(pageCount - 1, prev + 1)); }}
-              onLastPage={() => { setPageIndex(pageCount - 1); }}
-            />
+            <CardPagination {...paginationProps} />
           </PaginationWrapper>
 
           <CardGrid id="quiz-card-grid" aria-busy={loading || undefined}>
@@ -146,15 +147,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
 
           {!loading && libraryQuizzes.length > 0 && (
             <PaginationWrapper>
-              <CardPagination
-                pageIndex={pageIndex}
-                total={total}
-                pageCount={pageCount}
-                onFirstPage={() => { setPageIndex(0); }}
-                onPreviousPage={() => { setPageIndex((prev) => Math.max(0, prev - 1)); }}
-                onNextPage={() => { setPageIndex((prev) => Math.min(pageCount - 1, prev + 1)); }}
-                onLastPage={() => { setPageIndex(pageCount - 1); }}
-              />
+              <CardPagination {...paginationProps} />
             </PaginationWrapper>
           )}
         </PageInner>
