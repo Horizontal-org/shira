@@ -6,7 +6,11 @@ import { useStore } from "../../store";
 import { QuizCard } from "./components/QuizCard";
 import { QuizCardSkeleton } from "./components/QuizCardSkeleton";
 import { QuizLibrarySearchInput } from "./components/QuizLibrarySearchInput";
-import { getQuizTemplates, type LibraryQuizDto } from "../../fetch/quiz_templates";
+import {
+  getQuizTemplates,
+  type LibraryQuizDto,
+  type LibraryQuizQuestionTemplateDto,
+} from "../../fetch/quiz_templates";
 import { QuizLimitModal } from "../modals/QuizLimitModal";
 import { ViewPlansModal } from "../modals/ViewPlansModal";
 import { QuizLibraryPreviewModal } from "../modals/QuizLibraryPreviewModal";
@@ -81,7 +85,10 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     return isSubActive || currentQuizzes.length < 3;
   };
 
-  const handleUseTemplate = (quiz: LibraryQuizDto) => {
+  const handleUseTemplate = (
+    quiz: LibraryQuizDto,
+    questions?: LibraryQuizQuestionTemplateDto[],
+  ) => {
     setPreviewQuiz(null);
 
     if (!canAddQuizzes(isSubActive, quizzes)) {
@@ -93,6 +100,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
       state: {
         addQuizFromTemplate: {
           quiz,
+          questions,
         },
       },
     });
@@ -155,9 +163,9 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
           quiz={previewQuiz}
           isOpen={!!previewQuiz}
           onClose={handleClosePreviewModal}
-          onUseTemplate={() => {
+          onUseTemplate={(questions) => {
             if (previewQuiz) {
-              handleUseTemplate(previewQuiz);
+              handleUseTemplate(previewQuiz, questions);
             }
           }}
         />

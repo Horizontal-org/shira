@@ -1,4 +1,5 @@
 import axios from "axios";
+import type { Quiz } from "../store/slices/quiz";
 
 export interface UpdateQuizPayload {
   id: number
@@ -40,10 +41,11 @@ export const deleteQuiz = async (id: number) => {
 
 export const createQuiz = async (title: string, visibility: string) => {
   try {
-    await axios.post(`${process.env.REACT_APP_API_URL}/quiz`, {
+    const res = await axios.post(`${process.env.REACT_APP_API_URL}/quiz`, {
       title: title,
       visibility: visibility
     })
+    return res.data.quiz
   } catch (err) {
     console.log("🚀 ~ createQuiz ~ err:", err)
   }

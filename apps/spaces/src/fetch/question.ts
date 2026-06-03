@@ -33,6 +33,22 @@ export interface CustomElements {
   explanationPosition: string | null
 }
 
+export interface CreateQuestionInQuizPayload {
+  quizId: number
+  question: {
+    name: string
+    content: string
+    isPhishing: boolean
+    app: number
+  }
+  explanations?: {
+    id?: number
+    position: string
+    index: string
+    text: string
+  }[]
+}
+
 export const fetchQuestions = async() => {
   try {
     const res = await axios.get<Question[]>(`${process.env.REACT_APP_API_URL}/question`) 
@@ -98,6 +114,15 @@ const parseRequest = (question, explanations, quizId) => {
   } 
 }
 
+export const submitQuizQuestion = async (payload: CreateQuestionInQuizPayload) => {
+  try {
+    await axios.post(`${process.env.REACT_APP_API_URL}/quiz/question`, payload)
+  } catch (err) {
+    console.log("🚀 ~ submitQuizQuestion ~ err:", err)
+    throw new Error('Failed to create question in quiz')
+  }
+}
+
 
 export enum QuestionCRUDFeedback {
   processing = 'PROCESSING',
@@ -120,7 +145,7 @@ export const useQuestionCRUD = () => {
     const payload = parseRequest(question, explanations, quizId)
 
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/quiz/question`, payload)
+      await submitQuizQuestion(payload)
       handleActionFeedback(QuestionCRUDFeedback.success)
     } catch (err) {
       handleActionFeedback(QuestionCRUDFeedback.error)

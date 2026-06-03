@@ -1,6 +1,6 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { Sidebar, styled, H2, SubHeading3, Body1, FilterButton, useAdminSidebar, Card, Banner } from "@horizontal-org/shira-ui";
+import { Sidebar, styled, H2, SubHeading3, Body1, FilterButton, useAdminSidebar, Card } from "@horizontal-org/shira-ui";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { formatDistance } from "date-fns";
@@ -27,7 +27,7 @@ import { FirstLoginModal } from "../modals/FirstLoginModal";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
 import { UseAQuizTemplateButton } from "../QuizLibraryListLayout/components/UseAQuizTemplateButton";
 import { AddQuizFromTemplateModal } from "../modals/AddQuizFromTemplateModal";
-import { LibraryQuizDto } from "../../fetch/quiz_templates";
+import { LibraryQuizDto, type LibraryQuizQuestionTemplateDto } from "../../fetch/quiz_templates";
 
 interface Props { }
 
@@ -35,6 +35,7 @@ interface DashboardLocationState {
   fromLogin?: boolean;
   addQuizFromTemplate?: {
     quiz: LibraryQuizDto;
+    questions?: LibraryQuizQuestionTemplateDto[];
   };
 }
 
@@ -67,7 +68,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     subscription: state.subscription,
     quizActionSuccess: state.quizActionSuccess,
     cleanQuizActionSuccess: state.cleanQuizActionSuccess,
-    
+
     cleanQuizzes: state.cleanQuizzes
   }), shallow)
 
@@ -160,13 +161,14 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   }, [isFromLogin, isRecentlyCreated, searchParams]);
 
   useEffect(() => {
-    const templateQuiz = location.state?.addQuizFromTemplate?.quiz;
+    const templateSelection = location.state?.addQuizFromTemplate;
+    const templateQuiz = templateSelection?.quiz;
 
     if (!templateQuiz) {
       return;
     }
 
-    startTemplateQuizFlow(templateQuiz);
+    startTemplateQuizFlow(templateQuiz, templateSelection?.questions);
 
     const nextState = { ...(location.state || {}) };
     delete nextState.addQuizFromTemplate;

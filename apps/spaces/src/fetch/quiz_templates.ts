@@ -39,27 +39,23 @@ type LibraryQuizApiDto = {
   }[]
 }
 
-const DEFAULT_LIBRARY_AUTHOR = "Shira Team";
-
 const normalizeQuizTemplate = (quiz: LibraryQuizApiDto): LibraryQuizDto => ({
   id: quiz.id,
   title: quiz.title,
   createdAt: quiz.createdAt,
-  author: DEFAULT_LIBRARY_AUTHOR,
-  languages: (quiz.langTags ?? [])
-    .map((language) => language.name.trim())
-    .filter(Boolean),
-  tags: (quiz.tags ?? []).map((tag) => tag.name.trim()).filter(Boolean),
+  author: "Shira Team", // TODO author
+  languages: (quiz.langTags ?? []).map((language) => language.name.trim()),
+  tags: (quiz.tags ?? []).map((tag) => tag.name.trim()),
 })
 
 export const getQuizTemplates = async (): Promise<LibraryQuizDto[]> => {
   try {
-    const response = await axios.get<LibraryQuizApiDto[]>(
+    const response = await axios.get(
       `${process.env.REACT_APP_LIBRARY_API_URL}/quiz-templates`,
       { withCredentials: false },
     )
 
-    return response.data.map(normalizeQuizTemplate)
+    return response.data.data.map(normalizeQuizTemplate)
   } catch (error) {
     console.error("Error fetching quiz templates:", error)
     // TODO check error response

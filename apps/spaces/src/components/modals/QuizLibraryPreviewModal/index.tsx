@@ -24,7 +24,7 @@ type Props = {
   quiz: LibraryQuizDto | null
   isOpen: boolean
   onClose: () => void
-  onUseTemplate: () => void
+  onUseTemplate: (questions?: LibraryQuizQuestionTemplateDto[]) => void
 }
 
 const formatLongDate = (value: string, locale: string) => {
@@ -43,11 +43,13 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
 }) => {
   const { t, i18n } = useTranslation()
   const [questions, setQuestions] = useState<LibraryQuizQuestionTemplateDto[]>([])
+  const [hasLoadedQuestions, setHasLoadedQuestions] = useState(false)
   const [previewQuestionId, setPreviewQuestionId] = useState<number | null>(null)
 
   useEffect(() => {
     if (!isOpen || !quiz) {
       setQuestions([])
+      setHasLoadedQuestions(false)
       setPreviewQuestionId(null)
       return
     }
@@ -59,6 +61,7 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
 
       if (!isCancelled) {
         setQuestions(loadedQuestions ?? [])
+        setHasLoadedQuestions(true)
       }
     }
 
@@ -143,7 +146,7 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
                   type="primary"
                   color={defaultTheme.colors.green7}
                   leftIcon={<FaCirclePlus size={16} />}
-                  onClick={onUseTemplate}
+                  onClick={() => { onUseTemplate(hasLoadedQuestions ? questions : []) }}
                 />
               </ActionsRow>
             </TopBar>
