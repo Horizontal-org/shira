@@ -56,7 +56,7 @@ export const AddQuizFromTemplateModal: FunctionComponent<Props> = ({
       setTitle("");
       clearTitleValidation();
     }
-  }, [clearTitleValidation, quiz, isModalOpen]);
+  }, [quiz, isModalOpen]);
 
   if (!quiz) {
     return null;

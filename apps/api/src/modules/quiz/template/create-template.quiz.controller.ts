@@ -19,7 +19,7 @@ export class CreateTemplateQuizController {
     private createTemplateQuizService: ICreateTemplateQuizService,
     @Inject(TYPES.services.IValidateCreateQuizService)
     private validateQuizService: IValidateCreateQuizService,
-  ) {}
+  ) { }
 
   @Post()
   @Roles(Role.SpaceAdmin)
@@ -37,11 +37,6 @@ export class CreateTemplateQuizController {
       createTemplateQuizDto.space.id,
     );
 
-    const quiz = await this.createTemplateQuizService.execute(createTemplateQuizDto);
-
-    return {
-      message: "Quiz created successfully",
-      quiz,
-    };
+    await this.createTemplateQuizService.execute(createTemplateQuizDto);
   }
 }

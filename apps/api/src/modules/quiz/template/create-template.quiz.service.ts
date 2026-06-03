@@ -13,7 +13,7 @@ export class CreateTemplateQuizService implements ICreateTemplateQuizService {
     private persistQuizQuestionService: PersistQuizQuestionService,
   ) { }
 
-  async execute(createTemplateQuizDto: CreateTemplateQuizDto): Promise<Quiz> {
+  async execute(createTemplateQuizDto: CreateTemplateQuizDto) {
     return this.dataSource.transaction(async (manager) => {
       const quiz = manager.create(Quiz, {
         title: createTemplateQuizDto.title,
@@ -36,8 +36,6 @@ export class CreateTemplateQuizService implements ICreateTemplateQuizService {
           explanations: templateQuestion.explanations ?? [],
         });
       }
-
-      return savedQuiz;
     });
   }
 }
