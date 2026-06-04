@@ -138,9 +138,6 @@ const SmallUseTemplateButton = styled(Button)`
   padding: 4px 10px;
   white-space: nowrap;
   min-height: 30px;
-  opacity: 0;
-  pointer-events: none;
-  visibility: hidden;
 
   & > div:first-child {
     margin-right: 6px;
@@ -165,11 +162,19 @@ const CardWrapper = styled.div`
   width: 100%;
   height: 100%;
 
-  &:hover ${SmallUseTemplateButton},
-  &:focus-within ${SmallUseTemplateButton} {
-    opacity: 1;
-    pointer-events: auto;
-    visibility: visible;
+  @media (hover: hover) and (pointer: fine) {
+    ${SmallUseTemplateButton} {
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+    }
+
+    &:hover ${SmallUseTemplateButton},
+    &:focus-within ${SmallUseTemplateButton} {
+      opacity: 1;
+      pointer-events: auto;
+      visibility: visible;
+    }
   }
 `;
 

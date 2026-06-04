@@ -10,6 +10,7 @@ export const useQuizTemplateQuestions = (
   quiz: LibraryQuizDto | null,
   isOpen: boolean,
 ) => {
+  const quizId = quiz?.id ?? null;
   const [questions, setQuestions] = useState<LibraryQuizQuestionTemplateDto[]>([]);
   const [hasLoadedQuestions, setHasLoadedQuestions] = useState(false);
   const [isLoadingQuestions, setIsLoadingQuestions] = useState(false);
@@ -17,7 +18,7 @@ export const useQuizTemplateQuestions = (
   const [previewQuestionId, setPreviewQuestionId] = useState<number | null>(null);
 
   useEffect(() => {
-    if (!isOpen || !quiz) {
+    if (!isOpen || quizId === null) {
       setQuestions([]);
       setHasLoadedQuestions(false);
       setIsLoadingQuestions(false);
@@ -35,7 +36,7 @@ export const useQuizTemplateQuestions = (
     setPreviewQuestionId(null);
 
     const loadQuestions = async () => {
-      const loadedQuestions = await getQuizTemplateQuestions(quiz.id);
+      const loadedQuestions = await getQuizTemplateQuestions(quizId);
 
       if (!isCancelled) {
         if (loadedQuestions === null) {
@@ -57,7 +58,7 @@ export const useQuizTemplateQuestions = (
     return () => {
       isCancelled = true;
     };
-  }, [isOpen, quiz]);
+  }, [isOpen, quizId]);
 
   const previewQuestion = useMemo(
     () => questions.find((question) => question.questionId === previewQuestionId) ?? null,
