@@ -2,7 +2,6 @@ import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { EntityManager, Repository } from "typeorm";
 import * as crypto from "crypto";
-import * as cheerio from "cheerio";
 import { Quiz } from "../domain/quiz.entity";
 import { QuizQuestion as QuizQuestionEntity } from "../domain/quizzes_questions.entity";
 import { CreateTemplateQuizDto, CreateTemplateQuizQuestionDto } from "./create-template.quiz.dto";
@@ -79,7 +78,7 @@ export class CreateTemplateQuizService implements ICreateTemplateQuizService {
 
     const questionEntity = await questionRepo.save(question);
 
-    const imageIds = this.getImageIds(templateQuestion.content);
+    const imageIds = QuestionSanitizer.extractImageIds(templateQuestion.content);
     await this.syncImagesService.execute({
       imageIds,
       questionId: questionEntity.id,
@@ -125,19 +124,4 @@ export class CreateTemplateQuizService implements ICreateTemplateQuizService {
     });
     await quizQuestionRepo.save(quizQuestion);
   }
-
-  private getImageIds = (content: string) => {
-    const sanitizedContent = QuestionSanitizer.sanitizeQuestionContent(content);
-    const $ = cheerio.load(sanitizedContent);
-    const data = $.extract({
-      imageIds: [
-        {
-          selector: "img",
-          value: "data-image-id",
-        },
-      ],
-    });
-
-    return data.imageIds;
-  };
 }
