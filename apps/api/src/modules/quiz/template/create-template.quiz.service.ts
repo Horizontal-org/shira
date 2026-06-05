@@ -74,6 +74,8 @@ export class CreateTemplateQuizService implements ICreateTemplateQuizService {
 
     const questionEntity = await questionRepo.save(question);
 
+    // TODO check how to manage images
+
     const originalContent = templateQuestion.content;
     const sanitizedContent = QuestionSanitizer.sanitizeQuestionContent(originalContent);
 
