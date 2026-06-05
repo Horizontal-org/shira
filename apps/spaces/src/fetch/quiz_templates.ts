@@ -16,6 +16,12 @@ export interface LibraryQuizTemplatesPageDto {
   limit: number;
 }
 
+interface GetQuizTemplatesParams {
+  page?: number;
+  limit?: number;
+  search?: string;
+}
+
 export interface LibraryQuizQuestionTemplateDto {
   questionId: number;
   questionName: string;
@@ -63,8 +69,11 @@ const normalizeQuizTemplate = (quiz: LibraryQuizApiDto): LibraryQuizDto => ({
 })
 
 export const getQuizTemplates = async (
-  page = 1,
-  limit = 10,
+  {
+    page = 1,
+    limit = 10,
+    search,
+  }: GetQuizTemplatesParams = {},
 ): Promise<LibraryQuizTemplatesPageDto> => {
   try {
     const response = await axios.get<LibraryQuizTemplatesApiResponseDto>(
@@ -73,6 +82,7 @@ export const getQuizTemplates = async (
         params: {
           page,
           limit,
+          ...(search ? { search } : {}),
         },
         withCredentials: false,
       },

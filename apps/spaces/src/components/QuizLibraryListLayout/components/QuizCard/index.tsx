@@ -11,10 +11,36 @@ import { QuizCardTags } from '../QuizCardTags';
 
 export interface CardProps {
   quiz: LibraryQuizDto;
+  searchTerm?: string;
   onViewTemplate: () => void;
   onUseTemplate: () => void;
   onReportIssue: () => void;
 }
+
+const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+const renderHighlightedTitle = (title: string, searchTerm?: string) => {
+  const normalizedSearchTerm = searchTerm?.trim();
+
+  if (!normalizedSearchTerm) {
+    return title;
+  }
+
+  const pattern = new RegExp(`(${escapeRegExp(normalizedSearchTerm)})`, 'ig');
+  const parts = title.split(pattern);
+
+  return parts.map((part, index) => {
+    if (part.toLowerCase() !== normalizedSearchTerm.toLowerCase()) {
+      return <span key={`${part}-${index}`}>{part}</span>;
+    }
+
+    return (
+      <TitleHighlight key={`${part}-${index}`}>
+        {part}
+      </TitleHighlight>
+    );
+  });
+};
 
 const formatCardDate = (value: string) => {
   return new Date(value)
@@ -27,6 +53,7 @@ const formatCardDate = (value: string) => {
 
 export const QuizCard: FunctionComponent<CardProps> = ({
   quiz,
+  searchTerm,
   onViewTemplate,
   onUseTemplate,
   onReportIssue,
@@ -108,7 +135,7 @@ export const QuizCard: FunctionComponent<CardProps> = ({
         </HeaderSection>
 
         <CardBody>
-          <CardTitle>{quiz.title}</CardTitle>
+          <CardTitle>{renderHighlightedTitle(quiz.title, searchTerm)}</CardTitle>
           <QuizCardTags tags={quiz.tags} />
         </CardBody>
       </TopSection>
@@ -248,6 +275,12 @@ const CardTitle = styled(Body1SemiBold)`
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     font-size: 20px;
   }
+`;
+
+const TitleHighlight = styled.mark`
+  background: ${props => props.theme.colors.warning1};
+  color: inherit;
+  padding: 0 1px;
 `;
 
 const ModifiedText = styled(Body4)`

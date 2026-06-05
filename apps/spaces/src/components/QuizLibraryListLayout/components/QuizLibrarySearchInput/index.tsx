@@ -1,28 +1,49 @@
-import { FunctionComponent } from "react";
+import { ChangeEvent, FunctionComponent, useState } from "react";
 import { TextInput, Button, defaultTheme, styled } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
 import { FiChevronDown } from "react-icons/fi";
 import { HiFunnel } from "react-icons/hi2";
-import { IoSearchOutline } from "react-icons/io5";
+import { IoCloseCircle, IoSearchOutline } from "react-icons/io5";
 
-type Props = {};
+type Props = {
+  value: string;
+  onChange: (value: string) => void;
+};
 
-export const QuizLibrarySearchInput: FunctionComponent<Props> = () => {
+export const QuizLibrarySearchInput: FunctionComponent<Props> = ({
+  value,
+  onChange,
+}) => {
   const { t } = useTranslation();
+  const [isFocused, setIsFocused] = useState(false);
+
+  const handleSearchChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
+    onChange(target.value);
+  };
 
   return (
     <Controls>
       <TopRow>
         <SearchColumn>
-          <SearchInputWrap>
-            <SearchIcon aria-hidden="true">
+          <SearchInputWrap $hasValue={value.length > 0} $isFocused={isFocused}>
+            <SearchIcon $isFocused={isFocused} aria-hidden="true">
               <IoSearchOutline size={18} />
             </SearchIcon>
             <TextInput
-              onChange={() => { }}
-              value=""
+              onChange={handleSearchChange}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
+              value={value}
               placeholder={t("quiz_library.search_placeholder")}
             />
+            {value.length > 0 && (
+              <ClearButton
+                type="button"
+                onClick={() => onChange("")}
+              >
+                <IoCloseCircle size={24} color={defaultTheme.colors.dark.mediumGrey}/>
+              </ClearButton>
+            )}
           </SearchInputWrap>
         </SearchColumn>
 
@@ -47,13 +68,14 @@ export const QuizLibrarySearchInput: FunctionComponent<Props> = () => {
 const Controls = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
 `;
 
 const TopRow = styled.div`
   display: flex;
   align-items: center;
-  gap: 24px;
+  justify-content: space-between;
+  gap: 16px;
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     flex-direction: column;
@@ -62,11 +84,13 @@ const TopRow = styled.div`
 `;
 
 const SearchColumn = styled.div`
-  flex: 0.75;
+  flex: 1 1 auto;
   min-width: 0;
+  max-width: 628px;
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     width: 100%;
+    max-width: none;
   }
 `;
 
@@ -74,44 +98,54 @@ const ActionsGroup = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 24px;
+  gap: 16px;
   margin-left: auto;
+  flex-shrink: 0;
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     width: 100%;
     margin-left: 0;
-    flex-direction: column;
-    gap: 16px;
+    justify-content: stretch;
   }
 `;
 
-const SearchInputWrap = styled.div`
+const SearchInputWrap = styled.div<{ $hasValue: boolean; $isFocused: boolean }>`
   position: relative;
 
   & input {
-    padding-left: 44px;
+    padding-left: 52px;
+    padding-right: ${props => props.$hasValue ? "52px" : "18px"};
     border-width: 1px;
     border-color: ${defaultTheme.colors.green4};
-    border-radius: 18px;
-    background: ${defaultTheme.colors.light.white};
+    border-radius: 24px;
+    background: ${props => props.$isFocused
+    ? defaultTheme.colors.light.paleGreen
+    : defaultTheme.colors.light.white};
+    font-size: 16px;
   }
 
   & input:focus:not(:disabled) {
     box-shadow: 0 0 0 1px ${defaultTheme.colors.green4};
-    background: ${defaultTheme.colors.light.white};
+    background: ${defaultTheme.colors.light.paleGreen};
   }
 
   & input:hover:not(:disabled) {
-    background: ${defaultTheme.colors.light.white};
+    background: ${defaultTheme.colors.light.paleGreen};
+  }
+
+  & input::placeholder {
+    color: ${defaultTheme.colors.dark.darkGrey};
   }
 `;
 
-const SearchIcon = styled.div`
+const SearchIcon = styled.div<{ $isFocused: boolean }>`
   position: absolute;
-  left: 14px;
+  left: 18px;
   top: 50%;
   transform: translateY(-50%);
-  color: ${defaultTheme.colors.dark.darkGrey};
+  color: ${props => props.$isFocused
+    ? defaultTheme.colors.green6
+    : defaultTheme.colors.dark.darkGrey};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -119,21 +153,45 @@ const SearchIcon = styled.div`
   z-index: 1;
 `;
 
+const ClearButton = styled.button`
+  all: unset;
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: ${props => props.theme.colors.dark.mediumGrey};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1;
+
+  &:hover {
+    color: ${props => props.theme.colors.dark.darkGrey};
+  }
+`;
+
 const SortByButton = styled(Button)`
   min-width: 220px;
+  min-height: 46px;
+  padding: 12px 20px;
+  border-radius: 24px;
+  justify-content: space-between;
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
-    width: 100%;
+    flex: 1;
   }
 `;
 
 const FilterButton = styled(Button)`
   min-width: 144px;
+  min-height: 46px;
   justify-content: center;
-  gap: 2px;
-  padding: 12px 22px;
+  gap: 4px;
+  padding: 12px 20px;
+  border-radius: 24px;
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
-    width: 100%;
+    flex: 1;
   }
 `;
