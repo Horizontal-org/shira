@@ -98,7 +98,6 @@ const parseRequest = (question, explanations, quizId) => {
   } 
 }
 
-
 export enum QuestionCRUDFeedback {
   processing = 'PROCESSING',
   error = 'ERROR',

@@ -1,52 +1,38 @@
-import { Body1, Button, H2, defaultTheme, styled } from "@horizontal-org/shira-ui";
-import { FunctionComponent, useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { FaCirclePlus } from "react-icons/fa6";
-import { FiX } from "react-icons/fi";
-import { getQuizTemplate, type LibraryQuizDto, type LibraryQuizQuestionDto } from "../../../fetch/quiz_library";
-import { QuizPreviewDetailsCard } from "./components/QuizPreviewDetailsCard";
-import { PreviewQuestionRow, QuizPreviewQuestionsTable } from "./components/QuizPreviewQuestionsTable";
-import { IoEyeSharp } from "react-icons/io5";
+import {
+  Body1,
+  Button,
+  CloseButton,
+  H2,
+  defaultTheme,
+  styled,
+} from "@horizontal-org/shira-ui"
+import { FunctionComponent, useEffect } from "react"
+import { useTranslation } from "react-i18next"
+import { FaCirclePlus } from "react-icons/fa6"
+import { IoEyeSharp } from "react-icons/io5"
+import {
+  type LibraryQuizDto,
+  type LibraryQuizQuestionTemplateDto,
+} from "../../../fetch/quiz_templates"
+import { QuizPreviewDetailsCard } from "./components/QuizPreviewDetailsCard"
+import { QuizPreviewQuestionsTable } from "./components/QuizPreviewQuestionsTable"
+import { QuizTemplateQuestionPreview } from "./components/QuizTemplateQuestionPreview"
+import { useQuizTemplateQuestions } from "./useQuizTemplateQuestions"
 
 type Props = {
-  quiz: LibraryQuizDto | null;
-  isOpen: boolean;
-  onClose: () => void;
-  onUseTemplate: () => void;
-};
+  quiz: LibraryQuizDto | null
+  isOpen: boolean
+  onClose: () => void
+  onUseTemplate: (questions?: LibraryQuizQuestionTemplateDto[]) => void
+}
 
-const formatLongDate = (value: string) => {
-  const parsedDate = new Date(value);
-
-  return parsedDate.toLocaleDateString("en-GB", {
+const formatLongDate = (value: string, locale: string) => {
+  return new Date(value).toLocaleDateString(locale, {
     day: "numeric",
     month: "short",
     year: "numeric",
-  });
-};
-
-const normalizeQuestionRows = (
-  questions: LibraryQuizQuestionDto[] | undefined,
-): PreviewQuestionRow[] => {
-  if (!Array.isArray(questions)) {
-    return [];
-  }
-
-  return questions.map((question, index) => {
-    const normalizedTypeText = question?.type?.toLowerCase() ?? "";
-
-    const isPhishing = question.isPhishing;
-
-    return {
-      id: String(question?.id ?? index + 1),
-      name: question?.title ?? "",
-      isPhishing,
-      typeLabel: normalizedTypeText,
-      language: question?.languageName ?? "",
-      app: question?.appName ?? ""
-    };
-  });
-};
+  })
+}
 
 export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
   quiz,
@@ -54,132 +40,125 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
   onClose,
   onUseTemplate,
 }) => {
-  const { t } = useTranslation();
-  const [previewQuiz, setPreviewQuiz] = useState<LibraryQuizDto | null>(quiz);
-
-  const activeQuiz = previewQuiz
-    && quiz
-    && previewQuiz.title === quiz.title
-    && previewQuiz.createdAt === quiz.createdAt
-    ? previewQuiz : quiz;
-
-  useEffect(() => {
-    if (!isOpen || !quiz) {
-      return;
-    }
-
-    setPreviewQuiz(quiz);
-
-    if (!quiz.id) {
-      return;
-    }
-
-    let isCancelled = false;
-
-    const loadDetailedQuiz = async () => {
-      const detailedQuiz = await getQuizTemplate(quiz.id);
-
-      if (isCancelled || !detailedQuiz) {
-        return;
-      }
-
-      setPreviewQuiz({
-        ...quiz,
-        ...detailedQuiz,
-      });
-    };
-
-    void loadDetailedQuiz();
-
-    return () => {
-      isCancelled = true;
-    };
-  }, [isOpen, quiz]);
-
-  const questions = useMemo(
-    () => normalizeQuestionRows(activeQuiz?.questions),
-    [activeQuiz],
-  );
+  const { t, i18n } = useTranslation()
+  const {
+    questions,
+    hasLoadedQuestions,
+    isLoadingQuestions,
+    hasQuestionLoadError,
+    previewQuestion,
+    firstPreviewableQuestion,
+    openPreviewQuestion,
+    closePreviewQuestion,
+    updateQuestionApp,
+  } = useQuizTemplateQuestions(quiz, isOpen)
 
   useEffect(() => {
     if (!isOpen) {
-      return;
+      return
     }
 
-    // Lock page scroll while the modal is open
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = "hidden"
 
-    // Close modal with Escape key
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        onClose();
+        onClose()
       }
-    };
+    }
 
-    window.addEventListener("keydown", onKeyDown);
+    window.addEventListener("keydown", onKeyDown)
 
     return () => {
-      document.body.style.overflow = "unset";
-      window.removeEventListener("keydown", onKeyDown);
-    };
-  }, [isOpen, onClose]);
+      document.body.style.overflow = "unset"
+      window.removeEventListener("keydown", onKeyDown)
+    }
+  }, [isOpen, onClose])
 
-  if (!isOpen || !quiz || !activeQuiz) {
-    return null;
+  if (!isOpen || !quiz) {
+    return null
   }
 
-  const createdAt = formatLongDate(activeQuiz.createdAt);
-  const languages = activeQuiz.languages ?? [];
-  const tags = activeQuiz.tags ?? [];
+  const languages = quiz.languages ?? []
+  const tags = quiz.tags ?? []
+  const disableUseTemplateButton = (
+    isLoadingQuestions
+    || hasQuestionLoadError
+    || !hasLoadedQuestions
+    || questions.length === 0
+  )
 
   return (
     <Overlay onClick={onClose}>
       <Dialog onClick={(event) => event.stopPropagation()}>
-        <TopBar>
-          <CloseButton type="button" onClick={onClose}>
-            <FiX size={22} />
-          </CloseButton>
-
-          <ActionsRow>
-
-            <Button
-              text={t("quiz_library.preview.preview_full_quiz")}
-              type="outline"
-              leftIcon={<IoEyeSharp size={16} color={defaultTheme.colors.dark.darkGrey} />}
-              onClick={() => { console.log("Preview full quiz") }}
-            />
-            <ActionsDivider />
-
-            <Button
-              text={t("dashboard.use_template_button")}
-              type="primary"
-              color={defaultTheme.colors.green7}
-              leftIcon={<FaCirclePlus size={16} />}
-              onClick={onUseTemplate}
-            />
-          </ActionsRow>
-        </TopBar>
-
-        <Content>
-          <Title id="quiz-library-preview-title">{activeQuiz.title}</Title>
-          <Subtitle>{t("quiz_library.preview.subtitle")}</Subtitle>
-
-          <QuizPreviewDetailsCard
-            languages={languages}
-            tags={tags}
-            creator={activeQuiz.author}
-            createdAt={createdAt}
+        {previewQuestion ? (
+          <QuizTemplateQuestionPreview
+            question={previewQuestion}
+            onBack={closePreviewQuestion}
+            onClose={onClose}
           />
+        ) : (
+          <>
+            <TopBar>
+              <CloseButton onClick={onClose} />
 
-          <QuestionsSection id="quiz-library-preview-questions">
-            <QuizPreviewQuestionsTable questions={questions} />
-          </QuestionsSection>
+              <ActionsRow>
+                <Button
+                  text={t("quiz_library.preview.preview_full_quiz")}
+                  type="outline"
+                  leftIcon={<IoEyeSharp size={16} color={defaultTheme.colors.dark.darkGrey} />}
+                  disabled={!firstPreviewableQuestion}
+                  onClick={() => {
+                    if (firstPreviewableQuestion) {
+                      openPreviewQuestion(firstPreviewableQuestion.questionId)
+                    }
+                  }}
+                />
 
-        </Content>
+                <ActionsDivider />
+
+                <Button
+                  text={t("dashboard.use_template_button")}
+                  type="primary"
+                  color={defaultTheme.colors.green7}
+                  leftIcon={<FaCirclePlus size={16} />}
+                  disabled={disableUseTemplateButton}
+                  onClick={() => { onUseTemplate(questions) }}
+                />
+              </ActionsRow>
+            </TopBar>
+
+            <Content>
+              <Title>{quiz.title}</Title>
+              <Subtitle>{t("quiz_library.preview.subtitle")}</Subtitle>
+
+              <QuizPreviewDetailsCard
+                languages={languages}
+                tags={tags}
+                creator={quiz.author}
+                createdAt={formatLongDate(quiz.createdAt, i18n.language)}
+              />
+
+              <QuestionsSection>
+                {hasQuestionLoadError && (
+                  <QuestionsErrorText>{t("error_messages.something_went_wrong")}</QuestionsErrorText>
+                )}
+
+                <QuizPreviewQuestionsTable
+                  questions={questions}
+                  loading={isLoadingQuestions}
+                  onPreviewQuestion={(question) => {
+                    openPreviewQuestion(question.questionId)
+                  }}
+                  onSelectApp={updateQuestionApp}
+                />
+              </QuestionsSection>
+            </Content>
+          </>
+        )}
       </Dialog>
-    </Overlay >
-  );
-};
+    </Overlay>
+  )
+}
 
 const Overlay = styled.div`
   position: fixed;
@@ -189,7 +168,7 @@ const Overlay = styled.div`
   place-items: center;
   padding: 24px;
   z-index: 1000;
-`;
+`
 
 const Dialog = styled.div`
   width: min(1224px, 100%);
@@ -199,7 +178,7 @@ const Dialog = styled.div`
   display: flex;
   flex-direction: column;
   overflow: hidden;
-`;
+`
 
 const TopBar = styled.div`
   display: flex;
@@ -207,23 +186,12 @@ const TopBar = styled.div`
   gap: 24px;
   padding: 20px 28px 0;
 
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
+  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
     flex-direction: column;
     align-items: stretch;
     padding: 20px 20px 0;
   }
-`;
-
-const CloseButton = styled.button`
-  all: unset;
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-  color: ${defaultTheme.colors.dark.darkGrey};
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-`;
+`
 
 const ActionsRow = styled.div`
   display: flex;
@@ -231,38 +199,43 @@ const ActionsRow = styled.div`
   gap: 16px;
   margin-left: auto;
 
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
+  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
     width: 100%;
     justify-content: flex-end;
     flex-wrap: wrap;
   }
-`;
+`
 
 const ActionsDivider = styled.div`
   width: 1px;
   height: 36px;
   background: ${defaultTheme.colors.dark.mediumGrey};
-`;
+`
 
 const Content = styled.div`
-  padding: 32px 64px 32px;
+  padding: 32px 64px;
   overflow-y: auto;
 
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
-    padding: 24px 20px 24px;
+  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
+    padding: 24px 20px;
   }
-`;
+`
 
 const Title = styled(H2)`
   margin: 0;
   color: ${defaultTheme.colors.dark.black};
-`;
+`
 
 const Subtitle = styled(Body1)`
   margin: 16px 0 0;
   color: ${defaultTheme.colors.dark.darkGrey};
-`;
+`
 
 const QuestionsSection = styled.div`
   margin-top: 16px;
-`;
+`
+
+const QuestionsErrorText = styled(Body1)`
+  margin: 12px 0 0;
+  color: ${defaultTheme.colors.error7};
+`

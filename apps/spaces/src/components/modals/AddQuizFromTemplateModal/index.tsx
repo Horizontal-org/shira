@@ -1,7 +1,7 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { Body1, Modal, TextInput, defaultTheme, styled } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
-import { LibraryQuizDto } from "../../../fetch/quiz_library";
+import { LibraryQuizDto } from "../../../fetch/quiz_templates";
 import { useTitleUpdate } from "../../../hooks/useTitleUpdate";
 import { QUIZ_NAME_MAX_LENGTH } from "../../../utils/inputLimits";
 import { hasRequiredValue } from "../../../utils/validation";

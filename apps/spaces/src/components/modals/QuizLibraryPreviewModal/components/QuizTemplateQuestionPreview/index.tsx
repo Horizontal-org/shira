@@ -1,16 +1,22 @@
-import { Body1, Button, CloseButton, defaultTheme, styled } from "@horizontal-org/shira-ui";
-import { FunctionComponent, useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { MdBlock } from "react-icons/md";
-import { AppLayout } from "../../../../QuestionPreview/AppLayout";
-import parseHtml from "../../../../../utils/parseHtml";
-import type { PreviewQuestionRow } from "../QuizPreviewQuestionsTable";
+import {
+  Body1,
+  Button,
+  CloseButton,
+  defaultTheme,
+  styled,
+} from "@horizontal-org/shira-ui"
+import { FunctionComponent, useEffect, useMemo, useState } from "react"
+import { useTranslation } from "react-i18next"
+import { MdBlock } from "react-icons/md"
+import type { LibraryQuizQuestionTemplateDto } from "../../../../../fetch/quiz_templates"
+import parseHtml from "../../../../../utils/parseHtml"
+import { AppLayout } from "../../../../QuestionPreview/AppLayout"
 
 type Props = {
-  question: PreviewQuestionRow;
-  onBack: () => void;
-  onClose: () => void;
-};
+  question: LibraryQuizQuestionTemplateDto
+  onBack: () => void
+  onClose: () => void
+}
 
 export const QuizTemplateQuestionPreview: FunctionComponent<Props> = ({
   question,
@@ -24,12 +30,12 @@ export const QuizTemplateQuestionPreview: FunctionComponent<Props> = ({
   const explanations = useMemo(
     () => parseHtml(question.content).parseExplanations(question.explanations),
     [question.content, question.explanations],
-  );
+  )
 
   useEffect(() => {
-    setExplanationNumber(0);
-    setShowExplanations(false);
-  }, [question.id]);
+    setExplanationNumber(0)
+    setShowExplanations(false)
+  }, [question.questionId])
 
   const activeExplanation = explanations[explanationNumber]
     ? Number(explanations[explanationNumber].index)
@@ -39,9 +45,12 @@ export const QuizTemplateQuestionPreview: FunctionComponent<Props> = ({
     <QuestionPreviewContainer>
       <PreviewHeader>
         <PreviewHeaderStart>
-          <CloseButton aria-label={t("buttons.close")} iconSize={22} onClick={onClose} />
-
-          <PreviewTitle>{t("create_question.tabs.preview.aria_label")}</PreviewTitle>
+          <CloseButton
+            aria-label={t("buttons.close")}
+            iconSize={22}
+            onClick={onClose}
+          />
+          <Body1>{t("create_question.tabs.preview.aria_label")}</Body1>
         </PreviewHeaderStart>
 
         <PreviewActions>
@@ -54,73 +63,75 @@ export const QuizTemplateQuestionPreview: FunctionComponent<Props> = ({
           <ActionsDivider />
 
           {explanations.length > 0 ? (
-            <Button
-              text={showExplanations
-                ? t("create_question.tabs.preview.hide_explanations")
-                : t("create_question.tabs.preview.show_explanations")}
-              type="outline"
-              onClick={() => {
-                if (showExplanations) {
-                  setExplanationNumber(0);
-                }
+            <ExplanationActions>
+              <Button
+                text={showExplanations
+                  ? t("create_question.tabs.preview.hide_explanations")
+                  : t("create_question.tabs.preview.show_explanations")}
+                type="outline"
+                onClick={() => {
+                  if (showExplanations) {
+                    setExplanationNumber(0)
+                  }
 
-                setShowExplanations((current) => !current);
-              }}
-            />
+                  setShowExplanations((current) => !current)
+                }}
+              />
+
+              {showExplanations && explanations.length > 1 && explanationNumber > 0 && (
+                <Button
+                  text={t("create_question.tabs.preview.previous_explanation")}
+                  type="outline"
+                  onClick={() => {
+                    setExplanationNumber((current) => current - 1)
+                  }}
+                />
+              )}
+
+              {showExplanations && explanations.length > 1 && explanationNumber < explanations.length - 1 && (
+                <Button
+                  text={t("create_question.tabs.preview.next_explanation")}
+                  type="outline"
+                  onClick={() => {
+                    setExplanationNumber((current) => current + 1)
+                  }}
+                />
+              )}
+            </ExplanationActions>
           ) : (
             <NoExplanationsNotice>
-              <MdBlock size={18} color={defaultTheme.colors.error6} />
-              <Body1>{t("create_question.tabs.preview.no_explanations")}</Body1>
+              <MdBlock />
+              {t("create_question.tabs.preview.no_explanations")}
             </NoExplanationsNotice>
           )}
         </PreviewActions>
       </PreviewHeader>
 
-      {showExplanations && explanations.length > 1 && (
-        <ExplanationControls>
-          {explanationNumber > 0 && (
-            <Button
-              text={t("create_question.tabs.preview.previous_explanation")}
-              type="outline"
-              onClick={() => { setExplanationNumber((current) => current - 1); }}
-            />
-          )}
-
-          {explanationNumber < explanations.length - 1 && (
-            <Button
-              text={t("create_question.tabs.preview.next_explanation")}
-              type="outline"
-              onClick={() => { setExplanationNumber((current) => current + 1); }}
-            />
-          )}
-        </ExplanationControls>
-      )}
-
       <PreviewCanvasWrapper>
         <PreviewCanvas>
-          <PreviewAppFrame>
+          {showExplanations && <QuizPreviewOverlay />}
+
+          <PreviewAppFrame key={`${question.questionId}-${question.appName ?? ""}`}>
             <AppLayout
-              appName={question.app}
+              appName={question.appName ?? ""}
               content={question.content}
+              showExplanations={showExplanations}
               explanations={explanations}
               explanationNumber={activeExplanation}
-              showExplanations={showExplanations}
             />
           </PreviewAppFrame>
-
-          {showExplanations && <QuizPreviewOverlay />}
         </PreviewCanvas>
       </PreviewCanvasWrapper>
     </QuestionPreviewContainer>
-  );
-};
+  )
+}
 
 const QuestionPreviewContainer = styled.div`
   display: flex;
   flex: 1;
   min-height: 0;
   flex-direction: column;
-`;
+`
 
 const PreviewHeader = styled.div`
   display: flex;
@@ -129,22 +140,18 @@ const PreviewHeader = styled.div`
   gap: 24px;
   padding: 20px 28px 0;
 
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
+  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
     flex-direction: column;
     align-items: stretch;
     padding: 20px 20px 0;
   }
-`;
+`
 
 const PreviewHeaderStart = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-`;
-
-const PreviewTitle = styled(Body1)`
-  color: ${defaultTheme.colors.dark.darkGrey};
-`;
+`
 
 const PreviewActions = styled.div`
   display: flex;
@@ -152,18 +159,18 @@ const PreviewActions = styled.div`
   gap: 16px;
   margin-left: auto;
 
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
+  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
     width: 100%;
     justify-content: flex-end;
     flex-wrap: wrap;
   }
-`;
+`
 
 const ActionsDivider = styled.div`
   width: 1px;
   height: 36px;
   background: ${defaultTheme.colors.dark.mediumGrey};
-`;
+`
 
 const NoExplanationsNotice = styled.div`
   display: inline-flex;
@@ -173,19 +180,19 @@ const NoExplanationsNotice = styled.div`
   background: ${defaultTheme.colors.light.paleGrey};
   border-radius: 999px;
   color: ${defaultTheme.colors.dark.darkGrey};
-`;
+`
 
-const ExplanationControls = styled.div`
+const ExplanationActions = styled.div`
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
   gap: 12px;
-  padding: 20px 28px 0;
+  flex-wrap: nowrap;
 
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
-    padding: 20px 20px 0;
+  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
     flex-wrap: wrap;
+    justify-content: flex-end;
   }
-`;
+`
 
 const PreviewCanvasWrapper = styled.div`
   padding: 20px 28px 28px;
@@ -193,10 +200,10 @@ const PreviewCanvasWrapper = styled.div`
   min-height: 0;
   overflow: auto;
 
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
+  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
     padding: 20px;
   }
-`;
+`
 
 const PreviewCanvas = styled.div`
   position: relative;
@@ -206,18 +213,18 @@ const PreviewCanvas = styled.div`
   display: flex;
   justify-content: center;
   padding: 24px;
-  background: linear-gradient(90deg, #f6f4dd 0%, #eef7db 100%);
-`;
+  background: ${defaultTheme.colors.light.paleGreen};
+`
 
 const PreviewAppFrame = styled.div`
   position: relative;
   z-index: 1;
   width: fit-content;
   max-width: 100%;
-`;
+`
 
 const QuizPreviewOverlay = styled.div`
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.45);
-`;
+`

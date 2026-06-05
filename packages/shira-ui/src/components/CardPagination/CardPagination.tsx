@@ -4,6 +4,7 @@ import { BasePagination } from "../BasePagination";
 interface Props {
   pageIndex: number
   pageCount: number
+  pageSize?: number
   total: number
   onFirstPage: () => void
   onPreviousPage: () => void
@@ -11,11 +12,12 @@ interface Props {
   onLastPage: () => void
 }
 
-const PAGE_SIZE = 10;
+const DEFAULT_PAGE_SIZE = 10;
 
 export const CardPagination: FunctionComponent<Props> = ({
   pageIndex,
   pageCount,
+  pageSize = DEFAULT_PAGE_SIZE,
   total,
   onFirstPage,
   onPreviousPage,
@@ -29,7 +31,7 @@ export const CardPagination: FunctionComponent<Props> = ({
     <BasePagination
       pageIndex={pageIndex}
       pageCount={pageCount}
-      pageSize={PAGE_SIZE}
+      pageSize={pageSize}
       total={total}
       canPreviousPage={canPreviousPage}
       canNextPage={canNextPage}
