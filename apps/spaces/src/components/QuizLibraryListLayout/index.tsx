@@ -1,4 +1,4 @@
-import { Body1, CardPagination, styled } from "@horizontal-org/shira-ui";
+import { Body1, CardPagination, EmptyState, styled } from "@horizontal-org/shira-ui";
 import { FunctionComponent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -110,6 +110,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
 
   const pageCount = Math.max(1, Math.ceil(total / pageSize));
   const hasActiveSearch = debouncedSearchValue.length > 0;
+  const showSearchEmptyState = hasActiveSearch && !loading && total === 0;
 
   const paginationProps = {
     pageIndex,
@@ -198,28 +199,47 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
             </SearchResultsText>
           )}
 
-          <PaginationWrapper>
-            <CardPagination {...paginationProps} />
-          </PaginationWrapper>
+          {!showSearchEmptyState && (
+            <PaginationWrapper>
+              <CardPagination {...paginationProps} />
+            </PaginationWrapper>
+          )}
 
-          <CardGrid id="quiz-card-grid" aria-busy={loading || undefined}>
-            {loading ? (
-              Array.from({ length: pageSize }, (_, index) => (
-                <QuizCardSkeleton key={`quiz-card-skeleton-${index}`} />
-              ))
-            ) : (
-              libraryQuizzes.map((quiz) => (
-                <QuizCard
-                  key={`${quiz.title}-${quiz.createdAt}`}
-                  quiz={quiz}
-                  searchTerm={debouncedSearchValue}
-                  onViewTemplate={() => { handleOpenPreviewModal(quiz); }}
-                  onUseTemplate={() => { handleUseTemplate(quiz); }}
-                  onReportIssue={() => { navigate("/support"); }}
-                />
-              ))
-            )}
-          </CardGrid>
+          {showSearchEmptyState ? (
+            <SearchEmptyStateWrapper>
+              <EmptyState
+                subtitle={(
+                  <SearchEmptyStateContent>
+                    <SearchEmptyStateTitle>
+                      {t("quiz_library.empty_search.title")}
+                    </SearchEmptyStateTitle>
+                    <SearchEmptyStateSubtitle>
+                      {t("quiz_library.empty_search.subtitle")}
+                    </SearchEmptyStateSubtitle>
+                  </SearchEmptyStateContent>
+                )}
+              />
+            </SearchEmptyStateWrapper>
+          ) : (
+            <CardGrid id="quiz-card-grid" aria-busy={loading || undefined}>
+              {loading ? (
+                Array.from({ length: pageSize }, (_, index) => (
+                  <QuizCardSkeleton key={`quiz-card-skeleton-${index}`} />
+                ))
+              ) : (
+                libraryQuizzes.map((quiz) => (
+                  <QuizCard
+                    key={`${quiz.title}-${quiz.createdAt}`}
+                    quiz={quiz}
+                    searchTerm={debouncedSearchValue}
+                    onViewTemplate={() => { handleOpenPreviewModal(quiz); }}
+                    onUseTemplate={() => { handleUseTemplate(quiz); }}
+                    onReportIssue={() => { navigate("/support"); }}
+                  />
+                ))
+              )}
+            </CardGrid>
+          )}
 
           {!loading && libraryQuizzes.length > 0 && (
             <PaginationWrapper>
@@ -279,6 +299,35 @@ const PaginationWrapper = styled.div`
 const SearchResultsText = styled(Body1)`
   padding: 10px;
   font-size: 18px;
+`;
+
+const SearchEmptyStateWrapper = styled.div`
+  min-height: 540px;
+  padding: 48px 16px 72px;
+`;
+
+const SearchEmptyStateContent = styled.span`
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+`;
+
+const SearchEmptyStateTitle = styled.span`
+  margin: 0 0 12px;
+  color: ${props => props.theme.colors.dark.black};
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.2;
+`;
+
+const SearchEmptyStateSubtitle = styled.span`
+  max-width: 560px;
+  margin: 0;
+  color: ${props => props.theme.colors.dark.darkGrey};
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.5;
 `;
 
 const CardGrid = styled.div`

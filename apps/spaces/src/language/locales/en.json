@@ -292,6 +292,10 @@
         "search_placeholder": "Search quiz titles",
         "search_results": "{{count}} result for \"{{searchTerm}}\"",
         "search_results_plural": "{{count}} results for \"{{searchTerm}}\"",
+        "empty_search": {
+            "title": "Sorry, we couldn't find anything",
+            "subtitle": "Try changing keywords or clearing your filters to see more results."
+        },
         "sort_by": "Sort by",
         "filters": "Filters",
         "view_template": "View template",
