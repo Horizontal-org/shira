@@ -1,4 +1,4 @@
-import { Body3, Body3Bold, Table, defaultTheme, styled } from "@horizontal-org/shira-ui";
+import { Body3, Body3Bold, SmallSelect, Table, defaultTheme, styled } from "@horizontal-org/shira-ui";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { FunctionComponent, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -6,15 +6,14 @@ import { FaCircleCheck } from "react-icons/fa6";
 import { MdOutlinePhishing } from "react-icons/md";
 import { MdRemoveRedEye } from "react-icons/md";
 import type { LibraryQuizQuestionTemplateDto } from "../../../../../fetch/quiz_templates";
-import { appIcons } from "../../../../../utils/appIcons";
-import { SelectApp } from "../../../../QuestionLibraryListLayout/components/Selects/SelectApp";
+import { appIcons, appTypesIcons } from "../../../../../utils/appIcons";
 import { getAppsByType } from "../../../../../utils/appNames";
 
 type Props = {
   questions: LibraryQuizQuestionTemplateDto[];
   loading?: boolean;
   onPreviewQuestion: (question: LibraryQuizQuestionTemplateDto) => void;
-  onSelectApp: (questionId: number, appId: number) => void;
+  onSelectApp: (questionId: number, appName: string) => void;
 };
 
 export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
@@ -79,13 +78,21 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
             appOptions.length > 1 && (!row.original.appName || Boolean(selectedApp));
 
           if (row.original.appType && canChooseKnownApp) {
+            const selectOptions = appOptions.map((appOption) => ({
+              label: appOption.name,
+              labelEnglish: appOption.name,
+              value: appOption.name,
+              leftIcon: appIcons[appOption.name.toLowerCase()],
+            }));
+
             return (
-              <SelectApp
-                valueId={selectedApp?.id}
-                options={appOptions}
-                currentType={row.original.appType}
-                initiallyShowPlaceholder={!row.original.appName}
-                onChange={(appId) => { onSelectApp(row.original.questionId, appId); }}
+              <SmallSelect
+                aria-label="app"
+                value={selectedApp?.name ?? ""}
+                options={selectOptions}
+                initialPlaceholder={t(`question_library.columns.app.${row.original.appType}_type`)}
+                placeholderLeftIcon={appTypesIcons[row.original.appType]}
+                onChange={(appName) => { onSelectApp(row.original.questionId, appName); }}
               />
             );
           }

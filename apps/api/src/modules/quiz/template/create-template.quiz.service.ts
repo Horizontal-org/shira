@@ -1,12 +1,11 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { EntityManager, Repository } from "typeorm";
 import * as crypto from "crypto";
 import * as cheerio from "cheerio";
 import { Quiz } from "../domain/quiz.entity";
 import { QuizQuestion as QuizQuestionEntity } from "../domain/quizzes_questions.entity";
-import { CreateQuestionQuizDto } from "../dto/create-question.quiz.dto";
-import { CreateTemplateQuizDto } from "./create-template.quiz.dto";
+import { CreateTemplateQuizDto, CreateTemplateQuizQuestionDto } from "./create-template.quiz.dto";
 import { ICreateTemplateQuizService } from "./create-template.quiz.service.interface";
 import { Explanation, Question } from "src/modules/question/domain";
 import { QuestionTranslation } from "src/modules/translation/domain/questionTranslation.entity";
@@ -38,23 +37,15 @@ export class CreateTemplateQuizService implements ICreateTemplateQuizService {
       const savedQuiz = await manager.save(Quiz, quiz);
 
       for (const templateQuestion of createTemplateQuizDto.questions) {
-        await this.createQuestion(manager, {
-          quizId: savedQuiz.id,
-          question: {
-            name: templateQuestion.questionName,
-            content: templateQuestion.content,
-            isPhishing: templateQuestion.isPhishing,
-            app: templateQuestion.appId,
-          },
-          explanations: templateQuestion.explanations ?? [],
-        });
+        await this.createQuestion(manager, savedQuiz.id, templateQuestion);
       }
     });
   }
 
   private async createQuestion(
     manager: EntityManager,
-    createQuestionDto: CreateQuestionQuizDto,
+    quizId: number,
+    templateQuestion: CreateTemplateQuizQuestionDto,
   ): Promise<void> {
     const quizQuestionRepo = manager.getRepository(QuizQuestionEntity);
     const questionRepo = manager.getRepository(Question);
@@ -67,16 +58,20 @@ export class CreateTemplateQuizService implements ICreateTemplateQuizService {
     let question: Question;
 
     const app = await appRepo.findOne({
-      where: { id: createQuestionDto.question.app },
+      where: { name: templateQuestion.appName },
     });
+
+    if (!app) {
+      throw new NotFoundException(`App "${templateQuestion.appName}" was not found`);
+    }
 
     const language = await languageRepo.findOne({
       where: { code: "en" },
     });
 
     question = new Question();
-    question.name = createQuestionDto.question.name;
-    question.isPhising = createQuestionDto.question.isPhishing ? 1 : 0;
+    question.name = templateQuestion.questionName;
+    question.isPhising = templateQuestion.isPhishing ? 1 : 0;
     question.apps = [app];
     question.languageId = language.id;
     question.content = "";
@@ -84,14 +79,14 @@ export class CreateTemplateQuizService implements ICreateTemplateQuizService {
 
     const questionEntity = await questionRepo.save(question);
 
-    const imageIds = this.getImageIds(createQuestionDto.question.content);
+    const imageIds = this.getImageIds(templateQuestion.content);
     await this.syncImagesService.execute({
       imageIds,
       questionId: questionEntity.id,
-      quizId: createQuestionDto.quizId,
+      quizId,
     });
 
-    const originalContent = createQuestionDto.question.content;
+    const originalContent = templateQuestion.content;
     const sanitizedContent = QuestionSanitizer.sanitizeQuestionContent(originalContent);
 
     const newQuestionTranslation = new QuestionTranslation();
@@ -100,7 +95,7 @@ export class CreateTemplateQuizService implements ICreateTemplateQuizService {
     newQuestionTranslation.languageId = language.id;
     await questionTranslationRepo.save(newQuestionTranslation);
 
-    for (const explanation of createQuestionDto.explanations) {
+    for (const explanation of templateQuestion.explanations ?? []) {
       const savedExplanation = await explanationRepo.save(
         explanationRepo.create({
           position: explanation.position,
@@ -120,12 +115,12 @@ export class CreateTemplateQuizService implements ICreateTemplateQuizService {
     }
 
     const position = await quizQuestionRepo.count({
-      where: { quizId: createQuestionDto.quizId },
+      where: { quizId },
     });
 
     const quizQuestion = quizQuestionRepo.create({
       position: position + 1,
-      quizId: createQuestionDto.quizId,
+      quizId,
       questionId: questionEntity.id,
     });
     await quizQuestionRepo.save(quizQuestion);

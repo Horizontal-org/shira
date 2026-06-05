@@ -78,7 +78,7 @@ export const useQuizTemplateQuestions = (
     setPreviewQuestionId(null);
   };
 
-  const updateQuestionApp = (questionId: number, appId: number) => {
+  const updateQuestionApp = (questionId: number, appName: string) => {
     setQuestions((currentQuestions) =>
       currentQuestions.map((question) => {
         if (question.questionId !== questionId || !question.appType) {
@@ -86,7 +86,7 @@ export const useQuizTemplateQuestions = (
         }
 
         const selectedApp = getAppsByType(question.appType).find(
-          (appOption) => appOption.id === appId,
+          (appOption) => appOption.name === appName,
         );
 
         if (!selectedApp) {

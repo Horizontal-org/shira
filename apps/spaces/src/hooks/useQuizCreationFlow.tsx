@@ -69,24 +69,26 @@ export const useQuizCreationFlow = ({
     setSelectedTemplateQuestions(questions && questions.length > 0 ? questions : null);
   };
 
-  const resolveTemplateAppId = (question: LibraryQuizQuestionTemplateDto) => {
+  const resolveTemplateAppName = (question: LibraryQuizQuestionTemplateDto) => {
     const appOptions = question.appType ? getAppsByType(question.appType) : [];
     const normalizedAppName = question.appName
-      ? normalizePreviewAppName(question.appName).toLowerCase()
+      ? normalizePreviewAppName(question.appName)
       : null;
 
     if (normalizedAppName) {
       const matchingApp = appOptions.find(
-        (appOption) => appOption.name.toLowerCase() === normalizedAppName,
+        (appOption) => appOption.name.toLowerCase() === normalizedAppName.toLowerCase(),
       );
 
       if (matchingApp) {
-        return matchingApp.id;
+        return matchingApp.name;
       }
+
+      return normalizedAppName;
     }
 
     if (appOptions.length > 0) {
-      return appOptions[0].id;
+      return appOptions[0].name;
     }
 
     throw new Error(`Missing supported app for template question ${question.questionId}`);
@@ -99,7 +101,7 @@ export const useQuizCreationFlow = ({
       questionName: question.questionName,
       content: question.content,
       isPhishing: question.isPhishing,
-      appId: resolveTemplateAppId(question),
+      appName: resolveTemplateAppName(question),
       explanations: question.explanations ?? [],
     }));
   };

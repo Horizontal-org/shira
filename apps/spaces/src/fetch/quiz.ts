@@ -10,7 +10,7 @@ export interface CreateTemplateQuizQuestionPayload {
   questionName: string
   content: string
   isPhishing: boolean
-  appId: number
+  appName: string
   explanations?: {
     position: string
     index: string

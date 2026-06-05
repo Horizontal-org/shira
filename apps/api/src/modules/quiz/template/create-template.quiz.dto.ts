@@ -3,7 +3,6 @@ import {
   IsArray,
   IsBoolean,
   IsEnum,
-  IsNumber,
   IsOptional,
   IsString,
   ValidateNested,
@@ -23,7 +22,7 @@ class CreateTemplateQuizExplanationDto {
   text: string;
 }
 
-class CreateTemplateQuizQuestionDto {
+export class CreateTemplateQuizQuestionDto {
   @IsString()
   questionName: string;
 
@@ -33,8 +32,8 @@ class CreateTemplateQuizQuestionDto {
   @IsBoolean()
   isPhishing: boolean;
 
-  @IsNumber()
-  appId: number;
+  @IsString()
+  appName: string;
 
   @IsArray()
   @IsOptional()
