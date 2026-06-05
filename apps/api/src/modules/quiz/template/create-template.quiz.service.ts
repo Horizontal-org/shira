@@ -12,16 +12,12 @@ import { ExplanationTranslation } from "src/modules/translation/domain/explanati
 import { Language } from "src/modules/languages/domain";
 import { App } from "src/modules/app/domain";
 import { QuestionSanitizer } from "src/utils/question-sanitizer.util";
-import { TYPES as TYPES_QUESTION_IMAGE } from "../../question_image/interfaces";
-import { ISyncQuestionImageService } from "src/modules/question_image/interfaces/services/sync.question_image.service.interface";
 
 @Injectable()
 export class CreateTemplateQuizService implements ICreateTemplateQuizService {
   constructor(
     @InjectRepository(Quiz)
     private readonly quizRepo: Repository<Quiz>,
-    @Inject(TYPES_QUESTION_IMAGE.services.ISyncQuestionImageService)
-    private syncImagesService: ISyncQuestionImageService,
   ) { }
 
   async execute(createTemplateQuizDto: CreateTemplateQuizDto) {
@@ -77,13 +73,6 @@ export class CreateTemplateQuizService implements ICreateTemplateQuizService {
     question.type = "quiz";
 
     const questionEntity = await questionRepo.save(question);
-
-    const imageIds = QuestionSanitizer.extractImageIds(templateQuestion.content);
-    await this.syncImagesService.execute({
-      imageIds,
-      questionId: questionEntity.id,
-      quizId,
-    });
 
     const originalContent = templateQuestion.content;
     const sanitizedContent = QuestionSanitizer.sanitizeQuestionContent(originalContent);
