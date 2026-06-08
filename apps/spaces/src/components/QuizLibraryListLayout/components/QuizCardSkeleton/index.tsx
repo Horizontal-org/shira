@@ -16,14 +16,14 @@ export const QuizCardSkeleton: FunctionComponent = () => {
 
         <CardBody>
           <TitleSkeleton>
-            <SkeletonBlock $width="88%" $height="26px" />
-            <SkeletonBlock $width="78%" $height="26px" />
-            <SkeletonBlock $width="54%" $height="26px" />
+            <SkeletonBlock $width="88%" $height="18px" />
+            <SkeletonBlock $width="78%" $height="18px" />
+            <SkeletonBlock $width="54%" $height="18px" />
           </TitleSkeleton>
 
           <TagRow>
-            <SkeletonBlock $width="152px" $height="40px" $radius="4px" />
-            <SkeletonBlock $width="132px" $height="40px" $radius="4px" />
+            <SkeletonBlock $width="86px" $height="24px" $radius="4px" />
+            <SkeletonBlock $width="72px" $height="24px" $radius="4px" />
           </TagRow>
         </CardBody>
       </TopSection>
@@ -54,13 +54,14 @@ const CardWrapper = styled.div`
   overflow: hidden;
   width: 100%;
   height: 100%;
+  min-height: 172px;
 `;
 
 const TopSection = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 28px 28px 24px;
-  gap: 20px;
+  padding: 18px;
+  gap: 10px;
   flex: 1;
 `;
 
@@ -81,14 +82,14 @@ const CardBody = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 32px;
+  gap: 16px;
   flex: 1;
-  min-height: 220px;
+  min-height: 116px;
 `;
 
 const Footer = styled.div`
   background: ${props => props.theme.colors.light.paleGreen};
-  padding: 16px 28px;
+  padding: 7px 20px;
 `;
 
 const FooterMeta = styled.div`
@@ -106,19 +107,20 @@ const FooterMeta = styled.div`
 const FooterItem = styled.div`
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 `;
 
 const TagRow = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  min-height: 28px;
 `;
 
 const TitleSkeleton = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 `;
 
 const SkeletonBlock = styled.div<{ $width: string; $height: string; $radius?: string }>`

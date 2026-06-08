@@ -187,6 +187,7 @@ const CardWrapper = styled.div`
   overflow: hidden;
   width: 100%;
   height: 100%;
+  min-height: 172px;
 
   @media (hover: hover) and (pointer: fine) {
     ${SmallUseTemplateButton} {
@@ -259,7 +260,8 @@ const CardBody = styled.div`
   flex: 1;
   flex-direction: column;
   justify-content: space-between;
-  gap: 25px;
+  gap: 16px;
+  min-height: 116px;
 `;
 
 const CardTitle = styled(Body1SemiBold)`

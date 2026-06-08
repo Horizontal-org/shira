@@ -567,6 +567,7 @@ const CardGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
+  align-items: stretch;
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     grid-template-columns: repeat(3, 1fr);
