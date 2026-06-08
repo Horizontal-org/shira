@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { createPortal } from 'react-dom';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import { Body2Regular } from '../Typography';
+import { defaultTheme } from '../../theme';
 
 export interface SortSelectOption {
   value: string;
@@ -133,7 +134,9 @@ export const SortSelect = ({
           <Value>{selectedOption?.label}</Value>
         </TriggerLabel>
         <Chevron>
-          {isOpen ? <FiChevronUp color="#5F6368" size={18} /> : <FiChevronDown color="#5F6368" size={18} />}
+          {isOpen
+            ? <FiChevronUp color={defaultTheme.colors.dark.mediumGrey} size={18} />
+            : <FiChevronDown color={defaultTheme.colors.dark.mediumGrey} size={18} />}
         </Chevron>
       </Trigger>
 
@@ -170,7 +173,6 @@ const Wrapper = styled.div`
 `;
 
 const Trigger = styled.button`
-  appearance: none;
   -webkit-appearance: none;
   min-height: 42px;
   width: 100%;
@@ -222,17 +224,17 @@ const Options = styled.div`
 `;
 
 const Option = styled.button<{ $isSelected: boolean }>`
-  appearance: none;
   -webkit-appearance: none;
   width: 100%;
-  padding: 12px 16px;
+  padding: 10px 16px;
   border: none;
+  background: ${props => props.theme.colors.light.white};
   cursor: pointer;
-  background: ${props => props.$isSelected ? props.theme.colors.light.paleGrey : props.theme.colors.light.white};
-  color: ${props => props.theme.colors.dark.darkGrey};
+  color: ${props => props.theme.colors.dark.black};
   text-align: left;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.4;
+  gap: 4px;
 
   &:not(:last-child) {
     border-bottom: 1px solid ${props => props.theme.colors.dark.lightGrey};

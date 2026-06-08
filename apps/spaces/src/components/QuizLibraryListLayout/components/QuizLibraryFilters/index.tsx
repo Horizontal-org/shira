@@ -26,23 +26,6 @@ type PanelProps = {
   onClearAll: () => void;
 };
 
-const getSelectedLabel = (
-  count: number,
-  options: FilterOption[],
-  selectedValues: string[],
-  selectedCountLabel: string,
-) => {
-  if (count === 0) {
-    return;
-  }
-
-  if (count === 1) {
-    return options.find((option) => option.value === selectedValues[0])?.label ?? selectedValues[0];
-  }
-
-  return selectedCountLabel;
-};
-
 export const QuizLibraryFilters: FunctionComponent<PanelProps> = ({
   showFilters,
   languageOptions,
@@ -61,6 +44,23 @@ export const QuizLibraryFilters: FunctionComponent<PanelProps> = ({
   if (!showFilters) {
     return;
   }
+
+  const getSelectedLabel = (
+    count: number,
+    options: FilterOption[],
+    selectedValues: string[],
+    selectedCountLabel: string,
+  ) => {
+    if (count === 0) {
+      return;
+    }
+
+    if (count === 1) {
+      return options.find((option) => option.value === selectedValues[0])?.label ?? selectedValues[0];
+    }
+
+    return selectedCountLabel;
+  };
 
   const creatorFilterOptions = creatorOptions.map((creator) => ({ value: creator, label: creator }));
   const hasActiveFilters = selectedLanguages.length > 0
@@ -162,7 +162,6 @@ const StyledFilterSelect = styled(FilterSelect) <FilterSelectProps>`
 `;
 
 const ClearAllButton = styled.button`
-  appearance: none;
   -webkit-appearance: none;
   min-height: 30px;
   padding: 0 10px;
@@ -171,7 +170,6 @@ const ClearAllButton = styled.button`
   background: transparent;
   color: ${props => props.theme.colors.dark.darkGrey};
   display: inline-flex;
-  align-items: center;
   gap: 10px;
   cursor: pointer;
 `;

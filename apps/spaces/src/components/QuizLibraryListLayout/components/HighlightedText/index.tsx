@@ -11,11 +11,11 @@ export const HighlightedText: FunctionComponent<Props> = ({
   highlight,
 }) => {
   const normalizedHighlight = highlight?.trim();
-  
+
   if (!normalizedHighlight) {
     return <>{text}</>;
   }
-  
+
   const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const pattern = new RegExp(`(${escapeRegExp(normalizedHighlight)})`, "ig"); // (i = case-insensitive, g = global)
   const parts = text.split(pattern);
