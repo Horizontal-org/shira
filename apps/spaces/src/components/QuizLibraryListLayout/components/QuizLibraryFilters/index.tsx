@@ -13,7 +13,7 @@ type FilterOption = {
 };
 
 type PanelProps = {
-  areFiltersOpen: boolean;
+  showFilters: boolean;
   languageOptions: FilterOption[];
   selectedLanguages: string[];
   onLanguageChange: (value: string[]) => void;
@@ -44,7 +44,7 @@ const getSelectedLabel = (
 };
 
 export const QuizLibraryFilters: FunctionComponent<PanelProps> = ({
-  areFiltersOpen,
+  showFilters,
   languageOptions,
   selectedLanguages,
   onLanguageChange,
@@ -58,7 +58,7 @@ export const QuizLibraryFilters: FunctionComponent<PanelProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  if (!areFiltersOpen) {
+  if (!showFilters) {
     return;
   }
 
@@ -120,7 +120,6 @@ export const QuizLibraryFilters: FunctionComponent<PanelProps> = ({
 
       {hasActiveFilters && (
         <ClearAllButton
-          type="button"
           onClick={onClearAll}
         >
           <FiX size={16} />

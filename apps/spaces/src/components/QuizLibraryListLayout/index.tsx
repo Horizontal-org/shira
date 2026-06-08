@@ -369,7 +369,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
             </ControlsTopRow>
 
             <QuizLibraryFilters
-              areFiltersOpen={areFiltersOpen}
+              showFilters={areFiltersOpen}
               languageOptions={languageOptions}
               selectedLanguages={selectedLanguages}
               onLanguageChange={handleLanguageChange}
