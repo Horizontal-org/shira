@@ -118,8 +118,8 @@ export const getQuizTemplates = async (
   }
 }
 
-export const getAllQuizTemplates = async ({ search, pageSize = 100 }
-  : GetAllQuizTemplatesParams = {}
+export const getAllQuizTemplates = async (
+  { search, pageSize = 100 }: GetAllQuizTemplatesParams = {},
 ): Promise<LibraryQuizDto[]> => {
   const firstPage = await getQuizTemplates({
     page: 1,

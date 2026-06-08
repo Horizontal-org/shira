@@ -11,12 +11,14 @@ export interface FilterSelectOption {
 
 export interface FilterSelectProps {
   options: FilterSelectOption[];
-  value?: string;
-  onChange: (value: string) => void;
+  value?: string | string[];
+  onChange: (value: string | string[]) => void;
   placeholder: string;
   leftIcon?: ReactNode;
   ariaLabel?: string;
   className?: string;
+  isMulti?: boolean;
+  isPlaceholderMuted?: boolean;
 }
 
 const PORTAL_ID = 'filter-select-portal-container';
@@ -29,6 +31,8 @@ export const FilterSelect = ({
   leftIcon,
   ariaLabel,
   className,
+  isMulti = false,
+  isPlaceholderMuted = true,
 }: FilterSelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [position, setPosition] = useState({ top: 0, left: 0, width: 0 });
@@ -36,7 +40,16 @@ export const FilterSelect = ({
   const optionsRef = useRef<HTMLDivElement>(null);
   const listboxId = useId();
 
-  const selectedOption = options.find((option) => option.value === value);
+  const selectedValues = Array.isArray(value) ? value : [];
+  const selectedOption = !Array.isArray(value)
+    ? options.find((option) => option.value === value)
+    : undefined;
+  const selectedOptions = isMulti
+    ? options.filter((option) => selectedValues.includes(option.value))
+    : [];
+  const selectedLabel = isMulti
+    ? selectedOptions.map((option) => option.label).join(", ")
+    : selectedOption?.label;
 
   useEffect(() => {
     if (!document.getElementById(PORTAL_ID)) {
@@ -107,6 +120,15 @@ export const FilterSelect = ({
   }, []);
 
   const handleSelect = (nextValue: string) => {
+    if (isMulti) {
+      const nextSelectedValues = selectedValues.includes(nextValue)
+        ? selectedValues.filter((selectedValue) => selectedValue !== nextValue)
+        : [...selectedValues, nextValue];
+
+      onChange(nextSelectedValues);
+      return;
+    }
+
     onChange(nextValue);
     setIsOpen(false);
   };
@@ -125,8 +147,8 @@ export const FilterSelect = ({
       >
         <TriggerContent>
           {leftIcon && <Icon>{leftIcon}</Icon>}
-          <Label $hasValue={Boolean(selectedOption)}>
-            {selectedOption?.label ?? placeholder}
+          <Label $hasValue={Boolean(selectedLabel)} $isPlaceholderMuted={isPlaceholderMuted}>
+            {selectedLabel || placeholder}
           </Label>
         </TriggerContent>
         <Chevron>
@@ -149,9 +171,18 @@ export const FilterSelect = ({
             <Option
               key={option.value}
               type="button"
-              $isSelected={option.value === value}
+              $isSelected={isMulti ? selectedValues.includes(option.value) : option.value === value}
               onClick={() => handleSelect(option.value)}
             >
+              {isMulti && (
+                <Checkbox
+                  type="checkbox"
+                  checked={selectedValues.includes(option.value)}
+                  readOnly
+                  tabIndex={-1}
+                  aria-hidden="true"
+                />
+              )}
               {option.label}
             </Option>
           ))}
@@ -173,7 +204,7 @@ const Trigger = styled.button`
   min-height: 24px;
   width: 100%;
   padding: 6px 12px;
-  border-radius: 999px;
+  border-radius: 100px;
   border: 1px solid ${props => props.theme.colors.dark.lightGrey};
   background: ${props => props.theme.colors.light.white};
   display: flex;
@@ -198,10 +229,14 @@ const Icon = styled.span`
   flex: 0 0 auto;
 `;
 
-const Label = styled(Body4)<{ $hasValue: boolean }>`
-  color: ${props => props.$hasValue
-    ? props.theme.colors.dark.black
-    : props.theme.colors.dark.mediumGrey};
+const Label = styled(Body4)<{ $hasValue: boolean; $isPlaceholderMuted: boolean }>`
+  color: ${props => {
+    if (props.$hasValue || !props.$isPlaceholderMuted) {
+      return props.theme.colors.dark.black;
+    }
+
+    return props.theme.colors.dark.mediumGrey;
+  }};
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -220,7 +255,9 @@ const Options = styled.div`
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10);
   z-index: 99999999;
-  overflow: hidden;
+  max-height: 400px;
+  overflow-x: hidden;
+  overflow-y: auto;
 `;
 
 const Option = styled.button<{ $isSelected: boolean }>`
@@ -232,6 +269,9 @@ const Option = styled.button<{ $isSelected: boolean }>`
   background: ${props => props.$isSelected ? props.theme.colors.light.paleGrey : props.theme.colors.light.white};
   color: ${props => props.theme.colors.dark.darkGrey};
   text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   cursor: pointer;
 
   &:not(:last-child) {
@@ -241,4 +281,12 @@ const Option = styled.button<{ $isSelected: boolean }>`
   &:hover {
     background: ${props => props.theme.colors.light.paleGrey};
   }
+`;
+
+const Checkbox = styled.input`
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: ${props => props.theme.colors.green6};
+  pointer-events: none;
 `;

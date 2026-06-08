@@ -6,14 +6,17 @@ import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { QuizCard } from "./components/QuizCard";
 import { QuizCardSkeleton } from "./components/QuizCardSkeleton";
+import { QuizLibraryFilters } from "./components/QuizLibraryFilters";
 import { QuizLibrarySearchInput } from "./components/QuizLibrarySearchInput";
+import { QuizLibrarySortSelect } from "./components/QuizLibrarySortSelect";
 import {
   DEFAULT_QUIZ_TEMPLATE_SORT,
   getAllQuizTemplates,
+  getQuizTemplates,
+  sortQuizTemplates,
   type LibraryQuizDto,
   type LibraryQuizQuestionTemplateDto,
   type QuizTemplateSortOption,
-  sortQuizTemplates,
 } from "../../fetch/quiz_templates";
 import { QuizLimitModal } from "../modals/QuizLimitModal";
 import { ViewPlansModal } from "../modals/ViewPlansModal";
@@ -27,20 +30,24 @@ const SEARCH_DEBOUNCE_DELAY_MS = 200;
 export const QuizTemplatesListLayout: FunctionComponent = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const pageSize = DEFAULT_PAGE_SIZE;
 
   const [libraryQuizzes, setLibraryQuizzes] = useState<LibraryQuizDto[]>([]);
   const [loading, setLoading] = useState(false);
   const [pageIndex, setPageIndex] = useState(0);
-  const pageSize = DEFAULT_PAGE_SIZE;
 
   const [searchValue, setSearchValue] = useState("");
   const [debouncedSearchValue, setDebouncedSearchValue] = useState("");
   const [sortOption, setSortOption] = useState<QuizTemplateSortOption>(DEFAULT_QUIZ_TEMPLATE_SORT);
+
   const [areFiltersOpen, setAreFiltersOpen] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState("");
-  const [selectedTag, setSelectedTag] = useState("");
+  const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedCreator, setSelectedCreator] = useState("");
 
+  const [serverTotal, setServerTotal] = useState(0);
+  const [allMatchingLibraryQuizzes, setAllMatchingLibraryQuizzes] = useState<LibraryQuizDto[]>([]);
+  const [filtersLoading, setFiltersLoading] = useState(false);
   const [previewQuiz, setPreviewQuiz] = useState<LibraryQuizDto | null>(null);
   const [isQuizLimitModalOpen, setIsQuizLimitModalOpen] = useState(false);
   const [isViewPlansModalOpen, setIsViewPlansModalOpen] = useState(false);
@@ -56,6 +63,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
   }), shallow);
 
   const { isSubActive } = useSub();
+  const hasActiveFilters = Boolean(selectedLanguages.length > 0 || selectedTags.length > 0 || selectedCreator);
 
   useEffect(() => {
     fetchQuizzes();
@@ -72,12 +80,27 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
   }, [searchValue]);
 
   useEffect(() => {
+    if (hasActiveFilters) {
+      return;
+    }
+
     const loadQuizzes = async () => {
       setLoading(true);
 
       try {
-        const response = await getAllQuizTemplates({ search: debouncedSearchValue });
-        setLibraryQuizzes(response);
+        const response = await getQuizTemplates({
+          page: pageIndex + 1,
+          limit: pageSize,
+          search: debouncedSearchValue,
+        });
+
+        setLibraryQuizzes(response.data);
+        setServerTotal(response.total);
+        setPageIndex((currentPageIndex) => {
+          const nextPageIndex = Math.max(0, response.page - 1);
+
+          return currentPageIndex === nextPageIndex ? currentPageIndex : nextPageIndex;
+        });
       } catch (error) {
         console.error("Failed to get library quizzes:", error);
       } finally {
@@ -86,39 +109,89 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     };
 
     loadQuizzes();
-  }, [debouncedSearchValue]);
+  }, [debouncedSearchValue, hasActiveFilters, pageIndex, pageSize]);
+
+  useEffect(() => {
+    if (!areFiltersOpen && !hasActiveFilters) {
+      return;
+    }
+
+    const loadFilterOptions = async () => {
+      setFiltersLoading(true);
+
+      try {
+        const response = await getAllQuizTemplates({
+          search: debouncedSearchValue,
+        });
+
+        setAllMatchingLibraryQuizzes(response);
+      } catch (error) {
+        console.error("Failed to get filter options for library quizzes:", error);
+      } finally {
+        setFiltersLoading(false);
+      }
+    };
+
+    loadFilterOptions();
+  }, [areFiltersOpen, debouncedSearchValue, hasActiveFilters]);
 
   const languageOptions = useMemo(
-    () => Array.from(new Set(libraryQuizzes.flatMap((quiz) => quiz.languages))).sort((first, second) => first.localeCompare(second)),
-    [libraryQuizzes],
+    () => Array.from(
+      new Set(allMatchingLibraryQuizzes.flatMap((quiz) => quiz.languages)))
+      .sort((first, second) => first.localeCompare(second)),
+    [allMatchingLibraryQuizzes],
   );
   const tagOptions = useMemo(
-    () => Array.from(new Set(libraryQuizzes.flatMap((quiz) => quiz.tags))).sort((first, second) => first.localeCompare(second)),
-    [libraryQuizzes],
+    () => Array.from(new Set(allMatchingLibraryQuizzes.flatMap((quiz) => quiz.tags)))
+      .sort((first, second) => first.localeCompare(second)),
+    [allMatchingLibraryQuizzes],
   );
   const creatorOptions = useMemo(
-    () => Array.from(new Set(libraryQuizzes.map((quiz) => quiz.author))).sort((first, second) => first.localeCompare(second)),
-    [libraryQuizzes],
+    () => Array.from(new Set(allMatchingLibraryQuizzes.map((quiz) => quiz.author)))
+      .sort((first, second) => first.localeCompare(second)),
+    [allMatchingLibraryQuizzes],
   );
 
-  const filteredLibraryQuizzes = libraryQuizzes.filter((quiz) => {
-    const matchesLanguage = !selectedLanguage || quiz.languages.includes(selectedLanguage);
-    const matchesTag = !selectedTag || quiz.tags.includes(selectedTag);
-    const matchesCreator = !selectedCreator || quiz.author === selectedCreator;
+  const filteredLibraryQuizzes = useMemo(() => {
+    if (!hasActiveFilters) {
+      return [];
+    }
 
-    return matchesLanguage && matchesTag && matchesCreator;
-  });
+    return allMatchingLibraryQuizzes.filter((quiz) => {
+      const matchesLanguage = selectedLanguages.length === 0
+        || selectedLanguages.some((selectedLanguage) => quiz.languages.includes(selectedLanguage));
+      const matchesTag = selectedTags.length === 0
+        || selectedTags.some((selectedTag) => quiz.tags.includes(selectedTag));
+      const matchesCreator = !selectedCreator || quiz.author === selectedCreator;
 
-  const sortedLibraryQuizzes = sortQuizTemplates(filteredLibraryQuizzes, sortOption);
-  const total = sortedLibraryQuizzes.length;
-  const paginatedLibraryQuizzes = sortedLibraryQuizzes.slice(
-    pageIndex * pageSize,
-    (pageIndex + 1) * pageSize,
+      return matchesLanguage && matchesTag && matchesCreator;
+    });
+  }, [
+    allMatchingLibraryQuizzes,
+    hasActiveFilters,
+    selectedCreator,
+    selectedLanguages,
+    selectedTags,
+  ]);
+
+  const sortedLibraryQuizzes = useMemo(
+    () => sortQuizTemplates(libraryQuizzes, sortOption),
+    [libraryQuizzes, sortOption],
   );
+  const sortedFilteredLibraryQuizzes = useMemo(
+    () => sortQuizTemplates(filteredLibraryQuizzes, sortOption),
+    [filteredLibraryQuizzes, sortOption],
+  );
+
+  const total = hasActiveFilters ? sortedFilteredLibraryQuizzes.length : serverTotal;
+  const visibleLibraryQuizzes = hasActiveFilters
+    ? sortedFilteredLibraryQuizzes.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize)
+    : sortedLibraryQuizzes;
+  const isGridLoading = hasActiveFilters ? filtersLoading : loading;
 
   const pageCount = Math.max(1, Math.ceil(total / pageSize));
   const hasActiveSearch = debouncedSearchValue.length > 0;
-  const showSearchEmptyState = hasActiveSearch && !loading && total === 0;
+  const showSearchEmptyState = hasActiveSearch && !isGridLoading && total === 0;
 
   const paginationProps = {
     pageIndex,
@@ -191,13 +264,13 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     setAreFiltersOpen((prev) => !prev);
   };
 
-  const handleLanguageChange = (nextValue: string) => {
-    setSelectedLanguage(nextValue);
+  const handleLanguageChange = (nextValue: string[]) => {
+    setSelectedLanguages(nextValue);
     setPageIndex(0);
   };
 
-  const handleTagChange = (nextValue: string) => {
-    setSelectedTag(nextValue);
+  const handleTagChange = (nextValue: string[]) => {
+    setSelectedTags(nextValue);
     setPageIndex(0);
   };
 
@@ -212,23 +285,51 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
 
         <PageInner>
 
-          <QuizLibrarySearchInput
-            value={searchValue}
-            onChange={handleSearchChange}
-            sortOption={sortOption}
-            onSortChange={handleSortChange}
-            areFiltersOpen={areFiltersOpen}
-            onToggleFilters={handleToggleFilters}
-            languageOptions={languageOptions}
-            selectedLanguage={selectedLanguage}
-            onLanguageChange={handleLanguageChange}
-            tagOptions={tagOptions}
-            selectedTag={selectedTag}
-            onTagChange={handleTagChange}
-            creatorOptions={creatorOptions}
-            selectedCreator={selectedCreator}
-            onCreatorChange={handleCreatorChange}
-          />
+          <Controls>
+            <ControlsTopRow>
+              <QuizLibrarySearchInput
+                value={searchValue}
+                onChange={handleSearchChange}
+              />
+
+              <ActionsGroup>
+                <QuizLibrarySortSelect
+                  sortOption={sortOption}
+                  onSortChange={handleSortChange}
+                />
+
+                <QuizLibraryFilters
+                  variant="toggle"
+                  areFiltersOpen={areFiltersOpen}
+                  onToggleFilters={handleToggleFilters}
+                  languageOptions={languageOptions}
+                  selectedLanguages={selectedLanguages}
+                  onLanguageChange={handleLanguageChange}
+                  tagOptions={tagOptions}
+                  selectedTags={selectedTags}
+                  onTagChange={handleTagChange}
+                  creatorOptions={creatorOptions}
+                  selectedCreator={selectedCreator}
+                  onCreatorChange={handleCreatorChange}
+                />
+              </ActionsGroup>
+            </ControlsTopRow>
+
+            <QuizLibraryFilters
+              variant="panel"
+              areFiltersOpen={areFiltersOpen}
+              onToggleFilters={handleToggleFilters}
+              languageOptions={languageOptions}
+              selectedLanguages={selectedLanguages}
+              onLanguageChange={handleLanguageChange}
+              tagOptions={tagOptions}
+              selectedTags={selectedTags}
+              onTagChange={handleTagChange}
+              creatorOptions={creatorOptions}
+              selectedCreator={selectedCreator}
+              onCreatorChange={handleCreatorChange}
+            />
+          </Controls>
 
           {hasActiveSearch && (
             <SearchResultsText>
@@ -266,13 +367,13 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
               />
             </SearchEmptyStateWrapper>
           ) : (
-            <CardGrid id="quiz-card-grid" aria-busy={loading || undefined}>
-              {loading ? (
+            <CardGrid id="quiz-card-grid">
+              {isGridLoading ? (
                 Array.from({ length: pageSize }, (_, index) => (
                   <QuizCardSkeleton key={`quiz-card-skeleton-${index}`} />
                 ))
               ) : (
-                paginatedLibraryQuizzes.map((quiz) => (
+                visibleLibraryQuizzes.map((quiz) => (
                   <QuizCard
                     key={`${quiz.title}-${quiz.createdAt}`}
                     quiz={quiz}
@@ -286,7 +387,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
             </CardGrid>
           )}
 
-          {!loading && paginatedLibraryQuizzes.length > 0 && (
+          {!isGridLoading && visibleLibraryQuizzes.length > 0 && (
             <PaginationWrapper>
               <CardPagination {...paginationProps} />
             </PaginationWrapper>
@@ -337,13 +438,45 @@ const PageInner = styled.div`
   }
 `;
 
+const Controls = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+const ControlsTopRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  @media (max-width: ${props => props.theme.breakpoints.md}) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+`;
+
+const ActionsGroup = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-left: auto;
+  flex-shrink: 0;
+
+  @media (max-width: ${props => props.theme.breakpoints.md}) {
+    width: 100%;
+    margin-left: 0;
+    justify-content: stretch;
+  }
+`;
+
 const PaginationWrapper = styled.div`
   padding: 0 16px;
 `;
 
 const SearchResultsText = styled(Body1)`
   padding: 10px;
-  font-size: 18px;
 `;
 
 const SearchEmptyStateWrapper = styled.div`
