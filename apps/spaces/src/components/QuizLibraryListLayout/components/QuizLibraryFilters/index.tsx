@@ -6,14 +6,19 @@ import { FaUserLarge } from "react-icons/fa6";
 import { IoLanguage } from "react-icons/io5";
 import { BiSolidTagAlt } from "react-icons/bi";
 
+type FilterOption = {
+  value: string;
+  label: string;
+};
+
 type Props = {
   variant: "toggle" | "panel";
   areFiltersOpen?: boolean;
   onToggleFilters?: () => void;
-  languageOptions?: string[];
+  languageOptions?: FilterOption[];
   selectedLanguages?: string[];
   onLanguageChange?: (value: string[]) => void;
-  tagOptions?: string[];
+  tagOptions?: FilterOption[];
   selectedTags?: string[];
   onTagChange?: (value: string[]) => void;
   creatorOptions?: string[];
@@ -41,16 +46,6 @@ export const QuizLibraryFilters: FunctionComponent<Props> = ({
     && onLanguageChange
     && onTagChange
     && onCreatorChange,
-  );
-
-  const languageFilterOptions = useMemo(
-    () => languageOptions.map((language) => ({ value: language, label: language })),
-    [languageOptions],
-  );
-
-  const tagFilterOptions = useMemo(
-    () => tagOptions.map((tag) => ({ value: tag, label: tag })),
-    [tagOptions],
   );
 
   const creatorFilterOptions = useMemo(
@@ -84,23 +79,21 @@ export const QuizLibraryFilters: FunctionComponent<Props> = ({
 
       <StyledFilterSelect
         value={selectedLanguages}
-        options={languageFilterOptions}
+        options={languageOptions}
         placeholder={t("quiz_library.filters_panel.language")}
         ariaLabel={t("quiz_library.filters_panel.language")}
         leftIcon={<IoLanguage size={10} color={defaultTheme.colors.blue6} />}
         isMulti={true}
-        isPlaceholderMuted={false}
         onChange={(value) => onLanguageChange!(value as string[])}
       />
 
       <StyledFilterSelect
         value={selectedTags}
-        options={tagFilterOptions}
+        options={tagOptions}
         placeholder={t("quiz_library.filters_panel.tag")}
         ariaLabel={t("quiz_library.filters_panel.tag")}
         leftIcon={<BiSolidTagAlt size={10} color={defaultTheme.colors.warning4} />}
-        isMulti
-        isPlaceholderMuted={false}
+        isMulti={true}
         onChange={(value) => onTagChange!(value as string[])}
       />
 

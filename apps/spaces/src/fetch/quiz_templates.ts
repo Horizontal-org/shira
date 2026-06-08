@@ -23,12 +23,20 @@ export type QuizTemplateSortOption =
   | "title-desc";
 
 export const DEFAULT_QUIZ_TEMPLATE_SORT: QuizTemplateSortOption = "createdAt-desc";
+export const DEFAULT_PAGE_LIMIT = 20;
 
 interface GetQuizTemplatesParams {
   page?: number;
   limit?: number;
   search?: string;
   sortOption?: QuizTemplateSortOption;
+  langTagCodes?: string[];
+  tagSlugs?: string[];
+}
+
+export interface QuizTemplateFilterOption {
+  value: string;
+  label: string;
 }
 
 export interface LibraryQuizQuestionTemplateDto {
@@ -68,6 +76,27 @@ type LibraryQuizTemplatesApiResponseDto = {
   limit: number;
 };
 
+type ListQuizTemplatesApiQueryDto = {
+  page: number;
+  limit: number;
+  search?: string;
+  sortOrder?: "asc" | "desc";
+  langTags?: string;
+  tags?: string;
+};
+
+type LibraryLangTagApiDto = {
+  id: number;
+  name: string;
+  code: string;
+};
+
+type LibraryTagApiDto = {
+  id: number;
+  name: string;
+  slug: string;
+};
+
 const getSortOrderFromSortOption = (sortOption: QuizTemplateSortOption) => {
   if (sortOption === "createdAt-asc") {
     return "asc";
@@ -89,28 +118,40 @@ const normalizeQuizTemplate = (quiz: LibraryQuizApiDto): LibraryQuizDto => ({
   tags: (quiz.tags ?? []).map((tag) => tag.name.trim()),
 });
 
+const serializeFilterValues = (values?: string[]) => {
+  if (!values?.length) {
+    return;
+  }
+
+  return values.join(",");
+};
+
 export const getQuizTemplates = async (
   {
     page = 1,
-    limit = 10,
+    limit = DEFAULT_PAGE_LIMIT,
     search,
     sortOption = DEFAULT_QUIZ_TEMPLATE_SORT,
+    langTagCodes,
+    tagSlugs,
   }: GetQuizTemplatesParams = {},
 ): Promise<LibraryQuizTemplatesPageDto> => {
   try {
     const sortOrder = getSortOrderFromSortOption(sortOption);
+    const serializedLangTags = serializeFilterValues(langTagCodes);
+    const serializedTags = serializeFilterValues(tagSlugs);
+    const params: ListQuizTemplatesApiQueryDto = {
+      page,
+      limit,
+      ...(sortOrder ? { sortOrder } : {}),
+      ...(search ? { search } : {}),
+      ...(serializedLangTags ? { langTags: serializedLangTags } : {}),
+      ...(serializedTags ? { tags: serializedTags } : {}),
+    };
 
     const response = await axios.get<LibraryQuizTemplatesApiResponseDto>(
       `${process.env.REACT_APP_LIBRARY_API_URL}/quiz-templates`,
-      {
-        params: {
-          page,
-          limit,
-          ...(sortOrder ? { sortOrder } : {}),
-          ...(search ? { search } : {}),
-        },
-        withCredentials: false, // TODO remove
-      },
+      { params },
     );
 
     return {
@@ -131,12 +172,45 @@ export const getQuizTemplateQuestions = async (
   try {
     const response = await axios.get<LibraryQuizQuestionTemplateDto[] | null>(
       `${process.env.REACT_APP_LIBRARY_API_URL}/quiz-templates/${quizId}/questions`,
-      { withCredentials: false }, // TODO remove
     );
 
     return response.data;
   } catch (error) {
     console.error(`Error fetching quiz template questions for ${quizId}:`, error);
     return null;
+  }
+};
+
+export const getQuizTemplateLanguageOptions = async (): Promise<QuizTemplateFilterOption[]> => {
+  try {
+    const response = await axios.get<LibraryLangTagApiDto[]>(
+      `${process.env.REACT_APP_LIBRARY_API_URL}/lang-tags`,
+      { withCredentials: true }
+    );
+
+    return response.data.map((language) => ({
+      value: language.code,
+      label: language.name.trim(),
+    }));
+  } catch (error) {
+    console.error("Error fetching quiz template language options:", error);
+    return [];
+  }
+};
+
+export const getQuizTemplateTagOptions = async (): Promise<QuizTemplateFilterOption[]> => {
+  try {
+    const response = await axios.get<LibraryTagApiDto[]>(
+      `${process.env.REACT_APP_LIBRARY_API_URL}/tags`,
+      { withCredentials: true }
+    );
+
+    return response.data.map((tag) => ({
+      value: tag.slug,
+      label: tag.name.trim(),
+    }));
+  } catch (error) {
+    console.error("Error fetching quiz template tag options:", error);
+    return [];
   }
 };

@@ -11,9 +11,12 @@ import { QuizLibrarySearchInput } from "./components/QuizLibrarySearchInput";
 import { QuizLibrarySortSelect } from "./components/QuizLibrarySortSelect";
 import {
   DEFAULT_QUIZ_TEMPLATE_SORT,
+  getQuizTemplateLanguageOptions,
+  getQuizTemplateTagOptions,
   getQuizTemplates,
   type LibraryQuizDto,
   type LibraryQuizQuestionTemplateDto,
+  type QuizTemplateFilterOption,
   type QuizTemplateSortOption,
 } from "../../fetch/quiz_templates";
 import { QuizLimitModal } from "../modals/QuizLimitModal";
@@ -24,6 +27,7 @@ import { QuizLibraryFlowManagement } from "../QuizLibraryFlowManagement";
 
 const DEFAULT_PAGE_SIZE = 10;
 const SEARCH_DEBOUNCE_DELAY_MS = 200;
+const DEFAULT_CREATOR_OPTIONS = ["Shira Team"];
 
 const getQuizTemplateTimestamp = (createdAt: string) => {
   return new Date(createdAt).getTime();
@@ -56,12 +60,16 @@ const sortQuizTemplates = (
 const getAllQuizTemplates = async (
   search?: string,
   sortOption: QuizTemplateSortOption = DEFAULT_QUIZ_TEMPLATE_SORT,
+  langTagCodes?: string[],
+  tagSlugs?: string[],
 ): Promise<LibraryQuizDto[]> => {
   const firstPage = await getQuizTemplates({
     page: 1,
     limit: 100,
     search,
     sortOption,
+    langTagCodes,
+    tagSlugs,
   });
 
   const totalPages = Math.max(1, Math.ceil(firstPage.total / firstPage.limit));
@@ -77,6 +85,8 @@ const getAllQuizTemplates = async (
         limit: firstPage.limit,
         search,
         sortOption,
+        langTagCodes,
+        tagSlugs,
       })
     )),
   );
@@ -106,9 +116,9 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedCreator, setSelectedCreator] = useState("");
 
+  const [languageOptions, setLanguageOptions] = useState<QuizTemplateFilterOption[]>([]);
+  const [tagOptions, setTagOptions] = useState<QuizTemplateFilterOption[]>([]);
   const [totalAvailableQuizzes, setTotalAvailableQuizzes] = useState(0);
-  const [allMatchingLibraryQuizzes, setAllMatchingLibraryQuizzes] = useState<LibraryQuizDto[]>([]);
-  const [filtersLoading, setFiltersLoading] = useState(false);
   const [previewQuiz, setPreviewQuiz] = useState<LibraryQuizDto | null>(null);
   const [isQuizLimitModalOpen, setIsQuizLimitModalOpen] = useState(false);
   const [isViewPlansModalOpen, setIsViewPlansModalOpen] = useState(false);
@@ -124,9 +134,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
   }), shallow);
 
   const { isSubActive } = useSub();
-  const hasActiveFilters = Boolean(selectedLanguages.length > 0 || selectedTags.length > 0 || selectedCreator);
   const usesClientSideSorting = sortOption === "title-asc" || sortOption === "title-desc";
-  const usesClientSideCollection = hasActiveFilters || usesClientSideSorting;
 
   useEffect(() => {
     fetchQuizzes();
@@ -143,7 +151,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
   }, [searchValue]);
 
   useEffect(() => {
-    if (usesClientSideCollection) {
+    if (usesClientSideSorting) {
       return;
     }
 
@@ -156,6 +164,8 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
           limit: pageSize,
           search: debouncedSearchValue,
           sortOption,
+          langTagCodes: selectedLanguages,
+          tagSlugs: selectedTags,
         });
 
         setLibraryQuizzes(response.data);
@@ -173,83 +183,73 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     };
 
     loadQuizzes();
-  }, [debouncedSearchValue, pageIndex, pageSize, sortOption, usesClientSideCollection]);
+  }, [debouncedSearchValue, pageIndex, pageSize, selectedLanguages, selectedTags, sortOption, usesClientSideSorting]);
 
   useEffect(() => {
-    if (!areFiltersOpen && !usesClientSideCollection) {
+    if (!usesClientSideSorting) {
+      return;
+    }
+
+    const loadAllMatchingQuizzes = async () => {
+      setLoading(true);
+
+      try {
+        const response = await getAllQuizTemplates(
+          debouncedSearchValue,
+          sortOption,
+          selectedLanguages,
+          selectedTags,
+        );
+
+        setLibraryQuizzes(response);
+        setTotalAvailableQuizzes(response.length);
+      } catch (error) {
+        console.error("Failed to get library quizzes:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadAllMatchingQuizzes();
+  }, [debouncedSearchValue, selectedLanguages, selectedTags, sortOption, usesClientSideSorting]);
+
+  useEffect(() => {
+    if (!areFiltersOpen || (languageOptions.length > 0 && tagOptions.length > 0)) {
       return;
     }
 
     const loadFilterOptions = async () => {
-      setFiltersLoading(true);
-
       try {
-        const response = await getAllQuizTemplates(debouncedSearchValue, sortOption);
+        const [nextLanguageOptions, nextTagOptions] = await Promise.all([
+          getQuizTemplateLanguageOptions(),
+          getQuizTemplateTagOptions(),
+        ]);
 
-        setAllMatchingLibraryQuizzes(response);
+        setLanguageOptions(nextLanguageOptions);
+        setTagOptions(nextTagOptions);
       } catch (error) {
-        console.error("Failed to get filter options for library quizzes:", error);
-      } finally {
-        setFiltersLoading(false);
+        console.error("Failed to get quiz template filter options:", error);
       }
     };
 
     loadFilterOptions();
-  }, [areFiltersOpen, debouncedSearchValue, sortOption, usesClientSideCollection]);
+  }, [areFiltersOpen, languageOptions.length, tagOptions.length]);
 
-  const languageOptions = useMemo(
-    () => Array.from(
-      new Set(allMatchingLibraryQuizzes.flatMap((quiz) => quiz.languages)))
-      .sort((first, second) => first.localeCompare(second)),
-    [allMatchingLibraryQuizzes],
-  );
-  const tagOptions = useMemo(
-    () => Array.from(new Set(allMatchingLibraryQuizzes.flatMap((quiz) => quiz.tags)))
-      .sort((first, second) => first.localeCompare(second)),
-    [allMatchingLibraryQuizzes],
-  );
   const creatorOptions = useMemo(
-    () => Array.from(new Set(allMatchingLibraryQuizzes.map((quiz) => quiz.author)))
-      .sort((first, second) => first.localeCompare(second)),
-    [allMatchingLibraryQuizzes],
+    () => DEFAULT_CREATOR_OPTIONS,
+    [],
   );
-
-  const filteredLibraryQuizzes = useMemo(() => {
-    if (!usesClientSideCollection) {
-      return [];
-    }
-
-    return allMatchingLibraryQuizzes.filter((quiz) => {
-      const matchesLanguage = selectedLanguages.length === 0
-        || selectedLanguages.some((selectedLanguage) => quiz.languages.includes(selectedLanguage));
-      const matchesTag = selectedTags.length === 0
-        || selectedTags.some((selectedTag) => quiz.tags.includes(selectedTag));
-      const matchesCreator = !selectedCreator || quiz.author === selectedCreator;
-
-      return matchesLanguage && matchesTag && matchesCreator;
-    });
-  }, [
-    allMatchingLibraryQuizzes,
-    selectedCreator,
-    selectedLanguages,
-    selectedTags,
-    usesClientSideCollection,
-  ]);
 
   const sortedLibraryQuizzes = useMemo(
     () => sortQuizTemplates(libraryQuizzes, sortOption),
     [libraryQuizzes, sortOption],
   );
-  const sortedFilteredLibraryQuizzes = useMemo(
-    () => sortQuizTemplates(filteredLibraryQuizzes, sortOption),
-    [filteredLibraryQuizzes, sortOption],
-  );
 
-  const total = usesClientSideCollection ? sortedFilteredLibraryQuizzes.length : totalAvailableQuizzes;
-  const visibleLibraryQuizzes = usesClientSideCollection
-    ? sortedFilteredLibraryQuizzes.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize)
-    : sortedLibraryQuizzes;
-  const isGridLoading = usesClientSideCollection ? filtersLoading : loading;
+  const total = usesClientSideSorting ? sortedLibraryQuizzes.length : totalAvailableQuizzes;
+  const visibleLibraryQuizzes = usesClientSideSorting
+    ? sortedLibraryQuizzes.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize)
+    : libraryQuizzes;
+  const isGridLoading = loading;
 
   const pageCount = Math.max(1, Math.ceil(total / pageSize));
   const hasActiveSearch = debouncedSearchValue.length > 0;
