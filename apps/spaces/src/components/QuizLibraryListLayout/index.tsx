@@ -8,9 +8,12 @@ import { QuizCard } from "./components/QuizCard";
 import { QuizCardSkeleton } from "./components/QuizCardSkeleton";
 import { QuizLibrarySearchInput } from "./components/QuizLibrarySearchInput";
 import {
-  getQuizTemplates,
+  DEFAULT_QUIZ_TEMPLATE_SORT,
+  getAllQuizTemplates,
   type LibraryQuizDto,
   type LibraryQuizQuestionTemplateDto,
+  type QuizTemplateSortOption,
+  sortQuizTemplates,
 } from "../../fetch/quiz_templates";
 import { QuizLimitModal } from "../modals/QuizLimitModal";
 import { ViewPlansModal } from "../modals/ViewPlansModal";
@@ -19,6 +22,7 @@ import { useSub } from "../../hooks/useSub";
 import { QuizLibraryFlowManagement } from "../QuizLibraryFlowManagement";
 
 const DEFAULT_PAGE_SIZE = 10;
+const SEARCH_DEBOUNCE_DELAY_MS = 200;
 
 export const QuizTemplatesListLayout: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -27,12 +31,12 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
   const [libraryQuizzes, setLibraryQuizzes] = useState<LibraryQuizDto[]>([]);
   const [loading, setLoading] = useState(false);
   const [pageIndex, setPageIndex] = useState(0);
-  const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
+  const pageSize = DEFAULT_PAGE_SIZE;
 
   const [searchValue, setSearchValue] = useState("");
   const [debouncedSearchValue, setDebouncedSearchValue] = useState("");
+  const [sortOption, setSortOption] = useState<QuizTemplateSortOption>(DEFAULT_QUIZ_TEMPLATE_SORT);
 
-  const [total, setTotal] = useState(0);
   const [previewQuiz, setPreviewQuiz] = useState<LibraryQuizDto | null>(null);
   const [isQuizLimitModalOpen, setIsQuizLimitModalOpen] = useState(false);
   const [isViewPlansModalOpen, setIsViewPlansModalOpen] = useState(false);
@@ -56,7 +60,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
   useEffect(() => {
     const debounceTimeout = window.setTimeout(() => {
       setDebouncedSearchValue(searchValue.trim());
-    }, 200);
+    }, SEARCH_DEBOUNCE_DELAY_MS);
 
     return () => {
       window.clearTimeout(debounceTimeout);
@@ -64,49 +68,28 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
   }, [searchValue]);
 
   useEffect(() => {
-    let isActive = true;
-
     const loadQuizzes = async () => {
       setLoading(true);
 
       try {
-        const response = await getQuizTemplates({
-          page: pageIndex + 1,
-          limit: pageSize,
-          search: debouncedSearchValue || undefined,
-        });
-
-        if (!isActive) {
-          return;
-        }
-
-        setLibraryQuizzes(response.data);
-        setTotal(response.total);
-        setPageSize(response.limit);
-        setPageIndex((currentPageIndex) => {
-          const nextPageIndex = Math.max(0, response.page - 1);
-
-          return currentPageIndex === nextPageIndex ? currentPageIndex : nextPageIndex;
-        });
+        const response = await getAllQuizTemplates({ search: debouncedSearchValue });
+        setLibraryQuizzes(response);
       } catch (error) {
-        if (!isActive) {
-          return;
-        }
-
         console.error("Failed to get library quizzes:", error);
       } finally {
-        if (isActive) {
-          setLoading(false);
-        }
+        setLoading(false);
       }
     };
 
     loadQuizzes();
+  }, [debouncedSearchValue]);
 
-    return () => {
-      isActive = false;
-    };
-  }, [debouncedSearchValue, pageIndex, pageSize]);
+  const sortedLibraryQuizzes = sortQuizTemplates(libraryQuizzes, sortOption);
+  const total = sortedLibraryQuizzes.length;
+  const paginatedLibraryQuizzes = sortedLibraryQuizzes.slice(
+    pageIndex * pageSize,
+    (pageIndex + 1) * pageSize,
+  );
 
   const pageCount = Math.max(1, Math.ceil(total / pageSize));
   const hasActiveSearch = debouncedSearchValue.length > 0;
@@ -174,6 +157,11 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     setPageIndex(0);
   };
 
+  const handleSortChange = (nextSortOption: QuizTemplateSortOption) => {
+    setSortOption(nextSortOption);
+    setPageIndex(0);
+  };
+
   return (
     <QuizLibraryFlowManagement>
       <PageContent id="quiz-library-list-layout">
@@ -183,6 +171,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
           <QuizLibrarySearchInput
             value={searchValue}
             onChange={handleSearchChange}
+            onSortChange={handleSortChange}
           />
 
           {hasActiveSearch && (
@@ -227,7 +216,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
                   <QuizCardSkeleton key={`quiz-card-skeleton-${index}`} />
                 ))
               ) : (
-                libraryQuizzes.map((quiz) => (
+                paginatedLibraryQuizzes.map((quiz) => (
                   <QuizCard
                     key={`${quiz.title}-${quiz.createdAt}`}
                     quiz={quiz}
@@ -241,7 +230,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
             </CardGrid>
           )}
 
-          {!loading && libraryQuizzes.length > 0 && (
+          {!loading && paginatedLibraryQuizzes.length > 0 && (
             <PaginationWrapper>
               <CardPagination {...paginationProps} />
             </PaginationWrapper>

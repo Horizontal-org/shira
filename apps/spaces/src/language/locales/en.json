@@ -297,6 +297,12 @@
             "subtitle": "Try changing keywords or clearing your filters to see more results."
         },
         "sort_by": "Sort by",
+        "sort_options": {
+            "newest_to_oldest": "Newest to oldest",
+            "oldest_to_newest": "Oldest to newest",
+            "quiz_name_asc": "Quiz name (A-Z)",
+            "quiz_name_desc": "Quiz name (Z-A)"
+        },
         "filters": "Filters",
         "view_template": "View template",
         "use_template": "Use template",

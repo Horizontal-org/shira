@@ -16,10 +16,23 @@ export interface LibraryQuizTemplatesPageDto {
   limit: number;
 }
 
+export type QuizTemplateSortOption =
+  | "createdAt-desc"
+  | "createdAt-asc"
+  | "title-asc"
+  | "title-desc";
+
+export const DEFAULT_QUIZ_TEMPLATE_SORT: QuizTemplateSortOption = "createdAt-desc";
+
 interface GetQuizTemplatesParams {
   page?: number;
   limit?: number;
   search?: string;
+}
+
+interface GetAllQuizTemplatesParams {
+  search?: string;
+  pageSize?: number;
 }
 
 export interface LibraryQuizQuestionTemplateDto {
@@ -59,6 +72,10 @@ type LibraryQuizTemplatesApiResponseDto = {
   limit: number;
 }
 
+const getQuizTemplateTimestamp = (createdAt: string) => {
+  return new Date(createdAt).getTime();
+};
+
 const normalizeQuizTemplate = (quiz: LibraryQuizApiDto): LibraryQuizDto => ({
   id: quiz.id,
   title: quiz.title,
@@ -84,7 +101,7 @@ export const getQuizTemplates = async (
           limit,
           ...(search ? { search } : {}),
         },
-        withCredentials: false,
+        withCredentials: false, // TODO remove
       },
     )
 
@@ -101,12 +118,65 @@ export const getQuizTemplates = async (
   }
 }
 
+export const getAllQuizTemplates = async ({ search, pageSize = 100 }
+  : GetAllQuizTemplatesParams = {}
+): Promise<LibraryQuizDto[]> => {
+  const firstPage = await getQuizTemplates({
+    page: 1,
+    limit: pageSize,
+    search,
+  });
+
+  const totalPages = Math.max(1, Math.ceil(firstPage.total / firstPage.limit));
+
+  if (totalPages === 1) {
+    return firstPage.data;
+  }
+
+  const allRemainingPages = await Promise.all(
+    Array.from({ length: totalPages - 1 }, (_, index) => (
+      getQuizTemplates({
+        page: index + 2,
+        limit: firstPage.limit,
+        search,
+      })
+    )),
+  );
+
+  return [
+    ...firstPage.data,
+    ...allRemainingPages.flatMap((page) => page.data),
+  ];
+};
+
+export const sortQuizTemplates = (
+  quizzes: LibraryQuizDto[],
+  sortOption: QuizTemplateSortOption = DEFAULT_QUIZ_TEMPLATE_SORT,
+): LibraryQuizDto[] => {
+  return [...quizzes].sort((firstQuiz, secondQuiz) => {
+    const firstTitle = firstQuiz.title.trim().toLowerCase();
+    const secondTitle = secondQuiz.title.trim().toLowerCase();
+
+    switch (sortOption) {
+      case "createdAt-asc":
+        return getQuizTemplateTimestamp(firstQuiz.createdAt) - getQuizTemplateTimestamp(secondQuiz.createdAt);
+      case "title-asc":
+        return firstTitle.localeCompare(secondTitle);
+      case "title-desc":
+        return secondTitle.localeCompare(firstTitle);
+      case "createdAt-desc":
+      default:
+        return getQuizTemplateTimestamp(secondQuiz.createdAt) - getQuizTemplateTimestamp(firstQuiz.createdAt);
+    }
+  });
+};
+
 export const getQuizTemplateQuestions = async (quizId: string | number)
   : Promise<LibraryQuizQuestionTemplateDto[] | null> => {
   try {
     const response = await axios.get<LibraryQuizQuestionTemplateDto[] | null>(
       `${process.env.REACT_APP_LIBRARY_API_URL}/quiz-templates/${quizId}/questions`,
-      { withCredentials: false },
+      { withCredentials: false }, // TODO remove
     )
 
     return response.data
