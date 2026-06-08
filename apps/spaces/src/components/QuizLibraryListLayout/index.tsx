@@ -363,7 +363,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
                   tagOptions={tagOptions}
                   selectedTags={selectedTags}
                   onTagChange={handleTagChange}
-                  creatorOptions={Array.from(DEFAULT_CREATOR_OPTIONS)}
+                  creatorOptions={Array.of(DEFAULT_CREATOR_OPTIONS)}
                   selectedCreator={selectedCreator}
                   onCreatorChange={handleCreatorChange}
                 />
@@ -380,7 +380,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
               tagOptions={tagOptions}
               selectedTags={selectedTags}
               onTagChange={handleTagChange}
-              creatorOptions={Array.from(DEFAULT_CREATOR_OPTIONS)}
+              creatorOptions={Array.of(DEFAULT_CREATOR_OPTIONS)}
               selectedCreator={selectedCreator}
               onCreatorChange={handleCreatorChange}
             />
