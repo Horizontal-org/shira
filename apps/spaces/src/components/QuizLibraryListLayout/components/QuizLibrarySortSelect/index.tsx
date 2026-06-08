@@ -23,6 +23,14 @@ export const QuizLibrarySortSelect: FunctionComponent<Props> = ({
       value: "createdAt-asc",
       label: t("quiz_library.sort_options.oldest_to_newest"),
     },
+    {
+      value: "title-asc",
+      label: t("quiz_library.sort_options.quiz_name_asc"),
+    },
+    {
+      value: "title-desc",
+      label: t("quiz_library.sort_options.quiz_name_desc"),
+    },
   ], [t]);
 
   return (

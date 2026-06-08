@@ -123,7 +123,6 @@ const TagRow = styled.div`
   flex-wrap: nowrap;
   gap: 8px;
   color: ${props => props.theme.colors.blue7};
-  min-width: 0;
   overflow: hidden;
 `;
 

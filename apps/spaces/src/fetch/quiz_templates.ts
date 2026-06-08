@@ -18,7 +18,9 @@ export interface LibraryQuizTemplatesPageDto {
 
 export type QuizTemplateSortOption =
   | "createdAt-desc"
-  | "createdAt-asc";
+  | "createdAt-asc"
+  | "title-asc"
+  | "title-desc";
 
 export const DEFAULT_QUIZ_TEMPLATE_SORT: QuizTemplateSortOption = "createdAt-desc";
 
@@ -67,7 +69,15 @@ type LibraryQuizTemplatesApiResponseDto = {
 };
 
 const getSortOrderFromSortOption = (sortOption: QuizTemplateSortOption) => {
-  return sortOption === "createdAt-asc" ? "asc" : "desc";
+  if (sortOption === "createdAt-asc") {
+    return "asc";
+  }
+
+  if (sortOption === "createdAt-desc") {
+    return "desc";
+  }
+
+  return;
 };
 
 const normalizeQuizTemplate = (quiz: LibraryQuizApiDto): LibraryQuizDto => ({
@@ -88,13 +98,15 @@ export const getQuizTemplates = async (
   }: GetQuizTemplatesParams = {},
 ): Promise<LibraryQuizTemplatesPageDto> => {
   try {
+    const sortOrder = getSortOrderFromSortOption(sortOption);
+
     const response = await axios.get<LibraryQuizTemplatesApiResponseDto>(
       `${process.env.REACT_APP_LIBRARY_API_URL}/quiz-templates`,
       {
         params: {
           page,
           limit,
-          sortOrder: getSortOrderFromSortOption(sortOption),
+          ...(sortOrder ? { sortOrder } : {}),
           ...(search ? { search } : {}),
         },
         withCredentials: false, // TODO remove

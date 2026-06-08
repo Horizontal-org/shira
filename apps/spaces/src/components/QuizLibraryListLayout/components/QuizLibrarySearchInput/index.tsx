@@ -37,7 +37,7 @@ export const QuizLibrarySearchInput: FunctionComponent<Props> = ({
             type="button"
             onClick={() => onChange("")}
           >
-            <IoCloseCircle size={24} color={defaultTheme.colors.dark.mediumGrey} />
+            <IoCloseCircle size={24} />
           </ClearButton>
         )}
       </SearchInputWrap>

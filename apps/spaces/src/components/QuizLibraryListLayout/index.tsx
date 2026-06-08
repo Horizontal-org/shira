@@ -34,8 +34,19 @@ const sortQuizTemplates = (
   sortOption: QuizTemplateSortOption,
 ) => {
   return [...quizzes].sort((firstQuiz, secondQuiz) => {
+    const firstTitle = firstQuiz.title.trim().toLowerCase();
+    const secondTitle = secondQuiz.title.trim().toLowerCase();
+
     if (sortOption === "createdAt-asc") {
       return getQuizTemplateTimestamp(firstQuiz.createdAt) - getQuizTemplateTimestamp(secondQuiz.createdAt);
+    }
+
+    if (sortOption === "title-asc") {
+      return firstTitle.localeCompare(secondTitle);
+    }
+
+    if (sortOption === "title-desc") {
+      return secondTitle.localeCompare(firstTitle);
     }
 
     return getQuizTemplateTimestamp(secondQuiz.createdAt) - getQuizTemplateTimestamp(firstQuiz.createdAt);
@@ -90,11 +101,12 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
   const [sortOption, setSortOption] = useState<QuizTemplateSortOption>(DEFAULT_QUIZ_TEMPLATE_SORT);
 
   const [areFiltersOpen, setAreFiltersOpen] = useState(false);
+
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedCreator, setSelectedCreator] = useState("");
 
-  const [serverTotal, setServerTotal] = useState(0);
+  const [totalAvailableQuizzes, setTotalAvailableQuizzes] = useState(0);
   const [allMatchingLibraryQuizzes, setAllMatchingLibraryQuizzes] = useState<LibraryQuizDto[]>([]);
   const [filtersLoading, setFiltersLoading] = useState(false);
   const [previewQuiz, setPreviewQuiz] = useState<LibraryQuizDto | null>(null);
@@ -113,6 +125,8 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
 
   const { isSubActive } = useSub();
   const hasActiveFilters = Boolean(selectedLanguages.length > 0 || selectedTags.length > 0 || selectedCreator);
+  const usesClientSideSorting = sortOption === "title-asc" || sortOption === "title-desc";
+  const usesClientSideCollection = hasActiveFilters || usesClientSideSorting;
 
   useEffect(() => {
     fetchQuizzes();
@@ -129,7 +143,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
   }, [searchValue]);
 
   useEffect(() => {
-    if (hasActiveFilters) {
+    if (usesClientSideCollection) {
       return;
     }
 
@@ -145,7 +159,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
         });
 
         setLibraryQuizzes(response.data);
-        setServerTotal(response.total);
+        setTotalAvailableQuizzes(response.total);
         setPageIndex((currentPageIndex) => {
           const nextPageIndex = Math.max(0, response.page - 1);
 
@@ -159,10 +173,10 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     };
 
     loadQuizzes();
-  }, [debouncedSearchValue, hasActiveFilters, pageIndex, pageSize, sortOption]);
+  }, [debouncedSearchValue, pageIndex, pageSize, sortOption, usesClientSideCollection]);
 
   useEffect(() => {
-    if (!areFiltersOpen && !hasActiveFilters) {
+    if (!areFiltersOpen && !usesClientSideCollection) {
       return;
     }
 
@@ -181,7 +195,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     };
 
     loadFilterOptions();
-  }, [areFiltersOpen, debouncedSearchValue, hasActiveFilters, sortOption]);
+  }, [areFiltersOpen, debouncedSearchValue, sortOption, usesClientSideCollection]);
 
   const languageOptions = useMemo(
     () => Array.from(
@@ -201,7 +215,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
   );
 
   const filteredLibraryQuizzes = useMemo(() => {
-    if (!hasActiveFilters) {
+    if (!usesClientSideCollection) {
       return [];
     }
 
@@ -216,10 +230,10 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     });
   }, [
     allMatchingLibraryQuizzes,
-    hasActiveFilters,
     selectedCreator,
     selectedLanguages,
     selectedTags,
+    usesClientSideCollection,
   ]);
 
   const sortedLibraryQuizzes = useMemo(
@@ -231,11 +245,11 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     [filteredLibraryQuizzes, sortOption],
   );
 
-  const total = hasActiveFilters ? sortedFilteredLibraryQuizzes.length : serverTotal;
-  const visibleLibraryQuizzes = hasActiveFilters
+  const total = usesClientSideCollection ? sortedFilteredLibraryQuizzes.length : totalAvailableQuizzes;
+  const visibleLibraryQuizzes = usesClientSideCollection
     ? sortedFilteredLibraryQuizzes.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize)
     : sortedLibraryQuizzes;
-  const isGridLoading = hasActiveFilters ? filtersLoading : loading;
+  const isGridLoading = usesClientSideCollection ? filtersLoading : loading;
 
   const pageCount = Math.max(1, Math.ceil(total / pageSize));
   const hasActiveSearch = debouncedSearchValue.length > 0;
@@ -515,7 +529,6 @@ const ActionsGroup = styled.div`
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     width: 100%;
     margin-left: 0;
-    justify-content: stretch;
   }
 `;
 

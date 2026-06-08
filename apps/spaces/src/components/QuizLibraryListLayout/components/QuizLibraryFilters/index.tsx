@@ -1,9 +1,8 @@
-import { FilterSelect, FilterToggleButton, LanguageIcon, defaultTheme, styled, type FilterSelectProps } from "@horizontal-org/shira-ui";
+import { FilterSelect, FilterToggleButton, defaultTheme, styled, type FilterSelectProps } from "@horizontal-org/shira-ui";
 import { FunctionComponent, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { HiFunnel } from "react-icons/hi2";
-import { FaCircle, FaUserLarge } from "react-icons/fa6";
-import { PiUserFill } from "react-icons/pi";
+import { FaUserLarge } from "react-icons/fa6";
 import { IoLanguage } from "react-icons/io5";
 import { BiSolidTagAlt } from "react-icons/bi";
 

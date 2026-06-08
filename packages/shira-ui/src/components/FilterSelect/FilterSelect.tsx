@@ -18,7 +18,6 @@ export interface FilterSelectProps {
   ariaLabel?: string;
   className?: string;
   isMulti?: boolean;
-  isPlaceholderMuted?: boolean;
 }
 
 const PORTAL_ID = 'filter-select-portal-container';
@@ -32,7 +31,6 @@ export const FilterSelect = ({
   ariaLabel,
   className,
   isMulti = false,
-  isPlaceholderMuted = true,
 }: FilterSelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [position, setPosition] = useState({ top: 0, left: 0, width: 0 });
@@ -147,7 +145,7 @@ export const FilterSelect = ({
       >
         <TriggerContent>
           {leftIcon && <Icon>{leftIcon}</Icon>}
-          <Label $hasValue={Boolean(selectedLabel)} $isPlaceholderMuted={isPlaceholderMuted}>
+          <Label $hasValue={Boolean(selectedLabel)}>
             {selectedLabel ? (
               <>
                 <LabelPrefix>{`${placeholder}: `}</LabelPrefix>
@@ -236,17 +234,11 @@ const Icon = styled.span`
   flex: 0 0 auto;
 `;
 
-const Label = styled(Body4)<{ $hasValue: boolean; $isPlaceholderMuted: boolean }>`
+const Label = styled(Body4) <{ $hasValue: boolean }>`
   display: flex;
   align-items: center;
   min-width: 0;
-  color: ${props => {
-    if (props.$hasValue || !props.$isPlaceholderMuted) {
-      return props.theme.colors.dark.black;
-    }
-
-    return props.theme.colors.dark.mediumGrey;
-  }};
+  color: ${props => props.theme.colors.dark.black};
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
