@@ -8,6 +8,7 @@ import { TbAlertTriangleFilled } from 'react-icons/tb';
 import { IoEyeSharp } from 'react-icons/io5';
 import { FaCirclePlus, FaUserLarge } from 'react-icons/fa6';
 import { QuizCardTags } from '../QuizCardTags';
+import { HighlightedText } from '../HighlightedText';
 
 export interface CardProps {
   quiz: LibraryQuizDto;
@@ -16,30 +17,6 @@ export interface CardProps {
   onUseTemplate: () => void;
   onReportIssue: () => void;
 }
-
-const renderHighlightedTitle = (title: string, searchTerm?: string) => {
-  const normalizedSearchTerm = searchTerm?.trim();
-
-  if (!normalizedSearchTerm) {
-    return title;
-  }
-
-  const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const pattern = new RegExp(`(${escapeRegExp(normalizedSearchTerm)})`, 'ig'); // (i = case-insensitive, g = global)
-  const parts = title.split(pattern);
-
-  return parts.map((part, index) => {
-    if (part.toLowerCase() !== normalizedSearchTerm.toLowerCase()) {
-      return <span key={`${part}-${index}`}>{part}</span>;
-    }
-
-    return (
-      <TitleHighlight key={`${part}-${index}`}>
-        {part}
-      </TitleHighlight>
-    );
-  });
-};
 
 const formatCardDate = (value: string) => {
   return new Date(value)
@@ -134,7 +111,9 @@ export const QuizCard: FunctionComponent<CardProps> = ({
         </HeaderSection>
 
         <CardBody>
-          <CardTitle>{renderHighlightedTitle(quiz.title, searchTerm)}</CardTitle>
+          <CardTitle>
+            <HighlightedText text={quiz.title} highlight={searchTerm} />
+          </CardTitle>
           <QuizCardTags tags={quiz.tags} />
         </CardBody>
       </TopSection>
@@ -276,11 +255,6 @@ const CardTitle = styled(Body1SemiBold)`
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     font-size: 20px;
   }
-`;
-
-const TitleHighlight = styled.mark`
-  background: ${props => props.theme.colors.warning1};
-  padding: 0 1px;
 `;
 
 const ModifiedText = styled(Body4)`
