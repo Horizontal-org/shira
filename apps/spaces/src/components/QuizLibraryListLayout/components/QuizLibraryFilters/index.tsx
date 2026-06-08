@@ -54,10 +54,10 @@ export const QuizLibraryFilters: FunctionComponent<Props> = ({
     [tagOptions],
   );
 
-  const creatorFilterOptions = useMemo(() => [
-    { value: "", label: t("quiz_library.filters_panel.all_creators") },
-    ...creatorOptions.map((creator) => ({ value: creator, label: creator })),
-  ], [creatorOptions, t]);
+  const creatorFilterOptions = useMemo(
+    () => creatorOptions.map((creator) => ({ value: creator, label: creator })),
+    [creatorOptions],
+  );
 
   if (!canShowFilters) {
     return null;

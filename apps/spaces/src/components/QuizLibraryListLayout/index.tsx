@@ -11,9 +11,7 @@ import { QuizLibrarySearchInput } from "./components/QuizLibrarySearchInput";
 import { QuizLibrarySortSelect } from "./components/QuizLibrarySortSelect";
 import {
   DEFAULT_QUIZ_TEMPLATE_SORT,
-  getAllQuizTemplates,
   getQuizTemplates,
-  sortQuizTemplates,
   type LibraryQuizDto,
   type LibraryQuizQuestionTemplateDto,
   type QuizTemplateSortOption,
@@ -26,6 +24,57 @@ import { QuizLibraryFlowManagement } from "../QuizLibraryFlowManagement";
 
 const DEFAULT_PAGE_SIZE = 10;
 const SEARCH_DEBOUNCE_DELAY_MS = 200;
+
+const getQuizTemplateTimestamp = (createdAt: string) => {
+  return new Date(createdAt).getTime();
+};
+
+const sortQuizTemplates = (
+  quizzes: LibraryQuizDto[],
+  sortOption: QuizTemplateSortOption,
+) => {
+  return [...quizzes].sort((firstQuiz, secondQuiz) => {
+    if (sortOption === "createdAt-asc") {
+      return getQuizTemplateTimestamp(firstQuiz.createdAt) - getQuizTemplateTimestamp(secondQuiz.createdAt);
+    }
+
+    return getQuizTemplateTimestamp(secondQuiz.createdAt) - getQuizTemplateTimestamp(firstQuiz.createdAt);
+  });
+};
+
+const getAllQuizTemplates = async (
+  search?: string,
+  sortOption: QuizTemplateSortOption = DEFAULT_QUIZ_TEMPLATE_SORT,
+): Promise<LibraryQuizDto[]> => {
+  const firstPage = await getQuizTemplates({
+    page: 1,
+    limit: 100,
+    search,
+    sortOption,
+  });
+
+  const totalPages = Math.max(1, Math.ceil(firstPage.total / firstPage.limit));
+
+  if (totalPages === 1) {
+    return firstPage.data;
+  }
+
+  const remainingPages = await Promise.all(
+    Array.from({ length: totalPages - 1 }, (_, index) => (
+      getQuizTemplates({
+        page: index + 2,
+        limit: firstPage.limit,
+        search,
+        sortOption,
+      })
+    )),
+  );
+
+  return [
+    ...firstPage.data,
+    ...remainingPages.flatMap((page) => page.data),
+  ];
+};
 
 export const QuizTemplatesListLayout: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -92,6 +141,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
           page: pageIndex + 1,
           limit: pageSize,
           search: debouncedSearchValue,
+          sortOption,
         });
 
         setLibraryQuizzes(response.data);
@@ -109,7 +159,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     };
 
     loadQuizzes();
-  }, [debouncedSearchValue, hasActiveFilters, pageIndex, pageSize]);
+  }, [debouncedSearchValue, hasActiveFilters, pageIndex, pageSize, sortOption]);
 
   useEffect(() => {
     if (!areFiltersOpen && !hasActiveFilters) {
@@ -120,9 +170,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
       setFiltersLoading(true);
 
       try {
-        const response = await getAllQuizTemplates({
-          search: debouncedSearchValue,
-        });
+        const response = await getAllQuizTemplates(debouncedSearchValue, sortOption);
 
         setAllMatchingLibraryQuizzes(response);
       } catch (error) {
@@ -133,7 +181,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     };
 
     loadFilterOptions();
-  }, [areFiltersOpen, debouncedSearchValue, hasActiveFilters]);
+  }, [areFiltersOpen, debouncedSearchValue, hasActiveFilters, sortOption]);
 
   const languageOptions = useMemo(
     () => Array.from(

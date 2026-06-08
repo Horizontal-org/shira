@@ -148,7 +148,14 @@ export const FilterSelect = ({
         <TriggerContent>
           {leftIcon && <Icon>{leftIcon}</Icon>}
           <Label $hasValue={Boolean(selectedLabel)} $isPlaceholderMuted={isPlaceholderMuted}>
-            {selectedLabel || placeholder}
+            {selectedLabel ? (
+              <>
+                <LabelPrefix>{`${placeholder}: `}</LabelPrefix>
+                <SelectedValue>{selectedLabel}</SelectedValue>
+              </>
+            ) : (
+              placeholder
+            )}
           </Label>
         </TriggerContent>
         <Chevron>
@@ -230,6 +237,9 @@ const Icon = styled.span`
 `;
 
 const Label = styled(Body4)<{ $hasValue: boolean; $isPlaceholderMuted: boolean }>`
+  display: flex;
+  align-items: center;
+  min-width: 0;
   color: ${props => {
     if (props.$hasValue || !props.$isPlaceholderMuted) {
       return props.theme.colors.dark.black;
@@ -240,6 +250,18 @@ const Label = styled(Body4)<{ $hasValue: boolean; $isPlaceholderMuted: boolean }
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+`;
+
+const LabelPrefix = styled.span`
+  flex: 0 0 auto;
+`;
+
+const SelectedValue = styled.span`
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 700;
 `;
 
 const Chevron = styled.span`
@@ -266,7 +288,7 @@ const Option = styled.button<{ $isSelected: boolean }>`
   width: 100%;
   padding: 10px 12px;
   border: none;
-  background: ${props => props.$isSelected ? props.theme.colors.light.paleGrey : props.theme.colors.light.white};
+  background: ${props => props.$isSelected ? props.theme.colors.light.paleGreen : props.theme.colors.light.white};
   color: ${props => props.theme.colors.dark.darkGrey};
   text-align: left;
   display: flex;
@@ -279,7 +301,7 @@ const Option = styled.button<{ $isSelected: boolean }>`
   }
 
   &:hover {
-    background: ${props => props.theme.colors.light.paleGrey};
+    background: ${props => props.$isSelected ? props.theme.colors.light.paleGreen : props.theme.colors.light.paleGrey};
   }
 `;
 
