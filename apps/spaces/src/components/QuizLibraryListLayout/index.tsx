@@ -171,6 +171,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
           <QuizLibrarySearchInput
             value={searchValue}
             onChange={handleSearchChange}
+            sortOption={sortOption}
             onSortChange={handleSortChange}
           />
 

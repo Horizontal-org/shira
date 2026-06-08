@@ -1,7 +1,6 @@
-import { ChangeEvent, FunctionComponent, useRef, useState } from "react";
-import { BaseFloatingMenu, TextInput, Button, defaultTheme, styled, Body2Regular } from "@horizontal-org/shira-ui";
+import { ChangeEvent, FunctionComponent, useMemo, useState } from "react";
+import { SortSelect, TextInput, Button, defaultTheme, styled } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
-import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 import { HiFunnel } from "react-icons/hi2";
 import { IoCloseCircle, IoSearchOutline } from "react-icons/io5";
 import { type QuizTemplateSortOption } from "../../../../fetch/quiz_templates";
@@ -9,42 +8,41 @@ import { type QuizTemplateSortOption } from "../../../../fetch/quiz_templates";
 type Props = {
   value: string;
   onChange: (value: string) => void;
+  sortOption: QuizTemplateSortOption;
   onSortChange: (sortOption: QuizTemplateSortOption) => void;
 };
 
 export const QuizLibrarySearchInput: FunctionComponent<Props> = ({
   value,
   onChange,
+  sortOption,
   onSortChange,
 }) => {
   const { t } = useTranslation();
   const [isFocused, setIsFocused] = useState(false);
-  const [isSortMenuOpen, setIsSortMenuOpen] = useState(false);
-
-  const sortButtonRef = useRef<HTMLButtonElement>(null);
 
   const handleSearchChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
     onChange(target.value);
   };
 
-  const sortOptions = [
+  const sortOptions = useMemo(() => [
     {
-      value: "createdAt-desc" as const,
+      value: "createdAt-desc",
       label: t("quiz_library.sort_options.newest_to_oldest"),
     },
     {
-      value: "createdAt-asc" as const,
+      value: "createdAt-asc",
       label: t("quiz_library.sort_options.oldest_to_newest"),
     },
     {
-      value: "title-asc" as const,
+      value: "title-asc",
       label: t("quiz_library.sort_options.quiz_name_asc"),
     },
     {
-      value: "title-desc" as const,
+      value: "title-desc",
       label: t("quiz_library.sort_options.quiz_name_desc"),
     },
-  ];
+  ], [t]);
 
   return (
     <Controls>
@@ -73,30 +71,12 @@ export const QuizLibrarySearchInput: FunctionComponent<Props> = ({
         </SearchColumn>
 
         <ActionsGroup>
-          <SortButton
-            ref={sortButtonRef}
-            type="button"
-            onClick={() => setIsSortMenuOpen((prev) => !prev)}
-          >
-            <Body2Regular>{t("quiz_library.sort_by")}</Body2Regular>
-            <SortButtonIcon>
-              {isSortMenuOpen ? <FiChevronUp size={20} /> : <FiChevronDown size={20} />}
-            </SortButtonIcon>
-          </SortButton>
-
-          <BaseFloatingMenu
-            isOpen={isSortMenuOpen}
-            onClose={() => setIsSortMenuOpen(false)}
-            anchorEl={sortButtonRef.current}
-            width={220}
-            elements={sortOptions.map((option) => ({
-              text: option.label,
-              onClick: (event) => {
-                event.stopPropagation();
-                setIsSortMenuOpen(false);
-                onSortChange(option.value);
-              },
-            }))}
+          <StyledSortSelect
+            value={sortOption}
+            options={sortOptions}
+            prefix={`${t("quiz_library.sort_by")}:`}
+            ariaLabel={t("quiz_library.sort_by")}
+            onChange={(nextValue) => onSortChange(nextValue as QuizTemplateSortOption)}
           />
 
           <FilterButton
@@ -216,33 +196,13 @@ const ClearButton = styled.button`
   }
 `;
 
-const SortButton = styled.button`
-  min-width: 220px;
-  min-height: 46px;
-  padding: 12px 20px;
-  border-radius: 24px;
-  border: 1px solid ${defaultTheme.colors.dark.mediumGrey};
-  background: ${defaultTheme.colors.light.white};
-  color: ${defaultTheme.colors.dark.black};
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-
-  &:focus {
-    border-width: 2px;
-    padding: 11px 19px;
-  }
+const StyledSortSelect = styled(SortSelect)`
+  min-width: 280px;
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     flex: 1;
+    min-width: 0;
   }
-`;
-
-const SortButtonIcon = styled.span`
-  display: flex;
-  align-items: center;
-  color: ${defaultTheme.colors.dark.darkGrey};
 `;
 
 const FilterButton = styled(Button)`
