@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useId, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { createPortal } from 'react-dom';
-import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
+import { FiChevronDown, FiChevronUp, FiX } from 'react-icons/fi';
 import { Body4 } from '../Typography';
 
 export interface FilterSelectOption {
@@ -18,6 +18,8 @@ export interface FilterSelectProps {
   ariaLabel?: string;
   className?: string;
   isMulti?: boolean;
+  selectedLabel?: string;
+  onClear?: () => void;
 }
 
 const PORTAL_ID = 'filter-select-portal-container';
@@ -31,6 +33,8 @@ export const FilterSelect = ({
   ariaLabel,
   className,
   isMulti = false,
+  selectedLabel,
+  onClear,
 }: FilterSelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [position, setPosition] = useState({ top: 0, left: 0, width: 0 });
@@ -42,12 +46,25 @@ export const FilterSelect = ({
   const selectedOption = !Array.isArray(value)
     ? options.find((option) => option.value === value)
     : undefined;
+  const hasSelection = Array.isArray(value)
+    ? value.length > 0
+    : Boolean(value);
   const selectedOptions = isMulti
     ? options.filter((option) => selectedValues.includes(option.value))
     : [];
-  const selectedLabel = isMulti
+  const resolvedSelectedLabel = selectedLabel ?? (isMulti
     ? selectedOptions.map((option) => option.label).join(", ")
-    : selectedOption?.label;
+    : selectedOption?.label);
+
+  const handleClear = () => {
+    if (onClear) {
+      onClear();
+    } else {
+      onChange(isMulti ? [] : "");
+    }
+
+    setIsOpen(false);
+  };
 
   useEffect(() => {
     if (!document.getElementById(PORTAL_ID)) {
@@ -134,6 +151,7 @@ export const FilterSelect = ({
   return (
     <Wrapper className={className}>
       <Trigger
+        $hasValue={hasSelection}
         ref={triggerRef}
         type="button"
         role="combobox"
@@ -145,20 +163,32 @@ export const FilterSelect = ({
       >
         <TriggerContent>
           {leftIcon && <Icon>{leftIcon}</Icon>}
-          <Label $hasValue={Boolean(selectedLabel)}>
-            {selectedLabel ? (
+          <Label $hasValue={hasSelection}>
+            {resolvedSelectedLabel ? (
               <>
                 <LabelPrefix>{`${placeholder}: `}</LabelPrefix>
-                <SelectedValue>{selectedLabel}</SelectedValue>
+                <SelectedValue>{resolvedSelectedLabel}</SelectedValue>
               </>
             ) : (
               placeholder
             )}
           </Label>
         </TriggerContent>
-        <Chevron>
-          {isOpen ? <FiChevronUp color="#8A8F98" size={16} /> : <FiChevronDown color="#8A8F98" size={16} />}
-        </Chevron>
+        {hasSelection ? (
+          <ClearButton
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation();
+              handleClear();
+            }}
+          >
+            <FiX size={20} />
+          </ClearButton>
+        ) : (
+          <Chevron>
+            {isOpen ? <FiChevronUp color="#8A8F98" size={16} /> : <FiChevronDown color="#8A8F98" size={16} />}
+          </Chevron>
+        )}
       </Trigger>
 
       {isOpen && createPortal(
@@ -203,7 +233,7 @@ const Wrapper = styled.div`
   min-width: 160px;
 `;
 
-const Trigger = styled.button`
+const Trigger = styled.button<{ $hasValue?: boolean }>`
   appearance: none;
   -webkit-appearance: none;
   min-height: 24px;
@@ -211,7 +241,7 @@ const Trigger = styled.button`
   padding: 6px 12px;
   border-radius: 100px;
   border: 1px solid ${props => props.theme.colors.dark.lightGrey};
-  background: ${props => props.theme.colors.light.white};
+  background: ${props => props.$hasValue ? props.theme.colors.light.paleGreen : props.theme.colors.light.white};
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -261,6 +291,20 @@ const Chevron = styled.span`
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
+`;
+
+const ClearButton = styled.button`
+  appearance: none;
+  -webkit-appearance: none;
+  border: none;
+  background: transparent;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  cursor: pointer;
+  color: ${props => props.theme.colors.dark.mediumGrey};
 `;
 
 const Options = styled.div`

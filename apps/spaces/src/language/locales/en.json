@@ -308,6 +308,8 @@
             "language": "Language",
             "tag": "Tag",
             "creator": "Creator",
+            "clear_all": "Clear all",
+            "selected_count": "{{count}} selected",
             "all_languages": "All languages",
             "all_tags": "All tags",
             "all_creators": "All creators"

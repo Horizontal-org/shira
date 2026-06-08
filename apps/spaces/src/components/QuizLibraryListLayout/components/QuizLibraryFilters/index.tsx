@@ -1,75 +1,71 @@
-import { FilterSelect, FilterToggleButton, defaultTheme, styled, type FilterSelectProps } from "@horizontal-org/shira-ui";
-import { FunctionComponent, useMemo } from "react";
+import { Body4, FilterSelect, defaultTheme, styled, type FilterSelectProps } from "@horizontal-org/shira-ui";
+import { FunctionComponent } from "react";
 import { useTranslation } from "react-i18next";
 import { HiFunnel } from "react-icons/hi2";
 import { FaUserLarge } from "react-icons/fa6";
 import { IoLanguage } from "react-icons/io5";
 import { BiSolidTagAlt } from "react-icons/bi";
+import { FiX } from "react-icons/fi";
 
 type FilterOption = {
   value: string;
   label: string;
 };
 
-type Props = {
-  variant: "toggle" | "panel";
-  areFiltersOpen?: boolean;
-  onToggleFilters?: () => void;
-  languageOptions?: FilterOption[];
-  selectedLanguages?: string[];
-  onLanguageChange?: (value: string[]) => void;
-  tagOptions?: FilterOption[];
-  selectedTags?: string[];
-  onTagChange?: (value: string[]) => void;
-  creatorOptions?: string[];
-  selectedCreator?: string;
-  onCreatorChange?: (value: string) => void;
+type PanelProps = {
+  areFiltersOpen: boolean;
+  languageOptions: FilterOption[];
+  selectedLanguages: string[];
+  onLanguageChange: (value: string[]) => void;
+  tagOptions: FilterOption[];
+  selectedTags: string[];
+  onTagChange: (value: string[]) => void;
+  creatorOptions: string[];
+  selectedCreator: string;
+  onCreatorChange: (value: string) => void;
+  onClearAll: () => void;
 };
 
-export const QuizLibraryFilters: FunctionComponent<Props> = ({
-  variant,
-  areFiltersOpen = false,
-  onToggleFilters,
-  languageOptions = [],
-  selectedLanguages = [],
+const getSelectedLabel = (
+  count: number,
+  options: FilterOption[],
+  selectedValues: string[],
+  selectedCountLabel: string,
+) => {
+  if (count === 0) {
+    return;
+  }
+
+  if (count === 1) {
+    return options.find((option) => option.value === selectedValues[0])?.label ?? selectedValues[0];
+  }
+
+  return selectedCountLabel;
+};
+
+export const QuizLibraryFilters: FunctionComponent<PanelProps> = ({
+  areFiltersOpen,
+  languageOptions,
+  selectedLanguages,
   onLanguageChange,
-  tagOptions = [],
-  selectedTags = [],
+  tagOptions,
+  selectedTags,
   onTagChange,
-  creatorOptions = [],
-  selectedCreator = "",
+  creatorOptions,
+  selectedCreator,
   onCreatorChange,
+  onClearAll,
 }) => {
   const { t } = useTranslation();
-  const canShowFilters = Boolean(
-    onToggleFilters
-    && onLanguageChange
-    && onTagChange
-    && onCreatorChange,
-  );
-
-  const creatorFilterOptions = useMemo(
-    () => creatorOptions.map((creator) => ({ value: creator, label: creator })),
-    [creatorOptions],
-  );
-
-  if (!canShowFilters) {
-    return null;
-  }
-
-  if (variant === "toggle") {
-    return (
-      <StyledFilterToggleButton
-        text={t("quiz_library.filters")}
-        isOpen={areFiltersOpen}
-        onClick={onToggleFilters!}
-      />
-    );
-  }
 
   if (!areFiltersOpen) {
-    return null;
+    return;
   }
+
+  const creatorFilterOptions = creatorOptions.map((creator) => ({ value: creator, label: creator }));
+  const hasActiveFilters = selectedLanguages.length > 0
+    || selectedTags.length > 0
+    || selectedCreator.length > 0;
 
   return (
     <FiltersRow>
@@ -84,7 +80,14 @@ export const QuizLibraryFilters: FunctionComponent<Props> = ({
         ariaLabel={t("quiz_library.filters_panel.language")}
         leftIcon={<IoLanguage size={10} color={defaultTheme.colors.blue6} />}
         isMulti={true}
-        onChange={(value) => onLanguageChange!(value as string[])}
+        selectedLabel={getSelectedLabel(
+          selectedLanguages.length,
+          languageOptions,
+          selectedLanguages,
+          t("quiz_library.filters_panel.selected_count", { count: selectedLanguages.length }),
+        )}
+        onChange={(value) => onLanguageChange(value as string[])}
+        onClear={() => onLanguageChange([])}
       />
 
       <StyledFilterSelect
@@ -94,7 +97,14 @@ export const QuizLibraryFilters: FunctionComponent<Props> = ({
         ariaLabel={t("quiz_library.filters_panel.tag")}
         leftIcon={<BiSolidTagAlt size={10} color={defaultTheme.colors.warning4} />}
         isMulti={true}
-        onChange={(value) => onTagChange!(value as string[])}
+        selectedLabel={getSelectedLabel(
+          selectedTags.length,
+          tagOptions,
+          selectedTags,
+          t("quiz_library.filters_panel.selected_count", { count: selectedTags.length }),
+        )}
+        onChange={(value) => onTagChange(value as string[])}
+        onClear={() => onTagChange([])}
       />
 
       <StyledFilterSelect
@@ -103,19 +113,23 @@ export const QuizLibraryFilters: FunctionComponent<Props> = ({
         placeholder={t("quiz_library.filters_panel.creator")}
         ariaLabel={t("quiz_library.filters_panel.creator")}
         leftIcon={<FaUserLarge size={10} color={defaultTheme.colors.green7} />}
+        selectedLabel={selectedCreator}
         onChange={onCreatorChange}
+        onClear={() => onCreatorChange("")}
       />
+
+      {hasActiveFilters && (
+        <ClearAllButton
+          type="button"
+          onClick={onClearAll}
+        >
+          <FiX size={16} />
+          <Body4>{t("quiz_library.filters_panel.clear_all")}</Body4>
+        </ClearAllButton>
+      )}
     </FiltersRow>
   );
 };
-
-const StyledFilterToggleButton = styled(FilterToggleButton)`
-  min-width: 144px;
-
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
-    flex: 1;
-  }
-`;
 
 const FiltersRow = styled.div`
   display: flex;
@@ -146,4 +160,19 @@ const StyledFilterSelect = styled(FilterSelect) <FilterSelectProps>`
     flex: 1 1 100%;
     max-width: none;
   }
+`;
+
+const ClearAllButton = styled.button`
+  appearance: none;
+  -webkit-appearance: none;
+  min-height: 30px;
+  padding: 0 10px;
+  border-radius: 6px;
+  border: 1px solid ${props => props.theme.colors.dark.darkGrey};
+  background: transparent;
+  color: ${props => props.theme.colors.dark.darkGrey};
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
 `;

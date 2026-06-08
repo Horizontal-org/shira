@@ -7,6 +7,7 @@ import { useStore } from "../../store";
 import { QuizCard } from "./components/QuizCard";
 import { QuizCardSkeleton } from "./components/QuizCardSkeleton";
 import { QuizLibraryFilters } from "./components/QuizLibraryFilters";
+import { QuizLibraryFiltersToggle } from "./components/QuizLibraryFiltersToggle";
 import { QuizLibrarySearchInput } from "./components/QuizLibrarySearchInput";
 import { QuizLibrarySortSelect } from "./components/QuizLibrarySortSelect";
 import {
@@ -334,6 +335,13 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     setPageIndex(0);
   };
 
+  const handleClearAllFilters = () => {
+    setSelectedLanguages([]);
+    setSelectedTags([]);
+    setSelectedCreator("");
+    setPageIndex(0);
+  };
+
   return (
     <QuizLibraryFlowManagement>
       <PageContent id="quiz-library-list-layout">
@@ -353,27 +361,15 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
                   onSortChange={handleSortChange}
                 />
 
-                <QuizLibraryFilters
-                  variant="toggle"
+                <QuizLibraryFiltersToggle
                   areFiltersOpen={areFiltersOpen}
                   onToggleFilters={handleToggleFilters}
-                  languageOptions={languageOptions}
-                  selectedLanguages={selectedLanguages}
-                  onLanguageChange={handleLanguageChange}
-                  tagOptions={tagOptions}
-                  selectedTags={selectedTags}
-                  onTagChange={handleTagChange}
-                  creatorOptions={Array.of(DEFAULT_CREATOR_OPTIONS)}
-                  selectedCreator={selectedCreator}
-                  onCreatorChange={handleCreatorChange}
                 />
               </ActionsGroup>
             </ControlsTopRow>
 
             <QuizLibraryFilters
-              variant="panel"
               areFiltersOpen={areFiltersOpen}
-              onToggleFilters={handleToggleFilters}
               languageOptions={languageOptions}
               selectedLanguages={selectedLanguages}
               onLanguageChange={handleLanguageChange}
@@ -383,6 +379,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
               creatorOptions={Array.of(DEFAULT_CREATOR_OPTIONS)}
               selectedCreator={selectedCreator}
               onCreatorChange={handleCreatorChange}
+              onClearAll={handleClearAllFilters}
             />
           </Controls>
 
