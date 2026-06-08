@@ -1,8 +1,10 @@
 import { ChangeEvent, FunctionComponent, useMemo, useState } from "react";
-import { SortSelect, TextInput, Button, defaultTheme, styled } from "@horizontal-org/shira-ui";
+import { FilterSelect, FilterToggleButton, SortSelect, TextInput, defaultTheme, styled } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
 import { HiFunnel } from "react-icons/hi2";
+import { FaCircle } from "react-icons/fa6";
 import { IoCloseCircle, IoSearchOutline } from "react-icons/io5";
+import { PiUserFill } from "react-icons/pi";
 import { type QuizTemplateSortOption } from "../../../../fetch/quiz_templates";
 
 type Props = {
@@ -10,6 +12,17 @@ type Props = {
   onChange: (value: string) => void;
   sortOption: QuizTemplateSortOption;
   onSortChange: (sortOption: QuizTemplateSortOption) => void;
+  areFiltersOpen: boolean;
+  onToggleFilters: () => void;
+  languageOptions: string[];
+  selectedLanguage: string;
+  onLanguageChange: (value: string) => void;
+  tagOptions: string[];
+  selectedTag: string;
+  onTagChange: (value: string) => void;
+  creatorOptions: string[];
+  selectedCreator: string;
+  onCreatorChange: (value: string) => void;
 };
 
 export const QuizLibrarySearchInput: FunctionComponent<Props> = ({
@@ -17,6 +30,17 @@ export const QuizLibrarySearchInput: FunctionComponent<Props> = ({
   onChange,
   sortOption,
   onSortChange,
+  areFiltersOpen,
+  onToggleFilters,
+  languageOptions,
+  selectedLanguage,
+  onLanguageChange,
+  tagOptions,
+  selectedTag,
+  onTagChange,
+  creatorOptions,
+  selectedCreator,
+  onCreatorChange,
 }) => {
   const { t } = useTranslation();
   const [isFocused, setIsFocused] = useState(false);
@@ -43,6 +67,21 @@ export const QuizLibrarySearchInput: FunctionComponent<Props> = ({
       label: t("quiz_library.sort_options.quiz_name_desc"),
     },
   ], [t]);
+
+  const languageFilterOptions = useMemo(() => [
+    { value: "", label: t("quiz_library.filters_panel.all_languages") },
+    ...languageOptions.map((language) => ({ value: language, label: language })),
+  ], [languageOptions, t]);
+
+  const tagFilterOptions = useMemo(() => [
+    { value: "", label: t("quiz_library.filters_panel.all_tags") },
+    ...tagOptions.map((tag) => ({ value: tag, label: tag })),
+  ], [tagOptions, t]);
+
+  const creatorFilterOptions = useMemo(() => [
+    { value: "", label: t("quiz_library.filters_panel.all_creators") },
+    ...creatorOptions.map((creator) => ({ value: creator, label: creator })),
+  ], [creatorOptions, t]);
 
   return (
     <Controls>
@@ -79,13 +118,48 @@ export const QuizLibrarySearchInput: FunctionComponent<Props> = ({
             onChange={(nextValue) => onSortChange(nextValue as QuizTemplateSortOption)}
           />
 
-          <FilterButton
+          <StyledFilterToggleButton
             text={t("quiz_library.filters")}
-            type="outline"
-            leftIcon={<HiFunnel size={20} color={defaultTheme.colors.dark.darkGrey} />}
+            isOpen={areFiltersOpen}
+            onClick={onToggleFilters}
           />
         </ActionsGroup>
       </TopRow>
+
+      {areFiltersOpen && (
+        <FiltersRow>
+          <FiltersIcon>
+            <HiFunnel size={18} color={defaultTheme.colors.dark.mediumGrey} />
+          </FiltersIcon>
+
+          <StyledFilterSelect
+            value={selectedLanguage}
+            options={languageFilterOptions}
+            placeholder={t("quiz_library.filters_panel.language")}
+            ariaLabel={t("quiz_library.filters_panel.language")}
+            leftIcon={<LanguageMarker />}
+            onChange={onLanguageChange}
+          />
+
+          <StyledFilterSelect
+            value={selectedTag}
+            options={tagFilterOptions}
+            placeholder={t("quiz_library.filters_panel.tag")}
+            ariaLabel={t("quiz_library.filters_panel.tag")}
+            leftIcon={<TagMarker />}
+            onChange={onTagChange}
+          />
+
+          <StyledFilterSelect
+            value={selectedCreator}
+            options={creatorFilterOptions}
+            placeholder={t("quiz_library.filters_panel.creator")}
+            ariaLabel={t("quiz_library.filters_panel.creator")}
+            leftIcon={<PiUserFill size={12} color={defaultTheme.colors.green7} />}
+            onChange={onCreatorChange}
+          />
+        </FiltersRow>
+      )}
     </Controls>
   );
 };
@@ -205,15 +279,54 @@ const StyledSortSelect = styled(SortSelect)`
   }
 `;
 
-const FilterButton = styled(Button)`
+const StyledFilterToggleButton = styled(FilterToggleButton)`
   min-width: 144px;
-  min-height: 46px;
-  justify-content: center;
-  gap: 4px;
-  padding: 12px 20px;
-  border-radius: 24px;
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     flex: 1;
   }
+`;
+
+const FiltersRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 164px;
+
+  @media (max-width: ${props => props.theme.breakpoints.md}) {
+    padding-left: 0;
+    flex-wrap: wrap;
+  }
+`;
+
+const FiltersIcon = styled.span`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+`;
+
+const StyledFilterSelect = styled(FilterSelect)`
+  min-width: 160px;
+  max-width: 200px;
+
+  @media (max-width: ${props => props.theme.breakpoints.md}) {
+    flex: 1 1 100%;
+    max-width: none;
+  }
+`;
+
+const LanguageMarker = () => (
+  <BodyMarker color="#5DA8F5">A</BodyMarker>
+);
+
+const TagMarker = () => (
+  <FaCircle size={8} color="#F1BF22" />
+);
+
+const BodyMarker = styled.span<{ color: string }>`
+  color: ${props => props.color};
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
 `;

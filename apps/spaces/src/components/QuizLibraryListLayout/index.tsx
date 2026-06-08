@@ -1,5 +1,5 @@
 import { Body1, CardPagination, EmptyState, styled } from "@horizontal-org/shira-ui";
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { shallow } from "zustand/shallow";
@@ -36,6 +36,10 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
   const [searchValue, setSearchValue] = useState("");
   const [debouncedSearchValue, setDebouncedSearchValue] = useState("");
   const [sortOption, setSortOption] = useState<QuizTemplateSortOption>(DEFAULT_QUIZ_TEMPLATE_SORT);
+  const [areFiltersOpen, setAreFiltersOpen] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState("");
+  const [selectedTag, setSelectedTag] = useState("");
+  const [selectedCreator, setSelectedCreator] = useState("");
 
   const [previewQuiz, setPreviewQuiz] = useState<LibraryQuizDto | null>(null);
   const [isQuizLimitModalOpen, setIsQuizLimitModalOpen] = useState(false);
@@ -84,7 +88,28 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     loadQuizzes();
   }, [debouncedSearchValue]);
 
-  const sortedLibraryQuizzes = sortQuizTemplates(libraryQuizzes, sortOption);
+  const languageOptions = useMemo(
+    () => Array.from(new Set(libraryQuizzes.flatMap((quiz) => quiz.languages))).sort((first, second) => first.localeCompare(second)),
+    [libraryQuizzes],
+  );
+  const tagOptions = useMemo(
+    () => Array.from(new Set(libraryQuizzes.flatMap((quiz) => quiz.tags))).sort((first, second) => first.localeCompare(second)),
+    [libraryQuizzes],
+  );
+  const creatorOptions = useMemo(
+    () => Array.from(new Set(libraryQuizzes.map((quiz) => quiz.author))).sort((first, second) => first.localeCompare(second)),
+    [libraryQuizzes],
+  );
+
+  const filteredLibraryQuizzes = libraryQuizzes.filter((quiz) => {
+    const matchesLanguage = !selectedLanguage || quiz.languages.includes(selectedLanguage);
+    const matchesTag = !selectedTag || quiz.tags.includes(selectedTag);
+    const matchesCreator = !selectedCreator || quiz.author === selectedCreator;
+
+    return matchesLanguage && matchesTag && matchesCreator;
+  });
+
+  const sortedLibraryQuizzes = sortQuizTemplates(filteredLibraryQuizzes, sortOption);
   const total = sortedLibraryQuizzes.length;
   const paginatedLibraryQuizzes = sortedLibraryQuizzes.slice(
     pageIndex * pageSize,
@@ -162,6 +187,25 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     setPageIndex(0);
   };
 
+  const handleToggleFilters = () => {
+    setAreFiltersOpen((prev) => !prev);
+  };
+
+  const handleLanguageChange = (nextValue: string) => {
+    setSelectedLanguage(nextValue);
+    setPageIndex(0);
+  };
+
+  const handleTagChange = (nextValue: string) => {
+    setSelectedTag(nextValue);
+    setPageIndex(0);
+  };
+
+  const handleCreatorChange = (nextValue: string) => {
+    setSelectedCreator(nextValue);
+    setPageIndex(0);
+  };
+
   return (
     <QuizLibraryFlowManagement>
       <PageContent id="quiz-library-list-layout">
@@ -173,6 +217,17 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
             onChange={handleSearchChange}
             sortOption={sortOption}
             onSortChange={handleSortChange}
+            areFiltersOpen={areFiltersOpen}
+            onToggleFilters={handleToggleFilters}
+            languageOptions={languageOptions}
+            selectedLanguage={selectedLanguage}
+            onLanguageChange={handleLanguageChange}
+            tagOptions={tagOptions}
+            selectedTag={selectedTag}
+            onTagChange={handleTagChange}
+            creatorOptions={creatorOptions}
+            selectedCreator={selectedCreator}
+            onCreatorChange={handleCreatorChange}
           />
 
           {hasActiveSearch && (

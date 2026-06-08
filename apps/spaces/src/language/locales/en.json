@@ -304,6 +304,14 @@
             "quiz_name_desc": "Quiz name (Z-A)"
         },
         "filters": "Filters",
+        "filters_panel": {
+            "language": "Language",
+            "tag": "Tag",
+            "creator": "Creator",
+            "all_languages": "All languages",
+            "all_tags": "All tags",
+            "all_creators": "All creators"
+        },
         "view_template": "View template",
         "use_template": "Use template",
         "report_issue": "Report an issue",

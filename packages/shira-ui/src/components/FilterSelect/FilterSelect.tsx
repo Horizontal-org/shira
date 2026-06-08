@@ -1,40 +1,42 @@
-import { useEffect, useId, useRef, useState } from 'react';
+import { ReactNode, useEffect, useId, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { createPortal } from 'react-dom';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
-import { Body2Regular } from '../Typography';
+import { Body4 } from '../Typography';
 
-export interface SortSelectOption {
+export interface FilterSelectOption {
   value: string;
   label: string;
 }
 
-export interface SortSelectProps {
-  options: SortSelectOption[];
-  value: string;
+export interface FilterSelectProps {
+  options: FilterSelectOption[];
+  value?: string;
   onChange: (value: string) => void;
-  prefix: string;
+  placeholder: string;
+  leftIcon?: ReactNode;
   ariaLabel?: string;
   className?: string;
 }
 
-const PORTAL_ID = 'sort-select-portal-container';
+const PORTAL_ID = 'filter-select-portal-container';
 
-export const SortSelect = ({
+export const FilterSelect = ({
   options,
   value,
   onChange,
-  prefix,
+  placeholder,
+  leftIcon,
   ariaLabel,
   className,
-}: SortSelectProps) => {
+}: FilterSelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [position, setPosition] = useState({ top: 0, left: 0, width: 0 });
   const triggerRef = useRef<HTMLButtonElement>(null);
   const optionsRef = useRef<HTMLDivElement>(null);
   const listboxId = useId();
 
-  const selectedOption = options.find((option) => option.value === value) ?? options[0];
+  const selectedOption = options.find((option) => option.value === value);
 
   useEffect(() => {
     if (!document.getElementById(PORTAL_ID)) {
@@ -63,17 +65,10 @@ export const SortSelect = ({
         return;
       }
 
-      const menuWidth = Math.max(rect.width, 252);
-      let left = rect.left + window.scrollX;
-
-      if (left + menuWidth > window.innerWidth) {
-        left = rect.right - menuWidth + window.scrollX;
-      }
-
       setPosition({
         top: rect.bottom + window.scrollY + 8,
-        left,
-        width: menuWidth,
+        left: rect.left + window.scrollX,
+        width: rect.width,
       });
     };
 
@@ -123,17 +118,19 @@ export const SortSelect = ({
         type="button"
         role="combobox"
         aria-expanded={isOpen}
-        aria-label={ariaLabel ?? prefix}
+        aria-label={ariaLabel ?? placeholder}
         aria-controls={listboxId}
         aria-haspopup="listbox"
         onClick={() => setIsOpen((prev) => !prev)}
       >
-        <TriggerLabel>
-          <Prefix>{prefix}</Prefix>
-          <Value>{selectedOption?.label}</Value>
-        </TriggerLabel>
+        <TriggerContent>
+          {leftIcon && <Icon>{leftIcon}</Icon>}
+          <Label $hasValue={Boolean(selectedOption)}>
+            {selectedOption?.label ?? placeholder}
+          </Label>
+        </TriggerContent>
         <Chevron>
-          {isOpen ? <FiChevronUp color="#5F6368" size={18} /> : <FiChevronDown color="#5F6368" size={18} />}
+          {isOpen ? <FiChevronUp color="#8A8F98" size={16} /> : <FiChevronDown color="#8A8F98" size={16} />}
         </Chevron>
       </Trigger>
 
@@ -145,12 +142,13 @@ export const SortSelect = ({
           style={{
             top: `${position.top}px`,
             left: `${position.left}px`,
-            width: `${position.width}px`,
+            width: `${Math.max(position.width, 160)}px`,
           }}
         >
           {options.map((option) => (
             <Option
               key={option.value}
+              type="button"
               $isSelected={option.value === value}
               onClick={() => handleSelect(option.value)}
             >
@@ -166,57 +164,61 @@ export const SortSelect = ({
 
 const Wrapper = styled.div`
   position: relative;
-  min-width: 280px;
+  min-width: 160px;
 `;
 
 const Trigger = styled.button`
   appearance: none;
   -webkit-appearance: none;
-  min-height: 42px;
+  min-height: 24px;
   width: 100%;
-  padding: 12px 20px;
-  border-radius: 24px;
-  border: 1px solid ${props => props.theme.colors.dark.mediumGrey};
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid ${props => props.theme.colors.dark.lightGrey};
   background: ${props => props.theme.colors.light.white};
-  color: ${props => props.theme.colors.dark.black};
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 8px;
   cursor: pointer;
 `;
 
-const TriggerLabel = styled.span`
+const TriggerContent = styled.span`
   min-width: 0;
   display: flex;
-  align-items: baseline;
-  gap: 4px;
+  align-items: center;
+  gap: 6px;
   overflow: hidden;
 `;
 
-const Prefix = styled(Body2Regular)`
-  color: ${props => props.theme.colors.dark.black};
-  white-space: nowrap;
+const Icon = styled.span`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
 `;
 
-const Value = styled(Body2Regular)`
-  color: ${props => props.theme.colors.dark.black};
+const Label = styled(Body4)<{ $hasValue: boolean }>`
+  color: ${props => props.$hasValue
+    ? props.theme.colors.dark.black
+    : props.theme.colors.dark.mediumGrey};
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
 const Chevron = styled.span`
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
   flex: 0 0 auto;
 `;
 
 const Options = styled.div`
   position: absolute;
   background: ${props => props.theme.colors.light.white};
-  border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10);
   z-index: 99999999;
   overflow: hidden;
 `;
@@ -225,14 +227,12 @@ const Option = styled.button<{ $isSelected: boolean }>`
   appearance: none;
   -webkit-appearance: none;
   width: 100%;
-  padding: 12px 16px;
+  padding: 10px 12px;
   border: none;
-  cursor: pointer;
   background: ${props => props.$isSelected ? props.theme.colors.light.paleGrey : props.theme.colors.light.white};
   color: ${props => props.theme.colors.dark.darkGrey};
   text-align: left;
-  font-size: 14px;
-  line-height: 1.4;
+  cursor: pointer;
 
   &:not(:last-child) {
     border-bottom: 1px solid ${props => props.theme.colors.dark.lightGrey};
