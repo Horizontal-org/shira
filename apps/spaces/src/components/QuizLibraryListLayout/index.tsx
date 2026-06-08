@@ -10,6 +10,8 @@ import { QuizLibraryFilters } from "./components/QuizLibraryFilters";
 import { QuizLibrarySearchInput } from "./components/QuizLibrarySearchInput";
 import { QuizLibrarySortSelect } from "./components/QuizLibrarySortSelect";
 import {
+  DEFAULT_CREATOR_OPTIONS,
+  DEFAULT_PAGE_LIMIT,
   DEFAULT_QUIZ_TEMPLATE_SORT,
   getQuizTemplateLanguageOptions,
   getQuizTemplateTagOptions,
@@ -25,9 +27,7 @@ import { QuizLibraryPreviewModal } from "../modals/QuizLibraryPreviewModal";
 import { useSub } from "../../hooks/useSub";
 import { QuizLibraryFlowManagement } from "../QuizLibraryFlowManagement";
 
-const DEFAULT_PAGE_SIZE = 10;
 const SEARCH_DEBOUNCE_DELAY_MS = 200;
-const DEFAULT_CREATOR_OPTIONS = ["Shira Team"];
 
 const getQuizTemplateTimestamp = (createdAt: string) => {
   return new Date(createdAt).getTime();
@@ -100,7 +100,6 @@ const getAllQuizTemplates = async (
 export const QuizTemplatesListLayout: FunctionComponent = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const pageSize = DEFAULT_PAGE_SIZE;
 
   const [libraryQuizzes, setLibraryQuizzes] = useState<LibraryQuizDto[]>([]);
   const [loading, setLoading] = useState(false);
@@ -161,7 +160,6 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
       try {
         const response = await getQuizTemplates({
           page: pageIndex + 1,
-          limit: pageSize,
           search: debouncedSearchValue,
           sortOption,
           langTagCodes: selectedLanguages,
@@ -183,7 +181,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     };
 
     loadQuizzes();
-  }, [debouncedSearchValue, pageIndex, pageSize, selectedLanguages, selectedTags, sortOption, usesClientSideSorting]);
+  }, [debouncedSearchValue, pageIndex, selectedLanguages, selectedTags, sortOption, usesClientSideSorting]);
 
   useEffect(() => {
     if (!usesClientSideSorting) {
@@ -235,11 +233,6 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     loadFilterOptions();
   }, [areFiltersOpen, languageOptions.length, tagOptions.length]);
 
-  const creatorOptions = useMemo(
-    () => DEFAULT_CREATOR_OPTIONS,
-    [],
-  );
-
   const sortedLibraryQuizzes = useMemo(
     () => sortQuizTemplates(libraryQuizzes, sortOption),
     [libraryQuizzes, sortOption],
@@ -247,11 +240,11 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
 
   const total = usesClientSideSorting ? sortedLibraryQuizzes.length : totalAvailableQuizzes;
   const visibleLibraryQuizzes = usesClientSideSorting
-    ? sortedLibraryQuizzes.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize)
+    ? sortedLibraryQuizzes.slice(pageIndex * DEFAULT_PAGE_LIMIT, (pageIndex + 1) * DEFAULT_PAGE_LIMIT)
     : libraryQuizzes;
   const isGridLoading = loading;
 
-  const pageCount = Math.max(1, Math.ceil(total / pageSize));
+  const pageCount = Math.max(1, Math.ceil(total / DEFAULT_PAGE_LIMIT));
   const hasActiveSearch = debouncedSearchValue.length > 0;
   const showSearchEmptyState = hasActiveSearch && !isGridLoading && total === 0;
 
@@ -259,7 +252,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     pageIndex,
     total,
     pageCount,
-    pageSize,
+    pageSize: DEFAULT_PAGE_LIMIT,
     onFirstPage: () => { setPageIndex(0); },
     onPreviousPage: () => { setPageIndex((prev) => Math.max(0, prev - 1)); },
     onNextPage: () => { setPageIndex((prev) => Math.min(pageCount - 1, prev + 1)); },
@@ -370,7 +363,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
                   tagOptions={tagOptions}
                   selectedTags={selectedTags}
                   onTagChange={handleTagChange}
-                  creatorOptions={creatorOptions}
+                  creatorOptions={Array.from(DEFAULT_CREATOR_OPTIONS)}
                   selectedCreator={selectedCreator}
                   onCreatorChange={handleCreatorChange}
                 />
@@ -387,7 +380,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
               tagOptions={tagOptions}
               selectedTags={selectedTags}
               onTagChange={handleTagChange}
-              creatorOptions={creatorOptions}
+              creatorOptions={Array.from(DEFAULT_CREATOR_OPTIONS)}
               selectedCreator={selectedCreator}
               onCreatorChange={handleCreatorChange}
             />
@@ -431,7 +424,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
           ) : (
             <CardGrid id="quiz-card-grid">
               {isGridLoading ? (
-                Array.from({ length: pageSize }, (_, index) => (
+                Array.from({ length: DEFAULT_PAGE_LIMIT }, (_, index) => (
                   <QuizCardSkeleton key={`quiz-card-skeleton-${index}`} />
                 ))
               ) : (

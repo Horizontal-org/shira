@@ -24,6 +24,7 @@ export type QuizTemplateSortOption =
 
 export const DEFAULT_QUIZ_TEMPLATE_SORT: QuizTemplateSortOption = "createdAt-desc";
 export const DEFAULT_PAGE_LIMIT = 20;
+export const DEFAULT_CREATOR_OPTIONS = "Shira Team";
 
 interface GetQuizTemplatesParams {
   page?: number;
@@ -113,16 +114,13 @@ const normalizeQuizTemplate = (quiz: LibraryQuizApiDto): LibraryQuizDto => ({
   id: quiz.id,
   title: quiz.title,
   createdAt: quiz.createdAt,
-  author: "Shira Team", // TODO author
+  author: DEFAULT_CREATOR_OPTIONS, // TODO author
   languages: (quiz.langTags ?? []).map((language) => language.name.trim()),
   tags: (quiz.tags ?? []).map((tag) => tag.name.trim()),
 });
 
 const serializeFilterValues = (values?: string[]) => {
-  if (!values?.length) {
-    return;
-  }
-
+  if (!values?.length) { return }
   return values.join(",");
 };
 
@@ -184,8 +182,7 @@ export const getQuizTemplateQuestions = async (
 export const getQuizTemplateLanguageOptions = async (): Promise<QuizTemplateFilterOption[]> => {
   try {
     const response = await axios.get<LibraryLangTagApiDto[]>(
-      `${process.env.REACT_APP_LIBRARY_API_URL}/lang-tags`,
-      { withCredentials: true }
+      `${process.env.REACT_APP_LIBRARY_API_URL}/lang-tags`
     );
 
     return response.data.map((language) => ({
@@ -202,7 +199,6 @@ export const getQuizTemplateTagOptions = async (): Promise<QuizTemplateFilterOpt
   try {
     const response = await axios.get<LibraryTagApiDto[]>(
       `${process.env.REACT_APP_LIBRARY_API_URL}/tags`,
-      { withCredentials: true }
     );
 
     return response.data.map((tag) => ({
