@@ -18,10 +18,6 @@ export const normalizePreviewAppName = (value: string) => {
   return previewAppNames[key]?.name ?? value;
 };
 
-export const getPreviewAppDisplayName = (value: string) => {
-return normalizePreviewAppName(value);
-};
-
 export function getAppsByType(type: string): AppDetails[] {
   const apps = Object.values(previewAppNames).filter((app) => app.type === type);
   const uniqueApps = Array.from(new Map(apps.map((app) => [app.name, app])).values());
@@ -34,6 +30,5 @@ export const getAppsByTypeAndValue = (
   value: string,
 ) => {
   const normalizedValue = normalizePreviewAppName(value);
-
   return getAppsByType(type).find((appOption) => appOption.name === normalizedValue);
 };

@@ -72,11 +72,8 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
           const appOptions = row.original.appType
             ? getAppsByType(row.original.appType)
             : [];
-          const selectedApp = row.original.appType
-            ? getAppsByTypeAndValue(row.original.appType, row.original.appName)
-            : undefined;
-          const canChooseKnownApp =
-            appOptions.length > 1 && (!normalizedAppName || Boolean(selectedApp));
+          const selectedApp = getAppsByTypeAndValue(row.original.appType, row.original.appName);
+          const canChooseKnownApp = appOptions.length > 1 && (!normalizedAppName || Boolean(selectedApp));
 
           if (row.original.appType && canChooseKnownApp) {
             const selectOptions = appOptions.map((appOption) => ({
@@ -101,7 +98,7 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
           return (
             <AppValue>
               {normalizedAppName && appIcons[normalizedAppName.toLowerCase()]}
-              <Body3>{normalizedAppName || "-"}</Body3>
+              <Body3>{normalizedAppName}</Body3>
             </AppValue>
           )
         },

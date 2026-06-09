@@ -27,8 +27,6 @@ export const useQuizTemplateQuestions = (
       return;
     }
 
-    let isCancelled = false;
-
     setQuestions([]);
     setHasLoadedQuestions(false);
     setIsLoadingQuestions(true);
@@ -38,26 +36,20 @@ export const useQuizTemplateQuestions = (
     const loadQuestions = async () => {
       const loadedQuestions = await getQuizTemplateQuestions(quizId);
 
-      if (!isCancelled) {
-        if (loadedQuestions === null) {
-          setQuestions([]);
-          setHasLoadedQuestions(false);
-          setHasQuestionLoadError(true);
-          setIsLoadingQuestions(false);
-          return;
-        }
-
-        setQuestions(loadedQuestions);
-        setHasLoadedQuestions(true);
+      if (loadedQuestions === null) {
+        setQuestions([]);
+        setHasLoadedQuestions(false);
+        setHasQuestionLoadError(true);
         setIsLoadingQuestions(false);
+        return;
       }
+
+      setQuestions(loadedQuestions);
+      setHasLoadedQuestions(true);
+      setIsLoadingQuestions(false);
     };
 
     loadQuestions();
-
-    return () => {
-      isCancelled = true;
-    };
   }, [isOpen, quizId]);
 
   const previewQuestion = useMemo(
