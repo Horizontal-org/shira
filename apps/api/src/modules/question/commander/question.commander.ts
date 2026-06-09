@@ -137,7 +137,7 @@ export class QuestionCommander {
           is_demo: true,
           content: qt.content,
           lang: lang,
-          default_app: firstApp.id,
+          default_app: firstApp.name,
           app_type: firstApp.type,
           explanations: []
         }
