@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { createPortal } from 'react-dom';
 import { FiChevronDown, FiChevronUp, FiX } from 'react-icons/fi';
 import { Body4 } from '../Typography';
+import { defaultTheme } from '../..';
 
 export interface FilterSelectOption {
   value: string;
@@ -11,7 +12,7 @@ export interface FilterSelectOption {
 
 export interface FilterSelectProps {
   options: FilterSelectOption[];
-  value?: string | string[];
+  value: string | string[];
   onChange: (value: string | string[]) => void;
   placeholder: string;
   leftIcon?: ReactNode;
@@ -182,11 +183,13 @@ export const FilterSelect = ({
               handleClear();
             }}
           >
-            <FiX size={20} />
+            <FiX size={16} />
           </ClearButton>
         ) : (
           <Chevron>
-            {isOpen ? <FiChevronUp color="#8A8F98" size={16} /> : <FiChevronDown color="#8A8F98" size={16} />}
+            {isOpen
+              ? <FiChevronUp color={defaultTheme.colors.dark.darkGrey} size={16} />
+              : <FiChevronDown color={defaultTheme.colors.dark.darkGrey} size={16} />}
           </Chevron>
         )}
       </Trigger>
@@ -267,6 +270,7 @@ const Icon = styled.span`
 const Label = styled(Body4) <{ $hasValue: boolean }>`
   display: flex;
   align-items: center;
+  gap: 2px;
   min-width: 0;
   color: ${props => props.theme.colors.dark.black};
   white-space: nowrap;
@@ -312,8 +316,8 @@ const Options = styled.div`
   background: ${props => props.theme.colors.light.white};
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10);
-  z-index: 99999999;
-  max-height: 400px;
+  z-index: 1000;
+  max-height: 500px;
   overflow-x: hidden;
   overflow-y: auto;
 `;

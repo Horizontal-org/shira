@@ -85,14 +85,14 @@ export const useQuizTemplateList = () => {
   const [loading, setLoading] = useState(false);
   const [pageIndex, setPageIndex] = useState(0);
 
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValueState] = useState("");
   const [debouncedSearchValue, setDebouncedSearchValue] = useState("");
-  const [sortOption, setSortOption] = useState<QuizTemplateSortOption>(DEFAULT_QUIZ_TEMPLATE_SORT);
+  const [sortOption, setSortOptionState] = useState<QuizTemplateSortOption>(DEFAULT_QUIZ_TEMPLATE_SORT);
 
   const [areFiltersOpen, setAreFiltersOpen] = useState(false);
-  const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [selectedCreator, setSelectedCreator] = useState("");
+  const [selectedLanguages, setSelectedLanguagesState] = useState<string[]>([]);
+  const [selectedTags, setSelectedTagsState] = useState<string[]>([]);
+  const [selectedCreator, setSelectedCreatorState] = useState("");
 
   const [languageOptions, setLanguageOptions] = useState<QuizTemplateFilterOption[]>([]);
   const [tagOptions, setTagOptions] = useState<QuizTemplateFilterOption[]>([]);
@@ -215,39 +215,39 @@ export const useQuizTemplateList = () => {
     setPageIndex(Math.max(0, pageCount - 1));
   }, [pageCount, pageIndex]);
 
-  const handleSearchChange = (value: string) => {
-    setSearchValue(value);
+  const setSearchValue = (value: string) => {
+    setSearchValueState(value);
     setPageIndex(0);
   };
 
-  const handleSortChange = (nextSortOption: QuizTemplateSortOption) => {
-    setSortOption(nextSortOption);
+  const setSortOption = (nextSortOption: QuizTemplateSortOption) => {
+    setSortOptionState(nextSortOption);
     setPageIndex(0);
   };
 
-  const handleToggleFilters = () => {
+  const toggleFilters = () => {
     setAreFiltersOpen((prev) => !prev);
   };
 
-  const handleLanguageChange = (nextValue: string[]) => {
-    setSelectedLanguages(nextValue);
+  const setSelectedLanguages = (nextValue: string[]) => {
+    setSelectedLanguagesState(nextValue);
     setPageIndex(0);
   };
 
-  const handleTagChange = (nextValue: string[]) => {
-    setSelectedTags(nextValue);
+  const setSelectedTags = (nextValue: string[]) => {
+    setSelectedTagsState(nextValue);
     setPageIndex(0);
   };
 
-  const handleCreatorChange = (nextValue: string) => {
-    setSelectedCreator(nextValue);
+  const setSelectedCreator = (nextValue: string) => {
+    setSelectedCreatorState(nextValue);
     setPageIndex(0);
   };
 
-  const handleClearAllFilters = () => {
-    setSelectedLanguages([]);
-    setSelectedTags([]);
-    setSelectedCreator("");
+  const clearAllFilters = () => {
+    setSelectedLanguagesState([]);
+    setSelectedTagsState([]);
+    setSelectedCreatorState("");
     setPageIndex(0);
   };
 
@@ -265,16 +265,10 @@ export const useQuizTemplateList = () => {
   return {
     areFiltersOpen,
     debouncedSearchValue,
-    handleClearAllFilters,
-    handleCreatorChange,
-    handleLanguageChange,
-    handleSearchChange,
-    handleSortChange,
-    handleTagChange,
-    handleToggleFilters,
+    clearAllFilters,
     hasActiveSearch,
-    isGridLoading: loading,
     languageOptions,
+    loading,
     pageCount,
     pageIndex,
     paginationProps,
@@ -282,10 +276,16 @@ export const useQuizTemplateList = () => {
     selectedCreator,
     selectedLanguages,
     selectedTags,
+    setSearchValue,
+    setSelectedCreator,
+    setSelectedLanguages,
+    setSelectedTags,
+    setSortOption,
     showSearchEmptyState,
     sortOption,
     tagOptions,
     total,
+    toggleFilters,
     visibleLibraryQuizzes,
   };
 };

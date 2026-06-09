@@ -44,25 +44,25 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
   const {
     areFiltersOpen,
     debouncedSearchValue,
-    handleClearAllFilters,
-    handleCreatorChange,
-    handleLanguageChange,
-    handleSearchChange,
-    handleSortChange,
-    handleTagChange,
-    handleToggleFilters,
+    clearAllFilters,
     hasActiveSearch,
-    isGridLoading,
     languageOptions,
+    loading,
     paginationProps,
     searchValue,
     selectedCreator,
     selectedLanguages,
     selectedTags,
+    setSearchValue,
+    setSelectedCreator,
+    setSelectedLanguages,
+    setSelectedTags,
+    setSortOption,
     showSearchEmptyState,
     sortOption,
     tagOptions,
     total,
+    toggleFilters,
     visibleLibraryQuizzes,
   } = useQuizTemplateList();
 
@@ -118,18 +118,18 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
             <ControlsTopRow>
               <QuizLibrarySearchInput
                 value={searchValue}
-                onChange={handleSearchChange}
+                onChange={setSearchValue}
               />
 
               <ActionsGroup>
                 <QuizLibrarySortSelect
                   sortOption={sortOption}
-                  onSortChange={handleSortChange}
+                  onSortChange={setSortOption}
                 />
 
                 <QuizLibraryFiltersToggle
                   areFiltersOpen={areFiltersOpen}
-                  onToggleFilters={handleToggleFilters}
+                  onToggleFilters={toggleFilters}
                 />
               </ActionsGroup>
             </ControlsTopRow>
@@ -138,14 +138,14 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
               showFilters={areFiltersOpen}
               languageOptions={languageOptions}
               selectedLanguages={selectedLanguages}
-              onLanguageChange={handleLanguageChange}
+              onLanguageChange={setSelectedLanguages}
               tagOptions={tagOptions}
               selectedTags={selectedTags}
-              onTagChange={handleTagChange}
+              onTagChange={setSelectedTags}
               creatorOptions={Array.of(DEFAULT_CREATOR_OPTIONS)}
               selectedCreator={selectedCreator}
-              onCreatorChange={handleCreatorChange}
-              onClearAll={handleClearAllFilters}
+              onCreatorChange={setSelectedCreator}
+              onClearAll={clearAllFilters}
             />
           </Controls>
 
@@ -186,7 +186,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
             </SearchEmptyStateWrapper>
           ) : (
             <CardGrid id="quiz-card-grid">
-              {isGridLoading ? (
+              {loading ? (
                 Array.from({ length: DEFAULT_PAGE_LIMIT }, (_, index) => (
                   <QuizCardSkeleton key={`quiz-card-skeleton-${index}`} />
                 ))
@@ -205,7 +205,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
             </CardGrid>
           )}
 
-          {!isGridLoading && visibleLibraryQuizzes.length > 0 && (
+          {!loading && visibleLibraryQuizzes.length > 0 && (
             <PaginationWrapper>
               <CardPagination {...paginationProps} />
             </PaginationWrapper>

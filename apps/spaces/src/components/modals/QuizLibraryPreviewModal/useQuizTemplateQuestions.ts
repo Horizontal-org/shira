@@ -4,7 +4,7 @@ import {
   type LibraryQuizDto,
   type LibraryQuizQuestionTemplateDto,
 } from "../../../fetch/quiz_templates";
-import { getAppsByType } from "../../../utils/appNames";
+import { getAppsByTypeAndValue } from "../../../utils/appNames";
 
 export const useQuizTemplateQuestions = (
   quiz: LibraryQuizDto | null,
@@ -85,9 +85,7 @@ export const useQuizTemplateQuestions = (
           return question;
         }
 
-        const selectedApp = getAppsByType(question.appType).find(
-          (appOption) => appOption.name === appName,
-        );
+        const selectedApp = getAppsByTypeAndValue(question.appType, appName);
 
         if (!selectedApp) {
           return question;

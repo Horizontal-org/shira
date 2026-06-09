@@ -7,7 +7,7 @@ import { MdOutlinePhishing } from "react-icons/md";
 import { MdRemoveRedEye } from "react-icons/md";
 import type { LibraryQuizQuestionTemplateDto } from "../../../../../fetch/quiz_templates";
 import { appIcons, appTypesIcons } from "../../../../../utils/appIcons";
-import { getAppsByType } from "../../../../../utils/appNames";
+import { getAppsByType, getAppsByTypeAndValue, normalizePreviewAppName } from "../../../../../utils/appNames";
 
 type Props = {
   questions: LibraryQuizQuestionTemplateDto[];
@@ -68,14 +68,15 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
         accessorKey: "appName",
         id: "app",
         cell: ({ row }) => {
+          const normalizedAppName = normalizePreviewAppName(row.original.appName);
           const appOptions = row.original.appType
             ? getAppsByType(row.original.appType)
             : [];
-          const selectedApp = appOptions.find(
-            (appOption) => appOption.name === row.original.appName,
-          );
+          const selectedApp = row.original.appType
+            ? getAppsByTypeAndValue(row.original.appType, row.original.appName)
+            : undefined;
           const canChooseKnownApp =
-            appOptions.length > 1 && (!row.original.appName || Boolean(selectedApp));
+            appOptions.length > 1 && (!normalizedAppName || Boolean(selectedApp));
 
           if (row.original.appType && canChooseKnownApp) {
             const selectOptions = appOptions.map((appOption) => ({
@@ -99,8 +100,8 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
 
           return (
             <AppValue>
-              {row.original.appName && appIcons[row.original.appName.toLowerCase()]}
-              <Body3>{row.original.appName || "-"}</Body3>
+              {normalizedAppName && appIcons[normalizedAppName.toLowerCase()]}
+              <Body3>{normalizedAppName || "-"}</Body3>
             </AppValue>
           )
         },

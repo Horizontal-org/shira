@@ -219,7 +219,7 @@ const Options = styled.div`
   background: ${props => props.theme.colors.light.white};
   border-radius: 16px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-  z-index: 99999999;
+  z-index: 1000;
   overflow: hidden;
 `;
 

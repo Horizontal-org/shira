@@ -45,19 +45,18 @@ export const QuizLibraryFilters: FunctionComponent<PanelProps> = ({
     return;
   }
 
-  const getSelectedLabel = (
-    count: number,
-    options: FilterOption[],
-    selectedValues: string[],
-    selectedCountLabel: string,
-  ) => {
-    if (count === 0) {
-      return;
-    }
+const getSelectedLabel = (
+  options: FilterOption[],
+  selectedValues: string[],
+  selectedCountLabel: string,
+) => {
+  if (selectedValues.length === 0) {
+    return undefined;
+  }
 
-    if (count === 1) {
-      return options.find((option) => option.value === selectedValues[0])?.label ?? selectedValues[0];
-    }
+  if (selectedValues.length === 1) {
+    return options.find((option) => option.value === selectedValues[0])?.label ?? selectedValues[0];
+  }
 
     return selectedCountLabel;
   };
@@ -81,7 +80,6 @@ export const QuizLibraryFilters: FunctionComponent<PanelProps> = ({
         leftIcon={<IoLanguage size={10} color={defaultTheme.colors.blue6} />}
         isMulti={true}
         selectedLabel={getSelectedLabel(
-          selectedLanguages.length,
           languageOptions,
           selectedLanguages,
           t("quiz_library.filters_panel.selected_count", { count: selectedLanguages.length }),
@@ -98,7 +96,6 @@ export const QuizLibraryFilters: FunctionComponent<PanelProps> = ({
         leftIcon={<BiSolidTagAlt size={10} color={defaultTheme.colors.warning4} />}
         isMulti={true}
         selectedLabel={getSelectedLabel(
-          selectedTags.length,
           tagOptions,
           selectedTags,
           t("quiz_library.filters_panel.selected_count", { count: selectedTags.length }),
@@ -170,6 +167,8 @@ const ClearAllButton = styled.button`
   background: transparent;
   color: ${props => props.theme.colors.dark.darkGrey};
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
   gap: 10px;
   cursor: pointer;
 `;
