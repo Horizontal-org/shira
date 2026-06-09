@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import { Body2Regular } from '../Typography';
 import { defaultTheme } from '../../theme';
-import { useFloatingSelect } from '../shared/useFloatingSelect';
+import { useFloatingSelect } from '../../hooks/useFloatingSelect';
 
 export interface SortSelectOption {
   value: string;

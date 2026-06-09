@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom';
 import { FiChevronDown, FiChevronUp, FiX } from 'react-icons/fi';
 import { Body4 } from '../Typography';
 import { defaultTheme } from '../..';
-import { useFloatingSelect } from '../shared/useFloatingSelect';
+import { useFloatingSelect } from '../../hooks/useFloatingSelect';
 
 export interface FilterSelectOption {
   value: string;
