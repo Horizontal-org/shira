@@ -8,9 +8,11 @@ import { TbAlertTriangleFilled } from 'react-icons/tb';
 import { IoEyeSharp } from 'react-icons/io5';
 import { FaCirclePlus, FaUserLarge } from 'react-icons/fa6';
 import { QuizCardTags } from '../QuizCardTags';
+import { HighlightedText } from '../HighlightedText';
 
 export interface CardProps {
   quiz: LibraryQuizDto;
+  searchTerm?: string;
   onViewTemplate: () => void;
   onUseTemplate: () => void;
   onReportIssue: () => void;
@@ -27,6 +29,7 @@ const formatCardDate = (value: string) => {
 
 export const QuizCard: FunctionComponent<CardProps> = ({
   quiz,
+  searchTerm,
   onViewTemplate,
   onUseTemplate,
   onReportIssue,
@@ -108,7 +111,9 @@ export const QuizCard: FunctionComponent<CardProps> = ({
         </HeaderSection>
 
         <CardBody>
-          <CardTitle>{quiz.title}</CardTitle>
+          <CardTitle>
+            <HighlightedText text={quiz.title} highlight={searchTerm} />
+          </CardTitle>
           <QuizCardTags tags={quiz.tags} />
         </CardBody>
       </TopSection>
@@ -161,6 +166,7 @@ const CardWrapper = styled.div`
   overflow: hidden;
   width: 100%;
   height: 100%;
+  min-height: 172px;
 
   @media (hover: hover) and (pointer: fine) {
     ${SmallUseTemplateButton} {
@@ -233,7 +239,8 @@ const CardBody = styled.div`
   flex: 1;
   flex-direction: column;
   justify-content: space-between;
-  gap: 25px;
+  gap: 16px;
+  min-height: 116px;
 `;
 
 const CardTitle = styled(Body1SemiBold)`
@@ -257,7 +264,7 @@ const ModifiedText = styled(Body4)`
 
 const Footer = styled.div`
   background: ${props => props.theme.colors.light.paleGreen};
-  padding: 5px 20px;
+  padding: 7px 20px;
 `;
 
 const FooterMeta = styled.div`

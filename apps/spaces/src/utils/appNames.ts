@@ -24,3 +24,11 @@ export function getAppsByType(type: string): AppDetails[] {
 
   return uniqueApps;
 }
+
+export const getAppsByTypeAndValue = (
+  type: string,
+  value: string,
+) => {
+  const normalizedValue = normalizePreviewAppName(value);
+  return getAppsByType(type).find((appOption) => appOption.name === normalizedValue);
+};

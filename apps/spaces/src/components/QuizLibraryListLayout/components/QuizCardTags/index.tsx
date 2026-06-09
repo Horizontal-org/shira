@@ -116,6 +116,9 @@ export const QuizCardTags: FunctionComponent<Props> = ({ tags }) => {
 
 const TagArea = styled.div`
   position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: 28px;
 `;
 
 const TagRow = styled.div`
@@ -123,7 +126,6 @@ const TagRow = styled.div`
   flex-wrap: nowrap;
   gap: 8px;
   color: ${props => props.theme.colors.blue7};
-  min-width: 0;
   overflow: hidden;
 `;
 

@@ -58,7 +58,7 @@
         "title": "Quizzes",
         "subtitle": "Manage your quizzes here, including creating, publishing, unpublishing and deleting quizzes.",
         "create_quiz_button": "Create new quiz",
-        "use_template_button": "Use a template",
+        "use_template_button": "Use a quiz template",
         "create_limit_reached": "Upgrade your plan to create more quizzes."
     },
     "learners": {
@@ -289,14 +289,36 @@
         "header_title": "Select a quiz template",
         "title": "Quiz library",
         "subtitle": "Select a quiz from the list below to use it as a template for your new quiz.",
-        "search_placeholder": "Search quiz titles",
+        "search_placeholder": "Search quiz names",
+        "search_results": "{{count}} result for \"{{searchTerm}}\"",
+        "search_results_plural": "{{count}} results for \"{{searchTerm}}\"",
+        "empty_search": {
+            "title": "Sorry, we couldn't find anything",
+            "subtitle": "Try changing keywords or clearing your filters to see more results."
+        },
         "sort_by": "Sort by",
+        "sort_options": {
+            "newest_to_oldest": "Newest to oldest",
+            "oldest_to_newest": "Oldest to newest",
+            "quiz_name_asc": "Quiz name (A-Z)",
+            "quiz_name_desc": "Quiz name (Z-A)"
+        },
         "filters": "Filters",
+        "filters_panel": {
+            "language": "Language",
+            "tag": "Tag",
+            "creator": "Creator",
+            "clear_all": "Clear all",
+            "selected_count": "{{count}} selected",
+            "all_languages": "All languages",
+            "all_tags": "All tags",
+            "all_creators": "All creators"
+        },
         "view_template": "View template",
         "use_template": "Use template",
         "report_issue": "Report an issue",
         "preview": {
-            "subtitle": "You can preview the full quiz or each question individually, before using the quiz as a template to create your own own.",
+            "subtitle": "You can preview the full quiz or each question individually, before using the quiz as a template to create your own.",
             "languages": "Languages",
             "tags": "Tags",
             "creator": "Creator",

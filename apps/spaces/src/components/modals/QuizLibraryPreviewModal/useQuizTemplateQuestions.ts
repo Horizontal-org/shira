@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   getQuizTemplateQuestions,
   type LibraryQuizDto,
   type LibraryQuizQuestionTemplateDto,
 } from "../../../fetch/quiz_templates";
-import { getAppsByType } from "../../../utils/appNames";
+import { getAppsByTypeAndValue } from "../../../utils/appNames";
 
 export const useQuizTemplateQuestions = (
   quiz: LibraryQuizDto | null,
@@ -27,8 +27,6 @@ export const useQuizTemplateQuestions = (
       return;
     }
 
-    let isCancelled = false;
-
     setQuestions([]);
     setHasLoadedQuestions(false);
     setIsLoadingQuestions(true);
@@ -38,37 +36,25 @@ export const useQuizTemplateQuestions = (
     const loadQuestions = async () => {
       const loadedQuestions = await getQuizTemplateQuestions(quizId);
 
-      if (!isCancelled) {
-        if (loadedQuestions === null) {
-          setQuestions([]);
-          setHasLoadedQuestions(false);
-          setHasQuestionLoadError(true);
-          setIsLoadingQuestions(false);
-          return;
-        }
-
-        setQuestions(loadedQuestions);
-        setHasLoadedQuestions(true);
+      if (loadedQuestions === null) {
+        setQuestions([]);
+        setHasLoadedQuestions(false);
+        setHasQuestionLoadError(true);
         setIsLoadingQuestions(false);
+        return;
       }
+
+      setQuestions(loadedQuestions);
+      setHasLoadedQuestions(true);
+      setIsLoadingQuestions(false);
     };
 
     loadQuestions();
-
-    return () => {
-      isCancelled = true;
-    };
   }, [isOpen, quizId]);
 
-  const previewQuestion = useMemo(
-    () => questions.find((question) => question.questionId === previewQuestionId) ?? null,
-    [previewQuestionId, questions],
-  );
+  const previewQuestion = questions.find((question) => question.questionId === previewQuestionId) ?? null;
 
-  const firstPreviewableQuestion = useMemo(
-    () => questions.find((question) => question.content.trim()),
-    [questions],
-  );
+  const firstPreviewableQuestion = questions.find((question) => question.content.trim());
 
   const openPreviewQuestion = (questionId: number) => {
     setPreviewQuestionId(questionId);
@@ -85,9 +71,7 @@ export const useQuizTemplateQuestions = (
           return question;
         }
 
-        const selectedApp = getAppsByType(question.appType).find(
-          (appOption) => appOption.name === appName,
-        );
+        const selectedApp = getAppsByTypeAndValue(question.appType, appName);
 
         if (!selectedApp) {
           return question;
