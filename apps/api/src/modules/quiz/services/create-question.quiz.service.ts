@@ -14,16 +14,15 @@ import { QuestionSanitizer } from 'src/utils/question-sanitizer.util';
 
 import { TYPES as TYPES_QUESTION_IMAGE } from '../../question_image/interfaces'
 import { ISyncQuestionImageService } from 'src/modules/question_image/interfaces/services/sync.question_image.service.interface';
-import * as cheerio from 'cheerio';
 
 @Injectable()
-export class CreateQuestionQuizService implements ICreateQuestionQuizService{
+export class CreateQuestionQuizService implements ICreateQuestionQuizService {
 
   constructor(
     @InjectRepository(QuizQuestionEntity)
     private readonly quizQuestionRepo: Repository<QuizQuestionEntity>,
     @InjectRepository(Question)
-    private readonly questionRepo: Repository<Question>,    
+    private readonly questionRepo: Repository<Question>,
     @InjectRepository(App)
     private readonly appRepo: Repository<App>,
     @InjectRepository(Explanation)
@@ -36,12 +35,12 @@ export class CreateQuestionQuizService implements ICreateQuestionQuizService{
     private readonly languageRepo: Repository<Language>,
     @Inject(TYPES_QUESTION_IMAGE.services.ISyncQuestionImageService)
     private syncImagesService: ISyncQuestionImageService
-  ) {}
+  ) { }
 
-  async execute (createQuestionDto: CreateQuestionQuizDto) {
-    
+  async execute(createQuestionDto: CreateQuestionQuizDto) {
+
     let question: Question;
-          
+
     const app = await this.appRepo.findOne({
       where: { id: createQuestionDto.question.app },
     })
@@ -56,14 +55,14 @@ export class CreateQuestionQuizService implements ICreateQuestionQuizService{
     question.apps = [app];
     question.languageId = language.id;
     question.content = '';
-    question.type = 'quiz'    
+    question.type = 'quiz'
 
     //CREATE QUESTION
     //  <- RETURNS QUESTION-ID
     const questionEntity = await this.questionRepo.save(question);
 
     //SYNC IMAGES HERE
-    const imageIds = this.getImageIds(createQuestionDto.question.content)
+    const imageIds = QuestionSanitizer.extractImageIds(createQuestionDto.question.content)
     await this.syncImagesService.execute({
       imageIds: imageIds,
       questionId: questionEntity.id,
@@ -80,7 +79,7 @@ export class CreateQuestionQuizService implements ICreateQuestionQuizService{
     newQuestionTranslation.question = questionEntity;
     newQuestionTranslation.languageId = language.id;
     await this.questionTranslationRepo.save(newQuestionTranslation);
-    
+
     //ON LOOP
     //--CREATE EXPLANATION
     //--<-RETURN EXPLANATION_ID
@@ -94,14 +93,14 @@ export class CreateQuestionQuizService implements ICreateQuestionQuizService{
           question: questionEntity,
         })
       )
-      
+
       const newExplanationTranslation =
         this.explanationTranslationRepo.create({
           explanation: savedExplanation,
           content: QuestionSanitizer.sanitizeQuestionContent(explanation.text),
           languageId: language.id,
         })
-      await this.explanationTranslationRepo.save(newExplanationTranslation);    
+      await this.explanationTranslationRepo.save(newExplanationTranslation);
     }
 
 
@@ -116,20 +115,5 @@ export class CreateQuestionQuizService implements ICreateQuestionQuizService{
       questionId: questionEntity.id
     })
     await this.quizQuestionRepo.save(quizQuestion)
-  }
-
-  private getImageIds = (content: string) => {
-    const sanitizedContent = QuestionSanitizer.sanitizeQuestionContent(content);
-    const $ = cheerio.load(sanitizedContent);  
-    const data = $.extract({
-      imageIds: [
-        {
-          selector: 'img',
-          value: 'data-image-id',
-        }
-      ],
-    })
-
-    return data.imageIds
   }
 }

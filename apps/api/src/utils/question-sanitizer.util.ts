@@ -1,4 +1,5 @@
 import * as sanitizeHtml from 'sanitize-html';
+import * as cheerio from 'cheerio';
 
 export class QuestionSanitizer {
   
@@ -85,5 +86,20 @@ export class QuestionSanitizer {
         }
       }
     });
+  }
+
+  static extractImageIds(html: string): string[] {
+    const sanitizedContent = this.sanitizeQuestionContent(html);
+    const $ = cheerio.load(sanitizedContent);
+    const data = $.extract({
+      imageIds: [
+        {
+          selector: 'img',
+          value: 'data-image-id',
+        }
+      ],
+    });
+
+    return data.imageIds.filter((imageId): imageId is string => Boolean(imageId));
   }
 }

@@ -58,6 +58,7 @@
         "title": "Quizzes",
         "subtitle": "Manage your quizzes here, including creating, publishing, unpublishing and deleting quizzes.",
         "create_quiz_button": "Create new quiz",
+        "use_template_button": "Use a quiz template",
         "create_limit_reached": "Upgrade your plan to create more quizzes."
     },
     "learners": {
@@ -84,6 +85,18 @@
             "no_learners": "There are no registered learners in your space.",
             "all_learners_registered": "All registered learners have already been assigned this quiz.",
             "disabled_tooltip": "Create at least 1 question to assign this quiz to learners."
+        }
+    },
+    "library": {
+        "title": "Library",
+        "subtitle": "Get started right away with ready-made templates.",
+        "cards": {
+            "quizzes": {
+                "title": "Quizzes"
+            },
+            "questions": {
+                "title": "Questions"
+            }
         }
     },
     "quizzes": {
@@ -272,6 +285,57 @@
             }
         }
     },
+    "quiz_library": {
+        "header_title": "Select a quiz template",
+        "title": "Quiz library",
+        "subtitle": "Select a quiz from the list below to use it as a template for your new quiz.",
+        "search_placeholder": "Search quiz names",
+        "search_results": "{{count}} result for \"{{searchTerm}}\"",
+        "search_results_plural": "{{count}} results for \"{{searchTerm}}\"",
+        "empty_search": {
+            "title": "Sorry, we couldn't find anything",
+            "subtitle": "Try changing keywords or clearing your filters to see more results."
+        },
+        "sort_by": "Sort by",
+        "sort_options": {
+            "newest_to_oldest": "Newest to oldest",
+            "oldest_to_newest": "Oldest to newest",
+            "quiz_name_asc": "Quiz name (A-Z)",
+            "quiz_name_desc": "Quiz name (Z-A)"
+        },
+        "filters": "Filters",
+        "filters_panel": {
+            "language": "Language",
+            "tag": "Tag",
+            "creator": "Creator",
+            "clear_all": "Clear all",
+            "selected_count": "{{count}} selected",
+            "all_languages": "All languages",
+            "all_tags": "All tags",
+            "all_creators": "All creators"
+        },
+        "view_template": "View template",
+        "use_template": "Use template",
+        "report_issue": "Report an issue",
+        "preview": {
+            "subtitle": "You can preview the full quiz or each question individually, before using the quiz as a template to create your own.",
+            "languages": "Languages",
+            "tags": "Tags",
+            "creator": "Creator",
+            "created_on": "Created on",
+            "preview_full_quiz": "Preview full quiz",
+            "back_to_quiz_template": "Back to quiz template",
+            "no_questions": "No questions found for this quiz template.",
+            "columns": {
+                "question_name": "Question name",
+                "type": "Type",
+                "language": "Language",
+                "app": "App",
+                "actions": "Actions",
+                "preview": "Preview"
+            }
+        }
+    },
     "results_tab": {
         "title": "Overall results",
         "completed_quizzes": {
@@ -442,6 +506,11 @@
             "subtitle": "Set the name for the new quiz",
             "quiz_name": "Quiz name",
             "quiz_name_placeholder": "Copy of {{quiz_name}}"
+        },
+        "add_quiz_from_template": {
+            "title": "Give your new quiz a name",
+            "subtitle": "The quiz name will be visible in your Space and to learners when they take it.",
+            "input_label": "Quiz name"
         },
         "quiz_limit": {
             "title": "Ready to upgrade?",

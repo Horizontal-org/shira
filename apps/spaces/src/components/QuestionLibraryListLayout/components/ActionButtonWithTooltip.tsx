@@ -5,7 +5,7 @@ type ActionButtonWithTooltipProps = {
   id: string;
   disabled?: boolean;
   tooltipText: string;
-  ariaLabel: string;
+  ariaLabel?: string;
   title?: string;
   onClick?: () => void;
   children: ReactNode;

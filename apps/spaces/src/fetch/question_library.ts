@@ -55,6 +55,12 @@ export const getLibraryQuestions = async () => {
   }
 };
 
+export enum LibraryQuestionFeedback {
+  Processing = 'PROCESSING',
+  Error = 'ERROR',
+  Success = 'SUCCESS',
+};
+
 export const useLibraryQuestionCRUD = () => {
 
   const [actionFeedback, handleActionFeedback] = useState(null);
@@ -78,9 +84,3 @@ export const useLibraryQuestionCRUD = () => {
 
   return { actionFeedback, duplicate };
 }
-
-export enum LibraryQuestionFeedback {
-  Processing = 'PROCESSING',
-  Error = 'ERROR',
-  Success = 'SUCCESS',
-};
