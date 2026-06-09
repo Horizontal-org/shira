@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   DEFAULT_PAGE_LIMIT,
   DEFAULT_QUIZ_TEMPLATE_SORT,
@@ -48,7 +48,7 @@ const getAllQuizTemplates = async (
 ): Promise<LibraryQuizDto[]> => {
   const firstPage = await getQuizTemplates({
     page: 1,
-    limit: 100,
+    limit: DEFAULT_PAGE_LIMIT,
     search,
     sortOption,
     langTagCodes,
@@ -65,7 +65,7 @@ const getAllQuizTemplates = async (
     Array.from({ length: totalPages - 1 }, (_, index) => (
       getQuizTemplates({
         page: index + 2,
-        limit: firstPage.limit,
+        limit: DEFAULT_PAGE_LIMIT,
         search,
         sortOption,
         langTagCodes,
@@ -194,10 +194,7 @@ export const useQuizTemplateList = () => {
     loadFilterOptions();
   }, [areFiltersOpen, languageOptions.length, tagOptions.length]);
 
-  const sortedLibraryQuizzes = useMemo(
-    () => sortQuizTemplates(libraryQuizzes, sortOption),
-    [libraryQuizzes, sortOption],
-  );
+  const sortedLibraryQuizzes = sortQuizTemplates(libraryQuizzes, sortOption);
 
   const total = usesClientSideSorting ? sortedLibraryQuizzes.length : totalAvailableQuizzes;
   const visibleLibraryQuizzes = usesClientSideSorting

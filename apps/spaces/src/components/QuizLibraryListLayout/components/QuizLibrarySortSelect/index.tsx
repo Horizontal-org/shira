@@ -1,4 +1,4 @@
-import { FunctionComponent, useMemo } from "react";
+import { FunctionComponent } from "react";
 import { SortSelect, styled } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
 import { type QuizTemplateSortOption } from "../../../../fetch/quiz_templates";
@@ -14,7 +14,7 @@ export const QuizLibrarySortSelect: FunctionComponent<Props> = ({
 }) => {
   const { t } = useTranslation();
 
-  const sortOptions = useMemo(() => [
+  const sortOptions = [
     {
       value: "createdAt-desc",
       label: t("quiz_library.sort_options.newest_to_oldest"),
@@ -31,7 +31,7 @@ export const QuizLibrarySortSelect: FunctionComponent<Props> = ({
       value: "title-desc",
       label: t("quiz_library.sort_options.quiz_name_desc"),
     },
-  ], [t]);
+  ];
 
   return (
     <StyledSortSelect

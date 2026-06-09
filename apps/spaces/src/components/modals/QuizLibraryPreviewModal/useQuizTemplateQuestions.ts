@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   getQuizTemplateQuestions,
   type LibraryQuizDto,
@@ -52,15 +52,9 @@ export const useQuizTemplateQuestions = (
     loadQuestions();
   }, [isOpen, quizId]);
 
-  const previewQuestion = useMemo(
-    () => questions.find((question) => question.questionId === previewQuestionId) ?? null,
-    [previewQuestionId, questions],
-  );
+  const previewQuestion = questions.find((question) => question.questionId === previewQuestionId) ?? null;
 
-  const firstPreviewableQuestion = useMemo(
-    () => questions.find((question) => question.content.trim()),
-    [questions],
-  );
+  const firstPreviewableQuestion = questions.find((question) => question.content.trim());
 
   const openPreviewQuestion = (questionId: number) => {
     setPreviewQuestionId(questionId);
