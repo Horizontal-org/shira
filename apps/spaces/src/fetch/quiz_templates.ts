@@ -81,9 +81,15 @@ type ListQuizTemplatesApiQueryDto = {
   page: number;
   limit: number;
   search?: string;
+  sortBy?: "createdAt" | "title";
   sortOrder?: "asc" | "desc";
   langTags?: string;
   tags?: string;
+};
+
+type QuizTemplateSortParams = {
+  sortBy: "createdAt" | "title";
+  sortOrder: "asc" | "desc";
 };
 
 type LibraryLangTagApiDto = {
@@ -98,17 +104,6 @@ type LibraryTagApiDto = {
   slug: string;
 };
 
-const getSortOrderFromSortOption = (sortOption: QuizTemplateSortOption) => {
-  if (sortOption === "createdAt-asc") {
-    return "asc";
-  }
-
-  if (sortOption === "createdAt-desc") {
-    return "desc";
-  }
-
-  return;
-};
 
 const normalizeQuizTemplate = (quiz: LibraryQuizApiDto): LibraryQuizDto => ({
   id: quiz.id,
@@ -124,6 +119,15 @@ const serializeFilterValues = (values?: string[]) => {
   return values.join(",");
 };
 
+const getSortParamsFromSortOption = (sortOption: QuizTemplateSortOption): QuizTemplateSortParams => {
+  const [sortBy, sortOrder] = sortOption.split("-") as [
+    QuizTemplateSortParams["sortBy"],
+    QuizTemplateSortParams["sortOrder"],
+  ];
+
+  return { sortBy, sortOrder };
+};
+
 export const getQuizTemplates = async (
   {
     page = 1,
@@ -135,13 +139,15 @@ export const getQuizTemplates = async (
   }: GetQuizTemplatesParams = {},
 ): Promise<LibraryQuizTemplatesPageDto> => {
   try {
-    const sortOrder = getSortOrderFromSortOption(sortOption);
+    const { sortBy, sortOrder } = getSortParamsFromSortOption(sortOption);
     const serializedLangTags = serializeFilterValues(langTagCodes);
     const serializedTags = serializeFilterValues(tagSlugs);
+
     const params: ListQuizTemplatesApiQueryDto = {
       page,
       limit,
-      ...(sortOrder ? { sortOrder } : {}),
+      sortBy,
+      sortOrder,
       ...(search ? { search } : {}),
       ...(serializedLangTags ? { langTags: serializedLangTags } : {}),
       ...(serializedTags ? { tags: serializedTags } : {}),
