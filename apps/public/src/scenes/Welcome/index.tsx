@@ -2,7 +2,7 @@ import { FunctionComponent, useEffect } from "react";
 import { styled, Button, H2, Body1 } from '@horizontal-org/shira-ui'
 import { Navbar } from "../../components/UI/Navbar";
 import { SceneWrapper } from "../../components/UI/SceneWrapper";
-import { LanguageSelect } from "../../components/UI/Select";
+import { LanguageSelect } from '@horizontal-org/shira-ui'
 import { FiChevronRight } from 'react-icons/fi'
 import { useStore } from "../../store";
 import { useTranslation } from "react-i18next";

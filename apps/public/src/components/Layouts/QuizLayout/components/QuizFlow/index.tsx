@@ -11,7 +11,7 @@ import { CustomQuizCompletedScene } from "../../../../../scenes/CustomQuizComple
 import { CustomQuizNavbar } from "../../../../UI/CustomQuizNavbar"
 import { useTranslation } from "react-i18next"
 import { FiChevronRight } from "react-icons/fi"
-import { LanguageSelect } from "../../../../UI/Select"
+import { LanguageSelect } from '@horizontal-org/shira-ui'
 import { LANG_OPTIONS } from "../../constants"
 import { useQuizRun, Answer } from '../../../../../hooks/useQuizRun'
 

@@ -3,8 +3,10 @@ import { Body1SemiBold, Body2Italic, Body2Regular, Button, styled, useTheme } fr
 import { useTranslation } from "react-i18next";
 import { navigateToManageSubscription } from "../../../fetch/auth";
 import { useSub } from "../../../hooks/useSub";
+import { useStore } from "../../../store";
+import { GeneralSection } from "./GeneralSection";
 
-type TabType = "account" | "subscription";
+type TabType = "account" | "subscription" | "general";
 
 interface TabContainerProps {
   email?: string;
@@ -26,6 +28,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   const { t } = useTranslation();
   const theme = useTheme();
   const [activeTab, setActiveTab] = useState<TabType>("account");
+  const languages = useStore((state) => state.languages) ?? [];
 
   const { isSubActive } = useSub();
 
@@ -36,12 +39,17 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
     ? t('settings.subscription.upgrade')
     : t('settings.subscription.manage_plan');
 
-  console.log('subscriptionActionText:', subscriptionActionText);
-
   return (
     <Container>
       <Header>
         <TabsContainer>
+          <TabButton
+            id="settings-general-tab"
+            $isActive={activeTab === "general"}
+            onClick={() => setActiveTab("general")}
+          >
+            {t('settings.tabs.general')}
+          </TabButton>
           <TabButton
             id="settings-account-tab"
             $isActive={activeTab === "account"}
@@ -92,6 +100,10 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
               />
             </SettingRow>
           </SettingsCard>
+        )}
+
+        {activeTab === "general" && (
+          <GeneralSection languages={languages} />
         )}
 
         {activeTab === "subscription" && !!(subscription) && (
