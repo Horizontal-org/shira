@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement, useRef, useState } from "react";
+import { FunctionComponent, ReactElement, useEffect, useRef, useState } from "react";
 import { FiCopy, FiMoreVertical, FiTrash2 } from "react-icons/fi";
 import { BaseFloatingMenu, defaultTheme, styled } from "@horizontal-org/shira-ui";
 
@@ -6,7 +6,7 @@ interface Props {
   questionId: string;
   duplicateLabel: string;
   deleteLabel: string;
-  isBeingDuplicated: boolean;
+  disabled: boolean;
   onDuplicate: () => void;
   onDelete: () => void;
 }
@@ -15,37 +15,43 @@ export const QuestionTableActionsMenu: FunctionComponent<Props> = ({
   questionId,
   duplicateLabel,
   deleteLabel,
-  isBeingDuplicated,
+  disabled,
   onDuplicate,
   onDelete,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
+  useEffect(() => {
+    if (disabled) {
+      setIsOpen(false);
+    }
+  }, [disabled]);
+
   const elements: Array<{
     onClick: React.MouseEventHandler<HTMLButtonElement>;
     text: string;
     icon?: ReactElement;
   }> = [
-      {
-        text: duplicateLabel,
-        onClick: (event) => {
-          event.stopPropagation();
-          onDuplicate();
-          setIsOpen(false);
-        },
-        icon: <FiCopy color={defaultTheme.colors.dark.darkGrey} />,
+    {
+      text: duplicateLabel,
+      onClick: (event) => {
+        event.stopPropagation();
+        setIsOpen(false);
+        onDuplicate();
       },
-      {
-        text: deleteLabel,
-        onClick: (event) => {
-          event.stopPropagation();
-          onDelete();
-          setIsOpen(false);
-        },
-        icon: <FiTrash2 color={defaultTheme.colors.dark.darkGrey} />,
+      icon: <FiCopy color={defaultTheme.colors.dark.darkGrey} />,
+    },
+    {
+      text: deleteLabel,
+      onClick: (event) => {
+        event.stopPropagation();
+        setIsOpen(false);
+        onDelete();
       },
-    ];
+      icon: <FiTrash2 color={defaultTheme.colors.dark.darkGrey} />,
+    },
+  ];
 
   return (
     <>
@@ -59,7 +65,7 @@ export const QuestionTableActionsMenu: FunctionComponent<Props> = ({
           event.stopPropagation();
           setIsOpen((current) => !current);
         }}
-        disabled={isBeingDuplicated}
+        disabled={disabled}
       >
         <FiMoreVertical size={20} color={defaultTheme.colors.dark.darkGrey} />
       </MenuButton>

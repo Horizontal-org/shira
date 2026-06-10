@@ -52,14 +52,14 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
     confirmType: ConfirmAction;
     confirmId?: string;
   } | null>(null);
-  const [duplicatingQuestions, setDuplicatingQuestions] = useState<Set<string>>(new Set());
+  const [duplicatingQuestionId, setDuplicatingQuestionId] = useState<string | null>(null);
 
   const { updateQuiz } = useStore((state) => ({
     updateQuiz: state.updateQuiz
   }), shallow);
 
   const handleDuplicateQuestion = async (questionId: string) => {
-    setDuplicatingQuestions((prev) => new Set(prev).add(questionId));
+    setDuplicatingQuestionId(questionId);
     const questionName = quizQuestions.find((qq) => qq.question.id === questionId)?.question.name;
 
     try {
@@ -72,11 +72,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
     } catch (error) {
       toast.error(t("error_messages.duplicate_question_fail"), { duration: 3000 });
     } finally {
-      setDuplicatingQuestions((prev) => {
-        const next = new Set(prev);
-        next.delete(questionId);
-        return next;
-      });
+      setDuplicatingQuestionId(null);
     }
   };
 
@@ -129,7 +125,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
 
       <QuestionTable
         quizQuestions={quizQuestions}
-        duplicatingQuestions={duplicatingQuestions}
+        duplicatingQuestionId={duplicatingQuestionId}
         onEditQuestion={(questionId) => {
           if (hasResults) {
             handleConfirmBeforeContinueModal({ confirmType: "edit", confirmId: questionId });
@@ -160,6 +156,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
           }}
           onConfirm={() => {
             if (questionForDelete) {
+              handleQuestionForDelete(null);
               onDelete(questionForDelete.id);
               handleTogglePublished(quizId, false);
             }
@@ -190,6 +187,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
           }}
           onDelete={() => {
             if (questionForDelete) {
+              handleQuestionForDelete(null);
               onDelete(questionForDelete.id);
             }
           }}

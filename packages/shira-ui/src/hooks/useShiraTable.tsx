@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useEffect } from 'react'
 import {
   ColumnDef,
   getCoreRowModel,
@@ -13,7 +13,7 @@ import { Body3 } from '../components/Typography'
 
 export type TableSize = 'full' | 'compact';
 
-export interface SharedTableProps {
+export interface Props {
   columns: Array<ColumnDef<any>>
   data: Array<Object>
   colGroups?: ReactNode
@@ -36,13 +36,38 @@ export const useShiraTable = ({
   enableRowSelection = true,
   pageSize = 20,
 }: Pick<
-  SharedTableProps,
+  Props,
   'columns' | 'data' | 'rowSelection' | 'setRowSelection' | 'enableRowSelection' | 'pageSize'
 >) => {
   const [pagination, setPagination] = React.useState<PaginationState>({
     pageIndex: 0,
     pageSize,
   });
+
+  useEffect(() => {
+    setPagination((current) => {
+      if (current.pageSize === pageSize) {
+        return current;
+      }
+
+      const maxPageIndex = Math.max(0, Math.ceil(data.length / pageSize) - 1);
+      return {
+        pageIndex: Math.min(current.pageIndex, maxPageIndex),
+        pageSize,
+      };
+    });
+  }, [data.length, pageSize]);
+
+  useEffect(() => {
+    const maxPageIndex = Math.max(0, Math.ceil(data.length / pagination.pageSize) - 1);
+
+    if (pagination.pageIndex > maxPageIndex) {
+      setPagination((current) => ({
+        ...current,
+        pageIndex: maxPageIndex,
+      }));
+    }
+  }, [data.length, pagination.pageIndex, pagination.pageSize]);
 
   const table = useReactTable({
     data,
@@ -58,6 +83,7 @@ export const useShiraTable = ({
     getPaginationRowModel: getPaginationRowModel(),
     onPaginationChange: setPagination,
     getFilteredRowModel: getFilteredRowModel(),
+    autoResetPageIndex: false,
   })
 
   return { table }
@@ -137,7 +163,7 @@ export const Tr = styled.tr<{ $selected?: boolean; $selectable?: boolean; $dragg
 
   &:hover td {
     background-color: ${(props) =>
-      props.$selected ? props.theme.colors.green1 : props.theme.colors.light.paleGrey};
+    props.$selected ? props.theme.colors.green1 : props.theme.colors.light.paleGrey};
   }
 
   &:last-child td {
@@ -156,8 +182,7 @@ export const Tr = styled.tr<{ $selected?: boolean; $selectable?: boolean; $dragg
     `}
 
   ${(props) =>
-    props.$selectable &&
-    css`
+    props.$selectable && `
       &:focus-visible,
       &:focus-within {
         outline: 2px solid ${props.theme.colors.green3};

@@ -3,7 +3,7 @@ import { Pagination } from './components/Pagination'
 import {
   CenteredBody,
   CenteredCellContent,
-  SharedTableProps,
+  Props,
   StyledTable,
   TableFooter,
   TableHeader,
@@ -15,7 +15,7 @@ import {
   Wrapper,
 } from '../../hooks/useShiraTable'
 
-export interface TableProps extends SharedTableProps { }
+export interface TableProps extends Props { }
 
 export const Table = ({
   columns = [],
@@ -25,7 +25,7 @@ export const Table = ({
   rowSelection,
   setRowSelection,
   enableRowSelection = true,
-  pageSize = 25,
+  pageSize = 20,
   loadingMessage = null,
   emptyMessage = null,
   size = 'compact',
