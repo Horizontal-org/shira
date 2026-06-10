@@ -113,7 +113,7 @@ const Options = styled.div`
   font-size: 16px;
   z-index: 10;
 
-  @media (max-width: ${(props: any) => props.theme.breakpoints.xs}) {
+  @media (max-width: ${(props) => props.theme.breakpoints.xs}) {
     display: none;
   }
 `

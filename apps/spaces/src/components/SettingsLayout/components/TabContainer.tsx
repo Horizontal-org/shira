@@ -3,7 +3,6 @@ import { Body1SemiBold, Body2Italic, Body2Regular, Button, styled, useTheme } fr
 import { useTranslation } from "react-i18next";
 import { navigateToManageSubscription } from "../../../fetch/auth";
 import { useSub } from "../../../hooks/useSub";
-import { useStore } from "../../../store";
 import { GeneralSection } from "./GeneralSection";
 
 type TabType = "account" | "subscription" | "general";
@@ -28,8 +27,6 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   const { t } = useTranslation();
   const theme = useTheme();
   const [activeTab, setActiveTab] = useState<TabType>("account");
-  const languages = useStore((state) => state.languages) ?? [];
-
   const { isSubActive } = useSub();
 
   const currentPlanName = isSubActive ? String(subscription?.type ?? "unknown").toLowerCase() : "starter";
@@ -103,7 +100,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
         )}
 
         {activeTab === "general" && (
-          <GeneralSection languages={languages} />
+          <GeneralSection />
         )}
 
         {activeTab === "subscription" && !!(subscription) && (
