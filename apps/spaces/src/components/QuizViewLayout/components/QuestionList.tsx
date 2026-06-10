@@ -68,7 +68,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
         t("success_messages.question_copied", { question_name: questionName }),
         { duration: 3000 },
       );
-      onDuplicate();
+      onDuplicate(); // Refresh the quiz data
     } catch (error) {
       toast.error(t("error_messages.duplicate_question_fail"), { duration: 3000 });
     } finally {
@@ -144,8 +144,10 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
             handleDuplicateQuestion(questionId);
           }
         }}
-        onDeleteQuestion={(question) => {
-          handleQuestionForDelete(question);
+        onDeleteQuestion={(questionId) => {
+          handleQuestionForDelete(
+            quizQuestions.find((quizQuestion) => quizQuestion.question.id === questionId)?.question ?? null
+          );
         }}
         onReorder={onReorder}
       />

@@ -1,4 +1,4 @@
-import { CSSProperties, FunctionComponent, ReactElement, useMemo, useRef, useState } from "react";
+import { CSSProperties, FunctionComponent, useMemo } from "react";
 import {
   ColumnDef,
   flexRender,
@@ -24,12 +24,10 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { FiLoader } from "react-icons/fi";
-import { FiCopy, FiMoreVertical, FiTrash2 } from "react-icons/fi";
 import { FaCircleCheck } from "react-icons/fa6";
 import { MdDragIndicator, MdOutlinePhishing } from "react-icons/md";
 import {
   ActionTooltip,
-  BaseFloatingMenu,
   Body3,
   Body3Bold,
   defaultTheme,
@@ -40,6 +38,7 @@ import { useTranslation } from "react-i18next";
 import { QuizQuestion } from "../../../store/slices/quiz";
 import { appIcons } from "../../../utils/appIcons";
 import { normalizePreviewAppName } from "../../../utils/appNames";
+import { QuestionTableActionsMenu } from "./QuestionTableActionsMenu";
 
 type QuestionTableRow = QuizQuestion & {
   id: string;
@@ -50,7 +49,7 @@ interface QuestionTableProps {
   duplicatingQuestions: Set<string>;
   onEditQuestion: (questionId: string) => void;
   onDuplicateQuestion: (questionId: string) => void;
-  onDeleteQuestion: (question: QuizQuestion["question"]) => void;
+  onDeleteQuestion: (questionId: string) => void;
   onReorder: (newOrder: QuizQuestion[]) => void;
 }
 
@@ -59,7 +58,7 @@ type DraggableRowProps = {
   duplicatingQuestions: Set<string>;
   onEditQuestion: (questionId: string) => void;
   onDuplicateQuestion: (questionId: string) => void;
-  onDeleteQuestion: (question: QuizQuestion["question"]) => void;
+  onDeleteQuestion: (questionId: string) => void;
   editTooltip: string;
   duplicateTooltip: string;
   deleteTooltip: string;
@@ -78,16 +77,12 @@ export const QuestionTable: FunctionComponent<QuestionTableProps> = ({
   const duplicateTooltip = t("questions_tab.action_tooltips.duplicate");
   const deleteTooltip = t("questions_tab.action_tooltips.delete");
 
-  const rows = useMemo<QuestionTableRow[]>(
-    () =>
-      [...quizQuestions]
-        .sort((a, b) => a.position - b.position)
-        .map((quizQuestion) => ({
-          ...quizQuestion,
-          id: quizQuestion.question.id,
-        })),
-    [quizQuestions],
-  );
+  const rows: QuestionTableRow[] = [...quizQuestions]
+    .sort((a, b) => a.position - b.position)
+    .map((quizQuestion) => ({
+      ...quizQuestion,
+      id: quizQuestion.question.id,
+    }));
 
   const columns = useMemo<ColumnDef<QuestionTableRow>[]>(
     () => [
@@ -335,13 +330,13 @@ const DraggableRow: FunctionComponent<DraggableRowProps> = ({
                   </ActionButton>
                 </ActionTooltip>
 
-                <MoreActionsMenu
-                  question={row.original.question}
+                <QuestionTableActionsMenu
+                  questionId={questionId}
                   duplicateLabel={duplicateTooltip}
                   deleteLabel={deleteTooltip}
                   isBeingDuplicated={isBeingDuplicated}
                   onDuplicate={() => onDuplicateQuestion(questionId)}
-                  onDelete={() => onDeleteQuestion(row.original.question)}
+                  onDelete={() => onDeleteQuestion(questionId)}
                 />
               </ActionsCell>
             </Td>
@@ -355,79 +350,6 @@ const DraggableRow: FunctionComponent<DraggableRowProps> = ({
         );
       })}
     </Tr>
-  );
-};
-
-interface MoreActionsMenuProps {
-  question: QuizQuestion["question"];
-  duplicateLabel: string;
-  deleteLabel: string;
-  isBeingDuplicated: boolean;
-  onDuplicate: () => void;
-  onDelete: () => void;
-}
-
-const MoreActionsMenu: FunctionComponent<MoreActionsMenuProps> = ({
-  question,
-  duplicateLabel,
-  deleteLabel,
-  isBeingDuplicated,
-  onDuplicate,
-  onDelete,
-}) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const buttonRef = useRef<HTMLButtonElement>(null);
-
-  const elements: Array<{
-    onClick: React.MouseEventHandler<HTMLButtonElement>;
-    text: string;
-    icon?: ReactElement;
-  }> = [
-    {
-      text: duplicateLabel,
-      onClick: (event) => {
-        event.stopPropagation();
-        onDuplicate();
-        setIsOpen(false);
-      },
-      icon: <FiCopy color={defaultTheme.colors.dark.darkGrey} />,
-    },
-    {
-      text: deleteLabel,
-      onClick: (event) => {
-        event.stopPropagation();
-        onDelete();
-        setIsOpen(false);
-      },
-      icon: <FiTrash2 color={defaultTheme.colors.dark.darkGrey} />,
-    },
-  ];
-
-  return (
-    <>
-      <ActionButton
-        id={`more-actions-button-${question.id}`}
-        ref={buttonRef}
-        type="button"
-        aria-label="More actions"
-        title="More actions"
-        onClick={(event) => {
-          event.stopPropagation();
-          setIsOpen((current) => !current);
-        }}
-        disabled={isBeingDuplicated}
-      >
-        <FiMoreVertical size={20} color={defaultTheme.colors.dark.darkGrey} />
-      </ActionButton>
-
-      <BaseFloatingMenu
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        elements={elements}
-        anchorEl={buttonRef.current}
-        width={150}
-      />
-    </>
   );
 };
 
