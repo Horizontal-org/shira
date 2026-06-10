@@ -1,4 +1,4 @@
-import { CSSProperties, FunctionComponent, useMemo } from "react";
+import { CSSProperties, FunctionComponent, ReactElement, useMemo, useRef, useState } from "react";
 import {
   ColumnDef,
   flexRender,
@@ -24,10 +24,12 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { FiLoader } from "react-icons/fi";
+import { FiCopy, FiMoreVertical, FiTrash2 } from "react-icons/fi";
 import { FaCircleCheck } from "react-icons/fa6";
 import { MdDragIndicator, MdOutlinePhishing } from "react-icons/md";
 import {
   ActionTooltip,
+  BaseFloatingMenu,
   Body3,
   Body3Bold,
   defaultTheme,
@@ -38,7 +40,6 @@ import { useTranslation } from "react-i18next";
 import { QuizQuestion } from "../../../store/slices/quiz";
 import { appIcons } from "../../../utils/appIcons";
 import { normalizePreviewAppName } from "../../../utils/appNames";
-import DuplicateIcon from "./DuplicateIcon";
 
 type QuestionTableRow = QuizQuestion & {
   id: string;
@@ -49,6 +50,7 @@ interface QuestionTableProps {
   duplicatingQuestions: Set<string>;
   onEditQuestion: (questionId: string) => void;
   onDuplicateQuestion: (questionId: string) => void;
+  onDeleteQuestion: (question: QuizQuestion["question"]) => void;
   onReorder: (newOrder: QuizQuestion[]) => void;
 }
 
@@ -57,8 +59,10 @@ type DraggableRowProps = {
   duplicatingQuestions: Set<string>;
   onEditQuestion: (questionId: string) => void;
   onDuplicateQuestion: (questionId: string) => void;
+  onDeleteQuestion: (question: QuizQuestion["question"]) => void;
   editTooltip: string;
   duplicateTooltip: string;
+  deleteTooltip: string;
 };
 
 export const QuestionTable: FunctionComponent<QuestionTableProps> = ({
@@ -66,11 +70,13 @@ export const QuestionTable: FunctionComponent<QuestionTableProps> = ({
   duplicatingQuestions,
   onEditQuestion,
   onDuplicateQuestion,
+  onDeleteQuestion,
   onReorder,
 }) => {
   const { t } = useTranslation();
   const editTooltip = t("questions_tab.action_tooltips.edit");
   const duplicateTooltip = t("questions_tab.action_tooltips.duplicate");
+  const deleteTooltip = t("questions_tab.action_tooltips.delete");
 
   const rows = useMemo<QuestionTableRow[]>(
     () =>
@@ -159,42 +165,10 @@ export const QuestionTable: FunctionComponent<QuestionTableProps> = ({
       {
         header: t("question_library.columns.actions.title"),
         id: "actions",
-        cell: ({ row }) => {
-          const questionId = row.original.question.id;
-          const isBeingDuplicated = duplicatingQuestions.has(questionId);
-
-          return (
-            <ActionsCell>
-              <ActionTooltip content={editTooltip}>
-                <ActionButton
-                  id={`edit-button-${questionId}`}
-                  type="button"
-                  aria-label={editTooltip}
-                  onClick={() => onEditQuestion(questionId)}
-                >
-                  <EditIcon />
-                </ActionButton>
-              </ActionTooltip>
-
-              <ActionTooltip content={duplicateTooltip}>
-                <ActionButton
-                  id={`duplicate-button-${questionId}`}
-                  type="button"
-                  aria-label={duplicateTooltip}
-                  onClick={() => onDuplicateQuestion(questionId)}
-                  disabled={isBeingDuplicated}
-                >
-                  <DuplicateIconWrapper>
-                    <DuplicateIcon />
-                  </DuplicateIconWrapper>
-                </ActionButton>
-              </ActionTooltip>
-            </ActionsCell>
-          );
-        },
+        cell: () => null,
       },
     ],
-    [duplicatingQuestions, duplicateTooltip, editTooltip, onDuplicateQuestion, onEditQuestion, t],
+    [duplicatingQuestions, t],
   );
 
   const table = useReactTable({
@@ -274,8 +248,10 @@ export const QuestionTable: FunctionComponent<QuestionTableProps> = ({
                 duplicatingQuestions={duplicatingQuestions}
                 onEditQuestion={onEditQuestion}
                 onDuplicateQuestion={onDuplicateQuestion}
+                onDeleteQuestion={onDeleteQuestion}
                 editTooltip={editTooltip}
                 duplicateTooltip={duplicateTooltip}
+                deleteTooltip={deleteTooltip}
               />
             ))}
           </tbody>
@@ -291,8 +267,10 @@ const DraggableRow: FunctionComponent<DraggableRowProps> = ({
   duplicatingQuestions,
   onEditQuestion,
   onDuplicateQuestion,
+  onDeleteQuestion,
   editTooltip,
   duplicateTooltip,
+  deleteTooltip,
 }) => {
   const {
     attributes,
@@ -357,19 +335,14 @@ const DraggableRow: FunctionComponent<DraggableRowProps> = ({
                   </ActionButton>
                 </ActionTooltip>
 
-                <ActionTooltip content={duplicateTooltip}>
-                  <ActionButton
-                    id={`duplicate-button-${questionId}`}
-                    type="button"
-                    aria-label={duplicateTooltip}
-                    onClick={() => onDuplicateQuestion(questionId)}
-                    disabled={isBeingDuplicated}
-                  >
-                    <DuplicateIconWrapper>
-                      <DuplicateIcon />
-                    </DuplicateIconWrapper>
-                  </ActionButton>
-                </ActionTooltip>
+                <MoreActionsMenu
+                  question={row.original.question}
+                  duplicateLabel={duplicateTooltip}
+                  deleteLabel={deleteTooltip}
+                  isBeingDuplicated={isBeingDuplicated}
+                  onDuplicate={() => onDuplicateQuestion(questionId)}
+                  onDelete={() => onDeleteQuestion(row.original.question)}
+                />
               </ActionsCell>
             </Td>
           );
@@ -382,6 +355,79 @@ const DraggableRow: FunctionComponent<DraggableRowProps> = ({
         );
       })}
     </Tr>
+  );
+};
+
+interface MoreActionsMenuProps {
+  question: QuizQuestion["question"];
+  duplicateLabel: string;
+  deleteLabel: string;
+  isBeingDuplicated: boolean;
+  onDuplicate: () => void;
+  onDelete: () => void;
+}
+
+const MoreActionsMenu: FunctionComponent<MoreActionsMenuProps> = ({
+  question,
+  duplicateLabel,
+  deleteLabel,
+  isBeingDuplicated,
+  onDuplicate,
+  onDelete,
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  const elements: Array<{
+    onClick: React.MouseEventHandler<HTMLButtonElement>;
+    text: string;
+    icon?: ReactElement;
+  }> = [
+    {
+      text: duplicateLabel,
+      onClick: (event) => {
+        event.stopPropagation();
+        onDuplicate();
+        setIsOpen(false);
+      },
+      icon: <FiCopy color={defaultTheme.colors.dark.darkGrey} />,
+    },
+    {
+      text: deleteLabel,
+      onClick: (event) => {
+        event.stopPropagation();
+        onDelete();
+        setIsOpen(false);
+      },
+      icon: <FiTrash2 color={defaultTheme.colors.dark.darkGrey} />,
+    },
+  ];
+
+  return (
+    <>
+      <ActionButton
+        id={`more-actions-button-${question.id}`}
+        ref={buttonRef}
+        type="button"
+        aria-label="More actions"
+        title="More actions"
+        onClick={(event) => {
+          event.stopPropagation();
+          setIsOpen((current) => !current);
+        }}
+        disabled={isBeingDuplicated}
+      >
+        <FiMoreVertical size={20} color={defaultTheme.colors.dark.darkGrey} />
+      </ActionButton>
+
+      <BaseFloatingMenu
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        elements={elements}
+        anchorEl={buttonRef.current}
+        width={150}
+      />
+    </>
   );
 };
 
@@ -446,12 +492,20 @@ const Td = styled.td`
 const Tr = styled.tr<{ $dragging?: boolean }>`
   position: relative;
 
+  &:hover td {
+    background: ${defaultTheme.colors.light.paleGrey};
+  }
+
   &:last-child td {
     border-bottom: none;
   }
 
   ${(props) => props.$dragging && `
     z-index: 2;
+
+    & td {
+      background: ${defaultTheme.colors.light.white};
+    }
   `}
 `;
 
@@ -543,13 +597,6 @@ const SpinningLoader = styled(FiLoader)`
     to {
       transform: rotate(360deg);
     }
-  }
-`;
-
-const DuplicateIconWrapper = styled.div`
-  > svg {
-    height: 20px;
-    width: 20px;
   }
 `;
 

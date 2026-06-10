@@ -128,11 +128,17 @@ export const Td = styled('td')`
 
 export const Tr = styled.tr<{ $selected?: boolean; $selectable?: boolean; $dragging?: boolean }>`
   cursor: ${({ $selectable }) => ($selectable ? 'pointer' : 'default')};
+  position: relative;
 
   & td {
     background-color: ${(props) =>
     props.$selected ? props.theme.colors.green1 : props.theme.colors.light.white};
     border-bottom: 1px solid ${(props) => props.theme.colors.light.paleGrey};
+  }
+
+  &:hover td {
+    background-color: ${(props) =>
+      props.$selected ? props.theme.colors.green1 : props.theme.colors.light.paleGrey};
   }
 
   &:last-child td {
@@ -153,19 +159,6 @@ export const Tr = styled.tr<{ $selected?: boolean; $selectable?: boolean; $dragg
   ${(props) =>
     props.$selectable &&
     css`
-      &:hover {
-        position: relative;
-        z-index: 1;
-        outline: 2px solid ${props.theme.colors.green1};
-        outline-offset: -2px;
-      }
-
-      &:hover td {
-        background-color: ${props.$selected
-        ? props.theme.colors.green1
-        : props.theme.colors.light.paleGreen};
-      }
-
       &:focus-visible,
       &:focus-within {
         outline: 2px solid ${props.theme.colors.green3};

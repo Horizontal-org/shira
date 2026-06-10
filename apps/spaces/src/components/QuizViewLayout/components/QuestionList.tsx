@@ -144,6 +144,9 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
             handleDuplicateQuestion(questionId);
           }
         }}
+        onDeleteQuestion={(question) => {
+          handleQuestionForDelete(question);
+        }}
         onReorder={onReorder}
       />
 
