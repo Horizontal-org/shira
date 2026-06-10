@@ -32,6 +32,12 @@ export interface QuizQuestion {
   question: {
     id: string
     name: string
+    isPhising?: number | boolean
+    apps?: {
+      id: number
+      name: string
+      type: string
+    }[]
   }
 }
 

@@ -1,3 +1,4 @@
+import type { ReactElement, ReactNode } from 'react'
 import { flexRender } from '@tanstack/react-table'
 import { Pagination } from './components/Pagination'
 import {
@@ -15,9 +16,14 @@ import {
   Wrapper,
 } from '../../hooks/useShiraTable'
 
-export interface TableProps extends SharedTableProps { }
+export interface SortableTableProps extends SharedTableProps {
+  wrapRow?: (row: any, rowNode: ReactElement) => ReactNode
+  tbodyProps?: Record<string, any>
+  tbodyRef?: React.Ref<HTMLTableSectionElement>
+  tbodyAfterRows?: ReactNode
+}
 
-export const Table = ({
+export const SortableTable = ({
   columns = [],
   data = null,
   colGroups = null,
@@ -25,12 +31,16 @@ export const Table = ({
   rowSelection,
   setRowSelection,
   enableRowSelection = true,
-  pageSize = 25,
+  pageSize = 20,
   loadingMessage = null,
   emptyMessage = null,
   size = 'compact',
   enablePagination = true,
-}: TableProps) => {
+  wrapRow,
+  tbodyProps,
+  tbodyRef,
+  tbodyAfterRows,
+}: SortableTableProps) => {
   const { table } = useShiraTable({
     columns,
     data,
@@ -62,7 +72,7 @@ export const Table = ({
           ))}
         </THead>
 
-        <tbody>
+        <tbody ref={tbodyRef} {...tbodyProps}>
           {loading ? (
             <Tr>
               <Td colSpan={totalColumns}>
@@ -87,8 +97,7 @@ export const Table = ({
             table.getRowModel().rows.map((r) => {
               const selectable = r.getCanSelect()
               const selected = r.getIsSelected()
-
-              return (
+              const rowNode = (
                 <Tr
                   key={r.id}
                   $selected={selected}
@@ -115,8 +124,11 @@ export const Table = ({
                   ))}
                 </Tr>
               )
+
+              return wrapRow ? wrapRow(r, rowNode) : rowNode
             })
           )}
+          {tbodyAfterRows}
         </tbody>
       </StyledTable>
       <TableFooter />

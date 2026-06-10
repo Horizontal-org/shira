@@ -1,14 +1,14 @@
-import { forwardRef, useState } from 'react';
+import { ComponentPropsWithoutRef, forwardRef, useState } from 'react';
 import styled from 'styled-components';
-import { Button, ButtonProps } from '@horizontal-org/shira-ui';
+import { Button } from '@horizontal-org/shira-ui';
 
-interface ButtonWithTooltipProps extends ButtonProps {
+interface ButtonWithTooltipProps extends ComponentPropsWithoutRef<typeof Button> {
   tooltipText?: string;
   showTooltipWhenDisabled?: boolean;
 }
 
 export const ButtonWithTooltip = forwardRef<HTMLButtonElement, ButtonWithTooltipProps>(({
-  tooltipText = "Required fields cannot be left blank.",
+  tooltipText = "",
   showTooltipWhenDisabled = true,
   disabled,
   ...buttonProps
@@ -56,8 +56,8 @@ const Tooltip = styled.div`
   right: 0;
   margin-bottom: 8px;
   padding: 8px 12px;
-  background-color: #333;
-  color: white;
+  background-color: ${(props) => props.theme.colors.dark.black};
+  color: ${(props) => props.theme.colors.light.white};
   border-radius: 4px;
   font-size: 14px;
   white-space: nowrap;
@@ -70,6 +70,6 @@ const Tooltip = styled.div`
     right: 20px;
     border-width: 5px;
     border-style: solid;
-    border-color: #333 transparent transparent transparent;
+    border-color: ${(props) => props.theme.colors.dark.black} transparent transparent transparent;
   }
 `;
