@@ -58,7 +58,6 @@ export const useShiraTable = ({
     getPaginationRowModel: getPaginationRowModel(),
     onPaginationChange: setPagination,
     getFilteredRowModel: getFilteredRowModel(),
-    debugTable: true,
   })
 
   return { table }
