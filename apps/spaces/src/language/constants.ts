@@ -21,4 +21,29 @@ export const LANG_OPTIONS: LanguageSelectOption[] = [
     labelEnglish: "Mandarin",
     value: "cn",
   },
+  {
+    label: "العربية",
+    labelEnglish: "Arabic",
+    value: "ar",
+  },
+  {
+    label: "Русский",
+    labelEnglish: "Russian",
+    value: "ru",
+  },
+  // {
+  //   label: "Bahasa Indonesia",
+  //   labelEnglish: "Indonesian",
+  //   value: "id",
+  // },
+  // {
+  //   label: "فارسی",
+  //   labelEnglish: "Farsi",
+  //   value: "fa",
+  // },
+  // {
+  //   label: "Kiswahili",
+  //   labelEnglish: "Swahili",
+  //   value: "sw",
+  // },
 ]
