@@ -8,14 +8,14 @@ import { useStore } from "../../store";
 import { useTranslation } from "react-i18next";
 import { Task } from "@divviup/dap";
 import { ReactComponent as Hooked } from '../../assets/HookedFish.svg';
+import { LANG_OPTIONS } from "../../utils/langOptions";
 
-
-export const WelcomeScene: FunctionComponent = () => {  
+export const WelcomeScene: FunctionComponent = () => {
   const changeScene = useStore((state) => state.changeScene)
   const { t, i18n } = useTranslation()
 
   useEffect(() => {
-    const sendMetric = async() => {
+    const sendMetric = async () => {
       if (process.env.REACT_APP_ENABLE_ANALYTICS == 'yes') {
         const task = new Task({
           type: "count",
@@ -31,7 +31,7 @@ export const WelcomeScene: FunctionComponent = () => {
 
     sendMetric()
   }, [])
-  
+
   return (
     <SceneWrapper bg='white'>
       <Navbar />
@@ -41,7 +41,7 @@ export const WelcomeScene: FunctionComponent = () => {
           <Hooked />
         </GreenFishWrapper>
         <StyledBox>
-          <Heading>{t('welcome.title')}</Heading> 
+          <Heading>{t('welcome.title')}</Heading>
           <Description>{t('welcome.subtitle')}</Description>
           <Buttons>
             <LanguageSelect
@@ -50,33 +50,12 @@ export const WelcomeScene: FunctionComponent = () => {
                 localStorage.setItem('lang', v);
               }}
               autoselect
-              options={[
-                {
-                  label: 'English',
-                  labelEnglish: 'English',
-                  value: 'en'
-                },
-                {
-                  label: 'Español',
-                  labelEnglish: 'Spanish',
-                  value: 'es'
-                },
-                {
-                  label: 'Français',
-                  labelEnglish: 'French',
-                  value: 'fr'
-                },
-                {
-                  label: '普通话',
-                  labelEnglish: 'Mandarin',
-                  value: 'cn'
-                }
-              ]}
+              options={LANG_OPTIONS}
             />
             <Button
-              onClick={() => { changeScene('quiz-setup-name')}}
+              onClick={() => { changeScene('quiz-setup-name') }}
               text={t('welcome.start')}
-              rightIcon={<FiChevronRight size={18}/>}
+              rightIcon={<FiChevronRight size={18} />}
             />
           </Buttons>
         </StyledBox>

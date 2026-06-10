@@ -31,19 +31,4 @@ export const LANG_OPTIONS: LanguageSelectOption[] = [
     labelEnglish: "Russian",
     value: "ru",
   },
-  // {
-  //   label: "Bahasa Indonesia",
-  //   labelEnglish: "Indonesian",
-  //   value: "id",
-  // },
-  // {
-  //   label: "فارسی",
-  //   labelEnglish: "Farsi",
-  //   value: "fa",
-  // },
-  // {
-  //   label: "Kiswahili",
-  //   labelEnglish: "Swahili",
-  //   value: "sw",
-  // },
 ]
