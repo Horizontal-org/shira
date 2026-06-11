@@ -98,7 +98,11 @@ export const useQuizTemplateList = () => {
 
   const pageCount = Math.max(1, Math.ceil(total / DEFAULT_PAGE_LIMIT));
   const hasActiveSearch = debouncedSearchValue.length > 0;
-  const showSearchEmptyState = hasActiveSearch && !loading && total === 0;
+  const hasActiveFilters = selectedLanguages.length > 0
+    || selectedTags.length > 0
+    || selectedCreator.length > 0;
+
+  const showEmptyState = !loading && total === 0 && (hasActiveSearch || hasActiveFilters);
 
   useEffect(() => {
     if (pageIndex <= pageCount - 1) {
@@ -159,6 +163,7 @@ export const useQuizTemplateList = () => {
     areFiltersOpen,
     debouncedSearchValue,
     clearAllFilters,
+    hasActiveFilters,
     hasActiveSearch,
     languageOptions,
     loading,
@@ -174,7 +179,7 @@ export const useQuizTemplateList = () => {
     setSelectedLanguages,
     setSelectedTags,
     setSortOption,
-    showSearchEmptyState,
+    showEmptyState,
     sortOption,
     tagOptions,
     total,
