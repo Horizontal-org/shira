@@ -143,21 +143,21 @@ export const FullQuizTemplatePreview: FunctionComponent<Props> = ({
 
         <PreviewLayout>
           <QuizQuestionContainer>
-            {questions.map((railQuestion, index) => {
-              const isActive = railQuestion.questionId === question.questionId
-              const railAppName = railQuestion.appName ?? getAppsByType(railQuestion.appType)[0]?.name ?? ""
-              const appLabel = normalizePreviewAppName(railAppName)
+            {questions.map((questionItem, index) => {
+              const isActive = questionItem.questionId === question.questionId
+              const questionAppName = questionItem.appName ?? getAppsByType(questionItem.appType)[0]?.name ?? ""
+              const appLabel = normalizePreviewAppName(questionAppName)
               const appIcon = appLabel
                 ? appIcons[appLabel.toLowerCase()]
-                : appTypesIcons[railQuestion.appType]
+                : appTypesIcons[questionItem.appType]
 
               return (
                 <SelectableQuestionItem
-                  key={railQuestion.questionId}
+                  key={questionItem.questionId}
                   type="button"
                   $isActive={isActive}
                   onClick={() => {
-                    onSelectQuestion(railQuestion.questionId)
+                    onSelectQuestion(questionItem.questionId)
                   }}
                 >
                   <QuizQuestionNumber $isActive={isActive}>
@@ -165,26 +165,26 @@ export const FullQuizTemplatePreview: FunctionComponent<Props> = ({
                   </QuizQuestionNumber>
 
                   <QuizQuestionDetails>
-                    <Body2SemiBoldGrey>{railQuestion.questionName}</Body2SemiBoldGrey>
+                    <Body2SemiBoldGrey>{questionItem.questionName}</Body2SemiBoldGrey>
 
                     <QuestionInfoPanel>
-                      <TypeChip $isPhishing={railQuestion.isPhishing}>
-                        {railQuestion.isPhishing ? (
+                      <TypeChip $isPhishing={questionItem.isPhishing}>
+                        {questionItem.isPhishing ? (
                           <MdOutlinePhishing size={14} />
                         ) : (
                           <FaCircleCheck size={14} />
                         )}
                         <ChipText>
-                          {railQuestion.isPhishing
+                          {questionItem.isPhishing
                             ? t("question_library.columns.type.phishing")
                             : t("question_library.columns.type.legitimate")}
                         </ChipText>
                       </TypeChip>
 
-                      {(appLabel || railQuestion.appType) && (
+                      {(appLabel || questionItem.appType) && (
                         <AppChip>
                           {appIcon}
-                          <ChipText>{appLabel || railQuestion.appType}</ChipText>
+                          <ChipText>{appLabel || questionItem.appType}</ChipText>
                         </AppChip>
                       )}
                     </QuestionInfoPanel>
