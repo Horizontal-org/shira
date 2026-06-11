@@ -23,9 +23,9 @@ export const QuizTemplateQuestionPreview: FunctionComponent<Props> = ({
   onBack,
   onClose,
 }) => {
-  const { t } = useTranslation();
-  const [explanationNumber, setExplanationNumber] = useState(0);
-  const [showExplanations, setShowExplanations] = useState(false);
+  const { t } = useTranslation()
+  const [explanationNumber, setExplanationNumber] = useState(0)
+  const [showExplanations, setShowExplanations] = useState(false)
 
   const explanations = useMemo(
     () => parseHtml(question.content).parseExplanations(question.explanations),
@@ -39,7 +39,7 @@ export const QuizTemplateQuestionPreview: FunctionComponent<Props> = ({
 
   const activeExplanation = explanations[explanationNumber]
     ? Number(explanations[explanationNumber].index)
-    : 0;
+    : 0
 
   return (
     <QuestionPreviewContainer>
@@ -64,7 +64,7 @@ export const QuizTemplateQuestionPreview: FunctionComponent<Props> = ({
 
           {explanations.length > 0 ? (
             <ExplanationActions>
-              <Button
+              <ExplanationOutlineButton
                 text={showExplanations
                   ? t("create_question.tabs.preview.hide_explanations")
                   : t("create_question.tabs.preview.show_explanations")}
@@ -79,9 +79,9 @@ export const QuizTemplateQuestionPreview: FunctionComponent<Props> = ({
               />
 
               {showExplanations && explanations.length > 1 && explanationNumber > 0 && (
-                <Button
+                <ExplanationPrimaryButton
                   text={t("create_question.tabs.preview.previous_explanation")}
-                  type="outline"
+                  type="primary"
                   onClick={() => {
                     setExplanationNumber((current) => current - 1)
                   }}
@@ -89,9 +89,9 @@ export const QuizTemplateQuestionPreview: FunctionComponent<Props> = ({
               )}
 
               {showExplanations && explanations.length > 1 && explanationNumber < explanations.length - 1 && (
-                <Button
+                <ExplanationPrimaryButton
                   text={t("create_question.tabs.preview.next_explanation")}
-                  type="outline"
+                  type="primary"
                   onClick={() => {
                     setExplanationNumber((current) => current + 1)
                   }}
@@ -185,12 +185,32 @@ const NoExplanationsNotice = styled.div`
 const ExplanationActions = styled.div`
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 20px;
   flex-wrap: nowrap;
 
   @media (max-width: ${(props) => props.theme.breakpoints.md}) {
     flex-wrap: wrap;
     justify-content: flex-end;
+  }
+`
+
+const ExplanationOutlineButton = styled(Button)`
+  justify-content: center;
+`
+
+const ExplanationPrimaryButton = styled(Button)`
+  justify-content: center;
+  background: ${defaultTheme.colors.blue7};
+  border-color: ${defaultTheme.colors.blue7};
+
+  &:hover {
+    background: ${defaultTheme.colors.blue8};
+    border-color: ${defaultTheme.colors.blue8};
+  }
+
+  &:focus {
+    background: ${defaultTheme.colors.blue8};
+    border-color: ${defaultTheme.colors.blue4};
   }
 `
 
