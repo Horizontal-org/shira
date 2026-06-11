@@ -2,7 +2,7 @@ import { FunctionComponent, memo } from "react";
 import { flexRender, Row } from "@tanstack/react-table";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { ActionTooltip, defaultTheme, EditIcon, styled } from "@horizontal-org/shira-ui";
+import { ActionTooltip, defaultTheme, EditIcon, Td as SharedTd, Tr as SharedTr, styled } from "@horizontal-org/shira-ui";
 import { QuizQuestion } from "../../../store/slices/quiz";
 import { QuestionTableActionsMenu } from "./QuestionTableActionsMenu";
 
@@ -109,34 +109,14 @@ const QuestionTableDraggableRowComponent: FunctionComponent<Props> = ({
 
 export const QuestionTableDraggableRow = memo(QuestionTableDraggableRowComponent);
 
-const Td = styled.td`
-  background: ${defaultTheme.colors.light.white};
+const Td = styled(SharedTd)`
   padding: 14px 16px;
-  vertical-align: middle;
-  box-sizing: border-box;
-  width: inherit;
-  font-size: inherit;
-  border-bottom: 1px solid ${defaultTheme.colors.light.paleGrey};
 `;
 
-const Tr = styled.tr<{ $dragging?: boolean }>`
-  position: relative;
-
+const Tr = styled(SharedTr)`
   &:hover td {
     background: ${defaultTheme.colors.light.paleGrey};
   }
-
-  &:last-child td {
-    border-bottom: none;
-  }
-
-  ${(props) => props.$dragging && `
-    z-index: 2;
-
-    & td {
-      background: ${defaultTheme.colors.light.white};
-    }
-  `}
 `;
 
 const HandleButton = styled.button`

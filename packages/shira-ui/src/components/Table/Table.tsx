@@ -3,7 +3,6 @@ import { Pagination } from './components/Pagination'
 import {
   CenteredBody,
   CenteredCellContent,
-  Props,
   StyledTable,
   TableFooter,
   TableHeader,
@@ -11,9 +10,9 @@ import {
   Th,
   THead,
   Tr,
-  useShiraTable,
   Wrapper,
-} from '../../hooks/useShiraTable'
+} from './Table.styles'
+import { Props, useShiraTable } from '../../hooks/useShiraTable'
 
 export interface TableProps extends Props { }
 

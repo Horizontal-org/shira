@@ -15,7 +15,7 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { defaultTheme, styled } from "@horizontal-org/shira-ui";
+import { StyledTable, TableFooter, TableHeader, THead, Th } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
 import { QuizQuestion } from "../../../store/slices/quiz";
 import { useQuestionTableColumns } from "./QuestionTableColumns";
@@ -113,7 +113,7 @@ export const QuestionTable: FunctionComponent<Props> = ({
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <Th key={header.id}>
+                <Th key={header.id} $size="full">
                   {header.isPlaceholder
                     ? null
                     : flexRender(header.column.columnDef.header, header.getContext())}
@@ -147,53 +147,5 @@ export const QuestionTable: FunctionComponent<Props> = ({
     </DndContext>
   );
 };
-
-const TableHeader = styled.div`
-  box-sizing: border-box;
-  width: 100%;
-  height: 16px;
-  background: ${defaultTheme.colors.light.paleGreen};
-  border-radius: 20px 20px 0 0;
-`;
-
-const TableFooter = styled.div`
-  box-sizing: border-box;
-  width: 100%;
-  height: 6px;
-  background: white;
-  border-radius: 0 0 20px 20px;
-  border-left: 1px solid ${defaultTheme.colors.light.paleGreen};
-  border-right: 1px solid ${defaultTheme.colors.light.paleGreen};
-  border-bottom: 1px solid ${defaultTheme.colors.light.paleGreen};
-`;
-
-const StyledTable = styled.table`
-  background: ${defaultTheme.colors.light.paleGrey};
-  width: 100%;
-  table-layout: fixed;
-  font-size: 14px;
-  border: none;
-  border-spacing: 0;
-  border-left: 1px solid ${defaultTheme.colors.light.paleGreen};
-  border-right: 1px solid ${defaultTheme.colors.light.paleGreen};
-`;
-
-const THead = styled.thead`
-  & th {
-    background: ${defaultTheme.colors.light.paleGreen};
-  }
-`;
-
-const Th = styled.th`
-  text-align: left;
-  padding: 0 16px 14px 16px;
-  font-weight: 600;
-  color: ${defaultTheme.colors.dark.black};
-  vertical-align: middle;
-  border: none;
-  box-sizing: border-box;
-  width: inherit;
-  font-size: 16px;
-`;
 
 export default QuestionTable;

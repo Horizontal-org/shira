@@ -1,4 +1,5 @@
 export * from './Table'
+export * from './Table.styles'
 export * from './components/TableActions'
 export * from './components/TableCheckbox'
 export * from './components/Pagination'
