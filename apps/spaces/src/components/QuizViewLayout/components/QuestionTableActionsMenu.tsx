@@ -1,6 +1,6 @@
 import { FunctionComponent, ReactElement, useEffect, useRef, useState } from "react";
 import { FiCopy, FiMoreVertical, FiTrash2 } from "react-icons/fi";
-import { BaseFloatingMenu, defaultTheme, styled } from "@horizontal-org/shira-ui";
+import { defaultTheme, styled } from "@horizontal-org/shira-ui";
 
 interface Props {
   questionId: string;
@@ -20,13 +20,39 @@ export const QuestionTableActionsMenu: FunctionComponent<Props> = ({
   onDelete,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (disabled) {
       setIsOpen(false);
     }
   }, [disabled]);
+
+  useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (wrapperRef.current && !event.composedPath().includes(wrapperRef.current)) {
+        setIsOpen(false);
+      }
+    };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen]);
 
   const elements: Array<{
     onClick: React.MouseEventHandler<HTMLButtonElement>;
@@ -54,12 +80,10 @@ export const QuestionTableActionsMenu: FunctionComponent<Props> = ({
   ];
 
   return (
-    <>
+    <MenuWrapper ref={wrapperRef}>
       <MenuButton
         id={`more-actions-button-${questionId}`}
-        ref={buttonRef}
         type="button"
-        aria-label="More actions"
         title="More actions"
         onClick={(event) => {
           event.stopPropagation();
@@ -70,16 +94,28 @@ export const QuestionTableActionsMenu: FunctionComponent<Props> = ({
         <FiMoreVertical size={20} color={defaultTheme.colors.dark.darkGrey} />
       </MenuButton>
 
-      <BaseFloatingMenu
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        elements={elements}
-        anchorEl={buttonRef.current}
-        width={150}
-      />
-    </>
+      {isOpen && (
+        <MenuPopup>
+          {elements.map((element, index) => (
+            <MenuItem
+              key={`${questionId}-${index}`}
+              onClick={element.onClick}
+              type="button"
+            >
+              {element.icon}
+              {element.text}
+            </MenuItem>
+          ))}
+        </MenuPopup>
+      )}
+    </MenuWrapper>
   );
 };
+
+const MenuWrapper = styled.div`
+  position: relative;
+  display: inline-flex;
+`;
 
 const MenuButton = styled.button`
   background: none;
@@ -92,5 +128,38 @@ const MenuButton = styled.button`
 
   &:disabled {
     cursor: not-allowed;
+  }
+`;
+
+const MenuPopup = styled.div`
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 150px;
+  z-index: 20;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+`;
+
+const MenuItem = styled.button`
+  width: 100%;
+  margin: 0;
+  padding: 8px 16px;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: ${props => props.theme.colors.dark.darkGrey};
+  font-size: 14px;
+  font-weight: 400;
+
+  &:hover {
+    background: ${props => props.theme.colors.light.paleGrey};
+    color: ${props => props.theme.colors.dark.black};
   }
 `;

@@ -8,7 +8,7 @@ import {
   RowSelectionState,
   useReactTable,
 } from '@tanstack/react-table'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { Body3 } from '../components/Typography'
 
 export type TableSize = 'full' | 'compact';
@@ -26,6 +26,7 @@ export interface Props {
   emptyMessage?: ReactNode
   size?: TableSize
   enablePagination?: boolean
+  enableRowHover?: boolean
 }
 
 export const useShiraTable = ({
@@ -151,7 +152,7 @@ export const Td = styled('td')`
   font-size: inherit;
 `;
 
-export const Tr = styled.tr<{ $selected?: boolean; $selectable?: boolean; $dragging?: boolean }>`
+export const Tr = styled.tr<{ $selected?: boolean; $selectable?: boolean; $dragging?: boolean; $hoverable?: boolean }>`
   cursor: ${({ $selectable }) => ($selectable ? 'pointer' : 'default')};
   position: relative;
 
@@ -161,18 +162,19 @@ export const Tr = styled.tr<{ $selected?: boolean; $selectable?: boolean; $dragg
     border-bottom: 1px solid ${(props) => props.theme.colors.light.paleGrey};
   }
 
-  &:hover td {
-    background-color: ${(props) =>
-    props.$selected ? props.theme.colors.green1 : props.theme.colors.light.paleGrey};
-  }
+  ${(props) =>
+    props.$hoverable && `
+      &:hover td {
+        background-color: ${props.$selected ? props.theme.colors.green1 : props.theme.colors.light.paleGrey};
+      }
+    `}
 
   &:last-child td {
     border-bottom: none;
   }
 
   ${(props) =>
-    props.$dragging &&
-    css`
+    props.$dragging && `
       position: relative;
       z-index: 2;
 

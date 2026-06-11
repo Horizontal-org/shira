@@ -30,6 +30,7 @@ export const Table = ({
   emptyMessage = null,
   size = 'compact',
   enablePagination = true,
+  enableRowHover = true,
 }: TableProps) => {
   const { table } = useShiraTable({
     columns,
@@ -93,6 +94,7 @@ export const Table = ({
                   key={r.id}
                   $selected={selected}
                   $selectable={selectable}
+                  $hoverable={enableRowHover}
                   tabIndex={selectable ? 0 : -1}
                   role="row"
                   aria-selected={selected}
