@@ -28,9 +28,9 @@ export const QuestionEmptyState: FunctionComponent<Props> = ({
       onClick={onAdd}
     />,
     <Button
-      key="add-from-library"
+      key="use-library-question"
       leftIcon={<MdOutlineMenuBook size={19} />}
-      text={t('questions_tab.add_from_library_button')}
+      text={t('questions_tab.use_library_question_button')}
       type="primary"
       color={defaultTheme.colors.green7}
       onClick={() => onAddLibrary(quizId)}
