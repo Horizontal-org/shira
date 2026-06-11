@@ -58,7 +58,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     setSelectedLanguages,
     setSelectedTags,
     setSortOption,
-    showSearchEmptyState,
+    showEmptyState,
     sortOption,
     tagOptions,
     total,
@@ -163,13 +163,13 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
             </SearchResultsText>
           )}
 
-          {!showSearchEmptyState && (
+          {!showEmptyState && (
             <PaginationWrapper>
               <CardPagination {...paginationProps} />
             </PaginationWrapper>
           )}
 
-          {showSearchEmptyState ? (
+          {showEmptyState ? (
             <SearchEmptyStateWrapper>
               <EmptyState
                 subtitle={(
