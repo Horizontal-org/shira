@@ -1,5 +1,9 @@
 import axios from "axios";
 
+export const DEFAULT_QUIZ_TEMPLATE_SORT: QuizTemplateSortOption = "createdAt-desc";
+export const DEFAULT_PAGE_LIMIT = 20;
+export const DEFAULT_CREATOR_OPTIONS = "Shira Team";
+
 export interface LibraryQuizDto {
   id: string | number;
   title: string;
@@ -21,10 +25,6 @@ export type QuizTemplateSortOption =
   | "createdAt-asc"
   | "title-asc"
   | "title-desc";
-
-export const DEFAULT_QUIZ_TEMPLATE_SORT: QuizTemplateSortOption = "createdAt-desc";
-export const DEFAULT_PAGE_LIMIT = 20;
-export const DEFAULT_CREATOR_OPTIONS = "Shira Team";
 
 interface GetQuizTemplatesParams {
   page?: number;
@@ -103,7 +103,6 @@ type LibraryTagApiDto = {
   name: string;
   slug: string;
 };
-
 
 const normalizeQuizTemplate = (quiz: LibraryQuizApiDto): LibraryQuizDto => ({
   id: quiz.id,
