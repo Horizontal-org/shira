@@ -141,6 +141,7 @@
         "create_question_button": "Create question",
         "use_library_question_button": "Use a question template",
         "action_tooltips": {
+            "more_actions": "More actions",
             "edit": "Edit",
             "duplicate": "Duplicate",
             "delete": "Delete"

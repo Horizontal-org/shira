@@ -1,6 +1,7 @@
 import { FunctionComponent, ReactElement, useEffect, useRef, useState } from "react";
 import { FiCopy, FiMoreVertical, FiTrash2 } from "react-icons/fi";
 import { defaultTheme, EditIcon, styled } from "@horizontal-org/shira-ui";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   editLabel: string;
@@ -21,6 +22,7 @@ export const QuestionTableActionsMenu: FunctionComponent<Props> = ({
   onDuplicate,
   onDelete,
 }) => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -94,7 +96,8 @@ export const QuestionTableActionsMenu: FunctionComponent<Props> = ({
     <MenuWrapper ref={wrapperRef}>
       <MenuButton
         type="button"
-        title="More actions"
+        title={t("questions_tab.action_tooltips.more_actions")}
+        aria-label={t("questions_tab.action_tooltips.more_actions")}
         onClick={(event) => {
           event.stopPropagation();
           setIsOpen((current) => !current);
