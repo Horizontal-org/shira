@@ -2,7 +2,7 @@ import { FunctionComponent, memo } from "react";
 import { flexRender, Row } from "@tanstack/react-table";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { ActionTooltip, defaultTheme, EditIcon, Td as SharedTd, Tr as SharedTr, styled } from "@horizontal-org/shira-ui";
+import { defaultTheme, Td as SharedTd, Tr as SharedTr, styled } from "@horizontal-org/shira-ui";
 import { QuizQuestion } from "../../../store/slices/quiz";
 import { QuestionTableActionsMenu } from "./QuestionTableActionsMenu";
 
@@ -72,27 +72,15 @@ const QuestionTableDraggableRowComponent: FunctionComponent<Props> = ({
 
           return (
             <Td key={cell.id}>
-              <ActionsCell>
-                <ActionTooltip content={editTooltip}>
-                  <ActionButton
-                    id={`edit-button-${questionId}`}
-                    type="button"
-                    aria-label={editTooltip}
-                    onClick={() => onEditQuestion(questionId)}
-                  >
-                    <EditIcon />
-                  </ActionButton>
-                </ActionTooltip>
-
-                <QuestionTableActionsMenu
-                  questionId={questionId}
-                  duplicateLabel={duplicateTooltip}
-                  deleteLabel={deleteTooltip}
-                  disabled={isDuplicatingThisQuestion}
-                  onDuplicate={() => onDuplicateQuestion(questionId)}
-                  onDelete={() => onDeleteQuestion(questionId)}
-                />
-              </ActionsCell>
+              <QuestionTableActionsMenu
+                editLabel={editTooltip}
+                duplicateLabel={duplicateTooltip}
+                deleteLabel={deleteTooltip}
+                disabled={isDuplicatingThisQuestion}
+                onEdit={() => onEditQuestion(questionId)}
+                onDuplicate={() => onDuplicateQuestion(questionId)}
+                onDelete={() => onDeleteQuestion(questionId)}
+              />
             </Td>
           );
         }
@@ -133,31 +121,5 @@ const HandleButton = styled.button`
 
   &:disabled {
     cursor: not-allowed;
-  }
-`;
-
-const ActionsCell = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-`;
-
-const ActionButton = styled.button`
-  background: none;
-  border: none;
-  padding: 8px;
-  cursor: pointer;
-  border-radius: 4px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  &:hover:not(:disabled) {
-    background: ${defaultTheme.colors.light.paleGreen};
-  }
-
-  &:disabled {
-    cursor: not-allowed;
-    opacity: 0.7;
   }
 `;

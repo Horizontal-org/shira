@@ -1,21 +1,23 @@
 import { FunctionComponent, ReactElement, useEffect, useRef, useState } from "react";
 import { FiCopy, FiMoreVertical, FiTrash2 } from "react-icons/fi";
-import { defaultTheme, styled } from "@horizontal-org/shira-ui";
+import { defaultTheme, EditIcon, styled } from "@horizontal-org/shira-ui";
 
 interface Props {
-  questionId: string;
+  editLabel: string;
   duplicateLabel: string;
   deleteLabel: string;
   disabled: boolean;
+  onEdit: () => void;
   onDuplicate: () => void;
   onDelete: () => void;
 }
 
 export const QuestionTableActionsMenu: FunctionComponent<Props> = ({
-  questionId,
+  editLabel,
   duplicateLabel,
   deleteLabel,
   disabled,
+  onEdit,
   onDuplicate,
   onDelete,
 }) => {
@@ -60,6 +62,15 @@ export const QuestionTableActionsMenu: FunctionComponent<Props> = ({
     icon?: ReactElement;
   }> = [
     {
+      text: editLabel,
+      onClick: (event) => {
+        event.stopPropagation();
+        setIsOpen(false);
+        onEdit();
+      },
+      icon: <EditIcon />,
+    },
+    {
       text: duplicateLabel,
       onClick: (event) => {
         event.stopPropagation();
@@ -82,7 +93,6 @@ export const QuestionTableActionsMenu: FunctionComponent<Props> = ({
   return (
     <MenuWrapper ref={wrapperRef}>
       <MenuButton
-        id={`more-actions-button-${questionId}`}
         type="button"
         title="More actions"
         onClick={(event) => {
@@ -96,9 +106,9 @@ export const QuestionTableActionsMenu: FunctionComponent<Props> = ({
 
       {isOpen && (
         <MenuPopup>
-          {elements.map((element, index) => (
+          {elements.map((element) => (
             <MenuItem
-              key={`${questionId}-${index}`}
+              key={element.text}
               onClick={element.onClick}
               type="button"
             >

@@ -18,7 +18,7 @@ export interface TableProps extends Props { }
 
 export const Table = ({
   columns = [],
-  data = null,
+  data = [],
   colGroups = null,
   loading,
   rowSelection,
