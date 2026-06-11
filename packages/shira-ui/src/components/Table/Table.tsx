@@ -24,7 +24,7 @@ export const Table = ({
   rowSelection,
   setRowSelection,
   enableRowSelection = true,
-  pageSize = 20,
+  pageSize = 25,
   loadingMessage = null,
   emptyMessage = null,
   size = 'compact',
@@ -36,7 +36,7 @@ export const Table = ({
     data,
     rowSelection,
     setRowSelection,
-    enableRowSelection,
+    enableRowSelection, // enable row selection for all rows
     pageSize,
   })
 

@@ -32,7 +32,7 @@ export const useShiraTable = ({
   rowSelection,
   setRowSelection,
   enableRowSelection = true,
-  pageSize = 20,
+  pageSize = 25,
 }: Pick<
   Props,
   'columns' | 'data' | 'rowSelection' | 'setRowSelection' | 'enableRowSelection' | 'pageSize'
