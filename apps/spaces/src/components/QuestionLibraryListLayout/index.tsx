@@ -140,18 +140,12 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
     <QuestionLibraryFlowManagement>
       <StyledBox>
         <HeaderRow>
-          <div>
-            <H2 role="heading" aria-level={1}>{t('question_library.title')}</H2>
-            <MiddleBody role="heading" aria-level={2}>
-              {t('question_library.subtitle')}
-            </MiddleBody>
-          </div>
+          // search and filters
         </HeaderRow>
 
         <TableWrapper>
           <Table
             size="full"
-            aria-busy={loading || undefined}
             loading={loading}
             loadingMessage={t('loading_messages.loading_library_questions')}
             emptyMessage={t('success_messages.no_questions_found')}

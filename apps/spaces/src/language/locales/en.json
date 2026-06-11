@@ -250,9 +250,7 @@
         }
     },
     "question_library": {
-        "tab_header_title": "Add a question from the library",
-        "title": "Question library",
-        "subtitle": "Select a question from list below to add it to your quiz. Once you've added it to your quiz, you can edit the question to fully customize it, including changing the text and explanations.",
+        "tab_header_title": "Select a question template",
         "columns": {
             "question_name": "Question name",
             "type": {
