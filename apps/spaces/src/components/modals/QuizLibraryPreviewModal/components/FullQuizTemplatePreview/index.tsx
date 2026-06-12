@@ -194,21 +194,23 @@ export const FullQuizTemplatePreview: FunctionComponent<Props> = ({
             })}
           </QuizQuestionContainer>
 
-          <PreviewStage>
-            <PreviewStageBackdrop />
+          <PreviewCanvasPanel>
+            <PreviewCanvas>
+              <PreviewStageBackdrop />
 
-            {showExplanations && <QuizPreviewOverlay />}
+              {showExplanations && <QuizPreviewOverlay />}
 
-            <PreviewAppFrame key={`${question.questionId}-${resolvedAppName}`}>
-              <AppLayout
-                appName={resolvedAppName}
-                content={question.content}
-                showExplanations={showExplanations}
-                explanations={explanations}
-                explanationNumber={activeExplanation}
-              />
-            </PreviewAppFrame>
-          </PreviewStage>
+              <PreviewAppFrame key={`${question.questionId}-${resolvedAppName}`}>
+                <AppLayout
+                  appName={resolvedAppName}
+                  content={question.content}
+                  showExplanations={showExplanations}
+                  explanations={explanations}
+                  explanationNumber={activeExplanation}
+                />
+              </PreviewAppFrame>
+            </PreviewCanvas>
+          </PreviewCanvasPanel>
         </PreviewLayout>
       </PreviewBody>
     </QuestionPreviewContainer>
@@ -314,13 +316,13 @@ const NoExplanationsNotice = styled.div`
 
 const PreviewLayout = styled.div`
   display: grid;
-  grid-template-columns: 394px minmax(0, 1fr);
-  gap: 32px;
+  grid-template-columns: 344px minmax(0, 1fr);
+  gap: 24px;
   min-height: 0;
   flex: 1;
 
   @media (max-width: ${(props) => props.theme.breakpoints.lg}) {
-    grid-template-columns: 320px minmax(0, 1fr);
+    grid-template-columns: 300px minmax(0, 1fr);
   }
 
   @media (max-width: ${(props) => props.theme.breakpoints.md}) {
@@ -333,6 +335,12 @@ const QuizQuestionContainer = styled.div`
   min-height: 0;
   overflow-y: auto;
   padding-right: 8px;
+  padding-bottom: 8px;
+`
+
+const PreviewCanvasPanel = styled.div`
+  min-height: 0;
+  overflow: auto;
 `
 
 const SelectableQuestionItem = styled.button<{
@@ -431,45 +439,34 @@ const AppChip = styled.span`
   }
 `
 
-const PreviewStage = styled.div`
+const PreviewCanvas = styled.div`
   position: relative;
-  min-height: 0;
-  border-radius: 6px;
-  overflow: hidden;
+  min-height: 680px;
+  border-radius: 4px;
+  overflow: auto;
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: 0;
-  background: #F4F5DE;
+  align-items: flex-start;
+  padding: 24px;
+  background: ${defaultTheme.colors.light.paleGreen};
 
   @media (max-width: ${(props) => props.theme.breakpoints.md}) {
-    min-height: 720px;
-  }
-
-  @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
     min-height: 620px;
+    padding: 20px;
   }
 `
 
 const PreviewStageBackdrop = styled.div`
   position: absolute;
   inset: 0;
-  background: ${(props) => props.theme.colors.light.paleGreen};
+  background: ${defaultTheme.colors.light.paleGreen};
 `
 
 const PreviewAppFrame = styled.div`
   position: relative;
   z-index: 1;
-  width: min(100%, 560px);
-  height: 100%;
-  min-height: 680px;
-  overflow: hidden;
-  background: transparent;
-
-  @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
-    width: 100%;
-    min-height: 620px;
-  }
+  width: fit-content;
+  max-width: 100%;
 `
 
 const QuizPreviewOverlay = styled.div`
