@@ -81,7 +81,7 @@ export const FullQuizTemplatePreview: FunctionComponent<Props> = ({
           />
 
           <Button
-            text={t("dashboard.use_template_button")}
+            text={t("quiz_library.use_template")}
             type="primary"
             color={defaultTheme.colors.green7}
             leftIcon={<FaCirclePlus size={16} />}

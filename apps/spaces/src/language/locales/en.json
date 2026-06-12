@@ -58,7 +58,7 @@
         "title": "Quizzes",
         "subtitle": "Manage your quizzes here, including creating, publishing, unpublishing and deleting quizzes.",
         "create_quiz_button": "Create new quiz",
-        "use_template_button": "Use a quiz template",
+        "use_a_quiz_template_button": "Use a quiz template",
         "create_limit_reached": "Upgrade your plan to create more quizzes."
     },
     "learners": {
