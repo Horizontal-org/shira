@@ -33,10 +33,9 @@ import type { RowType } from "./components/Columns";
 import { libraryQuestionToRow } from "./components/Columns/libraryQuestionToRow";
 import { useTranslation } from "react-i18next";
 import { HiFunnel } from "react-icons/hi2";
-import { FaUserLarge } from "react-icons/fa6";
+import { FaRegFaceMeh, FaUserLarge } from "react-icons/fa6";
 import { IoAppsSharp, IoLanguage } from "react-icons/io5";
 import { BiSolidTagAlt } from "react-icons/bi";
-import { MdOutlinePhishing } from "react-icons/md";
 import { FiX } from "react-icons/fi";
 
 type Props = {
@@ -356,6 +355,7 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
 
   const columns = getColumns({
     onPreview: handlePreview,
+    onReportIssue: () => navigate("/support"),
     onAdd: handleAdd,
     onSelectLanguage: handleSelectLanguage,
     onSelectApp: handleSelectApp,
@@ -462,7 +462,7 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
                 options={typeOptions}
                 placeholder={t("question_library.filters_panel.type")}
                 ariaLabel={t("question_library.filters_panel.type")}
-                leftIcon={<MdOutlinePhishing size={10} color={defaultTheme.colors.dark.mediumGrey} />}
+                leftIcon={<FaRegFaceMeh size={11} color={defaultTheme.colors.dark.darkGrey} />}
                 selectedLabel={typeOptions.find((option) => option.value === selectedType)?.label}
                 onChange={(value) => setSelectedType(value as string)}
                 onClear={() => setSelectedType("")}

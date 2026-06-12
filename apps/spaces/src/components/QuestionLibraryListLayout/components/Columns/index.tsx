@@ -2,6 +2,7 @@ import { Body3, Body3Bold, defaultTheme, styled } from "@horizontal-org/shira-ui
 import { ColumnDef } from "@tanstack/react-table";
 import { FaCircleCheck, FaCirclePlus, FaUser } from "react-icons/fa6";
 import { MdCalendarMonth, MdOutlinePhishing, MdRemoveRedEye } from "react-icons/md";
+import { TbAlertTriangleFilled } from "react-icons/tb";
 import { TFunction } from "i18next";
 import { SelectLanguage } from "../Selects/SelectLanguage";
 import { SelectApp } from "../Selects/SelectApp";
@@ -56,6 +57,7 @@ export type RowType = {
 
 type ColumnHandlers = {
   onPreview?: (q: RowType) => void;
+  onReportIssue?: (q: RowType) => void;
   onAdd?: (q: RowType) => void;
   onSelectLanguage?: (questionId: number, languageId: number) => void;
   onSelectApp?: (questionId: number, appId: number) => void;
@@ -191,6 +193,15 @@ export const getColumns = (handlers: ColumnHandlers, t: TFunction): ColumnDef<Ro
             <MdRemoveRedEye size={21} color={previewColor} />
           </ActionButtonWithTooltip>
           <ActionButtonWithTooltip
+            id={`report-issue-button-${row.id}`}
+            tooltipText={tooltipText}
+            ariaLabel={t("quiz_library.report_issue")}
+            title={t("quiz_library.report_issue")}
+            onClick={() => handlers.onReportIssue?.(row.original)}
+          >
+            <TbAlertTriangleFilled size={20} color={defaultTheme.colors.error7} />
+          </ActionButtonWithTooltip>
+          <ActionButtonWithTooltip
             id={`add-button-${row.id}`}
             disabled={disableActions}
             tooltipText={tooltipText}
@@ -226,9 +237,9 @@ const PhishingCell = styled.span<{ $isPhishing?: boolean }>`
 const ActionsCell = styled("div")`
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
   justify-content: flex-start;
-  min-width: 78px;
+  min-width: 112px;
 `;
 
 const RowIndexCell = styled(Body3Bold)`
