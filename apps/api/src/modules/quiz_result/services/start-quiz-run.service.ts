@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { ForbiddenException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { StartQuizRunDto } from '../dto/start-quiz-run.dto';
@@ -28,10 +28,14 @@ export class StartQuizRunService implements IStartQuizRunService {
 
   async execute(dto: StartQuizRunDto): Promise<QuizRun> {
     const quizIdNum = Number(dto.quizId);
-    const quiz = await this.quizRepo.findOne({ where: { id: quizIdNum } });
+    const quiz = await this.quizRepo.findOne({ where: { id: quizIdNum }, relations: ['space'] })
 
     if (!quiz) {
-      throw new Error('Quiz not found');
+      throw new NotFoundException('Quiz not found')
+    }
+
+    if (quiz.space?.hasResults === false) {
+      throw new ForbiddenException('Results are not enabled for this quiz')
     }
 
     if (dto.learnerId) {

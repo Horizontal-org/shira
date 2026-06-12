@@ -43,7 +43,7 @@ export const QuizFlow: FunctionComponent<Props> = ({
     shallow
   )
 
-  const { finish, recordAnswer, start, started } = useQuizRun();
+  const { finish, recordAnswer, start, started } = useQuizRun(quiz.hasResults ?? true);
 
   useEffect(() => {
     return () => {
