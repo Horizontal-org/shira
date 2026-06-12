@@ -70,8 +70,6 @@ export const QuizTemplateQuestionPreview: FunctionComponent<Props> = ({
               onToggleExplanations={toggleExplanations}
               onPreviousExplanation={previousExplanation}
               onNextExplanation={nextExplanation}
-              OutlineButton={ExplanationOutlineButton}
-              PrimaryButton={ExplanationPrimaryButton}
             />
           </ExplanationActions>
         </PreviewActions>
@@ -151,26 +149,6 @@ const ExplanationActions = styled.div`
   @media (max-width: ${(props) => props.theme.breakpoints.md}) {
     flex-wrap: wrap;
     justify-content: flex-end;
-  }
-`
-
-const ExplanationOutlineButton = styled(Button)`
-  justify-content: center;
-`
-
-const ExplanationPrimaryButton = styled(Button)`
-  justify-content: center;
-  background: ${defaultTheme.colors.blue7};
-  border-color: ${defaultTheme.colors.blue7};
-
-  &:hover {
-    background: ${defaultTheme.colors.blue8};
-    border-color: ${defaultTheme.colors.blue8};
-  }
-
-  &:focus {
-    background: ${defaultTheme.colors.blue8};
-    border-color: ${defaultTheme.colors.blue4};
   }
 `
 

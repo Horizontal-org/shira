@@ -35,7 +35,7 @@ export const UseAQuizTemplateButton: FunctionComponent<Props> = ({
         id="use-quiz-template-button"
         type="primary"
         leftIcon={<MdOutlineMenuBook />}
-        text={t('dashboard.use_template_button')}
+        text={t('dashboard.use_a_quiz_template_button')}
         onClick={handleClick}
         color={theme.colors.green7}
       />

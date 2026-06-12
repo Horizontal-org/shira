@@ -1,5 +1,5 @@
 import { Button, defaultTheme, styled } from "@horizontal-org/shira-ui";
-import { ComponentProps, ComponentType, FunctionComponent, useEffect, useMemo, useState } from "react";
+import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MdBlock } from "react-icons/md";
 import parseHtml from "../../../../../utils/parseHtml";
@@ -29,8 +29,6 @@ type ExplanationControlsProps = {
   onToggleExplanations: () => void;
   onPreviousExplanation: () => void;
   onNextExplanation: () => void;
-  OutlineButton?: ComponentType<ComponentProps<typeof Button>>;
-  PrimaryButton?: ComponentType<ComponentProps<typeof Button>>;
   className?: string;
 };
 
@@ -90,55 +88,70 @@ export const ExplanationPreviewControls: FunctionComponent<ExplanationControlsPr
   onToggleExplanations,
   onPreviousExplanation,
   onNextExplanation,
-  OutlineButton = Button,
-  PrimaryButton = Button,
   className,
 }) => {
   const { t } = useTranslation();
 
-  if (explanations.length === 0) {
-    return (
-      <NoExplanationsNotice className={className}>
-        <MdBlock />
-        {t("create_question.tabs.preview.no_explanations")}
-      </NoExplanationsNotice>
-    );
-  }
-
-  const outlineButtonProps: ComponentProps<typeof Button> = {
-    text: showExplanations
-      ? t("create_question.tabs.preview.hide_explanations")
-      : t("create_question.tabs.preview.show_explanations"),
-    type: "outline",
-    onClick: onToggleExplanations,
-  };
-
-  const previousButtonProps: ComponentProps<typeof Button> = {
-    text: t("create_question.tabs.preview.previous_explanation"),
-    type: "primary",
-    onClick: onPreviousExplanation,
-  };
-
-  const nextButtonProps: ComponentProps<typeof Button> = {
-    text: t("create_question.tabs.preview.next_explanation"),
-    type: "primary",
-    onClick: onNextExplanation,
-  };
+  const hasMultipleExplanations = explanations.length > 1 && explanationNumber > 0;
+  const canGoToNextExplanation = explanations.length > 1 && explanationNumber < explanations.length - 1;
 
   return (
     <>
-      <OutlineButton {...outlineButtonProps} />
+      {explanations.length === 0 ? (
+        <NoExplanationsNotice className={className}>
+          <MdBlock size={18} color={defaultTheme.colors.error6} />
+          {t("create_question.tabs.preview.no_explanations")}
+        </NoExplanationsNotice>
+      ) : (
+        <>
+          <ExplanationOutlineButton
+            text={showExplanations
+              ? t("create_question.tabs.preview.hide_explanations")
+              : t("create_question.tabs.preview.show_explanations")}
+            type="outline"
+            onClick={onToggleExplanations}
+          />
 
-      {showExplanations && explanations.length > 1 && explanationNumber > 0 && (
-        <PrimaryButton {...previousButtonProps} />
-      )}
+          {showExplanations && hasMultipleExplanations && (
+            <ExplanationPrimaryButton
+              text={t("create_question.tabs.preview.previous_explanation")}
+              type="primary"
+              onClick={onPreviousExplanation}
+            />
+          )}
 
-      {showExplanations && explanations.length > 1 && explanationNumber < explanations.length - 1 && (
-        <PrimaryButton {...nextButtonProps} />
+          {showExplanations && canGoToNextExplanation && (
+            <ExplanationPrimaryButton
+              text={t("create_question.tabs.preview.next_explanation")}
+              type="primary"
+              onClick={onNextExplanation}
+            />
+          )}
+        </>
       )}
     </>
   );
 };
+
+const ExplanationOutlineButton = styled(Button)`
+  justify-content: center;
+`;
+
+const ExplanationPrimaryButton = styled(Button)`
+  justify-content: center;
+  background: ${defaultTheme.colors.blue7};
+  border-color: ${defaultTheme.colors.blue7};
+
+  &:hover {
+    background: ${defaultTheme.colors.blue8};
+    border-color: ${defaultTheme.colors.blue8};
+  }
+
+  &:focus {
+    background: ${defaultTheme.colors.blue8};
+    border-color: ${defaultTheme.colors.blue4};
+  }
+`;
 
 const NoExplanationsNotice = styled.div`
   display: inline-flex;
