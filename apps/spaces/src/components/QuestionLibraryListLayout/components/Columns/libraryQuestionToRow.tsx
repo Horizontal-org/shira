@@ -35,6 +35,8 @@ export const libraryQuestionToRow = (libraryQuestion: any): RowType[] => {
       name: q.name,
       isPhishing: Boolean(q.isPhishing),
       type: q.type,
+      creator: q.creator ?? "Shira team",
+      createdAt: q.createdAt,
       app: defaultApp,
       language: defaultLang,
       content: defaultLang?.content,

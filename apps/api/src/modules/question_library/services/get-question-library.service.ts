@@ -29,6 +29,7 @@ export class GetLibraryQuestionService implements IGetLibraryQuestionService {
         'q.name AS questionName',
         'q.type AS questionType',
         'q.isPhising AS questionIsPhishing',
+        'q.createdAt AS questionCreatedAt',
       ])
       .where('q.type = :type', { type: 'demo' })
       .orderBy('q.name', 'ASC')
@@ -70,6 +71,7 @@ export class GetLibraryQuestionService implements IGetLibraryQuestionService {
       name: row.questionName,
       isPhishing: Boolean(row.questionIsPhishing),
       type: row.questionType,
+      createdAt: row.questionCreatedAt,
       apps: [],
       languages: [],
     };

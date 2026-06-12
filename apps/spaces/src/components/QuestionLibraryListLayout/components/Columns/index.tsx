@@ -1,7 +1,7 @@
 import { Body3, Body3Bold, defaultTheme, styled } from "@horizontal-org/shira-ui";
 import { ColumnDef } from "@tanstack/react-table";
-import { FaCircleCheck, FaCirclePlus } from "react-icons/fa6";
-import { MdOutlinePhishing, MdRemoveRedEye } from "react-icons/md";
+import { FaCircleCheck, FaCirclePlus, FaUser } from "react-icons/fa6";
+import { MdCalendarMonth, MdOutlinePhishing, MdRemoveRedEye } from "react-icons/md";
 import { TFunction } from "i18next";
 import type { App } from "../../../../fetch/question_library";
 import { SelectLanguage } from "../Selects/SelectLanguage";
@@ -36,6 +36,8 @@ export type RowType = {
   name: string;
   isPhishing: boolean;
   type: string;
+  creator?: string;
+  createdAt?: string;
 
   language: Language;
   app: App;
@@ -54,13 +56,26 @@ type ColumnHandlers = {
   onAdd?: (q: RowType) => void;
   onSelectLanguage?: (questionId: number, languageId: number) => void;
   onSelectApp?: (questionId: number, appId: number) => void;
+  rowOffset?: number;
+};
+
+const formatCreatedAt = (value?: string) => {
+  if (!value) {
+    return "-";
+  }
+
+  return new Date(value).toLocaleDateString(undefined, {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
 };
 
 export const getColumns = (handlers: ColumnHandlers, t: TFunction): ColumnDef<RowType>[] => [
   {
     header: "",
     id: "rowNumber",
-    cell: ({ row }) => <RowIndexCell>{row.index + 1}</RowIndexCell>,
+    cell: ({ row }) => <RowIndexCell>{(handlers.rowOffset ?? 0) + row.index + 1}</RowIndexCell>,
   },
   {
     header: t("question_library.columns.question_name"),
@@ -87,6 +102,28 @@ export const getColumns = (handlers: ColumnHandlers, t: TFunction): ColumnDef<Ro
         </PhishingCell>
       );
     },
+  },
+  {
+    header: t("question_library.columns.creator"),
+    id: "creator",
+    accessorKey: "creator",
+    cell: ({ row }) => (
+      <IconTextCell>
+        <FaUser size={14} color={defaultTheme.colors.green7} />
+        <Body3>{row.original.creator ?? "Shira team"}</Body3>
+      </IconTextCell>
+    ),
+  },
+  {
+    header: t("question_library.columns.created_on"),
+    id: "createdAt",
+    accessorKey: "createdAt",
+    cell: ({ row }) => (
+      <IconTextCell>
+        <MdCalendarMonth size={14} color={defaultTheme.colors.error7} />
+        <Body3>{formatCreatedAt(row.original.createdAt)}</Body3>
+      </IconTextCell>
+    ),
   },
   {
     header: t("question_library.columns.language.title"),
@@ -121,13 +158,15 @@ export const getColumns = (handlers: ColumnHandlers, t: TFunction): ColumnDef<Ro
       }
 
       return (
-        <SelectApp
-          valueId={app?.id}
-          options={apps}
-          currentType={app?.type}
-          onChange={(appId) => handlers.onSelectApp?.(id, appId)}
-          initiallyShowPlaceholder={apps.length > 1}
-        />
+        <SelectCell>
+          <SelectApp
+            valueId={app?.id}
+            options={apps}
+            currentType={app?.type}
+            onChange={(appId) => handlers.onSelectApp?.(id, appId)}
+            initiallyShowPlaceholder={apps.length > 1}
+          />
+        </SelectCell>
       );
     },
   },
@@ -196,6 +235,9 @@ const PhishingCell = styled.span<{ $isPhishing?: boolean }>`
 const ActionsCell = styled("div")`
   display: flex;
   align-items: center;
+  gap: 4px;
+  justify-content: flex-start;
+  min-width: 78px;
 `;
 
 const RowIndexCell = styled(Body3Bold)`
@@ -211,7 +253,42 @@ const AppCell = styled(Body3)`
   font-size: 14px;
   gap: 6px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   padding-left: 4px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+const IconTextCell = styled("div")`
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: ${defaultTheme.colors.dark.darkGrey};
+`;
+
+const SelectCell = styled("div")`
+  max-width: 178px;
+
+  & > div {
+    width: 100%;
+  }
+
+  & [role="combobox"] {
+    min-width: 0;
+  }
+
+  & [role="combobox"] > div {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  & [role="combobox"] span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 `;

@@ -24,8 +24,6 @@
         "new_password_placeholder": "New password (required)",
         "confirm_password_placeholder": "Confirm new password (required)",
         "reset_button": "Reset password",
-        "reset_success_title": "Password updated",
-        "reset_success_description": "You can now log in with your new password.",
         "expired_title": "Sorry, something went wrong",
         "expired_description": "The link you opened is invalid or has expired. Please contact your organization or email contact@wearehorizontal.org for support.",
         "validation": {
@@ -34,25 +32,12 @@
             "password_required": "Password is required",
             "password_min_length": "Password must be at least 8 characters",
             "confirm_password_required": "Please confirm your password",
-            "passwords_mismatch": "Passwords do not match",
-            "incorrect_password": "Incorrect password."
+            "passwords_mismatch": "Passwords do not match"
         }
     },
     "confirm_email_update": {
         "success_title": "Email address updated",
         "success_description": "Your email address has been confirmed. You can now log in with your new email address."
-    },
-    "beta": {
-        "label": "BETA",
-        "message": "Shira is still in development and you may experience issues.",
-        "click_here": "Click here",
-        "feedback_text": "to share your feedback and read about what’s next for Shira!"
-    },
-    "left_menu": {
-        "dashboard": "Dashboard",
-        "support": "Support",
-        "settings": "Settings",
-        "logout": "Log out"
     },
     "dashboard": {
         "title": "Quizzes",
@@ -87,30 +72,13 @@
             "disabled_tooltip": "Create at least 1 question to assign this quiz to learners."
         }
     },
-    "library": {
-        "title": "Library",
-        "subtitle": "Get started right away with ready-made templates.",
-        "cards": {
-            "quizzes": {
-                "title": "Quizzes"
-            },
-            "questions": {
-                "title": "Questions"
-            }
-        }
-    },
     "quizzes": {
         "filter": {
             "all_quizzes": "All quizzes",
             "published": "Published",
             "unpublished": "Unpublished"
         },
-        "last_modified": "Last modified {{date}}",
-        "publish_toggle": "Published",
-        "actions": {
-            "edit": "Edit",
-            "duplicate": "Duplicate"
-        }
+        "last_modified": "Last modified {{date}}"
     },
     "quiz": {
         "public_subtitle": "Create quiz questions, share your quiz link, and monitor results. Shira auto-saves your work whenever you are connected to the Internet.",
@@ -124,8 +92,7 @@
             "rename": "Rename",
             "duplicate": "Duplicate",
             "copy_link": "Copy quiz link",
-            "disabled_tooltip": "Create at least 1 question to copy your quiz link.",
-            "delete": "Delete"
+            "disabled_tooltip": "Create at least 1 question to copy your quiz link."
         },
         "tabs": {
             "questions": "Questions",
@@ -145,11 +112,6 @@
             "edit": "Edit",
             "duplicate": "Duplicate",
             "delete": "Delete"
-        }
-    },
-    "questions": {
-        "edit": {
-            "tab_header": "Edit question"
         }
     },
     "no_questions": {
@@ -230,7 +192,6 @@
                 "add_message_text": "Add message text",
                 "add_image_attachment": "Add image",
                 "upload_image": "Upload from computer",
-                "message_text": "Message text",
                 "link_text": {
                     "set_title": "Set Link",
                     "edit_title": "Edit Link",
@@ -252,29 +213,40 @@
     },
     "question_library": {
         "tab_header_title": "Select a question template",
+        "search_placeholder": "Search question names",
+        "sort_by": "Sort by",
+        "sort_options": {
+            "newest_to_oldest": "Newest to oldest",
+            "oldest_to_newest": "Oldest to newest",
+            "question_name_asc": "Question name (A-Z)",
+            "question_name_desc": "Question name (Z-A)"
+        },
+        "filters": "Filters",
+        "filters_panel": {
+            "language": "Language",
+            "tag": "Tag",
+            "creator": "Creator",
+            "apps": "Apps",
+            "type": "Type",
+            "clear_all": "Clear all",
+            "selected_count": "{{count}} selected"
+        },
         "columns": {
             "question_name": "Question name",
+            "creator": "Creator",
+            "created_on": "Created on",
             "type": {
                 "title": "Type",
                 "phishing": "Phishing",
                 "legitimate": "Legitimate"
             },
             "language": {
-                "title": "Language",
-                "placeholder": "Languages"
+                "title": "Language"
             },
             "app": {
                 "title": "App",
                 "messaging_type": "Messaging app",
-                "email_type": "Email app",
-                "apps": {
-                    "whatsapp": "WhatsApp",
-                    "facebook_messenger": "Messenger",
-                    "dating_app": "Dating app",
-                    "sms": "SMS",
-                    "gmail": "Gmail",
-                    "outlook": "Outlook"
-                }
+                "email_type": "Email app"
             },
             "actions": {
                 "title": "Actions",
@@ -286,8 +258,6 @@
     },
     "quiz_library": {
         "header_title": "Select a quiz template",
-        "title": "Quiz library",
-        "subtitle": "Select a quiz from the list below to use it as a template for your new quiz.",
         "search_placeholder": "Search quiz names",
         "search_results": "{{count}} result for \"{{searchTerm}}\"",
         "search_results_plural": "{{count}} results for \"{{searchTerm}}\"",
@@ -308,10 +278,7 @@
             "tag": "Tag",
             "creator": "Creator",
             "clear_all": "Clear all",
-            "selected_count": "{{count}} selected",
-            "all_languages": "All languages",
-            "all_tags": "All tags",
-            "all_creators": "All creators"
+            "selected_count": "{{count}} selected"
         },
         "view_template": "View template",
         "use_template": "Use template",
@@ -387,15 +354,7 @@
                 "remove_file": "Remove selected file",
                 "upload_complete": "Upload complete",
                 "upload_success": "Your spreadsheet was successfully uploaded! Continue to the next step to verify your learners.",
-                "uploading": "Please wait while Shira uploads and validates your data.",
-                "invalid_file_format": "Error: Invalid file format",
-                "invalid_file_format_description": "Please make sure the file is in CSV and try again.",
-                "upload_error": "Error: Your file could not be processed",
-                "upload_error_description": "We couldn't process the file. Please try again.",
-                "too_many_rows_error": "Error: Too many rows",
-                "too_many_rows_error_description": "Please make sure your spreadsheet contains a maximum of 1,000 rows and try again.",
-                "invalid_formatting": "Error: Invalid formatting",
-                "invalid_formatting_description": "Please make sure your spreadsheet is formatted according to the guidelines above and try again."
+                "uploading": "Please wait while Shira uploads and validates your data."
             },
             "verify_learners": {
                 "tab_title": "Verify learners",
@@ -494,10 +453,7 @@
         "browse_files": "Browse files",
         "i_understand": "I understand",
         "back_home": "Back to home",
-        "learn_more": "Learn more",
-        "manage_plan": "Manage plan",
-        "back_to_quizzes": "Back to quizzes",
-        "go_to_settings": "Go to settings"
+        "back_to_quizzes": "Back to quizzes"
     },
     "modals": {
         "create_quiz": {
@@ -612,26 +568,16 @@
         "attachment_file": {
             "title": "Add attachment",
             "file_name": "File name",
-            "file_type": "File type",
-            "field_type": {
-                "title:": "Field type",
-                "image": "Image",
-                "video": "Video",
-                "audio": "Audio",
-                "document": "Document",
-                "other": "Other"
-            }
+            "file_type": "File type"
         },
         "variables_modal": {
-            "title": "Variables",
             "message": "Variables are placeholders that you can use to insert personalized information into a question.",
             "message2": "The information shown is relevant to each learner, based on what they entered or auto-generated during quiz setup.",
             "message3": "To add a variable, type the following:",
             "name": "name",
             "name_explanation": "This will display the learner's name",
             "email": "email",
-            "email_explanation": "This will display the learner's email address",
-            "ok": "ok"
+            "email_explanation": "This will display the learner's email address"
         },
         "explanations_modal": {
             "title": "Explanations",
@@ -641,8 +587,7 @@
                 "fields": "Fields, such as the sender's name or email address",
                 "content": "Specific parts of the message content",
                 "attachments": "File attachments."
-            },
-            "ok": "ok"
+            }
         },
         "no_explanations": {
             "title": "Continue without explanations?",
@@ -683,8 +628,7 @@
         "change_email_success": {
             "title": "Almost there!",
             "description": "To complete the process, please open the email we sent to your new email address and click the confirmation link.",
-            "didnt_receive": "Didn’t receive an email? If it’s not in your spam folder, please contact us at <0>{{contact_email}}</0>",
-            "button": "I understand"
+            "didnt_receive": "Didn’t receive an email? If it’s not in your spam folder, please contact us at <0>{{contact_email}}</0>"
         },
         "change_password": {
             "title": "Create new password",
@@ -694,7 +638,6 @@
             "confirm_password_placeholder": "Confirm new password (required)"
         },
         "view_plans": {
-            "title": "Available plans",
             "modal_title": "Shira plans and pricing",
             "actions": {
                 "current_plan": "Current plan",
@@ -702,7 +645,6 @@
                 "learn_more": "Learn more about Shira plans"
             },
             "comparison": {
-                "title": "What's included?",
                 "admin_management": "Admin management",
                 "customization": "Customization",
                 "access_control": "Access control",
@@ -849,7 +791,6 @@
         "quiz_published": "The quiz has been published",
         "quiz_unpublished": "The quiz has been unpublished",
         "question_created": "Question created",
-        "question_created_2": "{{question_name}} created successfully",
         "question_added": "The question has been added to your quiz",
         "question_updated": "Question updated",
         "question_deleted": "The question has been deleted",
@@ -869,13 +810,11 @@
     "loading_messages": {
         "loading": "Loading...",
         "saving": "Saving...",
-        "creating": "Creating...",
         "duplicating": "Duplicating...",
         "learners": "Loading learners...",
         "loading_library_questions": "Loading questions...",
         "uploading_image": "Uploading image...",
         "assigning_quiz_to_learners": "Assigning quiz to learners...",
-        "assigning_quiz_to_learners_description": "Shira is working to assign the quiz to the selected learners.",
         "sending_invitation": "Sending invitation"
     },
     "preview": {
@@ -911,9 +850,6 @@
             "email_required": "Email is required",
             "invalid_email": "Please enter a valid email address"
         },
-        "errors": {
-            "create_space_failed": "An error occurred while creating your space. Please try again."
-        },
         "success": {
             "title": "Almost there!",
             "description": "To complete the process, please open the email we sent to your email address and click on the link to create your Shira space.",
@@ -921,8 +857,6 @@
         }
     },
     "create_space": {
-        "title": "Shira spaces",
-        "subtitle": "After you create a space, you will be able to create custom quizzes and questions specifically relevant to your context and communities.",
         "form_title": "Create a new space",
         "form_description": "Complete the form below to create your Shira space.",
         "beta_lead": "Shira spaces are currently in closed beta. To obtain the passphrase necessary to join the beta, email us at",
@@ -936,9 +870,6 @@
             "password_required": "Password is required.",
             "password_min_length": "Password must be at least 8 characters.",
             "passwords_mismatch": "Passwords do not match."
-        },
-        "errors": {
-            "create_space_failed": "An error occurred while creating your space. Please try again."
         }
     }
 }

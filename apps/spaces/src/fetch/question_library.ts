@@ -41,6 +41,7 @@ export type QuestionLibraryDto = {
   name: string;
   isPhishing: boolean;
   type: string;
+  createdAt?: string;
   apps: App[];
   languages: LanguageDto[];
 };
