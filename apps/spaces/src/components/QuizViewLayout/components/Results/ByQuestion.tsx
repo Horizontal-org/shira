@@ -96,6 +96,7 @@ export const ByQuestion: FunctionComponent<Props> = ({
           loadingMessage={t('results_tab.by_question.table.loading')}
           data={resultsByQuestion}
           columns={columns}
+          enableRowHover={false}
           enableRowSelection={false}
           enablePagination={false}
           rowSelection={{}}
@@ -124,7 +125,6 @@ const TableId = styled.span`
 const StyledBody3Bold = styled(Body3Bold)`
   color: ${props => props.theme.colors.dark.darkGrey};
 `
-
 
 const PhishingCell = styled.span<{ $isPhishing?: boolean }>`
   background: ${(props) => (

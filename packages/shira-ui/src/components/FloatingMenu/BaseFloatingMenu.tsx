@@ -81,12 +81,45 @@ export const BaseFloatingMenu: FunctionComponent<BaseFloatingMenuProps> = ({
         onClose();
       }
     }
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    }
     
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleKeyDown);
+
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          mutation.addedNodes.forEach((node) => {
+            if (node instanceof Element) {
+              if (node.getAttribute('role') === 'dialog' ||
+                node.querySelector('[role="dialog"]') ||
+                node.classList.contains('modal') ||
+                node.querySelector('.modal')) {
+                onClose();
+              }
+            }
+          });
+        });
+      });
+
+      observer.observe(document.body, { childList: true, subtree: true });
+
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+        document.removeEventListener('keydown', handleKeyDown);
+        observer.disconnect();
+      };
     }
     
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
   }, [isOpen, onClose, anchorEl]);
 
   if (!isOpen || !portalContainer) return null;
