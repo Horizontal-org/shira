@@ -1,6 +1,9 @@
 import axios from 'axios';
 import { useState } from 'react';
 
+// Deprecated
+// Question library flows should use `fetch/question_templates.ts`
+
 export interface App {
   name: string;
   id?: number;

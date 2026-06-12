@@ -1,12 +1,11 @@
 import { FunctionComponent } from "react";
 import { styled, defaultTheme } from "@horizontal-org/shira-ui";
 import { QuestionPreview } from "../../QuestionPreview";
-import { ExplanationDto } from "../../../fetch/question_library";
-import { QuestionToDuplicate } from "../../../fetch/question_library";
+import type { Explanation, RowType } from "../../QuestionLibraryListLayout/components/Columns";
 
 type Props = {
-  question: QuestionToDuplicate;
-  explanations: ExplanationDto[];
+  question: RowType;
+  explanations: Explanation[];
   onAdd: () => void;
   onClose: () => void;
 };
@@ -67,6 +66,5 @@ const Body = styled.div`
   flex-direction: column;
   overflow: hidden;
 `;
-
 
 

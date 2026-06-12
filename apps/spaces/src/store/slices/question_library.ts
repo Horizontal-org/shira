@@ -1,20 +1,20 @@
 import { StateCreator } from "zustand"
-import { QuestionLibraryDto, getLibraryQuestions } from "../../fetch/question_library";
+import { LibraryQuestionTemplateDto, getQuestionTemplates } from "../../fetch/question_templates";
 
-export interface QuestionLibrarySlice {
-  libraryQuestions: QuestionLibraryDto,
-  getLibraryQuestions: (quizId: number) => void
+export interface QuestionTemplateSlice {
+  templateQuestions: LibraryQuestionTemplateDto[] | null,
+  fetchLibraryQuestions: () => void
 }
 
-export const createQuestionLibrarySlice: StateCreator<
-  QuestionLibrarySlice,
+export const buildQuestionLibrarySlice: StateCreator<
+  QuestionTemplateSlice,
   [],
   [],
-  QuestionLibrarySlice
+  QuestionTemplateSlice
 > = (set) => ({
-  libraryQuestions: null,
-  getLibraryQuestions: async() => {
-    const res = await getLibraryQuestions()
-    set({ libraryQuestions: res })
+  templateQuestions: null,
+  fetchLibraryQuestions: async () => {
+    const res = await getQuestionTemplates({ page: 1, limit: 1000 })
+    set({ templateQuestions: res.data })
   }
 })

@@ -17,7 +17,12 @@ import {
 } from "@horizontal-org/shira-ui";
 import { QuestionLibraryFlowManagement } from "../QuestionLibraryFlowManagement";
 import { QuestionLibraryPreviewModal } from "../modals/QuestionLibraryPreviewModal";
-import { LibraryQuestionFeedback, getLibraryQuestions, useLibraryQuestionCRUD } from "../../fetch/question_library";
+import { getApps } from "../../fetch/app";
+import {
+  getQuestionTemplates,
+  QuestionTemplateFeedback,
+  useQuestionTemplateCRUD,
+} from "../../fetch/question_templates";
 import type { ActiveQuestion } from "../../store/types/active_question";
 import { useStore } from "../../store";
 import { libraryToActiveQuestion } from "../../utils/active_question/libraryToActiveQuestion";
@@ -53,12 +58,14 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
   const navigate = useNavigate();
   const { state } = useLocation() as { state?: { quizId?: string } };
   const quizId = state?.quizId;
-  const { actionFeedback, duplicate } = useLibraryQuestionCRUD();
+  const { actionFeedback, addToQuiz } = useQuestionTemplateCRUD();
   const {
+    languages,
     setQuizActionSuccess,
     setActiveQuestion,
     clearActiveQuestion
   } = useStore((state) => ({
+    languages: state.languages,
     setQuizActionSuccess: state.setQuizActionSuccess,
     setActiveQuestion: state.setActiveQuestion,
     clearActiveQuestion: state.clearActiveQuestion,
@@ -81,12 +88,12 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
   const [pageIndex, setPageIndex] = useState(0);
 
   useEffect(() => {
-    if (actionFeedback === LibraryQuestionFeedback.Success) {
+    if (actionFeedback === QuestionTemplateFeedback.Success) {
       setQuizActionSuccess(QuizSuccessStates.question_added_from_library);
       navigate(`/quiz/${quizId}`);
       return;
     }
-    if (actionFeedback === LibraryQuestionFeedback.Error) {
+    if (actionFeedback === QuestionTemplateFeedback.Error) {
       toast.error(t('error_messages.add_question_error'), { duration: 3000 });
     }
   }, [actionFeedback, navigate, quizId, setQuizActionSuccess, t]);
@@ -96,21 +103,32 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
       setRows(rowsProp ?? []);
       return;
     }
-    let alive = true;
+
     (async () => {
       setLoading(true);
       try {
-        const data = await getLibraryQuestions();
-        const normalized = libraryQuestionToRow(data);
-        if (alive) setRows(normalized);
-      } catch (e: any) {
-        if (alive) console.error(e);
+        if (!languages) {
+          return;
+        }
+
+        const [questionTemplatesPage, apps] = await Promise.all([
+          getQuestionTemplates({ page: 1, limit: 1000 }),
+          getApps(),
+        ]);
+
+        const normalized = libraryQuestionToRow(
+          questionTemplatesPage.data,
+          apps ?? [],
+          languages,
+        );
+        setRows(normalized);
+      } catch (e) {
+        console.error(e);
       } finally {
-        if (alive) setLoading(false);
+        setLoading(false);
       }
     })();
-    return () => { alive = false; };
-  }, [controlled, rowsProp]);
+  }, [controlled, languages, rowsProp]);
 
   useEffect(() => {
     return () => {
@@ -125,7 +143,19 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
   };
 
   const handleAdd = (q: RowType) => {
-    duplicate(parseInt(quizId), q.id, q.language.id, q.app.id);
+    if (!quizId || q.app.id < 1) {
+      toast.error(t('error_messages.add_question_error'), { duration: 3000 });
+      return;
+    }
+
+    addToQuiz({
+      quizId: parseInt(quizId),
+      questionName: q.name,
+      content: q.content,
+      isPhishing: q.isPhishing,
+      appId: q.app.id,
+      explanations: q.explanations,
+    });
   };
 
   const handleSelectLanguage = (questionId: number, languageId: number) => {
@@ -209,7 +239,19 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
     },
   ], [t]);
 
-  const tagOptions = useMemo<FilterOption[]>(() => [], []);
+  const tagOptions = useMemo<FilterOption[]>(() => {
+    const tagsByName = new Map<string, string>();
+
+    rows.forEach((row) => {
+      row.tags?.forEach((tag) => {
+        tagsByName.set(tag, tag);
+      });
+    });
+
+    return [...tagsByName.entries()]
+      .sort(([first], [second]) => first.localeCompare(second))
+      .map(([value, label]) => ({ value, label }));
+  }, [rows]);
 
   const getSelectedLabel = (
     options: FilterOption[],
@@ -255,6 +297,9 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
       const matchesCreator = !selectedCreator
         || (row.creator ?? "Shira team") === selectedCreator;
 
+      const matchesTag = selectedTags.length === 0
+        || row.tags?.some((tag) => selectedTags.includes(tag));
+
       const matchesApp = selectedApps.length === 0
         || row.apps.some((app) => selectedApps.includes(app.name));
 
@@ -264,10 +309,11 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
       return matchesSearch
         && matchesLanguage
         && matchesCreator
+        && matchesTag
         && matchesApp
         && matchesType;
     });
-  }, [normalizedSearchValue, rows, selectedApps, selectedCreator, selectedLanguages, selectedType]);
+  }, [normalizedSearchValue, rows, selectedApps, selectedCreator, selectedLanguages, selectedTags, selectedType]);
 
   const sortedRows = useMemo(() => {
     return [...filteredRows].sort((a, b) => {

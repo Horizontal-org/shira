@@ -1,31 +1,94 @@
+import type { App } from "../../../../fetch/app";
+import type { Language as StoreLanguage } from "../../../../store/slices/languages";
+import type { LibraryQuestionTemplateDto } from "../../../../fetch/question_templates";
+import { getAppsByType, normalizePreviewAppName } from "../../../../utils/appNames";
 import { AppOption, LanguageOption, RowType } from ".";
 
-export const libraryQuestionToRow = (libraryQuestion: any): RowType[] => {
-  const entries = libraryQuestion ?? [] as any[];
+const normalizeLanguages = (
+  question: LibraryQuestionTemplateDto,
+  languages: StoreLanguage[],
+): LanguageOption[] => {
+  const matchedLanguages = question.languages
+    .map((languageName, index) => {
+      const matchedLanguage = languages.find((language) => language.name === languageName);
+
+      if (!matchedLanguage) {
+        return {
+          id: -(index + 1),
+          name: languageName,
+          content: question.content,
+          explanations: [],
+        };
+      }
+
+      return {
+        id: Number(matchedLanguage.id),
+        name: matchedLanguage.name,
+        content: question.content,
+        explanations: [],
+      };
+    });
+
+  return matchedLanguages.length > 0
+    ? matchedLanguages
+    : [{
+      id: -1,
+      name: "English",
+      content: question.content,
+      explanations: [],
+    }];
+};
+
+const normalizeApps = (
+  question: LibraryQuestionTemplateDto,
+  apps: App[],
+): AppOption[] => {
+  const appsForType = apps.filter((app) => app.type === question.appType);
+
+  if (appsForType.length > 0) {
+    return appsForType.map((app) => ({
+      id: Number(app.id),
+      name: app.name,
+      type: app.type,
+    }));
+  }
+
+  const fallbackApps = getAppsByType(question.appType).map((app, index) => ({
+    id: -(index + 1),
+    name: app.name,
+    type: app.type,
+  }));
+
+  return fallbackApps.length > 0
+    ? fallbackApps
+    : [{
+      id: -1,
+      name: question.defaultApp ?? question.appType,
+      type: question.appType,
+    }];
+};
+
+export const libraryQuestionToRow = (
+  libraryQuestion: LibraryQuestionTemplateDto[] | null | undefined,
+  apps: App[],
+  languages: StoreLanguage[],
+): RowType[] => {
+  const entries = libraryQuestion ?? [];
 
   return entries.map((q) => {
-    const langOptions: LanguageOption[] = (q.languages ?? []).map((l: any) => ({
-      id: Number(l.id),
-      name: String(l.name),
-      content: l.content,
-      explanations: (l.explanations ?? []).map((e: any) => ({
-        index: e.index,
-        position: e.position,
-        text: e.text,
-      })),
-    }));
-
-    const appOptions: AppOption[] = (q.apps ?? []).map((a: any) => ({
-      id: a.id,
-      name: a.name,
-      type: a.type,
-    }));
+    const langOptions = normalizeLanguages(q, languages);
+    const appOptions = normalizeApps(q, apps);
+    const preferredAppName = q.defaultApp ? normalizePreviewAppName(q.defaultApp) : null;
 
     const defaultLang =
       langOptions.find((v) => v.name.toLowerCase().startsWith("english")) ??
       langOptions[0];
 
-    const defaultApp = appOptions[0];
+    const defaultApp = (
+      preferredAppName
+        ? appOptions.find((app) => app.name === preferredAppName)
+        : undefined
+    ) ?? appOptions[0];
 
     const languageSelected = langOptions.length <= 1;
     const appSelected = appOptions.length <= 1;
@@ -34,12 +97,13 @@ export const libraryQuestionToRow = (libraryQuestion: any): RowType[] => {
       id: q.id,
       name: q.name,
       isPhishing: Boolean(q.isPhishing),
-      type: q.type,
-      creator: q.creator ?? "Shira team",
+      type: q.appType,
+      creator: "Shira team",
       createdAt: q.createdAt,
+      tags: q.tags,
       app: defaultApp,
       language: defaultLang,
-      content: defaultLang?.content,
+      content: q.content,
       explanations: defaultLang?.explanations ?? [],
       apps: appOptions,
       languages: langOptions,

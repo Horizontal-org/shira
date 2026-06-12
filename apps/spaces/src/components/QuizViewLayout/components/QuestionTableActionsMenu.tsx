@@ -64,15 +64,6 @@ export const QuestionTableActionsMenu: FunctionComponent<Props> = ({
     icon?: ReactElement;
   }> = [
     {
-      text: editLabel,
-      onClick: (event) => {
-        event.stopPropagation();
-        setIsOpen(false);
-        onEdit();
-      },
-      icon: <EditIcon />,
-    },
-    {
       text: duplicateLabel,
       onClick: (event) => {
         event.stopPropagation();
@@ -94,7 +85,20 @@ export const QuestionTableActionsMenu: FunctionComponent<Props> = ({
 
   return (
     <MenuWrapper ref={wrapperRef}>
-      <MenuButton
+      <EditButton
+        type="button"
+        title={editLabel}
+        aria-label={editLabel}
+        onClick={(event) => {
+          event.stopPropagation();
+          onEdit();
+        }}
+        disabled={disabled}
+      >
+        <EditIcon />
+      </EditButton>
+
+      <ActionButton
         type="button"
         title={t("questions_tab.action_tooltips.more_actions")}
         aria-label={t("questions_tab.action_tooltips.more_actions")}
@@ -105,7 +109,7 @@ export const QuestionTableActionsMenu: FunctionComponent<Props> = ({
         disabled={disabled}
       >
         <FiMoreVertical size={20} color={defaultTheme.colors.dark.darkGrey} />
-      </MenuButton>
+      </ActionButton>
 
       {isOpen && (
         <MenuPopup>
@@ -128,20 +132,33 @@ export const QuestionTableActionsMenu: FunctionComponent<Props> = ({
 const MenuWrapper = styled.div`
   position: relative;
   display: inline-flex;
+  align-items: center;
+  gap: 16px;
 `;
 
-const MenuButton = styled.button`
+const ActionButton = styled.button`
   background: none;
   border: none;
   padding: 8px;
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
   color: ${defaultTheme.colors.dark.darkGrey};
+  border-radius: 999px;
+
+  &:hover:not(:disabled) {
+    background: ${defaultTheme.colors.light.paleGrey};
+  }
 
   &:disabled {
     cursor: not-allowed;
+    opacity: 0.5;
   }
+`;
+
+const EditButton = styled(ActionButton)`
+  color: ${defaultTheme.colors.green7};
 `;
 
 const MenuPopup = styled.div`

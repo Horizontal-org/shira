@@ -1,7 +1,7 @@
-import type { QuestionToDuplicate } from "../../fetch/question_library";
+import type { RowType } from "../../components/QuestionLibraryListLayout/components/Columns";
 import type { ActiveQuestion } from "../../store/types/active_question";
 
-export function libraryToActiveQuestion(q: QuestionToDuplicate): ActiveQuestion {
+export function libraryToActiveQuestion(q: RowType): ActiveQuestion {
   return {
     name: q.name,
     isPhishing: q.isPhishing,

@@ -3,11 +3,11 @@ import { ColumnDef } from "@tanstack/react-table";
 import { FaCircleCheck, FaCirclePlus, FaUser } from "react-icons/fa6";
 import { MdCalendarMonth, MdOutlinePhishing, MdRemoveRedEye } from "react-icons/md";
 import { TFunction } from "i18next";
-import type { App } from "../../../../fetch/question_library";
 import { SelectLanguage } from "../Selects/SelectLanguage";
 import { SelectApp } from "../Selects/SelectApp";
 import { appIcons } from "../../../../utils/appIcons";
 import { ActionButtonWithTooltip } from "../ActionButtonWithTooltip";
+import { formatDateCreated } from "../../../../language/dateUtils";
 
 export type Explanation = {
   index: number;
@@ -31,6 +31,8 @@ export type AppOption = {
   type: string;
 };
 
+export type SelectedApp = AppOption;
+
 export type RowType = {
   id: number;
   name: string;
@@ -38,9 +40,10 @@ export type RowType = {
   type: string;
   creator?: string;
   createdAt?: string;
+  tags?: string[];
 
   language: Language;
-  app: App;
+  app: SelectedApp;
   content: string;
   explanations: Explanation[];
 
@@ -57,18 +60,6 @@ type ColumnHandlers = {
   onSelectLanguage?: (questionId: number, languageId: number) => void;
   onSelectApp?: (questionId: number, appId: number) => void;
   rowOffset?: number;
-};
-
-const formatCreatedAt = (value?: string) => {
-  if (!value) {
-    return "-";
-  }
-
-  return new Date(value).toLocaleDateString(undefined, {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
 };
 
 export const getColumns = (handlers: ColumnHandlers, t: TFunction): ColumnDef<RowType>[] => [
@@ -121,7 +112,7 @@ export const getColumns = (handlers: ColumnHandlers, t: TFunction): ColumnDef<Ro
     cell: ({ row }) => (
       <IconTextCell>
         <MdCalendarMonth size={14} color={defaultTheme.colors.error7} />
-        <Body3>{formatCreatedAt(row.original.createdAt)}</Body3>
+        <Body3>{formatDateCreated(row.original.createdAt)}</Body3>
       </IconTextCell>
     ),
   },
