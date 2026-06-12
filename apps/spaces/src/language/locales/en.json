@@ -139,8 +139,9 @@
     },
     "questions_tab": {
         "create_question_button": "Create question",
-        "add_from_library_button": "Add from library",
+        "use_library_question_button": "Use a question template",
         "action_tooltips": {
+            "more_actions": "More actions",
             "edit": "Edit",
             "duplicate": "Duplicate",
             "delete": "Delete"
@@ -436,7 +437,8 @@
         "subtitle": "Manage your Shira space settings here.",
         "tabs": {
             "account": "Account",
-            "subscription": "Subscription"
+            "subscription": "Subscription",
+            "general": "General"
         },
         "subscription": {
             "current_plan": "Current plan: {{plan_name}}",
@@ -453,6 +455,10 @@
                 "title": "Password",
                 "last_updated": "Last updated: {{date}}",
                 "action": "Change password"
+            },
+            "language": {
+                "title": "Space language",
+                "description": "Choose the language for your Shira space. This won’t change the language of quizzes or questions you share with learners, only the space interface."
             }
         },
         "checkout_success": {

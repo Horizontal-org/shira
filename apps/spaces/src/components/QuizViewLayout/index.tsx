@@ -535,7 +535,7 @@ const LeftButtons = styled.div`
 `;
 
 const QuizWarningNote = styled.span`
-  color: #d73527;
+  color: ${(props) => props.theme.colors.error7};
   font-weight: 500;
 `;
 
