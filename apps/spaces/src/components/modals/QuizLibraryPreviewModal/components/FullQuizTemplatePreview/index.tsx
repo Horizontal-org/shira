@@ -8,18 +8,21 @@ import {
   defaultTheme,
   styled,
 } from "@horizontal-org/shira-ui"
-import { FunctionComponent, useEffect, useMemo, useState } from "react"
+import { FunctionComponent } from "react"
 import { useTranslation } from "react-i18next"
 import { FaCircleCheck, FaCirclePlus } from "react-icons/fa6"
-import { MdBlock, MdOutlinePhishing } from "react-icons/md"
+import { MdOutlinePhishing } from "react-icons/md"
 import type {
   LibraryQuizDto,
   LibraryQuizQuestionTemplateDto,
 } from "../../../../../fetch/quiz_templates"
 import { appIcons, appTypesIcons } from "../../../../../utils/appIcons"
 import { getAppsByType, normalizePreviewAppName } from "../../../../../utils/appNames"
-import parseHtml from "../../../../../utils/parseHtml"
 import { AppLayout } from "../../../../QuestionPreview/AppLayout"
+import {
+  ExplanationPreviewControls,
+  useExplanationPreviewControls,
+} from "../ExplanationPreviewControls"
 
 type Props = {
   quiz: LibraryQuizDto
@@ -43,23 +46,21 @@ export const FullQuizTemplatePreview: FunctionComponent<Props> = ({
   onUseTemplate,
 }) => {
   const { t } = useTranslation()
-  const [explanationNumber, setExplanationNumber] = useState(0)
-  const [showExplanations, setShowExplanations] = useState(false)
-
-  const explanations = useMemo(
-    () => parseHtml(question.content).parseExplanations(question.explanations),
-    [question.content, question.explanations],
-  )
   const resolvedAppName = question.appName ?? getAppsByType(question.appType)[0]?.name ?? ""
 
-  useEffect(() => {
-    setExplanationNumber(0)
-    setShowExplanations(false)
-  }, [question.questionId])
-
-  const activeExplanation = explanations[explanationNumber]
-    ? Number(explanations[explanationNumber].index)
-    : 0
+  const {
+    activeExplanationIndex,
+    explanationNumber,
+    explanations,
+    nextExplanation,
+    previousExplanation,
+    showExplanations,
+    toggleExplanations,
+  } = useExplanationPreviewControls({
+    content: question.content,
+    explanations: question.explanations,
+    resetKey: question.questionId,
+  })
 
   return (
     <QuestionPreviewContainer>
@@ -96,48 +97,14 @@ export const FullQuizTemplatePreview: FunctionComponent<Props> = ({
           <PreviewTitle>{quiz.title}</PreviewTitle>
 
           <PreviewControls>
-            {explanations.length > 0 ? (
-              <>
-                <Button
-                  text={showExplanations
-                    ? t("create_question.tabs.preview.hide_explanations")
-                    : t("create_question.tabs.preview.show_explanations")}
-                  type="outline"
-                  onClick={() => {
-                    if (showExplanations) {
-                      setExplanationNumber(0)
-                    }
-
-                    setShowExplanations((current) => !current)
-                  }}
-                />
-
-                {showExplanations && explanations.length > 1 && explanationNumber > 0 && (
-                  <Button
-                    text={t("create_question.tabs.preview.previous_explanation")}
-                    type="primary"
-                    onClick={() => {
-                      setExplanationNumber((current) => current - 1)
-                    }}
-                  />
-                )}
-
-                {showExplanations && explanations.length > 1 && explanationNumber < explanations.length - 1 && (
-                  <Button
-                    text={t("create_question.tabs.preview.next_explanation")}
-                    type="primary"
-                    onClick={() => {
-                      setExplanationNumber((current) => current + 1)
-                    }}
-                  />
-                )}
-              </>
-            ) : (
-              <NoExplanationsNotice>
-                <MdBlock />
-                {t("create_question.tabs.preview.no_explanations")}
-              </NoExplanationsNotice>
-            )}
+            <ExplanationPreviewControls
+              explanationNumber={explanationNumber}
+              explanations={explanations}
+              showExplanations={showExplanations}
+              onToggleExplanations={toggleExplanations}
+              onPreviousExplanation={previousExplanation}
+              onNextExplanation={nextExplanation}
+            />
           </PreviewControls>
         </PreviewTopRow>
 
@@ -206,7 +173,7 @@ export const FullQuizTemplatePreview: FunctionComponent<Props> = ({
                   content={question.content}
                   showExplanations={showExplanations}
                   explanations={explanations}
-                  explanationNumber={activeExplanation}
+                  explanationNumber={activeExplanationIndex}
                 />
               </PreviewAppFrame>
             </PreviewCanvas>
@@ -304,16 +271,6 @@ const PreviewControls = styled.div`
   flex-shrink: 0;
 `
 
-const NoExplanationsNotice = styled.div`
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 16px;
-  background: ${defaultTheme.colors.light.paleGrey};
-  border-radius: 999px;
-  color: ${defaultTheme.colors.dark.darkGrey};
-`
-
 const PreviewLayout = styled.div`
   display: grid;
   grid-template-columns: 344px minmax(0, 1fr);
@@ -366,7 +323,7 @@ const SelectableQuestionItem = styled.button<{
   }
 `
 
-const QuizQuestionNumber = styled(Body1SemiBold)<{ $isActive: boolean }>`
+const QuizQuestionNumber = styled(Body1SemiBold) <{ $isActive: boolean }>`
   width: 30px;
   height: 30px;
   border-radius: 999px;
