@@ -112,6 +112,7 @@ export const QuizFlow: FunctionComponent<Props> = ({
           quizId={quiz.id}
           questions={quiz.quizQuestions.map((q) => q.question)}
           images={quiz.images}
+          hasResults={quiz.hasResults ?? true}
           startRun={() => {
             start(quiz.id, learnerQuiz ? learnerQuiz.learnerId : null)
           }}

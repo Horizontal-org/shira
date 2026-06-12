@@ -53,6 +53,9 @@ import {
 
     @Column({ length: 150, nullable: true })
     slug: string;
+
+    @Column({ name: 'has_results', default: true })
+    hasResults: boolean
       
     @CreateDateColumn({ name: 'created_at' })
     createdAt: Date;

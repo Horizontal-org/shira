@@ -26,6 +26,7 @@ export interface ModalProps {
 export enum ModalType {
   Danger = 'danger',
   Primary = 'primary',
+  Secondary = 'secondary'
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -51,6 +52,7 @@ export const Modal: React.FC<ModalProps> = ({
   const modalTypeColors = {
     [ModalType.Danger]: theme.colors.error7,
     [ModalType.Primary]: theme.colors.green7,
+    [ModalType.Secondary]: theme.colors.blue7
   };
 
   useEffect(() => {

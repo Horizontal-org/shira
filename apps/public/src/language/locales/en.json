@@ -51,12 +51,25 @@
     "quiz": {
         "how_it_works": {
             "title": "How it works",
-            "question_count": "This quiz contains {{count}} questions",
+            "question_count": "This quiz contains {{count}} questions.",
             "explanation_1": "This quiz contains 10 questions.",
-            "explanation_2": "For each question, select whether the message shown seems like a phishing attempt or seems legitimate.",
+            "explanation_2": "For each question, select one of the options:",
             "explanation_3": "If you are not sure, you can select the “I don’t know” option.",
             "footer_title": "Quiz intro",
-            "next": "OK"
+            "next": "OK",
+            "disclaimer": "Shira collects limited data about your usage.",
+            "learn_more": "Learn more"
+        },
+        "data_collection": {
+            "title": "Data collection",
+            "understand": "I understand",
+            "learn_more": "Learn more",
+            "intro": "When you take this quiz, Shira will only track:",
+            "item_1": "1. The date and time when you take the quiz",
+            "item_2": "2. Results:",
+            "item_2a": "a. Your total quiz score",
+            "item_2b": "b. Your score for each question",
+            "item_2c": "c. The percentage of learners assigned this quiz who have completed it"
         },
         "answers": {
             "options": {
@@ -243,6 +256,6 @@
     "invalid_invitation": {
         "title": "Sorry, this invitation link is invalid.",
         "description": "You may have used the wrong URL, or the invitation may have expired. Try again or contact the person who invited you.",
-        "home_button": "Go to Shira"    
+        "home_button": "Go to Shira"
     }
 }
