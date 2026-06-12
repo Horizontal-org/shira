@@ -26,6 +26,7 @@ import { LearnerBulkImportLayout } from './components/LearnerBulkImportLayout';
 import { SupportLayout } from './components/SupportLayout';
 import { SettingsLayout } from './components/SettingsLayout';
 import './language/i18n';
+import i18n from './language/i18n';
 import { GetStartedLayout } from './components/GetStartedLayout';
 import { LearnersLayout } from './components/LearnersLayout';
 import { FeedbackButton } from './components/FeedbackButton';
@@ -53,6 +54,9 @@ function App() {
   useEffect(() => {
     me()
     fetchLanguages()
+
+    const savedLang = localStorage.getItem('lang')
+    if (savedLang) i18n.changeLanguage(savedLang)
 
     // always show banner after refresh
     localStorage.setItem('shira_hide_beta_banner', 'no')
