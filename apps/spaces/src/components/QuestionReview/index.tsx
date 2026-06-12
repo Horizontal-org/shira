@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react"
-import { Button, styled, Body1 } from "@horizontal-org/shira-ui"
+import { Button, styled, Body1, defaultTheme } from "@horizontal-org/shira-ui"
 import { getContentProps } from "./utils"
 import { AppSelector } from "./components/AppSelector"
 
@@ -57,7 +57,7 @@ export const QuestionReview: FunctionComponent<Props> = ({ }) => {
         {explanations.length === 0 ? (
           <IsNoExplanationWrapper>
             <Content>
-              <MdBlock size={18} color="red" />
+              <MdBlock size={18} color={defaultTheme.colors.error6} />
               <Body1 id="no-explanations-message">{t("preview.no_explanations")}</Body1>
             </Content>
           </IsNoExplanationWrapper>
@@ -151,7 +151,7 @@ const IsNoExplanationWrapper = styled.div`
   width: fit-content;
   margin: 12px 0;
   padding: 16px 20px;
-  background: #fff;
+  background: ${defaultTheme.colors.light.white};
   border-radius: 20px;
 `
 
