@@ -1,8 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ConsoleService } from 'nestjs-console';
-import * as fs from 'fs';
-import * as path from 'path';
 import * as prompt from 'prompt';
 import { Repository } from 'typeorm';
 
@@ -12,15 +10,6 @@ import {
   TYPES as AUTH_TYPES,
 } from '../../auth/interfaces';
 import { Question } from '../domain';
-
-interface PublishedEntry {
-  questionId: number
-  langs: string[]
-}
-
-interface DemoPublishState {
-  published: PublishedEntry[]
-}
 
 @Injectable()
 export class QuestionCommander {
@@ -175,23 +164,13 @@ export class QuestionCommander {
     const totalCombinations = readyQuestions.length
     console.log(`Expanded to ${totalCombinations} question/language combination(s)`)
 
-    const state = this.loadState()
-    const trackedCombinations = state.published.reduce((sum, p) => sum + p.langs.length, 0)
-    console.log(`State: ${state.published.length} unique question(s) tracked (${trackedCombinations} combination(s))`)
-
-    const toPublish = this.filterUnpublished(readyQuestions, state)
-    const skipped = totalCombinations - toPublish.length
-    if (skipped > 0) {
-      console.log(`Skipped ${skipped} already-published combination(s)`)
-    }
-
-    if (toPublish.length === 0) {
-      console.log('All demo questions are already published')
+    if (readyQuestions.length === 0) {
+      console.log('No demo questions to publish')
       return
     }
 
-    console.log(`\n${toPublish.length} question(s) to publish:`)
-    for (const q of toPublish) {
+    console.log(`\n${readyQuestions.length} question(s) to publish:`)
+    for (const q of readyQuestions) {
       console.log(`  - "${q.name}" (id: ${q.questionId}, lang: ${q.lang.code}, app_type: ${q.app_type}, default_app: ${q.default_app})`)
     }
 
@@ -204,12 +183,9 @@ export class QuestionCommander {
     const token = await this.getAuthToken()
     if (!token) return
 
-    console.log(`Uploading ${toPublish.length} combination(s)...`)
-    await this.postQuestions(toPublish, token)
+    console.log(`Uploading ${readyQuestions.length} combination(s)...`)
+    await this.postQuestions(readyQuestions, token)
     console.log('Upload complete')
-
-    this.saveState(state, toPublish)
-    console.log(`State saved: now tracking ${state.published.length} question(s) with multiple languages`)
   }
 
   private async postQuestions(questions: any[], token: string) {
@@ -227,46 +203,12 @@ export class QuestionCommander {
       body: JSON.stringify(questions),
     })
 
-    if (!res.ok) {
+    if (res.ok) {
+      console.log('Post response:', await res.json())
+    } else {
       const body = await res.text()
       throw new Error(`Batch post failed: ${res.status} ${body}`)
     }
   }
 
-  // -- Demo publish state --
-
-  private get statePath() {
-    return path.join(process.cwd(), 'demo-publish-state.json')
-  }
-
-  private loadState(): DemoPublishState {
-    try {
-      const raw = fs.readFileSync(this.statePath, 'utf8')
-      return JSON.parse(raw)
-    } catch {
-      return { published: [] }
-    }
-  }
-
-  private saveState(state: DemoPublishState, newlyPublished: any[]) {
-    for (const q of newlyPublished) {
-      const existing = state.published.find(p => p.questionId === q.questionId)
-      if (existing) {
-        if (!existing.langs.includes(q.lang.code)) {
-          existing.langs.push(q.lang.code)
-        }
-      } else {
-        state.published.push({ questionId: q.questionId, langs: [q.lang.code] })
-      }
-    }
-    fs.writeFileSync(this.statePath, JSON.stringify(state, null, 2))
-  }
-
-  private filterUnpublished(readyQuestions: any[], state: DemoPublishState) {
-    return readyQuestions.filter(q => {
-      const existing = state.published.find(p => p.questionId === q.questionId)
-      if (!existing) return true
-      return !existing.langs.includes(q.lang.code)
-    })
-  }
 }

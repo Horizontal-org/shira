@@ -8,6 +8,8 @@ import translationEN from "./locales/en.json";
 import translationES from "./locales/es.json";
 import translationFR from "./locales/fr.json";
 import translationMandarin from './locales/cn.json'
+import translationArabic from './locales/ar.json'
+import translationRussian from './locales/ru.json'
 
 //Creating object with the variables of imported translation files
 const resources = {
@@ -22,6 +24,12 @@ const resources = {
   },
   cn: {
     translation: translationMandarin
+  },
+  ar: {
+    translation: translationArabic
+  },
+  ru: {
+    translation: translationRussian
   }
 };
 
@@ -31,7 +39,7 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng:"en", //default language
+    lng: "en", //default language
     fallbackLng: 'en',
     returnEmptyString: false,
     // keySeparator: false,

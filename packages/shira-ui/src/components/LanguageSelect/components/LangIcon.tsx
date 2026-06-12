@@ -1,6 +1,4 @@
-import React from "react";
-
-function Icon() {
+export function LangIcon() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -16,7 +14,5 @@ function Icon() {
         clipRule="evenodd"
       ></path>
     </svg>
-  );
+  )
 }
-
-export default Icon;
