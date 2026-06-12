@@ -12,9 +12,9 @@ import {
   Tr,
   Wrapper,
 } from './Table.styles'
-import { Props, useShiraTable } from '../../hooks/useShiraTable'
+import { UseShiraTableProps, useShiraTable } from '../../hooks/useShiraTable'
 
-export interface TableProps extends Props { }
+export interface TableProps extends UseShiraTableProps { }
 
 export const Table = ({
   columns = [],

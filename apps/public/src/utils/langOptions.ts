@@ -28,7 +28,7 @@ export const LANG_OPTIONS: LanguageSelectOption[] = [
   },
   {
     label: "Русский",
-    labelEnglish: "Russian", asdasdsa
+    labelEnglish: "Russian",
     value: "ru",
   },
 ]

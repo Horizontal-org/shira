@@ -10,7 +10,7 @@ import {
 } from '@tanstack/react-table'
 import { TableSize } from '../components/Table/Table.styles'
 
-export interface Props {
+export interface UseShiraTableProps {
   columns: Array<ColumnDef<any>>
   data: Array<Object>
   colGroups?: ReactNode
@@ -34,7 +34,7 @@ export const useShiraTable = ({
   enableRowSelection = true,
   pageSize = 25,
 }: Pick<
-  Props,
+  UseShiraTableProps,
   'columns' | 'data' | 'rowSelection' | 'setRowSelection' | 'enableRowSelection' | 'pageSize'
 >) => {
   const [pagination, setPagination] = React.useState<PaginationState>({
