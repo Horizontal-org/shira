@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { SortSelect, styled } from "@horizontal-org/shira-ui";
+import { LibrarySortSelect } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
 import { type QuizTemplateSortOption } from "../../../../fetch/quiz_templates";
 
@@ -34,7 +34,7 @@ export const QuizLibrarySortSelect: FunctionComponent<Props> = ({
   ];
 
   return (
-    <StyledSortSelect
+    <LibrarySortSelect
       value={sortOption}
       options={sortOptions}
       prefix={`${t("quiz_library.sort_by")}:`}
@@ -43,12 +43,3 @@ export const QuizLibrarySortSelect: FunctionComponent<Props> = ({
     />
   );
 };
-
-const StyledSortSelect = styled(SortSelect)`
-  min-width: 280px;
-
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
-    flex: 1;
-    min-width: 0;
-  }
-`;

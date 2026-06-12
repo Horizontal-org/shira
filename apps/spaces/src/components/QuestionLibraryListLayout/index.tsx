@@ -8,9 +8,9 @@ import {
   CardPagination,
   FilterSelect,
   type FilterSelectProps,
-  FilterToggleButton,
+  LibraryFilterToggleButton,
   LibrarySearchInput,
-  SortSelect,
+  LibrarySortSelect,
   Table,
   defaultTheme,
   styled,
@@ -376,7 +376,7 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
             </SearchColumn>
 
             <ActionsGroup>
-              <StyledSortSelect
+              <LibrarySortSelect
                 value={sortOption}
                 options={sortOptions}
                 prefix={`${t("question_library.sort_by")}:`}
@@ -384,7 +384,7 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
                 onChange={(nextValue) => setSortOption(nextValue as QuestionSortOption)}
               />
 
-              <StyledFilterToggleButton
+              <LibraryFilterToggleButton
                 text={t("question_library.filters")}
                 isOpen={areFiltersOpen}
                 onClick={() => setAreFiltersOpen((current) => !current)}
@@ -508,13 +508,13 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rows
             colGroups={(
               <colgroup>
                 <col style={{ width: "4%" }} />
-                <col style={{ width: "24%" }} />
-                <col style={{ width: "12%" }} />
+                <col style={{ width: "25%" }} />
+                <col style={{ width: "10%" }} />
+                <col style={{ width: "10%" }} />
                 <col style={{ width: "11%" }} />
                 <col style={{ width: "12%" }} />
-                <col style={{ width: "13%" }} />
-                <col style={{ width: "16%" }} />
-                <col style={{ width: "8%" }} />
+                <col style={{ width: "14%" }} />
+                <col style={{ width: "9%" }} />
               </colgroup>
             )}
           />
@@ -643,33 +643,13 @@ const ClearAllButton = styled.button`
   cursor: pointer;
 `;
 
-const StyledSortSelect = styled(SortSelect)`
-  min-width: 280px;
-
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
-    flex: 1;
-    min-width: 0;
-  }
-`;
-
-const StyledFilterToggleButton = styled(FilterToggleButton)`
-  min-width: 144px;
-
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
-    flex: 1;
-  }
-`;
 
 const PaginationWrapper = styled.div`
   padding: 0 16px;
 `;
 
 const TableWrapper = styled("div")`
-  overflow-x: auto;
-
-  & > div {
-    min-width: 1240px;
-  }
+  overflow: visible;
 
   & table td {
     padding: 13px 16px;

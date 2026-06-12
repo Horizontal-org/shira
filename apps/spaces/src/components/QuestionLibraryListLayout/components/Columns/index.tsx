@@ -176,9 +176,6 @@ export const getColumns = (handlers: ColumnHandlers, t: TFunction): ColumnDef<Ro
       const previewColor = disableActions
         ? defaultTheme.colors.dark.mediumGrey
         : defaultTheme.colors.dark.overlay;
-      const addColor = disableActions
-        ? defaultTheme.colors.dark.mediumGrey
-        : defaultTheme.colors.green6;
 
       return (
         <ActionsCell>
@@ -190,7 +187,7 @@ export const getColumns = (handlers: ColumnHandlers, t: TFunction): ColumnDef<Ro
             title={t("question_library.columns.actions.preview_aria_label")}
             onClick={() => handlers.onPreview?.(row.original)}
           >
-            <MdRemoveRedEye size={21} color={previewColor} />
+            <MdRemoveRedEye size={17} color={previewColor} />
           </ActionButtonWithTooltip>
           <ActionButtonWithTooltip
             id={`report-issue-button-${row.id}`}
@@ -199,7 +196,7 @@ export const getColumns = (handlers: ColumnHandlers, t: TFunction): ColumnDef<Ro
             title={t("quiz_library.report_issue")}
             onClick={() => handlers.onReportIssue?.(row.original)}
           >
-            <TbAlertTriangleFilled size={20} color={defaultTheme.colors.error7} />
+            <TbAlertTriangleFilled size={16} color={defaultTheme.colors.error7} />
           </ActionButtonWithTooltip>
           <ActionButtonWithTooltip
             id={`add-button-${row.id}`}
@@ -209,7 +206,7 @@ export const getColumns = (handlers: ColumnHandlers, t: TFunction): ColumnDef<Ro
             title={t("question_library.columns.actions.add_aria_label")}
             onClick={() => handlers.onAdd?.(row.original)}
           >
-            <FaCirclePlus size={18} color={addColor} />
+            <FaCirclePlus size={17} color={defaultTheme.colors.green6} />
           </ActionButtonWithTooltip>
         </ActionsCell>
       );
@@ -237,9 +234,10 @@ const PhishingCell = styled.span<{ $isPhishing?: boolean }>`
 const ActionsCell = styled("div")`
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   justify-content: flex-start;
-  min-width: 112px;
+  min-width: 96px;
+  padding-right: 8px;
 `;
 
 const RowIndexCell = styled(Body3Bold)`
