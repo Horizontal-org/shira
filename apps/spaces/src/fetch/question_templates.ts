@@ -2,7 +2,8 @@ import axios from "axios";
 import { useState } from "react";
 
 export const DEFAULT_PAGE_LIMIT = 20;
-export const DEFAULT_QUESTION_TEMPLATE_SORT_ORDER: QuestionTemplateSortOrder = "desc";
+export const DEFAULT_QUESTION_TEMPLATE_SORT: QuestionTemplateSortOption =
+  "createdAt-desc";
 
 export interface LibraryQuestionTemplateDto {
   id: number;
@@ -39,13 +40,17 @@ export interface LibraryQuestionTemplateQuestionDto {
   }[];
 }
 
-export type QuestionTemplateSortOrder = "asc" | "desc";
+export type QuestionTemplateSortOption =
+  | "createdAt-desc"
+  | "createdAt-asc"
+  | "title-asc"
+  | "title-desc";
 
 export interface GetQuestionTemplatesParams {
   page?: number;
   limit?: number;
   search?: string;
-  sortOrder?: QuestionTemplateSortOrder;
+  sortOption?: QuestionTemplateSortOption;
   langTagCodes?: string[];
   tagSlugs?: string[];
   appType?: string;
@@ -95,11 +100,17 @@ type ListQuestionTemplatesApiQueryDto = {
   page: number;
   limit: number;
   search?: string;
-  sortOrder?: QuestionTemplateSortOrder;
+  sortBy?: "createdAt" | "title";
+  sortOrder?: "asc" | "desc";
   langTags?: string;
   tags?: string;
   appType?: string;
   isPhishing?: "true" | "false";
+};
+
+type QuestionTemplateSortParams = {
+  sortBy: "createdAt" | "title";
+  sortOrder: "asc" | "desc";
 };
 
 type LibraryLangTagApiDto = {
@@ -125,7 +136,9 @@ const normalizeQuestionTemplate = (
   appType: questionTemplate.appType,
   defaultApp: questionTemplate.defaultApp,
   createdAt: questionTemplate.createdAt,
-  languages: (questionTemplate.langTags ?? []).map((language) => language.name.trim()),
+  languages: (questionTemplate.langTags ?? []).map((language) =>
+    language.name.trim(),
+  ),
   tags: (questionTemplate.tags ?? []).map((tag) => tag.name.trim()),
 });
 
@@ -137,31 +150,44 @@ const serializeFilterValues = (values?: string[]) => {
   return values.join(",");
 };
 
-export const getQuestionTemplates = async (
-  {
-    page = 1,
-    limit = DEFAULT_PAGE_LIMIT,
-    search,
-    sortOrder = DEFAULT_QUESTION_TEMPLATE_SORT_ORDER,
-    langTagCodes,
-    tagSlugs,
-    appType,
-    isPhishing,
-  }: GetQuestionTemplatesParams = {},
-): Promise<LibraryQuestionTemplatesPageDto> => {
+const getSortParamsFromSortOption = (
+  sortOption: QuestionTemplateSortOption,
+): QuestionTemplateSortParams => {
+  const [sortBy, sortOrder] = sortOption.split("-") as [
+    QuestionTemplateSortParams["sortBy"],
+    QuestionTemplateSortParams["sortOrder"],
+  ];
+
+  return { sortBy, sortOrder };
+};
+
+export const getQuestionTemplates = async ({
+  page = 1,
+  limit = DEFAULT_PAGE_LIMIT,
+  search,
+  sortOption = DEFAULT_QUESTION_TEMPLATE_SORT,
+  langTagCodes,
+  tagSlugs,
+  appType,
+  isPhishing,
+}: GetQuestionTemplatesParams = {}): Promise<LibraryQuestionTemplatesPageDto> => {
   try {
+    const { sortBy, sortOrder } = getSortParamsFromSortOption(sortOption);
     const serializedLangTags = serializeFilterValues(langTagCodes);
     const serializedTags = serializeFilterValues(tagSlugs);
 
     const params: ListQuestionTemplatesApiQueryDto = {
       page,
       limit,
+      sortBy,
       sortOrder,
       ...(search ? { search } : {}),
       ...(serializedLangTags ? { langTags: serializedLangTags } : {}),
       ...(serializedTags ? { tags: serializedTags } : {}),
       ...(appType ? { appType } : {}),
-      ...(typeof isPhishing === "boolean" ? { isPhishing: String(isPhishing) as "true" | "false" } : {}),
+      ...(typeof isPhishing === "boolean"
+        ? { isPhishing: String(isPhishing) as "true" | "false" }
+        : {}),
     };
 
     const response = await axios.get<LibraryQuestionTemplatesApiResponseDto>(
@@ -190,7 +216,9 @@ export const getQuestionTemplateQuestions = async (
   quizId: string | number,
 ): Promise<LibraryQuestionTemplateQuestionDto[] | null> => {
   try {
-    const response = await axios.get<LibraryQuestionTemplateQuestionDto[] | null>(
+    const response = await axios.get<
+      LibraryQuestionTemplateQuestionDto[] | null
+    >(
       `${process.env.REACT_APP_LIBRARY_API_URL}/quiz-templates/${quizId}/questions`,
       {
         withCredentials: true,
@@ -199,7 +227,10 @@ export const getQuestionTemplateQuestions = async (
 
     return response.data;
   } catch (error) {
-    console.error(`Error fetching question template questions for ${quizId}:`, error);
+    console.error(
+      `Error fetching question template questions for ${quizId}:`,
+      error,
+    );
     return null;
   }
 };
@@ -249,7 +280,8 @@ export const addQuestionTemplateToQuiz = async ({
 };
 
 export const useQuestionTemplateCRUD = () => {
-  const [actionFeedback, handleActionFeedback] = useState<QuestionTemplateFeedback | null>(null);
+  const [actionFeedback, handleActionFeedback] =
+    useState<QuestionTemplateFeedback | null>(null);
 
   const addToQuiz = async (params: AddQuestionTemplateToQuizParams) => {
     handleActionFeedback(QuestionTemplateFeedback.Processing);
@@ -271,7 +303,9 @@ export const useQuestionTemplateCRUD = () => {
   };
 };
 
-export const getQuestionTemplateLanguageOptions = async (): Promise<QuestionTemplateFilterOption[]> => {
+export const getQuestionTemplateLanguageOptions = async (): Promise<
+  QuestionTemplateFilterOption[]
+> => {
   try {
     const response = await axios.get<LibraryLangTagApiDto[]>(
       `${process.env.REACT_APP_LIBRARY_API_URL}/lang-tags`,
@@ -290,7 +324,9 @@ export const getQuestionTemplateLanguageOptions = async (): Promise<QuestionTemp
   }
 };
 
-export const getQuestionTemplateTagOptions = async (): Promise<QuestionTemplateFilterOption[]> => {
+export const getQuestionTemplateTagOptions = async (): Promise<
+  QuestionTemplateFilterOption[]
+> => {
   try {
     const response = await axios.get<LibraryTagApiDto[]>(
       `${process.env.REACT_APP_LIBRARY_API_URL}/tags`,

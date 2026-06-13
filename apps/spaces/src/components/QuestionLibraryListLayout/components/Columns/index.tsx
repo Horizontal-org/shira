@@ -235,9 +235,8 @@ const ActionsCell = styled("div")`
   display: flex;
   align-items: center;
   gap: 6px;
-  justify-content: flex-start;
+  justify-content: center;
   min-width: 96px;
-  padding-right: 8px;
 `;
 
 const RowIndexCell = styled(Body3Bold)`
