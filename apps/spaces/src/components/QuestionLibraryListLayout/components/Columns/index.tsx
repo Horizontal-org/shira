@@ -144,14 +144,12 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
       }
 
       return (
-        <SelectCell>
-          <SelectApp
-            valueId={app?.id}
-            options={apps}
-            currentType={app?.type}
-            onChange={(appId) => handlers.onSelectApp?.(id, appId)}
-          />
-        </SelectCell>
+        <SelectApp
+          valueId={app?.id}
+          options={apps}
+          currentType={app?.type}
+          onChange={(appId) => handlers.onSelectApp?.(id, appId)}
+        />
       );
     },
   },
@@ -248,28 +246,4 @@ const IconTextCell = styled("div")`
   align-items: center;
   gap: 6px;
   color: ${defaultTheme.colors.dark.darkGrey};
-`;
-
-const SelectCell = styled("div")`
-  max-width: 178px;
-
-  & > div {
-    width: 100%;
-  }
-
-  & [role="combobox"] {
-    min-width: 0;
-  }
-
-  & [role="combobox"] > div {
-    min-width: 0;
-    overflow: hidden;
-  }
-
-  & [role="combobox"] span {
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
 `;
