@@ -1,11 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { FinishQuizRunDto } from '../dto/finish-quiz-run.dto';
 import { QuizRun } from '../domain/quiz_runs.entity';
 import { QuestionRun } from '../domain/question_runs.entity';
 import { LearnerQuiz } from 'src/modules/learner/domain/learners_quizzes.entity';
-import { IFinishQuizRunService } from '../interfaces/services/finish-quiz-run.service.interface';
+import { IFinishQuizRunService } from '../interfaces/services/finish-quiz-run.service.interface'
+import { Quiz } from '../../quiz/domain/quiz.entity'
 
 @Injectable()
 export class FinishQuizRunService implements IFinishQuizRunService {
@@ -15,14 +16,21 @@ export class FinishQuizRunService implements IFinishQuizRunService {
   ) { }
 
   async execute(runId: number, dto: FinishQuizRunDto): Promise<QuizRun> {
-    const run = await this.quizRunRepo.findOne({ where: { id: runId } });
-    if (!run) throw new NotFoundException('Run not found');
+    const run = await this.quizRunRepo.findOne({ where: { id: runId } })
+    if (!run) throw new NotFoundException('Run not found')
+
+    const quiz = await this.dataSource.getRepository(Quiz).findOne({
+      where: { id: run.quizId },
+      relations: ['space'],
+    })
+    if (quiz?.space?.hasResultsEnabled === false) throw new ForbiddenException('Results are not enabled for this quiz')
 
     return this.dataSource.transaction(async (manager) => {
       run.finishedAt = new Date(dto.finishedAt);
       await manager.getRepository(QuizRun).save(run);
 
-      if (dto.questionRuns?.length) {
+      // only save question run if quiz has results enabled and question runs are provided in the payload
+      if (quiz?.space?.hasResultsEnabled && dto.questionRuns?.length) {
         const repo = manager.getRepository(QuestionRun);
         const rows = dto.questionRuns.map((q) =>
           repo.create({

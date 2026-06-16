@@ -40,5 +40,5 @@ export class ReadPlainQuizDto {
   @Expose()
   @Transform(({ value }) => Boolean(Number(value)))
   @IsBoolean()
-  hasResults: boolean;
+  hasResultsEnabled: boolean;
 }
