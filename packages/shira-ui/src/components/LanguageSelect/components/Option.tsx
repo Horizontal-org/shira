@@ -6,11 +6,15 @@ interface Props {
   option: LanguageSelectOption
   index: number
   submit: () => void
+  alternativeStyling: boolean
 }
 
-export const Option: FunctionComponent<Props> = ({ option, index, submit }) => {
+export const Option: FunctionComponent<Props> = ({ option, index, submit, alternativeStyling = false }) => {
   return (
-    <OptionWrapper onClick={submit}>
+    <OptionWrapper
+      onClick={submit}
+      $alternativeStyling={alternativeStyling}
+    >
       {index > 0 && <Separate />}
       <Label>{option.label}</Label>
       {option.labelEnglish && <LabelEnglish>{option.labelEnglish}</LabelEnglish>}
@@ -41,10 +45,10 @@ const Separate = styled.div`
   background: #ACADAE;
 `
 
-const OptionWrapper = styled.div`
+const OptionWrapper = styled.div<{ $alternativeStyling: boolean }>`
   transition: all 0.2s;
   text-align: left;
   &:hover {
-    background: #eee;
+    background: ${(props) => props.$alternativeStyling ? props.theme.colors.blue1 : '#eee'};
   }
 `

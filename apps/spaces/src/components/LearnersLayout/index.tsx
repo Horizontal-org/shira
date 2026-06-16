@@ -22,6 +22,7 @@ import { BulkInviteSentModal } from "../modals/BulkInviteSentModal";
 import { useSub } from "../../hooks/useSub";
 import { ViewPlansModal } from "../modals/ViewPlansModal";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
+import { customMenuItems } from "../../utils/customMenuItems";
 
 interface Props { }
 
@@ -29,7 +30,15 @@ export const LearnersLayout: FunctionComponent<Props> = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
-  const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate);
+  const {
+    isCollapsed,
+    handleCollapse,
+    menuItems
+  } =
+    useAdminSidebar(navigate, customMenuItems.map(item => ({
+      ...item,
+      label: t(item.label)
+    })));
 
   const { space, subscription } = useStore(
     (state) => ({ space: state.space, subscription: state.subscription }),
