@@ -1,17 +1,17 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getApps, type App } from "../../../fetch/app";
 import {
   DEFAULT_PAGE_LIMIT,
   DEFAULT_QUESTION_TEMPLATE_SORT,
-  getQuestionTemplateLanguageOptions,
-  getQuestionTemplateTagOptions,
   getQuestionTemplates,
   type LibraryQuestionTemplateDto,
   type QuestionTemplateFilterOption,
   type QuestionTemplateSortOption,
 } from "../../../fetch/question_templates";
+import { usePaginationProps } from "../../../hooks/usePaginationProps";
 import { useDebouncedValue } from "./useDebouncedValue";
+import { useQuestionTemplateFilterOptions } from "./useQuestionTemplateFilterOptions";
 import { useQuestionTemplateFilters } from "./useQuestionTemplateFilters";
 
 export const useQuestionTemplateList = () => {
@@ -22,23 +22,20 @@ export const useQuestionTemplateList = () => {
   const [loading, setLoading] = useState(false);
   const [pageIndex, setPageIndex] = useState(0);
   const [searchValue, setSearchValueState] = useState("");
-  const [sortOption, setSortOptionState] = useState<QuestionTemplateSortOption>(
-    DEFAULT_QUESTION_TEMPLATE_SORT,
-  );
-  const [languageOptions, setLanguageOptions] = useState<QuestionTemplateFilterOption[]>([]);
-  const [tagOptions, setTagOptions] = useState<QuestionTemplateFilterOption[]>([]);
+  const [sortOption, setSortOptionState] = useState<QuestionTemplateSortOption>(DEFAULT_QUESTION_TEMPLATE_SORT);
 
   const resetPagination = () => setPageIndex(0);
 
   const debouncedSearchValue = useDebouncedValue(searchValue.trim());
 
   const filters = useQuestionTemplateFilters(resetPagination);
+  const { languageOptions, tagOptions } = useQuestionTemplateFilterOptions(filters.areFiltersOpen);
 
   useEffect(() => {
     const loadApps = async () => {
       try {
-        const nextApps = await getApps();
-        setApps(nextApps ?? []);
+        const apps = await getApps();
+        setApps(apps ?? []);
       } catch (error) {
         console.error("Failed to get apps for question templates:", error);
       }
@@ -47,42 +44,21 @@ export const useQuestionTemplateList = () => {
     loadApps();
   }, []);
 
-  useEffect(() => {
-    if (!filters.areFiltersOpen || (languageOptions.length > 0 && tagOptions.length > 0)) {
-      return;
-    }
-
-    const loadFilterOptions = async () => {
-      try {
-        const [nextLanguageOptions, nextTagOptions] = await Promise.all([
-          getQuestionTemplateLanguageOptions(),
-          getQuestionTemplateTagOptions(),
-        ]);
-
-        setLanguageOptions(nextLanguageOptions);
-        setTagOptions(nextTagOptions);
-      } catch (error) {
-        console.error("Failed to get question template filter options:", error);
-      }
-    };
-
-    loadFilterOptions();
-  }, [filters.areFiltersOpen, languageOptions.length, tagOptions.length]);
-
   const total = totalAvailableQuestions;
   const pageCount = Math.max(1, Math.ceil(total / DEFAULT_PAGE_LIMIT));
 
   const hasActiveSearch = debouncedSearchValue.length > 0;
   const showEmptyState = !loading && total === 0 && (hasActiveSearch || filters.hasActiveFilters);
 
-  const appOptions = useMemo<QuestionTemplateFilterOption[]>(() => {
-    const appTypes = [...new Set(apps.map((app) => app.type).filter(Boolean))];
+  const appTypes = apps
+    .map((app) => app.type)
+    .filter((type) => type.length > 0)
+    .filter((type, index, types) => types.indexOf(type) === index);
 
-    return appTypes.map((appType) => ({
-      value: appType,
-      label: t(`question_library.columns.app.${appType}_type`),
-    }));
-  }, [apps, t]);
+  const appOptions: QuestionTemplateFilterOption[] = appTypes.map((appType) => ({
+    value: appType,
+    label: t(`question_library.columns.app.${appType}_type`),
+  }));
 
   useEffect(() => {
     const loadQuestionTemplates = async () => {
@@ -147,6 +123,14 @@ export const useQuestionTemplateList = () => {
     resetPagination();
   };
 
+  const paginationProps = usePaginationProps({
+    pageIndex,
+    pageCount,
+    pageSize: DEFAULT_PAGE_LIMIT,
+    setPageIndex,
+    total,
+  });
+
   return {
     ...filters,
     appOptions,
@@ -156,16 +140,7 @@ export const useQuestionTemplateList = () => {
     languageOptions,
     loading,
     pageIndex,
-    paginationProps: {
-      pageIndex,
-      total,
-      pageCount,
-      pageSize: DEFAULT_PAGE_LIMIT,
-      onFirstPage: () => setPageIndex(0),
-      onPreviousPage: () => setPageIndex((prev) => Math.max(0, prev - 1)),
-      onNextPage: () => setPageIndex((prev) => Math.min(pageCount - 1, prev + 1)),
-      onLastPage: () => setPageIndex(pageCount - 1),
-    },
+    paginationProps,
     questionTemplates,
     searchValue,
     setSearchValue,

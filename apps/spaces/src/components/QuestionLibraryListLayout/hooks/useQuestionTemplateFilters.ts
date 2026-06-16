@@ -36,14 +36,20 @@ export const useQuestionTemplateFilters = (onChange: () => void) => {
     onChange();
   };
 
+  const hasActiveFilters =
+    selectedLanguages.length > 0 ||
+    selectedTags.length > 0 ||
+    selectedAppType.length > 0 ||
+    selectedType.length > 0;
+
+  const toggleFilters = () => {
+    setAreFiltersOpen((prev) => !prev);
+  };
+
   return {
     areFiltersOpen,
     clearAllFilters,
-    hasActiveFilters:
-      selectedLanguages.length > 0 ||
-      selectedTags.length > 0 ||
-      selectedAppType.length > 0 ||
-      selectedType.length > 0,
+    hasActiveFilters,
     selectedAppType,
     selectedLanguages,
     selectedTags,
@@ -52,6 +58,6 @@ export const useQuestionTemplateFilters = (onChange: () => void) => {
     setSelectedLanguages,
     setSelectedTags,
     setSelectedType,
-    toggleFilters: () => setAreFiltersOpen((prev) => !prev),
+    toggleFilters,
   };
 };
