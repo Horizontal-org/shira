@@ -15,13 +15,22 @@ import { format, isValid } from "date-fns";
 import { requestChangeUserEmail, changeUserPassword } from "../../fetch/user";
 import { TabContainer } from "./components/TabContainer";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
+import { customMenuItems } from "../../utils/customMenuItems";
 
 interface Props { }
 
 export const SettingsLayout: FunctionComponent<Props> = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate);
+  const {
+    isCollapsed,
+    handleCollapse,
+    menuItems
+  } =
+    useAdminSidebar(navigate, customMenuItems.map(item => ({
+      ...item,
+      label: t(item.label)
+    })));
 
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [isEmailSuccessModalOpen, setIsEmailSuccessModalOpen] = useState(false);

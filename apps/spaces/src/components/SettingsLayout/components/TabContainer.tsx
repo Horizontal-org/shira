@@ -26,7 +26,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
 }) => {
   const { t } = useTranslation();
   const theme = useTheme();
-  const [activeTab, setActiveTab] = useState<TabType>("account");
+  const [activeTab, setActiveTab] = useState<TabType>("general");
   const { isSubActive } = useSub();
 
   const currentPlanName = isSubActive ? String(subscription?.type ?? "unknown").toLowerCase() : "starter";

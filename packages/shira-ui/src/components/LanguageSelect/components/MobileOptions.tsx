@@ -17,6 +17,7 @@ export const MobileOptions: FunctionComponent<Props> = ({ cancel, options, submi
         <OptionsWrapper>
           {options.map((o, i) => (
             <Option
+              alternativeStyling={false}
               key={o.value}
               option={o}
               index={i}
