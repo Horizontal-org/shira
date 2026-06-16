@@ -164,10 +164,11 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
           <ActionButtonWithTooltip
             id={`preview-button-${row.id}`}
             tooltipText=""
+            ariaLabel={i18n.t("question_library.columns.actions.preview_aria_label")}
             title={i18n.t("question_library.columns.actions.preview_aria_label")}
             onClick={() => handlers.onPreview?.(row.original)}
           >
-            <MdRemoveRedEye size={17} color={defaultTheme.colors.dark.overlay} />
+            <MdRemoveRedEye size={20} color={defaultTheme.colors.dark.overlay} />
           </ActionButtonWithTooltip>
           <ActionButtonWithTooltip
             id={`report-issue-button-${row.id}`}
@@ -175,7 +176,7 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
             title={i18n.t("quiz_library.report_issue")}
             onClick={() => handlers.onReportIssue?.(row.original)}
           >
-            <TbAlertTriangleFilled size={16} color={defaultTheme.colors.error7} />
+            <TbAlertTriangleFilled size={18} color={defaultTheme.colors.error7} />
           </ActionButtonWithTooltip>
           <ActionButtonWithTooltip
             id={`add-button-${row.id}`}
@@ -183,7 +184,7 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
             title={i18n.t("question_library.columns.actions.add_aria_label")}
             onClick={() => handlers.onAdd?.(row.original)}
           >
-            <FaCirclePlus size={17} color={defaultTheme.colors.green6} />
+            <FaCirclePlus size={18} color={defaultTheme.colors.green6} />
           </ActionButtonWithTooltip>
         </ActionsCell>
       );
