@@ -43,7 +43,7 @@ export const QuizFlow: FunctionComponent<Props> = ({
     shallow
   )
 
-  const { finish, recordAnswer, start, started } = useQuizRun(quiz.hasResults ?? true);
+  const { finish, recordAnswer, start, started } = useQuizRun(quiz.hasResultsEnabled ?? true);
 
   useEffect(() => {
     return () => {
@@ -112,7 +112,7 @@ export const QuizFlow: FunctionComponent<Props> = ({
           quizId={quiz.id}
           questions={quiz.quizQuestions.map((q) => q.question)}
           images={quiz.images}
-          hasResults={quiz.hasResults ?? true}
+          hasResultsEnabled={quiz.hasResultsEnabled ?? true}
           hasLearnerId={learnerQuiz ? learnerQuiz.learnerId : null}
           startRun={() => {
             start(quiz.id, learnerQuiz ? learnerQuiz.learnerId : null)

@@ -62,7 +62,7 @@ export class GetByHashQuizService implements IGetByHashQuizService {
         'explanations.updatedAt',
         'questionTranslations.content',
         'explanationTranslations.content',
-        'space.hasResults',
+        'space.hasResultsEnabled',
       ])
       .where('quiz.hash = :hash', { hash: hash })
       .andWhere('published = 1')
@@ -99,7 +99,7 @@ export class GetByHashQuizService implements IGetByHashQuizService {
       id: quiz.id,
       title: quiz.title,
       images: images,
-      hasResults: quiz.space?.hasResults ?? true,
+      hasResultsEnabled: quiz.space?.hasResultsEnabled ?? true,
       quizQuestions: parsedAll.sort((a, b) => a.position - b.position)
     };
   }

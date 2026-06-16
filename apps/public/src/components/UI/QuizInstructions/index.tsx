@@ -12,7 +12,7 @@ import useGetWidth from '../../../hooks/useGetWidth'
 
 interface Props {
   onNext: () => void
-  hasResults?: boolean
+  hasResultsEnabled?: boolean
   hasLearner?: boolean
   isCustom?: boolean
   count?: number
@@ -20,7 +20,7 @@ interface Props {
 
 export const QuizInstructions: FunctionComponent<Props> = ({
   onNext,
-  hasResults = false,
+  hasResultsEnabled = false,
   hasLearner = false,
   isCustom = false,
   count
@@ -87,7 +87,7 @@ export const QuizInstructions: FunctionComponent<Props> = ({
         }}
         onClose={() => setIsLearnMoreOpen(false)}
       >
-        {hasResults ? (
+        {hasResultsEnabled ? (
           <>
             <Body1>{t('quiz.data_collection.intro')}</Body1>
             <ModalContent>

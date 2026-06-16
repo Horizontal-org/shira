@@ -23,14 +23,14 @@ export class FinishQuizRunService implements IFinishQuizRunService {
       where: { id: run.quizId },
       relations: ['space'],
     })
-    if (quiz?.space?.hasResults === false) throw new ForbiddenException('Results are not enabled for this quiz')
+    if (quiz?.space?.hasResultsEnabled === false) throw new ForbiddenException('Results are not enabled for this quiz')
 
     return this.dataSource.transaction(async (manager) => {
       run.finishedAt = new Date(dto.finishedAt);
       await manager.getRepository(QuizRun).save(run);
 
       // only save question run if quiz has results enabled and question runs are provided in the payload
-      if (quiz?.space?.hasResults && dto.questionRuns?.length) {
+      if (quiz?.space?.hasResultsEnabled && dto.questionRuns?.length) {
         const repo = manager.getRepository(QuestionRun);
         const rows = dto.questionRuns.map((q) =>
           repo.create({

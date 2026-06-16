@@ -9,14 +9,14 @@ type UseQuizRunValue = {
   finish: () => Promise<void>;
 };
 
-export const useQuizRun = (hasResults: boolean = true): UseQuizRunValue => {
+export const useQuizRun = (hasResultsEnabled: boolean = true): UseQuizRunValue => {
 
   const [runId, setRunId] = useState<number | null>(null);
   const [answers, setAnswers] = useState<QuestionRunPayload[]>([]);
   const started = runId !== null;
 
   const start = async (quizId: number, learnerId: number | null = null) => {
-    if (!hasResults) return
+    if (!hasResultsEnabled) return
     if (runId != null) return;
     const payload = { quizId, learnerId, startedAt: new Date().toISOString() };
     const run = await startQuizRun(payload);
@@ -34,7 +34,7 @@ export const useQuizRun = (hasResults: boolean = true): UseQuizRunValue => {
   }
 
   const finish = async () => {
-    if (!hasResults) return
+    if (!hasResultsEnabled) return
     if (runId == null) return;
 
     const payload = {

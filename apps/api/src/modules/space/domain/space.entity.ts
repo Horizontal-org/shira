@@ -55,7 +55,7 @@ export class SpaceEntity {
   slug: string;
 
   @Column({ name: 'has_results_enabled', default: true })
-  hasResults: boolean
+  hasResultsEnabled: boolean
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
