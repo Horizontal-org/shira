@@ -9,3 +9,13 @@ export const getCurrentDateFNSLocales = () => {
     cn: zhCN
   };
 }
+
+// Example: 8 June 2026
+export const formatDateCreated = (value: string) => {
+  return new Date(value)
+    .toLocaleDateString("en-GB", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+};

@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import {
-  getQuizTemplateQuestions,
   type LibraryQuizDto,
-  type LibraryQuizQuestionTemplateDto,
 } from "../../../fetch/quiz_templates";
+import {
+  getQuestionTemplateQuestions,
+  type LibraryQuestionTemplateQuestionDto,
+} from "../../../fetch/question_templates";
 import { getAppsByTypeAndValue } from "../../../utils/appNames";
 
 export const useQuizTemplateQuestions = (
@@ -11,7 +13,7 @@ export const useQuizTemplateQuestions = (
   isOpen: boolean,
 ) => {
   const quizId = quiz?.id ?? null;
-  const [questions, setQuestions] = useState<LibraryQuizQuestionTemplateDto[]>([]);
+  const [questions, setQuestions] = useState<LibraryQuestionTemplateQuestionDto[]>([]);
   const [hasLoadedQuestions, setHasLoadedQuestions] = useState(false);
   const [isLoadingQuestions, setIsLoadingQuestions] = useState(false);
   const [hasQuestionLoadError, setHasQuestionLoadError] = useState(false);
@@ -34,7 +36,7 @@ export const useQuizTemplateQuestions = (
     setPreviewQuestionId(null);
 
     const loadQuestions = async () => {
-      const loadedQuestions = await getQuizTemplateQuestions(quizId);
+      const loadedQuestions = await getQuestionTemplateQuestions(quizId);
 
       if (loadedQuestions === null) {
         setQuestions([]);

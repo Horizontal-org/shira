@@ -9,6 +9,7 @@ import {
   type QuizTemplateFilterOption,
   type QuizTemplateSortOption,
 } from "../../../fetch/quiz_templates";
+import { usePaginationProps } from "../../../hooks/usePaginationProps";
 
 const SEARCH_DEBOUNCE_DELAY_MS = 300;
 
@@ -148,16 +149,13 @@ export const useQuizTemplateList = () => {
     setPageIndex(0);
   };
 
-  const paginationProps = {
+  const paginationProps = usePaginationProps({
     pageIndex,
-    total,
     pageCount,
     pageSize: DEFAULT_PAGE_LIMIT,
-    onFirstPage: () => { setPageIndex(0); },
-    onPreviousPage: () => { setPageIndex((prev) => Math.max(0, prev - 1)); },
-    onNextPage: () => { setPageIndex((prev) => Math.min(pageCount - 1, prev + 1)); },
-    onLastPage: () => { setPageIndex(pageCount - 1); },
-  };
+    setPageIndex,
+    total,
+  });
 
   return {
     areFiltersOpen,

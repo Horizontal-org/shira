@@ -47,7 +47,7 @@ export const QuizLibrarySortSelect: FunctionComponent<Props> = ({
 const StyledSortSelect = styled(SortSelect)`
   min-width: 280px;
 
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
+  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
     flex: 1;
     min-width: 0;
   }

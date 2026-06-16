@@ -1,4 +1,4 @@
-import { Body1, CardPagination, EmptyState, styled } from "@horizontal-org/shira-ui";
+import { Body1, CardPagination, styled } from "@horizontal-org/shira-ui";
 import { FunctionComponent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -22,6 +22,7 @@ import { QuizLibraryPreviewModal } from "../modals/QuizLibraryPreviewModal";
 import { useSub } from "../../hooks/useSub";
 import { QuizLibraryFlowManagement } from "../QuizLibraryFlowManagement";
 import { useQuizTemplateList } from "./hooks/useQuizTemplateList";
+import { LibrarySearchEmptyState } from "../LibrarySearchEmptyState";
 
 export const QuizTemplatesListLayout: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -170,20 +171,10 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
           )}
 
           {showEmptyState ? (
-            <SearchEmptyStateWrapper>
-              <EmptyState
-                subtitle={(
-                  <SearchEmptyStateContent>
-                    <SearchEmptyStateTitle>
-                      {t("quiz_library.empty_search.title")}
-                    </SearchEmptyStateTitle>
-                    <SearchEmptyStateSubtitle>
-                      {t("quiz_library.empty_search.subtitle")}
-                    </SearchEmptyStateSubtitle>
-                  </SearchEmptyStateContent>
-                )}
-              />
-            </SearchEmptyStateWrapper>
+            <LibrarySearchEmptyState
+              title={t("library.empty_search.title")}
+              subtitle={t("library.empty_search.subtitle")}
+            />
           ) : (
             <CardGrid id="quiz-card-grid">
               {loading ? (
@@ -294,35 +285,6 @@ const PaginationWrapper = styled.div`
 
 const SearchResultsText = styled(Body1)`
   padding: 10px;
-`;
-
-const SearchEmptyStateWrapper = styled.div`
-  min-height: 540px;
-  padding: 48px 16px 72px;
-`;
-
-const SearchEmptyStateContent = styled.span`
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-`;
-
-const SearchEmptyStateTitle = styled.span`
-  margin: 0 0 12px;
-  color: ${props => props.theme.colors.dark.black};
-  font-size: 28px;
-  font-weight: 600;
-  line-height: 1.2;
-`;
-
-const SearchEmptyStateSubtitle = styled.span`
-  max-width: 560px;
-  margin: 0;
-  color: ${props => props.theme.colors.dark.darkGrey};
-  font-size: 18px;
-  font-weight: 300;
-  line-height: 1.5;
 `;
 
 const CardGrid = styled.div`

@@ -4,10 +4,10 @@ import "../../fonts/GoogleSans/style.css";
 import "../../fonts/Segoe/style.css";
 import { MdBlock } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
-import { ExplanationDto, QuestionToDuplicate } from "../../fetch/question_library";
 import { AppLayout } from "./AppLayout";
 import { FiPlus } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
+import type { Explanation, RowType } from "../QuestionLibraryListLayout/components/Columns";
 
 export type UIExplanation = {
   index: string;
@@ -16,8 +16,8 @@ export type UIExplanation = {
 };
 
 interface Props {
-  question?: QuestionToDuplicate;
-  explanations: ExplanationDto[];
+  question?: RowType;
+  explanations: Explanation[];
   onAdd?: () => void;
   onClose?: () => void;
 }
@@ -43,7 +43,7 @@ export const QuestionPreview: FunctionComponent<Props> = ({
 
   if (!question) return null;
 
-  const mapToUIExplanations = (items: ExplanationDto[]): UIExplanation[] =>
+  const mapToUIExplanations = (items: Explanation[]): UIExplanation[] =>
     items.map((e) => ({
       position: e.position.toString(),
       text: e.text,
