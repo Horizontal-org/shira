@@ -1,18 +1,16 @@
 import { FunctionComponent } from "react";
 import { styled, defaultTheme } from "@horizontal-org/shira-ui";
 import { QuestionPreview } from "../../QuestionPreview";
-import type { Explanation, RowType } from "../../QuestionLibraryListLayout/components/Columns";
+import type { RowType } from "../../QuestionLibraryListLayout/components/Columns";
 
 type Props = {
   question: RowType;
-  explanations: Explanation[];
   onAdd: () => void;
   onClose: () => void;
 };
 
 export const QuestionLibraryPreviewModal: FunctionComponent<Props> = ({
   question,
-  explanations,
   onAdd,
   onClose,
 }) => {
@@ -27,7 +25,7 @@ export const QuestionLibraryPreviewModal: FunctionComponent<Props> = ({
             <QuestionPreview
               onAdd={onAdd}
               onClose={onClose}
-              explanations={explanations}
+              explanations={question.explanations}
               question={question}
             />
           </Body>
@@ -66,5 +64,4 @@ const Body = styled.div`
   flex-direction: column;
   overflow: hidden;
 `;
-
 

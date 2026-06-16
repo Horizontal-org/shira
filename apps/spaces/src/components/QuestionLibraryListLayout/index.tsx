@@ -38,24 +38,16 @@ import { BiSolidTagAlt } from "react-icons/bi";
 import { FiX } from "react-icons/fi";
 import { useQuestionTemplateList } from "./hooks/useQuestionTemplateList";
 
-type Props = {
-  rows?: RowType[];
-  onRowsChange?: (next: RowType[]) => void;
-};
-
 type FilterOption = {
   value: string;
   label: string;
 };
 
-export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
-  rows: rowsProp,
-}) => {
-  const controlled = rowsProp !== undefined;
-
+export const QuestionLibraryListLayout: FunctionComponent = () => {
   const navigate = useNavigate();
   const { state } = useLocation() as { state?: { quizId?: string } };
   const quizId = state?.quizId;
+
   const {
     languages,
     setQuizActionSuccess,
@@ -77,7 +69,7 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
     active: ActiveQuestion;
     original: RowType;
   }>(null);
-  const [rows, setRows] = useState<RowType[]>(rowsProp ?? []);
+  const [rows, setRows] = useState<RowType[]>([]);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const {
     appOptions,
@@ -105,23 +97,12 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
     tagOptions,
     toggleFilters,
     total,
-  } = useQuestionTemplateList({
-    enabled: !controlled && !!languages,
-  });
+  } = useQuestionTemplateList();
 
   useEffect(() => {
-    if (controlled) {
-      setRows(rowsProp ?? []);
-      return;
-    }
-
-    if (!languages) {
-      return;
-    }
-
     const normalized = libraryQuestionToRow(questionTemplates, apps, languages);
     setRows(normalized);
-  }, [apps, controlled, languages, questionTemplates, rowsProp]);
+  }, [apps, languages, questionTemplates]);
 
   useEffect(() => {
     return () => {
@@ -168,7 +149,6 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
         return {
           ...r,
           app: { id: picked.id, name: picked.name, type: picked.type },
-          appSelected: true,
         };
       }),
     );
@@ -403,7 +383,6 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
           <QuestionLibraryPreviewModal
             question={preview.original}
             onAdd={() => handleAdd(preview.original)}
-            explanations={preview.original.explanations}
             onClose={() => setPreview(null)}
           />
         )}
@@ -497,7 +476,7 @@ const FiltersIcon = styled.span`
   flex: 0 0 auto;
 `;
 
-const StyledFilterSelect = styled(FilterSelect)<FilterSelectProps>`
+const StyledFilterSelect = styled(FilterSelect) <FilterSelectProps>`
   min-width: 160px;
   max-width: 200px;
 

@@ -111,8 +111,6 @@ export const libraryQuestionToRow = (
       explanations: defaultLang?.explanations ?? [],
       apps: appOptions,
       languages: langOptions,
-      languageSelected: true,
-      appSelected: true,
     } as RowType;
   });
 };

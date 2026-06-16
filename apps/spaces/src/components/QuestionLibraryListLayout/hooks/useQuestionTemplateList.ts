@@ -14,13 +14,7 @@ import {
 
 const SEARCH_DEBOUNCE_DELAY_MS = 300;
 
-type UseQuestionTemplateListParams = {
-  enabled?: boolean;
-};
-
-export const useQuestionTemplateList = ({
-  enabled = true,
-}: UseQuestionTemplateListParams) => {
+export const useQuestionTemplateList = () => {
   const { t } = useTranslation();
   const [questionTemplates, setQuestionTemplates] = useState<
     LibraryQuestionTemplateDto[]
@@ -57,10 +51,6 @@ export const useQuestionTemplateList = ({
   }, [searchValue]);
 
   useEffect(() => {
-    if (!enabled) {
-      return;
-    }
-
     const loadApps = async () => {
       try {
         const nextApps = await getApps();
@@ -71,13 +61,9 @@ export const useQuestionTemplateList = ({
     };
 
     loadApps();
-  }, [enabled]);
+  }, []);
 
   useEffect(() => {
-    if (!enabled) {
-      return;
-    }
-
     const loadQuestionTemplates = async () => {
       setLoading(true);
 
@@ -111,7 +97,6 @@ export const useQuestionTemplateList = ({
     loadQuestionTemplates();
   }, [
     debouncedSearchValue,
-    enabled,
     pageIndex,
     selectedAppType,
     selectedLanguages,
@@ -121,11 +106,7 @@ export const useQuestionTemplateList = ({
   ]);
 
   useEffect(() => {
-    if (
-      !enabled ||
-      !areFiltersOpen ||
-      (languageOptions.length > 0 && tagOptions.length > 0)
-    ) {
+    if (!areFiltersOpen || (languageOptions.length > 0 && tagOptions.length > 0)) {
       return;
     }
 
@@ -144,7 +125,7 @@ export const useQuestionTemplateList = ({
     };
 
     loadFilterOptions();
-  }, [areFiltersOpen, enabled, languageOptions.length, tagOptions.length]);
+  }, [areFiltersOpen, languageOptions.length, tagOptions.length]);
 
   const appOptions = useMemo<QuestionTemplateFilterOption[]>(() => {
     const appTypes = [...new Set(apps.map((app) => app.type).filter(Boolean))];

@@ -49,9 +49,6 @@ export type RowType = {
 
   apps: AppOption[];
   languages: LanguageOption[];
-
-  languageSelected?: boolean;
-  appSelected?: boolean;
 };
 
 type ColumnHandlers = {
@@ -162,32 +159,19 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
     header: i18n.t("question_library.columns.actions.title"),
     id: "actions",
     cell: ({ row }) => {
-      const { apps, languages, languageSelected, appSelected } = row.original;
-      const hasLanguage = languageSelected ?? languages.length <= 1;
-      const hasApp = appSelected ?? apps.length <= 1;
-      const disableActions = !hasLanguage || !hasApp;
-
-      const tooltipText = i18n.t("question_library.columns.actions.disabled_tooltip");
-      const previewColor = disableActions
-        ? defaultTheme.colors.dark.mediumGrey
-        : defaultTheme.colors.dark.overlay;
-
       return (
         <ActionsCell>
           <ActionButtonWithTooltip
             id={`preview-button-${row.id}`}
-            disabled={disableActions}
-            tooltipText={tooltipText}
-            ariaLabel={i18n.t("question_library.columns.actions.preview_aria_label")}
+            tooltipText=""
             title={i18n.t("question_library.columns.actions.preview_aria_label")}
             onClick={() => handlers.onPreview?.(row.original)}
           >
-            <MdRemoveRedEye size={17} color={previewColor} />
+            <MdRemoveRedEye size={17} color={defaultTheme.colors.dark.overlay} />
           </ActionButtonWithTooltip>
           <ActionButtonWithTooltip
             id={`report-issue-button-${row.id}`}
-            tooltipText={tooltipText}
-            ariaLabel={i18n.t("quiz_library.report_issue")}
+            tooltipText=""
             title={i18n.t("quiz_library.report_issue")}
             onClick={() => handlers.onReportIssue?.(row.original)}
           >
@@ -195,9 +179,7 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
           </ActionButtonWithTooltip>
           <ActionButtonWithTooltip
             id={`add-button-${row.id}`}
-            disabled={disableActions}
-            tooltipText={tooltipText}
-            ariaLabel={i18n.t("question_library.columns.actions.add_aria_label")}
+            tooltipText=""
             title={i18n.t("question_library.columns.actions.add_aria_label")}
             onClick={() => handlers.onAdd?.(row.original)}
           >

@@ -203,8 +203,6 @@ export const getQuestionTemplates = async ({
   }
 };
 
-export const getQuestionLibrary = getQuestionTemplates;
-
 export const getQuestionTemplateQuestions = async (
   quizId: string | number,
 ): Promise<LibraryQuestionTemplateQuestionDto[] | null> => {
