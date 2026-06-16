@@ -22,9 +22,7 @@ import {
   DEFAULT_PAGE_LIMIT,
   type QuestionTemplateSortOption,
 } from "../../fetch/question_templates";
-import type { ActiveQuestion } from "../../store/types/active_question";
 import { useStore } from "../../store";
-import { libraryToActiveQuestion } from "../../utils/active_question/libraryToActiveQuestion";
 import { QuizSuccessStates } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
 import { getColumns } from "./components/Columns";
@@ -51,13 +49,11 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
   const {
     languages,
     setQuizActionSuccess,
-    setActiveQuestion,
     clearActiveQuestion,
   } = useStore(
     (state) => ({
       languages: state.languages,
       setQuizActionSuccess: state.setQuizActionSuccess,
-      setActiveQuestion: state.setActiveQuestion,
       clearActiveQuestion: state.clearActiveQuestion,
     }),
     shallow,
@@ -65,10 +61,7 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
 
   const { t } = useTranslation();
 
-  const [preview, setPreview] = useState<{
-    active: ActiveQuestion;
-    original: RowType;
-  }>(null);
+  const [preview, setPreview] = useState<RowType | null>(null);
   const [rows, setRows] = useState<RowType[]>([]);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const {
@@ -111,9 +104,7 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
   }, [clearActiveQuestion]);
 
   const handlePreview = (row: RowType) => {
-    const active = libraryToActiveQuestion(row);
-    setActiveQuestion(active);
-    setPreview({ active, original: row });
+    setPreview(row);
   };
 
   const handleAdd = async (q: RowType) => {
@@ -381,8 +372,8 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
 
         {preview && (
           <QuestionLibraryPreviewModal
-            question={preview.original}
-            onAdd={() => handleAdd(preview.original)}
+            question={preview}
+            onAdd={() => handleAdd(preview)}
             onClose={() => setPreview(null)}
           />
         )}

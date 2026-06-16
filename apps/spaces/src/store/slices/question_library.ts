@@ -3,17 +3,17 @@ import { LibraryQuestionTemplateDto, getQuestionTemplates } from "../../fetch/qu
 
 export interface QuestionTemplateSlice {
   templateQuestions: LibraryQuestionTemplateDto[] | null,
-  fetchLibraryQuestions: () => void
+  fetchTemplateQuestions: () => void
 }
 
-export const buildQuestionLibrarySlice: StateCreator<
+export const buildQuestionTemplateSlice: StateCreator<
   QuestionTemplateSlice,
   [],
   [],
   QuestionTemplateSlice
 > = (set) => ({
   templateQuestions: null,
-  fetchLibraryQuestions: async () => {
+  fetchTemplateQuestions: async () => {
     const res = await getQuestionTemplates({ page: 1, limit: 1000 })
     set({ templateQuestions: res.data })
   }
