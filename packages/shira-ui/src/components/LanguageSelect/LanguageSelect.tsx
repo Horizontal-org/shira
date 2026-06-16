@@ -16,10 +16,16 @@ export interface LanguageSelectOption {
 interface LanguageSelectProps {
   options: LanguageSelectOption[]
   onChange: (value: string) => void
-  autoselect?: boolean
+  autoselect?: boolean,
+  alternativeStyling?: boolean
 }
 
-export const LanguageSelect: FunctionComponent<LanguageSelectProps> = ({ options, autoselect, onChange }) => {
+export const LanguageSelect: FunctionComponent<LanguageSelectProps> = ({
+  options,
+  autoselect,
+  onChange,
+  alternativeStyling = false
+}) => {
   const optionsRef = useRef<HTMLDivElement>(null)
   useOnClickOutside(optionsRef, () => {
     if (open) handleOpen(false)
@@ -46,6 +52,7 @@ export const LanguageSelect: FunctionComponent<LanguageSelectProps> = ({ options
                 key={o.value}
                 option={o}
                 index={i}
+                alternativeStyling={alternativeStyling}
                 submit={() => {
                   handleSelected(o)
                   handleOpen(false)

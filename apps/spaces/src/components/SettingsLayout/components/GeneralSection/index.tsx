@@ -5,7 +5,7 @@ import { LanguageSelect } from '@horizontal-org/shira-ui'
 import { LANG_OPTIONS } from "../../../../language/constants"
 import i18n from "../../../../language/i18n"
 
-interface Props {}
+interface Props { }
 
 export const GeneralSection: FunctionComponent<Props> = () => {
   const { t } = useTranslation()
@@ -21,6 +21,7 @@ export const GeneralSection: FunctionComponent<Props> = () => {
         <LanguageSelect
           autoselect
           options={LANG_OPTIONS}
+          alternativeStyling={true}
           onChange={(value) => {
             i18n.changeLanguage(value)
             localStorage.setItem('lang', value)

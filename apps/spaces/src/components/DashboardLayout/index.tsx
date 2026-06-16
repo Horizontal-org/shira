@@ -28,6 +28,7 @@ import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
 import { UseAQuizTemplateButton } from "../QuizLibraryListLayout/components/UseAQuizTemplateButton";
 import { AddQuizFromTemplateModal } from "../modals/AddQuizFromTemplateModal";
 import { LibraryQuizDto, type LibraryQuizQuestionTemplateDto } from "../../fetch/quiz_templates";
+import { customMenuItems } from "../../utils/customMenuItems";
 
 interface Props { }
 
@@ -77,7 +78,16 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const location = useLocation() as { pathname: string; state?: DashboardLocationState };
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
+  const {
+    isCollapsed,
+    handleCollapse,
+    menuItems
+  } =
+    useAdminSidebar(navigate, customMenuItems.map(item => ({
+      ...item,
+      label: t(item.label)
+    })));
+
   const { isSubActive } = useSub()
 
   const [activeFilter, setActiveFilter] = useState<FilterStates>(FilterStates.all);
