@@ -4,6 +4,9 @@ import type { LibraryQuestionTemplateDto } from "../../../../fetch/question_temp
 import { getAppsByType, normalizePreviewAppName } from "../../../../utils/appNames";
 import { AppOption, LanguageOption, RowType } from ".";
 
+const normalizeAppComparisonValue = (value: string) =>
+  normalizePreviewAppName(value).trim().toLowerCase();
+
 const normalizeLanguages = (
   question: LibraryQuestionTemplateDto,
   languages: StoreLanguage[],
@@ -78,7 +81,9 @@ export const libraryQuestionToRow = (
   return entries.map((q) => {
     const langOptions = normalizeLanguages(q, languages);
     const appOptions = normalizeApps(q, apps);
-    const preferredAppName = q.defaultApp ? normalizePreviewAppName(q.defaultApp) : null;
+    const preferredAppName = q.defaultApp
+      ? normalizeAppComparisonValue(q.defaultApp)
+      : null;
 
     const defaultLang =
       langOptions.find((v) => v.name.toLowerCase().startsWith("english")) ??
@@ -86,12 +91,11 @@ export const libraryQuestionToRow = (
 
     const defaultApp = (
       preferredAppName
-        ? appOptions.find((app) => app.name === preferredAppName)
+        ? appOptions.find(
+          (app) => normalizeAppComparisonValue(app.name) === preferredAppName,
+        )
         : undefined
     ) ?? appOptions[0];
-
-    const languageSelected = langOptions.length <= 1;
-    const appSelected = appOptions.length <= 1;
 
     return {
       id: q.id,
@@ -107,8 +111,8 @@ export const libraryQuestionToRow = (
       explanations: defaultLang?.explanations ?? [],
       apps: appOptions,
       languages: langOptions,
-      languageSelected,
-      appSelected,
+      languageSelected: true,
+      appSelected: true,
     } as RowType;
   });
 };

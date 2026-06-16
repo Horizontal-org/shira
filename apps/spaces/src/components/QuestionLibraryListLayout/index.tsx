@@ -18,10 +18,9 @@ import {
 import { QuestionLibraryFlowManagement } from "../QuestionLibraryFlowManagement";
 import { QuestionLibraryPreviewModal } from "../modals/QuestionLibraryPreviewModal";
 import {
+  addQuestionTemplateToQuiz,
   DEFAULT_PAGE_LIMIT,
-  QuestionTemplateFeedback,
   type QuestionTemplateSortOption,
-  useQuestionTemplateCRUD,
 } from "../../fetch/question_templates";
 import type { ActiveQuestion } from "../../store/types/active_question";
 import { useStore } from "../../store";
@@ -33,7 +32,7 @@ import type { RowType } from "./components/Columns";
 import { libraryQuestionToRow } from "./components/Columns/libraryQuestionToRow";
 import { useTranslation } from "react-i18next";
 import { HiFunnel } from "react-icons/hi2";
-import { FaRegFaceMeh, FaUserLarge } from "react-icons/fa6";
+import { FaRegFaceMeh } from "react-icons/fa6";
 import { IoAppsSharp, IoLanguage } from "react-icons/io5";
 import { BiSolidTagAlt } from "react-icons/bi";
 import { FiX } from "react-icons/fi";
@@ -57,7 +56,6 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
   const navigate = useNavigate();
   const { state } = useLocation() as { state?: { quizId?: string } };
   const quizId = state?.quizId;
-  const { actionFeedback, addToQuiz } = useQuestionTemplateCRUD();
   const {
     languages,
     setQuizActionSuccess,
@@ -86,7 +84,6 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
     apps,
     areFiltersOpen,
     clearAllFilters,
-    creatorOptions,
     hasActiveFilters,
     languageOptions,
     loading,
@@ -95,13 +92,11 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
     questionTemplates,
     searchValue,
     selectedAppType,
-    selectedCreator,
     selectedLanguages,
     selectedTags,
     selectedType,
     setSearchValue,
     setSelectedAppType,
-    setSelectedCreator,
     setSelectedLanguages,
     setSelectedTags,
     setSelectedType,
@@ -112,19 +107,7 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
     total,
   } = useQuestionTemplateList({
     enabled: !controlled && !!languages,
-    t,
   });
-
-  useEffect(() => {
-    if (actionFeedback === QuestionTemplateFeedback.Success) {
-      setQuizActionSuccess(QuizSuccessStates.question_added_from_library);
-      navigate(`/quiz/${quizId}`);
-      return;
-    }
-    if (actionFeedback === QuestionTemplateFeedback.Error) {
-      toast.error(t("error_messages.add_question_error"), { duration: 3000 });
-    }
-  }, [actionFeedback, navigate, quizId, setQuizActionSuccess, t]);
 
   useEffect(() => {
     if (controlled) {
@@ -152,37 +135,28 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
     setPreview({ active, original: row });
   };
 
-  const handleAdd = (q: RowType) => {
+  const handleAdd = async (q: RowType) => {
     if (!quizId || q.app.id < 1) {
       toast.error(t("error_messages.add_question_error"), { duration: 3000 });
       return;
     }
 
-    addToQuiz({
-      quizId: parseInt(quizId),
-      questionName: q.name,
-      content: q.content,
-      isPhishing: q.isPhishing,
-      appId: q.app.id,
-      explanations: q.explanations,
-    });
-  };
+    try {
+      await addQuestionTemplateToQuiz({
+        quizId: parseInt(quizId),
+        questionName: q.name,
+        content: q.content,
+        isPhishing: q.isPhishing,
+        appId: q.app.id,
+        explanations: q.explanations,
+      });
 
-  const handleSelectLanguage = (questionId: number, languageId: number) => {
-    setRows((prev) =>
-      prev.map((r) => {
-        if (r.id !== questionId) return r;
-        const picked = r.languages.find((lv) => lv.id === languageId);
-        if (!picked) return r;
-        return {
-          ...r,
-          language: { id: picked.id, name: picked.name },
-          content: picked.content,
-          explanations: picked.explanations,
-          languageSelected: true,
-        };
-      }),
-    );
+      setQuizActionSuccess(QuizSuccessStates.question_added_from_library);
+      navigate(`/quiz/${quizId}`);
+    } catch (error) {
+      console.error("Error adding question template to quiz:", error);
+      toast.error(t("error_messages.add_question_error"), { duration: 3000 });
+    }
   };
 
   const handleSelectApp = (questionId: number, appId: number) => {
@@ -258,11 +232,9 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
       onPreview: handlePreview,
       onReportIssue: () => navigate("/support"),
       onAdd: handleAdd,
-      onSelectLanguage: handleSelectLanguage,
       onSelectApp: handleSelectApp,
       rowOffset: pageIndex * DEFAULT_PAGE_LIMIT,
     },
-    t,
   );
 
   return (
@@ -347,19 +319,6 @@ export const QuestionLibraryListLayout: FunctionComponent<Props> = ({
                 )}
                 onChange={(value) => setSelectedTags(value as string[])}
                 onClear={() => setSelectedTags([])}
-              />
-
-              <StyledFilterSelect
-                value={selectedCreator}
-                options={creatorOptions}
-                placeholder={t("question_library.filters_panel.creator")}
-                ariaLabel={t("question_library.filters_panel.creator")}
-                leftIcon={
-                  <FaUserLarge size={10} color={defaultTheme.colors.green7} />
-                }
-                selectedLabel={selectedCreator}
-                onChange={(value) => setSelectedCreator(value as string)}
-                onClear={() => setSelectedCreator("")}
               />
 
               <StyledFilterSelect

@@ -20,11 +20,13 @@ export const SelectApp: FunctionComponent<Props> = ({
   initiallyShowPlaceholder
 }) => {
   const { t } = useTranslation();
-  const [showPlaceholder, setShowPlaceholder] = useState(initiallyShowPlaceholder);
+  const [showPlaceholder, setShowPlaceholder] = useState(
+    Boolean(initiallyShowPlaceholder && !valueId),
+  );
 
   useEffect(() => {
-    if (!initiallyShowPlaceholder) return;
-  }, [valueId, initiallyShowPlaceholder]);
+    setShowPlaceholder(Boolean(initiallyShowPlaceholder && !valueId));
+  }, [initiallyShowPlaceholder, valueId]);
 
   const filteredOptions = currentType
     ? options.filter((a) => a.type === currentType)

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import type { TFunction } from "i18next";
+import { useTranslation } from "react-i18next";
 import { getApps, type App } from "../../../fetch/app";
 import {
   DEFAULT_QUESTION_TEMPLATE_SORT,
@@ -16,13 +16,12 @@ const SEARCH_DEBOUNCE_DELAY_MS = 300;
 
 type UseQuestionTemplateListParams = {
   enabled?: boolean;
-  t: TFunction;
 };
 
 export const useQuestionTemplateList = ({
   enabled = true,
-  t,
 }: UseQuestionTemplateListParams) => {
+  const { t } = useTranslation();
   const [questionTemplates, setQuestionTemplates] = useState<
     LibraryQuestionTemplateDto[]
   >([]);
@@ -41,16 +40,11 @@ export const useQuestionTemplateList = ({
   const [areFiltersOpen, setAreFiltersOpen] = useState(false);
   const [selectedLanguages, setSelectedLanguagesState] = useState<string[]>([]);
   const [selectedTags, setSelectedTagsState] = useState<string[]>([]);
-  const [selectedCreator, setSelectedCreatorState] = useState("");
   const [selectedAppType, setSelectedAppTypeState] = useState("");
   const [selectedType, setSelectedTypeState] = useState("");
 
-  const [languageOptions, setLanguageOptions] = useState<
-    QuestionTemplateFilterOption[]
-  >([]);
-  const [tagOptions, setTagOptions] = useState<QuestionTemplateFilterOption[]>(
-    [],
-  );
+  const [languageOptions, setLanguageOptions] = useState<QuestionTemplateFilterOption[]>([]);
+  const [tagOptions, setTagOptions] = useState<QuestionTemplateFilterOption[]>([]);
 
   useEffect(() => {
     const debounceTimeout = window.setTimeout(() => {
@@ -152,11 +146,6 @@ export const useQuestionTemplateList = ({
     loadFilterOptions();
   }, [areFiltersOpen, enabled, languageOptions.length, tagOptions.length]);
 
-  const creatorOptions = useMemo<QuestionTemplateFilterOption[]>(
-    () => [{ value: "Shira team", label: "Shira team" }],
-    [],
-  );
-
   const appOptions = useMemo<QuestionTemplateFilterOption[]>(() => {
     const appTypes = [...new Set(apps.map((app) => app.type).filter(Boolean))];
 
@@ -171,7 +160,6 @@ export const useQuestionTemplateList = ({
   const hasActiveFilters =
     selectedLanguages.length > 0 ||
     selectedTags.length > 0 ||
-    selectedCreator.length > 0 ||
     selectedAppType.length > 0 ||
     selectedType.length > 0;
 
@@ -207,11 +195,6 @@ export const useQuestionTemplateList = ({
     setPageIndex(0);
   };
 
-  const setSelectedCreator = (nextValue: string) => {
-    setSelectedCreatorState(nextValue);
-    setPageIndex(0);
-  };
-
   const setSelectedAppType = (nextValue: string) => {
     setSelectedAppTypeState(nextValue);
     setPageIndex(0);
@@ -225,7 +208,6 @@ export const useQuestionTemplateList = ({
   const clearAllFilters = () => {
     setSelectedLanguagesState([]);
     setSelectedTagsState([]);
-    setSelectedCreatorState("");
     setSelectedAppTypeState("");
     setSelectedTypeState("");
     setPageIndex(0);
@@ -255,7 +237,6 @@ export const useQuestionTemplateList = ({
     apps,
     areFiltersOpen,
     clearAllFilters,
-    creatorOptions,
     hasActiveFilters,
     languageOptions,
     loading,
@@ -264,13 +245,11 @@ export const useQuestionTemplateList = ({
     questionTemplates,
     searchValue,
     selectedAppType,
-    selectedCreator,
     selectedLanguages,
     selectedTags,
     selectedType,
     setSearchValue,
     setSelectedAppType,
-    setSelectedCreator,
     setSelectedLanguages,
     setSelectedTags,
     setSelectedType,

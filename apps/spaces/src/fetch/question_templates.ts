@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useState } from "react";
 
 export const DEFAULT_PAGE_LIMIT = 20;
 export const DEFAULT_QUESTION_TEMPLATE_SORT: QuestionTemplateSortOption =
@@ -60,12 +59,6 @@ export interface GetQuestionTemplatesParams {
 export interface QuestionTemplateFilterOption {
   value: string;
   label: string;
-}
-
-export enum QuestionTemplateFeedback {
-  Processing = "PROCESSING",
-  Error = "ERROR",
-  Success = "SUCCESS",
 }
 
 type LibraryQuestionTemplateApiDto = {
@@ -277,30 +270,6 @@ export const addQuestionTemplateToQuiz = async ({
   );
 
   return data;
-};
-
-export const useQuestionTemplateCRUD = () => {
-  const [actionFeedback, handleActionFeedback] =
-    useState<QuestionTemplateFeedback | null>(null);
-
-  const addToQuiz = async (params: AddQuestionTemplateToQuizParams) => {
-    handleActionFeedback(QuestionTemplateFeedback.Processing);
-
-    try {
-      const data = await addQuestionTemplateToQuiz(params);
-      handleActionFeedback(QuestionTemplateFeedback.Success);
-      return data;
-    } catch (error) {
-      handleActionFeedback(QuestionTemplateFeedback.Error);
-      console.error("Error adding question template to quiz:", error);
-      return null;
-    }
-  };
-
-  return {
-    actionFeedback,
-    addToQuiz,
-  };
 };
 
 export const getQuestionTemplateLanguageOptions = async (): Promise<
