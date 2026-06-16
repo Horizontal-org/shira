@@ -2,7 +2,7 @@ import { FunctionComponent, ReactNode } from "react";
 import {
   LibraryFilterToggleButton,
   LibrarySearchInput,
-  LibrarySortSelect,
+  SortSelect,
   defaultTheme,
   styled,
 } from "@horizontal-org/shira-ui";
@@ -66,7 +66,7 @@ export const QuestionTemplateControls: FunctionComponent<Props> = ({
         </SearchColumn>
 
         <ActionsGroup>
-          <LibrarySortSelect
+          <StyledSortSelect
             value={sortOption}
             options={sortOptions}
             prefix={`${t("question_library.sort_by")}:`}
@@ -129,5 +129,14 @@ const ActionsGroup = styled.div`
   @media (max-width: ${(props) => props.theme.breakpoints.md}) {
     width: 100%;
     margin-left: 0;
+  }
+`;
+
+const StyledSortSelect = styled(SortSelect)`
+  min-width: 280px;
+
+  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
+    flex: 1;
+    min-width: 0;
   }
 `;
