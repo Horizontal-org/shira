@@ -14,8 +14,6 @@ import {
 import { useDebouncedValue } from "./useDebouncedValue";
 import { useQuestionTemplateFilters } from "./useQuestionTemplateFilters";
 
-const SEARCH_DEBOUNCE_DELAY_MS = 300;
-
 export const useQuestionTemplateList = () => {
   const { t } = useTranslation();
   const [questionTemplates, setQuestionTemplates] = useState<LibraryQuestionTemplateDto[]>([]);
@@ -32,10 +30,7 @@ export const useQuestionTemplateList = () => {
 
   const resetPagination = () => setPageIndex(0);
 
-  const debouncedSearchValue = useDebouncedValue(
-    searchValue.trim(),
-    SEARCH_DEBOUNCE_DELAY_MS,
-  );
+  const debouncedSearchValue = useDebouncedValue(searchValue.trim());
 
   const filters = useQuestionTemplateFilters(resetPagination);
 

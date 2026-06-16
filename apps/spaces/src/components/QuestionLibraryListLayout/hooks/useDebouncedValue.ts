@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 
-export const useDebouncedValue = <T>(value: T, delayMs: number) => {
+const DEFAULT_DEBOUNCE_DELAY_MS = 300;
+
+export const useDebouncedValue = (value: string, delay = DEFAULT_DEBOUNCE_DELAY_MS) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
   useEffect(() => {
     const timeout = window.setTimeout(() => {
       setDebouncedValue(value);
-    }, delayMs);
+    }, delay);
 
     return () => window.clearTimeout(timeout);
-  }, [value, delayMs]);
+  }, [value, delay]);
 
   return debouncedValue;
 };
