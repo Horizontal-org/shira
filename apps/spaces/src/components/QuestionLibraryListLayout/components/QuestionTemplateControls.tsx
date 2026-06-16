@@ -24,7 +24,7 @@ type Props = {
   filters?: ReactNode;
 };
 
-export const QuestionLibraryControls: FunctionComponent<Props> = ({
+export const QuestionTemplateControls: FunctionComponent<Props> = ({
   searchValue,
   onSearchChange,
   sortOption,

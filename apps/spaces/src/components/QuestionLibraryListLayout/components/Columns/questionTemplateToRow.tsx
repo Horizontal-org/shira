@@ -71,12 +71,12 @@ const normalizeApps = (
     }];
 };
 
-export const libraryQuestionToRow = (
-  libraryQuestion: LibraryQuestionTemplateDto[] | null | undefined,
+export const questionTemplateToRow = (
+  questionTemplates: LibraryQuestionTemplateDto[] | null | undefined,
   apps: App[],
   languages: StoreLanguage[],
 ): RowType[] => {
-  const entries = libraryQuestion ?? [];
+  const entries = questionTemplates ?? [];
 
   return entries.map((q) => {
     const langOptions = normalizeLanguages(q, languages);

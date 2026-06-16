@@ -28,7 +28,7 @@ type Props = {
   onClearAll: () => void;
 };
 
-export const QuestionLibraryFilters: FunctionComponent<Props> = ({
+export const QuestionTemplateFilters: FunctionComponent<Props> = ({
   languageOptions,
   selectedLanguages,
   onLanguageChange,

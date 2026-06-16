@@ -19,7 +19,7 @@ type Props = {
   setRowSelection: Dispatch<SetStateAction<RowSelectionState>>;
 };
 
-export const QuestionLibraryResults: FunctionComponent<Props> = ({
+export const QuestionTemplateResults: FunctionComponent<Props> = ({
   hasActiveSearch,
   total,
   searchTerm,

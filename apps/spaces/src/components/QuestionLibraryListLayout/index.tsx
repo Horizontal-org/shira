@@ -8,7 +8,7 @@ import {
   styled,
 } from "@horizontal-org/shira-ui";
 import { QuestionLibraryFlowManagement } from "../QuestionLibraryFlowManagement";
-import { QuestionLibraryPreviewModal } from "../modals/QuestionLibraryPreviewModal";
+import { QuestionTemplatePreviewModal } from "../modals/QuestionTemplatePreviewModal";
 import {
   addQuestionTemplateToQuiz,
   DEFAULT_PAGE_LIMIT,
@@ -18,12 +18,12 @@ import { QuizSuccessStates } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
 import { getColumns } from "./components/Columns";
 import type { RowType } from "./components/Columns";
-import { libraryQuestionToRow } from "./components/Columns/libraryQuestionToRow";
+import { questionTemplateToRow } from "./components/Columns/questionTemplateToRow";
 import { useTranslation } from "react-i18next";
 import { useQuestionTemplateList } from "./hooks/useQuestionTemplateList";
-import { QuestionLibraryControls } from "./components/QuestionLibraryControls";
-import { QuestionLibraryFilters } from "./components/QuestionLibraryFilters";
-import { QuestionLibraryResults } from "./components/QuestionLibraryResults";
+import { QuestionTemplateControls } from "./components/QuestionTemplateControls";
+import { QuestionTemplateFilters } from "./components/QuestionTemplateFilters";
+import { QuestionTemplateResults } from "./components/QuestionTemplateResults";
 
 export const QuestionLibraryListLayout: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -80,7 +80,7 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
   } = useQuestionTemplateList();
 
   useEffect(() => {
-    const normalized = libraryQuestionToRow(questionTemplates, apps, languages);
+    const normalized = questionTemplateToRow(questionTemplates, apps, languages);
     setRows(normalized);
   }, [apps, languages, questionTemplates]);
 
@@ -147,7 +147,7 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
   return (
     <QuestionLibraryFlowManagement>
       <StyledBox>
-        <QuestionLibraryControls
+        <QuestionTemplateControls
           searchValue={searchValue}
           onSearchChange={setSearchValue}
           sortOption={sortOption}
@@ -155,7 +155,7 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
           areFiltersOpen={areFiltersOpen}
           onToggleFilters={toggleFilters}
           filters={(
-            <QuestionLibraryFilters
+            <QuestionTemplateFilters
               languageOptions={languageOptions}
               selectedLanguages={selectedLanguages}
               onLanguageChange={setSelectedLanguages}
@@ -173,7 +173,7 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
           )}
         />
 
-        <QuestionLibraryResults
+        <QuestionTemplateResults
           hasActiveSearch={hasActiveSearch}
           total={total}
           searchTerm={debouncedSearchValue}
@@ -188,7 +188,7 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
         />
 
         {preview && (
-          <QuestionLibraryPreviewModal
+          <QuestionTemplatePreviewModal
             question={preview}
             onAdd={() => handleAdd(preview)}
             onClose={() => setPreview(null)}

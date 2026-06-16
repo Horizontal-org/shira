@@ -9,7 +9,7 @@ type Props = {
   onClose: () => void;
 };
 
-export const QuestionLibraryPreviewModal: FunctionComponent<Props> = ({
+export const QuestionTemplatePreviewModal: FunctionComponent<Props> = ({
   question,
   onAdd,
   onClose,
@@ -64,4 +64,3 @@ const Body = styled.div`
   flex-direction: column;
   overflow: hidden;
 `;
-
