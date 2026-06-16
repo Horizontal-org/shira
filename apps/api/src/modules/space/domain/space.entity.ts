@@ -2,65 +2,64 @@ import { OrganizationEntity } from 'src/modules/organization/domain/organization
 import { Quiz } from 'src/modules/quiz/domain/quiz.entity';
 import { UserEntity } from 'src/modules/user/domain/user.entity';
 import {
-    Entity,
-    Column,
-    PrimaryGeneratedColumn,
-    UpdateDateColumn,
-    CreateDateColumn,
-    ManyToMany,
-    JoinTable,
-    ManyToOne,
-    OneToMany,
-    JoinColumn,
-  } from 'typeorm';
-  
-  @Entity({ name: 'spaces' })
-  export class SpaceEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
-  
-    @Column({ length: 150 })
-    name: string;
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+  CreateDateColumn,
+  ManyToMany,
+  JoinTable,
+  ManyToOne,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
 
-    @Column({ name: 'organization_id' })
-    organizationId: number
+@Entity({ name: 'spaces' })
+export class SpaceEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @ManyToOne(() => OrganizationEntity)
-    @JoinColumn({ name: 'organization_id' })
-    organization: OrganizationEntity;
-  
-    @ManyToMany(
-      () => UserEntity, 
-      {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
-    @JoinTable({
-      name: 'spaces_users',
-      joinColumn: {
-        name: 'space_id',
-        referencedColumnName: 'id',
-      },
-      inverseJoinColumn: {
-        name: 'user_id',
-        referencedColumnName: 'id',
-      },
-    })
-    users: UserEntity[]
-    
-    @OneToMany(
-      () => Quiz,
-      (quiz: Quiz) => quiz.space,
-    )
-    quizzes: Quiz[];
+  @Column({ length: 150 })
+  name: string;
 
-    @Column({ length: 150, nullable: true })
-    slug: string;
+  @Column({ name: 'organization_id' })
+  organizationId: number
 
-    @Column({ name: 'has_results', default: true })
-    hasResults: boolean
-      
-    @CreateDateColumn({ name: 'created_at' })
-    createdAt: Date;
-  
-    @UpdateDateColumn({ name: 'updated_at' })
-    updatedAt: Date;
-  }
-  
+  @ManyToOne(() => OrganizationEntity)
+  @JoinColumn({ name: 'organization_id' })
+  organization: OrganizationEntity;
+
+  @ManyToMany(
+    () => UserEntity,
+    { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+  @JoinTable({
+    name: 'spaces_users',
+    joinColumn: {
+      name: 'space_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'user_id',
+      referencedColumnName: 'id',
+    },
+  })
+  users: UserEntity[]
+
+  @OneToMany(
+    () => Quiz,
+    (quiz: Quiz) => quiz.space,
+  )
+  quizzes: Quiz[];
+
+  @Column({ length: 150, nullable: true })
+  slug: string;
+
+  @Column({ name: 'has_results_enabled', default: true })
+  hasResults: boolean
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;
+}

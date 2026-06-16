@@ -6,7 +6,7 @@ export class AddHasResultsToSpaces1778000000000 implements MigrationInterface {
     await queryRunner.addColumn(
       "spaces",
       new TableColumn({
-        name: "has_results",
+        name: "has_results_enabled",
         type: "boolean",
         default: true,
         isNullable: false,
@@ -15,7 +15,7 @@ export class AddHasResultsToSpaces1778000000000 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropColumn("spaces", "has_results")
+    await queryRunner.dropColumn("spaces", "has_results_enabled")
   }
 
 }
