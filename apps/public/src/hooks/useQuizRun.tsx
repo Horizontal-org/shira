@@ -15,8 +15,6 @@ export const useQuizRun = (hasResults: boolean = true): UseQuizRunValue => {
   const [answers, setAnswers] = useState<QuestionRunPayload[]>([]);
   const started = runId !== null;
 
-  console.log(`🚀 ~ useQuizRun ~ answers: ${answers} - runId: ${runId} - started: ${started}`)
-
   const start = async (quizId: number, learnerId: number | null = null) => {
     if (!hasResults) return
     if (runId != null) return;
@@ -43,7 +41,7 @@ export const useQuizRun = (hasResults: boolean = true): UseQuizRunValue => {
       finishedAt: new Date().toISOString(),
       questionRuns: answers,
     };
- 
+
     await finishQuizRun(runId, payload);
 
     setAnswers([]);

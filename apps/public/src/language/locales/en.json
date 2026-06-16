@@ -65,11 +65,12 @@
             "understand": "I understand",
             "learn_more": "Learn more",
             "intro": "When you take this quiz, Shira will only track:",
-            "item_1": "1. The date and time when you take the quiz",
-            "item_2": "2. Results:",
-            "item_2a": "a. Your total quiz score",
-            "item_2b": "b. Your score for each question",
-            "item_2c": "c. The percentage of learners assigned this quiz who have completed it"
+            "1_date_time": "1. The date and time when you take the quiz",
+            "2_results": "2. Results:",
+            "total_quiz_score": "a. Your total quiz score",
+            "your_score": "b. Your score for each question",
+            "percentage_of_learners": "c. The percentage of learners assigned this quiz who have completed it",
+            "only_datetime": "When you take this quiz, Shira will only track the date and time you take the quiz."
         },
         "answers": {
             "options": {

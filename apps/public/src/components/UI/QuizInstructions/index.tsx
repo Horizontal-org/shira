@@ -13,12 +13,16 @@ import useGetWidth from '../../../hooks/useGetWidth'
 interface Props {
   onNext: () => void
   hasResults?: boolean
+  hasLearner?: boolean
+  isCustom?: boolean
   count?: number
 }
 
 export const QuizInstructions: FunctionComponent<Props> = ({
   onNext,
   hasResults = false,
+  hasLearner = false,
+  isCustom = false,
   count
 }) => {
   const { width } = useGetWidth()
@@ -35,7 +39,6 @@ export const QuizInstructions: FunctionComponent<Props> = ({
               ? t('quiz.how_it_works.question_count', { count })
               : t('quiz.how_it_works.explanation_1')} {t('quiz.how_it_works.explanation_2')}
           </Body1>
-          {/* <Body1></Body1> */}
 
           <AnswerOptionsWrapper>
             <LegitimateButton>
@@ -53,7 +56,7 @@ export const QuizInstructions: FunctionComponent<Props> = ({
           </AnswerOptionsWrapper>
 
           <div>
-            {hasResults && (
+            {isCustom && (
               <Disclaimer>
                 <i>{t('quiz.how_it_works.disclaimer')} <LearnMoreLink onClick={() => setIsLearnMoreOpen(true)}>{t('quiz.how_it_works.learn_more')}</LearnMoreLink></i>
               </Disclaimer>
@@ -84,16 +87,23 @@ export const QuizInstructions: FunctionComponent<Props> = ({
         }}
         onClose={() => setIsLearnMoreOpen(false)}
       >
-        <Body1>{t('quiz.data_collection.intro')}</Body1>
-        <ModalContent>
-          <Body1SemiBold>{t('quiz.data_collection.item_1')}</Body1SemiBold>
-          <Body1SemiBold>{t('quiz.data_collection.item_2')}</Body1SemiBold>
-          <ResultItems>
-            <Body1>{t('quiz.data_collection.item_2a')}</Body1>
-            <Body1>{t('quiz.data_collection.item_2b')}</Body1>
-            <Body1>{t('quiz.data_collection.item_2c')}</Body1>
-          </ResultItems>
-        </ModalContent>
+        {hasResults ? (
+          <>
+            <Body1>{t('quiz.data_collection.intro')}</Body1>
+            <ModalContent>
+              <Body1SemiBold>{t('quiz.data_collection.1_date_time')}</Body1SemiBold>
+              <Body1SemiBold>{t('quiz.data_collection.2_results')}</Body1SemiBold>
+              <ResultItems>
+                <Body1>{t('quiz.data_collection.total_quiz_score')}</Body1>
+                <Body1>{t('quiz.data_collection.your_score')}</Body1>
+                {hasLearner && (<Body1>{t('quiz.data_collection.percentage_of_learners')}</Body1>)}
+              </ResultItems>
+            </ModalContent>
+          </>
+        ) : (
+          <Body1>{t('quiz.data_collection.only_datetime')}</Body1>
+        )}
+
       </Modal>
     </SceneWithFooter>
   )
