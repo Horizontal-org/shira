@@ -35,6 +35,7 @@ import { IoAppsSharp, IoLanguage } from "react-icons/io5";
 import { BiSolidTagAlt } from "react-icons/bi";
 import { FiX } from "react-icons/fi";
 import { useQuestionTemplateList } from "./hooks/useQuestionTemplateList";
+import { LibrarySearchEmptyState } from "../LibrarySearchEmptyState";
 
 type FilterOption = {
   value: string;
@@ -69,7 +70,9 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
     apps,
     areFiltersOpen,
     clearAllFilters,
+    debouncedSearchValue,
     hasActiveFilters,
+    hasActiveSearch,
     languageOptions,
     loading,
     pageIndex,
@@ -86,6 +89,7 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
     setSelectedTags,
     setSelectedType,
     setSortOption,
+    showEmptyState,
     sortOption,
     tagOptions,
     toggleFilters,
@@ -337,38 +341,59 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
           )}
         </Controls>
 
+        {hasActiveSearch && (
+          <SearchResultsText>
+            {t(
+              total === 1
+                ? "question_library.search_results"
+                : "question_library.search_results_plural",
+              {
+                count: total,
+                searchTerm: debouncedSearchValue,
+              },
+            )}
+          </SearchResultsText>
+        )}
+
         {shouldShowPagination && (
           <PaginationWrapper>
             <CardPagination {...paginationProps} />
           </PaginationWrapper>
         )}
 
-        <TableWrapper>
-          <Table
-            size="full"
-            loading={loading}
-            loadingMessage={t("loading_messages.loading_library_questions")}
-            emptyMessage={t("success_messages.no_questions_found")}
-            data={rows}
-            columns={columns}
-            rowSelection={rowSelection}
-            setRowSelection={setRowSelection}
-            enableRowSelection={false}
-            enablePagination={false}
-            colGroups={
-              <colgroup>
-                <col style={{ width: "4%" }} />
-                <col style={{ width: "24%" }} />
-                <col style={{ width: "10%" }} />
-                <col style={{ width: "10%" }} />
-                <col style={{ width: "11%" }} />
-                <col style={{ width: "12%" }} />
-                <col style={{ width: "14%" }} />
-                <col style={{ width: "10%" }} />
-              </colgroup>
-            }
+        {showEmptyState ? (
+          <LibrarySearchEmptyState
+            title={t("library.empty_search.title")}
+            subtitle={t("library.empty_search.subtitle")}
           />
-        </TableWrapper>
+        ) : (
+          <TableWrapper>
+            <Table
+              size="full"
+              loading={loading}
+              loadingMessage={t("loading_messages.loading_library_questions")}
+              emptyMessage={t("success_messages.no_questions_found")}
+              data={rows}
+              columns={columns}
+              rowSelection={rowSelection}
+              setRowSelection={setRowSelection}
+              enableRowSelection={false}
+              enablePagination={false}
+              colGroups={
+                <colgroup>
+                  <col style={{ width: "4%" }} />
+                  <col style={{ width: "24%" }} />
+                  <col style={{ width: "10%" }} />
+                  <col style={{ width: "10%" }} />
+                  <col style={{ width: "11%" }} />
+                  <col style={{ width: "12%" }} />
+                  <col style={{ width: "14%" }} />
+                  <col style={{ width: "10%" }} />
+                </colgroup>
+              }
+            />
+          </TableWrapper>
+        )}
 
         {preview && (
           <QuestionLibraryPreviewModal
@@ -490,6 +515,14 @@ const ClearAllButton = styled.button`
   justify-content: center;
   gap: 10px;
   cursor: pointer;
+`;
+
+const SearchResultsText = styled.p`
+  margin: 0;
+  padding: 0 4px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: ${defaultTheme.colors.dark.mediumGrey};
 `;
 
 const PaginationWrapper = styled.div`

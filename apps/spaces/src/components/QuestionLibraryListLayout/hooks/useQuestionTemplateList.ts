@@ -138,11 +138,15 @@ export const useQuestionTemplateList = () => {
 
   const total = totalAvailableQuestions;
   const pageCount = Math.max(1, Math.ceil(total / DEFAULT_PAGE_LIMIT));
+  const hasActiveSearch = debouncedSearchValue.length > 0;
   const hasActiveFilters =
     selectedLanguages.length > 0 ||
     selectedTags.length > 0 ||
     selectedAppType.length > 0 ||
     selectedType.length > 0;
+
+  const showEmptyState =
+    !loading && total === 0 && (hasActiveSearch || hasActiveFilters);
 
   useEffect(() => {
     if (pageIndex <= pageCount - 1) {
@@ -219,11 +223,13 @@ export const useQuestionTemplateList = () => {
     areFiltersOpen,
     clearAllFilters,
     hasActiveFilters,
+    hasActiveSearch,
     languageOptions,
     loading,
     pageIndex,
     paginationProps,
     questionTemplates,
+    debouncedSearchValue,
     searchValue,
     selectedAppType,
     selectedLanguages,
@@ -235,6 +241,7 @@ export const useQuestionTemplateList = () => {
     setSelectedTags,
     setSelectedType,
     setSortOption,
+    showEmptyState,
     sortOption,
     tagOptions,
     toggleFilters,

@@ -211,9 +211,17 @@
             }
         }
     },
+    "library": {
+        "empty_search": {
+            "title": "Sorry, we couldn't find anything",
+            "subtitle": "Try changing keywords or clearing your filters to see more results."
+        }
+    },
     "question_library": {
         "tab_header_title": "Select a question template",
         "search_placeholder": "Search question names",
+        "search_results": "{{count}} result for \"{{searchTerm}}\"",
+        "search_results_plural": "{{count}} results for \"{{searchTerm}}\"",
         "sort_by": "Sort by",
         "sort_options": {
             "newest_to_oldest": "Newest to oldest",
@@ -261,10 +269,6 @@
         "search_placeholder": "Search quiz names",
         "search_results": "{{count}} result for \"{{searchTerm}}\"",
         "search_results_plural": "{{count}} results for \"{{searchTerm}}\"",
-        "empty_search": {
-            "title": "Sorry, we couldn't find anything",
-            "subtitle": "Try changing keywords or clearing your filters to see more results."
-        },
         "sort_by": "Sort by",
         "sort_options": {
             "newest_to_oldest": "Newest to oldest",
