@@ -34,10 +34,6 @@ export class StartQuizRunService implements IStartQuizRunService {
       throw new NotFoundException('Quiz not found')
     }
 
-    if (quiz.space?.hasResults === false) {
-      throw new ForbiddenException('Results are not enabled for this quiz')
-    }
-
     if (dto.learnerId) {
       // check learner_quiz
       const learnerQuiz = await this.validateLearnerQuiz.execute(quizIdNum, dto.learnerId)

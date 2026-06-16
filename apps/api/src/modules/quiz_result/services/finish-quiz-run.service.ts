@@ -29,7 +29,8 @@ export class FinishQuizRunService implements IFinishQuizRunService {
       run.finishedAt = new Date(dto.finishedAt);
       await manager.getRepository(QuizRun).save(run);
 
-      if (dto.questionRuns?.length) {
+      // only save question run if quiz has results enabled and question runs are provided in the payload
+      if (quiz?.space?.hasResults && dto.questionRuns?.length) {
         const repo = manager.getRepository(QuestionRun);
         const rows = dto.questionRuns.map((q) =>
           repo.create({
