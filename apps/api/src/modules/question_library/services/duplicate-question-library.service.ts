@@ -66,9 +66,41 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
         .andWhere('qt.language_id = :lid', { lid: selectedLanguageId })
         .getOne();
 
+      // Images
+      const imageIdMap = new Map<number, number>()
+
+      for (const originalImage of originalQuestion.images ?? []) {
+        const timestamp = Date.now();
+        const originalFileName = (originalImage.relativePath.split("/").pop() ?? "image").trim();
+        const hasDot = originalFileName.includes(".");
+        const fileExtension = hasDot ? originalFileName.split(".").pop() : "png";
+        const baseFileName = hasDot
+          ? originalFileName.replace(`.${fileExtension}`, "")
+          : originalFileName;
+        const newFileName = `${timestamp}_copy_${baseFileName}.${fileExtension}`;
+        const newImagePath = `question-images/${quizId}/${newFileName}`;
+
+        const newImage = manager.create(QuestionImage, {
+          name: originalImage.name,
+          relativePath: newImagePath,
+          question: savedQuestion,
+          quizId: quizId,
+        });
+
+        const savedImage = await manager.save(QuestionImage, newImage);
+        imageIdMap.set(originalImage.id, savedImage.id)
+
+        await this.imageService.copyAndDeleteOrigin(originalImage.relativePath, newImagePath);
+      }
+
+
       if (questionTranslation) {
+        let content = questionTranslation?.content || ""
+        for (const [oldId, newId] of imageIdMap) {
+          content = content.replace(new RegExp(`data-image-id="${oldId}"`, 'g'), `data-image-id="${newId}"`)
+        }
         const newTranslation = manager.create(QuestionTranslation, {
-          content: questionTranslation?.content || "",
+          content,
           question: savedQuestion,
           languageId: defaultLanguage.id
         });
@@ -110,34 +142,6 @@ export class DuplicateLibraryQuestionService implements IDuplicateLibraryQuestio
               languageId: defaultLanguage.id,
             }));
         }
-      }
-
-
-      // Images
-      const newImageIds = [];
-
-      for (const originalImage of originalQuestion.images ?? []) {
-        const timestamp = Date.now();
-        const originalFileName = (originalImage.relativePath.split("/").pop() ?? "image").trim();
-        const hasDot = originalFileName.includes(".");
-        const fileExtension = hasDot ? originalFileName.split(".").pop() : "png";
-        const baseFileName = hasDot
-          ? originalFileName.replace(`.${fileExtension}`, "")
-          : originalFileName;
-        const newFileName = `${timestamp}_copy_${baseFileName}.${fileExtension}`;
-        const newImagePath = `question-images/${quizId}/${newFileName}`;
-
-        const newImage = manager.create(QuestionImage, {
-          name: originalImage.name,
-          relativePath: newImagePath,
-          question: savedQuestion,
-          quizId: quizId,
-        });
-
-        const savedImage = await manager.save(QuestionImage, newImage);
-        newImageIds.push(savedImage.id);
-
-        await this.imageService.copyAndDeleteOrigin(originalImage.relativePath, newImagePath);
       }
 
 
