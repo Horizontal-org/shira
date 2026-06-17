@@ -11,55 +11,59 @@ interface Props {
   explanations?: Explanation[];
   explanationNumber: number;
   showExplanations: boolean
+  images?: Array<{ imageId: number; url: string }>
 }
 
-export const MessagingApps: FunctionComponent<Props> = ({ content, name, explanations, explanationNumber, showExplanations }) => {
+export const MessagingApps: FunctionComponent<Props> = ({ content, name, explanations, explanationNumber, showExplanations, images }) => {
 
   const html = new DOMParser().parseFromString(content, 'text/html')
 
-  const { parseCustomElement } = useParseHTML(content)
+  const {
+    parseCustomElement,
+    parseDynamicContent
+  } = useParseHTML(content, images)
 
   return (
     <>
-      { name === 'SMS' && (
+      {name === 'SMS' && (
         <SMS
           phone={parseCustomElement('component-required-phone')}
-          content={html.getElementById('dynamic-content')}
+          content={parseDynamicContent()}
           explanations={explanations}
           explanationNumber={explanationNumber}
           showExplanations={showExplanations}
         />
       )}
 
-      { name === 'Dating App' && (
+      {name === 'Dating App' && (
         <DatingApp
           senderName={parseCustomElement('component-required-fullname')}
-          content={html.getElementById('dynamic-content')}
+          content={parseDynamicContent()}
           explanations={explanations}
           explanationNumber={explanationNumber}
           showExplanations={showExplanations}
         />
       )}
 
-      { name === 'Whatsapp' && (
+      {name === 'Whatsapp' && (
         <Whatsapp
           phone={parseCustomElement('component-required-phone')}
-          content={html.getElementById('dynamic-content')}
+          content={parseDynamicContent()}
           explanations={explanations}
           explanationNumber={explanationNumber}
           showExplanations={showExplanations}
         />
       )}
 
-      { name === 'Messenger' && (
+      {name === 'Messenger' && (
         <FBMessenger
           senderName={parseCustomElement('component-required-fullname')}
-          content={html.getElementById('dynamic-content')}
+          content={parseDynamicContent()}
           explanations={explanations}
           explanationNumber={explanationNumber}
           showExplanations={showExplanations}
         />
       )}
-    </>    
+    </>
   )
 }
