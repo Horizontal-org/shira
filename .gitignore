@@ -16,7 +16,7 @@ output-file.txt
 a-different-file.txt
 dist
 storybook-static
-public
+#public
 
 # Debug
 npm-debug.log*

@@ -15,7 +15,7 @@ import { LanguageSelect } from "../../../../UI/Select"
 import { LANG_OPTIONS } from "../../constants"
 import { useQuizRun, Answer } from '../../../../../hooks/useQuizRun'
 
-interface Props { 
+interface Props {
   quiz: any
   learnerQuiz: any
 }
@@ -31,7 +31,7 @@ export const QuizFlow: FunctionComponent<Props> = ({
   const {
     changeScene,
     scene,
-    resetAll,          
+    resetAll,
     updateUserInfo
   } = useStore(
     (state) => ({
@@ -62,71 +62,71 @@ export const QuizFlow: FunctionComponent<Props> = ({
   }
 
   return (
-      <>
-        { scene === 'welcome' && (
-          <SceneWrapper bg='white'>
+    <>
+      {scene === 'welcome' && (
+        <SceneWrapper bg='white'>
 
-            <CustomQuizNavbar color={theme.colors.green2} />
+          <CustomQuizNavbar color={theme.colors.green2} />
 
-            <CenterWrapper>
-              <GreenFishWrapper>
-                <Hooked />
-              </GreenFishWrapper>
-              <StyledBox>
-                {learnerQuiz ? (<Body1>{learnerQuiz.learnerEmail}</Body1>) : null}
-                <Heading>{quiz.title}</Heading>
-                <Body1>
-                  {t('welcome.public_message')}
-                </Body1>
-                <Buttons>
-                  <LanguageSelect
-                    onChange={(v) => {
-                      i18n.changeLanguage(v)
-                      localStorage.setItem('lang', v);
-                    }}
-                    autoselect
-                    options={LANG_OPTIONS}
-                  />
-                  <Button
-                    text={t('welcome.start')}
-                    rightIcon={<FiChevronRight size={18} />}
-                    onClick={validateQuizStart}
-                  />
-                </Buttons>
-                <LinkWrapper>
-                  <Link2 href="https://shira.app" target="_blank">
-                    {t('welcome.learn_more')}
-                  </Link2>
-                </LinkWrapper>
-              </StyledBox>
-            </CenterWrapper>
-          </SceneWrapper>
-        )}
+          <CenterWrapper>
+            <GreenFishWrapper>
+              <Hooked />
+            </GreenFishWrapper>
+            <StyledBox>
+              {learnerQuiz ? (<Body1>{learnerQuiz.learnerEmail}</Body1>) : null}
+              <Heading>{quiz.title}</Heading>
+              <Body1>
+                {t('welcome.public_message')}
+              </Body1>
+              <Buttons>
+                <LanguageSelect
+                  onChange={(v) => {
+                    i18n.changeLanguage(v)
+                    localStorage.setItem('lang', v);
+                  }}
+                  autoselect
+                  options={LANG_OPTIONS}
+                />
+                <Button
+                  text={t('welcome.start')}
+                  rightIcon={<FiChevronRight size={18} />}
+                  onClick={validateQuizStart}
+                />
+              </Buttons>
+              <LinkWrapper>
+                <Link2 href="https://shira.app" target="_blank">
+                  {t('welcome.learn_more')}
+                </Link2>
+              </LinkWrapper>
+            </StyledBox>
+          </CenterWrapper>
+        </SceneWrapper>
+      )}
 
-        { scene === 'quiz-setup-name' && (
-          <QuizSetupNameScene nextSceneSlug="custom-quiz" />
-        )}
+      {scene === 'quiz-setup-name' && (
+        <QuizSetupNameScene nextSceneSlug="custom-quiz" />
+      )}
 
-        { scene === 'custom-quiz' && (
-          <CustomQuiz
-            quizId={quiz.id}
-            questions={quiz.quizQuestions.map((q) => q.question)}
-            images={quiz.images}
-            startRun={() => {
-              start(quiz.id, learnerQuiz ? learnerQuiz.learnerId : null)
-            }}
-            recordAnswer={(qId, ans) => recordAnswer(qId, ans as Answer)}
-            runStarted={started}
-          />
-        )}
+      {scene === 'custom-quiz' && (
+        <CustomQuiz
+          quizId={quiz.id}
+          questions={quiz.quizQuestions.map((q) => q.question)}
+          images={quiz.images}
+          startRun={() => {
+            start(quiz.id, learnerQuiz ? learnerQuiz.learnerId : null)
+          }}
+          recordAnswer={(qId, ans) => recordAnswer(qId, ans as Answer)}
+          runStarted={started}
+        />
+      )}
 
-        { scene === 'completed' && (
-          <CustomQuizCompletedScene
-            quizNumber={quiz.quizQuestions.length}
-            finish={finish}
-          />
-        )}
-      </>
+      {scene === 'completed' && (
+        <CustomQuizCompletedScene
+          quizNumber={quiz.quizQuestions.length}
+          finish={finish}
+        />
+      )}
+    </>
   )
 }
 
