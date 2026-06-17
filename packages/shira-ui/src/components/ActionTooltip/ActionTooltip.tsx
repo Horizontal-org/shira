@@ -5,15 +5,17 @@ export interface ActionTooltipProps {
   content: string;
   children: ReactNode;
   delayMs?: number;
+  disabled?: boolean;
 }
 
 export const ActionTooltip: FunctionComponent<ActionTooltipProps> = ({
   content,
   children,
   delayMs = 500,
+  disabled = false,
 }) => {
   return (
-    <Container delayMs={delayMs}>
+    <Container delayMs={delayMs} $disabled={disabled}>
       {children}
       <Tooltip data-action-tooltip="content" role="tooltip">
         {content}
@@ -22,14 +24,14 @@ export const ActionTooltip: FunctionComponent<ActionTooltipProps> = ({
   );
 };
 
-const Container = styled.div<{ delayMs: number }>`
+const Container = styled.div<{ delayMs: number; $disabled: boolean }>`
   position: relative;
   display: flex;
   align-items: center;
 
   &:hover [data-action-tooltip='content'],
   &:focus-within [data-action-tooltip='content'] {
-    visibility: visible;
+    visibility: ${({ $disabled }) => ($disabled ? 'hidden' : 'visible')};
     transition-delay: ${({ delayMs }) => delayMs}ms;
   }
 `;

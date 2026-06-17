@@ -6,7 +6,7 @@ export interface QuizResultsResponse {
     title: string;
     totalQuestions: number;
   };
-  
+
   metrics: {
     completedCount: number;
     averageScore: number;
@@ -44,6 +44,6 @@ const getQuizResultsFromAPI = async (quizId: number): Promise<QuizResultsRespons
   }
 };
 
-export const getQuizResults = async (quizId: number): Promise<QuizResultsResponse> => {  
+export const getQuizResults = async (quizId: number): Promise<QuizResultsResponse> => {
   return getQuizResultsFromAPI(quizId);
 };

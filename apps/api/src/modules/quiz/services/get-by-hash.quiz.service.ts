@@ -43,6 +43,7 @@ export class GetByHashQuizService implements IGetByHashQuizService {
         'explanations.id = explanationTranslations.explanation_id AND explanationTranslations.language_id = :languageId',
         { languageId },
       )
+      .leftJoin('quiz.space', 'space')
       .select([
         'quiz.id',
         'question.id',
@@ -61,6 +62,7 @@ export class GetByHashQuizService implements IGetByHashQuizService {
         'explanations.updatedAt',
         'questionTranslations.content',
         'explanationTranslations.content',
+        'space.hasResultsEnabled',
       ])
       .where('quiz.hash = :hash', { hash: hash })
       .andWhere('published = 1')
@@ -97,6 +99,7 @@ export class GetByHashQuizService implements IGetByHashQuizService {
       id: quiz.id,
       title: quiz.title,
       images: images,
+      hasResultsEnabled: quiz.space?.hasResultsEnabled ?? true,
       quizQuestions: parsedAll.sort((a, b) => a.position - b.position)
     };
   }

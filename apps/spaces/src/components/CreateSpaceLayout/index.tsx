@@ -19,6 +19,7 @@ import { getErrorContent } from "../../utils/getErrorContent";
 import { GenericErrorModal } from "../modals/ErrorModal";
 import { isEmailValid, hasRequiredValue } from "../../utils/validation";
 import { login as fetchLogin, navigateToManageSubscription } from "../../fetch/auth";
+import { SPACE_NAME_MAX_LENGTH } from "../../utils/inputLimits";
 
 interface Props { }
 
@@ -53,7 +54,7 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
     // clean just in case session exists
     logout()
     checkPassphraseExpiry()
-  }, []) 
+  }, [])
 
   const checkPassphraseExpiry = async () => {
     if (!passphraseCode) {
@@ -209,8 +210,11 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
                   label={t('create_space.email_label')}
                   value={email}
                   onChange={(e) => handleEmail(e.target.value)}
+                  showCharacterCount={true}
+                  maxLength={SPACE_NAME_MAX_LENGTH}
+                  characterLimitErrorText={t('error_messages.character_limit_error')}
+                  errorText={emailError}
                 />
-                {emailError && <InlineErrorMessage>{emailError}</InlineErrorMessage>}
                 <TextInput
                   required
                   type="password"
@@ -218,7 +222,9 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
                   value={pass}
                   onChange={(e) => handlePass(e.target.value)}
                 />
+
                 {passError && <InlineErrorMessage>{passError}</InlineErrorMessage>}
+
                 <TextInput
                   required
                   type="password"
@@ -226,6 +232,7 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
                   value={passConfirmation}
                   onChange={(e) => handlePassConfirmation(e.target.value)}
                 />
+
                 {passConfirmationError && <InlineErrorMessage>{passConfirmationError}</InlineErrorMessage>}
               </InputsContainer>
 

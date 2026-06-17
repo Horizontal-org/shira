@@ -5,7 +5,7 @@ type ActionButtonWithTooltipProps = {
   id: string;
   disabled?: boolean;
   tooltipText: string;
-  ariaLabel: string;
+  ariaLabel?: string;
   title?: string;
   onClick?: () => void;
   children: ReactNode;
@@ -59,11 +59,12 @@ export const ActionButtonWithTooltip: FunctionComponent<ActionButtonWithTooltipP
 };
 
 const ActionButton = styled("button")`
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   padding: 0;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   background: transparent;
   border: none;
   cursor: pointer;

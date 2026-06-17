@@ -3,6 +3,7 @@ import { Body1, H1, SettingsFishIcon, Sidebar, styled, useAdminSidebar } from '@
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
+import { customMenuItems } from "../../utils/customMenuItems";
 
 interface Props { }
 
@@ -10,7 +11,15 @@ export const SupportLayout: FunctionComponent<Props> = () => {
 
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
+  const {
+    isCollapsed,
+    handleCollapse,
+    menuItems
+  } =
+    useAdminSidebar(navigate, customMenuItems.map(item => ({
+      ...item,
+      label: t(item.label)
+    })));
 
   return (
     <Container id="support-layout">

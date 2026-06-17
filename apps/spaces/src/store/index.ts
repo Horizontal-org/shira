@@ -9,22 +9,22 @@ import { LanguagesSlice, createLanguagesSlice } from './slices/languages'
 import { GlobalTranslationsSlice, createGlobalTranslationsSlice } from './slices/global_translations'
 import { createQuizSlice, QuizSlice } from './slices/quiz'
 import { ActiveQuestionSlice, createActiveQuestionSlice } from './slices/active_question'
-import { ResultSlice, createResultSlice  } from './slices/result'
-import { createQuestionLibrarySlice, QuestionLibrarySlice } from './slices/question_library'
+import { ResultSlice, createResultSlice } from './slices/result'
+import { buildQuestionTemplateSlice, QuestionTemplateSlice } from './slices/question_library'
 
 export const useStore = createWithEqualityFn<
   ExplanationsSlice &
   AppsSlice &
-  QuestionSlice & 
-  AuthSlice & 
-  FieldsOfWorkSlice & 
-  TranslationsSlice & 
+  QuestionSlice &
+  AuthSlice &
+  FieldsOfWorkSlice &
+  TranslationsSlice &
   GlobalTranslationsSlice &
-  LanguagesSlice & 
+  LanguagesSlice &
   QuizSlice &
   ActiveQuestionSlice &
   ResultSlice &
-  QuestionLibrarySlice
+  QuestionTemplateSlice
 >()((...a) => ({
   ...createExplanationsSlice(...a),
   ...createAppsSlice(...a),
@@ -37,5 +37,5 @@ export const useStore = createWithEqualityFn<
   ...createQuizSlice(...a),
   ...createActiveQuestionSlice(...a),
   ...createResultSlice(...a),
-  ...createQuestionLibrarySlice(...a)
+  ...buildQuestionTemplateSlice(...a)
 }))

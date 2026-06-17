@@ -4,9 +4,9 @@ import {
   Logo,
   Body2Regular,
   Button,
+  CloseButton,
   GeneralTooltip
 } from "@horizontal-org/shira-ui"
-import { IoClose } from "react-icons/io5";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { QuestionCRUDFeedback } from "../../fetch/question";
 import { useTranslation } from "react-i18next";
@@ -17,6 +17,7 @@ interface Props {
   onExit: () => void
   step: number
   disableNext: boolean
+  nextTooltipLabel?: string
   actionFeedback: string;
 }
 
@@ -26,6 +27,7 @@ export const QuestionFlowHeader: FunctionComponent<Props> = ({
   onExit,
   disableNext,
   step,
+  nextTooltipLabel,
   actionFeedback
 }) => {
 
@@ -38,12 +40,13 @@ export const QuestionFlowHeader: FunctionComponent<Props> = ({
           <Logo />
         </LogoWrapper>
 
-        <CloseWrapper id="question-flow-header-close" onClick={onExit}>
-          <IoClose
-            color="#5F6368"
-            size={24}
-          />
-        </CloseWrapper>
+        <StyledCloseButton
+          aria-label={t('buttons.close')}
+          iconSize={24}
+          id="question-flow-header-close"
+          onClick={onExit}
+          size={24}
+        />
 
         <Body2Regular>{t('create_question.header_title')}</Body2Regular>
       </Left>
@@ -60,7 +63,7 @@ export const QuestionFlowHeader: FunctionComponent<Props> = ({
             enabled={disableNext}
             show={showNextTooltip}
             setShow={setShowNextTooltip}
-            label={t('create_question.header_required_tooltip')}
+            label={nextTooltipLabel ?? t('create_question.header_required_tooltip')}
           >
              <Button
               id="question-flow-header-next"
@@ -98,12 +101,8 @@ const LogoWrapper = styled.div`
   border-right: 1px solid ${props => props.theme.colors.dark.mediumGrey};
 `
 
-const CloseWrapper = styled.div`
-  padding: 0 8px;
+const StyledCloseButton = styled(CloseButton)`
   margin: 0 20px;
-  cursor: pointer;
-  display: flex; 
-  align-items: center;
 `
 
 const Left = styled.div`

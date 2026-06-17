@@ -4,11 +4,11 @@ import { IoMdHelpCircle, IoMdSettings } from 'react-icons/io';
 import { IoPerson } from 'react-icons/io5';
 import { LuNotepadText } from 'react-icons/lu';
 
-interface NavigateFunction {
+export interface NavigateFunction {
   (path: string): void;
 }
 
-interface MenuItem {
+export interface MenuItem {
   icon: React.ReactNode;
   label: string;
   path: string;

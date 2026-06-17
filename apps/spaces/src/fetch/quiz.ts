@@ -6,6 +6,18 @@ export interface UpdateQuizPayload {
   published?: boolean
 }
 
+export interface CreateTemplateQuizQuestionPayload {
+  questionName: string
+  content: string
+  isPhishing: boolean
+  appName: string
+  explanations?: {
+    position: string
+    index: string
+    text: string
+  }[]
+}
+
 export const updateQuiz = async (toUpdate: UpdateQuizPayload) => {
   try {
     await axios.put(`${process.env.REACT_APP_API_URL}/quiz/${toUpdate.id}`, toUpdate)
@@ -40,12 +52,32 @@ export const deleteQuiz = async (id: number) => {
 
 export const createQuiz = async (title: string, visibility: string) => {
   try {
-    await axios.post(`${process.env.REACT_APP_API_URL}/quiz`, {
+    const res = await axios.post(`${process.env.REACT_APP_API_URL}/quiz`, {
       title: title,
       visibility: visibility
     })
+    return res.data?.quiz ?? res.data
   } catch (err) {
     console.log("🚀 ~ createQuiz ~ err:", err)
+    throw new Error('Failed to create quiz')
+  }
+}
+
+export const createQuizFromTemplate = async (
+  title: string,
+  visibility: string,
+  questions: CreateTemplateQuizQuestionPayload[],
+) => {
+  try {
+    const res = await axios.post(`${process.env.REACT_APP_API_URL}/quiz-from-template`, {
+      title,
+      visibility,
+      questions,
+    })
+    return res.data?.quiz ?? res.data
+  } catch (err) {
+    console.log("🚀 ~ createQuizFromTemplate ~ err:", err)
+    throw new Error('Failed to create quiz from template')
   }
 }
 

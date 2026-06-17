@@ -1,11 +1,11 @@
 import { FunctionComponent, useState } from 'react'
-import { QuizInstructions } from './QuizInstructions'
 import { useStore } from '../../../../../store'
 import { shallow } from 'zustand/shallow'
 import { SceneWrapper } from '../../../../UI/SceneWrapper'
 import { Question } from '../../../../UI/Question'
 import { Question as QuestionType } from '../../../../../domain/question'
 import { Answer } from '../../../../../fetch/quiz_runs'
+import { QuizInstructions } from '../../../../UI/QuizInstructions'
 
 type RunAnswer = 'is_phishing' | 'is_legitimate' | 'dont_know';
 
@@ -16,6 +16,8 @@ interface Props {
   startRun: () => void;
   recordAnswer: (questionId: number, answer: RunAnswer) => void;
   runStarted: boolean;
+  hasResultsEnabled: boolean;
+  hasLearnerId: number | null;
 }
 
 export const CustomQuiz: FunctionComponent<Props> = ({
@@ -23,7 +25,9 @@ export const CustomQuiz: FunctionComponent<Props> = ({
   images,
   startRun,
   runStarted,
-  recordAnswer
+  recordAnswer,
+  hasResultsEnabled,
+  hasLearnerId
 }) => {
 
   const {
@@ -40,7 +44,7 @@ export const CustomQuiz: FunctionComponent<Props> = ({
   const q = questions.length > 0 ? questions[questionIndex] : null
   const currentQuestionId = q?.id ?? null
 
-  const handleAnswer =  (answer: RunAnswer) => {
+  const handleAnswer = (answer: RunAnswer) => {
     if (!runStarted) return
     recordAnswer(Number(currentQuestionId), answer as Answer)
   }
@@ -70,11 +74,14 @@ export const CustomQuiz: FunctionComponent<Props> = ({
               changeScene('quiz-setup-name')
             }
           }}
-          setCorrectQuestions={() => {setCorrectQuestions(questions[questionIndex])}}
+          setCorrectQuestions={() => { setCorrectQuestions(questions[questionIndex]) }}
         />
       ) : (
         <QuizInstructions
           count={questions ? questions.length : 0}
+          hasResultsEnabled={hasResultsEnabled}
+          hasLearner={!!hasLearnerId}
+          isCustom={true}
           onNext={() => {
             if (!runStarted) {
               startRun()

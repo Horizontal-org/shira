@@ -16,30 +16,30 @@ export const QuestionContent: FunctionComponent<Props> = ({
 
   return (
     <Wrapper id='dynamic-content'>
-    
+
       <StyledBox>
         <CommonHeader
           isPhishing={question.isPhishing}
-        />        
+        />
 
-        { question.app.type === 'email' && (
-          <EmailContent 
+        {question.app.type === 'email' && (
+          <EmailContent
             question={question}
             content={question.content}
           />
         )}
 
-        { question.app.type === 'messaging' && (
-          <MessagingContent 
+        {question.app.type === 'messaging' && (
+          <MessagingContent
             question={question}
-            content={question.content}            
+            content={question.content}
           />
         )}
-        
-      </StyledBox> 
 
-      <Explanations />  
-    </Wrapper> 
+      </StyledBox>
+
+      <Explanations />
+    </Wrapper>
   )
 }
 

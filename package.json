@@ -3,7 +3,7 @@
   "description": "A barebones Turborepo example for working with Task Graphs.",
   "private": true,
   "devDependencies": {
-    "turbo": "^2.4.0"
+    "turbo": "^2.9.14"
   },
   "scripts": {
     "dev": "turbo dev",
@@ -22,7 +22,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "@types/react": "18.2.66",
-    "@types/react-dom": "18.2.22",    
+    "@types/react-dom": "18.2.22",
     "styled-components": "6.3.9",
     "natural-compare-lite": "^1.4.0",
     "tsutils": "^3.21.0",

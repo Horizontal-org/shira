@@ -75,6 +75,7 @@ export const ByLearner: FunctionComponent<Props> = ({
         loadingMessage={t('results_tab.by_learner.table.loading')}
         data={resultsByLearner}
         columns={columns}
+        enableRowHover={false}
         enableRowSelection={false}
         enablePagination={true}
         rowSelection={{}}

@@ -13,7 +13,7 @@ bootstrap.init().then(async (app) => {
 
     process.exit(0);
   } catch (e) {
-    app.close();
+    await app.close();
 
     process.exit(1);
   }

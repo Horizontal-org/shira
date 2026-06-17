@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Question } from '../domain';
+import { Question, Explanation } from '../domain';
 import { QuestionTranslation } from 'src/modules/translation/domain/questionTranslation.entity';
 import { ExplanationTranslation } from 'src/modules/translation/domain/explanationTranslation.entity';
 import { Language } from 'src/modules/languages/domain';
@@ -14,13 +14,15 @@ export class GlobalParserQuestionService {
   constructor(
     @InjectRepository(Question)
     private readonly questionRepository: Repository<Question>,
+    @InjectRepository(Explanation)
+    private readonly explanationRepository: Repository<Explanation>,
     @InjectRepository(QuestionTranslation)
     private readonly QuestionTranslationRepository: Repository<QuestionTranslation>,
     @InjectRepository(ExplanationTranslation)
     private readonly ExplanationTranslationRepository: Repository<ExplanationTranslation>,
     @InjectRepository(Language)
     private readonly languageRepository: Repository<Language>,
-  ) {}
+  ) { }
   // createOrUpdateQuestion
   async export({ lang, res }) {
     console.log(lang);
@@ -67,6 +69,7 @@ export class GlobalParserQuestionService {
       const explanationsDiv = $(`<div id='explanations'></div>`);
       if (question.explanations.length > 0) {
         question.explanations.forEach((explanation) => {
+          if (explanation.explanationTranslations.length === 0) return
           const explanationDiv = $(
             `<div data-explanation-id='${explanation.id}'></div>`,
           );
@@ -134,6 +137,7 @@ export class GlobalParserQuestionService {
       const questions = $('div[data-question-id]');
       for (const question of questions) {
         const questionId = $(question).attr('data-question-id');
+        console.log("🚀 ~ GlobalParserQuestionService ~ import ~ questionId:", questionId)
         const questionContent = $(question)
           .find('div')
           .html()
@@ -141,6 +145,12 @@ export class GlobalParserQuestionService {
         // console.log(questionContent);
         const explanations = $(question).find('div#explanations > div');
         // console.log('explanations', explanations);
+
+        const questionExists = await this.questionRepository.existsBy({ id: parseInt(questionId) })
+        if (!questionExists) {
+          console.log(`question ${questionId} not found, skipping`)
+          continue
+        }
 
         const questionTranslated = await this.QuestionTranslationRepository
           .createQueryBuilder('qt')
@@ -154,7 +164,7 @@ export class GlobalParserQuestionService {
           const questionTranslation = new QuestionTranslation();
           questionTranslation.content = questionContent;
           questionTranslation.languageId = languageId;
-          questionTranslation.question = questionId as any;
+          questionTranslation.question = { id: parseInt(questionId) } as any
           await this.QuestionTranslationRepository.save(questionTranslation);
           console.log(`question ${questionId} created`);
 
@@ -162,6 +172,11 @@ export class GlobalParserQuestionService {
           for (const explanation of explanations) {
             const explanationId = $(explanation).attr('data-explanation-id');
             const explanationContent = $(explanation).find('div').text();
+            const explanationExists = await this.explanationRepository.existsBy({ id: parseInt(explanationId) })
+            if (!explanationExists) {
+              console.log(`explanation ${explanationId} not found, skipping`)
+              continue
+            }
             const explanationTranslated = await this.ExplanationTranslationRepository
               .createQueryBuilder('et')
               .where('et.explanation_id = :eid', { eid: parseInt(explanationId) })
@@ -171,7 +186,7 @@ export class GlobalParserQuestionService {
               const explanationTranslation = new ExplanationTranslation();
               explanationTranslation.content = explanationContent;
               explanationTranslation.languageId = languageId;
-              explanationTranslation.explanation = explanationId as any;
+              explanationTranslation.explanation = { id: parseInt(explanationId) } as any
               await this.ExplanationTranslationRepository.save(
                 explanationTranslation,
               );
@@ -191,6 +206,11 @@ export class GlobalParserQuestionService {
           for (const explanation of explanations) {
             const explanationId = $(explanation).attr('data-explanation-id');
             const explanationContent = $(explanation).find('div').text();
+            const explanationExists = await this.explanationRepository.existsBy({ id: parseInt(explanationId) })
+            if (!explanationExists) {
+              console.log(`explanation ${explanationId} not found, skipping`)
+              continue
+            }
             const explanationTranslated = await this.ExplanationTranslationRepository
               .createQueryBuilder('et')
               .where('et.explanation_id = :eid', { eid: parseInt(explanationId) })
@@ -200,7 +220,7 @@ export class GlobalParserQuestionService {
               const explanationTranslation = new ExplanationTranslation();
               explanationTranslation.content = explanationContent;
               explanationTranslation.languageId = languageId;
-              explanationTranslation.explanation = explanationId as any;
+              explanationTranslation.explanation = { id: parseInt(explanationId) } as any
               await this.ExplanationTranslationRepository.save(
                 explanationTranslation,
               );

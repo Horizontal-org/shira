@@ -1,13 +1,9 @@
 import { FunctionComponent } from 'react'
 import { styled } from '@horizontal-org/shira-ui'
 import { UIExplanation } from '../../QuestionPreview'
-
-//TODO FIX DOUBLE IMPORT, PROBLEM WITH SHIRA-UI
-import '../../../fonts/GoogleSans/style.css'
-import '../../../fonts/Segoe/style.css'
-import './styles.css'
 import { MailApps } from '../AppTypes/MailApps'
 import { MessagingApps } from '../AppTypes/MessagingApps'
+import { normalizePreviewAppName } from '../../../utils/appNames'
 
 interface Props {
   appName: string;
@@ -26,12 +22,14 @@ export const AppLayout: FunctionComponent<Props> = ({
   showExplanations,
   images
 }) => {
+  const resolvedAppName = normalizePreviewAppName(appName);
+
   return (
     <Wrapper className="apps-container">
 
       <MailApps
         content={content}
-        name={appName}
+        name={resolvedAppName}
         images={images}
         explanations={explanations}
         explanationNumber={explanationNumber}
@@ -40,7 +38,7 @@ export const AppLayout: FunctionComponent<Props> = ({
 
       <MessagingApps
         content={content}
-        name={appName}
+        name={resolvedAppName}
         explanations={explanations}
         explanationNumber={explanationNumber}
         showExplanations={showExplanations}

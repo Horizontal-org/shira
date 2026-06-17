@@ -1,9 +1,10 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { Body1, Modal, defaultTheme, styled, TextInput } from "@horizontal-org/shira-ui";
+import { Body1, Modal, styled, TextInput } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
 import { Quiz } from "../../../store/slices/quiz";
 import { hasRequiredValue } from "../../../utils/validation";
 import { useTitleUpdate } from "../../../hooks/useTitleUpdate";
+import { QUIZ_NAME_MAX_LENGTH } from "../../../utils/inputLimits";
 
 interface Props {
   quiz: Quiz | null;
@@ -35,7 +36,14 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
     validateQuizName,
     onValidTitle: onDuplicate,
   });
+  const trimmedTitle = title.trim();
   const hasError = Boolean(titleError);
+
+  const cannotSubmit = !hasRequiredValue(trimmedTitle)
+    || isLoading
+    || isValidatingTitle
+    || hasError
+    || title.length > QUIZ_NAME_MAX_LENGTH;
 
   useEffect(() => {
     if (quiz && isModalOpen) {
@@ -54,10 +62,10 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
       isOpen={isModalOpen}
       title={t('modals.duplicate_quiz.title')}
       primaryButtonText={t('buttons.next')}
-      primaryButtonDisabled={!hasRequiredValue(title) || isLoading || isValidatingTitle || hasError}
+      primaryButtonDisabled={cannotSubmit}
       secondaryButtonText={t('buttons.back')}
       onPrimaryClick={() => {
-        if (!hasRequiredValue(title) || isLoading || isValidatingTitle || hasError) { return; }
+        if (cannotSubmit) { return; }
         handleTitleSubmit(title);
       }}
       onSecondaryClick={() => {
@@ -72,15 +80,16 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
       </Body1>
       <FormContent>
         <TextInput
-          label="Quiz name"
+          label={t('modals.duplicate_quiz.quiz_name')}
           placeholder={t('modals.duplicate_quiz.quiz_name_placeholder', { quiz_name: quiz.title })}
           value={title}
           onChange={(e) => handleTitleChange(e.target.value)}
           isLoading={isLoading || isValidatingTitle}
+          showCharacterCount={true}
+          maxLength={QUIZ_NAME_MAX_LENGTH}
+          characterLimitErrorText={t('error_messages.character_limit_error')}
+          errorText={hasError ? t(titleError) : undefined}
         />
-        <ErrorContainer role="alert" aria-live="polite">
-          {hasError && <ErrorText>{t(titleError)}</ErrorText>}
-        </ErrorContainer>
       </FormContent>
     </Modal>
   );
@@ -94,16 +103,4 @@ const FormContent = styled.div`
 
 const Description = styled(Body1)`
   padding-bottom: 16px;
-`;
-
-const ErrorContainer = styled.div`
-  min-height: 32px;
-  padding: 0 10px;
-`;
-
-const ErrorText = styled.p`
-  color: ${defaultTheme.colors.error7};
-  margin: 0;
-  padding: 4px 10px;
-  font-size: 14px;
 `;

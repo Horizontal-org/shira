@@ -5,6 +5,7 @@ import { handleHttpError } from "../../../fetch/handleError";
 import { hasRequiredValue } from "../../../utils/validation";
 import { getErrorContent } from "../../../utils/getErrorContent";
 import toast from "react-hot-toast";
+import { ACCOUNT_SETTINGS_PASSWORD_MAX_LENGTH } from "../../../utils/inputLimits";
 
 interface Props {
   isModalOpen: boolean;
@@ -40,10 +41,17 @@ export const ChangePasswordModal: FunctionComponent<Props> = ({
     ? t("reset_password.validation.passwords_mismatch")
     : "";
 
+  const checkLength = (value: string): boolean => {
+    return value.length > ACCOUNT_SETTINGS_PASSWORD_MAX_LENGTH;
+  };
+
   const submitDisabled = useMemo(() =>
     !hasRequiredValue(currentPassword) ||
     !hasRequiredValue(newPassword) ||
     !hasRequiredValue(confirmPassword) ||
+    checkLength(currentPassword) ||
+    checkLength(newPassword) ||
+    checkLength(confirmPassword) ||
     Boolean(newPasswordError) ||
     Boolean(confirmPasswordError),
     [
@@ -122,10 +130,11 @@ export const ChangePasswordModal: FunctionComponent<Props> = ({
                   setCurrentPasswordApiError("");
                 }
               }}
+              showCharacterCount={true}
+              maxLength={ACCOUNT_SETTINGS_PASSWORD_MAX_LENGTH}
+              characterLimitErrorText={t('error_messages.character_limit_error')}
+              errorText={currentPasswordError}
             />
-            <FieldError $visible={Boolean(currentPasswordError)}>
-              {currentPasswordError}
-            </FieldError>
           </FieldGroup>
 
           <FieldGroup>
@@ -135,10 +144,11 @@ export const ChangePasswordModal: FunctionComponent<Props> = ({
               label={t("modals.change_password.new_password_placeholder")}
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
+              showCharacterCount={true}
+              maxLength={ACCOUNT_SETTINGS_PASSWORD_MAX_LENGTH}
+              characterLimitErrorText={t('error_messages.character_limit_error')}
+              errorText={newPasswordError}
             />
-            <FieldError $visible={Boolean(newPasswordError)}>
-              {newPasswordError}
-            </FieldError>
           </FieldGroup>
 
           <FieldGroup>
@@ -148,10 +158,11 @@ export const ChangePasswordModal: FunctionComponent<Props> = ({
               label={t("modals.change_password.confirm_password_placeholder")}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
+              showCharacterCount={true}
+              maxLength={ACCOUNT_SETTINGS_PASSWORD_MAX_LENGTH}
+              characterLimitErrorText={t('error_messages.character_limit_error')}
+              errorText={confirmPasswordError}
             />
-            <FieldError $visible={Boolean(confirmPasswordError)}>
-              {confirmPasswordError}
-            </FieldError>
           </FieldGroup>
         </Fields>
       </ModalContent>
@@ -174,14 +185,4 @@ const Fields = styled.div`
 const FieldGroup = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const FieldError = styled.div<{ $visible?: boolean }>`
-  min-height: 18px;
-  color: ${props => props.theme.colors.error7};
-  font-size: 14px;
-  line-height: 18px;
-  padding-left: 4px;
-  margin-top: 8px;
-  visibility: ${props => (props.$visible ? "visible" : "hidden")};
 `;

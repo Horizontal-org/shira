@@ -1,6 +1,9 @@
 import axios from 'axios';
 import { useState } from 'react';
 
+// Deprecated
+// Question library flows should use `fetch/question_templates.ts`
+
 export interface App {
   name: string;
   id?: number;
@@ -41,6 +44,7 @@ export type QuestionLibraryDto = {
   name: string;
   isPhishing: boolean;
   type: string;
+  createdAt?: string;
   apps: App[];
   languages: LanguageDto[];
 };
@@ -53,6 +57,12 @@ export const getLibraryQuestions = async () => {
   } catch (err) {
     console.log("🚀 ~ getLibraryQuestions ~ err:", err);
   }
+};
+
+export enum LibraryQuestionFeedback {
+  Processing = 'PROCESSING',
+  Error = 'ERROR',
+  Success = 'SUCCESS',
 };
 
 export const useLibraryQuestionCRUD = () => {
@@ -78,9 +88,3 @@ export const useLibraryQuestionCRUD = () => {
 
   return { actionFeedback, duplicate };
 }
-
-export enum LibraryQuestionFeedback {
-  Processing = 'PROCESSING',
-  Error = 'ERROR',
-  Success = 'SUCCESS',
-};
