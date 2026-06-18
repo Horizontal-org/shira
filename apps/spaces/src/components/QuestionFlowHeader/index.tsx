@@ -38,6 +38,8 @@ export const QuestionFlowHeader: FunctionComponent<Props> = ({
 
   const [showNextTooltip, setShowNextTooltip] = useState(false);
 
+  const isEditFlow = Boolean(questionId);
+
   return (
     <Wrapper id="question-flow-header">
       <Left>
@@ -54,9 +56,7 @@ export const QuestionFlowHeader: FunctionComponent<Props> = ({
         />
 
         <Body2Regular>{
-          questionId
-            ? t('questions.edit.tab_header')
-            : t('create_question.header_title')}
+          isEditFlow ? t('questions.edit.tab_header') : t('create_question.header_title')}
         </Body2Regular>
       </Left>
 
