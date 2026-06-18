@@ -8,11 +8,11 @@ const paginationWrapperStyles = `
   width: 100%;
 `;
 
-export const TemplatePaginationWrapper = styled.div`
+export const LibraryPaginationContainer = styled.div`
   ${paginationWrapperStyles}
 `;
 
-export const InactiveTemplatePaginationWrapper = styled.div`
+export const InactiveLibraryPaginationContainer = styled.div`
   ${paginationWrapperStyles}
   pointer-events: none;
 `;

@@ -5,8 +5,8 @@ import { useTranslation } from "react-i18next";
 import { LibrarySearchEmptyState } from "../../LibrarySearchEmptyState";
 import { RowType } from "./Columns";
 import {
-  InactiveTemplatePaginationWrapper,
-  TemplatePaginationWrapper,
+  InactiveLibraryPaginationContainer,
+  LibraryPaginationContainer,
 } from "../../TemplatePaginationWrapper";
 
 type Props = {
@@ -46,15 +46,15 @@ export const QuestionTemplateResults: FunctionComponent<Props> = ({
   return (
     <>
       {shouldShowPagination && (
-        <TemplatePaginationWrapper>
+        <LibraryPaginationContainer>
           <CardPagination {...paginationPropsToRender} />
-        </TemplatePaginationWrapper>
+        </LibraryPaginationContainer>
       )}
 
       {!shouldShowPagination && shouldKeepPaginationVisible && (
-        <InactiveTemplatePaginationWrapper>
+        <InactiveLibraryPaginationContainer>
           <CardPagination {...paginationPropsToRender} />
-        </InactiveTemplatePaginationWrapper>
+        </InactiveLibraryPaginationContainer>
       )}
 
       {showEmptyState ? (
