@@ -35,6 +35,7 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
   const [passError, handlePassError] = useState("");
   const [passConfirmation, handlePassConfirmation] = useState("");
   const [passConfirmationError, handlePassConfirmationError] = useState("");
+  const [honeypot, setHoneypot] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -134,6 +135,7 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
         password: pass,
         passphrase: passphraseCode,
         email,
+        website: honeypot,
       })
 
       //if subIntent = pro, redirect to stripe
@@ -205,6 +207,15 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
             >
 
               <InputsContainer>
+                <input
+                  name="website"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  style={{ position: 'absolute', left: '-9999px', opacity: 0, height: 0, width: 0 }}
+                />
                 <TextInput
                   required
                   label={t('create_space.email_label')}

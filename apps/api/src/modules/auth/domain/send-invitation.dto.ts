@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer'
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator'
+import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator'
 
 export class SendInvitationDto {
     @IsNotEmpty()
@@ -18,4 +18,8 @@ export class SendInvitationDto {
     @IsNotEmpty()
     @IsString()
     subIntent: "starter" | "pro" | "enterprise"
+
+    @IsOptional()
+    @IsString()
+    website?: string
 }

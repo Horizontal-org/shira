@@ -18,11 +18,11 @@ export const QuizLayout: FunctionComponent<Props> = () => {
   const [learnerQuiz, handleLearnerQuiz] = useState(null)
 
   const [showUnavailable, handleShowUnavailable] = useState(false)
-  
+
 
   const getQuiz = async (hash) => {
     let rawQuiz = null
-    
+
     try {
       if (location.pathname.includes('/learner-quiz/')) {
         const rawLearnerQuiz = await getLearnerQuizByHash(hash)
@@ -40,11 +40,11 @@ export const QuizLayout: FunctionComponent<Props> = () => {
   }
 
   useEffect(() => {
-    getQuiz(hash)    
+    getQuiz(hash)
   }, [hash])
 
   if (showUnavailable) return (
-    <InvalidLink 
+    <InvalidLink
       title={t("invalid_quiz.title")}
       description={t("invalid_quiz.description")}
       homeButtonText={t("invalid_quiz.home_button")}
@@ -54,11 +54,11 @@ export const QuizLayout: FunctionComponent<Props> = () => {
   if (!quiz) return null
 
   return (
-      <>
-        <QuizFlow 
-          quiz={quiz}
-          learnerQuiz={learnerQuiz}
-        />
-      </>
+    <>
+      <QuizFlow
+        quiz={quiz}
+        learnerQuiz={learnerQuiz}
+      />
+    </>
   )
 }

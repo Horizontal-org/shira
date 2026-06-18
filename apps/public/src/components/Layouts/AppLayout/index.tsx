@@ -32,18 +32,19 @@ export const AppLayout: FunctionComponent<Props> = ({
   return (
     <Wrapper className="apps-container">
 
-      <MailApps 
+      <MailApps
         content={content}
         name={app.name}
         images={images}
         explanations={explanations}
         explanationNumber={explanationNumber}
         showExplanations={showExplanations}
-      />      
+      />
 
       <MessagingApps
         content={content}
         name={app.name}
+        images={images}
         explanations={explanations}
         explanationNumber={explanationNumber}
         showExplanations={showExplanations}

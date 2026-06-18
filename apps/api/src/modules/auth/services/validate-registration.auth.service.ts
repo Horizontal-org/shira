@@ -25,7 +25,11 @@ export class ValidateRegistrationAuthService implements IValidateRegistrationAut
   ) {}
 
   async execute(data: RegisterAuthDto): Promise<boolean> {
-      
+
+    if (data.website) {
+      throw new UnauthorizedException('Passphrase invalid')
+    }
+
     // check passphrase is valid
     const checkPassphrase = await this.checkPassphrase.execute(data.passphrase, data.email)
     if (!checkPassphrase) {

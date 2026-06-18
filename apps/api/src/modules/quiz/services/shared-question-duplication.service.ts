@@ -40,13 +40,33 @@ export class SharedQuestionDuplicationService implements ISharedQuestionDuplicat
 
     const savedQuestion = await manager.save(Question, newQuestion);
 
+    const imageIdMap = new Map<number, number>()
+    const newImageIds = []
+    for (const originalImage of originalQuestion.images) {
+      const newImagePath = this.generateNewImagePath(originalImage.relativePath, targetQuizId)
+      const newImage = manager.create(QuestionImage, {
+        name: originalImage.name,
+        relativePath: newImagePath,
+        question: savedQuestion,
+        quizId: targetQuizId
+      })
+      const savedImage = await manager.save(QuestionImage, newImage)
+      imageIdMap.set(originalImage.id, savedImage.id)
+      newImageIds.push(savedImage.id)
+      await this.imageService.copyAndDeleteOrigin(originalImage.relativePath, newImagePath)
+    }
+
     for (const translation of originalQuestion.questionTranslations) {
+      let content = translation.content
+      for (const [oldId, newId] of imageIdMap) {
+        content = content.replace(new RegExp(`data-image-id="${oldId}"`, 'g'), `data-image-id="${newId}"`)
+      }
       const newTranslation = manager.create(QuestionTranslation, {
-        content: translation.content,
+        content,
         question: savedQuestion,
         languageId: translation.languageId || defaultLanguage.id
-      });
-      await manager.save(QuestionTranslation, newTranslation);
+      })
+      await manager.save(QuestionTranslation, newTranslation)
     }
 
     for (const explanation of originalQuestion.explanations) {
@@ -67,23 +87,6 @@ export class SharedQuestionDuplicationService implements ISharedQuestionDuplicat
         });
         await manager.save(ExplanationTranslation, newExplanationTranslation);
       }
-    }
-
-    const newImageIds = [];
-    for (const originalImage of originalQuestion.images) {
-      const newImagePath = this.generateNewImagePath(originalImage.relativePath, targetQuizId);
-
-      const newImage = manager.create(QuestionImage, {
-        name: originalImage.name,
-        relativePath: newImagePath,
-        question: savedQuestion,
-        quizId: targetQuizId
-      });
-
-      const savedImage = await manager.save(QuestionImage, newImage);
-      newImageIds.push(savedImage.id);
-
-      await this.imageService.copyAndDeleteOrigin(originalImage.relativePath, newImagePath);
     }
 
     return {
