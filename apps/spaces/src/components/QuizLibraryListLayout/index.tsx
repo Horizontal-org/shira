@@ -24,6 +24,7 @@ import { LibraryControlsLayout } from "../LibraryControlsLayout";
 import { LibraryFilterToggle } from "../LibraryControlsLayout/LibraryFilterToggle";
 import { LibrarySearchControl } from "../LibraryControlsLayout/LibrarySearchControl";
 import { LibrarySortSelect } from "../LibraryControlsLayout/LibrarySortSelect";
+import { TemplatePaginationWrapper } from "../TemplatePaginationWrapper";
 
 export const QuizTemplatesListLayout: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -185,9 +186,9 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
           />
 
           {!showEmptyState && (
-            <PaginationWrapper>
+            <TemplatePaginationWrapper>
               <CardPagination {...paginationProps} />
-            </PaginationWrapper>
+            </TemplatePaginationWrapper>
           )}
 
           {showEmptyState ? (
@@ -217,9 +218,9 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
           )}
 
           {!loading && visibleLibraryQuizzes.length > 0 && (
-            <PaginationWrapper>
+            <TemplatePaginationWrapper>
               <CardPagination {...paginationProps} />
-            </PaginationWrapper>
+            </TemplatePaginationWrapper>
           )}
         </PageInner>
 
@@ -265,10 +266,6 @@ const PageInner = styled.div`
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     padding: 0;
   }
-`;
-
-const PaginationWrapper = styled.div`
-  padding: 0 16px;
 `;
 
 const CardGrid = styled.div`

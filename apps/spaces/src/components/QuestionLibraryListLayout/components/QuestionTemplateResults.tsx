@@ -1,9 +1,10 @@
 import { ComponentProps, Dispatch, FunctionComponent, SetStateAction, useEffect, useState } from "react";
-import { CardPagination, Table, styled } from "@horizontal-org/shira-ui";
+import { CardPagination, Table } from "@horizontal-org/shira-ui";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { useTranslation } from "react-i18next";
 import { LibrarySearchEmptyState } from "../../LibrarySearchEmptyState";
 import { RowType } from "./Columns";
+import { TemplatePaginationWrapper } from "../../TemplatePaginationWrapper";
 
 type Props = {
   shouldShowPagination: boolean;
@@ -42,9 +43,9 @@ export const QuestionTemplateResults: FunctionComponent<Props> = ({
 
   return (
     <>
-      <PaginationWrapper $visible={shouldRenderPagination} $inactive={!shouldShowPagination}>
+      <TemplatePaginationWrapper $visible={shouldRenderPagination} $inactive={!shouldShowPagination}>
         <CardPagination {...paginationPropsToRender} />
-      </PaginationWrapper>
+      </TemplatePaginationWrapper>
 
       {showEmptyState ? (
         <LibrarySearchEmptyState
@@ -80,13 +81,3 @@ export const QuestionTemplateResults: FunctionComponent<Props> = ({
     </>
   );
 };
-
-const PaginationWrapper = styled.div<{ $visible: boolean; $inactive: boolean }>`
-  box-sizing: border-box;
-  padding: 0 16px 8px;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  visibility: ${(props) => (props.$visible ? "visible" : "hidden")};
-  pointer-events: ${(props) => (props.$inactive ? "none" : "auto")};
-`;

@@ -68,7 +68,6 @@ const ActionsGroup = styled.div`
 `;
 
 const SearchSummaryContainer = styled.div<{ $visible: boolean }>`
-  height: 32px;
   overflow: hidden;
   visibility: ${(props) => (props.$visible ? "visible" : "hidden")};
 `;
