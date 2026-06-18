@@ -1,4 +1,4 @@
-import { CardPagination, styled } from "@horizontal-org/shira-ui";
+import { CardPagination, LibraryFilterToggleButton, styled } from "@horizontal-org/shira-ui";
 import { FunctionComponent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +21,6 @@ import { QuizLibraryFlowManagement } from "../QuizLibraryFlowManagement";
 import { useQuizTemplateList } from "./hooks/useQuizTemplateList";
 import { LibrarySearchEmptyState } from "../LibrarySearchEmptyState";
 import { LibraryControlsLayout } from "../LibraryControlsLayout";
-import { LibraryFilterToggle } from "../LibraryControlsLayout/LibraryFilterToggle";
 import { LibrarySearchControl } from "../LibraryControlsLayout/LibrarySearchControl";
 import { LibrarySortSelect } from "../LibraryControlsLayout/LibrarySortSelect";
 import { TemplatePaginationWrapper } from "../TemplatePaginationWrapper";
@@ -151,7 +150,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
                   onChange={setSortOption}
                 />
 
-                <LibraryFilterToggle
+                <LibraryFilterToggleButton
                   text={t("quiz_library.filters")}
                   isOpen={areFiltersOpen}
                   onClick={toggleFilters}
