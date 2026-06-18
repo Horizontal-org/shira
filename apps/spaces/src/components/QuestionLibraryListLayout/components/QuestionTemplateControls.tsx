@@ -1,14 +1,10 @@
 import { FunctionComponent, ReactNode } from "react";
-import {
-  Body1,
-  LibraryFilterToggleButton,
-  LibrarySearchInput,
-  SortSelect,
-  defaultTheme,
-  styled,
-} from "@horizontal-org/shira-ui";
 import { QuestionTemplateSortOption } from "../../../fetch/question_templates";
 import { useTranslation } from "react-i18next";
+import { LibraryControlsLayout } from "../../LibraryControlsLayout";
+import { LibraryFilterToggle } from "../../LibraryControlsLayout/LibraryFilterToggle";
+import { LibrarySearchControl } from "../../LibraryControlsLayout/LibrarySearchControl";
+import { LibrarySortSelect } from "../../LibraryControlsLayout/LibrarySortSelect";
 
 type SortOption = {
   value: QuestionTemplateSortOption;
@@ -58,104 +54,32 @@ export const QuestionTemplateControls: FunctionComponent<Props> = ({
   ];
 
   return (
-    <Controls>
-      <ControlsTopRow>
-        <SearchColumn>
-          <LibrarySearchInput
-            value={searchValue}
-            onChange={onSearchChange}
-            placeholder={t("question_library.search_placeholder")}
-          />
-        </SearchColumn>
-
-        <ActionsGroup>
-          <StyledSortSelect
+    <LibraryControlsLayout
+      searchControl={(
+        <LibrarySearchControl
+          value={searchValue}
+          onChange={onSearchChange}
+          placeholder={t("question_library.search_placeholder")}
+        />
+      )}
+      actions={(
+        <>
+          <LibrarySortSelect
             value={sortOption}
             options={sortOptions}
-            prefix={`${t("question_library.sort_by")}:`}
-            ariaLabel={t("question_library.sort_by")}
-            onChange={(nextValue) => onSortChange(nextValue as QuestionTemplateSortOption)}
+            label={t("question_library.sort_by")}
+            onChange={onSortChange}
           />
 
-          <LibraryFilterToggleButton
+          <LibraryFilterToggle
             text={t("question_library.filters")}
             isOpen={areFiltersOpen}
             onClick={onToggleFilters}
           />
-        </ActionsGroup>
-      </ControlsTopRow>
-
-      <SearchSummaryContainer $visible={Boolean(searchSummary)}>
-        <SearchSummaryText>{searchSummary ?? ""}</SearchSummaryText>
-      </SearchSummaryContainer>
-
-      {areFiltersOpen && filters}
-    </Controls>
+        </>
+      )}
+      searchSummary={searchSummary}
+      filters={areFiltersOpen ? filters : undefined}
+    />
   );
 };
-
-const Controls = styled("div")`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-`;
-
-const SearchSummaryContainer = styled.div<{ $visible: boolean }>`
-  height: 32px;
-  overflow: hidden;
-  visibility: ${(props) => (props.$visible ? "visible" : "hidden")};
-`;
-
-const SearchSummaryText = styled(Body1)`
-  margin: 0;
-  padding: 4px 0 0;
-  color: ${defaultTheme.colors.dark.darkGrey};
-`;
-
-const ControlsTopRow = styled("div")`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  color: ${defaultTheme.colors.dark.black};
-
-  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
-    flex-direction: column;
-    align-items: stretch;
-  }
-`;
-
-const SearchColumn = styled.div`
-  flex: 1 1 auto;
-  min-width: 0;
-  max-width: 628px;
-
-  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
-    width: 100%;
-    max-width: none;
-    min-width: 0;
-  }
-`;
-
-const ActionsGroup = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 12px;
-  margin-left: auto;
-  flex-shrink: 0;
-
-  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
-    width: 100%;
-    margin-left: 0;
-  }
-`;
-
-const StyledSortSelect = styled(SortSelect)`
-  min-width: 280px;
-
-  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
-    flex: 1;
-    min-width: 0;
-  }
-`;

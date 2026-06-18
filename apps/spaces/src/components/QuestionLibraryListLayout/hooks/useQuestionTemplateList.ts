@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { type SetStateAction, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getApps, type App } from "../../../fetch/app";
 import {
@@ -14,21 +14,36 @@ import { useDebouncedValue } from "./useDebouncedValue";
 import { useQuestionTemplateFilterOptions } from "./useQuestionTemplateFilterOptions";
 import { useQuestionTemplateFilters } from "./useQuestionTemplateFilters";
 
+const LOADING_INDICATOR_DELAY_MS = 200;
+
 export const useQuestionTemplateList = () => {
   const { t } = useTranslation();
   const [questionTemplates, setQuestionTemplates] = useState<LibraryQuestionTemplateDto[]>([]);
   const [apps, setApps] = useState<App[]>([]);
   const [totalAvailableQuestions, setTotalAvailableQuestions] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [pageIndex, setPageIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [showLoadingIndicator, setShowLoadingIndicator] = useState(true);
+  const [pageIndex, setPageIndexState] = useState(0);
   const [searchValue, setSearchValueState] = useState("");
   const [sortOption, setSortOptionState] = useState<QuestionTemplateSortOption>(DEFAULT_QUESTION_TEMPLATE_SORT);
 
-  const resetPagination = () => setPageIndex(0);
+  const startLoading = () => {
+    setLoading(true);
+  };
+
+  const setPageIndex = (value: SetStateAction<number>) => {
+    startLoading();
+    setPageIndexState(value);
+  };
+
+  const resetPagination = () => setPageIndexState(0);
 
   const debouncedSearchValue = useDebouncedValue(searchValue.trim());
 
-  const filters = useQuestionTemplateFilters(resetPagination);
+  const filters = useQuestionTemplateFilters(() => {
+    startLoading();
+    resetPagination();
+  });
   const { languageOptions, tagOptions } = useQuestionTemplateFilterOptions(filters.areFiltersOpen);
 
   useEffect(() => {
@@ -63,6 +78,11 @@ export const useQuestionTemplateList = () => {
   useEffect(() => {
     const loadQuestionTemplates = async () => {
       setLoading(true);
+      const hasQueryModifiers = debouncedSearchValue.length > 0
+        || filters.selectedLanguages.length > 0
+        || filters.selectedTags.length > 0
+        || filters.selectedAppType.length > 0
+        || filters.selectedType.length > 0;
 
       try {
         const response = await getQuestionTemplates({
@@ -78,10 +98,13 @@ export const useQuestionTemplateList = () => {
             : undefined,
         });
 
-        setQuestionTemplates(response.data);
+        if (response.total > 0 || !hasQueryModifiers) {
+          setQuestionTemplates(response.data);
+        }
+
         setTotalAvailableQuestions(response.total);
 
-        setPageIndex((currentPageIndex) => {
+        setPageIndexState((currentPageIndex) => {
           const nextPageIndex = Math.max(0, response.page - 1);
           return currentPageIndex === nextPageIndex
             ? currentPageIndex
@@ -106,19 +129,41 @@ export const useQuestionTemplateList = () => {
   ]);
 
   useEffect(() => {
+    if (!loading) {
+      setShowLoadingIndicator(false);
+      return;
+    }
+
+    if (questionTemplates.length === 0) {
+      setShowLoadingIndicator(true);
+      return;
+    }
+
+    const loadingIndicatorTimeout = window.setTimeout(() => {
+      setShowLoadingIndicator(true);
+    }, LOADING_INDICATOR_DELAY_MS);
+
+    return () => {
+      window.clearTimeout(loadingIndicatorTimeout);
+    };
+  }, [loading, questionTemplates.length]);
+
+  useEffect(() => {
     if (pageIndex <= pageCount - 1) {
       return;
     }
 
-    setPageIndex(Math.max(0, pageCount - 1));
+    setPageIndexState(Math.max(0, pageCount - 1));
   }, [pageCount, pageIndex]);
 
   const setSearchValue = (value: string) => {
+    startLoading();
     setSearchValueState(value);
     resetPagination();
   };
 
   const setSortOption = (nextSortOption: QuestionTemplateSortOption) => {
+    startLoading();
     setSortOptionState(nextSortOption);
     resetPagination();
   };
@@ -143,6 +188,7 @@ export const useQuestionTemplateList = () => {
     paginationProps,
     questionTemplates,
     searchValue,
+    showLoadingIndicator,
     setSearchValue,
     setSortOption,
     showEmptyState,

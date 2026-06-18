@@ -1,14 +1,11 @@
-import { ComponentProps, Dispatch, FunctionComponent, SetStateAction } from "react";
-import { CardPagination, Table, defaultTheme, styled } from "@horizontal-org/shira-ui";
+import { ComponentProps, Dispatch, FunctionComponent, SetStateAction, useEffect, useState } from "react";
+import { CardPagination, Table, styled } from "@horizontal-org/shira-ui";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { useTranslation } from "react-i18next";
 import { LibrarySearchEmptyState } from "../../LibrarySearchEmptyState";
 import { RowType } from "./Columns";
 
 type Props = {
-  hasActiveSearch: boolean;
-  total: number;
-  searchTerm: string;
   shouldShowPagination: boolean;
   paginationProps: ComponentProps<typeof CardPagination>;
   showEmptyState: boolean;
@@ -20,9 +17,6 @@ type Props = {
 };
 
 export const QuestionTemplateResults: FunctionComponent<Props> = ({
-  hasActiveSearch,
-  total,
-  searchTerm,
   shouldShowPagination,
   paginationProps,
   showEmptyState,
@@ -33,28 +27,24 @@ export const QuestionTemplateResults: FunctionComponent<Props> = ({
   setRowSelection,
 }) => {
   const { t } = useTranslation();
+  const [stablePaginationProps, setStablePaginationProps] = useState(paginationProps);
+
+  useEffect(() => {
+    if (shouldShowPagination) {
+      setStablePaginationProps(paginationProps);
+    }
+  }, [paginationProps, shouldShowPagination]);
+
+  const shouldKeepPaginationVisible = rows.length > 0 && (loading || showEmptyState);
+  const shouldRenderPagination = shouldShowPagination || shouldKeepPaginationVisible;
+  const paginationPropsToRender = shouldShowPagination ? paginationProps : stablePaginationProps;
+  const shouldShowTableLoadingState = loading && rows.length === 0;
 
   return (
     <>
-      {hasActiveSearch && (
-        <SearchResultsText>
-          {t(
-            total === 1
-              ? "question_library.search_results"
-              : "question_library.search_results_plural",
-            {
-              count: total,
-              searchTerm,
-            },
-          )}
-        </SearchResultsText>
-      )}
-
-      {shouldShowPagination && (
-        <PaginationWrapper>
-          <CardPagination {...paginationProps} />
-        </PaginationWrapper>
-      )}
+      <PaginationWrapper $visible={shouldRenderPagination} $inactive={!shouldShowPagination}>
+        <CardPagination {...paginationPropsToRender} />
+      </PaginationWrapper>
 
       {showEmptyState ? (
         <LibrarySearchEmptyState
@@ -62,62 +52,41 @@ export const QuestionTemplateResults: FunctionComponent<Props> = ({
           subtitle={t("library.empty_search.subtitle")}
         />
       ) : (
-        <TableWrapper>
-          <Table
-            size="full"
-            loading={loading}
-            loadingMessage={t("loading_messages.loading_library_questions")}
-            emptyMessage={t("success_messages.no_questions_found")}
-            data={rows}
-            columns={columns}
-            rowSelection={rowSelection}
-            setRowSelection={setRowSelection}
-            enableRowSelection={false}
-            enablePagination={false}
-            colGroups={
-              <colgroup>
-                <col style={{ width: "4%" }} />
-                <col style={{ width: "24%" }} />
-                <col style={{ width: "10%" }} />
-                <col style={{ width: "10%" }} />
-                <col style={{ width: "11%" }} />
-                <col style={{ width: "12%" }} />
-                <col style={{ width: "14%" }} />
-                <col style={{ width: "10%" }} />
-              </colgroup>
-            }
-          />
-        </TableWrapper>
+        <Table
+          size="full"
+          loading={shouldShowTableLoadingState}
+          loadingMessage={t("loading_messages.loading_library_questions")}
+          emptyMessage={t("success_messages.no_questions_found")}
+          data={rows}
+          columns={columns}
+          rowSelection={rowSelection}
+          setRowSelection={setRowSelection}
+          enableRowSelection={false}
+          enablePagination={false}
+          colGroups={
+            <colgroup>
+              <col style={{ width: "4%" }} />
+              <col style={{ width: "24%" }} />
+              <col style={{ width: "10%" }} />
+              <col style={{ width: "10%" }} />
+              <col style={{ width: "11%" }} />
+              <col style={{ width: "12%" }} />
+              <col style={{ width: "14%" }} />
+              <col style={{ width: "10%" }} />
+            </colgroup>
+          }
+        />
       )}
     </>
   );
 };
 
-const SearchResultsText = styled.p`
-  margin: 0;
-  padding: 0 4px;
-  font-size: 14px;
-  line-height: 1.4;
-  color: ${defaultTheme.colors.dark.mediumGrey};
-`;
-
-const PaginationWrapper = styled.div`
-  padding: 0 16px;
-`;
-
-const TableWrapper = styled("div")`
-  overflow: visible;
-
-  & table td {
-    padding: 13px 16px;
-  }
-
-  & table th {
-    padding-bottom: 10px;
-    font-size: 14px;
-  }
-
-  & table tbody tr:hover td {
-    background: ${defaultTheme.colors.light.white};
-  }
+const PaginationWrapper = styled.div<{ $visible: boolean; $inactive: boolean }>`
+  box-sizing: border-box;
+  padding: 0 16px 8px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  visibility: ${(props) => (props.$visible ? "visible" : "hidden")};
+  pointer-events: ${(props) => (props.$inactive ? "none" : "auto")};
 `;

@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import type { RowSelectionState } from "@tanstack/react-table";
 import { useNavigate, useLocation } from "react-router-dom";
 import { shallow } from "zustand/shallow";
@@ -46,8 +46,8 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
   const { t } = useTranslation();
 
   const [preview, setPreview] = useState<RowType | null>(null);
-  const [rows, setRows] = useState<RowType[]>([]);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+  const [selectedAppIdsByQuestionId, setSelectedAppIdsByQuestionId] = useState<Record<number, number>>({});
   const {
     appOptions,
     apps,
@@ -62,6 +62,7 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
     paginationProps,
     questionTemplates,
     searchValue,
+    showLoadingIndicator,
     selectedAppType,
     selectedLanguages,
     selectedTags,
@@ -79,16 +80,35 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
     total,
   } = useQuestionTemplateList();
 
-  useEffect(() => {
+  const rows = useMemo(() => {
     const normalized = questionTemplateToRow(questionTemplates, apps, languages);
-    setRows(normalized);
-  }, [apps, languages, questionTemplates]);
+    const nextRows = normalized.map((row) => {
+      const selectedAppId = selectedAppIdsByQuestionId[row.id];
+
+      if (selectedAppId == null) return row;
+
+      const selectedApp = row.apps.find((app) => app.id === selectedAppId);
+
+      if (!selectedApp) return row;
+
+      return {
+        ...row,
+        app: selectedApp,
+      };
+    });
+
+    return nextRows;
+  }, [apps, languages, questionTemplates, selectedAppIdsByQuestionId]);
 
   useEffect(() => {
     return () => {
       clearActiveQuestion();
     };
   }, [clearActiveQuestion]);
+
+  useEffect(() => {
+    setSelectedAppIdsByQuestionId({});
+  }, [questionTemplates]);
 
   const handlePreview = (row: RowType) => {
     setPreview(row);
@@ -119,17 +139,10 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
   };
 
   const handleSelectApp = (questionId: number, appId: number) => {
-    setRows((prev) =>
-      prev.map((r) => {
-        if (r.id !== questionId) return r;
-        const picked = r.apps.find((av) => av.id === appId);
-        if (!picked) return r;
-        return {
-          ...r,
-          app: { id: picked.id, name: picked.name, type: picked.type },
-        };
-      }),
-    );
+    setSelectedAppIdsByQuestionId((prev) => ({
+      ...prev,
+      [questionId]: appId,
+    }));
   };
 
   const shouldShowPagination = !loading && total > 0;
@@ -154,6 +167,17 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
           onSortChange={setSortOption}
           areFiltersOpen={areFiltersOpen}
           onToggleFilters={toggleFilters}
+          searchSummary={hasActiveSearch
+            ? t(
+              total === 1
+                ? "question_library.search_results"
+                : "question_library.search_results_plural",
+              {
+                count: total,
+                searchTerm: debouncedSearchValue,
+              },
+            )
+            : undefined}
           filters={(
             <QuestionTemplateFilters
               languageOptions={languageOptions}
@@ -174,13 +198,10 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
         />
 
         <QuestionTemplateResults
-          hasActiveSearch={hasActiveSearch}
-          total={total}
-          searchTerm={debouncedSearchValue}
           shouldShowPagination={shouldShowPagination}
           paginationProps={paginationProps}
           showEmptyState={showEmptyState}
-          loading={loading}
+          loading={showLoadingIndicator}
           rows={rows}
           columns={columns}
           rowSelection={rowSelection}
