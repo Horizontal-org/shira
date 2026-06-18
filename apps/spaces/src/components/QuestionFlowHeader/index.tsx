@@ -5,11 +5,13 @@ import {
   Body2Regular,
   Button,
   CloseButton,
-  GeneralTooltip
+  GeneralTooltip,
+  defaultTheme
 } from "@horizontal-org/shira-ui"
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { QuestionCRUDFeedback } from "../../fetch/question";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 
 interface Props {
   onNext: () => void
@@ -32,7 +34,10 @@ export const QuestionFlowHeader: FunctionComponent<Props> = ({
 }) => {
 
   const { t } = useTranslation();
-  const [showNextTooltip, setShowNextTooltip] = useState(false)
+  const { questionId } = useParams();
+
+  const [showNextTooltip, setShowNextTooltip] = useState(false);
+
   return (
     <Wrapper id="question-flow-header">
       <Left>
@@ -48,8 +53,13 @@ export const QuestionFlowHeader: FunctionComponent<Props> = ({
           size={24}
         />
 
-        <Body2Regular>{t('create_question.header_title')}</Body2Regular>
+        <Body2Regular>{
+          questionId
+            ? t('questions.edit.tab_header')
+            : t('create_question.header_title')}
+        </Body2Regular>
       </Left>
+
       <Right>
         <Button
           id="question-flow-header-back"
@@ -59,25 +69,25 @@ export const QuestionFlowHeader: FunctionComponent<Props> = ({
           type="outline"
         />
 
-         <GeneralTooltip
-            enabled={disableNext}
-            show={showNextTooltip}
-            setShow={setShowNextTooltip}
-            label={nextTooltipLabel ?? t('create_question.header_required_tooltip')}
-          >
-             <Button
-              id="question-flow-header-next"
-              color="#52752C"
-              rightIcon={<FiChevronRight size={16} />}
-              disabled={disableNext || actionFeedback === QuestionCRUDFeedback.processing}
-              onClick={onNext}
-              text={step === 2
-                ? (actionFeedback === QuestionCRUDFeedback.processing
-                  ? t('loading_messages.saving')
-                  : t('buttons.save'))
-                : t('buttons.next')}
-              type="primary"
-            />
+        <GeneralTooltip
+          enabled={disableNext}
+          show={showNextTooltip}
+          setShow={setShowNextTooltip}
+          label={nextTooltipLabel ?? t('create_question.header_required_tooltip')}
+        >
+          <Button
+            id="question-flow-header-next"
+            color={defaultTheme.colors.green7}
+            rightIcon={<FiChevronRight size={16} />}
+            disabled={disableNext || actionFeedback === QuestionCRUDFeedback.processing}
+            onClick={onNext}
+            text={step === 2
+              ? (actionFeedback === QuestionCRUDFeedback.processing
+                ? t('loading_messages.saving')
+                : t('buttons.save'))
+              : t('buttons.next')}
+            type="primary"
+          />
         </GeneralTooltip>
       </Right>
     </Wrapper>
