@@ -12,10 +12,6 @@ export const getTemplateMultiSelectedLabel = (
   selectedValues: string[],
   selectedCountLabel: string,
 ) => {
-  if (selectedValues.length === 0) {
-    return;
-  }
-
   if (selectedValues.length === 1) {
     return options
       .find((option) => option.value === selectedValues[0])?.label ?? selectedValues[0];
@@ -34,7 +30,7 @@ export const TemplateFilterSelect = styled(FilterSelect)<FilterSelectProps>`
   }
 `;
 
-export const TemplateFiltersRow = styled.div`
+export const TemplateFilters = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -63,20 +59,20 @@ const TemplateFiltersIconWrapper = styled.span`
   flex: 0 0 auto;
 `;
 
-export const TemplateFiltersClearButton = ({
+export const TemplateFiltersClearAllButton = ({
   clearAllLabel,
   onClick,
 }: {
   clearAllLabel: string;
   onClick: () => void;
 }) => (
-  <ClearAllButton onClick={onClick}>
+  <TemplateFiltersClearAllButtonBase onClick={onClick}>
     <FiX size={16} />
     <Body4>{clearAllLabel}</Body4>
-  </ClearAllButton>
+  </TemplateFiltersClearAllButtonBase>
 );
 
-const ClearAllButton = styled.button`
+const TemplateFiltersClearAllButtonBase = styled.button`
   -webkit-appearance: none;
   min-height: 30px;
   padding: 0 10px;

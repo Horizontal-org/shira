@@ -6,11 +6,11 @@ import { IoLanguage } from "react-icons/io5";
 import { BiSolidTagAlt } from "react-icons/bi";
 import {
   getTemplateMultiSelectedLabel,
+  TemplateFilters,
+  TemplateFiltersClearAllButton,
   TemplateFilterOption,
   TemplateFilterSelect,
-  TemplateFiltersClearButton,
   TemplateFiltersIcon,
-  TemplateFiltersRow,
 } from "../../../LibraryControlsLayout/TemplateFilters";
 
 type Props = {
@@ -41,12 +41,26 @@ export const QuizTemplateFilters: FunctionComponent<Props> = ({
   const { t } = useTranslation();
 
   const creatorFilterOptions = creatorOptions.map((creator) => ({ value: creator, label: creator }));
+  const languageSelectedLabel = selectedLanguages.length > 0
+    ? getTemplateMultiSelectedLabel(
+      languageOptions,
+      selectedLanguages,
+      t("quiz_library.filters_panel.selected_count", { count: selectedLanguages.length }),
+    )
+    : undefined;
+  const tagSelectedLabel = selectedTags.length > 0
+    ? getTemplateMultiSelectedLabel(
+      tagOptions,
+      selectedTags,
+      t("quiz_library.filters_panel.selected_count", { count: selectedTags.length }),
+    )
+    : undefined;
   const hasActiveFilters = selectedLanguages.length > 0
     || selectedTags.length > 0
     || selectedCreator.length > 0;
 
   return (
-    <TemplateFiltersRow>
+    <TemplateFilters>
       <TemplateFiltersIcon />
 
       <TemplateFilterSelect
@@ -56,11 +70,7 @@ export const QuizTemplateFilters: FunctionComponent<Props> = ({
         ariaLabel={t("quiz_library.filters_panel.language")}
         leftIcon={<IoLanguage size={10} color={defaultTheme.colors.blue6} />}
         isMulti={true}
-        selectedLabel={getTemplateMultiSelectedLabel(
-          languageOptions,
-          selectedLanguages,
-          t("quiz_library.filters_panel.selected_count", { count: selectedLanguages.length }),
-        )}
+        selectedLabel={languageSelectedLabel}
         onChange={(value) => onLanguageChange(value as string[])}
         onClear={() => onLanguageChange([])}
       />
@@ -72,11 +82,7 @@ export const QuizTemplateFilters: FunctionComponent<Props> = ({
         ariaLabel={t("quiz_library.filters_panel.tag")}
         leftIcon={<BiSolidTagAlt size={10} color={defaultTheme.colors.warning4} />}
         isMulti={true}
-        selectedLabel={getTemplateMultiSelectedLabel(
-          tagOptions,
-          selectedTags,
-          t("quiz_library.filters_panel.selected_count", { count: selectedTags.length }),
-        )}
+        selectedLabel={tagSelectedLabel}
         onChange={(value) => onTagChange(value as string[])}
         onClear={() => onTagChange([])}
       />
@@ -93,11 +99,11 @@ export const QuizTemplateFilters: FunctionComponent<Props> = ({
       />
 
       {hasActiveFilters && (
-        <TemplateFiltersClearButton
+        <TemplateFiltersClearAllButton
           clearAllLabel={t("quiz_library.filters_panel.clear_all")}
           onClick={onClearAll}
         />
       )}
-    </TemplateFiltersRow>
+    </TemplateFilters>
   );
 };

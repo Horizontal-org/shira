@@ -6,11 +6,11 @@ import { IoAppsSharp, IoLanguage } from "react-icons/io5";
 import { BiSolidTagAlt } from "react-icons/bi";
 import {
   getTemplateMultiSelectedLabel,
+  TemplateFilters,
+  TemplateFiltersClearAllButton,
   TemplateFilterOption,
   TemplateFilterSelect,
-  TemplateFiltersClearButton,
   TemplateFiltersIcon,
-  TemplateFiltersRow,
 } from "../../LibraryControlsLayout/TemplateFilters";
 
 type Props = {
@@ -46,6 +46,25 @@ export const QuestionTemplateFilters: FunctionComponent<Props> = ({
 }) => {
   const { t } = useTranslation();
 
+  const languageSelectedLabel = selectedLanguages.length > 0
+    ? getTemplateMultiSelectedLabel(
+      languageOptions,
+      selectedLanguages,
+      t("question_library.filters_panel.selected_count", {
+        count: selectedLanguages.length,
+      }),
+    )
+    : undefined;
+  const tagSelectedLabel = selectedTags.length > 0
+    ? getTemplateMultiSelectedLabel(
+      tagOptions,
+      selectedTags,
+      t("question_library.filters_panel.selected_count", {
+        count: selectedTags.length,
+      }),
+    )
+    : undefined;
+
   const typeOptions = useMemo<TemplateFilterOption[]>(
     () => [
       {
@@ -61,7 +80,7 @@ export const QuestionTemplateFilters: FunctionComponent<Props> = ({
   );
 
   return (
-    <TemplateFiltersRow>
+    <TemplateFilters>
       <TemplateFiltersIcon />
 
       <TemplateFilterSelect
@@ -71,13 +90,7 @@ export const QuestionTemplateFilters: FunctionComponent<Props> = ({
         ariaLabel={t("question_library.filters_panel.language")}
         leftIcon={<IoLanguage size={10} color={defaultTheme.colors.blue6} />}
         isMulti={true}
-        selectedLabel={getTemplateMultiSelectedLabel(
-          languageOptions,
-          selectedLanguages,
-          t("question_library.filters_panel.selected_count", {
-            count: selectedLanguages.length,
-          }),
-        )}
+        selectedLabel={languageSelectedLabel}
         onChange={(value) => onLanguageChange(value as string[])}
         onClear={() => onLanguageChange([])}
       />
@@ -89,13 +102,7 @@ export const QuestionTemplateFilters: FunctionComponent<Props> = ({
         ariaLabel={t("question_library.filters_panel.tag")}
         leftIcon={<BiSolidTagAlt size={10} color={defaultTheme.colors.warning4} />}
         isMulti={true}
-        selectedLabel={getTemplateMultiSelectedLabel(
-          tagOptions,
-          selectedTags,
-          t("question_library.filters_panel.selected_count", {
-            count: selectedTags.length,
-          }),
-        )}
+        selectedLabel={tagSelectedLabel}
         onChange={(value) => onTagChange(value as string[])}
         onClear={() => onTagChange([])}
       />
@@ -123,11 +130,11 @@ export const QuestionTemplateFilters: FunctionComponent<Props> = ({
       />
 
       {hasActiveFilters && (
-        <TemplateFiltersClearButton
+        <TemplateFiltersClearAllButton
           clearAllLabel={t("question_library.filters_panel.clear_all")}
           onClick={onClearAll}
         />
       )}
-    </TemplateFiltersRow>
+    </TemplateFilters>
   );
 };

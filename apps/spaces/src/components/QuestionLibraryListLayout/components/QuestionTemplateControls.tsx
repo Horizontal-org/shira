@@ -2,7 +2,7 @@ import { LibraryFilterToggleButton } from "@horizontal-org/shira-ui";
 import { FunctionComponent, ReactNode } from "react";
 import { QuestionTemplateSortOption } from "../../../fetch/question_templates";
 import { useTranslation } from "react-i18next";
-import { LibraryControlsLayout } from "../../LibraryControlsLayout";
+import { LibraryToolbar } from "../../LibraryControlsLayout";
 import { LibrarySearchControl } from "../../LibraryControlsLayout/LibrarySearchControl";
 import { LibrarySortSelect } from "../../LibraryControlsLayout/LibrarySortSelect";
 
@@ -54,7 +54,7 @@ export const QuestionTemplateControls: FunctionComponent<Props> = ({
   ];
 
   return (
-    <LibraryControlsLayout
+    <LibraryToolbar
       searchControl={(
         <LibrarySearchControl
           value={searchValue}

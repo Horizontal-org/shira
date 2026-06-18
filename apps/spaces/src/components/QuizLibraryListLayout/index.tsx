@@ -20,7 +20,7 @@ import { useSub } from "../../hooks/useSub";
 import { QuizLibraryFlowManagement } from "../QuizLibraryFlowManagement";
 import { useQuizTemplateList } from "./hooks/useQuizTemplateList";
 import { LibrarySearchEmptyState } from "../LibrarySearchEmptyState";
-import { LibraryControlsLayout } from "../LibraryControlsLayout";
+import { LibraryToolbar } from "../LibraryControlsLayout";
 import { LibrarySearchControl } from "../LibraryControlsLayout/LibrarySearchControl";
 import { LibrarySortSelect } from "../LibraryControlsLayout/LibrarySortSelect";
 import { TemplatePaginationWrapper } from "../TemplatePaginationWrapper";
@@ -116,7 +116,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
 
         <PageInner>
 
-          <LibraryControlsLayout
+          <LibraryToolbar
             searchControl={(
               <LibrarySearchControl
                 value={searchValue}
