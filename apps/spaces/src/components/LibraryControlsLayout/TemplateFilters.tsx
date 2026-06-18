@@ -1,18 +1,10 @@
 import { Body4, FilterSelect, defaultTheme, styled, type FilterSelectProps } from "@horizontal-org/shira-ui";
-import { ReactNode } from "react";
 import { HiFunnel } from "react-icons/hi2";
 import { FiX } from "react-icons/fi";
 
 export type TemplateFilterOption = {
   value: string;
   label: string;
-};
-
-type TemplateFiltersLayoutProps = {
-  children: ReactNode;
-  hasActiveFilters: boolean;
-  clearAllLabel: string;
-  onClearAll: () => void;
 };
 
 export const getTemplateMultiSelectedLabel = (
@@ -32,30 +24,6 @@ export const getTemplateMultiSelectedLabel = (
   return selectedCountLabel;
 };
 
-export const TemplateFiltersLayout = ({
-  children,
-  hasActiveFilters,
-  clearAllLabel,
-  onClearAll,
-}: TemplateFiltersLayoutProps) => {
-  return (
-    <FiltersRow>
-      <FiltersIcon>
-        <HiFunnel size={18} color={defaultTheme.colors.dark.mediumGrey} />
-      </FiltersIcon>
-
-      {children}
-
-      {hasActiveFilters && (
-        <ClearAllButton onClick={onClearAll}>
-          <FiX size={16} />
-          <Body4>{clearAllLabel}</Body4>
-        </ClearAllButton>
-      )}
-    </FiltersRow>
-  );
-};
-
 export const TemplateFilterSelect = styled(FilterSelect)<FilterSelectProps>`
   min-width: 160px;
   max-width: 200px;
@@ -66,7 +34,7 @@ export const TemplateFilterSelect = styled(FilterSelect)<FilterSelectProps>`
   }
 `;
 
-const FiltersRow = styled.div`
+export const TemplateFiltersRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -82,12 +50,31 @@ const FiltersRow = styled.div`
   }
 `;
 
-const FiltersIcon = styled.span`
+export const TemplateFiltersIcon = () => (
+  <TemplateFiltersIconWrapper>
+    <HiFunnel size={18} color={defaultTheme.colors.dark.mediumGrey} />
+  </TemplateFiltersIconWrapper>
+);
+
+const TemplateFiltersIconWrapper = styled.span`
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
 `;
+
+export const TemplateFiltersClearButton = ({
+  clearAllLabel,
+  onClick,
+}: {
+  clearAllLabel: string;
+  onClick: () => void;
+}) => (
+  <ClearAllButton onClick={onClick}>
+    <FiX size={16} />
+    <Body4>{clearAllLabel}</Body4>
+  </ClearAllButton>
+);
 
 const ClearAllButton = styled.button`
   -webkit-appearance: none;

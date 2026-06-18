@@ -6,9 +6,11 @@ import { IoAppsSharp, IoLanguage } from "react-icons/io5";
 import { BiSolidTagAlt } from "react-icons/bi";
 import {
   getTemplateMultiSelectedLabel,
-  TemplateFiltersLayout,
   TemplateFilterOption,
   TemplateFilterSelect,
+  TemplateFiltersClearButton,
+  TemplateFiltersIcon,
+  TemplateFiltersRow,
 } from "../../LibraryControlsLayout/TemplateFilters";
 
 type Props = {
@@ -59,11 +61,9 @@ export const QuestionTemplateFilters: FunctionComponent<Props> = ({
   );
 
   return (
-    <TemplateFiltersLayout
-      hasActiveFilters={hasActiveFilters}
-      clearAllLabel={t("question_library.filters_panel.clear_all")}
-      onClearAll={onClearAll}
-    >
+    <TemplateFiltersRow>
+      <TemplateFiltersIcon />
+
       <TemplateFilterSelect
         value={selectedLanguages}
         options={languageOptions}
@@ -121,6 +121,13 @@ export const QuestionTemplateFilters: FunctionComponent<Props> = ({
         onChange={(value) => onTypeChange(value as string)}
         onClear={() => onTypeChange("")}
       />
-    </TemplateFiltersLayout>
+
+      {hasActiveFilters && (
+        <TemplateFiltersClearButton
+          clearAllLabel={t("question_library.filters_panel.clear_all")}
+          onClick={onClearAll}
+        />
+      )}
+    </TemplateFiltersRow>
   );
 };

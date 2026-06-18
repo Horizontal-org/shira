@@ -7,8 +7,10 @@ import { BiSolidTagAlt } from "react-icons/bi";
 import {
   getTemplateMultiSelectedLabel,
   TemplateFilterOption,
-  TemplateFiltersLayout,
   TemplateFilterSelect,
+  TemplateFiltersClearButton,
+  TemplateFiltersIcon,
+  TemplateFiltersRow,
 } from "../../../LibraryControlsLayout/TemplateFilters";
 
 type Props = {
@@ -44,11 +46,9 @@ export const QuizTemplateFilters: FunctionComponent<Props> = ({
     || selectedCreator.length > 0;
 
   return (
-    <TemplateFiltersLayout
-      hasActiveFilters={hasActiveFilters}
-      clearAllLabel={t("quiz_library.filters_panel.clear_all")}
-      onClearAll={onClearAll}
-    >
+    <TemplateFiltersRow>
+      <TemplateFiltersIcon />
+
       <TemplateFilterSelect
         value={selectedLanguages}
         options={languageOptions}
@@ -91,6 +91,13 @@ export const QuizTemplateFilters: FunctionComponent<Props> = ({
         onChange={onCreatorChange}
         onClear={() => onCreatorChange("")}
       />
-    </TemplateFiltersLayout>
+
+      {hasActiveFilters && (
+        <TemplateFiltersClearButton
+          clearAllLabel={t("quiz_library.filters_panel.clear_all")}
+          onClick={onClearAll}
+        />
+      )}
+    </TemplateFiltersRow>
   );
 };
