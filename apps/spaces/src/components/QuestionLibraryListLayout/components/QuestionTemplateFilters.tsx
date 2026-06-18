@@ -152,14 +152,16 @@ export const QuestionTemplateFilters: FunctionComponent<Props> = ({
 const FiltersRow = styled.div`
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
   gap: 10px;
-  width: fit-content;
+  width: 100%;
+  max-width: 100%;
   margin-left: auto;
 
   @media (max-width: ${(props) => props.theme.breakpoints.md}) {
     width: 100%;
     margin-left: 0;
-    flex-wrap: wrap;
   }
 `;
 
