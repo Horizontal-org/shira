@@ -18,7 +18,7 @@ export class LoginAuthController {
     private generateTokenAuthService: IGenerateTokenAuthService,
     @Inject(TYPES.services.IMarkUserLoginService)
     private markUserLoginService: IMarkUserLoginService
-  ) {}
+  ) { }
 
   @Post()
   async login(@Body() loginAuthDto: LoginAuthDto, @Res() response: Response) {
@@ -45,6 +45,6 @@ export class LoginAuthController {
       user,
     });
 
-      await this.markUserLoginService.execute(user.id);
+    await this.markUserLoginService.execute(user.id);
   }
 }

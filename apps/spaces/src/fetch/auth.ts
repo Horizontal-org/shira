@@ -23,7 +23,7 @@ export const login = async (email, pass) => {
     return res.data.user
   } catch (e) {
     console.log(`[AUTH] login - error:`, e);
-    alert('Unauthorized')
+    throw e;
   }
 }
 

@@ -16,7 +16,9 @@
         "email_placeholder": "Email",
         "password_placeholder": "Password",
         "reset_password": "Forgot your password?",
-        "login_header_button": "Log in"
+        "login_header_button": "Log in",
+        "loading_button": "Logging in...",
+        "error_message": "Error: Your email address or password is incorrect."
     },
     "reset_password": {
         "title": "Reset password",
