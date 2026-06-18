@@ -160,53 +160,55 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
   return (
     <QuestionLibraryFlowManagement>
       <StyledBox>
-        <QuestionTemplateControls
-          searchValue={searchValue}
-          onSearchChange={setSearchValue}
-          sortOption={sortOption}
-          onSortChange={setSortOption}
-          areFiltersOpen={areFiltersOpen}
-          onToggleFilters={toggleFilters}
-          searchSummary={hasActiveSearch
-            ? t(
-              total === 1
-                ? "question_library.search_results"
-                : "question_library.search_results_plural",
-              {
-                count: total,
-                searchTerm: debouncedSearchValue,
-              },
-            )
-            : undefined}
-          filters={(
-            <QuestionTemplateFilters
-              languageOptions={languageOptions}
-              selectedLanguages={selectedLanguages}
-              onLanguageChange={setSelectedLanguages}
-              tagOptions={tagOptions}
-              selectedTags={selectedTags}
-              onTagChange={setSelectedTags}
-              appOptions={appOptions}
-              selectedAppType={selectedAppType}
-              onAppTypeChange={setSelectedAppType}
-              selectedType={selectedType}
-              onTypeChange={setSelectedType}
-              hasActiveFilters={hasActiveFilters}
-              onClearAll={clearAllFilters}
-            />
-          )}
-        />
+        <PageInner>
+          <QuestionTemplateControls
+            searchValue={searchValue}
+            onSearchChange={setSearchValue}
+            sortOption={sortOption}
+            onSortChange={setSortOption}
+            areFiltersOpen={areFiltersOpen}
+            onToggleFilters={toggleFilters}
+            searchSummary={hasActiveSearch
+              ? t(
+                total === 1
+                  ? "question_library.search_results"
+                  : "question_library.search_results_plural",
+                {
+                  count: total,
+                  searchTerm: debouncedSearchValue,
+                },
+              )
+              : undefined}
+            filters={(
+              <QuestionTemplateFilters
+                languageOptions={languageOptions}
+                selectedLanguages={selectedLanguages}
+                onLanguageChange={setSelectedLanguages}
+                tagOptions={tagOptions}
+                selectedTags={selectedTags}
+                onTagChange={setSelectedTags}
+                appOptions={appOptions}
+                selectedAppType={selectedAppType}
+                onAppTypeChange={setSelectedAppType}
+                selectedType={selectedType}
+                onTypeChange={setSelectedType}
+                hasActiveFilters={hasActiveFilters}
+                onClearAll={clearAllFilters}
+              />
+            )}
+          />
 
-        <QuestionTemplateResults
-          shouldShowPagination={shouldShowPagination}
-          paginationProps={paginationProps}
-          showEmptyState={showEmptyState}
-          loading={showLoadingIndicator}
-          rows={rows}
-          columns={columns}
-          rowSelection={rowSelection}
-          setRowSelection={setRowSelection}
-        />
+          <QuestionTemplateResults
+            shouldShowPagination={shouldShowPagination}
+            paginationProps={paginationProps}
+            showEmptyState={showEmptyState}
+            loading={showLoadingIndicator}
+            rows={rows}
+            columns={columns}
+            rowSelection={rowSelection}
+            setRowSelection={setRowSelection}
+          />
+        </PageInner>
 
         {preview && (
           <QuestionTemplatePreviewModal
@@ -236,5 +238,13 @@ const StyledBox = styled(Box)`
 
   @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
     width: calc(100% - 20px);
+  }
+`;
+
+const PageInner = styled.div`
+  padding: 0 8px;
+
+  @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
+    padding: 0;
   }
 `;

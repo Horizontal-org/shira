@@ -6,7 +6,7 @@ import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { QuizCard } from "./components/QuizCard";
 import { QuizCardSkeleton } from "./components/QuizCardSkeleton";
-import { QuizLibraryFilters } from "./components/QuizLibraryFilters";
+import { QuizTemplateFilters } from "./components/QuizTemplateFilters";
 import {
   DEFAULT_CREATOR_OPTIONS,
   DEFAULT_PAGE_LIMIT,
@@ -169,8 +169,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
               )
               : undefined}
             filters={(
-              <QuizLibraryFilters
-                showFilters={areFiltersOpen}
+              <QuizTemplateFilters
                 languageOptions={languageOptions}
                 selectedLanguages={selectedLanguages}
                 onLanguageChange={setSelectedLanguages}
