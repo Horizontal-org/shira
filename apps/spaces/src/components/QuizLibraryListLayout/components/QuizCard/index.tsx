@@ -1,14 +1,14 @@
 import { BaseFloatingMenu, Body4, styled, defaultTheme, Body1SemiBold, Button } from '@horizontal-org/shira-ui';
 import { FunctionComponent, useRef, useState } from 'react';
 import { LibraryQuizDto } from '../../../../fetch/quiz_templates';
-import { BsThreeDotsVertical } from 'react-icons/bs';
 import { MdCalendarMonth } from 'react-icons/md';
 import { useTranslation } from 'react-i18next';
 import { TbAlertTriangleFilled } from 'react-icons/tb';
 import { IoEyeSharp } from 'react-icons/io5';
 import { FaCirclePlus, FaUserLarge } from 'react-icons/fa6';
+import { FiMoreVertical } from 'react-icons/fi';
 import { QuizCardTags } from '../QuizCardTags';
-import { HighlightedText } from '../HighlightedText';
+import { HighlightedText } from '../../../HighlightedText';
 
 export interface CardProps {
   quiz: LibraryQuizDto;
@@ -70,7 +70,7 @@ export const QuizCard: FunctionComponent<CardProps> = ({
               setIsMenuOpen((prev) => !prev);
             }}
           >
-            <BsThreeDotsVertical size={20} color={defaultTheme.colors.green7} />
+            <FiMoreVertical size={20} />
           </MenuButton>
 
           <BaseFloatingMenu
@@ -216,12 +216,18 @@ const MenuButton = styled.button`
   right: 0;
   background: none;
   border: none;
-  padding: 2px;
+  border-radius: 8px;
+  padding: 4px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   color: ${props => props.theme.colors.dark.darkGrey};
+
+  &:hover,
+  &:focus-visible {
+    color: ${props => props.theme.colors.dark.black};
+  }
 `;
 
 const LanguageChip = styled.span`

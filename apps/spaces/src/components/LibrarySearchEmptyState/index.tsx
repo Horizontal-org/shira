@@ -25,11 +25,21 @@ export const LibrarySearchEmptyState: FunctionComponent<Props> = ({
 };
 
 const Wrapper = styled.div`
+  box-sizing: border-box;
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 100%;
-  min-height: 540px;
-  padding: 48px 16px 72px;
+  min-height: clamp(280px, calc(100vh - 360px), 540px);
+  padding: 24px 16px 32px;
+  overflow: hidden;
+
+  & svg {
+    width: min(240px, 28vw);
+    height: auto;
+    max-height: 220px;
+    flex-shrink: 1;
+  }
 `;
 
 const Content = styled.span`

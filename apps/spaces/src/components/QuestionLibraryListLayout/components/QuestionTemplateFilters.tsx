@@ -1,25 +1,25 @@
 import { FunctionComponent, useMemo } from "react";
-import { Body4, FilterSelect, defaultTheme, styled, type FilterSelectProps } from "@horizontal-org/shira-ui";
+import { defaultTheme } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
-import { HiFunnel } from "react-icons/hi2";
 import { FaRegFaceMeh } from "react-icons/fa6";
 import { IoAppsSharp, IoLanguage } from "react-icons/io5";
 import { BiSolidTagAlt } from "react-icons/bi";
-import { FiX } from "react-icons/fi";
-
-export type FilterOption = {
-  value: string;
-  label: string;
-};
+import {
+  TemplateFilters,
+  TemplateFiltersClearAllButton,
+  TemplateFilterOption,
+  TemplateFilterSelect,
+  TemplateFiltersIcon,
+} from "../../LibraryControlsLayout/TemplateFilters";
 
 type Props = {
-  languageOptions: FilterOption[];
+  languageOptions: TemplateFilterOption[];
   selectedLanguages: string[];
   onLanguageChange: (value: string[]) => void;
-  tagOptions: FilterOption[];
+  tagOptions: TemplateFilterOption[];
   selectedTags: string[];
   onTagChange: (value: string[]) => void;
-  appOptions: FilterOption[];
+  appOptions: TemplateFilterOption[];
   selectedAppType: string;
   onAppTypeChange: (value: string) => void;
   selectedType: string;
@@ -44,8 +44,26 @@ export const QuestionTemplateFilters: FunctionComponent<Props> = ({
   onClearAll,
 }) => {
   const { t } = useTranslation();
+  const selectedLanguageOption = languageOptions.find(
+    (option) => option.value === selectedLanguages[0],
+  );
+  const selectedTagOption = tagOptions.find(
+    (option) => option.value === selectedTags[0],
+  );
+  const hasSelectedLanguages = selectedLanguages.length > 0;
+  const hasSelectedTags = selectedTags.length > 0;
+  const languageSelectedLabel = selectedLanguages.length === 1
+    ? selectedLanguageOption?.label ?? selectedLanguages[0]
+    : t("question_library.filters_panel.selected_count", {
+      count: selectedLanguages.length,
+    });
+  const tagSelectedLabel = selectedTags.length === 1
+    ? selectedTagOption?.label ?? selectedTags[0]
+    : t("question_library.filters_panel.selected_count", {
+      count: selectedTags.length,
+    });
 
-  const typeOptions = useMemo<FilterOption[]>(
+  const typeOptions = useMemo<TemplateFilterOption[]>(
     () => [
       {
         value: "phishing",
@@ -59,65 +77,35 @@ export const QuestionTemplateFilters: FunctionComponent<Props> = ({
     [t],
   );
 
-  const getSelectedLabel = (
-    options: FilterOption[],
-    selectedValues: string[],
-    selectedCountLabel: string,
-  ) => {
-    if (selectedValues.length === 0) {
-      return;
-    }
-
-    if (selectedValues.length === 1) {
-      return options.find((option) => option.value === selectedValues[0])?.label ?? selectedValues[0];
-    }
-
-    return selectedCountLabel;
-  };
-
   return (
-    <FiltersRow>
-      <FiltersIcon>
-        <HiFunnel size={18} color={defaultTheme.colors.dark.mediumGrey} />
-      </FiltersIcon>
+    <TemplateFilters>
+      <TemplateFiltersIcon />
 
-      <StyledFilterSelect
+      <TemplateFilterSelect
         value={selectedLanguages}
         options={languageOptions}
         placeholder={t("question_library.filters_panel.language")}
         ariaLabel={t("question_library.filters_panel.language")}
         leftIcon={<IoLanguage size={10} color={defaultTheme.colors.blue6} />}
         isMulti={true}
-        selectedLabel={getSelectedLabel(
-          languageOptions,
-          selectedLanguages,
-          t("question_library.filters_panel.selected_count", {
-            count: selectedLanguages.length,
-          }),
-        )}
+        {...(hasSelectedLanguages ? { selectedLabel: languageSelectedLabel } : {})}
         onChange={(value) => onLanguageChange(value as string[])}
         onClear={() => onLanguageChange([])}
       />
 
-      <StyledFilterSelect
+      <TemplateFilterSelect
         value={selectedTags}
         options={tagOptions}
         placeholder={t("question_library.filters_panel.tag")}
         ariaLabel={t("question_library.filters_panel.tag")}
         leftIcon={<BiSolidTagAlt size={10} color={defaultTheme.colors.warning4} />}
         isMulti={true}
-        selectedLabel={getSelectedLabel(
-          tagOptions,
-          selectedTags,
-          t("question_library.filters_panel.selected_count", {
-            count: selectedTags.length,
-          }),
-        )}
+        {...(hasSelectedTags ? { selectedLabel: tagSelectedLabel } : {})}
         onChange={(value) => onTagChange(value as string[])}
         onClear={() => onTagChange([])}
       />
 
-      <StyledFilterSelect
+      <TemplateFilterSelect
         value={selectedAppType}
         options={appOptions}
         placeholder={t("question_library.filters_panel.apps")}
@@ -128,7 +116,7 @@ export const QuestionTemplateFilters: FunctionComponent<Props> = ({
         onClear={() => onAppTypeChange("")}
       />
 
-      <StyledFilterSelect
+      <TemplateFilterSelect
         value={selectedType}
         options={typeOptions}
         placeholder={t("question_library.filters_panel.type")}
@@ -140,57 +128,11 @@ export const QuestionTemplateFilters: FunctionComponent<Props> = ({
       />
 
       {hasActiveFilters && (
-        <ClearAllButton onClick={onClearAll}>
-          <FiX size={16} />
-          <Body4>{t("question_library.filters_panel.clear_all")}</Body4>
-        </ClearAllButton>
+        <TemplateFiltersClearAllButton
+          clearAllLabel={t("question_library.filters_panel.clear_all")}
+          onClick={onClearAll}
+        />
       )}
-    </FiltersRow>
+    </TemplateFilters>
   );
 };
-
-const FiltersRow = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: fit-content;
-  margin-left: auto;
-
-  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
-    width: 100%;
-    margin-left: 0;
-    flex-wrap: wrap;
-  }
-`;
-
-const FiltersIcon = styled.span`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 auto;
-`;
-
-const StyledFilterSelect = styled(FilterSelect)<FilterSelectProps>`
-  min-width: 160px;
-  max-width: 200px;
-
-  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
-    flex: 1 1 100%;
-    max-width: none;
-  }
-`;
-
-const ClearAllButton = styled.button`
-  -webkit-appearance: none;
-  min-height: 30px;
-  padding: 0 10px;
-  border-radius: 6px;
-  border: 1px solid ${(props) => props.theme.colors.dark.darkGrey};
-  background: transparent;
-  color: ${(props) => props.theme.colors.dark.darkGrey};
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  cursor: pointer;
-`;

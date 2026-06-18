@@ -37,9 +37,9 @@ export const BasePagination: FunctionComponent<BasePaginationProps> = ({
 
   return (
     <PaginationWrapper>
-      <StyledBody2SemiBold>
+      <PaginationSummary>
         {`${start}-${end} of ${total}`}
-      </StyledBody2SemiBold>
+      </PaginationSummary>
       <PaginationButtons>
         <PaginationButton
           type="button"
@@ -91,6 +91,12 @@ const StyledBody2Bold = styled(Body2SemiBold)`
 
 const StyledBody2SemiBold = styled(Body2SemiBold)`
   color: ${props => props.theme.colors.dark.darkGrey};
+`;
+
+const PaginationSummary = styled(StyledBody2SemiBold)`
+  min-width: 12ch;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 `;
 
 const Body2 = styled(Body2Regular)`
@@ -149,4 +155,8 @@ const PaginationNavButton = styled(PaginationButtons)`
   display: flex;
   align-items: center;
   gap: 4px;
+  min-width: 6ch;
+  justify-content: center;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 `;

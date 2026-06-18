@@ -1,4 +1,4 @@
-import { Body1, CardPagination, styled } from "@horizontal-org/shira-ui";
+import { CardPagination, LibraryFilterToggleButton, styled } from "@horizontal-org/shira-ui";
 import { FunctionComponent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -6,10 +6,7 @@ import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { QuizCard } from "./components/QuizCard";
 import { QuizCardSkeleton } from "./components/QuizCardSkeleton";
-import { QuizLibraryFilters } from "./components/QuizLibraryFilters";
-import { QuizLibraryFiltersToggle } from "./components/QuizLibraryFiltersToggle";
-import { QuizLibrarySearchInput } from "./components/QuizLibrarySearchInput";
-import { QuizLibrarySortSelect } from "./components/QuizLibrarySortSelect";
+import { QuizTemplateFilters } from "./components/QuizTemplateFilters";
 import {
   DEFAULT_CREATOR_OPTIONS,
   DEFAULT_PAGE_LIMIT,
@@ -23,6 +20,12 @@ import { useSub } from "../../hooks/useSub";
 import { QuizLibraryFlowManagement } from "../QuizLibraryFlowManagement";
 import { useQuizTemplateList } from "./hooks/useQuizTemplateList";
 import { LibrarySearchEmptyState } from "../LibrarySearchEmptyState";
+import {
+  LibraryToolbar,
+  LibraryToolbarSearchInput,
+  LibraryToolbarSortSelect,
+} from "../LibraryControlsLayout";
+import { LibraryPaginationContainer } from "../TemplatePaginationWrapper";
 
 export const QuizTemplatesListLayout: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -115,44 +118,50 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
 
         <PageInner>
 
-          <Controls>
-            <ControlsTopRow>
-              <QuizLibrarySearchInput
+          <LibraryToolbar
+            searchControl={(
+              <LibraryToolbarSearchInput
                 value={searchValue}
                 onChange={setSearchValue}
+                placeholder={t("quiz_library.search_placeholder")}
               />
-
-              <ActionsGroup>
-                <QuizLibrarySortSelect
-                  sortOption={sortOption}
-                  onSortChange={setSortOption}
+            )}
+            actions={(
+              <>
+                <LibraryToolbarSortSelect
+                  value={sortOption}
+                  options={[
+                    {
+                      value: "createdAt-desc",
+                      label: t("quiz_library.sort_options.newest_to_oldest"),
+                    },
+                    {
+                      value: "createdAt-asc",
+                      label: t("quiz_library.sort_options.oldest_to_newest"),
+                    },
+                    {
+                      value: "title-asc",
+                      label: t("quiz_library.sort_options.quiz_name_asc"),
+                    },
+                    {
+                      value: "title-desc",
+                      label: t("quiz_library.sort_options.quiz_name_desc"),
+                    },
+                  ]}
+                  prefix={`${t("quiz_library.sort_by")}:`}
+                  ariaLabel={t("quiz_library.sort_by")}
+                  onChange={(value) => setSortOption(value as typeof sortOption)}
                 />
 
-                <QuizLibraryFiltersToggle
-                  areFiltersOpen={areFiltersOpen}
-                  onToggleFilters={toggleFilters}
+                <LibraryFilterToggleButton
+                  text={t("quiz_library.filters")}
+                  isOpen={areFiltersOpen}
+                  onClick={toggleFilters}
                 />
-              </ActionsGroup>
-            </ControlsTopRow>
-
-            <QuizLibraryFilters
-              showFilters={areFiltersOpen}
-              languageOptions={languageOptions}
-              selectedLanguages={selectedLanguages}
-              onLanguageChange={setSelectedLanguages}
-              tagOptions={tagOptions}
-              selectedTags={selectedTags}
-              onTagChange={setSelectedTags}
-              creatorOptions={Array.of(DEFAULT_CREATOR_OPTIONS)}
-              selectedCreator={selectedCreator}
-              onCreatorChange={setSelectedCreator}
-              onClearAll={clearAllFilters}
-            />
-          </Controls>
-
-          {hasActiveSearch && (
-            <SearchResultsText>
-              {t(
+              </>
+            )}
+            searchSummary={hasActiveSearch
+              ? t(
                 total === 1
                   ? "quiz_library.search_results"
                   : "quiz_library.search_results_plural",
@@ -160,14 +169,28 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
                   count: total,
                   searchTerm: debouncedSearchValue,
                 },
-              )}
-            </SearchResultsText>
-          )}
+              )
+              : undefined}
+            filters={areFiltersOpen ? (
+              <QuizTemplateFilters
+                languageOptions={languageOptions}
+                selectedLanguages={selectedLanguages}
+                onLanguageChange={setSelectedLanguages}
+                tagOptions={tagOptions}
+                selectedTags={selectedTags}
+                onTagChange={setSelectedTags}
+                creatorOptions={Array.of(DEFAULT_CREATOR_OPTIONS)}
+                selectedCreator={selectedCreator}
+                onCreatorChange={setSelectedCreator}
+                onClearAll={clearAllFilters}
+              />
+            ) : undefined}
+          />
 
           {!showEmptyState && (
-            <PaginationWrapper>
+            <LibraryPaginationContainer>
               <CardPagination {...paginationProps} />
-            </PaginationWrapper>
+            </LibraryPaginationContainer>
           )}
 
           {showEmptyState ? (
@@ -197,9 +220,9 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
           )}
 
           {!loading && visibleLibraryQuizzes.length > 0 && (
-            <PaginationWrapper>
+            <LibraryPaginationContainer>
               <CardPagination {...paginationProps} />
-            </PaginationWrapper>
+            </LibraryPaginationContainer>
           )}
         </PageInner>
 
@@ -245,46 +268,6 @@ const PageInner = styled.div`
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     padding: 0;
   }
-`;
-
-const Controls = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-`;
-
-const ControlsTopRow = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
-    flex-direction: column;
-    align-items: stretch;
-  }
-`;
-
-const ActionsGroup = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 12px;
-  margin-left: auto;
-  flex-shrink: 0;
-
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
-    width: 100%;
-    margin-left: 0;
-  }
-`;
-
-const PaginationWrapper = styled.div`
-  padding: 0 16px;
-`;
-
-const SearchResultsText = styled(Body1)`
-  padding: 10px;
 `;
 
 const CardGrid = styled.div`
