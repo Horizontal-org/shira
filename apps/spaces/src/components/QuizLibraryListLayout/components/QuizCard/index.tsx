@@ -8,7 +8,7 @@ import { TbAlertTriangleFilled } from 'react-icons/tb';
 import { IoEyeSharp } from 'react-icons/io5';
 import { FaCirclePlus, FaUserLarge } from 'react-icons/fa6';
 import { QuizCardTags } from '../QuizCardTags';
-import { HighlightedText } from '../HighlightedText';
+import { HighlightedText } from '../../../HighlightedText';
 
 export interface CardProps {
   quiz: LibraryQuizDto;

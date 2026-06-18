@@ -154,6 +154,7 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
       onAdd: handleAdd,
       onSelectApp: handleSelectApp,
       rowOffset: pageIndex * DEFAULT_PAGE_LIMIT,
+      searchTerm: debouncedSearchValue,
     },
   );
 

@@ -8,6 +8,7 @@ import { appIcons } from "../../../../utils/appIcons";
 import { ActionButtonWithTooltip } from "../ActionButtonWithTooltip";
 import { formatDateCreated } from "../../../../language/dateUtils";
 import i18n from "../../../../language/i18n";
+import { HighlightedText } from "../../../HighlightedText";
 
 export type Explanation = {
   index: number;
@@ -57,6 +58,7 @@ type ColumnHandlers = {
   onAdd?: (q: RowType) => void;
   onSelectApp?: (questionId: number, appId: number) => void;
   rowOffset?: number;
+  searchTerm?: string;
 };
 
 export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
@@ -69,7 +71,14 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
     header: i18n.t("question_library.columns.question_name"),
     accessorKey: "name",
     id: "title",
-    cell: (c) => <NameCell>{String(c.getValue())}</NameCell>,
+    cell: (c) => (
+      <NameCell>
+        <HighlightedText
+          text={String(c.getValue())}
+          highlight={handlers.searchTerm}
+        />
+      </NameCell>
+    ),
   },
   {
     header: i18n.t("question_library.columns.type.title"),

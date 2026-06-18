@@ -27,17 +27,13 @@ export const HighlightedText: FunctionComponent<Props> = ({
           return <span key={`${part}-${index}`}>{part}</span>;
         }
 
-        return (
-          <TextHighlight key={`${part}-${index}`}>
-            {part}
-          </TextHighlight>
-        );
+        return <TextHighlight key={`${part}-${index}`}>{part}</TextHighlight>;
       })}
     </>
   );
 };
 
 const TextHighlight = styled.mark`
-  background: ${props => props.theme.colors.warning1};
+  background: ${(props) => props.theme.colors.warning1};
   padding: 0 1px;
 `;

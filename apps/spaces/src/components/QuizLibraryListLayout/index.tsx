@@ -168,7 +168,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
                 },
               )
               : undefined}
-            filters={(
+            filters={areFiltersOpen ? (
               <QuizTemplateFilters
                 languageOptions={languageOptions}
                 selectedLanguages={selectedLanguages}
@@ -181,7 +181,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
                 onCreatorChange={setSelectedCreator}
                 onClearAll={clearAllFilters}
               />
-            )}
+            ) : undefined}
           />
 
           {!showEmptyState && (
