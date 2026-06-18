@@ -25,11 +25,13 @@ export const LibraryControlsLayout: FunctionComponent<Props> = ({
       </ControlsTopRow>
 
       <SummaryAndFiltersRow>
-        <SearchSummaryContainer $visible={Boolean(searchSummary)}>
-          <SearchSummaryText>
-            {searchSummary ?? ""}
-          </SearchSummaryText>
-        </SearchSummaryContainer>
+        {searchSummary && (
+          <SearchSummaryContainer>
+            <SearchSummaryText>
+              {searchSummary}
+            </SearchSummaryText>
+          </SearchSummaryContainer>
+        )}
 
         {filters}
       </SummaryAndFiltersRow>
@@ -81,11 +83,10 @@ const SummaryAndFiltersRow = styled.div`
   }
 `;
 
-const SearchSummaryContainer = styled.div<{ $visible: boolean }>`
+const SearchSummaryContainer = styled.div`
   flex: 1 1 auto;
   min-width: 10px;
   overflow: hidden;
-  visibility: ${(props) => (props.$visible ? "visible" : "hidden")};
 `;
 
 const SearchSummaryText = styled(Body1)`
