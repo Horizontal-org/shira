@@ -4,13 +4,15 @@ interface InviteOrgRequest {
   slug: string;
   email: string;
   orgType: string;
-  subIntent: string
+  subIntent: string;
+  website?: string;
 }
 
 interface ConfirmRegistrationPayload {
   passphrase: string;
   email: string;
   password: string;
+  website?: string;
 }
 
 export const inviteOrg = async (payload: InviteOrgRequest) => {

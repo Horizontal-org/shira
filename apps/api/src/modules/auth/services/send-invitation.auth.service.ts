@@ -4,7 +4,7 @@ import { PassphraseEntity } from "src/modules/passphrase/domain/passphrase.entit
 import { Repository } from "typeorm";
 import { InjectQueue } from "@nestjs/bullmq";
 import { Queue } from "bullmq";
-import { Injectable } from "@nestjs/common";
+import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { SendInvitationDto } from "../domain/send-invitation.dto";
 import { UserEntity } from "src/modules/user/domain/user.entity";
 import * as crypto from 'crypto'
@@ -22,6 +22,10 @@ export class SendInvitationAuthService implements ISendInvitationAuthService {
   ) { }
 
   async execute(invitationData: SendInvitationDto): Promise<void> {
+    if (invitationData.website) {
+      throw new UnauthorizedException()
+    }
+
     const { email, slug } = invitationData;
 
     const existingUser = await this.userRepo.findOne({

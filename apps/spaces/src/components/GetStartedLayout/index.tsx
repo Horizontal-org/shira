@@ -39,6 +39,7 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
   const [nameError, handleNameError] = useState("");
   const [orgType, handleOrgType] = useState("");
 
+  const [honeypot, setHoneypot] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
@@ -103,7 +104,8 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
         slug: name,
         email,
         orgType,
-        subIntent: validateUrl()
+        subIntent: validateUrl(),
+        website: honeypot,
       })
 
       setSuccess(true);
@@ -150,6 +152,15 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
               }}
             >
               <InputsContainer>
+                <input
+                  name="website"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  style={{ position: 'absolute', left: '-9999px', opacity: 0, height: 0, width: 0 }}
+                />
                 <TextInput
                   required
                   label={t('get_started.organization_name_required')}
