@@ -1,5 +1,6 @@
 import { FunctionComponent, ReactNode } from "react";
 import {
+  Body1,
   LibraryFilterToggleButton,
   LibrarySearchInput,
   SortSelect,
@@ -22,6 +23,7 @@ type Props = {
   areFiltersOpen: boolean;
   onToggleFilters: () => void;
   filters?: ReactNode;
+  searchSummary?: string;
 };
 
 export const QuestionTemplateControls: FunctionComponent<Props> = ({
@@ -32,6 +34,7 @@ export const QuestionTemplateControls: FunctionComponent<Props> = ({
   areFiltersOpen,
   onToggleFilters,
   filters,
+  searchSummary,
 }) => {
   const { t } = useTranslation();
 
@@ -82,6 +85,10 @@ export const QuestionTemplateControls: FunctionComponent<Props> = ({
         </ActionsGroup>
       </ControlsTopRow>
 
+      <SearchSummaryContainer $visible={Boolean(searchSummary)}>
+        <SearchSummaryText>{searchSummary ?? ""}</SearchSummaryText>
+      </SearchSummaryContainer>
+
       {areFiltersOpen && filters}
     </Controls>
   );
@@ -91,6 +98,18 @@ const Controls = styled("div")`
   display: flex;
   flex-direction: column;
   gap: 12px;
+`;
+
+const SearchSummaryContainer = styled.div<{ $visible: boolean }>`
+  height: 32px;
+  overflow: hidden;
+  visibility: ${(props) => (props.$visible ? "visible" : "hidden")};
+`;
+
+const SearchSummaryText = styled(Body1)`
+  margin: 0;
+  padding: 4px 0 0;
+  color: ${defaultTheme.colors.dark.darkGrey};
 `;
 
 const ControlsTopRow = styled("div")`
