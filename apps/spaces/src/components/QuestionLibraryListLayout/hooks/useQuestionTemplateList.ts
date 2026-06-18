@@ -14,15 +14,12 @@ import { useDebouncedValue } from "./useDebouncedValue";
 import { useQuestionTemplateFilterOptions } from "./useQuestionTemplateFilterOptions";
 import { useQuestionTemplateFilters } from "./useQuestionTemplateFilters";
 
-const LOADING_INDICATOR_DELAY_MS = 200;
-
 export const useQuestionTemplateList = () => {
   const { t } = useTranslation();
   const [questionTemplates, setQuestionTemplates] = useState<LibraryQuestionTemplateDto[]>([]);
   const [apps, setApps] = useState<App[]>([]);
   const [totalAvailableQuestions, setTotalAvailableQuestions] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [showLoadingIndicator, setShowLoadingIndicator] = useState(true);
   const [pageIndex, setPageIndexState] = useState(0);
   const [searchValue, setSearchValueState] = useState("");
   const [sortOption, setSortOptionState] = useState<QuestionTemplateSortOption>(DEFAULT_QUESTION_TEMPLATE_SORT);
@@ -129,26 +126,6 @@ export const useQuestionTemplateList = () => {
   ]);
 
   useEffect(() => {
-    if (!loading) {
-      setShowLoadingIndicator(false);
-      return;
-    }
-
-    if (questionTemplates.length === 0) {
-      setShowLoadingIndicator(true);
-      return;
-    }
-
-    const loadingIndicatorTimeout = window.setTimeout(() => {
-      setShowLoadingIndicator(true);
-    }, LOADING_INDICATOR_DELAY_MS);
-
-    return () => {
-      window.clearTimeout(loadingIndicatorTimeout);
-    };
-  }, [loading, questionTemplates.length]);
-
-  useEffect(() => {
     if (pageIndex <= pageCount - 1) {
       return;
     }
@@ -188,7 +165,6 @@ export const useQuestionTemplateList = () => {
     paginationProps,
     questionTemplates,
     searchValue,
-    showLoadingIndicator,
     setSearchValue,
     setSortOption,
     showEmptyState,

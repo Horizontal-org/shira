@@ -62,7 +62,6 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
     paginationProps,
     questionTemplates,
     searchValue,
-    showLoadingIndicator,
     selectedAppType,
     selectedLanguages,
     selectedTags,
@@ -203,7 +202,7 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
             shouldShowPagination={shouldShowPagination}
             paginationProps={paginationProps}
             showEmptyState={showEmptyState}
-            loading={showLoadingIndicator}
+            loading={loading}
             rows={rows}
             columns={columns}
             rowSelection={rowSelection}
