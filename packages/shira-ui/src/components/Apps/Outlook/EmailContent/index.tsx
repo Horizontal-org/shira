@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import { DynamicContent } from "./styles/ContentStyles"
 
 import Reply from './icons/Reply'
@@ -22,6 +23,7 @@ export const EmailContent:FunctionComponent<Props> = ({
   senderEmail,
   attachments
 }) => {
+  const { t } = useTranslation('shira-ui')
 
   return (
     <WhiteContent>
@@ -50,11 +52,11 @@ export const EmailContent:FunctionComponent<Props> = ({
       <BottomBar>
         <BottomButton>
           <Reply />
-          <span>Reply</span>
+          <span>{t('outlook.reply')}</span>
         </BottomButton>
         <BottomButton>
           <Forward />
-          <span>Forward</span>
+          <span>{t('outlook.forward')}</span>
         </BottomButton>
       </BottomBar>
     </WhiteContent>

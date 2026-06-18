@@ -1,0 +1,57 @@
+{
+  "gmail": {
+    "search": "Search all conversations",
+    "mail": "Mail",
+    "inbox": "Inbox",
+    "starred": "Starred",
+    "snoozed": "Snoozed",
+    "sent": "Sent",
+    "drafts": "Drafts",
+    "compose": "Compose",
+    "to_me": "to me",
+    "from": "from:",
+    "to": "to:",
+    "subject": "subject:",
+    "security": "security:",
+    "scanned_by_google": "Scanned by Google",
+    "encryption": "Standard encryption (TLS)",
+    "learn_more": "Learn more"
+  },
+  "outlook": {
+    "search": "Search",
+    "home": "Home",
+    "view": "View",
+    "help": "Help",
+    "meet_now": "Meet Now",
+    "new_mail": "New mail",
+    "reply": "Reply",
+    "forward": "Forward",
+    "undo": "Undo",
+    "delete": "Delete",
+    "archive": "Archive",
+    "report": "Report",
+    "move_to": "Move to",
+    "read_unread": "Read / Unread",
+    "flag_unflag": "Flag / Unflag",
+    "discover_groups": "Discover groups",
+    "inbox": "Inbox",
+    "junk": "Junk Email",
+    "drafts": "Drafts",
+    "sent_items": "Sent items",
+    "deleted_items": "Deleted items",
+    "conversation_history": "Conversation history",
+    "notes": "Notes",
+    "go_to_groups": "Go to groups",
+    "to": "To:",
+    "you": "You",
+    "call": "Call",
+    "contact": "Contact",
+    "show_more": "Show more"
+  },
+  "dating_app": {
+    "message_placeholder": "Say something..."
+  },
+  "messenger": {
+    "chats": "Chats"
+  }
+}

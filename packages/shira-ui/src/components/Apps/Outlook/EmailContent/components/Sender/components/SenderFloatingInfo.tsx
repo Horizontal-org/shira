@@ -1,5 +1,6 @@
 import { cloneElement, FunctionComponent, ReactElement, useState } from 'react'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import { FloatingFocusManager, safePolygon, useFloating, useHover, useInteractions } from '@floating-ui/react';
 import { SenderIcon } from './SenderIcon';
 
@@ -21,6 +22,7 @@ export const SenderFloatingInfo: FunctionComponent<Props> = ({
   senderEmail,
   children
 }) => {
+  const { t } = useTranslation('shira-ui')
 
   const [isOpen, setIsOpen] = useState(false);
   const { refs, floatingStyles, context } = useFloating({
@@ -68,7 +70,7 @@ export const SenderFloatingInfo: FunctionComponent<Props> = ({
                 <CallButton>
                   <LeftCallButton>
                     <Call />
-                    <span>Call</span>
+                    <span>{t('outlook.call')}</span>
                   </LeftCallButton>
                   <RightCallButton>
                     <ChevronDown />

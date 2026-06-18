@@ -82,6 +82,43 @@ npm publish --access public
 npm install @horizontal-org/shira-ui@<version>
 ```
 
+## Translations (i18n)
+
+App simulation components (Gmail, Outlook, DatingApp, FBMessenger) render translated strings using `react-i18next`. The library ships its own locale files and uses a dedicated `shira-ui` i18next namespace so its keys never collide with the consumer app's own translations.
+
+### Peer dependencies
+
+`react-i18next` and `i18next` are peer dependencies — they must be installed in the consuming app, not bundled inside this library.
+
+### Registering the namespace in a consumer app
+
+Import the English locale from the package and register it under the `shira-ui` namespace when you initialize i18next:
+
+```ts
+import i18n from 'i18next'
+import { initReactI18next } from 'react-i18next'
+import shiraUIen from '@horizontal-org/shira-ui/locales/en.json'
+import translationEN from './locales/en.json'
+
+i18n.use(initReactI18next).init({
+  resources: {
+    en: {
+      translation: translationEN,
+      'shira-ui': shiraUIen,
+    },
+  },
+  ns: ['translation', 'shira-ui'],
+  defaultNS: 'translation',
+  fallbackLng: 'en',
+})
+```
+
+Only the `en.json` locale file is provided. For other languages, add their translations under the `shira-ui` namespace in your own resources object. Any missing language falls back to English via `fallbackLng`.
+
+### Adding a new language
+
+Create `locales/<lang>.json` in this package mirroring the structure of `locales/en.json`, then export its path in `package.json` and register it in the consumer app the same way as English.
+
 ## Contributing
 
 1. Create a new component in `src/`

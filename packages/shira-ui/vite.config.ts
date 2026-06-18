@@ -8,7 +8,9 @@ const external = [
   'react/jsx-runtime',
   'styled-components',
   'react-icons',
-  /^react-icons\//
+  /^react-icons\//,
+  'react-i18next',
+  'i18next'
 ]
 
 export default defineConfig({

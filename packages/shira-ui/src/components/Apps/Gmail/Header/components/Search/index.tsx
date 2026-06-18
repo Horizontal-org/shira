@@ -1,5 +1,6 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 
 import SearchIcon from './components/SearchIcon'
 import PreferencesIcon from './components/PreferencesIcon'
@@ -7,6 +8,7 @@ import IconWrapper from '../IconWrapper'
 interface Props {}
 
 const Search: FunctionComponent<Props> = () => {
+  const { t } = useTranslation('shira-ui')
 
   return (
     <Wrapper>
@@ -15,7 +17,7 @@ const Search: FunctionComponent<Props> = () => {
           <SearchIcon />
         </IconWrapper>
         <SearchInput>
-          Search all conversations
+          {t('gmail.search')}
         </SearchInput>
       </Left>
       <IconWrapper>

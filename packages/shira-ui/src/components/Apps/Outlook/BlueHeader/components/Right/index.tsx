@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import { Button } from "./Button";
 
 import MeetNowRegular from './MeetNowRegular'
@@ -13,11 +14,13 @@ import More from './More'
 interface Props {}
 
 export const Right:FunctionComponent<Props> = () => {
+  const { t } = useTranslation('shira-ui')
+
   return (
     <Wrapper>
       <Button hide="second">
         <MeetNowRegular />
-        <span>Meet Now</span>
+        <span>{t('outlook.meet_now')}</span>
       </Button>
       <Button hide="first">
         <Teams />
