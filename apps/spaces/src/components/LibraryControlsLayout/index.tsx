@@ -24,13 +24,15 @@ export const LibraryControlsLayout: FunctionComponent<Props> = ({
         </ActionsGroup>
       </ControlsTopRow>
 
-      <SearchSummaryContainer $visible={Boolean(searchSummary)}>
-        <SearchSummaryText>
-          {searchSummary ?? ""}
-        </SearchSummaryText>
-      </SearchSummaryContainer>
+      <SummaryAndFiltersRow>
+        <SearchSummaryContainer $visible={Boolean(searchSummary)}>
+          <SearchSummaryText>
+            {searchSummary ?? ""}
+          </SearchSummaryText>
+        </SearchSummaryContainer>
 
-      {filters}
+        {filters}
+      </SummaryAndFiltersRow>
     </Controls>
   );
 };
@@ -67,13 +69,27 @@ const ActionsGroup = styled.div`
   }
 `;
 
+const SummaryAndFiltersRow = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+
+  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+`;
+
 const SearchSummaryContainer = styled.div<{ $visible: boolean }>`
+  flex: 1 1 auto;
+  min-width: 10px;
   overflow: hidden;
   visibility: ${(props) => (props.$visible ? "visible" : "hidden")};
 `;
 
 const SearchSummaryText = styled(Body1)`
   margin: 0;
-  padding: 4px 0 0;
+  padding: 4px 4px;
   color: ${(props) => props.theme.colors.dark.darkGrey};
 `;

@@ -72,7 +72,7 @@ const FiltersRow = styled.div`
   justify-content: flex-end;
   flex-wrap: wrap;
   gap: 10px;
-  width: 100%;
+  width: fit-content;
   max-width: 100%;
   margin-left: auto;
 
