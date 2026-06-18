@@ -16,6 +16,10 @@ const meta = {
     onNavigate: {
       description: "Callback function when navigation links are clicked",
     },
+    showLogInButton: {
+      control: "boolean",
+      description: "Whether to render the log in button",
+    },
     translatedTexts: {
       description: "Object containing translated text for the navbar items",
     },

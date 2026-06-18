@@ -170,6 +170,7 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
     return (
       <Container>
         <Navbar
+          showLogInButton={false}
           translatedTexts={{ home: "", about: "", menu: "", logIn: t('login.login_header_button'), createSpace: t('create_space.button_create') }}
           onNavigate={navigate}
         />
@@ -185,6 +186,7 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
   return (
     <Container>
       <Navbar
+        showLogInButton={false}
         translatedTexts={{ home: "", about: "", menu: "", logIn: t('login.login_header_button'), createSpace: t('create_space.button_create') }}
         onNavigate={navigate}
       />
