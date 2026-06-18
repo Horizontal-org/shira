@@ -139,6 +139,8 @@ export const EditorStyles = createGlobalStyle`
     padding: 1px 2px;
     border-radius: 2px;
     position: relative;
+    color: inherit;
+    text-decoration: inherit;
     
     &.mark-active {
       background: #FCC934;

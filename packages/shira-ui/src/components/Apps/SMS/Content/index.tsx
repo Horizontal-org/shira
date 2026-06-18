@@ -11,20 +11,20 @@ interface Props {
 export const Content: FunctionComponent<Props> = ({ data }) => {
   return (
     <Wrapper>
-      { Array.from(data.querySelectorAll('[id*="component-"]')).sort((a, b) => parseInt(b.getAttribute('data-position')) - parseInt(a.getAttribute('data-position'))).map((e) => (
+      {Array.from(data.querySelectorAll('[id*="component-"]')).sort((a, b) => parseInt(b.getAttribute('data-position')) - parseInt(a.getAttribute('data-position'))).map((e) => (
         <>
-          { e.getAttribute('id').includes('component-text') && (
-            <Message data={e}/>
+          {e.getAttribute('id').includes('component-text') && (
+            <Message data={e} />
           )}
 
-          { e.getAttribute('id').includes('component-attachment') && (
-            <Attachment 
-              explanationPosition={e.getAttribute('data-explanation') || null} 
+          {e.getAttribute('id').includes('component-attachment') && (
+            <Attachment
+              explanationPosition={e.getAttribute('data-explanation') || null}
               name={e.textContent}
             />
           )}
 
-          { e.getAttribute('id').includes('component-image') && (
+          {e.getAttribute('id').includes('component-image') && (
             <MessagingImage data={e} />
           )}
         </>
@@ -36,13 +36,15 @@ export const Content: FunctionComponent<Props> = ({ data }) => {
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: column-reverse;  
+  flex-direction: column-reverse;
   height: 100%;
   overflow-y: scroll;
 
   mark {
     background: transparent;
     position: relative;
+    color: inherit;
+    text-decoration: inherit;
   }
 
   scrollbar-width: thin;
