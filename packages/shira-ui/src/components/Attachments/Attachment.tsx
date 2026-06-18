@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { 
+import {
   ImageIcon,
   VideoIcon,
   AudioIcon,
@@ -16,17 +16,19 @@ export enum AttachmentType {
 }
 
 export interface AttachmentProps {
-    name: string
-    type: AttachmentType
+  name: string
+  type: AttachmentType
+  active?: boolean
 }
 
-export const Attachment = ({ 
-  name, 
-  type, 
+export const Attachment = ({
+  name,
+  type,
+  active = false
 }: AttachmentProps) => {
-  
+
   const renderSwitch = (type: AttachmentType) => {
-    switch(type) {
+    switch (type) {
       case AttachmentType.audio:
         return <AudioIcon />
       case AttachmentType.document:
@@ -41,40 +43,40 @@ export const Attachment = ({
   }
 
   return (
-    <Card>
-      <Header>
+    <Card active={active}>
+      <Header active={active}>
         <FlexContainer>
           <Name>
             {name}
           </Name>
         </FlexContainer>
       </Header>
-      <Body>
+      <Body active={active}>
         <div>
           {
             renderSwitch(type)
           }
         </div>
       </Body>
-  </Card>
+    </Card>
   )
 }
 
-const Card = styled.div`
+const Card = styled.div<{ active: boolean }>`
   display: flex;
   flex-direction: column;
-  border: 1px solid ${props => props.theme.colors.light.paleGrey};
+  border: 2px solid ${props => props.active ? props.theme.colors.green3 : props.theme.colors.light.paleGrey};
   border-radius: 12px;
   width: 232px;
   height: 160px;
 `
 
-const Header = styled.div`
+const Header = styled.div<{ active: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px;
-  background-color: ${props => props.theme.colors.light.paleGrey};
+  padding: 12px 16px;
+  background-color: ${props => props.active ? 'white' : props.theme.colors.light.paleGrey};
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
 `
@@ -91,11 +93,18 @@ const Name = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 160px;
+  color: ${props => props.theme.colors.dark.black};
 `
 
-const Body = styled.div`
+const Body = styled.div<{ active: boolean }>`
   display: flex;
   flex: 1;
   justify-content: center;
   align-items: center;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+
+  ${props => props.active && `
+    background-color: rgba(243, 249, 207, 0.5);  
+  `}
 `
