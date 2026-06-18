@@ -2,9 +2,11 @@ import { LibraryFilterToggleButton } from "@horizontal-org/shira-ui";
 import { FunctionComponent, ReactNode } from "react";
 import { QuestionTemplateSortOption } from "../../../fetch/question_templates";
 import { useTranslation } from "react-i18next";
-import { LibraryToolbar } from "../../LibraryControlsLayout";
-import { LibrarySearchControl } from "../../LibraryControlsLayout/LibrarySearchControl";
-import { LibrarySortSelect } from "../../LibraryControlsLayout/LibrarySortSelect";
+import {
+  LibraryToolbar,
+  LibraryToolbarSearchInput,
+  LibraryToolbarSortSelect,
+} from "../../LibraryControlsLayout";
 
 type SortOption = {
   value: QuestionTemplateSortOption;
@@ -56,7 +58,7 @@ export const QuestionTemplateControls: FunctionComponent<Props> = ({
   return (
     <LibraryToolbar
       searchControl={(
-        <LibrarySearchControl
+        <LibraryToolbarSearchInput
           value={searchValue}
           onChange={onSearchChange}
           placeholder={t("question_library.search_placeholder")}
@@ -64,11 +66,12 @@ export const QuestionTemplateControls: FunctionComponent<Props> = ({
       )}
       actions={(
         <>
-          <LibrarySortSelect
+          <LibraryToolbarSortSelect
             value={sortOption}
             options={sortOptions}
-            label={t("question_library.sort_by")}
-            onChange={onSortChange}
+            prefix={`${t("question_library.sort_by")}:`}
+            ariaLabel={t("question_library.sort_by")}
+            onChange={(value) => onSortChange(value as QuestionTemplateSortOption)}
           />
 
           <LibraryFilterToggleButton

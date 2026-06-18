@@ -7,19 +7,6 @@ export type TemplateFilterOption = {
   label: string;
 };
 
-export const getTemplateMultiSelectedLabel = (
-  options: TemplateFilterOption[],
-  selectedValues: string[],
-  selectedCountLabel: string,
-) => {
-  if (selectedValues.length === 1) {
-    return options
-      .find((option) => option.value === selectedValues[0])?.label ?? selectedValues[0];
-  }
-
-  return selectedCountLabel;
-};
-
 export const TemplateFilterSelect = styled(FilterSelect)<FilterSelectProps>`
   min-width: 160px;
   max-width: 200px;

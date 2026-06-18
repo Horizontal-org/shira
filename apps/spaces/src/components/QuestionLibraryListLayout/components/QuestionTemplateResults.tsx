@@ -4,7 +4,10 @@ import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { useTranslation } from "react-i18next";
 import { LibrarySearchEmptyState } from "../../LibrarySearchEmptyState";
 import { RowType } from "./Columns";
-import { TemplatePaginationWrapper } from "../../TemplatePaginationWrapper";
+import {
+  InactiveTemplatePaginationWrapper,
+  TemplatePaginationWrapper,
+} from "../../TemplatePaginationWrapper";
 
 type Props = {
   shouldShowPagination: boolean;
@@ -37,15 +40,22 @@ export const QuestionTemplateResults: FunctionComponent<Props> = ({
   }, [paginationProps, shouldShowPagination]);
 
   const shouldKeepPaginationVisible = rows.length > 0 && (loading || showEmptyState);
-  const shouldRenderPagination = shouldShowPagination || shouldKeepPaginationVisible;
   const paginationPropsToRender = shouldShowPagination ? paginationProps : stablePaginationProps;
   const shouldShowTableLoadingState = loading && rows.length === 0;
 
   return (
     <>
-      <TemplatePaginationWrapper $visible={shouldRenderPagination} $inactive={!shouldShowPagination}>
-        <CardPagination {...paginationPropsToRender} />
-      </TemplatePaginationWrapper>
+      {shouldShowPagination && (
+        <TemplatePaginationWrapper>
+          <CardPagination {...paginationPropsToRender} />
+        </TemplatePaginationWrapper>
+      )}
+
+      {!shouldShowPagination && shouldKeepPaginationVisible && (
+        <InactiveTemplatePaginationWrapper>
+          <CardPagination {...paginationPropsToRender} />
+        </InactiveTemplatePaginationWrapper>
+      )}
 
       {showEmptyState ? (
         <LibrarySearchEmptyState

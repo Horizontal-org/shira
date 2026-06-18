@@ -20,9 +20,11 @@ import { useSub } from "../../hooks/useSub";
 import { QuizLibraryFlowManagement } from "../QuizLibraryFlowManagement";
 import { useQuizTemplateList } from "./hooks/useQuizTemplateList";
 import { LibrarySearchEmptyState } from "../LibrarySearchEmptyState";
-import { LibraryToolbar } from "../LibraryControlsLayout";
-import { LibrarySearchControl } from "../LibraryControlsLayout/LibrarySearchControl";
-import { LibrarySortSelect } from "../LibraryControlsLayout/LibrarySortSelect";
+import {
+  LibraryToolbar,
+  LibraryToolbarSearchInput,
+  LibraryToolbarSortSelect,
+} from "../LibraryControlsLayout";
 import { TemplatePaginationWrapper } from "../TemplatePaginationWrapper";
 
 export const QuizTemplatesListLayout: FunctionComponent = () => {
@@ -118,7 +120,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
 
           <LibraryToolbar
             searchControl={(
-              <LibrarySearchControl
+              <LibraryToolbarSearchInput
                 value={searchValue}
                 onChange={setSearchValue}
                 placeholder={t("quiz_library.search_placeholder")}
@@ -126,7 +128,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
             )}
             actions={(
               <>
-                <LibrarySortSelect
+                <LibraryToolbarSortSelect
                   value={sortOption}
                   options={[
                     {
@@ -146,8 +148,9 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
                       label: t("quiz_library.sort_options.quiz_name_desc"),
                     },
                   ]}
-                  label={t("quiz_library.sort_by")}
-                  onChange={setSortOption}
+                  prefix={`${t("quiz_library.sort_by")}:`}
+                  ariaLabel={t("quiz_library.sort_by")}
+                  onChange={(value) => setSortOption(value as typeof sortOption)}
                 />
 
                 <LibraryFilterToggleButton

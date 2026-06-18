@@ -1,4 +1,4 @@
-import { Body1, styled } from "@horizontal-org/shira-ui";
+import { Body1, LibrarySearchInput, SortSelect, styled } from "@horizontal-org/shira-ui";
 import { FunctionComponent, ReactNode } from "react";
 
 type Props = {
@@ -8,44 +8,63 @@ type Props = {
   searchSummary?: string;
 };
 
-export const LibraryControlsLayout: FunctionComponent<Props> = ({
+export const LibraryToolbar: FunctionComponent<Props> = ({
   searchControl,
   actions,
   filters,
   searchSummary,
 }) => {
   return (
-    <Controls>
-      <ControlsTopRow>
+    <ToolbarContent>
+      <ToolbarControlsRow>
         {searchControl}
 
-        <ActionsGroup>
+        <ToolbarActions>
           {actions}
-        </ActionsGroup>
-      </ControlsTopRow>
+        </ToolbarActions>
+      </ToolbarControlsRow>
 
-      <SummaryAndFiltersRow>
+      <LibraryToolbarRow>
         {searchSummary && (
-          <SearchSummaryContainer>
-            <SearchSummaryText>
-              {searchSummary}
-            </SearchSummaryText>
-          </SearchSummaryContainer>
+          <SearchResultsSummary>
+            {searchSummary}
+          </SearchResultsSummary>
         )}
 
         {filters}
-      </SummaryAndFiltersRow>
-    </Controls>
+      </LibraryToolbarRow>
+    </ToolbarContent>
   );
 };
 
-const Controls = styled("div")`
+export const LibraryToolbarSearchInput = styled(LibrarySearchInput)`
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 628px;
+
+  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+  }
+`;
+
+export const LibraryToolbarSortSelect = styled(SortSelect)`
+  min-width: 280px;
+
+  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
+    flex: 1;
+    min-width: 0;
+  }
+`;
+
+const ToolbarContent = styled("div")`
   display: flex;
   flex-direction: column;
   gap: 12px;
 `;
 
-const ControlsTopRow = styled("div")`
+const ToolbarControlsRow = styled("div")`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -57,7 +76,7 @@ const ControlsTopRow = styled("div")`
   }
 `;
 
-const ActionsGroup = styled.div`
+const ToolbarActions = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -71,7 +90,7 @@ const ActionsGroup = styled.div`
   }
 `;
 
-const SummaryAndFiltersRow = styled.div`
+const LibraryToolbarRow = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -83,13 +102,10 @@ const SummaryAndFiltersRow = styled.div`
   }
 `;
 
-const SearchSummaryContainer = styled.div`
+const SearchResultsSummary = styled(Body1)`
   flex: 1 1 auto;
   min-width: 10px;
   overflow: hidden;
-`;
-
-const SearchSummaryText = styled(Body1)`
   margin: 0;
   padding: 4px 4px;
   color: ${(props) => props.theme.colors.dark.darkGrey};
