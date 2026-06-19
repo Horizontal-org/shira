@@ -1,4 +1,4 @@
-import { FunctionComponent, useRef } from 'react'
+import { FunctionComponent, useMemo, useRef } from 'react'
 import { Draggable } from "@hello-pangea/dnd";
 import { Attachment, styled, ExplanationButton } from '@horizontal-org/shira-ui';
 import { shallow } from 'zustand/shallow';
@@ -33,6 +33,10 @@ export const DraggableAttachmentItem: FunctionComponent<Props> = ({
 
   const ref = useRef(null)
 
+  const isExplanationActive = useMemo(() => {
+    return selectedExplanation && selectedExplanation + '' === item.explanation
+  }, [selectedExplanation, item.explanation])
+
   return (
     <>
       <Draggable
@@ -58,12 +62,13 @@ export const DraggableAttachmentItem: FunctionComponent<Props> = ({
                     <Attachment
                       name={item.value.name}
                       type={item.value.type}
+                      active={isExplanationActive}
                     />
                   </AttachmentWrapper>
 
                   <ExplanationButton
                     hasExplanation={Boolean(item.explanation)}
-                    active={selectedExplanation && selectedExplanation + '' === item.explanation}
+                    active={isExplanationActive}
                     disabled={false}
                     onClick={() => {
                       if (item.explanation) {
