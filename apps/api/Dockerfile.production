@@ -44,4 +44,5 @@ RUN npm run docker-build
 EXPOSE 3000
 
 # Command to run the application
+ENTRYPOINT /usr/src/app/entrypoint.sh
 CMD ["node", "dist/main"]
