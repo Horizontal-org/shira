@@ -29,7 +29,6 @@ services:
         condition: "service_healthy"
       images:
         condition: "service_healthy"
-    command: "yarn start:prod"
     ports:
     - '127.0.0.1:3000:3000'
     networks:
