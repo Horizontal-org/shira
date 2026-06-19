@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   senderEmail: string;
@@ -11,17 +12,19 @@ import Mail from '../../../icons/Mail'
 export const Contact:FunctionComponent<Props> = ({
   senderEmail
 }) => {
+  const { t } = useTranslation('shira-ui')
+
   return (
     <Wrapper>
       <Title>
-        <span>Contact</span>
+        <span>{t('outlook.contact')}</span>
         <ChevronRight />        
       </Title>
       <SenderMail>
         <Mail />
         <span>{senderEmail}</span>
       </SenderMail>
-      <ShowMore>Show more</ShowMore>
+      <ShowMore>{t('outlook.show_more')}</ShowMore>
     </Wrapper>
   )
 }

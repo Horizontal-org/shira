@@ -13,17 +13,18 @@ import { Attachments } from "./Attachments"
 import { Explanation } from "../../../domain/explanation"
 import ExplanationTooltip from "../components/ExplanationTooltip"
 import { DynamicContent } from "./styles/ContentStyles"
+import { useTranslation } from "react-i18next"
 
 interface CustomElements {
   textContent: string,
   explanationPosition: string | null
 }
 
-export interface AttachmentElement { 
+export interface AttachmentElement {
   name: string;
   position: string;
   explanationPosition?: string | null;
-  fileType?: string;    
+  fileType?: string;
 }
 
 interface Props {
@@ -40,11 +41,11 @@ interface Props {
 }
 
 const parseSubjectText = (subjectText: string) => {
-    return subjectText && subjectText.length > 0 ?
-      subjectText : `(no subject)`
+  return subjectText && subjectText.length > 0 ?
+    subjectText : `(no subject)`
 }
 
-export const Gmail: FunctionComponent<Props> = ({ 
+export const Gmail: FunctionComponent<Props> = ({
   content,
   senderName,
   senderEmail,
@@ -57,11 +58,13 @@ export const Gmail: FunctionComponent<Props> = ({
   showExplanations
 }) => {
 
+  const { t } = useTranslation('shira-ui')
+
   return (
     <DesktopWrapper className="gmail">
       {explanations && explanations.map(explanation => (
         <ExplanationTooltip
-          explanation={explanation} 
+          explanation={explanation}
           explanationNumber={explanationNumber}
           showExplanations={showExplanations}
         />
@@ -74,20 +77,20 @@ export const Gmail: FunctionComponent<Props> = ({
           <MailOptions />
           <DynamicWrapper>
             <div>
-              { subject && (
+              {subject && (
                 <Subject>
                   <span
                     data-explanation={subject.explanationPosition}
                   >
-                    { parseSubjectText(subject.textContent) }
+                    {parseSubjectText(subject.textContent)}
                   </span>
                   <InboxLabel>
-                    <InboxLabelText>Inbox</InboxLabelText>
+                    <InboxLabelText>{t('gmail.inbox')}</InboxLabelText>
                     <InboxLabelButton></InboxLabelButton>
                   </InboxLabel>
                 </Subject>
               )}
-              <Profile 
+              <Profile
                 receiverEmail={receiverEmail}
                 receiverName={receiverName}
                 senderEmail={senderEmail}
@@ -95,11 +98,11 @@ export const Gmail: FunctionComponent<Props> = ({
                 subject={parseSubjectText(subject ? subject.textContent : '')}
               />
               <PaddingLeft>
-                <DynamicContent dangerouslySetInnerHTML={{__html: content ? content.outerHTML : null }}></DynamicContent>
+                <DynamicContent dangerouslySetInnerHTML={{ __html: content ? content.outerHTML : null }}></DynamicContent>
                 {attachments && attachments.length > 0 && (
                   <Attachments
                     data={attachments}
-                  />    
+                  />
                 )}
               </PaddingLeft>
             </div>

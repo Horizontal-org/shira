@@ -10,11 +10,13 @@ import translationFR from "./locales/fr.json";
 import translationMandarin from './locales/cn.json'
 import translationArabic from './locales/ar.json'
 import translationRussian from './locales/ru.json'
+import shiraUIen from '@horizontal-org/shira-ui/locales/en.json'
 
 //Creating object with the variables of imported translation files
 const resources = {
   en: {
     translation: translationEN,
+    'shira-ui': shiraUIen,
   },
   es: {
     translation: translationES,
@@ -42,6 +44,8 @@ i18n
     lng: "en", //default language
     fallbackLng: 'en',
     returnEmptyString: false,
+    ns: ['translation', 'shira-ui'],
+    defaultNS: 'translation',
     // keySeparator: false,
     interpolation: {
       escapeValue: false,

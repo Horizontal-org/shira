@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 
 interface Props {}
 
@@ -20,12 +21,14 @@ import { ActionButton } from "./components/ActionButton";
 import { WhiteBar } from "../components/Whitebar";
 
 export const MainActionBar:FunctionComponent<Props> = () => {
+  const { t } = useTranslation('shira-ui')
+
   return (
     <Wrapper>
       <NewMailButton>
         <LeftMailButton>
           <Compose />
-          <span>New mail</span>
+          <span>{t('outlook.new_mail')}</span>
         </LeftMailButton>
         <RightMailButton>
           <ChevronDown />
@@ -37,21 +40,21 @@ export const MainActionBar:FunctionComponent<Props> = () => {
           chevron={true}
           hide='second'
         >
-          Delete
+          {t('outlook.delete')}
         </ActionButton>
         <ActionButton
           icon={<Archive />}
           chevron={false}
           hide='second'
         >
-          Archive
+          {t('outlook.archive')}
         </ActionButton>
         <ActionButton
           icon={<Shield />}
           chevron={true}
           hide='second'
         >
-          Report
+          {t('outlook.report')}
         </ActionButton>
       </ContentSeparator>
       <ContentSeparator hide='third'>
@@ -60,14 +63,14 @@ export const MainActionBar:FunctionComponent<Props> = () => {
           chevron={true}
           hide='second'
         >
-          Move to
+          {t('outlook.move_to')}
         </ActionButton>
         <Separator/>
       </ContentSeparator>
       <ContentSeparator hide='third'>
         <ReplyWrapper>
           <Reply />
-          <span>Reply</span>
+          <span>{t('outlook.reply')}</span>
         </ReplyWrapper>
         <Separator/>
       </ContentSeparator>
@@ -77,14 +80,14 @@ export const MainActionBar:FunctionComponent<Props> = () => {
           chevron={false}
           hide='first'
         >
-          Read / Unread
+          {t('outlook.read_unread')}
         </ActionButton>
         <ActionButton
           hide='first'
           icon={<Flag />}
           chevron={true}
         >
-          Flag / Unflag
+          {t('outlook.flag_unflag')}
         </ActionButton>
       </ContentSeparator>
       <ContentSeparator hide='second'>
@@ -100,14 +103,14 @@ export const MainActionBar:FunctionComponent<Props> = () => {
           icon={<People />}
           chevron={false}
         >
-          Discover groups
+          {t('outlook.discover_groups')}
         </ActionButton>       
       <Separator/>
       </ContentSeparator>
       <ContentSeparator hide='third'>
         <ReplyWrapper>
           <Undo />
-          <span>Undo</span>
+          <span>{t('outlook.undo')}</span>
         </ReplyWrapper>
       </ContentSeparator>
     </Wrapper>

@@ -1,5 +1,6 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import Location from './Icons/Location'
 import Camera from './Icons/Camera'
 import Smile from './Icons/Smile'
@@ -8,9 +9,11 @@ import Message from './Icons/Message'
 interface Props {}
 
 export const Footer: FunctionComponent<Props> = () => {
+  const { t } = useTranslation('shira-ui')
+
   return (
     <Wrapper>
-      <SearchBar>Say something...</SearchBar>
+      <SearchBar>{t('dating_app.message_placeholder')}</SearchBar>
       <BottomWrapper>
         <Text>
           Aa
