@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsPositive } from 'class-validator';
+import { IsInt, IsNotEmpty, IsPositive, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class AssociateUserDto {
@@ -13,4 +13,8 @@ export class AssociateUserDto {
     @IsPositive({ message: 'spaceId must be positive' })
     @Type(() => Number)
     spaceId: number;
+
+    @IsNotEmpty({ message: 'roleSlug is required' })
+    @IsString({ message: 'roleSlug must be a string' })
+    roleSlug: string;
 }
