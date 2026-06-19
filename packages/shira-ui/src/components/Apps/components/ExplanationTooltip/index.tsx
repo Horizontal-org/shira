@@ -145,7 +145,7 @@ const TooltipContent = styled.div<{ isUrl: boolean }>`
     white-space: nowrap;
     max-width: 280px;
   ` : `
-    white-space: normal;
+    white-space: pre-wrap;
     word-wrap: break-word;
     max-width: 280px;
   `}
