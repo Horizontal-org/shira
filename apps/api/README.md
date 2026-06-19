@@ -22,6 +22,53 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
+## Production deployment with Docker Compose
+
+* Copy the `.env.example` file into `.env`
+
+  ```sh
+  cp .env.example .env
+  ```
+
+* Generate passwords for different services and add them to your `.env`.
+  You can use `openssl rand -hex 32` to generate them securely.
+
+* Unless you're setting up a custom S3 bucket for the images service,
+  skip the `IMAGE_` options for now.
+
+* Run the compose file:
+
+  ```sh
+  docker compose up -d
+  ```
+
+* Once the service is running, create the actual bucket and access key:
+
+  ```sh
+  id=`docker exec shira-images-1 /garage node id -q`
+  # Change 1G to your actual storage capacity
+  docker exec shira-images-1 /garage layout assign -z images -c 1G $id
+  docker exec shira-images-1 /garage layout apply --version 1
+  # Keep the output of this command somewhere safe
+  docker exec shira-images-1 /garage key create shira
+  docker exec shira-images-1 /garage bucket create shira
+  docker exec shira-images-1 /garage bucket allow --read --write --owner --key shira shira
+  ```
+
+* Use the "Key ID" and "Secret key" fields from the key creation step as
+  `IMAGE_ACCESS_KEY` and `IMAGE_SECRET_KEY` env vars, respectively:
+
+  ```sh
+  IMAGE_ACCESS_KEY=GKa85289d7ee87ccd281789601
+  IMAGE_SECRET_KEY=d345381e9b6f0e835e900592fae82ebba83cbf132553abd5fbb1f6302510ec56
+  ```
+
+* Restart the service:
+
+  ```sh
+  docker compose restart
+  ```
+
 ## Required clients to install
 
 - nestjs cli
