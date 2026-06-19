@@ -5,7 +5,7 @@ export type AppDetails = {
 
 export const previewAppNames: Record<string, AppDetails> = {
   gmail: { name: "Gmail", type: "email" },
-  whatsapp: { name: "Whatsapp", type: "messaging" },
+  whatsapp: { name: "WhatsApp", type: "messaging" },
   sms: { name: "SMS", type: "messaging" },
   facebook_messenger: { name: "Messenger", type: "messaging" },
   messenger: { name: "Messenger", type: "messaging" },

@@ -1,11 +1,11 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import Whatsapp from '../../components/Apps/Whatsapp';
+import WhatsApp from '../../components/Apps/Whatsapp';
 import styled from 'styled-components';
 
 export default {
-  title: 'Apps/Whatsapp',
-  component: Whatsapp,
+  title: 'Apps/WhatsApp',
+  component: WhatsApp,
   parameters: {
     // More on Story layout: https://storybook.js.org/docs/react/configure/story-layout
     layout: 'padded',
@@ -17,9 +17,9 @@ export default {
       </div>
     ),
   ]
-} as Meta<typeof Whatsapp>;
+} as Meta<typeof WhatsApp>;
 
-type Story = StoryObj<typeof Whatsapp>
+type Story = StoryObj<typeof WhatsApp>
 
 export const Default: Story = {
   args: {
@@ -57,7 +57,7 @@ const Wrapper = styled.div`
 const WithExplanationsTemplate = (args: any) => {
   return (
     <Wrapper>      
-      <Whatsapp
+      <WhatsApp
         {...args}
       />
       { args.showExplanations && (<Overlay />)}

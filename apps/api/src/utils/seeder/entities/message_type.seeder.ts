@@ -26,7 +26,7 @@ export class MessageTypeSeederService {
     private readonly appRepository: Repository<App>,
   ) {}
   async create(): Promise<void> {
-    const whatsappApp = await this.appRepository.findOne({ where: { name: 'Whatsapp' } });
+    const whatsappApp = await this.appRepository.findOne({ where: { name: 'WhatsApp' } });
     const gmailApp = await this.appRepository.findOne({ where: { name: 'Gmail' } });
 
     // await this.messageTypeRepository.save([

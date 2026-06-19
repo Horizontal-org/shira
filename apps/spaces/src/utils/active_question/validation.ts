@@ -96,7 +96,7 @@ const getMessagingContentValidation = (content: MessagingContent, appName: strin
     .filter(item => item.contentType === 'editor')
     .every(item => getEditorTextLength(item.value) <= MESSAGE_CONTENT_MAX_LENGTH)
 
-  if (['SMS', 'Whatsapp'].includes(appName)) {
+  if (['SMS', 'WhatsApp'].includes(appName)) {
     if (!hasRequiredValue(content.senderPhone?.value ?? '')) {
       return {
         isValid: false,

@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react'
 import { Explanation } from '../../../../domain/explanation';
 import useParseHTML from '../../../../hooks/useParseHTML';
 
-import { DatingApp, FBMessenger, SMS, Whatsapp } from '@horizontal-org/shira-ui';
+import { DatingApp, FBMessenger, SMS, WhatsApp } from '@horizontal-org/shira-ui';
 
 
 interface Props {
@@ -45,8 +45,8 @@ export const MessagingApps: FunctionComponent<Props> = ({ content, name, explana
         />
       )}
 
-      {name === 'Whatsapp' && (
-        <Whatsapp
+      {name === 'WhatsApp' && (
+        <WhatsApp
           phone={parseCustomElement('component-required-phone')}
           content={parseDynamicContent()}
           explanations={explanations}
