@@ -13,6 +13,8 @@
     "to": "to:",
     "subject": "subject:",
     "security": "security:",
+    "attachments_one": "{{count}} attachment",
+    "attachments_other": "{{count}} attachments",
     "scanned_by_google": "Scanned by Google",
     "encryption": "Standard encryption (TLS)",
     "learn_more": "Learn more"

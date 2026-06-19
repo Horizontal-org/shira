@@ -16,7 +16,7 @@ export const Attachments: FunctionComponent<Props> = ({
   return (
     <Wrapper>
       <div>
-        <Title>{`${data.length} attachment${data.length > 1 ? 's' : ''}`}</Title>
+        <Title>{t('gmail.attachments', { count: data.length })}</Title>
         <Point>•</Point>
         <Subtitle>{t('gmail.scanned_by_google')}</Subtitle>
       </div>
