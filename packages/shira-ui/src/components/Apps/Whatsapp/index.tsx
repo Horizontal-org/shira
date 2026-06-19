@@ -21,7 +21,7 @@ interface Props {
   showExplanations?: boolean
 }
 
-export const Whatsapp: FunctionComponent<Props> = ({
+export const WhatsApp: FunctionComponent<Props> = ({
   content,
   phone,
   explanations,
@@ -98,4 +98,4 @@ const Content = styled.div`
 
 
 
-export default Whatsapp
+export default WhatsApp

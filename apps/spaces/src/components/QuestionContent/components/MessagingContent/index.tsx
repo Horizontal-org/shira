@@ -15,7 +15,7 @@ interface Props {
 }
 
 const MessagingAppsNames = {
-  WHATSAPP: 'Whatsapp',
+  WHATSAPP: 'WhatsApp',
   SMS: 'SMS',
   MESSENGER: 'Messenger',
   DATING_APP: 'Dating App'

@@ -6,7 +6,7 @@ import {
   Modal, 
   OutlookIcon, 
   SMSIcon, 
-  WhatsappIcon, 
+  WhatsAppIcon, 
   CloseButton,
   styled, 
   useTheme,
@@ -80,7 +80,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
       <GmailIcon />
       <OutlookIcon />
       <SMSIcon />
-      <WhatsappIcon />
+      <WhatsAppIcon />
     </AppsIconRow>
   );
 
