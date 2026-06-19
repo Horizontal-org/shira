@@ -1,0 +1,107 @@
+---
+version: '3.8'
+services:
+  api:
+    restart: "unless-stopped"
+    environment:
+      JWT_SECRET: "${JWT_SECRET}"
+      MYSQL_HOST: "${MYSQL_HOST:-db}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      REDIS_HOST: "${REDIS_HOST:-redis}"
+      REDIS_PORT: "${REDIS_PORT:-6379}"
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
+      IMAGE_ENDPOINT: "${IMAGE_ENDPOINT:-images}"
+      IMAGE_PORT: "${IMAGE_PORT}"
+      IMAGE_BUCKET: "${IMAGE_BUCKET}"
+      IMAGE_ACCESS_KEY: "${IMAGE_ACCESS_KEY}"
+      IMAGE_SECRET_KEY: "${IMAGE_SECRET_KEY}"
+    build:
+      context: "./apps/api/"
+      target: "production"
+      dockerfile: "./Dockerfile.production"
+    depends_on:
+      db:
+        condition: "service_healthy"
+      redis:
+        condition: "service_healthy"
+      images:
+        condition: "service_healthy"
+    command: "yarn start:prod"
+    ports:
+    - '127.0.0.1:3000:3000'
+    networks:
+    - "shira"
+  db:
+    image: "mysql:5.7"
+    restart: "unless-stopped"
+    environment:
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+    volumes:
+    - "db-data:/var/lib/mysql"
+    networks:
+    - "shira"
+    healthcheck:
+      test:
+      - "CMD"
+      - "mysql"
+      - "--host=${MYSQL_HOST:-db}"
+      - "--user=$MYSQL_USER"
+      - "--password=$MYSQL_PASSWORD"
+      - "--execute=SHOW\ DATABASES;"
+      interval: "30s"
+      timeout: "10s"
+      retries: 10
+      start_period: "10s"
+  redis:
+    image: "bitnami/redis:latest"
+    restart: "unless-stopped"
+    environment:
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
+    networks:
+    - "shira"
+    volumes:
+    - "redis-data:/data"
+    healthcheck:
+      test:
+      - "CMD"
+      - "redis-cli"
+      - "-a"
+      - "$REDIS_PASSWORD"
+      - "--raw"
+      - "incr"
+      - "ping"
+      interval: "30s"
+      timeout: "10s"
+      retries: 10
+      start_period: "10s"
+  images:
+    image: "dxflrs/garage:v2.3.0"
+    restart: "unless-stopped"
+    environment:
+      GARAGE_RPC_SECRET: "${GARAGE_RPC_SECRET}"
+    networks:
+    - "shira"
+    volumes:
+    - "images-data:/var/lib/garage/"
+    - "./garage.toml:/etc/garage.toml"
+    healthcheck:
+      test:
+      - "CMD"
+      - "/garage"
+      - "status"
+      interval: "30s"
+      timeout: "10s"
+      retries: 10
+      start_period: "10s"
+networks:
+  shira:
+volumes:
+  db-data:
+  redis-data:
+  images-data:
