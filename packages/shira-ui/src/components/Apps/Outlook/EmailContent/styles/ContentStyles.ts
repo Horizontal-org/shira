@@ -11,6 +11,8 @@ export const DynamicContent = styled.div`
   mark {
     background-color: transparent;
     position: relative;
+    color: inherit;
+    text-decoration: inherit;
   }
 
   img {
@@ -92,7 +94,7 @@ export const DynamicContent = styled.div`
     margin-right: 0;
 
     img {
-      width: 100%;  
+      width: 100%;
     }
   }
 

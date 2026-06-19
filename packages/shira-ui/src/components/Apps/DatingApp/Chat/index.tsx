@@ -4,27 +4,27 @@ import { Message } from './Message'
 import { Attachment } from './Attachment'
 import { MessagingImage } from './MessagingImage'
 interface Props {
-    data: HTMLElement
-  }
+  data: HTMLElement
+}
 
-export const Chat: FunctionComponent<Props> = ({ data}) => {
+export const Chat: FunctionComponent<Props> = ({ data }) => {
   return (
     <Wrapper>
       <Date>14:58</Date>
-      { Array.from(data.querySelectorAll('[id*="component-"]')).sort((a, b) => parseInt(b.getAttribute('data-position')) - parseInt(a.getAttribute('data-position'))).map((e) => (
+      {Array.from(data.querySelectorAll('[id*="component-"]')).sort((a, b) => parseInt(b.getAttribute('data-position')) - parseInt(a.getAttribute('data-position'))).map((e) => (
         <>
-          { e.getAttribute('id').includes('component-text') && (
-            <Message data={e}/>
+          {e.getAttribute('id').includes('component-text') && (
+            <Message data={e} />
           )}
 
-          { e.getAttribute('id').includes('component-attachment') && (
-            <Attachment 
-              explanationPosition={e.getAttribute('data-explanation') || null} 
+          {e.getAttribute('id').includes('component-attachment') && (
+            <Attachment
+              explanationPosition={e.getAttribute('data-explanation') || null}
               name={e.textContent}
             />
           )}
 
-          { e.getAttribute('id').includes('component-image') && (
+          {e.getAttribute('id').includes('component-image') && (
             <MessagingImage data={e} />
           )}
         </>
@@ -41,6 +41,8 @@ const Wrapper = styled.div`
   mark {
     background: transparent;
     position: relative;
+    color: inherit;
+    text-decoration: inherit;
   }
   overflow-y: scroll;
 
