@@ -271,7 +271,7 @@ export const useExplanations = (editor: any, editorId: string) => {
 
     if (canAdd) {
       const newIndex = explanationIndex + 1
-      editor.chain().focus().setExplanation({
+      editor.chain().setExplanation({
         'data-explanation': newIndex,
       }).run()
       addExplanation(newIndex)
