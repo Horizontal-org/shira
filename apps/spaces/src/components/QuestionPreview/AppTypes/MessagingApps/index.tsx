@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect } from 'react'
 import useParseHTML from '../../../../utils/parseHtml';
-import { DatingApp, FBMessenger, SMS, Whatsapp } from '@horizontal-org/shira-ui';
+import { DatingApp, FBMessenger, SMS, WhatsApp } from '@horizontal-org/shira-ui';
 import { UIExplanation } from '../..';
 
 interface Props {
@@ -43,8 +43,8 @@ export const MessagingApps: FunctionComponent<Props> = ({ content, name, explana
         />
       )}
 
-      {name === 'Whatsapp' && (
-        <Whatsapp
+      {name === 'WhatsApp' && (
+        <WhatsApp
           phone={phone}
           content={contentRoot}
           explanations={explanations}

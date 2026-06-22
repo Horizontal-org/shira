@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 
 import Navigation from './components/Navigation'
 import { NavigationButton } from "./components/NavigationButton";
@@ -7,19 +8,21 @@ import { NavigationButton } from "./components/NavigationButton";
 interface Props {}
 
 export const TopSectionBar:FunctionComponent<Props> = () => {
+  const { t } = useTranslation('shira-ui')
+
   return (
     <Wrapper>
       <NavigationIcon>
         <Navigation />        
       </NavigationIcon>
       <NavigationButton selected={true}>
-        <span>Home</span>
+        <span>{t('outlook.home')}</span>
       </NavigationButton>
       <NavigationButton selected={false}>
-        <span>View</span>
+        <span>{t('outlook.view')}</span>
       </NavigationButton>
       <NavigationButton selected={false}>
-        <span>Help</span>
+        <span>{t('outlook.help')}</span>
       </NavigationButton>
     </Wrapper>
   )

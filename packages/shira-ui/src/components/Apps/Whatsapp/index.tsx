@@ -1,5 +1,5 @@
-import { FunctionComponent  } from "react"
-import styled, { createGlobalStyle} from 'styled-components'
+import { FunctionComponent } from "react"
+import styled, { createGlobalStyle } from 'styled-components'
 
 import Background from './Background'
 import MessageWrapper from "./MessageWrapper"
@@ -21,7 +21,7 @@ interface Props {
   showExplanations?: boolean
 }
 
-export const Whatsapp: FunctionComponent<Props> = ({
+export const WhatsApp: FunctionComponent<Props> = ({
   content,
   phone,
   explanations,
@@ -41,11 +41,11 @@ export const Whatsapp: FunctionComponent<Props> = ({
       <StyledScrollbar />
       <Background>
         <Content>
-            <Sidebar /> 
-            <MessageWrapper 
-              content={content}
-              phone={phone}
-            />
+          <Sidebar />
+          <MessageWrapper
+            content={content}
+            phone={phone}
+          />
         </Content>
       </Background>
     </DesktopWrapper>
@@ -87,6 +87,8 @@ const Content = styled.div`
   mark {
     background: transparent;
     position: relative;
+    color: inherit;
+    text-decoration: inherit;
   }
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
@@ -96,4 +98,4 @@ const Content = styled.div`
 
 
 
-export default Whatsapp
+export default WhatsApp

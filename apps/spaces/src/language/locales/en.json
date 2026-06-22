@@ -954,6 +954,11 @@
             "password_min_length": "Password must be at least 8 characters.",
             "passwords_mismatch": "Passwords do not match."
         },
+        "success": {
+            "title": "All done!",
+            "description": "Your space was successfully created. Log in to start creating quizzes.",
+            "button": "Go to space"
+        },
         "title": "Shira spaces",
         "subtitle": "After you create a space, you will be able to create custom quizzes and questions specifically relevant to your context and communities.",
         "errors": {

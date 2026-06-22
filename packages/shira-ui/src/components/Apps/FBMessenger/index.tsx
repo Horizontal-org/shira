@@ -1,4 +1,4 @@
-import { FunctionComponent  } from "react"
+import { FunctionComponent } from "react"
 import styled from 'styled-components'
 
 import MessageSidebar from "./MessagesSidebar/Index"
@@ -20,8 +20,8 @@ interface Props {
   showExplanations?: boolean
 }
 
-export const FBMessenger: FunctionComponent<Props> = ({ 
-  senderName, 
+export const FBMessenger: FunctionComponent<Props> = ({
+  senderName,
   content,
   explanations = [],
   explanationNumber,
@@ -30,7 +30,7 @@ export const FBMessenger: FunctionComponent<Props> = ({
   return (
     <DesktopWrapper>
       {explanations && explanations.map(explanation => (
-        <ExplanationTooltip 
+        <ExplanationTooltip
           explanation={explanation}
           explanationNumber={explanationNumber}
           showExplanations={showExplanations}
@@ -56,6 +56,8 @@ const Content = styled.div`
   mark {
     background-color: transparent;
     position: relative;
+    color: inherit;
+    text-decoration: inherit;
   }
 `
 

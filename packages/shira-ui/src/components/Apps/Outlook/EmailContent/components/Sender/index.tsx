@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import { OutlookCustomElements } from "../../..";
 import { SenderIcon } from "./components/SenderIcon";
 import { SenderFloatingInfo } from "./components/SenderFloatingInfo";
@@ -13,6 +14,8 @@ export const Sender:FunctionComponent<Props> = ({
   senderEmail,
   senderName
 }) => {
+  const { t } = useTranslation('shira-ui')
+
   return (
     <Wrapper>
       <SenderFloatingInfo
@@ -34,8 +37,8 @@ export const Sender:FunctionComponent<Props> = ({
           </SenderInfo>
         </SenderFloatingInfo>
         <ReceiverInfo>
-          <span>To:</span>
-          <You>You</You>
+          <span>{t('outlook.to')}</span>
+          <You>{t('outlook.you')}</You>
         </ReceiverInfo>
       </div>
     </Wrapper>
