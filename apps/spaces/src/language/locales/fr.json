@@ -29,7 +29,8 @@
         "subtitle": "Gérez vos quiz ici : vous pouvez, entre autres, les créer, les publier, les retirer de la publication et les supprimer.",
         "create_quiz_button": "Créer un nouveau quiz",
         "create_limit_reached": "Passer à un forfait supérieur pour créer plus de quiz.",
-        "use_template_button": ""
+        "use_template_button": "",
+        "use_a_quiz_template_button": "Utiliser un modèle de quiz"
     },
     "quizzes": {
         "message": "",
@@ -78,8 +79,10 @@
         "action_tooltips": {
             "edit": "Modifier",
             "duplicate": "Dupliquer",
-            "delete": "Supprimer"
-        }
+            "delete": "Supprimer",
+            "more_actions": "Plus d'actions"
+        },
+        "use_library_question_button": "Utiliser un modèle de question"
     },
     "questions": {
         "message": "",
@@ -176,7 +179,8 @@
             }
         },
         "header_title": "Créer une nouvelle question",
-        "header_required_tooltip": "Les champs obligatoires ne peuvent pas être laissés vides"
+        "header_required_tooltip": "Les champs obligatoires ne peuvent pas être laissés vides",
+        "header_character_limit_tooltip": "Un ou plusieurs champs dépassent la limite de caractères."
     },
     "question_library": {
         "message": "",
@@ -501,7 +505,7 @@
                 "customization": "Personnalisation",
                 "access_control": "Contrôle d'accès",
                 "compliance": "Conformité",
-                "custom_support": "Assistance personnalisée",
+                "custom_support": "Assistance clientèle",
                 "rows": {
                     "hosting": "Hébergement",
                     "admin_dashboard": "Tableau de bord administrateur",
@@ -516,7 +520,9 @@
                     "detailed_analytics": "Analyses détaillées",
                     "analysis_tools": "Outils d'analyse et de conformité",
                     "tailor_made_training": "Formation utilisateur.ice sur mesure",
-                    "priority_support": "Assistance prioritaire"
+                    "priority_support": "Assistance prioritaire",
+                    "phishing_readiness_assessment": "Évaluation du niveau de préparation au phishing",
+                    "preparedness_report": "Rapport de préparation et plan d'action"
                 },
                 "values": {
                     "cloud": "Cloud",
@@ -524,9 +530,10 @@
                     "one_admin": "1 administrateur",
                     "unlimited": "Illimité",
                     "up_to_three_custom_quizzes": "Jusqu'à 3 quiz personnalisés",
-                    "one_business_day_response_time": "Délai de réponse : jusqu'à 1 jour ouvré",
-                    "three_business_day_response_time": "Délai de réponse : dans les 3 jours ouvrés",
-                    "available_upon_request": "Disponible sur demande"
+                    "one_business_day_response_time": "Support entreprise dédié",
+                    "three_business_day_response_time": "Assistance prioritaire",
+                    "available_upon_request": "Disponible sur demande",
+                    "unlimited_coming_soon": "Illimité (bientôt disponible)"
                 },
                 "tooltips": {
                     "hosting": "Laissez l'équipe Shira héberger et maintenir votre instance (cloud) ou installez-la sur vos serveurs (sur site)",
@@ -542,7 +549,9 @@
                     "detailed_analytics": "Consultez les scores par apprenant.e et par question",
                     "analysis_tools": "Exportez les scores de votre équipe en rapports CSV ou PDF",
                     "tailor_made_training": "Des ateliers sur mesure conçus par l'équipe Shira pour développer les compétences des membres de votre organisation",
-                    "priority_support": "Temps de réponse rapide pour garantir une expérience fluide"
+                    "priority_support": "Temps de réponse rapide pour garantir une expérience fluide",
+                    "preparedness_report": "Rapport concis mettant en évidence les principaux risques ainsi que les modules de formation et les délais recommandés",
+                    "phishing_readiness_assessment": "Aperçu instantané de la vulnérabilité actuelle de l'organisation face aux attaques de phishing"
                 }
             },
             "plans": {
@@ -583,6 +592,11 @@
             "message_2": "Découvrez dès aujourd'hui l'essai gratuit de 14 jours de Shira Pro pour créer plus de quiz personnalisés.",
             "message_1": "Avec le forfait Initial, vous pouvez créer jusqu'à 3 quiz.",
             "title": "Prêt à passer au forfait supérieur ?"
+        },
+        "add_quiz_from_template": {
+            "input_label": "Nom du quiz",
+            "title": "Donnez un nom à votre nouveau quiz",
+            "subtitle": "Le nom du quiz sera visible dans votre Espace et par les apprenants lorsqu'ils y participeront."
         }
     },
     "error_messages": {
@@ -608,13 +622,13 @@
             },
             "file_too_large": {
                 "title": "Erreur : fichier trop volumineux",
-                "subtitle": "Importez un fichier CSV de 10 Mo ou moins et réessayez."
+                "subtitle": "Importez un fichier CSV de 10 Mo ou moins et réessayez"
             },
             "missing_name": "Nom manquant",
             "missing_email": "Adresse email manquante",
             "invalid_email": "Adresse email invalide"
         },
-        "invalid_email_update": "Cette adresse email est déjà associée à un espace Shira.",
+        "invalid_email_update": "Cette adresse email est déjà associée à un espace Shira",
         "bulk_import_failed": "Un problème est survenu lors de l'invitation. Si le problème persiste, <1>contactez-nous</1>.",
         "invite_learner_failed": "Un problème est survenu lors de l'invitation. Si le problème persiste, <1>contactez-nous</1>.",
         "delete_learner_failed": "Un problème est survenu lors de la suppression de l'apprenant.e. Si le problème persiste, <1>contactez-nous</1>.",
@@ -643,8 +657,9 @@
         "learner_email_send_failed": "Impossible d'envoyer l'invitation par email à l'apprenant.e.",
         "learner_token_conflict": "Le jeton de l'apprenant.e est invalide ou a déjà été utilisé.",
         "learner_assignment_failed": "Impossible d'attribuer l'apprenant.e à l'espace.",
-        "invalid_email": "Indiquez une adresse e-mail valide.",
-        "something_went_wrong": "Une erreur s'est produite"
+        "invalid_email": "Indiquez une adresse e-mail valide",
+        "something_went_wrong": "Une erreur s'est produite",
+        "character_limit_error": "Limite de caractères dépassée"
     },
     "success_messages": {
         "message": "",
@@ -751,7 +766,7 @@
         "assign_dialog": {
             "registered_title": "Apprenant.e.s inscrits",
             "registered_description": "Sélectionnez un ou plusieurs apprenants ou apprenantes pour leur attribuer ce quiz.",
-            "registered_description_2": "Vous pouvez gérer les apprenants et apprenantes inscrits et en inviter de nouveaux dans la section <0>Apprenants</0>.",
+            "registered_description_2": "La liste ci-dessous affiche uniquement les apprenants ayant finalisé leur inscription. Vous pouvez gérer les apprenants inscrits et en inviter de nouveaux dans la <0>section Apprenants</0> ou lire les détails <1>ici</1>.",
             "assign_button": "Attribuer aux apprenant.e.s",
             "assign_title": "Attribuez \"{{quiz_title}}\" aux apprenant.e.s",
             "no_learners": "Aucun apprenant ou apprenante n'est inscrit dans votre espace.",
@@ -895,13 +910,18 @@
                 "title": "Mot de passe",
                 "last_updated": "Dernière mise à jour :{{date}}",
                 "action": "Modifier le mot de passe"
+            },
+            "language": {
+                "description": "Choisissez la langue de votre espace Shira. Cela ne modifiera pas la langue des quiz ou des questions que vous partagez avec les apprenants, uniquement celle de l'interface de l'espace.",
+                "title": "Langue de l'espace"
             }
         },
         "title": "Paramètres",
         "subtitle": "Gérez les paramètres de votre espace Shira ici.",
         "tabs": {
             "account": "Compte",
-            "subscription": "Abonnement"
+            "subscription": "Abonnement",
+            "general": "Général"
         },
         "subscription": {
             "current_plan": "Plan actuel : {{plan_name}}",
@@ -948,7 +968,26 @@
         "search_placeholder": "",
         "title": "",
         "sort_by": "",
-        "view_template": ""
+        "view_template": "",
+        "preview": {
+            "created_on": "Créé le",
+            "columns": {
+                "app": "Application",
+                "actions": "Actions",
+                "preview": "Aperçu",
+                "type": "Type",
+                "language": "Langue",
+                "question_name": "Titre de la question"
+            },
+            "preview_full_quiz": "Aperçu complet du quiz",
+            "no_questions": "Aucune question trouvée pour ce modèle de quiz.",
+            "tags": "Mots-clés",
+            "back_to_quiz_template": "Retour au modèle de quiz",
+            "languages": "Langues",
+            "creator": "Créateur",
+            "subtitle": "Vous pouvez prévisualiser le quiz complet ou chaque question individuellement, avant d'utiliser le quiz comme modèle pour créer le vôtre."
+        },
+        "report_issue": "Signaler un problème"
     },
     "library": {
         "empty_search": {
