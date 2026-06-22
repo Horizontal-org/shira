@@ -41,10 +41,10 @@
         "success_description": ""
     },
     "beta": {
-        "label": "",
-        "message": "",
-        "click_here": "",
-        "feedback_text": ""
+        "label": "BETA",
+        "message": "Shira is still in development and you may experience issues.",
+        "click_here": "Click here",
+        "feedback_text": "to share your feedback and help us improve!"
     },
     "left_menu": {
         "dashboard": "",
@@ -828,7 +828,7 @@
         "email_updated": ""
     },
     "loading_messages": {
-        "loading": "",
+        "loading": "Loading...",
         "saving": "",
         "creating": "",
         "duplicating": "",
