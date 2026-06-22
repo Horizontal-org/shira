@@ -6,7 +6,9 @@
         "email_placeholder": "Email",
         "password_placeholder": "Mot de passe",
         "reset_password": "Mot de passe oublié ?",
-        "login_header_button": "Se connecter"
+        "login_header_button": "Se connecter",
+        "loading_button": "",
+        "error_message": ""
     },
     "beta": {
         "message": "Shira est actuellement en cours de développement et vous risquez de rencontrer des dysfonctionnements.",
@@ -26,7 +28,8 @@
         "title": "Les quiz",
         "subtitle": "Gérez vos quiz ici : vous pouvez, entre autres, les créer, les publier, les retirer de la publication et les supprimer.",
         "create_quiz_button": "Créer un nouveau quiz",
-        "create_limit_reached": "Passer à un forfait supérieur pour créer plus de quiz."
+        "create_limit_reached": "Passer à un forfait supérieur pour créer plus de quiz.",
+        "use_template_button": ""
     },
     "quizzes": {
         "message": "",
@@ -206,11 +209,33 @@
                 "add_aria_label": "Ajouter",
                 "preview_aria_label": "Aperçu",
                 "disabled_tooltip": "Sélectionnez une langue et une application pour utiliser cette question."
-            }
+            },
+            "created_on": "",
+            "creator": ""
         },
         "tab_header_title": "Ajouter une question à partir de la bibliothèque",
         "title": "Bibliothèque de questions",
-        "subtitle": "Sélectionnez une question dans la liste ci-dessous pour l'ajouter à votre quiz. Une fois ajoutée, vous pouvez la modifier et la personnaliser entièrement, en changeant notamment le texte et les explications."
+        "subtitle": "Sélectionnez une question dans la liste ci-dessous pour l'ajouter à votre quiz. Une fois ajoutée, vous pouvez la modifier et la personnaliser entièrement, en changeant notamment le texte et les explications.",
+        "filters_panel": {
+            "selected_count": "",
+            "tag": "",
+            "apps": "",
+            "type": "",
+            "creator": "",
+            "language": "",
+            "clear_all": ""
+        },
+        "sort_options": {
+            "question_name_desc": "",
+            "question_name_asc": "",
+            "newest_to_oldest": "",
+            "oldest_to_newest": ""
+        },
+        "search_results_plural": "",
+        "sort_by": "",
+        "search_placeholder": "",
+        "search_results": "",
+        "filters": ""
     },
     "results_tab": {
         "message": "",
@@ -852,6 +877,11 @@
             "password_required": "Mot de passe requis.",
             "password_min_length": "Le mot de passe doit comporter au moins 8 caractères.",
             "passwords_mismatch": "Les mots de passe ne correspondent pas."
+        },
+        "success": {
+            "title": "",
+            "description": "",
+            "button": ""
         }
     },
     "settings": {
@@ -887,5 +917,60 @@
     "banner": {
         "message": "Les espaces Shira ne sont pas encore disponibles sur les petits écrans. Pour une meilleure expérience, il faut utiliser un écran d'une largeur supérieure à 800 pixels.",
         "label": "NOTE"
+    },
+    "quiz_library": {
+        "filters_panel": {
+            "creator": "",
+            "all_creators": "",
+            "tag": "",
+            "selected_count": "",
+            "clear_all": "",
+            "all_tags": "",
+            "all_languages": "",
+            "language": ""
+        },
+        "filters": "",
+        "use_template": "",
+        "search_results_plural": "",
+        "empty_search": {
+            "subtitle": "",
+            "title": ""
+        },
+        "search_results": "",
+        "header_title": "",
+        "subtitle": "",
+        "sort_options": {
+            "quiz_name_asc": "",
+            "oldest_to_newest": "",
+            "quiz_name_desc": "",
+            "newest_to_oldest": ""
+        },
+        "search_placeholder": "",
+        "title": "",
+        "sort_by": "",
+        "view_template": ""
+    },
+    "library": {
+        "empty_search": {
+            "subtitle": "",
+            "title": ""
+        },
+        "cards": {
+            "questions": {
+                "title": ""
+            },
+            "quizzes": {
+                "title": ""
+            }
+        },
+        "title": "",
+        "subtitle": ""
+    },
+    "sidebar": {
+        "quizzes": "",
+        "settings": "",
+        "learners": "",
+        "support": "",
+        "logout": ""
     }
 }
