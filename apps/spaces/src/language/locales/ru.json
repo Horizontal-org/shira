@@ -6,7 +6,9 @@
         "email_placeholder": "Email",
         "password_placeholder": "Пароль",
         "reset_password": "Забыли пароль?",
-        "login_header_button": "Вход"
+        "login_header_button": "Вход",
+        "loading_button": "",
+        "error_message": ""
     },
     "reset_password": {
         "message": " ",
@@ -59,7 +61,9 @@
         "title": "Тесты",
         "subtitle": "Здесь вы можете управлять своими тестами, в том числе создавать, публиковать, удалять, отменять публикацию тестов.",
         "create_quiz_button": "Создать новый тест",
-        "create_limit_reached": "Повысьте тарифный план, чтобы создавать больше тестов."
+        "create_limit_reached": "Повысьте тарифный план, чтобы создавать больше тестов.",
+        "use_a_quiz_template_button": "",
+        "use_template_button": ""
     },
     "learners": {
         "message": "",
@@ -135,8 +139,10 @@
         "action_tooltips": {
             "edit": "Изменить",
             "duplicate": "Создать копию",
-            "delete": "Удалить"
-        }
+            "delete": "Удалить",
+            "more_actions": ""
+        },
+        "use_library_question_button": ""
     },
     "questions": {
         "message": "",
@@ -242,7 +248,8 @@
                 "no_explanations": "Пояснений к этому вопросу нет."
             }
         },
-        "header_required_tooltip": "Обязательные поля не могут быть пустыми"
+        "header_required_tooltip": "Обязательные поля не могут быть пустыми",
+        "header_character_limit_tooltip": ""
     },
     "question_library": {
         "message": "",
@@ -278,8 +285,30 @@
                 "add_aria_label": "Добавить",
                 "preview_aria_label": "Предпросмотр",
                 "disabled_tooltip": "Выберите язык и приложение, чтобы использовать этот вопрос."
-            }
-        }
+            },
+            "created_on": "",
+            "creator": ""
+        },
+        "filters_panel": {
+            "selected_count": "",
+            "tag": "",
+            "apps": "",
+            "type": "",
+            "creator": "",
+            "language": "",
+            "clear_all": ""
+        },
+        "sort_options": {
+            "question_name_desc": "",
+            "question_name_asc": "",
+            "newest_to_oldest": "",
+            "oldest_to_newest": ""
+        },
+        "search_results_plural": "",
+        "sort_by": "",
+        "search_placeholder": "",
+        "search_results": "",
+        "filters": ""
     },
     "results_tab": {
         "message": "",
@@ -394,11 +423,16 @@
                 "title": "Пароль",
                 "last_updated": "Обновлён: {{date}}",
                 "action": "Изменить пароль"
+            },
+            "language": {
+                "description": "",
+                "title": ""
             }
         },
         "tabs": {
             "account": "Аккаунт",
-            "subscription": "Подписка"
+            "subscription": "Подписка",
+            "general": ""
         },
         "subscription": {
             "current_plan": "Текущий план: {{plan_name}}",
@@ -660,7 +694,9 @@
                     "detailed_analytics": "Подробная аналитика",
                     "priority_support": "Приоритетная поддержка",
                     "analysis_tools": "Инструменты аналитики и соответствия",
-                    "tailor_made_training": "Индивидуальное обучение пользователей"
+                    "tailor_made_training": "Индивидуальное обучение пользователей",
+                    "phishing_readiness_assessment": "",
+                    "preparedness_report": ""
                 },
                 "custom_support": "Индивидуальная поддержка",
                 "tooltips": {
@@ -677,7 +713,9 @@
                     "apps_available": "Создание вопросов теста в интерфейсах привычных вашим учащимся приложений",
                     "detailed_analytics": "Контроль над результатами на уровне учащегося и вопроса",
                     "analysis_tools": "Экспорт результатов вашей команды в CSV или PDF",
-                    "tailor_made_training": "Тренинги по укреплению навыков от команды Shira для вашей организации"
+                    "tailor_made_training": "Тренинги по укреплению навыков от команды Shira для вашей организации",
+                    "preparedness_report": "",
+                    "phishing_readiness_assessment": ""
                 },
                 "values": {
                     "up_to_three_custom_quizzes": "До 3 настраиваемых тестов",
@@ -687,7 +725,8 @@
                     "cloud": "Облако",
                     "cloud_on_premise": "Облако / свой сервер",
                     "one_admin": "1 администратор",
-                    "unlimited": "Без ограничений"
+                    "unlimited": "Без ограничений",
+                    "unlimited_coming_soon": ""
                 },
                 "admin_management": "Возможности администратора",
                 "customization": "Настройка для себя",
@@ -713,6 +752,11 @@
                     "price": "Индивидуальные цены"
                 }
             }
+        },
+        "add_quiz_from_template": {
+            "input_label": "",
+            "title": "",
+            "subtitle": ""
         }
     },
     "error_messages": {
@@ -774,7 +818,8 @@
                 "subtitle": "Загрузите CSV-файл объёмом не более 10 Мб и попробуйте ещё раз."
             }
         },
-        "invalid_email_update": "Этот email уже привязан к пространству Shira."
+        "invalid_email_update": "Этот email уже привязан к пространству Shira.",
+        "character_limit_error": ""
     },
     "success_messages": {
         "message": "",
@@ -882,10 +927,89 @@
         },
         "errors": {
             "create_space_failed": "При создании вашего пространства произошла ошибка. Попробуйте ещё раз."
+        },
+        "success": {
+            "title": "",
+            "description": "",
+            "button": ""
         }
     },
     "banner": {
         "label": "ВНИМАНИЕ",
         "message": "Пространства Shira пока не работают на маленьких экранах. Пожалуйста, используйте экран не меньше 800 точек по горизонтали."
+    },
+    "quiz_library": {
+        "filters_panel": {
+            "creator": "",
+            "all_creators": "",
+            "tag": "",
+            "selected_count": "",
+            "clear_all": "",
+            "all_tags": "",
+            "all_languages": "",
+            "language": ""
+        },
+        "preview": {
+            "created_on": "",
+            "columns": {
+                "app": "",
+                "actions": "",
+                "preview": "",
+                "type": "",
+                "language": "",
+                "question_name": ""
+            },
+            "preview_full_quiz": "",
+            "no_questions": "",
+            "tags": "",
+            "back_to_quiz_template": "",
+            "languages": "",
+            "creator": "",
+            "subtitle": ""
+        },
+        "filters": "",
+        "use_template": "",
+        "search_results_plural": "",
+        "empty_search": {
+            "subtitle": "",
+            "title": ""
+        },
+        "report_issue": "",
+        "search_results": "",
+        "header_title": "",
+        "subtitle": "",
+        "sort_options": {
+            "quiz_name_asc": "",
+            "oldest_to_newest": "",
+            "quiz_name_desc": "",
+            "newest_to_oldest": ""
+        },
+        "search_placeholder": "",
+        "title": "",
+        "sort_by": "",
+        "view_template": ""
+    },
+    "library": {
+        "empty_search": {
+            "subtitle": "",
+            "title": ""
+        },
+        "cards": {
+            "questions": {
+                "title": ""
+            },
+            "quizzes": {
+                "title": ""
+            }
+        },
+        "title": "",
+        "subtitle": ""
+    },
+    "sidebar": {
+        "quizzes": "",
+        "settings": "",
+        "learners": "",
+        "support": "",
+        "logout": ""
     }
 }
