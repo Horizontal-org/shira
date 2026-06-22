@@ -50,7 +50,9 @@
             "explanation_2": "对于每道题目，请判断所示消息看似钓鱼攻击或正规内容。",
             "explanation_3": "如果不确定，可以选择“不确定”。",
             "footer_title": "测验简介",
-            "next": "好的"
+            "next": "好的",
+            "learn_more": "",
+            "disclaimer": ""
         },
         "answers": {
             "options": {
@@ -75,6 +77,18 @@
             "action_description": "退出测验",
             "description": "确定退出测验吗？您的进度将不会被保存。",
             "cancel": "取消"
+        },
+        "data_collection": {
+            "percentage_of_learners": "",
+            "your_score": "",
+            "understand": "",
+            "only_datetime": "",
+            "total_quiz_score": "",
+            "learn_more": "",
+            "title": "",
+            "2_results": "",
+            "1_date_time": "",
+            "intro": ""
         }
     },
     "feedback": {
