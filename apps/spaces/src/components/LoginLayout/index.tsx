@@ -194,4 +194,5 @@ const ButtonContainer = styled.div`
 
 const ErrorText = styled(Body2Regular)`
   color: ${(props) => props.theme.colors.error7};
+  margin-top: -16px
 `
