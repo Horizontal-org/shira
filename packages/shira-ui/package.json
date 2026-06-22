@@ -11,7 +11,8 @@
             "require": "./dist/index.cjs.js"
         },
         "./styles.css": "./dist/styles.css",
-        "./locales/en.json": "./locales/en.json"
+        "./locales/en.json": "./locales/en.json",
+        "./locales/es.json": "./locales/es.json"
     },
     "files": [
         "dist",
