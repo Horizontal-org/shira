@@ -182,6 +182,7 @@ const LearnMoreLink = styled.span`
   text-decoration: underline;
   cursor: pointer;
   color: ${props => props.theme.colors.blue7};
+  font-weight: 700;
 `
 
 const AnswerOptionsWrapper = styled.div`
