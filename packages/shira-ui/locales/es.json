@@ -1,0 +1,59 @@
+{
+  "gmail": {
+    "search": "Buscar conversaciones",
+    "mail": "Mail",
+    "inbox": "Inbox",
+    "starred": "Destacados",
+    "snoozed": "Pospuestos",
+    "sent": "Enviado",
+    "drafts": "Borradores",
+    "compose": "Redactar",
+    "to_me": "para mi",
+    "from": "de:",
+    "to": "para:",
+    "subject": "asunto:",
+    "security": "seguridad:",
+    "attachments_one": "{{count}} archivo adjunto",
+    "attachments_other": "{{count}} archivos adjuntos",
+    "scanned_by_google": "Scanned by Google",
+    "encryption": "Standard encryption (TLS)",
+    "learn_more": "Mas informacion"
+  },
+  "outlook": {
+    "search": "Search",
+    "home": "Home",
+    "view": "View",
+    "help": "Help",
+    "meet_now": "Meet Now",
+    "new_mail": "New mail",
+    "reply": "Reply",
+    "forward": "Forward",
+    "undo": "Undo",
+    "delete": "Delete",
+    "archive": "Archive",
+    "report": "Report",
+    "move_to": "Move to",
+    "read_unread": "Read / Unread",
+    "flag_unflag": "Flag / Unflag",
+    "discover_groups": "Discover groups",
+    "inbox": "Inbox",
+    "junk": "Junk Email",
+    "drafts": "Drafts",
+    "sent_items": "Sent items",
+    "deleted_items": "Deleted items",
+    "conversation_history": "Conversation history",
+    "notes": "Notes",
+    "go_to_groups": "Go to groups",
+    "to": "To:",
+    "you": "You",
+    "call": "Call",
+    "contact": "Contact",
+    "show_more": "Show more"
+  },
+  "dating_app": {
+    "message_placeholder": "Say something..."
+  },
+  "messenger": {
+    "chats": "Chats"
+  }
+}
