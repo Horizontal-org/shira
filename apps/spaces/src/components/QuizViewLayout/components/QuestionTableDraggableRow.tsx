@@ -98,7 +98,7 @@ const QuestionTableDraggableRowComponent: FunctionComponent<Props> = ({
 export const QuestionTableDraggableRow = memo(QuestionTableDraggableRowComponent);
 
 const Td = styled(SharedTd)`
-  padding: 14px 16px;
+  padding: 14px 14px;
 `;
 
 const Tr = styled(SharedTr)`
@@ -109,11 +109,16 @@ const Tr = styled(SharedTr)`
 
 const HandleButton = styled.button`
   all: unset;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
+  width: 20px;
+  height: 20px;
+  line-height: 0;
   cursor: grab;
   touch-action: none;
+
+  color: ${defaultTheme.colors.dark.mediumGrey};
 
   &:active {
     cursor: grabbing;
