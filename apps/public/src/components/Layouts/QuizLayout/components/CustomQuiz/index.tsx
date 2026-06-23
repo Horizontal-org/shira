@@ -17,7 +17,6 @@ interface Props {
   recordAnswer: (questionId: number, answer: RunAnswer) => void;
   runStarted: boolean;
   hasResultsEnabled: boolean;
-  hasLearnerId: number | null;
 }
 
 export const CustomQuiz: FunctionComponent<Props> = ({
@@ -27,7 +26,6 @@ export const CustomQuiz: FunctionComponent<Props> = ({
   runStarted,
   recordAnswer,
   hasResultsEnabled,
-  hasLearnerId
 }) => {
 
   const {
@@ -80,7 +78,6 @@ export const CustomQuiz: FunctionComponent<Props> = ({
         <QuizInstructions
           count={questions ? questions.length : 0}
           hasResultsEnabled={hasResultsEnabled}
-          hasLearner={!!hasLearnerId}
           isCustom={true}
           onNext={() => {
             if (!runStarted) {
