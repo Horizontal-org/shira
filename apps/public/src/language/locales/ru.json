@@ -56,7 +56,9 @@
             "explanation_2": "Для каждого вопроса укажите, похоже сообщение на попытку фишинга или нет.",
             "explanation_3": "Если не уверены, можете выбрать вариант «Не знаю».",
             "footer_title": "Предисловие к тесту",
-            "next": "ОК"
+            "next": "ОК",
+            "learn_more": "",
+            "disclaimer": ""
         },
         "answers": {
             "options": {
@@ -81,6 +83,18 @@
             "action_description": "Покинуть тест",
             "description": "Уверены, что хотите выйти из теста? Результаты не будут сохранены.",
             "cancel": "Отменить"
+        },
+        "data_collection": {
+            "percentage_of_learners": "",
+            "your_score": "",
+            "understand": "",
+            "only_datetime": "",
+            "total_quiz_score": "",
+            "learn_more": "",
+            "title": "",
+            "2_results": "",
+            "1_date_time": "",
+            "intro": ""
         }
     },
     "feedback": {

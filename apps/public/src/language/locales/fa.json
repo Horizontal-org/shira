@@ -50,7 +50,9 @@
             "explanation_3": "اگر مطمئن نیستید، می‌توانید گزینه «نمی‌دانم» را انتخاب کنید.",
             "footer_title": "مقدمه مسابقه",
             "next": "باشه",
-            "question_count": "This quiz contains {{count}} questions"
+            "question_count": "This quiz contains {{count}} questions",
+            "learn_more": "",
+            "disclaimer": ""
         },
         "answers": {
             "options": {
@@ -75,6 +77,18 @@
             "action_description": "خروج از آزمون",
             "description": "آیا مطمئن هستید که میخواهید از این آزمون خارج شوید؟ پیشرفت شما ذخیره نخواهد شد.",
             "cancel": "لغو"
+        },
+        "data_collection": {
+            "percentage_of_learners": "",
+            "your_score": "",
+            "understand": "",
+            "only_datetime": "",
+            "total_quiz_score": "",
+            "learn_more": "",
+            "title": "",
+            "2_results": "",
+            "1_date_time": "",
+            "intro": ""
         }
     },
     "feedback": {

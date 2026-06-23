@@ -13,7 +13,6 @@ import useGetWidth from '../../../hooks/useGetWidth'
 interface Props {
   onNext: () => void
   hasResultsEnabled?: boolean
-  hasLearner?: boolean
   isCustom?: boolean
   count?: number
 }
@@ -21,7 +20,6 @@ interface Props {
 export const QuizInstructions: FunctionComponent<Props> = ({
   onNext,
   hasResultsEnabled = false,
-  hasLearner = false,
   isCustom = false,
   count
 }) => {
@@ -96,7 +94,6 @@ export const QuizInstructions: FunctionComponent<Props> = ({
               <ResultItems>
                 <Body1>{t('quiz.data_collection.total_quiz_score')}</Body1>
                 <Body1>{t('quiz.data_collection.your_score')}</Body1>
-                {hasLearner && (<Body1>{t('quiz.data_collection.percentage_of_learners')}</Body1>)}
               </ResultItems>
             </ModalContent>
           </>
@@ -182,6 +179,7 @@ const LearnMoreLink = styled.span`
   text-decoration: underline;
   cursor: pointer;
   color: ${props => props.theme.colors.blue7};
+  font-weight: 700;
 `
 
 const AnswerOptionsWrapper = styled.div`
