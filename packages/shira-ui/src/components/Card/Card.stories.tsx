@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Card } from './Card';
 import { styled } from 'styled-components';
+import { Body4 } from '../Typography';
 
 const meta = {
   title: 'Components/Card',
@@ -14,24 +15,7 @@ const meta = {
       control: 'text',
       description: 'Title of the card'
     },
-    lastModified: {
-      control: 'text',
-      description: 'Last modified timestamp'
-    },
-    isPublished: {
-      control: 'boolean',
-      description: 'Whether the content is published'
-    },
-    onTogglePublished: {
-      description: 'Callback when publish state is toggled'
-    },
-    onCopyUrl: {
-      description: 'Callback when copy URL button is clicked'
-    },
-    onDuplicate: {
-      description: 'Callback when duplicate button is clicked'
-    },
-    onCardClick: {
+    onClick: {
       description: 'Callback when click the whole card'
     }
   },
@@ -56,30 +40,23 @@ const Container = styled.div`
 export const Default: Story = {
   args: {
     title: 'Email quiz for activists',
-    lastModified: '1 hour ago',
-    isPublished: true,
-    onTogglePublished: () => console.log('Toggle published'),
-    onCopyUrl: () => console.log('Copy URL clicked'),
-    onEdit: () => console.log('edit'),
-    onDuplicate: () => console.log('duplicate'),
-    onDelete: () => console.log('delete'),
-    onCardClick: () => console.log('clicked card'),
-    publishedText: 'Published',
-    unpublishedText: 'Unpublished',
-    isPublic: true,
-    visibilityText: 'Public'
+    headerContent: <Body4>Header content</Body4>,
+    bodyContent: <Body4>Body content</Body4>,
+    footerContent: <Body4>Footer content</Body4>,
+    onClick: () => console.log('clicked card'),
   }
 };
 
-// Unpublished state
-export const Unpublished: Story = {
+export const WithMenu: Story = {
   args: {
     ...Default.args,
-    isPublished: false,
+    menuItems: [
+      { text: 'View', onClick: () => console.log('View') },
+      { text: 'Delete', onClick: () => console.log('Delete') },
+    ],
   }
 };
 
-// Long title
 export const LongTitle: Story = {
   args: {
     ...Default.args,
@@ -87,19 +64,9 @@ export const LongTitle: Story = {
   }
 };
 
-// Different timestamp
-export const DifferentTimestamp: Story = {
+export const HoverAction: Story = {
   args: {
     ...Default.args,
-    lastModified: '2 days ago'
-  }
-};
-
-// Interactive example
-export const Interactive: Story = {
-  args: {
-    ...Default.args,
-    onTogglePublished: () => alert('Publish state toggled'),
-    onCopyUrl: () => alert('URL copied to clipboard'),
+    hoverAction: <button type="button">Action</button>,
   }
 };
