@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { QuizCard } from "./components/QuizCard";
-import { QuizLibraryListSkeleton } from "./components/QuizCardSkeleton";
+import { QuizCardSkeleton } from "./components/QuizCardSkeleton";
 import { QuizTemplateFilters } from "./components/QuizTemplateFilters";
 import {
   DEFAULT_CREATOR_OPTIONS,
@@ -116,7 +116,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
       <PageContent id="quiz-library-list-layout">
         <PageInner>
           {loading ? (
-            <QuizLibraryListSkeleton />
+            <QuizCardSkeleton />
           ) : (
             <>
               <LibraryToolbar

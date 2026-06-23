@@ -2,7 +2,7 @@ import { FunctionComponent } from "react";
 import { styled } from "@horizontal-org/shira-ui";
 import { DEFAULT_PAGE_LIMIT } from "../../../../fetch/quiz_templates";
 
-export const QuizLibraryListSkeleton: FunctionComponent = () => {
+export const QuizCardSkeleton: FunctionComponent = () => {
   return (
     <SkeletonLayout aria-hidden="true">
       <ToolbarRow>
@@ -16,16 +16,10 @@ export const QuizLibraryListSkeleton: FunctionComponent = () => {
 
       <CardGrid>
         {Array.from({ length: DEFAULT_PAGE_LIMIT }, (_, index) => (
-          <QuizCardSkeleton key={`quiz-library-skeleton-${index}`} />
+          <CardWrapper key={`quiz-library-skeleton-${index}`} />
         ))}
       </CardGrid>
     </SkeletonLayout>
-  );
-};
-
-const QuizCardSkeleton: FunctionComponent<{ className?: string }> = ({ className }) => {
-  return (
-    <CardWrapper className={className} />
   );
 };
 
