@@ -137,6 +137,7 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
         setRowSelection={setRowSelection}
         enableRowSelection={false}
         enablePagination={false}
+        enableRowHover={false}
         emptyMessage={t("quiz_library.preview.no_questions")}
         colGroups={(
           <colgroup>
