@@ -9,7 +9,7 @@ export type TemplateFilterOption = {
 
 export const TemplateFiltersIcon = () => (
   <TemplateFiltersIconWrapper>
-    <MdFilterAlt size={20} color={defaultTheme.colors.dark.mediumGrey} />
+    <MdFilterAlt size={22} color={defaultTheme.colors.dark.mediumGrey} />
   </TemplateFiltersIconWrapper>
 );
 

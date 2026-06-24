@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import { HiFunnel } from 'react-icons/hi2';
 import { Body2Regular } from '../Typography';
+import { MdFilterAlt } from 'react-icons/md';
+import { defaultTheme } from '../..';
 
 export interface FilterToggleButtonProps {
   text: string;
@@ -22,14 +23,14 @@ export const FilterToggleButton = ({
       onClick={onClick}
       $isOpen={isOpen}
     >
-      <HiFunnel size={18} />
+      <MdFilterAlt size={22} color={defaultTheme.colors.dark.darkGrey} />
       <Body2Regular>{text}</Body2Regular>
     </Button>
   );
 };
 
 const Button = styled.button<{ $isOpen: boolean }>`
-  min-height: 46px;
+  min-height: 40px;
   padding: 12px 20px;
   border-radius: 24px;
   border: ${props => (props.$isOpen ? '2px' : '1px')} solid ${props => (

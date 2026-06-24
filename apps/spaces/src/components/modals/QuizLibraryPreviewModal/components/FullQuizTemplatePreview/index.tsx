@@ -292,6 +292,7 @@ const QuizQuestionContainer = styled.div`
   min-height: 0;
   overflow-y: auto;
   padding-right: 8px;
+  padding-left: 8px;
   padding-bottom: 8px;
 `
 
@@ -303,13 +304,14 @@ const PreviewCanvasPanel = styled.div`
 const SelectableQuestionItem = styled.button<{
   $isActive: boolean
 }>`
+  appearance: none;
   width: 100%;
-  border: 1.5px solid ${(props) => (
-    props.$isActive ? props.theme.colors.green7 : "rgba(172, 173, 174, 0.45)"
+  border: 1px solid ${(props) => (
+    props.$isActive ? props.theme.colors.green7 : props.theme.colors.dark.lightGrey
   )};
   border-radius: 28px;
   background: ${(props) => (
-    props.$isActive ? "#F4F6E8" : props.theme.colors.light.white
+    props.$isActive ? props.theme.colors.light.paleGreen : props.theme.colors.light.white
   )};
   padding: 15px 20px;
   display: flex;
@@ -317,6 +319,19 @@ const SelectableQuestionItem = styled.button<{
   gap: 18px;
   text-align: left;
   cursor: pointer;
+  outline: none;
+
+  &:hover {
+    background: #FAFBF0;
+  )};
+  }
+
+  &:focus-visible {
+    border-width: 2px;
+    border-color: ${(props) => (
+    props.$isActive ? props.theme.colors.green7 : props.theme.colors.green4
+  )};
+  }
 
   & + & {
     margin-top: 16px;
