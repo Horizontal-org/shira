@@ -8,6 +8,7 @@ import { LoadingIcon } from '../LoadingIcon';
 export interface CardMenuItem {
   text: string;
   icon?: ReactElement;
+  size?: number;
   onClick: () => void;
 }
 
@@ -99,6 +100,7 @@ export const Card: FunctionComponent<CardProps> = ({
                   elements={menuItems.map((item) => ({
                     text: item.text,
                     icon: item.icon,
+                    size: item.size,
                     onClick: (event) => {
                       event.stopPropagation();
                       setIsMenuOpen(false);

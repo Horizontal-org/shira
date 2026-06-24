@@ -47,17 +47,17 @@ export const QuizCard: FunctionComponent<CardProps> = ({
     {
       text: t("quiz_library.view_template"),
       onClick: onViewTemplate,
-      icon: <IoEyeSharp />,
+      icon: <IoEyeSharp size={18} />,
     },
     {
       text: t("quiz_library.use_template"),
       onClick: onUseTemplate,
-      icon: <FaCirclePlus />,
+      icon: <FaCirclePlus size={14} />,
     },
     {
       text: t("quiz_library.report_issue"),
       onClick: onReportIssue,
-      icon: <TbAlertTriangleFilled />,
+      icon: <TbAlertTriangleFilled size={16} />,
     },
   ]), [onReportIssue, onUseTemplate, onViewTemplate, t]);
 
@@ -88,19 +88,13 @@ export const QuizCard: FunctionComponent<CardProps> = ({
 };
 
 const UseTemplateButton = styled(Button)`
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  gap: 6px;
   padding: 4px 10px;
   min-height: 30px;
   white-space: nowrap;
   border-radius: 6px;
-  text-align: center;
 
   & > div:first-child {
-    margin-right: 0;
-    padding-top: 0;
+    margin-right: 6px;
   }
 
   & > span {

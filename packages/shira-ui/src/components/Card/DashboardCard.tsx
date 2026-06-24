@@ -1,7 +1,6 @@
 import { FunctionComponent, ReactNode, useMemo, useState } from 'react';
-import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { IoLinkOutline } from 'react-icons/io5';
-import { MdLockOutline, MdOutlineContentCopy } from 'react-icons/md';
+import { MdDelete, MdLockOutline, MdModeEdit, MdOutlineContentCopy } from 'react-icons/md';
 import { TbWorld } from 'react-icons/tb';
 import styled from 'styled-components';
 import { defaultTheme } from '../../theme';
@@ -76,7 +75,7 @@ export const DashboardCard: FunctionComponent<DashboardCardProps> = ({
       nextItems.push({
         text: editText,
         onClick: onEdit,
-        icon: <FiEdit2 color={defaultTheme.colors.dark.darkGrey} />,
+        icon: <MdModeEdit color={defaultTheme.colors.dark.darkGrey} />,
       });
     }
 
@@ -100,7 +99,7 @@ export const DashboardCard: FunctionComponent<DashboardCardProps> = ({
       nextItems.push({
         text: deleteText,
         onClick: onDelete,
-        icon: <FiTrash2 color={defaultTheme.colors.error7} />,
+        icon: <MdDelete color={defaultTheme.colors.dark.darkGrey} />,
       });
     }
 

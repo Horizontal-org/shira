@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Card } from './Card';
 import { styled } from 'styled-components';
 import { Body4 } from '../Typography';
+import { FiEye, FiTrash2 } from 'react-icons/fi';
 
 const meta = {
   title: 'Components/Card',
@@ -51,8 +52,8 @@ export const WithMenu: Story = {
   args: {
     ...Default.args,
     menuItems: [
-      { text: 'View', onClick: () => console.log('View') },
-      { text: 'Delete', onClick: () => console.log('Delete') },
+      { text: 'View', onClick: () => console.log('View'), icon: <FiEye />, size: 18 },
+      { text: 'Delete', onClick: () => console.log('Delete'), icon: <FiTrash2 size={20} /> },
     ],
   }
 };

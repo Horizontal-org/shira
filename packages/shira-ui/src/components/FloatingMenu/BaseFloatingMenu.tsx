@@ -6,6 +6,7 @@ interface MenuElement {
   onClick: React.MouseEventHandler<HTMLButtonElement> | undefined;
   text: string
   icon?: ReactElement | undefined;
+  size?: number;
 }
 
 export interface BaseFloatingMenuProps {
@@ -50,22 +51,22 @@ export const BaseFloatingMenu: FunctionComponent<BaseFloatingMenuProps> = ({
       const updatePosition = () => {
         const rect = anchorEl.getBoundingClientRect();
         const menuWidth = width ?? menuRef.current?.offsetWidth ?? 0;
-        
+
         let top = rect.bottom + window.scrollY + 8;
         let left = rect.left + window.scrollX;
 
         if (left + menuWidth > window.innerWidth) {
           left = rect.right - menuWidth + window.scrollX;
         }
-        
+
         setPosition({ top, left });
       };
-      
+
       updatePosition();
-      
+
       window.addEventListener('scroll', updatePosition, true);
       window.addEventListener('resize', updatePosition);
-      
+
       return () => {
         window.removeEventListener('scroll', updatePosition, true);
         window.removeEventListener('resize', updatePosition);
@@ -76,8 +77,8 @@ export const BaseFloatingMenu: FunctionComponent<BaseFloatingMenuProps> = ({
   useEffect(() => {
     function handleClickOutside(event: MouseEvent | Event) {
       if (menuRef.current && event.target instanceof Node &&
-          !menuRef.current.contains(event.target) &&
-          anchorEl && !anchorEl.contains(event.target)) {
+        !menuRef.current.contains(event.target) &&
+        anchorEl && !anchorEl.contains(event.target)) {
         onClose();
       }
     }
@@ -87,7 +88,7 @@ export const BaseFloatingMenu: FunctionComponent<BaseFloatingMenuProps> = ({
         onClose();
       }
     }
-    
+
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
       document.addEventListener('keydown', handleKeyDown);
@@ -115,7 +116,7 @@ export const BaseFloatingMenu: FunctionComponent<BaseFloatingMenuProps> = ({
         observer.disconnect();
       };
     }
-    
+
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('keydown', handleKeyDown);
@@ -125,22 +126,28 @@ export const BaseFloatingMenu: FunctionComponent<BaseFloatingMenuProps> = ({
   if (!isOpen || !portalContainer) return null;
 
   return createPortal(
-    <MenuWrapper 
-      ref={menuRef} 
-      style={{ 
-        top: `${position.top}px`, 
+    <MenuWrapper
+      ref={menuRef}
+      style={{
+        top: `${position.top}px`,
         left: `${position.left}px`,
         ...(width ? { width: `${width}px` } : {})
       }}
     >
       <MenuContent>
-        { elements.map((e, i) => (
-          <MenuButton     
+        {elements.map((e, i) => (
+          <MenuButton
             onClick={e.onClick}
             key={i}
           >
-            { e.icon && cloneElement(e.icon, { size: 16 })}
-            { e.text }
+            {e.icon && (
+              <IconContainer>
+                {cloneElement(e.icon, {
+                  size: e.size ?? e.icon.props.size ?? 16,
+                })}
+              </IconContainer>
+            )}
+            <MenuLabel>{e.text}</MenuLabel>
           </MenuButton>
         ))}
       </MenuContent>
@@ -170,7 +177,8 @@ const MenuButton = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  display: flex;
+  display: grid;
+  grid-template-columns: 24px 1fr;
   align-items: center;
   gap: 8px;
   color: ${props => props.theme.colors.dark.darkGrey};
@@ -179,6 +187,20 @@ const MenuButton = styled.button`
 
   &:hover {
     background: ${props => props.theme.colors.light.paleGrey};
-    color: ${props => props.theme.colors.dark.black};
   }
+`;
+
+const IconContainer = styled.span`
+  width: 24px;
+  min-width: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+`;
+
+const MenuLabel = styled.span`
+  display: flex;
+  align-items: center;
+  color: inherit;
 `;
