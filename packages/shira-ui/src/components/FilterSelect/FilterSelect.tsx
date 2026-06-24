@@ -149,7 +149,7 @@ export const FilterSelect = ({
             >
               {isMulti && (
                 <Checkbox $checked={selectedValues.includes(option.value)} aria-hidden="true">
-                  <FiCheck size={12} />
+                  <FiCheck size={16} />
                 </Checkbox>
               )}
               {option.label}
