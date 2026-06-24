@@ -47,17 +47,17 @@ export const QuizCard: FunctionComponent<CardProps> = ({
     {
       text: t("quiz_library.view_template"),
       onClick: onViewTemplate,
-      icon: <IoEyeSharp color={defaultTheme.colors.dark.darkGrey} />,
+      icon: <IoEyeSharp />,
     },
     {
       text: t("quiz_library.use_template"),
       onClick: onUseTemplate,
-      icon: <FaCirclePlus color={defaultTheme.colors.green7} />,
+      icon: <FaCirclePlus />,
     },
     {
       text: t("quiz_library.report_issue"),
       onClick: onReportIssue,
-      icon: <TbAlertTriangleFilled color={defaultTheme.colors.error7} />,
+      icon: <TbAlertTriangleFilled />,
     },
   ]), [onReportIssue, onUseTemplate, onViewTemplate, t]);
 
@@ -73,7 +73,7 @@ export const QuizCard: FunctionComponent<CardProps> = ({
             event.stopPropagation();
             onUseTemplate();
           }}
-          leftIcon={<FaCirclePlus size={12} />}
+          leftIcon={<FaCirclePlus size={14} />}
           text={t("quiz_library.use_template")}
           color={defaultTheme.colors.green7}
         />
@@ -88,12 +88,19 @@ export const QuizCard: FunctionComponent<CardProps> = ({
 };
 
 const UseTemplateButton = styled(Button)`
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
   padding: 4px 10px;
   min-height: 30px;
   white-space: nowrap;
+  border-radius: 6px;
+  text-align: center;
 
   & > div:first-child {
-    margin-right: 6px;
+    margin-right: 0;
+    padding-top: 0;
   }
 
   & > span {
