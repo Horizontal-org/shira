@@ -273,7 +273,7 @@ const CardBody = styled.div`
 `;
 
 const CardTitle = styled(Body1SemiBold)`
-  color: ${props => props.theme.colors.dark.darkGrey};
+  color: ${props => props.theme.colors.dark.black};
   line-height: 1.35;
   display: -webkit-box;
   overflow: hidden;
