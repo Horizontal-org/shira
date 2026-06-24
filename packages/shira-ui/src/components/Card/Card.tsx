@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement, ReactNode, useRef, useState } from 'react';
+import { FunctionComponent, ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Body1SemiBold, Body4 } from '../Typography';
 import { FiMoreVertical } from 'react-icons/fi';
@@ -41,14 +41,20 @@ export const Card: FunctionComponent<CardProps> = ({
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
-  const isClickable = !!onClick;
+  const isClickable = !!onClick && !showLoading;
+
+  useEffect(() => {
+    if (showLoading) {
+      setIsMenuOpen(false);
+    }
+  }, [showLoading]);
 
   return (
     <CardWrapper
       id={id}
       role={isClickable ? 'button' : undefined}
       tabIndex={isClickable ? 0 : undefined}
-      onClick={onClick}
+      onClick={showLoading ? undefined : onClick}
       onKeyDown={(event) => {
         if (!isClickable) {
           return;
@@ -59,11 +65,18 @@ export const Card: FunctionComponent<CardProps> = ({
           onClick?.();
         }
       }}
+      aria-busy={showLoading || undefined}
+      aria-disabled={showLoading || undefined}
       $isClickable={isClickable}
+      $isLoading={showLoading}
       $minHeight={minHeight}
     >
       {showLoading && (
-        <ActionLoadingOverlay role="status" aria-live="polite">
+        <ActionLoadingOverlay
+          onClick={(event) => {
+            event.stopPropagation();
+          }}
+        >
           <ActionLoadingContent>
             <LoadingIcon size={34} />
             {loadingLabel && <ActionLoadingText>{loadingLabel}</ActionLoadingText>}
@@ -85,6 +98,7 @@ export const Card: FunctionComponent<CardProps> = ({
                 <MenuButton
                   ref={menuButtonRef}
                   type="button"
+                  disabled={showLoading}
                   onClick={(event) => {
                     event.stopPropagation();
                     setIsMenuOpen((prev) => !prev);
@@ -170,7 +184,7 @@ const HoverActionContainer = styled.div`
   z-index: 2;
 `;
 
-const CardWrapper = styled.div<{ $isClickable: boolean; $minHeight: string }>`
+const CardWrapper = styled.div<{ $isClickable: boolean; $isLoading: boolean; $minHeight: string }>`
   position: relative;
   background: ${props => props.theme.colors.light.white};
   border: 1px solid ${props => props.theme.colors.dark.lightGrey};
@@ -181,7 +195,7 @@ const CardWrapper = styled.div<{ $isClickable: boolean; $minHeight: string }>`
   width: 100%;
   height: 100%;
   min-height: ${props => props.$minHeight};
-  cursor: ${props => props.$isClickable ? 'pointer' : 'default'};
+  cursor: ${props => props.$isLoading ? 'wait' : props.$isClickable ? 'pointer' : 'default'};
 
   @media (hover: hover) and (pointer: fine) {
     ${HoverActionContainer} {
@@ -262,6 +276,11 @@ const MenuButton = styled.button`
   &:hover,
   &:focus-visible {
     color: ${props => props.theme.colors.dark.black};
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.6;
   }
 `;
 
