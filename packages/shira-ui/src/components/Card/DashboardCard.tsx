@@ -134,10 +134,10 @@ export const DashboardCard: FunctionComponent<DashboardCardProps> = ({
           ) : (
             <MdLockOutline size={16} color={defaultTheme.colors.dark.darkGrey} />
           )}
-          <Body4>{visibilityText}</Body4>
+          <VisibilityText>{visibilityText}</VisibilityText>
         </VisibilityRow>
       ) : undefined}
-      bodyContent={<Body4>{lastModified}</Body4>}
+      bodyContent={<LastModifiedText>{lastModified}</LastModifiedText>}
       footerContent={(
         <CardFooter>
           <CardFooterMeta>
@@ -198,6 +198,14 @@ const VisibilityRow = styled.div`
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  color: ${props => props.theme.colors.dark.darkGrey};
+`;
+
+const VisibilityText = styled(Body4)`
+  color: ${props => props.theme.colors.dark.darkGrey};
+`;
+
+const LastModifiedText = styled(Body4)`
   color: ${props => props.theme.colors.dark.darkGrey};
 `;
 

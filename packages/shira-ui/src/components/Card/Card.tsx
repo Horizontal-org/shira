@@ -96,7 +96,6 @@ export const Card: FunctionComponent<CardProps> = ({
                   isOpen={isMenuOpen}
                   onClose={() => setIsMenuOpen(false)}
                   anchorEl={menuButtonRef.current}
-                  width={220}
                   elements={menuItems.map((item) => ({
                     text: item.text,
                     icon: item.icon,

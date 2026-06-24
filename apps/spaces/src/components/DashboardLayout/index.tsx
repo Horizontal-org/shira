@@ -576,13 +576,12 @@ const CardGrid = styled.div`
   gap: 24px;
 
   @media (max-width: ${props => props.theme.breakpoints.lg}) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
   }
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    grid-template-columns: repeat(3, 1fr);
   }
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
