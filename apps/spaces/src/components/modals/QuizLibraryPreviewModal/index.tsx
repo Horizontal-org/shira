@@ -151,7 +151,7 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
                 <ActionsDivider />
 
                 <Button
-                  text={t("dashboard.use_a_quiz_template_button")}
+                  text={t("quiz_library.preview.use_template")}
                   type="primary"
                   color={defaultTheme.colors.green7}
                   leftIcon={<FaCirclePlus size={16} />}
