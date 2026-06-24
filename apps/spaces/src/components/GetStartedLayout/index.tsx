@@ -18,6 +18,7 @@ import { handleHttpError } from "../../fetch/handleError";
 import { getErrorContent } from "../../utils/getErrorContent";
 import { GenericErrorModal } from "../modals/ErrorModal";
 import { isEmailValid, hasRequiredValue } from "../../utils/validation";
+import { SPACE_NAME_MAX_LENGTH } from "../../utils/inputLimits";
 
 interface Props { }
 
@@ -38,6 +39,7 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
   const [nameError, handleNameError] = useState("");
   const [orgType, handleOrgType] = useState("");
 
+  const [honeypot, setHoneypot] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
@@ -52,6 +54,9 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
     let hasError = false;
     if (!hasRequiredValue(name)) {
       handleNameError(t("get_started.validation.org_name_required"))
+      hasError = true;
+    }
+    if (name.length > SPACE_NAME_MAX_LENGTH) {
       hasError = true;
     }
     if (!hasRequiredValue(email)) {
@@ -99,7 +104,8 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
         slug: name,
         email,
         orgType,
-        subIntent: validateUrl()
+        subIntent: validateUrl(),
+        website: honeypot,
       })
 
       setSuccess(true);
@@ -146,12 +152,24 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
               }}
             >
               <InputsContainer>
+                <input
+                  name="website"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  style={{ position: 'absolute', left: '-9999px', opacity: 0, height: 0, width: 0 }}
+                />
                 <TextInput
                   required
                   label={t('get_started.organization_name_required')}
                   value={name}
                   onChange={(e) => handleName(e.target.value)}
                   disabled={loading}
+                  showCharacterCount={true}
+                  maxLength={SPACE_NAME_MAX_LENGTH}
+                  characterLimitErrorText={t('error_messages.character_limit_error')}
                 />
                 {nameError && <InlineErrorMessage>{nameError}</InlineErrorMessage>}
                 <TextInput
@@ -180,7 +198,7 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
                 <Button
                   text={loading ? t('get_started.loading') : t('get_started.button_sign_up')}
                   type="primary"
-                  disabled={loading || !orgType || !hasRequiredValue(name) || !hasRequiredValue(email) || !emailIsValid}
+                  disabled={loading || !orgType || !hasRequiredValue(name) || name.length > SPACE_NAME_MAX_LENGTH || !hasRequiredValue(email) || !emailIsValid}
                   onClick={(e) => {
                     e.preventDefault()
                     handleSubmit()

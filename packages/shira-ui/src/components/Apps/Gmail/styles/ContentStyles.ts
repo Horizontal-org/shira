@@ -6,6 +6,8 @@ export const DynamicContent = styled.div`
   mark {
     background-color: transparent;
     position: relative;
+    color: inherit;
+    text-decoration: inherit;
   }
 
   img {

@@ -1,6 +1,6 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useEffect } from 'react'
 import useParseHTML from '../../../../utils/parseHtml';
-import { DatingApp, FBMessenger, SMS, Whatsapp } from '@horizontal-org/shira-ui';
+import { DatingApp, FBMessenger, SMS, WhatsApp } from '@horizontal-org/shira-ui';
 import { UIExplanation } from '../..';
 
 interface Props {
@@ -17,12 +17,16 @@ export const MessagingApps: FunctionComponent<Props> = ({ content, name, explana
 
   const { parseCustomElement } = useParseHTML(content)
 
+  const contentRoot = getMessagingContentRoot(html)
+  const phone = parseCustomElement('component-required-phone')
+  const senderName = getSenderName(parseCustomElement)
+
   return (
     <>
       {name === 'SMS' && (
         <SMS
-          phone={parseCustomElement('component-required-phone')}
-          content={html.getElementById('dynamic-content')}
+          phone={phone}
+          content={contentRoot}
           explanations={explanations}
           explanationNumber={explanationNumber}
           showExplanations={showExplanations}
@@ -31,18 +35,18 @@ export const MessagingApps: FunctionComponent<Props> = ({ content, name, explana
 
       {name === 'Dating App' && (
         <DatingApp
-          senderName={parseCustomElement('component-required-fullname')}
-          content={html.getElementById('dynamic-content')}
+          senderName={senderName}
+          content={contentRoot}
           explanations={explanations}
           explanationNumber={explanationNumber}
           showExplanations={showExplanations}
         />
       )}
 
-      {name === 'Whatsapp' && (
-        <Whatsapp
-          phone={parseCustomElement('component-required-phone')}
-          content={html.getElementById('dynamic-content')}
+      {name === 'WhatsApp' && (
+        <WhatsApp
+          phone={phone}
+          content={contentRoot}
           explanations={explanations}
           explanationNumber={explanationNumber}
           showExplanations={showExplanations}
@@ -51,8 +55,8 @@ export const MessagingApps: FunctionComponent<Props> = ({ content, name, explana
 
       {name === 'Messenger' && (
         <FBMessenger
-          senderName={parseCustomElement('component-required-fullname')}
-          content={html.getElementById('dynamic-content')}
+          senderName={senderName}
+          content={contentRoot}
           explanations={explanations}
           explanationNumber={explanationNumber}
           showExplanations={showExplanations}
@@ -60,4 +64,38 @@ export const MessagingApps: FunctionComponent<Props> = ({ content, name, explana
       )}
     </>
   )
+}
+
+const getMessagingContentRoot = (html: Document) => {
+  const dynamicContent = html.getElementById('dynamic-content')
+
+  if (dynamicContent) {
+    return dynamicContent
+  }
+
+  const fallbackRoot = html.createElement('div')
+  const messageNodes = html.querySelectorAll(
+    '[id*="component-text"], [id*="component-attachment"], [id*="component-image"]',
+  )
+
+  messageNodes.forEach((node) => {
+    fallbackRoot.appendChild(node.cloneNode(true))
+  })
+
+  return fallbackRoot
+}
+
+const getSenderName = (
+  parseCustomElement: (customElement: string) => {
+    textContent: string;
+    explanationPosition: string | null;
+  },
+) => {
+  const senderName = parseCustomElement('component-required-fullname')
+
+  if (senderName.textContent.trim()) {
+    return senderName
+  }
+
+  return parseCustomElement('component-required-phone')
 }

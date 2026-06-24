@@ -6,7 +6,8 @@ import {
   Modal, 
   OutlookIcon, 
   SMSIcon, 
-  WhatsappIcon, 
+  WhatsAppIcon, 
+  CloseButton,
   styled, 
   useTheme,
   PricingTable,
@@ -17,7 +18,6 @@ import { useTranslation } from "react-i18next";
 import { checkoutSubscription, navigateToManageSubscription } from "../../../fetch/auth";
 import { useStore } from "../../../store";
 import { useSub } from "../../../hooks/useSub";
-import { FiX } from "react-icons/fi";
 
 interface Props {
   isModalOpen: boolean;
@@ -80,7 +80,7 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
       <GmailIcon />
       <OutlookIcon />
       <SMSIcon />
-      <WhatsappIcon />
+      <WhatsAppIcon />
     </AppsIconRow>
   );
 
@@ -254,9 +254,11 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
       isOpen={isModalOpen}
       title={t("modals.view_plans.modal_title")}
       titleIcon={
-        <CloseButton onClick={onClose} aria-label={t("buttons.close")}>
-          <FiX size={18} />
-        </CloseButton>
+        <CloseButton
+          iconSize={18}
+          onClick={onClose}
+          size={24}
+        />
       }
       primaryButtonText={t("buttons.close")}
       secondaryButtonText=""
@@ -309,14 +311,4 @@ const StyledModal = styled(Modal)`
   > div:last-child {
     display: none;
   }
-`;
-
-const CloseButton = styled.button`
-  all: unset;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  color: ${(props) => props.theme.colors.dark.darkGrey};
-  line-height: 1;
 `;

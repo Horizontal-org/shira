@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { PricingTable } from "./PricingTable";
 import styled from "styled-components";
-import { DatingAppIcon, FacebookIcon, GmailIcon, OutlookIcon, SMSIcon, WhatsappIcon } from "../Icons";
+import { DatingAppIcon, FacebookIcon, GmailIcon, OutlookIcon, SMSIcon, WhatsAppIcon } from "../Icons";
 
 const AppsIconRow = styled.div`
   display: flex;
@@ -17,7 +17,7 @@ const appIcons = (
     <GmailIcon />
     <OutlookIcon />
     <SMSIcon />
-    <WhatsappIcon />
+    <WhatsAppIcon />
   </AppsIconRow>
 )
 

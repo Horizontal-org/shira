@@ -1,5 +1,6 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 
 import ChevronDown from '../../assets/arrow_drop_down.png'
 
@@ -13,13 +14,15 @@ import DraftIcon from '../../assets/draft.png'
 interface Props {}
 
 const Categories: FunctionComponent<Props> = () => {
+  const { t } = useTranslation('shira-ui')
+
   return (
     <Wrapper>
       <div>
         <Category>
           <CategoryIcon />
           <span>
-            Mail
+            {t('gmail.mail')}
           </span>
         </Category>
 
@@ -28,7 +31,7 @@ const Categories: FunctionComponent<Props> = () => {
             <div>
               <MailCategoryIcon icon={InboxIcon}/>
               <span>
-                Inbox
+                {t('gmail.inbox')}
               </span>
             </div>
             <span>
@@ -40,7 +43,7 @@ const Categories: FunctionComponent<Props> = () => {
           <MailCategory>
             <MailCategoryIcon icon={StarIcon}/>
             <span>
-              Starred
+              {t('gmail.starred')}
             </span>
           </MailCategory>
         </div>
@@ -48,7 +51,7 @@ const Categories: FunctionComponent<Props> = () => {
           <MailCategory>
             <MailCategoryIcon icon={ScheduleIcon}/>
             <span>
-              Snoozed
+              {t('gmail.snoozed')}
             </span>
           </MailCategory>
         </div>
@@ -56,7 +59,7 @@ const Categories: FunctionComponent<Props> = () => {
           <MailCategory>
             <MailCategoryIcon icon={SentIcon}/>
             <span>
-              Sent
+              {t('gmail.sent')}
             </span>
           </MailCategory>
         </div>
@@ -64,7 +67,7 @@ const Categories: FunctionComponent<Props> = () => {
           <MailCategory>
             <MailCategoryIcon icon={DraftIcon}/>
             <span>
-              Drafts
+              {t('gmail.drafts')}
             </span>
           </MailCategory>
         </div>     

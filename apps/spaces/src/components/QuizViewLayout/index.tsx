@@ -68,7 +68,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     fetchQuizzes: state.fetchQuizzes,
     quizzes: state.quizzes,
   }), shallow)
-    console.log("🚀 ~ QuizViewLayout ~ quizzes:", quizzes)
+  console.log("🚀 ~ QuizViewLayout ~ quizzes:", quizzes)
 
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
   const [isPublished, setIsPublished] = useState(false);
@@ -149,7 +149,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
 
     getQuiz()
     fetchQuizzes()
-    
+
     return () => {
       cleanQuizActionSuccess()
     }
@@ -275,25 +275,25 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                     />
 
                     <GeneralTooltip
-                        enabled={!isSubActive && hasReachedLimit}
-                        show={showDuplicateTooltip}
-                        setShow={setShowDuplicateTooltip}
-                        label={t('dashboard.create_limit_reached')}
-                      >
-                        <Button
-                          id="duplicate-quiz-button"
-                          leftIcon={<FiCopy size={16} />}
-                          text={t('quiz.actions.duplicate')}
-                          type="outline"
-                          disabled={!isSubActive && hasReachedLimit}
-                          onClick={() => {
-                            if (quiz) {
-                              startDuplicateQuizFlow(quiz);
-                            }
-                          }}
-                        />
+                      enabled={!isSubActive && hasReachedLimit}
+                      show={showDuplicateTooltip}
+                      setShow={setShowDuplicateTooltip}
+                      label={t('dashboard.create_limit_reached')}
+                    >
+                      <Button
+                        id="duplicate-quiz-button"
+                        leftIcon={<FiCopy size={16} />}
+                        text={t('quiz.actions.duplicate')}
+                        type="outline"
+                        disabled={!isSubActive && hasReachedLimit}
+                        onClick={() => {
+                          if (quiz) {
+                            startDuplicateQuizFlow(quiz);
+                          }
+                        }}
+                      />
                     </GeneralTooltip>
-                    
+
                     {quiz.visibility !== 'private' && (
                       <PublishToggleWrapper
                         $showHelpCursor={disableCopyLinkButton}
@@ -384,11 +384,17 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 content={
                   <div>
                     {t('modals.delete_quiz.subtitle')}
-                    <br /><br />
-                    <QuizWarningNote>
-                      {t('modals.delete_quiz.note')}
-                    </QuizWarningNote>
-                    {t('modals.delete_quiz.message')}
+                    {hasResults && (
+                      <>
+                        <br /><br />
+                        <QuizWarningLine>
+                          <QuizWarningNote>
+                            {t('modals.delete_quiz.note')}
+                          </QuizWarningNote>
+                          {t('modals.delete_quiz.message')}
+                        </QuizWarningLine>
+                      </>
+                    )}
                   </div>
                 }
                 setIsModalOpen={setIsDeleteModalOpen}
@@ -529,8 +535,12 @@ const LeftButtons = styled.div`
 `;
 
 const QuizWarningNote = styled.span`
-  color: #d73527;
+  color: ${(props) => props.theme.colors.error7};
   font-weight: 500;
+`;
+
+const QuizWarningLine = styled.span`
+  display: inline;
 `;
 
 const PublishToggleWrapper = styled.div<{ $showHelpCursor: boolean }>`

@@ -5,7 +5,8 @@ import {
   Button,
   TextInput,
   styled,
-  Navbar
+  Navbar,
+  Body2Regular
 } from "@horizontal-org/shira-ui";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -19,10 +20,12 @@ export const LoginLayout: FunctionComponent<Props> = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const { user, login } = useStore(
+  const { user, login, loginStatus, setLoginStatus } = useStore(
     (state) => ({
       user: state.user,
       login: state.login,
+      loginStatus: state.loginStatus,
+      setLoginStatus: state.setLoginStatus
     }),
     shallow
   );
@@ -64,15 +67,26 @@ export const LoginLayout: FunctionComponent<Props> = () => {
               id="email-input"
               label={t('login.email_placeholder')}
               value={email}
-              onChange={(e) => handleEmail(e.target.value)}
+              onChange={(e) => {
+                if (loginStatus === 'error') {
+                  setLoginStatus('idle');
+                }
+                handleEmail(e.target.value)
+              }}
             />
             <TextInput
               id="password-input"
               type="password"
               label={t('login.password_placeholder')}
               value={pass}
-              onChange={(e) => handlePass(e.target.value)}
+              onChange={(e) => {
+                if (loginStatus === 'error') {
+                  setLoginStatus('idle');
+                }
+                handlePass(e.target.value)
+              }}
             />
+            {loginStatus === 'error' && <ErrorText id="login-error">{t('login.error_message')}</ErrorText>}
           </InputsContainer>
 
           <ForgotPasswordContainer>
@@ -91,9 +105,9 @@ export const LoginLayout: FunctionComponent<Props> = () => {
           <ButtonContainer>
             <Button
               id="login-button"
-              text={t('buttons.login')}
+              text={loginStatus === 'loading' ? t('login.loading_button') : t('buttons.login')}
               type="primary"
-              disabled={!(email && pass)}
+              disabled={!(email && pass) || loginStatus === 'loading'}
               onClick={(e) => {
                 e.preventDefault();
                 login(email, pass);
@@ -177,3 +191,8 @@ const ButtonContainer = styled.div`
     }
   }
 `;
+
+const ErrorText = styled(Body2Regular)`
+  color: ${(props) => props.theme.colors.error7};
+  margin-top: -16px
+`

@@ -1,19 +1,21 @@
-import {  
+import {
   Body1,
   Button,
   H1,
   styled,
 } from "@horizontal-org/shira-ui";
+import { useTranslation } from "react-i18next";
 import FullFish from './assets/FullFish'
 import { useStore } from "../../../../store";
 import { shallow } from "zustand/shallow";
 import { useNavigate } from "react-router-dom";
 
 export const CreateSpaceSuccess = () => {
+  const { t } = useTranslation();
 
   const navigate = useNavigate()
   const {
-    user,    
+    user,
   } = useStore((state) => ({
     user: state.user,
   }), shallow)
@@ -24,13 +26,13 @@ export const CreateSpaceSuccess = () => {
         <FullFish />
       </SvgWrapper>
       <TextContent>
-        <H1>All done!</H1>
+        <H1>{t("create_space.success.title")}</H1>
         <Body1>
-          <strong>Your space was successfully created. Log in to start creating quizzes.</strong>
+          <strong>{t("create_space.success.description")}</strong>
         </Body1>
         <div>
           <Button
-            text="Go to space"
+            text={t("create_space.success.button")}
             disabled={!user}
             type="outline"
             onClick={() => {

@@ -19,6 +19,7 @@ import { getErrorContent } from "../../utils/getErrorContent";
 import { GenericErrorModal } from "../modals/ErrorModal";
 import { isEmailValid, hasRequiredValue } from "../../utils/validation";
 import { login as fetchLogin, navigateToManageSubscription } from "../../fetch/auth";
+import { SPACE_NAME_MAX_LENGTH } from "../../utils/inputLimits";
 
 interface Props { }
 
@@ -34,6 +35,7 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
   const [passError, handlePassError] = useState("");
   const [passConfirmation, handlePassConfirmation] = useState("");
   const [passConfirmationError, handlePassConfirmationError] = useState("");
+  const [honeypot, setHoneypot] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -53,7 +55,7 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
     // clean just in case session exists
     logout()
     checkPassphraseExpiry()
-  }, []) 
+  }, [])
 
   const checkPassphraseExpiry = async () => {
     if (!passphraseCode) {
@@ -133,6 +135,7 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
         password: pass,
         passphrase: passphraseCode,
         email,
+        website: honeypot,
       })
 
       //if subIntent = pro, redirect to stripe
@@ -167,6 +170,7 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
     return (
       <Container>
         <Navbar
+          showLogInButton={false}
           translatedTexts={{ home: "", about: "", menu: "", logIn: t('login.login_header_button'), createSpace: t('create_space.button_create') }}
           onNavigate={navigate}
         />
@@ -182,6 +186,7 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
   return (
     <Container>
       <Navbar
+        showLogInButton={false}
         translatedTexts={{ home: "", about: "", menu: "", logIn: t('login.login_header_button'), createSpace: t('create_space.button_create') }}
         onNavigate={navigate}
       />
@@ -204,13 +209,25 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
             >
 
               <InputsContainer>
+                <input
+                  name="website"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  style={{ position: 'absolute', left: '-9999px', opacity: 0, height: 0, width: 0 }}
+                />
                 <TextInput
                   required
                   label={t('create_space.email_label')}
                   value={email}
                   onChange={(e) => handleEmail(e.target.value)}
+                  showCharacterCount={true}
+                  maxLength={SPACE_NAME_MAX_LENGTH}
+                  characterLimitErrorText={t('error_messages.character_limit_error')}
+                  errorText={emailError}
                 />
-                {emailError && <InlineErrorMessage>{emailError}</InlineErrorMessage>}
                 <TextInput
                   required
                   type="password"
@@ -218,7 +235,9 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
                   value={pass}
                   onChange={(e) => handlePass(e.target.value)}
                 />
+
                 {passError && <InlineErrorMessage>{passError}</InlineErrorMessage>}
+
                 <TextInput
                   required
                   type="password"
@@ -226,6 +245,7 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
                   value={passConfirmation}
                   onChange={(e) => handlePassConfirmation(e.target.value)}
                 />
+
                 {passConfirmationError && <InlineErrorMessage>{passConfirmationError}</InlineErrorMessage>}
               </InputsContainer>
 

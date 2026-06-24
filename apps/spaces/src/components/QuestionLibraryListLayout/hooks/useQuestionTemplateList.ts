@@ -1,0 +1,175 @@
+import { type SetStateAction, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { getApps, type App } from "../../../fetch/app";
+import {
+  DEFAULT_PAGE_LIMIT,
+  DEFAULT_QUESTION_TEMPLATE_SORT,
+  getQuestionTemplates,
+  type LibraryQuestionTemplateDto,
+  type QuestionTemplateFilterOption,
+  type QuestionTemplateSortOption,
+} from "../../../fetch/question_templates";
+import { usePaginationProps } from "../../../hooks/usePaginationProps";
+import { useDebouncedValue } from "./useDebouncedValue";
+import { useQuestionTemplateFilterOptions } from "./useQuestionTemplateFilterOptions";
+import { useQuestionTemplateFilters } from "./useQuestionTemplateFilters";
+
+export const useQuestionTemplateList = () => {
+  const { t } = useTranslation();
+  const [questionTemplates, setQuestionTemplates] = useState<LibraryQuestionTemplateDto[]>([]);
+  const [apps, setApps] = useState<App[]>([]);
+  const [totalAvailableQuestions, setTotalAvailableQuestions] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [pageIndex, setPageIndexState] = useState(0);
+  const [searchValue, setSearchValueState] = useState("");
+  const [sortOption, setSortOptionState] = useState<QuestionTemplateSortOption>(DEFAULT_QUESTION_TEMPLATE_SORT);
+
+  const startLoading = () => {
+    setLoading(true);
+  };
+
+  const setPageIndex = (value: SetStateAction<number>) => {
+    startLoading();
+    setPageIndexState(value);
+  };
+
+  const resetPagination = () => setPageIndexState(0);
+
+  const debouncedSearchValue = useDebouncedValue(searchValue.trim());
+
+  const filters = useQuestionTemplateFilters(() => {
+    startLoading();
+    resetPagination();
+  });
+  const { languageOptions, tagOptions } = useQuestionTemplateFilterOptions(filters.areFiltersOpen);
+
+  useEffect(() => {
+    const loadApps = async () => {
+      try {
+        const apps = await getApps();
+        setApps(apps ?? []);
+      } catch (error) {
+        console.error("Failed to get apps for question templates:", error);
+      }
+    };
+
+    loadApps();
+  }, []);
+
+  const total = totalAvailableQuestions;
+  const pageCount = Math.max(1, Math.ceil(total / DEFAULT_PAGE_LIMIT));
+
+  const hasActiveSearch = debouncedSearchValue.length > 0;
+  const showEmptyState = !loading && total === 0 && (hasActiveSearch || filters.hasActiveFilters);
+
+  const appTypes = apps
+    .map((app) => app.type)
+    .filter((type) => type.length > 0)
+    .filter((type, index, types) => types.indexOf(type) === index);
+
+  const appOptions: QuestionTemplateFilterOption[] = appTypes.map((appType) => ({
+    value: appType,
+    label: t(`question_library.columns.app.${appType}_type`),
+  }));
+
+  useEffect(() => {
+    const loadQuestionTemplates = async () => {
+      setLoading(true);
+      const hasQueryModifiers = debouncedSearchValue.length > 0
+        || filters.selectedLanguages.length > 0
+        || filters.selectedTags.length > 0
+        || filters.selectedAppType.length > 0
+        || filters.selectedType.length > 0;
+
+      try {
+        const response = await getQuestionTemplates({
+          page: pageIndex + 1,
+          limit: DEFAULT_PAGE_LIMIT,
+          search: debouncedSearchValue,
+          sortOption,
+          langTagCodes: filters.selectedLanguages,
+          tagSlugs: filters.selectedTags,
+          appType: filters.selectedAppType,
+          isPhishing: filters.selectedType
+            ? filters.selectedType === "phishing"
+            : undefined,
+        });
+
+        if (response.total > 0 || !hasQueryModifiers) {
+          setQuestionTemplates(response.data);
+        }
+
+        setTotalAvailableQuestions(response.total);
+
+        setPageIndexState((currentPageIndex) => {
+          const nextPageIndex = Math.max(0, response.page - 1);
+          return currentPageIndex === nextPageIndex
+            ? currentPageIndex
+            : nextPageIndex;
+        });
+      } catch (error) {
+        console.error("Failed to get question templates:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadQuestionTemplates();
+  }, [
+    debouncedSearchValue,
+    filters.selectedAppType,
+    filters.selectedLanguages,
+    filters.selectedTags,
+    filters.selectedType,
+    pageIndex,
+    sortOption,
+  ]);
+
+  useEffect(() => {
+    if (pageIndex <= pageCount - 1) {
+      return;
+    }
+
+    setPageIndexState(Math.max(0, pageCount - 1));
+  }, [pageCount, pageIndex]);
+
+  const setSearchValue = (value: string) => {
+    startLoading();
+    setSearchValueState(value);
+    resetPagination();
+  };
+
+  const setSortOption = (nextSortOption: QuestionTemplateSortOption) => {
+    startLoading();
+    setSortOptionState(nextSortOption);
+    resetPagination();
+  };
+
+  const paginationProps = usePaginationProps({
+    pageIndex,
+    pageCount,
+    pageSize: DEFAULT_PAGE_LIMIT,
+    setPageIndex,
+    total,
+  });
+
+  return {
+    ...filters,
+    appOptions,
+    apps,
+    debouncedSearchValue,
+    hasActiveSearch,
+    languageOptions,
+    loading,
+    pageIndex,
+    paginationProps,
+    questionTemplates,
+    searchValue,
+    setSearchValue,
+    setSortOption,
+    showEmptyState,
+    sortOption,
+    tagOptions,
+    total,
+  };
+};

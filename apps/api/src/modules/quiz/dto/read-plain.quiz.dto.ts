@@ -36,4 +36,9 @@ export class ReadPlainQuizDto {
   @Transform(({ value }) => Number(value))
   @IsNumber()
   questionsCount: number;
+
+  @Expose()
+  @Transform(({ value }) => Boolean(Number(value)))
+  @IsBoolean()
+  hasResultsEnabled: boolean;
 }

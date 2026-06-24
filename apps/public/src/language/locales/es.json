@@ -56,7 +56,9 @@
             "explanation_2": "Para cada pregunta, elige si el mensaje que se muestra parece un intento de phishing o parece legítimo.",
             "explanation_3": "Si no tienes seguridad, puedes seleccionar la opción \"No sé\".",
             "footer_title": "Introducción al cuestionario",
-            "next": "OK"
+            "next": "OK",
+            "learn_more": "",
+            "disclaimer": ""
         },
         "answers": {
             "options": {
@@ -81,6 +83,18 @@
             "action_description": "Salir del cuestionario",
             "description": "¿Con seguridad quieres salir del cuestionario? Tu progreso no se guardará.",
             "cancel": "Cancelar"
+        },
+        "data_collection": {
+            "percentage_of_learners": "",
+            "your_score": "",
+            "understand": "",
+            "only_datetime": "",
+            "total_quiz_score": "",
+            "learn_more": "",
+            "title": "",
+            "2_results": "",
+            "1_date_time": "",
+            "intro": ""
         }
     },
     "feedback": {

@@ -8,7 +8,7 @@ export interface Language {
 }
 
 export interface LanguagesSlice {
-  languages: Language[] | null
+  languages: Language[] | null;
   fetchLanguages: () => void
 }
 
@@ -19,8 +19,8 @@ export const createLanguagesSlice: StateCreator<
   LanguagesSlice
 > = (set) => ({
   languages: null,
-  fetchLanguages: async() => {
+  fetchLanguages: async () => {
     const res = await getLanguages()
-    set({languages: res})
-  }  
+    set({ languages: res })
+  }
 })

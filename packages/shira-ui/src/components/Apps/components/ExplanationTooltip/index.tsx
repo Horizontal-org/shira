@@ -25,6 +25,7 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
   const referenceElementRef = useRef<HTMLElement | null>(null);
 
   const isUrl = (text: string) => {
+    if (!text || text.length === 0) return false;
     try {
       new URL(text);
       return true;
@@ -144,7 +145,7 @@ const TooltipContent = styled.div<{ isUrl: boolean }>`
     white-space: nowrap;
     max-width: 280px;
   ` : `
-    white-space: normal;
+    white-space: pre-wrap;
     word-wrap: break-word;
     max-width: 280px;
   `}

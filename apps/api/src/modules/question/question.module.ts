@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConsoleModule } from 'nestjs-console';
+import { QuestionCommander } from './commander';
 import { App as AppEntity } from '../app/domain';
 import { FieldOfWork as FieldOfWorkEntity } from '../field_of_work/domain';
 import { Explanation as ExplanationEntity } from '../question/domain';
@@ -30,10 +32,12 @@ import { QuestionImageModule } from '../question_image/question_image.module';
       ExplanationTranslationEntity,
       LanguageEntity,
     ]),
-    QuestionImageModule
+    QuestionImageModule,
+    ConsoleModule,
   ],
   controllers: [...questionControllers],
   providers: [
+    QuestionCommander,
     CreateQuestionService,
     ListQuestionService,
     GenerateQuizQuestionService,

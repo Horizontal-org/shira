@@ -1,7 +1,7 @@
 import { FunctionComponent, ReactNode } from "react"
+import { CloseButton } from "../CloseButton";
 import { Logo } from "../Icons";
 import { Body2Regular } from '../Typography'
-import { IoClose } from "react-icons/io5";
 import styled from "styled-components";
 
 interface FlowHeaderProps {
@@ -23,12 +23,13 @@ export const FlowHeader: FunctionComponent<FlowHeaderProps> = ({
           <Logo />
         </LogoWrapper>
 
-        <CloseWrapper id="flow-header-close" onClick={onExit}>
-          <IoClose
-            color="#5F6368"
-            size={24}
-          />
-        </CloseWrapper>
+        <StyledCloseButton
+          aria-label="Close"
+          iconSize={24}
+          id="flow-header-close"
+          onClick={onExit}
+          size={24}
+        />
 
         <Body2Regular>{title}</Body2Regular>
       </Left>
@@ -56,12 +57,8 @@ const LogoWrapper = styled.div`
   border-right: 1px solid ${props => props.theme.colors.dark.mediumGrey};
 `
 
-const CloseWrapper = styled.div`
-  padding: 0 8px;
+const StyledCloseButton = styled(CloseButton)`
   margin: 0 20px;
-  cursor: pointer;
-  display: flex; 
-  align-items: center;
 `
 
 const Left = styled.div`

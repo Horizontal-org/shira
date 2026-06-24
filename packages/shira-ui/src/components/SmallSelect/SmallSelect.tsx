@@ -1,6 +1,6 @@
 import { FunctionComponent, useCallback, useId, useMemo, useRef, useState } from "react";
 import { Option as SelectOption } from "./Option";
-import { useOnClickOutside } from "./useOnClickOutside";
+import { useOnClickOutside } from "../../hooks/useOnClickOutside";
 import { styled } from "styled-components";
 import { defaultTheme } from "../../theme";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";

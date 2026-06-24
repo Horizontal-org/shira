@@ -41,7 +41,9 @@ export default function parseHtml(content: string, images: ImageEntry[] = []) {
     return object
   }
 
-  const parseExplanations = (dbExplanations: Array<{ position: number; text: string; index: number }>) => {
+  const parseExplanations = (
+    dbExplanations: Array<{ position: number | string; text: string; index: number | string }>,
+  ) => {
     const nodes = Array.from(doc.querySelectorAll<HTMLElement>('[data-explanation]'));
     const byIndex = new Map(dbExplanations.map(e => [String(e.index), e]));
     const seen = new Set<string>();
@@ -63,7 +65,7 @@ export default function parseHtml(content: string, images: ImageEntry[] = []) {
     if (out.length === 0) {
       return dbExplanations
         .slice()
-        .sort((a, b) => a.position - b.position)
+        .sort((a, b) => Number(a.position) - Number(b.position))
         .map(e => ({ index: String(e.index), position: String(e.position), text: e.text }));
     }
 

@@ -1,11 +1,13 @@
 import { FunctionComponent } from "react";
 import { styled } from "styled-components"
 
-import { AboutIcon, CloseIcon, HomeIcon} from "../Icons"
+import { AboutIcon, HomeIcon } from "../Icons"
+import { CloseButton } from "../CloseButton";
 
 export interface MobileMenuProps {
   onNavigate: (route: string) => void;
   onClose: () => void;
+  showLogInButton?: boolean;
   translatedTexts: {
     home: string;
     about: string;
@@ -17,15 +19,19 @@ export interface MobileMenuProps {
 export const MobileMenu: FunctionComponent<MobileMenuProps> = ({
   onClose,
   onNavigate,
+  showLogInButton = true,
   translatedTexts
 }) => {
 
   return (
     <Wrapper>
       <Top>
-        <CloseButton onClick={onClose}>
-          <CloseIcon />
-        </CloseButton>              
+        <CloseButton
+          aria-label="Close menu"
+          onClick={onClose}
+          size={44}
+          iconSize={16}
+        />
       </Top>
 
       <Nav onClick={() => {
@@ -35,7 +41,7 @@ export const MobileMenu: FunctionComponent<MobileMenuProps> = ({
           <HomeIcon />
         </SvgWrapper>
         <p>
-            {translatedTexts.home}
+          {translatedTexts.home}
         </p>
       </Nav>
       <Nav onClick={() => {
@@ -45,31 +51,22 @@ export const MobileMenu: FunctionComponent<MobileMenuProps> = ({
           <AboutIcon />
         </SvgWrapper>
         <p>
-            {translatedTexts.about}
+          {translatedTexts.about}
         </p>
       </Nav>
 
-      <Nav onClick={() => {
-        onNavigate('/login')
-      }}>
-        <SvgWrapper>
-          <AboutIcon />
-        </SvgWrapper>
-        <p>
+      {showLogInButton && (
+        <Nav onClick={() => {
+          onNavigate('/login')
+        }}>
+          <SvgWrapper>
+            <AboutIcon />
+          </SvgWrapper>
+          <p>
             {translatedTexts.logIn}
-        </p>
-      </Nav>
-
-      {/* <Nav onClick={() => {
-        onNavigate('/create-space')
-      }}>
-        <SvgWrapper>
-          <AboutIcon />
-        </SvgWrapper>
-        <p>
-            {translatedTexts.createSpace}
-        </p>
-      </Nav> */}
+          </p>
+        </Nav>
+      )}
     </Wrapper>
   )
 }
@@ -92,18 +89,6 @@ const Top = styled.div`
   display: flex;
   justify-content: flex-end;
   padding: 10px;
-`
-
-const CloseButton = styled.div`
-  cursor: pointer;
-  background: white;
-  padding: 10px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 24px;
-  width: 24px;
 `
 
 const Nav = styled.div`

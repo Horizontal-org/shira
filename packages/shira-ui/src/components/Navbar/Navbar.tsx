@@ -7,6 +7,7 @@ import { styled } from "styled-components";
 export interface NavbarProps {
   color?: string;
   onNavigate: (route: string) => void;
+  showLogInButton?: boolean;
   translatedTexts: {
     home: string;
     about: string;
@@ -19,6 +20,7 @@ export interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({
   color,
   onNavigate,
+  showLogInButton = true,
   translatedTexts,
 }) => {
   const [mobileMenu, handleMobileMenu] = useState(false);
@@ -39,16 +41,13 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         <RightSection>
           <DesktopButtons>
-            <Button
-              type="outline"
-              onClick={() => onNavigate("/login")}
-              text={translatedTexts.logIn}
-            />
-            {/* <Button
-              type="primary"
-              onClick={() => onNavigate("/create-space")}
-              text={translatedTexts.createSpace}
-            /> */}
+            {showLogInButton && (
+              <Button
+                type="outline"
+                onClick={() => onNavigate("/login")}
+                text={translatedTexts.logIn}
+              />
+            )}
           </DesktopButtons>
 
           <RightNavbar onClick={() => handleMobileMenu(true)}>
@@ -64,6 +63,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               handleMobileMenu(false);
             }}
             onClose={() => handleMobileMenu(false)}
+            showLogInButton={showLogInButton}
             translatedTexts={translatedTexts}
           />
         )}

@@ -9,15 +9,14 @@ type UseQuizRunValue = {
   finish: () => Promise<void>;
 };
 
-export const useQuizRun = (): UseQuizRunValue => {
+export const useQuizRun = (hasResultsEnabled: boolean = true): UseQuizRunValue => {
 
   const [runId, setRunId] = useState<number | null>(null);
   const [answers, setAnswers] = useState<QuestionRunPayload[]>([]);
   const started = runId !== null;
 
-  console.log(`🚀 ~ useQuizRun ~ answers: ${answers} - runId: ${runId} - started: ${started}`)
-  
   const start = async (quizId: number, learnerId: number | null = null) => {
+    if (!hasResultsEnabled) return
     if (runId != null) return;
     const payload = { quizId, learnerId, startedAt: new Date().toISOString() };
     const run = await startQuizRun(payload);
@@ -35,13 +34,14 @@ export const useQuizRun = (): UseQuizRunValue => {
   }
 
   const finish = async () => {
+    if (!hasResultsEnabled) return
     if (runId == null) return;
 
     const payload = {
       finishedAt: new Date().toISOString(),
       questionRuns: answers,
     };
- 
+
     await finishQuizRun(runId, payload);
 
     setAnswers([]);

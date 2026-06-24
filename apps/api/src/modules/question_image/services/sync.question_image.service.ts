@@ -10,31 +10,31 @@ import { Queue } from 'bullmq';
 import { InjectQueue } from '@nestjs/bullmq';
 
 @Injectable()
-export class SyncQuestionImageService implements ISyncQuestionImageService{
+export class SyncQuestionImageService implements ISyncQuestionImageService {
 
   constructor(
     @InjectRepository(QuestionImageEntity)
     private readonly questionImageRepo: Repository<QuestionImageEntity>,
     @InjectQueue('images')
     private imagesQueue: Queue
-  ) {}
+  ) { }
 
-  async execute (syncQuestionImages: SyncQuestionImageDto): Promise<void> {
+  async execute(syncQuestionImages: SyncQuestionImageDto): Promise<void> {
 
     const quizImages = await this.questionImageRepo
       .createQueryBuilder('question_images')
-      .where('quiz_id = :quizId ', { quizId: syncQuestionImages.quizId })      
+      .where('quiz_id = :quizId ', { quizId: syncQuestionImages.quizId })
       .andWhere(new Brackets(qb => {
         qb.where("question_id = :questionId", { questionId: syncQuestionImages.questionId })
           .orWhere("question_id IS NULL")
-        })
+      })
       )
       .getMany()
-  
+
     let toUpdate = []
     let toDelete = []
-    
-    
+
+
     quizImages.forEach(qi => {
       if (syncQuestionImages.imageIds.includes(qi.id + '') && !qi.questionId) {
         // update with new question id
@@ -55,15 +55,15 @@ export class SyncQuestionImageService implements ISyncQuestionImageService{
       )
     }
 
-    if (toDelete.length > 0 ) {     
+    if (toDelete.length > 0) {
       quizImages
         .filter(qi => toDelete.includes(qi.id))
         .forEach((qi) => {
           // ADD TO QUEUE DELETES FROM BUCKET
           this.imagesQueue.add('delete', qi.relativePath)
-        })        
+        })
 
-      await this.questionImageRepo.delete(  
+      await this.questionImageRepo.delete(
         { id: In(toDelete) },
       )
     }
