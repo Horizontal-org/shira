@@ -19,7 +19,7 @@ services:
       IMAGE_ACCESS_KEY: "${IMAGE_ACCESS_KEY}"
       IMAGE_SECRET_KEY: "${IMAGE_SECRET_KEY}"
       PUBLIC_URL: "${PUBLIC_URL}"
-      SPACE_URL: "${PUBLIC_URL}"
+      SPACE_URL: "${SPACE_URL}"
     build:
       context: "./apps/api/"
       target: "production"
