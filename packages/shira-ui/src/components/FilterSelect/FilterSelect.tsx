@@ -213,6 +213,7 @@ const Label = styled(Body4) <{ $hasValue: boolean }>`
   align-items: center;
   gap: 2px;
   min-width: 0;
+  line-height: 1.4;
   color: ${props => props.theme.colors.dark.black};
   white-space: nowrap;
   overflow: hidden;

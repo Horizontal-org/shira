@@ -32,9 +32,11 @@ const Button = styled.button<{ $isOpen: boolean }>`
   min-height: 46px;
   padding: 12px 20px;
   border-radius: 24px;
-  border: 1px solid ${props => props.$isOpen
-    ? props.theme.colors.dark.black
-    : props.theme.colors.dark.mediumGrey};
+  border: ${props => (props.$isOpen ? '2px' : '1px')} solid ${props => (
+    props.$isOpen
+      ? props.theme.colors.dark.black
+      : props.theme.colors.dark.mediumGrey
+  )};
   background: ${props => props.theme.colors.light.white};
   color: ${props => props.theme.colors.dark.black};
   display: inline-flex;

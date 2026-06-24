@@ -71,7 +71,7 @@ export const QuizTemplateFilters: FunctionComponent<Props> = ({
         options={languageOptions}
         placeholder={t("quiz_library.filters_panel.language")}
         ariaLabel={t("quiz_library.filters_panel.language")}
-        leftIcon={<IoLanguage size={10} color={defaultTheme.colors.blue6} />}
+        leftIcon={<IoLanguage size={12} color={defaultTheme.colors.blue6} />}
         isMulti={true}
         {...(hasSelectedLanguages ? { selectedLabel: languageSelectedLabel } : {})}
         onChange={(value) => onLanguageChange(value as string[])}
@@ -85,7 +85,7 @@ export const QuizTemplateFilters: FunctionComponent<Props> = ({
         ariaLabel={t("quiz_library.filters_panel.tag")}
         leftIcon={(
           <BiSolidTag
-            size={10}
+            size={12}
             color={defaultTheme.colors.warning4}
             style={{ transform: "rotate(180deg)" }}
           />
