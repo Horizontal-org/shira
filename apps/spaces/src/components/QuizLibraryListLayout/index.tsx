@@ -49,6 +49,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     debouncedSearchValue,
     clearAllFilters,
     hasActiveSearch,
+    hasLoadedOnce,
     languageOptions,
     loading,
     paginationProps,
@@ -68,6 +69,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     toggleFilters,
     visibleLibraryQuizzes,
   } = useQuizTemplateList();
+  const showInitialLoading = loading && !hasLoadedOnce;
 
   useEffect(() => {
     fetchQuizzes();
@@ -115,7 +117,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     <QuizLibraryFlowManagement>
       <PageContent id="quiz-library-list-layout">
         <PageInner>
-          {loading ? (
+          {showInitialLoading ? (
             <QuizCardSkeleton />
           ) : (
             <>

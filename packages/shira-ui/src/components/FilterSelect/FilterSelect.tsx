@@ -174,7 +174,7 @@ const Wrapper = styled.div`
 const Trigger = styled.button<{ $hasValue?: boolean }>`
   appearance: none;
   -webkit-appearance: none;
-  min-height: 24px;
+  min-height: 32px;
   width: 100%;
   padding: 6px 12px;
   border-radius: 100px;
@@ -192,6 +192,7 @@ const TriggerContent = styled.span`
   display: flex;
   align-items: center;
   gap: 6px;
+  min-height: 16px;
   overflow: hidden;
 `;
 
@@ -200,10 +201,15 @@ const Icon = styled.span`
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
+  line-height: 0;
+
+  svg {
+    display: block;
+  }
 `;
 
 const Label = styled(Body4) <{ $hasValue: boolean }>`
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 2px;
   min-width: 0;
@@ -230,6 +236,11 @@ const Chevron = styled.span`
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
+  line-height: 0;
+
+  svg {
+    display: block;
+  }
 `;
 
 const ClearButton = styled.button`
@@ -244,6 +255,11 @@ const ClearButton = styled.button`
   flex: 0 0 auto;
   cursor: pointer;
   color: ${props => props.theme.colors.dark.mediumGrey};
+  line-height: 0;
+
+  svg {
+    display: block;
+  }
 `;
 
 const Options = styled.div`
