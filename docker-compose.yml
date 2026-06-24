@@ -101,7 +101,6 @@ services:
   web:
     build:
       context: "."
-      target: "production"
       dockerfile: "./Dockerfile"
     restart: "unless-stopped"
     networks:
