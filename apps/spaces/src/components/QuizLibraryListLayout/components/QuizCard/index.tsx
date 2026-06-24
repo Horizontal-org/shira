@@ -66,6 +66,7 @@ export const QuizCard: FunctionComponent<CardProps> = ({
       title={<HighlightedText text={quiz.title} highlight={searchTerm} />}
       languages={quiz.languages}
       menuItems={menuItems}
+      onClick={onViewTemplate}
       hoverAction={(
         <UseTemplateButton
           onClick={(event) => {
