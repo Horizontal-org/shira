@@ -105,7 +105,7 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
             onClose={onClose}
             onSelectQuestion={setFullPreviewQuestionId}
             disableUseTemplateButton={disableUseTemplateButton}
-            onUseTemplate={() => { onUseTemplate(questions) }}
+            onUseTemplate={() => onUseTemplate(questions)}
           />
         ) : previewQuestion ? (
           <QuizTemplateQuestionPreview
@@ -139,7 +139,7 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
                   color={defaultTheme.colors.green7}
                   leftIcon={<FaCirclePlus size={16} />}
                   disabled={disableUseTemplateButton}
-                  onClick={() => { onUseTemplate(questions) }}
+                  onClick={() => onUseTemplate(questions)}
                 />
               </ActionsRow>
             </TopBar>

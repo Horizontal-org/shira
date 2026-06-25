@@ -208,9 +208,9 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
                       key={`${quiz.title}-${quiz.createdAt}`}
                       quiz={quiz}
                       searchTerm={debouncedSearchValue}
-                      onViewTemplate={() => { handleOpenPreviewModal(quiz); }}
-                      onUseTemplate={() => { handleUseTemplate(quiz); }}
-                      onReportIssue={() => { navigate("/support"); }}
+                      onViewTemplate={() => handleOpenPreviewModal(quiz)}
+                      onUseTemplate={() => handleUseTemplate(quiz)}
+                      onReportIssue={() => navigate("/support")}
                     />
                   ))}
                 </CardGrid>

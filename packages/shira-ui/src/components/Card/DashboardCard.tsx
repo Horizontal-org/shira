@@ -5,6 +5,7 @@ import { TbWorld } from 'react-icons/tb';
 import styled from 'styled-components';
 import { defaultTheme } from '../../theme';
 import { Body4 } from '../Typography';
+import { GeneralTooltip } from '../GeneralTooltip';
 import Toggle from '../Toggle/Toggle';
 import {
   Card,
@@ -69,41 +70,29 @@ export const DashboardCard: FunctionComponent<DashboardCardProps> = ({
   const [showPublishTooltip, setShowPublishTooltip] = useState(false);
 
   const menuItems = useMemo<CardMenuItem[]>(() => {
-    const nextItems: CardMenuItem[] = [];
-
-    if (onEdit) {
-      nextItems.push({
+    const items: (CardMenuItem | false)[] = [
+      onEdit && {
         text: editText,
         onClick: onEdit,
         icon: <MdModeEdit color={defaultTheme.colors.dark.darkGrey} />,
-      });
-    }
-
-    if (canDuplicate && onDuplicate) {
-      nextItems.push({
+      },
+      canDuplicate && onDuplicate && {
         text: duplicateText,
         onClick: onDuplicate,
         icon: <MdOutlineContentCopy color={defaultTheme.colors.dark.darkGrey} />,
-      });
-    }
-
-    if (isPublic && onCopyUrl) {
-      nextItems.push({
+      },
+      isPublic && onCopyUrl && {
         text: copyLinkText,
         onClick: onCopyUrl,
         icon: <IoLinkOutline color={defaultTheme.colors.dark.darkGrey} />,
-      });
-    }
-
-    if (onDelete) {
-      nextItems.push({
+      },
+      onDelete && {
         text: deleteText,
         onClick: onDelete,
         icon: <MdDelete color={defaultTheme.colors.dark.darkGrey} />,
-      });
-    }
-
-    return nextItems;
+      },
+    ];
+    return items.filter((item): item is CardMenuItem => Boolean(item));
   }, [
     canDuplicate,
     copyLinkText,
@@ -147,25 +136,12 @@ export const DashboardCard: FunctionComponent<DashboardCardProps> = ({
                 event.stopPropagation();
               }}
             >
-              <PublishToggleWrapper
-                $showHelpCursor={disablePublishToggle}
-                onMouseEnter={() => {
-                  if (disablePublishToggle) {
-                    setShowPublishTooltip(true);
-                  }
-                }}
-                onMouseLeave={() => {
-                  setShowPublishTooltip(false);
-                }}
-                onFocus={() => {
-                  if (disablePublishToggle) {
-                    setShowPublishTooltip(true);
-                  }
-                }}
-                onBlur={() => {
-                  setShowPublishTooltip(false);
-                }}
-                tabIndex={disablePublishToggle ? 0 : -1}
+              <GeneralTooltip
+                enabled={Boolean(disablePublishToggle && disabledTooltipLabel)}
+                show={showPublishTooltip}
+                setShow={setShowPublishTooltip}
+                label={disabledTooltipLabel ?? ''}
+                placement="top"
               >
                 <Toggle
                   isEnabled={isPublished}
@@ -178,13 +154,7 @@ export const DashboardCard: FunctionComponent<DashboardCardProps> = ({
                   }}
                   disabled={disablePublishToggle}
                 />
-
-                {disablePublishToggle && showPublishTooltip && disabledTooltipLabel && (
-                  <PublishToggleTooltip role="tooltip">
-                    <Body4>{disabledTooltipLabel}</Body4>
-                  </PublishToggleTooltip>
-                )}
-              </PublishToggleWrapper>
+              </GeneralTooltip>
             </PublishControls>
           </CardFooterMeta>
         </CardFooter>
@@ -218,31 +188,4 @@ const PublishControls = styled.div`
 const PublishLabel = styled(Body4)`
   color: ${props => props.theme.colors.dark.darkGrey};
   white-space: nowrap;
-`;
-
-const PublishToggleWrapper = styled.div<{ $showHelpCursor: boolean }>`
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-
-  ${props => props.$showHelpCursor && `
-    cursor: help;
-
-    button:disabled {
-      cursor: help !important;
-    }
-  `}
-`;
-
-const PublishToggleTooltip = styled.div`
-  position: absolute;
-  right: 0;
-  bottom: calc(100% + 8px);
-  max-width: 220px;
-  padding: 8px 10px;
-  border-radius: 8px;
-  background: ${props => props.theme.colors.dark.black};
-  color: ${props => props.theme.colors.light.white};
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
-  z-index: 2;
 `;
