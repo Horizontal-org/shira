@@ -42,10 +42,12 @@ const TemplateFiltersClearAllButtonBase = styled.button`
 `;
 
 export const TemplateFilterSelect = styled(FilterSelect) <FilterSelectProps>`
-  max-width: 400px;
+  min-width: 210px;
+  max-width: 500px;
 
   @media (max-width: ${(props) => props.theme.breakpoints.md}) {
     flex: 1 1 100%;
+    min-width: 0;
     max-width: none;
   }
 `;
