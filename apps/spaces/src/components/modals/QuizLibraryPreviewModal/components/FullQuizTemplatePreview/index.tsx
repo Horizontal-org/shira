@@ -436,7 +436,6 @@ const PreviewStageBackdrop = styled.div`
 
 const PreviewAppFrame = styled.div`
   position: relative;
-  z-index: 1;
   width: fit-content;
   max-width: 100%;
 `
