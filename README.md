@@ -1,6 +1,5 @@
 # for deploying to production
 
-
 `/home/shira should be the location`
 
 ### Steps
@@ -14,6 +13,81 @@
 - `./deploy-api.sh`
 
 - if migrations need to be run refer to the api docs for the commands on `./apps/api`
+
+# for deploying locally
+
+### Prerequisites
+
+- Docker and Docker Compose installed
+- Node.js and npm installed
+
+### Steps
+
+**1. Set up environment variables**
+
+For the API:
+
+```sh
+cp apps/api/.env.example apps/api/.env
+# then fill in the required values
+```
+
+For the frontend apps:
+
+```sh
+# public — no example file, create it manually.
+
+# spaces:
+cp apps/spaces/.env.example apps/spaces/.env
+# then fill in REACT_APP_API_URL, REACT_APP_PUBLIC_URL, REACT_APP_LIBRARY_API_URL
+```
+
+**2. Create the shared Docker network**
+
+This only needs to be done once:
+
+```sh
+docker network create shira-network
+```
+
+**3. Start required services (MySQL + Redis)**
+
+```sh
+docker compose -f apps/api/docker-compose.required.yml up -d
+```
+
+**4. Start the API in development mode**
+
+```sh
+docker compose -f apps/api/docker-compose.api.yml up dev
+```
+
+Starts the NestJS API with hot-reload on port `3000`. The image is built automatically on first run.
+
+**5. Run database migrations**
+
+Migrations must run inside the API container:
+
+```sh
+docker exec -it shira-api-dev npm run typeorm -- migration:run -d ./src/utils/datasources/mysql.datasource.ts
+```
+
+> To create a new migration: `docker exec -it shira-api-dev npm run typeorm migration:create ./src/migrations/your_migration_name`
+
+**6. Start the frontend apps**
+
+From the repo root:
+
+```sh
+npm install
+npm run dev
+```
+
+Turborepo starts all frontend apps in parallel:
+- `public` on port `3001`
+- `spaces` on port `3002`
+
+---
 
 # Turborepo starter with shell commands
 
