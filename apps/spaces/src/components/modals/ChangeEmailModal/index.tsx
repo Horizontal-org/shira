@@ -24,6 +24,9 @@ export const ChangeEmailModal: FunctionComponent<Props> = ({
 
   const isNewEmailEmpty = !hasRequiredValue(newEmail);
   const emailIsValidValue = isNewEmailEmpty || isEmailValid(newEmail);
+  const emailSupportingText = !isNewEmailEmpty && !emailIsValidValue
+    ? t("error_messages.invalid_email")
+    : requestSubmitError;
 
   const isNewEmailOverLimit = newEmail.length > ACCOUNT_SETTINGS_EMAIL_MAX_LENGTH;
   const disabledSave = isNewEmailEmpty || !emailIsValidValue || isNewEmailOverLimit;
@@ -68,24 +71,22 @@ export const ChangeEmailModal: FunctionComponent<Props> = ({
       <ModalContent>
         <Body1>{t('modals.change_email.subtitle')}</Body1>
 
-        <InputBlock>
-          <TextInput
-            id="change-email-input"
-            type="email"
-            value={newEmail}
-            label={t('modals.change_email.input_placeholder')}
-            onChange={(e) => {
-              setNewEmail(e.target.value);
-              if (requestSubmitError) {
-                setRequestSubmitError("");
-              }
-            }}
-            showCharacterCount={true}
-            maxLength={ACCOUNT_SETTINGS_EMAIL_MAX_LENGTH}
-            characterLimitErrorText={t('error_messages.character_limit_error')}
-          />
-          {requestSubmitError && <InlineErrorMessage>{requestSubmitError}</InlineErrorMessage>}
-        </InputBlock>
+        <TextInput
+          id="change-email-input"
+          type="email"
+          value={newEmail}
+          label={t('modals.change_email.input_placeholder')}
+          onChange={(e) => {
+            setNewEmail(e.target.value);
+            if (requestSubmitError) {
+              setRequestSubmitError("");
+            }
+          }}
+          showCharacterCount={true}
+          maxLength={ACCOUNT_SETTINGS_EMAIL_MAX_LENGTH}
+          characterLimitErrorText={t('error_messages.character_limit_error')}
+          errorText={emailSupportingText}
+        />
       </ModalContent>
     </Modal>
   );
@@ -95,16 +96,4 @@ const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-`;
-
-const InputBlock = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const InlineErrorMessage = styled.div`
-  color: #BF2E1F;
-  font-size: 14px;
-  margin-top: 8px;
-  padding-left: 4px;
 `;
