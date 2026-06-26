@@ -288,7 +288,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           <HeaderContainer>
             <StyledSubHeading3 id="space-name">{space && space.name}</StyledSubHeading3>
             <H2 id="dashboard-title">{t('dashboard.title')}</H2>
-            <HeaderSubtitle id="dashboard-subtitle">{t('dashboard.subtitle')}</HeaderSubtitle>
+            <Body1 id="dashboard-subtitle">{t('dashboard.subtitle')}</Body1>
 
             <HeaderActions>
               <CreateQuizButton
@@ -548,10 +548,6 @@ const HeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-`;
-
-const HeaderSubtitle = styled(Body1)`
-  max-width: 720px;
 `;
 
 const HeaderActions = styled.div`
