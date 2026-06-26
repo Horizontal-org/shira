@@ -1,6 +1,6 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { Sidebar, styled, H2, SubHeading3, Body1, FilterButton, useAdminSidebar, Card } from "@horizontal-org/shira-ui";
+import { Sidebar, styled, H2, SubHeading3, Body1, FilterButton, useAdminSidebar, DashboardCard } from "@horizontal-org/shira-ui";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { formatDistance } from "date-fns";
@@ -331,23 +331,27 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
 
           <CardGrid id="card-grid">
             {filteredCards.map((card) => {
-              const hasQuestions = card.questionsCount;
               const isPublished = card.published;
 
               return (
-                <Card
+                <DashboardCard
                   id={`quiz-card-${card.id}`}
+                  title={card.title}
                   publishedText={t('quizzes.filter.published')}
                   unpublishedText={t('quizzes.filter.unpublished')}
-                  onCardClick={() => {
+                  lastModified={getLastUpdateTime(card.latestGlobalUpdate)}
+                  isPublished={isPublished}
+                  disablePublishToggle={!card.questionsCount && !isPublished}
+                  disabledTooltipLabel={t('quiz.publish_toggle.disabled_tooltip')}
+                  visibilityText={
+                    card.visibility === 'public'
+                      ? t('quiz.visibility.public')
+                      : t('quiz.visibility.private')}
+                  isPublic={card.visibility === 'public'}
+                  onClick={() => {
                     navigate(`/quiz/${card.id}`)
                   }}
                   key={card.id}
-                  title={card.title}
-                  lastModified={getLastUpdateTime(card.latestGlobalUpdate)}
-                  isPublished={isPublished}
-                  disablePublishToggle={!hasQuestions && !isPublished}
-                  disabledTooltipLabel={t('quiz.publish_toggle.disabled_tooltip')}
                   onCopyUrl={() => {
                     handleCopyUrlAndNotify(card.hash, t('success_messages.quiz_link_copied'));
                     if (!isPublished) {
@@ -368,12 +372,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                   }}
                   showLoading={isSubmitting && submittingQuizId === card.id}
                   loadingLabel={t('loading_messages.duplicating')}
-                  isPublic={card.visibility === 'public'}
                   canDuplicate={isSubActive || quizzes.length < 3}
-                  visibilityText={
-                    card.visibility === 'public'
-                      ? t('quiz.visibility.public')
-                      : t('quiz.visibility.private')}
                 />
               );
             })}
@@ -577,13 +576,12 @@ const CardGrid = styled.div`
   gap: 24px;
 
   @media (max-width: ${props => props.theme.breakpoints.lg}) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
   }
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    grid-template-columns: repeat(3, 1fr);
   }
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {

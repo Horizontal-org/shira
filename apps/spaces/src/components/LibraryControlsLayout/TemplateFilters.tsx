@@ -1,50 +1,17 @@
 import { Body4, FilterSelect, defaultTheme, styled, type FilterSelectProps } from "@horizontal-org/shira-ui";
-import { HiFunnel } from "react-icons/hi2";
 import { FiX } from "react-icons/fi";
+import { MdFilterAlt } from "react-icons/md";
 
 export type TemplateFilterOption = {
   value: string;
   label: string;
 };
 
-export const TemplateFilterSelect = styled(FilterSelect)<FilterSelectProps>`
-  min-width: 160px;
-  max-width: 200px;
-
-  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
-    flex: 1 1 100%;
-    max-width: none;
-  }
-`;
-
-export const TemplateFilters = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  flex-wrap: wrap;
-  gap: 10px;
-  width: fit-content;
-  max-width: 100%;
-  margin-left: auto;
-
-  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
-    width: 100%;
-    margin-left: 0;
-  }
-`;
-
 export const TemplateFiltersIcon = () => (
   <TemplateFiltersIconWrapper>
-    <HiFunnel size={18} color={defaultTheme.colors.dark.mediumGrey} />
+    <MdFilterAlt size={22} color={defaultTheme.colors.dark.mediumGrey} />
   </TemplateFiltersIconWrapper>
 );
-
-const TemplateFiltersIconWrapper = styled.span`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 auto;
-`;
 
 export const TemplateFiltersClearAllButton = ({
   clearAllLabel,
@@ -72,4 +39,38 @@ const TemplateFiltersClearAllButtonBase = styled.button`
   justify-content: center;
   gap: 10px;
   cursor: pointer;
+`;
+
+export const TemplateFilterSelect = styled(FilterSelect) <FilterSelectProps>`
+  min-width: 210px;
+  max-width: 500px;
+
+  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
+    flex: 1 1 100%;
+    min-width: 0;
+    max-width: none;
+  }
+`;
+
+export const TemplateFilters = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: fit-content;
+  max-width: 100%;
+  margin-left: auto;
+
+  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
+    width: 100%;
+    margin-left: 0;
+  }
+`;
+
+const TemplateFiltersIconWrapper = styled.span`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
 `;

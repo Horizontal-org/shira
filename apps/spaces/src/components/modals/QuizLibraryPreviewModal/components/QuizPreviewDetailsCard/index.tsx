@@ -26,7 +26,7 @@ export const QuizPreviewDetailsCard: FunctionComponent<Props> = ({
       <MetaContent>
         <MetaSection>
           <SectionLabel>
-            <IoLanguage size={24} color={defaultTheme.colors.blue6} />
+            <IoLanguage size={18} color={defaultTheme.colors.blue6} />
             {t("quiz_library.preview.languages")}
           </SectionLabel>
           <ChipRow>
@@ -41,7 +41,7 @@ export const QuizPreviewDetailsCard: FunctionComponent<Props> = ({
         {tags.length > 0 && (
           <MetaSection>
             <SectionLabel>
-              <BiSolidTagAlt size={18} color={defaultTheme.colors.warning4} />
+              <BiSolidTagAlt size={16} color={defaultTheme.colors.warning4} />
               {t("quiz_library.preview.tags")}
             </SectionLabel>
             <ChipRow>
@@ -93,16 +93,16 @@ const MetaCard = styled.div`
 `;
 
 const MetaContent = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: 12px;
 `;
 
 const MetaSection = styled.div`
   display: grid;
-  grid-template-columns: 96px minmax(0, 1fr);
-  align-items: start;
-  gap: 12px;
+  grid-template-columns: 140px minmax(0, 1fr);
+  align-items: center;
+  column-gap: 12px;
+  row-gap: 8px;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     grid-template-columns: 1fr;
@@ -111,16 +111,26 @@ const MetaSection = styled.div`
 `;
 
 const SectionLabel = styled(Body3)`
-  display: inline-flex;
-  gap: 4px;
+  display: inline-grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  align-items: center;
+  column-gap: 8px;
   text-transform: uppercase;
+  margin: 0;
+  line-height: 1.2;
+
+  & > svg {
+    justify-self: center;
+    flex-shrink: 0;
+  }
 `;
 
 const ChipRow = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  padding-top: 1px;
+  align-items: center;
+  min-height: 32px;
 `;
 
 const NeutralChip = styled.span`
@@ -140,26 +150,28 @@ const TagChip = styled(NeutralChip)`
 `;
 
 const MetaSidebar = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: 12px;
-  padding-top: 2px;
+  align-content: start;
 `;
 
 const SidebarRow = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 132px minmax(0, 1fr);
   align-items: center;
-  gap: 18px;
-  min-height: 28px;
+  column-gap: 16px;
+  min-height: 32px;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    align-items: flex-start;
-    flex-direction: column;
+    grid-template-columns: 1fr;
     gap: 6px;
   }
 `;
 
 const SidebarValue = styled(Body3)`
+  display: flex;
+  align-items: center;
   color: ${defaultTheme.colors.dark.darkGrey};
   margin: 0;
+  min-height: 32px;
 `;

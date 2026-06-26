@@ -88,7 +88,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
             onEdit={onEdit}
             onDelete={onDelete}
             onAdd={onAdd}
-            onAddLibrary={() => { onAddLibrary(String(quizId)) }}
+            onAddLibrary={() => onAddLibrary(String(quizId))}
             onReorder={onReorder}
             onDuplicate={onDuplicate}
             hasResults={hasResults}

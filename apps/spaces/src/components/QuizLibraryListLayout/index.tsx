@@ -9,7 +9,6 @@ import { QuizCardSkeleton } from "./components/QuizCardSkeleton";
 import { QuizTemplateFilters } from "./components/QuizTemplateFilters";
 import {
   DEFAULT_CREATOR_OPTIONS,
-  DEFAULT_PAGE_LIMIT,
   type LibraryQuizDto,
   type LibraryQuizQuestionTemplateDto,
 } from "../../fetch/quiz_templates";
@@ -50,6 +49,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     debouncedSearchValue,
     clearAllFilters,
     hasActiveSearch,
+    hasLoadedOnce,
     languageOptions,
     loading,
     paginationProps,
@@ -69,6 +69,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     toggleFilters,
     visibleLibraryQuizzes,
   } = useQuizTemplateList();
+  const showInitialLoading = loading && !hasLoadedOnce;
 
   useEffect(() => {
     fetchQuizzes();
@@ -115,108 +116,106 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
   return (
     <QuizLibraryFlowManagement>
       <PageContent id="quiz-library-list-layout">
-
         <PageInner>
-
-          <LibraryToolbar
-            searchControl={(
-              <LibraryToolbarSearchInput
-                value={searchValue}
-                onChange={setSearchValue}
-                placeholder={t("quiz_library.search_placeholder")}
-              />
-            )}
-            actions={(
-              <>
-                <LibraryToolbarSortSelect
-                  value={sortOption}
-                  options={[
-                    {
-                      value: "createdAt-desc",
-                      label: t("quiz_library.sort_options.newest_to_oldest"),
-                    },
-                    {
-                      value: "createdAt-asc",
-                      label: t("quiz_library.sort_options.oldest_to_newest"),
-                    },
-                    {
-                      value: "title-asc",
-                      label: t("quiz_library.sort_options.quiz_name_asc"),
-                    },
-                    {
-                      value: "title-desc",
-                      label: t("quiz_library.sort_options.quiz_name_desc"),
-                    },
-                  ]}
-                  prefix={`${t("quiz_library.sort_by")}:`}
-                  ariaLabel={t("quiz_library.sort_by")}
-                  onChange={(value) => setSortOption(value as typeof sortOption)}
-                />
-
-                <LibraryFilterToggleButton
-                  text={t("quiz_library.filters")}
-                  isOpen={areFiltersOpen}
-                  onClick={toggleFilters}
-                />
-              </>
-            )}
-            searchSummary={hasActiveSearch
-              ? t(
-                total === 1
-                  ? "quiz_library.search_results"
-                  : "quiz_library.search_results_plural",
-                {
-                  count: total,
-                  searchTerm: debouncedSearchValue,
-                },
-              )
-              : undefined}
-            filters={areFiltersOpen ? (
-              <QuizTemplateFilters
-                languageOptions={languageOptions}
-                selectedLanguages={selectedLanguages}
-                onLanguageChange={setSelectedLanguages}
-                tagOptions={tagOptions}
-                selectedTags={selectedTags}
-                onTagChange={setSelectedTags}
-                creatorOptions={Array.of(DEFAULT_CREATOR_OPTIONS)}
-                selectedCreator={selectedCreator}
-                onCreatorChange={setSelectedCreator}
-                onClearAll={clearAllFilters}
-              />
-            ) : undefined}
-          />
-
-          {!showEmptyState && (
-            <LibraryPaginationContainer>
-              <CardPagination {...paginationProps} />
-            </LibraryPaginationContainer>
-          )}
-
-          {showEmptyState ? (
-            <LibrarySearchEmptyState
-              title={t("library.empty_search.title")}
-              subtitle={t("library.empty_search.subtitle")}
-            />
+          {showInitialLoading ? (
+            <QuizCardSkeleton />
           ) : (
-            <CardGrid id="quiz-card-grid">
-              {loading ? (
-                Array.from({ length: DEFAULT_PAGE_LIMIT }, (_, index) => (
-                  <QuizCardSkeleton key={`quiz-card-skeleton-${index}`} />
-                ))
-              ) : (
-                visibleLibraryQuizzes.map((quiz) => (
-                  <QuizCard
-                    key={`${quiz.title}-${quiz.createdAt}`}
-                    quiz={quiz}
-                    searchTerm={debouncedSearchValue}
-                    onViewTemplate={() => { handleOpenPreviewModal(quiz); }}
-                    onUseTemplate={() => { handleUseTemplate(quiz); }}
-                    onReportIssue={() => { navigate("/support"); }}
+            <>
+              <LibraryToolbar
+                searchControl={(
+                  <LibraryToolbarSearchInput
+                    value={searchValue}
+                    onChange={setSearchValue}
+                    placeholder={t("quiz_library.search_placeholder")}
                   />
-                ))
+                )}
+                actions={(
+                  <>
+                    <LibraryToolbarSortSelect
+                      value={sortOption}
+                      options={[
+                        {
+                          value: "createdAt-desc",
+                          label: t("quiz_library.sort_options.newest_to_oldest"),
+                        },
+                        {
+                          value: "createdAt-asc",
+                          label: t("quiz_library.sort_options.oldest_to_newest"),
+                        },
+                        {
+                          value: "title-asc",
+                          label: t("quiz_library.sort_options.quiz_name_asc"),
+                        },
+                        {
+                          value: "title-desc",
+                          label: t("quiz_library.sort_options.quiz_name_desc"),
+                        },
+                      ]}
+                      prefix={`${t("quiz_library.sort_by")}:`}
+                      ariaLabel={t("quiz_library.sort_by")}
+                      onChange={(value) => setSortOption(value as typeof sortOption)}
+                    />
+
+                    <LibraryFilterToggleButton
+                      text={t("quiz_library.filters")}
+                      isOpen={areFiltersOpen}
+                      onClick={toggleFilters}
+                    />
+                  </>
+                )}
+                searchSummary={hasActiveSearch
+                  ? t(
+                    total === 1
+                      ? "quiz_library.search_results"
+                      : "quiz_library.search_results_plural",
+                    {
+                      count: total,
+                      searchTerm: debouncedSearchValue,
+                    },
+                  )
+                  : undefined}
+                filters={areFiltersOpen ? (
+                  <QuizTemplateFilters
+                    languageOptions={languageOptions}
+                    selectedLanguages={selectedLanguages}
+                    onLanguageChange={setSelectedLanguages}
+                    tagOptions={tagOptions}
+                    selectedTags={selectedTags}
+                    onTagChange={setSelectedTags}
+                    creatorOptions={Array.of(DEFAULT_CREATOR_OPTIONS)}
+                    selectedCreator={selectedCreator}
+                    onCreatorChange={setSelectedCreator}
+                    onClearAll={clearAllFilters}
+                  />
+                ) : undefined}
+              />
+
+              {!showEmptyState && (
+                <LibraryPaginationContainer>
+                  <CardPagination {...paginationProps} />
+                </LibraryPaginationContainer>
               )}
-            </CardGrid>
+
+              {showEmptyState ? (
+                <LibrarySearchEmptyState
+                  title={t("library.empty_search.title")}
+                  subtitle={t("library.empty_search.subtitle")}
+                />
+              ) : (
+                <CardGrid id="quiz-card-grid">
+                  {visibleLibraryQuizzes.map((quiz) => (
+                    <QuizCard
+                      key={`${quiz.title}-${quiz.createdAt}`}
+                      quiz={quiz}
+                      searchTerm={debouncedSearchValue}
+                      onViewTemplate={() => handleOpenPreviewModal(quiz)}
+                      onUseTemplate={() => handleUseTemplate(quiz)}
+                      onReportIssue={() => navigate("/support")}
+                    />
+                  ))}
+                </CardGrid>
+              )}
+            </>
           )}
 
           {!loading && visibleLibraryQuizzes.length > 0 && (
