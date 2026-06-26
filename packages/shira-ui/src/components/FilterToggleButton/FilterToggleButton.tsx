@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import { HiFunnel } from 'react-icons/hi2';
-import { Body2Regular } from '../Typography';
+import { MdFilterAlt } from 'react-icons/md';
+import { defaultTheme } from '../..';
+import { Button } from '../Button';
 
 export interface FilterToggleButtonProps {
   text: string;
@@ -16,30 +17,35 @@ export const FilterToggleButton = ({
   className,
 }: FilterToggleButtonProps) => {
   return (
-    <Button
-      type="button"
+    <FilterButton
       className={className}
+      text={text}
+      type="outline"
+      leftIcon={<MdFilterAlt size={22} color={defaultTheme.colors.dark.darkGrey} />}
       onClick={onClick}
       $isOpen={isOpen}
-    >
-      <HiFunnel size={18} />
-      <Body2Regular>{text}</Body2Regular>
-    </Button>
+    />
   );
 };
 
-const Button = styled.button<{ $isOpen: boolean }>`
-  min-height: 46px;
-  padding: 12px 20px;
+const FilterButton = styled(Button)<{ $isOpen: boolean }>`
   border-radius: 24px;
-  border: 1px solid ${props => props.$isOpen
-    ? props.theme.colors.dark.black
-    : props.theme.colors.dark.mediumGrey};
+  margin: 0;
+  border: ${props => (props.$isOpen ? '2px' : '1px')} solid ${props => (
+    props.$isOpen
+      ? props.theme.colors.dark.black
+      : props.theme.colors.dark.mediumGrey
+  )};
   background: ${props => props.theme.colors.light.white};
   color: ${props => props.theme.colors.dark.black};
-  display: inline-flex;
-  align-items: center;
   justify-content: center;
-  gap: 8px;
-  cursor: pointer;
+
+  &:focus {
+    margin: 0;
+    border: 2px solid ${props => (
+      props.$isOpen
+        ? props.theme.colors.dark.black
+        : props.theme.colors.dark.mediumGrey
+    )};
+  }
 `;

@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Card } from './Card';
+import { DashboardCard } from './DashboardCard';
 import styled from 'styled-components';
 
 const meta = {
-  title: 'Components/Card',
-  component: Card,
+  title: 'Components/DashboardCard',
+  component: DashboardCard,
   parameters: {
     layout: 'padded',
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof Card>;
+} satisfies Meta<typeof DashboardCard>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -82,14 +82,14 @@ export const GridLayout: Story = {
       onEdit: () => console.log('edit'),
       onDuplicate: () => console.log('duplicate'),
       onDelete: () => console.log('delete'),
-      onCardClick: () => console.log('card click'),
+      onClick: () => console.log('card click'),
       publishedText: 'Published',
     },
     render: function Story() {
       return (
         <Grid>
           {cardData.map((card, index) => (
-            <Card
+            <DashboardCard
               key={index}
               title={card.title}
               lastModified={card.lastModified}
@@ -99,7 +99,7 @@ export const GridLayout: Story = {
               onEdit={() => console.log('on edit')}
               onDuplicate={() => console.log('on duplicate')}
               onDelete={() => console.log('on delete')}
-              onCardClick={() => console.log('card clicked')}
+              onClick={() => console.log('card clicked')}
               publishedText={'Published'}/>
           ))}
         </Grid>

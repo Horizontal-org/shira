@@ -176,7 +176,6 @@ const PreviewCanvas = styled.div`
 
 const PreviewAppFrame = styled.div`
   position: relative;
-  z-index: 1;
   width: fit-content;
   max-width: 100%;
 `
@@ -184,5 +183,7 @@ const PreviewAppFrame = styled.div`
 const QuizPreviewOverlay = styled.div`
   position: absolute;
   inset: 0;
+  z-index: 1;
   background: rgba(0, 0, 0, 0.45);
+  pointer-events: none;
 `
