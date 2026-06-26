@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { styled, defaultTheme } from "@horizontal-org/shira-ui";
+import { FullScreenModal, styled } from "@horizontal-org/shira-ui";
 import { QuestionPreview } from "../../QuestionPreview";
 import type { RowType } from "../../QuestionLibraryListLayout/components/Columns";
 
@@ -15,47 +15,18 @@ export const QuestionTemplatePreviewModal: FunctionComponent<Props> = ({
   onClose,
 }) => {
   return (
-    <>
-      <Overlay>
-        <Dialog
-          role="dialog"
-          aria-modal="true"
-        >
-          <Body>
-            <QuestionPreview
-              onAdd={onAdd}
-              onClose={onClose}
-              explanations={question.explanations}
-              question={question}
-            />
-          </Body>
-        </Dialog>
-      </Overlay>
-    </>
+    <FullScreenModal isOpen onClose={onClose}>
+      <Body>
+        <QuestionPreview
+          onAdd={onAdd}
+          onClose={onClose}
+          explanations={question.explanations}
+          question={question}
+        />
+      </Body>
+    </FullScreenModal>
   );
 };
-
-const Overlay = styled.div`
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.5);
-  display: grid;
-  place-items: center;
-  z-index: 1000;
-`;
-
-const Dialog = styled.div`
-  max-height: 98vh;
-  height: 100%;
-  max-width: 98vw;
-  width: 100%;
-  background: ${defaultTheme.colors.light.white};
-  border-radius: 16px;
-  display: flex;
-  flex-direction: column;
-  overflow: auto;
-  margin: 0 10px;
-`;
 
 const Body = styled.div`
   flex: 1;

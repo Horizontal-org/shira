@@ -2,6 +2,7 @@ import {
   Body1,
   Button,
   CloseButton,
+  FullScreenModal,
   H2,
   defaultTheme,
   styled,
@@ -55,27 +56,6 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
   const [fullPreviewQuestionId, setFullPreviewQuestionId] = useState<number | null>(null)
 
   useEffect(() => {
-    if (!isOpen) {
-      return
-    }
-
-    document.body.style.overflow = "hidden"
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        onClose()
-      }
-    }
-
-    window.addEventListener("keydown", onKeyDown)
-
-    return () => {
-      document.body.style.overflow = "unset"
-      window.removeEventListener("keydown", onKeyDown)
-    }
-  }, [isOpen, onClose])
-
-  useEffect(() => {
     if (!isOpen || !quiz) {
       setFullPreviewQuestionId(null)
     }
@@ -111,8 +91,11 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
   }
 
   return (
-    <Overlay onClick={onClose}>
-      <Dialog onClick={(event) => event.stopPropagation()}>
+    <FullScreenModal
+      isOpen={isOpen}
+      onClose={onClose}
+      closeOnOverlayClick
+    >
         {fullPreviewQuestion ? (
           <FullQuizTemplatePreview
             quiz={quiz}
@@ -122,7 +105,7 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
             onClose={onClose}
             onSelectQuestion={setFullPreviewQuestionId}
             disableUseTemplateButton={disableUseTemplateButton}
-            onUseTemplate={() => { onUseTemplate(questions) }}
+            onUseTemplate={() => onUseTemplate(questions)}
           />
         ) : previewQuestion ? (
           <QuizTemplateQuestionPreview
@@ -151,12 +134,12 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
                 <ActionsDivider />
 
                 <Button
-                  text={t("dashboard.use_a_quiz_template_button")}
+                  text={t("quiz_library.preview.use_template")}
                   type="primary"
                   color={defaultTheme.colors.green7}
                   leftIcon={<FaCirclePlus size={16} />}
                   disabled={disableUseTemplateButton}
-                  onClick={() => { onUseTemplate(questions) }}
+                  onClick={() => onUseTemplate(questions)}
                 />
               </ActionsRow>
             </TopBar>
@@ -189,30 +172,9 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
             </Content>
           </>
         )}
-      </Dialog>
-    </Overlay>
+    </FullScreenModal>
   )
 }
-
-const Overlay = styled.div`
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: grid;
-  place-items: center;
-  padding: 24px;
-  z-index: 1000;
-`
-
-const Dialog = styled.div`
-  width: min(1224px, 100%);
-  max-height: calc(100vh - 48px);
-  background: ${defaultTheme.colors.light.white};
-  border-radius: 20px;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-`
 
 const TopBar = styled.div`
   display: flex;
@@ -247,11 +209,13 @@ const ActionsDivider = styled.div`
 `
 
 const Content = styled.div`
-  padding: 32px 64px;
+  flex: 1;
+  min-height: 0;
+  padding: 32px 64px 72px;
   overflow-y: auto;
 
   @media (max-width: ${(props) => props.theme.breakpoints.md}) {
-    padding: 24px 20px;
+    padding: 24px 20px 56px;
   }
 `
 

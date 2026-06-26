@@ -75,11 +75,6 @@ export const useQuestionTemplateList = () => {
   useEffect(() => {
     const loadQuestionTemplates = async () => {
       setLoading(true);
-      const hasQueryModifiers = debouncedSearchValue.length > 0
-        || filters.selectedLanguages.length > 0
-        || filters.selectedTags.length > 0
-        || filters.selectedAppType.length > 0
-        || filters.selectedType.length > 0;
 
       try {
         const response = await getQuestionTemplates({
@@ -95,10 +90,7 @@ export const useQuestionTemplateList = () => {
             : undefined,
         });
 
-        if (response.total > 0 || !hasQueryModifiers) {
-          setQuestionTemplates(response.data);
-        }
-
+        setQuestionTemplates(response.data);
         setTotalAvailableQuestions(response.total);
 
         setPageIndexState((currentPageIndex) => {
