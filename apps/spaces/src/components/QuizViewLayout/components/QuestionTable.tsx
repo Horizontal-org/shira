@@ -103,11 +103,11 @@ export const QuestionTable: FunctionComponent<Props> = ({
       <TableHeader />
       <StyledTable>
         <colgroup>
-          <col style={{ width: "5%" }} />
+          <col style={{ width: "50px" }} />
           <col style={{ width: "45%" }} />
-          <col style={{ width: "20%" }} />
-          <col style={{ width: "15%" }} />
-          <col style={{ width: "15%" }} />
+          <col />
+          <col />
+          <col style={{ width: "110px" }} />
         </colgroup>
         <THead>
           {table.getHeaderGroups().map((headerGroup) => (
