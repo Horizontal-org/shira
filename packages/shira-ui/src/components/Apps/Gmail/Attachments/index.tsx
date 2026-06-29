@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { IoMdInformationCircleOutline } from 'react-icons/io'
 import { MdOutlineFileDownload } from 'react-icons/md'
-import SaferWithGoogleLockup from './assets/safer-with-google.png'
+import SaferWithGoogleLogo from './assets/safer-with-google.png'
 import { Attachment } from '../Attachment';
 import { AttachmentElement } from '..';
 import AddToDriveIcon from '../Attachment/components/AddToDriveIcon'
@@ -51,7 +51,7 @@ export const Attachments: FunctionComponent<Props> = ({
               </TooltipDescription>
               <TooltipFooter>
                 <SaferWithGoogleImage
-                  src={SaferWithGoogleLockup}
+                  src={SaferWithGoogleLogo}
                   alt={t('gmail.safer_with_google')}
                 />
               </TooltipFooter>
