@@ -16,6 +16,9 @@
     "attachments_one": "{{count}} attachment",
     "attachments_other": "{{count}} attachments",
     "scanned_by_gmail": "Scanned by Gmail",
+    "attachment_scanning_title": "Attachment scanning in Gmail",
+    "attachment_scanning_description": "To help protect your inbox, Gmail blocks attachments when malware is detected. You should still only download attachments from people you trust.",
+    "safer_with_google": "Safer with Google",
     "encryption": "Standard encryption (TLS)",
     "learn_more": "Learn more"
   },
