@@ -2,9 +2,9 @@ import { FunctionComponent } from "react";
 import {
   Body3,
   Box,
+  FilterButton,
   styled,
   SubHeading3,
-  LibraryFilterToggleButton,
   TextInput
 } from '@horizontal-org/shira-ui'
 import { App } from "../../fetch/app";
@@ -52,20 +52,22 @@ export const QuestionBasicInfo: FunctionComponent<Props> = ({
       <div>
         <SubHeading3>{t('create_question.tabs.question_info.phishing.title')}</SubHeading3>
         <FilterButtonsContainer>
-          <LibraryFilterToggleButton
+          <FilterButton
             text={t('create_question.tabs.question_info.phishing.yes')}
-            isOpen={question.isPhishing}
-            onClick={() => {
+            color="green"
+            handleFilter={() => {
               handleQuestion('isPhishing', true)
             }}
+            isActive={question.isPhishing}
           />
 
-          <LibraryFilterToggleButton
+          <FilterButton
             text={t('create_question.tabs.question_info.phishing.no')}
-            isOpen={!question.isPhishing}
-            onClick={() => {
+            color="green"
+            handleFilter={() => {
               handleQuestion('isPhishing', false)
             }}
+            isActive={!question.isPhishing}
           />
         </FilterButtonsContainer>
       </div>
@@ -77,13 +79,14 @@ export const QuestionBasicInfo: FunctionComponent<Props> = ({
           {apps && apps
             .filter((a) => initialAppType ? initialAppType === a.type : true)
             .map((a) => (
-              <LibraryFilterToggleButton
+              <FilterButton
                 key={a.id}
                 text={a.name}
-                isOpen={question.app && question.app.id === a.id}
-                onClick={() => {
+                color="green"
+                handleFilter={() => {
                   handleApp(a)
                 }}
+                isActive={question.app && question.app.id === a.id}
               />
             ))}
 
