@@ -117,7 +117,6 @@ const HeaderRow = styled.div`
 const Title = styled.div`
   display: inline-flex;
   font-size: .875rem;
-  letter-spacing: normal;
   height: 20px;
   line-height: 20px;
   font-weight: bold;
@@ -136,7 +135,6 @@ const ScannedRow = styled.div`
 const Subtitle = styled.div`
   display: inline-flex;
   font-size: .875rem;
-  letter-spacing: normal;
   height: 20px;
   line-height: 20px;
   font-weight: 400;
@@ -284,8 +282,6 @@ const LearnMoreText = styled.a`
 `
 
 const TooltipFooter = styled.div`
-  display: inline-flex;
-  align-items: center;
   margin-top: 18px;
 `
 
