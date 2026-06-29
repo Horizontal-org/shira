@@ -25,6 +25,7 @@ export class DuplicateQuestionQuizService implements IDuplicateQuestionQuizServi
   ) { }
 
   private readonly logger = new ApiLogger(DuplicateQuestionQuizService.name);
+  private readonly QUESTION_NAME_MAX_LENGTH = 100;
 
   async execute(duplicateQuestionDto: DuplicateQuestionQuizDto, spaceId: number) {
     this.logger.log(`Starting duplication of question ID ${duplicateQuestionDto.questionId} in quiz ID ${duplicateQuestionDto.quizId} for space ID ${spaceId}`);
@@ -53,7 +54,7 @@ export class DuplicateQuestionQuizService implements IDuplicateQuestionQuizServi
 
       const duplicatedQuestion = await this.sharedQuestionDuplicationService.duplicateQuestion({
         originalQuestion,
-        newQuestionName: `Copy of ${originalQuestion.name}`,
+        newQuestionName: this.truncateQuestionName(`Copy of ${originalQuestion.name}`),
         targetQuizId: duplicateQuestionDto.quizId,
         manager
       });
@@ -77,4 +78,12 @@ export class DuplicateQuestionQuizService implements IDuplicateQuestionQuizServi
       await manager.save(QuizQuestionEntity, quizQuestion);
     });
   }
+
+  private truncateQuestionName(name: string): string {
+    if (name.length <= this.QUESTION_NAME_MAX_LENGTH) {
+      return name;
+    }
+
+    return `${name.slice(0, this.QUESTION_NAME_MAX_LENGTH - 3)}...`;
+  };
 }
