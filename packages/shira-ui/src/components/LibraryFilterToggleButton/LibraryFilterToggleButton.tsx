@@ -29,21 +29,30 @@ export const LibraryFilterToggleButton: FunctionComponent<LibraryFilterToggleBut
 };
 
 const StyledFilterButton = styled(Button) <{ $isOpen: boolean }>`
-  border: ${props => (props.$isOpen ? '2px' : '1px')} solid ${props => (
+  margin: 0;
+  border: 1px solid ${props => (
     props.$isOpen
       ? props.theme.colors.dark.black
       : props.theme.colors.dark.mediumGrey
   )};
+  box-shadow: ${props => props.$isOpen
+    ? `0 0 0 1px ${props.theme.colors.dark.black}`
+    : "none"};
   background: ${props => props.theme.colors.light.white};
   color: ${props => props.theme.colors.dark.black};
 
   &:focus {
     margin: 0;
-    border: 2px solid ${props => (
-    props.$isOpen
-      ? props.theme.colors.dark.black
-      : props.theme.colors.dark.mediumGrey
-  )};
+    border: 1px solid ${props => (
+      props.$isOpen
+        ? props.theme.colors.dark.black
+        : props.theme.colors.dark.mediumGrey
+    )};
+    box-shadow: 0 0 0 1px ${props => (
+      props.$isOpen
+        ? props.theme.colors.dark.black
+        : props.theme.colors.dark.mediumGrey
+    )};
   }
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
