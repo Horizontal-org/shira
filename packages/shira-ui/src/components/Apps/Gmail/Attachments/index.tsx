@@ -59,11 +59,11 @@ export const Attachments: FunctionComponent<Props> = ({
           </TooltipTrigger>
           {data.length > 1 && (
             <>
-              <HeaderActionButton
+              <DownloadIconButton
                 type="button"
               >
                 <MdOutlineFileDownload size={20} aria-hidden="true" />
-              </HeaderActionButton>
+              </DownloadIconButton>
               <DriveActionButton
                 type="button"
               >
@@ -170,7 +170,7 @@ const InfoButton = styled.button`
   }
 `
 
-const HeaderActionButton = styled.button`
+const DownloadIconButton = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;
