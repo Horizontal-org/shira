@@ -17,7 +17,7 @@ export const LibraryFilterToggleButton: FunctionComponent<LibraryFilterToggleBut
   className
 }) => {
   return (
-    <FilterButton
+    <StyledFilterButton
       className={className}
       text={text}
       type="outline"
@@ -28,7 +28,7 @@ export const LibraryFilterToggleButton: FunctionComponent<LibraryFilterToggleBut
   );
 };
 
-const FilterButton = styled(Button) <{ $isOpen: boolean }>`
+const StyledFilterButton = styled(Button) <{ $isOpen: boolean }>`
   border: ${props => (props.$isOpen ? '2px' : '1px')} solid ${props => (
     props.$isOpen
       ? props.theme.colors.dark.black
