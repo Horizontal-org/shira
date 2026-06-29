@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { QuizQuestion } from "../../../store/slices/quiz";
 import { appIcons } from "../../../utils/appIcons";
 import { normalizePreviewAppName } from "../../../utils/appNames";
+import { truncateQuestionName } from "../../../utils/questionName";
 
 export const useQuestionTableColumns = (): ColumnDef<QuizQuestion>[] => {
   const { t } = useTranslation();
@@ -30,7 +31,7 @@ export const useQuestionTableColumns = (): ColumnDef<QuizQuestion>[] => {
         cell: ({ row }) => {
           return (
             <QuestionNameCell id={`question-title-${row.original.question.id}`}>
-              {row.original.question.name}
+              {truncateQuestionName(row.original.question.name)}
             </QuestionNameCell>
           );
         },
