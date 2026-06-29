@@ -61,13 +61,11 @@ export const Attachments: FunctionComponent<Props> = ({
             <>
               <HeaderActionButton
                 type="button"
-                aria-label="Download attachments"
               >
                 <MdOutlineFileDownload size={20} aria-hidden="true" />
               </HeaderActionButton>
               <DriveActionButton
                 type="button"
-                aria-label={t('gmail.add_all_to_drive')}
               >
                 <GoogleDriveAddIcon>
                   <AddToDriveIcon />
@@ -75,6 +73,16 @@ export const Attachments: FunctionComponent<Props> = ({
                 <DriveActionText>{t('gmail.add_all_to_drive')}</DriveActionText>
               </DriveActionButton>
             </>
+          )}
+          {data.length === 1 && (
+            <DriveActionButton
+              type="button"
+            >
+              <GoogleDriveAddIcon>
+                <AddToDriveIcon />
+              </GoogleDriveAddIcon>
+              <DriveActionText>{t('gmail.add_to_drive')}</DriveActionText>
+            </DriveActionButton>
           )}
         </ScannedRow>
       </HeaderRow>
@@ -144,7 +152,6 @@ const TooltipTrigger = styled.div`
   &:focus-within [data-gmail-attachment-tooltip='card'] {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
   }
 `
 
@@ -223,9 +230,8 @@ const GoogleDriveAddIcon = styled.svg`
 
 const DriveActionText = styled.span`
   margin-left: 8px;
-  font-size: 1rem;
+  font-size: 0.900rem;
   line-height: 20px;
-  color: #444746;
 `
 
 const TooltipCard = styled.div`
@@ -241,8 +247,6 @@ const TooltipCard = styled.div`
   color: #3c4043;
   visibility: hidden;
   opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.16s ease, transform 0.16s ease, visibility 0.16s ease;
   z-index: 5;
 
   &::before {
@@ -288,7 +292,6 @@ const TooltipFooter = styled.div`
 const SaferWithGoogleImage = styled.img`
   display: block;
   height: 24px;
-  width: auto;
 `
 
 const AttachmentWrapper = styled.div`
