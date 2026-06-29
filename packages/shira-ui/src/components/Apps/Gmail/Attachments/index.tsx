@@ -18,7 +18,7 @@ export const Attachments: FunctionComponent<Props> = ({
       <div>
         <Title>{t('gmail.attachments', { count: data.length })}</Title>
         <Point>•</Point>
-        <Subtitle>{t('gmail.scanned_by_google')}</Subtitle>
+        <Subtitle>{t('gmail.scanned_by_gmail')}</Subtitle>
       </div>
       <AttachmentWrapper>
         { data.sort((a, b) => parseInt(a.position) - parseInt(b.position)).map((d) => (

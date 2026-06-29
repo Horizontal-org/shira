@@ -15,7 +15,7 @@
     "security": "security:",
     "attachments_one": "{{count}} attachment",
     "attachments_other": "{{count}} attachments",
-    "scanned_by_google": "Scanned by Google",
+    "scanned_by_gmail": "Scanned by Gmail",
     "encryption": "Standard encryption (TLS)",
     "learn_more": "Learn more"
   },
