@@ -2,10 +2,10 @@ import { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { IoMdInformationCircleOutline } from 'react-icons/io'
+import { MdOutlineFileDownload } from 'react-icons/md'
 import SaferWithGoogleLockup from './assets/safer-with-google.png'
 import { Attachment } from '../Attachment';
 import { AttachmentElement } from '..';
-import { MdOutlineFileDownload } from 'react-icons/md'
 
 interface Props {
   data: AttachmentElement[],
@@ -60,7 +60,7 @@ export const Attachments: FunctionComponent<Props> = ({
             <HeaderActionButton
               type="button"
             >
-              <MdOutlineFileDownload size={18} />
+              <MdOutlineFileDownload size={20} />
             </HeaderActionButton>
           )}
         </ScannedRow>
@@ -163,7 +163,7 @@ const HeaderActionButton = styled.button`
   border: 0;
   border-radius: 50%;
   background: transparent;
-  color: #5f6368;
+  color: #444746;
   cursor: pointer;
 
   &:hover {
