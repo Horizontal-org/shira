@@ -264,6 +264,7 @@ const Options = styled.div`
   background: ${props => props.theme.colors.light.white};
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10);
+  pointer-events: auto;
   z-index: 1000;
   max-height: 500px;
   overflow-x: hidden;
