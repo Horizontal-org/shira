@@ -1,6 +1,6 @@
 {
   "gmail": {
-    "search": "Search all conversations",
+    "search": "Search mail",
     "mail": "Mail",
     "inbox": "Inbox",
     "starred": "Starred",
@@ -13,7 +13,7 @@
     "to": "to:",
     "subject": "subject:",
     "security": "security:",
-    "attachments_one": "{{count}} attachment",
+    "attachments_one": "One attachment",
     "attachments_other": "{{count}} attachments",
     "scanned_by_gmail": "Scanned by Gmail",
     "attachment_scanning_title": "Attachment scanning in Gmail",

@@ -5,6 +5,7 @@ import { IoMdInformationCircleOutline } from 'react-icons/io'
 import SaferWithGoogleLockup from './assets/safer-with-google.png'
 import { Attachment } from '../Attachment';
 import { AttachmentElement } from '..';
+import { MdOutlineFileDownload } from 'react-icons/md'
 
 interface Props {
   data: AttachmentElement[],
@@ -55,10 +56,17 @@ export const Attachments: FunctionComponent<Props> = ({
               </TooltipFooter>
             </TooltipCard>
           </TooltipTrigger>
+          {data.length > 1 && (
+            <HeaderActionButton
+              type="button"
+            >
+              <MdOutlineFileDownload size={18} />
+            </HeaderActionButton>
+          )}
         </ScannedRow>
       </HeaderRow>
       <AttachmentWrapper>
-        { data.sort((a, b) => parseInt(a.position) - parseInt(b.position)).map((d) => (
+        {data.sort((a, b) => parseInt(a.position) - parseInt(b.position)).map((d) => (
           <Attachment
             key={d.name + d.position}
             name={d.name}
@@ -138,6 +146,33 @@ const InfoButton = styled.button`
   background: transparent;
   color: #5f6368;
   cursor: default;
+
+  > svg {
+    display: block;
+  }
+`
+
+const HeaderActionButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  margin-left: 16px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #5f6368;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(60,64,67,.1);
+  }
+
+  &:active {
+    background: rgba(60,64,67,.12);
+  }
 
   > svg {
     display: block;
