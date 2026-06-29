@@ -1,17 +1,20 @@
 import { FunctionComponent  } from "react"
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import ProfilePicture from "../../Whatsapp/ProfilePicture"
 
 const MessagesList: FunctionComponent = () => {
+  const { t } = useTranslation('shira-ui')
+
   return (
     <Wrapper>
       <Card active>
         <ProfilePicture />
 
         <MessageInfo>
-          <div>Roseanna</div>
+          <div>{t('messenger.contact_1_name')}</div>
           <SecondaryText>
-            <span> Hello there. Thanks for the follow . 1 day ago</span>
+            <span>{t('messenger.contact_1_message')}</span>
           </SecondaryText>
         </MessageInfo>
 
@@ -21,9 +24,9 @@ const MessagesList: FunctionComponent = () => {
         <ProfilePicture />
 
         <MessageInfo>
-          <div>Erica</div>
+          <div>{t('messenger.contact_2_name')}</div>
           <SecondaryText>
-            <span> Thanks mate! . 2 days ago</span>
+            <span>{t('messenger.contact_2_message')}</span>
           </SecondaryText>
         </MessageInfo>
 
@@ -33,9 +36,9 @@ const MessagesList: FunctionComponent = () => {
         <ProfilePicture />
 
         <MessageInfo>
-          <div>Pauline</div>
+          <div>{t('messenger.contact_3_name')}</div>
           <SecondaryText>
-            <span> Feel way better now . 1 day ago</span>
+            <span>{t('messenger.contact_3_message')}</span>
           </SecondaryText>
         </MessageInfo>
 
@@ -45,9 +48,9 @@ const MessagesList: FunctionComponent = () => {
         <ProfilePicture />
 
         <MessageInfo>
-          <div>Jose</div>
+          <div>{t('messenger.contact_4_name')}</div>
           <SecondaryText>
-            <span> Did you notice? . 1 day ago</span>
+            <span>{t('messenger.contact_4_message')}</span>
           </SecondaryText>
         </MessageInfo>
 
@@ -73,7 +76,7 @@ const Card = styled('div')<CardProps>`
 
   border-radius: 8px;
 
-  background: ${props => props.active ? 
+  background: ${props => props.active ?
     'rgba(60,64,67,.03)' : 'transparent'
   };
 
@@ -82,7 +85,7 @@ const Card = styled('div')<CardProps>`
   }
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    justify-content: center;   
+    justify-content: center;
   }
 `
 
@@ -97,7 +100,7 @@ const MessageInfo = styled.div`
   padding-left: 8px;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    display: none;   
+    display: none;
   }
 `
 

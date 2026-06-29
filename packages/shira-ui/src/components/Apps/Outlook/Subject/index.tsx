@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import { WhiteBar } from "../components/Whitebar";
 
 import Dismiss from '../globalIcons/Dismiss'
@@ -12,12 +13,12 @@ interface Props {
   subject: OutlookCustomElements
 }
 
-const parseSubjectText = (subjectText: string) => {
-    return subjectText && subjectText.length > 0 ?
-      subjectText : `(no subject)`
-}
-
 export const Subject:FunctionComponent<Props> = ({subject}) => {
+  const { t } = useTranslation('shira-ui')
+
+  const parseSubjectText = (subjectText: string) =>
+    subjectText && subjectText.length > 0 ? subjectText : t('outlook.no_subject')
+
   if (!subject) return
   return (
     <>
