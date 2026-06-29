@@ -122,7 +122,7 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
                 <Button
                   text={t("quiz_library.preview.preview_full_quiz")}
                   type="outline"
-                  leftIcon={<IoEyeSharp size={16} color={defaultTheme.colors.dark.darkGrey} />}
+                  leftIcon={<IoEyeSharp size={22} color={defaultTheme.colors.dark.darkGrey} />}
                   disabled={!firstQuestion}
                   onClick={() => {
                     if (firstQuestion) {
@@ -137,7 +137,7 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
                   text={t("quiz_library.preview.use_template")}
                   type="primary"
                   color={defaultTheme.colors.green7}
-                  leftIcon={<FaCirclePlus size={16} />}
+                  leftIcon={<FaCirclePlus size={17} />}
                   disabled={disableUseTemplateButton}
                   onClick={() => onUseTemplate(questions)}
                 />

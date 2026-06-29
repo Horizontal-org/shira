@@ -55,10 +55,8 @@ export const TemplateFilterSelect = styled(FilterSelect) <FilterSelectProps>`
 export const TemplateFilters = styled.div`
   display: flex;
   align-items: center;
-  justify-content: flex-end;
   flex-wrap: wrap;
   gap: 10px;
-  width: fit-content;
   max-width: 100%;
   margin-left: auto;
 

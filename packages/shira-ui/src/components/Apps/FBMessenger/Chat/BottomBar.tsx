@@ -1,5 +1,6 @@
 import { FunctionComponent  } from "react"
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import RecorderIcon from "./RecorderIcon"
 
 import MoreIcon from './assets/more.png'
@@ -14,6 +15,7 @@ import ImageIcon from './assets/image.png'
 import useGetWidth from "../../hooks/useGetWidth"
 
 const BottomBar: FunctionComponent = () => {
+  const { t } = useTranslation('shira-ui')
   const { width } = useGetWidth()
 
   return (
@@ -57,7 +59,7 @@ const BottomBar: FunctionComponent = () => {
           )}
         </FlexWrapper>
         <KeywordBar>
-          <Text>Aa</Text>
+          <Text>{t('messenger.aa')}</Text>
 
           <IconWrapper>
             <Icon icon={EmojiIcon} size='28'/>

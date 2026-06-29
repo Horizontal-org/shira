@@ -30,14 +30,14 @@ export const SortSelect = ({
 }: SortSelectProps) => {
   const getPosition = useCallback((rect: DOMRect) => {
     const menuWidth = Math.max(rect.width, 252);
-    let left = rect.left + window.scrollX;
+    let left = rect.left;
 
     if (left + menuWidth > window.innerWidth) {
-      left = rect.right - menuWidth + window.scrollX;
+      left = rect.right - menuWidth;
     }
 
     return {
-      top: rect.bottom + window.scrollY + 8,
+      top: rect.bottom + 8,
       left,
       width: menuWidth,
     };
@@ -161,6 +161,7 @@ const Options = styled.div`
   background: ${props => props.theme.colors.light.white};
   border-radius: 16px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  pointer-events: auto;
   z-index: 1000;
   overflow: hidden;
 `;
