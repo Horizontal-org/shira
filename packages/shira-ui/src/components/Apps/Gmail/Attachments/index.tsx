@@ -6,6 +6,7 @@ import { MdOutlineFileDownload } from 'react-icons/md'
 import SaferWithGoogleLockup from './assets/safer-with-google.png'
 import { Attachment } from '../Attachment';
 import { AttachmentElement } from '..';
+import AddToDriveIcon from '../Attachment/components/AddToDriveIcon'
 
 interface Props {
   data: AttachmentElement[],
@@ -57,11 +58,23 @@ export const Attachments: FunctionComponent<Props> = ({
             </TooltipCard>
           </TooltipTrigger>
           {data.length > 1 && (
-            <HeaderActionButton
-              type="button"
-            >
-              <MdOutlineFileDownload size={20} />
-            </HeaderActionButton>
+            <>
+              <HeaderActionButton
+                type="button"
+                aria-label="Download attachments"
+              >
+                <MdOutlineFileDownload size={20} aria-hidden="true" />
+              </HeaderActionButton>
+              <DriveActionButton
+                type="button"
+                aria-label={t('gmail.add_all_to_drive')}
+              >
+                <GoogleDriveAddIcon>
+                  <AddToDriveIcon />
+                </GoogleDriveAddIcon>
+                <DriveActionText>{t('gmail.add_all_to_drive')}</DriveActionText>
+              </DriveActionButton>
+            </>
           )}
         </ScannedRow>
       </HeaderRow>
@@ -177,6 +190,42 @@ const HeaderActionButton = styled.button`
   > svg {
     display: block;
   }
+`
+
+const DriveActionButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  margin-left: 16px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 16px;
+  background: transparent;
+  color: #444746;
+  cursor: pointer;
+
+  &:hover {
+    background: #e8f0fe;
+  }
+
+  &:active {
+    background: #d2e3fc;
+  }
+`
+
+const GoogleDriveAddIcon = styled.svg`
+  width: 20px;
+  height: 20px;
+  display: block;
+  flex-shrink: 0;
+  fill: currentColor;
+`
+
+const DriveActionText = styled.span`
+  margin-left: 8px;
+  font-size: 1rem;
+  line-height: 20px;
+  color: #444746;
 `
 
 const TooltipCard = styled.div`
