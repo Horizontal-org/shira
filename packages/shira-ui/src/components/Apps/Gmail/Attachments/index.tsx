@@ -238,12 +238,12 @@ const TooltipCard = styled.div`
   position: absolute;
   top: calc(100% + 12px);
   left: -24px;
-  width: 360px;
+  width: 328px;
   max-width: min(360px, calc(100vw - 48px));
-  padding: 18px 16px 14px;
+  padding: 16px;
   background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 1px 2px rgba(60, 64, 67, 0.15), 0 2px 6px 2px rgba(60, 64, 67, 0.15);
+  border-radius: 8px;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.12),0 1px 5px 0 rgba(0,0,0,.2);
   color: #3c4043;
   visibility: hidden;
   opacity: 0;
