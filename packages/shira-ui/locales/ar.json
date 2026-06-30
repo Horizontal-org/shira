@@ -1,1 +1,46 @@
-{}
+{
+    "gmail": {
+        "search": "البحث في البريد",
+        "inbox": "البريد الوارد",
+        "starred": "المميّزة بنجمة",
+        "snoozed": "المؤجلة",
+        "sent": "البريد المرسَل",
+        "drafts": "المسودّات",
+        "compose": "إنشاء",
+        "from": "من:",
+        "to": "إلى:",
+        "subject": "الموضوع:",
+        "security": "الأمان:",
+        "attachments_zero": "",
+        "attachments_one": "مرفق واحد",
+        "attachments_two": "",
+        "attachments_few": "",
+        "attachments_many": "",
+        "attachments_other": "",
+        "scanned_by_google": "تم فحصها من قِبل Gmail",
+        "encryption": "التشفير العادي (طبقة النقل الآمنة (TLS))",
+        "learn_more": "مزيد من المعلومات"
+    },
+    "outlook": {
+        "search": "بحث",
+        "home": "الصفحة الرئيسية",
+        "view": "عرض",
+        "help": "التعليمات",
+        "new_mail": "بريد جديد",
+        "undo": "تراجع",
+        "delete": "حذف",
+        "archive": "أرشفة",
+        "report": "إبلاغ",
+        "move_to": "نقل إلى",
+        "flag_unflag": "وضع / إزالة علامة",
+        "discover_groups": "اكتشاف المجموعات",
+        "inbox": "علبة الوارد",
+        "junk": "بريد إلكتروني غير هام",
+        "drafts": "المسودات",
+        "sent_items": "العناصر المرسلة",
+        "deleted_items": "العناصر المحذوفة",
+        "conversation_history": "تاريخ المحادثة",
+        "notes": "الملاحظات",
+        "go_to_groups": "الانتقال إلى المجموعة..."
+    }
+}
