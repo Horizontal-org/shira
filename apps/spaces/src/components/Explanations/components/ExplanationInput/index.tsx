@@ -67,11 +67,11 @@ const StyledTextArea = styled.textarea`
   overflow-y: hidden;
   border: none;
   width: 100%;
-  border-radius: 16px;
   
   &:focus {
     border: 2px solid ${props => props.theme.colors.light.paleGrey};
     padding: 16px;
     outline: none;
+    border-radius: 16px;
   }
 `
