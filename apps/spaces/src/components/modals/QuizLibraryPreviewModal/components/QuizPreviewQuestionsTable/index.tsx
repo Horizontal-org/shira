@@ -141,12 +141,12 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
         emptyMessage={t("quiz_library.preview.no_questions")}
         colGroups={(
           <colgroup>
-            <col style={{ width: "4%" }} />
-            <col style={{ width: "34%" }} />
-            <col style={{ width: "16%" }} />
-            <col style={{ width: "16%" }} />
-            <col style={{ width: "20%" }} />
-            <col style={{ width: "10%" }} />
+            <col style={{ width: "50px" }} />
+            <col style={{ width: "35%" }} />
+            <col />
+            <col />
+            <col />
+            <col style={{ width: "110px" }} />
           </colgroup>
         )}
       />
