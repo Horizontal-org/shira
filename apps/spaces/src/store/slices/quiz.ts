@@ -49,7 +49,7 @@ export interface Quiz {
   updatedAt: string
   hash?: string;
   visibility?: string
-  hasResultsEnabled?: boolean
+  hasResults?: boolean
 }
 
 export interface QuizSlice {

@@ -383,7 +383,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             content={(
               <div>
                 {t('modals.delete_quiz.subtitle')}
-                {selectedCard?.hasResultsEnabled && (
+                {selectedCard?.hasResults && (
                   <>
                     <br /><br />
                     <QuizWarningLine>

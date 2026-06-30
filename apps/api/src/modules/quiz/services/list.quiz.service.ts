@@ -43,7 +43,7 @@ export class ListQuizService implements IListQuizService {
         `EXISTS(
           SELECT 1 FROM quiz_runs qr
           WHERE qr.quiz_id = quiz.id AND qr.finished_at IS NOT NULL
-        ) AS hasResultsEnabled`,
+        ) AS hasResults`,
       ])
       .addSelect(`GREATEST
         (
