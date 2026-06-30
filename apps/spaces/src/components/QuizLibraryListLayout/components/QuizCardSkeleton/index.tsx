@@ -2,17 +2,25 @@ import { FunctionComponent } from "react";
 import { styled } from "@horizontal-org/shira-ui";
 import { DEFAULT_PAGE_LIMIT } from "../../../../fetch/quiz_templates";
 
-export const QuizCardSkeleton: FunctionComponent = () => {
+type Props = {
+  showToolbar?: boolean;
+};
+
+export const QuizCardSkeleton: FunctionComponent<Props> = ({
+  showToolbar = true,
+}) => {
   return (
     <SkeletonLayout aria-hidden="true">
-      <ToolbarRow>
-        <SearchSkeleton />
+      {showToolbar && (
+        <ToolbarRow>
+          <SearchSkeleton />
 
-        <ActionsRow>
-          <SortSkeleton />
-          <FilterSkeleton />
-        </ActionsRow>
-      </ToolbarRow>
+          <ActionsRow>
+            <SortSkeleton />
+            <FilterSkeleton />
+          </ActionsRow>
+        </ToolbarRow>
+      )}
 
       <CardGrid>
         {Array.from({ length: DEFAULT_PAGE_LIMIT }, (_, index) => (
