@@ -9,7 +9,7 @@ const TAG_GAP_PX = 8;
 
 export const QuizCardTags: FunctionComponent<Props> = ({ tags }) => {
   const [visibleTagCount, setVisibleTagCount] = useState(tags.length);
-  const tagRowRef = useRef<HTMLDivElement>(null);
+  const tagAreaRef = useRef<HTMLDivElement>(null);
   const ellipsisMeasureRef = useRef<HTMLSpanElement>(null);
   const tagMeasureRefs = useRef<Array<HTMLSpanElement | null>>([]);
 
@@ -20,7 +20,7 @@ export const QuizCardTags: FunctionComponent<Props> = ({ tags }) => {
     }
 
     const updateVisibleTags = () => {
-      const availableWidth = tagRowRef.current?.clientWidth ?? 0;
+      const availableWidth = tagAreaRef.current?.clientWidth ?? 0;
       const ellipsisWidth = ellipsisMeasureRef.current?.offsetWidth ?? 0;
       const tagWidths = tags.map((_, index) => tagMeasureRefs.current[index]?.offsetWidth ?? 0);
 
@@ -64,8 +64,8 @@ export const QuizCardTags: FunctionComponent<Props> = ({ tags }) => {
       updateVisibleTags();
     });
 
-    if (tagRowRef.current) {
-      resizeObserver.observe(tagRowRef.current);
+    if (tagAreaRef.current) {
+      resizeObserver.observe(tagAreaRef.current);
     }
 
     return () => {
@@ -79,8 +79,8 @@ export const QuizCardTags: FunctionComponent<Props> = ({ tags }) => {
     : tags;
 
   return (
-    <TagArea>
-      <TagRow ref={tagRowRef}>
+    <TagArea ref={tagAreaRef}>
+      <TagRow>
         {visibleTags.map((tag, index) => (
           <TagChip key={`${tag}-${index}`}>
             <Body4>{tag}</Body4>
@@ -118,12 +118,15 @@ const TagArea = styled.div`
   position: relative;
   display: flex;
   align-items: flex-end;
+  width: 100%;
   min-height: 28px;
 `;
 
 const TagRow = styled.div`
   display: flex;
   flex-wrap: nowrap;
+  width: 100%;
+  min-width: 0;
   gap: 8px;
   color: ${props => props.theme.colors.blue7};
   overflow: hidden;

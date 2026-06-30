@@ -1,148 +1,114 @@
-import { FunctionComponent } from 'react';
-import { styled } from '@horizontal-org/shira-ui';
+import { FunctionComponent } from "react";
+import { styled } from "@horizontal-org/shira-ui";
+import { DEFAULT_PAGE_LIMIT } from "../../../../fetch/quiz_templates";
 
 export const QuizCardSkeleton: FunctionComponent = () => {
   return (
-    <CardWrapper aria-hidden="true">
-      <TopSection>
-        <HeaderRow>
-          <LanguageRow>
-            <SkeletonBlock $width="72px" $height="24px" $radius="4px" />
-            <SkeletonBlock $width="58px" $height="24px" $radius="4px" />
-          </LanguageRow>
+    <SkeletonLayout aria-hidden="true">
+      <ToolbarRow>
+        <SearchSkeleton />
 
-          <SkeletonBlock $width="18px" $height="18px" $radius="999px" />
-        </HeaderRow>
+        <ActionsRow>
+          <SortSkeleton />
+          <FilterSkeleton />
+        </ActionsRow>
+      </ToolbarRow>
 
-        <CardBody>
-          <TitleSkeleton>
-            <SkeletonBlock $width="88%" $height="18px" />
-            <SkeletonBlock $width="78%" $height="18px" />
-            <SkeletonBlock $width="54%" $height="18px" />
-          </TitleSkeleton>
-
-          <TagRow>
-            <SkeletonBlock $width="86px" $height="24px" $radius="4px" />
-            <SkeletonBlock $width="72px" $height="24px" $radius="4px" />
-          </TagRow>
-        </CardBody>
-      </TopSection>
-
-      <Footer>
-        <FooterMeta>
-          <FooterItem>
-            <SkeletonBlock $width="24px" $height="24px" $radius="999px" />
-            <SkeletonBlock $width="120px" $height="18px" />
-          </FooterItem>
-
-          <FooterItem>
-            <SkeletonBlock $width="24px" $height="24px" $radius="999px" />
-            <SkeletonBlock $width="110px" $height="18px" />
-          </FooterItem>
-        </FooterMeta>
-      </Footer>
-    </CardWrapper>
+      <CardGrid>
+        {Array.from({ length: DEFAULT_PAGE_LIMIT }, (_, index) => (
+          <CardWrapper key={`quiz-library-skeleton-${index}`} />
+        ))}
+      </CardGrid>
+    </SkeletonLayout>
   );
 };
 
-const CardWrapper = styled.div`
-  background: ${props => props.theme.colors.light.white};
-  border: 1px solid ${props => props.theme.colors.dark.lightGrey};
-  border-radius: 24px;
+const SkeletonLayout = styled.div`
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
-  min-height: 172px;
+  gap: 24px;
 `;
 
-const TopSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 18px;
-  gap: 10px;
-  flex: 1;
-`;
-
-const HeaderRow = styled.div`
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-`;
-
-const LanguageRow = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-`;
-
-const CardBody = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 16px;
-  flex: 1;
-  min-height: 116px;
-`;
-
-const Footer = styled.div`
-  background: ${props => props.theme.colors.light.paleGreen};
-  padding: 7px 20px;
-`;
-
-const FooterMeta = styled.div`
+const ToolbarRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+  padding: 0 12px;
 
-  @media (max-width: ${props => props.theme.breakpoints.xs}) {
-    align-items: flex-start;
+  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
     flex-direction: column;
+    align-items: stretch;
   }
 `;
 
-const FooterItem = styled.div`
+const ActionsRow = styled.div`
   display: flex;
   align-items: center;
-  gap: 8px;
-`;
+  justify-content: flex-end;
+  gap: 12px;
+  flex-shrink: 0;
 
-const TagRow = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  min-height: 28px;
-`;
-
-const TitleSkeleton = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`;
-
-const SkeletonBlock = styled.div<{ $width: string; $height: string; $radius?: string }>`
-  width: ${props => props.$width};
-  height: ${props => props.$height};
-  border-radius: ${props => props.$radius ?? "8px"};
-  background: linear-gradient(
-    90deg,
-    ${props => props.theme.colors.light.paleGrey} 0%,
-    ${props => props.theme.colors.light.white} 50%,
-    ${props => props.theme.colors.light.paleGrey} 100%
-  );
-  background-size: 200% 100%;
-  animation: skeletonShimmer 1.4s ease-in-out infinite;
-
-  @keyframes skeletonShimmer {
-    0% {
-      background-position: 200% 0;
-    }
-
-    100% {
-      background-position: -200% 0;
-    }
+  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
+    width: 100%;
   }
+
+  @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+`;
+
+const SkeletonBlock = styled.div`
+  background: ${(props) => props.theme.colors.light.white};
+`;
+
+const SearchSkeleton = styled(SkeletonBlock)`
+  width: 100%;
+  max-width: 632px;
+  height: 46px;
+  border-radius: 999px;
+`;
+
+const SortSkeleton = styled(SkeletonBlock)`
+  width: 250px;
+  height: 46px;
+  border-radius: 999px;
+
+  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
+    flex: 1 1 auto;
+    width: auto;
+  }
+`;
+
+const FilterSkeleton = styled(SkeletonBlock)`
+  width: 114px;
+  height: 46px;
+  border-radius: 999px;
+
+  @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
+    width: 100%;
+  }
+`;
+
+const CardGrid = styled.div`
+  padding: 12px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  align-items: stretch;
+
+  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const CardWrapper = styled(SkeletonBlock)`
+  border-radius: 24px;
+  width: 100%;
+  min-height: 172px;
 `;

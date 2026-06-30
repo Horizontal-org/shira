@@ -37,6 +37,10 @@ export const AddAttachmentModal = ({
   fileNameLabel,
   fileTypeLabel
 }: AddAttachmentModalProps) => {
+  const trimmedFileName = fileName.trim();
+  const disabledSave =
+    trimmedFileName.length === 0
+    || trimmedFileName.length > ATTACHMENT_FILENAME_MAX_LENGTH;
 
   const fileTypeOptions = [
     { value: AttachmentType.image, label: 'Image' },
@@ -53,8 +57,9 @@ export const AddAttachmentModal = ({
       title={titleLabel}
       primaryButtonText={saveLabel}
       secondaryButtonText={cancelLabel}
-      primaryButtonDisabled={fileName.trim().length > ATTACHMENT_FILENAME_MAX_LENGTH}
+      primaryButtonDisabled={disabledSave}
       onPrimaryClick={() => {
+        if (disabledSave) { return; }
         onSave()
         onClose()
       }}

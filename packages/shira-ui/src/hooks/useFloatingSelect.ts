@@ -14,10 +14,17 @@ type UseFloatingSelectOptions = {
 const DEFAULT_PORTAL_ID = "floating-select-portal-container";
 
 const getDefaultPosition = (rect: DOMRect): FloatingSelectPosition => ({
-  top: rect.bottom + window.scrollY + 8,
-  left: rect.left + window.scrollX,
+  top: rect.bottom + 8,
+  left: rect.left,
   width: rect.width,
 });
+
+const applyPortalContainerStyles = (portalContainer: HTMLDivElement) => {
+  portalContainer.style.position = "fixed";
+  portalContainer.style.inset = "0";
+  portalContainer.style.pointerEvents = "none";
+  portalContainer.style.zIndex = "1000";
+};
 
 export const useFloatingSelect = ({
   getPosition = getDefaultPosition,
@@ -30,11 +37,15 @@ export const useFloatingSelect = ({
   const listboxId = useId();
 
   useEffect(() => {
-    if (!document.getElementById(portalId)) {
-      const portalContainer = document.createElement("div");
+    let portalContainer = document.getElementById(portalId) as HTMLDivElement | null;
+
+    if (!portalContainer) {
+      portalContainer = document.createElement("div");
       portalContainer.id = portalId;
       document.body.appendChild(portalContainer);
     }
+
+    applyPortalContainerStyles(portalContainer);
 
     return () => {
       const portalContainer = document.getElementById(portalId);

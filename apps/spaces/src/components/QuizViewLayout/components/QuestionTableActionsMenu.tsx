@@ -133,17 +133,21 @@ const MenuWrapper = styled.div`
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
+  min-height: 20px;
 `;
 
 const ActionButton = styled.button`
   background: none;
   border: none;
-  padding: 8px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  line-height: 0;
   color: ${defaultTheme.colors.dark.darkGrey};
   border-radius: 999px;
 

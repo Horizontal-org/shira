@@ -1,16 +1,19 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import ImageIcon from './ImageIcon'
 import LandscapeIcon from './LandscapeIcon'
 interface Props {}
 
 export const Footer: FunctionComponent<Props> = () => {
+  const { t } = useTranslation('shira-ui')
+
   return (
     <Wrapper>
       <ImageIcon />
       <LandscapeIcon />
       <div>
-        Text message
+        {t('sms.text_message')}
       </div>
     </Wrapper>
   )

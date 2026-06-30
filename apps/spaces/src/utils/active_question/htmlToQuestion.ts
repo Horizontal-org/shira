@@ -1,6 +1,7 @@
 import { AttachmentType } from "@horizontal-org/shira-ui"
 import { QuestionPayload } from "../../fetch/question"
 import { ActiveQuestion, QuestionDragAttachment, QuestionDragEditor, QuestionDragImage, QuestionEditorInput, QuestionTextInput } from "../../store/types/active_question"
+import { truncateQuestionName } from "../questionName";
 
 const replaceImage = (question: QuestionPayload, htmlContent: Document) => {
   // images 
@@ -109,7 +110,7 @@ export const htmlToActiveQuestion = (question: QuestionPayload, html: Document) 
   
   let activeQuestion: ActiveQuestion = {
     app: app,
-    name: question.name,
+    name: truncateQuestionName(question.name),
     isPhishing: !!(question.isPhising),
     content: {}
   }

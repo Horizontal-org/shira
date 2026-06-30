@@ -1,10 +1,13 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import ProfilePicture from '../../../ProfilePicture'
 
 interface Props {}
 
 const MessagesPreview: FunctionComponent<Props> = () => {
+  const { t } = useTranslation('shira-ui')
+
   return (
     <Wrapper>
       <Messages>
@@ -15,14 +18,14 @@ const MessagesPreview: FunctionComponent<Props> = () => {
       <UserInfo>
         <UserInfoFirstRow>
           <Username>
-            <span>Mark Curry</span>
+            <span>{t('whatsapp.contact_1_name')}</span>
           </Username>
           <Time>
-            12:04 PM
+            {t('whatsapp.contact_1_time')}
           </Time>
         </UserInfoFirstRow>
         <MessageContent>
-        On second thoughts, let's not go there        </MessageContent>
+        {t('whatsapp.contact_1_message')}        </MessageContent>
       </UserInfo>
     </Message>
 
@@ -33,14 +36,14 @@ const MessagesPreview: FunctionComponent<Props> = () => {
       <UserInfo>
         <UserInfoFirstRow>
           <Username>
-            <span>Ruby Mejia</span>
+            <span>{t('whatsapp.contact_2_name')}</span>
           </Username>
           <Time>
-            11:00 AM
+            {t('whatsapp.contact_2_time')}
           </Time>
         </UserInfoFirstRow>
         <MessageContent>
-        Well, I didn't vote for you        </MessageContent>
+        {t('whatsapp.contact_2_message')}        </MessageContent>
       </UserInfo>
     </Message>
 
@@ -51,14 +54,14 @@ const MessagesPreview: FunctionComponent<Props> = () => {
       <UserInfo>
         <UserInfoFirstRow>
           <Username>
-            <span>Connie Zamora</span>
+            <span>{t('whatsapp.contact_3_name')}</span>
           </Username>
           <Time>
-            09:47 PM
+            {t('whatsapp.contact_3_time')}
           </Time>
         </UserInfoFirstRow>
         <MessageContent>
-        Can you put it on my calendar?        </MessageContent>
+        {t('whatsapp.contact_3_message')}        </MessageContent>
       </UserInfo>
     </Message>
 
@@ -69,14 +72,14 @@ const MessagesPreview: FunctionComponent<Props> = () => {
       <UserInfo>
         <UserInfoFirstRow>
           <Username>
-            <span>Farrah Guerra</span>
+            <span>{t('whatsapp.contact_4_name')}</span>
           </Username>
           <Time>
-            03:03 AM
+            {t('whatsapp.contact_4_time')}
           </Time>
         </UserInfoFirstRow>
         <MessageContent>
-        I am attempting to harness the innate energy of cyclic harmonic repitition        </MessageContent>
+        {t('whatsapp.contact_4_message')}        </MessageContent>
       </UserInfo>
     </Message>
 
@@ -87,14 +90,14 @@ const MessagesPreview: FunctionComponent<Props> = () => {
       <UserInfo>
         <UserInfoFirstRow>
           <Username>
-            <span>Annabel Carpenter</span>
+            <span>{t('whatsapp.contact_5_name')}</span>
           </Username>
           <Time>
-            12:45 AM
+            {t('whatsapp.contact_5_time')}
           </Time>
         </UserInfoFirstRow>
         <MessageContent>
-        what about scaling components to a global audience?
+        {t('whatsapp.contact_5_message')}
         </MessageContent>
       </UserInfo>
     </Message>
@@ -106,15 +109,14 @@ const MessagesPreview: FunctionComponent<Props> = () => {
       <UserInfo>
         <UserInfoFirstRow>
           <Username>
-            <span>Jesse Bass
-</span>
+            <span>{t('whatsapp.contact_6_name')}</span>
           </Username>
           <Time>
-            05:05 PM
+            {t('whatsapp.contact_6_time')}
           </Time>
         </UserInfoFirstRow>
         <MessageContent>
-        I can't get involved! I've got work to do!        </MessageContent>
+        {t('whatsapp.contact_6_message')}        </MessageContent>
       </UserInfo>
     </Message>
 
@@ -125,14 +127,14 @@ const MessagesPreview: FunctionComponent<Props> = () => {
       <UserInfo>
         <UserInfoFirstRow>
           <Username>
-            <span>Reggie Ramos</span>
+            <span>{t('whatsapp.contact_7_name')}</span>
           </Username>
           <Time>
-            01:34 PM
+            {t('whatsapp.contact_7_time')}
           </Time>
         </UserInfoFirstRow>
         <MessageContent>
-        I care deeply for nature       
+        {t('whatsapp.contact_7_message')}
         </MessageContent>
       </UserInfo>
     </Message>
@@ -144,14 +146,14 @@ const MessagesPreview: FunctionComponent<Props> = () => {
       <UserInfo>
         <UserInfoFirstRow>
           <Username>
-            <span>Morgan Buchanan</span>
+            <span>{t('whatsapp.contact_8_name')}</span>
           </Username>
           <Time>
-            09:03 PM
+            {t('whatsapp.contact_8_time')}
           </Time>
         </UserInfoFirstRow>
         <MessageContent>
-        Oh, I think we should just stay friends.
+        {t('whatsapp.contact_8_message')}
         </MessageContent>
       </UserInfo>
     </Message>
@@ -163,15 +165,14 @@ const MessagesPreview: FunctionComponent<Props> = () => {
       <UserInfo>
         <UserInfoFirstRow>
           <Username>
-            <span>Kareem Salinas
-</span>
+            <span>{t('whatsapp.contact_9_name')}</span>
           </Username>
           <Time>
-            12:40 PM
+            {t('whatsapp.contact_9_time')}
           </Time>
         </UserInfoFirstRow>
         <MessageContent>
-        I'm sorry, guys. I never meant to hurt you
+        {t('whatsapp.contact_9_message')}
         </MessageContent>
       </UserInfo>
     </Message>
@@ -183,16 +184,16 @@ const MessagesPreview: FunctionComponent<Props> = () => {
 const Wrapper = styled.div`
   flex-grow: 1;
   overflow-y: scroll;
-  
+
   &::-webkit-scrollbar {
     width: 6px !important;
     height:: 6px !important;
   }
-  
+
   &::-webkit-scrollbar-track {
     background: rgba(255, 255, 255,.1);
   }
-  
+
   &::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, .2);
   }
@@ -207,7 +208,7 @@ const Messages = styled.div`
 const Message = styled.div`
   height: 72px;
   display: flex;
-  cursor: pointer;  
+  cursor: pointer;
   transition: none 0s ease 0s;
 
   &:hover {

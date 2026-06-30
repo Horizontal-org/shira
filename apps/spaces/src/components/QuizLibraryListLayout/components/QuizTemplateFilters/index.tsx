@@ -3,7 +3,7 @@ import { defaultTheme } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
 import { FaUserLarge } from "react-icons/fa6";
 import { IoLanguage } from "react-icons/io5";
-import { BiSolidTagAlt } from "react-icons/bi";
+import { BiSolidTag } from "react-icons/bi";
 import {
   TemplateFilters,
   TemplateFiltersClearAllButton,
@@ -71,7 +71,7 @@ export const QuizTemplateFilters: FunctionComponent<Props> = ({
         options={languageOptions}
         placeholder={t("quiz_library.filters_panel.language")}
         ariaLabel={t("quiz_library.filters_panel.language")}
-        leftIcon={<IoLanguage size={10} color={defaultTheme.colors.blue6} />}
+        leftIcon={<IoLanguage size={12} color={defaultTheme.colors.blue6} />}
         isMulti={true}
         {...(hasSelectedLanguages ? { selectedLabel: languageSelectedLabel } : {})}
         onChange={(value) => onLanguageChange(value as string[])}
@@ -83,7 +83,13 @@ export const QuizTemplateFilters: FunctionComponent<Props> = ({
         options={tagOptions}
         placeholder={t("quiz_library.filters_panel.tag")}
         ariaLabel={t("quiz_library.filters_panel.tag")}
-        leftIcon={<BiSolidTagAlt size={10} color={defaultTheme.colors.warning4} />}
+        leftIcon={(
+          <BiSolidTag
+            size={12}
+            color={defaultTheme.colors.warning4}
+            style={{ transform: "rotate(180deg)" }}
+          />
+        )}
         isMulti={true}
         {...(hasSelectedTags ? { selectedLabel: tagSelectedLabel } : {})}
         onChange={(value) => onTagChange(value as string[])}

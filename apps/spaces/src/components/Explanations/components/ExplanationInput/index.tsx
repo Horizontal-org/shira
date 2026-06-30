@@ -6,17 +6,21 @@ interface Props {
   onUpdate: (text: string) => void;
   text: string;
   unselect: () => void;
+  onDeleteIfEmpty: () => void;
 }
 
 export const ExplanationInput: FunctionComponent<Props> = ({
   text,
   onUpdate,
-  unselect
+  unselect,
+  onDeleteIfEmpty
 }) => {
 
   const { t } = useTranslation();
 
-  const textAreaRef = useRef(null);
+  const textAreaRef = useRef(null)
+  // if clicking directly the input dond delete even if empty
+  const skipDeleteRef = useRef(false)
 
   const resizeTextArea = () => {
     textAreaRef.current.style.height = "auto";
@@ -38,7 +42,18 @@ export const ExplanationInput: FunctionComponent<Props> = ({
       onChange={(e) => {
         onUpdate(e.target.value)
       }}
-      onBlur={unselect}
+      onMouseDown={() => { skipDeleteRef.current = true }}
+      onBlur={() => {
+        if (skipDeleteRef.current) {
+          skipDeleteRef.current = false
+          return
+        }
+        if (!text.trim()) {
+          onDeleteIfEmpty()
+        } else {
+          unselect()
+        }
+      }}
     />
   )
 }
@@ -52,11 +67,11 @@ const StyledTextArea = styled.textarea`
   overflow-y: hidden;
   border: none;
   width: 100%;
-  border-radius: 16px;
   
   &:focus {
     border: 2px solid ${props => props.theme.colors.light.paleGrey};
     padding: 16px;
     outline: none;
+    border-radius: 16px;
   }
 `
