@@ -63,7 +63,9 @@
         "contact_2_name": "María",
         "contact_2_message": "Gracias compa! . 2 días atrás",
         "contact_3_name": "Paula",
-        "contact_3_message": "La verad es que me siento mucho más fuerte sin tu amor. Hace 1 día"
+        "contact_3_message": "La verad es que me siento mucho más fuerte sin tu amor. Hace 1 día",
+        "contact_4_name": "José",
+        "contact_4_message": "Lo viste? . 1 día atrás"
     },
     "sms": {
         "text_message": "Mensaje de Texto"
@@ -72,9 +74,9 @@
         "contact_3_name": "Lita de Lazo",
         "contact_3_time": "09:47 PM",
         "contact_3_message": "Estuve caminando mucho",
-        "contact_4_name": "José Luis Guerra",
+        "contact_4_name": "Vilma Palmeiro",
         "contact_4_time": "03:03 AM",
-        "contact_4_message": "Quisiera ser un pez",
+        "contact_4_message": "Se me rompio el auto",
         "contact_5_name": "Anabela Zapatero",
         "contact_5_time": "12:45 AM",
         "contact_5_message": "me parece que el negocio tiene potencial para escalar!",
@@ -84,11 +86,17 @@
         "contact_7_name": "Roberto Ramos",
         "contact_7_time": "01:34 PM",
         "contact_7_message": "Me importa mucho el planeta",
-        "contact_8_name": "Moria Suarez",
+        "contact_8_name": "Carlos Roberto",
         "contact_8_time": "09:03 PM",
-        "contact_8_message": "Uy, me paece que deberíamos ser amigos nada más.",
+        "contact_8_message": "Me parece mejor que nos quedemos como amigos nomás.",
         "contact_9_name": "Karen Solana",
         "contact_9_time": "12:40 PM",
-        "contact_9_message": "Perdón gente. No fue mi intención"
+        "contact_9_message": "Perdón gente. No fue mi intención",
+        "contact_1_time": "12:04 PM",
+        "contact_1_name": "Marcos Alvarez",
+        "contact_1_message": "Lo pensé, vayamos juntos",
+        "contact_2_name": "Carla",
+        "contact_2_time": "11:00 AM",
+        "contact_2_message": "Vamos a cenar mañana?"
     }
 }
