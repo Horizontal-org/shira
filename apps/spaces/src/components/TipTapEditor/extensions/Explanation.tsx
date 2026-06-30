@@ -10,15 +10,15 @@ declare module '@tiptap/core' {
       /**
        * Set a highlight mark
        */
-       setExplanation: (attributes?: { dataId: string }) => ReturnType,
+      setExplanation: (attributes?: { dataId: string }) => ReturnType,
       /**
        * Toggle a highlight mark
        */
-       toggleExplanation: (attributes?: { dataId: string }) => ReturnType,
+      toggleExplanation: (attributes?: { dataId: string }) => ReturnType,
       /**
        * Unset a highlight mark
        */
-       unsetExplanation: () => ReturnType,
+      unsetExplanation: () => ReturnType,
     }
   }
 }
@@ -43,7 +43,7 @@ export const Explanation = Mark.create<HighlightOptions>({
   },
 
   addAttributes() {
-    
+
     return {
       'data-explanation': {
         default: null,
