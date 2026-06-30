@@ -64,8 +64,6 @@ export const QuestionTemplateResults: FunctionComponent<Props> = ({
         <Table
           size="full"
           loading={shouldShowTableLoadingState}
-          loadingMessage={t("loading_messages.loading_library_questions")}
-          emptyMessage={t("success_messages.no_questions_found")}
           data={rows}
           columns={columns}
           rowSelection={rowSelection}
