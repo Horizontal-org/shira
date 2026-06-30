@@ -113,6 +113,8 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     });
   };
 
+  const shouldShowPagination = !showInitialLoading && !showEmptyState;
+
   return (
     <QuizLibraryFlowManagement>
       <PageContent id="quiz-library-list-layout">
@@ -190,7 +192,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
                 ) : undefined}
               />
 
-              {!showEmptyState && (
+              {shouldShowPagination && (
                 <LibraryPaginationContainer>
                   <CardPagination {...paginationProps} />
                 </LibraryPaginationContainer>
@@ -218,7 +220,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
             </>
           )}
 
-          {!loading && visibleLibraryQuizzes.length > 0 && (
+          {shouldShowPagination && (
             <LibraryPaginationContainer>
               <CardPagination {...paginationProps} />
             </LibraryPaginationContainer>
