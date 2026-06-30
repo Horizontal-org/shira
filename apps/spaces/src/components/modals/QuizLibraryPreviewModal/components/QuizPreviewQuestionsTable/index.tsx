@@ -142,10 +142,10 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
         colGroups={(
           <colgroup>
             <col style={{ width: "50px" }} />
-            <col style={{ width: "35%" }} />
+            <col style={{ width: "40%" }} />
             <col />
             <col />
-            <col />
+            <col style={{ width: "20%" }} />
             <col style={{ width: "110px" }} />
           </colgroup>
         )}
