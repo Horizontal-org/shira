@@ -189,7 +189,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
           />
 
           {showLoadingSkeleton ? (
-            <QuizCardSkeleton showToolbar={false} />
+            <QuizCardSkeleton />
           ) : (
             <>
               {shouldShowPagination && (
