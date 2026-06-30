@@ -45,17 +45,15 @@ export const QuestionTemplateResults: FunctionComponent<Props> = ({
 
   return (
     <>
-      {shouldShowPagination && (
+      {shouldShowPagination ? (
         <LibraryPaginationContainer>
           <CardPagination {...paginationPropsToRender} />
         </LibraryPaginationContainer>
-      )}
-
-      {!shouldShowPagination && shouldKeepPaginationVisible && (
+      ) : shouldKeepPaginationVisible ? (
         <InactiveLibraryPaginationContainer>
           <CardPagination {...paginationPropsToRender} />
         </InactiveLibraryPaginationContainer>
-      )}
+      ) : null}
 
       {showEmptyState ? (
         <LibrarySearchEmptyState
@@ -88,6 +86,16 @@ export const QuestionTemplateResults: FunctionComponent<Props> = ({
           }
         />
       )}
+
+      {shouldShowPagination ? (
+        <LibraryPaginationContainer>
+          <CardPagination {...paginationPropsToRender} />
+        </LibraryPaginationContainer>
+      ) : shouldKeepPaginationVisible ? (
+        <InactiveLibraryPaginationContainer>
+          <CardPagination {...paginationPropsToRender} />
+        </InactiveLibraryPaginationContainer>
+      ) : null}
     </>
   );
 };
