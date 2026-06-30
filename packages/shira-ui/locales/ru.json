@@ -1,1 +1,23 @@
-{}
+{
+    "gmail": {
+        "search": "Поиск в почте",
+        "mail": "почта",
+        "inbox": "Входящие",
+        "starred": "Помеченные",
+        "snoozed": "Отложенные",
+        "sent": "Отправленные",
+        "drafts": "Черновики",
+        "compose": "Написать",
+        "to_me": "кому: мне",
+        "from": "от:",
+        "to": "кому:",
+        "subject": "тема:",
+        "security": "безопасность:",
+        "attachments_one": "{{count}} прикрепленный файл",
+        "attachments_few": "Прикрепленные файлы: {{count}}",
+        "attachments_many": "Прикрепленные файлы: {{count}}",
+        "scanned_by_google": "Проверено на вирусы системой Gmail",
+        "encryption": "Стандартное шифрование (TLS)",
+        "learn_more": "Подробнее…"
+    }
+}
