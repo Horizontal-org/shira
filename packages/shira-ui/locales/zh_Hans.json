@@ -1,1 +1,41 @@
-{}
+{
+    "gmail": {
+        "search": "搜索邮件",
+        "inbox": "收件箱",
+        "starred": "已加星标",
+        "snoozed": "已延后",
+        "sent": "已发邮件",
+        "drafts": "草稿",
+        "compose": "写邮件",
+        "to_me": "发送至 我",
+        "from": "发件人:",
+        "to": "收件人:",
+        "subject": "主题:",
+        "security": "安全性:",
+        "attachments_other": "{{count}} 个附件",
+        "scanned_by_google": "已由 Gmail 扫描",
+        "encryption": "标准加密 (TLS)",
+        "learn_more": "了解详情"
+    },
+    "outlook": {
+        "search": "搜索",
+        "home": "主页",
+        "view": "查看",
+        "help": "帮助",
+        "new_mail": "新邮件",
+        "undo": "撤消",
+        "delete": "删除",
+        "archive": "存档",
+        "report": "报告",
+        "move_to": "移至",
+        "flag_unflag": "标记/取消标记",
+        "discover_groups": "发现组",
+        "inbox": "收件箱",
+        "junk": "垃圾邮件",
+        "drafts": "草稿",
+        "sent_items": "已发送邮件",
+        "deleted_items": "已删除邮件",
+        "conversation_history": "对话历史记录",
+        "notes": "注释"
+    }
+}
