@@ -48,7 +48,8 @@
         "you": "vous",
         "call": "Appeler",
         "contact": "Contact",
-        "show_more": "Afficher plus"
+        "show_more": "Afficher plus",
+        "meet_now": "Démarrer un appel"
     },
     "dating_app": {
         "message_placeholder": "Écrivez quelque chose..."
