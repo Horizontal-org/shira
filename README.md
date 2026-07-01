@@ -23,60 +23,15 @@
 
 ### Steps
 
-**1. Set up environment variables**
+**1. Set up the API**
 
-For the API:
+Follow [apps/api/README.md](apps/api/README.md) for env vars, starting MySQL/Redis and the API in Docker, and running migrations.
 
-```sh
-cp apps/api/.env.example apps/api/.env
-# then fill in the required values
-```
+**2. Set up the frontend apps**
 
-For the frontend apps:
+Follow [apps/public/README.md](apps/public/README.md) and [apps/spaces/README.md](apps/spaces/README.md) for env vars.
 
-```sh
-# public — no example file, create it manually.
-
-# spaces:
-cp apps/spaces/.env.example apps/spaces/.env
-# then fill in REACT_APP_API_URL, REACT_APP_PUBLIC_URL, REACT_APP_LIBRARY_API_URL
-```
-
-**2. Create the shared Docker network**
-
-This only needs to be done once:
-
-```sh
-docker network create shira-network
-```
-
-**3. Start required services (MySQL + Redis)**
-
-```sh
-docker compose -f apps/api/docker-compose.required.yml up -d
-```
-
-**4. Start the API in development mode**
-
-```sh
-docker compose -f apps/api/docker-compose.api.yml up dev
-```
-
-Starts the NestJS API with hot-reload on port `3000`. The image is built automatically on first run.
-
-**5. Run database migrations**
-
-Migrations must run inside the API container:
-
-```sh
-docker exec -it shira-api-dev npm run typeorm -- migration:run -d ./src/utils/datasources/mysql.datasource.ts
-```
-
-> To create a new migration: `docker exec -it shira-api-dev npm run typeorm migration:create ./src/migrations/your_migration_name`
-
-**6. Start the frontend apps**
-
-From the repo root:
+Then, from the repo root:
 
 ```sh
 npm install
