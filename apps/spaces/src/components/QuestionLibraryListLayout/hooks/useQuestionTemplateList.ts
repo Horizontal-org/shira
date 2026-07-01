@@ -35,7 +35,7 @@ export const useQuestionTemplateList = () => {
 
   const resetPagination = () => setPageIndexState(0);
 
-  const debouncedSearchValue = useDebouncedValue(searchValue.trim());
+  const debouncedSearchValue = useDebouncedValue(searchValue.trim(), 300);
 
   const filters = useQuestionTemplateFilters(() => {
     startLoading();
