@@ -27,16 +27,60 @@
 - nestjs cli
 - typeorm cli
 
-## Required steps for using docker containers
+## Local development
 
-- docker network create shira-network
+### 1. Set up environment variables
 
-## Run migration
+```sh
+cp .env.example .env
+# then fill in the required values
+```
 
-this needs to be inside docker container
+### 2. Create the shared Docker network
 
-- to run migrations `npm run typeorm -- migration:run -d ./src/utils/datasources/mysql.datasource.ts`
-- to create migrations `npm run typeorm migration:create ./src/migrations/your_migration`
+This only needs to be done once (shared with the frontend apps):
+
+```sh
+docker network create shira-network
+```
+
+### 3. Start required services (MySQL + Redis)
+
+```sh
+docker compose -f docker-compose.required.yml up -d
+```
+
+### 4. Start the API in development mode
+
+You can run the API in Docker, or directly on your machine with npm.
+
+**Running in Docker**
+
+```sh
+docker compose -f docker-compose.api.yml up dev
+```
+
+Starts the NestJS API with hot-reload on port `3000`. The image is built automatically on first run.
+
+**Running from the repo root**
+
+```sh
+npm run dev
+```
+
+This runs `apps/api`'s `dev` script (`nest start --debug --watch`) through Turborepo, alongside the frontend apps. Since MySQL and Redis still run in Docker (step 3) with their ports published to the host, set `MYSQL_HOST=127.0.0.1` and `REDIS_HOST=127.0.0.1` in your `.env` for this option.
+
+### 5. Run database migrations
+
+If the API is running in Docker, migrations must run inside the API container:
+
+- to run migrations: `docker exec -it shira-api-dev npm run typeorm -- migration:run -d ./src/utils/datasources/mysql.datasource.ts`
+- to create migrations: `docker exec -it shira-api-dev npm run typeorm migration:create ./src/migrations/your_migration_name`
+
+If you're running the API directly with npm, run the same commands from `apps/api` without `docker exec`:
+
+- to run migrations: `npm run typeorm -- migration:run -d ./src/utils/datasources/mysql.datasource.ts`
+- to create migrations: `npm run typeorm migration:create ./src/migrations/your_migration_name`
 
 ## Description
 
