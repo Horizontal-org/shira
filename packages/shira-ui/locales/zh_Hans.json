@@ -15,7 +15,8 @@
         "attachments_other": "{{count}} 个附件",
         "scanned_by_google": "已由 Gmail 扫描",
         "encryption": "标准加密 (TLS)",
-        "learn_more": "了解详情"
+        "learn_more": "了解详情",
+        "mail": "邮件"
     },
     "outlook": {
         "search": "搜索",
@@ -36,6 +37,53 @@
         "sent_items": "已发送邮件",
         "deleted_items": "已删除邮件",
         "conversation_history": "对话历史记录",
-        "notes": "注释"
+        "notes": "注释",
+        "no_subject": "(无主题)",
+        "reply": "答复",
+        "forward": "转发",
+        "read_unread": "已读/未读",
+        "go_to_groups": "发现组",
+        "to": "发件至:",
+        "you": "你",
+        "call": "通话",
+        "contact": "联系",
+        "show_more": "显示更多",
+        "meet_now": "现在见面"
+    },
+    "dating_app": {
+        "message_placeholder": "说些什么 ...",
+        "aa": "",
+        "location": "距离832尺"
+    },
+    "sms": {
+        "text_message": "短信"
+    },
+    "messenger": {
+        "chats": "聊天",
+        "search": "搜索 Messenger",
+        "contact_1_message": "你好。谢谢关注。1天前",
+        "contact_2_message": "谢谢朋友！ . 2天前",
+        "contact_3_message": "现在感觉好多了。1天前",
+        "contact_4_message": "你注意到了吗？ 1天前"
+    },
+    "whatsapp": {
+        "contact_1_message": "再想一想,不要紧啦",
+        "contact_2_time": "上午11:00",
+        "contact_2_message": "嗯，我没投你的票",
+        "contact_3_time": "下午9:47",
+        "contact_3_message": "你能把它记到我的日历上吗？",
+        "contact_4_time": "上午3:03",
+        "contact_4_message": "我在试一试利用循环谐波重复所蕴含的内在能量",
+        "contact_5_time": "上午12:45",
+        "contact_5_message": "如何将组件扩展到全球用户群体？",
+        "contact_6_time": "下午5:05",
+        "contact_6_message": "我不能参与！我还有工作要做！",
+        "contact_7_time": "下午1:34",
+        "contact_7_message": "我非常热爱大自然",
+        "contact_8_time": "下午9:03",
+        "contact_8_message": "哦，我觉得我们还是做朋友比较好。",
+        "contact_9_time": "下午12:40",
+        "contact_9_message": "对不起，大家。我从来没想过要伤害你们",
+        "contact_1_time": "下午12:04"
     }
 }
