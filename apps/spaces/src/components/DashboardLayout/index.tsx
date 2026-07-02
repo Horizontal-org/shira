@@ -329,7 +329,10 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             />
           </FilterButtonsContainer >
 
-          <CardGrid id="card-grid">
+          <CardGrid
+            id="card-grid"
+            key={filteredCards.map((card) => card.id).join("-")}
+          >
             {filteredCards.map((card) => {
               const isPublished = card.published;
 
@@ -398,6 +401,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             )}
             setIsModalOpen={setIsDeleteModalOpen}
             onDelete={() => {
+              setIsDeleteModalOpen(false);
               deleteQuiz(selectedCard?.id)
               handleSelectedCard(null);
             }}

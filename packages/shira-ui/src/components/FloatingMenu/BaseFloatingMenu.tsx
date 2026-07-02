@@ -137,6 +137,7 @@ export const BaseFloatingMenu: FunctionComponent<BaseFloatingMenuProps> = ({
       <MenuContent>
         {elements.map((e, i) => (
           <MenuButton
+            type="button"
             onClick={e.onClick}
             key={i}
           >
