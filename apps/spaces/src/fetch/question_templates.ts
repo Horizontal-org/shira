@@ -203,7 +203,7 @@ export const getQuestionTemplates = async ({
   }
 };
 
-export const getQuestionTemplateQuestions = async (
+export const getQuizTemplateQuestions = async (
   quizId: string | number,
 ): Promise<LibraryQuestionTemplateQuestionDto[] | null> => {
   try {
@@ -219,7 +219,7 @@ export const getQuestionTemplateQuestions = async (
     return response.data;
   } catch (error) {
     console.error(
-      `Error fetching question template questions for ${quizId}:`,
+      `Error fetching quiz template questions for quiz ${quizId}:`,
       error,
     );
     return null;
