@@ -59,7 +59,6 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
     languageOptions,
     loading,
     pageIndex,
-    paginationProps,
     questionTemplates,
     searchValue,
     selectedAppType,
@@ -144,8 +143,6 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
     }));
   };
 
-  const shouldShowPagination = !loading && total > 0;
-
   const columns = getColumns(
     {
       onPreview: handlePreview,
@@ -199,8 +196,6 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
           />
 
           <QuestionTemplateResults
-            shouldShowPagination={shouldShowPagination}
-            paginationProps={paginationProps}
             showEmptyState={showEmptyState}
             loading={loading}
             rows={rows}

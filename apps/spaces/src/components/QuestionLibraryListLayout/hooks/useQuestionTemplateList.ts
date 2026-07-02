@@ -1,4 +1,4 @@
-import { type SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getApps, type App } from "../../../fetch/app";
 import {
@@ -9,7 +9,6 @@ import {
   type QuestionTemplateFilterOption,
   type QuestionTemplateSortOption,
 } from "../../../fetch/question_templates";
-import { usePaginationProps } from "../../../hooks/usePaginationProps";
 import { useDebouncedValue } from "./useDebouncedValue";
 import { useQuestionTemplateFilterOptions } from "./useQuestionTemplateFilterOptions";
 import { useQuestionTemplateFilters } from "./useQuestionTemplateFilters";
@@ -24,22 +23,10 @@ export const useQuestionTemplateList = () => {
   const [searchValue, setSearchValueState] = useState("");
   const [sortOption, setSortOptionState] = useState<QuestionTemplateSortOption>(DEFAULT_QUESTION_TEMPLATE_SORT);
 
-  const startLoading = () => {
-    setLoading(true);
-  };
-
-  const setPageIndex = (value: SetStateAction<number>) => {
-    startLoading();
-    setPageIndexState(value);
-  };
-
-  const resetPagination = () => setPageIndexState(0);
-
   const debouncedSearchValue = useDebouncedValue(searchValue.trim());
 
   const filters = useQuestionTemplateFilters(() => {
-    startLoading();
-    resetPagination();
+    setPageIndexState(0);
   });
   const { languageOptions, tagOptions } = useQuestionTemplateFilterOptions(filters.areFiltersOpen);
 
@@ -74,7 +61,6 @@ export const useQuestionTemplateList = () => {
 
   useEffect(() => {
     const loadQuestionTemplates = async () => {
-      setLoading(true);
 
       try {
         const response = await getQuestionTemplates({
@@ -126,24 +112,16 @@ export const useQuestionTemplateList = () => {
   }, [pageCount, pageIndex]);
 
   const setSearchValue = (value: string) => {
-    startLoading();
+    setLoading(true);
     setSearchValueState(value);
-    resetPagination();
+    setPageIndexState(0);
   };
 
   const setSortOption = (nextSortOption: QuestionTemplateSortOption) => {
-    startLoading();
+    setLoading(false);
     setSortOptionState(nextSortOption);
-    resetPagination();
+    setPageIndexState(0);
   };
-
-  const paginationProps = usePaginationProps({
-    pageIndex,
-    pageCount,
-    pageSize: DEFAULT_PAGE_LIMIT,
-    setPageIndex,
-    total,
-  });
 
   return {
     ...filters,
@@ -154,7 +132,6 @@ export const useQuestionTemplateList = () => {
     languageOptions,
     loading,
     pageIndex,
-    paginationProps,
     questionTemplates,
     searchValue,
     setSearchValue,
