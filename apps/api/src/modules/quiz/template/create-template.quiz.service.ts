@@ -34,6 +34,8 @@ export class CreateTemplateQuizService implements ICreateTemplateQuizService {
       for (const templateQuestion of createTemplateQuizDto.questions) {
         await this.createQuestion(manager, savedQuiz.id, templateQuestion);
       }
+
+      return savedQuiz.id;
     });
   }
 
