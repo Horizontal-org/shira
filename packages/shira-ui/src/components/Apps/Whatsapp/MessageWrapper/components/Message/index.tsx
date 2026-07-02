@@ -5,11 +5,11 @@ interface Props {
   data: Element
 }
 
-const Message:FunctionComponent<Props> = ({ data }) => {
+const Message: FunctionComponent<Props> = ({ data }) => {
 
   return (
     <Wrapper>
-      <Content dangerouslySetInnerHTML={{__html: data.outerHTML}}></Content>
+      <Content dangerouslySetInnerHTML={{ __html: data.outerHTML }}></Content>
       <span>00:00</span>
     </Wrapper>
   )
@@ -41,6 +41,8 @@ const Wrapper = styled.div`
 `
 
 const Content = styled.div`
+  overflow-wrap: break-word;
+  word-break: break-word; 
   position: relative;
   display: inline;
   text-align: left;

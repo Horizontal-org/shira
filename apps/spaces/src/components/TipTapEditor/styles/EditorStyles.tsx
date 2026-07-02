@@ -39,6 +39,8 @@ export const EditorStyles = createGlobalStyle`
 .resize-se { cursor: se-resize; }
 
 .ProseMirror {
+  overflow-wrap: break-word;
+  word-break: break-word; 
   background: white;
   border-radius: 16px;
   border: 2px solid ${props => props.theme.secondary.dark};
