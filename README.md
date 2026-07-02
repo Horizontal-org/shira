@@ -1,6 +1,5 @@
 # for deploying to production
 
-
 `/home/shira should be the location`
 
 ### Steps
@@ -14,6 +13,36 @@
 - `./deploy-api.sh`
 
 - if migrations need to be run refer to the api docs for the commands on `./apps/api`
+
+# for deploying locally
+
+### Prerequisites
+
+- Docker and Docker Compose installed
+- Node.js and npm installed
+
+### Steps
+
+**1. Set up the API**
+
+Follow [apps/api/README.md](apps/api/README.md) for env vars, starting MySQL/Redis and the API in Docker, and running migrations.
+
+**2. Set up the frontend apps**
+
+Follow [apps/public/README.md](apps/public/README.md) and [apps/spaces/README.md](apps/spaces/README.md) for env vars.
+
+Then, from the repo root:
+
+```sh
+npm install
+npm run dev
+```
+
+Turborepo starts all frontend apps in parallel:
+- `public` on port `3001`
+- `spaces` on port `3002`
+
+---
 
 # Turborepo starter with shell commands
 
