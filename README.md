@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="apps/public/public/logo192.png" alt="Shira logo" width="120" />
+</p>
+
 # Shira
 
 Shira is a Turborepo monorepo with a NestJS API, a public-facing quiz app, an internal spaces app, and shared packages used across the workspace.
