@@ -18,7 +18,7 @@ export const useQuizTemplateList = () => {
   const [totalAvailableQuizzes, setTotalAvailableQuizzes] = useState(0);
 
   const [loading, setLoading] = useState(true);
-  const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
+  const [hasLoadedOnce,] = useState(false);
   const [pageIndex, setPageIndexState] = useState(0);
 
   const [searchValue, setSearchValueState] = useState("");
@@ -33,15 +33,6 @@ export const useQuizTemplateList = () => {
   const [languageOptions, setLanguageOptions] = useState<QuizTemplateFilterOption[]>([]);
   const [tagOptions, setTagOptions] = useState<QuizTemplateFilterOption[]>([]);
 
-  const startLoading = () => {
-    setLoading(true);
-  };
-
-  const setPageIndex = (value: SetStateAction<number>) => {
-    startLoading();
-    setPageIndexState(value);
-  };
-
   useEffect(() => {
     const debounceTimeout = window.setTimeout(() => {
       setDebouncedSearchValue(searchValue.trim());
@@ -54,8 +45,6 @@ export const useQuizTemplateList = () => {
 
   useEffect(() => {
     const loadQuizzes = async () => {
-      setLoading(true);
-
       try {
         const response = await getQuizTemplates({
           page: pageIndex + 1,
@@ -69,13 +58,13 @@ export const useQuizTemplateList = () => {
         setTotalAvailableQuizzes(response.total);
         setPageIndexState((currentPageIndex) => {
           const nextPageIndex = Math.max(0, response.page - 1);
-
-          return currentPageIndex === nextPageIndex ? currentPageIndex : nextPageIndex;
+          return currentPageIndex === nextPageIndex
+            ? currentPageIndex
+            : nextPageIndex;
         });
       } catch (error) {
         console.error("Failed to get library quizzes:", error);
       } finally {
-        setHasLoadedOnce(true);
         setLoading(false);
       }
     };
@@ -125,13 +114,13 @@ export const useQuizTemplateList = () => {
   }, [pageCount, pageIndex]);
 
   const setSearchValue = (value: string) => {
-    startLoading();
+    setLoading(true);
     setSearchValueState(value);
     setPageIndexState(0);
   };
 
   const setSortOption = (nextSortOption: QuizTemplateSortOption) => {
-    startLoading();
+    setLoading(false);
     setSortOptionState(nextSortOption);
     setPageIndexState(0);
   };
@@ -141,25 +130,25 @@ export const useQuizTemplateList = () => {
   };
 
   const setSelectedLanguages = (nextValue: string[]) => {
-    startLoading();
+    setLoading(false);
     setSelectedLanguagesState(nextValue);
     setPageIndexState(0);
   };
 
   const setSelectedTags = (nextValue: string[]) => {
-    startLoading();
+    setLoading(false);
     setSelectedTagsState(nextValue);
     setPageIndexState(0);
   };
 
   const setSelectedCreator = (nextValue: string) => {
-    startLoading();
+    setLoading(false);
     setSelectedCreatorState(nextValue);
     setPageIndexState(0);
   };
 
   const clearAllFilters = () => {
-    startLoading();
+    setLoading(false);
     setSelectedLanguagesState([]);
     setSelectedTagsState([]);
     setSelectedCreatorState("");
@@ -170,7 +159,7 @@ export const useQuizTemplateList = () => {
     pageIndex,
     pageCount,
     pageSize: DEFAULT_PAGE_LIMIT,
-    setPageIndex,
+    setPageIndex: setPageIndexState,
     total,
   });
 

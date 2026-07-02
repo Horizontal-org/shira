@@ -23,13 +23,10 @@ export const useQuestionTemplateList = () => {
   const [searchValue, setSearchValueState] = useState("");
   const [sortOption, setSortOptionState] = useState<QuestionTemplateSortOption>(DEFAULT_QUESTION_TEMPLATE_SORT);
 
-const resetPagination = () => setPageIndexState(0);
-
   const debouncedSearchValue = useDebouncedValue(searchValue.trim(), 300);
 
   const filters = useQuestionTemplateFilters(() => {
-    setLoading(true);
-    resetPagination();
+    setPageIndexState(0);
   });
   const { languageOptions, tagOptions } = useQuestionTemplateFilterOptions(filters.areFiltersOpen);
 
@@ -64,7 +61,6 @@ const resetPagination = () => setPageIndexState(0);
 
   useEffect(() => {
     const loadQuestionTemplates = async () => {
-      setLoading(true);
 
       try {
         const response = await getQuestionTemplates({
@@ -118,13 +114,13 @@ const resetPagination = () => setPageIndexState(0);
   const setSearchValue = (value: string) => {
     setLoading(true);
     setSearchValueState(value);
-    resetPagination();
+    setPageIndexState(0);
   };
 
   const setSortOption = (nextSortOption: QuestionTemplateSortOption) => {
     setLoading(false);
     setSortOptionState(nextSortOption);
-    resetPagination();
+    setPageIndexState(0);
   };
 
   return {
