@@ -27,7 +27,6 @@ cp apps/api/.env.example apps/api/.env
 cp apps/public/.env.example apps/public/.env
 cp apps/spaces/.env.example apps/spaces/.env
 ```
-See each app README for the expected variables and examples.
 
 ## Local Development
 
