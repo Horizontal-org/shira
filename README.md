@@ -48,7 +48,14 @@ docker network create shira-network
 docker compose -f apps/api/docker-compose.required.yml up -d
 ```
 
-4. Start the workspace from the repo root:
+4. Run Storybook from `packages/shira-ui`:
+
+```sh
+cd packages/shira-ui
+npm run storybook
+```
+
+5. Start the workspace from the repo root:
 
 ```sh
 npm run dev
@@ -65,13 +72,6 @@ Run API migrations from `apps/api` after the backend is up:
 ```sh
 cd apps/api
 npm run typeorm -- migration:run -d ./src/utils/datasources/mysql.datasource.ts
-```
-
-Run Storybook from `packages/shira-ui`:
-
-```sh
-cd packages/shira-ui
-npm run storybook
 ```
 
 ## App Docs
