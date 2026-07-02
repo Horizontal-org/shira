@@ -2,6 +2,22 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Local development
+
+```sh
+cp .env.example .env
+# then fill in REACT_APP_API_URL, REACT_APP_PUBLIC_URL, REACT_APP_LIBRARY_API_URL
+```
+
+Then, from the repo root:
+
+```sh
+npm install
+npm run dev
+```
+
+This starts `spaces` on port `3002` alongside the other apps (via Turborepo). See the [repo root README](../../README.md) for the full local-deployment setup, and [apps/api](../api/README.md) for the API/DB.
+
 ## Available Scripts
 
 In the project directory, you can run:
