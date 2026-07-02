@@ -49,7 +49,6 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     debouncedSearchValue,
     clearAllFilters,
     hasActiveSearch,
-    hasLoadedOnce,
     languageOptions,
     loading,
     paginationProps,
@@ -69,7 +68,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     toggleFilters,
     visibleLibraryQuizzes,
   } = useQuizTemplateList();
-  const showLoadingSkeleton = loading && (!hasLoadedOnce || visibleLibraryQuizzes.length === 0);
+  const showLoadingSkeleton = loading && visibleLibraryQuizzes.length === 0;
 
   useEffect(() => {
     fetchQuizzes();

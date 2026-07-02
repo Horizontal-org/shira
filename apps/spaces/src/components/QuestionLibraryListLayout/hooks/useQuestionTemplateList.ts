@@ -23,7 +23,7 @@ export const useQuestionTemplateList = () => {
   const [searchValue, setSearchValueState] = useState("");
   const [sortOption, setSortOptionState] = useState<QuestionTemplateSortOption>(DEFAULT_QUESTION_TEMPLATE_SORT);
 
-  const debouncedSearchValue = useDebouncedValue(searchValue.trim(), 300);
+  const debouncedSearchValue = useDebouncedValue(searchValue.trim());
 
   const filters = useQuestionTemplateFilters(() => {
     setPageIndexState(0);

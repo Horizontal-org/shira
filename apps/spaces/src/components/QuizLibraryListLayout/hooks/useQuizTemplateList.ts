@@ -18,7 +18,6 @@ export const useQuizTemplateList = () => {
   const [totalAvailableQuizzes, setTotalAvailableQuizzes] = useState(0);
 
   const [loading, setLoading] = useState(true);
-  const [hasLoadedOnce,] = useState(false);
   const [pageIndex, setPageIndexState] = useState(0);
 
   const [searchValue, setSearchValueState] = useState("");
@@ -169,7 +168,6 @@ export const useQuizTemplateList = () => {
     clearAllFilters,
     hasActiveFilters,
     hasActiveSearch,
-    hasLoadedOnce,
     languageOptions,
     loading,
     pageCount,
