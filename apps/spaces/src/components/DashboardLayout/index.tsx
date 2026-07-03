@@ -88,7 +88,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
       label: t(item.label)
     })));
 
-  const { isSubActive } = useSub()
+  const { isSubActive, isSelfHosted } = useSub()
 
   const [activeFilter, setActiveFilter] = useState<FilterStates>(FilterStates.all);
   const [cards, setCards] = useState([]);
@@ -165,10 +165,11 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
       Boolean(
         isFromLogin &&
         isRecentlyCreated &&
+        !isSelfHosted &&
         searchParams.get("checkout") !== "success"
       )
     );
-  }, [isFromLogin, isRecentlyCreated, searchParams]);
+  }, [isFromLogin, isRecentlyCreated, isSelfHosted, searchParams]);
 
   useEffect(() => {
     const templateSelection = location.state?.addQuizFromTemplate;
