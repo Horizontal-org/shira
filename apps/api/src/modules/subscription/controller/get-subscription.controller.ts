@@ -6,6 +6,7 @@ import { LoggedUser } from "src/modules/auth/decorators";
 import { LoggedUserDto } from "src/modules/user/dto/logged.user.dto";
 import { Roles } from "src/modules/auth/decorators/roles.decorators";
 import { Role } from "src/modules/user/domain/role.enum";
+import { SELF_HOSTED } from "src/utils/environment/self-hosted.environment";
 
 @AuthController('subscription')
 export class GetSubscriptionController {
@@ -19,6 +20,8 @@ export class GetSubscriptionController {
   async handler(
     @LoggedUser() user: LoggedUserDto,
   ) {
-    return await this.subscriptionCacheService.getCurrentSubscription(String(user.activeOrganization.id), user.activeSpace.space.id);
+    const subscription = await this.subscriptionCacheService.getCurrentSubscription(String(user.activeOrganization.id), user.activeSpace.space.id);
+
+    return { ...subscription, selfHosted: SELF_HOSTED };
   }
 }
