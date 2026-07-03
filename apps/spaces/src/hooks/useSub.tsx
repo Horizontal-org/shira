@@ -7,8 +7,10 @@ export const useSub = () => {
 
   const {
     sub,
+    isSelfHosted,
   } = useStore((state) => ({
     sub: state.subscription,
+    isSelfHosted: state.selfHosted,
   }), shallow)
 
   const isSubActive = useMemo(() =>
@@ -16,6 +18,7 @@ export const useSub = () => {
 
   return {
     sub: sub as Subscription | null,
-    isSubActive
+    isSubActive,
+    isSelfHosted
   };
 };
