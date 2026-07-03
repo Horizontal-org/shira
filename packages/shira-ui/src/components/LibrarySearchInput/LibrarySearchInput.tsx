@@ -62,8 +62,8 @@ const SearchInputWrap = styled.div<{ $hasValue: boolean; $isFocused: boolean }>`
     padding-right: ${props => props.$hasValue
       ? "52px"
       : "18px"};
-    border-width: 1px;
-    border-color: ${defaultTheme.colors.green4};
+    border-width: 2px;
+    border-color: ${defaultTheme.colors.green2};
     border-radius: 24px;
     background: ${props => props.$isFocused
       ? defaultTheme.colors.light.paleGreen

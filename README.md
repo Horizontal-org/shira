@@ -1,16 +1,38 @@
-# Production deployment with Docker Compose
+<p align="center">
+  <img src="apps/public/public/logo192.png" alt="Shira logo" width="120" />
+</p>
 
-* Copy the `.env.example` file into `.env`
+# Shira
 
-  ```sh
-  cp .env.example .env
-  ```
+Shira is a Turborepo monorepo with a NestJS API, a public-facing quiz app, an internal spaces app, and shared packages used across the workspace.
 
-* Generate passwords for different services and add them to your `.env`.
-  You can use `openssl rand -hex 32` to generate them securely.
+## Workspace
 
-* Unless you're setting up a custom S3 bucket for the images service,
-  skip the `IMAGE_` options for now.
+- `apps/api`: NestJS backend for auth, quizzes, learners, subscriptions, email, and integrations.
+- `apps/public`: Public quiz experience for learners and invite flows.
+- `apps/spaces`: Internal product for managing quizzes, questions, learners, and organizations.
+- `packages/shira-ui`: Shared UI components used by the frontend apps.
+
+## Prerequisites
+
+- Node.js and npm installed
+- Docker and Docker Compose installed
+
+## Environment
+
+Copy the app env files before starting:
+
+```sh
+cp apps/api/.env.example apps/api/.env
+cp apps/public/.env.example apps/public/.env
+cp apps/spaces/.env.example apps/spaces/.env
+```
+
+To generate passwords for different services and add them to your `.env`, you can use `openssl rand -hex 32` to generate them securely.
+
+### Image server (Garage)
+
+Unless you're setting up a custom S3 bucket for the images service, skip the `IMAGE_` options for now.
 
 * Run the compose file:
 
@@ -18,7 +40,7 @@
   docker compose up -d
   ```
 
-* Once the service is running, create the actual bucket and access key:
+* Once the service is running, create the actual Garage bucket and access key:
 
   ```sh
   id=`docker exec shira-images-1 /garage node id -q`
@@ -31,8 +53,7 @@
   docker exec shira-images-1 /garage bucket allow --read --write --owner --key shira shira
   ```
 
-* Use the "Key ID" and "Secret key" fields from the key creation step as
-  `IMAGE_ACCESS_KEY` and `IMAGE_SECRET_KEY` env vars, respectively:
+* Use the "Key ID" and "Secret key" fields from the key creation step as `IMAGE_ACCESS_KEY` and `IMAGE_SECRET_KEY` env vars, respectively:
 
   ```sh
   IMAGE_ACCESS_KEY=GKa85289d7ee87ccd281789601
@@ -45,62 +66,60 @@
   docker compose restart
   ```
 
-# for deploying to production
+## Local Development
 
-
-`/home/shira should be the location`
-
-## Steps
-
-> you may need to run npm install before in some cases
-
-- `git pull` usually from main
-
-- `./deploy-frontend.sh`
-
-- `./deploy-api.sh`
-
-- if migrations need to be run refer to the api docs for the commands on `./apps/api`
-
-# Turborepo starter with shell commands
-
-This Turborepo starter is maintained by the Turborepo core team. This template is great for issue reproductions and exploring building task graphs without frameworks.
-
-## Using this example
-
-Run the following command:
+1. Install dependencies from the repo root:
 
 ```sh
-npx create-turbo@latest -e with-shell-commands
+npm install
 ```
 
-### For bug reproductions
+2. Create the shared Docker network once:
 
-Giving the Turborepo core team a minimal reproduction is the best way to create a tight feedback loop for a bug you'd like to report.
+```sh
+docker network create shira-network
+```
 
-Because most monorepos will rely on more tooling than Turborepo (frameworks, linters, formatters, etc.), it's often useful for us to have a reproduction that strips away all of this other tooling so we can focus _only_ on Turborepo's role in your repo. This example does exactly that, giving you a good starting point for creating a reproduction.
+3. Start MySQL and Redis for the API:
 
-- Feel free to rename/delete packages for your reproduction so that you can be confident it most closely matches your use case.
-- If you need to use a different package manager to produce your bug, run `npx @turbo/workspaces convert` to switch package managers.
-- It's possible that your bug really **does** have to do with the interaction of Turborepo and other tooling within your repository. If you find that your bug does not reproduce in this minimal example and you're confident Turborepo is still at fault, feel free to bring that other tooling into your reproduction.
+```sh
+docker compose -f apps/api/docker-compose.required.yml up -d
+```
 
-## What's inside?
+4. Start the workspace from the repo root:
 
-This Turborepo includes the following packages:
+```sh
+npm run dev
+```
 
-### Apps and Packages
+Don't forget to build from root if you made changes in the shira-ui package:
 
-- `app-a`: A final package that depends on all other packages in the graph and has no dependents. This could resemble an application in your monorepo that consumes everything in your monorepo through its topological tree.
-- `app-b`: Another final package with many dependencies. No dependents, lots of dependencies.
-- `pkg-a`: A package that has all scripts in the root `package.json`.
-- `pkg-b`: A package with _almost_ all scripts in the root `package.json`.
-- `tooling-config`: A package to simulate a common configuration used for all of your repository. This could resemble a configuration for tools like TypeScript or ESLint that are installed into all of your packages.
+```sh
+npm run build
+```
 
-### Some scripts to try
+5. You can also run Storybook from `packages/shira-ui`:
 
-If you haven't yet, [install global `turbo`](https://turbo.build/repo/docs/installing#install-globally) to run tasks.
+```sh
+cd packages/shira-ui
+npm run storybook
+```
 
-- `turbo build lint typecheck`: Runs all tasks in the default graph.
-- `turbo build`: A basic command to build `app-a` and `app-b` in parallel.
-- `turbo build --filter=app-a`: Building only `app-a` and its dependencies.
-- `turbo lint`: A basic command for running lints in all packages in parallel.
+This starts:
+
+- API on `http://localhost:3000`
+- Public app on `http://localhost:3001`
+- Spaces app on `http://localhost:3002`
+
+Run API migrations from `apps/api` after the backend is up:
+
+```sh
+cd apps/api
+npm run typeorm -- migration:run -d ./src/utils/datasources/mysql.datasource.ts
+```
+
+## App Docs
+
+- [API](apps/api/README.md)
+- [Public](apps/public/README.md)
+- [Spaces](apps/spaces/README.md)

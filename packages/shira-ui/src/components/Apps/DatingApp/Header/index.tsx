@@ -1,5 +1,6 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import BackArrow from './Icons/BackArrow'
 import MoreOptions from './Icons/MoreOptions'
 import Stranger from './Icons/Stranger'
@@ -13,6 +14,8 @@ interface Props {
 }
 
 export const Header: FunctionComponent<Props> = ({ phone }) => {
+  const { t } = useTranslation('shira-ui')
+
   return (
     <Wrapper>
       <FlexWrapper>
@@ -26,7 +29,7 @@ export const Header: FunctionComponent<Props> = ({ phone }) => {
               <OnlineMark></OnlineMark>
               <span data-explanation={phone.explanationPosition} className='userInfo'>{phone.textContent}</span>
             </UserName>
-            <Location>832 feet away</Location>
+            <Location>{t('dating_app.location')}</Location>
           </UserInfo>
         </Profile>
       </FlexWrapper>

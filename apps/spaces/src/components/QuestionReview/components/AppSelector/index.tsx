@@ -1,8 +1,6 @@
 import { DatingApp, FBMessenger, Gmail, Outlook, SMS, WhatsApp } from "@horizontal-org/shira-ui";
 import { FunctionComponent } from "react";
 import { Explanation } from "../../../../store/slices/explanation";
-// TODO repeated code, check how to fix  
-import './styles.css'
 
 interface Props {
   appName: string;

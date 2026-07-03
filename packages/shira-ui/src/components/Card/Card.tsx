@@ -1,181 +1,215 @@
-import { FunctionComponent, useRef, useState } from 'react';
+import { FunctionComponent, ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { Body4, Body3Bold } from '../Typography';
+import { Body1SemiBold, Body4 } from '../Typography';
 import { FiMoreVertical } from 'react-icons/fi';
-import { FloatingMenu } from '../FloatingMenu';
-import Toggle from '../Toggle/Toggle';
-import { MdLockOutline } from 'react-icons/md';
-import { TbWorld } from 'react-icons/tb';
-import { defaultTheme } from '../../theme';
+import { BaseFloatingMenu } from '../FloatingMenu';
 import { LoadingIcon } from '../LoadingIcon';
+
+export interface CardMenuItem {
+  text: string;
+  icon?: ReactElement;
+  size?: number;
+  onClick: () => void;
+}
 
 export interface CardProps {
   id?: string;
-  title: string;
-  lastModified: string;
-  isPublished: boolean;
-  disablePublishToggle?: boolean;
-  disabledTooltipLabel?: string;
-  onTogglePublished: () => void;
-  onCopyUrl?: () => void;
-  onEdit: () => void;
-  onDuplicate: () => void;
-  onDelete: () => void;
-  onCardClick: () => void;
-  publishedText: string;
-  unpublishedText?: string;
-  isPublic?: boolean;
-  visibilityText?: string;
+  title: ReactNode;
+  headerContent?: ReactNode;
+  bodyContent?: ReactNode;
+  footerContent?: ReactNode;
+  hoverAction?: ReactNode;
+  menuItems?: CardMenuItem[];
+  onClick?: () => void;
   showLoading?: boolean;
   loadingLabel?: string;
-  canDuplicate?: boolean;
+  minHeight?: string;
 }
 
 export const Card: FunctionComponent<CardProps> = ({
   id,
   title,
-  lastModified,
-  isPublished,
-  disablePublishToggle = false,
-  disabledTooltipLabel,
-  onTogglePublished,
-  onEdit,
-  onDuplicate,
-  onDelete,
-  onCopyUrl,
-  onCardClick,
-  publishedText,
-  unpublishedText,
-  isPublic,
-  visibilityText,
-  loadingLabel,
+  headerContent,
+  bodyContent,
+  footerContent,
+  hoverAction,
+  menuItems = [],
+  onClick,
   showLoading = false,
-  canDuplicate = true
+  loadingLabel,
+  minHeight = '172px',
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showPublishTooltip, setShowPublishTooltip] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
-  const toggleLabel = isPublished ? publishedText : unpublishedText ?? publishedText;
+  const isClickable = !!onClick && !showLoading;
+
+  useEffect(() => {
+    if (showLoading) {
+      setIsMenuOpen(false);
+    }
+  }, [showLoading]);
 
   return (
-    <CardWrapper id={id} onClick={() => {
-      onCardClick()
-    }}>
+    <CardWrapper
+      id={id}
+      role={isClickable ? 'button' : undefined}
+      tabIndex={isClickable ? 0 : undefined}
+      onClick={showLoading ? undefined : onClick}
+      onKeyDown={(event) => {
+        if (!isClickable) {
+          return;
+        }
+
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          onClick?.();
+        }
+      }}
+      aria-busy={showLoading || undefined}
+      aria-disabled={showLoading || undefined}
+      $isClickable={isClickable}
+      $isLoading={showLoading}
+      $minHeight={minHeight}
+    >
       {showLoading && (
-        <ActionLoadingOverlay role="status" aria-live="polite">
+        <ActionLoadingOverlay
+          onClick={(event) => {
+            event.stopPropagation();
+          }}
+        >
           <ActionLoadingContent>
             <LoadingIcon size={34} />
-            <ActionLoadingText>{loadingLabel}</ActionLoadingText>
+            {loadingLabel && <ActionLoadingText>{loadingLabel}</ActionLoadingText>}
           </ActionLoadingContent>
         </ActionLoadingOverlay>
       )}
+
       <TopSection>
-        <HeaderRow>
-          {visibilityText ? (
-            <VisibilityTag>
-              {isPublic ? (
-                <TbWorld size={16} color={defaultTheme.colors.dark.darkGrey} />
-              ) : (
-                <MdLockOutline size={16} color={defaultTheme.colors.dark.darkGrey} />
-              )}
-              <VisibilityBody>{visibilityText}</VisibilityBody>
-            </VisibilityTag>
-          ) : (
-            <span />
-          )}
+        {(headerContent || hoverAction || menuItems.length > 0) && (
+          <HeaderSection>
+            <HeaderRow>
+              <HeaderContent>{headerContent}</HeaderContent>
+            </HeaderRow>
 
-          <MenuButton
-            ref={menuButtonRef}
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsMenuOpen(!isMenuOpen);
-            }}
-          >
-            <FiMoreVertical size={20} />
-          </MenuButton>
+            {hoverAction && <HoverActionContainer>{hoverAction}</HoverActionContainer>}
 
-          <FloatingMenu
-            isOpen={isMenuOpen}
-            onClose={() => setIsMenuOpen(false)}
-            onEdit={(e) => {
-              e.stopPropagation();
-              onEdit();
-            }}
-            onDuplicate={canDuplicate ? (e) => {
-              e.stopPropagation();
-              onDuplicate();
-            } : undefined}
-            onCopyUrl={(e) => {
-              e.stopPropagation();
-              onCopyUrl && onCopyUrl();
-            }}
-            onDelete={(e) => {
-              e.stopPropagation();
-              onDelete();
-            }}
-            isPublic={isPublic}
-            anchorEl={menuButtonRef.current}
-          />
-        </HeaderRow>
+            {menuItems.length > 0 && (
+              <>
+                <MenuButton
+                  ref={menuButtonRef}
+                  type="button"
+                  disabled={showLoading}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setIsMenuOpen((prev) => !prev);
+                  }}
+                >
+                  <FiMoreVertical size={20} />
+                </MenuButton>
 
-        <TitleText>{title}</TitleText>
+                <BaseFloatingMenu
+                  isOpen={isMenuOpen}
+                  onClose={() => setIsMenuOpen(false)}
+                  anchorEl={menuButtonRef.current}
+                  elements={menuItems.map((item) => ({
+                    text: item.text,
+                    icon: item.icon,
+                    size: item.size,
+                    onClick: (event) => {
+                      event.stopPropagation();
+                      setIsMenuOpen(false);
+                      item.onClick();
+                    },
+                  }))}
+                />
+              </>
+            )}
+          </HeaderSection>
+        )}
+
+        <CardBody>
+          <CardTitle>{title}</CardTitle>
+          {bodyContent}
+        </CardBody>
       </TopSection>
 
-      <BottomContainer>
-        <ModifiedText>{lastModified}</ModifiedText>
-        <BottomSection>
-          <ToggleLabel>{toggleLabel}</ToggleLabel>
-          <PublishToggleWrapper
-            $showHelpCursor={disablePublishToggle}
-            onMouseEnter={() => {
-              if (disablePublishToggle) {
-                setShowPublishTooltip(true);
-              }
-            }}
-            onMouseLeave={() => { setShowPublishTooltip(false); }}
-            onFocus={() => {
-              if (disablePublishToggle) {
-                setShowPublishTooltip(true);
-              }
-            }}
-            onBlur={() => { setShowPublishTooltip(false); }}
-            onClick={(e) => { e.stopPropagation(); }}
-            tabIndex={disablePublishToggle ? 0 : -1}
-          >
-            <Toggle
-              isEnabled={isPublished}
-              onToggle={() => {
-                if (disablePublishToggle) { return; }
-                onTogglePublished();
-              }}
-              disabled={disablePublishToggle}
-            />
-            {disablePublishToggle && showPublishTooltip && disabledTooltipLabel && (
-              <PublishToggleTooltip role="tooltip">
-                <Body4>{disabledTooltipLabel}</Body4>
-              </PublishToggleTooltip>
-            )}
-          </PublishToggleWrapper>
-        </BottomSection>
-      </BottomContainer>
+      {footerContent}
     </CardWrapper>
   );
 };
 
-const CardWrapper = styled.div`
+export const CardChip = styled.span`
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px;
+  border-radius: 2px;
+  background: ${props => props.theme.colors.light.paleGrey};
+  color: ${props => props.theme.colors.dark.darkGrey};
+  line-height: 1;
+`;
+
+export const CardFooter = styled.div`
+  background: ${props => props.theme.colors.light.paleGreen};
+  padding: 7px 20px;
+`;
+
+export const CardFooterMeta = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  @media (max-width: ${props => props.theme.breakpoints.xs}) {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+`;
+
+export const CardFooterItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+export const CardFooterText = styled(Body4)`
+  color: ${props => props.theme.colors.dark.darkGrey};
+  margin: 0;
+`;
+
+const HoverActionContainer = styled.div`
+  position: absolute;
+  top: 0;
+  right: 32px;
+  z-index: 2;
+`;
+
+const CardWrapper = styled.div<{ $isClickable: boolean; $isLoading: boolean; $minHeight: string }>`
   position: relative;
-  background: white;
-  border: .2px solid ${props => props.theme.colors.dark.mediumGrey};
-  border-radius: 12px;
+  background: ${props => props.theme.colors.light.white};
+  border: 1px solid ${props => props.theme.colors.dark.lightGrey};
+  border-radius: 24px;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
-  max-width: 300px;
-  height: 180px;
-  cursor: pointer;
-  
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    max-width: 100%;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  min-height: ${props => props.$minHeight};
+  cursor: ${props => props.$isLoading ? 'wait' : props.$isClickable ? 'pointer' : 'default'};
+
+  @media (hover: hover) and (pointer: fine) {
+    ${HoverActionContainer} {
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+    }
+
+    &:hover ${HoverActionContainer},
+    &:focus-within ${HoverActionContainer} {
+      opacity: 1;
+      pointer-events: auto;
+      visibility: visible;
+    }
   }
 `;
 
@@ -186,8 +220,7 @@ const ActionLoadingOverlay = styled.div`
   align-items: center;
   justify-content: center;
   background: rgba(255, 255, 255, 0.9);
-  border-radius: 12px;
-  z-index: 1;
+  z-index: 3;
 `;
 
 const ActionLoadingContent = styled.div`
@@ -203,103 +236,72 @@ const ActionLoadingText = styled(Body4)`
 
 const TopSection = styled.div`
   display: flex;
+  flex: 1;
   flex-direction: column;
-  padding: 16px;
-  gap: 2px;
-  max-height: 90px;
-  overflow: hidden;
+  gap: 10px;
+  padding: 18px;
+`;
+
+const HeaderSection = styled.div`
+  position: relative;
 `;
 
 const HeaderRow = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
+  align-items: flex-start;
+  padding-right: 24px;
 `;
 
-const TitleText = styled(Body3Bold)`
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  word-break: break-word;
-  line-height: 1.2;
+const HeaderContent = styled.div`
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  min-width: 0;
 `;
 
 const MenuButton = styled.button`
+  position: absolute;
+  top: 0;
+  right: 0;
   background: none;
   border: none;
+  border-radius: 8px;
   padding: 4px;
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
   color: ${props => props.theme.colors.dark.darkGrey};
-  
-  &:hover {
+
+  &:hover,
+  &:focus-visible {
     color: ${props => props.theme.colors.dark.black};
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.6;
   }
 `;
 
-const ModifiedText = styled(Body4)`
-  color: ${props => props.theme.colors.dark.darkGrey};
-  padding: 8px 16px;
-`;
-
-const BottomContainer = styled.div`
-  margin-top: auto;
-`;
-
-const BottomSection = styled.div`
+const CardBody = styled.div`
   display: flex;
+  flex: 1;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
-  padding: 8px 16px;
-  background-color: ${props => props.theme.colors.light.paleGreen};
-  border-bottom-right-radius: 12px;
-  border-bottom-left-radius: 12px;
+  gap: 16px;
+  min-height: 116px;
 `;
 
-const ToggleLabel = styled(Body4)`
-  color: ${props => props.theme.colors.dark.darkGrey};
-`;
+const CardTitle = styled(Body1SemiBold)`
+  color: ${props => props.theme.colors.dark.black};
+  line-height: 1.35;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 
-const PublishToggleWrapper = styled.div<{ $showHelpCursor: boolean }>`
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-
-  ${props => props.$showHelpCursor && `
-    cursor: help;
-
-    button:disabled {
-      cursor: help !important;
-    }
-  `}
-`;
-
-const PublishToggleTooltip = styled.div`
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  margin-top: 6px;
-  padding: 4px 8px;
-  background-color: ${(props) => props.theme.colors.dark.black};
-  color: ${(props) => props.theme.colors.light.white};
-  border-radius: 10px;
-  width: max-content;
-  max-width: 520px;
-  white-space: nowrap;
-  z-index: 1000;
-`;
-
-const VisibilityTag = styled.span`
-  display: flex;
-  align-items: center;
-  gap: 4px;
-`;
-
-const VisibilityBody = styled(Body4)`
-  color: ${props => props.theme.colors.dark.darkGrey};
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    font-size: 20px;
+  }
 `;

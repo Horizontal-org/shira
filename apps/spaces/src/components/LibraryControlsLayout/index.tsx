@@ -50,6 +50,7 @@ export const LibraryToolbarSearchInput = styled(LibrarySearchInput)`
 `;
 
 export const LibraryToolbarSortSelect = styled(SortSelect)`
+  width: 100%;
   min-width: 280px;
 
   @media (max-width: ${(props) => props.theme.breakpoints.md}) {
@@ -65,28 +66,36 @@ const ToolbarContent = styled("div")`
 `;
 
 const ToolbarControlsRow = styled("div")`
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
   gap: 12px;
 
   @media (max-width: ${(props) => props.theme.breakpoints.md}) {
-    flex-direction: column;
-    align-items: stretch;
+    grid-template-columns: 1fr;
   }
 `;
 
 const ToolbarActions = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(280px, max-content) 144px;
   align-items: center;
-  justify-content: flex-end;
   gap: 12px;
-  margin-left: auto;
-  flex-shrink: 0;
+  justify-content: end;
+
+  > :first-child {
+    width: 100%;
+  }
+
+  > :last-child {
+    width: auto;
+    justify-self: start;
+  }
 
   @media (max-width: ${(props) => props.theme.breakpoints.md}) {
+    display: flex;
     width: 100%;
-    margin-left: 0;
+    justify-content: flex-end;
   }
 `;
 

@@ -8,7 +8,6 @@ import { MessagingApps } from '../../UI/AppTypes/MessagingApps'
 //TODO FIX DOUBLE IMPORT, PROBLEM WITH SHIRA-UI
 import '../../../fonts/GoogleSans/style.css'
 import '../../../fonts/Segoe/style.css'
-import './styles.css'
 
 interface Props {
   app: App

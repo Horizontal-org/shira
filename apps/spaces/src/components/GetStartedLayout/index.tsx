@@ -50,6 +50,18 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
 
   const emailIsValid = isEmailValid(email);
 
+  const getEmailValidationMessage = (value: string) => {
+    if (!hasRequiredValue(value)) {
+      return t("get_started.validation.email_required");
+    }
+
+    if (!isEmailValid(value)) {
+      return t("get_started.validation.invalid_email");
+    }
+
+    return "";
+  };
+
   const validateForm = () => {
     let hasError = false;
     if (!hasRequiredValue(name)) {
@@ -124,6 +136,25 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
     }
   };
 
+  const handleNameChange = (value: string) => {
+    handleName(value);
+
+    if (nameError) {
+      handleNameError("");
+    }
+  };
+
+  const handleEmailChange = (value: string) => {
+    handleEmail(value);
+
+    if (!hasRequiredValue(value)) {
+      handleEmailError("");
+      return;
+    }
+
+    handleEmailError(getEmailValidationMessage(value));
+  };
+
   return (
     <Container>
       <Navbar
@@ -165,21 +196,21 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
                   required
                   label={t('get_started.organization_name_required')}
                   value={name}
-                  onChange={(e) => handleName(e.target.value)}
+                  onChange={(e) => handleNameChange(e.target.value)}
                   disabled={loading}
                   showCharacterCount={true}
                   maxLength={SPACE_NAME_MAX_LENGTH}
                   characterLimitErrorText={t('error_messages.character_limit_error')}
+                  errorText={nameError}
                 />
-                {nameError && <InlineErrorMessage>{nameError}</InlineErrorMessage>}
                 <TextInput
                   required
                   disabled={loading}
                   label={t('get_started.email_required')}
                   value={email}
-                  onChange={(e) => handleEmail(e.target.value)}
+                  onChange={(e) => handleEmailChange(e.target.value)}
+                  errorText={emailError}
                 />
-                {emailError && <InlineErrorMessage>{emailError}</InlineErrorMessage>}
                 <RadioGroup
                   name="organization-type"
                   legend={t('get_started.org_type_label')}
@@ -313,11 +344,4 @@ const ButtonContainer = styled.div`
       align-items: center;
     }
   }
-`;
-
-const InlineErrorMessage = styled.div`
-  color: #d32f2f;
-  font-size: 14px;
-  margin-top: -12px;
-  padding-left: 4px;
 `;

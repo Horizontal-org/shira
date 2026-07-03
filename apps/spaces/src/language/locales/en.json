@@ -56,8 +56,7 @@
         "subtitle": "Manage your quizzes here, including creating, publishing, unpublishing and deleting quizzes.",
         "create_quiz_button": "Create new quiz",
         "use_a_quiz_template_button": "Use a quiz template",
-        "create_limit_reached": "Upgrade your plan to create more quizzes.",
-        "use_template_button": "Use a quiz template"
+        "create_limit_reached": "Upgrade your plan to create more quizzes."
     },
     "learners": {
         "title": "Learners",
@@ -336,6 +335,7 @@
             "creator": "Creator",
             "created_on": "Created on",
             "preview_full_quiz": "Preview full quiz",
+            "use_template": "Use template",
             "back_to_quiz_template": "Back to quiz template",
             "no_questions": "No questions found for this quiz template.",
             "columns": {
