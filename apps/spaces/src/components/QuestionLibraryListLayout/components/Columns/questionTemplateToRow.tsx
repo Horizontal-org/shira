@@ -108,7 +108,11 @@ export const questionTemplateToRow = (
       app: defaultApp,
       language: defaultLang,
       content: q.content,
-      explanations: defaultLang?.explanations ?? [],
+      explanations: q.explanations.map((explanation) => ({
+        index: Number(explanation.index),
+        position: Number(explanation.position),
+        text: explanation.text,
+      })),
       apps: appOptions,
       languages: langOptions,
     } as RowType;

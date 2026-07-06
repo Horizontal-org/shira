@@ -37,6 +37,26 @@ export const StyledTable = styled.table`
   border-right: 1px solid ${(props) => props.theme.colors.light.paleGreen};
 `
 
+export const BlankLoadingHead = styled.div<{ $size: TableSize }>`
+  width: 100%;
+  height: ${(props) => (props.$size === 'full' ? '50px' : '40px')};
+  background: ${(props) => props.theme.colors.light.paleGreen};
+  border-left: 1px solid ${(props) => props.theme.colors.light.paleGreen};
+  border-right: 1px solid ${(props) => props.theme.colors.light.paleGreen};
+`
+
+export const BlankLoadingBody = styled.div<{ $size: TableSize }>`
+  width: 100%;
+  min-height: ${(props) => (props.$size === 'full' ? '380px' : '220px')};
+  background: ${(props) => props.theme.colors.light.white};
+  border-left: 1px solid ${(props) => props.theme.colors.light.paleGreen};
+  border-right: 1px solid ${(props) => props.theme.colors.light.paleGreen};
+
+  @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
+    min-height: ${(props) => (props.$size === 'full' ? '280px' : '180px')};
+  }
+`
+
 export const THead = styled.thead`
   & th {
     background: ${(props) => props.theme.colors.light.paleGreen};
