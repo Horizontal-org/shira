@@ -1,5 +1,6 @@
 import { FunctionComponent, useState } from "react";
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import ProfileIcon from './assets/profile.png'
 import { IoMdArrowDropdown, IoMdLock } from "react-icons/io";
 import { autoUpdate, FloatingFocusManager, useClick, useDismiss, useFloating, useInteractions, useRole } from "@floating-ui/react";
@@ -24,6 +25,7 @@ export const Profile: FunctionComponent<Props> = ({
   receiverEmail,
   subject
 }) => {
+  const { t } = useTranslation('shira-ui')
 
   const [isOpen, setIsOpen] = useState(false);
   const { refs, floatingStyles, context } = useFloating({
@@ -62,7 +64,7 @@ export const Profile: FunctionComponent<Props> = ({
           </SenderEmail>
         </Sender>
         <Receiver>
-          <span>to me</span>
+          <span>{t('gmail.to_me')}</span>
           <ArrowWrapper
             ref={refs.setReference}
             {...getReferenceProps()}
@@ -77,7 +79,7 @@ export const Profile: FunctionComponent<Props> = ({
                 {...getFloatingProps()}
               >
                 <div>
-                  <BoxLeftInfo>from:</BoxLeftInfo>
+                  <BoxLeftInfo>{t('gmail.from')}</BoxLeftInfo>
                   <BoxRightInfo>
                     <strong>{senderName.textContent || ''}</strong>
                     <span style={{ color: '#5e5e5e' }}>{`<${senderEmail.textContent || ''}>`}</span>
@@ -85,7 +87,7 @@ export const Profile: FunctionComponent<Props> = ({
                 </div>
                 {receiverEmail && receiverName && (
                   <div>
-                    <BoxLeftInfo>to:</BoxLeftInfo>
+                    <BoxLeftInfo>{t('gmail.to')}</BoxLeftInfo>
                     <BoxRightInfo>
                       <strong>{receiverName}</strong>
                       <span style={{ color: '#5e5e5e' }}>{`<${receiverEmail}>`}</span>
@@ -94,15 +96,15 @@ export const Profile: FunctionComponent<Props> = ({
                 )}
                 {subject && (
                   <div>
-                    <BoxLeftInfo>subject:</BoxLeftInfo>
+                    <BoxLeftInfo>{t('gmail.subject')}</BoxLeftInfo>
                     <BoxRightInfo>{subject}</BoxRightInfo>
                   </div>
                 )}
                 <div>
-                  <BoxLeftInfo>security:</BoxLeftInfo>
+                  <BoxLeftInfo>{t('gmail.security')}</BoxLeftInfo>
                   <BoxRightInfo>
                     <IoMdLock size={14} color="#666" />
-                    Standard encryption (TLS){" "}
+                    {t('gmail.encryption')}{" "}
                     <LearnMoreText
                       href="https://support.google.com/mail?hl=en-GB&p=tls"
                       target="_blank"
@@ -114,7 +116,7 @@ export const Profile: FunctionComponent<Props> = ({
                         event.preventDefault()
                       }}
                     >
-                      Learn more
+                      {t('gmail.learn_more')}
                     </LearnMoreText>
                   </BoxRightInfo>
                 </div>

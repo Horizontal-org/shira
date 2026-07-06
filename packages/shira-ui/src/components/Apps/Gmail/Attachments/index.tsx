@@ -1,5 +1,6 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import { Attachment } from '../Attachment';
 import { AttachmentElement } from '..';
 
@@ -10,13 +11,14 @@ interface Props {
 export const Attachments: FunctionComponent<Props> = ({
   data,
 }) => {
+  const { t } = useTranslation('shira-ui')
 
   return (
     <Wrapper>
       <div>
-        <Title>{`${data.length} attachment${data.length > 1 ? 's' : ''}`}</Title>
+        <Title>{t('gmail.attachments', { count: data.length })}</Title>
         <Point>•</Point>
-        <Subtitle>Scanned by Google</Subtitle>
+        <Subtitle>{t('gmail.scanned_by_google')}</Subtitle>
       </div>
       <AttachmentWrapper>
         { data.sort((a, b) => parseInt(a.position) - parseInt(b.position)).map((d) => (

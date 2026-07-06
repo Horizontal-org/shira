@@ -1,5 +1,6 @@
-import { FunctionComponent } from 'react' 
+import { FunctionComponent } from 'react'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import Categories from './components/Categories'
 
 import BluePencilImage from './assets/bluepencil.png'
@@ -7,13 +8,14 @@ import BluePencilImage from './assets/bluepencil.png'
 interface Props {}
 
 const Sidebar: FunctionComponent<Props> = () => {
+  const { t } = useTranslation('shira-ui')
 
   return (
     <Wrapper>
       <MailButtonWrapper>
         <NewMailButton>
           <BluePencil />
-          <span>Compose</span>
+          <span>{t('gmail.compose')}</span>
         </NewMailButton>
       </MailButtonWrapper>
 

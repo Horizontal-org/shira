@@ -6,7 +6,9 @@
         "email_placeholder": "电子邮箱",
         "password_placeholder": "密码",
         "reset_password": "忘记密码？",
-        "login_header_button": "登录"
+        "login_header_button": "登录",
+        "loading_button": "",
+        "error_message": ""
     },
     "beta": {
         "message": "Shira 仍在开发阶段，您可能会遇到一些问题。",
@@ -26,7 +28,9 @@
         "title": "测验",
         "subtitle": "在此管理您的测验，包括创建、发布、取消发布和删除测验。",
         "create_quiz_button": "创建新测验",
-        "create_limit_reached": "升级方案创建更多测验。"
+        "create_limit_reached": "升级方案创建更多测验。",
+        "use_a_quiz_template_button": "",
+        "use_template_button": ""
     },
     "quizzes": {
         "message": "",
@@ -75,8 +79,10 @@
         "action_tooltips": {
             "edit": "编辑",
             "duplicate": "复制",
-            "delete": "删除"
-        }
+            "delete": "删除",
+            "more_actions": ""
+        },
+        "use_library_question_button": ""
     },
     "questions": {
         "message": "",
@@ -173,7 +179,8 @@
                 "aria_label": "预览题目"
             }
         },
-        "header_required_tooltip": "必填字段不可留空"
+        "header_required_tooltip": "必填字段不可留空",
+        "header_character_limit_tooltip": ""
     },
     "question_library": {
         "message": "",
@@ -209,8 +216,30 @@
                 "add_aria_label": "添加",
                 "preview_aria_label": "预览",
                 "disabled_tooltip": "请选择语言和应用，以使用此题目。"
-            }
-        }
+            },
+            "created_on": "",
+            "creator": ""
+        },
+        "filters_panel": {
+            "selected_count": "",
+            "tag": "",
+            "apps": "",
+            "type": "",
+            "creator": "",
+            "language": "",
+            "clear_all": ""
+        },
+        "sort_options": {
+            "question_name_desc": "",
+            "question_name_asc": "",
+            "newest_to_oldest": "",
+            "oldest_to_newest": ""
+        },
+        "search_results_plural": "",
+        "sort_by": "",
+        "search_placeholder": "",
+        "search_results": "",
+        "filters": ""
     },
     "results_tab": {
         "message": "",
@@ -481,7 +510,9 @@
                     "detailed_analytics": "详细分析",
                     "analysis_tools": "分析与合规工具",
                     "tailor_made_training": "量身定制的用户培训",
-                    "priority_support": "优先支持"
+                    "priority_support": "优先支持",
+                    "phishing_readiness_assessment": "",
+                    "preparedness_report": ""
                 },
                 "values": {
                     "cloud": "云端",
@@ -491,7 +522,8 @@
                     "up_to_three_custom_quizzes": "最多 3 个定制测验",
                     "available_upon_request": "可根据需求提供",
                     "three_business_day_response_time": "3 个工作日内响应",
-                    "one_business_day_response_time": "最长 1 个工作日内响应"
+                    "one_business_day_response_time": "最长 1 个工作日内响应",
+                    "unlimited_coming_soon": ""
                 },
                 "tooltips": {
                     "hosting": "由 Shira 团队托管维护您的 Shira 云或在您的本地服务器上部署",
@@ -500,14 +532,16 @@
                     "customizable_questions": "根据学员需求定制测验题目",
                     "question_library": "访问数十个现成的题目模板",
                     "custom_quizzes": "在空间中可创建的测验数量",
-                    "apps_available": "使用与学员实际所用应用完全一致的界面来创建测验题目",
+                    "apps_available": "创建测验题目，界面与学员实际所用的应用完全一致",
                     "public_quizzes": "轻松分享测验 URL，任何人都可参加",
                     "private_quizzes": "只有空间的注册学员才能参加测验",
                     "basic_analytics": "追踪测验层面的结果",
                     "detailed_analytics": "追踪学员和题目层面的结果",
                     "analysis_tools": "导出团队结果为 CSV 或 PDF 报告",
                     "tailor_made_training": "能力提升工作坊，由 Shira 团队为您的组织量身打造",
-                    "priority_support": "快速响应，确保流畅的体验"
+                    "priority_support": "快速响应，确保流畅的体验",
+                    "preparedness_report": "",
+                    "phishing_readiness_assessment": ""
                 },
                 "title": "包含什么功能？",
                 "admin_management": "管理员管理",
@@ -544,7 +578,7 @@
         "quiz_limit": {
             "title": "准备升级？",
             "message_1": "入门版方案最多可创建 3 个测验。",
-            "message_2": "马上免费试用 Shira 专业版 14 天，创建更多定制测验。"
+            "message_2": "马上开始 Shira 专业版 14 天免费试用，创建更多定制测验。"
         },
         "first_login": {
             "title": "欢迎使用空间",
@@ -558,6 +592,11 @@
                 "pro": "专业版",
                 "enterprise": "企业版"
             }
+        },
+        "add_quiz_from_template": {
+            "input_label": "",
+            "title": "",
+            "subtitle": ""
         }
     },
     "error_messages": {
@@ -619,7 +658,8 @@
                 "subtitle": "请上传不超过 10 MB 的 CSV 文件后重试。"
             }
         },
-        "invalid_email_update": "此电子邮箱地址已与某个 Shira 空间关联。"
+        "invalid_email_update": "此电子邮箱地址已与某个 Shira 空间关联。",
+        "character_limit_error": ""
     },
     "success_messages": {
         "message": "",
@@ -852,6 +892,11 @@
         },
         "errors": {
             "create_space_failed": "创建空间时出现错误，请重试。"
+        },
+        "success": {
+            "title": "",
+            "description": "",
+            "button": ""
         }
     },
     "settings": {
@@ -867,11 +912,16 @@
                 "title": "密码",
                 "last_updated": "最后更新：{{date}}",
                 "action": "更改密码"
+            },
+            "language": {
+                "description": "",
+                "title": ""
             }
         },
         "tabs": {
             "account": "账号",
-            "subscription": "订阅"
+            "subscription": "订阅",
+            "general": ""
         },
         "subscription": {
             "current_plan": "当前方案：{{plan_name}}",
@@ -887,5 +937,79 @@
     "banner": {
         "label": "注意",
         "message": "Shira 空间尚不支持较小屏幕。为了获得更好的体验，请使用宽度超过 800 像素的屏幕访问空间。"
+    },
+    "quiz_library": {
+        "filters_panel": {
+            "creator": "",
+            "all_creators": "",
+            "tag": "",
+            "selected_count": "",
+            "clear_all": "",
+            "all_tags": "",
+            "all_languages": "",
+            "language": ""
+        },
+        "preview": {
+            "created_on": "",
+            "columns": {
+                "app": "",
+                "actions": "",
+                "preview": "",
+                "type": "",
+                "language": "",
+                "question_name": ""
+            },
+            "preview_full_quiz": "",
+            "no_questions": "",
+            "tags": "",
+            "back_to_quiz_template": "",
+            "languages": "",
+            "creator": "",
+            "subtitle": ""
+        },
+        "filters": "",
+        "use_template": "",
+        "search_results_plural": "",
+        "empty_search": {
+            "subtitle": "",
+            "title": ""
+        },
+        "report_issue": "",
+        "search_results": "",
+        "header_title": "",
+        "subtitle": "",
+        "sort_options": {
+            "quiz_name_asc": "",
+            "oldest_to_newest": "",
+            "quiz_name_desc": "",
+            "newest_to_oldest": ""
+        },
+        "search_placeholder": "",
+        "title": "",
+        "sort_by": "",
+        "view_template": ""
+    },
+    "library": {
+        "empty_search": {
+            "subtitle": "",
+            "title": ""
+        },
+        "cards": {
+            "questions": {
+                "title": ""
+            },
+            "quizzes": {
+                "title": ""
+            }
+        },
+        "title": "",
+        "subtitle": ""
+    },
+    "sidebar": {
+        "quizzes": "",
+        "settings": "",
+        "learners": "",
+        "support": "",
+        "logout": ""
     }
 }

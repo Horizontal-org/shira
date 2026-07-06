@@ -26,6 +26,22 @@ const meta = {
       control: 'select',
       options: ['text', 'password', 'email'],
       description: 'Type of input (text, password, or email)',
+    },
+    maxLength: {
+      control: 'number',
+      description: 'Maximum number of characters allowed',
+    },
+    showCharacterCount: {
+      control: 'boolean',
+      description: 'Shows the current character count below the input',
+    },
+    errorText: {
+      control: 'text',
+      description: 'Error text displayed below the input',
+    },
+    characterLimitErrorText: {
+      control: 'text',
+      description: 'Error text shown when the value exceeds the character limit',
     }
   }
 } satisfies Meta<typeof TextInput>;
@@ -182,6 +198,30 @@ export const NoLabel: Story = {
   args: {
     placeholder: 'Enter text without label...',
     value: "",
+    onChange: () => { }
+  }
+};
+
+export const WithCharacterCount: Story = {
+  render: InputTemplate,
+  args: {
+    placeholder: 'Question name',
+    label: 'Question name',
+    value: '',
+    maxLength: 80,
+    showCharacterCount: true,
+    characterLimitErrorText: 'Character limit exceeded',
+    onChange: () => { }
+  }
+};
+
+export const WithErrorText: Story = {
+  render: InputTemplate,
+  args: {
+    placeholder: 'Enter email...',
+    label: 'Email',
+    value: 'not-an-email',
+    errorText: 'Please enter a valid email address',
     onChange: () => { }
   }
 };

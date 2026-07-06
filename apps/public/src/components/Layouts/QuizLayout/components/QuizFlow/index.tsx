@@ -11,9 +11,9 @@ import { CustomQuizCompletedScene } from "../../../../../scenes/CustomQuizComple
 import { CustomQuizNavbar } from "../../../../UI/CustomQuizNavbar"
 import { useTranslation } from "react-i18next"
 import { FiChevronRight } from "react-icons/fi"
-import { LanguageSelect } from "../../../../UI/Select"
-import { LANG_OPTIONS } from "../../constants"
+import { LanguageSelect } from '@horizontal-org/shira-ui'
 import { useQuizRun, Answer } from '../../../../../hooks/useQuizRun'
+import { LANG_OPTIONS } from "../../../../../utils/langOptions";
 
 interface Props {
   quiz: any
@@ -43,7 +43,7 @@ export const QuizFlow: FunctionComponent<Props> = ({
     shallow
   )
 
-  const { finish, recordAnswer, start, started } = useQuizRun();
+  const { finish, recordAnswer, start, started } = useQuizRun(quiz.hasResultsEnabled ?? true);
 
   useEffect(() => {
     return () => {
@@ -112,6 +112,7 @@ export const QuizFlow: FunctionComponent<Props> = ({
           quizId={quiz.id}
           questions={quiz.quizQuestions.map((q) => q.question)}
           images={quiz.images}
+          hasResultsEnabled={quiz.hasResultsEnabled ?? true}
           startRun={() => {
             start(quiz.id, learnerQuiz ? learnerQuiz.learnerId : null)
           }}

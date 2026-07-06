@@ -2,212 +2,244 @@ import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import type { RowSelectionState } from "@tanstack/react-table";
 import { useNavigate, useLocation } from "react-router-dom";
 import { shallow } from "zustand/shallow";
-import { styled, Body1, H2, Box, defaultTheme, Table } from "@horizontal-org/shira-ui";
+import {
+  Box,
+  defaultTheme,
+  styled,
+} from "@horizontal-org/shira-ui";
 import { QuestionLibraryFlowManagement } from "../QuestionLibraryFlowManagement";
-import { QuestionLibraryPreviewModal } from "../modals/QuestionLibraryPreviewModal";
-import { LibraryQuestionFeedback, getLibraryQuestions, useLibraryQuestionCRUD } from "../../fetch/question_library";
-import type { ActiveQuestion } from "../../store/types/active_question";
+import { QuestionTemplatePreviewModal } from "../modals/QuestionTemplatePreviewModal";
+import {
+  addQuestionTemplateToQuiz,
+  DEFAULT_PAGE_LIMIT,
+} from "../../fetch/question_templates";
 import { useStore } from "../../store";
-import { libraryToActiveQuestion } from "../../utils/active_question/libraryToActiveQuestion";
 import { QuizSuccessStates } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
 import { getColumns } from "./components/Columns";
 import type { RowType } from "./components/Columns";
-import { libraryQuestionToRow } from "./components/Columns/libraryQuestionToRow";
+import { questionTemplateToRow } from "./components/Columns/questionTemplateToRow";
 import { useTranslation } from "react-i18next";
+import { useQuestionTemplateList } from "./hooks/useQuestionTemplateList";
+import { QuestionTemplateControls } from "./components/QuestionTemplateControls";
+import { QuestionTemplateFilters } from "./components/QuestionTemplateFilters";
+import { QuestionTemplateResults } from "./components/QuestionTemplateResults";
 
-type Props = {
-  rows?: RowType[];
-  onRowsChange?: (next: RowType[]) => void;
-};
-
-export const QuestionLibraryListLayout: FunctionComponent<Props> = ({ rows: rowsProp }) => {
-  const controlled = rowsProp !== undefined;
-
+export const QuestionLibraryListLayout: FunctionComponent = () => {
   const navigate = useNavigate();
   const { state } = useLocation() as { state?: { quizId?: string } };
   const quizId = state?.quizId;
-  const { actionFeedback, duplicate } = useLibraryQuestionCRUD();
+
   const {
+    languages,
     setQuizActionSuccess,
-    setActiveQuestion,
-    clearActiveQuestion
-  } = useStore((state) => ({
-    setQuizActionSuccess: state.setQuizActionSuccess,
-    setActiveQuestion: state.setActiveQuestion,
-    clearActiveQuestion: state.clearActiveQuestion,
-  }), shallow)
+    clearActiveQuestion,
+  } = useStore(
+    (state) => ({
+      languages: state.languages,
+      setQuizActionSuccess: state.setQuizActionSuccess,
+      clearActiveQuestion: state.clearActiveQuestion,
+    }),
+    shallow,
+  );
 
   const { t } = useTranslation();
 
-  const [preview, setPreview] = useState<{ active: ActiveQuestion; original: RowType }>(null);
-  const [rows, setRows] = useState<RowType[]>(rowsProp ?? []);
-  const [loading, setLoading] = useState(false);
+  const [preview, setPreview] = useState<RowType | null>(null);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+  const [selectedAppIdsByQuestionId, setSelectedAppIdsByQuestionId] = useState<Record<number, number>>({});
+  const {
+    appOptions,
+    apps,
+    areFiltersOpen,
+    clearAllFilters,
+    debouncedSearchValue,
+    hasActiveFilters,
+    hasActiveSearch,
+    languageOptions,
+    loading,
+    pageIndex,
+    questionTemplates,
+    searchValue,
+    selectedAppType,
+    selectedLanguages,
+    selectedTags,
+    selectedType,
+    setSearchValue,
+    setSelectedAppType,
+    setSelectedLanguages,
+    setSelectedTags,
+    setSelectedType,
+    setSortOption,
+    showEmptyState,
+    sortOption,
+    tagOptions,
+    toggleFilters,
+    total,
+  } = useQuestionTemplateList();
 
-  useEffect(() => {
-    if (actionFeedback === LibraryQuestionFeedback.Success) {
-      setQuizActionSuccess(QuizSuccessStates.question_added_from_library);
-      navigate(`/quiz/${quizId}`);
-      return;
-    }
-    if (actionFeedback === LibraryQuestionFeedback.Error) {
-      toast.error(t('error_messages.add_question_error'), { duration: 3000 });
-    }
-  }, [actionFeedback, navigate, quizId, setQuizActionSuccess]);
+  const rows = useMemo(() => {
+    const normalized = questionTemplateToRow(questionTemplates, apps, languages);
+    const nextRows = normalized.map((row) => {
+      const selectedAppId = selectedAppIdsByQuestionId[row.id];
 
-  useEffect(() => {
-    if (controlled) {
-      setRows(rowsProp ?? []);
-      return;
-    }
-    let alive = true;
-    (async () => {
-      setLoading(true);
-      try {
-        const data = await getLibraryQuestions();
-        const normalized = libraryQuestionToRow(data);
-        if (alive) setRows(normalized);
-      } catch (e: any) {
-        if (alive) console.error(e);
-      } finally {
-        if (alive) setLoading(false);
-      }
-    })();
-    return () => { alive = false; };
-  }, [controlled, rowsProp]);
+      if (selectedAppId == null) return row;
+
+      const selectedApp = row.apps.find((app) => app.id === selectedAppId);
+
+      if (!selectedApp) return row;
+
+      return {
+        ...row,
+        app: selectedApp,
+      };
+    });
+
+    return nextRows;
+  }, [apps, languages, questionTemplates, selectedAppIdsByQuestionId]);
 
   useEffect(() => {
     return () => {
       clearActiveQuestion();
     };
-  }, []);
+  }, [clearActiveQuestion]);
+
+  useEffect(() => {
+    setSelectedAppIdsByQuestionId({});
+  }, [questionTemplates]);
 
   const handlePreview = (row: RowType) => {
-    const active = libraryToActiveQuestion(row);
-    setActiveQuestion(active);
-    setPreview({ active, original: row });
+    setPreview(row);
   };
 
-  const handleAdd = (q: RowType) => {
-    duplicate(parseInt(quizId), q.id, q.language.id, q.app.id);
-  };
+  const handleAdd = async (q: RowType) => {
+    if (!quizId || q.app.id < 1) {
+      toast.error(t("error_messages.add_question_error"), { duration: 3000 });
+      return;
+    }
 
-  const handleSelectLanguage = (questionId: number, languageId: number) => {
-    setRows((prev) =>
-      prev.map((r) => {
-        if (r.id !== questionId) return r;
-        const picked = r.languages.find((lv) => lv.id === languageId);
-        if (!picked) return r;
-        return {
-          ...r,
-          language: { id: picked.id, name: picked.name },
-          content: picked.content,
-          explanations: picked.explanations,
-          languageSelected: true,
-        };
-      })
-    );
+    try {
+      await addQuestionTemplateToQuiz({
+        quizId: parseInt(quizId),
+        questionName: q.name,
+        content: q.content,
+        isPhishing: q.isPhishing,
+        appId: q.app.id,
+        explanations: q.explanations,
+      });
+
+      setQuizActionSuccess(QuizSuccessStates.question_added_from_library);
+      navigate(`/quiz/${quizId}`);
+    } catch (error) {
+      console.error("Error adding question template to quiz:", error);
+      toast.error(t("error_messages.add_question_error"), { duration: 3000 });
+    }
   };
 
   const handleSelectApp = (questionId: number, appId: number) => {
-    setRows((prev) =>
-      prev.map((r) => {
-        if (r.id !== questionId) return r;
-        const picked = r.apps.find((av) => av.id === appId);
-        if (!picked) return r;
-        return {
-          ...r,
-          app: { id: picked.id, name: picked.name, type: picked.type },
-          appSelected: true,
-        };
-      })
-    );
-  }
+    setSelectedAppIdsByQuestionId((prev) => ({
+      ...prev,
+      [questionId]: appId,
+    }));
+  };
 
-  const columns = useMemo(
-    () =>
-      getColumns({
-        onPreview: handlePreview,
-        onAdd: handleAdd,
-        onSelectLanguage: handleSelectLanguage,
-        onSelectApp: handleSelectApp
-      }, t),
-    []
+  const columns = getColumns(
+    {
+      onPreview: handlePreview,
+      onReportIssue: () => navigate("/support"),
+      onAdd: handleAdd,
+      onSelectApp: handleSelectApp,
+      rowOffset: pageIndex * DEFAULT_PAGE_LIMIT,
+      searchTerm: debouncedSearchValue,
+    },
   );
 
   return (
     <QuestionLibraryFlowManagement>
       <StyledBox>
-        <HeaderRow>
-          <div>
-            <H2 role="heading" aria-level={1}>{t('question_library.title')}</H2>
-            <MiddleBody role="heading" aria-level={2}>
-              {t('question_library.subtitle')}
-            </MiddleBody>
-          </div>
-        </HeaderRow>
+        <PageInner>
+          <QuestionTemplateControls
+            searchValue={searchValue}
+            onSearchChange={setSearchValue}
+            sortOption={sortOption}
+            onSortChange={setSortOption}
+            areFiltersOpen={areFiltersOpen}
+            onToggleFilters={toggleFilters}
+            searchSummary={hasActiveSearch
+              ? t(
+                total === 1
+                  ? "question_library.search_results"
+                  : "question_library.search_results_plural",
+                {
+                  count: total,
+                  searchTerm: debouncedSearchValue,
+                },
+              )
+              : undefined}
+            filters={(
+              <QuestionTemplateFilters
+                languageOptions={languageOptions}
+                selectedLanguages={selectedLanguages}
+                onLanguageChange={setSelectedLanguages}
+                tagOptions={tagOptions}
+                selectedTags={selectedTags}
+                onTagChange={setSelectedTags}
+                appOptions={appOptions}
+                selectedAppType={selectedAppType}
+                onAppTypeChange={setSelectedAppType}
+                selectedType={selectedType}
+                onTypeChange={setSelectedType}
+                hasActiveFilters={hasActiveFilters}
+                onClearAll={clearAllFilters}
+              />
+            )}
+          />
 
-        <TableWrapper>
-          <Table
-            size="full"
-            aria-busy={loading || undefined}
+          <QuestionTemplateResults
+            showEmptyState={showEmptyState}
             loading={loading}
-            loadingMessage={t('loading_messages.loading_library_questions')}
-            emptyMessage={t('success_messages.no_questions_found')}
-            data={rows}
+            rows={rows}
             columns={columns}
             rowSelection={rowSelection}
             setRowSelection={setRowSelection}
-            enableRowSelection={false}
-            enablePagination={false}
-            colGroups={(
-              <colgroup>
-                <col style={{ width: "6%" }} />
-                <col style={{ width: "26%" }} />
-                <col style={{ width: "16%" }} />
-                <col style={{ width: "22%" }} />
-                <col style={{ width: "22%" }} />
-                <col style={{ width: "10%" }} />
-              </colgroup>
-            )}
           />
-        </TableWrapper>
+        </PageInner>
 
         {preview && (
-          <QuestionLibraryPreviewModal
-            question={preview.original}
-            onAdd={() => handleAdd(preview.original)}
-            explanations={preview.original.explanations}
+          <QuestionTemplatePreviewModal
+            question={preview}
+            onAdd={() => handleAdd(preview)}
             onClose={() => setPreview(null)}
           />
         )}
       </StyledBox>
-    </QuestionLibraryFlowManagement >
+    </QuestionLibraryFlowManagement>
   );
 };
 
 const StyledBox = styled(Box)`
   background: ${defaultTheme.colors.light.paleGrey};
-  width: 72%;
+  width: min(${(props) => props.theme.breakpoints.lg}, calc(100% - 32px));
   z-index: 1;
   border: none;
   display: flex;
-`;
+  flex-direction: column;
+  box-shadow: none;
+  padding: 0;
 
-const HeaderRow = styled("div")`
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  color: ${defaultTheme.colors.dark.black};
-`;
+  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
+    width: calc(100% - 32px);
+  }
 
-const TableWrapper = styled("div")`
-  & table td {
-    padding: 14px 16px;
+  @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
+    width: calc(100% - 20px);
   }
 `;
 
-const MiddleBody = styled(Body1)`
-  padding-top: 16px;
+const PageInner = styled.div`
+  padding: 0 8px;
+
+  @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
+    padding: 0;
+  }
 `;

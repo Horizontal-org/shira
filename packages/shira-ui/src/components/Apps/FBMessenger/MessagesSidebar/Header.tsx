@@ -1,13 +1,16 @@
 import { FunctionComponent  } from "react"
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 
 import VideoIcon from '../assets/video.png'
 import NewMessageIcon from '../assets/new-message.png'
 
 const Header: FunctionComponent = () => {
+  const { t } = useTranslation('shira-ui')
+
   return (
     <Wrapper>
-      <Title>Chats</Title>
+      <Title>{t('messenger.chats')}</Title>
       <HeaderIcons>
         <IconWrapper>
           <Icon icon={VideoIcon} size='28'></Icon>

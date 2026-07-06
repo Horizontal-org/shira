@@ -4,6 +4,8 @@ import { NavigateFunction } from "react-router-dom";
 
 export interface AuthSlice {
   login: (email, pass) => void
+  loginStatus: 'idle' | 'loading' | 'error' | 'success',
+  setLoginStatus: (status: 'idle' | 'loading' | 'error' | 'success') => void
   logout: (navigate?: NavigateFunction) => void
   me: () => void
   updateUserEmail: (email: string) => void
@@ -46,18 +48,27 @@ export const createAuthSlice: StateCreator<
   space: null,
   subscription: null,
   fetching: true,
+  loginStatus: 'idle',
+  setLoginStatus: (status) => set({ loginStatus: status }),
   login: async (email, pass) => {
-    const user = await login(email, pass)
-    const sub = await getSub()
-    set({
-      user: user,
-      space: user.spaces[0],
-      subscription: sub
-    })
+    set({ loginStatus: 'loading' });
+    try {
+      const user = await login(email, pass)
+      const sub = await getSub()
+
+      set({
+        user: user,
+        space: user.spaces[0],
+        subscription: sub,
+        loginStatus: 'success'
+      })
+    } catch (e) {
+      set({ loginStatus: 'error' });
+    }
   },
 
   logout: async (navigate?: NavigateFunction) => {
-    await logoutApi();    
+    await logoutApi();
     set({
       user: null,
       space: null,

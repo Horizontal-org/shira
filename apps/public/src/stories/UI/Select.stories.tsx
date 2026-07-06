@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { GlobalStyle } from "../../utils/storybook";
-import { LanguageSelect } from "../../components/UI/Select";
+import { LanguageSelect } from '@horizontal-org/shira-ui'
 
 const meta = {
   title: "UI/Select",

@@ -90,15 +90,15 @@ export const Explanations: FunctionComponent<Props> = ({
   }
 
   // const cleanStateExplanations = (indexToDelete) => {
-    
+
   //   const html = remapHtml(content)
-    
+
   //   const explanationsHtml = html.querySelectorAll('[data-explanation]') 
   //   const toDelete = Array.from(explanationsHtml).find(e => parseInt(e.getAttribute('data-explanation')) === parseInt(indexToDelete))
 
   //   if (toDelete && toDelete.nodeName !== 'MARK') {
   //     const id = toDelete.getAttribute('id')
-      
+
   //     if (content[id] && typeof content[id] === 'string') {
   //       const stringWithoutAttribute = content[id].replace(/ data-explanation='[^']*'/g, '');
   //       handleContent(id, stringWithoutAttribute)
@@ -118,15 +118,15 @@ export const Explanations: FunctionComponent<Props> = ({
               <div
                 {...provided.droppableProps}
                 ref={provided.innerRef}
-              >          
-                { storeExplanations.map(((e, i) => (
+              >
+                {storeExplanations.map(((e, i) => (
                   <ExplanationDragItem
-                    key={e.position + ''} 
-                    id={e.position + ''}   
+                    key={e.position + ''}
+                    id={e.position + ''}
                     title={e.title}
                     text={e.text}
                     selected={+e.index === selectedExplanation}
-                    index={i}  
+                    index={i}
                     component={(
                       // ONLY INPUT
                       <ExplanationBox
@@ -142,31 +142,35 @@ export const Explanations: FunctionComponent<Props> = ({
                           changeSelected(e.index)
                         }}
                       >
-                        <ExplanationInput 
+                        <ExplanationInput
                           text={e.text}
                           unselect={() => { changeSelected(null) }}
                           onUpdate={(text) => {
                             updateExplanation(e.index, text, e.position, e.id, e.title)
                           }}
+                          onDeleteIfEmpty={() => {
+                            deleteExplanationFromQuestion(e.index)
+                            deleteExplanation(e.index)
+                          }}
                         />
                       </ExplanationBox>
                     )}
-                    onDelete={() => {   
+                    onDelete={() => {
                       // this removes the data-explanation attr from zustand                                     
                       // cleanStateExplanations(e.index)
                       // this removes the data-explanation attribute from the DOM
                       // publish('delete-explanation', { deleteIndex: e.index })
-                      
+
                       //TRY THIS ==
-                      deleteExplanationFromQuestion(e.index)                        
-                      deleteExplanation(e.index)                    
+                      deleteExplanationFromQuestion(e.index)
+                      deleteExplanation(e.index)
                       //TRY THIS ==
                       // onDelete(e.index)
                       // this removes the explanation item
                     }}
                   />
-                ))) }
-                { provided.placeholder }
+                )))}
+                {provided.placeholder}
               </div>
             )}
           </Droppable>

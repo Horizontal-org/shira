@@ -50,7 +50,9 @@
             "explanation_3": "Jika Anda tidak yakin, Anda dapat memilih opsi “Saya tidak tahu”.",
             "footer_title": "Pengantar kuis",
             "next": "Oke",
-            "question_count": "This quiz contains {{count}} questions"
+            "question_count": "This quiz contains {{count}} questions",
+            "learn_more": "",
+            "disclaimer": ""
         },
         "answers": {
             "options": {
@@ -75,6 +77,18 @@
             "action_description": "Keluar dari kuis",
             "description": "Anda yakin ingin keluar dari kuis? Progres Anda tidak akan tersimpan",
             "cancel": "Batalkan"
+        },
+        "data_collection": {
+            "percentage_of_learners": "",
+            "your_score": "",
+            "understand": "",
+            "only_datetime": "",
+            "total_quiz_score": "",
+            "learn_more": "",
+            "title": "",
+            "2_results": "",
+            "1_date_time": "",
+            "intro": ""
         }
     },
     "feedback": {
@@ -124,7 +138,7 @@
                 "description": "Shira diciptakan dengan mempertimbangkan komunitas yang paling berisiko terhadap serangan phising, terutama pengguna dengan literasi teknologi yang terbatas."
             },
             "option_2": {
-                "title": "2. Dapat diubah suai",
+                "title": "2. Dapat diubah suai ",
                 "description": "Kami mencoba untuk membuat pesan phising terlihat serealistis mungkin, untuk menyimulasikan apa yang sebenarnya dihadapi oleh pengguna internet dalam kehidupan sehari-hari mereka serta serangan phishing yang mungkin akan mereka hadapi."
             },
             "option_3": {

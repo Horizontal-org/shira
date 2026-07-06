@@ -8,6 +8,8 @@ export const MessageEditorStyles = createGlobalStyle`
 .resize-se { cursor: se-resize; }
 
 .ProseMirror {
+  overflow-wrap: break-word;
+  word-break: break-word; 
   background: white;
   border-radius: 16px;
   border: 2px solid ${props => props.theme.secondary.dark};
@@ -62,6 +64,8 @@ export const MessageEditorStyles = createGlobalStyle`
     padding: 1px 2px;
     border-radius: 2px;
     position: relative;
+    color: inherit;
+    text-decoration: inherit;
     
     &.mark-active {
       background: #FCC934;

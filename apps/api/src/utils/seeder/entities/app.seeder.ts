@@ -20,7 +20,7 @@ export class AppSeederService {
   constructor(
     @InjectRepository(App)
     private readonly appRepository: Repository<App>,
-  ) {}
+  ) { }
   async create(): Promise<void> {
     await this.appRepository.save([
       {
@@ -28,7 +28,7 @@ export class AppSeederService {
         type: 'email'
       },
       {
-        name: 'Whatsapp',
+        name: 'WhatsApp',
         type: 'messaging'
       },
       {

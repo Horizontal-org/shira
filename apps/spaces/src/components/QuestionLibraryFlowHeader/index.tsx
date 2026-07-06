@@ -1,22 +1,22 @@
 import { FunctionComponent } from "react"
-import { styled, Logo, Body2Regular } from "@horizontal-org/shira-ui"
-import { IoClose } from "react-icons/io5";
+import { styled, Logo, Body2Regular, CloseButton } from "@horizontal-org/shira-ui"
+import { useTranslation } from "react-i18next";
 
 interface Props {
   onExit: () => void;
 }
 
 export const QuestionLibraryFlowHeader: FunctionComponent<Props> = ({ onExit }) => {
+  const { t } = useTranslation();
+
   return (
     <Wrapper>
       <Left>
         <LogoWrapper>
           <Logo />
         </LogoWrapper>
-        <CloseWrapper onClick={onExit}>
-          <IoClose color="#5F6368" size={24} />
-        </CloseWrapper>
-        <Body2Regular>Add a question from the library</Body2Regular>
+        <CloseButton onClick={onExit} />
+        <Body2Regular>{t('question_library.tab_header_title')}</Body2Regular>
       </Left>
     </Wrapper>
   )
@@ -24,7 +24,7 @@ export const QuestionLibraryFlowHeader: FunctionComponent<Props> = ({ onExit }) 
 
 const Wrapper = styled.div`
   width: 100%;
-  background: white;
+  background: ${(props) => props.theme.colors.light.white};
   height: 72px;
   max-height: 72px;
   min-height: 72px;
@@ -39,15 +39,8 @@ const LogoWrapper = styled.div`
   border-right: 1px solid ${props => props.theme.colors.dark.mediumGrey};
 `
 
-const CloseWrapper = styled.div`
-  padding: 0 8px;
-  margin: 0 20px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-`
-
 const Left = styled.div`
   display: flex;
   align-items: center;
+  gap: 10px;
 `

@@ -4,15 +4,15 @@ import { Question } from '../../components/UI/Question'
 
 import { SceneWrapper } from '../../components/UI/SceneWrapper'
 import { useStore } from '../../store'
-import { QuizInstructions } from './QuizInstructions'
+import { QuizInstructions } from '../../components/UI/QuizInstructions'
 // import  {DAPClient} from 'divviup-ts/packages/dap'
 import { Task } from "@divviup/dap";
 
 import { useTranslation } from 'react-i18next'
 
-interface Props {}
+interface Props { }
 
-const quizCreation = async() => {
+const quizCreation = async () => {
   if (process.env.REACT_APP_ENABLE_ANALYTICS == 'yes') {
     const task = new Task({
       type: "count",
@@ -22,11 +22,11 @@ const quizCreation = async() => {
       timePrecisionSeconds: 300
     });
     await task.sendMeasurement(true);
-    console.log('sent;')        
+    console.log('sent;')
   }
 }
 
-const quizEnd = async() => {
+const quizEnd = async () => {
   if (process.env.REACT_APP_ENABLE_ANALYTICS == 'yes') {
     const task = new Task({
       type: "count",
@@ -36,11 +36,11 @@ const quizEnd = async() => {
       timePrecisionSeconds: 300
     });
     await task.sendMeasurement(true);
-    console.log('sent;')        
+    console.log('sent;')
   }
 }
 
-export const Quiz:FunctionComponent<Props> = () => {
+export const Quiz: FunctionComponent<Props> = () => {
   const {
     changeScene,
     apps,
@@ -63,7 +63,7 @@ export const Quiz:FunctionComponent<Props> = () => {
   const { i18n } = useTranslation()
 
   useEffect(() => {
-    const startQuiz = async() => {
+    const startQuiz = async () => {
       fetchQuiz(apps, fieldsOfWork, i18n.language)
     }
 
@@ -78,16 +78,16 @@ export const Quiz:FunctionComponent<Props> = () => {
 
   return (
     <SceneWrapper>
-      
+
       {started ? (
-        <Question 
+        <Question
           key={questionIndex}
           question={questions.length > 0 && questions[questionIndex]}
           questionIndex={questionIndex}
           questionCount={questions.length}
           changeScene={changeScene}
-          onNext={() => { 
-            if (questionIndex < (questions.length -1)) {
+          onNext={() => {
+            if (questionIndex < (questions.length - 1)) {
               handleQuestionIndex(questionIndex + 1)
             } else {
               quizEnd()
@@ -104,13 +104,13 @@ export const Quiz:FunctionComponent<Props> = () => {
           setCorrectQuestions={() => setCorrectQuestions(questions[questionIndex])}
         />
       ) : (
-        <QuizInstructions 
-          onNext = {() => {
-            if (quiz.length === 0) { 
-              changeScene('feedback')                  
+        <QuizInstructions
+          onNext={() => {
+            if (quiz.length === 0) {
+              changeScene('feedback')
             } else {
               quizCreation()
-              handleStarted(true) 
+              handleStarted(true)
             }
           }}
         />

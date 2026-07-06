@@ -24,6 +24,10 @@ const meta = {
       ],
       description: 'Type of the attachment',
     },
+    active: {
+      control: 'boolean',
+      description: 'Whether the attachment explanation is active',
+    }
   },
   args: {},
 } satisfies Meta<typeof Attachment>;
@@ -73,8 +77,16 @@ export const LongFilename: Story = {
   },
 };
 
+export const ExplanationActive: Story = {
+  args: {
+    name: 'nuclear_codes.pdf',
+    type: AttachmentType.document,
+    active: true
+  },
+};
+
 // Interactive component for testing menu functionality
-export const InteractiveMenu = () => {  
+export const InteractiveMenu = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
       <Attachment

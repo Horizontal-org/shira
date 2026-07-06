@@ -1,38 +1,26 @@
-import React, { ReactNode } from 'react'
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  PaginationState,
-  RowSelectionState,
-  useReactTable,
-} from '@tanstack/react-table'
-import styled, { css } from 'styled-components'
-import { Body3 } from '../Typography'
+import { flexRender } from '@tanstack/react-table'
 import { Pagination } from './components/Pagination'
+import {
+  BlankLoadingHead,
+  BlankLoadingBody,
+  CenteredBody,
+  CenteredCellContent,
+  StyledTable,
+  TableFooter,
+  TableHeader,
+  Td,
+  Th,
+  THead,
+  Tr,
+  Wrapper,
+} from './Table.styles'
+import { UseShiraTableProps, useShiraTable } from '../../hooks/useShiraTable'
 
-type TableSize = 'full' | 'compact';
-
-export interface TableProps {
-  columns: Array<ColumnDef<any>>
-  data: Array<Object>
-  colGroups?: React.ReactNode
-  loading: boolean
-  rowSelection: RowSelectionState
-  setRowSelection: React.Dispatch<React.SetStateAction<any>>
-  enableRowSelection?: boolean
-  pageSize?: number
-  loadingMessage?: ReactNode
-  emptyMessage?: ReactNode
-  size?: TableSize
-  enablePagination?: boolean
-}
+export interface TableProps extends UseShiraTableProps { }
 
 export const Table = ({
   columns = [],
-  data = null,
+  data = [],
   colGroups = null,
   loading,
   rowSelection,
@@ -43,109 +31,101 @@ export const Table = ({
   emptyMessage = null,
   size = 'compact',
   enablePagination = true,
+  enableRowHover = true,
 }: TableProps) => {
-  const [pagination, setPagination] = React.useState<PaginationState>({
-    pageIndex: 0,
-    pageSize,
-  });
-
-  const table = useReactTable({
-    data,
+  const { table } = useShiraTable({
     columns,
-    getCoreRowModel: getCoreRowModel(),
-    getRowId: (row: any) => row.id,
-    state: {
-      rowSelection,
-      pagination,
-    },
+    data,
+    rowSelection,
+    setRowSelection,
     enableRowSelection, // enable row selection for all rows
-    onRowSelectionChange: setRowSelection,
-    getPaginationRowModel: getPaginationRowModel(),
-    onPaginationChange: setPagination,
-    getFilteredRowModel: getFilteredRowModel(),
-    debugTable: true,
+    pageSize,
   })
 
   const totalColumns = table.getAllLeafColumns().length
+  const shouldShowBlankLoadingState = loading && !loadingMessage
 
   return (
     <Wrapper>
-
       {enablePagination && (
         <Pagination table={table} />
       )}
       <TableHeader />
-      <StyledTable>
-        {colGroups}
-        <THead>
-          {table.getHeaderGroups().map((hg) => (
-            <tr key={hg.id}>
-              {hg.headers.map((h) => (
-                <Th key={h.id} $size={size}>
-                  {flexRender(h.column.columnDef.header, h.getContext())}
-                </Th>
-              ))}
-            </tr>
-          ))}
-        </THead>
+      {shouldShowBlankLoadingState ? (
+        <>
+          <BlankLoadingHead $size={size} aria-hidden="true" />
+          <BlankLoadingBody $size={size} aria-hidden="true" />
+        </>
+      ) : (
+        <StyledTable>
+          {colGroups}
+          <THead>
+            {table.getHeaderGroups().map((hg) => (
+              <tr key={hg.id}>
+                {hg.headers.map((h) => (
+                  <Th key={h.id} $size={size}>
+                    {flexRender(h.column.columnDef.header, h.getContext())}
+                  </Th>
+                ))}
+              </tr>
+            ))}
+          </THead>
 
-        <tbody>
-          {loading ? (
-            <Tr>
-              <Td colSpan={totalColumns}>
-                {loadingMessage ? (
+          <tbody>
+            {loading ? (
+              <Tr>
+                <Td colSpan={totalColumns}>
                   <CenteredCellContent>{loadingMessage}</CenteredCellContent>
-                ) : (
-                  <CenteredBody>loading...</CenteredBody>
-                )}
-              </Td>
-            </Tr>
-          ) : table.getRowModel().rows.length === 0 ? (
-            <Tr>
-              <Td colSpan={totalColumns}>
-                {emptyMessage ? (
-                  <CenteredCellContent>{emptyMessage}</CenteredCellContent>
-                ) : (
-                  <CenteredBody>no questions found</CenteredBody>
-                )}
-              </Td>
-            </Tr>
-          ) : (
-            table.getRowModel().rows.map((r) => {
-              const selectable = r.getCanSelect()
-              const selected = r.getIsSelected()
+                </Td>
+              </Tr>
+            ) : table.getRowModel().rows.length === 0 ? (
+              <Tr>
+                <Td colSpan={totalColumns}>
+                  {emptyMessage ? (
+                    <CenteredCellContent>{emptyMessage}</CenteredCellContent>
+                  ) : (
+                    <CenteredBody>no results found</CenteredBody>
+                  )}
+                </Td>
+              </Tr>
+            ) : (
+              table.getRowModel().rows.map((r) => {
+                const selectable = r.getCanSelect()
+                const selected = r.getIsSelected()
 
-              return (
-                <Tr
-                  key={r.id}
-                  $selected={selected}
-                  $selectable={selectable}
-                  tabIndex={selectable ? 0 : -1}
-                  role="row"
-                  aria-selected={selected}
-                  onKeyDown={(e) => {
-                    if (!selectable) return
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault()
+                return (
+                  <Tr
+                    key={r.id}
+                    $selected={selected}
+                    $selectable={selectable}
+                    $hoverable={enableRowHover}
+                    tabIndex={selectable ? 0 : -1}
+                    role="row"
+                    aria-selected={selected}
+                    onKeyDown={(e) => {
+                      if (!selectable) return
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault()
+                        r.toggleSelected()
+                      }
+                    }}
+                    onClick={() => {
+                      if (!selectable) return
                       r.toggleSelected()
-                    }
-                  }}
-                  onClick={() => {
-                    if (!selectable) return
-                    r.toggleSelected()
-                  }}
-                >
-                  {r.getVisibleCells().map((c) => (
-                    <Td key={c.id}>
-                      {flexRender(c.column.columnDef.cell, c.getContext())}
-                    </Td>
-                  ))}
-                </Tr>
-              )
-            })
-          )}
-        </tbody>
-      </StyledTable>
+                    }}
+                  >
+                    {r.getVisibleCells().map((c) => (
+                      <Td key={c.id}>
+                        {flexRender(c.column.columnDef.cell, c.getContext())}
+                      </Td>
+                    ))}
+                  </Tr>
+                )
+              })
+            )}
+          </tbody>
+        </StyledTable>
+      )}
       <TableFooter />
 
       {enablePagination && (
@@ -154,129 +134,3 @@ export const Table = ({
     </Wrapper>
   )
 }
-
-const Wrapper = styled.div`
-  width: 100%;
-`
-
-const TableHeader = styled.div`
-  box-sizing: border-box;
-  width: 100%;
-  height: 16px;
-  background: ${(props) => props.theme.colors.light.paleGreen};
-  border-radius: 20px 20px 0 0;
-`
-
-const TableFooter = styled.div`
-  box-sizing: border-box;
-  width: 100%;
-  height: 6px;
-  background: white;
-  border-radius: 0 0 20px 20px;
-  border-left: 1px solid ${(props) => props.theme.colors.light.paleGreen};
-  border-right: 1px solid ${(props) => props.theme.colors.light.paleGreen};
-  border-bottom: 1px solid ${(props) => props.theme.colors.light.paleGreen};
-`
-
-const StyledTable = styled("table")`
-  background: ${(props) => props.theme.colors.light.paleGrey};
-  width: 100%;
-  table-layout: fixed;
-  font-size: 14px;
-  border: none;
-  border-spacing: 0;
-  border-left: 1px solid ${(props) => props.theme.colors.light.paleGreen};
-  border-right: 1px solid ${(props) => props.theme.colors.light.paleGreen};
-`;
-
-const THead = styled("thead")`
-  & th {
-    background: ${(props) => props.theme.colors.light.paleGreen};
-  }
-`;
-
-const Th = styled("th") <{ $size: TableSize }>`
-  text-align: left;
-  padding: 0 16px 14px 16px;
-  font-weight: 600;
-  color: ${(props) => props.theme.colors.dark.black};
-  vertical-align: middle;
-  border: none;
-  box-sizing: border-box;
-  width: inherit;
-
-  font-size: ${(props) => (props.$size === 'compact' ? '14px' : '16px')};
-`;
-
-const Td = styled('td')`
-  background: ${(props) => props.theme.colors.light.white};
-  padding: 9px 16px;
-  vertical-align: middle;
-  box-sizing: border-box;
-  width: inherit;
-  font-size: inherit;
-`;
-
-const Tr = styled.tr<{ $selected?: boolean; $selectable?: boolean }>`
-  cursor: ${({ $selectable }) => ($selectable ? 'pointer' : 'default')};
-
-  /* base background */
-  & td {
-    background-color: ${(props) =>
-    props.$selected ? props.theme.colors.green1 : props.theme.colors.light.white};
-    border-bottom: 1px solid ${(props) => props.theme.colors.light.paleGrey};
-  }
-
-  &:last-child td {
-    border-bottom: none;
-  }
-
-  ${(props) =>
-    props.$selectable &&
-    css`
-      &:hover {
-        position: relative;
-        z-index: 1;
-        outline: 2px solid ${props.theme.colors.green1};
-        outline-offset: -2px;
-      }
-
-      &:hover td {
-        background-color: ${props.$selected
-        ? props.theme.colors.green1
-        : props.theme.colors.light.paleGreen};
-      }
-
-      &:focus-visible,
-      &:focus-within {
-        outline: 2px solid ${props.theme.colors.green3};
-        outline-offset: -2px;
-        z-index: 1;
-        position: relative;
-      }
-
-      &:focus {
-        outline: none;
-      }
-
-      &:hover [data-row-checkbox],
-      &:focus-within [data-row-checkbox],
-      &:focus-visible [data-row-checkbox] {
-        visibility: visible;
-      }
-    `}
-`;
-
-const CenteredBody = styled(Body3)`
-  text-align: center;
-  font-weight: 400;
-`;
-
-const CenteredCellContent = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 16px 0;
-`;

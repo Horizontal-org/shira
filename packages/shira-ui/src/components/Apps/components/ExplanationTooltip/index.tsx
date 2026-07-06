@@ -25,6 +25,7 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
   const referenceElementRef = useRef<HTMLElement | null>(null);
 
   const isUrl = (text: string) => {
+    if (!text || text.length === 0) return false;
     try {
       new URL(text);
       return true;
@@ -110,17 +111,17 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
       style={floatingStyles}
       hide={parseInt(explanation.index) !== explanationNumber || !showExplanations}
     >
-      <TooltipContent isUrl={isUrl(explanation.text)}>
-        {explanation.text}
-      </TooltipContent>
 
       <Arrow
-        id='arrow'
         ref={arrowRef}
         $x={middlewareData.arrow?.x}
         $y={middlewareData.arrow?.y}
         $side={placement.split('-')[0] as 'top' | 'bottom' | 'left' | 'right'}
       />
+
+      <TooltipContent isUrl={isUrl(explanation.text)}>
+        {explanation.text}
+      </TooltipContent>
     </Wrapper>
   )
 }
@@ -134,8 +135,8 @@ const Wrapper = styled('div') <{ hide: boolean }>`
   `}
 `
 
+// font-size: 14px;
 const TooltipContent = styled.div<{ isUrl: boolean }>`
-  font-size: 14px;
   line-height: 1.4;
   
   ${props => props.isUrl ? `
@@ -144,7 +145,7 @@ const TooltipContent = styled.div<{ isUrl: boolean }>`
     white-space: nowrap;
     max-width: 280px;
   ` : `
-    white-space: normal;
+    white-space: pre-wrap;
     word-wrap: break-word;
     max-width: 280px;
   `}
@@ -158,10 +159,11 @@ export const Arrow = styled.div<{
   $y?: number;
   $side: 'top' | 'bottom' | 'left' | 'right';
 }>`
-  position: absolute;
-  width: 8px;
-  height: 8px;
   pointer-events: none;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #9FB747;
 
   ${({ $x }) => ($x != null ? `left: ${$x}px;` : '')}
   ${({ $y }) => ($y != null ? `top: ${$y}px;` : '')}
@@ -172,20 +174,19 @@ export const Arrow = styled.div<{
       bottom: 'top',
       left: 'right',
       right: 'left',
-    };
-    return `${map[$side]}: -4px;`;
+    }
+    return `${map[$side]}: -10px;`
   }}
 
-  &::before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-
-    background: white;
-    transform: rotate(45deg);
-
-  }
+  ${({ $side }) => {
+    const clipPaths: Record<string, string> = {
+      bottom: 'clip-path: polygon(50% 0%, 100% 50%, 0% 50%);',
+      top: 'clip-path: polygon(0% 50%, 100% 50%, 50% 100%);',
+      left: 'clip-path: polygon(50% 0%, 100% 50%, 50% 100%);',
+      right: 'clip-path: polygon(50% 0%, 0% 50%, 50% 100%);',
+    }
+    return clipPaths[$side]
+  }}
 `;
 
 export default ExplanationTooltip

@@ -18,6 +18,7 @@ import { handleHttpError } from "../../fetch/handleError";
 import { getErrorContent } from "../../utils/getErrorContent";
 import { GenericErrorModal } from "../modals/ErrorModal";
 import { isEmailValid, hasRequiredValue } from "../../utils/validation";
+import { SPACE_NAME_MAX_LENGTH } from "../../utils/inputLimits";
 
 interface Props { }
 
@@ -38,6 +39,7 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
   const [nameError, handleNameError] = useState("");
   const [orgType, handleOrgType] = useState("");
 
+  const [honeypot, setHoneypot] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
@@ -48,10 +50,25 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
 
   const emailIsValid = isEmailValid(email);
 
+  const getEmailValidationMessage = (value: string) => {
+    if (!hasRequiredValue(value)) {
+      return t("get_started.validation.email_required");
+    }
+
+    if (!isEmailValid(value)) {
+      return t("get_started.validation.invalid_email");
+    }
+
+    return "";
+  };
+
   const validateForm = () => {
     let hasError = false;
     if (!hasRequiredValue(name)) {
       handleNameError(t("get_started.validation.org_name_required"))
+      hasError = true;
+    }
+    if (name.length > SPACE_NAME_MAX_LENGTH) {
       hasError = true;
     }
     if (!hasRequiredValue(email)) {
@@ -99,7 +116,8 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
         slug: name,
         email,
         orgType,
-        subIntent: validateUrl()
+        subIntent: validateUrl(),
+        website: honeypot,
       })
 
       setSuccess(true);
@@ -116,6 +134,25 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
       const content = getErrorContent("error_messages", "invite_org_failed", error.message);
       setIsErrorModalOpen(content)
     }
+  };
+
+  const handleNameChange = (value: string) => {
+    handleName(value);
+
+    if (nameError) {
+      handleNameError("");
+    }
+  };
+
+  const handleEmailChange = (value: string) => {
+    handleEmail(value);
+
+    if (!hasRequiredValue(value)) {
+      handleEmailError("");
+      return;
+    }
+
+    handleEmailError(getEmailValidationMessage(value));
   };
 
   return (
@@ -146,22 +183,34 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
               }}
             >
               <InputsContainer>
+                <input
+                  name="website"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  style={{ position: 'absolute', left: '-9999px', opacity: 0, height: 0, width: 0 }}
+                />
                 <TextInput
                   required
                   label={t('get_started.organization_name_required')}
                   value={name}
-                  onChange={(e) => handleName(e.target.value)}
+                  onChange={(e) => handleNameChange(e.target.value)}
                   disabled={loading}
+                  showCharacterCount={true}
+                  maxLength={SPACE_NAME_MAX_LENGTH}
+                  characterLimitErrorText={t('error_messages.character_limit_error')}
+                  errorText={nameError}
                 />
-                {nameError && <InlineErrorMessage>{nameError}</InlineErrorMessage>}
                 <TextInput
                   required
                   disabled={loading}
                   label={t('get_started.email_required')}
                   value={email}
-                  onChange={(e) => handleEmail(e.target.value)}
+                  onChange={(e) => handleEmailChange(e.target.value)}
+                  errorText={emailError}
                 />
-                {emailError && <InlineErrorMessage>{emailError}</InlineErrorMessage>}
                 <RadioGroup
                   name="organization-type"
                   legend={t('get_started.org_type_label')}
@@ -180,7 +229,7 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
                 <Button
                   text={loading ? t('get_started.loading') : t('get_started.button_sign_up')}
                   type="primary"
-                  disabled={loading || !orgType || !hasRequiredValue(name) || !hasRequiredValue(email) || !emailIsValid}
+                  disabled={loading || !orgType || !hasRequiredValue(name) || name.length > SPACE_NAME_MAX_LENGTH || !hasRequiredValue(email) || !emailIsValid}
                   onClick={(e) => {
                     e.preventDefault()
                     handleSubmit()
@@ -295,11 +344,4 @@ const ButtonContainer = styled.div`
       align-items: center;
     }
   }
-`;
-
-const InlineErrorMessage = styled.div`
-  color: #d32f2f;
-  font-size: 14px;
-  margin-top: -12px;
-  padding-left: 4px;
 `;

@@ -56,7 +56,9 @@
             "explanation_2": "اختروا لكل سؤال ما إذا كانت الرسالة المعروضة تبدو محاولة تصيد احتيالي أو أن الرسالة لا شبهة فيها.",
             "explanation_3": "إذا لم تكونوا متأكدين، يمكنكم تحديد الخيار ”لا أعرف“.",
             "footer_title": "مقدمة الاختبار",
-            "next": "حسنا"
+            "next": "حسنا",
+            "learn_more": "",
+            "disclaimer": ""
         },
         "answers": {
             "options": {
@@ -81,6 +83,18 @@
             "action_description": "مغادرة الاختبار",
             "description": "هل أنتم متأكدون من نيتكم في الخروج من الاختبار؟ لن يتم حفظ تقدمكم.",
             "cancel": "إلغاء"
+        },
+        "data_collection": {
+            "percentage_of_learners": "",
+            "your_score": "",
+            "understand": "",
+            "only_datetime": "",
+            "total_quiz_score": "",
+            "learn_more": "",
+            "title": "",
+            "2_results": "",
+            "1_date_time": "",
+            "intro": ""
         }
     },
     "feedback": {

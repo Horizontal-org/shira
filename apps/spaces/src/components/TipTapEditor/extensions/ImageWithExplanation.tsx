@@ -16,7 +16,7 @@ export const ImageWithExplanation = Image.extend({
       'link': { default: null }
     }
   },
-  
+
   renderHTML({ HTMLAttributes }) {
     const { link, ...imgAttrs } = HTMLAttributes
 
@@ -30,11 +30,11 @@ export const ImageWithExplanation = Image.extend({
 
     return ['img', mergeAttributes(imgAttrs)]
   },
-  
+
   addNodeView() {
     return ({ node, getPos, editor }) => {
       let isUpdating = false
-      
+
       const container = document.createElement('div')
       container.className = 'image-resize-container'
       container.style.cssText = `
@@ -43,7 +43,7 @@ export const ImageWithExplanation = Image.extend({
         border: 2px dashed transparent;
         transition: border-color 0.2s ease;
       `
-      
+
       const img = document.createElement('img')
       img.src = node.attrs.src
       img.alt = node.attrs.alt || ''
@@ -60,16 +60,16 @@ export const ImageWithExplanation = Image.extend({
       if (node.attrs['data-original-filename']) {
         img.setAttribute('data-original-filename', node.attrs['data-original-filename'])
       }
-      
+
       const setImageDimensions = (width, height) => {
         img.style.width = `${width}px`
         img.style.height = `${height}px`
       }
-      
+
       if (node.attrs.width && node.attrs.height) {
         setImageDimensions(node.attrs.width, node.attrs.height)
       }
-      
+
       const updateExplanationStyling = () => {
         if (node.attrs['data-explanation']) {
           img.style.border = '2px solid #F3F9CF'
@@ -84,9 +84,9 @@ export const ImageWithExplanation = Image.extend({
           img.removeAttribute('data-explanation')
         }
       }
-      
+
       updateExplanationStyling()
-      
+
       const handles = createResizeHandles(container, img, node, getPos, editor, () => isUpdating)
 
       img.addEventListener('click', (e) => {
@@ -97,16 +97,16 @@ export const ImageWithExplanation = Image.extend({
           handles.showHandles()
         }
       })
-      
+
       img.onload = () => {
         if (!node.attrs.width || !node.attrs.height) {
           const originalWidth = img.naturalWidth
           const originalHeight = img.naturalHeight
           const aspectRatio = originalWidth / originalHeight
-          
+
           const maxWidth = 300
           const maxHeight = 200
-          
+
           let defaultWidth, defaultHeight
           if (originalWidth > maxWidth || originalHeight > maxHeight) {
             if (aspectRatio > maxWidth / maxHeight) {
@@ -120,9 +120,9 @@ export const ImageWithExplanation = Image.extend({
             defaultWidth = originalWidth
             defaultHeight = originalHeight
           }
-          
+
           setImageDimensions(defaultWidth, defaultHeight)
-          
+
           if (typeof getPos === 'function') {
             isUpdating = true
             setTimeout(() => {
@@ -143,26 +143,26 @@ export const ImageWithExplanation = Image.extend({
       }
 
       container.appendChild(img)
-      
+
       return {
         dom: container,
         update: (updatedNode) => {
           if (updatedNode.type.name !== 'image') return false
-          
+
           if (isUpdating) {
             return true
           }
-          
+
           img.src = updatedNode.attrs.src
           img.alt = updatedNode.attrs.alt || ''
-          
+
           if (updatedNode.attrs.width && updatedNode.attrs.height) {
             setImageDimensions(updatedNode.attrs.width, updatedNode.attrs.height)
           }
-          
+
           node = updatedNode
           updateExplanationStyling()
-          
+
           return true
         },
         destroy() {

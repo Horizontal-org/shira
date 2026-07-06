@@ -1,4 +1,4 @@
-import { FunctionComponent  } from "react"
+import { FunctionComponent } from "react"
 import styled from 'styled-components'
 import ProfilePicture from "../../Whatsapp/ProfilePicture"
 import DocumentIcon from './assets/document.png'
@@ -13,12 +13,12 @@ const ChatContent: FunctionComponent<Props> = ({
   return (
     <Wrapper>
       <MessageWrapper>
-        <div><ProfilePicture imageSize='28px'/></div>
-        <TextWrapper> 
-          {content.map( c => (
+        <div><ProfilePicture imageSize='28px' /></div>
+        <TextWrapper>
+          {content.map(c => (
             <>
               {c.getAttribute('id').includes('component-text') && (
-                <Text dangerouslySetInnerHTML={{__html: c.outerHTML}} />
+                <Text dangerouslySetInnerHTML={{ __html: c.outerHTML }} />
               )}
 
               {c.getAttribute('id').includes('component-image') && (
@@ -26,17 +26,17 @@ const ChatContent: FunctionComponent<Props> = ({
               )}
 
               {c.getAttribute('id').includes('component-attachment') && (
-                <Attachment> 
+                <Attachment>
                   <IconWrapper>
                     <Icon icon={DocumentIcon} size='28'></Icon>
                   </IconWrapper>
 
                   <AttachmentText>
                     <Heading>
-                      <span 
+                      <span
                         data-explanation={c.getAttribute('data-explanation')}
                       >
-                          { c.textContent }
+                        {c.textContent}
                       </span>
                     </Heading>
 
@@ -51,7 +51,7 @@ const ChatContent: FunctionComponent<Props> = ({
       <MessageDate>
         14/12/20 10:58
       </MessageDate>
-      
+
     </Wrapper>
   )
 }
@@ -90,6 +90,9 @@ const TextWrapper = styled.div`
 `
 
 const Text = styled.div`
+  overflow-wrap: break-word;
+  word-break: break-word; 
+
   margin-left: 8px;
   padding: 8px 12px;
   margin-top: 8px;
@@ -126,7 +129,7 @@ interface IconProps {
   size: string;
 }
 
-const Icon = styled('div')<IconProps>`
+const Icon = styled('div') <IconProps>`
   background-image: url(${props => props.icon});
   background-position: center;
   background-repeat: no-repeat;

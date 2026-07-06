@@ -4,12 +4,14 @@ import {
   Logo,
   Body2Regular,
   Button,
-  GeneralTooltip
+  CloseButton,
+  GeneralTooltip,
+  defaultTheme
 } from "@horizontal-org/shira-ui"
-import { IoClose } from "react-icons/io5";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { QuestionCRUDFeedback } from "../../fetch/question";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 
 interface Props {
   onNext: () => void
@@ -17,6 +19,7 @@ interface Props {
   onExit: () => void
   step: number
   disableNext: boolean
+  nextTooltipLabel?: string
   actionFeedback: string;
 }
 
@@ -26,11 +29,17 @@ export const QuestionFlowHeader: FunctionComponent<Props> = ({
   onExit,
   disableNext,
   step,
+  nextTooltipLabel,
   actionFeedback
 }) => {
 
   const { t } = useTranslation();
-  const [showNextTooltip, setShowNextTooltip] = useState(false)
+  const { questionId } = useParams();
+
+  const [showNextTooltip, setShowNextTooltip] = useState(false);
+
+  const isEditFlow = Boolean(questionId);
+
   return (
     <Wrapper id="question-flow-header">
       <Left>
@@ -38,15 +47,19 @@ export const QuestionFlowHeader: FunctionComponent<Props> = ({
           <Logo />
         </LogoWrapper>
 
-        <CloseWrapper id="question-flow-header-close" onClick={onExit}>
-          <IoClose
-            color="#5F6368"
-            size={24}
-          />
-        </CloseWrapper>
+        <StyledCloseButton
+          aria-label={t('buttons.close')}
+          iconSize={24}
+          id="question-flow-header-close"
+          onClick={onExit}
+          size={24}
+        />
 
-        <Body2Regular>{t('create_question.header_title')}</Body2Regular>
+        <Body2Regular>{
+          isEditFlow ? t('questions.edit.tab_header') : t('create_question.header_title')}
+        </Body2Regular>
       </Left>
+
       <Right>
         <Button
           id="question-flow-header-back"
@@ -56,25 +69,25 @@ export const QuestionFlowHeader: FunctionComponent<Props> = ({
           type="outline"
         />
 
-         <GeneralTooltip
-            enabled={disableNext}
-            show={showNextTooltip}
-            setShow={setShowNextTooltip}
-            label={t('create_question.header_required_tooltip')}
-          >
-             <Button
-              id="question-flow-header-next"
-              color="#52752C"
-              rightIcon={<FiChevronRight size={16} />}
-              disabled={disableNext || actionFeedback === QuestionCRUDFeedback.processing}
-              onClick={onNext}
-              text={step === 2
-                ? (actionFeedback === QuestionCRUDFeedback.processing
-                  ? t('loading_messages.saving')
-                  : t('buttons.save'))
-                : t('buttons.next')}
-              type="primary"
-            />
+        <GeneralTooltip
+          enabled={disableNext}
+          show={showNextTooltip}
+          setShow={setShowNextTooltip}
+          label={nextTooltipLabel ?? t('create_question.header_required_tooltip')}
+        >
+          <Button
+            id="question-flow-header-next"
+            color={defaultTheme.colors.green7}
+            rightIcon={<FiChevronRight size={16} />}
+            disabled={disableNext || actionFeedback === QuestionCRUDFeedback.processing}
+            onClick={onNext}
+            text={step === 2
+              ? (actionFeedback === QuestionCRUDFeedback.processing
+                ? t('loading_messages.saving')
+                : t('buttons.save'))
+              : t('buttons.next')}
+            type="primary"
+          />
         </GeneralTooltip>
       </Right>
     </Wrapper>
@@ -98,12 +111,8 @@ const LogoWrapper = styled.div`
   border-right: 1px solid ${props => props.theme.colors.dark.mediumGrey};
 `
 
-const CloseWrapper = styled.div`
-  padding: 0 8px;
+const StyledCloseButton = styled(CloseButton)`
   margin: 0 20px;
-  cursor: pointer;
-  display: flex; 
-  align-items: center;
 `
 
 const Left = styled.div`

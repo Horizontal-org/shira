@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 
 import SearchRegular from './SearchRegular'
 import FilterRegular from './FilterRegular'
@@ -7,11 +8,13 @@ import FilterRegular from './FilterRegular'
 interface Props {}
 
 export const Search:FunctionComponent<Props> = () => {
+  const { t } = useTranslation('shira-ui')
+
   return (
     <Wrapper>
       <div>
         <SearchRegular/>
-        <span>Search</span>
+        <span>{t('outlook.search')}</span>
       </div>
       <FilterButton>
         <FilterRegular />
