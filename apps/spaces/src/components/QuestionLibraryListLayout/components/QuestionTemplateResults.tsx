@@ -1,13 +1,15 @@
-import { Dispatch, FunctionComponent, SetStateAction } from "react";
-import { Table } from "@horizontal-org/shira-ui";
+import { ComponentProps, Dispatch, FunctionComponent, SetStateAction } from "react";
+import { CardPagination, Table } from "@horizontal-org/shira-ui";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { useTranslation } from "react-i18next";
 import { LibrarySearchEmptyState } from "../../LibrarySearchEmptyState";
+import { LibraryPaginationContainer } from "../../TemplatePaginationWrapper";
 import { RowType } from "./Columns";
 
 type Props = {
   showEmptyState: boolean;
   loading: boolean;
+  paginationProps: ComponentProps<typeof CardPagination>;
   rows: RowType[];
   columns: ColumnDef<RowType>[];
   rowSelection: RowSelectionState;
@@ -17,15 +19,42 @@ type Props = {
 export const QuestionTemplateResults: FunctionComponent<Props> = ({
   showEmptyState,
   loading,
+  paginationProps,
   rows,
   columns,
   rowSelection,
   setRowSelection,
 }) => {
   const { t } = useTranslation();
+  const shouldShowPagination = paginationProps.total > 0 && !showEmptyState;
+  const {
+    pageIndex,
+    pageCount,
+    pageSize,
+    total,
+    onFirstPage,
+    onPreviousPage,
+    onNextPage,
+    onLastPage,
+  } = paginationProps;
 
   return (
     <>
+      {shouldShowPagination && (
+        <LibraryPaginationContainer>
+          <CardPagination
+            pageIndex={pageIndex}
+            pageCount={pageCount}
+            pageSize={pageSize}
+            total={total}
+            onFirstPage={onFirstPage}
+            onPreviousPage={onPreviousPage}
+            onNextPage={onNextPage}
+            onLastPage={onLastPage}
+          />
+        </LibraryPaginationContainer>
+      )}
+
       {showEmptyState ? (
         <LibrarySearchEmptyState
           title={t("library.empty_search.title")}
@@ -40,7 +69,7 @@ export const QuestionTemplateResults: FunctionComponent<Props> = ({
           rowSelection={rowSelection}
           setRowSelection={setRowSelection}
           enableRowSelection={false}
-          enablePagination={true}
+          enablePagination={false}
           colGroups={
             <colgroup>
               <col style={{ width: "4%" }} />
@@ -54,6 +83,21 @@ export const QuestionTemplateResults: FunctionComponent<Props> = ({
             </colgroup>
           }
         />
+      )}
+
+      {shouldShowPagination && (
+        <LibraryPaginationContainer>
+          <CardPagination
+            pageIndex={pageIndex}
+            pageCount={pageCount}
+            pageSize={pageSize}
+            total={total}
+            onFirstPage={onFirstPage}
+            onPreviousPage={onPreviousPage}
+            onNextPage={onNextPage}
+            onLastPage={onLastPage}
+          />
+        </LibraryPaginationContainer>
       )}
     </>
   );
