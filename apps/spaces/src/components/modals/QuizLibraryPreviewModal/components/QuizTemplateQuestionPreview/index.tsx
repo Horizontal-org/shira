@@ -178,6 +178,9 @@ const PreviewAppFrame = styled.div`
   position: relative;
   width: fit-content;
   max-width: 100%;
+  height: 68vh;
+  min-height: 620px;
+  max-height: 780px;
 `
 
 const QuizPreviewOverlay = styled.div`
