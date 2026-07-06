@@ -11,6 +11,7 @@ import { CachedSubscription } from "src/modules/subscription/dto/cached-response
 import { IValidateCreateQuizService } from "../interfaces/services/validate-create.quiz.service.interface";
 import { CreateTemplateQuizDto } from "./create-template.quiz.dto";
 import { ICreateTemplateQuizService } from "./create-template.quiz.service.interface";
+import { PublicLibraryDisabledGuard } from "../guards/public-library-disabled.guard";
 
 @AuthController("quiz-from-template")
 export class CreateTemplateQuizController {
@@ -23,7 +24,7 @@ export class CreateTemplateQuizController {
 
   @Post()
   @Roles(Role.SpaceAdmin)
-  @UseGuards(SubscriptionGuard)
+  @UseGuards(SubscriptionGuard, PublicLibraryDisabledGuard)
   async create(
     @LoggedUser() user: LoggedUserDto,
     @Body() createTemplateQuizDto: CreateTemplateQuizDto,
