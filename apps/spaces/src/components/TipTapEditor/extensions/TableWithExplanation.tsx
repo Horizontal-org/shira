@@ -19,7 +19,7 @@ export const TableCellWithExplanation = TableCell.extend({
   addNodeView() {
     return ({ node, getPos, editor }) => {
       const cell = document.createElement('td')
-      
+
       Object.entries(node.attrs).forEach(([key, value]) => {
         if (value !== null && value !== undefined) {
           cell.setAttribute(key, value.toString())
@@ -45,19 +45,19 @@ export const TableCellWithExplanation = TableCell.extend({
         contentDOM: cell,
         update: (updatedNode) => {
           if (updatedNode.type.name !== 'tableCell') return false
-          
+
           Array.from(cell.attributes).forEach(attr => {
             if (attr.name !== 'style' && attr.name !== 'class') {
               cell.removeAttribute(attr.name)
             }
           })
-          
+
           Object.entries(updatedNode.attrs).forEach(([key, value]) => {
             if (value !== null && value !== undefined) {
               cell.setAttribute(key, value.toString())
             }
           })
-          
+
           if (updatedNode.attrs['data-explanation']) {
             cell.style.backgroundColor = '#F3F9CF'
             cell.style.border = '2px solid #F3F9CF'
@@ -67,7 +67,7 @@ export const TableCellWithExplanation = TableCell.extend({
             cell.style.border = ''
             cell.classList.remove('has-explanation')
           }
-          
+
           return true
         }
       }
@@ -90,7 +90,7 @@ export const TableHeaderWithExplanation = TableHeader.extend({
   addNodeView() {
     return ({ node, getPos, editor }) => {
       const header = document.createElement('th')
-      
+
       Object.entries(node.attrs).forEach(([key, value]) => {
         if (value !== null && value !== undefined) {
           header.setAttribute(key, value.toString())
@@ -116,19 +116,19 @@ export const TableHeaderWithExplanation = TableHeader.extend({
         contentDOM: header,
         update: (updatedNode) => {
           if (updatedNode.type.name !== 'tableHeader') return false
-          
+
           Array.from(header.attributes).forEach(attr => {
             if (attr.name !== 'style' && attr.name !== 'class') {
               header.removeAttribute(attr.name)
             }
           })
-          
+
           Object.entries(updatedNode.attrs).forEach(([key, value]) => {
             if (value !== null && value !== undefined) {
               header.setAttribute(key, value.toString())
             }
           })
-          
+
           if (updatedNode.attrs['data-explanation']) {
             header.style.backgroundColor = '#F3F9CF'
             header.style.border = '2px solid #F3F9CF'
@@ -138,7 +138,7 @@ export const TableHeaderWithExplanation = TableHeader.extend({
             header.style.border = ''
             header.classList.remove('has-explanation')
           }
-          
+
           return true
         }
       }

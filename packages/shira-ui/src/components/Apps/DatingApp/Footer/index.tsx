@@ -16,7 +16,7 @@ export const Footer: FunctionComponent<Props> = () => {
       <SearchBar>{t('dating_app.message_placeholder')}</SearchBar>
       <BottomWrapper>
         <Text>
-          Aa
+          {t('dating_app.aa')}
         </Text>
         <SvgWrapper>
           <Camera />

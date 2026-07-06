@@ -52,7 +52,7 @@
     "csv-parse": "^6.1.0",
     "date-fns": "^4.1.0",
     "dotenv": "^17.3.1",
-    "file-type": "^21.3.0",
+    "file-type": "^21.3.2",
     "handlebars": "^4.7.9",
     "minio": "^8.0.7",
     "mysql2": "^3.17.1",

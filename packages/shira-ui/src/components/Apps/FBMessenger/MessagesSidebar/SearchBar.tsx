@@ -1,9 +1,12 @@
 import { FunctionComponent  } from "react"
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 
 import SearchIcon from '../assets/search.png'
 
 const SearchBar: FunctionComponent = () => {
+  const { t } = useTranslation('shira-ui')
+
   return (
 
   <Wrapper>
@@ -11,7 +14,7 @@ const SearchBar: FunctionComponent = () => {
       <Icon icon={SearchIcon} size='16'/>
     </SearchIconWrapper>
     <SearchText>
-      Search in Messenger
+      {t('messenger.search')}
     </SearchText>
   </Wrapper>
   )
@@ -70,7 +73,7 @@ const SearchIconWrapper = styled(IconWrapper)`
 
 const SearchText = styled.span`
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    display: none;   
+    display: none;
   }
 `
 

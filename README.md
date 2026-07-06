@@ -1,88 +1,87 @@
-# for deploying to production
+<p align="center">
+  <img src="apps/public/public/logo192.png" alt="Shira logo" width="120" />
+</p>
 
-`/home/shira should be the location`
+# Shira
 
-### Steps
+Shira is a Turborepo monorepo with a NestJS API, a public-facing quiz app, an internal spaces app, and shared packages used across the workspace.
 
-> you may need to run npm install before in some cases
+## Workspace
 
-- `git pull` usually from main
+- `apps/api`: NestJS backend for auth, quizzes, learners, subscriptions, email, and integrations.
+- `apps/public`: Public quiz experience for learners and invite flows.
+- `apps/spaces`: Internal product for managing quizzes, questions, learners, and organizations.
+- `packages/shira-ui`: Shared UI components used by the frontend apps.
 
-- `./deploy-frontend.sh`
+## Prerequisites
 
-- `./deploy-api.sh`
-
-- if migrations need to be run refer to the api docs for the commands on `./apps/api`
-
-# for deploying locally
-
-### Prerequisites
-
-- Docker and Docker Compose installed
 - Node.js and npm installed
+- Docker and Docker Compose installed
 
-### Steps
+## Environment
 
-**1. Set up the API**
+Copy the app env files before starting:
 
-Follow [apps/api/README.md](apps/api/README.md) for env vars, starting MySQL/Redis and the API in Docker, and running migrations.
+```sh
+cp apps/api/.env.example apps/api/.env
+cp apps/public/.env.example apps/public/.env
+cp apps/spaces/.env.example apps/spaces/.env
+```
 
-**2. Set up the frontend apps**
+## Local Development
 
-Follow [apps/public/README.md](apps/public/README.md) and [apps/spaces/README.md](apps/spaces/README.md) for env vars.
-
-Then, from the repo root:
+1. Install dependencies from the repo root:
 
 ```sh
 npm install
+```
+
+2. Create the shared Docker network once:
+
+```sh
+docker network create shira-network
+```
+
+3. Start MySQL and Redis for the API:
+
+```sh
+docker compose -f apps/api/docker-compose.required.yml up -d
+```
+
+4. Start the workspace from the repo root:
+
+```sh
 npm run dev
 ```
 
-Turborepo starts all frontend apps in parallel:
-- `public` on port `3001`
-- `spaces` on port `3002`
-
----
-
-# Turborepo starter with shell commands
-
-This Turborepo starter is maintained by the Turborepo core team. This template is great for issue reproductions and exploring building task graphs without frameworks.
-
-## Using this example
-
-Run the following command:
+Don't forget to build from root if you made changes in the shira-ui package:
 
 ```sh
-npx create-turbo@latest -e with-shell-commands
+npm run build
 ```
 
-### For bug reproductions
+5. You can also run Storybook from `packages/shira-ui`:
 
-Giving the Turborepo core team a minimal reproduction is the best way to create a tight feedback loop for a bug you'd like to report.
+```sh
+cd packages/shira-ui
+npm run storybook
+```
 
-Because most monorepos will rely on more tooling than Turborepo (frameworks, linters, formatters, etc.), it's often useful for us to have a reproduction that strips away all of this other tooling so we can focus _only_ on Turborepo's role in your repo. This example does exactly that, giving you a good starting point for creating a reproduction.
+This starts:
 
-- Feel free to rename/delete packages for your reproduction so that you can be confident it most closely matches your use case.
-- If you need to use a different package manager to produce your bug, run `npx @turbo/workspaces convert` to switch package managers.
-- It's possible that your bug really **does** have to do with the interaction of Turborepo and other tooling within your repository. If you find that your bug does not reproduce in this minimal example and you're confident Turborepo is still at fault, feel free to bring that other tooling into your reproduction.
+- API on `http://localhost:3000`
+- Public app on `http://localhost:3001`
+- Spaces app on `http://localhost:3002`
 
-## What's inside?
+Run API migrations from `apps/api` after the backend is up:
 
-This Turborepo includes the following packages:
+```sh
+cd apps/api
+npm run typeorm -- migration:run -d ./src/utils/datasources/mysql.datasource.ts
+```
 
-### Apps and Packages
+## App Docs
 
-- `app-a`: A final package that depends on all other packages in the graph and has no dependents. This could resemble an application in your monorepo that consumes everything in your monorepo through its topological tree.
-- `app-b`: Another final package with many dependencies. No dependents, lots of dependencies.
-- `pkg-a`: A package that has all scripts in the root `package.json`.
-- `pkg-b`: A package with _almost_ all scripts in the root `package.json`.
-- `tooling-config`: A package to simulate a common configuration used for all of your repository. This could resemble a configuration for tools like TypeScript or ESLint that are installed into all of your packages.
-
-### Some scripts to try
-
-If you haven't yet, [install global `turbo`](https://turbo.build/repo/docs/installing#install-globally) to run tasks.
-
-- `turbo build lint typecheck`: Runs all tasks in the default graph.
-- `turbo build`: A basic command to build `app-a` and `app-b` in parallel.
-- `turbo build --filter=app-a`: Building only `app-a` and its dependencies.
-- `turbo lint`: A basic command for running lints in all packages in parallel.
+- [API](apps/api/README.md)
+- [Public](apps/public/README.md)
+- [Spaces](apps/spaces/README.md)

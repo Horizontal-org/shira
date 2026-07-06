@@ -90,7 +90,7 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
                 options={selectOptions}
                 initialPlaceholder={t(`question_library.columns.app.${row.original.appType}_type`)}
                 placeholderLeftIcon={appTypesIcons[row.original.appType]}
-                onChange={(appName) => { onSelectApp(row.original.questionId, appName); }}
+                onChange={(appName) => onSelectApp(row.original.questionId, appName)}
               />
             );
           }
@@ -111,7 +111,7 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
             <PreviewActionButton
               type="button"
               title={t("quiz_library.preview.columns.preview")}
-              onClick={() => { onPreviewQuestion(row.original); }}
+              onClick={() => onPreviewQuestion(row.original)}
             >
               <MdRemoveRedEye
                 size={20}
@@ -137,6 +137,7 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
         setRowSelection={setRowSelection}
         enableRowSelection={false}
         enablePagination={false}
+        enableRowHover={false}
         emptyMessage={t("quiz_library.preview.no_questions")}
         colGroups={(
           <colgroup>

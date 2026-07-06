@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { QuizQuestion } from "../../../store/slices/quiz";
 import { appIcons } from "../../../utils/appIcons";
 import { normalizePreviewAppName } from "../../../utils/appNames";
+import { truncateQuestionName } from "../../../utils/questionName";
 
 export const useQuestionTableColumns = (): ColumnDef<QuizQuestion>[] => {
   const { t } = useTranslation();
@@ -30,7 +31,7 @@ export const useQuestionTableColumns = (): ColumnDef<QuizQuestion>[] => {
         cell: ({ row }) => {
           return (
             <QuestionNameCell id={`question-title-${row.original.question.id}`}>
-              {row.original.question.name}
+              {truncateQuestionName(row.original.question.name)}
             </QuestionNameCell>
           );
         },
@@ -70,7 +71,7 @@ export const useQuestionTableColumns = (): ColumnDef<QuizQuestion>[] => {
 
           return (
             <AppValue>
-              {appIcon}
+              <AppIcon>{appIcon}</AppIcon>
               <Body3>{appName}</Body3>
             </AppValue>
           );
@@ -90,10 +91,16 @@ const HandleContent = styled.div`
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 20px;
+  height: 20px;
+  line-height: 0;
   color: ${defaultTheme.colors.dark.darkGrey};
 `;
 
 const QuestionNameCell = styled(Body3Bold)`
+  display: flex;
+  align-items: center;
+  min-height: 20px;
   color: ${defaultTheme.colors.dark.darkGrey};
 `;
 
@@ -113,11 +120,23 @@ const TypePill = styled.span<{ $isPhishing: boolean }>`
   padding: 4px 8px;
   font-size: 14px;
   font-weight: 400;
+  line-height: 1.2;
 `;
 
 const AppValue = styled.div`
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  min-height: 20px;
   color: ${defaultTheme.colors.dark.darkGrey};
+`;
+
+const AppIcon = styled.span`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  line-height: 0;
+  flex-shrink: 0;
 `;
