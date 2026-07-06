@@ -1,4 +1,5 @@
 import { FunctionComponent } from 'react'
+import { styled } from '@horizontal-org/shira-ui';
 import useParseHTML from '../../../../utils/parseHtml';
 import { DatingApp, FBMessenger, SMS, WhatsApp } from '@horizontal-org/shira-ui';
 import { UIExplanation } from '../..';
@@ -54,17 +55,24 @@ export const MessagingApps: FunctionComponent<Props> = ({ content, name, explana
       )}
 
       {name === 'Messenger' && (
-        <FBMessenger
-          senderName={senderName}
-          content={contentRoot}
-          explanations={explanations}
-          explanationNumber={explanationNumber}
-          showExplanations={showExplanations}
-        />
+        <MessengerPreviewFrame>
+          <FBMessenger
+            senderName={senderName}
+            content={contentRoot}
+            explanations={explanations}
+            explanationNumber={explanationNumber}
+            showExplanations={showExplanations}
+          />
+        </MessengerPreviewFrame>
       )}
     </>
   )
 }
+
+const MessengerPreviewFrame = styled.div`
+  height: 68vh;
+  min-height: 620px;
+`
 
 const getMessagingContentRoot = (html: Document) => {
   const dynamicContent = html.getElementById('dynamic-content')
