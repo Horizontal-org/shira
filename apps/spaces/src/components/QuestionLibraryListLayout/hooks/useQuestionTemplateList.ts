@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { type SetStateAction, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getApps, type App } from "../../../fetch/app";
 import {
@@ -9,6 +9,7 @@ import {
   type QuestionTemplateFilterOption,
   type QuestionTemplateSortOption,
 } from "../../../fetch/question_templates";
+import { usePaginationProps } from "../../../hooks/usePaginationProps";
 import { useDebouncedValue } from "./useDebouncedValue";
 import { useQuestionTemplateFilterOptions } from "./useQuestionTemplateFilterOptions";
 import { useQuestionTemplateFilters } from "./useQuestionTemplateFilters";
@@ -26,6 +27,7 @@ export const useQuestionTemplateList = () => {
   const debouncedSearchValue = useDebouncedValue(searchValue.trim());
 
   const filters = useQuestionTemplateFilters(() => {
+    setLoading(true);
     setPageIndexState(0);
   });
   const { languageOptions, tagOptions } = useQuestionTemplateFilterOptions(filters.areFiltersOpen);
@@ -111,6 +113,11 @@ export const useQuestionTemplateList = () => {
     setPageIndexState(Math.max(0, pageCount - 1));
   }, [pageCount, pageIndex]);
 
+  const setPageIndex = (nextPageIndex: SetStateAction<number>) => {
+    setLoading(true);
+    setPageIndexState(nextPageIndex);
+  };
+
   const setSearchValue = (value: string) => {
     setLoading(true);
     setSearchValueState(value);
@@ -118,10 +125,18 @@ export const useQuestionTemplateList = () => {
   };
 
   const setSortOption = (nextSortOption: QuestionTemplateSortOption) => {
-    setLoading(false);
+    setLoading(true);
     setSortOptionState(nextSortOption);
     setPageIndexState(0);
   };
+
+  const paginationProps = usePaginationProps({
+    pageIndex,
+    pageCount,
+    pageSize: DEFAULT_PAGE_LIMIT,
+    setPageIndex,
+    total,
+  });
 
   return {
     ...filters,
@@ -131,6 +146,7 @@ export const useQuestionTemplateList = () => {
     hasActiveSearch,
     languageOptions,
     loading,
+    paginationProps,
     pageIndex,
     questionTemplates,
     searchValue,

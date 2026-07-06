@@ -58,6 +58,7 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
     hasActiveSearch,
     languageOptions,
     loading,
+    paginationProps,
     pageIndex,
     questionTemplates,
     searchValue,
@@ -198,6 +199,7 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
           <QuestionTemplateResults
             showEmptyState={showEmptyState}
             loading={loading}
+            paginationProps={paginationProps}
             rows={rows}
             columns={columns}
             rowSelection={rowSelection}
