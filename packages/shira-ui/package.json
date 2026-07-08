@@ -42,7 +42,7 @@
     },
     "devDependencies": {
         "@faker-js/faker": "^10.1.0",
-        "@storybook/addon-links": "^10.2.8",
+        "@storybook/addon-links": "^10.4.6",
         "@storybook/addon-onboarding": "^10.2.8",
         "@storybook/react": "^10.2.8",
         "@storybook/react-vite": "^10.2.8",
