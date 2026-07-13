@@ -20,25 +20,25 @@ const MessageWrapper: FunctionComponent<Props> = ({
 }) => {
   return (
     <Wrapper>
-      <Recipient phone={phone}/>
+      <Recipient phone={phone} />
       <ContentWrapper>
-        <div> 
-        { content && Array.from(content.querySelectorAll('[id*="component-"]')).sort((a, b) => parseInt(a.getAttribute('data-position') || '') - parseInt(b.getAttribute('data-position') || '')).map((e) => (
-          <>
-            { e.getAttribute('id').includes('component-text') && (
-              <Message data={e}/>
-            )}
+        <div>
+          {content && Array.from(content.querySelectorAll('[id*="component-"]')).sort((a, b) => parseInt(a.getAttribute('data-position') || '') - parseInt(b.getAttribute('data-position') || '')).map((e) => (
+            <>
+              {e.getAttribute('id').includes('component-text') && (
+                <Message data={e} />
+              )}
 
-            { e.getAttribute('id').includes('component-attachment') && (
-              <Attachment explanationPosition={e.getAttribute('data-explanation') || null} name={e.textContent}/>
-            )}
+              {e.getAttribute('id').includes('component-attachment') && (
+                <Attachment explanationPosition={e.getAttribute('data-explanation') || null} name={e.textContent} />
+              )}
 
-            { e.getAttribute('id').includes('component-image') && (
-              <MessagingImage data={e} />
-            )}
-          </>
-        ))}
-        
+              {e.getAttribute('id').includes('component-image') && (
+                <MessagingImage data={e} />
+              )}
+            </>
+          ))}
+
         </div>
       </ContentWrapper>
     </Wrapper>
@@ -48,7 +48,6 @@ const MessageWrapper: FunctionComponent<Props> = ({
 
 const Wrapper = styled.div`
   flex: 70%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

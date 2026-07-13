@@ -1,99 +1,88 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Shira API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+`apps/api` is the NestJS backend for authentication, quizzes, learners, subscriptions, email flows, and external integrations used by the Shira apps.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Prerequisites
 
-## Required clients to install
+- Node.js and npm
+- Docker and Docker Compose
+- A shared Docker network named `shira-network`
 
-- nestjs cli
-- typeorm cli
+## Environment
 
-## Required steps for using docker containers
+Copy the example file and fill in the values:
 
-- docker network create shira-network
-
-## Run migration
-
-this needs to be inside docker container
-
-- to run migrations `npm run typeorm -- migration:run -d ./src/utils/datasources/mysql.datasource.ts`
-- to create migrations `npm run typeorm migration:create ./src/migrations/your_migration`
-
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Diagrams
-
-### Database ERD
-
-![ERD: quizzes, quiz_runs, questions, quizzes_questions, question_runs](docs/img/db-sql-quiz-question-diagram.png)
-
-### Relationships overview
-
-![High-level relationships between quiz and question entities](docs/img/db-quiz-question-relationship-diagram.png)
-
-## Installation
-
-```bash
-$ npm install
+```sh
+cp .env.example .env
 ```
 
-## Running the app
+## Local Development
 
-```bash
-# development
-$ npm run start
+1. Create the shared Docker network once:
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+```sh
+docker network create shira-network
 ```
 
-## Test
+2. Start MySQL and Redis:
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+```sh
+docker compose -f docker-compose.required.yml up -d
 ```
 
-## Support
+3. Start the API in one of these modes:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Run locally:
 
-## Stay in touch
+```sh
+npm run dev
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Run in Docker:
 
-## License
+```sh
+docker compose -f docker-compose.api.yml up dev
+```
 
-Nest is [MIT licensed](LICENSE).
+Both modes expose the API at `http://localhost:3000`.
+
+4. Run migrations after the API dependencies are ready:
+
+Run locally:
+
+```sh
+npm run typeorm -- migration:run -d ./src/utils/datasources/mysql.datasource.ts
+```
+
+Run in Docker:
+
+```sh
+docker exec -it shira-api-dev npm run typeorm -- migration:run -d ./src/utils/datasources/mysql.datasource.ts
+```
+
+Create a new migration:
+
+```sh
+npm run typeorm migration:create ./src/migrations/your_migration_name
+```
+
+## Deployment
+
+Deploy from `apps/api`:
+
+```sh
+./deploy.sh
+```
+
+Or from the repo root:
+
+```sh
+npm run deploy-api
+```
+
+The deploy script builds and starts the `staging` service defined in `docker-compose.api.yml`.
+
+## Reference
+
+- Database ERD: `docs/img/db-sql-quiz-question-diagram.png`
+- Relationships overview: `docs/img/db-quiz-question-relationship-diagram.png`

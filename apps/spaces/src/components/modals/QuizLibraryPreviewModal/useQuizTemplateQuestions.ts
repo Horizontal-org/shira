@@ -3,9 +3,9 @@ import {
   type LibraryQuizDto,
 } from "../../../fetch/quiz_templates";
 import {
-  getQuestionTemplateQuestions,
-  type LibraryQuestionTemplateQuestionDto,
-} from "../../../fetch/question_templates";
+  getQuizTemplateQuestions,
+  LibraryQuizQuestionTemplateDto
+} from "../../../fetch/quiz_templates";
 import { getAppsByTypeAndValue } from "../../../utils/appNames";
 
 export const useQuizTemplateQuestions = (
@@ -13,7 +13,7 @@ export const useQuizTemplateQuestions = (
   isOpen: boolean,
 ) => {
   const quizId = quiz?.id ?? null;
-  const [questions, setQuestions] = useState<LibraryQuestionTemplateQuestionDto[]>([]);
+  const [questions, setQuestions] = useState<LibraryQuizQuestionTemplateDto[]>([]);
   const [hasLoadedQuestions, setHasLoadedQuestions] = useState(false);
   const [isLoadingQuestions, setIsLoadingQuestions] = useState(false);
   const [hasQuestionLoadError, setHasQuestionLoadError] = useState(false);
@@ -36,7 +36,7 @@ export const useQuizTemplateQuestions = (
     setPreviewQuestionId(null);
 
     const loadQuestions = async () => {
-      const loadedQuestions = await getQuestionTemplateQuestions(quizId);
+      const loadedQuestions = await getQuizTemplateQuestions(quizId);
 
       if (loadedQuestions === null) {
         setQuestions([]);

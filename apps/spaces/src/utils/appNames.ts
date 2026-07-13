@@ -18,6 +18,16 @@ export const normalizePreviewAppName = (value: string) => {
   return previewAppNames[key]?.name ?? value;
 };
 
+export const isMessagingNotPhoneApp = (value: string) => {
+  const normalizedName = normalizePreviewAppName(value);
+  return normalizedName === "WhatsApp" || normalizedName === "Messenger";
+};
+
+export const isMessagingPhoneApp = (value: string) => {
+  const normalizedName = normalizePreviewAppName(value);
+  return normalizedName === "SMS" || normalizedName === "Dating App";
+};
+
 export function getAppsByType(type: string): AppDetails[] {
   const apps = Object.values(previewAppNames).filter((app) => app.type === type);
   const uniqueApps = Array.from(new Map(apps.map((app) => [app.name, app])).values());

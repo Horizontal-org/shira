@@ -24,22 +24,11 @@ export const useQuestionTemplateList = () => {
   const [searchValue, setSearchValueState] = useState("");
   const [sortOption, setSortOptionState] = useState<QuestionTemplateSortOption>(DEFAULT_QUESTION_TEMPLATE_SORT);
 
-  const startLoading = () => {
-    setLoading(true);
-  };
-
-  const setPageIndex = (value: SetStateAction<number>) => {
-    startLoading();
-    setPageIndexState(value);
-  };
-
-  const resetPagination = () => setPageIndexState(0);
-
   const debouncedSearchValue = useDebouncedValue(searchValue.trim());
 
   const filters = useQuestionTemplateFilters(() => {
-    startLoading();
-    resetPagination();
+    setLoading(true);
+    setPageIndexState(0);
   });
   const { languageOptions, tagOptions } = useQuestionTemplateFilterOptions(filters.areFiltersOpen);
 
@@ -74,7 +63,6 @@ export const useQuestionTemplateList = () => {
 
   useEffect(() => {
     const loadQuestionTemplates = async () => {
-      setLoading(true);
 
       try {
         const response = await getQuestionTemplates({
@@ -125,16 +113,21 @@ export const useQuestionTemplateList = () => {
     setPageIndexState(Math.max(0, pageCount - 1));
   }, [pageCount, pageIndex]);
 
+  const setPageIndex = (nextPageIndex: SetStateAction<number>) => {
+    setLoading(true);
+    setPageIndexState(nextPageIndex);
+  };
+
   const setSearchValue = (value: string) => {
-    startLoading();
+    setLoading(true);
     setSearchValueState(value);
-    resetPagination();
+    setPageIndexState(0);
   };
 
   const setSortOption = (nextSortOption: QuestionTemplateSortOption) => {
-    startLoading();
+    setLoading(true);
     setSortOptionState(nextSortOption);
-    resetPagination();
+    setPageIndexState(0);
   };
 
   const paginationProps = usePaginationProps({
@@ -153,8 +146,8 @@ export const useQuestionTemplateList = () => {
     hasActiveSearch,
     languageOptions,
     loading,
-    pageIndex,
     paginationProps,
+    pageIndex,
     questionTemplates,
     searchValue,
     setSearchValue,

@@ -17,7 +17,12 @@ import type {
   LibraryQuizQuestionTemplateDto,
 } from "../../../../../fetch/quiz_templates"
 import { appIcons, appTypesIcons } from "../../../../../utils/appIcons"
-import { getAppsByType, normalizePreviewAppName } from "../../../../../utils/appNames"
+import {
+  getAppsByType,
+  isMessagingNotPhoneApp,
+  isMessagingPhoneApp,
+  normalizePreviewAppName,
+} from "../../../../../utils/appNames"
 import { AppLayout } from "../../../../QuestionPreview/AppLayout"
 import {
   ExplanationPreviewControls,
@@ -167,7 +172,11 @@ export const FullQuizTemplatePreview: FunctionComponent<Props> = ({
 
               {showExplanations && <QuizPreviewOverlay />}
 
-              <PreviewAppFrame key={`${question.questionId}-${resolvedAppName}`}>
+              <PreviewAppFrame
+                key={`${question.questionId}-${question.appName}`}
+                $isFullWidth={isMessagingNotPhoneApp(resolvedAppName)}
+                $isPhoneFrame={isMessagingPhoneApp(resolvedAppName)}
+              >
                 <AppLayout
                   appName={resolvedAppName}
                   content={question.content}
@@ -434,10 +443,16 @@ const PreviewStageBackdrop = styled.div`
   background: ${defaultTheme.colors.light.paleGreen};
 `
 
-const PreviewAppFrame = styled.div`
+const PreviewAppFrame = styled.div<{
+  $isFullWidth: boolean
+  $isPhoneFrame: boolean
+}>`
   position: relative;
-  width: fit-content;
+  width: ${(props) => (props.$isFullWidth ? "100%" : "fit-content")};
   max-width: 100%;
+  height: ${(props) => (props.$isPhoneFrame ? "80vh" : "68vh")};
+  min-height: 620px;
+  max-height: ${(props) => (props.$isPhoneFrame ? "none" : "780px")};
 `
 
 const QuizPreviewOverlay = styled.div`

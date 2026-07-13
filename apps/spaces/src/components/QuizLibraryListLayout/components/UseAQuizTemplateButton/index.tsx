@@ -7,12 +7,14 @@ import { useNavigate } from "react-router-dom";
 interface Props {
   isSubActive: boolean
   quizCount: number
+  disabled?: boolean
   onLimitReached?: () => void
 }
 
 export const UseAQuizTemplateButton: FunctionComponent<Props> = ({
   quizCount,
   isSubActive,
+  disabled,
   onLimitReached,
 }) => {
   const theme = useTheme();
@@ -37,6 +39,7 @@ export const UseAQuizTemplateButton: FunctionComponent<Props> = ({
         leftIcon={<MdOutlineMenuBook />}
         text={t('dashboard.use_a_quiz_template_button')}
         onClick={handleClick}
+        disabled={disabled}
         color={theme.colors.green7}
       />
     </ButtonContainer>

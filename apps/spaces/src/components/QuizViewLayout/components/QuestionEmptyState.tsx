@@ -8,12 +8,14 @@ interface Props {
   onAdd: () => void,
   onAddLibrary: (quizId: string) => void,
   quizId: string,
+  isAddLibraryDisabled?: boolean,
 }
 
 export const QuestionEmptyState: FunctionComponent<Props> = ({
   onAdd,
   onAddLibrary,
   quizId,
+  isAddLibraryDisabled,
 }) => {
 
   const { t } = useTranslation();
@@ -33,6 +35,7 @@ export const QuestionEmptyState: FunctionComponent<Props> = ({
       text={t('questions_tab.use_library_question_button')}
       type="primary"
       color={defaultTheme.colors.green7}
+      disabled={isAddLibraryDisabled}
       onClick={() => onAddLibrary(quizId)}
     />
   ];

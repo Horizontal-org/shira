@@ -1,59 +1,89 @@
-# for deploying to production
+<p align="center">
+  <img src="apps/public/public/logo192.png" alt="Shira logo" width="120" />
+</p>
 
+# Shira
 
-`/home/shira should be the location`
+Shira is a Turborepo monorepo with a NestJS API, a public-facing quiz app, an internal spaces app, and shared packages used across the workspace.
 
-### Steps
+## Workspace
 
-> you may need to run npm install before in some cases
+- `apps/api`: NestJS backend for auth, quizzes, learners, subscriptions, email, and integrations.
+- `apps/public`: Public quiz experience for learners and invite flows.
+- `apps/spaces`: Internal product for managing quizzes, questions, learners, and organizations.
+- `packages/shira-ui`: Shared UI components used by the frontend apps.
 
-- `git pull` usually from main
+## Prerequisites
 
-- `./deploy-frontend.sh`
+- Node.js and npm installed
+- Docker and Docker Compose installed
 
-- `./deploy-api.sh`
+## Environment
 
-- if migrations need to be run refer to the api docs for the commands on `./apps/api`
-
-# Turborepo starter with shell commands
-
-This Turborepo starter is maintained by the Turborepo core team. This template is great for issue reproductions and exploring building task graphs without frameworks.
-
-## Using this example
-
-Run the following command:
+Copy the app env files before starting:
 
 ```sh
-npx create-turbo@latest -e with-shell-commands
+cp apps/api/.env.example apps/api/.env
+cp apps/public/.env.example apps/public/.env
+cp apps/spaces/.env.example apps/spaces/.env
 ```
 
-### For bug reproductions
+Set `ENABLE_PUBLIC_LIBRARY=false` in `apps/api/.env` to disable the public quiz library on self-hosted instances that don't want to depend on the public library service.
 
-Giving the Turborepo core team a minimal reproduction is the best way to create a tight feedback loop for a bug you'd like to report.
+## Local Development
 
-Because most monorepos will rely on more tooling than Turborepo (frameworks, linters, formatters, etc.), it's often useful for us to have a reproduction that strips away all of this other tooling so we can focus _only_ on Turborepo's role in your repo. This example does exactly that, giving you a good starting point for creating a reproduction.
+1. Install dependencies from the repo root:
 
-- Feel free to rename/delete packages for your reproduction so that you can be confident it most closely matches your use case.
-- If you need to use a different package manager to produce your bug, run `npx @turbo/workspaces convert` to switch package managers.
-- It's possible that your bug really **does** have to do with the interaction of Turborepo and other tooling within your repository. If you find that your bug does not reproduce in this minimal example and you're confident Turborepo is still at fault, feel free to bring that other tooling into your reproduction.
+```sh
+npm install
+```
 
-## What's inside?
+2. Create the shared Docker network once:
 
-This Turborepo includes the following packages:
+```sh
+docker network create shira-network
+```
 
-### Apps and Packages
+3. Start MySQL and Redis for the API:
 
-- `app-a`: A final package that depends on all other packages in the graph and has no dependents. This could resemble an application in your monorepo that consumes everything in your monorepo through its topological tree.
-- `app-b`: Another final package with many dependencies. No dependents, lots of dependencies.
-- `pkg-a`: A package that has all scripts in the root `package.json`.
-- `pkg-b`: A package with _almost_ all scripts in the root `package.json`.
-- `tooling-config`: A package to simulate a common configuration used for all of your repository. This could resemble a configuration for tools like TypeScript or ESLint that are installed into all of your packages.
+```sh
+docker compose -f apps/api/docker-compose.required.yml up -d
+```
 
-### Some scripts to try
+4. Start the workspace from the repo root:
 
-If you haven't yet, [install global `turbo`](https://turbo.build/repo/docs/installing#install-globally) to run tasks.
+```sh
+npm run dev
+```
 
-- `turbo build lint typecheck`: Runs all tasks in the default graph.
-- `turbo build`: A basic command to build `app-a` and `app-b` in parallel.
-- `turbo build --filter=app-a`: Building only `app-a` and its dependencies.
-- `turbo lint`: A basic command for running lints in all packages in parallel.
+Don't forget to build from root if you made changes in the shira-ui package:
+
+```sh
+npm run build
+```
+
+5. You can also run Storybook from `packages/shira-ui`:
+
+```sh
+cd packages/shira-ui
+npm run storybook
+```
+
+This starts:
+
+- API on `http://localhost:3000`
+- Public app on `http://localhost:3001`
+- Spaces app on `http://localhost:3002`
+
+Run API migrations from `apps/api` after the backend is up:
+
+```sh
+cd apps/api
+npm run typeorm -- migration:run -d ./src/utils/datasources/mysql.datasource.ts
+```
+
+## App Docs
+
+- [API](apps/api/README.md)
+- [Public](apps/public/README.md)
+- [Spaces](apps/spaces/README.md)

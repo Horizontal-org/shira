@@ -21,6 +21,7 @@ import type { RowType } from "./components/Columns";
 import { questionTemplateToRow } from "./components/Columns/questionTemplateToRow";
 import { useTranslation } from "react-i18next";
 import { useQuestionTemplateList } from "./hooks/useQuestionTemplateList";
+import { usePublicLibrary } from "../../hooks/usePublicLibrary";
 import { QuestionTemplateControls } from "./components/QuestionTemplateControls";
 import { QuestionTemplateFilters } from "./components/QuestionTemplateFilters";
 import { QuestionTemplateResults } from "./components/QuestionTemplateResults";
@@ -44,6 +45,13 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
   );
 
   const { t } = useTranslation();
+  const { isPublicLibraryEnabled } = usePublicLibrary();
+
+  useEffect(() => {
+    if (!isPublicLibraryEnabled) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [isPublicLibraryEnabled, navigate]);
 
   const [preview, setPreview] = useState<RowType | null>(null);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
@@ -58,8 +66,8 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
     hasActiveSearch,
     languageOptions,
     loading,
-    pageIndex,
     paginationProps,
+    pageIndex,
     questionTemplates,
     searchValue,
     selectedAppType,
@@ -144,8 +152,6 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
     }));
   };
 
-  const shouldShowPagination = !loading && total > 0;
-
   const columns = getColumns(
     {
       onPreview: handlePreview,
@@ -199,10 +205,9 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
           />
 
           <QuestionTemplateResults
-            shouldShowPagination={shouldShowPagination}
-            paginationProps={paginationProps}
             showEmptyState={showEmptyState}
             loading={loading}
+            paginationProps={paginationProps}
             rows={rows}
             columns={columns}
             rowSelection={rowSelection}
