@@ -1,12 +1,14 @@
-import { Inject, Param, Post } from "@nestjs/common";
+import { Inject, Param, Post, UseGuards } from "@nestjs/common";
 import { AuthController } from "src/utils/decorators/auth-controller.decorator";
 import { Role } from "src/modules/user/domain/role.enum";
 import { Roles } from "src/modules/auth/decorators/roles.decorators";
 import { TYPES } from "../interfaces";
 import { IShiraPaymentsService } from "../interfaces/services/shira-payments.service.interface";
 import { ISubscriptionCacheService } from "../interfaces/services/subscription-cache.service.interface";
+import { SelfHostedDisabledGuard } from "../guards/self-hosted-disabled.guard";
 
 @AuthController('subscription/checkout')
+@UseGuards(SelfHostedDisabledGuard)
 export class CheckoutSubscriptionController {
   constructor(
     @Inject(TYPES.services.IShiraPaymentsService)

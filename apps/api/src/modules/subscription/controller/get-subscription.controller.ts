@@ -6,6 +6,7 @@ import { LoggedUser } from "src/modules/auth/decorators";
 import { LoggedUserDto } from "src/modules/user/dto/logged.user.dto";
 import { Roles } from "src/modules/auth/decorators/roles.decorators";
 import { Role } from "src/modules/user/domain/role.enum";
+import { SELF_HOSTED } from "src/utils/environment/self-hosted.environment";
 import { PUBLIC_LIBRARY_ENABLED } from "src/utils/environment/public-library.environment";
 
 @AuthController('subscription')
@@ -22,6 +23,10 @@ export class GetSubscriptionController {
   ) {
     const subscription = await this.subscriptionCacheService.getCurrentSubscription(String(user.activeOrganization.id), user.activeSpace.space.id);
 
-    return { ...subscription, publicLibraryEnabled: PUBLIC_LIBRARY_ENABLED };
+    return {
+      ...subscription,
+      selfHosted: SELF_HOSTED,
+      publicLibraryEnabled: PUBLIC_LIBRARY_ENABLED
+    };
   }
 }

@@ -8,6 +8,7 @@ import { IShiraPaymentsService } from "../interfaces/services/shira-payments.ser
 import { TYPES } from "../interfaces";
 import { SpaceEntity } from "src/modules/space/domain/space.entity";
 import { ApiLogger } from "src/utils/logger/api-logger.service";
+import { SELF_HOSTED } from "src/utils/environment/self-hosted.environment";
 
 @Injectable()
 export class SubscriptionCacheService implements ISubscriptionCacheService {
@@ -24,6 +25,10 @@ export class SubscriptionCacheService implements ISubscriptionCacheService {
   ) { }
 
   async getCurrentSubscription(organizationId: string, spaceId: number): Promise<CachedSubscription> {
+    if (SELF_HOSTED) {
+      return this.buildSelfHostedSubscription(organizationId);
+    }
+
     const cacheKey = this.buildKey(organizationId);
     const cached = await this.redis.get(cacheKey);
 
@@ -35,6 +40,10 @@ export class SubscriptionCacheService implements ISubscriptionCacheService {
   }
 
   async refresh(organizationId: string, spaceId: number): Promise<CachedSubscription> {
+    if (SELF_HOSTED) {
+      return this.buildSelfHostedSubscription(organizationId);
+    }
+
     const cacheKey = this.buildKey(organizationId);
     const fallbackSubscription = this.buildDefaultSubscription(organizationId);
 
@@ -94,6 +103,15 @@ export class SubscriptionCacheService implements ISubscriptionCacheService {
       organizationId,
       status: "active",
       type: "starter",
+      createdAt: null,
+    };
+  }
+
+  private buildSelfHostedSubscription(organizationId: string): CachedSubscription {
+    return {
+      organizationId,
+      status: "active",
+      type: "pro",
       createdAt: null,
     };
   }
