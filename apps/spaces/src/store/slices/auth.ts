@@ -25,6 +25,7 @@ export interface AuthSlice {
     type: string;
     organizationId: string;
   }
+  publicLibraryEnabled: boolean;
   fetching: boolean;
 }
 
@@ -47,6 +48,7 @@ export const createAuthSlice: StateCreator<
   user: null,
   space: null,
   subscription: null,
+  publicLibraryEnabled: true,
   fetching: true,
   loginStatus: 'idle',
   setLoginStatus: (status) => set({ loginStatus: status }),
@@ -60,6 +62,7 @@ export const createAuthSlice: StateCreator<
         user: user,
         space: user.spaces[0],
         subscription: sub,
+        publicLibraryEnabled: Boolean(sub?.publicLibraryEnabled),
         loginStatus: 'success'
       })
     } catch (e) {
@@ -72,7 +75,8 @@ export const createAuthSlice: StateCreator<
     set({
       user: null,
       space: null,
-      subscription: null
+      subscription: null,
+      publicLibraryEnabled: true
     })
     if (navigate) {
       navigate('/login')
@@ -94,7 +98,8 @@ export const createAuthSlice: StateCreator<
       set({
         user: res.user,
         space: res.user.activeSpace.space,
-        subscription: res.subscription
+        subscription: res.subscription,
+        publicLibraryEnabled: Boolean(res.subscription?.publicLibraryEnabled)
       });
     } else if (!isPublicRoute(window.location.pathname)) {
       window.location.href = '/login';
