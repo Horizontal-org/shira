@@ -51,6 +51,5 @@ export const AppLayout: FunctionComponent<Props> = ({
 const Wrapper = styled.div`
   background: ${props => props.theme.colors.light.white};
   height: 100%;
-  padding-bottom: 10px;
   box-sizing: border-box;
 `

@@ -173,7 +173,6 @@ const PreviewCanvasWrapper = styled.div`
 
 const PreviewCanvas = styled.div`
   position: relative;
-  min-height: 680px;
   border-radius: 4px;
   overflow: auto;
   display: flex;
