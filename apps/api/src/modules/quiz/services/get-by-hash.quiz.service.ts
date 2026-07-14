@@ -50,6 +50,7 @@ export class GetByHashQuizService implements IGetByHashQuizService {
         'question.name',
         'quiz.title',
         'quiz.visibility',
+        'quiz.assessmentMode',
         'quizzes_questions.questionId',
         'quizzes_questions.position',
         'question.isPhising',

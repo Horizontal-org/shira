@@ -6,14 +6,16 @@ import { QuizQuestion } from "../../../store/slices/quiz";
 import { QuizResultsResponse } from "../../../fetch/results";
 import { LearnerQuizView } from "../../LearnerQuizView";
 import { useTranslation } from "react-i18next";
+import { Settings } from "./Settings/Settings";
 
-type TabType = 'questions' | 'results' | 'learners';
+type TabType = 'questions' | 'results' | 'learners' | 'settings';
 
 interface TabContainerProps {
   quizId: number;
   quizTitle: string;
   quizQuestions: QuizQuestion[];
   quizPublished: boolean;
+  quizAssessmentMode: boolean;
   hasQuestions: boolean;
   quizVisibility: string;
   resultsData: QuizResultsResponse | null
@@ -35,6 +37,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   hasQuestions,
   quizQuestions,
   quizVisibility,
+  quizAssessmentMode,
   onEdit,
   onDelete,
   onAdd,
@@ -76,6 +79,13 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
           >
             {t('quiz.tabs.results')}
           </TabButton>
+          <TabButton
+            id="settings-tab"
+            $isActive={activeTab === 'settings'}
+            onClick={() => setActiveTab('settings')}
+          >
+            {t('quiz.tabs.settings')}
+          </TabButton>
         </TabsContainer>
       </Header>
 
@@ -111,6 +121,10 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
             loading={resultsLoading}
             quizVisibility={quizVisibility}
           />
+        )}
+
+        {activeTab === 'settings' && (
+          <Settings assessmentMode={!!(quizAssessmentMode)} />
         )}
 
       </div>

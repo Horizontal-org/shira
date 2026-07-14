@@ -24,6 +24,10 @@ export class ReadQuizDto {
   published: boolean;
 
   @Expose()
+  @IsBoolean()
+  assessmentMode: boolean;
+
+  @Expose()
   @IsString()
   visibility: string;
 

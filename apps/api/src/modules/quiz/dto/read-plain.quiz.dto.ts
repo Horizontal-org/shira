@@ -20,6 +20,10 @@ export class ReadPlainQuizDto {
   published: boolean;
 
   @Expose()
+  @IsBoolean()
+  assessmentMode: boolean;
+
+  @Expose()
   @IsString()
   readonly updatedAt: string;
 

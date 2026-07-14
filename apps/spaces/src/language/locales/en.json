@@ -115,11 +115,18 @@
         "tabs": {
             "questions": "Questions",
             "results": "Results",
-            "learners": "Learners"
+            "learners": "Learners",
+            "settings": "Settings"
         },
         "visibility": {
             "public": "Public",
             "private": "Private"
+        },
+        "settings": {
+            "assessment": {
+                "title": "Quiz mode",
+                "description": "When enabled, learners will not be able to see the correct answers or explanations after submitting the quiz."
+            }
         }
     },
     "questions_tab": {

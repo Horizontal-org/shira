@@ -50,6 +50,7 @@ export interface Quiz {
   hash?: string;
   visibility?: string
   hasResults?: boolean
+  assessmentMode?: boolean
 }
 
 export interface QuizSlice {
