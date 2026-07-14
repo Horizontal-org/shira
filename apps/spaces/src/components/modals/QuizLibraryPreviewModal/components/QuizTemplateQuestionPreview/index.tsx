@@ -174,7 +174,7 @@ const PreviewCanvasWrapper = styled.div`
 const PreviewCanvas = styled.div`
   position: relative;
   border-radius: 4px;
-  overflow: auto;
+  overflow: visible;
   display: flex;
   justify-content: center;
   padding: 24px;
