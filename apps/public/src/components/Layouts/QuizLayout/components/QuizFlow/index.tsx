@@ -113,6 +113,7 @@ export const QuizFlow: FunctionComponent<Props> = ({
           questions={quiz.quizQuestions.map((q) => q.question)}
           images={quiz.images}
           hasResultsEnabled={quiz.hasResultsEnabled ?? true}
+          hasAssessmentEnabled={quiz.hasAssessmentEnabled}
           startRun={() => {
             start(quiz.id, learnerQuiz ? learnerQuiz.learnerId : null)
           }}
@@ -125,6 +126,7 @@ export const QuizFlow: FunctionComponent<Props> = ({
         <CustomQuizCompletedScene
           quizNumber={quiz.quizQuestions.length}
           finish={finish}
+          hasAssessmentEnabled={quiz.hasAssessmentEnabled}
         />
       )}
     </>

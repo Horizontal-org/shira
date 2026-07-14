@@ -100,6 +100,7 @@ export class GetByHashQuizService implements IGetByHashQuizService {
       id: quiz.id,
       title: quiz.title,
       images: images,
+      hasAssessmentEnabled: quiz.assessmentMode,
       hasResultsEnabled: quiz.space?.hasResultsEnabled ?? true,
       quizQuestions: parsedAll.sort((a, b) => a.position - b.position)
     };
