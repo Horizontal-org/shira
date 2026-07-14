@@ -179,6 +179,18 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     setIsPublished(published)
   };
 
+  const handleAssessmentModeChange = (quizId: number, assessmentMode: boolean) => {
+    updateQuiz({
+      id: quizId,
+      assessmentMode: assessmentMode
+    }, 'update_assessment_mode')
+
+    handleQuiz({
+      ...quiz,
+      assessmentMode: assessmentMode
+    })
+  }
+
   const hasResults = useMemo(() => {
     return resultsData && resultsData.metrics && !!(resultsData.metrics.completedCount)
   }, [resultsData])
@@ -357,6 +369,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 hasResults={hasResults}
                 onEdit={(questionId) => { navigate(`/quiz/${id}/question/${questionId}`) }}
                 onPublish={() => handleTogglePublished(quiz.id, true)}
+                onAssessmentModeChange={(assessmentMode) => handleAssessmentModeChange(quiz.id, assessmentMode)}
                 onDelete={(id) => { destroy(quiz.id, id) }}
                 onAdd={() => { navigate(`/quiz/${id}/question`) }}
                 onAddLibrary={() => { navigate(`/question/library`, { state: { quizId: quiz.id } }) }}

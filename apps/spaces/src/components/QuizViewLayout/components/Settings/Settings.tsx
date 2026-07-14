@@ -2,11 +2,12 @@ import { FunctionComponent, useState } from "react";
 import { SettingsCard } from "../../../Settings/SettingsCard";
 import { SettingRow } from "../../../Settings/SettingsRow";
 import { SettingDetails } from "../../../Settings/SettingsDetails";
-import { Body1SemiBold, Body2Regular, RadioGroup, Toggle, styled } from "@horizontal-org/shira-ui";
+import { Body1SemiBold, Body2Regular, RadioGroup, styled } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
 
 interface SettingsProps {
   assessmentMode: boolean;
+  onAssessmentModeChange: (value: boolean) => void;
 }
 
 const MODES = [
@@ -14,47 +15,33 @@ const MODES = [
   { value: 'learning' }
 ]
 
-// const ORG_TYPES = [
-//   {
-//     value: "business", label: (
-//       <Option>
-//         <Body1SemiBold>Assessment Mode:</Body1SemiBold>
-//         <Body2Regular>Learners receive feedback and explanations after submitting the quiz to help them learn from their mistakes</Body2Regular>
-//       </Option>
-//     )
-//   },
-//   {
-//     value: "cibersecurity", label: (
-
-//     )
-//   }
-// ];
-
-
 export const Settings: FunctionComponent<SettingsProps> = ({
   assessmentMode,
-  // toggleAssessmentMode
+  onAssessmentModeChange
 }) => {
 
   const { t } = useTranslation();
-  const [orgType, setOrgType] = useState("business");
+  const [mode, setMode] = useState(assessmentMode ? 'assessment' : 'learning');
 
   return (
     <QuizSettingsCard>
       <SettingRow>
         <SettingDetails>
-          <Body1SemiBold>{t('quiz.settings.assessment.title')}</Body1SemiBold>
+          {/* <Body1SemiBold>{t('quiz.settings.assessment.title')}</Body1SemiBold> */}
           <RadioGroup
-            name="organization-type"
-            value={orgType}
-            onChange={(value) => setOrgType(value)}
+            name="quiz-mode"
+            value={mode}
+            onChange={(value) => {
+              setMode(value)
+              onAssessmentModeChange(value === 'assessment' ? true : false)
+            }}
             options={MODES.map((m) => {
               return {
                 value: m.value,
                 label: (
                   <Option>
-                    <Body1SemiBold>Assessment Mode:</Body1SemiBold>
-                    <Body2Regular>Learners test their phishing detection skills without feedback or explanations to measure their actual performance level.</Body2Regular>
+                    <Body1SemiBold>{t(`quiz.settings.${m.value}.title`)}</Body1SemiBold>
+                    <Body2Regular>{t(`quiz.settings.${m.value}.description`)}</Body2Regular>
                   </Option>
                 )
               }
@@ -62,16 +49,6 @@ export const Settings: FunctionComponent<SettingsProps> = ({
           />
 
         </SettingDetails>
-
-        {/* <Toggle
-          size='big'
-          isEnabled={assessmentMode}
-          onToggle={() => {
-            console.log('Assessment mode toggle clicked');
-            toggleAssessmentMode();
-          }}
-        /> */}
-
 
       </SettingRow>
     </QuizSettingsCard>

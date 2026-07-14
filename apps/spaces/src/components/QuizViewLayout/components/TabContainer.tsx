@@ -28,6 +28,7 @@ interface TabContainerProps {
   onReorder: (newOrder: QuizQuestion[]) => void;
   onDuplicate: () => void;
   onPublish: () => void
+  onAssessmentModeChange: (value: boolean) => void;
 }
 
 export const TabContainer: FunctionComponent<TabContainerProps> = ({
@@ -47,7 +48,8 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   onPublish,
   resultsData,
   resultsLoading,
-  hasResults
+  hasResults,
+  onAssessmentModeChange
 }) => {
   const [activeTab, setActiveTab] = useState<TabType>('questions');
   const { t } = useTranslation();
@@ -124,7 +126,10 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
         )}
 
         {activeTab === 'settings' && (
-          <Settings assessmentMode={!!(quizAssessmentMode)} />
+          <Settings
+            assessmentMode={!!(quizAssessmentMode)}
+            onAssessmentModeChange={onAssessmentModeChange}
+          />
         )}
 
       </div>
