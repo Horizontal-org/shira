@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   Form,
@@ -35,6 +35,7 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
   const [passError, handlePassError] = useState("");
   const [passConfirmation, handlePassConfirmation] = useState("");
   const [passConfirmationError, handlePassConfirmationError] = useState("");
+  const [acceptedPrivacyPolicy, setAcceptedPrivacyPolicy] = useState(false);
   const [honeypot, setHoneypot] = useState("");
 
   const [loading, setLoading] = useState(false);
@@ -112,7 +113,10 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
       handlePassError(t('create_space.validation.password_min_length'));
       hasError = true;
     }
-    if (pass !== passConfirmation) {
+    if (!passConfirmation.trim()) {
+      handlePassConfirmationError(t('create_space.validation.confirm_password_required'));
+      hasError = true;
+    } else if (pass !== passConfirmation) {
       handlePassConfirmationError(t('create_space.validation.passwords_mismatch'));
       hasError = true;
     }
@@ -247,13 +251,35 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
                 />
 
                 {passConfirmationError && <InlineErrorMessage>{passConfirmationError}</InlineErrorMessage>}
+
+                <ConsentContainer>
+                  <ConsentLabel htmlFor="create-space-privacy-policy">
+                    <ConsentCheckbox
+                      id="create-space-privacy-policy"
+                      checked={acceptedPrivacyPolicy}
+                      onChange={(e) => setAcceptedPrivacyPolicy(e.target.checked)}
+                    />
+                    <ConsentText>
+                      <Trans
+                        i18nKey="create_space.privacy_consent_label"
+                        components={[
+                          <Link1
+                            href="https://shira.app/privacy-policy"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          />
+                        ]}
+                      />
+                    </ConsentText>
+                  </ConsentLabel>
+                </ConsentContainer>
               </InputsContainer>
 
               <ButtonContainer>
                 <Button
                   text={t('create_space.button_create')}
                   type="primary"
-                  disabled={loading || !passphraseCode}
+                  disabled={loading || !passphraseCode || !acceptedPrivacyPolicy}
                   onClick={(e) => {
                     e.preventDefault()
                     handleSubmit()
@@ -284,7 +310,7 @@ const Container = styled.div`
   width: 100%;
   padding: 24px;
   display: flex;
-  flex-direction: column;  
+  flex-direction: column;
   position: relative; 
 
   @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
@@ -351,6 +377,33 @@ const InputsContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
+`;
+
+const ConsentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+const ConsentLabel = styled.label`
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+`;
+
+const ConsentCheckbox = styled.input.attrs({ type: "checkbox" })`
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: ${(props) => props.theme.colors.green3};
+  flex-shrink: 0;
+`;
+
+const ConsentText = styled.div`
+  color: ${(props) => props.theme.colors.dark.darkGrey};
+  font-size: 16px;
+  line-height: 1.5;
 `;
 
 const ButtonContainer = styled.div`
