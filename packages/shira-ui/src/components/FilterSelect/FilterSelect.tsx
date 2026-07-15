@@ -1,8 +1,9 @@
 import { ReactNode } from 'react';
 import styled from 'styled-components';
 import { createPortal } from 'react-dom';
-import { FiCheck, FiChevronDown, FiChevronUp, FiX } from 'react-icons/fi';
+import { FiChevronDown, FiChevronUp, FiX } from 'react-icons/fi';
 import { Body4 } from '../Typography';
+import { CheckboxIndicator } from '../Checkbox';
 import { defaultTheme } from '../..';
 import { useFloatingSelect } from '../../hooks/useFloatingSelect';
 
@@ -148,9 +149,10 @@ export const FilterSelect = ({
               onClick={() => handleSelect(option.value)}
             >
               {isMulti && (
-                <Checkbox $checked={selectedValues.includes(option.value)} aria-hidden="true">
-                  <FiCheck size={16} />
-                </Checkbox>
+                <CheckboxIndicator
+                  checked={selectedValues.includes(option.value)}
+                  size={18}
+                />
               )}
               {option.label}
             </Option>
@@ -291,26 +293,5 @@ const Option = styled.button<{ $isSelected: boolean }>`
 
   &:hover {
     background: ${props => props.$isSelected ? props.theme.colors.light.paleGreen : props.theme.colors.light.paleGrey};
-  }
-`;
-
-const Checkbox = styled.span<{ $checked: boolean }>`
-  width: 18px;
-  height: 18px;
-  min-width: 18px;
-  border: 2px solid ${props => props.theme.colors.dark.mediumGrey};
-  border-radius: 2px;
-  background: ${props => props.$checked ? props.theme.colors.green5 : props.theme.colors.light.white};
-  border-color: ${props => props.$checked ? props.theme.colors.green5 : props.theme.colors.dark.mediumGrey};
-  color: ${props => props.theme.colors.light.white};
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  pointer-events: none;
-
-  svg {
-    opacity: ${props => props.$checked ? 1 : 0};
-    display: block;
   }
 `;

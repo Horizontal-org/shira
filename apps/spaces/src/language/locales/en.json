@@ -940,14 +940,15 @@
         }
     },
     "create_space": {
-        "form_title": "Create your space",
+        "form_title": "Create a new space",
         "form_description": "Complete the form below to create your Shira space.",
         "beta_lead": "Shira spaces are currently in closed beta. To obtain the passphrase necessary to join the beta, email us at",
         "checking_invitation": "Checking invitation...",
-        "email_label": "Confirm your email address",
-        "password_label": "Password",
+        "email_label": "Confirm your email address (required)",
+        "password_label": "Password (required)",
         "confirm_password_label": "Confirm password (required)",
         "privacy_consent_label": "I agree to Shira's <0>privacy policy</0>.",
+        "privacy_consent_aria_label": "Agree to Shira's privacy policy",
         "button_create": "Create new space",
         "validation": {
             "email_required": "Email is required.",
