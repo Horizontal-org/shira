@@ -453,16 +453,11 @@ const PreviewAppFrame = styled.div<{
   min-height: 620px;
   max-height: ${(props) => (props.$isPhoneFrame ? "none" : "780px")};
 
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: ${(props) => (props.$isPhoneFrame ? "50px" : "0")};
-    box-shadow: ${(props) => (
-      props.$isPhoneFrame ? "inset -2px -2px 10px 0 rgba(0, 130, 251, 0.25)" : "none"
-    )};
-    pointer-events: none;
-  }
+  ${(props) => props.$isPhoneFrame && `
+    > div > div > div {
+      filter: drop-shadow(-2px -2px 10px rgba(0, 130, 251, 0.14));
+    }
+  `}
 `
 
 const QuizPreviewOverlay = styled.div`
