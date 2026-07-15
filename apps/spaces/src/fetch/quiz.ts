@@ -4,6 +4,7 @@ export interface UpdateQuizPayload {
   id: number
   title?: string
   published?: boolean
+  assessmentMode?: boolean
 }
 
 export interface CreateTemplateQuizQuestionPayload {

@@ -19,6 +19,7 @@ interface Props {
   setExplanationNumber: (explanationNumber: number) => void;
   showExplanations: boolean;
   handleShowExplanations: Dispatch<SetStateAction<boolean>>;
+  hasAssessmentEnabled?: boolean;
 }
 
 export const AnswerFeedback: FunctionComponent<Props> = ({
@@ -30,7 +31,8 @@ export const AnswerFeedback: FunctionComponent<Props> = ({
   explanationNumber,
   setExplanationNumber,
   showExplanations,
-  handleShowExplanations
+  handleShowExplanations,
+  hasAssessmentEnabled
 }) => {
   const { t } = useTranslation()
   const { width } = useGetWidth()
@@ -56,18 +58,11 @@ export const AnswerFeedback: FunctionComponent<Props> = ({
   return (
     <Wrapper>
       {(userAnswer && width > 1024) && (
-        <UserAnswerWrapper id="user-answer-wrapper" hide={showExplanations}>
-          {compareAnswers()}
-          {realAnswer === 'phishing' ? (
-            <p id="bottom-looks-like-phishing">{t("quiz.answers.results.bottom-bar_looks-like-phishing")}</p>
-          ) : (
-            <p id="bottom-looks-legit">{t("quiz.answers.results.bottom-bar_looks-legit")}</p>
-          )}
-        </UserAnswerWrapper>
-      )}
-
-      {
-        (userAnswer && width <= 1024 && !showExplanations) && (
+        hasAssessmentEnabled ? (
+          <UserAnswerWrapper id="user-answer-wrapper" hide={showExplanations}>
+            <p id="assessment-answered">{t("quiz.answers.results.answered")}</p>
+          </UserAnswerWrapper>
+        ) : (
           <UserAnswerWrapper id="user-answer-wrapper" hide={showExplanations}>
             {compareAnswers()}
             {realAnswer === 'phishing' ? (
@@ -75,7 +70,27 @@ export const AnswerFeedback: FunctionComponent<Props> = ({
             ) : (
               <p id="bottom-looks-legit">{t("quiz.answers.results.bottom-bar_looks-legit")}</p>
             )}
-          </UserAnswerWrapper>)
+          </UserAnswerWrapper>
+        )
+      )}
+
+      {
+        (userAnswer && width <= 1024 && !showExplanations) && (
+          hasAssessmentEnabled ? (
+            <UserAnswerWrapper id="user-answer-wrapper" hide={showExplanations}>
+              <p id="assessment-answered">{t("quiz.answers.results.answered")}</p>
+            </UserAnswerWrapper>
+          ) : (
+            <UserAnswerWrapper id="user-answer-wrapper" hide={showExplanations}>
+              {compareAnswers()}
+              {realAnswer === 'phishing' ? (
+                <p id="bottom-looks-like-phishing">{t("quiz.answers.results.bottom-bar_looks-like-phishing")}</p>
+              ) : (
+                <p id="bottom-looks-legit">{t("quiz.answers.results.bottom-bar_looks-legit")}</p>
+              )}
+            </UserAnswerWrapper>
+          )
+        )
       }
 
       <OptionsWrapper id="options-wrapper">
@@ -95,7 +110,7 @@ export const AnswerFeedback: FunctionComponent<Props> = ({
           />
         </ActionButtonsWrapper>}
         {
-          explanationsLength > 0 && !showExplanations && (
+          explanationsLength > 0 && !showExplanations && !hasAssessmentEnabled && (
             <ActionButtonsWrapper id="results-see-why-button-wrapper" size="lg">
               <Button
                 id="results-see-why-button"
@@ -123,7 +138,7 @@ export const AnswerFeedback: FunctionComponent<Props> = ({
         }
 
         {
-          ((explanationNumber === (explanationsLength - 1) && showExplanations) || explanationsLength === 0) && (
+          ((explanationNumber === (explanationsLength - 1) && showExplanations) || explanationsLength === 0 || hasAssessmentEnabled) && (
             <ActionButtonsWrapper>
               <Button
                 id="results-next-question-button"
@@ -151,6 +166,10 @@ const UserAnswerWrapper = styled.div<{ hide?: boolean }>`
     font-weight: 300;
     font-size: 21px;
     color: #333030;
+  }
+
+  > p:first-child {
+    padding-left: 0;
   }
 
   >div {

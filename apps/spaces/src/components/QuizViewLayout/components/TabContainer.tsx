@@ -6,14 +6,16 @@ import { QuizQuestion } from "../../../store/slices/quiz";
 import { QuizResultsResponse } from "../../../fetch/results";
 import { LearnerQuizView } from "../../LearnerQuizView";
 import { useTranslation } from "react-i18next";
+import { Settings } from "./Settings/Settings";
 
-type TabType = 'questions' | 'results' | 'learners';
+type TabType = 'questions' | 'results' | 'learners' | 'settings';
 
 interface TabContainerProps {
   quizId: number;
   quizTitle: string;
   quizQuestions: QuizQuestion[];
   quizPublished: boolean;
+  quizAssessmentMode: boolean;
   hasQuestions: boolean;
   quizVisibility: string;
   resultsData: QuizResultsResponse | null
@@ -26,6 +28,7 @@ interface TabContainerProps {
   onReorder: (newOrder: QuizQuestion[]) => void;
   onDuplicate: () => void;
   onPublish: () => void
+  onAssessmentModeChange: (value: boolean) => void;
 }
 
 export const TabContainer: FunctionComponent<TabContainerProps> = ({
@@ -35,6 +38,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   hasQuestions,
   quizQuestions,
   quizVisibility,
+  quizAssessmentMode,
   onEdit,
   onDelete,
   onAdd,
@@ -44,7 +48,8 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   onPublish,
   resultsData,
   resultsLoading,
-  hasResults
+  hasResults,
+  onAssessmentModeChange
 }) => {
   const [activeTab, setActiveTab] = useState<TabType>('questions');
   const { t } = useTranslation();
@@ -75,6 +80,13 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
             onClick={() => setActiveTab('results')}
           >
             {t('quiz.tabs.results')}
+          </TabButton>
+          <TabButton
+            id="settings-tab"
+            $isActive={activeTab === 'settings'}
+            onClick={() => setActiveTab('settings')}
+          >
+            {t('quiz.tabs.settings')}
           </TabButton>
         </TabsContainer>
       </Header>
@@ -110,6 +122,13 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
             resultsData={resultsData}
             loading={resultsLoading}
             quizVisibility={quizVisibility}
+          />
+        )}
+
+        {activeTab === 'settings' && (
+          <Settings
+            assessmentMode={!!(quizAssessmentMode)}
+            onAssessmentModeChange={onAssessmentModeChange}
           />
         )}
 

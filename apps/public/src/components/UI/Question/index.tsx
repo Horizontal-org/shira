@@ -23,6 +23,7 @@ type Props = {
   changeScene?: (scene: string) => void
   setCorrectQuestions: () => void
   onAnswer?: (ans: RunAnswer) => void
+  hasAssessmentEnabled?: boolean
 }
 
 export const Question: FunctionComponent<Props> = ({
@@ -34,6 +35,7 @@ export const Question: FunctionComponent<Props> = ({
   onNext,
   setCorrectQuestions,
   onAnswer,
+  hasAssessmentEnabled,
 }) => {
   const { width } = useGetWidth()
   const [answer, handleAnswer] = useState<string | null>(null)
@@ -107,7 +109,7 @@ export const Question: FunctionComponent<Props> = ({
 
       <QuizFooter
         title={`${questionIndex + 1}/${questionCount}`}
-        hideCloseButton={(width <= 1024 && parseExplanations(question.explanations).length > 0 && !!(answer) && !showExplanations)}
+        hideCloseButton={(width <= 1024 && parseExplanations(question.explanations).length > 0 && !!(answer) && !showExplanations && !hasAssessmentEnabled)}
         hasAnswer={!!(answer)}
         showExplanations={showExplanations}
         isExpanded={isExpanded}
@@ -125,6 +127,7 @@ export const Question: FunctionComponent<Props> = ({
             userAnswer={answer}
             onAnswer={(a) => { handleAnswer(a) }}
             realAnswer={question.isPhising ? 'phishing' : 'legitimate'}
+            hasAssessmentEnabled={hasAssessmentEnabled}
           />
         ) : <AnswerOptions
           goBack={goBack}

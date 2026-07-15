@@ -82,6 +82,7 @@
                 "unsure": "“I don’t know”",
                 "correct": "Good job!",
                 "incorrect": "Incorrect",
+                "answered": "You answered this question",
                 "next_button": "Next",
                 "back_button": "Back",
                 "next_question": "Next Question",
@@ -132,6 +133,7 @@
         "heavy_subtitle_1": "You answered ",
         "heavy_subtitle_2": "{{correctQuestions}} out of {{questions}} ",
         "heavy_subtitle_3": "questions correctly.",
+        "assessment_subtitle": "You've completed the quiz.",
         "greeting_title": "Thanks for using Shira!"
     },
     "about": {
