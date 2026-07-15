@@ -83,12 +83,23 @@ export const Question: FunctionComponent<Props> = ({
 
   const select = useCallback(
     (uiAnswer: string) => {
-      handleIsExpanded(false)
-      handleAnswer(uiAnswer)
       const mapped = toRunAnswer(uiAnswer)
       console.log('[Question] select', { qId: question.id, uiAnswer, mapped })
       onAnswer?.(mapped)
-    }, [onAnswer, question.id]
+
+      if (hasAssessmentEnabled) {
+        // In assessment mode, we don't show explanations or feedback, we just record the answer and move to the next question
+        const realAnswer = question.isPhising ? 'phishing' : 'legitimate'
+        if (uiAnswer === realAnswer) {
+          setCorrectQuestions()
+        }
+        onNext(uiAnswer)
+        return
+      }
+
+      handleIsExpanded(false)
+      handleAnswer(uiAnswer)
+    }, [onAnswer, question.id, question.isPhising, hasAssessmentEnabled, setCorrectQuestions, onNext]
   )
 
   const content = question.content
@@ -109,7 +120,7 @@ export const Question: FunctionComponent<Props> = ({
 
       <QuizFooter
         title={`${questionIndex + 1}/${questionCount}`}
-        hideCloseButton={(width <= 1024 && parseExplanations(question.explanations).length > 0 && !!(answer) && !showExplanations && !hasAssessmentEnabled)}
+        hideCloseButton={(width <= 1024 && parseExplanations(question.explanations).length > 0 && !!(answer) && !showExplanations)}
         hasAnswer={!!(answer)}
         showExplanations={showExplanations}
         isExpanded={isExpanded}
@@ -127,7 +138,6 @@ export const Question: FunctionComponent<Props> = ({
             userAnswer={answer}
             onAnswer={(a) => { handleAnswer(a) }}
             realAnswer={question.isPhising ? 'phishing' : 'legitimate'}
-            hasAssessmentEnabled={hasAssessmentEnabled}
           />
         ) : <AnswerOptions
           goBack={goBack}

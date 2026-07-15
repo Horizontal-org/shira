@@ -123,12 +123,13 @@
             "private": "Private"
         },
         "settings": {
+            "title": "Quiz mode",
             "assessment": {
-                "title": "Assessment mode:",
+                "title": "Assessment mode",
                 "description": "Learners test their phishing detection skills without feedback or explanations to measure their actual performance level."
             },
             "learning": {
-                "title": "Learning mode:",
+                "title": "Learning mode",
                 "description": "Learners receive immediate feedback and explanations after each answer to help them improve their phishing detection skills."
             }
         }

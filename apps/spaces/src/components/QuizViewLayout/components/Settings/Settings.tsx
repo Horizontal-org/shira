@@ -11,8 +11,8 @@ interface SettingsProps {
 }
 
 const MODES = [
-  { value: 'assessment' },
-  { value: 'learning' }
+  { value: 'learning' },
+  { value: 'assessment' }
 ]
 
 export const Settings: FunctionComponent<SettingsProps> = ({
@@ -27,7 +27,7 @@ export const Settings: FunctionComponent<SettingsProps> = ({
     <QuizSettingsCard>
       <SettingRow>
         <SettingDetails>
-          {/* <Body1SemiBold>{t('quiz.settings.assessment.title')}</Body1SemiBold> */}
+          <Body1SemiBold>{t('quiz.settings.title')}</Body1SemiBold>
           <RadioGroup
             name="quiz-mode"
             value={mode}
