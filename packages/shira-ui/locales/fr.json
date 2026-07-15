@@ -1,0 +1,60 @@
+{
+    "gmail": {
+        "search": "Rechercher dans les messages",
+        "mail": "Mail",
+        "inbox": "Boîte de réception",
+        "starred": "Messages suivis",
+        "snoozed": "En attente",
+        "sent": "Messages envoyés",
+        "drafts": "Brouillons",
+        "compose": "Nouveau message",
+        "to_me": "À moi",
+        "from": "De:",
+        "to": "à:",
+        "subject": "Objet:",
+        "security": "sécurité:",
+        "attachments_one": "{{count}} pièce jointe",
+        "attachments_many": "{{count}} pièces jointes",
+        "attachments_other": "{{count}} pièces jointes",
+        "scanned_by_google": "Analysé par Gmail",
+        "encryption": "Chiffrement standard (TLS)",
+        "learn_more": "En savoir plus"
+    },
+    "outlook": {
+        "search": "Rechercher",
+        "home": "Accueil",
+        "view": "Afficher",
+        "help": "Aide",
+        "new_mail": "Nouveau message",
+        "reply": "Répondre",
+        "forward": "Transférer",
+        "undo": "Annuler",
+        "delete": "Supprimer",
+        "archive": "Archiver",
+        "report": "Signaler",
+        "move_to": "Déplacer vers",
+        "read_unread": "Lu / non lu",
+        "flag_unflag": "Marquer / démarquer",
+        "discover_groups": "Découvrez des groupes",
+        "inbox": "Boîte de réception",
+        "junk": "Courrier indésirable",
+        "drafts": "Brouillons",
+        "sent_items": "Éléments envoyés",
+        "deleted_items": "Éléments supprimés",
+        "conversation_history": "Historique des conversations",
+        "notes": "Notes",
+        "go_to_groups": "Accéder aux Groupes",
+        "to": "À :",
+        "you": "vous",
+        "call": "Appeler",
+        "contact": "Contact",
+        "show_more": "Afficher plus",
+        "meet_now": "Démarrer un appel"
+    },
+    "dating_app": {
+        "message_placeholder": "Écrivez quelque chose..."
+    },
+    "messenger": {
+        "chats": "Discussions"
+    }
+}

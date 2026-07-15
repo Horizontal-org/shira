@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { duplicateQuestion } from "../../../fetch/quiz";
 import { useStore } from "../../../store";
+import { usePublicLibrary } from "../../../hooks/usePublicLibrary";
 import { QuizQuestion } from "../../../store/slices/quiz";
 import { DeleteModal } from "../../modals/DeleteModal";
 import { QuizHasResultsModal } from "../../modals/QuizHasResultsModal";
@@ -46,6 +47,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
   hasResults
 }) => {
   const { t } = useTranslation();
+  const { isPublicLibraryEnabled } = usePublicLibrary();
 
   const [questionForDelete, handleQuestionForDelete] = useState<QuizQuestion["question"] | null>(null);
   const [confirmBeforeContinueModal, handleConfirmBeforeContinueModal] = useState<{
@@ -89,6 +91,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
         onAdd={onAdd}
         onAddLibrary={onAddLibrary}
         quizId={String(quizId)}
+        isAddLibraryDisabled={!isPublicLibraryEnabled}
       />
     );
   }
@@ -119,6 +122,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
           text={t("questions_tab.use_library_question_button")}
           type="primary"
           color={defaultTheme.colors.green7}
+          disabled={!isPublicLibraryEnabled}
           onClick={() => onAddLibrary(quizId.toString())}
         />
       </Header>

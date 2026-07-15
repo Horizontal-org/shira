@@ -16,6 +16,7 @@ import { QuizLimitModal } from "../modals/QuizLimitModal";
 import { ViewPlansModal } from "../modals/ViewPlansModal";
 import { QuizLibraryPreviewModal } from "../modals/QuizLibraryPreviewModal";
 import { useSub } from "../../hooks/useSub";
+import { usePublicLibrary } from "../../hooks/usePublicLibrary";
 import { QuizLibraryFlowManagement } from "../QuizLibraryFlowManagement";
 import { useQuizTemplateList } from "./hooks/useQuizTemplateList";
 import { LibrarySearchEmptyState } from "../LibrarySearchEmptyState";
@@ -44,12 +45,19 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
   }), shallow);
 
   const { isSubActive } = useSub();
+  const { isPublicLibraryEnabled } = usePublicLibrary();
+
+  useEffect(() => {
+    if (!isPublicLibraryEnabled) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [isPublicLibraryEnabled, navigate]);
+
   const {
     areFiltersOpen,
     debouncedSearchValue,
     clearAllFilters,
     hasActiveSearch,
-    hasLoadedOnce,
     languageOptions,
     loading,
     paginationProps,
@@ -69,7 +77,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     toggleFilters,
     visibleLibraryQuizzes,
   } = useQuizTemplateList();
-  const showInitialLoading = loading && !hasLoadedOnce;
+  const showLoadingSkeleton = loading && visibleLibraryQuizzes.length === 0;
 
   useEffect(() => {
     fetchQuizzes();
@@ -113,85 +121,85 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     });
   };
 
-  const shouldShowPagination = !showInitialLoading && !showEmptyState;
+  const shouldShowPagination = !showLoadingSkeleton && !showEmptyState;
 
   return (
     <QuizLibraryFlowManagement>
       <PageContent id="quiz-library-list-layout">
         <PageInner>
-          {showInitialLoading ? (
+          <LibraryToolbar
+            searchControl={(
+              <LibraryToolbarSearchInput
+                value={searchValue}
+                onChange={setSearchValue}
+                placeholder={t("quiz_library.search_placeholder")}
+              />
+            )}
+            actions={(
+              <>
+                <LibraryToolbarSortSelect
+                  value={sortOption}
+                  options={[
+                    {
+                      value: "createdAt-desc",
+                      label: t("quiz_library.sort_options.newest_to_oldest"),
+                    },
+                    {
+                      value: "createdAt-asc",
+                      label: t("quiz_library.sort_options.oldest_to_newest"),
+                    },
+                    {
+                      value: "title-asc",
+                      label: t("quiz_library.sort_options.quiz_name_asc"),
+                    },
+                    {
+                      value: "title-desc",
+                      label: t("quiz_library.sort_options.quiz_name_desc"),
+                    },
+                  ]}
+                  prefix={`${t("quiz_library.sort_by")}:`}
+                  ariaLabel={t("quiz_library.sort_by")}
+                  onChange={(value) => setSortOption(value as typeof sortOption)}
+                />
+
+                <LibraryFilterToggleButton
+                  text={t("quiz_library.filters")}
+                  isOpen={areFiltersOpen}
+                  onClick={toggleFilters}
+                />
+              </>
+            )}
+            searchSummary={hasActiveSearch
+              ? t(
+                total === 1
+                  ? "quiz_library.search_results"
+                  : "quiz_library.search_results_plural",
+                {
+                  count: total,
+                  searchTerm: debouncedSearchValue,
+                },
+              )
+              : undefined}
+            filters={areFiltersOpen ? (
+              <QuizTemplateFilters
+                languageOptions={languageOptions}
+                selectedLanguages={selectedLanguages}
+                onLanguageChange={setSelectedLanguages}
+                tagOptions={tagOptions}
+                selectedTags={selectedTags}
+                onTagChange={setSelectedTags}
+                creatorOptions={Array.of(DEFAULT_CREATOR_OPTIONS)}
+                selectedCreator={selectedCreator}
+                onCreatorChange={setSelectedCreator}
+                onClearAll={clearAllFilters}
+              />
+            ) : undefined}
+          />
+
+          {showLoadingSkeleton ? (
             <QuizCardSkeleton />
           ) : (
             <>
-              <LibraryToolbar
-                searchControl={(
-                  <LibraryToolbarSearchInput
-                    value={searchValue}
-                    onChange={setSearchValue}
-                    placeholder={t("quiz_library.search_placeholder")}
-                  />
-                )}
-                actions={(
-                  <>
-                    <LibraryToolbarSortSelect
-                      value={sortOption}
-                      options={[
-                        {
-                          value: "createdAt-desc",
-                          label: t("quiz_library.sort_options.newest_to_oldest"),
-                        },
-                        {
-                          value: "createdAt-asc",
-                          label: t("quiz_library.sort_options.oldest_to_newest"),
-                        },
-                        {
-                          value: "title-asc",
-                          label: t("quiz_library.sort_options.quiz_name_asc"),
-                        },
-                        {
-                          value: "title-desc",
-                          label: t("quiz_library.sort_options.quiz_name_desc"),
-                        },
-                      ]}
-                      prefix={`${t("quiz_library.sort_by")}:`}
-                      ariaLabel={t("quiz_library.sort_by")}
-                      onChange={(value) => setSortOption(value as typeof sortOption)}
-                    />
-
-                    <LibraryFilterToggleButton
-                      text={t("quiz_library.filters")}
-                      isOpen={areFiltersOpen}
-                      onClick={toggleFilters}
-                    />
-                  </>
-                )}
-                searchSummary={hasActiveSearch
-                  ? t(
-                    total === 1
-                      ? "quiz_library.search_results"
-                      : "quiz_library.search_results_plural",
-                    {
-                      count: total,
-                      searchTerm: debouncedSearchValue,
-                    },
-                  )
-                  : undefined}
-                filters={areFiltersOpen ? (
-                  <QuizTemplateFilters
-                    languageOptions={languageOptions}
-                    selectedLanguages={selectedLanguages}
-                    onLanguageChange={setSelectedLanguages}
-                    tagOptions={tagOptions}
-                    selectedTags={selectedTags}
-                    onTagChange={setSelectedTags}
-                    creatorOptions={Array.of(DEFAULT_CREATOR_OPTIONS)}
-                    selectedCreator={selectedCreator}
-                    onCreatorChange={setSelectedCreator}
-                    onClearAll={clearAllFilters}
-                  />
-                ) : undefined}
-              />
-
               {shouldShowPagination && (
                 <LibraryPaginationContainer>
                   <CardPagination {...paginationProps} />

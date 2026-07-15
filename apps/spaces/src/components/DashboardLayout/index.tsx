@@ -20,6 +20,7 @@ import { getCurrentDateFNSLocales } from "../../language/dateUtils";
 import { useQuizCreationFlow } from "../../hooks/useQuizCreationFlow";
 import { CreateQuizButton } from "./components/CreateQuizButton";
 import { useSub } from "../../hooks/useSub";
+import { usePublicLibrary } from "../../hooks/usePublicLibrary";
 import { CheckoutSuccessModal } from "../modals/CheckoutSuccessModal";
 import { QuizLimitModal } from "../modals/QuizLimitModal";
 import { ViewPlansModal } from "../modals/ViewPlansModal";
@@ -88,7 +89,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
       label: t(item.label)
     })));
 
-  const { isSubActive } = useSub()
+  const { isSubActive, isSelfHosted } = useSub()
+  const { isPublicLibraryEnabled } = usePublicLibrary()
 
   const [activeFilter, setActiveFilter] = useState<FilterStates>(FilterStates.all);
   const [cards, setCards] = useState([]);
@@ -165,10 +167,11 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
       Boolean(
         isFromLogin &&
         isRecentlyCreated &&
+        !isSelfHosted &&
         searchParams.get("checkout") !== "success"
       )
     );
-  }, [isFromLogin, isRecentlyCreated, searchParams]);
+  }, [isFromLogin, isRecentlyCreated, isSelfHosted, searchParams]);
 
   useEffect(() => {
     const templateSelection = location.state?.addQuizFromTemplate;
@@ -301,6 +304,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
               <UseAQuizTemplateButton
                 isSubActive={isSubActive}
                 quizCount={quizzes ? quizzes.length : 0}
+                disabled={!isPublicLibraryEnabled}
                 onLimitReached={() => setIsQuizLimitModalOpen(true)}
               />
             </HeaderActions>

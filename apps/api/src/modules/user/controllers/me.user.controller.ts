@@ -10,13 +10,15 @@ import { IMarkUserLoginService } from '../interfaces/services/mark.user.login.se
 import { SubscriptionGuard } from 'src/modules/subscription/guards/subscription.guard';
 import { SubscriptionDecorator } from 'src/modules/subscription/decorators/subscription.decorator';
 import { CachedSubscription } from 'src/modules/subscription/dto/cached-response.dto';
+import { SELF_HOSTED } from 'src/utils/environment/self-hosted.environment';
+import { PUBLIC_LIBRARY_ENABLED } from 'src/utils/environment/public-library.environment';
 
 @AuthController('user')
 export class MeUserController {
   constructor(
     @Inject(TYPES.services.IMarkUserLoginService)
     private readonly markUserLoginService: IMarkUserLoginService
-  ) {}
+  ) { }
 
   @Get()
   @Roles(Role.SpaceAdmin)
@@ -24,11 +26,15 @@ export class MeUserController {
   async me(
     @LoggedUser() user: LoggedUserDto,
     @SubscriptionDecorator() subscription: Partial<CachedSubscription>
-  ) {    
+  ) {
     await this.markUserLoginService.execute(user.id);
     return {
       user,
-      subscription
+      subscription: subscription ? {
+        ...subscription,
+        selfHosted: SELF_HOSTED,
+        publicLibraryEnabled: PUBLIC_LIBRARY_ENABLED
+      } : subscription
     }
   }
 }

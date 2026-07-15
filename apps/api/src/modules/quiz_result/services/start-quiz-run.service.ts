@@ -11,6 +11,7 @@ import { TYPES as LEARNER_TYPES } from '../../learner/interfaces'
 import { IValidateLearnerQuizService } from 'src/modules/learner/interfaces/services/validate.learner-quiz.service.interface';
 import { IStartQuizRunService } from '../interfaces/services/start-quiz-run.service.interface';
 import { RecordUsageEnqueueQuizResultException } from '../exceptions/record-usage-enqueue.quiz-result.exception';
+import { SELF_HOSTED } from 'src/utils/environment/self-hosted.environment';
 
 @Injectable()
 export class StartQuizRunService implements IStartQuizRunService {
@@ -39,7 +40,9 @@ export class StartQuizRunService implements IStartQuizRunService {
       const learnerQuiz = await this.validateLearnerQuiz.execute(quizIdNum, dto.learnerId)
       const orgId = await this.getOrgByLearnerQuiz(learnerQuiz)
       // record sub usage
-      this.recordUsage(orgId);
+      if (!SELF_HOSTED) {
+        this.recordUsage(orgId);
+      }
     }
 
     const run = this.quizRunRepo.create({

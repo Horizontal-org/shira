@@ -10,7 +10,7 @@ import { GlobalTranslationsSlice, createGlobalTranslationsSlice } from './slices
 import { createQuizSlice, QuizSlice } from './slices/quiz'
 import { ActiveQuestionSlice, createActiveQuestionSlice } from './slices/active_question'
 import { ResultSlice, createResultSlice } from './slices/result'
-import { buildQuestionTemplateSlice, QuestionTemplateSlice } from './slices/question_library'
+import { buildQuestionTemplateSlice, QuestionTemplateSlice } from './slices/question_template'
 
 export const useStore = createWithEqualityFn<
   ExplanationsSlice &
