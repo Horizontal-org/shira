@@ -1,7 +1,5 @@
 import { FunctionComponent, ReactNode } from 'react'
-import styled, { createGlobalStyle} from 'styled-components';
-
-import { lighten } from 'polished'
+import styled, { createGlobalStyle } from 'styled-components';
 import Battery from './Icons/BatteryIcon'
 import Signal from './Icons/SignalIcon'
 import WiFi from './Icons/WiFiIcon'
@@ -26,7 +24,7 @@ export const Phone: FunctionComponent<Props> = ({ children, className, backgroun
             </IconWrapper>
           </FlexWrapper>
         </Header>
-        { children }
+        {children}
       </Mobile>
     </DesktopWrapper>
   )
@@ -41,7 +39,7 @@ const Font = createGlobalStyle`
 const DesktopWrapper = styled.div`
   width: 100%;
   height: 100%;
-  background: ${props => lighten('0.4', props.theme.secondary.base)};
+  background: transparent;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -71,7 +69,7 @@ const FlexWrapper = styled.div`
   align-items: center;
 `
 
-const Mobile = styled('div')<PhoneProps>`
+const Mobile = styled('div') <PhoneProps>`
   box-sizing: border-box;
   height: 80vh;
   aspect-ratio: 1/2;

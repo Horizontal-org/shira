@@ -19,6 +19,8 @@ interface Props {
   images?: Array<{ imageId: number; url: string }>
 }
 
+const isPhoneApp = (appName: string) => appName === 'SMS' || appName === 'Dating App';
+
 export const AppLayout: FunctionComponent<Props> = ({
   app,
   content,
@@ -29,7 +31,7 @@ export const AppLayout: FunctionComponent<Props> = ({
   images
 }) => {
   return (
-    <Wrapper className="apps-container">
+    <Wrapper className="apps-container" $isPhoneFrame={isPhoneApp(app.name)}>
 
       <MailApps
         content={content}
@@ -55,11 +57,17 @@ export const AppLayout: FunctionComponent<Props> = ({
   )
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ $isPhoneFrame: boolean }>`
   height: calc(100vh - 86px);
   max-height: calc(100vh - 86px);
   overflow-y: scroll;
-  background: ${props => props.theme.colors.light.white};
+  background: ${props => props.theme.colors.light.paleGreen};
+
+  ${props => props.$isPhoneFrame && `
+    > div > div {
+      filter: drop-shadow(-2px -2px 10px rgba(0, 130, 251, 0.14));
+    }
+  `}
 `
 
 const Overlay = styled.div`
