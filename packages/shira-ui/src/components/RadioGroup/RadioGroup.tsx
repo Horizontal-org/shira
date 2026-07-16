@@ -88,6 +88,10 @@ const OptionWrapper = styled.div<{ $disabled?: boolean }>`
     color: currentColor;
     width: 18px;
     height: 18px;
+    min-width: 18px;
+    min-height: 18px;
+    max-width: 18px;
+    max-height: 18px;
     border: 0.15em solid ${(props) => props.theme.colors.green6};
     border-radius: 50%;
     transform: translateY(-0.075em);
@@ -101,6 +105,10 @@ const OptionWrapper = styled.div<{ $disabled?: boolean }>`
     content: '';
     width: 8px;
     height: 8px;
+    min-width: 8px;
+    min-height: 8px;
+    max-width: 8px;
+    max-height: 8px;
     border-radius: 50%;
     transform: scale(0);
     transition: 120ms transform ease-in-out;

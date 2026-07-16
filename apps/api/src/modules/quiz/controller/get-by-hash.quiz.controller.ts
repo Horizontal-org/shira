@@ -9,13 +9,12 @@ export class GetByHashQuizController {
   constructor(
     @Inject(TYPES.services.IGetByHashQuizService)
     private getQuizService: IGetByHashQuizService,
-  ) {}
+  ) { }
 
   @Get('/hash/:hash')
   async getByHash(
-    @Param('hash') hash: string    
-  ) 
-  {    
+    @Param('hash') hash: string
+  ) {
     try {
       const quiz = await this.getQuizService.execute(hash, 'public')
       return quiz
