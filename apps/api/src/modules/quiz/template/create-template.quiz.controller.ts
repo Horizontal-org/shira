@@ -38,6 +38,8 @@ export class CreateTemplateQuizController {
       createTemplateQuizDto.space.id,
     );
 
-    await this.createTemplateQuizService.execute(createTemplateQuizDto);
+    const quizId = await this.createTemplateQuizService.execute(createTemplateQuizDto);
+
+    return { quizId };
   }
 }

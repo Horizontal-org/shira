@@ -1,5 +1,6 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import {
   createQuizFromTemplate,
   duplicateQuiz,
@@ -18,7 +19,7 @@ type QuizFlowMode = "create" | "duplicate" | "template" | null;
 type QuizFlowStep = 0 | 1 | 2;
 
 interface UseQuizCreationFlowParams {
-  createQuiz: (name: string, visibility: string) => void;
+  createQuiz: (name: string, visibility: string) => Promise<number>;
   fetchQuizzes: () => Promise<void>;
   t: (key: string, options?: any) => string;
 }
@@ -28,6 +29,7 @@ export const useQuizCreationFlow = ({
   fetchQuizzes,
   t,
 }: UseQuizCreationFlowParams) => {
+  const navigate = useNavigate();
   const [mode, setMode] = useState<QuizFlowMode>(null);
   const [step, setStep] = useState<QuizFlowStep>(1);
   const [title, setTitle] = useState("");
@@ -122,8 +124,19 @@ export const useQuizCreationFlow = ({
 
     if (mode === "create") {
       setStep(0);
-      createQuiz(title.trim(), visibility);
-      reset();
+      setIsSubmitting(true);
+
+      try {
+        const quizId = await createQuiz(title.trim(), visibility);
+
+        navigate(`/quiz/${quizId}`);
+      } catch {
+        toast.error(t("error_messages.duplicate_quiz_fail"), { duration: 3000 });
+      } finally {
+        setIsSubmitting(false);
+        reset();
+      }
+
       return;
     }
 
@@ -139,13 +152,13 @@ export const useQuizCreationFlow = ({
         }
 
         const mappedQuestions = mapTemplateQuestions(templateQuestions);
-        await createQuizFromTemplate(title.trim(), visibility, mappedQuestions);
+        const quizId = await createQuizFromTemplate(title.trim(), visibility, mappedQuestions);
 
         toast.success(t("success_messages.quiz_created"), {
           duration: 3000,
         });
 
-        await fetchQuizzes();
+        navigate(`/quiz/${quizId}`);
       } catch {
         toast.error(t("error_messages.duplicate_quiz_fail"), { duration: 3000 });
       } finally {

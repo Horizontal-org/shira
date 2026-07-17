@@ -940,7 +940,7 @@
         }
     },
     "create_space": {
-        "form_title": "Create a new space",
+        "form_title": "Create your space",
         "form_description": "Complete the form below to create your Shira space.",
         "beta_lead": "Shira spaces are currently in closed beta. To obtain the passphrase necessary to join the beta, email us at",
         "checking_invitation": "Checking invitation...",

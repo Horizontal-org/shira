@@ -402,6 +402,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             )}
             setIsModalOpen={setIsDeleteModalOpen}
             onDelete={() => {
+              setIsDeleteModalOpen(false);
               deleteQuiz(selectedCard?.id)
               handleSelectedCard(null);
             }}

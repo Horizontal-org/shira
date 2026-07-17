@@ -59,7 +59,7 @@ export interface QuizSlice {
   reorderQuiz: (data: ReorderQuizPayload) => void
   deleteQuiz: (id: number) => void,
   validateQuizName: (title: string) => Promise<void>,
-  createQuiz: (title: string, visibility: string) => void,
+  createQuiz: (title: string, visibility: string) => Promise<number>,
   quizActionSuccess: null | QuizSuccessStates,
   cleanQuizActionSuccess: () => void
   setQuizActionSuccess: (successState: string) => void,
@@ -126,11 +126,13 @@ export const createQuizSlice: StateCreator<
 
   createQuiz: async (title: string, visibility: string) => {
     set({ quizActionSuccess: null })
-    await createQuiz(title, visibility)
+    const quizId = await createQuiz(title, visibility)
 
     set({
       quizActionSuccess: QuizSuccessStates.create
     })
+
+    return quizId
   },
 
   setQuizActionSuccess: async (successState: QuizSuccessStates) => {
