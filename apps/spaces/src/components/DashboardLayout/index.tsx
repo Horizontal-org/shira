@@ -333,10 +333,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             />
           </FilterButtonsContainer >
 
-          <CardGrid
-            id="card-grid"
-            key={filteredCards.map((card) => card.id).join("-")}
-          >
+          <CardGrid id="card-grid">
             {filteredCards.map((card) => {
               const isPublished = card.published;
 
