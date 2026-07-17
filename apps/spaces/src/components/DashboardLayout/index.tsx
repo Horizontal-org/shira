@@ -576,8 +576,8 @@ const CardGrid = styled.div`
   justify-content: start;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 320px));
 
-  @media (max-width: ${props => props.theme.breakpoints.xl}) {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  @media (max-width: ${props => props.theme.breakpoints.lg}) {
+    grid-template-columns: repeat(4, 1fr));
   }
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
