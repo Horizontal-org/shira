@@ -573,12 +573,12 @@ const FilterButtonsContainer = styled.div`
 const CardGrid = styled.div`
   padding: 16px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
+  gap: 20px;
+  justify-content: start;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 320px));
 
   @media (max-width: ${props => props.theme.breakpoints.lg}) {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(4, 1fr));
   }
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
