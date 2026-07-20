@@ -15,7 +15,9 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    // Storybook 10's packages rely on modern exports/ESM resolution, and this
+    // matches how the app's bundler resolves @storybook/* types in stories.
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,

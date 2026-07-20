@@ -132,7 +132,6 @@ function processSearches(doc: ProsemirrorNode, searchTerm: RegExp, searchResultC
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export const SearchNReplace = Extension.create<SearchOptions>({
   name: 'search',
 
@@ -191,7 +190,6 @@ export const SearchNReplace = Extension.create<SearchOptions>({
   },
 
   addProseMirrorPlugins() {
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const extensionThis = this
 
     return [
