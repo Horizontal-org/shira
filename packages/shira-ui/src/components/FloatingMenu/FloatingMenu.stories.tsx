@@ -1,6 +1,6 @@
 import { StoryFn, Meta } from '@storybook/react';
 import { FloatingMenu, FloatingMenuProps } from './FloatingMenu';
-import { action } from '@storybook/addon-actions';
+import { action } from 'storybook/actions';
 import { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { FiMoreVertical } from 'react-icons/fi';
