@@ -1,61 +1,46 @@
-import { FunctionComponent, useEffect, useMemo, useState } from "react";
-import type { RowSelectionState, ColumnDef } from "@tanstack/react-table";
+import { FunctionComponent, useEffect, useState } from "react";
+import type { RowSelectionState } from "@tanstack/react-table";
 import {
   Body1,
   Button,
-  CardPagination,
-  EmptyState,
   H2,
   Link1,
   Sidebar,
-  SubHeading3,
-  useTheme,
-  Table,
   styled,
   useAdminSidebar,
 } from "@horizontal-org/shira-ui";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { shallow } from "zustand/shallow";
 import { FiArrowLeft } from "react-icons/fi";
-import { useStore } from "../../store";
+import {
+  getQuestionSubmissions,
+  getQuizSubmissions,
+  type QuestionSubmissionDto,
+  type QuizSubmissionDto,
+} from "../../fetch/submissions";
+import { QuestionSubmissionsTab } from "./components/QuestionSubmissionsTab";
+import { QuizSubmissionsTab } from "./components/QuizSubmissionsTab";
 import { LayoutContainer } from "../LayoutStyleComponents/LayoutContainer";
 import { LayoutMainContent, LayoutMainContentWrapper } from "../LayoutStyleComponents/LayoutMainContent";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
-import { InactiveLibraryPaginationContainer } from "../TemplatePaginationWrapper";
 import { customMenuItems } from "../../utils/customMenuItems";
 import { usePublicLibrary } from "../../hooks/usePublicLibrary";
 
 type SubmissionTab = "quizzes" | "questions";
-type QuizSubmissionRow = {
-  id: string;
-  name: string;
-  submittedOn: string;
-  status: string;
-};
-type QuestionSubmissionRow = {
-  id: string;
-  name: string;
-  type: string;
-  app: string;
-  submittedOn: string;
-  status: string;
-};
 
 interface Props { }
+
+const PAGE_SIZE = 20;
 
 export const MySubmissionsLayout: FunctionComponent<Props> = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { isPublicLibraryEnabled } = usePublicLibrary();
-  const theme = useTheme();
   const [activeTab, setActiveTab] = useState<SubmissionTab>("quizzes");
   const [pageIndex, setPageIndex] = useState(0);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
-
-  const { space } = useStore((state) => ({
-    space: state.space,
-  }), shallow);
+  const [quizSubmissions, setQuizSubmissions] = useState<QuizSubmissionDto[]>([]);
+  const [questionSubmissions, setQuestionSubmissions] = useState<QuestionSubmissionDto[]>([]);
 
   const {
     isCollapsed,
@@ -76,88 +61,36 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
     setPageIndex(0);
   }, [activeTab]);
 
-  const emptyStateCopy = useMemo(() => (
-    activeTab === "quizzes"
-      ? {
-        subtitle: t("templates.submissions_empty_state.quizzes.subtitle"),
+  useEffect(() => {
+    let isCancelled = false;
+
+    const loadSubmissions = async () => {
+      const [quizData, questionData] = await Promise.all([
+        getQuizSubmissions(),
+        getQuestionSubmissions(),
+      ]);
+
+      if (isCancelled) {
+        return;
       }
-      : {
-        subtitle: t("templates.submissions_empty_state.questions.subtitle"),
-      }
-  ), [activeTab, t]);
 
-  const quizSubmissions = useMemo<QuizSubmissionRow[]>(() => [], []);
-  const questionSubmissions = useMemo<QuestionSubmissionRow[]>(() => [], []);
-
-  const quizColumns = useMemo<ColumnDef<QuizSubmissionRow>[]>(() => ([
-    {
-      header: t("templates.submissions_table.quiz_name"),
-      accessorKey: "name",
-    },
-    {
-      header: t("templates.submissions_table.submitted_on"),
-      accessorKey: "submittedOn",
-    },
-    {
-      header: t("templates.submissions_table.status"),
-      accessorKey: "status",
-    },
-  ]), [t]);
-
-  const questionColumns = useMemo<ColumnDef<QuestionSubmissionRow>[]>(() => ([
-    {
-      header: t("templates.submissions_table.question_name"),
-      accessorKey: "name",
-    },
-    {
-      header: t("templates.submissions_table.type"),
-      accessorKey: "type",
-    },
-    {
-      header: t("templates.submissions_table.app"),
-      accessorKey: "app",
-    },
-    {
-      header: t("templates.submissions_table.submitted_on"),
-      accessorKey: "submittedOn",
-    },
-    {
-      header: t("templates.submissions_table.status"),
-      accessorKey: "status",
-    },
-  ]), [t]);
-
-  const tableConfig = useMemo(() => {
-    if (activeTab === "quizzes") {
-      return {
-        data: quizSubmissions,
-        columns: quizColumns,
-        colGroups: (
-          <colgroup>
-            <col style={{ width: "50%" }} />
-            <col style={{ width: "25%" }} />
-            <col style={{ width: "25%" }} />
-          </colgroup>
-        ),
-      };
-    }
-
-    return {
-      data: questionSubmissions,
-      columns: questionColumns,
-      colGroups: (
-        <colgroup>
-          <col style={{ width: "34%" }} />
-          <col style={{ width: "16%" }} />
-          <col style={{ width: "16%" }} />
-          <col style={{ width: "18%" }} />
-          <col style={{ width: "16%" }} />
-        </colgroup>
-      ),
+      setQuizSubmissions(quizData);
+      setQuestionSubmissions(questionData);
     };
-  }, [activeTab, questionColumns, questionSubmissions, quizColumns, quizSubmissions]);
 
-  const hasSubmissions = tableConfig.data.length > 0;
+    loadSubmissions();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, []);
+
+  const totalSubmissions = activeTab === "quizzes"
+    ? quizSubmissions.length
+    : questionSubmissions.length;
+  const pageCount = Math.max(1, Math.ceil(totalSubmissions / PAGE_SIZE));
+  const pageStart = pageIndex * PAGE_SIZE;
+  const pageEnd = pageStart + PAGE_SIZE;
 
   return (
     <LayoutContainer>
@@ -210,63 +143,30 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
               </TabsContainer>
             </TabsHeader>
 
-            {hasSubmissions ? (
-              <>
-                <InactiveLibraryPaginationContainer>
-                  <CardPagination
-                    pageIndex={pageIndex}
-                    pageCount={1}
-                    pageSize={20}
-                    total={0}
-                    onFirstPage={() => setPageIndex(0)}
-                    onPreviousPage={() => setPageIndex(0)}
-                    onNextPage={() => setPageIndex(0)}
-                    onLastPage={() => setPageIndex(0)}
-                  />
-                </InactiveLibraryPaginationContainer>
-
-                <TableWrapper>
-                  <Table
-                    size="full"
-                    loading={false}
-                    data={tableConfig.data}
-                    columns={tableConfig.columns}
-                    rowSelection={rowSelection}
-                    setRowSelection={setRowSelection}
-                    enableRowSelection={false}
-                    enablePagination={false}
-                    enableRowHover={false}
-                    colGroups={tableConfig.colGroups}
-                  />
-                </TableWrapper>
-
-                <InactiveLibraryPaginationContainer>
-                  <CardPagination
-                    pageIndex={pageIndex}
-                    pageCount={1}
-                    pageSize={20}
-                    total={0}
-                    onFirstPage={() => setPageIndex(0)}
-                    onPreviousPage={() => setPageIndex(0)}
-                    onNextPage={() => setPageIndex(0)}
-                    onLastPage={() => setPageIndex(0)}
-                  />
-                </InactiveLibraryPaginationContainer>
-              </>
+            {activeTab === "quizzes" ? (
+              <QuizSubmissionsTab
+                submissions={quizSubmissions.slice(pageStart, pageEnd)}
+                pageIndex={pageIndex}
+                pageCount={pageCount}
+                pageSize={PAGE_SIZE}
+                total={totalSubmissions}
+                setPageIndex={setPageIndex}
+                rowSelection={rowSelection}
+                setRowSelection={setRowSelection}
+                onLearnMore={() => navigate("/library")}
+              />
             ) : (
-              <EmptyStateWrapper>
-                <EmptyState
-                  subtitle={emptyStateCopy.subtitle}
-                  buttons={(
-                    <Button
-                      text={t("templates.submissions_empty_state.learn_more")}
-                      type="primary"
-                      color={theme.colors.green7}
-                      onClick={() => navigate("/library")}
-                    />
-                  )}
-                />
-              </EmptyStateWrapper>
+              <QuestionSubmissionsTab
+                submissions={questionSubmissions.slice(pageStart, pageEnd)}
+                pageIndex={pageIndex}
+                pageCount={pageCount}
+                pageSize={PAGE_SIZE}
+                total={totalSubmissions}
+                setPageIndex={setPageIndex}
+                rowSelection={rowSelection}
+                setRowSelection={setRowSelection}
+                onLearnMore={() => navigate("/library")}
+              />
             )}
           </ContentCard>
         </LayoutMainContentWrapper>
@@ -287,15 +187,6 @@ const HeaderContainer = styled.div`
   gap: 16px;
   max-width: 1200px;
   margin-bottom: 40px;
-`;
-
-const StyledSubHeading3 = styled(SubHeading3)`
-  color: ${(props) => props.theme.colors.green7};
-`;
-
-const Description = styled(Body1)`
-  color: ${(props) => props.theme.colors.dark.darkGrey};
-  line-height: 1.6;
 `;
 
 const ContentCard = styled.div`
@@ -340,15 +231,4 @@ const TabButton = styled.button<{ $isActive: boolean }>`
     props.$isActive ? props.theme.colors.green7 : props.theme.colors.dark.black
   )};
   }
-`;
-
-const TableWrapper = styled.div`
-  overflow: hidden;
-`;
-
-const EmptyStateWrapper = styled.div`
-  min-height: 420px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
