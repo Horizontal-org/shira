@@ -54,7 +54,7 @@ export const TemplatesLayout: FunctionComponent<Props> = () => {
       <Sidebar
         menuItems={menuItems}
         onCollapse={handleCollapse}
-        selectedItemLabel={menuItems.find((m) => m.path === "/library").label}
+        selectedItemLabel={menuItems.find((m) => m.path === "/template-library").label}
       />
 
       <LayoutMainContent $isCollapsed={isCollapsed}>
@@ -70,7 +70,7 @@ export const TemplatesLayout: FunctionComponent<Props> = () => {
             <Button
               id="templates-my-submissions-button"
               text={t("templates.my_submissions")}
-              onClick={() => navigate("/library/my-submissions")}
+              onClick={() => navigate("/template-library/my-submissions")}
               type="outline"
               leftIcon={<FiUpload size={20} color={theme.colors.dark.darkGrey} />}
             />

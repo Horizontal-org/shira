@@ -103,8 +103,8 @@ function App() {
                     <Route path='/quiz/:quizId/question/:questionId' element={<QuestionEditLayout />} />
                     <Route path='/quiz/templates' element={<QuizTemplatesListLayout />} />
                     <Route path='/question/library' element={<QuestionLibraryListLayout />} />
-                    <Route path="/library" element={<TemplatesLayout />} />
-                    <Route path="/library/my-submissions" element={<MySubmissionsLayout />} />
+                    <Route path="/template-library" element={<TemplatesLayout />} />
+                    <Route path="/template-library/my-submissions" element={<MySubmissionsLayout />} />
                     <Route path='/learner' element={<LearnersLayout />} />
                     <Route path='/learner/import/bulk' element={<LearnerBulkImportLayout />} />
                     <Route path="/logout" element={<LogoutLayout />} />

@@ -19,7 +19,7 @@ export const customMenuItems: MenuItem[] = [
   {
     icon: <MdMenuBook id="templates-icon" size={24} color="currentColor" />,
     label: 'sidebar.templates',
-    path: '/library'
+    path: '/template-library'
   },
   {
     icon: <IoMdHelpCircle id="support-icon" size={24} color="currentColor" />,

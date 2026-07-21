@@ -97,7 +97,7 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
       <Sidebar
         menuItems={menuItems}
         onCollapse={handleCollapse}
-        selectedItemLabel={menuItems.find((m) => m.path === "/library").label}
+        selectedItemLabel={menuItems.find((m) => m.path === "/template-library").label}
       />
 
       <LayoutMainContent $isCollapsed={isCollapsed}>
@@ -153,7 +153,7 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
                 setPageIndex={setPageIndex}
                 rowSelection={rowSelection}
                 setRowSelection={setRowSelection}
-                onLearnMore={() => navigate("/library")}
+                onLearnMore={() => navigate("/template-library")}
               />
             ) : (
               <QuestionSubmissionsTab
@@ -165,7 +165,7 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
                 setPageIndex={setPageIndex}
                 rowSelection={rowSelection}
                 setRowSelection={setRowSelection}
-                onLearnMore={() => navigate("/library")}
+                onLearnMore={() => navigate("/template-library")}
               />
             )}
           </ContentCard>
