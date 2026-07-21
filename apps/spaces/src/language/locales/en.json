@@ -270,6 +270,11 @@
             "actions": "Actions",
             "preview": "Preview submission"
         },
+        "submission_status": {
+            "in_review": "In review",
+            "accepted": "Accepted",
+            "rejected": "Rejected"
+        },
         "submissions_empty_state": {
             "quizzes": {
                 "subtitle": "You don't have any submissions yet. To submit a resource that you have created, go to that specific resource and select \"submit as template.\""

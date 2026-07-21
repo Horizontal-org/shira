@@ -9,6 +9,7 @@ import {
   SubmissionStatusPill,
 } from "./SubmissionTableCells";
 import { SubmissionTableContent } from "./SubmissionTableContent";
+import i18n from "../../../language/i18n";
 
 interface QuizSubmissionsTabProps {
   submissions: QuizSubmissionDto[];
@@ -42,7 +43,11 @@ export const QuizSubmissionsTab = ({
     {
       header: t("templates.submissions_table.date_submitted"),
       accessorKey: "dateSubmitted",
-      cell: ({ row }) => <SubmissionDateCell dateSubmitted={row.original.dateSubmitted} />,
+      cell: ({ row }) =>
+        <SubmissionDateCell
+          dateSubmitted={row.original.dateSubmitted}
+          language={i18n.language}
+        />,
     },
     {
       header: t("templates.submissions_table.status"),

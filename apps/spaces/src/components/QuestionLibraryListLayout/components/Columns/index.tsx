@@ -6,7 +6,7 @@ import { TbAlertTriangleFilled } from "react-icons/tb";
 import { SelectApp } from "../Selects/SelectApp";
 import { appIcons } from "../../../../utils/appIcons";
 import { ActionButtonWithTooltip } from "../ActionButtonWithTooltip";
-import { formatDateCreated } from "../../../../language/dateUtils";
+import { formatLocaleDate } from "../../../../language/dateUtils";
 import i18n from "../../../../language/i18n";
 import { HighlightedText } from "../../../HighlightedText";
 
@@ -120,7 +120,7 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
     cell: ({ row }) => (
       <IconTextCell>
         <MdCalendarMonth size={14} color={defaultTheme.colors.error7} />
-        <Body3>{formatDateCreated(row.original.createdAt)}</Body3>
+        <Body3>{formatLocaleDate(row.original.createdAt)}</Body3>
       </IconTextCell>
     ),
   },

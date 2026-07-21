@@ -1,8 +1,10 @@
 import { Body3, Body3Bold, defaultTheme, styled } from "@horizontal-org/shira-ui";
 import type { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { FaCircleCheck } from "react-icons/fa6";
 import { MdCalendarMonth, MdCancel, MdOutlineAccessTimeFilled, MdRemoveRedEye } from "react-icons/md";
 import type { SubmissionStatus } from "../../../fetch/submissions";
+import { formatLocaleDate } from "../../../language/dateUtils";
 
 interface StatusPillProps {
   status: SubmissionStatus;
@@ -13,37 +15,38 @@ const statusConfig: Record<SubmissionStatus, {
   color: string;
   icon: ReactNode;
 }> = {
-  "In review": {
+  in_review: {
     background: defaultTheme.colors.light.paleGrey,
     color: defaultTheme.colors.dark.darkGrey,
     icon: <MdOutlineAccessTimeFilled size={14} color={defaultTheme.colors.dark.mediumGrey} />,
   },
-  "Accepted": {
+  accepted: {
     background: defaultTheme.colors.light.paleGreen,
     color: defaultTheme.colors.green9,
     icon: <FaCircleCheck size={14} color={defaultTheme.colors.green6} />,
   },
-  "Rejected": {
+  rejected: {
     background: defaultTheme.colors.light.paleRed,
     color: defaultTheme.colors.error9,
     icon: <MdCancel size={14} color={defaultTheme.colors.error7} />,
   },
 };
 
-export const SubmissionDateCell = ({ dateSubmitted }: { dateSubmitted: string }) => (
+export const SubmissionDateCell = ({ dateSubmitted, language }: { dateSubmitted: string; language?: string }) => (
   <DateCell>
     <MdCalendarMonth size={18} color={defaultTheme.colors.error7} />
-    <Body3>{dateSubmitted}</Body3>
+    <Body3>{formatLocaleDate(dateSubmitted, language)}</Body3>
   </DateCell>
 );
 
 export const SubmissionStatusPill = ({ status }: StatusPillProps) => {
+  const { t } = useTranslation();
   const config = statusConfig[status];
 
   return (
     <StatusPill $background={config.background} $color={config.color}>
       {config.icon}
-      {status}
+      {t(`templates.submission_status.${status}`)}
     </StatusPill>
   );
 };
