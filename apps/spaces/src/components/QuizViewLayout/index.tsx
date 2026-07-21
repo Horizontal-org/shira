@@ -38,6 +38,7 @@ import { DuplicateQuizModal } from "../modals/DuplicateQuizModal";
 import { useQuizCreationFlow } from "../../hooks/useQuizCreationFlow";
 import { useSub } from "../../hooks/useSub";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
+import { customMenuItems } from "../../utils/customMenuItems";
 
 interface Props { }
 
@@ -70,7 +71,13 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   }), shallow)
   console.log("🚀 ~ QuizViewLayout ~ quizzes:", quizzes)
 
-  const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
+  const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(
+    navigate,
+    customMenuItems.map((item) => ({
+      ...item,
+      label: t(item.label),
+    })),
+  )
   const [isPublished, setIsPublished] = useState(false);
 
   const { isSubActive } = useSub()

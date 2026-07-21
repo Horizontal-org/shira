@@ -251,6 +251,32 @@
         "title": "Templates",
         "subtitle": "Get started right away with ready-made templates.",
         "my_submissions": "My submissions",
+        "back_to_templates": "Back to Templates",
+        "my_submissions_description_1": "These are the resources you have submitted. The Shira team carefully reviews every submission that we receive.",
+        "my_submissions_description_2": "If your resource is accepted, it will appear under Shira's templates. If it is rejected, you will receive an email with an explanation.",
+        "my_submissions_description_3": "For more information, visit our",
+        "help_center": "Help Center",
+        "submissions_tabs": {
+            "quizzes": "Quizzes",
+            "questions": "Questions"
+        },
+        "submissions_table": {
+            "quiz_name": "Quiz name",
+            "question_name": "Question name",
+            "submitted_on": "Submitted on",
+            "status": "Status",
+            "type": "Type",
+            "app": "App"
+        },
+        "submissions_empty_state": {
+            "quizzes": {
+                "subtitle": "You don't have any submissions yet. To submit a resource that you have created, go to that specific resource and select \"submit as template.\""
+            },
+            "questions": {
+                "subtitle": "You don't have any submissions yet. To submit a resource that you have created, go to that specific resource and select \"submit as template.\""
+            },
+            "learn_more": "Learn more about templates"
+        },
         "quiz_templates": {
             "title": "Quiz templates",
             "description": "Create a quiz instantly by choosing from our quiz templates, available in multiple apps and languages."
