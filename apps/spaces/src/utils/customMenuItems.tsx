@@ -3,7 +3,7 @@ import { FiLogOut } from 'react-icons/fi';
 import { IoMdHelpCircle, IoMdSettings } from 'react-icons/io';
 import { IoPerson } from 'react-icons/io5';
 import { LuNotepadText } from 'react-icons/lu';
-import { MdLibraryBooks } from 'react-icons/md';
+import { MdMenuBook } from 'react-icons/md';
 
 export const customMenuItems: MenuItem[] = [
   {
@@ -17,7 +17,7 @@ export const customMenuItems: MenuItem[] = [
     path: '/learner'
   },
   {
-    icon: <MdLibraryBooks id="templates-icon" size={24} color="currentColor" />,
+    icon: <MdMenuBook id="templates-icon" size={24} color="currentColor" />,
     label: 'sidebar.templates',
     path: '/library'
   },
