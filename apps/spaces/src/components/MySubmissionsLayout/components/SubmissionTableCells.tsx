@@ -18,26 +18,22 @@ const statusConfig: Record<SubmissionStatus, {
     color: defaultTheme.colors.dark.darkGrey,
     icon: <MdOutlineAccessTimeFilled size={14} color={defaultTheme.colors.dark.mediumGrey} />,
   },
-  Accepted: {
+  "Accepted": {
     background: defaultTheme.colors.light.paleGreen,
     color: defaultTheme.colors.green9,
     icon: <FaCircleCheck size={14} color={defaultTheme.colors.green6} />,
   },
-  Rejected: {
+  "Rejected": {
     background: defaultTheme.colors.light.paleRed,
     color: defaultTheme.colors.error9,
     icon: <MdCancel size={14} color={defaultTheme.colors.error7} />,
   },
 };
 
-export const SubmissionNameCell = styled(Body3Bold)`
-  color: ${defaultTheme.colors.dark.darkGrey};
-`;
-
-export const SubmissionDateCell = ({ submittedOn }: { submittedOn: string }) => (
+export const SubmissionDateCell = ({ dateSubmitted }: { dateSubmitted: string }) => (
   <DateCell>
     <MdCalendarMonth size={18} color={defaultTheme.colors.error7} />
-    <Body3>{submittedOn}</Body3>
+    <Body3>{dateSubmitted}</Body3>
   </DateCell>
 );
 
@@ -91,4 +87,8 @@ const ActionButton = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;
+`;
+
+export const SubmissionNameCell = styled(Body3Bold)`
+  color: ${defaultTheme.colors.dark.darkGrey};
 `;

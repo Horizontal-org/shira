@@ -263,7 +263,7 @@
         "submissions_table": {
             "quiz_name": "Quiz name",
             "question_name": "Question name",
-            "submitted_on": "Submitted on",
+            "date_submitted": "Date submitted",
             "status": "Status",
             "type": "Type",
             "app": "App",

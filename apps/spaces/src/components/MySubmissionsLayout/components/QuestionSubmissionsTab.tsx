@@ -19,7 +19,6 @@ interface QuestionSubmissionsTabProps {
   setPageIndex: (updater: number | ((prev: number) => number)) => void;
   rowSelection: RowSelectionState;
   setRowSelection: (updater: RowSelectionState | ((prev: RowSelectionState) => RowSelectionState)) => void;
-  onLearnMore: () => void;
 }
 
 export const QuestionSubmissionsTab = ({
@@ -31,7 +30,6 @@ export const QuestionSubmissionsTab = ({
   setPageIndex,
   rowSelection,
   setRowSelection,
-  onLearnMore,
 }: QuestionSubmissionsTabProps) => {
   const { t } = useTranslation();
 
@@ -42,9 +40,9 @@ export const QuestionSubmissionsTab = ({
       cell: ({ row }) => <SubmissionNameCell>{row.original.name}</SubmissionNameCell>,
     },
     {
-      header: t("templates.submissions_table.submitted_on"),
-      accessorKey: "submittedOn",
-      cell: ({ row }) => <SubmissionDateCell submittedOn={row.original.submittedOn} />,
+      header: t("templates.submissions_table.date_submitted"),
+      accessorKey: "dateSubmitted",
+      cell: ({ row }) => <SubmissionDateCell dateSubmitted={row.original.dateSubmitted} />,
     },
     {
       header: t("templates.submissions_table.status"),
@@ -83,7 +81,6 @@ export const QuestionSubmissionsTab = ({
       setRowSelection={setRowSelection}
       emptyStateSubtitle={t("templates.submissions_empty_state.questions.subtitle")}
       learnMoreText={t("templates.submissions_empty_state.learn_more")}
-      onLearnMore={onLearnMore}
     />
   );
 };

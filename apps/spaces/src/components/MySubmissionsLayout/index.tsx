@@ -62,27 +62,17 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
   }, [activeTab]);
 
   useEffect(() => {
-    let isCancelled = false;
-
     const loadSubmissions = async () => {
       const [quizData, questionData] = await Promise.all([
         getQuizSubmissions(),
         getQuestionSubmissions(),
       ]);
 
-      if (isCancelled) {
-        return;
-      }
-
       setQuizSubmissions(quizData);
       setQuestionSubmissions(questionData);
     };
 
     loadSubmissions();
-
-    return () => {
-      isCancelled = true;
-    };
   }, []);
 
   const totalSubmissions = activeTab === "quizzes"
@@ -153,7 +143,6 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
                 setPageIndex={setPageIndex}
                 rowSelection={rowSelection}
                 setRowSelection={setRowSelection}
-                onLearnMore={() => navigate("/template-library")}
               />
             ) : (
               <QuestionSubmissionsTab
@@ -165,7 +154,6 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
                 setPageIndex={setPageIndex}
                 rowSelection={rowSelection}
                 setRowSelection={setRowSelection}
-                onLearnMore={() => navigate("/template-library")}
               />
             )}
           </ContentCard>

@@ -97,7 +97,7 @@ export const TemplatesLayout: FunctionComponent<Props> = () => {
           </CardGrid>
         </LayoutMainContentWrapper>
       </LayoutMainContent>
-    </LayoutContainer >
+    </LayoutContainer>
   );
 };
 

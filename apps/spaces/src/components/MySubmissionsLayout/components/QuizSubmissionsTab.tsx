@@ -19,7 +19,6 @@ interface QuizSubmissionsTabProps {
   setPageIndex: (updater: number | ((prev: number) => number)) => void;
   rowSelection: RowSelectionState;
   setRowSelection: (updater: RowSelectionState | ((prev: RowSelectionState) => RowSelectionState)) => void;
-  onLearnMore: () => void;
 }
 
 export const QuizSubmissionsTab = ({
@@ -31,7 +30,6 @@ export const QuizSubmissionsTab = ({
   setPageIndex,
   rowSelection,
   setRowSelection,
-  onLearnMore,
 }: QuizSubmissionsTabProps) => {
   const { t } = useTranslation();
 
@@ -42,9 +40,9 @@ export const QuizSubmissionsTab = ({
       cell: ({ row }) => <SubmissionNameCell>{row.original.name}</SubmissionNameCell>,
     },
     {
-      header: t("templates.submissions_table.submitted_on"),
-      accessorKey: "submittedOn",
-      cell: ({ row }) => <SubmissionDateCell submittedOn={row.original.submittedOn} />,
+      header: t("templates.submissions_table.date_submitted"),
+      accessorKey: "dateSubmitted",
+      cell: ({ row }) => <SubmissionDateCell dateSubmitted={row.original.dateSubmitted} />,
     },
     {
       header: t("templates.submissions_table.status"),
@@ -83,7 +81,6 @@ export const QuizSubmissionsTab = ({
       setRowSelection={setRowSelection}
       emptyStateSubtitle={t("templates.submissions_empty_state.quizzes.subtitle")}
       learnMoreText={t("templates.submissions_empty_state.learn_more")}
-      onLearnMore={onLearnMore}
     />
   );
 };

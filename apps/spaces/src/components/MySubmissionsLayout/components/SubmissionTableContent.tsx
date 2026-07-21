@@ -1,4 +1,5 @@
 import { Button, CardPagination, EmptyState, Table, styled, useTheme } from "@horizontal-org/shira-ui";
+import { useNavigate } from "react-router-dom";
 import type { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import type { ReactNode } from "react";
 
@@ -15,7 +16,6 @@ interface SubmissionTableContentProps<TData extends object> {
   setRowSelection: (updater: RowSelectionState | ((prev: RowSelectionState) => RowSelectionState)) => void;
   emptyStateSubtitle: string;
   learnMoreText: string;
-  onLearnMore: () => void;
 }
 
 export function SubmissionTableContent<TData extends object>({
@@ -31,9 +31,9 @@ export function SubmissionTableContent<TData extends object>({
   setRowSelection,
   emptyStateSubtitle,
   learnMoreText,
-  onLearnMore,
 }: SubmissionTableContentProps<TData>) {
   const theme = useTheme();
+  const navigate = useNavigate();
   const hasSubmissions = data.length > 0;
 
   if (!hasSubmissions) {
@@ -46,7 +46,7 @@ export function SubmissionTableContent<TData extends object>({
               text={learnMoreText}
               type="primary"
               color={theme.colors.green7}
-              onClick={onLearnMore}
+              onClick={() => navigate("/template-library")}
             />
           )}
         />
