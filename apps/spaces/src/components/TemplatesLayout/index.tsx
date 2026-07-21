@@ -13,7 +13,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { shallow } from "zustand/shallow";
-import { IoMdHelpCircleOutline } from "react-icons/io";
+import { BsQuestionLg } from "react-icons/bs";
 import { LuNotepadText } from "react-icons/lu";
 import { useStore } from "../../store";
 import { LayoutContainer } from "../LayoutStyleComponents/LayoutContainer";
@@ -78,7 +78,9 @@ export const TemplatesLayout: FunctionComponent<Props> = () => {
 
           <CardGrid>
             <TemplateCard>
-              <LuNotepadText size={32} color={theme.colors.green7} />
+              <CardIcon>
+                <LuNotepadText size={32} color={theme.colors.green7} />
+              </CardIcon>
 
               <CardText>
                 <SubHeading2>{t("templates.quiz_templates.title")}</SubHeading2>
@@ -87,7 +89,9 @@ export const TemplatesLayout: FunctionComponent<Props> = () => {
             </TemplateCard>
 
             <TemplateCard>
-              <IoMdHelpCircleOutline size={32} color={theme.colors.green7} />
+              <CardIcon>
+                <BsQuestionLg size={32} color={theme.colors.green7} />
+              </CardIcon>
 
               <CardText>
                 <SubHeading2>{t("templates.question_templates.title")}</SubHeading2>
@@ -156,6 +160,22 @@ const TemplateCard = styled.button`
   @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
     grid-template-columns: 1fr;
     padding: 24px;
+  }
+`;
+
+const CardIcon = styled.div`
+  width: 88px;
+  min-width: 88px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+
+  @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
   }
 `;
 
