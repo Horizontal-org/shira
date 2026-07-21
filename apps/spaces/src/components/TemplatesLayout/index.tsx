@@ -54,20 +54,19 @@ export const TemplatesLayout: FunctionComponent<Props> = () => {
       <Sidebar
         menuItems={menuItems}
         onCollapse={handleCollapse}
-        selectedItemLabel={menuItems.find((m) => m.path === "/library")?.label ?? ""}
+        selectedItemLabel={menuItems.find((m) => m.path === "/library").label}
       />
 
       <LayoutMainContent $isCollapsed={isCollapsed}>
         <MobileResponsivenessBanner />
 
-        <StyledMainContentWrapper>
+        <LayoutMainContentWrapper>
           <HeaderRow>
             <HeaderContainer>
               {space?.name && <StyledSubHeading3>{space.name}</StyledSubHeading3>}
               <H2>{t("templates.title")}</H2>
               <Body1>{t("templates.subtitle")}</Body1>
             </HeaderContainer>
-
             <Button
               id="templates-my-submissions-button"
               text={t("templates.my_submissions")}
@@ -96,19 +95,11 @@ export const TemplatesLayout: FunctionComponent<Props> = () => {
               </CardText>
             </TemplateCard>
           </CardGrid>
-        </StyledMainContentWrapper>
+        </LayoutMainContentWrapper>
       </LayoutMainContent>
-    </LayoutContainer>
+    </LayoutContainer >
   );
 };
-
-const StyledMainContentWrapper = styled(LayoutMainContentWrapper)`
-  padding: 50px 70px;
-
-  @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
-    padding: 32px 20px 48px;
-  }
-`;
 
 const HeaderRow = styled.div`
   display: flex;
@@ -124,6 +115,7 @@ const HeaderRow = styled.div`
 `;
 
 const HeaderContainer = styled.div`
+  padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 16px;
