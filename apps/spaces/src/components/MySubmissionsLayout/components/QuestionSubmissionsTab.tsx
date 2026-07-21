@@ -2,6 +2,12 @@ import type { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import type { QuestionSubmissionDto } from "../../../fetch/submissions";
+import {
+  SubmissionActionButton,
+  SubmissionDateCell,
+  SubmissionNameCell,
+  SubmissionStatusPill,
+} from "./SubmissionTableCells";
 import { SubmissionTableContent } from "./SubmissionTableContent";
 
 interface QuestionSubmissionsTabProps {
@@ -33,22 +39,26 @@ export const QuestionSubmissionsTab = ({
     {
       header: t("templates.submissions_table.question_name"),
       accessorKey: "name",
-    },
-    {
-      header: t("templates.submissions_table.type"),
-      accessorKey: "type",
-    },
-    {
-      header: t("templates.submissions_table.app"),
-      accessorKey: "app",
+      cell: ({ row }) => <SubmissionNameCell>{row.original.name}</SubmissionNameCell>,
     },
     {
       header: t("templates.submissions_table.submitted_on"),
       accessorKey: "submittedOn",
+      cell: ({ row }) => <SubmissionDateCell submittedOn={row.original.submittedOn} />,
     },
     {
       header: t("templates.submissions_table.status"),
       accessorKey: "status",
+      cell: ({ row }) => <SubmissionStatusPill status={row.original.status} />,
+    },
+    {
+      header: t("templates.submissions_table.actions"),
+      id: "actions",
+      cell: () => (
+        <SubmissionActionButton
+          label={t("templates.submissions_table.preview")}
+        />
+      ),
     },
   ]), [t]);
 
@@ -58,11 +68,10 @@ export const QuestionSubmissionsTab = ({
       columns={columns}
       colGroups={(
         <colgroup>
-          <col style={{ width: "34%" }} />
-          <col style={{ width: "16%" }} />
-          <col style={{ width: "16%" }} />
-          <col style={{ width: "18%" }} />
-          <col style={{ width: "16%" }} />
+          <col style={{ width: "54%" }} />
+          <col style={{ width: "22%" }} />
+          <col style={{ width: "14%" }} />
+          <col style={{ width: "10%" }} />
         </colgroup>
       )}
       pageIndex={pageIndex}

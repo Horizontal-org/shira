@@ -1,7 +1,6 @@
 import { Button, CardPagination, EmptyState, Table, styled, useTheme } from "@horizontal-org/shira-ui";
 import type { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import type { ReactNode } from "react";
-import { InactiveLibraryPaginationContainer } from "../../TemplatePaginationWrapper";
 
 interface SubmissionTableContentProps<TData extends object> {
   data: TData[];
@@ -57,18 +56,16 @@ export function SubmissionTableContent<TData extends object>({
 
   return (
     <>
-      <InactiveLibraryPaginationContainer>
-        <CardPagination
-          pageIndex={pageIndex}
-          pageCount={pageCount}
-          pageSize={pageSize}
-          total={total}
-          onFirstPage={() => handlePageChange(setPageIndex, setRowSelection, 0)}
-          onPreviousPage={() => handlePageChange(setPageIndex, setRowSelection, Math.max(pageIndex - 1, 0))}
-          onNextPage={() => handlePageChange(setPageIndex, setRowSelection, Math.min(pageIndex + 1, pageCount - 1))}
-          onLastPage={() => handlePageChange(setPageIndex, setRowSelection, pageCount - 1)}
-        />
-      </InactiveLibraryPaginationContainer>
+      <CardPagination
+        pageIndex={pageIndex}
+        pageCount={pageCount}
+        pageSize={pageSize}
+        total={total}
+        onFirstPage={() => handlePageChange(setPageIndex, setRowSelection, 0)}
+        onPreviousPage={() => handlePageChange(setPageIndex, setRowSelection, Math.max(pageIndex - 1, 0))}
+        onNextPage={() => handlePageChange(setPageIndex, setRowSelection, Math.min(pageIndex + 1, pageCount - 1))}
+        onLastPage={() => handlePageChange(setPageIndex, setRowSelection, pageCount - 1)}
+      />
 
       <TableWrapper>
         <Table
@@ -85,18 +82,16 @@ export function SubmissionTableContent<TData extends object>({
         />
       </TableWrapper>
 
-      <InactiveLibraryPaginationContainer>
-        <CardPagination
-          pageIndex={pageIndex}
-          pageCount={pageCount}
-          pageSize={pageSize}
-          total={total}
-          onFirstPage={() => handlePageChange(setPageIndex, setRowSelection, 0)}
-          onPreviousPage={() => handlePageChange(setPageIndex, setRowSelection, Math.max(pageIndex - 1, 0))}
-          onNextPage={() => handlePageChange(setPageIndex, setRowSelection, Math.min(pageIndex + 1, pageCount - 1))}
-          onLastPage={() => handlePageChange(setPageIndex, setRowSelection, pageCount - 1)}
-        />
-      </InactiveLibraryPaginationContainer>
+      <CardPagination
+        pageIndex={pageIndex}
+        pageCount={pageCount}
+        pageSize={pageSize}
+        total={total}
+        onFirstPage={() => handlePageChange(setPageIndex, setRowSelection, 0)}
+        onPreviousPage={() => handlePageChange(setPageIndex, setRowSelection, Math.max(pageIndex - 1, 0))}
+        onNextPage={() => handlePageChange(setPageIndex, setRowSelection, Math.min(pageIndex + 1, pageCount - 1))}
+        onLastPage={() => handlePageChange(setPageIndex, setRowSelection, pageCount - 1)}
+      />
     </>
   );
 }
@@ -112,6 +107,10 @@ const handlePageChange = (
 
 const TableWrapper = styled.div`
   overflow: hidden;
+
+  & table td {
+    padding: 14px 16px;
+  }
 `;
 
 const EmptyStateWrapper = styled.div`

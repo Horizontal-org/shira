@@ -2,6 +2,12 @@ import type { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import type { QuizSubmissionDto } from "../../../fetch/submissions";
+import {
+  SubmissionActionButton,
+  SubmissionDateCell,
+  SubmissionNameCell,
+  SubmissionStatusPill,
+} from "./SubmissionTableCells";
 import { SubmissionTableContent } from "./SubmissionTableContent";
 
 interface QuizSubmissionsTabProps {
@@ -33,14 +39,26 @@ export const QuizSubmissionsTab = ({
     {
       header: t("templates.submissions_table.quiz_name"),
       accessorKey: "name",
+      cell: ({ row }) => <SubmissionNameCell>{row.original.name}</SubmissionNameCell>,
     },
     {
       header: t("templates.submissions_table.submitted_on"),
       accessorKey: "submittedOn",
+      cell: ({ row }) => <SubmissionDateCell submittedOn={row.original.submittedOn} />,
     },
     {
       header: t("templates.submissions_table.status"),
       accessorKey: "status",
+      cell: ({ row }) => <SubmissionStatusPill status={row.original.status} />,
+    },
+    {
+      header: t("templates.submissions_table.actions"),
+      id: "actions",
+      cell: () => (
+        <SubmissionActionButton
+          label={t("templates.submissions_table.preview")}
+        />
+      ),
     },
   ]), [t]);
 
@@ -50,9 +68,10 @@ export const QuizSubmissionsTab = ({
       columns={columns}
       colGroups={(
         <colgroup>
-          <col style={{ width: "50%" }} />
-          <col style={{ width: "25%" }} />
-          <col style={{ width: "25%" }} />
+          <col style={{ width: "52%" }} />
+          <col style={{ width: "22%" }} />
+          <col style={{ width: "16%" }} />
+          <col style={{ width: "10%" }} />
         </colgroup>
       )}
       pageIndex={pageIndex}

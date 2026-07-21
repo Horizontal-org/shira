@@ -266,7 +266,9 @@
             "submitted_on": "Submitted on",
             "status": "Status",
             "type": "Type",
-            "app": "App"
+            "app": "App",
+            "actions": "Actions",
+            "preview": "Preview submission"
         },
         "submissions_empty_state": {
             "quizzes": {
