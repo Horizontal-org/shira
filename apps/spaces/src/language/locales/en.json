@@ -250,6 +250,7 @@
     "templates": {
         "title": "Templates",
         "subtitle": "Get started right away with ready-made templates.",
+        "my_submissions": "My submissions",
         "quiz_templates": {
             "title": "Quiz templates",
             "description": "Create a quiz instantly by choosing from our quiz templates, available in multiple apps and languages."
