@@ -1,5 +1,5 @@
 import type { ColumnDef, RowSelectionState } from "@tanstack/react-table";
-import { useMemo } from "react";
+import { Dispatch, SetStateAction, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import type { QuestionSubmissionDto } from "../../../fetch/submissions";
 import {
@@ -10,15 +10,16 @@ import {
 } from "./SubmissionTableCells";
 import { SubmissionTableContent } from "./SubmissionTableContent";
 import i18n from "../../../language/i18n";
+
 interface QuestionSubmissionsTabProps {
   submissions: QuestionSubmissionDto[];
   pageIndex: number;
   pageCount: number;
   pageSize: number;
   total: number;
-  setPageIndex: (updater: number | ((prev: number) => number)) => void;
+  setPageIndex: Dispatch<SetStateAction<number>>;
   rowSelection: RowSelectionState;
-  setRowSelection: (updater: RowSelectionState | ((prev: RowSelectionState) => RowSelectionState)) => void;
+  setRowSelection: Dispatch<SetStateAction<RowSelectionState>>;
 }
 
 export const QuestionSubmissionsTab = ({

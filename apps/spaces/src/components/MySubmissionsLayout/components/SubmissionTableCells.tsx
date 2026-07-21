@@ -1,8 +1,8 @@
 import { Body3, Body3Bold, defaultTheme, styled } from "@horizontal-org/shira-ui";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { FaCircleCheck } from "react-icons/fa6";
-import { MdCalendarMonth, MdCancel, MdOutlineAccessTimeFilled, MdRemoveRedEye } from "react-icons/md";
+import { FaCircleCheck, FaRegClock } from "react-icons/fa6";
+import { MdCalendarMonth, MdCancel, MdRemoveRedEye } from "react-icons/md";
 import type { SubmissionStatus } from "../../../fetch/submissions";
 import { formatLocaleDate } from "../../../language/dateUtils";
 
@@ -18,7 +18,7 @@ const statusConfig: Record<SubmissionStatus, {
   in_review: {
     background: defaultTheme.colors.light.paleGrey,
     color: defaultTheme.colors.dark.darkGrey,
-    icon: <MdOutlineAccessTimeFilled size={14} color={defaultTheme.colors.dark.mediumGrey} />,
+    icon: <FaRegClock size={12} color={defaultTheme.colors.dark.darkGrey} />,
   },
   accepted: {
     background: defaultTheme.colors.light.paleGreen,
@@ -28,7 +28,7 @@ const statusConfig: Record<SubmissionStatus, {
   rejected: {
     background: defaultTheme.colors.light.paleRed,
     color: defaultTheme.colors.error9,
-    icon: <MdCancel size={14} color={defaultTheme.colors.error7} />,
+    icon: <MdCancel size={16} color={defaultTheme.colors.error7} />,
   },
 };
 
