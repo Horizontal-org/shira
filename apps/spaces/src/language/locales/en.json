@@ -2,6 +2,7 @@
     "sidebar": {
         "quizzes": "Quizzes",
         "learners": "Learners",
+        "templates": "Templates",
         "support": "Support",
         "settings": "Settings",
         "logout": "Log out"
@@ -244,6 +245,18 @@
             "questions": {
                 "title": "Questions"
             }
+        }
+    },
+    "templates": {
+        "title": "Templates",
+        "subtitle": "Get started right away with ready-made templates.",
+        "quiz_templates": {
+            "title": "Quiz templates",
+            "description": "Create a quiz instantly by choosing from our quiz templates, available in multiple apps and languages."
+        },
+        "question_templates": {
+            "title": "Question templates",
+            "description": "Explore pre-made questions, with message content, sender info and explanations already built in."
         }
     },
     "question_library": {

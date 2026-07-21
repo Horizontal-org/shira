@@ -34,6 +34,7 @@ import { ResetPasswordRequestLayout } from './components/ResetPasswordLayout/Res
 import { SetNewPasswordLayout } from './components/ResetPasswordLayout/SetNewPasswordLayout';
 import { ConfirmEmailUpdateLayout } from './components/ConfirmEmailUpdateLayout';
 import { CheckoutSuccessRedirect } from './components/CheckoutSuccessRedirect';
+import { TemplatesLayout } from './components/TemplatesLayout';
 
 function App() {
 
@@ -101,6 +102,7 @@ function App() {
                     <Route path='/quiz/:quizId/question/:questionId' element={<QuestionEditLayout />} />
                     <Route path='/quiz/templates' element={<QuizTemplatesListLayout />} />
                     <Route path='/question/library' element={<QuestionLibraryListLayout />} />
+                    <Route path="/library" element={<TemplatesLayout />} />
                     <Route path='/learner' element={<LearnersLayout />} />
                     <Route path='/learner/import/bulk' element={<LearnerBulkImportLayout />} />
                     <Route path="/logout" element={<LogoutLayout />} />
