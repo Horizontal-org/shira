@@ -177,13 +177,13 @@ export const useQuizCreationFlow = ({
       setSubmittingQuizId(quizId);
 
       try {
-        await duplicateQuiz(quizId, title.trim(), visibility);
+        const duplicatedQuiz = await duplicateQuiz(quizId, title.trim(), visibility);
 
         toast.success(t("success_messages.quiz_duplicated", { quiz_name: title.trim() }), {
           duration: 3000,
         });
 
-        await fetchQuizzes();
+        navigate(`/quiz/${duplicatedQuiz.quiz.id}`);
       } catch {
         toast.error(t("error_messages.duplicate_quiz_fail"), { duration: 3000 });
       } finally {
