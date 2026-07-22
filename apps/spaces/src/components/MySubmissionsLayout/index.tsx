@@ -69,7 +69,7 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
   }, [activeTab]);
 
   useEffect(() => {
-    const loadSubmissions = async () => {
+    const getSubmissions = async () => {
       const [quizData, questionData] = await Promise.all([
         getQuizSubmissions(),
         getQuestionSubmissions(),
@@ -79,7 +79,7 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
       setQuestionSubmissions(questionData);
     };
 
-    loadSubmissions();
+    getSubmissions();
   }, []);
 
   const totalSubmissions = activeTab === "quizzes"
