@@ -1,7 +1,8 @@
-import type { ColumnDef, RowSelectionState } from "@tanstack/react-table";
+import type { ColumnDef } from "@tanstack/react-table";
 import { Dispatch, SetStateAction, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import type { QuizSubmissionDto } from "../../../fetch/submissions";
+import type { SubmissionStatus } from "../../../fetch/submissions";
+import i18n from "../../../language/i18n";
 import {
   SubmissionActionButton,
   SubmissionDateCell,
@@ -9,47 +10,51 @@ import {
   SubmissionStatusPill,
 } from "./SubmissionTableCells";
 import { SubmissionTableContent } from "./SubmissionTableContent";
-import i18n from "../../../language/i18n";
 
-interface QuizSubmissionsTabProps {
-  submissions: QuizSubmissionDto[];
+type SubmissionRow = {
+  dateSubmitted: string;
+  status: SubmissionStatus;
+};
+
+type Props<TData extends SubmissionRow> = {
+  submissions: TData[];
   pageIndex: number;
   pageCount: number;
   pageSize: number;
   total: number;
   setPageIndex: Dispatch<SetStateAction<number>>;
-  rowSelection: RowSelectionState;
-  setRowSelection: Dispatch<SetStateAction<RowSelectionState>>;
-  onPreview: (submission: QuizSubmissionDto) => void;
-}
+  nameHeader: string;
+  nameAccessor: (submission: TData) => string;
+  emptyStateSubtitle: string;
+  onPreview: (submission: TData) => void;
+};
 
-export const QuizSubmissionsTab = ({
+export const SubmissionsTab = <TData extends SubmissionRow>({
   submissions,
   pageIndex,
   pageCount,
   pageSize,
   total,
   setPageIndex,
-  rowSelection,
-  setRowSelection,
+  nameHeader,
+  nameAccessor,
+  emptyStateSubtitle,
   onPreview,
-}: QuizSubmissionsTabProps) => {
+}: Props<TData>) => {
   const { t } = useTranslation();
 
-  const columns = useMemo<ColumnDef<QuizSubmissionDto>[]>(() => ([
+  const columns = useMemo<ColumnDef<TData>[]>(() => ([
     {
-      header: t("templates.submissions_table.quiz_name"),
-      accessorKey: "title",
-      cell: ({ row }) => <SubmissionNameCell>{row.original.title}</SubmissionNameCell>,
+      header: nameHeader,
+      id: "name",
+      cell: ({ row }) => <SubmissionNameCell>{nameAccessor(row.original)}</SubmissionNameCell>,
     },
     {
       header: t("templates.submissions_table.date_submitted"),
       accessorKey: "dateSubmitted",
-      cell: ({ row }) =>
-        <SubmissionDateCell
-          dateSubmitted={row.original.dateSubmitted}
-          language={i18n.language}
-        />,
+      cell: ({ row }) => (
+        <SubmissionDateCell dateSubmitted={row.original.dateSubmitted} language={i18n.language} />
+      ),
     },
     {
       header: t("templates.submissions_table.status"),
@@ -66,7 +71,7 @@ export const QuizSubmissionsTab = ({
         />
       ),
     },
-  ]), [onPreview, t]);
+  ]), [nameAccessor, nameHeader, onPreview, t]);
 
   return (
     <SubmissionTableContent
@@ -85,9 +90,7 @@ export const QuizSubmissionsTab = ({
       pageSize={pageSize}
       total={total}
       setPageIndex={setPageIndex}
-      rowSelection={rowSelection}
-      setRowSelection={setRowSelection}
-      emptyStateSubtitle={t("templates.submissions_empty_state.quizzes.subtitle")}
+      emptyStateSubtitle={emptyStateSubtitle}
       learnMoreText={t("templates.submissions_empty_state.learn_more")}
     />
   );

@@ -1,5 +1,4 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import type { RowSelectionState } from "@tanstack/react-table";
 import {
   Body1,
   Button,
@@ -22,8 +21,7 @@ import {
   type QuizSubmissionDto,
   type QuizSubmissionDetailDto,
 } from "../../fetch/submissions";
-import { QuestionSubmissionsTab } from "./components/QuestionSubmissionsTab";
-import { QuizSubmissionsTab } from "./components/QuizSubmissionsTab";
+import { SubmissionsTab } from "./components/SubmissionsTab";
 import { LayoutContainer } from "../LayoutStyleComponents/LayoutContainer";
 import { LayoutMainContent, LayoutMainContentWrapper } from "../LayoutStyleComponents/LayoutMainContent";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
@@ -43,7 +41,6 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
   const { isPublicLibraryEnabled } = usePublicLibrary();
   const [activeTab, setActiveTab] = useState<SubmissionTab>("quizzes");
   const [pageIndex, setPageIndex] = useState(0);
-  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [quizSubmissions, setQuizSubmissions] = useState<QuizSubmissionDto[]>([]);
   const [questionSubmissions, setQuestionSubmissions] = useState<QuestionSubmissionDto[]>([]);
   const [previewQuiz, setPreviewQuiz] = useState<QuizSubmissionDetailDto | null>(null);
@@ -149,27 +146,29 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
             </TabsHeader>
 
             {activeTab === "quizzes" ? (
-              <QuizSubmissionsTab
+              <SubmissionsTab
                 submissions={quizSubmissions.slice(pageStart, pageEnd)}
                 pageIndex={pageIndex}
                 pageCount={pageCount}
                 pageSize={PAGE_SIZE}
                 total={totalSubmissions}
                 setPageIndex={setPageIndex}
-                rowSelection={rowSelection}
-                setRowSelection={setRowSelection}
+                nameHeader={t("templates.submissions_table.quiz_name")}
+                nameAccessor={(submission) => submission.title}
+                emptyStateSubtitle={t("templates.submissions_empty_state.quizzes.subtitle")}
                 onPreview={handleQuizPreview}
               />
             ) : (
-              <QuestionSubmissionsTab
+              <SubmissionsTab
                 submissions={questionSubmissions.slice(pageStart, pageEnd)}
                 pageIndex={pageIndex}
                 pageCount={pageCount}
                 pageSize={PAGE_SIZE}
                 total={totalSubmissions}
                 setPageIndex={setPageIndex}
-                rowSelection={rowSelection}
-                setRowSelection={setRowSelection}
+                nameHeader={t("templates.submissions_table.question_name")}
+                nameAccessor={(submission) => submission.questionName}
+                emptyStateSubtitle={t("templates.submissions_empty_state.questions.subtitle")}
                 onPreview={handleQuestionPreview}
               />
             )}
