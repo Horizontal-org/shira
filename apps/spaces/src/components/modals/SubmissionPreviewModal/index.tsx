@@ -168,7 +168,11 @@ export const SubmissionPreviewModal: FunctionComponent<Props> = ({
         <PreviewArea>
           {quiz ? (
             <QuizPreviewQuestionsTable
-              questions={quiz.questions ?? []}
+              questions={(quiz.questions ?? []).map((quizQuestion) => ({
+                ...quizQuestion,
+                content: "",
+                explanations: [],
+              }))}
               onPreviewQuestion={() => undefined}
               onSelectApp={() => undefined}
             />

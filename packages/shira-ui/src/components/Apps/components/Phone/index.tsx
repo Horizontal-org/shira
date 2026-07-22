@@ -13,7 +13,11 @@ export const Phone: FunctionComponent<Props> = ({ children, className, backgroun
   return (
     <DesktopWrapper>
       <Font />
-      <Mobile background={background} className={className}>
+      <Mobile
+        background={background}
+        className={className}
+        data-explanation-boundary
+      >
         <Header>
           <div>9:30</div>
           <FlexWrapper>
