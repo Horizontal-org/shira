@@ -62,12 +62,6 @@ const Wrapper = styled.div<{ $isPhoneFrame: boolean }>`
   max-height: calc(100vh - 86px);
   overflow-y: scroll;
   background: ${props => props.theme.colors.light.paleGreen};
-
-  ${props => props.$isPhoneFrame && `
-    > div > div {
-      filter: drop-shadow(-2px -2px 10px rgba(0, 130, 251, 0.14));
-    }
-  `}
 `
 
 const Overlay = styled.div`

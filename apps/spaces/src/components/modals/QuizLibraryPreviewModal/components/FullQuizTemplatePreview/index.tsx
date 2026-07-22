@@ -452,12 +452,6 @@ const PreviewAppFrame = styled.div<{
   height: ${(props) => (props.$isPhoneFrame ? "80vh" : "68vh")};
   min-height: 620px;
   max-height: ${(props) => (props.$isPhoneFrame ? "none" : "780px")};
-
-  ${(props) => props.$isPhoneFrame && `
-    > div > div > div {
-      filter: drop-shadow(-2px -2px 10px rgba(0, 130, 251, 0.14));
-    }
-  `}
 `
 
 const QuizPreviewOverlay = styled.div`
