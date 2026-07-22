@@ -1,6 +1,6 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { Sidebar, styled, H2, SubHeading3, Body1, FilterButton, useAdminSidebar, DashboardCard } from "@horizontal-org/shira-ui";
+import { Sidebar, styled, H2, SubHeading3, Body1, EmptyState, FilterButton, useAdminSidebar, DashboardCard } from "@horizontal-org/shira-ui";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { formatDistance } from "date-fns";
@@ -262,6 +262,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     }
   });
 
+  const hasQuizzes = cards.length > 0;
+
   const getLastUpdateTime = useCallback(
     (lastUpdate: string) => {
       const parsedLastUpdate = new Date(lastUpdate.replace(" ", "T") + "Z");
@@ -310,77 +312,85 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             </HeaderActions>
           </HeaderContainer>
 
-          <FilterButtonsContainer>
-            <FilterButton
-              id="filter-all-quizzes"
-              text={t('quizzes.filter.all_quizzes')}
-              handleFilter={() => setActiveFilter(FilterStates.all)}
-              isActive={activeFilter === FilterStates.all}
-            />
-
-            <FilterButton
-              id="filter-published-quizzes"
-              text={t('quizzes.filter.published')}
-              handleFilter={() => setActiveFilter(FilterStates.published)}
-              isActive={activeFilter === FilterStates.published}
-            />
-
-            <FilterButton
-              id="filter-unpublished-quizzes"
-              text={t('quizzes.filter.unpublished')}
-              handleFilter={() => setActiveFilter(FilterStates.unpublished)}
-              isActive={activeFilter === FilterStates.unpublished}
-            />
-          </FilterButtonsContainer >
-
-          <CardGrid id="card-grid">
-            {filteredCards.map((card) => {
-              const isPublished = card.published;
-
-              return (
-                <DashboardCard
-                  id={`quiz-card-${card.id}`}
-                  title={card.title}
-                  publishedText={t('quizzes.filter.published')}
-                  unpublishedText={t('quizzes.filter.unpublished')}
-                  lastModified={getLastUpdateTime(card.latestGlobalUpdate)}
-                  isPublished={isPublished}
-                  disablePublishToggle={!card.questionsCount && !isPublished}
-                  disabledTooltipLabel={t('quiz.publish_toggle.disabled_tooltip')}
-                  visibilityText={
-                    card.visibility === 'public'
-                      ? t('quiz.visibility.public')
-                      : t('quiz.visibility.private')}
-                  isPublic={card.visibility === 'public'}
-                  onClick={() => {
-                    navigate(`/quiz/${card.id}`)
-                  }}
-                  key={card.id}
-                  onCopyUrl={() => {
-                    handleCopyUrlAndNotify(card.hash, t('success_messages.quiz_link_copied'));
-                    if (!isPublished) {
-                      setUnpublishedQuizId(card.id);
-                      setIsUnpublishedQuizCopyLinkModalOpen(true);
-                    }
-                  }}
-                  onTogglePublished={() => { togglePublished(card) }}
-                  onEdit={() => {
-                    navigate(`/quiz/${card.id}`)
-                  }}
-                  onDuplicate={() => {
-                    startDuplicateQuizFlow(card);
-                  }}
-                  onDelete={() => {
-                    handleSelectedCard(card)
-                    setIsDeleteModalOpen(true)
-                  }}
-                  showLoading={isSubmitting && submittingQuizId === card.id}
-                  loadingLabel={t('loading_messages.duplicating')}
-                  canDuplicate={isSubActive || quizzes.length < 3}
+          {hasQuizzes ? (
+            <>
+              <FilterButtonsContainer>
+                <FilterButton
+                  id="filter-all-quizzes"
+                  text={t('quizzes.filter.all_quizzes')}
+                  handleFilter={() => setActiveFilter(FilterStates.all)}
+                  isActive={activeFilter === FilterStates.all}
                 />
-              );
-            })}
-          </CardGrid>
+
+                <FilterButton
+                  id="filter-published-quizzes"
+                  text={t('quizzes.filter.published')}
+                  handleFilter={() => setActiveFilter(FilterStates.published)}
+                  isActive={activeFilter === FilterStates.published}
+                />
+
+                <FilterButton
+                  id="filter-unpublished-quizzes"
+                  text={t('quizzes.filter.unpublished')}
+                  handleFilter={() => setActiveFilter(FilterStates.unpublished)}
+                  isActive={activeFilter === FilterStates.unpublished}
+                />
+              </FilterButtonsContainer>
+
+              <CardGrid id="card-grid">
+                {filteredCards.map((card) => {
+                  const isPublished = card.published;
+
+                  return (
+                    <DashboardCard
+                      id={`quiz-card-${card.id}`}
+                      title={card.title}
+                      publishedText={t('quizzes.filter.published')}
+                      unpublishedText={t('quizzes.filter.unpublished')}
+                      lastModified={getLastUpdateTime(card.latestGlobalUpdate)}
+                      isPublished={isPublished}
+                      disablePublishToggle={!card.questionsCount && !isPublished}
+                      disabledTooltipLabel={t('quiz.publish_toggle.disabled_tooltip')}
+                      visibilityText={
+                        card.visibility === 'public'
+                          ? t('quiz.visibility.public')
+                          : t('quiz.visibility.private')}
+                      isPublic={card.visibility === 'public'}
+                      onClick={() => {
+                        navigate(`/quiz/${card.id}`)
+                      }}
+                      key={card.id}
+                      onCopyUrl={() => {
+                        handleCopyUrlAndNotify(card.hash, t('success_messages.quiz_link_copied'));
+                        if (!isPublished) {
+                          setUnpublishedQuizId(card.id);
+                          setIsUnpublishedQuizCopyLinkModalOpen(true);
+                        }
+                      }}
+                      onTogglePublished={() => { togglePublished(card) }}
+                      onEdit={() => {
+                        navigate(`/quiz/${card.id}`)
+                      }}
+                      onDuplicate={() => {
+                        startDuplicateQuizFlow(card);
+                      }}
+                      onDelete={() => {
+                        handleSelectedCard(card)
+                        setIsDeleteModalOpen(true)
+                      }}
+                      showLoading={isSubmitting && submittingQuizId === card.id}
+                      loadingLabel={t('loading_messages.duplicating')}
+                      canDuplicate={isSubActive || quizzes.length < 3}
+                    />
+                  );
+                })}
+              </CardGrid>
+            </>
+          ) : (
+            <DashboardEmptyState>
+              <EmptyState subtitle={t('dashboard.empty_state')} />
+            </DashboardEmptyState>
+          )}
 
           <DeleteModal
             title={t('modals.delete_quiz.title', { quiz_name: selectedCard?.title })}
@@ -589,6 +599,10 @@ const CardGrid = styled.div`
     grid-template-columns: 1fr;
     gap: 16px;
   }
+`;
+
+const DashboardEmptyState = styled.div`
+  min-height: 400px;
 `;
 
 const QuizWarningNote = styled.span`
