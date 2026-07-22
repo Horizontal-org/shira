@@ -12,7 +12,7 @@ import { getAppsByType, getAppsByTypeAndValue, normalizePreviewAppName } from ".
 type Props = {
   questions: LibraryQuizQuestionTemplateDto[];
   loading?: boolean;
-  onPreviewQuestion: (question: LibraryQuizQuestionTemplateDto) => void;
+  onPreviewQuestion: (questionId: number) => void;
   onSelectApp: (questionId: number, appName: string) => void;
 };
 
@@ -111,7 +111,7 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
             <PreviewActionButton
               type="button"
               title={t("quiz_library.preview.columns.preview")}
-              onClick={() => onPreviewQuestion(row.original)}
+              onClick={() => onPreviewQuestion(row.original.questionId)}
             >
               <MdRemoveRedEye
                 size={20}

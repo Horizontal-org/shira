@@ -6,7 +6,7 @@ import {
   getQuizTemplateQuestions,
   LibraryQuizQuestionTemplateDto
 } from "../../../fetch/quiz_templates";
-import { getAppsByTypeAndValue } from "../../../utils/appNames";
+import { useQuestionPreviewState } from "../QuizPreviewModal/useQuestionPreviewState";
 
 export const useQuizTemplateQuestions = (
   quiz: LibraryQuizDto | null,
@@ -17,7 +17,12 @@ export const useQuizTemplateQuestions = (
   const [hasLoadedQuestions, setHasLoadedQuestions] = useState(false);
   const [isLoadingQuestions, setIsLoadingQuestions] = useState(false);
   const [hasQuestionLoadError, setHasQuestionLoadError] = useState(false);
-  const [previewQuestionId, setPreviewQuestionId] = useState<number | null>(null);
+  const {
+    previewQuestionId,
+    openPreviewQuestion,
+    closePreviewQuestion,
+    updateQuestionApp,
+  } = useQuestionPreviewState(setQuestions);
 
   useEffect(() => {
     if (!isOpen || quizId === null) {
@@ -25,7 +30,7 @@ export const useQuizTemplateQuestions = (
       setHasLoadedQuestions(false);
       setIsLoadingQuestions(false);
       setHasQuestionLoadError(false);
-      setPreviewQuestionId(null);
+      closePreviewQuestion();
       return;
     }
 
@@ -33,7 +38,7 @@ export const useQuizTemplateQuestions = (
     setHasLoadedQuestions(false);
     setIsLoadingQuestions(true);
     setHasQuestionLoadError(false);
-    setPreviewQuestionId(null);
+    closePreviewQuestion();
 
     const loadQuestions = async () => {
       const loadedQuestions = await getQuizTemplateQuestions(quizId);
@@ -52,40 +57,11 @@ export const useQuizTemplateQuestions = (
     };
 
     loadQuestions();
-  }, [isOpen, quizId]);
+  }, [isOpen, quizId, closePreviewQuestion]);
 
   const previewQuestion = questions.find((question) => question.questionId === previewQuestionId) ?? null;
 
   const firstPreviewableQuestion = questions.find((question) => question.content.trim());
-
-  const openPreviewQuestion = (questionId: number) => {
-    setPreviewQuestionId(questionId);
-  };
-
-  const closePreviewQuestion = () => {
-    setPreviewQuestionId(null);
-  };
-
-  const updateQuestionApp = (questionId: number, appName: string) => {
-    setQuestions((currentQuestions) =>
-      currentQuestions.map((question) => {
-        if (question.questionId !== questionId || !question.appType) {
-          return question;
-        }
-
-        const selectedApp = getAppsByTypeAndValue(question.appType, appName);
-
-        if (!selectedApp) {
-          return question;
-        }
-
-        return {
-          ...question,
-          appName: selectedApp.name,
-        };
-      }),
-    );
-  };
 
   return {
     questions,

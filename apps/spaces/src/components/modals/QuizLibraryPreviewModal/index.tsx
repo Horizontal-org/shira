@@ -1,9 +1,6 @@
 import {
   Body1,
   Button,
-  CloseButton,
-  FullScreenModal,
-  H2,
   defaultTheme,
   styled,
 } from "@horizontal-org/shira-ui"
@@ -20,6 +17,7 @@ import { QuizPreviewDetailsCard } from "./components/QuizPreviewDetailsCard"
 import { QuizPreviewQuestionsTable } from "./components/QuizPreviewQuestionsTable"
 import { QuizTemplateQuestionPreview } from "./components/QuizTemplateQuestionPreview"
 import { useQuizTemplateQuestions } from "./useQuizTemplateQuestions"
+import { QuizPreviewModal } from "../QuizPreviewModal"
 
 type Props = {
   quiz: LibraryQuizDto | null
@@ -74,7 +72,8 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
     || questions.length === 0
   )
   const firstQuestion = questions[0]
-  const fullPreviewQuestion = questions.find((question) => question.questionId === fullPreviewQuestionId) ?? null
+  const fullPreviewQuestion =
+    questions.find((question) => question.questionId === fullPreviewQuestionId) ?? null
 
   const openSingleQuestionPreview = (questionId: number) => {
     setFullPreviewQuestionId(null)
@@ -91,12 +90,13 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
   }
 
   return (
-    <FullScreenModal
+    <QuizPreviewModal
       isOpen={isOpen}
       onClose={onClose}
-      closeOnOverlayClick
-    >
-        {fullPreviewQuestion ? (
+      title={quiz.title}
+      subtitle={t("quiz_library.preview.subtitle")}
+      fullScreenContent={
+        fullPreviewQuestion ? (
           <FullQuizTemplatePreview
             quiz={quiz}
             questions={questions}
@@ -113,81 +113,58 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
             onBack={closePreviewQuestion}
             onClose={onClose}
           />
-        ) : (
-          <>
-            <TopBar>
-              <CloseButton onClick={onClose} />
+        ) : undefined
+      }
+      actions={(
+        <ActionsRow>
+          <Button
+            text={t("quiz_library.preview.preview_full_quiz")}
+            type="outline"
+            leftIcon={<IoEyeSharp size={22} color={defaultTheme.colors.dark.darkGrey} />}
+            disabled={!firstQuestion}
+            onClick={() => {
+              if (firstQuestion) {
+                openFullQuizPreview(firstQuestion.questionId)
+              }
+            }}
+          />
 
-              <ActionsRow>
-                <Button
-                  text={t("quiz_library.preview.preview_full_quiz")}
-                  type="outline"
-                  leftIcon={<IoEyeSharp size={22} color={defaultTheme.colors.dark.darkGrey} />}
-                  disabled={!firstQuestion}
-                  onClick={() => {
-                    if (firstQuestion) {
-                      openFullQuizPreview(firstQuestion.questionId)
-                    }
-                  }}
-                />
+          <ActionsDivider />
 
-                <ActionsDivider />
-
-                <Button
-                  text={t("quiz_library.preview.use_template")}
-                  type="primary"
-                  color={defaultTheme.colors.green7}
-                  leftIcon={<FaCirclePlus size={17} />}
-                  disabled={disableUseTemplateButton}
-                  onClick={() => onUseTemplate(questions)}
-                />
-              </ActionsRow>
-            </TopBar>
-
-            <Content>
-              <Title>{quiz.title}</Title>
-              <Subtitle>{t("quiz_library.preview.subtitle")}</Subtitle>
-
-              <QuizPreviewDetailsCard
-                languages={languages}
-                tags={tags}
-                creator={quiz.author}
-                createdAt={formatLongDate(quiz.createdAt, i18n.language)}
-              />
-
-              <QuestionsSection>
-                {hasQuestionLoadError && (
-                  <QuestionsErrorText>{t("error_messages.something_went_wrong")}</QuestionsErrorText>
-                )}
-
-                <QuizPreviewQuestionsTable
-                  questions={questions}
-                  loading={isLoadingQuestions}
-                  onPreviewQuestion={(question) => {
-                    openSingleQuestionPreview(question.questionId)
-                  }}
-                  onSelectApp={updateQuestionApp}
-                />
-              </QuestionsSection>
-            </Content>
-          </>
+          <Button
+            text={t("quiz_library.preview.use_template")}
+            type="primary"
+            color={defaultTheme.colors.green7}
+            leftIcon={<FaCirclePlus size={17} />}
+            disabled={disableUseTemplateButton}
+            onClick={() => onUseTemplate(questions)}
+          />
+        </ActionsRow>
+      )}
+      details={(
+        <QuizPreviewDetailsCard
+          languages={languages}
+          tags={tags}
+          creator={quiz.author}
+          createdAt={formatLongDate(quiz.createdAt, i18n.language)}
+        />
+      )}
+    >
+      <QuestionsSection>
+        {hasQuestionLoadError && (
+          <QuestionsErrorText>{t("error_messages.something_went_wrong")}</QuestionsErrorText>
         )}
-    </FullScreenModal>
+
+        <QuizPreviewQuestionsTable
+          questions={questions}
+          loading={isLoadingQuestions}
+          onPreviewQuestion={openSingleQuestionPreview}
+          onSelectApp={updateQuestionApp}
+        />
+      </QuestionsSection>
+    </QuizPreviewModal>
   )
 }
-
-const TopBar = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  padding: 20px 28px 0;
-
-  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 20px 20px 0;
-  }
-`
 
 const ActionsRow = styled.div`
   display: flex;
@@ -206,27 +183,6 @@ const ActionsDivider = styled.div`
   width: 1px;
   height: 36px;
   background: ${defaultTheme.colors.dark.mediumGrey};
-`
-
-const Content = styled.div`
-  flex: 1;
-  min-height: 0;
-  padding: 32px 64px 72px;
-  overflow-y: auto;
-
-  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
-    padding: 24px 20px 56px;
-  }
-`
-
-const Title = styled(H2)`
-  margin: 0;
-  color: ${defaultTheme.colors.dark.black};
-`
-
-const Subtitle = styled(Body1)`
-  margin: 16px 0 0;
-  color: ${defaultTheme.colors.dark.darkGrey};
 `
 
 const QuestionsSection = styled.div`
