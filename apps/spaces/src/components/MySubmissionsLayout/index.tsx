@@ -14,9 +14,13 @@ import { useTranslation } from "react-i18next";
 import { FiArrowLeft } from "react-icons/fi";
 import {
   getQuestionSubmissions,
+  getQuestionSubmission,
   getQuizSubmissions,
+  getQuizSubmission,
   type QuestionSubmissionDto,
+  type QuestionSubmissionDetailDto,
   type QuizSubmissionDto,
+  type QuizSubmissionDetailDto,
 } from "../../fetch/submissions";
 import { QuestionSubmissionsTab } from "./components/QuestionSubmissionsTab";
 import { QuizSubmissionsTab } from "./components/QuizSubmissionsTab";
@@ -25,6 +29,7 @@ import { LayoutMainContent, LayoutMainContentWrapper } from "../LayoutStyleCompo
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
 import { customMenuItems } from "../../utils/customMenuItems";
 import { usePublicLibrary } from "../../hooks/usePublicLibrary";
+import { SubmissionPreviewModal } from "../modals/SubmissionPreviewModal";
 
 type SubmissionTab = "quizzes" | "questions";
 
@@ -41,6 +46,8 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [quizSubmissions, setQuizSubmissions] = useState<QuizSubmissionDto[]>([]);
   const [questionSubmissions, setQuestionSubmissions] = useState<QuestionSubmissionDto[]>([]);
+  const [previewQuiz, setPreviewQuiz] = useState<QuizSubmissionDetailDto | null>(null);
+  const [previewQuestion, setPreviewQuestion] = useState<QuestionSubmissionDetailDto | null>(null);
 
   const {
     isCollapsed,
@@ -81,6 +88,14 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
   const pageCount = Math.max(1, Math.ceil(totalSubmissions / PAGE_SIZE));
   const pageStart = pageIndex * PAGE_SIZE;
   const pageEnd = pageStart + PAGE_SIZE;
+
+  const handleQuizPreview = async (submission: QuizSubmissionDto) => {
+    setPreviewQuiz(await getQuizSubmission(submission.id));
+  };
+
+  const handleQuestionPreview = async (submission: QuestionSubmissionDto) => {
+    setPreviewQuestion(await getQuestionSubmission(submission.id));
+  };
 
   return (
     <LayoutContainer>
@@ -143,6 +158,7 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
                 setPageIndex={setPageIndex}
                 rowSelection={rowSelection}
                 setRowSelection={setRowSelection}
+                onPreview={handleQuizPreview}
               />
             ) : (
               <QuestionSubmissionsTab
@@ -154,9 +170,19 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
                 setPageIndex={setPageIndex}
                 rowSelection={rowSelection}
                 setRowSelection={setRowSelection}
+                onPreview={handleQuestionPreview}
               />
             )}
           </ContentCard>
+
+          <SubmissionPreviewModal
+            quiz={previewQuiz}
+            question={previewQuestion}
+            onClose={() => {
+              setPreviewQuiz(null);
+              setPreviewQuestion(null);
+            }}
+          />
         </LayoutMainContentWrapper>
       </LayoutMainContent>
     </LayoutContainer>

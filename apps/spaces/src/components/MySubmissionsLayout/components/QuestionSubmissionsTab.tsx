@@ -20,6 +20,7 @@ interface QuestionSubmissionsTabProps {
   setPageIndex: Dispatch<SetStateAction<number>>;
   rowSelection: RowSelectionState;
   setRowSelection: Dispatch<SetStateAction<RowSelectionState>>;
+  onPreview: (submission: QuestionSubmissionDto) => void;
 }
 
 export const QuestionSubmissionsTab = ({
@@ -31,14 +32,15 @@ export const QuestionSubmissionsTab = ({
   setPageIndex,
   rowSelection,
   setRowSelection,
+  onPreview,
 }: QuestionSubmissionsTabProps) => {
   const { t } = useTranslation();
 
   const columns = useMemo<ColumnDef<QuestionSubmissionDto>[]>(() => ([
     {
       header: t("templates.submissions_table.question_name"),
-      accessorKey: "name",
-      cell: ({ row }) => <SubmissionNameCell>{row.original.name}</SubmissionNameCell>,
+      accessorKey: "questionName",
+      cell: ({ row }) => <SubmissionNameCell>{row.original.questionName}</SubmissionNameCell>,
     },
     {
       header: t("templates.submissions_table.date_submitted"),
@@ -57,13 +59,14 @@ export const QuestionSubmissionsTab = ({
     {
       header: t("templates.submissions_table.actions"),
       id: "actions",
-      cell: () => (
+      cell: ({ row }) => (
         <SubmissionActionButton
           label={t("templates.submissions_table.preview")}
+          onClick={() => onPreview(row.original)}
         />
       ),
     },
-  ]), [t]);
+  ]), [onPreview, t]);
 
   return (
     <SubmissionTableContent

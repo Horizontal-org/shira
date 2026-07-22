@@ -2,69 +2,113 @@ export type SubmissionStatus = "in_review" | "accepted" | "rejected";
 
 export interface QuizSubmissionDto {
   id: string;
-  name: string;
+  title: string;
   dateSubmitted: string;
   status: SubmissionStatus;
+  reason?: string;
+}
+
+export interface LanguageTagDto {
+  id: number;
+  name: string;
+  code: string;
+}
+
+export interface QuizSubmissionQuestionDto {
+  questionId: number;
+  questionName: string;
+  isPhishing: boolean;
+  language: string;
+  appName: string;
+  appType: string;
+}
+
+export interface QuizSubmissionDetailDto extends QuizSubmissionDto {
+  description: string;
+  langTags: LanguageTagDto[];
+  tags?: string[];
+  questions: QuizSubmissionQuestionDto[];
 }
 
 export interface QuestionSubmissionDto {
   id: string;
-  name: string;
-  type: string;
-  app: string;
+  questionName: string;
   dateSubmitted: string;
   status: SubmissionStatus;
+  reason?: string;
+}
+
+export interface QuestionSubmissionExplanationDto {
+  position: string;
+  text: string;
+  index: string;
+}
+
+export interface QuestionSubmissionDetailDto extends QuestionSubmissionDto {
+  appType: string;
+  app: string;
+  language: string;
+  isPhishing: boolean;
+  tags: string[];
+  content: string;
+  explanations: QuestionSubmissionExplanationDto[];
 }
 
 const mockQuizSubmissions: QuizSubmissionDto[] = [
-  { id: "quiz-submission-1", name: "HR email quiz", dateSubmitted: "2026-07-21", status: "in_review" },
-  { id: "quiz-submission-2", name: "Annual compliance quiz", dateSubmitted: "2026-07-21", status: "in_review" },
-  { id: "quiz-submission-3", name: "Email quiz for healthcare providers", dateSubmitted: "2026-07-03", status: "rejected" },
-  { id: "quiz-submission-4", name: "Hospital communication quiz", dateSubmitted: "2026-07-01", status: "accepted" },
-  { id: "quiz-submission-5", name: "Hospital communication follow-up", dateSubmitted: "2026-06-27", status: "rejected" },
-  { id: "quiz-submission-6", name: "Official Gmail questions", dateSubmitted: "2026-06-27", status: "accepted" },
-  { id: "quiz-submission-7", name: "Official Facebook emails", dateSubmitted: "2026-06-27", status: "accepted" },
-  { id: "quiz-submission-8", name: "Slack security reminders", dateSubmitted: "2026-06-24", status: "in_review" },
-  { id: "quiz-submission-9", name: "Microsoft Teams phishing drill", dateSubmitted: "2026-06-22", status: "accepted" },
-  { id: "quiz-submission-10", name: "Payroll verification quiz", dateSubmitted: "2026-06-20", status: "rejected" },
-  { id: "quiz-submission-11", name: "Travel policy awareness quiz", dateSubmitted: "2026-06-18", status: "accepted" },
-  { id: "quiz-submission-12", name: "Executive impersonation quiz", dateSubmitted: "2026-06-17", status: "in_review" },
-  { id: "quiz-submission-13", name: "Password reset scam quiz", dateSubmitted: "2026-06-15", status: "accepted" },
-  { id: "quiz-submission-14", name: "Benefits enrollment quiz", dateSubmitted: "2026-06-13", status: "accepted" },
-  { id: "quiz-submission-15", name: "Shared drive access quiz", dateSubmitted: "2026-06-11", status: "rejected" },
-  { id: "quiz-submission-16", name: "Vendor invoice fraud quiz", dateSubmitted: "2026-06-09", status: "in_review" },
-  { id: "quiz-submission-17", name: "Remote onboarding quiz", dateSubmitted: "2026-06-08", status: "accepted" },
-  { id: "quiz-submission-18", name: "Account recovery quiz", dateSubmitted: "2026-06-06", status: "accepted" },
-  { id: "quiz-submission-19", name: "Cloud storage sharing quiz", dateSubmitted: "2026-06-03", status: "rejected" },
-  { id: "quiz-submission-20", name: "SMS verification quiz", dateSubmitted: "2026-06-01", status: "accepted" },
-  { id: "quiz-submission-21", name: "Finance approvals quiz", dateSubmitted: "2026-05-30", status: "in_review" },
-  { id: "quiz-submission-22", name: "Customer support handoff quiz", dateSubmitted: "2026-05-28", status: "accepted" },
-  { id: "quiz-submission-23", name: "Internal memo quiz", dateSubmitted: "2026-05-25", status: "rejected" },
+  { id: "1", title: "HR email quiz", dateSubmitted: "2026-07-21", status: "in_review" },
+  { id: "2", title: "Hospital communication quiz", dateSubmitted: "2026-07-01", status: "accepted" },
+  { id: "3", title: "Email quiz for healthcare providers", dateSubmitted: "2026-07-03", status: "rejected", reason: "there are some typos" },
 ];
+
+const mockQuizSubmissionDetails: Record<string, QuizSubmissionDetailDto> = {
+  "1": {
+    id: "1",
+    title: "Email quiz for healthcare providers",
+    description: "Email phishing attempts targeted towards doctors, nurses and medical professionals.",
+    langTags: [{ id: 4, name: "English", code: "en" }],
+    tags: ["actual scams", "malicious links", "healthcare"],
+    questions: [{ questionId: 1, questionName: "Anti-virus marketing", isPhishing: true, language: "English", appName: "Gmail", appType: "email" }],
+    dateSubmitted: "2026-07-03",
+    status: "rejected",
+    reason: "there are some typos",
+  },
+};
 
 const mockQuestionSubmissions: QuestionSubmissionDto[] = [
-  { id: "question-submission-1", name: "First date message", type: "Message", app: "WhatsApp", dateSubmitted: "2026-07-21", status: "in_review" },
-  { id: "question-submission-2", name: "Bank of America email", type: "Email", app: "Bank of America", dateSubmitted: "2026-07-21", status: "in_review" },
-  { id: "question-submission-3", name: "Befriending message", type: "Message", app: "Instagram", dateSubmitted: "2026-07-21", status: "in_review" },
-  { id: "question-submission-4", name: "Software update email", type: "Email", app: "Microsoft", dateSubmitted: "2026-07-21", status: "in_review" },
-  { id: "question-submission-5", name: "Post office SMS", type: "SMS", app: "Post Office", dateSubmitted: "2026-07-17", status: "accepted" },
-  { id: "question-submission-6", name: "Delivery notification Whatsapp", type: "Message", app: "WhatsApp", dateSubmitted: "2026-07-17", status: "accepted" },
-  { id: "question-submission-7", name: "Parcel pickup message", type: "Message", app: "Messenger", dateSubmitted: "2026-07-17", status: "accepted" },
-  { id: "question-submission-8", name: "Password reset notice", type: "Email", app: "Google", dateSubmitted: "2026-07-15", status: "rejected" },
-  { id: "question-submission-9", name: "Benefits enrollment email", type: "Email", app: "Outlook", dateSubmitted: "2026-07-14", status: "in_review" },
-  { id: "question-submission-10", name: "Cloud sharing alert", type: "Email", app: "Google Drive", dateSubmitted: "2026-07-13", status: "accepted" },
-  { id: "question-submission-11", name: "Payroll correction email", type: "Email", app: "Outlook", dateSubmitted: "2026-07-12", status: "rejected" },
-  { id: "question-submission-12", name: "Voice note follow-up", type: "Voicemail", app: "Teams", dateSubmitted: "2026-07-11", status: "accepted" },
-  { id: "question-submission-13", name: "New secure login page", type: "Landing page", app: "Okta", dateSubmitted: "2026-07-10", status: "accepted" },
-  { id: "question-submission-14", name: "Calendar invite reminder", type: "Calendar", app: "Google Calendar", dateSubmitted: "2026-07-09", status: "in_review" },
-  { id: "question-submission-15", name: "Insurance renewal email", type: "Email", app: "Gmail", dateSubmitted: "2026-07-08", status: "accepted" },
-  { id: "question-submission-16", name: "Account verification text", type: "SMS", app: "WhatsApp", dateSubmitted: "2026-07-07", status: "rejected" },
+  { id: "1", questionName: "Anti-virus marketing", dateSubmitted: "2026-07-21", status: "in_review" },
+  { id: "2", questionName: "Communication question", dateSubmitted: "2026-07-01", status: "accepted" },
+  { id: "3", questionName: "Question for healthcare providers", dateSubmitted: "2026-07-03", status: "rejected", reason: "does not apply" },
 ];
 
-export const getQuizSubmissions = async (): Promise<QuizSubmissionDto[]> => (
-  mockQuizSubmissions
-);
+const mockQuestionSubmissionDetails: Record<string, QuestionSubmissionDetailDto> = {
+  "1": {
+    id: "1",
+    questionName: "Post office SMS",
+    appType: "messaging",
+    app: "SMS",
+    language: "English",
+    isPhishing: true,
+    tags: ["delivery", "malicious links"],
+    content: "<div><div id=\"required-content\"><span data-explanation=\"1\" id=\"component-required-phone\">Trinh Nguyen</span></div><div id=\"optional-content\"></div><div id=\"dynamic-content\"><div data-position=\"0\" id=\"component-text-1\"><p>Look what I found... <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://photo.8hh.sbs/oktk2aysp\"><mark data-explanation=\"2\">https://photo.8hh.sbs/oktk2aysp</mark></a></p></div></div></div>",
+    explanations: [
+      { position: "1", text: "Is this the name of a real friend? If so, do you usually communicate with them over this app, or is this unusual?", index: "1" },
+      { position: "2", text: "This link doesn't lead to any known website or platform and should be treated with caution.", index: "2" },
+    ],
+    dateSubmitted: "2026-07-17",
+    status: "accepted",
+  },
+};
 
-export const getQuestionSubmissions = async (): Promise<QuestionSubmissionDto[]> => (
-  mockQuestionSubmissions
-);
+export const getQuizSubmissions = async (): Promise<QuizSubmissionDto[]> =>
+  mockQuizSubmissions;
+
+export const getQuizSubmission = async (id: string): Promise<QuizSubmissionDetailDto> => {
+  return mockQuizSubmissionDetails[id];
+};
+
+export const getQuestionSubmissions = async (): Promise<QuestionSubmissionDto[]> =>
+  mockQuestionSubmissions;
+
+export const getQuestionSubmission = async (id: string): Promise<QuestionSubmissionDetailDto> => {
+  return mockQuestionSubmissionDetails[id];
+};
