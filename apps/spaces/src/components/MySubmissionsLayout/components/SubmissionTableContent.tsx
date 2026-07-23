@@ -13,8 +13,6 @@ interface SubmissionTableContentProps<TData extends object> {
   pageSize: number;
   total: number;
   setPageIndex: Dispatch<SetStateAction<number>>;
-  rowSelection: RowSelectionState;
-  setRowSelection: Dispatch<SetStateAction<RowSelectionState>>;
   emptyStateSubtitle: string;
   learnMoreText: string;
 }
@@ -28,8 +26,6 @@ export function SubmissionTableContent<TData extends object>({
   pageSize,
   total,
   setPageIndex,
-  rowSelection,
-  setRowSelection,
   emptyStateSubtitle,
   learnMoreText,
 }: SubmissionTableContentProps<TData>) {
@@ -71,9 +67,8 @@ export function SubmissionTableContent<TData extends object>({
         loading={false}
         data={data}
         columns={columns}
-        rowSelection={rowSelection}
-        setRowSelection={setRowSelection}
-        enableRowSelection={false}
+        rowSelection={EMPTY_ROW_SELECTION}
+        setRowSelection={noop}
         enablePagination={false}
         enableRowHover={false}
         colGroups={colGroups}
@@ -90,3 +85,6 @@ const EmptyStateWrapper = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
+const EMPTY_ROW_SELECTION: RowSelectionState = {};
+const noop = () => undefined;

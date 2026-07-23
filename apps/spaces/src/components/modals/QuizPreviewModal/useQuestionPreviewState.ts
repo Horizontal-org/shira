@@ -3,14 +3,14 @@ import { getAppsByTypeAndValue } from "../../../utils/appNames";
 
 type PreviewQuestion = {
   questionId: number;
-  appName: string | null;
+  appName: string;
   appType: string;
 };
 
 export const useQuestionPreviewState = <T extends PreviewQuestion>(
   setQuestions: Dispatch<SetStateAction<T[]>>,
 ) => {
-  const [previewQuestionId, setPreviewQuestionId] = useState<number | null>(null);
+  const [previewQuestionId, setPreviewQuestionId] = useState<number>(null);
 
   const openPreviewQuestion = useCallback((questionId: number) => {
     setPreviewQuestionId(questionId);

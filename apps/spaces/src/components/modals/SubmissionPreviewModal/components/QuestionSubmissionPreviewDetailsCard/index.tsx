@@ -1,66 +1,66 @@
 import { Body3, defaultTheme, styled } from "@horizontal-org/shira-ui";
 import { FunctionComponent } from "react";
 import { useTranslation } from "react-i18next";
-import { FaCircleCheck } from "react-icons/fa6";
+import { FaCircleCheck, FaRegFaceMeh } from "react-icons/fa6";
 import { MdCalendarMonth, MdOutlinePhishing, MdOutlineQuiz } from "react-icons/md";
-import type { QuestionSubmissionDetailDto, QuizSubmissionDetailDto } from "../../../../../fetch/submissions";
 import { formatLocaleDate } from "../../../../../language/dateUtils";
-import { SubmissionStatusPill } from "../../../../MySubmissionsLayout/components/SubmissionTableCells";
 import { PreviewDetailsCard } from "../../../QuizPreviewModal/PreviewDetailsCard";
+import { IoMdApps } from "react-icons/io";
 
 type Props = {
-  quiz: QuizSubmissionDetailDto | null;
-  question: QuestionSubmissionDetailDto | null;
+  language: string;
+  tags: string[];
+  isPhishing: boolean;
+  app: string;
+  dateSubmitted: string;
   locale: string;
 };
 
-export const SubmissionPreviewDetailsCard: FunctionComponent<Props> = ({
-  quiz,
-  question,
+export const QuestionSubmissionPreviewDetailsCard: FunctionComponent<Props> = ({
+  language,
+  tags,
+  isPhishing,
+  app,
+  dateSubmitted,
   locale,
 }) => {
   const { t } = useTranslation();
 
   return (
     <PreviewDetailsCard
-      languages={quiz?.langTags.map((language) => language.name) ?? (question?.language ? [question.language] : [])}
-      tags={quiz?.tags ?? question?.tags ?? []}
+      languages={[language]}
+      tags={tags}
       sidebar={(
         <>
-          <SidebarRow>
-            <DetailLabel>{t("templates.submissions_table.status")}</DetailLabel>
-            <SubmissionStatusPill status={quiz?.status ?? question!.status} />
-          </SidebarRow>
           <SidebarRow>
             <DetailLabel>
               <MdCalendarMonth size={18} color={defaultTheme.colors.error7} />
               {t("templates.submissions_table.date_submitted")}
             </DetailLabel>
-            <SidebarValue>
-              {formatLocaleDate(quiz?.dateSubmitted ?? question!.dateSubmitted, locale)}
-            </SidebarValue>
+            <SidebarValue>{formatLocaleDate(dateSubmitted, locale)}</SidebarValue>
+          </SidebarRow>
+          <SidebarRow>
+            <DetailLabel>
+              <IoMdApps size={18} color={defaultTheme.colors.blue6} />
+              {t("templates.submissions_table.app")}
+            </DetailLabel>
+            <Body3>{app}</Body3>
           </SidebarRow>
         </>
       )}
     >
-
       <DetailRow>
-        <DetailLabel>{t("templates.submissions_table.type")}</DetailLabel>
-        <QuestionTypePill $isPhishing={question.isPhishing}>
-          {question.isPhishing ? <MdOutlinePhishing size={16} /> : <FaCircleCheck size={16} />}
-          {question.isPhishing
+        <DetailLabel>
+          <FaRegFaceMeh size={16} color={defaultTheme.colors.dark.darkGrey} />
+          {t("templates.submissions_table.type")}
+        </DetailLabel>
+        <QuestionTypePill $isPhishing={isPhishing}>
+          {isPhishing ? <MdOutlinePhishing size={16} /> : <FaCircleCheck size={16} />}
+          {isPhishing
             ? t("question_library.columns.type.phishing")
             : t("question_library.columns.type.legitimate")}
         </QuestionTypePill>
       </DetailRow>
-      <DetailRow>
-        <DetailLabel>
-          <MdOutlineQuiz size={18} color={defaultTheme.colors.blue6} />
-          {t("templates.submissions_table.app")}
-        </DetailLabel>
-        <Body3>{question.app}</Body3>
-      </DetailRow>
-
     </PreviewDetailsCard>
   );
 };

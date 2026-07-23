@@ -7,14 +7,14 @@ import { IoLanguage } from "react-icons/io5";
 type Props = {
   children?: ReactNode;
   sidebar: ReactNode;
-  languages?: string[];
+  languages: string[];
   tags?: string[];
 };
 
 export const PreviewDetailsCard: FunctionComponent<Props> = ({
   children,
   sidebar,
-  languages = [],
+  languages,
   tags = [],
 }) => {
   const { t } = useTranslation();
@@ -22,17 +22,24 @@ export const PreviewDetailsCard: FunctionComponent<Props> = ({
   return (
     <Card>
       <Main>
-        {languages.length > 0 && (
+
+        <MetadataRow>
+          <Label>
+            <IoLanguage size={18} color={defaultTheme.colors.blue6} />
+            {t("quiz_library.preview.languages")}
+          </Label>
+          <ChipRow>
+            {languages.map((language) => (
+              <NeutralChip key={language}>
+                <Body4>{language}</Body4>
+              </NeutralChip>
+            ))}
+          </ChipRow>
+        </MetadataRow>
+
+        {children && (
           <MetadataRow>
-            <Label>
-              <IoLanguage size={18} color={defaultTheme.colors.blue6} />
-              {t("quiz_library.preview.languages")}
-            </Label>
-            <ChipRow>
-              {languages.map((language) => (
-                <NeutralChip key={language}><Body4>{language}</Body4></NeutralChip>
-              ))}
-            </ChipRow>
+            {children}
           </MetadataRow>
         )}
 
@@ -49,9 +56,8 @@ export const PreviewDetailsCard: FunctionComponent<Props> = ({
             </ChipRow>
           </MetadataRow>
         )}
-
-        {children}
       </Main>
+
       <Sidebar>{sidebar}</Sidebar>
     </Card>
   );

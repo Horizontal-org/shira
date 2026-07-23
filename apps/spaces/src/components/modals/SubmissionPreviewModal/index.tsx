@@ -11,7 +11,8 @@ import { isMessagingNotPhoneApp, isMessagingPhoneApp } from "../../../utils/appN
 import { QuizPreviewModal } from "../QuizPreviewModal";
 import { useQuestionPreviewState } from "../QuizPreviewModal/useQuestionPreviewState";
 import { QuizTemplateQuestionPreview } from "../QuizLibraryPreviewModal/components/QuizTemplateQuestionPreview";
-import { SubmissionPreviewDetailsCard } from "./components/SubmissionPreviewDetailsCard";
+import { QuizSubmissionPreviewDetailsCard } from "./components/QuizSubmissionPreviewDetailsCard";
+import { QuestionSubmissionPreviewDetailsCard } from "./components/QuestionSubmissionPreviewDetailsCard";
 
 type Props = {
   quiz: QuizSubmissionDetailDto | null;
@@ -34,6 +35,7 @@ export const SubmissionPreviewModal: FunctionComponent<Props> = ({
     closePreviewQuestion,
     updateQuestionApp,
   } = useQuestionPreviewState(setSubmissionQuestions);
+
   const submissionId = quiz?.id ?? question?.id;
 
   useEffect(() => {
@@ -51,6 +53,7 @@ export const SubmissionPreviewModal: FunctionComponent<Props> = ({
   if (!quiz && !question) return null;
 
   const isQuiz = Boolean(quiz);
+  const isQuestion = Boolean(question);
 
   const openSingleQuestionPreview = async (questionId: number) => {
     openPreviewQuestion(questionId);
@@ -64,7 +67,7 @@ export const SubmissionPreviewModal: FunctionComponent<Props> = ({
 
     setPreviewQuestion({
       ...loadedQuestion,
-      app: selectedApp ?? loadedQuestion.app,
+      app: loadedQuestion.app,
     });
   };
 
@@ -86,6 +89,16 @@ export const SubmissionPreviewModal: FunctionComponent<Props> = ({
             content: previewQuestion.content,
             explanations: previewQuestion.explanations,
           }}
+          details={(
+            <QuestionSubmissionPreviewDetailsCard
+              language={previewQuestion.language}
+              tags={previewQuestion.tags}
+              isPhishing={previewQuestion.isPhishing}
+              app={previewQuestion.app}
+              dateSubmitted={previewQuestion.dateSubmitted}
+              locale={i18n.language}
+            />
+          )}
           onBack={() => {
             closePreviewQuestion();
             setPreviewQuestion(null);
@@ -106,7 +119,7 @@ export const SubmissionPreviewModal: FunctionComponent<Props> = ({
             />
           )}
 
-          {!isQuiz && (
+          {isQuestion && (
             <Button
               text={t(
                 showExplanations
@@ -120,7 +133,24 @@ export const SubmissionPreviewModal: FunctionComponent<Props> = ({
           )}
         </>
       )}
-      details={<SubmissionPreviewDetailsCard quiz={quiz} question={question} locale={i18n.language} />}
+      details={quiz ? (
+        <QuizSubmissionPreviewDetailsCard
+          languages={quiz.langTags.map((language) => language.name)}
+          tags={quiz.tags ?? []}
+          status={quiz.status}
+          dateSubmitted={quiz.dateSubmitted}
+          locale={i18n.language}
+        />
+      ) : question ? (
+        <QuestionSubmissionPreviewDetailsCard
+          language={question.language}
+          tags={question.tags}
+          isPhishing={question.isPhishing}
+          app={question.app}
+          dateSubmitted={question.dateSubmitted}
+          locale={i18n.language}
+        />
+      ) : null}
     >
 
       <PreviewArea>
@@ -134,13 +164,13 @@ export const SubmissionPreviewModal: FunctionComponent<Props> = ({
           <>
             {showExplanations && <ExplanationOverlay />}
             <PreviewAppFrame
-              $isFullWidth={isMessagingNotPhoneApp(question?.app ?? "")}
-              $isPhoneFrame={isMessagingPhoneApp(question?.app ?? "")}
+              $isFullWidth={isMessagingNotPhoneApp(question.app)}
+              $isPhoneFrame={isMessagingPhoneApp(question.app)}
             >
               <AppLayout
-                appName={question?.app ?? ""}
-                content={question?.content ?? ""}
-                explanations={question?.explanations ?? []}
+                appName={question.app}
+                content={question.content}
+                explanations={question.explanations}
                 explanationNumber={0}
                 showExplanations={showExplanations}
               />

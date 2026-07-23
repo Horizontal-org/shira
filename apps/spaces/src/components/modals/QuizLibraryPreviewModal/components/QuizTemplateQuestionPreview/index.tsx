@@ -5,7 +5,7 @@ import {
   defaultTheme,
   styled,
 } from "@horizontal-org/shira-ui"
-import { FunctionComponent } from "react"
+import { FunctionComponent, ReactNode } from "react"
 import { useTranslation } from "react-i18next"
 import type { LibraryQuizQuestionTemplateDto } from "../../../../../fetch/quiz_templates"
 import { AppLayout } from "../../../../QuestionPreview/AppLayout"
@@ -21,12 +21,14 @@ import {
 
 type Props = {
   question: LibraryQuizQuestionTemplateDto
+  details?: ReactNode
   onBack: () => void
   onClose: () => void
 }
 
 export const QuizTemplateQuestionPreview: FunctionComponent<Props> = ({
   question,
+  details,
   onBack,
   onClose,
 }) => {
@@ -81,6 +83,7 @@ export const QuizTemplateQuestionPreview: FunctionComponent<Props> = ({
       </PreviewHeader>
 
       <PreviewCanvasWrapper>
+        {details}
         <PreviewCanvas>
           {showExplanations && <QuizPreviewOverlay />}
 
