@@ -23,7 +23,7 @@ type PreviewModalPageProps = {
   onClose: () => void;
 };
 
-/** The shared shell for all full-screen preview flows. */
+// The shared shell for all full screen preview flows
 export const PreviewModal: FunctionComponent<PreviewModalProps> = ({
   isOpen,
   onClose,
@@ -34,7 +34,7 @@ export const PreviewModal: FunctionComponent<PreviewModalProps> = ({
   </FullScreenModal>
 );
 
-/** The standard preview landing page: close control, metadata, actions, and body. */
+// The standard preview page: close control, metadata, actions & body
 export const PreviewModalPage: FunctionComponent<PreviewModalPageProps> = ({
   title,
   subtitle,
