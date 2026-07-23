@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import { Gmail, Outlook } from '@horizontal-org/shira-ui';
-import { UIExplanation } from '../..';
+import type { UIExplanation } from '../../types';
 import parseHtml from '../../../../utils/parseHtml';
 
 interface Props {

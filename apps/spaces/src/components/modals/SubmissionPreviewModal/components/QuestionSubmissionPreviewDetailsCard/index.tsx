@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { FaCircleCheck, FaRegFaceMeh } from "react-icons/fa6";
 import { MdCalendarMonth, MdOutlinePhishing, MdOutlineQuiz } from "react-icons/md";
 import { formatLocaleDate } from "../../../../../language/dateUtils";
-import { PreviewDetailsCard } from "../../../QuizPreviewModal/PreviewDetailsCard";
+import { PreviewDetailsCard } from "../../../PreviewModal/PreviewDetailsCard";
 import { IoMdApps } from "react-icons/io";
 
 type Props = {

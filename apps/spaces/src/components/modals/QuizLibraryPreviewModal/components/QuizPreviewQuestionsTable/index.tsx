@@ -5,12 +5,20 @@ import { useTranslation } from "react-i18next";
 import { FaCircleCheck } from "react-icons/fa6";
 import { MdOutlinePhishing } from "react-icons/md";
 import { MdRemoveRedEye } from "react-icons/md";
-import type { LibraryQuizQuestionTemplateDto } from "../../../../../fetch/quiz_templates";
 import { appIcons, appTypesIcons } from "../../../../../utils/appIcons";
 import { getAppsByType, getAppsByTypeAndValue, normalizePreviewAppName } from "../../../../../utils/appNames";
 
+export type QuizPreviewQuestion = {
+  questionId: number;
+  questionName: string;
+  isPhishing: boolean;
+  language: string;
+  appName: string | null;
+  appType: string;
+};
+
 type Props = {
-  questions: LibraryQuizQuestionTemplateDto[];
+  questions: QuizPreviewQuestion[];
   loading?: boolean;
   onPreviewQuestion: (questionId: number) => void;
   onSelectApp: (questionId: number, appName: string) => void;
@@ -25,7 +33,7 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
   const { t } = useTranslation();
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
-  const columns = useMemo<ColumnDef<LibraryQuizQuestionTemplateDto>[]>(
+  const columns = useMemo<ColumnDef<QuizPreviewQuestion>[]>(
     () => [
       {
         header: "",

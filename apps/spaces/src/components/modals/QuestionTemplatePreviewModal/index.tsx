@@ -1,7 +1,10 @@
+import { Button } from "@horizontal-org/shira-ui";
 import { FunctionComponent } from "react";
-import { FullScreenModal, styled } from "@horizontal-org/shira-ui";
-import { QuestionPreview } from "../../QuestionPreview";
+import { FiPlus } from "react-icons/fi";
+import { useTranslation } from "react-i18next";
 import type { RowType } from "../../QuestionLibraryListLayout/components/Columns";
+import { PreviewModal } from "../PreviewModal";
+import { PreviewQuestionScreen } from "../PreviewModal/PreviewQuestionScreen";
 
 type Props = {
   question: RowType;
@@ -14,24 +17,31 @@ export const QuestionTemplatePreviewModal: FunctionComponent<Props> = ({
   onAdd,
   onClose,
 }) => {
+  const { t } = useTranslation();
+
   return (
-    <FullScreenModal isOpen onClose={onClose}>
-      <Body>
-        <QuestionPreview
-          onAdd={onAdd}
-          onClose={onClose}
-          explanations={question.explanations}
-          question={question}
-        />
-      </Body>
-    </FullScreenModal>
+    <PreviewModal
+      isOpen
+      onClose={onClose}
+    >
+      <PreviewQuestionScreen
+        question={{
+          questionId: question.id,
+          appName: question.app.name,
+          content: question.content,
+          explanations: question.explanations,
+        }}
+        headerLabel={t("create_question.tabs.preview.aria_label")}
+        onClose={onClose}
+        actions={(
+          <Button
+            aria-label="Add to quiz"
+            leftIcon={<FiPlus size={16} />}
+            text={t("preview.add")}
+            onClick={onAdd}
+          />
+        )}
+      />
+    </PreviewModal>
   );
 };
-
-const Body = styled.div`
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-`;

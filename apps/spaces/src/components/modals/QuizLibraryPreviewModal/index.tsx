@@ -15,9 +15,9 @@ import {
 import { FullQuizTemplatePreview } from "./components/FullQuizTemplatePreview"
 import { QuizPreviewDetailsCard } from "./components/QuizPreviewDetailsCard"
 import { QuizPreviewQuestionsTable } from "./components/QuizPreviewQuestionsTable"
-import { QuizTemplateQuestionPreview } from "./components/QuizTemplateQuestionPreview"
 import { useQuizTemplateQuestions } from "./useQuizTemplateQuestions"
-import { QuizPreviewModal } from "../QuizPreviewModal"
+import { PreviewModal, PreviewModalPage } from "../PreviewModal"
+import { PreviewQuestionScreen } from "../PreviewModal/PreviewQuestionScreen"
 
 type Props = {
   quiz: LibraryQuizDto | null
@@ -72,7 +72,7 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
     || questions.length === 0
   )
   const firstQuestion = questions[0]
-  const fullPreviewQuestion =
+  const fullQuizPreview =
     questions.find((question) => question.questionId === fullPreviewQuestionId) ?? null
 
   const openSingleQuestionPreview = (questionId: number) => {
@@ -90,79 +90,79 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
   }
 
   return (
-    <QuizPreviewModal
-      isOpen={isOpen}
-      onClose={onClose}
-      title={quiz.title}
-      subtitle={t("quiz_library.preview.subtitle")}
-      fullScreenContent={
-        fullPreviewQuestion ? (
-          <FullQuizTemplatePreview
-            quiz={quiz}
-            questions={questions}
-            question={fullPreviewQuestion}
-            onBack={closeFullQuizPreview}
-            onClose={onClose}
-            onSelectQuestion={setFullPreviewQuestionId}
-            disableUseTemplateButton={disableUseTemplateButton}
-            onUseTemplate={() => onUseTemplate(questions)}
-          />
-        ) : previewQuestion ? (
-          <QuizTemplateQuestionPreview
-            question={previewQuestion}
-            onBack={closePreviewQuestion}
-            onClose={onClose}
-          />
-        ) : undefined
-      }
-      actions={(
-        <ActionsRow>
-          <Button
-            text={t("quiz_library.preview.preview_full_quiz")}
-            type="outline"
-            leftIcon={<IoEyeSharp size={22} color={defaultTheme.colors.dark.darkGrey} />}
-            disabled={!firstQuestion}
-            onClick={() => {
-              if (firstQuestion) {
-                openFullQuizPreview(firstQuestion.questionId)
-              }
-            }}
-          />
-
-          <ActionsDivider />
-
-          <Button
-            text={t("quiz_library.preview.use_template")}
-            type="primary"
-            color={defaultTheme.colors.green7}
-            leftIcon={<FaCirclePlus size={17} />}
-            disabled={disableUseTemplateButton}
-            onClick={() => onUseTemplate(questions)}
-          />
-        </ActionsRow>
-      )}
-      details={(
-        <QuizPreviewDetailsCard
-          languages={languages}
-          tags={tags}
-          creator={quiz.author}
-          createdAt={formatLongDate(quiz.createdAt, i18n.language)}
-        />
-      )}
-    >
-      <QuestionsSection>
-        {hasQuestionLoadError && (
-          <QuestionsErrorText>{t("error_messages.something_went_wrong")}</QuestionsErrorText>
-        )}
-
-        <QuizPreviewQuestionsTable
+    <PreviewModal isOpen={isOpen} onClose={onClose}>
+      {fullQuizPreview ? (
+        <FullQuizTemplatePreview
+          quiz={quiz}
           questions={questions}
-          loading={isLoadingQuestions}
-          onPreviewQuestion={openSingleQuestionPreview}
-          onSelectApp={updateQuestionApp}
+          question={fullQuizPreview}
+          onBack={closeFullQuizPreview}
+          onClose={onClose}
+          onSelectQuestion={setFullPreviewQuestionId}
+          disableUseTemplateButton={disableUseTemplateButton}
+          onUseTemplate={() => onUseTemplate(questions)}
         />
-      </QuestionsSection>
-    </QuizPreviewModal>
+      ) : previewQuestion ? (
+        <PreviewQuestionScreen
+          question={previewQuestion}
+          headerLabel={t("create_question.tabs.preview.aria_label")}
+          onBack={closePreviewQuestion}
+          onClose={onClose}
+        />
+      ) : (
+        <PreviewModalPage
+          onClose={onClose}
+          title={quiz.title}
+          subtitle={t("quiz_library.preview.subtitle")}
+          actions={(
+            <ActionsRow>
+              <Button
+                text={t("quiz_library.preview.preview_full_quiz")}
+                type="outline"
+                leftIcon={<IoEyeSharp size={22} color={defaultTheme.colors.dark.darkGrey} />}
+                disabled={!firstQuestion}
+                onClick={() => {
+                  if (firstQuestion) {
+                    openFullQuizPreview(firstQuestion.questionId)
+                  }
+                }}
+              />
+
+              <ActionsDivider />
+
+              <Button
+                text={t("quiz_library.preview.use_template")}
+                type="primary"
+                color={defaultTheme.colors.green7}
+                leftIcon={<FaCirclePlus size={17} />}
+                disabled={disableUseTemplateButton}
+                onClick={() => onUseTemplate(questions)}
+              />
+            </ActionsRow>
+          )}
+          details={(
+            <QuizPreviewDetailsCard
+              languages={languages}
+              tags={tags}
+              creator={quiz.author}
+              createdAt={formatLongDate(quiz.createdAt, i18n.language)}
+            />)}
+        >
+          <QuestionsSection>
+            {hasQuestionLoadError && (
+              <QuestionsErrorText>{t("error_messages.something_went_wrong")}</QuestionsErrorText>
+            )}
+
+            <QuizPreviewQuestionsTable
+              questions={questions}
+              loading={isLoadingQuestions}
+              onPreviewQuestion={openSingleQuestionPreview}
+              onSelectApp={updateQuestionApp}
+            />
+          </QuestionsSection>
+        </PreviewModalPage>
+      )}
+    </PreviewModal>
   )
 }
 
@@ -177,19 +177,19 @@ const ActionsRow = styled.div`
     justify-content: flex-end;
     flex-wrap: wrap;
   }
-`
+`;
 
 const ActionsDivider = styled.div`
   width: 1px;
   height: 36px;
   background: ${defaultTheme.colors.dark.mediumGrey};
-`
+`;
 
 const QuestionsSection = styled.div`
   margin-top: 16px;
-`
+`;
 
 const QuestionsErrorText = styled(Body1)`
   margin: 12px 0 0;
   color: ${defaultTheme.colors.error7};
-`
+`;

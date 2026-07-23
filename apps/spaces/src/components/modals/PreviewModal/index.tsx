@@ -8,48 +8,54 @@ import {
 } from "@horizontal-org/shira-ui";
 import { FunctionComponent, ReactNode } from "react";
 
-type Props = {
+type PreviewModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  title: ReactNode;
-  subtitle?: ReactNode;
-  actions?: ReactNode;
-  details?: ReactNode;
-  children?: ReactNode;
-  fullScreenContent?: ReactNode;
+  children: ReactNode;
 };
 
-export const QuizPreviewModal: FunctionComponent<Props> = ({
+type PreviewModalPageProps = {
+  title: ReactNode;
+  subtitle: ReactNode;
+  actions: ReactNode;
+  details: ReactNode;
+  children?: ReactNode;
+  onClose: () => void;
+};
+
+/** The shared shell for all full-screen preview flows. */
+export const PreviewModal: FunctionComponent<PreviewModalProps> = ({
   isOpen,
   onClose,
+  children,
+}) => (
+  <FullScreenModal isOpen={isOpen} onClose={onClose} closeOnOverlayClick>
+    {children}
+  </FullScreenModal>
+);
+
+/** The standard preview landing page: close control, metadata, actions, and body. */
+export const PreviewModalPage: FunctionComponent<PreviewModalPageProps> = ({
   title,
   subtitle,
   actions,
   details,
   children,
-  fullScreenContent,
+  onClose,
 }) => (
-  <FullScreenModal
-    isOpen={isOpen}
-    onClose={onClose}
-    closeOnOverlayClick
-  >
-    {fullScreenContent ?? (
-      <>
-        <TopBar>
-          <CloseButton onClick={onClose} />
-          {actions && <Actions>{actions}</Actions>}
-        </TopBar>
+  <>
+    <TopBar>
+      <CloseButton onClick={onClose} />
+      {actions && <Actions>{actions}</Actions>}
+    </TopBar>
 
-        <Content>
-          <H2>{title}</H2>
-          {subtitle && <Subtitle>{subtitle}</Subtitle>}
-          {details}
-          {children}
-        </Content>
-      </>
-    )}
-  </FullScreenModal>
+    <Content>
+      <H2>{title}</H2>
+      {subtitle && <Subtitle>{subtitle}</Subtitle>}
+      {details}
+      {children}
+    </Content>
+  </>
 );
 
 const TopBar = styled.div`

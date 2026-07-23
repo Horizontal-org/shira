@@ -21,7 +21,7 @@ import {
   type QuizSubmissionDto,
   type QuizSubmissionDetailDto,
 } from "../../fetch/submissions";
-import { SubmissionsTab } from "./components/SubmissionsTab";
+import { TabContainer } from "./components/TabContainer";
 import { LayoutContainer } from "../LayoutStyleComponents/LayoutContainer";
 import { LayoutMainContent, LayoutMainContentWrapper } from "../LayoutStyleComponents/LayoutMainContent";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
@@ -29,18 +29,14 @@ import { customMenuItems } from "../../utils/customMenuItems";
 import { usePublicLibrary } from "../../hooks/usePublicLibrary";
 import { SubmissionPreviewModal } from "../modals/SubmissionPreviewModal";
 
-type SubmissionTab = "quizzes" | "questions";
-
 interface Props { }
-
-const PAGE_SIZE = 20;
 
 export const MySubmissionsLayout: FunctionComponent<Props> = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+
   const { isPublicLibraryEnabled } = usePublicLibrary();
-  const [activeTab, setActiveTab] = useState<SubmissionTab>("quizzes");
-  const [pageIndex, setPageIndex] = useState(0);
+
   const [quizSubmissions, setQuizSubmissions] = useState<QuizSubmissionDto[]>([]);
   const [questionSubmissions, setQuestionSubmissions] = useState<QuestionSubmissionDto[]>([]);
   const [previewQuiz, setPreviewQuiz] = useState<QuizSubmissionDetailDto | null>(null);
@@ -62,10 +58,6 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
   }, [isPublicLibraryEnabled, navigate]);
 
   useEffect(() => {
-    setPageIndex(0);
-  }, [activeTab]);
-
-  useEffect(() => {
     const getSubmissions = async () => {
       const [quizData, questionData] = await Promise.all([
         getQuizSubmissions(),
@@ -78,13 +70,6 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
 
     getSubmissions();
   }, []);
-
-  const totalSubmissions = activeTab === "quizzes"
-    ? quizSubmissions.length
-    : questionSubmissions.length;
-  const pageCount = Math.max(1, Math.ceil(totalSubmissions / PAGE_SIZE));
-  const pageStart = pageIndex * PAGE_SIZE;
-  const pageEnd = pageStart + PAGE_SIZE;
 
   const handleQuizPreview = async (submission: QuizSubmissionDto) => {
     setPreviewQuiz(await getQuizSubmission(submission.id));
@@ -125,54 +110,12 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
             </Body1>
           </HeaderContainer>
 
-          <ContentCard>
-            <TabsHeader>
-              <TabsContainer>
-                <TabButton
-                  type="button"
-                  $isActive={activeTab === "quizzes"}
-                  onClick={() => setActiveTab("quizzes")}
-                >
-                  {t("templates.submissions_tabs.quizzes")}
-                </TabButton>
-                <TabButton
-                  type="button"
-                  $isActive={activeTab === "questions"}
-                  onClick={() => setActiveTab("questions")}
-                >
-                  {t("templates.submissions_tabs.questions")}
-                </TabButton>
-              </TabsContainer>
-            </TabsHeader>
-
-            {activeTab === "quizzes" ? (
-              <SubmissionsTab
-                submissions={quizSubmissions.slice(pageStart, pageEnd)}
-                pageIndex={pageIndex}
-                pageCount={pageCount}
-                pageSize={PAGE_SIZE}
-                total={totalSubmissions}
-                setPageIndex={setPageIndex}
-                nameHeader={t("templates.submissions_table.quiz_name")}
-                nameAccessor={(submission) => submission.title}
-                emptyStateSubtitle={t("templates.submissions_empty_state.quizzes.subtitle")}
-                onPreview={handleQuizPreview}
-              />
-            ) : (
-              <SubmissionsTab
-                submissions={questionSubmissions.slice(pageStart, pageEnd)}
-                pageIndex={pageIndex}
-                pageCount={pageCount}
-                pageSize={PAGE_SIZE}
-                total={totalSubmissions}
-                setPageIndex={setPageIndex}
-                nameHeader={t("templates.submissions_table.question_name")}
-                nameAccessor={(submission) => submission.questionName}
-                emptyStateSubtitle={t("templates.submissions_empty_state.questions.subtitle")}
-                onPreview={handleQuestionPreview}
-              />
-            )}
-          </ContentCard>
+          <TabContainer
+            quizSubmissions={quizSubmissions}
+            questionSubmissions={questionSubmissions}
+            onQuizPreview={handleQuizPreview}
+            onQuestionPreview={handleQuestionPreview}
+          />
 
           <SubmissionPreviewModal
             quiz={previewQuiz}
@@ -200,48 +143,4 @@ const HeaderContainer = styled.div`
   gap: 16px;
   max-width: 1200px;
   margin-bottom: 40px;
-`;
-
-const ContentCard = styled.div`
-  background: ${(props) => props.theme.colors.light.white};
-  border-radius: 32px;
-  padding: 32px;
-  margin: 0 16px;
-  box-sizing: border-box;
-`;
-
-const TabsHeader = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin-bottom: 24px;
-`;
-
-const TabsContainer = styled.div`
-  display: flex;
-  gap: 32px;
-`;
-
-const TabButton = styled.button<{ $isActive: boolean }>`
-  all: unset;
-  cursor: pointer;
-  padding-bottom: 8px;
-  font-size: 16px;
-  font-weight: 500;
-  color: ${(props) => (
-    props.$isActive ? props.theme.colors.green7 : props.theme.colors.dark.black
-  )};
-  border-bottom: 4px solid ${(props) => (
-    props.$isActive ? props.theme.colors.green7 : "transparent"
-  )};
-  transition: all 0.2s ease;
-
-  &:hover {
-    border-bottom: 4px solid ${(props) => (
-    props.$isActive ? props.theme.colors.green7 : props.theme.colors.dark.lightGrey
-  )};
-    color: ${(props) => (
-    props.$isActive ? props.theme.colors.green7 : props.theme.colors.dark.black
-  )};
-  }
 `;
