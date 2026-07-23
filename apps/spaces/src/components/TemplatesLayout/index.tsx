@@ -77,7 +77,7 @@ export const TemplatesLayout: FunctionComponent<Props> = () => {
           </HeaderRow>
 
           <CardGrid>
-            <TemplateCard>
+            <TemplateCard onClick={() => navigate("/quiz/templates")}>
               <CardIcon>
                 <LuNotepadText size={32} color={theme.colors.green7} />
               </CardIcon>
@@ -88,7 +88,7 @@ export const TemplatesLayout: FunctionComponent<Props> = () => {
               </CardText>
             </TemplateCard>
 
-            <TemplateCard>
+            <TemplateCard onClick={() => navigate("/question/library")}>
               <CardIcon>
                 <BsQuestionLg size={32} color={theme.colors.green7} />
               </CardIcon>
