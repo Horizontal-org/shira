@@ -107,7 +107,7 @@ services:
     networks:
     - "shira"
     volumes:
-    - "./nginx.conf:/etc/nginx/conf.d/default.conf"
+    - "./templates:/etc/nginx/templates"
 networks:
   shira:
 volumes:

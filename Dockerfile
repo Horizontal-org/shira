@@ -27,4 +27,3 @@ WORKDIR /var/www
 
 COPY --from=build /usr/src/app/apps/public/build ./quiz
 COPY --from=build /usr/src/app/apps/spaces/build ./spaces
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
