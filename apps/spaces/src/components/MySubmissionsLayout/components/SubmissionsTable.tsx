@@ -1,16 +1,12 @@
-import { Body3, Body3Bold, Button, CardPagination, defaultTheme, EmptyState, Table, styled, useTheme } from "@horizontal-org/shira-ui";
+import { Body3, Body3Bold, Button, defaultTheme, EmptyState, Table, styled, useTheme } from "@horizontal-org/shira-ui";
 import type { ColumnDef } from "@tanstack/react-table";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { MdCalendarMonth, MdRemoveRedEye } from "react-icons/md";
 import type { SubmissionStatus } from "../../../fetch/submissions";
-import { usePaginationProps } from "../../../hooks/usePaginationProps";
 import { formatLocaleDate } from "../../../language/dateUtils";
 import i18n from "../../../language/i18n";
 import { SubmissionStatusPill } from "./SubmissionTableCells";
-
-const PAGE_SIZE = 20;
 
 export type SubmissionListItem = {
   name: string;
@@ -28,18 +24,6 @@ export const SubmissionsTable = ({ type, submissions }: SubmissionsTableProps) =
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
-
-  const [pageIndex, setPageIndex] = useState(0);
-  const pageCount = Math.max(1, Math.ceil(submissions.length / PAGE_SIZE));
-  const pageStart = pageIndex * PAGE_SIZE;
-  const pageSubmissions = submissions.slice(pageStart, pageStart + PAGE_SIZE);
-  const paginationProps = usePaginationProps({
-    pageIndex,
-    pageCount,
-    pageSize: PAGE_SIZE,
-    total: submissions.length,
-    setPageIndex,
-  });
 
   const columns: ColumnDef<SubmissionListItem>[] = [
     {
@@ -98,16 +82,15 @@ export const SubmissionsTable = ({ type, submissions }: SubmissionsTableProps) =
 
   return (
     <>
-      <CardPagination {...paginationProps} />
-
       <Table
         size="full"
         loading={false}
-        data={pageSubmissions}
+        data={submissions}
         columns={columns}
+        enableRowSelection={false}
         rowSelection={{}}
-        setRowSelection={null}
-        enablePagination={false}
+        setRowSelection={() => { }}
+        enablePagination={true}
         enableRowHover={false}
         colGroups={(
           <colgroup>
@@ -118,8 +101,6 @@ export const SubmissionsTable = ({ type, submissions }: SubmissionsTableProps) =
           </colgroup>
         )}
       />
-
-      <CardPagination {...paginationProps} />
     </>
   );
 };
