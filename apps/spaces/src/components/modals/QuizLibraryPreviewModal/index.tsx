@@ -12,7 +12,10 @@ import {
   type LibraryQuizDto,
   type LibraryQuizQuestionTemplateDto,
 } from "../../../fetch/quiz_templates"
-import { FullQuizTemplatePreview } from "./components/FullQuizTemplatePreview"
+import {
+  FullQuizPreviewScreen,
+  type PreviewQuestion,
+} from "../PreviewQuizScreen/FullQuizPreviewScreen"
 import { QuizPreviewDetailsCard } from "./components/QuizPreviewDetailsCard"
 import { QuizPreviewQuestionsTable } from "./components/QuizPreviewQuestionsTable"
 import { useQuizTemplateQuestions } from "./useQuizTemplateQuestions"
@@ -72,8 +75,17 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
     || questions.length === 0
   )
   const firstQuestion = questions[0]
+  const previewQuestions: PreviewQuestion[] = questions.map((question) => ({
+    id: question.questionId,
+    name: question.questionName,
+    isPhishing: question.isPhishing,
+    app: question.appName,
+    appType: question.appType,
+    content: question.content,
+    explanations: question.explanations,
+  }))
   const fullQuizPreview =
-    questions.find((question) => question.questionId === fullPreviewQuestionId) ?? null
+    previewQuestions.find((question) => question.id === fullPreviewQuestionId) ?? null
 
   const openSingleQuestionPreview = (questionId: number) => {
     setFullPreviewQuestionId(null)
@@ -92,15 +104,23 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
   return (
     <PreviewModal isOpen={isOpen} onClose={onClose}>
       {fullQuizPreview ? (
-        <FullQuizTemplatePreview
-          quiz={quiz}
-          questions={questions}
+        <FullQuizPreviewScreen
+          quiz={{ title: quiz.title }}
+          questions={previewQuestions}
           question={fullQuizPreview}
           onBack={closeFullQuizPreview}
           onClose={onClose}
           onSelectQuestion={setFullPreviewQuestionId}
-          disableUseTemplateButton={disableUseTemplateButton}
-          onUseTemplate={() => onUseTemplate(questions)}
+          actions={(
+            <Button
+              text={t("quiz_library.use_template")}
+              type="primary"
+              color={defaultTheme.colors.green7}
+              leftIcon={<FaCirclePlus size={16} />}
+              disabled={disableUseTemplateButton}
+              onClick={() => onUseTemplate(questions)}
+            />
+          )}
         />
       ) : previewQuestion ? (
         <PreviewQuestionScreen

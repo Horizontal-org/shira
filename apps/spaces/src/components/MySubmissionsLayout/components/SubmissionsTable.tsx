@@ -1,5 +1,5 @@
 import { Body3, Body3Bold, Button, CardPagination, defaultTheme, EmptyState, Table, styled, useTheme } from "@horizontal-org/shira-ui";
-import type { ColumnDef, RowSelectionState } from "@tanstack/react-table";
+import type { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";

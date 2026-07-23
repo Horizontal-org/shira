@@ -6,8 +6,10 @@ import {
   type QuestionSubmissionDetailDto,
   type QuizSubmissionDetailDto,
 } from "../../../../../fetch/submissions";
-import type { LibraryQuizQuestionTemplateDto } from "../../../../../fetch/quiz_templates";
-import { FullQuizTemplatePreview } from "../../../QuizLibraryPreviewModal/components/FullQuizTemplatePreview";
+import {
+  FullQuizPreviewScreen,
+  type PreviewQuestion,
+} from "../../../PreviewQuizScreen/FullQuizPreviewScreen";
 import { QuizPreviewQuestionsTable } from "../../../QuizLibraryPreviewModal/components/QuizPreviewQuestionsTable";
 import { PreviewQuizScreen } from "../../../PreviewQuizScreen";
 import { PreviewQuestionScreen } from "../../../PreviewQuizScreen/PreviewQuestionScreen";
@@ -32,18 +34,17 @@ export const QuizSubmissionPreview: FunctionComponent<Props> = ({ quiz, onClose 
     setQuestions(quiz.questions);
   }, [quiz]);
 
-  const fullQuizQuestions: LibraryQuizQuestionTemplateDto[] = questions.map((question) => ({
-    questionId: Number(question.id),
-    questionName: question.questionName,
+  const previewQuestions: PreviewQuestion[] = questions.map((question) => ({
+    id: Number(question.id),
+    name: question.questionName,
     isPhishing: question.isPhishing,
-    language: question.language,
-    appName: question.app,
+    app: question.app,
     appType: question.appType,
     content: question.content,
     explanations: question.explanations,
   }));
-  const fullPreviewQuestion = fullQuizQuestions.find(
-    (question) => question.questionId === fullPreviewQuestionId,
+  const fullPreviewQuestion = previewQuestions.find(
+    (question) => question.id === fullPreviewQuestionId,
   );
 
   const openQuestionPreview = async (questionId: number) => {
@@ -62,16 +63,9 @@ export const QuizSubmissionPreview: FunctionComponent<Props> = ({ quiz, onClose 
 
   if (fullPreviewQuestion) {
     return (
-      <FullQuizTemplatePreview
-        quiz={{
-          id: quiz.id,
-          title: quiz.title,
-          createdAt: quiz.dateSubmitted,
-          author: "",
-          languages: quiz.langTags.map((language) => language.name),
-          tags: quiz.tags ?? [],
-        }}
-        questions={fullQuizQuestions}
+      <FullQuizPreviewScreen
+        quiz={{ title: quiz.title }}
+        questions={previewQuestions}
         question={fullPreviewQuestion}
         onBack={() => setFullPreviewQuestionId(null)}
         onClose={onClose}
@@ -118,8 +112,8 @@ export const QuizSubmissionPreview: FunctionComponent<Props> = ({ quiz, onClose 
           text={t("quiz_library.preview.preview_full_quiz")}
           type="outline"
           leftIcon={<IoEyeSharp size={22} color={defaultTheme.colors.dark.darkGrey} />}
-          disabled={!fullQuizQuestions[0]}
-          onClick={() => setFullPreviewQuestionId(fullQuizQuestions[0]?.questionId ?? null)}
+          disabled={!previewQuestions[0]}
+          onClick={() => setFullPreviewQuestionId(previewQuestions[0]?.id ?? null)}
         />
       )}
       details={(

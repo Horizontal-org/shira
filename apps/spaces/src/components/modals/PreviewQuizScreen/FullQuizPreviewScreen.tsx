@@ -8,50 +8,62 @@ import {
   defaultTheme,
   styled,
 } from "@horizontal-org/shira-ui"
-import { FunctionComponent } from "react"
+import { FunctionComponent, ReactNode } from "react"
 import { useTranslation } from "react-i18next"
-import { FaCircleCheck, FaCirclePlus } from "react-icons/fa6"
+import { FaCircleCheck } from "react-icons/fa6"
 import { MdOutlinePhishing } from "react-icons/md"
-import type {
-  LibraryQuizDto,
-  LibraryQuizQuestionTemplateDto,
-} from "../../../../../fetch/quiz_templates"
-import { appIcons, appTypesIcons } from "../../../../../utils/appIcons"
+import { appIcons, appTypesIcons } from "../../../utils/appIcons"
 import {
   getAppsByType,
   isMessagingNotPhoneApp,
   isMessagingPhoneApp,
   normalizePreviewAppName,
-} from "../../../../../utils/appNames"
-import { AppLayout } from "../../../../QuestionPreview/AppLayout"
+} from "../../../utils/appNames"
+import { AppLayout } from "../../QuestionPreview/AppLayout"
 import {
   ExplanationPreviewControls,
   useExplanationPreviewControls,
-} from "../../../PreviewQuizScreen/ExplanationPreviewControls"
+} from "./ExplanationPreviewControls"
+
+export type PreviewQuiz = {
+  title: string
+}
+
+export type PreviewQuestion = {
+  id: number
+  name: string
+  isPhishing: boolean
+  app: string | null
+  appType: string
+  content: string
+  explanations: {
+    index: number | string
+    position: number | string
+    text: string
+  }[]
+}
 
 type Props = {
-  quiz: LibraryQuizDto
-  questions: LibraryQuizQuestionTemplateDto[]
-  question: LibraryQuizQuestionTemplateDto
-  disableUseTemplateButton?: boolean
+  quiz: PreviewQuiz
+  questions: PreviewQuestion[]
+  question: PreviewQuestion
   onBack: () => void
   onClose: () => void
   onSelectQuestion: (questionId: number) => void
-  onUseTemplate?: () => void
+  actions?: ReactNode
 }
 
-export const FullQuizTemplatePreview: FunctionComponent<Props> = ({
+export const FullQuizPreviewScreen: FunctionComponent<Props> = ({
   quiz,
   questions,
   question,
-  disableUseTemplateButton,
   onBack,
   onClose,
   onSelectQuestion,
-  onUseTemplate,
+  actions,
 }) => {
   const { t } = useTranslation()
-  const resolvedAppName = question.appName ?? getAppsByType(question.appType)[0]?.name ?? ""
+  const resolvedAppName = question.app ?? getAppsByType(question.appType)[0]?.name ?? ""
 
   const {
     activeExplanationIndex,
@@ -64,7 +76,7 @@ export const FullQuizTemplatePreview: FunctionComponent<Props> = ({
   } = useExplanationPreviewControls({
     content: question.content,
     explanations: question.explanations,
-    resetKey: question.questionId,
+    resetKey: question.id,
   })
 
   return (
@@ -86,16 +98,7 @@ export const FullQuizTemplatePreview: FunctionComponent<Props> = ({
             onClick={onBack}
           />
 
-          {onUseTemplate && (
-            <Button
-              text={t("quiz_library.use_template")}
-              type="primary"
-              color={defaultTheme.colors.green7}
-              leftIcon={<FaCirclePlus size={16} />}
-              disabled={disableUseTemplateButton}
-              onClick={onUseTemplate}
-            />
-          )}
+          {actions}
         </HeaderActions>
       </PreviewHeader>
 
@@ -118,8 +121,8 @@ export const FullQuizTemplatePreview: FunctionComponent<Props> = ({
         <PreviewLayout>
           <QuizQuestionContainer>
             {questions.map((questionItem, index) => {
-              const isActive = questionItem.questionId === question.questionId
-              const questionAppName = questionItem.appName ?? getAppsByType(questionItem.appType)[0]?.name ?? ""
+              const isActive = questionItem.id === question.id
+              const questionAppName = questionItem.app ?? getAppsByType(questionItem.appType)[0]?.name ?? ""
               const appLabel = normalizePreviewAppName(questionAppName)
               const appIcon = appLabel
                 ? appIcons[appLabel.toLowerCase()]
@@ -127,11 +130,11 @@ export const FullQuizTemplatePreview: FunctionComponent<Props> = ({
 
               return (
                 <SelectableQuestionItem
-                  key={questionItem.questionId}
+                  key={questionItem.id}
                   type="button"
                   $isActive={isActive}
                   onClick={() => {
-                    onSelectQuestion(questionItem.questionId)
+                    onSelectQuestion(questionItem.id)
                   }}
                 >
                   <QuizQuestionNumber $isActive={isActive}>
@@ -139,7 +142,7 @@ export const FullQuizTemplatePreview: FunctionComponent<Props> = ({
                   </QuizQuestionNumber>
 
                   <QuizQuestionDetails>
-                    <Body2SemiBoldGrey>{questionItem.questionName}</Body2SemiBoldGrey>
+                    <Body2SemiBoldGrey>{questionItem.name}</Body2SemiBoldGrey>
 
                     <QuestionInfoPanel>
                       <TypeChip $isPhishing={questionItem.isPhishing}>
@@ -175,7 +178,7 @@ export const FullQuizTemplatePreview: FunctionComponent<Props> = ({
               {showExplanations && <QuizPreviewOverlay />}
 
               <PreviewAppFrame
-                key={`${question.questionId}-${question.appName}`}
+                key={`${question.id}-${question.app}`}
                 $isFullWidth={isMessagingNotPhoneApp(resolvedAppName)}
                 $isPhoneFrame={isMessagingPhoneApp(resolvedAppName)}
               >
