@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import { useTranslation } from "react-i18next";
 import type { QuestionSubmissionDetailDto } from "../../../../../fetch/submissions";
-import { PreviewQuestionScreen } from "../../../PreviewModal/PreviewQuestionScreen";
+import { PreviewQuestionScreen } from "../../../PreviewQuizScreen/PreviewQuestionScreen";
 import { QuestionSubmissionPreviewDetailsCard } from "../QuestionSubmissionPreviewDetailsCard";
 
 type Props = {

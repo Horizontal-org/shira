@@ -14,7 +14,7 @@ type PreviewModalProps = {
   children: ReactNode;
 };
 
-type PreviewModalPageProps = {
+type PreviewQuizScreenProps = {
   title: ReactNode;
   subtitle?: ReactNode;
   actions?: ReactNode;
@@ -34,8 +34,8 @@ export const PreviewModal: FunctionComponent<PreviewModalProps> = ({
   </FullScreenModal>
 );
 
-// The standard preview page: close control, metadata, actions & body
-export const PreviewModalPage: FunctionComponent<PreviewModalPageProps> = ({
+// The standard quiz overview screen: close control, metadata, actions & body
+export const PreviewQuizScreen: FunctionComponent<PreviewQuizScreenProps> = ({
   title,
   subtitle,
   actions,

@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import type { QuestionSubmissionDetailDto, QuizSubmissionDetailDto } from "../../../fetch/submissions";
-import { PreviewModal } from "../PreviewModal";
+import { PreviewModal } from "../PreviewQuizScreen";
 import { QuestionSubmissionPreview } from "./components/QuestionSubmissionPreview";
 import { QuizSubmissionPreview } from "./components/QuizSubmissionPreview";
 

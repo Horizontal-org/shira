@@ -3,7 +3,7 @@ import { FunctionComponent } from "react";
 import { useTranslation } from "react-i18next";
 import { FaUserLarge } from "react-icons/fa6";
 import { MdCalendarMonth } from "react-icons/md";
-import { PreviewDetailsCard } from "../../../PreviewModal/PreviewDetailsCard";
+import { PreviewDetailsCard } from "../../../PreviewQuizScreen/PreviewDetailsCard";
 
 type Props = {
   languages: string[];

@@ -3,8 +3,8 @@ import { FunctionComponent } from "react";
 import { FiPlus } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
 import type { RowType } from "../../QuestionLibraryListLayout/components/Columns";
-import { PreviewModal } from "../PreviewModal";
-import { PreviewQuestionScreen } from "../PreviewModal/PreviewQuestionScreen";
+import { PreviewModal } from "../PreviewQuizScreen";
+import { PreviewQuestionScreen } from "../PreviewQuizScreen/PreviewQuestionScreen";
 
 type Props = {
   question: RowType;

@@ -5,7 +5,7 @@ import { MdCalendarMonth } from "react-icons/md";
 import type { SubmissionStatus } from "../../../../../fetch/submissions";
 import { formatLocaleDate } from "../../../../../language/dateUtils";
 import { SubmissionStatusPill } from "../../../../MySubmissionsLayout/components/SubmissionTableCells";
-import { PreviewDetailsCard } from "../../../PreviewModal/PreviewDetailsCard";
+import { PreviewDetailsCard } from "../../../PreviewQuizScreen/PreviewDetailsCard";
 
 type Props = {
   languages: string[];

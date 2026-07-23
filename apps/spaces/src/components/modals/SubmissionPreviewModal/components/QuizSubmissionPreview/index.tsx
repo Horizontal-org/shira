@@ -6,9 +6,11 @@ import {
   type QuestionSubmissionDetailDto,
   type QuizSubmissionDetailDto,
 } from "../../../../../fetch/submissions";
+import type { LibraryQuizQuestionTemplateDto } from "../../../../../fetch/quiz_templates";
+import { FullQuizTemplatePreview } from "../../../QuizLibraryPreviewModal/components/FullQuizTemplatePreview";
 import { QuizPreviewQuestionsTable } from "../../../QuizLibraryPreviewModal/components/QuizPreviewQuestionsTable";
-import { PreviewModalPage } from "../../../PreviewModal";
-import { PreviewQuestionScreen } from "../../../PreviewModal/PreviewQuestionScreen";
+import { PreviewQuizScreen } from "../../../PreviewQuizScreen";
+import { PreviewQuestionScreen } from "../../../PreviewQuizScreen/PreviewQuestionScreen";
 import { QuizSubmissionPreviewDetailsCard } from "../QuizSubmissionPreviewDetailsCard";
 import { QuestionSubmissionPreviewDetailsCard } from "../QuestionSubmissionPreviewDetailsCard";
 
@@ -20,15 +22,29 @@ type Props = {
 export const QuizSubmissionPreview: FunctionComponent<Props> = ({ quiz, onClose }) => {
   const { t, i18n } = useTranslation();
 
-  const [isFullQuizPreview, setIsFullQuizPreview] = useState(false);
   const [questions, setQuestions] = useState<QuestionSubmissionDetailDto[]>([]);
   const [previewQuestion, setPreviewQuestion] = useState<QuestionSubmissionDetailDto | null>(null);
+  const [fullPreviewQuestionId, setFullPreviewQuestionId] = useState<number | null>(null);
 
   useEffect(() => {
-    setIsFullQuizPreview(false);
     setPreviewQuestion(null);
+    setFullPreviewQuestionId(null);
     setQuestions(quiz.questions);
   }, [quiz]);
+
+  const fullQuizQuestions: LibraryQuizQuestionTemplateDto[] = questions.map((question) => ({
+    questionId: Number(question.id),
+    questionName: question.questionName,
+    isPhishing: question.isPhishing,
+    language: question.language,
+    appName: question.app,
+    appType: question.appType,
+    content: question.content,
+    explanations: question.explanations,
+  }));
+  const fullPreviewQuestion = fullQuizQuestions.find(
+    (question) => question.questionId === fullPreviewQuestionId,
+  );
 
   const openQuestionPreview = async (questionId: number) => {
     const selectedQuestion = questions.find((question) => Number(question.id) === questionId);
@@ -43,6 +59,26 @@ export const QuizSubmissionPreview: FunctionComponent<Props> = ({ quiz, onClose 
       Number(question.id) === questionId ? { ...question, app: appName } : question
     )));
   };
+
+  if (fullPreviewQuestion) {
+    return (
+      <FullQuizTemplatePreview
+        quiz={{
+          id: quiz.id,
+          title: quiz.title,
+          createdAt: quiz.dateSubmitted,
+          author: "",
+          languages: quiz.langTags.map((language) => language.name),
+          tags: quiz.tags ?? [],
+        }}
+        questions={fullQuizQuestions}
+        question={fullPreviewQuestion}
+        onBack={() => setFullPreviewQuestionId(null)}
+        onClose={onClose}
+        onSelectQuestion={setFullPreviewQuestionId}
+      />
+    );
+  }
 
   // Replace the quiz overview with the selected question's full preview
   if (previewQuestion) {
@@ -73,7 +109,7 @@ export const QuizSubmissionPreview: FunctionComponent<Props> = ({ quiz, onClose 
 
   // Otherwise, show the submission metadata and its list of questions
   return (
-    <PreviewModalPage
+    <PreviewQuizScreen
       onClose={onClose}
       title={quiz.title}
       subtitle={quiz.description}
@@ -82,7 +118,8 @@ export const QuizSubmissionPreview: FunctionComponent<Props> = ({ quiz, onClose 
           text={t("quiz_library.preview.preview_full_quiz")}
           type="outline"
           leftIcon={<IoEyeSharp size={22} color={defaultTheme.colors.dark.darkGrey} />}
-          onClick={() => setIsFullQuizPreview((current) => !current)}
+          disabled={!fullQuizQuestions[0]}
+          onClick={() => setFullPreviewQuestionId(fullQuizQuestions[0]?.questionId ?? null)}
         />
       )}
       details={(
@@ -109,7 +146,7 @@ export const QuizSubmissionPreview: FunctionComponent<Props> = ({ quiz, onClose 
           onSelectApp={updateQuestionApp}
         />
       </PreviewArea>
-    </PreviewModalPage>
+    </PreviewQuizScreen>
   );
 };
 

@@ -16,8 +16,8 @@ import { FullQuizTemplatePreview } from "./components/FullQuizTemplatePreview"
 import { QuizPreviewDetailsCard } from "./components/QuizPreviewDetailsCard"
 import { QuizPreviewQuestionsTable } from "./components/QuizPreviewQuestionsTable"
 import { useQuizTemplateQuestions } from "./useQuizTemplateQuestions"
-import { PreviewModal, PreviewModalPage } from "../PreviewModal"
-import { PreviewQuestionScreen } from "../PreviewModal/PreviewQuestionScreen"
+import { PreviewModal, PreviewQuizScreen } from "../PreviewQuizScreen"
+import { PreviewQuestionScreen } from "../PreviewQuizScreen/PreviewQuestionScreen"
 
 type Props = {
   quiz: LibraryQuizDto | null
@@ -110,7 +110,7 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
           onClose={onClose}
         />
       ) : (
-        <PreviewModalPage
+        <PreviewQuizScreen
           onClose={onClose}
           title={quiz.title}
           subtitle={t("quiz_library.preview.subtitle")}
@@ -160,7 +160,7 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
               onSelectApp={updateQuestionApp}
             />
           </QuestionsSection>
-        </PreviewModalPage>
+        </PreviewQuizScreen>
       )}
     </PreviewModal>
   )

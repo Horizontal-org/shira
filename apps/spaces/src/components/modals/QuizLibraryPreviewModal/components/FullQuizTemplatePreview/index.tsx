@@ -27,17 +27,17 @@ import { AppLayout } from "../../../../QuestionPreview/AppLayout"
 import {
   ExplanationPreviewControls,
   useExplanationPreviewControls,
-} from "../../../PreviewModal/ExplanationPreviewControls"
+} from "../../../PreviewQuizScreen/ExplanationPreviewControls"
 
 type Props = {
   quiz: LibraryQuizDto
   questions: LibraryQuizQuestionTemplateDto[]
   question: LibraryQuizQuestionTemplateDto
-  disableUseTemplateButton: boolean
+  disableUseTemplateButton?: boolean
   onBack: () => void
   onClose: () => void
   onSelectQuestion: (questionId: number) => void
-  onUseTemplate: () => void
+  onUseTemplate?: () => void
 }
 
 export const FullQuizTemplatePreview: FunctionComponent<Props> = ({
@@ -86,14 +86,16 @@ export const FullQuizTemplatePreview: FunctionComponent<Props> = ({
             onClick={onBack}
           />
 
-          <Button
-            text={t("quiz_library.use_template")}
-            type="primary"
-            color={defaultTheme.colors.green7}
-            leftIcon={<FaCirclePlus size={16} />}
-            disabled={disableUseTemplateButton}
-            onClick={onUseTemplate}
-          />
+          {onUseTemplate && (
+            <Button
+              text={t("quiz_library.use_template")}
+              type="primary"
+              color={defaultTheme.colors.green7}
+              leftIcon={<FaCirclePlus size={16} />}
+              disabled={disableUseTemplateButton}
+              onClick={onUseTemplate}
+            />
+          )}
         </HeaderActions>
       </PreviewHeader>
 

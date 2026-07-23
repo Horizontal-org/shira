@@ -6,7 +6,7 @@ import {
   getQuizTemplateQuestions,
   LibraryQuizQuestionTemplateDto
 } from "../../../fetch/quiz_templates";
-import { usePreviewQuestionSelection } from "../PreviewModal/usePreviewQuestionSelection";
+import { usePreviewQuestionSelection } from "../PreviewQuizScreen/usePreviewQuestionSelection";
 import { getAppsByTypeAndValue } from "../../../utils/appNames";
 
 export const useQuizTemplateQuestions = (
