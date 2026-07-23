@@ -55,12 +55,6 @@ export const QuizSubmissionPreview: FunctionComponent<Props> = ({ quiz, onClose 
     }
   };
 
-  const updateQuestionApp = (questionId: number, appName: string) => {
-    setQuestions((currentQuestions) => currentQuestions.map((question) => (
-      Number(question.id) === questionId ? { ...question, app: appName } : question
-    )));
-  };
-
   if (fullPreviewQuestion) {
     return (
       <FullQuizPreviewScreen
@@ -137,7 +131,7 @@ export const QuizSubmissionPreview: FunctionComponent<Props> = ({ quiz, onClose 
             appType: question.appType,
           }))}
           onPreviewQuestion={openQuestionPreview}
-          onSelectApp={updateQuestionApp}
+          allowAppSelection={false}
         />
       </PreviewArea>
     </PreviewQuizScreen>

@@ -178,6 +178,7 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
               loading={isLoadingQuestions}
               onPreviewQuestion={openSingleQuestionPreview}
               onSelectApp={updateQuestionApp}
+              allowAppSelection={true}
             />
           </QuestionsSection>
         </PreviewQuizScreen>

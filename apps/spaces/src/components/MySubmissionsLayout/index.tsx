@@ -87,7 +87,7 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
         <MobileResponsivenessBanner />
 
         <LayoutMainContentWrapper>
-          <BackButton
+          <Button
             text={t("templates.back_to_templates")}
             type="outline"
             leftIcon={<FiArrowLeft size={18} />}
@@ -127,16 +127,11 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
   );
 };
 
-const BackButton = styled(Button)`
-  width: fit-content;
-  margin: 16px 16px 24px;
-`;
-
 const HeaderContainer = styled.div`
   padding: 0 16px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  max-width: 1200px;
-  margin-bottom: 40px;
+  margin-top: 20px;
+  margin-bottom: 30px;
 `;

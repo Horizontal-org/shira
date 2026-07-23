@@ -20,13 +20,15 @@ export type QuizPreviewQuestion = {
 type Props = {
   questions: QuizPreviewQuestion[];
   loading?: boolean;
+  allowAppSelection: boolean;
   onPreviewQuestion: (questionId: number) => void;
-  onSelectApp: (questionId: number, appName: string) => void;
+  onSelectApp?: (questionId: number, appName: string) => void;
 };
 
 export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
   questions,
   loading = false,
+  allowAppSelection = true,
   onPreviewQuestion,
   onSelectApp,
 }) => {
@@ -83,7 +85,7 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
           const selectedApp = getAppsByTypeAndValue(row.original.appType, row.original.appName);
           const canChooseKnownApp = appOptions.length > 1 && (!normalizedAppName || Boolean(selectedApp));
 
-          if (row.original.appType && canChooseKnownApp) {
+          if (allowAppSelection && row.original.appType && canChooseKnownApp) {
             const selectOptions = appOptions.map((appOption) => ({
               label: appOption.name,
               labelEnglish: appOption.name,
@@ -98,7 +100,7 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
                 options={selectOptions}
                 initialPlaceholder={t(`question_library.columns.app.${row.original.appType}_type`)}
                 placeholderLeftIcon={appTypesIcons[row.original.appType]}
-                onChange={(appName) => onSelectApp(row.original.questionId, appName)}
+                onChange={(appName) => onSelectApp?.(row.original.questionId, appName)}
               />
             );
           }
@@ -130,7 +132,7 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
         },
       },
     ],
-    [t, onPreviewQuestion, onSelectApp],
+    [t, allowAppSelection, onPreviewQuestion, onSelectApp],
   );
 
   return (
