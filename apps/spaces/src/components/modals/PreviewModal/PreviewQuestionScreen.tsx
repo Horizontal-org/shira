@@ -10,7 +10,7 @@ import {
 import {
   ExplanationPreviewControls,
   useExplanationPreviewControls,
-} from "../QuizLibraryPreviewModal/components/ExplanationPreviewControls";
+} from "./ExplanationPreviewControls";
 
 type PreviewQuestion = {
   questionId: number;
@@ -61,6 +61,7 @@ export const PreviewQuestionScreen: FunctionComponent<Props> = ({
 
   return (
     <Container>
+
       <Header>
         <HeaderStart>
           <CloseButton aria-label={t("buttons.close")} iconSize={22} onClick={onClose} />
@@ -112,6 +113,7 @@ export const PreviewQuestionScreen: FunctionComponent<Props> = ({
           </AppFrame>
         </Canvas>
       </CanvasWrapper>
+
     </Container>
   );
 };

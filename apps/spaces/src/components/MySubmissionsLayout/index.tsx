@@ -12,7 +12,6 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { FiArrowLeft } from "react-icons/fi";
 import {
-  getQuestionSubmissions,
   getQuestionSubmission,
   getQuizSubmissions,
   getQuizSubmission,
@@ -38,7 +37,6 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
   const { isPublicLibraryEnabled } = usePublicLibrary();
 
   const [quizSubmissions, setQuizSubmissions] = useState<QuizSubmissionDto[]>([]);
-  const [questionSubmissions, setQuestionSubmissions] = useState<QuestionSubmissionDto[]>([]);
   const [previewQuiz, setPreviewQuiz] = useState<QuizSubmissionDetailDto | null>(null);
   const [previewQuestion, setPreviewQuestion] = useState<QuestionSubmissionDetailDto | null>(null);
 
@@ -59,13 +57,9 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
 
   useEffect(() => {
     const getSubmissions = async () => {
-      const [quizData, questionData] = await Promise.all([
-        getQuizSubmissions(),
-        getQuestionSubmissions(),
-      ]);
+      const quizData = await getQuizSubmissions();
 
       setQuizSubmissions(quizData);
-      setQuestionSubmissions(questionData);
     };
 
     getSubmissions();
@@ -78,6 +72,8 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
   const handleQuestionPreview = async (submission: QuestionSubmissionDto) => {
     setPreviewQuestion(await getQuestionSubmission(submission.id));
   };
+
+  const questionSubmissions = quizSubmissions.flatMap((quiz) => quiz.questions);
 
   return (
     <LayoutContainer>
@@ -95,7 +91,7 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
             text={t("templates.back_to_templates")}
             type="outline"
             leftIcon={<FiArrowLeft size={18} />}
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/template-library")}
           />
 
           <HeaderContainer>
@@ -104,7 +100,7 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
             <Body1>{t("templates.my_submissions_description_2")}</Body1>
             <Body1>
               {t("templates.my_submissions_description_3")}{" "}
-              <Link1 type="button" onClick={() => navigate("/support")}>
+              <Link1 onClick={() => navigate("/support")}>
                 {t("templates.help_center")}
               </Link1>.
             </Body1>

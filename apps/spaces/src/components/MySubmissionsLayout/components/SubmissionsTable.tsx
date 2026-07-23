@@ -131,9 +131,6 @@ const EmptyStateWrapper = styled.div`
   justify-content: center;
 `;
 
-const EMPTY_ROW_SELECTION: RowSelectionState = {};
-const noop = () => undefined;
-
 const SubmissionName = styled(Body3Bold)`
   color: ${defaultTheme.colors.dark.darkGrey};
 `;

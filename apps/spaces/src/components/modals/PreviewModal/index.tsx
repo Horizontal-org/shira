@@ -16,9 +16,9 @@ type PreviewModalProps = {
 
 type PreviewModalPageProps = {
   title: ReactNode;
-  subtitle: ReactNode;
-  actions: ReactNode;
-  details: ReactNode;
+  subtitle?: ReactNode;
+  actions?: ReactNode;
+  details?: ReactNode;
   children?: ReactNode;
   onClose: () => void;
 };

@@ -6,6 +6,7 @@ export interface QuizSubmissionDto {
   dateSubmitted: string;
   status: SubmissionStatus;
   reason?: string;
+  questions: QuestionSubmissionDto[];
 }
 
 export interface LanguageTagDto {
@@ -14,20 +15,11 @@ export interface LanguageTagDto {
   code: string;
 }
 
-export interface QuizSubmissionQuestionDto {
-  questionId: number;
-  questionName: string;
-  isPhishing: boolean;
-  language: string;
-  appName: string;
-  appType: string;
-}
-
 export interface QuizSubmissionDetailDto extends QuizSubmissionDto {
   description: string;
   langTags: LanguageTagDto[];
   tags?: string[];
-  questions: QuizSubmissionQuestionDto[];
+  questions: QuestionSubmissionDetailDto[];
 }
 
 export interface QuestionSubmissionDto {
@@ -55,29 +47,28 @@ export interface QuestionSubmissionDetailDto extends QuestionSubmissionDto {
 }
 
 const mockQuizSubmissions: QuizSubmissionDto[] = [
-  { id: "1", title: "HR email quiz", dateSubmitted: "2026-07-21", status: "in_review" },
-  { id: "2", title: "Hospital communication quiz", dateSubmitted: "2026-07-01", status: "accepted" },
-  { id: "3", title: "Email quiz for healthcare providers", dateSubmitted: "2026-07-03", status: "rejected", reason: "there are some typos" },
-];
-
-const mockQuizSubmissionDetails: Record<string, QuizSubmissionDetailDto> = {
-  "1": {
+  {
     id: "1",
+    title: "HR email quiz",
+    dateSubmitted: "2026-07-21",
+    status: "in_review",
+    questions: [{ id: "1", questionName: "Anti-virus marketing", dateSubmitted: "2026-07-21", status: "in_review" }],
+  },
+  {
+    id: "2",
+    title: "Hospital communication quiz",
+    dateSubmitted: "2026-07-01",
+    status: "accepted",
+    questions: [{ id: "2", questionName: "Communication question", dateSubmitted: "2026-07-01", status: "accepted" }],
+  },
+  {
+    id: "3",
     title: "Email quiz for healthcare providers",
-    description: "Email phishing attempts targeted towards doctors, nurses and medical professionals.",
-    langTags: [{ id: 4, name: "English", code: "en" }],
-    tags: ["actual scams", "malicious links", "healthcare"],
-    questions: [{ questionId: 1, questionName: "Anti-virus marketing", isPhishing: true, language: "English", appName: "Gmail", appType: "email" }],
     dateSubmitted: "2026-07-03",
     status: "rejected",
     reason: "there are some typos",
+    questions: [{ id: "3", questionName: "Question for healthcare providers", dateSubmitted: "2026-07-03", status: "rejected", reason: "does not apply" }],
   },
-};
-
-const mockQuestionSubmissions: QuestionSubmissionDto[] = [
-  { id: "1", questionName: "Anti-virus marketing", dateSubmitted: "2026-07-21", status: "in_review" },
-  { id: "2", questionName: "Communication question", dateSubmitted: "2026-07-01", status: "accepted" },
-  { id: "3", questionName: "Question for healthcare providers", dateSubmitted: "2026-07-03", status: "rejected", reason: "does not apply" },
 ];
 
 const mockQuestionSubmissionDetails: Record<string, QuestionSubmissionDetailDto> = {
@@ -99,15 +90,26 @@ const mockQuestionSubmissionDetails: Record<string, QuestionSubmissionDetailDto>
   },
 };
 
+const mockQuizSubmissionDetails: Record<string, QuizSubmissionDetailDto> = {
+  "1": {
+    id: "1",
+    title: "Email quiz for healthcare providers",
+    description: "Email phishing attempts targeted towards doctors, nurses and medical professionals.",
+    langTags: [{ id: 4, name: "English", code: "en" }],
+    tags: ["actual scams", "malicious links", "healthcare"],
+    questions: [mockQuestionSubmissionDetails["1"]],
+    dateSubmitted: "2026-07-03",
+    status: "rejected",
+    reason: "there are some typos",
+  },
+};
+
 export const getQuizSubmissions = async (): Promise<QuizSubmissionDto[]> =>
   mockQuizSubmissions;
 
 export const getQuizSubmission = async (id: string): Promise<QuizSubmissionDetailDto> => {
   return mockQuizSubmissionDetails[id];
 };
-
-export const getQuestionSubmissions = async (): Promise<QuestionSubmissionDto[]> =>
-  mockQuestionSubmissions;
 
 export const getQuestionSubmission = async (id: string): Promise<QuestionSubmissionDetailDto> => {
   return mockQuestionSubmissionDetails[id];

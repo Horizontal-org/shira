@@ -3,16 +3,14 @@ import { FunctionComponent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IoEyeSharp } from "react-icons/io5";
 import {
-  getQuestionSubmission,
   type QuestionSubmissionDetailDto,
   type QuizSubmissionDetailDto,
-  type QuizSubmissionQuestionDto,
-} from "../../../../fetch/submissions";
-import { QuizPreviewQuestionsTable } from "../../QuizLibraryPreviewModal/components/QuizPreviewQuestionsTable";
-import { PreviewModalPage } from "../../PreviewModal";
-import { PreviewQuestionScreen } from "../../PreviewModal/PreviewQuestionScreen";
-import { QuizSubmissionPreviewDetailsCard } from "./QuizSubmissionPreviewDetailsCard";
-import { QuestionSubmissionPreviewDetailsCard } from "./QuestionSubmissionPreviewDetailsCard";
+} from "../../../../../fetch/submissions";
+import { QuizPreviewQuestionsTable } from "../../../QuizLibraryPreviewModal/components/QuizPreviewQuestionsTable";
+import { PreviewModalPage } from "../../../PreviewModal";
+import { PreviewQuestionScreen } from "../../../PreviewModal/PreviewQuestionScreen";
+import { QuizSubmissionPreviewDetailsCard } from "../QuizSubmissionPreviewDetailsCard";
+import { QuestionSubmissionPreviewDetailsCard } from "../QuestionSubmissionPreviewDetailsCard";
 
 type Props = {
   quiz: QuizSubmissionDetailDto;
@@ -23,7 +21,7 @@ export const QuizSubmissionPreview: FunctionComponent<Props> = ({ quiz, onClose 
   const { t, i18n } = useTranslation();
 
   const [isFullQuizPreview, setIsFullQuizPreview] = useState(false);
-  const [questions, setQuestions] = useState<QuizSubmissionQuestionDto[]>([]);
+  const [questions, setQuestions] = useState<QuestionSubmissionDetailDto[]>([]);
   const [previewQuestion, setPreviewQuestion] = useState<QuestionSubmissionDetailDto | null>(null);
 
   useEffect(() => {
@@ -33,20 +31,20 @@ export const QuizSubmissionPreview: FunctionComponent<Props> = ({ quiz, onClose 
   }, [quiz]);
 
   const openQuestionPreview = async (questionId: number) => {
-    const loadedQuestion = await getQuestionSubmission(String(questionId));
+    const selectedQuestion = questions.find((question) => Number(question.id) === questionId);
 
-    if (loadedQuestion) {
-      setPreviewQuestion(loadedQuestion);
+    if (selectedQuestion) {
+      setPreviewQuestion(selectedQuestion);
     }
   };
 
   const updateQuestionApp = (questionId: number, appName: string) => {
     setQuestions((currentQuestions) => currentQuestions.map((question) => (
-      question.questionId === questionId ? { ...question, appName } : question
+      Number(question.id) === questionId ? { ...question, app: appName } : question
     )));
   };
 
-  // Replace the quiz overview with the selected question's full preview.
+  // Replace the quiz overview with the selected question's full preview
   if (previewQuestion) {
     return (
       <PreviewQuestionScreen
@@ -73,7 +71,7 @@ export const QuizSubmissionPreview: FunctionComponent<Props> = ({ quiz, onClose 
     );
   }
 
-  // Otherwise, show the submission metadata and its list of questions.
+  // Otherwise, show the submission metadata and its list of questions
   return (
     <PreviewModalPage
       onClose={onClose}
@@ -99,7 +97,14 @@ export const QuizSubmissionPreview: FunctionComponent<Props> = ({ quiz, onClose 
     >
       <PreviewArea>
         <QuizPreviewQuestionsTable
-          questions={questions}
+          questions={questions.map((question) => ({
+            questionId: Number(question.id),
+            questionName: question.questionName,
+            isPhishing: question.isPhishing,
+            language: question.language,
+            appName: question.app,
+            appType: question.appType,
+          }))}
           onPreviewQuestion={openQuestionPreview}
           onSelectApp={updateQuestionApp}
         />

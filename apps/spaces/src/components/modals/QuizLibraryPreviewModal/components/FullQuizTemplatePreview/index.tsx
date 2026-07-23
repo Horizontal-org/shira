@@ -27,7 +27,7 @@ import { AppLayout } from "../../../../QuestionPreview/AppLayout"
 import {
   ExplanationPreviewControls,
   useExplanationPreviewControls,
-} from "../ExplanationPreviewControls"
+} from "../../../PreviewModal/ExplanationPreviewControls"
 
 type Props = {
   quiz: LibraryQuizDto

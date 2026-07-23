@@ -2,7 +2,7 @@ import { Button, defaultTheme, styled } from "@horizontal-org/shira-ui";
 import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MdBlock } from "react-icons/md";
-import parseHtml from "../../../../../utils/parseHtml";
+import parseHtml from "../../../utils/parseHtml";
 
 type PreviewExplanation = {
   index: string;
