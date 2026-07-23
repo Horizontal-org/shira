@@ -10,7 +10,7 @@ COPY ./apps/spaces/package*.json ./apps/spaces/
 COPY ./packages/shira-ui/package*.json ./packages/shira-ui/
 COPY ./packages/tooling-config/package*.json ./packages/tooling-config/
 
-RUN find -name package.json | xargs -n 1 dirname | while read d; do cd $d ; npm install ; cd -; done
+RUN npm ci
 
 COPY . .
 
