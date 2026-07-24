@@ -7,7 +7,7 @@ upstream api {
 
 server {
   listen 80;
-  server_name ${SPACES_FQDN};
+  server_name ${SPACES_DOMAIN};
 
   access_log off;
 
@@ -27,7 +27,7 @@ server {
 
 server {
   listen 80;
-  server_name ${QUIZ_FQDN};
+  server_name ${QUIZ_DOMAIN};
 
   access_log off;
 

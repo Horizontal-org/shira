@@ -111,9 +111,9 @@ services:
     depends_on:
     - "api"
     environment:
-      SPACES_FQDN: "${SPACES_FQDN}"
-      QUIZ_FQDN: "${QUIZ_FQDN}"
-      VIRTUAL_HOST: "${SPACES_FQDN},${QUIZ_FQDN}"
+      SPACES_DOMAIN: "${SPACES_DOMAIN}"
+      QUIZ_DOMAIN: "${QUIZ_DOMAIN}"
+      VIRTUAL_HOST: "${SPACES_DOMAIN},${QUIZ_DOMAIN}"
       VIRTUAL_PORT: "80"
   nginx:
     image: "nginxproxy/nginx-proxy:1.10.1"
