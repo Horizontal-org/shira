@@ -15,6 +15,11 @@ export interface LibraryQuestionTemplateDto {
   createdAt: string;
   languages: string[];
   tags: string[];
+  explanations: {
+    position: string;
+    text: string;
+    index: string;
+  }[];
 }
 
 export interface LibraryQuestionTemplatesPageDto {
@@ -80,6 +85,11 @@ type LibraryQuestionTemplateApiDto = {
     name: string;
     slug?: string;
   }[];
+  explanations: {
+    position: string;
+    content: string;
+    positionIndex: string;
+  }[];
 };
 
 type LibraryQuestionTemplatesApiResponseDto = {
@@ -133,6 +143,11 @@ const normalizeQuestionTemplate = (
     language.name.trim(),
   ),
   tags: (questionTemplate.tags ?? []).map((tag) => tag.name.trim()),
+  explanations: questionTemplate.explanations.map((explanation) => ({
+    position: explanation.position,
+    text: explanation.content,
+    index: explanation.positionIndex,
+  })),
 });
 
 const serializeFilterValues = (values?: string[]) => {
@@ -203,7 +218,7 @@ export const getQuestionTemplates = async ({
   }
 };
 
-export const getQuestionTemplateQuestions = async (
+export const getQuizTemplateQuestions = async (
   quizId: string | number,
 ): Promise<LibraryQuestionTemplateQuestionDto[] | null> => {
   try {
@@ -219,7 +234,7 @@ export const getQuestionTemplateQuestions = async (
     return response.data;
   } catch (error) {
     console.error(
-      `Error fetching question template questions for ${quizId}:`,
+      `Error fetching quiz template questions for quiz ${quizId}:`,
       error,
     );
     return null;

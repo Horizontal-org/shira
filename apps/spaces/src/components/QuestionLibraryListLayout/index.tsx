@@ -58,8 +58,8 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
     hasActiveSearch,
     languageOptions,
     loading,
-    pageIndex,
     paginationProps,
+    pageIndex,
     questionTemplates,
     searchValue,
     selectedAppType,
@@ -144,8 +144,6 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
     }));
   };
 
-  const shouldShowPagination = !loading && total > 0;
-
   const columns = getColumns(
     {
       onPreview: handlePreview,
@@ -199,10 +197,9 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
           />
 
           <QuestionTemplateResults
-            shouldShowPagination={shouldShowPagination}
-            paginationProps={paginationProps}
             showEmptyState={showEmptyState}
             loading={loading}
+            paginationProps={paginationProps}
             rows={rows}
             columns={columns}
             rowSelection={rowSelection}

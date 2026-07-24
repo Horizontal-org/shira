@@ -1,19 +1,15 @@
-import { ComponentProps, Dispatch, FunctionComponent, SetStateAction, useEffect, useState } from "react";
+import { ComponentProps, Dispatch, FunctionComponent, SetStateAction } from "react";
 import { CardPagination, Table } from "@horizontal-org/shira-ui";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { useTranslation } from "react-i18next";
 import { LibrarySearchEmptyState } from "../../LibrarySearchEmptyState";
+import { LibraryPaginationContainer } from "../../TemplatePaginationWrapper";
 import { RowType } from "./Columns";
-import {
-  InactiveLibraryPaginationContainer,
-  LibraryPaginationContainer,
-} from "../../TemplatePaginationWrapper";
 
 type Props = {
-  shouldShowPagination: boolean;
-  paginationProps: ComponentProps<typeof CardPagination>;
   showEmptyState: boolean;
   loading: boolean;
+  paginationProps: ComponentProps<typeof CardPagination>;
   rows: RowType[];
   columns: ColumnDef<RowType>[];
   rowSelection: RowSelectionState;
@@ -21,39 +17,43 @@ type Props = {
 };
 
 export const QuestionTemplateResults: FunctionComponent<Props> = ({
-  shouldShowPagination,
-  paginationProps,
   showEmptyState,
   loading,
+  paginationProps,
   rows,
   columns,
   rowSelection,
   setRowSelection,
 }) => {
   const { t } = useTranslation();
-  const [stablePaginationProps, setStablePaginationProps] = useState(paginationProps);
-
-  useEffect(() => {
-    if (shouldShowPagination) {
-      setStablePaginationProps(paginationProps);
-    }
-  }, [paginationProps, shouldShowPagination]);
-
-  const shouldKeepPaginationVisible = rows.length > 0 && (loading || showEmptyState);
-  const paginationPropsToRender = shouldShowPagination ? paginationProps : stablePaginationProps;
-  const shouldShowTableLoadingState = loading && rows.length === 0;
+  const shouldShowPagination = paginationProps.total > 0 && !showEmptyState;
+  const {
+    pageIndex,
+    pageCount,
+    pageSize,
+    total,
+    onFirstPage,
+    onPreviousPage,
+    onNextPage,
+    onLastPage,
+  } = paginationProps;
 
   return (
     <>
-      {shouldShowPagination ? (
+      {shouldShowPagination && (
         <LibraryPaginationContainer>
-          <CardPagination {...paginationPropsToRender} />
+          <CardPagination
+            pageIndex={pageIndex}
+            pageCount={pageCount}
+            pageSize={pageSize}
+            total={total}
+            onFirstPage={onFirstPage}
+            onPreviousPage={onPreviousPage}
+            onNextPage={onNextPage}
+            onLastPage={onLastPage}
+          />
         </LibraryPaginationContainer>
-      ) : shouldKeepPaginationVisible ? (
-        <InactiveLibraryPaginationContainer>
-          <CardPagination {...paginationPropsToRender} />
-        </InactiveLibraryPaginationContainer>
-      ) : null}
+      )}
 
       {showEmptyState ? (
         <LibrarySearchEmptyState
@@ -63,9 +63,7 @@ export const QuestionTemplateResults: FunctionComponent<Props> = ({
       ) : (
         <Table
           size="full"
-          loading={shouldShowTableLoadingState}
-          loadingMessage={t("loading_messages.loading_library_questions")}
-          emptyMessage={t("success_messages.no_questions_found")}
+          loading={loading}
           data={rows}
           columns={columns}
           rowSelection={rowSelection}
@@ -87,15 +85,20 @@ export const QuestionTemplateResults: FunctionComponent<Props> = ({
         />
       )}
 
-      {shouldShowPagination ? (
+      {shouldShowPagination && (
         <LibraryPaginationContainer>
-          <CardPagination {...paginationPropsToRender} />
+          <CardPagination
+            pageIndex={pageIndex}
+            pageCount={pageCount}
+            pageSize={pageSize}
+            total={total}
+            onFirstPage={onFirstPage}
+            onPreviousPage={onPreviousPage}
+            onNextPage={onNextPage}
+            onLastPage={onLastPage}
+          />
         </LibraryPaginationContainer>
-      ) : shouldKeepPaginationVisible ? (
-        <InactiveLibraryPaginationContainer>
-          <CardPagination {...paginationPropsToRender} />
-        </InactiveLibraryPaginationContainer>
-      ) : null}
+      )}
     </>
   );
 };

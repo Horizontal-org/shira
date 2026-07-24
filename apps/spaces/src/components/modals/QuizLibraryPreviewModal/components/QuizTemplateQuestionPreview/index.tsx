@@ -10,6 +10,10 @@ import { useTranslation } from "react-i18next"
 import type { LibraryQuizQuestionTemplateDto } from "../../../../../fetch/quiz_templates"
 import { AppLayout } from "../../../../QuestionPreview/AppLayout"
 import {
+  isMessagingNotPhoneApp,
+  isMessagingPhoneApp
+} from "../../../../../utils/appNames"
+import {
   ExplanationPreviewControls,
   useExplanationPreviewControls,
 } from "../ExplanationPreviewControls"
@@ -79,7 +83,11 @@ export const QuizTemplateQuestionPreview: FunctionComponent<Props> = ({
         <PreviewCanvas>
           {showExplanations && <QuizPreviewOverlay />}
 
-          <PreviewAppFrame key={`${question.questionId}-${question.appName ?? ""}`}>
+          <PreviewAppFrame
+            key={`${question.questionId}-${question.appName}`}
+            $isFullWidth={isMessagingNotPhoneApp(question.appName)}
+            $isPhoneFrame={isMessagingPhoneApp(question.appName)}
+          >
             <AppLayout
               appName={question.appName ?? ""}
               content={question.content}
@@ -165,7 +173,6 @@ const PreviewCanvasWrapper = styled.div`
 
 const PreviewCanvas = styled.div`
   position: relative;
-  min-height: 680px;
   border-radius: 4px;
   overflow: auto;
   display: flex;
@@ -174,10 +181,16 @@ const PreviewCanvas = styled.div`
   background: ${defaultTheme.colors.light.paleGreen};
 `
 
-const PreviewAppFrame = styled.div`
+const PreviewAppFrame = styled.div<{
+  $isFullWidth: boolean
+  $isPhoneFrame: boolean
+}>`
   position: relative;
-  width: fit-content;
+  width: ${(props) => (props.$isFullWidth ? "100%" : "fit-content")};
   max-width: 100%;
+  height: ${(props) => (props.$isPhoneFrame ? "80vh" : "68vh")};
+  min-height: 620px;
+  max-height: ${(props) => (props.$isPhoneFrame ? "none" : "780px")};
 `
 
 const QuizPreviewOverlay = styled.div`

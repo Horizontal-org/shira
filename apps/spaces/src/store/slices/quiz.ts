@@ -12,6 +12,7 @@ export enum QuizSuccessStates {
   question_updated = 'QUESTION_UPDATED',
   question_deleted = 'QUESTION_DELETED',
   question_added_from_library = 'QUESTION_ADDED_FROM_LIBRARY',
+  update_assessment_mode = 'UPDATE_ASSESSMENT_MODE'
 }
 
 export const SUCCESS_MESSAGES = {
@@ -25,6 +26,7 @@ export const SUCCESS_MESSAGES = {
   [QuizSuccessStates.question_updated]: "success_messages.question_updated",
   [QuizSuccessStates.question_deleted]: "success_messages.question_deleted",
   [QuizSuccessStates.question_added_from_library]: "success_messages.question_added",
+  [QuizSuccessStates.update_assessment_mode]: "success_messages.quiz_assessment_mode_updated",
 };
 
 export interface QuizQuestion {
@@ -50,6 +52,7 @@ export interface Quiz {
   hash?: string;
   visibility?: string
   hasResults?: boolean
+  assessmentMode?: boolean
 }
 
 export interface QuizSlice {

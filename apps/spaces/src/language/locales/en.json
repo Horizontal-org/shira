@@ -115,11 +115,23 @@
         "tabs": {
             "questions": "Questions",
             "results": "Results",
-            "learners": "Learners"
+            "learners": "Learners",
+            "settings": "Settings"
         },
         "visibility": {
             "public": "Public",
             "private": "Private"
+        },
+        "settings": {
+            "title": "Quiz mode",
+            "assessment": {
+                "title": "Assessment mode",
+                "description": "Learners test their phishing detection skills without feedback or explanations to measure their actual performance level."
+            },
+            "learning": {
+                "title": "Learning mode",
+                "description": "Learners receive immediate feedback and explanations after each answer to help them improve their phishing detection skills."
+            }
         }
     },
     "questions_tab": {
@@ -730,7 +742,7 @@
                     "admin_dashboard": "Admin dashboard",
                     "number_of_admins": "Number of admins",
                     "customizable_questions": "Fully customizable quiz questions",
-                    "question_library": "Access to the question's library",
+                    "question_library": "Access to the question's templates",
                     "custom_quizzes": "Number of custom quizzes",
                     "apps_available": "Apps available",
                     "public_quizzes": "Public quizzes",
@@ -759,7 +771,7 @@
                     "admin_dashboard": "A central place to manage your phishing education campaigns",
                     "number_of_admins": "Admins are users who can create and manage phishing education campaigns",
                     "customizable_questions": "Create quiz questions adapted to the needs of your learners",
-                    "question_library": "Access dozens of ready-made question templates",
+                    "question_library": "Get started within minutes with dozens of quiz and question templates",
                     "custom_quizzes": "The number of quizzes you can create in your Space",
                     "apps_available": "Create quiz questions using interfaces that look exactly like actual apps your learners use",
                     "public_quizzes": "Anyone can take your quiz through an easy-to-share URL",
@@ -867,6 +879,7 @@
         "quiz_order_updated": "The quiz order has been updated",
         "quiz_published": "The quiz has been published",
         "quiz_unpublished": "The quiz has been unpublished",
+        "quiz_assessment_mode_updated": "The quiz has been updated",
         "question_created": "Question created",
         "question_added": "The question has been added to your quiz",
         "question_updated": "Question updated",
