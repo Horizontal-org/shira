@@ -30,15 +30,32 @@ cp apps/spaces/.env.example apps/spaces/.env
 
 To generate passwords for different services and add them to your `.env`, you can use `openssl rand -hex 32` to generate them securely.
 
+## Production deployment
+
+You'll need a server with a running Docker daemon, Docker Compose, and
+a clone of this repository.
+
+Copy the `.env.example` into `.env` and edit accordingly.
+
+Two domain names must point to this server.  One is for spaces, and
+another for quizes.  Edit these on the variables ending with `_DOMAIN`.
+
+To generate passwords for different services, you can use `openssl rand
+-hex 32` to generate them securely.
+
+Unless you're setting up a custom S3 bucket for the images service, skip
+the `IMAGE_` options for now.
+
+After setting the `.env` variables, run `docker compose up -d`.  The
+compose will run every service needed, issue certificates for the
+configured domains, and keep running until you stop them with `docker
+compose down`.
+
+If you want to upgrade a running service, run `docker compose pull` to
+pull the `latest` images.  If you want to run a specific Shira version,
+change the `VERSION` variable.
+
 ### Image server (Garage)
-
-Unless you're setting up a custom S3 bucket for the images service, skip the `IMAGE_` options for now.
-
-* Run the compose file:
-
-  ```sh
-  docker compose up -d
-  ```
 
 * Once the service is running, create the actual Garage bucket and access key:
 
