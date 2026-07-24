@@ -96,6 +96,10 @@ services:
       timeout: "10s"
       retries: 10
       start_period: "10s"
+    environment:
+      ACME_HOST: "${IMAGES_DOMAIN}"
+      VIRTUAL_HOST: "${IMAGES_DOMAIN}"
+      VIRTUAL_PORT: "3900"
   frontend:
     image: "horizontalorg/shira-frontend:${VERSION:-latest}"
     restart: "unless-stopped"
