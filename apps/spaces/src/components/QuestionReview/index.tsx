@@ -10,6 +10,7 @@ import { shallow } from "zustand/shallow"
 import { MdBlock } from 'react-icons/md'
 import { ActiveQuestion } from "../../store/types/active_question"
 import { useTranslation } from "react-i18next"
+import { isMessagingPhoneApp } from "../../utils/appNames"
 
 interface Props {
   question?: ActiveQuestion
@@ -100,7 +101,7 @@ export const QuestionReview: FunctionComponent<Props> = ({ }) => {
       </ExplanationHeader>
 
 
-      <StyledBox>
+      <StyledBox $hasPaleGreenBackground={isMessagingPhoneApp(activeQuestion.app.name)}>
         <AppSelector
           appName={activeQuestion.app.name}
           customProps={elementProps}
@@ -121,10 +122,17 @@ const ExplanationHeader = styled.div`
   margin: 12px 0 20px 0;
 `
 
-const StyledBox = styled.div`
+const StyledBox = styled.div<{ $hasPaleGreenBackground: boolean }>`
   position: relative;
   z-index: 1;
-  background: white;
+  background: ${(props) =>
+    props.$hasPaleGreenBackground
+      ? props.theme.colors.light.paleGreen
+      : props.theme.colors.light.white};
+  border: ${(props) =>
+    props.$hasPaleGreenBackground
+      ? `24px solid ${props.theme.colors.light.white}`
+      : "none"};
   padding: 24px;
   width: 100%;
   height: 800px;
