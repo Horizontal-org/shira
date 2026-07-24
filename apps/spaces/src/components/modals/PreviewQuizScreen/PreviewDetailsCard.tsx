@@ -35,7 +35,7 @@ export const PreviewDetailsCard: FunctionComponent<Props> = ({
             ))}
           </ChipRow>
         </MetadataRow>
-        {children && <MetadataRow>{children}</MetadataRow>}
+        {children && <DetailsRow>{children}</DetailsRow>}
         {tags.length > 0 && (
           <MetadataRow>
             <Label>
@@ -76,6 +76,10 @@ const Card = styled.div`
 const Main = styled.div`
   display: grid;
   gap: 12px;
+`;
+
+const DetailsRow = styled.div`
+  min-width: 0;
 `;
 
 const Sidebar = styled.div`

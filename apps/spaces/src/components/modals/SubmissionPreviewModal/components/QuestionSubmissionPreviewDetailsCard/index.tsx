@@ -5,6 +5,8 @@ import { useTranslation } from "react-i18next";
 import { FaRegFaceMeh } from "react-icons/fa6";
 import { MdCalendarMonth } from "react-icons/md";
 import { formatLocaleDate } from "../../../../../language/dateUtils";
+import { appIcons } from "../../../../../utils/appIcons";
+import { normalizePreviewAppName } from "../../../../../utils/appNames";
 import { PreviewDetailsCard } from "../../../PreviewQuizScreen/PreviewDetailsCard";
 import { IoMdApps } from "react-icons/io";
 
@@ -26,6 +28,8 @@ export const QuestionSubmissionPreviewDetailsCard: FunctionComponent<Props> = ({
   locale,
 }) => {
   const { t } = useTranslation();
+  const appName = normalizePreviewAppName(app);
+  const appIcon = appIcons[appName.toLowerCase()];
 
   return (
     <PreviewDetailsCard
@@ -46,7 +50,10 @@ export const QuestionSubmissionPreviewDetailsCard: FunctionComponent<Props> = ({
               <IoMdApps size={18} color={defaultTheme.colors.blue6} />
               {t("templates.submissions_table.app")}
             </DetailLabel>
-            <Body3>{app}</Body3>
+            <AppValue>
+              {appIcon}
+              {appName}
+            </AppValue>
           </SidebarRow>
         </>
       )}
@@ -85,6 +92,10 @@ const SidebarValue = styled(Body3)`
   color: ${defaultTheme.colors.dark.darkGrey};
   margin: 0;
   min-height: 32px;
+`;
+
+const AppValue = styled(SidebarValue)`
+  gap: 6px;
 `;
 
 const DetailLabel = styled(Body3)`

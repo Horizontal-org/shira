@@ -47,6 +47,7 @@ const StyledQuestionTypeChip = styled.span<{
 }>`
   display: inline-flex;
   align-items: center;
+  justify-self: start;
   gap: ${(props) => (props.$variant === "compact" ? "5px" : "6px")};
   min-height: ${(props) => (props.$variant === "compact" ? "24px" : "auto")};
   border-radius: 2px;
