@@ -1,7 +1,13 @@
-import { Body3, Body3Bold, defaultTheme, styled } from "@horizontal-org/shira-ui";
+import {
+  Body3,
+  Body3Bold,
+  defaultTheme,
+  QuestionTypeChip,
+  styled,
+} from "@horizontal-org/shira-ui";
 import { ColumnDef } from "@tanstack/react-table";
-import { FaCircleCheck, FaCirclePlus, FaUser } from "react-icons/fa6";
-import { MdCalendarMonth, MdOutlinePhishing, MdRemoveRedEye } from "react-icons/md";
+import { FaCirclePlus, FaUser } from "react-icons/fa6";
+import { MdCalendarMonth, MdRemoveRedEye } from "react-icons/md";
 import { TbAlertTriangleFilled } from "react-icons/tb";
 import { SelectApp } from "../Selects/SelectApp";
 import { appIcons } from "../../../../utils/appIcons";
@@ -86,20 +92,7 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
     id: "type",
     cell: (c) => {
       const isPhishing = Boolean(c.getValue());
-      return (
-        <PhishingCell
-          $isPhishing={isPhishing}
-        >
-          {isPhishing ? (
-            <MdOutlinePhishing size={16} />
-          ) : (
-            <FaCircleCheck size={16} color={defaultTheme.colors.green6} />
-          )}
-          {isPhishing
-            ? i18n.t("question_library.columns.type.phishing")
-            : i18n.t("question_library.columns.type.legitimate")}
-        </PhishingCell>
-      );
+      return <QuestionTypeChip isPhishing={isPhishing} variant="table" />;
     },
   },
   {
@@ -177,6 +170,7 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
           >
             <MdRemoveRedEye size={20} color={defaultTheme.colors.dark.overlay} />
           </ActionButtonWithTooltip>
+
           <ActionButtonWithTooltip
             id={`report-issue-button-${row.id}`}
             tooltipText=""
@@ -185,6 +179,7 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
           >
             <TbAlertTriangleFilled size={18} color={defaultTheme.colors.error7} />
           </ActionButtonWithTooltip>
+
           <ActionButtonWithTooltip
             id={`add-button-${row.id}`}
             tooltipText=""
@@ -198,23 +193,6 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
     },
   },
 ];
-
-const PhishingCell = styled.span<{ $isPhishing?: boolean }>`
-  background: ${(props) => (
-    props.$isPhishing
-      ? defaultTheme.colors.light.paleRed
-      : defaultTheme.colors.light.paleGreen)};
-  color: ${(props) => (
-    props.$isPhishing
-      ? defaultTheme.colors.error9
-      : defaultTheme.colors.green9)};
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border-radius: 2px;
-  padding: 4px 8px;
-  font-weight: 400;
-`;
 
 const ActionsCell = styled("div")`
   display: flex;

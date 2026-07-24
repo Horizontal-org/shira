@@ -1,8 +1,9 @@
 import { Body3, defaultTheme, styled } from "@horizontal-org/shira-ui";
+import { QuestionTypeChip } from "@horizontal-org/shira-ui";
 import { FunctionComponent } from "react";
 import { useTranslation } from "react-i18next";
-import { FaCircleCheck, FaRegFaceMeh } from "react-icons/fa6";
-import { MdCalendarMonth, MdOutlinePhishing, MdOutlineQuiz } from "react-icons/md";
+import { FaRegFaceMeh } from "react-icons/fa6";
+import { MdCalendarMonth } from "react-icons/md";
 import { formatLocaleDate } from "../../../../../language/dateUtils";
 import { PreviewDetailsCard } from "../../../PreviewQuizScreen/PreviewDetailsCard";
 import { IoMdApps } from "react-icons/io";
@@ -39,6 +40,7 @@ export const QuestionSubmissionPreviewDetailsCard: FunctionComponent<Props> = ({
             </DetailLabel>
             <SidebarValue>{formatLocaleDate(dateSubmitted, locale)}</SidebarValue>
           </SidebarRow>
+
           <SidebarRow>
             <DetailLabel>
               <IoMdApps size={18} color={defaultTheme.colors.blue6} />
@@ -54,12 +56,8 @@ export const QuestionSubmissionPreviewDetailsCard: FunctionComponent<Props> = ({
           <FaRegFaceMeh size={16} color={defaultTheme.colors.dark.darkGrey} />
           {t("templates.submissions_table.type")}
         </DetailLabel>
-        <QuestionTypePill $isPhishing={isPhishing}>
-          {isPhishing ? <MdOutlinePhishing size={16} /> : <FaCircleCheck size={16} />}
-          {isPhishing
-            ? t("question_library.columns.type.phishing")
-            : t("question_library.columns.type.legitimate")}
-        </QuestionTypePill>
+
+        <QuestionTypeChip isPhishing={isPhishing} />
       </DetailRow>
     </PreviewDetailsCard>
   );
@@ -90,26 +88,15 @@ const SidebarValue = styled(Body3)`
 `;
 
 const DetailLabel = styled(Body3)`
-  display: inline-flex;
+  display: inline-grid;
+  grid-template-columns: 24px minmax(0, 1fr);
   align-items: center;
-  gap: 8px;
+  column-gap: 8px;
   text-transform: uppercase;
   margin: 0;
-`;
 
-const QuestionTypePill = styled.span<{ $isPhishing: boolean }>`
-  width: fit-content;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border-radius: 2px;
-  padding: 4px 8px;
-  background: ${(props) => (
-    props.$isPhishing
-      ? defaultTheme.colors.light.paleRed
-      : defaultTheme.colors.light.paleGreen
-  )};
-  color: ${(props) => (
-    props.$isPhishing ? defaultTheme.colors.error9 : defaultTheme.colors.green9
-  )};
+  & > svg {
+    justify-self: center;
+    flex-shrink: 0;
+  }
 `;

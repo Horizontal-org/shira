@@ -6,36 +6,35 @@ import {
   Button,
   CloseButton,
   defaultTheme,
+  QuestionTypeChip,
   styled,
-} from "@horizontal-org/shira-ui"
-import { FunctionComponent, ReactNode } from "react"
-import { useTranslation } from "react-i18next"
-import { FaCircleCheck } from "react-icons/fa6"
-import { MdOutlinePhishing } from "react-icons/md"
-import { appIcons, appTypesIcons } from "../../../utils/appIcons"
+} from "@horizontal-org/shira-ui";
+import { FunctionComponent, ReactNode } from "react";
+import { useTranslation } from "react-i18next";
+import { appIcons, appTypesIcons } from "../../../utils/appIcons";
 import {
   getAppsByType,
   isMessagingNotPhoneApp,
   isMessagingPhoneApp,
   normalizePreviewAppName,
-} from "../../../utils/appNames"
-import { AppLayout } from "../../QuestionPreview/AppLayout"
+} from "../../../utils/appNames";
+import { AppLayout } from "../../QuestionPreview/AppLayout";
 import {
   ExplanationPreviewControls,
   useExplanationPreviewControls,
-} from "./ExplanationPreviewControls"
+} from "./ExplanationPreviewControls";
 
 export type PreviewQuiz = {
   title: string
 }
 
 export type PreviewQuestion = {
-  id: number
-  name: string
-  isPhishing: boolean
-  app: string | null
-  appType: string
-  content: string
+  id: number;
+  name: string;
+  isPhishing: boolean;
+  app: string | null;
+  appType: string;
+  content: string;
   explanations: {
     index: number | string
     position: number | string
@@ -121,12 +120,15 @@ export const FullQuizPreviewScreen: FunctionComponent<Props> = ({
         <PreviewLayout>
           <QuizQuestionContainer>
             {questions.map((questionItem, index) => {
-              const isActive = questionItem.id === question.id
-              const questionAppName = questionItem.app ?? getAppsByType(questionItem.appType)[0]?.name ?? ""
-              const appLabel = normalizePreviewAppName(questionAppName)
+              const isActive = questionItem.id === question.id;
+              const questionAppName =
+                questionItem.app ??
+                getAppsByType(questionItem.appType)[0]?.name ??
+                "";
+              const appLabel = normalizePreviewAppName(questionAppName);
               const appIcon = appLabel
                 ? appIcons[appLabel.toLowerCase()]
-                : appTypesIcons[questionItem.appType]
+                : appTypesIcons[questionItem.appType];
 
               return (
                 <SelectableQuestionItem
@@ -145,18 +147,7 @@ export const FullQuizPreviewScreen: FunctionComponent<Props> = ({
                     <Body2SemiBoldGrey>{questionItem.name}</Body2SemiBoldGrey>
 
                     <QuestionInfoPanel>
-                      <TypeChip $isPhishing={questionItem.isPhishing}>
-                        {questionItem.isPhishing ? (
-                          <MdOutlinePhishing size={14} />
-                        ) : (
-                          <FaCircleCheck size={14} />
-                        )}
-                        <ChipText>
-                          {questionItem.isPhishing
-                            ? t("question_library.columns.type.phishing")
-                            : t("question_library.columns.type.legitimate")}
-                        </ChipText>
-                      </TypeChip>
+                      <QuestionTypeChip isPhishing={questionItem.isPhishing} />
 
                       {(appLabel || questionItem.appType) && (
                         <AppChip>
@@ -167,7 +158,7 @@ export const FullQuizPreviewScreen: FunctionComponent<Props> = ({
                     </QuestionInfoPanel>
                   </QuizQuestionDetails>
                 </SelectableQuestionItem>
-              )
+              );
             })}
           </QuizQuestionContainer>
 
@@ -195,8 +186,8 @@ export const FullQuizPreviewScreen: FunctionComponent<Props> = ({
         </PreviewLayout>
       </PreviewBody>
     </QuestionPreviewContainer>
-  )
-}
+  );
+};
 
 const QuestionPreviewContainer = styled.div`
   display: flex;
@@ -316,17 +307,19 @@ const PreviewCanvasPanel = styled.div`
 `
 
 const SelectableQuestionItem = styled.button<{
-  $isActive: boolean
+  $isActive: boolean;
 }>`
   appearance: none;
   width: 100%;
-  border: 1px solid ${(props) => (
-    props.$isActive ? props.theme.colors.green7 : props.theme.colors.dark.lightGrey
-  )};
+  border: 1px solid ${(props) =>
+    props.$isActive
+      ? props.theme.colors.green7
+      : props.theme.colors.dark.lightGrey};
   border-radius: 28px;
-  background: ${(props) => (
-    props.$isActive ? props.theme.colors.light.paleGreen : props.theme.colors.light.white
-  )};
+  background: ${(props) =>
+    props.$isActive
+      ? props.theme.colors.light.paleGreen
+      : props.theme.colors.light.white};
   padding: 15px 20px;
   display: flex;
   align-items: center;
@@ -342,9 +335,8 @@ const SelectableQuestionItem = styled.button<{
 
   &:focus-visible {
     border-width: 2px;
-    border-color: ${(props) => (
-    props.$isActive ? props.theme.colors.green7 : props.theme.colors.green4
-  )};
+    border-color: ${(props) =>
+    props.$isActive ? props.theme.colors.green7 : props.theme.colors.green4};
   }
 
   & + & {
@@ -360,12 +352,14 @@ const QuizQuestionNumber = styled(Body1SemiBold) <{ $isActive: boolean }>`
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  background: ${(props) => (
-    props.$isActive ? props.theme.colors.green7 : props.theme.colors.light.paleGreen
-  )};
-  color: ${(props) => (
-    props.$isActive ? props.theme.colors.light.white : props.theme.colors.green8
-  )};
+  background: ${(props) =>
+    props.$isActive
+      ? props.theme.colors.green7
+      : props.theme.colors.light.paleGreen};
+  color: ${(props) =>
+    props.$isActive
+      ? props.theme.colors.light.white
+      : props.theme.colors.green8};
   line-height: 1;
 `
 
@@ -390,21 +384,6 @@ const QuestionInfoPanel = styled.div`
   align-items: center;
   gap: 6px;
   flex-wrap: wrap;
-`
-
-const TypeChip = styled.span<{ $isPhishing: boolean }>`
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  min-height: 24px;
-  border-radius: 4px;
-  padding: 2px 8px;
-  background: ${(props) => (
-    props.$isPhishing ? props.theme.colors.light.paleRed : props.theme.colors.light.paleGreen
-  )};
-  color: ${(props) => (
-    props.$isPhishing ? props.theme.colors.error8 : props.theme.colors.green8
-  )};
 `
 
 const AppChip = styled.span`
@@ -448,8 +427,8 @@ const PreviewStageBackdrop = styled.div`
 `
 
 const PreviewAppFrame = styled.div<{
-  $isFullWidth: boolean
-  $isPhoneFrame: boolean
+  $isFullWidth: boolean;
+  $isPhoneFrame: boolean;
 }>`
   position: relative;
   width: ${(props) => (props.$isFullWidth ? "100%" : "fit-content")};

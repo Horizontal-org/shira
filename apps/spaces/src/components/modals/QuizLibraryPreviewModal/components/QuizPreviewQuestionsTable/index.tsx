@@ -1,12 +1,22 @@
-import { Body3, Body3Bold, SmallSelect, Table, defaultTheme, styled } from "@horizontal-org/shira-ui";
+import {
+  Body3,
+  Body3Bold,
+  SmallSelect,
+  Table,
+  defaultTheme,
+  QuestionTypeChip,
+  styled,
+} from "@horizontal-org/shira-ui";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { FunctionComponent, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FaCircleCheck } from "react-icons/fa6";
-import { MdOutlinePhishing } from "react-icons/md";
 import { MdRemoveRedEye } from "react-icons/md";
 import { appIcons, appTypesIcons } from "../../../../../utils/appIcons";
-import { getAppsByType, getAppsByTypeAndValue, normalizePreviewAppName } from "../../../../../utils/appNames";
+import {
+  getAppsByType,
+  getAppsByTypeAndValue,
+  normalizePreviewAppName,
+} from "../../../../../utils/appNames";
 
 export type QuizPreviewQuestion = {
   questionId: number;
@@ -55,16 +65,10 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
         accessorKey: "isPhishing",
         id: "type",
         cell: ({ row }) => (
-          <TypePill $isPhishing={row.original.isPhishing}>
-            {row.original.isPhishing ? (
-              <MdOutlinePhishing size={16} />
-            ) : (
-              <FaCircleCheck size={16} color={defaultTheme.colors.green6} />
-            )}
-            {row.original.isPhishing
-              ? t("question_library.columns.type.phishing")
-              : t("question_library.columns.type.legitimate")}
-          </TypePill>
+          <QuestionTypeChip
+            isPhishing={row.original.isPhishing}
+            variant="table"
+          />
         ),
       },
       {
@@ -82,6 +86,7 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
           const appOptions = row.original.appType
             ? getAppsByType(row.original.appType)
             : [];
+
           const selectedApp = getAppsByTypeAndValue(row.original.appType, row.original.appName);
           const canChooseKnownApp = appOptions.length > 1 && (!normalizedAppName || Boolean(selectedApp));
 
@@ -110,7 +115,7 @@ export const QuizPreviewQuestionsTable: FunctionComponent<Props> = ({
               {normalizedAppName && appIcons[normalizedAppName.toLowerCase()]}
               <Body3>{normalizedAppName}</Body3>
             </AppValue>
-          )
+          );
         },
       },
       {
@@ -178,22 +183,6 @@ const RowIndexCell = styled(Body3Bold)`
 
 const QuestionNameCell = styled(Body3Bold)`
   color: ${defaultTheme.colors.dark.darkGrey};
-`
-
-const TypePill = styled.span<{ $isPhishing: boolean }>`
-  background: ${(props) =>
-    props.$isPhishing
-      ? defaultTheme.colors.light.paleRed
-      : defaultTheme.colors.light.paleGreen};
-  color: ${(props) =>
-    props.$isPhishing ? defaultTheme.colors.error9 : defaultTheme.colors.green9};
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border-radius: 2px;
-  padding: 4px 8px;
-  font-size: 14px;
-  font-weight: 400;
 `
 
 const AppValue = styled.div`
