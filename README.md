@@ -30,6 +30,29 @@ cp apps/spaces/.env.example apps/spaces/.env
 
 To generate passwords for different services and add them to your `.env`, you can use `openssl rand -hex 32` to generate them securely.
 
+## Releases
+
+After new commits arrive at `main`, we can tag a new release:
+
+```sh
+git switch main
+git pull
+# Update version number on package.json and .env.example
+$EDITOR .env.example package.json
+# Commit the version
+git add .env.example package.json
+git commit -m 2.X.Y
+# Follow semver.org
+git tag 2.X.Y
+git push
+git push --tags
+```
+
+This will start the auto build on
+<https://hub.docker.com/u/horizontalorg> and publish the new images.
+After this process is done, you can [create a release on
+Github](https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes).
+
 ## Production deployment
 
 You'll need a server with a running Docker daemon, Docker Compose, and
