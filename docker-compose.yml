@@ -1,6 +1,7 @@
 ---
 services:
   api:
+    image: "horizontalorg/shira-api:${VERSION:-latest}"
     restart: "unless-stopped"
     environment:
       JWT_SECRET: "${JWT_SECRET}"
@@ -19,10 +20,6 @@ services:
       IMAGE_SECRET_KEY: "${IMAGE_SECRET_KEY}"
       PUBLIC_URL: "${PUBLIC_URL}"
       SPACE_URL: "${SPACE_URL}"
-    build:
-      context: "./apps/api/"
-      target: "production"
-      dockerfile: "./Dockerfile.production"
     depends_on:
       db:
         condition: "service_healthy"
@@ -99,10 +96,8 @@ services:
       timeout: "10s"
       retries: 10
       start_period: "10s"
-  web:
-    build:
-      context: "."
-      dockerfile: "./Dockerfile"
+  frontend:
+    image: "horizontalorg/shira-frontend:${VERSION:-latest}"
     restart: "unless-stopped"
     networks:
     - "shira"
