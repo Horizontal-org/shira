@@ -1,4 +1,4 @@
-import { Body3, GeneralTooltip, defaultTheme, styled } from "@horizontal-org/shira-ui";
+import { Body2SemiBold, Body3, GeneralTooltip, defaultTheme, styled } from "@horizontal-org/shira-ui";
 import { FunctionComponent, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BsChatRightTextFill, BsQuestionCircleFill } from "react-icons/bs";
@@ -29,11 +29,16 @@ export const SubmissionStatusBanner: FunctionComponent<Props> = ({ status, reaso
         </GeneralTooltip>
       </Heading>
 
-      <Message>
-        <BsChatRightTextFill size={18} color={defaultTheme.colors.blue7} />
-        <Body3>{reason}</Body3>
-      </Message>
-      <SubmissionStatusPill status={status} variant="outlined" size="large" />
+      {reason && (
+        <Message>
+          <BsChatRightTextFill size={18} color={defaultTheme.colors.blue7} />
+          <Body3>{reason}</Body3>
+        </Message>
+      )}
+
+      <Status>
+        <SubmissionStatusPill status={status} variant="outlined" size="large" />
+      </Status>
 
     </Banner>
   );
@@ -41,9 +46,10 @@ export const SubmissionStatusBanner: FunctionComponent<Props> = ({ status, reaso
 
 const Banner = styled.section`
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  gap: 40px;
+  column-gap: 40px;
+  row-gap: 10px;
   margin-bottom: 40px;
   padding: 16px 20px;
   background: ${defaultTheme.colors.light.paleGrey};
@@ -55,7 +61,8 @@ const Banner = styled.section`
   }
 `;
 
-const Heading = styled(Body3)`
+const Heading = styled(Body2SemiBold)`
+  grid-column: 1;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -65,6 +72,7 @@ const Heading = styled(Body3)`
 `;
 
 const Message = styled.div`
+  grid-column: 1;
   display: flex;
   align-items: flex-start;
   gap: 20px;
@@ -81,9 +89,8 @@ const Message = styled.div`
 `;
 
 const Status = styled.div`
-  padding: 8px 12px;
-  border: 1px solid ${defaultTheme.colors.dark.lightGrey};
-  border-radius: 8px;
-  background: ${defaultTheme.colors.light.white};
+  grid-column: 2;
+  grid-row: 1 / -1;
+  align-self: center;
   white-space: nowrap;
 `;

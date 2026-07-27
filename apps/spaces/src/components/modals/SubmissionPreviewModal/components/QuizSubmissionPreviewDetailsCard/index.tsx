@@ -31,10 +31,6 @@ export const QuizSubmissionPreviewDetailsCard: FunctionComponent<Props> = ({
       sidebar={(
         <>
           <SidebarRow>
-            <DetailLabel>{t("templates.submissions_table.status")}</DetailLabel>
-            <SubmissionStatusPill status={status} />
-          </SidebarRow>
-          <SidebarRow>
             <DetailLabel>
               <MdCalendarMonth size={18} color={defaultTheme.colors.error7} />
               {t("templates.submissions_table.date_submitted")}
