@@ -18,6 +18,7 @@ type PreviewQuizScreenProps = {
   title: ReactNode;
   subtitle?: ReactNode;
   actions?: ReactNode;
+  submissionStatusBanner?: ReactNode;
   details?: ReactNode;
   children?: ReactNode;
   onClose: () => void;
@@ -39,6 +40,7 @@ export const PreviewQuizScreen: FunctionComponent<PreviewQuizScreenProps> = ({
   title,
   subtitle,
   actions,
+  submissionStatusBanner,
   details,
   children,
   onClose,
@@ -50,6 +52,7 @@ export const PreviewQuizScreen: FunctionComponent<PreviewQuizScreenProps> = ({
     </TopBar>
 
     <Content>
+      {submissionStatusBanner}
       <H2>{title}</H2>
       {subtitle && <Subtitle>{subtitle}</Subtitle>}
       {details}

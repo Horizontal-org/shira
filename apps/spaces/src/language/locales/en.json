@@ -269,17 +269,14 @@
             "preview": "Preview submission"
         },
         "submission_status": {
+            "title": "Submission status",
+            "help_tooltip": "Please email the Shira team if you have questions or need support.",
             "in_review": "In review",
             "accepted": "Accepted",
             "rejected": "Rejected"
         },
         "submissions_empty_state": {
-            "quizzes": {
-                "subtitle": "You don't have any submissions yet. To submit a resource that you have created, go to that specific resource and select \"submit as template.\""
-            },
-            "questions": {
-                "subtitle": "You don't have any submissions yet. To submit a resource that you have created, go to that specific resource and select \"submit as template.\""
-            },
+            "subtitle": "You don't have any submissions yet. To submit a resource that you have created, go to that specific resource and select \"submit as template.\"",
             "learn_more": "Learn more about templates"
         },
         "quiz_templates": {

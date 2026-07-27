@@ -6,7 +6,7 @@ import { MdCalendarMonth, MdRemoveRedEye } from "react-icons/md";
 import type { SubmissionStatus } from "../../../fetch/submissions";
 import { formatLocaleDate } from "../../../language/dateUtils";
 import i18n from "../../../language/i18n";
-import { SubmissionStatusPill } from "./SubmissionTableCells";
+import { SubmissionStatusPill } from "../../SubmissionStatusPill";
 
 export type SubmissionListItem = {
   name: string;
@@ -67,7 +67,7 @@ export const SubmissionsTable = ({ type, submissions }: SubmissionsTableProps) =
     return (
       <EmptyStateWrapper>
         <EmptyState
-          subtitle={t(`templates.submissions_empty_state.${type}.subtitle`)}
+          subtitle={t(`templates.submissions_empty_state.subtitle`)}
           buttons={(
             <Button
               id={`my-submissions-${type}-learn-more-button`}

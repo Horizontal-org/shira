@@ -15,6 +15,7 @@ import { PreviewQuizScreen } from "../../../PreviewQuizScreen";
 import { PreviewQuestionScreen } from "../../../PreviewQuizScreen/PreviewQuestionScreen";
 import { QuizSubmissionPreviewDetailsCard } from "../QuizSubmissionPreviewDetailsCard";
 import { QuestionSubmissionPreviewDetailsCard } from "../QuestionSubmissionPreviewDetailsCard";
+import { SubmissionStatusBanner } from "../SubmissionStatusBanner";
 
 type Props = {
   quiz: QuizSubmissionDetailDto;
@@ -101,6 +102,9 @@ export const QuizSubmissionPreview: FunctionComponent<Props> = ({ quiz, onClose 
       onClose={onClose}
       title={quiz.title}
       subtitle={quiz.description}
+      submissionStatusBanner={(
+        <SubmissionStatusBanner status={quiz.status} reason={quiz.reason} />
+      )}
       actions={(
         <Button
           text={t("quiz_library.preview.preview_full_quiz")}
