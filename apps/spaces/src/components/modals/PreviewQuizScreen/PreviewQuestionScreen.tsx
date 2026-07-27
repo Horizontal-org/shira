@@ -27,6 +27,7 @@ type Props = {
   question: PreviewQuestion;
   onClose: () => void;
   onBack?: () => void;
+  submissionStatusBanner?: ReactNode;
   details?: ReactNode;
   headerLabel?: ReactNode;
   actions?: ReactNode;
@@ -40,6 +41,7 @@ export const PreviewQuestionScreen: FunctionComponent<Props> = ({
   question,
   onClose,
   onBack,
+  submissionStatusBanner,
   details,
   headerLabel,
   actions,
@@ -94,6 +96,7 @@ export const PreviewQuestionScreen: FunctionComponent<Props> = ({
       </Header>
 
       <CanvasWrapper>
+        {submissionStatusBanner}
         {details}
         <Canvas>
           {showExplanations && <Overlay />}

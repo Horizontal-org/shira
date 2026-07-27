@@ -76,11 +76,11 @@ const StatusPill = styled.span<{
   color: ${(props) => props.$color};
   display: inline-flex;
   align-items: center;
-  gap: ${(props) => props.$size === "large" ? "8px" : "6px"};
-  border: ${(props) => props.$variant === "outlined" ? `1px solid ${props.$borderColor}` : "none"};
-  border-radius: ${(props) => props.$size === "large" ? "12px" : "2px"};
-  padding: ${(props) => props.$size === "large" ? "8px 12px" : "4px 8px"};
-  font-size: ${(props) => props.$size === "large" ? "16px" : "14px"};
   font-weight: 400;
   line-height: 1;
+  gap: ${(props) => props.$size === "large" ? "8px" : "6px"};
+  padding: ${(props) => props.$size === "large" ? "8px 12px" : "4px 8px"};
+  font-size: ${(props) => props.$size === "large" ? "16px" : "14px"};
+  border-radius: ${(props) => props.$size === "large" ? "12px" : "2px"};
+  border: ${(props) => props.$variant === "outlined" ? `1px solid ${props.$borderColor}` : "none"};
 `;

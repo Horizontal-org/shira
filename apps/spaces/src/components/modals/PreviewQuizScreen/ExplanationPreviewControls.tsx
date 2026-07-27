@@ -108,7 +108,7 @@ export const ExplanationPreviewControls: FunctionComponent<ExplanationControlsPr
             text={showExplanations
               ? t("create_question.tabs.preview.hide_explanations")
               : t("create_question.tabs.preview.show_explanations")}
-            type="outline"
+            type="primary"
             onClick={onToggleExplanations}
           />
 

@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import type { QuestionSubmissionDetailDto } from "../../../../../fetch/submissions";
 import { PreviewQuestionScreen } from "../../../PreviewQuizScreen/PreviewQuestionScreen";
 import { QuestionSubmissionPreviewDetailsCard } from "../QuestionSubmissionPreviewDetailsCard";
+import { SubmissionStatusBanner } from "../SubmissionStatusBanner";
 
 type Props = {
   question: QuestionSubmissionDetailDto;
@@ -21,6 +22,9 @@ export const QuestionSubmissionPreview: FunctionComponent<Props> = ({ question, 
         explanations: question.explanations,
       }}
       headerLabel={question.questionName}
+      submissionStatusBanner={(
+        <SubmissionStatusBanner status={question.status} reason={question.reason} />
+      )}
       details={(
         <QuestionSubmissionPreviewDetailsCard
           language={question.language}

@@ -15,7 +15,7 @@ export const SubmissionStatusBanner: FunctionComponent<Props> = ({ status, reaso
   const [showHelp, setShowHelp] = useState(false);
 
   return (
-    <Banner aria-label={t("templates.submission_status.title")}>
+    <Banner aria-label={t("templates.submission_status.title")} $hasReason={Boolean(reason)}>
 
       <Heading>
         {t("templates.submission_status.title")}
@@ -36,7 +36,7 @@ export const SubmissionStatusBanner: FunctionComponent<Props> = ({ status, reaso
         </Message>
       )}
 
-      <Status>
+      <Status $hasReason={Boolean(reason)}>
         <SubmissionStatusPill status={status} variant="outlined" size="large" />
       </Status>
 
@@ -44,9 +44,10 @@ export const SubmissionStatusBanner: FunctionComponent<Props> = ({ status, reaso
   );
 };
 
-const Banner = styled.section`
+const Banner = styled.section<{ $hasReason: boolean }>`
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: ${(props) => props.$hasReason ? "auto auto" : "auto"};
   align-items: center;
   column-gap: 40px;
   row-gap: 10px;
@@ -63,6 +64,7 @@ const Banner = styled.section`
 
 const Heading = styled(Body2SemiBold)`
   grid-column: 1;
+  grid-row: 1;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -73,9 +75,10 @@ const Heading = styled(Body2SemiBold)`
 
 const Message = styled.div`
   grid-column: 1;
+  grid-row: 2;
   display: flex;
-  align-items: flex-start;
-  gap: 20px;
+  align-items: center;
+  gap: 10px;
 
   p {
     margin: 0;
@@ -88,9 +91,9 @@ const Message = styled.div`
   }
 `;
 
-const Status = styled.div`
+const Status = styled.div<{ $hasReason: boolean }>`
   grid-column: 2;
-  grid-row: 1 / -1;
+  grid-row: ${(props) => props.$hasReason ? "1 / 3" : "1"};
   align-self: center;
   white-space: nowrap;
 `;

@@ -80,6 +80,12 @@ export const QuizSubmissionPreview: FunctionComponent<Props> = ({ quiz, onClose 
           explanations: previewQuestion.explanations,
         }}
         headerLabel={t("create_question.tabs.preview.aria_label")}
+        submissionStatusBanner={(
+          <SubmissionStatusBanner
+            status={previewQuestion.status}
+            reason={previewQuestion.reason}
+          />
+        )}
         details={(
           <QuestionSubmissionPreviewDetailsCard
             language={previewQuestion.language}
