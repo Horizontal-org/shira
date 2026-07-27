@@ -1,6 +1,6 @@
 import { IsArray, IsDefined, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength, ValidateNested } from 'class-validator'
 
-export class PublishQuestionLibraryBodyDto {
+export class PublishLibraryBodyDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(255)
