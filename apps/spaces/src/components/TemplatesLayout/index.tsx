@@ -79,7 +79,7 @@ export const TemplatesLayout: FunctionComponent<Props> = () => {
           <CardGrid>
             <TemplateCard onClick={() => navigate("/quiz/templates")}>
               <CardIcon>
-                <LuNotepadText size={32} color={theme.colors.green7} />
+                <LuNotepadText size={24} color={theme.colors.green7} />
               </CardIcon>
 
               <CardText>
@@ -90,7 +90,7 @@ export const TemplatesLayout: FunctionComponent<Props> = () => {
 
             <TemplateCard onClick={() => navigate("/question/library")}>
               <CardIcon>
-                <BsQuestionLg size={32} color={theme.colors.green7} />
+                <BsQuestionLg size={24} color={theme.colors.green7} />
               </CardIcon>
 
               <CardText>
@@ -131,7 +131,7 @@ const StyledSubHeading3 = styled(SubHeading3)`
 
 const CardGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 720px));
   gap: 24px;
 
   @media (max-width: ${(props) => props.theme.breakpoints.md}) {
@@ -164,19 +164,15 @@ const TemplateCard = styled.button`
 `;
 
 const CardIcon = styled.div`
-  width: 88px;
-  min-width: 88px;
-  height: 100%;
+  width: 56px;
+  min-width: 56px;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
   line-height: 0;
-
-  @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
-    width: 100%;
-    min-width: 0;
-    min-height: 48px;
-  }
+  border-radius: 50%;
+  background: ${(props) => props.theme.colors.light.paleGreen};
 `;
 
 const CardText = styled.div`

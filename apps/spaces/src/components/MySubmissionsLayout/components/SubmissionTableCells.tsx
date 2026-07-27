@@ -36,7 +36,11 @@ export const SubmissionStatusPill = ({ status }: StatusPillProps) => {
   const config = statusConfig[status];
 
   return (
-    <StatusPill $background={config.background} $color={config.color}>
+    <StatusPill
+      id={`my-submissions-status-pill-${status}`}
+      $background={config.background}
+      $color={config.color}
+    >
       {config.icon}
       {t(`templates.submission_status.${status}`)}
     </StatusPill>

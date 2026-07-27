@@ -9,7 +9,7 @@ import {
   useAdminSidebar,
 } from "@horizontal-org/shira-ui";
 import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { FiArrowLeft } from "react-icons/fi";
 import {
   getQuestionSubmission,
@@ -96,13 +96,13 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
 
           <HeaderContainer>
             <H2>{t("templates.my_submissions")}</H2>
-            <Body1>{t("templates.my_submissions_description_1")}</Body1>
-            <Body1>{t("templates.my_submissions_description_2")}</Body1>
             <Body1>
-              {t("templates.my_submissions_description_3")}{" "}
-              <Link1 onClick={() => navigate("/support")}>
-                {t("templates.help_center")}
-              </Link1>.
+              <Trans
+                i18nKey="templates.my_submissions_description"
+                components={{
+                  learnMore: <Link1 onClick={() => navigate("/support")} />,
+                }}
+              />
             </Body1>
           </HeaderContainer>
 

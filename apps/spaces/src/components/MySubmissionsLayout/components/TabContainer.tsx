@@ -22,19 +22,20 @@ export const TabContainer: FunctionComponent<Props> = ({
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<TabType>("quizzes");
 
-  const submissions: SubmissionListItem[] = activeTab === "quizzes"
-    ? quizSubmissions.map((submission) => ({
-      name: submission.title,
-      dateSubmitted: submission.dateSubmitted,
-      status: submission.status,
-      preview: () => onQuizPreview(submission),
-    }))
-    : questionSubmissions.map((submission) => ({
-      name: submission.questionName,
-      dateSubmitted: submission.dateSubmitted,
-      status: submission.status,
-      preview: () => onQuestionPreview(submission),
-    }));
+  const submissions: SubmissionListItem[] =
+    activeTab === "quizzes"
+      ? quizSubmissions.map((submission) => ({
+        name: submission.title,
+        dateSubmitted: submission.dateSubmitted,
+        status: submission.status,
+        preview: () => onQuizPreview(submission),
+      }))
+      : questionSubmissions.map((submission) => ({
+        name: submission.questionName,
+        dateSubmitted: submission.dateSubmitted,
+        status: submission.status,
+        preview: () => onQuestionPreview(submission),
+      }));
 
   return (
     <Container>
@@ -47,6 +48,7 @@ export const TabContainer: FunctionComponent<Props> = ({
           >
             {t("templates.submissions_tabs.quizzes")}
           </TabButton>
+
           <TabButton
             id="my-submissions-questions-tab"
             $isActive={activeTab === "questions"}
@@ -101,7 +103,7 @@ const TabButton = styled.div<{ $isActive: boolean }>`
 
   &:hover {
     border-bottom: 4px solid ${(props) => (
-    props.$isActive ? props.theme.colors.green7 : "#ccc"
+    props.$isActive ? props.theme.colors.green7 : props.theme.colors.light.paleGrey
   )};
     color: ${(props) => (
     props.$isActive ? props.theme.colors.green7 : props.theme.colors.dark.black

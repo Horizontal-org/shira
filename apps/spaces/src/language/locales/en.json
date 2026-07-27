@@ -253,10 +253,7 @@
         "subtitle": "Get started right away with ready-made templates.",
         "my_submissions": "My submissions",
         "back_to_templates": "Back to Templates",
-        "my_submissions_description_1": "These are the resources you have submitted. The Shira team carefully reviews every submission that we receive.",
-        "my_submissions_description_2": "If your resource is accepted, it will appear under Shira's templates. If it is rejected, you will receive an email with an explanation.",
-        "my_submissions_description_3": "For more information, visit our",
-        "help_center": "Help Center",
+        "my_submissions_description": "These are the templates you have submitted. The Shira team carefully reviews every submission. If your template is accepted, it will appear in the Shira template library. <learnMore>Learn More</learnMore>",
         "submissions_tabs": {
             "quizzes": "Quizzes",
             "questions": "Questions"

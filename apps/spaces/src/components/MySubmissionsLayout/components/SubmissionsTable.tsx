@@ -53,6 +53,7 @@ export const SubmissionsTable = ({ type, submissions }: SubmissionsTableProps) =
       id: "actions",
       cell: ({ row }) => (
         <ActionButton
+          id={`my-submissions-${type}-preview-button-${row.index}`}
           type="button"
           title={t("templates.submissions_table.preview")}
           onClick={row.original.preview}>
@@ -69,6 +70,7 @@ export const SubmissionsTable = ({ type, submissions }: SubmissionsTableProps) =
           subtitle={t(`templates.submissions_empty_state.${type}.subtitle`)}
           buttons={(
             <Button
+              id={`my-submissions-${type}-learn-more-button`}
               text={t("templates.submissions_empty_state.learn_more")}
               type="primary"
               color={theme.colors.green7}
