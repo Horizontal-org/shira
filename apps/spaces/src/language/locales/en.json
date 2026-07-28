@@ -225,8 +225,8 @@
                 "subtitle": "This is how your question will look to learners, including the explanations you have written.",
                 "show_explanations": "Show explanations",
                 "hide_explanations": "Hide explanations",
-                "next_explanation": "Next explanation",
-                "previous_explanation": "Previous explanation",
+                "next_explanation": "Next",
+                "previous_explanation": "Previous",
                 "no_explanations": "There are no explanations for this question.",
                 "aria_label": "Preview question"
             }

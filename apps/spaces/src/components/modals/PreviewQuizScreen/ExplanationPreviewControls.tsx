@@ -1,7 +1,7 @@
 import { Button, defaultTheme, styled } from "@horizontal-org/shira-ui";
 import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { MdBlock } from "react-icons/md";
+import { MdBlock, MdChevronLeft, MdChevronRight } from "react-icons/md";
 import parseHtml from "../../../utils/parseHtml";
 
 type PreviewExplanation = {
@@ -92,8 +92,7 @@ export const ExplanationPreviewControls: FunctionComponent<ExplanationControlsPr
 }) => {
   const { t } = useTranslation();
 
-  const hasMultipleExplanations = explanations.length > 1 && explanationNumber > 0;
-  const canGoToNextExplanation = explanations.length > 1 && explanationNumber < explanations.length - 1;
+  const hasMultipleExplanations = explanations.length > 1;
 
   return (
     <>
@@ -104,53 +103,44 @@ export const ExplanationPreviewControls: FunctionComponent<ExplanationControlsPr
         </NoExplanationsNotice>
       ) : (
         <>
-          <ExplanationOutlineButton
+          {showExplanations && hasMultipleExplanations && (
+            <>
+              <ExplanationNavigationButton
+                text={t("create_question.tabs.preview.previous_explanation")}
+                type="outline"
+                leftIcon={<MdChevronLeft size={18} />}
+                disabled={explanationNumber === 0}
+                onClick={onPreviousExplanation}
+              />
+              <ExplanationNavigationButton
+                text={t("create_question.tabs.preview.next_explanation")}
+                type="outline"
+                rightIcon={<MdChevronRight size={18} />}
+                disabled={explanationNumber === explanations.length - 1}
+                onClick={onNextExplanation}
+              />
+            </>
+          )}
+
+          <ExplanationToggleButton
             text={showExplanations
               ? t("create_question.tabs.preview.hide_explanations")
               : t("create_question.tabs.preview.show_explanations")}
             type="primary"
             onClick={onToggleExplanations}
           />
-
-          {showExplanations && hasMultipleExplanations && (
-            <ExplanationPrimaryButton
-              text={t("create_question.tabs.preview.previous_explanation")}
-              type="primary"
-              onClick={onPreviousExplanation}
-            />
-          )}
-
-          {showExplanations && canGoToNextExplanation && (
-            <ExplanationPrimaryButton
-              text={t("create_question.tabs.preview.next_explanation")}
-              type="primary"
-              onClick={onNextExplanation}
-            />
-          )}
         </>
       )}
     </>
   );
 };
 
-const ExplanationOutlineButton = styled(Button)`
+const ExplanationToggleButton = styled(Button)`
   justify-content: center;
 `;
 
-const ExplanationPrimaryButton = styled(Button)`
+const ExplanationNavigationButton = styled(Button)`
   justify-content: center;
-  background: ${defaultTheme.colors.blue7};
-  border-color: ${defaultTheme.colors.blue7};
-
-  &:hover {
-    background: ${defaultTheme.colors.blue8};
-    border-color: ${defaultTheme.colors.blue8};
-  }
-
-  &:focus {
-    background: ${defaultTheme.colors.blue8};
-    border-color: ${defaultTheme.colors.blue4};
-  }
 `;
 
 const NoExplanationsNotice = styled.div`
