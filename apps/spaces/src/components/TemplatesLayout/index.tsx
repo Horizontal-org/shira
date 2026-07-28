@@ -78,25 +78,23 @@ export const TemplatesLayout: FunctionComponent<Props> = () => {
 
           <CardGrid>
             <TemplateCard onClick={() => navigate("/quiz/templates")}>
-              <CardIcon>
-                <LuNotepadText size={24} color={theme.colors.green7} />
-              </CardIcon>
-
-              <CardText>
+              <CardHeader>
+                <CardIcon>
+                  <LuNotepadText size={24} color={theme.colors.green7} />
+                </CardIcon>
                 <SubHeading2>{t("templates.quiz_templates.title")}</SubHeading2>
-                <Body1>{t("templates.quiz_templates.description")}</Body1>
-              </CardText>
+              </CardHeader>
+              <Body1>{t("templates.quiz_templates.description")}</Body1>
             </TemplateCard>
 
             <TemplateCard onClick={() => navigate("/question/library")}>
-              <CardIcon>
-                <BsQuestionLg size={24} color={theme.colors.green7} />
-              </CardIcon>
-
-              <CardText>
+              <CardHeader>
+                <CardIcon>
+                  <BsQuestionLg size={24} color={theme.colors.green7} />
+                </CardIcon>
                 <SubHeading2>{t("templates.question_templates.title")}</SubHeading2>
-                <Body1>{t("templates.question_templates.description")}</Body1>
-              </CardText>
+              </CardHeader>
+              <Body1>{t("templates.question_templates.description")}</Body1>
             </TemplateCard>
           </CardGrid>
         </LayoutMainContentWrapper>
@@ -131,23 +129,24 @@ const StyledSubHeading3 = styled(SubHeading3)`
 
 const CardGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 720px));
-  gap: 24px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 40px;
 
   @media (max-width: ${(props) => props.theme.breakpoints.md}) {
     grid-template-columns: 1fr;
+    gap: 24px;
   }
 `;
 
 const TemplateCard = styled.button`
   all: unset;
   box-sizing: border-box;
-  display: grid;
-  grid-template-columns: 88px minmax(0, 1fr);
-  gap: 24px;
-  align-items: center;
-  padding: 32px;
-  border: 1px solid ${(props) => props.theme.colors.green3};
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  padding: 28px;
+  border: 1px solid ${(props) => props.theme.colors.green2};
   border-radius: 32px;
   background: ${(props) => props.theme.colors.light.white};
   cursor: pointer;
@@ -158,9 +157,15 @@ const TemplateCard = styled.button`
   }
 
   @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
-    grid-template-columns: 1fr;
+    gap: 24px;
     padding: 24px;
   }
+`;
+
+const CardHeader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
 `;
 
 const CardIcon = styled.div`
@@ -173,10 +178,4 @@ const CardIcon = styled.div`
   line-height: 0;
   border-radius: 50%;
   background: ${(props) => props.theme.colors.light.paleGreen};
-`;
-
-const CardText = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
 `;

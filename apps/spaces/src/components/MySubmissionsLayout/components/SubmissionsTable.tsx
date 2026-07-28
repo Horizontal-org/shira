@@ -1,8 +1,8 @@
-import { Body3, Body3Bold, Button, defaultTheme, EmptyState, Table, styled, useTheme } from "@horizontal-org/shira-ui";
+import { Body1, Body3, Body3Bold, Button, defaultTheme, SettingsFishIcon, Table, styled, useTheme } from "@horizontal-org/shira-ui";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { MdCalendarMonth, MdRemoveRedEye } from "react-icons/md";
+import { MdCalendarMonth } from "react-icons/md";
 import type { SubmissionStatus } from "../../../fetch/submissions";
 import { formatLocaleDate } from "../../../language/dateUtils";
 import i18n from "../../../language/i18n";
@@ -12,7 +12,6 @@ export type SubmissionListItem = {
   name: string;
   dateSubmitted: string;
   status: SubmissionStatus;
-  preview: () => void;
 };
 
 interface SubmissionsTableProps {
@@ -48,27 +47,19 @@ export const SubmissionsTable = ({ type, submissions }: SubmissionsTableProps) =
       cell: ({ row }) =>
         <SubmissionStatusPill status={row.original.status} />,
     },
-    {
-      header: t("templates.submissions_table.actions"),
-      id: "actions",
-      cell: ({ row }) => (
-        <ActionButton
-          id={`my-submissions-${type}-preview-button-${row.index}`}
-          type="button"
-          title={t("templates.submissions_table.preview")}
-          onClick={row.original.preview}>
-          <MdRemoveRedEye size={24} color={defaultTheme.colors.dark.darkGrey} />
-        </ActionButton>
-      ),
-    },
   ];
 
   if (submissions.length === 0) {
     return (
       <EmptyStateWrapper>
-        <EmptyState
-          subtitle={t(`templates.submissions_empty_state.subtitle`)}
-          buttons={(
+        <SettingsFishIcon />
+
+        <EmptyStateContent>
+          <EmptyStateDescription>
+            {t("templates.submissions_empty_state.subtitle")}
+          </EmptyStateDescription>
+
+          <ButtonWrapper>
             <Button
               id={`my-submissions-${type}-learn-more-button`}
               text={t("templates.submissions_empty_state.learn_more")}
@@ -76,8 +67,8 @@ export const SubmissionsTable = ({ type, submissions }: SubmissionsTableProps) =
               color={theme.colors.green7}
               onClick={() => navigate("/template-library")}
             />
-          )}
-        />
+          </ButtonWrapper>
+        </EmptyStateContent>
       </EmptyStateWrapper>
     );
   }
@@ -96,10 +87,9 @@ export const SubmissionsTable = ({ type, submissions }: SubmissionsTableProps) =
         enableRowHover={false}
         colGroups={(
           <colgroup>
-            <col style={{ width: "52%" }} />
-            <col style={{ width: "22%" }} />
+            <col style={{ width: "60%" }} />
+            <col style={{ width: "24%" }} />
             <col style={{ width: "16%" }} />
-            <col style={{ width: "10%" }} />
           </colgroup>
         )}
       />
@@ -108,10 +98,58 @@ export const SubmissionsTable = ({ type, submissions }: SubmissionsTableProps) =
 };
 
 const EmptyStateWrapper = styled.div`
-  min-height: 420px;
+  min-height: 264px;
+  padding: 0 48px 0 40px;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 48px;
+  box-sizing: border-box;
+
+  & > svg {
+    width: 232px;
+    height: auto;
+    flex: 0 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    min-height: 0;
+    padding: 24px 0 8px;
+    flex-direction: column;
+    gap: 20px;
+
+    & > svg {
+      width: 180px;
+    }
+  }
+`;
+
+const EmptyStateContent = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  max-width: 700px;
+
+  @media (max-width: 768px) {
+    align-items: center;
+  }
+`;
+
+const EmptyStateDescription = styled(Body1)`
+  margin: 0;
+  color: ${defaultTheme.colors.dark.darkGrey};
+  font-weight: 300;
+  line-height: 1.5;
+
+  @media (max-width: 768px) {
+    text-align: center;
+  }
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
 `;
 
 const SubmissionName = styled(Body3Bold)`
@@ -123,14 +161,4 @@ const DateCell = styled.div`
   align-items: center;
   gap: 6px;
   color: ${defaultTheme.colors.dark.darkGrey};
-`;
-
-const ActionButton = styled.button`
-  all: unset;
-  width: 32px;
-  height: 32px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
 `;
