@@ -6,8 +6,8 @@ import { Quiz } from 'src/modules/quiz/domain/quiz.entity'
 import { TYPES } from '../interfaces'
 import { IPublishQuizLibraryService } from '../interfaces/services/publish-quiz.library.service.interface'
 import { IPrepareQuestionsLibraryService } from '../interfaces/services/prepare-questions.library.service.interface'
+import { IShiraLibraryService } from '../interfaces/services/shira-library.service.interface'
 import { PublishQuizLibraryDto } from '../dto/publish-quiz.library.dto'
-import { LibraryPublishFailedException } from '../exceptions'
 
 @Injectable()
 export class PublishQuizLibraryService implements IPublishQuizLibraryService {
@@ -16,6 +16,8 @@ export class PublishQuizLibraryService implements IPublishQuizLibraryService {
     private readonly quizRepo: Repository<Quiz>,
     @Inject(TYPES.services.IPrepareQuestionsLibraryService)
     private readonly prepareQuestionsService: IPrepareQuestionsLibraryService,
+    @Inject(TYPES.services.IShiraLibraryService)
+    private readonly shiraLibraryService: IShiraLibraryService,
   ) { }
 
   async execute(dto: PublishQuizLibraryDto): Promise<void> {
@@ -47,33 +49,6 @@ export class PublishQuizLibraryService implements IPublishQuizLibraryService {
       tagIds
     }
 
-    await this.publishQuiz(readyQuiz)
-  }
-
-  private async publishQuiz(data): Promise<void> {
-    const baseUrl = process.env.SHIRA_LIBRARY_URL
-
-    if (!baseUrl) {
-      throw new LibraryPublishFailedException()
-    }
-
-    let response: Response
-
-    try {
-      response = await fetch(`${baseUrl}/quiz-templates/publish`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
-    } catch (error) {
-      throw new LibraryPublishFailedException(error.message)
-    }
-
-    if (!response.ok) {
-      const errorBody = await response.text()
-      throw new LibraryPublishFailedException(errorBody)
-    }
+    await this.shiraLibraryService.publishQuiz(readyQuiz)
   }
 }

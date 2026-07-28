@@ -3,5 +3,7 @@ export const TYPES = {
     IPublishQuestionLibraryService: 'IPublishQuestionLibraryService',
     IPrepareQuestionsLibraryService: 'IPrepareQuestionsLibraryService',
     IPublishQuizLibraryService: 'IPublishQuizLibraryService',
+    IShiraLibraryService: 'IShiraLibraryService',
+    IShiraLibraryLoggerService: 'IShiraLibraryLoggerService',
   },
 }

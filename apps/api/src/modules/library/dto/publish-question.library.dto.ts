@@ -3,7 +3,7 @@ import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength } from '
 
 export class PublishAuthorDto {
   @IsString()
-  @MaxLength(27)
+  @MaxLength(31)
   publicSpaceId: string
 
   @IsString()

@@ -1,1 +1,1 @@
-export { LibraryPublishFailedException } from './library-publish-failed.exception'
+export { LibraryRequestFailedException } from './library-request-failed.exception'
