@@ -56,6 +56,7 @@
         "subtitle": "Manage your quizzes here, including creating, publishing, unpublishing and deleting quizzes.",
         "create_quiz_button": "Create new quiz",
         "use_a_quiz_template_button": "Use a quiz template",
+        "empty_state": "You don’t have any quizzes yet. Click on the “Create new quiz” button to get started.",
         "create_limit_reached": "Upgrade your plan to create more quizzes."
     },
     "learners": {
@@ -953,18 +954,22 @@
         }
     },
     "create_space": {
-        "form_title": "Create a new space",
+        "form_title": "Create your space",
         "form_description": "Complete the form below to create your Shira space.",
         "beta_lead": "Shira spaces are currently in closed beta. To obtain the passphrase necessary to join the beta, email us at",
         "checking_invitation": "Checking invitation...",
-        "email_label": "Confirm your email address",
-        "password_label": "Password",
-        "confirm_password_label": "Confirm Password",
+        "email_label": "Confirm your email address (required)",
+        "password_label": "Password (required)",
+        "confirm_password_label": "Confirm password (required)",
+        "privacy_consent_label": "I agree to Shira's <0>privacy policy</0>.",
+        "privacy_consent_aria_label": "Agree to Shira's privacy policy",
         "button_create": "Create new space",
         "validation": {
             "email_required": "Email is required.",
             "password_required": "Password is required.",
             "password_min_length": "Password must be at least 8 characters.",
+            "confirm_password_required": "Please confirm your password.",
+            "privacy_policy_required": "Please accept the privacy policy.",
             "passwords_mismatch": "Passwords do not match."
         },
         "success": {

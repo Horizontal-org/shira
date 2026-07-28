@@ -29,22 +29,49 @@ export const BaseFloatingMenu: FunctionComponent<BaseFloatingMenuProps> = ({
   const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
-    if (!document.getElementById('floating-menu-portal')) {
-      const container = document.createElement('div');
+    // Force close menu if anchor element is removed from DOM or no longer exists
+    const shouldForceClose = isOpen && (!anchorEl || !anchorEl.isConnected);
+
+    if (shouldForceClose) {
+      onClose();
+    }
+  }, [isOpen, anchorEl, onClose, portalContainer, width]);
+
+  useEffect(() => {
+    // Create or retrieve the shared portal container for all floating menus
+    const existingContainer = document.getElementById('floating-menu-portal');
+    const container = existingContainer instanceof HTMLElement
+      ? existingContainer
+      : document.createElement('div');
+
+    if (!(existingContainer instanceof HTMLElement)) {
       container.id = 'floating-menu-portal';
       document.body.appendChild(container);
-      setPortalContainer(container);
-    } else {
-      setPortalContainer(document.getElementById('floating-menu-portal'));
     }
 
-    return () => {
-      const container = document.getElementById('floating-menu-portal');
-      if (container && container.childNodes.length === 0) {
-        document.body.removeChild(container);
-      }
-    };
+    setPortalContainer(container);
   }, []);
+
+  useLayoutEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    // Update portal container reference when menu opens in case it was recreated by another instance
+    const existingContainer = document.getElementById('floating-menu-portal');
+    const container = existingContainer instanceof HTMLElement
+      ? existingContainer
+      : document.createElement('div');
+
+    if (!(existingContainer instanceof HTMLElement)) {
+      container.id = 'floating-menu-portal';
+      document.body.appendChild(container);
+    }
+
+    if (portalContainer !== container) {
+      setPortalContainer(container);
+    }
+  }, [isOpen, portalContainer]);
 
   useLayoutEffect(() => {
     if (isOpen && anchorEl) {
@@ -137,6 +164,7 @@ export const BaseFloatingMenu: FunctionComponent<BaseFloatingMenuProps> = ({
       <MenuContent>
         {elements.map((e, i) => (
           <MenuButton
+            type="button"
             onClick={e.onClick}
             key={i}
           >

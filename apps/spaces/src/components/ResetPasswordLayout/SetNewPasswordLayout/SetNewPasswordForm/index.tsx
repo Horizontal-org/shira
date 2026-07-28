@@ -92,7 +92,7 @@ const FieldGroup = styled.div`
 
 const FormError = styled.div<{ $visible?: boolean }>`
   min-height: 18px;
-  color: #d32f2f;
+  color: ${props => props.theme.colors.error7};
   font-size: 14px;
   line-height: 18px;
   padding-left: 4px;

@@ -16,6 +16,7 @@ import { QuizLimitModal } from "../modals/QuizLimitModal";
 import { ViewPlansModal } from "../modals/ViewPlansModal";
 import { QuizLibraryPreviewModal } from "../modals/QuizLibraryPreviewModal";
 import { useSub } from "../../hooks/useSub";
+import { usePublicLibrary } from "../../hooks/usePublicLibrary";
 import { QuizLibraryFlowManagement } from "../QuizLibraryFlowManagement";
 import { useQuizTemplateList } from "./hooks/useQuizTemplateList";
 import { LibrarySearchEmptyState } from "../LibrarySearchEmptyState";
@@ -44,6 +45,14 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
   }), shallow);
 
   const { isSubActive } = useSub();
+  const { isPublicLibraryEnabled } = usePublicLibrary();
+
+  useEffect(() => {
+    if (!isPublicLibraryEnabled) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [isPublicLibraryEnabled, navigate]);
+
   const {
     areFiltersOpen,
     debouncedSearchValue,

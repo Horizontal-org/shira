@@ -1,10 +1,10 @@
-import { FunctionComponent, useEffect, useRef } from "react"
+import { FunctionComponent, useEffect, useRef, useState } from "react"
 import styled from 'styled-components';
 import './styles.css'
 
 // import { usePopper } from 'react-popper';
 import { Explanation } from "../../../../domain/explanation";
-import { arrow, autoUpdate, flip, offset, useFloating } from "@floating-ui/react";
+import { arrow, autoUpdate, flip, offset, shift, size, useFloating } from "@floating-ui/react";
 
 interface Props {
   explanation: Explanation
@@ -23,6 +23,7 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
   const arrowRef = useRef(null);
 
   const referenceElementRef = useRef<HTMLElement | null>(null);
+  const [boundary, setBoundary] = useState<HTMLElement | null>(null);
 
   const isUrl = (text: string) => {
     if (!text || text.length === 0) return false;
@@ -49,7 +50,20 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
       offset(8),
       flip({
         fallbackPlacements: ['top', 'bottom'],
-        padding: 100,
+        boundary: boundary ?? undefined,
+        padding: 0,
+      }),
+      shift({
+        boundary: boundary ?? undefined,
+        padding: 0,
+      }),
+      size({
+        boundary: boundary ?? undefined,
+        padding: 0,
+        apply({ availableWidth, elements }) {
+          const maxTooltipWidth = boundary?.clientWidth ?? availableWidth;
+          elements.floating.style.maxWidth = `${Math.max(0, maxTooltipWidth)}px`;
+        },
       }),
       arrow({ element: arrowRef }),
     ],
@@ -59,7 +73,9 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
   useEffect(() => {
     const referenceElement = document.querySelector(`[data-explanation="${explanation.index}"]`) as HTMLElement;
     referenceElementRef.current = referenceElement;
-    refs.setReference(referenceElement)
+    refs.setReference(referenceElement);
+    const phoneBoundary = referenceElement?.closest('[data-explanation-boundary]');
+    setBoundary(phoneBoundary instanceof HTMLElement ? phoneBoundary : null);
   }, [explanation.index]);
 
   useEffect(() => {

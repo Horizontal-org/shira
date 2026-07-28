@@ -7,6 +7,7 @@ import { ShiraPaymentsRequestFailedException } from "../exceptions";
 import { IShiraPaymentsService } from "../interfaces/services/shira-payments.service.interface";
 import { IShiraPaymentsLoggerService } from "../interfaces/services/shira-payments-logger.service.interface";
 import { TYPES } from "../interfaces";
+import { SELF_HOSTED } from "src/utils/environment/self-hosted.environment";
 
 @Injectable()
 export class ShiraPaymentsService implements IShiraPaymentsService {
@@ -49,6 +50,10 @@ export class ShiraPaymentsService implements IShiraPaymentsService {
     init?: RequestInit,
     organizationId?: string,
   ): Promise<T> {
+    if (SELF_HOSTED) {
+      throw new ShiraPaymentsRequestFailedException();
+    }
+
     const baseUrl = process.env.SHIRA_PAYMENTS_URL;
     const apiKey = process.env.INTERNAL_SHIRA_API_KEY;
     const trimmedBaseUrl = baseUrl?.trim() ?? '';

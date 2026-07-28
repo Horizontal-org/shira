@@ -22,6 +22,7 @@ export class CreateQuizService implements ICreateQuizService {
     quiz.visibility = createQuizDto.visibility;
     quiz.hash = crypto.randomBytes(20).toString('hex');
 
-    await this.quizRepo.save(quiz);
+    const savedQuiz = await this.quizRepo.save(quiz);
+    return savedQuiz.id;
   }
 }

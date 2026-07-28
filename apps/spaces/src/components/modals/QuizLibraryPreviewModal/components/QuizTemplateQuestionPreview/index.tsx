@@ -11,7 +11,8 @@ import type { LibraryQuizQuestionTemplateDto } from "../../../../../fetch/quiz_t
 import { AppLayout } from "../../../../QuestionPreview/AppLayout"
 import {
   isMessagingNotPhoneApp,
-  isMessagingPhoneApp
+  isMessagingPhoneApp,
+  normalizePreviewAppName,
 } from "../../../../../utils/appNames"
 import {
   ExplanationPreviewControls,
@@ -87,6 +88,7 @@ export const QuizTemplateQuestionPreview: FunctionComponent<Props> = ({
             key={`${question.questionId}-${question.appName}`}
             $isFullWidth={isMessagingNotPhoneApp(question.appName)}
             $isPhoneFrame={isMessagingPhoneApp(question.appName)}
+            $hasWhiteBackground={normalizePreviewAppName(question.appName) === "Messenger"}
           >
             <AppLayout
               appName={question.appName ?? ""}
@@ -184,6 +186,7 @@ const PreviewCanvas = styled.div`
 const PreviewAppFrame = styled.div<{
   $isFullWidth: boolean
   $isPhoneFrame: boolean
+  $hasWhiteBackground: boolean
 }>`
   position: relative;
   width: ${(props) => (props.$isFullWidth ? "100%" : "fit-content")};
@@ -191,6 +194,8 @@ const PreviewAppFrame = styled.div<{
   height: ${(props) => (props.$isPhoneFrame ? "80vh" : "68vh")};
   min-height: 620px;
   max-height: ${(props) => (props.$isPhoneFrame ? "none" : "780px")};
+  background: ${(props) =>
+    props.$hasWhiteBackground ? defaultTheme.colors.light.white : "transparent"};
 `
 
 const QuizPreviewOverlay = styled.div`

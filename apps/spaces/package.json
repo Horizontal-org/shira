@@ -44,7 +44,7 @@
     "@types/react": "^18.0.20",
     "@types/react-dom": "^18.0.6",
     "autosize": "^5.0.1",
-    "axios": "^1.16.0",
+    "axios": "^1.18.0",
     "concat-stream": "^2.0.0",
     "date-fns": "^4.1.0",
     "i18next": "^22.5.1",
@@ -72,12 +72,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -93,7 +87,6 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.28.6",
     "@emotion/stylis": "^0.8.5",
-    "eslint-config-react-app": "^7.0.1",
     "http-proxy-middleware": "^2.0.9",
     "turbo": "^2.9.16",
     "typescript": "^5.1.6"

@@ -57,7 +57,7 @@ export const createQuiz = async (title: string, visibility: string) => {
       title: title,
       visibility: visibility
     })
-    return res.data?.quiz ?? res.data
+    return (res.data?.quizId ?? res.data)
   } catch (err) {
     console.log("🚀 ~ createQuiz ~ err:", err)
     throw new Error('Failed to create quiz')
@@ -75,7 +75,7 @@ export const createQuizFromTemplate = async (
       visibility,
       questions,
     })
-    return res.data?.quiz ?? res.data
+    return (res.data?.quizId ?? res.data)
   } catch (err) {
     console.log("🚀 ~ createQuizFromTemplate ~ err:", err)
     throw new Error('Failed to create quiz from template')

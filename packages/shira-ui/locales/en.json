@@ -1,6 +1,6 @@
 {
   "gmail": {
-    "search": "Search all conversations",
+    "search": "Search mail",
     "mail": "Mail",
     "inbox": "Inbox",
     "starred": "Starred",
@@ -13,9 +13,14 @@
     "to": "to:",
     "subject": "subject:",
     "security": "security:",
-    "attachments_one": "{{count}} attachment",
+    "attachments_one": "One attachment",
     "attachments_other": "{{count}} attachments",
-    "scanned_by_google": "Scanned by Google",
+    "scanned_by_gmail": "Scanned by Gmail",
+    "add_to_drive": "Add to Drive",
+    "add_all_to_drive": "Add all to Drive",
+    "attachment_scanning_title": "Attachment scanning in Gmail",
+    "attachment_scanning_description": "To help protect your inbox, Gmail blocks attachments when malware is detected. You should still only download attachments from people you trust.",
+    "safer_with_google": "Safer with Google",
     "encryption": "Standard encryption (TLS)",
     "learn_more": "Learn more"
   },

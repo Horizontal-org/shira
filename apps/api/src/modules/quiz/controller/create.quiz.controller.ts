@@ -37,6 +37,8 @@ export class CreateQuizController {
 
     await this.validateQuizService.execute(subscription, createDto.visibility, createDto.space.id)
 
-    await this.createQuizService.execute(createDto)
+    const quizId = await this.createQuizService.execute(createDto)
+
+    return { quizId }
   }
 }

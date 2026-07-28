@@ -28,6 +28,8 @@ cp apps/public/.env.example apps/public/.env
 cp apps/spaces/.env.example apps/spaces/.env
 ```
 
+Set `ENABLE_PUBLIC_LIBRARY=false` in `apps/api/.env` to disable the public quiz library on self-hosted instances that don't want to depend on the public library service.
+
 To generate passwords for different services and add them to your `.env`, you can use `openssl rand -hex 32` to generate them securely.
 
 ## Releases
