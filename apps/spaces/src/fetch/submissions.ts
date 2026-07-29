@@ -1,4 +1,11 @@
 import axios from "axios";
+import {
+  mapQuestionSubmissionDetail,
+  mapQuizSubmissionDetail,
+  type LibraryQuestionTemplateDto,
+  type LibraryQuizQuestionDto,
+  type LibraryQuizTemplateDto,
+} from "./submissionMappers";
 
 export const DEFAULT_SUBMISSIONS_PAGE_LIMIT = 20;
 export type SubmissionStatus = "in_review" | "accepted" | "rejected";
@@ -69,36 +76,6 @@ interface QuizSubmissionApiDto
   quizTitle: string;
 }
 
-type LibraryQuestionTemplateDto = {
-  id: number;
-  name: string;
-  isPhishing: boolean;
-  content: string;
-  appType: string;
-  defaultApp: string | null;
-  langTags: LanguageTagDto[];
-  tags: { name: string }[];
-  explanations: { position: string; positionIndex: string; content: string }[];
-};
-
-type LibraryQuizTemplateDto = {
-  id: number;
-  title: string;
-  langTags: LanguageTagDto[];
-  tags: { name: string }[];
-};
-
-type LibraryQuizQuestionDto = {
-  questionId: number;
-  questionName: string;
-  isPhishing: boolean;
-  language: string | null;
-  appName: string | null;
-  appType: string;
-  content: string;
-  explanations: { position: string; index: string; text: string }[];
-};
-
 export interface PublishQuizSubmissionPayload {
   spaceDisplayName: string;
   langTagIds?: number[];
@@ -127,22 +104,7 @@ export const getQuestionSubmissionDetail = async (submission: QuestionSubmission
     `${process.env.REACT_APP_LIBRARY_API_URL}/question-templates/${submission.resourceId}`,
   );
 
-  return {
-    ...submission,
-    id: String(data.id),
-    questionName: data.name,
-    appType: data.appType,
-    app: data.defaultApp ?? "",
-    language: data.langTags[0]?.name ?? "",
-    isPhishing: data.isPhishing,
-    tags: data.tags.map((tag) => tag.name),
-    content: data.content,
-    explanations: data.explanations.map((explanation) => ({
-      position: explanation.position,
-      index: explanation.positionIndex,
-      text: explanation.content,
-    })),
-  };
+  return mapQuestionSubmissionDetail(submission, data);
 };
 
 export const getQuizSubmissionDetail = async (
@@ -157,30 +119,11 @@ export const getQuizSubmissionDetail = async (
     ),
   ]);
 
-  return {
-    ...submission,
-    id: String(quizResponse.data.id),
-    title: quizResponse.data.title,
-    description: "",
-    langTags: quizResponse.data.langTags,
-    tags: quizResponse.data.tags.map((tag) => tag.name),
-    questions: questionsResponse.data.map((question) => ({
-      id: String(question.questionId),
-      resourceId: String(question.questionId),
-      resourceType: "question_template",
-      questionName: question.questionName,
-      dateSubmitted: submission.dateSubmitted,
-      status: submission.status,
-      reason: submission.reason,
-      appType: question.appType,
-      app: question.appName ?? "",
-      language: question.language ?? quizResponse.data.langTags[0]?.name ?? "",
-      isPhishing: question.isPhishing,
-      tags: quizResponse.data.tags.map((tag) => tag.name),
-      content: question.content,
-      explanations: question.explanations,
-    })),
-  };
+  return mapQuizSubmissionDetail(
+    submission,
+    quizResponse.data,
+    questionsResponse.data,
+  );
 };
 
 export const getQuestionSubmissions = async (
