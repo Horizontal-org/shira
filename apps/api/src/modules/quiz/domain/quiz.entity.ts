@@ -28,6 +28,10 @@ export class Quiz {
   published: boolean;
 
   @Expose()
+  @Column({ name: 'assessment_mode', default: false })
+  assessmentMode?: boolean;
+
+  @Expose()
   @Column()
   hash: string;
 
@@ -52,7 +56,6 @@ export class Quiz {
       questionImage.quiz,
   )
   images?: QuestionImage[];
-
 
   @ManyToOne(() => SpaceEntity, (space: SpaceEntity) => space.quizzes)
   @JoinColumn({ name: 'space_id' })

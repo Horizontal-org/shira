@@ -30,7 +30,7 @@ export const AnswerFeedback: FunctionComponent<Props> = ({
   explanationNumber,
   setExplanationNumber,
   showExplanations,
-  handleShowExplanations
+  handleShowExplanations,
 }) => {
   const { t } = useTranslation()
   const { width } = useGetWidth()
@@ -75,7 +75,8 @@ export const AnswerFeedback: FunctionComponent<Props> = ({
             ) : (
               <p id="bottom-looks-legit">{t("quiz.answers.results.bottom-bar_looks-legit")}</p>
             )}
-          </UserAnswerWrapper>)
+          </UserAnswerWrapper>
+        )
       }
 
       <OptionsWrapper id="options-wrapper">
