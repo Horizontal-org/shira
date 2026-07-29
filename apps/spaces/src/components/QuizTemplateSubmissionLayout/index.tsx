@@ -33,7 +33,7 @@ import { GenericErrorModal } from "../modals/ErrorModal";
 
 type LocationState = { quizTitle?: string; questionName?: string };
 
-export const QuizTemplateSubmissionLayout: FunctionComponent = () => {
+export const TemplateSubmissionLayout: FunctionComponent = () => {
   const { quizId, questionId } = useParams();
   const navigate = useNavigate();
   const location = useLocation() as { state?: LocationState };
