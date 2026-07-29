@@ -1,15 +1,14 @@
 import { CardPagination, styled } from "@horizontal-org/shira-ui";
 import { ComponentProps, FunctionComponent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import type { QuestionSubmissionDto, QuizSubmissionDto, SubmissionsPageDto } from "../../../fetch/submissions";
+import type { QuestionSubmissionDto, QuizSubmissionDto } from "../../../fetch/submissions";
 import { SubmissionsTable, type SubmissionListItem } from "./SubmissionsTable";
 
 type ResourceType = "quiz_template" | "question_template";
-type Submission = QuizSubmissionDto | QuestionSubmissionDto;
 
 type Props = {
-  questionSubmissions: SubmissionsPageDto<QuestionSubmissionDto>;
-  quizSubmissions: SubmissionsPageDto<QuizSubmissionDto>;
+  questionSubmissions: QuestionSubmissionDto[];
+  quizSubmissions: QuizSubmissionDto[];
   quizPaginationProps: ComponentProps<typeof CardPagination>;
   questionPaginationProps: ComponentProps<typeof CardPagination>;
   onPreviewQuiz: (submission: QuizSubmissionDto) => void;
@@ -27,18 +26,22 @@ export const TabContainer: FunctionComponent<Props> = ({
   const { t } = useTranslation();
   const [activeResourceType, setActiveResourceType] = useState<ResourceType>("quiz_template");
 
-  const allSubmissions: Submission[] = [...quizSubmissions.data, ...questionSubmissions.data];
-  const activeSubmissions = allSubmissions.filter(
-    (submission) => submission.resourceType === activeResourceType,
-  );
   const isQuizTab = activeResourceType === "quiz_template";
-  const submissions: SubmissionListItem[] = activeSubmissions.map((submission) => ({
-    resourceId: submission.resourceId,
-    name: submission.resourceType === "quiz_template" ? submission.title : submission.questionName,
-    dateSubmitted: submission.dateSubmitted,
-    status: submission.status,
-  }));
   const paginationProps = isQuizTab ? quizPaginationProps : questionPaginationProps;
+
+  const submissions: SubmissionListItem[] = isQuizTab
+    ? quizSubmissions.map((submission) => ({
+      resourceId: submission.resourceId,
+      name: submission.title,
+      dateSubmitted: submission.dateSubmitted,
+      status: submission.status,
+    }))
+    : questionSubmissions.map((submission) => ({
+      resourceId: submission.resourceId,
+      name: submission.questionName,
+      dateSubmitted: submission.dateSubmitted,
+      status: submission.status,
+    }));
 
   return (
     <Container>
@@ -68,13 +71,12 @@ export const TabContainer: FunctionComponent<Props> = ({
         submissions={submissions}
         paginationProps={paginationProps}
         onPreview={(resourceId) => {
-          const submission = activeSubmissions.find((item) => item.resourceId === resourceId);
-          if (!submission) return;
-
-          if (submission.resourceType === "quiz_template") {
-            onPreviewQuiz(submission);
+          if (isQuizTab) {
+            const submission = quizSubmissions.find((item) => item.resourceId === resourceId);
+            if (submission) onPreviewQuiz(submission);
           } else {
-            onPreviewQuestion(submission);
+            const submission = questionSubmissions.find((item) => item.resourceId === resourceId);
+            if (submission) onPreviewQuestion(submission);
           }
         }}
       />

@@ -147,7 +147,7 @@ const EmptyStateWrapper = styled.div`
     flex: 0 0 auto;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
     min-height: 0;
     padding: 24px 0 8px;
     flex-direction: column;
@@ -167,7 +167,7 @@ const EmptyStateContent = styled.div`
   gap: 24px;
   max-width: 700px;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
     align-items: center;
   }
 `;
@@ -178,7 +178,7 @@ const EmptyStateDescription = styled(Body1)`
   font-weight: 300;
   line-height: 1.5;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
     text-align: center;
   }
 `;

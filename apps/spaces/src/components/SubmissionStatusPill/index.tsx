@@ -47,12 +47,15 @@ export const SubmissionStatusPill = ({
   size = "default",
 }: StatusPillProps) => {
   const { t } = useTranslation();
-  const config = statusConfig[status];
+  const normalizedStatus = typeof status === "string" && status in statusConfig
+    ? status as SubmissionStatus
+    : "in_review";
+  const config = statusConfig[normalizedStatus];
   const isLarge = size === "large";
 
   return (
     <StatusPill
-      id={`my-submissions-status-pill-${status}`}
+      id={`my-submissions-status-pill-${normalizedStatus}`}
       $background={variant === "outlined" ? config.outlinedBackground : config.background}
       $borderColor={config.borderColor}
       $color={config.color}
@@ -60,7 +63,7 @@ export const SubmissionStatusPill = ({
       $size={size}
     >
       {config.icon(isLarge ? 16 : 14)}
-      {t(`templates.submission_status.${status}`)}
+      {t(`templates.submission_status.${normalizedStatus}`)}
     </StatusPill>
   );
 };
