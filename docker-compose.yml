@@ -130,6 +130,8 @@ services:
     ports:
     - "80:80"
     - "443:443"
+    environment:
+      TRUST_DOWNSTREAM_PROXY: "${TRUST_DOWNSTREAM_PROXY:-false}"
   letsencrypt:
     image: "nginxproxy/acme-companion:2.6.3"
     volumes:
