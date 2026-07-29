@@ -49,17 +49,14 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
     hasLoadedQuestions,
     isLoadingQuestions,
     hasQuestionLoadError,
-    previewQuestion,
-    openPreviewQuestion,
-    closePreviewQuestion,
     updateQuestionApp,
   } = useQuizTemplateQuestions(quiz, isOpen)
+  const [previewQuestionId, setPreviewQuestionId] = useState<number | null>(null)
   const [fullPreviewQuestionId, setFullPreviewQuestionId] = useState<number | null>(null)
 
   useEffect(() => {
-    if (!isOpen || !quiz) {
-      setFullPreviewQuestionId(null)
-    }
+    setPreviewQuestionId(null)
+    setFullPreviewQuestionId(null)
   }, [isOpen, quiz])
 
   if (!isOpen || !quiz) {
@@ -75,6 +72,8 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
     || questions.length === 0
   )
   const firstQuestion = questions[0]
+  const previewQuestion =
+    questions.find((question) => question.questionId === previewQuestionId) ?? null
   const previewQuestions: PreviewQuestion[] = questions.map((question) => ({
     id: question.questionId,
     name: question.questionName,
@@ -89,11 +88,11 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
 
   const openSingleQuestionPreview = (questionId: number) => {
     setFullPreviewQuestionId(null)
-    openPreviewQuestion(questionId)
+    setPreviewQuestionId(questionId)
   }
 
   const openFullQuizPreview = (questionId: number) => {
-    closePreviewQuestion()
+    setPreviewQuestionId(null)
     setFullPreviewQuestionId(questionId)
   }
 
@@ -126,7 +125,7 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
         <PreviewQuestionScreen
           question={previewQuestion}
           headerLabel={t("create_question.tabs.preview.aria_label")}
-          onBack={closePreviewQuestion}
+          onBack={() => setPreviewQuestionId(null)}
           onClose={onClose}
         />
       ) : (

@@ -6,7 +6,6 @@ import {
   getQuizTemplateQuestions,
   LibraryQuizQuestionTemplateDto
 } from "../../../fetch/quiz_templates";
-import { usePreviewQuestionSelection } from "../PreviewQuizScreen/usePreviewQuestionSelection";
 import { getAppsByTypeAndValue } from "../../../utils/appNames";
 
 export const useQuizTemplateQuestions = (
@@ -18,11 +17,6 @@ export const useQuizTemplateQuestions = (
   const [hasLoadedQuestions, setHasLoadedQuestions] = useState(false);
   const [isLoadingQuestions, setIsLoadingQuestions] = useState(false);
   const [hasQuestionLoadError, setHasQuestionLoadError] = useState(false);
-  const {
-    previewQuestion,
-    openPreviewQuestion,
-    closePreviewQuestion,
-  } = usePreviewQuestionSelection(questions);
 
   useEffect(() => {
     if (!isOpen || quizId === null) {
@@ -30,7 +24,6 @@ export const useQuizTemplateQuestions = (
       setHasLoadedQuestions(false);
       setIsLoadingQuestions(false);
       setHasQuestionLoadError(false);
-      closePreviewQuestion();
       return;
     }
 
@@ -38,7 +31,6 @@ export const useQuizTemplateQuestions = (
     setHasLoadedQuestions(false);
     setIsLoadingQuestions(true);
     setHasQuestionLoadError(false);
-    closePreviewQuestion();
 
     const loadQuestions = async () => {
       const loadedQuestions = await getQuizTemplateQuestions(quizId);
@@ -57,7 +49,7 @@ export const useQuizTemplateQuestions = (
     };
 
     loadQuestions();
-  }, [isOpen, quizId, closePreviewQuestion]);
+  }, [isOpen, quizId]);
 
   const updateQuestionApp = (questionId: number, appName: string) => {
     setQuestions((currentQuestions) => currentQuestions.map((question) => {
@@ -77,10 +69,7 @@ export const useQuizTemplateQuestions = (
     hasLoadedQuestions,
     isLoadingQuestions,
     hasQuestionLoadError,
-    previewQuestion,
     firstPreviewableQuestion,
-    openPreviewQuestion,
-    closePreviewQuestion,
     updateQuestionApp,
   };
 };
