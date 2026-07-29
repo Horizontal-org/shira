@@ -1,14 +1,14 @@
 import { CardPagination, styled } from "@horizontal-org/shira-ui";
 import { ComponentProps, FunctionComponent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import type { QuestionSubmissionDto, QuizSubmissionDto, SubmissionsPageDto } from "../../../fetch/submissions";
+import type { QuestionSubmissionDto, QuizSubmissionDto } from "../../../fetch/submissions";
 import { SubmissionsTable, type SubmissionListItem } from "./SubmissionsTable";
 
 type TabType = "quizzes" | "questions";
 
 type Props = {
-  questionSubmissions: SubmissionsPageDto<QuestionSubmissionDto>;
-  quizSubmissions: SubmissionsPageDto<QuizSubmissionDto>;
+  questionSubmissions: QuestionSubmissionDto[];
+  quizSubmissions: QuizSubmissionDto[];
   questionPaginationProps: ComponentProps<typeof CardPagination>;
   quizPaginationProps: ComponentProps<typeof CardPagination>;
 };
@@ -24,12 +24,12 @@ export const TabContainer: FunctionComponent<Props> = ({
 
   const submissions: SubmissionListItem[] =
     activeTab === "quizzes"
-      ? quizSubmissions.data.map((submission) => ({
+      ? quizSubmissions.map((submission) => ({
         name: submission.title,
         dateSubmitted: submission.dateSubmitted,
         status: submission.status,
       }))
-      : questionSubmissions.data.map((submission) => ({
+      : questionSubmissions.map((submission) => ({
         name: submission.questionName,
         dateSubmitted: submission.dateSubmitted,
         status: submission.status,

@@ -17,7 +17,6 @@ import {
   getQuizSubmissions,
   type QuestionSubmissionDto,
   type QuizSubmissionDto,
-  type SubmissionsPageDto,
 } from "../../fetch/submissions";
 import { TabContainer } from "./components/TabContainer";
 import { LayoutContainer } from "../LayoutStyleComponents/LayoutContainer";
@@ -37,12 +36,10 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
   const { isPublicLibraryEnabled } = usePublicLibrary();
   const space = useStore((state) => state.space);
 
-  const [quizSubmissions, setQuizSubmissions] = useState<SubmissionsPageDto<QuizSubmissionDto>>({
-    data: [], total: 0, page: 1, limit: DEFAULT_SUBMISSIONS_PAGE_LIMIT,
-  });
-  const [questionSubmissions, setQuestionSubmissions] = useState<SubmissionsPageDto<QuestionSubmissionDto>>({
-    data: [], total: 0, page: 1, limit: DEFAULT_SUBMISSIONS_PAGE_LIMIT,
-  });
+  const [quizSubmissions, setQuizSubmissions] = useState<QuizSubmissionDto[]>([]);
+  const [totalQuizSubmissions, setTotalQuizSubmissions] = useState(0);
+  const [questionSubmissions, setQuestionSubmissions] = useState<QuestionSubmissionDto[]>([]);
+  const [totalQuestionSubmissions, setTotalQuestionSubmissions] = useState(0);
   const [quizPageIndex, setQuizPageIndex] = useState(0);
   const [questionPageIndex, setQuestionPageIndex] = useState(0);
 
@@ -62,46 +59,80 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
   }, [isPublicLibraryEnabled, navigate]);
 
   useEffect(() => {
-    const getSubmissions = async () => {
-      if (!space?.slug) {
-        setQuizSubmissions({ data: [], total: 0, page: 1, limit: DEFAULT_SUBMISSIONS_PAGE_LIMIT });
-        setQuestionSubmissions({ data: [], total: 0, page: 1, limit: DEFAULT_SUBMISSIONS_PAGE_LIMIT });
+    const loadQuizSubmissions = async () => {
+      if (!space?.publicId) {
+        setQuizSubmissions([]);
+        setTotalQuizSubmissions(0);
         return;
       }
 
       try {
-        const [quizData, questionData] = await Promise.all([
-          getQuizSubmissions(space.slug, { page: quizPageIndex + 1 }),
-          getQuestionSubmissions(space.slug, { page: questionPageIndex + 1 }),
-        ]);
+        const quizData = await getQuizSubmissions(space.publicId, {
+          page: quizPageIndex + 1,
+        });
 
-        setQuizSubmissions(quizData);
-        setQuestionSubmissions(questionData);
-        setQuizPageIndex(Math.max(0, quizData.page - 1));
-        setQuestionPageIndex(Math.max(0, questionData.page - 1));
+        setQuizSubmissions(quizData.data);
+        setTotalQuizSubmissions(quizData.total);
+        setQuizPageIndex((currentPageIndex) => {
+          const nextPageIndex = Math.max(0, quizData.page - 1);
+          return currentPageIndex === nextPageIndex
+            ? currentPageIndex
+            : nextPageIndex;
+        });
       } catch (error) {
-        console.error("Error fetching author submissions:", error);
-        setQuizSubmissions({ data: [], total: 0, page: 1, limit: DEFAULT_SUBMISSIONS_PAGE_LIMIT });
-        setQuestionSubmissions({ data: [], total: 0, page: 1, limit: DEFAULT_SUBMISSIONS_PAGE_LIMIT });
+        console.error("Error fetching quiz submissions:", error);
+        setQuizSubmissions([]);
+        setTotalQuizSubmissions(0);
       }
     };
 
-    getSubmissions();
-  }, [space?.slug, quizPageIndex, questionPageIndex]);
+    loadQuizSubmissions();
+  }, [space?.publicId, quizPageIndex]);
+
+  useEffect(() => {
+    const loadQuestionSubmissions = async () => {
+      if (!space?.publicId) {
+        setQuestionSubmissions([]);
+        setTotalQuestionSubmissions(0);
+        return;
+      }
+
+      try {
+        const questionData = await getQuestionSubmissions(space.publicId, {
+          page: questionPageIndex + 1,
+        });
+
+        setQuestionSubmissions(questionData.data);
+        setTotalQuestionSubmissions(questionData.total);
+        setQuestionPageIndex((currentPageIndex) => {
+          const nextPageIndex = Math.max(0, questionData.page - 1);
+          return currentPageIndex === nextPageIndex
+            ? currentPageIndex
+            : nextPageIndex;
+        });
+      } catch (error) {
+        console.error("Error fetching question submissions:", error);
+        setQuestionSubmissions([]);
+        setTotalQuestionSubmissions(0);
+      }
+    };
+
+    loadQuestionSubmissions();
+  }, [space?.publicId, questionPageIndex]);
 
   const quizPaginationProps = usePaginationProps({
     pageIndex: quizPageIndex,
-    pageCount: Math.max(1, Math.ceil(quizSubmissions.total / quizSubmissions.limit)),
-    pageSize: quizSubmissions.limit,
+    pageCount: Math.max(1, Math.ceil(totalQuizSubmissions / DEFAULT_SUBMISSIONS_PAGE_LIMIT)),
+    pageSize: DEFAULT_SUBMISSIONS_PAGE_LIMIT,
     setPageIndex: setQuizPageIndex,
-    total: quizSubmissions.total,
+    total: totalQuizSubmissions,
   });
   const questionPaginationProps = usePaginationProps({
     pageIndex: questionPageIndex,
-    pageCount: Math.max(1, Math.ceil(questionSubmissions.total / questionSubmissions.limit)),
-    pageSize: questionSubmissions.limit,
+    pageCount: Math.max(1, Math.ceil(totalQuestionSubmissions / DEFAULT_SUBMISSIONS_PAGE_LIMIT)),
+    pageSize: DEFAULT_SUBMISSIONS_PAGE_LIMIT,
     setPageIndex: setQuestionPageIndex,
-    total: questionSubmissions.total,
+    total: totalQuestionSubmissions,
   });
 
   return (
