@@ -18,7 +18,9 @@ export interface AuthSlice {
     }[]
   };
   space: {
+    id: number;
     name: string
+    slug?: string;
   };
   subscription: {
     status: string;

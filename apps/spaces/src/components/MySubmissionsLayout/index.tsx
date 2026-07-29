@@ -12,13 +12,12 @@ import { useNavigate } from "react-router-dom";
 import { Trans, useTranslation } from "react-i18next";
 import { FiArrowLeft } from "react-icons/fi";
 import {
-  getQuestionSubmission,
+  DEFAULT_SUBMISSIONS_PAGE_LIMIT,
+  getQuestionSubmissions,
   getQuizSubmissions,
-  getQuizSubmission,
   type QuestionSubmissionDto,
-  type QuestionSubmissionDetailDto,
   type QuizSubmissionDto,
-  type QuizSubmissionDetailDto,
+  type SubmissionsPageDto,
 } from "../../fetch/submissions";
 import { TabContainer } from "./components/TabContainer";
 import { LayoutContainer } from "../LayoutStyleComponents/LayoutContainer";
@@ -26,7 +25,8 @@ import { LayoutMainContent, LayoutMainContentWrapper } from "../LayoutStyleCompo
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
 import { customMenuItems } from "../../utils/customMenuItems";
 import { usePublicLibrary } from "../../hooks/usePublicLibrary";
-import { SubmissionPreviewModal } from "../modals/SubmissionPreviewModal";
+import { useStore } from "../../store";
+import { usePaginationProps } from "../../hooks/usePaginationProps";
 
 interface Props { }
 
@@ -35,10 +35,16 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
   const navigate = useNavigate();
 
   const { isPublicLibraryEnabled } = usePublicLibrary();
+  const space = useStore((state) => state.space);
 
-  const [quizSubmissions, setQuizSubmissions] = useState<QuizSubmissionDto[]>([]);
-  const [previewQuiz, setPreviewQuiz] = useState<QuizSubmissionDetailDto | null>(null);
-  const [previewQuestion, setPreviewQuestion] = useState<QuestionSubmissionDetailDto | null>(null);
+  const [quizSubmissions, setQuizSubmissions] = useState<SubmissionsPageDto<QuizSubmissionDto>>({
+    data: [], total: 0, page: 1, limit: DEFAULT_SUBMISSIONS_PAGE_LIMIT,
+  });
+  const [questionSubmissions, setQuestionSubmissions] = useState<SubmissionsPageDto<QuestionSubmissionDto>>({
+    data: [], total: 0, page: 1, limit: DEFAULT_SUBMISSIONS_PAGE_LIMIT,
+  });
+  const [quizPageIndex, setQuizPageIndex] = useState(0);
+  const [questionPageIndex, setQuestionPageIndex] = useState(0);
 
   const {
     isCollapsed,
@@ -57,23 +63,46 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
 
   useEffect(() => {
     const getSubmissions = async () => {
-      const quizData = await getQuizSubmissions();
+      if (!space?.slug) {
+        setQuizSubmissions({ data: [], total: 0, page: 1, limit: DEFAULT_SUBMISSIONS_PAGE_LIMIT });
+        setQuestionSubmissions({ data: [], total: 0, page: 1, limit: DEFAULT_SUBMISSIONS_PAGE_LIMIT });
+        return;
+      }
 
-      setQuizSubmissions(quizData);
+      try {
+        const [quizData, questionData] = await Promise.all([
+          getQuizSubmissions(space.slug, { page: quizPageIndex + 1 }),
+          getQuestionSubmissions(space.slug, { page: questionPageIndex + 1 }),
+        ]);
+
+        setQuizSubmissions(quizData);
+        setQuestionSubmissions(questionData);
+        setQuizPageIndex(Math.max(0, quizData.page - 1));
+        setQuestionPageIndex(Math.max(0, questionData.page - 1));
+      } catch (error) {
+        console.error("Error fetching author submissions:", error);
+        setQuizSubmissions({ data: [], total: 0, page: 1, limit: DEFAULT_SUBMISSIONS_PAGE_LIMIT });
+        setQuestionSubmissions({ data: [], total: 0, page: 1, limit: DEFAULT_SUBMISSIONS_PAGE_LIMIT });
+      }
     };
 
     getSubmissions();
-  }, []);
+  }, [space?.slug, quizPageIndex, questionPageIndex]);
 
-  const handleQuizPreview = async (submission: QuizSubmissionDto) => {
-    setPreviewQuiz(await getQuizSubmission(submission.id));
-  };
-
-  const handleQuestionPreview = async (submission: QuestionSubmissionDto) => {
-    setPreviewQuestion(await getQuestionSubmission(submission.id));
-  };
-
-  const questionSubmissions = quizSubmissions.flatMap((quiz) => quiz.questions);
+  const quizPaginationProps = usePaginationProps({
+    pageIndex: quizPageIndex,
+    pageCount: Math.max(1, Math.ceil(quizSubmissions.total / quizSubmissions.limit)),
+    pageSize: quizSubmissions.limit,
+    setPageIndex: setQuizPageIndex,
+    total: quizSubmissions.total,
+  });
+  const questionPaginationProps = usePaginationProps({
+    pageIndex: questionPageIndex,
+    pageCount: Math.max(1, Math.ceil(questionSubmissions.total / questionSubmissions.limit)),
+    pageSize: questionSubmissions.limit,
+    setPageIndex: setQuestionPageIndex,
+    total: questionSubmissions.total,
+  });
 
   return (
     <LayoutContainer>
@@ -109,17 +138,8 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
           <TabContainer
             quizSubmissions={quizSubmissions}
             questionSubmissions={questionSubmissions}
-            onQuizPreview={handleQuizPreview}
-            onQuestionPreview={handleQuestionPreview}
-          />
-
-          <SubmissionPreviewModal
-            quiz={previewQuiz}
-            question={previewQuestion}
-            onClose={() => {
-              setPreviewQuiz(null);
-              setPreviewQuestion(null);
-            }}
+            quizPaginationProps={quizPaginationProps}
+            questionPaginationProps={questionPaginationProps}
           />
         </LayoutMainContentWrapper>
       </LayoutMainContent>

@@ -1,5 +1,6 @@
-import { Body1, Body3, Body3Bold, Button, defaultTheme, SettingsFishIcon, Table, styled, useTheme } from "@horizontal-org/shira-ui";
+import { Body1, Body3, Body3Bold, Button, CardPagination, defaultTheme, SettingsFishIcon, Table, styled, useTheme } from "@horizontal-org/shira-ui";
 import type { ColumnDef } from "@tanstack/react-table";
+import type { ComponentProps } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { MdCalendarMonth } from "react-icons/md";
@@ -17,9 +18,10 @@ export type SubmissionListItem = {
 interface SubmissionsTableProps {
   type: "quizzes" | "questions";
   submissions: SubmissionListItem[];
+  paginationProps: ComponentProps<typeof CardPagination>;
 }
 
-export const SubmissionsTable = ({ type, submissions }: SubmissionsTableProps) => {
+export const SubmissionsTable = ({ type, submissions, paginationProps }: SubmissionsTableProps) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
@@ -74,7 +76,8 @@ export const SubmissionsTable = ({ type, submissions }: SubmissionsTableProps) =
   }
 
   return (
-    <>
+    <TableWrapper>
+      {paginationProps.total > 0 && <CardPagination {...paginationProps} />}
       <Table
         size="full"
         loading={false}
@@ -83,7 +86,7 @@ export const SubmissionsTable = ({ type, submissions }: SubmissionsTableProps) =
         enableRowSelection={false}
         rowSelection={{}}
         setRowSelection={() => { }}
-        enablePagination={true}
+        enablePagination={false}
         enableRowHover={false}
         colGroups={(
           <colgroup>
@@ -93,9 +96,15 @@ export const SubmissionsTable = ({ type, submissions }: SubmissionsTableProps) =
           </colgroup>
         )}
       />
-    </>
+      {paginationProps.total > 0 && <CardPagination {...paginationProps} />}
+    </TableWrapper>
   );
 };
+
+const TableWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 const EmptyStateWrapper = styled.div`
   min-height: 264px;

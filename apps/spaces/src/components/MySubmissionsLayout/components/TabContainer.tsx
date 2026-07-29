@@ -1,40 +1,38 @@
-import { styled } from "@horizontal-org/shira-ui";
-import { FunctionComponent, useState } from "react";
+import { CardPagination, styled } from "@horizontal-org/shira-ui";
+import { ComponentProps, FunctionComponent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import type { QuestionSubmissionDto, QuizSubmissionDto } from "../../../fetch/submissions";
+import type { QuestionSubmissionDto, QuizSubmissionDto, SubmissionsPageDto } from "../../../fetch/submissions";
 import { SubmissionsTable, type SubmissionListItem } from "./SubmissionsTable";
 
 type TabType = "quizzes" | "questions";
 
 type Props = {
-  questionSubmissions: QuestionSubmissionDto[];
-  quizSubmissions: QuizSubmissionDto[];
-  onQuestionPreview: (submission: QuestionSubmissionDto) => void;
-  onQuizPreview: (submission: QuizSubmissionDto) => void;
+  questionSubmissions: SubmissionsPageDto<QuestionSubmissionDto>;
+  quizSubmissions: SubmissionsPageDto<QuizSubmissionDto>;
+  questionPaginationProps: ComponentProps<typeof CardPagination>;
+  quizPaginationProps: ComponentProps<typeof CardPagination>;
 };
 
 export const TabContainer: FunctionComponent<Props> = ({
   questionSubmissions,
   quizSubmissions,
-  onQuestionPreview,
-  onQuizPreview,
+  questionPaginationProps,
+  quizPaginationProps,
 }) => {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<TabType>("quizzes");
 
   const submissions: SubmissionListItem[] =
     activeTab === "quizzes"
-      ? quizSubmissions.map((submission) => ({
+      ? quizSubmissions.data.map((submission) => ({
         name: submission.title,
         dateSubmitted: submission.dateSubmitted,
         status: submission.status,
-        preview: () => onQuizPreview(submission),
       }))
-      : questionSubmissions.map((submission) => ({
+      : questionSubmissions.data.map((submission) => ({
         name: submission.questionName,
         dateSubmitted: submission.dateSubmitted,
         status: submission.status,
-        preview: () => onQuestionPreview(submission),
       }));
 
   return (
@@ -63,6 +61,7 @@ export const TabContainer: FunctionComponent<Props> = ({
         key={activeTab}
         type={activeTab}
         submissions={submissions}
+        paginationProps={activeTab === "quizzes" ? quizPaginationProps : questionPaginationProps}
       />
     </Container>
   );
