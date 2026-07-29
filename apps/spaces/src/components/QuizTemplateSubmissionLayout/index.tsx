@@ -21,11 +21,14 @@ import { IoLanguage } from "react-icons/io5";
 import { FiChevronRight } from "react-icons/fi";
 import { BiSolidTag } from "react-icons/bi";
 import { Trans, useTranslation } from "react-i18next";
+import toast from "react-hot-toast";
 import {
   getQuizTemplateLanguageOptions,
   getQuizTemplateTagOptions,
   type QuizTemplateFilterOption,
 } from "../../fetch/quiz_templates";
+import { publishQuizSubmission } from "../../fetch/submissions";
+import { useStore } from "../../store";
 
 type LocationState = { quizTitle?: string };
 
@@ -34,6 +37,7 @@ export const QuizTemplateSubmissionLayout: FunctionComponent = () => {
   const navigate = useNavigate();
   const location = useLocation() as { state?: LocationState };
   const { t } = useTranslation();
+  const space = useStore((state) => state.space);
 
   const [name, setName] = useState(location.state?.quizTitle ?? "");
   const [description, setDescription] = useState("");
@@ -42,6 +46,7 @@ export const QuizTemplateSubmissionLayout: FunctionComponent = () => {
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [languageOptions, setLanguageOptions] = useState<QuizTemplateFilterOption[]>([]);
   const [tagOptions, setTagOptions] = useState<QuizTemplateFilterOption[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const loadOptions = async () => {
@@ -62,8 +67,39 @@ export const QuizTemplateSubmissionLayout: FunctionComponent = () => {
     && description.trim()
     && languages.length
     && tags.length
-    && acceptedTerms,
+    && acceptedTerms
+    && space?.name,
   );
+
+  const handleSubmit = async () => {
+    if (!canSubmit || !quizId || !space?.name) {
+      return;
+    }
+
+    const optionIds = (selectedValues: string[], options: QuizTemplateFilterOption[]) => (
+      selectedValues.flatMap((value) => {
+        const id = options.find((option) => option.value === value)?.id;
+        return typeof id === "number" ? [id] : [];
+      })
+    );
+
+    setIsSubmitting(true);
+
+    try {
+      await publishQuizSubmission(Number(quizId), {
+        spaceDisplayName: space.name,
+        langTagIds: optionIds(languages, languageOptions),
+        tagIds: optionIds(tags, tagOptions),
+      });
+      toast.success(t("templates.submit_quiz.success"));
+      navigate("/template-library/my-submissions");
+    } catch (error) {
+      console.error("Failed to submit quiz template:", error);
+      // TODO error modal
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <Page>
@@ -78,10 +114,11 @@ export const QuizTemplateSubmissionLayout: FunctionComponent = () => {
           <Body2Regular>{t("templates.submit_quiz.header_title")}</Body2Regular>
         </HeaderLeft>
         <Button
-          disabled={!canSubmit}
+          disabled={!canSubmit || isSubmitting}
           id="submit-quiz-template-button"
-          onClick={() => undefined}
+          onClick={handleSubmit}
           rightIcon={<FiChevronRight size={16} />}
+          color={defaultTheme.colors.green7}
           text={t("templates.submit_quiz.submit")}
           type="primary"
         />

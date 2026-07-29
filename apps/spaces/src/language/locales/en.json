@@ -309,7 +309,9 @@
             "tags": "Tags",
             "tags_hint": "Select the tags that best describe the content of this template.",
             "tags_placeholder": "Tag",
-            "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>."
+            "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>.",
+            "success": "The quiz template has been submitted.",
+            "error": "We couldn't submit the quiz template. Please try again."
         },
         "quiz_templates": {
             "title": "Quiz templates",

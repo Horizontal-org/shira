@@ -5,6 +5,7 @@ export type SubmissionStatus = "in_review" | "accepted" | "rejected";
 
 export interface QuizSubmissionDto {
   id: string;
+  resourceId: string;
   title: string;
   dateSubmitted: string;
   status: SubmissionStatus;
@@ -19,6 +20,7 @@ export interface LanguageTagDto {
 
 export interface QuestionSubmissionDto {
   id: string;
+  resourceId: string;
   questionName: string;
   dateSubmitted: string;
   status: SubmissionStatus;
@@ -64,6 +66,111 @@ interface QuizSubmissionApiDto
   extends Omit<QuizSubmissionDto, "title"> {
   quizTitle: string;
 }
+
+type LibraryQuestionTemplateDto = {
+  id: number;
+  name: string;
+  isPhishing: boolean;
+  content: string;
+  appType: string;
+  defaultApp: string | null;
+  langTags: LanguageTagDto[];
+  tags: { name: string }[];
+  explanations: { position: string; positionIndex: string; content: string }[];
+};
+
+type LibraryQuizTemplateDto = {
+  id: number;
+  title: string;
+  langTags: LanguageTagDto[];
+  tags: { name: string }[];
+};
+
+type LibraryQuizQuestionDto = {
+  questionId: number;
+  questionName: string;
+  isPhishing: boolean;
+  language: string | null;
+  appName: string | null;
+  appType: string;
+  content: string;
+  explanations: { position: string; index: string; text: string }[];
+};
+
+export interface PublishQuizSubmissionPayload {
+  spaceDisplayName: string;
+  langTagIds?: number[];
+  tagIds?: number[];
+}
+
+export const publishQuizSubmission = async (quizId: number, payload: PublishQuizSubmissionPayload)
+  : Promise<void> => {
+  await axios.post(
+    `${process.env.REACT_APP_API_URL}/library/quiz/${quizId}/publish`,
+    payload,
+  );
+};
+
+export const getQuestionSubmissionDetail = async (submission: QuestionSubmissionDto)
+  : Promise<QuestionSubmissionDetailDto> => {
+  const { data } = await axios.get<LibraryQuestionTemplateDto>(
+    `${process.env.REACT_APP_LIBRARY_API_URL}/question-templates/${submission.resourceId}`,
+  );
+
+  return {
+    ...submission,
+    id: String(data.id),
+    questionName: data.name,
+    appType: data.appType,
+    app: data.defaultApp ?? "",
+    language: data.langTags[0]?.name ?? "",
+    isPhishing: data.isPhishing,
+    tags: data.tags.map((tag) => tag.name),
+    content: data.content,
+    explanations: data.explanations.map((explanation) => ({
+      position: explanation.position,
+      index: explanation.positionIndex,
+      text: explanation.content,
+    })),
+  };
+};
+
+export const getQuizSubmissionDetail = async (
+  submission: QuizSubmissionDto
+): Promise<QuizSubmissionDetailDto> => {
+  const [quizResponse, questionsResponse] = await Promise.all([
+    axios.get<LibraryQuizTemplateDto>(
+      `${process.env.REACT_APP_LIBRARY_API_URL}/quiz-templates/${submission.resourceId}`,
+    ),
+    axios.get<LibraryQuizQuestionDto[]>(
+      `${process.env.REACT_APP_LIBRARY_API_URL}/quiz-templates/${submission.resourceId}/questions`,
+    ),
+  ]);
+
+  return {
+    ...submission,
+    id: String(quizResponse.data.id),
+    title: quizResponse.data.title,
+    description: "",
+    langTags: quizResponse.data.langTags,
+    tags: quizResponse.data.tags.map((tag) => tag.name),
+    questions: questionsResponse.data.map((question) => ({
+      id: String(question.questionId),
+      resourceId: String(question.questionId),
+      questionName: question.questionName,
+      dateSubmitted: submission.dateSubmitted,
+      status: submission.status,
+      reason: submission.reason,
+      appType: question.appType,
+      app: question.appName ?? "",
+      language: question.language ?? quizResponse.data.langTags[0]?.name ?? "",
+      isPhishing: question.isPhishing,
+      tags: quizResponse.data.tags.map((tag) => tag.name),
+      content: question.content,
+      explanations: question.explanations,
+    })),
+  };
+};
 
 export const getQuestionSubmissions = async (
   publicSpaceId: string,

@@ -38,6 +38,7 @@ interface GetQuizTemplatesParams {
 export interface QuizTemplateFilterOption {
   value: string;
   label: string;
+  id?: number;
 }
 
 export interface LibraryQuizQuestionTemplateDto {
@@ -191,6 +192,7 @@ export const getQuizTemplateLanguageOptions = async (): Promise<QuizTemplateFilt
     );
 
     return response.data.map((language) => ({
+      id: language.id,
       value: language.code,
       label: language.name.trim(),
     }));
@@ -207,6 +209,7 @@ export const getQuizTemplateTagOptions = async (): Promise<QuizTemplateFilterOpt
     );
 
     return response.data.map((tag) => ({
+      id: tag.id,
       value: tag.slug,
       label: tag.name.trim(),
     }));
