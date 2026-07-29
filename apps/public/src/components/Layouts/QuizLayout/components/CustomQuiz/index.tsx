@@ -17,6 +17,7 @@ interface Props {
   recordAnswer: (questionId: number, answer: RunAnswer) => void;
   runStarted: boolean;
   hasResultsEnabled: boolean;
+  hasAssessmentEnabled: boolean;
 }
 
 export const CustomQuiz: FunctionComponent<Props> = ({
@@ -26,6 +27,7 @@ export const CustomQuiz: FunctionComponent<Props> = ({
   runStarted,
   recordAnswer,
   hasResultsEnabled,
+  hasAssessmentEnabled
 }) => {
 
   const {
@@ -57,6 +59,7 @@ export const CustomQuiz: FunctionComponent<Props> = ({
           questionIndex={questionIndex}
           questionCount={questions.length}
           changeScene={changeScene}
+          hasAssessmentEnabled={hasAssessmentEnabled}
           onAnswer={handleAnswer}
           onNext={() => {
             if (questionIndex < questions.length - 1) {

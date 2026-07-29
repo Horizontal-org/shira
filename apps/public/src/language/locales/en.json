@@ -132,6 +132,7 @@
         "heavy_subtitle_1": "You answered ",
         "heavy_subtitle_2": "{{correctQuestions}} out of {{questions}} ",
         "heavy_subtitle_3": "questions correctly.",
+        "assessment_subtitle": "You've completed the quiz.",
         "greeting_title": "Thanks for using Shira!"
     },
     "about": {

@@ -10,11 +10,13 @@ import { CustomQuizNavbar } from '../../components/UI/CustomQuizNavbar'
 interface Props {
   quizNumber: Number
   finish: () => void
+  hasAssessmentEnabled?: boolean
 }
 
 export const CustomQuizCompletedScene: FunctionComponent<Props> = ({
   quizNumber,
-  finish
+  finish,
+  hasAssessmentEnabled
 }) => {
 
   const { t } = useTranslation()
@@ -38,13 +40,19 @@ export const CustomQuizCompletedScene: FunctionComponent<Props> = ({
           </MobileIconWrapper>
           <Heading>{t('completed.title')} </Heading>
           <HeavySubtitle>
-            {t('completed.heavy_subtitle_1')}
-            <strong>
-              {t('completed.heavy_subtitle_2',
-                { correctQuestions: correctQuestions.length, questions: quizNumber })
-              }
-            </strong>
-            {t('completed.heavy_subtitle_3')}
+            {hasAssessmentEnabled ? (
+              t('completed.assessment_subtitle')
+            ) : (
+              <>
+                {t('completed.heavy_subtitle_1')}
+                <strong>
+                  {t('completed.heavy_subtitle_2',
+                    { correctQuestions: correctQuestions.length, questions: quizNumber })
+                  }
+                </strong>
+                {t('completed.heavy_subtitle_3')}
+              </>
+            )}
           </HeavySubtitle>
           <InfoSubtitle>
             {t('completed.greeting_title')}

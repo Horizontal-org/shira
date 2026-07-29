@@ -61,6 +61,7 @@ export class RolesGuard implements CanActivate {
         const spaceEntity = {
           id: spaceContext.space.id,
           name: spaceContext.space.name,
+          publicId: spaceContext.space.publicId,
           organizationId: spaceContext.space.organizationId
         } as SpaceEntity;
 

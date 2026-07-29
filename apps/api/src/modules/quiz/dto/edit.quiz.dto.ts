@@ -18,4 +18,8 @@ export class EditQuizDto {
   @IsOptional()
   published?: boolean;
 
+  @IsBoolean()
+  @IsOptional()
+  assessmentMode?: boolean;
+
 }
