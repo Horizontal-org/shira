@@ -317,6 +317,12 @@
         "submit_question": {
             "header_title": "Submit question template",
             "title": "Submit your question as a template",
+            "name": "Question template name",
+            "name_hint": "Use a descriptive name to help other users find what they're looking for.",
+            "name_placeholder": "Question template name",
+            "description": "Description",
+            "description_hint": "Write 1-2 lines to explain what this question contains.",
+            "description_placeholder": "Description",
             "success": "The question template has been submitted.",
             "error": "We couldn't submit the question template. Please try again."
         },

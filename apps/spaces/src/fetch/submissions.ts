@@ -6,6 +6,7 @@ export type SubmissionStatus = "in_review" | "accepted" | "rejected";
 export interface QuizSubmissionDto {
   id: string;
   resourceId: string;
+  resourceType: "quiz_template";
   title: string;
   dateSubmitted: string;
   status: SubmissionStatus;
@@ -21,6 +22,7 @@ export interface LanguageTagDto {
 export interface QuestionSubmissionDto {
   id: string;
   resourceId: string;
+  resourceType: "question_template";
   questionName: string;
   dateSubmitted: string;
   status: SubmissionStatus;
@@ -165,6 +167,7 @@ export const getQuizSubmissionDetail = async (
     questions: questionsResponse.data.map((question) => ({
       id: String(question.questionId),
       resourceId: String(question.questionId),
+      resourceType: "question_template",
       questionName: question.questionName,
       dateSubmitted: submission.dateSubmitted,
       status: submission.status,

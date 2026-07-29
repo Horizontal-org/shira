@@ -27,20 +27,24 @@ import {
   getQuizTemplateTagOptions,
   type QuizTemplateFilterOption,
 } from "../../fetch/quiz_templates";
-import { publishQuizSubmission } from "../../fetch/submissions";
+import { publishQuestionSubmission, publishQuizSubmission } from "../../fetch/submissions";
 import { useStore } from "../../store";
 import { GenericErrorModal } from "../modals/ErrorModal";
 
-type LocationState = { quizTitle?: string };
+type LocationState = { quizTitle?: string; questionName?: string };
 
 export const QuizTemplateSubmissionLayout: FunctionComponent = () => {
-  const { quizId } = useParams();
+  const { quizId, questionId } = useParams();
   const navigate = useNavigate();
   const location = useLocation() as { state?: LocationState };
   const { t } = useTranslation();
   const space = useStore((state) => state.space);
 
-  const [name, setName] = useState(location.state?.quizTitle ?? "");
+  const isQuestionSubmission = Boolean(questionId);
+  const translationKey = isQuestionSubmission ? "templates.submit_question" : "templates.submit_quiz";
+  const [name, setName] = useState(
+    isQuestionSubmission ? location.state?.questionName ?? "" : location.state?.quizTitle ?? "",
+  );
   const [description, setDescription] = useState("");
   const [languages, setLanguages] = useState<string[]>([]);
   const [tags, setTags] = useState<string[]>([]);
@@ -64,7 +68,7 @@ export const QuizTemplateSubmissionLayout: FunctionComponent = () => {
   }, []);
 
   const canSubmit = Boolean(
-    quizId
+    (isQuestionSubmission ? questionId : quizId)
     && name.trim()
     && description.trim()
     && languages.length
@@ -74,7 +78,8 @@ export const QuizTemplateSubmissionLayout: FunctionComponent = () => {
   );
 
   const handleSubmit = async () => {
-    if (!canSubmit || !quizId || !space?.name) {
+    const resourceId = isQuestionSubmission ? questionId : quizId;
+    if (!canSubmit || !resourceId || !space?.name) {
       return;
     }
 
@@ -88,15 +93,20 @@ export const QuizTemplateSubmissionLayout: FunctionComponent = () => {
     setIsSubmitting(true);
 
     try {
-      await publishQuizSubmission(Number(quizId), {
+      const payload = {
         spaceDisplayName: space.name,
         langTagIds: optionIds(languages, languageOptions),
         tagIds: optionIds(tags, tagOptions),
-      });
-      toast.success(t("templates.submit_quiz.success"));
+      };
+      if (isQuestionSubmission) {
+        await publishQuestionSubmission(Number(resourceId), payload);
+      } else {
+        await publishQuizSubmission(Number(resourceId), payload);
+      }
+      toast.success(t(`${translationKey}.success`));
       navigate("/template-library/my-submissions");
     } catch (error) {
-      console.error("Failed to submit quiz template:", error);
+      console.error("Failed to submit template:", error);
       setSubmissionError(true);
     } finally {
       setIsSubmitting(false);
@@ -109,11 +119,11 @@ export const QuizTemplateSubmissionLayout: FunctionComponent = () => {
         <HeaderLeft>
           <LogoFrame><Logo /></LogoFrame>
           <CloseButton
-            aria-label={t("templates.submit_quiz.header_title")}
+            aria-label={t(`${translationKey}.header_title`)}
             iconSize={22}
             onClick={() => navigate(-1)}
           />
-          <Body2Regular>{t("templates.submit_quiz.header_title")}</Body2Regular>
+          <Body2Regular>{t(`${translationKey}.header_title`)}</Body2Regular>
         </HeaderLeft>
         <Button
           disabled={!canSubmit || isSubmitting}
@@ -128,7 +138,7 @@ export const QuizTemplateSubmissionLayout: FunctionComponent = () => {
 
       <Content>
         <FormCard>
-          <SubHeading1>{t("templates.submit_quiz.title")}</SubHeading1>
+          <SubHeading1>{t(`${translationKey}.title`)}</SubHeading1>
           <Subtitle>
             <Body1>{t("templates.submit_quiz.intro")}</Body1>
             <Body1>
@@ -140,25 +150,25 @@ export const QuizTemplateSubmissionLayout: FunctionComponent = () => {
           </Subtitle>
 
           <Field>
-            <FieldTitle>{t("templates.submit_quiz.name")}</FieldTitle>
-            <Hint>{t("templates.submit_quiz.name_hint")}</Hint>
+            <FieldTitle>{t(`${translationKey}.name`)}</FieldTitle>
+            <Hint>{t(`${translationKey}.name_hint`)}</Hint>
             <TextInput
               id="quiz-template-name"
-              label={t("templates.submit_quiz.name_placeholder")}
+              label={t(`${translationKey}.name_placeholder`)}
               onChange={(e) => setName(e.target.value)}
-              placeholder={t("templates.submit_quiz.name_placeholder")}
+              placeholder={t(`${translationKey}.name_placeholder`)}
               value={name}
             />
           </Field>
 
           <Field>
-            <FieldTitle>{t("templates.submit_quiz.description")}</FieldTitle>
-            <Hint>{t("templates.submit_quiz.description_hint")}</Hint>
+            <FieldTitle>{t(`${translationKey}.description`)}</FieldTitle>
+            <Hint>{t(`${translationKey}.description_hint`)}</Hint>
             <TextInput
               id="quiz-template-description"
-              label={t("templates.submit_quiz.description_placeholder")}
+              label={t(`${translationKey}.description_placeholder`)}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder={t("templates.submit_quiz.description_placeholder")}
+              placeholder={t(`${translationKey}.description_placeholder`)}
               value={description}
             />
           </Field>

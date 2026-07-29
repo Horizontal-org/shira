@@ -4,12 +4,14 @@ import { useTranslation } from "react-i18next";
 import type { QuestionSubmissionDto, QuizSubmissionDto, SubmissionsPageDto } from "../../../fetch/submissions";
 import { SubmissionsTable, type SubmissionListItem } from "./SubmissionsTable";
 
-type TabType = "quizzes" | "questions";
+type ResourceType = "quiz_template" | "question_template";
+type Submission = QuizSubmissionDto | QuestionSubmissionDto;
 
 type Props = {
   questionSubmissions: SubmissionsPageDto<QuestionSubmissionDto>;
   quizSubmissions: SubmissionsPageDto<QuizSubmissionDto>;
-  paginationProps: ComponentProps<typeof CardPagination>;
+  quizPaginationProps: ComponentProps<typeof CardPagination>;
+  questionPaginationProps: ComponentProps<typeof CardPagination>;
   onPreviewQuiz: (submission: QuizSubmissionDto) => void;
   onPreviewQuestion: (submission: QuestionSubmissionDto) => void;
 };
@@ -17,27 +19,26 @@ type Props = {
 export const TabContainer: FunctionComponent<Props> = ({
   questionSubmissions,
   quizSubmissions,
-  paginationProps,
+  quizPaginationProps,
+  questionPaginationProps,
   onPreviewQuiz,
   onPreviewQuestion,
 }) => {
   const { t } = useTranslation();
-  const [activeTab, setActiveTab] = useState<TabType>("quizzes");
+  const [activeResourceType, setActiveResourceType] = useState<ResourceType>("quiz_template");
 
-  const submissions: SubmissionListItem[] =
-    activeTab === "quizzes"
-      ? quizSubmissions.data.map((submission) => ({
-        resourceId: submission.resourceId,
-        name: submission.title,
-        dateSubmitted: submission.dateSubmitted,
-        status: submission.status,
-      }))
-      : questionSubmissions.data.map((submission) => ({
-        resourceId: submission.resourceId,
-        name: submission.questionName,
-        dateSubmitted: submission.dateSubmitted,
-        status: submission.status,
-      }));
+  const allSubmissions: Submission[] = [...quizSubmissions.data, ...questionSubmissions.data];
+  const activeSubmissions = allSubmissions.filter(
+    (submission) => submission.resourceType === activeResourceType,
+  );
+  const isQuizTab = activeResourceType === "quiz_template";
+  const submissions: SubmissionListItem[] = activeSubmissions.map((submission) => ({
+    resourceId: submission.resourceId,
+    name: submission.resourceType === "quiz_template" ? submission.title : submission.questionName,
+    dateSubmitted: submission.dateSubmitted,
+    status: submission.status,
+  }));
+  const paginationProps = isQuizTab ? quizPaginationProps : questionPaginationProps;
 
   return (
     <Container>
@@ -45,16 +46,16 @@ export const TabContainer: FunctionComponent<Props> = ({
         <TabsContainer>
           <TabButton
             id="my-submissions-quizzes-tab"
-            $isActive={activeTab === "quizzes"}
-            onClick={() => setActiveTab("quizzes")}
+            $isActive={isQuizTab}
+            onClick={() => setActiveResourceType("quiz_template")}
           >
             {t("templates.submissions_tabs.quizzes")}
           </TabButton>
 
           <TabButton
             id="my-submissions-questions-tab"
-            $isActive={activeTab === "questions"}
-            onClick={() => setActiveTab("questions")}
+            $isActive={!isQuizTab}
+            onClick={() => setActiveResourceType("question_template")}
           >
             {t("templates.submissions_tabs.questions")}
           </TabButton>
@@ -62,19 +63,19 @@ export const TabContainer: FunctionComponent<Props> = ({
       </Header>
 
       <SubmissionsTable
-        key={activeTab}
-        type={activeTab}
+        key={activeResourceType}
+        type={isQuizTab ? "quizzes" : "questions"}
         submissions={submissions}
         paginationProps={paginationProps}
         onPreview={(resourceId) => {
-          if (activeTab === "quizzes") {
-            const submission = quizSubmissions.data.find((item) => item.resourceId === resourceId);
-            if (submission) onPreviewQuiz(submission);
-            return;
-          }
+          const submission = activeSubmissions.find((item) => item.resourceId === resourceId);
+          if (!submission) return;
 
-          const submission = questionSubmissions.data.find((item) => item.resourceId === resourceId);
-          if (submission) onPreviewQuestion(submission);
+          if (submission.resourceType === "quiz_template") {
+            onPreviewQuiz(submission);
+          } else {
+            onPreviewQuestion(submission);
+          }
         }}
       />
     </Container>
