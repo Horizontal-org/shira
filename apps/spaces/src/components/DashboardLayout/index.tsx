@@ -374,6 +374,11 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                       onDuplicate={() => {
                         startDuplicateQuizFlow(card);
                       }}
+                      onSubmitAsTemplate={() => {
+                        navigate(`/quiz/${card.id}/submit-template`, {
+                          state: { quizTitle: card.title },
+                        });
+                      }}
                       onDelete={() => {
                         handleSelectedCard(card)
                         setIsDeleteModalOpen(true)

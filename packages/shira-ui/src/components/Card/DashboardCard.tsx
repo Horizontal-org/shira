@@ -1,6 +1,6 @@
 import { FunctionComponent, ReactNode, useMemo, useState } from 'react';
 import { IoLinkOutline } from 'react-icons/io5';
-import { MdDelete, MdLockOutline, MdModeEdit, MdOutlineContentCopy } from 'react-icons/md';
+import { MdDelete, MdFileUpload, MdLockOutline, MdModeEdit, MdOutlineContentCopy } from 'react-icons/md';
 import { TbWorld } from 'react-icons/tb';
 import styled from 'styled-components';
 import { defaultTheme } from '../../theme';
@@ -29,6 +29,7 @@ export interface DashboardCardProps {
   onCopyUrl?: () => void;
   onEdit?: () => void;
   onDuplicate?: () => void;
+  onSubmitAsTemplate?: () => void;
   onDelete?: () => void;
   onClick?: () => void;
   showLoading?: boolean;
@@ -38,6 +39,7 @@ export interface DashboardCardProps {
   editText?: string;
   duplicateText?: string;
   copyLinkText?: string;
+  submitAsTemplateText?: string;
   deleteText?: string;
 }
 
@@ -56,6 +58,7 @@ export const DashboardCard: FunctionComponent<DashboardCardProps> = ({
   onCopyUrl,
   onEdit,
   onDuplicate,
+  onSubmitAsTemplate,
   onDelete,
   onClick,
   showLoading = false,
@@ -65,6 +68,7 @@ export const DashboardCard: FunctionComponent<DashboardCardProps> = ({
   editText = 'Edit',
   duplicateText = 'Duplicate',
   copyLinkText = 'Copy link',
+  submitAsTemplateText = 'Submit as template',
   deleteText = 'Delete',
 }) => {
   const [showPublishTooltip, setShowPublishTooltip] = useState(false);
@@ -86,6 +90,11 @@ export const DashboardCard: FunctionComponent<DashboardCardProps> = ({
         onClick: onCopyUrl,
         icon: <IoLinkOutline color={defaultTheme.colors.dark.darkGrey} />,
       },
+      onSubmitAsTemplate && {
+        text: submitAsTemplateText,
+        onClick: onSubmitAsTemplate,
+        icon: <MdFileUpload color={defaultTheme.colors.dark.darkGrey} />,
+      },
       onDelete && {
         text: deleteText,
         onClick: onDelete,
@@ -104,6 +113,8 @@ export const DashboardCard: FunctionComponent<DashboardCardProps> = ({
     onDelete,
     onDuplicate,
     onEdit,
+    onSubmitAsTemplate,
+    submitAsTemplateText,
   ]);
 
   return (

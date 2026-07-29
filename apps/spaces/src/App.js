@@ -36,6 +36,7 @@ import { ConfirmEmailUpdateLayout } from './components/ConfirmEmailUpdateLayout'
 import { CheckoutSuccessRedirect } from './components/CheckoutSuccessRedirect';
 import { TemplatesLayout } from './components/TemplatesLayout';
 import { MySubmissionsLayout } from './components/MySubmissionsLayout';
+import { QuizTemplateSubmissionLayout } from './components/QuizTemplateSubmissionLayout';
 
 function App() {
 
@@ -101,6 +102,7 @@ function App() {
                     <Route path='/quiz/:id' element={<QuizViewLayout />} />
                     <Route path='/quiz/:quizId/question' element={<QuestionCreationLayout />} />
                     <Route path='/quiz/:quizId/question/:questionId' element={<QuestionEditLayout />} />
+                    <Route path='/quiz/:quizId/submit-template' element={<QuizTemplateSubmissionLayout />} />
                     <Route path='/quiz/templates' element={<QuizTemplatesListLayout />} />
                     <Route path='/question/library' element={<QuestionLibraryListLayout />} />
                     <Route path="/template-library" element={<TemplatesLayout />} />
