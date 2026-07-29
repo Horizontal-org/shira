@@ -143,6 +143,7 @@
             "more_actions": "More actions",
             "edit": "Edit",
             "duplicate": "Duplicate",
+            "submit_as_template": "Submit as template",
             "delete": "Delete"
         }
     },
@@ -312,6 +313,12 @@
             "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>.",
             "success": "The quiz template has been submitted.",
             "error": "We couldn't submit the quiz template. Please try again."
+        },
+        "submit_question": {
+            "header_title": "Submit question template",
+            "title": "Submit your question as a template",
+            "success": "The question template has been submitted.",
+            "error": "We couldn't submit the question template. Please try again."
         },
         "quiz_templates": {
             "title": "Quiz templates",
@@ -887,6 +894,7 @@
         "learner_assignment_failed": "Failed to assign learner to the space.",
         "invalid_email": "Please enter a valid email address",
         "something_went_wrong": "Something went wrong",
+        "template_submission_failed": "There was a problem submitting the template. If this issue persists, <1>contact us</1>.",
         "invite_learner_failed": "There was a problem inviting the learner. If this issue persists, <1>contact us</1>.",
         "delete_learner_failed": "There was a problem deleting the learner. If this issue persists, <1>contact us</1>.",
         "delete_learners_failed": "There was a problem deleting the learners. If this issue persists, <1>contact us</1>.",

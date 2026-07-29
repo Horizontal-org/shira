@@ -9,8 +9,7 @@ type TabType = "quizzes" | "questions";
 type Props = {
   questionSubmissions: SubmissionsPageDto<QuestionSubmissionDto>;
   quizSubmissions: SubmissionsPageDto<QuizSubmissionDto>;
-  questionPaginationProps: ComponentProps<typeof CardPagination>;
-  quizPaginationProps: ComponentProps<typeof CardPagination>;
+  paginationProps: ComponentProps<typeof CardPagination>;
   onPreviewQuiz: (submission: QuizSubmissionDto) => void;
   onPreviewQuestion: (submission: QuestionSubmissionDto) => void;
 };
@@ -18,8 +17,7 @@ type Props = {
 export const TabContainer: FunctionComponent<Props> = ({
   questionSubmissions,
   quizSubmissions,
-  questionPaginationProps,
-  quizPaginationProps,
+  paginationProps,
   onPreviewQuiz,
   onPreviewQuestion,
 }) => {
@@ -67,7 +65,7 @@ export const TabContainer: FunctionComponent<Props> = ({
         key={activeTab}
         type={activeTab}
         submissions={submissions}
-        paginationProps={activeTab === "quizzes" ? quizPaginationProps : questionPaginationProps}
+        paginationProps={paginationProps}
         onPreview={(resourceId) => {
           if (activeTab === "quizzes") {
             const submission = quizSubmissions.data.find((item) => item.resourceId === resourceId);

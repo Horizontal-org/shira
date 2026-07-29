@@ -29,6 +29,7 @@ interface QuestionsListProps {
   onAddLibrary: (quizId: string) => void;
   onReorder: (newOrder: QuizQuestion[]) => void;
   onDuplicate: () => void;
+  onSubmitAsTemplate: (questionId: string) => void;
   hasResults: boolean
 }
 
@@ -44,6 +45,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
   onAddLibrary,
   onReorder,
   onDuplicate,
+  onSubmitAsTemplate,
   hasResults
 }) => {
   const { t } = useTranslation();
@@ -144,6 +146,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
             handleDuplicateQuestion(questionId);
           }
         }}
+        onSubmitQuestionAsTemplate={onSubmitAsTemplate}
         onDeleteQuestion={(questionId) => {
           handleQuestionForDelete(
             quizQuestions.find((quizQuestion) => quizQuestion.question.id === questionId)?.question ?? null

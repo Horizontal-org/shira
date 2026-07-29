@@ -398,6 +398,12 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 onDuplicate={() => {
                   getQuiz()
                 }}
+                onSubmitAsTemplate={(questionId) => {
+                  const question = quiz.quizQuestions.find((item) => item.question.id === questionId)?.question;
+                  navigate(`/quiz/${id}/question/${questionId}/submit-template`, {
+                    state: { questionName: question?.name },
+                  });
+                }}
               />
 
               <DeleteModal

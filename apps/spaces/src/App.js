@@ -37,6 +37,7 @@ import { CheckoutSuccessRedirect } from './components/CheckoutSuccessRedirect';
 import { TemplatesLayout } from './components/TemplatesLayout';
 import { MySubmissionsLayout } from './components/MySubmissionsLayout';
 import { QuizTemplateSubmissionLayout } from './components/QuizTemplateSubmissionLayout';
+import { QuestionTemplateSubmissionLayout } from './components/QuestionTemplateSubmissionLayout';
 
 function App() {
 
@@ -103,6 +104,7 @@ function App() {
                     <Route path='/quiz/:quizId/question' element={<QuestionCreationLayout />} />
                     <Route path='/quiz/:quizId/question/:questionId' element={<QuestionEditLayout />} />
                     <Route path='/quiz/:quizId/submit-template' element={<QuizTemplateSubmissionLayout />} />
+                    <Route path='/quiz/:quizId/question/:questionId/submit-template' element={<QuestionTemplateSubmissionLayout />} />
                     <Route path='/quiz/templates' element={<QuizTemplatesListLayout />} />
                     <Route path='/question/library' element={<QuestionLibraryListLayout />} />
                     <Route path="/template-library" element={<TemplatesLayout />} />

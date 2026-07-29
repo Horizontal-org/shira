@@ -170,8 +170,7 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
           <TabContainer
             quizSubmissions={quizSubmissions}
             questionSubmissions={questionSubmissions}
-            quizPaginationProps={quizPaginationProps}
-            questionPaginationProps={questionPaginationProps}
+            paginationProps={quizPaginationProps}
             onPreviewQuiz={handlePreviewQuiz}
             onPreviewQuestion={handlePreviewQuestion}
           />

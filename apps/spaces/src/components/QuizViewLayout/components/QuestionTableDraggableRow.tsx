@@ -11,9 +11,11 @@ interface Props {
   duplicatingQuestionId: string | null;
   onEditQuestion: (questionId: string) => void;
   onDuplicateQuestion: (questionId: string) => void;
+  onSubmitQuestionAsTemplate: (questionId: string) => void;
   onDeleteQuestion: (questionId: string) => void;
   editTooltip: string;
   duplicateTooltip: string;
+  submitAsTemplateTooltip: string;
   deleteTooltip: string;
 }
 
@@ -22,9 +24,11 @@ const QuestionTableDraggableRowComponent: FunctionComponent<Props> = ({
   duplicatingQuestionId,
   onEditQuestion,
   onDuplicateQuestion,
+  onSubmitQuestionAsTemplate,
   onDeleteQuestion,
   editTooltip,
   duplicateTooltip,
+  submitAsTemplateTooltip,
   deleteTooltip,
 }) => {
   const {
@@ -75,10 +79,12 @@ const QuestionTableDraggableRowComponent: FunctionComponent<Props> = ({
               <QuestionTableActionsMenu
                 editLabel={editTooltip}
                 duplicateLabel={duplicateTooltip}
+                submitAsTemplateLabel={submitAsTemplateTooltip}
                 deleteLabel={deleteTooltip}
                 disabled={isDuplicatingThisQuestion}
                 onEdit={() => onEditQuestion(questionId)}
                 onDuplicate={() => onDuplicateQuestion(questionId)}
+                onSubmitAsTemplate={() => onSubmitQuestionAsTemplate(questionId)}
                 onDelete={() => onDeleteQuestion(questionId)}
               />
             </Td>

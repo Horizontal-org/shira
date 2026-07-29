@@ -111,6 +111,14 @@ export const publishQuizSubmission = async (quizId: number, payload: PublishQuiz
   );
 };
 
+export const publishQuestionSubmission = async (questionId: number, payload: PublishQuizSubmissionPayload)
+  : Promise<void> => {
+  await axios.post(
+    `${process.env.REACT_APP_API_URL}/library/question/${questionId}/publish`,
+    payload,
+  );
+};
+
 export const getQuestionSubmissionDetail = async (submission: QuestionSubmissionDto)
   : Promise<QuestionSubmissionDetailDto> => {
   const { data } = await axios.get<LibraryQuestionTemplateDto>(

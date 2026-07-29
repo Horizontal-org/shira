@@ -1,6 +1,6 @@
 import { FunctionComponent, ReactNode, useMemo, useState } from 'react';
 import { IoLinkOutline } from 'react-icons/io5';
-import { MdDelete, MdFileUpload, MdLockOutline, MdModeEdit, MdOutlineContentCopy } from 'react-icons/md';
+import { MdDelete, MdLockOutline, MdModeEdit, MdOutlineContentCopy } from 'react-icons/md';
 import { TbWorld } from 'react-icons/tb';
 import styled from 'styled-components';
 import { defaultTheme } from '../../theme';
@@ -13,6 +13,7 @@ import {
   CardFooterMeta,
   type CardMenuItem,
 } from './Card';
+import { FiUpload } from 'react-icons/fi';
 
 export interface DashboardCardProps {
   id?: string;
@@ -93,7 +94,7 @@ export const DashboardCard: FunctionComponent<DashboardCardProps> = ({
       onSubmitAsTemplate && {
         text: submitAsTemplateText,
         onClick: onSubmitAsTemplate,
-        icon: <MdFileUpload color={defaultTheme.colors.dark.darkGrey} />,
+        icon: <FiUpload color={defaultTheme.colors.dark.darkGrey} />,
       },
       onDelete && {
         text: deleteText,

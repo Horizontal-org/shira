@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Body1,
   Body2Regular,
@@ -15,7 +15,6 @@ import {
   styled,
   SubHeading1,
   SubHeading3,
-  TextInput,
 } from "@horizontal-org/shira-ui";
 import { IoLanguage } from "react-icons/io5";
 import { FiChevronRight } from "react-icons/fi";
@@ -27,21 +26,15 @@ import {
   getQuizTemplateTagOptions,
   type QuizTemplateFilterOption,
 } from "../../fetch/quiz_templates";
-import { publishQuizSubmission } from "../../fetch/submissions";
+import { publishQuestionSubmission } from "../../fetch/submissions";
 import { useStore } from "../../store";
 import { GenericErrorModal } from "../modals/ErrorModal";
 
-type LocationState = { quizTitle?: string };
-
-export const QuizTemplateSubmissionLayout: FunctionComponent = () => {
-  const { quizId } = useParams();
+export const QuestionTemplateSubmissionLayout: FunctionComponent = () => {
+  const { questionId } = useParams();
   const navigate = useNavigate();
-  const location = useLocation() as { state?: LocationState };
   const { t } = useTranslation();
   const space = useStore((state) => state.space);
-
-  const [name, setName] = useState(location.state?.quizTitle ?? "");
-  const [description, setDescription] = useState("");
   const [languages, setLanguages] = useState<string[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
@@ -64,19 +57,11 @@ export const QuizTemplateSubmissionLayout: FunctionComponent = () => {
   }, []);
 
   const canSubmit = Boolean(
-    quizId
-    && name.trim()
-    && description.trim()
-    && languages.length
-    && tags.length
-    && acceptedTerms
-    && space?.name,
+    questionId && languages.length && tags.length && acceptedTerms && space?.name,
   );
 
   const handleSubmit = async () => {
-    if (!canSubmit || !quizId || !space?.name) {
-      return;
-    }
+    if (!canSubmit || !questionId || !space?.name) return;
 
     const optionIds = (selectedValues: string[], options: QuizTemplateFilterOption[]) => (
       selectedValues.flatMap((value) => {
@@ -86,17 +71,16 @@ export const QuizTemplateSubmissionLayout: FunctionComponent = () => {
     );
 
     setIsSubmitting(true);
-
     try {
-      await publishQuizSubmission(Number(quizId), {
+      await publishQuestionSubmission(Number(questionId), {
         spaceDisplayName: space.name,
         langTagIds: optionIds(languages, languageOptions),
         tagIds: optionIds(tags, tagOptions),
       });
-      toast.success(t("templates.submit_quiz.success"));
+      toast.success(t("templates.submit_question.success"));
       navigate("/template-library/my-submissions");
     } catch (error) {
-      console.error("Failed to submit quiz template:", error);
+      console.error("Failed to submit question template:", error);
       setSubmissionError(true);
     } finally {
       setIsSubmitting(false);
@@ -109,15 +93,15 @@ export const QuizTemplateSubmissionLayout: FunctionComponent = () => {
         <HeaderLeft>
           <LogoFrame><Logo /></LogoFrame>
           <CloseButton
-            aria-label={t("templates.submit_quiz.header_title")}
+            aria-label={t("templates.submit_question.header_title")}
             iconSize={22}
             onClick={() => navigate(-1)}
           />
-          <Body2Regular>{t("templates.submit_quiz.header_title")}</Body2Regular>
+          <Body2Regular>{t("templates.submit_question.header_title")}</Body2Regular>
         </HeaderLeft>
         <Button
           disabled={!canSubmit || isSubmitting}
-          id="submit-quiz-template-button"
+          id="submit-question-template-button"
           onClick={handleSubmit}
           rightIcon={<FiChevronRight size={16} />}
           color={defaultTheme.colors.green7}
@@ -128,7 +112,7 @@ export const QuizTemplateSubmissionLayout: FunctionComponent = () => {
 
       <Content>
         <FormCard>
-          <SubHeading1>{t("templates.submit_quiz.title")}</SubHeading1>
+          <SubHeading1>{t("templates.submit_question.title")}</SubHeading1>
           <Subtitle>
             <Body1>{t("templates.submit_quiz.intro")}</Body1>
             <Body1>
@@ -138,30 +122,6 @@ export const QuizTemplateSubmissionLayout: FunctionComponent = () => {
               />
             </Body1>
           </Subtitle>
-
-          <Field>
-            <FieldTitle>{t("templates.submit_quiz.name")}</FieldTitle>
-            <Hint>{t("templates.submit_quiz.name_hint")}</Hint>
-            <TextInput
-              id="quiz-template-name"
-              label={t("templates.submit_quiz.name_placeholder")}
-              onChange={(e) => setName(e.target.value)}
-              placeholder={t("templates.submit_quiz.name_placeholder")}
-              value={name}
-            />
-          </Field>
-
-          <Field>
-            <FieldTitle>{t("templates.submit_quiz.description")}</FieldTitle>
-            <Hint>{t("templates.submit_quiz.description_hint")}</Hint>
-            <TextInput
-              id="quiz-template-description"
-              label={t("templates.submit_quiz.description_placeholder")}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder={t("templates.submit_quiz.description_placeholder")}
-              value={description}
-            />
-          </Field>
 
           <Field>
             <FieldTitle>{t("templates.submit_quiz.language")}</FieldTitle>
@@ -175,7 +135,7 @@ export const QuizTemplateSubmissionLayout: FunctionComponent = () => {
               ariaLabel={t("templates.submit_quiz.language")}
               isMulti
               leftIcon={<IoLanguage color={defaultTheme.colors.blue6} size={12} />}
-              onChange={(v) => setLanguages(v as string[])}
+              onChange={(value) => setLanguages(value as string[])}
               options={languageOptions}
               placeholder={t("templates.submit_quiz.language_placeholder")}
               value={languages}
@@ -200,8 +160,8 @@ export const QuizTemplateSubmissionLayout: FunctionComponent = () => {
             <Checkbox
               ariaLabel={t("templates.submit_quiz.terms")}
               checked={acceptedTerms}
-              id="quiz-template-terms"
-              onChange={(e) => setAcceptedTerms(e.target.checked)}
+              id="question-template-terms"
+              onChange={(event) => setAcceptedTerms(event.target.checked)}
             />
             <Body1>
               <Trans
@@ -239,18 +199,6 @@ const Header = styled.header`
   justify-content: space-between;
 `;
 
-const Subtitle = styled.div`
-  margin-top: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-`;
-
-const Hint = styled(Body3)`
-  margin-top: 2px;
-  margin-bottom: 12px;
-`;
-
 const HeaderLeft = styled.div`
   display: flex;
   align-items: center;
@@ -275,12 +223,20 @@ const FormCard = styled.form`
   background: ${defaultTheme.colors.light.white};
 `;
 
+const Subtitle = styled.div`
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
 const Field = styled.div`
   margin-top: 32px;
 `;
 
-const SubmissionSelect = styled(FilterSelect)`
-  width: 262px;
+const Hint = styled(Body3)`
+  margin-top: 2px;
+  margin-bottom: 12px;
 `;
 
 const FieldTitle = styled(SubHeading3)`
@@ -289,6 +245,17 @@ const FieldTitle = styled(SubHeading3)`
     color: ${props => props.theme.colors.error7};
     margin-right: 6px;
   }
+`;
+
+const SubmissionSelect = styled(FilterSelect)`
+  width: 262px;
+
+  button[role="combobox"] {
+    min-height: 36px;
+    padding: 8px 16px;
+  }
+
+  p { font-size: 16px; }
 `;
 
 const Terms = styled.div`

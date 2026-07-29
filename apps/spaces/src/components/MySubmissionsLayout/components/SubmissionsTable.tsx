@@ -23,7 +23,12 @@ interface SubmissionsTableProps {
   onPreview: (resourceId: string) => void;
 }
 
-export const SubmissionsTable = ({ type, submissions, paginationProps, onPreview }: SubmissionsTableProps) => {
+export const SubmissionsTable = ({
+  type,
+  submissions,
+  paginationProps,
+  onPreview
+}: SubmissionsTableProps) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
@@ -205,4 +210,4 @@ const PreviewActionButton = styled.button`
   &:disabled {
     cursor: not-allowed;
   }
-`
+`;
