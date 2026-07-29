@@ -82,8 +82,6 @@ services:
   images:
     image: "dxflrs/garage:v2.3.0"
     restart: "unless-stopped"
-    environment:
-      GARAGE_RPC_SECRET: "${GARAGE_RPC_SECRET}"
     networks:
     - "shira"
     volumes:
@@ -99,6 +97,7 @@ services:
       retries: 10
       start_period: "10s"
     environment:
+      GARAGE_RPC_SECRET: "${GARAGE_RPC_SECRET}"
       ACME_HOST: "${IMAGES_DOMAIN}"
       VIRTUAL_HOST: "${IMAGES_DOMAIN}"
       VIRTUAL_PORT: "3900"
