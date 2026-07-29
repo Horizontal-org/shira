@@ -23,6 +23,7 @@ type Props = {
   changeScene?: (scene: string) => void
   setCorrectQuestions: () => void
   onAnswer?: (ans: RunAnswer) => void
+  hasAssessmentEnabled?: boolean
 }
 
 export const Question: FunctionComponent<Props> = ({
@@ -34,6 +35,7 @@ export const Question: FunctionComponent<Props> = ({
   onNext,
   setCorrectQuestions,
   onAnswer,
+  hasAssessmentEnabled,
 }) => {
   const { width } = useGetWidth()
   const [answer, handleAnswer] = useState<string | null>(null)
@@ -81,12 +83,23 @@ export const Question: FunctionComponent<Props> = ({
 
   const select = useCallback(
     (uiAnswer: string) => {
-      handleIsExpanded(false)
-      handleAnswer(uiAnswer)
       const mapped = toRunAnswer(uiAnswer)
       console.log('[Question] select', { qId: question.id, uiAnswer, mapped })
       onAnswer?.(mapped)
-    }, [onAnswer, question.id]
+
+      if (hasAssessmentEnabled) {
+        // In assessment mode, we don't show explanations or feedback, we just record the answer and move to the next question
+        const realAnswer = question.isPhising ? 'phishing' : 'legitimate'
+        if (uiAnswer === realAnswer) {
+          setCorrectQuestions()
+        }
+        onNext(uiAnswer)
+        return
+      }
+
+      handleIsExpanded(false)
+      handleAnswer(uiAnswer)
+    }, [onAnswer, question.id, question.isPhising, hasAssessmentEnabled, setCorrectQuestions, onNext]
   )
 
   const content = question.content

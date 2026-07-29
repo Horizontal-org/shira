@@ -54,7 +54,7 @@ export class SpaceEntity {
   @Column({ length: 150, nullable: true })
   slug: string;
 
-  @Column({ name: 'public_id', length: 27, unique: true })
+  @Column({ name: 'public_id', length: 31, unique: true })
   publicId: string;
 
   @Column({ name: 'has_results_enabled', default: true })

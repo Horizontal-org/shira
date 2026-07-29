@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
-import KSUID = require('ksuid');
 
+import { generatePrefixedId } from 'src/utils/prefixed-id.utils';
 import { SpaceEntity } from '../domain/space.entity';
 import { CreateSpaceDto } from '../domain/create.space.dto';
 import { ICreateSpaceService } from '../interfaces/services/create.space.service.interface';
@@ -27,7 +27,7 @@ export class CreateSpaceService implements ICreateSpaceService{
     space.name = createSpaceDto.name
     space.slug = createSpaceDto.slug
     space.organizationId = createSpaceDto.organizationId
-    space.publicId = KSUID.randomSync().string
+    space.publicId = generatePrefixedId('spc_')
     const savedSpace = await this.spaceRepo.save(space)
 
     const spaceAdminRole = await this.roleRepo.findOne({

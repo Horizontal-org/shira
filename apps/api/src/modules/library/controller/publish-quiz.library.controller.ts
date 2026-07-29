@@ -5,27 +5,27 @@ import { Role } from 'src/modules/user/domain/role.enum'
 import { AuthController } from 'src/utils/decorators/auth-controller.decorator'
 
 import { TYPES } from '../interfaces'
-import { IPublishQuestionLibraryService } from '../interfaces/services/publish-question.library.service.interface'
+import { IPublishQuizLibraryService } from '../interfaces/services/publish-quiz.library.service.interface'
 import { PublishLibraryBodyDto } from '../dto/publish-body.library.dto'
 import { LoggedUserDto } from 'src/modules/user/dto/logged.user.dto'
 import { LoggedUser } from 'src/modules/auth/decorators'
 
 @AuthController('library')
-export class PublishQuestionLibraryController {
+export class PublishQuizLibraryController {
   constructor(
-    @Inject(TYPES.services.IPublishQuestionLibraryService)
-    private readonly publishService: IPublishQuestionLibraryService,
+    @Inject(TYPES.services.IPublishQuizLibraryService)
+    private readonly publishService: IPublishQuizLibraryService,
   ) { }
 
-  @Post('question/:questionId/publish')
+  @Post('quiz/:quizId/publish')
   @Roles(Role.SpaceAdmin)
   async publish(
     @LoggedUser() user: LoggedUserDto,
-    @Param('questionId', ParseIntPipe) questionId: number,
+    @Param('quizId', ParseIntPipe) quizId: number,
     @Body() body: PublishLibraryBodyDto,
   ) {
     await this.publishService.execute({
-      questionId,
+      quizId,
       spaceId: user.activeSpace.space.id,
       langTagIds: body.langTagIds,
       tagIds: body.tagIds,

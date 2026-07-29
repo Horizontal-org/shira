@@ -9,7 +9,7 @@ export class AddPublicIdToSpaces1782000000000 implements MigrationInterface {
       new TableColumn({
         name: "public_id",
         type: "varchar",
-        length: "27",
+        length: "31",
         isNullable: true,
       })
     )
@@ -17,7 +17,7 @@ export class AddPublicIdToSpaces1782000000000 implements MigrationInterface {
     const spaces: { id: number }[] = await queryRunner.query(`SELECT id FROM spaces`)
 
     for (const space of spaces) {
-      const publicId = KSUID.randomSync().string
+      const publicId = `spc_${KSUID.randomSync().string}`
       await queryRunner.query(
         `UPDATE spaces SET public_id = ? WHERE id = ?`,
         [publicId, space.id]
@@ -30,7 +30,7 @@ export class AddPublicIdToSpaces1782000000000 implements MigrationInterface {
       new TableColumn({
         name: "public_id",
         type: "varchar",
-        length: "27",
+        length: "31",
         isNullable: false,
       })
     )

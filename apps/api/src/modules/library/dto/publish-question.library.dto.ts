@@ -1,9 +1,9 @@
 import { Type } from 'class-transformer'
 import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength } from 'class-validator'
 
-class PublishAuthorDto {
+export class PublishAuthorDto {
   @IsString()
-  @MaxLength(27)
+  @MaxLength(31)
   publicSpaceId: string
 
   @IsString()

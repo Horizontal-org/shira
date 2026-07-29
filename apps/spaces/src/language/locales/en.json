@@ -117,11 +117,23 @@
         "tabs": {
             "questions": "Questions",
             "results": "Results",
-            "learners": "Learners"
+            "learners": "Learners",
+            "settings": "Settings"
         },
         "visibility": {
             "public": "Public",
             "private": "Private"
+        },
+        "settings": {
+            "title": "Quiz mode",
+            "assessment": {
+                "title": "Assessment mode",
+                "description": "Learners test their phishing detection skills without feedback or explanations to measure their actual performance level."
+            },
+            "learning": {
+                "title": "Learning mode",
+                "description": "Learners receive immediate feedback and explanations after each answer to help them improve their phishing detection skills."
+            }
         }
     },
     "questions_tab": {
@@ -929,6 +941,7 @@
         "quiz_order_updated": "The quiz order has been updated",
         "quiz_published": "The quiz has been published",
         "quiz_unpublished": "The quiz has been unpublished",
+        "quiz_assessment_mode_updated": "The quiz has been updated",
         "question_created": "Question created",
         "question_added": "The question has been added to your quiz",
         "question_updated": "Question updated",
