@@ -70,9 +70,12 @@ export interface PublishSubmissionPayload {
   tagIds?: number[];
 }
 
-interface QuizSubmissionApiDto
-  extends Omit<QuizSubmissionDto, "title"> {
+interface QuizSubmissionApiDto {
+  id: string;
   quizTitle: string;
+  dateSubmitted: string;
+  status: SubmissionStatus;
+  reason?: string;
 }
 
 type LibraryQuestionTemplateDto = {

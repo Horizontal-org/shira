@@ -13,13 +13,21 @@ type Props = {
 export const SubmissionPreviewModal: FunctionComponent<Props> = ({ quiz, question, onClose }) => {
   if (!quiz && !question) return null;
 
-  return (
-    <PreviewModal isOpen onClose={onClose}>
-      {quiz ? (
+  if (quiz) {
+    return (
+      <PreviewModal isOpen onClose={onClose}>
         <QuizSubmissionPreview quiz={quiz} onClose={onClose} />
-      ) : (
-        <QuestionSubmissionPreview question={question!} onClose={onClose} />
-      )}
-    </PreviewModal>
-  );
+      </PreviewModal>
+    );
+  }
+
+  if (question) {
+    return (
+      <PreviewModal isOpen onClose={onClose}>
+        <QuestionSubmissionPreview question={question} onClose={onClose} />
+      </PreviewModal>
+    );
+  }
+
+  return null;
 };

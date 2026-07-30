@@ -32,25 +32,30 @@ import { customMenuItems } from "../../utils/customMenuItems";
 import { usePublicLibrary } from "../../hooks/usePublicLibrary";
 import { useStore } from "../../store";
 import { usePaginationProps } from "../../hooks/usePaginationProps";
+import { useSubmissions } from "./hooks/useSubmissions";
 
-interface Props { }
-
-export const MySubmissionsLayout: FunctionComponent<Props> = () => {
+export const MySubmissionsLayout = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
   const { isPublicLibraryEnabled } = usePublicLibrary();
   const space = useStore((state) => state.space);
 
-  const [quizSubmissions, setQuizSubmissions] = useState<QuizSubmissionDto[]>([]);
-  const [totalQuizSubmissions, setTotalQuizSubmissions] = useState(0);
-  const [questionSubmissions, setQuestionSubmissions] = useState<QuestionSubmissionDto[]>([]);
-  const [totalQuestionSubmissions, setTotalQuestionSubmissions] = useState(0);
   const [quizPageIndex, setQuizPageIndex] = useState(0);
   const [questionPageIndex, setQuestionPageIndex] = useState(0);
   const [activeResourceType, setActiveResourceType] = useState<SubmissionResourceType>("quiz_template");
   const [previewQuiz, setPreviewQuiz] = useState<QuizSubmissionDetailDto | null>(null);
   const [previewQuestion, setPreviewQuestion] = useState<QuestionSubmissionDetailDto | null>(null);
+  const quizSubmissions = useSubmissions(
+    space?.publicId,
+    quizPageIndex,
+    getQuizSubmissions,
+  );
+  const questionSubmissions = useSubmissions(
+    space?.publicId,
+    questionPageIndex,
+    getQuestionSubmissions,
+  );
 
   const {
     isCollapsed,
@@ -67,89 +72,19 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
     }
   }, [isPublicLibraryEnabled, navigate]);
 
-  useEffect(() => {
-    if (activeResourceType !== "quiz_template") {
-      return;
-    }
-
-    const loadQuizSubmissions = async () => {
-      if (!space?.publicId) {
-        setQuizSubmissions([]);
-        setTotalQuizSubmissions(0);
-        return;
-      }
-
-      try {
-        const quizData = await getQuizSubmissions(space.publicId, {
-          page: quizPageIndex + 1,
-        });
-
-        setQuizSubmissions(quizData.data);
-        setTotalQuizSubmissions(quizData.total);
-        setQuizPageIndex((currentPageIndex) => {
-          const nextPageIndex = Math.max(0, quizData.page - 1);
-          return currentPageIndex === nextPageIndex
-            ? currentPageIndex
-            : nextPageIndex;
-        });
-      } catch (error) {
-        console.error("Error fetching quiz submissions:", error);
-        setQuizSubmissions([]);
-        setTotalQuizSubmissions(0);
-      }
-    };
-
-    loadQuizSubmissions();
-  }, [activeResourceType, space?.publicId, quizPageIndex]);
-
-  useEffect(() => {
-    if (activeResourceType !== "question_template") {
-      return;
-    }
-
-    const loadQuestionSubmissions = async () => {
-      if (!space?.publicId) {
-        setQuestionSubmissions([]);
-        setTotalQuestionSubmissions(0);
-        return;
-      }
-
-      try {
-        const questionData = await getQuestionSubmissions(space.publicId, {
-          page: questionPageIndex + 1,
-        });
-
-        setQuestionSubmissions(questionData.data);
-        setTotalQuestionSubmissions(questionData.total);
-        setQuestionPageIndex((currentPageIndex) => {
-          const nextPageIndex = Math.max(0, questionData.page - 1);
-          return currentPageIndex === nextPageIndex
-            ? currentPageIndex
-            : nextPageIndex;
-        });
-      } catch (error) {
-        console.error("Error fetching question submissions:", error);
-        setQuestionSubmissions([]);
-        setTotalQuestionSubmissions(0);
-      }
-    };
-
-    loadQuestionSubmissions();
-  }, [activeResourceType, space?.publicId, questionPageIndex]);
-
   const quizPaginationProps = usePaginationProps({
     pageIndex: quizPageIndex,
-    pageCount: Math.max(1, Math.ceil(totalQuizSubmissions / DEFAULT_PAGE_LIMIT)),
+    pageCount: quizSubmissions.pageCount,
     pageSize: DEFAULT_PAGE_LIMIT,
     setPageIndex: setQuizPageIndex,
-    total: totalQuizSubmissions,
+    total: quizSubmissions.total,
   });
   const questionPaginationProps = usePaginationProps({
     pageIndex: questionPageIndex,
-    pageCount: Math.max(1, Math.ceil(totalQuestionSubmissions / DEFAULT_PAGE_LIMIT)),
+    pageCount: questionSubmissions.pageCount,
     pageSize: DEFAULT_PAGE_LIMIT,
     setPageIndex: setQuestionPageIndex,
-    total: totalQuestionSubmissions,
+    total: questionSubmissions.total,
   });
 
   const handlePreviewQuiz = async (submission: QuizSubmissionDto) => {
@@ -202,8 +137,8 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
           </HeaderContainer>
 
           <TabContainer
-            quizSubmissions={quizSubmissions}
-            questionSubmissions={questionSubmissions}
+            quizSubmissions={quizSubmissions.submissions}
+            questionSubmissions={questionSubmissions.submissions}
             quizPaginationProps={quizPaginationProps}
             questionPaginationProps={questionPaginationProps}
             onPreviewQuiz={handlePreviewQuiz}
