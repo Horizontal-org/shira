@@ -3,8 +3,8 @@ import { FunctionComponent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IoEyeSharp } from "react-icons/io5";
 import {
-  type QuestionSubmissionDetailDto,
-  type QuizSubmissionDetailDto,
+  type QuizSubmissionPreviewDto,
+  type QuizSubmissionQuestionPreviewDto,
 } from "../../../../../fetch/submissions";
 import {
   FullQuizPreviewScreen,
@@ -18,15 +18,16 @@ import { QuestionSubmissionPreviewDetailsCard } from "../QuestionSubmissionPrevi
 import { SubmissionStatusBanner } from "../SubmissionStatusBanner";
 
 type Props = {
-  quiz: QuizSubmissionDetailDto;
+  quiz: QuizSubmissionPreviewDto;
   onClose: () => void;
 };
 
 export const QuizSubmissionPreview: FunctionComponent<Props> = ({ quiz, onClose }) => {
   const { t, i18n } = useTranslation();
 
-  const [questions, setQuestions] = useState<QuestionSubmissionDetailDto[]>([]);
-  const [previewQuestion, setPreviewQuestion] = useState<QuestionSubmissionDetailDto | null>(null);
+  const [questions, setQuestions] = useState<QuizSubmissionQuestionPreviewDto[]>([]);
+  const [previewQuestion, setPreviewQuestion] =
+    useState<QuizSubmissionQuestionPreviewDto | null>(null);
   const [fullPreviewQuestionId, setFullPreviewQuestionId] = useState<number | null>(null);
 
   useEffect(() => {
@@ -89,7 +90,7 @@ export const QuizSubmissionPreview: FunctionComponent<Props> = ({ quiz, onClose 
         details={(
           <QuestionSubmissionPreviewDetailsCard
             language={previewQuestion.language}
-            tags={previewQuestion.tags}
+            tags={[]}
             isPhishing={previewQuestion.isPhishing}
             app={previewQuestion.app}
             dateSubmitted={previewQuestion.dateSubmitted}

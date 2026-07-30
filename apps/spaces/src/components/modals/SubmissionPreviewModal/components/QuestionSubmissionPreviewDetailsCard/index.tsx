@@ -12,7 +12,7 @@ import { IoMdApps } from "react-icons/io";
 
 type Props = {
   language: string;
-  tags: string[];
+  tags?: string[];
   isPhishing: boolean;
   app: string;
   dateSubmitted: string;
@@ -21,7 +21,7 @@ type Props = {
 
 export const QuestionSubmissionPreviewDetailsCard: FunctionComponent<Props> = ({
   language,
-  tags,
+  tags = [],
   isPhishing,
   app,
   dateSubmitted,

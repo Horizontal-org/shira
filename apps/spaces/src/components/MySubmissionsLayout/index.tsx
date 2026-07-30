@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Body1,
   Button,
@@ -13,15 +13,19 @@ import { Trans, useTranslation } from "react-i18next";
 import { FiArrowLeft } from "react-icons/fi";
 import {
   getQuestionSubmissions,
+  getQuestionSubmissionTemplate,
   getQuizSubmissions,
-  getQuizSubmissionDetail,
-  getQuestionSubmissionDetail,
+  getQuizSubmissionQuestions,
+  getQuizSubmissionTemplate,
   type QuestionSubmissionDto,
+  type QuestionSubmissionPreviewDto,
   type QuizSubmissionDto,
-  type QuizSubmissionDetailDto,
-  type QuestionSubmissionDetailDto,
-  type SubmissionsPageDto,
+  type QuizSubmissionPreviewDto,
 } from "../../fetch/submissions";
+import {
+  mapQuestionSubmissionToPreview,
+  mapQuizSubmissionToPreview,
+} from "../../fetch/submission_mappers";
 import { SubmissionPreviewModal } from "../modals/SubmissionPreviewModal";
 import { TabContainer } from "./components/TabContainer";
 import { LayoutContainer } from "../LayoutStyleComponents/LayoutContainer";
@@ -35,7 +39,6 @@ import { usePublicLibrary } from "../../hooks/usePublicLibrary";
 import { useStore } from "../../store";
 import { usePaginationProps } from "../../hooks/usePaginationProps";
 import { useSubmissions } from "./hooks/useSubmissions";
-import type { SubmissionListItem } from "./components/SubmissionsTable";
 
 export const MySubmissionsLayout = () => {
   const { t } = useTranslation();
@@ -44,24 +47,19 @@ export const MySubmissionsLayout = () => {
   const { isPublicLibraryEnabled } = usePublicLibrary();
   const space = useStore((state) => state.space);
 
-  const [pageIndex, setPageIndex] = useState(0);
-  const [activeResourceType, setActiveResourceType] =
-    useState<"quiz_template" | "question_template">("quiz_template");
-  const [previewQuiz, setPreviewQuiz] = useState<QuizSubmissionDetailDto | null>(null);
-  const [previewQuestion, setPreviewQuestion] = useState<QuestionSubmissionDetailDto | null>(null);
-  const fetchSubmissions = useCallback((spaceId: string, params: { page: number })
-    : Promise<
-      SubmissionsPageDto<QuizSubmissionDto | QuestionSubmissionDto>
-    > =>
-    activeResourceType === "quiz_template"
-      ? getQuizSubmissions(spaceId, params)
-      : getQuestionSubmissions(spaceId, params),
-    [activeResourceType],
-  );
-  const submissionsResult = useSubmissions(
+  const [quizPageIndex, setQuizPageIndex] = useState(0);
+  const [questionPageIndex, setQuestionPageIndex] = useState(0);
+  const [previewQuiz, setPreviewQuiz] = useState<QuizSubmissionPreviewDto | null>(null);
+  const [previewQuestion, setPreviewQuestion] = useState<QuestionSubmissionPreviewDto | null>(null);
+  const quizSubmissions = useSubmissions(
     space?.publicId,
-    pageIndex,
-    fetchSubmissions,
+    quizPageIndex,
+    getQuizSubmissions,
+  );
+  const questionSubmissions = useSubmissions(
+    space?.publicId,
+    questionPageIndex,
+    getQuestionSubmissions,
   );
 
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(
@@ -78,18 +76,29 @@ export const MySubmissionsLayout = () => {
     }
   }, [isPublicLibraryEnabled, navigate]);
 
-  const paginationProps = usePaginationProps({
-    pageIndex,
-    pageCount: submissionsResult.pageCount,
-    pageSize: submissionsResult.limit,
-    setPageIndex,
-    total: submissionsResult.total,
+  const quizPaginationProps = usePaginationProps({
+    pageIndex: quizPageIndex,
+    pageCount: quizSubmissions.pageCount,
+    pageSize: quizSubmissions.limit,
+    setPageIndex: setQuizPageIndex,
+    total: quizSubmissions.total,
+  });
+  const questionPaginationProps = usePaginationProps({
+    pageIndex: questionPageIndex,
+    pageCount: questionSubmissions.pageCount,
+    pageSize: questionSubmissions.limit,
+    setPageIndex: setQuestionPageIndex,
+    total: questionSubmissions.total,
   });
 
   const handlePreviewQuiz = async (submission: QuizSubmissionDto) => {
     try {
       setPreviewQuestion(null);
-      setPreviewQuiz(await getQuizSubmissionDetail(submission));
+      const [template, questions] = await Promise.all([
+        getQuizSubmissionTemplate(submission.resourceId),
+        getQuizSubmissionQuestions(submission.resourceId),
+      ]);
+      setPreviewQuiz(mapQuizSubmissionToPreview(submission, template, questions));
     } catch (error) {
       console.error("Failed to load quiz submission preview:", error);
     }
@@ -98,57 +107,11 @@ export const MySubmissionsLayout = () => {
   const handlePreviewQuestion = async (submission: QuestionSubmissionDto) => {
     try {
       setPreviewQuiz(null);
-      setPreviewQuestion(await getQuestionSubmissionDetail(submission));
+      const template = await getQuestionSubmissionTemplate(submission.resourceId);
+      setPreviewQuestion(mapQuestionSubmissionToPreview(submission, template));
     } catch (error) {
       console.error("Failed to load question submission preview:", error);
     }
-  };
-
-  const activeSubmissions: SubmissionListItem[] =
-    activeResourceType === "quiz_template"
-      ? submissionsResult.submissions
-        .filter(
-          (submission): submission is QuizSubmissionDto =>
-            submission.resourceType === "quiz_template",
-        )
-        .map((submission) => ({
-          resourceId: submission.resourceId,
-          name: submission.quizTitle,
-          dateSubmitted: submission.dateSubmitted,
-          status: submission.status,
-        }))
-      : submissionsResult.submissions
-        .filter(
-          (submission): submission is QuestionSubmissionDto =>
-            submission.resourceType === "question_template",
-        )
-        .map((submission) => ({
-          resourceId: submission.resourceId,
-          name: submission.questionName,
-          dateSubmitted: submission.dateSubmitted,
-          status: submission.status,
-        }));
-  const handlePreview = (resourceId: string) => {
-    const submission = submissionsResult.submissions.find(
-      (item) => item.resourceId === resourceId,
-    );
-    if (!submission) return;
-
-    if (activeResourceType === "quiz_template") {
-      if (submission.resourceType === "quiz_template")
-        handlePreviewQuiz(submission);
-      return;
-    }
-
-    if (submission.resourceType === "question_template")
-      handlePreviewQuestion(submission);
-  };
-
-  const handleActiveResourceTypeChange = (
-    resourceType: "quiz_template" | "question_template",
-  ) => {
-    setActiveResourceType(resourceType);
-    setPageIndex(0);
   };
 
   return (
@@ -185,11 +148,12 @@ export const MySubmissionsLayout = () => {
           </HeaderContainer>
 
           <TabContainer
-            resourceType={activeResourceType}
-            submissions={activeSubmissions}
-            paginationProps={paginationProps}
-            onPreview={handlePreview}
-            onActiveResourceTypeChange={handleActiveResourceTypeChange}
+            quizSubmissions={quizSubmissions.submissions}
+            questionSubmissions={questionSubmissions.submissions}
+            quizPaginationProps={quizPaginationProps}
+            questionPaginationProps={questionPaginationProps}
+            onPreviewQuiz={handlePreviewQuiz}
+            onPreviewQuestion={handlePreviewQuestion}
           />
           <SubmissionPreviewModal
             quiz={previewQuiz}

@@ -1,12 +1,12 @@
 import { FunctionComponent } from "react";
 import { useTranslation } from "react-i18next";
-import type { QuestionSubmissionDetailDto } from "../../../../../fetch/submissions";
+import type { QuestionSubmissionPreviewDto } from "../../../../../fetch/submissions";
 import { PreviewQuestionScreen } from "../../../PreviewQuizScreen/PreviewQuestionScreen";
 import { QuestionSubmissionPreviewDetailsCard } from "../QuestionSubmissionPreviewDetailsCard";
 import { SubmissionStatusBanner } from "../SubmissionStatusBanner";
 
 type Props = {
-  question: QuestionSubmissionDetailDto;
+  question: QuestionSubmissionPreviewDto;
   onClose: () => void;
 };
 

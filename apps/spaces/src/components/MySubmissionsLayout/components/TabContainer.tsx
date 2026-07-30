@@ -1,25 +1,49 @@
 import { CardPagination, styled } from "@horizontal-org/shira-ui";
-import { ComponentProps, FunctionComponent } from "react";
+import { ComponentProps, FunctionComponent, useState } from "react";
 import { useTranslation } from "react-i18next";
+import type { QuestionSubmissionDto, QuizSubmissionDto } from "../../../fetch/submissions";
 import { SubmissionsTable, type SubmissionListItem } from "./SubmissionsTable";
+
+export type SubmissionResourceType = "quiz_template" | "question_template";
+
 type Props = {
-  resourceType: "quiz_template" | "question_template";
-  submissions: SubmissionListItem[];
-  paginationProps: ComponentProps<typeof CardPagination>;
-  onPreview: (resourceId: string) => void;
-  onActiveResourceTypeChange: (resourceType: "quiz_template" | "question_template") => void;
+  questionSubmissions: QuestionSubmissionDto[];
+  quizSubmissions: QuizSubmissionDto[];
+  quizPaginationProps: ComponentProps<typeof CardPagination>;
+  questionPaginationProps: ComponentProps<typeof CardPagination>;
+  onPreviewQuiz: (submission: QuizSubmissionDto) => void;
+  onPreviewQuestion: (submission: QuestionSubmissionDto) => void;
 };
 
 export const TabContainer: FunctionComponent<Props> = ({
-  resourceType,
-  submissions,
-  paginationProps,
-  onPreview,
-  onActiveResourceTypeChange,
+  questionSubmissions,
+  quizSubmissions,
+  quizPaginationProps,
+  questionPaginationProps,
+  onPreviewQuiz,
+  onPreviewQuestion,
 }) => {
   const { t } = useTranslation();
+  const [activeResourceType, setActiveResourceType] = useState<SubmissionResourceType>("quiz_template");
 
-  const isQuizTab = resourceType === "quiz_template";
+  const isQuizTab = activeResourceType === "quiz_template";
+  const paginationProps = isQuizTab
+    ? quizPaginationProps
+    : questionPaginationProps;
+
+  const submissions: SubmissionListItem[] = isQuizTab
+    ? quizSubmissions.map((submission) => ({
+      resourceId: submission.resourceId,
+      name: submission.quizTitle,
+      dateSubmitted: submission.dateSubmitted,
+      status: submission.status,
+    }))
+    : questionSubmissions.map((submission) => ({
+      resourceId: submission.resourceId,
+      name: submission.questionName,
+      dateSubmitted: submission.dateSubmitted,
+      status: submission.status,
+    }));
 
   return (
     <Container>
@@ -28,7 +52,7 @@ export const TabContainer: FunctionComponent<Props> = ({
           <TabButton
             id="my-submissions-quizzes-tab"
             $isActive={isQuizTab}
-            onClick={() => onActiveResourceTypeChange("quiz_template")}
+            onClick={() => setActiveResourceType("quiz_template")}
           >
             {t("templates.submissions_tabs.quizzes")}
           </TabButton>
@@ -36,7 +60,7 @@ export const TabContainer: FunctionComponent<Props> = ({
           <TabButton
             id="my-submissions-questions-tab"
             $isActive={!isQuizTab}
-            onClick={() => onActiveResourceTypeChange("question_template")}
+            onClick={() => setActiveResourceType("question_template")}
           >
             {t("templates.submissions_tabs.questions")}
           </TabButton>
@@ -44,11 +68,24 @@ export const TabContainer: FunctionComponent<Props> = ({
       </Header>
 
       <SubmissionsTable
-        key={resourceType}
+        key={activeResourceType}
         type={isQuizTab ? "quizzes" : "questions"}
         submissions={submissions}
         paginationProps={paginationProps}
-        onPreview={onPreview}
+        onPreview={(resourceId) => {
+          if (isQuizTab) {
+            const submission = quizSubmissions.find(
+              (item) => item.resourceId === resourceId,
+            );
+            if (submission) onPreviewQuiz(submission);
+            return;
+          }
+
+          const submission = questionSubmissions.find(
+            (item) => item.resourceId === resourceId,
+          );
+          if (submission) onPreviewQuestion(submission);
+        }}
       />
     </Container>
   );
@@ -90,12 +127,12 @@ const TabButton = styled.div<{ $isActive: boolean }>`
   &:hover {
     border-bottom: 4px solid
       ${(props) =>
-      props.$isActive
-        ? props.theme.colors.green7
-        : props.theme.colors.light.paleGrey};
+    props.$isActive
+      ? props.theme.colors.green7
+      : props.theme.colors.light.paleGrey};
     color: ${(props) =>
-      props.$isActive
-        ? props.theme.colors.green7
-        : props.theme.colors.dark.black};
+    props.$isActive
+      ? props.theme.colors.green7
+      : props.theme.colors.dark.black};
   }
 `;

@@ -1,12 +1,15 @@
 import { FunctionComponent } from "react";
-import type { QuestionSubmissionDetailDto, QuizSubmissionDetailDto } from "../../../fetch/submissions";
+import type {
+  QuestionSubmissionPreviewDto,
+  QuizSubmissionPreviewDto,
+} from "../../../fetch/submissions";
 import { PreviewModal } from "../PreviewQuizScreen";
 import { QuestionSubmissionPreview } from "./components/QuestionSubmissionPreview";
 import { QuizSubmissionPreview } from "./components/QuizSubmissionPreview";
 
 type Props = {
-  quiz: QuizSubmissionDetailDto | null;
-  question: QuestionSubmissionDetailDto | null;
+  quiz: QuizSubmissionPreviewDto | null;
+  question: QuestionSubmissionPreviewDto | null;
   onClose: () => void;
 };
 
