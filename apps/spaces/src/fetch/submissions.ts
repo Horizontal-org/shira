@@ -76,6 +76,7 @@ export interface SubmissionsPageDto<T> {
 export interface LibraryQuestionTemplateDto {
   id: number;
   name: string;
+  description: string;
   isPhishing: boolean;
   content: string;
   appType: string;
@@ -115,8 +116,8 @@ interface GetSubmissionsParams {
 
 export interface PublishSubmissionPayload {
   spaceDisplayName: string;
-  templateName?: string;
-  templateDescription?: string;
+  templateName: string;
+  templateDescription: string;
   langTagIds?: number[];
   tagIds?: number[];
 }

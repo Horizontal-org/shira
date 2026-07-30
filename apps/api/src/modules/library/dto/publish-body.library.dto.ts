@@ -6,16 +6,13 @@ export class PublishLibraryBodyDto {
   @MaxLength(255)
   spaceDisplayName: string
 
-  @IsOptional()
   @IsString()
-  @IsNotEmpty()
   @MaxLength(255)
-  templateName?: string
-
-  @IsOptional()
-  @IsString()
   @IsNotEmpty()
-  templateDescription?: string
+  templateName: string
+
+  @IsString()
+  templateDescription: string
 
   @IsOptional()
   @IsArray()

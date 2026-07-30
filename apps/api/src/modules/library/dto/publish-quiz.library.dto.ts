@@ -13,16 +13,13 @@ export class PublishQuizLibraryDto {
   @Type(() => PublishAuthorDto)
   author: PublishAuthorDto
 
-  @IsOptional()
   @IsString()
   @IsNotEmpty()
   @MaxLength(255)
-  templateName?: string
+  templateName: string
 
-  @IsOptional()
   @IsString()
-  @IsNotEmpty()
-  templateDescription?: string
+  templateDescription: string
 
   @IsOptional()
   @IsArray()

@@ -44,7 +44,7 @@ export class PublishQuizLibraryService implements IPublishQuizLibraryService {
     }
 
     const readyQuiz = {
-      title: templateName ?? quiz.title,
+      title: templateName,
       description: templateDescription,
       questions: questions.map((question) => this.prepareQuestionsService.prepareQuestionForPublishing(question)),
       author,
