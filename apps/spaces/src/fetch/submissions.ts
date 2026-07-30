@@ -6,7 +6,7 @@ export type SubmissionStatus = "in_review" | "approved" | "rejected";
 export interface QuizSubmissionDto {
   id: string;
   resourceId: string;
-  title: string;
+  quizTitle: string;
   dateSubmitted: string;
   status: SubmissionStatus;
   reason?: string;
@@ -137,7 +137,7 @@ export const getQuizSubmissionDetail = async (
   return {
     ...submission,
     id: String(quizResponse.data.id),
-    title: quizResponse.data.title,
+    quizTitle: quizResponse.data.title,
     description: "",
     langTags: quizResponse.data.langTags,
     tags: quizResponse.data.tags.map((tag) => tag.name),
@@ -190,7 +190,7 @@ export const getQuizSubmissions = async (
     ...data,
     data: data.data.map(({ quizTitle, ...submission }) => ({
       ...submission,
-      title: quizTitle,
+      quizTitle,
     })),
   };
 };
