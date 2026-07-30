@@ -14,36 +14,35 @@ export const useSubmissions = <T>(
   pageIndex: number,
   fetchSubmissions: FetchSubmissions<T>,
 ) => {
-  const [submissions, setSubmissions] = useState<T[]>([]);
-  const [total, setTotal] = useState(0);
-  const [pageSize, setPageSize] = useState(DEFAULT_PAGE_LIMIT);
+  const emptyResult: SubmissionsPageDto<T> = {
+    data: [],
+    total: 0,
+    page: 1,
+    limit: DEFAULT_PAGE_LIMIT,
+  };
+  const [result, setResult] = useState<SubmissionsPageDto<T>>(emptyResult);
 
   useEffect(() => {
     if (!spaceId) {
-      setSubmissions([]);
-      setTotal(0);
-      setPageSize(DEFAULT_PAGE_LIMIT);
+      setResult(emptyResult);
       return;
     }
 
     fetchSubmissions(spaceId, { page: pageIndex + 1 })
-      .then(({ data, total, limit }) => {
-        setSubmissions(data);
-        setTotal(total);
-        setPageSize(limit);
+      .then((nextResult) => {
+        setResult(nextResult);
       })
       .catch((error) => {
         console.error("Failed to fetch submissions:", error);
-        setSubmissions([]);
-        setTotal(0);
-        setPageSize(DEFAULT_PAGE_LIMIT);
+        setResult(emptyResult);
       });
   }, [fetchSubmissions, pageIndex, spaceId]);
 
   return {
-    submissions,
-    total,
-    pageSize,
-    pageCount: Math.max(1, Math.ceil(total / pageSize)),
+    submissions: result.data,
+    total: result.total,
+    page: result.page,
+    limit: result.limit,
+    pageCount: Math.max(1, Math.ceil(result.total / result.limit)),
   };
 };

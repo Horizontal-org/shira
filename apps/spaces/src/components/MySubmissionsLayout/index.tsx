@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Body1,
   Button,
@@ -20,11 +20,15 @@ import {
   type QuizSubmissionDto,
   type QuizSubmissionDetailDto,
   type QuestionSubmissionDetailDto,
+  type SubmissionsPageDto,
 } from "../../fetch/submissions";
 import { SubmissionPreviewModal } from "../modals/SubmissionPreviewModal";
-import { TabContainer, type SubmissionResourceType } from "./components/TabContainer";
+import { TabContainer } from "./components/TabContainer";
 import { LayoutContainer } from "../LayoutStyleComponents/LayoutContainer";
-import { LayoutMainContent, LayoutMainContentWrapper } from "../LayoutStyleComponents/LayoutMainContent";
+import {
+  LayoutMainContent,
+  LayoutMainContentWrapper,
+} from "../LayoutStyleComponents/LayoutMainContent";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
 import { customMenuItems } from "../../utils/customMenuItems";
 import { usePublicLibrary } from "../../hooks/usePublicLibrary";
@@ -40,30 +44,33 @@ export const MySubmissionsLayout = () => {
   const { isPublicLibraryEnabled } = usePublicLibrary();
   const space = useStore((state) => state.space);
 
-  const [quizPageIndex, setQuizPageIndex] = useState(0);
-  const [questionPageIndex, setQuestionPageIndex] = useState(0);
-  const [activeResourceType, setActiveResourceType] = useState<SubmissionResourceType>("quiz_template");
+  const [pageIndex, setPageIndex] = useState(0);
+  const [activeResourceType, setActiveResourceType] =
+    useState<"quiz_template" | "question_template">("quiz_template");
   const [previewQuiz, setPreviewQuiz] = useState<QuizSubmissionDetailDto | null>(null);
   const [previewQuestion, setPreviewQuestion] = useState<QuestionSubmissionDetailDto | null>(null);
-  const quizSubmissions = useSubmissions(
-    space?.publicId,
-    quizPageIndex,
-    getQuizSubmissions,
+  const fetchSubmissions = useCallback((spaceId: string, params: { page: number })
+    : Promise<
+      SubmissionsPageDto<QuizSubmissionDto | QuestionSubmissionDto>
+    > =>
+    activeResourceType === "quiz_template"
+      ? getQuizSubmissions(spaceId, params)
+      : getQuestionSubmissions(spaceId, params),
+    [activeResourceType],
   );
-  const questionSubmissions = useSubmissions(
+  const submissionsResult = useSubmissions(
     space?.publicId,
-    questionPageIndex,
-    getQuestionSubmissions,
+    pageIndex,
+    fetchSubmissions,
   );
 
-  const {
-    isCollapsed,
-    handleCollapse,
-    menuItems,
-  } = useAdminSidebar(navigate, customMenuItems.map((item) => ({
-    ...item,
-    label: t(item.label),
-  })));
+  const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(
+    navigate,
+    customMenuItems.map((item) => ({
+      ...item,
+      label: t(item.label),
+    })),
+  );
 
   useEffect(() => {
     if (!isPublicLibraryEnabled) {
@@ -71,19 +78,12 @@ export const MySubmissionsLayout = () => {
     }
   }, [isPublicLibraryEnabled, navigate]);
 
-  const quizPaginationProps = usePaginationProps({
-    pageIndex: quizPageIndex,
-    pageCount: quizSubmissions.pageCount,
-    pageSize: quizSubmissions.pageSize,
-    setPageIndex: setQuizPageIndex,
-    total: quizSubmissions.total,
-  });
-  const questionPaginationProps = usePaginationProps({
-    pageIndex: questionPageIndex,
-    pageCount: questionSubmissions.pageCount,
-    pageSize: questionSubmissions.pageSize,
-    setPageIndex: setQuestionPageIndex,
-    total: questionSubmissions.total,
+  const paginationProps = usePaginationProps({
+    pageIndex,
+    pageCount: submissionsResult.pageCount,
+    pageSize: submissionsResult.limit,
+    setPageIndex,
+    total: submissionsResult.total,
   });
 
   const handlePreviewQuiz = async (submission: QuizSubmissionDto) => {
@@ -106,36 +106,49 @@ export const MySubmissionsLayout = () => {
 
   const activeSubmissions: SubmissionListItem[] =
     activeResourceType === "quiz_template"
-      ? quizSubmissions.submissions.map((submission) => ({
+      ? submissionsResult.submissions
+        .filter(
+          (submission): submission is QuizSubmissionDto =>
+            submission.resourceType === "quiz_template",
+        )
+        .map((submission) => ({
           resourceId: submission.resourceId,
           name: submission.quizTitle,
           dateSubmitted: submission.dateSubmitted,
           status: submission.status,
         }))
-      : questionSubmissions.submissions.map((submission) => ({
+      : submissionsResult.submissions
+        .filter(
+          (submission): submission is QuestionSubmissionDto =>
+            submission.resourceType === "question_template",
+        )
+        .map((submission) => ({
           resourceId: submission.resourceId,
           name: submission.questionName,
           dateSubmitted: submission.dateSubmitted,
           status: submission.status,
         }));
-  const activePaginationProps =
-    activeResourceType === "quiz_template"
-      ? quizPaginationProps
-      : questionPaginationProps;
-
   const handlePreview = (resourceId: string) => {
+    const submission = submissionsResult.submissions.find(
+      (item) => item.resourceId === resourceId,
+    );
+    if (!submission) return;
+
     if (activeResourceType === "quiz_template") {
-      const submission = quizSubmissions.submissions.find(
-        (item) => item.resourceId === resourceId,
-      );
-      if (submission) handlePreviewQuiz(submission);
+      if (submission.resourceType === "quiz_template")
+        handlePreviewQuiz(submission);
       return;
     }
 
-    const submission = questionSubmissions.submissions.find(
-      (item) => item.resourceId === resourceId,
-    );
-    if (submission) handlePreviewQuestion(submission);
+    if (submission.resourceType === "question_template")
+      handlePreviewQuestion(submission);
+  };
+
+  const handleActiveResourceTypeChange = (
+    resourceType: "quiz_template" | "question_template",
+  ) => {
+    setActiveResourceType(resourceType);
+    setPageIndex(0);
   };
 
   return (
@@ -143,7 +156,9 @@ export const MySubmissionsLayout = () => {
       <Sidebar
         menuItems={menuItems}
         onCollapse={handleCollapse}
-        selectedItemLabel={menuItems.find((m) => m.path === "/template-library").label}
+        selectedItemLabel={
+          menuItems.find((m) => m.path === "/template-library").label
+        }
       />
 
       <LayoutMainContent $isCollapsed={isCollapsed}>
@@ -172,9 +187,9 @@ export const MySubmissionsLayout = () => {
           <TabContainer
             resourceType={activeResourceType}
             submissions={activeSubmissions}
-            paginationProps={activePaginationProps}
+            paginationProps={paginationProps}
             onPreview={handlePreview}
-            onActiveResourceTypeChange={setActiveResourceType}
+            onActiveResourceTypeChange={handleActiveResourceTypeChange}
           />
           <SubmissionPreviewModal
             quiz={previewQuiz}
