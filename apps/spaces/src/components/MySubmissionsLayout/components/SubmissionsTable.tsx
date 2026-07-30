@@ -3,13 +3,14 @@ import type { ColumnDef } from "@tanstack/react-table";
 import type { ComponentProps } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { MdCalendarMonth } from "react-icons/md";
+import { MdCalendarMonth, MdRemoveRedEye } from "react-icons/md";
 import type { SubmissionStatus } from "../../../fetch/submissions";
 import { formatLocaleDate } from "../../../language/dateUtils";
 import i18n from "../../../language/i18n";
 import { SubmissionStatusPill } from "../../SubmissionStatusPill";
 
 export type SubmissionListItem = {
+  resourceId: string;
   name: string;
   dateSubmitted: string;
   status: SubmissionStatus;
@@ -19,9 +20,10 @@ interface SubmissionsTableProps {
   type: "quizzes" | "questions";
   submissions: SubmissionListItem[];
   paginationProps: ComponentProps<typeof CardPagination>;
+  onPreview: (resourceId: string) => void;
 }
 
-export const SubmissionsTable = ({ type, submissions, paginationProps }: SubmissionsTableProps) => {
+export const SubmissionsTable = ({ type, submissions, paginationProps, onPreview }: SubmissionsTableProps) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
@@ -48,6 +50,20 @@ export const SubmissionsTable = ({ type, submissions, paginationProps }: Submiss
       accessorKey: "status",
       cell: ({ row }) =>
         <SubmissionStatusPill status={row.original.status} />,
+    },
+    {
+      header: t("templates.submissions_table.actions"),
+      id: "actions",
+      cell: ({ row }) => (
+        <PreviewActionButton
+          type="button"
+          title={t("templates.submissions_table.preview")}
+          aria-label={t("templates.submissions_table.preview")}
+          onClick={() => onPreview(row.original.resourceId)}
+        >
+          <MdRemoveRedEye size={20} color={defaultTheme.colors.dark.darkGrey} />
+        </PreviewActionButton>
+      ),
     },
   ];
 
@@ -90,9 +106,10 @@ export const SubmissionsTable = ({ type, submissions, paginationProps }: Submiss
         enableRowHover={false}
         colGroups={(
           <colgroup>
-            <col style={{ width: "60%" }} />
-            <col style={{ width: "24%" }} />
+            <col style={{ width: "54%" }} />
+            <col style={{ width: "20%" }} />
             <col style={{ width: "16%" }} />
+            <col style={{ width: "10%" }} />
           </colgroup>
         )}
       />
@@ -170,4 +187,14 @@ const DateCell = styled.div`
   align-items: center;
   gap: 6px;
   color: ${defaultTheme.colors.dark.darkGrey};
+`;
+
+const PreviewActionButton = styled.button`
+  all: unset;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 `;

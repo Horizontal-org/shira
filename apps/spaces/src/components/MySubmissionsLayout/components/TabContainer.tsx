@@ -11,6 +11,8 @@ type Props = {
   quizSubmissions: QuizSubmissionDto[];
   questionPaginationProps: ComponentProps<typeof CardPagination>;
   quizPaginationProps: ComponentProps<typeof CardPagination>;
+  onPreviewQuiz: (submission: QuizSubmissionDto) => void;
+  onPreviewQuestion: (submission: QuestionSubmissionDto) => void;
 };
 
 export const TabContainer: FunctionComponent<Props> = ({
@@ -18,6 +20,8 @@ export const TabContainer: FunctionComponent<Props> = ({
   quizSubmissions,
   questionPaginationProps,
   quizPaginationProps,
+  onPreviewQuiz,
+  onPreviewQuestion,
 }) => {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<TabType>("quizzes");
@@ -25,11 +29,13 @@ export const TabContainer: FunctionComponent<Props> = ({
   const submissions: SubmissionListItem[] =
     activeTab === "quizzes"
       ? quizSubmissions.map((submission) => ({
+        resourceId: submission.resourceId,
         name: submission.title,
         dateSubmitted: submission.dateSubmitted,
         status: submission.status,
       }))
       : questionSubmissions.map((submission) => ({
+        resourceId: submission.resourceId,
         name: submission.questionName,
         dateSubmitted: submission.dateSubmitted,
         status: submission.status,
@@ -62,6 +68,16 @@ export const TabContainer: FunctionComponent<Props> = ({
         type={activeTab}
         submissions={submissions}
         paginationProps={activeTab === "quizzes" ? quizPaginationProps : questionPaginationProps}
+        onPreview={(resourceId) => {
+          if (activeTab === "quizzes") {
+            const submission = quizSubmissions.find((item) => item.resourceId === resourceId);
+            if (submission) onPreviewQuiz(submission);
+            return;
+          }
+
+          const submission = questionSubmissions.find((item) => item.resourceId === resourceId);
+          if (submission) onPreviewQuestion(submission);
+        }}
       />
     </Container>
   );

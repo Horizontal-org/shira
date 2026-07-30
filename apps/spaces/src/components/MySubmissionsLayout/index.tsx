@@ -15,10 +15,16 @@ import {
   DEFAULT_SUBMISSIONS_PAGE_LIMIT,
   getQuestionSubmissions,
   getQuizSubmissions,
+  getQuestionSubmissionDetail,
+  getQuizSubmissionDetail,
   type QuestionSubmissionDto,
+  type QuestionSubmissionDetailDto,
   type QuizSubmissionDto,
+  type QuizSubmissionDetailDto,
 } from "../../fetch/submissions";
+import toast from "react-hot-toast";
 import { TabContainer } from "./components/TabContainer";
+import { SubmissionPreviewModal } from "../modals/SubmissionPreviewModal";
 import { LayoutContainer } from "../LayoutStyleComponents/LayoutContainer";
 import { LayoutMainContent, LayoutMainContentWrapper } from "../LayoutStyleComponents/LayoutMainContent";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
@@ -42,6 +48,8 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
   const [totalQuestionSubmissions, setTotalQuestionSubmissions] = useState(0);
   const [quizPageIndex, setQuizPageIndex] = useState(0);
   const [questionPageIndex, setQuestionPageIndex] = useState(0);
+  const [previewQuiz, setPreviewQuiz] = useState<QuizSubmissionDetailDto | null>(null);
+  const [previewQuestion, setPreviewQuestion] = useState<QuestionSubmissionDetailDto | null>(null);
 
   const {
     isCollapsed,
@@ -135,6 +143,24 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
     total: totalQuestionSubmissions,
   });
 
+  const handlePreviewQuiz = async (submission: QuizSubmissionDto) => {
+    try {
+      setPreviewQuestion(null);
+      setPreviewQuiz(await getQuizSubmissionDetail(submission));
+    } catch (error) {
+      console.error("Failed to load quiz submission preview:", error);
+    }
+  };
+
+  const handlePreviewQuestion = async (submission: QuestionSubmissionDto) => {
+    try {
+      setPreviewQuiz(null);
+      setPreviewQuestion(await getQuestionSubmissionDetail(submission));
+    } catch (error) {
+      console.error("Failed to load question submission preview:", error);
+    }
+  };
+
   return (
     <LayoutContainer>
       <Sidebar
@@ -171,6 +197,16 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
             questionSubmissions={questionSubmissions}
             quizPaginationProps={quizPaginationProps}
             questionPaginationProps={questionPaginationProps}
+            onPreviewQuiz={handlePreviewQuiz}
+            onPreviewQuestion={handlePreviewQuestion}
+          />
+          <SubmissionPreviewModal
+            quiz={previewQuiz}
+            question={previewQuestion}
+            onClose={() => {
+              setPreviewQuiz(null);
+              setPreviewQuestion(null);
+            }}
           />
         </LayoutMainContentWrapper>
       </LayoutMainContent>
