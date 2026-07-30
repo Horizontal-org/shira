@@ -59,7 +59,7 @@ export const QuizSubmissionPreview: FunctionComponent<Props> = ({ quiz, onClose 
   if (fullPreviewQuestion) {
     return (
       <FullQuizPreviewScreen
-        quiz={{ title: quiz.title }}
+        quiz={{ title: quiz.quizTitle }}
         questions={previewQuestions}
         question={fullPreviewQuestion}
         onBack={() => setFullPreviewQuestionId(null)}
@@ -106,7 +106,7 @@ export const QuizSubmissionPreview: FunctionComponent<Props> = ({ quiz, onClose 
   return (
     <PreviewQuizScreen
       onClose={onClose}
-      title={quiz.title}
+      title={quiz.quizTitle}
       subtitle={quiz.description}
       submissionStatusBanner={(
         <SubmissionStatusBanner status={quiz.status} reason={quiz.reason} />

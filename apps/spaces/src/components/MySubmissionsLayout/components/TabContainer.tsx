@@ -35,7 +35,7 @@ export const TabContainer: FunctionComponent<Props> = ({
   const submissions: SubmissionListItem[] = isQuizTab
     ? quizSubmissions.map((submission) => ({
       resourceId: submission.resourceId,
-      name: submission.title,
+      name: submission.quizTitle,
       dateSubmitted: submission.dateSubmitted,
       status: submission.status,
     }))

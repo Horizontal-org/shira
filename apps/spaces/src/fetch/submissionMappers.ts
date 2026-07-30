@@ -76,7 +76,7 @@ export const mapQuizSubmissionDetail = (submission: QuizSubmissionDto, quiz: Lib
   : QuizSubmissionDetailDto => ({
     ...submission,
     id: String(quiz.id),
-    title: quiz.title,
+    quizTitle: quiz.title,
     description: "",
     langTags: quiz.langTags,
     tags: quiz.tags.map((tag) => tag.name),
