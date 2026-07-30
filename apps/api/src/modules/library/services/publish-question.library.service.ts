@@ -20,6 +20,7 @@ export class PublishQuestionLibraryService implements IPublishQuestionLibrarySer
       questionId,
       spaceId,
       author,
+      templateName,
       langTagIds,
       tagIds
     } = dto
@@ -32,6 +33,7 @@ export class PublishQuestionLibraryService implements IPublishQuestionLibrarySer
 
     const readyQuestion = {
       ...this.prepareQuestionsService.prepareQuestionForPublishing(question),
+      ...(templateName ? { name: templateName } : {}),
       author,
       langTagIds,
       tagIds

@@ -30,6 +30,12 @@ export class PublishQuestionLibraryDto {
   author: PublishAuthorDto
 
   @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(255)
+  templateName?: string
+
+  @IsOptional()
   @IsArray()
   @IsNumber({}, { each: true })
   langTagIds?: number[]

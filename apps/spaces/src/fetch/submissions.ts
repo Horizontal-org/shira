@@ -92,7 +92,7 @@ export interface LibraryQuestionTemplateDto {
 export interface LibraryQuizTemplateDto {
   id: number;
   title: string;
-  description?: string;
+  description: string;
   langTags: LanguageTagDto[];
   tags: Array<{ name: string }>;
 }
@@ -115,6 +115,8 @@ interface GetSubmissionsParams {
 
 export interface PublishSubmissionPayload {
   spaceDisplayName: string;
+  templateName?: string;
+  templateDescription?: string;
   langTagIds?: number[];
   tagIds?: number[];
 }

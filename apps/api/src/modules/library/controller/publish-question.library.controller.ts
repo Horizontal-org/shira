@@ -27,6 +27,7 @@ export class PublishQuestionLibraryController {
     await this.publishService.execute({
       questionId,
       spaceId: user.activeSpace.space.id,
+      templateName: body.templateName,
       langTagIds: body.langTagIds,
       tagIds: body.tagIds,
       author: {

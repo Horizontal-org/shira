@@ -80,7 +80,7 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
   const canSubmit = Boolean(
     submission.id
     && name.trim()
-    && description.trim()
+    && (!questionId || description.trim())
     && languageIds.length
     && tagIds.length
     && acceptedTerms
@@ -97,6 +97,8 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
     try {
       const payload = {
         spaceDisplayName: space.name,
+        templateName: name.trim(),
+        ...(questionId ? {} : { templateDescription: description.trim() }),
         langTagIds: languageIds.map(Number),
         tagIds: tagIds.map(Number),
       };
@@ -161,17 +163,19 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
             />
           </Field>
 
-          <Field>
-            <FieldTitle>{t(`${submission.translationKey}.description`)}</FieldTitle>
-            <Hint>{t(`${submission.translationKey}.description_hint`)}</Hint>
-            <TextInput
-              id="quiz-template-description"
-              label={t(`${submission.translationKey}.description_placeholder`)}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder={t(`${submission.translationKey}.description_placeholder`)}
-              value={description}
-            />
-          </Field>
+          {!questionId && (
+            <Field>
+              <FieldTitle>{t(`${submission.translationKey}.description`)}</FieldTitle>
+              <Hint>{t(`${submission.translationKey}.description_hint`)}</Hint>
+              <TextInput
+                id="quiz-template-description"
+                label={t(`${submission.translationKey}.description_placeholder`)}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder={t(`${submission.translationKey}.description_placeholder`)}
+                value={description}
+              />
+            </Field>
+          )}
 
           <Field>
             <FieldTitle>{t("templates.submit_quiz.language")}</FieldTitle>

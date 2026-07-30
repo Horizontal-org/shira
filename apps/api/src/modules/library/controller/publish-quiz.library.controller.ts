@@ -27,6 +27,8 @@ export class PublishQuizLibraryController {
     await this.publishService.execute({
       quizId,
       spaceId: user.activeSpace.space.id,
+      templateName: body.templateName,
+      templateDescription: body.templateDescription,
       langTagIds: body.langTagIds,
       tagIds: body.tagIds,
       author: {

@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer'
-import { IsArray, IsNumber, IsOptional } from 'class-validator'
+import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength } from 'class-validator'
 
 import { PublishAuthorDto } from './publish-question.library.dto'
 
@@ -12,6 +12,17 @@ export class PublishQuizLibraryDto {
 
   @Type(() => PublishAuthorDto)
   author: PublishAuthorDto
+
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(255)
+  templateName?: string
+
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  templateDescription?: string
 
   @IsOptional()
   @IsArray()
