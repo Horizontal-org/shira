@@ -158,7 +158,6 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
       setPreviewQuiz(await getQuizSubmissionDetail(submission));
     } catch (error) {
       console.error("Failed to load quiz submission preview:", error);
-      toast.error(t("templates.submissions_table.preview_error"));
     }
   };
 
@@ -168,7 +167,6 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
       setPreviewQuestion(await getQuestionSubmissionDetail(submission));
     } catch (error) {
       console.error("Failed to load question submission preview:", error);
-      toast.error(t("templates.submissions_table.preview_error"));
     }
   };
 

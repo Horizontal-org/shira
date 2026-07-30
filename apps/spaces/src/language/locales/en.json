@@ -285,7 +285,7 @@
             "title": "Submission status",
             "help_tooltip": "Please email the Shira team if you have questions or need support.",
             "in_review": "In review",
-            "accepted": "Accepted",
+            "approved": "Approved",
             "rejected": "Rejected"
         },
         "submissions_empty_state": {

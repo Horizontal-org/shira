@@ -206,8 +206,4 @@ const PreviewActionButton = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
-  &:disabled {
-    cursor: not-allowed;
-  }
 `;
