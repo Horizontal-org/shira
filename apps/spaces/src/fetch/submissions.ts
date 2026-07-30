@@ -72,6 +72,8 @@ export interface PublishSubmissionPayload {
 
 interface QuizSubmissionApiDto {
   id: string;
+  resourceId: string;
+  resourceType: "quiz_template";
   quizTitle: string;
   dateSubmitted: string;
   status: SubmissionStatus;
@@ -220,7 +222,8 @@ export const getQuizSubmissions = async (
 
   return {
     ...data,
-    data: data.data.map(({ quizTitle, ...submission }) => ({
+    data: data.data.map(({ id, quizTitle, ...submission }) => ({
+      id,
       ...submission,
       quizTitle,
     })),

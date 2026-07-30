@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Body1,
   Button,
@@ -12,7 +12,6 @@ import { useNavigate } from "react-router-dom";
 import { Trans, useTranslation } from "react-i18next";
 import { FiArrowLeft } from "react-icons/fi";
 import {
-  DEFAULT_PAGE_LIMIT,
   getQuestionSubmissions,
   getQuizSubmissions,
   getQuizSubmissionDetail,
@@ -23,7 +22,6 @@ import {
   type QuestionSubmissionDetailDto,
 } from "../../fetch/submissions";
 import { SubmissionPreviewModal } from "../modals/SubmissionPreviewModal";
-import toast from "react-hot-toast";
 import { TabContainer, type SubmissionResourceType } from "./components/TabContainer";
 import { LayoutContainer } from "../LayoutStyleComponents/LayoutContainer";
 import { LayoutMainContent, LayoutMainContentWrapper } from "../LayoutStyleComponents/LayoutMainContent";
@@ -33,6 +31,7 @@ import { usePublicLibrary } from "../../hooks/usePublicLibrary";
 import { useStore } from "../../store";
 import { usePaginationProps } from "../../hooks/usePaginationProps";
 import { useSubmissions } from "./hooks/useSubmissions";
+import type { SubmissionListItem } from "./components/SubmissionsTable";
 
 export const MySubmissionsLayout = () => {
   const { t } = useTranslation();
@@ -75,14 +74,14 @@ export const MySubmissionsLayout = () => {
   const quizPaginationProps = usePaginationProps({
     pageIndex: quizPageIndex,
     pageCount: quizSubmissions.pageCount,
-    pageSize: DEFAULT_PAGE_LIMIT,
+    pageSize: quizSubmissions.pageSize,
     setPageIndex: setQuizPageIndex,
     total: quizSubmissions.total,
   });
   const questionPaginationProps = usePaginationProps({
     pageIndex: questionPageIndex,
     pageCount: questionSubmissions.pageCount,
-    pageSize: DEFAULT_PAGE_LIMIT,
+    pageSize: questionSubmissions.pageSize,
     setPageIndex: setQuestionPageIndex,
     total: questionSubmissions.total,
   });
@@ -103,6 +102,40 @@ export const MySubmissionsLayout = () => {
     } catch (error) {
       console.error("Failed to load question submission preview:", error);
     }
+  };
+
+  const activeSubmissions: SubmissionListItem[] =
+    activeResourceType === "quiz_template"
+      ? quizSubmissions.submissions.map((submission) => ({
+          resourceId: submission.resourceId,
+          name: submission.quizTitle,
+          dateSubmitted: submission.dateSubmitted,
+          status: submission.status,
+        }))
+      : questionSubmissions.submissions.map((submission) => ({
+          resourceId: submission.resourceId,
+          name: submission.questionName,
+          dateSubmitted: submission.dateSubmitted,
+          status: submission.status,
+        }));
+  const activePaginationProps =
+    activeResourceType === "quiz_template"
+      ? quizPaginationProps
+      : questionPaginationProps;
+
+  const handlePreview = (resourceId: string) => {
+    if (activeResourceType === "quiz_template") {
+      const submission = quizSubmissions.submissions.find(
+        (item) => item.resourceId === resourceId,
+      );
+      if (submission) handlePreviewQuiz(submission);
+      return;
+    }
+
+    const submission = questionSubmissions.submissions.find(
+      (item) => item.resourceId === resourceId,
+    );
+    if (submission) handlePreviewQuestion(submission);
   };
 
   return (
@@ -137,13 +170,10 @@ export const MySubmissionsLayout = () => {
           </HeaderContainer>
 
           <TabContainer
-            quizSubmissions={quizSubmissions.submissions}
-            questionSubmissions={questionSubmissions.submissions}
-            quizPaginationProps={quizPaginationProps}
-            questionPaginationProps={questionPaginationProps}
-            onPreviewQuiz={handlePreviewQuiz}
-            onPreviewQuestion={handlePreviewQuestion}
-            activeResourceType={activeResourceType}
+            resourceType={activeResourceType}
+            submissions={activeSubmissions}
+            paginationProps={activePaginationProps}
+            onPreview={handlePreview}
             onActiveResourceTypeChange={setActiveResourceType}
           />
           <SubmissionPreviewModal
