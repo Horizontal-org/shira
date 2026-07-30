@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const DEFAULT_SUBMISSIONS_PAGE_LIMIT = 20;
-export type SubmissionStatus = "in_review" | "accepted" | "rejected";
+export type SubmissionStatus = "in_review" | "approved" | "rejected";
 
 export interface QuizSubmissionDto {
   id: string;

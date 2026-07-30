@@ -25,7 +25,7 @@ const statusConfig: Record<SubmissionStatus, {
     color: defaultTheme.colors.dark.darkGrey,
     icon: (size) => <FaRegClock size={size} color={defaultTheme.colors.dark.darkGrey} />,
   },
-  accepted: {
+  approved: {
     background: defaultTheme.colors.light.paleGreen,
     outlinedBackground: defaultTheme.colors.light.paleGreen,
     borderColor: defaultTheme.colors.green8,
