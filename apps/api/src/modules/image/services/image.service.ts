@@ -63,6 +63,20 @@ export class ImageService implements IImageService {
     });
   }
   
+  public async download(relativePath: string): Promise<Buffer> {
+    try {
+      const stream = await this.minioService.getObject(this._bucketName, relativePath)
+      const chunks: Buffer[] = []
+      for await (const chunk of stream) {
+        chunks.push(chunk)
+      }
+      return Buffer.concat(chunks)
+    } catch (e) {
+      console.log("🚀 ~ ImageService ~ download ~ e:", e)
+      throw new ServiceUnavailableException()
+    }
+  }
+
   public async delete(imagePath: string): Promise<void> {
     console.log("🚀 ~ ImageService ~ delete ~ imagePath:", imagePath)
     try {
