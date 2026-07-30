@@ -7,7 +7,7 @@ import {
   type LibraryQuizTemplateDto,
 } from "./submissionMappers";
 
-export const DEFAULT_SUBMISSIONS_PAGE_LIMIT = 20;
+export const DEFAULT_PAGE_LIMIT = 20;
 export type SubmissionStatus = "in_review" | "accepted" | "rejected";
 
 export interface QuizSubmissionDto {
@@ -130,7 +130,7 @@ export const getQuestionSubmissions = async (
   publicSpaceId: string,
   {
     page = 1,
-    limit = DEFAULT_SUBMISSIONS_PAGE_LIMIT,
+    limit = DEFAULT_PAGE_LIMIT,
   }: GetSubmissionsParams = {},
 ): Promise<SubmissionsPageDto<QuestionSubmissionDto>> => {
   const { data } = await axios.get<SubmissionsPageDto<QuestionSubmissionDto>>
@@ -145,7 +145,7 @@ export const getQuizSubmissions = async (
   publicSpaceId: string,
   {
     page = 1,
-    limit = DEFAULT_SUBMISSIONS_PAGE_LIMIT,
+    limit = DEFAULT_PAGE_LIMIT,
   }: GetSubmissionsParams = {},
 ): Promise<SubmissionsPageDto<QuizSubmissionDto>> => {
   const { data } = await axios.get<SubmissionsPageDto<QuizSubmissionApiDto>>

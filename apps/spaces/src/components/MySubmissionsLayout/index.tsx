@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { Trans, useTranslation } from "react-i18next";
 import { FiArrowLeft } from "react-icons/fi";
 import {
-  DEFAULT_SUBMISSIONS_PAGE_LIMIT,
+  DEFAULT_PAGE_LIMIT,
   getQuestionSubmissions,
   getQuizSubmissions,
   getQuizSubmissionDetail,
@@ -24,7 +24,7 @@ import {
 } from "../../fetch/submissions";
 import { SubmissionPreviewModal } from "../modals/SubmissionPreviewModal";
 import toast from "react-hot-toast";
-import { TabContainer } from "./components/TabContainer";
+import { TabContainer, type SubmissionResourceType } from "./components/TabContainer";
 import { LayoutContainer } from "../LayoutStyleComponents/LayoutContainer";
 import { LayoutMainContent, LayoutMainContentWrapper } from "../LayoutStyleComponents/LayoutMainContent";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
@@ -48,6 +48,7 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
   const [totalQuestionSubmissions, setTotalQuestionSubmissions] = useState(0);
   const [quizPageIndex, setQuizPageIndex] = useState(0);
   const [questionPageIndex, setQuestionPageIndex] = useState(0);
+  const [activeResourceType, setActiveResourceType] = useState<SubmissionResourceType>("quiz_template");
   const [previewQuiz, setPreviewQuiz] = useState<QuizSubmissionDetailDto | null>(null);
   const [previewQuestion, setPreviewQuestion] = useState<QuestionSubmissionDetailDto | null>(null);
 
@@ -67,6 +68,10 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
   }, [isPublicLibraryEnabled, navigate]);
 
   useEffect(() => {
+    if (activeResourceType !== "quiz_template") {
+      return;
+    }
+
     const loadQuizSubmissions = async () => {
       if (!space?.publicId) {
         setQuizSubmissions([]);
@@ -95,9 +100,13 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
     };
 
     loadQuizSubmissions();
-  }, [space?.publicId, quizPageIndex]);
+  }, [activeResourceType, space?.publicId, quizPageIndex]);
 
   useEffect(() => {
+    if (activeResourceType !== "question_template") {
+      return;
+    }
+
     const loadQuestionSubmissions = async () => {
       if (!space?.publicId) {
         setQuestionSubmissions([]);
@@ -126,19 +135,19 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
     };
 
     loadQuestionSubmissions();
-  }, [space?.publicId, questionPageIndex]);
+  }, [activeResourceType, space?.publicId, questionPageIndex]);
 
   const quizPaginationProps = usePaginationProps({
     pageIndex: quizPageIndex,
-    pageCount: Math.max(1, Math.ceil(totalQuizSubmissions / DEFAULT_SUBMISSIONS_PAGE_LIMIT)),
-    pageSize: DEFAULT_SUBMISSIONS_PAGE_LIMIT,
+    pageCount: Math.max(1, Math.ceil(totalQuizSubmissions / DEFAULT_PAGE_LIMIT)),
+    pageSize: DEFAULT_PAGE_LIMIT,
     setPageIndex: setQuizPageIndex,
     total: totalQuizSubmissions,
   });
   const questionPaginationProps = usePaginationProps({
     pageIndex: questionPageIndex,
-    pageCount: Math.max(1, Math.ceil(totalQuestionSubmissions / DEFAULT_SUBMISSIONS_PAGE_LIMIT)),
-    pageSize: DEFAULT_SUBMISSIONS_PAGE_LIMIT,
+    pageCount: Math.max(1, Math.ceil(totalQuestionSubmissions / DEFAULT_PAGE_LIMIT)),
+    pageSize: DEFAULT_PAGE_LIMIT,
     setPageIndex: setQuestionPageIndex,
     total: totalQuestionSubmissions,
   });
@@ -201,6 +210,8 @@ export const MySubmissionsLayout: FunctionComponent<Props> = () => {
             questionPaginationProps={questionPaginationProps}
             onPreviewQuiz={handlePreviewQuiz}
             onPreviewQuestion={handlePreviewQuestion}
+            activeResourceType={activeResourceType}
+            onActiveResourceTypeChange={setActiveResourceType}
           />
           <SubmissionPreviewModal
             quiz={previewQuiz}

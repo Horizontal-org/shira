@@ -36,7 +36,7 @@ import { ConfirmEmailUpdateLayout } from './components/ConfirmEmailUpdateLayout'
 import { CheckoutSuccessRedirect } from './components/CheckoutSuccessRedirect';
 import { TemplatesLayout } from './components/TemplatesLayout';
 import { MySubmissionsLayout } from './components/MySubmissionsLayout';
-import { TemplateSubmissionLayout } from './components/QuizTemplateSubmissionLayout';
+import { TemplateSubmissionLayout } from './components/TemplateSubmissionLayout';
 
 function App() {
 

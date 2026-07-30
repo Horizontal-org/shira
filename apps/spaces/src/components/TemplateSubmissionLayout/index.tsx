@@ -23,10 +23,10 @@ import { BiSolidTag } from "react-icons/bi";
 import { Trans, useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
 import {
-  getQuizTemplateLanguageOptions,
-  getQuizTemplateTagOptions,
-  type QuizTemplateFilterOption,
-} from "../../fetch/quiz_templates";
+  getLibraryLanguageOptions,
+  getLibraryTagOptions,
+  type LibraryFilterOption,
+} from "../../fetch/library_metadata";
 import { publishQuestionSubmission, publishQuizSubmission } from "../../fetch/submissions";
 import { useStore } from "../../store";
 import { GenericErrorModal } from "../modals/ErrorModal";
@@ -40,25 +40,35 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
   const { t } = useTranslation();
   const space = useStore((state) => state.space);
 
-  const isQuestionSubmission = Boolean(questionId);
-  const translationKey = isQuestionSubmission ? "templates.submit_question" : "templates.submit_quiz";
-  const [name, setName] = useState(
-    isQuestionSubmission ? location.state?.questionName ?? "" : location.state?.quizTitle ?? "",
-  );
+  const submission = questionId
+    ? {
+      id: questionId,
+      initialName: location.state?.questionName,
+      publish: publishQuestionSubmission,
+      translationKey: "templates.submit_question",
+    }
+    : {
+      id: quizId,
+      initialName: location.state?.quizTitle,
+      publish: publishQuizSubmission,
+      translationKey: "templates.submit_quiz",
+    };
+
+  const [name, setName] = useState(submission.initialName);
   const [description, setDescription] = useState("");
-  const [languages, setLanguages] = useState<string[]>([]);
-  const [tags, setTags] = useState<string[]>([]);
+  const [languageIds, setLanguageIds] = useState<string[]>([]);
+  const [tagIds, setTagIds] = useState<string[]>([]);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
-  const [languageOptions, setLanguageOptions] = useState<QuizTemplateFilterOption[]>([]);
-  const [tagOptions, setTagOptions] = useState<QuizTemplateFilterOption[]>([]);
+  const [languageOptions, setLanguageOptions] = useState<LibraryFilterOption[]>([]);
+  const [tagOptions, setTagOptions] = useState<LibraryFilterOption[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionError, setSubmissionError] = useState(false);
 
   useEffect(() => {
     const loadOptions = async () => {
       const [nextLanguages, nextTags] = await Promise.all([
-        getQuizTemplateLanguageOptions(),
-        getQuizTemplateTagOptions(),
+        getLibraryLanguageOptions(),
+        getLibraryTagOptions(),
       ]);
       setLanguageOptions(nextLanguages);
       setTagOptions(nextTags);
@@ -68,42 +78,32 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
   }, []);
 
   const canSubmit = Boolean(
-    (isQuestionSubmission ? questionId : quizId)
+    submission.id
     && name.trim()
     && description.trim()
-    && languages.length
-    && tags.length
+    && languageIds.length
+    && tagIds.length
     && acceptedTerms
     && space?.name,
   );
 
   const handleSubmit = async () => {
-    const resourceId = isQuestionSubmission ? questionId : quizId;
-    if (!canSubmit || !resourceId || !space?.name) {
+    if (!canSubmit || !submission.id || !space?.name) {
       return;
     }
-
-    const optionIds = (selectedValues: string[], options: QuizTemplateFilterOption[]) => (
-      selectedValues.flatMap((value) => {
-        const id = options.find((option) => option.value === value)?.id;
-        return typeof id === "number" ? [id] : [];
-      })
-    );
 
     setIsSubmitting(true);
 
     try {
       const payload = {
         spaceDisplayName: space.name,
-        langTagIds: optionIds(languages, languageOptions),
-        tagIds: optionIds(tags, tagOptions),
+        langTagIds: languageIds.map(Number),
+        tagIds: tagIds.map(Number),
       };
-      if (isQuestionSubmission) {
-        await publishQuestionSubmission(Number(resourceId), payload);
-      } else {
-        await publishQuizSubmission(Number(resourceId), payload);
-      }
-      toast.success(t(`${translationKey}.success`));
+
+      await submission.publish(Number(submission.id), payload);
+
+      toast.success(t(`${submission.translationKey}.success`));
       navigate("/template-library/my-submissions");
     } catch (error) {
       console.error("Failed to submit template:", error);
@@ -119,11 +119,11 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
         <HeaderLeft>
           <LogoFrame><Logo /></LogoFrame>
           <CloseButton
-            aria-label={t(`${translationKey}.header_title`)}
+            aria-label={t(`${submission.translationKey}.header_title`)}
             iconSize={22}
             onClick={() => navigate(-1)}
           />
-          <Body2Regular>{t(`${translationKey}.header_title`)}</Body2Regular>
+          <Body2Regular>{t(`${submission.translationKey}.header_title`)}</Body2Regular>
         </HeaderLeft>
         <Button
           disabled={!canSubmit || isSubmitting}
@@ -138,7 +138,7 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
 
       <Content>
         <FormCard>
-          <SubHeading1>{t(`${translationKey}.title`)}</SubHeading1>
+          <SubHeading1>{t(`${submission.translationKey}.title`)}</SubHeading1>
           <Subtitle>
             <Body1>{t("templates.submit_quiz.intro")}</Body1>
             <Body1>
@@ -150,25 +150,25 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
           </Subtitle>
 
           <Field>
-            <FieldTitle>{t(`${translationKey}.name`)}</FieldTitle>
-            <Hint>{t(`${translationKey}.name_hint`)}</Hint>
+            <FieldTitle>{t(`${submission.translationKey}.name`)}</FieldTitle>
+            <Hint>{t(`${submission.translationKey}.name_hint`)}</Hint>
             <TextInput
               id="quiz-template-name"
-              label={t(`${translationKey}.name_placeholder`)}
+              label={t(`${submission.translationKey}.name_placeholder`)}
               onChange={(e) => setName(e.target.value)}
-              placeholder={t(`${translationKey}.name_placeholder`)}
+              placeholder={t(`${submission.translationKey}.name_placeholder`)}
               value={name}
             />
           </Field>
 
           <Field>
-            <FieldTitle>{t(`${translationKey}.description`)}</FieldTitle>
-            <Hint>{t(`${translationKey}.description_hint`)}</Hint>
+            <FieldTitle>{t(`${submission.translationKey}.description`)}</FieldTitle>
+            <Hint>{t(`${submission.translationKey}.description_hint`)}</Hint>
             <TextInput
               id="quiz-template-description"
-              label={t(`${translationKey}.description_placeholder`)}
+              label={t(`${submission.translationKey}.description_placeholder`)}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder={t(`${translationKey}.description_placeholder`)}
+              placeholder={t(`${submission.translationKey}.description_placeholder`)}
               value={description}
             />
           </Field>
@@ -185,10 +185,10 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
               ariaLabel={t("templates.submit_quiz.language")}
               isMulti
               leftIcon={<IoLanguage color={defaultTheme.colors.blue6} size={12} />}
-              onChange={(v) => setLanguages(v as string[])}
-              options={languageOptions}
+              onChange={(value) => setLanguageIds(value as string[])}
+              options={languageOptions.map(({ id, label }) => ({ value: String(id), label }))}
               placeholder={t("templates.submit_quiz.language_placeholder")}
-              value={languages}
+              value={languageIds}
             />
           </Field>
 
@@ -199,10 +199,10 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
               ariaLabel={t("templates.submit_quiz.tags")}
               isMulti
               leftIcon={<BiSolidTag color={defaultTheme.colors.warning4} size={12} style={{ transform: "rotate(180deg)" }} />}
-              onChange={(value) => setTags(value as string[])}
-              options={tagOptions}
+              onChange={(value) => setTagIds(value as string[])}
+              options={tagOptions.map(({ id, label }) => ({ value: String(id), label }))}
               placeholder={t("templates.submit_quiz.tags_placeholder")}
-              value={tags}
+              value={tagIds}
             />
           </Field>
 

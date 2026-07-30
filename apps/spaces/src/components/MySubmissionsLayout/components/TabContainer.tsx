@@ -1,10 +1,10 @@
 import { CardPagination, styled } from "@horizontal-org/shira-ui";
-import { ComponentProps, FunctionComponent, useState } from "react";
+import { ComponentProps, FunctionComponent } from "react";
 import { useTranslation } from "react-i18next";
 import type { QuestionSubmissionDto, QuizSubmissionDto } from "../../../fetch/submissions";
 import { SubmissionsTable, type SubmissionListItem } from "./SubmissionsTable";
 
-type ResourceType = "quiz_template" | "question_template";
+export type SubmissionResourceType = "quiz_template" | "question_template";
 
 type Props = {
   questionSubmissions: QuestionSubmissionDto[];
@@ -13,6 +13,8 @@ type Props = {
   questionPaginationProps: ComponentProps<typeof CardPagination>;
   onPreviewQuiz: (submission: QuizSubmissionDto) => void;
   onPreviewQuestion: (submission: QuestionSubmissionDto) => void;
+  activeResourceType: SubmissionResourceType;
+  onActiveResourceTypeChange: (resourceType: SubmissionResourceType) => void;
 };
 
 export const TabContainer: FunctionComponent<Props> = ({
@@ -22,9 +24,10 @@ export const TabContainer: FunctionComponent<Props> = ({
   questionPaginationProps,
   onPreviewQuiz,
   onPreviewQuestion,
+  activeResourceType,
+  onActiveResourceTypeChange,
 }) => {
   const { t } = useTranslation();
-  const [activeResourceType, setActiveResourceType] = useState<ResourceType>("quiz_template");
 
   const isQuizTab = activeResourceType === "quiz_template";
   const paginationProps = isQuizTab ? quizPaginationProps : questionPaginationProps;
@@ -50,7 +53,7 @@ export const TabContainer: FunctionComponent<Props> = ({
           <TabButton
             id="my-submissions-quizzes-tab"
             $isActive={isQuizTab}
-            onClick={() => setActiveResourceType("quiz_template")}
+            onClick={() => onActiveResourceTypeChange("quiz_template")}
           >
             {t("templates.submissions_tabs.quizzes")}
           </TabButton>
@@ -58,7 +61,7 @@ export const TabContainer: FunctionComponent<Props> = ({
           <TabButton
             id="my-submissions-questions-tab"
             $isActive={!isQuizTab}
-            onClick={() => setActiveResourceType("question_template")}
+            onClick={() => onActiveResourceTypeChange("question_template")}
           >
             {t("templates.submissions_tabs.questions")}
           </TabButton>
