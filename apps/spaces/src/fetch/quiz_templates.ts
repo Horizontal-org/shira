@@ -9,6 +9,7 @@ export interface LibraryQuizDto {
   title: string;
   createdAt: string;
   author: string;
+  authorPublicSpaceId?: string;
   languages: string[];
   tags: string[];
 }
@@ -56,6 +57,7 @@ type LibraryQuizApiDto = {
   createdAt: string;
   author?: {
     displayName: string;
+    publicSpaceId: string;
   };
   langTags?: {
     id: number;
@@ -97,6 +99,7 @@ const normalizeQuizTemplate = (
   title: quiz.title,
   createdAt: quiz.createdAt,
   author: quiz.author?.displayName ?? DEFAULT_CREATOR_OPTIONS,
+  authorPublicSpaceId: quiz.author?.publicSpaceId,
   languages: (quiz.langTags ?? []).map((language) => language.name.trim()),
   tags: (quiz.tags ?? []).map((tag) => tag.name.trim()),
 });
