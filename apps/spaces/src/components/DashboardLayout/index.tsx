@@ -30,6 +30,8 @@ import { UseAQuizTemplateButton } from "../QuizLibraryListLayout/components/UseA
 import { AddQuizFromTemplateModal } from "../modals/AddQuizFromTemplateModal";
 import { LibraryQuizDto, type LibraryQuizQuestionTemplateDto } from "../../fetch/quiz_templates";
 import { customMenuItems } from "../../utils/customMenuItems";
+import { DisplayNameModal } from "../modals/DisplayNameModal";
+import { useTemplateSubmission } from "../../hooks/useTemplateSubmission";
 
 interface Props { }
 
@@ -98,6 +100,12 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const [unpublishedQuizId, setUnpublishedQuizId] = useState<number | null>(null);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const {
+    isDisplayNameModalOpen,
+    cancelTemplateSubmission,
+    continueTemplateSubmission,
+    startTemplateSubmission,
+  } = useTemplateSubmission(space?.publicId);
   const [isUnpublishedQuizCopyLinkModalOpen, setIsUnpublishedQuizCopyLinkModalOpen] = useState(false);
   const [isUnpublishQuizModalOpen, setIsUnpublishQuizModalOpen] = useState(false);
   const [isCheckoutSuccessModalOpen, setIsCheckoutSuccessModalOpen] = useState(
@@ -375,7 +383,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                         startDuplicateQuizFlow(card);
                       }}
                       onSubmitAsTemplate={() => {
-                        navigate(`/quiz/${card.id}/submit-template`, {
+                        startTemplateSubmission({
+                          path: `/quiz/${card.id}/submit-template`,
                           state: { quizTitle: card.title },
                         });
                       }}
@@ -501,6 +510,12 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           <CheckoutSuccessModal
             isModalOpen={isCheckoutSuccessModalOpen}
             onClose={closeCheckoutSuccessModal}
+          />
+
+          <DisplayNameModal
+            isOpen={isDisplayNameModalOpen}
+            onCancel={cancelTemplateSubmission}
+            onSave={continueTemplateSubmission}
           />
 
           <FirstLoginModal

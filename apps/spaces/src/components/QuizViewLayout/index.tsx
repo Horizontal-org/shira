@@ -39,6 +39,8 @@ import { useQuizCreationFlow } from "../../hooks/useQuizCreationFlow";
 import { useSub } from "../../hooks/useSub";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
 import { customMenuItems } from "../../utils/customMenuItems";
+import { DisplayNameModal } from "../modals/DisplayNameModal";
+import { useTemplateSubmission } from "../../hooks/useTemplateSubmission";
 
 interface Props { }
 
@@ -57,7 +59,8 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     reorderQuiz,
     createQuiz,
     fetchQuizzes,
-    quizzes
+    quizzes,
+    space,
   } = useStore((state) => ({
     updateQuiz: state.updateQuiz,
     deleteQuiz: state.deleteQuiz,
@@ -68,6 +71,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     createQuiz: state.createQuiz,
     fetchQuizzes: state.fetchQuizzes,
     quizzes: state.quizzes,
+    space: state.space,
   }), shallow)
   console.log("🚀 ~ QuizViewLayout ~ quizzes:", quizzes)
 
@@ -89,6 +93,12 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
+  const {
+    isDisplayNameModalOpen,
+    cancelTemplateSubmission,
+    continueTemplateSubmission,
+    startTemplateSubmission,
+  } = useTemplateSubmission(space?.publicId);
 
   const [isUnpublishedQuizModalOpen, setIsUnpublishedQuizModalOpen] = useState(false);
   const [isUnpublishQuizModalOpen, setIsUnpublishQuizModalOpen] = useState(false);
@@ -400,7 +410,8 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 }}
                 onSubmitAsTemplate={(questionId) => {
                   const question = quiz.quizQuestions.find((item) => item.question.id === questionId)?.question;
-                  navigate(`/quiz/${id}/question/${questionId}/submit-template`, {
+                  startTemplateSubmission({
+                    path: `/quiz/${id}/question/${questionId}/submit-template`,
                     state: { questionName: question?.name },
                   });
                 }}
@@ -488,6 +499,12 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 onConfirm={handleConfirmVisibility}
                 isSubmitting={isSubmitting}
                 privateForbidden={!isSubActive}
+              />
+
+              <DisplayNameModal
+                isOpen={isDisplayNameModalOpen}
+                onCancel={cancelTemplateSubmission}
+                onSave={continueTemplateSubmission}
               />
             </>
           ) : (

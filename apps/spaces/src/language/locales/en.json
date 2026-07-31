@@ -292,6 +292,11 @@
             "subtitle": "You don't have any submissions yet. To submit a resource that you have created, go to that specific resource and select \"submit as template.\"",
             "learn_more": "Learn more about templates"
         },
+        "display_name": {
+            "title": "Create display name",
+            "description": "Set the name that will be associated to the templates you publish in the library. This will be visible to everyone.",
+            "input": "Display name"
+        },
         "submit_quiz": {
             "header_title": "Submit quiz template",
             "submit": "Submit",

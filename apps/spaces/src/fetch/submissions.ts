@@ -122,6 +122,21 @@ export interface PublishSubmissionPayload {
   tagIds?: number[];
 }
 
+export const authorExists = async (publicSpaceId: string): Promise<boolean> => {
+  try {
+    await axios.get(`${libraryApiUrl}/authors/${publicSpaceId}/question-submissions`, {
+      params: { page: 1, limit: 1 },
+    });
+    return true;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response?.status === 404) {
+      return false;
+    }
+    console.error("Error checking author existence:", error);
+    return false;
+  }
+};
+
 export const publishQuizSubmission = async (
   quizId: number,
   payload: PublishSubmissionPayload,

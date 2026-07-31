@@ -31,7 +31,7 @@ import { publishQuestionSubmission, publishQuizSubmission } from "../../fetch/su
 import { useStore } from "../../store";
 import { GenericErrorModal } from "../modals/ErrorModal";
 
-type LocationState = { quizTitle?: string; questionName?: string };
+type LocationState = { quizTitle?: string; questionName?: string; displayName?: string };
 
 export const TemplateSubmissionLayout: FunctionComponent = () => {
   const { quizId, questionId } = useParams();
@@ -96,7 +96,7 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
 
     try {
       const payload = {
-        spaceDisplayName: space.name,
+        spaceDisplayName: location.state?.displayName ?? space.name,
         templateName: name.trim(),
         templateDescription: description.trim(),
         langTagIds: languageIds.map(Number),
