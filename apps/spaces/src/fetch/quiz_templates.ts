@@ -54,6 +54,9 @@ type LibraryQuizApiDto = {
   id: string | number;
   title: string;
   createdAt: string;
+  author?: {
+    displayName: string;
+  };
   langTags?: {
     id: number;
     name: string;
@@ -87,11 +90,13 @@ type QuizTemplateSortParams = {
   sortOrder: "asc" | "desc";
 };
 
-const normalizeQuizTemplate = (quiz: LibraryQuizApiDto): LibraryQuizDto => ({
+const normalizeQuizTemplate = (
+  quiz: LibraryQuizApiDto,
+): LibraryQuizDto => ({
   id: quiz.id,
   title: quiz.title,
   createdAt: quiz.createdAt,
-  author: DEFAULT_CREATOR_OPTIONS, // TODO author
+  author: quiz.author?.displayName ?? DEFAULT_CREATOR_OPTIONS,
   languages: (quiz.langTags ?? []).map((language) => language.name.trim()),
   tags: (quiz.tags ?? []).map((tag) => tag.name.trim()),
 });
