@@ -3,13 +3,14 @@ import {
   IsArray,
   IsBoolean,
   IsEnum,
+  IsInt,
   IsOptional,
   IsString,
   ValidateNested,
 } from "class-validator";
 import { SpaceEntity } from "src/modules/space/domain/space.entity";
 import { IsNotEmpty } from "src/utils/decorators/is-not-empty.decorator";
-import { QuizVisibility } from "../dto/quiz-visibility-enum.quiz";
+import { QuizVisibility } from "src/modules/quiz/dto/quiz-visibility-enum.quiz";
 
 class CreateTemplateQuizExplanationDto {
   @IsString()
@@ -20,6 +21,17 @@ class CreateTemplateQuizExplanationDto {
 
   @IsString()
   text: string;
+}
+
+export class CreateTemplateQuizImageDto {
+  @IsInt()
+  id: number;
+
+  @IsString()
+  name: string;
+
+  @IsString()
+  url: string;
 }
 
 export class CreateTemplateQuizQuestionDto {
@@ -40,6 +52,12 @@ export class CreateTemplateQuizQuestionDto {
   @ValidateNested({ each: true })
   @Type(() => CreateTemplateQuizExplanationDto)
   explanations?: CreateTemplateQuizExplanationDto[];
+
+  @IsArray()
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => CreateTemplateQuizImageDto)
+  images?: CreateTemplateQuizImageDto[];
 }
 
 export class CreateTemplateQuizDto {

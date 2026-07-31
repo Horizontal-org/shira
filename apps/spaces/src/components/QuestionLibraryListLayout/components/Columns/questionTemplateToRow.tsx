@@ -113,6 +113,7 @@ export const questionTemplateToRow = (
         position: Number(explanation.position),
         text: explanation.text,
       })),
+      images: q.images ?? [],
       apps: appOptions,
       languages: langOptions,
     } as RowType;

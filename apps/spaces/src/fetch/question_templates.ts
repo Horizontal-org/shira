@@ -20,6 +20,7 @@ export interface LibraryQuestionTemplateDto {
     text: string;
     index: string;
   }[];
+  images?: { id: number; name: string; url: string }[];
 }
 
 export interface LibraryQuestionTemplatesPageDto {
@@ -90,6 +91,7 @@ type LibraryQuestionTemplateApiDto = {
     content: string;
     positionIndex: string;
   }[];
+  images?: { id: number; name: string; url: string }[];
 };
 
 type LibraryQuestionTemplatesApiResponseDto = {
@@ -148,6 +150,7 @@ const normalizeQuestionTemplate = (
     text: explanation.content,
     index: explanation.positionIndex,
   })),
+  images: questionTemplate.images ?? [],
 });
 
 const serializeFilterValues = (values?: string[]) => {
@@ -247,6 +250,7 @@ type AddQuestionTemplateToQuizParams = {
   content: string;
   isPhishing: boolean;
   appId: number;
+  images?: { id: number; name: string; url: string }[];
   explanations?: {
     position: string | number;
     text: string;
@@ -260,6 +264,7 @@ export const addQuestionTemplateToQuiz = async ({
   content,
   isPhishing,
   appId,
+  images,
   explanations = [],
 }: AddQuestionTemplateToQuizParams) => {
   const payload = {
@@ -269,6 +274,7 @@ export const addQuestionTemplateToQuiz = async ({
       content,
       isPhishing,
       app: appId,
+      images,
     },
     explanations: explanations.map((explanation) => ({
       position: String(explanation.position),

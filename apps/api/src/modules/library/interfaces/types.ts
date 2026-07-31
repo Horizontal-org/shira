@@ -5,5 +5,6 @@ export const TYPES = {
     IPublishQuizLibraryService: 'IPublishQuizLibraryService',
     IShiraLibraryService: 'IShiraLibraryService',
     IShiraLibraryLoggerService: 'IShiraLibraryLoggerService',
+    ICreateTemplateQuizService: 'ICreateTemplateQuizService',
   },
 }

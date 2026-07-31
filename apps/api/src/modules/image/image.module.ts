@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 
 import * as Minio from 'minio';
 import { MINIO_TOKEN } from './decorators/minio.decorator';
-import { imageServiceProvider, servicesImageProviders } from './image.provider';
+import { imageServiceProvider, transferTemplateImagesServiceProvider, servicesImageProviders } from './image.provider';
 import { imageControllers } from './controllers';
 
 @Global()
@@ -13,7 +13,8 @@ import { imageControllers } from './controllers';
   ],
   exports: [
     MINIO_TOKEN,
-    imageServiceProvider
+    imageServiceProvider,
+    transferTemplateImagesServiceProvider
   ],
   providers: [
     {
