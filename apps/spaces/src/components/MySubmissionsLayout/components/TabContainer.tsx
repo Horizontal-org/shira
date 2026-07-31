@@ -2,6 +2,10 @@ import { CardPagination, styled } from "@horizontal-org/shira-ui";
 import { ComponentProps, FunctionComponent, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { QuestionSubmissionDto, QuizSubmissionDto } from "../../../fetch/submissions";
+import {
+  mapQuestionSubmissionToListItem,
+  mapQuizSubmissionToListItem,
+} from "../../../fetch/submission_mappers";
 import { SubmissionsTable, type SubmissionListItem } from "./SubmissionsTable";
 
 export type SubmissionResourceType = "quiz_template" | "question_template";
@@ -32,18 +36,8 @@ export const TabContainer: FunctionComponent<Props> = ({
     : questionPaginationProps;
 
   const submissions: SubmissionListItem[] = isQuizTab
-    ? quizSubmissions.map((submission) => ({
-      resourceId: submission.resourceId,
-      name: submission.quizTitle,
-      dateSubmitted: submission.dateSubmitted,
-      status: submission.status,
-    }))
-    : questionSubmissions.map((submission) => ({
-      resourceId: submission.resourceId,
-      name: submission.questionName,
-      dateSubmitted: submission.dateSubmitted,
-      status: submission.status,
-    }));
+    ? quizSubmissions.map(mapQuizSubmissionToListItem)
+    : questionSubmissions.map(mapQuestionSubmissionToListItem);
 
   return (
     <Container>

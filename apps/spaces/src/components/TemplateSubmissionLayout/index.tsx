@@ -45,14 +45,15 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
       id: questionId,
       initialName: location.state?.questionName,
       publish: publishQuestionSubmission,
-      translationKey: "templates.submit_question",
+      resourceType: "question",
     }
     : {
       id: quizId,
       initialName: location.state?.quizTitle,
       publish: publishQuizSubmission,
-      translationKey: "templates.submit_quiz",
+      resourceType: "quiz",
     };
+  const translationKey = `templates.submit_${submission.resourceType}`;
 
   const [name, setName] = useState(submission.initialName);
   const [description, setDescription] = useState("");
@@ -105,7 +106,7 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
 
       await submission.publish(Number(submission.id), payload);
 
-      toast.success(t(`${submission.translationKey}.success`));
+      toast.success(t(`${translationKey}.success`));
       navigate("/template-library/my-submissions");
     } catch (error) {
       console.error("Failed to submit template:", error);
@@ -121,103 +122,103 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
         <HeaderLeft>
           <LogoFrame><Logo /></LogoFrame>
           <CloseButton
-            aria-label={t(`${submission.translationKey}.header_title`)}
+            aria-label={t(`${translationKey}.header_title`)}
             iconSize={22}
             onClick={() => navigate(-1)}
           />
-          <Body2Regular>{t(`${submission.translationKey}.header_title`)}</Body2Regular>
+          <Body2Regular>{t(`${translationKey}.header_title`)}</Body2Regular>
         </HeaderLeft>
         <Button
           disabled={!canSubmit || isSubmitting}
-          id="submit-quiz-template-button"
+          id={`submit-${submission.resourceType}-template-button`}
           onClick={handleSubmit}
           rightIcon={<FiChevronRight size={16} />}
           color={defaultTheme.colors.green7}
-          text={t("templates.submit_quiz.submit")}
+          text={t(`${translationKey}.submit`)}
           type="primary"
         />
       </Header>
 
       <Content>
         <FormCard>
-          <SubHeading1>{t(`${submission.translationKey}.title`)}</SubHeading1>
+          <SubHeading1>{t(`${translationKey}.title`)}</SubHeading1>
           <Subtitle>
-            <Body1>{t("templates.submit_quiz.intro")}</Body1>
+            <Body1>{t(`${translationKey}.intro`)}</Body1>
             <Body1>
               <Trans
-                i18nKey="templates.submit_quiz.review_notice"
+                i18nKey={`${translationKey}.review_notice`}
                 components={{ learnMore: <Link1 href="/support" /> }}
               />
             </Body1>
           </Subtitle>
 
           <Field>
-            <FieldTitle>{t(`${submission.translationKey}.name`)}</FieldTitle>
-            <Hint>{t(`${submission.translationKey}.name_hint`)}</Hint>
+            <FieldTitle>{t(`${translationKey}.name`)}</FieldTitle>
+            <Hint>{t(`${translationKey}.name_hint`)}</Hint>
             <TextInput
-              id="quiz-template-name"
-              label={t(`${submission.translationKey}.name_placeholder`)}
+              id={`${submission.resourceType}-template-name`}
+              label={t(`${translationKey}.name_placeholder`)}
               onChange={(e) => setName(e.target.value)}
-              placeholder={t(`${submission.translationKey}.name_placeholder`)}
+              placeholder={t(`${translationKey}.name_placeholder`)}
               value={name}
             />
           </Field>
 
           <Field>
-            <FieldTitle>{t(`${submission.translationKey}.description`)}</FieldTitle>
-            <Hint>{t(`${submission.translationKey}.description_hint`)}</Hint>
+            <FieldTitle>{t(`${translationKey}.description`)}</FieldTitle>
+            <Hint>{t(`${translationKey}.description_hint`)}</Hint>
             <TextInput
               id="template-description"
-              label={t(`${submission.translationKey}.description_placeholder`)}
+              label={t(`${translationKey}.description_placeholder`)}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder={t(`${submission.translationKey}.description_placeholder`)}
+              placeholder={t(`${translationKey}.description_placeholder`)}
               value={description}
             />
           </Field>
 
           <Field>
-            <FieldTitle>{t("templates.submit_quiz.language")}</FieldTitle>
+            <FieldTitle>{t(`${translationKey}.language`)}</FieldTitle>
             <Hint>
               <Trans
-                i18nKey="templates.submit_quiz.language_hint"
+                i18nKey={`${translationKey}.language_hint`}
                 components={{ support: <Link3 href="/support" /> }}
               />
             </Hint>
             <SubmissionSelect
-              ariaLabel={t("templates.submit_quiz.language")}
+              ariaLabel={t(`${translationKey}.language`)}
               isMulti
               leftIcon={<IoLanguage color={defaultTheme.colors.blue6} size={12} />}
               onChange={(value) => setLanguageIds(value as string[])}
               options={languageOptions.map(({ id, label }) => ({ value: String(id), label }))}
-              placeholder={t("templates.submit_quiz.language_placeholder")}
+              placeholder={t(`${translationKey}.language_placeholder`)}
               value={languageIds}
             />
           </Field>
 
           <Field>
-            <FieldTitle>{t("templates.submit_quiz.tags")}</FieldTitle>
-            <Hint>{t("templates.submit_quiz.tags_hint")}</Hint>
+            <FieldTitle>{t(`${translationKey}.tags`)}</FieldTitle>
+            <Hint>{t(`${translationKey}.tags_hint`)}</Hint>
             <SubmissionSelect
-              ariaLabel={t("templates.submit_quiz.tags")}
+              ariaLabel={t(`${translationKey}.tags`)}
               isMulti
               leftIcon={<BiSolidTag color={defaultTheme.colors.warning4} size={12} style={{ transform: "rotate(180deg)" }} />}
               onChange={(value) => setTagIds(value as string[])}
               options={tagOptions.map(({ id, label }) => ({ value: String(id), label }))}
-              placeholder={t("templates.submit_quiz.tags_placeholder")}
+              placeholder={t(`${translationKey}.tags_placeholder`)}
               value={tagIds}
             />
           </Field>
 
           <Terms>
             <Checkbox
-              ariaLabel={t("templates.submit_quiz.terms")}
+              ariaLabel={t(`${translationKey}.terms`)}
               checked={acceptedTerms}
-              id="quiz-template-terms"
+              id={`${submission.resourceType}-template-terms`}
               onChange={(e) => setAcceptedTerms(e.target.checked)}
             />
             <Body1>
               <Trans
-                i18nKey="templates.submit_quiz.terms"
+                i18nKey={`${translationKey}.terms`}
                 components={{ terms: <Link3 href="https://shira.app/terms-and-conditions" target="_blank" rel="noreferrer" /> }}
               />
             </Body1>

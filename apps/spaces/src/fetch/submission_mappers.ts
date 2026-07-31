@@ -22,7 +22,7 @@ const mapQuestionTemplateExplanation = (
 export const mapQuestionSubmissionToListItem = (
   submission: QuestionSubmissionDto,
 ): SubmissionListItem => ({
-  resourceId: submission.id,
+  resourceId: submission.resourceId,
   name: submission.questionName,
   dateSubmitted: submission.dateSubmitted,
   status: submission.status,
@@ -31,7 +31,7 @@ export const mapQuestionSubmissionToListItem = (
 export const mapQuizSubmissionToListItem = (
   submission: QuizSubmissionDto,
 ): SubmissionListItem => ({
-  resourceId: submission.id,
+  resourceId: submission.resourceId,
   name: submission.quizTitle,
   dateSubmitted: submission.dateSubmitted,
   status: submission.status,
