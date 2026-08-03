@@ -27,6 +27,7 @@ interface TabContainerProps {
   onAddLibrary: (quizId: string) => void;
   onReorder: (newOrder: QuizQuestion[]) => void;
   onDuplicate: () => void;
+  onSubmitAsTemplate: (questionId: string) => void;
   onPublish: () => void
   onAssessmentModeChange: (value: boolean) => void;
 }
@@ -45,6 +46,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   onAddLibrary,
   onReorder,
   onDuplicate,
+  onSubmitAsTemplate,
   onPublish,
   resultsData,
   resultsLoading,
@@ -103,6 +105,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
             onAddLibrary={() => onAddLibrary(String(quizId))}
             onReorder={onReorder}
             onDuplicate={onDuplicate}
+            onSubmitAsTemplate={onSubmitAsTemplate}
             hasResults={hasResults}
           />
         )}

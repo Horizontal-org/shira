@@ -3,7 +3,6 @@ import { CardPagination, Table } from "@horizontal-org/shira-ui";
 import { ColumnDef, RowSelectionState } from "@tanstack/react-table";
 import { useTranslation } from "react-i18next";
 import { LibrarySearchEmptyState } from "../../LibrarySearchEmptyState";
-import { LibraryPaginationContainer } from "../../TemplatePaginationWrapper";
 import { RowType } from "./Columns";
 
 type Props = {
@@ -41,18 +40,16 @@ export const QuestionTemplateResults: FunctionComponent<Props> = ({
   return (
     <>
       {shouldShowPagination && (
-        <LibraryPaginationContainer>
-          <CardPagination
-            pageIndex={pageIndex}
-            pageCount={pageCount}
-            pageSize={pageSize}
-            total={total}
-            onFirstPage={onFirstPage}
-            onPreviousPage={onPreviousPage}
-            onNextPage={onNextPage}
-            onLastPage={onLastPage}
-          />
-        </LibraryPaginationContainer>
+        <CardPagination
+          pageIndex={pageIndex}
+          pageCount={pageCount}
+          pageSize={pageSize}
+          total={total}
+          onFirstPage={onFirstPage}
+          onPreviousPage={onPreviousPage}
+          onNextPage={onNextPage}
+          onLastPage={onLastPage}
+        />
       )}
 
       {showEmptyState ? (
@@ -86,18 +83,16 @@ export const QuestionTemplateResults: FunctionComponent<Props> = ({
       )}
 
       {shouldShowPagination && (
-        <LibraryPaginationContainer>
-          <CardPagination
-            pageIndex={pageIndex}
-            pageCount={pageCount}
-            pageSize={pageSize}
-            total={total}
-            onFirstPage={onFirstPage}
-            onPreviousPage={onPreviousPage}
-            onNextPage={onNextPage}
-            onLastPage={onLastPage}
-          />
-        </LibraryPaginationContainer>
+        <CardPagination
+          pageIndex={pageIndex}
+          pageCount={pageCount}
+          pageSize={pageSize}
+          total={total}
+          onFirstPage={onFirstPage}
+          onPreviousPage={onPreviousPage}
+          onNextPage={onNextPage}
+          onLastPage={onLastPage}
+        />
       )}
     </>
   );

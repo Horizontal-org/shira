@@ -9,6 +9,7 @@ export interface LibraryQuizDto {
   title: string;
   createdAt: string;
   author: string;
+  authorPublicSpaceId?: string;
   languages: string[];
   tags: string[];
 }
@@ -35,11 +36,6 @@ interface GetQuizTemplatesParams {
   tagSlugs?: string[];
 }
 
-export interface QuizTemplateFilterOption {
-  value: string;
-  label: string;
-}
-
 export interface LibraryQuizQuestionTemplateDto {
   questionId: number;
   questionName: string;
@@ -59,6 +55,10 @@ type LibraryQuizApiDto = {
   id: string | number;
   title: string;
   createdAt: string;
+  author?: {
+    displayName: string;
+    publicSpaceId: string;
+  };
   langTags?: {
     id: number;
     name: string;
@@ -92,23 +92,14 @@ type QuizTemplateSortParams = {
   sortOrder: "asc" | "desc";
 };
 
-type LibraryLangTagApiDto = {
-  id: number;
-  name: string;
-  code: string;
-};
-
-type LibraryTagApiDto = {
-  id: number;
-  name: string;
-  slug: string;
-};
-
-const normalizeQuizTemplate = (quiz: LibraryQuizApiDto): LibraryQuizDto => ({
+const normalizeQuizTemplate = (
+  quiz: LibraryQuizApiDto,
+): LibraryQuizDto => ({
   id: quiz.id,
   title: quiz.title,
   createdAt: quiz.createdAt,
-  author: DEFAULT_CREATOR_OPTIONS, // TODO author
+  author: quiz.author?.displayName ?? DEFAULT_CREATOR_OPTIONS,
+  authorPublicSpaceId: quiz.author?.publicSpaceId,
   languages: (quiz.langTags ?? []).map((language) => language.name.trim()),
   tags: (quiz.tags ?? []).map((tag) => tag.name.trim()),
 });
@@ -181,37 +172,5 @@ export const getQuizTemplateQuestions = async (
   } catch (error) {
     console.error(`Error fetching quiz template questions for ${quizId}:`, error);
     return null;
-  }
-};
-
-export const getQuizTemplateLanguageOptions = async (): Promise<QuizTemplateFilterOption[]> => {
-  try {
-    const response = await axios.get<LibraryLangTagApiDto[]>(
-      `${process.env.REACT_APP_LIBRARY_API_URL}/lang-tags`
-    );
-
-    return response.data.map((language) => ({
-      value: language.code,
-      label: language.name.trim(),
-    }));
-  } catch (error) {
-    console.error("Error fetching quiz template language options:", error);
-    return [];
-  }
-};
-
-export const getQuizTemplateTagOptions = async (): Promise<QuizTemplateFilterOption[]> => {
-  try {
-    const response = await axios.get<LibraryTagApiDto[]>(
-      `${process.env.REACT_APP_LIBRARY_API_URL}/tags`,
-    );
-
-    return response.data.map((tag) => ({
-      value: tag.slug,
-      label: tag.name.trim(),
-    }));
-  } catch (error) {
-    console.error("Error fetching quiz template tag options:", error);
-    return [];
   }
 };

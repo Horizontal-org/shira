@@ -34,6 +34,9 @@ import { ResetPasswordRequestLayout } from './components/ResetPasswordLayout/Res
 import { SetNewPasswordLayout } from './components/ResetPasswordLayout/SetNewPasswordLayout';
 import { ConfirmEmailUpdateLayout } from './components/ConfirmEmailUpdateLayout';
 import { CheckoutSuccessRedirect } from './components/CheckoutSuccessRedirect';
+import { TemplatesLayout } from './components/TemplatesLayout';
+import { MySubmissionsLayout } from './components/MySubmissionsLayout';
+import { TemplateSubmissionLayout } from './components/TemplateSubmissionLayout';
 
 function App() {
 
@@ -99,8 +102,12 @@ function App() {
                     <Route path='/quiz/:id' element={<QuizViewLayout />} />
                     <Route path='/quiz/:quizId/question' element={<QuestionCreationLayout />} />
                     <Route path='/quiz/:quizId/question/:questionId' element={<QuestionEditLayout />} />
+                    <Route path='/quiz/:quizId/submit-template' element={<TemplateSubmissionLayout />} />
+                    <Route path='/quiz/:quizId/question/:questionId/submit-template' element={<TemplateSubmissionLayout />} />
                     <Route path='/quiz/templates' element={<QuizTemplatesListLayout />} />
                     <Route path='/question/library' element={<QuestionLibraryListLayout />} />
+                    <Route path="/template-library" element={<TemplatesLayout />} />
+                    <Route path="/template-library/my-submissions" element={<MySubmissionsLayout />} />
                     <Route path='/learner' element={<LearnersLayout />} />
                     <Route path='/learner/import/bulk' element={<LearnerBulkImportLayout />} />
                     <Route path="/logout" element={<LogoutLayout />} />

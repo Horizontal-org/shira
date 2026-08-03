@@ -1,10 +1,18 @@
-import { IsArray, IsDefined, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength, ValidateNested } from 'class-validator'
+import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength } from 'class-validator'
 
 export class PublishLibraryBodyDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(255)
   spaceDisplayName: string
+
+  @IsString()
+  @MaxLength(255)
+  @IsNotEmpty()
+  templateName: string
+
+  @IsString()
+  templateDescription: string
 
   @IsOptional()
   @IsArray()

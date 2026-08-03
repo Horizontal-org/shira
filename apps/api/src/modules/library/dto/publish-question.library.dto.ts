@@ -29,6 +29,14 @@ export class PublishQuestionLibraryDto {
   @Type(() => PublishAuthorDto)
   author: PublishAuthorDto
 
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(255)
+  templateName: string
+
+  @IsString()
+  templateDescription: string
+
   @IsOptional()
   @IsArray()
   @IsNumber({}, { each: true })

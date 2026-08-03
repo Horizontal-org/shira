@@ -1,8 +1,13 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { useMemo } from "react";
-import { FaCircleCheck } from "react-icons/fa6";
-import { MdDragIndicator, MdOutlinePhishing } from "react-icons/md";
-import { Body3, Body3Bold, defaultTheme, styled } from "@horizontal-org/shira-ui";
+import { MdDragIndicator } from "react-icons/md";
+import {
+  Body3,
+  Body3Bold,
+  defaultTheme,
+  QuestionTypeChip,
+  styled,
+} from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
 import { QuizQuestion } from "../../../store/slices/quiz";
 import { appIcons } from "../../../utils/appIcons";
@@ -41,19 +46,7 @@ export const useQuestionTableColumns = (): ColumnDef<QuizQuestion>[] => {
         id: "type",
         cell: ({ row }) => {
           const isPhishing = Boolean(row.original.question.isPhising);
-
-          return (
-            <TypePill $isPhishing={isPhishing}>
-              {isPhishing ? (
-                <MdOutlinePhishing size={16} />
-              ) : (
-                <FaCircleCheck size={16} color={defaultTheme.colors.green6} />
-              )}
-              {isPhishing
-                ? t("question_library.columns.type.phishing")
-                : t("question_library.columns.type.legitimate")}
-            </TypePill>
-          );
+          return <QuestionTypeChip isPhishing={isPhishing} variant="table" />;
         },
       },
       {
@@ -102,25 +95,6 @@ const QuestionNameCell = styled(Body3Bold)`
   align-items: center;
   min-height: 20px;
   color: ${defaultTheme.colors.dark.darkGrey};
-`;
-
-const TypePill = styled.span<{ $isPhishing: boolean }>`
-  background: ${(props) => (
-    props.$isPhishing
-      ? defaultTheme.colors.light.paleRed
-      : defaultTheme.colors.light.paleGreen)};
-  color: ${(props) => (
-    props.$isPhishing
-      ? defaultTheme.colors.error9
-      : defaultTheme.colors.green9)};
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border-radius: 2px;
-  padding: 4px 8px;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.2;
 `;
 
 const AppValue = styled.div`

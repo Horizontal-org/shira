@@ -1,37 +1,52 @@
-import {
-  Body1,
-  Button,
-  CloseButton,
-  defaultTheme,
-  styled,
-} from "@horizontal-org/shira-ui"
-import { FunctionComponent } from "react"
-import { useTranslation } from "react-i18next"
-import type { LibraryQuizQuestionTemplateDto } from "../../../../../fetch/quiz_templates"
-import { AppLayout } from "../../../../QuestionPreview/AppLayout"
+import { Body1, Button, CloseButton, defaultTheme, styled } from "@horizontal-org/shira-ui";
+import { FunctionComponent, ReactNode } from "react";
+import { useTranslation } from "react-i18next";
+import { AppLayout } from "../../QuestionPreview/AppLayout";
 import {
   isMessagingNotPhoneApp,
   isMessagingPhoneApp,
   normalizePreviewAppName,
-} from "../../../../../utils/appNames"
+} from "../../../utils/appNames";
 import {
   ExplanationPreviewControls,
   useExplanationPreviewControls,
-} from "../ExplanationPreviewControls"
+} from "./ExplanationPreviewControls";
+
+type PreviewQuestion = {
+  questionId: number;
+  appName: string | null;
+  content: string;
+  explanations: {
+    index: number | string;
+    position: number | string;
+    text: string;
+  }[];
+};
 
 type Props = {
-  question: LibraryQuizQuestionTemplateDto
-  onBack: () => void
-  onClose: () => void
-}
+  question: PreviewQuestion;
+  onClose: () => void;
+  onBack?: () => void;
+  submissionStatusBanner?: ReactNode;
+  details?: ReactNode;
+  headerLabel?: ReactNode;
+  actions?: ReactNode;
+};
 
-export const QuizTemplateQuestionPreview: FunctionComponent<Props> = ({
+/**
+ * Reusable question preview. Feature containers supply data, metadata,
+ * and feature actions; this component owns the preview canvas and navigation.
+ */
+export const PreviewQuestionScreen: FunctionComponent<Props> = ({
   question,
-  onBack,
   onClose,
+  onBack,
+  submissionStatusBanner,
+  details,
+  headerLabel,
+  actions,
 }) => {
-  const { t } = useTranslation()
-
+  const { t } = useTranslation();
   const {
     activeExplanationIndex,
     explanationNumber,
@@ -44,29 +59,27 @@ export const QuizTemplateQuestionPreview: FunctionComponent<Props> = ({
     content: question.content,
     explanations: question.explanations,
     resetKey: question.questionId,
-  })
+  });
 
   return (
-    <QuestionPreviewContainer>
-      <PreviewHeader>
-        <PreviewHeaderStart>
-          <CloseButton
-            aria-label={t("buttons.close")}
-            iconSize={22}
-            onClick={onClose}
-          />
-          <Body1>{t("create_question.tabs.preview.aria_label")}</Body1>
-        </PreviewHeaderStart>
+    <Container>
 
-        <PreviewActions>
-          <Button
-            text={t("quiz_library.preview.back_to_quiz_template")}
-            type="outline"
-            onClick={onBack}
-          />
+      <Header>
+        <HeaderStart>
+          <CloseButton aria-label={t("buttons.close")} iconSize={22} onClick={onClose} />
+          {headerLabel && <Body1>{headerLabel}</Body1>}
+        </HeaderStart>
 
-          <ActionsDivider />
+        <HeaderActions>
+          {onBack && (
+            <Button
+              text={t("quiz_library.preview.back_to_quiz_template")}
+              type="outline"
+              onClick={onBack}
+            />
+          )}
 
+          {(onBack || actions) && <ActionsDivider />}
           <ExplanationActions>
             <ExplanationPreviewControls
               explanationNumber={explanationNumber}
@@ -77,41 +90,45 @@ export const QuizTemplateQuestionPreview: FunctionComponent<Props> = ({
               onNextExplanation={nextExplanation}
             />
           </ExplanationActions>
-        </PreviewActions>
-      </PreviewHeader>
 
-      <PreviewCanvasWrapper>
-        <PreviewCanvas>
-          {showExplanations && <QuizPreviewOverlay />}
+          {actions && <FeatureActions>{actions}</FeatureActions>}
+        </HeaderActions>
+      </Header>
 
-          <PreviewAppFrame
+      <CanvasWrapper>
+        {submissionStatusBanner}
+        {details}
+        <Canvas>
+          {showExplanations && <Overlay />}
+          <AppFrame
             key={`${question.questionId}-${question.appName}`}
             $isFullWidth={isMessagingNotPhoneApp(question.appName)}
             $isPhoneFrame={isMessagingPhoneApp(question.appName)}
             $hasWhiteBackground={normalizePreviewAppName(question.appName) === "Messenger"}
           >
             <AppLayout
-              appName={question.appName ?? ""}
+              appName={question.appName}
               content={question.content}
               showExplanations={showExplanations}
               explanations={explanations}
               explanationNumber={activeExplanationIndex}
             />
-          </PreviewAppFrame>
-        </PreviewCanvas>
-      </PreviewCanvasWrapper>
-    </QuestionPreviewContainer>
-  )
-}
+          </AppFrame>
+        </Canvas>
+      </CanvasWrapper>
 
-const QuestionPreviewContainer = styled.div`
+    </Container>
+  );
+};
+
+const Container = styled.div`
   display: flex;
   flex: 1;
   min-height: 0;
   flex-direction: column;
-`
+`;
 
-const PreviewHeader = styled.div`
+const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -123,15 +140,15 @@ const PreviewHeader = styled.div`
     align-items: stretch;
     padding: 20px 20px 0;
   }
-`
+`;
 
-const PreviewHeaderStart = styled.div`
+const HeaderStart = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-`
+`;
 
-const PreviewActions = styled.div`
+const HeaderActions = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
@@ -142,13 +159,13 @@ const PreviewActions = styled.div`
     justify-content: flex-end;
     flex-wrap: wrap;
   }
-`
+`;
 
 const ActionsDivider = styled.div`
   width: 1px;
   height: 36px;
   background: ${defaultTheme.colors.dark.mediumGrey};
-`
+`;
 
 const ExplanationActions = styled.div`
   display: flex;
@@ -160,9 +177,14 @@ const ExplanationActions = styled.div`
     flex-wrap: wrap;
     justify-content: flex-end;
   }
-`
+`;
 
-const PreviewCanvasWrapper = styled.div`
+const FeatureActions = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const CanvasWrapper = styled.div`
   padding: 20px 28px 28px;
   flex: 1;
   min-height: 0;
@@ -171,9 +193,9 @@ const PreviewCanvasWrapper = styled.div`
   @media (max-width: ${(props) => props.theme.breakpoints.md}) {
     padding: 20px;
   }
-`
+`;
 
-const PreviewCanvas = styled.div`
+const Canvas = styled.div`
   position: relative;
   border-radius: 4px;
   overflow: auto;
@@ -181,12 +203,12 @@ const PreviewCanvas = styled.div`
   justify-content: center;
   padding: 24px;
   background: ${defaultTheme.colors.light.paleGreen};
-`
+`;
 
-const PreviewAppFrame = styled.div<{
-  $isFullWidth: boolean
-  $isPhoneFrame: boolean
-  $hasWhiteBackground: boolean
+const AppFrame = styled.div<{
+  $isFullWidth: boolean;
+  $isPhoneFrame: boolean;
+  $hasWhiteBackground: boolean;
 }>`
   position: relative;
   width: ${(props) => (props.$isFullWidth ? "100%" : "fit-content")};
@@ -194,14 +216,15 @@ const PreviewAppFrame = styled.div<{
   height: ${(props) => (props.$isPhoneFrame ? "80vh" : "68vh")};
   min-height: 620px;
   max-height: ${(props) => (props.$isPhoneFrame ? "none" : "780px")};
-  background: ${(props) =>
-    props.$hasWhiteBackground ? defaultTheme.colors.light.white : "transparent"};
-`
+  background: ${(props) => (
+    props.$hasWhiteBackground ? defaultTheme.colors.light.white : "transparent"
+  )};
+`;
 
-const QuizPreviewOverlay = styled.div`
+const Overlay = styled.div`
   position: absolute;
   inset: 0;
   z-index: 1;
   background: rgba(0, 0, 0, 0.45);
   pointer-events: none;
-`
+`;

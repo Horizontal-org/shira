@@ -6,52 +6,63 @@ import {
   Button,
   CloseButton,
   defaultTheme,
+  QuestionTypeChip,
   styled,
-} from "@horizontal-org/shira-ui"
-import { FunctionComponent } from "react"
-import { useTranslation } from "react-i18next"
-import { FaCircleCheck, FaCirclePlus } from "react-icons/fa6"
-import { MdOutlinePhishing } from "react-icons/md"
-import type {
-  LibraryQuizDto,
-  LibraryQuizQuestionTemplateDto,
-} from "../../../../../fetch/quiz_templates"
-import { appIcons, appTypesIcons } from "../../../../../utils/appIcons"
+} from "@horizontal-org/shira-ui";
+import { FunctionComponent, ReactNode } from "react";
+import { useTranslation } from "react-i18next";
+import { appIcons, appTypesIcons } from "../../../utils/appIcons";
 import {
   getAppsByType,
   isMessagingNotPhoneApp,
   isMessagingPhoneApp,
   normalizePreviewAppName,
-} from "../../../../../utils/appNames"
-import { AppLayout } from "../../../../QuestionPreview/AppLayout"
+} from "../../../utils/appNames";
+import { AppLayout } from "../../QuestionPreview/AppLayout";
 import {
   ExplanationPreviewControls,
   useExplanationPreviewControls,
-} from "../ExplanationPreviewControls"
+} from "./ExplanationPreviewControls";
+
+export type PreviewQuiz = {
+  title: string
+}
+
+export type PreviewQuestion = {
+  id: number;
+  name: string;
+  isPhishing: boolean;
+  app: string | null;
+  appType: string;
+  content: string;
+  explanations: {
+    index: number | string
+    position: number | string
+    text: string
+  }[]
+}
 
 type Props = {
-  quiz: LibraryQuizDto
-  questions: LibraryQuizQuestionTemplateDto[]
-  question: LibraryQuizQuestionTemplateDto
-  disableUseTemplateButton: boolean
+  quiz: PreviewQuiz
+  questions: PreviewQuestion[]
+  question: PreviewQuestion
   onBack: () => void
   onClose: () => void
   onSelectQuestion: (questionId: number) => void
-  onUseTemplate: () => void
+  actions?: ReactNode
 }
 
-export const FullQuizTemplatePreview: FunctionComponent<Props> = ({
+export const FullQuizPreviewScreen: FunctionComponent<Props> = ({
   quiz,
   questions,
   question,
-  disableUseTemplateButton,
   onBack,
   onClose,
   onSelectQuestion,
-  onUseTemplate,
+  actions,
 }) => {
   const { t } = useTranslation()
-  const resolvedAppName = question.appName ?? getAppsByType(question.appType)[0]?.name ?? ""
+  const resolvedAppName = question.app ?? getAppsByType(question.appType)[0]?.name ?? ""
 
   const {
     activeExplanationIndex,
@@ -64,7 +75,7 @@ export const FullQuizTemplatePreview: FunctionComponent<Props> = ({
   } = useExplanationPreviewControls({
     content: question.content,
     explanations: question.explanations,
-    resetKey: question.questionId,
+    resetKey: question.id,
   })
 
   return (
@@ -86,14 +97,7 @@ export const FullQuizTemplatePreview: FunctionComponent<Props> = ({
             onClick={onBack}
           />
 
-          <Button
-            text={t("quiz_library.use_template")}
-            type="primary"
-            color={defaultTheme.colors.green7}
-            leftIcon={<FaCirclePlus size={16} />}
-            disabled={disableUseTemplateButton}
-            onClick={onUseTemplate}
-          />
+          {actions}
         </HeaderActions>
       </PreviewHeader>
 
@@ -116,20 +120,23 @@ export const FullQuizTemplatePreview: FunctionComponent<Props> = ({
         <PreviewLayout>
           <QuizQuestionContainer>
             {questions.map((questionItem, index) => {
-              const isActive = questionItem.questionId === question.questionId
-              const questionAppName = questionItem.appName ?? getAppsByType(questionItem.appType)[0]?.name ?? ""
-              const appLabel = normalizePreviewAppName(questionAppName)
+              const isActive = questionItem.id === question.id;
+              const questionAppName =
+                questionItem.app ??
+                getAppsByType(questionItem.appType)[0]?.name ??
+                "";
+              const appLabel = normalizePreviewAppName(questionAppName);
               const appIcon = appLabel
                 ? appIcons[appLabel.toLowerCase()]
-                : appTypesIcons[questionItem.appType]
+                : appTypesIcons[questionItem.appType];
 
               return (
                 <SelectableQuestionItem
-                  key={questionItem.questionId}
+                  key={questionItem.id}
                   type="button"
                   $isActive={isActive}
                   onClick={() => {
-                    onSelectQuestion(questionItem.questionId)
+                    onSelectQuestion(questionItem.id)
                   }}
                 >
                   <QuizQuestionNumber $isActive={isActive}>
@@ -137,21 +144,10 @@ export const FullQuizTemplatePreview: FunctionComponent<Props> = ({
                   </QuizQuestionNumber>
 
                   <QuizQuestionDetails>
-                    <Body2SemiBoldGrey>{questionItem.questionName}</Body2SemiBoldGrey>
+                    <Body2SemiBoldGrey>{questionItem.name}</Body2SemiBoldGrey>
 
                     <QuestionInfoPanel>
-                      <TypeChip $isPhishing={questionItem.isPhishing}>
-                        {questionItem.isPhishing ? (
-                          <MdOutlinePhishing size={14} />
-                        ) : (
-                          <FaCircleCheck size={14} />
-                        )}
-                        <ChipText>
-                          {questionItem.isPhishing
-                            ? t("question_library.columns.type.phishing")
-                            : t("question_library.columns.type.legitimate")}
-                        </ChipText>
-                      </TypeChip>
+                      <QuestionTypeChip isPhishing={questionItem.isPhishing} />
 
                       {(appLabel || questionItem.appType) && (
                         <AppChip>
@@ -162,7 +158,7 @@ export const FullQuizTemplatePreview: FunctionComponent<Props> = ({
                     </QuestionInfoPanel>
                   </QuizQuestionDetails>
                 </SelectableQuestionItem>
-              )
+              );
             })}
           </QuizQuestionContainer>
 
@@ -173,7 +169,7 @@ export const FullQuizTemplatePreview: FunctionComponent<Props> = ({
               {showExplanations && <QuizPreviewOverlay />}
 
               <PreviewAppFrame
-                key={`${question.questionId}-${question.appName}`}
+                key={`${question.id}-${question.app}`}
                 $isFullWidth={isMessagingNotPhoneApp(resolvedAppName)}
                 $isPhoneFrame={isMessagingPhoneApp(resolvedAppName)}
               >
@@ -190,8 +186,8 @@ export const FullQuizTemplatePreview: FunctionComponent<Props> = ({
         </PreviewLayout>
       </PreviewBody>
     </QuestionPreviewContainer>
-  )
-}
+  );
+};
 
 const QuestionPreviewContainer = styled.div`
   display: flex;
@@ -311,17 +307,19 @@ const PreviewCanvasPanel = styled.div`
 `
 
 const SelectableQuestionItem = styled.button<{
-  $isActive: boolean
+  $isActive: boolean;
 }>`
   appearance: none;
   width: 100%;
-  border: 1px solid ${(props) => (
-    props.$isActive ? props.theme.colors.green7 : props.theme.colors.dark.lightGrey
-  )};
+  border: 1px solid ${(props) =>
+    props.$isActive
+      ? props.theme.colors.green7
+      : props.theme.colors.dark.lightGrey};
   border-radius: 28px;
-  background: ${(props) => (
-    props.$isActive ? props.theme.colors.light.paleGreen : props.theme.colors.light.white
-  )};
+  background: ${(props) =>
+    props.$isActive
+      ? props.theme.colors.light.paleGreen
+      : props.theme.colors.light.white};
   padding: 15px 20px;
   display: flex;
   align-items: center;
@@ -337,9 +335,8 @@ const SelectableQuestionItem = styled.button<{
 
   &:focus-visible {
     border-width: 2px;
-    border-color: ${(props) => (
-    props.$isActive ? props.theme.colors.green7 : props.theme.colors.green4
-  )};
+    border-color: ${(props) =>
+    props.$isActive ? props.theme.colors.green7 : props.theme.colors.green4};
   }
 
   & + & {
@@ -355,12 +352,14 @@ const QuizQuestionNumber = styled(Body1SemiBold) <{ $isActive: boolean }>`
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  background: ${(props) => (
-    props.$isActive ? props.theme.colors.green7 : props.theme.colors.light.paleGreen
-  )};
-  color: ${(props) => (
-    props.$isActive ? props.theme.colors.light.white : props.theme.colors.green8
-  )};
+  background: ${(props) =>
+    props.$isActive
+      ? props.theme.colors.green7
+      : props.theme.colors.light.paleGreen};
+  color: ${(props) =>
+    props.$isActive
+      ? props.theme.colors.light.white
+      : props.theme.colors.green8};
   line-height: 1;
 `
 
@@ -385,21 +384,6 @@ const QuestionInfoPanel = styled.div`
   align-items: center;
   gap: 6px;
   flex-wrap: wrap;
-`
-
-const TypeChip = styled.span<{ $isPhishing: boolean }>`
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  min-height: 24px;
-  border-radius: 4px;
-  padding: 2px 8px;
-  background: ${(props) => (
-    props.$isPhishing ? props.theme.colors.light.paleRed : props.theme.colors.light.paleGreen
-  )};
-  color: ${(props) => (
-    props.$isPhishing ? props.theme.colors.error8 : props.theme.colors.green8
-  )};
 `
 
 const AppChip = styled.span`
@@ -443,8 +427,8 @@ const PreviewStageBackdrop = styled.div`
 `
 
 const PreviewAppFrame = styled.div<{
-  $isFullWidth: boolean
-  $isPhoneFrame: boolean
+  $isFullWidth: boolean;
+  $isPhoneFrame: boolean;
 }>`
   position: relative;
   width: ${(props) => (props.$isFullWidth ? "100%" : "fit-content")};

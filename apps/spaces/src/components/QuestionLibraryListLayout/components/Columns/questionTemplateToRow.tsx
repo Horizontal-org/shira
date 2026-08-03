@@ -102,7 +102,7 @@ export const questionTemplateToRow = (
       name: q.name,
       isPhishing: Boolean(q.isPhishing),
       type: q.appType,
-      creator: "Shira team",
+      creator: q.author,
       createdAt: q.createdAt,
       tags: q.tags,
       app: defaultApp,
