@@ -76,7 +76,7 @@ export class AddQuestionToQuizService implements IAddQuestionToQuizService {
         imageIds,
         questionId: questionEntity.id,
         quizId: params.quizId,
-      });
+      }, manager);
     }
 
     const sanitizedContent = remapImageIds(QuestionSanitizer.sanitizeQuestionContent(params.content), imageIdMap);

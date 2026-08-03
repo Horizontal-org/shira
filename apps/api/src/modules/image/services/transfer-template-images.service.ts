@@ -45,6 +45,7 @@ export class TransferTemplateImagesService implements ITransferTemplateImagesSer
     images: CreateTemplateQuizImageDto[],
     referencedContent: string[],
   ): Promise<Map<number, number>> {
+    console.log('ON TRANSFER TEMPLATE IMAGES SERVICE', { quizId, questionId: question.id, imagesCount: images.length, referencedContentCount: referencedContent.length });
     const referencedIds = new Set<number>();
     for (const content of referencedContent) {
       for (const id of QuestionSanitizer.extractImageIds(content)) {
