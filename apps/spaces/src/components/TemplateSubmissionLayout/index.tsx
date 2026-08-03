@@ -15,6 +15,7 @@ import {
   styled,
   SubHeading1,
   SubHeading3,
+  TextArea,
   TextInput,
 } from "@horizontal-org/shira-ui";
 import { IoLanguage } from "react-icons/io5";
@@ -66,6 +67,12 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionError, setSubmissionError] = useState(false);
 
+  const nameMaxLength = submission.resourceType === "question"
+    ? QUESTION_NAME_MAX_LENGTH
+    : QUIZ_NAME_MAX_LENGTH;
+  const isWithinCharacterLimits = name.length <= nameMaxLength
+    && description.length <= TEMPLATE_DESCRIPTION_MAX_LENGTH;
+
   useEffect(() => {
     const loadOptions = async () => {
       const [nextLanguages, nextTags] = await Promise.all([
@@ -86,7 +93,8 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
     && languageIds.length
     && tagIds.length
     && acceptedTerms
-    && space?.name,
+    && space?.name
+    && isWithinCharacterLimits,
   );
 
   const handleSubmit = async () => {
@@ -162,24 +170,21 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
               onChange={(e) => setName(e.target.value)}
               placeholder={t(`${translationKey}.name_placeholder`)}
               value={name}
+              required
               showCharacterCount
-              maxLength={
-                submission.resourceType === "question"
-                  ? QUESTION_NAME_MAX_LENGTH
-                  : QUIZ_NAME_MAX_LENGTH
-              }
+              maxLength={nameMaxLength}
             />
           </Field>
 
           <Field>
             <FieldTitle>{t(`${translationKey}.description`)}</FieldTitle>
             <Hint>{t(`${translationKey}.description_hint`)}</Hint>
-            <TextInput
+            <TextArea
               id="template-description"
-              label={t(`${translationKey}.description_placeholder`)}
               onChange={(e) => setDescription(e.target.value)}
               placeholder={t(`${translationKey}.description_placeholder`)}
               value={description}
+              required
               showCharacterCount
               maxLength={TEMPLATE_DESCRIPTION_MAX_LENGTH}
             />
