@@ -161,6 +161,8 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
               onChange={(e) => setName(e.target.value)}
               placeholder={t(`${translationKey}.name_placeholder`)}
               value={name}
+              showCharacterCount
+              maxLength={100}
             />
           </Field>
 
@@ -173,6 +175,8 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
               onChange={(e) => setDescription(e.target.value)}
               placeholder={t(`${translationKey}.description_placeholder`)}
               value={description}
+              showCharacterCount
+              maxLength={400}
             />
           </Field>
 

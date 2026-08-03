@@ -36,8 +36,9 @@ export const DisplayNameModal: FunctionComponent<Props> = ({ isOpen, onCancel, o
           id="display-name-input"
           label={t("templates.display_name.input")}
           onChange={(event) => setDisplayName(event.target.value)}
-          showCharacterCount
           value={displayName}
+          showCharacterCount
+          maxLength={80}
         />
       </ModalContent>
     </Modal>
