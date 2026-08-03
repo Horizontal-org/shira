@@ -25,6 +25,8 @@ export class PublishQuizLibraryService implements IPublishQuizLibraryService {
       quizId,
       spaceId,
       author,
+      templateName,
+      templateDescription,
       langTagIds,
       tagIds
     } = dto
@@ -47,6 +49,7 @@ export class PublishQuizLibraryService implements IPublishQuizLibraryService {
 
     const readyQuiz = {
       title: quiz.title,
+      description: templateDescription,
       questions: preparedQuestions.filter((question) => question !== null),
       author,
       langTagIds,

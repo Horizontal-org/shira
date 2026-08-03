@@ -20,6 +20,8 @@ export class PublishQuestionLibraryService implements IPublishQuestionLibrarySer
       questionId,
       spaceId,
       author,
+      templateName,
+      templateDescription,
       langTagIds,
       tagIds
     } = dto

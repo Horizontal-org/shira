@@ -7,6 +7,8 @@ export const DEFAULT_QUESTION_TEMPLATE_SORT: QuestionTemplateSortOption =
 export interface LibraryQuestionTemplateDto {
   id: number;
   name: string;
+  author: string;
+  authorPublicSpaceId?: string;
   highlighted: boolean;
   isPhishing: boolean;
   content: string;
@@ -70,6 +72,10 @@ export interface QuestionTemplateFilterOption {
 type LibraryQuestionTemplateApiDto = {
   id: number;
   name: string;
+  author?: {
+    displayName: string;
+    publicSpaceId: string;
+  };
   highlighted: boolean;
   isPhishing: boolean;
   content: string;
@@ -135,6 +141,8 @@ const normalizeQuestionTemplate = (
 ): LibraryQuestionTemplateDto => ({
   id: questionTemplate.id,
   name: questionTemplate.name,
+  author: questionTemplate.author?.displayName ?? "Shira team",
+  authorPublicSpaceId: questionTemplate.author?.publicSpaceId,
   highlighted: questionTemplate.highlighted,
   isPhishing: questionTemplate.isPhishing,
   content: questionTemplate.content,

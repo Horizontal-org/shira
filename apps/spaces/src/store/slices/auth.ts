@@ -18,7 +18,8 @@ export interface AuthSlice {
     }[]
   };
   space: {
-    name: string
+    name: string;
+    publicId: string;
   };
   subscription: {
     status: string;

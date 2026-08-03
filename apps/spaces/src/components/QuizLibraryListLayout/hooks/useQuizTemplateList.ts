@@ -2,13 +2,15 @@ import { type SetStateAction, useEffect, useState } from "react";
 import {
   DEFAULT_PAGE_LIMIT,
   DEFAULT_QUIZ_TEMPLATE_SORT,
-  getQuizTemplateLanguageOptions,
-  getQuizTemplateTagOptions,
   getQuizTemplates,
   type LibraryQuizDto,
-  type QuizTemplateFilterOption,
   type QuizTemplateSortOption,
 } from "../../../fetch/quiz_templates";
+import {
+  getLibraryLanguageOptions,
+  getLibraryTagOptions,
+  type LibraryFilterOption,
+} from "../../../fetch/library_metadata";
 import { usePaginationProps } from "../../../hooks/usePaginationProps";
 
 const SEARCH_DEBOUNCE_DELAY_MS = 300;
@@ -29,8 +31,8 @@ export const useQuizTemplateList = () => {
   const [selectedTags, setSelectedTagsState] = useState<string[]>([]);
   const [selectedCreator, setSelectedCreatorState] = useState("");
 
-  const [languageOptions, setLanguageOptions] = useState<QuizTemplateFilterOption[]>([]);
-  const [tagOptions, setTagOptions] = useState<QuizTemplateFilterOption[]>([]);
+  const [languageOptions, setLanguageOptions] = useState<LibraryFilterOption[]>([]);
+  const [tagOptions, setTagOptions] = useState<LibraryFilterOption[]>([]);
 
   useEffect(() => {
     const debounceTimeout = window.setTimeout(() => {
@@ -79,8 +81,8 @@ export const useQuizTemplateList = () => {
     const loadFilterOptions = async () => {
       try {
         const [nextLanguageOptions, nextTagOptions] = await Promise.all([
-          getQuizTemplateLanguageOptions(),
-          getQuizTemplateTagOptions(),
+          getLibraryLanguageOptions(),
+          getLibraryTagOptions(),
         ]);
 
         setLanguageOptions(nextLanguageOptions);
