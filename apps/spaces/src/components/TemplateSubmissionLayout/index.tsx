@@ -9,6 +9,7 @@ import {
   CloseButton,
   defaultTheme,
   FilterSelect,
+  InputHeading,
   Link1,
   Link3,
   Logo,
@@ -162,8 +163,10 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
           </Subtitle>
 
           <Field>
-            <FieldTitle>{t(`${translationKey}.name`)}</FieldTitle>
-            <Hint>{t(`${translationKey}.name_hint`)}</Hint>
+            <InputHeading required>
+              <SubHeading3>{t(`${translationKey}.name`)}</SubHeading3>
+              <Hint>{t(`${translationKey}.name_hint`)}</Hint>
+            </InputHeading>
             <TextInput
               id={`${submission.resourceType}-template-name`}
               label={t(`${translationKey}.name_placeholder`)}
@@ -177,8 +180,10 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
           </Field>
 
           <Field>
-            <FieldTitle>{t(`${translationKey}.description`)}</FieldTitle>
-            <Hint>{t(`${translationKey}.description_hint`)}</Hint>
+            <InputHeading required>
+              <SubHeading3>{t(`${translationKey}.description`)}</SubHeading3>
+              <Hint>{t(`${translationKey}.description_hint`)}</Hint>
+            </InputHeading>
             <TextArea
               id="template-description"
               onChange={(e) => setDescription(e.target.value)}
@@ -191,13 +196,15 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
           </Field>
 
           <Field>
-            <FieldTitle>{t(`${translationKey}.language`)}</FieldTitle>
-            <Hint>
-              <Trans
-                i18nKey={`${translationKey}.language_hint`}
-                components={{ support: <Link3 href="/support" /> }}
-              />
-            </Hint>
+            <InputHeading required>
+              <SubHeading3>{t(`${translationKey}.language`)}</SubHeading3>
+              <Hint>
+                <Trans
+                  i18nKey={`${translationKey}.language_hint`}
+                  components={{ support: <Link3 href="/support" /> }}
+                />
+              </Hint>
+            </InputHeading>
             <SubmissionSelect
               ariaLabel={t(`${translationKey}.language`)}
               isMulti
@@ -210,7 +217,9 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
           </Field>
 
           <Field>
-            <FieldTitle>{t(`${translationKey}.tags`)}</FieldTitle>
+            <InputHeading required>
+              <SubHeading3>{t(`${translationKey}.tags`)}</SubHeading3>
+            </InputHeading>
             <Hint>{t(`${translationKey}.tags_hint`)}</Hint>
             <SubmissionSelect
               ariaLabel={t(`${translationKey}.tags`)}
@@ -308,14 +317,6 @@ const Field = styled.div`
 
 const SubmissionSelect = styled(FilterSelect)`
   width: 262px;
-`;
-
-const FieldTitle = styled(SubHeading3)`
-  &::before {
-    content: "*";
-    color: ${props => props.theme.colors.error7};
-    margin-right: 6px;
-  }
 `;
 
 const Terms = styled.div`
