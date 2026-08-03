@@ -28,6 +28,7 @@ type Props = {
   onClose: () => void;
   onBack?: () => void;
   submissionStatusBanner?: ReactNode;
+  description?: ReactNode;
   details?: ReactNode;
   headerLabel?: ReactNode;
   actions?: ReactNode;
@@ -42,6 +43,7 @@ export const PreviewQuestionScreen: FunctionComponent<Props> = ({
   onClose,
   onBack,
   submissionStatusBanner,
+  description,
   details,
   headerLabel,
   actions,
@@ -97,6 +99,7 @@ export const PreviewQuestionScreen: FunctionComponent<Props> = ({
 
       <CanvasWrapper>
         {submissionStatusBanner}
+        {description && <Description>{description}</Description>}
         {details}
         <Canvas>
           {showExplanations && <Overlay />}
@@ -193,6 +196,11 @@ const CanvasWrapper = styled.div`
   @media (max-width: ${(props) => props.theme.breakpoints.md}) {
     padding: 20px;
   }
+`;
+
+const Description = styled(Body1)`
+  margin: 0 0 28px;
+  color: ${defaultTheme.colors.dark.darkGrey};
 `;
 
 const Canvas = styled.div`

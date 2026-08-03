@@ -37,6 +37,7 @@ export interface SubmissionExplanationDto {
 }
 
 export interface QuestionSubmissionPreviewDto extends QuestionSubmissionDto {
+  description: string;
   appType: string;
   app: string;
   language: string;
