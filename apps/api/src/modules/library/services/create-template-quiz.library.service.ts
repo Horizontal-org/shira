@@ -36,6 +36,7 @@ export class CreateTemplateQuizService implements ICreateTemplateQuizService {
             content: templateQuestion.content,
             isPhishing: templateQuestion.isPhishing,
             app: { name: templateQuestion.appName },
+            isFromTemplate: true,
             images: templateQuestion.images,
             explanations: templateQuestion.explanations,
           },

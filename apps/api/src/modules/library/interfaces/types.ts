@@ -6,5 +6,6 @@ export const TYPES = {
     IShiraLibraryService: 'IShiraLibraryService',
     IShiraLibraryLoggerService: 'IShiraLibraryLoggerService',
     ICreateTemplateQuizService: 'ICreateTemplateQuizService',
+    ICreateTemplateQuestionService: 'ICreateTemplateQuestionService',
   },
 }

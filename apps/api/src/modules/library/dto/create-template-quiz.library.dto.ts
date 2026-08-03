@@ -12,7 +12,7 @@ import { SpaceEntity } from "src/modules/space/domain/space.entity";
 import { IsNotEmpty } from "src/utils/decorators/is-not-empty.decorator";
 import { QuizVisibility } from "src/modules/quiz/dto/quiz-visibility-enum.quiz";
 
-class CreateTemplateQuizExplanationDto {
+export class CreateTemplateQuizExplanationDto {
   @IsString()
   position: string;
 

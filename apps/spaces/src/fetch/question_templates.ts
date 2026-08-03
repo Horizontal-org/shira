@@ -269,13 +269,11 @@ export const addQuestionTemplateToQuiz = async ({
 }: AddQuestionTemplateToQuizParams) => {
   const payload = {
     quizId,
-    question: {
-      name: questionName,
-      content,
-      isPhishing,
-      app: appId,
-      images,
-    },
+    questionName,
+    content,
+    isPhishing,
+    appId,
+    images,
     explanations: explanations.map((explanation) => ({
       position: String(explanation.position),
       index: String(explanation.index),
@@ -284,7 +282,7 @@ export const addQuestionTemplateToQuiz = async ({
   };
 
   const { data } = await axios.post(
-    `${process.env.REACT_APP_API_URL}/quiz/question`,
+    `${process.env.REACT_APP_API_URL}/question-from-template`,
     payload,
   );
 

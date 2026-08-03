@@ -6,6 +6,7 @@ export interface AddQuestionToQuizParams {
   content: string;
   isPhishing: boolean;
   app: { id: number } | { name: string };
+  isFromTemplate: boolean;
   images?: { id: number; name: string; url: string }[];
   explanations?: { position: string; index: string; text: string }[];
 }

@@ -62,12 +62,12 @@ export class AddQuestionToQuizService implements IAddQuestionToQuizService {
     const questionEntity = await questionRepo.save(question);
 
     let imageIdMap = new Map<number, number>();
-    if (params.images?.length) {
+    if (params.isFromTemplate) {
       imageIdMap = await this.transferTemplateImagesService.transferImages(
         manager,
         params.quizId,
         questionEntity,
-        params.images,
+        params.images ?? [],
         [params.content, ...(params.explanations ?? []).map((e) => e.text)],
       );
     } else {

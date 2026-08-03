@@ -20,6 +20,7 @@ export class CreateQuestionQuizService implements ICreateQuestionQuizService {
       content: createQuestionDto.question.content,
       isPhishing: createQuestionDto.question.isPhishing,
       app: { id: createQuestionDto.question.app },
+      isFromTemplate: false,
       images: createQuestionDto.question.images,
       explanations: createQuestionDto.explanations,
     });
