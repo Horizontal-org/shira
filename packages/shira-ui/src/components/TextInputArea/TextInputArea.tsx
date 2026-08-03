@@ -3,13 +3,12 @@ import styled from "styled-components";
 import { CharacterCount } from "../CharacterCount";
 import { Body4 } from "../Typography";
 
-export interface TextAreaProps {
+export interface TextInputAreaProps {
   placeholder?: string;
   onChange: ChangeEventHandler<HTMLTextAreaElement>;
   value: string;
   disabled?: boolean;
   required?: boolean;
-  onBlur?: FocusEventHandler<HTMLTextAreaElement>;
   onFocus?: FocusEventHandler<HTMLTextAreaElement>;
   id?: string;
   name?: string;
@@ -20,11 +19,10 @@ export interface TextAreaProps {
   rows?: number;
 }
 
-export const TextArea: FunctionComponent<TextAreaProps> = ({
+export const TextInputArea: FunctionComponent<TextInputAreaProps> = ({
   placeholder,
   onChange,
   value,
-  onBlur,
   onFocus,
   name,
   id,
@@ -36,9 +34,7 @@ export const TextArea: FunctionComponent<TextAreaProps> = ({
   errorText,
   rows = 2,
 }) => {
-  const isOverCharacterLimit = showCharacterCount
-    && typeof maxLength === "number"
-    && value.length > maxLength;
+  const isOverCharacterLimit = showCharacterCount && value.length > maxLength;
   const footerText = isOverCharacterLimit ? characterLimitErrorText : errorText ?? "";
   const isFooterError = isOverCharacterLimit || Boolean(errorText);
 
@@ -53,7 +49,6 @@ export const TextArea: FunctionComponent<TextAreaProps> = ({
         disabled={disabled}
         required={required}
         maxLength={showCharacterCount ? undefined : maxLength}
-        onBlur={onBlur}
         onFocus={onFocus}
         rows={rows}
       />
@@ -90,7 +85,7 @@ const FooterRow = styled.div`
   width: 100%;
 `;
 
-const SupportingText = styled(Body4)<{ $disabled?: boolean; $isError?: boolean }>`
+const SupportingText = styled(Body4) <{ $disabled?: boolean; $isError?: boolean }>`
   flex: 1;
   padding-left: 10px;
   color: ${({ theme, $disabled, $isError }) => {

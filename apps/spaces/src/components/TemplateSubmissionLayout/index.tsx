@@ -16,7 +16,7 @@ import {
   styled,
   SubHeading1,
   SubHeading3,
-  TextArea,
+  TextInputArea,
   TextInput,
 } from "@horizontal-org/shira-ui";
 import { IoLanguage } from "react-icons/io5";
@@ -165,7 +165,7 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
           <Field>
             <InputHeading required>
               <SubHeading3>{t(`${translationKey}.name`)}</SubHeading3>
-              <Hint>{t(`${translationKey}.name_hint`)}</Hint>
+              <Body3>{t(`${translationKey}.name_hint`)}</Body3>
             </InputHeading>
             <TextInput
               id={`${submission.resourceType}-template-name`}
@@ -182,9 +182,9 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
           <Field>
             <InputHeading required>
               <SubHeading3>{t(`${translationKey}.description`)}</SubHeading3>
-              <Hint>{t(`${translationKey}.description_hint`)}</Hint>
+              <Body3>{t(`${translationKey}.description_hint`)}</Body3>
             </InputHeading>
-            <TextArea
+            <TextInputArea
               id="template-description"
               onChange={(e) => setDescription(e.target.value)}
               placeholder={t(`${translationKey}.description_placeholder`)}
@@ -198,12 +198,12 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
           <Field>
             <InputHeading required>
               <SubHeading3>{t(`${translationKey}.language`)}</SubHeading3>
-              <Hint>
+              <Body3>
                 <Trans
                   i18nKey={`${translationKey}.language_hint`}
                   components={{ support: <Link3 href="/support" /> }}
                 />
-              </Hint>
+              </Body3>
             </InputHeading>
             <SubmissionSelect
               ariaLabel={t(`${translationKey}.language`)}
@@ -220,7 +220,7 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
             <InputHeading required>
               <SubHeading3>{t(`${translationKey}.tags`)}</SubHeading3>
             </InputHeading>
-            <Hint>{t(`${translationKey}.tags_hint`)}</Hint>
+            <Body3>{t(`${translationKey}.tags_hint`)}</Body3>
             <SubmissionSelect
               ariaLabel={t(`${translationKey}.tags`)}
               isMulti
@@ -280,11 +280,6 @@ const Subtitle = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-`;
-
-const Hint = styled(Body3)`
-  margin-top: 2px;
-  margin-bottom: 12px;
 `;
 
 const HeaderLeft = styled.div`

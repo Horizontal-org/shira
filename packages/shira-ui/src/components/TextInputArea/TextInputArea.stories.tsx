@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
-import { TextArea } from "./TextArea";
+import { TextInputArea } from "./TextInputArea";
 
 const meta = {
-  title: "Components/TextArea",
-  component: TextArea,
+  title: "Components/TextInputArea",
+  component: TextInputArea,
   parameters: {
     layout: "padded",
   },
-} satisfies Meta<typeof TextArea>;
+} satisfies Meta<typeof TextInputArea>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -18,7 +18,7 @@ export const TwoLineInput: Story = {
     const [value, setValue] = useState(args.value);
     return (
       <div style={{ width: 600 }}>
-        <TextArea
+        <TextInputArea
           {...args}
           value={value}
           onChange={(event) => setValue(event.target.value)}
@@ -31,6 +31,6 @@ export const TwoLineInput: Story = {
     value: "",
     maxLength: 400,
     showCharacterCount: true,
-    onChange: () => {},
+    onChange: () => { },
   },
 };
