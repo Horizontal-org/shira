@@ -30,6 +30,7 @@ import {
 import { publishQuestionSubmission, publishQuizSubmission } from "../../fetch/submissions";
 import { useStore } from "../../store";
 import { GenericErrorModal } from "../modals/ErrorModal";
+import { QUESTION_NAME_MAX_LENGTH, TEMPLATE_DESCRIPTION_MAX_LENGTH, QUIZ_NAME_MAX_LENGTH } from "../../utils/inputLimits";
 
 type LocationState = { quizTitle?: string; questionName?: string; displayName?: string };
 
@@ -162,7 +163,11 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
               placeholder={t(`${translationKey}.name_placeholder`)}
               value={name}
               showCharacterCount
-              maxLength={100}
+              maxLength={
+                submission.resourceType === "question"
+                  ? QUESTION_NAME_MAX_LENGTH
+                  : QUIZ_NAME_MAX_LENGTH
+              }
             />
           </Field>
 
@@ -176,7 +181,7 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
               placeholder={t(`${translationKey}.description_placeholder`)}
               value={description}
               showCharacterCount
-              maxLength={400}
+              maxLength={TEMPLATE_DESCRIPTION_MAX_LENGTH}
             />
           </Field>
 

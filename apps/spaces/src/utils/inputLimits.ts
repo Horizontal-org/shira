@@ -1,7 +1,10 @@
 export const SPACE_NAME_MAX_LENGTH = 150;
 export const QUIZ_NAME_MAX_LENGTH = 150;
 export const QUESTION_NAME_MAX_LENGTH = 100;
+export const TEMPLATE_DESCRIPTION_MAX_LENGTH = 400;
+export const SPACE_DISPLAY_NAME_MAX_LENGTH = 80;
 
+// Apps
 export const SENDER_NAME_MAX_LENGTH = 80;
 export const SENDER_EMAIL_MAX_LENGTH = 150;
 export const SENDER_PHONE_MAX_LENGTH = 25;
