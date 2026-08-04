@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { Body2Regular, Body3, styled, SubHeading3 } from '@horizontal-org/shira-ui'
+import { Body2Regular, Body3, InputHeading, styled, SubHeading3 } from '@horizontal-org/shira-ui'
 import { EmailTipTapEditor } from "../../../TipTapEditor/EmailTipTapEditor";
 import { Attachments } from "../Attachments";
 import { InputWithExplanation } from "../../../InputWithExplanation";
@@ -32,7 +32,7 @@ export const EmailContent: FunctionComponent<Props> = ({
     <Content id="email-content">
 
       <div>
-        <InputHeading $required={true}>
+        <InputHeading required>
           <SubHeading3 id="email-content-sender-title">{t('create_question.tabs.content.sender.title')}</SubHeading3>
           <Body3 id="email-content-sender-subtitle">{t('create_question.tabs.content.sender.subtitle')}</Body3>
         </InputHeading>
@@ -50,7 +50,7 @@ export const EmailContent: FunctionComponent<Props> = ({
       </div>
 
       <div>
-        <InputHeading $required={true}>
+        <InputHeading required>
           <SubHeading3 id="email-content-sender-email-title">{t('create_question.tabs.content.sender_email.title')}</SubHeading3>
           <Body3 id="email-content-sender-email-subtitle">{t('create_question.tabs.content.sender_email.subtitle')}</Body3>
         </InputHeading>
@@ -69,7 +69,7 @@ export const EmailContent: FunctionComponent<Props> = ({
       </div>
 
       <div>
-        <InputHeading $required={false}>
+        <InputHeading required={false}>
           <SubHeading3 id="email-content-subject-title">{t('create_question.tabs.content.email_subject.title')}</SubHeading3>
           <Body3 id="email-content-subject-subtitle">{t('create_question.tabs.content.email_subject.subtitle')}</Body3>
         </InputHeading>
@@ -118,20 +118,4 @@ const Content = styled.div`
   gap: 30px;
   display: flex;
   flex-direction: column;
-`
-
-const InputHeading = styled.div<{ $required: boolean }>`
-  padding-bottom: 12px;
-
-  > h5 {
-   display: flex;
-
-   ${props => props.$required && `
-      &:before {
-        content:"* ";
-        color: red;
-        padding-right: 4px;
-      }
-    `}
-  }
 `

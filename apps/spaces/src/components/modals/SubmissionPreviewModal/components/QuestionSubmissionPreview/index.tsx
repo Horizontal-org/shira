@@ -25,6 +25,7 @@ export const QuestionSubmissionPreview: FunctionComponent<Props> = ({ question, 
       submissionStatusBanner={(
         <SubmissionStatusBanner status={question.status} reason={question.reason} />
       )}
+      description={question.description}
       details={(
         <QuestionSubmissionPreviewDetailsCard
           language={question.language}

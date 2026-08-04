@@ -9,12 +9,14 @@ import {
   CloseButton,
   defaultTheme,
   FilterSelect,
+  InputHeading,
   Link1,
   Link3,
   Logo,
   styled,
   SubHeading1,
   SubHeading3,
+  TextInputArea,
   TextInput,
 } from "@horizontal-org/shira-ui";
 import { IoLanguage } from "react-icons/io5";
@@ -30,6 +32,7 @@ import {
 import { publishQuestionSubmission, publishQuizSubmission } from "../../fetch/submissions";
 import { useStore } from "../../store";
 import { GenericErrorModal } from "../modals/ErrorModal";
+import { QUESTION_NAME_MAX_LENGTH, TEMPLATE_DESCRIPTION_MAX_LENGTH, QUIZ_NAME_MAX_LENGTH } from "../../utils/inputLimits";
 
 type LocationState = { quizTitle?: string; questionName?: string; displayName?: string };
 
@@ -65,6 +68,12 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionError, setSubmissionError] = useState(false);
 
+  const nameMaxLength = submission.resourceType === "question"
+    ? QUESTION_NAME_MAX_LENGTH
+    : QUIZ_NAME_MAX_LENGTH;
+  const isWithinCharacterLimits = name.length <= nameMaxLength
+    && description.length <= TEMPLATE_DESCRIPTION_MAX_LENGTH;
+
   useEffect(() => {
     const loadOptions = async () => {
       const [nextLanguages, nextTags] = await Promise.all([
@@ -85,7 +94,8 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
     && languageIds.length
     && tagIds.length
     && acceptedTerms
-    && space?.name,
+    && space?.name
+    && isWithinCharacterLimits,
   );
 
   const handleSubmit = async () => {
@@ -153,37 +163,48 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
           </Subtitle>
 
           <Field>
-            <FieldTitle>{t(`${translationKey}.name`)}</FieldTitle>
-            <Hint>{t(`${translationKey}.name_hint`)}</Hint>
+            <InputHeading required>
+              <SubHeading3>{t(`${translationKey}.name`)}</SubHeading3>
+              <Body3>{t(`${translationKey}.name_hint`)}</Body3>
+            </InputHeading>
             <TextInput
               id={`${submission.resourceType}-template-name`}
               label={t(`${translationKey}.name_placeholder`)}
               onChange={(e) => setName(e.target.value)}
               placeholder={t(`${translationKey}.name_placeholder`)}
               value={name}
+              required
+              showCharacterCount
+              maxLength={nameMaxLength}
             />
           </Field>
 
           <Field>
-            <FieldTitle>{t(`${translationKey}.description`)}</FieldTitle>
-            <Hint>{t(`${translationKey}.description_hint`)}</Hint>
-            <TextInput
+            <InputHeading required>
+              <SubHeading3>{t(`${translationKey}.description`)}</SubHeading3>
+              <Body3>{t(`${translationKey}.description_hint`)}</Body3>
+            </InputHeading>
+            <TextInputArea
               id="template-description"
-              label={t(`${translationKey}.description_placeholder`)}
               onChange={(e) => setDescription(e.target.value)}
               placeholder={t(`${translationKey}.description_placeholder`)}
               value={description}
+              required
+              showCharacterCount
+              maxLength={TEMPLATE_DESCRIPTION_MAX_LENGTH}
             />
           </Field>
 
           <Field>
-            <FieldTitle>{t(`${translationKey}.language`)}</FieldTitle>
-            <Hint>
-              <Trans
-                i18nKey={`${translationKey}.language_hint`}
-                components={{ support: <Link3 href="/support" /> }}
-              />
-            </Hint>
+            <InputHeading required>
+              <SubHeading3>{t(`${translationKey}.language`)}</SubHeading3>
+              <Body3>
+                <Trans
+                  i18nKey={`${translationKey}.language_hint`}
+                  components={{ support: <Link3 href="/support" /> }}
+                />
+              </Body3>
+            </InputHeading>
             <SubmissionSelect
               ariaLabel={t(`${translationKey}.language`)}
               isMulti
@@ -196,8 +217,10 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
           </Field>
 
           <Field>
-            <FieldTitle>{t(`${translationKey}.tags`)}</FieldTitle>
-            <Hint>{t(`${translationKey}.tags_hint`)}</Hint>
+            <InputHeading required>
+              <SubHeading3>{t(`${translationKey}.tags`)}</SubHeading3>
+            </InputHeading>
+            <Body3>{t(`${translationKey}.tags_hint`)}</Body3>
             <SubmissionSelect
               ariaLabel={t(`${translationKey}.tags`)}
               isMulti
@@ -259,11 +282,6 @@ const Subtitle = styled.div`
   gap: 20px;
 `;
 
-const Hint = styled(Body3)`
-  margin-top: 2px;
-  margin-bottom: 12px;
-`;
-
 const HeaderLeft = styled.div`
   display: flex;
   align-items: center;
@@ -294,14 +312,6 @@ const Field = styled.div`
 
 const SubmissionSelect = styled(FilterSelect)`
   width: 262px;
-`;
-
-const FieldTitle = styled(SubHeading3)`
-  &::before {
-    content: "*";
-    color: ${props => props.theme.colors.error7};
-    margin-right: 6px;
-  }
 `;
 
 const Terms = styled.div`

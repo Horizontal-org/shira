@@ -43,6 +43,7 @@ export const mapQuestionSubmissionToPreview = (
 ): QuestionSubmissionPreviewDto => ({
   ...submission,
   questionName: template.name,
+  description: template.description,
   appType: template.appType,
   app: template.defaultApp,
   language: template.langTags[0]?.name,

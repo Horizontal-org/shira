@@ -2,6 +2,7 @@ import { FunctionComponent, useEffect, useState } from "react";
 import { Body1, Modal, TextInput } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
+import { SPACE_DISPLAY_NAME_MAX_LENGTH } from "../../../utils/inputLimits";
 
 interface Props {
   isOpen: boolean;
@@ -36,8 +37,9 @@ export const DisplayNameModal: FunctionComponent<Props> = ({ isOpen, onCancel, o
           id="display-name-input"
           label={t("templates.display_name.input")}
           onChange={(event) => setDisplayName(event.target.value)}
-          showCharacterCount
           value={displayName}
+          showCharacterCount
+          maxLength={SPACE_DISPLAY_NAME_MAX_LENGTH}
         />
       </ModalContent>
     </Modal>
