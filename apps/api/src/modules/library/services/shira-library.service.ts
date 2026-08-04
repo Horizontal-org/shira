@@ -36,7 +36,7 @@ export class ShiraLibraryService implements IShiraLibraryService {
 
     const method = init?.method ?? 'GET'
     const requestId = randomUUID()
-    const url = new URL(path, trimmedBaseUrl.endsWith('/') ? trimmedBaseUrl : `${trimmedBaseUrl}/`)
+    const url = new URL(path.replace(/^\//, ''), trimmedBaseUrl.endsWith('/') ? trimmedBaseUrl : `${trimmedBaseUrl}/`)
     const startedAt = Date.now()
     const logContext = { requestId, method, url: url.toString() }
 
@@ -85,7 +85,7 @@ export class ShiraLibraryService implements IShiraLibraryService {
     }
 
     const requestId = randomUUID()
-    const url = new URL(path, trimmedBaseUrl.endsWith('/') ? trimmedBaseUrl : `${trimmedBaseUrl}/`)
+    const url = new URL(path.replace(/^\//, ''), trimmedBaseUrl.endsWith('/') ? trimmedBaseUrl : `${trimmedBaseUrl}/`)
     const startedAt = Date.now()
     const logContext = { requestId, method: 'POST', url: url.toString() }
 
