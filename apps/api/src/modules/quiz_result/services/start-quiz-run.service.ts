@@ -41,7 +41,8 @@ export class StartQuizRunService implements IStartQuizRunService {
       const orgId = await this.getOrgByLearnerQuiz(learnerQuiz)
       // record sub usage
       if (!SELF_HOSTED) {
-        this.recordUsage(orgId);
+        // comment record usage for now
+        // this.recordUsage(orgId);
       }
     }
 
@@ -63,11 +64,11 @@ export class StartQuizRunService implements IStartQuizRunService {
     return quiz.space.organizationId
   }
 
-  private async recordUsage(orgId: number) {
-    try {
-      await this.paymentsQueue.add('record-usage', String(orgId))
-    } catch (error) {
-      throw new RecordUsageEnqueueQuizResultException(String(orgId), error)
-    }
-  }
+  // private async recordUsage(orgId: number) {
+  //   try {
+  //     await this.paymentsQueue.add('record-usage', String(orgId))
+  //   } catch (error) {
+  //     throw new RecordUsageEnqueueQuizResultException(String(orgId), error)
+  //   }
+  // }
 }
