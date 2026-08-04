@@ -49,6 +49,7 @@ export interface LibraryQuizQuestionTemplateDto {
     text: string;
     index: string;
   }[];
+  images?: { id: number; name: string; url: string }[];
 }
 
 type LibraryQuizApiDto = {

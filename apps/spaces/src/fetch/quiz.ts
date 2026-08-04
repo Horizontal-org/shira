@@ -12,6 +12,7 @@ export interface CreateTemplateQuizQuestionPayload {
   content: string
   isPhishing: boolean
   appName: string
+  images?: { id: number; name: string; url: string }[]
   explanations?: {
     position: string
     index: string

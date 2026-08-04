@@ -1,18 +1,24 @@
 version: "3"
 services:
-  garage:
-    image: dxflrs/garage:v1.1.0
-    container_name: "garage_image_server"
-    network_mode: "host"
-    restart: unless-stopped
+  images:
+    image: "dxflrs/garage:v2.3.0"
     ports:
       - 3900:3900 
       - 3901:3901
       - 3902:3902
       - 3903:3903
+    restart: "unless-stopped"
     volumes:
-      - ./garage.toml:/etc/garage.toml
-      - ./meta:/var/lib/garage/meta
-      - ./data:/var/lib/garage/data
-    environment:
-      - RUST_LOG=garage=debug
+    - "images-data:/var/lib/garage/"
+    - "./garage.toml:/etc/garage.toml"
+    healthcheck:
+      test:
+      - "CMD"
+      - "/garage"
+      - "status"
+      interval: "30s"
+      timeout: "10s"
+      retries: 10
+      start_period: "10s"
+volumes:
+  images-data:

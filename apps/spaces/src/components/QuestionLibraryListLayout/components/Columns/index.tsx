@@ -53,6 +53,7 @@ export type RowType = {
   app: SelectedApp;
   content: string;
   explanations: Explanation[];
+  images?: { id: number; name: string; url: string }[];
 
   apps: AppOption[];
   languages: LanguageOption[];

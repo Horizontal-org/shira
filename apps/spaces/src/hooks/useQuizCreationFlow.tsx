@@ -104,6 +104,7 @@ export const useQuizCreationFlow = ({
       content: question.content,
       isPhishing: question.isPhishing,
       appName: resolveTemplateAppName(question),
+      images: question.images ?? [],
       explanations: question.explanations ?? [],
     }));
   };

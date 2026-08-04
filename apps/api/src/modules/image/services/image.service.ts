@@ -5,16 +5,16 @@ import { IImageService } from '../interfaces/services/image.service.interface';
 
 @Injectable()
 export class ImageService implements IImageService {
-  
+
   protected _bucketName = process.env.IMAGE_BUCKET;
-  
+
   constructor(
-    @InjectMinio() 
+    @InjectMinio()
     private readonly minioService: Minio.Client
-  ) {}
+  ) { }
 
   public async get(name) {
-   return await this.minioService.presignedUrl(
+    return await this.minioService.presignedUrl(
       'GET',
       this._bucketName,
       name,
@@ -28,8 +28,8 @@ export class ImageService implements IImageService {
         this._bucketName,
         i.path,
       )
-      .then(url => ({ ...i, url }))
-      .catch(error => ({ ...i, error }))
+        .then(url => ({ ...i, url }))
+        .catch(error => ({ ...i, error }))
     )
 
     try {
@@ -42,11 +42,11 @@ export class ImageService implements IImageService {
 
   }
 
-  public async upload(params): Promise<void> {    
+  public async upload(params): Promise<void> {
     return new Promise((resolve, reject) => {
 
-      const filePath = params.filePath ?  params.filePath : `orphan-images/${params.fileName}`;
-      
+      const filePath = params.filePath ? params.filePath : `orphan-images/${params.fileName}`;
+
       this.minioService.putObject(
         this._bucketName,
         filePath,
@@ -62,7 +62,21 @@ export class ImageService implements IImageService {
       );
     });
   }
-  
+
+  public async download(relativePath: string): Promise<Buffer> {
+    try {
+      const stream = await this.minioService.getObject(this._bucketName, relativePath)
+      const chunks: Buffer[] = []
+      for await (const chunk of stream) {
+        chunks.push(chunk)
+      }
+      return Buffer.concat(chunks)
+    } catch (e) {
+      console.log("🚀 ~ ImageService ~ download ~ e:", e)
+      throw new ServiceUnavailableException()
+    }
+  }
+
   public async delete(imagePath: string): Promise<void> {
     console.log("🚀 ~ ImageService ~ delete ~ imagePath:", imagePath)
     try {
