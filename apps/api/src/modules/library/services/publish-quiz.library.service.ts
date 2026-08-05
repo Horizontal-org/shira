@@ -48,7 +48,7 @@ export class PublishQuizLibraryService implements IPublishQuizLibraryService {
     )
 
     const readyQuiz = {
-      title: quiz.title,
+      title: templateName,
       description: templateDescription,
       questions: preparedQuestions.filter((question) => question !== null),
       author,

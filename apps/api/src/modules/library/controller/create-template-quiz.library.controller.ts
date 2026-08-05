@@ -10,6 +10,7 @@ import { SubscriptionDecorator } from "src/modules/subscription/decorators/subsc
 import { CachedSubscription } from "src/modules/subscription/dto/cached-response.dto";
 import { TYPES as TYPES_QUIZ } from "src/modules/quiz/interfaces";
 import { IValidateCreateQuizService } from "src/modules/quiz/interfaces/services/validate-create.quiz.service.interface";
+import { IValidateQuizNameService } from "src/modules/quiz/interfaces/services/validate-name.quiz.service.interface";
 import { CreateTemplateQuizDto } from "../dto/create-template-quiz.library.dto";
 import { ICreateTemplateQuizService } from "../interfaces/services/create-template-quiz.library.service.interface";
 import { PublicLibraryDisabledGuard } from "src/modules/quiz/guards/public-library-disabled.guard";
@@ -21,6 +22,8 @@ export class CreateTemplateQuizController {
     private createTemplateQuizService: ICreateTemplateQuizService,
     @Inject(TYPES_QUIZ.services.IValidateCreateQuizService)
     private validateQuizService: IValidateCreateQuizService,
+    @Inject(TYPES_QUIZ.services.IValidateQuizNameService)
+    private validateQuizNameService: IValidateQuizNameService,
   ) { }
 
   @Post()
@@ -36,6 +39,11 @@ export class CreateTemplateQuizController {
     await this.validateQuizService.execute(
       subscription,
       createTemplateQuizDto.visibility,
+      createTemplateQuizDto.space.id,
+    );
+
+    await this.validateQuizNameService.execute(
+      createTemplateQuizDto.title,
       createTemplateQuizDto.space.id,
     );
 

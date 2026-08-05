@@ -13,6 +13,8 @@ interface Props {
   onConfirm: (title: string) => void;
   validateQuizName: (name: string) => Promise<void>;
   isSubmitting?: boolean;
+  submitError?: string | null;
+  onSubmitErrorClear?: () => void;
 }
 
 export const AddQuizFromTemplateModal: FunctionComponent<Props> = ({
@@ -22,6 +24,8 @@ export const AddQuizFromTemplateModal: FunctionComponent<Props> = ({
   onConfirm,
   validateQuizName,
   isSubmitting = false,
+  submitError,
+  onSubmitErrorClear,
 }) => {
   const { t } = useTranslation();
   const [title, setTitle] = useState("");
@@ -37,7 +41,8 @@ export const AddQuizFromTemplateModal: FunctionComponent<Props> = ({
     onValidTitle: onConfirm,
   });
   const trimmedTitle = title.trim();
-  const hasError = Boolean(titleError);
+  const displayedError = titleError ?? submitError;
+  const hasError = Boolean(displayedError);
 
   const cannotSubmit = !hasRequiredValue(trimmedTitle)
     || isSubmitting
@@ -91,7 +96,10 @@ export const AddQuizFromTemplateModal: FunctionComponent<Props> = ({
           id="add-quiz-from-template-title-input"
           label={t("modals.add_quiz_from_template.input_label")}
           value={title}
-          onChange={(event) => handleTitleChange(event.target.value)}
+          onChange={(event) => {
+            onSubmitErrorClear?.();
+            handleTitleChange(event.target.value);
+          }}
           isLoading={isSubmitting || isValidatingTitle}
           showCharacterCount={true}
           maxLength={QUIZ_NAME_MAX_LENGTH}
@@ -99,7 +107,7 @@ export const AddQuizFromTemplateModal: FunctionComponent<Props> = ({
         />
 
         <ErrorContainer role="alert" aria-live="polite">
-          {hasError && <ErrorText>{t(titleError)}</ErrorText>}
+          {hasError && <ErrorText>{t(displayedError!)}</ErrorText>}
         </ErrorContainer>
       </FormContent>
     </Modal>

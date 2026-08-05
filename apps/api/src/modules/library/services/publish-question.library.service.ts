@@ -34,6 +34,8 @@ export class PublishQuestionLibraryService implements IPublishQuestionLibrarySer
 
     const readyQuestion = {
       ...await this.prepareQuestionsService.prepareQuestionForPublishing(question),
+      name: templateName,
+      description: templateDescription,
       author,
       langTagIds,
       tagIds
