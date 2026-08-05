@@ -155,14 +155,17 @@ export const MySubmissionsLayout = () => {
             onPreviewQuiz={handlePreviewQuiz}
             onPreviewQuestion={handlePreviewQuestion}
           />
-          <SubmissionPreviewModal
-            quiz={previewQuiz}
-            question={previewQuestion}
-            onClose={() => {
-              setPreviewQuiz(null);
-              setPreviewQuestion(null);
-            }}
-          />
+
+          {/* 
+            <SubmissionPreviewModal
+              quiz={previewQuiz}
+              question={previewQuestion}
+              onClose={() => {
+                setPreviewQuiz(null);
+                setPreviewQuestion(null);
+              }}
+            />          
+          */}
         </LayoutMainContentWrapper>
       </LayoutMainContent>
     </LayoutContainer>
