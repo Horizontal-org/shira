@@ -888,7 +888,7 @@
                 "pro": {
                     "title": "Pro",
                     "description": "Experience the full power of Shira",
-                    "price": "$50/month + $1 per quiz taken",
+                    "price": "$100/month",
                     "cta": "Start 14-day free trial"
                 },
                 "enterprise": {
