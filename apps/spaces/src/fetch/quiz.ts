@@ -79,7 +79,7 @@ export const createQuizFromTemplate = async (
     return (res.data?.quizId ?? res.data)
   } catch (err) {
     console.log("🚀 ~ createQuizFromTemplate ~ err:", err)
-    throw err
+    throw new Error('Failed to create quiz from template')
   }
 }
 
