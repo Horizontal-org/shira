@@ -118,7 +118,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const {
     selectedQuizForDuplicate,
     selectedTemplateQuiz,
-    templateTitleError,
     isSubmitting,
     submittingQuizId,
     isCreateTitleModalOpen,
@@ -131,8 +130,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     moveToVisibilityStep,
     handleBackFromVisibility,
     handleConfirmVisibility,
-    cancelFlow,
-    clearTemplateTitleError,
+    cancelFlow
   } = useQuizCreationFlow({
     createQuiz,
     fetchQuizzes,
@@ -507,8 +505,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             onConfirm={moveToVisibilityStep}
             validateQuizName={validateQuizName}
             isSubmitting={isSubmitting}
-            submitError={templateTitleError}
-            onSubmitErrorClear={clearTemplateTitleError}
           />
 
           <CheckoutSuccessModal

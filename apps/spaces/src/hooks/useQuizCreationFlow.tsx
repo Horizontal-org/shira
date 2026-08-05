@@ -13,7 +13,6 @@ import {
 } from "../fetch/quiz_templates";
 import { Quiz } from "../store/slices/quiz";
 import { getAppsByType, normalizePreviewAppName } from "../utils/appNames";
-import { handleHttpError } from "../fetch/handleError";
 import { hasRequiredValue } from "../utils/validation";
 
 type QuizFlowMode = "create" | "duplicate" | "template" | null;
@@ -38,7 +37,6 @@ export const useQuizCreationFlow = ({
   const [selectedQuizForDuplicate, setSelectedQuizForDuplicate] = useState<Quiz | null>(null);
   const [selectedTemplateQuiz, setSelectedTemplateQuiz] = useState<LibraryQuizDto | null>(null);
   const [selectedTemplateQuestions, setSelectedTemplateQuestions] = useState<LibraryQuizQuestionTemplateDto[] | null>(null);
-  const [templateTitleError, setTemplateTitleError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittingQuizId, setSubmittingQuizId] = useState<number | null>(null);
 
@@ -49,7 +47,6 @@ export const useQuizCreationFlow = ({
     setSelectedQuizForDuplicate(null);
     setSelectedTemplateQuiz(null);
     setSelectedTemplateQuestions(null);
-    setTemplateTitleError(null);
     setSubmittingQuizId(null);
   };
 
@@ -115,7 +112,6 @@ export const useQuizCreationFlow = ({
   const moveToVisibilityStep = (newTitle: string) => {
     if (!hasRequiredValue(newTitle)) { return; }
 
-    setTemplateTitleError(null);
     setTitle(newTitle);
     setStep(2);
   };
@@ -148,7 +144,6 @@ export const useQuizCreationFlow = ({
     if (mode === "template" && selectedTemplateQuiz) {
       setStep(0);
       setIsSubmitting(true);
-      let shouldReset = true;
 
       try {
         const templateQuestions = selectedTemplateQuestions ?? await getQuizTemplateQuestions(selectedTemplateQuiz.id);
@@ -165,19 +160,11 @@ export const useQuizCreationFlow = ({
         });
 
         navigate(`/quiz/${quizId}`);
-      } catch (error) {
-        if (handleHttpError(error).message === "quiz_name_already_exists") {
-          shouldReset = false;
-          setTemplateTitleError("error_messages.quiz_name_already_exists");
-          setStep(1);
-        } else {
-          toast.error(t("error_messages.duplicate_quiz_fail"), { duration: 3000 });
-        }
+      } catch {
+        toast.error(t("error_messages.duplicate_quiz_fail"), { duration: 3000 });
       } finally {
         setIsSubmitting(false);
-        if (shouldReset) {
-          reset();
-        }
+        reset();
       }
 
       return;
@@ -218,7 +205,6 @@ export const useQuizCreationFlow = ({
     setTitle,
     selectedQuizForDuplicate,
     selectedTemplateQuiz,
-    templateTitleError,
     isSubmitting,
     submittingQuizId,
 
@@ -231,7 +217,6 @@ export const useQuizCreationFlow = ({
     startDuplicateQuizFlow,
     startTemplateQuizFlow,
     moveToVisibilityStep,
-    clearTemplateTitleError: () => setTemplateTitleError(null),
     handleBackFromVisibility,
     handleConfirmVisibility,
     cancelFlow,
