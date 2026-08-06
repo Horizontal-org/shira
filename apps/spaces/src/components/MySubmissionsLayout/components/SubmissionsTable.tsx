@@ -56,24 +56,24 @@ export const SubmissionsTable = ({
       cell: ({ row }) =>
         <SubmissionStatusPill status={row.original.status} />,
     },
-    {
-      header: t("templates.submissions_table.actions"),
-      accessorKey: "actions",
-      cell: ({ row }) => {
-        return (
-          <PreviewActionButton
-            type="button"
-            title={t("quiz_library.preview.columns.preview")}
-            onClick={() => onPreview(row.original.resourceId)}
-          >
-            <MdRemoveRedEye
-              size={20}
-              color={defaultTheme.colors.dark.darkGrey}
-            />
-          </PreviewActionButton>
-        );
-      }
-    },
+    // {
+    //   header: t("templates.submissions_table.actions"),
+    //   accessorKey: "actions",
+    //   cell: ({ row }) => {
+    //     return (
+    //       <PreviewActionButton
+    //         type="button"
+    //         title={t("quiz_library.preview.columns.preview")}
+    //         onClick={() => onPreview(row.original.resourceId)}
+    //       >
+    //         <MdRemoveRedEye
+    //           size={20}
+    //           color={defaultTheme.colors.dark.darkGrey}
+    //         />
+    //       </PreviewActionButton>
+    //     );
+    //   }
+    // },
   ];
 
   if (submissions.length === 0) {
@@ -118,7 +118,7 @@ export const SubmissionsTable = ({
             <col style={{ width: "58%" }} />
             <col style={{ width: "16%" }} />
             <col style={{ width: "16%" }} />
-            <col style={{ width: "10%" }} />
+            {/* <col style={{ width: "10%" }} /> */}
           </colgroup>
         )}
       />
