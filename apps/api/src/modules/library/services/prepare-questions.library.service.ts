@@ -37,7 +37,7 @@ export class PrepareQuestionsLibraryService implements IPrepareQuestionsLibraryS
       .getMany()
   }
 
-  async prepareQuestionForPublishing(question: Question) {
+  async prepareQuestionForPublishing(question: Question, apiKey: string) {
     if (!question.apps || question.apps.length === 0) return null
 
     const firstApp = question.apps[0]
@@ -53,7 +53,7 @@ export class PrepareQuestionsLibraryService implements IPrepareQuestionsLibraryS
       }
     })
 
-    const imageIdMap = await this.transferReferencedImages(qt.content, explanations, question.images ?? [])
+    const imageIdMap = await this.transferReferencedImages(qt.content, explanations, question.images ?? [], apiKey)
 
     return {
       name: question.name,
@@ -73,6 +73,7 @@ export class PrepareQuestionsLibraryService implements IPrepareQuestionsLibraryS
     questionContent: string,
     explanations: { content: string }[],
     images: { id: number; name: string; relativePath: string }[],
+    apiKey: string,
   ): Promise<Map<number, number>> {
     const referencedIds = new Set<number>()
     for (const id of QuestionSanitizer.extractImageIds(questionContent)) {
@@ -91,7 +92,7 @@ export class PrepareQuestionsLibraryService implements IPrepareQuestionsLibraryS
       if (!image) continue
 
       const buffer = await this.imageService.download(image.relativePath)
-      const uploaded = await this.shiraLibraryService.uploadImage(buffer, image.name)
+      const uploaded = await this.shiraLibraryService.uploadImage(buffer, image.name, apiKey)
       imageIdMap.set(id, uploaded.id)
     }
 

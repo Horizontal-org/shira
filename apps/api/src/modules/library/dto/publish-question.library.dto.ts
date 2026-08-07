@@ -1,5 +1,5 @@
-import { Type } from 'class-transformer'
 import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength } from 'class-validator'
+import { SpaceEntity } from 'src/modules/space/domain/space.entity'
 
 export class PublishAuthorDto {
   @IsString()
@@ -23,11 +23,15 @@ export class PublishQuestionLibraryDto {
   @IsNumber()
   questionId: number
 
-  @IsNumber()
-  spaceId: number
+  space: SpaceEntity
 
-  @Type(() => PublishAuthorDto)
-  author: PublishAuthorDto
+  @IsString()
+  @MaxLength(255)
+  spaceDisplayName: string
+
+  @IsString()
+  @MaxLength(255)
+  organizationName: string
 
   @IsString()
   @IsNotEmpty()
