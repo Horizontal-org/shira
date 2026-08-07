@@ -1,25 +1,29 @@
 import { FunctionComponent, ReactElement, useEffect, useRef, useState } from "react";
-import { FiCopy, FiMoreVertical, FiTrash2 } from "react-icons/fi";
+import { FiCopy, FiMoreVertical, FiTrash2, FiUpload } from "react-icons/fi";
 import { defaultTheme, EditIcon, styled } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
 
 interface Props {
   editLabel: string;
   duplicateLabel: string;
+  submitAsTemplateLabel: string;
   deleteLabel: string;
   disabled: boolean;
   onEdit: () => void;
   onDuplicate: () => void;
+  onSubmitAsTemplate: () => void;
   onDelete: () => void;
 }
 
 export const QuestionTableActionsMenu: FunctionComponent<Props> = ({
   editLabel,
   duplicateLabel,
+  submitAsTemplateLabel,
   deleteLabel,
   disabled,
   onEdit,
   onDuplicate,
+  onSubmitAsTemplate,
   onDelete,
 }) => {
   const { t } = useTranslation();
@@ -71,6 +75,15 @@ export const QuestionTableActionsMenu: FunctionComponent<Props> = ({
         onDuplicate();
       },
       icon: <FiCopy color={defaultTheme.colors.dark.darkGrey} />,
+    },
+    {
+      text: submitAsTemplateLabel,
+      onClick: (event) => {
+        event.stopPropagation();
+        setIsOpen(false);
+        onSubmitAsTemplate();
+      },
+      icon: <FiUpload color={defaultTheme.colors.dark.darkGrey} />,
     },
     {
       text: deleteLabel,
@@ -169,7 +182,7 @@ const MenuPopup = styled.div`
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
-  width: 150px;
+  width: 200px;
   z-index: 20;
   background: white;
   border-radius: 8px;

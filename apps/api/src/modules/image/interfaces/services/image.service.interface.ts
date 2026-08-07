@@ -14,6 +14,7 @@ export interface IImageService {
   upload(params: ImageParams): Promise<void>;
   get(name): Promise<string>;
   bulkGet(images: ImageResponse[]): void
+  download(relativePath: string): Promise<Buffer>;
   delete(name: string): Promise<void>;
   copyAndDeleteOrigin(originPath: string, destinationPath: string)
 }

@@ -134,6 +134,7 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
         content: q.content,
         isPhishing: q.isPhishing,
         appId: q.app.id,
+        images: q.images,
         explanations: q.explanations,
       });
 

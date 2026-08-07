@@ -26,6 +26,7 @@ interface Props {
   duplicatingQuestionId: string | null;
   onEditQuestion: (questionId: string) => void;
   onDuplicateQuestion: (questionId: string) => void;
+  onSubmitQuestionAsTemplate: (questionId: string) => void;
   onDeleteQuestion: (questionId: string) => void;
   onReorder: (newOrder: QuizQuestion[]) => void;
 }
@@ -35,12 +36,14 @@ export const QuestionTable: FunctionComponent<Props> = ({
   duplicatingQuestionId,
   onEditQuestion,
   onDuplicateQuestion,
+  onSubmitQuestionAsTemplate,
   onDeleteQuestion,
   onReorder,
 }) => {
   const { t } = useTranslation();
   const editTooltip = t("questions_tab.action_tooltips.edit");
   const duplicateTooltip = t("questions_tab.action_tooltips.duplicate");
+  const submitAsTemplateTooltip = t("questions_tab.action_tooltips.submit_as_template");
   const deleteTooltip = t("questions_tab.action_tooltips.delete");
 
   const rows = useMemo<QuizQuestion[]>(
@@ -134,9 +137,11 @@ export const QuestionTable: FunctionComponent<Props> = ({
                 duplicatingQuestionId={duplicatingQuestionId}
                 onEditQuestion={onEditQuestion}
                 onDuplicateQuestion={onDuplicateQuestion}
+                onSubmitQuestionAsTemplate={onSubmitQuestionAsTemplate}
                 onDeleteQuestion={onDeleteQuestion}
                 editTooltip={editTooltip}
                 duplicateTooltip={duplicateTooltip}
+                submitAsTemplateTooltip={submitAsTemplateTooltip}
                 deleteTooltip={deleteTooltip}
               />
             ))}

@@ -4,6 +4,8 @@ import { PrepareQuestionsLibraryService } from './services/prepare-questions.lib
 import { PublishQuizLibraryService } from './services/publish-quiz.library.service'
 import { ShiraLibraryLoggerService } from './services/shira-library-logger.service'
 import { ShiraLibraryService } from './services/shira-library.service'
+import { CreateTemplateQuizService } from './services/create-template-quiz.library.service'
+import { CreateTemplateQuestionService } from './services/create-template-question.library.service'
 
 export const publishQuestionLibraryProvider = {
   provide: TYPES.services.IPublishQuestionLibraryService,
@@ -30,10 +32,22 @@ export const shiraLibraryProvider = {
   useClass: ShiraLibraryService,
 }
 
+export const createTemplateQuizLibraryProvider = {
+  provide: TYPES.services.ICreateTemplateQuizService,
+  useClass: CreateTemplateQuizService,
+}
+
+export const createTemplateQuestionLibraryProvider = {
+  provide: TYPES.services.ICreateTemplateQuestionService,
+  useClass: CreateTemplateQuestionService,
+}
+
 export const libraryServiceProviders = [
   publishQuestionLibraryProvider,
   prepareQuestionsLibraryProvider,
   publishQuizLibraryProvider,
   shiraLibraryLoggerProvider,
   shiraLibraryProvider,
+  createTemplateQuizLibraryProvider,
+  createTemplateQuestionLibraryProvider,
 ]

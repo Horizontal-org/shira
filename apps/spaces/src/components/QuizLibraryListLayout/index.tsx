@@ -25,7 +25,6 @@ import {
   LibraryToolbarSearchInput,
   LibraryToolbarSortSelect,
 } from "../LibraryControlsLayout";
-import { LibraryPaginationContainer } from "../TemplatePaginationWrapper";
 
 export const QuizTemplatesListLayout: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -201,9 +200,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
           ) : (
             <>
               {shouldShowPagination && (
-                <LibraryPaginationContainer>
-                  <CardPagination {...paginationProps} />
-                </LibraryPaginationContainer>
+                <CardPagination {...paginationProps} />
               )}
 
               {showEmptyState ? (
@@ -229,9 +226,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
           )}
 
           {shouldShowPagination && (
-            <LibraryPaginationContainer>
-              <CardPagination {...paginationProps} />
-            </LibraryPaginationContainer>
+            <CardPagination {...paginationProps} />
           )}
         </PageInner>
 

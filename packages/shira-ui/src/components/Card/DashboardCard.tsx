@@ -13,6 +13,7 @@ import {
   CardFooterMeta,
   type CardMenuItem,
 } from './Card';
+import { FiUpload } from 'react-icons/fi';
 
 export interface DashboardCardProps {
   id?: string;
@@ -29,6 +30,7 @@ export interface DashboardCardProps {
   onCopyUrl?: () => void;
   onEdit?: () => void;
   onDuplicate?: () => void;
+  onSubmitAsTemplate?: () => void;
   onDelete?: () => void;
   onClick?: () => void;
   showLoading?: boolean;
@@ -38,6 +40,7 @@ export interface DashboardCardProps {
   editText?: string;
   duplicateText?: string;
   copyLinkText?: string;
+  submitAsTemplateText?: string;
   deleteText?: string;
 }
 
@@ -56,6 +59,7 @@ export const DashboardCard: FunctionComponent<DashboardCardProps> = ({
   onCopyUrl,
   onEdit,
   onDuplicate,
+  onSubmitAsTemplate,
   onDelete,
   onClick,
   showLoading = false,
@@ -65,6 +69,7 @@ export const DashboardCard: FunctionComponent<DashboardCardProps> = ({
   editText = 'Edit',
   duplicateText = 'Duplicate',
   copyLinkText = 'Copy link',
+  submitAsTemplateText = 'Submit as template',
   deleteText = 'Delete',
 }) => {
   const [showPublishTooltip, setShowPublishTooltip] = useState(false);
@@ -86,6 +91,11 @@ export const DashboardCard: FunctionComponent<DashboardCardProps> = ({
         onClick: onCopyUrl,
         icon: <IoLinkOutline color={defaultTheme.colors.dark.darkGrey} />,
       },
+      onSubmitAsTemplate && {
+        text: submitAsTemplateText,
+        onClick: onSubmitAsTemplate,
+        icon: <FiUpload color={defaultTheme.colors.dark.darkGrey} />,
+      },
       onDelete && {
         text: deleteText,
         onClick: onDelete,
@@ -104,6 +114,8 @@ export const DashboardCard: FunctionComponent<DashboardCardProps> = ({
     onDelete,
     onDuplicate,
     onEdit,
+    onSubmitAsTemplate,
+    submitAsTemplateText,
   ]);
 
   return (

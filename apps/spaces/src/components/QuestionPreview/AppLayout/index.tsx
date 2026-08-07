@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react'
 import { styled } from '@horizontal-org/shira-ui'
-import { UIExplanation } from '../../QuestionPreview'
+import type { UIExplanation } from '../types'
 import { MailApps } from '../AppTypes/MailApps'
 import { MessagingApps } from '../AppTypes/MessagingApps'
 import { normalizePreviewAppName } from '../../../utils/appNames'

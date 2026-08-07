@@ -11,6 +11,7 @@ export class CreateQuestionQuizDto {
     content: string;
     isPhishing: boolean;
     app: number;
+    images?: { id: number; name: string; url: string }[];
   };
 
   @IsArray()

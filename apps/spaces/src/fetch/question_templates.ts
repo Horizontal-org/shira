@@ -7,6 +7,8 @@ export const DEFAULT_QUESTION_TEMPLATE_SORT: QuestionTemplateSortOption =
 export interface LibraryQuestionTemplateDto {
   id: number;
   name: string;
+  author: string;
+  authorPublicSpaceId?: string;
   highlighted: boolean;
   isPhishing: boolean;
   content: string;
@@ -20,6 +22,7 @@ export interface LibraryQuestionTemplateDto {
     text: string;
     index: string;
   }[];
+  images?: { id: number; name: string; url: string }[];
 }
 
 export interface LibraryQuestionTemplatesPageDto {
@@ -69,6 +72,10 @@ export interface QuestionTemplateFilterOption {
 type LibraryQuestionTemplateApiDto = {
   id: number;
   name: string;
+  author?: {
+    displayName: string;
+    publicSpaceId: string;
+  };
   highlighted: boolean;
   isPhishing: boolean;
   content: string;
@@ -90,6 +97,7 @@ type LibraryQuestionTemplateApiDto = {
     content: string;
     positionIndex: string;
   }[];
+  images?: { id: number; name: string; url: string }[];
 };
 
 type LibraryQuestionTemplatesApiResponseDto = {
@@ -133,6 +141,8 @@ const normalizeQuestionTemplate = (
 ): LibraryQuestionTemplateDto => ({
   id: questionTemplate.id,
   name: questionTemplate.name,
+  author: questionTemplate.author?.displayName ?? "Shira team",
+  authorPublicSpaceId: questionTemplate.author?.publicSpaceId,
   highlighted: questionTemplate.highlighted,
   isPhishing: questionTemplate.isPhishing,
   content: questionTemplate.content,
@@ -148,6 +158,7 @@ const normalizeQuestionTemplate = (
     text: explanation.content,
     index: explanation.positionIndex,
   })),
+  images: questionTemplate.images ?? [],
 });
 
 const serializeFilterValues = (values?: string[]) => {
@@ -247,6 +258,7 @@ type AddQuestionTemplateToQuizParams = {
   content: string;
   isPhishing: boolean;
   appId: number;
+  images?: { id: number; name: string; url: string }[];
   explanations?: {
     position: string | number;
     text: string;
@@ -260,16 +272,16 @@ export const addQuestionTemplateToQuiz = async ({
   content,
   isPhishing,
   appId,
+  images,
   explanations = [],
 }: AddQuestionTemplateToQuizParams) => {
   const payload = {
     quizId,
-    question: {
-      name: questionName,
-      content,
-      isPhishing,
-      app: appId,
-    },
+    questionName,
+    content,
+    isPhishing,
+    appId,
+    images,
     explanations: explanations.map((explanation) => ({
       position: String(explanation.position),
       index: String(explanation.index),
@@ -278,7 +290,7 @@ export const addQuestionTemplateToQuiz = async ({
   };
 
   const { data } = await axios.post(
-    `${process.env.REACT_APP_API_URL}/quiz/question`,
+    `${process.env.REACT_APP_API_URL}/question-from-template`,
     payload,
   );
 

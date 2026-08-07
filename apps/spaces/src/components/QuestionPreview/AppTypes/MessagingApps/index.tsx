@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react'
 import useParseHTML from '../../../../utils/parseHtml';
 import { DatingApp, FBMessenger, SMS, WhatsApp } from '@horizontal-org/shira-ui';
-import { UIExplanation } from '../..';
+import type { UIExplanation } from '../../types';
 
 interface Props {
   content: string;

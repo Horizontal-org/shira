@@ -81,6 +81,7 @@ export const GridLayout: Story = {
       onCopyUrl: () => console.log('Copy URL'),
       onEdit: () => console.log('edit'),
       onDuplicate: () => console.log('duplicate'),
+      onSubmitAsTemplate: () => console.log('submit as template'),
       onDelete: () => console.log('delete'),
       onClick: () => console.log('card click'),
       publishedText: 'Published',
@@ -98,6 +99,7 @@ export const GridLayout: Story = {
               onCopyUrl={() => console.log('Copy URL for card', index)}
               onEdit={() => console.log('on edit')}
               onDuplicate={() => console.log('on duplicate')}
+              onSubmitAsTemplate={() => console.log('on submit as template')}
               onDelete={() => console.log('on delete')}
               onClick={() => console.log('card clicked')}
               publishedText={'Published'}/>

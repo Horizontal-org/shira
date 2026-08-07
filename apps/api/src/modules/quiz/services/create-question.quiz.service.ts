@@ -1,119 +1,28 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { QuizQuestion as QuizQuestionEntity } from '../domain/quizzes_questions.entity';
 
+import { TYPES } from '../interfaces';
 import { ICreateQuestionQuizService } from '../interfaces/services/create-question.quiz.service.interface';
+import { IAddQuestionToQuizService } from '../interfaces/services/add-question-to-quiz.quiz.service.interface';
 import { CreateQuestionQuizDto } from '../dto/create-question.quiz.dto';
-import { Explanation, Question } from 'src/modules/question/domain';
-import { QuestionTranslation } from 'src/modules/translation/domain/questionTranslation.entity';
-import { ExplanationTranslation } from 'src/modules/translation/domain/explanationTranslation.entity';
-import { Language } from 'src/modules/languages/domain';
-import { App } from 'src/modules/app/domain';
-import { QuestionSanitizer } from 'src/utils/question-sanitizer.util';
-
-import { TYPES as TYPES_QUESTION_IMAGE } from '../../question_image/interfaces'
-import { ISyncQuestionImageService } from 'src/modules/question_image/interfaces/services/sync.question_image.service.interface';
 
 @Injectable()
 export class CreateQuestionQuizService implements ICreateQuestionQuizService {
 
   constructor(
-    @InjectRepository(QuizQuestionEntity)
-    private readonly quizQuestionRepo: Repository<QuizQuestionEntity>,
-    @InjectRepository(Question)
-    private readonly questionRepo: Repository<Question>,
-    @InjectRepository(App)
-    private readonly appRepo: Repository<App>,
-    @InjectRepository(Explanation)
-    private readonly explanationRepo: Repository<Explanation>,
-    @InjectRepository(QuestionTranslation)
-    private readonly questionTranslationRepo: Repository<QuestionTranslation>,
-    @InjectRepository(ExplanationTranslation)
-    private readonly explanationTranslationRepo: Repository<ExplanationTranslation>,
-    @InjectRepository(Language)
-    private readonly languageRepo: Repository<Language>,
-    @Inject(TYPES_QUESTION_IMAGE.services.ISyncQuestionImageService)
-    private syncImagesService: ISyncQuestionImageService
+    @Inject(TYPES.services.IAddQuestionToQuizService)
+    private addQuestionToQuizService: IAddQuestionToQuizService,
   ) { }
 
-  async execute(createQuestionDto: CreateQuestionQuizDto) {
-
-    let question: Question;
-
-    const app = await this.appRepo.findOne({
-      where: { id: createQuestionDto.question.app },
-    })
-
-    const language = await this.languageRepo.findOne({
-      where: { code: 'en' },
-    })
-
-    question = new Question();
-    question.name = createQuestionDto.question.name;
-    question.isPhising = createQuestionDto.question.isPhishing ? 1 : 0;
-    question.apps = [app];
-    question.languageId = language.id;
-    question.content = '';
-    question.type = 'quiz'
-
-    //CREATE QUESTION
-    //  <- RETURNS QUESTION-ID
-    const questionEntity = await this.questionRepo.save(question);
-
-    //SYNC IMAGES HERE
-    const imageIds = QuestionSanitizer.extractImageIds(createQuestionDto.question.content)
-    await this.syncImagesService.execute({
-      imageIds: imageIds,
-      questionId: questionEntity.id,
-      quizId: createQuestionDto.quizId
-    })
-
-
-    const originalContent = createQuestionDto.question.content;
-    const sanitizedContent = QuestionSanitizer.sanitizeQuestionContent(originalContent);
-
-    //CREATE QUESTION_TRANSLATION WITH DEFAULT ON ENGLISH
-    const newQuestionTranslation = new QuestionTranslation();
-    newQuestionTranslation.content = sanitizedContent;
-    newQuestionTranslation.question = questionEntity;
-    newQuestionTranslation.languageId = language.id;
-    await this.questionTranslationRepo.save(newQuestionTranslation);
-
-    //ON LOOP
-    //--CREATE EXPLANATION
-    //--<-RETURN EXPLANATION_ID
-    //--CREATE EXPLANATION_TRANSLATION
-    for (const explanation of createQuestionDto.explanations) {
-      const savedExplanation = await this.explanationRepo.save(
-        this.explanationRepo.create({
-          position: explanation.position,
-          index: explanation.index,
-          text: '',
-          question: questionEntity,
-        })
-      )
-
-      const newExplanationTranslation =
-        this.explanationTranslationRepo.create({
-          explanation: savedExplanation,
-          content: QuestionSanitizer.sanitizeQuestionContent(explanation.text),
-          languageId: language.id,
-        })
-      await this.explanationTranslationRepo.save(newExplanationTranslation);
-    }
-
-
-    //GET QUIZ_QUESTIONS COUNT FOR POSITION
-    const position = await this.quizQuestionRepo
-      .count({ where: { quizId: createQuestionDto.quizId } })
-
-    //CREATE QUIZ_QUESTION
-    const quizQuestion = this.quizQuestionRepo.create({
-      position: position + 1,
+  async execute(createQuestionDto: CreateQuestionQuizDto): Promise<void> {
+    await this.addQuestionToQuizService.execute({
       quizId: createQuestionDto.quizId,
-      questionId: questionEntity.id
-    })
-    await this.quizQuestionRepo.save(quizQuestion)
+      name: createQuestionDto.question.name,
+      content: createQuestionDto.question.content,
+      isPhishing: createQuestionDto.question.isPhishing,
+      app: { id: createQuestionDto.question.app },
+      isFromTemplate: false,
+      images: createQuestionDto.question.images,
+      explanations: createQuestionDto.explanations,
+    });
   }
 }
