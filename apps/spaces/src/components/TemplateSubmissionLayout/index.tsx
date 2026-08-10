@@ -201,7 +201,7 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
               <Body3>
                 <Trans
                   i18nKey={`${translationKey}.language_hint`}
-                  components={{ support: <Link3 href="/support" /> }}
+                  components={{ support: <Link3 href="/support" target="_blank" rel="noreferrer" /> }}
                 />
               </Body3>
             </InputHeading>
