@@ -10,9 +10,9 @@ export const Attachment: FunctionComponent<Props> = ({ name, explanationPosition
 
   return (
     <Wrapper>
-      <Content>
+      <Content data-explanation={explanationPosition}>
         <SvgWrapper><Document /></SvgWrapper>
-        <span data-explanation={explanationPosition}>
+        <span>
           { name }
         </span>
       </Content>

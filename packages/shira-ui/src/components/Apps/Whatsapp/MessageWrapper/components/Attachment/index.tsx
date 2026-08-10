@@ -12,19 +12,19 @@ export const Attachment: FunctionComponent<Props> = ({ name, explanationPosition
 
   return (
     <Wrapper>
-        <Card>
-          <div>
-            <ImageWrapper src={Document}/>
-            <Name data-explanation={explanationPosition}>
-              { name }
-            </Name>
-            <Download>
-              <DownloadIcon />
-            </Download>
-          </div>
-          <span>00:00</span>
-        </Card>
-    </Wrapper>    
+      <Card data-explanation={explanationPosition}>
+        <div>
+          <ImageWrapper src={Document} />
+          <Name>
+            {name}
+          </Name>
+          <Download>
+            <DownloadIcon />
+          </Download>
+        </div>
+        <span>00:00</span>
+      </Card>
+    </Wrapper>
   )
 }
 

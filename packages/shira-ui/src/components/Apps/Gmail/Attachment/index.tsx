@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
-import { 
+import {
   ImageIcon,
   VideoIcon,
   AudioIcon,
@@ -23,7 +23,7 @@ export const Attachment: FunctionComponent<Props> = ({
 }) => {
 
   const renderSwitch = (type: string) => {
-    switch(type) {
+    switch (type) {
       case AttachmentType.audio:
         return <AudioIcon />
       case AttachmentType.document:
@@ -35,17 +35,17 @@ export const Attachment: FunctionComponent<Props> = ({
       case AttachmentType.other:
         return <GenericAttachmentIcon />
       default:
-        return <GenericAttachmentIcon/>
+        return <GenericAttachmentIcon />
     }
   }
 
-    
+
   return (
-    <Wrapper>
+    <Wrapper data-explanation={explanationPosition}>
       <Hovered>
-        <Name>      
+        <Name>
           <IconWrapper size={16} color='#15c'>
-            { renderSwitch(type) }        
+            {renderSwitch(type)}
           </IconWrapper>
           <span>
             {name}
@@ -55,16 +55,14 @@ export const Attachment: FunctionComponent<Props> = ({
       <div>
         <Preview>
           <IconWrapper size={34}>
-            { renderSwitch(type) }        
+            {renderSwitch(type)}
           </IconWrapper>
         </Preview>
-        <Name>      
+        <Name>
           <IconWrapper size={16} color='#15c'>
-            { renderSwitch(type) }        
+            {renderSwitch(type)}
           </IconWrapper>
-          <span 
-            data-explanation={explanationPosition} 
-          >
+          <span>
             {name}
           </span>
         </Name>
