@@ -17,14 +17,14 @@ interface Props {
 
 const randomSize = Math.floor(Math.random() * 300) + 1
 
-export const Attachment:FunctionComponent<Props> = ({
+export const Attachment: FunctionComponent<Props> = ({
   name,
   explanationPosition,
   type
 }) => {
 
   const renderSwitch = (type: string) => {
-    switch(type) {
+    switch (type) {
       case AttachmentType.audio:
         return <AudioIcon />
       case AttachmentType.document:
@@ -36,20 +36,17 @@ export const Attachment:FunctionComponent<Props> = ({
       case AttachmentType.other:
         return <GenericAttachmentIcon />
       default:
-        return <GenericAttachmentIcon/>
+        return <GenericAttachmentIcon />
     }
   }
-  
+
   return (
-    <Wrapper>
+    <Wrapper data-explanation={explanationPosition}>
       <Left>
         <SvgWrapper> {renderSwitch(type)} </SvgWrapper>
         <TextWrapper>
-          <Name 
-            data-explanation={explanationPosition} 
-            title={name}
-          >
-            { name }
+          <Name title={name}>
+            {name}
           </Name>
           <Size>{randomSize} KB</Size>
         </TextWrapper>
