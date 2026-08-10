@@ -169,7 +169,6 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
             </InputHeading>
             <TextInput
               id={`${submission.resourceType}-template-name`}
-              label={t(`${translationKey}.name_placeholder`)}
               onChange={(e) => setName(e.target.value)}
               placeholder={t(`${translationKey}.name_placeholder`)}
               value={name}
