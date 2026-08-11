@@ -27,7 +27,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   const { t } = useTranslation();
   const theme = useTheme();
   const [activeTab, setActiveTab] = useState<TabType>("general");
-  const { isSubActive } = useSub();
+  const { isSubActive, isSelfHosted } = useSub();
 
   const currentPlanName = isSubActive ? String(subscription?.type ?? "unknown").toLowerCase() : "starter";
   const formattedCurrentPlanName = currentPlanName.charAt(0).toUpperCase() + currentPlanName.slice(1);
@@ -115,6 +115,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
                   id="view-plans-button"
                   type="outline"
                   text={t('settings.subscription.view_plans')}
+                  disabled={isSelfHosted}
                   onClick={onViewPlans}
                 />
                 <SubscriptionButton
@@ -122,6 +123,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
                   type="primary"
                   text={subscriptionActionText}
                   color={theme.colors.green7}
+                  disabled={isSelfHosted}
                   onClick={() => navigateToManageSubscription(subscription.organizationId, subscription.type === 'starter')}
                 />
               </SubscriptionActions>

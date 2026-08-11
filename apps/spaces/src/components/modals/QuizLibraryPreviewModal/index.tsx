@@ -1,9 +1,6 @@
 import {
   Body1,
   Button,
-  CloseButton,
-  FullScreenModal,
-  H2,
   defaultTheme,
   styled,
 } from "@horizontal-org/shira-ui"
@@ -15,11 +12,15 @@ import {
   type LibraryQuizDto,
   type LibraryQuizQuestionTemplateDto,
 } from "../../../fetch/quiz_templates"
-import { FullQuizTemplatePreview } from "./components/FullQuizTemplatePreview"
+import {
+  FullQuizPreviewScreen,
+  type PreviewQuestion,
+} from "../PreviewQuizScreen/FullQuizPreviewScreen"
 import { QuizPreviewDetailsCard } from "./components/QuizPreviewDetailsCard"
 import { QuizPreviewQuestionsTable } from "./components/QuizPreviewQuestionsTable"
-import { QuizTemplateQuestionPreview } from "./components/QuizTemplateQuestionPreview"
 import { useQuizTemplateQuestions } from "./useQuizTemplateQuestions"
+import { PreviewModal, PreviewQuizScreen } from "../PreviewQuizScreen"
+import { PreviewQuestionScreen } from "../PreviewQuizScreen/PreviewQuestionScreen"
 
 type Props = {
   quiz: LibraryQuizDto | null
@@ -48,17 +49,14 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
     hasLoadedQuestions,
     isLoadingQuestions,
     hasQuestionLoadError,
-    previewQuestion,
-    openPreviewQuestion,
-    closePreviewQuestion,
     updateQuestionApp,
   } = useQuizTemplateQuestions(quiz, isOpen)
+  const [previewQuestionId, setPreviewQuestionId] = useState<number | null>(null)
   const [fullPreviewQuestionId, setFullPreviewQuestionId] = useState<number | null>(null)
 
   useEffect(() => {
-    if (!isOpen || !quiz) {
-      setFullPreviewQuestionId(null)
-    }
+    setPreviewQuestionId(null)
+    setFullPreviewQuestionId(null)
   }, [isOpen, quiz])
 
   if (!isOpen || !quiz) {
@@ -74,15 +72,27 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
     || questions.length === 0
   )
   const firstQuestion = questions[0]
-  const fullPreviewQuestion = questions.find((question) => question.questionId === fullPreviewQuestionId) ?? null
+  const previewQuestion =
+    questions.find((question) => question.questionId === previewQuestionId) ?? null
+  const previewQuestions: PreviewQuestion[] = questions.map((question) => ({
+    id: question.questionId,
+    name: question.questionName,
+    isPhishing: question.isPhishing,
+    app: question.appName,
+    appType: question.appType,
+    content: question.content,
+    explanations: question.explanations,
+  }))
+  const fullQuizPreview =
+    previewQuestions.find((question) => question.id === fullPreviewQuestionId) ?? null
 
   const openSingleQuestionPreview = (questionId: number) => {
     setFullPreviewQuestionId(null)
-    openPreviewQuestion(questionId)
+    setPreviewQuestionId(questionId)
   }
 
   const openFullQuizPreview = (questionId: number) => {
-    closePreviewQuestion()
+    setPreviewQuestionId(null)
     setFullPreviewQuestionId(questionId)
   }
 
@@ -91,103 +101,90 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
   }
 
   return (
-    <FullScreenModal
-      isOpen={isOpen}
-      onClose={onClose}
-      closeOnOverlayClick
-    >
-        {fullPreviewQuestion ? (
-          <FullQuizTemplatePreview
-            quiz={quiz}
-            questions={questions}
-            question={fullPreviewQuestion}
-            onBack={closeFullQuizPreview}
-            onClose={onClose}
-            onSelectQuestion={setFullPreviewQuestionId}
-            disableUseTemplateButton={disableUseTemplateButton}
-            onUseTemplate={() => onUseTemplate(questions)}
-          />
-        ) : previewQuestion ? (
-          <QuizTemplateQuestionPreview
-            question={previewQuestion}
-            onBack={closePreviewQuestion}
-            onClose={onClose}
-          />
-        ) : (
-          <>
-            <TopBar>
-              <CloseButton onClick={onClose} />
-
-              <ActionsRow>
-                <Button
-                  text={t("quiz_library.preview.preview_full_quiz")}
-                  type="outline"
-                  leftIcon={<IoEyeSharp size={22} color={defaultTheme.colors.dark.darkGrey} />}
-                  disabled={!firstQuestion}
-                  onClick={() => {
-                    if (firstQuestion) {
-                      openFullQuizPreview(firstQuestion.questionId)
-                    }
-                  }}
-                />
-
-                <ActionsDivider />
-
-                <Button
-                  text={t("quiz_library.preview.use_template")}
-                  type="primary"
-                  color={defaultTheme.colors.green7}
-                  leftIcon={<FaCirclePlus size={17} />}
-                  disabled={disableUseTemplateButton}
-                  onClick={() => onUseTemplate(questions)}
-                />
-              </ActionsRow>
-            </TopBar>
-
-            <Content>
-              <Title>{quiz.title}</Title>
-              <Subtitle>{t("quiz_library.preview.subtitle")}</Subtitle>
-
-              <QuizPreviewDetailsCard
-                languages={languages}
-                tags={tags}
-                creator={quiz.author}
-                createdAt={formatLongDate(quiz.createdAt, i18n.language)}
+    <PreviewModal isOpen={isOpen} onClose={onClose}>
+      {fullQuizPreview ? (
+        <FullQuizPreviewScreen
+          quiz={{ title: quiz.title }}
+          questions={previewQuestions}
+          question={fullQuizPreview}
+          onBack={closeFullQuizPreview}
+          onClose={onClose}
+          onSelectQuestion={setFullPreviewQuestionId}
+          actions={(
+            <Button
+              text={t("quiz_library.use_template")}
+              type="primary"
+              color={defaultTheme.colors.green7}
+              leftIcon={<FaCirclePlus size={16} />}
+              disabled={disableUseTemplateButton}
+              onClick={() => onUseTemplate(questions)}
+            />
+          )}
+        />
+      ) : previewQuestion ? (
+        <PreviewQuestionScreen
+          question={previewQuestion}
+          headerLabel={t("create_question.tabs.preview.aria_label")}
+          onBack={() => setPreviewQuestionId(null)}
+          onClose={onClose}
+        />
+      ) : (
+        <PreviewQuizScreen
+          onClose={onClose}
+          title={quiz.title}
+          subtitle={t("quiz_library.preview.subtitle")}
+          actions={(
+            <ActionsRow>
+              <Button
+                text={t("quiz_library.preview.preview_full_quiz")}
+                type="outline"
+                leftIcon={<IoEyeSharp size={22} color={defaultTheme.colors.dark.darkGrey} />}
+                disabled={!firstQuestion}
+                onClick={() => {
+                  if (firstQuestion) {
+                    openFullQuizPreview(firstQuestion.questionId)
+                  }
+                }}
               />
 
-              <QuestionsSection>
-                {hasQuestionLoadError && (
-                  <QuestionsErrorText>{t("error_messages.something_went_wrong")}</QuestionsErrorText>
-                )}
+              <ActionsDivider />
 
-                <QuizPreviewQuestionsTable
-                  questions={questions}
-                  loading={isLoadingQuestions}
-                  onPreviewQuestion={(question) => {
-                    openSingleQuestionPreview(question.questionId)
-                  }}
-                  onSelectApp={updateQuestionApp}
-                />
-              </QuestionsSection>
-            </Content>
-          </>
-        )}
-    </FullScreenModal>
+              <Button
+                text={t("quiz_library.preview.use_template")}
+                type="primary"
+                color={defaultTheme.colors.green7}
+                leftIcon={<FaCirclePlus size={17} />}
+                disabled={disableUseTemplateButton}
+                onClick={() => onUseTemplate(questions)}
+              />
+            </ActionsRow>
+          )}
+          details={(
+            <QuizPreviewDetailsCard
+              languages={languages}
+              tags={tags}
+              creator={quiz.author}
+              createdAt={formatLongDate(quiz.createdAt, i18n.language)}
+            />)}
+        >
+          <QuestionsSection>
+            {hasQuestionLoadError && (
+              <QuestionsErrorText>{t("error_messages.something_went_wrong")}</QuestionsErrorText>
+            )}
+
+            <QuizPreviewQuestionsTable
+              questions={questions}
+              loading={isLoadingQuestions}
+              onPreviewQuestion={openSingleQuestionPreview}
+              onSelectApp={updateQuestionApp}
+              allowAppSelection={true}
+            />
+          </QuestionsSection>
+        </PreviewQuizScreen>
+      )}
+    </PreviewModal>
   )
 }
-
-const TopBar = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  padding: 20px 28px 0;
-
-  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 20px 20px 0;
-  }
-`
 
 const ActionsRow = styled.div`
   display: flex;
@@ -200,40 +197,19 @@ const ActionsRow = styled.div`
     justify-content: flex-end;
     flex-wrap: wrap;
   }
-`
+`;
 
 const ActionsDivider = styled.div`
   width: 1px;
   height: 36px;
   background: ${defaultTheme.colors.dark.mediumGrey};
-`
-
-const Content = styled.div`
-  flex: 1;
-  min-height: 0;
-  padding: 32px 64px 72px;
-  overflow-y: auto;
-
-  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
-    padding: 24px 20px 56px;
-  }
-`
-
-const Title = styled(H2)`
-  margin: 0;
-  color: ${defaultTheme.colors.dark.black};
-`
-
-const Subtitle = styled(Body1)`
-  margin: 16px 0 0;
-  color: ${defaultTheme.colors.dark.darkGrey};
-`
+`;
 
 const QuestionsSection = styled.div`
   margin-top: 16px;
-`
+`;
 
 const QuestionsErrorText = styled(Body1)`
   margin: 12px 0 0;
   color: ${defaultTheme.colors.error7};
-`
+`;

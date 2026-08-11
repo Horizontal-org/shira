@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Brackets, In, Repository } from 'typeorm';
+import { Brackets, EntityManager, In, Repository } from 'typeorm';
 import { QuestionImage as QuestionImageEntity } from '../domain';
 import { ISyncQuestionImageService } from '../interfaces/services/sync.question_image.service.interface';
 import { SyncQuestionImageDto } from '../dto/sync.question_image.dto';
@@ -19,9 +19,11 @@ export class SyncQuestionImageService implements ISyncQuestionImageService {
     private imagesQueue: Queue
   ) { }
 
-  async execute(syncQuestionImages: SyncQuestionImageDto): Promise<void> {
+  async execute(syncQuestionImages: SyncQuestionImageDto, manager?: EntityManager): Promise<void> {
 
-    const quizImages = await this.questionImageRepo
+    const repo = manager ? manager.getRepository(QuestionImageEntity) : this.questionImageRepo
+
+    const quizImages = await repo
       .createQueryBuilder('question_images')
       .where('quiz_id = :quizId ', { quizId: syncQuestionImages.quizId })
       .andWhere(new Brackets(qb => {
@@ -41,7 +43,6 @@ export class SyncQuestionImageService implements ISyncQuestionImageService {
         toUpdate.push(qi.id)
       }
 
-      console.log(!syncQuestionImages.imageIds.includes(qi.id + ''), qi.questionId)
       if (!syncQuestionImages.imageIds.includes(qi.id + '') && qi.questionId) {
         // delete
         toDelete.push(qi.id)
@@ -49,7 +50,7 @@ export class SyncQuestionImageService implements ISyncQuestionImageService {
     })
 
     if (toUpdate.length > 0) {
-      await this.questionImageRepo.update(
+      await repo.update(
         { id: In(toUpdate) },
         { questionId: syncQuestionImages.questionId }
       )
@@ -63,7 +64,7 @@ export class SyncQuestionImageService implements ISyncQuestionImageService {
           this.imagesQueue.add('delete', qi.relativePath)
         })
 
-      await this.questionImageRepo.delete(
+      await repo.delete(
         { id: In(toDelete) },
       )
     }

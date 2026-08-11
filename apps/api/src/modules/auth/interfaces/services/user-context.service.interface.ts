@@ -2,6 +2,7 @@ export interface UserSpaceContext {
   space: {
     id: number
     name: string
+    publicId: string
     organizationId: number
   }
   spaceRole: string

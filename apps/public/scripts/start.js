@@ -17,6 +17,8 @@ require('../config/env');
 const fs = require('fs');
 const chalk = require('react-dev-utils/chalk');
 const webpack = require('webpack');
+// This CRA-derived entrypoint still expects the webpack-dev-server v4 API,
+// so we intentionally rely on the transitive version from react-scripts/Storybook.
 const WebpackDevServer = require('webpack-dev-server');
 const clearConsole = require('react-dev-utils/clearConsole');
 const checkRequiredFiles = require('react-dev-utils/checkRequiredFiles');

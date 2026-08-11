@@ -8,7 +8,7 @@ import { IndexService } from './index.service';
 import { typeOrmModuleOptions } from './ormconfig';
 import { AppModule } from './modules/app/app.module';
 import { FieldOfWorkModule } from './modules/field_of_work/field_of_work.module';
-import { QuestionLibraryModule } from './modules/question_library/question.library.module';
+import { LibraryModule } from './modules/library/library.module';
 import { QuestionModule } from './modules/question/question.module';
 import { LanguageModule } from './modules/languages/language.module';
 import { TranslationModule } from './modules/translation/translation.module';
@@ -48,7 +48,7 @@ import { APP_GUARD } from '@nestjs/core';
     EmailModule,
     ConsoleModule,
     FieldOfWorkModule,
-    QuestionLibraryModule,
+    LibraryModule,
     QuestionModule,
     QuestionImageModule,
     UserModule,

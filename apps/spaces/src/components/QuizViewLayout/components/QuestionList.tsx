@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { duplicateQuestion } from "../../../fetch/quiz";
 import { useStore } from "../../../store";
+import { usePublicLibrary } from "../../../hooks/usePublicLibrary";
 import { QuizQuestion } from "../../../store/slices/quiz";
 import { DeleteModal } from "../../modals/DeleteModal";
 import { QuizHasResultsModal } from "../../modals/QuizHasResultsModal";
@@ -28,6 +29,7 @@ interface QuestionsListProps {
   onAddLibrary: (quizId: string) => void;
   onReorder: (newOrder: QuizQuestion[]) => void;
   onDuplicate: () => void;
+  onSubmitAsTemplate: (questionId: string) => void;
   hasResults: boolean
 }
 
@@ -43,9 +45,11 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
   onAddLibrary,
   onReorder,
   onDuplicate,
+  onSubmitAsTemplate,
   hasResults
 }) => {
   const { t } = useTranslation();
+  const { isPublicLibraryEnabled } = usePublicLibrary();
 
   const [questionForDelete, handleQuestionForDelete] = useState<QuizQuestion["question"] | null>(null);
   const [confirmBeforeContinueModal, handleConfirmBeforeContinueModal] = useState<{
@@ -89,6 +93,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
         onAdd={onAdd}
         onAddLibrary={onAddLibrary}
         quizId={String(quizId)}
+        isAddLibraryDisabled={!isPublicLibraryEnabled}
       />
     );
   }
@@ -119,6 +124,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
           text={t("questions_tab.use_library_question_button")}
           type="primary"
           color={defaultTheme.colors.green7}
+          disabled={!isPublicLibraryEnabled}
           onClick={() => onAddLibrary(quizId.toString())}
         />
       </Header>
@@ -140,6 +146,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
             handleDuplicateQuestion(questionId);
           }
         }}
+        onSubmitQuestionAsTemplate={onSubmitAsTemplate}
         onDeleteQuestion={(questionId) => {
           handleQuestionForDelete(
             quizQuestions.find((quizQuestion) => quizQuestion.question.id === questionId)?.question ?? null
