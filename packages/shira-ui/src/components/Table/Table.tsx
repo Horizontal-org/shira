@@ -115,7 +115,7 @@ export const Table = ({
                     }}
                   >
                     {r.getVisibleCells().map((c) => (
-                      <Td key={c.id}>
+                      <Td key={c.id} $size={size}>
                         {flexRender(c.column.columnDef.cell, c.getContext())}
                       </Td>
                     ))}
