@@ -112,7 +112,8 @@
             "duplicate": "Duplicate",
             "copy_link": "Copy quiz link",
             "submit_as_template": "Submit as template",
-            "disabled_tooltip": "Create at least 1 question to copy your quiz link.",
+            "submit_as_template_disabled_tooltip": "Create at least 1 question to submit your quiz as a template.",
+            "copy_link_disabled_tooltip": "Create at least 1 question to copy your quiz link.",
             "delete": "Delete"
         },
         "tabs": {
