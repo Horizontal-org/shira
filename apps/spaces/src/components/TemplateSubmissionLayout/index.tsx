@@ -204,13 +204,14 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
                 />
               </Body3>
             </InputHeading>
-            <SubmissionSelect
+            <FilterSelect
               ariaLabel={t(`${translationKey}.language`)}
               isMulti
               leftIcon={<IoLanguage color={defaultTheme.colors.blue6} size={12} />}
               onChange={(value) => setLanguageIds(value as string[])}
               options={languageOptions.map(({ id, label }) => ({ value: String(id), label }))}
               placeholder={t(`${translationKey}.language_placeholder`)}
+              size="big"
               value={languageIds}
             />
           </Field>
@@ -220,13 +221,14 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
               <SubHeading3>{t(`${translationKey}.tags`)}</SubHeading3>
               <Body3>{t(`${translationKey}.tags_hint`)}</Body3>
             </InputHeading>
-            <SubmissionSelect
+            <FilterSelect
               ariaLabel={t(`${translationKey}.tags`)}
               isMulti
               leftIcon={<BiSolidTag color={defaultTheme.colors.warning4} size={12} style={{ transform: "rotate(180deg)" }} />}
               onChange={(value) => setTagIds(value as string[])}
               options={tagOptions.map(({ id, label }) => ({ value: String(id), label }))}
               placeholder={t(`${translationKey}.tags_placeholder`)}
+              size="big"
               value={tagIds}
             />
           </Field>
@@ -307,10 +309,6 @@ const FormCard = styled.form`
 
 const Field = styled.div`
   margin-top: 32px;
-`;
-
-const SubmissionSelect = styled(FilterSelect)`
-  width: 262px;
 `;
 
 const Terms = styled.div`
