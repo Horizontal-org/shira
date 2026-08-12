@@ -154,7 +154,6 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
         <FormCard>
           <SubHeading1>{t(`${translationKey}.title`)}</SubHeading1>
           <Subtitle>
-            <Body1>{t(`${translationKey}.intro`)}</Body1>
             <Body1>
               <Trans
                 i18nKey={`${translationKey}.review_notice`}
