@@ -51,6 +51,18 @@ export const useLanguageSelection = ({ options, autoselect, onChange }: UseLangu
     }
   }, [options, autoselect, selected, onChange])
 
+  useEffect(() => {
+    if (selected) {
+      const updatedSelected = findOptionByLanguage(selected.value)
+      if (
+        updatedSelected &&
+        (updatedSelected.label !== selected.label || updatedSelected.labelEnglish !== selected.labelEnglish)
+      ) {
+        setSelected(updatedSelected)
+      }
+    }
+  }, [options, selected])
+
   const handleSelected = (option: LanguageSelectOption) => {
     setSelected(option)
   }
