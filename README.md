@@ -57,6 +57,41 @@ Github](https://docs.github.com/en/repositories/releasing-projects-on-github/aut
 
 ## Production deployment
 
+### System requirements
+
+_Minimum_ system requirements:
+
+- RAM: 2GB
+- DISK: 5GB
+  > For disk space, the data stored in Shira is in the same server
+  > unless you use an external S3 provider, so consider monitoring
+  > server storage and adding space if needed. _If you are running Shira
+  > on a server with less resources than our recommended set up, we
+  > would love to hear about your experience :D_
+
+_Recommended_ system requirements: Ideal disk space depends on how much
+data you intend to collect. A good role of thumb would be to allocate
+the double of the space that users would submit to your server. When
+monitoring, we recommend for you to aim to have the same amount of free
+and used space in the server.
+
+We don't have any particular recomendation about hosting providers for
+Shira: this is a pretty straightforward application so it should work
+anywhere you can install Docker. If you experience any issues please
+[contact us](https://shira.app/contact).
+
+### Prerequisites
+
+- Docker (including the compose module).
+
+- Two subdomains, one for spaces and one for quizes. The domains should
+  point to the desired server.  If you're using the included S3 server,
+  you'll need a third subdomain.
+
+- Credentials for an SMTP server.
+
+### Installation
+
 You'll need a server with a running Docker daemon, Docker Compose, and
 a clone of this repository.
 
@@ -79,6 +114,56 @@ compose down`.
 If you want to upgrade a running service, run `docker compose pull` to
 pull the `latest` images.  If you want to run a specific Shira version,
 change the `VERSION` variable.
+
+#### Environment variables table
+
+**For passwords variables, please remember to create strong
+passphrases.**
+
+**Optional variables can be empty or keep the default values.**
+
+
+| Key                      | Description                                                                 | Notes    |
+| ------------------------ | --------------------------------------------------------------------------- | -------- |
+| COOKIE_DOMAIN            | Main domain for cookies                                                     | required |
+| SPACES_DOMAIN            | Subdomain of COOKIE_DOMAIN for the Shira spaces app                         | required |
+| QUIZ_DOMAIN              | Subdomain of COOKIE_DOMAIN for the Shira quizes app                         | required |
+| IMAGES_DOMAIN            | Domain for the images server                                                | optional |
+| VERSION                  | Containers version                                                          | optional |
+| JWT_SECRET               | Secret for authorization between apps                                       | required |
+| MYSQL_PASSWORD           | Password for the MySQL database                                             | required |
+| MYSQL_ROOT_PASSWORD      | Root password for MySQL service                                             | required |
+| REDIS_PASSWORD           | Password for Redis database                                                 | required |
+| GARAGE_RPC_SECRET        | Secret for Garage cluster                                                   | required |
+| IMAGE_ACCESS_KEY         | S3 bucket access key for uploading images                                   | required |
+| IMAGE_SECRET_KEY         | S3 bucket secret key for uploading images                                   | required |
+| SMTP_GLOBAL_FROM         | Send emails from this address, it also receives Let's Encrypt notifications | required |
+| SMTP_HOST                | SMTP server hostname                                                        | required |
+| SMTP_PORT                | SMTP port                                                                   | required |
+| SMTP_USER                | SMTP user name                                                              | required |
+| SMTP_PASS                | SMTP password                                                               | required |
+| TZ                       | Server timezone                                                             | optional |
+| MYSQL_HOST               | MySQL server hostname                                                       | optional |
+| MYSQL_DATABASE           | MySQL database                                                              | optional |
+| MYSQL_USER               | MySQL username                                                              | optional |
+| REDIS_HOST               | Redis server hostname                                                       | optional |
+| IMAGE_ENDPOINT           | Garage server hostname                                                      | optional |
+| IMAGE_PORT               | Garage server port                                                          | optional |
+| IMAGE_BUCKET             | S3 bucket                                                                   | required |
+| SUBSCRIPTION_CACHE_TTL   | Redis cache duration                                                        | optional |
+| SPACE_URL                | Full URL for the spaces app (no trailing slash)                             | optional |
+| PUBLIC_URL               | Full URL for the quizes app (no trailing slash)                             | optional |
+| SUPERADMIN_URL           | Full URL for the super admin (no trailing slash)                            | optional |
+| SHIRA_LIBRARY_URL        | Full URL for Shira's public library (no trailing slash)                     | optional |
+| SELF_HOSTED              | When "true" disables payments                                               | optional |
+| ENABLE_PUBLIC_LIBRARY    | When "true" enables synchronization with the public library                 | optional |
+| TRUST_DOWNSTREAM_PROXY   | Change to "true" if you're serving Shira behind your own reverse proxy      | optional |
+
+### Upgrades
+
+1. `git pull` from this repository
+2. Update your `.env` file from `.env.example`
+3. Run `docker compose up -d`
 
 ### Image server (Garage)
 
