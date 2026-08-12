@@ -10,6 +10,7 @@ import { ExplanationTranslation as ExplanationTranslationEntity } from 'src/modu
 import { QuestionTranslation as QuestionTranslationEntity } from 'src/modules/translation/domain/questionTranslation.entity'
 import { Quiz as QuizEntity } from 'src/modules/quiz/domain/quiz.entity'
 import { QuizQuestion as QuizQuestionEntity } from 'src/modules/quiz/domain/quizzes_questions.entity'
+import { SpaceEntity } from 'src/modules/space/domain/space.entity'
 import { QuizModule } from 'src/modules/quiz/quiz.module'
 import { SubscriptionModule } from 'src/modules/subscription/subscription.module'
 
@@ -27,6 +28,7 @@ import { libraryServiceProviders } from './library.providers'
       LanguageEntity,
       QuizEntity,
       QuizQuestionEntity,
+      SpaceEntity,
     ]),
     ConsoleModule,
     QuizModule,

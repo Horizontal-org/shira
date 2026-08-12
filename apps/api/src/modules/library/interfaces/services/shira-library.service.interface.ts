@@ -1,5 +1,8 @@
+import { PublishAuthorDto } from '../../dto/publish-question.library.dto'
+
 export interface IShiraLibraryService {
-  publishQuestion(data: Record<string, unknown>): Promise<void>
-  publishQuiz(data: Record<string, unknown>): Promise<void>
-  uploadImage(buffer: Buffer, filename: string): Promise<{ id: number; relativePath: string }>
+  registerAuthor(author: PublishAuthorDto): Promise<{ apiKey: string }>
+  publishQuestion(data: Record<string, unknown>, apiKey: string): Promise<void>
+  publishQuiz(data: Record<string, unknown>, apiKey: string): Promise<void>
+  uploadImage(buffer: Buffer, filename: string, apiKey: string): Promise<{ id: number; relativePath: string }>
 }

@@ -26,17 +26,13 @@ export class PublishQuestionLibraryController {
   ) {
     await this.publishService.execute({
       questionId,
-      spaceId: user.activeSpace.space.id,
+      space: user.activeSpace.space,
       templateName: body.templateName,
       templateDescription: body.templateDescription,
       langTagIds: body.langTagIds,
       tagIds: body.tagIds,
-      author: {
-        publicSpaceId: user.activeSpace.space.publicId,
-        spaceName: user.activeSpace.space.name,
-        spaceDisplayName: body.spaceDisplayName,
-        organizationName: user.activeOrganization.name,
-      }
+      spaceDisplayName: body.spaceDisplayName,
+      organizationName: user.activeOrganization.name,
     })
   }
 }

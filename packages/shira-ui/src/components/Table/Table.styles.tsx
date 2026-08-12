@@ -75,9 +75,9 @@ export const Th = styled.th<{ $size: TableSize }>`
   font-size: ${(props) => (props.$size === 'compact' ? '14px' : '16px')};
 `
 
-export const Td = styled.td`
+export const Td = styled.td<{ $size?: TableSize }>`
   background: ${(props) => props.theme.colors.light.white};
-  padding: 9px 16px;
+  padding: ${(props) => (props.$size === 'full' ? '14px 16px' : '9px 16px')};
   vertical-align: middle;
   box-sizing: border-box;
   width: inherit;

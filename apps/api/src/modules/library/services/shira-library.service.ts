@@ -3,6 +3,7 @@ import { randomUUID } from 'crypto'
 import { TYPES } from '../interfaces'
 import { IShiraLibraryService } from '../interfaces/services/shira-library.service.interface'
 import { IShiraLibraryLoggerService } from '../interfaces/services/shira-library-logger.service.interface'
+import { PublishAuthorDto } from '../dto/publish-question.library.dto'
 import { LibraryRequestFailedException } from '../exceptions'
 
 @Injectable()
@@ -12,18 +13,30 @@ export class ShiraLibraryService implements IShiraLibraryService {
     private readonly logger: IShiraLibraryLoggerService,
   ) { }
 
-  async publishQuestion(data: Record<string, unknown>): Promise<void> {
-    await this.request('/question-templates/publish', { method: 'POST', body: JSON.stringify(data) })
+  async registerAuthor(author: PublishAuthorDto): Promise<{ apiKey: string }> {
+    return this.request('/authors/register', { method: 'POST', body: JSON.stringify(author) })
   }
 
-  async publishQuiz(data: Record<string, unknown>): Promise<void> {
-    await this.request('/quiz-templates/publish', { method: 'POST', body: JSON.stringify(data) })
+  async publishQuestion(data: Record<string, unknown>, apiKey: string): Promise<void> {
+    await this.request('/question-templates/publish', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: { authorization: `Bearer ${apiKey}` },
+    })
   }
 
-  async uploadImage(buffer: Buffer, filename: string): Promise<{ id: number; relativePath: string }> {
+  async publishQuiz(data: Record<string, unknown>, apiKey: string): Promise<void> {
+    await this.request('/quiz-templates/publish', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: { authorization: `Bearer ${apiKey}` },
+    })
+  }
+
+  async uploadImage(buffer: Buffer, filename: string, apiKey: string): Promise<{ id: number; relativePath: string }> {
     const formData = new FormData()
     formData.append('file', new Blob([new Uint8Array(buffer)]), filename)
-    return this.requestMultipart('/question-template-images/upload', formData)
+    return this.requestMultipart('/question-template-images/upload', formData, apiKey)
   }
 
   private async request<T = void>(path: string, init?: RequestInit): Promise<T> {
@@ -76,7 +89,7 @@ export class ShiraLibraryService implements IShiraLibraryService {
     }
   }
 
-  private async requestMultipart<T>(path: string, formData: FormData): Promise<T> {
+  private async requestMultipart<T>(path: string, formData: FormData, apiKey: string): Promise<T> {
     const baseUrl = process.env.SHIRA_LIBRARY_URL
     const trimmedBaseUrl = baseUrl?.trim() ?? ''
 
@@ -96,7 +109,7 @@ export class ShiraLibraryService implements IShiraLibraryService {
       response = await fetch(url, {
         method: 'POST',
         body: formData,
-        headers: { 'x-request-id': requestId },
+        headers: { 'x-request-id': requestId, authorization: `Bearer ${apiKey}` },
       })
     } catch (error) {
       const duration = Date.now() - startedAt

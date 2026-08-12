@@ -31,7 +31,7 @@ import { getQuizResults, QuizResultsResponse } from "../../fetch/results";
 import { useTranslation } from "react-i18next";
 import { MdLockOutline } from "react-icons/md";
 import { TbWorld } from "react-icons/tb";
-import { FiCopy } from "react-icons/fi";
+import { FiCopy, FiUpload } from "react-icons/fi";
 import { RenameQuizModal } from "../modals/RenameQuizModal";
 import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
 import { DuplicateQuizModal } from "../modals/DuplicateQuizModal";
@@ -104,6 +104,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   const [isUnpublishQuizModalOpen, setIsUnpublishQuizModalOpen] = useState(false);
   const [showPublishTooltip, setShowPublishTooltip] = useState(false);
   const [showCopyLinkTooltip, setShowCopyLinkTooltip] = useState(false);
+  const [showSubmitAsTemplateTooltip, setShowSubmitAsTemplateTooltip] = useState(false);
 
   const { destroy } = useQuestionCRUD()
   const {
@@ -357,11 +358,49 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                         />
                         {disableCopyLinkButton && showCopyLinkTooltip && (
                           <PublishToggleTooltip role="tooltip">
-                            <Body4>{t('quiz.actions.disabled_tooltip')}</Body4>
+                            <Body4>{t('quiz.actions.copy_link_disabled_tooltip')}</Body4>
                           </PublishToggleTooltip>
                         )}
                       </PublishToggleWrapper>
                     )}
+
+                    <PublishToggleWrapper
+                      $showHelpCursor={!hasQuestions}
+                      onMouseEnter={() => {
+                        if (!hasQuestions) {
+                          setShowSubmitAsTemplateTooltip(true)
+                        }
+                      }}
+                      onMouseLeave={() => { setShowSubmitAsTemplateTooltip(false) }}
+                      onFocus={() => {
+                        if (!hasQuestions) {
+                          setShowSubmitAsTemplateTooltip(true)
+                        }
+                      }}
+                      onBlur={() => { setShowSubmitAsTemplateTooltip(false) }}
+                      tabIndex={!hasQuestions ? 0 : -1}
+                    >
+                      <Button
+                        id="submit-quiz-as-template-button"
+                        leftIcon={<FiUpload size={16} />}
+                        text={t('quiz.actions.submit_as_template')}
+                        type="outline"
+                        disabled={!hasQuestions}
+                        onClick={() => {
+                          if (!hasQuestions) { return }
+                          startTemplateSubmission({
+                            path: `/quiz/${id}/submit-template`,
+                            state: { quizTitle: quiz.title },
+                          });
+                        }}
+                      />
+                      {!hasQuestions && showSubmitAsTemplateTooltip && (
+                        <PublishToggleTooltip role="tooltip">
+                          <Body4>{t('quiz.actions.submit_as_template_disabled_tooltip')}</Body4>
+                        </PublishToggleTooltip>
+                      )}
+                    </PublishToggleWrapper>
+
                     <Button
                       id="delete-quiz-button"
                       leftIcon={<DeleteIcon />}

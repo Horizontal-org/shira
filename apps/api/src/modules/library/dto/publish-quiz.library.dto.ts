@@ -1,17 +1,19 @@
-import { Type } from 'class-transformer'
 import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength } from 'class-validator'
-
-import { PublishAuthorDto } from './publish-question.library.dto'
+import { SpaceEntity } from 'src/modules/space/domain/space.entity'
 
 export class PublishQuizLibraryDto {
   @IsNumber()
   quizId: number
 
-  @IsNumber()
-  spaceId: number
+  space: SpaceEntity
 
-  @Type(() => PublishAuthorDto)
-  author: PublishAuthorDto
+  @IsString()
+  @MaxLength(255)
+  spaceDisplayName: string
+
+  @IsString()
+  @MaxLength(255)
+  organizationName: string
 
   @IsString()
   @IsNotEmpty()
