@@ -18,6 +18,7 @@ import {
   SubHeading3,
   TextInputArea,
   TextInput,
+  Link2,
 } from "@horizontal-org/shira-ui";
 import { IoLanguage } from "react-icons/io5";
 import { FiChevronRight } from "react-icons/fi";
@@ -153,7 +154,6 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
         <FormCard>
           <SubHeading1>{t(`${translationKey}.title`)}</SubHeading1>
           <Subtitle>
-            <Body1>{t(`${translationKey}.intro`)}</Body1>
             <Body1>
               <Trans
                 i18nKey={`${translationKey}.review_notice`}
@@ -218,8 +218,8 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
           <Field>
             <InputHeading required>
               <SubHeading3>{t(`${translationKey}.tags`)}</SubHeading3>
+              <Body3>{t(`${translationKey}.tags_hint`)}</Body3>
             </InputHeading>
-            <Body3>{t(`${translationKey}.tags_hint`)}</Body3>
             <SubmissionSelect
               ariaLabel={t(`${translationKey}.tags`)}
               isMulti
@@ -238,12 +238,12 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
               id={`${submission.resourceType}-template-terms`}
               onChange={(e) => setAcceptedTerms(e.target.checked)}
             />
-            <Body1>
+            <Body2Regular>
               <Trans
                 i18nKey={`${translationKey}.terms`}
-                components={{ terms: <Link3 href="https://shira.app/terms-and-conditions" target="_blank" rel="noreferrer" /> }}
+                components={{ terms: <Link2 href="https://shira.app/terms-and-conditions" target="_blank" rel="noreferrer" /> }}
               />
-            </Body1>
+            </Body2Regular>
           </Terms>
         </FormCard>
       </Content>
