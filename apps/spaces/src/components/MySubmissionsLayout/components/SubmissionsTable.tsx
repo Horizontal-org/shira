@@ -1,9 +1,10 @@
-import { Body1, Body3, Body3Bold, Button, CardPagination, defaultTheme, SettingsFishIcon, Table, styled, useTheme } from "@horizontal-org/shira-ui";
+import { Body1, Body3, Body3Bold, Button, CardPagination, defaultTheme, Modal, SettingsFishIcon, Table, styled, useTheme } from "@horizontal-org/shira-ui";
 import type { ColumnDef } from "@tanstack/react-table";
+import { useState } from "react";
 import type { ComponentProps } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { MdCalendarMonth, MdRemoveRedEye } from "react-icons/md";
+import { MdCalendarMonth } from "react-icons/md";
 import type { SubmissionStatus } from "../../../fetch/submissions";
 import { formatLocaleDate } from "../../../language/dateUtils";
 import i18n from "../../../language/i18n";
@@ -14,24 +15,24 @@ export type SubmissionListItem = {
   name: string;
   dateSubmitted: string;
   status: SubmissionStatus;
+  reason?: string;
 };
 
 interface SubmissionsTableProps {
   type: "quizzes" | "questions";
   submissions: SubmissionListItem[];
   paginationProps: ComponentProps<typeof CardPagination>;
-  onPreview: (resourceId: string) => void;
 }
 
 export const SubmissionsTable = ({
   type,
   submissions,
   paginationProps,
-  onPreview
 }: SubmissionsTableProps) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
+  const [rejectionReason, setRejectionReason] = useState<string | null>(null);
 
   const columns: ColumnDef<SubmissionListItem>[] = [
     {
@@ -56,24 +57,20 @@ export const SubmissionsTable = ({
       cell: ({ row }) =>
         <SubmissionStatusPill status={row.original.status} />,
     },
-    // {
-    //   header: t("templates.submissions_table.actions"),
-    //   accessorKey: "actions",
-    //   cell: ({ row }) => {
-    //     return (
-    //       <PreviewActionButton
-    //         type="button"
-    //         title={t("quiz_library.preview.columns.preview")}
-    //         onClick={() => onPreview(row.original.resourceId)}
-    //       >
-    //         <MdRemoveRedEye
-    //           size={20}
-    //           color={defaultTheme.colors.dark.darkGrey}
-    //         />
-    //       </PreviewActionButton>
-    //     );
-    //   }
-    // },
+    {
+      header: t("templates.submissions_table.actions"),
+      id: "actions",
+      cell: ({ row }) => row.original.status === "rejected" && (
+        <RejectionActionButton
+          type="button"
+          aria-label={t("templates.submission_rejection.open")}
+          title={t("templates.submission_rejection.open")}
+          onClick={() => setRejectionReason(row.original.reason ?? "")}
+        >
+          ?
+        </RejectionActionButton>
+      ),
+    },
   ];
 
   if (submissions.length === 0) {
@@ -116,13 +113,26 @@ export const SubmissionsTable = ({
         colGroups={(
           <colgroup>
             <col style={{ width: "58%" }} />
-            <col style={{ width: "16%" }} />
-            <col style={{ width: "16%" }} />
-            {/* <col style={{ width: "10%" }} /> */}
+            <col style={{ width: "12" }} />
+            <col style={{ width: "12%" }} />
+            <col style={{ width: "8%" }} />
           </colgroup>
         )}
       />
       {paginationProps.total > 0 && <CardPagination {...paginationProps} />}
+
+      <Modal
+        id="submission-rejection-reason-modal"
+        isOpen={rejectionReason !== null}
+        title={t("templates.submission_rejection.title")}
+        primaryButtonText={t("buttons.ok")}
+        secondaryButtonText={null}
+        onPrimaryClick={() => setRejectionReason(null)}
+        onClose={() => setRejectionReason(null)}
+      >
+        <Body1>{rejectionReason}</Body1>
+      </Modal>
+
     </TableWrapper>
   );
 };
@@ -198,12 +208,17 @@ const DateCell = styled.div`
   color: ${defaultTheme.colors.dark.darkGrey};
 `;
 
-const PreviewActionButton = styled.button`
+const RejectionActionButton = styled.button`
   all: unset;
-  width: 32px;
-  height: 32px;
+  width: 20px;
+  height: 20px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  border-radius: 50%;
+  color: ${defaultTheme.colors.light.white};
+  background: ${defaultTheme.colors.dark.darkGrey};
+  font-size: 14px;
+  font-weight: 700;
 `;
