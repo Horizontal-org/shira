@@ -1,4 +1,12 @@
 {
+    "languages": {
+        "en": "English",
+        "es": "Spanish",
+        "fr": "French",
+        "cn": "Chinese (Simplified)",
+        "ar": "Arabic",
+        "ru": "Russian"
+    },
     "sidebar": {
         "quizzes": "Quizzes",
         "learners": "Learners",

@@ -1,34 +1,44 @@
 import { LanguageSelectOption } from '@horizontal-org/shira-ui'
+import { TFunction } from 'i18next'
 
-export const LANG_OPTIONS: LanguageSelectOption[] = [
+const NATIVE_LANGUAGE_NAMES = {
+  ar: 'العربية',
+  cn: '简体中文',
+  en: 'English',
+  fr: 'Français',
+  es: 'Español',
+  ru: 'Русский',
+} as const
+
+export const getLanguageOptions = (t: TFunction): LanguageSelectOption[] => [
   {
-    label: "Arabic",
-    nativeLabel: "العربية",
+    label: t('languages.ar'),
+    nativeLabel: NATIVE_LANGUAGE_NAMES.ar,
     value: "ar",
   },
   {
-    label: "Chinese (Simplified)",
-    nativeLabel: "简体中文",
+    label: t('languages.cn'),
+    nativeLabel: NATIVE_LANGUAGE_NAMES.cn,
     value: "cn",
   },
   {
-    label: "English",
-    nativeLabel: "English",
+    label: t('languages.en'),
+    nativeLabel: NATIVE_LANGUAGE_NAMES.en,
     value: "en",
   },
   {
-    label: "French",
-    nativeLabel: "Français",
+    label: t('languages.fr'),
+    nativeLabel: NATIVE_LANGUAGE_NAMES.fr,
     value: "fr",
   },
   {
-    label: "Spanish",
-    nativeLabel: "Español",
+    label: t('languages.es'),
+    nativeLabel: NATIVE_LANGUAGE_NAMES.es,
     value: "es",
   },
   {
-    label: "Russian",
-    nativeLabel: "Русский",
+    label: t('languages.ru'),
+    nativeLabel: NATIVE_LANGUAGE_NAMES.ru,
     value: "ru",
   },
 ]
