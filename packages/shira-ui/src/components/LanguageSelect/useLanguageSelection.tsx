@@ -56,7 +56,7 @@ export const useLanguageSelection = ({ options, autoselect, onChange }: UseLangu
       const updatedSelected = findOptionByLanguage(selected.value)
       if (
         updatedSelected &&
-        (updatedSelected.label !== selected.label || updatedSelected.labelEnglish !== selected.labelEnglish)
+        (updatedSelected.label !== selected.label || updatedSelected.nativeLabel !== selected.nativeLabel)
       ) {
         setSelected(updatedSelected)
       }

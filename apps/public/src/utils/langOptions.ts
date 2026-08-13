@@ -13,32 +13,32 @@ const NATIVE_LANGUAGE_NAMES = {
 export const getLanguageOptions = (t: TFunction): LanguageSelectOption[] => [
   {
     label: t('languages.en'),
-    labelEnglish: NATIVE_LANGUAGE_NAMES.en,
+    nativeLabel: NATIVE_LANGUAGE_NAMES.en,
     value: 'en',
   },
   {
     label: t('languages.es'),
-    labelEnglish: NATIVE_LANGUAGE_NAMES.es,
+    nativeLabel: NATIVE_LANGUAGE_NAMES.es,
     value: 'es',
   },
   {
     label: t('languages.fr'),
-    labelEnglish: NATIVE_LANGUAGE_NAMES.fr,
+    nativeLabel: NATIVE_LANGUAGE_NAMES.fr,
     value: 'fr',
   },
   {
     label: t('languages.cn'),
-    labelEnglish: NATIVE_LANGUAGE_NAMES.cn,
+    nativeLabel: NATIVE_LANGUAGE_NAMES.cn,
     value: 'cn',
   },
   {
     label: t('languages.ar'),
-    labelEnglish: NATIVE_LANGUAGE_NAMES.ar,
+    nativeLabel: NATIVE_LANGUAGE_NAMES.ar,
     value: 'ar',
   },
   {
     label: t('languages.ru'),
-    labelEnglish: NATIVE_LANGUAGE_NAMES.ru,
+    nativeLabel: NATIVE_LANGUAGE_NAMES.ru,
     value: 'ru',
   },
 ]

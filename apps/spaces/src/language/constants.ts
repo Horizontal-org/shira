@@ -2,33 +2,33 @@ import { LanguageSelectOption } from '@horizontal-org/shira-ui'
 
 export const LANG_OPTIONS: LanguageSelectOption[] = [
   {
-    label: "العربية",
-    labelEnglish: "Arabic",
+    label: "Arabic",
+    nativeLabel: "العربية",
     value: "ar",
   },
   {
-    label: "简体中文",
-    labelEnglish: "Chinese (Simplified)",
+    label: "Chinese (Simplified)",
+    nativeLabel: "简体中文",
     value: "cn",
   },
   {
     label: "English",
-    labelEnglish: "English",
+    nativeLabel: "English",
     value: "en",
   },
   {
-    label: "Français",
-    labelEnglish: "French",
+    label: "French",
+    nativeLabel: "Français",
     value: "fr",
   },
   {
-    label: "Español",
-    labelEnglish: "Spanish",
+    label: "Spanish",
+    nativeLabel: "Español",
     value: "es",
   },
   {
-    label: "Русский",
-    labelEnglish: "Russian",
+    label: "Russian",
+    nativeLabel: "Русский",
     value: "ru",
   },
 ]
