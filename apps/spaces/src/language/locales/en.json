@@ -291,8 +291,8 @@
             "rejected": "Rejected"
         },
         "submission_rejection": {
-            "title": "Review rejected message",
-            "open": "View rejected message"
+            "title": "Submission feedback",
+            "open": "View submission feedback"
         },
         "submissions_empty_state": {
             "subtitle": "You don't have any submissions yet. To submit a resource that you have created, go to that specific resource and select \"submit as template.\"",

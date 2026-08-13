@@ -210,15 +210,15 @@ const DateCell = styled.div`
 
 const RejectionActionButton = styled.button`
   all: unset;
-  width: 28px;
-  height: 28px;
+  width: 20px;
+  height: 20px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  color: ${defaultTheme.colors.error7};
-  background: ${defaultTheme.colors.light.paleRed};
-  font-size: 16px;
+  color: ${defaultTheme.colors.light.white};
+  background: ${defaultTheme.colors.dark.darkGrey};
+  font-size: 14px;
   font-weight: 700;
 `;
