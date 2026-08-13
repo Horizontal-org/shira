@@ -124,7 +124,7 @@ export const FilterSelect = ({
               handleClear();
             }}
           >
-            <FiX size={16} />
+            <FiX />
           </ClearButton>
         ) : (
           <Chevron>
@@ -204,6 +204,7 @@ const Trigger = styled.button<{ $hasValue?: boolean; $size: FilterSelectSize }>`
     border: 1px solid ${defaultTheme.colors.dark.lightGrey};
     background: ${$hasValue ? defaultTheme.colors.light.paleGreen : defaultTheme.colors.light.white};
   `}
+
 `;
 
 const TriggerContent = styled.span<{ $size: FilterSelectSize }>`
@@ -260,6 +261,7 @@ const SelectedValue = styled.span<{ $size?: FilterSelectSize }>`
   ${({ $size }) => $size === 'big' && `
     font-weight: 700;
   `}
+
 `;
 
 const Chevron = styled.span`
@@ -285,7 +287,8 @@ const ClearButton = styled.button`
   justify-content: center;
   flex: 0 0 auto;
   cursor: pointer;
-  color: ${props => props.theme.colors.dark.mediumGrey};
+  color: ${props => props.theme.colors.dark.darkGrey};
+  font-size: 16px;
   line-height: 0;
 
   svg {
@@ -313,6 +316,7 @@ const Options = styled.div<{ $size: FilterSelectSize }>`
       0 3px 8px 1px rgba(0, 0, 0, 0.05),
       0 4px 8px 0 rgba(0, 0, 0, 0.03);
   `}
+
 `;
 
 const Option = styled.button<{ $isSelected: boolean; $size: FilterSelectSize }>`
@@ -331,7 +335,6 @@ const Option = styled.button<{ $isSelected: boolean; $size: FilterSelectSize }>`
   align-items: center;
   gap: 10px;
   cursor: pointer;
-
   ${({ $size }) => $size === 'big' && `
     padding: 12px 11px;
     font-size: 14px;

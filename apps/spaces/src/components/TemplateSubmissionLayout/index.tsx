@@ -311,6 +311,11 @@ const Field = styled.div`
   margin-top: 32px;
 `;
 
+const SubmissionSelect = styled(FilterSelect)`
+  width: 262px;
+  min-width: 0;
+`;
+
 const Terms = styled.div`
   display: flex;
   align-items: center;
