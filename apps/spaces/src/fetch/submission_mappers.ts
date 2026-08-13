@@ -26,6 +26,7 @@ export const mapQuestionSubmissionToListItem = (
   name: submission.questionName,
   dateSubmitted: submission.dateSubmitted,
   status: submission.status,
+  reason: submission.reason,
 });
 
 export const mapQuizSubmissionToListItem = (
@@ -35,6 +36,7 @@ export const mapQuizSubmissionToListItem = (
   name: submission.quizTitle,
   dateSubmitted: submission.dateSubmitted,
   status: submission.status,
+  reason: submission.reason,
 });
 
 export const mapQuestionSubmissionToPreview = (
