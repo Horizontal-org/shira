@@ -17,7 +17,7 @@
     "@tiptap/extension-blockquote": "^2.27.2",
     "@tiptap/extension-bubble-menu": "^2.27.2",
     "@tiptap/extension-color": "^2.27.2",
-    "@tiptap/extension-dropcursor": "^2.27.2",
+    "@tiptap/extension-dropcursor": "^3.30.0",
     "@tiptap/extension-gapcursor": "^2.27.2",
     "@tiptap/extension-highlight": "^2.27.2",
     "@tiptap/extension-history": "^2.27.2",
