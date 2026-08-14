@@ -75,7 +75,7 @@
   },
   "devDependencies": {
     "@nestjs/schematics": "^11.0.9",
-    "@nestjs/testing": "^11.1.13",
+    "@nestjs/testing": "^11.1.29",
     "@types/express": "^5.0.6",
     "@types/jest": "^30.0.0",
     "@types/node": "^25.2.3",
