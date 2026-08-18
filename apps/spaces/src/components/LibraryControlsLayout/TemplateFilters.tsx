@@ -42,8 +42,13 @@ const TemplateFiltersClearAllButtonBase = styled.button`
 `;
 
 export const TemplateFilterSelect = styled(FilterSelect) <FilterSelectProps>`
+  width: 210px;
   min-width: 210px;
-  max-width: 500px;
+  max-width: 210px;
+
+  > button {
+    width: 100%;
+  }
 
   @media (max-width: ${(props) => props.theme.breakpoints.md}) {
     flex: 1 1 100%;
@@ -55,7 +60,7 @@ export const TemplateFilterSelect = styled(FilterSelect) <FilterSelectProps>`
 export const TemplateFilters = styled.div`
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 10px;
   max-width: 100%;
   margin-left: auto;
@@ -63,6 +68,7 @@ export const TemplateFilters = styled.div`
   @media (max-width: ${(props) => props.theme.breakpoints.md}) {
     width: 100%;
     margin-left: 0;
+    flex-wrap: wrap;
   }
 `;
 
