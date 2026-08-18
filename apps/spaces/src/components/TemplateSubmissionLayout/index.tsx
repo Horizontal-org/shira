@@ -211,6 +211,7 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
               onChange={(value) => setLanguageIds(value as string[])}
               options={languageOptions.map(({ id, label }) => ({ value: String(id), label }))}
               placeholder={t(`${translationKey}.language_placeholder`)}
+              size="big"
               value={languageIds}
             />
           </Field>
@@ -227,6 +228,7 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
               onChange={(value) => setTagIds(value as string[])}
               options={tagOptions.map(({ id, label }) => ({ value: String(id), label }))}
               placeholder={t(`${translationKey}.tags_placeholder`)}
+              size="big"
               value={tagIds}
             />
           </Field>
