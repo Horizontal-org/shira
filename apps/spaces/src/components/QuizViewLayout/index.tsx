@@ -171,7 +171,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     return () => {
       cleanQuizActionSuccess()
     }
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     if (t(SUCCESS_MESSAGES[quizActionSuccess])) {
