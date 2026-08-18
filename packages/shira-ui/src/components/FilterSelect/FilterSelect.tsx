@@ -12,8 +12,6 @@ export interface FilterSelectOption {
   label: string;
 }
 
-export type FilterSelectSize = 'small' | 'big';
-
 export interface FilterSelectProps {
   options: FilterSelectOption[];
   value: string | string[];
@@ -25,7 +23,6 @@ export interface FilterSelectProps {
   isMulti?: boolean;
   selectedLabel?: string;
   onClear?: () => void;
-  size?: FilterSelectSize;
 }
 
 export const FilterSelect = ({
@@ -39,7 +36,6 @@ export const FilterSelect = ({
   isMulti = false,
   selectedLabel,
   onClear,
-  size = 'small',
 }: FilterSelectProps) => {
   const {
     isOpen,
@@ -90,10 +86,9 @@ export const FilterSelect = ({
   };
 
   return (
-    <Wrapper className={className} $size={size}>
+    <Wrapper className={className}>
       <Trigger
         $hasValue={hasSelection}
-        $size={size}
         ref={triggerRef}
         type="button"
         role="combobox"
@@ -103,13 +98,13 @@ export const FilterSelect = ({
         aria-haspopup="listbox"
         onClick={() => setIsOpen((prev) => !prev)}
       >
-        <TriggerContent $size={size}>
+        <TriggerContent>
           {leftIcon && <Icon>{leftIcon}</Icon>}
-          <Label $hasValue={hasSelection} $size={size}>
+          <Label $hasValue={hasSelection}>
             {resolvedSelectedLabel ? (
               <>
                 <LabelPrefix>{`${placeholder}: `}</LabelPrefix>
-                <SelectedValue $size={size}>{resolvedSelectedLabel}</SelectedValue>
+                <SelectedValue>{resolvedSelectedLabel}</SelectedValue>
               </>
             ) : (
               placeholder
@@ -138,7 +133,6 @@ export const FilterSelect = ({
       {isOpen && createPortal(
         <Options
           ref={optionsRef}
-          $size={size}
           role="listbox"
           id={listboxId}
           style={{
@@ -152,7 +146,6 @@ export const FilterSelect = ({
               key={option.value}
               type="button"
               $isSelected={isMulti ? selectedValues.includes(option.value) : option.value === value}
-              $size={size}
               onClick={() => handleSelect(option.value)}
             >
               {isMulti && (
@@ -171,22 +164,19 @@ export const FilterSelect = ({
   );
 };
 
-const Wrapper = styled.div<{ $size: FilterSelectSize }>`
+const Wrapper = styled.div`
   position: relative;
   min-width: 160px;
-
-  ${({ $size }) => $size === 'big' && `
-    width: 360px;
-    max-width: 100%;
-  `}
+  width: 360px;
+  max-width: 100%;
 `;
 
-const Trigger = styled.button<{ $hasValue?: boolean; $size: FilterSelectSize }>`
+const Trigger = styled.button<{ $hasValue?: boolean }>`
   appearance: none;
   -webkit-appearance: none;
   min-height: 32px;
-  width: 100%;
-  padding: 6px 12px;
+  width: 80%;
+  padding: 6px 10px;
   border-radius: 100px;
   border: 1px solid ${props => props.theme.colors.dark.lightGrey};
   background: ${props => props.$hasValue ? props.theme.colors.light.paleGreen : props.theme.colors.light.white};
@@ -196,18 +186,9 @@ const Trigger = styled.button<{ $hasValue?: boolean; $size: FilterSelectSize }>`
   gap: 8px;
   cursor: pointer;
 
-  ${({ $size, $hasValue }) => $size === 'big' && `
-    min-height: 32px;
-    padding: 6px 10px;
-    border-radius: 100px;
-    width: 80%;
-    border: 1px solid ${defaultTheme.colors.dark.lightGrey};
-    background: ${$hasValue ? defaultTheme.colors.light.paleGreen : defaultTheme.colors.light.white};
-  `}
-
 `;
 
-const TriggerContent = styled.span<{ $size: FilterSelectSize }>`
+const TriggerContent = styled.span`
   min-width: 0;
   display: flex;
   align-items: center;
@@ -229,7 +210,7 @@ const Icon = styled.span`
   }
 `;
 
-const Label = styled(Body4) <{ $hasValue: boolean; $size: FilterSelectSize }>`
+const Label = styled(Body4) <{ $hasValue: boolean }>`
   display: inline-flex;
   align-items: center;
   gap: 2px;
@@ -240,27 +221,21 @@ const Label = styled(Body4) <{ $hasValue: boolean; $size: FilterSelectSize }>`
   overflow: hidden;
   text-overflow: ellipsis;
 
-  ${({ $size }) => $size === 'big' && `
-    font-size: 14px;
-    font-weight: 400;
-    color: #333030;
-  `}
+  font-size: 14px;
+  font-weight: 400;
+  color: #333030;
 `;
 
 const LabelPrefix = styled.span`
   flex: 0 0 auto;
 `;
 
-const SelectedValue = styled.span<{ $size?: FilterSelectSize }>`
+const SelectedValue = styled.span`
   min-width: 0;
   flex: 1 1 auto;
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight: 700;
-
-  ${({ $size }) => $size === 'big' && `
-    font-weight: 700;
-  `}
 
 `;
 
@@ -296,38 +271,32 @@ const ClearButton = styled.button`
   }
 `;
 
-const Options = styled.div<{ $size: FilterSelectSize }>`
+const Options = styled.div`
   position: absolute;
   background: ${props => props.theme.colors.light.white};
   border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10);
+  box-shadow:
+    0 -3px 8px 1px rgba(0, 0, 0, 0.05),
+    0 -4px 8px 0 rgba(0, 0, 0, 0.03),
+    0 3px 8px 1px rgba(0, 0, 0, 0.05),
+    0 4px 8px 0 rgba(0, 0, 0, 0.03);
   pointer-events: auto;
   z-index: 1000;
   max-height: 500px;
   overflow-x: hidden;
   overflow-y: auto;
 
-  ${({ $size }) => $size === 'big' && `
-    max-height: 500px;
-    border-radius: 12px;
-    box-shadow:
-      0 -3px 8px 1px rgba(0, 0, 0, 0.05),
-      0 -4px 8px 0 rgba(0, 0, 0, 0.03),
-      0 3px 8px 1px rgba(0, 0, 0, 0.05),
-      0 4px 8px 0 rgba(0, 0, 0, 0.03);
-  `}
-
 `;
 
-const Option = styled.button<{ $isSelected: boolean; $size: FilterSelectSize }>`
+const Option = styled.button<{ $isSelected: boolean }>`
   appearance: none;
   -webkit-appearance: none;
   width: 100%;
-  padding: 10px 12px;
+  padding: 12px 11px;
   border: none;
   background: ${props => {
     if (!props.$isSelected) return props.theme.colors.light.white;
-    return props.$size === 'big' ? 'transparent' : props.theme.colors.light.paleGreen;
+    return 'transparent';
   }};
   color: ${props => props.theme.colors.dark.darkGrey};
   text-align: left;
@@ -335,11 +304,8 @@ const Option = styled.button<{ $isSelected: boolean; $size: FilterSelectSize }>`
   align-items: center;
   gap: 10px;
   cursor: pointer;
-  ${({ $size }) => $size === 'big' && `
-    padding: 12px 11px;
-    font-size: 14px;
-    line-height: 1;
-  `}
+  font-size: 14px;
+  line-height: 1;
 
   &:not(:last-child) {
     border-bottom: 1px solid ${props => props.theme.colors.dark.lightGrey};
@@ -347,8 +313,6 @@ const Option = styled.button<{ $isSelected: boolean; $size: FilterSelectSize }>`
   }
 
   &:hover {
-    background: ${props => props.$size === 'big'
-    ? props.theme.colors.light.paleGrey
-    : props.$isSelected ? props.theme.colors.light.paleGreen : props.theme.colors.light.paleGrey};
+    background: ${props => props.theme.colors.light.paleGrey};
   }
 `;
