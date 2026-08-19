@@ -19,7 +19,7 @@ type Props = {
   tagOptions: TemplateFilterOption[];
   selectedTags: string[];
   onTagChange: (value: string[]) => void;
-  creatorOptions: string[];
+  creatorOptions: TemplateFilterOption[];
   selectedCreator: string;
   onCreatorChange: (value: string) => void;
   onClearAll: () => void;
@@ -38,8 +38,6 @@ export const QuizTemplateFilters: FunctionComponent<Props> = ({
   onClearAll,
 }) => {
   const { t } = useTranslation();
-
-  const creatorFilterOptions = creatorOptions.map((creator) => ({ value: creator, label: creator }));
 
   const selectedLanguageOption = languageOptions.find(
     (option) => option.value === selectedLanguages[0],
@@ -98,11 +96,11 @@ export const QuizTemplateFilters: FunctionComponent<Props> = ({
 
       <TemplateFilterSelect
         value={selectedCreator}
-        options={creatorFilterOptions}
+        options={creatorOptions}
         placeholder={t("quiz_library.filters_panel.creator")}
         ariaLabel={t("quiz_library.filters_panel.creator")}
         leftIcon={<FaUserLarge size={10} color={defaultTheme.colors.green7} />}
-        selectedLabel={selectedCreator}
+        selectedLabel={creatorOptions.find((option) => option.value === selectedCreator)?.label ?? selectedCreator}
         onChange={onCreatorChange}
         onClear={() => onCreatorChange("")}
       />

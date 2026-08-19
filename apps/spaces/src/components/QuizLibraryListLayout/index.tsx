@@ -8,7 +8,6 @@ import { QuizCard } from "./components/QuizCard";
 import { QuizCardSkeleton } from "./components/QuizCardSkeleton";
 import { QuizTemplateFilters } from "./components/QuizTemplateFilters";
 import {
-  DEFAULT_CREATOR_OPTIONS,
   type LibraryQuizDto,
   type LibraryQuizQuestionTemplateDto,
 } from "../../fetch/quiz_templates";
@@ -56,6 +55,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
     areFiltersOpen,
     debouncedSearchValue,
     clearAllFilters,
+    creatorOptions,
     hasActiveSearch,
     languageOptions,
     loading,
@@ -187,7 +187,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
                 tagOptions={tagOptions}
                 selectedTags={selectedTags}
                 onTagChange={setSelectedTags}
-                creatorOptions={Array.of(DEFAULT_CREATOR_OPTIONS)}
+                creatorOptions={creatorOptions}
                 selectedCreator={selectedCreator}
                 onCreatorChange={setSelectedCreator}
                 onClearAll={clearAllFilters}

@@ -2,6 +2,7 @@ import { type SetStateAction, useEffect, useState } from "react";
 import {
   DEFAULT_PAGE_LIMIT,
   DEFAULT_QUIZ_TEMPLATE_SORT,
+  getQuizTemplateCreators,
   getQuizTemplates,
   type LibraryQuizDto,
   type QuizTemplateSortOption,
@@ -11,6 +12,7 @@ import {
   getLibraryTagOptions,
   type LibraryFilterOption,
 } from "../../../fetch/library_metadata";
+import { type TemplateFilterOption } from "../../LibraryControlsLayout/TemplateFilters";
 import { usePaginationProps } from "../../../hooks/usePaginationProps";
 
 const SEARCH_DEBOUNCE_DELAY_MS = 300;
@@ -33,6 +35,7 @@ export const useQuizTemplateList = () => {
 
   const [languageOptions, setLanguageOptions] = useState<LibraryFilterOption[]>([]);
   const [tagOptions, setTagOptions] = useState<LibraryFilterOption[]>([]);
+  const [creatorOptions, setCreatorOptions] = useState<TemplateFilterOption[]>([]);
 
   useEffect(() => {
     const debounceTimeout = window.setTimeout(() => {
@@ -57,6 +60,7 @@ export const useQuizTemplateList = () => {
           sortOption,
           langTagCodes: selectedLanguages,
           tagSlugs: selectedTags,
+          author: selectedCreator,
         });
 
         if (!isCurrentRequest) {
@@ -87,29 +91,34 @@ export const useQuizTemplateList = () => {
     return () => {
       isCurrentRequest = false;
     };
-  }, [debouncedSearchValue, pageIndex, selectedLanguages, selectedTags, sortOption]);
+  }, [debouncedSearchValue, pageIndex, selectedCreator, selectedLanguages, selectedTags, sortOption]);
 
   useEffect(() => {
-    if (!areFiltersOpen || (languageOptions.length > 0 && tagOptions.length > 0)) {
+    if (!areFiltersOpen || (languageOptions.length > 0 && tagOptions.length > 0 && creatorOptions.length > 0)) {
       return;
     }
 
     const loadFilterOptions = async () => {
       try {
-        const [nextLanguageOptions, nextTagOptions] = await Promise.all([
+        const [nextLanguageOptions, nextTagOptions, nextCreators] = await Promise.all([
           getLibraryLanguageOptions(),
           getLibraryTagOptions(),
+          getQuizTemplateCreators(),
         ]);
 
         setLanguageOptions(nextLanguageOptions);
         setTagOptions(nextTagOptions);
+        setCreatorOptions(nextCreators.map((creator) => ({
+          value: creator.publicSpaceId,
+          label: creator.displayName.trim(),
+        })));
       } catch (error) {
         console.error("Failed to get quiz template filter options:", error);
       }
     };
 
     loadFilterOptions();
-  }, [areFiltersOpen, languageOptions.length, tagOptions.length]);
+  }, [areFiltersOpen, creatorOptions.length, languageOptions.length, tagOptions.length]);
 
   const total = totalAvailableQuizzes;
   const visibleLibraryQuizzes = libraryQuizzes;
@@ -189,6 +198,7 @@ export const useQuizTemplateList = () => {
     areFiltersOpen,
     debouncedSearchValue,
     clearAllFilters,
+    creatorOptions,
     hasActiveFilters,
     hasActiveSearch,
     languageOptions,
