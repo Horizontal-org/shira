@@ -52,7 +52,7 @@
             "footer_title": "Intro du quiz",
             "next": "OK",
             "learn_more": "",
-            "disclaimer": ""
+            "disclaimer": "Shira collects limited data about your usage."
         },
         "answers": {
             "options": {
@@ -79,16 +79,16 @@
             "cancel": "Annuler"
         },
         "data_collection": {
-            "percentage_of_learners": "",
-            "your_score": "",
+            "percentage_of_learners": "c. The percentage of learners assigned this quiz who have completed it",
+            "your_score": "b. Your score for each question",
             "understand": "",
-            "only_datetime": "",
-            "total_quiz_score": "",
+            "only_datetime": "When you take this quiz, Shira will only track the date and time you take the quiz.",
+            "total_quiz_score": "a. Your total quiz score",
             "learn_more": "",
-            "title": "",
-            "2_results": "",
-            "1_date_time": "",
-            "intro": ""
+            "title": "Data collection",
+            "2_results": "2. Results:",
+            "1_date_time": "1. The date and time when you take the quiz",
+            "intro": "When you take this quiz, Shira will only track:"
         }
     },
     "feedback": {
@@ -126,7 +126,8 @@
         "heavy_subtitle_1": "Vous avez répondu correctement à ",
         "heavy_subtitle_2": "{{correctQuestions}} questions sur {{questions}} ",
         "heavy_subtitle_3": "questions correctement.",
-        "greeting_title": "Merci d'utiliser Shira !"
+        "greeting_title": "Merci d'utiliser Shira !",
+        "assessment_subtitle": "You've completed the quiz."
     },
     "about": {
         "title": "À propos",
