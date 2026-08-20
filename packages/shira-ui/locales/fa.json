@@ -52,7 +52,9 @@
         "reply": "Reply",
         "show_more": "Show more",
         "to": "To:",
-        "notes": "Notes"
+        "notes": "Notes",
+        "home": "صفحه اصلی",
+        "contact": "تماس"
     },
     "whatsapp": {
         "contact_5_name": "Annabel Carpenter",
