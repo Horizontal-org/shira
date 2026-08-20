@@ -51,7 +51,9 @@
         "reply": "Reply",
         "show_more": "Show more",
         "to": "To:",
-        "notes": "Notes"
+        "notes": "Notes",
+        "home": "Beranda",
+        "contact": "Kontak"
     },
     "whatsapp": {
         "contact_5_name": "Annabel Carpenter",
