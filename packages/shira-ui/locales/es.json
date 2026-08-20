@@ -18,7 +18,13 @@
         "attachments_other": "{{count}} archivos adjuntos",
         "scanned_by_google": "Analizado por Gmail",
         "encryption": "Encriptación estándar (TLS)",
-        "learn_more": "Más informacion"
+        "learn_more": "Más informacion",
+        "safer_with_google": "Safer with Google",
+        "attachment_scanning_description": "To help protect your inbox, Gmail blocks attachments when malware is detected. You should still only download attachments from people you trust.",
+        "add_to_drive": "Add to Drive",
+        "scanned_by_gmail": "Scanned by Gmail",
+        "attachment_scanning_title": "Attachment scanning in Gmail",
+        "add_all_to_drive": "Add all to Drive"
     },
     "outlook": {
         "search": "Buscar",
@@ -65,7 +71,10 @@
         "contact_3_name": "Paula",
         "contact_3_message": "La verad es que me siento mucho más fuerte sin tu amor. Hace 1 día",
         "contact_4_name": "José",
-        "contact_4_message": "Lo viste? . 1 día atrás"
+        "contact_4_message": "Lo viste? . 1 día atrás",
+        "contact_1_name": "Roseanna",
+        "search": "Search in Messenger",
+        "aa": "Aa"
     },
     "sms": {
         "text_message": "Mensaje de Texto"
