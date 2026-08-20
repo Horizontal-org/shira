@@ -7,8 +7,8 @@
         "password_placeholder": "Contraseña",
         "reset_password": "¿Olvidaste tu contraseña?",
         "login_header_button": "Iniciar Sesión",
-        "loading_button": "Logging in...",
-        "error_message": "Error: Your email address or password is incorrect."
+        "loading_button": "Iniciando sesión...",
+        "error_message": "Error: Tu correo electrónico o contraseña son incorrectas."
     },
     "beta": {
         "message": "Shira aún está en desarrollo y puede que experimentes problemas.",
@@ -581,7 +581,7 @@
                 "pro": {
                     "title": "Pro",
                     "description": "Experimenta todo el poder de Shira",
-                    "price": "$50/mes + $1 por cuestionario completado",
+                    "price": "$100/mes",
                     "cta": "Iniciar prueba gratuita de 14 días"
                 },
                 "enterprise": {
