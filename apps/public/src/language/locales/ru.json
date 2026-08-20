@@ -58,7 +58,7 @@
             "footer_title": "Предисловие к тесту",
             "next": "ОК",
             "learn_more": "",
-            "disclaimer": ""
+            "disclaimer": "Shira collects limited data about your usage."
         },
         "answers": {
             "options": {
@@ -85,16 +85,16 @@
             "cancel": "Отменить"
         },
         "data_collection": {
-            "percentage_of_learners": "",
-            "your_score": "",
+            "percentage_of_learners": "c. The percentage of learners assigned this quiz who have completed it",
+            "your_score": "b. Your score for each question",
             "understand": "",
-            "only_datetime": "",
-            "total_quiz_score": "",
+            "only_datetime": "When you take this quiz, Shira will only track the date and time you take the quiz.",
+            "total_quiz_score": "a. Your total quiz score",
             "learn_more": "",
-            "title": "",
-            "2_results": "",
-            "1_date_time": "",
-            "intro": ""
+            "title": "Data collection",
+            "2_results": "2. Results:",
+            "1_date_time": "1. The date and time when you take the quiz",
+            "intro": "When you take this quiz, Shira will only track:"
         }
     },
     "feedback": {
@@ -132,7 +132,8 @@
         "heavy_subtitle_1": "Ваш результат: ",
         "heavy_subtitle_2": "{{correctQuestions}} из {{questions}} ",
         "heavy_subtitle_3": "(спасибо, что прошли тест).",
-        "greeting_title": "Спасибо, что пользуетесь Shira!"
+        "greeting_title": "Спасибо, что пользуетесь Shira!",
+        "assessment_subtitle": "You've completed the quiz."
     },
     "about": {
         "title": "О нас",
