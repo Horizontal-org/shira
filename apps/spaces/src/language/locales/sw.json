@@ -1,16 +1,16 @@
 {
     "login": {
-        "title": "Log in",
+        "title": "Ingia",
         "subtitle": "Log in to access your custom Shira space.",
         "email_placeholder": "Barua pepe",
-        "password_placeholder": "Password",
+        "password_placeholder": "Neno la siri",
         "reset_password": "Forgot your password?",
-        "login_header_button": "Log in",
-        "loading_button": "Logging in...",
+        "login_header_button": "Ingia",
+        "loading_button": "Kuingia",
         "error_message": "Error: Your email address or password is incorrect."
     },
     "reset_password": {
-        "title": "Reset password",
+        "title": "Weka nenosiri",
         "subtitle": "Enter the email associated with your Shira account. You will receive an email with instructions to reset your password.",
         "email_placeholder": "Email (required)",
         "send_button": "Send reset email",
@@ -21,7 +21,7 @@
         "create_subtitle": "Your password should contain at least 8 characters.",
         "new_password_placeholder": "New password (required)",
         "confirm_password_placeholder": "Confirm new password (required)",
-        "reset_button": "Reset password",
+        "reset_button": "Weka nenosiri",
         "reset_success_title": "Password updated",
         "reset_success_description": "You can now log in with your new password.",
         "expired_title": "Sorry, something went wrong",
@@ -47,9 +47,9 @@
         "feedback_text": "to share your feedback and help us improve!"
     },
     "left_menu": {
-        "dashboard": "Dashboard",
-        "support": "Support",
-        "settings": "Settings",
+        "dashboard": "Dashibodi",
+        "support": "saidia",
+        "settings": "mpangilio",
         "logout": "Log out"
     },
     "dashboard": {
@@ -68,7 +68,7 @@
         "sub_required": "This feature is not available under your current plan. <0>View plans</0>",
         "table": {
             "learner": "Learner",
-            "registration": "Registration",
+            "registration": "Usajili",
             "quiz_status": "Quiz status",
             "invited_at": "Date invited",
             "invited_tag": "Invited",
@@ -96,8 +96,8 @@
         "last_modified": "Last modified {{date}}",
         "publish_toggle": "Published",
         "actions": {
-            "edit": "Edit",
-            "duplicate": "Duplicate"
+            "edit": "Hariri",
+            "duplicate": "Nakala"
         }
     },
     "quiz": {
@@ -110,19 +110,19 @@
         },
         "actions": {
             "rename": "Rename",
-            "duplicate": "Duplicate",
+            "duplicate": "Nakala",
             "copy_link": "Copy quiz link",
             "disabled_tooltip": "",
-            "delete": "Delete",
+            "delete": "Futa",
             "submit_as_template": "Submit as template",
             "copy_link_disabled_tooltip": "Create at least 1 question to copy your quiz link.",
             "submit_as_template_disabled_tooltip": "Create at least 1 question to submit your quiz as a template."
         },
         "tabs": {
-            "questions": "Questions",
-            "results": "Results",
+            "questions": "Maswali",
+            "results": "Matokeo",
             "learners": "Learners",
-            "settings": "Settings"
+            "settings": "mpangilio"
         },
         "visibility": {
             "public": "Public",
@@ -144,9 +144,9 @@
         "create_question_button": "Create question",
         "add_from_library_button": "",
         "action_tooltips": {
-            "edit": "Edit",
-            "duplicate": "Duplicate",
-            "delete": "Delete",
+            "edit": "Hariri",
+            "duplicate": "Nakala",
+            "delete": "Futa",
             "more_actions": "More actions",
             "submit_as_template": "Submit as template"
         },
@@ -180,8 +180,8 @@
                 },
                 "phishing": {
                     "title": "Is it phishing?",
-                    "yes": "Yes",
-                    "no": "No"
+                    "yes": "Ndio",
+                    "no": "Hapana"
                 },
                 "apps": {
                     "title": "Selected app"
@@ -242,12 +242,12 @@
                 }
             },
             "preview": {
-                "tab_title": "Preview",
+                "tab_title": "Chungulia kwanza",
                 "subtitle": "This is how your question will look to learners, including the explanations you have written.",
                 "show_explanations": "Show explanations",
                 "hide_explanations": "Hide explanations",
                 "next_explanation": "Yafuatayo",
-                "previous_explanation": "Previous",
+                "previous_explanation": "Iliyopita",
                 "no_explanations": "There are no explanations for this question.",
                 "aria_label": "Preview question"
             }
@@ -262,16 +262,16 @@
         "columns": {
             "question_name": "Question name",
             "type": {
-                "title": "Type",
+                "title": "Aina",
                 "phishing": "Phishing",
                 "legitimate": "Legitimate"
             },
             "language": {
-                "title": "Language",
-                "placeholder": "Languages"
+                "title": "Lugha",
+                "placeholder": "Lugha"
             },
             "app": {
-                "title": "App",
+                "title": "Programu",
                 "messaging_type": "Messaging app",
                 "email_type": "Email app",
                 "apps": {
@@ -285,8 +285,8 @@
             },
             "actions": {
                 "title": "Actions",
-                "add_aria_label": "Add",
-                "preview_aria_label": "Preview",
+                "add_aria_label": "Ongeza",
+                "preview_aria_label": "Chungulia kwanza",
                 "disabled_tooltip": "Select a language and an app to use this question."
             },
             "created_on": "Created on",
@@ -295,10 +295,10 @@
         "filters_panel": {
             "selected_count": "{{count}} selected",
             "tag": "Tag",
-            "apps": "Apps",
-            "type": "Type",
+            "apps": "Programu",
+            "type": "Aina",
             "creator": "Creator",
-            "language": "Language",
+            "language": "Lugha",
             "clear_all": "Clear all"
         },
         "sort_options": {
@@ -308,10 +308,10 @@
             "oldest_to_newest": "Oldest to newest"
         },
         "search_results_plural": "{{count}} results for \"{{searchTerm}}\"",
-        "sort_by": "Sort by",
+        "sort_by": "Panga kwa",
         "search_placeholder": "Search question names",
         "search_results": "{{count}} result for \"{{searchTerm}}\"",
-        "filters": "Filters"
+        "filters": "Chuja"
     },
     "results_tab": {
         "title": "Overall results",
@@ -333,7 +333,7 @@
             "description": "The average score is the percentage of learners who answered each question correctly.",
             "empty_state": "The quiz does not have any questions answered.",
             "table": {
-                "type": "Type",
+                "type": "Aina",
                 "question_name": "Jina",
                 "score": "Average score",
                 "loading": "Loading questions..."
@@ -384,12 +384,12 @@
                 "description_error": "The rows below contain errors that prevent these learners from being invited. You may fix the errors in your CSV and re-upload, or continue despite the errors and not import these learners.",
                 "description_skipped": "These rows will be skipped. You may ignore them and continue with uploading your spreadsheet.",
                 "description_valid": "These rows have been successfully validated, so these learners can be imported to your space.",
-                "table_row": "Row",
+                "table_row": "Safu mlalo",
                 "table_name": "Jina",
-                "table_email": "Email address",
+                "table_email": "Anuani ya barua pepe",
                 "table_error": "Type of error",
                 "table_skip_reason": "Reason for skipping",
-                "table_status": "Status",
+                "table_status": "Hadhi",
                 "validated": "Validated",
                 "empty_error": "There are no rows with errors.",
                 "empty_skipped": "There are no skipped rows.",
@@ -399,19 +399,19 @@
             "review": {
                 "tab_title": "Final review",
                 "subtitle": "You are about to invite <strong>{{count}} learners</strong> to your space.",
-                "table_row": "Row",
+                "table_row": "Safu mlalo",
                 "table_name": "Jina",
-                "table_email": "Email address",
-                "table_status": "Status"
+                "table_email": "Anuani ya barua pepe",
+                "table_status": "Hadhi"
             }
         }
     },
     "support": {
-        "title": "Support",
+        "title": "saidia",
         "subtitle": "If you need any support, including with deleting your account, please email the Shira team at contact@wearehorizontal.org"
     },
     "settings": {
-        "title": "Settings",
+        "title": "mpangilio",
         "subtitle": "Manage your Shira space settings here.",
         "tabs": {
             "account": "Account",
@@ -426,11 +426,11 @@
         },
         "sections": {
             "email": {
-                "title": "Email address",
+                "title": "Anuani ya barua pepe",
                 "action": "Change email address"
             },
             "password": {
-                "title": "Password",
+                "title": "Neno la siri",
                 "last_updated": "Last updated: {{date}}",
                 "action": "Change password"
             },
@@ -448,14 +448,14 @@
         "ok": "OK",
         "cancel": "Ghairi",
         "no_thanks": "No, thanks",
-        "close": "Close",
+        "close": "Funga",
         "exit": "Exit",
-        "save": "Save",
+        "save": "Hifadhi",
         "back": "Nyuma",
-        "delete": "Delete",
+        "delete": "Futa",
         "next": "Yafuatayo",
-        "continue": "Continue",
-        "login": "Log in",
+        "continue": "Endelea",
+        "login": "Ingia",
         "send_invitation": "Send invitation",
         "send_invitations": "Send invitations",
         "try_again": "Try again",
@@ -470,9 +470,9 @@
         "download_template": "Download CSV template",
         "view_guidelines": "View formatting guidelines",
         "browse_files": "Browse files",
-        "i_understand": "I understand",
+        "i_understand": "Ninaelewa",
         "back_home": "Rudi mwanzo",
-        "learn_more": "Learn more",
+        "learn_more": "jifunze zaidi",
         "manage_plan": "Manage plan",
         "back_to_quizzes": "Back to quizzes",
         "go_to_settings": "Go to settings"
@@ -588,11 +588,11 @@
             "file_type": "File type",
             "field_type": {
                 "title:": "Field type",
-                "image": "Image",
+                "image": "Picha",
                 "video": "Video",
-                "audio": "Audio",
+                "audio": "Sauti",
                 "document": "Document",
-                "other": "Other"
+                "other": "Mengineyo"
             }
         },
         "variables_modal": {
@@ -602,9 +602,9 @@
             "message3": "To add a variable, type the following:",
             "name": "name",
             "name_explanation": "This will display the learner's name",
-            "email": "email",
+            "email": "Barua pepe",
             "email_explanation": "This will display the learner's email address",
-            "ok": "ok"
+            "ok": "sawa"
         },
         "explanations_modal": {
             "title": "Explanations",
@@ -615,7 +615,7 @@
                 "content": "Specific parts of the message content",
                 "attachments": "File attachments."
             },
-            "ok": "ok"
+            "ok": "sawa"
         },
         "no_explanations": {
             "title": "Continue without explanations?",
@@ -657,7 +657,7 @@
             "title": "Almost there!",
             "description": "To complete the process, please open the email we sent to your new email address and click the confirmation link.",
             "didnt_receive": "Didn’t receive an email? If it’s not in your spam folder, please contact us at <0>{{contact_email}}</0>",
-            "button": "I understand"
+            "button": "Ninaelewa"
         },
         "change_password": {
             "title": "Create new password",
@@ -678,7 +678,7 @@
                 "title": "What's included?",
                 "admin_management": "Admin management",
                 "customization": "Customization",
-                "access_control": "Access control",
+                "access_control": "Dhibiti ufikiaji",
                 "compliance": "Compliance",
                 "custom_support": "Customer support",
                 "rows": {
@@ -695,7 +695,7 @@
                     "detailed_analytics": "Detailed analytics",
                     "analysis_tools": "Analysis and compliance tools",
                     "tailor_made_training": "Tailor-made user training",
-                    "priority_support": "Support",
+                    "priority_support": "saidia",
                     "phishing_readiness_assessment": "Phishing Readiness Assessment",
                     "preparedness_report": "Preparedness Report & Action Plan"
                 },
@@ -768,7 +768,7 @@
         "learner_email_send_failed": "Failed to send email invitation to learner.",
         "learner_token_conflict": "The token from the learner is invalid or has already been used.",
         "learner_assignment_failed": "Failed to assign learner to the space.",
-        "invalid_email": "Please enter a valid email address",
+        "invalid_email": "tafadhali ingiza anuani ya barua pepe iliyo halali.",
         "something_went_wrong": "Something went wrong",
         "invite_learner_failed": "There was a problem inviting the learner. If this issue persists, <1>contact us</1>.",
         "delete_learner_failed": "There was a problem deleting the learner. If this issue persists, <1>contact us</1>.",
@@ -790,7 +790,7 @@
         "learners_bulk_import": {
             "missing_name": "Missing name",
             "missing_email": "Missing email address",
-            "invalid_email": "Invalid email address",
+            "invalid_email": "Anwani ya barua pepe si sahihi",
             "duplicated_email": "Duplicated email address",
             "already_registered": "Already registered",
             "invalid_file_format": {
@@ -885,11 +885,11 @@
             "non_profit": "A non-profit organization",
             "individual": "An individual (consultant, trainer, etc)"
         },
-        "button_sign_up": "Sign up",
+        "button_sign_up": "Sajili",
         "validation": {
             "org_name_required": "Organization name is required",
             "email_required": "Email is required",
-            "invalid_email": "Please enter a valid email address"
+            "invalid_email": "tafadhali ingiza anuani ya barua pepe iliyo halali."
         },
         "errors": {
             "create_space_failed": "An error occurred while creating your space. Please try again."
@@ -939,28 +939,28 @@
             "clear_all": "Clear all",
             "all_tags": "All tags",
             "all_languages": "All languages",
-            "language": "Language"
+            "language": "Lugha"
         },
         "preview": {
             "created_on": "Created on",
             "columns": {
-                "app": "App",
+                "app": "Programu",
                 "actions": "Actions",
-                "preview": "Preview",
-                "type": "Type",
-                "language": "Language",
+                "preview": "Chungulia kwanza",
+                "type": "Aina",
+                "language": "Lugha",
                 "question_name": "Question name"
             },
             "preview_full_quiz": "Preview full quiz",
             "no_questions": "No questions found for this quiz template.",
             "tags": "Tags",
             "back_to_quiz_template": "Back to quiz template",
-            "languages": "Languages",
+            "languages": "Lugha",
             "creator": "Creator",
             "subtitle": "You can preview the full quiz or each question individually, before using the quiz as a template to create your own.",
             "use_template": "Use template"
         },
-        "filters": "Filters",
+        "filters": "Chuja",
         "use_template": "Use template",
         "search_results_plural": "{{count}} results for \"{{searchTerm}}\"",
         "empty_search": {
@@ -979,7 +979,7 @@
         },
         "search_placeholder": "Search quiz names",
         "title": "Quiz library",
-        "sort_by": "Sort by",
+        "sort_by": "Panga kwa",
         "view_template": "View template"
     },
     "library": {
@@ -989,7 +989,7 @@
         },
         "cards": {
             "questions": {
-                "title": "Questions"
+                "title": "Maswali"
             },
             "quizzes": {
                 "title": "Quizzes"
@@ -1000,11 +1000,11 @@
     },
     "sidebar": {
         "quizzes": "Quizzes",
-        "settings": "Settings",
+        "settings": "mpangilio",
         "learners": "Learners",
-        "support": "Support",
+        "support": "saidia",
         "logout": "Log out",
-        "templates": "Templates"
+        "templates": "Violezo"
     },
     "banner": {
         "message": "Shira spaces is not yet available on smaller screens. For a better experience, please access spaces using a screen wider than 800px.",
@@ -1017,10 +1017,10 @@
             "success": "The quiz template has been submitted.",
             "name": "Quiz template name",
             "error": "We couldn't submit the quiz template. Please try again.",
-            "submit": "Submit",
+            "submit": "Wasilisha",
             "name_placeholder": "Quiz template name",
             "header_title": "Submit quiz template",
-            "language": "Language",
+            "language": "Lugha",
             "title": "Submit your quiz as a template",
             "description": "Description",
             "language_hint": "You may select more than 1 language. (Can't find the language you want? <support>Request a missing language.</support>)",
@@ -1028,7 +1028,7 @@
             "description_hint": "Write 1-2 lines to explain what this quiz contains.",
             "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>.",
             "review_notice": "The Shira team carefully reviews every submission. If your template is accepted, it will appear in the template library. <learnMore>Learn More</learnMore>.",
-            "language_placeholder": "Language",
+            "language_placeholder": "Lugha",
             "tags_hint": "Select the tags that best describe the content of this template.",
             "description_placeholder": "Description"
         },
@@ -1041,23 +1041,23 @@
             "header_title": "Submit question template",
             "tags": "Tags",
             "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>.",
-            "language_placeholder": "Language",
+            "language_placeholder": "Lugha",
             "name": "Question template name",
             "tags_placeholder": "Tag",
-            "submit": "Submit",
+            "submit": "Wasilisha",
             "tags_hint": "Select the tags that best describe the content of this template.",
             "language_hint": "You may select more than 1 language. (Can't find the language you want? <support>Request a missing language.</support>)",
             "name_hint": "Use a descriptive name to help other users find what they're looking for.",
             "name_placeholder": "Question template name",
             "description": "Description",
-            "language": "Language",
+            "language": "Lugha",
             "description_hint": "Write 1-2 lines to explain what this question contains."
         },
         "submissions_table": {
             "actions": "Actions",
-            "type": "Type",
-            "status": "Status",
-            "app": "App",
+            "type": "Aina",
+            "status": "Hadhi",
+            "app": "Programu",
             "preview": "Preview submission",
             "date_submitted": "Date submitted",
             "quiz_name": "Quiz name",
@@ -1082,18 +1082,18 @@
         "back_to_templates": "Back to Templates",
         "my_submissions_description": "These are the templates you have submitted. The Shira team carefully reviews every submission. If your template is accepted, it will appear in the Shira template library. <learnMore>Learn More</learnMore>",
         "question_templates": {
-            "title": "Question templates",
+            "title": "Kiolezo cha maswali",
             "description": "Explore pre-made questions, with message content, sender info and explanations already built in."
         },
         "submission_rejection": {
             "open": "View submission feedback",
             "title": "Submission feedback"
         },
-        "title": "Templates",
+        "title": "Violezo",
         "subtitle": "Get started right away with ready-made templates.",
         "submissions_tabs": {
             "quizzes": "Quizzes",
-            "questions": "Questions"
+            "questions": "Maswali"
         },
         "submissions_empty_state": {
             "subtitle": "You don't have any submissions yet. To submit a resource that you have created, go to that specific resource and select \"submit as template.\"",
