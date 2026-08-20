@@ -432,7 +432,7 @@
         "tabs": {
             "account": "الحساب",
             "subscription": "الاشتراك",
-            "general": ""
+            "general": "عام"
         },
         "subscription": {
             "current_plan": "الباقة الحالية: {{plan_name}}",
@@ -961,9 +961,9 @@
             },
             "preview_full_quiz": "",
             "no_questions": "",
-            "tags": "",
+            "tags": "الوسوم",
             "back_to_quiz_template": "",
-            "languages": "",
+            "languages": "اللغات",
             "creator": "",
             "subtitle": ""
         },
@@ -996,20 +996,32 @@
         },
         "cards": {
             "questions": {
-                "title": ""
+                "title": "الأسئلة"
             },
             "quizzes": {
-                "title": ""
+                "title": "الاختبارات"
             }
         },
         "title": "",
         "subtitle": ""
     },
     "sidebar": {
-        "quizzes": "",
+        "quizzes": "الاختبارات",
         "settings": "",
-        "learners": "",
+        "learners": "المتعلمون",
         "support": "",
         "logout": ""
+    },
+    "templates": {
+        "submissions_tabs": {
+            "quizzes": "الاختبارات",
+            "questions": "الأسئلة"
+        },
+        "submit_quiz": {
+            "tags": "الوسوم"
+        },
+        "submit_question": {
+            "tags": "الوسوم"
+        }
     }
 }
