@@ -921,7 +921,7 @@
         "tabs": {
             "account": "账号",
             "subscription": "订阅",
-            "general": ""
+            "general": "常规"
         },
         "subscription": {
             "current_plan": "当前方案：{{plan_name}}",
@@ -961,9 +961,9 @@
             },
             "preview_full_quiz": "",
             "no_questions": "",
-            "tags": "",
+            "tags": "标签",
             "back_to_quiz_template": "",
-            "languages": "",
+            "languages": "语言",
             "creator": "",
             "subtitle": ""
         },
@@ -996,20 +996,32 @@
         },
         "cards": {
             "questions": {
-                "title": ""
+                "title": "题目"
             },
             "quizzes": {
-                "title": ""
+                "title": "测验"
             }
         },
         "title": "",
         "subtitle": ""
     },
     "sidebar": {
-        "quizzes": "",
+        "quizzes": "测验",
         "settings": "",
-        "learners": "",
+        "learners": "学员",
         "support": "",
         "logout": ""
+    },
+    "templates": {
+        "submissions_tabs": {
+            "quizzes": "测验",
+            "questions": "题目"
+        },
+        "submit_quiz": {
+            "tags": "标签"
+        },
+        "submit_question": {
+            "tags": "标签"
+        }
     }
 }
