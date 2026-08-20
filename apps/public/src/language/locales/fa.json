@@ -51,7 +51,7 @@
             "footer_title": "مقدمه مسابقه",
             "next": "باشه",
             "question_count": "This quiz contains {{count}} questions",
-            "learn_more": "Learn more",
+            "learn_more": "اطلاعات بیشتر",
             "disclaimer": "Shira collects limited data about your usage."
         },
         "answers": {
@@ -81,10 +81,10 @@
         "data_collection": {
             "percentage_of_learners": "c. The percentage of learners assigned this quiz who have completed it",
             "your_score": "b. Your score for each question",
-            "understand": "I understand",
+            "understand": "می‌فهمم",
             "only_datetime": "When you take this quiz, Shira will only track the date and time you take the quiz.",
             "total_quiz_score": "a. Your total quiz score",
-            "learn_more": "Learn more",
+            "learn_more": "اطلاعات بیشتر",
             "title": "Data collection",
             "2_results": "2. Results:",
             "1_date_time": "1. The date and time when you take the quiz",
