@@ -581,7 +581,7 @@
                 "pro": {
                     "title": "Pro",
                     "description": "Experimenta todo el poder de Shira",
-                    "price": "$100/mes",
+                    "price": "100 USD/mes",
                     "cta": "Iniciar prueba gratuita de 14 días"
                 },
                 "enterprise": {
