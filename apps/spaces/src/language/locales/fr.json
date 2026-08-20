@@ -999,17 +999,28 @@
                 "title": ""
             },
             "quizzes": {
-                "title": ""
+                "title": "Les quiz"
             }
         },
         "title": "",
         "subtitle": ""
     },
     "sidebar": {
-        "quizzes": "",
+        "quizzes": "Les quiz",
         "settings": "",
-        "learners": "",
+        "learners": "Apprenants et apprenantes",
         "support": "",
         "logout": ""
+    },
+    "templates": {
+        "submissions_tabs": {
+            "quizzes": "Les quiz"
+        },
+        "submit_quiz": {
+            "tags": "Mots-clés"
+        },
+        "submit_question": {
+            "tags": "Mots-clés"
+        }
     }
 }
