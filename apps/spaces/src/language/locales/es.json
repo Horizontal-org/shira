@@ -921,7 +921,7 @@
         "tabs": {
             "account": "Cuenta",
             "subscription": "Suscripción",
-            "general": ""
+            "general": "General"
         },
         "subscription": {
             "current_plan": "Plan actual: {{plan_name}}",
@@ -961,9 +961,9 @@
             },
             "preview_full_quiz": "",
             "no_questions": "",
-            "tags": "",
+            "tags": "Etiquetas",
             "back_to_quiz_template": "",
-            "languages": "",
+            "languages": "Idiomas",
             "creator": "",
             "subtitle": ""
         },
@@ -996,20 +996,32 @@
         },
         "cards": {
             "questions": {
-                "title": ""
+                "title": "Preguntas"
             },
             "quizzes": {
-                "title": ""
+                "title": "Cuestionarios"
             }
         },
         "title": "",
         "subtitle": ""
     },
     "sidebar": {
-        "quizzes": "",
+        "quizzes": "Cuestionarios",
         "settings": "",
-        "learners": "",
+        "learners": "Estudiantes",
         "support": "",
         "logout": ""
+    },
+    "templates": {
+        "submissions_tabs": {
+            "quizzes": "Cuestionarios",
+            "questions": "Preguntas"
+        },
+        "submit_quiz": {
+            "tags": "Etiquetas"
+        },
+        "submit_question": {
+            "tags": "Etiquetas"
+        }
     }
 }
