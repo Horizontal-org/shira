@@ -7,7 +7,7 @@
         "password_placeholder": "Пароль",
         "reset_password": "Забыли пароль?",
         "login_header_button": "Вход",
-        "loading_button": "Logging in...",
+        "loading_button": "Вход в систему...",
         "error_message": "Error: Your email address or password is incorrect."
     },
     "reset_password": {
@@ -130,7 +130,7 @@
             "questions": "Вопросы",
             "results": "Результаты",
             "learners": "Учащиеся",
-            "settings": "Settings"
+            "settings": "Настройки"
         },
         "visibility": {
             "public": "Открытый",
@@ -308,21 +308,21 @@
         },
         "filters_panel": {
             "selected_count": "{{count}} selected",
-            "tag": "Tag",
-            "apps": "Apps",
-            "type": "Type",
+            "tag": "Теги",
+            "apps": "Приложения",
+            "type": "Тип",
             "creator": "Creator",
-            "language": "Language",
-            "clear_all": "Clear all"
+            "language": "Язык",
+            "clear_all": "Удалить все"
         },
         "sort_options": {
             "question_name_desc": "Question name (Z-A)",
             "question_name_asc": "Question name (A-Z)",
-            "newest_to_oldest": "Newest to oldest",
-            "oldest_to_newest": "Oldest to newest"
+            "newest_to_oldest": "От новейшего к старейшему",
+            "oldest_to_newest": "От старейшего к новейшему"
         },
         "search_results_plural": "{{count}} results for \"{{searchTerm}}\"",
-        "sort_by": "Sort by",
+        "sort_by": "Сортировать",
         "search_placeholder": "Search question names",
         "search_results": "{{count}} result for \"{{searchTerm}}\"",
         "filters": "Filters"
@@ -771,7 +771,7 @@
             }
         },
         "add_quiz_from_template": {
-            "input_label": "Quiz name",
+            "input_label": "Название теста",
             "title": "Give your new quiz a name",
             "subtitle": "The quiz name will be visible in your Space and to learners when they take it."
         }
@@ -789,7 +789,7 @@
         "learner_email_send_failed": "Ошибка отправки приглашения по email.",
         "learner_token_conflict": "Токен, полученный от учащегося, недействителен или уже использовался.",
         "learner_assignment_failed": "Не удалось добавить учащегося к пространству.",
-        "invalid_email": "Пожалуйста, укажите корректный email.",
+        "invalid_email": "Укажите действующий email",
         "something_went_wrong": "Что-то пошло не так",
         "invite_learner_failed": "С приглашением учащегося возникла проблема. Если она останется, <1>свяжитесь с нами</1>.",
         "delete_learner_failed": "При удалении учащегося возникла проблема. Если она останется, <1>свяжитесь с нами</1>.",
@@ -866,7 +866,7 @@
         "learners_unassigned_plural": "Этот тест был отменён для учащихся ({{count}} чел.).",
         "password_updated": "Ваш пароль успешно обновлён.",
         "email_updated": "Ваш email успешно обновлён.",
-        "quiz_assessment_mode_updated": "The quiz has been updated"
+        "quiz_assessment_mode_updated": "Тест обновлён"
     },
     "loading_messages": {
         "message": "",
@@ -943,14 +943,14 @@
             "password_required": "Требуется пароль.",
             "password_min_length": "В пароле должно быть не меньше 8 символов.",
             "passwords_mismatch": "Пароли не совпадают.",
-            "confirm_password_required": "Please confirm your password.",
+            "confirm_password_required": "Пожалуйста, подтвердите пароль",
             "privacy_policy_required": "Please accept the privacy policy."
         },
         "errors": {
             "create_space_failed": "При создании вашего пространства произошла ошибка. Попробуйте ещё раз."
         },
         "success": {
-            "title": "All done!",
+            "title": "Готово!",
             "description": "Your space was successfully created. Log in to start creating quizzes.",
             "button": "Go to space"
         },
@@ -965,22 +965,22 @@
         "filters_panel": {
             "creator": "Creator",
             "all_creators": "All creators",
-            "tag": "Tag",
+            "tag": "Теги",
             "selected_count": "{{count}} selected",
-            "clear_all": "Clear all",
+            "clear_all": "Удалить все",
             "all_tags": "All tags",
             "all_languages": "All languages",
-            "language": "Language"
+            "language": "Язык"
         },
         "preview": {
             "created_on": "Created on",
             "columns": {
-                "app": "App",
-                "actions": "Actions",
-                "preview": "Preview",
-                "type": "Type",
-                "language": "Language",
-                "question_name": "Question name"
+                "app": "Имя не установлено",
+                "actions": "Действия",
+                "preview": "Предпросмотр",
+                "type": "Тип",
+                "language": "Язык",
+                "question_name": "Название вопроса"
             },
             "preview_full_quiz": "Preview full quiz",
             "no_questions": "No questions found for this quiz template.",
@@ -1004,13 +1004,13 @@
         "subtitle": "Select a quiz from the list below to use it as a template for your new quiz.",
         "sort_options": {
             "quiz_name_asc": "Quiz name (A-Z)",
-            "oldest_to_newest": "Oldest to newest",
+            "oldest_to_newest": "От старейшего к новейшему",
             "quiz_name_desc": "Quiz name (Z-A)",
-            "newest_to_oldest": "Newest to oldest"
+            "newest_to_oldest": "От новейшего к старейшему"
         },
         "search_placeholder": "Search quiz names",
         "title": "Quiz library",
-        "sort_by": "Sort by",
+        "sort_by": "Сортировать",
         "view_template": "View template"
     },
     "library": {
@@ -1031,11 +1031,11 @@
     },
     "sidebar": {
         "quizzes": "Тесты",
-        "settings": "Settings",
+        "settings": "Настройки",
         "learners": "Учащиеся",
-        "support": "Support",
-        "logout": "Log out",
-        "templates": "Templates"
+        "support": "Приоритетная поддержка",
+        "logout": "Выход",
+        "templates": "Шаблоны"
     },
     "templates": {
         "submissions_tabs": {
@@ -1044,55 +1044,55 @@
         },
         "submit_quiz": {
             "tags": "Теги",
-            "tags_placeholder": "Tag",
+            "tags_placeholder": "Теги",
             "name_hint": "Use a descriptive name to help other users find what they're looking for.",
             "success": "The quiz template has been submitted.",
             "name": "Quiz template name",
             "error": "We couldn't submit the quiz template. Please try again.",
-            "submit": "Submit",
+            "submit": "Отправить",
             "name_placeholder": "Quiz template name",
             "header_title": "Submit quiz template",
-            "language": "Language",
+            "language": "Язык",
             "title": "Submit your quiz as a template",
-            "description": "Description",
+            "description": "Описание",
             "language_hint": "You may select more than 1 language. (Can't find the language you want? <support>Request a missing language.</support>)",
             "description_hint": "Write 1-2 lines to explain what this quiz contains.",
             "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>.",
             "review_notice": "The Shira team carefully reviews every submission. If your template is accepted, it will appear in the template library. <learnMore>Learn More</learnMore>.",
-            "language_placeholder": "Language",
+            "language_placeholder": "Язык",
             "tags_hint": "Select the tags that best describe the content of this template.",
-            "description_placeholder": "Description"
+            "description_placeholder": "Описание"
         },
         "submit_question": {
             "tags": "Теги",
             "title": "Submit your question as a template",
             "success": "The question template has been submitted.",
-            "description_placeholder": "Description",
+            "description_placeholder": "Описание",
             "error": "We couldn't submit the question template. Please try again.",
             "review_notice": "The Shira team carefully reviews every submission. If your template is accepted, it will appear in the template library. <learnMore>Learn More</learnMore>.",
             "header_title": "Submit question template",
             "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>.",
-            "language_placeholder": "Language",
+            "language_placeholder": "Язык",
             "name": "Question template name",
-            "tags_placeholder": "Tag",
-            "submit": "Submit",
+            "tags_placeholder": "Теги",
+            "submit": "Отправить",
             "tags_hint": "Select the tags that best describe the content of this template.",
             "language_hint": "You may select more than 1 language. (Can't find the language you want? <support>Request a missing language.</support>)",
             "name_hint": "Use a descriptive name to help other users find what they're looking for.",
             "name_placeholder": "Question template name",
-            "description": "Description",
-            "language": "Language",
+            "description": "Описание",
+            "language": "Язык",
             "description_hint": "Write 1-2 lines to explain what this question contains."
         },
         "submissions_table": {
-            "actions": "Actions",
-            "type": "Type",
-            "status": "Status",
-            "app": "App",
+            "actions": "Действия",
+            "type": "Тип",
+            "status": "Статус",
+            "app": "Имя не установлено",
             "preview": "Preview submission",
-            "date_submitted": "Date submitted",
-            "quiz_name": "Quiz name",
-            "question_name": "Question name"
+            "date_submitted": "Дата прохождения",
+            "quiz_name": "Название теста",
+            "question_name": "Название вопроса"
         },
         "submission_status": {
             "title": "Submission status",
@@ -1113,14 +1113,14 @@
         "back_to_templates": "Back to Templates",
         "my_submissions_description": "These are the templates you have submitted. The Shira team carefully reviews every submission. If your template is accepted, it will appear in the Shira template library. <learnMore>Learn More</learnMore>",
         "question_templates": {
-            "title": "Question templates",
+            "title": "Шаблоны для вопросов",
             "description": "Explore pre-made questions, with message content, sender info and explanations already built in."
         },
         "submission_rejection": {
             "open": "View submission feedback",
             "title": "Submission feedback"
         },
-        "title": "Templates",
+        "title": "Шаблоны",
         "subtitle": "Get started right away with ready-made templates.",
         "submissions_empty_state": {
             "subtitle": "You don't have any submissions yet. To submit a resource that you have created, go to that specific resource and select \"submit as template.\"",
