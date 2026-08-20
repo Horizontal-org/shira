@@ -574,7 +574,7 @@
                 "pro": {
                     "title": "专业版",
                     "description": "体验 Shira 完整功能",
-                    "price": "50 美元/月 + 每完成一次测验 1 美元",
+                    "price": "50 美元/月",
                     "cta": "开始 14 天免费试用"
                 },
                 "enterprise": {
