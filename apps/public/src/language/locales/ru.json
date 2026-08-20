@@ -57,7 +57,7 @@
             "explanation_3": "Если не уверены, можете выбрать вариант «Не знаю».",
             "footer_title": "Предисловие к тесту",
             "next": "ОК",
-            "learn_more": "",
+            "learn_more": "Подробнее",
             "disclaimer": "Shira collects limited data about your usage."
         },
         "answers": {
@@ -87,10 +87,10 @@
         "data_collection": {
             "percentage_of_learners": "c. The percentage of learners assigned this quiz who have completed it",
             "your_score": "b. Your score for each question",
-            "understand": "",
+            "understand": "Я понимаю",
             "only_datetime": "When you take this quiz, Shira will only track the date and time you take the quiz.",
             "total_quiz_score": "a. Your total quiz score",
-            "learn_more": "",
+            "learn_more": "Подробнее",
             "title": "Data collection",
             "2_results": "2. Results:",
             "1_date_time": "1. The date and time when you take the quiz",
