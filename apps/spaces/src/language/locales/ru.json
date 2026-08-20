@@ -759,7 +759,7 @@
                 "pro": {
                     "title": "Pro",
                     "description": "Все возможности Shira",
-                    "price": "$100/мес.",
+                    "price": "100 USD/месяц",
                     "cta": "14-дневная пробная версия"
                 },
                 "enterprise": {
