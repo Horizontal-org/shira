@@ -102,7 +102,7 @@ export const questionTemplateToRow = (
       name: q.name,
       isPhishing: Boolean(q.isPhishing),
       type: q.appType,
-      creator: "Shira team",
+      creator: q.author,
       createdAt: q.createdAt,
       tags: q.tags,
       app: defaultApp,
@@ -113,6 +113,7 @@ export const questionTemplateToRow = (
         position: Number(explanation.position),
         text: explanation.text,
       })),
+      images: q.images ?? [],
       apps: appOptions,
       languages: langOptions,
     } as RowType;

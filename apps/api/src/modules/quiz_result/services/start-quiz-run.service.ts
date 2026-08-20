@@ -11,6 +11,7 @@ import { TYPES as LEARNER_TYPES } from '../../learner/interfaces'
 import { IValidateLearnerQuizService } from 'src/modules/learner/interfaces/services/validate.learner-quiz.service.interface';
 import { IStartQuizRunService } from '../interfaces/services/start-quiz-run.service.interface';
 import { RecordUsageEnqueueQuizResultException } from '../exceptions/record-usage-enqueue.quiz-result.exception';
+import { SELF_HOSTED } from 'src/utils/environment/self-hosted.environment';
 
 @Injectable()
 export class StartQuizRunService implements IStartQuizRunService {
@@ -39,7 +40,10 @@ export class StartQuizRunService implements IStartQuizRunService {
       const learnerQuiz = await this.validateLearnerQuiz.execute(quizIdNum, dto.learnerId)
       const orgId = await this.getOrgByLearnerQuiz(learnerQuiz)
       // record sub usage
-      this.recordUsage(orgId);
+      if (!SELF_HOSTED) {
+        // comment record usage for now
+        // this.recordUsage(orgId);
+      }
     }
 
     const run = this.quizRunRepo.create({
@@ -60,11 +64,11 @@ export class StartQuizRunService implements IStartQuizRunService {
     return quiz.space.organizationId
   }
 
-  private async recordUsage(orgId: number) {
-    try {
-      await this.paymentsQueue.add('record-usage', String(orgId))
-    } catch (error) {
-      throw new RecordUsageEnqueueQuizResultException(String(orgId), error)
-    }
-  }
+  // private async recordUsage(orgId: number) {
+  //   try {
+  //     await this.paymentsQueue.add('record-usage', String(orgId))
+  //   } catch (error) {
+  //     throw new RecordUsageEnqueueQuizResultException(String(orgId), error)
+  //   }
+  // }
 }

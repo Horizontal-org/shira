@@ -28,6 +28,8 @@ cp apps/public/.env.example apps/public/.env
 cp apps/spaces/.env.example apps/spaces/.env
 ```
 
+Set `ENABLE_PUBLIC_LIBRARY=false` in `apps/api/.env` to disable the public quiz library on self-hosted instances that don't want to depend on the public library service.
+
 ## Local Development
 
 1. Install dependencies from the repo root:

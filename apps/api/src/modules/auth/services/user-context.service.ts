@@ -58,6 +58,7 @@ export class UserContextService implements IUserContextService{
       space: {
         id: space.id,
         name: space.name,
+        publicId: space.publicId,
         organizationId: space.organization.id
       },
       spaceRole: spaceUser.role.name,

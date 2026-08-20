@@ -2,13 +2,17 @@ import { type SetStateAction, useEffect, useState } from "react";
 import {
   DEFAULT_PAGE_LIMIT,
   DEFAULT_QUIZ_TEMPLATE_SORT,
-  getQuizTemplateLanguageOptions,
-  getQuizTemplateTagOptions,
+  getQuizTemplateCreators,
   getQuizTemplates,
   type LibraryQuizDto,
-  type QuizTemplateFilterOption,
   type QuizTemplateSortOption,
 } from "../../../fetch/quiz_templates";
+import {
+  getLibraryLanguageOptions,
+  getLibraryTagOptions,
+  type LibraryFilterOption,
+} from "../../../fetch/library_metadata";
+import { type TemplateFilterOption } from "../../LibraryControlsLayout/TemplateFilters";
 import { usePaginationProps } from "../../../hooks/usePaginationProps";
 
 const SEARCH_DEBOUNCE_DELAY_MS = 300;
@@ -29,8 +33,9 @@ export const useQuizTemplateList = () => {
   const [selectedTags, setSelectedTagsState] = useState<string[]>([]);
   const [selectedCreator, setSelectedCreatorState] = useState("");
 
-  const [languageOptions, setLanguageOptions] = useState<QuizTemplateFilterOption[]>([]);
-  const [tagOptions, setTagOptions] = useState<QuizTemplateFilterOption[]>([]);
+  const [languageOptions, setLanguageOptions] = useState<LibraryFilterOption[]>([]);
+  const [tagOptions, setTagOptions] = useState<LibraryFilterOption[]>([]);
+  const [creatorOptions, setCreatorOptions] = useState<TemplateFilterOption[]>([]);
 
   useEffect(() => {
     const debounceTimeout = window.setTimeout(() => {
@@ -43,7 +48,11 @@ export const useQuizTemplateList = () => {
   }, [searchValue]);
 
   useEffect(() => {
+    let isCurrentRequest = true;
+
     const loadQuizzes = async () => {
+      setLoading(true);
+
       try {
         const response = await getQuizTemplates({
           page: pageIndex + 1,
@@ -51,7 +60,12 @@ export const useQuizTemplateList = () => {
           sortOption,
           langTagCodes: selectedLanguages,
           tagSlugs: selectedTags,
+          author: selectedCreator,
         });
+
+        if (!isCurrentRequest) {
+          return;
+        }
 
         setLibraryQuizzes(response.data);
         setTotalAvailableQuizzes(response.total);
@@ -62,36 +76,49 @@ export const useQuizTemplateList = () => {
             : nextPageIndex;
         });
       } catch (error) {
-        console.error("Failed to get library quizzes:", error);
+        if (isCurrentRequest) {
+          console.error("Failed to get library quizzes:", error);
+        }
       } finally {
-        setLoading(false);
+        if (isCurrentRequest) {
+          setLoading(false);
+        }
       }
     };
 
     loadQuizzes();
-  }, [debouncedSearchValue, pageIndex, selectedLanguages, selectedTags, sortOption]);
+
+    return () => {
+      isCurrentRequest = false;
+    };
+  }, [debouncedSearchValue, pageIndex, selectedCreator, selectedLanguages, selectedTags, sortOption]);
 
   useEffect(() => {
-    if (!areFiltersOpen || (languageOptions.length > 0 && tagOptions.length > 0)) {
+    if (!areFiltersOpen || (languageOptions.length > 0 && tagOptions.length > 0 && creatorOptions.length > 0)) {
       return;
     }
 
     const loadFilterOptions = async () => {
       try {
-        const [nextLanguageOptions, nextTagOptions] = await Promise.all([
-          getQuizTemplateLanguageOptions(),
-          getQuizTemplateTagOptions(),
+        const [nextLanguageOptions, nextTagOptions, nextCreators] = await Promise.all([
+          getLibraryLanguageOptions(),
+          getLibraryTagOptions(),
+          getQuizTemplateCreators(),
         ]);
 
         setLanguageOptions(nextLanguageOptions);
         setTagOptions(nextTagOptions);
+        setCreatorOptions(nextCreators.map((creator) => ({
+          value: creator.publicSpaceId,
+          label: creator.displayName.trim(),
+        })));
       } catch (error) {
         console.error("Failed to get quiz template filter options:", error);
       }
     };
 
     loadFilterOptions();
-  }, [areFiltersOpen, languageOptions.length, tagOptions.length]);
+  }, [areFiltersOpen, creatorOptions.length, languageOptions.length, tagOptions.length]);
 
   const total = totalAvailableQuizzes;
   const visibleLibraryQuizzes = libraryQuizzes;
@@ -112,6 +139,11 @@ export const useQuizTemplateList = () => {
     setPageIndexState(Math.max(0, pageCount - 1));
   }, [pageCount, pageIndex]);
 
+  const setPageIndex = (nextPageIndex: SetStateAction<number>) => {
+    setLoading(true);
+    setPageIndexState(nextPageIndex);
+  };
+
   const setSearchValue = (value: string) => {
     setLoading(true);
     setSearchValueState(value);
@@ -119,7 +151,7 @@ export const useQuizTemplateList = () => {
   };
 
   const setSortOption = (nextSortOption: QuizTemplateSortOption) => {
-    setLoading(false);
+    setLoading(true);
     setSortOptionState(nextSortOption);
     setPageIndexState(0);
   };
@@ -129,25 +161,25 @@ export const useQuizTemplateList = () => {
   };
 
   const setSelectedLanguages = (nextValue: string[]) => {
-    setLoading(false);
+    setLoading(true);
     setSelectedLanguagesState(nextValue);
     setPageIndexState(0);
   };
 
   const setSelectedTags = (nextValue: string[]) => {
-    setLoading(false);
+    setLoading(true);
     setSelectedTagsState(nextValue);
     setPageIndexState(0);
   };
 
   const setSelectedCreator = (nextValue: string) => {
-    setLoading(false);
+    setLoading(true);
     setSelectedCreatorState(nextValue);
     setPageIndexState(0);
   };
 
   const clearAllFilters = () => {
-    setLoading(false);
+    setLoading(true);
     setSelectedLanguagesState([]);
     setSelectedTagsState([]);
     setSelectedCreatorState("");
@@ -158,7 +190,7 @@ export const useQuizTemplateList = () => {
     pageIndex,
     pageCount,
     pageSize: DEFAULT_PAGE_LIMIT,
-    setPageIndex: setPageIndexState,
+    setPageIndex,
     total,
   });
 
@@ -166,6 +198,7 @@ export const useQuizTemplateList = () => {
     areFiltersOpen,
     debouncedSearchValue,
     clearAllFilters,
+    creatorOptions,
     hasActiveFilters,
     hasActiveSearch,
     languageOptions,

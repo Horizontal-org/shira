@@ -21,6 +21,7 @@ import type { RowType } from "./components/Columns";
 import { questionTemplateToRow } from "./components/Columns/questionTemplateToRow";
 import { useTranslation } from "react-i18next";
 import { useQuestionTemplateList } from "./hooks/useQuestionTemplateList";
+import { usePublicLibrary } from "../../hooks/usePublicLibrary";
 import { QuestionTemplateControls } from "./components/QuestionTemplateControls";
 import { QuestionTemplateFilters } from "./components/QuestionTemplateFilters";
 import { QuestionTemplateResults } from "./components/QuestionTemplateResults";
@@ -44,6 +45,13 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
   );
 
   const { t } = useTranslation();
+  const { isPublicLibraryEnabled } = usePublicLibrary();
+
+  useEffect(() => {
+    if (!isPublicLibraryEnabled) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [isPublicLibraryEnabled, navigate]);
 
   const [preview, setPreview] = useState<RowType | null>(null);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
@@ -126,6 +134,7 @@ export const QuestionLibraryListLayout: FunctionComponent = () => {
         content: q.content,
         isPhishing: q.isPhishing,
         appId: q.app.id,
+        images: q.images,
         explanations: q.explanations,
       });
 

@@ -8,7 +8,6 @@ import { QuizCard } from "./components/QuizCard";
 import { QuizCardSkeleton } from "./components/QuizCardSkeleton";
 import { QuizTemplateFilters } from "./components/QuizTemplateFilters";
 import {
-  DEFAULT_CREATOR_OPTIONS,
   type LibraryQuizDto,
   type LibraryQuizQuestionTemplateDto,
 } from "../../fetch/quiz_templates";
@@ -16,6 +15,7 @@ import { QuizLimitModal } from "../modals/QuizLimitModal";
 import { ViewPlansModal } from "../modals/ViewPlansModal";
 import { QuizLibraryPreviewModal } from "../modals/QuizLibraryPreviewModal";
 import { useSub } from "../../hooks/useSub";
+import { usePublicLibrary } from "../../hooks/usePublicLibrary";
 import { QuizLibraryFlowManagement } from "../QuizLibraryFlowManagement";
 import { useQuizTemplateList } from "./hooks/useQuizTemplateList";
 import { LibrarySearchEmptyState } from "../LibrarySearchEmptyState";
@@ -24,7 +24,6 @@ import {
   LibraryToolbarSearchInput,
   LibraryToolbarSortSelect,
 } from "../LibraryControlsLayout";
-import { LibraryPaginationContainer } from "../TemplatePaginationWrapper";
 
 export const QuizTemplatesListLayout: FunctionComponent = () => {
   const navigate = useNavigate();
@@ -44,10 +43,19 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
   }), shallow);
 
   const { isSubActive } = useSub();
+  const { isPublicLibraryEnabled } = usePublicLibrary();
+
+  useEffect(() => {
+    if (!isPublicLibraryEnabled) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [isPublicLibraryEnabled, navigate]);
+
   const {
     areFiltersOpen,
     debouncedSearchValue,
     clearAllFilters,
+    creatorOptions,
     hasActiveSearch,
     languageOptions,
     loading,
@@ -179,7 +187,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
                 tagOptions={tagOptions}
                 selectedTags={selectedTags}
                 onTagChange={setSelectedTags}
-                creatorOptions={Array.of(DEFAULT_CREATOR_OPTIONS)}
+                creatorOptions={creatorOptions}
                 selectedCreator={selectedCreator}
                 onCreatorChange={setSelectedCreator}
                 onClearAll={clearAllFilters}
@@ -192,9 +200,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
           ) : (
             <>
               {shouldShowPagination && (
-                <LibraryPaginationContainer>
-                  <CardPagination {...paginationProps} />
-                </LibraryPaginationContainer>
+                <CardPagination {...paginationProps} />
               )}
 
               {showEmptyState ? (
@@ -220,9 +226,7 @@ export const QuizTemplatesListLayout: FunctionComponent = () => {
           )}
 
           {shouldShowPagination && (
-            <LibraryPaginationContainer>
-              <CardPagination {...paginationProps} />
-            </LibraryPaginationContainer>
+            <CardPagination {...paginationProps} />
           )}
         </PageInner>
 

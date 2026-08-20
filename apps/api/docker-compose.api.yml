@@ -5,8 +5,8 @@ services:
     build:
       context: .
       target: development
-      dockerfile: ./apps/api/Dockerfile.development
-    command: yarn start:debug
+      dockerfile: ./Dockerfile.development
+    command: yarn dev
     ports:
       - 3000:3000
       - 9229:9229

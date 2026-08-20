@@ -1,6 +1,6 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { Sidebar, styled, H2, SubHeading3, Body1, FilterButton, useAdminSidebar, DashboardCard } from "@horizontal-org/shira-ui";
+import { Sidebar, styled, H2, SubHeading3, Body1, EmptyState, FilterButton, useAdminSidebar, DashboardCard } from "@horizontal-org/shira-ui";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { formatDistance } from "date-fns";
@@ -20,6 +20,7 @@ import { getCurrentDateFNSLocales } from "../../language/dateUtils";
 import { useQuizCreationFlow } from "../../hooks/useQuizCreationFlow";
 import { CreateQuizButton } from "./components/CreateQuizButton";
 import { useSub } from "../../hooks/useSub";
+import { usePublicLibrary } from "../../hooks/usePublicLibrary";
 import { CheckoutSuccessModal } from "../modals/CheckoutSuccessModal";
 import { QuizLimitModal } from "../modals/QuizLimitModal";
 import { ViewPlansModal } from "../modals/ViewPlansModal";
@@ -29,6 +30,8 @@ import { UseAQuizTemplateButton } from "../QuizLibraryListLayout/components/UseA
 import { AddQuizFromTemplateModal } from "../modals/AddQuizFromTemplateModal";
 import { LibraryQuizDto, type LibraryQuizQuestionTemplateDto } from "../../fetch/quiz_templates";
 import { customMenuItems } from "../../utils/customMenuItems";
+import { DisplayNameModal } from "../modals/DisplayNameModal";
+import { useTemplateSubmission } from "../../hooks/useTemplateSubmission";
 
 interface Props { }
 
@@ -88,7 +91,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
       label: t(item.label)
     })));
 
-  const { isSubActive } = useSub()
+  const { isSubActive, isSelfHosted } = useSub()
+  const { isPublicLibraryEnabled } = usePublicLibrary()
 
   const [activeFilter, setActiveFilter] = useState<FilterStates>(FilterStates.all);
   const [cards, setCards] = useState([]);
@@ -96,6 +100,12 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const [unpublishedQuizId, setUnpublishedQuizId] = useState<number | null>(null);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const {
+    isDisplayNameModalOpen,
+    cancelTemplateSubmission,
+    continueTemplateSubmission,
+    startTemplateSubmission,
+  } = useTemplateSubmission(space?.publicId);
   const [isUnpublishedQuizCopyLinkModalOpen, setIsUnpublishedQuizCopyLinkModalOpen] = useState(false);
   const [isUnpublishQuizModalOpen, setIsUnpublishQuizModalOpen] = useState(false);
   const [isCheckoutSuccessModalOpen, setIsCheckoutSuccessModalOpen] = useState(
@@ -165,10 +175,11 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
       Boolean(
         isFromLogin &&
         isRecentlyCreated &&
+        !isSelfHosted &&
         searchParams.get("checkout") !== "success"
       )
     );
-  }, [isFromLogin, isRecentlyCreated, searchParams]);
+  }, [isFromLogin, isRecentlyCreated, isSelfHosted, searchParams]);
 
   useEffect(() => {
     const templateSelection = location.state?.addQuizFromTemplate;
@@ -259,6 +270,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
     }
   });
 
+  const hasQuizzes = cards.length > 0;
+
   const getLastUpdateTime = useCallback(
     (lastUpdate: string) => {
       const parsedLastUpdate = new Date(lastUpdate.replace(" ", "T") + "Z");
@@ -301,82 +314,97 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
               <UseAQuizTemplateButton
                 isSubActive={isSubActive}
                 quizCount={quizzes ? quizzes.length : 0}
+                disabled={!isPublicLibraryEnabled}
                 onLimitReached={() => setIsQuizLimitModalOpen(true)}
               />
             </HeaderActions>
           </HeaderContainer>
 
-          <FilterButtonsContainer>
-            <FilterButton
-              id="filter-all-quizzes"
-              text={t('quizzes.filter.all_quizzes')}
-              handleFilter={() => setActiveFilter(FilterStates.all)}
-              isActive={activeFilter === FilterStates.all}
-            />
-
-            <FilterButton
-              id="filter-published-quizzes"
-              text={t('quizzes.filter.published')}
-              handleFilter={() => setActiveFilter(FilterStates.published)}
-              isActive={activeFilter === FilterStates.published}
-            />
-
-            <FilterButton
-              id="filter-unpublished-quizzes"
-              text={t('quizzes.filter.unpublished')}
-              handleFilter={() => setActiveFilter(FilterStates.unpublished)}
-              isActive={activeFilter === FilterStates.unpublished}
-            />
-          </FilterButtonsContainer >
-
-          <CardGrid id="card-grid">
-            {filteredCards.map((card) => {
-              const isPublished = card.published;
-
-              return (
-                <DashboardCard
-                  id={`quiz-card-${card.id}`}
-                  title={card.title}
-                  publishedText={t('quizzes.filter.published')}
-                  unpublishedText={t('quizzes.filter.unpublished')}
-                  lastModified={getLastUpdateTime(card.latestGlobalUpdate)}
-                  isPublished={isPublished}
-                  disablePublishToggle={!card.questionsCount && !isPublished}
-                  disabledTooltipLabel={t('quiz.publish_toggle.disabled_tooltip')}
-                  visibilityText={
-                    card.visibility === 'public'
-                      ? t('quiz.visibility.public')
-                      : t('quiz.visibility.private')}
-                  isPublic={card.visibility === 'public'}
-                  onClick={() => {
-                    navigate(`/quiz/${card.id}`)
-                  }}
-                  key={card.id}
-                  onCopyUrl={() => {
-                    handleCopyUrlAndNotify(card.hash, t('success_messages.quiz_link_copied'));
-                    if (!isPublished) {
-                      setUnpublishedQuizId(card.id);
-                      setIsUnpublishedQuizCopyLinkModalOpen(true);
-                    }
-                  }}
-                  onTogglePublished={() => { togglePublished(card) }}
-                  onEdit={() => {
-                    navigate(`/quiz/${card.id}`)
-                  }}
-                  onDuplicate={() => {
-                    startDuplicateQuizFlow(card);
-                  }}
-                  onDelete={() => {
-                    handleSelectedCard(card)
-                    setIsDeleteModalOpen(true)
-                  }}
-                  showLoading={isSubmitting && submittingQuizId === card.id}
-                  loadingLabel={t('loading_messages.duplicating')}
-                  canDuplicate={isSubActive || quizzes.length < 3}
+          {hasQuizzes ? (
+            <>
+              <FilterButtonsContainer>
+                <FilterButton
+                  id="filter-all-quizzes"
+                  text={t('quizzes.filter.all_quizzes')}
+                  handleFilter={() => setActiveFilter(FilterStates.all)}
+                  isActive={activeFilter === FilterStates.all}
                 />
-              );
-            })}
-          </CardGrid>
+
+                <FilterButton
+                  id="filter-published-quizzes"
+                  text={t('quizzes.filter.published')}
+                  handleFilter={() => setActiveFilter(FilterStates.published)}
+                  isActive={activeFilter === FilterStates.published}
+                />
+
+                <FilterButton
+                  id="filter-unpublished-quizzes"
+                  text={t('quizzes.filter.unpublished')}
+                  handleFilter={() => setActiveFilter(FilterStates.unpublished)}
+                  isActive={activeFilter === FilterStates.unpublished}
+                />
+              </FilterButtonsContainer>
+
+              <CardGrid id="card-grid">
+                {filteredCards.map((card) => {
+                  const isPublished = card.published;
+
+                  return (
+                    <DashboardCard
+                      id={`quiz-card-${card.id}`}
+                      title={card.title}
+                      publishedText={t('quizzes.filter.published')}
+                      unpublishedText={t('quizzes.filter.unpublished')}
+                      lastModified={getLastUpdateTime(card.latestGlobalUpdate)}
+                      isPublished={isPublished}
+                      disablePublishToggle={!card.questionsCount && !isPublished}
+                      disabledTooltipLabel={t('quiz.publish_toggle.disabled_tooltip')}
+                      visibilityText={
+                        card.visibility === 'public'
+                          ? t('quiz.visibility.public')
+                          : t('quiz.visibility.private')}
+                      isPublic={card.visibility === 'public'}
+                      onClick={() => {
+                        navigate(`/quiz/${card.id}`)
+                      }}
+                      key={card.id}
+                      onCopyUrl={() => {
+                        handleCopyUrlAndNotify(card.hash, t('success_messages.quiz_link_copied'));
+                        if (!isPublished) {
+                          setUnpublishedQuizId(card.id);
+                          setIsUnpublishedQuizCopyLinkModalOpen(true);
+                        }
+                      }}
+                      onTogglePublished={() => { togglePublished(card) }}
+                      onEdit={() => {
+                        navigate(`/quiz/${card.id}`)
+                      }}
+                      onDuplicate={() => {
+                        startDuplicateQuizFlow(card);
+                      }}
+                      onSubmitAsTemplate={() => {
+                        startTemplateSubmission({
+                          path: `/quiz/${card.id}/submit-template`,
+                          state: { quizTitle: card.title },
+                        });
+                      }}
+                      onDelete={() => {
+                        handleSelectedCard(card)
+                        setIsDeleteModalOpen(true)
+                      }}
+                      showLoading={isSubmitting && submittingQuizId === card.id}
+                      loadingLabel={t('loading_messages.duplicating')}
+                      canDuplicate={isSubActive || quizzes.length < 3}
+                    />
+                  );
+                })}
+              </CardGrid>
+            </>
+          ) : (
+            <DashboardEmptyState>
+              <EmptyState subtitle={t('dashboard.empty_state')} />
+            </DashboardEmptyState>
+          )}
 
           <DeleteModal
             title={t('modals.delete_quiz.title', { quiz_name: selectedCard?.title })}
@@ -398,6 +426,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             )}
             setIsModalOpen={setIsDeleteModalOpen}
             onDelete={() => {
+              setIsDeleteModalOpen(false);
               deleteQuiz(selectedCard?.id)
               handleSelectedCard(null);
             }}
@@ -481,6 +510,12 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
           <CheckoutSuccessModal
             isModalOpen={isCheckoutSuccessModalOpen}
             onClose={closeCheckoutSuccessModal}
+          />
+
+          <DisplayNameModal
+            isOpen={isDisplayNameModalOpen}
+            onCancel={cancelTemplateSubmission}
+            onSave={continueTemplateSubmission}
           />
 
           <FirstLoginModal
@@ -568,12 +603,12 @@ const FilterButtonsContainer = styled.div`
 const CardGrid = styled.div`
   padding: 16px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
+  gap: 20px;
+  justify-content: start;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 320px));
 
   @media (max-width: ${props => props.theme.breakpoints.lg}) {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(4, 1fr));
   }
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
@@ -584,6 +619,10 @@ const CardGrid = styled.div`
     grid-template-columns: 1fr;
     gap: 16px;
   }
+`;
+
+const DashboardEmptyState = styled.div`
+  min-height: 400px;
 `;
 
 const QuizWarningNote = styled.span`

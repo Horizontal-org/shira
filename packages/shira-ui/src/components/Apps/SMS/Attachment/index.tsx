@@ -12,13 +12,13 @@ export const Attachment: FunctionComponent<Props> = ({ name, explanationPosition
   return (
     <Wrapper>
       <Pic />
-      <Content>
+      <Content data-explanation={explanationPosition}>
         <SvgWrapper><Document /></SvgWrapper>
-        <span data-explanation={explanationPosition}>
-          { name }
+        <span>
+          {name}
         </span>
       </Content>
-    </Wrapper>    
+    </Wrapper>
   )
 }
 

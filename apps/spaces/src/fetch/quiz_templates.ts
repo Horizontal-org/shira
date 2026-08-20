@@ -4,11 +4,17 @@ export const DEFAULT_QUIZ_TEMPLATE_SORT: QuizTemplateSortOption = "createdAt-des
 export const DEFAULT_PAGE_LIMIT = 20;
 export const DEFAULT_CREATOR_OPTIONS = "Shira Team";
 
+export interface LibraryQuizCreatorDto {
+  publicSpaceId: string;
+  displayName: string;
+}
+
 export interface LibraryQuizDto {
   id: string | number;
   title: string;
   createdAt: string;
   author: string;
+  authorPublicSpaceId?: string;
   languages: string[];
   tags: string[];
 }
@@ -33,11 +39,7 @@ interface GetQuizTemplatesParams {
   sortOption?: QuizTemplateSortOption;
   langTagCodes?: string[];
   tagSlugs?: string[];
-}
-
-export interface QuizTemplateFilterOption {
-  value: string;
-  label: string;
+  author?: string;
 }
 
 export interface LibraryQuizQuestionTemplateDto {
@@ -53,12 +55,17 @@ export interface LibraryQuizQuestionTemplateDto {
     text: string;
     index: string;
   }[];
+  images?: { id: number; name: string; url: string }[];
 }
 
 type LibraryQuizApiDto = {
   id: string | number;
   title: string;
   createdAt: string;
+  author?: {
+    displayName: string;
+    publicSpaceId: string;
+  };
   langTags?: {
     id: number;
     name: string;
@@ -85,6 +92,7 @@ type ListQuizTemplatesApiQueryDto = {
   sortOrder?: "asc" | "desc";
   langTags?: string;
   tags?: string;
+  author?: string;
 };
 
 type QuizTemplateSortParams = {
@@ -92,23 +100,14 @@ type QuizTemplateSortParams = {
   sortOrder: "asc" | "desc";
 };
 
-type LibraryLangTagApiDto = {
-  id: number;
-  name: string;
-  code: string;
-};
-
-type LibraryTagApiDto = {
-  id: number;
-  name: string;
-  slug: string;
-};
-
-const normalizeQuizTemplate = (quiz: LibraryQuizApiDto): LibraryQuizDto => ({
+const normalizeQuizTemplate = (
+  quiz: LibraryQuizApiDto,
+): LibraryQuizDto => ({
   id: quiz.id,
   title: quiz.title,
   createdAt: quiz.createdAt,
-  author: DEFAULT_CREATOR_OPTIONS, // TODO author
+  author: quiz.author?.displayName ?? DEFAULT_CREATOR_OPTIONS,
+  authorPublicSpaceId: quiz.author?.publicSpaceId,
   languages: (quiz.langTags ?? []).map((language) => language.name.trim()),
   tags: (quiz.tags ?? []).map((tag) => tag.name.trim()),
 });
@@ -135,6 +134,7 @@ export const getQuizTemplates = async (
     sortOption = DEFAULT_QUIZ_TEMPLATE_SORT,
     langTagCodes,
     tagSlugs,
+    author,
   }: GetQuizTemplatesParams = {},
 ): Promise<LibraryQuizTemplatesPageDto> => {
   try {
@@ -150,6 +150,7 @@ export const getQuizTemplates = async (
       ...(search ? { search } : {}),
       ...(serializedLangTags ? { langTags: serializedLangTags } : {}),
       ...(serializedTags ? { tags: serializedTags } : {}),
+      ...(author ? { author } : {}),
     };
 
     const response = await axios.get<LibraryQuizTemplatesApiResponseDto>(
@@ -169,6 +170,19 @@ export const getQuizTemplates = async (
   }
 };
 
+export const getQuizTemplateCreators = async (): Promise<LibraryQuizCreatorDto[]> => {
+  try {
+    const response = await axios.get<LibraryQuizCreatorDto[]>(
+      `${process.env.REACT_APP_LIBRARY_API_URL}/quiz-templates/creators`,
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching quiz template creators:", error);
+    return [];
+  }
+};
+
 export const getQuizTemplateQuestions = async (
   quizId: string | number,
 ): Promise<LibraryQuizQuestionTemplateDto[] | null> => {
@@ -181,37 +195,5 @@ export const getQuizTemplateQuestions = async (
   } catch (error) {
     console.error(`Error fetching quiz template questions for ${quizId}:`, error);
     return null;
-  }
-};
-
-export const getQuizTemplateLanguageOptions = async (): Promise<QuizTemplateFilterOption[]> => {
-  try {
-    const response = await axios.get<LibraryLangTagApiDto[]>(
-      `${process.env.REACT_APP_LIBRARY_API_URL}/lang-tags`
-    );
-
-    return response.data.map((language) => ({
-      value: language.code,
-      label: language.name.trim(),
-    }));
-  } catch (error) {
-    console.error("Error fetching quiz template language options:", error);
-    return [];
-  }
-};
-
-export const getQuizTemplateTagOptions = async (): Promise<QuizTemplateFilterOption[]> => {
-  try {
-    const response = await axios.get<LibraryTagApiDto[]>(
-      `${process.env.REACT_APP_LIBRARY_API_URL}/tags`,
-    );
-
-    return response.data.map((tag) => ({
-      value: tag.slug,
-      label: tag.name.trim(),
-    }));
-  } catch (error) {
-    console.error("Error fetching quiz template tag options:", error);
-    return [];
   }
 };

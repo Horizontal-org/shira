@@ -2,6 +2,7 @@
     "sidebar": {
         "quizzes": "Quizzes",
         "learners": "Learners",
+        "templates": "Templates",
         "support": "Support",
         "settings": "Settings",
         "logout": "Log out"
@@ -56,6 +57,7 @@
         "subtitle": "Manage your quizzes here, including creating, publishing, unpublishing and deleting quizzes.",
         "create_quiz_button": "Create new quiz",
         "use_a_quiz_template_button": "Use a quiz template",
+        "empty_state": "You don’t have any quizzes yet. Click on the “Create new quiz” button to get started.",
         "create_limit_reached": "Upgrade your plan to create more quizzes."
     },
     "learners": {
@@ -109,7 +111,9 @@
             "rename": "Rename",
             "duplicate": "Duplicate",
             "copy_link": "Copy quiz link",
-            "disabled_tooltip": "Create at least 1 question to copy your quiz link.",
+            "submit_as_template": "Submit as template",
+            "submit_as_template_disabled_tooltip": "Create at least 1 question to submit your quiz as a template.",
+            "copy_link_disabled_tooltip": "Create at least 1 question to copy your quiz link.",
             "delete": "Delete"
         },
         "tabs": {
@@ -141,6 +145,7 @@
             "more_actions": "More actions",
             "edit": "Edit",
             "duplicate": "Duplicate",
+            "submit_as_template": "Submit as template",
             "delete": "Delete"
         }
     },
@@ -235,8 +240,8 @@
                 "subtitle": "This is how your question will look to learners, including the explanations you have written.",
                 "show_explanations": "Show explanations",
                 "hide_explanations": "Hide explanations",
-                "next_explanation": "Next explanation",
-                "previous_explanation": "Previous explanation",
+                "next_explanation": "Next",
+                "previous_explanation": "Previous",
                 "no_explanations": "There are no explanations for this question.",
                 "aria_label": "Preview question"
             }
@@ -256,6 +261,97 @@
             "questions": {
                 "title": "Questions"
             }
+        }
+    },
+    "templates": {
+        "title": "Templates",
+        "subtitle": "Get started right away with ready-made templates.",
+        "my_submissions": "My submissions",
+        "back_to_templates": "Back to Templates",
+        "my_submissions_description": "These are the templates you have submitted. The Shira team carefully reviews every submission. If your template is accepted, it will appear in the Shira template library. <learnMore>Learn More</learnMore>",
+        "submissions_tabs": {
+            "quizzes": "Quizzes",
+            "questions": "Questions"
+        },
+        "submissions_table": {
+            "quiz_name": "Quiz name",
+            "question_name": "Question name",
+            "date_submitted": "Date submitted",
+            "status": "Status",
+            "type": "Type",
+            "app": "App",
+            "actions": "Actions",
+            "preview": "Preview submission"
+        },
+        "submission_status": {
+            "title": "Submission status",
+            "help_tooltip": "Please email the Shira team if you have questions or need support.",
+            "in_review": "In review",
+            "accepted": "Accepted",
+            "rejected": "Rejected"
+        },
+        "submission_rejection": {
+            "title": "Submission feedback",
+            "open": "View submission feedback"
+        },
+        "submissions_empty_state": {
+            "subtitle": "You don't have any submissions yet. To submit a resource that you have created, go to that specific resource and select \"submit as template.\"",
+            "learn_more": "Learn more about templates"
+        },
+        "display_name": {
+            "title": "Create display name",
+            "description": "Set the name that will be associated to the templates you publish in the library. This will be visible to everyone.",
+            "input": "Display name"
+        },
+        "submit_quiz": {
+            "header_title": "Submit quiz template",
+            "submit": "Submit",
+            "title": "Submit your quiz as a template",
+            "review_notice": "The Shira team carefully reviews every submission. If your template is accepted, it will appear in the template library. <learnMore>Learn More</learnMore>.",
+            "name": "Quiz template name",
+            "name_hint": "Use a descriptive name to help other users find what they're looking for.",
+            "name_placeholder": "Quiz template name",
+            "description": "Description",
+            "description_hint": "Write 1-2 lines to explain what this quiz contains.",
+            "description_placeholder": "Description",
+            "language": "Language",
+            "language_hint": "You may select more than 1 language. (Can't find the language you want? <support>Request a missing language.</support>)",
+            "language_placeholder": "Language",
+            "tags": "Tags",
+            "tags_hint": "Select the tags that best describe the content of this template.",
+            "tags_placeholder": "Tag",
+            "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>.",
+            "success": "The quiz template has been submitted.",
+            "error": "We couldn't submit the quiz template. Please try again."
+        },
+        "submit_question": {
+            "header_title": "Submit question template",
+            "submit": "Submit",
+            "title": "Submit your question as a template",
+            "review_notice": "The Shira team carefully reviews every submission. If your template is accepted, it will appear in the template library. <learnMore>Learn More</learnMore>.",
+            "name": "Question template name",
+            "name_hint": "Use a descriptive name to help other users find what they're looking for.",
+            "name_placeholder": "Question template name",
+            "description": "Description",
+            "description_hint": "Write 1-2 lines to explain what this question contains.",
+            "description_placeholder": "Description",
+            "language": "Language",
+            "language_hint": "You may select more than 1 language. (Can't find the language you want? <support>Request a missing language.</support>)",
+            "language_placeholder": "Language",
+            "tags": "Tags",
+            "tags_hint": "Select the tags that best describe the content of this template.",
+            "tags_placeholder": "Tag",
+            "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>.",
+            "success": "The question template has been submitted.",
+            "error": "We couldn't submit the question template. Please try again."
+        },
+        "quiz_templates": {
+            "title": "Quiz templates",
+            "description": "Create a quiz instantly by choosing from our quiz templates, available in multiple apps and languages."
+        },
+        "question_templates": {
+            "title": "Question templates",
+            "description": "Explore pre-made questions, with message content, sender info and explanations already built in."
         }
     },
     "question_library": {
@@ -796,7 +892,7 @@
                 "pro": {
                     "title": "Pro",
                     "description": "Experience the full power of Shira",
-                    "price": "$50/month + $1 per quiz taken",
+                    "price": "$100/month",
                     "cta": "Start 14-day free trial"
                 },
                 "enterprise": {
@@ -823,6 +919,7 @@
         "learner_assignment_failed": "Failed to assign learner to the space.",
         "invalid_email": "Please enter a valid email address",
         "something_went_wrong": "Something went wrong",
+        "template_submission_failed": "There was a problem submitting the template. If this issue persists, <1>contact us</1>.",
         "invite_learner_failed": "There was a problem inviting the learner. If this issue persists, <1>contact us</1>.",
         "delete_learner_failed": "There was a problem deleting the learner. If this issue persists, <1>contact us</1>.",
         "delete_learners_failed": "There was a problem deleting the learners. If this issue persists, <1>contact us</1>.",
@@ -953,18 +1050,22 @@
         }
     },
     "create_space": {
-        "form_title": "Create a new space",
+        "form_title": "Create your space",
         "form_description": "Complete the form below to create your Shira space.",
         "beta_lead": "Shira spaces are currently in closed beta. To obtain the passphrase necessary to join the beta, email us at",
         "checking_invitation": "Checking invitation...",
-        "email_label": "Confirm your email address",
-        "password_label": "Password",
-        "confirm_password_label": "Confirm Password",
+        "email_label": "Confirm your email address (required)",
+        "password_label": "Password (required)",
+        "confirm_password_label": "Confirm password (required)",
+        "privacy_consent_label": "I agree to Shira's <0>privacy policy</0>.",
+        "privacy_consent_aria_label": "Agree to Shira's privacy policy",
         "button_create": "Create new space",
         "validation": {
             "email_required": "Email is required.",
             "password_required": "Password is required.",
             "password_min_length": "Password must be at least 8 characters.",
+            "confirm_password_required": "Please confirm your password.",
+            "privacy_policy_required": "Please accept the privacy policy.",
             "passwords_mismatch": "Passwords do not match."
         },
         "success": {

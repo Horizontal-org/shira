@@ -1,8 +1,9 @@
 import { ReactNode } from 'react';
 import styled from 'styled-components';
 import { createPortal } from 'react-dom';
-import { FiCheck, FiChevronDown, FiChevronUp, FiX } from 'react-icons/fi';
+import { FiChevronDown, FiChevronUp, FiX } from 'react-icons/fi';
 import { Body4 } from '../Typography';
+import { CheckboxIndicator } from '../Checkbox';
 import { defaultTheme } from '../..';
 import { useFloatingSelect } from '../../hooks/useFloatingSelect';
 
@@ -118,7 +119,7 @@ export const FilterSelect = ({
               handleClear();
             }}
           >
-            <FiX size={16} />
+            <FiX />
           </ClearButton>
         ) : (
           <Chevron>
@@ -148,9 +149,10 @@ export const FilterSelect = ({
               onClick={() => handleSelect(option.value)}
             >
               {isMulti && (
-                <Checkbox $checked={selectedValues.includes(option.value)} aria-hidden="true">
-                  <FiCheck size={16} />
-                </Checkbox>
+                <CheckboxIndicator
+                  checked={selectedValues.includes(option.value)}
+                  size={18}
+                />
               )}
               {option.label}
             </Option>
@@ -165,14 +167,16 @@ export const FilterSelect = ({
 const Wrapper = styled.div`
   position: relative;
   min-width: 160px;
+  width: 360px;
+  max-width: 100%;
 `;
 
 const Trigger = styled.button<{ $hasValue?: boolean }>`
   appearance: none;
   -webkit-appearance: none;
   min-height: 32px;
-  width: 100%;
-  padding: 6px 12px;
+  width: 80%;
+  padding: 6px 10px;
   border-radius: 100px;
   border: 1px solid ${props => props.theme.colors.dark.lightGrey};
   background: ${props => props.$hasValue ? props.theme.colors.light.paleGreen : props.theme.colors.light.white};
@@ -181,6 +185,7 @@ const Trigger = styled.button<{ $hasValue?: boolean }>`
   justify-content: space-between;
   gap: 8px;
   cursor: pointer;
+
 `;
 
 const TriggerContent = styled.span`
@@ -190,6 +195,7 @@ const TriggerContent = styled.span`
   gap: 6px;
   min-height: 16px;
   overflow: hidden;
+
 `;
 
 const Icon = styled.span`
@@ -214,6 +220,10 @@ const Label = styled(Body4) <{ $hasValue: boolean }>`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  font-size: 14px;
+  font-weight: 400;
+  color: #333030;
 `;
 
 const LabelPrefix = styled.span`
@@ -226,6 +236,7 @@ const SelectedValue = styled.span`
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight: 700;
+
 `;
 
 const Chevron = styled.span`
@@ -251,7 +262,8 @@ const ClearButton = styled.button`
   justify-content: center;
   flex: 0 0 auto;
   cursor: pointer;
-  color: ${props => props.theme.colors.dark.mediumGrey};
+  color: ${props => props.theme.colors.dark.darkGrey};
+  font-size: 16px;
   line-height: 0;
 
   svg {
@@ -263,54 +275,44 @@ const Options = styled.div`
   position: absolute;
   background: ${props => props.theme.colors.light.white};
   border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10);
+  box-shadow:
+    0 -3px 8px 1px rgba(0, 0, 0, 0.05),
+    0 -4px 8px 0 rgba(0, 0, 0, 0.03),
+    0 3px 8px 1px rgba(0, 0, 0, 0.05),
+    0 4px 8px 0 rgba(0, 0, 0, 0.03);
   pointer-events: auto;
   z-index: 1000;
   max-height: 500px;
   overflow-x: hidden;
   overflow-y: auto;
+
 `;
 
 const Option = styled.button<{ $isSelected: boolean }>`
   appearance: none;
   -webkit-appearance: none;
   width: 100%;
-  padding: 10px 12px;
+  padding: 12px 11px;
   border: none;
-  background: ${props => props.$isSelected ? props.theme.colors.light.paleGreen : props.theme.colors.light.white};
+  background: ${props => {
+    if (!props.$isSelected) return props.theme.colors.light.white;
+    return 'transparent';
+  }};
   color: ${props => props.theme.colors.dark.darkGrey};
   text-align: left;
   display: flex;
   align-items: center;
   gap: 10px;
   cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
 
   &:not(:last-child) {
     border-bottom: 1px solid ${props => props.theme.colors.dark.lightGrey};
+
   }
 
   &:hover {
-    background: ${props => props.$isSelected ? props.theme.colors.light.paleGreen : props.theme.colors.light.paleGrey};
-  }
-`;
-
-const Checkbox = styled.span<{ $checked: boolean }>`
-  width: 18px;
-  height: 18px;
-  min-width: 18px;
-  border: 2px solid ${props => props.theme.colors.dark.mediumGrey};
-  border-radius: 2px;
-  background: ${props => props.$checked ? props.theme.colors.green5 : props.theme.colors.light.white};
-  border-color: ${props => props.$checked ? props.theme.colors.green5 : props.theme.colors.dark.mediumGrey};
-  color: ${props => props.theme.colors.light.white};
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  pointer-events: none;
-
-  svg {
-    opacity: ${props => props.$checked ? 1 : 0};
-    display: block;
+    background: ${props => props.theme.colors.light.paleGrey};
   }
 `;

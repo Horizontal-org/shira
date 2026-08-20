@@ -26,15 +26,15 @@
   },
   "dependencies": {
     "@date-fns/utc": "^2.1.0",
-    "@nestjs-modules/mailer": "^2.1.0",
+    "@nestjs-modules/mailer": "^2.3.7",
     "@nestjs/bullmq": "^11.0.4",
     "@nestjs/cli": "^11.0.16",
-    "@nestjs/common": "^11.1.13",
+    "@nestjs/common": "11.1.29",
     "@nestjs/config": "^4.0.3",
-    "@nestjs/core": "^11.1.13",
+    "@nestjs/core": "11.1.29",
     "@nestjs/jwt": "^11.0.2",
     "@nestjs/passport": "^11.0.5",
-    "@nestjs/platform-express": "^11.1.19",
+    "@nestjs/platform-express": "11.1.29",
     "@nestjs/throttler": "^6.5.0",
     "@nestjs/typeorm": "^11.0.0",
     "@types/multer": "^2.0.0",
@@ -54,11 +54,12 @@
     "dotenv": "^17.3.1",
     "file-type": "^21.3.2",
     "handlebars": "^4.7.9",
+    "ksuid": "^3.0.0",
     "minio": "^8.0.7",
-    "multer": "^2.1.1",
+    "multer": "^2.2.0",
     "mysql2": "^3.17.1",
     "nestjs-console": "^10.0.0",
-    "nodemailer": "^8.0.9",
+    "nodemailer": "^9.0.1",
     "passport": "^0.7.0",
     "passport-http": "^0.3.0",
     "passport-jwt": "^4.0.1",
@@ -70,11 +71,11 @@
     "sanitize-html": "^2.17.0",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
-    "typeorm": "^0.3.28"
+    "typeorm": "^0.3.29"
   },
   "devDependencies": {
     "@nestjs/schematics": "^11.0.9",
-    "@nestjs/testing": "^11.1.13",
+    "@nestjs/testing": "^11.1.29",
     "@types/express": "^5.0.6",
     "@types/jest": "^30.0.0",
     "@types/node": "^25.2.3",
@@ -99,6 +100,9 @@
       "ts"
     ],
     "rootDir": "src",
+    "modulePaths": [
+      "<rootDir>/.."
+    ],
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"

@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { Body1SemiBold, Body3, styled, SubHeading3 } from '@horizontal-org/shira-ui'
+import { Body1SemiBold, Body3, InputHeading, styled, SubHeading3 } from '@horizontal-org/shira-ui'
 import { InputWithExplanation } from "../../../InputWithExplanation";
 import { DraggableMessagingList } from "./DraggableMessagingList";
 import { ActiveQuestion, MessagingContent as MessagingContentType } from "../../../../store/types/active_question";
@@ -56,7 +56,7 @@ export const MessagingContent: FunctionComponent<Props> = ({
 
       {senderPhoneEnabled ? (
         <div>
-          <InputHeading $required={true}>
+          <InputHeading required>
             <SubHeading3 id="messaging-content-sender-phone-title">{t('create_question.tabs.content.sender_phone.title')}</SubHeading3>
             <Body3 id="messaging-content-sender-phone-subtitle">{t('create_question.tabs.content.sender_phone.subtitle')}</Body3>
           </InputHeading>
@@ -74,7 +74,7 @@ export const MessagingContent: FunctionComponent<Props> = ({
         </div>
       ) : (
         <div>
-          <InputHeading $required={!senderPhoneEnabled}>
+          <InputHeading required={!senderPhoneEnabled}>
             <SubHeading3 id="messaging-content-sender-title">{t('create_question.tabs.content.sender.title')}</SubHeading3>
             <Body3 id="messaging-content-sender-subtitle">{t('create_question.tabs.content.sender.subtitle')}</Body3>
           </InputHeading>
@@ -119,23 +119,6 @@ const Content = styled.div`
   gap: 48px;
   display: flex;
   flex-direction: column;
-`
-
-const InputHeading = styled.div<{ $required: boolean }>`
-  padding-bottom: 12px;
-
-  > h5 {
-   display: flex;
-
-   ${props => props.$required && `
-      &:before {
-        content:"* ";
-        color: red;
-        padding-right: 4px;
-      }
-    `}
-  }
-  
 `
 
 const MessagingContentHead = styled.div`

@@ -31,13 +31,16 @@ import { getQuizResults, QuizResultsResponse } from "../../fetch/results";
 import { useTranslation } from "react-i18next";
 import { MdLockOutline } from "react-icons/md";
 import { TbWorld } from "react-icons/tb";
-import { FiCopy } from "react-icons/fi";
+import { FiCopy, FiUpload } from "react-icons/fi";
 import { RenameQuizModal } from "../modals/RenameQuizModal";
 import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
 import { DuplicateQuizModal } from "../modals/DuplicateQuizModal";
 import { useQuizCreationFlow } from "../../hooks/useQuizCreationFlow";
 import { useSub } from "../../hooks/useSub";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
+import { customMenuItems } from "../../utils/customMenuItems";
+import { DisplayNameModal } from "../modals/DisplayNameModal";
+import { useTemplateSubmission } from "../../hooks/useTemplateSubmission";
 
 interface Props { }
 
@@ -56,7 +59,8 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     reorderQuiz,
     createQuiz,
     fetchQuizzes,
-    quizzes
+    quizzes,
+    space,
   } = useStore((state) => ({
     updateQuiz: state.updateQuiz,
     deleteQuiz: state.deleteQuiz,
@@ -67,10 +71,17 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     createQuiz: state.createQuiz,
     fetchQuizzes: state.fetchQuizzes,
     quizzes: state.quizzes,
+    space: state.space,
   }), shallow)
   console.log("🚀 ~ QuizViewLayout ~ quizzes:", quizzes)
 
-  const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(navigate)
+  const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(
+    navigate,
+    customMenuItems.map((item) => ({
+      ...item,
+      label: t(item.label),
+    })),
+  )
   const [isPublished, setIsPublished] = useState(false);
 
   const { isSubActive } = useSub()
@@ -82,11 +93,18 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
+  const {
+    isDisplayNameModalOpen,
+    cancelTemplateSubmission,
+    continueTemplateSubmission,
+    startTemplateSubmission,
+  } = useTemplateSubmission(space?.publicId);
 
   const [isUnpublishedQuizModalOpen, setIsUnpublishedQuizModalOpen] = useState(false);
   const [isUnpublishQuizModalOpen, setIsUnpublishQuizModalOpen] = useState(false);
   const [showPublishTooltip, setShowPublishTooltip] = useState(false);
   const [showCopyLinkTooltip, setShowCopyLinkTooltip] = useState(false);
+  const [showSubmitAsTemplateTooltip, setShowSubmitAsTemplateTooltip] = useState(false);
 
   const { destroy } = useQuestionCRUD()
   const {
@@ -153,7 +171,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     return () => {
       cleanQuizActionSuccess()
     }
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     if (t(SUCCESS_MESSAGES[quizActionSuccess])) {
@@ -340,11 +358,49 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                         />
                         {disableCopyLinkButton && showCopyLinkTooltip && (
                           <PublishToggleTooltip role="tooltip">
-                            <Body4>{t('quiz.actions.disabled_tooltip')}</Body4>
+                            <Body4>{t('quiz.actions.copy_link_disabled_tooltip')}</Body4>
                           </PublishToggleTooltip>
                         )}
                       </PublishToggleWrapper>
                     )}
+
+                    <PublishToggleWrapper
+                      $showHelpCursor={!hasQuestions}
+                      onMouseEnter={() => {
+                        if (!hasQuestions) {
+                          setShowSubmitAsTemplateTooltip(true)
+                        }
+                      }}
+                      onMouseLeave={() => { setShowSubmitAsTemplateTooltip(false) }}
+                      onFocus={() => {
+                        if (!hasQuestions) {
+                          setShowSubmitAsTemplateTooltip(true)
+                        }
+                      }}
+                      onBlur={() => { setShowSubmitAsTemplateTooltip(false) }}
+                      tabIndex={!hasQuestions ? 0 : -1}
+                    >
+                      <Button
+                        id="submit-quiz-as-template-button"
+                        leftIcon={<FiUpload size={16} />}
+                        text={t('quiz.actions.submit_as_template')}
+                        type="outline"
+                        disabled={!hasQuestions}
+                        onClick={() => {
+                          if (!hasQuestions) { return }
+                          startTemplateSubmission({
+                            path: `/quiz/${id}/submit-template`,
+                            state: { quizTitle: quiz.title },
+                          });
+                        }}
+                      />
+                      {!hasQuestions && showSubmitAsTemplateTooltip && (
+                        <PublishToggleTooltip role="tooltip">
+                          <Body4>{t('quiz.actions.submit_as_template_disabled_tooltip')}</Body4>
+                        </PublishToggleTooltip>
+                      )}
+                    </PublishToggleWrapper>
+
                     <Button
                       id="delete-quiz-button"
                       leftIcon={<DeleteIcon />}
@@ -390,6 +446,13 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 }}
                 onDuplicate={() => {
                   getQuiz()
+                }}
+                onSubmitAsTemplate={(questionId) => {
+                  const question = quiz.quizQuestions.find((item) => item.question.id === questionId)?.question;
+                  startTemplateSubmission({
+                    path: `/quiz/${id}/question/${questionId}/submit-template`,
+                    state: { questionName: question?.name },
+                  });
                 }}
               />
 
@@ -475,6 +538,12 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 onConfirm={handleConfirmVisibility}
                 isSubmitting={isSubmitting}
                 privateForbidden={!isSubActive}
+              />
+
+              <DisplayNameModal
+                isOpen={isDisplayNameModalOpen}
+                onCancel={cancelTemplateSubmission}
+                onSave={continueTemplateSubmission}
               />
             </>
           ) : (

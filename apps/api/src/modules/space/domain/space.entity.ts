@@ -54,6 +54,12 @@ export class SpaceEntity {
   @Column({ length: 150, nullable: true })
   slug: string;
 
+  @Column({ name: 'public_id', length: 31, unique: true })
+  publicId: string;
+
+  @Column({ name: 'library_api_key', length: 255, nullable: true })
+  libraryApiKey: string;
+
   @Column({ name: 'has_results_enabled', default: true })
   hasResultsEnabled: boolean
 

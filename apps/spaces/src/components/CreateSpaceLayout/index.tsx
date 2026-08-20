@@ -1,13 +1,16 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 import {
+  Checkbox,
   Form,
   Link1,
   Button,
   TextInput,
   styled,
-  Navbar
+  Navbar,
+  Body2Regular,
+  Link2
 } from "@horizontal-org/shira-ui";
 import backgroundSvg from "../../assets/Background.svg";
 import { CreateSpaceSuccess } from "./components/CreateSpaceSuccess";
@@ -35,6 +38,7 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
   const [passError, handlePassError] = useState("");
   const [passConfirmation, handlePassConfirmation] = useState("");
   const [passConfirmationError, handlePassConfirmationError] = useState("");
+  const [acceptedPrivacyPolicy, setAcceptedPrivacyPolicy] = useState(false);
   const [honeypot, setHoneypot] = useState("");
 
   const [loading, setLoading] = useState(false);
@@ -94,6 +98,15 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
     </>
   );
 
+  const isSubmitDisabled = (
+    loading
+    || !passphraseCode
+    || !acceptedPrivacyPolicy
+    || !hasRequiredValue(email)
+    || !hasRequiredValue(pass)
+    || !hasRequiredValue(passConfirmation)
+  );
+
   const validateForm = () => {
     let hasError = false;
     if (!hasRequiredValue(email)) {
@@ -112,7 +125,10 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
       handlePassError(t('create_space.validation.password_min_length'));
       hasError = true;
     }
-    if (pass !== passConfirmation) {
+    if (!passConfirmation.trim()) {
+      handlePassConfirmationError(t('create_space.validation.confirm_password_required'));
+      hasError = true;
+    } else if (pass !== passConfirmation) {
       handlePassConfirmationError(t('create_space.validation.passwords_mismatch'));
       hasError = true;
     }
@@ -236,7 +252,9 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
                   onChange={(e) => handlePass(e.target.value)}
                 />
 
-                {passError && <InlineErrorMessage>{passError}</InlineErrorMessage>}
+                {passError &&
+                  <InlineErrorMessage>{passError}</InlineErrorMessage>
+                }
 
                 <TextInput
                   required
@@ -246,14 +264,42 @@ export const CreateSpaceLayout: FunctionComponent<Props> = () => {
                   onChange={(e) => handlePassConfirmation(e.target.value)}
                 />
 
-                {passConfirmationError && <InlineErrorMessage>{passConfirmationError}</InlineErrorMessage>}
+                {passConfirmationError &&
+                  <InlineErrorMessage>{passConfirmationError}</InlineErrorMessage>
+                }
+
+                <PrivacyContainer>
+                  <PrivacyLabel>
+                    <PrivacyCheckbox
+                      ariaLabel={t("create_space.privacy_consent_aria_label")}
+                      checked={acceptedPrivacyPolicy}
+                      id="create-space-privacy-policy"
+                      onChange={(e) => {
+                        setAcceptedPrivacyPolicy(e.target.checked);
+                      }}
+                      size={18}
+                    />
+                    <PrivacyText>
+                      <Trans
+                        i18nKey="create_space.privacy_consent_label"
+                        components={[
+                          <Link2
+                            href="https://shira.app/privacy-policy"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          />
+                        ]}
+                      />
+                    </PrivacyText>
+                  </PrivacyLabel>
+                </PrivacyContainer>
               </InputsContainer>
 
               <ButtonContainer>
                 <Button
                   text={t('create_space.button_create')}
                   type="primary"
-                  disabled={loading || !passphraseCode}
+                  disabled={isSubmitDisabled}
                   onClick={(e) => {
                     e.preventDefault()
                     handleSubmit()
@@ -284,7 +330,7 @@ const Container = styled.div`
   width: 100%;
   padding: 24px;
   display: flex;
-  flex-direction: column;  
+  flex-direction: column;
   position: relative; 
 
   @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
@@ -293,36 +339,35 @@ const Container = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-    padding: 24px;
-    flex: 1;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    overflow-y: auto;
+  padding: 24px;
+  flex: 1;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  overflow-y: auto;
 
-    @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
-        padding: 16px;
-        align-items: flex-start;
-        padding-top: 48px; 
-    }
+  @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
+    padding: 16px;
+    align-items: flex-start;
+    padding-top: 48px; 
+  }
 `;
 
 const Content = styled.div`
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    max-width: 800px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin: 48px auto; 
-    width: 100%;
-    height: auto;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 48px auto; 
+  width: 100%;
+  height: auto;
 `;
 
-
 const BackgroundPattern = styled.div`
-   background-image: url(${backgroundSvg});
+  background-image: url(${backgroundSvg});
   background-repeat: no-repeat;
   background-size: cover;
   position: fixed;
@@ -353,6 +398,26 @@ const InputsContainer = styled.div`
   gap: 24px;
 `;
 
+const PrivacyContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+const PrivacyLabel = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+`;
+
+const PrivacyCheckbox = styled(Checkbox)`
+  flex-shrink: 0;
+`;
+
+const PrivacyText = styled(Body2Regular)`
+  margin: 0;
+`;
+
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -371,7 +436,7 @@ const ButtonContainer = styled.div`
 `;
 
 const InlineErrorMessage = styled.div`
-  color: #d32f2f;
+  color: ${props => props.theme.colors.error7};
   font-size: 14px;
   margin-top: -12px;
   padding-left: 4px;

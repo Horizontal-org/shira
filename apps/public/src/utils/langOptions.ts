@@ -17,8 +17,8 @@ export const LANG_OPTIONS: LanguageSelectOption[] = [
     value: "fr",
   },
   {
-    label: "普通话",
-    labelEnglish: "Mandarin",
+    label: "简体中文",
+    labelEnglish: "Chinese (Simplified)",
     value: "cn",
   },
   {

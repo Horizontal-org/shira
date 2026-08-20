@@ -83,7 +83,7 @@ export class DuplicateQuizService implements IDuplicateQuizService {
             imageIds: duplicatedQuestion.imageIds.map(id => id.toString()),
             questionId: duplicatedQuestion.question.id,
             quizId: savedQuiz.id
-          });
+          }, manager);
         }
 
         const newQuizQuestion = manager.create(QuizQuestion, {

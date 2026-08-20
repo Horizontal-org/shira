@@ -1,5 +1,6 @@
 export const TYPES = {
   services: {
-    IImageService: 'IImageService'    
+    IImageService: 'IImageService',
+    ITransferTemplateImagesService: 'ITransferTemplateImagesService'
   },
 };
