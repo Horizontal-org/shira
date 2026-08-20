@@ -432,7 +432,7 @@
         "tabs": {
             "account": "Аккаунт",
             "subscription": "Подписка",
-            "general": ""
+            "general": "Общие вопросы"
         },
         "subscription": {
             "current_plan": "Текущий план: {{plan_name}}",
@@ -961,9 +961,9 @@
             },
             "preview_full_quiz": "",
             "no_questions": "",
-            "tags": "",
+            "tags": "Теги",
             "back_to_quiz_template": "",
-            "languages": "",
+            "languages": "Языки",
             "creator": "",
             "subtitle": ""
         },
@@ -996,20 +996,32 @@
         },
         "cards": {
             "questions": {
-                "title": ""
+                "title": "Вопросы"
             },
             "quizzes": {
-                "title": ""
+                "title": "Тесты"
             }
         },
         "title": "",
         "subtitle": ""
     },
     "sidebar": {
-        "quizzes": "",
+        "quizzes": "Тесты",
         "settings": "",
-        "learners": "",
+        "learners": "Учащиеся",
         "support": "",
         "logout": ""
+    },
+    "templates": {
+        "submissions_tabs": {
+            "quizzes": "Тесты",
+            "questions": "Вопросы"
+        },
+        "submit_quiz": {
+            "tags": "Теги"
+        },
+        "submit_question": {
+            "tags": "Теги"
+        }
     }
 }
