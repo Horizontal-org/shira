@@ -7,8 +7,8 @@
         "password_placeholder": "Пароль",
         "reset_password": "Забыли пароль?",
         "login_header_button": "Вход",
-        "loading_button": "",
-        "error_message": ""
+        "loading_button": "Logging in...",
+        "error_message": "Error: Your email address or password is incorrect."
     },
     "reset_password": {
         "message": " ",
@@ -62,8 +62,9 @@
         "subtitle": "Здесь вы можете управлять своими тестами, в том числе создавать, публиковать, удалять, отменять публикацию тестов.",
         "create_quiz_button": "Создать новый тест",
         "create_limit_reached": "Повысьте тарифный план, чтобы создавать больше тестов.",
-        "use_a_quiz_template_button": "",
-        "use_template_button": ""
+        "use_a_quiz_template_button": "Use a quiz template",
+        "use_template_button": "",
+        "empty_state": "You don’t have any quizzes yet. Click on the “Create new quiz” button to get started."
     },
     "learners": {
         "message": "",
@@ -120,16 +121,31 @@
             "duplicate": "Создать копию",
             "copy_link": "Скопировать ссылку на тест",
             "disabled_tooltip": "Чтобы скопировать ссылку на тест, создайте хотя бы один вопрос.",
-            "delete": "Удалить"
+            "delete": "Удалить",
+            "submit_as_template": "Submit as template",
+            "copy_link_disabled_tooltip": "Create at least 1 question to copy your quiz link.",
+            "submit_as_template_disabled_tooltip": "Create at least 1 question to submit your quiz as a template."
         },
         "tabs": {
             "questions": "Вопросы",
             "results": "Результаты",
-            "learners": "Учащиеся"
+            "learners": "Учащиеся",
+            "settings": "Settings"
         },
         "visibility": {
             "public": "Открытый",
             "private": "Закрытый"
+        },
+        "settings": {
+            "assessment": {
+                "description": "Learners test their phishing detection skills without feedback or explanations to measure their actual performance level.",
+                "title": "Assessment mode"
+            },
+            "learning": {
+                "title": "Learning mode",
+                "description": "Learners receive immediate feedback and explanations after each answer to help them improve their phishing detection skills."
+            },
+            "title": "Quiz mode"
         }
     },
     "questions_tab": {
@@ -140,9 +156,10 @@
             "edit": "Изменить",
             "duplicate": "Создать копию",
             "delete": "Удалить",
-            "more_actions": ""
+            "more_actions": "More actions",
+            "submit_as_template": "Submit as template"
         },
-        "use_library_question_button": ""
+        "use_library_question_button": "Use a question template"
     },
     "questions": {
         "message": "",
@@ -249,7 +266,7 @@
             }
         },
         "header_required_tooltip": "Обязательные поля не могут быть пустыми",
-        "header_character_limit_tooltip": ""
+        "header_character_limit_tooltip": "One or more fields exceed the character limit."
     },
     "question_library": {
         "message": "",
@@ -286,29 +303,29 @@
                 "preview_aria_label": "Предпросмотр",
                 "disabled_tooltip": "Выберите язык и приложение, чтобы использовать этот вопрос."
             },
-            "created_on": "",
-            "creator": ""
+            "created_on": "Created on",
+            "creator": "Creator"
         },
         "filters_panel": {
-            "selected_count": "",
-            "tag": "",
-            "apps": "",
-            "type": "",
-            "creator": "",
-            "language": "",
-            "clear_all": ""
+            "selected_count": "{{count}} selected",
+            "tag": "Tag",
+            "apps": "Apps",
+            "type": "Type",
+            "creator": "Creator",
+            "language": "Language",
+            "clear_all": "Clear all"
         },
         "sort_options": {
-            "question_name_desc": "",
-            "question_name_asc": "",
-            "newest_to_oldest": "",
-            "oldest_to_newest": ""
+            "question_name_desc": "Question name (Z-A)",
+            "question_name_asc": "Question name (A-Z)",
+            "newest_to_oldest": "Newest to oldest",
+            "oldest_to_newest": "Oldest to newest"
         },
-        "search_results_plural": "",
-        "sort_by": "",
-        "search_placeholder": "",
-        "search_results": "",
-        "filters": ""
+        "search_results_plural": "{{count}} results for \"{{searchTerm}}\"",
+        "sort_by": "Sort by",
+        "search_placeholder": "Search question names",
+        "search_results": "{{count}} result for \"{{searchTerm}}\"",
+        "filters": "Filters"
     },
     "results_tab": {
         "message": "",
@@ -425,8 +442,8 @@
                 "action": "Изменить пароль"
             },
             "language": {
-                "description": "",
-                "title": ""
+                "description": "Choose the language for your Shira space. This won’t change the language of quizzes or questions you share with learners, only the space interface.",
+                "title": "Space language"
             }
         },
         "tabs": {
@@ -695,8 +712,8 @@
                     "priority_support": "Приоритетная поддержка",
                     "analysis_tools": "Инструменты аналитики и соответствия",
                     "tailor_made_training": "Индивидуальное обучение пользователей",
-                    "phishing_readiness_assessment": "",
-                    "preparedness_report": ""
+                    "phishing_readiness_assessment": "Phishing Readiness Assessment",
+                    "preparedness_report": "Preparedness Report & Action Plan"
                 },
                 "custom_support": "Индивидуальная поддержка",
                 "tooltips": {
@@ -714,8 +731,8 @@
                     "detailed_analytics": "Контроль над результатами на уровне учащегося и вопроса",
                     "analysis_tools": "Экспорт результатов вашей команды в CSV или PDF",
                     "tailor_made_training": "Тренинги по укреплению навыков от команды Shira для вашей организации",
-                    "preparedness_report": "",
-                    "phishing_readiness_assessment": ""
+                    "preparedness_report": "Concise report highlighting top risks and recommended training modules and timelines",
+                    "phishing_readiness_assessment": "Snapshot of current organizational vulnerability to phishing attacks"
                 },
                 "values": {
                     "up_to_three_custom_quizzes": "До 3 настраиваемых тестов",
@@ -726,7 +743,7 @@
                     "cloud_on_premise": "Облако / свой сервер",
                     "one_admin": "1 администратор",
                     "unlimited": "Без ограничений",
-                    "unlimited_coming_soon": ""
+                    "unlimited_coming_soon": "Unlimited (coming soon)"
                 },
                 "admin_management": "Возможности администратора",
                 "customization": "Настройка для себя",
@@ -754,9 +771,9 @@
             }
         },
         "add_quiz_from_template": {
-            "input_label": "",
-            "title": "",
-            "subtitle": ""
+            "input_label": "Quiz name",
+            "title": "Give your new quiz a name",
+            "subtitle": "The quiz name will be visible in your Space and to learners when they take it."
         }
     },
     "error_messages": {
@@ -819,7 +836,8 @@
             }
         },
         "invalid_email_update": "Этот email уже привязан к пространству Shira.",
-        "character_limit_error": ""
+        "character_limit_error": "Character limit exceeded",
+        "template_submission_failed": "There was a problem submitting the template. If this issue persists, <1>contact us</1>."
     },
     "success_messages": {
         "message": "",
@@ -847,7 +865,8 @@
         "learner_unassigned": "Этот тест был отменён для учащихся ({{count}} чел.).",
         "learners_unassigned_plural": "Этот тест был отменён для учащихся ({{count}} чел.).",
         "password_updated": "Ваш пароль успешно обновлён.",
-        "email_updated": "Ваш email успешно обновлён."
+        "email_updated": "Ваш email успешно обновлён.",
+        "quiz_assessment_mode_updated": "The quiz has been updated"
     },
     "loading_messages": {
         "message": "",
@@ -923,16 +942,20 @@
             "email_required": "Требуется email.",
             "password_required": "Требуется пароль.",
             "password_min_length": "В пароле должно быть не меньше 8 символов.",
-            "passwords_mismatch": "Пароли не совпадают."
+            "passwords_mismatch": "Пароли не совпадают.",
+            "confirm_password_required": "Please confirm your password.",
+            "privacy_policy_required": "Please accept the privacy policy."
         },
         "errors": {
             "create_space_failed": "При создании вашего пространства произошла ошибка. Попробуйте ещё раз."
         },
         "success": {
-            "title": "",
-            "description": "",
-            "button": ""
-        }
+            "title": "All done!",
+            "description": "Your space was successfully created. Log in to start creating quizzes.",
+            "button": "Go to space"
+        },
+        "privacy_consent_aria_label": "Agree to Shira's privacy policy",
+        "privacy_consent_label": "I agree to Shira's <0>privacy policy</0>."
     },
     "banner": {
         "label": "ВНИМАНИЕ",
@@ -940,59 +963,60 @@
     },
     "quiz_library": {
         "filters_panel": {
-            "creator": "",
-            "all_creators": "",
-            "tag": "",
-            "selected_count": "",
-            "clear_all": "",
-            "all_tags": "",
-            "all_languages": "",
-            "language": ""
+            "creator": "Creator",
+            "all_creators": "All creators",
+            "tag": "Tag",
+            "selected_count": "{{count}} selected",
+            "clear_all": "Clear all",
+            "all_tags": "All tags",
+            "all_languages": "All languages",
+            "language": "Language"
         },
         "preview": {
-            "created_on": "",
+            "created_on": "Created on",
             "columns": {
-                "app": "",
-                "actions": "",
-                "preview": "",
-                "type": "",
-                "language": "",
-                "question_name": ""
+                "app": "App",
+                "actions": "Actions",
+                "preview": "Preview",
+                "type": "Type",
+                "language": "Language",
+                "question_name": "Question name"
             },
-            "preview_full_quiz": "",
-            "no_questions": "",
+            "preview_full_quiz": "Preview full quiz",
+            "no_questions": "No questions found for this quiz template.",
             "tags": "Теги",
-            "back_to_quiz_template": "",
+            "back_to_quiz_template": "Back to quiz template",
             "languages": "Языки",
-            "creator": "",
-            "subtitle": ""
+            "creator": "Creator",
+            "subtitle": "You can preview the full quiz or each question individually, before using the quiz as a template to create your own.",
+            "use_template": "Use template"
         },
-        "filters": "",
-        "use_template": "",
-        "search_results_plural": "",
+        "filters": "Filters",
+        "use_template": "Use template",
+        "search_results_plural": "{{count}} results for \"{{searchTerm}}\"",
         "empty_search": {
-            "subtitle": "",
-            "title": ""
+            "subtitle": "Try changing keywords or clearing your filters to see more results.",
+            "title": "Sorry, we couldn't find anything"
         },
-        "report_issue": "",
-        "search_results": "",
-        "header_title": "",
-        "subtitle": "",
+        "report_issue": "Report an issue",
+        "search_results": "{{count}} result for \"{{searchTerm}}\"",
+        "header_title": "Select a quiz template",
+        "subtitle": "Select a quiz from the list below to use it as a template for your new quiz.",
         "sort_options": {
-            "quiz_name_asc": "",
-            "oldest_to_newest": "",
-            "quiz_name_desc": "",
-            "newest_to_oldest": ""
+            "quiz_name_asc": "Quiz name (A-Z)",
+            "oldest_to_newest": "Oldest to newest",
+            "quiz_name_desc": "Quiz name (Z-A)",
+            "newest_to_oldest": "Newest to oldest"
         },
-        "search_placeholder": "",
-        "title": "",
-        "sort_by": "",
-        "view_template": ""
+        "search_placeholder": "Search quiz names",
+        "title": "Quiz library",
+        "sort_by": "Sort by",
+        "view_template": "View template"
     },
     "library": {
         "empty_search": {
-            "subtitle": "",
-            "title": ""
+            "subtitle": "Try changing keywords or clearing your filters to see more results.",
+            "title": "Sorry, we couldn't find anything"
         },
         "cards": {
             "questions": {
@@ -1002,15 +1026,16 @@
                 "title": "Тесты"
             }
         },
-        "title": "",
-        "subtitle": ""
+        "title": "Library",
+        "subtitle": "Get started right away with ready-made templates."
     },
     "sidebar": {
         "quizzes": "Тесты",
-        "settings": "",
+        "settings": "Settings",
         "learners": "Учащиеся",
-        "support": "",
-        "logout": ""
+        "support": "Support",
+        "logout": "Log out",
+        "templates": "Templates"
     },
     "templates": {
         "submissions_tabs": {
@@ -1018,10 +1043,89 @@
             "questions": "Вопросы"
         },
         "submit_quiz": {
-            "tags": "Теги"
+            "tags": "Теги",
+            "tags_placeholder": "Tag",
+            "name_hint": "Use a descriptive name to help other users find what they're looking for.",
+            "success": "The quiz template has been submitted.",
+            "name": "Quiz template name",
+            "error": "We couldn't submit the quiz template. Please try again.",
+            "submit": "Submit",
+            "name_placeholder": "Quiz template name",
+            "header_title": "Submit quiz template",
+            "language": "Language",
+            "title": "Submit your quiz as a template",
+            "description": "Description",
+            "language_hint": "You may select more than 1 language. (Can't find the language you want? <support>Request a missing language.</support>)",
+            "description_hint": "Write 1-2 lines to explain what this quiz contains.",
+            "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>.",
+            "review_notice": "The Shira team carefully reviews every submission. If your template is accepted, it will appear in the template library. <learnMore>Learn More</learnMore>.",
+            "language_placeholder": "Language",
+            "tags_hint": "Select the tags that best describe the content of this template.",
+            "description_placeholder": "Description"
         },
         "submit_question": {
-            "tags": "Теги"
-        }
+            "tags": "Теги",
+            "title": "Submit your question as a template",
+            "success": "The question template has been submitted.",
+            "description_placeholder": "Description",
+            "error": "We couldn't submit the question template. Please try again.",
+            "review_notice": "The Shira team carefully reviews every submission. If your template is accepted, it will appear in the template library. <learnMore>Learn More</learnMore>.",
+            "header_title": "Submit question template",
+            "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>.",
+            "language_placeholder": "Language",
+            "name": "Question template name",
+            "tags_placeholder": "Tag",
+            "submit": "Submit",
+            "tags_hint": "Select the tags that best describe the content of this template.",
+            "language_hint": "You may select more than 1 language. (Can't find the language you want? <support>Request a missing language.</support>)",
+            "name_hint": "Use a descriptive name to help other users find what they're looking for.",
+            "name_placeholder": "Question template name",
+            "description": "Description",
+            "language": "Language",
+            "description_hint": "Write 1-2 lines to explain what this question contains."
+        },
+        "submissions_table": {
+            "actions": "Actions",
+            "type": "Type",
+            "status": "Status",
+            "app": "App",
+            "preview": "Preview submission",
+            "date_submitted": "Date submitted",
+            "quiz_name": "Quiz name",
+            "question_name": "Question name"
+        },
+        "submission_status": {
+            "title": "Submission status",
+            "in_review": "In review",
+            "help_tooltip": "Please email the Shira team if you have questions or need support.",
+            "rejected": "Rejected",
+            "accepted": "Accepted"
+        },
+        "quiz_templates": {
+            "title": "Quiz templates",
+            "description": "Create a quiz instantly by choosing from our quiz templates, available in multiple apps and languages."
+        },
+        "display_name": {
+            "title": "Create display name",
+            "description": "Set the name that will be associated to the templates you publish in the library. This will be visible to everyone.",
+            "input": "Display name"
+        },
+        "back_to_templates": "Back to Templates",
+        "my_submissions_description": "These are the templates you have submitted. The Shira team carefully reviews every submission. If your template is accepted, it will appear in the Shira template library. <learnMore>Learn More</learnMore>",
+        "question_templates": {
+            "title": "Question templates",
+            "description": "Explore pre-made questions, with message content, sender info and explanations already built in."
+        },
+        "submission_rejection": {
+            "open": "View submission feedback",
+            "title": "Submission feedback"
+        },
+        "title": "Templates",
+        "subtitle": "Get started right away with ready-made templates.",
+        "submissions_empty_state": {
+            "subtitle": "You don't have any submissions yet. To submit a resource that you have created, go to that specific resource and select \"submit as template.\"",
+            "learn_more": "Learn more about templates"
+        },
+        "my_submissions": "My submissions"
     }
 }
