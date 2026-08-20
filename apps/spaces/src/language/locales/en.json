@@ -892,7 +892,7 @@
                 "pro": {
                     "title": "Pro",
                     "description": "Experience the full power of Shira",
-                    "price": "$100/month",
+                    "price": "100 USD/month",
                     "cta": "Start 14-day free trial"
                 },
                 "enterprise": {
