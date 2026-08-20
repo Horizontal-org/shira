@@ -587,7 +587,7 @@
                 "pro": {
                     "title": "Pro",
                     "description": "Expérimentez toutes les possibilités de Shira",
-                    "price": "50 $/mois + 1 $ par quiz effectué",
+                    "price": "50 $/mois",
                     "cta": "Commencer l'essai gratuit de 14 jours"
                 }
             }
