@@ -4,6 +4,11 @@ export const DEFAULT_QUIZ_TEMPLATE_SORT: QuizTemplateSortOption = "createdAt-des
 export const DEFAULT_PAGE_LIMIT = 20;
 export const DEFAULT_CREATOR_OPTIONS = "Shira Team";
 
+export interface LibraryQuizCreatorDto {
+  publicSpaceId: string;
+  displayName: string;
+}
+
 export interface LibraryQuizDto {
   id: string | number;
   title: string;
@@ -34,6 +39,7 @@ interface GetQuizTemplatesParams {
   sortOption?: QuizTemplateSortOption;
   langTagCodes?: string[];
   tagSlugs?: string[];
+  author?: string;
 }
 
 export interface LibraryQuizQuestionTemplateDto {
@@ -86,6 +92,7 @@ type ListQuizTemplatesApiQueryDto = {
   sortOrder?: "asc" | "desc";
   langTags?: string;
   tags?: string;
+  author?: string;
 };
 
 type QuizTemplateSortParams = {
@@ -127,6 +134,7 @@ export const getQuizTemplates = async (
     sortOption = DEFAULT_QUIZ_TEMPLATE_SORT,
     langTagCodes,
     tagSlugs,
+    author,
   }: GetQuizTemplatesParams = {},
 ): Promise<LibraryQuizTemplatesPageDto> => {
   try {
@@ -142,6 +150,7 @@ export const getQuizTemplates = async (
       ...(search ? { search } : {}),
       ...(serializedLangTags ? { langTags: serializedLangTags } : {}),
       ...(serializedTags ? { tags: serializedTags } : {}),
+      ...(author ? { author } : {}),
     };
 
     const response = await axios.get<LibraryQuizTemplatesApiResponseDto>(
@@ -158,6 +167,19 @@ export const getQuizTemplates = async (
   } catch (error) {
     console.error("Error fetching quiz templates:", error);
     return { data: [], total: 0, page, limit };
+  }
+};
+
+export const getQuizTemplateCreators = async (): Promise<LibraryQuizCreatorDto[]> => {
+  try {
+    const response = await axios.get<LibraryQuizCreatorDto[]>(
+      `${process.env.REACT_APP_LIBRARY_API_URL}/quiz-templates/creators`,
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching quiz template creators:", error);
+    return [];
   }
 };
 
