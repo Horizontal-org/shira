@@ -50,7 +50,13 @@
         "reply": "Reply",
         "show_more": "Show more",
         "to": "To:",
-        "notes": "Notes"
+        "notes": "Notes",
+        "home": "Главная",
+        "help": "Помощь",
+        "delete": "Удалить",
+        "archive": "Архив",
+        "search": "Поиск",
+        "contact": "Контакты"
     },
     "whatsapp": {
         "contact_5_name": "Annabel Carpenter",
