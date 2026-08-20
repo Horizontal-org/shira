@@ -2,7 +2,7 @@
     "login": {
         "title": "",
         "subtitle": "",
-        "email_placeholder": "",
+        "email_placeholder": "Surel",
         "password_placeholder": "",
         "reset_password": "",
         "login_header_button": "",
@@ -229,7 +229,7 @@
                 "subtitle": "",
                 "show_explanations": "",
                 "hide_explanations": "",
-                "next_explanation": "",
+                "next_explanation": "Berikutnya",
                 "previous_explanation": "",
                 "no_explanations": "",
                 "aria_label": ""
@@ -317,7 +317,7 @@
             "empty_state": "",
             "table": {
                 "type": "",
-                "question_name": "",
+                "question_name": "Nama",
                 "score": "",
                 "loading": ""
             }
@@ -368,7 +368,7 @@
                 "description_skipped": "",
                 "description_valid": "",
                 "table_row": "",
-                "table_name": "",
+                "table_name": "Nama",
                 "table_email": "",
                 "table_error": "",
                 "table_skip_reason": "",
@@ -383,7 +383,7 @@
                 "tab_title": "",
                 "subtitle": "",
                 "table_row": "",
-                "table_name": "",
+                "table_name": "Nama",
                 "table_email": "",
                 "table_status": ""
             }
@@ -399,7 +399,7 @@
         "tabs": {
             "account": "",
             "subscription": "",
-            "general": ""
+            "general": "Umum"
         },
         "subscription": {
             "current_plan": "",
@@ -428,15 +428,15 @@
         }
     },
     "buttons": {
-        "ok": "",
-        "cancel": "",
+        "ok": "Oke",
+        "cancel": "Batalkan",
         "no_thanks": "",
         "close": "",
         "exit": "",
         "save": "",
-        "back": "",
+        "back": "Kembali",
         "delete": "",
-        "next": "",
+        "next": "Berikutnya",
         "continue": "",
         "login": "",
         "send_invitation": "",
@@ -454,7 +454,7 @@
         "view_guidelines": "",
         "browse_files": "",
         "i_understand": "",
-        "back_home": "",
+        "back_home": "Kembali ke beranda",
         "learn_more": "",
         "manage_plan": "",
         "back_to_quizzes": "",
@@ -482,7 +482,7 @@
             "description": "",
             "actions": {
                 "view_plans": "",
-                "get_started": ""
+                "get_started": "Get started"
             },
             "plan_names": {
                 "starter": "",
@@ -717,7 +717,7 @@
                     "title": "",
                     "description": "",
                     "price": "",
-                    "cta": ""
+                    "cta": "Get started"
                 },
                 "pro": {
                     "title": "",
@@ -752,7 +752,7 @@
         "learner_token_conflict": "",
         "learner_assignment_failed": "",
         "invalid_email": "",
-        "something_went_wrong": "",
+        "something_went_wrong": "Something went wrong",
         "invite_learner_failed": "",
         "delete_learner_failed": "",
         "delete_learners_failed": "",
@@ -854,7 +854,7 @@
         "mandarin": ""
     },
     "get_started": {
-        "title": "",
+        "title": "Get started",
         "description": "",
         "organization_name_required": "",
         "email_required": "",
