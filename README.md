@@ -55,7 +55,7 @@ This will start the auto build on
 After this process is done, you can [create a release on
 Github](https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes).
 
-## Production deployment
+## Self hosting Shira
 
 ### System requirements
 
@@ -77,7 +77,8 @@ and used space in the server.
 
 We don't have any particular recomendation about hosting providers for
 Shira: this is a pretty straightforward application so it should work
-anywhere you can install Docker. If you experience any issues please
+anywhere you can install Docker. We have installed Shira in Digital Ocean
+and in Greehost and has worked well so far. If you experience any issues please
 [contact us](https://shira.app/contact).
 
 ### Prerequisites
