@@ -1129,11 +1129,11 @@
         "my_submissions": "My submissions"
     },
     "languages": {
-        "en": "English",
-        "es": "Spanish",
-        "fr": "French",
+        "en": "英语",
+        "es": "西班牙语",
+        "fr": "法语",
         "cn": "Chinese (Simplified)",
-        "ar": "Arabic",
-        "ru": "Russian"
+        "ar": "阿拉伯语",
+        "ru": "俄语"
     }
 }
