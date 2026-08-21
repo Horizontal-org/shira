@@ -14,6 +14,7 @@ import { appIcons } from "../../../../utils/appIcons";
 import { ActionButtonWithTooltip } from "../ActionButtonWithTooltip";
 import { formatLocaleDate } from "../../../../language/dateUtils";
 import i18n from "../../../../language/i18n";
+import { translateLibraryLanguageTag } from "../../../../language/libraryTags";
 import { HighlightedText } from "../../../HighlightedText";
 
 export type Explanation = {
@@ -122,9 +123,7 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
     header: i18n.t("question_library.columns.language.title"),
     id: "language",
     cell: ({ row }) => {
-      const label = i18n.t(`select_languages.${row.original.language.name.toLowerCase()}`, {
-        defaultValue: row.original.language.name,
-      });
+      const label = translateLibraryLanguageTag(undefined, row.original.language.name);
 
       return <LanguageCell>{label}</LanguageCell>;
     },

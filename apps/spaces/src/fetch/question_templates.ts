@@ -1,4 +1,8 @@
 import axios from "axios";
+import {
+  translateLibraryLanguageTag,
+  translateLibraryTag,
+} from "../language/libraryTags";
 
 export const DEFAULT_PAGE_LIMIT = 20;
 export const DEFAULT_QUESTION_TEMPLATE_SORT: QuestionTemplateSortOption =
@@ -149,10 +153,12 @@ const normalizeQuestionTemplate = (
   appType: questionTemplate.appType,
   defaultApp: questionTemplate.defaultApp,
   createdAt: questionTemplate.createdAt,
-  languages: (questionTemplate.langTags ?? []).map((language) =>
-    language.name.trim(),
+  // Keep these source labels intact: the question picker matches them against
+  // the space's language records before rendering the translated label.
+  languages: (questionTemplate.langTags ?? []).map((language) => language.name.trim()),
+  tags: (questionTemplate.tags ?? []).map((tag) =>
+    translateLibraryTag(tag.slug, tag.name),
   ),
-  tags: (questionTemplate.tags ?? []).map((tag) => tag.name.trim()),
   explanations: questionTemplate.explanations.map((explanation) => ({
     position: explanation.position,
     text: explanation.content,
@@ -242,7 +248,12 @@ export const getQuizTemplateQuestions = async (
       },
     );
 
-    return response.data;
+    return response.data?.map((question) => ({
+      ...question,
+      language: question.language
+        ? translateLibraryLanguageTag(undefined, question.language)
+        : null,
+    })) ?? null;
   } catch (error) {
     console.error(
       `Error fetching quiz template questions for quiz ${quizId}:`,
@@ -310,7 +321,7 @@ export const getQuestionTemplateLanguageOptions = async (): Promise<
 
     return response.data.map((language) => ({
       value: language.code,
-      label: language.name.trim(),
+      label: translateLibraryLanguageTag(language.code, language.name),
     }));
   } catch (error) {
     console.error("Error fetching question template language options:", error);
@@ -331,7 +342,7 @@ export const getQuestionTemplateTagOptions = async (): Promise<
 
     return response.data.map((tag) => ({
       value: tag.slug,
-      label: tag.name.trim(),
+      label: translateLibraryTag(tag.slug, tag.name),
     }));
   } catch (error) {
     console.error("Error fetching question template tag options:", error);

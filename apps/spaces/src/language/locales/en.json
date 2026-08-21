@@ -1021,6 +1021,24 @@
         "french": "French",
         "mandarin": "Mandarin"
     },
+    "library_metadata": {
+        "language_tags": {
+            "en": "English",
+            "es": "Spanish",
+            "fr": "French",
+            "cn": "Mandarin",
+            "zh": "Mandarin",
+            "ar": "Arabic",
+            "ru": "Russian",
+            "id": "Indonesian",
+            "fa": "Persian",
+            "sw": "Swahili"
+        },
+        "tags": {
+            "phishing": "Phishing",
+            "social-engineering": "Social engineering"
+        }
+    },
     "get_started": {
         "title": "Get started",
         "description": "Create your Shira space to start building your own custom quizzes today.",

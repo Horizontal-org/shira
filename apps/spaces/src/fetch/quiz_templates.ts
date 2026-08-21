@@ -1,4 +1,8 @@
 import axios from "axios";
+import {
+  translateLibraryLanguageTag,
+  translateLibraryTag,
+} from "../language/libraryTags";
 
 export const DEFAULT_QUIZ_TEMPLATE_SORT: QuizTemplateSortOption = "createdAt-desc";
 export const DEFAULT_PAGE_LIMIT = 20;
@@ -74,6 +78,7 @@ type LibraryQuizApiDto = {
   tags?: {
     id: number;
     name: string;
+    slug?: string;
   }[];
 };
 
@@ -108,8 +113,10 @@ const normalizeQuizTemplate = (
   createdAt: quiz.createdAt,
   author: quiz.author?.displayName ?? DEFAULT_CREATOR_OPTIONS,
   authorPublicSpaceId: quiz.author?.publicSpaceId,
-  languages: (quiz.langTags ?? []).map((language) => language.name.trim()),
-  tags: (quiz.tags ?? []).map((tag) => tag.name.trim()),
+  languages: (quiz.langTags ?? []).map((language) =>
+    translateLibraryLanguageTag(language.code, language.name),
+  ),
+  tags: (quiz.tags ?? []).map((tag) => translateLibraryTag(tag.slug, tag.name)),
 });
 
 const serializeFilterValues = (values?: string[]) => {

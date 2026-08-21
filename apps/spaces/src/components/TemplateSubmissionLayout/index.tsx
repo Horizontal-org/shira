@@ -41,7 +41,7 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
   const { quizId, questionId } = useParams();
   const navigate = useNavigate();
   const location = useLocation() as { state?: LocationState };
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const space = useStore((state) => state.space);
 
   const submission = questionId
@@ -86,7 +86,7 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
     };
 
     loadOptions();
-  }, []);
+  }, [i18n.language]);
 
   const canSubmit = Boolean(
     submission.id
