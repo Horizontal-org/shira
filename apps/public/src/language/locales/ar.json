@@ -259,5 +259,13 @@
         "title": "آسف، رابط الدعوة هذه غير صالح.",
         "description": "ربما جرى استخدام رابط خاطئ، أو أن الدعوة قد انتهت صلاحيتها. يٌرجى المحاولة مرة أخرى أو الاتصال بالشخص الذي دعاكم.",
         "home_button": "الذهاب إلى Shira"
+    },
+    "languages": {
+        "ar": "Arabic",
+        "es": "Spanish",
+        "cn": "Chinese (Simplified)",
+        "ru": "Russian",
+        "fr": "French",
+        "en": "English"
     }
 }
