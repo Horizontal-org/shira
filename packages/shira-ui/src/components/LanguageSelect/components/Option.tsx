@@ -17,7 +17,7 @@ export const Option: FunctionComponent<Props> = ({ option, index, submit, altern
     >
       {index > 0 && <Separate />}
       <Label>{option.label}</Label>
-      {option.labelEnglish && <LabelEnglish>{option.labelEnglish}</LabelEnglish>}
+      {option.nativeLabel && <NativeLabel>{option.nativeLabel}</NativeLabel>}
     </OptionWrapper>
   )
 }
@@ -30,7 +30,7 @@ const Label = styled.div`
   }
 `
 
-const LabelEnglish = styled.p`
+const NativeLabel = styled.p`
   font-size: 14px;
   padding: 0 0 9px 11px;
   margin: 0;

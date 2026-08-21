@@ -2,7 +2,7 @@ import { FunctionComponent } from "react"
 import { Body2Regular, Body1SemiBold, styled } from "@horizontal-org/shira-ui"
 import { useTranslation } from "react-i18next"
 import { LanguageSelect } from '@horizontal-org/shira-ui'
-import { LANG_OPTIONS } from "../../../../language/constants"
+import { getLanguageOptions } from "../../../../language/constants"
 import i18n from "../../../../language/i18n"
 import { SettingsCard } from "../../../Settings/SettingsCard"
 import { SettingRow } from "../../../Settings/SettingsRow"
@@ -23,7 +23,7 @@ export const GeneralSection: FunctionComponent<Props> = () => {
 
         <LanguageSelect
           autoselect
-          options={LANG_OPTIONS}
+          options={getLanguageOptions(t)}
           alternativeStyling={true}
           onChange={(value) => {
             i18n.changeLanguage(value)

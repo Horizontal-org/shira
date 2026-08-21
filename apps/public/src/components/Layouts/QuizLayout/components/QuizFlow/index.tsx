@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next"
 import { FiChevronRight } from "react-icons/fi"
 import { LanguageSelect } from '@horizontal-org/shira-ui'
 import { useQuizRun, Answer } from '../../../../../hooks/useQuizRun'
-import { LANG_OPTIONS } from "../../../../../utils/langOptions";
+import { getLanguageOptions } from "../../../../../utils/langOptions";
 
 interface Props {
   quiz: any
@@ -85,7 +85,7 @@ export const QuizFlow: FunctionComponent<Props> = ({
                     localStorage.setItem('lang', v);
                   }}
                   autoselect
-                  options={LANG_OPTIONS}
+                  options={getLanguageOptions(t)}
                 />
                 <Button
                   text={t('welcome.start')}

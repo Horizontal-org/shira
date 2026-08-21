@@ -10,7 +10,7 @@ import { useOnClickOutside } from "../../hooks/useOnClickOutside"
 export interface LanguageSelectOption {
   label: string
   value: string
-  labelEnglish?: string
+  nativeLabel?: string
 }
 
 interface LanguageSelectProps {
