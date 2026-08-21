@@ -261,5 +261,13 @@
         "title": "Sorry, this invitation link is invalid.",
         "description": "You may have used the wrong URL, or the invitation may have expired. Try again or contact the person who invited you.",
         "home_button": "Go to Shira"
+    },
+    "languages": {
+        "ar": "Arabic",
+        "es": "Spanish",
+        "cn": "Chinese (Simplified)",
+        "ru": "Russian",
+        "fr": "French",
+        "en": "English"
     }
 }
