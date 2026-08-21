@@ -259,5 +259,13 @@
     },
     "loading_messages": {
         "loading": "Chargement…"
+    },
+    "languages": {
+        "ar": "Arabic",
+        "es": "Spanish",
+        "cn": "Chinese (Simplified)",
+        "ru": "Russian",
+        "fr": "French",
+        "en": "English"
     }
 }
