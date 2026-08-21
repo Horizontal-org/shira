@@ -1100,5 +1100,13 @@
             "learn_more": "Learn more about templates"
         },
         "my_submissions": "My submissions"
+    },
+    "languages": {
+        "en": "English",
+        "es": "Spanish",
+        "fr": "French",
+        "cn": "Chinese (Simplified)",
+        "ar": "Arabic",
+        "ru": "Russian"
     }
 }
