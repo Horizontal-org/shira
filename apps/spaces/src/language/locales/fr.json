@@ -976,8 +976,8 @@
         "use_template": "Use template",
         "search_results_plural": "{{count}} results for \"{{searchTerm}}\"",
         "empty_search": {
-            "subtitle": "Try changing keywords or clearing your filters to see more results.",
-            "title": "Sorry, we couldn't find anything"
+            "subtitle": "Essayez de modifier les mots-clés ou d'effacer vos filtres pour obtenir plus de résultats.",
+            "title": "Désolé, nous n'avons rien trouvé."
         },
         "search_results": "{{count}} result for \"{{searchTerm}}\"",
         "header_title": "Select a quiz template",
