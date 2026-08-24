@@ -11,7 +11,7 @@ interface BaseSubmissionDto {
   resourceId: string;
   dateSubmitted: string;
   status: SubmissionStatus;
-  reason?: string;
+  submissionNote?: string;
 }
 
 export interface QuizSubmissionDto extends BaseSubmissionDto {

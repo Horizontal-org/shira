@@ -23,7 +23,7 @@ export const QuestionSubmissionPreview: FunctionComponent<Props> = ({ question, 
       }}
       headerLabel={question.questionName}
       submissionStatusBanner={(
-        <SubmissionStatusBanner status={question.status} reason={question.reason} />
+        <SubmissionStatusBanner status={question.status} submissionNote={question.submissionNote} />
       )}
       description={question.description}
       details={(
