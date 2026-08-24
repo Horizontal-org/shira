@@ -104,6 +104,7 @@ export interface LibraryQuizQuestionDto {
   questionName: string;
   isPhishing: boolean;
   language: string | null;
+  languageCode: string | null;
   appName: string | null;
   appType: string;
   content: string;

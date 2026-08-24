@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+  translateDefaultLibraryLanguage,
   translateLibraryLanguageTag,
   translateLibraryTag,
 } from "../language/libraryTags";
@@ -51,6 +52,7 @@ export interface LibraryQuizQuestionTemplateDto {
   questionName: string;
   isPhishing: boolean;
   language: string;
+  languageCode: string | null;
   appName: string | null;
   appType: string;
   content: string;
@@ -61,6 +63,13 @@ export interface LibraryQuizQuestionTemplateDto {
   }[];
   images?: { id: number; name: string; url: string }[];
 }
+
+type LibraryQuizQuestionTemplateApiDto = Omit<
+  LibraryQuizQuestionTemplateDto,
+  "language"
+> & {
+  language: string | null;
+};
 
 type LibraryQuizApiDto = {
   id: string | number;
@@ -117,6 +126,15 @@ const normalizeQuizTemplate = (
     translateLibraryLanguageTag(language.code, language.name),
   ),
   tags: (quiz.tags ?? []).map((tag) => translateLibraryTag(tag.slug, tag.name)),
+});
+
+const normalizeQuizQuestionTemplate = (
+  question: LibraryQuizQuestionTemplateApiDto,
+): LibraryQuizQuestionTemplateDto => ({
+  ...question,
+  language: question.language
+    ? translateLibraryLanguageTag(question.languageCode, question.language)
+    : translateDefaultLibraryLanguage(),
 });
 
 const serializeFilterValues = (values?: string[]) => {
@@ -194,11 +212,12 @@ export const getQuizTemplateQuestions = async (
   quizId: string | number,
 ): Promise<LibraryQuizQuestionTemplateDto[] | null> => {
   try {
-    const response = await axios.get<LibraryQuizQuestionTemplateDto[] | null>(
+    const response = await axios.get<LibraryQuizQuestionTemplateApiDto[] | null>(
       `${process.env.REACT_APP_LIBRARY_API_URL}/quiz-templates/${quizId}/questions`,
     );
 
-    return response.data;
+    return response.data?.map(normalizeQuizQuestionTemplate) ?? null;
+
   } catch (error) {
     console.error(`Error fetching quiz template questions for ${quizId}:`, error);
     return null;

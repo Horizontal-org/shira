@@ -26,6 +26,7 @@ export type Explanation = {
 export type Language = {
   id: number;
   name: string;
+  code: string;
 };
 
 export type LanguageOption = Language & {
@@ -123,7 +124,10 @@ export const getColumns = (handlers: ColumnHandlers): ColumnDef<RowType>[] => [
     header: i18n.t("question_library.columns.language.title"),
     id: "language",
     cell: ({ row }) => {
-      const label = translateLibraryLanguageTag(undefined, row.original.language.name);
+      const label = translateLibraryLanguageTag(
+        row.original.language.code,
+        row.original.language.name,
+      );
 
       return <LanguageCell>{label}</LanguageCell>;
     },

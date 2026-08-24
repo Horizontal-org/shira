@@ -19,7 +19,7 @@ export interface LibraryQuestionTemplateDto {
   appType: string;
   defaultApp: string | null;
   createdAt: string;
-  languages: string[];
+  languages: Array<{ name: string; code: string }>;
   tags: string[];
   explanations: {
     position: string;
@@ -34,21 +34,6 @@ export interface LibraryQuestionTemplatesPageDto {
   total: number;
   page: number;
   limit: number;
-}
-
-export interface LibraryQuestionTemplateQuestionDto {
-  questionId: number;
-  questionName: string;
-  isPhishing: boolean;
-  language: string | null;
-  appName: string | null;
-  appType: string;
-  content: string;
-  explanations: {
-    position: string;
-    text: string;
-    index: string;
-  }[];
 }
 
 export type QuestionTemplateSortOption =
@@ -153,9 +138,10 @@ const normalizeQuestionTemplate = (
   appType: questionTemplate.appType,
   defaultApp: questionTemplate.defaultApp,
   createdAt: questionTemplate.createdAt,
-  // Keep these source labels intact: the question picker matches them against
-  // the space's language records before rendering the translated label.
-  languages: (questionTemplate.langTags ?? []).map((language) => language.name.trim()),
+  languages: (questionTemplate.langTags ?? []).map((language) => ({
+    name: language.name.trim(),
+    code: language.code,
+  })),
   tags: (questionTemplate.tags ?? []).map((tag) =>
     translateLibraryTag(tag.slug, tag.name),
   ),
@@ -232,34 +218,6 @@ export const getQuestionTemplates = async ({
   } catch (error) {
     console.error("Error fetching question templates:", error);
     return { data: [], total: 0, page, limit };
-  }
-};
-
-export const getQuizTemplateQuestions = async (
-  quizId: string | number,
-): Promise<LibraryQuestionTemplateQuestionDto[] | null> => {
-  try {
-    const response = await axios.get<
-      LibraryQuestionTemplateQuestionDto[] | null
-    >(
-      `${process.env.REACT_APP_LIBRARY_API_URL}/quiz-templates/${quizId}/questions`,
-      {
-        withCredentials: true,
-      },
-    );
-
-    return response.data?.map((question) => ({
-      ...question,
-      language: question.language
-        ? translateLibraryLanguageTag(undefined, question.language)
-        : null,
-    })) ?? null;
-  } catch (error) {
-    console.error(
-      `Error fetching quiz template questions for quiz ${quizId}:`,
-      error,
-    );
-    return null;
   }
 };
 
