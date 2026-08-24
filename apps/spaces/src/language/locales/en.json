@@ -1023,8 +1023,12 @@
     },
     "library_metadata": {
         "tags": {
-            "phishing": "Phishing",
-            "social-engineering": "Social engineering"
+            "easy": "level: easy",
+            "human-rights": "theme: human rights",
+            "journalism": "theme: journalism",
+            "intermediate": "level: intermediate",
+            "for-everyone": "for everyone",
+            "mobile": "mobile"
         }
     },
     "get_started": {

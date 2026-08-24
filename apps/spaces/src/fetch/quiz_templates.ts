@@ -19,7 +19,6 @@ export interface LibraryQuizDto {
   title: string;
   createdAt: string;
   author: string;
-  authorPublicSpaceId?: string;
   languages: string[];
   tags: string[];
 }
@@ -120,7 +119,6 @@ const normalizeQuizTemplate = (
   title: quiz.title,
   createdAt: quiz.createdAt,
   author: quiz.author?.displayName ?? DEFAULT_CREATOR_OPTIONS,
-  authorPublicSpaceId: quiz.author?.publicSpaceId,
   languages: (quiz.langTags ?? []).map((language) =>
     translateLibraryLanguageTag(language.name),
   ),

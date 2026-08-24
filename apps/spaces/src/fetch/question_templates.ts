@@ -12,7 +12,6 @@ export interface LibraryQuestionTemplateDto {
   id: number;
   name: string;
   author: string;
-  authorPublicSpaceId?: string;
   highlighted: boolean;
   isPhishing: boolean;
   content: string;
@@ -131,7 +130,6 @@ const normalizeQuestionTemplate = (
   id: questionTemplate.id,
   name: questionTemplate.name,
   author: questionTemplate.author?.displayName ?? "Shira team",
-  authorPublicSpaceId: questionTemplate.author?.publicSpaceId,
   highlighted: questionTemplate.highlighted,
   isPhishing: questionTemplate.isPhishing,
   content: questionTemplate.content,
