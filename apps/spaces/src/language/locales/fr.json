@@ -62,9 +62,9 @@
             "copy_link": "Copier le lien du quiz",
             "disabled_tooltip": "Créez au moins une question pour copier le lien de votre quiz.",
             "delete": "Supprimer",
-            "submit_as_template": "Submit as template",
-            "copy_link_disabled_tooltip": "Create at least 1 question to copy your quiz link.",
-            "submit_as_template_disabled_tooltip": "Create at least 1 question to submit your quiz as a template."
+            "submit_as_template": "Soumettre comme modèle",
+            "copy_link_disabled_tooltip": "Créez au moins une question pour copier le lien de votre quiz.",
+            "submit_as_template_disabled_tooltip": "Créez au moins une question pour soumettre votre questionnaire comme modèle."
         },
         "tabs": {
             "questions": "Questions",
@@ -1015,8 +1015,8 @@
     },
     "library": {
         "empty_search": {
-            "subtitle": "Try changing keywords or clearing your filters to see more results.",
-            "title": "Sorry, we couldn't find anything"
+            "subtitle": "Essayez de modifier les mots-clés ou d'effacer vos filtres pour obtenir plus de résultats.",
+            "title": "Désolé, nous n'avons rien trouvé."
         },
         "cards": {
             "questions": {
@@ -1026,8 +1026,8 @@
                 "title": "Les quiz"
             }
         },
-        "title": "Library",
-        "subtitle": "Get started right away with ready-made templates."
+        "title": "Bibliothèque",
+        "subtitle": "Commencez immédiatement grâce à nos modèles prêts à l'emploi."
     },
     "sidebar": {
         "quizzes": "Les quiz",
@@ -1089,15 +1089,15 @@
             "type": "Type",
             "status": "État",
             "app": "Le nom n'est pas défini",
-            "preview": "Preview submission",
+            "preview": "Aperçu de la soumission",
             "date_submitted": "Date de soumission",
             "quiz_name": "Nom du quiz",
             "question_name": "Titre de la question"
         },
         "submission_status": {
-            "title": "Submission status",
+            "title": "État de la soumission",
             "in_review": "In review",
-            "help_tooltip": "Please email the Shira team if you have questions or need support.",
+            "help_tooltip": "Veuillez contacter l'équipe Shira par courriel si vous avez des questions ou besoin d'aide.",
             "rejected": "Rejected",
             "accepted": "Accepted"
         },
@@ -1110,8 +1110,8 @@
             "description": "Set the name that will be associated to the templates you publish in the library. This will be visible to everyone.",
             "input": "Display name"
         },
-        "back_to_templates": "Back to Templates",
-        "my_submissions_description": "These are the templates you have submitted. The Shira team carefully reviews every submission. If your template is accepted, it will appear in the Shira template library. <learnMore>Learn More</learnMore>",
+        "back_to_templates": "Retour aux modèles",
+        "my_submissions_description": "Ce sont les modèles que vous avez soumis. L'équipe de Shira examine soigneusement chaque soumission. Si votre modèle est accepté, il apparaîtra dans la bibliothèque de modèles Shira. <learnMore>En savoir plus</learnMore>",
         "question_templates": {
             "title": "Modèles de questions",
             "description": "Explore pre-made questions, with message content, sender info and explanations already built in."
@@ -1121,17 +1121,17 @@
             "title": "Submission feedback"
         },
         "title": "Modèles",
-        "subtitle": "Get started right away with ready-made templates.",
+        "subtitle": "Commencez immédiatement grâce à nos modèles prêts à l'emploi.",
         "submissions_empty_state": {
             "subtitle": "You don't have any submissions yet. To submit a resource that you have created, go to that specific resource and select \"submit as template.\"",
             "learn_more": "Learn more about templates"
         },
-        "my_submissions": "My submissions"
+        "my_submissions": "Mes soumissions"
     },
     "languages": {
         "ar": "Arabe",
         "es": "Espagnol",
-        "cn": "Chinese (Simplified)",
+        "cn": "Chinois (simplifié)",
         "ru": "Russe",
         "fr": "Français",
         "en": "Anglais"
