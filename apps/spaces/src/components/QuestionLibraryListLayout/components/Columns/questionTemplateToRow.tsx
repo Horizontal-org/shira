@@ -12,14 +12,13 @@ const normalizeLanguages = (
   languages: StoreLanguage[],
 ): LanguageOption[] => {
   const matchedLanguages = question.languages
-    .map((languageTag, index) => {
-      const matchedLanguage = languages.find((language) => language.code === languageTag.code);
+    .map((languageName, index) => {
+      const matchedLanguage = languages.find((language) => language.name === languageName);
 
       if (!matchedLanguage) {
         return {
           id: -(index + 1),
-          name: languageTag.name,
-          code: languageTag.code,
+          name: languageName,
           content: question.content,
           explanations: [],
         };
@@ -28,7 +27,6 @@ const normalizeLanguages = (
       return {
         id: Number(matchedLanguage.id),
         name: matchedLanguage.name,
-        code: matchedLanguage.code,
         content: question.content,
         explanations: [],
       };
@@ -39,7 +37,6 @@ const normalizeLanguages = (
     : [{
       id: -1,
       name: "English",
-      code: "en",
       content: question.content,
       explanations: [],
     }];

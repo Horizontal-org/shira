@@ -52,7 +52,6 @@ export interface LibraryQuizQuestionTemplateDto {
   questionName: string;
   isPhishing: boolean;
   language: string;
-  languageCode: string | null;
   appName: string | null;
   appType: string;
   content: string;
@@ -123,7 +122,7 @@ const normalizeQuizTemplate = (
   author: quiz.author?.displayName ?? DEFAULT_CREATOR_OPTIONS,
   authorPublicSpaceId: quiz.author?.publicSpaceId,
   languages: (quiz.langTags ?? []).map((language) =>
-    translateLibraryLanguageTag(language.code, language.name),
+    translateLibraryLanguageTag(language.name),
   ),
   tags: (quiz.tags ?? []).map((tag) => translateLibraryTag(tag.slug, tag.name)),
 });
@@ -133,7 +132,7 @@ const normalizeQuizQuestionTemplate = (
 ): LibraryQuizQuestionTemplateDto => ({
   ...question,
   language: question.language
-    ? translateLibraryLanguageTag(question.languageCode, question.language)
+    ? translateLibraryLanguageTag(question.language)
     : translateDefaultLibraryLanguage(),
 });
 

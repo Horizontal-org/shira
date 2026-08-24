@@ -31,7 +31,7 @@ export const getLibraryLanguageOptions = async (): Promise<LibraryFilterOption[]
     return response.data.map((language) => ({
       id: language.id,
       value: language.code,
-      label: translateLibraryLanguageTag(language.code, language.name),
+      label: translateLibraryLanguageTag(language.name),
     }));
   } catch (error) {
     console.error("Error fetching library language options:", error);

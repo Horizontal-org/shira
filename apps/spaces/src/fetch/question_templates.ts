@@ -19,7 +19,7 @@ export interface LibraryQuestionTemplateDto {
   appType: string;
   defaultApp: string | null;
   createdAt: string;
-  languages: Array<{ name: string; code: string }>;
+  languages: string[];
   tags: string[];
   explanations: {
     position: string;
@@ -138,10 +138,7 @@ const normalizeQuestionTemplate = (
   appType: questionTemplate.appType,
   defaultApp: questionTemplate.defaultApp,
   createdAt: questionTemplate.createdAt,
-  languages: (questionTemplate.langTags ?? []).map((language) => ({
-    name: language.name.trim(),
-    code: language.code,
-  })),
+  languages: (questionTemplate.langTags ?? []).map((language) => language.name.trim()),
   tags: (questionTemplate.tags ?? []).map((tag) =>
     translateLibraryTag(tag.slug, tag.name),
   ),
@@ -279,7 +276,7 @@ export const getQuestionTemplateLanguageOptions = async (): Promise<
 
     return response.data.map((language) => ({
       value: language.code,
-      label: translateLibraryLanguageTag(language.code, language.name),
+      label: translateLibraryLanguageTag(language.name),
     }));
   } catch (error) {
     console.error("Error fetching question template language options:", error);

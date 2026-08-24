@@ -19,14 +19,8 @@ export const translateLibraryTag = (slug: string | undefined, name: string) =>
   translate(`library_metadata.tags.${slug ?? createSlugFromString(name)}`, name.trim());
 
 /** Language-tag codes are the stable identifiers used by template filters. */
-export const translateLibraryLanguageTag = (
-  code: string | null,
-  name: string,
-) =>
-  translate(
-    `library_metadata.language_tags.${code?.toLowerCase() ?? createSlugFromString(name)}`,
-    name.trim(),
-  );
+export const translateLibraryLanguageTag = (name: string) =>
+  translate(`select_languages.${createSlugFromString(name)}`, name.trim());
 
 export const translateDefaultLibraryLanguage = () =>
-  translateLibraryLanguageTag("en", "English");
+  translateLibraryLanguageTag("English");

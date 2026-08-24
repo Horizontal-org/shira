@@ -54,7 +54,7 @@ export const mapQuestionSubmissionToPreview = (
   appType: template.appType,
   app: template.defaultApp,
   language: template.langTags[0]
-    ? translateLibraryLanguageTag(template.langTags[0].code, template.langTags[0].name)
+    ? translateLibraryLanguageTag(template.langTags[0].name)
     : translateDefaultLibraryLanguage(),
   isPhishing: template.isPhishing,
   tags: template.tags.map(({ name, slug }) => translateLibraryTag(slug, name)),
@@ -77,7 +77,7 @@ const mapQuizQuestionToPreview = (
   appType: question.appType,
   app: question.appName,
   language: question.language
-    ? translateLibraryLanguageTag(question.languageCode, question.language)
+    ? translateLibraryLanguageTag(question.language)
     : fallbackLanguage,
   isPhishing: question.isPhishing,
   content: question.content,
@@ -90,7 +90,7 @@ export const mapQuizSubmissionToPreview = (
   questions: LibraryQuizQuestionDto[],
 ): QuizSubmissionPreviewDto => {
   const fallbackLanguage = template.langTags[0]
-    ? translateLibraryLanguageTag(template.langTags[0].code, template.langTags[0].name)
+    ? translateLibraryLanguageTag(template.langTags[0].name)
     : translateDefaultLibraryLanguage();
 
   return {
@@ -99,7 +99,7 @@ export const mapQuizSubmissionToPreview = (
     description: template.description,
     langTags: template.langTags.map((language) => ({
       ...language,
-      name: translateLibraryLanguageTag(language.code, language.name),
+      name: translateLibraryLanguageTag(language.name),
     })),
     tags: template.tags.map(({ name, slug }) => translateLibraryTag(slug, name)),
     questions: questions.map((question) =>

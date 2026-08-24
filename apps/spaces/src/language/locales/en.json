@@ -1022,18 +1022,6 @@
         "mandarin": "Mandarin"
     },
     "library_metadata": {
-        "language_tags": {
-            "en": "English",
-            "es": "Spanish",
-            "fr": "French",
-            "cn": "Mandarin",
-            "zh": "Mandarin",
-            "ar": "Arabic",
-            "ru": "Russian",
-            "id": "Indonesian",
-            "fa": "Persian",
-            "sw": "Swahili"
-        },
         "tags": {
             "phishing": "Phishing",
             "social-engineering": "Social engineering"
