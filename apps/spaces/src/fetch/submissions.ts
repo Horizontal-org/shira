@@ -4,14 +4,14 @@ const apiUrl = process.env.REACT_APP_API_URL;
 const libraryApiUrl = process.env.REACT_APP_LIBRARY_API_URL;
 
 export const DEFAULT_PAGE_LIMIT = 20;
-export type SubmissionStatus = "in_review" | "approved" | "rejected";
+export type SubmissionStatus = "in_review" | "accepted" | "rejected";
 
 interface BaseSubmissionDto {
   id: string;
   resourceId: string;
   dateSubmitted: string;
   status: SubmissionStatus;
-  reason?: string;
+  submissionNote?: string;
 }
 
 export interface QuizSubmissionDto extends BaseSubmissionDto {

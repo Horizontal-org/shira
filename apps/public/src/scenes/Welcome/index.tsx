@@ -8,7 +8,7 @@ import { useStore } from "../../store";
 import { useTranslation } from "react-i18next";
 import { Task } from "@divviup/dap";
 import { ReactComponent as Hooked } from '../../assets/HookedFish.svg';
-import { LANG_OPTIONS } from "../../utils/langOptions";
+import { getLanguageOptions } from "../../utils/langOptions";
 
 export const WelcomeScene: FunctionComponent = () => {
   const changeScene = useStore((state) => state.changeScene)
@@ -50,7 +50,7 @@ export const WelcomeScene: FunctionComponent = () => {
                 localStorage.setItem('lang', v);
               }}
               autoselect
-              options={LANG_OPTIONS}
+              options={getLanguageOptions(t)}
             />
             <Button
               onClick={() => { changeScene('quiz-setup-name') }}

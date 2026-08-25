@@ -16,7 +16,13 @@
         "scanned_by_google": "已由 Gmail 扫描",
         "encryption": "标准加密 (TLS)",
         "learn_more": "了解详情",
-        "mail": "邮件"
+        "mail": "邮件",
+        "safer_with_google": "Safer with Google",
+        "attachment_scanning_description": "To help protect your inbox, Gmail blocks attachments when malware is detected. You should still only download attachments from people you trust.",
+        "add_to_drive": "Add to Drive",
+        "scanned_by_gmail": "Scanned by Gmail",
+        "attachment_scanning_title": "Attachment scanning in Gmail",
+        "add_all_to_drive": "Add all to Drive"
     },
     "outlook": {
         "search": "搜索",
@@ -52,7 +58,7 @@
     },
     "dating_app": {
         "message_placeholder": "说些什么 ...",
-        "aa": "",
+        "aa": "Aa",
         "location": "距离832尺"
     },
     "sms": {
@@ -64,7 +70,12 @@
         "contact_1_message": "你好。谢谢关注。1天前",
         "contact_2_message": "谢谢朋友！ . 2天前",
         "contact_3_message": "现在感觉好多了。1天前",
-        "contact_4_message": "你注意到了吗？ 1天前"
+        "contact_4_message": "你注意到了吗？ 1天前",
+        "contact_1_name": "Roseanna",
+        "contact_2_name": "Erica",
+        "contact_3_name": "Pauline",
+        "aa": "Aa",
+        "contact_4_name": "Jose"
     },
     "whatsapp": {
         "contact_1_message": "再想一想,不要紧啦",
@@ -84,6 +95,15 @@
         "contact_8_message": "哦，我觉得我们还是做朋友比较好。",
         "contact_9_time": "下午12:40",
         "contact_9_message": "对不起，大家。我从来没想过要伤害你们",
-        "contact_1_time": "下午12:04"
+        "contact_1_time": "下午12:04",
+        "contact_5_name": "Annabel Carpenter",
+        "contact_6_name": "Jesse Bass",
+        "contact_7_name": "Reggie Ramos",
+        "contact_4_name": "Farrah Guerra",
+        "contact_3_name": "Connie Zamora",
+        "contact_2_name": "Ruby Mejia",
+        "contact_8_name": "Morgan Buchanan",
+        "contact_1_name": "Mark Curry",
+        "contact_9_name": "Kareem Salinas"
     }
 }

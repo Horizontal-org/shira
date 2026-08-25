@@ -66,20 +66,6 @@ export const TabContainer: FunctionComponent<Props> = ({
         type={isQuizTab ? "quizzes" : "questions"}
         submissions={submissions}
         paginationProps={paginationProps}
-        onPreview={(resourceId) => {
-          if (isQuizTab) {
-            const submission = quizSubmissions.find(
-              (item) => item.resourceId === resourceId,
-            );
-            if (submission) onPreviewQuiz(submission);
-            return;
-          }
-
-          const submission = questionSubmissions.find(
-            (item) => item.resourceId === resourceId,
-          );
-          if (submission) onPreviewQuestion(submission);
-        }}
       />
     </Container>
   );

@@ -1,4 +1,12 @@
 {
+    "languages": {
+        "en": "English",
+        "es": "Spanish",
+        "fr": "French",
+        "cn": "Chinese (Simplified)",
+        "ar": "Arabic",
+        "ru": "Russian"
+    },
     "sidebar": {
         "quizzes": "Quizzes",
         "learners": "Learners",
@@ -287,8 +295,12 @@
             "title": "Submission status",
             "help_tooltip": "Please email the Shira team if you have questions or need support.",
             "in_review": "In review",
-            "approved": "Approved",
+            "accepted": "Accepted",
             "rejected": "Rejected"
+        },
+        "submission_rejection": {
+            "title": "Submission feedback",
+            "open": "View submission feedback"
         },
         "submissions_empty_state": {
             "subtitle": "You don't have any submissions yet. To submit a resource that you have created, go to that specific resource and select \"submit as template.\"",
@@ -303,8 +315,7 @@
             "header_title": "Submit quiz template",
             "submit": "Submit",
             "title": "Submit your quiz as a template",
-            "intro": "Thank you for contributing to the Shira Template library.",
-            "review_notice": "The Shira team carefully reviews every submission. If your template is accepted, it will appear in the Shira template library. <learnMore>Learn More</learnMore>",
+            "review_notice": "The Shira team carefully reviews every submission. If your template is accepted, it will appear in the template library. <learnMore>Learn More</learnMore>.",
             "name": "Quiz template name",
             "name_hint": "Use a descriptive name to help other users find what they're looking for.",
             "name_placeholder": "Quiz template name",
@@ -325,8 +336,7 @@
             "header_title": "Submit question template",
             "submit": "Submit",
             "title": "Submit your question as a template",
-            "intro": "Thank you for contributing to the Shira Template library.",
-            "review_notice": "The Shira team carefully reviews every submission. If your template is accepted, it will appear in the Shira template library. <learnMore>Learn More</learnMore>",
+            "review_notice": "The Shira team carefully reviews every submission. If your template is accepted, it will appear in the template library. <learnMore>Learn More</learnMore>.",
             "name": "Question template name",
             "name_hint": "Use a descriptive name to help other users find what they're looking for.",
             "name_placeholder": "Question template name",
@@ -890,7 +900,7 @@
                 "pro": {
                     "title": "Pro",
                     "description": "Experience the full power of Shira",
-                    "price": "$100/month",
+                    "price": "100 USD/month",
                     "cta": "Start 14-day free trial"
                 },
                 "enterprise": {

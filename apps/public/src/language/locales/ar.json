@@ -57,8 +57,8 @@
             "explanation_3": "إذا لم تكونوا متأكدين، يمكنكم تحديد الخيار ”لا أعرف“.",
             "footer_title": "مقدمة الاختبار",
             "next": "حسنا",
-            "learn_more": "",
-            "disclaimer": ""
+            "learn_more": "التعرف على المزيد",
+            "disclaimer": "Shira collects limited data about your usage."
         },
         "answers": {
             "options": {
@@ -85,16 +85,16 @@
             "cancel": "إلغاء"
         },
         "data_collection": {
-            "percentage_of_learners": "",
-            "your_score": "",
-            "understand": "",
-            "only_datetime": "",
-            "total_quiz_score": "",
-            "learn_more": "",
-            "title": "",
-            "2_results": "",
-            "1_date_time": "",
-            "intro": ""
+            "percentage_of_learners": "c. The percentage of learners assigned this quiz who have completed it",
+            "your_score": "b. Your score for each question",
+            "understand": "لقد فهمت",
+            "only_datetime": "When you take this quiz, Shira will only track the date and time you take the quiz.",
+            "total_quiz_score": "a. Your total quiz score",
+            "learn_more": "التعرف على المزيد",
+            "title": "Data collection",
+            "2_results": "2. Results:",
+            "1_date_time": "1. The date and time when you take the quiz",
+            "intro": "When you take this quiz, Shira will only track:"
         }
     },
     "feedback": {
@@ -132,7 +132,8 @@
         "heavy_subtitle_1": "لقد أجبتم عن ",
         "heavy_subtitle_2": "{{correctQuestions}} من أصل {{questions}} ",
         "heavy_subtitle_3": "أسئلة بطريقة صحيحة.",
-        "greeting_title": "شكرا لاستخدام Shira!"
+        "greeting_title": "شكرا لاستخدام Shira!",
+        "assessment_subtitle": "You've completed the quiz."
     },
     "about": {
         "title": "حول",
