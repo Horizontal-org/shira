@@ -49,9 +49,12 @@ export class PublishQuizLibraryService implements IPublishQuizLibraryService {
       throw new NotFoundException('No questions found for quiz')
     }
 
-    const preparedQuestions = await Promise.all(
-      questions.map((question) => this.prepareQuestionsService.prepareQuestionForPublishing(question, apiKey)),
-    )
+    const preparedQuestions = []
+    for (const question of questions) {
+      preparedQuestions.push(
+        await this.prepareQuestionsService.prepareQuestionForPublishing(question, apiKey),
+      )
+    }
 
     const readyQuiz = {
       title: templateName,
