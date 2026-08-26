@@ -44,7 +44,6 @@ export const PreviewQuestionScreen: FunctionComponent<Props> = ({
   headerLabel,
   actions,
 }) => {
-  console.log("🚀 ~ PreviewQuestionScreen ~ question:", question)
   const { t } = useTranslation();
   const {
     activeExplanationIndex,
