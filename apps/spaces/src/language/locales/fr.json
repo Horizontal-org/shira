@@ -1135,5 +1135,15 @@
         "ru": "Russe",
         "fr": "Français",
         "en": "Anglais"
+    },
+    "library_metadata": {
+        "tags_slugs": {
+            "human-rights": "theme: human rights",
+            "journalism": "theme: journalism",
+            "intermediate": "level: intermediate",
+            "easy": "level: easy",
+            "for-everyone": "for everyone",
+            "mobile": "mobile"
+        }
     }
 }
