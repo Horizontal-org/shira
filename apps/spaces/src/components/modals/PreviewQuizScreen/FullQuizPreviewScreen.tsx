@@ -19,6 +19,7 @@ import {
   normalizePreviewAppName,
 } from "../../../utils/appNames";
 import { AppLayout } from "../../QuestionPreview/AppLayout";
+import { toImageEntries } from "../../../utils/parseHtml";
 import {
   ExplanationPreviewControls,
   useExplanationPreviewControls,
@@ -40,6 +41,7 @@ export type PreviewQuestion = {
     position: number | string
     text: string
   }[]
+  images?: { id: number; name: string; url: string }[]
 }
 
 type Props = {
@@ -176,6 +178,7 @@ export const FullQuizPreviewScreen: FunctionComponent<Props> = ({
                 <AppLayout
                   appName={resolvedAppName}
                   content={question.content}
+                  images={toImageEntries(question.images)}
                   showExplanations={showExplanations}
                   explanations={explanations}
                   explanationNumber={activeExplanationIndex}

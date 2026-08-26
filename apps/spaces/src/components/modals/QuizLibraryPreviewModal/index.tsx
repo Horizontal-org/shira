@@ -82,6 +82,7 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
     appType: question.appType,
     content: question.content,
     explanations: question.explanations,
+    images: question.images,
   }))
   const fullQuizPreview =
     previewQuestions.find((question) => question.id === fullPreviewQuestionId) ?? null
