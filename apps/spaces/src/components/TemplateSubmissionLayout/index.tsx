@@ -299,7 +299,7 @@ const Content = styled.main`
 const FormCard = styled.form`
   box-sizing: border-box;
   max-width: 1136px;
-  margin: 0 auto;
+  margin: 0 auto 100px;
   padding: 48px;
   border-radius: 24px;
   background: ${defaultTheme.colors.light.white};
