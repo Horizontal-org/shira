@@ -97,7 +97,7 @@
             "duplicate": "Dupliquer",
             "delete": "Supprimer",
             "more_actions": "Plus d'actions",
-            "submit_as_template": "Submit as template"
+            "submit_as_template": "Soumettre comme modèle"
         },
         "use_library_question_button": "Utiliser un modèle de question"
     },
@@ -1143,7 +1143,7 @@
             "intermediate": "level: intermediate",
             "easy": "level: easy",
             "for-everyone": "for everyone",
-            "mobile": "mobile"
+            "mobile": "Mobile"
         }
     }
 }
