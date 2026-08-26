@@ -7,6 +7,7 @@ import {
   isMessagingPhoneApp,
   normalizePreviewAppName,
 } from "../../../utils/appNames";
+import { toImageEntries } from "../../../utils/parseHtml";
 import {
   ExplanationPreviewControls,
   useExplanationPreviewControls,
@@ -21,6 +22,7 @@ type PreviewQuestion = {
     position: number | string;
     text: string;
   }[];
+  images?: { id: number; name: string; url: string }[];
 };
 
 type Props = {
@@ -112,6 +114,7 @@ export const PreviewQuestionScreen: FunctionComponent<Props> = ({
             <AppLayout
               appName={question.appName}
               content={question.content}
+              images={toImageEntries(question.images)}
               showExplanations={showExplanations}
               explanations={explanations}
               explanationNumber={activeExplanationIndex}
