@@ -93,7 +93,7 @@ export const useQuizTemplateList = () => {
     return () => {
       isCurrentRequest = false;
     };
-  }, [debouncedSearchValue, i18n.language, pageIndex, selectedCreator, selectedLanguages, selectedTags, sortOption]);
+  }, [debouncedSearchValue, pageIndex, selectedCreator, selectedLanguages, selectedTags, sortOption]);
 
   useEffect(() => {
     setLanguageOptions([]);

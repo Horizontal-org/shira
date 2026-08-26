@@ -15,7 +15,7 @@ import { useQuestionTemplateFilterOptions } from "./useQuestionTemplateFilterOpt
 import { useQuestionTemplateFilters } from "./useQuestionTemplateFilters";
 
 export const useQuestionTemplateList = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [questionTemplates, setQuestionTemplates] = useState<LibraryQuestionTemplateDto[]>([]);
   const [apps, setApps] = useState<App[]>([]);
   const [totalAvailableQuestions, setTotalAvailableQuestions] = useState(0);
@@ -103,7 +103,6 @@ export const useQuestionTemplateList = () => {
     filters.selectedType,
     pageIndex,
     sortOption,
-    i18n.language,
   ]);
 
   useEffect(() => {
