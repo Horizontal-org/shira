@@ -14,12 +14,9 @@ import { useTranslation } from "react-i18next";
 import { appIcons, appTypesIcons } from "../../../utils/appIcons";
 import {
   getAppsByType,
-  isMessagingNotPhoneApp,
-  isMessagingPhoneApp,
   normalizePreviewAppName,
 } from "../../../utils/appNames";
-import { AppLayout } from "../../QuestionPreview/AppLayout";
-import { toImageEntries } from "../../../utils/parseHtml";
+import { QuestionPreviewFrame } from "../../previewComponents/QuestionPreviewFrame";
 import {
   ExplanationPreviewControls,
   useExplanationPreviewControls,
@@ -170,20 +167,15 @@ export const FullQuizPreviewScreen: FunctionComponent<Props> = ({
 
               {showExplanations && <QuizPreviewOverlay />}
 
-              <PreviewAppFrame
+              <QuestionPreviewFrame
                 key={`${question.id}-${question.app}`}
-                $isFullWidth={isMessagingNotPhoneApp(resolvedAppName)}
-                $isPhoneFrame={isMessagingPhoneApp(resolvedAppName)}
-              >
-                <AppLayout
-                  appName={resolvedAppName}
-                  content={question.content}
-                  images={toImageEntries(question.images)}
-                  showExplanations={showExplanations}
-                  explanations={explanations}
-                  explanationNumber={activeExplanationIndex}
-                />
-              </PreviewAppFrame>
+                appName={resolvedAppName}
+                content={question.content}
+                images={question.images}
+                showExplanations={showExplanations}
+                explanations={explanations}
+                explanationNumber={activeExplanationIndex}
+              />
             </PreviewCanvas>
           </PreviewCanvasPanel>
         </PreviewLayout>
@@ -427,18 +419,6 @@ const PreviewStageBackdrop = styled.div`
   position: absolute;
   inset: 0;
   background: ${defaultTheme.colors.light.paleGreen};
-`
-
-const PreviewAppFrame = styled.div<{
-  $isFullWidth: boolean;
-  $isPhoneFrame: boolean;
-}>`
-  position: relative;
-  width: ${(props) => (props.$isFullWidth ? "100%" : "fit-content")};
-  max-width: 100%;
-  height: ${(props) => (props.$isPhoneFrame ? "80vh" : "68vh")};
-  min-height: 620px;
-  max-height: ${(props) => (props.$isPhoneFrame ? "none" : "780px")};
 `
 
 const QuizPreviewOverlay = styled.div`
