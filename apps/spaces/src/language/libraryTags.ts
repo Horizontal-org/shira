@@ -10,17 +10,12 @@ const createSlugFromString = (value: string) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 
-/**
- * Library tags have a stable slug, so use that—not their English label—as the
- * translation key. This keeps translations intact if the Library API label is
- * edited.
- */
+export const translateDefaultLibraryLanguage = () =>
+  translateLibraryLanguageTag("English");
+
+// Library tags have a stable slug, so use that as the translation key
 export const translateLibraryTag = (slug: string | undefined, name: string) =>
   translate(`library_metadata.tags.${slug ?? createSlugFromString(name)}`, name.trim());
 
-/** Language-tag codes are the stable identifiers used by template filters. */
 export const translateLibraryLanguageTag = (name: string) =>
   translate(`select_languages.${createSlugFromString(name)}`, name.trim());
-
-export const translateDefaultLibraryLanguage = () =>
-  translateLibraryLanguageTag("English");
