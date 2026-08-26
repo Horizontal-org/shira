@@ -41,7 +41,7 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
   const { quizId, questionId } = useParams();
   const navigate = useNavigate();
   const location = useLocation() as { state?: LocationState };
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const space = useStore((state) => state.space);
 
   const submission = questionId
@@ -86,7 +86,7 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
     };
 
     loadOptions();
-  }, []);
+  }, [i18n.language]);
 
   const canSubmit = Boolean(
     submission.id
@@ -299,7 +299,7 @@ const Content = styled.main`
 const FormCard = styled.form`
   box-sizing: border-box;
   max-width: 1136px;
-  margin: 0 auto;
+  margin: 0 auto 100px;
   padding: 48px;
   border-radius: 24px;
   background: ${defaultTheme.colors.light.white};
