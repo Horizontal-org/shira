@@ -1022,7 +1022,7 @@
         "mandarin": "Mandarin"
     },
     "library_metadata": {
-        "tags": {
+        "tags_slugs": {
             "easy": "level: easy",
             "human-rights": "theme: human rights",
             "journalism": "theme: journalism",

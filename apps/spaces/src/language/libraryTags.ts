@@ -15,7 +15,7 @@ export const translateDefaultLibraryLanguage = () =>
 
 // Library tags have a stable slug, so use that as the translation key
 export const translateLibraryTag = (slug: string | undefined, name: string) =>
-  translate(`library_metadata.tags.${slug ?? createSlugFromString(name)}`, name.trim());
+  translate(`library_metadata.tags_slugs.${slug ?? createSlugFromString(name)}`, name.trim());
 
 export const translateLibraryLanguageTag = (name: string) =>
   translate(`select_languages.${createSlugFromString(name)}`, name.trim());
