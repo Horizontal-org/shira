@@ -1029,6 +1029,16 @@
         "french": "French",
         "mandarin": "Mandarin"
     },
+    "library_metadata": {
+        "tags_slugs": {
+            "easy": "level: easy",
+            "human-rights": "theme: human rights",
+            "journalism": "theme: journalism",
+            "intermediate": "level: intermediate",
+            "for-everyone": "for everyone",
+            "mobile": "mobile"
+        }
+    },
     "get_started": {
         "title": "Get started",
         "description": "Create your Shira space to start building your own custom quizzes today.",
