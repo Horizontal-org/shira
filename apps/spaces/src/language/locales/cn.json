@@ -1135,5 +1135,15 @@
         "cn": "Chinese (Simplified)",
         "ar": "阿拉伯语",
         "ru": "俄语"
+    },
+    "library_metadata": {
+        "tags_slugs": {
+            "easy": "level: easy",
+            "human-rights": "theme: human rights",
+            "journalism": "theme: journalism",
+            "intermediate": "level: intermediate",
+            "for-everyone": "for everyone",
+            "mobile": "mobile"
+        }
     }
 }
