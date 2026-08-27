@@ -259,5 +259,13 @@
     },
     "loading_messages": {
         "loading": "Cargando..."
+    },
+    "languages": {
+        "ar": "Arabic",
+        "es": "Español",
+        "cn": "Chinese (Simplified)",
+        "ru": "Russian",
+        "fr": "Francés",
+        "en": "Inglés"
     }
 }

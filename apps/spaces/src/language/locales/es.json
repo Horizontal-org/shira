@@ -70,7 +70,7 @@
             "questions": "Preguntas",
             "results": "Resultados",
             "learners": "Estudiantes",
-            "settings": "Settings"
+            "settings": "Configuración"
         },
         "visibility": {
             "public": "Público",
@@ -93,8 +93,8 @@
         "create_question_button": "Crear pregunta",
         "add_from_library_button": "Añadir desde la biblioteca",
         "action_tooltips": {
-            "edit": "Editar pregunta",
-            "duplicate": "Duplicar pregunta",
+            "edit": "Edit",
+            "duplicate": "Duplicar",
             "delete": "Eliminar pregunta",
             "more_actions": "More actions",
             "submit_as_template": "Submit as template"
@@ -239,24 +239,24 @@
         },
         "filters_panel": {
             "selected_count": "{{count}} selected",
-            "tag": "Tag",
-            "apps": "Apps",
-            "type": "Type",
+            "tag": "Etiquetas",
+            "apps": "Aplicaciones",
+            "type": "Tipo",
             "creator": "Creator",
-            "language": "Language",
-            "clear_all": "Clear all"
+            "language": "Idioma",
+            "clear_all": "Borrar todos"
         },
         "sort_options": {
             "question_name_desc": "Question name (Z-A)",
             "question_name_asc": "Question name (A-Z)",
-            "newest_to_oldest": "Newest to oldest",
-            "oldest_to_newest": "Oldest to newest"
+            "newest_to_oldest": "Del más nuevo al más viejo",
+            "oldest_to_newest": "Del más viejo al más nuevo"
         },
         "search_results_plural": "{{count}} results for \"{{searchTerm}}\"",
-        "sort_by": "Sort by",
+        "sort_by": "Ordenar por",
         "search_placeholder": "Search question names",
         "search_results": "{{count}} result for \"{{searchTerm}}\"",
-        "filters": "Filters"
+        "filters": "Filtros"
     },
     "results_tab": {
         "message": "",
@@ -611,7 +611,7 @@
             }
         },
         "add_quiz_from_template": {
-            "input_label": "Quiz name",
+            "input_label": "Nombre del cuestionario",
             "title": "Give your new quiz a name",
             "subtitle": "The quiz name will be visible in your Space and to learners when they take it."
         }
@@ -662,7 +662,7 @@
         "learner_email_send_failed": "Fallo al enviar correo de invitación a estudiante.",
         "learner_token_conflict": "El token de la persona estudiante es inválido o ya ha sido utilizado.",
         "learner_assignment_failed": "Error al asignar estudiante al espacio.",
-        "invalid_email": "Por favor introduce un correo electrónico válido.",
+        "invalid_email": "Por favor introduce una dirección de correo electrónico válida",
         "something_went_wrong": "Algo salió mal",
         "invite_learner_failed": "Hubo un problema al invitar a la persona estudiante. Si el problema persiste, <1>contáctanos</1>.",
         "delete_learner_failed": "Hubo un problema al eliminar a la persona estudiante. Si el problema persiste, <1>contáctanos</1>.",
@@ -706,7 +706,7 @@
         "learners_unassigned_plural": "Este cuestionario ha sido desasignado de {{count}} estudiantes.",
         "password_updated": "Tu contraseña se actualizó exitosamente.",
         "email_updated": "Tu correo electrónico se actualizó exitosamente.",
-        "quiz_assessment_mode_updated": "The quiz has been updated"
+        "quiz_assessment_mode_updated": "El cuestionario ha sido actualizado"
     },
     "loading_messages": {
         "message": "",
@@ -908,14 +908,14 @@
             "password_required": "La contraseña es obligatoria.",
             "password_min_length": "La contraseña debe tener al menos 8 caracteres.",
             "passwords_mismatch": "Las contraseñas no coinciden.",
-            "confirm_password_required": "Please confirm your password.",
+            "confirm_password_required": "Por favor confirma tu contraseña",
             "privacy_policy_required": "Please accept the privacy policy."
         },
         "errors": {
             "create_space_failed": "Ocurrió un error al crear tu espacio. Por favor vuelve a intentar."
         },
         "success": {
-            "title": "All done!",
+            "title": "¡Todo listo!",
             "description": "Your space was successfully created. Log in to start creating quizzes.",
             "button": "Go to space"
         },
@@ -965,22 +965,22 @@
         "filters_panel": {
             "creator": "Creator",
             "all_creators": "All creators",
-            "tag": "Tag",
+            "tag": "Etiquetas",
             "selected_count": "{{count}} selected",
-            "clear_all": "Clear all",
+            "clear_all": "Borrar todos",
             "all_tags": "All tags",
             "all_languages": "All languages",
-            "language": "Language"
+            "language": "Idioma"
         },
         "preview": {
             "created_on": "Created on",
             "columns": {
-                "app": "App",
-                "actions": "Actions",
-                "preview": "Preview",
-                "type": "Type",
-                "language": "Language",
-                "question_name": "Question name"
+                "app": "Aplicación",
+                "actions": "Acciones",
+                "preview": "Vista Previa",
+                "type": "Tipo",
+                "language": "Idioma",
+                "question_name": "Nombre de la pregunta"
             },
             "preview_full_quiz": "Preview full quiz",
             "no_questions": "No questions found for this quiz template.",
@@ -991,7 +991,7 @@
             "subtitle": "You can preview the full quiz or each question individually, before using the quiz as a template to create your own.",
             "use_template": "Use template"
         },
-        "filters": "Filters",
+        "filters": "Filtros",
         "use_template": "Use template",
         "search_results_plural": "{{count}} results for \"{{searchTerm}}\"",
         "empty_search": {
@@ -1004,13 +1004,13 @@
         "subtitle": "Select a quiz from the list below to use it as a template for your new quiz.",
         "sort_options": {
             "quiz_name_asc": "Quiz name (A-Z)",
-            "oldest_to_newest": "Oldest to newest",
+            "oldest_to_newest": "Del más viejo al más nuevo",
             "quiz_name_desc": "Quiz name (Z-A)",
-            "newest_to_oldest": "Newest to oldest"
+            "newest_to_oldest": "Del más nuevo al más viejo"
         },
         "search_placeholder": "Search quiz names",
         "title": "Quiz library",
-        "sort_by": "Sort by",
+        "sort_by": "Ordenar por",
         "view_template": "View template"
     },
     "library": {
@@ -1031,10 +1031,10 @@
     },
     "sidebar": {
         "quizzes": "Cuestionarios",
-        "settings": "Settings",
+        "settings": "Configuración",
         "learners": "Estudiantes",
-        "support": "Support",
-        "logout": "Log out",
+        "support": "Soporte prioritario",
+        "logout": "Cerrar sesión",
         "templates": "Templates"
     },
     "templates": {
@@ -1044,22 +1044,22 @@
         },
         "submit_quiz": {
             "tags": "Etiquetas",
-            "tags_placeholder": "Tag",
+            "tags_placeholder": "Etiquetas",
             "name_hint": "Use a descriptive name to help other users find what they're looking for.",
             "success": "The quiz template has been submitted.",
             "name": "Quiz template name",
             "error": "We couldn't submit the quiz template. Please try again.",
-            "submit": "Submit",
+            "submit": "Enviar",
             "name_placeholder": "Quiz template name",
             "header_title": "Submit quiz template",
-            "language": "Language",
+            "language": "Idioma",
             "title": "Submit your quiz as a template",
             "description": "Description",
             "language_hint": "You may select more than 1 language. (Can't find the language you want? <support>Request a missing language.</support>)",
             "description_hint": "Write 1-2 lines to explain what this quiz contains.",
             "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>.",
             "review_notice": "The Shira team carefully reviews every submission. If your template is accepted, it will appear in the template library. <learnMore>Learn More</learnMore>.",
-            "language_placeholder": "Language",
+            "language_placeholder": "Idioma",
             "tags_hint": "Select the tags that best describe the content of this template.",
             "description_placeholder": "Description"
         },
@@ -1072,27 +1072,27 @@
             "review_notice": "The Shira team carefully reviews every submission. If your template is accepted, it will appear in the template library. <learnMore>Learn More</learnMore>.",
             "header_title": "Submit question template",
             "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>.",
-            "language_placeholder": "Language",
+            "language_placeholder": "Idioma",
             "name": "Question template name",
-            "tags_placeholder": "Tag",
-            "submit": "Submit",
+            "tags_placeholder": "Etiquetas",
+            "submit": "Enviar",
             "tags_hint": "Select the tags that best describe the content of this template.",
             "language_hint": "You may select more than 1 language. (Can't find the language you want? <support>Request a missing language.</support>)",
             "name_hint": "Use a descriptive name to help other users find what they're looking for.",
             "name_placeholder": "Question template name",
             "description": "Description",
-            "language": "Language",
+            "language": "Idioma",
             "description_hint": "Write 1-2 lines to explain what this question contains."
         },
         "submissions_table": {
-            "actions": "Actions",
-            "type": "Type",
-            "status": "Status",
-            "app": "App",
+            "actions": "Acciones",
+            "type": "Tipo",
+            "status": "Estado",
+            "app": "Aplicación",
             "preview": "Preview submission",
-            "date_submitted": "Date submitted",
-            "quiz_name": "Quiz name",
-            "question_name": "Question name"
+            "date_submitted": "Fecha de envío",
+            "quiz_name": "Nombre del cuestionario",
+            "question_name": "Nombre de la pregunta"
         },
         "submission_status": {
             "title": "Submission status",
@@ -1113,7 +1113,7 @@
         "back_to_templates": "Back to Templates",
         "my_submissions_description": "These are the templates you have submitted. The Shira team carefully reviews every submission. If your template is accepted, it will appear in the Shira template library. <learnMore>Learn More</learnMore>",
         "question_templates": {
-            "title": "Question templates",
+            "title": "Plantillas de pregunta",
             "description": "Explore pre-made questions, with message content, sender info and explanations already built in."
         },
         "submission_rejection": {
@@ -1127,5 +1127,23 @@
             "learn_more": "Learn more about templates"
         },
         "my_submissions": "My submissions"
+    },
+    "languages": {
+        "ar": "Arabic",
+        "es": "Spanish",
+        "cn": "Chinese (Simplified)",
+        "ru": "Russian",
+        "fr": "French",
+        "en": "English"
+    },
+    "library_metadata": {
+        "tags_slugs": {
+            "human-rights": "theme: human rights",
+            "journalism": "theme: journalism",
+            "intermediate": "level: intermediate",
+            "easy": "level: easy",
+            "for-everyone": "for everyone",
+            "mobile": "Teléfono móvil"
+        }
     }
 }
