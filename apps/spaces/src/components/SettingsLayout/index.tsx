@@ -1,5 +1,5 @@
 import { FunctionComponent, useCallback, useState } from "react";
-import { Body1, H2, Sidebar, styled, useAdminSidebar } from '@horizontal-org/shira-ui';
+import { Body1, Body2Regular, H2, Sidebar, styled, useAdminSidebar } from '@horizontal-org/shira-ui';
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useStore } from "../../store";
@@ -20,6 +20,8 @@ import { customMenuItems } from "../../utils/customMenuItems";
 interface Props { }
 
 export const SettingsLayout: FunctionComponent<Props> = () => {
+  const appVersion = process.env.REACT_APP_VERSION;
+
   const { t } = useTranslation();
   const navigate = useNavigate();
   const {
@@ -113,6 +115,12 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
             onChangePassword={() => setIsPasswordModalOpen(true)}
             onViewPlans={() => setIsViewPlansModalOpen(true)}
           />
+
+          {appVersion && (
+            <VersionText>
+              {t('settings.version', { version: appVersion })}
+            </VersionText>
+          )}
         </MainContentWrapper>
       </MainContent>
 
@@ -185,4 +193,11 @@ const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+`;
+
+const VersionText = styled(Body2Regular)`
+  display: block;
+  margin-top: 24px;
+  text-align: center;
+  color: ${props => props.theme.colors.dark.darkGrey};
 `;
