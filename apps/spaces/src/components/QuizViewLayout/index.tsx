@@ -73,7 +73,6 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     quizzes: state.quizzes,
     space: state.space,
   }), shallow)
-  console.log("🚀 ~ QuizViewLayout ~ quizzes:", quizzes)
 
   const { isCollapsed, handleCollapse, menuItems } = useAdminSidebar(
     navigate,
@@ -89,7 +88,6 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   const [showDuplicateTooltip, setShowDuplicateTooltip] = useState(false)
 
   const [quiz, handleQuiz] = useState<Quiz | null>(null)
-  console.log("🚀 ~ QuizViewLayout ~ quiz:", quiz)
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
