@@ -24,16 +24,19 @@ export const customMenuItems: MenuItem[] = [
   {
     icon: <IoMdHelpCircle id="support-icon" size={24} color="currentColor" />,
     label: 'sidebar.support',
-    path: '/support'
+    path: '/support',
+    position: 'bottom',
   },
   {
     icon: <IoMdSettings id="settings-icon" size={24} color="currentColor" />,
     label: 'sidebar.settings',
-    path: '/settings'
+    path: '/settings',
+    position: 'bottom',
   },
   {
     icon: <FiLogOut id="logout-icon" size={24} color="currentColor" />,
     label: 'sidebar.logout',
-    path: '/logout'
+    path: '/logout',
+    position: 'bottom',
   }
 ];
