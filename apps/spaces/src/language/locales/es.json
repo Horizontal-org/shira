@@ -1031,7 +1031,7 @@
     },
     "sidebar": {
         "quizzes": "Cuestionarios",
-        "settings": "Configuración",
+        "settings": "Ajustes",
         "learners": "Estudiantes",
         "support": "Soporte prioritario",
         "logout": "Cerrar sesión",
@@ -1130,19 +1130,19 @@
     },
     "languages": {
         "ar": "Arabic",
-        "es": "Spanish",
-        "cn": "Chinese (Simplified)",
-        "ru": "Russian",
-        "fr": "French",
-        "en": "English"
+        "es": "Español",
+        "cn": "Chino simplificado",
+        "ru": "Ruso",
+        "fr": "Francés",
+        "en": "Inglés"
     },
     "library_metadata": {
         "tags_slugs": {
-            "human-rights": "theme: human rights",
-            "journalism": "theme: journalism",
-            "intermediate": "level: intermediate",
-            "easy": "level: easy",
-            "for-everyone": "for everyone",
+            "human-rights": "tema: derechos humanos",
+            "journalism": "tema: periodismo",
+            "intermediate": "nivel: intermedio",
+            "easy": "nivel: fácil",
+            "for-everyone": "para todas las personas",
             "mobile": "Teléfono móvil"
         }
     }
