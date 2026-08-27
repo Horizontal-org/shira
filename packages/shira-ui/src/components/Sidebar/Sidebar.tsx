@@ -5,12 +5,15 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 const bottomMenuLabels = ['Settings', 'Support', 'Log out'];
 
+interface SidebarMenuItem {
+  icon: React.ReactNode;
+  label: string;
+  onClick: () => void;
+  position?: 'bottom';
+}
+
 export interface SidebarProps {
-  menuItems: Array<{
-    icon: React.ReactNode;
-    label: string;
-    onClick: () => void;
-  }>;
+  menuItems: SidebarMenuItem[];
   selectedItemLabel?: string;
   onClose?: () => void;
   onCollapse: (collapsed: boolean) => void;
@@ -19,11 +22,11 @@ export interface SidebarProps {
 export const Sidebar: React.FC<SidebarProps> = ({ menuItems, onClose, onCollapse, selectedItemLabel }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
-  const topMenuItems = menuItems
-    .filter(item => !bottomMenuLabels.includes(item.label));
+  const isBottomMenuItem = (item: SidebarMenuItem) =>
+    item.position === 'bottom' || bottomMenuLabels.includes(item.label);
 
-  const bottomMenuItems = bottomMenuLabels
-    .map(label => menuItems.find(item => item.label === label));
+  const topMenuItems = menuItems.filter(item => !isBottomMenuItem(item));
+  const bottomMenuItems = menuItems.filter(isBottomMenuItem);
 
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
