@@ -190,7 +190,7 @@ const ActionsRow = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-left: auto;
+  margin-inline-start: auto;
 
   @media (max-width: ${(props) => props.theme.breakpoints.md}) {
     width: 100%;

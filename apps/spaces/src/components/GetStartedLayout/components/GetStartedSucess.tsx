@@ -23,7 +23,7 @@ export const GetStartedSuccess: FunctionComponent<Props> = () => {
 const StyledForm = styled(Form)`
   position: relative;
   z-index:1;
-  text-align: left;
+  text-align: start;
   margin-bottom: 32px;
   gap: 16px;
 `;

@@ -41,5 +41,5 @@ const FormContent = styled.div`
   display: flex;
   flex-direction: column;
 
-  text-align: left;
+  text-align: start;
 `;

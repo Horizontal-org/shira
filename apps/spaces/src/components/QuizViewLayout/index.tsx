@@ -571,14 +571,14 @@ const Container = styled.div`
 
 const MainContent = styled.div<{ $isCollapsed: boolean }>`
   flex: 1;
-  margin-left: ${props => props.$isCollapsed ? '116px' : '264px'};
-  transition: margin-left 0.3s ease;
+  margin-inline-start: ${props => props.$isCollapsed ? '116px' : '264px'};
+  transition: margin-inline-start 0.3s ease;
   @media (max-width: ${props => props.theme.breakpoints.md}) {
-    margin-left: 80px;
+    margin-inline-start: 80px;
   }
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    margin-left: 0;
+    margin-inline-start: 0;
   }
 `;
 
@@ -643,7 +643,7 @@ const PublishToggleWrapper = styled.div<{ $showHelpCursor: boolean }>`
 const PublishToggleTooltip = styled.div`
   position: absolute;
   top: 100%;
-  left: 50%;
+  inset-inline-start: 50%;
   transform: translateX(-50%);
   margin-top: 6px;
   padding: 4px 8px;
