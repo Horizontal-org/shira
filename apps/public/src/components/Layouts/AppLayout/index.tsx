@@ -67,7 +67,7 @@ const Wrapper = styled.div<{ $isPhoneFrame: boolean }>`
 const Overlay = styled.div`
   position: absolute;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
   z-index: 3;
   height: calc(100vh - 86px);
   width: 100%;

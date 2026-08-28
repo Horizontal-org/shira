@@ -6,6 +6,6 @@ export default props => (
 
 const Wrapper = styled.div`
   position: fixed;
-  right: 0;
+  inset-inline-end: 0;
   top: 0;
 `
