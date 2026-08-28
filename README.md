@@ -130,7 +130,7 @@ passphrases.**
 | SPACES_DOMAIN            | Subdomain of COOKIE_DOMAIN for the Shira spaces app                         | required |
 | QUIZ_DOMAIN              | Subdomain of COOKIE_DOMAIN for the Shira quizes app                         | required |
 | IMAGES_DOMAIN            | Domain for the images server                                                | optional |
-| VERSION                  | Containers version                                                          | optional |
+| VERSION                  | Containers version (`alpha`, `beta`, `latest` or any [container tag][])     | optional |
 | JWT_SECRET               | Secret for authorization between apps                                       | required |
 | MYSQL_PASSWORD           | Password for the MySQL database                                             | required |
 | MYSQL_ROOT_PASSWORD      | Root password for MySQL service                                             | required |
@@ -159,6 +159,8 @@ passphrases.**
 | SELF_HOSTED              | When "true" disables payments                                               | optional |
 | ENABLE_PUBLIC_LIBRARY    | When "true" enables synchronization with the public library                 | optional |
 | TRUST_DOWNSTREAM_PROXY   | Change to "true" if you're serving Shira behind your own reverse proxy      | optional |
+
+[container tag]: https://hub.docker.com/r/horizontalorg/shira-api
 
 ### Upgrades
 
