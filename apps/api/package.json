@@ -42,6 +42,7 @@
     "@types/passport-jwt": "^4.0.1",
     "@types/passport-local": "^1.0.38",
     "@types/sanitize-html": "^2.16.0",
+    "archiver": "^7.0.1",
     "bcrypt": "6.0.0",
     "bullmq": "^5.69.1",
     "cheerio": "^1.2.0",
@@ -75,6 +76,7 @@
   "devDependencies": {
     "@nestjs/schematics": "^11.0.9",
     "@nestjs/testing": "^11.1.29",
+    "@types/archiver": "^6.0.4",
     "@types/express": "^5.0.6",
     "@types/jest": "^30.0.0",
     "@types/node": "^25.2.3",
