@@ -27,6 +27,7 @@ interface Props {
   onEditQuestion: (questionId: string) => void;
   onDuplicateQuestion: (questionId: string) => void;
   onSubmitQuestionAsTemplate: (questionId: string) => void;
+  onExportQuestion: (questionId: string) => void;
   onDeleteQuestion: (questionId: string) => void;
   onReorder: (newOrder: QuizQuestion[]) => void;
 }
@@ -37,6 +38,7 @@ export const QuestionTable: FunctionComponent<Props> = ({
   onEditQuestion,
   onDuplicateQuestion,
   onSubmitQuestionAsTemplate,
+  onExportQuestion,
   onDeleteQuestion,
   onReorder,
 }) => {
@@ -45,6 +47,7 @@ export const QuestionTable: FunctionComponent<Props> = ({
   const duplicateTooltip = t("questions_tab.action_tooltips.duplicate");
   const submitAsTemplateTooltip = t("questions_tab.action_tooltips.submit_as_template");
   const deleteTooltip = t("questions_tab.action_tooltips.delete");
+  const exportTooltip = t("questions_tab.action_tooltips.export");
 
   const rows = useMemo<QuizQuestion[]>(
     () =>
@@ -138,11 +141,13 @@ export const QuestionTable: FunctionComponent<Props> = ({
                 onEditQuestion={onEditQuestion}
                 onDuplicateQuestion={onDuplicateQuestion}
                 onSubmitQuestionAsTemplate={onSubmitQuestionAsTemplate}
+                onExportQuestion={onExportQuestion}
                 onDeleteQuestion={onDeleteQuestion}
                 editTooltip={editTooltip}
                 duplicateTooltip={duplicateTooltip}
                 submitAsTemplateTooltip={submitAsTemplateTooltip}
                 deleteTooltip={deleteTooltip}
+                exportTooltip={exportTooltip}
               />
             ))}
           </tbody>

@@ -1,5 +1,5 @@
 import { FunctionComponent, ReactElement, useEffect, useRef, useState } from "react";
-import { FiCopy, FiMoreVertical, FiTrash2, FiUpload } from "react-icons/fi";
+import { FiCopy, FiDownload, FiMoreVertical, FiTrash2, FiUpload } from "react-icons/fi";
 import { defaultTheme, EditIcon, styled } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
 
@@ -8,10 +8,12 @@ interface Props {
   duplicateLabel: string;
   submitAsTemplateLabel: string;
   deleteLabel: string;
+  exportLabel: string;
   disabled: boolean;
   onEdit: () => void;
   onDuplicate: () => void;
   onSubmitAsTemplate: () => void;
+  onExport: () => void;
   onDelete: () => void;
 }
 
@@ -20,10 +22,12 @@ export const QuestionTableActionsMenu: FunctionComponent<Props> = ({
   duplicateLabel,
   submitAsTemplateLabel,
   deleteLabel,
+  exportLabel,
   disabled,
   onEdit,
   onDuplicate,
   onSubmitAsTemplate,
+  onExport,
   onDelete,
 }) => {
   const { t } = useTranslation();
@@ -67,34 +71,43 @@ export const QuestionTableActionsMenu: FunctionComponent<Props> = ({
     text: string;
     icon?: ReactElement;
   }> = [
-    {
-      text: duplicateLabel,
-      onClick: (event) => {
-        event.stopPropagation();
-        setIsOpen(false);
-        onDuplicate();
+      {
+        text: duplicateLabel,
+        onClick: (event) => {
+          event.stopPropagation();
+          setIsOpen(false);
+          onDuplicate();
+        },
+        icon: <FiCopy color={defaultTheme.colors.dark.darkGrey} />,
       },
-      icon: <FiCopy color={defaultTheme.colors.dark.darkGrey} />,
-    },
-    {
-      text: submitAsTemplateLabel,
-      onClick: (event) => {
-        event.stopPropagation();
-        setIsOpen(false);
-        onSubmitAsTemplate();
+      {
+        text: submitAsTemplateLabel,
+        onClick: (event) => {
+          event.stopPropagation();
+          setIsOpen(false);
+          onSubmitAsTemplate();
+        },
+        icon: <FiUpload color={defaultTheme.colors.dark.darkGrey} />,
       },
-      icon: <FiUpload color={defaultTheme.colors.dark.darkGrey} />,
-    },
-    {
-      text: deleteLabel,
-      onClick: (event) => {
-        event.stopPropagation();
-        setIsOpen(false);
-        onDelete();
+      {
+        text: exportLabel,
+        onClick: (event) => {
+          event.stopPropagation();
+          setIsOpen(false);
+          onExport();
+        },
+        icon: <FiDownload color={defaultTheme.colors.dark.darkGrey} />,
       },
-      icon: <FiTrash2 color={defaultTheme.colors.dark.darkGrey} />,
-    },
-  ];
+      {
+        text: deleteLabel,
+        onClick: (event) => {
+          event.stopPropagation();
+          setIsOpen(false);
+          onDelete();
+        },
+        icon: <FiTrash2 color={defaultTheme.colors.dark.darkGrey} />,
+      },
+    ];
 
   return (
     <MenuWrapper ref={wrapperRef}>

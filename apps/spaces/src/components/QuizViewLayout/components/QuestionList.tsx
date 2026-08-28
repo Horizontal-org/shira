@@ -10,6 +10,7 @@ import { shallow } from "zustand/shallow";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { duplicateQuestion } from "../../../fetch/quiz";
+import { exportQuestion } from "../../../fetch/question";
 import { useStore } from "../../../store";
 import { usePublicLibrary } from "../../../hooks/usePublicLibrary";
 import { QuizQuestion } from "../../../store/slices/quiz";
@@ -80,6 +81,14 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
     }
   };
 
+  const handleExportQuestion = async (questionId: string) => {
+    try {
+      await exportQuestion(questionId);
+    } catch (error) {
+      toast.error(t("error_messages.export_question_fail"), { duration: 3000 });
+    }
+  };
+
   const handleTogglePublished = async (cardId: number, published: boolean) => {
     updateQuiz({
       id: cardId,
@@ -147,6 +156,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
           }
         }}
         onSubmitQuestionAsTemplate={onSubmitAsTemplate}
+        onExportQuestion={handleExportQuestion}
         onDeleteQuestion={(questionId) => {
           handleQuestionForDelete(
             quizQuestions.find((quizQuestion) => quizQuestion.question.id === questionId)?.question ?? null

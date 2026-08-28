@@ -41,7 +41,7 @@ export class SpaceExportQuestionService {
 
     const question = await this.questionRepository.findOne({
       where: { id },
-      relations: ['apps', 'images'],
+      relations: ['apps', 'images', 'questionTranslations'],
     });
 
     if (!question) {
@@ -77,23 +77,16 @@ export class SpaceExportQuestionService {
   }
 
   private async buildContent(question: Question) {
-    const $ = cheerio.load(question.content || '');
+    const $ = cheerio.load(this.resolveContent(question));
     const images = question.images ?? [];
     const assets: Asset[] = [];
     const assetFileNameByImageId = new Map<number, string>();
 
     for (const el of $('img').toArray()) {
-      const src = $(el).attr('src');
-      if (!src) continue;
+      const imageId = parseInt($(el).attr('data-image-id'), 10);
+      if (!imageId) continue;
 
-      let decodedSrc = src;
-      try {
-        decodedSrc = decodeURIComponent(src);
-      } catch {
-        decodedSrc = src;
-      }
-
-      const match = images.find((qi) => decodedSrc.includes(qi.name));
+      const match = images.find((qi) => qi.id === imageId);
       if (!match) continue;
 
       const assetFileName = await this.resolveAssetFileName(
@@ -128,6 +121,20 @@ export class SpaceExportQuestionService {
     assets.push({ fileName: assetFileName, buffer });
 
     return assetFileName;
+  }
+
+  private resolveContent(question: Question): string {
+    // Space-admin edits always write to QuestionTranslation and reset
+    // Question.content to '' (see CreateQuestionService.create), and always
+    // target language id 1 (see EditQuestionController) — so that's the
+    // translation we want. QuestionTranslation.languageId is typed as
+    // `number` but is actually an eager-loaded Language relation at runtime.
+    const translations = question.questionTranslations ?? [];
+    const defaultTranslation = translations.find(
+      (t) => (t.languageId as unknown as { id?: number })?.id === 1,
+    );
+    const translation = defaultTranslation ?? translations[0];
+    return translation?.content ?? question.content ?? '';
   }
 
   private slugify(name: string) {
