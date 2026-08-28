@@ -23,7 +23,10 @@ export const Option: FunctionComponent<Props> = ({ option, index, submit, altern
 }
 
 const Label = styled.div`
-  padding: 11px 0 8px 11px;
+  padding-top: 11px;
+  padding-inline-end: 0;
+  padding-bottom: 8px;
+  padding-inline-start: 11px;
 
   @media (max-width: ${(props: any) => props.theme.breakpoints.sm}) {
     padding-top: 16px;
@@ -32,7 +35,10 @@ const Label = styled.div`
 
 const NativeLabel = styled.p`
   font-size: 14px;
-  padding: 0 0 9px 11px;
+  padding-top: 0;
+  padding-inline-end: 0;
+  padding-bottom: 9px;
+  padding-inline-start: 11px;
   margin: 0;
 
   @media (max-width: ${(props: any) => props.theme.breakpoints.sm}) {
@@ -47,7 +53,7 @@ const Separate = styled.div`
 
 const OptionWrapper = styled.div<{ $alternativeStyling: boolean }>`
   transition: all 0.2s;
-  text-align: left;
+  text-align: start;
   &:hover {
     background: ${(props) => props.$alternativeStyling ? props.theme.colors.blue1 : '#eee'};
   }

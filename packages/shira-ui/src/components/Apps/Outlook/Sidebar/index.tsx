@@ -58,7 +58,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  margin-right: 4px;
+  margin-inline-end: 4px;
 
   @media(max-width: ${props => props.theme.breakpoints.md}) {
     display: none;

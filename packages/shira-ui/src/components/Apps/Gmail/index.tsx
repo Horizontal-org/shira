@@ -151,17 +151,23 @@ const Subject = styled.div`
   color: #1f1f1f;
   font-weight: 400;
   font-size: 1.375rem;
-  padding: 8px 0 8px 53px;
+  padding-top: 8px;
+  padding-inline-end: 0;
+  padding-bottom: 8px;
+  padding-inline-start: 53px;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    padding: 8px 0 8px 8px;
+    padding-top: 8px;
+    padding-inline-end: 0;
+    padding-bottom: 8px;
+    padding-inline-start: 8px;
     width: 100%;
   }
 
   > span {
     text-wrap: wrap;
     position: relative;
-    padding-right: 10px;
+    padding-inline-end: 10px;
   }
 `
 
@@ -183,10 +189,16 @@ const InboxLabel = styled.div`
 
 const InboxLabelText = styled.span`
   display: inline-block;
-  border-radius: 4px 0 0 4px;
+  border-start-start-radius: 4px;
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
+  border-end-start-radius: 4px;
   background: #ddd;
   color: #666;
-  padding: 0 .1666666667em 0 4px;
+  padding-top: 0;
+  padding-inline-end: .1666666667em;
+  padding-bottom: 0;
+  padding-inline-start: 4px;
   height: 18px;
 
   &:hover {
@@ -197,11 +209,17 @@ const InboxLabelText = styled.span`
 
 const InboxLabelButton = styled.span`
   display: inline-block;
-  border-radius: 0 4px 4px 0;
+  border-start-start-radius: 0;
+  border-start-end-radius: 4px;
+  border-end-end-radius: 4px;
+  border-end-start-radius: 0;
   background: #ddd;
   color: #666;
   font-size: 15px;
-  padding: 0 4px 0 .1666666667em;
+  padding-top: 0;
+  padding-inline-end: 4px;
+  padding-bottom: 0;
+  padding-inline-start: .1666666667em;
   height: 18px;
   vertical-align: bottom;
   
@@ -216,10 +234,10 @@ const InboxLabelButton = styled.span`
 `
 
 const PaddingLeft = styled.div`
-  padding-left: 53px;
+  padding-inline-start: 53px;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    padding-left: 8px;
+    padding-inline-start: 8px;
   }
 `
 

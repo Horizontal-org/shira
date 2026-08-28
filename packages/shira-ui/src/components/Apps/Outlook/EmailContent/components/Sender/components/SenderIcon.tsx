@@ -8,7 +8,7 @@ export const SenderIcon = styled.div`
   justify-content: center;
   cursor: pointer;
   border-radius: 50%;
-  margin-right: 10px;
+  margin-inline-end: 10px;
   background: #ecdfa5;
   color: #6c5700;
   font-size: 14px;
