@@ -115,13 +115,13 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
             onChangePassword={() => setIsPasswordModalOpen(true)}
             onViewPlans={() => setIsViewPlansModalOpen(true)}
           />
-
-          {appVersion && (
-            <VersionText>
-              {t('settings.version', { version: appVersion })}
-            </VersionText>
-          )}
         </MainContentWrapper>
+
+        {appVersion && (
+          <Footer>
+            <VersionText>{t('settings.version', { version: appVersion })}</VersionText>
+          </Footer>
+        )}
       </MainContent>
 
       <ChangeEmailModal
@@ -163,6 +163,8 @@ const Container = styled.div`
 
 const MainContent = styled.div<{ $isCollapsed: boolean }>`
   flex: 1;
+  display: flex;
+  flex-direction: column;
   margin-left: ${props => props.$isCollapsed ? '116px' : '264px'};
   transition: margin-left 0.3s ease;
 
@@ -176,10 +178,19 @@ const MainContent = styled.div<{ $isCollapsed: boolean }>`
 `;
 
 const MainContentWrapper = styled.div`
+  flex: 1;
   padding: 50px 70px;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     padding: 32px 20px 48px;
+  }
+`;
+
+const Footer = styled.footer`
+  padding: 24px 70px;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    padding: 16px 20px 24px;
   }
 `;
 
@@ -197,7 +208,6 @@ const TextContainer = styled.div`
 
 const VersionText = styled(Body2Regular)`
   display: block;
-  margin-top: 24px;
   text-align: center;
   color: ${props => props.theme.colors.dark.darkGrey};
 `;
