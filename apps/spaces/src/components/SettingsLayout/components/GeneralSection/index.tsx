@@ -24,47 +24,61 @@ export const GeneralSection: FunctionComponent<Props> = ({
   const navigate = useNavigate()
 
   return (
-    <SettingsCard>
-      <SettingRow>
-        <SettingDetails>
-          <Body1SemiBold>{t('settings.sections.language.title')}</Body1SemiBold>
-          <StyledBody2Regular>{t('settings.sections.language.description')}</StyledBody2Regular>
-        </SettingDetails>
+    <Cards>
+      <SettingsCard>
+        <SettingRow>
+          <SettingDetails>
+            <Body1SemiBold>{t('settings.sections.language.title')}</Body1SemiBold>
+            <StyledBody2Regular>{t('settings.sections.language.description')}</StyledBody2Regular>
+          </SettingDetails>
 
-        <LanguageSelect
-          autoselect
-          options={getLanguageOptions(t)}
-          alternativeStyling={true}
-          onChange={(value) => {
-            i18n.changeLanguage(value)
-            localStorage.setItem('lang', value)
-          }}
-        />
-      </SettingRow>
+          <LanguageSelect
+            autoselect
+            options={getLanguageOptions(t)}
+            alternativeStyling={true}
+            onChange={(value) => {
+              i18n.changeLanguage(value)
+              localStorage.setItem('lang', value)
+            }}
+          />
+        </SettingRow>
+      </SettingsCard>
 
-      <SettingRow>
-        <SettingDetails>
-          <Body1SemiBold>{t('settings.sections.results.title')}</Body1SemiBold>
-          <StyledBody2Regular>
-            <Trans
-              i18nKey="settings.sections.results.description"
-              components={{
-                learnMore: <Link2 onClick={() => navigate("https://www.shira.app/results/")} />,
-              }}
-            />
-          </StyledBody2Regular>
-        </SettingDetails>
+      <SettingsCard>
+        <SettingRow>
+          <SettingDetails>
+            <Body1SemiBold>{t('settings.sections.results.title')}</Body1SemiBold>
+            <StyledBody2Regular>
+              <Trans
+                i18nKey="settings.sections.results.description"
+                components={{
+                  learnMore: <Link2
+                    href="https://www.shira.app/results/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  />
+                }}
+              />
+            </StyledBody2Regular>
+          </SettingDetails>
 
-        <Toggle
-          isEnabled={hasResultsEnabled}
-          onToggle={onResultsEnabledChange}
-          disabled={isUpdatingResults}
-        />
-      </SettingRow>
-    </SettingsCard>
+          <Toggle
+            isEnabled={hasResultsEnabled}
+            onToggle={onResultsEnabledChange}
+            disabled={isUpdatingResults}
+          />
+        </SettingRow>
+      </SettingsCard>
+    </Cards>
   )
 }
 
+const Cards = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+`;
+
 const StyledBody2Regular = styled(Body2Regular)`
   color: ${props => props.theme.colors.dark.darkGrey};
-`
+`;
