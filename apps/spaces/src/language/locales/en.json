@@ -596,8 +596,8 @@
                 "description": "Choose the language for your Shira space. This won’t change the language of quizzes or questions you share with learners, only the space interface."
             },
             "results": {
-                "title": "Enable Results",
-                "description": "Shira automatically tracks quiz responses to provide analytics and compliance reporting. You can disable this feature to minimize the data we collect about your learners."
+                "title": "Enable results",
+                "description": "Shira automatically tracks quiz responses to provide analytics and compliance reporting. You can disable this feature to minimize the data we collect about your Learners. <learnMore>Learn More</learnMore>"
             }
         },
         "checkout_success": {

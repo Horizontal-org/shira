@@ -9,6 +9,7 @@ export interface AuthSlice {
   logout: (navigate?: NavigateFunction) => void
   me: () => void
   updateUserEmail: (email: string) => void
+  updateResultsEnabled: (hasResultsEnabled: boolean) => void
   user: {
     email?: string;
     createdAt?: string;
@@ -20,6 +21,7 @@ export interface AuthSlice {
   space: {
     name: string;
     publicId: string;
+    hasResultsEnabled?: boolean;
   };
   subscription: {
     status: string;
@@ -95,6 +97,15 @@ export const createAuthSlice: StateCreator<
         email,
       },
     }))
+  },
+
+  updateResultsEnabled: (hasResultsEnabled: boolean) => {
+    set((state) => ({
+      space: {
+        ...state.space!,
+        hasResultsEnabled,
+      },
+    }));
   },
 
   me: async () => {
