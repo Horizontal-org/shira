@@ -39,6 +39,7 @@ export const AppLayout: FunctionComponent<Props> = ({
       <MessagingApps
         content={content}
         name={resolvedAppName}
+        images={images}
         explanations={explanations}
         explanationNumber={explanationNumber}
         showExplanations={showExplanations}
