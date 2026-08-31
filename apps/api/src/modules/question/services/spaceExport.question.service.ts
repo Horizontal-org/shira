@@ -11,7 +11,7 @@ import { QuizQuestion } from 'src/modules/quiz/domain/quizzes_questions.entity';
 import { IImageService } from 'src/modules/image/interfaces/services/image.service.interface';
 import { TYPES as TYPES_IMAGE } from 'src/modules/image/interfaces';
 
-interface Asset {
+export interface Asset {
   fileName: string;
   buffer: Buffer;
 }
@@ -41,20 +41,20 @@ export class SpaceExportQuestionService {
 
     const question = await this.questionRepository.findOne({
       where: { id },
-      relations: ['apps', 'images', 'questionTranslations'],
+      relations: [
+        'apps',
+        'images',
+        'questionTranslations',
+        'explanations',
+        'explanations.explanationTranslations',
+      ],
     });
 
     if (!question) {
       throw new NotFoundException('Question not found');
     }
 
-    const metadata = {
-      name: question.name,
-      app: question.apps?.[0]?.name ?? null,
-      isPhishing: !!question.isPhising,
-    };
-
-    const { contentHtml, assets } = await this.buildContent(question);
+    const { metadata, contentHtml, assets } = await this.buildQuestionPackage(question);
 
     const fileName = this.slugify(question.name);
 
@@ -76,65 +76,66 @@ export class SpaceExportQuestionService {
     await archive.finalize();
   }
 
-  private async buildContent(question: Question) {
-    const $ = cheerio.load(this.resolveContent(question));
-    const images = question.images ?? [];
-    const assets: Asset[] = [];
-    const assetFileNameByImageId = new Map<number, string>();
+  async buildQuestionPackage(question: Question) {
+    const { contentHtml, explanations, assets } = await this.buildContent(question);
 
-    for (const el of $('img').toArray()) {
-      const imageId = parseInt($(el).attr('data-image-id'), 10);
-      if (!imageId) continue;
+    const metadata = {
+      name: question.name,
+      app: question.apps?.[0]?.name ?? null,
+      isPhishing: !!question.isPhising,
+      explanations,
+    };
 
-      const match = images.find((qi) => qi.id === imageId);
-      if (!match) continue;
-
-      const assetFileName = await this.resolveAssetFileName(
-        match,
-        assetFileNameByImageId,
-        assets,
-      );
-      $(el).attr('src', `assets/${assetFileName}`);
-    }
-
-    const contentHtml = $('body').html() ?? '';
-    return { contentHtml, assets };
+    return { metadata, contentHtml, assets };
   }
 
-  private async resolveAssetFileName(
-    match: QuestionImage,
-    assetFileNameByImageId: Map<number, string>,
-    assets: Asset[],
-  ) {
-    const cached = assetFileNameByImageId.get(match.id);
-    if (cached) return cached;
+  private async buildContent(question: Question) {
+    const assets = await Promise.all(
+      (question.images ?? []).map((image) => this.resolveAsset(image)),
+    );
+    const assetFileNameById = new Map(
+      assets.map((asset) => [asset.imageId, asset.fileName]),
+    );
 
-    const buffer = await this.imageService.download(match.relativePath);
-    let ext = path.extname(match.name);
+    const contentHtml = this.rewriteImageSrcs(this.resolveContent(question), assetFileNameById);
+    const explanations = this.resolveExplanations(question);
+
+    return { contentHtml, explanations, assets };
+  }
+
+  private rewriteImageSrcs(html: string, assetFileNameById: Map<number, string>): string {
+    const $ = cheerio.load(html);
+    for (const el of $('img').toArray()) {
+      const imageId = parseInt($(el).attr('data-image-id'), 10);
+      const assetFileName = assetFileNameById.get(imageId);
+      if (assetFileName) {
+        $(el).attr('src', `assets/${assetFileName}`);
+      }
+    }
+    return $('body').html() ?? '';
+  }
+
+  private resolveExplanations(question: Question) {
+    return (question.explanations ?? []).map((explanation) => ({
+      position: explanation.position,
+      index: explanation.index,
+      text: explanation.explanationTranslations?.[0]?.content ?? '',
+    }));
+  }
+
+  private async resolveAsset(image: QuestionImage): Promise<Asset & { imageId: number }> {
+    const buffer = await this.imageService.download(image.relativePath);
+    let ext = path.extname(image.name);
     if (!ext) {
       const type = await fileTypeFromBuffer(buffer);
       ext = type ? `.${type.ext}` : '';
     }
 
-    const assetFileName = `${match.id}${ext}`;
-    assetFileNameByImageId.set(match.id, assetFileName);
-    assets.push({ fileName: assetFileName, buffer });
-
-    return assetFileName;
+    return { imageId: image.id, fileName: `${image.id}${ext}`, buffer };
   }
 
   private resolveContent(question: Question): string {
-    // Space-admin edits always write to QuestionTranslation and reset
-    // Question.content to '' (see CreateQuestionService.create), and always
-    // target language id 1 (see EditQuestionController) — so that's the
-    // translation we want. QuestionTranslation.languageId is typed as
-    // `number` but is actually an eager-loaded Language relation at runtime.
-    const translations = question.questionTranslations ?? [];
-    const defaultTranslation = translations.find(
-      (t) => (t.languageId as unknown as { id?: number })?.id === 1,
-    );
-    const translation = defaultTranslation ?? translations[0];
-    return translation?.content ?? question.content ?? '';
+    return question.questionTranslations?.[0]?.content ?? '';
   }
 
   private slugify(name: string) {

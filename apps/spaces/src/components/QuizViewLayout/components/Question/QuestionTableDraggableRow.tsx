@@ -3,7 +3,7 @@ import { flexRender, Row } from "@tanstack/react-table";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { defaultTheme, Td as SharedTd, Tr as SharedTr, styled } from "@horizontal-org/shira-ui";
-import { QuizQuestion } from "../../../store/slices/quiz";
+import { QuizQuestion } from "../../../../store/slices/quiz";
 import { QuestionTableActionsMenu } from "./QuestionTableActionsMenu";
 
 interface Props {

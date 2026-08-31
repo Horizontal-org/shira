@@ -48,5 +48,6 @@ import { QuizQuestion } from '../quiz/domain/quizzes_questions.entity';
     GlobalParserQuestionService,
     SpaceExportQuestionService,
   ],
+  exports: [SpaceExportQuestionService],
 })
 export class QuestionModule {}

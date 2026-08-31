@@ -9,16 +9,13 @@ import {
 import { shallow } from "zustand/shallow";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
-import { duplicateQuestion } from "../../../fetch/quiz";
-import { exportQuestion } from "../../../fetch/question";
-import { useStore } from "../../../store";
-import { usePublicLibrary } from "../../../hooks/usePublicLibrary";
-import { QuizQuestion } from "../../../store/slices/quiz";
-import { DeleteModal } from "../../modals/DeleteModal";
-import { QuizHasResultsModal } from "../../modals/QuizHasResultsModal";
-import { UnpublishQuizOnDeleteModal } from "../../modals/UnpublishQuizOnDeleteModal";
+import { duplicateQuestion } from "../../../../fetch/quiz";
+import { useStore } from "../../../../store";
+import { usePublicLibrary } from "../../../../hooks/usePublicLibrary";
+import { QuizQuestion } from "../../../../store/slices/quiz";
 import { QuestionEmptyState } from "./QuestionEmptyState";
 import { QuestionTable } from "./QuestionTable";
+import { QuestionActionModals } from "./QuestionActionModals";
 
 interface QuestionsListProps {
   quizId: number;
@@ -34,7 +31,10 @@ interface QuestionsListProps {
   hasResults: boolean
 }
 
-type ConfirmAction = "add" | "edit" | "duplicate";
+export interface ConfirmModalInfo {
+  confirmType: "add" | "edit" | "duplicate";
+  confirmId?: string;
+}
 
 export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
   quizId,
@@ -53,10 +53,8 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
   const { isPublicLibraryEnabled } = usePublicLibrary();
 
   const [questionForDelete, handleQuestionForDelete] = useState<QuizQuestion["question"] | null>(null);
-  const [confirmBeforeContinueModal, handleConfirmBeforeContinueModal] = useState<{
-    confirmType: ConfirmAction;
-    confirmId?: string;
-  } | null>(null);
+  const [confirmBeforeContinueModal, handleConfirmBeforeContinueModal] = useState<ConfirmModalInfo | null>(null);
+  const [isExportModalOpen, setExportModalOpen] = useState<string | null>(null);
   const [duplicatingQuestionId, setDuplicatingQuestionId] = useState<string | null>(null);
 
   const { updateQuiz } = useStore((state) => ({
@@ -78,14 +76,6 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
       toast.error(t("error_messages.duplicate_question_fail"), { duration: 3000 });
     } finally {
       setDuplicatingQuestionId(null);
-    }
-  };
-
-  const handleExportQuestion = async (questionId: string) => {
-    try {
-      await exportQuestion(questionId);
-    } catch (error) {
-      toast.error(t("error_messages.export_question_fail"), { duration: 3000 });
     }
   };
 
@@ -156,7 +146,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
           }
         }}
         onSubmitQuestionAsTemplate={onSubmitAsTemplate}
-        onExportQuestion={handleExportQuestion}
+        onExportQuestion={(questionId) => { setExportModalOpen(questionId); }}
         onDeleteQuestion={(questionId) => {
           handleQuestionForDelete(
             quizQuestions.find((quizQuestion) => quizQuestion.question.id === questionId)?.question ?? null
@@ -165,63 +155,14 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
         onReorder={onReorder}
       />
 
-      {showUnpublishOnDeleteModal ? (
-        <UnpublishQuizOnDeleteModal
-          questionName={questionForDelete.name}
-          setIsModalOpen={() => {
-            handleQuestionForDelete(null);
-          }}
-          onConfirm={() => {
-            if (questionForDelete) {
-              handleQuestionForDelete(null);
-              onDelete(questionForDelete.id);
-              handleTogglePublished(quizId, false);
-            }
-          }}
-          onCancel={() => {
-            handleQuestionForDelete(null);
-          }}
-          isModalOpen={isDeletingLastQuestion}
-        />
-      ) : (
-        <DeleteModal
-          title={t("modals.delete_question.title", { question_name: questionForDelete?.name })}
-          content={(
-            <div>
-              {t("modals.delete_question.message")}
-              <br />
-              <br />
-              {hasResults && (
-                <WarningLine>
-                  <WarningNote>{t("modals.delete_question.note")}</WarningNote>
-                  {t("modals.delete_question.warning")}
-                </WarningLine>
-              )}
-            </div>
-          )}
-          setIsModalOpen={() => {
-            handleQuestionForDelete(null);
-          }}
-          onDelete={() => {
-            if (questionForDelete) {
-              handleQuestionForDelete(null);
-              onDelete(questionForDelete.id);
-            }
-          }}
-          onCancel={() => {
-            handleQuestionForDelete(null);
-          }}
-          isModalOpen={!!questionForDelete}
-        />
-      )}
+      <QuestionActionModals
+        quizId={quizId}
 
-      <QuizHasResultsModal
-        title={t("modals.edit_question_confirmation.title")}
-        content={<div>{t("modals.edit_question_confirmation.message")}</div>}
-        setIsModalOpen={() => {
-          handleConfirmBeforeContinueModal(null);
-        }}
-        onContinue={() => {
+        hasResults={hasResults}
+        setResultsModalOpen={() => { handleConfirmBeforeContinueModal(null) }}
+        isResultsModalOpen={!!confirmBeforeContinueModal}
+        onResultsModalCancel={() => { handleConfirmBeforeContinueModal(null) }}
+        onResulsModalContinue={() => {
           if (confirmBeforeContinueModal?.confirmType === "add") {
             onAdd();
           } else if (confirmBeforeContinueModal?.confirmType === "edit" && confirmBeforeContinueModal.confirmId) {
@@ -230,10 +171,15 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
             handleDuplicateQuestion(confirmBeforeContinueModal.confirmId);
           }
         }}
-        onCancel={() => {
-          handleConfirmBeforeContinueModal(null);
-        }}
-        isModalOpen={!!confirmBeforeContinueModal}
+
+        questionForDelete={questionForDelete}
+        handleQuestionForDelete={handleQuestionForDelete}
+        onDelete={onDelete}
+        handleTogglePublished={handleTogglePublished}
+        showUnpublishOnDeleteModal={showUnpublishOnDeleteModal}
+
+        isExportModalOpen={isExportModalOpen}
+        setExportModalOpen={() => { setExportModalOpen(null) }}
       />
     </div>
   );
@@ -245,15 +191,6 @@ const Header = styled.div`
   flex-wrap: wrap;
   margin-bottom: 16px;
   gap: 10px;
-`;
-
-const WarningNote = styled.span`
-  color: ${(props) => props.theme.colors.error7};
-  font-weight: 500;
-`;
-
-const WarningLine = styled.span`
-  display: inline;
 `;
 
 export default QuestionsList;

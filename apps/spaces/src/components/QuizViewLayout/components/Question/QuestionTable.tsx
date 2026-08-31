@@ -17,7 +17,7 @@ import {
 } from "@dnd-kit/sortable";
 import { StyledTable, TableFooter, TableHeader, THead, Th } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
-import { QuizQuestion } from "../../../store/slices/quiz";
+import { QuizQuestion } from "../../../../store/slices/quiz";
 import { useQuestionTableColumns } from "./QuestionTableColumns";
 import { QuestionTableDraggableRow } from "./QuestionTableDraggableRow";
 

@@ -33,50 +33,27 @@ export interface CustomElements {
   explanationPosition: string | null
 }
 
-export const fetchQuestions = async() => {
+export const fetchQuestions = async () => {
   try {
-    const res = await axios.get<Question[]>(`${process.env.REACT_APP_API_URL}/question`) 
+    const res = await axios.get<Question[]>(`${process.env.REACT_APP_API_URL}/question`)
     return res.data
   } catch (err) {
     console.log("🚀 ~ file: question.ts ~ line 20 ~ submit ~ err", err)
   }
 }
 
-export const fetchQuestion = async(id: string) => {
+export const fetchQuestion = async (id: string) => {
   try {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/question/${id}`) 
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/question/${id}`)
     return res.data
-  } catch(err) {
+  } catch (err) {
     console.log("🚀 ~ file: question.ts ~ line 37 ~ submit ~ err", err)
   }
 }
 
-export const exportQuestion = async(id: string) => {
+export const deleteQuestion = async (id) => {
   try {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/question/${id}/export`, {
-      responseType: 'blob'
-    })
-
-    const disposition = res.headers['content-disposition'] as string | undefined
-    const filename = disposition?.match(/filename="?([^"]+)"?/)?.[1] || `question-${id}.zip`
-
-    const url = window.URL.createObjectURL(new Blob([res.data]))
-    const link = document.createElement('a')
-    link.href = url
-    link.download = filename
-    document.body.appendChild(link)
-    link.click()
-    link.remove()
-    window.URL.revokeObjectURL(url)
-  } catch (err) {
-    console.log("🚀 ~ exportQuestion ~ err:", err)
-    throw new Error('Failed to export question')
-  }
-}
-
-export const deleteQuestion = async(id) => {
-  try {
-    const res = await axios.delete(`${process.env.REACT_APP_API_URL}/question/${id}`) 
+    const res = await axios.delete(`${process.env.REACT_APP_API_URL}/question/${id}`)
     return res.data
   } catch (err) {
     console.log("🚀 ~ file: question.ts ~ line 20 ~ submit ~ err", err)
@@ -85,11 +62,11 @@ export const deleteQuestion = async(id) => {
 
 const parseRequest = (question, explanations, quizId) => {
   // let typeHtml = getHtmlByType(question.app.type, question.content)
-  
+
   // const requiredHTML = Object.keys(requiredContent).reduce((prev, current) => {
   //   return prev + requiredContent[current]
   // }, `<div id='required-content'>`) + '</div>'
-  
+
   // const optionalHTML = Object.keys(optionalContent).reduce((prev, current) => {
   //   return prev + optionalContent[current]
   // }, `<div id='optional-content'>`) + '</div>'
@@ -118,7 +95,7 @@ const parseRequest = (question, explanations, quizId) => {
         text: e.text
       }
     })
-  } 
+  }
 }
 
 export enum QuestionCRUDFeedback {
@@ -130,15 +107,15 @@ export enum QuestionCRUDFeedback {
 export const useQuestionCRUD = () => {
 
   const [actionFeedback, handleActionFeedback] = useState(null);
-  
+
   //POST QUESTION
   const submit = async (quizId: string, question: ActiveQuestion) => {
     handleActionFeedback(QuestionCRUDFeedback.processing)
-    
+
     const {
       explanations,
     } = useStore.getState()
- 
+
     const payload = parseRequest(question, explanations, quizId)
 
     try {
@@ -180,7 +157,7 @@ export const useQuestionCRUD = () => {
     const {
       explanations,
     } = useStore.getState()
- 
+
     let payload = parseRequest(question, explanations, quizId)
     payload['questionId'] = parseInt(questionId)
 
