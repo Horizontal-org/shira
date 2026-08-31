@@ -1,6 +1,5 @@
 import { FunctionComponent } from "react"
 import { Body2Regular, Body1SemiBold, styled, Toggle, Link2 } from "@horizontal-org/shira-ui"
-import { useNavigate } from "react-router-dom"
 import { useTranslation, Trans } from "react-i18next"
 import { LanguageSelect } from '@horizontal-org/shira-ui'
 import { getLanguageOptions } from "../../../../language/constants"
@@ -21,7 +20,6 @@ export const GeneralSection: FunctionComponent<Props> = ({
   onResultsEnabledChange,
 }) => {
   const { t } = useTranslation()
-  const navigate = useNavigate()
 
   return (
     <Cards>

@@ -23,24 +23,6 @@ export const Results: FunctionComponent<ResultsProps> = ({
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  if (!hasResultsEnabled) {
-    return (
-      <ResultsDisabledState>
-        <SettingsFishIcon />
-        <ResultsDisabledContent>
-          <Body1>{t('results_tab.disabled.message')}</Body1>
-          <Button
-            leftIcon={<IoMdSettings size={20} />}
-            text={t('results_tab.disabled.go_to_settings')}
-            type="primary"
-            color={defaultTheme.colors.green7}
-            onClick={() => navigate('/settings')}
-          />
-        </ResultsDisabledContent>
-      </ResultsDisabledState>
-    );
-  }
-
   const getCompletedQuizzesData = () => {
     if (loading) return { value: '...', description: t('loading_messages.loading') };
     if (!resultsData) return { value: '-', description: t('error_messages.results_load_failed') };
@@ -73,6 +55,24 @@ export const Results: FunctionComponent<ResultsProps> = ({
 
   const completedQuizzesData = getCompletedQuizzesData();
   const averageScoreData = getAverageScoreData();
+
+  if (!hasResultsEnabled) {
+    return (
+      <ResultsDisabledState>
+        <SettingsFishIcon />
+        <ResultsDisabledContent>
+          <Body1>{t('results_tab.disabled.message')}</Body1>
+          <Button
+            leftIcon={<IoMdSettings size={20} />}
+            text={t('results_tab.disabled.go_to_settings')}
+            type="primary"
+            color={defaultTheme.colors.green7}
+            onClick={() => navigate('/settings')}
+          />
+        </ResultsDisabledContent>
+      </ResultsDisabledState>
+    );
+  }
 
   return (
     <div>
