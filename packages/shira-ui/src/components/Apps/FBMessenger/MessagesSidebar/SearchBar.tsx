@@ -26,7 +26,7 @@ const IconWrapper = styled.div`
   border-radius: 50%;
 
   background: rgba(60,64,67,.05);
-  margin-left: 16px;
+  margin-inline-start: 16px;
 
   &:hover {
     background: rgba(60,64,67,.12);
@@ -63,7 +63,7 @@ const Wrapper = styled.div`
 `
 
 const SearchIconWrapper = styled(IconWrapper)`
-  margin-left: 0;
+  margin-inline-start: 0;
   background: transparent;
 
   &:hover {

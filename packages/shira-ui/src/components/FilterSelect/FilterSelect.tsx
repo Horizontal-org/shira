@@ -136,6 +136,8 @@ export const FilterSelect = ({
           $maxVisibleOptions={5}
           role="listbox"
           id={listboxId}
+          // position.left comes from useFloatingSelect's getBoundingClientRect(), which is
+          // always a physical viewport pixel value — kept as "left" intentionally.
           style={{
             top: `${position.top}px`,
             left: `${position.left}px`,
@@ -300,7 +302,7 @@ const Option = styled.button<{ $isSelected: boolean }>`
     return 'transparent';
   }};
   color: ${props => props.theme.colors.dark.darkGrey};
-  text-align: left;
+  text-align: start;
   display: flex;
   align-items: center;
   gap: 10px;

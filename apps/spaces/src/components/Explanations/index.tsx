@@ -189,7 +189,7 @@ const Wrapper = styled.div`
   overflow-y: scroll;
   height: 98vh;
   box-sizing: border-box;
-  margin-left: 8px;
+  margin-inline-start: 8px;
   padding: 32px;
   border: 2px solid ${props => props.theme.colors.light.white};
   border-radius: 16px;

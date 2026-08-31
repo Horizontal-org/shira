@@ -62,4 +62,16 @@ i18n
     },
   });
 
+// RTL languages mirror the whole site (layout direction) automatically as soon
+// as they're selected, no separate toggle needed.
+const RTL_LANGUAGES = ['ar', 'fa'];
+
+const syncDocumentDirection = (lng: string) => {
+  document.documentElement.dir = RTL_LANGUAGES.includes(lng) ? 'rtl' : 'ltr';
+  document.documentElement.lang = lng;
+};
+
+i18n.on('languageChanged', syncDocumentDirection);
+syncDocumentDirection(i18n.language);
+
 export default i18n;

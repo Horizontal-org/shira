@@ -89,7 +89,7 @@ const MobileRightNavbar = styled.div`
   cursor: pointer;
 
   > span {
-    padding-right: 10px;
+    padding-inline-end: 10px;
   }
 
   > svg {

@@ -107,8 +107,8 @@ const Body = styled.div`
 const MainBody = styled.div`
   width: 100%;
   box-sizing: border-box;
-  padding-right: 18px;
-  padding-left: 8px;
+  padding-inline-end: 18px;
+  padding-inline-start: 8px;
   
   @media(max-width: ${props => props.theme.breakpoints.xs}) {
     padding: 0;
@@ -121,7 +121,7 @@ const ContentBody = styled.div`
 
 const RightContentBody = styled.div`
   width: 100%;
-  padding-left: 30px;
+  padding-inline-start: 30px;
 
   @media(max-width: ${props => props.theme.breakpoints.sm}) {
     padding: 0;

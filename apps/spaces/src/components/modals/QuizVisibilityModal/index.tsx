@@ -137,7 +137,7 @@ export const QuizVisibilityModal: FunctionComponent<Props> = ({
 const OptionLabelContent = styled.div`
   display: flex;
   flex-direction: column;
-  padding-left: 4px;
+  padding-inline-start: 4px;
 `;
 
 const OptionTitle = styled(Body1SemiBold)`
@@ -159,5 +159,5 @@ const PrivateIconWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-right: 10px;
+  padding-inline-end: 10px;
 `

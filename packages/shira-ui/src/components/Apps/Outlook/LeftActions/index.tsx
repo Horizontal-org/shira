@@ -85,7 +85,7 @@ export const LeftActions:FunctionComponent<Props> = ({ receiverEmail }) => {
 }
 
 const Wrapper = styled.div`  
-  margin-left: 4px;
+  margin-inline-start: 4px;
   margin-top: 8px;
   box-sizing: border-box;
   width: 200px;
