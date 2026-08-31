@@ -1,12 +1,7 @@
 import { Body1, Button, CloseButton, defaultTheme, styled } from "@horizontal-org/shira-ui";
 import { FunctionComponent, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { AppLayout } from "../../QuestionPreview/AppLayout";
-import {
-  isMessagingNotPhoneApp,
-  isMessagingPhoneApp,
-  normalizePreviewAppName,
-} from "../../../utils/appNames";
+import { QuestionPreviewFrame } from "../../previewComponents/QuestionPreviewFrame";
 import {
   ExplanationPreviewControls,
   useExplanationPreviewControls,
@@ -21,6 +16,7 @@ type PreviewQuestion = {
     position: number | string;
     text: string;
   }[];
+  images?: { id: number; name: string; url: string }[];
 };
 
 type Props = {
@@ -103,20 +99,15 @@ export const PreviewQuestionScreen: FunctionComponent<Props> = ({
         {details}
         <Canvas>
           {showExplanations && <Overlay />}
-          <AppFrame
+          <QuestionPreviewFrame
             key={`${question.questionId}-${question.appName}`}
-            $isFullWidth={isMessagingNotPhoneApp(question.appName)}
-            $isPhoneFrame={isMessagingPhoneApp(question.appName)}
-            $hasWhiteBackground={normalizePreviewAppName(question.appName) === "Messenger"}
-          >
-            <AppLayout
-              appName={question.appName}
-              content={question.content}
-              showExplanations={showExplanations}
-              explanations={explanations}
-              explanationNumber={activeExplanationIndex}
-            />
-          </AppFrame>
+            appName={question.appName}
+            content={question.content}
+            images={question.images}
+            showExplanations={showExplanations}
+            explanations={explanations}
+            explanationNumber={activeExplanationIndex}
+          />
         </Canvas>
       </CanvasWrapper>
 
@@ -211,22 +202,6 @@ const Canvas = styled.div`
   justify-content: center;
   padding: 24px;
   background: ${defaultTheme.colors.light.paleGreen};
-`;
-
-const AppFrame = styled.div<{
-  $isFullWidth: boolean;
-  $isPhoneFrame: boolean;
-  $hasWhiteBackground: boolean;
-}>`
-  position: relative;
-  width: ${(props) => (props.$isFullWidth ? "100%" : "fit-content")};
-  max-width: 100%;
-  height: ${(props) => (props.$isPhoneFrame ? "80vh" : "68vh")};
-  min-height: 620px;
-  max-height: ${(props) => (props.$isPhoneFrame ? "none" : "780px")};
-  background: ${(props) => (
-    props.$hasWhiteBackground ? defaultTheme.colors.light.white : "transparent"
-  )};
 `;
 
 const Overlay = styled.div`
