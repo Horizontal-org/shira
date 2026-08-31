@@ -420,6 +420,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 hasQuestions={hasQuestions}
                 resultsData={resultsData}
                 resultsLoading={resultsLoading}
+                hasResultsEnabled={space?.hasResultsEnabled !== false}
                 hasResults={hasResults}
                 onEdit={(questionId) => { navigate(`/quiz/${id}/question/${questionId}`) }}
                 onPublish={() => handleTogglePublished(quiz.id, true)}
