@@ -54,7 +54,7 @@ const Wrapper = styled.div`
 
 const LogoWrapper = styled.div`
   padding: 0 24px;
-  border-right: 1px solid ${props => props.theme.colors.dark.mediumGrey};
+  border-inline-end: 1px solid ${props => props.theme.colors.dark.mediumGrey};
 `
 
 const StyledCloseButton = styled(CloseButton)`
@@ -70,5 +70,5 @@ const Right = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-  padding-right: 24px;
+  padding-inline-end: 24px;
 `

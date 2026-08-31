@@ -143,7 +143,7 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
           disabled={!canSubmit || isSubmitting}
           id={`submit-${submission.resourceType}-template-button`}
           onClick={handleSubmit}
-          rightIcon={<FiChevronRight size={16} />}
+          rightIcon={<FiChevronRight data-mirror-rtl size={16} />}
           color={defaultTheme.colors.green7}
           text={t(`${translationKey}.submit`)}
           type="primary"
@@ -267,7 +267,7 @@ const Page = styled.div`
 
 const Header = styled.header`
   height: 72px;
-  padding-right: 24px;
+  padding-inline-end: 24px;
   background: ${defaultTheme.colors.light.white};
   display: flex;
   align-items: center;
@@ -289,7 +289,7 @@ const HeaderLeft = styled.div`
 
 const LogoFrame = styled.div`
   padding: 0 24px;
-  border-right: 1px solid ${props => props.theme.colors.dark.mediumGrey};
+  border-inline-end: 1px solid ${props => props.theme.colors.dark.mediumGrey};
 `;
 
 const Content = styled.main`

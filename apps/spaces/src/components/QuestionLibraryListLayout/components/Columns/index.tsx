@@ -221,7 +221,7 @@ const AppCell = styled(Body3)`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding-left: 4px;
+  padding-inline-start: 4px;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;

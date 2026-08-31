@@ -152,7 +152,7 @@ const SupportingText = styled(Body4) <{ $disabled?: boolean; $isError?: boolean 
         return theme.colors.dark.darkGrey;
     }};
     flex: 1;
-    padding-left: 10px;
+    padding-inline-start: 10px;
 `;
 
 const Label = styled.label<{ $disabled?: boolean, $required?: boolean }>`
@@ -163,7 +163,7 @@ const Label = styled.label<{ $disabled?: boolean, $required?: boolean }>`
         &:before {
             content: "* ";
             color: red;
-            margin-left: 4px;
+            margin-inline-start: 4px;
         }
     `}
 `;
@@ -176,7 +176,7 @@ const StyledInput = styled.input<{ required?: boolean, $hasTrailingAdornment?: b
     border: none;
     border-radius: 16px;
     padding: 12px 16px;
-    padding-right: ${props => props.$hasTrailingAdornment ? '48px' : '16px'};
+    padding-inline-end: ${props => props.$hasTrailingAdornment ? '48px' : '16px'};
     width: 100%;
     font-weight: 300;
     font-size: 18px;
@@ -211,7 +211,7 @@ const StyledInput = styled.input<{ required?: boolean, $hasTrailingAdornment?: b
 
 const LoadingSpinner = styled.div`
     position: absolute;
-    right: 12px;
+    inset-inline-end: 12px;
     top: 50%;
     transform: translateY(-50%);
     z-index: 1;
@@ -223,7 +223,7 @@ const LoadingSpinner = styled.div`
 
 const IconButton = styled.button`
     position: absolute;
-    right: 12px;
+    inset-inline-end: 12px;
     background: none;
     border: none;
     padding: 4px;

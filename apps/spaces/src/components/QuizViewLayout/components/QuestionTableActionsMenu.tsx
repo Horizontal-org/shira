@@ -181,7 +181,7 @@ const EditButton = styled(ActionButton)`
 const MenuPopup = styled.div`
   position: absolute;
   top: calc(100% + 8px);
-  right: 0;
+  inset-inline-end: 0;
   width: 200px;
   z-index: 20;
   background: white;
@@ -194,7 +194,7 @@ const MenuItem = styled.button`
   width: 100%;
   margin: 0;
   padding: 8px 16px;
-  text-align: left;
+  text-align: start;
   background: none;
   border: none;
   cursor: pointer;

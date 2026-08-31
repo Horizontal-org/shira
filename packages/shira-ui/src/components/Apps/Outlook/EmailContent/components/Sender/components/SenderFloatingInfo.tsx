@@ -114,7 +114,10 @@ const Wrapper = styled.div`
 const SenderMain = styled.div`
   display: flex;
   align-items: center;
-  padding: 16px 0 0 16px;
+  padding-top: 16px;
+  padding-inline-end: 0;
+  padding-bottom: 0;
+  padding-inline-start: 16px;
 `
 
 const StyledSenderIcon = styled(SenderIcon)`
@@ -127,7 +130,7 @@ const StyledSenderIcon = styled(SenderIcon)`
 `
 
 const SenderName = styled.div`
-  padding-left: 8px;
+  padding-inline-start: 8px;
   text-overflow: ellipsis;
   white-space: nowrap; 
   font-weight: 600;
@@ -143,14 +146,17 @@ const SenderActions = styled.div`
   align-items: center;
   gap: 4px;
   margin-top: 12px;
-  padding: 0 0 16px 16px;
+  padding-top: 0;
+  padding-inline-end: 0;
+  padding-bottom: 16px;
+  padding-inline-start: 16px;
 `
 
 const CallButton = styled.div`
   display: flex;
   height: 32px;
   cursor: pointer;
-  padding-right: 4px;
+  padding-inline-end: 4px;
 `
 
 const LeftCallButton = styled.div`
@@ -158,16 +164,19 @@ const LeftCallButton = styled.div`
   align-items: center;
   height: 32px;
   background: #0F6CBD;
-  border-radius: 4px 0 0 4px;
+  border-start-start-radius: 4px;
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
+  border-end-start-radius: 4px;
   display: flex;
   align-items: center;
-  border-right: 1px solid white;
-  padding: 0 9px 0 9px;
+  border-inline-end: 1px solid white;
+  padding: 0 9px;
   color: white;
 
   > span {
-    padding-left: 6px; 
-    padding-right: 2px;
+    padding-inline-start: 6px;
+    padding-inline-end: 2px;
     font-size: 14px;
     font-weight: 300;
     padding-bottom: 1px;
@@ -184,7 +193,10 @@ const RightCallButton = styled.div`
   height: 32px;
   padding: 0 8px;
   background: #0F6CBD;
-  border-radius: 0 4px 4px 0;
+  border-start-start-radius: 0;
+  border-start-end-radius: 4px;
+  border-end-end-radius: 4px;
+  border-end-start-radius: 0;
 
   &:hover {
     background: #0F548C;

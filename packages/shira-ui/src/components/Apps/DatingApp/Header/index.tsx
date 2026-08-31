@@ -52,7 +52,7 @@ const Wrapper = styled.div`
 
 const Profile = styled.div`
   display: flex;
-  padding-left: 8px;
+  padding-inline-start: 8px;
 `
 const UserInfo = styled.div`
   color: #fafafa;
@@ -68,7 +68,7 @@ const OnlineMark = styled.div`
   width: 8px;
   height: 8px;
   border-radius:50%;
-  margin-right: 8px;
+  margin-inline-end: 8px;
 `
 
 const AvatarWrapper = styled.div`
@@ -77,7 +77,7 @@ const AvatarWrapper = styled.div`
   border-radius: 4px;
   padding: 4px;
   background: #2C2C2E;
-  margin-right: 8px;
+  margin-inline-end: 8px;
 `
 
 const Location = styled.div`
@@ -92,5 +92,5 @@ const FlexWrapper = styled.div`
 `
 
 const VideoWrapper = styled.div`
-  padding-right: 8px;
+  padding-inline-end: 8px;
 `

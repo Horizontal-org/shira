@@ -190,7 +190,7 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
                   tabIndex={-1}
                   autoComplete="off"
                   aria-hidden="true"
-                  style={{ position: 'absolute', left: '-9999px', opacity: 0, height: 0, width: 0 }}
+                  style={{ position: 'absolute', insetInlineStart: '-9999px', opacity: 0, height: 0, width: 0 }}
                 />
                 <TextInput
                   required
@@ -303,7 +303,7 @@ const BackgroundPattern = styled.div`
   background-size: cover;
   position: fixed;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
   width: 100%;
   height: 100%;
   z-index: 0;
@@ -318,7 +318,7 @@ const BackgroundPattern = styled.div`
 const StyledForm = styled(Form)`
   position: relative;
   z-index:1;
-  text-align: left;
+  text-align: start;
   margin-bottom: 32px;
   gap: 16px;
 `;

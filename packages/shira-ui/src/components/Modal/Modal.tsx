@@ -129,8 +129,8 @@ export const Modal: React.FC<ModalProps> = ({
 const Overlay = styled.div`
   position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
+  inset-inline-start: 0;
+  inset-inline-end: 0;
   bottom: 0;
   background-color: ${props => props.theme.colors.dark.overlay};
   display: flex;

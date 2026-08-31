@@ -181,9 +181,15 @@ export const Arrow = styled.div<{
   height: 20px;
   background: #9FB747;
 
+  /* $x/$y come from floating-ui's arrow middleware, which always returns physical
+     viewport pixel offsets (measured via getBoundingClientRect), not logical/reading-
+     direction values — keeping "left"/"top" here is correct even under RTL. */
   ${({ $x }) => ($x != null ? `left: ${$x}px;` : '')}
   ${({ $y }) => ($y != null ? `top: ${$y}px;` : '')}
 
+  /* $side is placement.split('-')[0] from floating-ui, i.e. the physical side the
+     tooltip actually landed on in the viewport (not a logical side we chose), so the
+     map below is already keyed off the physical side and needs no RTL adjustment. */
   ${({ $side }) => {
     const map = {
       top: 'bottom',
