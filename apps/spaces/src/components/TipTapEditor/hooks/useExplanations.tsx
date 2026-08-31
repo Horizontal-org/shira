@@ -109,9 +109,9 @@ export const useExplanations = (editor: any, editorId: string) => {
 
     return found
   }, [editor, selectedExplanation])
-  const markExplanations = useCallback((selectedExplanation) => { 
+  const markExplanations = useCallback((selectedExplanation) => {
     if (!editorId) return
-    
+
     const explanations = document.getElementById(editorId)?.querySelectorAll('[data-explanation]')
     if (!explanations) return
 
@@ -120,7 +120,7 @@ export const useExplanations = (editor: any, editorId: string) => {
       markExplanationsFrameRef.current = null
     }
 
-    explanations.forEach((e) => {        
+    explanations.forEach((e) => {
       if (e.classList.contains('mark-active')) {
         e.classList.remove('mark-active')
       }
@@ -135,7 +135,7 @@ export const useExplanations = (editor: any, editorId: string) => {
     markExplanationsFrameRef.current = requestAnimationFrame(() => {
       explanations.forEach((e) => {
         const dataExplanation = e.getAttribute('data-explanation')
-        if (parseInt(dataExplanation) === +selectedExplanation) {          
+        if (parseInt(dataExplanation) === +selectedExplanation) {
           e.classList.add('mark-active')
 
           if (e.tagName === 'IMG' && e instanceof HTMLElement) {
@@ -149,7 +149,7 @@ export const useExplanations = (editor: any, editorId: string) => {
 
   const cleanDeletedExplanations = useCallback((deleteIndex) => {
     if (!editor) return
-    
+
     const { tr } = editor.state
     let hasChanges = false
 
@@ -162,7 +162,7 @@ export const useExplanations = (editor: any, editorId: string) => {
           }
         })
       }
-      
+
       if (node.type.name === 'image' && node.attrs['data-explanation'] === +deleteIndex) {
         tr.setNodeMarkup(pos, null, {
           ...node.attrs,
@@ -171,8 +171,8 @@ export const useExplanations = (editor: any, editorId: string) => {
         hasChanges = true
       }
 
-      if ((node.type.name === 'tableCell' || node.type.name === 'tableHeader') && 
-          node.attrs['data-explanation'] === +deleteIndex) {
+      if ((node.type.name === 'tableCell' || node.type.name === 'tableHeader') &&
+        node.attrs['data-explanation'] === +deleteIndex) {
         tr.setNodeMarkup(pos, null, {
           ...node.attrs,
           'data-explanation': null
@@ -188,10 +188,10 @@ export const useExplanations = (editor: any, editorId: string) => {
 
   const cleanupOrphanedExplanations = useCallback(() => {
     if (!editor) return
-    
-    
+
+
     const editorExplanationIndexes = new Set()
-    
+
     // first, get explanations from this editor
     // TODO Why the distinction of types is necessary ?
     editor.state.doc.descendants((node) => {
@@ -200,7 +200,7 @@ export const useExplanations = (editor: any, editorId: string) => {
           editorExplanationIndexes.add(parseInt(mark.attrs['data-explanation']))
         }
       })
-      
+
       if (node.type.name === 'image' && node.attrs['data-explanation']) {
         editorExplanationIndexes.add(parseInt(node.attrs['data-explanation']))
       }
@@ -213,21 +213,21 @@ export const useExplanations = (editor: any, editorId: string) => {
     // get all editor explanations
     document.querySelectorAll('[id*="component-text"]').forEach((ca) => {
       ca.querySelectorAll('[data-explanation]').forEach((de) => {
-          const explanationIndex = de.getAttribute('data-explanation')
-          if (explanationIndex && !editorExplanationIndexes.has(explanationIndex)) {
-            editorExplanationIndexes.add(parseInt(explanationIndex))
-          }           
+        const explanationIndex = de.getAttribute('data-explanation')
+        if (explanationIndex && !editorExplanationIndexes.has(explanationIndex)) {
+          editorExplanationIndexes.add(parseInt(explanationIndex))
+        }
       })
     })
 
     // second, add explanations on activequestion
-    const activeQuestionIds = getExplanationIds()   
-    const activeExplanationIndexes = new Set([...activeQuestionIds, ...editorExplanationIndexes]) 
+    const activeQuestionIds = getExplanationIds()
+    const activeExplanationIndexes = new Set([...activeQuestionIds, ...editorExplanationIndexes])
 
 
-    const orphanedExplanations = storeExplanations.filter(explanation => 
+    const orphanedExplanations = storeExplanations.filter(explanation =>
       !activeExplanationIndexes.has(explanation.index)
-    ) 
+    )
     orphanedExplanations.forEach(orphan => {
       deleteExplanation(orphan.index)
     })
@@ -239,12 +239,12 @@ export const useExplanations = (editor: any, editorId: string) => {
     const { selection } = editor.state
 
     const selectedTextExplanationIndex = getTextExplanationIndexFromSelection()
-    
+
     if (selectedTextExplanationIndex !== null) {
       if (selectedTextExplanationIndex !== selectedExplanation) {
         changeSelected(selectedTextExplanationIndex)
       }
-    } 
+    }
 
     else if (selection instanceof NodeSelection && selection.node.type.name === 'image') {
       const explanationIndex = selection.node.attrs['data-explanation']
@@ -254,7 +254,7 @@ export const useExplanations = (editor: any, editorId: string) => {
       } else if (!explanationIndex && selectedExplanation !== null) {
         changeSelected(null)
       }
-    } 
+    }
     else {
       if (selectedExplanation !== null) {
         changeSelected(null)
@@ -288,6 +288,7 @@ export const useExplanations = (editor: any, editorId: string) => {
     }
     const deleteIndex = activeExplanationIndex
     deleteExplanation(deleteIndex)
+    console.log('Removing text explanation with index', deleteIndex)
     cleanDeletedExplanations(deleteIndex)
     editor.chain().focus().unsetExplanation().run()
     return true
@@ -297,14 +298,14 @@ export const useExplanations = (editor: any, editorId: string) => {
     if (!editor) return false
 
     const { selection } = editor.state
-    
+
     if (selection instanceof NodeSelection && selection.node.type.name === 'image') {
       const newIndex = explanationIndex + 1
-      
-      editor.chain().focus().updateAttributes('image', {
+
+      editor.chain().updateAttributes('image', {
         'data-explanation': newIndex
       }).run()
-      
+
       addExplanation(newIndex, 'Image')
       return true
     }
@@ -315,17 +316,17 @@ export const useExplanations = (editor: any, editorId: string) => {
     if (!editor) return false
 
     const { selection } = editor.state
-    
-    if (selection instanceof NodeSelection && 
-        selection.node.type.name === 'image' && 
-        selection.node.attrs['data-explanation']) {
-      
+
+    if (selection instanceof NodeSelection &&
+      selection.node.type.name === 'image' &&
+      selection.node.attrs['data-explanation']) {
+
       const explanationIndex = selection.node.attrs['data-explanation']
-      
-      editor.chain().focus().updateAttributes('image', {
+
+      editor.chain().updateAttributes('image', {
         'data-explanation': null
       }).run()
-      
+
       deleteExplanation(explanationIndex)
       return true
     }
@@ -383,6 +384,7 @@ export const useExplanations = (editor: any, editorId: string) => {
     if (!editor) return
 
     const handleDeleteExplanation = (event) => {
+      console.log('Received delete-explanation event with detail:', event.detail)
       cleanDeletedExplanations(event.detail.deleteIndex)
     }
 

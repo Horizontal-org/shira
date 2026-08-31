@@ -131,7 +131,7 @@ export const MySubmissionsLayout = () => {
           <Button
             text={t("templates.back_to_templates")}
             type="outline"
-            leftIcon={<FiArrowLeft size={18} />}
+            leftIcon={<FiArrowLeft data-mirror-rtl size={18} />}
             onClick={() => navigate("/template-library")}
           />
 

@@ -93,7 +93,7 @@ const Text = styled.div`
   overflow-wrap: break-word;
   word-break: break-word; 
 
-  margin-left: 8px;
+  margin-inline-start: 8px;
   padding: 8px 12px;
   margin-top: 8px;
   
@@ -159,7 +159,7 @@ const Heading = styled.div`
 `
 
 const AttachmentText = styled.div`
-  margin-left: 8px;
+  margin-inline-start: 8px;
 `
 
 export default ChatContent

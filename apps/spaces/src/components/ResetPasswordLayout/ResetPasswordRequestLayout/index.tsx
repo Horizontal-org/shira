@@ -104,7 +104,7 @@ export const ResetPasswordRequestLayout: FunctionComponent = () => {
 const StyledForm = styled(Form)`
   position: relative;
   z-index: 1;
-  text-align: left;
+  text-align: start;
   margin-bottom: 32px;
   color: ${(props) => props.theme.colors.dark.darkGrey};
 `;

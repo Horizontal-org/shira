@@ -427,7 +427,7 @@ const FileIcon = styled.div`
 
 const FileInfo = styled.div`
   flex: 1;
-  text-align: left;
+  text-align: start;
   color: ${(props) => props.theme.colors.dark.black};
   min-width: 0;
 `;

@@ -82,6 +82,7 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
     appType: question.appType,
     content: question.content,
     explanations: question.explanations,
+    images: question.images,
   }))
   const fullQuizPreview =
     previewQuestions.find((question) => question.id === fullPreviewQuestionId) ?? null
@@ -190,7 +191,7 @@ const ActionsRow = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-left: auto;
+  margin-inline-start: auto;
 
   @media (max-width: ${(props) => props.theme.breakpoints.md}) {
     width: 100%;

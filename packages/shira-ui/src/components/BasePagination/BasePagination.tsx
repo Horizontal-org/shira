@@ -46,7 +46,7 @@ export const BasePagination: FunctionComponent<BasePaginationProps> = ({
           disabled={!canPreviousPage}
           onClick={onFirstPage}
         >
-          <FiChevronsLeft size={16} color={theme.colors.dark.darkGrey} />
+          <FiChevronsLeft size={16} color={theme.colors.dark.darkGrey} data-mirror-rtl />
           <Body3>First</Body3>
         </PaginationButton>
         <PaginationButton
@@ -54,7 +54,7 @@ export const BasePagination: FunctionComponent<BasePaginationProps> = ({
           disabled={!canPreviousPage}
           onClick={onPreviousPage}
         >
-          <FiChevronLeft size={16} color={theme.colors.dark.darkGrey} />
+          <FiChevronLeft size={16} color={theme.colors.dark.darkGrey} data-mirror-rtl />
           <Body3>Back</Body3>
         </PaginationButton>
 
@@ -69,7 +69,7 @@ export const BasePagination: FunctionComponent<BasePaginationProps> = ({
           onClick={onNextPage}
         >
           <Body3>Next</Body3>
-          <FiChevronRight size={16} color={theme.colors.dark.darkGrey} />
+          <FiChevronRight size={16} color={theme.colors.dark.darkGrey} data-mirror-rtl />
         </PaginationButton>
         <PaginationButton
           type="button"
@@ -77,7 +77,7 @@ export const BasePagination: FunctionComponent<BasePaginationProps> = ({
           onClick={onLastPage}
         >
           <Body3>Last</Body3>
-          <FiChevronsRight size={16} color={theme.colors.dark.darkGrey} />
+          <FiChevronsRight size={16} color={theme.colors.dark.darkGrey} data-mirror-rtl />
         </PaginationButton>
       </PaginationButtons>
     </PaginationWrapper>
