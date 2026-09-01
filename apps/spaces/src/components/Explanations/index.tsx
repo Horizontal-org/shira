@@ -149,6 +149,7 @@ export const Explanations: FunctionComponent<Props> = ({
                             updateExplanation(e.index, text, e.position, e.id, e.title)
                           }}
                           onDeleteIfEmpty={() => {
+                            console.log('Deleting explanation with index ON EMPTY', e.index)
                             deleteExplanationFromQuestion(e.index)
                             deleteExplanation(e.index)
                           }}
