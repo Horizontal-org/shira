@@ -113,7 +113,7 @@
         "summary": "{{start}}-{{end}} of {{total}}",
         "last": "Last",
         "first": "First",
-        "next": "Next",
-        "back": "Back"
+        "next": "Suivant",
+        "back": "Retour"
     }
 }
