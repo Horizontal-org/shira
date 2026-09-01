@@ -442,7 +442,8 @@
         "checkout_success": {
             "all_done": "All done!",
             "success_message": "Your checkout was successful. We're activating your subscription now."
-        }
+        },
+        "version": "You are currently using Shira v{{version}}."
     },
     "buttons": {
         "ok": "OK",
