@@ -28,15 +28,7 @@ export const EntityCreationOptionsModal: FunctionComponent<Props> = ({
   };
 
   const handleAction = () => {
-    // setIsExporting(true);
-    // try {
-    //   await exportEntity(entityId, entityType);
-    //   handleClose()
-    // } catch (error) {
-    //   handleRequestError(true);
-    // } finally {
-    //   setIsExporting(false);
-    // }
+    console.log('something')
   };
 
   return (
@@ -45,6 +37,7 @@ export const EntityCreationOptionsModal: FunctionComponent<Props> = ({
       size="medium"
       isOpen={isModalOpen}
       title={t(`modals.create_entity.${entityType}.title`)}
+      subtitle={t(`modals.create_entity.${entityType}.subtitle`)}
       primaryButtonText={t(`modals.create_entity.${entityType}.create_button`)}
       primaryButtonDisabled={false}
       secondaryButtonText={t('buttons.cancel')}
@@ -53,10 +46,6 @@ export const EntityCreationOptionsModal: FunctionComponent<Props> = ({
       onClose={handleClose}
     >
       <ModalContent>
-        <Body1>
-          {t(`modals.create_entity.${entityType}.subtitle`)}
-        </Body1>
-
         <Actions>
           {isPublicLibraryEnabled && (
             <CreationActionCard onClick={() => { onAction('template') }}>
@@ -87,15 +76,6 @@ export const EntityCreationOptionsModal: FunctionComponent<Props> = ({
             </TextContent>
           </CreationActionCard>
         </Actions>
-        {/* <TemplateCard onClick={() => navigate("/quiz/templates")}>
-              <CardHeader>
-                <CardIcon>
-                  <LuNotepadText size={24} color={theme.colors.green7} />
-                </CardIcon>
-                <SubHeading2>{t("templates.quiz_templates.title")}</SubHeading2>
-              </CardHeader>
-              <Body1>{t("templates.quiz_templates.description")}</Body1>
-            </TemplateCard> */}
 
         <ImportBox>
           <Link1
@@ -164,4 +144,3 @@ const RenameIconWrapper = styled(IconWrapper)`
 const TextContent = styled.div`
   
 `
-// background-color: ${props => props.theme.colors.green3};
