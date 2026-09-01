@@ -21,20 +21,13 @@ import { QuizPreviewQuestionsTable } from "./components/QuizPreviewQuestionsTabl
 import { useQuizTemplateQuestions } from "./useQuizTemplateQuestions"
 import { PreviewModal, PreviewQuizScreen } from "../PreviewQuizScreen"
 import { PreviewQuestionScreen } from "../PreviewQuizScreen/PreviewQuestionScreen"
+import { formatLocaleShortDate } from "../../../language/dateUtils"
 
 type Props = {
   quiz: LibraryQuizDto | null
   isOpen: boolean
   onClose: () => void
   onUseTemplate: (questions?: LibraryQuizQuestionTemplateDto[]) => void
-}
-
-const formatLongDate = (value: string, locale: string) => {
-  return new Date(value).toLocaleDateString(locale, {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  })
 }
 
 export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
@@ -165,7 +158,7 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
               languages={languages}
               tags={tags}
               creator={quiz.author}
-              createdAt={formatLongDate(quiz.createdAt, i18n.language)}
+              createdAt={formatLocaleShortDate(quiz.createdAt, i18n.language)}
             />)}
         >
           <QuestionsSection>
