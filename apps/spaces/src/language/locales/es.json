@@ -955,7 +955,8 @@
         "checkout_success": {
             "all_done": "¡Todo listo!",
             "success_message": "Tu pago fue exitoso. Estamos activando tu suscripción ahora."
-        }
+        },
+        "version": "You are currently using Shira v{{version}}."
     },
     "banner": {
         "label": "NOTA",
