@@ -460,7 +460,8 @@
         "checkout_success": {
             "all_done": "تم كل شيء!",
             "success_message": "نجحت عملية الدفع. نحن ننشط اشتراككم الآن."
-        }
+        },
+        "version": "You are currently using Shira v{{version}}."
     },
     "buttons": {
         "message": "",
