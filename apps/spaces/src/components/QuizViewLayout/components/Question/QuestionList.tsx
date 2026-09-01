@@ -16,6 +16,7 @@ import { QuizQuestion } from "../../../../store/slices/quiz";
 import { QuestionEmptyState } from "./QuestionEmptyState";
 import { QuestionTable } from "./QuestionTable";
 import { QuestionActionModals } from "./QuestionActionModals";
+import { QuestionCreateOptions } from "./QuestionCreateOptions";
 
 interface QuestionsListProps {
   quizId: number;
@@ -54,8 +55,10 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
 
   const [questionForDelete, handleQuestionForDelete] = useState<QuizQuestion["question"] | null>(null);
   const [confirmBeforeContinueModal, handleConfirmBeforeContinueModal] = useState<ConfirmModalInfo | null>(null);
-  const [isExportModalOpen, setExportModalOpen] = useState<string | null>(null);
   const [duplicatingQuestionId, setDuplicatingQuestionId] = useState<string | null>(null);
+
+  const [isExportModalOpen, setExportModalOpen] = useState<string | null>(null);
+  const [isImportModalOpen, setImportModalOpen] = useState<boolean>(false);
 
   const { updateQuiz } = useStore((state) => ({
     updateQuiz: state.updateQuiz
@@ -102,7 +105,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
 
   return (
     <div>
-      <Header>
+      {/* <Header>
         <Button
           id="create-question-button"
           leftIcon={<FiPlus size={16} />}
@@ -126,7 +129,20 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
           disabled={!isPublicLibraryEnabled}
           onClick={() => onAddLibrary(quizId.toString())}
         />
-      </Header>
+      </Header> */}
+
+      <QuestionCreateOptions
+        onImport={() => { }}
+        onAddLibrary={() => onAddLibrary(quizId.toString())}
+        onAdd={() => {
+          if (hasResults) {
+            handleConfirmBeforeContinueModal({ confirmType: "add" });
+          } else {
+            onAdd();
+          }
+        }}
+      />
+
 
       <QuestionTable
         quizQuestions={quizQuestions}
@@ -180,17 +196,13 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
 
         isExportModalOpen={isExportModalOpen}
         setExportModalOpen={() => { setExportModalOpen(null) }}
+
+        isImportModalOpen={isImportModalOpen}
+        setImportModalOpen={(isOpen) => { setImportModalOpen(isOpen) }}
       />
     </div>
   );
 };
 
-const Header = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  margin-bottom: 16px;
-  gap: 10px;
-`;
 
 export default QuestionsList;

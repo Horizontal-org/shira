@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { Button } from '../Button';
-import { SubHeading2 } from '../Typography';
+import { Body1, SubHeading2 } from '../Typography';
 import { useEscapeClose, useEnterSubmit } from '../../hooks';
 
 export interface ModalProps {
@@ -9,6 +9,7 @@ export interface ModalProps {
   isOpen: boolean;
   title: string;
   titleIcon?: React.ReactNode;
+  subtitle?: string;
   children: React.ReactNode;
   primaryButtonText: string;
   primaryButtonDisabled?: boolean;
@@ -34,6 +35,7 @@ export const Modal: React.FC<ModalProps> = ({
   isOpen,
   title,
   titleIcon = (<></>),
+  subtitle,
   children,
   primaryButtonText,
   primaryButtonDisabled,
@@ -87,6 +89,10 @@ export const Modal: React.FC<ModalProps> = ({
             {titleIcon}
             <SubHeading2>{title}</SubHeading2>
           </Header>
+
+          {subtitle && (
+            <Subtitle>{subtitle}</Subtitle>
+          )}
 
           <Content>
             {children}
@@ -180,4 +186,9 @@ const Footer = styled.div`
   }
 `;
 
+
+const Subtitle = styled(Body1)`
+  padding-top: 12px;
+  padding-left: 24px;
+`
 export default Modal;

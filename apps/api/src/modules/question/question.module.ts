@@ -18,6 +18,7 @@ import { ParserQuestionService } from './services/individualParser.question.serv
 import { GlobalParserQuestionService } from './services/globalParser.question.service';
 import { ListQuestionService } from './services/list.question.service';
 import { SpaceExportQuestionService } from './services/spaceExport.question.service';
+import { ValidateQuestionImportService } from './services/validateImport.question.service';
 import { QuestionImage } from '../question_image/domain';
 import { QuestionImageModule } from '../question_image/question_image.module';
 import { QuizQuestion } from '../quiz/domain/quizzes_questions.entity';
@@ -47,7 +48,8 @@ import { QuizQuestion } from '../quiz/domain/quizzes_questions.entity';
     ParserQuestionService,
     GlobalParserQuestionService,
     SpaceExportQuestionService,
+    ValidateQuestionImportService,
   ],
-  exports: [SpaceExportQuestionService],
+  exports: [SpaceExportQuestionService, ValidateQuestionImportService],
 })
 export class QuestionModule {}

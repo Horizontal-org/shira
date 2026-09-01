@@ -1,0 +1,24 @@
+[15:45:56.021] [INFO] storybook v10.5.8
+[15:45:56.206] [DEBUG] Getting package.json info for /home/juan/code/shira/packages/shira-ui/package.json...
+[15:45:56.451] [WARN] No story files found for the specified pattern: [34msrc/**/*.mdx[39m
+[15:45:56.682] [INFO] Starting...
+[15:45:56.780] [DEBUG] Starting preview..
+[15:45:56.846] [WARN] 🚨 Unable to index files:
+- ./src/components/Button/Button.stories.tsx,./src/components/IconButton/IconButton.stories.tsx: Duplicate stories with id: components-button--primary
+- ./src/components/Button/Button.stories.tsx,./src/components/IconButton/IconButton.stories.tsx: Duplicate stories with id: components-button--outline
+[15:45:56.847] [ERROR] Failed to build the preview
+[15:45:56.850] [ERROR] Error: [38;2;241;97;97mUnable to index files:
+- ./src/components/Button/Button.stories.tsx,./src/components/IconButton/IconButton.stories.tsx: Duplicate stories with id: components-button--primary
+- ./src/components/Button/Button.stories.tsx,./src/components/IconButton/IconButton.stories.tsx: Duplicate stories with id: components-button--outline[39m
+    at _StoryIndexGenerator.getIndexAndStats (file://./node_modules/storybook/dist/core-server/index.js:19426:15)
+    at async _StoryIndexGenerator.getIndex (file://./node_modules/storybook/dist/core-server/index.js:19405:13)
+    at async BasicMinimalPluginContext.config (file://./node_modules/@storybook/builder-vite/dist/_node-chunks/chunk-R2IUN77J.js:188:19)
+    at async runConfigHook (file://./node_modules/vite/dist/node/chunks/config.js:36023:15)
+    at async resolveConfig (file://./node_modules/vite/dist/node/chunks/config.js:35525:13)
+    at async _createServer (file://./node_modules/vite/dist/node/chunks/config.js:25441:67)
+    at async Module.start (file://./node_modules/@storybook/builder-vite/dist/index.js:1621:17)
+    at async storybookDevServer (file://./node_modules/storybook/dist/core-server/index.js:11225:59)
+    at async buildOrThrow (file://./node_modules/storybook/dist/core-server/index.js:8331:12)
+    at async buildDevStandalone (file://./node_modules/storybook/dist/core-server/index.js:11990:41)
+[15:45:56.851] [WARN] Broken build, fix the error above.
+You may need to refresh the browser.

@@ -23,6 +23,9 @@ interface Props {
 
   isExportModalOpen: string | null;
   setExportModalOpen: (isOpen: boolean) => void;
+
+  isImportModalOpen: boolean;
+  setImportModalOpen: (isOpen: boolean) => void;
 }
 
 export const QuestionActionModals: FunctionComponent<Props> = ({
@@ -40,7 +43,10 @@ export const QuestionActionModals: FunctionComponent<Props> = ({
   handleTogglePublished,
 
   isExportModalOpen,
-  setExportModalOpen
+  setExportModalOpen,
+
+  isImportModalOpen,
+  setImportModalOpen
 }) => {
 
   const { t } = useTranslation();
@@ -101,6 +107,8 @@ export const QuestionActionModals: FunctionComponent<Props> = ({
         isModalOpen={!!isExportModalOpen}
         setIsModalOpen={setExportModalOpen}
       />
+
+      {/* Import modal */}
     </>
   )
 }

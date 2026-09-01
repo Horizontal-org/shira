@@ -913,6 +913,28 @@
             },
             "title": "Available plans"
         },
+        "create_entity": {
+            "quiz": {
+                "title": "Create new quiz",
+                "subtitle": "Choose how you’d like to create your quiz.",
+                "template_title": "Use a template",
+                "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
+                "scratch_title": "Start from scratch",
+                "scratch_subtitle": "Create the quiz yourself, with full control. You can even copy and paste a real-life phishing example.",
+                "import_title": "Or import a quiz from a file",
+                "create_button": "Create quiz"
+            },
+            "question": {
+                "title": "Create new question",
+                "subtitle": "Choose how you’d like to create your question.",
+                "template_title": "Use a template",
+                "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
+                "scratch_title": "Start from scratch",
+                "scratch_subtitle": "Create the question yourself, with full control. You can even copy and paste a real-life phishing example.",
+                "import_title": "Or import a question from a file",
+                "create_button": "Create question"
+            }
+        },
         "export": {
             "quiz": {
                 "title": "Export quiz",
