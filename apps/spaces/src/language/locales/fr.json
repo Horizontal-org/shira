@@ -967,7 +967,7 @@
             "creator": "Créateur",
             "all_creators": "All creators",
             "tag": "Mots-clés",
-            "selected_count": "{{count}} selected",
+            "selected_count": "{{count}} sélectionné(s)",
             "clear_all": "Tout dessélectionner",
             "all_tags": "All tags",
             "all_languages": "All languages",
@@ -975,12 +975,12 @@
         },
         "filters": "Filtres",
         "use_template": "Use template",
-        "search_results_plural": "{{count}} results for \"{{searchTerm}}\"",
+        "search_results_plural": "{{count}} résultat pour \"{{searchTerm}}\"",
         "empty_search": {
             "subtitle": "Essayez de modifier les mots-clés ou d'effacer vos filtres pour obtenir plus de résultats.",
             "title": "Désolé, nous n'avons rien trouvé."
         },
-        "search_results": "{{count}} result for \"{{searchTerm}}\"",
+        "search_results": "{{count}} résultat pour \"{{searchTerm}}\"",
         "header_title": "Select a quiz template",
         "subtitle": "Select a quiz from the list below to use it as a template for your new quiz.",
         "sort_options": {
