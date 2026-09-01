@@ -12,6 +12,10 @@ import translationArabic from './locales/ar.json'
 import translationRussian from './locales/ru.json'
 import shiraUIen from '@horizontal-org/shira-ui/locales/en.json'
 import shiraUIes from '@horizontal-org/shira-ui/locales/es.json'
+import shiraUIfr from '@horizontal-org/shira-ui/locales/fr.json'
+import shiraUIcn from '@horizontal-org/shira-ui/locales/zh_Hans.json'
+import shiraUIar from '@horizontal-org/shira-ui/locales/ar.json'
+import shiraUIru from '@horizontal-org/shira-ui/locales/ru.json'
 //Creating object with the variables of imported translation files
 const resources = {
   en: {
@@ -24,15 +28,19 @@ const resources = {
   },
   fr: {
     translation: translationFR,
+    'shira-ui': shiraUIfr,
   },
   cn: {
-    translation: translationMandarin
+    translation: translationMandarin,
+    'shira-ui': shiraUIcn,
   },
   ar: {
-    translation: translationArabic
+    translation: translationArabic,
+    'shira-ui': shiraUIar,
   },
   ru: {
-    translation: translationRussian
+    translation: translationRussian,
+    'shira-ui': shiraUIru,
   }
 };
 

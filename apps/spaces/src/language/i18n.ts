@@ -13,6 +13,13 @@ import translationFA from './locales/fa.json'
 import translationSW from './locales/sw.json'
 import shiraUIen from '@horizontal-org/shira-ui/locales/en.json'
 import shiraUIes from '@horizontal-org/shira-ui/locales/es.json'
+import shiraUIfr from '@horizontal-org/shira-ui/locales/fr.json'
+import shiraUIcn from '@horizontal-org/shira-ui/locales/zh_Hans.json'
+import shiraUIar from '@horizontal-org/shira-ui/locales/ar.json'
+import shiraUIru from '@horizontal-org/shira-ui/locales/ru.json'
+import shiraUIid from '@horizontal-org/shira-ui/locales/id.json'
+import shiraUIfa from '@horizontal-org/shira-ui/locales/fa.json'
+import shiraUIsw from '@horizontal-org/shira-ui/locales/sw.json'
 
 //Creating object with the variables of imported translation files
 const resources = {
@@ -26,24 +33,31 @@ const resources = {
   },
   fr: {
     translation: translationFR,
+    'shira-ui': shiraUIfr,
   },
   cn: {
-    translation: translationMandarin
+    translation: translationMandarin,
+    'shira-ui': shiraUIcn,
   },
   ar: {
     translation: translationAR,
+    'shira-ui': shiraUIar,
   },
   ru: {
     translation: translationRU,
+    'shira-ui': shiraUIru,
   },
   id: {
     translation: translationID,
+    'shira-ui': shiraUIid,
   },
   fa: {
     translation: translationFA,
+    'shira-ui': shiraUIfa,
   },
   sw: {
     translation: translationSW,
+    'shira-ui': shiraUIsw,
   },
 };
 
