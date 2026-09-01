@@ -114,8 +114,8 @@
     "pagination": {
         "page": "<current>{{current}}</current> of {{total}}",
         "summary": "{{start}}-{{end}} of {{total}}",
-        "last": "Last",
-        "first": "First",
+        "last": "اﻷخير",
+        "first": "اﻷول",
         "next": "التالي",
         "back": "السابق"
     }
