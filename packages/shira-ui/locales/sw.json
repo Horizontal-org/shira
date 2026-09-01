@@ -109,8 +109,8 @@
     "pagination": {
         "page": "<current>{{current}}</current> of {{total}}",
         "summary": "{{start}}-{{end}} of {{total}}",
-        "last": "Last",
-        "first": "First",
+        "last": "Mwisho",
+        "first": "Kwanza",
         "next": "Yafuatayo",
         "back": "Nyuma"
     }
