@@ -460,7 +460,8 @@
         "checkout_success": {
             "all_done": "Готово!",
             "success_message": "Платёж прошёл успешно. Активируем вашу подписку."
-        }
+        },
+        "version": "You are currently using Shira v{{version}}."
     },
     "buttons": {
         "message": "",
