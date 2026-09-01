@@ -955,7 +955,8 @@
         "checkout_success": {
             "all_done": "完成！",
             "success_message": "结算成功，正在激活您的订阅。"
-        }
+        },
+        "version": "You are currently using Shira v{{version}}."
     },
     "banner": {
         "label": "注意",
