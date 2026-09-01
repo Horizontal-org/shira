@@ -109,8 +109,8 @@
     "pagination": {
         "page": "<current>{{current}}</current> of {{total}}",
         "summary": "{{start}}-{{end}} of {{total}}",
-        "last": "Last",
-        "first": "First",
+        "last": "آخرین",
+        "first": "اولین",
         "next": "بعدی",
         "back": "بازگشت"
     }
