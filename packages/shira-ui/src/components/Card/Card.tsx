@@ -180,7 +180,7 @@ export const CardFooterText = styled(Body4)`
 const HoverActionContainer = styled.div`
   position: absolute;
   top: 0;
-  right: 32px;
+  inset-inline-end: 32px;
   z-index: 2;
 `;
 
@@ -249,7 +249,7 @@ const HeaderSection = styled.div`
 const HeaderRow = styled.div`
   display: flex;
   align-items: flex-start;
-  padding-right: 24px;
+  padding-inline-end: 24px;
 `;
 
 const HeaderContent = styled.div`
@@ -262,7 +262,7 @@ const HeaderContent = styled.div`
 const MenuButton = styled.button`
   position: absolute;
   top: 0;
-  right: 0;
+  inset-inline-end: 0;
   background: none;
   border: none;
   border-radius: 8px;

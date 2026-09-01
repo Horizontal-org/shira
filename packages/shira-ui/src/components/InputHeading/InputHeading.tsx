@@ -25,7 +25,7 @@ const StyledInputHeading = styled.div<{ $required: boolean }>`
       &::before {
         content: "* ";
         color: ${props.theme.colors.error7};
-        padding-right: 4px;
+        padding-inline-end: 4px;
       }
     `}
   }

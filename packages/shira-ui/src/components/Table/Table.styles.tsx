@@ -21,8 +21,8 @@ export const TableFooter = styled.div`
   height: 6px;
   background: white;
   border-radius: 0 0 20px 20px;
-  border-left: 1px solid ${(props) => props.theme.colors.light.paleGreen};
-  border-right: 1px solid ${(props) => props.theme.colors.light.paleGreen};
+  border-inline-start: 1px solid ${(props) => props.theme.colors.light.paleGreen};
+  border-inline-end: 1px solid ${(props) => props.theme.colors.light.paleGreen};
   border-bottom: 1px solid ${(props) => props.theme.colors.light.paleGreen};
 `
 
@@ -33,24 +33,24 @@ export const StyledTable = styled.table`
   font-size: 14px;
   border: none;
   border-spacing: 0;
-  border-left: 1px solid ${(props) => props.theme.colors.light.paleGreen};
-  border-right: 1px solid ${(props) => props.theme.colors.light.paleGreen};
+  border-inline-start: 1px solid ${(props) => props.theme.colors.light.paleGreen};
+  border-inline-end: 1px solid ${(props) => props.theme.colors.light.paleGreen};
 `
 
 export const BlankLoadingHead = styled.div<{ $size: TableSize }>`
   width: 100%;
   height: ${(props) => (props.$size === 'full' ? '50px' : '40px')};
   background: ${(props) => props.theme.colors.light.paleGreen};
-  border-left: 1px solid ${(props) => props.theme.colors.light.paleGreen};
-  border-right: 1px solid ${(props) => props.theme.colors.light.paleGreen};
+  border-inline-start: 1px solid ${(props) => props.theme.colors.light.paleGreen};
+  border-inline-end: 1px solid ${(props) => props.theme.colors.light.paleGreen};
 `
 
 export const BlankLoadingBody = styled.div<{ $size: TableSize }>`
   width: 100%;
   min-height: ${(props) => (props.$size === 'full' ? '380px' : '220px')};
   background: ${(props) => props.theme.colors.light.white};
-  border-left: 1px solid ${(props) => props.theme.colors.light.paleGreen};
-  border-right: 1px solid ${(props) => props.theme.colors.light.paleGreen};
+  border-inline-start: 1px solid ${(props) => props.theme.colors.light.paleGreen};
+  border-inline-end: 1px solid ${(props) => props.theme.colors.light.paleGreen};
 
   @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
     min-height: ${(props) => (props.$size === 'full' ? '280px' : '180px')};
@@ -64,7 +64,7 @@ export const THead = styled.thead`
 `
 
 export const Th = styled.th<{ $size: TableSize }>`
-  text-align: left;
+  text-align: start;
   padding: 0 16px 14px 16px;
   font-weight: 600;
   color: ${(props) => props.theme.colors.dark.black};

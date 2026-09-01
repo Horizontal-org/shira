@@ -31,7 +31,7 @@ const Wrapper = styled.div`
     z-index: 3;
     position: absolute;
     bottom: 6px;
-    right: 8px;
+    inset-inline-end: 8px;
     font-size: 9px;
     color: white;
     font-weight: 200;

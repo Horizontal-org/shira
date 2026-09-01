@@ -59,7 +59,7 @@ export const ResetPasswordRequestForm: FunctionComponent<Props> = ({
 };
 
 const StyledForm = styled(Form)`
-  text-align: left;
+  text-align: start;
   margin-bottom: 32px;
 `;
 
@@ -72,7 +72,7 @@ const InlineErrorMessage = styled.div`
   color: ${(props) => props.theme.colors.error7};
   font-size: 14px;
   margin-top: -12px;
-  padding-left: 4px;
+  padding-inline-start: 4px;
 `;
 
 const ButtonContainer = styled.div`

@@ -461,7 +461,7 @@ const AssignButtonWrapper = styled.div<{ $showHelpCursor: boolean }>`
 const AssignButtonTooltip = styled.div`
   position: absolute;
   top: 100%;
-  left: 50%;
+  inset-inline-start: 50%;
   transform: translateX(-50%);
   margin-top: 6px;
   padding: 4px 8px;

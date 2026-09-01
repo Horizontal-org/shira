@@ -169,11 +169,11 @@ const MainContent = styled.div<{ $isCollapsed: boolean }>`
   transition: margin-left 0.3s ease;
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
-    margin-left: 80px;
+    margin-inline-start: 80px;
   }
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    margin-left: 0;
+    margin-inline-start: 0;
   }
 `;
 

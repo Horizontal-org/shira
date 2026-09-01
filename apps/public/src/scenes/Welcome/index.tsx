@@ -55,7 +55,7 @@ export const WelcomeScene: FunctionComponent = () => {
             <Button
               onClick={() => { changeScene('quiz-setup-name') }}
               text={t('welcome.start')}
-              rightIcon={<FiChevronRight size={18} />}
+              rightIcon={<FiChevronRight size={18} data-mirror-rtl />}
             />
           </Buttons>
         </StyledBox>
@@ -69,7 +69,7 @@ export const WelcomeScene: FunctionComponent = () => {
 
 const GreenFishWrapper = styled.div`
   display: flex;
-  padding-right: 40px;
+  padding-inline-end: 40px;
 
   > svg {
     width: 410px;

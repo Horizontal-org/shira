@@ -30,7 +30,7 @@ const Profile: FunctionComponent<Props> = () => {
 }
 
 const Wrapper = styled.div`
-  border-right: 1px solid #d1d7db;
+  border-inline-end: 1px solid #d1d7db;
   background: #f0f2f5;
   display: flex;
   justify-content: space-between;

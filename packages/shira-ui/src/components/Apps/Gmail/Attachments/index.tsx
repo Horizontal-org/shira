@@ -144,7 +144,7 @@ const TooltipTrigger = styled.div`
   position: relative;
   display: inline-flex;
   align-items: center;
-  margin-left: 3px;
+  margin-inline-start: 3px;
 
   &:hover [data-gmail-attachment-tooltip='card'],
   &:focus-within [data-gmail-attachment-tooltip='card'] {
@@ -177,7 +177,7 @@ const DownloadIconButton = styled.button`
   width: 28px;
   height: 28px;
   padding: 0;
-  margin-left: 16px;
+  margin-inline-start: 16px;
   border: 0;
   border-radius: 50%;
   background: transparent;
@@ -201,7 +201,7 @@ const DriveActionButton = styled.button`
   display: inline-flex;
   align-items: center;
   height: 28px;
-  margin-left: 16px;
+  margin-inline-start: 16px;
   padding: 0 16px;
   border: 0;
   border-radius: 16px;
@@ -227,7 +227,7 @@ const GoogleDriveAddIcon = styled.svg`
 `
 
 const DriveActionText = styled.span`
-  margin-left: 8px;
+  margin-inline-start: 8px;
   font-size: 0.900rem;
   line-height: 20px;
 `
@@ -235,7 +235,7 @@ const DriveActionText = styled.span`
 const TooltipCard = styled.div`
   position: absolute;
   top: calc(100% + 12px);
-  left: -24px;
+  inset-inline-start: -24px;
   width: 328px;
   max-width: min(360px, calc(100vw - 48px));
   padding: 16px;
@@ -250,15 +250,15 @@ const TooltipCard = styled.div`
   &::before {
     content: '';
     position: absolute;
-    left: 0;
-    right: 0;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
     bottom: 100%;
     height: 12px;
   }
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    left: auto;
-    right: -8px;
+    inset-inline-start: auto;
+    inset-inline-end: -8px;
   }
 `
 
@@ -297,6 +297,6 @@ const AttachmentWrapper = styled.div`
 
   > div {
     margin-bottom: 18px;
-    margin-right: 8px;
+    margin-inline-end: 8px;
   }
 `

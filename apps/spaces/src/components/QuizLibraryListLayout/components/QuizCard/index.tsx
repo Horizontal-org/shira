@@ -94,7 +94,7 @@ const UseTemplateButton = styled(Button)`
   border-radius: 6px;
 
   & > div:first-child {
-    margin-right: 6px;
+    margin-inline-end: 6px;
   }
 
   & > span {

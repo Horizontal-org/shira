@@ -69,7 +69,7 @@ export const QuizInstructions: FunctionComponent<Props> = ({
             text={t('quiz.how_it_works.next')}
             size={width > 490 ? 'sm' : 'lg'}
             onClick={() => onNext()}
-            rightIcon={<FiChevronRight size={18} />}
+            rightIcon={<FiChevronRight size={18} data-mirror-rtl />}
           />
         )}
       />
@@ -112,7 +112,7 @@ const ModalContent = styled.div`
 `
 
 const ResultItems = styled.div`
-  padding-left: 12px;
+  padding-inline-start: 12px;
 `
 
 const Wrapper = styled.div`
@@ -197,7 +197,7 @@ const AnswerOptionsWrapper = styled.div`
       width: 70%;
       border-radius: 50px;
       >svg {
-        margin-right: 10px;
+        margin-inline-end: 10px;
       }
     }
   }

@@ -17,6 +17,6 @@ export const LearnerHeader = styled.div`
   display: flex;
   align-items: center;
   > svg {
-    margin-right: 8px; 
+    margin-inline-end: 8px; 
   }
 `

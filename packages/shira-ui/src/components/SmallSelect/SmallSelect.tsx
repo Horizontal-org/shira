@@ -134,7 +134,7 @@ const SelectBox = styled.div`
     > span {
       color: ${defaultTheme.colors.dark.black};
       font-weight: 400;
-      padding-left: 18px;
+      padding-inline-start: 18px;
     }
   }
 `;
@@ -161,7 +161,7 @@ const LeftIcon = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-left: 4px;
+  padding-inline-start: 4px;
 `;
 
 const Label = styled.span`

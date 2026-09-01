@@ -91,7 +91,7 @@ const SelectBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: rgba(0, 0, 0, 0.4) 5px 2px 28px -8px;
+  box-shadow: rgba(0, 0, 0, 0.4) calc(var(--dir-multiplier) * 5px) 2px 28px -8px;
 
   > div {
     display: flex;
@@ -99,7 +99,7 @@ const SelectBox = styled.div`
     > span {
       color: #333030;
       font-weight: 400;
-      padding-left: 18px;
+      padding-inline-start: 18px;
     }
   }
 
@@ -116,7 +116,7 @@ const Options = styled.div`
   min-width: 170px;
   cursor: pointer;
   border-radius: 12px;
-  box-shadow: rgba(0, 0, 0, 0.4) 5px 2px 28px -8px;
+  box-shadow: rgba(0, 0, 0, 0.4) calc(var(--dir-multiplier) * 5px) 2px 28px -8px;
   font-size: 16px;
   z-index: 10;
 
