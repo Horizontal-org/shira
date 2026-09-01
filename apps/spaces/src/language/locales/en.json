@@ -570,6 +570,7 @@
     "settings": {
         "title": "Settings",
         "subtitle": "Manage your Shira space settings here.",
+        "version": "You are currently using Shira v{{version}}.",
         "tabs": {
             "account": "Account",
             "subscription": "Subscription",
