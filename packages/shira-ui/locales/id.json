@@ -110,7 +110,7 @@
         "summary": "{{start}}-{{end}} of {{total}}",
         "last": "Last",
         "first": "First",
-        "next": "Next",
-        "back": "Back"
+        "next": "Berikutnya",
+        "back": "Kembali"
     }
 }
