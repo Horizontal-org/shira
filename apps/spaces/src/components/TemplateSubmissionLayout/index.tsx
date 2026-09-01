@@ -157,7 +157,7 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
             <Body1>
               <Trans
                 i18nKey={`${translationKey}.review_notice`}
-                components={{ learnMore: <Link1 href="/support" /> }}
+                components={{ learnMore: <Link1 href="https://shira.app/templates" /> }}
               />
             </Body1>
           </Subtitle>
@@ -200,7 +200,7 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
               <Body3>
                 <Trans
                   i18nKey={`${translationKey}.language_hint`}
-                  components={{ support: <Link3 href="/support" target="_blank" rel="noreferrer" /> }}
+                  components={{ support: <Link3 href="https://shira.app/contact/" target="_blank" rel="noreferrer" /> }}
                 />
               </Body3>
             </InputHeading>
