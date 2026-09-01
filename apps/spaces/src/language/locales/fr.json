@@ -955,7 +955,8 @@
         "checkout_success": {
             "all_done": "C'est terminé !",
             "success_message": "Votre paiement a été validé avec succès. Nous activons votre forfait dès maintenant."
-        }
+        },
+        "version": "You are currently using Shira v{{version}}."
     },
     "banner": {
         "message": "Les espaces Shira ne sont pas encore disponibles sur les petits écrans. Pour une meilleure expérience, il faut utiliser un écran d'une largeur supérieure à 800 pixels.",
