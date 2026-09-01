@@ -1,8 +1,9 @@
 import { FunctionComponent } from "react";
 import { darken } from "polished";
 import { FiChevronLeft, FiChevronRight, FiChevronsLeft, FiChevronsRight } from "react-icons/fi";
+import { Trans, useTranslation } from "react-i18next";
 import styled, { useTheme } from "styled-components";
-import { Body2Regular, Body2SemiBold, Body3 } from "../Typography";
+import { Body2SemiBold, Body3 } from "../Typography";
 
 interface BasePaginationProps {
   pageIndex: number
@@ -30,6 +31,7 @@ export const BasePagination: FunctionComponent<BasePaginationProps> = ({
   onLastPage,
 }) => {
   const theme = useTheme();
+  const { t } = useTranslation("shira-ui");
   const offSetPageIndex = pageIndex + 1;
 
   const start = total === 0 ? 0 : pageIndex * pageSize + 1;
@@ -38,7 +40,7 @@ export const BasePagination: FunctionComponent<BasePaginationProps> = ({
   return (
     <PaginationWrapper>
       <PaginationSummary>
-        {`${start}-${end} of ${total}`}
+        {t("pagination.summary", { start, end, total })}
       </PaginationSummary>
       <PaginationButtons>
         <PaginationButton
@@ -47,7 +49,7 @@ export const BasePagination: FunctionComponent<BasePaginationProps> = ({
           onClick={onFirstPage}
         >
           <FiChevronsLeft size={16} color={theme.colors.dark.darkGrey} data-mirror-rtl />
-          <Body3>First</Body3>
+          <Body3>{t("pagination.first")}</Body3>
         </PaginationButton>
         <PaginationButton
           type="button"
@@ -55,12 +57,16 @@ export const BasePagination: FunctionComponent<BasePaginationProps> = ({
           onClick={onPreviousPage}
         >
           <FiChevronLeft size={16} color={theme.colors.dark.darkGrey} data-mirror-rtl />
-          <Body3>Back</Body3>
+          <Body3>{t("pagination.back")}</Body3>
         </PaginationButton>
 
         <PaginationNavButton>
-          <StyledBody2Bold>{`${offSetPageIndex} `}</StyledBody2Bold>
-          <Body2>{`of ${pageCount}`}</Body2>
+          <Trans
+            i18nKey="pagination.page"
+            ns="shira-ui"
+            values={{ current: offSetPageIndex, total: pageCount }}
+            components={{ current: <StyledBody2Bold /> }}
+          />
         </PaginationNavButton>
 
         <PaginationButton
@@ -68,7 +74,7 @@ export const BasePagination: FunctionComponent<BasePaginationProps> = ({
           disabled={!canNextPage}
           onClick={onNextPage}
         >
-          <Body3>Next</Body3>
+          <Body3>{t("pagination.next")}</Body3>
           <FiChevronRight size={16} color={theme.colors.dark.darkGrey} data-mirror-rtl />
         </PaginationButton>
         <PaginationButton
@@ -76,7 +82,7 @@ export const BasePagination: FunctionComponent<BasePaginationProps> = ({
           disabled={!canNextPage}
           onClick={onLastPage}
         >
-          <Body3>Last</Body3>
+          <Body3>{t("pagination.last")}</Body3>
           <FiChevronsRight size={16} color={theme.colors.dark.darkGrey} data-mirror-rtl />
         </PaginationButton>
       </PaginationButtons>
@@ -97,10 +103,6 @@ const PaginationSummary = styled(StyledBody2SemiBold)`
   min-width: 12ch;
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
-`;
-
-const Body2 = styled(Body2Regular)`
-  color: ${props => props.theme.colors.dark.darkGrey};
 `;
 
 const PaginationWrapper = styled.div`
