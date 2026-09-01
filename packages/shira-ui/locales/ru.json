@@ -111,8 +111,8 @@
     "pagination": {
         "page": "<current>{{current}}</current> of {{total}}",
         "summary": "{{start}}-{{end}} of {{total}}",
-        "last": "Last",
-        "first": "First",
+        "last": "Последнее",
+        "first": "Первое",
         "next": "Далее",
         "back": "Назад"
     }
