@@ -157,7 +157,7 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
             <Body1>
               <Trans
                 i18nKey={`${translationKey}.review_notice`}
-                components={{ learnMore: <Link1 href="https://shira.app/templates" /> }}
+                components={{ learnMore: <Link1 href="https://shira.app/templates" target="_blank" rel="noreferrer" /> }}
               />
             </Body1>
           </Subtitle>
@@ -307,11 +307,6 @@ const FormCard = styled.form`
 
 const Field = styled.div`
   margin-top: 32px;
-`;
-
-const SubmissionSelect = styled(FilterSelect)`
-  width: 262px;
-  min-width: 0;
 `;
 
 const Terms = styled.div`
