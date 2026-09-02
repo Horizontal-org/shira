@@ -27,6 +27,7 @@ interface Props {
 
   isImportModalOpen: boolean;
   setImportModalOpen: (isOpen: boolean) => void;
+  onImportSuccess: () => void;
 }
 
 export const QuestionActionModals: FunctionComponent<Props> = ({
@@ -47,7 +48,8 @@ export const QuestionActionModals: FunctionComponent<Props> = ({
   setExportModalOpen,
 
   isImportModalOpen,
-  setImportModalOpen
+  setImportModalOpen,
+  onImportSuccess
 }) => {
 
   const { t } = useTranslation();
@@ -111,8 +113,10 @@ export const QuestionActionModals: FunctionComponent<Props> = ({
 
       <ImportEntityModal
         entityType="question"
+        quizId={quizId}
         isModalOpen={isImportModalOpen}
         setIsModalOpen={setImportModalOpen}
+        onImportSuccess={onImportSuccess}
       />
     </>
   )

@@ -17,7 +17,6 @@ import { QuestionEmptyState } from "./QuestionEmptyState";
 import { QuestionTable } from "./QuestionTable";
 import { QuestionActionModals } from "./QuestionActionModals";
 import { QuestionCreateOptions } from "./QuestionCreateOptions";
-import { set } from "date-fns";
 
 interface QuestionsListProps {
   quizId: number;
@@ -203,6 +202,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
 
         isImportModalOpen={isImportModalOpen}
         setImportModalOpen={(isOpen) => { setImportModalOpen(isOpen) }}
+        onImportSuccess={onDuplicate}
       />
     </div>
   );

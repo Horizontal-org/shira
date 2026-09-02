@@ -1,48 +1,57 @@
 import { Modal, styled } from "@horizontal-org/shira-ui";
 import { FunctionComponent, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import toast from "react-hot-toast";
 import { FileDropzone } from "../../FileDropzone";
 import { DroppedFileInfo } from "../../FileDropzone/components/DroppedFileInfo";
 import { FaRegFileZipper } from "react-icons/fa6";
+import { importEntity } from "../../../fetch/quiz";
+import { handleHttpError } from "../../../fetch/handleError";
 
 const MAX_ZIP_FILE_SIZE_BYTES = 50 * 1024 * 1024;
 
 interface Props {
   entityType: 'question' | 'quiz';
+  quizId: number;
   isModalOpen: boolean;
   setIsModalOpen: (handle: boolean) => void;
+  onImportSuccess: (questionId: number) => void;
 }
 
 export const ImportEntityModal: FunctionComponent<Props> = ({
   entityType,
+  quizId,
   isModalOpen,
   setIsModalOpen,
+  onImportSuccess,
 }) => {
 
   const { t } = useTranslation();
   const [error, handleError] = useState<string | null>(null);
   const [file, handleFile] = useState<File | null>(null);
+  const [isImporting, setIsImporting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  // const [isImporting, setIsImporting] = useState(false);
 
 
-  const onPrimary = () => {
-    // if (error) {
-    //   handleFile(null)
-    //   handleStep(1)
-    // } else if (step === 1) {
-    //   handleStep(2)
-    // } else if (step === 2) {
-    //   // handleImport()
-    // }
+  const onPrimary = async () => {
+    if (!file) return
+
+    setIsImporting(true)
+    try {
+      const { questionId } = await importEntity(quizId, file)
+      toast.success(t('success_messages.question_imported'), { duration: 3000 })
+      onImportSuccess(questionId)
+      handleClose()
+    } catch (err) {
+      const { message } = handleHttpError(err)
+      handleError(message ?? "unknown_error")
+    } finally {
+      setIsImporting(false)
+    }
   }
 
-  // const { message } = handleHttpError(error);
-  //         setUploadError(message);
   const onFileChange = (selectedFile: File) => {
     handleFile(selectedFile)
-
-    console.log(selectedFile, 'do something, please!')
 
     if (selectedFile.size > MAX_ZIP_FILE_SIZE_BYTES) {
       handleError("file_too_large");
@@ -71,8 +80,8 @@ export const ImportEntityModal: FunctionComponent<Props> = ({
       isOpen={isModalOpen}
       title={t(`modals.import.${entityType}.title`)}
       subtitle={t(`modals.import.${entityType}.subtitle`)}
-      primaryButtonText={t(`modals.import.${entityType}.button`)}
-      primaryButtonDisabled={!file || !!(error)}
+      primaryButtonText={isImporting ? t(`modals.import.${entityType}.importing`) : t(`modals.import.${entityType}.button`)}
+      primaryButtonDisabled={!file || !!(error) || isImporting}
       secondaryButtonText={!!(error) ? t('buttons.try_again') : t('buttons.cancel')}
       onPrimaryClick={!error && onPrimary}
       onSecondaryClick={!!(error) ? clean : handleClose}
@@ -89,7 +98,7 @@ export const ImportEntityModal: FunctionComponent<Props> = ({
                 showTryAgainButton={false}
                 size='big'
                 file={file}
-                dropLoading={false}
+                dropLoading={isImporting}
                 dropFailed={!!(error)}
                 onClearFile={clean}
                 labels={{
