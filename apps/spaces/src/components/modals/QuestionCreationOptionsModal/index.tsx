@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from "react";
-import { Body1, Body1SemiBold, Body2Regular, Body3, Link1, Link2, Modal, RenameIcon } from "@horizontal-org/shira-ui";
+import { Body1, Body1SemiBold, Body2Regular, Body3, Link1, Link2, Modal, ModalType, RenameIcon } from "@horizontal-org/shira-ui";
 import { Trans, useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { GenericErrorModal } from "../ErrorModal";
@@ -27,10 +27,6 @@ export const EntityCreationOptionsModal: FunctionComponent<Props> = ({
     setIsModalOpen(false);
   };
 
-  const handleAction = () => {
-    console.log('something')
-  };
-
   return (
     <Modal
       id="create-entity-modal"
@@ -38,10 +34,8 @@ export const EntityCreationOptionsModal: FunctionComponent<Props> = ({
       isOpen={isModalOpen}
       title={t(`modals.create_entity.${entityType}.title`)}
       subtitle={t(`modals.create_entity.${entityType}.subtitle`)}
-      primaryButtonText={t(`modals.create_entity.${entityType}.create_button`)}
-      primaryButtonDisabled={false}
+      primaryButtonText={''}
       secondaryButtonText={t('buttons.cancel')}
-      onPrimaryClick={handleAction}
       onSecondaryClick={handleClose}
       onClose={handleClose}
     >

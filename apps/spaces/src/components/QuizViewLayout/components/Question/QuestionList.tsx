@@ -17,6 +17,7 @@ import { QuestionEmptyState } from "./QuestionEmptyState";
 import { QuestionTable } from "./QuestionTable";
 import { QuestionActionModals } from "./QuestionActionModals";
 import { QuestionCreateOptions } from "./QuestionCreateOptions";
+import { set } from "date-fns";
 
 interface QuestionsListProps {
   quizId: number;
@@ -59,6 +60,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
 
   const [isExportModalOpen, setExportModalOpen] = useState<string | null>(null);
   const [isImportModalOpen, setImportModalOpen] = useState<boolean>(false);
+  const [isCreationOptionsModalOpen, setIsCreationOptionsModalOpen] = useState(false);
 
   const { updateQuiz } = useStore((state) => ({
     updateQuiz: state.updateQuiz
@@ -132,15 +134,17 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
       </Header> */}
 
       <QuestionCreateOptions
-        onImport={() => { }}
-        onAddLibrary={() => onAddLibrary(quizId.toString())}
-        onAdd={() => {
-          if (hasResults) {
+        isCreationOptionsModalOpen={isCreationOptionsModalOpen}
+        setIsCreationOptionsModalOpen={(toggle) => {
+          if (toggle && hasResults) {
             handleConfirmBeforeContinueModal({ confirmType: "add" });
           } else {
-            onAdd();
+            setIsCreationOptionsModalOpen(toggle)
           }
         }}
+        onImport={() => { setImportModalOpen(true) }}
+        onAddLibrary={() => onAddLibrary(quizId.toString())}
+        onAdd={() => { onAdd() }}
       />
 
 
@@ -180,7 +184,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
         onResultsModalCancel={() => { handleConfirmBeforeContinueModal(null) }}
         onResulsModalContinue={() => {
           if (confirmBeforeContinueModal?.confirmType === "add") {
-            onAdd();
+            setIsCreationOptionsModalOpen(true)
           } else if (confirmBeforeContinueModal?.confirmType === "edit" && confirmBeforeContinueModal.confirmId) {
             onEdit(confirmBeforeContinueModal.confirmId);
           } else if (confirmBeforeContinueModal?.confirmType === "duplicate" && confirmBeforeContinueModal.confirmId) {

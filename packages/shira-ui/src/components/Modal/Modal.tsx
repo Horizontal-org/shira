@@ -9,11 +9,11 @@ export interface ModalProps {
   isOpen: boolean;
   title: string;
   titleIcon?: React.ReactNode;
-  subtitle?: string;
+  subtitle?: string | React.ReactNode;
   children: React.ReactNode;
   primaryButtonText: string;
   primaryButtonDisabled?: boolean;
-  onPrimaryClick: () => void;
+  onPrimaryClick?: () => void;
   type?: ModalType
   secondaryButtonText: string;
   onSecondaryClick?: () => void;
@@ -117,13 +117,15 @@ export const Modal: React.FC<ModalProps> = ({
                   onClick={onSecondaryClick}
                 />
               )}
-              <Button
-                text={primaryButtonText}
-                type="primary"
-                disabled={primaryButtonDisabled}
-                onClick={onPrimaryClick}
-                color={modalTypeColors[type]}
-              />
+              {onPrimaryClick && (
+                <Button
+                  text={primaryButtonText}
+                  type="primary"
+                  disabled={primaryButtonDisabled}
+                  onClick={onPrimaryClick}
+                  color={modalTypeColors[type]}
+                />
+              )}
             </div>
           </Footer>
         </ModalContainer>
@@ -190,5 +192,6 @@ const Footer = styled.div`
 const Subtitle = styled(Body1)`
   padding-top: 12px;
   padding-left: 24px;
+  padding-right: 24px;
 `
 export default Modal;

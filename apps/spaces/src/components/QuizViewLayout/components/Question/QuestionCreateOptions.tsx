@@ -10,13 +10,20 @@ interface Props {
   onAdd: () => void;
   onImport: () => void;
   onAddLibrary: () => void;
+  isCreationOptionsModalOpen: boolean;
+  setIsCreationOptionsModalOpen: (isOpen: boolean) => void;
 }
 
-export const QuestionCreateOptions: FunctionComponent<Props> = ({ onAdd, onImport, onAddLibrary }) => {
+export const QuestionCreateOptions: FunctionComponent<Props> = ({
+  onAdd,
+  onImport,
+  onAddLibrary,
+  isCreationOptionsModalOpen,
+  setIsCreationOptionsModalOpen
+}) => {
 
   const { t } = useTranslation();
   const { isPublicLibraryEnabled } = usePublicLibrary();
-  const [isOptionsModalOpen, setIsOptionsModalOpen] = useState(false);
 
   return (
     <Header>
@@ -27,17 +34,17 @@ export const QuestionCreateOptions: FunctionComponent<Props> = ({ onAdd, onImpor
         type="primary"
         color={defaultTheme.colors.green7}
         onClick={() => {
-          setIsOptionsModalOpen(true);
+          setIsCreationOptionsModalOpen(true);
         }}
       />
 
       <EntityCreationOptionsModal
         entityType="question"
         isPublicLibraryEnabled={isPublicLibraryEnabled}
-        isModalOpen={isOptionsModalOpen}
-        setIsModalOpen={setIsOptionsModalOpen}
+        isModalOpen={isCreationOptionsModalOpen}
+        setIsModalOpen={setIsCreationOptionsModalOpen}
         onAction={(action) => {
-          setIsOptionsModalOpen(false)
+          setIsCreationOptionsModalOpen(false)
           if (action === 'scratch') {
             onAdd();
           } else if (action === 'template') {

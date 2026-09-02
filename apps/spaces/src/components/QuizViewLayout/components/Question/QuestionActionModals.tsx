@@ -5,6 +5,7 @@ import { DeleteModal } from "../../../modals/DeleteModal";
 import { useTranslation } from "react-i18next";
 import { ConfirmModalInfo } from "./QuestionList";
 import { ExportEntityModal } from "../../../modals/ExportEntityModal";
+import { ImportEntityModal } from "../../../modals/ImportEntityModal";
 
 interface Props {
   quizId: number;
@@ -108,7 +109,11 @@ export const QuestionActionModals: FunctionComponent<Props> = ({
         setIsModalOpen={setExportModalOpen}
       />
 
-      {/* Import modal */}
+      <ImportEntityModal
+        entityType="question"
+        isModalOpen={isImportModalOpen}
+        setIsModalOpen={setImportModalOpen}
+      />
     </>
   )
 }
