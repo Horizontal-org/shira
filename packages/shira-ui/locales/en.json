@@ -105,5 +105,13 @@
     "contact_9_name": "Kareem Salinas",
     "contact_9_time": "12:40 PM",
     "contact_9_message": "I'm sorry, guys. I never meant to hurt you"
+  },
+  "pagination": {
+    "summary": "{{start}}-{{end}} of {{total}}",
+    "page": "<current>{{current}}</current> of {{total}}",
+    "first": "First",
+    "back": "Back",
+    "next": "Next",
+    "last": "Last"
   }
 }

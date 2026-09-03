@@ -472,6 +472,10 @@
         }
     },
     "results_tab": {
+        "disabled": {
+            "message": "There is no data available because Results have been disabled. You can change this anytime in your space Settings.",
+            "go_to_settings": "Go to Settings"
+        },
         "title": "Overall results",
         "completed_quizzes": {
             "title": "Number of completed quizzes",
@@ -571,6 +575,7 @@
     "settings": {
         "title": "Settings",
         "subtitle": "Manage your Shira space settings here.",
+        "version": "You are currently using Shira v{{version}}.",
         "tabs": {
             "account": "Account",
             "subscription": "Subscription",
@@ -595,6 +600,10 @@
             "language": {
                 "title": "Space language",
                 "description": "Choose the language for your Shira space. This won’t change the language of quizzes or questions you share with learners, only the space interface."
+            },
+            "results": {
+                "title": "Enable results",
+                "description": "Shira automatically tracks quiz responses to provide analytics and compliance reporting. You can disable this feature to minimize the data we collect about your Learners. <learnMore>Learn More</learnMore>"
             }
         },
         "checkout_success": {

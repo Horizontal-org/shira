@@ -34,15 +34,17 @@ To generate passwords for different services and add them to your `.env`, you ca
 
 ## Releases
 
-After new commits arrive at `main`, we can tag a new release:
+When starting development on a new Shira version, update the root `package.json` version field (for example, `2.X.Y`).
+
+Once the related commits have been merged into `main`, create and tag the new release:
 
 ```sh
 git switch main
 git pull
-# Update version number on package.json and .env.example
-$EDITOR .env.example package.json
+# Update version number on .env.example
+$EDITOR .env.example
 # Commit the version
-git add .env.example package.json
+git add .env.example
 git commit -m 2.X.Y
 # Follow semver.org
 git tag 2.X.Y

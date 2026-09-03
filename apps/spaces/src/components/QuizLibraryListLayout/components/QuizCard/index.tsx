@@ -11,6 +11,7 @@ import { IoEyeSharp } from "react-icons/io5";
 import { MdCalendarMonth } from "react-icons/md";
 import { TbAlertTriangleFilled } from "react-icons/tb";
 import { LibraryQuizDto } from "../../../../fetch/quiz_templates";
+import { formatLocaleShortDate } from "../../../../language/dateUtils";
 import { HighlightedText } from "../../../HighlightedText";
 import { QuizCardTags } from "../QuizCardTags";
 
@@ -22,14 +23,6 @@ export interface CardProps {
   onReportIssue: () => void;
 }
 
-const formatCardDate = (value: string) => {
-  return new Date(value).toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
-};
-
 export const QuizCard: FunctionComponent<CardProps> = ({
   quiz,
   searchTerm,
@@ -37,7 +30,7 @@ export const QuizCard: FunctionComponent<CardProps> = ({
   onUseTemplate,
   onReportIssue,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const menuItems = useMemo<Array<{
     text: string;
@@ -80,7 +73,7 @@ export const QuizCard: FunctionComponent<CardProps> = ({
       )}
       bodyContent={<QuizCardTags tags={quiz.tags} />}
       author={quiz.author}
-      createdAt={formatCardDate(quiz.createdAt)}
+      createdAt={formatLocaleShortDate(quiz.createdAt, i18n.language)}
       authorIcon={<FaUserLarge size={14} color={defaultTheme.colors.green7} />}
       dateIcon={<MdCalendarMonth size={18} color={defaultTheme.colors.error7} />}
     />

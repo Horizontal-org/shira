@@ -1,5 +1,5 @@
 import { FunctionComponent, useCallback, useState } from "react";
-import { Body1, H2, Sidebar, styled, useAdminSidebar } from '@horizontal-org/shira-ui';
+import { Body1, Body2Regular, H2, Sidebar, styled, useAdminSidebar } from '@horizontal-org/shira-ui';
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useStore } from "../../store";
@@ -13,6 +13,7 @@ import i18n from "../../language/i18n";
 import { enUS } from "date-fns/locale";
 import { format, isValid } from "date-fns";
 import { requestChangeUserEmail, changeUserPassword } from "../../fetch/user";
+import { updateResultsEnabled } from "../../fetch/space";
 import { TabContainer } from "./components/TabContainer";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
 import { customMenuItems } from "../../utils/customMenuItems";
@@ -20,6 +21,8 @@ import { customMenuItems } from "../../utils/customMenuItems";
 interface Props { }
 
 export const SettingsLayout: FunctionComponent<Props> = () => {
+  const appVersion = process.env.REACT_APP_VERSION;
+
   const { t } = useTranslation();
   const navigate = useNavigate();
   const {
@@ -40,11 +43,15 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
   const {
     currentEmail: email,
     lastPasswordChangeAt,
-    subscription
+    subscription,
+    hasResultsEnabled,
+    setResultsEnabled,
   } = useStore((state) => ({
     currentEmail: state.user?.email,
     lastPasswordChangeAt: state.user?.lastPasswordChangeAt,
-    subscription: state.subscription
+    subscription: state.subscription,
+    hasResultsEnabled: state.space?.hasResultsEnabled,
+    setResultsEnabled: state.updateResultsEnabled,
   }), shallow);
 
   const getLastPasswordUpdateDate = useCallback((lastUpdate?: string | null) => {
@@ -85,6 +92,17 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
     setIsEmailSuccessModalOpen(true);
   };
 
+  const handleResultsEnabledChange = async (hasResultsEnabled: boolean): Promise<void> => {
+    setResultsEnabled(hasResultsEnabled);
+
+    try {
+      await updateResultsEnabled(hasResultsEnabled);
+    } catch (error) {
+      setResultsEnabled(!hasResultsEnabled);
+      console.error(error);
+    }
+  };
+
   return (
     <Container id="settings-layout">
       <Sidebar
@@ -109,11 +127,19 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
             email={email}
             lastPasswordUpdateText={getLastPasswordUpdateDate(lastPasswordChangeAt)}
             subscription={subscription}
+            hasResultsEnabled={hasResultsEnabled ?? true}
+            onResultsEnabledChange={handleResultsEnabledChange}
             onChangeEmail={() => setIsEmailModalOpen(true)}
             onChangePassword={() => setIsPasswordModalOpen(true)}
             onViewPlans={() => setIsViewPlansModalOpen(true)}
           />
         </MainContentWrapper>
+
+        {appVersion && (
+          <Footer>
+            <VersionText>{t('settings.version', { version: appVersion })}</VersionText>
+          </Footer>
+        )}
       </MainContent>
 
       <ChangeEmailModal
@@ -155,8 +181,10 @@ const Container = styled.div`
 
 const MainContent = styled.div<{ $isCollapsed: boolean }>`
   flex: 1;
-  margin-inline-start: ${props => props.$isCollapsed ? '116px' : '264px'};
-  transition: margin-inline-start 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  margin-left: ${props => props.$isCollapsed ? '116px' : '264px'};
+  transition: margin-left 0.3s ease;
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     margin-inline-start: 80px;
@@ -168,10 +196,19 @@ const MainContent = styled.div<{ $isCollapsed: boolean }>`
 `;
 
 const MainContentWrapper = styled.div`
+  flex: 1;
   padding: 50px 70px;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     padding: 32px 20px 48px;
+  }
+`;
+
+const Footer = styled.footer`
+  padding: 24px 70px;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    padding: 16px 20px 24px;
   }
 `;
 
@@ -185,4 +222,10 @@ const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+`;
+
+const VersionText = styled(Body2Regular)`
+  display: block;
+  text-align: center;
+  color: ${props => props.theme.colors.dark.darkGrey};
 `;

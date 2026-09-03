@@ -14,6 +14,8 @@ interface TabContainerProps {
   onChangeEmail: () => void;
   onChangePassword: () => void;
   onViewPlans: () => void;
+  hasResultsEnabled: boolean;
+  onResultsEnabledChange: (hasResultsEnabled: boolean) => Promise<void>;
 }
 
 export const TabContainer: FunctionComponent<TabContainerProps> = ({
@@ -23,10 +25,13 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   onChangeEmail,
   onChangePassword,
   onViewPlans,
+  hasResultsEnabled,
+  onResultsEnabledChange,
 }) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const [activeTab, setActiveTab] = useState<TabType>("general");
+  const [isUpdatingResults, setIsUpdatingResults] = useState(false);
   const { isSubActive, isSelfHosted } = useSub();
 
   const currentPlanName = isSubActive ? String(subscription?.type ?? "unknown").toLowerCase() : "starter";
@@ -100,7 +105,20 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
         )}
 
         {activeTab === "general" && (
-          <GeneralSection />
+          <GeneralSection
+            hasResultsEnabled={hasResultsEnabled}
+            isUpdatingResults={isUpdatingResults}
+            onResultsEnabledChange={async () => {
+              if (isUpdatingResults) { return; }
+
+              setIsUpdatingResults(true);
+              try {
+                await onResultsEnabledChange(!hasResultsEnabled);
+              } finally {
+                setIsUpdatingResults(false);
+              }
+            }}
+          />
         )}
 
         {activeTab === "subscription" && !!(subscription) && (

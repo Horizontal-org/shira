@@ -20,6 +20,7 @@ interface TabContainerProps {
   quizVisibility: string;
   resultsData: QuizResultsResponse | null
   resultsLoading: boolean
+  hasResultsEnabled: boolean
   hasResults: boolean
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;
@@ -50,6 +51,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   onPublish,
   resultsData,
   resultsLoading,
+  hasResultsEnabled,
   hasResults,
   onAssessmentModeChange
 }) => {
@@ -125,6 +127,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
             resultsData={resultsData}
             loading={resultsLoading}
             quizVisibility={quizVisibility}
+            hasResultsEnabled={hasResultsEnabled}
           />
         )}
 

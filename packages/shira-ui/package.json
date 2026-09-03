@@ -12,7 +12,14 @@
         },
         "./styles.css": "./dist/styles.css",
         "./locales/en.json": "./locales/en.json",
-        "./locales/es.json": "./locales/es.json"
+        "./locales/es.json": "./locales/es.json",
+        "./locales/fr.json": "./locales/fr.json",
+        "./locales/ar.json": "./locales/ar.json",
+        "./locales/fa.json": "./locales/fa.json",
+        "./locales/ru.json": "./locales/ru.json",
+        "./locales/sw.json": "./locales/sw.json",
+        "./locales/id.json": "./locales/id.json",
+        "./locales/zh_Hans.json": "./locales/zh_Hans.json"
     },
     "files": [
         "dist",
