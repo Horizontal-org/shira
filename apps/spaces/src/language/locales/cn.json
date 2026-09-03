@@ -295,6 +295,10 @@
                 "score": "测验得分",
                 "loading": "正在加载学员..."
             }
+        },
+        "disabled": {
+            "message": "There is no data available because Results have been disabled. You can change this anytime in your space Settings.",
+            "go_to_settings": "Go to Settings"
         }
     },
     "support": {
@@ -939,6 +943,10 @@
             "language": {
                 "description": "Choose the language for your Shira space. This won’t change the language of quizzes or questions you share with learners, only the space interface.",
                 "title": "Space language"
+            },
+            "results": {
+                "description": "Shira automatically tracks quiz responses to provide analytics and compliance reporting. You can disable this feature to minimize the data we collect about your Learners. <learnMore>Learn More</learnMore>",
+                "title": "Enable results"
             }
         },
         "tabs": {
