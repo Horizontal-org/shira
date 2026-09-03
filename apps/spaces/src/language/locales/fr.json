@@ -298,7 +298,7 @@
         "title": "Scores globaux",
         "disabled": {
             "message": "There is no data available because Results have been disabled. You can change this anytime in your space Settings.",
-            "go_to_settings": "Go to Settings"
+            "go_to_settings": "Aller aux paramètres"
         }
     },
     "support": {
