@@ -97,7 +97,8 @@
             "duplicate": "Dupliquer",
             "delete": "Supprimer",
             "more_actions": "Plus d'actions",
-            "submit_as_template": "Soumettre comme modèle"
+            "submit_as_template": "Soumettre comme modèle",
+            "export": "Export"
         },
         "use_library_question_button": "Utiliser un modèle de question"
     },
@@ -618,6 +619,21 @@
             "input_label": "Nom du quiz",
             "title": "Donnez un nom à votre nouveau quiz",
             "subtitle": "Le nom du quiz sera visible dans votre Espace et par les apprenants lorsqu'ils y participeront."
+        },
+        "export": {
+            "question": {
+                "title": "Export question",
+                "sharing_implications": "If you will share your question with others, you may want to remove any sensitive information it contains before exporting it. <1>Learn more</1>",
+                "error": "There was a problem exporting the question. If this issue persists, <1>contact us</1>.",
+                "file_type": "Your question will be exported as a .zip file that can be re-imported into a Shira space."
+            },
+            "quiz": {
+                "error": "There was a problem exporting the quiz. If this issue persists, <1>contact us</1>.",
+                "file_type": "Your quiz will be exported as a .zip file that can be re-imported into a Shira space.",
+                "sharing_implications": "If you will share your quiz with others, you may want to remove any sensitive information it contains before exporting it. <1>Learn more</1>",
+                "title": "Export quiz"
+            },
+            "exporting": "Exporting..."
         }
     },
     "error_messages": {
@@ -681,7 +697,8 @@
         "invalid_email": "Indiquez une adresse e-mail valide",
         "something_went_wrong": "Une erreur s'est produite",
         "character_limit_error": "Limite de caractères dépassée",
-        "template_submission_failed": "There was a problem submitting the template. If this issue persists, <1>contact us</1>."
+        "template_submission_failed": "There was a problem submitting the template. If this issue persists, <1>contact us</1>.",
+        "export_question_fail": "Failed to export question"
     },
     "success_messages": {
         "message": "",
