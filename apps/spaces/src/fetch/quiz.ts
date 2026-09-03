@@ -171,3 +171,16 @@ export const importEntity = async (quizId: number, file: File) => {
 
   return data as { questionId: number }
 }
+
+export const importQuiz = async (file: File) => {
+  const formData = new FormData()
+  formData.append('file', file)
+
+  const { data } = await axios.post(
+    `${process.env.REACT_APP_API_URL}/quiz/import`,
+    formData,
+    { headers: { 'Content-Type': 'multipart/form-data' } }
+  )
+
+  return data as { quizId: number }
+}

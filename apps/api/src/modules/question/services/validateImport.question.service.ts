@@ -11,7 +11,7 @@ import {
   InvalidZipStructureException,
 } from '../exceptions'
 
-const MAX_UNCOMPRESSED_SIZE = 100 * 1024 * 1024 // 100MB
+const MAX_UNCOMPRESSED_SIZE = 300 * 1024 * 1024 // 300MB, shared by single-question and whole-quiz imports
 const METADATA_ENTRY = 'metadata.json'
 const CONTENT_ENTRY = 'content.html'
 
@@ -24,6 +24,11 @@ export interface QuestionImportValidationResult {
 @Injectable()
 export class ValidateQuestionImportService {
   async validate(buffer: Buffer): Promise<QuestionImportValidationResult> {
+    const entries = await this.loadZipEntries(buffer)
+    return this.validateEntries(entries, '')
+  }
+
+  async loadZipEntries(buffer: Buffer): Promise<AdmZip.IZipEntry[]> {
     const type = await fileTypeFromBuffer(buffer)
     if (!type || type.mime !== 'application/zip') {
       throw new InvalidZipStructureException('Uploaded file is not a zip archive')
@@ -34,22 +39,27 @@ export class ValidateQuestionImportService {
 
     this.assertSafeEntries(entries)
 
-    const metadataEntry = entries.find((entry) => entry.entryName === METADATA_ENTRY)
-    const contentEntry = entries.find((entry) => entry.entryName === CONTENT_ENTRY)
+    return entries
+  }
+
+  async validateEntries(entries: AdmZip.IZipEntry[], basePath = ''): Promise<QuestionImportValidationResult> {
+    const metadataEntry = entries.find((entry) => entry.entryName === `${basePath}${METADATA_ENTRY}`)
+    const contentEntry = entries.find((entry) => entry.entryName === `${basePath}${CONTENT_ENTRY}`)
 
     if (!metadataEntry || !contentEntry) {
       throw new InvalidZipStructureException(
-        `Zip must contain ${METADATA_ENTRY} and ${CONTENT_ENTRY} at its root`,
+        `Zip must contain ${METADATA_ENTRY} and ${CONTENT_ENTRY} at ${basePath || 'its root'}`,
       )
     }
 
     const metadata = await this.parseMetadata(metadataEntry.getData())
     const contentHtml = contentEntry.getData().toString('utf8')
 
+    const assetsPrefix = `${basePath}assets/`
     const assets: Asset[] = entries
-      .filter((entry) => !entry.isDirectory && entry.entryName.startsWith('assets/'))
+      .filter((entry) => !entry.isDirectory && entry.entryName.startsWith(assetsPrefix))
       .map((entry) => ({
-        fileName: entry.entryName.replace(/^assets\//, ''),
+        fileName: entry.entryName.slice(assetsPrefix.length),
         buffer: entry.getData(),
       }))
 

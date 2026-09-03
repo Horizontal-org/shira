@@ -961,6 +961,17 @@
                 "upload_success": "Your file is ready to be imported.",
                 "button": "Import question",
                 "importing": "Importing..."
+            },
+            "quiz": {
+                "title": "Import quiz",
+                "subtitle": "Select the file of the quiz you want to import. To prevent errors, we recommend not modifying the content of the file.",
+                "error": "There was a problem importing the quiz. If this issue persists, <1>contact us</1>.",
+                "drag_title": "Drag and drop to upload your quiz file here",
+                "file_type": "Accepted file type: .zip only",
+                "file_size": "Maximum file size: 200 MB",
+                "upload_success": "Your file is ready to be imported.",
+                "button": "Import quiz",
+                "importing": "Importing..."
             }
         }
     },
@@ -1061,6 +1072,7 @@
         "question_deleted": "The question has been deleted",
         "question_copied": "The question has been duplicated",
         "question_imported": "The question has been imported",
+        "quiz_imported": "The quiz has been imported",
         "no_questions_found": "No questions found.",
         "learner_invitation_sent": "The invitation has been sent.",
         "learner_invitation_resent": "The invitation has been re-sent to {{email}}",

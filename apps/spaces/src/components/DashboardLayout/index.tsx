@@ -26,7 +26,6 @@ import { QuizLimitModal } from "../modals/QuizLimitModal";
 import { ViewPlansModal } from "../modals/ViewPlansModal";
 import { FirstLoginModal } from "../modals/FirstLoginModal";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
-import { UseAQuizTemplateButton } from "../QuizLibraryListLayout/components/UseAQuizTemplateButton";
 import { AddQuizFromTemplateModal } from "../modals/AddQuizFromTemplateModal";
 import { LibraryQuizDto, type LibraryQuizQuestionTemplateDto } from "../../fetch/quiz_templates";
 import { customMenuItems } from "../../utils/customMenuItems";
@@ -307,14 +306,8 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
               <CreateQuizButton
                 isSubActive={isSubActive}
                 quizCount={quizzes ? quizzes.length : 0}
+                isPublicLibraryEnabled={isPublicLibraryEnabled}
                 startCreateQuizFlow={startCreateQuizFlow}
-                onLimitReached={() => setIsQuizLimitModalOpen(true)}
-              />
-
-              <UseAQuizTemplateButton
-                isSubActive={isSubActive}
-                quizCount={quizzes ? quizzes.length : 0}
-                disabled={!isPublicLibraryEnabled}
                 onLimitReached={() => setIsQuizLimitModalOpen(true)}
               />
             </HeaderActions>

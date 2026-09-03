@@ -22,7 +22,7 @@ export class ImportQuestionController {
     private validateSpaceQuizService: IValidateSpaceQuizService,
     @Inject(TYPES.services.IAddQuestionToQuizService)
     private addQuestionToQuizService: IAddQuestionToQuizService,
-  ) {}
+  ) { }
 
   @Post('import')
   @Roles(Role.SpaceAdmin)

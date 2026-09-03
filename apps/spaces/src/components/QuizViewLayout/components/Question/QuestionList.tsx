@@ -27,7 +27,7 @@ interface QuestionsListProps {
   onAdd: () => void;
   onAddLibrary: (quizId: string) => void;
   onReorder: (newOrder: QuizQuestion[]) => void;
-  onDuplicate: () => void;
+  onRefresh: () => void;
   onSubmitAsTemplate: (questionId: string) => void;
   hasResults: boolean
 }
@@ -46,7 +46,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
   onAdd,
   onAddLibrary,
   onReorder,
-  onDuplicate,
+  onRefresh,
   onSubmitAsTemplate,
   hasResults
 }) => {
@@ -75,7 +75,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
         t("success_messages.question_copied", { question_name: questionName }),
         { duration: 3000 },
       );
-      onDuplicate(); // Refresh the quiz data
+      onRefresh(); // Refresh the quiz data
     } catch (error) {
       toast.error(t("error_messages.duplicate_question_fail"), { duration: 3000 });
     } finally {
@@ -106,31 +106,6 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
 
   return (
     <div>
-      {/* <Header>
-        <Button
-          id="create-question-button"
-          leftIcon={<FiPlus size={16} />}
-          text={t("questions_tab.create_question_button")}
-          type="primary"
-          color={defaultTheme.colors.green7}
-          onClick={() => {
-            if (hasResults) {
-              handleConfirmBeforeContinueModal({ confirmType: "add" });
-            } else {
-              onAdd();
-            }
-          }}
-        />
-        <Button
-          id="use-library-question-button"
-          leftIcon={<MdOutlineMenuBook size={19} />}
-          text={t("questions_tab.use_library_question_button")}
-          type="primary"
-          color={defaultTheme.colors.green7}
-          disabled={!isPublicLibraryEnabled}
-          onClick={() => onAddLibrary(quizId.toString())}
-        />
-      </Header> */}
 
       <QuestionCreateOptions
         isCreationOptionsModalOpen={isCreationOptionsModalOpen}
@@ -202,7 +177,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
 
         isImportModalOpen={isImportModalOpen}
         setImportModalOpen={(isOpen) => { setImportModalOpen(isOpen) }}
-        onImportSuccess={onDuplicate}
+        onImportSuccess={onRefresh}
       />
     </div>
   );
