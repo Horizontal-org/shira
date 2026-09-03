@@ -25,6 +25,7 @@ interface Props { }
 export const ORG_TYPES = [
   { value: "educational", label: "get_started.org_types.educational" },
   { value: "healthcare", label: "get_started.org_types.healthcare" },
+  { value: "cibersecurity", label: "get_started.org_types.cibersecurity" },
   { value: "non-profit", label: "get_started.org_types.non_profit" },
   { value: "business", label: "get_started.org_types.business" },
   { value: "individual", label: "get_started.org_types.individual" }
