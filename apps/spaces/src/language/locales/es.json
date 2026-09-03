@@ -97,7 +97,8 @@
             "duplicate": "Duplicar",
             "delete": "Eliminar pregunta",
             "more_actions": "More actions",
-            "submit_as_template": "Submit as template"
+            "submit_as_template": "Submit as template",
+            "export": "Export"
         },
         "use_library_question_button": "Use a question template"
     },
@@ -618,6 +619,21 @@
             "input_label": "Nombre del cuestionario",
             "title": "Give your new quiz a name",
             "subtitle": "The quiz name will be visible in your Space and to learners when they take it."
+        },
+        "export": {
+            "quiz": {
+                "title": "Export quiz",
+                "error": "There was a problem exporting the quiz. If this issue persists, <1>contact us</1>.",
+                "file_type": "Your quiz will be exported as a .zip file that can be re-imported into a Shira space.",
+                "sharing_implications": "If you will share your quiz with others, you may want to remove any sensitive information it contains before exporting it. <1>Learn more</1>"
+            },
+            "question": {
+                "title": "Export question",
+                "error": "There was a problem exporting the question. If this issue persists, <1>contact us</1>.",
+                "file_type": "Your question will be exported as a .zip file that can be re-imported into a Shira space.",
+                "sharing_implications": "If you will share your question with others, you may want to remove any sensitive information it contains before exporting it. <1>Learn more</1>"
+            },
+            "exporting": "Exporting..."
         }
     },
     "error_messages": {
@@ -681,7 +697,8 @@
         "reset_password_confirmation_mismatch": "La confirmación de contraseña no coincide.",
         "reset_password_weak": "La contraseña debe tener al menos 8 caracteres.",
         "character_limit_error": "Character limit exceeded",
-        "template_submission_failed": "There was a problem submitting the template. If this issue persists, <1>contact us</1>."
+        "template_submission_failed": "There was a problem submitting the template. If this issue persists, <1>contact us</1>.",
+        "export_question_fail": "Failed to export question"
     },
     "success_messages": {
         "message": "",
