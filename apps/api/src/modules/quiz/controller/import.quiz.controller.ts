@@ -16,7 +16,7 @@ import { IImportQuizService } from '../interfaces/services/import.quiz.service.i
 import { ValidateQuizImportService } from '../services/validate-import.quiz.service'
 import { QuizVisibility } from '../dto/quiz-visibility-enum.quiz'
 
-const MAX_IMPORT_FILE_SIZE = 200 * 1024 * 1024 // 200MB
+const MAX_IMPORT_FILE_SIZE = 50 * 1024 * 1024
 
 @AuthController('quiz')
 export class ImportQuizController {
@@ -26,7 +26,7 @@ export class ImportQuizController {
     private validateQuizService: IValidateCreateQuizService,
     @Inject(TYPES.services.IImportQuizService)
     private importQuizService: IImportQuizService,
-  ) {}
+  ) { }
 
   @Post('import')
   @Roles(Role.SpaceAdmin)
