@@ -12,6 +12,7 @@ interface Props {
   setIsModalOpen: (handle: boolean) => void
   onDelete: () => void
   onCancel: () => void
+  primaryButtonText?: string
 }
 
 export const DeleteModal: FunctionComponent<Props> = ({
@@ -20,7 +21,8 @@ export const DeleteModal: FunctionComponent<Props> = ({
   onDelete,
   onCancel,
   title = '',
-  content = ''
+  content = '',
+  primaryButtonText
 }) => {
 
   const { t } = useTranslation();
@@ -30,7 +32,7 @@ export const DeleteModal: FunctionComponent<Props> = ({
       id="delete-modal"
       isOpen={isModalOpen}
       title={title}
-      primaryButtonText={t('buttons.delete')}
+      primaryButtonText={primaryButtonText ?? t('buttons.delete')}
       secondaryButtonText={t('buttons.cancel')}
       type={ModalType.Danger}
       onPrimaryClick={() => {

@@ -14,7 +14,8 @@ import {
   Body2Regular,
   defaultTheme,
   Body4,
-  GeneralTooltip
+  GeneralTooltip,
+  IconButton
 } from "@horizontal-org/shira-ui";
 import { TabContainer } from './components/TabContainer'
 import { shallow } from "zustand/shallow";
@@ -31,7 +32,7 @@ import { getQuizResults, QuizResultsResponse } from "../../fetch/results";
 import { useTranslation } from "react-i18next";
 import { MdLockOutline } from "react-icons/md";
 import { TbWorld } from "react-icons/tb";
-import { FiCopy, FiUpload } from "react-icons/fi";
+import { FiCopy, FiUpload, FiMoreVertical } from "react-icons/fi";
 import { RenameQuizModal } from "../modals/RenameQuizModal";
 import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
 import { DuplicateQuizModal } from "../modals/DuplicateQuizModal";
@@ -41,6 +42,8 @@ import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
 import { customMenuItems } from "../../utils/customMenuItems";
 import { DisplayNameModal } from "../modals/DisplayNameModal";
 import { useTemplateSubmission } from "../../hooks/useTemplateSubmission";
+import { MoreQuizOptions } from "./components/MoreQuizOptions";
+import { ExportEntityModal } from "../modals/ExportEntityModal";
 
 interface Props { }
 
@@ -91,6 +94,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false);
   const {
     isDisplayNameModalOpen,
     cancelTemplateSubmission,
@@ -294,13 +298,6 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 </Header>
                 <ButtonsContainer>
                   <LeftButtons>
-                    <Button
-                      id="rename-quiz-button"
-                      leftIcon={<RenameIcon />}
-                      text={t('quiz.actions.rename')}
-                      type="outline"
-                      onClick={() => { setIsRenameModalOpen(true) }}
-                    />
 
                     <GeneralTooltip
                       enabled={!isSubActive && hasReachedLimit}
@@ -399,12 +396,10 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                       )}
                     </PublishToggleWrapper>
 
-                    <Button
-                      id="delete-quiz-button"
-                      leftIcon={<DeleteIcon />}
-                      text={t('buttons.delete')}
-                      type="outline"
-                      onClick={() => { setIsDeleteModalOpen(true) }}
+                    <MoreQuizOptions
+                      onRenameClick={() => { setIsRenameModalOpen(true) }}
+                      onDeleteClick={() => { setIsDeleteModalOpen(true) }}
+                      onExportClick={() => { setIsExportModalOpen(true) }}
                     />
                   </LeftButtons>
                 </ButtonsContainer>
@@ -543,6 +538,13 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 isOpen={isDisplayNameModalOpen}
                 onCancel={cancelTemplateSubmission}
                 onSave={continueTemplateSubmission}
+              />
+
+              <ExportEntityModal
+                entityId={quiz.id.toString()}
+                entityType="quiz"
+                isModalOpen={isExportModalOpen}
+                setIsModalOpen={setIsExportModalOpen}
               />
             </>
           ) : (
