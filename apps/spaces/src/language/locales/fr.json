@@ -295,7 +295,11 @@
                 "loading": "Chargement des apprenant.e.s…"
             }
         },
-        "title": "Scores globaux"
+        "title": "Scores globaux",
+        "disabled": {
+            "message": "There is no data available because Results have been disabled. You can change this anytime in your space Settings.",
+            "go_to_settings": "Go to Settings"
+        }
     },
     "support": {
         "message": "",
@@ -937,6 +941,10 @@
             "language": {
                 "description": "Choisissez la langue de votre espace Shira. Cela ne modifiera pas la langue des quiz ou des questions que vous partagez avec les apprenants, uniquement celle de l'interface de l'espace.",
                 "title": "Langue de l'espace"
+            },
+            "results": {
+                "description": "Shira automatically tracks quiz responses to provide analytics and compliance reporting. You can disable this feature to minimize the data we collect about your Learners. <learnMore>Learn More</learnMore>",
+                "title": "Enable results"
             }
         },
         "title": "Paramètres",
