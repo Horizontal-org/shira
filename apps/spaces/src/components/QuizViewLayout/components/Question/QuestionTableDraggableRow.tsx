@@ -3,7 +3,7 @@ import { flexRender, Row } from "@tanstack/react-table";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { defaultTheme, Td as SharedTd, Tr as SharedTr, styled } from "@horizontal-org/shira-ui";
-import { QuizQuestion } from "../../../store/slices/quiz";
+import { QuizQuestion } from "../../../../store/slices/quiz";
 import { QuestionTableActionsMenu } from "./QuestionTableActionsMenu";
 
 interface Props {
@@ -12,11 +12,13 @@ interface Props {
   onEditQuestion: (questionId: string) => void;
   onDuplicateQuestion: (questionId: string) => void;
   onSubmitQuestionAsTemplate: (questionId: string) => void;
+  onExportQuestion: (questionId: string) => void;
   onDeleteQuestion: (questionId: string) => void;
   editTooltip: string;
   duplicateTooltip: string;
   submitAsTemplateTooltip: string;
   deleteTooltip: string;
+  exportTooltip: string;
 }
 
 const QuestionTableDraggableRowComponent: FunctionComponent<Props> = ({
@@ -25,11 +27,13 @@ const QuestionTableDraggableRowComponent: FunctionComponent<Props> = ({
   onEditQuestion,
   onDuplicateQuestion,
   onSubmitQuestionAsTemplate,
+  onExportQuestion,
   onDeleteQuestion,
   editTooltip,
   duplicateTooltip,
   submitAsTemplateTooltip,
   deleteTooltip,
+  exportTooltip,
 }) => {
   const {
     attributes,
@@ -81,10 +85,12 @@ const QuestionTableDraggableRowComponent: FunctionComponent<Props> = ({
                 duplicateLabel={duplicateTooltip}
                 submitAsTemplateLabel={submitAsTemplateTooltip}
                 deleteLabel={deleteTooltip}
+                exportLabel={exportTooltip}
                 disabled={isDuplicatingThisQuestion}
                 onEdit={() => onEditQuestion(questionId)}
                 onDuplicate={() => onDuplicateQuestion(questionId)}
                 onSubmitAsTemplate={() => onSubmitQuestionAsTemplate(questionId)}
+                onExport={() => onExportQuestion(questionId)}
                 onDelete={() => onDeleteQuestion(questionId)}
               />
             </Td>

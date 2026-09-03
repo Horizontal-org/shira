@@ -9,10 +9,10 @@ import {
   styled,
 } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
-import { QuizQuestion } from "../../../store/slices/quiz";
-import { appIcons } from "../../../utils/appIcons";
-import { normalizePreviewAppName } from "../../../utils/appNames";
-import { truncateQuestionName } from "../../../utils/questionName";
+import { QuizQuestion } from "../../../../store/slices/quiz";
+import { appIcons } from "../../../../utils/appIcons";
+import { normalizePreviewAppName } from "../../../../utils/appNames";
+import { truncateQuestionName } from "../../../../utils/questionName";
 
 export const useQuestionTableColumns = (): ColumnDef<QuizQuestion>[] => {
   const { t } = useTranslation();
