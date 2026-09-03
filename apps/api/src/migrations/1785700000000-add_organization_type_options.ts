@@ -22,6 +22,8 @@ const newOrganizationTypes = organizationTypes.filter(
 
 export class AddOrganizationTypeOptions1785700000000 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
+
+    // This is for backward compatibility
     const enumValues = organizationTypes.map((type) => `'${type}'`).join(', ');
 
     await queryRunner.query(
