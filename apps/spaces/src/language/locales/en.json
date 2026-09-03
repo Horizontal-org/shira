@@ -1029,6 +1029,8 @@
         "org_type_label": "I am creating a Shira space as (required):",
         "loading": "Signing up...",
         "org_types": {
+            "educational": "An educational organization",
+            "healthcare": "A healthcare organization",
             "business": "A business",
             "cibersecurity": "A cybersecurity service provider",
             "non_profit": "A non-profit organization",
