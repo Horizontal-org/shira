@@ -13,6 +13,7 @@ import i18n from "../../language/i18n";
 import { enUS } from "date-fns/locale";
 import { format, isValid } from "date-fns";
 import { requestChangeUserEmail, changeUserPassword } from "../../fetch/user";
+import { updateResultsEnabled } from "../../fetch/space";
 import { TabContainer } from "./components/TabContainer";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
 import { customMenuItems } from "../../utils/customMenuItems";
@@ -42,11 +43,15 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
   const {
     currentEmail: email,
     lastPasswordChangeAt,
-    subscription
+    subscription,
+    hasResultsEnabled,
+    setResultsEnabled,
   } = useStore((state) => ({
     currentEmail: state.user?.email,
     lastPasswordChangeAt: state.user?.lastPasswordChangeAt,
-    subscription: state.subscription
+    subscription: state.subscription,
+    hasResultsEnabled: state.space?.hasResultsEnabled,
+    setResultsEnabled: state.updateResultsEnabled,
   }), shallow);
 
   const getLastPasswordUpdateDate = useCallback((lastUpdate?: string | null) => {
@@ -87,6 +92,17 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
     setIsEmailSuccessModalOpen(true);
   };
 
+  const handleResultsEnabledChange = async (hasResultsEnabled: boolean): Promise<void> => {
+    setResultsEnabled(hasResultsEnabled);
+
+    try {
+      await updateResultsEnabled(hasResultsEnabled);
+    } catch (error) {
+      setResultsEnabled(!hasResultsEnabled);
+      console.error(error);
+    }
+  };
+
   return (
     <Container id="settings-layout">
       <Sidebar
@@ -111,6 +127,8 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
             email={email}
             lastPasswordUpdateText={getLastPasswordUpdateDate(lastPasswordChangeAt)}
             subscription={subscription}
+            hasResultsEnabled={hasResultsEnabled ?? true}
+            onResultsEnabledChange={handleResultsEnabledChange}
             onChangeEmail={() => setIsEmailModalOpen(true)}
             onChangePassword={() => setIsPasswordModalOpen(true)}
             onViewPlans={() => setIsViewPlansModalOpen(true)}
