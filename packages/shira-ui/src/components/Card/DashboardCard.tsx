@@ -1,6 +1,5 @@
-import { FunctionComponent, ReactNode, useMemo, useState } from 'react';
-import { IoLinkOutline } from 'react-icons/io5';
-import { MdDelete, MdLockOutline, MdModeEdit, MdOutlineContentCopy } from 'react-icons/md';
+import { FunctionComponent, ReactNode, useState } from 'react';
+import { MdLockOutline } from 'react-icons/md';
 import { TbWorld } from 'react-icons/tb';
 import styled from 'styled-components';
 import { defaultTheme } from '../../theme';
@@ -11,9 +10,8 @@ import {
   Card,
   CardFooter,
   CardFooterMeta,
-  type CardMenuItem,
 } from './Card';
-import { FiUpload } from 'react-icons/fi';
+import { getDashboardCardMenuItems, type DashboardCardActions } from './DashboardCard.menuItems';
 
 export interface DashboardCardProps {
   id?: string;
@@ -27,21 +25,12 @@ export interface DashboardCardProps {
   disablePublishToggle?: boolean;
   disabledTooltipLabel?: string;
   onTogglePublished: () => void;
-  onCopyUrl?: () => void;
-  onEdit?: () => void;
-  onDuplicate?: () => void;
-  onSubmitAsTemplate?: () => void;
-  onDelete?: () => void;
+  actions?: DashboardCardActions;
   onClick?: () => void;
   showLoading?: boolean;
   loadingLabel?: string;
   canDuplicate?: boolean;
   minHeight?: string;
-  editText?: string;
-  duplicateText?: string;
-  copyLinkText?: string;
-  submitAsTemplateText?: string;
-  deleteText?: string;
 }
 
 export const DashboardCard: FunctionComponent<DashboardCardProps> = ({
@@ -56,67 +45,16 @@ export const DashboardCard: FunctionComponent<DashboardCardProps> = ({
   disablePublishToggle = false,
   disabledTooltipLabel,
   onTogglePublished,
-  onCopyUrl,
-  onEdit,
-  onDuplicate,
-  onSubmitAsTemplate,
-  onDelete,
+  actions,
   onClick,
   showLoading = false,
   loadingLabel,
   canDuplicate = true,
   minHeight = '180px',
-  editText = 'Edit',
-  duplicateText = 'Duplicate',
-  copyLinkText = 'Copy link',
-  submitAsTemplateText = 'Submit as template',
-  deleteText = 'Delete',
 }) => {
   const [showPublishTooltip, setShowPublishTooltip] = useState(false);
 
-  const menuItems = useMemo<CardMenuItem[]>(() => {
-    const items: (CardMenuItem | false)[] = [
-      onEdit && {
-        text: editText,
-        onClick: onEdit,
-        icon: <MdModeEdit color={defaultTheme.colors.dark.darkGrey} />,
-      },
-      canDuplicate && onDuplicate && {
-        text: duplicateText,
-        onClick: onDuplicate,
-        icon: <MdOutlineContentCopy color={defaultTheme.colors.dark.darkGrey} />,
-      },
-      isPublic && onCopyUrl && {
-        text: copyLinkText,
-        onClick: onCopyUrl,
-        icon: <IoLinkOutline color={defaultTheme.colors.dark.darkGrey} />,
-      },
-      onSubmitAsTemplate && {
-        text: submitAsTemplateText,
-        onClick: onSubmitAsTemplate,
-        icon: <FiUpload color={defaultTheme.colors.dark.darkGrey} />,
-      },
-      onDelete && {
-        text: deleteText,
-        onClick: onDelete,
-        icon: <MdDelete color={defaultTheme.colors.dark.darkGrey} />,
-      },
-    ];
-    return items.filter((item): item is CardMenuItem => Boolean(item));
-  }, [
-    canDuplicate,
-    copyLinkText,
-    deleteText,
-    duplicateText,
-    editText,
-    isPublic,
-    onCopyUrl,
-    onDelete,
-    onDuplicate,
-    onEdit,
-    onSubmitAsTemplate,
-    submitAsTemplateText,
-  ]);
+  const menuItems = getDashboardCardMenuItems({ actions, canDuplicate, isPublic });
 
   return (
     <Card

@@ -78,11 +78,13 @@ export const GridLayout: Story = {
       lastModified: "2 days ago",
       isPublished: true,
       onTogglePublished: () => console.log('Toggle published'),
-      onCopyUrl: () => console.log('Copy URL'),
-      onEdit: () => console.log('edit'),
-      onDuplicate: () => console.log('duplicate'),
-      onSubmitAsTemplate: () => console.log('submit as template'),
-      onDelete: () => console.log('delete'),
+      actions: {
+        edit: { onClick: () => console.log('edit') },
+        duplicate: { onClick: () => console.log('duplicate') },
+        copyUrl: { onClick: () => console.log('Copy URL') },
+        submitAsTemplate: { onClick: () => console.log('submit as template') },
+        delete: { onClick: () => console.log('delete') },
+      },
       onClick: () => console.log('card click'),
       publishedText: 'Published',
     },
@@ -96,11 +98,13 @@ export const GridLayout: Story = {
               lastModified={card.lastModified}
               isPublished={card.isPublished}
               onTogglePublished={() => console.log('Toggle published for card', index)}
-              onCopyUrl={() => console.log('Copy URL for card', index)}
-              onEdit={() => console.log('on edit')}
-              onDuplicate={() => console.log('on duplicate')}
-              onSubmitAsTemplate={() => console.log('on submit as template')}
-              onDelete={() => console.log('on delete')}
+              actions={{
+                edit: { onClick: () => console.log('on edit') },
+                duplicate: { onClick: () => console.log('on duplicate') },
+                copyUrl: { onClick: () => console.log('Copy URL for card', index) },
+                submitAsTemplate: { onClick: () => console.log('on submit as template') },
+                delete: { onClick: () => console.log('on delete') },
+              }}
               onClick={() => console.log('card clicked')}
               publishedText={'Published'}/>
           ))}
