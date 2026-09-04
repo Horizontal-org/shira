@@ -1,4 +1,5 @@
 import { FunctionComponent } from 'react'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import MoreOptionsIcon from '../../../Icons/MoreOptions'
 import SearchIcon from '../../../Icons/Search'
@@ -10,9 +11,11 @@ interface Props {
     textContent: string
     explanationPosition: string
   };
+  onContactClick: () => void
 }
 
-const Recipient:FunctionComponent<Props> = ({ phone }) => {
+const Recipient:FunctionComponent<Props> = ({ phone, onContactClick }) => {
+  const { t } = useTranslation('shira-ui')
 
   return (
     <Wrapper>
@@ -22,9 +25,13 @@ const Recipient:FunctionComponent<Props> = ({ phone }) => {
         </BackArrowWrapper>
 
         <Contact>
-          <StrangerPicture />
+          <ContactButton type="button" onClick={onContactClick} aria-label={t('whatsapp.view_contact_information')}>
+            <StrangerPicture />
+          </ContactButton>
           <div>
-            <span data-explanation={phone.explanationPosition}>{phone.textContent || ''}</span>
+            <PhoneButton type="button" data-explanation={phone?.explanationPosition} onClick={onContactClick}>
+              {phone?.textContent || ''}
+            </PhoneButton>
           </div>
         </Contact>
       </PictureWrapper>
@@ -47,11 +54,44 @@ const Contact = styled.div`
   align-items: center;
 
   > div {
-    > span {
+    > button {
       font-size: 16px;
       margin-inline-start: 12px;
       position: relative;
     }
+  }
+`
+
+const ContactButton = styled.button`
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  border-radius: 50%;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid #00a884;
+    outline-offset: 2px;
+  }
+`
+
+const PhoneButton = styled.button`
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 4px 0;
+  color: #111b21;
+  font-family: inherit;
+  cursor: pointer;
+  border-radius: 4px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #00a884;
   }
 `
 
@@ -109,5 +149,4 @@ const PictureWrapper = styled.div`
   align-items: center;
 `
 
-
-export default Recipient
+export default Recipient;
