@@ -28,6 +28,9 @@ import { ValidateQuizNameController } from './controller/validate-name.quiz.cont
 import { DeleteQuestionQuizController } from './controller/delete-question.quiz.controller';
 import { ExportQuizController } from './controller/export.quiz.controller';
 import { ExportQuizService } from './services/export.quiz.service';
+import { ImportQuestionController } from './controller/import-question.quiz.controller';
+import { ImportQuizController } from './controller/import.quiz.controller';
+import { ValidateQuizImportService } from './services/validate-import.quiz.service';
 import { QuestionModule } from '../question/question.module';
 
 @Module({
@@ -62,11 +65,14 @@ import { QuestionModule } from '../question/question.module';
     DuplicateQuizController,
     EditQuizController,
     ValidateQuizNameController,
-    ExportQuizController
+    ExportQuizController,
+    ImportQuestionController,
+    ImportQuizController
   ],
   providers: [
     ...servicesQuizProviders,
-    ExportQuizService
+    ExportQuizService,
+    ValidateQuizImportService
   ],
   exports: [
     ...servicesQuizProviders

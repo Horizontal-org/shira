@@ -922,6 +922,28 @@
             },
             "title": "Available plans"
         },
+        "create_entity": {
+            "quiz": {
+                "title": "Create new quiz",
+                "subtitle": "Choose how you’d like to create your quiz.",
+                "template_title": "Use a template",
+                "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
+                "scratch_title": "Start from scratch",
+                "scratch_subtitle": "Create the quiz yourself, with full control. You can even copy and paste a real-life phishing example.",
+                "import_title": "Or import a quiz from a file",
+                "create_button": "Cancel"
+            },
+            "question": {
+                "title": "Create new question",
+                "subtitle": "Choose how you’d like to create your question.",
+                "template_title": "Use a template",
+                "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
+                "scratch_title": "Start from scratch",
+                "scratch_subtitle": "Create the question yourself, with full control. You can even copy and paste a real-life phishing example.",
+                "import_title": "Or import a question from a file",
+                "create_button": "Cancel"
+            }
+        },
         "export": {
             "quiz": {
                 "title": "Export quiz",
@@ -936,6 +958,30 @@
                 "sharing_implications": "If you will share your question with others, you may want to remove any sensitive information it contains before exporting it. <1>Learn more</1>"
             },
             "exporting": "Exporting..."
+        },
+        "import": {
+            "question": {
+                "title": "Import question",
+                "subtitle": "Select the file of the question you want to import. To prevent errors, we recommend not modifying the content of the file. <0>Learn more</0>.",
+                "error": "There was a problem importing the question. If this issue persists, <1>contact us</1>.",
+                "drag_title": "Drag and drop to upload your question file here",
+                "file_type": "Accepted file type: .zip only",
+                "file_size": "Maximum file size: 50 MB",
+                "upload_success": "Your file is ready to be imported.",
+                "button": "Import question",
+                "importing": "Importing..."
+            },
+            "quiz": {
+                "title": "Import quiz",
+                "subtitle": "Select the file of the quiz you want to import. To prevent errors, we recommend not modifying the content of the file. <0>Learn more</0>.",
+                "error": "There was a problem importing the quiz. If this issue persists, <1>contact us</1>.",
+                "drag_title": "Drag and drop to upload your quiz file here",
+                "file_type": "Accepted file type: .zip only",
+                "file_size": "Maximum file size: 200 MB",
+                "upload_success": "Your file is ready to be imported.",
+                "button": "Import quiz",
+                "importing": "Importing..."
+            }
         }
     },
     "error_messages": {
@@ -998,6 +1044,24 @@
                 "subtitle": "Please upload a CSV that is 10 MB or smaller and try again"
             }
         },
+        "entity_import": {
+            "invalid_formatting": {
+                "title": "Error: Invalid file format",
+                "subtitle": "Please make sure the file is in .zip and try again."
+            },
+            "invalid_zip_file": {
+                "title": "Error: Invalid file format",
+                "subtitle": "Please make sure the file is in .zip and try again."
+            },
+            "invalid_metadata": {
+                "title": "Error: Invalid file content",
+                "subtitle": "This file's contents don't match the expected question format. Please make sure not to modify the file and try again."
+            },
+            "file_too_large": {
+                "title": "Error: File is too large",
+                "subtitle": "Please make sure your file is within the 50 MB limit and try again."
+            }
+        },
         "invalid_email_update": "This email address is already associated with a Shira space",
         "character_limit_error": "Character limit exceeded"
     },
@@ -1016,6 +1080,8 @@
         "question_updated": "Question updated",
         "question_deleted": "The question has been deleted",
         "question_copied": "The question has been duplicated",
+        "question_imported": "The question has been imported",
+        "quiz_imported": "The quiz has been imported",
         "no_questions_found": "No questions found.",
         "learner_invitation_sent": "The invitation has been sent.",
         "learner_invitation_resent": "The invitation has been re-sent to {{email}}",
