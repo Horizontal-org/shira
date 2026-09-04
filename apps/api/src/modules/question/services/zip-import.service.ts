@@ -23,7 +23,7 @@ export class ZipImportService {
 
     this.assertSafeEntries(entries)
 
-    return entries
+    return this.stripSingleRootFolder(entries)
   }
 
   async parseAndValidateJson<T extends object>(raw: Buffer, cls: new () => T): Promise<T> {
@@ -66,5 +66,28 @@ export class ZipImportService {
         throw new InvalidZipStructureException('Zip contents exceed the allowed uncompressed size')
       }
     }
+  }
+
+  private stripSingleRootFolder(entries: AdmZip.IZipEntry[]): AdmZip.IZipEntry[] {
+    const names = entries.map((entry) => entry.entryName).filter(Boolean)
+    if (names.length === 0) {
+      return entries
+    }
+
+    const topLevelSegments = new Set(names.map((name) => name.split('/')[0]))
+    if (topLevelSegments.size !== 1) {
+      // Zip already has multiple things at its root (the expected shape) — nothing to strip.
+      return entries
+    }
+
+    const [wrapperFolder] = topLevelSegments
+    const prefix = `${wrapperFolder}/`
+
+    return entries
+      .filter((entry) => entry.entryName.startsWith(prefix) && entry.entryName !== prefix)
+      .map((entry) => {
+        entry.entryName = entry.entryName.slice(prefix.length)
+        return entry
+      })
   }
 }
