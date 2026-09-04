@@ -1,6 +1,6 @@
-import { Modal, styled } from "@horizontal-org/shira-ui";
+import { Link1, Modal, styled } from "@horizontal-org/shira-ui";
 import { FunctionComponent, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
 import { FileDropzone } from "../../FileDropzone";
 import { DroppedFileInfo } from "../../FileDropzone/components/DroppedFileInfo";
@@ -85,7 +85,18 @@ export const ImportEntityModal: FunctionComponent<Props> = ({
       size="medium"
       isOpen={isModalOpen}
       title={t(`modals.import.${entityType}.title`)}
-      subtitle={t(`modals.import.${entityType}.subtitle`)}
+      subtitle={(
+        <Trans
+          i18nKey={`modals.import.${entityType}.subtitle`}
+          components={[
+            <Link1
+              href="https://shira.app/spaces"
+              target="_blank"
+              rel="noopener noreferrer"
+            />
+          ]}
+        />
+      )}
       primaryButtonText={isImporting ? t(`modals.import.${entityType}.importing`) : t(`modals.import.${entityType}.button`)}
       primaryButtonDisabled={!file || !!(error) || isImporting}
       secondaryButtonText={!!(error) ? t('buttons.try_again') : t('buttons.cancel')}

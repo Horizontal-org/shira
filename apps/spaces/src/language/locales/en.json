@@ -962,7 +962,7 @@
         "import": {
             "question": {
                 "title": "Import question",
-                "subtitle": "Select the file of the question you want to import. To prevent errors, we recommend not modifying the content of the file.",
+                "subtitle": "Select the file of the question you want to import. To prevent errors, we recommend not modifying the content of the file. <0>Learn more</0>.",
                 "error": "There was a problem importing the question. If this issue persists, <1>contact us</1>.",
                 "drag_title": "Drag and drop to upload your question file here",
                 "file_type": "Accepted file type: .zip only",
@@ -973,7 +973,7 @@
             },
             "quiz": {
                 "title": "Import quiz",
-                "subtitle": "Select the file of the quiz you want to import. To prevent errors, we recommend not modifying the content of the file.",
+                "subtitle": "Select the file of the quiz you want to import. To prevent errors, we recommend not modifying the content of the file. <0>Learn more</0>.",
                 "error": "There was a problem importing the quiz. If this issue persists, <1>contact us</1>.",
                 "drag_title": "Drag and drop to upload your quiz file here",
                 "file_type": "Accepted file type: .zip only",
