@@ -15,7 +15,7 @@ export class ImportQuizService implements IImportQuizService {
     private readonly quizRepo: Repository<Quiz>,
     @Inject(TYPES.services.IAddQuestionToQuizService)
     private readonly addQuestionToQuizService: IAddQuestionToQuizService,
-  ) {}
+  ) { }
 
   async execute({ title, questions, space, visibility }: ImportQuizParams): Promise<number> {
     return this.quizRepo.manager.transaction(async (manager) => {

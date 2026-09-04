@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common'
-import { plainToInstance } from 'class-transformer'
-import { validate } from 'class-validator'
 import {
   InvalidQuestionMetadataException,
   InvalidZipStructureException,
@@ -9,6 +7,7 @@ import {
   QuestionImportValidationResult,
   ValidateQuestionImportService,
 } from 'src/modules/question/services/validateImport.question.service'
+import { ZipImportService } from 'src/modules/question/services/zip-import.service'
 import { QuizImportMetadataDto } from '../dto/quiz-import-metadata.dto'
 
 const METADATA_ENTRY = 'metadata.json'
@@ -23,17 +22,21 @@ export interface QuizImportValidationResult {
 export class ValidateQuizImportService {
   constructor(
     private validateQuestionImportService: ValidateQuestionImportService,
-  ) {}
+    private zipImportService: ZipImportService,
+  ) { }
 
   async validate(buffer: Buffer): Promise<QuizImportValidationResult> {
-    const entries = await this.validateQuestionImportService.loadZipEntries(buffer)
+    const entries = await this.zipImportService.loadZipEntries(buffer)
 
     const metadataEntry = entries.find((entry) => entry.entryName === METADATA_ENTRY)
     if (!metadataEntry) {
       throw new InvalidZipStructureException(`Zip must contain ${METADATA_ENTRY} at its root`)
     }
 
-    const { title } = await this.parseMetadata(metadataEntry.getData())
+    const { title, questions: declaredQuestions } = await this.zipImportService.parseAndValidateJson(
+      metadataEntry.getData(),
+      QuizImportMetadataDto,
+    )
 
     const folderNames = new Set<string>()
     for (const entry of entries) {
@@ -47,36 +50,33 @@ export class ValidateQuizImportService {
       throw new InvalidZipStructureException('Zip must contain at least one question folder')
     }
 
-    const sortedFolders = [...folderNames].sort(
-      (a, b) => parseInt(a, 10) - parseInt(b, 10),
+    const sortedDeclaredQuestions = [...declaredQuestions].sort(
+      (a, b) => a.position - b.position,
     )
 
+    if (sortedDeclaredQuestions.length !== folderNames.size) {
+      throw new InvalidQuestionMetadataException(
+        `metadata.json declares ${sortedDeclaredQuestions.length} question(s) but the zip contains ${folderNames.size} question folder(s)`,
+      )
+    }
+
     const questions: QuestionImportValidationResult[] = []
-    for (const folder of sortedFolders) {
+    for (const declaredQuestion of sortedDeclaredQuestions) {
+      const folder = [...folderNames].find(
+        (name) => name === `${declaredQuestion.position}` || name.startsWith(`${declaredQuestion.position}_`),
+      )
+
+      if (!folder) {
+        throw new InvalidQuestionMetadataException(
+          `metadata.json declares a question at position ${declaredQuestion.position} with no matching questions/ folder`,
+        )
+      }
+
       questions.push(
         await this.validateQuestionImportService.validateEntries(entries, `questions/${folder}/`),
       )
     }
 
     return { title, questions }
-  }
-
-  private async parseMetadata(raw: Buffer): Promise<QuizImportMetadataDto> {
-    let parsed: unknown
-    try {
-      parsed = JSON.parse(raw.toString('utf8'))
-    } catch {
-      throw new InvalidQuestionMetadataException('metadata.json is not valid JSON')
-    }
-
-    const metadata = plainToInstance(QuizImportMetadataDto, parsed)
-    const errors = await validate(metadata)
-    if (errors.length > 0) {
-      throw new InvalidQuestionMetadataException(
-        errors.map((error) => Object.values(error.constraints ?? {}).join(', ')).join('; '),
-      )
-    }
-
-    return metadata
   }
 }
