@@ -107,5 +107,13 @@
     },
     "sms": {
         "text_message": "Text message"
+    },
+    "pagination": {
+        "page": "<current>{{current}}</current> of {{total}}",
+        "summary": "{{start}}-{{end}} of {{total}}",
+        "last": "Dernier",
+        "first": "Premier",
+        "next": "Suivant",
+        "back": "Retour"
     }
 }

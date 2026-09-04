@@ -46,13 +46,13 @@
         "how_it_works": {
             "title": "Comment ça marche",
             "explanation_1": "Ce quiz comporte 10 questions.",
-            "question_count": "Ce quiz comporte {{ count }} questions",
-            "explanation_2": "Pour chaque question, choisissez si le message affiché ressemble à une tentative d'hameçonnage ou semble légitime.",
+            "question_count": "Ce quiz comporte {{ count }} questions.",
+            "explanation_2": "Pour chaque question, choisissez une des options :",
             "explanation_3": "Si vous n'êtes pas sûr, vous pouvez sélectionner l'option \"Je ne sais pas\".",
             "footer_title": "Intro du quiz",
             "next": "OK",
             "learn_more": "En savoir plus",
-            "disclaimer": "Shira collects limited data about your usage."
+            "disclaimer": "Shira collecte des données limitées sur votre utilisation."
         },
         "answers": {
             "options": {
@@ -79,16 +79,16 @@
             "cancel": "Annuler"
         },
         "data_collection": {
-            "percentage_of_learners": "c. The percentage of learners assigned this quiz who have completed it",
-            "your_score": "b. Your score for each question",
+            "percentage_of_learners": "c. Le pourcentage d'apprenants assignés à ce quiz qui l'ont terminé",
+            "your_score": "b. Votre score pour chaque question",
             "understand": "J'ai compris",
-            "only_datetime": "When you take this quiz, Shira will only track the date and time you take the quiz.",
-            "total_quiz_score": "a. Your total quiz score",
+            "only_datetime": "Lorsque vous passez ce quiz, Shira suit uniquement la date et l'heure auxquelles vous passez le quiz.",
+            "total_quiz_score": "a. Votre score total au quiz",
             "learn_more": "En savoir plus",
-            "title": "Data collection",
-            "2_results": "2. Results:",
-            "1_date_time": "1. The date and time when you take the quiz",
-            "intro": "When you take this quiz, Shira will only track:"
+            "title": "Collecte de données",
+            "2_results": "2. Résultats :",
+            "1_date_time": "1. La date et l'heure auxquelles vous passez le quiz",
+            "intro": "Lorsque vous passez ce quiz, Shira ne suit que les éléments suivants :"
         }
     },
     "feedback": {
@@ -127,7 +127,7 @@
         "heavy_subtitle_2": "{{correctQuestions}} questions sur {{questions}} ",
         "heavy_subtitle_3": "questions correctement.",
         "greeting_title": "Merci d'utiliser Shira !",
-        "assessment_subtitle": "You've completed the quiz."
+        "assessment_subtitle": "Tu as terminé le quiz."
     },
     "about": {
         "title": "À propos",

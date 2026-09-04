@@ -31,7 +31,7 @@
         "create_limit_reached": "Passer à un forfait supérieur pour créer plus de quiz.",
         "use_template_button": "",
         "use_a_quiz_template_button": "Utiliser un modèle de quiz",
-        "empty_state": "You don’t have any quizzes yet. Click on the “Create new quiz” button to get started."
+        "empty_state": "Vous n'avez pas encore créé de quiz. Cliquez sur le bouton “Créer un nouveau questionnaire” pour commencer."
     },
     "quizzes": {
         "message": "",
@@ -78,14 +78,14 @@
         },
         "settings": {
             "assessment": {
-                "description": "Learners test their phishing detection skills without feedback or explanations to measure their actual performance level.",
-                "title": "Assessment mode"
+                "description": "Les apprenants testent leurs compétences en détection de phishing sans retour ni explications, afin de mesurer leur niveau de performance réel.",
+                "title": "Mode évaluation"
             },
             "learning": {
-                "title": "Learning mode",
-                "description": "Learners receive immediate feedback and explanations after each answer to help them improve their phishing detection skills."
+                "title": "Mode apprentissage",
+                "description": "Les apprenants reçoivent un retour immédiat et des explications après chaque réponse pour les aider à améliorer leurs compétences en détection de phishing."
             },
-            "title": "Quiz mode"
+            "title": "Mode quiz"
         }
     },
     "questions_tab": {
@@ -97,7 +97,8 @@
             "duplicate": "Dupliquer",
             "delete": "Supprimer",
             "more_actions": "Plus d'actions",
-            "submit_as_template": "Soumettre comme modèle"
+            "submit_as_template": "Soumettre comme modèle",
+            "export": "Exporter"
         },
         "use_library_question_button": "Utiliser un modèle de question"
     },
@@ -234,28 +235,28 @@
             "created_on": "Créé le",
             "creator": "Créateur"
         },
-        "tab_header_title": "Ajouter une question à partir de la bibliothèque",
+        "tab_header_title": "Sélectionnez un modèle de question",
         "title": "Bibliothèque de questions",
         "subtitle": "Sélectionnez une question dans la liste ci-dessous pour l'ajouter à votre quiz. Une fois ajoutée, vous pouvez la modifier et la personnaliser entièrement, en changeant notamment le texte et les explications.",
         "filters_panel": {
-            "selected_count": "{{count}} selected",
+            "selected_count": "{{count}} sélectionné(s)",
             "tag": "Mots-clés",
-            "apps": "Applis",
+            "apps": "Applications",
             "type": "Type",
             "creator": "Créateur",
             "language": "Langue",
             "clear_all": "Tout dessélectionner"
         },
         "sort_options": {
-            "question_name_desc": "Question name (Z-A)",
-            "question_name_asc": "Question name (A-Z)",
+            "question_name_desc": "Nom de la question (Z-A)",
+            "question_name_asc": "Nom de la question (A-Z)",
             "newest_to_oldest": "Du plus récent au plus ancien",
             "oldest_to_newest": "Du plus ancien au plus récent"
         },
-        "search_results_plural": "{{count}} results for \"{{searchTerm}}\"",
+        "search_results_plural": "{{count}} résultat pour \"{{searchTerm}}\"",
         "sort_by": "Trier par",
-        "search_placeholder": "Search question names",
-        "search_results": "{{count}} result for \"{{searchTerm}}\"",
+        "search_placeholder": "Noms des questions de recherche",
+        "search_results": "{{count}} résultat pour \"{{searchTerm}}\"",
         "filters": "Filtres"
     },
     "results_tab": {
@@ -295,7 +296,11 @@
                 "loading": "Chargement des apprenant.e.s…"
             }
         },
-        "title": "Scores globaux"
+        "title": "Scores globaux",
+        "disabled": {
+            "message": "There is no data available because Results have been disabled. You can change this anytime in your space Settings.",
+            "go_to_settings": "Aller aux paramètres"
+        }
     },
     "support": {
         "message": "",
@@ -614,6 +619,21 @@
             "input_label": "Nom du quiz",
             "title": "Donnez un nom à votre nouveau quiz",
             "subtitle": "Le nom du quiz sera visible dans votre Espace et par les apprenants lorsqu'ils y participeront."
+        },
+        "export": {
+            "question": {
+                "title": "Export question",
+                "sharing_implications": "If you will share your question with others, you may want to remove any sensitive information it contains before exporting it. <1>Learn more</1>",
+                "error": "There was a problem exporting the question. If this issue persists, <1>contact us</1>.",
+                "file_type": "Your question will be exported as a .zip file that can be re-imported into a Shira space."
+            },
+            "quiz": {
+                "error": "There was a problem exporting the quiz. If this issue persists, <1>contact us</1>.",
+                "file_type": "Your quiz will be exported as a .zip file that can be re-imported into a Shira space.",
+                "sharing_implications": "If you will share your quiz with others, you may want to remove any sensitive information it contains before exporting it. <1>Learn more</1>",
+                "title": "Export quiz"
+            },
+            "exporting": "Exporting..."
         }
     },
     "error_messages": {
@@ -677,7 +697,8 @@
         "invalid_email": "Indiquez une adresse e-mail valide",
         "something_went_wrong": "Une erreur s'est produite",
         "character_limit_error": "Limite de caractères dépassée",
-        "template_submission_failed": "There was a problem submitting the template. If this issue persists, <1>contact us</1>."
+        "template_submission_failed": "There was a problem submitting the template. If this issue persists, <1>contact us</1>.",
+        "export_question_fail": "Failed to export question"
     },
     "success_messages": {
         "message": "",
@@ -937,6 +958,10 @@
             "language": {
                 "description": "Choisissez la langue de votre espace Shira. Cela ne modifiera pas la langue des quiz ou des questions que vous partagez avec les apprenants, uniquement celle de l'interface de l'espace.",
                 "title": "Langue de l'espace"
+            },
+            "results": {
+                "description": "Shira automatically tracks quiz responses to provide analytics and compliance reporting. You can disable this feature to minimize the data we collect about your Learners. <learnMore>Learn More</learnMore>",
+                "title": "Enable results"
             }
         },
         "title": "Paramètres",
@@ -955,7 +980,8 @@
         "checkout_success": {
             "all_done": "C'est terminé !",
             "success_message": "Votre paiement a été validé avec succès. Nous activons votre forfait dès maintenant."
-        }
+        },
+        "version": "You are currently using Shira v{{version}}."
     },
     "banner": {
         "message": "Les espaces Shira ne sont pas encore disponibles sur les petits écrans. Pour une meilleure expérience, il faut utiliser un écran d'une largeur supérieure à 800 pixels.",
@@ -966,7 +992,7 @@
             "creator": "Créateur",
             "all_creators": "All creators",
             "tag": "Mots-clés",
-            "selected_count": "{{count}} selected",
+            "selected_count": "{{count}} sélectionné(s)",
             "clear_all": "Tout dessélectionner",
             "all_tags": "All tags",
             "all_languages": "All languages",
@@ -974,12 +1000,12 @@
         },
         "filters": "Filtres",
         "use_template": "Use template",
-        "search_results_plural": "{{count}} results for \"{{searchTerm}}\"",
+        "search_results_plural": "{{count}} résultat pour \"{{searchTerm}}\"",
         "empty_search": {
             "subtitle": "Essayez de modifier les mots-clés ou d'effacer vos filtres pour obtenir plus de résultats.",
             "title": "Désolé, nous n'avons rien trouvé."
         },
-        "search_results": "{{count}} result for \"{{searchTerm}}\"",
+        "search_results": "{{count}} résultat pour \"{{searchTerm}}\"",
         "header_title": "Select a quiz template",
         "subtitle": "Select a quiz from the list below to use it as a template for your new quiz.",
         "sort_options": {
@@ -1045,44 +1071,44 @@
         "submit_quiz": {
             "tags": "Mots-clés",
             "tags_placeholder": "Mots-clés",
-            "name_hint": "Use a descriptive name to help other users find what they're looking for.",
-            "success": "The quiz template has been submitted.",
-            "name": "Quiz template name",
-            "error": "We couldn't submit the quiz template. Please try again.",
+            "name_hint": "Utilisez un nom descriptif pour aider les autres utilisateurs à trouver ce qu'ils recherchent.",
+            "success": "Le modèle de quiz a été soumis.",
+            "name": "Nom du modèle de quiz",
+            "error": "Nous n'avons pas pu soumettre le modèle de quiz. Veuillez réessayer.",
             "submit": "Envoyer",
-            "name_placeholder": "Quiz template name",
-            "header_title": "Submit quiz template",
+            "name_placeholder": "Nom du modèle de quiz",
+            "header_title": "Soumettre un modèle de quiz",
             "language": "Langue",
-            "title": "Submit your quiz as a template",
+            "title": "Soumettez votre quiz comme modèle",
             "description": "Description",
-            "language_hint": "You may select more than 1 language. (Can't find the language you want? <support>Request a missing language.</support>)",
-            "description_hint": "Write 1-2 lines to explain what this quiz contains.",
-            "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>.",
-            "review_notice": "The Shira team carefully reviews every submission. If your template is accepted, it will appear in the template library. <learnMore>Learn More</learnMore>.",
+            "language_hint": "Vous pouvez sélectionner plusieurs langues. (Vous ne trouvez pas la langue souhaitée ? <support>Demander l'ajout d'une langue manquante.</support>)",
+            "description_hint": "Rédigez 1 à 2 lignes pour expliquer le contenu de ce quiz.",
+            "terms": "En cochant cette case, j'accepte les <terms>conditions générales</terms> de Shira.",
+            "review_notice": "L'équipe Shira examine attentivement chaque soumission. Si votre modèle est accepté, il apparaîtra dans la bibliothèque de modèles. <learnMore>En savoir plus</learnMore>.",
             "language_placeholder": "Langue",
-            "tags_hint": "Select the tags that best describe the content of this template.",
+            "tags_hint": "Sélectionnez les étiquettes qui décrivent le mieux le contenu de ce modèle.",
             "description_placeholder": "Description"
         },
         "submit_question": {
             "tags": "Mots-clés",
-            "title": "Submit your question as a template",
-            "success": "The question template has been submitted.",
+            "title": "Soumettez votre question comme modèle",
+            "success": "Le modèle de quiz a été soumis.",
             "description_placeholder": "Description",
-            "error": "We couldn't submit the question template. Please try again.",
-            "review_notice": "The Shira team carefully reviews every submission. If your template is accepted, it will appear in the template library. <learnMore>Learn More</learnMore>.",
+            "error": "Nous n'avons pas pu soumettre le modèle de quiz. Veuillez réessayer.",
+            "review_notice": "L'équipe Shira examine attentivement chaque soumission. Si votre modèle est accepté, il apparaîtra dans la bibliothèque de modèles. <learnMore>En savoir plus</learnMore>.",
             "header_title": "Submit question template",
-            "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>.",
+            "terms": "En cochant cette case, j'accepte les <terms>conditions générales</terms> de Shira.",
             "language_placeholder": "Langue",
-            "name": "Question template name",
+            "name": "Nom du modèle de quiz",
             "tags_placeholder": "Mots-clés",
             "submit": "Envoyer",
-            "tags_hint": "Select the tags that best describe the content of this template.",
-            "language_hint": "You may select more than 1 language. (Can't find the language you want? <support>Request a missing language.</support>)",
-            "name_hint": "Use a descriptive name to help other users find what they're looking for.",
-            "name_placeholder": "Question template name",
+            "tags_hint": "Sélectionnez les étiquettes qui décrivent le mieux le contenu de ce modèle.",
+            "language_hint": "Vous pouvez sélectionner plusieurs langues. (Vous ne trouvez pas la langue souhaitée ? <support>Demander l'ajout d'une langue manquante.</support>)",
+            "name_hint": "Utilisez un nom descriptif pour aider les autres utilisateurs à trouver ce qu'ils recherchent.",
+            "name_placeholder": "Nom du modèle de quiz",
             "description": "Description",
             "language": "Langue",
-            "description_hint": "Write 1-2 lines to explain what this question contains."
+            "description_hint": "Rédigez 1 à 2 lignes pour expliquer ce que contient cette question."
         },
         "submissions_table": {
             "actions": "Actions",
@@ -1096,35 +1122,35 @@
         },
         "submission_status": {
             "title": "État de la soumission",
-            "in_review": "In review",
+            "in_review": "En cours de révision",
             "help_tooltip": "Veuillez contacter l'équipe Shira par courriel si vous avez des questions ou besoin d'aide.",
-            "rejected": "Rejected",
-            "accepted": "Accepted"
+            "rejected": "Rejeté",
+            "accepted": "Accepté"
         },
         "quiz_templates": {
-            "title": "Quiz templates",
-            "description": "Create a quiz instantly by choosing from our quiz templates, available in multiple apps and languages."
+            "title": "Modèles de Quiz",
+            "description": "Créez un quiz instantanément en choisissant à partir de nos modèles de quiz, disponibles dans plusieurs applications et langues."
         },
         "display_name": {
-            "title": "Create display name",
-            "description": "Set the name that will be associated to the templates you publish in the library. This will be visible to everyone.",
-            "input": "Display name"
+            "title": "Créer un nom d'affichage",
+            "description": "Définissez le nom qui sera associé aux modèles que vous publiez dans la bibliothèque. Ce nom sera visible par tous.",
+            "input": "Nom d'affichage"
         },
         "back_to_templates": "Retour aux modèles",
         "my_submissions_description": "Ce sont les modèles que vous avez soumis. L'équipe de Shira examine soigneusement chaque soumission. Si votre modèle est accepté, il apparaîtra dans la bibliothèque de modèles Shira. <learnMore>En savoir plus</learnMore>",
         "question_templates": {
             "title": "Modèles de questions",
-            "description": "Explore pre-made questions, with message content, sender info and explanations already built in."
+            "description": "Explorez des questions préétablies, avec contenu du message, informations sur l'expéditeur et explications déjà intégrés."
         },
         "submission_rejection": {
-            "open": "View submission feedback",
-            "title": "Submission feedback"
+            "open": "Voir le retour sur la soumission",
+            "title": "Retour sur la soumission"
         },
         "title": "Modèles",
         "subtitle": "Commencez immédiatement grâce à nos modèles prêts à l'emploi.",
         "submissions_empty_state": {
-            "subtitle": "You don't have any submissions yet. To submit a resource that you have created, go to that specific resource and select \"submit as template.\"",
-            "learn_more": "Learn more about templates"
+            "subtitle": "Vous n'avez encore aucune soumission. Pour soumettre une ressource que vous avez créée, accédez à cette ressource spécifique et sélectionnez \"Soumettre comme modèle\".",
+            "learn_more": "En savoir plus sur les modèles"
         },
         "my_submissions": "Mes soumissions"
     },
