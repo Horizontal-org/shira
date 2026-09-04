@@ -16,6 +16,7 @@ import { SharedQuestionDuplicationService } from './services/shared-question-dup
 import { ValidateQuizNameService } from './services/validate-name.quiz.service';
 import { ValidateCreateQuizService } from './services/validate-create.quiz.service';
 import { AddQuestionToQuizService } from './services/add-question-to-quiz.quiz.service';
+import { ImportQuizService } from './services/import.quiz.service';
 
 export const createQuizServiceProvider = {
   provide: TYPES.services.ICreateQuizService,
@@ -102,6 +103,11 @@ export const addQuestionToQuizServiceProvider = {
   useClass: AddQuestionToQuizService
 }
 
+export const importQuizServiceProvider = {
+  provide: TYPES.services.IImportQuizService,
+  useClass: ImportQuizService
+}
+
 export const servicesQuizProviders = [
   createQuizServiceProvider,
   listQuizServiceProvider,
@@ -120,4 +126,5 @@ export const servicesQuizProviders = [
   validateQuizNameServiceProvider,
   validateQuizCreateServiceProvider,
   addQuestionToQuizServiceProvider,
+  importQuizServiceProvider,
 ];

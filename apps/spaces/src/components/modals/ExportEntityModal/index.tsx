@@ -48,7 +48,7 @@ export const ExportEntityModal: FunctionComponent<Props> = ({
     />
   ) : (
     <Modal
-      id="change-email-modal"
+      id="export-entity-modal"
       isOpen={isModalOpen}
       title={t(`modals.export.${entityType}.title`)}
       primaryButtonText={isExporting ? t('modals.export.exporting') : t(`modals.export.${entityType}.title`)}
