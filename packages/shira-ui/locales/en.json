@@ -104,7 +104,22 @@
     "contact_8_message": "Oh, I think we should just stay friends.",
     "contact_9_name": "Kareem Salinas",
     "contact_9_time": "12:40 PM",
-    "contact_9_message": "I'm sorry, guys. I never meant to hurt you"
+    "contact_9_message": "I'm sorry, guys. I never meant to hurt you",
+    "view_contact_information": "View contact information",
+    "contact_info": "Contact info",
+    "back_to_chat": "Back to chat",
+    "contact": "Contact",
+    "no_phone_number": "No phone number",
+    "contact_actions": "Contact actions",
+    "voice": "Voice",
+    "video": "Video",
+    "search": "Search",
+    "mute_notifications": "Mute notifications",
+    "off": "Off",
+    "chat_theme": "Chat theme",
+    "save_to_downloads": "Save to downloads",
+    "media_links_and_docs": "Media, links and docs",
+    "encryption_notice": "Messages are end-to-end encrypted. No one outside this chat, not even WhatsApp, can read or listen to them."
   },
   "pagination": {
     "summary": "{{start}}-{{end}} of {{total}}",
