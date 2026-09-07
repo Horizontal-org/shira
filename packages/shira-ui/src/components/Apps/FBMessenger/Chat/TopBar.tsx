@@ -55,7 +55,7 @@ const TopBar: FunctionComponent<Props> = ({
             aria-label={t("messenger.conversation_details")}
             aria-expanded={isConversationSidebarOpen}
           >
-            <IoIosInformationCircle size={28} color="#a300e6" aria-hidden="true" />
+            <IoIosInformationCircle size={26} color="#a300e6" aria-hidden="true" />
           </InfoButton>
         )}
       </FlexWrapper>
