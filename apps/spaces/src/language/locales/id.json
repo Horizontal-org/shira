@@ -783,7 +783,7 @@
         "create_entity": {
             "question": {
                 "scratch_subtitle": "Create the question yourself, with full control. You can even copy and paste a real-life phishing example.",
-                "create_button": "Cancel",
+                "create_button": "Batalkan",
                 "template_title": "Use a template",
                 "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
                 "import_title": "Or import a question from a file",
@@ -794,7 +794,7 @@
             "quiz": {
                 "subtitle": "Choose how you’d like to create your quiz.",
                 "title": "Create new quiz",
-                "create_button": "Cancel",
+                "create_button": "Batalkan",
                 "scratch_title": "Start from scratch",
                 "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
                 "scratch_subtitle": "Create the quiz yourself, with full control. You can even copy and paste a real-life phishing example.",
