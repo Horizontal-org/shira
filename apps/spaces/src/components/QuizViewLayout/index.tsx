@@ -438,7 +438,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                     })
                   })
                 }}
-                onDuplicate={() => {
+                onRefresh={() => {
                   getQuiz()
                 }}
                 onSubmitAsTemplate={(questionId) => {

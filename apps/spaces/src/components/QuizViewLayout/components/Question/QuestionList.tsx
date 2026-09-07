@@ -16,6 +16,7 @@ import { QuizQuestion } from "../../../../store/slices/quiz";
 import { QuestionEmptyState } from "./QuestionEmptyState";
 import { QuestionTable } from "./QuestionTable";
 import { QuestionActionModals } from "./QuestionActionModals";
+import { QuestionCreateOptions } from "./QuestionCreateOptions";
 
 interface QuestionsListProps {
   quizId: number;
@@ -26,7 +27,7 @@ interface QuestionsListProps {
   onAdd: () => void;
   onAddLibrary: (quizId: string) => void;
   onReorder: (newOrder: QuizQuestion[]) => void;
-  onDuplicate: () => void;
+  onRefresh: () => void;
   onSubmitAsTemplate: (questionId: string) => void;
   hasResults: boolean
 }
@@ -45,7 +46,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
   onAdd,
   onAddLibrary,
   onReorder,
-  onDuplicate,
+  onRefresh,
   onSubmitAsTemplate,
   hasResults
 }) => {
@@ -54,8 +55,11 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
 
   const [questionForDelete, handleQuestionForDelete] = useState<QuizQuestion["question"] | null>(null);
   const [confirmBeforeContinueModal, handleConfirmBeforeContinueModal] = useState<ConfirmModalInfo | null>(null);
-  const [isExportModalOpen, setExportModalOpen] = useState<string | null>(null);
   const [duplicatingQuestionId, setDuplicatingQuestionId] = useState<string | null>(null);
+
+  const [isExportModalOpen, setExportModalOpen] = useState<string | null>(null);
+  const [isImportModalOpen, setImportModalOpen] = useState<boolean>(false);
+  const [isCreationOptionsModalOpen, setIsCreationOptionsModalOpen] = useState(false);
 
   const { updateQuiz } = useStore((state) => ({
     updateQuiz: state.updateQuiz
@@ -71,7 +75,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
         t("success_messages.question_copied", { question_name: questionName }),
         { duration: 3000 },
       );
-      onDuplicate(); // Refresh the quiz data
+      onRefresh(); // Refresh the quiz data
     } catch (error) {
       toast.error(t("error_messages.duplicate_question_fail"), { duration: 3000 });
     } finally {
@@ -102,31 +106,21 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
 
   return (
     <div>
-      <Header>
-        <Button
-          id="create-question-button"
-          leftIcon={<FiPlus size={16} />}
-          text={t("questions_tab.create_question_button")}
-          type="primary"
-          color={defaultTheme.colors.green7}
-          onClick={() => {
-            if (hasResults) {
-              handleConfirmBeforeContinueModal({ confirmType: "add" });
-            } else {
-              onAdd();
-            }
-          }}
-        />
-        <Button
-          id="use-library-question-button"
-          leftIcon={<MdOutlineMenuBook size={19} />}
-          text={t("questions_tab.use_library_question_button")}
-          type="primary"
-          color={defaultTheme.colors.green7}
-          disabled={!isPublicLibraryEnabled}
-          onClick={() => onAddLibrary(quizId.toString())}
-        />
-      </Header>
+
+      <QuestionCreateOptions
+        isCreationOptionsModalOpen={isCreationOptionsModalOpen}
+        setIsCreationOptionsModalOpen={(toggle) => {
+          if (toggle && hasResults) {
+            handleConfirmBeforeContinueModal({ confirmType: "add" });
+          } else {
+            setIsCreationOptionsModalOpen(toggle)
+          }
+        }}
+        onImport={() => { setImportModalOpen(true) }}
+        onAddLibrary={() => onAddLibrary(quizId.toString())}
+        onAdd={() => { onAdd() }}
+      />
+
 
       <QuestionTable
         quizQuestions={quizQuestions}
@@ -164,7 +158,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
         onResultsModalCancel={() => { handleConfirmBeforeContinueModal(null) }}
         onResulsModalContinue={() => {
           if (confirmBeforeContinueModal?.confirmType === "add") {
-            onAdd();
+            setIsCreationOptionsModalOpen(true)
           } else if (confirmBeforeContinueModal?.confirmType === "edit" && confirmBeforeContinueModal.confirmId) {
             onEdit(confirmBeforeContinueModal.confirmId);
           } else if (confirmBeforeContinueModal?.confirmType === "duplicate" && confirmBeforeContinueModal.confirmId) {
@@ -180,17 +174,14 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
 
         isExportModalOpen={isExportModalOpen}
         setExportModalOpen={() => { setExportModalOpen(null) }}
+
+        isImportModalOpen={isImportModalOpen}
+        setImportModalOpen={(isOpen) => { setImportModalOpen(isOpen) }}
+        onImportSuccess={onRefresh}
       />
     </div>
   );
 };
 
-const Header = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  margin-bottom: 16px;
-  gap: 10px;
-`;
 
 export default QuestionsList;
