@@ -644,7 +644,7 @@
                 "scratch_title": "Start from scratch",
                 "scratch_subtitle": "Create the quiz yourself, with full control. You can even copy and paste a real-life phishing example.",
                 "import_title": "Or import a quiz from a file",
-                "create_button": "Cancel"
+                "create_button": "Cancelar"
             },
             "question": {
                 "title": "Create new question",
@@ -654,7 +654,7 @@
                 "scratch_title": "Start from scratch",
                 "scratch_subtitle": "Create the question yourself, with full control. You can even copy and paste a real-life phishing example.",
                 "import_title": "Or import a question from a file",
-                "create_button": "Cancel"
+                "create_button": "Cancelar"
             }
         },
         "import": {
