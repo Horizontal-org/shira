@@ -799,6 +799,52 @@
                 "title": "Export quiz"
             },
             "exporting": "Exporting..."
+        },
+        "create_entity": {
+            "question": {
+                "scratch_subtitle": "Create the question yourself, with full control. You can even copy and paste a real-life phishing example.",
+                "create_button": "Cancel",
+                "template_title": "Use a template",
+                "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
+                "import_title": "Or import a question from a file",
+                "scratch_title": "Start from scratch",
+                "title": "Create new question",
+                "subtitle": "Choose how you’d like to create your question."
+            },
+            "quiz": {
+                "subtitle": "Choose how you’d like to create your quiz.",
+                "title": "Create new quiz",
+                "create_button": "Cancel",
+                "scratch_title": "Start from scratch",
+                "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
+                "scratch_subtitle": "Create the quiz yourself, with full control. You can even copy and paste a real-life phishing example.",
+                "import_title": "Or import a quiz from a file",
+                "template_title": "Use a template"
+            }
+        },
+        "import": {
+            "question": {
+                "upload_success": "Your file is ready to be imported.",
+                "file_size": "Maximum file size: 50 MB",
+                "subtitle": "Select the file of the question you want to import. To prevent errors, we recommend not modifying the content of the file. <0>Learn more</0>.",
+                "button": "Import question",
+                "error": "There was a problem importing the question. If this issue persists, <1>contact us</1>.",
+                "title": "Import question",
+                "drag_title": "Drag and drop to upload your question file here",
+                "importing": "Importing...",
+                "file_type": "Accepted file type: .zip only"
+            },
+            "quiz": {
+                "error": "There was a problem importing the quiz. If this issue persists, <1>contact us</1>.",
+                "drag_title": "Drag and drop to upload your quiz file here",
+                "subtitle": "Select the file of the quiz you want to import. To prevent errors, we recommend not modifying the content of the file. <0>Learn more</0>.",
+                "title": "Import quiz",
+                "button": "Import quiz",
+                "file_size": "Maximum file size: 200 MB",
+                "file_type": "Accepted file type: .zip only",
+                "upload_success": "Your file is ready to be imported.",
+                "importing": "Importing..."
+            }
         }
     },
     "error_messages": {
@@ -863,7 +909,25 @@
         },
         "character_limit_error": "Character limit exceeded",
         "template_submission_failed": "There was a problem submitting the template. If this issue persists, <1>contact us</1>.",
-        "export_question_fail": "Failed to export question"
+        "export_question_fail": "Failed to export question",
+        "entity_import": {
+            "invalid_zip_file": {
+                "subtitle": "Please make sure the file is in .zip and try again.",
+                "title": "Error: Invalid file format"
+            },
+            "invalid_formatting": {
+                "title": "Error: Invalid file format",
+                "subtitle": "Please make sure the file is in .zip and try again."
+            },
+            "file_too_large": {
+                "subtitle": "Please make sure your file is within the 50 MB limit and try again.",
+                "title": "Error: File is too large"
+            },
+            "invalid_metadata": {
+                "title": "Error: Invalid file content",
+                "subtitle": "This file's contents don't match the expected question format. Please make sure not to modify the file and try again."
+            }
+        }
     },
     "success_messages": {
         "message": "",
@@ -892,7 +956,9 @@
         "learners_unassigned_plural": "أُلغي تعيين هذا الاختبار لـ {{count}} متعلّمين.",
         "password_updated": "تم تحديث كلمة السر بنجاح.",
         "email_updated": "تم تحديث عنوان البريد الإلكتروني بنجاح.",
-        "quiz_assessment_mode_updated": "حُدِّث الاختبار"
+        "quiz_assessment_mode_updated": "حُدِّث الاختبار",
+        "quiz_imported": "The quiz has been imported",
+        "question_imported": "The question has been imported"
     },
     "loading_messages": {
         "message": "",
