@@ -1,4 +1,5 @@
 import { EntityManager } from "typeorm";
+import { TransferableImage } from "src/modules/image/interfaces/services/transfer-template-images.service.interface";
 
 export interface AddQuestionToQuizParams {
   quizId: number;
@@ -7,7 +8,7 @@ export interface AddQuestionToQuizParams {
   isPhishing: boolean;
   app: { id: number } | { name: string };
   isFromTemplate: boolean;
-  images?: { id: number; name: string; url: string }[];
+  images?: TransferableImage[];
   explanations?: { position: string; index: string; text: string }[];
 }
 

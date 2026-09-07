@@ -5,6 +5,7 @@ import { DeleteModal } from "../../../modals/DeleteModal";
 import { useTranslation } from "react-i18next";
 import { ConfirmModalInfo } from "./QuestionList";
 import { ExportEntityModal } from "../../../modals/ExportEntityModal";
+import { ImportEntityModal } from "../../../modals/ImportEntityModal";
 
 interface Props {
   quizId: number;
@@ -23,6 +24,10 @@ interface Props {
 
   isExportModalOpen: string | null;
   setExportModalOpen: (isOpen: boolean) => void;
+
+  isImportModalOpen: boolean;
+  setImportModalOpen: (isOpen: boolean) => void;
+  onImportSuccess: () => void;
 }
 
 export const QuestionActionModals: FunctionComponent<Props> = ({
@@ -40,7 +45,11 @@ export const QuestionActionModals: FunctionComponent<Props> = ({
   handleTogglePublished,
 
   isExportModalOpen,
-  setExportModalOpen
+  setExportModalOpen,
+
+  isImportModalOpen,
+  setImportModalOpen,
+  onImportSuccess
 }) => {
 
   const { t } = useTranslation();
@@ -100,6 +109,14 @@ export const QuestionActionModals: FunctionComponent<Props> = ({
         entityType="question"
         isModalOpen={!!isExportModalOpen}
         setIsModalOpen={setExportModalOpen}
+      />
+
+      <ImportEntityModal
+        entityType="question"
+        quizId={quizId}
+        isModalOpen={isImportModalOpen}
+        setIsModalOpen={setImportModalOpen}
+        onImportSuccess={onImportSuccess}
       />
     </>
   )

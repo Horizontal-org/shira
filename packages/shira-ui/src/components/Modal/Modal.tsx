@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { Button } from '../Button';
-import { SubHeading2 } from '../Typography';
+import { Body1, SubHeading2 } from '../Typography';
 import { useEscapeClose, useEnterSubmit } from '../../hooks';
 
 export interface ModalProps {
@@ -9,10 +9,11 @@ export interface ModalProps {
   isOpen: boolean;
   title: string;
   titleIcon?: React.ReactNode;
+  subtitle?: string | React.ReactNode;
   children: React.ReactNode;
   primaryButtonText: string;
   primaryButtonDisabled?: boolean;
-  onPrimaryClick: () => void;
+  onPrimaryClick?: () => void;
   type?: ModalType
   secondaryButtonText: string;
   onSecondaryClick?: () => void;
@@ -34,6 +35,7 @@ export const Modal: React.FC<ModalProps> = ({
   isOpen,
   title,
   titleIcon = (<></>),
+  subtitle,
   children,
   primaryButtonText,
   primaryButtonDisabled,
@@ -88,6 +90,10 @@ export const Modal: React.FC<ModalProps> = ({
             <SubHeading2>{title}</SubHeading2>
           </Header>
 
+          {subtitle && (
+            <Subtitle>{subtitle}</Subtitle>
+          )}
+
           <Content>
             {children}
           </Content>
@@ -111,13 +117,15 @@ export const Modal: React.FC<ModalProps> = ({
                   onClick={onSecondaryClick}
                 />
               )}
-              <Button
-                text={primaryButtonText}
-                type="primary"
-                disabled={primaryButtonDisabled}
-                onClick={onPrimaryClick}
-                color={modalTypeColors[type]}
-              />
+              {onPrimaryClick && (
+                <Button
+                  text={primaryButtonText}
+                  type="primary"
+                  disabled={primaryButtonDisabled}
+                  onClick={onPrimaryClick}
+                  color={modalTypeColors[type]}
+                />
+              )}
             </div>
           </Footer>
         </ModalContainer>
@@ -179,5 +187,12 @@ const Footer = styled.div`
     gap: 12px; 
   }
 `;
+
+
+const Subtitle = styled(Body1)`
+  padding-top: 12px;
+  padding-left: 24px;
+  padding-right: 24px;
+`
 
 export default Modal;
