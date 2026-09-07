@@ -75,7 +75,16 @@
     "contact_3_name": "Pauline",
     "contact_3_message": "Feel way better now . 1 day ago",
     "contact_4_name": "Jose",
-    "contact_4_message": "Did you notice? . 1 day ago"
+    "contact_4_message": "Did you notice? . 1 day ago",
+    "conversation_details": "Conversation details",
+    "end_to_end_encrypted": "End-to-end encrypted",
+    "profile": "Profile",
+    "mute": "Mute",
+    "search_conversation": "Search",
+    "chat_information": "Chat information",
+    "customize_chat": "Customize chat",
+    "media_files_and_links": "Media, files and links",
+    "privacy_and_support": "Privacy and support"
   },
   "whatsapp": {
     "contact_1_name": "Mark Curry",
