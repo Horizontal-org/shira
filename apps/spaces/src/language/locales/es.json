@@ -63,8 +63,8 @@
             "disabled_tooltip": "Crea al menos 1 pregunta para copiar el enlace de tu cuestionario.",
             "delete": "Eliminar",
             "submit_as_template": "Submit as template",
-            "copy_link_disabled_tooltip": "Create at least 1 question to copy your quiz link.",
-            "submit_as_template_disabled_tooltip": "Create at least 1 question to submit your quiz as a template."
+            "copy_link_disabled_tooltip": "Crea al menos 1 pregunta para publicar tu cuestionario.",
+            "submit_as_template_disabled_tooltip": "Crea al menos 1 pregunta para publicar tu cuestionario."
         },
         "tabs": {
             "questions": "Preguntas",
@@ -96,7 +96,7 @@
             "edit": "Edit",
             "duplicate": "Duplicar",
             "delete": "Eliminar pregunta",
-            "more_actions": "More actions",
+            "more_actions": "Más opciones",
             "submit_as_template": "Submit as template",
             "export": "Exportar"
         },
@@ -235,7 +235,7 @@
                 "preview_aria_label": "Previsualizar",
                 "disabled_tooltip": "Seleccionar un idioma y una app para usar esta pregunta."
             },
-            "created_on": "Created on",
+            "created_on": "Crear una",
             "creator": "Creator"
         },
         "filters_panel": {
@@ -248,8 +248,8 @@
             "clear_all": "Borrar todos"
         },
         "sort_options": {
-            "question_name_desc": "Question name (Z-A)",
-            "question_name_asc": "Question name (A-Z)",
+            "question_name_desc": "Nombre de la pregunta",
+            "question_name_asc": "Nombre de la pregunta",
             "newest_to_oldest": "Del más nuevo al más viejo",
             "oldest_to_newest": "Del más viejo al más nuevo"
         },
@@ -622,14 +622,14 @@
         },
         "export": {
             "quiz": {
-                "title": "Export quiz",
-                "error": "There was a problem exporting the quiz. If this issue persists, <1>contact us</1>.",
+                "title": "Salir del cuestionario",
+                "error": "Hubo un problema al eliminar a la persona estudiante. Si el problema persiste, <1>contáctanos</1>.",
                 "file_type": "Your quiz will be exported as a .zip file that can be re-imported into a Shira space.",
                 "sharing_implications": "If you will share your quiz with others, you may want to remove any sensitive information it contains before exporting it. <1>Learn more</1>"
             },
             "question": {
                 "title": "Export question",
-                "error": "There was a problem exporting the question. If this issue persists, <1>contact us</1>.",
+                "error": "Hubo un problema al eliminar a la persona estudiante. Si el problema persiste, <1>contáctanos</1>.",
                 "file_type": "Your question will be exported as a .zip file that can be re-imported into a Shira space.",
                 "sharing_implications": "If you will share your question with others, you may want to remove any sensitive information it contains before exporting it. <1>Learn more</1>"
             },
@@ -637,7 +637,7 @@
         },
         "create_entity": {
             "quiz": {
-                "title": "Create new quiz",
+                "title": "Crear nuevo cuestionario",
                 "subtitle": "Choose how you’d like to create your quiz.",
                 "template_title": "Use a template",
                 "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
@@ -647,7 +647,7 @@
                 "create_button": "Cancelar"
             },
             "question": {
-                "title": "Create new question",
+                "title": "Crear una nueva pregunta",
                 "subtitle": "Choose how you’d like to create your question.",
                 "template_title": "Use a template",
                 "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
@@ -661,22 +661,22 @@
             "question": {
                 "title": "Import question",
                 "subtitle": "Select the file of the question you want to import. To prevent errors, we recommend not modifying the content of the file. <0>Learn more</0>.",
-                "error": "There was a problem importing the question. If this issue persists, <1>contact us</1>.",
+                "error": "Hubo un problema al invitar a la persona estudiante. Si el problema persiste, <1>contáctanos</1>.",
                 "drag_title": "Drag and drop to upload your question file here",
-                "file_type": "Accepted file type: .zip only",
-                "file_size": "Maximum file size: 50 MB",
-                "upload_success": "Your file is ready to be imported.",
+                "file_type": "Tipos de activos aceptados: solo .csv",
+                "file_size": "Tamaño máximo de archivo: 10 MB",
+                "upload_success": "Your file will not be imported.",
                 "button": "Import question",
                 "importing": "Importing..."
             },
             "quiz": {
                 "title": "Import quiz",
                 "subtitle": "Select the file of the quiz you want to import. To prevent errors, we recommend not modifying the content of the file. <0>Learn more</0>.",
-                "error": "There was a problem importing the quiz. If this issue persists, <1>contact us</1>.",
-                "drag_title": "Drag and drop to upload your quiz file here",
-                "file_type": "Accepted file type: .zip only",
-                "file_size": "Maximum file size: 200 MB",
-                "upload_success": "Your file is ready to be imported.",
+                "error": "Hubo un problema al invitar a la persona estudiante. Si el problema persiste, <1>contáctanos</1>.",
+                "drag_title": "Arrastra y suelta tu hoja de cálculos rellenada aquí",
+                "file_type": "Tipos de activos aceptados: solo .csv",
+                "file_size": "Tamaño máximo de archivo: 10 MB",
+                "upload_success": "Your file will not be imported.",
                 "button": "Import quiz",
                 "importing": "Importing..."
             }
@@ -743,23 +743,23 @@
         "reset_password_confirmation_mismatch": "La confirmación de contraseña no coincide.",
         "reset_password_weak": "La contraseña debe tener al menos 8 caracteres.",
         "character_limit_error": "Character limit exceeded",
-        "template_submission_failed": "There was a problem submitting the template. If this issue persists, <1>contact us</1>.",
+        "template_submission_failed": "Hubo un problema al invitar a la persona estudiante. Si el problema persiste, <1>contáctanos</1>.",
         "export_question_fail": "Failed to export question",
         "entity_import": {
             "invalid_formatting": {
-                "title": "Error: Invalid file format",
-                "subtitle": "Please make sure the file is in .zip and try again."
+                "title": "Error: Formato de archivo inválido",
+                "subtitle": "Por favor asegúrate de que el archivo está en formato CSV y vuelve a intentar."
             },
             "invalid_zip_file": {
-                "title": "Error: Invalid file format",
-                "subtitle": "Please make sure the file is in .zip and try again."
+                "title": "Error: Formato de archivo inválido",
+                "subtitle": "Por favor asegúrate de que el archivo está en formato CSV y vuelve a intentar."
             },
             "invalid_metadata": {
-                "title": "Error: Invalid file content",
+                "title": "Error: Formato de archivo inválido",
                 "subtitle": "This file's contents don't match the expected question format. Please make sure not to modify the file and try again."
             },
             "file_too_large": {
-                "title": "Error: File is too large",
+                "title": "Error: El archivo es demasiado grande",
                 "subtitle": "Please make sure your file is within the 50 MB limit and try again."
             }
         }
@@ -792,8 +792,8 @@
         "password_updated": "Tu contraseña se actualizó exitosamente.",
         "email_updated": "Tu correo electrónico se actualizó exitosamente.",
         "quiz_assessment_mode_updated": "El cuestionario ha sido actualizado",
-        "question_imported": "The question has been imported",
-        "quiz_imported": "The quiz has been imported"
+        "question_imported": "La pregunta ha sido eliminada",
+        "quiz_imported": "El cuestionario ha sido actualizado"
     },
     "loading_messages": {
         "message": "",
@@ -987,8 +987,8 @@
         "beta_lead": "Los espacios Shira están actualmente en fase beta cerrada. Para obtener la frase de acceso necesaria para unirte a la beta, envíanos un correo electrónico a",
         "checking_invitation": "Verificando invitación...",
         "email_label": "Confirma tu correo electrónico",
-        "password_label": "Contraseña",
-        "confirm_password_label": "Confirmar Contraseña",
+        "password_label": "La contraseña es obligatoria",
+        "confirm_password_label": "Confirmar contraseña nueva (obligatorio)",
         "button_create": "Crear un nuevo espacio",
         "validation": {
             "email_required": "El email es obligatorio.",
@@ -1065,7 +1065,7 @@
             "language": "Idioma"
         },
         "preview": {
-            "created_on": "Created on",
+            "created_on": "Crear una",
             "columns": {
                 "app": "Aplicación",
                 "actions": "Acciones",
@@ -1165,13 +1165,13 @@
             "header_title": "Submit question template",
             "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>.",
             "language_placeholder": "Idioma",
-            "name": "Question template name",
+            "name": "Plantillas de pregunta",
             "tags_placeholder": "Etiquetas",
             "submit": "Enviar",
             "tags_hint": "Select the tags that best describe the content of this template.",
             "language_hint": "You may select more than 1 language. (Can't find the language you want? <support>Request a missing language.</support>)",
             "name_hint": "Use a descriptive name to help other users find what they're looking for.",
-            "name_placeholder": "Question template name",
+            "name_placeholder": "Plantillas de pregunta",
             "description": "Description",
             "language": "Idioma",
             "description_hint": "Write 1-2 lines to explain what this question contains."
@@ -1190,11 +1190,11 @@
             "title": "Submission status",
             "in_review": "In review",
             "help_tooltip": "Please email the Shira team if you have questions or need support.",
-            "rejected": "Rejected",
-            "accepted": "Accepted"
+            "rejected": "Reject",
+            "accepted": "Accept"
         },
         "quiz_templates": {
-            "title": "Quiz templates",
+            "title": "Plantillas de pregunta",
             "description": "Create a quiz instantly by choosing from our quiz templates, available in multiple apps and languages."
         },
         "display_name": {
