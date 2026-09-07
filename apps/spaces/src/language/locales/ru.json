@@ -123,8 +123,8 @@
             "disabled_tooltip": "Чтобы скопировать ссылку на тест, создайте хотя бы один вопрос.",
             "delete": "Удалить",
             "submit_as_template": "Submit as template",
-            "copy_link_disabled_tooltip": "Create at least 1 question to copy your quiz link.",
-            "submit_as_template_disabled_tooltip": "Create at least 1 question to submit your quiz as a template."
+            "copy_link_disabled_tooltip": "Чтобы опубликовать тест, создайте как минимум 1 вопрос.",
+            "submit_as_template_disabled_tooltip": "Чтобы опубликовать тест, создайте как минимум 1 вопрос."
         },
         "tabs": {
             "questions": "Вопросы",
@@ -156,7 +156,7 @@
             "edit": "Изменить",
             "duplicate": "Создать копию",
             "delete": "Удалить",
-            "more_actions": "More actions",
+            "more_actions": "Больше вариантов",
             "submit_as_template": "Submit as template",
             "export": "Экспорт"
         },
@@ -304,7 +304,7 @@
                 "preview_aria_label": "Предпросмотр",
                 "disabled_tooltip": "Выберите язык и приложение, чтобы использовать этот вопрос."
             },
-            "created_on": "Created on",
+            "created_on": "Создать",
             "creator": "Creator"
         },
         "filters_panel": {
@@ -317,8 +317,8 @@
             "clear_all": "Удалить все"
         },
         "sort_options": {
-            "question_name_desc": "Question name (Z-A)",
-            "question_name_asc": "Question name (A-Z)",
+            "question_name_desc": "Название вопроса",
+            "question_name_asc": "Название вопроса",
             "newest_to_oldest": "От новейшего к старейшему",
             "oldest_to_newest": "От старейшего к новейшему"
         },
@@ -789,14 +789,14 @@
             "question": {
                 "title": "Export question",
                 "sharing_implications": "If you will share your question with others, you may want to remove any sensitive information it contains before exporting it. <1>Learn more</1>",
-                "error": "There was a problem exporting the question. If this issue persists, <1>contact us</1>.",
+                "error": "При удалении учащегося возникла проблема. Если она останется, <1>свяжитесь с нами</1>.",
                 "file_type": "Your question will be exported as a .zip file that can be re-imported into a Shira space."
             },
             "quiz": {
-                "error": "There was a problem exporting the quiz. If this issue persists, <1>contact us</1>.",
+                "error": "При удалении учащегося возникла проблема. Если она останется, <1>свяжитесь с нами</1>.",
                 "file_type": "Your quiz will be exported as a .zip file that can be re-imported into a Shira space.",
                 "sharing_implications": "If you will share your quiz with others, you may want to remove any sensitive information it contains before exporting it. <1>Learn more</1>",
-                "title": "Export quiz"
+                "title": "Покинуть тест"
             },
             "exporting": "Exporting..."
         },
@@ -808,12 +808,12 @@
                 "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
                 "import_title": "Or import a question from a file",
                 "scratch_title": "Start from scratch",
-                "title": "Create new question",
+                "title": "Создать новый вопрос",
                 "subtitle": "Choose how you’d like to create your question."
             },
             "quiz": {
                 "subtitle": "Choose how you’d like to create your quiz.",
-                "title": "Create new quiz",
+                "title": "Создать новый тест",
                 "create_button": "Отменить",
                 "scratch_title": "Start from scratch",
                 "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
@@ -824,25 +824,25 @@
         },
         "import": {
             "question": {
-                "upload_success": "Your file is ready to be imported.",
-                "file_size": "Maximum file size: 50 MB",
+                "upload_success": "Your file will not be imported.",
+                "file_size": "Максимальный объём файла: 10 Мб",
                 "subtitle": "Select the file of the question you want to import. To prevent errors, we recommend not modifying the content of the file. <0>Learn more</0>.",
                 "button": "Import question",
-                "error": "There was a problem importing the question. If this issue persists, <1>contact us</1>.",
+                "error": "С приглашением учащегося возникла проблема. Если она останется, <1>свяжитесь с нами</1>.",
                 "title": "Import question",
                 "drag_title": "Drag and drop to upload your question file here",
                 "importing": "Importing...",
-                "file_type": "Accepted file type: .zip only"
+                "file_type": "Допустимый тип файла: только .csv"
             },
             "quiz": {
-                "error": "There was a problem importing the quiz. If this issue persists, <1>contact us</1>.",
-                "drag_title": "Drag and drop to upload your quiz file here",
+                "error": "С приглашением учащегося возникла проблема. Если она останется, <1>свяжитесь с нами</1>.",
+                "drag_title": "Перетащите сюда заполненную таблицу, чтобы загрузить её",
                 "subtitle": "Select the file of the quiz you want to import. To prevent errors, we recommend not modifying the content of the file. <0>Learn more</0>.",
                 "title": "Import quiz",
                 "button": "Import quiz",
-                "file_size": "Maximum file size: 200 MB",
-                "file_type": "Accepted file type: .zip only",
-                "upload_success": "Your file is ready to be imported.",
+                "file_size": "Максимальный объём файла: 10 Мб",
+                "file_type": "Допустимый тип файла: только .csv",
+                "upload_success": "Your file will not be imported.",
                 "importing": "Importing..."
             }
         }
@@ -908,23 +908,23 @@
         },
         "invalid_email_update": "Этот email уже привязан к пространству Shira.",
         "character_limit_error": "Character limit exceeded",
-        "template_submission_failed": "There was a problem submitting the template. If this issue persists, <1>contact us</1>.",
+        "template_submission_failed": "С приглашением учащегося возникла проблема. Если она останется, <1>свяжитесь с нами</1>.",
         "export_question_fail": "Failed to export question",
         "entity_import": {
             "invalid_zip_file": {
-                "subtitle": "Please make sure the file is in .zip and try again.",
-                "title": "Error: Invalid file format"
+                "subtitle": "Пожалуйста, убедитесь, что файл имеет формат CSV, и попробуйте ещё раз.",
+                "title": "Ошибка: неверный формат файла"
             },
             "invalid_formatting": {
-                "title": "Error: Invalid file format",
-                "subtitle": "Please make sure the file is in .zip and try again."
+                "title": "Ошибка: неверный формат файла",
+                "subtitle": "Пожалуйста, убедитесь, что файл имеет формат CSV, и попробуйте ещё раз."
             },
             "file_too_large": {
                 "subtitle": "Please make sure your file is within the 50 MB limit and try again.",
-                "title": "Error: File is too large"
+                "title": "Ошибка: слишком большой файл"
             },
             "invalid_metadata": {
-                "title": "Error: Invalid file content",
+                "title": "Ошибка: неверный формат файла",
                 "subtitle": "This file's contents don't match the expected question format. Please make sure not to modify the file and try again."
             }
         }
@@ -957,8 +957,8 @@
         "password_updated": "Ваш пароль успешно обновлён.",
         "email_updated": "Ваш email успешно обновлён.",
         "quiz_assessment_mode_updated": "Тест обновлён",
-        "quiz_imported": "The quiz has been imported",
-        "question_imported": "The question has been imported"
+        "quiz_imported": "Тест обновлён",
+        "question_imported": "Вопрос удалён"
     },
     "loading_messages": {
         "message": "",
@@ -1027,8 +1027,8 @@
         "beta_lead": "В настоящее время пространства Shira находятся в стадии закрытого бета-тестирования. Чтобы получить пароль бета-тестера, напишите нам по адресу",
         "checking_invitation": "Проверка приглашения...",
         "email_label": "Подтвердите свой email",
-        "password_label": "Пароль",
-        "confirm_password_label": "Подтвердите пароль",
+        "password_label": "Требуется пароль",
+        "confirm_password_label": "Подтвердите новый пароль (обязательно)",
         "button_create": "Создать пространство",
         "validation": {
             "email_required": "Требуется email.",
@@ -1065,7 +1065,7 @@
             "language": "Язык"
         },
         "preview": {
-            "created_on": "Created on",
+            "created_on": "Создать",
             "columns": {
                 "app": "Имя не установлено",
                 "actions": "Действия",
@@ -1165,13 +1165,13 @@
             "header_title": "Submit question template",
             "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>.",
             "language_placeholder": "Язык",
-            "name": "Question template name",
+            "name": "Шаблоны для вопросов",
             "tags_placeholder": "Теги",
             "submit": "Отправить",
             "tags_hint": "Select the tags that best describe the content of this template.",
             "language_hint": "You may select more than 1 language. (Can't find the language you want? <support>Request a missing language.</support>)",
             "name_hint": "Use a descriptive name to help other users find what they're looking for.",
-            "name_placeholder": "Question template name",
+            "name_placeholder": "Шаблоны для вопросов",
             "description": "Описание",
             "language": "Язык",
             "description_hint": "Write 1-2 lines to explain what this question contains."
@@ -1190,11 +1190,11 @@
             "title": "Submission status",
             "in_review": "In review",
             "help_tooltip": "Please email the Shira team if you have questions or need support.",
-            "rejected": "Rejected",
-            "accepted": "Accepted"
+            "rejected": "Reject",
+            "accepted": "Accept"
         },
         "quiz_templates": {
-            "title": "Quiz templates",
+            "title": "Шаблоны для вопросов",
             "description": "Create a quiz instantly by choosing from our quiz templates, available in multiple apps and languages."
         },
         "display_name": {
