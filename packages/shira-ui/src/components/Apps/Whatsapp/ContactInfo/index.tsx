@@ -31,7 +31,7 @@ const ContactInfo: FunctionComponent<Props> = ({ phone, onBack }) => {
           onClick={onBack}
           aria-label={t("whatsapp.back_to_chat")}
         >
-          <FiArrowLeft />
+          <FiArrowLeft data-mirror-rtl />
         </BackButton>
         <Title>{t("whatsapp.contact_info")}</Title>
       </TopBar>
@@ -63,25 +63,25 @@ const ContactInfo: FunctionComponent<Props> = ({ phone, onBack }) => {
             <FiBell />
             <span>{t("whatsapp.mute_notifications")}</span>
             <Value>{t("whatsapp.off")}</Value>
-            <FiChevronRight />
+            <FiChevronRight data-mirror-rtl />
           </Setting>
           <Setting>
             <MdPalette />
             <span>{t("whatsapp.chat_theme")}</span>
-            <FiChevronRight />
+            <FiChevronRight data-mirror-rtl />
           </Setting>
           <Setting>
             <FiDownload />
             <span>{t("whatsapp.save_to_downloads")}</span>
             <Value>{t("whatsapp.off")}</Value>
-            <FiChevronRight />
+            <FiChevronRight data-mirror-rtl />
           </Setting>
         </Settings>
 
         <InfoRow>
           <FiImage />
           <span>{t("whatsapp.media_links_and_docs")}</span>
-          <FiChevronRight />
+          <FiChevronRight data-mirror-rtl />
         </InfoRow>
         <Privacy>
           <FiLock />
@@ -131,7 +131,8 @@ const BackButton = styled.button`
 `;
 
 const Title = styled.h2`
-  margin: 0 0 0 14px;
+  margin: 0;
+  margin-inline-start: 14px;
   font-size: 16px;
   font-weight: 600;
 `;
@@ -208,7 +209,7 @@ const Settings = styled.div`
   overflow: hidden;
   border-radius: 10px;
   background: #fff;
-  text-align: left;
+  text-align: start;
 `;
 
 const Setting = styled.div`
@@ -228,27 +229,27 @@ const Setting = styled.div`
     font-size: 22px;
   }
   > svg:last-child {
-    margin-left: 0;
+    margin-inline-start: 0;
     color: #8696a0;
     font-size: 19px;
   }
 `;
 
 const Value = styled.span`
-  margin-left: auto;
+  margin-inline-start: auto;
   color: #667781;
 `;
 
 const InfoRow = styled.div`
   min-height: 64px;
-  margin-top: 18px;
+  margin-block-start: 18px;
   padding: 0 16px;
   display: flex;
   align-items: center;
   gap: 18px;
   border-radius: 10px;
   background: #fff;
-  text-align: left;
+  text-align: start;
   font-size: 16px;
 
   > svg {
@@ -256,25 +257,26 @@ const InfoRow = styled.div`
     font-size: 22px;
   }
   > svg:last-child {
-    margin-left: auto;
+    margin-inline-start: auto;
     color: #8696a0;
     font-size: 19px;
   }
 `;
 
 const Privacy = styled.p`
-  margin: 24px 8px 0;
+  margin: 0 8px;
+  margin-block-start: 24px;
   display: flex;
   align-items: flex-start;
   gap: 10px;
   color: #667781;
   font-size: 13px;
   line-height: 1.45;
-  text-align: left;
+  text-align: start;
 
   > svg {
     flex: none;
-    margin-top: 2px;
+    margin-block-start: 2px;
     color: #00a884;
   }
 `;

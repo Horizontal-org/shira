@@ -14,14 +14,14 @@ interface Props {
   onContactClick: () => void
 }
 
-const Recipient:FunctionComponent<Props> = ({ phone, onContactClick }) => {
+const Recipient: FunctionComponent<Props> = ({ phone, onContactClick }) => {
   const { t } = useTranslation('shira-ui')
 
   return (
     <Wrapper>
       <PictureWrapper>
         <BackArrowWrapper>
-          <BackArrow/>
+          <BackArrow />
         </BackArrowWrapper>
 
         <Contact>
@@ -39,7 +39,7 @@ const Recipient:FunctionComponent<Props> = ({ phone, onContactClick }) => {
         <Icons>
           <IconWrapper>
             <SearchIcon />
-          </IconWrapper>    
+          </IconWrapper>
           <IconWrapper>
             <MoreOptionsIcon />
           </IconWrapper>
