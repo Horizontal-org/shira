@@ -4,7 +4,6 @@ import {
   FiBell,
   FiChevronRight,
   FiDownload,
-  FiImage,
   FiInfo,
   FiLock,
   FiMoreVertical,
@@ -18,6 +17,7 @@ import { MdPalette } from "react-icons/md";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import StrangerPicture from "../StrangerPicture";
+import { BsImage } from "react-icons/bs";
 
 interface Props {
   phone?: string;
@@ -106,7 +106,7 @@ const ContactInfo: FunctionComponent<Props> = ({ phone, onBack }) => {
             {t("whatsapp.info")}
           </NavigationItem>
           <NavigationItem>
-            <FiImage />
+            <BsImage />
             {t("whatsapp.media_links_and_docs")}
           </NavigationItem>
           <NavigationItem>
@@ -142,15 +142,21 @@ const ContactInfo: FunctionComponent<Props> = ({ phone, onBack }) => {
             <PhoneNumber>{phone || t("whatsapp.no_phone_number")}</PhoneNumber>
             <Actions aria-label={t("whatsapp.contact_actions")}>
               <Action type="button">
-                <FiPhone />
+                <ActionIcon>
+                  <FiPhone />
+                </ActionIcon>
                 <span>{t("whatsapp.voice")}</span>
               </Action>
               <Action type="button">
-                <FiVideo />
+                <ActionIcon>
+                  <FiVideo />
+                </ActionIcon>
                 <span>{t("whatsapp.video")}</span>
               </Action>
               <Action type="button">
-                <FiSearch />
+                <ActionIcon>
+                  <FiSearch />
+                </ActionIcon>
                 <span>{t("whatsapp.search")}</span>
               </Action>
             </Actions>
@@ -218,11 +224,13 @@ const Overlay = styled.div`
   padding: 32px;
   box-sizing: border-box;
   background: rgba(11, 20, 26, 0.28);
+
   @media (max-width: 800px) {
     padding: 0;
     background: #f0f2f5;
   }
 `;
+
 const Modal = styled.section`
   display: flex;
   width: min(920px, 100%);
@@ -232,6 +240,7 @@ const Modal = styled.section`
   background: #f0f2f5;
   color: #111b21;
   box-shadow: 0 12px 32px rgba(11, 20, 26, 0.26);
+
   @media (max-width: 800px) {
     width: 100%;
     height: 100%;
@@ -239,6 +248,7 @@ const Modal = styled.section`
     box-shadow: none;
   }
 `;
+
 const Navigation = styled.nav`
   width: 260px;
   flex: 0 0 260px;
@@ -246,14 +256,17 @@ const Navigation = styled.nav`
   box-sizing: border-box;
   border-inline-end: 1px solid #d9dde0;
   background: #f7f8fa;
+
   @media (max-width: 800px) {
     display: none;
   }
 `;
+
 const NavigationTitle = styled.h2`
   margin: 0 14px 18px;
   font-size: 20px;
 `;
+
 const NavigationItem = styled.button<{ $active?: boolean }>`
   display: flex;
   width: 100%;
@@ -267,19 +280,23 @@ const NavigationItem = styled.button<{ $active?: boolean }>`
   font: inherit;
   font-size: 16px;
   text-align: start;
+
   > svg {
     flex: none;
     font-size: 22px;
   }
 `;
+
 const Panel = styled.div`
   display: flex;
   min-width: 0;
   flex: 1;
   flex-direction: column;
 `;
+
 const MobileHeader = styled.header`
   display: none;
+
   @media (max-width: 800px) {
     display: flex;
     height: 56px;
@@ -292,6 +309,7 @@ const MobileHeader = styled.header`
     font-size: 22px;
   }
 `;
+
 const MobileCloseButton = styled.button`
   @media (max-width: 800px) {
     display: grid;
@@ -306,32 +324,39 @@ const MobileCloseButton = styled.button`
     font-size: 24px;
   }
 `;
+
 const PanelTitle = styled.h2`
   margin: 0;
   padding: 24px 32px;
   font-size: 18px;
+
   @media (max-width: 800px) {
     display: none;
   }
 `;
+
 const Details = styled.div`
   flex: 1;
   padding: 26px 28px;
   overflow-y: auto;
   text-align: center;
+
   @media (max-width: 800px) {
     padding: 28px 0 0;
   }
 `;
+
 const Avatar = styled.div`
   display: inline-flex;
   padding: 3px;
   border-radius: 50%;
+
   > div,
   > div > svg {
     width: 86px;
     height: 86px;
   }
+
   @media (max-width: 800px) {
     > div,
     > div > svg {
@@ -344,28 +369,39 @@ const ContactName = styled.h1`
   margin: 12px 0 4px;
   font-size: 24px;
   font-weight: 600;
+
   @media (max-width: 800px) {
     margin-block-start: 14px;
     font-size: 28px;
   }
 `;
+
 const PhoneNumber = styled.p`
   margin: 0;
   color: #667781;
   font-size: 16px;
+
   @media (max-width: 800px) {
     font-size: 18px;
   }
 `;
+
 const Actions = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
   margin: 32px 0 28px;
+
   @media (max-width: 800px) {
     margin: 34px 28px 24px;
   }
 `;
+
+const ActionIcon = styled.span`
+  display: grid;
+  place-items: center;
+`;
+
 const Action = styled.button`
   min-height: 68px;
   display: flex;
@@ -379,32 +415,45 @@ const Action = styled.button`
   color: #111b21;
   font: inherit;
   cursor: pointer;
-  > svg {
+
+  > ${ActionIcon} > svg {
     color: #00a884;
     font-size: 25px;
     stroke-width: 2;
   }
+
   @media (max-width: 800px) {
     min-height: auto;
     gap: 9px;
     background: transparent;
     color: #54656f;
-    > svg {
+
+    > ${ActionIcon} {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: #e9edef;
+    }
+
+    > ${ActionIcon} > svg {
       width: 30px;
       height: 30px;
       color: #54656f;
     }
   }
 `;
+
 const Settings = styled.div`
   overflow: hidden;
   border-radius: 9px;
   background: #fff;
   text-align: start;
+
   @media (max-width: 800px) {
     display: none;
   }
 `;
+
 const Setting = styled.div`
   min-height: 52px;
   padding: 0 14px;
@@ -413,24 +462,30 @@ const Setting = styled.div`
   gap: 16px;
   border-block-end: 1px solid #e9edef;
   font-size: 16px;
+
   &:last-child {
     border-block-end: 0;
   }
+
   > svg {
     color: #54656f;
     font-size: 21px;
   }
+
   > svg:last-child {
     color: #8696a0;
     font-size: 18px;
   }
 `;
+
 const Value = styled.span`
   margin-inline-start: auto;
   color: #667781;
 `;
+
 const MobileMedia = styled.section`
   display: none;
+
   @media (max-width: 800px) {
     display: block;
     padding: 18px 16px;
@@ -439,6 +494,7 @@ const MobileMedia = styled.section`
     text-align: start;
   }
 `;
+
 const MobileSectionHeader = styled.div`
   @media (max-width: 800px) {
     display: flex;
@@ -446,6 +502,7 @@ const MobileSectionHeader = styled.div`
     justify-content: space-between;
     color: #54656f;
     font-size: 15px;
+
     > span:last-child {
       display: inline-flex;
       align-items: center;
@@ -453,6 +510,7 @@ const MobileSectionHeader = styled.div`
     }
   }
 `;
+
 const MediaGrid = styled.div`
   @media (max-width: 800px) {
     display: grid;
@@ -461,6 +519,7 @@ const MediaGrid = styled.div`
     margin-block-start: 12px;
   }
 `;
+
 const MediaPreview = styled.div<{ $variant: number }>`
   @media (max-width: 800px) {
     aspect-ratio: 1;
@@ -468,8 +527,10 @@ const MediaPreview = styled.div<{ $variant: number }>`
     background: ${(props) => (props.$variant === 1 ? "linear-gradient(135deg, #236de3, #703db3)" : props.$variant === 2 ? "linear-gradient(135deg, #a7b3bc, #66747c)" : "linear-gradient(135deg, #9d8c79, #c4b59f)")};
   }
 `;
+
 const MobileRows = styled.div`
   display: none;
+
   @media (max-width: 800px) {
     display: block;
     margin-block-start: 10px;
@@ -478,6 +539,7 @@ const MobileRows = styled.div`
     text-align: start;
   }
 `;
+
 const MobileRow = styled.div`
   @media (max-width: 800px) {
     min-height: 72px;
@@ -488,23 +550,28 @@ const MobileRow = styled.div`
     border-block-end: 1px solid #e9edef;
     color: #54656f;
     font-size: 17px;
+
     > svg {
       font-size: 22px;
     }
+
     > small {
       font-size: 14px;
     }
   }
 `;
+
 const Footer = styled.footer`
   padding: 20px 26px;
   border-block-start: 1px solid #d9dde0;
   background: #fff;
   text-align: end;
+
   @media (max-width: 800px) {
     display: none;
   }
 `;
+
 const DoneButton = styled.button`
   padding: 6px 18px;
   border: 0;
