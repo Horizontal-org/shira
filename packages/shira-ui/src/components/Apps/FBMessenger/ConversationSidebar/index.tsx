@@ -1,14 +1,11 @@
 import { FunctionComponent } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  FiBell,
-  FiChevronDown,
-  FiLock,
-  FiSearch,
-  FiUser,
-} from "react-icons/fi";
+import { FiChevronDown, FiSearch } from "react-icons/fi";
+import { IoNotifications } from "react-icons/io5";
+import { MdAccountCircle } from "react-icons/md";
 import styled from "styled-components";
 import ProfilePicture from "../../Whatsapp/ProfilePicture";
+import { FaLock } from "react-icons/fa6";
 
 interface Props {
   fullname: {
@@ -28,7 +25,7 @@ const ConversationSidebar: FunctionComponent<Props> = ({ fullname }) => {
           {fullname.textContent}
         </Name>
         <Encryption>
-          <FiLock />
+          <FaLock />
           {t("messenger.end_to_end_encrypted")}
         </Encryption>
       </Profile>
@@ -36,13 +33,13 @@ const ConversationSidebar: FunctionComponent<Props> = ({ fullname }) => {
       <Actions>
         <Action type="button">
           <ActionIcon>
-            <FiUser />
+            <MdAccountCircle />
           </ActionIcon>
           {t("messenger.profile")}
         </Action>
         <Action type="button">
           <ActionIcon>
-            <FiBell />
+            <IoNotifications />
           </ActionIcon>
           {t("messenger.mute")}
         </Action>
@@ -109,11 +106,12 @@ const Encryption = styled.div`
   align-items: center;
   gap: 4px;
   margin-block-start: 10px;
-  padding: 5px 10px;
-  border-radius: 12px;
-  background: #f0f2f5;
-  color: #65676b;
+  padding: 6px 12px;
+  border-radius: 16px;
+  background: #e4e6eb;
+  color: #050505;
   font-size: 12px;
+  font-weight: 600;
 
   > svg {
     font-size: 12px;
@@ -123,8 +121,8 @@ const Encryption = styled.div`
 const Actions = styled.div`
   display: flex;
   justify-content: center;
-  gap: 18px;
-  margin-block: 24px 28px;
+  gap: 20px;
+  margin-block: 24px 34px;
 `;
 
 const Action = styled.button`
@@ -137,7 +135,7 @@ const Action = styled.button`
   background: transparent;
   color: #050505;
   font: inherit;
-  font-size: 12px;
+  font-size: 13px;
   cursor: pointer;
 
   &:focus-visible {
@@ -149,12 +147,12 @@ const Action = styled.button`
 
 const ActionIcon = styled.span`
   display: grid;
-  width: 34px;
-  height: 34px;
+  width: 46px;
+  height: 46px;
   place-items: center;
   border-radius: 50%;
   background: #e4e6eb;
-  font-size: 18px;
+  font-size: 26px;
 
   ${Action}:hover & {
     background: #d8dadf;
@@ -162,7 +160,6 @@ const ActionIcon = styled.span`
 `;
 
 const Sections = styled.div`
-  border-block-start: 1px solid #e4e6eb;
   text-align: start;
 `;
 
@@ -171,13 +168,12 @@ const Section = styled.button`
   width: 100%;
   align-items: center;
   justify-content: space-between;
-  padding: 17px 2px;
+  padding: 18px 0;
   border: 0;
-  border-block-end: 1px solid #e4e6eb;
   background: transparent;
   color: #050505;
   font: inherit;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   text-align: start;
   cursor: pointer;
@@ -185,10 +181,6 @@ const Section = styled.button`
   > svg {
     color: #65676b;
     font-size: 16px;
-  }
-
-  &:hover {
-    background: #f7f8fa;
   }
 
   &:focus-visible {
