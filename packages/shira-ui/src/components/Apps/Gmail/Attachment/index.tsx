@@ -8,6 +8,7 @@ import {
   PdfIcon,
 } from '../../../Icons';
 import { AttachmentType } from '../../../Attachments';
+import AddToDriveIcon from '../Attachment/components/AddToDriveIcon'
 
 interface Props {
   position: string;
@@ -16,13 +17,13 @@ interface Props {
   type?: string;
 }
 
+// TODO (2026-09-08): need to also get colour based on outcome from something like 'renderSwitch'
 export const Attachment: FunctionComponent<Props> = ({
   name,
   explanationPosition,
   type
 }) => {
-
-  const renderSwitch = (type: string) => {
+  const renderSwitch = (type: string, name: string) => {
     switch (type) {
       case AttachmentType.audio:
         return <AudioIcon />
@@ -39,37 +40,58 @@ export const Attachment: FunctionComponent<Props> = ({
     }
   }
 
-
   return (
     <Wrapper data-explanation={explanationPosition}>
       <Hovered>
-        <Name>
-          <IconWrapper size={16} color='#15c'>
-            {renderSwitch(type)}
-          </IconWrapper>
-          <span>
-            {name}
-          </span>
-        </Name>
+          <HoveredMetadata>
+            <div>
+              <IconWrapper size={16} color='#15c'>
+                {renderSwitch(type, name)}
+              </IconWrapper>
+              <HoveredName>
+                {name}
+              </HoveredName>
+            </div>
+            <div>
+              xx KB
+            </div>
+            <GoogleDriveAddIcon>
+              <AddToDriveIcon />
+            </GoogleDriveAddIcon>
+          </HoveredMetadata>
       </Hovered>
-      <div>
-        <Preview>
-          <IconWrapper size={34}>
-            {renderSwitch(type)}
-          </IconWrapper>
-        </Preview>
+      <Preview>
+        <IconWrapper size={34}>
+          {renderSwitch(type, name)}
+        </IconWrapper>
+      </Preview>
+      <Unhovered>
         <Name>
           <IconWrapper size={16} color='#15c'>
-            {renderSwitch(type)}
+            {renderSwitch(type, name)}
           </IconWrapper>
           <span>
             {name}
           </span>
+          <RibbonContainer>
+          <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 20 10" width="46px">
+            <path id="ribbon" fill="blue" stroke="none" d="M11,10 L11,0 L21,0"/>
+            <path id="ribbon" fill="#bbb" stroke="none" d="M0,10 L10,10 L10,0"/>
+            <path id="ribbon" fill="white" stroke="none" d="M20,10 l1,-10 l-10,12"></path>
+          </svg>
+          </RibbonContainer>
         </Name>
-      </div>
+      </Unhovered>
+
     </Wrapper>
   )
 }
+
+const RibbonContainer = styled.div`
+  margin-left: auto;
+  margin-bottom: -6px;
+  margin-right: -1px;
+`
 
 const Wrapper = styled.div`
   width: 178px;
@@ -78,23 +100,33 @@ const Wrapper = styled.div`
   position: relative;
 `
 
+// needs to be hidden 
+const Unhovered = styled.div`
+  display: block;
+  ${Wrapper}:hover & {
+    display: none;
+  }
+`
+
 const Preview = styled.div`
+  padding-top: 2rem;
   height: 85px;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 1px solid #F0F0F0;
+  border-bottom: none;
 `
 
 const Name = styled.div`
   display: flex;
-  padding: 4px 8px;
+  padding: 8px 0 0 12px;
   border: 1px solid #F0F0F0;  
   align-items: center;
   background: #F0F0F0;
   > span {
-    padding-left: 4px;
-    color: #222;
+    color: #7f7e7e;
+    font-weight: bold;
     font-size: 12px;
   }
 `
@@ -105,9 +137,10 @@ const Hovered = styled.div`
   top: 0;
   cursor: pointer;
   width: 178px;
-  height: 113px;
+  height: 150px;
   display: none;
-  background: #F0F0F0;
+  background: #555;
+  opacity: 0.8;
   padding-top: 12px;
   box-sizing: border-box;
 
@@ -116,7 +149,24 @@ const Hovered = styled.div`
   }
 `
 
-const IconWrapper = styled.div<{ size: number; color?: string }>`
+const HoveredName = styled.span`
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+`
+const HoveredMetadata = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 1px 8px;
+  div:nth-of-type(2) {
+    color: white;
+    padding-left: 24px;
+    font-size: 10px;
+  }
+`
+
+const IconWrapper = styled.span<{ size: number; color?: string }>`
+  padding-right: 8px;
   > svg {
     height: ${props => props.size}px;
     width: ${props => props.size}px;
@@ -129,4 +179,12 @@ const IconWrapper = styled.div<{ size: number; color?: string }>`
        }
     `}
   }
+`
+
+const GoogleDriveAddIcon = styled.svg`
+  width: 20px;
+  height: 20px;
+  display: block;
+  flex-shrink: 0;
+  fill: currentColor;
 `
