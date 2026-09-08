@@ -390,12 +390,8 @@ const Action = styled.button`
     background: transparent;
     color: #54656f;
     > svg {
-      width: 46px;
-      height: 46px;
-      padding: 11px;
-      box-sizing: border-box;
-      border-radius: 50%;
-      background: #e9edef;
+      width: 30px;
+      height: 30px;
       color: #54656f;
     }
   }
