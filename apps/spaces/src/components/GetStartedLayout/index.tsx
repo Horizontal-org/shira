@@ -23,14 +23,15 @@ import { SPACE_NAME_MAX_LENGTH } from "../../utils/inputLimits";
 interface Props { }
 
 export const ORG_TYPES = [
-  { value: "business", label: "get_started.org_types.business" },
+  { value: "educational", label: "get_started.org_types.educational" },
+  { value: "healthcare", label: "get_started.org_types.healthcare" },
   { value: "cibersecurity", label: "get_started.org_types.cibersecurity" },
   { value: "non-profit", label: "get_started.org_types.non_profit" },
-  { value: "individual", label: "get_started.org_types.individual" },
+  { value: "business", label: "get_started.org_types.business" },
+  { value: "individual", label: "get_started.org_types.individual" }
 ];
 
 export const GetStartedLayout: FunctionComponent<Props> = () => {
-
   const { t } = useTranslation();
 
   const [email, handleEmail] = useState("");
@@ -65,48 +66,49 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
   const validateForm = () => {
     let hasError = false;
     if (!hasRequiredValue(name)) {
-      handleNameError(t("get_started.validation.org_name_required"))
+      handleNameError(t("get_started.validation.org_name_required"));
       hasError = true;
     }
     if (name.length > SPACE_NAME_MAX_LENGTH) {
       hasError = true;
     }
     if (!hasRequiredValue(email)) {
-      handleEmailError(t("get_started.validation.email_required"))
+      handleEmailError(t("get_started.validation.email_required"));
       hasError = true;
     }
     if (hasRequiredValue(email) && !emailIsValid) {
-      handleEmailError(t("get_started.validation.invalid_email"))
+      handleEmailError(t("get_started.validation.invalid_email"));
       hasError = true;
     }
-    return hasError
+    return hasError;
   };
 
   const validateUrl = () => {
-    const plan = searchParams.get('plan');
-    const validPlans = ['starter', 'pro', 'enterprise'];
+    const plan = searchParams.get("plan");
+    const validPlans = ["starter", "pro", "enterprise"];
     if (!plan || !validPlans.includes(plan)) {
-      return 'starter';
+      return "starter";
     }
-    return plan
-  }
+    return plan;
+  };
 
-  const {
-    logout,
-  } = useStore((state) => ({
-    logout: state.logout,
-  }), shallow)
+  const { logout } = useStore(
+    (state) => ({
+      logout: state.logout
+    }),
+    shallow
+  );
 
   useEffect(() => {
-    logout()
-  }, [logout])
+    logout();
+  }, [logout]);
 
   const handleSubmit = async () => {
-    handleEmailError('');
-    handleNameError('');
+    handleEmailError("");
+    handleNameError("");
 
     if (validateForm() || !orgType) {
-      return
+      return;
     }
 
     setLoading(true);
@@ -126,7 +128,7 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
       setLoading(false);
       const error = handleHttpError(err)
 
-      if (error && error.message === 'email_already_taken') {
+      if (error && error.message === "email_already_taken") {
         handleEmailError(t("error_messages.email_already_taken"))
         return
       }
@@ -158,7 +160,13 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
   return (
     <Container>
       <Navbar
-        translatedTexts={{ home: "", about: "", menu: "", logIn: t('login.login_header_button'), createSpace: "" }}
+        translatedTexts={{
+          home: "",
+          about: "",
+          menu: "",
+          logIn: t("login.login_header_button"),
+          createSpace: ""
+        }}
         onNavigate={navigate}
       />
       {success ? (
@@ -172,11 +180,10 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
         <ContentWrapper>
           <BackgroundPattern />
           <Content>
-
             <StyledForm
-              title={t('get_started.title')}
+              title={t("get_started.title")}
               titleSize="large"
-              description={t('get_started.description')}
+              description={t("get_started.description")}
               onSubmit={(e) => {
                 e.preventDefault()
                 handleSubmit()
@@ -190,30 +197,38 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
                   tabIndex={-1}
                   autoComplete="off"
                   aria-hidden="true"
-                  style={{ position: 'absolute', left: '-9999px', opacity: 0, height: 0, width: 0 }}
+                  style={{
+                    position: "absolute",
+                    insetInlineStart: "-9999px",
+                    opacity: 0,
+                    height: 0,
+                    width: 0
+                  }}
                 />
                 <TextInput
                   required
-                  label={t('get_started.organization_name_required')}
+                  label={t("get_started.organization_name_required")}
                   value={name}
                   onChange={(e) => handleNameChange(e.target.value)}
                   disabled={loading}
                   showCharacterCount={true}
                   maxLength={SPACE_NAME_MAX_LENGTH}
-                  characterLimitErrorText={t('error_messages.character_limit_error')}
+                  characterLimitErrorText={t(
+                    "error_messages.character_limit_error"
+                  )}
                   errorText={nameError}
                 />
                 <TextInput
                   required
                   disabled={loading}
-                  label={t('get_started.email_required')}
+                  label={t("get_started.email_required")}
                   value={email}
                   onChange={(e) => handleEmailChange(e.target.value)}
                   errorText={emailError}
                 />
                 <RadioGroup
                   name="organization-type"
-                  legend={t('get_started.org_type_label')}
+                  legend={t("get_started.org_type_label")}
                   value={orgType}
                   onChange={(value) => handleOrgType(value)}
                   options={ORG_TYPES.map((option) => ({
@@ -227,12 +242,23 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
 
               <ButtonContainer>
                 <Button
-                  text={loading ? t('get_started.loading') : t('get_started.button_sign_up')}
+                  text={
+                    loading
+                      ? t("get_started.loading")
+                      : t("get_started.button_sign_up")
+                  }
                   type="primary"
-                  disabled={loading || !orgType || !hasRequiredValue(name) || name.length > SPACE_NAME_MAX_LENGTH || !hasRequiredValue(email) || !emailIsValid}
+                  disabled={
+                    loading ||
+                    !orgType ||
+                    !hasRequiredValue(name) ||
+                    name.length > SPACE_NAME_MAX_LENGTH ||
+                    !hasRequiredValue(email) ||
+                    !emailIsValid
+                  }
                   onClick={(e) => {
-                    e.preventDefault()
-                    handleSubmit()
+                    e.preventDefault();
+                    handleSubmit();
                   }}
                 />
               </ButtonContainer>
@@ -242,15 +268,14 @@ export const GetStartedLayout: FunctionComponent<Props> = () => {
               isOpen={!!errorModalOpen}
               errorMessage={errorModalOpen}
               onRetry={() => {
-                setIsErrorModalOpen(null)
-                handleSubmit()
+                setIsErrorModalOpen(null);
+                handleSubmit();
               }}
               onCancel={() => { setIsErrorModalOpen(null) }}
             />
           </Content>
         </ContentWrapper>
       )}
-
     </Container>
   );
 };
@@ -260,8 +285,8 @@ const Container = styled.div`
   width: 100%;
   padding: 24px;
   display: flex;
-  flex-direction: column;  
-  position: relative; 
+  flex-direction: column;
+  position: relative;
 
   @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
     padding: 16px;
@@ -269,36 +294,35 @@ const Container = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-    padding: 24px;
-    flex: 1;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    overflow-y: auto;
+  padding: 24px;
+  flex: 1;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  overflow-y: auto;
 
-    @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
-        padding: 16px;
-        align-items: flex-start;
-        padding-top: 48px; 
-    }
+  @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
+    padding: 16px;
+    align-items: flex-start;
+    padding-top: 48px;
+  }
 `;
 
 const Content = styled.div`
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    max-width: 800px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin: 48px auto; 
-    width: 100%;
-    height: auto;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 48px auto;
+  width: 100%;
+  height: auto;
 `;
 
-
 const BackgroundPattern = styled.div`
-   background-image: url(${backgroundSvg});
+  background-image: url(${backgroundSvg});
   background-repeat: no-repeat;
   background-size: cover;
   position: fixed;
@@ -308,7 +332,7 @@ const BackgroundPattern = styled.div`
   height: 100%;
   z-index: 0;
   opacity: 0.15;
-  pointer-events: none; 
+  pointer-events: none;
 
   @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
     display: none;
@@ -317,8 +341,8 @@ const BackgroundPattern = styled.div`
 
 const StyledForm = styled(Form)`
   position: relative;
-  z-index:1;
-  text-align: left;
+  z-index: 1;
+  text-align: start;
   margin-bottom: 32px;
   gap: 16px;
 `;
@@ -336,7 +360,7 @@ const ButtonContainer = styled.div`
 
   @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
     width: 100%;
-    
+
     button {
       width: 100%;
       display: flex;

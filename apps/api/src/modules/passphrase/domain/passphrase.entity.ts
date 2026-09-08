@@ -5,6 +5,10 @@ import {
   UpdateDateColumn,
   CreateDateColumn,
 } from 'typeorm';
+import {
+  ORGANIZATION_TYPES,
+  OrganizationType,
+} from '../../organization/domain/organization-type';
 
 @Entity({ name: 'passphrases' })
 export class PassphraseEntity {
@@ -14,17 +18,17 @@ export class PassphraseEntity {
   @Column({
     name: 'organization_type',
     type: 'enum',
-    enum: ["business", "cibersecurity", "non-profit", "individual"],
+    enum: ORGANIZATION_TYPES,
   })
-  organizationType: "business" | "cibersecurity" | "non-profit" | "individual"
+  organizationType: OrganizationType;
 
   @Column({
     name: 'subscription_intent',
     type: 'enum',
-    enum: ["starter", "pro", "enterprise"],
+    enum: ['starter', 'pro', 'enterprise'],
   })
-  subscriptionIntent: "starter" | "pro" | "enterprise";
-  
+  subscriptionIntent: 'starter' | 'pro' | 'enterprise';
+
   @Column({ length: 150 })
   code: string;
 
