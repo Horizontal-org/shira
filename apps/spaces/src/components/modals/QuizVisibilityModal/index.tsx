@@ -9,6 +9,7 @@ interface Props {
   onBack: () => void;
   isSubmitting?: boolean;
   privateForbidden?: boolean
+  confirmButtonText?: string
 }
 
 export const QuizVisibilityModal: FunctionComponent<Props> = ({
@@ -16,7 +17,8 @@ export const QuizVisibilityModal: FunctionComponent<Props> = ({
   onConfirm,
   onBack,
   isSubmitting = false,
-  privateForbidden = false
+  privateForbidden = false,
+  confirmButtonText
 }) => {
   const { t } = useTranslation();
   const theme = useTheme();
@@ -69,7 +71,7 @@ export const QuizVisibilityModal: FunctionComponent<Props> = ({
       id="quiz-visibility-modal"
       isOpen={isModalOpen}
       title={t("modals.quiz_visibility.title")}
-      primaryButtonText={t('modals.create_quiz.button')}
+      primaryButtonText={confirmButtonText ?? t('modals.create_quiz.button')}
       secondaryButtonText={t("buttons.back")}
       primaryButtonDisabled={!visibility || isSubmitting}
       onPrimaryClick={() => {

@@ -8,8 +8,7 @@ import { FileInvalidException } from "src/modules/question_image/exceptions";
 import { QuestionSanitizer } from "src/utils/question-sanitizer.util";
 import { IImageService } from "src/modules/image/interfaces/services/image.service.interface";
 import { TYPES as TYPES_IMAGE } from "src/modules/image/interfaces";
-import { ITransferTemplateImagesService } from "src/modules/image/interfaces/services/transfer-template-images.service.interface";
-import { CreateTemplateQuizImageDto } from "src/modules/library/dto/create-template-quiz.library.dto";
+import { ITransferTemplateImagesService, TransferableImage } from "src/modules/image/interfaces/services/transfer-template-images.service.interface";
 
 const ALLOWED_MIME_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
 
@@ -42,7 +41,7 @@ export class TransferTemplateImagesService implements ITransferTemplateImagesSer
     manager: EntityManager,
     quizId: number,
     question: Question,
-    images: CreateTemplateQuizImageDto[],
+    images: TransferableImage[],
     referencedContent: string[],
   ): Promise<Map<number, number>> {
     console.log('ON TRANSFER TEMPLATE IMAGES SERVICE', { quizId, questionId: question.id, imagesCount: images.length, referencedContentCount: referencedContent.length });
@@ -58,12 +57,7 @@ export class TransferTemplateImagesService implements ITransferTemplateImagesSer
     for (const image of images) {
       if (!referencedIds.has(image.id)) continue;
 
-      const response = await fetch(image.url);
-      if (!response.ok) {
-        throw new Error(`Failed to download template image ${image.id}: ${response.status}`);
-      }
-
-      const buffer = Buffer.from(await response.arrayBuffer());
+      const buffer = image.buffer ?? await this.downloadImageBuffer(image.url, image.id);
 
       const type = await fileTypeFromBuffer(buffer);
       if (!type || !ALLOWED_MIME_TYPES.includes(type.mime)) {
@@ -91,5 +85,13 @@ export class TransferTemplateImagesService implements ITransferTemplateImagesSer
     }
 
     return imageIdMap;
+  }
+
+  private async downloadImageBuffer(url: string, id: number): Promise<Buffer> {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Failed to download template image ${id}: ${response.status}`);
+    }
+    return Buffer.from(await response.arrayBuffer());
   }
 }

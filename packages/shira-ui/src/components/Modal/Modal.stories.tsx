@@ -23,6 +23,10 @@ const meta = {
       control: 'text',
       description: 'Modal title text'
     },
+    subtitle: {
+      control: 'text',
+      description: 'Modal subtitle text'
+    },
     type: {
       control: 'text',
       description: 'Type of modal [Danger, Primary]'
@@ -90,8 +94,8 @@ export const DeleteConfirmation: Story = {
         Deleting this quiz is permanent and cannot be undone.
       </Body1>
     ),
-    onPrimaryClick: () => {},
-    onSecondaryClick: () => {}
+    onPrimaryClick: () => { },
+    onSecondaryClick: () => { }
   }
 };
 
@@ -107,6 +111,7 @@ export const FormModal: Story = {
   args: {
     isOpen: true,
     title: 'Give a name to your new quiz',
+    subtitle: 'This name will be visible to your participants',
     primaryButtonText: 'Create new quiz',
     secondaryButtonText: 'Cancel',
     children: (
@@ -114,12 +119,12 @@ export const FormModal: Story = {
         <TextInput
           label="Quiz name"
           value=""
-          onChange={() => {}}
+          onChange={() => { }}
         />
       </FormContent>
     ),
-    onPrimaryClick: () => {},
-    onSecondaryClick: () => {}
+    onPrimaryClick: () => { },
+    onSecondaryClick: () => { }
   }
 };
 
@@ -137,9 +142,9 @@ export const WithLeftButton: Story = {
         In the quiz, this link will appear clickable, but for safety reasons, clicking on it will not open the URL.
       </Body1>
     ),
-    onPrimaryClick: () => {},
-    onSecondaryClick: () => {},
-    onLeftClick: () => {},
+    onPrimaryClick: () => { },
+    onSecondaryClick: () => { },
+    onLeftClick: () => { },
   }
 };
 
@@ -166,8 +171,8 @@ export const WithTitleIcon: Story = {
         In the quiz, this link will appear clickable, but for safety reasons, clicking on it will not open the URL.
       </Body1>
     ),
-    onPrimaryClick: () => {},
-    onSecondaryClick: () => {},
+    onPrimaryClick: () => { },
+    onSecondaryClick: () => { },
   }
 };
 
