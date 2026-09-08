@@ -18,13 +18,14 @@ const Sidebar: FunctionComponent<Props> = ( ) => {
 
 const Wrapper = styled.div`
   height: 100%;
-  flex: calc(30%);
+  flex: 0 0 30%;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   justify-content:space-between;
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
-    flex: calc(40%);
+    flex-basis: 40%;
   }
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {

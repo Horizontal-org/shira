@@ -1,31 +1,40 @@
-import { FunctionComponent } from "react"
-import styled from 'styled-components'
-import BottomBar from "./BottomBar"
-import ChatContent from "./ChatContent"
+import { FunctionComponent } from "react";
+import styled from "styled-components";
+import BottomBar from "./BottomBar";
+import ChatContent from "./ChatContent";
 
-import TopBar from "./TopBar"
+import TopBar from "./TopBar";
 
 interface Props {
   fullname: {
-    textContent: string,
-    explanationPosition: string
+    textContent: string;
+    explanationPosition: string;
   };
-  content: HTMLElement
+  content: HTMLElement;
+  isConversationSidebarOpen: boolean;
+  onInfoClick: () => void;
 }
 
 const Chat: FunctionComponent<Props> = ({
   fullname,
-  content
+  content,
+  isConversationSidebarOpen,
+  onInfoClick,
 }) => {
-
   return (
     <ChatWrapper>
-      <TopBar fullname={fullname}/> 
-      <ChatContent content={Array.from(content.querySelectorAll('[id*="component-"]'))}/> {/* refactor this */}
+      <TopBar
+        fullname={fullname}
+        isConversationSidebarOpen={isConversationSidebarOpen}
+        onInfoClick={onInfoClick}
+      />
+      <ChatContent
+        content={Array.from(content.querySelectorAll('[id*="component-"]'))}
+      />{" "} {/* refactor this */}
       <BottomBar />
     </ChatWrapper>
-  )
-}
+  );
+};
 
 const ChatWrapper = styled.div`
   flex-grow: 1;
@@ -34,6 +43,6 @@ const ChatWrapper = styled.div`
 
   display: flex;
   flex-direction: column;
-`
+`;
 
-export default Chat
+export default Chat;

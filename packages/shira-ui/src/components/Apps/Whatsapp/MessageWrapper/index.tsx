@@ -12,15 +12,17 @@ interface Props {
     explanationPosition: string
   };
   content?: HTMLElement
+  onContactClick: () => void
 }
 
 const MessageWrapper: FunctionComponent<Props> = ({
   phone,
-  content
+  content,
+  onContactClick
 }) => {
   return (
     <Wrapper>
-      <Recipient phone={phone} />
+      <Recipient phone={phone} onContactClick={onContactClick} />
       <ContentWrapper>
         <div>
           {content && Array.from(content.querySelectorAll('[id*="component-"]')).sort((a, b) => parseInt(a.getAttribute('data-position') || '') - parseInt(b.getAttribute('data-position') || '')).map((e) => (
@@ -65,4 +67,4 @@ const ContentWrapper = styled.div`
   overflow-y: scroll;
 `
 
-export default MessageWrapper
+export default MessageWrapper;
