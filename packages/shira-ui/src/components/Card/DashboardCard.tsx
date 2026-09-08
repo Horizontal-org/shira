@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode, useState } from 'react';
+import { FunctionComponent, ReactElement, ReactNode, useState } from 'react';
 import { MdLockOutline } from 'react-icons/md';
 import { TbWorld } from 'react-icons/tb';
 import styled from 'styled-components';
@@ -10,8 +10,22 @@ import {
   Card,
   CardFooter,
   CardFooterMeta,
+  type CardMenuItem,
 } from './Card';
-import { getDashboardCardMenuItems, type DashboardCardActions } from './DashboardCard.menuItems';
+
+export interface DashboardCardAction {
+  onClick: () => void;
+  label: string;
+  icon: ReactElement;
+}
+
+export interface DashboardCardActions {
+  edit?: DashboardCardAction;
+  duplicate?: DashboardCardAction;
+  copyUrl?: DashboardCardAction;
+  submitAsTemplate?: DashboardCardAction;
+  delete?: DashboardCardAction;
+}
 
 export interface DashboardCardProps {
   id?: string;
@@ -54,7 +68,33 @@ export const DashboardCard: FunctionComponent<DashboardCardProps> = ({
 }) => {
   const [showPublishTooltip, setShowPublishTooltip] = useState(false);
 
-  const menuItems = getDashboardCardMenuItems({ actions, canDuplicate, isPublic });
+  const menuItems: CardMenuItem[] = ([
+    actions?.edit && {
+      text: actions.edit.label,
+      onClick: actions.edit.onClick,
+      icon: actions.edit.icon,
+    },
+    canDuplicate && actions?.duplicate && {
+      text: actions.duplicate.label,
+      onClick: actions.duplicate.onClick,
+      icon: actions.duplicate.icon,
+    },
+    isPublic && actions?.copyUrl && {
+      text: actions.copyUrl.label,
+      onClick: actions.copyUrl.onClick,
+      icon: actions.copyUrl.icon,
+    },
+    actions?.submitAsTemplate && {
+      text: actions.submitAsTemplate.label,
+      onClick: actions.submitAsTemplate.onClick,
+      icon: actions.submitAsTemplate.icon,
+    },
+    actions?.delete && {
+      text: actions.delete.label,
+      onClick: actions.delete.onClick,
+      icon: actions.delete.icon,
+    },
+  ] as (CardMenuItem | false)[]).filter((item): item is CardMenuItem => Boolean(item));
 
   return (
     <Card

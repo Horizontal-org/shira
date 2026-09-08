@@ -1,6 +1,9 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { Sidebar, styled, H2, SubHeading3, Body1, EmptyState, FilterButton, useAdminSidebar, DashboardCard } from "@horizontal-org/shira-ui";
+import { IoLinkOutline } from "react-icons/io5";
+import { MdDelete, MdModeEdit, MdOutlineContentCopy } from "react-icons/md";
+import { FiUpload } from "react-icons/fi";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { formatDistance } from "date-fns";
@@ -365,18 +368,21 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                       actions={{
                         edit: {
                           label: t('quizzes.actions.edit'),
+                          icon: <MdModeEdit />,
                           onClick: () => {
                             navigate(`/quiz/${card.id}`)
                           },
                         },
                         duplicate: {
                           label: t('quizzes.actions.duplicate'),
+                          icon: <MdOutlineContentCopy />,
                           onClick: () => {
                             startDuplicateQuizFlow(card);
                           },
                         },
                         copyUrl: {
                           label: t('quiz.actions.copy_link'),
+                          icon: <IoLinkOutline />,
                           onClick: () => {
                             handleCopyUrlAndNotify(card.hash, t('success_messages.quiz_link_copied'));
                             if (!isPublished) {
@@ -387,6 +393,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                         },
                         submitAsTemplate: {
                           label: t('quiz.actions.submit_as_template'),
+                          icon: <FiUpload />,
                           onClick: () => {
                             startTemplateSubmission({
                               path: `/quiz/${card.id}/submit-template`,
@@ -396,6 +403,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                         },
                         delete: {
                           label: t('quiz.actions.delete'),
+                          icon: <MdDelete />,
                           onClick: () => {
                             handleSelectedCard(card)
                             setIsDeleteModalOpen(true)
