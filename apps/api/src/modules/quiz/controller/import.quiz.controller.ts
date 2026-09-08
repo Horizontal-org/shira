@@ -1,4 +1,4 @@
-import { Inject, Post, UploadedFile, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common'
+import { Body, Inject, Post, UploadedFile, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { AuthController } from 'src/utils/decorators/auth-controller.decorator'
 import { Roles } from 'src/modules/auth/decorators/roles.decorators'
@@ -14,7 +14,7 @@ import { TYPES } from '../interfaces'
 import { IValidateCreateQuizService } from '../interfaces/services/validate-create.quiz.service.interface'
 import { IImportQuizService } from '../interfaces/services/import.quiz.service.interface'
 import { ValidateQuizImportService } from '../services/validate-import.quiz.service'
-import { QuizVisibility } from '../dto/quiz-visibility-enum.quiz'
+import { ImportQuizDto } from '../dto/import-quiz.dto'
 
 const MAX_IMPORT_FILE_SIZE = 50 * 1024 * 1024
 
@@ -37,6 +37,7 @@ export class ImportQuizController {
   @UseFilters(MulterQuestionImportExceptionFilter)
   async import(
     @UploadedFile('file') file: Express.Multer.File,
+    @Body() body: ImportQuizDto,
     @LoggedUser() user: LoggedUserDto,
     @SubscriptionDecorator() subscription?: CachedSubscription,
   ) {
@@ -46,15 +47,15 @@ export class ImportQuizController {
 
     const space = user.activeSpace.space
 
-    await this.validateQuizService.execute(subscription, QuizVisibility.Public, space.id)
+    await this.validateQuizService.execute(subscription, body.visibility, space.id)
 
-    const { title, questions } = await this.validateQuizImportService.validate(file.buffer)
+    const { questions } = await this.validateQuizImportService.validate(file.buffer)
 
     const quizId = await this.importQuizService.execute({
-      title,
+      title: body.title,
       questions,
       space,
-      visibility: QuizVisibility.Public,
+      visibility: body.visibility,
     })
 
     return { quizId }

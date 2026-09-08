@@ -13,11 +13,11 @@ import { QuizSuccessStates, SUCCESS_MESSAGES } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
 import { FilterStates } from "./constants";
 import { DeleteModal } from "../modals/DeleteModal";
-import { CreateQuizModal } from "../modals/CreateQuizModal";
+import { QuizNameModal } from "../modals/QuizNameModal";
 import { UnpublishedQuizCopyLinkModal } from "../modals/UnpublishedQuizModal";
 import { UnpublishQuizWithQuestionsModal } from "../modals/UnpublishQuizWithQuestionsModal";
-import { DuplicateQuizModal } from "../modals/DuplicateQuizModal";
 import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
+import { ImportEntityModal } from "../modals/ImportEntityModal";
 import { handleCopyUrlAndNotify } from "../../utils/quiz";
 import { getCurrentDateFNSLocales } from "../../language/dateUtils";
 import { useQuizCreationFlow } from "../../hooks/useQuizCreationFlow";
@@ -29,7 +29,6 @@ import { QuizLimitModal } from "../modals/QuizLimitModal";
 import { ViewPlansModal } from "../modals/ViewPlansModal";
 import { FirstLoginModal } from "../modals/FirstLoginModal";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
-import { AddQuizFromTemplateModal } from "../modals/AddQuizFromTemplateModal";
 import { LibraryQuizDto, type LibraryQuizQuestionTemplateDto } from "../../fetch/quiz_templates";
 import { customMenuItems } from "../../utils/customMenuItems";
 import { DisplayNameModal } from "../modals/DisplayNameModal";
@@ -118,24 +117,25 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const [isFirstLoginModalOpen, setIsFirstLoginModalOpen] = useState(false);
 
   const {
-    selectedQuizForDuplicate,
-    selectedTemplateQuiz,
+    mode: quizFlowMode,
+    nameStepConfig,
     isSubmitting,
     submittingQuizId,
-    isCreateTitleModalOpen,
-    isDuplicateTitleModalOpen,
-    isTemplateTitleModalOpen,
+    isNameModalOpen,
     isVisibilityModalOpen,
+    isImportFileModalOpen,
     startCreateQuizFlow,
     startDuplicateQuizFlow,
     startTemplateQuizFlow,
+    startImportQuizFlow,
     moveToVisibilityStep,
     handleBackFromVisibility,
     handleConfirmVisibility,
+    finishImportFlow,
+    submitImportFile,
     cancelFlow
   } = useQuizCreationFlow({
     createQuiz,
-    fetchQuizzes,
     t
   });
 
@@ -311,6 +311,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                 quizCount={quizzes ? quizzes.length : 0}
                 isPublicLibraryEnabled={isPublicLibraryEnabled}
                 startCreateQuizFlow={startCreateQuizFlow}
+                startImportQuizFlow={startImportQuizFlow}
                 onLimitReached={() => setIsQuizLimitModalOpen(true)}
               />
             </HeaderActions>
@@ -455,19 +456,13 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             isModalOpen={isDeleteModalOpen}
           />
 
-          <CreateQuizModal
-            isModalOpen={isCreateTitleModalOpen}
-            setIsModalOpen={(open) => {
-              if (!open) {
-                cancelFlow();
-              }
-            }}
+          <QuizNameModal
+            isModalOpen={isNameModalOpen}
+            isSubmitting={isSubmitting}
             validateQuizName={validateQuizName}
-            onCreate={moveToVisibilityStep}
-            onCancel={() => {
-              cancelFlow();
-            }}
-            keepModalOpen
+            onSubmit={moveToVisibilityStep}
+            onCancel={cancelFlow}
+            {...nameStepConfig}
           />
 
           <QuizVisibilityModal
@@ -476,6 +471,19 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             onConfirm={handleConfirmVisibility}
             isSubmitting={isSubmitting}
             privateForbidden={!isSubActive}
+            confirmButtonText={quizFlowMode === 'import' ? t('buttons.next') : undefined}
+          />
+
+          <ImportEntityModal
+            entityType="quiz"
+            isModalOpen={isImportFileModalOpen}
+            setIsModalOpen={(open) => {
+              if (!open) {
+                cancelFlow();
+              }
+            }}
+            onImport={submitImportFile}
+            onImportSuccess={finishImportFlow}
           />
 
           <UnpublishedQuizCopyLinkModal
@@ -503,26 +511,6 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
               setIsUnpublishQuizModalOpen(false);
               setUnpublishedQuizId(null);
             }}
-          />
-
-          <DuplicateQuizModal
-            quiz={selectedQuizForDuplicate}
-            isModalOpen={isDuplicateTitleModalOpen}
-            validateQuizName={validateQuizName}
-            onDuplicate={moveToVisibilityStep}
-            onCancel={() => {
-              cancelFlow();
-            }}
-            isLoading={isSubmitting}
-          />
-
-          <AddQuizFromTemplateModal
-            quiz={selectedTemplateQuiz}
-            isModalOpen={isTemplateTitleModalOpen}
-            onClose={cancelFlow}
-            onConfirm={moveToVisibilityStep}
-            validateQuizName={validateQuizName}
-            isSubmitting={isSubmitting}
           />
 
           <CheckoutSuccessModal

@@ -35,7 +35,7 @@ import { TbWorld } from "react-icons/tb";
 import { FiCopy, FiUpload, FiMoreVertical } from "react-icons/fi";
 import { RenameQuizModal } from "../modals/RenameQuizModal";
 import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
-import { DuplicateQuizModal } from "../modals/DuplicateQuizModal";
+import { QuizNameModal } from "../modals/QuizNameModal";
 import { useQuizCreationFlow } from "../../hooks/useQuizCreationFlow";
 import { useSub } from "../../hooks/useSub";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
@@ -110,9 +110,9 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
 
   const { destroy } = useQuestionCRUD()
   const {
-    selectedQuizForDuplicate,
+    nameStepConfig,
     isSubmitting,
-    isDuplicateTitleModalOpen,
+    isNameModalOpen,
     isVisibilityModalOpen,
     startDuplicateQuizFlow,
     moveToVisibilityStep,
@@ -121,7 +121,6 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     cancelFlow
   } = useQuizCreationFlow({
     createQuiz,
-    fetchQuizzes,
     t
   });
 
@@ -515,15 +514,13 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 isModalOpen={isRenameModalOpen}
               />
 
-              <DuplicateQuizModal
-                quiz={selectedQuizForDuplicate}
-                isModalOpen={isDuplicateTitleModalOpen}
+              <QuizNameModal
+                isModalOpen={isNameModalOpen}
+                isSubmitting={isSubmitting}
                 validateQuizName={validateQuizName}
-                onDuplicate={moveToVisibilityStep}
-                onCancel={() => {
-                  cancelFlow();
-                }}
-                isLoading={isSubmitting}
+                onSubmit={moveToVisibilityStep}
+                onCancel={cancelFlow}
+                {...nameStepConfig}
               />
 
               <QuizVisibilityModal

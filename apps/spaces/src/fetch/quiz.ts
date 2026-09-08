@@ -172,9 +172,11 @@ export const importEntity = async (quizId: number, file: File) => {
   return data as { questionId: number }
 }
 
-export const importQuiz = async (file: File) => {
+export const importQuiz = async (file: File, title: string, visibility: string) => {
   const formData = new FormData()
   formData.append('file', file)
+  formData.append('title', title)
+  formData.append('visibility', visibility)
 
   const { data } = await axios.post(
     `${process.env.REACT_APP_API_URL}/quiz/import`,
