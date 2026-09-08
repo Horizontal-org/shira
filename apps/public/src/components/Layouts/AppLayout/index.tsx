@@ -31,7 +31,7 @@ export const AppLayout: FunctionComponent<Props> = ({
   images
 }) => {
   return (
-    <Wrapper className="apps-container" $isPhoneFrame={isPhoneApp(app.name)}>
+    <Wrapper className="apps-container" $isPhoneFrame={isPhoneApp(app.name)} $isMessenger={app.name === 'Messenger'}>
 
       <MailApps
         content={content}
@@ -57,11 +57,11 @@ export const AppLayout: FunctionComponent<Props> = ({
   )
 }
 
-const Wrapper = styled.div<{ $isPhoneFrame: boolean }>`
+const Wrapper = styled.div<{ $isPhoneFrame: boolean; $isMessenger: boolean }>`
   height: calc(100vh - 86px);
   max-height: calc(100vh - 86px);
   overflow-y: scroll;
-  background: ${props => props.theme.colors.light.paleGreen};
+  background: ${props => props.$isMessenger ? '#fff' : props.theme.colors.light.paleGreen};
 `
 
 const Overlay = styled.div`
