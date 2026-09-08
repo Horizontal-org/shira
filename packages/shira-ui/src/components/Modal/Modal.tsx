@@ -194,4 +194,5 @@ const Subtitle = styled(Body1)`
   padding-left: 24px;
   padding-right: 24px;
 `
+
 export default Modal;

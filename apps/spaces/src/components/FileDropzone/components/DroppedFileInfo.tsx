@@ -36,7 +36,6 @@ export const DroppedFileInfo: FunctionComponent<Props> = ({
   showUploadSuccess = true,
   showTryAgainButton = true
 }) => {
-  console.log("🚀 ~ DroppedFileInfo ~ showTryAgainButton:", showTryAgainButton)
 
   const formatFileSize = (size: number) => {
     if (size < 1024) return `${size} B`;

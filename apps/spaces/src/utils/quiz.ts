@@ -10,6 +10,8 @@ export const handleCopyUrlAndNotify = async (hash: string, successMessage?: stri
 }
 
 export const handleCopyUrl = async (hash: string) => {
-  const quizUrl = `${window.location.origin}/quiz/${hash}`;
+  // TODO: check which URL should be used for quiz link
+  // const quizUrl = `${window.location.origin}/quiz/${hash}`;
+  const quizUrl = `${process.env.REACT_APP_PUBLIC_URL}/quiz/${hash}`;
   await navigator.clipboard.writeText(quizUrl);
 }
