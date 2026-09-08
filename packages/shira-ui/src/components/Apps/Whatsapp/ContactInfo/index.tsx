@@ -3,7 +3,6 @@ import {
   FiBell,
   FiChevronRight,
   FiDownload,
-  FiImage,
   FiInfo,
   FiLock,
   FiPhone,
