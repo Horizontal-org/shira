@@ -1,30 +1,41 @@
 import { FunctionComponent, useEffect, useState } from "react";
-import { Body1, Modal, styled, TextInput } from "@horizontal-org/shira-ui";
+import { Modal, styled, TextInput } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
-import { Quiz } from "../../../store/slices/quiz";
 import { hasRequiredValue } from "../../../utils/validation";
 import { useTitleUpdate } from "../../../hooks/useTitleUpdate";
 import { QUIZ_NAME_MAX_LENGTH } from "../../../utils/inputLimits";
 
 interface Props {
-  quiz: Quiz | null;
   isModalOpen: boolean;
+  title: string;
+  subtitle?: string;
+  inputLabel: string;
+  placeholder?: string;
+  initialValue?: string;
+  submitButtonText?: string;
+  cancelButtonText?: string;
+  isSubmitting?: boolean;
   validateQuizName: (name: string) => Promise<void>;
-  onDuplicate: (title: string) => void;
+  onSubmit: (title: string) => void;
   onCancel: () => void;
-  isLoading?: boolean;
 }
 
-export const DuplicateQuizModal: FunctionComponent<Props> = ({
-  quiz,
+export const QuizNameModal: FunctionComponent<Props> = ({
   isModalOpen,
+  title,
+  subtitle,
+  inputLabel,
+  placeholder,
+  initialValue = "",
+  submitButtonText,
+  cancelButtonText,
+  isSubmitting = false,
   validateQuizName,
-  onDuplicate,
+  onSubmit,
   onCancel,
-  isLoading = false,
 }) => {
   const { t } = useTranslation();
-  const [title, setTitle] = useState("");
+  const [titleValue, setTitleValue] = useState(initialValue);
   const {
     isValidatingTitle,
     titleError,
@@ -32,59 +43,52 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
     handleTitleChange,
     handleTitleSubmit,
   } = useTitleUpdate({
-    setTitle,
+    setTitle: setTitleValue,
     validateQuizName,
-    onValidTitle: onDuplicate,
+    onValidTitle: onSubmit,
   });
-  const trimmedTitle = title.trim();
+  const trimmedTitle = titleValue.trim();
   const hasError = Boolean(titleError);
 
   const cannotSubmit = !hasRequiredValue(trimmedTitle)
-    || isLoading
+    || isSubmitting
     || isValidatingTitle
     || hasError
-    || title.length > QUIZ_NAME_MAX_LENGTH;
+    || titleValue.length > QUIZ_NAME_MAX_LENGTH;
 
   useEffect(() => {
-    if (quiz && isModalOpen) {
-      setTitle(`Copy of ${quiz.title}`);
+    if (isModalOpen) {
+      setTitleValue(initialValue);
       clearTitleValidation();
     }
-  }, [quiz, isModalOpen]);
-
-  if (!quiz) {
-    return null;
-  }
+  }, [isModalOpen, initialValue]);
 
   return (
     <Modal
-      id="duplicate-quiz-modal"
+      id="quiz-name-modal"
       isOpen={isModalOpen}
-      title={t('modals.duplicate_quiz.title')}
-      primaryButtonText={t('buttons.next')}
+      title={title}
+      subtitle={subtitle}
+      primaryButtonText={submitButtonText ?? t('buttons.next')}
       primaryButtonDisabled={cannotSubmit}
-      secondaryButtonText={t('buttons.back')}
+      secondaryButtonText={cancelButtonText ?? t('buttons.cancel')}
       onPrimaryClick={() => {
         if (cannotSubmit) { return; }
-        handleTitleSubmit(title);
+        handleTitleSubmit(titleValue);
       }}
       onSecondaryClick={() => {
         clearTitleValidation();
         onCancel();
       }}
     >
-      <Body1>
-        <Description>
-          {t('modals.duplicate_quiz.subtitle')}
-        </Description>
-      </Body1>
       <FormContent>
         <TextInput
-          label={t('modals.duplicate_quiz.quiz_name')}
-          placeholder={t('modals.duplicate_quiz.quiz_name_placeholder', { quiz_name: quiz.title })}
-          value={title}
+          id="quiz-name-input"
+          label={inputLabel}
+          placeholder={placeholder}
+          value={titleValue}
           onChange={(e) => handleTitleChange(e.target.value)}
-          isLoading={isLoading || isValidatingTitle}
+          isLoading={isSubmitting || isValidatingTitle}
           showCharacterCount={true}
           maxLength={QUIZ_NAME_MAX_LENGTH}
           characterLimitErrorText={t('error_messages.character_limit_error')}
@@ -98,9 +102,4 @@ export const DuplicateQuizModal: FunctionComponent<Props> = ({
 const FormContent = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
-`;
-
-const Description = styled(Body1)`
-  padding-bottom: 16px;
 `;

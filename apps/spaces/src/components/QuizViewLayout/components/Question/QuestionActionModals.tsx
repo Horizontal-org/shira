@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { ConfirmModalInfo } from "./QuestionList";
 import { ExportEntityModal } from "../../../modals/ExportEntityModal";
 import { ImportEntityModal } from "../../../modals/ImportEntityModal";
+import { importEntity } from "../../../../fetch/quiz";
 
 interface Props {
   quizId: number;
@@ -113,9 +114,9 @@ export const QuestionActionModals: FunctionComponent<Props> = ({
 
       <ImportEntityModal
         entityType="question"
-        quizId={quizId}
         isModalOpen={isImportModalOpen}
         setIsModalOpen={setImportModalOpen}
+        onImport={(file) => importEntity(quizId, file).then((result) => result.questionId)}
         onImportSuccess={onImportSuccess}
       />
     </>

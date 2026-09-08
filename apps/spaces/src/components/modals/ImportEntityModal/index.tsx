@@ -5,24 +5,23 @@ import toast from "react-hot-toast";
 import { FileDropzone } from "../../FileDropzone";
 import { DroppedFileInfo } from "../../FileDropzone/components/DroppedFileInfo";
 import { FaRegFileZipper } from "react-icons/fa6";
-import { importEntity, importQuiz } from "../../../fetch/quiz";
 import { handleHttpError } from "../../../fetch/handleError";
 
 const MAX_ZIP_FILE_SIZE_BYTES = 50 * 1024 * 1024;
 
 interface Props {
   entityType: 'question' | 'quiz';
-  quizId?: number;
   isModalOpen: boolean;
   setIsModalOpen: (handle: boolean) => void;
+  onImport: (file: File) => Promise<number>;
   onImportSuccess: (id: number) => void;
 }
 
 export const ImportEntityModal: FunctionComponent<Props> = ({
   entityType,
-  quizId,
   isModalOpen,
   setIsModalOpen,
+  onImport,
   onImportSuccess,
 }) => {
 
@@ -38,15 +37,9 @@ export const ImportEntityModal: FunctionComponent<Props> = ({
 
     setIsImporting(true)
     try {
-      if (entityType === 'quiz') {
-        const { quizId: importedQuizId } = await importQuiz(file)
-        toast.success(t('success_messages.quiz_imported'), { duration: 3000 })
-        onImportSuccess(importedQuizId)
-      } else {
-        const { questionId } = await importEntity(quizId as number, file)
-        toast.success(t('success_messages.question_imported'), { duration: 3000 })
-        onImportSuccess(questionId)
-      }
+      const id = await onImport(file)
+      toast.success(t(`success_messages.${entityType}_imported`), { duration: 3000 })
+      onImportSuccess(id)
       handleClose()
     } catch (err) {
       const { message } = handleHttpError(err)

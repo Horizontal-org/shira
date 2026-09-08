@@ -4,18 +4,19 @@ import { FiPlus } from 'react-icons/fi'
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router-dom"
 import { EntityCreationOptionsModal } from "../../../modals/QuestionCreationOptionsModal"
-import { ImportEntityModal } from "../../../modals/ImportEntityModal"
 
 interface Props {
   isSubActive: boolean
   quizCount: number
   isPublicLibraryEnabled: boolean
   startCreateQuizFlow: () => void
+  startImportQuizFlow: () => void
   onLimitReached: () => void
 }
 
 export const CreateQuizButton:FunctionComponent<Props> = ({
   startCreateQuizFlow,
+  startImportQuizFlow,
   quizCount,
   isSubActive,
   isPublicLibraryEnabled,
@@ -26,7 +27,6 @@ export const CreateQuizButton:FunctionComponent<Props> = ({
   const navigate = useNavigate()
   const hasReachedLimit = useMemo(() => quizCount >= 3, [quizCount])
   const [isCreationOptionsModalOpen, setIsCreationOptionsModalOpen] = useState(false)
-  const [isImportModalOpen, setIsImportModalOpen] = useState(false)
 
   const handleClick = () => {
     if (!isSubActive && hasReachedLimit) {
@@ -60,17 +60,8 @@ export const CreateQuizButton:FunctionComponent<Props> = ({
           } else if (action === 'template') {
             navigate('/quiz/templates')
           } else if (action === 'import') {
-            setIsImportModalOpen(true)
+            startImportQuizFlow()
           }
-        }}
-      />
-
-      <ImportEntityModal
-        entityType="quiz"
-        isModalOpen={isImportModalOpen}
-        setIsModalOpen={setIsImportModalOpen}
-        onImportSuccess={(quizId) => {
-          navigate(`/quiz/${quizId}`)
         }}
       />
     </ButtonContainer>
