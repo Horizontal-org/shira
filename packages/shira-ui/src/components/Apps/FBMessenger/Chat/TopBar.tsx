@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 import { useTranslation } from "react-i18next";
 import { IoIosInformationCircle } from "react-icons/io";
 
@@ -24,6 +24,11 @@ const TopBar: FunctionComponent<Props> = ({
 }) => {
   const { width } = useGetWidth();
   const { t } = useTranslation("shira-ui");
+  const theme = useTheme();
+  const conversationSidebarBreakpoint = Number.parseInt(
+    theme.breakpoints.md,
+    10,
+  );
   return (
     <Wrapper>
       <UserInfo>
@@ -48,14 +53,18 @@ const TopBar: FunctionComponent<Props> = ({
           <Icon icon={PhoneIcon} size="26" />
         </IconWrapper>
 
-        {width > 490 && (
+        {width > conversationSidebarBreakpoint && (
           <InfoButton
             type="button"
             onClick={onInfoClick}
             aria-label={t("messenger.conversation_details")}
             aria-expanded={isConversationSidebarOpen}
           >
-            <IoIosInformationCircle size={26} color="#a300e6" aria-hidden="true" />
+            <IoIosInformationCircle
+              size={26}
+              color="#a300e6"
+              aria-hidden="true"
+            />
           </InfoButton>
         )}
       </FlexWrapper>
@@ -97,7 +106,7 @@ const FlexWrapper = styled.div`
 
   align-items: center;
   justify-content: center;
-`
+`;
 
 const IconWrapper = styled.div`
   width: 36px;
