@@ -86,10 +86,6 @@ const PhoneButton = styled.button`
   cursor: pointer;
   border-radius: 4px;
 
-  &:hover {
-    text-decoration: underline;
-  }
-
   &:focus-visible {
     outline: 2px solid #00a884;
   }

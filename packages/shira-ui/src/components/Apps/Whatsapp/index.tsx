@@ -1,25 +1,25 @@
-import { FunctionComponent, useState } from "react"
-import styled, { createGlobalStyle } from 'styled-components'
+import { FunctionComponent, useState } from "react";
+import styled, { createGlobalStyle } from "styled-components";
 
-import Background from './Background'
-import MessageWrapper from "./MessageWrapper"
-import Sidebar from './Sidebar'
-import ContactInfo from './ContactInfo'
+import Background from "./Background";
+import MessageWrapper from "./MessageWrapper";
+import Sidebar from "./Sidebar";
+import ContactInfo from "./ContactInfo";
 
-// whatsapp font 
-import '../../../fonts/Segoe/style.css'
-import { Explanation } from "../../../domain/explanation"
-import ExplanationTooltip from "../components/ExplanationTooltip"
+// whatsapp font
+import "../../../fonts/Segoe/style.css";
+import { Explanation } from "../../../domain/explanation";
+import ExplanationTooltip from "../components/ExplanationTooltip";
 
 interface Props {
   content?: HTMLElement;
   phone: {
-    textContent: string
-    explanationPosition: string
+    textContent: string;
+    explanationPosition: string;
   };
-  explanations?: Explanation[]
+  explanations?: Explanation[];
   explanationNumber?: number;
-  showExplanations?: boolean
+  showExplanations?: boolean;
 }
 
 export const WhatsApp: FunctionComponent<Props> = ({
@@ -27,49 +27,53 @@ export const WhatsApp: FunctionComponent<Props> = ({
   phone,
   explanations,
   explanationNumber,
-  showExplanations
+  showExplanations,
 }) => {
-  const [isContactInfoOpen, setIsContactInfoOpen] = useState(false)
+  const [isContactInfoOpen, setIsContactInfoOpen] = useState(false);
 
   return (
     <DesktopWrapper className="whatsapp">
-      {explanations && explanations.map(explanation => (
-        <ExplanationTooltip
-          explanation={explanation}
-          explanationNumber={explanationNumber}
-          showExplanations={showExplanations}
-        />
-      ))}
+      {explanations &&
+        explanations.map((explanation) => (
+          <ExplanationTooltip
+            explanation={explanation}
+            explanationNumber={explanationNumber}
+            showExplanations={showExplanations}
+          />
+        ))}
       <Font />
       <StyledScrollbar />
       <Background>
         <Content>
           <Sidebar />
-          {isContactInfoOpen ? (
-            <ContactInfo phone={phone?.textContent} onBack={() => setIsContactInfoOpen(false)} />
-          ) : (
-            <MessageWrapper
-              content={content}
-              phone={phone}
-              onContactClick={() => setIsContactInfoOpen(true)}
-            />
-          )}
+          <MessageWrapper
+            content={content}
+            phone={phone}
+            onContactClick={() => setIsContactInfoOpen(true)}
+          />
         </Content>
       </Background>
+      {isContactInfoOpen && (
+        <ContactInfo
+          phone={phone?.textContent}
+          onBack={() => setIsContactInfoOpen(false)}
+        />
+      )}
     </DesktopWrapper>
-  )
-}
+  );
+};
 
 const Font = createGlobalStyle`
   .whatsapp {
     font-family: 'Segoe UI Regular';
   }
-`
+`;
 
 const DesktopWrapper = styled.div`
+  position: relative;
   width: 100%;
   height: 100%;
-`
+`;
 
 const StyledScrollbar = createGlobalStyle`
   body::-webkit-scrollbar {
@@ -84,7 +88,7 @@ const StyledScrollbar = createGlobalStyle`
     background-color: darkgrey;
     outline: 1px solid slategrey;
   }
-`
+`;
 
 const Content = styled.div`
   width: 100%;
@@ -99,9 +103,9 @@ const Content = styled.div`
     text-decoration: inherit;
   }
 
-  @media (max-width: ${props => props.theme.breakpoints.md}) {
+  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
     height: 100%;
   }
-`
+`;
 
 export default WhatsApp;

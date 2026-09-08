@@ -123,12 +123,19 @@
     "voice": "Voice",
     "video": "Video",
     "search": "Search",
-    "mute_notifications": "Mute notifications",
+    "mute_notifications": "Mute",
     "off": "Off",
+    "no": "No",
+    "default": "Default",
     "chat_theme": "Chat theme",
-    "save_to_downloads": "Save to downloads",
+    "save_to_downloads": "Save to Downloads",
     "media_links_and_docs": "Media, links and docs",
-    "encryption_notice": "Messages are end-to-end encrypted. No one outside this chat, not even WhatsApp, can read or listen to them."
+    "encryption_notice": "Messages are end-to-end encrypted. No one outside this chat, not even WhatsApp, can read or listen to them.",
+    "info": "Info",
+    "starred": "Starred",
+    "encryption": "Encryption",
+    "groups_in_common": "Groups in common",
+    "done": "Done"
   },
   "pagination": {
     "summary": "{{start}}-{{end}} of {{total}}",
