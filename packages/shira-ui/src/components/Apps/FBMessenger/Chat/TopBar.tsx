@@ -97,7 +97,7 @@ const FlexWrapper = styled.div`
 
   align-items: center;
   justify-content: center;
-`;
+`
 
 const IconWrapper = styled.div`
   width: 36px;

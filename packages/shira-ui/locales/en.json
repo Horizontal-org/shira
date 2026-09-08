@@ -135,7 +135,11 @@
     "starred": "Starred",
     "encryption": "Encryption",
     "groups_in_common": "Groups in common",
-    "done": "Done"
+    "done": "Done",
+    "media_count": "274",
+    "manage_storage": "Manage storage",
+    "storage_size": "161.5 MB",
+    "notifications": "Notifications"
   },
   "pagination": {
     "summary": "{{start}}-{{end}} of {{total}}",

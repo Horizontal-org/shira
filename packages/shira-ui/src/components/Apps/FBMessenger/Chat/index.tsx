@@ -30,8 +30,7 @@ const Chat: FunctionComponent<Props> = ({
       />
       <ChatContent
         content={Array.from(content.querySelectorAll('[id*="component-"]'))}
-      />{" "}
-      {/* refactor this */}
+      />{" "} {/* refactor this */}
       <BottomBar />
     </ChatWrapper>
   );
@@ -39,7 +38,7 @@ const Chat: FunctionComponent<Props> = ({
 
 const ChatWrapper = styled.div`
   flex-grow: 1;
-  border-inline-end: 1px solid #f2f3f5;
+  border-inline-end: 1px solid #F2F3F5;
   position: relative;
 
   display: flex;
