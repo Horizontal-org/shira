@@ -113,5 +113,22 @@
     "back": "Back",
     "next": "Next",
     "last": "Last"
+  },
+  "telegram": {
+    "sender_info": {
+      "title": "User Info",
+      "close": "Close user info",
+      "unknown_user": "Unknown user",
+      "last_seen": "last seen recently",
+      "phone": "Phone",
+      "shared_content": "Shared content",
+      "media": "Media",
+      "links": "Links",
+      "voice": "Voice",
+      "no_links": "No shared links",
+      "shared_image": "Shared image",
+      "no_media": "No shared media",
+      "no_voice": "No shared voice messages"
+    }
   }
 }

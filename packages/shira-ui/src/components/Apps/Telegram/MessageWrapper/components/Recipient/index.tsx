@@ -1,5 +1,6 @@
 import { FunctionComponent, useState } from 'react'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import { CloseIcon } from '../../../../../Icons'
 import MoreOptionsIcon from '../../../../Whatsapp/Icons/MoreOptions'
 import SearchIcon from '../../../../Whatsapp/Icons/Search'
@@ -7,13 +8,16 @@ import BackArrow from '../../../../Whatsapp/Icons/BackArrow'
 import StrangerPicture from '../../../../Whatsapp/StrangerPicture'
 
 interface Props {
+  onOpenSenderInfo: () => void
+  showSenderInfo: boolean
   phone?: {
     textContent: string
     explanationPosition: string
   };
 }
 
-const Recipient: FunctionComponent<Props> = ({ phone }) => {
+const Recipient: FunctionComponent<Props> = ({ phone, onOpenSenderInfo, showSenderInfo }) => {
+  const { t } = useTranslation('shira-ui')
   const [showNotice, setShowNotice] = useState(true)
 
   return (
@@ -24,7 +28,7 @@ const Recipient: FunctionComponent<Props> = ({ phone }) => {
             <BackArrow />
           </BackArrowWrapper>
 
-          <Contact>
+          <Contact type="button" onClick={onOpenSenderInfo} aria-label={t('telegram.sender_info.title')} aria-expanded={showSenderInfo}>
             <StrangerPicture />
             <ContactInfo>
               <Name data-explanation={phone?.explanationPosition}>
@@ -91,9 +95,21 @@ const Header = styled.div`
   }
 `
 
-const Contact = styled.div`
+const Contact = styled.button`
+  border: 0;
+  padding: 0;
+  background: transparent;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  border-radius: 8px;
   display: flex;
   align-items: center;
+
+  &:focus-visible {
+    outline: 2px solid #039BE5;
+    outline-offset: 4px;
+  }
 `
 
 const ContactInfo = styled.div`
