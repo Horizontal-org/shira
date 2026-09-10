@@ -64,7 +64,13 @@ export const Telegram: FunctionComponent<Props> = ({
           onOpenSenderInfo={() => setShowSenderInfo(true)}
           showSenderInfo={showSenderInfo}
         />
-        {showSenderInfo && <SenderInfo phone={phone} content={content} onClose={() => setShowSenderInfo(false)} />}
+        {showSenderInfo && (
+          <SenderInfo
+            phone={phone}
+            content={content}
+            onClose={() => setShowSenderInfo(false)}
+          />
+        )}
       </Content>
     </Wrapper>
   )

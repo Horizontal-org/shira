@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
-import styled from 'styled-components'
-import { useTranslation } from 'react-i18next'
-import { FiFile, FiHeadphones, FiPhone, FiX } from 'react-icons/fi'
-import StrangerPicture from '../../Whatsapp/StrangerPicture'
+import { useEffect, useRef, useState } from "react";
+import styled from "styled-components";
+import { useTranslation } from "react-i18next";
+import { FiFile, FiHeadphones, FiX } from "react-icons/fi";
+import StrangerPicture from "../../Whatsapp/StrangerPicture";
+import { FaPhoneSquareAlt } from "react-icons/fa";
 
 interface Props {
   phone: { textContent: string; explanationPosition: string }
@@ -10,12 +11,12 @@ interface Props {
   onClose: () => void
 }
 
-const tabs = ['Media', 'Links', 'Voice'] as const
+const tabs = ["Media", "Links", "Voice"] as const
 type Tab = typeof tabs[number]
 
 export default function SenderInfo({ phone, content, onClose }: Props) {
-  const { t } = useTranslation('shira-ui')
-  const [tab, setTab] = useState<Tab>('Media')
+  const { t } = useTranslation("shira-ui")
+  const [tab, setTab] = useState<Tab>("Media")
   const closeButton = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
@@ -24,40 +25,108 @@ export default function SenderInfo({ phone, content, onClose }: Props) {
     return () => { if (previousFocus?.isConnected) previousFocus.focus() }
   }, [])
 
-  const images = Array.from(content?.querySelectorAll<HTMLImageElement>('[id*="component-image"]') || [])
-  const links = Array.from(content?.querySelectorAll<HTMLAnchorElement>('a[href]') || [])
-    .filter(link => /^(https?:|mailto:|tel:)/i.test(link.getAttribute('href') || ''))
-  const attachments = Array.from(content?.querySelectorAll('[id*="component-attachment"]') || [])
-    .filter(item => (item.getAttribute('data-attachment-type') === 'audio') === (tab === 'Voice'))
+  const images = Array.from(content?.querySelectorAll<HTMLImageElement>("[id*=\"component-image\"]") || [])
+  const links = Array.from(content?.querySelectorAll<HTMLAnchorElement>("a[href]") || [])
+    .filter(link => /^(https?:|mailto:|tel:)/i.test(link.getAttribute("href") || ""))
+  const attachments = Array.from(content?.querySelectorAll("[id*=\"component-attachment\"]") || [])
+    .filter(item => (item.getAttribute("data-attachment-type") === "audio") === (tab === "Voice"))
 
   return (
-    <Panel aria-label={t('telegram.sender_info.title')} onKeyDown={event => {
-      if (event.key === 'Escape') { event.stopPropagation(); onClose() }
-    }}>
+    <Panel
+      aria-label={t("telegram.sender_info.title")}
+      onKeyDown={event => {
+        if (event.key === "Escape") {
+          event.stopPropagation()
+          onClose()
+        }
+      }}
+    >
       <Header>
-        <CloseButton ref={closeButton} type="button" aria-label={t('telegram.sender_info.close')} onClick={onClose}><FiX size={24} /></CloseButton>
-        <Title>{t('telegram.sender_info.title')}</Title>
+        <CloseButton
+          ref={closeButton}
+          type="button"
+          aria-label={t("telegram.sender_info.close")}
+          onClick={onClose}
+        >
+          <FiX size={24} />
+        </CloseButton>
+        <Title>{t("telegram.sender_info.title")}</Title>
       </Header>
       <Body>
         <Profile>
-          <Avatar><StrangerPicture /></Avatar>
-          <Name>{phone.textContent || t('telegram.sender_info.unknown_user')}</Name>
-          <Muted>{t('telegram.sender_info.last_seen')}</Muted>
+          <Avatar>
+            <StrangerPicture />
+          </Avatar>
+          <Name>{phone.textContent || t("telegram.sender_info.unknown_user")}</Name>
+          <Muted>{t("telegram.sender_info.last_seen")}</Muted>
         </Profile>
-        {phone.textContent && <Details>
-          <PhoneIcon><FiPhone size={22} /></PhoneIcon>
-          <div><Value>{phone.textContent}</Value><Muted>{t('telegram.sender_info.phone')}</Muted></div>
-        </Details>}
-        <Tabs aria-label={t('telegram.sender_info.shared_content')}>
-          {tabs.map(item => <TabButton key={item} type="button" $active={tab === item} aria-pressed={tab === item} onClick={() => setTab(item)}>{t(`telegram.sender_info.${item.toLowerCase()}`)}</TabButton>)}
+        {phone.textContent && (
+          <Details>
+            <PhoneIcon>
+              <FaPhoneSquareAlt size={22} />
+            </PhoneIcon>
+            <div>
+              <Value>{phone.textContent}</Value>
+              <Muted>{t("telegram.sender_info.phone")}</Muted>
+            </div>
+          </Details>
+        )}
+        <Tabs aria-label={t("telegram.sender_info.shared_content")}>
+          {tabs.map(item => (
+            <TabButton
+              key={item}
+              type="button"
+              $active={tab === item}
+              aria-pressed={tab === item}
+              onClick={() => setTab(item)}
+            >
+              {t(`telegram.sender_info.${item.toLowerCase()}`)}
+            </TabButton>
+          ))}
         </Tabs>
-        {tab === 'Links' ? (
-          links.length ? links.map((link, index) => <Link key={index} href={link.getAttribute('href')!} target="_blank" rel="noopener noreferrer">{link.textContent || link.getAttribute('href')}</Link>) : <Empty>{t('telegram.sender_info.no_links')}</Empty>
-        ) : <>
-          {tab === 'Media' && images.length > 0 && <Grid>{images.map((img, index) => <img key={index} src={img.getAttribute('src') || undefined} alt={img.getAttribute('alt') || t('telegram.sender_info.shared_image')} />)}</Grid>}
-          {attachments.map((item, index) => <File key={index}>{tab === 'Voice' ? <FiHeadphones size={22} /> : <FiFile size={22} />}<Value>{item.textContent}</Value></File>)}
-          {!attachments.length && (tab !== 'Media' || !images.length) && <Empty>{tab === 'Media' ? t('telegram.sender_info.no_media') : t('telegram.sender_info.no_voice')}</Empty>}
-        </>}
+        {tab === "Links" ? (
+          links.length ? (
+            links.map((link, index) => (
+              <Link
+                key={index}
+                href={link.getAttribute("href")!}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {link.textContent || link.getAttribute("href")}
+              </Link>
+            ))
+          ) : (
+            <Empty>{t("telegram.sender_info.no_links")}</Empty>
+          )
+        ) : (
+          <>
+            {tab === "Media" && images.length > 0 && (
+              <Grid>
+                {images.map((img, index) => (
+                  <img
+                    key={index}
+                    src={img.getAttribute("src") || undefined}
+                    alt={img.getAttribute("alt") || t("telegram.sender_info.shared_image")}
+                  />
+                ))}
+              </Grid>
+            )}
+            {attachments.map((item, index) => (
+              <File key={index}>
+                {tab === "Voice" ? <FiHeadphones size={22} /> : <FiFile size={22} />}
+                <Value>{item.textContent}</Value>
+              </File>
+            ))}
+            {!attachments.length && (tab !== "Media" || !images.length) && (
+              <Empty>
+                {tab === "Media"
+                  ? t("telegram.sender_info.no_media")
+                  : t("telegram.sender_info.no_voice")}
+              </Empty>
+            )}
+          </>
+        )}
       </Body>
     </Panel>
   )
@@ -196,8 +265,8 @@ const TabButton = styled.button<{ $active: boolean }>`
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  color: ${props => props.$active ? '#039BE5' : '#707579'};
-  background: ${props => props.$active ? '#e3f2fd' : 'transparent'};
+  color: ${props => props.$active ? "#039BE5" : "#707579"};
+  background: ${props => props.$active ? "#e3f2fd" : "transparent"};
 `
 
 const Grid = styled.div`

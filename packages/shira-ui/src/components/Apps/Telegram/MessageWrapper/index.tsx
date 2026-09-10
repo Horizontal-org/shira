@@ -23,7 +23,11 @@ const MessageWrapper: FunctionComponent<Props> = ({
 }) => {
   return (
     <Wrapper>
-      <Recipient phone={phone} onOpenSenderInfo={onOpenSenderInfo} showSenderInfo={showSenderInfo} />
+      <Recipient
+        phone={phone}
+        onOpenSenderInfo={onOpenSenderInfo}
+        showSenderInfo={showSenderInfo}
+      />
       <ContentWrapper>
         <MessagesList>
           {content && Array.from(content.querySelectorAll('[id*="component-"]')).sort((a, b) => parseInt(a.getAttribute('data-position') || '') - parseInt(b.getAttribute('data-position') || '')).map((e) => (
