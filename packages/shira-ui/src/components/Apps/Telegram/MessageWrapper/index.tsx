@@ -10,16 +10,20 @@ interface Props {
     textContent: string
     explanationPosition: string
   };
+  onOpenSenderInfo: () => void
+  showSenderInfo: boolean
   content?: HTMLElement
 }
 
 const MessageWrapper: FunctionComponent<Props> = ({
   phone,
-  content
+  content,
+  onOpenSenderInfo,
+  showSenderInfo
 }) => {
   return (
     <Wrapper>
-      <Recipient phone={phone} />
+      <Recipient phone={phone} onOpenSenderInfo={onOpenSenderInfo} showSenderInfo={showSenderInfo} />
       <ContentWrapper>
         <MessagesList>
           {content && Array.from(content.querySelectorAll('[id*="component-"]')).sort((a, b) => parseInt(a.getAttribute('data-position') || '') - parseInt(b.getAttribute('data-position') || '')).map((e) => (
