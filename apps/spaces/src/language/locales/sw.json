@@ -975,7 +975,9 @@
             "business": "A business",
             "cibersecurity": "A cybersecurity service provider",
             "non_profit": "A non-profit organization",
-            "individual": "An individual (consultant, trainer, etc)"
+            "individual": "An individual (consultant, trainer, etc)",
+            "educational": "An educational organization",
+            "healthcare": "A healthcare organization"
         },
         "button_sign_up": "Sajili",
         "validation": {
