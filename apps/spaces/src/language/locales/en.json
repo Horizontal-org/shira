@@ -1046,16 +1046,16 @@
         },
         "entity_import": {
             "invalid_formatting": {
-                "title": "Error: Invalid file format",
-                "subtitle": "Please make sure the file is in .zip and try again."
+                "title": "Error: Invalid file",
+                "subtitle": "Please make sure the file is a .zip that contains the quiz data, metadata and assets."
             },
             "invalid_zip_file": {
-                "title": "Error: Invalid file format",
-                "subtitle": "Please make sure the file is in .zip and try again."
+                "title": "Error: Your file could not be processed",
+                "subtitle": "We couldn’t process the file. Please try again."
             },
             "invalid_metadata": {
-                "title": "Error: Invalid file content",
-                "subtitle": "This file's contents don't match the expected question format. Please make sure not to modify the file and try again."
+                "title": "Error: Invalid file",
+                "subtitle": "Please make sure the file is a .zip that contains the quiz data, metadata and assets."
             },
             "file_too_large": {
                 "title": "Error: File is too large",
