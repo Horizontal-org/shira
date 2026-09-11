@@ -63,8 +63,8 @@
             "disabled_tooltip": "创建至少 1 道题目，以便复制测验链接。",
             "delete": "删除",
             "submit_as_template": "Submit as template",
-            "copy_link_disabled_tooltip": "Create at least 1 question to copy your quiz link.",
-            "submit_as_template_disabled_tooltip": "Create at least 1 question to submit your quiz as a template."
+            "copy_link_disabled_tooltip": "创建至少 1 道题目，以便发布测验。",
+            "submit_as_template_disabled_tooltip": "创建至少 1 道题目，以便发布测验。"
         },
         "tabs": {
             "questions": "题目",
@@ -96,8 +96,9 @@
             "edit": "编辑",
             "duplicate": "复制",
             "delete": "删除",
-            "more_actions": "More actions",
-            "submit_as_template": "Submit as template"
+            "more_actions": "更多选项",
+            "submit_as_template": "Submit as template",
+            "export": "导出"
         },
         "use_library_question_button": "Use a question template"
     },
@@ -234,7 +235,7 @@
                 "preview_aria_label": "预览",
                 "disabled_tooltip": "请选择语言和应用，以使用此题目。"
             },
-            "created_on": "Created on",
+            "created_on": "创建一个",
             "creator": "Creator"
         },
         "filters_panel": {
@@ -247,8 +248,8 @@
             "clear_all": "全部清除"
         },
         "sort_options": {
-            "question_name_desc": "Question name (Z-A)",
-            "question_name_asc": "Question name (A-Z)",
+            "question_name_desc": "题目名称",
+            "question_name_asc": "题目名称",
             "newest_to_oldest": "从新到旧",
             "oldest_to_newest": "从旧到新"
         },
@@ -295,6 +296,10 @@
                 "score": "测验得分",
                 "loading": "正在加载学员..."
             }
+        },
+        "disabled": {
+            "message": "There is no data available because Results have been disabled. You can change this anytime in your space Settings.",
+            "go_to_settings": "前往设置"
         }
     },
     "support": {
@@ -614,6 +619,67 @@
             "input_label": "测验名称",
             "title": "Give your new quiz a name",
             "subtitle": "The quiz name will be visible in your Space and to learners when they take it."
+        },
+        "export": {
+            "question": {
+                "title": "Export question",
+                "sharing_implications": "If you will share your question with others, you may want to remove any sensitive information it contains before exporting it. <1>Learn more</1>",
+                "error": "删除学员时出现问题。如果问题持续存在，请<1>联系我们</1>。",
+                "file_type": "Your question will be exported as a .zip file that can be re-imported into a Shira space."
+            },
+            "quiz": {
+                "error": "删除学员时出现问题。如果问题持续存在，请<1>联系我们</1>。",
+                "file_type": "Your quiz will be exported as a .zip file that can be re-imported into a Shira space.",
+                "sharing_implications": "If you will share your quiz with others, you may want to remove any sensitive information it contains before exporting it. <1>Learn more</1>",
+                "title": "退出测验"
+            },
+            "exporting": "Exporting..."
+        },
+        "create_entity": {
+            "question": {
+                "scratch_subtitle": "Create the question yourself, with full control. You can even copy and paste a real-life phishing example.",
+                "create_button": "取消",
+                "template_title": "Use a template",
+                "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
+                "import_title": "Or import a question from a file",
+                "scratch_title": "Start from scratch",
+                "title": "创建新题目",
+                "subtitle": "Choose how you’d like to create your question."
+            },
+            "quiz": {
+                "subtitle": "Choose how you’d like to create your quiz.",
+                "title": "创建新测验",
+                "create_button": "取消",
+                "scratch_title": "Start from scratch",
+                "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
+                "scratch_subtitle": "Create the quiz yourself, with full control. You can even copy and paste a real-life phishing example.",
+                "import_title": "Or import a quiz from a file",
+                "template_title": "Use a template"
+            }
+        },
+        "import": {
+            "question": {
+                "upload_success": "您的文件将不会被导入。",
+                "file_size": "最大文件大小：10 MB",
+                "subtitle": "Select the file of the question you want to import. To prevent errors, we recommend not modifying the content of the file. <0>Learn more</0>.",
+                "button": "Import question",
+                "error": "邀请学员时出现问题。如果问题持续存在，请<1>联系我们</1>。",
+                "title": "Import question",
+                "drag_title": "Drag and drop to upload your question file here",
+                "importing": "Importing...",
+                "file_type": "支持的文件格式：仅限 .csv"
+            },
+            "quiz": {
+                "error": "邀请学员时出现问题。如果问题持续存在，请<1>联系我们</1>。",
+                "drag_title": "将已填写的表格拖放到此处上传",
+                "subtitle": "Select the file of the quiz you want to import. To prevent errors, we recommend not modifying the content of the file. <0>Learn more</0>.",
+                "title": "Import quiz",
+                "button": "Import quiz",
+                "file_size": "最大文件大小：10 MB",
+                "file_type": "支持的文件格式：仅限 .csv",
+                "upload_success": "您的文件将不会被导入。",
+                "importing": "Importing..."
+            }
         }
     },
     "error_messages": {
@@ -677,7 +743,26 @@
         },
         "invalid_email_update": "此电子邮箱地址已与某个 Shira 空间关联。",
         "character_limit_error": "Character limit exceeded",
-        "template_submission_failed": "There was a problem submitting the template. If this issue persists, <1>contact us</1>."
+        "template_submission_failed": "邀请学员时出现问题。如果问题持续存在，请<1>联系我们</1>。",
+        "export_question_fail": "Failed to export question",
+        "entity_import": {
+            "invalid_zip_file": {
+                "subtitle": "请确保文件为 CSV 格式后重试。",
+                "title": "错误：无效的文件格式"
+            },
+            "invalid_formatting": {
+                "title": "错误：无效的文件格式",
+                "subtitle": "请确保文件为 CSV 格式后重试。"
+            },
+            "file_too_large": {
+                "subtitle": "Please make sure your file is within the 50 MB limit and try again.",
+                "title": "错误：文件过大"
+            },
+            "invalid_metadata": {
+                "title": "错误：无效的文件格式",
+                "subtitle": "This file's contents don't match the expected question format. Please make sure not to modify the file and try again."
+            }
+        }
     },
     "success_messages": {
         "message": "",
@@ -706,7 +791,9 @@
         "learners_unassigned_plural": "此测验已对 {{count}} 位学员取消分配。",
         "password_updated": "您的密码已成功更新。",
         "email_updated": "您的电子邮箱地址已成功更新。",
-        "quiz_assessment_mode_updated": "测验已更新"
+        "quiz_assessment_mode_updated": "测验已更新",
+        "quiz_imported": "测验已更新",
+        "question_imported": "题目已删除"
     },
     "loading_messages": {
         "message": "",
@@ -749,7 +836,9 @@
             "business": "企业",
             "cibersecurity": "网络安全服务提供商",
             "non_profit": "非营利组织",
-            "individual": "个人（顾问、培训师等）"
+            "individual": "个人（顾问、培训师等）",
+            "educational": "An educational organization",
+            "healthcare": "A healthcare organization"
         },
         "button_sign_up": "注册",
         "validation": {
@@ -900,8 +989,8 @@
         "beta_lead": "Shira 空间目前处于封闭测试阶段。如需获取加入测试所需的通行口令，请发送邮件至：",
         "checking_invitation": "正在验证邀请...",
         "email_label": "确认您的电子邮箱地址",
-        "password_label": "密码",
-        "confirm_password_label": "确认密码",
+        "password_label": "密码为必填项",
+        "confirm_password_label": "确认新密码（必填）",
         "button_create": "创建新空间",
         "validation": {
             "email_required": "电子邮箱为必填项。",
@@ -939,6 +1028,10 @@
             "language": {
                 "description": "Choose the language for your Shira space. This won’t change the language of quizzes or questions you share with learners, only the space interface.",
                 "title": "Space language"
+            },
+            "results": {
+                "description": "Shira automatically tracks quiz responses to provide analytics and compliance reporting. You can disable this feature to minimize the data we collect about your Learners. <learnMore>Learn More</learnMore>",
+                "title": "Enable results"
             }
         },
         "tabs": {
@@ -955,7 +1048,8 @@
         "checkout_success": {
             "all_done": "完成！",
             "success_message": "结算成功，正在激活您的订阅。"
-        }
+        },
+        "version": "You are currently using Shira v{{version}}."
     },
     "banner": {
         "label": "注意",
@@ -973,7 +1067,7 @@
             "language": "语言"
         },
         "preview": {
-            "created_on": "Created on",
+            "created_on": "创建一个",
             "columns": {
                 "app": "应用程序",
                 "actions": "操作",
@@ -1073,13 +1167,13 @@
             "header_title": "Submit question template",
             "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>.",
             "language_placeholder": "语言",
-            "name": "Question template name",
+            "name": "问题模版",
             "tags_placeholder": "标签",
             "submit": "提交",
             "tags_hint": "Select the tags that best describe the content of this template.",
             "language_hint": "You may select more than 1 language. (Can't find the language you want? <support>Request a missing language.</support>)",
             "name_hint": "Use a descriptive name to help other users find what they're looking for.",
-            "name_placeholder": "Question template name",
+            "name_placeholder": "问题模版",
             "description": "说明",
             "language": "语言",
             "description_hint": "Write 1-2 lines to explain what this question contains."
@@ -1098,11 +1192,11 @@
             "title": "Submission status",
             "in_review": "In review",
             "help_tooltip": "Please email the Shira team if you have questions or need support.",
-            "rejected": "Rejected",
-            "accepted": "Accepted"
+            "rejected": "Reject",
+            "accepted": "Accept"
         },
         "quiz_templates": {
-            "title": "Quiz templates",
+            "title": "问题模版",
             "description": "Create a quiz instantly by choosing from our quiz templates, available in multiple apps and languages."
         },
         "display_name": {
