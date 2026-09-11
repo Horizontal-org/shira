@@ -570,6 +570,15 @@
     },
     "support": {
         "title": "Support",
+        "help_center": {
+            "title": "Help Center",
+            "description": "Visit our Help Center to learn more about features and how to use Shira to train your team or community.",
+            "cta": "Go to Help Center"
+        },
+        "contact": {
+            "title": "Contact us",
+            "description": "If you need any support please email us at"
+        },
         "subtitle": "If you need any support, including with deleting your account, please email the Shira team at contact@wearehorizontal.org"
     },
     "settings": {
@@ -1046,16 +1055,16 @@
         },
         "entity_import": {
             "invalid_formatting": {
-                "title": "Error: Invalid file format",
-                "subtitle": "Please make sure the file is in .zip and try again."
+                "title": "Error: Invalid file",
+                "subtitle": "Please make sure the file is a .zip that contains the quiz data, metadata and assets."
             },
             "invalid_zip_file": {
-                "title": "Error: Invalid file format",
-                "subtitle": "Please make sure the file is in .zip and try again."
+                "title": "Error: Your file could not be processed",
+                "subtitle": "We couldn’t process the file. Please try again."
             },
             "invalid_metadata": {
-                "title": "Error: Invalid file content",
-                "subtitle": "This file's contents don't match the expected question format. Please make sure not to modify the file and try again."
+                "title": "Error: Invalid file",
+                "subtitle": "Please make sure the file is a .zip that contains the quiz data, metadata and assets."
             },
             "file_too_large": {
                 "title": "Error: File is too large",
@@ -1139,6 +1148,8 @@
         "org_type_label": "I am creating a Shira space as (required):",
         "loading": "Signing up...",
         "org_types": {
+            "educational": "An educational organization",
+            "healthcare": "A healthcare organization",
             "business": "A business",
             "cibersecurity": "A cybersecurity service provider",
             "non_profit": "A non-profit organization",

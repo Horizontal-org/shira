@@ -1,5 +1,15 @@
-import { Transform } from 'class-transformer'
-import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator'
+import { Transform } from 'class-transformer';
+import {
+  IsEmail,
+  IsIn,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
+import {
+  ORGANIZATION_TYPES,
+  OrganizationType,
+} from '../../organization/domain/organization-type';
 
 export class SendInvitationDto {
     @IsNotEmpty()
@@ -11,9 +21,10 @@ export class SendInvitationDto {
     @IsString()
     slug: string
 
-    @IsNotEmpty()
-    @IsString()
-    orgType: 'business' | 'cibersecurity' | 'non-profit' | 'individual'
+  @IsNotEmpty()
+  @IsString()
+  @IsIn(ORGANIZATION_TYPES)
+  orgType: OrganizationType;
 
     @IsNotEmpty()
     @IsString()

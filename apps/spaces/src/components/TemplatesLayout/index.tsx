@@ -22,6 +22,7 @@ import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
 import { customMenuItems } from "../../utils/customMenuItems";
 import { usePublicLibrary } from "../../hooks/usePublicLibrary";
 import { FiUpload } from "react-icons/fi";
+import { ContentCard } from "../ContentCard";
 
 interface Props { }
 
@@ -77,7 +78,7 @@ export const TemplatesLayout: FunctionComponent<Props> = () => {
           </HeaderRow>
 
           <CardGrid>
-            <TemplateCard onClick={() => navigate("/quiz/templates")}>
+            <TemplateCard as="button" type="button" onClick={() => navigate("/quiz/templates")}>
               <CardHeader>
                 <CardIcon>
                   <LuNotepadText size={24} color={theme.colors.green7} />
@@ -87,7 +88,7 @@ export const TemplatesLayout: FunctionComponent<Props> = () => {
               <Body1>{t("templates.quiz_templates.description")}</Body1>
             </TemplateCard>
 
-            {/* <TemplateCard onClick={() => navigate("/question/library")}>
+            {/* <TemplateCard as="button" type="button" onClick={() => navigate("/question/library")}>
               <CardHeader>
                 <CardIcon>
                   <BsQuestionLg size={24} color={theme.colors.green7} />
@@ -138,27 +139,14 @@ const CardGrid = styled.div`
   }
 `;
 
-const TemplateCard = styled.button`
-  all: unset;
-  box-sizing: border-box;
+const TemplateCard = styled(ContentCard)`
   display: flex;
   flex-direction: column;
   align-items: stretch;
   gap: 12px;
-  padding: 28px;
-  border: 1px solid ${(props) => props.theme.colors.green2};
-  border-radius: 32px;
-  background: ${(props) => props.theme.colors.light.white};
-  cursor: pointer;
 
-  &:focus-visible {
-    outline: 2px solid ${(props) => props.theme.colors.green7};
-    outline-offset: 4px;
-  }
-
-  @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
     gap: 24px;
-    padding: 24px;
   }
 `;
 
