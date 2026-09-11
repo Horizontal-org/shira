@@ -831,7 +831,9 @@
             "business": "Una empresa",
             "cibersecurity": "Un proveedor de servicios de ciberseguridad",
             "non_profit": "Una organización sin fines de lucro",
-            "individual": "Una persona individual (consultora, docente, etc)"
+            "individual": "Una persona individual (consultora, docente, etc)",
+            "educational": "An educational organization",
+            "healthcare": "A healthcare organization"
         },
         "button_sign_up": "Registrarse",
         "validation": {
