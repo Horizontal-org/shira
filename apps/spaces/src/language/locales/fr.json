@@ -839,7 +839,9 @@
             "business": "Une entreprise",
             "cibersecurity": "Un prestataire de services en cybersécurité",
             "non_profit": "Association à but non lucratif",
-            "individual": "Particulier (consultant.e, formateur.ice, etc.)"
+            "individual": "Particulier (consultant.e, formateur.ice, etc.)",
+            "educational": "An educational organization",
+            "healthcare": "A healthcare organization"
         },
         "button_sign_up": "S'inscrire",
         "validation": {
