@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { DashboardCard } from './DashboardCard';
 import styled from 'styled-components';
+import { IoLinkOutline } from 'react-icons/io5';
+import { MdDelete, MdModeEdit, MdOutlineContentCopy } from 'react-icons/md';
+import { FiUpload } from 'react-icons/fi';
 
 const meta = {
   title: 'Components/DashboardCard',
@@ -78,11 +81,13 @@ export const GridLayout: Story = {
       lastModified: "2 days ago",
       isPublished: true,
       onTogglePublished: () => console.log('Toggle published'),
-      onCopyUrl: () => console.log('Copy URL'),
-      onEdit: () => console.log('edit'),
-      onDuplicate: () => console.log('duplicate'),
-      onSubmitAsTemplate: () => console.log('submit as template'),
-      onDelete: () => console.log('delete'),
+      actions: {
+        edit: { label: 'Edit', icon: <MdModeEdit />, onClick: () => console.log('edit') },
+        duplicate: { label: 'Duplicate', icon: <MdOutlineContentCopy />, onClick: () => console.log('duplicate') },
+        copyUrl: { label: 'Copy link', icon: <IoLinkOutline />, onClick: () => console.log('Copy URL') },
+        submitAsTemplate: { label: 'Submit as template', icon: <FiUpload />, onClick: () => console.log('submit as template') },
+        delete: { label: 'Delete', icon: <MdDelete />, onClick: () => console.log('delete') },
+      },
       onClick: () => console.log('card click'),
       publishedText: 'Published',
     },
@@ -96,11 +101,13 @@ export const GridLayout: Story = {
               lastModified={card.lastModified}
               isPublished={card.isPublished}
               onTogglePublished={() => console.log('Toggle published for card', index)}
-              onCopyUrl={() => console.log('Copy URL for card', index)}
-              onEdit={() => console.log('on edit')}
-              onDuplicate={() => console.log('on duplicate')}
-              onSubmitAsTemplate={() => console.log('on submit as template')}
-              onDelete={() => console.log('on delete')}
+              actions={{
+                edit: { label: 'Edit', icon: <MdModeEdit />, onClick: () => console.log('on edit') },
+                duplicate: { label: 'Duplicate', icon: <MdOutlineContentCopy />, onClick: () => console.log('on duplicate') },
+                copyUrl: { label: 'Copy link', icon: <IoLinkOutline />, onClick: () => console.log('Copy URL for card', index) },
+                submitAsTemplate: { label: 'Submit as template', icon: <FiUpload />, onClick: () => console.log('on submit as template') },
+                delete: { label: 'Delete', icon: <MdDelete />, onClick: () => console.log('on delete') },
+              }}
               onClick={() => console.log('card clicked')}
               publishedText={'Published'}/>
           ))}

@@ -40,7 +40,7 @@ const ScoreBar = styled.div<{ score: number }>`
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
+    inset-inline-start: 0;
     height: 4px;
     width: ${props => props.score}%;
     background-color: ${props => props.theme.colors.green5};

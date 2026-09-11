@@ -86,20 +86,20 @@ const ToggleSwitch = styled.button<StyledToggleProps>`
 
 const ToggleSlider = styled.span<StyledToggleProps>`
   position: absolute;
-  left: ${props => props.$isEnabled ? '28px' : '2px'};
+  inset-inline-start: ${props => props.$isEnabled ? '28px' : '2px'};
   width: 20px;
   height: 20px;
   background: white;
   border-radius: 50%;
-  transition: left 0.2s;
+  transition: inset-inline-start 0.2s;
   top: 2px;
-  
+
 
   ${props => props.$size === 'big' && `
     top: 4px;
     width: 24px;
     height: 24px;
-    left: ${props.$isEnabled ? '42px' : '4px'};
+    inset-inline-start: ${props.$isEnabled ? '42px' : '4px'};
     box-shadow: 0px -0.97px 2.92px 0.97px #00000026;
     box-shadow: 0px -0.97px 1.95px 0px #0000004D;
 

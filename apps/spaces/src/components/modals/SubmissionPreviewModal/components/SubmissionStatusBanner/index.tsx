@@ -7,15 +7,15 @@ import { SubmissionStatusPill } from "../../../../SubmissionStatusPill";
 
 type Props = {
   status: SubmissionStatus;
-  reason?: string;
+  submissionNote?: string;
 };
 
-export const SubmissionStatusBanner: FunctionComponent<Props> = ({ status, reason }) => {
+export const SubmissionStatusBanner: FunctionComponent<Props> = ({ status, submissionNote }) => {
   const { t } = useTranslation();
   const [showHelp, setShowHelp] = useState(false);
 
   return (
-    <Banner aria-label={t("templates.submission_status.title")} $hasReason={Boolean(reason)}>
+    <Banner aria-label={t("templates.submission_status.title")} $hasReason={Boolean(submissionNote)}>
 
       <Heading>
         {t("templates.submission_status.title")}
@@ -29,14 +29,14 @@ export const SubmissionStatusBanner: FunctionComponent<Props> = ({ status, reaso
         </GeneralTooltip>
       </Heading>
 
-      {reason && (
+      {submissionNote && (
         <Message>
           <BsChatRightTextFill size={18} color={defaultTheme.colors.blue7} />
-          <Body3>{reason}</Body3>
+          <Body3>{submissionNote}</Body3>
         </Message>
       )}
 
-      <Status $hasReason={Boolean(reason)}>
+      <Status $hasReason={Boolean(submissionNote)}>
         <SubmissionStatusPill status={status} variant="outlined" size="large" />
       </Status>
 

@@ -77,7 +77,7 @@ const BackIconWrapper = styled.div`
 `
 
 const Name = styled.div`
-  margin-left: 8px;
+  margin-inline-start: 8px;
   span {
     position: relative;
   }

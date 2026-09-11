@@ -17,7 +17,7 @@ const MessageSidebar: FunctionComponent = () => {
 
 const Wrapper = styled.div`
   padding: 8px;
-  border-right: 1px solid #F2F3F5;
+  border-inline-end: 1px solid #F2F3F5;
   width: 361px;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {

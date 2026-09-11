@@ -14,7 +14,8 @@ import {
   Body2Regular,
   defaultTheme,
   Body4,
-  GeneralTooltip
+  GeneralTooltip,
+  IconButton
 } from "@horizontal-org/shira-ui";
 import { TabContainer } from './components/TabContainer'
 import { shallow } from "zustand/shallow";
@@ -31,16 +32,18 @@ import { getQuizResults, QuizResultsResponse } from "../../fetch/results";
 import { useTranslation } from "react-i18next";
 import { MdLockOutline } from "react-icons/md";
 import { TbWorld } from "react-icons/tb";
-import { FiCopy, FiUpload } from "react-icons/fi";
+import { FiCopy, FiUpload, FiMoreVertical } from "react-icons/fi";
 import { RenameQuizModal } from "../modals/RenameQuizModal";
 import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
-import { DuplicateQuizModal } from "../modals/DuplicateQuizModal";
+import { QuizNameModal } from "../modals/QuizNameModal";
 import { useQuizCreationFlow } from "../../hooks/useQuizCreationFlow";
 import { useSub } from "../../hooks/useSub";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
 import { customMenuItems } from "../../utils/customMenuItems";
 import { DisplayNameModal } from "../modals/DisplayNameModal";
 import { useTemplateSubmission } from "../../hooks/useTemplateSubmission";
+import { MoreQuizOptions } from "./components/MoreQuizOptions";
+import { ExportEntityModal } from "../modals/ExportEntityModal";
 
 interface Props { }
 
@@ -91,6 +94,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false);
   const {
     isDisplayNameModalOpen,
     cancelTemplateSubmission,
@@ -106,9 +110,9 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
 
   const { destroy } = useQuestionCRUD()
   const {
-    selectedQuizForDuplicate,
+    nameStepConfig,
     isSubmitting,
-    isDuplicateTitleModalOpen,
+    isNameModalOpen,
     isVisibilityModalOpen,
     startDuplicateQuizFlow,
     moveToVisibilityStep,
@@ -117,7 +121,6 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
     cancelFlow
   } = useQuizCreationFlow({
     createQuiz,
-    fetchQuizzes,
     t
   });
 
@@ -294,13 +297,6 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 </Header>
                 <ButtonsContainer>
                   <LeftButtons>
-                    <Button
-                      id="rename-quiz-button"
-                      leftIcon={<RenameIcon />}
-                      text={t('quiz.actions.rename')}
-                      type="outline"
-                      onClick={() => { setIsRenameModalOpen(true) }}
-                    />
 
                     <GeneralTooltip
                       enabled={!isSubActive && hasReachedLimit}
@@ -399,12 +395,10 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                       )}
                     </PublishToggleWrapper>
 
-                    <Button
-                      id="delete-quiz-button"
-                      leftIcon={<DeleteIcon />}
-                      text={t('buttons.delete')}
-                      type="outline"
-                      onClick={() => { setIsDeleteModalOpen(true) }}
+                    <MoreQuizOptions
+                      onRenameClick={() => { setIsRenameModalOpen(true) }}
+                      onDeleteClick={() => { setIsDeleteModalOpen(true) }}
+                      onExportClick={() => { setIsExportModalOpen(true) }}
                     />
                   </LeftButtons>
                 </ButtonsContainer>
@@ -420,6 +414,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 hasQuestions={hasQuestions}
                 resultsData={resultsData}
                 resultsLoading={resultsLoading}
+                hasResultsEnabled={space?.hasResultsEnabled !== false}
                 hasResults={hasResults}
                 onEdit={(questionId) => { navigate(`/quiz/${id}/question/${questionId}`) }}
                 onPublish={() => handleTogglePublished(quiz.id, true)}
@@ -442,7 +437,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                     })
                   })
                 }}
-                onDuplicate={() => {
+                onRefresh={() => {
                   getQuiz()
                 }}
                 onSubmitAsTemplate={(questionId) => {
@@ -519,15 +514,13 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 isModalOpen={isRenameModalOpen}
               />
 
-              <DuplicateQuizModal
-                quiz={selectedQuizForDuplicate}
-                isModalOpen={isDuplicateTitleModalOpen}
+              <QuizNameModal
+                isModalOpen={isNameModalOpen}
+                isSubmitting={isSubmitting}
                 validateQuizName={validateQuizName}
-                onDuplicate={moveToVisibilityStep}
-                onCancel={() => {
-                  cancelFlow();
-                }}
-                isLoading={isSubmitting}
+                onSubmit={moveToVisibilityStep}
+                onCancel={cancelFlow}
+                {...nameStepConfig}
               />
 
               <QuizVisibilityModal
@@ -542,6 +535,13 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 isOpen={isDisplayNameModalOpen}
                 onCancel={cancelTemplateSubmission}
                 onSave={continueTemplateSubmission}
+              />
+
+              <ExportEntityModal
+                entityId={quiz.id.toString()}
+                entityType="quiz"
+                isModalOpen={isExportModalOpen}
+                setIsModalOpen={setIsExportModalOpen}
               />
             </>
           ) : (
@@ -569,14 +569,14 @@ const Container = styled.div`
 
 const MainContent = styled.div<{ $isCollapsed: boolean }>`
   flex: 1;
-  margin-left: ${props => props.$isCollapsed ? '116px' : '264px'};
-  transition: margin-left 0.3s ease;
+  margin-inline-start: ${props => props.$isCollapsed ? '116px' : '264px'};
+  transition: margin-inline-start 0.3s ease;
   @media (max-width: ${props => props.theme.breakpoints.md}) {
-    margin-left: 80px;
+    margin-inline-start: 80px;
   }
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    margin-left: 0;
+    margin-inline-start: 0;
   }
 `;
 
@@ -641,7 +641,7 @@ const PublishToggleWrapper = styled.div<{ $showHelpCursor: boolean }>`
 const PublishToggleTooltip = styled.div`
   position: absolute;
   top: 100%;
-  left: 50%;
+  inset-inline-start: 50%;
   transform: translateX(-50%);
   margin-top: 6px;
   padding: 4px 8px;

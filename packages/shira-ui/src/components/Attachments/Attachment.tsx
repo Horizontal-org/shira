@@ -77,8 +77,8 @@ const Header = styled.div<{ active: boolean }>`
   align-items: center;
   padding: 12px 16px;
   background-color: ${props => props.active ? 'white' : props.theme.colors.light.paleGrey};
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
+  border-start-start-radius: 12px;
+  border-start-end-radius: 12px;
 `
 
 const FlexContainer = styled.div`
@@ -88,7 +88,7 @@ const FlexContainer = styled.div`
 
 const Name = styled.div`
   display: flex;
-  text-align: left;
+  text-align: start;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -101,8 +101,8 @@ const Body = styled.div<{ active: boolean }>`
   flex: 1;
   justify-content: center;
   align-items: center;
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
+  border-end-start-radius: 12px;
+  border-end-end-radius: 12px;
 
   ${props => props.active && `
     background-color: rgba(243, 249, 207, 0.5);  

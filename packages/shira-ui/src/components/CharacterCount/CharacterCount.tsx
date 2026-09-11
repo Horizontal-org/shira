@@ -27,7 +27,7 @@ export const CharacterCount = ({
 };
 
 const CountText = styled(Body4) <{ $disabled?: boolean; $isOverLimit?: boolean }>`
-  padding-right: 10px;
+  padding-inline-end: 10px;
   align-self: flex-end;
   color: ${({ theme, $disabled, $isOverLimit }) => {
     if ($disabled) return theme.colors.dark.mediumGrey;

@@ -36,7 +36,7 @@ const Wrapper = styled.div`
 
 const LogoWrapper = styled.div`
   padding: 0 24px;
-  border-right: 1px solid ${props => props.theme.colors.dark.mediumGrey};
+  border-inline-end: 1px solid ${props => props.theme.colors.dark.mediumGrey};
 `
 
 const Left = styled.div`

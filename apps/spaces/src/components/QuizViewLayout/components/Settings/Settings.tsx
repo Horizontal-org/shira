@@ -60,5 +60,5 @@ const QuizSettingsCard = styled(SettingsCard)`
 `
 
 const Option = styled.div`
-  padding-left: 4px;
+  padding-inline-start: 4px;
 `

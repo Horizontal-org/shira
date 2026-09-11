@@ -43,7 +43,7 @@ export const Exporter: FunctionComponent<Props> = ({
 }
 
 const Separator = styled.div`
-  padding-right: 8px;
+  padding-inline-end: 8px;
 `
 
 const Wrapper = styled.div`

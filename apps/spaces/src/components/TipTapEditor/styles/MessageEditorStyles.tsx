@@ -41,8 +41,8 @@ export const MessageEditorStyles = createGlobalStyle`
   }
 
   blockquote {
-    padding-left: 1rem;
-    border-left: 2px solid rgb(13,13,13, 0.1);
+    padding-inline-start: 1rem;
+    border-inline-start: 2px solid rgb(13,13,13, 0.1);
   }
 
   hr {
@@ -54,7 +54,8 @@ export const MessageEditorStyles = createGlobalStyle`
   p.is-editor-empty:first-child::before {
     color: #adb5bd;
     content: attr(data-placeholder);
-    float: left;
+    /* overlays placeholder text on an empty paragraph without adding height; not real text-wrap, so flexbox can't replace it */
+    float: inline-start;
     height: 0;
     pointer-events: none;
   }

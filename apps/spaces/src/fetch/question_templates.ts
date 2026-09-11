@@ -1,4 +1,8 @@
 import axios from "axios";
+import {
+  translateLibraryLanguageTag,
+  translateLibraryTag,
+} from "../language/libraryTags";
 
 export const DEFAULT_PAGE_LIMIT = 20;
 export const DEFAULT_QUESTION_TEMPLATE_SORT: QuestionTemplateSortOption =
@@ -8,7 +12,6 @@ export interface LibraryQuestionTemplateDto {
   id: number;
   name: string;
   author: string;
-  authorPublicSpaceId?: string;
   highlighted: boolean;
   isPhishing: boolean;
   content: string;
@@ -30,21 +33,6 @@ export interface LibraryQuestionTemplatesPageDto {
   total: number;
   page: number;
   limit: number;
-}
-
-export interface LibraryQuestionTemplateQuestionDto {
-  questionId: number;
-  questionName: string;
-  isPhishing: boolean;
-  language: string | null;
-  appName: string | null;
-  appType: string;
-  content: string;
-  explanations: {
-    position: string;
-    text: string;
-    index: string;
-  }[];
 }
 
 export type QuestionTemplateSortOption =
@@ -142,17 +130,16 @@ const normalizeQuestionTemplate = (
   id: questionTemplate.id,
   name: questionTemplate.name,
   author: questionTemplate.author?.displayName ?? "Shira team",
-  authorPublicSpaceId: questionTemplate.author?.publicSpaceId,
   highlighted: questionTemplate.highlighted,
   isPhishing: questionTemplate.isPhishing,
   content: questionTemplate.content,
   appType: questionTemplate.appType,
   defaultApp: questionTemplate.defaultApp,
   createdAt: questionTemplate.createdAt,
-  languages: (questionTemplate.langTags ?? []).map((language) =>
-    language.name.trim(),
+  languages: (questionTemplate.langTags ?? []).map((language) => language.name.trim()),
+  tags: (questionTemplate.tags ?? []).map((tag) =>
+    translateLibraryTag(tag.slug, tag.name),
   ),
-  tags: (questionTemplate.tags ?? []).map((tag) => tag.name.trim()),
   explanations: questionTemplate.explanations.map((explanation) => ({
     position: explanation.position,
     text: explanation.content,
@@ -229,29 +216,6 @@ export const getQuestionTemplates = async ({
   }
 };
 
-export const getQuizTemplateQuestions = async (
-  quizId: string | number,
-): Promise<LibraryQuestionTemplateQuestionDto[] | null> => {
-  try {
-    const response = await axios.get<
-      LibraryQuestionTemplateQuestionDto[] | null
-    >(
-      `${process.env.REACT_APP_LIBRARY_API_URL}/quiz-templates/${quizId}/questions`,
-      {
-        withCredentials: true,
-      },
-    );
-
-    return response.data;
-  } catch (error) {
-    console.error(
-      `Error fetching quiz template questions for quiz ${quizId}:`,
-      error,
-    );
-    return null;
-  }
-};
-
 type AddQuestionTemplateToQuizParams = {
   quizId: number;
   questionName: string;
@@ -310,7 +274,7 @@ export const getQuestionTemplateLanguageOptions = async (): Promise<
 
     return response.data.map((language) => ({
       value: language.code,
-      label: language.name.trim(),
+      label: translateLibraryLanguageTag(language.name),
     }));
   } catch (error) {
     console.error("Error fetching question template language options:", error);
@@ -331,7 +295,7 @@ export const getQuestionTemplateTagOptions = async (): Promise<
 
     return response.data.map((tag) => ({
       value: tag.slug,
-      label: tag.name.trim(),
+      label: translateLibraryTag(tag.slug, tag.name),
     }));
   } catch (error) {
     console.error("Error fetching question template tag options:", error);

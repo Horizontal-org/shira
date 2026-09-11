@@ -130,7 +130,7 @@ export const Profile: FunctionComponent<Props> = ({
 }
 
 const SenderWrapper = styled.div`
-  padding-left: 12px;
+  padding-inline-start: 12px;
   
 `
 
@@ -148,7 +148,7 @@ const ProfileWrapper = styled.div`
   align-items: center;
   padding-top: 12px;
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    padding-left: 8px;
+    padding-inline-start: 8px;
   }
 `
 
@@ -168,7 +168,7 @@ const Receiver = styled.div`
     color: #5e5e5e;
     font-size: .75em;
     font-weight: 400;
-    margin-right: 2px;
+    margin-inline-end: 2px;
   }
 `
 
@@ -211,24 +211,27 @@ const BoxLeftInfo = styled.span`
   display: inline-block;
   color: #999;
   width: 55px;
-  text-align: right;
-  padding: 2px 16px 2px 20px;
+  text-align: end;
+  padding-top: 2px;
+  padding-inline-end: 16px;
+  padding-bottom: 2px;
+  padding-inline-start: 20px;
 `
 
 const BoxRightInfo = styled.span`
   color: #222;
   text-wrap: wrap;
   padding-top: 2px;
-  padding-right: 40px;
+  padding-inline-end: 40px;
   
 
   > strong {
-    padding-right: 4px;
+    padding-inline-end: 4px;
   }
 
   > svg {
     vertical-align: sub;
-    margin-right: 4px; 
+    margin-inline-end: 4px; 
   }
 `
 
@@ -243,16 +246,16 @@ const SenderName = styled.span`
   line-height: 20px;
   font-size: .875rem;
   font-weight: bold;
-  padding-right: 8px;
+  padding-inline-end: 8px;
 `
 
 const SenderEmail = styled.span`
   color: #5e5e5e;
   line-height: 20px;
   font-size: .75rem;
-  padding-left: 4px;
+  padding-inline-start: 4px;
   font-weight: 400;
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    padding-left: 0;
+    padding-inline-start: 0;
   }
 `

@@ -301,7 +301,7 @@ export const MenuBar = ({
               title="Add table cell explanation"
             >
               <ExplanationIcon />
-              <span style={{ fontSize: '10px', marginLeft: '2px' }}>TBL</span>
+              <span style={{ fontSize: '10px', marginInlineStart: '2px' }}>TBL</span>
             </ExplanationIconWrapper>
           ) : (
             <ExplanationIconWrapper

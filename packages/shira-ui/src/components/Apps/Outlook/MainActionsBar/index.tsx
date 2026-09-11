@@ -194,7 +194,7 @@ const NewMailButton = styled.div`
   display: flex;
   height: 32px;
   cursor: pointer;
-  padding-right: 4px;
+  padding-inline-end: 4px;
 `
 
 const LeftMailButton = styled.div`
@@ -202,16 +202,19 @@ const LeftMailButton = styled.div`
   align-items: center;
   height: 32px;
   background: #0F6CBD;
-  border-radius: 4px 0 0 4px;
+  border-start-start-radius: 4px;
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
+  border-end-start-radius: 4px;
   display: flex;
   align-items: center;
-  border-right: 1px solid white;
-  padding: 0 9px 0 9px;
+  border-inline-end: 1px solid white;
+  padding: 0 9px;
   color: white;
 
   > span {
-    padding-left: 10px; 
-    padding-right: 2px;
+    padding-inline-start: 10px;
+    padding-inline-end: 2px;
     font-size: 14px;
     font-weight: 300;
     padding-bottom: 1px;
@@ -228,7 +231,10 @@ const RightMailButton = styled.div`
   height: 32px;
   padding: 0 8px;
   background: #0F6CBD;
-  border-radius: 0 4px 4px 0;
+  border-start-start-radius: 0;
+  border-start-end-radius: 4px;
+  border-end-end-radius: 4px;
+  border-end-start-radius: 0;
 
   &:hover {
     background: #0F548C;

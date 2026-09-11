@@ -1,4 +1,12 @@
 {
+    "languages": {
+        "en": "English",
+        "es": "Spanish",
+        "fr": "French",
+        "cn": "Chinese (Simplified)",
+        "ar": "Arabic",
+        "ru": "Russian"
+    },
     "sidebar": {
         "quizzes": "Quizzes",
         "learners": "Learners",
@@ -146,6 +154,7 @@
             "edit": "Edit",
             "duplicate": "Duplicate",
             "submit_as_template": "Submit as template",
+            "export": "Export",
             "delete": "Delete"
         }
     },
@@ -463,6 +472,10 @@
         }
     },
     "results_tab": {
+        "disabled": {
+            "message": "There is no data available because Results have been disabled. You can change this anytime in your space Settings.",
+            "go_to_settings": "Go to Settings"
+        },
         "title": "Overall results",
         "completed_quizzes": {
             "title": "Number of completed quizzes",
@@ -562,6 +575,7 @@
     "settings": {
         "title": "Settings",
         "subtitle": "Manage your Shira space settings here.",
+        "version": "You are currently using Shira v{{version}}.",
         "tabs": {
             "account": "Account",
             "subscription": "Subscription",
@@ -586,6 +600,10 @@
             "language": {
                 "title": "Space language",
                 "description": "Choose the language for your Shira space. This won’t change the language of quizzes or questions you share with learners, only the space interface."
+            },
+            "results": {
+                "title": "Enable results",
+                "description": "Shira automatically tracks quiz responses to provide analytics and compliance reporting. You can disable this feature to minimize the data we collect about your Learners. <learnMore>Learn More</learnMore>"
             }
         },
         "checkout_success": {
@@ -903,12 +921,74 @@
                 }
             },
             "title": "Available plans"
+        },
+        "create_entity": {
+            "quiz": {
+                "title": "Create new quiz",
+                "subtitle": "Choose how you’d like to create your quiz.",
+                "template_title": "Use a template",
+                "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
+                "scratch_title": "Start from scratch",
+                "scratch_subtitle": "Create the quiz yourself, with full control. You can even copy and paste a real-life phishing example.",
+                "import_title": "Or import a quiz from a file",
+                "create_button": "Cancel"
+            },
+            "question": {
+                "title": "Create new question",
+                "subtitle": "Choose how you’d like to create your question.",
+                "template_title": "Use a template",
+                "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
+                "scratch_title": "Start from scratch",
+                "scratch_subtitle": "Create the question yourself, with full control. You can even copy and paste a real-life phishing example.",
+                "import_title": "Or import a question from a file",
+                "create_button": "Cancel"
+            }
+        },
+        "export": {
+            "quiz": {
+                "title": "Export quiz",
+                "error": "There was a problem exporting the quiz. If this issue persists, <1>contact us</1>.",
+                "file_type": "Your quiz will be exported as a .zip file that can be re-imported into a Shira space.",
+                "sharing_implications": "If you will share your quiz with others, you may want to remove any sensitive information it contains before exporting it. <1>Learn more</1>"
+            },
+            "question": {
+                "title": "Export question",
+                "error": "There was a problem exporting the question. If this issue persists, <1>contact us</1>.",
+                "file_type": "Your question will be exported as a .zip file that can be re-imported into a Shira space.",
+                "sharing_implications": "If you will share your question with others, you may want to remove any sensitive information it contains before exporting it. <1>Learn more</1>"
+            },
+            "exporting": "Exporting..."
+        },
+        "import": {
+            "question": {
+                "title": "Import question",
+                "subtitle": "Select the file of the question you want to import. To prevent errors, we recommend not modifying the content of the file. <0>Learn more</0>.",
+                "error": "There was a problem importing the question. If this issue persists, <1>contact us</1>.",
+                "drag_title": "Drag and drop to upload your question file here",
+                "file_type": "Accepted file type: .zip only",
+                "file_size": "Maximum file size: 50 MB",
+                "upload_success": "Your file is ready to be imported.",
+                "button": "Import question",
+                "importing": "Importing..."
+            },
+            "quiz": {
+                "title": "Import quiz",
+                "subtitle": "Select the file of the quiz you want to import. To prevent errors, we recommend not modifying the content of the file. <0>Learn more</0>.",
+                "error": "There was a problem importing the quiz. If this issue persists, <1>contact us</1>.",
+                "drag_title": "Drag and drop to upload your quiz file here",
+                "file_type": "Accepted file type: .zip only",
+                "file_size": "Maximum file size: 200 MB",
+                "upload_success": "Your file is ready to be imported.",
+                "button": "Import quiz",
+                "importing": "Importing..."
+            }
         }
     },
     "error_messages": {
         "duplicate_quiz_fail": "Failed to duplicate quiz",
         "quiz_name_already_exists": "Quiz name taken. Please use a different one.",
         "duplicate_question_fail": "Failed to duplicate question",
+        "export_question_fail": "Failed to export question",
         "add_question_error": "Error adding question",
         "results_load_failed": "Failed to load results",
         "learner_already_exists": "This email address is already registered.",
@@ -964,6 +1044,24 @@
                 "subtitle": "Please upload a CSV that is 10 MB or smaller and try again"
             }
         },
+        "entity_import": {
+            "invalid_formatting": {
+                "title": "Error: Invalid file",
+                "subtitle": "Please make sure the file is a .zip that contains the quiz data, metadata and assets."
+            },
+            "invalid_zip_file": {
+                "title": "Error: Your file could not be processed",
+                "subtitle": "We couldn’t process the file. Please try again."
+            },
+            "invalid_metadata": {
+                "title": "Error: Invalid file",
+                "subtitle": "Please make sure the file is a .zip that contains the quiz data, metadata and assets."
+            },
+            "file_too_large": {
+                "title": "Error: File is too large",
+                "subtitle": "Please make sure your file is within the 50 MB limit and try again."
+            }
+        },
         "invalid_email_update": "This email address is already associated with a Shira space",
         "character_limit_error": "Character limit exceeded"
     },
@@ -982,6 +1080,8 @@
         "question_updated": "Question updated",
         "question_deleted": "The question has been deleted",
         "question_copied": "The question has been duplicated",
+        "question_imported": "The question has been imported",
+        "quiz_imported": "The quiz has been imported",
         "no_questions_found": "No questions found.",
         "learner_invitation_sent": "The invitation has been sent.",
         "learner_invitation_resent": "The invitation has been re-sent to {{email}}",
@@ -1020,6 +1120,16 @@
         "spanish": "Spanish",
         "french": "French",
         "mandarin": "Mandarin"
+    },
+    "library_metadata": {
+        "tags_slugs": {
+            "easy": "level: easy",
+            "human-rights": "theme: human rights",
+            "journalism": "theme: journalism",
+            "intermediate": "level: intermediate",
+            "for-everyone": "for everyone",
+            "mobile": "mobile"
+        }
     },
     "get_started": {
         "title": "Get started",

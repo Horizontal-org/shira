@@ -37,7 +37,10 @@ const Wrapper = styled.div`
 const Download = styled.div`
   display: flex;
   align-items: center;
-  margin: 0 8px 0 36px;
+  margin-top: 0;
+  margin-inline-end: 8px;
+  margin-bottom: 0;
+  margin-inline-start: 36px;
 
   > svg {
     width: 26px;
@@ -49,12 +52,16 @@ const Download = styled.div`
 
 const Card = styled.div`
 
-  float: left;
+  /* Card is a flex item of Wrapper (display: flex), so float has no effect here
+     already — dropped rather than mirrored. */
   background: #fff;
   border-radius: 7.5px;
-  padding: 6px 7px 8px 9px;
+  padding-top: 6px;
+  padding-inline-end: 7px;
+  padding-bottom: 8px;
+  padding-inline-start: 9px;
   box-shadow: 0 1px 0.5px rgba(11,20,26, .13);
-  margin: 2px 0; 
+  margin: 2px 0;
 
   > div {
     cursor: pointer;
@@ -68,8 +75,10 @@ const Card = styled.div`
   > span {
     font-size: 9px;
     color: #667781;
-    float: right;
-    padding-top: 2px;    
+    /* Relies on text wrapping around a float, which flexbox can't replicate;
+       kept as a float using the logical inline-end value instead. */
+    float: inline-end;
+    padding-top: 2px;
     font-weight: 200;
     margin-bottom: -2px;
   }
@@ -78,7 +87,7 @@ const Card = styled.div`
 
 const Name = styled.div`
   display: inline;
-  text-align: left;
+  text-align: start;
   font-size: 12px;
   color: #111b21;
 
@@ -95,7 +104,7 @@ const Name = styled.div`
 const ImageWrapper = styled.img`
   align-items: center;
   justify-content: center;
-  margin-right: 12px;
+  margin-inline-end: 12px;
 
   width: 26px;
   height: 30px;

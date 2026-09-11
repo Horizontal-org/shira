@@ -95,7 +95,7 @@ const FormError = styled.div<{ $visible?: boolean }>`
   color: ${props => props.theme.colors.error7};
   font-size: 14px;
   line-height: 18px;
-  padding-left: 4px;
+  padding-inline-start: 4px;
   margin-top: 8px;
   visibility: ${props => (props.$visible ? "visible" : "hidden")};
 `;
@@ -103,7 +103,7 @@ const FormError = styled.div<{ $visible?: boolean }>`
 const StyledForm = styled(Form)`
   position: relative;
   z-index: 1;
-  text-align: left;
+  text-align: start;
   margin-bottom: 32px;
   gap: 16px;
 `;

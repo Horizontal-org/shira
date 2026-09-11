@@ -264,6 +264,6 @@ const ControlledSelectWrapper = styled.div`
   display: flex;
 
   > button {
-    margin-left: 12px;
+    margin-inline-start: 12px;
   }
 `

@@ -15,7 +15,7 @@ export type SubmissionListItem = {
   name: string;
   dateSubmitted: string;
   status: SubmissionStatus;
-  reason?: string;
+  submissionNote?: string;
 };
 
 interface SubmissionsTableProps {
@@ -32,7 +32,7 @@ export const SubmissionsTable = ({
   const { t } = useTranslation();
   const theme = useTheme();
   const navigate = useNavigate();
-  const [rejectionReason, setRejectionReason] = useState<string | null>(null);
+  const [submissionNote, setSubmissionNote] = useState<string | null>(null);
 
   const columns: ColumnDef<SubmissionListItem>[] = [
     {
@@ -60,15 +60,15 @@ export const SubmissionsTable = ({
     {
       header: t("templates.submissions_table.actions"),
       id: "actions",
-      cell: ({ row }) => row.original.status === "rejected" && (
-        <RejectionActionButton
+      cell: ({ row }) => row.original.submissionNote && (
+        <SubmissionNoteActionButton
           type="button"
           aria-label={t("templates.submission_rejection.open")}
           title={t("templates.submission_rejection.open")}
-          onClick={() => setRejectionReason(row.original.reason ?? "")}
+          onClick={() => setSubmissionNote(row.original.submissionNote ?? "")}
         >
           ?
-        </RejectionActionButton>
+        </SubmissionNoteActionButton>
       ),
     },
   ];
@@ -122,15 +122,15 @@ export const SubmissionsTable = ({
       {paginationProps.total > 0 && <CardPagination {...paginationProps} />}
 
       <Modal
-        id="submission-rejection-reason-modal"
-        isOpen={rejectionReason !== null}
+        id="submission-note-modal"
+        isOpen={submissionNote !== null}
         title={t("templates.submission_rejection.title")}
         primaryButtonText={t("buttons.ok")}
         secondaryButtonText={null}
-        onPrimaryClick={() => setRejectionReason(null)}
-        onClose={() => setRejectionReason(null)}
+        onPrimaryClick={() => setSubmissionNote(null)}
+        onClose={() => setSubmissionNote(null)}
       >
-        <Body1>{rejectionReason}</Body1>
+        <Body1>{submissionNote}</Body1>
       </Modal>
 
     </TableWrapper>
@@ -208,7 +208,7 @@ const DateCell = styled.div`
   color: ${defaultTheme.colors.dark.darkGrey};
 `;
 
-const RejectionActionButton = styled.button`
+const SubmissionNoteActionButton = styled.button`
   all: unset;
   width: 20px;
   height: 20px;

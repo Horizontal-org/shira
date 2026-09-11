@@ -88,7 +88,7 @@ export const ImageDragItem: FunctionComponent<Props> = ({
 }
 
 const Wrapper = styled.div`
-  padding-left: 12px;
+  padding-inline-start: 12px;
   width: 100%;
 `
 

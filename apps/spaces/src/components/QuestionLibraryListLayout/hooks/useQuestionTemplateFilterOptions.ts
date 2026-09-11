@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   getQuestionTemplateLanguageOptions,
   getQuestionTemplateTagOptions,
@@ -6,8 +7,14 @@ import {
 } from "../../../fetch/question_templates";
 
 export const useQuestionTemplateFilterOptions = (areFiltersOpen: boolean) => {
+  const { i18n } = useTranslation();
   const [languageOptions, setLanguageOptions] = useState<QuestionTemplateFilterOption[]>([]);
   const [tagOptions, setTagOptions] = useState<QuestionTemplateFilterOption[]>([]);
+
+  useEffect(() => {
+    setLanguageOptions([]);
+    setTagOptions([]);
+  }, [i18n.language]);
 
   useEffect(() => {
     if (
@@ -32,7 +39,7 @@ export const useQuestionTemplateFilterOptions = (areFiltersOpen: boolean) => {
     };
 
     loadFilterOptions();
-  }, [areFiltersOpen, languageOptions.length, tagOptions.length]);
+  }, [areFiltersOpen, i18n.language, languageOptions.length, tagOptions.length]);
 
   return {
     languageOptions,

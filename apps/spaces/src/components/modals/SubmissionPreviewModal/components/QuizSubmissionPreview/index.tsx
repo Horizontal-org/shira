@@ -84,7 +84,7 @@ export const QuizSubmissionPreview: FunctionComponent<Props> = ({ quiz, onClose 
         submissionStatusBanner={(
           <SubmissionStatusBanner
             status={previewQuestion.status}
-            reason={previewQuestion.reason}
+            submissionNote={previewQuestion.submissionNote}
           />
         )}
         details={(
@@ -110,7 +110,7 @@ export const QuizSubmissionPreview: FunctionComponent<Props> = ({ quiz, onClose 
       title={quiz.quizTitle}
       subtitle={quiz.description}
       submissionStatusBanner={(
-        <SubmissionStatusBanner status={quiz.status} reason={quiz.reason} />
+        <SubmissionStatusBanner status={quiz.status} submissionNote={quiz.submissionNote} />
       )}
       actions={(
         <Button

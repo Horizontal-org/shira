@@ -53,7 +53,7 @@ const StyledButton = styled(Button)<{ $showQuestionCursor?: boolean }>`
 const Tooltip = styled.div`
   position: absolute;
   bottom: 100%;
-  right: 0;
+  inset-inline-end: 0;
   margin-bottom: 8px;
   padding: 8px 12px;
   background-color: #333;
@@ -67,7 +67,7 @@ const Tooltip = styled.div`
     content: '';
     position: absolute;
     top: 100%;
-    right: 20px;
+    inset-inline-end: 20px;
     border-width: 5px;
     border-style: solid;
     border-color: #333 transparent transparent transparent;

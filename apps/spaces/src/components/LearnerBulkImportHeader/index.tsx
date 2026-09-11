@@ -72,7 +72,7 @@ export const LearnerBulkImportHeader: FunctionComponent<Props> = ({
           <ButtonWithTooltip
             id={stepConfig[step].id}
             color={defaultTheme.colors.green7}
-            rightIcon={<FiChevronRight size={16} />}
+            rightIcon={<FiChevronRight data-mirror-rtl size={16} />}
             disabled={disableNext}
             onClick={onNext}
             text={stepConfig[step].text}
@@ -100,7 +100,7 @@ const Wrapper = styled.div`
 
 const LogoWrapper = styled.div`
   padding: 0 24px;
-  border-right: 1px solid ${props => props.theme.colors.dark.mediumGrey};
+  border-inline-end: 1px solid ${props => props.theme.colors.dark.mediumGrey};
 `;
 
 const CloseWrapper = styled.div`
@@ -120,5 +120,5 @@ const Right = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-  padding-right: 24px;
+  padding-inline-end: 24px;
 `;

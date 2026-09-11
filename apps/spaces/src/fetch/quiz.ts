@@ -132,3 +132,57 @@ export const validateQuizTitle = async (title: string) => {
   )
   return data;
 }
+
+
+
+
+export const exportEntity = async (id: string, type: 'question' | 'quiz') => {
+  try {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/${type}/${id}/export`, {
+      responseType: 'blob'
+    })
+
+    const disposition = res.headers['content-disposition'] as string | undefined
+    const filename = disposition?.match(/filename="?([^"]+)"?/)?.[1] || `question-${id}.zip`
+
+    const url = window.URL.createObjectURL(new Blob([res.data]))
+    const link = document.createElement('a')
+    link.href = url
+    link.download = filename
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
+    window.URL.revokeObjectURL(url)
+  } catch (err) {
+    console.log("🚀 ~ exportQuestion ~ err:", err)
+    throw new Error('Failed to export question')
+  }
+}
+
+export const importEntity = async (quizId: number, file: File) => {
+  const formData = new FormData()
+  formData.append('file', file)
+
+  const { data } = await axios.post(
+    `${process.env.REACT_APP_API_URL}/question/import?quizId=${quizId}`,
+    formData,
+    { headers: { 'Content-Type': 'multipart/form-data' } }
+  )
+
+  return data as { questionId: number }
+}
+
+export const importQuiz = async (file: File, title: string, visibility: string) => {
+  const formData = new FormData()
+  formData.append('file', file)
+  formData.append('title', title)
+  formData.append('visibility', visibility)
+
+  const { data } = await axios.post(
+    `${process.env.REACT_APP_API_URL}/quiz/import`,
+    formData,
+    { headers: { 'Content-Type': 'multipart/form-data' } }
+  )
+
+  return data as { quizId: number }
+}

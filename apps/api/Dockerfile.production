@@ -31,8 +31,8 @@ WORKDIR /usr/src/app
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 
-# Install the application dependencies
-RUN npm install --omit=dev --legacy-peer-deps
+# Install the application dependencies and remove cache
+RUN npm install --omit=dev --legacy-peer-deps && rm -rf /root/.npm
 
 # Copy the rest of the application files
 COPY . .
@@ -44,4 +44,5 @@ RUN npm run docker-build
 EXPOSE 3000
 
 # Command to run the application
+ENTRYPOINT /usr/src/app/entrypoint.sh
 CMD ["node", "dist/main"]

@@ -94,7 +94,7 @@ const InfoSubtitle = styled(HeavySubtitle)`
 const ButtonsWrapper = styled.div`
   display: flex;
   > button {
-    margin-right: 12px;
+    margin-inline-end: 12px;
     padding: 16px 20px;
     width: 156px;
     text-align: center;

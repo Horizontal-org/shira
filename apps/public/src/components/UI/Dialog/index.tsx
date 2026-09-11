@@ -71,7 +71,7 @@ export const Dialog: FunctionComponent<Props> = ({
 const Overlay = styled.div`
   position: fixed;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
@@ -132,6 +132,6 @@ const ButtonContainer = styled.div`
   justify-content: flex-end;
 
   > button {
-    margin-left: 8px;
+    margin-inline-start: 8px;
   }
 `

@@ -24,7 +24,7 @@ export const FeedbackButton:FunctionComponent<Props> = () => {
 const Wrapper = styled.div`
   position: absolute;
   bottom: 20px;
-  right: 30px;
+  inset-inline-end: 30px;
   z-index: 2;
 
   > button {

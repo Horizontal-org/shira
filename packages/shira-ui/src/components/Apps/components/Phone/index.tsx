@@ -61,7 +61,7 @@ const Header = styled.div`
 
 const IconWrapper = styled.div`
   height: 15px;
-  padding-left: 4px;
+  padding-inline-start: 4px;
 `
 
 const FlexWrapper = styled.div`

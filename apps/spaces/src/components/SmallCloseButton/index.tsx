@@ -26,7 +26,7 @@ const Close = styled.div`
   min-height: 22px;
   font-size: 10px;
   font-weight: 700;
-  padding-left: 1px;
+  padding-inline-start: 1px;
   &:hover {
     border: 2px solid #50AFD8;
     color: #50AFD8;

@@ -18,7 +18,7 @@ export const Pic: FunctionComponent<Props> = () => {
 const Wrapper = styled.div`
   align-self: flex-start;
   margin-bottom: -6px;
-  margin-right: 6px;
+  margin-inline-end: 6px;
 
   > svg {
     width: 25px;

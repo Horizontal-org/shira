@@ -20,7 +20,7 @@ const MailOptions: FunctionComponent<Props> = () => {
   return (
     <Wrapper>
       <IconWrapper>
-        <Icon icon={ArrowBackIcon} />
+        <Icon icon={ArrowBackIcon} data-mirror-rtl />
       </IconWrapper>
 
       {width > 800 && (
@@ -89,7 +89,7 @@ const Wrapper = styled.div`
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     justify-content: space-between;
-    padding-left: 8px;
+    padding-inline-start: 8px;
   }
 `
 
@@ -126,12 +126,12 @@ const Icon = styled('div')<IconProps>`
 `
 
 const FirstBlock = styled.div`
-  margin-left: 20px;
+  margin-inline-start: 20px;
   display: flex;
   align-items: center;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    margin-right: 20px;
+    margin-inline-end: 20px;
   }
 `
 
@@ -139,8 +139,8 @@ const MiddleBlock = styled.div`
   display: flex;
   align-items: center;
   padding: 0 8px;
-  border-left: 1px solid hsla(240,5.8%,76.3%,0.2);
-  border-right: 1px solid hsla(240,5.8%,76.3%,0.2);
+  border-inline-start: 1px solid hsla(240,5.8%,76.3%,0.2);
+  border-inline-end: 1px solid hsla(240,5.8%,76.3%,0.2);
 `
 
 export default MailOptions

@@ -53,8 +53,8 @@ export const DynamicContent = styled.div`
     .selectedCell:after {
       background: rgba(200, 200, 255, 0.4);
       content: "";
-      left: 0;
-      right: 0;
+      inset-inline-start: 0;
+      inset-inline-end: 0;
       top: 0;
       bottom: 0;
       pointer-events: none;
@@ -66,7 +66,7 @@ export const DynamicContent = styled.div`
       background-color: #adf;
       bottom: -2px;
       position: absolute;
-      right: -2px;
+      inset-inline-end: -2px;
       top: 0;
       width: 4px;
     }

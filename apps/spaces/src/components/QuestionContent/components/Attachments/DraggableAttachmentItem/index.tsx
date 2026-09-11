@@ -105,5 +105,5 @@ const ContentWrapper = styled.div`
 `
 
 const AttachmentWrapper = styled.div`
-  padding-left: 20px;
+  padding-inline-start: 20px;
 `

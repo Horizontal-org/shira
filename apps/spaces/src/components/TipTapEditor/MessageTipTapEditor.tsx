@@ -125,7 +125,7 @@ export const MessageTipTapEditor = ({
 }
 
 const Wrapper = styled.div`
-  margin-left: 8px;
+  margin-inline-start: 8px;
 `
 
 const ExplanationButtonWrapper = styled.div``
@@ -163,6 +163,6 @@ const CharacterLimitRow = styled.div`
 const CharacterLimitError = styled(Body4) <{ $isVisible: boolean }>`
   color: ${({ theme }) => theme.colors.error7};
   flex: 1;
-  padding-left: 10px;
+  padding-inline-start: 10px;
   visibility: ${({ $isVisible }) => ($isVisible ? 'visible' : 'hidden')};
 `

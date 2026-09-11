@@ -11,7 +11,7 @@ interface BaseSubmissionDto {
   resourceId: string;
   dateSubmitted: string;
   status: SubmissionStatus;
-  reason?: string;
+  submissionNote?: string;
 }
 
 export interface QuizSubmissionDto extends BaseSubmissionDto {
@@ -83,7 +83,7 @@ export interface LibraryQuestionTemplateDto {
   appType: string;
   defaultApp: string | null;
   langTags: LanguageTagDto[];
-  tags: Array<{ name: string }>;
+  tags: Array<{ name: string; slug?: string }>;
   explanations: Array<{
     position: string;
     positionIndex: string;
@@ -96,7 +96,7 @@ export interface LibraryQuizTemplateDto {
   title: string;
   description: string;
   langTags: LanguageTagDto[];
-  tags: Array<{ name: string }>;
+  tags: Array<{ name: string; slug?: string }>;
 }
 
 export interface LibraryQuizQuestionDto {

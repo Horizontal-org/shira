@@ -72,7 +72,7 @@ export const AnswerOptions: FunctionComponent<Props> = ({onAnswer, goBack, isExp
               onClick={() => { goBack()}} 
               text={t('setup.apps.back_button')}
               type="outline"
-              leftIcon={<FiChevronLeft size={18}/>}
+              leftIcon={<FiChevronLeft size={18} data-mirror-rtl />}
             />
           </ActionButtonsWrapper>
           <ActionButtonsWrapper type="primary">
@@ -81,7 +81,7 @@ export const AnswerOptions: FunctionComponent<Props> = ({onAnswer, goBack, isExp
               type='primary'
               disabled={!selected}
               onClick={() => {onAnswer(selected)}}
-              rightIcon={<FiChevronRight size={18}/>}
+              rightIcon={<FiChevronRight size={18} data-mirror-rtl />}
             />
           </ActionButtonsWrapper>
         </OptionsActionsWrapper>
@@ -96,14 +96,14 @@ const Wrapper = styled.div<{isExpanded?: boolean}>`
   align-items: center;
   justify-content: space-between;
   flex-grow: 1;
-  padding-left: 16px;
+  padding-inline-start: 16px;
 
   > button {
-    margin-left: 12px;
+    margin-inline-start: 12px;
   }
 
   @media (max-width:  ${props => props.theme.breakpoints.md}) {
-    padding-left: 0;
+    padding-inline-start: 0;
     display: ${props => props.isExpanded ? 'block' : 'flex'};
   }
 `
@@ -135,7 +135,7 @@ const OptionsActionsWrapper = styled.div<{isExpanded?: boolean}>`
   align-items: center;
   justify-content: space-between;
   @media (min-width: ${props => props.theme.breakpoints.md}) {
-    padding-right: 8px;
+    padding-inline-end: 8px;
   }
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     display: flex;
@@ -150,13 +150,14 @@ const ActionButtonsWrapper = styled.div<{type?: string}>`
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     padding: 0;
     width: 50%;
+    display: flex;
+    justify-content: ${props => props.type === 'primary' ? 'flex-end' : 'flex-start'};
 
     >button {
       width: 75%;
       padding-top: 12px;
       padding-bottom: 12px;
       justify-content: center;
-      ${props => props.type === 'primary' && `float: right;`}
     }
   }
 `
@@ -177,28 +178,28 @@ const StyledButton = styled.button<StyledButtonProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 16px;
+  margin-inline-start: 16px;
 
   > svg {
     height: 18px;
     width: 18px;
-    margin-right: 10px;
+    margin-inline-end: 10px;
   }
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     padding: 16px;
-    margin-right: 15px;
-  
+    margin-inline-end: 15px;
+
     margin-bottom: ${props => props.isExpanded ? '16px' : '0'};
     ${props => props.isExpanded && `width: 100%;`};
   }
-  
+
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     border-radius: ${props => props.isExpanded ? '100px' : '16px'};
     padding: 16px;
-    margin-right: 15px;
+    margin-inline-end: 15px;
     >svg {
-      ${props => !props.isExpanded && `margin-right: 0;`}
+      ${props => !props.isExpanded && `margin-inline-end: 0;`}
     }
     margin-bottom: ${props => props.isExpanded ? '16px' : '0'};
     ${props => props.isExpanded && `width: 100%;`};

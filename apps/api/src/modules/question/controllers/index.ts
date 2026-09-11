@@ -5,6 +5,7 @@ import { DemoQuestionController } from './demo.question.controller';
 import { EditQuestionController } from './edit.question.controller';
 import { ParserQuestionController } from './parser.question.controller';
 import { TranslationsQuestionController } from './translations.question.controller';
+import { AdminExportQuestionController } from './admin_export.question.controller';
 import { ExportQuestionController } from './export.question.controller';
 
 export const questionControllers = [
@@ -15,5 +16,6 @@ export const questionControllers = [
   EditQuestionController,
   ParserQuestionController,
   TranslationsQuestionController,
+  AdminExportQuestionController,
   ExportQuestionController
 ];

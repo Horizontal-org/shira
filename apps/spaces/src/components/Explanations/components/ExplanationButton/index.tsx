@@ -60,7 +60,7 @@ const BaseButton = styled.button<BaseProps>`
   appearance: none;
   border: none;
   background: transparent;
-  margin-left: 12px;
+  margin-inline-start: 12px;
   display: flex;
   align-items: center;
   justify-content: center;

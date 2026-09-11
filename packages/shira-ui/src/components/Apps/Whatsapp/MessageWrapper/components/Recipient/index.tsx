@@ -49,7 +49,7 @@ const Contact = styled.div`
   > div {
     > span {
       font-size: 16px;
-      margin-left: 12px;
+      margin-inline-start: 12px;
       position: relative;
     }
   }
@@ -99,7 +99,7 @@ const BackArrowWrapper = styled.div`
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     display: inline-block;
-    padding-right: 8px;
+    padding-inline-end: 8px;
   }
 
 `
