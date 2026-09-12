@@ -147,6 +147,10 @@ const Content = styled.div`
     color: inherit;
     text-decoration: inherit;
   }
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    background: #e7ecf0;
+  }
 `
 
 export default Telegram
