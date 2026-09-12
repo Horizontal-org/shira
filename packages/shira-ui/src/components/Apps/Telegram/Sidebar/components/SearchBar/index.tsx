@@ -1,15 +1,18 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import SearchIcon from '../../../../Whatsapp/Icons/Search'
 
 interface Props { }
 
 const SearchBar: FunctionComponent<Props> = () => {
+  const { t } = useTranslation('shira-ui')
+
   return (
     <Wrapper>
       <InputWrapper>
         <SearchIcon />
-        <span>Search</span>
+        <span>{t('telegram.search')}</span>
       </InputWrapper>
     </Wrapper>
   )
