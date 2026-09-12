@@ -1,6 +1,7 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useState } from 'react'
 import styled from 'styled-components'
 import Recipient from './components/Recipient'
+import ContactNotice from './components/ContactNotice'
 import Message from './components/Message'
 import { Attachment } from './components/Attachment'
 import { MessagingImage } from './components/MessagingImage'
@@ -17,11 +18,19 @@ const MessageWrapper: FunctionComponent<Props> = ({
   phone,
   content
 }) => {
+  const [showNotice, setShowNotice] = useState(true)
+
   return (
     <Wrapper>
-      <Recipient phone={phone} />
+      <Recipient
+        phone={phone}
+        showNotice={showNotice}
+        onCloseNotice={() => setShowNotice(false)}
+      />
       <ContentWrapper>
         <MessagesList>
+          <ContactNotice phone={phone} />
+
           {content && Array.from(content.querySelectorAll('[id*="component-"]')).sort((a, b) => parseInt(a.getAttribute('data-position') || '') - parseInt(b.getAttribute('data-position') || '')).map((e) => (
             <>
               {e.getAttribute('id').includes('component-text') && (
@@ -54,6 +63,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   position: relative;
   min-width: 0;
+  background: #e7ecf0;
 `
 
 const ContentWrapper = styled.div`
@@ -68,11 +78,20 @@ const ContentWrapper = styled.div`
   position: relative;
   overflow-x: hidden;
   overflow-y: scroll;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    position: absolute;
+    inset: 0;
+    padding-top: 130px;
+  }
 `
 
 const MessagesList = styled.div`
   min-width: 0;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 `
 
 export default MessageWrapper
