@@ -1,7 +1,9 @@
-import { FunctionComponent, useState } from 'react'
+import { FunctionComponent } from 'react'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import { CloseIcon } from '../../../../../Icons'
-import MoreOptionsIcon from '../../../../Whatsapp/Icons/MoreOptions'
+import PhoneIcon from '../../../../SMS/Header/assets/Call'
+import MoreOptionsIcon from '../../../../SMS/Header/assets/More'
 import SearchIcon from '../../../../Whatsapp/Icons/Search'
 import BackArrow from '../../../../Whatsapp/Icons/BackArrow'
 import StrangerPicture from '../../../../Whatsapp/StrangerPicture'
@@ -11,30 +13,40 @@ interface Props {
     textContent: string
     explanationPosition: string
   };
+  showNotice?: boolean;
+  onCloseNotice?: () => void;
 }
 
-const Recipient: FunctionComponent<Props> = ({ phone }) => {
-  const [showNotice, setShowNotice] = useState(true)
+const Recipient: FunctionComponent<Props> = ({ phone, showNotice, onCloseNotice }) => {
+  const { t } = useTranslation('shira-ui')
+
+  const initialMatch = (phone?.textContent || '').match(/[A-Za-z]/)
+  const initial = initialMatch ? initialMatch[0].toUpperCase() : null
 
   return (
     <Wrapper>
       <Header>
-        <PictureWrapper>
-          <BackArrowWrapper>
-            <BackArrow />
-          </BackArrowWrapper>
+        <BackArrowWrapper>
+          <BackArrow />
+        </BackArrowWrapper>
 
-          <Contact>
-            <StrangerPicture />
-            <ContactInfo>
-              <Name data-explanation={phone?.explanationPosition}>
-                {phone?.textContent || ''}
-              </Name>
-              <LastSeen>last seen recently</LastSeen>
-            </ContactInfo>
-          </Contact>
-        </PictureWrapper>
+        <AvatarWrapper>
+          {initial ? <Avatar>{initial}</Avatar> : <StrangerPicture />}
+        </AvatarWrapper>
+
+        <NamePill>
+          <ContactInfo>
+            <Name data-explanation={phone?.explanationPosition}>
+              {phone?.textContent || ''}
+            </Name>
+            <LastSeen>{t('telegram.last_seen')}</LastSeen>
+          </ContactInfo>
+        </NamePill>
+
         <Icons>
+          <IconWrapper>
+            <PhoneIcon />
+          </IconWrapper>
           <IconWrapper>
             <SearchIcon />
           </IconWrapper>
@@ -45,29 +57,13 @@ const Recipient: FunctionComponent<Props> = ({ phone }) => {
       </Header>
 
       {showNotice && phone?.textContent && (
-        <NoticeWrapper>
-          <NoticeActions>
-            <AddContact>Add Contact</AddContact>
-            <BlockUser>Block User</BlockUser>
-            <CloseWrapper onClick={() => setShowNotice(false)}>
-              <CloseIcon />
-            </CloseWrapper>
-          </NoticeActions>
-
-          <NoticeCard>
-            <CardName>{phone.textContent}</CardName>
-            <CardSubtitle>Not a contact</CardSubtitle>
-            <CardRow>
-              <CardLabel>Registration</CardLabel>
-              <CardValue>Jun 2023</CardValue>
-            </CardRow>
-            <CardRow>
-              <CardLabel>Phone Number</CardLabel>
-              <CardValue>{phone.textContent}</CardValue>
-            </CardRow>
-            <NotOfficial>Not an official account</NotOfficial>
-          </NoticeCard>
-        </NoticeWrapper>
+        <NoticeActions>
+          <AddContact>{t('telegram.add_contact')}</AddContact>
+          <BlockUser>{t('telegram.block_user')}</BlockUser>
+          <CloseWrapper onClick={onCloseNotice}>
+            <CloseIcon />
+          </CloseWrapper>
+        </NoticeActions>
       )}
     </Wrapper>
   )
@@ -76,54 +72,106 @@ const Recipient: FunctionComponent<Props> = ({ phone }) => {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 5;
+  }
 `
 
 const Header = styled.div`
   padding: 10px 16px;
-  background: #fff;
-  border-bottom: 1px solid #e2e2e2;
   display: flex;
-  justify-content: space-between;
   align-items: center;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    background: #039BE5;
+    padding: 8px 10px 0;
+    gap: 8px;
   }
 `
 
-const Contact = styled.div`
+const AvatarWrapper = styled.div`
   display: flex;
   align-items: center;
+  flex-shrink: 0;
+  margin-inline-end: 12px;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    order: 3;
+    margin-inline-end: 0;
+  }
+`
+
+const Avatar = styled.div`
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #4FC3E8;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+`
+
+const NamePill = styled.div`
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  flex-grow: 1;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: #f0f2f5;
+  margin-inline-end: 12px;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    order: 2;
+    margin-inline-end: 0;
+    padding: 8px 14px;
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.14);
+  }
 `
 
 const ContactInfo = styled.div`
-  margin-inline-start: 12px;
+  min-width: 0;
   display: flex;
   flex-direction: column;
 `
 
 const Name = styled.span`
   font-size: 16px;
-  font-weight: 600;
-  color: #222;
+  font-weight: 500;
+  color: #4FC3E8;
   position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    color: #fff;
+    color: #000;
   }
 `
 
 const LastSeen = styled.span`
   font-size: 12px;
   color: #8e8e93;
-
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    color: rgba(255,255,255,0.8);
-  }
 `
 
 const Icons = styled.div`
   display: flex;
+  margin-inline-start: auto;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    display: none;
+  }
 `
 
 const IconWrapper = styled.div`
@@ -131,16 +179,21 @@ const IconWrapper = styled.div`
   padding: 8px;
   cursor: pointer;
   transition: background-color .1s;
-  border-radius: 50%;
+  border-radius: 12px;
+  background: #f0f2f5;
+
+  > svg {
+    display: block;
+    width: 20px;
+    height: 20px;
+  }
+
+  > svg path {
+    fill: #707579;
+  }
 
   &:active {
     background: rgba(11,20,26,0.1);
-  }
-
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    > svg path {
-      fill: #fff;
-    }
   }
 `
 
@@ -148,94 +201,79 @@ const BackArrowWrapper = styled.div`
   display: none;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    display: inline-block;
-    padding-inline-end: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.14);
+
+    > svg {
+      width: 18px;
+      height: 18px;
+    }
 
     > svg path {
-      fill: #fff;
+      fill: #707579;
     }
   }
-`
-
-const PictureWrapper = styled.div`
-  display: flex;
-  align-items: center;
-`
-
-const NoticeWrapper = styled.div`
-  background: #fff;
-  border-bottom: 1px solid #e2e2e2;
 `
 
 const NoticeActions = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 16px;
+  gap: 12px;
+  margin: 0 16px 20px;
+  padding: 10px 20px;
   font-size: 13px;
+  border-radius: 20px;
+  background: #f0f2f5;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    margin: 4px 10px 0;
+    padding: 4px 10px;
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.14);
+  }
 `
 
 const AddContact = styled.span`
-  color: #039BE5;
+  color: #222;
   cursor: pointer;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    order: 2;
+    color: #039BE5;
+  }
 `
 
 const BlockUser = styled.span`
   color: #e53935;
   cursor: pointer;
-  margin-inline-end: 20px;
-  flex-grow: 1;
-  text-align: end;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    order: 1;
+  }
 `
 
 const CloseWrapper = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
   cursor: pointer;
-  margin-inline-start: 12px;
+  flex-shrink: 0;
 
   svg path {
     fill: #8e8e93;
   }
-`
-
-const NoticeCard = styled.div`
-  padding: 4px 16px 16px;
-  text-align: center;
-`
-
-const CardName = styled.div`
-  font-size: 15px;
-  font-weight: 600;
-  color: #222;
-`
-
-const CardSubtitle = styled.div`
-  font-size: 12px;
-  color: #8e8e93;
-  margin-bottom: 8px;
-`
-
-const CardRow = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-  font-size: 12px;
-  margin-bottom: 2px;
-`
-
-const CardLabel = styled.span`
-  color: #8e8e93;
-`
-
-const CardValue = styled.span`
-  color: #222;
-`
-
-const NotOfficial = styled.div`
-  margin-top: 6px;
-  font-size: 11px;
-  color: #8e8e93;
 `
 
 export default Recipient
