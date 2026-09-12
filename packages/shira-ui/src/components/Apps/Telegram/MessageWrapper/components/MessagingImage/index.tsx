@@ -25,7 +25,6 @@ const Wrapper = styled.div`
   border-top-inline-start-radius: 4px;
   padding: 3px;
   box-shadow: 0 1px 0.5px rgba(11,20,26, .13);
-  margin: 4px 0;
   box-sizing: border-box;
 
   > span {
