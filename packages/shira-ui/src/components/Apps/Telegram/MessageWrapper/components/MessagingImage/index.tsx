@@ -1,0 +1,56 @@
+import { FunctionComponent } from "react";
+import styled from "styled-components";
+
+interface Props {
+  data: Element
+}
+
+export const MessagingImage: FunctionComponent<Props> = ({ data }) => {
+  return (
+    <Wrapper>
+      <Content dangerouslySetInnerHTML={{ __html: data.outerHTML }}></Content>
+      <span>00:00</span>
+    </Wrapper>
+  )
+}
+
+const Wrapper = styled.div`
+  max-width: 85%;
+
+  position: relative;
+  display: inline-block;
+
+  background: #fff;
+  border-radius: 12px;
+  border-top-inline-start-radius: 4px;
+  padding: 3px;
+  box-shadow: 0 1px 0.5px rgba(11,20,26, .13);
+  box-sizing: border-box;
+
+  > span {
+    z-index: 3;
+    position: absolute;
+    bottom: 6px;
+    inset-inline-end: 8px;
+    font-size: 9px;
+    color: white;
+    font-weight: 400;
+  }
+`
+
+const Content = styled.div`
+  max-height: 400px;
+
+  img {
+    display: block;
+    max-width: 100%;
+    max-height: 400px;
+    min-width: 50px;
+    min-height: 30px;
+    object-fit: contain;
+    border-radius: 10px;
+    height: 100%;
+  }
+`
+
+export default MessagingImage

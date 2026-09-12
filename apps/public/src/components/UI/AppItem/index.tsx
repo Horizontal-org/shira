@@ -7,6 +7,7 @@ import WhatsAppSvg from './assets/Whatsapp'
 import MessengerIcon from './assets/Messenger'
 import DatingAppIcon from "./assets/DatingApp";
 import SmsIcon from "./assets/Sms";
+import TelegramSvg from "./assets/Telegram";
 import { OutlookIcon } from "@horizontal-org/shira-ui";
 
 const icons = {
@@ -15,7 +16,8 @@ const icons = {
   'Messenger': <MessengerIcon />,
   'Dating App': <DatingAppIcon />,
   'SMS': <SmsIcon />,
-  'Outlook': <OutlookIcon />
+  'Outlook': <OutlookIcon />,
+  'Telegram': <TelegramSvg />
 }
 
 
