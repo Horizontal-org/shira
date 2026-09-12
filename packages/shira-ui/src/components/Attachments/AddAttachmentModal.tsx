@@ -43,10 +43,11 @@ export const AddAttachmentModal = ({
     || trimmedFileName.length > ATTACHMENT_FILENAME_MAX_LENGTH;
 
   const fileTypeOptions = [
-    { value: AttachmentType.image, label: 'Image' },
-    { value: AttachmentType.video, label: 'Video' },
-    { value: AttachmentType.audio, label: 'Audio' },
-    { value: AttachmentType.document, label: 'Document' },
+    { value: AttachmentType.image, label: 'Image (.jpg, .png, .gif, ...)' },
+    { value: AttachmentType.video, label: 'Video (.mp4, .avi, .mov, ...)' },
+    { value: AttachmentType.audio, label: 'Audio (.mp3, .wav, .m4a, ...)' },
+    { value: AttachmentType.document, label: 'Document (.docx, .xlsx, .pdf, .txt, ...)' },
+    { value: AttachmentType.archive, label: 'Archive (.zip, .rar)' },
     { value: AttachmentType.other, label: 'Other' }
   ];
 

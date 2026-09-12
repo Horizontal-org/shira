@@ -12,6 +12,7 @@ export enum AttachmentType {
   audio = 'audio',
   image = 'image',
   document = 'document',
+  archive = 'archive',
   other = 'other'
 }
 
@@ -38,6 +39,8 @@ export const Attachment = ({
       case AttachmentType.video:
         return <VideoIcon />
       case AttachmentType.other:
+        return <GenericAttachmentIcon />
+      case AttachmentType.archive:
         return <GenericAttachmentIcon />
     }
   }
