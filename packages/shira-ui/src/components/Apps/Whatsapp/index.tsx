@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 
 import Background from "./Background";
@@ -31,6 +31,12 @@ export const WhatsApp: FunctionComponent<Props> = ({
 }) => {
   const [isContactInfoOpen, setIsContactInfoOpen] = useState(false);
 
+  useEffect(() => {
+    if (showExplanations) {
+      setIsContactInfoOpen(false);
+    }
+  }, [showExplanations]);
+
   return (
     <DesktopWrapper className="whatsapp">
       {explanations &&
@@ -53,7 +59,7 @@ export const WhatsApp: FunctionComponent<Props> = ({
           />
         </Content>
       </Background>
-      {isContactInfoOpen && (
+      {isContactInfoOpen && !showExplanations && (
         <ContactInfo
           phone={phone?.textContent}
           onBack={() => setIsContactInfoOpen(false)}

@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import MessageSidebar from "./MessagesSidebar/Index";
@@ -31,6 +31,14 @@ export const FBMessenger: FunctionComponent<Props> = ({
   const [isConversationSidebarOpen, setIsConversationSidebarOpen] =
     useState(false);
 
+  useEffect(() => {
+    if (showExplanations) {
+      setIsConversationSidebarOpen(false);
+    }
+  }, [showExplanations]);
+
+  const isConversationSidebarVisible = isConversationSidebarOpen && !showExplanations;
+
   return (
     <DesktopWrapper>
       {explanations &&
@@ -46,10 +54,10 @@ export const FBMessenger: FunctionComponent<Props> = ({
         <Chat
           content={content}
           fullname={senderName}
-          isConversationSidebarOpen={isConversationSidebarOpen}
+          isConversationSidebarOpen={isConversationSidebarVisible}
           onInfoClick={() => setIsConversationSidebarOpen((isOpen) => !isOpen)}
         />
-        {isConversationSidebarOpen && (
+        {isConversationSidebarVisible && (
           <ConversationSidebar fullname={senderName} />
         )}
       </Content>
