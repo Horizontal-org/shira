@@ -80,7 +80,7 @@ export const TemplatesLayout: FunctionComponent<Props> = () => {
             <TemplateCard onClick={() => navigate("/quiz/templates")}>
               <CardHeader>
                 <CardIcon>
-                  <LuNotepadText size={24} color={theme.colors.green7} />
+                  <LuNotepadText size={24} color={theme.colors.green7} data-mirror-rtl />
                 </CardIcon>
                 <SubHeading2>{t("templates.quiz_templates.title")}</SubHeading2>
               </CardHeader>
