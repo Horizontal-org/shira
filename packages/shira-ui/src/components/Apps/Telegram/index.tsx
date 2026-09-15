@@ -2,12 +2,14 @@ import { FunctionComponent } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 
 import Sidebar from './Sidebar'
+import SenderInfo from './SenderInfo'
 import MessageWrapper from './MessageWrapper'
 import { Explanation } from "../../../domain/explanation"
 import ExplanationTooltip from "../components/ExplanationTooltip"
 import Battery from '../components/Phone/Icons/BatteryIcon'
 import Signal from '../components/Phone/Icons/SignalIcon'
 import WiFi from '../components/Phone/Icons/WiFiIcon'
+import useContactInfo from '../hooks/useContactInfo'
 
 interface Props {
   content?: HTMLElement;
@@ -27,6 +29,8 @@ export const Telegram: FunctionComponent<Props> = ({
   explanationNumber,
   showExplanations
 }) => {
+  const { isOpen: showSenderInfo, open, close } = useContactInfo(showExplanations)
+
   return (
     <Wrapper className="telegram">
       {explanations && explanations.map(explanation => (
@@ -58,7 +62,16 @@ export const Telegram: FunctionComponent<Props> = ({
         <MessageWrapper
           content={content}
           phone={phone}
+          onOpenSenderInfo={open}
+          showSenderInfo={showSenderInfo}
         />
+        {showSenderInfo && (
+          <SenderInfo
+            phone={phone}
+            content={content}
+            onClose={close}
+          />
+        )}
       </Content>
     </Wrapper>
   )
@@ -135,6 +148,7 @@ const StatusIcons = styled.div`
 `
 
 const Content = styled.div`
+  position: relative;
   flex-grow: 1;
   min-height: 0;
   width: 100%;
