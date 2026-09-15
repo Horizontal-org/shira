@@ -20,8 +20,8 @@ Shira is a Turborepo monorepo with a NestJS API, a public-facing quiz app, an in
 
 ## Integration tests
 
-The Playwright suite covers (some of) the API, Spaces and Public flows. It uses isolated local services and test data.
-See [the integration testing guide](e2e/README.md) for setup, commands, and coverage.
+The Playwright suite covers API, Spaces, and Public integration flows using isolated local services and test data.
+See [the integration testing guide](e2e/README.md) for setup and commands.
 
 ## Environment
 

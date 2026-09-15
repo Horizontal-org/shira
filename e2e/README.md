@@ -1,54 +1,193 @@
 # Integration test suite
 
-## Description
+This directory contains the end-to-end and integration test suite for Shira.
 
-Playwright coordinates three projects: api, spaces, and public.
-Spaces tests use real Nest, MySQL, and Redis instances.
+The suite uses Playwright to test the real application across three projects:
 
-## Running the suite
+- `api`
+- `spaces`
+- `public`
 
-Requirements: Node 22, npm, and Docker Compose. Docker must be running.
+The real Nest API runs against isolated MySQL and Redis instances. Spaces and Public run locally and connect to that API.
+
+External services such as image storage, email, the public library, and payments are not started unless a test explicitly requires them.
+
+## Requirements
+
+- Node 22
+- npm
+- Docker
+- Docker Compose
+
+## Setup
+
+Install project dependencies:
 
 ```sh
 npm ci
+```
+
+Install the Playwright browser:
+
+```sh
 npm run test:e2e:install
+```
+
+## Running the suite
+
+Run the complete E2E suite:
+
+```sh
 npm run test:e2e
 ```
 
-The containers stay running between test runs. Use `npm run test:e2e:down` to stop them; the next `npm run test:e2e` starts them automatically. `npm run test:e2e:infra` is also available to start only the infrastructure.
+This command:
+
+- starts the dedicated MySQL and Redis containers
+- builds `shira-ui`
+- starts the API, Spaces, and Public apps
+- applies database migrations
+- seeds the E2E test data
+- runs the Playwright tests
+
+The first run may take longer because Docker images and the Playwright browser may need to be downloaded.
+
+### Running individual projects
+
+Example: run only API tests
 
 ```sh
-npm run test:e2e -- --project=spaces
 npm run test:e2e -- --project=api
-npm run test:e2e:ui
-npm run test:e2e -- --project=spaces --debug
+```
+
+## Development and debugging
+
+Run tests with the browser visible:
+
+```sh
+npm run test:e2e -- --project=spaces --headed
+```
+
+Open the latest HTML report:
+
+```sh
 npm run test:e2e:report
+```
+
+## Infrastructure
+
+The E2E environment uses dedicated local ports so it does not conflict with the normal development environment.
+
+| Service | Address |
+| --- | --- |
+| MySQL | `127.0.0.1:13307` |
+| Redis | `127.0.0.1:16379` |
+| API | `http://localhost:13000` |
+| Public | `http://localhost:13001` |
+| Spaces | `http://localhost:13002` |
+
+### Container lifecycle
+
+MySQL and Redis are managed by Docker Compose.
+
+They remain running between test executions so repeated local runs can start faster.
+
+To stop and remove the E2E infrastructure:
+
+```sh
 npm run test:e2e:down
 ```
 
-Selecting a project filters the tests. Both frontend servers still start. Their ports must be available: existing frontend processes are not reused. Compose manages the API container and rebuilds its image when source files change.
+## Test data
 
-The image copies API source from your working tree. Keep the original application ports (`3306`, `6379`, and `3000`) when building it.
+Before the API test server starts, the E2E setup:
 
-## Data and isolation
+- applies the database migrations
+- creates the required organization
+- creates a test space
+- creates an administrator account
 
-- The API connects to `mysql:3306` and `redis:6379` inside the dedicated Compose network, using the application's original ports. MySQL and Redis do not publish host ports. The MySQL database and user are both `shira_e2e`.
-- The API listens on port `3000` inside Docker, published as `http://localhost:13000` for Playwright and the frontend apps. Spaces uses port `13002`. Public uses port `13001`.
-- Credentials in `environment.js` and the test files are public and intended only for this disposable local environment.
-- `start-api.ts` checks the host, port, and database before running migrations or seeding data. It does not import the development datasource, which connects on import.
-- The seed is transactional and idempotent: it creates an organization, a space, and an administrator. It does not delete tables. MySQL uses `tmpfs`: bringing the containers down and back up starts with an empty database.
-- The suite runs with one worker. Each test gets a new browser or HTTP context; cookies are not shared. When adding tests that modify quizzes, use separate data for each test and explicit cleanup before enabling parallel execution.
-- The API runs in self-hosted mode. Image, email, and external library services are not started; their test URLs point to localhost. Add local services and fixtures when covering those flows.
-- Do not point this suite at staging or production. Connection settings are fixed in `environment.js` so the local `.env` cannot change their destinations.
+The default seeded administrator is:
 
-## Adding coverage
+```text
+Email: admin@e2e.example.test
+Password: E2e-password-123!
+```
 
-Add specs under `tests/<project>/`; Playwright discovers them automatically.
+These credentials are only intended for the isolated E2E environment.
 
-## Troubleshooting and CI
+Tests should not depend on data created by another test.
 
-`playwright-report/` contains the HTML report; `test-results/` stores failure traces, videos, and screenshots. Both are ignored by Git. `npx tsc -p e2e/tsconfig.json` checks test types.
+When a test creates or modifies application state, prefer creating explicit test data and cleaning it up where appropriate.
 
-The `integration.yml` workflow sets up dependencies and containers for each PR and runs the suite.
+## Directory structure
 
-Reference documentation: [projects](https://playwright.dev/docs/test-projects), [HTTP testing](https://playwright.dev/docs/api-testing), and [local servers](https://playwright.dev/docs/test-webserver).
+Tests are organized by Playwright project:
+
+```text
+e2e/
+├── tests/
+│   ├── api/
+│   ├── spaces/
+│   └── public/
+├── playwright.config.ts
+├── start-api.ts
+└── README.md
+```
+
+### Browser tests
+
+Spaces and Public tests run in headless Chromium by default.
+
+A browser test can exercise the full application flow:
+
+```text
+browser
+   ↓
+React application
+   ↓
+Nest API
+   ↓
+MySQL / Redis
+```
+
+These tests should focus on important user flows rather than reproducing every component-level or unit-level test.
+
+## Reports and artifacts
+
+Playwright generates an HTML report under:
+
+```text
+playwright-report/
+```
+
+Failure artifacts are stored under:
+
+```text
+test-results/
+```
+
+## CI
+
+The integration test workflow runs the suite in GitHub Actions.
+
+CI:
+
+- installs dependencies
+- installs the Playwright browser and system dependencies
+- starts the isolated MySQL and Redis containers
+- starts the application servers
+- runs the test suite
+- uploads Playwright reports and failure artifacts
+
+The workflow runs on pull requests and on the configured branch pushes.
+
+If a test fails in CI, check the uploaded Playwright report and trace before trying to reproduce the failure locally.
+
+## Cleanup
+
+To stop the E2E Docker services:
+
+```sh
+npm run test:e2e:down
+```
