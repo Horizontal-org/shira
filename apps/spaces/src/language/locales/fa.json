@@ -4,7 +4,7 @@
         "subtitle": "Log in to access your custom Shira space.",
         "email_placeholder": "ایمیل",
         "password_placeholder": "گذرواژه",
-        "reset_password": "Forgot your password?",
+        "reset_password": "گذرواژه را فراموش کردید؟",
         "login_header_button": "ورود",
         "loading_button": "در حال ورود…",
         "error_message": "Error: Your email address or password is incorrect."
@@ -24,15 +24,15 @@
         "reset_button": "تنظیم گذرواژه",
         "reset_success_title": "Password updated",
         "reset_success_description": "You can now log in with your new password.",
-        "expired_title": "Sorry, something went wrong",
+        "expired_title": "Something went wrong",
         "expired_description": "The link you opened is invalid or has expired. Please contact your organization or email contact@wearehorizontal.org for support.",
         "validation": {
             "email_required": "Email is required",
-            "invalid_email": "Enter a valid email address",
+            "invalid_email": "نشانی ایمیل نامعتبر",
             "password_required": "Password is required",
             "password_min_length": "Password must be at least 8 characters",
             "confirm_password_required": "Please confirm your password",
-            "passwords_mismatch": "Passwords do not match",
+            "passwords_mismatch": "دو گذرواژه یکی نیستند",
             "incorrect_password": "Incorrect password."
         }
     },
@@ -50,7 +50,7 @@
         "dashboard": "پنل",
         "support": "پشتیبانی",
         "settings": "تنظیمات",
-        "logout": "Log out"
+        "logout": "خروج"
     },
     "dashboard": {
         "title": "Quizzes",
@@ -67,13 +67,13 @@
         "empty_state": "There are no learners registered to your space yet. Invite a new learner to get started.",
         "sub_required": "This feature is not available under your current plan. <0>View plans</0>",
         "table": {
-            "learner": "Learner",
+            "learner": "Learn",
             "registration": "ثبت نام",
             "quiz_status": "Quiz status",
             "invited_at": "Date invited",
             "invited_tag": "Invited",
             "registered_tag": "Registered",
-            "submitted_tag": "Submitted",
+            "submitted_tag": "ثبت کردن",
             "not_submitted_tag": "Not submitted"
         },
         "assign_dialog": {
@@ -91,7 +91,7 @@
         "filter": {
             "all_quizzes": "All quizzes",
             "published": "منتشرشده",
-            "unpublished": "Unpublished"
+            "unpublished": "منتشرشده"
         },
         "last_modified": "Last modified {{date}}",
         "publish_toggle": "منتشرشده",
@@ -105,7 +105,7 @@
         "private_subtitle": "Create quiz questions, manage learners and monitor results. Shira auto-saves your work whenever you are connected to the Internet.",
         "publish_toggle": {
             "published": "منتشرشده",
-            "unpublished": "Unpublished",
+            "unpublished": "منتشرشده",
             "disabled_tooltip": "Create at least 1 question to publish your quiz."
         },
         "actions": {
@@ -148,7 +148,8 @@
             "duplicate": "تکثیر",
             "delete": "پاک کردن",
             "more_actions": "More actions",
-            "submit_as_template": "Submit as template"
+            "submit_as_template": "Submit as template",
+            "export": "خروجی گرفتن"
         },
         "use_library_question_button": "Use a question template"
     },
@@ -174,9 +175,9 @@
             "question_info": {
                 "tab_title": "Question info",
                 "question_name": {
-                    "title": "Question name",
+                    "title": "پرسش‌نامه",
                     "subtitle": "This name will only visible to you, to help you remember what this question is about",
-                    "question_name_placeholder": "Question name"
+                    "question_name_placeholder": "پرسش‌نامه"
                 },
                 "phishing": {
                     "title": "Is it phishing?",
@@ -206,7 +207,7 @@
                 "sender_email": {
                     "title": "Sender email address",
                     "subtitle": "This is the email address that will be displayed in the \"Sender\" field of the email.",
-                    "placeholder": "Sender email"
+                    "placeholder": "ارسال ایمیل"
                 },
                 "email_subject": {
                     "title": "Email subject",
@@ -233,7 +234,7 @@
                 "add_message_text": "Add message text",
                 "add_image_attachment": "Add image",
                 "upload_image": "Upload from computer",
-                "message_text": "Message text",
+                "message_text": "اتمام وقت پیام",
                 "link_text": {
                     "set_title": "Set Link",
                     "edit_title": "Edit Link",
@@ -260,7 +261,7 @@
         "title": "",
         "subtitle": "",
         "columns": {
-            "question_name": "Question name",
+            "question_name": "پرسش‌نامه",
             "type": {
                 "title": "نوغ",
                 "phishing": "Phishing",
@@ -275,11 +276,11 @@
                 "messaging_type": "Messaging app",
                 "email_type": "Email app",
                 "apps": {
-                    "whatsapp": "WhatsApp",
+                    "whatsapp": "واتس‌‌اپ وب",
                     "facebook_messenger": "Messenger",
                     "dating_app": "Dating app",
                     "sms": "SMS",
-                    "gmail": "Gmail",
+                    "gmail": "ایمیل",
                     "outlook": "Outlook"
                 }
             },
@@ -289,7 +290,7 @@
                 "preview_aria_label": "پیش‌نمایش",
                 "disabled_tooltip": "Select a language and an app to use this question."
             },
-            "created_on": "Created on",
+            "created_on": "ایجادکردن",
             "creator": "Creator"
         },
         "filters_panel": {
@@ -344,11 +345,15 @@
             "description": "These are all the learners who have submitted the quiz and their individual quiz scores.",
             "empty_state": "No learners have submitted this quiz so far.",
             "table": {
-                "learner": "Learner",
+                "learner": "Learn",
                 "date": "Date submitted",
                 "score": "Quiz score",
                 "loading": "Loading learners..."
             }
+        },
+        "disabled": {
+            "message": "There is no data available because Results have been disabled. You can change this anytime in your space Settings.",
+            "go_to_settings": "Go to Settings"
         }
     },
     "learners_bulk_import": {
@@ -361,8 +366,8 @@
                 "drag_title": "Drag and drop to upload your filled spreadsheet here",
                 "or": "OR",
                 "file_type": "Accepted file type: .csv only",
-                "file_size": "Maximum file size: 10 MB",
-                "remove_file": "Remove selected file",
+                "file_size": "حداکثر حجم فایل:",
+                "remove_file": "حذف سایت های انتخاب شده",
                 "upload_complete": "Upload complete",
                 "upload_success": "Your spreadsheet was successfully uploaded! Continue to the next step to verify your learners.",
                 "uploading": "Please wait while Shira uploads and validates your data.",
@@ -415,7 +420,7 @@
         "subtitle": "Manage your Shira space settings here.",
         "tabs": {
             "account": "حساب کاربری",
-            "subscription": "Subscription",
+            "subscription": "اشتراک ها",
             "general": "عمومی"
         },
         "subscription": {
@@ -432,17 +437,22 @@
             "password": {
                 "title": "گذرواژه",
                 "last_updated": "Last updated: {{date}}",
-                "action": "Change password"
+                "action": "تغییر گذرواژه"
             },
             "language": {
                 "description": "Choose the language for your Shira space. This won’t change the language of quizzes or questions you share with learners, only the space interface.",
                 "title": "Space language"
+            },
+            "results": {
+                "description": "Shira automatically tracks quiz responses to provide analytics and compliance reporting. You can disable this feature to minimize the data we collect about your Learners. <learnMore>Learn More</learnMore>",
+                "title": "Enable results"
             }
         },
         "checkout_success": {
             "all_done": "All done!",
             "success_message": "Your checkout was successful. We're activating your subscription now."
-        }
+        },
+        "version": "You are currently using Shira v{{version}}."
     },
     "buttons": {
         "ok": "باشه",
@@ -490,7 +500,7 @@
             "quiz_name_placeholder": "Copy of {{quiz_name}}"
         },
         "quiz_limit": {
-            "title": "Ready to upgrade?",
+            "title": "آماده‌ٔ بارگذاری",
             "message_1": "On the Starter plan, you can create up to 3 quizzes.",
             "message_2": "Try a 14-day free trial of Shira Pro today to build more custom quizzes."
         },
@@ -502,7 +512,7 @@
                 "get_started": "Get started"
             },
             "plan_names": {
-                "starter": "Starter",
+                "starter": "آغاز",
                 "pro": "Pro",
                 "enterprise": "Enterprise"
             }
@@ -540,7 +550,7 @@
             "confirm": "Unpublish"
         },
         "delete_quiz": {
-            "title": "Are you sure you want to delete \"{{quiz_name}}\"?",
+            "title": "مطمئنید می خواهید حذف کنید؟",
             "subtitle": "Deleting this quiz is permanent and cannot be undone.",
             "note": "Note: ",
             "message": "The quiz's Results will also be deleted."
@@ -571,7 +581,7 @@
             "footer": "Following this format will ensure a successful import of all eligible learners."
         },
         "exit_bulk_import": {
-            "title": "Are you sure you want to exit?",
+            "title": "مطمئنید می خواهید حذف کنید؟",
             "message": "Any unsaved changes will be lost."
         },
         "bulk_invite_sent": {
@@ -584,14 +594,14 @@
         },
         "attachment_file": {
             "title": "افزودن پیوست",
-            "file_name": "File name",
+            "file_name": "نام فایل",
             "file_type": "نوع فایل",
             "field_type": {
-                "title:": "Field type",
+                "title:": "نوع فایل",
                 "image": "تصویر",
                 "video": "ویدئو",
                 "audio": "صوت",
-                "document": "Document",
+                "document": "سندها",
                 "other": "دیگر"
             }
         },
@@ -629,7 +639,7 @@
             "email_placeholder": "Email address (required)"
         },
         "delete_learner": {
-            "title": "Are you sure you want to delete this learner?",
+            "title": "مطمئنید می خواهید حذف کنید؟",
             "subtitle": "Deleting this learner from your space is permanent and cannot be undone. The learner's quiz results will be deleted too."
         },
         "delete_learners": {
@@ -645,7 +655,7 @@
             "subtitle": "Are you sure you want to unassign the quiz from these learners? Any quiz progress and results will be lost."
         },
         "start_over_bulk_import": {
-            "title": "Are you sure you want to start over?",
+            "title": "مطمئنید می خواهید حذف کنید؟",
             "message": "This will discard the spreadsheet you uploaded. Any progress you have made will be lost."
         },
         "change_email": {
@@ -672,7 +682,7 @@
             "actions": {
                 "current_plan": "Current plan",
                 "downgrade": "Downgrade",
-                "learn_more": "Learn more about Shira plans"
+                "learn_more": "Learn more about Shira"
             },
             "comparison": {
                 "title": "What's included?",
@@ -731,7 +741,7 @@
             },
             "plans": {
                 "starter": {
-                    "title": "Starter",
+                    "title": "آغاز",
                     "description": "To try things out and get familiar with Shira",
                     "price": "Free",
                     "cta": "Get started"
@@ -746,7 +756,7 @@
                     "title": "Enterprise",
                     "description": "Tailor Shira for large organizations and service providers",
                     "price": "Custom pricing",
-                    "cta": "Contact us"
+                    "cta": "تماس"
                 }
             }
         },
@@ -754,6 +764,67 @@
             "input_label": "Quiz name",
             "title": "Give your new quiz a name",
             "subtitle": "The quiz name will be visible in your Space and to learners when they take it."
+        },
+        "export": {
+            "question": {
+                "title": "Export question",
+                "sharing_implications": "If you will share your question with others, you may want to remove any sensitive information it contains before exporting it. <1>Learn more</1>",
+                "error": "There was a problem exporting the question. If this issue persists, <1>contact us</1>.",
+                "file_type": "Your question will be exported as a .zip file that can be re-imported into a Shira space."
+            },
+            "quiz": {
+                "error": "There was a problem exporting the quiz. If this issue persists, <1>contact us</1>.",
+                "file_type": "Your quiz will be exported as a .zip file that can be re-imported into a Shira space.",
+                "sharing_implications": "If you will share your quiz with others, you may want to remove any sensitive information it contains before exporting it. <1>Learn more</1>",
+                "title": "خروج از آزمون"
+            },
+            "exporting": "Exporting..."
+        },
+        "create_entity": {
+            "question": {
+                "scratch_subtitle": "Create the question yourself, with full control. You can even copy and paste a real-life phishing example.",
+                "create_button": "لغو",
+                "template_title": "Use a template",
+                "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
+                "import_title": "Or import a question from a file",
+                "scratch_title": "Start from scratch",
+                "title": "Create new question",
+                "subtitle": "Choose how you’d like to create your question."
+            },
+            "quiz": {
+                "subtitle": "Choose how you’d like to create your quiz.",
+                "title": "Create new quiz",
+                "create_button": "لغو",
+                "scratch_title": "Start from scratch",
+                "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
+                "scratch_subtitle": "Create the quiz yourself, with full control. You can even copy and paste a real-life phishing example.",
+                "import_title": "Or import a quiz from a file",
+                "template_title": "Use a template"
+            }
+        },
+        "import": {
+            "question": {
+                "upload_success": "Your file is ready to be imported.",
+                "file_size": "حداکثر حجم فایل:",
+                "subtitle": "Select the file of the question you want to import. To prevent errors, we recommend not modifying the content of the file. <0>Learn more</0>.",
+                "button": "Import question",
+                "error": "There was a problem importing the question. If this issue persists, <1>contact us</1>.",
+                "title": "Import question",
+                "drag_title": "Drag and drop to upload your question file here",
+                "importing": "Importing...",
+                "file_type": "Accepted file type: .zip only"
+            },
+            "quiz": {
+                "error": "There was a problem importing the quiz. If this issue persists, <1>contact us</1>.",
+                "drag_title": "Drag and drop to upload your quiz file here",
+                "subtitle": "Select the file of the quiz you want to import. To prevent errors, we recommend not modifying the content of the file. <0>Learn more</0>.",
+                "title": "Import quiz",
+                "button": "Import quiz",
+                "file_size": "Maximum file size: 200 MB",
+                "file_type": "Accepted file type: .zip only",
+                "upload_success": "Your file is ready to be imported.",
+                "importing": "Importing..."
+            }
         }
     },
     "error_messages": {
@@ -785,7 +856,7 @@
         "reset_password_confirmation_mismatch": "Password confirmation does not match.",
         "reset_password_weak": "Password must be at least 8 characters.",
         "current_password_incorrect": "Incorrect password.",
-        "invalid_title": "Sorry, something went wrong",
+        "invalid_title": "Something went wrong",
         "email_update_token_invalid": "The link you opened is invalid or has expired. Please contact your organization or email contact@wearehorizontal.org for support.",
         "learners_bulk_import": {
             "missing_name": "Missing name",
@@ -816,7 +887,26 @@
         },
         "invalid_email_update": "This email address is already associated with a Shira space",
         "character_limit_error": "Character limit exceeded",
-        "template_submission_failed": "There was a problem submitting the template. If this issue persists, <1>contact us</1>."
+        "template_submission_failed": "There was a problem submitting the template. If this issue persists, <1>contact us</1>.",
+        "export_question_fail": "Failed to export question",
+        "entity_import": {
+            "invalid_zip_file": {
+                "subtitle": "Please make sure the file is in .zip and try again.",
+                "title": "Error: Invalid file format"
+            },
+            "invalid_formatting": {
+                "title": "Error: Invalid file format",
+                "subtitle": "Please make sure the file is in .zip and try again."
+            },
+            "file_too_large": {
+                "subtitle": "Please make sure your file is within the 50 MB limit and try again.",
+                "title": "Error: File is too large"
+            },
+            "invalid_metadata": {
+                "title": "Error: Invalid file content",
+                "subtitle": "This file's contents don't match the expected question format. Please make sure not to modify the file and try again."
+            }
+        }
     },
     "success_messages": {
         "quiz_link_copied": "The public quiz link has been copied to your clipboard.",
@@ -844,7 +934,9 @@
         "learners_unassigned_plural": "This quiz has been unassigned from {{count}} learners.",
         "password_updated": "Your password was updated successfully.",
         "email_updated": "Your email address was updated successfully.",
-        "quiz_assessment_mode_updated": "The quiz has been updated"
+        "quiz_assessment_mode_updated": "The quiz has been updated",
+        "quiz_imported": "The quiz has been imported",
+        "question_imported": "The question has been imported"
     },
     "loading_messages": {
         "loading": "Loading...",
@@ -883,7 +975,9 @@
             "business": "A business",
             "cibersecurity": "A cybersecurity service provider",
             "non_profit": "A non-profit organization",
-            "individual": "An individual (consultant, trainer, etc)"
+            "individual": "An individual (consultant, trainer, etc)",
+            "educational": "An educational organization",
+            "healthcare": "A healthcare organization"
         },
         "button_sign_up": "نام‌نویسی",
         "validation": {
@@ -942,14 +1036,14 @@
             "language": "زبان"
         },
         "preview": {
-            "created_on": "Created on",
+            "created_on": "ایجادکردن",
             "columns": {
                 "app": "برنامه‌ها",
                 "actions": "Actions",
                 "preview": "پیش‌نمایش",
                 "type": "نوغ",
                 "language": "زبان",
-                "question_name": "Question name"
+                "question_name": "پرسش‌نامه"
             },
             "preview_full_quiz": "Preview full quiz",
             "no_questions": "No questions found for this quiz template.",
@@ -1003,7 +1097,7 @@
         "settings": "تنظیمات",
         "learners": "Learners",
         "support": "پشتیبانی",
-        "logout": "Log out",
+        "logout": "خروج",
         "templates": "قالب‌ها"
     },
     "banner": {
@@ -1042,13 +1136,13 @@
             "tags": "Tags",
             "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>.",
             "language_placeholder": "زبان",
-            "name": "Question template name",
+            "name": "قالب‌های پرسش‌",
             "tags_placeholder": "Tag",
             "submit": "ثبت کردن",
             "tags_hint": "Select the tags that best describe the content of this template.",
             "language_hint": "You may select more than 1 language. (Can't find the language you want? <support>Request a missing language.</support>)",
             "name_hint": "Use a descriptive name to help other users find what they're looking for.",
-            "name_placeholder": "Question template name",
+            "name_placeholder": "قالب‌های پرسش‌",
             "description": "شرح",
             "language": "زبان",
             "description_hint": "Write 1-2 lines to explain what this question contains."
@@ -1061,7 +1155,7 @@
             "preview": "Preview submission",
             "date_submitted": "Date submitted",
             "quiz_name": "Quiz name",
-            "question_name": "Question name"
+            "question_name": "پرسش‌نامه"
         },
         "submission_status": {
             "title": "Submission status",
@@ -1071,7 +1165,7 @@
             "accepted": "Accepted"
         },
         "quiz_templates": {
-            "title": "Quiz templates",
+            "title": "قالب‌های پرسش‌",
             "description": "Create a quiz instantly by choosing from our quiz templates, available in multiple apps and languages."
         },
         "display_name": {

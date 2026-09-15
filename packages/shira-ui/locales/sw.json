@@ -105,5 +105,13 @@
         "aa": "Aa",
         "contact_4_message": "Did you notice? . 1 day ago",
         "contact_4_name": "Jose"
+    },
+    "pagination": {
+        "page": "<current>{{current}}</current> of {{total}}",
+        "summary": "{{start}}-{{end}} of {{total}}",
+        "last": "Mwisho",
+        "first": "Kwanza",
+        "next": "Yafuatayo",
+        "back": "Nyuma"
     }
 }

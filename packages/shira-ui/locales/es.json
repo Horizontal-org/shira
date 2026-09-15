@@ -107,5 +107,13 @@
         "contact_2_name": "Carla",
         "contact_2_time": "11:00 AM",
         "contact_2_message": "Vamos a cenar mañana?"
+    },
+    "pagination": {
+        "page": "<current>{{current}}</current> of {{total}}",
+        "summary": "{{start}}-{{end}} of {{total}}",
+        "last": "Última",
+        "first": "Primero",
+        "next": "Siguiente",
+        "back": "Atrás"
     }
 }

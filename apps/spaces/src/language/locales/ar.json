@@ -127,8 +127,8 @@
             "copy_link": "نسخ رابط الاختبار",
             "disabled_tooltip": "يجب إنشاء سؤال واحد على الأقل لتتمكنوا من نسخ رابط الاختبار.",
             "submit_as_template": "Submit as template",
-            "copy_link_disabled_tooltip": "Create at least 1 question to copy your quiz link.",
-            "submit_as_template_disabled_tooltip": "Create at least 1 question to submit your quiz as a template."
+            "copy_link_disabled_tooltip": "يجب إنشاء سؤال واحد على الأقل لنشر الاختبار الخاص بكم.",
+            "submit_as_template_disabled_tooltip": "يجب إنشاء سؤال واحد على الأقل لنشر الاختبار الخاص بكم."
         },
         "visibility": {
             "public": "عمومي",
@@ -156,8 +156,9 @@
             "edit": "تعديل",
             "duplicate": "استنساخ",
             "delete": "حذف",
-            "more_actions": "More actions",
-            "submit_as_template": "Submit as template"
+            "more_actions": "المزيد من الخيارات",
+            "submit_as_template": "Submit as template",
+            "export": "تصدير"
         },
         "use_library_question_button": "Use a question template"
     },
@@ -300,7 +301,7 @@
                 "preview_aria_label": "معاينة",
                 "disabled_tooltip": "اختيار لغة وتطبيق لاستخدام هذا السؤال."
             },
-            "created_on": "Created on",
+            "created_on": "إنشاء واحد",
             "creator": "Creator"
         },
         "tab_header_title": "إضافة سؤال من المكتبة",
@@ -316,8 +317,8 @@
             "clear_all": "امسح الكل"
         },
         "sort_options": {
-            "question_name_desc": "Question name (Z-A)",
-            "question_name_asc": "Question name (A-Z)",
+            "question_name_desc": "اسم السؤال",
+            "question_name_asc": "اسم السؤال",
             "newest_to_oldest": "من الأحدث إلى الأقدم",
             "oldest_to_newest": "من الأقدم إلى الأحدث"
         },
@@ -364,6 +365,10 @@
                 "score": "درجة الاختبار",
                 "loading": "يجري تحميل المتعلمين…"
             }
+        },
+        "disabled": {
+            "message": "There is no data available because Results have been disabled. You can change this anytime in your space Settings.",
+            "go_to_settings": "الذهاب إلى الإعدادات"
         }
     },
     "learners_bulk_import": {
@@ -442,6 +447,10 @@
             "language": {
                 "description": "Choose the language for your Shira space. This won’t change the language of quizzes or questions you share with learners, only the space interface.",
                 "title": "Space language"
+            },
+            "results": {
+                "description": "Shira automatically tracks quiz responses to provide analytics and compliance reporting. You can disable this feature to minimize the data we collect about your Learners. <learnMore>Learn More</learnMore>",
+                "title": "Enable results"
             }
         },
         "title": "الإعدادات",
@@ -460,7 +469,8 @@
         "checkout_success": {
             "all_done": "تم كل شيء!",
             "success_message": "نجحت عملية الدفع. نحن ننشط اشتراككم الآن."
-        }
+        },
+        "version": "You are currently using Shira v{{version}}."
     },
     "buttons": {
         "message": "",
@@ -679,7 +689,7 @@
                 "customization": "التخصيص",
                 "access_control": "التحكم في الوصول",
                 "compliance": "الامتثال",
-                "custom_support": "دعم مخصص",
+                "custom_support": "عنوان URL المخصص للدعم",
                 "rows": {
                     "admin_dashboard": "لوحة تحكم المسؤول",
                     "customizable_questions": "أسئلة الاختبار قابلة للتخصيص بالكامل",
@@ -774,6 +784,67 @@
             "input_label": "اسم الاختبار",
             "title": "Give your new quiz a name",
             "subtitle": "The quiz name will be visible in your Space and to learners when they take it."
+        },
+        "export": {
+            "question": {
+                "title": "Export question",
+                "sharing_implications": "If you will share your question with others, you may want to remove any sensitive information it contains before exporting it. <1>Learn more</1>",
+                "error": "حدثت مشكلة أثناء حذف المتعلم. إذا استمرت هذه المشكلة، <1>اتصلوا بنا</1>.",
+                "file_type": "Your question will be exported as a .zip file that can be re-imported into a Shira space."
+            },
+            "quiz": {
+                "error": "حدثت مشكلة أثناء حذف المتعلم. إذا استمرت هذه المشكلة، <1>اتصلوا بنا</1>.",
+                "file_type": "Your quiz will be exported as a .zip file that can be re-imported into a Shira space.",
+                "sharing_implications": "If you will share your quiz with others, you may want to remove any sensitive information it contains before exporting it. <1>Learn more</1>",
+                "title": "مغادرة الاختبار"
+            },
+            "exporting": "Exporting..."
+        },
+        "create_entity": {
+            "question": {
+                "scratch_subtitle": "Create the question yourself, with full control. You can even copy and paste a real-life phishing example.",
+                "create_button": "إلغاء",
+                "template_title": "Use a template",
+                "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
+                "import_title": "Or import a question from a file",
+                "scratch_title": "Start from scratch",
+                "title": "إنشاء سؤال جديد",
+                "subtitle": "Choose how you’d like to create your question."
+            },
+            "quiz": {
+                "subtitle": "Choose how you’d like to create your quiz.",
+                "title": "إنشاء اختبار جديد",
+                "create_button": "إلغاء",
+                "scratch_title": "Start from scratch",
+                "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
+                "scratch_subtitle": "Create the quiz yourself, with full control. You can even copy and paste a real-life phishing example.",
+                "import_title": "Or import a quiz from a file",
+                "template_title": "Use a template"
+            }
+        },
+        "import": {
+            "question": {
+                "upload_success": "Your file will not be imported.",
+                "file_size": "السعة القصوى للملف: 10 ميغابايت",
+                "subtitle": "Select the file of the question you want to import. To prevent errors, we recommend not modifying the content of the file. <0>Learn more</0>.",
+                "button": "Import question",
+                "error": "حدثت مشكلة أثناء دعوة المتعلم. إذا استمرت هذه المشكلة، <1>اتصلوا بنا</1>.",
+                "title": "Import question",
+                "drag_title": "Drag and drop to upload your question file here",
+                "importing": "Importing...",
+                "file_type": "أنواع الملفات المقبولة: ‎.csv فقط"
+            },
+            "quiz": {
+                "error": "حدثت مشكلة أثناء دعوة المتعلم. إذا استمرت هذه المشكلة، <1>اتصلوا بنا</1>.",
+                "drag_title": "سحب وإفلات جدول البيانات المعبأ هنا لرفعه",
+                "subtitle": "Select the file of the quiz you want to import. To prevent errors, we recommend not modifying the content of the file. <0>Learn more</0>.",
+                "title": "Import quiz",
+                "button": "Import quiz",
+                "file_size": "السعة القصوى للملف: 10 ميغابايت",
+                "file_type": "أنواع الملفات المقبولة: ‎.csv فقط",
+                "upload_success": "Your file will not be imported.",
+                "importing": "Importing..."
+            }
         }
     },
     "error_messages": {
@@ -837,7 +908,26 @@
             }
         },
         "character_limit_error": "Character limit exceeded",
-        "template_submission_failed": "There was a problem submitting the template. If this issue persists, <1>contact us</1>."
+        "template_submission_failed": "حدثت مشكلة أثناء دعوة المتعلم. إذا استمرت هذه المشكلة، <1>اتصلوا بنا</1>.",
+        "export_question_fail": "Failed to export question",
+        "entity_import": {
+            "invalid_zip_file": {
+                "subtitle": "الرجاء التأكد من أن الملف CSV والمحاولة مرة أخرى.",
+                "title": "خطأ: صيغة الملف غير مدعومة"
+            },
+            "invalid_formatting": {
+                "title": "خطأ: صيغة الملف غير مدعومة",
+                "subtitle": "الرجاء التأكد من أن الملف CSV والمحاولة مرة أخرى."
+            },
+            "file_too_large": {
+                "subtitle": "Please make sure your file is within the 50 MB limit and try again.",
+                "title": "خطأ: الملف كبير جداً"
+            },
+            "invalid_metadata": {
+                "title": "خطأ: صيغة الملف غير مدعومة",
+                "subtitle": "This file's contents don't match the expected question format. Please make sure not to modify the file and try again."
+            }
+        }
     },
     "success_messages": {
         "message": "",
@@ -866,7 +956,9 @@
         "learners_unassigned_plural": "أُلغي تعيين هذا الاختبار لـ {{count}} متعلّمين.",
         "password_updated": "تم تحديث كلمة السر بنجاح.",
         "email_updated": "تم تحديث عنوان البريد الإلكتروني بنجاح.",
-        "quiz_assessment_mode_updated": "حُدِّث الاختبار"
+        "quiz_assessment_mode_updated": "حُدِّث الاختبار",
+        "quiz_imported": "حُدِّث الاختبار",
+        "question_imported": "حُذِف السؤال"
     },
     "loading_messages": {
         "message": "",
@@ -917,7 +1009,9 @@
             "business": "شركة",
             "cibersecurity": "مزود خدمات الأمن السيبراني",
             "non_profit": "منظمة غير ربحية",
-            "individual": "فرد (مستشار، مدرب، إلخ)"
+            "individual": "فرد (مستشار، مدرب، إلخ)",
+            "educational": "An educational organization",
+            "healthcare": "A healthcare organization"
         },
         "button_sign_up": "تسجيل",
         "validation": {
@@ -928,7 +1022,7 @@
     },
     "create_space": {
         "message": "",
-        "password_label": "‮كلمة السر",
+        "password_label": "كلمة السر مطلوبة",
         "errors": {
             "create_space_failed": "لقد حدث خطأ أثناء إنشاء مساحتكم. يرجى المحاولة مرة أخرى."
         },
@@ -939,7 +1033,7 @@
         "beta_lead": "مساحات Shira حالياً في مرحلة الإصدار التجريبي المغلق. للحصول على كلمة السر اللازمة للانضمام إلى هذا الإصدار، يرجى مراسلتنا عبر البريد الإلكتروني على",
         "checking_invitation": "يجري التحقق من الدعوة…",
         "email_label": "تأكيد عنوان بريدكم الإلكتروني",
-        "confirm_password_label": "تأكيد كلمة السر",
+        "confirm_password_label": "تأكيد كلمة السر الجديدة (مطلوبة)",
         "button_create": "إنشاء مساحة جديدة",
         "validation": {
             "email_required": "البريد الإلكتروني مطلوب.",
@@ -973,7 +1067,7 @@
             "language": "اللغة"
         },
         "preview": {
-            "created_on": "Created on",
+            "created_on": "إنشاء واحد",
             "columns": {
                 "app": "التطبيق",
                 "actions": "الإجراءات",
@@ -1073,13 +1167,13 @@
             "header_title": "Submit question template",
             "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>.",
             "language_placeholder": "اللغة",
-            "name": "Question template name",
+            "name": "نماذج السؤال",
             "tags_placeholder": "الوسوم",
             "submit": "Submit",
             "tags_hint": "Select the tags that best describe the content of this template.",
             "language_hint": "You may select more than 1 language. (Can't find the language you want? <support>Request a missing language.</support>)",
             "name_hint": "Use a descriptive name to help other users find what they're looking for.",
-            "name_placeholder": "Question template name",
+            "name_placeholder": "نماذج السؤال",
             "description": "وصف",
             "language": "اللغة",
             "description_hint": "Write 1-2 lines to explain what this question contains."
@@ -1098,11 +1192,11 @@
             "title": "Submission status",
             "in_review": "In review",
             "help_tooltip": "Please email the Shira team if you have questions or need support.",
-            "rejected": "Rejected",
-            "accepted": "Accepted"
+            "rejected": "Reject",
+            "accepted": "Accept"
         },
         "quiz_templates": {
-            "title": "Quiz templates",
+            "title": "نماذج السؤال",
             "description": "Create a quiz instantly by choosing from our quiz templates, available in multiple apps and languages."
         },
         "display_name": {

@@ -4,7 +4,7 @@
         "subtitle": "Log in to access your custom Shira space.",
         "email_placeholder": "Surel",
         "password_placeholder": "Kata sandi",
-        "reset_password": "Forgot your password?",
+        "reset_password": "Lupa kata sandi?",
         "login_header_button": "Masuk",
         "loading_button": "Sedang Masuk...",
         "error_message": "Error: Your email address or password is incorrect."
@@ -24,14 +24,14 @@
         "reset_button": "Atur kata sandi",
         "reset_success_title": "Password updated",
         "reset_success_description": "You can now log in with your new password.",
-        "expired_title": "Sorry, something went wrong",
+        "expired_title": "Something went wrong",
         "expired_description": "The link you opened is invalid or has expired. Please contact your organization or email contact@wearehorizontal.org for support.",
         "validation": {
             "email_required": "Email is required",
-            "invalid_email": "Enter a valid email address",
+            "invalid_email": "Alamat surel tidak valid",
             "password_required": "Password is required",
-            "password_min_length": "Password must be at least 8 characters",
-            "confirm_password_required": "Please confirm your password",
+            "password_min_length": "Kata sandi membutuhkan setidaknya $1 karakter",
+            "confirm_password_required": "Silahkan memasukkan password anda",
             "passwords_mismatch": "Kata sandi tidak cocok",
             "incorrect_password": "Kata Sandi Salah."
         }
@@ -67,14 +67,14 @@
         "empty_state": "There are no learners registered to your space yet. Invite a new learner to get started.",
         "sub_required": "This feature is not available under your current plan. <0>View plans</0>",
         "table": {
-            "learner": "Learner",
+            "learner": "Learn",
             "registration": "Pendaftaran",
             "quiz_status": "Quiz status",
             "invited_at": "Date invited",
             "invited_tag": "Invited",
             "registered_tag": "Registered",
             "submitted_tag": "Terkirim",
-            "not_submitted_tag": "Not submitted"
+            "not_submitted_tag": "Formulir dikirim"
         },
         "assign_dialog": {
             "registered_title": "Registered Learners",
@@ -147,8 +147,9 @@
             "edit": "Sunting",
             "duplicate": "Menggandakan",
             "delete": "Hapus",
-            "more_actions": "More actions",
-            "submit_as_template": "Submit as template"
+            "more_actions": "Opsi lainnya",
+            "submit_as_template": "Submit as template",
+            "export": "Mengekspor"
         },
         "use_library_question_button": "Use a question template"
     },
@@ -174,9 +175,9 @@
             "question_info": {
                 "tab_title": "Question info",
                 "question_name": {
-                    "title": "Question name",
+                    "title": "Kuesioner",
                     "subtitle": "This name will only visible to you, to help you remember what this question is about",
-                    "question_name_placeholder": "Question name"
+                    "question_name_placeholder": "Kuesioner"
                 },
                 "phishing": {
                     "title": "Is it phishing?",
@@ -188,7 +189,7 @@
                 }
             },
             "content": {
-                "tab_title": "Content",
+                "tab_title": "Konteks",
                 "phishing": "You are writing a phishing message",
                 "legitimate": "You are writing a legitimate message",
                 "message": "On this screen, create the content that will be displayed in the question, including the ",
@@ -199,14 +200,14 @@
                 "explanation_content_placeholder": "New explanation",
                 "explanation_tooltip": "Select some text or an image to add an explanation.",
                 "sender": {
-                    "title": "Sender name",
+                    "title": "Nama peladen",
                     "subtitle": "This is the name that will be displayed in the \"Sender\" field of the email.",
-                    "placeholder": "Sender name"
+                    "placeholder": "Nama peladen"
                 },
                 "sender_email": {
                     "title": "Sender email address",
                     "subtitle": "This is the email address that will be displayed in the \"Sender\" field of the email.",
-                    "placeholder": "Sender email"
+                    "placeholder": "Kirim email"
                 },
                 "email_subject": {
                     "title": "Email subject",
@@ -233,7 +234,7 @@
                 "add_message_text": "Add message text",
                 "add_image_attachment": "Add image",
                 "upload_image": "Upload from computer",
-                "message_text": "Message text",
+                "message_text": "Batas waktu pesan",
                 "link_text": {
                     "set_title": "Set Link",
                     "edit_title": "Edit Link",
@@ -260,7 +261,7 @@
         "title": "",
         "subtitle": "",
         "columns": {
-            "question_name": "Question name",
+            "question_name": "Kuesioner",
             "type": {
                 "title": "Jenis",
                 "phishing": "Phishing",
@@ -275,21 +276,21 @@
                 "messaging_type": "Messaging app",
                 "email_type": "Email app",
                 "apps": {
-                    "whatsapp": "WhatsApp",
+                    "whatsapp": "Aplikasi WhatsApp",
                     "facebook_messenger": "Messenger",
                     "dating_app": "Dating app",
                     "sms": "SMS",
-                    "gmail": "Gmail",
+                    "gmail": "Surel",
                     "outlook": "Outlook"
                 }
             },
             "actions": {
-                "title": "Actions",
+                "title": "Aksi",
                 "add_aria_label": "Tambahkan",
                 "preview_aria_label": "Preview",
                 "disabled_tooltip": "Select a language and an app to use this question."
             },
-            "created_on": "Created on",
+            "created_on": "Dibuat",
             "creator": "Creator"
         },
         "filters_panel": {
@@ -325,7 +326,7 @@
             "empty_subtitle": "The average score received by all learners who took this quiz will be shown here."
         },
         "rate": {
-            "title": "Completion rate",
+            "title": "Selesai dalam",
             "subtitle": "This is the percentage of learners who have submitted the quiz out of all the learners assigned this quiz."
         },
         "by_question": {
@@ -344,11 +345,15 @@
             "description": "These are all the learners who have submitted the quiz and their individual quiz scores.",
             "empty_state": "No learners have submitted this quiz so far.",
             "table": {
-                "learner": "Learner",
+                "learner": "Learn",
                 "date": "Date submitted",
                 "score": "Quiz score",
                 "loading": "Loading learners..."
             }
+        },
+        "disabled": {
+            "message": "There is no data available because Results have been disabled. You can change this anytime in your space Settings.",
+            "go_to_settings": "go to settings"
         }
     },
     "learners_bulk_import": {
@@ -361,7 +366,7 @@
                 "drag_title": "Drag and drop to upload your filled spreadsheet here",
                 "or": "OR",
                 "file_type": "Accepted file type: .csv only",
-                "file_size": "Maximum file size: 10 MB",
+                "file_size": "Ukuran berkas maksimal adalah:",
                 "remove_file": "Remove selected file",
                 "upload_complete": "Upload complete: “%@”",
                 "upload_success": "Your spreadsheet was successfully uploaded! Continue to the next step to verify your learners.",
@@ -415,7 +420,7 @@
         "subtitle": "Manage your Shira space settings here.",
         "tabs": {
             "account": "Account",
-            "subscription": "Subscription",
+            "subscription": "Subskripsi",
             "general": "Umum"
         },
         "subscription": {
@@ -437,12 +442,17 @@
             "language": {
                 "description": "Choose the language for your Shira space. This won’t change the language of quizzes or questions you share with learners, only the space interface.",
                 "title": "Space language"
+            },
+            "results": {
+                "description": "Shira automatically tracks quiz responses to provide analytics and compliance reporting. You can disable this feature to minimize the data we collect about your Learners. <learnMore>Learn More</learnMore>",
+                "title": "Enable results"
             }
         },
         "checkout_success": {
             "all_done": "All done!",
             "success_message": "Your checkout was successful. We're activating your subscription now."
-        }
+        },
+        "version": "You are currently using Shira v{{version}}."
     },
     "buttons": {
         "ok": "Oke",
@@ -467,7 +477,7 @@
         "assign_via_email": "Assign via email",
         "start_over": "Start over",
         "feedback": "Tell us what you think",
-        "download_template": "Download CSV template",
+        "download_template": "Unduh templat",
         "view_guidelines": "View formatting guidelines",
         "browse_files": "Browse files",
         "i_understand": "I understand",
@@ -502,7 +512,7 @@
                 "get_started": "Get started"
             },
             "plan_names": {
-                "starter": "Starter",
+                "starter": "Mulai",
                 "pro": "Pro",
                 "enterprise": "Enterprise"
             }
@@ -537,10 +547,10 @@
         "unpublish_quiz_with_questions": {
             "title": "Are you sure you want to unpublish this quiz?",
             "message": "Users will no longer be able to access the quiz.",
-            "confirm": "Unpublish"
+            "confirm": "Tidak terpublikasikan"
         },
         "delete_quiz": {
-            "title": "Are you sure you want to delete \"{{quiz_name}}\"?",
+            "title": "Anda yakin ingin menghapus {0}?",
             "subtitle": "Deleting this quiz is permanent and cannot be undone.",
             "note": "Catatan ",
             "message": "The quiz's Results will also be deleted."
@@ -557,7 +567,7 @@
             "confirm": "Delete and unpublish"
         },
         "exit_question": {
-            "title": "Are you sure you want to exit the question?",
+            "title": "Are you sure you want to delete this entity?",
             "message": "Any unsaved changes will be lost."
         },
         "csv_formatting_guidelines": {
@@ -571,7 +581,7 @@
             "footer": "Following this format will ensure a successful import of all eligible learners."
         },
         "exit_bulk_import": {
-            "title": "Are you sure you want to exit?",
+            "title": "Apakah Anda yakin hendak menghapus?",
             "message": "Any unsaved changes will be lost."
         },
         "bulk_invite_sent": {
@@ -579,7 +589,7 @@
             "description": "Shira is sending email invitations to {{count}} learners. This process may take a few minutes. You can close this modal and continue working on Shira."
         },
         "edit_question_confirmation": {
-            "title": "Are you sure you want to edit this quiz?",
+            "title": "Are you sure you want to delete this upload?",
             "message": "Some learners have already taken this quiz. Adding or editing questions may affect the accuracy of Results."
         },
         "attachment_file": {
@@ -587,7 +597,7 @@
             "file_name": "Nama berkas",
             "file_type": "Tipe file",
             "field_type": {
-                "title:": "Field type",
+                "title:": "Tipe file",
                 "image": "Gambar",
                 "video": "Video",
                 "audio": "io",
@@ -600,7 +610,7 @@
             "message": "Variables are placeholders that you can use to insert personalized information into a question.",
             "message2": "The information shown is relevant to each learner, based on what they entered or auto-generated during quiz setup.",
             "message3": "To add a variable, type the following:",
-            "name": "name",
+            "name": "Ubah nama",
             "name_explanation": "This will display the learner's name",
             "email": "Surel",
             "email_explanation": "This will display the learner's email address",
@@ -629,11 +639,11 @@
             "email_placeholder": "Email address (required)"
         },
         "delete_learner": {
-            "title": "Are you sure you want to delete this learner?",
+            "title": "Anda yakin ingin menghapus laporan ini?",
             "subtitle": "Deleting this learner from your space is permanent and cannot be undone. The learner's quiz results will be deleted too."
         },
         "delete_learners": {
-            "title": "Are you sure you want to delete the selected learners?",
+            "title": "Anda yakin ingin menghapus laporan ini?",
             "subtitle": "Deleting these learners from your space is permanent and cannot be undone. The learners' quiz results will be deleted too."
         },
         "unassign_learner": {
@@ -645,7 +655,7 @@
             "subtitle": "Are you sure you want to unassign the quiz from these learners? Any quiz progress and results will be lost."
         },
         "start_over_bulk_import": {
-            "title": "Are you sure you want to start over?",
+            "title": "Are you sure you want to cancel?",
             "message": "This will discard the spreadsheet you uploaded. Any progress you have made will be lost."
         },
         "change_email": {
@@ -672,7 +682,7 @@
             "actions": {
                 "current_plan": "Current plan",
                 "downgrade": "Downgrade",
-                "learn_more": "Learn more about Shira plans"
+                "learn_more": "Learn more about Shira"
             },
             "comparison": {
                 "title": "What's included?",
@@ -731,7 +741,7 @@
             },
             "plans": {
                 "starter": {
-                    "title": "Starter",
+                    "title": "Mulai",
                     "description": "To try things out and get familiar with Shira",
                     "price": "Free",
                     "cta": "Get started"
@@ -754,15 +764,76 @@
             "input_label": "Quiz name",
             "title": "Give your new quiz a name",
             "subtitle": "The quiz name will be visible in your Space and to learners when they take it."
+        },
+        "export": {
+            "question": {
+                "title": "Export question",
+                "sharing_implications": "If you will share your question with others, you may want to remove any sensitive information it contains before exporting it. <1>Learn more</1>",
+                "error": "There was a problem exporting the question. If this issue persists, <1>contact us</1>.",
+                "file_type": "Your question will be exported as a .zip file that can be re-imported into a Shira space."
+            },
+            "quiz": {
+                "error": "There was a problem exporting the quiz. If this issue persists, <1>contact us</1>.",
+                "file_type": "Your quiz will be exported as a .zip file that can be re-imported into a Shira space.",
+                "sharing_implications": "If you will share your quiz with others, you may want to remove any sensitive information it contains before exporting it. <1>Learn more</1>",
+                "title": "Keluar dari kuis"
+            },
+            "exporting": "Exporting..."
+        },
+        "create_entity": {
+            "question": {
+                "scratch_subtitle": "Create the question yourself, with full control. You can even copy and paste a real-life phishing example.",
+                "create_button": "Batalkan",
+                "template_title": "Use a template",
+                "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
+                "import_title": "Or import a question from a file",
+                "scratch_title": "Start from scratch",
+                "title": "Create new question",
+                "subtitle": "Choose how you’d like to create your question."
+            },
+            "quiz": {
+                "subtitle": "Choose how you’d like to create your quiz.",
+                "title": "Create new quiz",
+                "create_button": "Batalkan",
+                "scratch_title": "Start from scratch",
+                "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
+                "scratch_subtitle": "Create the quiz yourself, with full control. You can even copy and paste a real-life phishing example.",
+                "import_title": "Or import a quiz from a file",
+                "template_title": "Use a template"
+            }
+        },
+        "import": {
+            "question": {
+                "upload_success": "Your file will not be imported.",
+                "file_size": "Ukuran berkas maksimal adalah:",
+                "subtitle": "Select the file of the question you want to import. To prevent errors, we recommend not modifying the content of the file. <0>Learn more</0>.",
+                "button": "Import question",
+                "error": "There was a problem importing the question. If this issue persists, <1>contact us</1>.",
+                "title": "Import question",
+                "drag_title": "Drag and drop to upload your question file here",
+                "importing": "Importing...",
+                "file_type": "Accepted file type: .zip only"
+            },
+            "quiz": {
+                "error": "There was a problem importing the quiz. If this issue persists, <1>contact us</1>.",
+                "drag_title": "Drag and drop to upload your quiz file here",
+                "subtitle": "Select the file of the quiz you want to import. To prevent errors, we recommend not modifying the content of the file. <0>Learn more</0>.",
+                "title": "Import quiz",
+                "button": "Import quiz",
+                "file_size": "Maximum file size: 200 MB",
+                "file_type": "Accepted file type: .zip only",
+                "upload_success": "Your file will not be imported.",
+                "importing": "Importing..."
+            }
         }
     },
     "error_messages": {
         "duplicate_quiz_fail": "Failed to duplicate quiz",
-        "quiz_name_already_exists": "Quiz name taken. Please use a different one.",
+        "quiz_name_already_exists": "Nama berkas sudah dipakai. Mohon gunakan yang lain.",
         "duplicate_question_fail": "Failed to duplicate question",
         "add_question_error": "Error adding question",
         "results_load_failed": "Failed to load results",
-        "learner_already_exists": "This email address is already registered.",
+        "learner_already_exists": "Alamat surel sudah digunakan",
         "learner_not_found": "The learner was not found in this space.",
         "learner_save_failed": "Failed to save learner.",
         "learner_email_send_failed": "Failed to send email invitation to learner.",
@@ -776,16 +847,16 @@
         "assign_quiz_failed": "There was a problem assigning this quiz to learners. If this issue persists, <1>contact us</1>.",
         "unassign_quiz_failed": "There was a problem unassigning this quiz from learners. If this issue persists, <1>contact us</1>.",
         "bulk_import_failed": "There was a problem inviting the learners. If this issue persists, <1>contact us</1>.",
-        "email_already_taken": "The email address is already taken.",
+        "email_already_taken": "Alamat surel sudah digunakan",
         "invite_org_failed": "There was a problem creating your space. If this issue persists, <1>contact us</1>.",
         "email_no_match": "The email address does not match the invitation.",
         "image_too_large": "Image size exceeds {{size}}MB. Please try again with a smaller image.",
         "image_type_unsupported": "File type not supported.  Please make sure your image is a JPEG, PNG, GIF or WebP.",
         "image_upload_failed": "There was a problem with uploading your image. Please try again.",
         "reset_password_confirmation_mismatch": "Password confirmation does not match.",
-        "reset_password_weak": "Password must be at least 8 characters.",
+        "reset_password_weak": "Kata sandi membutuhkan setidaknya $1 karakter",
         "current_password_incorrect": "Kata Sandi Salah.",
-        "invalid_title": "Sorry, something went wrong",
+        "invalid_title": "Something went wrong",
         "email_update_token_invalid": "The link you opened is invalid or has expired. Please contact your organization or email contact@wearehorizontal.org for support.",
         "learners_bulk_import": {
             "missing_name": "Missing name",
@@ -816,7 +887,26 @@
         },
         "invalid_email_update": "This email address is already associated with a Shira space",
         "character_limit_error": "Character limit exceeded",
-        "template_submission_failed": "There was a problem submitting the template. If this issue persists, <1>contact us</1>."
+        "template_submission_failed": "There was a problem submitting the template. If this issue persists, <1>contact us</1>.",
+        "export_question_fail": "Failed to export question",
+        "entity_import": {
+            "invalid_zip_file": {
+                "subtitle": "Please make sure the file is in .zip and try again.",
+                "title": "Error: Invalid file format"
+            },
+            "invalid_formatting": {
+                "title": "Error: Invalid file format",
+                "subtitle": "Please make sure the file is in .zip and try again."
+            },
+            "file_too_large": {
+                "subtitle": "Please make sure your file is within the 50 MB limit and try again.",
+                "title": "Error: File is too large"
+            },
+            "invalid_metadata": {
+                "title": "Error: Invalid file content",
+                "subtitle": "This file's contents don't match the expected question format. Please make sure not to modify the file and try again."
+            }
+        }
     },
     "success_messages": {
         "quiz_link_copied": "The public quiz link has been copied to your clipboard.",
@@ -844,7 +934,9 @@
         "learners_unassigned_plural": "This quiz has been unassigned from {{count}} learners.",
         "password_updated": "Your password was updated successfully.",
         "email_updated": "Your email address was updated successfully.",
-        "quiz_assessment_mode_updated": "The quiz has been updated"
+        "quiz_assessment_mode_updated": "The quiz has been updated",
+        "quiz_imported": "The quiz has been imported",
+        "question_imported": "The question has been imported"
     },
     "loading_messages": {
         "loading": "Loading...",
@@ -883,7 +975,9 @@
             "business": "A business",
             "cibersecurity": "A cybersecurity service provider",
             "non_profit": "A non-profit organization",
-            "individual": "An individual (consultant, trainer, etc)"
+            "individual": "An individual (consultant, trainer, etc)",
+            "educational": "An educational organization",
+            "healthcare": "A healthcare organization"
         },
         "button_sign_up": "Daftar",
         "validation": {
@@ -914,9 +1008,9 @@
         "validation": {
             "email_required": "Email is required.",
             "password_required": "Password is required.",
-            "password_min_length": "Password must be at least 8 characters.",
+            "password_min_length": "Kata sandi membutuhkan setidaknya $1 karakter",
             "passwords_mismatch": "Kata sandi tidak cocok",
-            "confirm_password_required": "Please confirm your password.",
+            "confirm_password_required": "Silahkan memasukkan password anda",
             "privacy_policy_required": "Please accept the privacy policy."
         },
         "errors": {
@@ -942,14 +1036,14 @@
             "language": "Bahasa"
         },
         "preview": {
-            "created_on": "Created on",
+            "created_on": "Dibuat",
             "columns": {
                 "app": "App",
-                "actions": "Actions",
+                "actions": "Aksi",
                 "preview": "Preview",
                 "type": "Jenis",
                 "language": "Bahasa",
-                "question_name": "Question name"
+                "question_name": "Kuesioner"
             },
             "preview_full_quiz": "Preview full quiz",
             "no_questions": "No questions found for this quiz template.",
@@ -1042,36 +1136,36 @@
             "tags": "Tags",
             "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>.",
             "language_placeholder": "Bahasa",
-            "name": "Question template name",
+            "name": "Format pertanyaan",
             "tags_placeholder": "Tags",
             "submit": "Kirim",
             "tags_hint": "Select the tags that best describe the content of this template.",
             "language_hint": "You may select more than 1 language. (Can't find the language you want? <support>Request a missing language.</support>)",
             "name_hint": "Use a descriptive name to help other users find what they're looking for.",
-            "name_placeholder": "Question template name",
+            "name_placeholder": "Format pertanyaan",
             "description": "Deskripsi",
             "language": "Bahasa",
             "description_hint": "Write 1-2 lines to explain what this question contains."
         },
         "submissions_table": {
-            "actions": "Actions",
+            "actions": "Aksi",
             "type": "Jenis",
             "status": "Status",
             "app": "App",
             "preview": "Preview submission",
             "date_submitted": "Date submitted",
             "quiz_name": "Quiz name",
-            "question_name": "Question name"
+            "question_name": "Kuesioner"
         },
         "submission_status": {
             "title": "Submission status",
             "in_review": "In review",
             "help_tooltip": "Please email the Shira team if you have questions or need support.",
-            "rejected": "Rejected",
-            "accepted": "Accepted"
+            "rejected": "Reject",
+            "accepted": "Accept"
         },
         "quiz_templates": {
-            "title": "Quiz templates",
+            "title": "Format pertanyaan",
             "description": "Create a quiz instantly by choosing from our quiz templates, available in multiple apps and languages."
         },
         "display_name": {
