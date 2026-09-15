@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react'
+import { FunctionComponent } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 
 import Sidebar from './Sidebar'
@@ -9,6 +9,7 @@ import ExplanationTooltip from "../components/ExplanationTooltip"
 import Battery from '../components/Phone/Icons/BatteryIcon'
 import Signal from '../components/Phone/Icons/SignalIcon'
 import WiFi from '../components/Phone/Icons/WiFiIcon'
+import useContactInfo from '../hooks/useContactInfo'
 
 interface Props {
   content?: HTMLElement;
@@ -28,7 +29,7 @@ export const Telegram: FunctionComponent<Props> = ({
   explanationNumber,
   showExplanations
 }) => {
-  const [showSenderInfo, setShowSenderInfo] = useState(false)
+  const { isOpen: showSenderInfo, open, close } = useContactInfo(showExplanations)
 
   return (
     <Wrapper className="telegram">
@@ -61,14 +62,14 @@ export const Telegram: FunctionComponent<Props> = ({
         <MessageWrapper
           content={content}
           phone={phone}
-          onOpenSenderInfo={() => setShowSenderInfo(true)}
+          onOpenSenderInfo={open}
           showSenderInfo={showSenderInfo}
         />
         {showSenderInfo && (
           <SenderInfo
             phone={phone}
             content={content}
-            onClose={() => setShowSenderInfo(false)}
+            onClose={close}
           />
         )}
       </Content>
