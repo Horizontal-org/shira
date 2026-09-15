@@ -29,9 +29,9 @@ export default defineConfig({
     { name: 'spaces', testDir: './tests/spaces', use: { ...browser, baseURL: 'http://localhost:13002' } },
     { name: 'public', testDir: './tests/public', use: { ...browser, baseURL: 'http://localhost:13001' } },
   ],
-  // Refuse an occupied port, so tests cannot silently use a developer's app/database.
+  // Docker manages the API; Playwright starts only the two frontend servers.
+  // Refuse occupied frontend ports to avoid using a developer's running app.
   webServer: [
-    { command: 'node e2e/start-server.js api', url: 'http://localhost:13000', cwd: root, timeout: 180_000, reuseExistingServer: false },
     { command: 'node e2e/start-server.js spaces', url: 'http://localhost:13002', cwd: root, timeout: 180_000, reuseExistingServer: false },
     { command: 'node e2e/start-server.js public', url: 'http://localhost:13001', cwd: root, timeout: 180_000, reuseExistingServer: false },
   ],

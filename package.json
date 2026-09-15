@@ -18,7 +18,7 @@
     "test:e2e:ui": "npm run test:e2e -- --ui",
     "test:e2e:report": "playwright show-report playwright-report",
     "test:e2e:install": "playwright install chromium",
-    "test:e2e:infra": "docker compose -f e2e/docker-compose.yml up -d --wait",
+    "test:e2e:infra": "docker compose -f e2e/docker-compose.yml up -d --build --wait",
     "test:e2e:down": "docker compose -f e2e/docker-compose.yml down"
   },
   "packageManager": "npm@10.7.0",

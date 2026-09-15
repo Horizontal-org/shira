@@ -2,7 +2,7 @@ name: Integration tests
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: [development, beta]
   workflow_dispatch:
 
 permissions:
@@ -24,9 +24,11 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
-      - run: npm run test:e2e:infra
       - run: npx tsc -p e2e/tsconfig.json
       - run: npm run test:e2e
+      - name: Show test service logs on failure
+        if: ${{ failure() }}
+        run: docker compose -f e2e/docker-compose.yml logs --no-color --tail=200
       - name: Upload report and failure traces
         if: ${{ always() }}
         uses: actions/upload-artifact@v4
@@ -35,7 +37,6 @@ jobs:
           path: |
             playwright-report/
             test-results/
-          retention-days: 7
       - name: Stop test infrastructure
         if: ${{ always() }}
         run: npm run test:e2e:down

@@ -4,13 +4,13 @@ import { resolve } from 'path';
 
 async function start() {
   // Do not to prepare data outside the isolated test database.
-  if (process.env.MYSQL_DATABASE !== 'shira_e2e' || process.env.MYSQL_PORT !== '13307' || process.env.MYSQL_HOST !== '127.0.0.1') {
+  if (process.env.MYSQL_DATABASE !== 'shira_e2e' || process.env.MYSQL_PORT !== '3306' || process.env.MYSQL_HOST !== 'mysql') {
     throw new Error('Refusing to seed outside the isolated E2E database');
   }
 
   // Use a separate connection.
   const db = new DataSource({
-    type: 'mysql', host: '127.0.0.1', port: 13307,
+    type: 'mysql', host: 'mysql', port: 3306,
     username: 'shira_e2e', password: 'shira_e2e', database: 'shira_e2e',
     migrations: [resolve(process.cwd(), 'src/migrations/*.ts')],
     migrationsTableName: 'migrations', charset: 'utf8mb4',
