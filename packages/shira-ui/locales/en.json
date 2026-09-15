@@ -117,17 +117,7 @@
     "registration": "Registration",
     "phone_number": "Phone Number",
     "not_official_account": "Not an official account",
-    "untitled_document": "Untitled document.txt"
-  },
-  "pagination": {
-    "summary": "{{start}}-{{end}} of {{total}}",
-    "page": "<current>{{current}}</current> of {{total}}",
-    "first": "First",
-    "back": "Back",
-    "next": "Next",
-    "last": "Last"
-  },
-  "telegram": {
+    "untitled_document": "Untitled document.txt",
     "sender_info": {
       "title": "User Info",
       "close": "Close user info",
@@ -143,5 +133,13 @@
       "no_media": "No shared media",
       "no_voice": "No shared voice messages"
     }
+  },
+  "pagination": {
+    "summary": "{{start}}-{{end}} of {{total}}",
+    "page": "<current>{{current}}</current> of {{total}}",
+    "first": "First",
+    "back": "Back",
+    "next": "Next",
+    "last": "Last"
   }
 }
