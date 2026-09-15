@@ -183,8 +183,8 @@ const MainContent = styled.div<{ $isCollapsed: boolean }>`
   flex: 1;
   display: flex;
   flex-direction: column;
-  margin-left: ${props => props.$isCollapsed ? '116px' : '264px'};
-  transition: margin-left 0.3s ease;
+  margin-inline-start: ${props => props.$isCollapsed ? '116px' : '264px'};
+  transition: margin-inline-start 0.3s ease;
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     margin-inline-start: 80px;
