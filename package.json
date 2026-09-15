@@ -3,6 +3,7 @@
   "description": "A barebones Turborepo example for working with Task Graphs.",
   "private": true,
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
     "turbo": "^2.9.14"
   },
   "scripts": {
@@ -11,7 +12,14 @@
     "deploy-frontend": "./deploy-frontend.sh",
     "build": "turbo build",
     "lint": "turbo lint",
-    "test": "turbo test"
+    "test": "turbo test",
+    "pretest:e2e": "npm run test:e2e:infra && npm run build --workspace @horizontal-org/shira-ui",
+    "test:e2e": "playwright test -c e2e/playwright.config.ts",
+    "test:e2e:ui": "npm run test:e2e -- --ui",
+    "test:e2e:report": "playwright show-report playwright-report",
+    "test:e2e:install": "playwright install chromium",
+    "test:e2e:infra": "docker compose -f e2e/docker-compose.yml up -d --wait",
+    "test:e2e:down": "docker compose -f e2e/docker-compose.yml down"
   },
   "packageManager": "npm@10.7.0",
   "workspaces": [
