@@ -1,0 +1,69 @@
+import { FunctionComponent } from 'react'
+import styled from 'styled-components'
+
+interface Props {
+  data: Element
+}
+
+const Message: FunctionComponent<Props> = ({ data }) => {
+  return (
+    <Wrapper>
+      <Content dangerouslySetInnerHTML={{ __html: data.outerHTML }}></Content>
+      <span>00:00</span>
+    </Wrapper>
+  )
+}
+
+const Wrapper = styled.div`
+  width: 85%;
+
+  position: relative;
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+
+  background: #fff;
+  border-radius: 12px;
+  border-top-inline-start-radius: 4px;
+  padding-top: 6px;
+  padding-inline-end: 7px;
+  padding-bottom: 8px;
+  padding-inline-start: 9px;
+  box-shadow: 0 1px 0.5px rgba(11,20,26, .13);
+
+  > span {
+    font-size: 9px;
+    align-self: flex-end;
+    color: #8e8e93;
+    padding-inline-start: 22px;
+    font-weight: 400;
+    margin-bottom: -2px;
+  }
+`
+
+const Content = styled.div`
+  overflow-wrap: break-word;
+  word-break: break-word;
+  position: relative;
+  display: inline;
+  text-align: start;
+
+  font-size: 14px;
+  color: #111b21;
+
+  a {
+    color: #039BE5;
+  }
+
+  h1, h2, h3, h4, h5 {
+    font-size: 14px;
+    margin: 0.8px;
+  }
+
+  p {
+    margin: 0.8px;
+  }
+`
+
+export default Message
