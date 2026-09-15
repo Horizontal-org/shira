@@ -1,10 +1,11 @@
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 
 import Background from "./Background";
 import MessageWrapper from "./MessageWrapper";
 import Sidebar from "./Sidebar";
 import ContactInfo from "./ContactInfo";
+import useContactInfo from "../hooks/useContactInfo";
 
 // whatsapp font
 import "../../../fonts/Segoe/style.css";
@@ -29,13 +30,7 @@ export const WhatsApp: FunctionComponent<Props> = ({
   explanationNumber,
   showExplanations,
 }) => {
-  const [isContactInfoOpen, setIsContactInfoOpen] = useState(false);
-
-  useEffect(() => {
-    if (showExplanations) {
-      setIsContactInfoOpen(false);
-    }
-  }, [showExplanations]);
+  const { isOpen, open, close } = useContactInfo(showExplanations);
 
   return (
     <DesktopWrapper className="whatsapp">
@@ -55,14 +50,14 @@ export const WhatsApp: FunctionComponent<Props> = ({
           <MessageWrapper
             content={content}
             phone={phone}
-            onContactClick={() => setIsContactInfoOpen(true)}
+            onContactClick={open}
           />
         </Content>
       </Background>
-      {isContactInfoOpen && !showExplanations && (
+      {isOpen && (
         <ContactInfo
           phone={phone?.textContent}
-          onBack={() => setIsContactInfoOpen(false)}
+          onBack={close}
         />
       )}
     </DesktopWrapper>

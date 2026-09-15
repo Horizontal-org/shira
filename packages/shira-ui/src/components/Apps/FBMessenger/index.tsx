@@ -1,9 +1,10 @@
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent } from "react";
 import styled from "styled-components";
 
 import MessageSidebar from "./MessagesSidebar/Index";
 import Chat from "./Chat";
 import ConversationSidebar from "./ConversationSidebar";
+import useContactInfo from "../hooks/useContactInfo";
 
 import "../../../fonts/Segoe/style.css";
 
@@ -28,16 +29,7 @@ export const FBMessenger: FunctionComponent<Props> = ({
   explanationNumber,
   showExplanations,
 }) => {
-  const [isConversationSidebarOpen, setIsConversationSidebarOpen] =
-    useState(false);
-
-  useEffect(() => {
-    if (showExplanations) {
-      setIsConversationSidebarOpen(false);
-    }
-  }, [showExplanations]);
-
-  const isConversationSidebarVisible = isConversationSidebarOpen && !showExplanations;
+  const { isOpen, toggle } = useContactInfo(showExplanations);
 
   return (
     <DesktopWrapper>
@@ -54,10 +46,10 @@ export const FBMessenger: FunctionComponent<Props> = ({
         <Chat
           content={content}
           fullname={senderName}
-          isConversationSidebarOpen={isConversationSidebarVisible}
-          onInfoClick={() => setIsConversationSidebarOpen((isOpen) => !isOpen)}
+          isConversationSidebarOpen={isOpen}
+          onInfoClick={toggle}
         />
-        {isConversationSidebarVisible && (
+        {isOpen && (
           <ConversationSidebar fullname={senderName} />
         )}
       </Content>
