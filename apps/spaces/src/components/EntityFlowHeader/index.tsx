@@ -9,7 +9,6 @@ import {
   defaultTheme
 } from "@horizontal-org/shira-ui"
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import { QuestionCRUDFeedback } from "../../fetch/question";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
@@ -20,17 +19,19 @@ interface Props {
   step: number
   disableNext: boolean
   nextTooltipLabel?: string
-  actionFeedback: string;
+  isProcessing: boolean;
+  primaryButtonText: string;
 }
 
-export const QuestionFlowHeader: FunctionComponent<Props> = ({
+export const EntityFlowHeader: FunctionComponent<Props> = ({
   onNext,
   onBack,
   onExit,
   disableNext,
   step,
   nextTooltipLabel,
-  actionFeedback
+  isProcessing,
+  primaryButtonText
 }) => {
 
   const { t } = useTranslation();
@@ -79,13 +80,9 @@ export const QuestionFlowHeader: FunctionComponent<Props> = ({
             id="question-flow-header-next"
             color={defaultTheme.colors.green7}
             rightIcon={<FiChevronRight data-mirror-rtl size={16} />}
-            disabled={disableNext || actionFeedback === QuestionCRUDFeedback.processing}
+            disabled={disableNext || isProcessing}
             onClick={onNext}
-            text={step === 2
-              ? (actionFeedback === QuestionCRUDFeedback.processing
-                ? t('loading_messages.saving')
-                : t('buttons.save'))
-              : t('buttons.next')}
+            text={primaryButtonText}
             type="primary"
           />
         </GeneralTooltip>

@@ -10,14 +10,16 @@ interface Props {
   onAdd: () => void;
   onImport: () => void;
   onAddLibrary: () => void;
+  onCreateNote: () => void
   isCreationOptionsModalOpen: boolean;
   setIsCreationOptionsModalOpen: (isOpen: boolean) => void;
 }
 
-export const QuestionCreateOptions: FunctionComponent<Props> = ({
+export const QuizItemCreateOptions: FunctionComponent<Props> = ({
   onAdd,
   onImport,
   onAddLibrary,
+  onCreateNote,
   isCreationOptionsModalOpen,
   setIsCreationOptionsModalOpen
 }) => {
@@ -36,6 +38,15 @@ export const QuestionCreateOptions: FunctionComponent<Props> = ({
         onClick={() => {
           setIsCreationOptionsModalOpen(true);
         }}
+      />
+
+      <Button
+        id="create-note-button"
+        leftIcon={<FiPlus size={16} />}
+        text={t("questions_tab.create_note_button")}
+        type="primary"
+        color={defaultTheme.colors.green7}
+        onClick={onCreateNote}
       />
 
       <EntityCreationOptionsModal

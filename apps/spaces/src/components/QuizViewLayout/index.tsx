@@ -421,6 +421,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 onAssessmentModeChange={(assessmentMode) => handleAssessmentModeChange(quiz.id, assessmentMode)}
                 onDelete={(id) => { destroy(quiz.id, id) }}
                 onAdd={() => { navigate(`/quiz/${id}/question`) }}
+                onCreateNote={() => { navigate(`/quiz/${id}/note`) }}
                 onAddLibrary={() => { navigate(`/question/library`, { state: { quizId: quiz.id } }) }}
                 onReorder={(newQQOrder) => {
                   handleQuiz({

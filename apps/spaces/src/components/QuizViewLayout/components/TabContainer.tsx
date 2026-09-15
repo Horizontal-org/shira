@@ -31,6 +31,7 @@ interface TabContainerProps {
   onSubmitAsTemplate: (questionId: string) => void;
   onPublish: () => void
   onAssessmentModeChange: (value: boolean) => void;
+  onCreateNote: () => void;
 }
 
 export const TabContainer: FunctionComponent<TabContainerProps> = ({
@@ -53,7 +54,8 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   resultsLoading,
   hasResultsEnabled,
   hasResults,
-  onAssessmentModeChange
+  onAssessmentModeChange,
+  onCreateNote
 }) => {
   const [activeTab, setActiveTab] = useState<TabType>('questions');
   const { t } = useTranslation();
@@ -109,6 +111,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
             onRefresh={onRefresh}
             onSubmitAsTemplate={onSubmitAsTemplate}
             hasResults={hasResults}
+            onCreateNote={onCreateNote}
           />
         )}
 

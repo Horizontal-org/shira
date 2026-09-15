@@ -148,6 +148,7 @@
     },
     "questions_tab": {
         "create_question_button": "Create question",
+        "create_note_button": "Create note",
         "use_library_question_button": "Use a question template",
         "action_tooltips": {
             "more_actions": "More actions",
@@ -167,6 +168,12 @@
         },
         "table": {
             "description": "These are the learners who have been assigned this quiz."
+        }
+    },
+    "create_note": {
+        "breadcrumbs": {
+            "content": "Note content",
+            "preview": "Preview"
         }
     },
     "create_question": {
@@ -730,6 +737,10 @@
         },
         "exit_question": {
             "title": "Are you sure you want to exit the question?",
+            "message": "Any unsaved changes will be lost."
+        },
+        "exit_note": {
+            "title": "Are you sure you want to exit the note?",
             "message": "Any unsaved changes will be lost."
         },
         "csv_formatting_guidelines": {
