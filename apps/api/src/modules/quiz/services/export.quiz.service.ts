@@ -1,9 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as archiver from 'archiver';
 import { Quiz } from '../domain/quiz.entity';
+import { QuizItem } from '../domain/quiz_items.entity';
 import { SpaceExportQuestionService } from 'src/modules/question/services/spaceExport.question.service';
+import { TYPES } from '../interfaces';
+import { IQuizItemsService } from '../interfaces/services/quiz-items.service.interface';
 
 @Injectable()
 export class ExportQuizService {
@@ -11,18 +14,14 @@ export class ExportQuizService {
     @InjectRepository(Quiz)
     private readonly quizRepository: Repository<Quiz>,
     private readonly spaceExportQuestionService: SpaceExportQuestionService,
+    @Inject(TYPES.services.IQuizItemsService)
+    private readonly quizItemsService: IQuizItemsService,
   ) {}
 
   async export({ id, spaceId, res }: { id: number; spaceId: number; res }) {
     const quiz = await this.quizRepository
       .createQueryBuilder('quiz')
       .leftJoinAndSelect('quiz.quizQuestions', 'quizQuestions')
-      .leftJoinAndSelect('quizQuestions.question', 'question')
-      .leftJoinAndSelect('question.apps', 'apps')
-      .leftJoinAndSelect('question.questionTranslations', 'questionTranslations')
-      .leftJoinAndSelect('question.images', 'images')
-      .leftJoinAndSelect('question.explanations', 'explanations')
-      .leftJoinAndSelect('explanations.explanationTranslations', 'explanationTranslations')
       .where('quiz.id = :id', { id })
       .andWhere('quiz.space_id = :spaceId', { spaceId })
       .getOne();
@@ -31,9 +30,17 @@ export class ExportQuizService {
       throw new NotFoundException('Quiz not found');
     }
 
-    const orderedQuestions = (quiz.quizQuestions ?? []).sort(
-      (a, b) => a.position - b.position,
+    const hydratedItems = await this.quizItemsService.hydrate(
+      (quiz.quizQuestions ?? []) as QuizItem[],
+      {
+        questionRelations: ['apps', 'questionTranslations', 'images', 'explanations', 'explanations.explanationTranslations'],
+      },
     );
+
+    // Notes are not yet supported by export/import - only question items are packaged.
+    const orderedQuestions = hydratedItems
+      .filter((item) => item.entityType === 'question')
+      .sort((a, b) => a.position - b.position);
 
     const metadata = {
       title: quiz.title,

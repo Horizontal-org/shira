@@ -22,7 +22,7 @@ import { ValidateQuestionImportService } from './services/validateImport.questio
 import { ZipImportService } from './services/zip-import.service';
 import { QuestionImage } from '../question_image/domain';
 import { QuestionImageModule } from '../question_image/question_image.module';
-import { QuizQuestion } from '../quiz/domain/quizzes_questions.entity';
+import { QuizItem } from '../quiz/domain/quiz_items.entity';
 
 @Module({
   imports: [
@@ -35,7 +35,7 @@ import { QuizQuestion } from '../quiz/domain/quizzes_questions.entity';
       QuestionTranslation,
       ExplanationTranslationEntity,
       LanguageEntity,
-      QuizQuestion,
+      QuizItem,
     ]),
     QuestionImageModule,
     ConsoleModule,

@@ -6,7 +6,7 @@ import { GetResultQuizController } from './controller/get-result.quiz.controller
 import { QuestionRun as QuestionRunEntity } from './domain/question_runs.entity';
 import { QuizRun as QuizRunEntity } from './domain/quiz_runs.entity';
 import { Quiz as QuizEntity } from '../quiz/domain/quiz.entity';
-import { QuizQuestion as QuizQuestionEntity } from '../quiz/domain/quizzes_questions.entity';
+import { QuizItem as QuizItemEntity } from '../quiz/domain/quiz_items.entity';
 import { QuizModule } from '../quiz/quiz.module';
 import { QuizRunController } from './controller/quiz-run.controller';
 import { QuestionRunController } from './controller/question-run.controller';
@@ -18,7 +18,7 @@ import { LearnerModule } from '../learner/learner.module';
   imports: [
     TypeOrmModule.forFeature([
       QuizEntity,
-      QuizQuestionEntity,
+      QuizItemEntity,
       QuizRunEntity,
       QuestionRunEntity,
       LearnerQuizEntity,

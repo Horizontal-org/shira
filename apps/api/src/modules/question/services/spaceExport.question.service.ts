@@ -7,7 +7,7 @@ import * as archiver from 'archiver';
 import { fileTypeFromBuffer } from 'file-type';
 import { Question } from '../domain';
 import { QuestionImage } from 'src/modules/question_image/domain';
-import { QuizQuestion } from 'src/modules/quiz/domain/quizzes_questions.entity';
+import { QuizItem } from 'src/modules/quiz/domain/quiz_items.entity';
 import { IImageService } from 'src/modules/image/interfaces/services/image.service.interface';
 import { TYPES as TYPES_IMAGE } from 'src/modules/image/interfaces';
 
@@ -21,17 +21,18 @@ export class SpaceExportQuestionService {
   constructor(
     @InjectRepository(Question)
     private readonly questionRepository: Repository<Question>,
-    @InjectRepository(QuizQuestion)
-    private readonly quizQuestionRepository: Repository<QuizQuestion>,
+    @InjectRepository(QuizItem)
+    private readonly quizItemRepository: Repository<QuizItem>,
     @Inject(TYPES_IMAGE.services.IImageService)
     private readonly imageService: IImageService,
   ) {}
 
   async export({ id, spaceId, res }: { id: number; spaceId: number; res }) {
-    const owned = await this.quizQuestionRepository
+    const owned = await this.quizItemRepository
       .createQueryBuilder('qq')
       .innerJoin('qq.quiz', 'quiz')
-      .where('qq.questionId = :id', { id })
+      .where('qq.entityId = :id', { id })
+      .andWhere("qq.entityType = 'question'")
       .andWhere('quiz.space_id = :spaceId', { spaceId })
       .getCount();
 

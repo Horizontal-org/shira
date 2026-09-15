@@ -23,7 +23,7 @@ export class ListQuizService implements IListQuizService {
         qb => {
           return qb
             .from(Question, 'question')
-            .innerJoin('quizzes_questions', 'qq', 'qq.questionId = question.id')
+            .innerJoin('quiz_items', 'qq', "qq.entityId = question.id AND qq.entityType = 'question'")
             .select('qq.quizId', 'quizId')
             .addSelect('MAX(question.updatedAt)', 'updatedAt')
             .addSelect('MAX(qq.updatedAt)', 'lastQuizQuestionUpdatedAt')
@@ -39,7 +39,7 @@ export class ListQuizService implements IListQuizService {
         'quiz.hash AS hash',
         'quiz.published AS published',
         'quiz.visibility AS visibility',
-        `(SELECT COUNT(*) FROM quizzes_questions qq_count WHERE qq_count.quiz_id = quiz.id) AS questionsCount`,
+        `(SELECT COUNT(*) FROM quiz_items qq_count WHERE qq_count.quiz_id = quiz.id AND qq_count.entity_type = 'question') AS questionsCount`,
         `EXISTS(
           SELECT 1 FROM quiz_runs qr
           WHERE qr.quiz_id = quiz.id AND qr.finished_at IS NOT NULL

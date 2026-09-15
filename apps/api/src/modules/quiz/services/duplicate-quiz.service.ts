@@ -1,7 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { Quiz } from '../domain/quiz.entity';
-import { QuizQuestion } from '../domain/quizzes_questions.entity';
+import { QuizItem } from '../domain/quiz_items.entity';
+import { Note } from '../domain/note.entity';
 import { IDuplicateQuizService } from '../interfaces/services/duplicate-quiz.service.interface';
 import { DuplicateQuizDto } from '../dto/duplicate-quiz.dto';
 import { Language } from 'src/modules/languages/domain';
@@ -13,6 +14,7 @@ import * as crypto from 'crypto';
 import { DuplicateQuestionQuizService } from './duplicate-question.quiz.service';
 import { ApiLogger } from 'src/utils/logger/api-logger.service';
 import { IValidateSpaceQuizService } from '../interfaces/services/validate-space.quiz.service.interface';
+import { IQuizItemsService } from '../interfaces/services/quiz-items.service.interface';
 
 @Injectable()
 export class DuplicateQuizService implements IDuplicateQuizService {
@@ -24,6 +26,8 @@ export class DuplicateQuizService implements IDuplicateQuizService {
     private sharedQuestionDuplicationService: ISharedQuestionDuplicationService,
     @Inject(TYPES.services.IValidateSpaceQuizService)
     private validateSpaceQuizService: IValidateSpaceQuizService,
+    @Inject(TYPES.services.IQuizItemsService)
+    private quizItemsService: IQuizItemsService,
     private dataSource: DataSource
   ) { }
 
@@ -38,21 +42,26 @@ export class DuplicateQuizService implements IDuplicateQuizService {
 
       const originalQuiz = await manager.findOne(Quiz, {
         where: { id: duplicateQuizDto.quizId },
-        relations: [
-          'space',
-          'quizQuestions',
-          'quizQuestions.question',
-          'quizQuestions.question.apps',
-          'quizQuestions.question.explanations',
-          'quizQuestions.question.questionTranslations',
-          'quizQuestions.question.images',
-          'quizQuestions.question.explanations.explanationTranslations'
-        ],
+        relations: ['space'],
       });
 
       if (!originalQuiz) {
         throw new Error('Quiz not found');
       }
+
+      const originalQuizItems = await manager.find(QuizItem, {
+        where: { quizId: duplicateQuizDto.quizId },
+      });
+
+      const hydratedItems = await this.quizItemsService.hydrate(originalQuizItems, {
+        questionRelations: [
+          'apps',
+          'explanations',
+          'questionTranslations',
+          'images',
+          'explanations.explanationTranslations',
+        ],
+      });
 
       const newQuiz = manager.create(Quiz, {
         title: duplicateQuizDto.title,
@@ -69,30 +78,50 @@ export class DuplicateQuizService implements IDuplicateQuizService {
         throw new Error('Default language not found');
       }
 
-      for (const originalQuizQuestion of originalQuiz.quizQuestions) {
-        const originalQuestion = originalQuizQuestion.question;
+      for (const originalQuizItem of hydratedItems) {
+        if (originalQuizItem.entityType === 'question') {
+          const originalQuestion = originalQuizItem.question;
 
-        const duplicatedQuestion = await this.sharedQuestionDuplicationService.duplicateQuestion({
-          originalQuestion,
-          targetQuizId: savedQuiz.id,
-          manager
-        });
+          const duplicatedQuestion = await this.sharedQuestionDuplicationService.duplicateQuestion({
+            originalQuestion,
+            targetQuizId: savedQuiz.id,
+            manager
+          });
 
-        if (duplicatedQuestion.imageIds.length > 0) {
-          await this.syncImagesService.execute({
-            imageIds: duplicatedQuestion.imageIds.map(id => id.toString()),
-            questionId: duplicatedQuestion.question.id,
-            quizId: savedQuiz.id
-          }, manager);
+          if (duplicatedQuestion.imageIds.length > 0) {
+            await this.syncImagesService.execute({
+              imageIds: duplicatedQuestion.imageIds.map(id => id.toString()),
+              questionId: duplicatedQuestion.question.id,
+              quizId: savedQuiz.id
+            }, manager);
+          }
+
+          const newQuizItem = manager.create(QuizItem, {
+            position: originalQuizItem.position,
+            quiz: savedQuiz,
+            entityType: 'question',
+            entityId: duplicatedQuestion.question.id,
+          });
+
+          await manager.save(QuizItem, newQuizItem);
+        } else if (originalQuizItem.entityType === 'note') {
+          const originalNote = originalQuizItem.note;
+
+          const duplicatedNote = manager.create(Note, {
+            name: originalNote.name,
+            content: originalNote.content,
+          });
+          const savedNote = await manager.save(Note, duplicatedNote);
+
+          const newQuizItem = manager.create(QuizItem, {
+            position: originalQuizItem.position,
+            quiz: savedQuiz,
+            entityType: 'note',
+            entityId: savedNote.id,
+          });
+
+          await manager.save(QuizItem, newQuizItem);
         }
-
-        const newQuizQuestion = manager.create(QuizQuestion, {
-          position: originalQuizQuestion.position,
-          quiz: savedQuiz,
-          question: duplicatedQuestion.question
-        });
-
-        await manager.save(QuizQuestion, newQuizQuestion);
       }
 
       return savedQuiz;

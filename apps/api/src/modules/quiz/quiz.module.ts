@@ -2,7 +2,8 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { Quiz as QuizEntity } from './domain/quiz.entity';
-import { QuizQuestion as QuizQuestionEntity } from './domain/quizzes_questions.entity';
+import { QuizItem as QuizItemEntity } from './domain/quiz_items.entity';
+import { Note as NoteEntity } from './domain/note.entity';
 import { SpaceEntity } from '../space/domain/space.entity';
 import { CreateQuizController } from './controller/create.quiz.controller';
 import { servicesQuizProviders } from './quiz.providers';
@@ -32,12 +33,16 @@ import { ImportQuestionController } from './controller/import-question.quiz.cont
 import { ImportQuizController } from './controller/import.quiz.controller';
 import { ValidateQuizImportService } from './services/validate-import.quiz.service';
 import { QuestionModule } from '../question/question.module';
+import { CreateNoteQuizController } from './controller/create-note.quiz.controller';
+import { EditNoteQuizController } from './controller/edit-note.quiz.controller';
+import { DeleteNoteQuizController } from './controller/delete-note.quiz.controller';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       QuizEntity,
-      QuizQuestionEntity,
+      QuizItemEntity,
+      NoteEntity,
       SpaceEntity,
       QuestionEntity,
       Explanation,
@@ -67,7 +72,10 @@ import { QuestionModule } from '../question/question.module';
     ValidateQuizNameController,
     ExportQuizController,
     ImportQuestionController,
-    ImportQuizController
+    ImportQuizController,
+    CreateNoteQuizController,
+    EditNoteQuizController,
+    DeleteNoteQuizController
   ],
   providers: [
     ...servicesQuizProviders,
