@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import { AudioIcon, PdfIcon, GenericAttachmentIcon } from '../../../../../Icons'
 import { AttachmentType } from '../../../../../Attachments'
 import DownloadIcon from '../../../../Whatsapp/Icons/Download'
@@ -23,6 +24,7 @@ const renderIcon = (type?: string) => {
 
 export const Attachment: FunctionComponent<Props> = ({ name, type, explanationPosition }) => {
   const isAudio = type === AttachmentType.audio
+  const { t } = useTranslation('shira-ui')
 
   return (
     <Wrapper>
@@ -36,7 +38,7 @@ export const Attachment: FunctionComponent<Props> = ({ name, type, explanationPo
             {isAudio ? (
               <Duration>00:02</Duration>
             ) : (
-              <DownloadLabel>Download</DownloadLabel>
+              <DownloadLabel>{t('telegram.download')}</DownloadLabel>
             )}
           </Info>
           {!isAudio && (
@@ -100,7 +102,6 @@ const Card = styled.div`
   padding-bottom: 8px;
   padding-inline-start: 9px;
   box-shadow: 0 1px 0.5px rgba(11,20,26, .13);
-  margin: 2px 0;
 
   > div {
     cursor: pointer;

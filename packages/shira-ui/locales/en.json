@@ -106,6 +106,19 @@
     "contact_9_time": "12:40 PM",
     "contact_9_message": "I'm sorry, guys. I never meant to hurt you"
   },
+  "telegram": {
+    "chats": "Chats",
+    "search": "Search",
+    "download": "Download",
+    "last_seen": "last seen recently",
+    "add_contact": "Add Contact",
+    "block_user": "Block User",
+    "not_a_contact": "Not a contact",
+    "registration": "Registration",
+    "phone_number": "Phone Number",
+    "not_official_account": "Not an official account",
+    "untitled_document": "Untitled document.txt"
+  },
   "pagination": {
     "summary": "{{start}}-{{end}} of {{total}}",
     "page": "<current>{{current}}</current> of {{total}}",

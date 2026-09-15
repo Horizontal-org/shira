@@ -1,16 +1,19 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import ProfilePicture from '../../../../Whatsapp/ProfilePicture'
 
 import NewMessageIcon from '../../../../Whatsapp/Icons/NewMessage'
-import MoreOptionsIcon from '../../../../Whatsapp/Icons/MoreOptions'
+import MoreOptionsIcon from '../../../../SMS/Header/assets/More'
 
 interface Props { }
 
 const Profile: FunctionComponent<Props> = () => {
+  const { t } = useTranslation('shira-ui')
+
   return (
     <Wrapper>
-      <Title>Chats</Title>
+      <Title>{t('telegram.chats')}</Title>
       <Icons>
         <IconWrapper>
           <ProfilePicture imageSize="24px" />

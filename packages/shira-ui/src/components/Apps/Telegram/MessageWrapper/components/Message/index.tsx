@@ -31,7 +31,6 @@ const Wrapper = styled.div`
   padding-bottom: 8px;
   padding-inline-start: 9px;
   box-shadow: 0 1px 0.5px rgba(11,20,26, .13);
-  margin: 4px 0;
 
   > span {
     font-size: 9px;

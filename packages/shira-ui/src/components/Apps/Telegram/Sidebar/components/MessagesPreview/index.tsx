@@ -28,7 +28,7 @@ const MessagesPreview: FunctionComponent<Props> = ({ phone }) => {
               <UserInfoFirstRow>
                 <Username>{phone.textContent}</Username>
               </UserInfoFirstRow>
-              <MessageContent>Untitled document.txt</MessageContent>
+              <MessageContent>{t('telegram.untitled_document')}</MessageContent>
             </UserInfo>
           </Message>
         )}
