@@ -1,0 +1,30 @@
+name: shira-e2e
+services:
+  mysql:
+    image: mysql:5.7.44
+    platform: linux/amd64
+    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+    environment:
+      MYSQL_DATABASE: shira_e2e
+      MYSQL_USER: shira_e2e
+      MYSQL_PASSWORD: shira_e2e
+      MYSQL_ROOT_PASSWORD: shira_e2e_root
+    ports:
+      - '127.0.0.1:13307:3306'
+    tmpfs:
+      - /var/lib/mysql
+    healthcheck:
+      test: ['CMD', 'mysql', '-h', '127.0.0.1', '-ushira_e2e', '-pshira_e2e', 'shira_e2e', '-e', 'SELECT 1']
+      interval: 2s
+      timeout: 5s
+      retries: 60
+  redis:
+    image: redis:7.4.2-alpine
+    ports:
+      - '127.0.0.1:16379:6379'
+    command: ['redis-server', '--save', '', '--appendonly', 'no']
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 2s
+      timeout: 5s
+      retries: 30
