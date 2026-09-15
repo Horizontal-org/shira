@@ -4,7 +4,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { SpaceEntity } from "../domain/space.entity";
 import { In, Repository } from "typeorm";
 import { Quiz } from "src/modules/quiz/domain/quiz.entity";
-import { QuizQuestion } from "src/modules/quiz/domain/quizzes_questions.entity";
+import { QuizItem } from "src/modules/quiz/domain/quiz_items.entity";
 
 @Injectable()
 export class DeleteSpaceService implements IDeleteSpaceService {
@@ -13,8 +13,8 @@ export class DeleteSpaceService implements IDeleteSpaceService {
     private readonly spaceRepo: Repository<SpaceEntity>,
     @InjectRepository(Quiz)
     private readonly quizRepo: Repository<Quiz>,
-    @InjectRepository(QuizQuestion)
-    private readonly quizQuestionRepo: Repository<QuizQuestion>
+    @InjectRepository(QuizItem)
+    private readonly quizItemRepo: Repository<QuizItem>
   ){}
 
   async execute(id: number): Promise<void> {
@@ -36,7 +36,7 @@ export class DeleteSpaceService implements IDeleteSpaceService {
 
     if(quizzes.length > 0) {
       const quizIds = quizzes.map(quiz => quiz.id)
-      await this.quizQuestionRepo.delete({
+      await this.quizItemRepo.delete({
         quiz: { id: In(quizIds)}
       });
 

@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { Quiz as QuizEntity } from './domain/quiz.entity';
-import { QuizQuestion as QuizQuestionEntity } from './domain/quizzes_questions.entity';
+import { QuizItem as QuizItemEntity } from './domain/quiz_items.entity';
+import { Note as NoteEntity } from '../note/domain';
 import { SpaceEntity } from '../space/domain/space.entity';
 import { CreateQuizController } from './controller/create.quiz.controller';
 import { servicesQuizProviders } from './quiz.providers';
@@ -37,7 +38,8 @@ import { QuestionModule } from '../question/question.module';
   imports: [
     TypeOrmModule.forFeature([
       QuizEntity,
-      QuizQuestionEntity,
+      QuizItemEntity,
+      NoteEntity,
       SpaceEntity,
       QuestionEntity,
       Explanation,
@@ -49,7 +51,7 @@ import { QuestionModule } from '../question/question.module';
     ]),
     QuestionImageModule,
     SubscriptionModule,
-    QuestionModule
+    forwardRef(() => QuestionModule)
   ],
   controllers: [
     CreateQuizController,

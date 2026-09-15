@@ -11,6 +11,7 @@ import { App } from "../../fetch/app";
 import { ActiveQuestion } from "../../store/types/active_question";
 import { QUESTION_NAME_MAX_LENGTH } from "../../utils/inputLimits";
 import { useTranslation } from "react-i18next";
+import { EntityFlowBox } from "../EntityFlowBody";
 
 interface Props {
   handleQuestion: (k, v) => void;
@@ -30,7 +31,7 @@ export const QuestionBasicInfo: FunctionComponent<Props> = ({
   const { t } = useTranslation();
 
   return (
-    <StyledBox>
+    <EntityFlowBox>
       <div>
         <SubHeading3>{t('create_question.tabs.question_info.question_name.title')}</SubHeading3>
         <Body3>{t('create_question.tabs.question_info.question_name.subtitle')}</Body3>
@@ -93,16 +94,9 @@ export const QuestionBasicInfo: FunctionComponent<Props> = ({
         </FilterButtonsContainer>
       </div>
 
-    </StyledBox>
+    </EntityFlowBox>
   )
 }
-
-const StyledBox = styled(Box)`
-  position: relative;
-  z-index: 1;
-  padding: 48px;
-  width: 1024px;
-`
 
 const FilterButtonsContainer = styled.div`
   margin-top: 8px;

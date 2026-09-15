@@ -2,10 +2,13 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Quiz as QuizEntity } from '../domain/quiz.entity';
+import { QuizItem } from '../domain/quiz_items.entity';
 import { IGetByHashQuizService } from '../interfaces/services/get-by-hash.quiz.service.interface';
 import { Language } from 'src/modules/languages/domain';
 import { TYPES as TYPES_QUESTION_IMAGE } from '../../question_image/interfaces'
 import { IGenerateUrlsQuestionImageService } from 'src/modules/question_image/interfaces/services/generate_urls.question_image.service.interface';
+import { TYPES } from '../interfaces';
+import { IQuizItemsService } from '../interfaces/services/quiz-items.service.interface';
 
 @Injectable()
 export class GetByHashQuizService implements IGetByHashQuizService {
@@ -16,84 +19,85 @@ export class GetByHashQuizService implements IGetByHashQuizService {
     @InjectRepository(Language)
     private readonly languageRepository: Repository<Language>,
     @Inject(TYPES_QUESTION_IMAGE.services.IGenerateUrlsQuestionImageService)
-    private getImageUrls: IGenerateUrlsQuestionImageService
+    private getImageUrls: IGenerateUrlsQuestionImageService,
+    @Inject(TYPES.services.IQuizItemsService)
+    private readonly quizItemsService: IQuizItemsService,
   ) { }
 
   async execute(
     hash,
     visibility = 'public'
   ) {
-    console.log("🚀 ~ GetByHashQuizService ~ execute ~ visibility:", visibility)
-    console.log("🚀 ~ GetByHashQuizService ~ execute ~ hash:", hash)
     const { id: languageId } = await this.languageRepository.findOne({
       where: { code: 'en' },
     });
 
-    // TODO test sanitize for the hash
     const quiz = await this.quizRepo
       .createQueryBuilder('quiz')
-      .leftJoin('quiz.quizQuestions', 'quizzes_questions')
-      .leftJoin('quizzes_questions.question', 'question')
-      .leftJoin('question.questionTranslations', 'questionTranslations')
-      .leftJoin('question.apps', 'apps')
-      .leftJoin('question.explanations', 'explanations')
-      .leftJoin(
-        'explanations.explanationTranslations',
-        'explanationTranslations',
-        'explanations.id = explanationTranslations.explanation_id AND explanationTranslations.language_id = :languageId',
-        { languageId },
-      )
       .leftJoin('quiz.space', 'space')
       .select([
         'quiz.id',
-        'question.id',
-        'question.name',
         'quiz.title',
         'quiz.visibility',
         'quiz.assessmentMode',
-        'quizzes_questions.questionId',
-        'quizzes_questions.position',
-        'question.isPhising',
-        'apps.id',
-        'apps.name',
-        'explanations.id',
-        'explanations.index',
-        'explanations.position',
-        'explanations.createdAt',
-        'explanations.updatedAt',
-        'questionTranslations.content',
-        'explanationTranslations.content',
         'space.hasResultsEnabled',
       ])
       .where('quiz.hash = :hash', { hash: hash })
       .andWhere('published = 1')
       .andWhere('quiz.visibility = :visibility', { visibility: visibility })
-      .andWhere('questionTranslations.languageId = :languageId', {
-        languageId,
-      })
       .getOne()
 
     if (!quiz) {
       throw new NotFoundException()
     }
 
-    const parsedAll = quiz.quizQuestions.map((qq) => {
-      return {
-        ...qq,
-        question: {
-          ...qq.question,
-          app: {
-            id: qq.question.apps[0].id,
-            name: qq.question.apps[0].name,
+    // Notes are excluded from the public quiz-taking payload - the learner-facing app
+    // doesn't yet know how to render a non-question item.
+    const quizItems = await this.quizRepo.manager.getRepository(QuizItem).find({
+      where: { quizId: quiz.id, entityType: 'question' },
+    });
+
+    const hydratedItems = await this.quizItemsService.hydrate(quizItems, {
+      questionRelations: ['apps', 'questionTranslations', 'explanations', 'explanations.explanationTranslations'],
+    });
+
+    const parsedAll = hydratedItems
+      .filter((item) => item.entityType === 'question')
+      .filter((qq) => qq.question.questionTranslations?.some((t) => t.languageId === languageId))
+      .map((qq) => {
+        const question = qq.question;
+        const questionTranslation = question.questionTranslations.find(
+          (t) => t.languageId === languageId,
+        );
+
+        return {
+          position: qq.position,
+          questionId: question.id,
+          question: {
+            id: question.id,
+            name: question.name,
+            isPhising: question.isPhising,
+            app: {
+              id: question.apps[0].id,
+              name: question.apps[0].name,
+            },
+            explanations: (question.explanations ?? []).map((explanation) => {
+              const explanationTranslation = explanation.explanationTranslations?.find(
+                (t) => t.languageId === languageId,
+              );
+              return {
+                id: explanation.id,
+                index: explanation.index,
+                position: explanation.position,
+                createdAt: explanation.createdAt,
+                updatedAt: explanation.updatedAt,
+                text: explanationTranslation?.content,
+              };
+            }),
+            content: questionTranslation?.content,
           },
-          explanations: qq.question.explanations.map((explanation) => ({
-            ...explanation,
-            text: explanation.explanationTranslations[0]?.content,
-          })),
-          content: qq.question.questionTranslations[0].content
-        }
-      }
-    })
+        };
+      });
 
     const images = await this.getImageUrls.byQuiz(quiz.id)
     return {

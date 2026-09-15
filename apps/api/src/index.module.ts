@@ -21,6 +21,7 @@ import { SpaceModule } from './modules/space/space.module';
 import { QueueModule } from './modules/queue/queue.module';
 import { EmailModule } from './modules/email/email.module';
 import { QuizModule } from './modules/quiz/quiz.module';
+import { NoteModule } from './modules/note/note.module';
 import { QuestionImageModule } from './modules/question_image/question_image.module';
 import { ImageModule } from './modules/image/image.module';
 import { OrganizationModule } from './modules/organization/organization.module';
@@ -58,6 +59,7 @@ import { APP_GUARD } from '@nestjs/core';
     LanguageModule,
     PassphraseModule,
     QuizModule,
+    NoteModule,
     QuizResultModule,
     OrganizationModule,
     SubscriptionModule,

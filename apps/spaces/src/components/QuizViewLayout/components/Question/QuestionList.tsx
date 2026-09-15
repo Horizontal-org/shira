@@ -16,7 +16,7 @@ import { QuizQuestion } from "../../../../store/slices/quiz";
 import { QuestionEmptyState } from "./QuestionEmptyState";
 import { QuestionTable } from "./QuestionTable";
 import { QuestionActionModals } from "./QuestionActionModals";
-import { QuestionCreateOptions } from "./QuestionCreateOptions";
+import { QuizItemCreateOptions } from "../QuizItem/QuizItemCreateOptions";
 
 interface QuestionsListProps {
   quizId: number;
@@ -29,7 +29,8 @@ interface QuestionsListProps {
   onReorder: (newOrder: QuizQuestion[]) => void;
   onRefresh: () => void;
   onSubmitAsTemplate: (questionId: string) => void;
-  hasResults: boolean
+  hasResults: boolean,
+  onCreateNote: () => void
 }
 
 export interface ConfirmModalInfo {
@@ -48,7 +49,8 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
   onReorder,
   onRefresh,
   onSubmitAsTemplate,
-  hasResults
+  hasResults,
+  onCreateNote
 }) => {
   const { t } = useTranslation();
   const { isPublicLibraryEnabled } = usePublicLibrary();
@@ -107,7 +109,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
   return (
     <div>
 
-      <QuestionCreateOptions
+      <QuizItemCreateOptions
         isCreationOptionsModalOpen={isCreationOptionsModalOpen}
         setIsCreationOptionsModalOpen={(toggle) => {
           if (toggle && hasResults) {
@@ -119,6 +121,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
         onImport={() => { setImportModalOpen(true) }}
         onAddLibrary={() => onAddLibrary(quizId.toString())}
         onAdd={() => { onAdd() }}
+        onCreateNote={onCreateNote}
       />
 
 
