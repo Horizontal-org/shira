@@ -19,8 +19,5 @@ export const TYPES = {
     IAddQuestionToQuizService: 'IAddQuestionToQuizService',
     IImportQuizService: 'IImportQuizService',
     IQuizItemsService: 'IQuizItemsService',
-    ICreateNoteQuizService: 'ICreateNoteQuizService',
-    IEditNoteQuizService: 'IEditNoteQuizService',
-    IDeleteNoteQuizService: 'IDeleteNoteQuizService',
   },
 };

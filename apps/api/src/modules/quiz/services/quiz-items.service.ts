@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, In, Repository } from 'typeorm';
 import { QuizItem, QuizItemEntityType } from '../domain/quiz_items.entity';
 import { Question } from 'src/modules/question/domain';
-import { Note } from '../domain/note.entity';
+import { Note } from '../../note/domain';
 import {
   HydratedQuizItem,
   IQuizItemsService,

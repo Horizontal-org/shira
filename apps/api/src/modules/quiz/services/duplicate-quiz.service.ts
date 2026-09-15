@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { Quiz } from '../domain/quiz.entity';
 import { QuizItem } from '../domain/quiz_items.entity';
-import { Note } from '../domain/note.entity';
+import { Note } from '../../note/domain';
 import { IDuplicateQuizService } from '../interfaces/services/duplicate-quiz.service.interface';
 import { DuplicateQuizDto } from '../dto/duplicate-quiz.dto';
 import { Language } from 'src/modules/languages/domain';

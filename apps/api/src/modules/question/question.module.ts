@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConsoleModule } from 'nestjs-console';
 import { QuestionCommander } from './commander';
@@ -23,6 +23,7 @@ import { ZipImportService } from './services/zip-import.service';
 import { QuestionImage } from '../question_image/domain';
 import { QuestionImageModule } from '../question_image/question_image.module';
 import { QuizItem } from '../quiz/domain/quiz_items.entity';
+import { QuizModule } from '../quiz/quiz.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { QuizItem } from '../quiz/domain/quiz_items.entity';
     ]),
     QuestionImageModule,
     ConsoleModule,
+    forwardRef(() => QuizModule),
   ],
   controllers: [...questionControllers],
   providers: [

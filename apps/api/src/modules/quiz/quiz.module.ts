@@ -1,9 +1,9 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { Quiz as QuizEntity } from './domain/quiz.entity';
 import { QuizItem as QuizItemEntity } from './domain/quiz_items.entity';
-import { Note as NoteEntity } from './domain/note.entity';
+import { Note as NoteEntity } from '../note/domain';
 import { SpaceEntity } from '../space/domain/space.entity';
 import { CreateQuizController } from './controller/create.quiz.controller';
 import { servicesQuizProviders } from './quiz.providers';
@@ -33,9 +33,6 @@ import { ImportQuestionController } from './controller/import-question.quiz.cont
 import { ImportQuizController } from './controller/import.quiz.controller';
 import { ValidateQuizImportService } from './services/validate-import.quiz.service';
 import { QuestionModule } from '../question/question.module';
-import { CreateNoteQuizController } from './controller/create-note.quiz.controller';
-import { EditNoteQuizController } from './controller/edit-note.quiz.controller';
-import { DeleteNoteQuizController } from './controller/delete-note.quiz.controller';
 
 @Module({
   imports: [
@@ -54,7 +51,7 @@ import { DeleteNoteQuizController } from './controller/delete-note.quiz.controll
     ]),
     QuestionImageModule,
     SubscriptionModule,
-    QuestionModule
+    forwardRef(() => QuestionModule)
   ],
   controllers: [
     CreateQuizController,
@@ -72,10 +69,7 @@ import { DeleteNoteQuizController } from './controller/delete-note.quiz.controll
     ValidateQuizNameController,
     ExportQuizController,
     ImportQuestionController,
-    ImportQuizController,
-    CreateNoteQuizController,
-    EditNoteQuizController,
-    DeleteNoteQuizController
+    ImportQuizController
   ],
   providers: [
     ...servicesQuizProviders,

@@ -18,9 +18,6 @@ import { ValidateCreateQuizService } from './services/validate-create.quiz.servi
 import { AddQuestionToQuizService } from './services/add-question-to-quiz.quiz.service';
 import { ImportQuizService } from './services/import.quiz.service';
 import { QuizItemsService } from './services/quiz-items.service';
-import { CreateNoteQuizService } from './services/create-note.quiz.service';
-import { EditNoteQuizService } from './services/edit-note.quiz.service';
-import { DeleteNoteQuizService } from './services/delete-note.quiz.service';
 
 export const createQuizServiceProvider = {
   provide: TYPES.services.ICreateQuizService,
@@ -117,21 +114,6 @@ export const quizItemsServiceProvider = {
   useClass: QuizItemsService
 }
 
-export const createNoteQuizServiceProvider = {
-  provide: TYPES.services.ICreateNoteQuizService,
-  useClass: CreateNoteQuizService
-}
-
-export const editNoteQuizServiceProvider = {
-  provide: TYPES.services.IEditNoteQuizService,
-  useClass: EditNoteQuizService
-}
-
-export const deleteNoteQuizServiceProvider = {
-  provide: TYPES.services.IDeleteNoteQuizService,
-  useClass: DeleteNoteQuizService
-}
-
 export const servicesQuizProviders = [
   createQuizServiceProvider,
   listQuizServiceProvider,
@@ -152,7 +134,4 @@ export const servicesQuizProviders = [
   addQuestionToQuizServiceProvider,
   importQuizServiceProvider,
   quizItemsServiceProvider,
-  createNoteQuizServiceProvider,
-  editNoteQuizServiceProvider,
-  deleteNoteQuizServiceProvider,
 ];

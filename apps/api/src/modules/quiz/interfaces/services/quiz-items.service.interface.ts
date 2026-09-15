@@ -1,7 +1,7 @@
 import { EntityManager } from "typeorm";
 import { QuizItem, QuizItemEntityType } from "../../domain/quiz_items.entity";
 import { Question } from "src/modules/question/domain";
-import { Note } from "../../domain/note.entity";
+import { Note } from "../../../note/domain";
 
 export type HydratedQuizItem = QuizItem & {
   question?: Question;
