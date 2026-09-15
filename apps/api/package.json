@@ -42,7 +42,7 @@
     "@types/passport-jwt": "^4.0.1",
     "@types/passport-local": "^1.0.38",
     "@types/sanitize-html": "^2.16.0",
-    "adm-zip": "^0.5.18",
+    "adm-zip": "^0.6.1",
     "archiver": "^7.0.1",
     "bcrypt": "6.0.0",
     "bullmq": "^5.69.1",
