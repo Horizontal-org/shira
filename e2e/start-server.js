@@ -1,50 +1,92 @@
 const { spawn } = require('node:child_process');
 const path = require('node:path');
-const root = path.resolve(__dirname, '..');
-const target = process.argv[2];
-const env = { ...process.env, ...require('./environment.js') };
+
+const rootDir = path.resolve(__dirname, '..');
+const e2eEnv = require('./environment.js');
+const packageJson = require('../package.json');
+
+const serviceName = process.argv[2];
+
+// Both Spaces and Public apps use the same test API.
+const commonFrontendEnv = {
+  NODE_ENV: 'development',
+  BROWSER: 'none',
+  HOST: 'localhost',
+  PUBLIC_URL: '',
+  REACT_APP_API_URL: 'http://localhost:13000',
+  REACT_APP_LIBRARY_API_URL: 'http://localhost:13999',
+  REACT_APP_ENABLE_ANALYTICS: 'no',
+  REACT_APP_VERSION: packageJson.version,
+};
+
 const services = {
-  api: [
-    'apps/api',
-    [
+  api: {
+    cwd: 'apps/api',
+    args: [
       '-r',
       'ts-node/register',
       '-r',
       'tsconfig-paths/register',
       '../../e2e/start-api.ts',
     ],
-  ],
-  public: ['apps/public', ['scripts/start.js']],
-  spaces: [
-    'apps/spaces',
-    ['../../node_modules/react-scripts/scripts/start.js'],
-  ],
+  },
+
+  public: {
+    cwd: 'apps/public',
+    args: ['scripts/start.js'],
+    env: {
+      ...commonFrontendEnv,
+      PORT: '13001',
+    },
+  },
+
+  spaces: {
+    cwd: 'apps/spaces',
+    args: ['../../node_modules/react-scripts/scripts/start.js'],
+    env: {
+      ...commonFrontendEnv,
+      PORT: '13002',
+    },
+  },
 };
-if (!services[target]) throw new Error(`Unknown server: ${target}`);
-if (target !== 'api')
-  Object.assign(env, {
-    NODE_ENV: 'development',
-    BROWSER: 'none',
-    HOST: 'localhost',
-    PUBLIC_URL: '',
-    PORT: target === 'public' ? '13001' : '13002',
-    REACT_APP_API_URL: 'http://localhost:13000',
-    REACT_APP_LIBRARY_API_URL: 'http://localhost:13999',
-    REACT_APP_ENABLE_ANALYTICS: 'no',
-    REACT_APP_VERSION: require('../package.json').version,
+
+function startServer(name) {
+  const service = services[name];
+
+  const env = {
+    ...process.env,
+    ...e2eEnv,
+    ...service.env,
+  };
+
+  const child = spawn(process.execPath, service.args, {
+    cwd: path.join(rootDir, service.cwd),
+    env,
+    stdio: 'inherit',
   });
-const [cwd, args] = services[target];
-const child = spawn(process.execPath, args, {
-  cwd: path.join(root, cwd),
-  env,
-  stdio: 'inherit',
-});
-for (const signal of ['SIGINT', 'SIGTERM'])
-  process.on(signal, () => child.kill(signal));
-child.on('error', (error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
-child.on('exit', (code) => {
-  process.exitCode = code ?? 1;
-});
+
+  const forwardSignal = (signal) => {
+    if (!child.killed) {
+      child.kill(signal);
+    }
+  };
+
+  process.once('SIGINT', () => forwardSignal('SIGINT'));
+  process.once('SIGTERM', () => forwardSignal('SIGTERM'));
+
+  child.on('error', (error) => {
+    console.error(`Failed to start ${name}:`, error);
+    process.exitCode = 1;
+  });
+
+  child.on('exit', (code, signal) => {
+    if (signal) {
+      process.exitCode = 1;
+      return;
+    }
+
+    process.exitCode = code ?? 1;
+  });
+}
+
+startServer(serviceName);
