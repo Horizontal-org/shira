@@ -920,8 +920,8 @@
         "export_question_fail": "Failed to export question",
         "entity_import": {
             "invalid_zip_file": {
-                "subtitle": "الرجاء التأكد من أن الملف CSV والمحاولة مرة أخرى.",
-                "title": "خطأ: صيغة الملف غير مدعومة"
+                "subtitle": "تعذر علينا معالجة الملف، يرجى المحاولة مرة أخرى.",
+                "title": "خطأ: تعذرت معالجة ملفكم"
             },
             "invalid_formatting": {
                 "title": "خطأ: صيغة الملف غير مدعومة",
