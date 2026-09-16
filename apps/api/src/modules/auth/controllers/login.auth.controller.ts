@@ -24,7 +24,6 @@ export class LoginAuthController {
   async login(@Body() loginAuthDto: LoginAuthDto, @Res() response: Response) {
     const { email, password } = loginAuthDto;
     const user = await this.validateAuthService.execute({ email, password });
-    console.log("🚀 ~ LoginAuthController ~ login ~ user:", user)
     const authToken = await this.generateTokenAuthService.execute(user);
 
     const cookieOptions = {

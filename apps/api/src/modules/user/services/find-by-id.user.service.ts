@@ -16,7 +16,6 @@ export class FindByidUserService implements IFindByIdUserService {
       where: { id: id },
       relations: ['spaces']
     });
-    console.log("🚀 ~ FindByidUserService ~ execute ~ user:", user)
 
     if (!user) throw new NotFoundUserException();
 
