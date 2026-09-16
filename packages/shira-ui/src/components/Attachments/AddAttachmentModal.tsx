@@ -2,6 +2,8 @@ import { TextInput } from '../TextInput';
 import { SelectComponent } from '../Select';
 import { Modal, ModalType } from '../Modal';
 import { AttachmentType } from './Attachment';
+import { Body3 } from '../Typography';
+import styled from 'styled-components'
 
 export interface AddAttachmentModalProps {
   fileName: string;
@@ -17,6 +19,7 @@ export interface AddAttachmentModalProps {
   cancelLabel?: string;
   fileNameLabel?: string;
   fileTypeLabel?: string;
+  fileTypeExplanation?: string;
   fileTypePlaceholder?: string;
   typeLabels?: Partial<Record<AttachmentType, string>>;
 }
@@ -35,7 +38,8 @@ export const AddAttachmentModal = ({
   saveLabel,
   cancelLabel,
   fileNameLabel,
-  fileTypeLabel
+  fileTypeLabel,
+  fileTypeExplanation
 }: AddAttachmentModalProps) => {
   const trimmedFileName = fileName.trim();
   const disabledSave =
@@ -67,7 +71,8 @@ export const AddAttachmentModal = ({
       onSecondaryClick={onClose}
       type={ModalType.Primary}
     >
-      <div>
+      <Body3>{fileTypeExplanation}</Body3>
+      <ChildrenContainer>
         <TextInput
           id="file-name-input"
           label={fileNameLabel}
@@ -83,10 +88,13 @@ export const AddAttachmentModal = ({
           onChange={handleFileType}
           value={fileType}
         />
-      </div>
+      </ChildrenContainer>
     </Modal>
 
   );
 };
 
+const ChildrenContainer = styled.div`
+  margin-top: 1rem;
+`
 export default AddAttachmentModal;

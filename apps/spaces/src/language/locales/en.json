@@ -748,6 +748,7 @@
             "title": "Add attachment",
             "file_name": "File name",
             "file_type": "File type",
+            "explanation": "Selecting the correct file type lets Shira display a realistic attachment icon in the quiz. For added realism, consider including a file extension in the filename (for example, .pdf or .zip).",
             "field_type": {
                 "title:": "Field type",
                 "image": "Image",
