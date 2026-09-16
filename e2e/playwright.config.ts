@@ -6,6 +6,7 @@ const browser = { ...devices['Desktop Chrome'] };
 
 export default defineConfig({
   testDir: './tests',
+  // Run one test at a time
   fullyParallel: false,
   // CI is an env variable set by GitHub Actions. It is unset locally.
   forbidOnly: !!process.env.CI,
@@ -21,7 +22,11 @@ export default defineConfig({
   outputDir: resolve(root, 'test-results'),
   use: {
     locale: 'en-US', timezoneId: 'UTC',
-    trace: 'retain-on-failure', screenshot: 'only-on-failure',
+    // Record a trace only when a test fails
+    trace: 'retain-on-failure',
+    // Take a screenshot only when a test fails
+    screenshot: 'only-on-failure',
+    // Record a video only when a test fails
     video: 'retain-on-failure',
   },
   projects: [
