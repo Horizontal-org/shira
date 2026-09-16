@@ -57,7 +57,10 @@ export const isQuestionContentStepValid = (question?: ActiveQuestion) => {
   }
 
   if (question.app.type === 'email') {
-    return getEmailContentValidation(question.content)
+    return getEmailContentValidation(
+      question.content as EmailContent,
+      question.editorType === 'advanced'
+    )
   }
 
   if (question.app.type === 'messaging') {
@@ -67,7 +70,10 @@ export const isQuestionContentStepValid = (question?: ActiveQuestion) => {
   return { isValid: true }
 }
 
-const getEmailContentValidation = (content: EmailContent) => {
+const getEmailContentValidation = (
+  content: EmailContent,
+  isAdvancedHtml = false
+) => {
   if (!hasRequiredValue(content.senderName?.value ?? '')
     || !hasRequiredValue(content.senderEmail?.value ?? '')) {
     return {
@@ -79,7 +85,9 @@ const getEmailContentValidation = (content: EmailContent) => {
   const isOverCharacterLimit = content.senderName?.value.length > SENDER_NAME_MAX_LENGTH
     || content.senderEmail?.value.length > SENDER_EMAIL_MAX_LENGTH
     || (content.subject?.value.length ?? 0) > EMAIL_SUBJECT_MAX_LENGTH
-    || getEditorTextLength(content.body?.value) > EMAIL_CONTENT_MAX_LENGTH
+    || (isAdvancedHtml
+      ? (content.body?.value?.length ?? 0)
+      : getEditorTextLength(content.body?.value)) > EMAIL_CONTENT_MAX_LENGTH
 
   if (isOverCharacterLimit) {
     return {

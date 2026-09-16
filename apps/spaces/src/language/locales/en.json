@@ -170,6 +170,13 @@
         }
     },
     "create_question": {
+        "html_editor": {
+            "title": "HTML source",
+            "fix_errors": "Fix HTML errors before continuing.",
+            "errors": {
+                "syntax": "Check the HTML near the highlighted position"
+            }
+        },
         "header_title": "Create a new question",
         "header_required_tooltip": "Required fields cannot be left blank",
         "header_character_limit_tooltip": "One or more fields exceed the character limit.",
@@ -188,6 +195,11 @@
                 },
                 "apps": {
                     "title": "Selected app"
+                },
+                "editor": {
+                    "title": "Editor",
+                    "simple": "Simple editor",
+                    "advanced": "Advanced HTML editor"
                 }
             },
             "content": {

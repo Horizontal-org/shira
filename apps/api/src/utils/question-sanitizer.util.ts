@@ -1,11 +1,36 @@
 import * as sanitizeHtml from 'sanitize-html';
 import * as cheerio from 'cheerio';
+import { BadRequestException } from '@nestjs/common';
+import { htmlSyntaxIssues } from './advanced-html.util';
 
 export class QuestionSanitizer {
-  
+  static validateAdvancedQuestion(html: string, explanations: Array<{ index: string | number }>, appType: string): void {
+    const $ = cheerio.load(html || '', null, false);
+    const body = $('#component-text-1.advanced-html-editor');
+
+    if (!body.length) return;
+
+    if (appType !== 'email' || body.length !== 1) {
+      throw new BadRequestException('HTML editing is supported only for email questions.');
+    }
+
+    const issues = htmlSyntaxIssues(html);
+    if (issues.length) throw new BadRequestException({ message: 'Invalid HTML.', issues });
+  }
+
   static sanitizeQuestionContent(html: string): string {
     if (!html) return '';
-    
+    const $ = cheerio.load(html, null, false);
+    const advancedBodies = $('#component-text-1.advanced-html-editor');
+
+    if (advancedBodies.length) {
+      const body = advancedBodies.first().html() || '';
+      advancedBodies.empty().removeClass('advanced-html-editor');
+      const envelope = cheerio.load(this.sanitizeQuestionContent($.html()), null, false);
+      envelope('#component-text-1').first().addClass('advanced-html-editor').html(body);
+      return envelope.html();
+    }
+
     return sanitizeHtml(html, {
       // TipTap-compatible tags
       allowedTags: [
