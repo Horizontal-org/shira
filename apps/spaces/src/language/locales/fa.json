@@ -445,7 +445,9 @@
             },
             "results": {
                 "description": "Shira automatically tracks quiz responses to provide analytics and compliance reporting. You can disable this feature to minimize the data we collect about your Learners. <learnMore>Learn More</learnMore>",
-                "title": "نتایج"
+                "title": "نتایج",
+                "enable_button": "Enable Results",
+                "disable_button": "Disable Results"
             }
         },
         "checkout_success": {
@@ -825,6 +827,12 @@
                 "upload_success": "Your file is ready to be imported.",
                 "importing": "Importing..."
             }
+        },
+        "update_results_enabled": {
+            "title_enable": "Enable results?",
+            "title_disable": "Disable results?",
+            "content_enable": "We will start tracking your user quiz information",
+            "content_disable": "We will stop tracking your user quiz information"
         }
     },
     "error_messages": {
