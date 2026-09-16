@@ -753,8 +753,8 @@
         "export_question_fail": "Failed to export question",
         "entity_import": {
             "invalid_zip_file": {
-                "subtitle": "Vérifiez que le fichier est au format CSV et réessayez.",
-                "title": "Erreur : format de fichier invalide"
+                "subtitle": "Nous n'avons pas pu traiter le fichier. Réessayez.",
+                "title": "Erreur : impossible de traiter votre fichier"
             },
             "invalid_formatting": {
                 "title": "Erreur : format de fichier invalide",
