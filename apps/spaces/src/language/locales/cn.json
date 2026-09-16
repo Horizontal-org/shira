@@ -753,8 +753,8 @@
         "export_question_fail": "Failed to export question",
         "entity_import": {
             "invalid_zip_file": {
-                "subtitle": "请确保文件为 CSV 格式后重试。",
-                "title": "错误：无效的文件格式"
+                "subtitle": "我们无法处理该文件，请重试。",
+                "title": "错误：无法处理您的文件"
             },
             "invalid_formatting": {
                 "title": "错误：无效的文件格式",
