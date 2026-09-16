@@ -261,7 +261,7 @@ const Hovered = styled.div`
   width: 178px;
   height: 118px;
   display: none;
-  background: #555;
+  background: #eee;
   opacity: 1.0;
   padding-top: 12px;
   box-sizing: border-box;
@@ -272,7 +272,7 @@ const Hovered = styled.div`
 `
 
 const HoveredName = styled.span`
-  color: white;
+  color: #777;
   font-weight: bold;
   font-size: 12px;
 `
@@ -281,7 +281,7 @@ const HoveredMetadata = styled.div`
   flex-direction: column;
   padding: 1px 8px;
   div:nth-of-type(2) {
-    color: white;
+    color: #aaa;
     padding-left: 24px;
     font-size: 10px;
   }
@@ -328,9 +328,12 @@ const GoogleDriveAddIcon = styled.svg`
 `
 
 const HoveredButton = styled.div`
-  background: grey;
+  background: #777;
   color: white;
-  width: min-content;
-  height: min-content;
+  width: 32px;
+  height: 32px;
   border-radius: 0.25rem;
+  &:hover {
+    background: #aaa;
+  }
 `
