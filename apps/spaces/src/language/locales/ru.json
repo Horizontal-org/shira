@@ -920,8 +920,8 @@
         "export_question_fail": "Failed to export question",
         "entity_import": {
             "invalid_zip_file": {
-                "subtitle": "Пожалуйста, убедитесь, что файл имеет формат CSV, и попробуйте ещё раз.",
-                "title": "Ошибка: неверный формат файла"
+                "subtitle": "Не удалось обработать файл. Пожалуйста, попробуйте ещё раз.",
+                "title": "Ошибка: не удалось обработать файл"
             },
             "invalid_formatting": {
                 "title": "Ошибка: неверный формат файла",
