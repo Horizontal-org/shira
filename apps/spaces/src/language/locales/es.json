@@ -757,8 +757,8 @@
                 "subtitle": "Por favor asegúrate de que el archivo está en formato CSV y vuelve a intentar."
             },
             "invalid_zip_file": {
-                "title": "Error: Formato de archivo inválido",
-                "subtitle": "Por favor asegúrate de que el archivo está en formato CSV y vuelve a intentar."
+                "title": "Error: Tu archivo no pudo ser procesado",
+                "subtitle": "No pudimos procesar el archivo. Por favor vuelve a intentar."
             },
             "invalid_metadata": {
                 "title": "Error: Formato de archivo inválido",
