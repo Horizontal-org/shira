@@ -1030,7 +1030,7 @@
                 "title": "Space language"
             },
             "results": {
-                "title": "Enable results",
+                "title": "Resultados",
                 "description": "Shira automatically tracks quiz responses to provide analytics and compliance reporting. You can disable this feature to minimize the data we collect about your Learners. <learnMore>Learn More</learnMore>"
             }
         },
