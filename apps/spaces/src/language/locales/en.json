@@ -174,6 +174,21 @@
         "breadcrumbs": {
             "content": "Note content",
             "preview": "Preview"
+        },
+        "note_info": {
+            "note_name": {
+                "title": "Note name",
+                "subtitle": "This name will only visible to you, to help you remember what this note is about",
+                "placeholder": "Note name"
+            },
+            "note_content": {
+                "title": "Note content",
+                "subtitle": "Write the note that will be shown. Notes are shown before, after or in between questions. They can include text, links and images to offer more context and information.",
+                "placeholder": ""
+            }
+        },
+        "preview": {
+            "subtitle": "This is how your note will look to learners."
         }
     },
     "create_question": {
@@ -1080,6 +1095,7 @@
         "quiz_link_copied": "The public quiz link has been copied to your clipboard.",
         "quiz_deleted": "The quiz has been deleted",
         "quiz_created": "The quiz has been created",
+        "note_created": "The note has been created",
         "quiz_duplicated": "The quiz has been duplicated",
         "quiz_updated": "The quiz has been updated",
         "quiz_order_updated": "The quiz order has been updated",

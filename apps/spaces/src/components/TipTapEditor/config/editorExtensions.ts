@@ -22,15 +22,33 @@ const baseExtensions = [
   HorizontalRule,
   Explanation,
   SearchNReplace,
-  Placeholder.configure({        
-    placeholder: 'Message text',
-  }),
   Link.configure({
     openOnClick: false,
   }),
 ]
 
-export const getMessageExtensions = () => baseExtensions
+export const getMessageExtensions = () => [
+  ...baseExtensions,
+  Placeholder.configure({
+    placeholder: 'Message text',
+  }),
+]
+
+export const getNoteExtensions = () => [
+  ...baseExtensions,
+  OrderedList,
+  Underline,
+  TextStyle,
+  Color,
+  Dropcursor,
+  Gapcursor,
+  ListKeymap,
+  Typography,
+  Placeholder.configure({
+    placeholder: '',
+  }),
+]
+
 
 export const getEmailExtensions = () => [
   ...baseExtensions,
@@ -42,8 +60,8 @@ export const getEmailExtensions = () => [
   Gapcursor,
   ListKeymap,
   Typography,
-  Placeholder.configure({        
-    placeholder: 'Write something …',
+  Placeholder.configure({
+    placeholder: '',
   }),
   ImageWithExplanation.configure({
     inline: false,

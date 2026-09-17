@@ -3,31 +3,29 @@ import { EntityFlowHeader } from "../../../EntityFlowHeader";
 import { ExitNoteHandleModal } from "../../../modals/ExitNoteHandleModal";
 import { useTranslation } from "react-i18next";
 import { EntityBodyHeader, EntityBodyWrapper, EntityContainer } from "../../../EntityFlowBody";
-import { Breadcrumbs } from "@horizontal-org/shira-ui";
+import { Body1, Breadcrumbs } from "@horizontal-org/shira-ui";
 import { NoteInfo } from "../NoteInfo";
 import { ActiveNote, activeNoteDefault } from "../../../../types/active_note";
+import { NoteReview } from "../NoteReview";
+import { NoteCRUDFeedback } from "../../../../fetch/note";
 
 interface Props {
   onClose: () => void
+  actionFeedback: string
+  onSubmit: (note: ActiveNote) => void
 }
 
 export const NoteFlowManagement: FunctionComponent<Props> = ({
-  onClose
+  onClose,
+  actionFeedback,
+  onSubmit
 }) => {
 
   const { t } = useTranslation();
 
-  const [isProcessing, handleProcessing] = useState()
   const [step, handleStep] = useState(0)
   const [isExitNoteModalOpen, setIsExitNoteModalOpen] = useState(false)
   const [activeNote, handleActiveNote] = useState<ActiveNote>(activeNoteDefault)
-
-  const updateActiveNote = (k, v) => {
-    handleActiveNote({
-      ...activeNote,
-      [k]: v
-    })
-  }
 
   const getStepValidation = (): {
     reason?: string;
@@ -59,18 +57,12 @@ export const NoteFlowManagement: FunctionComponent<Props> = ({
       />
 
       <EntityFlowHeader
-        isProcessing={isProcessing}
+        isProcessing={actionFeedback === NoteCRUDFeedback.processing}
         onNext={() => {
-          // if (step === 2) {
-          //   onSubmit(activeQuestion)
-          //   return
-          // }
-          // if (step === 1) {
-          //   if (explanations.length === 0) {
-          //     setNoExplanationsModalOpen(true)
-          //     return
-          //   }
-          // }
+          if (step === 1) {
+            onSubmit(activeNote)
+            return
+          }
 
           handleStep(step + 1)
         }}
@@ -84,8 +76,8 @@ export const NoteFlowManagement: FunctionComponent<Props> = ({
         step={step}
         disableNext={!getStepValidation().isValid}
         nextTooltipLabel={nextTooltipLabel}
-        primaryButtonText={step === 2
-          ? (isProcessing
+        primaryButtonText={step === 1
+          ? (actionFeedback === NoteCRUDFeedback.processing
             ? t('loading_messages.saving')
             : t('buttons.save'))
           : t('buttons.next')}
@@ -103,33 +95,37 @@ export const NoteFlowManagement: FunctionComponent<Props> = ({
                   { text: t('create_note.breadcrumbs.preview') },
                 ]}
               />
+
+              {step === 1 && (
+                <Body1>{t('create_note.preview.subtitle')}</Body1>
+              )}
             </EntityBodyHeader>
 
             {step === 0 && (
               <NoteInfo
                 note={activeNote}
-                handleNoteChange={updateActiveNote}
-              />
-            )}
-            {/* {step === 0 && (
-              <QuestionBasicInfo
-                question={activeQuestion}
-                handleQuestion={updateActiveQuestion}
-                handleApp={updateActiveQuestionApp}
-                initialAppType={initialAppType}
-                apps={apps}
+                handleNameChange={(name) => {
+                  handleActiveNote({
+                    ...activeNote,
+                    name
+                  })
+                }}
+                handleContentChange={(contentValue) => {
+                  handleActiveNote({
+                    ...activeNote,
+                    content: {
+                      ...activeNote.content,
+                      value: contentValue
+                    }
+                  })
+                }}
               />
             )}
 
             {step === 1 && (
-              <QuestionContent
-                question={activeQuestion}
-              />
+              <NoteReview activeNote={activeNote} />
             )}
 
-            {step === 2 && (
-              <QuestionReview />
-            )} */}
           </div>
         </EntityBodyWrapper>
       </EntityContainer>
