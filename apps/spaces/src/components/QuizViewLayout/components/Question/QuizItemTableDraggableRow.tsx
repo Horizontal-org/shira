@@ -2,18 +2,21 @@ import { FunctionComponent, memo } from "react";
 import { flexRender, Row } from "@tanstack/react-table";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { FiCopy, FiDownload, FiTrash2, FiUpload } from "react-icons/fi";
 import { defaultTheme, Td as SharedTd, Tr as SharedTr, styled } from "@horizontal-org/shira-ui";
-import { QuizQuestion } from "../../../../store/slices/quiz";
-import { QuestionTableActionsMenu } from "./QuestionTableActionsMenu";
+import { QuizViewItem } from "../../../../store/slices/quiz";
+import { BaseActionsMenu } from "./BaseActionsMenu";
 
 interface Props {
-  row: Row<QuizQuestion>;
+  row: Row<QuizViewItem>;
   duplicatingQuestionId: string | null;
   onEditQuestion: (questionId: string) => void;
   onDuplicateQuestion: (questionId: string) => void;
   onSubmitQuestionAsTemplate: (questionId: string) => void;
   onExportQuestion: (questionId: string) => void;
   onDeleteQuestion: (questionId: string) => void;
+  onDeleteNote: (noteId: string) => void;
+  onEditNote: (noteId: string) => void;
   editTooltip: string;
   duplicateTooltip: string;
   submitAsTemplateTooltip: string;
@@ -21,7 +24,7 @@ interface Props {
   exportTooltip: string;
 }
 
-const QuestionTableDraggableRowComponent: FunctionComponent<Props> = ({
+const QuizItemTableDraggableRowComponent: FunctionComponent<Props> = ({
   row,
   duplicatingQuestionId,
   onEditQuestion,
@@ -29,12 +32,17 @@ const QuestionTableDraggableRowComponent: FunctionComponent<Props> = ({
   onSubmitQuestionAsTemplate,
   onExportQuestion,
   onDeleteQuestion,
+  onEditNote,
+  onDeleteNote,
   editTooltip,
   duplicateTooltip,
   submitAsTemplateTooltip,
   deleteTooltip,
   exportTooltip,
 }) => {
+  const item = row.original;
+  const rowId = `${item.entityType}-${item.entityId}`;
+
   const {
     attributes,
     listeners,
@@ -43,11 +51,11 @@ const QuestionTableDraggableRowComponent: FunctionComponent<Props> = ({
     transition,
     isDragging,
   } = useSortable({
-    id: row.original.question.id,
+    id: rowId,
     animateLayoutChanges: () => false,
   });
 
-  const isDuplicatingThisQuestion = duplicatingQuestionId === row.original.question.id;
+  const isDuplicatingThisQuestion = item.entityType === "question" && duplicatingQuestionId === item.question.id;
 
   return (
     <Tr
@@ -57,7 +65,7 @@ const QuestionTableDraggableRowComponent: FunctionComponent<Props> = ({
         transition,
       }}
       $dragging={isDragging}
-      id={`question-item-${row.original.question.id}`}
+      id={`quiz-item-${rowId}`}
     >
       {row.getVisibleCells().map((cell) => {
         if (cell.column.id === "drag") {
@@ -76,22 +84,54 @@ const QuestionTableDraggableRowComponent: FunctionComponent<Props> = ({
         }
 
         if (cell.column.id === "actions") {
-          const questionId = row.original.question.id;
+          if (item.entityType === "note") {
+            return (
+              <Td key={cell.id}>
+                <BaseActionsMenu
+                  editLabel={editTooltip}
+                  onEdit={() => onEditNote(item.entityId.toString())}
+                  items={[
+                    {
+                      text: deleteTooltip,
+                      icon: <FiTrash2 color={defaultTheme.colors.dark.darkGrey} />,
+                      onClick: () => onDeleteNote(item.entityId.toString()),
+                    },
+                  ]}
+                />
+              </Td>
+            );
+          }
+
+          const questionId = item.question.id;
 
           return (
             <Td key={cell.id}>
-              <QuestionTableActionsMenu
+              <BaseActionsMenu
                 editLabel={editTooltip}
-                duplicateLabel={duplicateTooltip}
-                submitAsTemplateLabel={submitAsTemplateTooltip}
-                deleteLabel={deleteTooltip}
-                exportLabel={exportTooltip}
-                disabled={isDuplicatingThisQuestion}
                 onEdit={() => onEditQuestion(questionId)}
-                onDuplicate={() => onDuplicateQuestion(questionId)}
-                onSubmitAsTemplate={() => onSubmitQuestionAsTemplate(questionId)}
-                onExport={() => onExportQuestion(questionId)}
-                onDelete={() => onDeleteQuestion(questionId)}
+                disabled={isDuplicatingThisQuestion}
+                items={[
+                  {
+                    text: duplicateTooltip,
+                    icon: <FiCopy color={defaultTheme.colors.dark.darkGrey} />,
+                    onClick: () => onDuplicateQuestion(questionId),
+                  },
+                  {
+                    text: submitAsTemplateTooltip,
+                    icon: <FiUpload color={defaultTheme.colors.dark.darkGrey} />,
+                    onClick: () => onSubmitQuestionAsTemplate(questionId),
+                  },
+                  {
+                    text: exportTooltip,
+                    icon: <FiDownload color={defaultTheme.colors.dark.darkGrey} />,
+                    onClick: () => onExportQuestion(questionId),
+                  },
+                  {
+                    text: deleteTooltip,
+                    icon: <FiTrash2 color={defaultTheme.colors.dark.darkGrey} />,
+                    onClick: () => onDeleteQuestion(questionId),
+                  },
+                ]}
               />
             </Td>
           );
@@ -107,7 +147,7 @@ const QuestionTableDraggableRowComponent: FunctionComponent<Props> = ({
   );
 };
 
-export const QuestionTableDraggableRow = memo(QuestionTableDraggableRowComponent);
+export const QuizItemTableDraggableRow = memo(QuizItemTableDraggableRowComponent);
 
 const Td = styled(SharedTd)`
   padding: 14px 14px;

@@ -1,5 +1,7 @@
 import axios from 'axios'
 import { useState } from 'react'
+import { useStore } from '../store'
+import { QuizSuccessStates } from '../store/slices/quiz'
 
 export enum NoteCRUDFeedback {
   processing = 'PROCESSING',
@@ -28,4 +30,14 @@ export const useNoteCRUD = () => {
   }
 
   return { submit, actionFeedback }
+}
+
+export const deleteNote = async (quizId: number, noteId: number) => {
+  try {
+    await axios.post(`${process.env.REACT_APP_API_URL}/note/delete`, { quizId, noteId })
+    useStore.getState().setQuizActionSuccess(QuizSuccessStates.note_deleted)
+  } catch (err) {
+    console.log("🚀 ~ file: note.ts ~ deleteNote ~ err", err)
+    throw new Error('Failed to delete note')
+  }
 }

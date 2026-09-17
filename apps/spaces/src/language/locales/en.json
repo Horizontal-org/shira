@@ -157,6 +157,11 @@
             "submit_as_template": "Submit as template",
             "export": "Export",
             "delete": "Delete"
+        },
+        "columns": {
+            "type": {
+                "note": "Note"
+            }
         }
     },
     "no_questions": {
@@ -745,6 +750,10 @@
             "note": "Note: ",
             "warning": "This question's Results will also be deleted, which will affect learners' average scores."
         },
+        "delete_note": {
+            "title": "Are you sure you want to delete \"{{note_name}}\"?",
+            "message": "Deleting this note is permanent and cannot be undone."
+        },
         "unpublish_quiz_on_delete": {
             "title": "Are you sure you want to delete \"{{question_name}}\" and unpublish your quiz?",
             "message": "Deleting this question is permanent and cannot be undone. This will also unpublish the quiz, as you are deleting the quiz's only question.",
@@ -1014,6 +1023,7 @@
         "duplicate_quiz_fail": "Failed to duplicate quiz",
         "quiz_name_already_exists": "Quiz name taken. Please use a different one.",
         "duplicate_question_fail": "Failed to duplicate question",
+        "delete_note_fail": "Failed to delete note",
         "export_question_fail": "Failed to export question",
         "add_question_error": "Error adding question",
         "results_load_failed": "Failed to load results",
@@ -1096,6 +1106,7 @@
         "quiz_deleted": "The quiz has been deleted",
         "quiz_created": "The quiz has been created",
         "note_created": "The note has been created",
+        "note_deleted": "The note has been deleted",
         "quiz_duplicated": "The quiz has been duplicated",
         "quiz_updated": "The quiz has been updated",
         "quiz_order_updated": "The quiz order has been updated",

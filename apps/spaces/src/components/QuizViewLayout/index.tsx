@@ -21,7 +21,7 @@ import { TabContainer } from './components/TabContainer'
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { getQuizById } from "../../fetch/quiz";
-import { Quiz, QuizSuccessStates, SUCCESS_MESSAGES } from "../../store/slices/quiz";
+import { Quiz, QuizQuestion, QuizSuccessStates, SUCCESS_MESSAGES } from "../../store/slices/quiz";
 import { DeleteModal } from "../modals/DeleteModal";
 import toast from "react-hot-toast";
 import { useQuestionCRUD } from "../../fetch/question";
@@ -416,7 +416,9 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                 resultsLoading={resultsLoading}
                 hasResultsEnabled={space?.hasResultsEnabled !== false}
                 hasResults={hasResults}
-                onEdit={(questionId) => { navigate(`/quiz/${id}/question/${questionId}`) }}
+                onEdit={(entityType, entityId) => {
+                  navigate(`/quiz/${id}/${entityType}/${entityId}`)
+                }}
                 onPublish={() => handleTogglePublished(quiz.id, true)}
                 onAssessmentModeChange={(assessmentMode) => handleAssessmentModeChange(quiz.id, assessmentMode)}
                 onDelete={(id) => { destroy(quiz.id, id) }}
@@ -433,7 +435,8 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                     newOrder: newQQOrder.map((qq) => {
                       return {
                         position: qq.position,
-                        questionId: parseInt(qq.question.id)
+                        entityType: qq.entityType,
+                        entityId: qq.entityId
                       }
                     })
                   })
@@ -442,10 +445,12 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                   getQuiz()
                 }}
                 onSubmitAsTemplate={(questionId) => {
-                  const question = quiz.quizQuestions.find((item) => item.question.id === questionId)?.question;
+                  const item = quiz.quizQuestions.find(
+                    (item): item is QuizQuestion => item.entityType === 'question' && item.question.id === questionId
+                  );
                   startTemplateSubmission({
                     path: `/quiz/${id}/question/${questionId}/submit-template`,
-                    state: { questionName: question?.name },
+                    state: { questionName: item?.question.name },
                   });
                 }}
               />
