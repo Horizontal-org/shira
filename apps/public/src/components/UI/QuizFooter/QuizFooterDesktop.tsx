@@ -20,7 +20,7 @@ export const QuizFooterDesktop: FunctionComponent<Props> = ({
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   return (
-    <Wrapper>
+    <Wrapper data-quiz-footer>
       <LeftContent>
         <CloseButton onClick={() => setIsDialogOpen(!isDialogOpen)}>
           <VscClose size={24} color='#111' />

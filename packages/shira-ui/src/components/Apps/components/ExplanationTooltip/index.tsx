@@ -25,6 +25,9 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
   const referenceElementRef = useRef<HTMLElement | null>(null);
   const [boundary, setBoundary] = useState<HTMLElement | null>(null);
 
+  const getFooterHeight = () =>
+    (document.querySelector('[data-quiz-footer]') as HTMLElement | null)?.getBoundingClientRect().height ?? 0;
+
   const isUrl = (text: string) => {
     if (!text || text.length === 0) return false;
     try {
@@ -48,23 +51,23 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
     placement: 'bottom',
     middleware: [
       offset(8),
-      flip({
+      flip(() => ({
         fallbackPlacements: ['top', 'bottom'],
         boundary: boundary ?? undefined,
-        padding: 0,
-      }),
-      shift({
+        padding: { bottom: getFooterHeight() },
+      })),
+      shift(() => ({
         boundary: boundary ?? undefined,
-        padding: 0,
-      }),
-      size({
+        padding: { bottom: getFooterHeight() },
+      })),
+      size(() => ({
         boundary: boundary ?? undefined,
-        padding: 0,
+        padding: { bottom: getFooterHeight() },
         apply({ availableWidth, elements }) {
           const maxTooltipWidth = boundary?.clientWidth ?? availableWidth;
           elements.floating.style.maxWidth = `${Math.max(0, maxTooltipWidth)}px`;
         },
-      }),
+      })),
       arrow({ element: arrowRef }),
     ],
     whileElementsMounted: autoUpdate

@@ -35,7 +35,7 @@ export const QuizFooterMobile: FunctionComponent<Props> = ({
 
   return (
     <Container>
-      <Wrapper isExpanded={isExpanded} hideCloseButton={hideCloseButton} showExplanations={showExplanations}>
+      <Wrapper data-quiz-footer isExpanded={isExpanded} hideCloseButton={hideCloseButton} showExplanations={showExplanations}>
    
         { !isExpanded && !hideCloseButton && (
           <LeftContent>
