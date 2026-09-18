@@ -1,7 +1,6 @@
 import { Extension, Node } from '@tiptap/core'
 import TextStyle from '@tiptap/extension-text-style'
 
-// Keep nested HTML containers editable instead of flattening them into paragraphs.
 export const HtmlContainer = Node.create({
   name: 'htmlContainer',
   group: 'block',

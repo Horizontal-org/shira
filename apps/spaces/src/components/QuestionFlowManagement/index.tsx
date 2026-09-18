@@ -13,7 +13,7 @@ import { ActiveQuestion } from "../../store/types/active_question";
 import { useTranslation } from "react-i18next";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
 import { isQuestionContentStepValid, isQuestionInfoStepValid } from "../../utils/active_question/validation";
-import { htmlSyntaxIssues } from "../../utils/advancedHtml";
+import { htmlSyntaxIssues } from "../../utils/htmlSyntaxValidation";
 
 interface Props {
   initialContent?: Object

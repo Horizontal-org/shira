@@ -4,7 +4,8 @@ import { EditorState } from '@codemirror/state'
 import { EditorView } from '@codemirror/view'
 import { html } from '@codemirror/lang-html'
 import { setDiagnostics } from '@codemirror/lint'
-import { htmlSyntaxIssues } from '../../utils/advancedHtml'
+import { htmlSyntaxIssues } from '../../utils/htmlSyntaxValidation'
+import { getEmailTextLength } from '../../utils/emailTextLength'
 import { CharacterCount, styled } from '@horizontal-org/shira-ui'
 import { useTranslation } from 'react-i18next'
 
@@ -29,7 +30,7 @@ export const HtmlEmailEditor = ({
   const [source, setSource] = useState(initialContent ?? '')
   const issues = useMemo(() => htmlSyntaxIssues(source), [source])
 
-  const count = source.length
+  const count = useMemo(() => getEmailTextLength(source), [source])
 
   useEffect(() => {
     const editor = new EditorView({

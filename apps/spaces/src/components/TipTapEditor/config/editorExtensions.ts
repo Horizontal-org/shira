@@ -15,7 +15,7 @@ import { Explanation } from '../extensions/Explanation'
 import { SearchNReplace } from '../extensions/Search'
 import { ImageWithExplanation } from '../extensions/ImageWithExplanation'
 import { getTableExtensions } from '../extensions/TableWithExplanation'
-import { AdvancedTextStyle, HtmlContainer, HtmlFormatting } from '../extensions/AdvancedHtml'
+import { AdvancedTextStyle, HtmlContainer, HtmlFormatting } from '../extensions/HtmlFormatting'
 
 const baseExtensions = [
   StarterKit,
