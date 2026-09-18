@@ -77,7 +77,7 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
         characterLimitErrorText={characterLimitErrorText}
       />
 
-      <ExplanationButtonWrapper $hasFloatingLabel={hasValue}>
+      {<ExplanationButtonWrapper $hasFloatingLabel={hasValue}>
         <ExplanationButton
           disabled={!hasValue}
           hasExplanation={contentObject.explanation != null && contentObject.explanation?.length > 0}
@@ -93,7 +93,7 @@ export const InputWithExplanation: FunctionComponent<Props> = ({
             }
           }}
         />
-      </ExplanationButtonWrapper>
+      </ExplanationButtonWrapper>}
     </Wrapper>
   )
 }

@@ -1,3 +1,4 @@
+import { previewHtml } from '../HtmlEmailEditor/utils'
 import { DatingApp, FBMessenger, Gmail, Outlook, SMS, WhatsApp } from "@horizontal-org/shira-ui"
 import { remapHtml } from "../../utils/remapHtml"
 import { ActiveQuestion, QuestionDragAttachment, QuestionDragEditor, QuestionDragImage, QuestionEditorInput } from "../../store/types/active_question"
@@ -37,7 +38,10 @@ export const getContentProps = (appName, activeQuestion: ActiveQuestion) => {
       senderName: getActiveQuestionElement(activeQuestion, 'component-required-sender-name'),
       senderEmail: getActiveQuestionElement(activeQuestion, 'component-required-sender-email'),
       subject: getActiveQuestionElement(activeQuestion, 'component-optional-subject'),
-      content: parseEditorContent(activeQuestion['content']['body']),
+      content: parseEditorContent(activeQuestion.editorType === 'advanced' ? {
+        ...activeQuestion.content['body'],
+        value: previewHtml(activeQuestion.content['body'].value, activeQuestion.htmlEditorImages),
+      } : activeQuestion.content['body']),
       attachments: getActiveQuestionAttachments(activeQuestion)
     }
   } else {   

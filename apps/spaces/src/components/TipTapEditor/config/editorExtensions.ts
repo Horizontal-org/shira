@@ -15,6 +15,7 @@ import { Explanation } from '../extensions/Explanation'
 import { SearchNReplace } from '../extensions/Search'
 import { ImageWithExplanation } from '../extensions/ImageWithExplanation'
 import { getTableExtensions } from '../extensions/TableWithExplanation'
+import { AdvancedTextStyle, HtmlContainer, HtmlFormatting } from '../extensions/AdvancedHtml'
 
 const baseExtensions = [
   StarterKit,
@@ -32,11 +33,11 @@ const baseExtensions = [
 
 export const getMessageExtensions = () => baseExtensions
 
-export const getEmailExtensions = () => [
+export const getEmailExtensions = (advanced = false) => [
   ...baseExtensions,
   OrderedList,
   Underline,
-  TextStyle,
+  advanced ? AdvancedTextStyle : TextStyle,
   Color,
   Dropcursor,
   Gapcursor,
@@ -49,5 +50,6 @@ export const getEmailExtensions = () => [
     inline: false,
     allowBase64: true
   }),
-  ...getTableExtensions()
+  ...getTableExtensions(),
+  ...(advanced ? [HtmlContainer, HtmlFormatting] : [])
 ]

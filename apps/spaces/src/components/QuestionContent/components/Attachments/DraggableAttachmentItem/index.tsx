@@ -66,7 +66,7 @@ export const DraggableAttachmentItem: FunctionComponent<Props> = ({
                     />
                   </AttachmentWrapper>
 
-                  <ExplanationButton
+                  {<ExplanationButton
                     hasExplanation={Boolean(item.explanation)}
                     active={isExplanationActive}
                     disabled={false}
@@ -79,7 +79,7 @@ export const DraggableAttachmentItem: FunctionComponent<Props> = ({
                         updateActiveQuestionDraggableItem(index, 'explanation', newExplanationIndex + '')
                       }
                     }}
-                  />
+                  />}
                 </ContentWrapper>
               </Wrapper>
 

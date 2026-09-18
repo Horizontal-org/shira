@@ -54,11 +54,14 @@ export const createActiveQuestionSlice: StateCreator<
     }))
   },
   updateActiveQuestionApp: (app: App) => {
-    set((state) => ({ activeQuestion: {
-      ...state.activeQuestion,
-      app: app,
-      content: getContentOnAppUpdate(get, app, state.activeQuestion)
-    } }))
+    set((state) => ({
+      activeQuestion: {
+        ...state.activeQuestion,
+        app: app,
+        editorType: app.type === 'email' ? state.activeQuestion.editorType : 'simple',
+        content: getContentOnAppUpdate(get, app, state.activeQuestion)
+      }
+    }))
   },
   updateActiveQuestionInput: (objectKey, inputKey, value) => {
     let auxContent = cloneDeep(get().activeQuestion)
