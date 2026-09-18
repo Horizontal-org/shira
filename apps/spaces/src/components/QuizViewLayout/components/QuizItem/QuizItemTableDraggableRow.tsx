@@ -5,7 +5,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { FiCopy, FiDownload, FiTrash2, FiUpload } from "react-icons/fi";
 import { defaultTheme, Td as SharedTd, Tr as SharedTr, styled } from "@horizontal-org/shira-ui";
 import { QuizViewItem } from "../../../../store/slices/quiz";
-import { BaseActionsMenu } from "./BaseActionsMenu";
+import { BaseActionsMenu } from "../Question/BaseActionsMenu";
 
 interface Props {
   row: Row<QuizViewItem>;

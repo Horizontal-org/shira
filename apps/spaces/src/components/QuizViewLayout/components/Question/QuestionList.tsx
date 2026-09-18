@@ -1,11 +1,4 @@
 import { FunctionComponent, useState } from "react";
-import { FiPlus } from "react-icons/fi";
-import { MdOutlineMenuBook } from "react-icons/md";
-import {
-  Button,
-  defaultTheme,
-  styled,
-} from "@horizontal-org/shira-ui";
 import { shallow } from "zustand/shallow";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
@@ -15,7 +8,7 @@ import { useStore } from "../../../../store";
 import { usePublicLibrary } from "../../../../hooks/usePublicLibrary";
 import { QuizQuestion, QuizViewItem } from "../../../../store/slices/quiz";
 import { QuestionEmptyState } from "./QuestionEmptyState";
-import { QuizItemsTable } from "./QuizItemsTable";
+import { QuizItemsTable } from "../QuizItem/QuizItemsTable";
 import { QuestionActionModals } from "./QuestionActionModals";
 import { QuizItemCreateOptions } from "../QuizItem/QuizItemCreateOptions";
 import { DeleteModal } from "../../../modals/DeleteModal";

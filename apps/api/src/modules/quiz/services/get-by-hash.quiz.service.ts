@@ -51,27 +51,39 @@ export class GetByHashQuizService implements IGetByHashQuizService {
       throw new NotFoundException()
     }
 
-    // Notes are excluded from the public quiz-taking payload - the learner-facing app
-    // doesn't yet know how to render a non-question item.
     const quizItems = await this.quizRepo.manager.getRepository(QuizItem).find({
-      where: { quizId: quiz.id, entityType: 'question' },
+      where: { quizId: quiz.id },
     });
 
     const hydratedItems = await this.quizItemsService.hydrate(quizItems, {
-      questionRelations: ['apps', 'questionTranslations', 'explanations', 'explanations.explanationTranslations'],
+      questionRelations: [
+        'apps',
+        'questionTranslations',
+        'explanations',
+        'explanations.explanationTranslations',
+        'explanations.explanationTranslations.languageId',
+      ],
     });
+    console.log("🚀 ~ GetByHashQuizService ~ execute ~ hydratedItems:", hydratedItems)
+
+    // `languageId` on QuestionTranslation/ExplanationTranslation is a `@ManyToOne(() => Language)`
+    // relation typed as `number` (see questionTranslation.entity.ts) - at runtime it's the eager-loaded
+    // Language object, so it must be compared by `.id`, not by direct equality against a numeric id.
+    const translationLanguageId = (translation: { languageId: number }) =>
+      (translation.languageId as unknown as { id: number })?.id;
 
     const parsedAll = hydratedItems
       .filter((item) => item.entityType === 'question')
-      .filter((qq) => qq.question.questionTranslations?.some((t) => t.languageId === languageId))
+      .filter((qq) => qq.question.questionTranslations?.some((t) => translationLanguageId(t) === languageId))
       .map((qq) => {
         const question = qq.question;
         const questionTranslation = question.questionTranslations.find(
-          (t) => t.languageId === languageId,
+          (t) => translationLanguageId(t) === languageId,
         );
 
         return {
           position: qq.position,
+          entityType: 'question' as const,
           questionId: question.id,
           question: {
             id: question.id,
@@ -83,7 +95,7 @@ export class GetByHashQuizService implements IGetByHashQuizService {
             },
             explanations: (question.explanations ?? []).map((explanation) => {
               const explanationTranslation = explanation.explanationTranslations?.find(
-                (t) => t.languageId === languageId,
+                (t) => translationLanguageId(t) === languageId,
               );
               return {
                 id: explanation.id,
@@ -99,6 +111,19 @@ export class GetByHashQuizService implements IGetByHashQuizService {
         };
       });
 
+    const parsedNotes = hydratedItems
+      .filter((item) => item.entityType === 'note')
+      .map((item) => ({
+        position: item.position,
+        entityType: 'note' as const,
+        noteId: item.note.id,
+        note: {
+          id: item.note.id,
+          name: item.note.name,
+          content: item.note.content,
+        },
+      }));
+
     const images = await this.getImageUrls.byQuiz(quiz.id)
     return {
       id: quiz.id,
@@ -106,7 +131,7 @@ export class GetByHashQuizService implements IGetByHashQuizService {
       images: images,
       hasAssessmentEnabled: quiz.assessmentMode,
       hasResultsEnabled: quiz.space?.hasResultsEnabled ?? true,
-      quizQuestions: parsedAll.sort((a, b) => a.position - b.position)
+      quizQuestions: [...parsedAll, ...parsedNotes].sort((a, b) => a.position - b.position)
     };
   }
 }

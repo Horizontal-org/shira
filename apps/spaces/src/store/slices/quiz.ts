@@ -14,7 +14,8 @@ export enum QuizSuccessStates {
   question_added_from_library = 'QUESTION_ADDED_FROM_LIBRARY',
   update_assessment_mode = 'UPDATE_ASSESSMENT_MODE',
   note_created = 'NOTE_CREATED',
-  note_deleted = 'NOTE_DELETED'
+  note_deleted = 'NOTE_DELETED',
+  note_updated = 'NOTE_UPDATED'
 }
 
 export const SUCCESS_MESSAGES = {
@@ -31,6 +32,7 @@ export const SUCCESS_MESSAGES = {
   [QuizSuccessStates.update_assessment_mode]: "success_messages.quiz_assessment_mode_updated",
   [QuizSuccessStates.note_created]: "success_messages.note_created",
   [QuizSuccessStates.note_deleted]: "success_messages.note_deleted",
+  [QuizSuccessStates.note_updated]: "success_messages.note_updated",
 };
 
 export interface QuizQuestion {

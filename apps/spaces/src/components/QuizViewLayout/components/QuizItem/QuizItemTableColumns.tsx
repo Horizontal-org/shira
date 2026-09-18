@@ -13,6 +13,7 @@ import { QuizViewItem } from "../../../../store/slices/quiz";
 import { appIcons } from "../../../../utils/appIcons";
 import { normalizePreviewAppName } from "../../../../utils/appNames";
 import { truncateQuestionName } from "../../../../utils/questionName";
+import { NoteIcon } from "./NoteIcon";
 
 export const useQuizItemTableColumns = (): ColumnDef<QuizViewItem>[] => {
   const { t } = useTranslation();
@@ -39,6 +40,9 @@ export const useQuizItemTableColumns = (): ColumnDef<QuizViewItem>[] => {
 
           return (
             <QuestionNameCell id={`question-title-${item.entityType}-${item.entityId}`}>
+              {item.entityType === 'note' && (
+                <NoteIconWrapper><NoteIcon /></NoteIconWrapper>
+              )}
               {truncateQuestionName(name)}
             </QuestionNameCell>
           );
@@ -94,6 +98,12 @@ export const useQuizItemTableColumns = (): ColumnDef<QuizViewItem>[] => {
     [t],
   );
 };
+
+const NoteIconWrapper = styled.div`
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+`
 
 const HandleContent = styled.div`
   display: inline-flex;

@@ -29,7 +29,31 @@ export const useNoteCRUD = () => {
     }
   }
 
-  return { submit, actionFeedback }
+  const edit = async (quizId: string, note: { name: string, content: { value: string } }, noteId: string) => {
+    handleActionFeedback(NoteCRUDFeedback.processing)
+
+    try {
+      await axios.put(`${process.env.REACT_APP_API_URL}/note`, {
+        noteId: Number(noteId),
+        quizId: Number(quizId),
+        name: note.name,
+        content: note.content.value
+      })
+      handleActionFeedback(NoteCRUDFeedback.success)
+    } catch (err) {
+      handleActionFeedback(NoteCRUDFeedback.error)
+      console.log("🚀 ~ file: note.ts ~ edit ~ err", err)
+    }
+  }
+
+  return { submit, edit, actionFeedback }
+}
+
+export const fetchNote = async (id: string, quizId: string) => {
+  const res = await axios.get(`${process.env.REACT_APP_API_URL}/note/${id}`, {
+    params: { quizId }
+  })
+  return res.data
 }
 
 export const deleteNote = async (quizId: number, noteId: number) => {

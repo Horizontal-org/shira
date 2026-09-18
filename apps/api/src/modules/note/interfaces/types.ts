@@ -3,5 +3,6 @@ export const TYPES = {
     ICreateNoteService: 'ICreateNoteService',
     IEditNoteService: 'IEditNoteService',
     IDeleteNoteService: 'IDeleteNoteService',
+    IGetNoteService: 'IGetNoteService',
   },
 };

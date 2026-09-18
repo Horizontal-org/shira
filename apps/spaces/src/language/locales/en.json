@@ -1107,6 +1107,7 @@
         "quiz_created": "The quiz has been created",
         "note_created": "The note has been created",
         "note_deleted": "The note has been deleted",
+        "note_updated": "The note has been updated",
         "quiz_duplicated": "The quiz has been duplicated",
         "quiz_updated": "The quiz has been updated",
         "quiz_order_updated": "The quiz order has been updated",

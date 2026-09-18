@@ -13,19 +13,21 @@ interface Props {
   onClose: () => void
   actionFeedback: string
   onSubmit: (note: ActiveNote) => void
+  initialNote?: ActiveNote
 }
 
 export const NoteFlowManagement: FunctionComponent<Props> = ({
   onClose,
   actionFeedback,
-  onSubmit
+  onSubmit,
+  initialNote
 }) => {
 
   const { t } = useTranslation();
 
   const [step, handleStep] = useState(0)
   const [isExitNoteModalOpen, setIsExitNoteModalOpen] = useState(false)
-  const [activeNote, handleActiveNote] = useState<ActiveNote>(activeNoteDefault)
+  const [activeNote, handleActiveNote] = useState<ActiveNote>(initialNote ?? activeNoteDefault)
 
   const getStepValidation = (): {
     reason?: string;
