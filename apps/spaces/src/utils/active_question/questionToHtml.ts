@@ -16,9 +16,6 @@ export const activeQuestionToHtml = (activeQuestion: ActiveQuestion) => {
   const container = document.createElement('div')
   container.innerHTML = html
   const body = container.querySelector('#component-text-1')
-  body?.querySelectorAll('[data-explanation]').forEach(element => {
-    element.removeAttribute('data-explanation')
-  })
   body?.classList.add('advanced-html-editor')
   return container.innerHTML
 }

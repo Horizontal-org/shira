@@ -1011,6 +1011,7 @@
         "learner_assignment_failed": "Failed to assign learner to the space.",
         "invalid_email": "Please enter a valid email address",
         "something_went_wrong": "Something went wrong",
+        "edit_question_failed": "Error editing question",
         "template_submission_failed": "There was a problem submitting the template. If this issue persists, <1>contact us</1>.",
         "invite_learner_failed": "There was a problem inviting the learner. If this issue persists, <1>contact us</1>.",
         "delete_learner_failed": "There was a problem deleting the learner. If this issue persists, <1>contact us</1>.",
