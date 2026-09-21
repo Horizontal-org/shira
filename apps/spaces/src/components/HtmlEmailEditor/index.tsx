@@ -95,7 +95,6 @@ export const HtmlEmailEditor = ({
     view.current = editor
     updateExplanationSelection(editor)
 
-    // Destroys CodeMirror when the component unmounts
     return () => {
       view.current = null
       editor.destroy()
@@ -141,7 +140,7 @@ export const HtmlEmailEditor = ({
   }, [initialContent])
 
   useEffect(() => {
-    // Displays the current HTML syntax issues as editor diagnostics
+    // Displays the current HTML syntax issues
     const editor = view.current
     if (editor)
       editor.dispatch(
@@ -161,6 +160,120 @@ export const HtmlEmailEditor = ({
     // Refreshes the active mark when an explanation is selected from the side panel
     view.current?.dispatch({})
   }, [selectedExplanation])
+
+  const blockEditorShortcut = () => true
+
+  // Disables CodeMirror search navigation and its search and lint panels
+  const disableEditorPanels = Prec.highest(keymap.of([
+    { key: 'Mod-f', run: blockEditorShortcut },
+    { key: 'Mod-g', run: blockEditorShortcut, shift: blockEditorShortcut },
+    { key: 'F3', run: blockEditorShortcut, shift: blockEditorShortcut },
+    { key: 'Mod-Shift-m', run: blockEditorShortcut },
+  ]))
+
+  const buildExplanationHighlights = (editor: EditorView) => {
+    const source = editor.state.doc.toString()
+    const activeIndex = useStore.getState().selectedExplanation
+
+    return Decoration.set(
+      getExplanationMarkRanges(source).map(({ from, to, index }) =>
+        Decoration.mark({
+          class: index === activeIndex
+            ? 'cm-explanationMark cm-explanationMark-active'
+            : 'cm-explanationMark',
+        }).range(from, to)
+      ),
+      true
+    )
+  }
+
+  // Highlights explanation content and refreshes it after edits or selection changes
+  const explanationHighlights = ViewPlugin.fromClass(class {
+    decorations: DecorationSet
+
+    constructor(editor: EditorView) {
+      this.decorations = buildExplanationHighlights(editor)
+    }
+
+    update(update: ViewUpdate) {
+      this.decorations = buildExplanationHighlights(update.view)
+    }
+  }, {
+    decorations: plugin => plugin.decorations,
+  })
+
+  const getTextNodeAt = (source: string, position: number, bias: -1 | 1) => {
+    // Resolves a position only when it belongs to plain HTML text
+    const node = parser.parse(source).resolve(position, bias)
+    return node.name === 'Text' ? node : null
+  }
+
+  const canWrapSelection = (source: string, from: number, to: number) => {
+    // Rejects empty or whitespace-only selections
+    if (from === to || !source.slice(from, to).trim()) return false
+
+    // Requires the whole selection to remain inside one text node
+    const startText = getTextNodeAt(source, from, 1)
+    const endText = getTextNodeAt(source, to, -1)
+    if (!startText || !endText || startText.from !== endText.from || startText.to !== endText.to) {
+      return false
+    }
+
+    // Prevents nested explanations and marks in non-visible content
+    let ancestor = startText.parent
+    while (ancestor) {
+      if (ancestor.name === 'Element') {
+        const openTag = ancestor.getChild('OpenTag')
+        const tagName = openTag?.getChild('TagName')
+        const name = tagName ? source.slice(tagName.from, tagName.to).toLowerCase() : ''
+        if (['mark', 'script', 'style', 'title'].includes(name)) return false
+      }
+      ancestor = ancestor.parent
+    }
+
+    return true
+  }
+
+  const getExplanationAtSelection = (source: string, from: number, to: number) => {
+    // Locates the text nodes touched by the current selection
+    const startText = getTextNodeAt(source, from, 1)
+    const endText = getTextNodeAt(source, to || from, to === from ? 1 : -1)
+    if (!startText || !endText) return null
+
+    // Walks upward until it finds an enclosing explanation mark
+    let ancestor = startText.parent
+    while (ancestor) {
+      if (ancestor.name === 'Element' && ancestor.from <= endText.from && ancestor.to >= endText.to) {
+        const openTag = ancestor.getChild('OpenTag')
+        const tagName = openTag?.getChild('TagName')
+        const name = tagName ? source.slice(tagName.from, tagName.to).toLowerCase() : ''
+        if (name === 'mark' && openTag) {
+          // Extracts the explanation identifier from quoted or unquoted attributes
+          const match = source
+            .slice(openTag.from, openTag.to)
+            .match(/\bdata-explanation\s*=\s*(?:"(\d+)"|'(\d+)'|(\d+))/i)
+          if (match) return Number(match[1] ?? match[2] ?? match[3])
+        }
+      }
+      ancestor = ancestor.parent
+    }
+
+    return null
+  }
+
+  const removeExplanationMarks = (source: string, explanationIndex: number) => {
+    // Escapes the identifier before including it in the removal pattern
+    const index = String(explanationIndex).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+    // Matches the requested mark while preserving its inner HTML
+    const pattern = new RegExp(
+      `<mark\\b(?=[^>]*\\bdata-explanation\\s*=\\s*(?:"${index}"|'${index}'|${index}(?=\\s|>)))[^>]*>([\\s\\S]*?)<\\/mark\\s*>`,
+      'gi'
+    )
+
+    // Unwraps the explanation without deleting its content
+    return source.replace(pattern, '$1')
+  }
 
   return (
     <Wrapper>
@@ -270,117 +383,3 @@ const EditorHost = styled.div`
   flex: 1;
   min-width: 0;
 `
-
-const blockEditorShortcut = () => true
-
-// Disables CodeMirror search navigation and its search and lint panels
-const disableEditorPanels = Prec.highest(keymap.of([
-  { key: 'Mod-f', run: blockEditorShortcut },
-  { key: 'Mod-g', run: blockEditorShortcut, shift: blockEditorShortcut },
-  { key: 'F3', run: blockEditorShortcut, shift: blockEditorShortcut },
-  { key: 'Mod-Shift-m', run: blockEditorShortcut },
-]))
-
-const buildExplanationHighlights = (editor: EditorView) => {
-  const source = editor.state.doc.toString()
-  const activeIndex = useStore.getState().selectedExplanation
-
-  return Decoration.set(
-    getExplanationMarkRanges(source).map(({ from, to, index }) =>
-      Decoration.mark({
-        class: index === activeIndex
-          ? 'cm-explanationMark cm-explanationMark-active'
-          : 'cm-explanationMark',
-      }).range(from, to)
-    ),
-    true
-  )
-}
-
-// Highlights explanation content and refreshes it after edits or selection changes
-const explanationHighlights = ViewPlugin.fromClass(class {
-  decorations: DecorationSet
-
-  constructor(editor: EditorView) {
-    this.decorations = buildExplanationHighlights(editor)
-  }
-
-  update(update: ViewUpdate) {
-    this.decorations = buildExplanationHighlights(update.view)
-  }
-}, {
-  decorations: plugin => plugin.decorations,
-})
-
-const getTextNodeAt = (source: string, position: number, bias: -1 | 1) => {
-  // Resolves a position only when it belongs to plain HTML text
-  const node = parser.parse(source).resolve(position, bias)
-  return node.name === 'Text' ? node : null
-}
-
-const canWrapSelection = (source: string, from: number, to: number) => {
-  // Rejects empty or whitespace-only selections
-  if (from === to || !source.slice(from, to).trim()) return false
-
-  // Requires the whole selection to remain inside one text node
-  const startText = getTextNodeAt(source, from, 1)
-  const endText = getTextNodeAt(source, to, -1)
-  if (!startText || !endText || startText.from !== endText.from || startText.to !== endText.to) {
-    return false
-  }
-
-  // Prevents nested explanations and marks in non-visible content
-  let ancestor = startText.parent
-  while (ancestor) {
-    if (ancestor.name === 'Element') {
-      const openTag = ancestor.getChild('OpenTag')
-      const tagName = openTag?.getChild('TagName')
-      const name = tagName ? source.slice(tagName.from, tagName.to).toLowerCase() : ''
-      if (['mark', 'script', 'style', 'title'].includes(name)) return false
-    }
-    ancestor = ancestor.parent
-  }
-
-  return true
-}
-
-const getExplanationAtSelection = (source: string, from: number, to: number) => {
-  // Locates the text nodes touched by the current selection
-  const startText = getTextNodeAt(source, from, 1)
-  const endText = getTextNodeAt(source, to || from, to === from ? 1 : -1)
-  if (!startText || !endText) return null
-
-  // Walks upward until it finds an enclosing explanation mark
-  let ancestor = startText.parent
-  while (ancestor) {
-    if (ancestor.name === 'Element' && ancestor.from <= endText.from && ancestor.to >= endText.to) {
-      const openTag = ancestor.getChild('OpenTag')
-      const tagName = openTag?.getChild('TagName')
-      const name = tagName ? source.slice(tagName.from, tagName.to).toLowerCase() : ''
-      if (name === 'mark' && openTag) {
-        // Extracts the explanation identifier from quoted or unquoted attributes
-        const match = source
-          .slice(openTag.from, openTag.to)
-          .match(/\bdata-explanation\s*=\s*(?:"(\d+)"|'(\d+)'|(\d+))/i)
-        if (match) return Number(match[1] ?? match[2] ?? match[3])
-      }
-    }
-    ancestor = ancestor.parent
-  }
-
-  return null
-}
-
-const removeExplanationMarks = (source: string, explanationIndex: number) => {
-  // Escapes the identifier before including it in the removal pattern
-  const index = String(explanationIndex).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-
-  // Matches the requested mark while preserving its inner HTML
-  const pattern = new RegExp(
-    `<mark\\b(?=[^>]*\\bdata-explanation\\s*=\\s*(?:"${index}"|'${index}'|${index}(?=\\s|>)))[^>]*>([\\s\\S]*?)<\\/mark\\s*>`,
-    'gi'
-  )
-
-  // Unwraps the explanation without deleting its content
-  return source.replace(pattern, '$1')
-}
