@@ -20,22 +20,11 @@ export class QuestionSanitizer {
 
   static sanitizeQuestionContent(html: string): string {
     if (!html) return '';
-    const $ = cheerio.load(html, null, false);
-    const advancedBodies = $('#component-text-1.advanced-html-editor');
-
-    if (advancedBodies.length) {
-      const body = advancedBodies.first().html() || '';
-      advancedBodies.empty().removeClass('advanced-html-editor');
-      const envelope = cheerio.load(this.sanitizeQuestionContent($.html()), null, false);
-      envelope('#component-text-1').first().addClass('advanced-html-editor').html(body);
-      return envelope.html();
-    }
-
     return sanitizeHtml(html, {
       // TipTap-compatible tags
       allowedTags: [
         // Basic formatting
-        'p', 'br', 'strong', 'em', 'u', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+        'p', 'br', 'strong', 'b', 'em', 'i', 'u', 's', 'sub', 'sup', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
         
         // Lists
         'ul', 'ol', 'li',
@@ -69,19 +58,26 @@ export class QuestionSanitizer {
         'col': ['style', 'class'],
         
         // Allow class and id on all elements
-        '*': ['class', 'id']
+        '*': ['class', 'id', 'style', 'dir']
       },
       
       allowedStyles: {
         '*': {
-          'color': [/^#[0-9a-f]{3,6}$/i],
+          'color': [/^(#[0-9a-f]{3,8}|[a-z]+|rgba?\([\d.,%\s]+\))$/i],
+          'font-family': [/^[a-z\d\s,"'-]+$/i],
+          'font-size': [/^\d+(\.\d+)?(px|em|rem|%)$/],
+          'font-weight': [/^(normal|bold|[1-9]00)$/],
+          'font-style': [/^(normal|italic|oblique)$/],
+          'line-height': [/^\d+(\.\d+)?(px|em|rem|%)?$/],
+          'text-decoration': [/^(none|underline|line-through)$/],
           'text-align': [/^(left|right|center|justify)$/],
-          'background-color': [/^#[0-9a-f]{3,6}$/i],
+          'background-color': [/^(#[0-9a-f]{3,8}|[a-z]+|rgba?\([\d.,%\s]+\))$/i],
           'width': [/^\d+px$/, /^\d+%$/, /^auto$/],
           'height': [/^\d+px$/, /^\d+%$/, /^auto$/],
           'min-width': [/^\d+px$/],
+          'max-width': [/^\d+px$/, /^\d+%$/],
           'min-height': [/^\d+px$/],
-          'border': [/^[\d\w\s#(),-]+$/],
+          'border': [/^(0|none|\d+(\.\d+)?px (solid|dashed|dotted|double) (#[0-9a-f]{3,8}|[a-z]+|rgba?\([\d.,%\s]+\)))$/i],
           'border-collapse': [/^(collapse|separate)$/],
           'padding': [/^\d+px$/],
           'margin': [/^\d+px$/],

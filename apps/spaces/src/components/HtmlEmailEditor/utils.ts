@@ -1,3 +1,5 @@
+import { sanitizeEmailHtml } from '@horizontal-org/shira-ui'
+
 export const previewHtml = (
   source: string,
   images: Record<string, string> = {}
@@ -8,5 +10,5 @@ export const previewHtml = (
     const url = images[image.getAttribute('data-image-id')]
     if (url && /^https?:\/\//i.test(url)) image.setAttribute('src', url)
   })
-  return template.innerHTML
+  return sanitizeEmailHtml(template.innerHTML)
 }
