@@ -19,9 +19,6 @@ export function htmlSyntaxIssues(source: string): HtmlIssue[] {
 
   parser.parse(source).iterate({
     enter(node) {
-      // Email providers often emit recoverable markup (for example, a slash
-      // before an image attribute). Browsers repair these zero-width parser
-      // warnings, so only block errors that identify an actual source range.
       if (
         (node.type.isError && node.from !== node.to) ||
         node.name === 'MismatchedCloseTag'
