@@ -116,13 +116,23 @@ const Wrapper = styled.div`
   gap: 12px;
   margin-top: 16px;
   min-width: 0;
+
   .cm-editor {
-    border: 1px solid #bbb;
+    border: 1px solid ${props => props.theme.colors.dark.mediumGrey};
     text-align: left;
   }
+
   .cm-scroller {
     min-height: 240px;
     max-height: 480px;
     overflow: auto;
+  }
+
+  .cm-editor .cm-activeLine {
+    background-color: color-mix(in srgb, ${props => props.theme.colors.light.paleGreen} 50%, transparent);
+  }
+
+  .cm-editor .cm-activeLineGutter {
+    background-color: ${props => props.theme.colors.green2};
   }
 `
