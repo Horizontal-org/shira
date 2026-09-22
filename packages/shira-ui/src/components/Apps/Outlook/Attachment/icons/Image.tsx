@@ -1,13 +1,5 @@
 const SvgIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="1em"
-    height="1em"
-    viewBox="0 0 20 20"
-    fill="#D65532"
-  >
-    <path d="M14 7.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m-1 0a.5.5 0 1 0-1 0 .5.5 0 0 0 1 0M3 6a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3zm3-2a2 2 0 0 0-2 2v8c0 .37.1.72.28 1.02l4.67-4.59a1.5 1.5 0 0 1 2.1 0l4.67 4.59c.18-.3.28-.65.28-1.02V6a2 2 0 0 0-2-2zm0 12h8a2 2 0 0 0 1.01-.27l-4.66-4.58a.5.5 0 0 0-.7 0l-4.66 4.58A2 2 0 0 0 6 16"></path>
-  </svg>
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path fill="url(#imagea)" d="M3 5a2 2 0 0 1 2-2h8a4 4 0 0 1 4 4v8a2 2 0 0 1-2 2H7a4 4 0 0 1-4-4V5z"/><path fill="url(#imageb)" d="M4 5a1 1 0 0 1 1-1h8a3 3 0 0 1 3 3v8a1 1 0 0 1-1 1H7a3 3 0 0 1-3-3V5z"/><path fill="url(#imagec)" d="M4 5a1 1 0 0 1 1-1h8a3 3 0 0 1 3 3v8a1 1 0 0 1-1 1H7a3 3 0 0 1-3-3V5z"/><path fill="url(#imaged)" d="m9.293 9.564-2.728 2.73c-.63.629-.184 1.706.707 1.706h5.457c.891 0 1.337-1.077.707-1.707l-2.729-2.729a1 1 0 0 0-1.414 0z"/><circle cx="13" cy="7" r="1" fill="url(#imagee)"/><defs><linearGradient id="imagea" x1="7.521" x2="9.406" y1="3" y2="17.138" gradientUnits="userSpaceOnUse"><stop stop-color="#BBB"/><stop offset="1" stop-color="#888"/></linearGradient><linearGradient id="imageb" x1="7.333" x2="8.851" y1="4" y2="16.144" gradientUnits="userSpaceOnUse"><stop stop-color="#fff"/><stop offset="1" stop-color="#EBEBEB"/></linearGradient><radialGradient id="imagec" cx="0" cy="0" r="1" gradientTransform="matrix(6.33333 9.5 -9.5 3.5625 7.833 7.125)" gradientUnits="userSpaceOnUse"><stop offset=".177" stop-color="#fff"/><stop offset="1" stop-color="#EFEFEF"/></radialGradient><linearGradient id="imaged" x1="6.205" x2="10.01" y1="7.51" y2="17.633" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#597493"/><stop offset="1" stop-color="#0F2F56"/></linearGradient><linearGradient id="imagee" x1="12" x2="14.173" y1="4.75" y2="8.91" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#597493"/><stop offset="1" stop-color="#0F2F56"/></linearGradient></defs></svg>
 );
 
 export default SvgIcon;

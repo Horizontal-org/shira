@@ -4,7 +4,11 @@ import { AttachmentType } from "../../../Attachments";
 
 import AudioIcon from './icons/Audio'
 import ImageIcon from './icons/Image'
-import PdfIcon from './icons/Doc'
+import PDFIcon from './icons/PDF'
+import TextIcon from './icons/Text'
+import ArchiveIcon from './icons/Archive'
+import WordIcon from './icons/Word'
+import ExcelIcon from './icons/Excel'
 import VideoIcon from './icons/Video'
 import GenericAttachmentIcon from './icons/Other'
 import ChevronDown from './icons/ChevronDown'
@@ -15,7 +19,9 @@ interface Props {
   type?: string;
 }
 
-const randomSize = Math.floor(Math.random() * 300) + 1
+// not random because we want the number to be the same each iteration, and the actual value doesn't matter so much -
+// just that it is different: )
+const apparentlyRandomSize = (name: string) => name.length + 500
 
 export const Attachment: FunctionComponent<Props> = ({
   name,
@@ -23,12 +29,17 @@ export const Attachment: FunctionComponent<Props> = ({
   type
 }) => {
 
-  const renderSwitch = (type: string) => {
+  const renderSwitch = (type: string, name: string) => {
     switch (type) {
+      case AttachmentType.archive:
+        return <ArchiveIcon />
       case AttachmentType.audio:
         return <AudioIcon />
       case AttachmentType.document:
-        return <PdfIcon />
+        if (name.endsWith(".docx")) { return <WordIcon/> }
+        if (name.endsWith(".pdf")) { return <PDFIcon/> }
+        if (name.endsWith(".xlsx")) { return <ExcelIcon/> }
+        return <TextIcon/>
       case AttachmentType.image:
         return <ImageIcon />
       case AttachmentType.video:
@@ -43,12 +54,12 @@ export const Attachment: FunctionComponent<Props> = ({
   return (
     <Wrapper data-explanation={explanationPosition}>
       <Left>
-        <SvgWrapper> {renderSwitch(type)} </SvgWrapper>
+        <SvgWrapper> {renderSwitch(type, name)} </SvgWrapper>
         <TextWrapper>
           <Name title={name}>
             {name}
           </Name>
-          <Size>{randomSize} KB</Size>
+          <Size>{apparentlyRandomSize(name)} KB</Size>
         </TextWrapper>
       </Left>
       <Right>
