@@ -63,16 +63,20 @@ const Wrapper = styled.div`
   justify-content: space-between;
   position: relative;
   min-width: 0;
-  background: #e7ecf0;
+  background: #fff;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    background: #e7ecf0;
+  }
 `
 
 const ContentWrapper = styled.div`
-  padding: 20px 12px;
+  padding: 20px 24px;
   flex-grow: 1;
   min-width: 0;
   max-width: 100%;
   box-sizing: border-box;
-  background: #e7ecf0;
+  background: #fff;
   display: flex;
   flex-direction: column-reverse;
   position: relative;
@@ -80,9 +84,10 @@ const ContentWrapper = styled.div`
   overflow-y: scroll;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    background: #e7ecf0;
     position: absolute;
     inset: 0;
-    padding-top: 130px;
+    padding: 130px 12px 20px;
   }
 `
 
@@ -91,7 +96,11 @@ const MessagesList = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 28px;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    gap: 8px;
+  }
 `
 
 export default MessageWrapper
