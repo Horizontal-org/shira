@@ -6,6 +6,11 @@ interface Props {
   name: string
 }
 
+// deterministic way to get a random-seeming page count based on the input name :)
+const generatePageCount = (name: string) => {
+    return (name.length % 6) + 2
+}
+
 export const BlurredPDF:FunctionComponent<Props> = ({ name }) => {
   return (
     <Wrapper>
@@ -13,9 +18,9 @@ export const BlurredPDF:FunctionComponent<Props> = ({ name }) => {
       <ContentWrapper>
           <NameContainer>{name}</NameContainer>
           <MetadataContainer>
-              <span>3 pages</span>
+              <span>{generatePageCount(name)} pages</span>
               <CenterDot>·</CenterDot>
-              <span>135kB</span>
+              <span>{generatePageCount(name) * 135 + name.length} kB</span> 
               <CenterDot>·</CenterDot>
               <span>PDF</span>
           </MetadataContainer>
@@ -26,8 +31,8 @@ export const BlurredPDF:FunctionComponent<Props> = ({ name }) => {
 }
 
 const NameContainer = styled.div`
-max-width: 300px;
-word-wrap: break-word;
+    max-width: 300px;
+    word-wrap: break-word;
 `
 
 const MetadataContainer = styled.div`

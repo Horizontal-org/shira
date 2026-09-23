@@ -68,23 +68,25 @@ export const Attachment: FunctionComponent<Props> = ({ name, explanationPosition
   )
 }
 
+// TODO (alex 2026-09-23): need to source + add 'whatsapp forward button' (two rightward oriented bendy arrows) that appears in caro's screenshots
+
 const RibbonContainer = styled.div`
-    position: relative;
-    top: -12px;
-    right: 17px;
-    width: 0px;
+  position: relative;
+  top: -12px;
+  right: 17px;
+  width: 0px;
 `
 
 const MetadataContainer = styled.div`
-display: flex;
-font-size: 0.8rem;
-color: gray;
-gap: 0.25rem;
+  display: flex;
+  font-size: 0.8rem;
+  color: gray;
+  gap: 0.25rem;
 `
 const CenterDot = styled.span`
-font-size: 16px !important;
-margin-top: -0.15rem;
-font-weight: bold;
+  font-size: 16px !important;
+  margin-top: -0.15rem;
+  font-weight: bold;
 `
 const IconInfoWrapper = styled.div`
   display: flex;
@@ -102,21 +104,21 @@ const Filename = styled.div`
   color: #333;
 `
 const AttachmentFolder = styled("div")<{bgColor: string}>`
-    display: flex;
-    align-items: end;
-    justify-content: center;
-    width: 26px;
-    height: 30px;
-    background: ${props => props.bgColor};
-    border-radius: 0.25rem;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  width: 26px;
+  height: 30px;
+  background: ${props => props.bgColor};
+  border-radius: 0.25rem;
 `
 
 const AttachmentFolderType = styled("div")<{smaller: boolean}>`
-    font-weight: bold;
-    align-items: end;
-    color: white;
-    font-size: ${props => props.smaller ? "10" : "11"}px;
-    padding-bottom: 0.15rem;
+  font-weight: bold;
+  align-items: end;
+  color: white;
+  font-size: ${props => props.smaller ? "10" : "11"}px;
+  padding-bottom: 0.15rem;
 `
 
 const Wrapper = styled.div`
@@ -125,21 +127,7 @@ const Wrapper = styled.div`
   flex-grow: 1;
 `
 
-const Download = styled.div`
-  display: flex;
-  align-items: center;
-  margin: 0 8px 0 36px;
-
-  > svg {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    fill: rgba(84,101,111, 0.5);
-  }
-`
-
 const Card = styled.div`
-
   float: left;
   background: #fff;
   border-radius: 7.5px;
@@ -164,30 +152,4 @@ const Card = styled.div`
     font-weight: 200;
     margin-bottom: -2px;
   }
-
-`
-
-const Name = styled.div`
-  display: inline;
-  text-align: left;
-  font-size: 12px;
-  color: #111b21;
-
-  h1, h2, h3, h4, h5 {
-    font-size: 12px;
-    margin: 0.8px;
-  }
-
-  p {
-    margin: 0.8px;
-  }
-`
-
-const ImageWrapper = styled.img`
-  align-items: center;
-  justify-content: center;
-  margin-right: 12px;
-
-  width: 26px;
-  height: 30px;
 `
