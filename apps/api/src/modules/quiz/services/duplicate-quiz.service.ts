@@ -8,6 +8,8 @@ import { DuplicateQuizDto } from '../dto/duplicate-quiz.dto';
 import { Language } from 'src/modules/languages/domain';
 import { TYPES as TYPES_QUESTION_IMAGE } from '../../question_image/interfaces'
 import { ISyncQuestionImageService } from 'src/modules/question_image/interfaces/services/sync.question_image.service.interface';
+import { TYPES as TYPES_NOTE_IMAGE } from 'src/modules/note_image/interfaces'
+import { IDuplicateNoteImageService } from 'src/modules/note_image/interfaces/services/duplicate.note_image.service.interface'
 import { TYPES } from '../interfaces';
 import { ISharedQuestionDuplicationService } from '../interfaces/services/shared-question-duplication.service.interface';
 import * as crypto from 'crypto';
@@ -22,6 +24,8 @@ export class DuplicateQuizService implements IDuplicateQuizService {
   constructor(
     @Inject(TYPES_QUESTION_IMAGE.services.ISyncQuestionImageService)
     private syncImagesService: ISyncQuestionImageService,
+    @Inject(TYPES_NOTE_IMAGE.services.IDuplicateNoteImageService)
+    private duplicateNoteImageService: IDuplicateNoteImageService,
     @Inject(TYPES.services.ISharedQuestionDuplicationService)
     private sharedQuestionDuplicationService: ISharedQuestionDuplicationService,
     @Inject(TYPES.services.IValidateSpaceQuizService)
@@ -112,6 +116,18 @@ export class DuplicateQuizService implements IDuplicateQuizService {
             content: originalNote.content,
           });
           const savedNote = await manager.save(Note, duplicatedNote);
+
+          const remappedContent = await this.duplicateNoteImageService.execute({
+            originalNoteId: originalNote.id,
+            content: savedNote.content,
+            targetNoteId: savedNote.id,
+            targetQuizId: savedQuiz.id,
+            manager
+          })
+
+          if (remappedContent !== savedNote.content) {
+            await manager.update(Note, savedNote.id, { content: remappedContent })
+          }
 
           const newQuizItem = manager.create(QuizItem, {
             position: originalQuizItem.position,

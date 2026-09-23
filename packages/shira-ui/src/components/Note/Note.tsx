@@ -39,7 +39,7 @@ const Background = styled.div`
   width: 100%;
   padding: 48px 0; 
   background: ${props => props.theme.colors.light.paleGreen};
-  min-height: 800px;
+  min-height: 400px;
   border-radius: 16px;
 
   display: flex;

@@ -49,10 +49,8 @@ export const useNoteCRUD = () => {
   return { submit, edit, actionFeedback }
 }
 
-export const fetchNote = async (id: string, quizId: string) => {
-  const res = await axios.get(`${process.env.REACT_APP_API_URL}/note/${id}`, {
-    params: { quizId }
-  })
+export const fetchNote = async (id: string) => {
+  const res = await axios.get(`${process.env.REACT_APP_API_URL}/note/${id}`)
   return res.data
 }
 

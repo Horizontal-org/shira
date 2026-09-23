@@ -2,7 +2,7 @@ import { GeneralTooltip, styled, ExplanationButton, CharacterCount, Body4 } from
 import { useEditor, EditorContent } from '@tiptap/react'
 import { MenuBar } from './components/MenuBar'
 import { useExplanations } from './hooks/useExplanations'
-import { useImageUpload } from './hooks/useImageUpload'
+import { uploadNoteImage, useImageUpload } from './hooks/useImageUpload'
 import { useLink } from './hooks/useLink'
 import { useTable } from './hooks/useTable'
 
@@ -61,7 +61,8 @@ export const NoteTipTapEditor = ({
 
   const images = useImageUpload(editor, {
     maxSizeInMB: 5,
-    allowedTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
+    allowedTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
+    uploadFunction: uploadNoteImage
   })
 
   const links = useLink(editor)

@@ -4,7 +4,9 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
+import { NoteImage } from 'src/modules/note_image/domain/note_images.entity'
 
 @Entity({ name: 'notes' })
 export class Note {
@@ -23,4 +25,10 @@ export class Note {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  @OneToMany(
+    () => NoteImage,
+    (noteImage: NoteImage) => noteImage.note,
+  )
+  images?: NoteImage[]
 }

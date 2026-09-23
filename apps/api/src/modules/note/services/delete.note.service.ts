@@ -8,6 +8,8 @@ import { IDeleteNoteService } from '../interfaces/services/delete.note.service.i
 import { DeleteNoteDto } from '../dto/delete.note.dto';
 import { TYPES as TYPES_QUIZ } from 'src/modules/quiz/interfaces';
 import { IQuizItemsService } from 'src/modules/quiz/interfaces/services/quiz-items.service.interface';
+import { TYPES as TYPES_NOTE_IMAGE } from 'src/modules/note_image/interfaces'
+import { ISyncNoteImageService } from 'src/modules/note_image/interfaces/services/sync.note_image.service.interface'
 
 @Injectable()
 export class DeleteNoteService implements IDeleteNoteService {
@@ -21,6 +23,8 @@ export class DeleteNoteService implements IDeleteNoteService {
     private readonly quizRepo: Repository<Quiz>,
     @Inject(TYPES_QUIZ.services.IQuizItemsService)
     private readonly quizItemsService: IQuizItemsService,
+    @Inject(TYPES_NOTE_IMAGE.services.ISyncNoteImageService)
+    private readonly syncImagesService: ISyncNoteImageService,
   ) {}
 
   async execute(deleteDto: DeleteNoteDto): Promise<void> {
@@ -37,6 +41,9 @@ export class DeleteNoteService implements IDeleteNoteService {
     }
 
     await this.quizItemsService.removeAndResequence(deleteDto.quizId, quizItem.id);
+
+    // queue bucket cleanup before the rows go away with the note (FK cascade)
+    await this.syncImagesService.deleteByNote(deleteDto.noteId)
 
     await this.noteRepo.delete(deleteDto.noteId);
 

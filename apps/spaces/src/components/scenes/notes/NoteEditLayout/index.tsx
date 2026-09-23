@@ -7,6 +7,7 @@ import { QuizSuccessStates } from "../../../../store/slices/quiz"
 import toast from "react-hot-toast"
 import { fetchNote, NoteCRUDFeedback, useNoteCRUD } from "../../../../fetch/note"
 import { ActiveNote } from "../../../../types/active_note"
+import parseHtml from "../../../../utils/parseHtml"
 
 interface Props { }
 
@@ -24,11 +25,13 @@ export const NoteEditLayout: FunctionComponent<Props> = () => {
   useEffect(() => {
     const getNote = async () => {
       try {
-        const note = await fetchNote(noteId, quizId)
+        const note = await fetchNote(noteId)
+        // presigned urls stored in the content expire, swap them for fresh ones
+        const content = parseHtml(note.content, note.images ?? []).getDocument().body.innerHTML
         handleInitialNote({
           name: note.name,
           content: {
-            value: note.content,
+            value: content,
             htmlId: 'component-text-1',
             contentType: 'editor'
           }

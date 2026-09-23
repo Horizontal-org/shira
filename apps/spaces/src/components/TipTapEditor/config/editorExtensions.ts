@@ -47,6 +47,10 @@ export const getNoteExtensions = () => [
   Placeholder.configure({
     placeholder: '',
   }),
+  ImageWithExplanation.configure({
+    inline: false,
+    allowBase64: true
+  }),
 ]
 
 

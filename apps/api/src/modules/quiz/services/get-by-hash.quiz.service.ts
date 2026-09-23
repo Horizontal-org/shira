@@ -8,6 +8,8 @@ import { Language } from 'src/modules/languages/domain';
 import { TYPES as TYPES_QUESTION_IMAGE } from '../../question_image/interfaces'
 import { IGenerateUrlsQuestionImageService } from 'src/modules/question_image/interfaces/services/generate_urls.question_image.service.interface';
 import { TYPES } from '../interfaces';
+import { TYPES as TYPES_NOTE_IMAGE } from 'src/modules/note_image/interfaces'
+import { IGenerateUrlsNoteImageService } from 'src/modules/note_image/interfaces/services/generate_urls.note_image.service.interface'
 import { IQuizItemsService } from '../interfaces/services/quiz-items.service.interface';
 
 @Injectable()
@@ -20,6 +22,8 @@ export class GetByHashQuizService implements IGetByHashQuizService {
     private readonly languageRepository: Repository<Language>,
     @Inject(TYPES_QUESTION_IMAGE.services.IGenerateUrlsQuestionImageService)
     private getImageUrls: IGenerateUrlsQuestionImageService,
+    @Inject(TYPES_NOTE_IMAGE.services.IGenerateUrlsNoteImageService)
+    private getNoteImageUrls: IGenerateUrlsNoteImageService,
     @Inject(TYPES.services.IQuizItemsService)
     private readonly quizItemsService: IQuizItemsService,
   ) { }
@@ -124,7 +128,16 @@ export class GetByHashQuizService implements IGetByHashQuizService {
         },
       }));
 
-    const images = await this.getImageUrls.byQuiz(quiz.id)
+    // ids from question_images and note_images can overlap, consumers must match on type + id
+    const [questionImages, noteImages] = await Promise.all([
+      this.getImageUrls.byQuiz(quiz.id),
+      this.getNoteImageUrls.byQuiz(quiz.id),
+    ])
+    const images = [
+      ...(questionImages as unknown as object[]).map((image) => ({ ...image, type: 'question' as const })),
+      ...noteImages.map((image) => ({ ...image, type: 'note' as const })),
+    ]
+
     return {
       id: quiz.id,
       title: quiz.title,

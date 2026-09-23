@@ -10,7 +10,7 @@ interface Props {
   note: NoteType
   noteCount: number
   noteIndex: number
-  // images?: Array<{ imageId: number; url: string }>
+  images?: Array<{ imageId: number; url: string }>
   onNext: () => void
   goBack: () => void
   changeScene?: (scene: string) => void
@@ -21,6 +21,7 @@ export const NoteView: FunctionComponent<Props> = ({
   note,
   noteCount,
   noteIndex,
+  images = [],
   onNext,
   goBack,
   changeScene,
@@ -29,7 +30,7 @@ export const NoteView: FunctionComponent<Props> = ({
 
   const {
     parseNoteContent,
-  } = useParseHTML(note.content, [])
+  } = useParseHTML(note.content, images)
 
   const content = useMemo(parseNoteContent, [parseNoteContent, note.content])
 

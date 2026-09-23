@@ -15,7 +15,8 @@ interface Props {
   questions: QuestionType[];
   quizId: number;
   quizItems: QuizItem[]
-  images: Array<{ imageId: number; url: string }>;
+  // question and note image ids can overlap, always filter by type before matching
+  images: Array<{ imageId: number; url: string; type: 'question' | 'note' }>;
   startRun: () => void;
   recordAnswer: (questionId: number, answer: RunAnswer) => void;
   runStarted: boolean;
@@ -49,6 +50,9 @@ export const CustomQuiz: FunctionComponent<Props> = ({
   // const q = questions.length > 0 ? questions[questionIndex] : null
   const quizItem = quizItems.length > 0 ? quizItems[itemIndex] : null
 
+  const questionImages = images.filter((i) => i.type === 'question')
+  const noteImages = images.filter((i) => i.type === 'note')
+
   // const currentQuestionId = q?.id ?? null
 
   const onNext = () => {
@@ -75,7 +79,7 @@ export const CustomQuiz: FunctionComponent<Props> = ({
             <Question
               key={itemIndex}
               question={quizItems.length > 0 && quizItems[itemIndex].question}
-              images={images}
+              images={questionImages}
               questionIndex={itemIndex}
               questionCount={quizItems.length}
               changeScene={changeScene}
@@ -93,6 +97,7 @@ export const CustomQuiz: FunctionComponent<Props> = ({
             <NoteView
               key={itemIndex}
               note={quizItems.length > 0 && quizItems[itemIndex].note}
+              images={noteImages}
               noteIndex={itemIndex}
               noteCount={quizItems.length}
               changeScene={changeScene}

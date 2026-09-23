@@ -21,16 +21,13 @@ export class DeleteQuestionController {
     private readonly quizItemRepository: Repository<QuizItem>,
     @Inject(TYPES_QUIZ.services.IQuizItemsService)
     private readonly quizItemsService: IQuizItemsService,
-  ) {}
+  ) { }
 
   @Delete(':id')
   @Roles(Role.SuperAdmin)
   async handler(
     @Param('id') id: number
   ) {
-    // A question can still be attached to a quiz via quiz_items (entity_id has no FK,
-    // since it's polymorphic) - clean that up first so deleting it here doesn't leave
-    // an orphaned quiz_items row pointing at a question that no longer exists.
     const quizItems = await this.quizItemRepository.find({
       where: { entityType: 'question', entityId: id },
     });
