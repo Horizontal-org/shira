@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import styled from 'styled-components'
+import styled from "styled-components";
 
 interface Props {
   name: string,
@@ -70,7 +70,7 @@ export const Attachment: FunctionComponent<Props> = ({ name, explanationPosition
 
 const RibbonContainer = styled.div`
     position: relative;
-    top: -11px;
+    top: -12px;
     right: 17px;
     width: 0px;
 `
@@ -89,7 +89,7 @@ font-weight: bold;
 const IconInfoWrapper = styled.div`
   display: flex;
   gap: 0.5rem;
-  width: 16rem;
+  width: 14.5rem;
 `
 
 const InfoContainer = styled.div`
