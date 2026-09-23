@@ -28,6 +28,7 @@ const Wrapper = styled.div`
 const InputWrapper = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
   border-radius: 8px;
   height: 100%;
   flex: 1;
