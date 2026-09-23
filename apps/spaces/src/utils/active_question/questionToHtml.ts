@@ -1,7 +1,7 @@
 import { ActiveQuestion, QuestionDragAttachment, QuestionDragEditor, QuestionDragImage, QuestionEditorInput, QuestionTextInput } from "../../store/types/active_question";
 
 export const activeQuestionToHtml = (activeQuestion: ActiveQuestion) => {
-  return parseActiveQuestionToHtml(activeQuestion.content)  
+  return parseActiveQuestionToHtml(activeQuestion.content)
 }
 
 const parseActiveQuestionToHtml = (content: Object) => {
@@ -18,7 +18,7 @@ const parseActiveQuestionToHtml = (content: Object) => {
       elementsArray.push(parseQuestionEditorInput(content[k]))
     }
   })
-  
+
   const html = elementsArray
     .reduce((prev, current) => {
       return prev + current
@@ -81,7 +81,7 @@ export const parseDragItem = (item: QuestionDragEditor | QuestionDragImage | Que
   if (item.contentType === 'image') {
     element = parseQuestionDragImage(item)
   } else if (item.contentType === 'editor') {
-    element = parseQuestionEditorInput(item, 'html')    
+    element = parseQuestionEditorInput(item, 'html')
   } else if (item.contentType === 'attachment') {
     element = parseQuestionDragAttachment(item)
   }

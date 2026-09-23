@@ -111,6 +111,7 @@ export const QuizFlow: FunctionComponent<Props> = ({
         <CustomQuiz
           quizId={quiz.id}
           questions={quiz.quizQuestions.map((q) => q.question)}
+          quizItems={quiz.quizQuestions}
           images={quiz.images}
           hasResultsEnabled={quiz.hasResultsEnabled ?? true}
           hasAssessmentEnabled={quiz.hasAssessmentEnabled}

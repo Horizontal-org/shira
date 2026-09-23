@@ -6,12 +6,15 @@ import { Question } from '../../../../UI/Question'
 import { Question as QuestionType } from '../../../../../domain/question'
 import { Answer } from '../../../../../fetch/quiz_runs'
 import { QuizInstructions } from '../../../../UI/QuizInstructions'
+import { QuizItem } from '../../../../../domain/quiz_item'
+import { NoteView } from '../../../../UI/NoteView'
 
 type RunAnswer = 'is_phishing' | 'is_legitimate' | 'dont_know';
 
 interface Props {
   questions: QuestionType[];
   quizId: number;
+  quizItems: QuizItem[]
   images: Array<{ imageId: number; url: string }>;
   startRun: () => void;
   recordAnswer: (questionId: number, answer: RunAnswer) => void;
@@ -27,7 +30,8 @@ export const CustomQuiz: FunctionComponent<Props> = ({
   runStarted,
   recordAnswer,
   hasResultsEnabled,
-  hasAssessmentEnabled
+  hasAssessmentEnabled,
+  quizItems
 }) => {
 
   const {
@@ -39,47 +43,68 @@ export const CustomQuiz: FunctionComponent<Props> = ({
   }), shallow)
 
   const [started, handleStarted] = useState(false)
-  const [questionIndex, handleQuestionIndex] = useState(0)
+  // const [questionIndex, handleQuestionIndex] = useState(0)
+  const [itemIndex, handleItemIndex] = useState(0)
 
-  const q = questions.length > 0 ? questions[questionIndex] : null
-  const currentQuestionId = q?.id ?? null
+  // const q = questions.length > 0 ? questions[questionIndex] : null
+  const quizItem = quizItems.length > 0 ? quizItems[itemIndex] : null
 
-  const handleAnswer = (answer: RunAnswer) => {
-    if (!runStarted) return
-    recordAnswer(Number(currentQuestionId), answer as Answer)
+  // const currentQuestionId = q?.id ?? null
+
+  const onNext = () => {
+    if (itemIndex < quizItems.length - 1) {
+      handleItemIndex((i) => i + 1)
+      return
+    }
+    changeScene("completed")
+  }
+
+  const goBack = () => {
+    if (itemIndex > 0) {
+      handleItemIndex(itemIndex - 1)
+    } else {
+      changeScene('quiz-setup-name')
+    }
   }
 
   return (
     <SceneWrapper>
       {started ? (
-        <Question
-          key={questionIndex}
-          question={questions.length > 0 && questions[questionIndex]}
-          images={images}
-          questionIndex={questionIndex}
-          questionCount={questions.length}
-          changeScene={changeScene}
-          hasAssessmentEnabled={hasAssessmentEnabled}
-          onAnswer={handleAnswer}
-          onNext={() => {
-            if (questionIndex < questions.length - 1) {
-              handleQuestionIndex((i) => i + 1)
-              return
-            }
-            changeScene("completed")
-          }}
-          goBack={() => {
-            if (questionIndex > 0) {
-              handleQuestionIndex(questionIndex - 1)
-            } else {
-              changeScene('quiz-setup-name')
-            }
-          }}
-          setCorrectQuestions={() => { setCorrectQuestions(questions[questionIndex]) }}
-        />
+        <>
+          {quizItem.entityType === 'question' && (
+            <Question
+              key={itemIndex}
+              question={quizItems.length > 0 && quizItems[itemIndex].question}
+              images={images}
+              questionIndex={itemIndex}
+              questionCount={quizItems.length}
+              changeScene={changeScene}
+              hasAssessmentEnabled={hasAssessmentEnabled}
+              onAnswer={(answer: RunAnswer) => {
+                if (!runStarted) return
+                recordAnswer(Number(quizItems[itemIndex].question.id), answer as Answer)
+              }}
+              onNext={onNext}
+              goBack={goBack}
+              setCorrectQuestions={() => { setCorrectQuestions(quizItems[itemIndex].question) }}
+            />
+          )}
+          {quizItem.entityType === 'note' && (
+            <NoteView
+              key={itemIndex}
+              note={quizItems.length > 0 && quizItems[itemIndex].note}
+              noteIndex={itemIndex}
+              noteCount={quizItems.length}
+              changeScene={changeScene}
+              onNext={onNext}
+              goBack={goBack}
+            />
+          )}
+        </>
+
       ) : (
         <QuizInstructions
-          count={questions ? questions.length : 0}
+          count={quizItems ? quizItems.length : 0}
           hasResultsEnabled={hasResultsEnabled}
           isCustom={true}
           onNext={() => {
