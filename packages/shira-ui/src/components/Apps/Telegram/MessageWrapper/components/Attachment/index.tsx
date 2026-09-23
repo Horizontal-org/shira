@@ -94,32 +94,50 @@ const Download = styled.div`
 `
 
 const Card = styled.div`
-  background: #fff;
-  border-radius: 12px;
-  border-top-inline-start-radius: 4px;
-  padding-top: 6px;
-  padding-inline-end: 7px;
-  padding-bottom: 8px;
-  padding-inline-start: 9px;
-  box-shadow: 0 1px 0.5px rgba(11,20,26, .13);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
 
   > div {
     cursor: pointer;
-    background: #f5f6f6;
-    border-radius: 10px;
-    padding: 8px;
     display: flex;
     align-items: center;
+    min-width: 0;
   }
 
   > span {
-    font-size: 9px;
+    flex-shrink: 0;
+    font-size: 12px;
     color: #8e8e93;
-    display: block;
-    text-align: end;
-    padding-top: 2px;
     font-weight: 400;
-    margin-bottom: -2px;
+  }
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    display: block;
+
+    background: #fff;
+    border-radius: 12px;
+    border-top-inline-start-radius: 4px;
+    padding-top: 6px;
+    padding-inline-end: 7px;
+    padding-bottom: 8px;
+    padding-inline-start: 9px;
+    box-shadow: 0 1px 0.5px rgba(11,20,26, .13);
+
+    > div {
+      background: #f5f6f6;
+      border-radius: 10px;
+      padding: 8px;
+    }
+
+    > span {
+      font-size: 9px;
+      display: block;
+      text-align: end;
+      padding-top: 2px;
+      margin-bottom: -2px;
+    }
   }
 `
 

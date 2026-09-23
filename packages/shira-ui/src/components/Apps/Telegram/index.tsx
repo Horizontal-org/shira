@@ -42,12 +42,6 @@ export const Telegram: FunctionComponent<Props> = ({
       ))}
       <Font />
 
-      <TitleBar>
-        <Dot color="#ff5f57" />
-        <Dot color="#febc2e" />
-        <Dot color="#28c840" />
-      </TitleBar>
-
       <StatusBar>
         <span>9:30</span>
         <StatusIcons>
@@ -97,27 +91,6 @@ const Wrapper = styled.div`
     border-radius: 0;
     box-shadow: none;
   }
-`
-
-const TitleBar = styled.div`
-  flex-shrink: 0;
-  height: 28px;
-  background: #e4e4e4;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0 12px;
-
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    display: none;
-  }
-`
-
-const Dot = styled.span<{ color: string }>`
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: ${props => props.color};
 `
 
 const StatusBar = styled.div`
