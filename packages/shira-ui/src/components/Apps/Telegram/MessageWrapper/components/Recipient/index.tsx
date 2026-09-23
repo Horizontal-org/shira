@@ -70,10 +70,13 @@ const Recipient: FunctionComponent<Props> = ({ phone, showNotice, onCloseNotice 
 }
 
 const Wrapper = styled.div`
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
+  gap: 6px;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    gap: 0;
     position: absolute;
     top: 0;
     left: 0;
@@ -83,11 +86,13 @@ const Wrapper = styled.div`
 `
 
 const Header = styled.div`
+  background: #fafafa;
   padding: 10px 16px;
   display: flex;
   align-items: center;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    background: transparent;
     padding: 8px 10px 0;
     gap: 8px;
   }
@@ -148,16 +153,12 @@ const ContactInfo = styled.div`
 
 const Name = styled.span`
   font-size: 16px;
-  font-weight: 500;
-  color: #4FC3E8;
+  font-weight: 600;
+  color: #000;
   position: relative;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    color: #000;
-  }
 `
 
 const LastSeen = styled.span`
@@ -167,7 +168,12 @@ const LastSeen = styled.span`
 
 const Icons = styled.div`
   display: flex;
+  align-items: center;
+  gap: 4px;
   margin-inline-start: auto;
+  padding: 8px 14px;
+  border-radius: 20px;
+  background: #f0f2f5;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     display: none;
@@ -175,12 +181,9 @@ const Icons = styled.div`
 `
 
 const IconWrapper = styled.div`
-  margin: 0 4px;
-  padding: 8px;
+  display: flex;
+  padding: 4px;
   cursor: pointer;
-  transition: background-color .1s;
-  border-radius: 12px;
-  background: #f0f2f5;
 
   > svg {
     display: block;
@@ -190,10 +193,6 @@ const IconWrapper = styled.div`
 
   > svg path {
     fill: #707579;
-  }
-
-  &:active {
-    background: rgba(11,20,26,0.1);
   }
 `
 
@@ -229,15 +228,15 @@ const NoticeActions = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin: 0 16px 20px;
   padding: 10px 20px;
   font-size: 13px;
-  border-radius: 20px;
+  border-radius: 16px;
   background: #f0f2f5;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     margin: 4px 10px 0;
     padding: 4px 10px;
+    border-radius: 20px;
     background: rgba(255, 255, 255, 0.72);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
