@@ -106,6 +106,15 @@
     "contact_9_time": "12:40 PM",
     "contact_9_message": "I'm sorry, guys. I never meant to hurt you"
   },
+  "instagram": {
+    "account_name": "yourusername",
+    "search": "Search",
+    "messages": "Messages",
+    "requests": "Requests",
+    "your_note": "Your note",
+    "new_message": "New message",
+    "verified": "Verified"
+  },
   "pagination": {
     "summary": "{{start}}-{{end}} of {{total}}",
     "page": "<current>{{current}}</current> of {{total}}",
