@@ -570,6 +570,15 @@
     },
     "support": {
         "title": "Support",
+        "help_center": {
+            "title": "Help Center",
+            "description": "Visit our Help Center to learn more about features and how to use Shira to train your team or community.",
+            "cta": "Go to Help Center"
+        },
+        "contact": {
+            "title": "Contact us",
+            "description": "If you need any support please email us at"
+        },
         "subtitle": "If you need any support, including with deleting your account, please email the Shira team at contact@wearehorizontal.org"
     },
     "settings": {
