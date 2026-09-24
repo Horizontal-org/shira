@@ -1,4 +1,4 @@
-import { Button, BaseFloatingMenu, styled } from "@horizontal-org/shira-ui";
+import { Button, BaseFloatingMenu, styled, AttachmentType, AddAttachmentModal } from "@horizontal-org/shira-ui";
 import { FunctionComponent, useRef, useState } from "react";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 
@@ -9,13 +9,13 @@ import { FiShare } from "react-icons/fi";
 import { useImageUpload } from "../../../../../hooks/useImageUpload";
 import { useStore } from "../../../../../store";
 import { shallow } from "zustand/shallow";
-import { QuestionDragEditor, QuestionDragImage } from "../../../../../store/types/active_question";
+import { QuestionDragEditor, QuestionDragImage, QuestionDragAttachment } from "../../../../../store/types/active_question";
 import { useTranslation } from "react-i18next";
 import { ErrorBanner } from "../../../../ErrorBanner";
 
 
 interface Props {
-  items: Array<QuestionDragEditor | QuestionDragImage>
+  items: Array<QuestionDragEditor | QuestionDragImage | QuestionDragAttachment>
   content: Object
   onChange: (newItems: Array<Object>) => void
 }
@@ -23,7 +23,8 @@ interface Props {
 // do something about this :(
 const castType = {
   'editor': 'text',
-  'image': 'image'
+  'image': 'image',
+  'attachment': 'attachment'
 }
 
 export const DraggableMessagingList: FunctionComponent<Props> = ({
@@ -32,6 +33,10 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
 }) => {
 
   const { t } = useTranslation();
+
+  const [attachmentModalOpen, setAttachmentModalOpen] = useState(false);
+  const [attachmentFilename, setAttachmentFilename] = useState('')
+  const [attachmentFileType, setAttachmentFileType] = useState(AttachmentType.document)
 
   const {
     deleteExplanation,
@@ -44,7 +49,7 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const reorder = (newItems, startIndex, endIndex) => {
-    const result: Array<QuestionDragEditor | QuestionDragImage> = Array.from(newItems);
+    const result: Array<QuestionDragEditor | QuestionDragImage | QuestionDragAttachment> = Array.from(newItems);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
 
@@ -144,22 +149,24 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
   return (
     <div id="draggable-messaging-list">
       <ButtonsWrapper>
-        <Button
-          onClick={() => {
-            const newItems = [...items]
-            newItems.push({
-              draggableId: crypto.randomUUID(),
-              htmlId: `component-text-${items.length + 1}`,
-              value: null,
-              contentType: 'editor',
-              position: items.length + 1
-            })
-            onChange(newItems)
-          }}
-          text={t('create_question.tabs.content.add_message_text')}
-          type="outline"
-          leftIcon={<IoMdAdd color="#5F6368" size={14} />}
-        />
+        <div>
+          <Button
+            onClick={() => {
+              const newItems = [...items]
+              newItems.push({
+                draggableId: crypto.randomUUID(),
+                htmlId: `component-text-${items.length + 1}`,
+                value: null,
+                contentType: 'editor',
+                position: items.length + 1
+              })
+              onChange(newItems)
+            }}
+            text={t('create_question.tabs.content.add_message_text')}
+            type="outline"
+            leftIcon={<IoMdAdd color="#5F6368" size={14} />}
+          />
+        </div>
 
         <ImageButtonWrapper>
           <Button
@@ -193,7 +200,48 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
             onChange={handleNewImage}
           />
         </ImageButtonWrapper>
+        <AddAttachmentButtonWrapper>
+          <Button
+            onClick={() => setAttachmentModalOpen(true)}
+            text={t("create_question.tabs.content.attachment_button")}
+            type="outline"
+            leftIcon={<IoMdAdd color="#5F6368" size={14} />}
+          />
+        </AddAttachmentButtonWrapper>
       </ButtonsWrapper>
+
+      <AddAttachmentModal
+        titleLabel={t("modals.attachment_file.title")}
+        saveLabel={t("buttons.save")}
+        cancelLabel={t("buttons.cancel")}
+        fileNameLabel={t("modals.attachment_file.file_name")}
+        fileTypeLabel={t("modals.attachment_file.file_type")}
+        fileTypeExplanation={t("modals.attachment_file.explanation")}
+        fileName={attachmentFilename}
+        handleFileName={setAttachmentFilename}
+        fileType={attachmentFileType}
+        handleFileType={setAttachmentFileType}
+        isOpen={attachmentModalOpen}
+        onClose={() => setAttachmentModalOpen(false)}
+        excludedFileTypes={[AttachmentType.image]}
+        onSave={() => {
+          const newItems = [...items]
+          newItems.push({
+            draggableId: crypto.randomUUID(),
+            htmlId: `component-attachment-${items.length + 1}`,
+            explanation: null,
+            contentType: 'attachment',
+            position: items.length + 1,
+            value: {
+              name: attachmentFilename,
+              type: attachmentFileType
+            }
+          })
+          onChange(newItems)
+          setAttachmentFilename('')
+          setAttachmentFileType(AttachmentType.document)
+        }}
+      />
 
       {imageUploadError && (
         <ErrorBanner role="alert" aria-live="polite">
@@ -237,6 +285,10 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
     </div>
   )
 }
+
+const AddAttachmentButtonWrapper = styled.div`
+  margin-bottom: 24px;
+`
 
 const HiddenFileInput = styled.input`
   display: none;

@@ -22,6 +22,7 @@ export interface AddAttachmentModalProps {
   fileTypeExplanation?: string;
   fileTypePlaceholder?: string;
   typeLabels?: Partial<Record<AttachmentType, string>>;
+  excludedFileTypes?: AttachmentType[];
 }
 
 const ATTACHMENT_FILENAME_MAX_LENGTH = 100;
@@ -39,7 +40,8 @@ export const AddAttachmentModal = ({
   cancelLabel,
   fileNameLabel,
   fileTypeLabel,
-  fileTypeExplanation
+  fileTypeExplanation,
+  excludedFileTypes
 }: AddAttachmentModalProps) => {
   const trimmedFileName = fileName.trim();
   const disabledSave =
@@ -84,7 +86,7 @@ export const AddAttachmentModal = ({
         />
         <SelectComponent
           label={fileTypeLabel}
-          options={fileTypeOptions}
+          options={fileTypeOptions.filter(it => excludedFileTypes === undefined || !excludedFileTypes.includes(it.value))}
           onChange={handleFileType}
           value={fileType}
         />

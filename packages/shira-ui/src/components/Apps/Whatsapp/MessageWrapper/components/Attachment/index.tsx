@@ -1,6 +1,8 @@
 import { FunctionComponent } from "react";
 import styled from "styled-components";
 
+import { BlurredPDF } from "../BlurredPDF"
+
 interface Props {
   name: string,
   explanationPosition?: string
@@ -40,10 +42,12 @@ export const Attachment: FunctionComponent<Props> = ({ name, explanationPosition
   const backgroundColor = "#F5F6F6"
   return (
     <Wrapper>
+      {getExtension(name) === "PDF" ? <BlurredPDF name={name}/>
+        :
       <Card data-explanation={explanationPosition}>
         <IconInfoWrapper>
           <AttachmentFolder bgColor={colorPair.main}>
-              <AttachmentFolderType smaller={getIcon(name).length > 3}>{getIcon(name)}</AttachmentFolderType>
+            <AttachmentFolderType smaller={getIcon(name).length > 3}>{getIcon(name)}</AttachmentFolderType>
           </AttachmentFolder>
           <RibbonContainer>
               <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 20 10" width="21px">
@@ -64,6 +68,7 @@ export const Attachment: FunctionComponent<Props> = ({ name, explanationPosition
         </IconInfoWrapper>
         <span>00:00</span>
       </Card>
+      }
     </Wrapper>
   )
 }

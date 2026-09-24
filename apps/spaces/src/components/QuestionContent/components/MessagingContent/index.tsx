@@ -4,6 +4,7 @@ import { InputWithExplanation } from "../../../InputWithExplanation";
 import { DraggableMessagingList } from "./DraggableMessagingList";
 import { ActiveQuestion, MessagingContent as MessagingContentType } from "../../../../store/types/active_question";
 import { useStore } from "../../../../store";
+import { Attachments } from "../Attachments";
 import { shallow } from "zustand/shallow";
 import { useTranslation } from "react-i18next";
 import { MessageEditorStyles } from "../../../TipTapEditor/styles/MessageEditorStyles";
@@ -50,6 +51,7 @@ export const MessagingContent: FunctionComponent<Props> = ({
   useEffect(() => {
     handleSenderPhoneEnabled(hasSenderPhone)
   }, [])
+
 
   return (
     <Content id="messaging-content">
@@ -110,7 +112,6 @@ export const MessagingContent: FunctionComponent<Props> = ({
           onChange={(newItems) => { updateActiveQuestionDraggableItems(newItems) }}
         />
       </div>
-
     </Content>
   )
 }

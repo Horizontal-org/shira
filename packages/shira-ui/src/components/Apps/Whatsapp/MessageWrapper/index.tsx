@@ -5,7 +5,6 @@ import Message from './components/Message'
 import Background from './assets/background.png'
 import { Attachment } from './components/Attachment'
 import { MessagingImage } from './components/MessagingImage'
-import { BlurredPDF } from './components/BlurredPDF'
 
 interface Props {
   phone?: {
@@ -36,10 +35,6 @@ const MessageWrapper: FunctionComponent<Props> = ({
 
               {e.getAttribute('id').includes('component-image') && (
                 <MessagingImage data={e} />
-              )}
-
-              {e.getAttribute('id').includes('component-pdf') && (
-                <BlurredPDF name={e.textContent} />
               )}
             </>
           ))}
