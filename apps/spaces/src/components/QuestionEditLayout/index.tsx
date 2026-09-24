@@ -6,6 +6,7 @@ import { shallow } from "zustand/shallow";
 import { QuestionFlowManagement } from "../QuestionFlowManagement";
 import { QuizSuccessStates } from "../../store/slices/quiz";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 import { ActiveQuestion } from "../../store/types/active_question";
 import { htmlToActiveQuestion } from "../../utils/active_question/htmlToQuestion";
 
@@ -13,6 +14,7 @@ interface Props { }
 
 export const QuestionEditLayout: FunctionComponent<Props> = () => {
 
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { quizId, questionId } = useParams()
   const { edit, actionFeedback } = useQuestionCRUD()
@@ -74,7 +76,7 @@ export const QuestionEditLayout: FunctionComponent<Props> = () => {
 
     if (actionFeedback === QuestionCRUDFeedback.error) {
       // TODO do we navigate? 
-      toast.error('ERROR EDITING QUESTION', { duration: 3000 })
+      toast.error(t('error_messages.edit_question_failed'), { duration: 3000 })
     }
   }, [actionFeedback])
 
