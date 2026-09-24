@@ -53,6 +53,7 @@ export const NoteFlowManagement: FunctionComponent<Props> = ({
       />
 
       <EntityFlowHeader
+        entityType="note"
         isProcessing={actionFeedback === NoteCRUDFeedback.processing}
         onNext={() => {
           if (step === 1) {

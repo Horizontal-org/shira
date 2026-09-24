@@ -68,7 +68,6 @@ export class GetByHashQuizService implements IGetByHashQuizService {
         'explanations.explanationTranslations.languageId',
       ],
     });
-    console.log("🚀 ~ GetByHashQuizService ~ execute ~ hydratedItems:", hydratedItems)
 
     // `languageId` on QuestionTranslation/ExplanationTranslation is a `@ManyToOne(() => Language)`
     // relation typed as `number` (see questionTranslation.entity.ts) - at runtime it's the eager-loaded

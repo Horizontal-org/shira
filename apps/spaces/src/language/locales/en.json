@@ -176,6 +176,8 @@
         }
     },
     "create_note": {
+        "header_title": "Create a new note",
+        "edit_header_title": "Edit note",
         "header_required_tooltip": "Required fields cannot be left blank",
         "header_character_limit_tooltip": "One or more fields exceed the character limit.",
         "breadcrumbs": {

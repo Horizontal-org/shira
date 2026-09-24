@@ -21,6 +21,7 @@ interface Props {
   nextTooltipLabel?: string
   isProcessing: boolean;
   primaryButtonText: string;
+  entityType?: 'question' | 'note'
 }
 
 export const EntityFlowHeader: FunctionComponent<Props> = ({
@@ -31,15 +32,20 @@ export const EntityFlowHeader: FunctionComponent<Props> = ({
   step,
   nextTooltipLabel,
   isProcessing,
-  primaryButtonText
+  primaryButtonText,
+  entityType = 'question'
 }) => {
 
   const { t } = useTranslation();
-  const { questionId } = useParams();
+  const { questionId, noteId } = useParams();
 
   const [showNextTooltip, setShowNextTooltip] = useState(false);
 
-  const isEditFlow = Boolean(questionId);
+  const isEditFlow = Boolean(entityType === 'note' ? noteId : questionId);
+
+  const headerTitle = entityType === 'note'
+    ? (isEditFlow ? t('create_note.edit_header_title') : t('create_note.header_title'))
+    : (isEditFlow ? t('questions.edit.tab_header') : t('create_question.header_title'))
 
   return (
     <Wrapper id="question-flow-header">
@@ -56,9 +62,7 @@ export const EntityFlowHeader: FunctionComponent<Props> = ({
           size={24}
         />
 
-        <Body2Regular>{
-          isEditFlow ? t('questions.edit.tab_header') : t('create_question.header_title')}
-        </Body2Regular>
+        <Body2Regular>{headerTitle}</Body2Regular>
       </Left>
 
       <Right>
