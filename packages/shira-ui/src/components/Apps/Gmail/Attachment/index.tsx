@@ -1,12 +1,5 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
-// import {
-//   ImageIcon,
-//   VideoIcon,
-//   AudioIcon,
-//   GenericAttachmentIcon,
-//   PdfIcon,
-// } from '../../../Icons';
 import { AttachmentType } from '../../../Attachments';
 import AddToDriveIcon from '../Attachment/components/AddToDriveIcon'
 import { MdOutlineFileDownload } from 'react-icons/md'
