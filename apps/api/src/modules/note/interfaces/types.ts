@@ -4,5 +4,6 @@ export const TYPES = {
     IEditNoteService: 'IEditNoteService',
     IDeleteNoteService: 'IDeleteNoteService',
     IGetNoteService: 'IGetNoteService',
+    IDuplicateNoteService: 'IDuplicateNoteService',
   },
 };

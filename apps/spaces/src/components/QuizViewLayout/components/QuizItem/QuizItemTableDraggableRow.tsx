@@ -10,6 +10,7 @@ import { BaseActionsMenu } from "../Question/BaseActionsMenu";
 interface Props {
   row: Row<QuizViewItem>;
   duplicatingQuestionId: string | null;
+  duplicatingNoteId: string | null
   onEditQuestion: (questionId: string) => void;
   onDuplicateQuestion: (questionId: string) => void;
   onSubmitQuestionAsTemplate: (questionId: string) => void;
@@ -17,6 +18,7 @@ interface Props {
   onDeleteQuestion: (questionId: string) => void;
   onDeleteNote: (noteId: string) => void;
   onEditNote: (noteId: string) => void;
+  onDuplicateNote: (noteId: string) => void
   editTooltip: string;
   duplicateTooltip: string;
   submitAsTemplateTooltip: string;
@@ -27,6 +29,7 @@ interface Props {
 const QuizItemTableDraggableRowComponent: FunctionComponent<Props> = ({
   row,
   duplicatingQuestionId,
+  duplicatingNoteId,
   onEditQuestion,
   onDuplicateQuestion,
   onSubmitQuestionAsTemplate,
@@ -34,6 +37,7 @@ const QuizItemTableDraggableRowComponent: FunctionComponent<Props> = ({
   onDeleteQuestion,
   onEditNote,
   onDeleteNote,
+  onDuplicateNote,
   editTooltip,
   duplicateTooltip,
   submitAsTemplateTooltip,
@@ -56,6 +60,8 @@ const QuizItemTableDraggableRowComponent: FunctionComponent<Props> = ({
   });
 
   const isDuplicatingThisQuestion = item.entityType === "question" && duplicatingQuestionId === item.question.id;
+  const isDuplicatingThisNote = item.entityType === "note" && duplicatingNoteId === item.entityId.toString()
+  const isDuplicatingThisItem = isDuplicatingThisQuestion || isDuplicatingThisNote
 
   return (
     <Tr
@@ -75,7 +81,7 @@ const QuizItemTableDraggableRowComponent: FunctionComponent<Props> = ({
                 type="button"
                 {...attributes}
                 {...listeners}
-                disabled={isDuplicatingThisQuestion}
+                disabled={isDuplicatingThisItem}
               >
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </HandleButton>
@@ -90,7 +96,13 @@ const QuizItemTableDraggableRowComponent: FunctionComponent<Props> = ({
                 <BaseActionsMenu
                   editLabel={editTooltip}
                   onEdit={() => onEditNote(item.entityId.toString())}
+                  disabled={isDuplicatingThisNote}
                   items={[
+                    {
+                      text: duplicateTooltip,
+                      icon: <FiCopy color={defaultTheme.colors.dark.darkGrey} />,
+                      onClick: () => onDuplicateNote(item.entityId.toString()),
+                    },
                     {
                       text: deleteTooltip,
                       icon: <FiTrash2 color={defaultTheme.colors.dark.darkGrey} />,

@@ -24,6 +24,7 @@ import { QuizItemTableDraggableRow } from "./QuizItemTableDraggableRow";
 interface Props {
   items: QuizViewItem[];
   duplicatingQuestionId: string | null;
+  duplicatingNoteId: string | null
   onEditQuestion: (questionId: string) => void;
   onDuplicateQuestion: (questionId: string) => void;
   onSubmitQuestionAsTemplate: (questionId: string) => void;
@@ -31,6 +32,7 @@ interface Props {
   onDeleteQuestion: (questionId: string) => void;
   onDeleteNote: (noteId: string) => void;
   onEditNote: (noteId: string) => void;
+  onDuplicateNote: (noteId: string) => void
   onReorder: (newOrder: QuizViewItem[]) => void;
 }
 
@@ -39,6 +41,7 @@ const getItemRowId = (item: QuizViewItem) => `${item.entityType}-${item.entityId
 export const QuizItemsTable: FunctionComponent<Props> = ({
   items,
   duplicatingQuestionId,
+  duplicatingNoteId,
   onEditQuestion,
   onDuplicateQuestion,
   onSubmitQuestionAsTemplate,
@@ -46,6 +49,7 @@ export const QuizItemsTable: FunctionComponent<Props> = ({
   onDeleteQuestion,
   onDeleteNote,
   onEditNote,
+  onDuplicateNote,
   onReorder,
 }) => {
   const { t } = useTranslation();
@@ -144,6 +148,7 @@ export const QuizItemsTable: FunctionComponent<Props> = ({
                 key={row.id}
                 row={row}
                 duplicatingQuestionId={duplicatingQuestionId}
+                duplicatingNoteId={duplicatingNoteId}
                 onEditQuestion={onEditQuestion}
                 onDuplicateQuestion={onDuplicateQuestion}
                 onSubmitQuestionAsTemplate={onSubmitQuestionAsTemplate}
@@ -151,6 +156,7 @@ export const QuizItemsTable: FunctionComponent<Props> = ({
                 onDeleteQuestion={onDeleteQuestion}
                 onDeleteNote={onDeleteNote}
                 onEditNote={onEditNote}
+                onDuplicateNote={onDuplicateNote}
                 editTooltip={editTooltip}
                 duplicateTooltip={duplicateTooltip}
                 submitAsTemplateTooltip={submitAsTemplateTooltip}

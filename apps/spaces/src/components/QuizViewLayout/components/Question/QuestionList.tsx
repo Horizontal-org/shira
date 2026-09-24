@@ -3,7 +3,7 @@ import { shallow } from "zustand/shallow";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { duplicateQuestion } from "../../../../fetch/quiz";
-import { deleteNote } from "../../../../fetch/note";
+import { deleteNote, duplicateNote } from "../../../../fetch/note";
 import { useStore } from "../../../../store";
 import { usePublicLibrary } from "../../../../hooks/usePublicLibrary";
 import { QuizQuestion, QuizViewItem } from "../../../../store/slices/quiz";
@@ -54,6 +54,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
   const [noteForDelete, handleNoteForDelete] = useState<{ id: string; name: string } | null>(null);
   const [confirmBeforeContinueModal, handleConfirmBeforeContinueModal] = useState<ConfirmModalInfo | null>(null);
   const [duplicatingQuestionId, setDuplicatingQuestionId] = useState<string | null>(null);
+  const [duplicatingNoteId, setDuplicatingNoteId] = useState<string | null>(null)
 
   const [isExportModalOpen, setExportModalOpen] = useState<string | null>(null);
   const [isImportModalOpen, setImportModalOpen] = useState<boolean>(false);
@@ -82,6 +83,21 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
       setDuplicatingQuestionId(null);
     }
   };
+
+  // no has-results confirm, notes don't affect results
+  const handleDuplicateNote = async (noteId: string) => {
+    setDuplicatingNoteId(noteId)
+
+    try {
+      await duplicateNote(quizId, Number(noteId))
+      toast.success(t("success_messages.note_duplicated"), { duration: 3000 })
+      onRefresh()
+    } catch (error) {
+      toast.error(t("error_messages.duplicate_note_fail"), { duration: 3000 })
+    } finally {
+      setDuplicatingNoteId(null)
+    }
+  }
 
   const handleDeleteNote = async (noteId: string) => {
     try {
@@ -138,7 +154,9 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
       <QuizItemsTable
         items={quizQuestions}
         duplicatingQuestionId={duplicatingQuestionId}
+        duplicatingNoteId={duplicatingNoteId}
         onEditNote={(noteId) => { onEdit('note', noteId) }}
+        onDuplicateNote={handleDuplicateNote}
         onEditQuestion={(questionId) => {
           if (hasResults) {
             handleConfirmBeforeContinueModal({ confirmType: "edit", confirmId: questionId });

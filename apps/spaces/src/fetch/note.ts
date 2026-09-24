@@ -63,3 +63,12 @@ export const deleteNote = async (quizId: number, noteId: number) => {
     throw new Error('Failed to delete note')
   }
 }
+
+export const duplicateNote = async (quizId: number, noteId: number) => {
+  try {
+    await axios.post(`${process.env.REACT_APP_API_URL}/note/duplicate`, { quizId, noteId })
+  } catch (err) {
+    console.log("🚀 ~ file: note.ts ~ duplicateNote ~ err", err)
+    throw new Error('Failed to duplicate note')
+  }
+}
