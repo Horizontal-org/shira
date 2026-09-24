@@ -92,10 +92,10 @@
         "contact_actions": "Contact actions",
         "voice": "Voice",
         "video": "Video",
-        "search": "Search",
+        "search": "Tafuta",
         "mute_notifications": "Mute",
         "off": "Off",
-        "no": "No",
+        "no": "Hapana",
         "default": "Default",
         "chat_theme": "Chat theme",
         "save_to_downloads": "Save to Downloads",
@@ -109,7 +109,7 @@
         "media_count": "0",
         "manage_storage": "Manage storage",
         "storage_size": "0 MB",
-        "notifications": "Notifications"
+        "notifications": "Arifa"
     },
     "sms": {
         "text_message": "Text message"
@@ -135,7 +135,7 @@
         "end_to_end_encrypted": "End-to-end encrypted",
         "profile": "Profile",
         "mute": "Mute",
-        "search_conversation": "Search",
+        "search_conversation": "Tafuta",
         "chat_information": "Chat information",
         "customize_chat": "Customize chat",
         "media_files_and_links": "Media, files and links",
@@ -151,14 +151,14 @@
     },
     "telegram": {
         "chats": "Chats",
-        "search": "Search",
-        "download": "Download",
+        "search": "Tafuta",
+        "download": "Pakua",
         "last_seen": "last seen recently",
         "add_contact": "Add Contact",
         "block_user": "Block User",
         "not_a_contact": "Not a contact",
-        "registration": "Registration",
-        "phone_number": "Phone Number",
+        "registration": "Usajili",
+        "phone_number": "Namba ya simu",
         "not_official_account": "Not an official account",
         "untitled_document": "Untitled document.txt",
         "sender_info": {
