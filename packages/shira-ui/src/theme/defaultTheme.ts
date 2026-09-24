@@ -87,6 +87,7 @@ export const defaultTheme: Theme = {
       gmail: '#ffffff',
       messenger: '#335A9F',
       sms: '#C1D24B',
-      datingapp: '#FD6D7E'
+      datingapp: '#FD6D7E',
+      telegram: '#039BE5'
     }
 };

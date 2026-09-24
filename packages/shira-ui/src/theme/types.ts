@@ -87,6 +87,7 @@ export interface Theme {
       messenger: string;
       sms: string;
       datingapp: string;
+      telegram: string;
     };
 }
   
