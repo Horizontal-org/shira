@@ -1,0 +1,43 @@
+name: Integration tests
+on:
+  pull_request:
+  push:
+    branches: [development, beta]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: integration-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  playwright:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npx tsc -p e2e/tsconfig.json
+      - run: npm run test:e2e
+      - name: Show test service logs on failure
+        if: ${{ failure() }}
+        run: docker compose -f e2e/docker-compose.yml logs --no-color --tail=200
+      - name: Upload report and failure traces
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+      - name: Stop test infrastructure
+        if: ${{ always() }}
+        run: npm run test:e2e:down
