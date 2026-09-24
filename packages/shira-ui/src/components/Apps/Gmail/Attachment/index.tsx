@@ -47,11 +47,6 @@ const randomizeFileSize = () => {
   return `${size} KB`
 }
 
-// what we actually want to do
-// input attachment type + filename
-// output: { icon, thumbnail, colour }
-
-// TODO (2026-09-08): need to also get colour based on outcome from something like 'renderThumbnail'
 export const Attachment: FunctionComponent<Props> = ({
   name,
   explanationPosition,
