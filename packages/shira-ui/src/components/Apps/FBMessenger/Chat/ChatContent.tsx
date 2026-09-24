@@ -2,10 +2,19 @@ import { FunctionComponent } from "react"
 import styled from 'styled-components'
 import ProfilePicture from "../../Whatsapp/ProfilePicture"
 import DocumentIcon from './assets/document.png'
+import AudioWave from './assets/AudioWave.tsx'
+import AudioPlayIcon from './assets/AudioPlayIcon.tsx'
 import { MessagingImage } from "./MessagingImage"
 interface Props {
   content: Element[]
 }
+
+
+const isAudioType = (filename: string) => {
+    return filename.endsWith("mp3") || filename.endsWith("ogg")
+}
+
+const apparentlyRandomSize = (name: string) => name.length + 500
 
 const ChatContent: FunctionComponent<Props> = ({
   content,
@@ -26,6 +35,14 @@ const ChatContent: FunctionComponent<Props> = ({
               )}
 
               {c.getAttribute('id').includes('component-attachment') && (
+                  <>
+                  {isAudioType(c.textContent) ? 
+                    <AudioAttachment>
+                        <AudioPlayIcon/>
+                        <AudioWave/>
+                        <span>1:37</span>
+                    </AudioAttachment>
+                    :
                 <Attachment>
                   <IconWrapper>
                     <Icon icon={DocumentIcon} size='28'></Icon>
@@ -40,9 +57,11 @@ const ChatContent: FunctionComponent<Props> = ({
                       </span>
                     </Heading>
 
-                    <SecondaryText>128, 12 kb</SecondaryText>
+                    <SecondaryText>{apparentlyRandomSize(c.textContent)} kB</SecondaryText>
                   </AttachmentText>
                 </Attachment>
+                  }
+                </>
               )}
             </>
           ))}
@@ -141,7 +160,25 @@ const Icon = styled('div') <IconProps>`
 
 const Attachment = styled(Text)`
   display: flex;
-
+  width: max-content;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-right: 1rem;
+  align-items: center;
+`
+const AudioAttachment = styled.div`
+  display: flex;
+  height: 5rem;
+  gap: 1rem;
+  margin-left: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  width: 10rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-weight: bold;
+  border-radius: 16px;
+  background: rgba(60,64,67,.1);
   align-items: center;
 `
 
