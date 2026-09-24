@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react"
-import { Body2Regular, Body1SemiBold, styled, Toggle, Link2 } from "@horizontal-org/shira-ui"
+import { Body2Regular, Body1SemiBold, styled, Toggle, Link2, Button } from "@horizontal-org/shira-ui"
 import { useTranslation, Trans } from "react-i18next"
 import { LanguageSelect } from '@horizontal-org/shira-ui'
 import { getLanguageOptions } from "../../../../language/constants"
@@ -7,16 +7,15 @@ import i18n from "../../../../language/i18n"
 import { SettingsCard } from "../../../Settings/SettingsCard"
 import { SettingRow } from "../../../Settings/SettingsRow"
 import { SettingDetails } from "../../../Settings/SettingsDetails"
+import { ActionButton } from "../TabContainer"
 
 interface Props {
   hasResultsEnabled: boolean;
-  isUpdatingResults: boolean;
   onResultsEnabledChange: () => void;
 }
 
 export const GeneralSection: FunctionComponent<Props> = ({
   hasResultsEnabled,
-  isUpdatingResults,
   onResultsEnabledChange,
 }) => {
   const { t } = useTranslation()
@@ -60,10 +59,11 @@ export const GeneralSection: FunctionComponent<Props> = ({
             </StyledBody2Regular>
           </SettingDetails>
 
-          <Toggle
-            isEnabled={hasResultsEnabled}
-            onToggle={onResultsEnabledChange}
-            disabled={isUpdatingResults}
+          <ActionButton
+            id="change-password-button"
+            type="outline"
+            text={hasResultsEnabled ? t('settings.sections.results.disable_button') : t('settings.sections.results.enable_button')}
+            onClick={onResultsEnabledChange}
           />
         </SettingRow>
       </SettingsCard>

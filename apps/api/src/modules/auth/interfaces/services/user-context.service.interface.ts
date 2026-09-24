@@ -4,6 +4,7 @@ export interface UserSpaceContext {
     name: string
     publicId: string
     organizationId: number
+    hasResultsEnabled: boolean
   }
   spaceRole: string
   organization: {

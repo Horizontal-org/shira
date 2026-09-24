@@ -1,5 +1,5 @@
 import { previewHtml } from '../HtmlEmailEditor/utils'
-import { DatingApp, FBMessenger, Gmail, Outlook, SMS, WhatsApp } from "@horizontal-org/shira-ui"
+import { DatingApp, FBMessenger, Gmail, Outlook, SMS, WhatsApp, Telegram } from "@horizontal-org/shira-ui"
 import { remapHtml } from "../../utils/remapHtml"
 import { ActiveQuestion, QuestionDragAttachment, QuestionDragEditor, QuestionDragImage, QuestionEditorInput } from "../../store/types/active_question"
 import { parseDragItem } from "../../utils/active_question/questionToHtml"
@@ -29,7 +29,8 @@ export const AppComponents = {
   'SMS': SMS,
   'Dating App': DatingApp,
   'WhatsApp': WhatsApp,
-  'FBMessenger': FBMessenger
+  'FBMessenger': FBMessenger,
+  'Telegram': Telegram
 }
 
 export const getContentProps = (appName, activeQuestion: ActiveQuestion) => {
@@ -50,7 +51,7 @@ export const getContentProps = (appName, activeQuestion: ActiveQuestion) => {
       senderName: getActiveQuestionElement(activeQuestion, 'component-required-fullname'),
     }
     
-    if (appName === 'WhatsApp' || appName === 'SMS') {
+    if (appName === 'WhatsApp' || appName === 'SMS' || appName === 'Telegram') {
       props['phone'] = getActiveQuestionElement(activeQuestion, 'component-required-phone')
     }
 
