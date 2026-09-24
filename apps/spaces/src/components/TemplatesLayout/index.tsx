@@ -2,6 +2,7 @@ import { FunctionComponent, useEffect } from "react";
 import {
   Body1,
   Button,
+  ContentCard,
   H2,
   Sidebar,
   SubHeading2,
@@ -22,7 +23,6 @@ import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
 import { customMenuItems } from "../../utils/customMenuItems";
 import { usePublicLibrary } from "../../hooks/usePublicLibrary";
 import { FiUpload } from "react-icons/fi";
-import { ContentCard } from "../ContentCard";
 
 interface Props { }
 

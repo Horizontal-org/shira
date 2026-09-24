@@ -154,6 +154,34 @@
     "not_official_account": "Not an official account",
     "untitled_document": "Untitled document.txt"
   },
+  "telegram": {
+    "chats": "Chats",
+    "search": "Search",
+    "download": "Download",
+    "last_seen": "last seen recently",
+    "add_contact": "Add Contact",
+    "block_user": "Block User",
+    "not_a_contact": "Not a contact",
+    "registration": "Registration",
+    "phone_number": "Phone Number",
+    "not_official_account": "Not an official account",
+    "untitled_document": "Untitled document.txt",
+    "sender_info": {
+      "title": "User Info",
+      "close": "Close user info",
+      "unknown_user": "Unknown user",
+      "last_seen": "last seen recently",
+      "phone": "Phone",
+      "shared_content": "Shared content",
+      "media": "Media",
+      "links": "Links",
+      "voice": "Voice",
+      "no_links": "No shared links",
+      "shared_image": "Shared image",
+      "no_media": "No shared media",
+      "no_voice": "No shared voice messages"
+    }
+  },
   "pagination": {
     "summary": "{{start}}-{{end}} of {{total}}",
     "page": "<current>{{current}}</current> of {{total}}",

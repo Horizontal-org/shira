@@ -1,11 +1,9 @@
 import { FunctionComponent } from "react";
-import { Body1, Button2, H2, SubHeading2, Sidebar, styled, useAdminSidebar } from '@horizontal-org/shira-ui'
+import { Body1, Button2, H2, SubHeading2, Sidebar, styled, useAdminSidebar, ContentCard } from '@horizontal-org/shira-ui'
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
 import { customMenuItems } from "../../utils/customMenuItems";
-
-import { ContentCard } from "../ContentCard";
 
 interface Props { }
 
