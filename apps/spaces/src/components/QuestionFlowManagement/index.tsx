@@ -3,7 +3,7 @@ import { Breadcrumbs, styled, Body1 } from "@horizontal-org/shira-ui";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
 import { QuestionBasicInfo } from "../QuestionBasicInfo";
-import { QuestionFlowHeader } from "../QuestionFlowHeader";
+import { EntityFlowHeader } from "../EntityFlowHeader";
 import { QuestionContent } from "../QuestionContent";
 import { QuestionReview } from "../QuestionReview";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,8 @@ import { ActiveQuestion } from "../../store/types/active_question";
 import { useTranslation } from "react-i18next";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
 import { isQuestionContentStepValid, isQuestionInfoStepValid } from "../../utils/active_question/validation";
+import { QuestionCRUDFeedback } from "../../fetch/question";
+import { EntityBodyHeader, EntityBodyWrapper, EntityContainer } from "../EntityFlowBody";
 
 interface Props {
   initialContent?: Object
@@ -104,8 +106,8 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
 
       <MobileResponsivenessBanner />
 
-      <QuestionFlowHeader
-        actionFeedback={actionFeedback}
+      <EntityFlowHeader
+        isProcessing={actionFeedback === QuestionCRUDFeedback.processing}
         onNext={() => {
           if (step === 2) {
             onSubmit(activeQuestion)
@@ -130,13 +132,18 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
         step={step}
         disableNext={!stepValidation.isValid}
         nextTooltipLabel={nextTooltipLabel}
+        primaryButtonText={step === 2
+          ? (actionFeedback === QuestionCRUDFeedback.processing
+            ? t('loading_messages.saving')
+            : t('buttons.save'))
+          : t('buttons.next')}
         onExit={() => { setIsExitQuestionModalOpen(true) }}
       />
 
-      <Container>
-        <ContentWrapper>
+      <EntityContainer>
+        <EntityBodyWrapper>
           <div>
-            <ContentHeader id="content-header">
+            <EntityBodyHeader id="content-header">
               <Breadcrumbs
                 active={step}
                 items={[
@@ -152,7 +159,7 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
                   </Body1>
                 </ExplanationTitle>
               )}
-            </ContentHeader>
+            </EntityBodyHeader>
 
             {step === 0 && (
               <QuestionBasicInfo
@@ -174,26 +181,11 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
               <QuestionReview />
             )}
           </div>
-        </ContentWrapper>
-      </Container>
+        </EntityBodyWrapper>
+      </EntityContainer>
     </>
   );
 };
-
-const Container = styled.div`
-  padding: 48px 0;
-`
-
-const ContentWrapper = styled.div`
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`;
-
-const ContentHeader = styled.div`
-  padding-bottom: 12px;
-`
 
 const ExplanationTitle = styled.div`
   width: 1024px;

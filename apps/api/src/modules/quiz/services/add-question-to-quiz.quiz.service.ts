@@ -1,6 +1,5 @@
 import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { DataSource, EntityManager } from "typeorm";
-import { QuizQuestion as QuizQuestionEntity } from "../domain/quizzes_questions.entity";
 import { Explanation, Question } from "src/modules/question/domain";
 import { QuestionTranslation } from "src/modules/translation/domain/questionTranslation.entity";
 import { ExplanationTranslation } from "src/modules/translation/domain/explanationTranslation.entity";
@@ -16,6 +15,8 @@ import {
   AddQuestionToQuizParams,
   IAddQuestionToQuizService,
 } from "../interfaces/services/add-question-to-quiz.quiz.service.interface";
+import { TYPES } from "../interfaces";
+import { IQuizItemsService } from "../interfaces/services/quiz-items.service.interface";
 
 @Injectable()
 export class AddQuestionToQuizService implements IAddQuestionToQuizService {
@@ -25,6 +26,8 @@ export class AddQuestionToQuizService implements IAddQuestionToQuizService {
     private readonly transferTemplateImagesService: ITransferTemplateImagesService,
     @Inject(TYPES_QUESTION_IMAGE.services.ISyncQuestionImageService)
     private readonly syncImagesService: ISyncQuestionImageService,
+    @Inject(TYPES.services.IQuizItemsService)
+    private readonly quizItemsService: IQuizItemsService,
   ) { }
 
   async execute(params: AddQuestionToQuizParams, manager?: EntityManager): Promise<number> {
@@ -35,7 +38,6 @@ export class AddQuestionToQuizService implements IAddQuestionToQuizService {
   }
 
   private async createQuestion(manager: EntityManager, params: AddQuestionToQuizParams): Promise<number> {
-    const quizQuestionRepo = manager.getRepository(QuizQuestionEntity);
     const questionRepo = manager.getRepository(Question);
     const appRepo = manager.getRepository(App);
     const explanationRepo = manager.getRepository(Explanation);
@@ -105,14 +107,7 @@ export class AddQuestionToQuizService implements IAddQuestionToQuizService {
       await explanationTranslationRepo.save(newExplanationTranslation);
     }
 
-    const position = await quizQuestionRepo.count({ where: { quizId: params.quizId } });
-
-    const quizQuestion = quizQuestionRepo.create({
-      position: position + 1,
-      quizId: params.quizId,
-      questionId: questionEntity.id,
-    });
-    await quizQuestionRepo.save(quizQuestion);
+    await this.quizItemsService.append(params.quizId, 'question', questionEntity.id, manager);
 
     return questionEntity.id;
   }

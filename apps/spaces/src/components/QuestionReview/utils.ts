@@ -11,11 +11,11 @@ const parseEditorContent = (activeQuestionItem: QuestionEditorInput): HTMLElemen
 
   editorElement.innerHTML = activeQuestionItem.value
   editorElement.setAttribute('id', activeQuestionItem.htmlId)
-  
+
   if (editorElement) {
     editorElement.querySelectorAll('a').forEach((element) => {
-        element.setAttribute('onclick', 'return false;');
-        element.setAttribute('oncontextmenu', 'return false;');
+      element.setAttribute('onclick', 'return false;');
+      element.setAttribute('oncontextmenu', 'return false;');
     })
     return editorElement
   }
@@ -41,7 +41,7 @@ export const getContentProps = (appName, activeQuestion: ActiveQuestion) => {
       content: parseEditorContent(activeQuestion['content']['body']),
       attachments: getActiveQuestionAttachments(activeQuestion)
     }
-  } else {   
+  } else {
     let props = {
       content: parseDraggableItems(activeQuestion.content.draggableItems),
       senderName: getActiveQuestionElement(activeQuestion, 'component-required-fullname'),
@@ -52,27 +52,27 @@ export const getContentProps = (appName, activeQuestion: ActiveQuestion) => {
     }
 
     return props
-  }  
+  }
 }
 
 
 export const getActiveQuestionElement = (activeQuestion: ActiveQuestion, htmlId: string) => {
   let foundKey = null
-  let content = {...activeQuestion.content}
+  let content = { ...activeQuestion.content }
 
   // try on first level elements
-  foundKey = Object.keys(content).find((contentKey) => {    
+  foundKey = Object.keys(content).find((contentKey) => {
     return content[contentKey].htmlId && content[contentKey].htmlId === htmlId
   })
 
-  if (foundKey) { 
+  if (foundKey) {
     return {
       textContent: content[foundKey].value || '',
       explanationPosition: content[foundKey].explanation
     }
   }
 
-  return 
+  return
 }
 
 const getActiveQuestionAttachments = (activeQuestion: ActiveQuestion) => {
@@ -89,7 +89,7 @@ const getActiveQuestionAttachments = (activeQuestion: ActiveQuestion) => {
 }
 
 const parseDraggableItems = (items: Array<QuestionDragEditor | QuestionDragImage | QuestionDragAttachment>) => {
-  
+
   const htmlItems = items
     .sort((a, b) => a.position - b.position)
     .map((i) => {

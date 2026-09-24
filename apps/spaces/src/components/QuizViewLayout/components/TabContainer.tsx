@@ -2,7 +2,7 @@ import { FunctionComponent, useState } from "react";
 import { styled } from '@horizontal-org/shira-ui';
 import { QuestionsList } from './Question/QuestionList';
 import { Results } from './Results/Results';
-import { QuizQuestion } from "../../../store/slices/quiz";
+import { QuizViewItem } from "../../../store/slices/quiz";
 import { QuizResultsResponse } from "../../../fetch/results";
 import { LearnerQuizView } from "../../LearnerQuizView";
 import { useTranslation } from "react-i18next";
@@ -13,7 +13,7 @@ type TabType = 'questions' | 'results' | 'learners' | 'settings';
 interface TabContainerProps {
   quizId: number;
   quizTitle: string;
-  quizQuestions: QuizQuestion[];
+  quizQuestions: QuizViewItem[];
   quizPublished: boolean;
   quizAssessmentMode: boolean;
   hasQuestions: boolean;
@@ -22,15 +22,16 @@ interface TabContainerProps {
   resultsLoading: boolean
   hasResultsEnabled: boolean
   hasResults: boolean
-  onEdit: (id: string) => void;
+  onEdit: (entityType: 'question' | 'note', entityId: string) => void;
   onDelete: (id: string) => void;
   onAdd: () => void;
   onAddLibrary: (quizId: string) => void;
-  onReorder: (newOrder: QuizQuestion[]) => void;
+  onReorder: (newOrder: QuizViewItem[]) => void;
   onRefresh: () => void;
   onSubmitAsTemplate: (questionId: string) => void;
   onPublish: () => void
   onAssessmentModeChange: (value: boolean) => void;
+  onCreateNote: () => void;
 }
 
 export const TabContainer: FunctionComponent<TabContainerProps> = ({
@@ -53,7 +54,8 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   resultsLoading,
   hasResultsEnabled,
   hasResults,
-  onAssessmentModeChange
+  onAssessmentModeChange,
+  onCreateNote
 }) => {
   const [activeTab, setActiveTab] = useState<TabType>('questions');
   const { t } = useTranslation();
@@ -109,6 +111,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
             onRefresh={onRefresh}
             onSubmitAsTemplate={onSubmitAsTemplate}
             hasResults={hasResults}
+            onCreateNote={onCreateNote}
           />
         )}
 

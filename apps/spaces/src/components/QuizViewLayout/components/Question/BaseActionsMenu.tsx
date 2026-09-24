@@ -1,34 +1,26 @@
 import { FunctionComponent, ReactElement, useEffect, useRef, useState } from "react";
-import { FiCopy, FiDownload, FiMoreVertical, FiTrash2, FiUpload } from "react-icons/fi";
+import { FiMoreVertical } from "react-icons/fi";
 import { defaultTheme, EditIcon, styled } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
 
-interface Props {
-  editLabel: string;
-  duplicateLabel: string;
-  submitAsTemplateLabel: string;
-  deleteLabel: string;
-  exportLabel: string;
-  disabled: boolean;
-  onEdit: () => void;
-  onDuplicate: () => void;
-  onSubmitAsTemplate: () => void;
-  onExport: () => void;
-  onDelete: () => void;
+export interface ActionMenuItem {
+  text: string;
+  icon: ReactElement;
+  onClick: () => void;
 }
 
-export const QuestionTableActionsMenu: FunctionComponent<Props> = ({
+interface Props {
+  editLabel: string;
+  onEdit: () => void;
+  items: ActionMenuItem[];
+  disabled?: boolean;
+}
+
+export const BaseActionsMenu: FunctionComponent<Props> = ({
   editLabel,
-  duplicateLabel,
-  submitAsTemplateLabel,
-  deleteLabel,
-  exportLabel,
-  disabled,
   onEdit,
-  onDuplicate,
-  onSubmitAsTemplate,
-  onExport,
-  onDelete,
+  items,
+  disabled = false,
 }) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
@@ -66,49 +58,6 @@ export const QuestionTableActionsMenu: FunctionComponent<Props> = ({
     };
   }, [isOpen]);
 
-  const elements: Array<{
-    onClick: React.MouseEventHandler<HTMLButtonElement>;
-    text: string;
-    icon?: ReactElement;
-  }> = [
-      {
-        text: duplicateLabel,
-        onClick: (event) => {
-          event.stopPropagation();
-          setIsOpen(false);
-          onDuplicate();
-        },
-        icon: <FiCopy color={defaultTheme.colors.dark.darkGrey} />,
-      },
-      {
-        text: submitAsTemplateLabel,
-        onClick: (event) => {
-          event.stopPropagation();
-          setIsOpen(false);
-          onSubmitAsTemplate();
-        },
-        icon: <FiUpload color={defaultTheme.colors.dark.darkGrey} />,
-      },
-      {
-        text: exportLabel,
-        onClick: (event) => {
-          event.stopPropagation();
-          setIsOpen(false);
-          onExport();
-        },
-        icon: <FiDownload color={defaultTheme.colors.dark.darkGrey} />,
-      },
-      {
-        text: deleteLabel,
-        onClick: (event) => {
-          event.stopPropagation();
-          setIsOpen(false);
-          onDelete();
-        },
-        icon: <FiTrash2 color={defaultTheme.colors.dark.darkGrey} />,
-      },
-    ];
-
   return (
     <MenuWrapper ref={wrapperRef}>
       <EditButton
@@ -139,14 +88,18 @@ export const QuestionTableActionsMenu: FunctionComponent<Props> = ({
 
       {isOpen && (
         <MenuPopup>
-          {elements.map((element) => (
+          {items.map((item) => (
             <MenuItem
-              key={element.text}
-              onClick={element.onClick}
+              key={item.text}
               type="button"
+              onClick={(event) => {
+                event.stopPropagation();
+                setIsOpen(false);
+                item.onClick();
+              }}
             >
-              {element.icon}
-              {element.text}
+              {item.icon}
+              {item.text}
             </MenuItem>
           ))}
         </MenuPopup>

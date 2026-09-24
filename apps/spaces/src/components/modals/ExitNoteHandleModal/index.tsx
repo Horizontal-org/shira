@@ -1,0 +1,43 @@
+import { FunctionComponent } from "react";
+import { Body1, Modal, ModalType } from "@horizontal-org/shira-ui";
+import { useTranslation } from "react-i18next";
+
+interface Props {
+  isModalOpen: boolean;
+  setIsModalOpen: (handle: boolean) => void
+  onConfirm: () => void
+}
+
+export const ExitNoteHandleModal: FunctionComponent<Props> = ({
+  isModalOpen,
+  setIsModalOpen,
+  onConfirm
+}) => {
+
+  const { t } = useTranslation();
+
+  return (
+    <Modal
+      id="exit-note-modal"
+      isOpen={isModalOpen}
+      title={t('modals.exit_note.title')}
+      type={ModalType.Danger}
+      primaryButtonText={t('buttons.exit')}
+      primaryButtonDisabled={false}
+      secondaryButtonText={t('buttons.cancel')}
+      onPrimaryClick={() => {
+        onConfirm()
+        setIsModalOpen(false);
+      }}
+      onSecondaryClick={() => {
+        setIsModalOpen(false)
+      }}
+    >
+      <div>
+        <Body1>
+          {t('modals.exit_note.message')}
+        </Body1>
+      </div>
+    </Modal>
+  )
+}

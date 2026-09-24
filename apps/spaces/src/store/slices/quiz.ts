@@ -12,7 +12,10 @@ export enum QuizSuccessStates {
   question_updated = 'QUESTION_UPDATED',
   question_deleted = 'QUESTION_DELETED',
   question_added_from_library = 'QUESTION_ADDED_FROM_LIBRARY',
-  update_assessment_mode = 'UPDATE_ASSESSMENT_MODE'
+  update_assessment_mode = 'UPDATE_ASSESSMENT_MODE',
+  note_created = 'NOTE_CREATED',
+  note_deleted = 'NOTE_DELETED',
+  note_updated = 'NOTE_UPDATED'
 }
 
 export const SUCCESS_MESSAGES = {
@@ -27,9 +30,14 @@ export const SUCCESS_MESSAGES = {
   [QuizSuccessStates.question_deleted]: "success_messages.question_deleted",
   [QuizSuccessStates.question_added_from_library]: "success_messages.question_added",
   [QuizSuccessStates.update_assessment_mode]: "success_messages.quiz_assessment_mode_updated",
+  [QuizSuccessStates.note_created]: "success_messages.note_created",
+  [QuizSuccessStates.note_deleted]: "success_messages.note_deleted",
+  [QuizSuccessStates.note_updated]: "success_messages.note_updated",
 };
 
 export interface QuizQuestion {
+  entityType: 'question'
+  entityId: number
   position: number
   question: {
     id: string
@@ -43,11 +51,24 @@ export interface QuizQuestion {
   }
 }
 
+export interface QuizNoteItem {
+  entityType: 'note'
+  entityId: number
+  position: number
+  note: {
+    id: string
+    name: string
+    content: string
+  }
+}
+
+export type QuizViewItem = QuizQuestion | QuizNoteItem
+
 export interface Quiz {
   id: number;
   title: string;
   published: boolean;
-  quizQuestions?: QuizQuestion[]
+  quizQuestions?: QuizViewItem[]
   updatedAt: string
   hash?: string;
   visibility?: string

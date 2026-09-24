@@ -5,7 +5,7 @@ import { IGetResultQuizService } from '../interfaces/services/get-result.quiz.se
 import { Quiz as QuizEntity } from '../../quiz/domain/quiz.entity';
 import { QuizRun as QuizRunEntity } from '../domain/quiz_runs.entity';
 import { LearnerQuiz as LearnerQuizEntity } from '../../learner/domain/learners_quizzes.entity';
-import { QuizQuestion as QuizQuestionEntity } from '../../quiz/domain/quizzes_questions.entity';
+import { QuizItem as QuizItemEntity } from '../../quiz/domain/quiz_items.entity';
 import { QuestionRun as QuestionRunsEntity } from '../domain/question_runs.entity';
 import { ReadResultQuizDto } from '../dto/read-result.quiz.dto';
 
@@ -16,8 +16,8 @@ export class GetResultQuizService implements IGetResultQuizService {
     private readonly quizRepo: Repository<QuizEntity>,
     @InjectRepository(QuizRunEntity)
     readonly quizRunRepo: Repository<QuizRunEntity>,
-    @InjectRepository(QuizQuestionEntity)
-    private readonly quizQuestionRepo: Repository<QuizQuestionEntity>,
+    @InjectRepository(QuizItemEntity)
+    private readonly quizItemRepo: Repository<QuizItemEntity>,
     @InjectRepository(QuestionRunsEntity)
     private readonly questionRunRepo: Repository<QuestionRunsEntity>,
     @InjectRepository(LearnerQuizEntity)
@@ -34,7 +34,7 @@ export class GetResultQuizService implements IGetResultQuizService {
 
     // 2) Question count & completed runs
     const [totalQuestions, completedCount] = await Promise.all([
-      this.quizQuestionRepo.count({ where: { quizId: quizId } }),
+      this.quizItemRepo.count({ where: { quizId: quizId, entityType: 'question' } }),
       this.quizRunRepo.count({
         where: {
           quizId: quizId,
@@ -55,7 +55,7 @@ export class GetResultQuizService implements IGetResultQuizService {
     const correctRow = await this.questionRunRepo
       .createQueryBuilder('qr')
       .innerJoin('questions', 'q', 'q.id = qr.question_id')
-      .innerJoin('quizzes_questions', 'qq', 'qq.question_id = qr.question_id')
+      .innerJoin('quiz_items', 'qq', "qq.entity_id = qr.question_id AND qq.entity_type = 'question'")
       .innerJoin('quizzes', 'qz', 'qz.id = qq.quiz_id')
       .where('qz.id = :quizId', { quizId })
       .andWhere('qz.space_id = :spaceId', { spaceId })
@@ -99,7 +99,7 @@ export class GetResultQuizService implements IGetResultQuizService {
     const questionResults = await this.questionRunRepo
       .createQueryBuilder('qr')
       .innerJoin('questions', 'q', 'q.id = qr.question_id')
-      .innerJoin('quizzes_questions', 'qq', 'qq.question_id = qr.question_id')
+      .innerJoin('quiz_items', 'qq', "qq.entity_id = qr.question_id AND qq.entity_type = 'question'")
       .innerJoin('quizzes', 'qz', 'qz.id = qq.quiz_id')
       .innerJoin('apps_questions', 'aq', 'aq.question_id = q.id')
       .innerJoin('apps', 'a', 'a.id = aq.app_id')
@@ -130,7 +130,7 @@ export class GetResultQuizService implements IGetResultQuizService {
       .innerJoin('quiz_runs', 'qrun', 'qrun.id = qr.quiz_run_id')
       .innerJoin('learners', 'l', 'l.id = qrun.learner_id')
       .innerJoin('questions', 'q', 'q.id = qr.question_id')
-      .innerJoin('quizzes_questions', 'qq', 'qq.question_id = qr.question_id')
+      .innerJoin('quiz_items', 'qq', "qq.entity_id = qr.question_id AND qq.entity_type = 'question'")
       .innerJoin('quizzes', 'qz', 'qz.id = qq.quiz_id')
       .select([
         'l.id as learnerId',

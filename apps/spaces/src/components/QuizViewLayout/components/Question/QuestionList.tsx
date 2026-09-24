@@ -1,35 +1,31 @@
 import { FunctionComponent, useState } from "react";
-import { FiPlus } from "react-icons/fi";
-import { MdOutlineMenuBook } from "react-icons/md";
-import {
-  Button,
-  defaultTheme,
-  styled,
-} from "@horizontal-org/shira-ui";
 import { shallow } from "zustand/shallow";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { duplicateQuestion } from "../../../../fetch/quiz";
+import { deleteNote, duplicateNote } from "../../../../fetch/note";
 import { useStore } from "../../../../store";
 import { usePublicLibrary } from "../../../../hooks/usePublicLibrary";
-import { QuizQuestion } from "../../../../store/slices/quiz";
+import { QuizQuestion, QuizViewItem } from "../../../../store/slices/quiz";
 import { QuestionEmptyState } from "./QuestionEmptyState";
-import { QuestionTable } from "./QuestionTable";
+import { QuizItemsTable } from "../QuizItem/QuizItemsTable";
 import { QuestionActionModals } from "./QuestionActionModals";
-import { QuestionCreateOptions } from "./QuestionCreateOptions";
+import { QuizItemCreateOptions } from "../QuizItem/QuizItemCreateOptions";
+import { DeleteModal } from "../../../modals/DeleteModal";
 
 interface QuestionsListProps {
   quizId: number;
-  quizQuestions: QuizQuestion[];
+  quizQuestions: QuizViewItem[];
   quizPublished: boolean;
-  onEdit: (id: string) => void;
+  onEdit: (type: 'question' | 'note', id: string) => void;
   onDelete: (id: string) => void;
   onAdd: () => void;
   onAddLibrary: (quizId: string) => void;
-  onReorder: (newOrder: QuizQuestion[]) => void;
+  onReorder: (newOrder: QuizViewItem[]) => void;
   onRefresh: () => void;
   onSubmitAsTemplate: (questionId: string) => void;
-  hasResults: boolean
+  hasResults: boolean,
+  onCreateNote: () => void
 }
 
 export interface ConfirmModalInfo {
@@ -48,14 +44,17 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
   onReorder,
   onRefresh,
   onSubmitAsTemplate,
-  hasResults
+  hasResults,
+  onCreateNote
 }) => {
   const { t } = useTranslation();
   const { isPublicLibraryEnabled } = usePublicLibrary();
 
   const [questionForDelete, handleQuestionForDelete] = useState<QuizQuestion["question"] | null>(null);
+  const [noteForDelete, handleNoteForDelete] = useState<{ id: string; name: string } | null>(null);
   const [confirmBeforeContinueModal, handleConfirmBeforeContinueModal] = useState<ConfirmModalInfo | null>(null);
   const [duplicatingQuestionId, setDuplicatingQuestionId] = useState<string | null>(null);
+  const [duplicatingNoteId, setDuplicatingNoteId] = useState<string | null>(null)
 
   const [isExportModalOpen, setExportModalOpen] = useState<string | null>(null);
   const [isImportModalOpen, setImportModalOpen] = useState<boolean>(false);
@@ -67,7 +66,9 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
 
   const handleDuplicateQuestion = async (questionId: string) => {
     setDuplicatingQuestionId(questionId);
-    const questionName = quizQuestions.find((qq) => qq.question.id === questionId)?.question.name;
+    const questionName = quizQuestions.find(
+      (item): item is QuizQuestion => item.entityType === "question" && item.question.id === questionId
+    )?.question.name;
 
     try {
       await duplicateQuestion(quizId, Number(questionId));
@@ -83,6 +84,30 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
     }
   };
 
+  // no has-results confirm, notes don't affect results
+  const handleDuplicateNote = async (noteId: string) => {
+    setDuplicatingNoteId(noteId)
+
+    try {
+      await duplicateNote(quizId, Number(noteId))
+      toast.success(t("success_messages.note_duplicated"), { duration: 3000 })
+      onRefresh()
+    } catch (error) {
+      toast.error(t("error_messages.duplicate_note_fail"), { duration: 3000 })
+    } finally {
+      setDuplicatingNoteId(null)
+    }
+  }
+
+  const handleDeleteNote = async (noteId: string) => {
+    try {
+      await deleteNote(quizId, Number(noteId));
+    } catch (error) {
+      toast.error(t("error_messages.delete_note_fail"), { duration: 3000 });
+    }
+  };
+
+
   const handleTogglePublished = async (cardId: number, published: boolean) => {
     updateQuiz({
       id: cardId,
@@ -95,19 +120,22 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
       <QuestionEmptyState
         onAdd={onAdd}
         onAddLibrary={onAddLibrary}
+        onCreateNote={onCreateNote}
         quizId={String(quizId)}
         isAddLibraryDisabled={!isPublicLibraryEnabled}
       />
     );
   }
 
-  const isDeletingLastQuestion = !!questionForDelete && quizQuestions.length === 1;
+  // notes don't count, a quiz left with only notes has nothing to answer
+  const questionCount = quizQuestions.filter((item) => item.entityType === "question").length;
+  const isDeletingLastQuestion = !!questionForDelete && questionCount === 1;
   const showUnpublishOnDeleteModal = isDeletingLastQuestion && quizPublished;
 
   return (
     <div>
 
-      <QuestionCreateOptions
+      <QuizItemCreateOptions
         isCreationOptionsModalOpen={isCreationOptionsModalOpen}
         setIsCreationOptionsModalOpen={(toggle) => {
           if (toggle && hasResults) {
@@ -119,17 +147,21 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
         onImport={() => { setImportModalOpen(true) }}
         onAddLibrary={() => onAddLibrary(quizId.toString())}
         onAdd={() => { onAdd() }}
+        onCreateNote={onCreateNote}
       />
 
 
-      <QuestionTable
-        quizQuestions={quizQuestions}
+      <QuizItemsTable
+        items={quizQuestions}
         duplicatingQuestionId={duplicatingQuestionId}
+        duplicatingNoteId={duplicatingNoteId}
+        onEditNote={(noteId) => { onEdit('note', noteId) }}
+        onDuplicateNote={handleDuplicateNote}
         onEditQuestion={(questionId) => {
           if (hasResults) {
             handleConfirmBeforeContinueModal({ confirmType: "edit", confirmId: questionId });
           } else {
-            onEdit(questionId);
+            onEdit('question', questionId);
           }
         }}
         onDuplicateQuestion={(questionId) => {
@@ -143,8 +175,19 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
         onExportQuestion={(questionId) => { setExportModalOpen(questionId); }}
         onDeleteQuestion={(questionId) => {
           handleQuestionForDelete(
-            quizQuestions.find((quizQuestion) => quizQuestion.question.id === questionId)?.question ?? null
+            quizQuestions.find(
+              (item): item is QuizQuestion => item.entityType === "question" && item.question.id === questionId
+            )?.question ?? null
           );
+        }}
+        onDeleteNote={(noteId) => {
+          const note = quizQuestions.find(
+            (item) => item.entityType === "note" && item.entityId.toString() === noteId
+          );
+          handleNoteForDelete({
+            id: noteId,
+            name: note?.entityType === "note" ? note.note.name : ""
+          });
         }}
         onReorder={onReorder}
       />
@@ -160,7 +203,7 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
           if (confirmBeforeContinueModal?.confirmType === "add") {
             setIsCreationOptionsModalOpen(true)
           } else if (confirmBeforeContinueModal?.confirmType === "edit" && confirmBeforeContinueModal.confirmId) {
-            onEdit(confirmBeforeContinueModal.confirmId);
+            onEdit('question', confirmBeforeContinueModal.confirmId);
           } else if (confirmBeforeContinueModal?.confirmType === "duplicate" && confirmBeforeContinueModal.confirmId) {
             handleDuplicateQuestion(confirmBeforeContinueModal.confirmId);
           }
@@ -178,6 +221,20 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
         isImportModalOpen={isImportModalOpen}
         setImportModalOpen={(isOpen) => { setImportModalOpen(isOpen) }}
         onImportSuccess={onRefresh}
+      />
+
+      <DeleteModal
+        title={t("modals.delete_note.title", { note_name: noteForDelete?.name })}
+        content={<div>{t("modals.delete_note.message")}</div>}
+        setIsModalOpen={() => { handleNoteForDelete(null) }}
+        onDelete={() => {
+          if (noteForDelete) {
+            handleDeleteNote(noteForDelete.id);
+            handleNoteForDelete(null);
+          }
+        }}
+        onCancel={() => { handleNoteForDelete(null) }}
+        isModalOpen={!!noteForDelete}
       />
     </div>
   );

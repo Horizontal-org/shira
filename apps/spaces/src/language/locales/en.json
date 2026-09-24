@@ -148,6 +148,7 @@
     },
     "questions_tab": {
         "create_question_button": "Create question",
+        "create_note_button": "Create note",
         "use_library_question_button": "Use a question template",
         "action_tooltips": {
             "more_actions": "More actions",
@@ -156,6 +157,11 @@
             "submit_as_template": "Submit as template",
             "export": "Export",
             "delete": "Delete"
+        },
+        "columns": {
+            "type": {
+                "note": "Note"
+            }
         }
     },
     "no_questions": {
@@ -169,6 +175,31 @@
             "description": "These are the learners who have been assigned this quiz."
         }
     },
+    "create_note": {
+        "header_title": "Create a new note",
+        "edit_header_title": "Edit note",
+        "header_required_tooltip": "Required fields cannot be left blank",
+        "header_character_limit_tooltip": "One or more fields exceed the character limit.",
+        "breadcrumbs": {
+            "content": "Note content",
+            "preview": "Preview"
+        },
+        "note_info": {
+            "note_name": {
+                "title": "Note name",
+                "subtitle": "This name will only be visible to you, to help you remember what this note is about",
+                "placeholder": "Note name"
+            },
+            "note_content": {
+                "title": "Note content",
+                "subtitle": "Write the note that will be shown. Notes are shown before, after or in between questions. They can include text, links and images to offer more context and information.",
+                "placeholder": ""
+            }
+        },
+        "preview": {
+            "subtitle": "This is how your note will look to learners."
+        }
+    },
     "create_question": {
         "header_title": "Create a new question",
         "header_required_tooltip": "Required fields cannot be left blank",
@@ -178,7 +209,7 @@
                 "tab_title": "Question info",
                 "question_name": {
                     "title": "Question name",
-                    "subtitle": "This name will only visible to you, to help you remember what this question is about",
+                    "subtitle": "This name will only be visible to you, to help you remember what this question is about",
                     "question_name_placeholder": "Question name"
                 },
                 "phishing": {
@@ -740,6 +771,10 @@
             "note": "Note: ",
             "warning": "This question's Results will also be deleted, which will affect learners' average scores."
         },
+        "delete_note": {
+            "title": "Are you sure you want to delete \"{{note_name}}\"?",
+            "message": "Deleting this note is permanent and cannot be undone."
+        },
         "unpublish_quiz_on_delete": {
             "title": "Are you sure you want to delete \"{{question_name}}\" and unpublish your quiz?",
             "message": "Deleting this question is permanent and cannot be undone. This will also unpublish the quiz, as you are deleting the quiz's only question.",
@@ -747,6 +782,10 @@
         },
         "exit_question": {
             "title": "Are you sure you want to exit the question?",
+            "message": "Any unsaved changes will be lost."
+        },
+        "exit_note": {
+            "title": "Are you sure you want to exit the note?",
             "message": "Any unsaved changes will be lost."
         },
         "csv_formatting_guidelines": {
@@ -1005,6 +1044,8 @@
         "duplicate_quiz_fail": "Failed to duplicate quiz",
         "quiz_name_already_exists": "Quiz name taken. Please use a different one.",
         "duplicate_question_fail": "Failed to duplicate question",
+        "delete_note_fail": "Failed to delete note",
+        "duplicate_note_fail": "Failed to duplicate note",
         "export_question_fail": "Failed to export question",
         "add_question_error": "Error adding question",
         "results_load_failed": "Failed to load results",
@@ -1086,6 +1127,10 @@
         "quiz_link_copied": "The public quiz link has been copied to your clipboard.",
         "quiz_deleted": "The quiz has been deleted",
         "quiz_created": "The quiz has been created",
+        "note_created": "The note has been created",
+        "note_deleted": "The note has been deleted",
+        "note_updated": "The note has been updated",
+        "note_duplicated": "The note has been duplicated",
         "quiz_duplicated": "The quiz has been duplicated",
         "quiz_updated": "The quiz has been updated",
         "quiz_order_updated": "The quiz order has been updated",

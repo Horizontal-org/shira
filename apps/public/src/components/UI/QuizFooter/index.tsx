@@ -27,11 +27,11 @@ export const QuizFooter: FunctionComponent<Props> = ({
   return (
     <>
       {width <= 1024 ? (
-        <QuizFooterMobile 
-          title={title} 
-          action={action} 
+        <QuizFooterMobile
+          title={title}
+          action={action}
           hasAnswer={hasAnswer}
-          hideCloseButton={hideCloseButton} 
+          hideCloseButton={hideCloseButton}
           isExpanded={isExpanded}
           handleIsExpanded={handleIsExpanded}
           showExplanations={showExplanations}

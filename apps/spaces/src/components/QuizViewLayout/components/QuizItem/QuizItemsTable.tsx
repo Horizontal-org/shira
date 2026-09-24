@@ -17,29 +17,39 @@ import {
 } from "@dnd-kit/sortable";
 import { StyledTable, TableFooter, TableHeader, THead, Th } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
-import { QuizQuestion } from "../../../../store/slices/quiz";
-import { useQuestionTableColumns } from "./QuestionTableColumns";
-import { QuestionTableDraggableRow } from "./QuestionTableDraggableRow";
+import { QuizViewItem } from "../../../../store/slices/quiz";
+import { useQuizItemTableColumns } from "./QuizItemTableColumns";
+import { QuizItemTableDraggableRow } from "./QuizItemTableDraggableRow";
 
 interface Props {
-  quizQuestions: QuizQuestion[];
+  items: QuizViewItem[];
   duplicatingQuestionId: string | null;
+  duplicatingNoteId: string | null
   onEditQuestion: (questionId: string) => void;
   onDuplicateQuestion: (questionId: string) => void;
   onSubmitQuestionAsTemplate: (questionId: string) => void;
   onExportQuestion: (questionId: string) => void;
   onDeleteQuestion: (questionId: string) => void;
-  onReorder: (newOrder: QuizQuestion[]) => void;
+  onDeleteNote: (noteId: string) => void;
+  onEditNote: (noteId: string) => void;
+  onDuplicateNote: (noteId: string) => void
+  onReorder: (newOrder: QuizViewItem[]) => void;
 }
 
-export const QuestionTable: FunctionComponent<Props> = ({
-  quizQuestions,
+const getItemRowId = (item: QuizViewItem) => `${item.entityType}-${item.entityId}`;
+
+export const QuizItemsTable: FunctionComponent<Props> = ({
+  items,
   duplicatingQuestionId,
+  duplicatingNoteId,
   onEditQuestion,
   onDuplicateQuestion,
   onSubmitQuestionAsTemplate,
   onExportQuestion,
   onDeleteQuestion,
+  onDeleteNote,
+  onEditNote,
+  onDuplicateNote,
   onReorder,
 }) => {
   const { t } = useTranslation();
@@ -49,25 +59,25 @@ export const QuestionTable: FunctionComponent<Props> = ({
   const deleteTooltip = t("questions_tab.action_tooltips.delete");
   const exportTooltip = t("questions_tab.action_tooltips.export");
 
-  const rows = useMemo<QuizQuestion[]>(
+  const rows = useMemo<QuizViewItem[]>(
     () =>
-      [...quizQuestions]
+      [...items]
         .sort((a, b) => a.position - b.position),
-    [quizQuestions],
+    [items],
   );
 
   const sortableRowIds = useMemo(
-    () => rows.map((row) => row.question.id),
+    () => rows.map(getItemRowId),
     [rows],
   );
 
-  const columns = useQuestionTableColumns();
+  const columns = useQuizItemTableColumns();
 
   const table = useReactTable({
     data: rows,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getRowId: (row) => row.question.id,
+    getRowId: getItemRowId,
   });
 
   const sensors = useSensors(
@@ -91,8 +101,8 @@ export const QuestionTable: FunctionComponent<Props> = ({
           return;
         }
 
-        const oldIndex = rows.findIndex((row) => row.question.id === active.id);
-        const newIndex = rows.findIndex((row) => row.question.id === over.id);
+        const oldIndex = rows.findIndex((row) => getItemRowId(row) === active.id);
+        const newIndex = rows.findIndex((row) => getItemRowId(row) === over.id);
 
         if (oldIndex === -1 || newIndex === -1) {
           return;
@@ -134,15 +144,19 @@ export const QuestionTable: FunctionComponent<Props> = ({
         >
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <QuestionTableDraggableRow
+              <QuizItemTableDraggableRow
                 key={row.id}
                 row={row}
                 duplicatingQuestionId={duplicatingQuestionId}
+                duplicatingNoteId={duplicatingNoteId}
                 onEditQuestion={onEditQuestion}
                 onDuplicateQuestion={onDuplicateQuestion}
                 onSubmitQuestionAsTemplate={onSubmitQuestionAsTemplate}
                 onExportQuestion={onExportQuestion}
                 onDeleteQuestion={onDeleteQuestion}
+                onDeleteNote={onDeleteNote}
+                onEditNote={onEditNote}
+                onDuplicateNote={onDuplicateNote}
                 editTooltip={editTooltip}
                 duplicateTooltip={duplicateTooltip}
                 submitAsTemplateTooltip={submitAsTemplateTooltip}
@@ -158,4 +172,4 @@ export const QuestionTable: FunctionComponent<Props> = ({
   );
 };
 
-export default QuestionTable;
+export default QuizItemsTable;

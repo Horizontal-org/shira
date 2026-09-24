@@ -15,7 +15,7 @@ interface Props {
   handleIsExpanded?: (isExpanded: boolean) => void;
 }
 
-export const AnswerOptions: FunctionComponent<Props> = ({onAnswer, goBack, isExpanded, handleIsExpanded}) => {
+export const AnswerOptions: FunctionComponent<Props> = ({ onAnswer, goBack, isExpanded, handleIsExpanded }) => {
   const { t } = useTranslation()
   const { width } = useGetWidth()
   const [selected, handleSelected] = useState<string | null>(null)
@@ -27,17 +27,17 @@ export const AnswerOptions: FunctionComponent<Props> = ({onAnswer, goBack, isExp
 
   return (
     <Wrapper isExpanded={isExpanded}>
-      
+
       <OptionsWrapper isExpanded={isExpanded}>
         <PhisingButton
           isExpanded={isExpanded}
-          selected={selected === 'phishing'} 
+          selected={selected === 'phishing'}
           opacity={selected !== null && selected !== 'phishing'}
           onClick={() => { handleAnswer('phishing') }}>
           <PhisingIcon />
-          <Text isExpanded={isExpanded}>{ t('quiz.answers.options.phising') }</Text>        
-          { selected === 'phishing' && (
-            <RedExtraBorder isExpanded={isExpanded}/>
+          <Text isExpanded={isExpanded}>{t('quiz.answers.options.phising')}</Text>
+          {selected === 'phishing' && (
+            <RedExtraBorder isExpanded={isExpanded} />
           )}
         </PhisingButton>
 
@@ -47,40 +47,40 @@ export const AnswerOptions: FunctionComponent<Props> = ({onAnswer, goBack, isExp
           opacity={selected !== null && selected !== 'unsure'}
           onClick={() => { handleAnswer('unsure') }}>
           <UnsureIcon />
-          <Text isExpanded={isExpanded}>{ t('quiz.answers.options.unsure') }</Text>        
-          { selected === 'unsure' && (
-            <YellowExtraBorder isExpanded={isExpanded}/>
+          <Text isExpanded={isExpanded}>{t('quiz.answers.options.unsure')}</Text>
+          {selected === 'unsure' && (
+            <YellowExtraBorder isExpanded={isExpanded} />
           )}
         </UnsureButton>
 
         <LegitimateButton
           isExpanded={isExpanded}
           opacity={selected !== null && selected !== 'legitimate'}
-          selected={selected === 'legitimate'} 
+          selected={selected === 'legitimate'}
           onClick={() => { handleAnswer('legitimate') }}>
           <LegitimateIcon />
-          <Text isExpanded={isExpanded}>{ t('quiz.answers.options.legitimate') }</Text>        
-          { selected === 'legitimate' && (
-            <GreenExtraBorder isExpanded={isExpanded}/>
+          <Text isExpanded={isExpanded}>{t('quiz.answers.options.legitimate')}</Text>
+          {selected === 'legitimate' && (
+            <GreenExtraBorder isExpanded={isExpanded} />
           )}
         </LegitimateButton>
       </OptionsWrapper>
-      { (width > 1024 || isExpanded) && (
+      {(width > 1024 || isExpanded) && (
         <OptionsActionsWrapper>
           <ActionButtonsWrapper>
             <Button
-              onClick={() => { goBack()}} 
+              onClick={() => { goBack() }}
               text={t('setup.apps.back_button')}
               type="outline"
               leftIcon={<FiChevronLeft size={18} data-mirror-rtl />}
             />
           </ActionButtonsWrapper>
           <ActionButtonsWrapper type="primary">
-            <Button 
+            <Button
               text={t("quiz.answers.results.next_button")}
               type='primary'
               disabled={!selected}
-              onClick={() => {onAnswer(selected)}}
+              onClick={() => { onAnswer(selected) }}
               rightIcon={<FiChevronRight size={18} data-mirror-rtl />}
             />
           </ActionButtonsWrapper>
@@ -90,7 +90,7 @@ export const AnswerOptions: FunctionComponent<Props> = ({onAnswer, goBack, isExp
   )
 }
 
-const Wrapper = styled.div<{isExpanded?: boolean}>`
+const Wrapper = styled.div<{ isExpanded?: boolean }>`
 
   display: flex;
   align-items: center;
@@ -108,7 +108,7 @@ const Wrapper = styled.div<{isExpanded?: boolean}>`
   }
 `
 
-const OptionsWrapper = styled.div<{isExpanded?: boolean}>`
+const OptionsWrapper = styled.div<{ isExpanded?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -121,16 +121,16 @@ const OptionsWrapper = styled.div<{isExpanded?: boolean}>`
     `}
   }
 `
-  
-  // @media (max-width: ${props => props.theme.breakpoints.md}) {
-  //   display: ${props => props.isExpanded ? 'block' : 'flex'};
-  //   ${props => props.isExpanded && `width: 90%`}
-  // }
-  // @media (max-width: ${props => props.theme.breakpoints.xs}) {
-  //   display: ${props => props.isExpanded ? 'block' : 'flex'};
-  //   ${props => props.isExpanded && `width: 80%`}
-  // }
-const OptionsActionsWrapper = styled.div<{isExpanded?: boolean}>`
+
+// @media (max-width: ${props => props.theme.breakpoints.md}) {
+//   display: ${props => props.isExpanded ? 'block' : 'flex'};
+//   ${props => props.isExpanded && `width: 90%`}
+// }
+// @media (max-width: ${props => props.theme.breakpoints.xs}) {
+//   display: ${props => props.isExpanded ? 'block' : 'flex'};
+//   ${props => props.isExpanded && `width: 80%`}
+// }
+const OptionsActionsWrapper = styled.div<{ isExpanded?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -144,7 +144,7 @@ const OptionsActionsWrapper = styled.div<{isExpanded?: boolean}>`
   }
 }
 `
-const ActionButtonsWrapper = styled.div<{type?: string}>`
+const ActionButtonsWrapper = styled.div<{ type?: string }>`
   padding: 0 8px;
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
@@ -207,8 +207,8 @@ const StyledButton = styled.button<StyledButtonProps>`
 `
 
 export const PhisingButton = styled(StyledButton)`
-  background: ${props => props.selected ?  props.theme.colors.error9 : props.theme.colors.error7};
-  border: 3px ${props => props.selected ? 'solid white' : `solid ${props.theme.colors.error7}` };
+  background: ${props => props.selected ? props.theme.colors.error9 : props.theme.colors.error7};
+  border: 3px ${props => props.selected ? 'solid white' : `solid ${props.theme.colors.error7}`};
 
 
   ${props => !props.selected && `
@@ -222,8 +222,8 @@ export const PhisingButton = styled(StyledButton)`
 `
 
 export const UnsureButton = styled(StyledButton)`
-  background: ${props => props.selected ?  props.theme.colors.warning3 : props.theme.colors.warning2};
-  border: 3px ${props => props.selected ? 'solid white' : `solid ${props.theme.colors.warning2}` };
+  background: ${props => props.selected ? props.theme.colors.warning3 : props.theme.colors.warning2};
+  border: 3px ${props => props.selected ? 'solid white' : `solid ${props.theme.colors.warning2}`};
 
 
   ${props => !props.selected && `
@@ -240,8 +240,8 @@ export const UnsureButton = styled(StyledButton)`
 `
 
 export const LegitimateButton = styled(StyledButton)`
-  background: ${props => props.selected ?  props.theme.colors.green9 : props.theme.colors.green7};
-  border: 3px ${props => props.selected ? 'solid white' : `solid ${props.theme.colors.green7}` };
+  background: ${props => props.selected ? props.theme.colors.green9 : props.theme.colors.green7};
+  border: 3px ${props => props.selected ? 'solid white' : `solid ${props.theme.colors.green7}`};
 
 
 ${props => !props.selected && `
@@ -258,13 +258,13 @@ ${props => !props.selected && `
   color: #fff;
 `
 
-export const Text = styled.div<{isExpanded?: boolean}>`
+export const Text = styled.div<{ isExpanded?: boolean }>`
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     ${props => !props.isExpanded && `display: none;`} 
   }
 `
 
-const ExtraBorder = styled.div<{isExpanded?: boolean}>`
+const ExtraBorder = styled.div<{ isExpanded?: boolean }>`
   position: absolute;
   background: transparent;
   border-radius: 100px;

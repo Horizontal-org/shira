@@ -57,6 +57,9 @@
         }
     },
     "quiz": {
+        "note": {
+            "title": "Note"
+        },
         "how_it_works": {
             "title": "How it works",
             "question_count": "This quiz contains {{count}} questions.",
