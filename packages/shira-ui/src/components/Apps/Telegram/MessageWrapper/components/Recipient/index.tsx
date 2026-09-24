@@ -15,9 +15,11 @@ interface Props {
   };
   showNotice?: boolean;
   onCloseNotice?: () => void;
+  showSenderInfo: boolean;
+  onOpenSenderInfo: () => void;
 }
 
-const Recipient: FunctionComponent<Props> = ({ phone, showNotice, onCloseNotice }) => {
+const Recipient: FunctionComponent<Props> = ({ phone, showNotice, onCloseNotice, showSenderInfo, onOpenSenderInfo }) => {
   const { t } = useTranslation('shira-ui')
 
   const initialMatch = (phone?.textContent || '').match(/[A-Za-z]/)
@@ -30,11 +32,11 @@ const Recipient: FunctionComponent<Props> = ({ phone, showNotice, onCloseNotice 
           <BackArrow />
         </BackArrowWrapper>
 
-        <AvatarWrapper>
+        <AvatarWrapper type="button" onClick={onOpenSenderInfo} aria-label={t('telegram.sender_info.title')} aria-expanded={showSenderInfo}>
           {initial ? <Avatar>{initial}</Avatar> : <StrangerPicture />}
         </AvatarWrapper>
 
-        <NamePill>
+        <NamePill type="button" onClick={onOpenSenderInfo} aria-label={t('telegram.sender_info.title')} aria-expanded={showSenderInfo}>
           <ContactInfo>
             <Name data-explanation={phone?.explanationPosition}>
               {phone?.textContent || ''}
@@ -98,7 +100,22 @@ const Header = styled.div`
   }
 `
 
-const AvatarWrapper = styled.div`
+const Contact = styled.button`
+  border: 0;
+  padding: 0;
+  background: transparent;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  border-radius: 8px;
+
+  &:focus-visible {
+    outline: 2px solid #039BE5;
+    outline-offset: 4px;
+  }
+`
+
+const AvatarWrapper = styled(Contact)`
   display: flex;
   align-items: center;
   flex-shrink: 0;
@@ -124,7 +141,7 @@ const Avatar = styled.div`
   font-weight: 600;
 `
 
-const NamePill = styled.div`
+const NamePill = styled(Contact)`
   display: flex;
   align-items: center;
   min-width: 0;

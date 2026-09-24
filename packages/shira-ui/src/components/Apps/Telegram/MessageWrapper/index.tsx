@@ -11,12 +11,16 @@ interface Props {
     textContent: string
     explanationPosition: string
   };
+  onOpenSenderInfo: () => void
+  showSenderInfo: boolean
   content?: HTMLElement
 }
 
 const MessageWrapper: FunctionComponent<Props> = ({
   phone,
-  content
+  content,
+  onOpenSenderInfo,
+  showSenderInfo
 }) => {
   const [showNotice, setShowNotice] = useState(true)
 
@@ -24,6 +28,8 @@ const MessageWrapper: FunctionComponent<Props> = ({
     <Wrapper>
       <Recipient
         phone={phone}
+        onOpenSenderInfo={onOpenSenderInfo}
+        showSenderInfo={showSenderInfo}
         showNotice={showNotice}
         onCloseNotice={() => setShowNotice(false)}
       />
