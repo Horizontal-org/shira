@@ -305,7 +305,16 @@
     "support": {
         "message": "",
         "title": "Assistance",
-        "subtitle": "Pour toute assistance, que ce soit pour supprimer votre compte ou pour toute autre question, n'hésitez pas à contacter l'équipe Shira à cette adresse : contact@wearehorizontal.org"
+        "subtitle": "Pour toute assistance, que ce soit pour supprimer votre compte ou pour toute autre question, n'hésitez pas à contacter l'équipe Shira à cette adresse : contact@wearehorizontal.org",
+        "help_center": {
+            "title": "Help Center",
+            "description": "Visit our Help Center to learn more about features and how to use Shira to train your team or community.",
+            "cta": "Go to Help Center"
+        },
+        "contact": {
+            "title": "Contact us",
+            "description": "If you need any support please email us at"
+        }
     },
     "buttons": {
         "message": "",
