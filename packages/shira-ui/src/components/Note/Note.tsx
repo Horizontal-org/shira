@@ -48,7 +48,7 @@ const Background = styled.div`
 
 const LogoWrapper = styled.div`
   position: absolute;
-  left: 24px;
+  inset-inline-start: 24px;
   top: 24px;
 
   > svg {

@@ -8,6 +8,7 @@ import { NoteInfo } from "../NoteInfo";
 import { ActiveNote, activeNoteDefault } from "../../../../types/active_note";
 import { NoteReview } from "../NoteReview";
 import { NoteCRUDFeedback } from "../../../../fetch/note";
+import { isNoteInfoStepValid, NoteStepValidationResult } from "../../../../utils/active_note/validation"
 
 interface Props {
   onClose: () => void
@@ -29,25 +30,18 @@ export const NoteFlowManagement: FunctionComponent<Props> = ({
   const [isExitNoteModalOpen, setIsExitNoteModalOpen] = useState(false)
   const [activeNote, handleActiveNote] = useState<ActiveNote>(initialNote ?? activeNoteDefault)
 
-  const getStepValidation = (): {
-    reason?: string;
-    isValid: boolean;
-  } => {
-    // if (step === 0) {
-    //   return isQuestionInfoStepValid(activeQuestion)
-    // }
-
-    // if (step === 1) {
-    //   return isQuestionContentStepValid(activeQuestion)
-    // }
+  const getStepValidation = (): NoteStepValidationResult => {
+    if (step === 0) {
+      return isNoteInfoStepValid(activeNote)
+    }
 
     return { isValid: true }
   }
 
   const stepValidation = getStepValidation()
   const nextTooltipLabel = stepValidation.reason === 'characterLimit'
-    ? t('create_question.header_character_limit_tooltip')
-    : t('create_question.header_required_tooltip')
+    ? t('create_note.header_character_limit_tooltip')
+    : t('create_note.header_required_tooltip')
 
   return (
     <>

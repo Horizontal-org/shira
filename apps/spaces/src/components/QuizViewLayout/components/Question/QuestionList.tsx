@@ -104,13 +104,16 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
       <QuestionEmptyState
         onAdd={onAdd}
         onAddLibrary={onAddLibrary}
+        onCreateNote={onCreateNote}
         quizId={String(quizId)}
         isAddLibraryDisabled={!isPublicLibraryEnabled}
       />
     );
   }
 
-  const isDeletingLastQuestion = !!questionForDelete && quizQuestions.length === 1;
+  // notes don't count, a quiz left with only notes has nothing to answer
+  const questionCount = quizQuestions.filter((item) => item.entityType === "question").length;
+  const isDeletingLastQuestion = !!questionForDelete && questionCount === 1;
   const showUnpublishOnDeleteModal = isDeletingLastQuestion && quizPublished;
 
   return (

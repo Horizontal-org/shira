@@ -176,6 +176,8 @@
         }
     },
     "create_note": {
+        "header_required_tooltip": "Required fields cannot be left blank",
+        "header_character_limit_tooltip": "One or more fields exceed the character limit.",
         "breadcrumbs": {
             "content": "Note content",
             "preview": "Preview"
@@ -183,7 +185,7 @@
         "note_info": {
             "note_name": {
                 "title": "Note name",
-                "subtitle": "This name will only visible to you, to help you remember what this note is about",
+                "subtitle": "This name will only be visible to you, to help you remember what this note is about",
                 "placeholder": "Note name"
             },
             "note_content": {
@@ -205,7 +207,7 @@
                 "tab_title": "Question info",
                 "question_name": {
                     "title": "Question name",
-                    "subtitle": "This name will only visible to you, to help you remember what this question is about",
+                    "subtitle": "This name will only be visible to you, to help you remember what this question is about",
                     "question_name_placeholder": "Question name"
                 },
                 "phishing": {

@@ -55,7 +55,7 @@ export const useQuizItemTableColumns = (): ColumnDef<QuizViewItem>[] => {
           const item = row.original;
 
           if (item.entityType === "note") {
-            return <Body3>{''}</Body3>;
+            return <Body3>{t("questions_tab.columns.type.note")}</Body3>;
           }
 
           const isPhishing = Boolean(item.question.isPhising);

@@ -53,6 +53,12 @@ export const CustomQuiz: FunctionComponent<Props> = ({
   const questionImages = images.filter((i) => i.type === 'question')
   const noteImages = images.filter((i) => i.type === 'note')
 
+  // counters only count questions, notes are not answerable
+  const questionCount = quizItems.filter((item) => item.entityType === 'question').length
+  const questionIndex = quizItems
+    .slice(0, itemIndex)
+    .filter((item) => item.entityType === 'question').length
+
   // const currentQuestionId = q?.id ?? null
 
   const onNext = () => {
@@ -80,8 +86,8 @@ export const CustomQuiz: FunctionComponent<Props> = ({
               key={itemIndex}
               question={quizItems.length > 0 && quizItems[itemIndex].question}
               images={questionImages}
-              questionIndex={itemIndex}
-              questionCount={quizItems.length}
+              questionIndex={questionIndex}
+              questionCount={questionCount}
               changeScene={changeScene}
               hasAssessmentEnabled={hasAssessmentEnabled}
               onAnswer={(answer: RunAnswer) => {
@@ -98,8 +104,6 @@ export const CustomQuiz: FunctionComponent<Props> = ({
               key={itemIndex}
               note={quizItems.length > 0 && quizItems[itemIndex].note}
               images={noteImages}
-              noteIndex={itemIndex}
-              noteCount={quizItems.length}
               changeScene={changeScene}
               onNext={onNext}
               goBack={goBack}
@@ -109,7 +113,7 @@ export const CustomQuiz: FunctionComponent<Props> = ({
 
       ) : (
         <QuizInstructions
-          count={quizItems ? quizItems.length : 0}
+          count={questionCount}
           hasResultsEnabled={hasResultsEnabled}
           isCustom={true}
           onNext={() => {

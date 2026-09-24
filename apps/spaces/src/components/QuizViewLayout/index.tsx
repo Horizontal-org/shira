@@ -215,7 +215,8 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
   }, [resultsData])
 
   const hasQuestions = useMemo(() => {
-    return (quiz?.quizQuestions?.length ?? 0) > 0
+    // notes alone don't make a playable quiz, matches questionsCount on the dashboard
+    return (quiz?.quizQuestions ?? []).some((item) => item.entityType === 'question')
   }, [quiz])
 
   const disablePublishToggle = !hasQuestions && !isPublished;

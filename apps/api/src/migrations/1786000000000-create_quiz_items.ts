@@ -50,6 +50,40 @@ export class CreateQuizItems1786000000000 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
+        // notes only exist through quiz_items, the old schema has no place for them
+        await queryRunner.query(`DELETE FROM quiz_items WHERE entity_type = 'note'`)
+        await queryRunner.query(`DROP TABLE notes`)
+
+        await queryRunner.query(`
+            ALTER TABLE quiz_items
+            CHANGE COLUMN entity_id question_id INT NOT NULL
+        `)
+
+        await queryRunner.query(`
+            ALTER TABLE quiz_items
+            DROP COLUMN entity_type
+        `)
+
+        await queryRunner.query(`
+            ALTER TABLE quiz_items
+            RENAME TO quizzes_questions
+        `)
+
+        // without the FK, rows can point at questions that were deleted in the meantime,
+        // they would block re-adding the constraint
+        await queryRunner.query(`
+            DELETE qq FROM quizzes_questions qq
+            LEFT JOIN questions q ON q.id = qq.question_id
+            WHERE q.id IS NULL
+        `)
+
+        // same constraint as 1767888357103-alter_quizzes_question_fk
+        await queryRunner.query(`
+            ALTER TABLE quizzes_questions
+            ADD CONSTRAINT quizzes_questions_ibfk_2
+            FOREIGN KEY (question_id) REFERENCES questions(id)
+            ON DELETE CASCADE
+        `)
     }
 
 }

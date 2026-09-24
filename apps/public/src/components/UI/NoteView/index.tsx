@@ -8,8 +8,6 @@ import { NoteActions } from "../NoteActions";
 
 interface Props {
   note: NoteType
-  noteCount: number
-  noteIndex: number
   images?: Array<{ imageId: number; url: string }>
   onNext: () => void
   goBack: () => void
@@ -19,8 +17,6 @@ interface Props {
 
 export const NoteView: FunctionComponent<Props> = ({
   note,
-  noteCount,
-  noteIndex,
   images = [],
   onNext,
   goBack,
@@ -44,8 +40,8 @@ export const NoteView: FunctionComponent<Props> = ({
         />
       </NoteWrapper>
 
+      {/* no counter on notes, the footer counter only tracks questions */}
       <QuizFooter
-        title={`${noteIndex + 1}/${noteCount}`}
         hasAnswer={false}
         showExplanations={false}
         isExpanded={isExpanded}

@@ -1,14 +1,18 @@
-import { IsNumber, IsString } from "class-validator";
+import { IsNumber, IsString, MaxLength } from "class-validator"
+import { IsNotEmpty } from "src/utils/decorators/is-not-empty.decorator"
 
 export class CreateNoteDto {
 
   @IsNumber()
-  quizId: number;
+  quizId: number
 
   @IsString()
-  name: string;
+  @IsNotEmpty({ message: 'Name cannot be empty' })
+  @MaxLength(100)
+  name: string
 
   @IsString()
-  content: string;
+  @IsNotEmpty({ message: 'Content cannot be empty' })
+  content: string
 
 }

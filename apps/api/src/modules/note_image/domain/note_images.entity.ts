@@ -37,13 +37,14 @@ export class NoteImage {
   @ManyToOne(
     () => Quiz,
     {
-      onDelete: 'CASCADE',
+      // keep the image rows when the quiz is deleted, notes outlive their quizzes
+      onDelete: 'SET NULL',
     },
   )
   @JoinColumn({ name: 'quiz_id' })
   quiz?: Quiz
 
-  @Column({ name: 'quiz_id' })
+  @Column({ name: 'quiz_id', nullable: true })
   @RelationId((noteImage: NoteImage) => noteImage.quiz)
   quizId?: number
 }
