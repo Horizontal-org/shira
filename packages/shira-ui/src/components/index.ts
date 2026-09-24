@@ -43,3 +43,4 @@ export * from './LibrarySearchInput'
 export * from './LibraryFilterToggleButton'
 export * from './QuestionTypeChip'
 export * from './Note'
+export * from './ContentCard';
