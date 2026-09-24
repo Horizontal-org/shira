@@ -5,14 +5,13 @@ import useParseHTML from "../../../hooks/useParseHTML";
 import { QuizFooter } from "../QuizFooter";
 import { SceneWithFooter } from "../SceneWithFooter";
 import { NoteActions } from "../NoteActions";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   note: NoteType
   images?: Array<{ imageId: number; url: string }>
   onNext: () => void
   goBack: () => void
-  changeScene?: (scene: string) => void
-  hasAssessmentEnabled?: boolean
 }
 
 export const NoteView: FunctionComponent<Props> = ({
@@ -20,13 +19,12 @@ export const NoteView: FunctionComponent<Props> = ({
   images = [],
   onNext,
   goBack,
-  changeScene,
-  hasAssessmentEnabled
 }) => {
 
   const {
     parseNoteContent,
   } = useParseHTML(note.content, images)
+  const { t } = useTranslation()
 
   const content = useMemo(parseNoteContent, [parseNoteContent, note.content])
 
@@ -46,6 +44,8 @@ export const NoteView: FunctionComponent<Props> = ({
         showExplanations={false}
         isExpanded={isExpanded}
         handleIsExpanded={handleIsExpanded}
+        hideCloseButton={true}
+        title={t('quiz.note.title')}
         action={
           <NoteActions
             goBack={goBack}

@@ -15,7 +15,6 @@ interface Props {
   questions: QuestionType[];
   quizId: number;
   quizItems: QuizItem[]
-  // question and note image ids can overlap, always filter by type before matching
   images: Array<{ imageId: number; url: string; type: 'question' | 'note' }>;
   startRun: () => void;
   recordAnswer: (questionId: number, answer: RunAnswer) => void;
@@ -25,7 +24,6 @@ interface Props {
 }
 
 export const CustomQuiz: FunctionComponent<Props> = ({
-  questions,
   images,
   startRun,
   runStarted,
@@ -44,10 +42,8 @@ export const CustomQuiz: FunctionComponent<Props> = ({
   }), shallow)
 
   const [started, handleStarted] = useState(false)
-  // const [questionIndex, handleQuestionIndex] = useState(0)
   const [itemIndex, handleItemIndex] = useState(0)
 
-  // const q = questions.length > 0 ? questions[questionIndex] : null
   const quizItem = quizItems.length > 0 ? quizItems[itemIndex] : null
 
   const questionImages = images.filter((i) => i.type === 'question')
@@ -59,7 +55,6 @@ export const CustomQuiz: FunctionComponent<Props> = ({
     .slice(0, itemIndex)
     .filter((item) => item.entityType === 'question').length
 
-  // const currentQuestionId = q?.id ?? null
 
   const onNext = () => {
     if (itemIndex < quizItems.length - 1) {
@@ -104,7 +99,6 @@ export const CustomQuiz: FunctionComponent<Props> = ({
               key={itemIndex}
               note={quizItems.length > 0 && quizItems[itemIndex].note}
               images={noteImages}
-              changeScene={changeScene}
               onNext={onNext}
               goBack={goBack}
             />

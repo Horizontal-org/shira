@@ -26,7 +26,7 @@ export const QuizFooterMobile: FunctionComponent<Props> = ({
   hasAnswer
 }) => {
 
-  const { t } = useTranslation()  
+  const { t } = useTranslation()
   const changeScene = useStore((state) => state.changeScene)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const toggleDropdown = () => {
@@ -36,8 +36,8 @@ export const QuizFooterMobile: FunctionComponent<Props> = ({
   return (
     <Container>
       <Wrapper isExpanded={isExpanded} hideCloseButton={hideCloseButton} showExplanations={showExplanations}>
-   
-        { !isExpanded && !hideCloseButton && (
+
+        {!isExpanded && !hideCloseButton && (
           <LeftContent>
             <CloseButton onClick={() => setIsDialogOpen(!isDialogOpen)}>
               <VscClose size={24} color='#111' />
@@ -46,13 +46,13 @@ export const QuizFooterMobile: FunctionComponent<Props> = ({
         )}
 
         {(!hasAnswer || (hasAnswer && !showExplanations)) && (
-          <ExpandedDropdown 
+          <ExpandedDropdown
             isExpanded={isExpanded}
             hasAnswer={hasAnswer}
           >
             {isExpanded && (
               <LeftContent>
-                <CloseButton isExpanded={isExpanded} onClick={() => setIsDialogOpen(!isDialogOpen) }>
+                <CloseButton isExpanded={isExpanded} onClick={() => setIsDialogOpen(!isDialogOpen)}>
                   <VscClose size={24} color='#A51D0F' />
                 </CloseButton>
                 <ExitText>{t('quiz.exit.action_description')}</ExitText>
@@ -75,7 +75,7 @@ export const QuizFooterMobile: FunctionComponent<Props> = ({
 
       <Dialog
         isOpen={isDialogOpen}
-        setIsOpen={setIsDialogOpen} 
+        setIsOpen={setIsDialogOpen}
         title={t('quiz.exit.title')}
         description={t('quiz.exit.description')}
         action={() => { changeScene('welcome') }}
@@ -128,7 +128,7 @@ const LeftContent = styled.div`
   align-items: center;
 `
 
-const CloseButton = styled.div<{isExpanded?: boolean}>`
+const CloseButton = styled.div<{ isExpanded?: boolean }>`
   width: 48px;
   height: 40px;
   display: flex;

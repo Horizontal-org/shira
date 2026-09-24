@@ -2,7 +2,6 @@ import { FunctionComponent } from "react"
 import { styled, Button } from '@horizontal-org/shira-ui'
 import { FiChevronRight, FiChevronLeft } from "react-icons/fi"
 import { useTranslation } from "react-i18next"
-import useGetWidth from "../../../hooks/useGetWidth"
 
 interface Props {
   goBack: () => void
@@ -12,12 +11,9 @@ interface Props {
 
 export const NoteActions: FunctionComponent<Props> = ({ goBack, onNext, isExpanded }) => {
   const { t } = useTranslation()
-  const { width } = useGetWidth()
-
-  if (!(width > 1024 || isExpanded)) return null
 
   return (
-    <Wrapper>
+    <Wrapper isExpanded={isExpanded}>
       <ActionButtonsWrapper>
         <Button
           onClick={() => { goBack() }}
@@ -38,19 +34,17 @@ export const NoteActions: FunctionComponent<Props> = ({ goBack, onNext, isExpand
   )
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ isExpanded?: boolean }>`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  flex-grow: 1;
-
-  @media (min-width: ${props => props.theme.breakpoints.md}) {
-    padding-inline-end: 8px;
-  }
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
-    margin: 0 16px;
-    padding: 0 4px;
+    box-sizing: border-box;
+    gap: 8px;
+    margin: 0;
+    margin-inline-start: ${props => props.isExpanded ? '0' : '16px'};
+    /* collapsed: leave room for the absolutely positioned chevron at the inline end */
+    width: ${props => props.isExpanded ? '100%' : 'calc(100% - 88px)'};
   }
 `
 
@@ -59,12 +53,11 @@ const ActionButtonsWrapper = styled.div<{ type?: string }>`
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     padding: 0;
-    width: 50%;
     display: flex;
-    justify-content: ${props => props.type === 'primary' ? 'flex-end' : 'flex-start'};
+    flex: 1;
 
     > button {
-      width: 75%;
+      width: 100%;
       padding-top: 12px;
       padding-bottom: 12px;
       justify-content: center;

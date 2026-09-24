@@ -17,13 +17,17 @@ export const Note: FunctionComponent<Props> = ({ content }) => {
 }
 
 export const NoteBox = styled.div`
+  min-height: 320px;
   padding: 36px;
   box-sizing: border-box;
   border-radius: 16px;
   background: white;
   max-width: 800px;
   width: 100%;
-  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
   p {
     margin: 0 0 16px 0;
   }
@@ -31,6 +35,12 @@ export const NoteBox = styled.div`
   img {
     display: block;
     margin: 0 auto;
+  }
+
+  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
+    img {
+      width: 100%;
+    }
   }
 `
 
@@ -44,6 +54,12 @@ const Background = styled.div`
 
   display: flex;
   justify-content: center;
+
+  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
+    padding: 0;
+    border: none;
+    min-height: calc(100vh - 86px);
+  }
 `
 
 const LogoWrapper = styled.div`
@@ -52,7 +68,12 @@ const LogoWrapper = styled.div`
   top: 24px;
 
   > svg {
-   width: 64px;
-   height: 64px;
+   width: 40px;
+   height: 40px;
+  }
+
+
+  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
+    display: none;
   }
 `
