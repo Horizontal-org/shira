@@ -15,6 +15,14 @@ const meta = {
       control: 'text',
       description: 'The name of the file'
     },
+    titleLabel: { 
+      control: 'text',
+      description: 'The title of the modal'
+    },
+    fileTypeExplanation: {
+      control: 'text',
+      description: 'Explanation about how to use file types'
+    },
     handleFileName: { 
       action: 'fileName changed',
       description: 'Handler for when the file name changes'
@@ -50,6 +58,8 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     fileName: 'Document.pdf',
+    titleLabel: 'Add attachment',
+    fileTypeExplanation: "Selecting the correct file type lets Shira display a realistic attachment icon in the quiz. For added realism, consider including a file extension in the filename (for example, .pdf or .zip).",
     handleFileName: () => {},
     fileType: AttachmentType.document,
     handleFileType: () => {},
@@ -87,6 +97,8 @@ const InteractiveAttachment = () => {
 export const Interactive: Story = {
   args: {
     fileName: 'My Attachment',
+    titleLabel: 'Add attachment',
+    fileTypeExplanation: "Selecting the correct file type lets Shira display a realistic attachment icon in the quiz. For added realism, consider including a file extension in the filename (for example, .pdf or .zip).",
     handleFileName: () => {},
     fileType:  AttachmentType.document,
     handleFileType: () => {},
@@ -101,6 +113,7 @@ export const Interactive: Story = {
 export const EmptyFileName: Story = {
   args: {
     fileName: '',
+    titleLabel: 'Add attachment',
     handleFileName: () => {},
     fileType:  AttachmentType.document,
     handleFileType: () => {},
@@ -114,6 +127,8 @@ export const EmptyFileName: Story = {
 export const DifferentFileTypes: Story = {
   args: {
     fileName: 'Example',
+    titleLabel: 'Add attachment',
+    fileTypeExplanation: "Selecting the correct file type lets Shira display a realistic attachment icon in the quiz. For added realism, consider including a file extension in the filename (for example, .pdf or .zip).",
     handleFileName: () => {},
     fileType:  AttachmentType.image,
     handleFileType: () => {},

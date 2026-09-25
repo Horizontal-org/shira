@@ -53,6 +53,7 @@ export const MessagingContent: FunctionComponent<Props> = ({
     handleSenderPhoneEnabled(hasSenderPhone)
   }, [])
 
+
   return (
     <Content id="messaging-content">
 
@@ -112,7 +113,6 @@ export const MessagingContent: FunctionComponent<Props> = ({
           onChange={(newItems) => { updateActiveQuestionDraggableItems(newItems) }}
         />
       </div>
-
     </Content>
   )
 }

@@ -4,10 +4,16 @@ import { AttachmentType } from "../../../Attachments";
 
 import AudioIcon from './icons/Audio'
 import ImageIcon from './icons/Image'
-import PdfIcon from './icons/Doc'
+import PDFIcon from './icons/PDF'
+import TextIcon from './icons/Text'
+import ArchiveIcon from './icons/Archive'
+import WordIcon from './icons/Word'
+import ExcelIcon from './icons/Excel'
 import VideoIcon from './icons/Video'
 import GenericAttachmentIcon from './icons/Other'
 import ChevronDown from './icons/ChevronDown'
+
+import { apparentlyRandomFilesize, normalizeFilename } from "../../../../utils/attachmentUtils.ts"
 
 interface Props {
   name: string;
@@ -15,20 +21,24 @@ interface Props {
   type?: string;
 }
 
-const randomSize = Math.floor(Math.random() * 300) + 1
-
 export const Attachment: FunctionComponent<Props> = ({
   name,
   explanationPosition,
   type
 }) => {
 
-  const renderSwitch = (type: string) => {
+  const renderSwitch = (type: string, name: string) => {
+    const lower = normalizeFilename(name)
     switch (type) {
+      case AttachmentType.archive:
+        return <ArchiveIcon />
       case AttachmentType.audio:
         return <AudioIcon />
       case AttachmentType.document:
-        return <PdfIcon />
+        if (lower.endsWith(".docx")) { return <WordIcon/> }
+        if (lower.endsWith(".pdf")) { return <PDFIcon/> }
+        if (lower.endsWith(".xlsx")) { return <ExcelIcon/> }
+        return <TextIcon/>
       case AttachmentType.image:
         return <ImageIcon />
       case AttachmentType.video:
@@ -43,12 +53,12 @@ export const Attachment: FunctionComponent<Props> = ({
   return (
     <Wrapper data-explanation={explanationPosition}>
       <Left>
-        <SvgWrapper> {renderSwitch(type)} </SvgWrapper>
+        <SvgWrapper> {renderSwitch(type, name)} </SvgWrapper>
         <TextWrapper>
           <Name title={name}>
             {name}
           </Name>
-          <Size>{randomSize} KB</Size>
+          <Size>{apparentlyRandomFilesize(name)} KB</Size>
         </TextWrapper>
       </Left>
       <Right>
