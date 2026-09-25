@@ -34,7 +34,7 @@ const Content = styled.div`
   white-space: nowrap;
   text-overflow: ellipsis;
   padding: 8px 12px;
-  background: #70BEDF;
+  background: #70BEDF !important;
 
   border-radius: 8px;
   font-size: 14px;
