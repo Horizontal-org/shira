@@ -63,7 +63,7 @@ export interface EmailContent {
 export interface MessagingContent {
   senderName?: QuestionTextInput;
   senderPhone?: QuestionTextInput;
-  draggableItems?: Array<any>
+  draggableItems?: Array<QuestionDragImage | QuestionDragEditor | QuestionDragAttachment>
 }
 
 export interface QuestionTextInput {

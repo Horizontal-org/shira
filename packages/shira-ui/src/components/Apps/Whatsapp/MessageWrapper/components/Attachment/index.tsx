@@ -93,7 +93,7 @@ const MetadataContainer = styled.div`
   gap: 0.25rem;
 `
 const CenterDot = styled.span`
-  font-size: 16px !important;
+  font-size: 16px;
   margin-top: -0.15rem;
   font-weight: bold;
 `

@@ -63,7 +63,7 @@ const BlurryImage = styled("div")<{bg: string}>`
     width: 200px;
     height: 100px;
     background: no-repeat url(${props => props.bg});
-    background-size: 200px !important;
+    background-size: 200px;
 
     object-fit: contain;
     border-radius: 7.5px;
