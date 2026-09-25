@@ -237,13 +237,14 @@ const Name = styled.div`
   > span {
     color: #7f7e7e;
     font-weight: bold;
+    padding-inline-start: 4px;
     font-size: 12px;
   }
 `
 
 const Hovered = styled.div`
   position: absolute;
-  left: 0;
+  inset-inline-start: 0;
   top: 0;
   cursor: pointer;
   width: 178px;

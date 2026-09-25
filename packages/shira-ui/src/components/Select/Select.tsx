@@ -95,10 +95,12 @@ export const SelectComponent = ({ label, options, onChange, value }: SelectProps
       {isOpen && createPortal(
         <OptionsContainer
           ref={optionsRef}
-          style={{ 
-            top: `${position.top}px`, 
+          // position.left comes from getBoundingClientRect(), always a physical viewport
+          // pixel value — kept as "left" intentionally.
+          style={{
+            top: `${position.top}px`,
             left: `${position.left}px`,
-            width: `${position.width}px` 
+            width: `${position.width}px`
           }}
         >
           {options.map((option) => (
@@ -162,8 +164,8 @@ const Arrow = styled.div`
 const OptionsContainer = styled.div`
   position: absolute;
   top: 100%;
-  left: 0;
-  right: 0;
+  inset-inline-start: 0;
+  inset-inline-end: 0;
   margin-top: 4px;
   border: 2px solid ${props => props.theme.colors.green3};
   color: ${props => props.theme.colors.dark.darkGrey};

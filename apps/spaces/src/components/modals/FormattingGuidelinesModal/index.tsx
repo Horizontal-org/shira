@@ -58,7 +58,7 @@ const Content = styled.div`
 `;
 
 const GuidelinesList = styled.ul`
-  padding-left: 20px;
+  padding-inline-start: 20px;
   margin: 0;
   display: flex;
   flex-direction: column;

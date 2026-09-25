@@ -133,7 +133,7 @@ const RightNavbar = styled.div`
   cursor: pointer;
 
   > span {
-    padding-right: 10px;
+    padding-inline-end: 10px;
   }
 
   > svg {
@@ -144,7 +144,7 @@ const RightNavbar = styled.div`
 `
 
 const Nav = styled.nav`
-  padding-left: 5px;
+  padding-inline-start: 5px;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     display: none;
@@ -152,7 +152,7 @@ const Nav = styled.nav`
 `
 
 const Link = styled.span`
-  padding-left: 40px;
+  padding-inline-start: 40px;
   color: #333030;
   cursor: pointer;
   font-weight: 600;

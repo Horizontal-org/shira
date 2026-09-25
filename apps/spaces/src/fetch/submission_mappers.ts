@@ -10,6 +10,11 @@ import type {
   QuizSubmissionQuestionPreviewDto,
   SubmissionExplanationDto,
 } from "./submissions";
+import {
+  translateDefaultLibraryLanguage,
+  translateLibraryLanguageTag,
+  translateLibraryTag,
+} from "../language/libraryTags";
 
 const mapQuestionTemplateExplanation = (
   explanation: LibraryQuestionTemplateDto["explanations"][number],
@@ -48,9 +53,11 @@ export const mapQuestionSubmissionToPreview = (
   description: template.description,
   appType: template.appType,
   app: template.defaultApp,
-  language: template.langTags[0]?.name,
+  language: template.langTags[0]
+    ? translateLibraryLanguageTag(template.langTags[0].name)
+    : translateDefaultLibraryLanguage(),
   isPhishing: template.isPhishing,
-  tags: template.tags.map(({ name }) => name),
+  tags: template.tags.map(({ name, slug }) => translateLibraryTag(slug, name)),
   content: template.content,
   explanations: template.explanations.map(mapQuestionTemplateExplanation),
 });
@@ -69,7 +76,9 @@ const mapQuizQuestionToPreview = (
   submissionNote: submission.submissionNote,
   appType: question.appType,
   app: question.appName,
-  language: question.language ?? fallbackLanguage,
+  language: question.language
+    ? translateLibraryLanguageTag(question.language)
+    : fallbackLanguage,
   isPhishing: question.isPhishing,
   content: question.content,
   explanations: question.explanations,
@@ -80,14 +89,19 @@ export const mapQuizSubmissionToPreview = (
   template: LibraryQuizTemplateDto,
   questions: LibraryQuizQuestionDto[],
 ): QuizSubmissionPreviewDto => {
-  const fallbackLanguage = template.langTags[0]?.name;
+  const fallbackLanguage = template.langTags[0]
+    ? translateLibraryLanguageTag(template.langTags[0].name)
+    : translateDefaultLibraryLanguage();
 
   return {
     ...submission,
     quizTitle: template.title,
     description: template.description,
-    langTags: template.langTags,
-    tags: template.tags.map(({ name }) => name),
+    langTags: template.langTags.map((language) => ({
+      ...language,
+      name: translateLibraryLanguageTag(language.name),
+    })),
+    tags: template.tags.map(({ name, slug }) => translateLibraryTag(slug, name)),
     questions: questions.map((question) =>
       mapQuizQuestionToPreview(question, fallbackLanguage, submission),
     ),

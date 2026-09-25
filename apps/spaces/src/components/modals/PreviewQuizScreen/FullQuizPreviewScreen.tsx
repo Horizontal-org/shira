@@ -14,11 +14,9 @@ import { useTranslation } from "react-i18next";
 import { appIcons, appTypesIcons } from "../../../utils/appIcons";
 import {
   getAppsByType,
-  isMessagingNotPhoneApp,
-  isMessagingPhoneApp,
   normalizePreviewAppName,
 } from "../../../utils/appNames";
-import { AppLayout } from "../../QuestionPreview/AppLayout";
+import { QuestionPreviewFrame } from "../../previewComponents/QuestionPreviewFrame";
 import {
   ExplanationPreviewControls,
   useExplanationPreviewControls,
@@ -40,6 +38,7 @@ export type PreviewQuestion = {
     position: number | string
     text: string
   }[]
+  images?: { id: number; name: string; url: string }[]
 }
 
 type Props = {
@@ -168,19 +167,15 @@ export const FullQuizPreviewScreen: FunctionComponent<Props> = ({
 
               {showExplanations && <QuizPreviewOverlay />}
 
-              <PreviewAppFrame
+              <QuestionPreviewFrame
                 key={`${question.id}-${question.app}`}
-                $isFullWidth={isMessagingNotPhoneApp(resolvedAppName)}
-                $isPhoneFrame={isMessagingPhoneApp(resolvedAppName)}
-              >
-                <AppLayout
-                  appName={resolvedAppName}
-                  content={question.content}
-                  showExplanations={showExplanations}
-                  explanations={explanations}
-                  explanationNumber={activeExplanationIndex}
-                />
-              </PreviewAppFrame>
+                appName={resolvedAppName}
+                content={question.content}
+                images={question.images}
+                showExplanations={showExplanations}
+                explanations={explanations}
+                explanationNumber={activeExplanationIndex}
+              />
             </PreviewCanvas>
           </PreviewCanvasPanel>
         </PreviewLayout>
@@ -296,8 +291,8 @@ const PreviewLayout = styled.div`
 const QuizQuestionContainer = styled.div`
   min-height: 0;
   overflow-y: auto;
-  padding-right: 8px;
-  padding-left: 8px;
+  padding-inline-end: 8px;
+  padding-inline-start: 8px;
   padding-bottom: 8px;
 `
 
@@ -324,7 +319,7 @@ const SelectableQuestionItem = styled.button<{
   display: flex;
   align-items: center;
   gap: 18px;
-  text-align: left;
+  text-align: start;
   cursor: pointer;
   outline: none;
 
@@ -424,18 +419,6 @@ const PreviewStageBackdrop = styled.div`
   position: absolute;
   inset: 0;
   background: ${defaultTheme.colors.light.paleGreen};
-`
-
-const PreviewAppFrame = styled.div<{
-  $isFullWidth: boolean;
-  $isPhoneFrame: boolean;
-}>`
-  position: relative;
-  width: ${(props) => (props.$isFullWidth ? "100%" : "fit-content")};
-  max-width: 100%;
-  height: ${(props) => (props.$isPhoneFrame ? "80vh" : "68vh")};
-  min-height: 620px;
-  max-height: ${(props) => (props.$isPhoneFrame ? "none" : "780px")};
 `
 
 const QuizPreviewOverlay = styled.div`

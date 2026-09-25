@@ -134,13 +134,13 @@ const StyledBox = styled.div`
 const ExplanationButtonWrapper = styled.div`
   display: flex;
   gap: 12px;
-  margin-left: 12px;
+  margin-inline-start: 12px;
 `
 
 const Overlay = styled.div`
   position: absolute;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
   z-index: 3;
   height: 800px;
   width: 100%;

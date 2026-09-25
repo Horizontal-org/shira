@@ -30,6 +30,7 @@ export const QuestionTemplatePreviewModal: FunctionComponent<Props> = ({
           appName: question.app.name,
           content: question.content,
           explanations: question.explanations,
+          images: question.images,
         }}
         headerLabel={t("create_question.tabs.preview.aria_label")}
         onClose={onClose}

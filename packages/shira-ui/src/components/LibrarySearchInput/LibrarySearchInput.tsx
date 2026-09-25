@@ -58,8 +58,8 @@ const SearchInputWrap = styled.div<{ $hasValue: boolean; $isFocused: boolean }>`
 
   & input {
     height: auto;
-    padding-left: 52px;
-    padding-right: ${props => props.$hasValue
+    padding-inline-start: 52px;
+    padding-inline-end: ${props => props.$hasValue
       ? "52px"
       : "18px"};
     border-width: 2px;
@@ -87,7 +87,7 @@ const SearchInputWrap = styled.div<{ $hasValue: boolean; $isFocused: boolean }>`
 
 const SearchIcon = styled.div<{ $isFocused: boolean }>`
   position: absolute;
-  left: 18px;
+  inset-inline-start: 18px;
   top: 50%;
   transform: translateY(-50%);
   color: ${props => props.$isFocused
@@ -103,7 +103,7 @@ const SearchIcon = styled.div<{ $isFocused: boolean }>`
 const ClearButton = styled.button`
   all: unset;
   position: absolute;
-  right: 14px;
+  inset-inline-end: 14px;
   top: 50%;
   transform: translateY(-50%);
   color: ${defaultTheme.colors.dark.mediumGrey};

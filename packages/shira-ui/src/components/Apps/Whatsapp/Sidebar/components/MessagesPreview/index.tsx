@@ -217,7 +217,10 @@ const Message = styled.div`
 `
 
 const PictureWrapper = styled.div`
-  padding: 0 15px 0 13px;
+  padding-top: 0;
+  padding-inline-end: 15px;
+  padding-bottom: 0;
+  padding-inline-start: 13px;
   display: flex;
   align-items: center;
 `
@@ -242,7 +245,7 @@ const UserInfoFirstRow = styled.div`
 const Time = styled.div`
   font-family: Segoe UI Regular;
   padding-top: 4px;
-  padding-right: 10px;
+  padding-inline-end: 10px;
   color: #667781;
   line-height: 14px;
   font-size: 12px;

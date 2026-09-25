@@ -107,7 +107,7 @@ const AboutWrapper = styled.div`
 `
 
 const OptionsWrapper = styled.div`
-  text-align: left;
+  text-align: start;
 `
 
 const OptionTitle = styled.div`

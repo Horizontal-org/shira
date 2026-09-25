@@ -49,7 +49,7 @@ const Content = styled.div<{
   hide?: string
 }>`
   box-sizing: border-box;
-  border-right: 1px solid transparent;
+  border-inline-end: 1px solid transparent;
   padding: 1px 9px;
   height: 100%;
   display: flex;
@@ -58,7 +58,7 @@ const Content = styled.div<{
 
   > span {
     color: #242424;
-    margin-left: 6px;
+    margin-inline-start: 6px;
     font-size: 14px;
     font-weight: 300;
     padding-bottom: 1px; 
@@ -69,8 +69,14 @@ const Content = styled.div<{
   }
 
   ${props => props.hasChevron && `
-    border-radius: 4px 0 0 4px;
-    padding: 1px 6px 1px 9px;
+    border-start-start-radius: 4px;
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+    border-end-start-radius: 4px;
+    padding-top: 1px;
+    padding-inline-end: 6px;
+    padding-bottom: 1px;
+    padding-inline-start: 9px;
 
     &:hover {
       border-color: #e5e5e5;  
@@ -107,7 +113,10 @@ const SvgWrapper = styled.div`
 
 const ChevronWrapper = styled.div`
   box-sizing: border-box;
-  border-radius: 0 4px 4px 0;
+  border-start-start-radius: 0;
+  border-start-end-radius: 4px;
+  border-end-end-radius: 4px;
+  border-end-start-radius: 0;
   border: 1px solid transparent;
   height: 100%;
   display: flex;

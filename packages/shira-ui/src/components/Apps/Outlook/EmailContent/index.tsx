@@ -113,7 +113,10 @@ const Attachments = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin: 34px 16px 0 50px;
+  margin-top: 34px;
+  margin-inline-end: 16px;
+  margin-bottom: 0;
+  margin-inline-start: 50px;
 `
 const AttachmentActionContainer = styled.div`
   display: flex;
@@ -134,8 +137,11 @@ const TopBar = styled.div`
 `
 
 const BottomBar = styled.div`
-  margin: 12px 16px 0 48px;
-  display: flex;  
+  margin-top: 12px;
+  margin-inline-end: 16px;
+  margin-bottom: 0;
+  margin-inline-start: 48px;
+  display: flex;
   font-weight: 400;
   gap: 4px;  
 `

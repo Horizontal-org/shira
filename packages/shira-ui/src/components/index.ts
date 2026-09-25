@@ -1,4 +1,5 @@
 export * from './Button'
+export * from './IconButton'
 export * from './Breadcrumbs'
 export * from './Checkbox'
 export * from './CharacterCount'
@@ -41,3 +42,4 @@ export * from './LanguageSelect'
 export * from './LibrarySearchInput'
 export * from './LibraryFilterToggleButton'
 export * from './QuestionTypeChip'
+export * from './ContentCard';

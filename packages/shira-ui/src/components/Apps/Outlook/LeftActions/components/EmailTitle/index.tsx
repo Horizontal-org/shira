@@ -35,7 +35,10 @@ const Wrapper = styled.div`
 const ChevronWrapper = styled.div`
   display: flex;
   align-items: center;
-  padding: 0 8px 0 4px;
+  padding-top: 0;
+  padding-inline-end: 8px;
+  padding-bottom: 0;
+  padding-inline-start: 4px;
   > svg {
     width: 14px;
     height: 14px; 

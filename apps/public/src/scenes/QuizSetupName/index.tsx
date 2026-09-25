@@ -120,7 +120,7 @@ export const QuizSetupNameScene: FunctionComponent<Props> = ({ nextSceneSlug = '
               }} 
               text={t('setup.name.next_button')}
               type="primary"
-              rightIcon={<FiChevronRight size={18}/>}
+              rightIcon={<FiChevronRight size={18} data-mirror-rtl/>}
             />             
           )}
         />

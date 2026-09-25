@@ -39,7 +39,7 @@ const Container = styled.div<{ delayMs: number; $disabled: boolean }>`
 const Tooltip = styled.div`
   position: absolute;
   top: calc(100% + 8px);
-  right: 0;
+  inset-inline-end: 0;
   padding: 8px 12px;
   border-radius: 4px;
   background: ${(props) => props.theme.colors.dark.black};
@@ -56,7 +56,7 @@ const Tooltip = styled.div`
   &::before {
     position: absolute;
     bottom: 100%;
-    right: 12px;
+    inset-inline-end: 12px;
     border-width: 5px;
     border-style: solid;
     border-color: transparent transparent ${(props) => props.theme.colors.dark.black} transparent;

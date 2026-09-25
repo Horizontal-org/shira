@@ -121,8 +121,14 @@ const MailCategory = styled.div`
   display: flex;
   align-items: center;
   height: 32px;
-  padding: 0 12px 0 26px;
-  border-radius: 0 16px 16px 0;
+  padding-top: 0;
+  padding-inline-end: 12px;
+  padding-bottom: 0;
+  padding-inline-start: 26px;
+  border-start-start-radius: 0;
+  border-start-end-radius: 16px;
+  border-end-end-radius: 16px;
+  border-end-start-radius: 0;
   cursor: pointer;
 
   > span {
@@ -180,7 +186,7 @@ const MailCategoryIcon = styled('div')<MailCategoryIconProps>`
   background-size: 20px;
   width: 20px;
   height: 20px;
-  margin-right: 18px;
+  margin-inline-end: 18px;
 `
 
 export default Categories

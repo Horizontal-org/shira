@@ -170,7 +170,7 @@ const Titles = styled.div`
   width: 100%;
   > h4 {
     width: 45%;
-    padding-left: 10px;
+    padding-inline-start: 10px;
   } 
 `
 
@@ -183,6 +183,6 @@ const ContentStyles = createGlobalStyle`
 
 const ContentTitle = styled.div`
   font-weight: 700;
-  padding-left: 8px;
+  padding-inline-start: 8px;
   margin: 10px 0;
 `

@@ -1,4 +1,5 @@
 import { type SetStateAction, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   DEFAULT_PAGE_LIMIT,
   DEFAULT_QUIZ_TEMPLATE_SORT,
@@ -18,6 +19,7 @@ import { usePaginationProps } from "../../../hooks/usePaginationProps";
 const SEARCH_DEBOUNCE_DELAY_MS = 300;
 
 export const useQuizTemplateList = () => {
+  const { i18n } = useTranslation();
   const [libraryQuizzes, setLibraryQuizzes] = useState<LibraryQuizDto[]>([]);
   const [totalAvailableQuizzes, setTotalAvailableQuizzes] = useState(0);
 
@@ -94,6 +96,11 @@ export const useQuizTemplateList = () => {
   }, [debouncedSearchValue, pageIndex, selectedCreator, selectedLanguages, selectedTags, sortOption]);
 
   useEffect(() => {
+    setLanguageOptions([]);
+    setTagOptions([]);
+  }, [i18n.language]);
+
+  useEffect(() => {
     if (!areFiltersOpen || (languageOptions.length > 0 && tagOptions.length > 0 && creatorOptions.length > 0)) {
       return;
     }
@@ -118,7 +125,7 @@ export const useQuizTemplateList = () => {
     };
 
     loadFilterOptions();
-  }, [areFiltersOpen, creatorOptions.length, languageOptions.length, tagOptions.length]);
+  }, [areFiltersOpen, creatorOptions.length, i18n.language, languageOptions.length, tagOptions.length]);
 
   const total = totalAvailableQuizzes;
   const visibleLibraryQuizzes = libraryQuizzes;

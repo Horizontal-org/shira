@@ -39,10 +39,10 @@ const Wrapper = styled.div<{
       content: ' ';
       height: 22px;
       width: 1.4px;
-      margin-left: -1px;
+      margin-inline-start: -1px;
       background: #0F6CBD;
       border-radius: 4px;
-      margin-left: -10px;
+      margin-inline-start: -10px;
     }
   `}
 `

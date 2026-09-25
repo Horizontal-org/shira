@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react'
-import useParseHTML from '../../../../utils/parseHtml';
-import { DatingApp, FBMessenger, SMS, WhatsApp } from '@horizontal-org/shira-ui';
+import parseHtml from '../../../../utils/parseHtml';
+import { DatingApp, FBMessenger, SMS, WhatsApp, Telegram } from '@horizontal-org/shira-ui';
 import type { UIExplanation } from '../../types';
 
 interface Props {
@@ -9,15 +9,14 @@ interface Props {
   explanations?: UIExplanation[];
   explanationNumber: number;
   showExplanations: boolean
+  images?: Array<{ imageId: number; url: string }>
 }
 
-export const MessagingApps: FunctionComponent<Props> = ({ content, name, explanations, explanationNumber, showExplanations }) => {
+export const MessagingApps: FunctionComponent<Props> = ({ content, name, explanations, explanationNumber, showExplanations, images }) => {
 
-  const html = new DOMParser().parseFromString(content, 'text/html')
+  const { parseCustomElement, getDocument } = parseHtml(content, images)
 
-  const { parseCustomElement } = useParseHTML(content)
-
-  const contentRoot = getMessagingContentRoot(html)
+  const contentRoot = getMessagingContentRoot(getDocument())
   const phone = parseCustomElement('component-required-phone')
   const senderName = getSenderName(parseCustomElement)
 
@@ -45,6 +44,16 @@ export const MessagingApps: FunctionComponent<Props> = ({ content, name, explana
 
       {name === 'WhatsApp' && (
         <WhatsApp
+          phone={phone}
+          content={contentRoot}
+          explanations={explanations}
+          explanationNumber={explanationNumber}
+          showExplanations={showExplanations}
+        />
+      )}
+
+      {name === 'Telegram' && (
+        <Telegram
           phone={phone}
           content={contentRoot}
           explanations={explanations}

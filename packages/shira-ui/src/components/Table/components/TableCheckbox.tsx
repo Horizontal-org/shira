@@ -67,7 +67,7 @@ const Checkmark = styled.span<{
   position: absolute;
   cursor: pointer;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
   height: 18px;
   width: 18px;
   border: 2px solid ${({ theme }) => theme.colors.dark.mediumGrey};
@@ -78,7 +78,7 @@ const Checkmark = styled.span<{
     content: "";
     position: absolute;
     display: none;
-    left: 4px;
+    inset-inline-start: 4px;
     top: 0;
     width: 5px;
     height: 9px;
@@ -108,7 +108,7 @@ const Checkmark = styled.span<{
         display: block;
         transform: none;
         top: auto;
-        left: 1px;
+        inset-inline-start: 1px;
         width: 12px;
         height: 6px;
         border-width: 0 0 3px 0;

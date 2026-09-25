@@ -7,7 +7,7 @@
         "password_placeholder": "‮كلمة السر",
         "subtitle": "تسجيل الدخول للوصول إلى مساحة Shira الخاصة بكم.",
         "reset_password": "هل نسيتم كلمة السر؟",
-        "loading_button": "Logging in...",
+        "loading_button": "يجري تسجيل الدخول...",
         "error_message": "Error: Your email address or password is incorrect."
     },
     "reset_password": {
@@ -308,21 +308,21 @@
         "subtitle": "اختيار سؤال من القائمة أدناه لإضافته إلى اختباركم. بمجرد إضافته، يمكنكم تعديل السؤال لتخصيصه بالكامل، بما في ذلك تغيير النص والتفسيرات.",
         "filters_panel": {
             "selected_count": "{{count}} selected",
-            "tag": "Tag",
-            "apps": "Apps",
-            "type": "Type",
+            "tag": "الوسوم",
+            "apps": "تطبيقات",
+            "type": "النوع",
             "creator": "Creator",
-            "language": "Language",
-            "clear_all": "Clear all"
+            "language": "اللغة",
+            "clear_all": "امسح الكل"
         },
         "sort_options": {
             "question_name_desc": "Question name (Z-A)",
             "question_name_asc": "Question name (A-Z)",
-            "newest_to_oldest": "Newest to oldest",
-            "oldest_to_newest": "Oldest to newest"
+            "newest_to_oldest": "من الأحدث إلى الأقدم",
+            "oldest_to_newest": "من الأقدم إلى الأحدث"
         },
         "search_results_plural": "{{count}} results for \"{{searchTerm}}\"",
-        "sort_by": "Sort by",
+        "sort_by": "الفرز باستخدام",
         "search_placeholder": "Search question names",
         "search_results": "{{count}} result for \"{{searchTerm}}\"",
         "filters": "Filters"
@@ -771,7 +771,7 @@
             "message_2": "جربوا مجانا لمدة 14 يوما باقة Shira الاحترافية اليوم لإنشاء المزيد من الاختبارات المخصصة."
         },
         "add_quiz_from_template": {
-            "input_label": "Quiz name",
+            "input_label": "اسم الاختبار",
             "title": "Give your new quiz a name",
             "subtitle": "The quiz name will be visible in your Space and to learners when they take it."
         }
@@ -793,7 +793,7 @@
         "learner_save_failed": "فشل حفظ المتعلم.",
         "learner_email_send_failed": "فشل إرسال دعوة عبر البريد الإلكتروني إلى المتعلم.",
         "learner_token_conflict": "الرمز الخاص بالمتعلم غير صالح أو استُخدم آنفا.",
-        "invalid_email": "أدخلوا عنوان بريد إلكتروني صالحاً.",
+        "invalid_email": "أدخلوا عنوان بريد إلكتروني صالح",
         "invite_learner_failed": "حدثت مشكلة أثناء دعوة المتعلم. إذا استمرت هذه المشكلة، <1>اتصلوا بنا</1>.",
         "delete_learner_failed": "حدثت مشكلة أثناء حذف المتعلم. إذا استمرت هذه المشكلة، <1>اتصلوا بنا</1>.",
         "delete_learners_failed": "حدثت مشكلة أثناء حذف المتعلمين. إذا استمرت هذه المشكلة، <1>اتصلوا بنا</1>.",
@@ -866,7 +866,7 @@
         "learners_unassigned_plural": "أُلغي تعيين هذا الاختبار لـ {{count}} متعلّمين.",
         "password_updated": "تم تحديث كلمة السر بنجاح.",
         "email_updated": "تم تحديث عنوان البريد الإلكتروني بنجاح.",
-        "quiz_assessment_mode_updated": "The quiz has been updated"
+        "quiz_assessment_mode_updated": "حُدِّث الاختبار"
     },
     "loading_messages": {
         "message": "",
@@ -946,11 +946,11 @@
             "password_required": "كلمة السر مطلوبة.",
             "password_min_length": "يجب أن لا تقل كلمة السر عن 8 أحرف.",
             "passwords_mismatch": "كلمتا السر غير متطابقتين.",
-            "confirm_password_required": "Please confirm your password.",
+            "confirm_password_required": "يرجى تأكيد كلمة السر الخاصة بكم",
             "privacy_policy_required": "Please accept the privacy policy."
         },
         "success": {
-            "title": "All done!",
+            "title": "تم كل شيء!",
             "description": "Your space was successfully created. Log in to start creating quizzes.",
             "button": "Go to space"
         },
@@ -965,22 +965,22 @@
         "filters_panel": {
             "creator": "Creator",
             "all_creators": "All creators",
-            "tag": "Tag",
+            "tag": "الوسوم",
             "selected_count": "{{count}} selected",
-            "clear_all": "Clear all",
+            "clear_all": "امسح الكل",
             "all_tags": "All tags",
             "all_languages": "All languages",
-            "language": "Language"
+            "language": "اللغة"
         },
         "preview": {
             "created_on": "Created on",
             "columns": {
-                "app": "App",
-                "actions": "Actions",
-                "preview": "Preview",
-                "type": "Type",
-                "language": "Language",
-                "question_name": "Question name"
+                "app": "التطبيق",
+                "actions": "الإجراءات",
+                "preview": "المعاينة",
+                "type": "النوع",
+                "language": "اللغة",
+                "question_name": "اسم السؤال"
             },
             "preview_full_quiz": "Preview full quiz",
             "no_questions": "No questions found for this quiz template.",
@@ -1004,13 +1004,13 @@
         "subtitle": "Select a quiz from the list below to use it as a template for your new quiz.",
         "sort_options": {
             "quiz_name_asc": "Quiz name (A-Z)",
-            "oldest_to_newest": "Oldest to newest",
+            "oldest_to_newest": "من الأقدم إلى الأحدث",
             "quiz_name_desc": "Quiz name (Z-A)",
-            "newest_to_oldest": "Newest to oldest"
+            "newest_to_oldest": "من الأحدث إلى الأقدم"
         },
         "search_placeholder": "Search quiz names",
         "title": "Quiz library",
-        "sort_by": "Sort by",
+        "sort_by": "الفرز باستخدام",
         "view_template": "View template"
     },
     "library": {
@@ -1033,9 +1033,9 @@
         "quizzes": "الاختبارات",
         "settings": "Settings",
         "learners": "المتعلمون",
-        "support": "Support",
-        "logout": "Log out",
-        "templates": "Templates"
+        "support": "دعم أولوي",
+        "logout": "تسجيل الخروج",
+        "templates": "القوالب"
     },
     "templates": {
         "submissions_tabs": {
@@ -1044,7 +1044,7 @@
         },
         "submit_quiz": {
             "tags": "الوسوم",
-            "tags_placeholder": "Tag",
+            "tags_placeholder": "الوسوم",
             "name_hint": "Use a descriptive name to help other users find what they're looking for.",
             "success": "The quiz template has been submitted.",
             "name": "Quiz template name",
@@ -1052,47 +1052,47 @@
             "submit": "Submit",
             "name_placeholder": "Quiz template name",
             "header_title": "Submit quiz template",
-            "language": "Language",
+            "language": "اللغة",
             "title": "Submit your quiz as a template",
-            "description": "Description",
+            "description": "وصف",
             "language_hint": "You may select more than 1 language. (Can't find the language you want? <support>Request a missing language.</support>)",
             "description_hint": "Write 1-2 lines to explain what this quiz contains.",
             "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>.",
             "review_notice": "The Shira team carefully reviews every submission. If your template is accepted, it will appear in the template library. <learnMore>Learn More</learnMore>.",
-            "language_placeholder": "Language",
+            "language_placeholder": "اللغة",
             "tags_hint": "Select the tags that best describe the content of this template.",
-            "description_placeholder": "Description"
+            "description_placeholder": "وصف"
         },
         "submit_question": {
             "tags": "الوسوم",
             "title": "Submit your question as a template",
             "success": "The question template has been submitted.",
-            "description_placeholder": "Description",
+            "description_placeholder": "وصف",
             "error": "We couldn't submit the question template. Please try again.",
             "review_notice": "The Shira team carefully reviews every submission. If your template is accepted, it will appear in the template library. <learnMore>Learn More</learnMore>.",
             "header_title": "Submit question template",
             "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>.",
-            "language_placeholder": "Language",
+            "language_placeholder": "اللغة",
             "name": "Question template name",
-            "tags_placeholder": "Tag",
+            "tags_placeholder": "الوسوم",
             "submit": "Submit",
             "tags_hint": "Select the tags that best describe the content of this template.",
             "language_hint": "You may select more than 1 language. (Can't find the language you want? <support>Request a missing language.</support>)",
             "name_hint": "Use a descriptive name to help other users find what they're looking for.",
             "name_placeholder": "Question template name",
-            "description": "Description",
-            "language": "Language",
+            "description": "وصف",
+            "language": "اللغة",
             "description_hint": "Write 1-2 lines to explain what this question contains."
         },
         "submissions_table": {
-            "actions": "Actions",
-            "type": "Type",
-            "status": "Status",
-            "app": "App",
+            "actions": "الإجراءات",
+            "type": "النوع",
+            "status": "الحالة",
+            "app": "التطبيق",
             "preview": "Preview submission",
-            "date_submitted": "Date submitted",
-            "quiz_name": "Quiz name",
-            "question_name": "Question name"
+            "date_submitted": "تاريخ الإرسال",
+            "quiz_name": "اسم الاختبار",
+            "question_name": "اسم السؤال"
         },
         "submission_status": {
             "title": "Submission status",
@@ -1113,19 +1113,37 @@
         "back_to_templates": "Back to Templates",
         "my_submissions_description": "These are the templates you have submitted. The Shira team carefully reviews every submission. If your template is accepted, it will appear in the Shira template library. <learnMore>Learn More</learnMore>",
         "question_templates": {
-            "title": "Question templates",
+            "title": "نماذج السؤال",
             "description": "Explore pre-made questions, with message content, sender info and explanations already built in."
         },
         "submission_rejection": {
             "open": "View submission feedback",
             "title": "Submission feedback"
         },
-        "title": "Templates",
+        "title": "القوالب",
         "subtitle": "Get started right away with ready-made templates.",
         "submissions_empty_state": {
             "subtitle": "You don't have any submissions yet. To submit a resource that you have created, go to that specific resource and select \"submit as template.\"",
             "learn_more": "Learn more about templates"
         },
         "my_submissions": "My submissions"
+    },
+    "languages": {
+        "ar": "عربي",
+        "es": "Spanish",
+        "cn": "Chinese (Simplified)",
+        "ru": "Russian",
+        "fr": "الفرنسية",
+        "en": "إنجليزي"
+    },
+    "library_metadata": {
+        "tags_slugs": {
+            "human-rights": "theme: human rights",
+            "journalism": "theme: journalism",
+            "intermediate": "level: intermediate",
+            "easy": "level: easy",
+            "for-everyone": "for everyone",
+            "mobile": "الهاتف النقّال"
+        }
     }
 }

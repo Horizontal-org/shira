@@ -154,10 +154,10 @@ const StyledToastBar = styled.div`
   padding: 16px;
   align-items: center;
 
-  box-shadow: -1px 4px 4px -1px #00000040;
+  box-shadow: calc(var(--dir-multiplier) * -1px) 4px 4px -1px #00000040;
   
   > p {
-    padding-left: 16px;
+    padding-inline-start: 16px;
   }
 `
 

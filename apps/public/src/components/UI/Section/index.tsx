@@ -54,7 +54,7 @@ const StyledWrapper = styled(Wrapper)`
 const SetupHook = styled.div`
   position:fixed;
   top: 10px;
-  left: 10px;
+  inset-inline-start: 10px;
 
   @media(max-width: ${props => props.theme.breakpoints.md}) {
     > svg {
@@ -71,7 +71,7 @@ const SetupHook = styled.div`
 const SetupFish = styled.div`
   position:fixed;
   bottom: 10px;
-  right: 0px;
+  inset-inline-end: 0px;
   overflow: hidden;
 
 

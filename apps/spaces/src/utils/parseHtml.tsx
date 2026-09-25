@@ -1,7 +1,34 @@
 type ImageEntry = { imageId: number; url: string };
 
+export function toImageEntries(
+  images?: { id: number; url: string }[],
+): ImageEntry[] {
+  return (images ?? []).map((image) => ({ imageId: image.id, url: image.url }));
+}
+
 export default function parseHtml(content: string, images: ImageEntry[] = []) {
   const doc = new DOMParser().parseFromString(content ?? "", "text/html");
+  let imagesRewritten = false;
+
+  const rewriteImages = () => {
+    if (imagesRewritten || images.length === 0) {
+      return;
+    }
+    imagesRewritten = true;
+
+    doc.querySelectorAll('img[data-image-id]')
+      .forEach((img) => {
+        const imgElement = images.find(i => i.imageId === parseInt(img.getAttribute('data-image-id')))
+        if (imgElement) {
+          img.setAttribute("src", imgElement.url)
+        }
+      })
+  }
+
+  const getDocument = () => {
+    rewriteImages();
+    return doc;
+  }
 
   const parseAttachments = () => {
     const htmlAttachments = doc.querySelectorAll('[id*="component-attachment"]')
@@ -18,15 +45,7 @@ export default function parseHtml(content: string, images: ImageEntry[] = []) {
   };
 
   const parseContent = (): HTMLElement => {
-    if (images.length > 0) {
-      doc.querySelectorAll('img[data-image-id]')
-        .forEach((img) => {
-          const imgElement = images.find(i => i.imageId === parseInt(img.getAttribute('data-image-id')))
-          if (imgElement) {
-            img.setAttribute("src", imgElement.url)
-          }
-        })
-    }
+    rewriteImages();
 
     return doc.querySelector('[id*="component-text"]')
   }
@@ -80,6 +99,7 @@ export default function parseHtml(content: string, images: ImageEntry[] = []) {
     parseContent,
     parseCustomElement,
     parseExplanations,
-    parseDynamicContent
+    parseDynamicContent,
+    getDocument
   };
 }

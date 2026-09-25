@@ -64,7 +64,7 @@ const Wrapper = styled.div<StyledWrapper>`
   }
 `
 const Icon = styled.span`
-  padding-right: 16px;
+  padding-inline-end: 16px;
   font-size: 16px;
 `
 const Content = styled.div`
@@ -75,7 +75,7 @@ const Content = styled.div`
   > svg {
     height: 18px;
     width: 18px;
-    margin-right: 8px;
+    margin-inline-end: 8px;
   }
 
 `

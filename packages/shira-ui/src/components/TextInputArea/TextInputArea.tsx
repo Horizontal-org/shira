@@ -87,7 +87,7 @@ const FooterRow = styled.div`
 
 const SupportingText = styled(Body4) <{ $disabled?: boolean; $isError?: boolean }>`
   flex: 1;
-  padding-left: 10px;
+  padding-inline-start: 10px;
   color: ${({ theme, $disabled, $isError }) => {
     if ($disabled) return theme.colors.dark.mediumGrey;
     if ($isError) return theme.colors.error7;

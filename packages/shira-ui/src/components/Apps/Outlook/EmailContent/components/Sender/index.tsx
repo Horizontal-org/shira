@@ -46,7 +46,7 @@ export const Sender:FunctionComponent<Props> = ({
 }
 
 const Wrapper = styled.div`
-  padding-left: 4px;
+  padding-inline-start: 4px;
   padding-top: 4px;
   display: flex;
   align-items: center;
@@ -65,7 +65,7 @@ const ReceiverInfo = styled.div`
   font-size: 12px;
 
   > span {
-    padding-right: 4px; 
+    padding-inline-end: 4px; 
     color: #424242;
   }
 `

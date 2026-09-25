@@ -99,11 +99,11 @@ export const useTable = (editor: any) => {
     
     if (selection instanceof NodeSelection) {
       const nodeType = selection.node.type.name === 'tableHeader' ? 'tableHeader' : 'tableCell'
-      
-      editor.chain().focus().updateAttributes(nodeType, {
+
+      editor.chain().updateAttributes(nodeType, {
         'data-explanation': newIndex
       }).run()
-      
+
       addExplanation(newIndex, 'Table Cell')
       return true
     }
@@ -120,11 +120,11 @@ export const useTable = (editor: any) => {
       
       const explanationIndex = selection.node.attrs['data-explanation']
       const nodeType = selection.node.type.name === 'tableHeader' ? 'tableHeader' : 'tableCell'
-      
-      editor.chain().focus().updateAttributes(nodeType, {
+
+      editor.chain().updateAttributes(nodeType, {
         'data-explanation': null
       }).run()
-      
+
       deleteExplanation(explanationIndex)
       return true
     }

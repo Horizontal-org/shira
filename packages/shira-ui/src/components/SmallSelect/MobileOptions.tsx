@@ -70,7 +70,7 @@ const Wrapper = styled.div`
     position: fixed;
     z-index: 10;
     top: 0;
-    left: 0;
+    inset-inline-start: 0;
 
     background: #fff;
     display: flex;
@@ -83,7 +83,7 @@ const Wrapper = styled.div`
 `
 
 const OptionsWrapper = styled.div`
-  text-align: left;
+  text-align: start;
 `
 
 

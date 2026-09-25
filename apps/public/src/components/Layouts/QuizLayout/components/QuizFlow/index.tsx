@@ -89,7 +89,7 @@ export const QuizFlow: FunctionComponent<Props> = ({
                 />
                 <Button
                   text={t('welcome.start')}
-                  rightIcon={<FiChevronRight size={18} />}
+                  rightIcon={<FiChevronRight size={18} data-mirror-rtl />}
                   onClick={validateQuizStart}
                 />
               </Buttons>
@@ -135,7 +135,7 @@ export const QuizFlow: FunctionComponent<Props> = ({
 
 const GreenFishWrapper = styled.div`
   display: flex;
-  padding-right: 40px;
+  padding-inline-end: 40px;
   
   > svg {
     width: 410px;
@@ -210,8 +210,8 @@ const LinkWrapper = styled.div`
     width: 100%;
     position: absolute;
     bottom: 20px;
-    left: 0;
-    right: 0;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
     margin: 0 auto;
     padding: 0 16px;
     box-sizing: border-box;

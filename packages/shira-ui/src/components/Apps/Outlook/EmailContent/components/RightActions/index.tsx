@@ -53,7 +53,7 @@ const ButtonsWrapper = styled.div`
 `
 
 const DateLabel = styled.p`
-  text-align: right;
+  text-align: end;
   margin: 4px 0 0 0;
   font-size: 11px;
   font-weight: 400;

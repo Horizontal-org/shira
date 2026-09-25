@@ -79,8 +79,8 @@ const ContentWrapper = styled.div`
         content: '';
         position: fixed;
         bottom: 0;
-        left: 0;
-        right: 0;
+        inset-inline-start: 0;
+        inset-inline-end: 0;
         height: 50vh;
         background: linear-gradient(to bottom, #D4F2FF 0%, #69C2E8 100%);
         z-index: 0;
@@ -123,7 +123,7 @@ const LeftSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 32px;
-  text-align: left;
+  text-align: start;
 
   @media (max-width: ${(props) => props.theme.breakpoints.sm}) {
     text-align: center;

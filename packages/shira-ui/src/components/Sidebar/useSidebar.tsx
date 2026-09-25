@@ -12,6 +12,7 @@ export interface MenuItem {
   icon: React.ReactNode;
   label: string;
   path: string;
+  position?: 'bottom';
 }
 
 const defaultAdminPaths = {
@@ -24,7 +25,7 @@ const defaultAdminPaths = {
 
 const createDefaultMenuItems = (): MenuItem[] => [
   {
-    icon: <LuNotepadText id="dashboard-icon" size={24} color="currentColor" />,
+    icon: <LuNotepadText id="dashboard-icon" size={24} color="currentColor" data-mirror-rtl />,
     label: 'Quizzes',
     path: defaultAdminPaths.quizzes
   },
@@ -34,7 +35,7 @@ const createDefaultMenuItems = (): MenuItem[] => [
     path: defaultAdminPaths.learners
   },
   {
-    icon: <IoMdHelpCircle id="support-icon" size={24} color="currentColor" />,
+    icon: <IoMdHelpCircle id="support-icon" size={24} color="currentColor" data-mirror-rtl />,
     label: 'Support',
     path: defaultAdminPaths.support
   },
@@ -44,7 +45,7 @@ const createDefaultMenuItems = (): MenuItem[] => [
     path: defaultAdminPaths.settings
   },
   {
-    icon: <FiLogOut id="logout-icon" size={24} color="currentColor" />,
+    icon: <FiLogOut id="logout-icon" size={24} color="currentColor" data-mirror-rtl />,
     label: 'Log out',
     path: defaultAdminPaths.logout
   }
