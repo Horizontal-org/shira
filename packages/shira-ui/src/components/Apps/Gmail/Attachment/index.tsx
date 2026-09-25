@@ -15,6 +15,8 @@ import AudioIcon from "./assets/audio_x16.png"
 import OtherIcon from "./assets/misc-video_x16.png"
 import ThumbnailSheet from "./assets/gg-assets-sheet.png"
 
+import { apparentlyRandomFilesize, normalizeFilename } from "../../../../utils/attachmentUtils.ts"
+
 interface Props {
   position: string;
   name: string;
@@ -41,12 +43,6 @@ const sheetsGreen = "#00A953"
 // zip etc
 const archiveWhite = "#FFFFFF"
 
-// TODO (2026-09-11): adapt sizes and units based on incoming file extension
-const randomizeFileSize = () => {
-  const size = 100 + Math.floor(Math.random() * 500)
-  return `${size} KB`
-}
-
 export const Attachment: FunctionComponent<Props> = ({
   name,
   explanationPosition,
@@ -54,21 +50,22 @@ export const Attachment: FunctionComponent<Props> = ({
 }) => {
 
   const pickRibbonColor = (type: string, name: string) => {
+    const lower = normalizeFilename(name)
     switch (type) {
       case AttachmentType.audio:
         return audioRed
       case AttachmentType.document:
-        if (name.endsWith(".docx")) { return docxBlue }
-        if (name.endsWith(".pdf")) { return pdfRed }
-        if (name.endsWith(".xlsx")) { return sheetsGreen }
+        if (lower.endsWith(".docx")) { return docxBlue }
+        if (lower.endsWith(".pdf")) { return pdfRed }
+        if (lower.endsWith(".xlsx")) { return sheetsGreen }
         return documentBlue
       case AttachmentType.image:
         return veryLightGrey
       case AttachmentType.video:
-        if (name.endsWith(".avi")) { return darkGrey }
+        if (lower.endsWith(".avi")) { return darkGrey }
         return veryLightGrey
       case AttachmentType.other:
-        if (name.endsWith(".zip") || name.endsWith(".rar")) {
+        if (lower.endsWith(".zip") || lower.endsWith(".rar")) {
           return archiveWhite
         }
         return veryLightGrey
@@ -78,13 +75,14 @@ export const Attachment: FunctionComponent<Props> = ({
   }
 
   const renderIcon = (type: string, name: string) => {
+    const lower = normalizeFilename(name)
     switch (type) {
       case AttachmentType.audio:
         return <Icon icon={AudioIcon}/>
       case AttachmentType.document:
-        if (name.endsWith(".docx")) { return <Icon icon={WordIcon}/> }
-        if (name.endsWith(".pdf")) { return <Icon icon={PDFIcon}/> }
-        if (name.endsWith(".xlsx")) { return <Icon icon={ExcelIcon}/> }
+        if (lower.endsWith(".docx")) { return <Icon icon={WordIcon}/> }
+        if (lower.endsWith(".pdf")) { return <Icon icon={PDFIcon}/> }
+        if (lower.endsWith(".xlsx")) { return <Icon icon={ExcelIcon}/> }
         return <Icon icon={DocsIcon}/>
       case AttachmentType.image:
         return <Icon icon={ImageIcon}/>
@@ -100,6 +98,7 @@ export const Attachment: FunctionComponent<Props> = ({
   }
 
   const renderThumbnail = (type: string, name: string) => {
+    const lower = normalizeFilename(name)
     switch (type) {
       case AttachmentType.audio:
           return <Thumbnail sheet={ThumbnailSheet} x={-63} y={-47}/>
@@ -110,9 +109,9 @@ export const Attachment: FunctionComponent<Props> = ({
       case AttachmentType.archive:
           return <Thumbnail sheet={ThumbnailSheet} x={-88} y={-88}/>
       case AttachmentType.document:
-        if (name.endsWith(".docx")) { return <Thumbnail sheet={ThumbnailSheet} x={0} y={-88}/> }
-        if (name.endsWith(".pdf")) { return <Thumbnail sheet={ThumbnailSheet} x={-164} y={-47}/> }
-        if (name.endsWith(".xlsx")) {  return <Thumbnail sheet={ThumbnailSheet} x={0} y={0}/> }
+        if (lower.endsWith(".docx")) { return <Thumbnail sheet={ThumbnailSheet} x={0} y={-88}/> }
+        if (lower.endsWith(".pdf")) { return <Thumbnail sheet={ThumbnailSheet} x={-164} y={-47}/> }
+        if (lower.endsWith(".xlsx")) {  return <Thumbnail sheet={ThumbnailSheet} x={0} y={0}/> }
         return <Thumbnail sheet={ThumbnailSheet} x={-121} y={-47}/>
       case AttachmentType.other:
           return <Thumbnail sheet={ThumbnailSheet} x={-219} y={-88}/>
@@ -132,7 +131,7 @@ export const Attachment: FunctionComponent<Props> = ({
               </HoveredName>
             </HoveredIconNameWrapper>
             <div>
-              {randomizeFileSize()}
+              {apparentlyRandomFilesize(name)} kB
             </div>
           </HoveredMetadata>
           <HoveredButtonsContainer>
@@ -182,7 +181,7 @@ const UnhoveredWrapper = styled.div`
 
 const RibbonContainer = styled.div`
   margin-left: auto;
-  margin-bottom: -5px;
+  margin-bottom: -4px;
   margin-right: -2px;
 `
 

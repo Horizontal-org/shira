@@ -9,7 +9,6 @@ interface Props {
   content: Element[]
 }
 
-
 const isAudioType = (filename: string) => {
     return filename.endsWith("mp3") || filename.endsWith("ogg")
 }

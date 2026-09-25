@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
 import styled from "styled-components";
+import { apparentlyRandomFilesize, normalizeFilename } from "../../../../../../utils/attachmentUtils.ts"
 
 import { BlurredPDF } from "../BlurredPDF"
 
@@ -9,24 +10,27 @@ interface Props {
 }
 
 // used to set colour of attachment folder icon
-const getColor = (filename: string) => {
-    if (filename.endsWith(".docx")) { return { main: "#2E6AC5", highlight: "#84A7DC" }}
-    if (filename.endsWith(".odt")) { return { main: "#027EB5", highlight: "#66B1D3"}}
-    if (filename.endsWith(".xlsx")) { return { main: "#228D51", highlight: "#7ABB97"}}
+const getColor = (name: string) => {
+    const lower = normalizeFilename(name)
+    if (lower.endsWith(".docx")) { return { main: "#2E6AC5", highlight: "#84A7DC" }}
+    if (lower.endsWith(".odt")) { return { main: "#027EB5", highlight: "#66B1D3"}}
+    if (lower.endsWith(".xlsx")) { return { main: "#228D51", highlight: "#7ABB97"}}
     return { main: "#6C757A", highlight: "#ACB1B3" }
 }
 
-const getExtension = (filename: string) => {
-    const i = filename.lastIndexOf(".")
+const getExtension = (name: string) => {
+    const lower = normalizeFilename(name)
+    const i = lower.lastIndexOf(".")
     if (i <= 0) {
         return ""
     }
-    const ext = filename.slice(i+1).toLowerCase()
+    const ext = lower.slice(i+1).toLowerCase()
     return ext.toUpperCase()
 }
 
-const getIcon = (filename: string) => {
-    const ext = getExtension(filename).toLowerCase()
+const getIcon = (name: string) => {
+    const lower = normalizeFilename(name)
+    const ext = getExtension(lower).toLowerCase()
     if (ext == "docx") { return "W" }
     if (ext == "xlsx") { return "X" }
     if (ext == "html") { return "HTM" }
@@ -60,7 +64,7 @@ export const Attachment: FunctionComponent<Props> = ({ name, explanationPosition
               {name}
             </Filename>
             <MetadataContainer>
-                <span>2.5 MB</span>
+                <span>{apparentlyRandomFilesize(name)} kB</span>
                 <CenterDot>·</CenterDot>
                 <span>{getExtension(name)}</span>
             </MetadataContainer>
