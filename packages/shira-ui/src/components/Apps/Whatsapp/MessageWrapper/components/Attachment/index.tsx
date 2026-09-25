@@ -134,7 +134,7 @@ const Wrapper = styled.div`
 
 const Card = styled.div`
   float: left;
-  background: #fff;
+  background: #fff !important;
   border-radius: 7.5px;
   padding: 6px 7px 8px 9px;
   box-shadow: 0 1px 0.5px rgba(11,20,26, .13);
