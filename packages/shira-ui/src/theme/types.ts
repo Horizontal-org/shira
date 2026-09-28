@@ -89,6 +89,6 @@ export interface Theme {
       sms: string;
       datingapp: string;
       instagram: string;
+      telegram: string;
     };
 }
-  

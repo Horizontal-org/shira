@@ -9,15 +9,16 @@ import { RightActions } from "./components/RightActions";
 import { OutlookAttachmentElement, OutlookCustomElements } from "..";
 import { Sender } from "./components/Sender";
 import { Attachment } from "../Attachment";
+import { sanitizeEmailHtml } from "../../components/sanitizeEmailHtml";
 
-interface Props { 
+interface Props {
   content: HTMLElement;
   senderName: OutlookCustomElements;
   senderEmail: OutlookCustomElements;
   attachments: OutlookAttachmentElement[],
 }
 
-export const EmailContent:FunctionComponent<Props> = ({
+export const EmailContent: FunctionComponent<Props> = ({
   content,
   senderName,
   senderEmail,
@@ -36,19 +37,28 @@ export const EmailContent:FunctionComponent<Props> = ({
         <RightActions />
       </TopBar>
       <Attachments>
-        { attachments && attachments.length > 0 && 
-            attachments
-              .sort((a, b) => parseInt(a.position) - parseInt(b.position))
-              .map((a, i) => (
-              <Attachment 
+        {attachments && attachments.length > 0 &&
+          attachments
+            .sort((a, b) => parseInt(a.position) - parseInt(b.position))
+            .map((a, i) => (
+              <Attachment
                 explanationPosition={a.explanationPosition}
                 type={a.fileType}
                 name={a.name}
                 key={i}
               />
-        )) }
+            ))}
       </Attachments>
-      <DynamicContent dangerouslySetInnerHTML={{__html: content ? content.outerHTML : null }}></DynamicContent>      
+      {/* Sanitization removes inline handlers; keep email links inert with React handlers. */}
+      <DynamicContent
+        onClick={(event) => {
+          if ((event.target as Element).closest('a')) event.preventDefault()
+        }}
+        onContextMenu={(event) => {
+          if ((event.target as Element).closest('a')) event.preventDefault()
+        }}
+        dangerouslySetInnerHTML={{ __html: sanitizeEmailHtml(content?.outerHTML ?? '') }}
+      />
       <BottomBar>
         <BottomButton>
           <Reply />

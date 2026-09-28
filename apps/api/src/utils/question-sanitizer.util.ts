@@ -1,16 +1,71 @@
 import * as sanitizeHtml from 'sanitize-html';
 import * as cheerio from 'cheerio';
+import { BadRequestException } from '@nestjs/common';
+import { htmlSyntaxIssues } from './advanced-html.util';
+
+const SAFE_COLOR = /^(transparent|#[0-9a-f]{3,8}|rgba?\([^)]+\)|[a-z]+)$/i;
+const SAFE_LENGTH = /^(0|auto|inherit|\d+(\.\d+)?(px|em|rem|%))$/i;
+const SAFE_SPACING = /^(0|\d+(\.\d+)?(px|em|rem|%))(\s+(0|\d+(\.\d+)?(px|em|rem|%))){0,3}$/i;
+const SAFE_FONT_FAMILY = /^[\w\s"',.-]+$/i;
+const SAFE_FONT_WEIGHT = /^(normal|bold|[1-9]00)$/i;
+const SAFE_LINE_HEIGHT = /^(normal|\d+(\.\d+)?(%|px|em|rem)?)$/i;
+const SAFE_TEXT_ALIGN = /^(left|right|center|justify|-webkit-center)$/i;
+const SAFE_TEXT_DECORATION = /^(none|underline|line-through)$/i;
+const SAFE_BORDER = /^(0|none|\d+(\.\d+)?px\s+(solid|dashed|dotted)\s+.+)$/i;
+
+const EMAIL_ALLOWED_STYLES = {
+  '*': {
+    'background-color': [SAFE_COLOR],
+    border: [SAFE_BORDER],
+    'border-radius': [SAFE_LENGTH],
+    'border-spacing': [SAFE_LENGTH],
+    'border-style': [/^(none|solid|dashed|dotted)$/i],
+    color: [SAFE_COLOR],
+    display: [/^(none|block|inline|inline-block|table|table-row|table-cell)$/i],
+    'font-family': [SAFE_FONT_FAMILY],
+    'font-size': [SAFE_LENGTH],
+    'font-weight': [SAFE_FONT_WEIGHT],
+    height: [SAFE_LENGTH],
+    'line-height': [SAFE_LINE_HEIGHT],
+    margin: [SAFE_SPACING],
+    'max-height': [SAFE_LENGTH],
+    'max-width': [SAFE_LENGTH],
+    'min-height': [SAFE_LENGTH],
+    'min-width': [SAFE_LENGTH],
+    opacity: [/^(0(\.\d+)?|1(\.0+)?)$/],
+    overflow: [/^(visible|hidden|auto)$/i],
+    padding: [SAFE_SPACING],
+    'table-layout': [/^(auto|fixed)$/i],
+    'text-align': [SAFE_TEXT_ALIGN],
+    'text-decoration': [SAFE_TEXT_DECORATION],
+    width: [SAFE_LENGTH],
+    'word-break': [/^(normal|break-all|break-word)$/i],
+    'word-wrap': [/^(normal|break-word)$/i],
+  },
+};
 
 export class QuestionSanitizer {
-  
+  static validateAdvancedQuestion(html: string, explanations: Array<{ index: string | number }>, appType: string): void {
+    const $ = cheerio.load(html || '', null, false);
+    const body = $('#component-text-1.advanced-html-editor');
+
+    if (!body.length) return;
+
+    if (appType !== 'email' || body.length !== 1) {
+      throw new BadRequestException('HTML editing is supported only for email questions.');
+    }
+
+    const issues = htmlSyntaxIssues(html);
+    if (issues.length) throw new BadRequestException({ message: 'Invalid HTML.', issues });
+  }
+
   static sanitizeQuestionContent(html: string): string {
     if (!html) return '';
-    
     return sanitizeHtml(html, {
       // TipTap-compatible tags
       allowedTags: [
         // Basic formatting
-        'p', 'br', 'strong', 'em', 'u', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+        'p', 'br', 'strong', 'b', 'em', 'i', 'u', 's', 'sub', 'sup', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
         
         // Lists
         'ul', 'ol', 'li',
@@ -44,25 +99,10 @@ export class QuestionSanitizer {
         'col': ['style', 'class'],
         
         // Allow class and id on all elements
-        '*': ['class', 'id']
+        '*': ['class', 'id', 'style', 'dir']
       },
       
-      allowedStyles: {
-        '*': {
-          'color': [/^#[0-9a-f]{3,6}$/i],
-          'text-align': [/^(left|right|center|justify)$/],
-          'background-color': [/^#[0-9a-f]{3,6}$/i],
-          'width': [/^\d+px$/, /^\d+%$/, /^auto$/],
-          'height': [/^\d+px$/, /^\d+%$/, /^auto$/],
-          'min-width': [/^\d+px$/],
-          'min-height': [/^\d+px$/],
-          'border': [/^[\d\w\s#(),-]+$/],
-          'border-collapse': [/^(collapse|separate)$/],
-          'padding': [/^\d+px$/],
-          'margin': [/^\d+px$/],
-          'vertical-align': [/^(top|middle|bottom|baseline)$/]
-        }
-      },
+      allowedStyles: EMAIL_ALLOWED_STYLES,
       
       allowedSchemes: ['http', 'https', 'mailto'],
       

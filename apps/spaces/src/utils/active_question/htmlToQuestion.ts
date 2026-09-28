@@ -5,7 +5,7 @@ import { truncateQuestionName } from "../questionName";
 
 const replaceImage = (question: QuestionPayload, htmlContent: Document) => {
   // images 
-    if (question.images.length > 0) {
+    if (question.images?.length > 0) {
       htmlContent.querySelectorAll('img[data-image-id]')
         .forEach((img) => {
           const imgElement = question.images.find(i => i.imageId === parseInt(img.getAttribute('data-image-id')))
@@ -111,6 +111,8 @@ export const htmlToActiveQuestion = (question: QuestionPayload, html: Document) 
   let activeQuestion: ActiveQuestion = {
     app: app,
     name: truncateQuestionName(question.name),
+    editorType: app.type === 'email' && html.querySelector('#component-text-1.advanced-html-editor') ? 'advanced' : 'simple',
+    htmlEditorImages: Object.fromEntries((question.images ?? []).map(image => [String(image.imageId), image.url])),
     isPhishing: !!(question.isPhising),
     content: {}
   }
@@ -135,4 +137,3 @@ export const htmlToActiveQuestion = (question: QuestionPayload, html: Document) 
 
   return activeQuestion
 }
-

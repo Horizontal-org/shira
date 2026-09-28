@@ -9,6 +9,7 @@ import {
   SENDER_PHONE_MAX_LENGTH
 } from "../inputLimits"
 import { hasRequiredValue } from "../validation"
+import { getEmailTextLength } from "../emailTextLength"
 
 type QuestionStepValidationReason = 'required' | 'characterLimit'
 
@@ -57,7 +58,7 @@ export const isQuestionContentStepValid = (question?: ActiveQuestion) => {
   }
 
   if (question.app.type === 'email') {
-    return getEmailContentValidation(question.content)
+    return getEmailContentValidation(question.content as EmailContent)
   }
 
   if (question.app.type === 'messaging') {
@@ -79,7 +80,7 @@ const getEmailContentValidation = (content: EmailContent) => {
   const isOverCharacterLimit = content.senderName?.value.length > SENDER_NAME_MAX_LENGTH
     || content.senderEmail?.value.length > SENDER_EMAIL_MAX_LENGTH
     || (content.subject?.value.length ?? 0) > EMAIL_SUBJECT_MAX_LENGTH
-    || getEditorTextLength(content.body?.value) > EMAIL_CONTENT_MAX_LENGTH
+    || getEmailTextLength(content.body?.value) > EMAIL_CONTENT_MAX_LENGTH
 
   if (isOverCharacterLimit) {
     return {
@@ -96,7 +97,7 @@ const getMessagingContentValidation = (content: MessagingContent, appName: strin
     .filter(item => item.contentType === 'editor')
     .every(item => getEditorTextLength(item.value) <= MESSAGE_CONTENT_MAX_LENGTH)
 
-  if (['SMS', 'WhatsApp'].includes(appName)) {
+  if (['SMS', 'WhatsApp', 'Telegram'].includes(appName)) {
     if (!hasRequiredValue(content.senderPhone?.value ?? '')) {
       return {
         isValid: false,

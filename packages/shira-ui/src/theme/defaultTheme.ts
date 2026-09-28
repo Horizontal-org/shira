@@ -89,6 +89,7 @@ export const defaultTheme: Theme = {
       messenger: '#335A9F',
       sms: '#C1D24B',
       datingapp: '#FD6D7E',
-      instagram: '#C13584'
+      instagram: '#C13584',
+      telegram: '#039BE5'
     }
 };
