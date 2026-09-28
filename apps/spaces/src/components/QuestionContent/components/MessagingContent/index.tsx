@@ -18,7 +18,8 @@ const MessagingAppsNames = {
   WHATSAPP: 'WhatsApp',
   SMS: 'SMS',
   MESSENGER: 'Messenger',
-  DATING_APP: 'Dating App'
+  DATING_APP: 'Dating App',
+  INSTAGRAM: 'Instagram'
 }
 
 export const MessagingContent: FunctionComponent<Props> = ({
