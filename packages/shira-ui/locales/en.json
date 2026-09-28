@@ -215,6 +215,15 @@
       "no_voice": "No shared voice messages"
     }
   },
+  "instagram": {
+    "account_name": "You",
+    "search": "Search",
+    "messages": "Messages",
+    "requests": "Requests",
+    "your_note": "Your note",
+    "new_message": "New message",
+    "verified": "Verified"
+  },
   "pagination": {
     "summary": "{{start}}-{{end}} of {{total}}",
     "page": "<current>{{current}}</current> of {{total}}",

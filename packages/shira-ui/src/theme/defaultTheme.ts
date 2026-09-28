@@ -79,7 +79,8 @@ export const defaultTheme: Theme = {
         whatsapp: '#25D366',
         telegram: '#039BE5',
         facebook: '#335A9F',
-        dating: '#FD6D7E'
+        dating: '#FD6D7E',
+        instagram: '#C13584'
       }
     },
     apps: {
@@ -88,6 +89,7 @@ export const defaultTheme: Theme = {
       messenger: '#335A9F',
       sms: '#C1D24B',
       datingapp: '#FD6D7E',
+      instagram: '#C13584',
       telegram: '#039BE5'
     }
 };
