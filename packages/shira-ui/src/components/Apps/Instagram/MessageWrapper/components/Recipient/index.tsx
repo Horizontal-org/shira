@@ -1,11 +1,14 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
-import BackArrow from '../../../../Whatsapp/Icons/BackArrow'
-import StrangerPicture from '../../../../Whatsapp/StrangerPicture'
-import PhoneIcon from '../../../../SMS/Header/assets/Call'
-import Video from '../../../Icons/Video'
-import Info from '../../../Icons/Info'
-import Chevron from '../../../Icons/Chevron'
+import {
+  LuPhone,
+  LuVideo,
+  LuInfo,
+  LuSmilePlus,
+  LuChevronLeft,
+  LuChevronRight
+} from 'react-icons/lu'
+import Avatar from '../../../components/Avatar'
 
 interface Props {
   senderName?: {
@@ -20,18 +23,15 @@ const getHandle = (name?: string) => {
 }
 
 const Recipient: FunctionComponent<Props> = ({ senderName }) => {
-  const initialMatch = (senderName?.textContent || '').match(/[A-Za-z]/)
-  const initial = initialMatch ? initialMatch[0].toUpperCase() : null
-
   return (
     <Wrapper>
       <Header>
         <BackArrowWrapper>
-          <BackArrow />
+          <LuChevronLeft />
         </BackArrowWrapper>
 
         <AvatarWrapper>
-          {initial ? <Avatar>{initial}</Avatar> : <StrangerPicture />}
+          <Avatar name={senderName?.textContent} size={48} />
         </AvatarWrapper>
 
         <NameBlock>
@@ -39,20 +39,23 @@ const Recipient: FunctionComponent<Props> = ({ senderName }) => {
             <Name data-explanation={senderName?.explanationPosition}>
               {senderName?.textContent || ''}
             </Name>
-            <Chevron />
+            <LuChevronRight />
           </NameRow>
           <Handle>{getHandle(senderName?.textContent)}</Handle>
         </NameBlock>
 
         <Icons>
-          <IconWrapper>
-            <PhoneIcon />
+          <IconWrapper mobileOnly>
+            <LuSmilePlus />
           </IconWrapper>
           <IconWrapper>
-            <Video />
+            <LuPhone />
           </IconWrapper>
           <IconWrapper>
-            <Info />
+            <LuVideo />
+          </IconWrapper>
+          <IconWrapper desktopOnly>
+            <LuInfo />
           </IconWrapper>
         </Icons>
       </Header>
@@ -73,40 +76,31 @@ const Wrapper = styled.div`
 `
 
 const Header = styled.div`
-  border-bottom: 1px solid #efefef;
-  padding: 10px 16px;
+  border-bottom: 1px solid #dbdbdb;
+  padding: 14px 16px;
   display: flex;
   align-items: center;
+  gap: 12px;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     border-bottom: none;
-    background: rgba(255, 255, 255, 0.86);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    padding: 8px 10px;
-    gap: 8px;
+    background: #fff;
+    padding: 8px 12px 8px 4px;
+    gap: 10px;
   }
 `
 
 const AvatarWrapper = styled.div`
   display: flex;
-  align-items: center;
   flex-shrink: 0;
-  margin-inline-end: 12px;
-`
 
-const Avatar = styled.div`
-  width: 40px;
-  height: 40px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #c13584;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 600;
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    > div {
+      width: 36px;
+      height: 36px;
+      font-size: 14px;
+    }
+  }
 `
 
 const NameBlock = styled.div`
@@ -114,59 +108,74 @@ const NameBlock = styled.div`
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  gap: 2px;
 `
 
 const NameRow = styled.div`
   display: flex;
   align-items: center;
-  gap: 2px;
+  min-width: 0;
 
   > svg {
+    display: none;
+    flex-shrink: 0;
     width: 16px;
     height: 16px;
-    transform: rotate(-90deg);
+    color: #737373;
+  }
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    > svg {
+      display: block;
+    }
   }
 `
 
 const Name = styled.span`
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
   color: #000;
   position: relative;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    font-size: 15px;
+    font-weight: 600;
+  }
 `
 
 const Handle = styled.span`
   font-size: 12px;
-  color: #8e8e93;
+  color: #737373;
 `
 
 const Icons = styled.div`
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   margin-inline-start: auto;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    display: none;
+    gap: 8px;
   }
 `
 
-const IconWrapper = styled.div`
-  display: flex;
+const IconWrapper = styled.div<{ mobileOnly?: boolean, desktopOnly?: boolean }>`
+  display: ${props => props.mobileOnly ? 'none' : 'flex'};
   padding: 4px;
   cursor: pointer;
 
   > svg {
     display: block;
-    width: 22px;
-    height: 22px;
+    width: 26px;
+    height: 26px;
+    color: #000;
   }
 
-  > svg path {
-    fill: #000;
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    display: ${props => props.desktopOnly ? 'none' : 'flex'};
   }
 `
 
@@ -182,12 +191,9 @@ const BackArrowWrapper = styled.div`
     height: 32px;
 
     > svg {
-      width: 18px;
-      height: 18px;
-    }
-
-    > svg path {
-      fill: #000;
+      width: 28px;
+      height: 28px;
+      color: #000;
     }
   }
 `
