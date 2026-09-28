@@ -9,14 +9,14 @@ export class FindByidUserService implements IFindByIdUserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-  ) {}
+  ) { }
 
   async execute(id: number): Promise<UserEntity> {
-    const user = await this.userRepository.findOne({ 
+    const user = await this.userRepository.findOne({
       where: { id: id },
       relations: ['spaces']
     });
-    
+
     if (!user) throw new NotFoundUserException();
 
     return user;

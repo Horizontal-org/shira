@@ -15,7 +15,7 @@ interface TabContainerProps {
   onChangePassword: () => void;
   onViewPlans: () => void;
   hasResultsEnabled: boolean;
-  onResultsEnabledChange: (hasResultsEnabled: boolean) => Promise<void>;
+  onResultsEnabledChange: (hasResultsEnabled: 'enable' | 'disable') => void;
 }
 
 export const TabContainer: FunctionComponent<TabContainerProps> = ({
@@ -31,7 +31,6 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   const { t } = useTranslation();
   const theme = useTheme();
   const [activeTab, setActiveTab] = useState<TabType>("general");
-  const [isUpdatingResults, setIsUpdatingResults] = useState(false);
   const { isSubActive, isSelfHosted } = useSub();
 
   const currentPlanName = isSubActive ? String(subscription?.type ?? "unknown").toLowerCase() : "starter";
@@ -107,16 +106,8 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
         {activeTab === "general" && (
           <GeneralSection
             hasResultsEnabled={hasResultsEnabled}
-            isUpdatingResults={isUpdatingResults}
-            onResultsEnabledChange={async () => {
-              if (isUpdatingResults) { return; }
-
-              setIsUpdatingResults(true);
-              try {
-                await onResultsEnabledChange(!hasResultsEnabled);
-              } finally {
-                setIsUpdatingResults(false);
-              }
+            onResultsEnabledChange={() => {
+              onResultsEnabledChange(hasResultsEnabled ? 'disable' : 'enable')
             }}
           />
         )}
@@ -226,7 +217,7 @@ const MutedValue = styled(Body2Italic)`
   color: ${props => props.theme.colors.dark.darkGrey};
 `;
 
-const ActionButton = styled(Button)`
+export const ActionButton = styled(Button)`
   justify-content: center;
   font-size: 16px;
   line-height: 1.4;

@@ -17,6 +17,7 @@ import { updateResultsEnabled } from "../../fetch/space";
 import { TabContainer } from "./components/TabContainer";
 import { MobileResponsivenessBanner } from "../MobileResponsivenessBanner";
 import { customMenuItems } from "../../utils/customMenuItems";
+import { UpdateResultsEnabledModal } from "../modals/UpdateResultsEnabledModal";
 
 interface Props { }
 
@@ -39,6 +40,7 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
   const [isEmailSuccessModalOpen, setIsEmailSuccessModalOpen] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [isViewPlansModalOpen, setIsViewPlansModalOpen] = useState(false);
+  const [isEnabledResultsModalOpen, setIsEnabledResultsModalOpen] = useState<'enable' | 'disable' | null>(null)
 
   const {
     currentEmail: email,
@@ -93,10 +95,9 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
   };
 
   const handleResultsEnabledChange = async (hasResultsEnabled: boolean): Promise<void> => {
-    setResultsEnabled(hasResultsEnabled);
-
     try {
       await updateResultsEnabled(hasResultsEnabled);
+      setResultsEnabled(hasResultsEnabled);
     } catch (error) {
       setResultsEnabled(!hasResultsEnabled);
       console.error(error);
@@ -128,7 +129,7 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
             lastPasswordUpdateText={getLastPasswordUpdateDate(lastPasswordChangeAt)}
             subscription={subscription}
             hasResultsEnabled={hasResultsEnabled ?? true}
-            onResultsEnabledChange={handleResultsEnabledChange}
+            onResultsEnabledChange={setIsEnabledResultsModalOpen}
             onChangeEmail={() => setIsEmailModalOpen(true)}
             onChangePassword={() => setIsPasswordModalOpen(true)}
             onViewPlans={() => setIsViewPlansModalOpen(true)}
@@ -163,6 +164,17 @@ export const SettingsLayout: FunctionComponent<Props> = () => {
         isModalOpen={isViewPlansModalOpen}
         onClose={() => setIsViewPlansModalOpen(false)}
         organizationId={subscription?.organizationId}
+      />
+
+      <UpdateResultsEnabledModal
+        action={isEnabledResultsModalOpen}
+        isModalOpen={!!(isEnabledResultsModalOpen)}
+        onConfirm={() => {
+          handleResultsEnabledChange(isEnabledResultsModalOpen === 'enable')
+        }}
+        setIsModalOpen={() => {
+          setIsEnabledResultsModalOpen(null)
+        }}
       />
     </Container >
   );
