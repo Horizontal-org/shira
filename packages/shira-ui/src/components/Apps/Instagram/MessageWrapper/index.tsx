@@ -4,6 +4,7 @@ import Recipient from './components/Recipient'
 import Message from './components/Message'
 import { MessagingImage } from './components/MessagingImage'
 import { SharedPost } from './components/SharedPost'
+import Avatar from '../components/Avatar'
 
 interface Props {
   senderName?: {
@@ -17,13 +18,23 @@ const MessageWrapper: FunctionComponent<Props> = ({
   senderName,
   content
 }) => {
+  const components = content
+    ? Array.from(content.querySelectorAll('[id*="component-"]')).sort((a, b) => parseInt(a.getAttribute('data-position') || '') - parseInt(b.getAttribute('data-position') || ''))
+    : []
+
   return (
     <Wrapper>
       <Recipient senderName={senderName} />
       <ContentWrapper>
         <MessagesList>
-          {content && Array.from(content.querySelectorAll('[id*="component-"]')).sort((a, b) => parseInt(a.getAttribute('data-position') || '') - parseInt(b.getAttribute('data-position') || '')).map((e) => (
-            <>
+          {components.map((e, index) => (
+            <Row key={index}>
+              <AvatarSlot>
+                {index === components.length - 1 && (
+                  <Avatar name={senderName?.textContent} size={28} />
+                )}
+              </AvatarSlot>
+
               {e.getAttribute('id').includes('component-text') && (
                 <Message data={e} />
               )}
@@ -35,7 +46,7 @@ const MessageWrapper: FunctionComponent<Props> = ({
               {e.getAttribute('id').includes('component-shared-post') && (
                 <SharedPost data={e} />
               )}
-            </>
+            </Row>
           ))}
         </MessagesList>
       </ContentWrapper>
@@ -51,14 +62,10 @@ const Wrapper = styled.div`
   position: relative;
   min-width: 0;
   background: #fff;
-
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    background: #fafafa;
-  }
 `
 
 const ContentWrapper = styled.div`
-  padding: 20px 24px;
+  padding: 20px 16px;
   flex-grow: 1;
   min-width: 0;
   max-width: 100%;
@@ -68,13 +75,12 @@ const ContentWrapper = styled.div`
   flex-direction: column-reverse;
   position: relative;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    background: #fafafa;
     position: absolute;
     inset: 0;
-    padding: 130px 12px 20px;
+    padding: 72px 12px 20px;
   }
 `
 
@@ -83,11 +89,19 @@ const MessagesList = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 4px;
+`
 
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    gap: 8px;
-  }
+const Row = styled.div`
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  min-width: 0;
+`
+
+const AvatarSlot = styled.div`
+  width: 28px;
+  flex-shrink: 0;
 `
 
 export default MessageWrapper
