@@ -1,4 +1,4 @@
-import { DatingApp, FBMessenger, Gmail, Outlook, SMS, WhatsApp } from "@horizontal-org/shira-ui"
+import { DatingApp, FBMessenger, Gmail, Instagram, Outlook, SMS, WhatsApp } from "@horizontal-org/shira-ui"
 import { remapHtml } from "../../utils/remapHtml"
 import { ActiveQuestion, QuestionDragAttachment, QuestionDragEditor, QuestionDragImage, QuestionEditorInput } from "../../store/types/active_question"
 import { parseDragItem } from "../../utils/active_question/questionToHtml"
@@ -28,7 +28,8 @@ export const AppComponents = {
   'SMS': SMS,
   'Dating App': DatingApp,
   'WhatsApp': WhatsApp,
-  'FBMessenger': FBMessenger
+  'FBMessenger': FBMessenger,
+  'Instagram': Instagram
 }
 
 export const getContentProps = (appName, activeQuestion: ActiveQuestion) => {
