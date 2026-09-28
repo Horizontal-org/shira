@@ -10,8 +10,8 @@ export default {
     layout: 'padded',
   },
   decorators: [
-    (Story) => (
-      <div style={{ height: '800px' }}>
+    (Story, { parameters }) => (
+      <div style={{ height: parameters.layout === 'fullscreen' ? '100vh' : '800px' }}>
         <Story />
       </div>
     ),
@@ -50,6 +50,21 @@ export const SenderInfo: Story = {
     const contact = canvasElement.querySelector<HTMLButtonElement>('button[aria-label="User Info"]');
     contact?.click();
   },
+};
+
+const mobile = {
+  parameters: { layout: 'fullscreen' },
+  globals: { viewport: { value: 'mobile2', isRotated: false } },
+}
+
+export const Mobile: Story = {
+  ...mobile,
+  args: Default.args,
+};
+
+export const MobileLongText: Story = {
+  ...mobile,
+  args: LongText.args,
 };
 
 const Overlay = styled.div`

@@ -1,8 +1,7 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
-
-import NewMessageIcon from '../../../../Whatsapp/Icons/NewMessage'
+import { LuSquarePen } from 'react-icons/lu'
 
 interface Props { }
 
@@ -15,7 +14,7 @@ const Profile: FunctionComponent<Props> = () => {
       <Title>{t('telegram.chats')}</Title>
       <Icons>
         <IconWrapper>
-          <NewMessageIcon />
+          <LuSquarePen />
         </IconWrapper>
       </Icons>
     </Wrapper>
@@ -23,11 +22,9 @@ const Profile: FunctionComponent<Props> = () => {
 }
 
 const Wrapper = styled.div`
-  border-bottom: 1px solid #e2e2e2;
-  background: #fff;
   display: flex;
   align-items: center;
-  padding: 10px 16px;
+  padding: 12px 14px 10px;
 `
 
 const Spacer = styled.div`
@@ -37,9 +34,9 @@ const Spacer = styled.div`
 const Title = styled.span`
   flex: 1;
   text-align: center;
-  font-size: 18px;
-  font-weight: 600;
-  color: #222;
+  font-size: 16px;
+  font-weight: 500;
+  color: #000;
 `
 
 const Icons = styled.div`
@@ -50,18 +47,20 @@ const Icons = styled.div`
 `
 
 const IconWrapper = styled.div`
-  margin: 0 4px;
-  padding: 6px;
+  display: flex;
+  padding: 2px;
   cursor: pointer;
+  border-radius: 6px;
   transition: background-color .1s;
-  border-radius: 50%;
 
-  &:active {
-    background: rgba(11,20,26,0.1);
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
   }
 
-  svg path {
-    fill: #039BE5;
+  > svg {
+    width: 22px;
+    height: 22px;
+    color: #3390ec;
   }
 `
 
