@@ -14,12 +14,16 @@ const Message: FunctionComponent<Props> = ({ data }) => {
 }
 
 const Wrapper = styled.div`
-  max-width: 85%;
+  max-width: 60%;
   width: fit-content;
   background: #efefef;
   border-radius: 18px;
-  padding: 8px 14px;
+  padding: 8px 12px;
   box-sizing: border-box;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    max-width: 75%;
+  }
 `
 
 const Content = styled.div`
@@ -28,7 +32,7 @@ const Content = styled.div`
   position: relative;
   text-align: start;
 
-  font-size: 14px;
+  font-size: 15px;
   color: #000;
   line-height: 1.4;
 
