@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import ProfilePicture from '../../../../Whatsapp/ProfilePicture'
 
-const FILLER_STORIES = [1, 2]
+const FILLER_STORIES = [1]
 
 interface Props { }
 
@@ -13,19 +13,13 @@ const Stories: FunctionComponent<Props> = () => {
   return (
     <Wrapper>
       <StoryItem>
-        <PictureWrapper>
-          <ProfilePicture imageSize="56px" />
-        </PictureWrapper>
-        <Label>{t('instagram.your_note')}</Label>
+        <ProfilePicture imageSize="78px" />
+        <Label muted>{t('instagram.your_note')}</Label>
       </StoryItem>
 
       {FILLER_STORIES.map((contact) => (
         <StoryItem key={contact}>
-          <Ring>
-            <PictureWrapper>
-              <ProfilePicture imageSize="56px" />
-            </PictureWrapper>
-          </Ring>
+          <ProfilePicture imageSize="78px" />
           <Label>{t(`whatsapp.contact_${contact}_name`)}</Label>
         </StoryItem>
       ))}
@@ -34,9 +28,10 @@ const Stories: FunctionComponent<Props> = () => {
 }
 
 const Wrapper = styled.div`
+  flex-shrink: 0;
   display: flex;
   gap: 16px;
-  padding: 0 16px 16px;
+  padding: 12px 24px 16px;
   overflow-x: auto;
 `
 
@@ -45,29 +40,17 @@ const StoryItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  width: 64px;
+  gap: 6px;
+  width: 96px;
 `
 
-const Ring = styled.div`
-  padding: 2px;
-  border-radius: 50%;
-  background: linear-gradient(45deg, #f9ce34, #ee2a7b, #6228d7);
-`
-
-const PictureWrapper = styled.div`
-  border-radius: 50%;
-  border: 2px solid #fff;
-  overflow: hidden;
-`
-
-const Label = styled.span`
+const Label = styled.span<{ muted?: boolean }>`
   font-size: 12px;
-  color: #262626;
+  color: ${props => props.muted ? '#737373' : '#000'};
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  max-width: 64px;
+  max-width: 96px;
 `
 
 export default Stories
