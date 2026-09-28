@@ -1,4 +1,4 @@
-import { DatingApp, FBMessenger, Gmail, Outlook, SMS, WhatsApp } from "@horizontal-org/shira-ui";
+import { DatingApp, FBMessenger, Gmail, Instagram, Outlook, SMS, WhatsApp } from "@horizontal-org/shira-ui";
 import { FunctionComponent } from "react";
 import { Explanation } from "../../../../store/slices/explanation";
 
@@ -75,6 +75,15 @@ export const AppSelector: FunctionComponent<Props> = ({
         <DatingApp
           {...customProps}
           id="dating-app"
+          explanationNumber={explanationNumber}
+          explanations={explanations}
+          showExplanations={showExplanations}
+        />
+      )}
+      {appName === 'Instagram' && (
+        <Instagram
+          {...customProps}
+          id="instagram-app"
           explanationNumber={explanationNumber}
           explanations={explanations}
           showExplanations={showExplanations}
