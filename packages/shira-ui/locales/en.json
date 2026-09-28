@@ -112,12 +112,17 @@
     "download": "Download",
     "last_seen": "last seen recently",
     "add_contact": "Add Contact",
+    "add_to_contacts": "Add to Contacts",
     "block_user": "Block User",
     "not_a_contact": "Not a contact",
     "registration": "Registration",
     "phone_number": "Phone Number",
     "not_official_account": "Not an official account",
-    "untitled_document": "Untitled document.txt"
+    "untitled_document": "Untitled document.txt",
+    "today": "Today",
+    "unread_count": "9",
+    "registration_date": "Jun 2023",
+    "file_size": "24 KB"
   },
   "pagination": {
     "summary": "{{start}}-{{end}} of {{total}}",
