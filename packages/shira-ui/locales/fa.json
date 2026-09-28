@@ -184,11 +184,11 @@
     },
     "instagram": {
         "account_name": "You",
-        "search": "Search",
+        "search": "جستجو",
         "messages": "Messages",
-        "requests": "Requests",
+        "requests": "درخواست‌ها",
         "your_note": "Your note",
-        "new_message": "New message",
+        "new_message": "پیام جدید",
         "verified": "Verified"
     }
 }
