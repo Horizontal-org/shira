@@ -24,29 +24,29 @@ const Wrapper = styled.div`
 
   > span {
     flex-shrink: 0;
-    font-size: 12px;
+    font-size: 13px;
     color: #8e8e93;
     font-weight: 400;
+    line-height: 1.5;
   }
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    max-width: 85%;
+    max-width: 80%;
     width: fit-content;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 0 8px;
 
     background: #fff;
-    border-radius: 12px;
-    border-top-inline-start-radius: 4px;
-    padding-top: 6px;
-    padding-inline-end: 7px;
-    padding-bottom: 8px;
-    padding-inline-start: 9px;
-    box-shadow: 0 1px 0.5px rgba(11,20,26, .13);
+    border-radius: 18px;
+    padding: 6px 10px 6px 12px;
 
     > span {
-      font-size: 9px;
-      align-self: flex-end;
-      padding-inline-start: 22px;
-      margin-bottom: -2px;
+      font-size: 12px;
+      line-height: 1;
+      color: #a0a0a5;
+      margin-inline-start: auto;
+      margin-bottom: 2px;
     }
   }
 `
@@ -57,16 +57,16 @@ const Content = styled.div`
   position: relative;
   text-align: start;
 
-  font-size: 14px;
-  color: #111b21;
-  line-height: 1.5;
+  font-size: 16px;
+  color: #000;
+  line-height: 1.4;
 
   a {
-    color: #039BE5;
+    color: #2481cc;
   }
 
   h1, h2, h3, h4, h5 {
-    font-size: 14px;
+    font-size: 16px;
     margin: 0 0 10px;
   }
 
@@ -79,10 +79,21 @@ const Content = styled.div`
   }
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    display: inline;
+    font-size: 17px;
+    color: #000;
+    line-height: 1.3;
 
-    h1, h2, h3, h4, h5, p {
-      margin: 0.8px;
+    h1, h2, h3, h4, h5 {
+      font-size: 17px;
+      margin: 0 0 8px;
+    }
+
+    p {
+      margin: 0 0 20px;
+    }
+
+    p:last-child, h1:last-child, h2:last-child, h3:last-child, h4:last-child, h5:last-child {
+      margin-bottom: 0;
     }
   }
 `
