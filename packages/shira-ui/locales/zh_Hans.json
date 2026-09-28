@@ -183,12 +183,12 @@
         "file_size": "24 KB"
     },
     "instagram": {
-        "account_name": "You",
+        "account_name": "你",
         "search": "搜索",
         "messages": "Messages",
-        "requests": "Requests",
+        "requests": "请求",
         "your_note": "Your note",
-        "new_message": "New message",
+        "new_message": "新邮件",
         "verified": "Verified"
     }
 }
