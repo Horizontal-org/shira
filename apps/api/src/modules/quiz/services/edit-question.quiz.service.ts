@@ -54,7 +54,9 @@ export class EditQuestionQuizService implements ICreateQuestionQuizService{
     const language = await this.languageRepo.findOne({
       where: { code: 'en' },
     })
-    
+
+    QuestionSanitizer.validateAdvancedQuestion(editQuestionDto.question.content, editQuestionDto.explanations, app.type);
+
     question.name = editQuestionDto.question.name;
     question.isPhising = editQuestionDto.question.isPhishing ? 1 : 0;
     question.apps = [app];
