@@ -44,6 +44,14 @@ export const LongText: Story = {
   },
 };
 
+export const SenderInfo: Story = {
+  args: Default.args,
+  play: async ({ canvasElement }) => {
+    const contact = canvasElement.querySelector<HTMLButtonElement>('button[aria-label="User Info"]');
+    contact?.click();
+  },
+};
+
 const mobile = {
   parameters: { layout: 'fullscreen' },
   globals: { viewport: { value: 'mobile2', isRotated: false } },

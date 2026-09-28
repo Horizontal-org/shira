@@ -7,7 +7,7 @@ import { MdMenuBook } from 'react-icons/md';
 
 export const customMenuItems: MenuItem[] = [
   {
-    icon: <LuNotepadText id="dashboard-icon" size={24} color="currentColor" />,
+    icon: <LuNotepadText id="dashboard-icon" size={24} color="currentColor" data-mirror-rtl />,
     label: 'sidebar.quizzes',
     path: '/dashboard',
   },
@@ -22,7 +22,7 @@ export const customMenuItems: MenuItem[] = [
     path: '/template-library'
   },
   {
-    icon: <IoMdHelpCircle id="support-icon" size={24} color="currentColor" />,
+    icon: <IoMdHelpCircle id="support-icon" size={24} color="currentColor" data-mirror-rtl />,
     label: 'sidebar.support',
     path: '/support',
     position: 'bottom',
@@ -34,7 +34,7 @@ export const customMenuItems: MenuItem[] = [
     position: 'bottom',
   },
   {
-    icon: <FiLogOut id="logout-icon" size={24} color="currentColor" />,
+    icon: <FiLogOut id="logout-icon" size={24} color="currentColor" data-mirror-rtl />,
     label: 'sidebar.logout',
     path: '/logout',
     position: 'bottom',

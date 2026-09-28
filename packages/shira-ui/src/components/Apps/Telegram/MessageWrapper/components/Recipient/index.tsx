@@ -9,9 +9,11 @@ interface Props {
     textContent: string
     explanationPosition: string
   };
+  showSenderInfo: boolean;
+  onOpenSenderInfo: () => void;
 }
 
-const Recipient: FunctionComponent<Props> = ({ phone }) => {
+const Recipient: FunctionComponent<Props> = ({ phone, showSenderInfo, onOpenSenderInfo }) => {
   const { t } = useTranslation('shira-ui')
 
   return (
@@ -22,7 +24,7 @@ const Recipient: FunctionComponent<Props> = ({ phone }) => {
           <UnreadBadge>{t('telegram.unread_count')}</UnreadBadge>
         </BackArrowWrapper>
 
-        <NamePill>
+        <NamePill type="button" onClick={onOpenSenderInfo} aria-label={t('telegram.sender_info.title')} aria-expanded={showSenderInfo}>
           <AvatarWrapper>
             <Avatar name={phone?.textContent} size={36} />
           </AvatarWrapper>
@@ -34,7 +36,7 @@ const Recipient: FunctionComponent<Props> = ({ phone }) => {
           </ContactInfo>
         </NamePill>
 
-        <MobileAvatar>
+        <MobileAvatar type="button" onClick={onOpenSenderInfo} aria-label={t('telegram.sender_info.title')} aria-expanded={showSenderInfo}>
           <Avatar name={phone?.textContent} size={40} />
         </MobileAvatar>
 
@@ -114,6 +116,21 @@ const Header = styled.div`
   }
 `
 
+const Contact = styled.button`
+  border: 0;
+  padding: 0;
+  background: transparent;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  border-radius: 8px;
+
+  &:focus-visible {
+    outline: 2px solid #039BE5;
+    outline-offset: 4px;
+  }
+`
+
 const AvatarWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -125,7 +142,7 @@ const AvatarWrapper = styled.div`
   }
 `
 
-const MobileAvatar = styled.div`
+const MobileAvatar = styled(Contact)`
   display: none;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
@@ -143,7 +160,7 @@ const MobileAvatar = styled.div`
   }
 `
 
-const NamePill = styled.div`
+const NamePill = styled(Contact)`
   display: flex;
   align-items: center;
   min-width: 0;

@@ -57,7 +57,7 @@
     "handlebars": "^4.7.9",
     "ksuid": "^3.0.0",
     "minio": "^8.0.7",
-    "multer": "^2.2.0",
+    "multer": "^2.3.0",
     "mysql2": "^3.17.1",
     "nestjs-console": "^10.0.0",
     "nodemailer": "^9.0.1",

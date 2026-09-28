@@ -13,12 +13,16 @@ interface Props {
     textContent: string
     explanationPosition: string
   };
+  onOpenSenderInfo: () => void
+  showSenderInfo: boolean
   content?: HTMLElement
 }
 
 const MessageWrapper: FunctionComponent<Props> = ({
   phone,
-  content
+  content,
+  onOpenSenderInfo,
+  showSenderInfo
 }) => {
   const { t } = useTranslation('shira-ui')
   const components = content
@@ -27,7 +31,11 @@ const MessageWrapper: FunctionComponent<Props> = ({
 
   return (
     <Wrapper>
-      <Recipient phone={phone} />
+      <Recipient
+        phone={phone}
+        onOpenSenderInfo={onOpenSenderInfo}
+        showSenderInfo={showSenderInfo}
+      />
       <ContentWrapper>
         <MessagesList>
           <ContactNotice phone={phone} />
