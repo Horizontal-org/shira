@@ -110,6 +110,10 @@ const InfoContainer = styled.div`
 `
 
 const Filename = styled.div`
+  width: calc(14.5rem - 40px);
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
   color: #333;
 `
 const AttachmentFolder = styled("div")<{bgColor: string}>`

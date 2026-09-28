@@ -154,9 +154,9 @@ export const Attachment: FunctionComponent<Props> = ({
         <Name>
 	  <UnhoveredWrapper>
             {renderIcon(type, name)}
-            <span>
+            <UnhoveredFilename>
               {name}
-            </span>
+            </UnhoveredFilename>
           </UnhoveredWrapper>
           <RibbonContainer>
             <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 20 10" width="46px">
@@ -177,6 +177,13 @@ const UnhoveredWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 3px;
+`
+
+const UnhoveredFilename = styled.span`
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 6rem;
+  white-space: nowrap;
 `
 
 const RibbonContainer = styled.div`
@@ -263,6 +270,10 @@ const HoveredName = styled.span`
   color: #777;
   font-weight: bold;
   font-size: 12px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+  white-space: nowrap;
 `
 const HoveredMetadata = styled.div`
   display: flex;

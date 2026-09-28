@@ -14,14 +14,20 @@ export const Attachment: FunctionComponent<Props> = ({ name, explanationPosition
       <Pic />
       <Content data-explanation={explanationPosition}>
         <SvgWrapper><Document /></SvgWrapper>
-        <span>
+        <Filename>
           {name}
-        </span>
+        </Filename>
       </Content>
     </Wrapper>
   )
 }
 
+const Filename = styled.span`
+  text-overflow: ellipsis;
+  max-width: calc(100% - 45px);
+  white-space: nowrap;
+  overflow: hidden;
+`
 const Wrapper = styled.div`
   display: flex;
   padding: 12px 8px;
@@ -32,9 +38,6 @@ const Content = styled.div`
   display: flex;
   align-items: center;
   width: 50%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   padding: 8px 12px;
   background: ${props => props.theme.colors.light.white};
 

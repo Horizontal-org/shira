@@ -12,13 +12,20 @@ export const Attachment: FunctionComponent<Props> = ({ name, explanationPosition
     <Wrapper>
       <Content data-explanation={explanationPosition}>
         <SvgWrapper><Document /></SvgWrapper>
-        <span>
+        <Filename>
           { name }
-        </span>
+        </Filename>
       </Content>
     </Wrapper>    
   )
 }
+
+const Filename = styled.span`
+  text-overflow: ellipsis;
+  max-width: calc(100% - 45px);
+  white-space: nowrap;
+  overflow: hidden;
+`
 
 const Wrapper = styled.div`
   display: flex;
@@ -30,7 +37,7 @@ const Content = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-  max-width: 80%;
+  width: 80%;
   white-space: nowrap;
   text-overflow: ellipsis;
   padding: 8px 12px;

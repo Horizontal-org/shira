@@ -159,7 +159,7 @@ const Icon = styled('div') <IconProps>`
 
 const Attachment = styled(Text)`
   display: flex;
-  width: max-content;
+  max-width: max-content;
   padding-top: 1rem;
   padding-bottom: 1rem;
   padding-right: 1rem;
@@ -189,6 +189,9 @@ const SecondaryText = styled.div`
 
 const Heading = styled.div`
   font-weight: bold;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
   span {
     position: relative;
   }
@@ -196,6 +199,7 @@ const Heading = styled.div`
 
 const AttachmentText = styled.div`
   margin-inline-start: 8px;
+  min-width: 100px;
 `
 
 export default ChatContent
