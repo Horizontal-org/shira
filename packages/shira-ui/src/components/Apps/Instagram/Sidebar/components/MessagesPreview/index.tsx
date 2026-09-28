@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import ProfilePicture from '../../../../Whatsapp/ProfilePicture'
-import StrangerPicture from '../../../../Whatsapp/StrangerPicture'
+import Avatar from '../../../components/Avatar'
 
 interface Props {
   senderName?: {
@@ -21,29 +21,25 @@ const MessagesPreview: FunctionComponent<Props> = ({ senderName }) => {
       <Messages>
         {senderName?.textContent && (
           <Message active>
-            <PictureWrapper>
-              <StrangerPicture />
-            </PictureWrapper>
+            <Avatar name={senderName.textContent} size={56} />
             <UserInfo>
-              <UserInfoFirstRow>
-                <Username>{senderName.textContent}</Username>
-              </UserInfoFirstRow>
-              <MessageContent>{t('instagram.new_message')}</MessageContent>
+              <Username>{senderName.textContent}</Username>
+              <Details>
+                <MessageContent>{t('instagram.new_message')}</MessageContent>
+              </Details>
             </UserInfo>
           </Message>
         )}
 
         {FILLER_CONTACTS.map((contact) => (
           <Message key={contact}>
-            <PictureWrapper>
-              <ProfilePicture imageSize="49px" />
-            </PictureWrapper>
+            <ProfilePicture imageSize="56px" />
             <UserInfo>
-              <UserInfoFirstRow>
-                <Username>{t(`whatsapp.contact_${contact}_name`)}</Username>
-                <Time>{t(`whatsapp.contact_${contact}_time`)}</Time>
-              </UserInfoFirstRow>
-              <MessageContent>{t(`whatsapp.contact_${contact}_message`)}</MessageContent>
+              <Username>{t(`whatsapp.contact_${contact}_name`)}</Username>
+              <Details>
+                <MessageContent>{t(`whatsapp.contact_${contact}_message`)}</MessageContent>
+                <Time>· {t(`whatsapp.contact_${contact}_time`)}</Time>
+              </Details>
             </UserInfo>
           </Message>
         ))}
@@ -54,7 +50,7 @@ const MessagesPreview: FunctionComponent<Props> = ({ senderName }) => {
 
 const Wrapper = styled.div`
   flex-grow: 1;
-  overflow-y: scroll;
+  overflow-y: auto;
 
   &::-webkit-scrollbar {
     width: 6px !important;
@@ -75,60 +71,57 @@ const Messages = styled.div`
 `
 
 const Message = styled.div<{ active?: boolean }>`
-  height: 72px;
   display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 24px;
+  border-radius: 12px;
   cursor: pointer;
   background: ${props => props.active ? '#efefef' : 'transparent'};
 
   &:hover {
-    background: ${props => props.active ? '#efefef' : '#fafafa'};
+    background: ${props => props.active ? '#efefef' : '#f5f5f5'};
   }
-`
 
-const PictureWrapper = styled.div`
-  padding: 0 13px;
-  display: flex;
-  align-items: center;
-`
-
-const Username = styled.div`
-  color: #000;
-  font-weight: 500;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  > div:first-child {
+    flex-shrink: 0;
+  }
 `
 
 const UserInfo = styled.div`
   flex-grow: 1;
-  padding: 14px 16px 14px 0;
-  border-bottom: 1px solid #efefef;
   min-width: 0;
-`
-
-const UserInfoFirstRow = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 4px;
 `
 
-const Time = styled.div`
-  padding-top: 4px;
-  padding-inline-end: 10px;
-  color: #8e8e93;
-  line-height: 14px;
-  font-size: 12px;
+const Username = styled.div`
+  color: #000;
+  font-size: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`
+
+const Details = styled.div`
+  display: flex;
+  gap: 4px;
+  min-width: 0;
+  color: #737373;
+  font-size: 13px;
 `
 
 const MessageContent = styled.span`
-  color: #8e8e93;
-  font-size: 14px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  display: inline-block;
   min-width: 0;
-  flex-shrink: 1;
-  max-width: 250px;
+`
+
+const Time = styled.span`
+  flex-shrink: 0;
+  white-space: nowrap;
 `
 
 export default MessagesPreview
