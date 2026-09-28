@@ -77,6 +77,12 @@ const Wrapper = styled.div`
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     border-radius: 0;
     box-shadow: none;
+    background:
+      radial-gradient(circle at 5% 5%, #e4e8b2 0%, transparent 45%),
+      radial-gradient(circle at 95% 35%, #b4dba4 0%, transparent 50%),
+      radial-gradient(circle at 15% 75%, #86ba7d 0%, transparent 55%),
+      radial-gradient(circle at 90% 95%, #a8d69a 0%, transparent 50%),
+      #9ac78c;
   }
 `
 
@@ -85,14 +91,18 @@ const StatusBar = styled.div`
   flex-shrink: 0;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 20px 4px;
-  background: #039BE5;
-  color: #fff;
+  padding: 8px 24px 4px;
+  color: #000;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 15px;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     display: flex;
+    position: relative;
+    z-index: 6;
+    height: 30px;
+    box-sizing: border-box;
+    margin-bottom: -30px;
   }
 `
 
@@ -102,7 +112,7 @@ const StatusIcons = styled.div`
   gap: 6px;
 
   svg path {
-    fill: #fff;
+    fill: #000;
     opacity: 1;
   }
 `
@@ -122,7 +132,7 @@ const Content = styled.div`
   }
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    background: #e7ecf0;
+    background: transparent;
   }
 `
 
