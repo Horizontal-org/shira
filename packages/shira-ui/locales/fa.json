@@ -181,5 +181,14 @@
         "unread_count": "9",
         "registration_date": "Jun 2023",
         "file_size": "24 KB"
+    },
+    "instagram": {
+        "account_name": "You",
+        "search": "Search",
+        "messages": "Messages",
+        "requests": "Requests",
+        "your_note": "Your note",
+        "new_message": "New message",
+        "verified": "Verified"
     }
 }
