@@ -1,6 +1,7 @@
 import { FunctionComponent } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 
+import Navbar from './Navbar'
 import Sidebar from './Sidebar'
 import MessageWrapper from './MessageWrapper'
 import { Explanation } from '../../../domain/explanation'
@@ -48,6 +49,7 @@ export const Instagram: FunctionComponent<Props> = ({
       </StatusBar>
 
       <Content>
+        <Navbar />
         <Sidebar senderName={senderName} />
         <MessageWrapper
           content={content}
