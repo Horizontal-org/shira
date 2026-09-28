@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
-import SearchIcon from '../../../../Whatsapp/Icons/Search'
+import { LuSearch } from 'react-icons/lu'
 
 interface Props { }
 
@@ -11,7 +11,7 @@ const SearchBar: FunctionComponent<Props> = () => {
   return (
     <Wrapper>
       <InputWrapper>
-        <SearchIcon />
+        <LuSearch />
         <span>{t('instagram.search')}</span>
       </InputWrapper>
     </Wrapper>
@@ -19,29 +19,30 @@ const SearchBar: FunctionComponent<Props> = () => {
 }
 
 const Wrapper = styled.div`
-  padding: 0 16px 12px;
+  padding: 0 16px 16px;
   display: flex;
 `
 
 const InputWrapper = styled.div`
   display: flex;
   align-items: center;
-  border-radius: 8px;
-  height: 100%;
+  border-radius: 999px;
+  height: 44px;
   flex: 1;
-  padding: 8px;
+  padding: 0 16px;
   background: #efefef;
 
   > svg {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     flex-shrink: 0;
+    color: #737373;
   }
 
   > span {
-    margin-inline-start: 8px;
-    font-size: 14px;
-    color: #8e8e93;
+    margin-inline-start: 14px;
+    font-size: 16px;
+    color: #737373;
   }
 `
 
