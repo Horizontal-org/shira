@@ -1,8 +1,7 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
-import NewMessageIcon from '../../../../Whatsapp/Icons/NewMessage'
-import Chevron from '../../../Icons/Chevron'
+import { LuChevronDown, LuSquarePen } from 'react-icons/lu'
 
 interface Props { }
 
@@ -13,10 +12,10 @@ const Profile: FunctionComponent<Props> = () => {
     <Wrapper>
       <AccountName>
         {t('instagram.account_name')}
-        <Chevron />
+        <LuChevronDown />
       </AccountName>
       <IconWrapper>
-        <NewMessageIcon />
+        <LuSquarePen />
       </IconWrapper>
     </Wrapper>
   )
@@ -27,31 +26,33 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
+  padding: 36px 16px 14px 24px;
 `
 
 const AccountName = styled.span`
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 700;
   color: #000;
 
   > svg {
-    width: 12px;
-    height: 12px;
+    width: 18px;
+    height: 18px;
+    stroke-width: 2.5;
   }
 `
 
 const IconWrapper = styled.div`
   display: flex;
-  padding: 6px;
+  padding: 8px;
   cursor: pointer;
-  border-radius: 50%;
 
-  &:active {
-    background: rgba(11,20,26,0.1);
+  > svg {
+    width: 24px;
+    height: 24px;
+    color: #000;
   }
 `
 
