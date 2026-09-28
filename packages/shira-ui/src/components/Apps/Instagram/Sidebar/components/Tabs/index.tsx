@@ -17,14 +17,15 @@ const Tabs: FunctionComponent<Props> = () => {
 
 const Wrapper = styled.div`
   display: flex;
-  gap: 20px;
-  padding: 0 16px 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 24px 12px;
 `
 
 const Tab = styled.span<{ active?: boolean }>`
-  font-size: 16px;
+  font-size: ${props => props.active ? '16px' : '15px'};
   font-weight: ${props => props.active ? 700 : 400};
-  color: ${props => props.active ? '#000' : '#8e8e93'};
+  color: ${props => props.active ? '#000' : '#737373'};
 `
 
 export default Tabs
