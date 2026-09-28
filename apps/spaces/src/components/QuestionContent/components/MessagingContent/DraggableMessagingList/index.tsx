@@ -296,6 +296,7 @@ const HiddenFileInput = styled.input`
 
 const ButtonsWrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
   margin-bottom: 30px;
 `
