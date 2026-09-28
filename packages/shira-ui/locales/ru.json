@@ -177,6 +177,11 @@
             "shared_image": "Shared image",
             "no_media": "No shared media",
             "no_voice": "No shared voice messages"
-        }
+        },
+        "add_to_contacts": "Add to Contacts",
+        "today": "Today",
+        "unread_count": "9",
+        "registration_date": "Jun 2023",
+        "file_size": "24 KB"
     }
 }
