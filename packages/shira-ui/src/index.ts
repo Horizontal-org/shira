@@ -5,3 +5,4 @@ export * from './components'
 export * from './theme'
 export * from './hooks'
 export { default as styled, createGlobalStyle, useTheme } from 'styled-components';
+export { sanitizeEmailHtml } from './components/Apps/components/sanitizeEmailHtml'

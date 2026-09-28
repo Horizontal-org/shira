@@ -49,6 +49,8 @@ export class AddQuestionToQuizService implements IAddQuestionToQuizService {
       throw new NotFoundException(`App with ${identifier} was not found`);
     }
 
+    QuestionSanitizer.validateAdvancedQuestion(params.content, params.explanations ?? [], app.type);
+
     const language = await languageRepo.findOne({ where: { code: "en" } });
 
     const question = new Question();
