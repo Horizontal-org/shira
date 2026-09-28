@@ -30,7 +30,8 @@ const Wrapper = styled.div`
   flex: calc(32%);
   display: flex;
   flex-direction: column;
-  border-inline-end: 1px solid #e2e2e2;
+  min-width: 0;
+  border-inline-end: 1px solid #dbdbdb;
 
   @media (max-width: ${props => props.theme.breakpoints.md}) {
     flex: calc(40%);
