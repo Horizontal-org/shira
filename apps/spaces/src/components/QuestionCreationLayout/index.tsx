@@ -35,6 +35,7 @@ export const QuestionCreationLayout: FunctionComponent<Props> = () => {
 
   return (
     <QuestionFlowManagement
+      canChooseEditor
       actionFeedback={actionFeedback}
       onSubmit={(question) => {
         submit(quizId, question)

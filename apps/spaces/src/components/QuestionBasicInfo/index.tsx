@@ -1,17 +1,17 @@
 import { FunctionComponent } from "react";
 import {
   Body3,
-  Box,
   FilterButton,
   styled,
   SubHeading3,
-  TextInput
-} from '@horizontal-org/shira-ui'
-import { App } from "../../fetch/app";
-import { ActiveQuestion } from "../../store/types/active_question";
-import { QUESTION_NAME_MAX_LENGTH } from "../../utils/inputLimits";
-import { useTranslation } from "react-i18next";
-import { EntityFlowBox } from "../EntityFlowBody";
+  TextInput,
+  Toggle,
+} from "@horizontal-org/shira-ui"
+import { App } from "../../fetch/app"
+import { ActiveQuestion } from "../../store/types/active_question"
+import { QUESTION_NAME_MAX_LENGTH } from "../../utils/inputLimits"
+import { useTranslation } from "react-i18next"
+import { EntityFlowBox } from "../EntityFlowBody"
 
 interface Props {
   handleQuestion: (k, v) => void;
@@ -19,6 +19,7 @@ interface Props {
   question: ActiveQuestion
   apps: App[]
   initialAppType: string
+  canChooseEditor?: boolean
 }
 
 export const QuestionBasicInfo: FunctionComponent<Props> = ({
@@ -26,7 +27,8 @@ export const QuestionBasicInfo: FunctionComponent<Props> = ({
   handleApp,
   question,
   apps,
-  initialAppType
+  initialAppType,
+  canChooseEditor = false,
 }) => {
   const { t } = useTranslation();
 
@@ -94,12 +96,33 @@ export const QuestionBasicInfo: FunctionComponent<Props> = ({
         </FilterButtonsContainer>
       </div>
 
+      {canChooseEditor && question.app?.type === 'email' && (
+        <div>
+          <SubHeading3>
+            {t('create_question.tabs.question_info.editor.title', 'Editor')}
+          </SubHeading3>
+          <FilterButtonsContainer>
+            <Toggle
+              isEnabled={question.editorType === 'advanced'}
+              onToggle={() =>
+                handleQuestion(
+                  'editorType',
+                  question.editorType === 'advanced' ? 'simple' : 'advanced'
+                )
+              }
+              leftLabel={t('create_question.tabs.question_info.editor.simple')}
+              rightLabel={t(
+                'create_question.tabs.question_info.editor.advanced'
+              )}
+            />
+          </FilterButtonsContainer>
+        </div>
+      )}
     </EntityFlowBox>
   )
 }
-
 const FilterButtonsContainer = styled.div`
   margin-top: 8px;
   display: flex;
   gap: 8px;
-`
+`;

@@ -1,42 +1,33 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
-import { CloseIcon } from '../../../../../Icons'
-import PhoneIcon from '../../../../SMS/Header/assets/Call'
-import MoreOptionsIcon from '../../../../SMS/Header/assets/More'
-import SearchIcon from '../../../../Whatsapp/Icons/Search'
-import BackArrow from '../../../../Whatsapp/Icons/BackArrow'
-import StrangerPicture from '../../../../Whatsapp/StrangerPicture'
+import { LuPhone, LuSearch, LuEllipsis, LuX, LuChevronLeft, LuCircleX } from 'react-icons/lu'
+import Avatar from '../../../components/Avatar'
 
 interface Props {
   phone?: {
     textContent: string
     explanationPosition: string
   };
-  showNotice?: boolean;
-  onCloseNotice?: () => void;
   showSenderInfo: boolean;
   onOpenSenderInfo: () => void;
 }
 
-const Recipient: FunctionComponent<Props> = ({ phone, showNotice, onCloseNotice, showSenderInfo, onOpenSenderInfo }) => {
+const Recipient: FunctionComponent<Props> = ({ phone, showSenderInfo, onOpenSenderInfo }) => {
   const { t } = useTranslation('shira-ui')
-
-  const initialMatch = (phone?.textContent || '').match(/[A-Za-z]/)
-  const initial = initialMatch ? initialMatch[0].toUpperCase() : null
 
   return (
     <Wrapper>
       <Header>
         <BackArrowWrapper>
-          <BackArrow />
+          <LuChevronLeft />
+          <UnreadBadge>{t('telegram.unread_count')}</UnreadBadge>
         </BackArrowWrapper>
 
-        <AvatarWrapper type="button" onClick={onOpenSenderInfo} aria-label={t('telegram.sender_info.title')} aria-expanded={showSenderInfo}>
-          {initial ? <Avatar>{initial}</Avatar> : <StrangerPicture />}
-        </AvatarWrapper>
-
         <NamePill type="button" onClick={onOpenSenderInfo} aria-label={t('telegram.sender_info.title')} aria-expanded={showSenderInfo}>
+          <AvatarWrapper>
+            <Avatar name={phone?.textContent} size={36} />
+          </AvatarWrapper>
           <ContactInfo>
             <Name data-explanation={phone?.explanationPosition}>
               {phone?.textContent || ''}
@@ -45,25 +36,33 @@ const Recipient: FunctionComponent<Props> = ({ phone, showNotice, onCloseNotice,
           </ContactInfo>
         </NamePill>
 
+        <MobileAvatar type="button" onClick={onOpenSenderInfo} aria-label={t('telegram.sender_info.title')} aria-expanded={showSenderInfo}>
+          <Avatar name={phone?.textContent} size={40} />
+        </MobileAvatar>
+
         <Icons>
           <IconWrapper>
-            <PhoneIcon />
+            <LuPhone />
           </IconWrapper>
           <IconWrapper>
-            <SearchIcon />
+            <LuSearch />
           </IconWrapper>
           <IconWrapper>
-            <MoreOptionsIcon />
+            <LuEllipsis />
           </IconWrapper>
         </Icons>
       </Header>
 
-      {showNotice && phone?.textContent && (
+      {phone?.textContent && (
         <NoticeActions>
-          <AddContact>{t('telegram.add_contact')}</AddContact>
+          <AddContact>
+            <DesktopOnly>{t('telegram.add_contact')}</DesktopOnly>
+            <MobileOnly>{t('telegram.add_to_contacts')}</MobileOnly>
+          </AddContact>
           <BlockUser>{t('telegram.block_user')}</BlockUser>
-          <CloseWrapper onClick={onCloseNotice}>
-            <CloseIcon />
+          <CloseWrapper>
+            <DesktopOnly><LuX /></DesktopOnly>
+            <MobileOnly><LuCircleX /></MobileOnly>
           </CloseWrapper>
         </NoticeActions>
       )}
@@ -75,27 +74,44 @@ const Wrapper = styled.div`
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 12px;
+  padding: 12px 16px 4px;
+  background: #fff;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     gap: 0;
+    padding: 30px 0 0;
+    background: transparent;
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     z-index: 5;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 -24px;
+      z-index: -1;
+      pointer-events: none;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.25), transparent);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      mask-image: linear-gradient(to bottom, #000 55%, transparent);
+      -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
+    }
   }
 `
 
 const Header = styled.div`
-  background: #fafafa;
-  padding: 10px 16px;
   display: flex;
   align-items: center;
+  gap: 16px;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    background: transparent;
-    padding: 8px 10px 0;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    padding: 6px 12px 0;
     gap: 8px;
   }
 `
@@ -115,30 +131,33 @@ const Contact = styled.button`
   }
 `
 
-const AvatarWrapper = styled(Contact)`
+const AvatarWrapper = styled.div`
   display: flex;
   align-items: center;
   flex-shrink: 0;
   margin-inline-end: 12px;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    order: 3;
-    margin-inline-end: 0;
+    display: none;
   }
 `
 
-const Avatar = styled.div`
-  width: 40px;
-  height: 40px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #4FC3E8;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 600;
+const MobileAvatar = styled(Contact)`
+  display: none;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    display: flex;
+    justify-self: end;
+    padding: 2px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.55);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+    /* Telegram's cyan user color */
+    > div > div {
+      background: linear-gradient(180deg, #5fe2ee 0%, #1cb0cd 100%);
+    }
+  }
 `
 
 const NamePill = styled(Contact)`
@@ -146,19 +165,17 @@ const NamePill = styled(Contact)`
   align-items: center;
   min-width: 0;
   flex-grow: 1;
-  padding: 8px 16px;
-  border-radius: 20px;
-  background: #f0f2f5;
-  margin-inline-end: 12px;
+  padding: 6px 12px 6px 6px;
+  border-radius: 999px;
+  background: #f4f4f5;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    order: 2;
-    margin-inline-end: 0;
-    padding: 8px 14px;
-    background: rgba(255, 255, 255, 0.72);
+    justify-content: center;
+    padding: 5px 30px;
+    background: rgba(255, 255, 255, 0.55);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.14);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
 `
 
@@ -166,31 +183,47 @@ const ContactInfo = styled.div`
   min-width: 0;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    align-items: center;
+  }
 `
 
 const Name = styled.span`
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 500;
   color: #000;
   position: relative;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
 `
 
 const LastSeen = styled.span`
-  font-size: 12px;
+  font-size: 14px;
   color: #8e8e93;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    font-size: 13px;
+    line-height: 1.2;
+    color: #6d6d72;
+  }
 `
 
 const Icons = styled.div`
+  flex-shrink: 0;
   display: flex;
   align-items: center;
-  gap: 4px;
-  margin-inline-start: auto;
-  padding: 8px 14px;
-  border-radius: 20px;
-  background: #f0f2f5;
+  gap: 14px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: #f4f4f5;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     display: none;
@@ -199,17 +232,14 @@ const Icons = styled.div`
 
 const IconWrapper = styled.div`
   display: flex;
-  padding: 4px;
   cursor: pointer;
 
   > svg {
     display: block;
-    width: 20px;
-    height: 20px;
-  }
-
-  > svg path {
-    fill: #707579;
+    width: 26px;
+    height: 26px;
+    color: #000;
+    stroke-width: 1.6;
   }
 `
 
@@ -219,64 +249,75 @@ const BackArrowWrapper = styled.div`
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     display: flex;
     align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.72);
+    justify-self: start;
+    gap: 2px;
+    height: 44px;
+    padding: 0 8px 0 6px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.55);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.14);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 
     > svg {
-      width: 18px;
-      height: 18px;
-    }
-
-    > svg path {
-      fill: #707579;
+      width: 26px;
+      height: 26px;
+      color: #000;
+      stroke-width: 2.4;
     }
   }
+`
+
+const UnreadBadge = styled.span`
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: #000;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
 `
 
 const NoticeActions = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 10px 20px;
-  font-size: 13px;
-  border-radius: 16px;
-  background: #f0f2f5;
+  padding: 12px 16px;
+  font-size: 16px;
+  border-radius: 999px;
+  background: #f4f4f5;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    margin: 4px 10px 0;
-    padding: 4px 10px;
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.72);
+    margin: 8px 12px 0;
+    padding: 8px 10px;
+    font-size: 17px;
+    background: rgba(255, 255, 255, 0.55);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.14);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
 `
 
 const AddContact = styled.span`
-  color: #222;
+  flex: 1;
+  text-align: center;
+  color: #000;
   cursor: pointer;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     order: 2;
-    color: #039BE5;
+    color: #1e88e5;
   }
 `
 
 const BlockUser = styled.span`
+  flex: 1;
+  text-align: center;
   color: #e53935;
   cursor: pointer;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     order: 1;
+    color: #ff3b30;
   }
 `
 
@@ -284,11 +325,48 @@ const CloseWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
   flex-shrink: 0;
+  padding: 4px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color .1s;
 
-  svg path {
-    fill: #8e8e93;
+  &:hover {
+    background: rgba(0, 0, 0, 0.06);
+  }
+
+  svg {
+    width: 22px;
+    height: 22px;
+    color: #000;
+  }
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    order: 3;
+    padding: 0;
+
+    svg {
+      width: 22px;
+      height: 22px;
+      color: #1e88e5;
+      stroke-width: 1.6;
+    }
+  }
+`
+
+const DesktopOnly = styled.span`
+  display: contents;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    display: none;
+  }
+`
+
+const MobileOnly = styled.span`
+  display: none;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    display: contents;
   }
 `
 

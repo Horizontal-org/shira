@@ -1,7 +1,23 @@
+import { sanitizeEmailHtml } from '@horizontal-org/shira-ui';
 import { ActiveQuestion, QuestionDragAttachment, QuestionDragEditor, QuestionDragImage, QuestionEditorInput, QuestionTextInput } from "../../store/types/active_question";
 
 export const activeQuestionToHtml = (activeQuestion: ActiveQuestion) => {
-  return parseActiveQuestionToHtml(activeQuestion.content)
+  const advanced = activeQuestion.app?.type === 'email' && activeQuestion.editorType === 'advanced'
+  const content = advanced ? {
+    ...activeQuestion.content,
+    body: {
+      ...activeQuestion.content['body'],
+      value: sanitizeEmailHtml(activeQuestion.content['body']?.value ?? '')
+    }
+  } : activeQuestion.content
+  const html = parseActiveQuestionToHtml(content)
+  if (!advanced) return html
+
+  const container = document.createElement('div')
+  container.innerHTML = html
+  const body = container.querySelector('#component-text-1')
+  body?.classList.add('advanced-html-editor')
+  return container.innerHTML
 }
 
 const parseActiveQuestionToHtml = (content: Object) => {

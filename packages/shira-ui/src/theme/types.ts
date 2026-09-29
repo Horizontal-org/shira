@@ -79,6 +79,7 @@ export interface Theme {
         telegram: string;
         facebook: string;
         dating: string;
+        instagram: string;
       };
     };
     apps: {
@@ -87,7 +88,7 @@ export interface Theme {
       messenger: string;
       sms: string;
       datingapp: string;
+      instagram: string;
       telegram: string;
     };
 }
-  

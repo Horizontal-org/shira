@@ -47,6 +47,8 @@ export const defaultMessageContent: MessagingContent = {
 
 export interface ActiveQuestion {
   name: string;
+  editorType?: 'simple' | 'advanced';
+  htmlEditorImages?: Record<string, string>;
   isPhishing?: boolean;
   app?: App;
   content: EmailContent | MessagingContent;
