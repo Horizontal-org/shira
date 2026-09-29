@@ -152,10 +152,10 @@
             "export": "خروجی گرفتن"
         },
         "use_library_question_button": "Use a question template",
-        "create_note_button": "Create note",
+        "create_note_button": "ایجادکردن",
         "columns": {
             "type": {
-                "note": "Note"
+                "note": "یادداشت‌ها"
             }
         }
     },
@@ -194,7 +194,7 @@
                     "title": "Selected app"
                 },
                 "editor": {
-                    "title": "Editor",
+                    "title": "ویرایش",
                     "simple": "Simple editor",
                     "advanced": "Advanced HTML editor"
                 }
@@ -438,7 +438,7 @@
             "cta": "Go to Help Center"
         },
         "contact": {
-            "title": "Contact us",
+            "title": "تماس",
             "description": "If you need any support please email us at"
         }
     },
@@ -863,11 +863,11 @@
             "content_disable": "We will stop tracking your user quiz information"
         },
         "delete_note": {
-            "title": "Are you sure you want to delete \"{{note_name}}\"?",
+            "title": "مطمئنید می خواهید حذف کنید؟",
             "message": "Deleting this note is permanent and cannot be undone."
         },
         "exit_note": {
-            "title": "Are you sure you want to exit the note?",
+            "title": "مطمئنید می خواهید حذف کنید؟",
             "message": "Any unsaved changes will be lost."
         }
     },
