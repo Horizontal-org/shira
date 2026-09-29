@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 interface Props {
   onAdd: () => void,
   onAddLibrary: (quizId: string) => void,
+  onCreateNote: () => void,
   quizId: string,
   isAddLibraryDisabled?: boolean,
 }
@@ -14,6 +15,7 @@ interface Props {
 export const QuestionEmptyState: FunctionComponent<Props> = ({
   onAdd,
   onAddLibrary,
+  onCreateNote,
   quizId,
   isAddLibraryDisabled,
 }) => {
@@ -37,6 +39,14 @@ export const QuestionEmptyState: FunctionComponent<Props> = ({
       color={defaultTheme.colors.green7}
       disabled={isAddLibraryDisabled}
       onClick={() => onAddLibrary(quizId)}
+    />,
+    <Button
+      key="create-note"
+      leftIcon={<FiPlus size={16} />}
+      text={t('questions_tab.create_note_button')}
+      type="primary"
+      color={defaultTheme.colors.green7}
+      onClick={onCreateNote}
     />
   ];
 

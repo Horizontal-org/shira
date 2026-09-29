@@ -30,7 +30,7 @@ const defaultUploadImage = async (file: File, quizId: string, questionId: string
 
     let url = `${process.env.REACT_APP_API_URL}/question-image/upload?quizId=${quizId}`
     if (questionId) {
-      url = url + `&questionId${questionId}`
+      url = url + `&questionId=${questionId}`
     }
 
     const res = await axios.post(url, formData, {

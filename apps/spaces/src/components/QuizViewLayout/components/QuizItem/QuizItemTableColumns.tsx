@@ -9,12 +9,13 @@ import {
   styled,
 } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
-import { QuizQuestion } from "../../../../store/slices/quiz";
+import { QuizViewItem } from "../../../../store/slices/quiz";
 import { appIcons } from "../../../../utils/appIcons";
 import { normalizePreviewAppName } from "../../../../utils/appNames";
 import { truncateQuestionName } from "../../../../utils/questionName";
+import { NoteIcon } from "./NoteIcon";
 
-export const useQuestionTableColumns = (): ColumnDef<QuizQuestion>[] => {
+export const useQuizItemTableColumns = (): ColumnDef<QuizViewItem>[] => {
   const { t } = useTranslation();
 
   return useMemo(
@@ -24,7 +25,7 @@ export const useQuestionTableColumns = (): ColumnDef<QuizQuestion>[] => {
         id: "drag",
         cell: ({ row }) => {
           return (
-            <HandleContent id={`drag-handle-${row.original.question.id}`}>
+            <HandleContent id={`drag-handle-${row.original.entityType}-${row.original.entityId}`}>
               <MdDragIndicator size={20} color={defaultTheme.colors.dark.darkGrey} />
             </HandleContent>
           );
@@ -32,11 +33,17 @@ export const useQuestionTableColumns = (): ColumnDef<QuizQuestion>[] => {
       },
       {
         header: t("question_library.columns.question_name"),
-        id: "questionName",
+        id: "name",
         cell: ({ row }) => {
+          const item = row.original;
+          const name = item.entityType === "question" ? item.question.name : item.note.name;
+
           return (
-            <QuestionNameCell id={`question-title-${row.original.question.id}`}>
-              {truncateQuestionName(row.original.question.name)}
+            <QuestionNameCell id={`question-title-${item.entityType}-${item.entityId}`}>
+              {item.entityType === 'note' && (
+                <NoteIconWrapper><NoteIcon /></NoteIconWrapper>
+              )}
+              {truncateQuestionName(name)}
             </QuestionNameCell>
           );
         },
@@ -45,7 +52,13 @@ export const useQuestionTableColumns = (): ColumnDef<QuizQuestion>[] => {
         header: t("question_library.columns.type.title"),
         id: "type",
         cell: ({ row }) => {
-          const isPhishing = Boolean(row.original.question.isPhising);
+          const item = row.original;
+
+          if (item.entityType === "note") {
+            return <Body3>{t("questions_tab.columns.type.note")}</Body3>;
+          }
+
+          const isPhishing = Boolean(item.question.isPhising);
           return <QuestionTypeChip isPhishing={isPhishing} variant="table" />;
         },
       },
@@ -53,7 +66,13 @@ export const useQuestionTableColumns = (): ColumnDef<QuizQuestion>[] => {
         header: t("question_library.columns.app.title"),
         id: "app",
         cell: ({ row }) => {
-          const app = row.original.question.apps?.[0];
+          const item = row.original;
+
+          if (item.entityType === "note") {
+            return <Body3>-</Body3>;
+          }
+
+          const app = item.question.apps?.[0];
 
           if (!app?.name) {
             return <Body3>-</Body3>;
@@ -79,6 +98,12 @@ export const useQuestionTableColumns = (): ColumnDef<QuizQuestion>[] => {
     [t],
   );
 };
+
+const NoteIconWrapper = styled.div`
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+`
 
 const HandleContent = styled.div`
   display: inline-flex;

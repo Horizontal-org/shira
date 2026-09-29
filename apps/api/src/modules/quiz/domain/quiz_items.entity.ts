@@ -8,11 +8,12 @@ import {
   UpdateDateColumn,
   CreateDateColumn,
 } from 'typeorm';
-import { Explanation, Question } from 'src/modules/question/domain';
 import { Quiz } from './quiz.entity';
 
-@Entity({ name: 'quizzes_questions' })
-export class QuizQuestion {
+export type QuizItemEntityType = 'question' | 'note';
+
+@Entity({ name: 'quiz_items' })
+export class QuizItem {
 
   @PrimaryGeneratedColumn()
   id: number;
@@ -29,24 +30,14 @@ export class QuizQuestion {
   quiz?: Quiz;
 
   @Column({ name: 'quiz_id' })
-  @RelationId((quizQuestion: QuizQuestion) => quizQuestion.quiz)
+  @RelationId((quizItem: QuizItem) => quizItem.quiz)
   quizId?: number;
 
-  @ManyToOne(
-    () => Question,
-    (question: Question) => question.quizQuestions,
-    {
-      eager: true,
-      onDelete: 'CASCADE',
-    },
-  )
-  @JoinColumn({ name: 'question_id' })
-  question?: Question;
+  @Column({ name: 'entity_type', type: 'enum', enum: ['question', 'note'] })
+  entityType: QuizItemEntityType;
 
-
-  @Column({ name: 'question_id' })
-  @RelationId((quizQuestion: QuizQuestion) => quizQuestion.question)
-  questionId?: number;
+  @Column({ name: 'entity_id' })
+  entityId: number;
 
   @Column()
   position: number;

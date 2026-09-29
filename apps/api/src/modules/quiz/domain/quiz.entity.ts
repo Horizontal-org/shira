@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { QuizQuestion } from './quizzes_questions.entity';
+import { QuizItem } from './quiz_items.entity';
 import { SpaceEntity } from 'src/modules/space/domain/space.entity';
 import { QuestionImage } from 'src/modules/question_image/domain';
 
@@ -44,11 +44,11 @@ export class Quiz {
   visibility: 'public' | 'private';
 
   @OneToMany(
-    () => QuizQuestion,
-    (quizQuestion: QuizQuestion) =>
-      quizQuestion.quiz,
+    () => QuizItem,
+    (quizItem: QuizItem) =>
+      quizItem.quiz,
   )
-  quizQuestions: QuizQuestion[];
+  quizQuestions: QuizItem[];
 
   @OneToMany(
     () => QuestionImage,
