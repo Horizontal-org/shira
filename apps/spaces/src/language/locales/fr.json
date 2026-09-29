@@ -101,7 +101,7 @@
             "export": "Exporter"
         },
         "use_library_question_button": "Utiliser un modèle de question",
-        "create_note_button": "Create note",
+        "create_note_button": "Créer un compte",
         "columns": {
             "type": {
                 "note": "Note"
@@ -716,11 +716,11 @@
             "content_disable": "We will stop tracking your user quiz information"
         },
         "delete_note": {
-            "title": "Are you sure you want to delete \"{{note_name}}\"?",
-            "message": "Deleting this note is permanent and cannot be undone."
+            "title": "Êtes-vous sûr de vouloir supprimer \"{{quiz_name}}\" ?",
+            "message": "La suppression de ce quiz est définitive et irréversible."
         },
         "exit_note": {
-            "title": "Are you sure you want to exit the note?",
+            "title": "Êtes-vous sûr de vouloir quitter la question ?",
             "message": "Toute modification non enregistrée sera perdue."
         }
     },
@@ -805,9 +805,9 @@
                 "subtitle": "This file's contents don't match the expected question format. Please make sure not to modify the file and try again."
             }
         },
-        "edit_question_failed": "Error editing question",
+        "edit_question_failed": "Une erreur s'est produite lors de l'ajout de la question",
         "delete_note_fail": "Failed to delete note",
-        "duplicate_note_fail": "Failed to duplicate note"
+        "duplicate_note_fail": "Impossible de dupliquer le quiz"
     },
     "success_messages": {
         "message": "",
@@ -839,10 +839,10 @@
         "quiz_assessment_mode_updated": "Le quiz a été mis à jour",
         "quiz_imported": "Le quiz a été mis à jour",
         "question_imported": "La question a été supprimée",
-        "note_created": "The note has been created",
-        "note_deleted": "The note has been deleted",
-        "note_updated": "The note has been updated",
-        "note_duplicated": "The note has been duplicated"
+        "note_created": "Le quiz a été créé",
+        "note_deleted": "L'apprenant a été supprimé.",
+        "note_updated": "Le quiz a été mis à jour",
+        "note_duplicated": "Le quiz a été dupliqué"
     },
     "loading_messages": {
         "message": "",
@@ -1292,7 +1292,7 @@
         }
     },
     "create_note": {
-        "header_title": "Create a new note",
+        "header_title": "Créer un nouveau dossier",
         "edit_header_title": "Edit note",
         "header_required_tooltip": "Les champs obligatoires ne peuvent pas être laissés vides",
         "header_character_limit_tooltip": "Un ou plusieurs champs dépassent la limite de caractères.",
