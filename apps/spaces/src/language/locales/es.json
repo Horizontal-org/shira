@@ -104,7 +104,7 @@
         "create_note_button": "Create note",
         "columns": {
             "type": {
-                "note": "Note"
+                "note": "Nota"
             }
         }
     },
@@ -720,7 +720,7 @@
         },
         "exit_note": {
             "title": "Are you sure you want to exit the note?",
-            "message": "Any unsaved changes will be lost."
+            "message": "Cualquier cambio no guardado se perderá."
         }
     },
     "error_messages": {
@@ -1297,7 +1297,7 @@
         "header_character_limit_tooltip": "One or more fields exceed the character limit.",
         "breadcrumbs": {
             "content": "Note content",
-            "preview": "Preview"
+            "preview": "Vista Previa"
         },
         "note_info": {
             "note_name": {
