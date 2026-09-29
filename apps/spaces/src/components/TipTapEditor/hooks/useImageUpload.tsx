@@ -12,7 +12,7 @@ interface ImageUploadResponse {
 interface UseImageUploadOptions {
   maxSizeInMB?: number
   allowedTypes?: string[]
-  uploadFunction?: (file: File) => Promise<ImageUploadResponse>
+  uploadFunction?: (file: File, quizId: string, entityId?: string) => Promise<ImageUploadResponse>
 }
 
 const defaultUploadImage = async (file: File, quizId: string, questionId: string = null): Promise<ImageUploadResponse> => {
@@ -22,7 +22,7 @@ const defaultUploadImage = async (file: File, quizId: string, questionId: string
 
     let url = `${process.env.REACT_APP_API_URL}/question-image/upload?quizId=${quizId}`
     if (questionId) {
-      url = url + `&questionId${questionId}`
+      url = url + `&questionId=${questionId}`
     }
 
     const res = await axios.post(url, formData, {
@@ -42,6 +42,33 @@ const defaultUploadImage = async (file: File, quizId: string, questionId: string
   }
 }
 
+export const uploadNoteImage = async (file: File, quizId: string, noteId: string = null): Promise<ImageUploadResponse> => {
+  try {
+    const formData = new FormData()
+    formData.append('file', file)
+
+    let url = `${process.env.REACT_APP_API_URL}/note-image/upload?quizId=${quizId}`
+    if (noteId) {
+      url = url + `&noteId=${noteId}`
+    }
+
+    const res = await axios.post(url, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+
+    return {
+      id: res.data.imageId,
+      presignedUrl: res.data.url,
+      originalFilename: file.name
+    }
+  } catch (e) {
+    console.log("🚀 ~ uploadNoteImage ~ e:", e)
+    throw new Error(t('error_messages.image_upload_failed'))
+  }
+}
+
 export const useImageUpload = (
   editor: any,
   options: UseImageUploadOptions = {}
@@ -52,7 +79,7 @@ export const useImageUpload = (
     uploadFunction = defaultUploadImage
   } = options
 
-  const { quizId, questionId = null } = useParams()
+  const { quizId, questionId = null, noteId = null } = useParams()
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const [isUploading, setIsUploading] = useState(false)
@@ -87,7 +114,7 @@ export const useImageUpload = (
 
     setIsUploading(true)
     try {
-      const uploadResponse = await uploadFunction(file, quizId, questionId)
+      const uploadResponse = await uploadFunction(file, quizId, questionId ?? noteId)
       editor.chain().focus().setImage({
         src: uploadResponse.presignedUrl,
         'data-image-id': uploadResponse.id,

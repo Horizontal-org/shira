@@ -26,15 +26,15 @@ export const QuizFooterDesktop: FunctionComponent<Props> = ({
           <VscClose size={24} color='#111' />
         </CloseButton>
         <Title>
-          { title }
+          {title}
         </Title>
       </LeftContent>
 
-      { action }
+      {action}
 
       <Dialog
         isOpen={isDialogOpen}
-        setIsOpen={setIsDialogOpen} 
+        setIsOpen={setIsDialogOpen}
         title={t('quiz.exit.title')}
         description={t('quiz.exit.description')}
         action={() => { changeScene('welcome') }}
