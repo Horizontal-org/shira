@@ -151,7 +151,13 @@
             "submit_as_template": "Submit as template",
             "export": "Toa"
         },
-        "use_library_question_button": "Use a question template"
+        "use_library_question_button": "Use a question template",
+        "create_note_button": "Create note",
+        "columns": {
+            "type": {
+                "note": "Note"
+            }
+        }
     },
     "questions": {
         "edit": {
@@ -854,6 +860,14 @@
             "title_disable": "Disable results?",
             "content_enable": "We will start tracking your user quiz information",
             "content_disable": "We will stop tracking your user quiz information"
+        },
+        "delete_note": {
+            "title": "Are you sure you want to delete \"{{note_name}}\"?",
+            "message": "Deleting this note is permanent and cannot be undone."
+        },
+        "exit_note": {
+            "title": "Are you sure you want to exit the note?",
+            "message": "Any unsaved changes will be lost."
         }
     },
     "error_messages": {
@@ -936,7 +950,9 @@
                 "subtitle": "This file's contents don't match the expected question format. Please make sure not to modify the file and try again."
             }
         },
-        "edit_question_failed": "Error editing question"
+        "edit_question_failed": "Error editing question",
+        "delete_note_fail": "Failed to delete note",
+        "duplicate_note_fail": "Failed to duplicate note"
     },
     "success_messages": {
         "quiz_link_copied": "The public quiz link has been copied to your clipboard.",
@@ -966,7 +982,11 @@
         "email_updated": "Your email address was updated successfully.",
         "quiz_assessment_mode_updated": "The quiz has been updated",
         "quiz_imported": "The quiz has been imported",
-        "question_imported": "The question has been imported"
+        "question_imported": "The question has been imported",
+        "note_created": "The note has been created",
+        "note_deleted": "The note has been deleted",
+        "note_updated": "The note has been updated",
+        "note_duplicated": "The note has been duplicated"
     },
     "loading_messages": {
         "loading": "Loading...",
@@ -1241,6 +1261,30 @@
             "easy": "level: easy",
             "for-everyone": "for everyone",
             "mobile": "mobile"
+        }
+    },
+    "create_note": {
+        "header_title": "Create a new note",
+        "edit_header_title": "Edit note",
+        "header_required_tooltip": "Required fields cannot be left blank",
+        "header_character_limit_tooltip": "One or more fields exceed the character limit.",
+        "breadcrumbs": {
+            "content": "Note content",
+            "preview": "Preview"
+        },
+        "note_info": {
+            "note_name": {
+                "title": "Note name",
+                "subtitle": "This name will only be visible to you, to help you remember what this note is about",
+                "placeholder": "Note name"
+            },
+            "note_content": {
+                "title": "Note content",
+                "subtitle": "Write the note that will be shown. Notes are shown before, after or in between questions. They can include text, links and images to offer more context and information."
+            }
+        },
+        "preview": {
+            "subtitle": "This is how your note will look to learners."
         }
     }
 }
