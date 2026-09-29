@@ -89,6 +89,9 @@
             "2_results": "2. Results:",
             "1_date_time": "1. The date and time when you take the quiz",
             "intro": "When you take this quiz, Shira will only track:"
+        },
+        "note": {
+            "title": "Note"
         }
     },
     "feedback": {
