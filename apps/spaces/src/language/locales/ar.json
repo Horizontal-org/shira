@@ -666,7 +666,8 @@
                 "audio": "صوت",
                 "document": "وثيقة",
                 "other": "آخر"
-            }
+            },
+            "explanation": "Selecting the correct file type lets Shira display a realistic attachment icon in the quiz. For added realism, consider including a file extension in the filename (for example, .pdf or .zip)."
         },
         "explanations_modal": {
             "title": "التفسيرات",
