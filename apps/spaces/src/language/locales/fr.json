@@ -720,7 +720,7 @@
         },
         "exit_note": {
             "title": "Are you sure you want to exit the note?",
-            "message": "Any unsaved changes will be lost."
+            "message": "Toute modification non enregistrée sera perdue."
         }
     },
     "error_messages": {
@@ -1293,11 +1293,11 @@
     "create_note": {
         "header_title": "Create a new note",
         "edit_header_title": "Edit note",
-        "header_required_tooltip": "Required fields cannot be left blank",
-        "header_character_limit_tooltip": "One or more fields exceed the character limit.",
+        "header_required_tooltip": "Les champs obligatoires ne peuvent pas être laissés vides",
+        "header_character_limit_tooltip": "Un ou plusieurs champs dépassent la limite de caractères.",
         "breadcrumbs": {
             "content": "Note content",
-            "preview": "Preview"
+            "preview": "Aperçu"
         },
         "note_info": {
             "note_name": {
