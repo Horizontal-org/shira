@@ -2,13 +2,14 @@ import { FunctionComponent } from 'react'
 import { Draggable } from "@hello-pangea/dnd";
 import { styled } from '@horizontal-org/shira-ui';
 import { TextDragItem } from '../TextDragItem';
+import { AttachmentDragItem } from '../AttachmentDragItem';
 import { ImageDragItem } from '../ImageDragItem';
-import { QuestionDragEditor, QuestionDragImage } from '../../../../../store/types/active_question';
+import { QuestionDragEditor, QuestionDragImage, QuestionDragAttachment } from '../../../../../store/types/active_question';
 import { QuestionContentDragItemOptions } from '../../QuestionContentDragItemOptions';
 
 interface Props {
   index: number;
-  item: QuestionDragEditor | QuestionDragImage;
+  item: QuestionDragEditor | QuestionDragImage | QuestionDragAttachment;
   onDelete: () => void
   isImageUploading?: boolean
 }
@@ -33,9 +34,9 @@ export const DraggableMessagingItem: FunctionComponent<Props> = ({
             >
               <Wrapper>
 
-                {item.contentType === 'editor'
-                  ? (<SmallText>Message text</SmallText>)
-                  : (<SmallText>Image</SmallText>)}
+                {item.contentType === 'editor' && (<SmallText>Message text</SmallText>)}
+                {item.contentType === 'image' && (<SmallText>Image</SmallText>)}
+                {item.contentType === 'attachment' && (<SmallText>Attachment</SmallText>)}
 
                 <ContentWrapper>
                   <QuestionContentDragItemOptions
@@ -60,6 +61,16 @@ export const DraggableMessagingItem: FunctionComponent<Props> = ({
                       isLoading={isImageUploading}
                     />
                   )}
+
+                  {item.contentType === 'attachment' && (
+                    <AttachmentDragItem
+                      name={item.value.name}
+                      explanationId={item.explanation}
+                      index={index}
+                      type={item.value.type}
+                    />
+                  )}
+
                 </ContentWrapper>
               </Wrapper>
 
