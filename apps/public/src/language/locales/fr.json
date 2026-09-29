@@ -89,6 +89,9 @@
             "2_results": "2. Résultats :",
             "1_date_time": "1. La date et l'heure auxquelles vous passez le quiz",
             "intro": "Lorsque vous passez ce quiz, Shira ne suit que les éléments suivants :"
+        },
+        "note": {
+            "title": "Note"
         }
     },
     "feedback": {
