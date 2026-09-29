@@ -632,7 +632,8 @@
                 "audio": "Sauti",
                 "document": "Document",
                 "other": "Mengineyo"
-            }
+            },
+            "explanation": "Selecting the correct file type lets Shira display a realistic attachment icon in the quiz. For added realism, consider including a file extension in the filename (for example, .pdf or .zip)."
         },
         "variables_modal": {
             "title": "Variables",
@@ -1270,7 +1271,7 @@
         "header_character_limit_tooltip": "One or more fields exceed the character limit.",
         "breadcrumbs": {
             "content": "Note content",
-            "preview": "Preview"
+            "preview": "Chungulia kwanza"
         },
         "note_info": {
             "note_name": {
