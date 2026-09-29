@@ -13,15 +13,16 @@ import { RightActions } from "./components/RightActions";
 import { OutlookAttachmentElement, OutlookCustomElements } from "..";
 import { Sender } from "./components/Sender";
 import { Attachment } from "../Attachment";
+import { sanitizeEmailHtml } from "../../components/sanitizeEmailHtml";
 
-interface Props { 
+interface Props {
   content: HTMLElement;
   senderName: OutlookCustomElements;
   senderEmail: OutlookCustomElements;
   attachments: OutlookAttachmentElement[],
 }
 
-export const EmailContent:FunctionComponent<Props> = ({
+export const EmailContent: FunctionComponent<Props> = ({
   content,
   senderName,
   senderEmail,
@@ -73,7 +74,15 @@ export const EmailContent:FunctionComponent<Props> = ({
           </AttachmentActionContainer>
         }
         </Attachments>
-      <DynamicContent dangerouslySetInnerHTML={{__html: content ? content.outerHTML : null }}></DynamicContent>      
+      <DynamicContent
+        onClick={(event) => {
+          if ((event.target as Element).closest('a')) event.preventDefault()
+        }}
+        onContextMenu={(event) => {
+          if ((event.target as Element).closest('a')) event.preventDefault()
+        }}
+        dangerouslySetInnerHTML={{ __html: sanitizeEmailHtml(content?.outerHTML ?? '') }}
+      />
       <BottomBar>
         <BottomButton>
           <Reply />

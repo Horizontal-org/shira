@@ -1,25 +1,14 @@
 import { FunctionComponent } from "react";
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
-import { AudioIcon, PdfIcon, GenericAttachmentIcon } from '../../../../../Icons'
+import { LuArrowDown, LuPlay } from 'react-icons/lu'
+import { MdInsertDriveFile } from 'react-icons/md'
 import { AttachmentType } from '../../../../../Attachments'
-import DownloadIcon from '../../../../Whatsapp/Icons/Download'
 
 interface Props {
   name: string,
   type?: string,
   explanationPosition?: string
-}
-
-const renderIcon = (type?: string) => {
-  switch (type) {
-    case AttachmentType.audio:
-      return <AudioIcon />
-    case AttachmentType.document:
-      return <PdfIcon />
-    default:
-      return <GenericAttachmentIcon />
-  }
 }
 
 export const Attachment: FunctionComponent<Props> = ({ name, type, explanationPosition }) => {
@@ -30,22 +19,23 @@ export const Attachment: FunctionComponent<Props> = ({ name, type, explanationPo
     <Wrapper>
       <Card data-explanation={explanationPosition}>
         <div>
+          <DesktopIcon>
+            {isAudio ? <LuPlay /> : <LuArrowDown />}
+          </DesktopIcon>
           <IconWrapper>
-            {renderIcon(type)}
+            {isAudio ? <LuPlay /> : <MdInsertDriveFile />}
           </IconWrapper>
           <Info>
             <Name>{name}</Name>
             {isAudio ? (
               <Duration>00:02</Duration>
             ) : (
-              <DownloadLabel>{t('telegram.download')}</DownloadLabel>
+              <>
+                <DownloadLabel>{t('telegram.download')}</DownloadLabel>
+                <Size>{t('telegram.file_size')}</Size>
+              </>
             )}
           </Info>
-          {!isAudio && (
-            <Download>
-              <DownloadIcon />
-            </Download>
-          )}
         </div>
         <span>00:00</span>
       </Card>
@@ -57,45 +47,67 @@ const Wrapper = styled.div`
   width: 100%;
   display: flex;
   flex-grow: 1;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    display: block;
+    width: fit-content;
+    max-width: 80%;
+    box-sizing: border-box;
+    background: #fff;
+    border-radius: 18px;
+    padding: 8px 12px 6px 8px;
+  }
 `
 
-const IconWrapper = styled.div`
+const DesktopIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
+  width: 44px;
+  height: 44px;
   flex-shrink: 0;
   border-radius: 50%;
-  background: #039BE5;
-  margin-inline-end: 10px;
+  background: #3390ec;
+  margin-inline-end: 14px;
 
   > svg {
-    width: 18px;
-    height: 18px;
+    width: 24px;
+    height: 24px;
+    color: #fff;
   }
 
-  svg path {
-    fill: #fff;
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    display: none;
   }
 `
 
-const Download = styled.div`
-  display: flex;
+const IconWrapper = styled.div`
+  display: none;
   align-items: center;
-  margin-inline-start: 8px;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #2f8fe8;
+  margin-inline-end: 10px;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    display: flex;
+  }
 
   > svg {
     width: 22px;
     height: 22px;
-    border-radius: 50%;
-    fill: rgba(84,101,111, 0.5);
+    color: #fff;
   }
 `
 
 const Card = styled.div`
+  flex: 1;
+  min-width: 0;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
 
@@ -108,7 +120,7 @@ const Card = styled.div`
 
   > span {
     flex-shrink: 0;
-    font-size: 12px;
+    font-size: 13px;
     color: #8e8e93;
     font-weight: 400;
   }
@@ -116,27 +128,13 @@ const Card = styled.div`
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     display: block;
 
-    background: #fff;
-    border-radius: 12px;
-    border-top-inline-start-radius: 4px;
-    padding-top: 6px;
-    padding-inline-end: 7px;
-    padding-bottom: 8px;
-    padding-inline-start: 9px;
-    box-shadow: 0 1px 0.5px rgba(11,20,26, .13);
-
-    > div {
-      background: #f5f6f6;
-      border-radius: 10px;
-      padding: 8px;
-    }
-
     > span {
-      font-size: 9px;
       display: block;
+      margin-top: -2px;
+      font-size: 12px;
+      line-height: 1;
       text-align: end;
-      padding-top: 2px;
-      margin-bottom: -2px;
+      color: #a0a0a5;
     }
   }
 `
@@ -148,21 +146,52 @@ const Info = styled.div`
 
 const Name = styled.div`
   text-align: start;
-  font-size: 12px;
-  color: #111b21;
+  font-size: 16px;
+  font-weight: 500;
+  color: #000;
+  margin-bottom: 2px;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    font-weight: 400;
+    color: #2f8fe8;
+    margin-bottom: 0;
+  }
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 `
 
 const DownloadLabel = styled.span`
-  font-size: 11px;
-  color: #039BE5;
+  display: block;
+  text-align: start;
+  font-size: 16px;
+  color: #2481cc;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    display: none;
+  }
+`
+
+const Size = styled.span`
+  display: none;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    display: block;
+    text-align: start;
+    font-size: 14px;
+    color: #8e8e93;
+  }
 `
 
 const Duration = styled.span`
-  font-size: 11px;
-  color: #667781;
+  display: block;
+  text-align: start;
+  font-size: 15px;
+  color: #8e8e93;
+
+  @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    font-size: 14px;
+  }
 `
 
 export default Attachment

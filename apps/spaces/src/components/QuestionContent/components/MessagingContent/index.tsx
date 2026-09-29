@@ -19,6 +19,7 @@ const MessagingAppsNames = {
   SMS: 'SMS',
   MESSENGER: 'Messenger',
   DATING_APP: 'Dating App',
+  INSTAGRAM: 'Instagram',
   TELEGRAM: 'Telegram'
 }
 
