@@ -102,20 +102,7 @@ export class InviteLearnerService implements IInviteLearnerService {
   }
 
   async accept(token: string): Promise<string> {
-    const learner = await this.learnerRepo.findOne({
-      where: {
-        invitationToken: token,
-        status: Not('registered')
-      }
-    });
-
-    if (!learner) throw new GenericErrorException();
-
-    // a week ago 
-    if (learner.invitedAt < new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)) {
-      this.logger.log(`Invitation token expired for learner with email: ${learner.email}`);
-      throw new InvitationExpiredException();
-    }
+    const learner = await this.findValidInvitation(token);
 
     this.logger.log(`Accepting invitation for learner with email: ${learner.email}`);
 
@@ -123,6 +110,8 @@ export class InviteLearnerService implements IInviteLearnerService {
       where: { id: learner.spaceId },
       select: { name: true }
     });
+
+    if (!space) throw new GenericErrorException();
 
     try {
       await this.learnerRepo.update(
@@ -134,6 +123,35 @@ export class InviteLearnerService implements IInviteLearnerService {
       this.logger.error(`Error updating learner ${learner.email}: - ${error.message}`);
       throw new SaveLearnerException();
     }
+  }
+
+  async preview(token: string): Promise<string> {
+    const learner = await this.findValidInvitation(token);
+    const space = await this.spaceRepo.findOne({
+      where: { id: learner.spaceId },
+      select: { name: true }
+    });
+
+    if (!space) throw new GenericErrorException();
+    return space.name;
+  }
+
+  private async findValidInvitation(token: string): Promise<LearnerEntity> {
+    const learner = await this.learnerRepo.findOne({
+      where: {
+        invitationToken: token,
+        status: Not('registered')
+      }
+    });
+
+    if (!learner) throw new GenericErrorException();
+
+    // A week ago
+    if (learner.invitedAt < new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)) {
+      this.logger.log(`Invitation token expired for learner with email: ${learner.email}`);
+      throw new InvitationExpiredException();
+    }
+    return learner;
   }
 
   private async handleExistingLearner(
