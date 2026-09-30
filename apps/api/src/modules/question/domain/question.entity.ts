@@ -12,7 +12,6 @@ import {
 } from 'typeorm';
 import { Explanation } from './explanation.entity';
 import { QuestionTranslation } from '../../translation/domain/questionTranslation.entity';
-import { QuizQuestion } from 'src/modules/quiz/domain/quizzes_questions.entity';
 import { QuestionImage } from 'src/modules/question_image/domain/question_images.entity';
 
 @Entity({ name: 'questions' })
@@ -74,13 +73,6 @@ export class Question {
     (questionTranslation: QuestionTranslation) => questionTranslation.question,
   )
   questionTranslations: QuestionTranslation[];
-
-  @OneToMany(
-    () => QuizQuestion,
-    (quizQuestion: QuizQuestion) =>
-      quizQuestion.question,
-  )
-  quizQuestions?: QuizQuestion[];
 
   @OneToMany(
     () => QuestionImage,

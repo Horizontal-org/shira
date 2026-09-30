@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { Quiz as QuizEntity } from './domain/quiz.entity';
-import { QuizQuestion as QuizQuestionEntity } from './domain/quizzes_questions.entity';
+import { QuizItem as QuizItemEntity } from './domain/quiz_items.entity';
+import { Note as NoteEntity } from '../note/domain';
 import { SpaceEntity } from '../space/domain/space.entity';
 import { CreateQuizController } from './controller/create.quiz.controller';
 import { servicesQuizProviders } from './quiz.providers';
@@ -23,6 +24,7 @@ import { DuplicateQuestionQuizController } from './controller/duplicate-question
 import { DuplicateQuizController } from './controller/duplicate-quiz.controller';
 import { QuestionImage } from '../question_image/domain';
 import { QuestionImageModule } from '../question_image/question_image.module';
+import { NoteImageModule } from '../note_image/note_image.module'
 import { SubscriptionModule } from '../subscription/subscription.module';
 import { ValidateQuizNameController } from './controller/validate-name.quiz.controller';
 import { DeleteQuestionQuizController } from './controller/delete-question.quiz.controller';
@@ -37,7 +39,8 @@ import { QuestionModule } from '../question/question.module';
   imports: [
     TypeOrmModule.forFeature([
       QuizEntity,
-      QuizQuestionEntity,
+      QuizItemEntity,
+      NoteEntity,
       SpaceEntity,
       QuestionEntity,
       Explanation,
@@ -48,8 +51,9 @@ import { QuestionModule } from '../question/question.module';
       App
     ]),
     QuestionImageModule,
+    forwardRef(() => NoteImageModule),
     SubscriptionModule,
-    QuestionModule
+    forwardRef(() => QuestionModule)
   ],
   controllers: [
     CreateQuizController,

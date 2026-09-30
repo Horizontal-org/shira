@@ -182,6 +182,48 @@
       "no_voice": "No shared voice messages"
     }
   },
+  "telegram": {
+    "chats": "Chats",
+    "search": "Search",
+    "download": "Download",
+    "last_seen": "last seen recently",
+    "add_contact": "Add Contact",
+    "add_to_contacts": "Add to Contacts",
+    "block_user": "Block User",
+    "not_a_contact": "Not a contact",
+    "registration": "Registration",
+    "phone_number": "Phone Number",
+    "not_official_account": "Not an official account",
+    "untitled_document": "Untitled document.txt",
+    "today": "Today",
+    "unread_count": "9",
+    "registration_date": "Jun 2023",
+    "file_size": "24 KB",
+    "sender_info": {
+      "title": "User Info",
+      "close": "Close user info",
+      "unknown_user": "Unknown user",
+      "last_seen": "last seen recently",
+      "phone": "Phone",
+      "shared_content": "Shared content",
+      "media": "Media",
+      "links": "Links",
+      "voice": "Voice",
+      "no_links": "No shared links",
+      "shared_image": "Shared image",
+      "no_media": "No shared media",
+      "no_voice": "No shared voice messages"
+    }
+  },
+  "instagram": {
+    "account_name": "You",
+    "search": "Search",
+    "messages": "Messages",
+    "requests": "Requests",
+    "your_note": "Your note",
+    "new_message": "New message",
+    "verified": "Verified"
+  },
   "pagination": {
     "summary": "{{start}}-{{end}} of {{total}}",
     "page": "<current>{{current}}</current> of {{total}}",

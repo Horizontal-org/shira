@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
 import { Body2Regular, Body3, InputHeading, styled, SubHeading3 } from '@horizontal-org/shira-ui'
+import { HtmlEmailEditor } from "../../../HtmlEmailEditor";
 import { EmailTipTapEditor } from "../../../TipTapEditor/EmailTipTapEditor";
 import { Attachments } from "../Attachments";
 import { InputWithExplanation } from "../../../InputWithExplanation";
@@ -16,8 +17,10 @@ interface Props {
 
 export const EmailContent: FunctionComponent<Props> = ({
   content,
+  question,
 }) => {
   const { t } = useTranslation();
+  const BodyEditor = question.editorType === 'advanced' ? HtmlEmailEditor : EmailTipTapEditor;
 
   const {
     updateActiveQuestionInput,
@@ -90,7 +93,8 @@ export const EmailContent: FunctionComponent<Props> = ({
       <div>
         <SubHeading3 id="email-content-email-body-content-title">{t('create_question.tabs.content.email_body_content.title')}</SubHeading3>
         <Body2Regular id="email-content-email-body-content-subtitle">{t('create_question.tabs.content.email_body_content.subtitle')}</Body2Regular>
-        <EmailTipTapEditor
+        <BodyEditor
+          key={question.editorType ?? 'simple'}
           initialContent={content.body.value}
           maxLength={EMAIL_CONTENT_MAX_LENGTH}
           characterLimitErrorText={t('error_messages.character_limit_error')}

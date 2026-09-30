@@ -34,7 +34,7 @@ export class PrepareQuestionsLibraryService implements IPrepareQuestionsLibraryS
       .where('quiz.id = :quizId', { quizId })
       .andWhere('question.type = :type', { type: 'quiz' })
       .andWhere('space.id = :spaceId', { spaceId })
-      .orderBy('quizQuestion.position', 'ASC')
+      .orderBy('quizItem.position', 'ASC')
       .getMany()
   }
 
@@ -117,8 +117,8 @@ export class PrepareQuestionsLibraryService implements IPrepareQuestionsLibraryS
       .leftJoinAndSelect('question.explanations', 'explanation')
       .leftJoinAndSelect('explanation.explanationTranslations', 'explanationTranslation')
       .leftJoinAndSelect('explanationTranslation.languageId', 'etLang')
-      .leftJoinAndSelect('question.quizQuestions', 'quizQuestion')
-      .leftJoinAndSelect('quizQuestion.quiz', 'quiz')
+      .leftJoinAndSelect('quiz_items', 'quizItem', "quizItem.entityId = question.id AND quizItem.entityType = 'question'")
+      .leftJoinAndSelect('quizItem.quiz', 'quiz')
       .leftJoinAndSelect('quiz.space', 'space')
       .leftJoinAndSelect('question.images', 'image')
       .select([
@@ -143,7 +143,7 @@ export class PrepareQuestionsLibraryService implements IPrepareQuestionsLibraryS
         'etLang.id',
         'etLang.code',
         'etLang.name',
-        'quizQuestion.id',
+        'quizItem.id',
         'quiz.id',
         'space.id',
         'space.name',
