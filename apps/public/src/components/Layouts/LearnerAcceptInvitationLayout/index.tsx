@@ -1,112 +1,132 @@
-import { FunctionComponent, useCallback, useEffect, useState } from "react";
-import { styled, defaultTheme, Body1, SubHeading1, SettingsFishIcon, Link2 } from "@horizontal-org/shira-ui";
+import { FunctionComponent, useState } from "react";
+import {
+  Body1,
+  Button,
+  Checkbox,
+  defaultTheme,
+  Link2,
+  SettingsFishIcon,
+  styled,
+  SubHeading1,
+} from "@horizontal-org/shira-ui";
+import { Trans, useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { ReactComponent as HookedFish } from "../../../assets/HookedFish.svg";
-import { useTranslation } from "react-i18next";
-import { Heading } from "../../UI/Title";
 import { acceptInvitation } from "../../../fetch/learner_invitation";
 import { SceneWrapper } from "../../UI/SceneWrapper";
 import ShiraFullLogo from "../../UI/Icons/ShiraFullLogo";
-import { InvalidLink } from "../../UI/InvalidLink";
+
+enum ViewState {
+  Ready = "ready",
+  Joining = "joining",
+  Accepted = "accepted",
+  Error = "error",
+}
 
 export const LearnerAcceptInvitationLayout: FunctionComponent = () => {
-  enum ViewState {
-    Loading = "loading",
-    Accepted = "accepted",
-    Error = "error"
-  }
-
   const { t } = useTranslation();
   const { hash } = useParams();
+  const [view, setView] = useState<ViewState>(ViewState.Ready);
+  const [acceptedPrivacyPolicy, setAcceptedPrivacyPolicy] = useState(false);
+  const [spaceName, setSpaceName] = useState("");
 
-  const [view, setView] = useState<ViewState>(ViewState.Loading);
-  const [spaceName, setSpaceName] = useState<string>("");
+  const joinSpace = async () => {
+    if (!hash || !acceptedPrivacyPolicy || view === ViewState.Joining) return;
 
-  const accept = useCallback(async () => {
-    if (!hash) return;
-
-    setView(ViewState.Loading);
+    setView(ViewState.Joining);
 
     try {
-      const { spaceName } = await acceptInvitation(hash);
-      setSpaceName(spaceName || "");
+      const response = await acceptInvitation(hash);
+      setSpaceName(response.spaceName || "");
       setView(ViewState.Accepted);
-    } catch (err) {
-      setView(ViewState.Error);      
+    } catch {
+      setView(ViewState.Error);
     }
-  }, [hash]);
-
-  useEffect(() => {
-    if (hash) {
-      accept();
-    }
-  }, [accept, hash]);
+  };
 
   return (
-      <>
-        {view === ViewState.Accepted && (
-          <SceneWrapper bg="white">
-            <Header>
-              <ShiraFullLogo aria-hidden="true" />
-              <Link2 href="https://shira.app" target="_blank">
-                {t("learner_invitation.learn_more")}
-              </Link2>
-            </Header>
+    <SceneWrapper bg="white">
+      <Header>
+        <ShiraFullLogo aria-hidden="true" />
+        <Link2 href="https://shira.app" target="_blank" rel="noopener noreferrer">
+          {t("learner_invitation.learn_more")}
+        </Link2>
+      </Header>
 
-            <Main>
-              <Content>
-                <SettingsFishIcon aria-hidden="true" />
-                <Card>
-                  <SubHeading1>{t("learner_invitation.success_title")}</SubHeading1>
-                  <Body1>
-                    {t("learner_invitation.success_joined_space", { spaceName })}
-                  </Body1>
+      <Main>
+        {view === ViewState.Accepted ? (
+          <Content>
+            <SettingsFishIcon aria-hidden="true" />
+            <ResultCard aria-live="polite">
+              <SubHeading1>{t("learner_invitation.success_title")}</SubHeading1>
+              <Body1>
+                {t("learner_invitation.success_joined_space", { spaceName })}
+              </Body1>
+              <Body1>{t("learner_invitation.success_hint")}</Body1>
+            </ResultCard>
+          </Content>
+        ) : (
+          <Content>
+            <GreenFishWrapper>
+              <HookedFish aria-hidden="true" />
+            </GreenFishWrapper>
 
-                  <Body1>{t("learner_invitation.success_hint")}</Body1>
-                </Card>
-              </Content>
-            </Main>
-          </SceneWrapper>
+            <JoinCard>
+              <SubHeading1>
+                {view === ViewState.Error
+                  ? t("learner_invitation.error_title")
+                  : t("learner_invitation.join_title")}
+              </SubHeading1>
+
+              <Body1>
+                {view === ViewState.Error
+                  ? t("learner_invitation.error_message")
+                  : t("learner_invitation.join_message")}
+              </Body1>
+
+              {view !== ViewState.Error && (
+                <PrivacyLabel>
+                  <Checkbox
+                    ariaLabel={t("learner_invitation.privacy_consent_aria_label")}
+                    checked={acceptedPrivacyPolicy}
+                    disabled={view === ViewState.Joining}
+                    id="learner-invitation-privacy-policy"
+                    onChange={(event) => setAcceptedPrivacyPolicy(event.target.checked)}
+                    size={18}
+                  />
+                  <PrivacyText>
+                    <Trans
+                      i18nKey="learner_invitation.privacy_consent_label"
+                      components={[
+                        <Link2
+                          href="https://shira.app/privacy-policy"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        />,
+                      ]}
+                    />
+                  </PrivacyText>
+                </PrivacyLabel>
+              )}
+
+              <ButtonWrapper>
+                <Button
+                  disabled={!acceptedPrivacyPolicy || view === ViewState.Joining || !hash}
+                  onClick={joinSpace}
+                  text={
+                    view === ViewState.Joining
+                      ? t("learner_invitation.joining")
+                      : view === ViewState.Error
+                        ? t("learner_invitation.try_again")
+                        : t("learner_invitation.join_button")
+                  }
+                />
+              </ButtonWrapper>
+            </JoinCard>
+          </Content>
         )}
-        
-        {view === ViewState.Error && (
-          <InvalidLink 
-            title={t("invalid_invitation.title")}
-            description={t("invalid_invitation.description")}
-            homeButtonText={t("invalid_invitation.home_button")}
-          />          
-        )}
-
-        {view === ViewState.Loading && (
-          <SceneWrapper bg="white">
-            <Header>
-              <ShiraFullLogo aria-hidden="true" />
-              <Link2 href="https://shira.app" target="_blank">
-                {t("learner_invitation.learn_more")}
-              </Link2>
-            </Header>
-            
-            <Main>
-              <Content>
-                <AcceptWrapper>
-                  <GreenFishWrapper>
-                    <HookedFish aria-hidden="true" />
-                  </GreenFishWrapper>
-
-                  <AcceptBox
-                    aria-live="polite"
-                    aria-describedby={"loading"}
-                  >
-                    <Heading>
-                      {t("loading_messages.loading")}
-                    </Heading>
-                  </AcceptBox>
-                </AcceptWrapper>
-              </Content>
-            </Main>
-          </SceneWrapper>
-        )}
-    </>
+      </Main>
+    </SceneWrapper>
   );
 };
 
@@ -115,6 +135,10 @@ const Header = styled.header`
   justify-content: space-between;
   align-items: center;
   padding: 24px 48px;
+
+  @media (max-width: 600px) {
+    padding: 20px 24px;
+  }
 `;
 
 const Main = styled.main`
@@ -122,7 +146,7 @@ const Main = styled.main`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 64px 24px;
+  padding: 48px 24px 72px;
 `;
 
 const Content = styled.section`
@@ -130,9 +154,14 @@ const Content = styled.section`
   align-items: center;
   justify-content: center;
   gap: 48px;
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+    gap: 24px;
+  }
 `;
 
-const Card = styled.div`
+const ResultCard = styled.div`
   background-color: ${defaultTheme.colors.light.paleGreen};
   border-radius: 16px;
   padding: 48px 64px;
@@ -143,27 +172,44 @@ const Card = styled.div`
   flex-direction: column;
 `;
 
-const AcceptWrapper = styled.div`
+const JoinCard = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 64px 24px;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 440px;
 `;
 
 const GreenFishWrapper = styled.div`
   display: flex;
-  padding-inline-end: 40px;
 
   > svg {
-    width: 410px;
-    height: 348px;
+    width: min(410px, 40vw);
+    height: auto;
+  }
+
+  @media (max-width: 900px) {
+    > svg {
+      width: min(260px, 70vw);
+    }
   }
 `;
 
-const AcceptBox = styled.div`
+const PrivacyLabel = styled.label`
   display: flex;
-  flex-direction: column;
-  border: none;
-  gap: 24px;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
 `;
 
+const PrivacyText = styled(Body1)`
+  margin-top: -2px;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+
+  > button {
+    min-width: 128px;
+    justify-content: center;
+  }
+`;
