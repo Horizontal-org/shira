@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 
@@ -9,6 +9,10 @@ import { ICreateSpaceService } from '../interfaces/services/create.space.service
 import { SpaceUserEntity } from '../domain/space-users.entity';
 import { Role } from 'src/modules/user/domain/role.enum';
 import { RoleEntity } from 'src/modules/user/domain/role.entity';
+import { TYPES as LIBRARY_TYPES } from 'src/modules/library/interfaces';
+import { IShiraLibraryService } from 'src/modules/library/interfaces/services/shira-library.service.interface';
+import { ICreateTemplateQuizService } from 'src/modules/library/interfaces/services/create-template-quiz.library.service.interface';
+import { QuizVisibility } from 'src/modules/quiz/dto/quiz-visibility-enum.quiz';
 @Injectable()
 export class CreateSpaceService implements ICreateSpaceService{
 
@@ -19,6 +23,10 @@ export class CreateSpaceService implements ICreateSpaceService{
     private readonly spaceUserRepo: Repository<SpaceUserEntity>,
     @InjectRepository(RoleEntity)
     private readonly roleRepo: Repository<RoleEntity>,
+    @Inject(LIBRARY_TYPES.services.IShiraLibraryService)
+    private readonly shiraLibraryService: IShiraLibraryService,
+    @Inject(LIBRARY_TYPES.services.ICreateTemplateQuizService)
+    private readonly createTemplateQuizService: ICreateTemplateQuizService,
   ) {}
 
   async execute (createSpaceDto: CreateSpaceDto) {
@@ -46,6 +54,17 @@ export class CreateSpaceService implements ICreateSpaceService{
     spaceUser.updatedAt = new Date()
 
     await this.spaceUserRepo.save(spaceUser)
+
+    const defaultQuizTemplateId = process.env.DEFAULT_QUIZ_TEMPLATE_ID?.trim()
+    if (defaultQuizTemplateId) {
+      const template = await this.shiraLibraryService.getQuizTemplate(defaultQuizTemplateId)
+      await this.createTemplateQuizService.execute({
+        title: template.title,
+        visibility: QuizVisibility.Public,
+        questions: template.questions,
+        space: savedSpace,
+      })
+    }
 
     return
   }
