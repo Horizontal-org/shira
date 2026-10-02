@@ -47,6 +47,8 @@ export const defaultMessageContent: MessagingContent = {
 
 export interface ActiveQuestion {
   name: string;
+  editorType?: 'simple' | 'advanced';
+  htmlEditorImages?: Record<string, string>;
   isPhishing?: boolean;
   app?: App;
   content: EmailContent | MessagingContent;
@@ -63,7 +65,7 @@ export interface EmailContent {
 export interface MessagingContent {
   senderName?: QuestionTextInput;
   senderPhone?: QuestionTextInput;
-  draggableItems?: Array<QuestionDragEditor | QuestionDragImage>
+  draggableItems?: Array<QuestionDragImage | QuestionDragEditor | QuestionDragAttachment>
 }
 
 export interface QuestionTextInput {

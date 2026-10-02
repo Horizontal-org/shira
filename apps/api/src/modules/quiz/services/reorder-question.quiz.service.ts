@@ -1,34 +1,26 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { QuizQuestion } from '../domain/quizzes_questions.entity';
+import { Inject, Injectable } from '@nestjs/common';
 import { IReorderQuestionQuizService } from '../interfaces/services/reorder-question.quiz.service.interface';
 import { ReorderQuestionQuizDto } from '../dto/reorder-question.quiz.dto';
+import { TYPES } from '../interfaces';
+import { IQuizItemsService, ReorderQuizItemInput } from '../interfaces/services/quiz-items.service.interface';
 
 
 @Injectable()
 export class ReorderQuestionQuizService implements IReorderQuestionQuizService {
 
-  constructor(    
-    @InjectRepository(QuizQuestion)
-    private readonly quizQuestionRepo: Repository<QuizQuestion>,    
+  constructor(
+    @Inject(TYPES.services.IQuizItemsService)
+    private readonly quizItemsService: IQuizItemsService,
   ) {}
 
   async execute (reorderDto: ReorderQuestionQuizDto) {
 
-    const quizQuestions = await this.quizQuestionRepo
-      .createQueryBuilder('quizzes_questions')
-      .where('quiz_id = :quizId ', { quizId: reorderDto.quizId })      
-      .getMany()
-  
-    quizQuestions.forEach((quizQuestion, index) => {
-      reorderDto.newOrder.forEach((newOrderItem) => {
-        if (quizQuestion.questionId === newOrderItem.questionId) {
-          quizQuestion.position = newOrderItem.position
-        }
-      })
-    })
+    const newOrder: ReorderQuizItemInput[] = reorderDto.newOrder.map((item) => ({
+      position: item.position,
+      entityType: item.entityType ?? 'question',
+      entityId: item.entityId ?? item.questionId,
+    }));
 
-    await this.quizQuestionRepo.save(quizQuestions)      
+    await this.quizItemsService.reorder(reorderDto.quizId, newOrder)
   }
 }

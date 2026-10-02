@@ -1,7 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { QuizQuestion as QuizQuestionEntity } from '../domain/quizzes_questions.entity';
+import { QuizItem } from '../domain/quiz_items.entity';
 import { QuestionSanitizer } from 'src/utils/question-sanitizer.util';
 
 import { ICreateQuestionQuizService } from '../interfaces/services/create-question.quiz.service.interface';
@@ -19,8 +19,8 @@ import { ISyncQuestionImageService } from 'src/modules/question_image/interfaces
 export class EditQuestionQuizService implements ICreateQuestionQuizService{
 
   constructor(
-    @InjectRepository(QuizQuestionEntity)
-    private readonly quizQuestionRepo: Repository<QuizQuestionEntity>,
+    @InjectRepository(QuizItem)
+    private readonly quizItemRepo: Repository<QuizItem>,
     @InjectRepository(Question)
     private readonly questionRepo: Repository<Question>,    
     @InjectRepository(App)
@@ -54,7 +54,9 @@ export class EditQuestionQuizService implements ICreateQuestionQuizService{
     const language = await this.languageRepo.findOne({
       where: { code: 'en' },
     })
-    
+
+    QuestionSanitizer.validateAdvancedQuestion(editQuestionDto.question.content, editQuestionDto.explanations, app.type);
+
     question.name = editQuestionDto.question.name;
     question.isPhising = editQuestionDto.question.isPhishing ? 1 : 0;
     question.apps = [app];
