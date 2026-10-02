@@ -8,7 +8,7 @@ test('a user can duplicate a quiz', async ({ page }) => {
   let quizId: number | undefined;
   let duplicatedQuizId: number | undefined;
 
-  // given: a user is signed in and has a quiz with a question
+  // given: a user is signed in and has a quiz with 1 question
   await signInAsUser(page);
 
   try {
