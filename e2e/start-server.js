@@ -14,6 +14,8 @@ const commonFrontendEnv = {
   HOST: 'localhost',
   PUBLIC_URL: '',
   REACT_APP_API_URL: 'http://localhost:13000',
+  // Point copied quiz links at the isolated Public app so E2E tests can navigate them.
+  REACT_APP_PUBLIC_URL: 'http://localhost:13001',
   REACT_APP_LIBRARY_API_URL: 'http://localhost:13999',
   REACT_APP_ENABLE_ANALYTICS: 'no',
   REACT_APP_VERSION: packageJson.version,
