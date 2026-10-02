@@ -20,6 +20,7 @@ interface StyledIconButtonProps {
 }
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(({
+  id,
   icon,
   onClick,
   type = 'primary',
@@ -29,6 +30,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(({
 }: IconButtonProps, ref = null) =>
 (
   <StyledButton
+    id={id}
     onClick={onClick}
     className={className}
     $type={type}

@@ -1,8 +1,7 @@
 import { expect, test } from '@playwright/test';
+import { deleteQuiz, signInAsUser } from './helpers';
 
-const account = { email: 'admin@e2e.example.test', password: 'E2e-password-123!' };
-
-test('an administrator can create and publish a public quiz from scratch', async ({ page, context }) => {
+test('a user can create and publish a public quiz from scratch', async ({ page, context }) => {
   const quizName = `E2E quiz ${Date.now()}`;
   let quizId: number | undefined;
 
@@ -10,22 +9,18 @@ test('an administrator can create and publish a public quiz from scratch', async
     origin: 'http://localhost:13002',
   });
 
-  // given: an administrator is signed in and viewing the dashboard
-  await page.goto('/login');
-  await page.locator('#email-input').fill(account.email);
-  await page.locator('#password-input').fill(account.password);
-  await page.locator('#login-button').click();
-  await expect(page.locator('#dashboard-layout')).toBeVisible();
+  // given: a user is signed in and viewing the dashboard
+  await signInAsUser(page);
 
   try {
-    // when: the administrator starts a quiz from scratch and gives it a name
+    // when: the user starts a quiz from scratch and gives it a name
     await page.locator('#create-quiz-button').click();
     await page.locator('#create-entity-modal').getByText('Start from scratch').click();
     await expect(page.locator('#quiz-name-modal')).toBeVisible();
     await page.locator('#quiz-name-input').fill(quizName);
     await page.locator('#quiz-name-modal').getByRole('button', { name: 'Next' }).click();
 
-    // and: the administrator makes the quiz public
+    // and: the user makes the quiz public
     await expect(page.locator('#quiz-visibility-modal')).toBeVisible();
     await page.locator('#quiz-visibility-public').check();
     const createResponse = page.waitForResponse(response =>
@@ -91,9 +86,6 @@ test('an administrator can create and publish a public quiz from scratch', async
     await expect(publicPage.getByRole('heading', { name: quizName })).toBeVisible();
     await publicPage.close();
   } finally {
-    if (quizId !== undefined) {
-      const response = await page.request.delete(`http://localhost:13000/quiz/${quizId}`);
-      expect(response.ok()).toBe(true);
-    }
+    await deleteQuiz(page, quizId);
   }
 });
