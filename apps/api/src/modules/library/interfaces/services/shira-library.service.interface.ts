@@ -1,10 +1,5 @@
 import { PublishAuthorDto } from '../../dto/publish-question.library.dto'
-import { CreateTemplateQuizQuestionDto } from '../../dto/create-template-quiz.library.dto'
-
-export interface LibraryQuizTemplate {
-  title: string
-  questions: CreateTemplateQuizQuestionDto[]
-}
+import { LibraryQuizTemplate } from '../../dto/library-quiz-template.library.dto'
 
 export interface IShiraLibraryService {
   registerAuthor(author: PublishAuthorDto): Promise<{ apiKey: string }>

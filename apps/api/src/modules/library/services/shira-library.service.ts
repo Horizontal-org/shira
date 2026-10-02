@@ -1,9 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { randomUUID } from 'crypto'
 import { TYPES } from '../interfaces'
-import { IShiraLibraryService, LibraryQuizTemplate } from '../interfaces/services/shira-library.service.interface'
+import { IShiraLibraryService } from '../interfaces/services/shira-library.service.interface'
 import { IShiraLibraryLoggerService } from '../interfaces/services/shira-library-logger.service.interface'
 import { PublishAuthorDto } from '../dto/publish-question.library.dto'
+import { LibraryQuizTemplate } from '../dto/library-quiz-template.library.dto'
 import { LibraryRequestFailedException } from '../exceptions'
 
 @Injectable()
