@@ -1,0 +1,20 @@
+// Deliberately fixed: these credentials and ports only target disposable local services.
+module.exports = {
+  NODE_ENV: 'test',
+  PORT: '3000',
+  MYSQL_HOST: 'mysql', MYSQL_PORT: '3306',
+  MYSQL_DATABASE: 'shira_e2e', MYSQL_USER: 'shira_e2e', MYSQL_PASSWORD: 'shira_e2e',
+  REDIS_HOST: 'redis', REDIS_PORT: '6379', REDIS_PASSWORD: '',
+  JWT_SECRET: 'shira-e2e-only-secret-at-least-32-characters',
+  COOKIE_DOMAIN: '',
+  SPACE_URL: 'http://localhost:13002', PUBLIC_URL: 'http://localhost:13001',
+  SUPERADMIN_URL: 'http://localhost:13002',
+  SELF_HOSTED: 'true', ENABLE_PUBLIC_LIBRARY: 'false',
+  IMAGE_ENDPOINT: 'localhost', IMAGE_PORT: '13900', IMAGE_BUCKET: 'shira-e2e',
+  IMAGE_ACCESS_KEY: 'e2e-only', IMAGE_SECRET_KEY: 'e2e-only',
+  SMTP_HOST: 'localhost', SMTP_PORT: '11025', SMTP_USER: '', SMTP_PASS: '',
+  SMTP_GLOBAL_FROM: 'e2e@example.test',
+  SHIRA_LIBRARY_URL: 'http://localhost:13999',
+  SHIRA_PAYMENTS_URL: 'http://localhost:13999', INTERNAL_SHIRA_API_KEY: 'e2e-only',
+  TZ: 'UTC',
+};

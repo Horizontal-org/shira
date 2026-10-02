@@ -33,7 +33,7 @@ export const WelcomeScene: FunctionComponent = () => {
   }, [])
 
   return (
-    <SceneWrapper bg='white'>
+    <SceneWrapper id="welcome-scene" bg='white'>
       <Navbar />
 
       <CenterWrapper>
@@ -53,6 +53,7 @@ export const WelcomeScene: FunctionComponent = () => {
               options={getLanguageOptions(t)}
             />
             <Button
+              id="start-quiz-button"
               onClick={() => { changeScene('quiz-setup-name') }}
               text={t('welcome.start')}
               rightIcon={<FiChevronRight size={18} data-mirror-rtl />}
