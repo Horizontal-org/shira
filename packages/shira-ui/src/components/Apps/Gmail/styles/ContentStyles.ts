@@ -13,7 +13,6 @@ export const DynamicContent = styled.div`
   img {
     object-fit: contain;
   }
-   
 
   table {
     border-collapse: collapse;
@@ -23,7 +22,6 @@ export const DynamicContent = styled.div`
     width: 100%;
 
     td, th {
-      border: 2px solid #ced4da;
       box-sizing: border-box;
       min-width: 1em;
       padding: 3px 5px;
@@ -37,7 +35,7 @@ export const DynamicContent = styled.div`
       &.has-explanation {
         background-color: #F3F9CF !important;
         border-color: #F3F9CF !important;
-        
+
         &.mark-active {
           background-color: #FCC934 !important;
           border-color: #FCC934 !important;
