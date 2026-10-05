@@ -28,7 +28,7 @@ export const Attachment: FunctionComponent<Props> = ({ name, type, explanationPo
           <Info>
             <Name>{name}</Name>
             {isAudio ? (
-              <Duration>00:02</Duration>
+              <Duration>{t('telegram.voice_duration')}</Duration>
             ) : (
               <>
                 <DownloadLabel>{t('telegram.download')}</DownloadLabel>
@@ -37,7 +37,7 @@ export const Attachment: FunctionComponent<Props> = ({ name, type, explanationPo
             )}
           </Info>
         </div>
-        <span>00:00</span>
+        <span>{t('telegram.time')}</span>
       </Card>
     </Wrapper>
   )
@@ -45,6 +45,7 @@ export const Attachment: FunctionComponent<Props> = ({ name, type, explanationPo
 
 const Wrapper = styled.div`
   width: 100%;
+  max-width: 70%;
   display: flex;
   flex-grow: 1;
 
