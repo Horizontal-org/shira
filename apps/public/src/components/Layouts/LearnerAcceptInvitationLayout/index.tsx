@@ -17,51 +17,54 @@ import { SceneWrapper } from "../../UI/SceneWrapper";
 import ShiraFullLogo from "../../UI/Icons/ShiraFullLogo";
 import { InvalidLink } from "../../UI/InvalidLink";
 
-enum ViewState {
-  Loading = "loading",
-  Ready = "ready",
-  Joining = "joining",
-  Accepted = "accepted",
-  Error = "error",
-  Invalid = "invalid",
-}
-
 export const LearnerAcceptInvitationLayout: FunctionComponent = () => {
   const { t } = useTranslation();
   const { hash } = useParams();
-  const [view, setView] = useState<ViewState>(ViewState.Loading);
+
+  const [loading, setLoading] = useState(true);
+  const [joining, setJoining] = useState(false);
+  const [accepted, setAccepted] = useState(false);
+  const [error, setError] = useState(false);
+  const [invalid, setInvalid] = useState(false);
+
   const [acceptedPrivacyPolicy, setAcceptedPrivacyPolicy] = useState(false);
   const [spaceName, setSpaceName] = useState("");
 
   useEffect(() => {
     if (!hash) {
-      setView(ViewState.Invalid);
+      setInvalid(true);
+      setLoading(false);
       return;
     }
 
     getInvitation(hash)
       .then((invitation) => {
         setSpaceName(invitation.spaceName);
-        setView(ViewState.Ready);
+        setLoading(false);
       })
-      .catch(() => setView(ViewState.Invalid));
+      .catch(() => {
+        setInvalid(true);
+        setLoading(false);
+      });
   }, [hash]);
 
   const joinSpace = async () => {
-    if (!hash || !acceptedPrivacyPolicy || view === ViewState.Joining) return;
+    if (!hash || !acceptedPrivacyPolicy || joining) return;
 
-    setView(ViewState.Joining);
+    setJoining(true);
+    setError(false);
 
     try {
-      const response = await acceptInvitation(hash);
-      setSpaceName(response.spaceName || spaceName);
-      setView(ViewState.Accepted);
+      await acceptInvitation(hash);
+      setAccepted(true);
     } catch {
-      setView(ViewState.Error);
+      setError(true);
+    } finally {
+      setJoining(false);
     }
   };
 
-  if (view === ViewState.Invalid) {
+  if (invalid) {
     return (
       <InvalidLink
         title={t("invalid_invitation.title")}
@@ -81,7 +84,7 @@ export const LearnerAcceptInvitationLayout: FunctionComponent = () => {
       </Header>
 
       <Main>
-        {view === ViewState.Accepted ? (
+        {accepted ? (
           <Content>
             <SettingsFishIcon aria-hidden="true" />
             <ResultCard aria-live="polite">
@@ -98,16 +101,16 @@ export const LearnerAcceptInvitationLayout: FunctionComponent = () => {
 
             <JoinCard aria-live="polite">
               <SubHeading1>
-                {view === ViewState.Error
+                {error
                   ? t("learner_invitation.error_title")
-                  : view === ViewState.Loading
+                  : loading
                     ? t("loading_messages.loading")
                     : t("learner_invitation.join_title")}
               </SubHeading1>
 
-              {view === ViewState.Error ? (
+              {error ? (
                 <Body1>{t("learner_invitation.error_message")}</Body1>
-              ) : view !== ViewState.Loading ? (
+              ) : !loading ? (
                 <>
                   <AgreementSummary>
                     <Trans
@@ -127,7 +130,7 @@ export const LearnerAcceptInvitationLayout: FunctionComponent = () => {
                     <Checkbox
                       ariaLabel={t("learner_invitation.privacy_consent_aria_label")}
                       checked={acceptedPrivacyPolicy}
-                      disabled={view === ViewState.Joining}
+                      disabled={joining}
                       id="learner-invitation-privacy-policy"
                       onChange={(event) => setAcceptedPrivacyPolicy(event.target.checked)}
                       size={18}
@@ -148,16 +151,16 @@ export const LearnerAcceptInvitationLayout: FunctionComponent = () => {
                 </>
               ) : null}
 
-              {view !== ViewState.Loading && (
+              {!loading && (
                 <ButtonWrapper>
                   <Button
                     color={defaultTheme.colors.green7}
-                    disabled={!acceptedPrivacyPolicy || view === ViewState.Joining || !hash}
+                    disabled={!acceptedPrivacyPolicy || joining || !hash}
                     onClick={joinSpace}
                     text={
-                      view === ViewState.Joining
+                      joining
                         ? t("learner_invitation.joining")
-                        : view === ViewState.Error
+                        : error
                           ? t("learner_invitation.try_again")
                           : t("learner_invitation.join_button")
                     }

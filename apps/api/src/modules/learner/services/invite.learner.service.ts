@@ -101,26 +101,18 @@ export class InviteLearnerService implements IInviteLearnerService {
     }
   }
 
-  async accept(token: string): Promise<string> {
+  async accept(token: string): Promise<void> {
     const learner = await this.findValidInvitation(token);
 
     this.logger.log(`Accepting invitation for learner with email: ${learner.email}`);
-
-    const space = await this.spaceRepo.findOne({
-      where: { id: learner.spaceId },
-      select: { name: true }
-    });
-
-    if (!space) throw new GenericErrorException();
 
     try {
       await this.learnerRepo.update(
         { invitationToken: token },
         { status: 'registered', registeredAt: new Date() }
       );
-      return space.name;
     } catch (error) {
-      this.logger.error(`Error updating learner ${learner.email}: - ${error.message}`);
+      this.logger.error(`Error updating learner ${learner.email}: ${error.message}`);
       throw new SaveLearnerException();
     }
   }
