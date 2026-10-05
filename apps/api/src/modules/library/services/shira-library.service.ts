@@ -41,9 +41,8 @@ export class ShiraLibraryService implements IShiraLibraryService {
   }
 
   async getQuizTemplate(quizTemplateId: string): Promise<LibraryQuizTemplate> {
-    const encodedId = encodeURIComponent(quizTemplateId)
     const [template, questions] = await Promise.all([
-      this.request<{ title: string }>(`/quiz-templates/${encodedId}`),
+      this.request<{ title: string }>(`/quiz-templates/${quizTemplateId}`),
       this.request<Array<{
         questionName: string
         content: string
@@ -51,7 +50,7 @@ export class ShiraLibraryService implements IShiraLibraryService {
         appName: string | null
         explanations?: Array<{ position: string; index: string; text: string }>
         images?: Array<{ id: number; name: string; url: string }>
-      }>>(`/quiz-templates/${encodedId}/questions`),
+      }>>(`/quiz-templates/${quizTemplateId}/questions`),
     ])
 
     return {
