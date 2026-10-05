@@ -1,6 +1,7 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
+import { MdError } from 'react-icons/md'
 
 interface Props {
   phone?: {
@@ -31,7 +32,7 @@ const ContactNotice: FunctionComponent<Props> = ({ phone }) => {
         </CardRow>
       </CardRows>
       <NotOfficial>
-        <WarningIcon>!</WarningIcon>
+        <WarningIcon><MdError /></WarningIcon>
         {t('telegram.not_official_account')}
       </NotOfficial>
     </NoticeCard>
@@ -45,6 +46,9 @@ const NoticeCard = styled.div`
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     align-self: center;
+    box-sizing: border-box;
+    width: 40%;
+    min-width: 240px;
     margin: 4px 0 auto;
     padding: 14px 18px 12px;
     border-radius: 16px;
@@ -150,15 +154,12 @@ const WarningIcon = styled.span`
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.75);
-    color: #5d8a4f;
-    font-size: 11px;
-    font-weight: 700;
+
+    > svg {
+      width: 16px;
+      height: 16px;
+      color: rgba(255, 255, 255, 0.75);
+    }
   }
 `
 
