@@ -57,7 +57,7 @@ export class CreateSpaceService implements ICreateSpaceService {
 
     await this.spaceUserRepo.save(spaceUser)
 
-    const defaultQuizTemplateId = process.env.DEFAULT_QUIZ_TEMPLATE_ID?.trim()
+    const defaultQuizTemplateId = process.env.DEFAULT_QUIZ_TEMPLATE_ID;
     if (defaultQuizTemplateId) {
       try {
         const template = await this.shiraLibraryService.getQuizTemplate(defaultQuizTemplateId)
@@ -68,7 +68,7 @@ export class CreateSpaceService implements ICreateSpaceService {
           space: savedSpace,
         })
       } catch (error) {
-        this.logger.error(`Error creating default quiz template ${defaultQuizTemplateId} for space ${savedSpace.id}: ${error instanceof Error ? error.message : String(error)}`)
+        this.logger.error(`Error creating default quiz template ${defaultQuizTemplateId} for space ${savedSpace.id}`)
       }
     }
 
