@@ -22,7 +22,7 @@ export const DynamicContent = styled.div`
     object-fit: contain;
   }
 
-  table {
+  table.tiptap-table {
     border-collapse: collapse;
     margin: 0;
     overflow: hidden;
@@ -30,6 +30,7 @@ export const DynamicContent = styled.div`
     width: 100%;
 
     td, th {
+      border: 2px solid #ced4da;
       box-sizing: border-box;
       min-width: 1em;
       padding: 3px 5px;

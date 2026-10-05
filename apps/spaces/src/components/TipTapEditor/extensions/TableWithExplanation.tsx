@@ -148,6 +148,9 @@ export const TableHeaderWithExplanation = TableHeader.extend({
 
 export const TableWithExplanation = Table.configure({
   resizable: true,
+  HTMLAttributes: {
+    class: 'tiptap-table',
+  },
 })
 
 export const TableRowWithExplanation = TableRow
