@@ -80,7 +80,7 @@ const Wrapper = styled.div`
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     gap: 0;
-    padding: 30px 0 0;
+    padding: 8px 0 0;
     background: transparent;
     position: absolute;
     top: 0;
@@ -288,7 +288,7 @@ const NoticeActions = styled.div`
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     margin: 8px 12px 0;
-    padding: 8px 10px;
+    padding: 14px 18px;
     font-size: 17px;
     background: rgba(255, 255, 255, 0.55);
     backdrop-filter: blur(16px);

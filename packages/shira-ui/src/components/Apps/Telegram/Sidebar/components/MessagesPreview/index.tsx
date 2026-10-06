@@ -9,12 +9,28 @@ interface Props {
     textContent: string
     explanationPosition: string
   };
+  content?: HTMLElement;
 }
 
 const FILLER_CONTACTS = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
-const MessagesPreview: FunctionComponent<Props> = ({ phone }) => {
+const MessagesPreview: FunctionComponent<Props> = ({ phone, content }) => {
   const { t } = useTranslation('shira-ui')
+
+  const lastComponent = content
+    ? Array.from(content.querySelectorAll('[id*="component-"]'))
+      .sort((a, b) => parseInt(b.getAttribute('data-position') || '') - parseInt(a.getAttribute('data-position') || ''))[0]
+    : null
+
+  const getPreview = (e: Element | null) => {
+    if (!e) return ''
+    const id = e.getAttribute('id') || ''
+    if (id.includes('component-image')) return t('telegram.photo')
+    if (id.includes('component-attachment') && e.getAttribute('data-attachment-type') === 'audio') return t('telegram.voice_message')
+    // Join paragraphs with a space so "<p>a</p><p>b</p>" doesn't read as "ab"
+    const paragraphs = Array.from(e.children).map(child => child.textContent?.trim()).filter(Boolean)
+    return paragraphs.length ? paragraphs.join(' ') : e.textContent?.trim() || ''
+  }
 
   return (
     <Wrapper>
@@ -27,9 +43,9 @@ const MessagesPreview: FunctionComponent<Props> = ({ phone }) => {
             <UserInfo>
               <UserInfoFirstRow>
                 <Username>{phone.textContent}</Username>
-                <Time>00:00</Time>
+                <Time>{t('telegram.time')}</Time>
               </UserInfoFirstRow>
-              <MessageContent>{t('telegram.untitled_document')}</MessageContent>
+              <MessageContent>{getPreview(lastComponent)}</MessageContent>
             </UserInfo>
           </Message>
         )}
