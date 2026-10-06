@@ -11,7 +11,12 @@ import { CharacterCount, ExplanationButton, GeneralTooltip, styled } from '@hori
 import { useTranslation } from 'react-i18next'
 import { useStore } from '../../store'
 import { subscribe, unsubscribe } from '../../utils/customEvent'
-import { getExplanationMarkRanges } from '../../utils/htmlExplanationMarks'
+import {
+  getAnnotatableHtmlElement,
+  getExplanationMarkRanges,
+  getHtmlExplanationAtSelection,
+  removeHtmlExplanation,
+} from '../../utils/htmlExplanationMarks'
 
 interface Props {
   initialContent?: string
@@ -49,12 +54,16 @@ export const HtmlEmailEditor = ({
     const updateExplanationSelection = (editor: EditorView) => {
       const selection = editor.state.selection.main
       const value = editor.state.doc.toString()
-      const explanation = getExplanationAtSelection(value, selection.from, selection.to)
+      const explanation = getHtmlExplanationAtSelection(value, selection.from, selection.to)
+      const element = getAnnotatableHtmlElement(value, selection.from, selection.to)
 
       // Enables creation only for valid text outside an existing explanation
       setActiveExplanation(explanation)
       setCanAddExplanation(
-        explanation === null && canWrapSelection(value, selection.from, selection.to)
+        explanation === null && (
+          canWrapSelection(value, selection.from, selection.to) ||
+          (element !== null && element.explanationIndex === null)
+        )
       )
 
       // Keeps the globally selected explanation in sync with the editor
@@ -108,7 +117,7 @@ export const HtmlEmailEditor = ({
       if (!editor) return
 
       const value = editor.state.doc.toString()
-      const nextValue = removeExplanationMarks(value, event.detail.deleteIndex)
+      const nextValue = removeHtmlExplanation(value, event.detail.deleteIndex)
       if (nextValue === value) return
 
       editor.dispatch({
@@ -234,47 +243,6 @@ export const HtmlEmailEditor = ({
     return true
   }
 
-  const getExplanationAtSelection = (source: string, from: number, to: number) => {
-    // Locates the text nodes touched by the current selection
-    const startText = getTextNodeAt(source, from, 1)
-    const endText = getTextNodeAt(source, to || from, to === from ? 1 : -1)
-    if (!startText || !endText) return null
-
-    // Walks upward until it finds an enclosing explanation mark
-    let ancestor = startText.parent
-    while (ancestor) {
-      if (ancestor.name === 'Element' && ancestor.from <= endText.from && ancestor.to >= endText.to) {
-        const openTag = ancestor.getChild('OpenTag')
-        const tagName = openTag?.getChild('TagName')
-        const name = tagName ? source.slice(tagName.from, tagName.to).toLowerCase() : ''
-        if (name === 'mark' && openTag) {
-          // Extracts the explanation identifier from quoted or unquoted attributes
-          const match = source
-            .slice(openTag.from, openTag.to)
-            .match(/\bdata-explanation\s*=\s*(?:"(\d+)"|'(\d+)'|(\d+))/i)
-          if (match) return Number(match[1] ?? match[2] ?? match[3])
-        }
-      }
-      ancestor = ancestor.parent
-    }
-
-    return null
-  }
-
-  const removeExplanationMarks = (source: string, explanationIndex: number) => {
-    // Escapes the identifier before including it in the removal pattern
-    const index = String(explanationIndex).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-
-    // Matches the requested mark while preserving its inner HTML
-    const pattern = new RegExp(
-      `<mark\\b(?=[^>]*\\bdata-explanation\\s*=\\s*(?:"${index}"|'${index}'|${index}(?=\\s|>)))[^>]*>([\\s\\S]*?)<\\/mark\\s*>`,
-      'gi'
-    )
-
-    // Unwraps the explanation without deleting its content
-    return source.replace(pattern, '$1')
-  }
-
   return (
     <Wrapper>
       <EditorRow>
@@ -283,7 +251,7 @@ export const HtmlEmailEditor = ({
           enabled={!canAddExplanation && activeExplanation === null}
           show={showExplanationButtonTooltip}
           setShow={setShowExplanationButtonTooltip}
-          label={t('create_question.tabs.content.explanation_tooltip')}
+          label={t('create_question.html_editor.explanation_tooltip')}
         >
           <ExplanationButton
             isText
@@ -297,24 +265,36 @@ export const HtmlEmailEditor = ({
               // Reads and validates the selected text before wrapping it
               const { from, to } = editor.state.selection.main
               const value = editor.state.doc.toString()
-              if (!canWrapSelection(value, from, to)) return
+              const canWrapText = canWrapSelection(value, from, to)
+              const element = getAnnotatableHtmlElement(value, from, to)
+              if (!canWrapText && !element) return
 
               // Allocates the next explanation identifier
               const store = useStore.getState()
               const newIndex = store.explanationIndex + 1
-              const openingMark = `<mark data-explanation="${newIndex}">`
+              if (canWrapText) {
+                const openingMark = `<mark data-explanation="${newIndex}">`
 
-              // Wraps the selection and preserves its visible selection range
-              editor.dispatch({
-                changes: [
-                  { from, insert: openingMark },
-                  { from: to, insert: '</mark>' },
-                ],
-                selection: {
-                  anchor: from + openingMark.length,
-                  head: to + openingMark.length,
-                },
-              })
+                // Wraps selected visible text and preserves its selection range
+                editor.dispatch({
+                  changes: [
+                    { from, insert: openingMark },
+                    { from: to, insert: '</mark>' },
+                  ],
+                  selection: {
+                    anchor: from + openingMark.length,
+                    head: to + openingMark.length,
+                  },
+                })
+              } else {
+                // Annotates the element itself without changing its HTML structure.
+                editor.dispatch({
+                  changes: {
+                    from: element.insertionPosition,
+                    insert: ` data-explanation="${newIndex}"`,
+                  },
+                })
+              }
               // Registers the new explanation in the shared store.
               store.addExplanation(newIndex)
             }}
