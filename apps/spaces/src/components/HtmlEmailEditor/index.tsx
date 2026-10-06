@@ -287,7 +287,6 @@ export const HtmlEmailEditor = ({
                   },
                 })
               } else {
-                // Annotates the element itself without changing its HTML structure.
                 editor.dispatch({
                   changes: {
                     from: element.insertionPosition,

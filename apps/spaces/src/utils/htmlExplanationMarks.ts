@@ -1,4 +1,5 @@
 import { parser } from '@lezer/html'
+import { SyntaxNode } from '@lezer/common'
 
 export interface ExplanationMarkRange {
   from: number
@@ -24,7 +25,7 @@ const getExplanationIndex = (source: string, openTag: { from: number; to: number
 const getOpenTag = (element: any) =>
   element?.getChild('OpenTag') ?? element?.getChild('SelfClosingTag') ?? null
 
-const getTagName = (source: string, openTag: any) => {
+const getTagName = (source: string, openTag: SyntaxNode | null) => {
   const tagName = openTag?.getChild('TagName')
   return tagName ? source.slice(tagName.from, tagName.to).toLowerCase() : ''
 }
@@ -47,7 +48,6 @@ const findTagAt = (tree: any, position: number, bias: -1 | 1) => {
   return candidate
 }
 
-// Only when the cursor or selection is in its opening tag
 export const getAnnotatableHtmlElement = (
   source: string,
   from: number,
@@ -135,7 +135,6 @@ export const getExplanationMarkRanges = (source: string): ExplanationMarkRange[]
   return ranges
 }
 
-// Removes an explanation without deleting the annotated element or its content
 export const removeHtmlExplanation = (source: string, explanationIndex: number) => {
   const removals: Array<{ from: number; to: number }> = []
 
