@@ -14,6 +14,7 @@ import { Explanation } from "../../../domain/explanation"
 import ExplanationTooltip from "../components/ExplanationTooltip"
 import { DynamicContent } from "./styles/ContentStyles"
 import { useTranslation } from "react-i18next"
+import { sanitizeEmailHtml } from "../components/sanitizeEmailHtml"
 
 interface CustomElements {
   textContent: string,
@@ -98,7 +99,16 @@ export const Gmail: FunctionComponent<Props> = ({
                 subject={parseSubjectText(subject ? subject.textContent : '')}
               />
               <PaddingLeft>
-                <DynamicContent dangerouslySetInnerHTML={{ __html: content ? content.outerHTML : null }}></DynamicContent>
+                {/* Sanitization removes inline handlers; keep email links inert with React handlers. */}
+                <DynamicContent
+                  onClick={(event) => {
+                    if ((event.target as Element).closest('a')) event.preventDefault()
+                  }}
+                  onContextMenu={(event) => {
+                    if ((event.target as Element).closest('a')) event.preventDefault()
+                  }}
+                  dangerouslySetInnerHTML={{ __html: sanitizeEmailHtml(content?.outerHTML ?? '') }}
+                />
                 {attachments && attachments.length > 0 && (
                   <Attachments
                     data={attachments}

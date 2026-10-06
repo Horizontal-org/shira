@@ -19,6 +19,7 @@ const MessagingAppsNames = {
   SMS: 'SMS',
   MESSENGER: 'Messenger',
   DATING_APP: 'Dating App',
+  INSTAGRAM: 'Instagram',
   TELEGRAM: 'Telegram'
 }
 
@@ -52,6 +53,7 @@ export const MessagingContent: FunctionComponent<Props> = ({
   useEffect(() => {
     handleSenderPhoneEnabled(hasSenderPhone)
   }, [])
+
 
   return (
     <Content id="messaging-content">
@@ -112,7 +114,6 @@ export const MessagingContent: FunctionComponent<Props> = ({
           onChange={(newItems) => { updateActiveQuestionDraggableItems(newItems) }}
         />
       </div>
-
     </Content>
   )
 }

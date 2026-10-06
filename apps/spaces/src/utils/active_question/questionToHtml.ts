@@ -1,7 +1,29 @@
+import { sanitizeEmailHtml } from '@horizontal-org/shira-ui';
 import { ActiveQuestion, QuestionDragAttachment, QuestionDragEditor, QuestionDragImage, QuestionEditorInput, QuestionTextInput } from "../../store/types/active_question";
 
 export const activeQuestionToHtml = (activeQuestion: ActiveQuestion) => {
-  return parseActiveQuestionToHtml(activeQuestion.content)  
+  const advanced = activeQuestion.app?.type === 'email' && activeQuestion.editorType === 'advanced'
+  const content = advanced ? {
+    ...activeQuestion.content,
+    body: {
+      ...activeQuestion.content['body'],
+      value: sanitizeEmailHtml(activeQuestion.content['body']?.value ?? '')
+    }
+  } : activeQuestion.content
+  const html = parseActiveQuestionToHtml(content)
+  const container = document.createElement('div')
+  container.innerHTML = html
+  const body = container.querySelector('#component-text-1')
+
+  if (!advanced) {
+    body?.querySelectorAll('table').forEach((table) => {
+      table.classList.add('tiptap-table')
+    })
+    return container.innerHTML
+  }
+
+  body?.classList.add('advanced-html-editor')
+  return container.innerHTML
 }
 
 const parseActiveQuestionToHtml = (content: Object) => {
@@ -18,7 +40,7 @@ const parseActiveQuestionToHtml = (content: Object) => {
       elementsArray.push(parseQuestionEditorInput(content[k]))
     }
   })
-  
+
   const html = elementsArray
     .reduce((prev, current) => {
       return prev + current
@@ -81,7 +103,7 @@ export const parseDragItem = (item: QuestionDragEditor | QuestionDragImage | Que
   if (item.contentType === 'image') {
     element = parseQuestionDragImage(item)
   } else if (item.contentType === 'editor') {
-    element = parseQuestionEditorInput(item, 'html')    
+    element = parseQuestionEditorInput(item, 'html')
   } else if (item.contentType === 'attachment') {
     element = parseQuestionDragAttachment(item)
   }

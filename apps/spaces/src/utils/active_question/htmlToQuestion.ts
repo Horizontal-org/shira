@@ -5,7 +5,7 @@ import { truncateQuestionName } from "../questionName";
 
 const replaceImage = (question: QuestionPayload, htmlContent: Document) => {
   // images 
-    if (question.images.length > 0) {
+    if (question.images?.length > 0) {
       htmlContent.querySelectorAll('img[data-image-id]')
         .forEach((img) => {
           const imgElement = question.images.find(i => i.imageId === parseInt(img.getAttribute('data-image-id')))
@@ -81,6 +81,22 @@ const parseMessageDragItems = (htmlContent: Document) => {
       })
     })
 
+  htmlContent
+    .querySelectorAll('[id*="component-attachment"]')
+    .forEach((c) => {
+      draggableItems.push({
+        draggableId: crypto.randomUUID(),
+        htmlId: c.getAttribute('id'),
+        contentType: 'attachment',
+        explanation: c.getAttribute('data-explanation'),
+        position: parseInt(c.getAttribute('data-position')),
+        value: {
+          name: c.innerHTML || null,
+          type: c.getAttribute('data-attachment-type') as AttachmentType
+        }
+      })
+    })
+
   return draggableItems.sort((a, b) => a.position - b.position)
 }
 
@@ -111,6 +127,8 @@ export const htmlToActiveQuestion = (question: QuestionPayload, html: Document) 
   let activeQuestion: ActiveQuestion = {
     app: app,
     name: truncateQuestionName(question.name),
+    editorType: app.type === 'email' && html.querySelector('#component-text-1.advanced-html-editor') ? 'advanced' : 'simple',
+    htmlEditorImages: Object.fromEntries((question.images ?? []).map(image => [String(image.imageId), image.url])),
     isPhishing: !!(question.isPhising),
     content: {}
   }
@@ -135,4 +153,3 @@ export const htmlToActiveQuestion = (question: QuestionPayload, html: Document) 
 
   return activeQuestion
 }
-
