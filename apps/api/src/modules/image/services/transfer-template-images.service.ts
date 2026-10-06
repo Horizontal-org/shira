@@ -150,9 +150,8 @@ export class TransferTemplateImagesService implements ITransferTemplateImagesSer
       throw new FileInvalidException()
     }
 
-    const contentType = response.headers.get("content-type") ?? ""
     const contentLength = Number(response.headers.get("content-length") ?? 0)
-    if (!response.ok || !response.body || !contentType.startsWith("image/") || contentLength > MAX_IMAGE_SIZE_BYTES) {
+    if (!response.ok || !response.body || contentLength > MAX_IMAGE_SIZE_BYTES) {
       await response.body?.cancel().catch(() => undefined)
       throw new FileInvalidException()
     }
