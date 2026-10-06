@@ -84,7 +84,7 @@ const TooltipWrapper = styled("span")`
 const Tooltip = styled("div")`
   position: absolute;
   top: 100%;
-  right: 0;
+  inset-inline-end: 0;
   margin-top: 8px;
   padding: 8px 12px;
   background-color: ${defaultTheme.colors.dark.black};
@@ -99,7 +99,7 @@ const Tooltip = styled("div")`
     content: '';
     position: absolute;
     bottom: 100%;
-    right: 20px;
+    inset-inline-end: 20px;
     border-width: 5px;
     border-style: solid;
     border-color: transparent transparent ${defaultTheme.colors.dark.black} transparent;

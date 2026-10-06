@@ -33,9 +33,9 @@ const ChildrenWrapper = styled.div`
 `
 
 const HeadBrand = styled.div`
-  position: absolute; 
+  position: absolute;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
   background: #00a884;
   width: 100%;
   height: 120px;

@@ -27,18 +27,18 @@ const Wrapper = styled.div`
   background: #F3F3F3;
 
   > svg {
-    margin-right: 8px;
+    margin-inline-end: 8px;
   }
 
   > div {
     cursor: pointer;
     width: 70%;
-    text-align: left;
+    text-align: start;
     border-radius: 30px;
     background: #fff;
     font-size: 12px;
     color: #aaa;
     padding: 8px 12px;
-    margin-left: 8px;
+    margin-inline-start: 8px;
   }
 `

@@ -34,7 +34,7 @@ const Wrapper = styled.div<{
   display: flex;
   flex-direction: column;
   gap: 4px;
-  padding-right: 20px;
+  padding-inline-end: 20px;
   padding-top: ${props => props.$typeOffset};
 `
 

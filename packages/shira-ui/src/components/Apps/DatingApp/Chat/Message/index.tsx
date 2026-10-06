@@ -23,7 +23,7 @@ const Wrapper = styled.div`
 const Content = styled.div`
   width: fit-content;
   max-width: 80%;
-  text-align: left;
+  text-align: start;
   background: #70BEDF;
   border-radius: 8px;
   font-size: 14px;
@@ -54,7 +54,7 @@ const Content = styled.div`
     border-style: solid;
     border-color: transparent #70BEDF transparent transparent;
     bottom: 4px;
-    left: 7px;
+    inset-inline-start: 7px;
     rotate: 90deg
 }
 `

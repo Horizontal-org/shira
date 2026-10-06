@@ -122,7 +122,7 @@ const Size = styled.div`
 `
 
 const TextWrapper = styled.div`
-  padding-left: 4px;
+  padding-inline-start: 4px;
   min-width: 0;
   flex: 1;
 `

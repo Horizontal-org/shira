@@ -99,7 +99,7 @@ const TextSection = styled.div`
   max-width: 680px;
   display: flex;
   flex-direction: column;
-  text-align: left;
+  text-align: start;
 
   @media (max-width: ${(props) => props.theme.breakpoints.md}) {
     min-width: 0;
@@ -142,7 +142,7 @@ const Backshot = styled.div`
   position: absolute;
   z-index: 1;
   bottom: 0;
-  left: 0;
+  inset-inline-start: 0;
   width: 100%;
   height: 480px;
   background: linear-gradient(180deg, ${(props) => props.theme.colors.blue1} 0%, ${(props) => props.theme.colors.blue4} 100%);

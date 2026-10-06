@@ -70,7 +70,7 @@ const SvgWrapper = styled.div`
 `;
 
 const VariableList = styled.ul`
-  padding-left: 16px;
+  padding-inline-start: 16px;
   list-style: none;
   display: flex;
   flex-direction: column;

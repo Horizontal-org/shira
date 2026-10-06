@@ -51,7 +51,7 @@
             "footer_title": "Pengantar kuis",
             "next": "Oke",
             "question_count": "This quiz contains {{count}} questions",
-            "learn_more": "Learn more",
+            "learn_more": "Pelajari Selengkapnya",
             "disclaimer": "Shira collects limited data about your usage."
         },
         "answers": {
@@ -84,7 +84,7 @@
             "understand": "I understand",
             "only_datetime": "When you take this quiz, Shira will only track the date and time you take the quiz.",
             "total_quiz_score": "a. Your total quiz score",
-            "learn_more": "Learn more",
+            "learn_more": "Pelajari Selengkapnya",
             "title": "Data collection",
             "2_results": "2. Results:",
             "1_date_time": "1. The date and time when you take the quiz",
@@ -261,5 +261,13 @@
         "title": "Sorry, this invitation link is invalid.",
         "description": "You may have used the wrong URL, or the invitation may have expired. Try again or contact the person who invited you.",
         "home_button": "Go to Shira"
+    },
+    "languages": {
+        "ar": "Bahasa Arab",
+        "es": "Spanish",
+        "cn": "Chinese (Simplified)",
+        "ru": "Russian",
+        "fr": "Perancis",
+        "en": "Inggris"
     }
 }

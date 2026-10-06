@@ -62,7 +62,8 @@ export class RolesGuard implements CanActivate {
           id: spaceContext.space.id,
           name: spaceContext.space.name,
           publicId: spaceContext.space.publicId,
-          organizationId: spaceContext.space.organizationId
+          organizationId: spaceContext.space.organizationId,
+          hasResultsEnabled: spaceContext.space.hasResultsEnabled
         } as SpaceEntity;
 
         // Populate LoggedUserDto structure exactly as expected

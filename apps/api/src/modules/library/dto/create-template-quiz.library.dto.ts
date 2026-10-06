@@ -6,6 +6,7 @@ import {
   IsInt,
   IsOptional,
   IsString,
+  IsUrl,
   ValidateNested,
 } from "class-validator";
 import { SpaceEntity } from "src/modules/space/domain/space.entity";
@@ -30,7 +31,7 @@ export class CreateTemplateQuizImageDto {
   @IsString()
   name: string;
 
-  @IsString()
+  @IsUrl({ protocols: ["http", "https"], require_protocol: true, require_tld: false })
   url: string;
 }
 

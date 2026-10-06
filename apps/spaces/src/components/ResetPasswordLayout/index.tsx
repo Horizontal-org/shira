@@ -73,7 +73,7 @@ const BackgroundPattern = styled.div`
   background-size: cover;
   position: fixed;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
   width: 100%;
   height: 100%;
   z-index: 0;

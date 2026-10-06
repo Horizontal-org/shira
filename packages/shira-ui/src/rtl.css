@@ -1,0 +1,22 @@
+/*
+ * Support for the handful of directional CSS patterns that have no logical-property
+ * equivalent (horizontal box-shadow offsets, translateX slide animations, and
+ * arrow/chevron icons whose meaning is left/right-specific). Everything else should
+ * be written with logical properties (padding-inline-start/end, inset-inline-start/end,
+ * text-align: start/end, etc.) so it mirrors on its own once <html dir="rtl"> is set.
+ */
+
+:root {
+  --dir-multiplier: 1;
+}
+
+[dir="rtl"] {
+  --dir-multiplier: -1;
+}
+
+/* Opt-in: add data-mirror-rtl to a directional arrow/chevron icon (or its wrapper)
+   to flip it under RTL. Do not add it to non-directional icons (checkmarks, close
+   buttons, logos, vertical chevrons). */
+[dir="rtl"] [data-mirror-rtl] {
+  transform: scaleX(-1);
+}

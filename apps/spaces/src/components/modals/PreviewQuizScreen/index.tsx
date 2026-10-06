@@ -78,7 +78,7 @@ const TopBar = styled.div`
 const Actions = styled.div`
   display: flex;
   align-items: center;
-  margin-left: auto;
+  margin-inline-start: auto;
 `;
 
 const Content = styled.div`

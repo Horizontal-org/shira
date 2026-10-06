@@ -37,7 +37,7 @@ const GlobalStyle = createGlobalStyle`
 const Wrapper = styled.div`
   position: absolute;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
   overflow: hidden;
   z-index:3;
   box-sizing: border-box;

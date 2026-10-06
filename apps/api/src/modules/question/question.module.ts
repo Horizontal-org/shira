@@ -17,8 +17,12 @@ import { GenerateQuizQuestionService } from './services/quiz.question.service';
 import { ParserQuestionService } from './services/individualParser.question.service';
 import { GlobalParserQuestionService } from './services/globalParser.question.service';
 import { ListQuestionService } from './services/list.question.service';
+import { SpaceExportQuestionService } from './services/spaceExport.question.service';
+import { ValidateQuestionImportService } from './services/validateImport.question.service';
+import { ZipImportService } from './services/zip-import.service';
 import { QuestionImage } from '../question_image/domain';
 import { QuestionImageModule } from '../question_image/question_image.module';
+import { QuizQuestion } from '../quiz/domain/quizzes_questions.entity';
 
 @Module({
   imports: [
@@ -31,6 +35,7 @@ import { QuestionImageModule } from '../question_image/question_image.module';
       QuestionTranslation,
       ExplanationTranslationEntity,
       LanguageEntity,
+      QuizQuestion,
     ]),
     QuestionImageModule,
     ConsoleModule,
@@ -43,6 +48,10 @@ import { QuestionImageModule } from '../question_image/question_image.module';
     GenerateQuizQuestionService,
     ParserQuestionService,
     GlobalParserQuestionService,
+    SpaceExportQuestionService,
+    ValidateQuestionImportService,
+    ZipImportService,
   ],
+  exports: [SpaceExportQuestionService, ValidateQuestionImportService, ZipImportService],
 })
 export class QuestionModule {}

@@ -17,7 +17,7 @@ export const MenuWrapper = styled.div`
 
 
 export const IconWrapper = styled.div<StyledIconWrapper>`
-  margin-right: 8px;
+  margin-inline-end: 8px;
   padding: 4px;
   transition: 0.2s all;
   border-radius: 4px;
@@ -108,7 +108,7 @@ export const InputColor = styled.input`
 
 `
 export const ExplanationIconWrapper = styled.div<StyledIconWrapper>`
-  margin-right: 8px;
+  margin-inline-end: 8px;
   padding: 4px;
   cursor: pointer;
   transition: 0.2s all;
@@ -128,7 +128,7 @@ export const ExplanationIconWrapper = styled.div<StyledIconWrapper>`
 `
 
 export const Heading = styled.div<StyledIconWrapper>`
-  margin-right: 8px;
+  margin-inline-end: 8px;
   font-size: 12;
   padding: 4px;
   cursor: pointer;
@@ -157,7 +157,7 @@ export const Heading = styled.div<StyledIconWrapper>`
 `
 
 export const TableActionButton = styled.div`
-  margin-right: 8px;
+  margin-inline-end: 8px;
   padding: 4px 8px;
   cursor: pointer;
   transition: 0.2s all;
@@ -177,7 +177,7 @@ export const TableActionButton = styled.div`
 `
 
 export const Separate = styled.div`
-  margin-right: 8px;
+  margin-inline-end: 8px;
   width: 2px;
   height: 16px;
   border-radius: 2px;

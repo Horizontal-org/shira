@@ -1,4 +1,4 @@
-import { DragEvent, FunctionComponent, KeyboardEvent, useEffect, useRef, useState } from "react";
+import { FunctionComponent, useEffect, useRef, useState } from "react";
 import { Breadcrumbs, styled } from "@horizontal-org/shira-ui";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -30,12 +30,10 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
   const [isFileLoading, setIsFileLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [bulkInviteResponse, setBulkInviteResponse] = useState<BulkInviteLearnersResponse | null>(null);
-  const [isDragging, setIsDragging] = useState(false);
 
   const [uploadError, setUploadError] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const dragEnterCount = useRef(0);
   const lastVerifiedFileKey = useRef<string | null>(null);
   const lastInvitedFileKey = useRef<string | null>(null);
   const lastInvitedCount = useRef<number | null>(null);
@@ -90,59 +88,13 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
     setIsSubmitting(false);
     setSelectedFile(null);
     setBulkInviteResponse(null);
-    setIsDragging(false);
+    // setIsDragging(false);
     setUploadError(null);
-    dragEnterCount.current = 0;
 
     lastVerifiedFileKey.current = null;
     lastInvitedFileKey.current = null;
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
-    }
-  };
-
-  const handleBrowseClick = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleDrop = (event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    dragEnterCount.current = 0;
-    setIsDragging(false);
-    const file = event.dataTransfer.files?.[0] ?? null;
-    handleFileChange(file);
-  };
-
-  const handleDragEnter = (event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    dragEnterCount.current += 1;
-    if (!isDragging) {
-      setIsDragging(true);
-    }
-  };
-
-  const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    if (event.dataTransfer) {
-      event.dataTransfer.dropEffect = "copy";
-    }
-    if (!isDragging) {
-      setIsDragging(true);
-    }
-  };
-
-  const handleDragLeave = (event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    dragEnterCount.current = Math.max(0, dragEnterCount.current - 1);
-    if (dragEnterCount.current === 0) {
-      setIsDragging(false);
-    }
-  };
-
-  const handleDropzoneKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      handleBrowseClick();
     }
   };
 
@@ -279,14 +231,7 @@ export const LearnerBulkImportLayout: FunctionComponent<Props> = () => {
               <UploadCsvStep
                 selectedFile={selectedFile}
                 isFileLoading={isFileLoading}
-                isDragging={isDragging}
                 fileInputRef={fileInputRef}
-                onBrowseClick={handleBrowseClick}
-                onDropzoneKeyDown={handleDropzoneKeyDown}
-                onDrop={handleDrop}
-                onDragEnter={handleDragEnter}
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
                 onFileChange={handleFileChange}
                 onClearFile={clearSelectedFile}
                 onOpenGuidelines={() => setIsFormattingGuidelinesOpen(true)}

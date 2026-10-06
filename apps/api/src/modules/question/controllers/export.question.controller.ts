@@ -1,41 +1,29 @@
 import {
   Get,
   Param,
+  ParseIntPipe,
   Res,
 } from '@nestjs/common';
 
-import { ParserQuestionService } from '../services/individualParser.question.service';
-import { GlobalParserQuestionService } from '../services/globalParser.question.service';
+import { SpaceExportQuestionService } from '../services/spaceExport.question.service';
 import { AuthController } from 'src/utils/decorators/auth-controller.decorator';
 import { Roles } from 'src/modules/auth/decorators/roles.decorators';
 import { Role } from 'src/modules/user/domain/role.enum';
+import { SpaceId } from 'src/modules/auth/decorators/space-id.decorator';
 
 @AuthController('question')
 export class ExportQuestionController {
   constructor(
-    private parserQuestionService: ParserQuestionService,
-    private globalParserQuestionService: GlobalParserQuestionService,
+    private spaceExportQuestionService: SpaceExportQuestionService,
   ) {}
 
-  @Get(':id/export/:lang')
-  @Roles(Role.SuperAdmin)
+  @Get(':id/export')
+  @Roles(Role.SpaceAdmin)
   async export(
-    @Param('id') id: string,
-    @Param('lang') lang: string,
+    @Param('id', ParseIntPipe) id: number,
+    @SpaceId() spaceId: number,
     @Res() res,
   ) {
-    this.parserQuestionService.export({ id, lang, res });
+    await this.spaceExportQuestionService.export({ id, spaceId, res });
   }
-
-  @Get('/global-export/:lang')
-  @Roles(Role.SuperAdmin)
-  async globalExport(
-    // @Param('id') id: string,
-    @Param('lang') lang: string,
-    @Res() res,
-  ) {
-    this.globalParserQuestionService.export({ lang, res });
-  }
-
 }
-

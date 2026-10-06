@@ -184,7 +184,7 @@ export const AttachmentTypes: Story = {
 const Overlay = styled.div`
   position: absolute;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
   z-index: 3;
   height: 800px;
   width: 100%;

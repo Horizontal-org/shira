@@ -34,6 +34,7 @@ export class PrepareQuestionsLibraryService implements IPrepareQuestionsLibraryS
       .where('quiz.id = :quizId', { quizId })
       .andWhere('question.type = :type', { type: 'quiz' })
       .andWhere('space.id = :spaceId', { spaceId })
+      .orderBy('quizQuestion.position', 'ASC')
       .getMany()
   }
 

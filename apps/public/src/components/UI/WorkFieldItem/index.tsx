@@ -70,7 +70,7 @@ const Box = styled.div<BoxProps>`
     line-height: 18px;
     font-weight: 400;
     color: rgba(0, 0, 0, 0.64);
-    padding-left: 8px;
+    padding-inline-start: 8px;
   }
 
   ${props => props.selected && `
@@ -79,6 +79,6 @@ const Box = styled.div<BoxProps>`
 
   @media (max-width: ${props => props.theme.breakpoints.xs}) {
     width: 100%;
-    margin-right: 0;
+    margin-inline-end: 0;
   }
 `;

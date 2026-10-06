@@ -111,7 +111,7 @@ export const AssignLearnersLayover: FunctionComponent<Props> = ({
 const Wrapper = styled.div`
   position: fixed;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
   overflow: hidden;
   width: 100vw;
   height: 100vh;

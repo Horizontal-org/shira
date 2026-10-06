@@ -93,7 +93,7 @@ const Name = styled.div`
   align-items: center;
   background: #F0F0F0;
   > span {
-    padding-left: 4px;
+    padding-inline-start: 4px;
     color: #222;
     font-size: 12px;
   }
@@ -101,7 +101,7 @@ const Name = styled.div`
 
 const Hovered = styled.div`
   position: absolute;
-  left: 0;
+  inset-inline-start: 0;
   top: 0;
   cursor: pointer;
   width: 178px;

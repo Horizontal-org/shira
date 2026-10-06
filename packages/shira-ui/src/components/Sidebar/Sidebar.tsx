@@ -5,12 +5,15 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 const bottomMenuLabels = ['Settings', 'Support', 'Log out'];
 
+interface SidebarMenuItem {
+  icon: React.ReactNode;
+  label: string;
+  onClick: () => void;
+  position?: 'bottom';
+}
+
 export interface SidebarProps {
-  menuItems: Array<{
-    icon: React.ReactNode;
-    label: string;
-    onClick: () => void;
-  }>;
+  menuItems: SidebarMenuItem[];
   selectedItemLabel?: string;
   onClose?: () => void;
   onCollapse: (collapsed: boolean) => void;
@@ -19,11 +22,11 @@ export interface SidebarProps {
 export const Sidebar: React.FC<SidebarProps> = ({ menuItems, onClose, onCollapse, selectedItemLabel }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
-  const topMenuItems = menuItems
-    .filter(item => !bottomMenuLabels.includes(item.label));
+  const isBottomMenuItem = (item: SidebarMenuItem) =>
+    item.position === 'bottom' || bottomMenuLabels.includes(item.label);
 
-  const bottomMenuItems = bottomMenuLabels
-    .map(label => menuItems.find(item => item.label === label));
+  const topMenuItems = menuItems.filter(item => !isBottomMenuItem(item));
+  const bottomMenuItems = menuItems.filter(isBottomMenuItem);
 
   const toggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
@@ -75,7 +78,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ menuItems, onClose, onCollapse
 
         <CollapseContainer onClick={toggleCollapse}>
           <CollapseButton>
-            {isCollapsed ? <FiChevronRight color='#333030' size={20} /> : <FiChevronLeft color='#333030' size={20} />}
+            {/* This icon is state-driven (isCollapsed), not a fixed directional icon: it
+                already alternates between the two chevrons to point at the sidebar's edge.
+                Mirroring both under RTL is still correct — the sidebar itself ends up
+                anchored on the opposite edge, so both "points toward edge to collapse" /
+                "points away from edge to expand" meanings flip along with it. */}
+            {isCollapsed ? <FiChevronRight color='#333030' size={20} data-mirror-rtl /> : <FiChevronLeft color='#333030' size={20} data-mirror-rtl />}
           </CollapseButton>
         </CollapseContainer>
       </Wrapper>
@@ -97,7 +105,7 @@ const MobileMenuIcon = styled.div`
 
 const Wrapper = styled.div`
     position: fixed;
-    left: 0;
+    inset-inline-start: 0;
     top: 0;
     display: flex;
 `
@@ -200,7 +208,7 @@ const MenuItem = styled.div<{ isSelected?: boolean }>`
 const IconContainer = styled.div`
   width: 24px;
   height: 24px;
-  margin-right: 16px;
+  margin-inline-end: 16px;
   display: flex;
   align-items: center;
   justify-content: center;

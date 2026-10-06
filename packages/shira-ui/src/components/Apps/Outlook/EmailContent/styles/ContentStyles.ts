@@ -5,7 +5,10 @@ export const DynamicContent = styled.div`
   color: #242424;
   font-size: 15px;
   font-weight: 400;
-  margin: 34px 16px 0 50px;
+  margin-top: 34px;
+  margin-inline-end: 16px;
+  margin-bottom: 0;
+  margin-inline-start: 50px;
   padding-bottom: 2px;
 
   mark {
@@ -58,8 +61,8 @@ export const DynamicContent = styled.div`
     .selectedCell:after {
       background: rgba(200, 200, 255, 0.4);
       content: "";
-      left: 0;
-      right: 0;
+      inset-inline-start: 0;
+      inset-inline-end: 0;
       top: 0;
       bottom: 0;
       pointer-events: none;
@@ -71,7 +74,7 @@ export const DynamicContent = styled.div`
       background-color: #adf;
       bottom: -2px;
       position: absolute;
-      right: -2px;
+      inset-inline-end: -2px;
       top: 0;
       width: 4px;
     }
@@ -90,8 +93,8 @@ export const DynamicContent = styled.div`
 
   @media(max-width: ${props => props.theme.breakpoints.xs}) {
     margin-bottom: 0;
-    margin-left: 0;
-    margin-right: 0;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
 
     img {
       width: 100%;

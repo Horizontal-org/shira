@@ -94,8 +94,8 @@ const Wrapper = styled.div<WrapperProps>`
   box-sizing: border-box;
   position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
+  inset-inline-start: 0;
+  inset-inline-end: 0;
   transition: bottom 0.3s ease;
 
   display: ${({ isExpanded }) => (isExpanded) ? 'block' : 'flex'};
@@ -129,8 +129,8 @@ const CloseButton = styled.div<{isExpanded?: boolean}>`
   justify-content: center;
   cursor: pointer;
   background: $fff;
-  border-right: 1px solid ${props => props.isExpanded ? 'none' : props.theme.colors.dark.mediumGrey};
-  margin-right: ${props => props.isExpanded ? '0px' : '16px'};
+  border-inline-end: 1px solid ${props => props.isExpanded ? 'none' : props.theme.colors.dark.mediumGrey};
+  margin-inline-end: ${props => props.isExpanded ? '0px' : '16px'};
 `
 
 const Title = styled.div`
@@ -157,7 +157,7 @@ const ExpandedDropdown = styled.div<{ isExpanded?: boolean }>`
   `}
 `
 const DropdownOpen = styled.div`
-  margin-right: 32px;
+  margin-inline-end: 32px;
   cursor: pointer;
 `
 

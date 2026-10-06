@@ -1,8 +1,7 @@
 import { FunctionComponent } from 'react'
 import { Explanation } from '../../../../domain/explanation';
-import useParseHTML from '../../../../hooks/useParseHTML';
 
-import { DatingApp, FBMessenger, SMS, WhatsApp } from '@horizontal-org/shira-ui';
+import { DatingApp, FBMessenger, SMS, WhatsApp, parseHtml } from '@horizontal-org/shira-ui';
 
 
 interface Props {
@@ -16,12 +15,10 @@ interface Props {
 
 export const MessagingApps: FunctionComponent<Props> = ({ content, name, explanations, explanationNumber, showExplanations, images }) => {
 
-  const html = new DOMParser().parseFromString(content, 'text/html')
-
   const {
     parseCustomElement,
     parseDynamicContent
-  } = useParseHTML(content, images)
+  } = parseHtml(content, images)
 
   return (
     <>

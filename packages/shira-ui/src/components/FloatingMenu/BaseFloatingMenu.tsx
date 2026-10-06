@@ -155,6 +155,8 @@ export const BaseFloatingMenu: FunctionComponent<BaseFloatingMenuProps> = ({
   return createPortal(
     <MenuWrapper
       ref={menuRef}
+      // position.left/top come from getBoundingClientRect() plus an edge-flip against
+      // window.innerWidth — physical viewport pixel math, so "left" is kept intentionally.
       style={{
         top: `${position.top}px`,
         left: `${position.left}px`,
@@ -201,7 +203,7 @@ const MenuButton = styled.button`
   width: 100%;
   margin: 0;
   padding: 8px 16px;
-  text-align: left;
+  text-align: start;
   background: none;
   border: none;
   cursor: pointer;

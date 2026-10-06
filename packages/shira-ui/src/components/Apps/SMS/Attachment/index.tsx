@@ -52,7 +52,7 @@ const SvgWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 12px;
+  margin-inline-end: 12px;
   
   > svg {
     height: 20px;

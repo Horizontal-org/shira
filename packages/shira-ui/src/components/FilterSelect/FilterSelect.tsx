@@ -133,8 +133,11 @@ export const FilterSelect = ({
       {isOpen && createPortal(
         <Options
           ref={optionsRef}
+          $maxVisibleOptions={5}
           role="listbox"
           id={listboxId}
+          // position.left comes from useFloatingSelect's getBoundingClientRect(), which is
+          // always a physical viewport pixel value — kept as "left" intentionally.
           style={{
             top: `${position.top}px`,
             left: `${position.left}px`,
@@ -271,7 +274,7 @@ const ClearButton = styled.button`
   }
 `;
 
-const Options = styled.div`
+const Options = styled.div<{ $maxVisibleOptions: number }>`
   position: absolute;
   background: ${props => props.theme.colors.light.white};
   border-radius: 12px;
@@ -282,7 +285,7 @@ const Options = styled.div`
     0 4px 8px 0 rgba(0, 0, 0, 0.03);
   pointer-events: auto;
   z-index: 1000;
-  max-height: 500px;
+  max-height: ${props => `calc(${props.$maxVisibleOptions} * 43px)`};
   overflow-x: hidden;
   overflow-y: auto;
 
@@ -299,7 +302,7 @@ const Option = styled.button<{ $isSelected: boolean }>`
     return 'transparent';
   }};
   color: ${props => props.theme.colors.dark.darkGrey};
-  text-align: left;
+  text-align: start;
   display: flex;
   align-items: center;
   gap: 10px;

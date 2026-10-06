@@ -60,12 +60,12 @@ const LeftContent = styled.div<{
   $selected: boolean
   $colorType: string
 }>`
-  padding-left: 20px;
+  padding-inline-start: 20px;
   display: flex;
   align-items: center;
 
   > span {
-    padding-left: 6px;
+    padding-inline-start: 6px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -98,7 +98,7 @@ const Amount = styled.span<{
 
   color: #242424;
   font-size: 12px;
-  padding-right: 8px;
+  padding-inline-end: 8px;
 
   ${props => props.$selected && `
     color: #0f548c;

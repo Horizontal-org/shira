@@ -1,13 +1,19 @@
 import { EntityManager } from "typeorm";
 import { Question } from "src/modules/question/domain";
-import { CreateTemplateQuizImageDto } from "src/modules/library/dto/create-template-quiz.library.dto";
+
+export interface TransferableImage {
+  id: number;
+  name: string;
+  url?: string;
+  buffer?: Buffer;
+}
 
 export interface ITransferTemplateImagesService {
   transferImages(
     manager: EntityManager,
     quizId: number,
     question: Question,
-    images: CreateTemplateQuizImageDto[],
+    images: TransferableImage[],
     referencedContent: string[],
   ): Promise<Map<number, number>>;
 }

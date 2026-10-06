@@ -20,10 +20,10 @@ export const Primary: Story = {
     onChange: (value) => console.log('Selected language:', value),
     autoselect: true,
     options: [
-      { label: 'English', value: 'en', labelEnglish: 'English' },
-      { label: 'Español', value: 'es', labelEnglish: 'Spanish' },
-      { label: 'Français', value: 'fr', labelEnglish: 'French' },
-      { label: 'Deutsch', value: 'de', labelEnglish: 'German' },
+      { label: 'English', value: 'en', nativeLabel: 'English' },
+      { label: 'Spanish', value: 'es', nativeLabel: 'Español' },
+      { label: 'French', value: 'fr', nativeLabel: 'Français' },
+      { label: 'German', value: 'de', nativeLabel: 'Deutsch' },
     ]
   }
 };
@@ -34,10 +34,10 @@ export const AlternativeStyling: Story = {
     autoselect: true,
     alternativeStyling: true,
     options: [
-      { label: 'English', value: 'en', labelEnglish: 'English' },
-      { label: 'Español', value: 'es', labelEnglish: 'Spanish' },
-      { label: 'Français', value: 'fr', labelEnglish: 'French' },
-      { label: 'Deutsch', value: 'de', labelEnglish: 'German' },
+      { label: 'English', value: 'en', nativeLabel: 'English' },
+      { label: 'Spanish', value: 'es', nativeLabel: 'Español' },
+      { label: 'French', value: 'fr', nativeLabel: 'Français' },
+      { label: 'German', value: 'de', nativeLabel: 'Deutsch' },
     ]
   }
 };

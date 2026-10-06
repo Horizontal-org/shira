@@ -41,7 +41,7 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
   const { quizId, questionId } = useParams();
   const navigate = useNavigate();
   const location = useLocation() as { state?: LocationState };
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const space = useStore((state) => state.space);
 
   const submission = questionId
@@ -86,7 +86,7 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
     };
 
     loadOptions();
-  }, []);
+  }, [i18n.language]);
 
   const canSubmit = Boolean(
     submission.id
@@ -143,7 +143,7 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
           disabled={!canSubmit || isSubmitting}
           id={`submit-${submission.resourceType}-template-button`}
           onClick={handleSubmit}
-          rightIcon={<FiChevronRight size={16} />}
+          rightIcon={<FiChevronRight data-mirror-rtl size={16} />}
           color={defaultTheme.colors.green7}
           text={t(`${translationKey}.submit`)}
           type="primary"
@@ -157,7 +157,7 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
             <Body1>
               <Trans
                 i18nKey={`${translationKey}.review_notice`}
-                components={{ learnMore: <Link1 href="/support" /> }}
+                components={{ learnMore: <Link1 href="https://shira.app/templates" target="_blank" rel="noreferrer" /> }}
               />
             </Body1>
           </Subtitle>
@@ -200,7 +200,7 @@ export const TemplateSubmissionLayout: FunctionComponent = () => {
               <Body3>
                 <Trans
                   i18nKey={`${translationKey}.language_hint`}
-                  components={{ support: <Link3 href="/support" target="_blank" rel="noreferrer" /> }}
+                  components={{ support: <Link3 href="https://shira.app/contact/" target="_blank" rel="noreferrer" /> }}
                 />
               </Body3>
             </InputHeading>
@@ -267,7 +267,7 @@ const Page = styled.div`
 
 const Header = styled.header`
   height: 72px;
-  padding-right: 24px;
+  padding-inline-end: 24px;
   background: ${defaultTheme.colors.light.white};
   display: flex;
   align-items: center;
@@ -289,7 +289,7 @@ const HeaderLeft = styled.div`
 
 const LogoFrame = styled.div`
   padding: 0 24px;
-  border-right: 1px solid ${props => props.theme.colors.dark.mediumGrey};
+  border-inline-end: 1px solid ${props => props.theme.colors.dark.mediumGrey};
 `;
 
 const Content = styled.main`
@@ -299,7 +299,7 @@ const Content = styled.main`
 const FormCard = styled.form`
   box-sizing: border-box;
   max-width: 1136px;
-  margin: 0 auto;
+  margin: 0 auto 100px;
   padding: 48px;
   border-radius: 24px;
   background: ${defaultTheme.colors.light.white};
@@ -307,11 +307,6 @@ const FormCard = styled.form`
 
 const Field = styled.div`
   margin-top: 32px;
-`;
-
-const SubmissionSelect = styled(FilterSelect)`
-  width: 262px;
-  min-width: 0;
 `;
 
 const Terms = styled.div`

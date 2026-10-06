@@ -63,11 +63,11 @@ export const TemplateFilters = styled.div`
   flex-wrap: nowrap;
   gap: 10px;
   max-width: 100%;
-  margin-left: auto;
+  margin-inline-start: auto;
 
   @media (max-width: ${(props) => props.theme.breakpoints.md}) {
     width: 100%;
-    margin-left: 0;
+    margin-inline-start: 0;
     flex-wrap: wrap;
   }
 `;

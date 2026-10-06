@@ -28,6 +28,7 @@ export const Breadcrumbs = ({ items, active }: BreadcrumbsProps) => {
             <Chevron>
               <FaChevronRight
                 color={theme.colors.green6}
+                data-mirror-rtl
               />
             </Chevron>
           )}
@@ -77,7 +78,7 @@ const Position = styled.div`
   align-items: center;
 
   font-size: 12px;
-  margin-right: 8px;
+  margin-inline-end: 8px;
 `
 
 const Chevron = styled.div`

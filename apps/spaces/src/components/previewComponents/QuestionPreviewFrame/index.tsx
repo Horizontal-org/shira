@@ -1,4 +1,4 @@
-import { defaultTheme, styled } from "@horizontal-org/shira-ui";
+import { defaultTheme, styled, toImageEntries } from "@horizontal-org/shira-ui";
 import { FunctionComponent } from "react";
 import { AppLayout } from "../../QuestionPreview/AppLayout";
 import type { UIExplanation } from "../../QuestionPreview/types";
@@ -7,7 +7,6 @@ import {
   isMessagingPhoneApp,
   normalizePreviewAppName,
 } from "../../../utils/appNames";
-import { toImageEntries } from "../../../utils/parseHtml";
 
 type Props = {
   appName: string | null;

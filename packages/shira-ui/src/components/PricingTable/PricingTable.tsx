@@ -56,7 +56,7 @@ const FeatureTooltipIcon: FunctionComponent<{ label: string }> = ({ label }) => 
       label={label}
       placement="bottom-start"
     >
-      <IoMdHelpCircle size={20} color={theme.colors.dark.mediumGrey} />
+      <IoMdHelpCircle size={20} color={theme.colors.dark.mediumGrey} data-mirror-rtl />
     </GeneralTooltip>
   );
 };

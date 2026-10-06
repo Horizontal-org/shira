@@ -199,7 +199,7 @@ const Contact = styled.span`
 const BackgroundWrapper = styled.div`
   position: absolute;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
   width: 100%;
   > img {
     width: 100%;
@@ -262,8 +262,8 @@ const DonationLink = styled.a`
 const CreatedByWrapper = styled.div`
   margin: 20px 200px;
   padding-bottom: 50px;
-  padding-right: 24px;
-  padding-left: 24px;
+  padding-inline-end: 24px;
+  padding-inline-start: 24px;
   border-bottom: 1px solid #ACADAE;
   display: flex; 
   align-items: center;
@@ -335,11 +335,11 @@ const FlexWrapper = styled.div`
 
 const LastSectionWrapper = styled.div`
   padding: 14px 0;
-  text-align: left;
+  text-align: start;
 `
 
 const OptionsWrapper = styled.div`
-  text-align: left;
+  text-align: start;
 `
 
 const ButtonsWrapper = styled.div`
@@ -348,7 +348,7 @@ const ButtonsWrapper = styled.div`
   padding-top: 10px;
 
   >button {
-    margin-right: 16px;
+    margin-inline-end: 16px;
   }
 `
 

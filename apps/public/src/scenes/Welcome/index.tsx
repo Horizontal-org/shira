@@ -8,7 +8,7 @@ import { useStore } from "../../store";
 import { useTranslation } from "react-i18next";
 import { Task } from "@divviup/dap";
 import { ReactComponent as Hooked } from '../../assets/HookedFish.svg';
-import { LANG_OPTIONS } from "../../utils/langOptions";
+import { getLanguageOptions } from "../../utils/langOptions";
 
 export const WelcomeScene: FunctionComponent = () => {
   const changeScene = useStore((state) => state.changeScene)
@@ -50,12 +50,12 @@ export const WelcomeScene: FunctionComponent = () => {
                 localStorage.setItem('lang', v);
               }}
               autoselect
-              options={LANG_OPTIONS}
+              options={getLanguageOptions(t)}
             />
             <Button
               onClick={() => { changeScene('quiz-setup-name') }}
               text={t('welcome.start')}
-              rightIcon={<FiChevronRight size={18} />}
+              rightIcon={<FiChevronRight size={18} data-mirror-rtl />}
             />
           </Buttons>
         </StyledBox>
@@ -69,7 +69,7 @@ export const WelcomeScene: FunctionComponent = () => {
 
 const GreenFishWrapper = styled.div`
   display: flex;
-  padding-right: 40px;
+  padding-inline-end: 40px;
 
   > svg {
     width: 410px;

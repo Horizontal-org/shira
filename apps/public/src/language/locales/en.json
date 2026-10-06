@@ -1,4 +1,12 @@
 {
+    "languages": {
+        "en": "English",
+        "es": "Spanish",
+        "fr": "French",
+        "cn": "Chinese (Simplified)",
+        "ar": "Arabic",
+        "ru": "Russian"
+    },
     "beta": {
         "label": "BETA",
         "message": "Shira is still in development and you may experience issues.",
