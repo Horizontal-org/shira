@@ -204,6 +204,7 @@
         "html_editor": {
             "title": "HTML source",
             "fix_errors": "Fix HTML errors before continuing.",
+            "explanation_tooltip": "Select text or place the cursor in an HTML tag to add an explanation.",
             "errors": {
                 "syntax": "Check the HTML near the highlighted position"
             }
