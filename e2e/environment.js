@@ -9,7 +9,7 @@ module.exports = {
   COOKIE_DOMAIN: '',
   SPACE_URL: 'http://localhost:13002', PUBLIC_URL: 'http://localhost:13001',
   SUPERADMIN_URL: 'http://localhost:13002',
-  SELF_HOSTED: 'true', ENABLE_PUBLIC_LIBRARY: 'false',
+  SELF_HOSTED: 'true', ENABLE_PUBLIC_LIBRARY: 'true',
   IMAGE_ENDPOINT: 'localhost', IMAGE_PORT: '13900', IMAGE_BUCKET: 'shira-e2e',
   IMAGE_ACCESS_KEY: 'e2e-only', IMAGE_SECRET_KEY: 'e2e-only',
   SMTP_HOST: 'localhost', SMTP_PORT: '11025', SMTP_USER: '', SMTP_PASS: '',

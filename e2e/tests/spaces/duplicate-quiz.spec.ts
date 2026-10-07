@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { E2E_URLS } from '../environment';
 import { deleteQuiz, signInAsUser } from './helpers';
 
 test('a user can duplicate a quiz', async ({ page }) => {
@@ -12,16 +13,16 @@ test('a user can duplicate a quiz', async ({ page }) => {
   await signInAsUser(page);
 
   try {
-    const createResponse = await page.request.post('http://localhost:13000/quiz', {
+    const createResponse = await page.request.post(`${E2E_URLS.api}/quiz`, {
       data: { title: quizName, visibility: 'public' },
     });
     expect(createResponse.status()).toBe(201);
     ({ quizId } = await createResponse.json() as { quizId: number });
 
-    const appsResponse = await page.request.get('http://localhost:13000/app');
+    const appsResponse = await page.request.get(`${E2E_URLS.api}/app`);
     expect(appsResponse.ok()).toBe(true);
     const apps = await appsResponse.json() as Array<{ id: number }>;
-    const questionResponse = await page.request.post('http://localhost:13000/quiz/question', {
+    const questionResponse = await page.request.post(`${E2E_URLS.api}/quiz/question`, {
       data: {
         quizId,
         question: {

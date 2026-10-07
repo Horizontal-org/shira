@@ -144,6 +144,7 @@ export const QuizLibraryPreviewModal: FunctionComponent<Props> = ({
               <ActionsDivider />
 
               <Button
+                id="use-quiz-template-button"
                 text={t("quiz_library.preview.use_template")}
                 type="primary"
                 color={defaultTheme.colors.green7}

@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { E2E_URLS } from '../environment';
 import { deleteQuiz, signInAsUser } from './helpers';
 
 test('a user can rename a quiz', async ({ page }) => {
@@ -10,7 +11,7 @@ test('a user can rename a quiz', async ({ page }) => {
   await signInAsUser(page);
 
   try {
-    const createResponse = await page.request.post('http://localhost:13000/quiz', {
+    const createResponse = await page.request.post(`${E2E_URLS.api}/quiz`, {
       data: { title: quizName, visibility: 'public' },
     });
     expect(createResponse.status()).toBe(201);
