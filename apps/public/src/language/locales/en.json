@@ -246,7 +246,14 @@
         "error_title": "Something went wrong",
         "success_joined_space": "You have joined {{spaceName}} on Shira.",
         "success_hint": "When your organization shares a quiz with you, you will receive an email invitation directly in your inbox.",
-        "error_message": "Try again or contact the person who invited you."
+        "error_message": "Try again or contact the person who invited you.",
+        "join_title": "Almost there",
+        "join_message": "By joining {{spaceName}}, you agree to Shira’s <0>privacy policy</0>.",
+        "privacy_consent_label": "I agree to Shira’s <0>privacy policy</0>.",
+        "privacy_consent_aria_label": "I agree to the Shira Privacy Policy",
+        "join_button": "Join space",
+        "joining": "Joining...",
+        "try_again": "Try again"
     },
     "navbar": {
         "home": "Home",
