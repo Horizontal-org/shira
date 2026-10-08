@@ -99,8 +99,11 @@ export const QuestionReview: FunctionComponent<Props> = ({ }) => {
         )}
       </ExplanationHeader>
 
-
-      <StyledBox>
+      <StyledBox
+        $expandContent={
+          activeQuestion.app.type === 'email' && activeQuestion.editorType === 'advanced'
+        }
+      >
         <AppSelector
           appName={activeQuestion.app.name}
           customProps={elementProps}
@@ -121,13 +124,14 @@ const ExplanationHeader = styled.div`
   margin: 12px 0 20px 0;
 `
 
-const StyledBox = styled.div`
+const StyledBox = styled.div<{ $expandContent: boolean }>`
   position: relative;
   z-index: 1;
   background: white;
   padding: 24px;
   width: 100%;
-  height: 800px;
+  height: ${props => props.$expandContent ? 'auto' : '800px'};
+  min-height: 800px;
   box-sizing: border-box;
 `
 
@@ -140,9 +144,9 @@ const ExplanationButtonWrapper = styled.div`
 const Overlay = styled.div`
   position: absolute;
   top: 0;
+  bottom: 0;
   inset-inline-start: 0;
   z-index: 3;
-  height: 800px;
   width: 100%;
   background: rgba(0, 0, 0, 0.5);
 `

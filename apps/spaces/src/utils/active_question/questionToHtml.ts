@@ -11,11 +11,17 @@ export const activeQuestionToHtml = (activeQuestion: ActiveQuestion) => {
     }
   } : activeQuestion.content
   const html = parseActiveQuestionToHtml(content)
-  if (!advanced) return html
-
   const container = document.createElement('div')
   container.innerHTML = html
   const body = container.querySelector('#component-text-1')
+
+  if (!advanced) {
+    body?.querySelectorAll('table').forEach((table) => {
+      table.classList.add('tiptap-table')
+    })
+    return container.innerHTML
+  }
+
   body?.classList.add('advanced-html-editor')
   return container.innerHTML
 }
