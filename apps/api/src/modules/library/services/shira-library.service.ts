@@ -4,6 +4,7 @@ import { TYPES } from '../interfaces'
 import { IShiraLibraryService } from '../interfaces/services/shira-library.service.interface'
 import { IShiraLibraryLoggerService } from '../interfaces/services/shira-library-logger.service.interface'
 import { PublishAuthorDto } from '../dto/publish-question.library.dto'
+import { LibraryQuizTemplate } from '../dto/library-quiz-template.library.dto'
 import { LibraryRequestFailedException } from '../exceptions'
 
 @Injectable()
@@ -37,6 +38,38 @@ export class ShiraLibraryService implements IShiraLibraryService {
     const formData = new FormData()
     formData.append('file', new Blob([new Uint8Array(buffer)]), filename)
     return this.requestMultipart('/question-template-images/upload', formData, apiKey)
+  }
+
+  async getQuizTemplate(quizTemplateId: string): Promise<LibraryQuizTemplate> {
+    const [template, questions] = await Promise.all([
+      this.request<{ title: string }>(`/quiz-templates/${quizTemplateId}`),
+      this.request<Array<{
+        questionName: string
+        content: string
+        isPhishing: boolean
+        appName: string | null
+        explanations?: Array<{ position: string; index: string; text: string }>
+        images?: Array<{ id: number; name: string; url: string }>
+      }>>(`/quiz-templates/${quizTemplateId}/questions`),
+    ])
+
+    return {
+      title: template.title,
+      questions: questions.map((question) => {
+        if (!question.appName) {
+          throw new LibraryRequestFailedException()
+        }
+
+        return {
+          questionName: question.questionName,
+          content: question.content,
+          isPhishing: question.isPhishing,
+          appName: question.appName,
+          explanations: question.explanations,
+          images: question.images,
+        }
+      }),
+    }
   }
 
   private async request<T = void>(path: string, init?: RequestInit): Promise<T> {
