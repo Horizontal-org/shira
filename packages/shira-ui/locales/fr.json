@@ -144,8 +144,8 @@
         "text_message": "Text message"
     },
     "pagination": {
-        "page": "<current>{{current}}</current> of {{total}}",
-        "summary": "{{start}}-{{end}} of {{total}}",
+        "page": "<current>{{current}}</current> sur {{total}}",
+        "summary": "{{start}}-{{end}} sur {{total}}",
         "last": "Dernier",
         "first": "Premier",
         "next": "Suivant",
@@ -178,10 +178,10 @@
             "no_media": "No shared media",
             "no_voice": "No shared voice messages"
         },
-        "add_to_contacts": "Add to Contacts",
+        "add_to_contacts": "Ajouter aux contacts",
         "today": "Aujourd’hui",
         "unread_count": "9",
-        "registration_date": "Jun 2023",
+        "registration_date": "Juin 2023",
         "file_size": "24 KB"
     },
     "instagram": {
@@ -189,8 +189,8 @@
         "search": "Recherche",
         "messages": "Messages",
         "requests": "Requêtes",
-        "your_note": "Your note",
+        "your_note": "Votre note",
         "new_message": "Nouveau message",
-        "verified": "Verified"
+        "verified": "Vérifié"
     }
 }

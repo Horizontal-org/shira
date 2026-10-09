@@ -101,7 +101,7 @@
             "export": "Exporter"
         },
         "use_library_question_button": "Utiliser un modèle de question",
-        "create_note_button": "Créer un compte",
+        "create_note_button": "Créer une note",
         "columns": {
             "type": {
                 "note": "Note"
@@ -202,8 +202,8 @@
                 },
                 "editor": {
                     "title": "Éditeur ou Editrice",
-                    "simple": "Simple editor",
-                    "advanced": "Advanced HTML editor"
+                    "simple": "Editeur simple",
+                    "advanced": "Éditeur HTML avancé"
                 }
             }
         },
@@ -211,11 +211,12 @@
         "header_required_tooltip": "Les champs obligatoires ne peuvent pas être laissés vides",
         "header_character_limit_tooltip": "Un ou plusieurs champs dépassent la limite de caractères.",
         "html_editor": {
-            "title": "HTML source",
-            "fix_errors": "Fix HTML errors before continuing.",
+            "title": "Source HTML",
+            "fix_errors": "Corrigez les erreurs HTML avant de continuer.",
             "errors": {
-                "syntax": "Check the HTML near the highlighted position"
-            }
+                "syntax": "Vérifiez le code HTML près de la position surlignée"
+            },
+            "explanation_tooltip": "Sélectionnez du texte ou placez le curseur dans une balise HTML pour ajouter une explication."
         }
     },
     "question_library": {
@@ -450,7 +451,7 @@
                 "document": "Document",
                 "other": "Autre"
             },
-            "explanation": "Selecting the correct file type lets Shira display a realistic attachment icon in the quiz. For added realism, consider including a file extension in the filename (for example, .pdf or .zip)."
+            "explanation": "Sélectionner le bon type de fichier permet à Shira d’afficher une icône de pièce jointe réaliste dans le quiz. Pour plus de réalisme, pensez à inclure une extension de fichier dans le nom du fichier (par exemple, .pdf ou .zip)."
         },
         "variables_modal": {
             "title": "Variables",
@@ -716,8 +717,8 @@
             "content_disable": "We will stop tracking your user quiz information"
         },
         "delete_note": {
-            "title": "Êtes-vous sûr de vouloir supprimer \"{{quiz_name}}\" ?",
-            "message": "La suppression de ce quiz est définitive et irréversible."
+            "title": "Êtes-vous sûr de vouloir supprimer \"{{note_name}}\" ?",
+            "message": "La suppression de cette note est définitive et ne peut pas être annulée."
         },
         "exit_note": {
             "title": "Êtes-vous sûr de vouloir quitter la question ?",
@@ -786,7 +787,7 @@
         "something_went_wrong": "Une erreur s'est produite",
         "character_limit_error": "Limite de caractères dépassée",
         "template_submission_failed": "Un problème est survenu lors de l'invitation. Si le problème persiste, <1>contactez-nous</1>.",
-        "export_question_fail": "Failed to export question",
+        "export_question_fail": "Échec de l'exportation de la question",
         "entity_import": {
             "invalid_zip_file": {
                 "subtitle": "Nous n'avons pas pu traiter le fichier. Réessayez.",
@@ -806,8 +807,8 @@
             }
         },
         "edit_question_failed": "Une erreur s'est produite lors de l'ajout de la question",
-        "delete_note_fail": "Failed to delete note",
-        "duplicate_note_fail": "Impossible de dupliquer le quiz"
+        "delete_note_fail": "Échec de la suppression de la note",
+        "duplicate_note_fail": "Échec de la duplication de la note"
     },
     "success_messages": {
         "message": "",
@@ -839,10 +840,10 @@
         "quiz_assessment_mode_updated": "Le quiz a été mis à jour",
         "quiz_imported": "Le quiz a été mis à jour",
         "question_imported": "La question a été supprimée",
-        "note_created": "Le quiz a été créé",
-        "note_deleted": "L'apprenant a été supprimé.",
-        "note_updated": "Le quiz a été mis à jour",
-        "note_duplicated": "Le quiz a été dupliqué"
+        "note_created": "La note a été créée",
+        "note_deleted": "La note a été supprimée",
+        "note_updated": "La note a été mise à jour",
+        "note_duplicated": "La note a été dupliquée"
     },
     "loading_messages": {
         "message": "",
@@ -1292,27 +1293,27 @@
         }
     },
     "create_note": {
-        "header_title": "Créer un nouveau dossier",
-        "edit_header_title": "Edit note",
+        "header_title": "Créer un nouveau la note",
+        "edit_header_title": "Modifier la note",
         "header_required_tooltip": "Les champs obligatoires ne peuvent pas être laissés vides",
         "header_character_limit_tooltip": "Un ou plusieurs champs dépassent la limite de caractères.",
         "breadcrumbs": {
-            "content": "Note content",
+            "content": "Contenu de la note",
             "preview": "Aperçu"
         },
         "note_info": {
             "note_name": {
                 "title": "Note name",
-                "subtitle": "This name will only be visible to you, to help you remember what this note is about",
-                "placeholder": "Note name"
+                "subtitle": "Ce nom ne sera visible que par vous, pour vous aider à vous rappeler le sujet de cette note",
+                "placeholder": "Nom de la note"
             },
             "note_content": {
-                "title": "Note content",
-                "subtitle": "Write the note that will be shown. Notes are shown before, after or in between questions. They can include text, links and images to offer more context and information."
+                "title": "Contenu de la note",
+                "subtitle": "Rédigez la note qui sera affichée. Les notes s’affichent avant, après ou entre les questions. Elles peuvent inclure du texte, des liens et des images pour fournir plus de contexte et d’informations."
             }
         },
         "preview": {
-            "subtitle": "This is how your note will look to learners."
+            "subtitle": "Voici à quoi ressemblera votre note pour les apprenants."
         }
     }
 }
