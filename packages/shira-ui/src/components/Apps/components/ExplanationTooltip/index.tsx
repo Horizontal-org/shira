@@ -79,22 +79,24 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
     const explanations = document.querySelectorAll(`[data-explanation]`) as NodeListOf<HTMLElement>
     let parentDiv: HTMLElement | null = null
 
+    // here we should remove the background color from all the explanations
     explanations.forEach(e => {
       e.style.zIndex = '0'
-      parentDiv = e.parentElement as HTMLElement
+      parentDiv = e.parentElement as HTMLElement;
       if (parentDiv) {
-        parentDiv.style.zIndex = '0'
+        parentDiv.style.zIndex = '0';
       }
     })
 
+    // here we should highlight the current explanation
     references.forEach(reference => {
       if (reference && showExplanations) {
-        parentDiv = reference.parentElement as HTMLElement
-        reference.style.zIndex = '4'
-        reference.style.position = 'relative'
+        parentDiv = reference.parentElement as HTMLElement;
+        reference.style.zIndex = '4';
+        reference.style.position = 'relative';
 
         if (parentDiv) {
-          parentDiv.style.zIndex = '4'
+          parentDiv.style.zIndex = '4';
         }
       }
     })
