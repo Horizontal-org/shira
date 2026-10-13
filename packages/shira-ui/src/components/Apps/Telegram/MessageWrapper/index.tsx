@@ -107,7 +107,7 @@ const ContentWrapper = styled.div`
     background: transparent;
     position: absolute;
     inset: 0;
-    padding: 154px 10px 16px;
+    padding: 144px 10px 16px;
   }
 `
 

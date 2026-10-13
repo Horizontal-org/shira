@@ -1,21 +1,25 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 
 interface Props {
   data: Element
 }
 
 const Message: FunctionComponent<Props> = ({ data }) => {
+  const { t } = useTranslation('shira-ui')
+
   return (
     <Wrapper>
       <Content dangerouslySetInnerHTML={{ __html: data.outerHTML }}></Content>
-      <span>00:00</span>
+      <span>{t('telegram.time')}</span>
     </Wrapper>
   )
 }
 
 const Wrapper = styled.div`
   position: relative;
+  max-width: 70%;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;

@@ -1,77 +1,71 @@
 import { FunctionComponent } from "react";
 import styled from "styled-components";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   data: Element
 }
 
 export const MessagingImage: FunctionComponent<Props> = ({ data }) => {
+  const { t } = useTranslation("shira-ui")
+
   return (
     <Wrapper>
       <Content dangerouslySetInnerHTML={{ __html: data.outerHTML }}></Content>
-      <span>00:00</span>
+      <span>{t("telegram.time")}</span>
     </Wrapper>
   )
 }
 
 const Wrapper = styled.div`
   position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 16px;
+  width: 30%;
+  min-width: 180px;
   box-sizing: border-box;
 
+  /* Telegram overlays the time on the bottom corner of the photo */
   > span {
-    flex-shrink: 0;
-    font-size: 13px;
-    color: #8e8e93;
-    font-weight: 400;
+    z-index: 3;
+    position: absolute;
+    bottom: 8px;
+    inset-inline-end: 8px;
+    padding: 2px 7px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.35);
+    font-size: 12px;
+    line-height: 1.3;
+    color: #fff;
   }
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
+    width: auto;
+    min-width: 0;
     max-width: 80%;
     display: inline-block;
 
     background: #fff;
     border-radius: 18px;
     padding: 2px;
-
-    > span {
-      z-index: 3;
-      position: absolute;
-      bottom: 8px;
-      inset-inline-end: 8px;
-      padding: 2px 7px;
-      border-radius: 10px;
-      background: rgba(0, 0, 0, 0.35);
-      font-size: 12px;
-      line-height: 1.3;
-      color: #fff;
-    }
   }
 `
 
 const Content = styled.div`
-  max-height: 400px;
-  max-width: 60%;
   min-width: 0;
-
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    max-width: none;
-  }
 
   img {
     display: block;
-    max-width: 100%;
+    width: 100%;
+    height: auto;
     max-height: 400px;
-    min-width: 50px;
-    min-height: 30px;
-    object-fit: contain;
-    border-radius: 8px;
-    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
 
     @media (max-width: ${props => props.theme.breakpoints.sm}) {
+      width: auto;
+      max-width: 100%;
+      min-width: 50px;
+      min-height: 30px;
+      object-fit: contain;
       border-radius: 16px;
     }
   }
