@@ -2,7 +2,6 @@ import { FunctionComponent, useEffect, useRef, useState } from "react"
 import styled from 'styled-components';
 import './styles.css'
 
-// import { usePopper } from 'react-popper';
 import { Explanation } from "../../../../domain/explanation";
 import { arrow, autoUpdate, flip, offset, shift, size, useFloating } from "@floating-ui/react";
 
@@ -18,8 +17,6 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
   showExplanations,
 }) => {
 
-  // const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
-  // const [arrowElement, setArrowElement] = useState<HTMLDivElement | null>(null);
   const arrowRef = useRef(null);
 
   const referenceElementRef = useRef<HTMLElement | null>(null);
@@ -34,15 +31,6 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
       return text.startsWith('http://') || text.startsWith('https://') || text.startsWith('www.');
     }
   };
-
-  // const { styles, attributes, update } = usePopper(referenceElementRef.current, popperElement, {
-  //   modifiers: [
-  //     { name: 'flip', options: { fallbackPlacements: ['top', 'bottom'], padding: 100 } },
-  //     { name: 'arrow', options: { element: arrowElement } },
-  //     { name: 'offset', options: { offset: [0, 8] } },
-  //   ],
-  // });
-
 
   const { refs, floatingStyles, update, middlewareData, placement } = useFloating({
     placement: 'bottom',
@@ -94,7 +82,6 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
     // here we should remove the background color from all the explanations
     explanations.forEach(e => {
       e.style.zIndex = '0'
-      e.style.background = 'transparent';
       parentDiv = e.parentElement as HTMLElement;
       if (parentDiv) {
         parentDiv.style.zIndex = '0';
@@ -106,8 +93,7 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
       if (reference && showExplanations) {
         parentDiv = reference.parentElement as HTMLElement;
         reference.style.zIndex = '4';
-        reference.style.background = 'white';
-        reference.style.position = 'relative'
+        reference.style.position = 'relative';
 
         if (parentDiv) {
           parentDiv.style.zIndex = '4';
@@ -142,7 +128,7 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
   )
 }
 
-const Wrapper = styled('div') <{ hide: boolean }>`  
+const Wrapper = styled('div') <{ hide: boolean }>`
   ${props => props.hide && `
     visibility: hidden;
     > #arrow::before {
@@ -151,7 +137,6 @@ const Wrapper = styled('div') <{ hide: boolean }>`
   `}
 `
 
-// font-size: 14px;
 const TooltipContent = styled.div<{ isUrl: boolean }>`
   line-height: 1.4;
   
