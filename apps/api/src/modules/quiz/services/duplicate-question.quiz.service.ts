@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource } from 'typeorm';
-import { QuizQuestion as QuizQuestionEntity } from '../domain/quizzes_questions.entity';
+import { QuizItem } from '../domain/quiz_items.entity';
 
 import { IDuplicateQuestionQuizService } from '../interfaces/services/duplicate-question.quiz.service.interface';
 import { DuplicateQuestionQuizDto } from '../dto/duplicate-question.quiz.dto';
@@ -10,17 +10,20 @@ import { TYPES } from '../interfaces';
 import { ISharedQuestionDuplicationService } from '../interfaces/services/shared-question-duplication.service.interface';
 import { ApiLogger } from 'src/utils/logger/api-logger.service';
 import { IValidateSpaceQuizService } from '../interfaces/services/validate-space.quiz.service.interface';
+import { IQuizItemsService } from '../interfaces/services/quiz-items.service.interface';
 
 @Injectable()
 export class DuplicateQuestionQuizService implements IDuplicateQuestionQuizService {
 
   constructor(
-    @InjectRepository(QuizQuestionEntity)
-    private readonly quizQuestionRepo: Repository<QuizQuestionEntity>,
+    @InjectRepository(QuizItem)
+    private readonly quizItemRepo: Repository<QuizItem>,
     @Inject(TYPES.services.ISharedQuestionDuplicationService)
     private sharedQuestionDuplicationService: ISharedQuestionDuplicationService,
     @Inject(TYPES.services.IValidateSpaceQuizService)
     private validateSpaceQuizService: IValidateSpaceQuizService,
+    @Inject(TYPES.services.IQuizItemsService)
+    private quizItemsService: IQuizItemsService,
     private dataSource: DataSource
   ) { }
 
@@ -59,23 +62,16 @@ export class DuplicateQuestionQuizService implements IDuplicateQuestionQuizServi
         manager
       });
 
-      const originalQQ = await this.quizQuestionRepo
-        .findOne({ where: { quizId: duplicateQuestionDto.quizId, questionId: duplicateQuestionDto.questionId } });
+      const originalQuizItem = await this.quizItemRepo
+        .findOne({ where: { quizId: duplicateQuestionDto.quizId, entityType: 'question', entityId: duplicateQuestionDto.questionId } });
 
-      const oldPositions = (await manager.find(QuizQuestionEntity, { where: { quizId: duplicateQuestionDto.quizId } })).filter(o => o.position > originalQQ.position)
-      await manager.save(QuizQuestionEntity, oldPositions.map((oldp) => {
-        return {
-          ...oldp,
-          position: oldp.position + 1
-        }
-      }));
-
-      const quizQuestion = this.quizQuestionRepo.create({
-        position: originalQQ.position + 1,
-        quizId: duplicateQuestionDto.quizId,
-        questionId: duplicatedQuestion.question.id
-      });
-      await manager.save(QuizQuestionEntity, quizQuestion);
+      await this.quizItemsService.insertAfter(
+        duplicateQuestionDto.quizId,
+        originalQuizItem.id,
+        'question',
+        duplicatedQuestion.question.id,
+        manager,
+      );
     });
   }
 

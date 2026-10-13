@@ -1,25 +1,5 @@
 const SvgIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16">
-    <path
-      fill="#fff"
-      d="M2.5 14h11c.275 0 .5-.225.5-.5v-11c0-.275-.225-.5-.5-.5h-11c-.275 0-.5.225-.5.5v11c0 .275.225.5.5.5"
-    ></path>
-    <path
-      fill="#605E5C"
-      fillRule="evenodd"
-      d="M2.5 15h11c.827 0 1.5-.673 1.5-1.5v-11c0-.827-.673-1.5-1.5-1.5h-11C1.673 1 1 1.673 1 2.5v11c0 .827.673 1.5 1.5 1.5M2 2.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5z"
-      clipRule="evenodd"
-      opacity="0.64"
-    ></path>
-    <path
-      fill="#BC1948"
-      d="M11 8a.49.49 0 0 1-.24.42l-4 2.5a.5.5 0 0 1-.26.08.5.5 0 0 1-.24-.06.51.51 0 0 1-.26-.44V8z"
-    ></path>
-    <path
-      fill="#E8467C"
-      d="M11 8a.49.49 0 0 0-.24-.421l-4-2.507a.47.47 0 0 0-.5 0 .51.51 0 0 0-.26.421V8z"
-    ></path>
-  </svg>
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path fill="url(#videoa)" d="M3 5a2 2 0 0 1 2-2h8a4 4 0 0 1 4 4v8a2 2 0 0 1-2 2H7a4 4 0 0 1-4-4V5z"/><path fill="url(#videob)" d="M4 5a1 1 0 0 1 1-1h8a3 3 0 0 1 3 3v8a1 1 0 0 1-1 1H7a3 3 0 0 1-3-3V5z"/><path fill="url(#videoc)" d="M4 5a1 1 0 0 1 1-1h8a3 3 0 0 1 3 3v8a1 1 0 0 1-1 1H7a3 3 0 0 1-3-3V5z"/><path fill="url(#videod)" d="M8.422 6.13C7.786 5.755 7 6.237 7 7v6c0 .764.786 1.246 1.422.871l5.091-2.999c.65-.382.65-1.36 0-1.742l-5.09-3z"/><defs><linearGradient id="videoa" x1="7.521" x2="9.406" y1="3" y2="17.138" gradientUnits="userSpaceOnUse"><stop stop-color="#BBB"/><stop offset="1" stop-color="#888"/></linearGradient><linearGradient id="videob" x1="7.333" x2="8.851" y1="4" y2="16.144" gradientUnits="userSpaceOnUse"><stop stop-color="#fff"/><stop offset="1" stop-color="#EBEBEB"/></linearGradient><radialGradient id="videoc" cx="0" cy="0" r="1" gradientTransform="matrix(6.33333 9.5 -9.5 3.5625 7.833 7.125)" gradientUnits="userSpaceOnUse"><stop offset=".177" stop-color="#fff"/><stop offset="1" stop-color="#EFEFEF"/></radialGradient><linearGradient id="videod" x1="10.5" x2="9.507" y1="12.042" y2="7.541" gradientUnits="userSpaceOnUse"><stop stop-color="#892FFF"/><stop offset="1" stop-color="#A966FF"/></linearGradient></defs></svg>
 );
 
 export default SvgIcon;

@@ -30,7 +30,6 @@ export const FooterMobile: FunctionComponent<Props> = ({
     handleIsExpanded(!isExpanded)
   }
 
-  console.log("------footer mobile----")
   return (
     <Container>
       <Wrapper isExpanded={isExpanded} hideCloseButton={hideCloseButton} showExplanations={showExplanations}>

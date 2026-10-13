@@ -56,11 +56,17 @@ const useParseHTML = (
     return html.getElementById('dynamic-content')
   }
 
+  const parseNoteContent = () => {
+    integrateImages()
+    return html.documentElement
+  }
+
   return {
     parseAttachments,
     parseCustomElement,
     parseContent,
-    parseDynamicContent
+    parseDynamicContent,
+    parseNoteContent
   }
 }
 

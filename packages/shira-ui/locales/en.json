@@ -153,6 +153,7 @@
     "registration": "Registration",
     "phone_number": "Phone Number",
     "not_official_account": "Not an official account",
+    "untitled_document": "Untitled document.txt",
     "photo": "Photo",
     "voice_message": "Voice message",
     "today": "Today",
@@ -176,6 +177,15 @@
       "no_media": "No shared media",
       "no_voice": "No shared voice messages"
     }
+  },
+  "instagram": {
+    "account_name": "You",
+    "search": "Search",
+    "messages": "Messages",
+    "requests": "Requests",
+    "your_note": "Your note",
+    "new_message": "New message",
+    "verified": "Verified"
   },
   "pagination": {
     "summary": "{{start}}-{{end}} of {{total}}",

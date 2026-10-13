@@ -32,7 +32,8 @@ export interface ReorderQuizPayload {
   quizId: number
   newOrder: {
     position: number
-    questionId: number
+    entityType: 'question' | 'note'
+    entityId: number
   }[]
 }
 
