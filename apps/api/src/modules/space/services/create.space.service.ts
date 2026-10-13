@@ -9,11 +9,14 @@ import { ICreateSpaceService } from '../interfaces/services/create.space.service
 import { SpaceUserEntity } from '../domain/space-users.entity';
 import { Role } from 'src/modules/user/domain/role.enum';
 import { RoleEntity } from 'src/modules/user/domain/role.entity';
-import { TYPES as LIBRARY_TYPES } from 'src/modules/library/interfaces';
-import { IShiraLibraryService } from 'src/modules/library/interfaces/services/shira-library.service.interface';
-import { ICreateTemplateQuizService } from 'src/modules/library/interfaces/services/create-template-quiz.library.service.interface';
+import { TYPES as QUIZ_TYPES } from 'src/modules/quiz/interfaces';
+import { IImportQuizService } from 'src/modules/quiz/interfaces/services/import.quiz.service.interface';
 import { QuizVisibility } from 'src/modules/quiz/dto/quiz-visibility-enum.quiz';
+import { QuizImportValidationResult } from 'src/modules/quiz/services/validate-import.quiz.service';
 import { ApiLogger } from 'src/utils/logger/api-logger.service';
+import defaultQuiz = require('../default-quiz.json');
+
+const DEFAULT_QUIZ = defaultQuiz as QuizImportValidationResult
 @Injectable()
 export class CreateSpaceService implements ICreateSpaceService {
   private readonly logger = new ApiLogger(CreateSpaceService.name)
@@ -25,10 +28,8 @@ export class CreateSpaceService implements ICreateSpaceService {
     private readonly spaceUserRepo: Repository<SpaceUserEntity>,
     @InjectRepository(RoleEntity)
     private readonly roleRepo: Repository<RoleEntity>,
-    @Inject(LIBRARY_TYPES.services.IShiraLibraryService)
-    private readonly shiraLibraryService: IShiraLibraryService,
-    @Inject(LIBRARY_TYPES.services.ICreateTemplateQuizService)
-    private readonly createTemplateQuizService: ICreateTemplateQuizService,
+    @Inject(QUIZ_TYPES.services.IImportQuizService)
+    private readonly importQuizService: IImportQuizService,
   ) { }
 
   async execute(createSpaceDto: CreateSpaceDto) {
@@ -57,19 +58,14 @@ export class CreateSpaceService implements ICreateSpaceService {
 
     await this.spaceUserRepo.save(spaceUser)
 
-    const defaultQuizTemplateId = process.env.DEFAULT_QUIZ_TEMPLATE_ID;
-    if (defaultQuizTemplateId) {
-      try {
-        const template = await this.shiraLibraryService.getQuizTemplate(defaultQuizTemplateId)
-        await this.createTemplateQuizService.execute({
-          title: template.title,
-          visibility: QuizVisibility.Public,
-          questions: template.questions,
-          space: savedSpace,
-        })
-      } catch (error) {
-        this.logger.error(`Error creating default quiz template ${defaultQuizTemplateId} for space ${savedSpace.id}`)
-      }
+    try {
+      await this.importQuizService.execute({
+        ...DEFAULT_QUIZ,
+        visibility: QuizVisibility.Public,
+        space: savedSpace,
+      })
+    } catch (error) {
+      this.logger.error(`Error creating default quiz for space ${savedSpace.id}`)
     }
 
     return
