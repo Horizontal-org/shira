@@ -156,7 +156,6 @@ const Panel = styled.aside`
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     width: 100%;
     z-index: 5;
-    padding-top: 30px;
   }
 `
 

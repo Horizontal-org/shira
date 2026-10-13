@@ -6,9 +6,6 @@ import SenderInfo from './SenderInfo'
 import MessageWrapper from './MessageWrapper'
 import { Explanation } from "../../../domain/explanation"
 import ExplanationTooltip from "../components/ExplanationTooltip"
-import Battery from '../components/Phone/Icons/BatteryIcon'
-import Signal from '../components/Phone/Icons/SignalIcon'
-import WiFi from '../components/Phone/Icons/WiFiIcon'
 import useContactInfo from '../hooks/useContactInfo'
 
 interface Props {
@@ -42,17 +39,8 @@ export const Telegram: FunctionComponent<Props> = ({
       ))}
       <Font />
 
-      <StatusBar>
-        <span>9:30</span>
-        <StatusIcons>
-          <WiFi />
-          <Signal />
-          <Battery />
-        </StatusIcons>
-      </StatusBar>
-
       <Content>
-        <Sidebar phone={phone} />
+        <Sidebar phone={phone} content={content} />
         <MessageWrapper
           content={content}
           phone={phone}
@@ -96,37 +84,6 @@ const Wrapper = styled.div`
       radial-gradient(circle at 15% 75%, #86ba7d 0%, transparent 55%),
       radial-gradient(circle at 90% 95%, #a8d69a 0%, transparent 50%),
       #9ac78c;
-  }
-`
-
-const StatusBar = styled.div`
-  display: none;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 24px 4px;
-  color: #000;
-  font-weight: 600;
-  font-size: 15px;
-
-  @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    display: flex;
-    position: relative;
-    z-index: 6;
-    height: 30px;
-    box-sizing: border-box;
-    margin-bottom: -30px;
-  }
-`
-
-const StatusIcons = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 6px;
-
-  svg path {
-    fill: #000;
-    opacity: 1;
   }
 `
 
