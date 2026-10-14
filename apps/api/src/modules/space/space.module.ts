@@ -17,10 +17,12 @@ import { QuizItem } from '../quiz/domain/quiz_items.entity';
 import { SpaceUserEntity } from './domain/space-users.entity';
 import { RoleEntity } from '../user/domain/role.entity';
 import { OrganizationUsersEntity } from '../organization/domain/organization_users.entity';
+import { QuizModule } from '../quiz/quiz.module';
 @Global()
 @Module({
   imports: [
     ConsoleModule,
+    QuizModule,
     TypeOrmModule.forFeature([
         SpaceEntity,
         UserEntity,
