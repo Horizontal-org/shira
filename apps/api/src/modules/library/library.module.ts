@@ -36,5 +36,6 @@ import { libraryServiceProviders } from './library.providers'
   ],
   controllers: [...libraryControllers],
   providers: [...libraryServiceProviders],
+  exports: [...libraryServiceProviders],
 })
 export class LibraryModule { }
