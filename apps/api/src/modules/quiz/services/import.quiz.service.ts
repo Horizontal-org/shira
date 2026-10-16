@@ -13,7 +13,7 @@ import { NoteImage } from 'src/modules/note_image/domain'
 import { QuestionSanitizer } from 'src/utils/question-sanitizer.util'
 import { IImageService } from 'src/modules/image/interfaces/services/image.service.interface'
 import { TYPES as TYPES_IMAGE } from 'src/modules/image/interfaces'
-import { remapImageIds } from 'src/modules/image/services/transfer-template-images.service'
+import { remapImageIds } from 'src/modules/image/utils/remap-image-ids.util'
 
 @Injectable()
 export class ImportQuizService implements IImportQuizService {
