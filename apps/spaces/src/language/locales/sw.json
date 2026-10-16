@@ -194,7 +194,7 @@
                     "title": "Selected app"
                 },
                 "editor": {
-                    "title": "Editor",
+                    "title": "Hariri",
                     "simple": "Simple editor",
                     "advanced": "Advanced HTML editor"
                 }
@@ -271,7 +271,8 @@
             "fix_errors": "Fix HTML errors before continuing.",
             "errors": {
                 "syntax": "Check the HTML near the highlighted position"
-            }
+            },
+            "explanation_tooltip": "Select text or place the cursor in an HTML tag to add an explanation."
         }
     },
     "question_library": {
@@ -438,7 +439,7 @@
             "cta": "Go to Help Center"
         },
         "contact": {
-            "title": "Contact us",
+            "title": "Mawasiliano",
             "description": "If you need any support please email us at"
         }
     },
