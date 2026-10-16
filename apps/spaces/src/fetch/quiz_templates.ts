@@ -60,6 +60,15 @@ export interface LibraryQuizQuestionTemplateDto {
     index: string;
   }[];
   images?: { id: number; name: string; url: string }[];
+  position?: number;
+}
+
+export interface LibraryQuizNoteTemplateDto {
+  noteId: number;
+  name: string;
+  content: string;
+  position: number;
+  images?: { id: number; name: string; url: string }[];
 }
 
 type LibraryQuizQuestionTemplateApiDto = Omit<
@@ -218,5 +227,19 @@ export const getQuizTemplateQuestions = async (
   } catch (error) {
     console.error(`Error fetching quiz template questions for ${quizId}:`, error);
     return null;
+  }
+};
+
+export const getQuizTemplateNotes = async (
+  quizId: string | number,
+): Promise<LibraryQuizNoteTemplateDto[]> => {
+  try {
+    const response = await axios.get<LibraryQuizNoteTemplateDto[]>(
+      `${process.env.REACT_APP_LIBRARY_API_URL}/quiz-templates/${quizId}/notes`,
+    );
+    return response.data ?? [];
+  } catch (error) {
+    console.error(`Error fetching quiz template notes for ${quizId}:`, error);
+    return [];
   }
 };

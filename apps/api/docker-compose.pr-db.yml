@@ -1,0 +1,31 @@
+name: shira-pr
+
+services:
+  db:
+    image: mysql:5.7
+    restart: unless-stopped
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_DATABASE: '${MYSQL_DATABASE}'
+      MYSQL_USER: '${MYSQL_USER}'
+      MYSQL_PASSWORD: '${MYSQL_PASSWORD}'
+      MYSQL_ROOT_PASSWORD: '${MYSQL_ROOT_PASSWORD}'
+    ports:
+      - '127.0.0.1:${MYSQL_PORT:-3310}:3306'
+    volumes:
+      - pr-db-data:/var/lib/mysql
+    healthcheck:
+      test:
+        - CMD
+        - mysqladmin
+        - ping
+        - --host=127.0.0.1
+        - --user=${MYSQL_USER}
+        - --password=${MYSQL_PASSWORD}
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 15s
+
+volumes:
+  pr-db-data:

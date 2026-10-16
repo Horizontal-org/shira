@@ -7,6 +7,7 @@ import { ShiraLibraryService } from './services/shira-library.service'
 import { CreateTemplateQuizService } from './services/create-template-quiz.library.service'
 import { CreateTemplateQuestionService } from './services/create-template-question.library.service'
 import { LibraryAuthService } from './services/library-auth.library.service'
+import { CreateNoteFromTemplateService } from './services/create-note-from-template.library.service'
 
 export const publishQuestionLibraryProvider = {
   provide: TYPES.services.IPublishQuestionLibraryService,
@@ -57,4 +58,5 @@ export const libraryServiceProviders = [
   createTemplateQuizLibraryProvider,
   createTemplateQuestionLibraryProvider,
   libraryAuthProvider,
+  CreateNoteFromTemplateService,
 ]

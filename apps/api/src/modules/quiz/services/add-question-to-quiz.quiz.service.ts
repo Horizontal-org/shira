@@ -8,7 +8,7 @@ import { App } from "src/modules/app/domain";
 import { QuestionSanitizer } from "src/utils/question-sanitizer.util";
 import { TYPES as TYPES_IMAGE } from "src/modules/image/interfaces";
 import { ITransferTemplateImagesService } from "src/modules/image/interfaces/services/transfer-template-images.service.interface";
-import { remapImageIds } from "src/modules/image/services/transfer-template-images.service";
+import { remapImageIds } from "src/modules/image/utils/remap-image-ids.util";
 import { TYPES as TYPES_QUESTION_IMAGE } from "../../question_image/interfaces";
 import { ISyncQuestionImageService } from "src/modules/question_image/interfaces/services/sync.question_image.service.interface";
 import {

@@ -9,6 +9,7 @@ import {
 } from "../fetch/quiz";
 import {
   getQuizTemplateQuestions,
+  getQuizTemplateNotes,
   LibraryQuizDto,
   type LibraryQuizQuestionTemplateDto,
 } from "../fetch/quiz_templates";
@@ -116,6 +117,7 @@ export const useQuizCreationFlow = ({
   ): CreateTemplateQuizQuestionPayload[] => {
     return questions.map((question) => ({
       questionName: question.questionName,
+      position: question.position,
       content: question.content,
       isPhishing: question.isPhishing,
       appName: resolveTemplateAppName(question),
@@ -197,14 +199,29 @@ export const useQuizCreationFlow = ({
       setIsSubmitting(true);
 
       try {
-        const templateQuestions = selectedTemplateQuestions ?? await getQuizTemplateQuestions(selectedTemplateQuiz.id);
+        const [templateQuestions, templateNotes] = await Promise.all([
+          selectedTemplateQuestions
+            ? Promise.resolve(selectedTemplateQuestions)
+            : getQuizTemplateQuestions(selectedTemplateQuiz.id),
+          getQuizTemplateNotes(selectedTemplateQuiz.id),
+        ]);
 
         if (!templateQuestions || templateQuestions.length === 0) {
           throw new Error("Failed to load template questions");
         }
 
         const mappedQuestions = mapTemplateQuestions(templateQuestions);
-        const quizId = await createQuizFromTemplate(title.trim(), selectedVisibility, mappedQuestions);
+        const quizId = await createQuizFromTemplate(
+          title.trim(),
+          selectedVisibility,
+          mappedQuestions,
+          templateNotes.map((note) => ({
+            name: note.name,
+            content: note.content,
+            position: note.position,
+            images: note.images ?? [],
+          })),
+        );
 
         toast.success(t("success_messages.quiz_created"), {
           duration: 3000,
