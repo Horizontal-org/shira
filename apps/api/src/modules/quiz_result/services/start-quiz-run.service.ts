@@ -8,6 +8,7 @@ import { Quiz } from '../../quiz/domain/quiz.entity';
 import { InjectQueue } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
 import { LearnerQuiz } from 'src/modules/learner/domain/learners_quizzes.entity';
+import { isLearnerQuizLinkExpired } from 'src/modules/learner/domain/learner-quiz-link';
 import { IStartQuizRunService, StartedQuizRun } from '../interfaces/services/start-quiz-run.service.interface';
 import { RecordUsageEnqueueQuizResultException } from '../exceptions/record-usage-enqueue.quiz-result.exception';
 import { SELF_HOSTED } from 'src/utils/environment/self-hosted.environment';
@@ -66,6 +67,7 @@ export class StartQuizRunService implements IStartQuizRunService {
       const isValid = learnerQuiz.status === 'assigned'
         && learnerQuiz.learner?.status === 'registered'
         && learnerQuiz.quiz?.published
+        && !isLearnerQuizLinkExpired(learnerQuiz)
 
       if (!isValid) throw new NotFoundException('Quiz not found')
 
