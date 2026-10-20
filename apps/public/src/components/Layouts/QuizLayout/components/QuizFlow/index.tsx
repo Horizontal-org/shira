@@ -18,11 +18,13 @@ import { getLanguageOptions } from "../../../../../utils/langOptions";
 interface Props {
   quiz: any
   learnerQuiz: any
+  hash: string
 }
 
 export const QuizFlow: FunctionComponent<Props> = ({
   quiz,
-  learnerQuiz
+  learnerQuiz,
+  hash
 }) => {
   console.log("🚀 ~ QuizFlow ~ learnerQuiz:", learnerQuiz)
   const { t, i18n } = useTranslation()
@@ -116,7 +118,7 @@ export const QuizFlow: FunctionComponent<Props> = ({
           hasResultsEnabled={quiz.hasResultsEnabled ?? true}
           hasAssessmentEnabled={quiz.hasAssessmentEnabled}
           startRun={() => {
-            start(quiz.id, learnerQuiz ? learnerQuiz.learnerId : null)
+            start(hash)
           }}
           recordAnswer={(qId, ans) => recordAnswer(qId, ans as Answer)}
           runStarted={started}
