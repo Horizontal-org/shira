@@ -129,7 +129,7 @@
     "@rushstack/eslint-patch": "^1.15.0",
     "@storybook/addon-a11y": "10.5.8",
     "@storybook/addon-links": "10.5.8",
-    "@storybook/preset-create-react-app": "10.5.8",
+    "@storybook/preset-create-react-app": "10.6.2",
     "@storybook/react": "10.5.8",
     "@storybook/react-webpack5": "10.5.8",
     "chromatic": "^6.5.4",
