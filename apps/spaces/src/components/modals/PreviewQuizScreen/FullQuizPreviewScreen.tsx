@@ -291,8 +291,8 @@ const PreviewLayout = styled.div`
 const QuizQuestionContainer = styled.div`
   min-height: 0;
   overflow-y: auto;
-  padding-right: 8px;
-  padding-left: 8px;
+  padding-inline-end: 8px;
+  padding-inline-start: 8px;
   padding-bottom: 8px;
 `
 
@@ -319,7 +319,7 @@ const SelectableQuestionItem = styled.button<{
   display: flex;
   align-items: center;
   gap: 18px;
-  text-align: left;
+  text-align: start;
   cursor: pointer;
   outline: none;
 

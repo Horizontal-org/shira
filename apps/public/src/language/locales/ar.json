@@ -95,6 +95,9 @@
             "2_results": "2. Results:",
             "1_date_time": "1. The date and time when you take the quiz",
             "intro": "When you take this quiz, Shira will only track:"
+        },
+        "note": {
+            "title": "ملاحظة"
         }
     },
     "feedback": {
@@ -259,5 +262,13 @@
         "title": "آسف، رابط الدعوة هذه غير صالح.",
         "description": "ربما جرى استخدام رابط خاطئ، أو أن الدعوة قد انتهت صلاحيتها. يٌرجى المحاولة مرة أخرى أو الاتصال بالشخص الذي دعاكم.",
         "home_button": "الذهاب إلى Shira"
+    },
+    "languages": {
+        "ar": "عربي",
+        "es": "الإسبانية Español",
+        "cn": "Chinese (Simplified)",
+        "ru": "Russian",
+        "fr": "الفرنسية Français",
+        "en": "الإنجليزية English"
     }
 }

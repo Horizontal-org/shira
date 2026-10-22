@@ -1,6 +1,6 @@
 import { FunctionComponent, useState } from "react";
 import { styled } from '@horizontal-org/shira-ui';
-import { QuestionsList } from './QuestionList';
+import { QuestionsList } from './Question/QuestionList';
 import { Results } from './Results/Results';
 import { QuizQuestion } from "../../../store/slices/quiz";
 import { QuizResultsResponse } from "../../../fetch/results";
@@ -20,13 +20,14 @@ interface TabContainerProps {
   quizVisibility: string;
   resultsData: QuizResultsResponse | null
   resultsLoading: boolean
+  hasResultsEnabled: boolean
   hasResults: boolean
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;
   onAdd: () => void;
   onAddLibrary: (quizId: string) => void;
   onReorder: (newOrder: QuizQuestion[]) => void;
-  onDuplicate: () => void;
+  onRefresh: () => void;
   onSubmitAsTemplate: (questionId: string) => void;
   onPublish: () => void
   onAssessmentModeChange: (value: boolean) => void;
@@ -45,11 +46,12 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   onAdd,
   onAddLibrary,
   onReorder,
-  onDuplicate,
+  onRefresh,
   onSubmitAsTemplate,
   onPublish,
   resultsData,
   resultsLoading,
+  hasResultsEnabled,
   hasResults,
   onAssessmentModeChange
 }) => {
@@ -104,7 +106,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
             onAdd={onAdd}
             onAddLibrary={() => onAddLibrary(String(quizId))}
             onReorder={onReorder}
-            onDuplicate={onDuplicate}
+            onRefresh={onRefresh}
             onSubmitAsTemplate={onSubmitAsTemplate}
             hasResults={hasResults}
           />
@@ -125,6 +127,7 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
             resultsData={resultsData}
             loading={resultsLoading}
             quizVisibility={quizVisibility}
+            hasResultsEnabled={hasResultsEnabled}
           />
         )}
 

@@ -1,4 +1,8 @@
 import axios from "axios";
+import {
+  translateLibraryLanguageTag,
+  translateLibraryTag,
+} from "../language/libraryTags";
 
 export interface LibraryFilterOption {
   id: number;
@@ -27,7 +31,7 @@ export const getLibraryLanguageOptions = async (): Promise<LibraryFilterOption[]
     return response.data.map((language) => ({
       id: language.id,
       value: language.code,
-      label: language.name.trim(),
+      label: translateLibraryLanguageTag(language.name),
     }));
   } catch (error) {
     console.error("Error fetching library language options:", error);
@@ -44,7 +48,7 @@ export const getLibraryTagOptions = async (): Promise<LibraryFilterOption[]> => 
     return response.data.map((tag) => ({
       id: tag.id,
       value: tag.slug,
-      label: tag.name.trim(),
+      label: translateLibraryTag(tag.slug, tag.name),
     }));
   } catch (error) {
     console.error("Error fetching library tag options:", error);

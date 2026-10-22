@@ -14,6 +14,8 @@ interface TabContainerProps {
   onChangeEmail: () => void;
   onChangePassword: () => void;
   onViewPlans: () => void;
+  hasResultsEnabled: boolean;
+  onResultsEnabledChange: (hasResultsEnabled: 'enable' | 'disable') => void;
 }
 
 export const TabContainer: FunctionComponent<TabContainerProps> = ({
@@ -23,6 +25,8 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
   onChangeEmail,
   onChangePassword,
   onViewPlans,
+  hasResultsEnabled,
+  onResultsEnabledChange,
 }) => {
   const { t } = useTranslation();
   const theme = useTheme();
@@ -100,7 +104,12 @@ export const TabContainer: FunctionComponent<TabContainerProps> = ({
         )}
 
         {activeTab === "general" && (
-          <GeneralSection />
+          <GeneralSection
+            hasResultsEnabled={hasResultsEnabled}
+            onResultsEnabledChange={() => {
+              onResultsEnabledChange(hasResultsEnabled ? 'disable' : 'enable')
+            }}
+          />
         )}
 
         {activeTab === "subscription" && !!(subscription) && (
@@ -208,7 +217,7 @@ const MutedValue = styled(Body2Italic)`
   color: ${props => props.theme.colors.dark.darkGrey};
 `;
 
-const ActionButton = styled(Button)`
+export const ActionButton = styled(Button)`
   justify-content: center;
   font-size: 16px;
   line-height: 1.4;

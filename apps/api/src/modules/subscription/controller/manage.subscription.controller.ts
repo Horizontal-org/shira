@@ -1,4 +1,6 @@
-import { Inject, Param, Post, UseGuards } from "@nestjs/common";
+import { ForbiddenException, Inject, Param, Post, UseGuards } from "@nestjs/common"
+import { LoggedUser } from "src/modules/auth/decorators"
+import { LoggedUserDto } from "src/modules/user/dto/logged.user.dto"
 import { Roles } from "src/modules/auth/decorators/roles.decorators";
 import { Role } from "src/modules/user/domain/role.enum";
 import { AuthController } from "src/utils/decorators/auth-controller.decorator";
@@ -19,7 +21,14 @@ export class ManageSubscriptionController {
 
   @Post(':organizationId')
   @Roles(Role.SpaceAdmin)
-  async handler(@Param('organizationId') organizationId: string) {
+  async handler(
+    @Param('organizationId') organizationId: string,
+    @LoggedUser() user: LoggedUserDto,
+  ) {
+    if (!user.activeOrganization || organizationId !== String(user.activeOrganization.id)) {
+      throw new ForbiddenException('Organization does not match active organization')
+    }
+
     const response = await this.shiraPaymentsService.manageSubscription(organizationId);
 
     await this.subscriptionCacheService.invalidate(organizationId);

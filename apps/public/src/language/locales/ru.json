@@ -95,6 +95,9 @@
             "2_results": "2. Results:",
             "1_date_time": "1. The date and time when you take the quiz",
             "intro": "When you take this quiz, Shira will only track:"
+        },
+        "note": {
+            "title": "Внимание"
         }
     },
     "feedback": {
@@ -259,5 +262,13 @@
         "title": "Извините, эта ссылка на приглашение недействительна.",
         "description": "Возможно, вы указали неверный адрес или срок действия приглашения истёк. Попробуйте ещё раз или свяжитесь с человеком, который вас пригласил.",
         "home_button": "Перейти в Shira"
+    },
+    "languages": {
+        "ar": "Арабский язык",
+        "es": "Испанский",
+        "cn": "Chinese (Simplified)",
+        "ru": "Russian",
+        "fr": "Французский",
+        "en": "Английский"
     }
 }

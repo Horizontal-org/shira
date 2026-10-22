@@ -75,15 +75,15 @@ const CloseButton = styled.div`
   justify-content: center;
   cursor: pointer;
   background: $fff;
-  border-right: 1px solid ${props => props.theme.colors.dark.mediumGrey};
-  margin-right: 16px;
+  border-inline-end: 1px solid ${props => props.theme.colors.dark.mediumGrey};
+  margin-inline-end: 16px;
 `
 
 const Title = styled.div`
   @media (max-width:  ${props => props.theme.breakpoints.sm}) {
     display: none;
   }
-  padding-left: 20px;
+  padding-inline-start: 20px;
   color: black;
   font-size: 16px;
 `

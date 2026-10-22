@@ -92,7 +92,7 @@ export const AnswerFeedback: FunctionComponent<Props> = ({
                 onAnswer(null)
               }
             }}
-            leftIcon={<FiChevronLeft size={18} />}
+            leftIcon={<FiChevronLeft size={18} data-mirror-rtl />}
           />
         </ActionButtonsWrapper>}
         {
@@ -117,7 +117,7 @@ export const AnswerFeedback: FunctionComponent<Props> = ({
                 text={t("quiz.answers.results.next_button")}
                 type='primary'
                 onClick={() => setExplanationNumber(explanationNumber + 1)}
-                rightIcon={<FiChevronRight size={18} />}
+                rightIcon={<FiChevronRight size={18} data-mirror-rtl />}
               />
             </ActionButtonsWrapper>
           )
@@ -131,7 +131,7 @@ export const AnswerFeedback: FunctionComponent<Props> = ({
                 text={t("quiz.answers.results.next_question")}
                 type='primary'
                 onClick={onNext}
-                rightIcon={<FiChevronRight size={18} />}
+                rightIcon={<FiChevronRight size={18} data-mirror-rtl />}
               />
             </ActionButtonsWrapper>
           )
@@ -142,13 +142,13 @@ export const AnswerFeedback: FunctionComponent<Props> = ({
 }
 
 const UserAnswerWrapper = styled.div<{ hide?: boolean }>`
-  padding-left: 50px;
+  padding-inline-start: 50px;
   display: flex;
   align-items: center;
 
   > p {
     margin: 0;
-    padding-left: 30px;
+    padding-inline-start: 30px;
     font-weight: 300;
     font-size: 21px;
     color: #333030;
@@ -164,7 +164,7 @@ const UserAnswerWrapper = styled.div<{ hide?: boolean }>`
     > svg {
       height: 28px;
       width: 28px;
-      margin-right: 10px;
+      margin-inline-end: 10px;
     }
   }
 
@@ -181,12 +181,12 @@ const UserAnswerWrapper = styled.div<{ hide?: boolean }>`
   }
 
   @media (max-width:  ${props => props.theme.breakpoints.md}) {
-    padding-left: 16px;
+    padding-inline-start: 16px;
     display: block;
     padding-bottom: 16px;
     >p {
       padding-top: 8px;
-      padding-left: 0;
+      padding-inline-start: 0;
       font-size: 14px;
       font-weight: 400;
       line-height: 19.07px;
@@ -205,7 +205,7 @@ const OptionsWrapper = styled.div`
   display: flex;
 
   @media (min-width:  ${props => props.theme.breakpoints.md}) {
-    padding-right: 16px;
+    padding-inline-end: 16px;
   }
 
   @media (max-width:  ${props => props.theme.breakpoints.md}) {
@@ -214,7 +214,7 @@ const OptionsWrapper = styled.div`
 `
 
 const ActionButtonsWrapper = styled.div<{ size?: string }>`
-  padding-left: 16px;
+  padding-inline-start: 16px;
   @media (max-width:  ${props => props.theme.breakpoints.md}) {
     ${props => props.size === 'lg' && `
       display: flex;

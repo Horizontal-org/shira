@@ -43,7 +43,7 @@ const IconWrapper = styled.div`
   cursor: pointer;
 
   background: rgba(60,64,67,.05);
-  margin-left: 16px;
+  margin-inline-start: 16px;
 
   &:hover {
     background: rgba(60,64,67,.12);

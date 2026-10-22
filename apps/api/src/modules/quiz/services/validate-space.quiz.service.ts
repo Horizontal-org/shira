@@ -18,7 +18,7 @@ export class ValidateSpaceQuizService implements IValidateSpaceQuizService{
     quizId,
   ) {
 
-    const quiz =  this.quizRepo
+    const quiz = await this.quizRepo
         .createQueryBuilder('quiz')
         .where('space_id = :spaceId', { spaceId: spaceId })
         .andWhere('id = :quizId', { quizId: quizId })

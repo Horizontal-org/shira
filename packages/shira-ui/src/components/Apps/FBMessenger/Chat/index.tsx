@@ -29,7 +29,7 @@ const Chat: FunctionComponent<Props> = ({
 
 const ChatWrapper = styled.div`
   flex-grow: 1;
-  border-right: 1px solid #F2F3F5;
+  border-inline-end: 1px solid #F2F3F5;
   position: relative;
 
   display: flex;

@@ -12,7 +12,6 @@ import { DashboardLayout } from './components/DashboardLayout';
 import { shallow } from 'zustand/shallow';
 import { useStore } from './store';
 import { useEffect } from 'react';
-import { ManageQuestionLanguages } from './components/ManageQuestionLanguages';
 import { Toaster, resolveValue } from 'react-hot-toast';
 import { Body1, ThemeProvider } from '@horizontal-org/shira-ui';
 import { QuizViewLayout } from './components/QuizViewLayout';
@@ -44,14 +43,12 @@ function App() {
     user,
     fetching,
     me,
-    showTranslationsScene,
     fetchLanguages
   } = useStore((state) => ({
     user: state.user,
     fetching: state.fetching,
     fetchLanguages: state.fetchLanguages,
-    me: state.me,
-    showTranslationsScene: state.showTranslationsScene
+    me: state.me
   }), shallow)
 
   useEffect(() => {
@@ -76,7 +73,7 @@ function App() {
   return (
     <ThemeProvider>
       <>
-        <Wrapper hideOverflow={showTranslationsScene || false}>
+        <Wrapper>
           <BrowserRouter>
             <Routes>
               <Route path='/login' element={<LoginLayout />} />
@@ -133,7 +130,6 @@ function App() {
             </StyledToastBar>
           )}
         </Toaster>
-        <ManageQuestionLanguages />
       </>
     </ThemeProvider>
   );
@@ -144,7 +140,7 @@ const Wrapper = styled.div`
   max-height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow: ${props => props.hideOverflow ? 'hidden' : 'auto'}
+  overflow: auto;
   
 `
 const StyledToastBar = styled.div`
@@ -154,10 +150,10 @@ const StyledToastBar = styled.div`
   padding: 16px;
   align-items: center;
 
-  box-shadow: -1px 4px 4px -1px #00000040;
+  box-shadow: calc(var(--dir-multiplier) * -1px) 4px 4px -1px #00000040;
   
   > p {
-    padding-left: 16px;
+    padding-inline-start: 16px;
   }
 `
 

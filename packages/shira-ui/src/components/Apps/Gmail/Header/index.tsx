@@ -107,12 +107,12 @@ const Right = styled.div`
 const Left = styled.div`
   display: flex;
   flex: 2;
-  padding-right: 40px;
+  padding-inline-end: 40px;
 `
 
 const AvatarWrapper = styled.div`
   cursor: pointer;
-  margin-left: 8px;
+  margin-inline-start: 8px;
   display: flex;
   justify-content: center;
   align-items: center;

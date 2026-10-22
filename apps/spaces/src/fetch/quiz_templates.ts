@@ -1,4 +1,9 @@
 import axios from "axios";
+import {
+  translateDefaultLibraryLanguage,
+  translateLibraryLanguageTag,
+  translateLibraryTag,
+} from "../language/libraryTags";
 
 export const DEFAULT_QUIZ_TEMPLATE_SORT: QuizTemplateSortOption = "createdAt-desc";
 export const DEFAULT_PAGE_LIMIT = 20;
@@ -14,7 +19,6 @@ export interface LibraryQuizDto {
   title: string;
   createdAt: string;
   author: string;
-  authorPublicSpaceId?: string;
   languages: string[];
   tags: string[];
 }
@@ -58,6 +62,13 @@ export interface LibraryQuizQuestionTemplateDto {
   images?: { id: number; name: string; url: string }[];
 }
 
+type LibraryQuizQuestionTemplateApiDto = Omit<
+  LibraryQuizQuestionTemplateDto,
+  "language"
+> & {
+  language: string | null;
+};
+
 type LibraryQuizApiDto = {
   id: string | number;
   title: string;
@@ -74,6 +85,7 @@ type LibraryQuizApiDto = {
   tags?: {
     id: number;
     name: string;
+    slug?: string;
   }[];
 };
 
@@ -107,9 +119,19 @@ const normalizeQuizTemplate = (
   title: quiz.title,
   createdAt: quiz.createdAt,
   author: quiz.author?.displayName ?? DEFAULT_CREATOR_OPTIONS,
-  authorPublicSpaceId: quiz.author?.publicSpaceId,
-  languages: (quiz.langTags ?? []).map((language) => language.name.trim()),
-  tags: (quiz.tags ?? []).map((tag) => tag.name.trim()),
+  languages: (quiz.langTags ?? []).map((language) =>
+    translateLibraryLanguageTag(language.name),
+  ),
+  tags: (quiz.tags ?? []).map((tag) => translateLibraryTag(tag.slug, tag.name)),
+});
+
+const normalizeQuizQuestionTemplate = (
+  question: LibraryQuizQuestionTemplateApiDto,
+): LibraryQuizQuestionTemplateDto => ({
+  ...question,
+  language: question.language
+    ? translateLibraryLanguageTag(question.language)
+    : translateDefaultLibraryLanguage(),
 });
 
 const serializeFilterValues = (values?: string[]) => {
@@ -187,11 +209,12 @@ export const getQuizTemplateQuestions = async (
   quizId: string | number,
 ): Promise<LibraryQuizQuestionTemplateDto[] | null> => {
   try {
-    const response = await axios.get<LibraryQuizQuestionTemplateDto[] | null>(
+    const response = await axios.get<LibraryQuizQuestionTemplateApiDto[] | null>(
       `${process.env.REACT_APP_LIBRARY_API_URL}/quiz-templates/${quizId}/questions`,
     );
 
-    return response.data;
+    return response.data?.map(normalizeQuizQuestionTemplate) ?? null;
+
   } catch (error) {
     console.error(`Error fetching quiz template questions for ${quizId}:`, error);
     return null;

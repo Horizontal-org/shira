@@ -13,7 +13,7 @@ export const FeedbackButton:FunctionComponent<Props> = () => {
         id="feedback-button"
         text={t("buttons.feedback")}
         type="primary"
-        leftIcon={<MdOutlineChat size={28}/>}
+        leftIcon={<MdOutlineChat size={28} data-mirror-rtl />}
         onClick={() => { window.open('https://shira.app/contact', '_blank') }}
         color={defaultTheme.colors.green9}
       />
@@ -24,7 +24,7 @@ export const FeedbackButton:FunctionComponent<Props> = () => {
 const Wrapper = styled.div`
   position: absolute;
   bottom: 20px;
-  right: 30px;
+  inset-inline-end: 30px;
   z-index: 2;
 
   > button {

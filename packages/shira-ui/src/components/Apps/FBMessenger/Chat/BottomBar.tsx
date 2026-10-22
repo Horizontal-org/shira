@@ -124,7 +124,7 @@ const KeywordBar = styled.div`
 `
 
 const Text = styled.div`
-  padding-left: 16px;
+  padding-inline-start: 16px;
   color: rgba(60,64,67,.5);
 `
 export default BottomBar

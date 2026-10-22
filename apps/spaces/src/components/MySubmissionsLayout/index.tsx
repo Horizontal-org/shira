@@ -131,7 +131,7 @@ export const MySubmissionsLayout = () => {
           <Button
             text={t("templates.back_to_templates")}
             type="outline"
-            leftIcon={<FiArrowLeft size={18} />}
+            leftIcon={<FiArrowLeft data-mirror-rtl size={18} />}
             onClick={() => navigate("/template-library")}
           />
 
@@ -141,7 +141,13 @@ export const MySubmissionsLayout = () => {
               <Trans
                 i18nKey="templates.my_submissions_description"
                 components={{
-                  learnMore: <Link1 onClick={() => navigate("/support")} />,
+                  learnMore: (
+                    <Link1
+                      href="https://shira.app/templates"
+                      target="_blank"
+                      rel="noreferrer"
+                    />
+                  ),
                 }}
               />
             </Body1>

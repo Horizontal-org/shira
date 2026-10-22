@@ -34,17 +34,20 @@ const Wrapper = styled.div`
   background: #ffffff;
   box-shadow: inset 0 -1px #808080, inset 0 0 0 1px #D1D1D1;
   border-radius: 4px;
-  padding: 6px 0 6px 6px;
+  padding-top: 6px;
+  padding-inline-end: 0;
+  padding-bottom: 6px;
+  padding-inline-start: 6px;
   cursor: text;
 
   > div {
     display: flex;
     align-items: center;
-    
+
     > span {
       font-size: 14px;
       font-weight: 400;
-      padding-left: 6px; 
+      padding-inline-start: 6px;
       padding-bottom: 1px;
     } 
   }
@@ -63,7 +66,7 @@ const FilterButton = styled.div`
   height: 24px;
   width: 24px;  
   border-radius: 4px;
-  margin-right: 4px;
+  margin-inline-end: 4px;
 
   &:hover {
     background-color: #E5E5E5;

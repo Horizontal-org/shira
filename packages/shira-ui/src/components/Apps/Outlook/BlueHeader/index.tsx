@@ -59,5 +59,8 @@ const Title = styled.div`
   color: white;
   font-size: 16px;
   line-height: 48px;
-  padding: 0 12px 0 8px;
+  padding-top: 0;
+  padding-inline-end: 12px;
+  padding-bottom: 0;
+  padding-inline-start: 8px;
 `

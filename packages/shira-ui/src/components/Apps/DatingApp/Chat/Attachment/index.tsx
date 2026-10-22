@@ -49,7 +49,7 @@ const Content = styled.div`
     border-style: solid;
     border-color: transparent #70BEDF transparent transparent;
     bottom: 0px;
-    left: -7px;
+    inset-inline-start: -7px;
     rotate: 90deg
 }
 `
@@ -62,7 +62,7 @@ const SvgWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 12px;
+  margin-inline-end: 12px;
   
   > svg {
     height: 20px;

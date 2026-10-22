@@ -26,15 +26,18 @@ const Wrapper = styled.div`
 
   background: #fff;
   border-radius: 7.5px;
-  padding: 6px 7px 8px 9px;
+  padding-top: 6px;
+  padding-inline-end: 7px;
+  padding-bottom: 8px;
+  padding-inline-start: 9px;
   box-shadow: 0 1px 0.5px rgba(11,20,26, .13);
-  margin: 4px 0; 
+  margin: 4px 0;
 
   > span {
     font-size: 9px;
     align-self: flex-end;
     color: #667781;
-    padding-left: 22px;
+    padding-inline-start: 22px;
     font-weight: 200;
     margin-bottom: -2px;
   }
@@ -42,10 +45,10 @@ const Wrapper = styled.div`
 
 const Content = styled.div`
   overflow-wrap: break-word;
-  word-break: break-word; 
+  word-break: break-word;
   position: relative;
   display: inline;
-  text-align: left;
+  text-align: start;
   
   font-size: 14px;
   color: #111b21;

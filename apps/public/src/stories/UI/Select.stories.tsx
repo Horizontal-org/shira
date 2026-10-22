@@ -26,9 +26,9 @@ export const Default: Story = {
   args: {
     autoselect: true,
     options: [
-      { value: "op1", label: "Option 1", labelEnglish: "Option 1" },
-      { value: "op2", label: "Option 2", labelEnglish: "Option 2" },
-      { value: "op3", label: "Option 3", labelEnglish: "Option 3" },
+      { value: "op1", label: "Option 1", nativeLabel: "Option 1" },
+      { value: "op2", label: "Option 2", nativeLabel: "Option 2" },
+      { value: "op3", label: "Option 3", nativeLabel: "Option 3" },
     ],
     onChange: (value: string) => {
       console.log("LanguageSelect changed:", value);

@@ -76,7 +76,7 @@ export const Feedback: FunctionComponent<Props> = () => {
               )}
               <Button 
                 text={ t('feedback.next_button') }
-                rightIcon={<FiChevronRight size={18}/>}          
+                rightIcon={<FiChevronRight size={18} data-mirror-rtl/>}
                 onClick={handleSubmitFeedback}
                 type="primary"
                 size={width > 768 ? 'sm' : 'lg'}     
@@ -94,9 +94,9 @@ const FooterActionWrapper = styled.div`
   align-items: center;
   flex-grow: 1;
   justify-content: space-between;
-  padding-left: 50px;
+  padding-inline-start: 50px;
   @media (max-width: ${props => props.theme.breakpoints.xs}) {
-    padding-left: 0;
+    padding-inline-start: 0;
   }
 `
 
@@ -115,7 +115,7 @@ const FeedbackSubtitle = styled.div`
 
 const FeedbackHeading = styled.div`
   flex-shrink: 1;
-  padding-right: 40px;
+  padding-inline-end: 40px;
 `
 
 const Box = styled.div`

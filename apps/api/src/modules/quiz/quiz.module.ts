@@ -26,6 +26,12 @@ import { QuestionImageModule } from '../question_image/question_image.module';
 import { SubscriptionModule } from '../subscription/subscription.module';
 import { ValidateQuizNameController } from './controller/validate-name.quiz.controller';
 import { DeleteQuestionQuizController } from './controller/delete-question.quiz.controller';
+import { ExportQuizController } from './controller/export.quiz.controller';
+import { ExportQuizService } from './services/export.quiz.service';
+import { ImportQuestionController } from './controller/import-question.quiz.controller';
+import { ImportQuizController } from './controller/import.quiz.controller';
+import { ValidateQuizImportService } from './services/validate-import.quiz.service';
+import { QuestionModule } from '../question/question.module';
 
 @Module({
   imports: [
@@ -42,7 +48,8 @@ import { DeleteQuestionQuizController } from './controller/delete-question.quiz.
       App
     ]),
     QuestionImageModule,
-    SubscriptionModule
+    SubscriptionModule,
+    QuestionModule
   ],
   controllers: [
     CreateQuizController,
@@ -57,10 +64,15 @@ import { DeleteQuestionQuizController } from './controller/delete-question.quiz.
     DuplicateQuestionQuizController,
     DuplicateQuizController,
     EditQuizController,
-    ValidateQuizNameController
+    ValidateQuizNameController,
+    ExportQuizController,
+    ImportQuestionController,
+    ImportQuizController
   ],
   providers: [
-    ...servicesQuizProviders
+    ...servicesQuizProviders,
+    ExportQuizService,
+    ValidateQuizImportService
   ],
   exports: [
     ...servicesQuizProviders

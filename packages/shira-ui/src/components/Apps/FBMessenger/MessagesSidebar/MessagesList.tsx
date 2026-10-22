@@ -97,7 +97,7 @@ const SecondaryText = styled.div`
 `
 
 const MessageInfo = styled.div`
-  padding-left: 8px;
+  padding-inline-start: 8px;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     display: none;

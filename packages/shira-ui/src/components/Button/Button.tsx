@@ -115,9 +115,9 @@ const SvgWrapper = styled.div`
 `;
 
 const Left = styled(SvgWrapper)`
-  margin-right: 12px;
+  margin-inline-end: 12px;
 `;
 
 const Right = styled(SvgWrapper)`
-  margin-left: 12px;
+  margin-inline-start: 12px;
 `;

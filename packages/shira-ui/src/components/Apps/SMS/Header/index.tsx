@@ -43,7 +43,7 @@ const Wrapper = styled.div`
 
 const SvgWrapper = styled.div`
   cursor: pointer;
-  padding-right: 12px;
+  padding-inline-end: 12px;
 
   > svg {
     fill: #424242;

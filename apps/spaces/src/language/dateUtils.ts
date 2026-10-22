@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { enGB, enUS, es, fr, zhCN } from "date-fns/locale";
+import { ar, enGB, enUS, es, faIR, fr, id, ru, zhCN } from "date-fns/locale";
 import i18n from "./i18n";
 
 // Centralize locale calls for when we add more
@@ -8,7 +8,11 @@ export const getCurrentDateFNSLocales = () => {
     en: enGB,
     es: es,
     fr: fr,
-    cn: zhCN
+    cn: zhCN,
+    ar: ar,
+    fa: faIR,
+    id: id,
+    ru: ru,
   };
 };
 
@@ -27,4 +31,10 @@ export const formatLocaleDate = (value: string, language?: string) => {
   const locale = getCurrentDateFNSLocales()[language ?? i18n.language] ?? enUS;
 
   return format(parseDateValue(value), "d MMMM y", { locale });
+};
+
+export const formatLocaleShortDate = (value: string, language?: string) => {
+  const locale = getCurrentDateFNSLocales()[language ?? i18n.language] ?? enUS;
+
+  return format(parseDateValue(value), "PP", { locale });
 };

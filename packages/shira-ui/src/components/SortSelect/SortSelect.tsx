@@ -87,6 +87,8 @@ export const SortSelect = ({
           ref={optionsRef}
           role="listbox"
           id={listboxId}
+          // position.left comes from getPosition/getBoundingClientRect(), always a
+          // physical viewport pixel value — kept as "left" intentionally.
           style={{
             top: `${position.top}px`,
             left: `${position.left}px`,
@@ -174,7 +176,7 @@ const Option = styled.button<{ $isSelected: boolean }>`
   background: ${props => props.theme.colors.light.white};
   cursor: pointer;
   color: ${props => props.theme.colors.dark.black};
-  text-align: left;
+  text-align: start;
   font-size: 16px;
   line-height: 1.4;
   gap: 4px;

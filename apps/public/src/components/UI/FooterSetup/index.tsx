@@ -24,7 +24,7 @@ export const FooterButtonsSetup: FunctionComponent<Props> = ({
             text={backText}
             onClick={onBack}
             type='outline'
-            leftIcon={<FiChevronLeft size={18} />}
+            leftIcon={<FiChevronLeft size={18} data-mirror-rtl />}
           />
         </ButtonWrapper>
         <ButtonWrapper>
@@ -32,7 +32,7 @@ export const FooterButtonsSetup: FunctionComponent<Props> = ({
             text={nextText}
             onClick={onNext}
             type='primary'
-            rightIcon={<FiChevronRight size={18} />}
+            rightIcon={<FiChevronRight size={18} data-mirror-rtl />}
             disabled={disabled}
           />
         </ButtonWrapper>
@@ -50,14 +50,14 @@ const Wrapper = styled.div`
 
 const ButtonWrapper = styled.div`
   > button {
-    margin-left: 10px;
+    margin-inline-start: 10px;
   }
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     width: 50%;
     > button {
       width: 65%;
       justify-content: center;
-      margin-left: 0;
+      margin-inline-start: 0;
     }
   }
 `

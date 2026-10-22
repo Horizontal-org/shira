@@ -44,7 +44,10 @@ const NewMailButton = styled.div`
   border-radius: 16px;
   color: #001d35;
   height: 56px;
-  padding: 0 24px 0 0;
+  padding-top: 0;
+  padding-inline-end: 24px;
+  padding-bottom: 0;
+  padding-inline-start: 0;
   min-width: 96px;
   box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 1px 3px 1px rgb(60 64 67 / 15%);
   transition-property: box-shadow, min-width;

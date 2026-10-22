@@ -68,7 +68,7 @@ const CloseButton = styled.div`
 `
 
 const SubjectText = styled.div`
-  padding-left: 14px;
+  padding-inline-start: 14px;
   font-size: 14px;
   color: #242424;
   font-weight: 600;
@@ -101,7 +101,7 @@ const ChevronWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 4px;
+  margin-inline-start: 4px;
   border-radius: 4px;
   cursor: pointer;
 

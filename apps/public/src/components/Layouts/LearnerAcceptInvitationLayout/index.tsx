@@ -152,7 +152,7 @@ const AcceptWrapper = styled.div`
 
 const GreenFishWrapper = styled.div`
   display: flex;
-  padding-right: 40px;
+  padding-inline-end: 40px;
 
   > svg {
     width: 410px;

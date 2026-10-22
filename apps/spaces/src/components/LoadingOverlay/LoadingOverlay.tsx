@@ -18,8 +18,8 @@ export const LoadingOverlay = () => {
 const Overlay = styled.div`
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
+  inset-inline-start: 0;
+  inset-inline-end: 0;
   bottom: 0;
   background: rgba(255, 255, 255, 0.9);
   display: flex;
@@ -65,9 +65,9 @@ const ProgressFill = styled.div`
       width: 100%;
       transform: translateX(0);
     }
-    100% { 
+    100% {
       width: 100%;
-      transform: translateX(100%);
+      transform: translateX(calc(var(--dir-multiplier) * 100%));
     }
   }
 `

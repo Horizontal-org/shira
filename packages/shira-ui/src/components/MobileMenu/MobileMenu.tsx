@@ -74,7 +74,7 @@ export const MobileMenu: FunctionComponent<MobileMenuProps> = ({
 const Wrapper = styled.div`
   position: absolute;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
   overflow: hidden;
   z-index:3;
   box-sizing: border-box;
@@ -104,7 +104,7 @@ const Nav = styled.div`
 `
 
 const SvgWrapper = styled.div`
-  margin-right: 20px;
+  margin-inline-end: 20px;
 
   > svg {
     width: 32px;

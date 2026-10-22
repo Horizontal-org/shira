@@ -1,4 +1,12 @@
 {
+    "languages": {
+        "en": "English",
+        "es": "Spanish",
+        "fr": "French",
+        "cn": "Chinese (Simplified)",
+        "ar": "Arabic",
+        "ru": "Russian"
+    },
     "beta": {
         "label": "BETA",
         "message": "Shira is still in development and you may experience issues.",
@@ -49,6 +57,9 @@
         }
     },
     "quiz": {
+        "note": {
+            "title": "Note"
+        },
         "how_it_works": {
             "title": "How it works",
             "question_count": "This quiz contains {{count}} questions.",
