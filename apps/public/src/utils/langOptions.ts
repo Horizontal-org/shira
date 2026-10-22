@@ -8,6 +8,9 @@ const NATIVE_LANGUAGE_NAMES = {
   cn: '简体中文',
   ar: 'العربية',
   ru: 'Русский',
+  id: 'Bahasa Indonesia',
+  sw: 'Kiswahili',
+  fa: 'فارسی',
 } as const
 
 export const getLanguageOptions = (t: TFunction): LanguageSelectOption[] => [
@@ -40,5 +43,20 @@ export const getLanguageOptions = (t: TFunction): LanguageSelectOption[] => [
     label: t('languages.ru'),
     nativeLabel: NATIVE_LANGUAGE_NAMES.ru,
     value: 'ru',
+  },
+  {
+    label: t('languages.id'),
+    nativeLabel: NATIVE_LANGUAGE_NAMES.id,
+    value: 'id',
+  },
+  {
+    label: t('languages.sw'),
+    nativeLabel: NATIVE_LANGUAGE_NAMES.sw,
+    value: 'sw',
+  },
+  {
+    label: t('languages.fa'),
+    nativeLabel: NATIVE_LANGUAGE_NAMES.fa,
+    value: 'fa',
   },
 ]
