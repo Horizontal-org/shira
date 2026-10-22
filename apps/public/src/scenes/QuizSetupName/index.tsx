@@ -60,7 +60,7 @@ export const QuizSetupNameScene: FunctionComponent<Props> = ({ nextSceneSlug = '
   }, [])
 
   return (
-    <SceneWrapper>
+    <SceneWrapper id="quiz-setup-name-scene">
       <SceneWithFooter>
 
         <Section

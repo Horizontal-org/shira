@@ -25,6 +25,7 @@ interface StyledButtonProps {
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
+  id,
   text,
   onClick,
   type = 'primary',
@@ -37,6 +38,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
 }: ButtonProps, ref = null) =>
 (
   <StyledButton
+    id={id}
     onClick={onClick}
     className={className}
     $type={type}
