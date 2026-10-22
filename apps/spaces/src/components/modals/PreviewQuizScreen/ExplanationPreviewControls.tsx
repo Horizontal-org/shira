@@ -1,8 +1,7 @@
-import { Button, defaultTheme, styled } from "@horizontal-org/shira-ui";
+import { Button, defaultTheme, styled, parseHtml } from "@horizontal-org/shira-ui";
 import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MdBlock, MdChevronLeft, MdChevronRight } from "react-icons/md";
-import parseHtml from "../../../utils/parseHtml";
 
 type PreviewExplanation = {
   index: string;

@@ -1,8 +1,7 @@
 import { FunctionComponent } from 'react'
 import { Explanation } from '../../../../domain/explanation';
-import useParseHTML from '../../../../hooks/useParseHTML';
 import { useStore } from '../../../../store';
-import { Gmail, Outlook } from '@horizontal-org/shira-ui';
+import { Gmail, Outlook, parseHtml } from '@horizontal-org/shira-ui';
 
 interface Props {
   content: string;
@@ -19,7 +18,7 @@ export const MailApps: FunctionComponent<Props> = ({ content, name, explanations
     parseAttachments,
     parseCustomElement,
     parseContent, 
-  } = useParseHTML(content, images)
+  } = parseHtml(content, images)
 
   const { persistedEmail, persistedName } = useStore(
     (state) => ({
