@@ -49,11 +49,12 @@ export class ImportQuizController {
 
     await this.validateQuizService.execute(subscription, body.visibility, space.id)
 
-    const { questions } = await this.validateQuizImportService.validate(file.buffer)
+    const { questions, items } = await this.validateQuizImportService.validate(file.buffer)
 
     const quizId = await this.importQuizService.execute({
       title: body.title,
       questions,
+      items,
       space,
       visibility: body.visibility,
     })
