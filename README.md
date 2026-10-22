@@ -158,6 +158,7 @@ passphrases.**
 | PUBLIC_URL               | Full URL for the quizes app (no trailing slash)                             | optional |
 | SUPERADMIN_URL           | Full URL for the super admin (no trailing slash)                            | optional |
 | SHIRA_LIBRARY_URL        | Full URL for Shira's public library (no trailing slash)                     | optional |
+| SHIRA_LIBRARY_IMAGES_URL        | Full URL for Shira's public library bucket (for validation purposes)                     | optional |
 | SELF_HOSTED              | When "true" disables payments                                               | optional |
 | ENABLE_PUBLIC_LIBRARY    | When "true" enables synchronization with the public library                 | optional |
 | TRUST_DOWNSTREAM_PROXY   | Change to "true" if you're serving Shira behind your own reverse proxy      | optional |

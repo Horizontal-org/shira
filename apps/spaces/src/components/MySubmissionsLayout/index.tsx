@@ -141,7 +141,13 @@ export const MySubmissionsLayout = () => {
               <Trans
                 i18nKey="templates.my_submissions_description"
                 components={{
-                  learnMore: <Link1 onClick={() => navigate("/support")} />,
+                  learnMore: (
+                    <Link1
+                      href="https://shira.app/templates"
+                      target="_blank"
+                      rel="noreferrer"
+                    />
+                  ),
                 }}
               />
             </Body1>
