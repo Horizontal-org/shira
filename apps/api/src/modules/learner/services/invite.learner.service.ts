@@ -101,7 +101,34 @@ export class InviteLearnerService implements IInviteLearnerService {
     }
   }
 
-  async accept(token: string): Promise<string> {
+  async accept(token: string): Promise<void> {
+    const learner = await this.findValidInvitation(token);
+
+    this.logger.log(`Accepting invitation for learner with email: ${learner.email}`);
+
+    try {
+      await this.learnerRepo.update(
+        { invitationToken: token },
+        { status: 'registered', registeredAt: new Date() }
+      );
+    } catch (error) {
+      this.logger.error(`Error updating learner ${learner.email}: ${error.message}`);
+      throw new SaveLearnerException();
+    }
+  }
+
+  async preview(token: string): Promise<string> {
+    const learner = await this.findValidInvitation(token);
+    const space = await this.spaceRepo.findOne({
+      where: { id: learner.spaceId },
+      select: { name: true }
+    });
+
+    if (!space) throw new GenericErrorException();
+    return space.name;
+  }
+
+  private async findValidInvitation(token: string): Promise<LearnerEntity> {
     const learner = await this.learnerRepo.findOne({
       where: {
         invitationToken: token,
@@ -111,29 +138,12 @@ export class InviteLearnerService implements IInviteLearnerService {
 
     if (!learner) throw new GenericErrorException();
 
-    // a week ago 
+    // A week ago
     if (learner.invitedAt < new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)) {
       this.logger.log(`Invitation token expired for learner with email: ${learner.email}`);
       throw new InvitationExpiredException();
     }
-
-    this.logger.log(`Accepting invitation for learner with email: ${learner.email}`);
-
-    const space = await this.spaceRepo.findOne({
-      where: { id: learner.spaceId },
-      select: { name: true }
-    });
-
-    try {
-      await this.learnerRepo.update(
-        { invitationToken: token },
-        { status: 'registered', registeredAt: new Date() }
-      );
-      return space.name;
-    } catch (error) {
-      this.logger.error(`Error updating learner ${learner.email}: - ${error.message}`);
-      throw new SaveLearnerException();
-    }
+    return learner;
   }
 
   private async handleExistingLearner(
