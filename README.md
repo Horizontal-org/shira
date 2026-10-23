@@ -162,6 +162,7 @@ passphrases.**
 | SELF_HOSTED              | When "true" disables payments                                               | optional |
 | ENABLE_PUBLIC_LIBRARY    | When "true" enables synchronization with the public library                 | optional |
 | TRUST_DOWNSTREAM_PROXY   | Change to "true" if you're serving Shira behind your own reverse proxy      | optional |
+| TRUST_PROXY_HOPS         | Proxies in front of the API, "2" if behind your own reverse proxy. Default is 1  | optional |
 
 [container tag]: https://hub.docker.com/r/horizontalorg/shira-api
 

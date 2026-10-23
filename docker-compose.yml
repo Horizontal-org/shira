@@ -29,6 +29,7 @@ services:
       SMTP_PORT: "${SMTP_PORT}"
       SMTP_USER: "${SMTP_USER}"
       SMTP_PASS: "${SMTP_PASS}"
+      TRUST_PROXY_HOPS: "${TRUST_PROXY_HOPS:-1}"
     depends_on:
       db:
         condition: "service_healthy"
@@ -36,8 +37,6 @@ services:
         condition: "service_healthy"
       images:
         condition: "service_healthy"
-    ports:
-    - '3000:3000'
     networks:
     - "shira"
   db:
