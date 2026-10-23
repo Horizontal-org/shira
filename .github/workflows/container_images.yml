@@ -4,8 +4,8 @@ on:
   push:
     branches:
     - "development"
+    - "beta"
     - "main"
-    - "github-action"
     tags:
     - "*"
 jobs:
