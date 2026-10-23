@@ -28,6 +28,11 @@ jobs:
         uses: "docker/metadata-action@v6.2.0"
         with:
           images: "horizontalorg/shira-frontend"
+      - name: "Extract metadata (tags, labels) for Docker"
+        id: "api-meta"
+        uses: "docker/metadata-action@v6.2.0"
+        with:
+          images: "horizontalorg/shira-api"
       - name: "Build and push frontend Docker image"
         id: "frontend-push"
         uses: "docker/build-push-action@v7.4.0"
@@ -41,11 +46,6 @@ jobs:
           subject-name: "index.docker.io/horizontalorg/shira-frontend"
           subject-digest: "${{ steps.frontend-push.outputs.digest }}"
           push-to-registry: true
-      - name: "Extract metadata (tags, labels) for Docker"
-        id: "api-meta"
-        uses: "docker/metadata-action@v6.2.0"
-        with:
-          images: "horizontalorg/shira-api"
       - name: "Build and push API Docker image"
         id: "api-push"
         uses: "docker/build-push-action@v7.4.0"
@@ -69,7 +69,8 @@ jobs:
             {
               "text": "Images built for ${{ github.repository }} ${{ steps.api-meta.outputs.tags }}",
               "channel": "github-actions",
-              "username": "${{ github.triggering_actor }}"
+              "username": "${{ github.triggering_actor }}",
+              "color": "#3f6a3a"
             }
       - uses: "mattermost/action-mattermost-notify@master"
         if: "failure()"
@@ -77,7 +78,8 @@ jobs:
           MATTERMOST_WEBHOOK_URL: "${{ secrets.MATTERMOST_WEBHOOK_URL }}"
           PAYLOAD: |-
             {
-              "text": "Images failed to build for ${{ github.repository }} ${{ steps.api-meta.outputs.tags }}",
+              "text": "Images failed to build for ${{ github.repository }} ${{ steps.api-meta.outputs.tags }}\n\nhttps://github.com/Horizontal-org/shira/actions/runs/${{ github.run_id }}",
               "channel": "github-actions",
-              "username": "${{ github.triggering_actor }}"
+              "username": "${{ github.triggering_actor }}",
+              "color": "#ff0000"
             }
