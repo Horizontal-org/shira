@@ -67,9 +67,9 @@ jobs:
           MATTERMOST_WEBHOOK_URL: "${{ secrets.MATTERMOST_WEBHOOK_URL }}"
           PAYLOAD: |-
             {
-              "text": "Images built for ${{ github.repository }}",
+              "text": "Images built for ${{ github.repository }} ${{ steps.api-meta.outputs.tags }}",
               "channel": "github-actions",
-              "username": "${{ github.triggering_actor }}",
+              "username": "${{ github.triggering_actor }}"
             }
       - uses: "mattermost/action-mattermost-notify@master"
         if: "failure()"
@@ -77,7 +77,7 @@ jobs:
           MATTERMOST_WEBHOOK_URL: "${{ secrets.MATTERMOST_WEBHOOK_URL }}"
           PAYLOAD: |-
             {
-              "text": "Images failed to build for ${{ github.repository }}",
+              "text": "Images failed to build for ${{ github.repository }} ${{ steps.api-meta.outputs.tags }}",
               "channel": "github-actions",
-              "username": "${{ github.triggering_actor }}",
+              "username": "${{ github.triggering_actor }}"
             }
