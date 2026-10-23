@@ -64,3 +64,23 @@ jobs:
           subject-name: "index.docker.io/horizontalorg/shira-api"
           subject-digest: "${{ steps.api-push.outputs.digest }}"
           push-to-registry: true
+      - uses: "mattermost/action-mattermost-notify@master"
+        if: "success()"
+        with:
+          MATTERMOST_WEBHOOK_URL: "${{ secrets.MATTERMOST_WEBHOOK_URL }}"
+          PAYLOAD: |-
+            {
+              "text": "Images built for ${{ github.repository }}",
+              "channel": "github-actions",
+              "username": "${{ github.triggering_actor }}",
+            }
+      - uses: "mattermost/action-mattermost-notify@master"
+        if: "failure()"
+        with:
+          MATTERMOST_WEBHOOK_URL: "${{ secrets.MATTERMOST_WEBHOOK_URL }}"
+          PAYLOAD: |-
+            {
+              "text": "Images failed to build for ${{ github.repository }}",
+              "channel": "github-actions",
+              "username": "${{ github.triggering_actor }}",
+            }
