@@ -194,7 +194,7 @@
                     "title": "Selected app"
                 },
                 "editor": {
-                    "title": "Editor",
+                    "title": "Sunting",
                     "simple": "Simple editor",
                     "advanced": "Advanced HTML editor"
                 }
@@ -271,7 +271,8 @@
             "fix_errors": "Fix HTML errors before continuing.",
             "errors": {
                 "syntax": "Check the HTML near the highlighted position"
-            }
+            },
+            "explanation_tooltip": "Select text or place the cursor in an HTML tag to add an explanation."
         }
     },
     "question_library": {
@@ -863,11 +864,11 @@
             "content_disable": "We will stop tracking your user quiz information"
         },
         "delete_note": {
-            "title": "Are you sure you want to delete \"{{note_name}}\"?",
+            "title": "Anda yakin ingin menghapus {0}?",
             "message": "Deleting this note is permanent and cannot be undone."
         },
         "exit_note": {
-            "title": "Are you sure you want to exit the note?",
+            "title": "Apakah Anda yakin hendak menghapus?",
             "message": "Any unsaved changes will be lost."
         }
     },
@@ -1265,7 +1266,7 @@
         }
     },
     "create_note": {
-        "header_title": "Create a new note",
+        "header_title": "Buat folder baru",
         "edit_header_title": "Edit note",
         "header_required_tooltip": "Required fields cannot be left blank",
         "header_character_limit_tooltip": "One or more fields exceed the character limit.",

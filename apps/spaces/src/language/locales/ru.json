@@ -161,7 +161,7 @@
             "export": "Экспорт"
         },
         "use_library_question_button": "Use a question template",
-        "create_note_button": "Create note",
+        "create_note_button": "Создать",
         "columns": {
             "type": {
                 "note": "Внимание"
@@ -207,7 +207,7 @@
                     "title": "Выбранное приложение"
                 },
                 "editor": {
-                    "title": "Editor",
+                    "title": "Править",
                     "simple": "Simple editor",
                     "advanced": "Advanced HTML editor"
                 }
@@ -284,7 +284,8 @@
             "fix_errors": "Fix HTML errors before continuing.",
             "errors": {
                 "syntax": "Check the HTML near the highlighted position"
-            }
+            },
+            "explanation_tooltip": "Select text or place the cursor in an HTML tag to add an explanation."
         }
     },
     "question_library": {
@@ -883,11 +884,11 @@
             "content_disable": "We will stop tracking your user quiz information"
         },
         "delete_note": {
-            "title": "Are you sure you want to delete \"{{note_name}}\"?",
-            "message": "Deleting this note is permanent and cannot be undone."
+            "title": "Уверены, что хотите удалить «{{quiz_name}}»?",
+            "message": "Тест будет удалён навсегда, это действие нельзя отменить."
         },
         "exit_note": {
-            "title": "Are you sure you want to exit the note?",
+            "title": "Уверены, что хотите выйти из вопроса?",
             "message": "Все несохранённые изменения будут утрачены."
         }
     },
@@ -972,9 +973,9 @@
                 "subtitle": "This file's contents don't match the expected question format. Please make sure not to modify the file and try again."
             }
         },
-        "edit_question_failed": "Error editing question",
+        "edit_question_failed": "Ошибка при добавлении вопроса",
         "delete_note_fail": "Failed to delete note",
-        "duplicate_note_fail": "Failed to duplicate note"
+        "duplicate_note_fail": "Не удалось создать копию теста"
     },
     "success_messages": {
         "message": "",
@@ -1006,10 +1007,10 @@
         "quiz_assessment_mode_updated": "Тест обновлён",
         "quiz_imported": "Тест обновлён",
         "question_imported": "Вопрос удалён",
-        "note_created": "The note has been created",
-        "note_deleted": "The note has been deleted",
-        "note_updated": "The note has been updated",
-        "note_duplicated": "The note has been duplicated"
+        "note_created": "Тест создан",
+        "note_deleted": "Учащийся удалён.",
+        "note_updated": "Тест обновлён",
+        "note_duplicated": "Копия теста создана"
     },
     "loading_messages": {
         "message": "",
@@ -1292,7 +1293,7 @@
         }
     },
     "create_note": {
-        "header_title": "Create a new note",
+        "header_title": "Создать новую папку",
         "edit_header_title": "Edit note",
         "header_required_tooltip": "Обязательные поля не могут быть пустыми",
         "header_character_limit_tooltip": "One or more fields exceed the character limit.",
