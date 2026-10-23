@@ -5,6 +5,7 @@ on:
     branches:
     - "development"
     - "main"
+    - "github-action"
     tags:
     - "*"
 jobs:
