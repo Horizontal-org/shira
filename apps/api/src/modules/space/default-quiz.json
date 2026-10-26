@@ -1,0 +1,75 @@
+{
+  "title": "Phishing basics",
+  "questions": [
+    {
+      "metadata": {
+        "name": "Journalism grant",
+        "app": "WhatsApp",
+        "isPhishing": true,
+        "explanations": []
+      },
+      "contentHtml": "<div><div id=\"required-content\"><span id=\"component-required-phone\">+31-495428390</span><span id=\"component-required-fullname\">GMIG</span></div><div id=\"optional-content\"></div><div id=\"dynamic-content\"><div data-position=\"0\" id=\"component-text-1\"><p><mark data-explanation=\"1\">Saludos</mark>, has sido seleccionado como candidato potencial para la Subvención Global de Innovación de los Medios 2023. Esta es una prestigiosa oportunidad para periodistas que desean realizar proyectos en el campo de los medios digitales. Para aplicar para la subvención, visita el sitio web<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://abhhief68.co/238bjk\"><mark data-explanation=\"3\">https://abhhief68.co/238bj</mark></a> y llena el formulario de solicitud. También tendrás que pagar una tarifa no reembolsable de $50 para completar el registro. <mark data-explanation=\"2\">No te pierdas esta oportunidad de avanzar en tu carrera y tener un impacto en el mundo del periodismo.</mark></p></div></div></div>",
+      "assets": []
+    },
+    {
+      "metadata": {
+        "name": "Whatsapp account suspended",
+        "app": "WhatsApp",
+        "isPhishing": true,
+        "explanations": []
+      },
+      "contentHtml": "<div><div id=\"required-content\"><span id=\"component-required-phone\">+249 91 234 5678</span><span id=\"component-required-fullname\">Whatsapp</span></div><div id=\"optional-content\"></div><div id=\"dynamic-content\"><div data-position=\"0\" id=\"component-text-1\"><p>Su cuenta de WhasApp<mark data-explanation=\"1\">ha sido suspendida</mark>. Para verificar su número de teléfono y restaurar su cuenta de WhatsApp, haga clic en este enlace:<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://whatsapp-restore.com/we34gx\"><mark data-explanation=\"2\">https://whatsapp-restore.com/we34gx</mark></a></p></div></div></div>",
+      "assets": []
+    },
+    {
+      "metadata": {
+        "name": "Seminar invitation",
+        "app": "Gmail",
+        "isPhishing": false,
+        "explanations": []
+      },
+      "contentHtml": "<div><div id=\"required-content\"><span id=\"component-required-sender-name\">Zara Mwamba</span><span id=\"component-required-sender-email\">zara.mwamba@lakevictoria.uni</span></div><div id=\"optional-content\"><span id=\"component-optional-subject\">Invitación para hablar en una serie de seminarios de la Universidad Lake Victoria</span></div><div id=\"dynamic-content\"><div data-position=\"0\" id=\"component-text-1\"><p>Estimado/a Dr. {{name}},</p><p>Le escribo para invitarle a dar una conferencia de invitado en una serie de seminarios de nuestro departamento. Soy miembro de la facultad en el Departamento de Psicología en la Universidad de Lake Victoria, y he estado siguiendo su investigación sobre inteligencia emocional con gran interés. Su trabajo sobre medir y mejora la inteligencia emocional en los niños es muy innovador y relevante para nuestros temas de discusión actuales.</p><p>Los seminarios se llevan a cabo cada mes y atrae a una diversa audiencia de estudiantes, investigadores y profesionales de diferentes campos. El formato es una presentación de 45 minutos seguida por una sesión de preguntas y respuestas de 15 minutos. Podemos ofrecerle un honorario de $500 y cubrir sus gastos de viaje y alojamiento.</p><p>Si está interesado(a) en participar, por favor hágame saber su disponibilidad para el próximo semestre. Espero escuchar de usted pronto.</p><p>Saludos cordiales,</p><p>Zara Mwamba <br />Profesora Asociada de Psicología <br /> Universidad de Lake Victoria</p></div></div></div>",
+      "assets": []
+    },
+    {
+      "metadata": {
+        "name": "Bluesky terms of service",
+        "app": "Gmail",
+        "isPhishing": false,
+        "explanations": []
+      },
+      "contentHtml": "<div><div id=\"required-content\"><span id=\"component-required-sender-name\">Bluesky</span><span id=\"component-required-sender-email\">noreply@bsky.app</span></div><div id=\"optional-content\"><span id=\"component-optional-subject\">Hemos actualizado nuestros Términos de Servicio &amp; Normas de la Comunidad</span></div><div id=\"dynamic-content\"><div data-position=\"0\" id=\"component-text-1\"><p>Estimado/a {{name}},</p><p>Hemos actualizado nuestros Términos de Servicio y Normas de la Comunidad. Nuestro objetivo era incorporar los comentarios que recibimos de la comunidad para hacer ambos documentos más claros, más detallados y más fáciles de entender.</p><p>Te recomendamos que revises completamente los <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://t.mmtrkr.com/clicks/html/c04d266c-6093-5140-b4c3-9c628d04cebd/7c550497-8b68-5fd2-8bc2-62eb13b55071/247f24c0-bf7e-5943-845d-92b517dcd1ca?urlChildId=e0625e58-59ab-58dc-9ee4-55fa8f952714&amp;templateId=6fd23758-e315-4cf7-a0fc-dbf860f09925\">Términos de Servicio</a> y <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://t.mmtrkr.com/clicks/html/c04d266c-6093-5140-b4c3-9c628d04cebd/7c550497-8b68-5fd2-8bc2-62eb13b55071/868b4991-8bb7-5c63-a977-768c68dd6c4e?urlChildId=8e0d2318-b9be-5db9-bc2e-51b38bafef29&amp;templateId=6fd23758-e315-4cf7-a0fc-dbf860f09925\">Normas de la Comunidad</a> actualizados antes del 14 de julio de 2023, cuando entrarán en vigor. Al continuar utilizando cualquiera de nuestros sitios web y aplicaciones móviles después de esta fecha, aceptas estos términos y normas actualizados.</p><p>Estos son algunos aspectos destacados de los cambios realizados:</p><p></p><p>Aspectos Destacados de la Actualización de Términos de Servicio.</p><ul><li><p>La redacción ahora es más simple y directa, y proporciona resúmenes claros de cada sección que pensamos serían útiles.</p></li><li><p>Proporcionamos más detalles de como Bluesky puede usar tu contenido. Bluesky no es dueño de tu contenido ni tenemos intención de serlo.</p></li><li><p>Especificamos un proceso de apelación para las decisiones legislativas.</p></li><li><p>Agregamos un proceso de denuncia para que los usuarios notifiquen a Bluesky sobre posibles violaciones de los Términos de Servicio y Normas de la Comunidad.</p></li></ul><p></p><p>Aspectos Destacados de la Actualización de las Normas de la Comunidad:</p><ul><li><p>Hay normas más detalladas que prohíben el contenido ilegal, el odio y el abuso, y las formas de extremismo.</p></li><li><p>Ahora prohibimos explícitamente la suplantación de identidad y las identidades engañosas.</p></li><li><p>Los desarrolladores que interactúan con Bluesky Social deben establecer métodos para denunciar y bloquear contenido ilegal y abusivo, y para eliminar contenido a solicitud.</p></li></ul><p></p><p>Si tienes alguna pregunta o necesita más aclaraciones, por favor contáctenos en <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"mailto:support@bsky.app\">support@bsky.app</a></p><p></p><p>¡Gracias por ser parte de la comunidad!</p><p>El Equipo Bluesky</p></div></div></div>",
+      "assets": []
+    },
+    {
+      "metadata": {
+        "name": "Journalism award",
+        "app": "Gmail",
+        "isPhishing": true,
+        "explanations": []
+      },
+      "contentHtml": "<div><div id=\"required-content\"><span id=\"component-required-sender-name\">James Carter</span><span id=\"component-required-sender-email\">jamescarter@internationaljournalismaward.com</span></div><div id=\"optional-content\"><span id=\"component-optional-subject\"> ¡Felicidades!!! ¡Has ganado un premio de periodismo! </span></div><div id=\"dynamic-content\"><div data-position=\"0\" id=\"component-text-1\"><p>Saludos! Has sido seleccionado como uno de los afortunados ganadores del prestigioso Premio Internacional del Periodismo por tu increíble trabajo en reportajes de investigación. Estás invitado a asistir a la ceremonia de premiación en la Ciudad de Nueva York el 15 de Junio, donde <mark data-explanation=\"1\">recibirás un brillante trofeo y un enorme premio en efectivo de $10,000</mark>. Para reclamar tu premio, <mark data-explanation=\"3\">por favor, completa este formulario con tus datos personales y detalles bancarios y envíanoslo de vuelta</mark> antes del 10 de Junio. También tendrás que pagar una pequeña tarifa de $500 para asegurar tu cupo. <mark data-explanation=\"2\">Esta es una oportunidad única en la vida, así que no la pierdas!!!</mark> Esperamos celebrar este logro contigo.</p></div><span data-explanation=\"4\" data-position=\"1\" id=\"component-attachment-2\">premio-efectivo.exe</span></div></div>",
+      "assets": []
+    },
+    {
+      "metadata": {
+        "name": "Leaked document",
+        "app": "Gmail",
+        "isPhishing": true,
+        "explanations": []
+      },
+      "contentHtml": "<div><div id=\"required-content\"><span id=\"component-required-sender-name\">Jean-Pierre Dupont</span><span data-explanation=\"3\" id=\"component-required-sender-email\">jean-pierre.dupont@europa-official.net</span></div><div id=\"optional-content\"><span id=\"component-optional-subject\">Noticias de último minuto: Un documento filtrado revela un importante encubrimiento</span></div><div id=\"dynamic-content\"><div data-position=\"0\" id=\"component-text-1\"><blockquote><p>Hola,</p><p>Soy un ex oficial de la UE y tengo <mark data-explanation=\"1\">algo muy importante que compartir contigo que podría ser la historia más importante del año</mark>.</p><p>He obtenido un documento filtrado que revela un importante encubrimiento por parte de la Unión Europea. El documento muestra que la UE ha estado mintiendo al público sobre el verdadero alcance de la crisis de refugiados, la eficacia del control fronterizo y el origen de los ataques terroristas. El documento también expone un plan secreto para imponer una ley marcial y un programa de vacunación obligatorio.</p><p>Este documento es explosivo y necesita ser expuesto al mundo. Lo he subido a un servicio de almacenamiento seguro en la nube y lo he cifrado con una contraseña. <mark data-explanation=\"2\">Para acceder a él, necesita ir a este enlace:</mark><a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://eu-leaked-document.com/download\"><mark data-explanation=\"2\">https://ue-documento-filtrado.com/descargar</mark></a> e introducir la contraseña: UE2023</p><p>Por favor, no compartas este enlace o la contraseña con nadie más. Esta información es muy sensible y podría ponerme en peligro si cae en las manos equivocadas.</p><p>Confío en que utilizarás este documento responsablemente y reportarás la verdad al público.</p><p>Tuyo sinceramente,</p><p>Jean-Pierre Dupont</p></blockquote></div></div></div>",
+      "assets": []
+    },
+    {
+      "metadata": {
+        "name": "Corruption scandal",
+        "app": "WhatsApp",
+        "isPhishing": true,
+        "explanations": []
+      },
+      "contentHtml": "<div><div id=\"required-content\"><span id=\"component-required-phone\">+1-202-555-4321</span><span id=\"component-required-fullname\">Rachel Gobdu</span></div><div id=\"optional-content\"></div><div id=\"dynamic-content\"><div data-position=\"0\" id=\"component-text-1\"><p>Hola, tengo información importante sobre el escándalo de corrupción en el gobierno. No puedo compartirla aquí, pero <mark data-explanation=\"1\">puedes acceder a través de este enlace seguro:</mark><a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://tinyurl.com/leaks2023\"><mark data-explanation=\"1\">https://tinyurl.com/filtraciones2023</mark></a>. Deberás introducir tu correo y contraseña para verificar tu identidad. <mark data-explanation=\"2\">No compartas esto con nadie más.</mark></p></div></div></div>",
+      "assets": []
+    }
+  ]
+}

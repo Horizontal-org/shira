@@ -26,7 +26,12 @@ const Wrapper = styled.div<{ $size: number }>`
   overflow: hidden;
   font-size: ${props => Math.round(props.$size * 0.42)}px;
 
-  > div, > div > svg {
+  > div {
+    width: 100%;
+    height: 100%;
+  }
+
+  > div > svg {
     display: block;
     width: 100%;
     height: 100%;

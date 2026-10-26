@@ -11,16 +11,17 @@ interface Props {
     textContent: string
     explanationPosition: string
   };
+  content?: HTMLElement;
 }
 
-const Sidebar: FunctionComponent<Props> = ({ phone }) => {
+const Sidebar: FunctionComponent<Props> = ({ phone, content }) => {
   const { t } = useTranslation('shira-ui')
 
   return (
     <Wrapper>
       <Profile />
       <SearchBar />
-      <MessagesPreview phone={phone} />
+      <MessagesPreview phone={phone} content={content} />
       <TabBar>
         <Tab><LuCircleUser /></Tab>
         <Tab><LuPhone /></Tab>
