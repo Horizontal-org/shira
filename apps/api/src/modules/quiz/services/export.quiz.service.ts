@@ -7,6 +7,7 @@ import { QuizItem } from '../domain/quiz_items.entity';
 import { SpaceExportQuestionService } from 'src/modules/question/services/spaceExport.question.service';
 import { TYPES } from '../interfaces';
 import { IQuizItemsService } from '../interfaces/services/quiz-items.service.interface';
+import { SpaceExportNoteService } from 'src/modules/note/services/space-export.note.service';
 
 @Injectable()
 export class ExportQuizService {
@@ -16,6 +17,7 @@ export class ExportQuizService {
     private readonly spaceExportQuestionService: SpaceExportQuestionService,
     @Inject(TYPES.services.IQuizItemsService)
     private readonly quizItemsService: IQuizItemsService,
+    private readonly spaceExportNoteService: SpaceExportNoteService,
   ) {}
 
   async export({ id, spaceId, res }: { id: number; spaceId: number; res }) {
@@ -34,12 +36,15 @@ export class ExportQuizService {
       (quiz.quizQuestions ?? []) as QuizItem[],
       {
         questionRelations: ['apps', 'questionTranslations', 'images', 'explanations', 'explanations.explanationTranslations'],
+        noteRelations: ['images'],
       },
     );
 
-    // Notes are not yet supported by export/import - only question items are packaged.
     const orderedQuestions = hydratedItems
       .filter((item) => item.entityType === 'question')
+      .sort((a, b) => a.position - b.position);
+    const orderedNotes = hydratedItems
+      .filter((item) => item.entityType === 'note' && item.note)
       .sort((a, b) => a.position - b.position);
 
     const metadata = {
@@ -48,6 +53,11 @@ export class ExportQuizService {
         id: qq.question.id,
         name: qq.question.name,
         position: qq.position,
+      })),
+      notes: orderedNotes.map((item) => ({
+        id: item.note.id,
+        name: item.note.name,
+        position: item.position,
       })),
     };
 
@@ -70,6 +80,15 @@ export class ExportQuizService {
       const folder = `questions/${qq.position}_${this.slugify(qq.question.name)}`;
 
       archive.append(JSON.stringify(qMetadata, null, 2), { name: `${folder}/metadata.json` });
+      archive.append(contentHtml, { name: `${folder}/content.html` });
+      for (const asset of assets) {
+        archive.append(asset.buffer, { name: `${folder}/assets/${asset.fileName}` });
+      }
+    }
+
+    for (const item of orderedNotes) {
+      const { contentHtml, assets } = await this.spaceExportNoteService.buildNotePackage(item.note);
+      const folder = `notes/${item.position}_${this.slugify(item.note.name)}`;
       archive.append(contentHtml, { name: `${folder}/content.html` });
       for (const asset of assets) {
         archive.append(asset.buffer, { name: `${folder}/assets/${asset.fileName}` });

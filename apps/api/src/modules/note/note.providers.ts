@@ -4,6 +4,9 @@ import { EditNoteService } from './services/edit.note.service';
 import { DeleteNoteService } from './services/delete.note.service';
 import { GetNoteService } from './services/get.note.service';
 import { DuplicateNoteService } from './services/duplicate.note.service';
+import { ImportNoteService } from './services/import.note.service';
+import { SpaceExportNoteService } from './services/space-export.note.service';
+import { ValidateNoteImportService } from './services/validate-import.note.service';
 
 export const createNoteServiceProvider = {
   provide: TYPES.services.ICreateNoteService,
@@ -36,4 +39,7 @@ export const servicesNoteProviders = [
   deleteNoteServiceProvider,
   getNoteServiceProvider,
   duplicateNoteServiceProvider,
+  ImportNoteService,
+  SpaceExportNoteService,
+  ValidateNoteImportService,
 ];
