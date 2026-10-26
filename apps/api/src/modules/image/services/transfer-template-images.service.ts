@@ -24,7 +24,8 @@ interface ValidatedImage {
   name: string;
   buffer: Buffer;
 }
-
+// Template image URLs come from the client, so only download from the configured
+// library images base URL (same origin and path prefix) to prevent SSRF.
 function isAllowedTemplateImageUrl(url: string): boolean {
   const baseUrl = process.env.SHIRA_LIBRARY_IMAGES_URL?.trim();
   if (!baseUrl) return false;
