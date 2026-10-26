@@ -10,7 +10,9 @@ export const previewAppNames: Record<string, AppDetails> = {
   facebook_messenger: { name: "Messenger", type: "messaging" },
   messenger: { name: "Messenger", type: "messaging" },
   dating_app: { name: "Dating App", type: "messaging" },
+  instagram: { name: "Instagram", type: "messaging" },
   outlook: { name: "Outlook", type: "email" },
+  telegram: { name: "Telegram", type: "messaging" },
 };
 
 export const normalizePreviewAppName = (value: string) => {
@@ -20,7 +22,7 @@ export const normalizePreviewAppName = (value: string) => {
 
 export const isMessagingNotPhoneApp = (value: string) => {
   const normalizedName = normalizePreviewAppName(value);
-  return normalizedName === "WhatsApp" || normalizedName === "Messenger";
+  return normalizedName === "WhatsApp" || normalizedName === "Messenger" || normalizedName === "Telegram";
 };
 
 export const isMessagingPhoneApp = (value: string) => {

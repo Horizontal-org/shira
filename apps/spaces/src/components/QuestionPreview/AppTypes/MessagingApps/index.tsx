@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react'
-import { DatingApp, FBMessenger, SMS, WhatsApp, parseHtml } from '@horizontal-org/shira-ui';
+import { DatingApp, FBMessenger, Instagram, SMS, Telegram, WhatsApp, parseHtml } from '@horizontal-org/shira-ui';
 import type { UIExplanation } from '../../types';
 
 interface Props {
@@ -51,8 +51,28 @@ export const MessagingApps: FunctionComponent<Props> = ({ content, name, explana
         />
       )}
 
+      {name === 'Telegram' && (
+        <Telegram
+          phone={phone}
+          content={contentRoot}
+          explanations={explanations}
+          explanationNumber={explanationNumber}
+          showExplanations={showExplanations}
+        />
+      )}
+
       {name === 'Messenger' && (
         <FBMessenger
+          senderName={senderName}
+          content={contentRoot}
+          explanations={explanations}
+          explanationNumber={explanationNumber}
+          showExplanations={showExplanations}
+        />
+      )}
+
+      {name === 'Instagram' && (
+        <Instagram
           senderName={senderName}
           content={contentRoot}
           explanations={explanations}

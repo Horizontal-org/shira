@@ -1,30 +1,49 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { DynamicContent } from "./styles/ContentStyles"
 
 import Reply from './icons/Reply'
 import Forward from './icons/Forward'
+import DoubleDownChevron from './icons/DoubleDownChevron'
+import DoubleUpChevron from './icons/DoubleUpChevron'
+import Cloud from './icons/Cloud'
+import Download from './icons/Download'
 import { RightActions } from "./components/RightActions";
 import { OutlookAttachmentElement, OutlookCustomElements } from "..";
 import { Sender } from "./components/Sender";
 import { Attachment } from "../Attachment";
+import { sanitizeEmailHtml } from "../../components/sanitizeEmailHtml";
 
-interface Props { 
+interface Props {
   content: HTMLElement;
   senderName: OutlookCustomElements;
   senderEmail: OutlookCustomElements;
   attachments: OutlookAttachmentElement[],
 }
 
-export const EmailContent:FunctionComponent<Props> = ({
+export const EmailContent: FunctionComponent<Props> = ({
   content,
   senderName,
   senderEmail,
   attachments
 }) => {
   const { t } = useTranslation('shira-ui')
+  const [showAllAttachments, setShowAllAttachments] = useState(false)
 
+  const getShowAllAttachmentsMessage = () => {
+    if (!showAllAttachments) {
+      return "Show all"
+    }
+    return ""
+  }
+  const getAttachmentSize = () => {
+    const size = attachments.length * 537 
+    if (size < 1000) {
+      return `${size} KB`
+    }
+    return `${Math.floor(size/1000)} MB`
+  }
   return (
     <WhiteContent>
       <TopBar>
@@ -37,7 +56,7 @@ export const EmailContent:FunctionComponent<Props> = ({
       </TopBar>
       <Attachments>
         { attachments && attachments.length > 0 && 
-            attachments
+            attachments.slice(0, showAllAttachments ? attachments.length : 4)
               .sort((a, b) => parseInt(a.position) - parseInt(b.position))
               .map((a, i) => (
               <Attachment 
@@ -47,8 +66,23 @@ export const EmailContent:FunctionComponent<Props> = ({
                 key={i}
               />
         )) }
-      </Attachments>
-      <DynamicContent dangerouslySetInnerHTML={{__html: content ? content.outerHTML : null }}></DynamicContent>      
+        { attachments && attachments.length > 3 && 
+          <AttachmentActionContainer > 
+            <AttachmentAction onClick={() => setShowAllAttachments(!showAllAttachments)}> <IconWrapper>{showAllAttachments ? <DoubleDownChevron/> : <DoubleUpChevron/>}</IconWrapper> {getShowAllAttachmentsMessage()} {attachments.length} attachments ({getAttachmentSize()})</AttachmentAction> 
+            <AttachmentAction><IconWrapper><Cloud/></IconWrapper>Save all to OneDrive</AttachmentAction>
+            <AttachmentAction><IconWrapper><Download/></IconWrapper>Download all</AttachmentAction>
+          </AttachmentActionContainer>
+        }
+        </Attachments>
+      <DynamicContent
+        onClick={(event) => {
+          if ((event.target as Element).closest('a')) event.preventDefault()
+        }}
+        onContextMenu={(event) => {
+          if ((event.target as Element).closest('a')) event.preventDefault()
+        }}
+        dangerouslySetInnerHTML={{ __html: sanitizeEmailHtml(content?.outerHTML ?? '') }}
+      />
       <BottomBar>
         <BottomButton>
           <Reply />
@@ -62,6 +96,10 @@ export const EmailContent:FunctionComponent<Props> = ({
     </WhiteContent>
   )
 }
+
+const IconWrapper = styled.span`
+  margin-right: 0.5rem;
+`
 
 const WhiteContent = styled.div`
   padding: 10px 12px 12px 12px;
@@ -89,6 +127,19 @@ const Attachments = styled.div`
   margin-bottom: 0;
   margin-inline-start: 50px;
 `
+const AttachmentActionContainer = styled.div`
+  display: flex;
+  width: 100%;
+  color: #666;
+  gap: 1rem;
+  cursor: pointer;
+  user-select: none;
+  align-items: center;
+`
+const AttachmentAction = styled.span`
+  font-size: 12px;
+`
+
 const TopBar = styled.div`
   display: flex;
   justify-content: space-between;

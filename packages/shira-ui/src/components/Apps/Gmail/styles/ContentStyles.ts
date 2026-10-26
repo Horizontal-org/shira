@@ -13,9 +13,8 @@ export const DynamicContent = styled.div`
   img {
     object-fit: contain;
   }
-   
 
-  table {
+  table.tiptap-table {
     border-collapse: collapse;
     margin: 0;
     overflow: hidden;
@@ -37,7 +36,7 @@ export const DynamicContent = styled.div`
       &.has-explanation {
         background-color: #F3F9CF !important;
         border-color: #F3F9CF !important;
-        
+
         &.mark-active {
           background-color: #FCC934 !important;
           border-color: #FCC934 !important;

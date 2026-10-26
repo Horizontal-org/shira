@@ -13,19 +13,21 @@ import {
 import { UserEntity } from '../user/domain/user.entity';
 import { spaceControllers } from './controllers';
 import { Quiz } from '../quiz/domain/quiz.entity';
-import { QuizQuestion } from '../quiz/domain/quizzes_questions.entity';
+import { QuizItem } from '../quiz/domain/quiz_items.entity';
 import { SpaceUserEntity } from './domain/space-users.entity';
 import { RoleEntity } from '../user/domain/role.entity';
 import { OrganizationUsersEntity } from '../organization/domain/organization_users.entity';
+import { QuizModule } from '../quiz/quiz.module';
 @Global()
 @Module({
   imports: [
     ConsoleModule,
+    QuizModule,
     TypeOrmModule.forFeature([
         SpaceEntity,
         UserEntity,
         Quiz,
-        QuizQuestion,
+        QuizItem,
         SpaceUserEntity,
         RoleEntity,
         OrganizationUsersEntity

@@ -17,6 +17,7 @@ export const TYPES = {
     IValidateQuizNameService: 'IValidateQuizNameService',
     IValidateCreateQuizService: 'IValidateCreateQuizService',
     IAddQuestionToQuizService: 'IAddQuestionToQuizService',
-    IImportQuizService: 'IImportQuizService'
+    IImportQuizService: 'IImportQuizService',
+    IQuizItemsService: 'IQuizItemsService',
   },
 };

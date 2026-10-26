@@ -294,6 +294,7 @@ const AttachmentWrapper = styled.div`
   display: flex;
   padding-top: 12px;
   flex-wrap: wrap;
+  row-gap: 2.5rem;
 
   > div {
     margin-bottom: 18px;

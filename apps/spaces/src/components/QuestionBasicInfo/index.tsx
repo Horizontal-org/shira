@@ -1,16 +1,17 @@
 import { FunctionComponent } from "react";
 import {
   Body3,
-  Box,
   FilterButton,
   styled,
   SubHeading3,
-  TextInput
-} from '@horizontal-org/shira-ui'
-import { App } from "../../fetch/app";
-import { ActiveQuestion } from "../../store/types/active_question";
-import { QUESTION_NAME_MAX_LENGTH } from "../../utils/inputLimits";
-import { useTranslation } from "react-i18next";
+  TextInput,
+  Toggle,
+} from "@horizontal-org/shira-ui"
+import { App } from "../../fetch/app"
+import { ActiveQuestion } from "../../store/types/active_question"
+import { QUESTION_NAME_MAX_LENGTH } from "../../utils/inputLimits"
+import { useTranslation } from "react-i18next"
+import { EntityFlowBox } from "../EntityFlowBody"
 
 interface Props {
   handleQuestion: (k, v) => void;
@@ -18,6 +19,7 @@ interface Props {
   question: ActiveQuestion
   apps: App[]
   initialAppType: string
+  canChooseEditor?: boolean
 }
 
 export const QuestionBasicInfo: FunctionComponent<Props> = ({
@@ -25,12 +27,13 @@ export const QuestionBasicInfo: FunctionComponent<Props> = ({
   handleApp,
   question,
   apps,
-  initialAppType
+  initialAppType,
+  canChooseEditor = false,
 }) => {
   const { t } = useTranslation();
 
   return (
-    <StyledBox>
+    <EntityFlowBox>
       <div>
         <SubHeading3>{t('create_question.tabs.question_info.question_name.title')}</SubHeading3>
         <Body3>{t('create_question.tabs.question_info.question_name.subtitle')}</Body3>
@@ -93,19 +96,33 @@ export const QuestionBasicInfo: FunctionComponent<Props> = ({
         </FilterButtonsContainer>
       </div>
 
-    </StyledBox>
+      {canChooseEditor && question.app?.type === 'email' && (
+        <div>
+          <SubHeading3>
+            {t('create_question.tabs.question_info.editor.title', 'Editor')}
+          </SubHeading3>
+          <FilterButtonsContainer>
+            <Toggle
+              isEnabled={question.editorType === 'advanced'}
+              onToggle={() =>
+                handleQuestion(
+                  'editorType',
+                  question.editorType === 'advanced' ? 'simple' : 'advanced'
+                )
+              }
+              leftLabel={t('create_question.tabs.question_info.editor.simple')}
+              rightLabel={t(
+                'create_question.tabs.question_info.editor.advanced'
+              )}
+            />
+          </FilterButtonsContainer>
+        </div>
+      )}
+    </EntityFlowBox>
   )
 }
-
-const StyledBox = styled(Box)`
-  position: relative;
-  z-index: 1;
-  padding: 48px;
-  width: 1024px;
-`
-
 const FilterButtonsContainer = styled.div`
   margin-top: 8px;
   display: flex;
   gap: 8px;
-`
+`;

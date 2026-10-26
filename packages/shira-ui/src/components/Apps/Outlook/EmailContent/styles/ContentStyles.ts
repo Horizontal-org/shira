@@ -22,8 +22,7 @@ export const DynamicContent = styled.div`
     object-fit: contain;
   }
 
-  
-  table {
+  table.tiptap-table {
     border-collapse: collapse;
     margin: 0;
     overflow: hidden;
@@ -45,7 +44,7 @@ export const DynamicContent = styled.div`
       &.has-explanation {
         background-color: #F3F9CF !important;
         border-color: #F3F9CF !important;
-        
+
         &.mark-active {
           background-color: #FCC934 !important;
           border-color: #FCC934 !important;
@@ -89,8 +88,6 @@ export const DynamicContent = styled.div`
     overflow-x: auto;
   }
 
-
-
   @media(max-width: ${props => props.theme.breakpoints.xs}) {
     margin-bottom: 0;
     margin-inline-start: 0;
@@ -100,5 +97,4 @@ export const DynamicContent = styled.div`
       width: 100%;
     }
   }
-
 `

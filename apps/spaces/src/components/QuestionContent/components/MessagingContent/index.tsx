@@ -18,7 +18,9 @@ const MessagingAppsNames = {
   WHATSAPP: 'WhatsApp',
   SMS: 'SMS',
   MESSENGER: 'Messenger',
-  DATING_APP: 'Dating App'
+  DATING_APP: 'Dating App',
+  INSTAGRAM: 'Instagram',
+  TELEGRAM: 'Telegram'
 }
 
 export const MessagingContent: FunctionComponent<Props> = ({
@@ -38,7 +40,8 @@ export const MessagingContent: FunctionComponent<Props> = ({
     if (question && question.app) {
       return !!([
         MessagingAppsNames.SMS,
-        MessagingAppsNames.WHATSAPP
+        MessagingAppsNames.WHATSAPP,
+        MessagingAppsNames.TELEGRAM
       ].includes(question.app.name))
     }
 
@@ -50,6 +53,7 @@ export const MessagingContent: FunctionComponent<Props> = ({
   useEffect(() => {
     handleSenderPhoneEnabled(hasSenderPhone)
   }, [])
+
 
   return (
     <Content id="messaging-content">
@@ -110,7 +114,6 @@ export const MessagingContent: FunctionComponent<Props> = ({
           onChange={(newItems) => { updateActiveQuestionDraggableItems(newItems) }}
         />
       </div>
-
     </Content>
   )
 }

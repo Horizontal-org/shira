@@ -84,8 +84,8 @@ export class ListQuestionService {
       .leftJoin('question.explanations', 'explanations')
       .leftJoin('question.questionTranslations', 'questionTranslations')
       .leftJoin('question.fieldsOfWork', 'fieldsOfWork')
-      .leftJoin('question.quizQuestions', 'quizQuestions')
-      .leftJoin('quizQuestions.quiz', 'quiz')
+      .leftJoin('quiz_items', 'quizItems', "quizItems.entityId = question.id AND quizItems.entityType = 'question'")
+      .leftJoin('quizItems.quiz', 'quiz')
       .leftJoin(
         'explanations.explanationTranslations',
         'explanationTranslations',
