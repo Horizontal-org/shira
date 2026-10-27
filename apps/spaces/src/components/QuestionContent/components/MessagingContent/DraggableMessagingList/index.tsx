@@ -18,6 +18,7 @@ interface Props {
   items: Array<QuestionDragEditor | QuestionDragImage | QuestionDragAttachment>
   content: Object
   onChange: (newItems: Array<Object>) => void
+  allowAttachments?: boolean
 }
 
 // do something about this :(
@@ -30,6 +31,7 @@ const castType = {
 export const DraggableMessagingList: FunctionComponent<Props> = ({
   items,
   onChange,
+  allowAttachments = true,
 }) => {
 
   const { t } = useTranslation();
@@ -200,48 +202,52 @@ export const DraggableMessagingList: FunctionComponent<Props> = ({
             onChange={handleNewImage}
           />
         </ImageButtonWrapper>
-        <AddAttachmentButtonWrapper>
-          <Button
-            onClick={() => setAttachmentModalOpen(true)}
-            text={t("create_question.tabs.content.attachment_button")}
-            type="outline"
-            leftIcon={<IoMdAdd color="#5F6368" size={14} />}
-          />
-        </AddAttachmentButtonWrapper>
+        {allowAttachments && (
+          <AddAttachmentButtonWrapper>
+            <Button
+              onClick={() => setAttachmentModalOpen(true)}
+              text={t("create_question.tabs.content.attachment_button")}
+              type="outline"
+              leftIcon={<IoMdAdd color="#5F6368" size={14} />}
+            />
+          </AddAttachmentButtonWrapper>
+        )}
       </ButtonsWrapper>
 
-      <AddAttachmentModal
-        titleLabel={t("modals.attachment_file.title")}
-        saveLabel={t("buttons.save")}
-        cancelLabel={t("buttons.cancel")}
-        fileNameLabel={t("modals.attachment_file.file_name")}
-        fileTypeLabel={t("modals.attachment_file.file_type")}
-        fileTypeExplanation={t("modals.attachment_file.explanation")}
-        fileName={attachmentFilename}
-        handleFileName={setAttachmentFilename}
-        fileType={attachmentFileType}
-        handleFileType={setAttachmentFileType}
-        isOpen={attachmentModalOpen}
-        onClose={() => setAttachmentModalOpen(false)}
-        excludedFileTypes={[AttachmentType.image]}
-        onSave={() => {
-          const newItems = [...items]
-          newItems.push({
-            draggableId: crypto.randomUUID(),
-            htmlId: `component-attachment-${items.length + 1}`,
-            explanation: null,
-            contentType: 'attachment',
-            position: items.length + 1,
-            value: {
-              name: attachmentFilename,
-              type: attachmentFileType
-            }
-          })
-          onChange(newItems)
-          setAttachmentFilename('')
-          setAttachmentFileType(AttachmentType.document)
-        }}
-      />
+      {allowAttachments && (
+        <AddAttachmentModal
+          titleLabel={t("modals.attachment_file.title")}
+          saveLabel={t("buttons.save")}
+          cancelLabel={t("buttons.cancel")}
+          fileNameLabel={t("modals.attachment_file.file_name")}
+          fileTypeLabel={t("modals.attachment_file.file_type")}
+          fileTypeExplanation={t("modals.attachment_file.explanation")}
+          fileName={attachmentFilename}
+          handleFileName={setAttachmentFilename}
+          fileType={attachmentFileType}
+          handleFileType={setAttachmentFileType}
+          isOpen={attachmentModalOpen}
+          onClose={() => setAttachmentModalOpen(false)}
+          excludedFileTypes={[AttachmentType.image]}
+          onSave={() => {
+            const newItems = [...items]
+            newItems.push({
+              draggableId: crypto.randomUUID(),
+              htmlId: `component-attachment-${items.length + 1}`,
+              explanation: null,
+              contentType: 'attachment',
+              position: items.length + 1,
+              value: {
+                name: attachmentFilename,
+                type: attachmentFileType
+              }
+            })
+            onChange(newItems)
+            setAttachmentFilename('')
+            setAttachmentFileType(AttachmentType.document)
+          }}
+        />
+      )}
 
       {imageUploadError && (
         <ErrorBanner role="alert" aria-live="polite">
