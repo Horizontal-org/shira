@@ -13,7 +13,7 @@ test('a user can change the space interface language', async ({ page }) => {
 
   // when: the user changes language to spanish
   await page.getByText('English', { exact: true }).click();
-  await page.getByText('Spanish', { exact: true }).click();
+  await page.getByText('Spanish', { exact: true }).first().click();
 
   // then: translated content and the saved language are updated
   await expect(page.getByRole('heading', { name: 'Configuración', exact: true })).toBeVisible();
@@ -23,7 +23,7 @@ test('a user can change the space interface language', async ({ page }) => {
 
   // when: the user restores language to english
   await page.getByText('Español', { exact: true }).click();
-  await page.getByText('Inglés', { exact: true }).click();
+  await page.getByText('Inglés', { exact: true }).first().click();
 
   // then: language returns to english
   await expect(page.getByRole('heading', { name: 'Settings', exact: true })).toBeVisible();
