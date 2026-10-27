@@ -5,7 +5,10 @@
         "fr": "French",
         "cn": "Chinese (Simplified)",
         "ar": "Arabic",
-        "ru": "Russian"
+        "ru": "Russian",
+        "id": "Indonesian",
+        "sw": "Swahili",
+        "fa": "Farsi"
     },
     "beta": {
         "label": "BETA",
