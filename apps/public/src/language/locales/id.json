@@ -12,9 +12,9 @@
             "subtitle": "Kami meminta nama dan alamat email untuk membuat phishing quiz merasa lebih realistis. Informasi ini tidak akan disimpan, dikirim ke server kami, atau dibagikan dengan orang lain.",
             "recommendation": "Agar aman, Anda dapat menggunakan nama palsu dan alamat email, atau menghasilkan yang acak.",
             "name": "Nama",
-            "email": "Surel",
+            "email": "Email",
             "random_button": "Buat nama dan alamat email acak",
-            "next_button": "Berikutnya",
+            "next_button": "Selanjutnya",
             "footer_title": "Login"
         },
         "apps": {
@@ -22,7 +22,7 @@
             "select": "Pilih minimal 1",
             "footer_title": "Login",
             "back_button": "Kembali",
-            "next_button": "Berikutnya"
+            "next_button": "Selanjutnya"
         },
         "fields_of_work": {
             "title": "Area apa yang relevan bagi Anda?",
@@ -64,7 +64,7 @@
                 "unsure": "“Saya tidak tahu”",
                 "correct": "Pekerjaan yang baik!",
                 "incorrect": "Login",
-                "next_button": "Berikutnya",
+                "next_button": "Selanjutnya",
                 "back_button": "Kembali",
                 "next_question": "Pertanyaan Selanjutnya",
                 "see_why": "Sitemap",
