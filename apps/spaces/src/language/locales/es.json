@@ -93,9 +93,9 @@
         "create_question_button": "Crear pregunta",
         "add_from_library_button": "Añadir desde la biblioteca",
         "action_tooltips": {
-            "edit": "Edit",
+            "edit": "Editar",
             "duplicate": "Duplicar",
-            "delete": "Eliminar pregunta",
+            "delete": "Eliminar",
             "more_actions": "Más acciones",
             "submit_as_template": "Presentar como plantilla",
             "export": "Exportar"
@@ -1200,20 +1200,20 @@
             "header_title": "Submit quiz template",
             "language": "Idioma",
             "title": "Presentar su examen como plantilla",
-            "description": "Description",
+            "description": "Descripción",
             "language_hint": "Puede seleccionar más de 1 idioma. (¿No encuentras el idioma que quieres? <support>Solicitar un idioma desaparecido.</support>",
             "description_hint": "Escribe 1-2 líneas para explicar lo que contiene este cuestionario.",
             "terms": "Al revisar esta caja, estoy de acuerdo con los <terms>terms y condiciones de Shira </terms>.",
             "review_notice": "El equipo Shira revisa cuidadosamente cada presentación. Si su plantilla es aceptada, aparecerá en la biblioteca de plantillas. <learnMore>Más información</learnMore>.",
             "language_placeholder": "Idioma",
             "tags_hint": "Seleccione las etiquetas que mejor describen el contenido de esta plantilla.",
-            "description_placeholder": "Description"
+            "description_placeholder": "Descripción"
         },
         "submit_question": {
             "tags": "Etiquetas",
             "title": "Presenta tu pregunta como plantilla",
             "success": "Se ha presentado la plantilla de preguntas.",
-            "description_placeholder": "Description",
+            "description_placeholder": "Descripción",
             "error": "No podíamos presentar la plantilla de preguntas. Por favor, inténtalo de nuevo.",
             "review_notice": "El equipo Shira revisa cuidadosamente cada presentación. Si su plantilla es aceptada, aparecerá en la biblioteca de plantillas. <learnMore>Más información</learnMore>.",
             "header_title": "Submit question template",
@@ -1226,7 +1226,7 @@
             "language_hint": "Puede seleccionar más de 1 idioma. (¿No encuentras el idioma que quieres? <support>Solicitar un idioma desaparecido.</support>",
             "name_hint": "Utilice un nombre descriptivo para ayudar a otros usuarios a encontrar lo que están buscando.",
             "name_placeholder": "Nombre de plantilla de preguntas",
-            "description": "Description",
+            "description": "Descripción",
             "language": "Idioma",
             "description_hint": "Escribe 1-2 líneas para explicar lo que esta pregunta contiene."
         },
