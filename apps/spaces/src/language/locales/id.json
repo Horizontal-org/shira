@@ -473,7 +473,7 @@
             },
             "results": {
                 "description": "Shira secara otomatis melacak respons kuis untuk menyediakan analitik dan laporan kepatuhan. Anda dapat menonaktifkan fitur ini untuk meminimalkan data yang kami kumpulkan tentang Learner Anda. <learnMore>Berpelajari Lebih </learnMore>",
-                "title": "Hasil",
+                "title": "Results",
                 "enable_button": "Hasil yang Dapat Diaktifkan",
                 "disable_button": "Hasil yang Dapat Diaktifkan"
             }
@@ -906,7 +906,7 @@
         "learners_bulk_import": {
             "missing_name": "Missing name",
             "missing_email": "Missing email address",
-            "invalid_email": "Alamat surel tidak valid",
+            "invalid_email": "Alamat surel tidak sah",
             "duplicated_email": "Duplicated email address",
             "already_registered": "Already registered",
             "invalid_file_format": {
