@@ -101,7 +101,7 @@
             "export": "Exportar"
         },
         "use_library_question_button": "Use a question template",
-        "create_note_button": "Crear una",
+        "create_note_button": "Crea nota",
         "columns": {
             "type": {
                 "note": "Nota"
