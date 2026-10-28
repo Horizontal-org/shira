@@ -2,8 +2,8 @@
     "login": {
         "title": "ورود در",
         "subtitle": "برای دسترسی به فضای سفارشی Shira وارد شوید.",
-        "email_placeholder": "ایمیل",
-        "password_placeholder": "گذرواژه",
+        "email_placeholder": "پست الکترونیکی",
+        "password_placeholder": "رمز عبور",
         "reset_password": "رمز عبور خود را فراموش کنید؟?",
         "login_header_button": "ورود",
         "loading_button": "ورود به ...",
@@ -254,7 +254,7 @@
                 }
             },
             "preview": {
-                "tab_title": "پیش‌نمایش",
+                "tab_title": "مرور",
                 "subtitle": "این است که چگونه سوال شما به زبان آموزان، از جمله توضیحات شما نوشته شده است.",
                 "show_explanations": "توضیحات نمایش",
                 "hide_explanations": "توضیحات پنهان",
@@ -305,8 +305,8 @@
             },
             "actions": {
                 "title": "اقدامات",
-                "add_aria_label": "افزودن",
-                "preview_aria_label": "پیش‌نمایش",
+                "add_aria_label": "اضافه کردن",
+                "preview_aria_label": "مرور",
                 "disabled_tooltip": "یک زبان و یک برنامه را برای استفاده از این سوال انتخاب کنید."
             },
             "created_on": "ساخته شده در",
@@ -463,7 +463,7 @@
                 "action": "تغییر آدرس ایمیل"
             },
             "password": {
-                "title": "گذرواژه",
+                "title": "رمز عبور",
                 "last_updated": "آخرین به روز رسانی:",
                 "action": "تغییر رمز عبور"
             },
@@ -485,12 +485,12 @@
         "version": "شما در حال حاضر از شرا vwo استفاده می کنید."
     },
     "buttons": {
-        "ok": "باشه",
-        "cancel": "لغو",
+        "ok": "تایید",
+        "cancel": "لغو کردن",
         "no_thanks": "ممنون",
         "close": "بستن",
         "exit": "خروج از خروجی",
-        "save": "ذخیره‌",
+        "save": "ذخيره",
         "back": "بازگشت",
         "delete": "پاک کردن",
         "next": "بعدی",
@@ -814,7 +814,7 @@
         "create_entity": {
             "question": {
                 "scratch_subtitle": "خودتان سوال را با کنترل کامل بسازید. شما حتی می توانید یک مثال فیشینگ واقعی را کپی و چسباندن کنید.",
-                "create_button": "لغو",
+                "create_button": "لغو کردن",
                 "template_title": "استفاده از یک قالب",
                 "template_subtitle": "بلافاصله با انتخاب از ده ها قالب از قبل ساخته شده، در چند زبان در دسترس باشید. ",
                 "import_title": "یا یک سوال را از یک فایل وارد کنید",
@@ -825,7 +825,7 @@
             "quiz": {
                 "subtitle": "انتخاب کنید که چگونه می خواهید آزمون خود را ایجاد کنید.",
                 "title": "ایجاد آزمون های جدید",
-                "create_button": "لغو",
+                "create_button": "لغو کردن",
                 "scratch_title": "از ابتدا شروع کنید",
                 "template_subtitle": "بلافاصله با انتخاب از ده ها قالب از قبل ساخته شده، در چند زبان در دسترس باشید. ",
                 "scratch_subtitle": "خودتان را با کنترل کامل بسازید. شما حتی می توانید یک مثال فیشینگ واقعی را کپی و چسباندن کنید.",
@@ -1092,7 +1092,7 @@
             "columns": {
                 "app": "App",
                 "actions": "اقدامات",
-                "preview": "پیش‌نمایش",
+                "preview": "مرور",
                 "type": "نوغ",
                 "language": "زبان",
                 "question_name": "نام پرسش"
@@ -1272,7 +1272,7 @@
         "header_character_limit_tooltip": "یک یا چند رشته از محدودیت شخصیت فراتر می رود.",
         "breadcrumbs": {
             "content": "محتوای Note",
-            "preview": "پیش‌نمایش"
+            "preview": "مرور"
         },
         "note_info": {
             "note_name": {
