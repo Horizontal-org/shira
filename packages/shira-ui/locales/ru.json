@@ -18,7 +18,7 @@
         "attachments_many": "{{count}} вложения",
         "scanned_by_google": "Проверено на вирусы системой Gmail",
         "encryption": "Стандартное шифрование (TLS)",
-        "learn_more": "Подробнее…",
+        "learn_more": "Узнать больше",
         "safer_with_google": "Сафер с Google",
         "attachment_scanning_description": "Чтобы защитить ваш почтовый ящик, Gmail блокирует приложения при обнаружении вредоносного ПО. Вы все еще должны загружать приложения только от людей, которым доверяете.",
         "add_to_drive": "Добавить в привод",
@@ -54,9 +54,9 @@
         "home": "Главная",
         "help": "Помощь",
         "delete": "Удалить",
-        "archive": "Архив",
+        "archive": "Архивирование",
         "search": "Поиск",
-        "contact": "Контакты"
+        "contact": "Contact"
     },
     "whatsapp": {
         "contact_5_name": "Аннабель Карпентер",
@@ -89,7 +89,7 @@
         "view_contact_information": "Просмотр контактной информации",
         "contact_info": "Контактная информация",
         "back_to_chat": "Назад в чат",
-        "contact": "Контакты",
+        "contact": "Contact",
         "no_phone_number": "Номер телефона",
         "contact_actions": "Контактные действия",
         "voice": "Голос",
@@ -97,7 +97,7 @@
         "search": "Поиск",
         "mute_notifications": "Mute",
         "off": "Выкл",
-        "no": "Нет",
+        "no": "No",
         "default": "По умолчанию",
         "chat_theme": "Тема",
         "save_to_downloads": "Скачать",
@@ -185,7 +185,8 @@
         "file_size": "24 КБ",
         "time": "13 ЧАС. 03 МИН",
         "voice_message": "Голосовое сообщение",
-        "voice_duration": "0:02"
+        "voice_duration": "0:02",
+        "photo": "Фото"
     },
     "instagram": {
         "account_name": "You",
