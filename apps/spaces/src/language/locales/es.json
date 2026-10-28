@@ -8,7 +8,7 @@
         "reset_password": "¿Olvidaste tu contraseña?",
         "login_header_button": "Iniciar Sesión",
         "loading_button": "Iniciando sesión...",
-        "error_message": "Error: Tu correo electrónico o contraseña son incorrectas."
+        "error_message": "Error: Su dirección de correo electrónico o contraseña es incorrecta."
     },
     "beta": {
         "message": "Shira aún está en desarrollo y puede que experimentes problemas.",
@@ -29,9 +29,9 @@
         "subtitle": "Administra tus cuestionarios aquí, incluyendo crear, publicar, despublicar y eliminar cuestionarios.",
         "create_quiz_button": "Crear nuevo cuestionario",
         "create_limit_reached": "Actualiza tu plan para crear más cuestionarios.",
-        "use_a_quiz_template_button": "Use a quiz template",
+        "use_a_quiz_template_button": "Use una plantilla de preguntas",
         "use_template_button": "",
-        "empty_state": "You don’t have any quizzes yet. Click on the “Create new quiz” button to get started."
+        "empty_state": "Aún no tienes preguntas. Haga clic en el botón “Crear nuevo cuestionario” para comenzar."
     },
     "quizzes": {
         "message": "",
@@ -62,9 +62,9 @@
             "copy_link": "Copiar enlace del cuestionario",
             "disabled_tooltip": "Crea al menos 1 pregunta para copiar el enlace de tu cuestionario.",
             "delete": "Eliminar",
-            "submit_as_template": "Submit as template",
-            "copy_link_disabled_tooltip": "Crea al menos 1 pregunta para publicar tu cuestionario.",
-            "submit_as_template_disabled_tooltip": "Crea al menos 1 pregunta para publicar tu cuestionario."
+            "submit_as_template": "Presentar como plantilla",
+            "copy_link_disabled_tooltip": "Cree al menos 1 pregunta para copiar su enlace de prueba.",
+            "submit_as_template_disabled_tooltip": "Cree al menos 1 pregunta para enviar su cuestionario como plantilla."
         },
         "tabs": {
             "questions": "Preguntas",
@@ -78,14 +78,14 @@
         },
         "settings": {
             "assessment": {
-                "description": "Learners test their phishing detection skills without feedback or explanations to measure their actual performance level.",
-                "title": "Assessment mode"
+                "description": "Los estudiantes prueban sus habilidades de detección de phishing sin comentarios o explicaciones para medir su nivel de rendimiento real.",
+                "title": "Modo de evaluación"
             },
             "learning": {
-                "title": "Learning mode",
-                "description": "Learners receive immediate feedback and explanations after each answer to help them improve their phishing detection skills."
+                "title": "Modo de aprendizaje",
+                "description": "Los estudiantes reciben comentarios y explicaciones inmediatas después de cada respuesta para ayudarles a mejorar sus habilidades de detección de phishing."
             },
-            "title": "Quiz mode"
+            "title": "Modo Quiz"
         }
     },
     "questions_tab": {
@@ -96,12 +96,12 @@
             "edit": "Edit",
             "duplicate": "Duplicar",
             "delete": "Eliminar pregunta",
-            "more_actions": "Más opciones",
-            "submit_as_template": "Submit as template",
+            "more_actions": "Más acciones",
+            "submit_as_template": "Presentar como plantilla",
             "export": "Exportar"
         },
-        "use_library_question_button": "Use a question template",
-        "create_note_button": "Create note",
+        "use_library_question_button": "Use una plantilla de preguntas",
+        "create_note_button": "Crear nota",
         "columns": {
             "type": {
                 "note": "Nota"
@@ -126,7 +126,7 @@
                 "tab_title": "Info de la pregunta",
                 "question_name": {
                     "title": "Nombre de la pregunta",
-                    "subtitle": "Este nombre solo será visible para ti, para ayudarte a recordar sobre qué es esta pregunta",
+                    "subtitle": "Este nombre sólo será visible para ti, para ayudarte a recordar lo que es esta pregunta",
                     "question_name_placeholder": "Nombre de la pregunta"
                 },
                 "phishing": {
@@ -139,8 +139,8 @@
                 },
                 "editor": {
                     "title": "Editor",
-                    "simple": "Simple editor",
-                    "advanced": "Advanced HTML editor"
+                    "simple": "Editor sencillo",
+                    "advanced": "Editor HTML avanzado"
                 }
             },
             "content": {
@@ -195,7 +195,7 @@
                     "subtitle": "En el cuestionario, este enlace aparecerá cliqueable, pero por motivos de seguridad, hacer clic en él no abrirá la URL.",
                     "placeholder": "Enlace URL"
                 },
-                "explanation_tooltip": "Selecciona algún texto o imagen para añadir una explicación."
+                "explanation_tooltip": "Seleccione un texto para agregar una explicación."
             },
             "preview": {
                 "tab_title": "Previsualizar",
@@ -208,19 +208,20 @@
                 "aria_label": "Previsualizar pregunta"
             }
         },
-        "header_required_tooltip": "Required fields cannot be left blank",
-        "header_character_limit_tooltip": "One or more fields exceed the character limit.",
+        "header_required_tooltip": "Los campos obligatorios no se pueden dejar en blanco",
+        "header_character_limit_tooltip": "Uno o más campos exceden el límite de caracteres.",
         "html_editor": {
-            "title": "HTML source",
-            "fix_errors": "Fix HTML errors before continuing.",
+            "title": "Fuente HTML",
+            "fix_errors": "Corregir errores HTML antes de continuar.",
             "errors": {
-                "syntax": "Check the HTML near the highlighted position"
-            }
+                "syntax": "Compruebe el HTML cerca de la posición resaltada"
+            },
+            "explanation_tooltip": "Seleccione texto o coloque el cursor en una etiqueta HTML para agregar una explicación."
         }
     },
     "question_library": {
         "message": "",
-        "tab_header_title": "Añadir una pregunta desde la biblioteca",
+        "tab_header_title": "Seleccione una plantilla de preguntas",
         "title": "Biblioteca de preguntas",
         "subtitle": "Selecciona una pregunta de la lista a continuación para añadirla a tu cuestionario. Una vez que la hayas añadido a tu cuestionario, puedes editarla para personalizarla completamente, incluyendo cambiar el texto y las explicaciones.",
         "columns": {
@@ -253,28 +254,28 @@
                 "preview_aria_label": "Previsualizar",
                 "disabled_tooltip": "Seleccionar un idioma y una app para usar esta pregunta."
             },
-            "created_on": "Crear una",
-            "creator": "Creator"
+            "created_on": "Creado en",
+            "creator": "Creador"
         },
         "filters_panel": {
-            "selected_count": "{{count}} selected",
-            "tag": "Etiquetas",
+            "selected_count": "seleccionado",
+            "tag": "Tag",
             "apps": "Aplicaciones",
             "type": "Tipo",
-            "creator": "Creator",
+            "creator": "Creador",
             "language": "Idioma",
-            "clear_all": "Borrar todos"
+            "clear_all": "Despejado todo"
         },
         "sort_options": {
-            "question_name_desc": "Nombre de la pregunta",
-            "question_name_asc": "Nombre de la pregunta",
+            "question_name_desc": "Nombre de la pregunta (Z-A)",
+            "question_name_asc": "Nombre de la pregunta (A-Z)",
             "newest_to_oldest": "Del más nuevo al más viejo",
             "oldest_to_newest": "Del más viejo al más nuevo"
         },
-        "search_results_plural": "{{count}} results for \"{{searchTerm}}\"",
+        "search_results_plural": "{{count}} resultados para \"{{searchTerm}}\"",
         "sort_by": "Ordenar por",
-        "search_placeholder": "Search question names",
-        "search_results": "{{count}} result for \"{{searchTerm}}\"",
+        "search_placeholder": "Buscar nombres de preguntas",
+        "search_results": "Resultado de \"{{searchTerm}\"",
         "filters": "Filtros"
     },
     "results_tab": {
@@ -316,8 +317,8 @@
             }
         },
         "disabled": {
-            "message": "There is no data available because Results have been disabled. You can change this anytime in your space Settings.",
-            "go_to_settings": "Ir a las configuraciones"
+            "message": "No hay datos disponibles porque los resultados han sido deshabilitados. Puedes cambiar esto en cualquier momento de tu espacio Ajustes.",
+            "go_to_settings": "Ir a Ajustes"
         }
     },
     "support": {
@@ -325,13 +326,13 @@
         "title": "Soporte",
         "subtitle": "Si necesitas cualquier ayuda, incluso eliminar tu cuenta, por favor escribe al equipo de Shira a contact@wearehorizontal.org",
         "help_center": {
-            "title": "centro de ayuda",
-            "description": "Visit our Help Center to learn more about features and how to use Shira to train your team or community.",
-            "cta": "Go to Help Center"
+            "title": "Centro de ayuda",
+            "description": "Visite nuestro Centro de Ayuda para aprender más sobre las características y cómo utilizar Shira para entrenar a su equipo o comunidad.",
+            "cta": "Vaya al Centro de Ayuda"
         },
         "contact": {
             "title": "Contáctanos",
-            "description": "If you need any support please email us at"
+            "description": "Si necesita algún soporte por favor envíenos un correo electrónico a"
         }
     },
     "buttons": {
@@ -468,7 +469,7 @@
                 "document": "Documento",
                 "other": "Otro"
             },
-            "explanation": "Selecting the correct file type lets Shira display a realistic attachment icon in the quiz. For added realism, consider including a file extension in the filename (for example, .pdf or .zip)."
+            "explanation": "Seleccionar el tipo de archivo correcto permite a Shira mostrar un icono de acceso realista en el cuestionario. Para el realismo añadido, considere incluir una extensión de archivo en el nombre de archivo (por ejemplo, .pdf o .zip)."
         },
         "variables_modal": {
             "title": "Variables",
@@ -555,13 +556,13 @@
                 "customization": "Personalización",
                 "access_control": "Control de acceso",
                 "compliance": "Cumplimiento",
-                "custom_support": "Soporte personalizado",
+                "custom_support": "Atención al cliente",
                 "rows": {
                     "hosting": "Alojamiento",
                     "admin_dashboard": "Panel de Admin",
                     "number_of_admins": "Cantidad de admins",
                     "customizable_questions": "Preguntas del cuestionario completamente personalizables",
-                    "question_library": "Acceso a la biblioteca de preguntas",
+                    "question_library": "Acceso a las plantillas de la pregunta",
                     "custom_quizzes": "Número de cuestionarios personalizados",
                     "apps_available": "Apps disponibles",
                     "public_quizzes": "Cuestionarios públicos",
@@ -571,8 +572,8 @@
                     "analysis_tools": "Herramientas de análisis y de cumplimiento",
                     "tailor_made_training": "Capacitación personalizada a las personas usuarias",
                     "priority_support": "Soporte",
-                    "phishing_readiness_assessment": "Phishing Readiness Assessment",
-                    "preparedness_report": "Preparedness Report & Action Plan"
+                    "phishing_readiness_assessment": "Evaluación de la lectura de Phishing",
+                    "preparedness_report": "Informe de Preparación \" Plan de Acción"
                 },
                 "values": {
                     "cloud": "Cloud",
@@ -581,8 +582,8 @@
                     "unlimited": "Ilimitado",
                     "up_to_three_custom_quizzes": "Hasta 3 cuestionarios personalizados",
                     "available_upon_request": "Disponible a solicitud",
-                    "three_business_day_response_time": "Tiempo de respuesta de 3 días hábiles",
-                    "one_business_day_response_time": "Tiempo de respuesta de hasta 1 día hábil",
+                    "three_business_day_response_time": "Apoyo prioritario",
+                    "one_business_day_response_time": "Apoyo empresarial dedicado",
                     "unlimited_coming_soon": "Unlimited (coming soon)"
                 },
                 "tooltips": {
@@ -596,12 +597,12 @@
                     "basic_analytics": "Monitorea resultados a nivel de cuestionario",
                     "detailed_analytics": "Monitorea resultados en niveles de estudiante y pregunta",
                     "analysis_tools": "Exporta los resultados de tu equipo a informes CSV o PDF",
-                    "question_library": "Accede a decenas de plantillas de preguntas predefinidas",
+                    "question_library": "Comenzar en minutos con docenas de plantillas de preguntas y preguntas",
                     "custom_quizzes": "La cantidad de cuestionarios que puedes crear en tu Espacio",
                     "tailor_made_training": "Taller de desarrollo de habilidades personalizado por el equipo de Shira para tu organización",
                     "priority_support": "Tiempo de respuesta rápido para garantizar una experiencia fluida",
-                    "preparedness_report": "Concise report highlighting top risks and recommended training modules and timelines",
-                    "phishing_readiness_assessment": "Snapshot of current organizational vulnerability to phishing attacks"
+                    "preparedness_report": "Informe conciso destacando los principales riesgos y módulos de capacitación recomendados y plazos",
+                    "phishing_readiness_assessment": "Captura de la vulnerabilidad organizativa actual a los ataques de phishing"
                 }
             },
             "plans": {
@@ -614,7 +615,7 @@
                 "pro": {
                     "title": "Pro",
                     "description": "Experimenta todo el poder de Shira",
-                    "price": "100 USD/mes",
+                    "price": "100 dólares/mes",
                     "cta": "Iniciar prueba gratuita de 14 días"
                 },
                 "enterprise": {
@@ -645,82 +646,82 @@
         },
         "add_quiz_from_template": {
             "input_label": "Nombre del cuestionario",
-            "title": "Give your new quiz a name",
-            "subtitle": "The quiz name will be visible in your Space and to learners when they take it."
+            "title": "Dale un nombre a tu nueva prueba",
+            "subtitle": "El nombre del cuestionario será visible en su Espacio y para los estudiantes cuando lo tomen."
         },
         "export": {
             "quiz": {
-                "title": "Salir del cuestionario",
-                "error": "Hubo un problema al eliminar a la persona estudiante. Si el problema persiste, <1>contáctanos</1>.",
-                "file_type": "Your quiz will be exported as a .zip file that can be re-imported into a Shira space.",
-                "sharing_implications": "If you will share your quiz with others, you may want to remove any sensitive information it contains before exporting it. <1>Learn more</1>"
+                "title": "Prueba de exportación",
+                "error": "Hubo un problema exportando el cuestionario. Si este problema persiste,  persist1⁄4]contact us made/1.",
+                "file_type": "Su examen será exportado como un archivo .zip que puede ser reimportado en un espacio Shira.",
+                "sharing_implications": "Si va a compartir su cuestionario con otros, es posible que desee eliminar cualquier información sensible que contenga antes de exportarlo"
             },
             "question": {
-                "title": "Export question",
-                "error": "Hubo un problema al eliminar a la persona estudiante. Si el problema persiste, <1>contáctanos</1>.",
-                "file_type": "Your question will be exported as a .zip file that can be re-imported into a Shira space.",
-                "sharing_implications": "If you will share your question with others, you may want to remove any sensitive information it contains before exporting it. <1>Learn more</1>"
+                "title": "Cuestión de exportación",
+                "error": "Hubo un problema exportando la cuestión. Si este problema persiste,  persist1⁄4]contact us made/1.",
+                "file_type": "Su pregunta será exportada como un archivo .zip que puede ser reimportado en un espacio Shira.",
+                "sharing_implications": "Si usted compartirá su pregunta con otros, es posible que desee eliminar cualquier información sensible que contenga antes de exportarla"
             },
-            "exporting": "Exporting..."
+            "exporting": "Exportando..."
         },
         "create_entity": {
             "quiz": {
                 "title": "Crear nuevo cuestionario",
-                "subtitle": "Choose how you’d like to create your quiz.",
-                "template_title": "Use a template",
-                "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
-                "scratch_title": "Start from scratch",
-                "scratch_subtitle": "Create the quiz yourself, with full control. You can even copy and paste a real-life phishing example.",
-                "import_title": "Or import a quiz from a file",
+                "subtitle": "Elige cómo te gustaría crear tu cuestionario.",
+                "template_title": "Usar una plantilla",
+                "template_subtitle": "Comenzar inmediatamente eligiendo entre docenas de plantillas preconstruidas, disponibles en varios idiomas. ",
+                "scratch_title": "Empieza desde cero",
+                "scratch_subtitle": "Crea el examen tú mismo, con control completo. Incluso puede copiar y pegar un ejemplo de phishing real-life.",
+                "import_title": "O importar una prueba de un archivo",
                 "create_button": "Cancelar"
             },
             "question": {
-                "title": "Crear una nueva pregunta",
-                "subtitle": "Choose how you’d like to create your question.",
-                "template_title": "Use a template",
-                "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
-                "scratch_title": "Start from scratch",
-                "scratch_subtitle": "Create the question yourself, with full control. You can even copy and paste a real-life phishing example.",
-                "import_title": "Or import a question from a file",
+                "title": "Crear nueva pregunta",
+                "subtitle": "Elige cómo te gustaría crear tu pregunta.",
+                "template_title": "Usar una plantilla",
+                "template_subtitle": "Comenzar inmediatamente eligiendo entre docenas de plantillas preconstruidas, disponibles en varios idiomas. ",
+                "scratch_title": "Empieza desde cero",
+                "scratch_subtitle": "Cree la pregunta usted mismo, con pleno control. Incluso puede copiar y pegar un ejemplo de phishing real-life.",
+                "import_title": "O importar una pregunta de un archivo",
                 "create_button": "Cancelar"
             }
         },
         "import": {
             "question": {
-                "title": "Import question",
-                "subtitle": "Select the file of the question you want to import. To prevent errors, we recommend not modifying the content of the file. <0>Learn more</0>.",
-                "error": "Hubo un problema al invitar a la persona estudiante. Si el problema persiste, <1>contáctanos</1>.",
-                "drag_title": "Drag and drop to upload your question file here",
-                "file_type": "Tipos de activos aceptados: solo .csv",
-                "file_size": "Tamaño máximo de archivo: 10 MB",
-                "upload_success": "Your file will not be imported.",
-                "button": "Import question",
-                "importing": "Importing..."
+                "title": "Cuestión de importancia",
+                "subtitle": "Seleccione el archivo de la pregunta que desea importar. Para evitar errores, le recomendamos que no modifique el contenido del archivo.",
+                "error": "Había un problema importando la cuestión. Si este problema persiste,  persist1⁄4]contact us made/1.",
+                "drag_title": "Arrastre y suelte aquí sus archivos de preguntas",
+                "file_type": "Tipo de archivo aceptado: .zip solamente",
+                "file_size": "Tamaño máximo del archivo: 50 MB",
+                "upload_success": "Su archivo está listo para ser importado.",
+                "button": "Cuestión de importancia",
+                "importing": "Importando..."
             },
             "quiz": {
-                "title": "Import quiz",
-                "subtitle": "Select the file of the quiz you want to import. To prevent errors, we recommend not modifying the content of the file. <0>Learn more</0>.",
-                "error": "Hubo un problema al invitar a la persona estudiante. Si el problema persiste, <1>contáctanos</1>.",
-                "drag_title": "Arrastra y suelta tu hoja de cálculos rellenada aquí",
-                "file_type": "Tipos de activos aceptados: solo .csv",
-                "file_size": "Tamaño máximo de archivo: 10 MB",
-                "upload_success": "Your file will not be imported.",
-                "button": "Import quiz",
-                "importing": "Importing..."
+                "title": "Prueba de importación",
+                "subtitle": "Seleccione el archivo del cuestionario que desea importar. Para evitar errores, le recomendamos que no modifique el contenido del archivo.",
+                "error": "Había un problema importando el examen. Si este problema persiste,  persist1⁄4]contact us made/1.",
+                "drag_title": "Arrastre y suelte para subir su archivo de preguntas aquí",
+                "file_type": "Tipo de archivo aceptado: .zip solamente",
+                "file_size": "Tamaño máximo del archivo: 200 MB",
+                "upload_success": "Su archivo está listo para ser importado.",
+                "button": "Prueba de importación",
+                "importing": "Importando..."
             }
         },
         "update_results_enabled": {
-            "title_enable": "Enable results?",
-            "title_disable": "Disable results?",
-            "content_enable": "We will start tracking your user quiz information",
-            "content_disable": "We will stop tracking your user quiz information"
+            "title_enable": "¿Pueden obtener resultados?",
+            "title_disable": "¿Resultados débiles?",
+            "content_enable": "Los resultados facilitadores significan que Shira empezará a recoger respuestas de preguntas para cualquier nuevo examen realizado por tus alumnos.",
+            "content_disable": "Los resultados discrepantes significan que Shira dejará de recoger respuestas de preguntas para cualquier nuevo examen realizado por tus alumnos."
         },
         "delete_note": {
-            "title": "Are you sure you want to delete \"{{note_name}}\"?",
-            "message": "Deleting this note is permanent and cannot be undone."
+            "title": "¿Estás seguro de que quieres eliminar \"{note name\"?",
+            "message": "Eliminar esta nota es permanente y no se puede deshacer."
         },
         "exit_note": {
-            "title": "Are you sure you want to exit the note?",
+            "title": "¿Seguro que quieres salir de la nota?",
             "message": "Cualquier cambio no guardado se perderá."
         }
     },
@@ -755,10 +756,10 @@
             },
             "file_too_large": {
                 "title": "Error: El archivo es demasiado grande",
-                "subtitle": "Por favor sube un CSV que sea de 10 MB o más pequeño y vuelve a intentar."
+                "subtitle": "Por favor, suba un CSV que es 10 MB o más pequeño e inténtelo de nuevo"
             }
         },
-        "invalid_email_update": "Esta dirección de correo electrónico ya está asociada con un espacio Shira.",
+        "invalid_email_update": "Esta dirección de correo electrónico ya está asociada con un espacio Shira",
         "duplicate_quiz_fail": "Fallo al duplicar el cuestionario",
         "quiz_name_already_exists": "El nombre del cuestionario ya existe. Por favor utiliza uno diferente.",
         "duplicate_question_fail": "Fallo al duplicar pregunta",
@@ -784,28 +785,28 @@
         "image_too_large": "El tamaño de la image supera los {{size}}MB. Por favor vuelve a intentar con una imagen más pequeña.",
         "reset_password_confirmation_mismatch": "La confirmación de contraseña no coincide.",
         "reset_password_weak": "La contraseña debe tener al menos 8 caracteres.",
-        "character_limit_error": "Character limit exceeded",
-        "template_submission_failed": "Hubo un problema al invitar a la persona estudiante. Si el problema persiste, <1>contáctanos</1>.",
-        "export_question_fail": "Failed to export question",
+        "character_limit_error": "Limitación de caracteres excedida",
+        "template_submission_failed": "Hubo un problema en la presentación de la plantilla. Si este problema persiste,  persist1⁄4]contact us made/1.",
+        "export_question_fail": "Falta para la cuestión de la exportación",
         "entity_import": {
             "invalid_formatting": {
-                "title": "Error: Formato de archivo inválido",
-                "subtitle": "Por favor asegúrate de que el archivo está en formato CSV y vuelve a intentar."
+                "title": "Error: Archivo inválido",
+                "subtitle": "Por favor, asegúrese de que el archivo es un .zip que contiene los datos del cuestionario, metadatos y activos."
             },
             "invalid_zip_file": {
                 "title": "Error: Tu archivo no pudo ser procesado",
-                "subtitle": "No pudimos procesar el archivo. Por favor vuelve a intentar."
+                "subtitle": "No pudimos procesar el archivo. Por favor, inténtalo de nuevo."
             },
             "invalid_metadata": {
-                "title": "Error: Formato de archivo inválido",
-                "subtitle": "This file's contents don't match the expected question format. Please make sure not to modify the file and try again."
+                "title": "Error: Archivo inválido",
+                "subtitle": "Por favor, asegúrese de que el archivo es un .zip que contiene los datos del cuestionario, metadatos y activos."
             },
             "file_too_large": {
                 "title": "Error: El archivo es demasiado grande",
-                "subtitle": "Please make sure your file is within the 50 MB limit and try again."
+                "subtitle": "Por favor, asegúrese de que su archivo está dentro del límite de 50 MB e inténtelo de nuevo."
             }
         },
-        "edit_question_failed": "Error editing question",
+        "edit_question_failed": "Pregunta de edición de errores",
         "delete_note_fail": "Failed to delete note",
         "duplicate_note_fail": "Failed to duplicate note"
     },
@@ -837,12 +838,12 @@
         "password_updated": "Tu contraseña se actualizó exitosamente.",
         "email_updated": "Tu correo electrónico se actualizó exitosamente.",
         "quiz_assessment_mode_updated": "El cuestionario ha sido actualizado",
-        "question_imported": "La pregunta ha sido eliminada",
-        "quiz_imported": "El cuestionario ha sido actualizado",
-        "note_created": "The note has been created",
-        "note_deleted": "The note has been deleted",
-        "note_updated": "The note has been updated",
-        "note_duplicated": "The note has been duplicated"
+        "question_imported": "La cuestión se ha importado",
+        "quiz_imported": "El examen ha sido importado",
+        "note_created": "La nota ha sido creada",
+        "note_deleted": "Se ha suprimido la nota",
+        "note_updated": "Se ha actualizado la nota",
+        "note_duplicated": "La nota se ha duplicado"
     },
     "loading_messages": {
         "message": "",
@@ -881,8 +882,8 @@
             "cibersecurity": "Un proveedor de servicios de ciberseguridad",
             "non_profit": "Una organización sin fines de lucro",
             "individual": "Una persona individual (consultora, docente, etc)",
-            "educational": "An educational organization",
-            "healthcare": "A healthcare organization"
+            "educational": "Una organización educativa",
+            "healthcare": "Una organización sanitaria"
         },
         "button_sign_up": "Registrarse",
         "validation": {
@@ -922,7 +923,7 @@
         "assign_dialog": {
             "registered_title": "Estudiantes con registro",
             "registered_description": "Selecciona una o más estudiantes para asignarles este cuestionario.",
-            "registered_description_2": "Puedes gestionar personas estudiantes con registro e invitar nuevas en la <0>sección Estudiantes</0>.",
+            "registered_description_2": "La lista de abajo sólo muestra a los alumnos que han completado su registro. Usted puede administrar los estudiantes registrados e invitar a nuevos en la sección \"Escritos\" / 0 título o leer acerca de \"Escritos 1\").",
             "assign_button": "Asignar a estudiantes",
             "assign_title": "Asignar \"{{quiz_title}}\" a estudiantes",
             "no_learners": "No hay estudiantes con registro en tu espacio.",
@@ -1033,32 +1034,32 @@
         "message": "",
         "title": "Espacios Shira",
         "subtitle": "Después de que crees tu espacio, podrás crear cuestionarios y preguntas personalizadas que sean relevantes específicamente para tu contexto y comunidades.",
-        "form_title": "Crear un nuevo espacio",
+        "form_title": "Crea tu espacio",
         "form_description": "Completa el formulario a continuación para crear tu espacio Shira.",
         "beta_lead": "Los espacios Shira están actualmente en fase beta cerrada. Para obtener la frase de acceso necesaria para unirte a la beta, envíanos un correo electrónico a",
         "checking_invitation": "Verificando invitación...",
-        "email_label": "Confirma tu correo electrónico",
-        "password_label": "La contraseña es obligatoria",
-        "confirm_password_label": "Confirmar contraseña nueva (obligatorio)",
+        "email_label": "Confirme su dirección de correo electrónico (requerido)",
+        "password_label": "Contraseña (necesitada)",
+        "confirm_password_label": "Confirme la contraseña (requerido)",
         "button_create": "Crear un nuevo espacio",
         "validation": {
             "email_required": "El email es obligatorio.",
             "password_required": "La contraseña es obligatoria.",
             "password_min_length": "La contraseña debe tener al menos 8 caracteres.",
             "passwords_mismatch": "Las contraseñas no coinciden.",
-            "confirm_password_required": "Por favor confirma tu contraseña",
-            "privacy_policy_required": "Please accept the privacy policy."
+            "confirm_password_required": "Por favor, confirme su contraseña.",
+            "privacy_policy_required": "Por favor acepte la política de privacidad."
         },
         "errors": {
             "create_space_failed": "Ocurrió un error al crear tu espacio. Por favor vuelve a intentar."
         },
         "success": {
             "title": "¡Todo listo!",
-            "description": "Your space was successfully created. Log in to start creating quizzes.",
-            "button": "Go to space"
+            "description": "Tu espacio fue creado con éxito. Inicia sesión para empezar a crear cuestionarios.",
+            "button": "Vaya al espacio"
         },
-        "privacy_consent_aria_label": "Agree to Shira's privacy policy",
-        "privacy_consent_label": "I agree to Shira's <0>privacy policy</0>."
+        "privacy_consent_aria_label": "De acuerdo con la política de privacidad de Shira",
+        "privacy_consent_label": "Estoy de acuerdo con la política de Shira."
     },
     "settings": {
         "message": "",
@@ -1075,14 +1076,14 @@
                 "action": "Cambiar contraseña"
             },
             "language": {
-                "description": "Choose the language for your Shira space. This won’t change the language of quizzes or questions you share with learners, only the space interface.",
-                "title": "Space language"
+                "description": "Elige el idioma para tu espacio Shira. Esto no cambiará el lenguaje de preguntas o preguntas que compartes con los estudiantes, sólo la interfaz espacial.",
+                "title": "Lenguaje espacial"
             },
             "results": {
                 "title": "Resultados",
-                "description": "Shira automatically tracks quiz responses to provide analytics and compliance reporting. You can disable this feature to minimize the data we collect about your Learners. <learnMore>Learn More</learnMore>",
-                "enable_button": "Enable Results",
-                "disable_button": "Disable Results"
+                "description": "Shira rastrea automáticamente las respuestas del cuestionario para proporcionar análisis y información de cumplimiento. Puede deshabilitar esta función para minimizar los datos que recopilamos sobre sus Aprendices. <learnMore>Más información</learnMore>",
+                "enable_button": "Lograr resultados",
+                "disable_button": "Resultados deficientes"
             }
         },
         "tabs": {
@@ -1100,7 +1101,7 @@
             "all_done": "¡Todo listo!",
             "success_message": "Tu pago fue exitoso. Estamos activando tu suscripción ahora."
         },
-        "version": "You are currently using Shira v{{version}}."
+        "version": "Actualmente estás usando Shira v{version}."
     },
     "banner": {
         "label": "NOTA",
@@ -1108,17 +1109,17 @@
     },
     "quiz_library": {
         "filters_panel": {
-            "creator": "Creator",
-            "all_creators": "All creators",
-            "tag": "Etiquetas",
-            "selected_count": "{{count}} selected",
-            "clear_all": "Borrar todos",
-            "all_tags": "All tags",
-            "all_languages": "All languages",
+            "creator": "Creador",
+            "all_creators": "Todos los creadores",
+            "tag": "Tag",
+            "selected_count": "seleccionado",
+            "clear_all": "Despejado todo",
+            "all_tags": "Todas las etiquetas",
+            "all_languages": "Todos los idiomas",
             "language": "Idioma"
         },
         "preview": {
-            "created_on": "Crear una",
+            "created_on": "Creado en",
             "columns": {
                 "app": "Aplicación",
                 "actions": "Acciones",
@@ -1127,41 +1128,41 @@
                 "language": "Idioma",
                 "question_name": "Nombre de la pregunta"
             },
-            "preview_full_quiz": "Preview full quiz",
-            "no_questions": "No questions found for this quiz template.",
+            "preview_full_quiz": "Avance del examen completo",
+            "no_questions": "No se han encontrado preguntas para esta plantilla.",
             "tags": "Etiquetas",
-            "back_to_quiz_template": "Back to quiz template",
+            "back_to_quiz_template": "Volver a la plantilla de preguntas",
             "languages": "Idiomas",
-            "creator": "Creator",
-            "subtitle": "You can preview the full quiz or each question individually, before using the quiz as a template to create your own.",
-            "use_template": "Use template"
+            "creator": "Creador",
+            "subtitle": "Usted puede previsualizar el examen completo o cada pregunta individualmente, antes de utilizar el examen como una plantilla para crear su propio.",
+            "use_template": "Use plantilla"
         },
         "filters": "Filtros",
-        "use_template": "Use template",
-        "search_results_plural": "{{count}} results for \"{{searchTerm}}\"",
+        "use_template": "Use plantilla",
+        "search_results_plural": "{{count}} resultados para \"{{searchTerm}}\"",
         "empty_search": {
-            "subtitle": "Try changing keywords or clearing your filters to see more results.",
-            "title": "Sorry, we couldn't find anything"
+            "subtitle": "Intenta cambiar palabras clave o limpiar tus filtros para ver más resultados.",
+            "title": "Lo siento, no pudimos encontrar nada"
         },
-        "report_issue": "Report an issue",
-        "search_results": "{{count}} result for \"{{searchTerm}}\"",
-        "header_title": "Select a quiz template",
-        "subtitle": "Select a quiz from the list below to use it as a template for your new quiz.",
+        "report_issue": "Informe una cuestión",
+        "search_results": "Resultado de \"{{searchTerm}\"",
+        "header_title": "Seleccione una plantilla de preguntas",
+        "subtitle": "Seleccione un cuestionario de la lista de abajo para utilizarlo como plantilla para su nuevo examen.",
         "sort_options": {
             "quiz_name_asc": "Quiz name (A-Z)",
             "oldest_to_newest": "Del más viejo al más nuevo",
             "quiz_name_desc": "Quiz name (Z-A)",
             "newest_to_oldest": "Del más nuevo al más viejo"
         },
-        "search_placeholder": "Search quiz names",
-        "title": "Quiz library",
+        "search_placeholder": "Búsqueda de nombres de preguntas",
+        "title": "Quizteca",
         "sort_by": "Ordenar por",
-        "view_template": "View template"
+        "view_template": "Ver plantilla"
     },
     "library": {
         "empty_search": {
-            "subtitle": "Try changing keywords or clearing your filters to see more results.",
-            "title": "Sorry, we couldn't find anything"
+            "subtitle": "Intenta cambiar palabras clave o limpiar tus filtros para ver más resultados.",
+            "title": "Lo siento, no pudimos encontrar nada"
         },
         "cards": {
             "questions": {
@@ -1171,8 +1172,8 @@
                 "title": "Cuestionarios"
             }
         },
-        "title": "Library",
-        "subtitle": "Get started right away with ready-made templates."
+        "title": "Biblioteca",
+        "subtitle": "Comenzar inmediatamente con plantillas preparadas."
     },
     "sidebar": {
         "quizzes": "Cuestionarios",
@@ -1189,94 +1190,94 @@
         },
         "submit_quiz": {
             "tags": "Etiquetas",
-            "tags_placeholder": "Etiquetas",
-            "name_hint": "Use a descriptive name to help other users find what they're looking for.",
-            "success": "The quiz template has been submitted.",
-            "name": "Quiz template name",
-            "error": "We couldn't submit the quiz template. Please try again.",
+            "tags_placeholder": "Tag",
+            "name_hint": "Utilice un nombre descriptivo para ayudar a otros usuarios a encontrar lo que están buscando.",
+            "success": "Se ha presentado la plantilla de examen.",
+            "name": "Nombre de la plantilla de Quiz",
+            "error": "No podíamos presentar la plantilla. Por favor, inténtalo de nuevo.",
             "submit": "Enviar",
-            "name_placeholder": "Quiz template name",
+            "name_placeholder": "Nombre de la plantilla de Quiz",
             "header_title": "Submit quiz template",
             "language": "Idioma",
-            "title": "Submit your quiz as a template",
+            "title": "Presentar su examen como plantilla",
             "description": "Description",
-            "language_hint": "You may select more than 1 language. (Can't find the language you want? <support>Request a missing language.</support>)",
-            "description_hint": "Write 1-2 lines to explain what this quiz contains.",
-            "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>.",
-            "review_notice": "The Shira team carefully reviews every submission. If your template is accepted, it will appear in the template library. <learnMore>Learn More</learnMore>.",
+            "language_hint": "Puede seleccionar más de 1 idioma. (¿No encuentras el idioma que quieres? <support>Solicitar un idioma desaparecido.</support>",
+            "description_hint": "Escribe 1-2 líneas para explicar lo que contiene este cuestionario.",
+            "terms": "Al revisar esta caja, estoy de acuerdo con los <terms>terms y condiciones de Shira </terms>.",
+            "review_notice": "El equipo Shira revisa cuidadosamente cada presentación. Si su plantilla es aceptada, aparecerá en la biblioteca de plantillas. <learnMore>Más información</learnMore>.",
             "language_placeholder": "Idioma",
-            "tags_hint": "Select the tags that best describe the content of this template.",
+            "tags_hint": "Seleccione las etiquetas que mejor describen el contenido de esta plantilla.",
             "description_placeholder": "Description"
         },
         "submit_question": {
             "tags": "Etiquetas",
-            "title": "Submit your question as a template",
-            "success": "The question template has been submitted.",
+            "title": "Presenta tu pregunta como plantilla",
+            "success": "Se ha presentado la plantilla de preguntas.",
             "description_placeholder": "Description",
-            "error": "We couldn't submit the question template. Please try again.",
-            "review_notice": "The Shira team carefully reviews every submission. If your template is accepted, it will appear in the template library. <learnMore>Learn More</learnMore>.",
+            "error": "No podíamos presentar la plantilla de preguntas. Por favor, inténtalo de nuevo.",
+            "review_notice": "El equipo Shira revisa cuidadosamente cada presentación. Si su plantilla es aceptada, aparecerá en la biblioteca de plantillas. <learnMore>Más información</learnMore>.",
             "header_title": "Submit question template",
-            "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>.",
+            "terms": "Al revisar esta caja, estoy de acuerdo con los <terms>terms y condiciones de Shira </terms>.",
             "language_placeholder": "Idioma",
-            "name": "Plantillas de pregunta",
-            "tags_placeholder": "Etiquetas",
+            "name": "Nombre de plantilla de preguntas",
+            "tags_placeholder": "Tag",
             "submit": "Enviar",
-            "tags_hint": "Select the tags that best describe the content of this template.",
-            "language_hint": "You may select more than 1 language. (Can't find the language you want? <support>Request a missing language.</support>)",
-            "name_hint": "Use a descriptive name to help other users find what they're looking for.",
-            "name_placeholder": "Plantillas de pregunta",
+            "tags_hint": "Seleccione las etiquetas que mejor describen el contenido de esta plantilla.",
+            "language_hint": "Puede seleccionar más de 1 idioma. (¿No encuentras el idioma que quieres? <support>Solicitar un idioma desaparecido.</support>",
+            "name_hint": "Utilice un nombre descriptivo para ayudar a otros usuarios a encontrar lo que están buscando.",
+            "name_placeholder": "Nombre de plantilla de preguntas",
             "description": "Description",
             "language": "Idioma",
-            "description_hint": "Write 1-2 lines to explain what this question contains."
+            "description_hint": "Escribe 1-2 líneas para explicar lo que esta pregunta contiene."
         },
         "submissions_table": {
             "actions": "Acciones",
             "type": "Tipo",
             "status": "Estado",
             "app": "Aplicación",
-            "preview": "Preview submission",
+            "preview": "Presentación previa",
             "date_submitted": "Fecha de envío",
             "quiz_name": "Nombre del cuestionario",
             "question_name": "Nombre de la pregunta"
         },
         "submission_status": {
-            "title": "Submission status",
-            "in_review": "In review",
-            "help_tooltip": "Please email the Shira team if you have questions or need support.",
-            "rejected": "Reject",
-            "accepted": "Accept"
+            "title": "Estado de presentación",
+            "in_review": "En examen",
+            "help_tooltip": "Por favor envíe un correo electrónico al equipo Shira si tiene preguntas o necesita apoyo.",
+            "rejected": "Rechazado",
+            "accepted": "Aceptado"
         },
         "quiz_templates": {
-            "title": "Plantillas de pregunta",
-            "description": "Create a quiz instantly by choosing from our quiz templates, available in multiple apps and languages."
+            "title": "Plantillas Quiz",
+            "description": "Cree un cuestionario al instante eligiendo de nuestras plantillas de cuestionario, disponibles en múltiples aplicaciones e idiomas."
         },
         "display_name": {
-            "title": "Create display name",
-            "description": "Set the name that will be associated to the templates you publish in the library. This will be visible to everyone.",
-            "input": "Display name"
+            "title": "Crear nombre de pantalla",
+            "description": "Establecer el nombre que se asociará a las plantillas que publica en la biblioteca. Esto será visible para todos.",
+            "input": "Nombre de visualización"
         },
-        "back_to_templates": "Back to Templates",
-        "my_submissions_description": "These are the templates you have submitted. The Shira team carefully reviews every submission. If your template is accepted, it will appear in the Shira template library. <learnMore>Learn More</learnMore>",
+        "back_to_templates": "Volver a Plantillas",
+        "my_submissions_description": "Estas son las plantillas que has presentado. El equipo Shira revisa cuidadosamente cada presentación. Si su plantilla es aceptada, aparecerá en la biblioteca de plantillas Shira. <learnMore>Más información </learnMore>",
         "question_templates": {
-            "title": "Plantillas de pregunta",
-            "description": "Explore pre-made questions, with message content, sender info and explanations already built in."
+            "title": "Plantillas de preguntas",
+            "description": "Explore las preguntas pre-hechas, con contenido de mensajes, información del remitente y explicaciones ya construidas."
         },
         "submission_rejection": {
             "open": "View submission feedback",
-            "title": "Submission feedback"
+            "title": "Presentación de información"
         },
         "title": "Templates",
-        "subtitle": "Get started right away with ready-made templates.",
+        "subtitle": "Comenzar inmediatamente con plantillas preparadas.",
         "submissions_empty_state": {
-            "subtitle": "You don't have any submissions yet. To submit a resource that you have created, go to that specific resource and select \"submit as template.\"",
-            "learn_more": "Learn more about templates"
+            "subtitle": "Aún no tienes ninguna comunicación. Para enviar un recurso que ha creado, vaya a ese recurso específico y seleccione \"presentar como plantilla\"",
+            "learn_more": "Más información sobre plantillas"
         },
-        "my_submissions": "My submissions"
+        "my_submissions": "Mis comunicaciones"
     },
     "languages": {
         "ar": "Arabic",
         "es": "Spanish",
-        "cn": "Chino simplificado",
+        "cn": "Chino (Simplificado)",
         "ru": "Russian",
         "fr": "French",
         "en": "English"
@@ -1287,32 +1288,32 @@
             "journalism": "tema: periodismo",
             "intermediate": "nivel: intermedio",
             "easy": "nivel: fácil",
-            "for-everyone": "para todas las personas",
-            "mobile": "Teléfono móvil"
+            "for-everyone": "para todos",
+            "mobile": "móvil"
         }
     },
     "create_note": {
-        "header_title": "Create a new note",
-        "edit_header_title": "Edit note",
-        "header_required_tooltip": "Required fields cannot be left blank",
-        "header_character_limit_tooltip": "One or more fields exceed the character limit.",
+        "header_title": "Crear una nueva nota",
+        "edit_header_title": "Edición de la nota",
+        "header_required_tooltip": "Los campos obligatorios no se pueden dejar en blanco",
+        "header_character_limit_tooltip": "Uno o más campos exceden el límite de caracteres.",
         "breadcrumbs": {
-            "content": "Note content",
+            "content": "Contenido de la nota",
             "preview": "Vista Previa"
         },
         "note_info": {
             "note_name": {
-                "title": "Note name",
-                "subtitle": "This name will only be visible to you, to help you remember what this note is about",
-                "placeholder": "Note name"
+                "title": "Nombre de la nota",
+                "subtitle": "Este nombre sólo será visible para ti, para ayudarte a recordar lo que se trata de esta nota",
+                "placeholder": "Nombre de la nota"
             },
             "note_content": {
-                "title": "Note content",
-                "subtitle": "Write the note that will be shown. Notes are shown before, after or in between questions. They can include text, links and images to offer more context and information."
+                "title": "Contenido de la nota",
+                "subtitle": "Escribe la nota que se mostrará. Las notas se muestran antes, después o entre preguntas. Pueden incluir texto, enlaces e imágenes para ofrecer más contexto e información."
             }
         },
         "preview": {
-            "subtitle": "This is how your note will look to learners."
+            "subtitle": "Así es como tu nota mirará a los estudiantes."
         }
     }
 }
