@@ -6,7 +6,7 @@
         "starred": "Помеченные",
         "snoozed": "Отложенные",
         "sent": "Отправленные",
-        "drafts": "Черновики",
+        "drafts": "Drafts",
         "compose": "Написать",
         "to_me": "кому: мне",
         "from": "от:",
@@ -18,7 +18,7 @@
         "attachments_many": "Прикрепленные файлы: {{count}}",
         "scanned_by_google": "Проверено на вирусы системой Gmail",
         "encryption": "Стандартное шифрование (TLS)",
-        "learn_more": "Подробнее…",
+        "learn_more": "Узнать больше",
         "safer_with_google": "Safer with Google",
         "attachment_scanning_description": "To help protect your inbox, Gmail blocks attachments when malware is detected. You should still only download attachments from people you trust.",
         "add_to_drive": "Add to Drive",
@@ -185,7 +185,8 @@
         "file_size": "24 KB",
         "time": "1:03 PM",
         "voice_message": "Voice message",
-        "voice_duration": "0:02"
+        "voice_duration": "0:02",
+        "photo": "Фото"
     },
     "instagram": {
         "account_name": "You",
