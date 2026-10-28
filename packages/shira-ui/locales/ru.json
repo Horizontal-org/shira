@@ -182,7 +182,10 @@
         "today": "Сегодня",
         "unread_count": "9",
         "registration_date": "Jun 2023",
-        "file_size": "24 KB"
+        "file_size": "24 KB",
+        "time": "1:03 PM",
+        "voice_message": "Voice message",
+        "voice_duration": "0:02"
     },
     "instagram": {
         "account_name": "You",
