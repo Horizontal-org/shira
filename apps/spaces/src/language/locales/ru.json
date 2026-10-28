@@ -8,7 +8,7 @@
         "reset_password": "Забыли пароль?",
         "login_header_button": "Вход",
         "loading_button": "Вход в систему...",
-        "error_message": "Error: Your email address or password is incorrect."
+        "error_message": "Ошибка: Ваш адрес электронной почты или пароль неверны."
     },
     "reset_password": {
         "message": " ",
@@ -84,7 +84,7 @@
         "assign_dialog": {
             "registered_title": "Зарегистрированные учащиеся",
             "registered_description": "Выберите одного или нескольких учащихся, чтобы назначить им этот тест.",
-            "registered_description_2": "В разделе <0>«Учащиеся»</0> вы можете управлять зарегистрированными учащимися и приглашать новых.",
+            "registered_description_2": "В приведенном ниже списке показаны только учащиеся, которые завершили регистрацию. Вы можете управлять зарегистрированными учениками и приглашать новые в разделе <0>Learners</0> или читать о <1>здесь</1>.",
             "assign_button": "Назначить учащимся",
             "assign_title": "Назначить учащимся «{{quiz_title}}»",
             "no_learners": "В вашем пространстве нет зарегистрированных учащихся.",
@@ -123,7 +123,7 @@
             "disabled_tooltip": "Чтобы скопировать ссылку на тест, создайте хотя бы один вопрос.",
             "delete": "Удалить",
             "submit_as_template": "Добавить в шаблон",
-            "copy_link_disabled_tooltip": "Чтобы опубликовать тест, создайте как минимум 1 вопрос.",
+            "copy_link_disabled_tooltip": "Создайте по крайней мере 1 вопрос, чтобы скопировать ссылку викторины.",
             "submit_as_template_disabled_tooltip": "Создайте по крайней мере 1 вопрос, чтобы представить ваш викторин в качестве шаблона."
         },
         "tabs": {
@@ -139,13 +139,13 @@
         "settings": {
             "assessment": {
                 "description": "Ученики тестируют свои навыки обнаружения фишинга без обратной связи или объяснений для измерения их фактического уровня производительности.",
-                "title": "Assessment mode"
+                "title": "Режим оценки"
             },
             "learning": {
-                "title": "Learning mode",
+                "title": "Режим обучения",
                 "description": "Ученики получают немедленные отзывы и объяснения после каждого ответа, чтобы помочь им улучшить свои навыки обнаружения фишинга."
             },
-            "title": "Quiz mode"
+            "title": "Режим Quiz"
         }
     },
     "questions_tab": {
@@ -157,11 +157,11 @@
             "duplicate": "Создать копию",
             "delete": "Удалить",
             "more_actions": "Больше действий",
-            "submit_as_template": "Submit as template",
+            "submit_as_template": "Добавить в шаблон",
             "export": "Экспорт"
         },
         "use_library_question_button": "Использовать шаблон вопроса",
-        "create_note_button": "Создать",
+        "create_note_button": "Создать заметку",
         "columns": {
             "type": {
                 "note": "Внимание"
@@ -195,7 +195,7 @@
                 "tab_title": "Информация о вопросе",
                 "question_name": {
                     "title": "Название вопроса",
-                    "subtitle": "Это название видно только вам — чтобы напоминать вам суть вопроса",
+                    "subtitle": "Это имя будет видно только вам, чтобы помочь вам вспомнить, о чем этот вопрос",
                     "question_name_placeholder": "Название вопроса"
                 },
                 "phishing": {
@@ -207,8 +207,8 @@
                     "title": "Выбранное приложение"
                 },
                 "editor": {
-                    "title": "Править",
-                    "simple": "Simple editor",
+                    "title": "Редактор",
+                    "simple": "Простой редактор",
                     "advanced": "Расширенный редактор HTML"
                 }
             },
@@ -278,14 +278,14 @@
             }
         },
         "header_required_tooltip": "Обязательные поля не могут быть пустыми",
-        "header_character_limit_tooltip": "One or more fields exceed the character limit.",
+        "header_character_limit_tooltip": "Одно или несколько полей превышают предел характера.",
         "html_editor": {
             "title": "HTML-источник",
             "fix_errors": "Исправьте ошибки HTML, прежде чем продолжить.",
             "errors": {
-                "syntax": "Check the HTML near the highlighted position"
+                "syntax": "Проверьте HTML рядом с выделенной позицией"
             },
-            "explanation_tooltip": "Select text or place the cursor in an HTML tag to add an explanation."
+            "explanation_tooltip": "Выберите текст или поместить курсор в HTML-тег, чтобы добавить объяснение."
         }
     },
     "question_library": {
@@ -323,15 +323,15 @@
                 "preview_aria_label": "Предпросмотр",
                 "disabled_tooltip": "Выберите язык и приложение, чтобы использовать этот вопрос."
             },
-            "created_on": "Создать",
-            "creator": "Creator"
+            "created_on": "Создано",
+            "creator": "Творец"
         },
         "filters_panel": {
             "selected_count": "{{count}} выбран",
-            "tag": "Теги",
+            "tag": "Tag",
             "apps": "Приложения",
             "type": "Тип",
-            "creator": "Creator",
+            "creator": "Творец",
             "language": "Язык",
             "clear_all": "Очистить"
         },
@@ -386,8 +386,8 @@
             }
         },
         "disabled": {
-            "message": "There is no data available because Results have been disabled. You can change this anytime in your space Settings.",
-            "go_to_settings": "К настройкам"
+            "message": "Данные отсутствуют, поскольку результаты оказались невыполненными. Вы можете изменить это в любое время в ваших Настройках пространства.",
+            "go_to_settings": "Перейти к Настройкам"
         }
     },
     "learners_bulk_import": {
@@ -451,9 +451,9 @@
         "title": "Поддержка",
         "subtitle": "Если вам нужна помощь, в том числе по вопросам удаления аккаунта, пожалуйста, напишите в службу поддержки Shira по адресу contact@wearehorizontal.org",
         "help_center": {
-            "title": "справочном центре",
-            "description": "Visit our Help Center to learn more about features and how to use Shira to train your team or community.",
-            "cta": "Go to Help Center"
+            "title": "Центр помощи",
+            "description": "Посетите наш Центр помощи, чтобы узнать больше об особенностях и о том, как использовать Shira для обучения вашей команды или сообщества.",
+            "cta": "Перейти в Центр помощи"
         },
         "contact": {
             "title": "Свяжитесь с нами",
@@ -475,11 +475,11 @@
                 "action": "Изменить пароль"
             },
             "language": {
-                "description": "Choose the language for your Shira space. This won’t change the language of quizzes or questions you share with learners, only the space interface.",
+                "description": "Выберите язык для вашего шиитского пространства. Это не изменит язык викторины или вопросов, которыми вы делитесь с учениками, только космический интерфейс.",
                 "title": "Космический язык"
             },
             "results": {
-                "description": "Shira automatically tracks quiz responses to provide analytics and compliance reporting. You can disable this feature to minimize the data we collect about your Learners. <learnMore>Learn More</learnMore>",
+                "description": "Shira автоматически отслеживает ответы викторины, чтобы обеспечить аналитику и отчетность о соблюдении. Вы можете отключить эту функцию, чтобы минимизировать данные, которые мы собираем о ваших Учителях. <learnMore>Узнать больше </learnMore>",
                 "title": "Результаты",
                 "enable_button": "Включить результаты",
                 "disable_button": "Отключить результаты"
@@ -500,7 +500,7 @@
             "all_done": "Готово!",
             "success_message": "Платёж прошёл успешно. Активируем вашу подписку."
         },
-        "version": "You are currently using Shira v{{version}}."
+        "version": "Вы сейчас используете Shira v{{version}}."
     },
     "buttons": {
         "message": "",
@@ -636,7 +636,7 @@
                 "document": "Документ",
                 "other": "Прочее"
             },
-            "explanation": "Selecting the correct file type lets Shira display a realistic attachment icon in the quiz. For added realism, consider including a file extension in the filename (for example, .pdf or .zip)."
+            "explanation": "Выбор правильного типа файла позволяет Шире отображать реалистичную иконку вложения в викторине. Для дополнительного реализма рассмотрим включение расширения файла в имя файла (например, .pdf или .zip)."
         },
         "variables_modal": {
             "title": "Переменные",
@@ -743,7 +743,7 @@
                     "admin_dashboard": "Панель администратора",
                     "number_of_admins": "Число администраторов",
                     "customizable_questions": "Полностью настраиваемые вопросы теста",
-                    "question_library": "Доступ к библиотеке вопросов",
+                    "question_library": "Доступ к шаблонам вопроса",
                     "custom_quizzes": "Число настраиваемых тестов",
                     "apps_available": "Доступные приложения",
                     "public_quizzes": "Открытые тесты",
@@ -753,10 +753,10 @@
                     "priority_support": "Поддержка",
                     "analysis_tools": "Инструменты аналитики и соответствия",
                     "tailor_made_training": "Индивидуальное обучение пользователей",
-                    "phishing_readiness_assessment": "Phishing Readiness Assessment",
+                    "phishing_readiness_assessment": "Оценка готовности к фишингу",
                     "preparedness_report": "Доклад о готовности и план действий"
                 },
-                "custom_support": "Индивидуальная поддержка",
+                "custom_support": "Поддержка клиентов",
                 "tooltips": {
                     "priority_support": "Быстрая реакция ради удобства пользователей",
                     "hosting": "Позвольте команде Shira позаботиться о ваших тестах или помочь с установкой на ваш сервер",
@@ -766,25 +766,25 @@
                     "public_quizzes": "Любой может пройти ваш тест по обычной ссылке",
                     "private_quizzes": "Только зарегистрированные в вашем пространстве пользователи могут проходить ваши тесты",
                     "basic_analytics": "Контроль результатов тестов",
-                    "question_library": "Доступ к десяткам готовых шаблонов вопросов",
+                    "question_library": "Начните в течение нескольких минут с десятками викторины и шаблонов вопросов",
                     "customizable_questions": "Создание вопросов, адаптированных к вашим учащимся",
                     "apps_available": "Создание вопросов теста в интерфейсах привычных вашим учащимся приложений",
                     "detailed_analytics": "Контроль над результатами на уровне учащегося и вопроса",
                     "analysis_tools": "Экспорт результатов вашей команды в CSV или PDF",
                     "tailor_made_training": "Тренинги по укреплению навыков от команды Shira для вашей организации",
                     "preparedness_report": "Конкретный отчет, освещающий основные риски и рекомендуемые учебные модули и сроки",
-                    "phishing_readiness_assessment": "Snapshot of current organizational vulnerability to phishing attacks"
+                    "phishing_readiness_assessment": "Уязвимость к фишинговым атакам"
                 },
                 "values": {
                     "up_to_three_custom_quizzes": "До 3 настраиваемых тестов",
                     "available_upon_request": "По запросу",
-                    "three_business_day_response_time": "Срок реагирования 3 рабочих дня",
+                    "three_business_day_response_time": "Приоритетная поддержка",
                     "one_business_day_response_time": "Предназначенная поддержка предприятий",
                     "cloud": "Облако",
                     "cloud_on_premise": "Облако / свой сервер",
                     "one_admin": "1 администратор",
                     "unlimited": "Без ограничений",
-                    "unlimited_coming_soon": "Unlimited (coming soon)"
+                    "unlimited_coming_soon": "Неограниченный (в ближайшее время)"
                 },
                 "admin_management": "Возможности администратора",
                 "customization": "Настройка для себя",
@@ -813,23 +813,23 @@
         },
         "add_quiz_from_template": {
             "input_label": "Название теста",
-            "title": "Give your new quiz a name",
-            "subtitle": "The quiz name will be visible in your Space and to learners when they take it."
+            "title": "Назови свое новое имя",
+            "subtitle": "Имя викторины будет видно в вашем Пространстве и для учеников, когда они его возьмут."
         },
         "export": {
             "question": {
                 "title": "Экспортный вопрос",
                 "sharing_implications": "Если вы будете делиться своим вопросом с другими, вы можете удалить любую конфиденциальную информацию, которую он содержит, прежде чем экспортировать его. <1>Узнать больше</1>",
-                "error": "При удалении учащегося возникла проблема. Если она останется, <1>свяжитесь с нами</1>.",
-                "file_type": "Your question will be exported as a .zip file that can be re-imported into a Shira space."
+                "error": "Была проблема экспорта вопроса. Если эта проблема сохраняется, <1> свяжитесь с нами</1>.",
+                "file_type": "Ваш вопрос будет экспортироваться как файл .zip, который может быть повторно импортирован в пространство Shira."
             },
             "quiz": {
                 "error": "Была проблема экспорта викторины. Если эта проблема сохраняется, <1> свяжитесь с нами</1>.",
-                "file_type": "Your quiz will be exported as a .zip file that can be re-imported into a Shira space.",
-                "sharing_implications": "If you will share your quiz with others, you may want to remove any sensitive information it contains before exporting it. <1>Learn more</1>",
-                "title": "Покинуть тест"
+                "file_type": "Ваш викторина будет экспортироваться как .zip-файл, который может быть повторно импортирован в пространство Shira.",
+                "sharing_implications": "Если вы будете делиться своим викторин с другими, вы можете удалить любую конфиденциальную информацию, которую он содержит, прежде чем экспортировать его. <1>Узнать больше</1>",
+                "title": "Экспорт викторины"
             },
-            "exporting": "Exporting..."
+            "exporting": "Экспорт..."
         },
         "create_entity": {
             "question": {
@@ -837,8 +837,8 @@
                 "create_button": "Отменить",
                 "template_title": "Использовать шаблон",
                 "template_subtitle": "Начните немедленно, выбрав из десятков готовых шаблонов, доступных на нескольких языках. ",
-                "import_title": "Or import a question from a file",
-                "scratch_title": "Start from scratch",
+                "import_title": "Или импортировать вопрос из файла",
+                "scratch_title": "Начните с нуля",
                 "title": "Создать новый вопрос",
                 "subtitle": "Выберите, как вы’ хотели бы создать свой вопрос."
             },
@@ -846,9 +846,9 @@
                 "subtitle": "Выберите, как вы’ хотели бы создать свой тест.",
                 "title": "Создать новый тест",
                 "create_button": "Отменить",
-                "scratch_title": "Start from scratch",
-                "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
-                "scratch_subtitle": "Create the quiz yourself, with full control. You can even copy and paste a real-life phishing example.",
+                "scratch_title": "Начните с нуля",
+                "template_subtitle": "Начните немедленно, выбрав из десятков готовых шаблонов, доступных на нескольких языках. ",
+                "scratch_subtitle": "Создайте викторину самостоятельно, с полным контролем. Вы даже можете скопировать и вставить настоящий фишинговый пример.",
                 "import_title": "Или импортировать викторину из файла",
                 "template_title": "Использовать шаблон"
             }
@@ -860,35 +860,35 @@
                 "subtitle": "Выберите файл вопроса, который вы хотите импортировать. <0>Узнать больше</0>.",
                 "button": "Вопрос об импорте",
                 "error": "Возникла проблема с импортом вопроса. Если эта проблема сохраняется, <1> свяжитесь с нами</1>.",
-                "title": "Import question",
-                "drag_title": "Drag and drop to upload your question file here",
-                "importing": "Importing...",
+                "title": "Вопрос об импорте",
+                "drag_title": "Перетащите файл вопроса сюда",
+                "importing": "Импорт...",
                 "file_type": "Принятый тип файла: .zip"
             },
             "quiz": {
                 "error": "Была проблема с импортом викторины. Если эта проблема сохраняется, <1> свяжитесь с нами</1>.",
-                "drag_title": "Перетащите сюда заполненную таблицу, чтобы загрузить её",
-                "subtitle": "Select the file of the quiz you want to import. To prevent errors, we recommend not modifying the content of the file. <0>Learn more</0>.",
-                "title": "Import quiz",
-                "button": "Import quiz",
-                "file_size": "Максимальный объём файла: 10 Мб",
-                "file_type": "Допустимый тип файла: только .csv",
+                "drag_title": "Перетащите файл quiz сюда",
+                "subtitle": "Выберите файл викторины, которую вы хотите импортировать. <0>Узнать больше</0>.",
+                "title": "Импорт quiz",
+                "button": "Импорт quiz",
+                "file_size": "Максимальный размер файла: 200 МБ",
+                "file_type": "Принятый тип файла: .zip",
                 "upload_success": "Ваш файл готов к импорту.",
                 "importing": "Импорт..."
             }
         },
         "update_results_enabled": {
-            "title_enable": "Enable results?",
-            "title_disable": "Disable results?",
-            "content_enable": "We will start tracking your user quiz information",
+            "title_enable": "Включить результаты?",
+            "title_disable": "Отключить результаты?",
+            "content_enable": "Отзыв результатов означает, что Shira начнет собирать викторины для любых новых викторины, взятых вашими учениками.",
             "content_disable": "Отрицательные результаты означают, что Шира перестанет собирать ответы викторины на любые новые викторины, сделанные вашими учениками."
         },
         "delete_note": {
-            "title": "Уверены, что хотите удалить «{{quiz_name}}»?",
-            "message": "Тест будет удалён навсегда, это действие нельзя отменить."
+            "title": "Вы уверены, что хотите удалить \"{{note name}}\"?",
+            "message": "Удаление этой записки является постоянным и не может быть отменено."
         },
         "exit_note": {
-            "title": "Уверены, что хотите выйти из вопроса?",
+            "title": "Вы уверены, что хотите выйти из записки?",
             "message": "Все несохранённые изменения будут утрачены."
         }
     },
@@ -952,9 +952,9 @@
             }
         },
         "invalid_email_update": "Этот адрес электронной почты уже связан с пространством Shira",
-        "character_limit_error": "Character limit exceeded",
-        "template_submission_failed": "С приглашением учащегося возникла проблема. Если она останется, <1>свяжитесь с нами</1>.",
-        "export_question_fail": "Failed to export question",
+        "character_limit_error": "Превышенный предел",
+        "template_submission_failed": "Была проблема с представлением шаблона. Если эта проблема сохраняется, <1> свяжитесь с нами</1>.",
+        "export_question_fail": "Не удалось решить экспортный вопрос",
         "entity_import": {
             "invalid_zip_file": {
                 "subtitle": "Мы не смогли обработать файл. Попробуй еще раз.",
@@ -1006,10 +1006,10 @@
         "email_updated": "Ваш email успешно обновлён.",
         "quiz_assessment_mode_updated": "Тест обновлён",
         "quiz_imported": "Викторины были импортированы",
-        "question_imported": "Вопрос удалён",
-        "note_created": "Тест создан",
+        "question_imported": "Вопрос был импортирован",
+        "note_created": "Была создана записка",
         "note_deleted": "Записка была исключена",
-        "note_updated": "Тест обновлён",
+        "note_updated": "Записка была обновлена",
         "note_duplicated": "Записка дублирована"
     },
     "loading_messages": {
@@ -1054,7 +1054,7 @@
             "cibersecurity": "поставщик услуг в области цифровой безопасности",
             "non_profit": "некоммерческая организация",
             "individual": "физическое лицо (консультант, тренер и т. д.)",
-            "educational": "An educational organization",
+            "educational": "Образовательная организация",
             "healthcare": "Организация здравоохранения"
         },
         "button_sign_up": "Зарегистрироваться",
@@ -1076,12 +1076,12 @@
         "message": "",
         "title": "Пространства Shira",
         "subtitle": "После создания пространства вы сможете создавать тесты и вопросы, адаптированные к вашим условиям и сообществам.",
-        "form_title": "Создание нового пространства",
+        "form_title": "Создайте пространство",
         "form_description": "Для создания личного пространства Shira заполните форму ниже.",
         "beta_lead": "В настоящее время пространства Shira находятся в стадии закрытого бета-тестирования. Чтобы получить пароль бета-тестера, напишите нам по адресу",
         "checking_invitation": "Проверка приглашения...",
-        "email_label": "Подтвердите свой email",
-        "password_label": "Требуется пароль",
+        "email_label": "Подтвердить ваш адрес электронной почты (требуется)",
+        "password_label": "Пароль (требуется)",
         "confirm_password_label": "Подтвердить пароль (требуется)",
         "button_create": "Создать пространство",
         "validation": {
@@ -1100,7 +1100,7 @@
             "description": "Ваше пространство было успешно создано. Войдите, чтобы начать создавать викторины.",
             "button": "Перейти в космос"
         },
-        "privacy_consent_aria_label": "Agree to Shira's privacy policy",
+        "privacy_consent_aria_label": "Согласиться с политикой конфиденциальности Ширы",
         "privacy_consent_label": "Я согласен с политикой Ширы <0>приватность</0>."
     },
     "banner": {
@@ -1110,10 +1110,10 @@
     "quiz_library": {
         "filters_panel": {
             "creator": "Творец",
-            "all_creators": "All creators",
-            "tag": "Теги",
-            "selected_count": "{{count}} selected",
-            "clear_all": "Удалить все",
+            "all_creators": "Все создатели",
+            "tag": "Tag",
+            "selected_count": "{{count}} выбран",
+            "clear_all": "Очистить",
             "all_tags": "Все теги",
             "all_languages": "Все языки",
             "language": "Язык"
@@ -1133,7 +1133,7 @@
             "tags": "Tags",
             "back_to_quiz_template": "Назад к шаблону quiz",
             "languages": "Языки",
-            "creator": "Creator",
+            "creator": "Творец",
             "subtitle": "Вы можете предварительно просмотреть полный викторин или каждый вопрос по отдельности, прежде чем использовать викторину в качестве шаблона для создания собственного.",
             "use_template": "Использовать шаблон"
         },
@@ -1145,24 +1145,24 @@
             "title": "Простите, мы ничего не нашли"
         },
         "report_issue": "Сообщить о проблеме",
-        "search_results": "{{count}} result for \"{{searchTerm}}\"",
-        "header_title": "Select a quiz template",
-        "subtitle": "Select a quiz from the list below to use it as a template for your new quiz.",
+        "search_results": "{{count}} результат для \"{{searchTerm}}\"",
+        "header_title": "Выберите шаблон quiz",
+        "subtitle": "Выберите викторину из списка ниже, чтобы использовать его в качестве шаблона для вашего нового викторина.",
         "sort_options": {
             "quiz_name_asc": "Quiz name (A-Z)",
             "oldest_to_newest": "От старейшего к новейшему",
             "quiz_name_desc": "Quiz name (Z-A)",
             "newest_to_oldest": "От новейшего к старейшему"
         },
-        "search_placeholder": "Search quiz names",
-        "title": "Quiz library",
+        "search_placeholder": "Поиск викторины",
+        "title": "Библиотека Quiz",
         "sort_by": "Сортировать",
         "view_template": "Шаблон"
     },
     "library": {
         "empty_search": {
             "subtitle": "Попробуйте изменить ключевые слова или очистить фильтры, чтобы увидеть больше результатов.",
-            "title": "Sorry, we couldn't find anything"
+            "title": "Простите, мы ничего не нашли"
         },
         "cards": {
             "questions": {
@@ -1172,7 +1172,7 @@
                 "title": "Тесты"
             }
         },
-        "title": "Library",
+        "title": "Библиотека",
         "subtitle": "Начните с готовых шаблонов."
     },
     "sidebar": {
@@ -1196,15 +1196,15 @@
             "name": "Имя шаблона Quiz",
             "error": "Мы не смогли представить шаблон викторины. Попробуй еще раз.",
             "submit": "Отправить",
-            "name_placeholder": "Quiz template name",
-            "header_title": "Submit quiz template",
+            "name_placeholder": "Имя шаблона Quiz",
+            "header_title": "Добавить шаблон quiz",
             "language": "Язык",
-            "title": "Submit your quiz as a template",
+            "title": "Отправьте свои викторины как шаблон",
             "description": "Описание",
-            "language_hint": "You may select more than 1 language. (Can't find the language you want? <support>Request a missing language.</support>)",
-            "description_hint": "Write 1-2 lines to explain what this quiz contains.",
-            "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>.",
-            "review_notice": "The Shira team carefully reviews every submission. If your template is accepted, it will appear in the template library. <learnMore>Learn More</learnMore>.",
+            "language_hint": "Вы можете выбрать более 1 языка. (Не можете найти язык, который вы хотите? <support>Request a missing language.</support>",
+            "description_hint": "Напишите 1-2 строки, чтобы объяснить, что содержит этот викторин.",
+            "terms": "Проверяя эту коробку, я согласен с условиями и сроками Ширы <terms>.",
+            "review_notice": "Команда Шира тщательно рассматривает каждое представление. Если ваш шаблон принят, он появится в библиотеке шаблонов. <learnMore>Узнать больше </learnMore>.",
             "language_placeholder": "Язык",
             "tags_hint": "Выберите теги, которые лучше всего описывают содержание этого шаблона.",
             "description_placeholder": "Описание"
@@ -1216,16 +1216,16 @@
             "description_placeholder": "Описание",
             "error": "Мы не смогли представить шаблон вопроса. Попробуй еще раз.",
             "review_notice": "Команда Шира тщательно рассматривает каждое представление. Если ваш шаблон принят, он появится в библиотеке шаблонов. <learnMore>Узнать больше </learnMore>.",
-            "header_title": "Submit question template",
-            "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>.",
+            "header_title": "Добавить шаблон вопроса",
+            "terms": "Проверяя эту коробку, я согласен с условиями и сроками Ширы <terms>.",
             "language_placeholder": "Язык",
-            "name": "Шаблоны для вопросов",
-            "tags_placeholder": "Теги",
+            "name": "Имя шаблона вопроса",
+            "tags_placeholder": "Tag",
             "submit": "Отправить",
-            "tags_hint": "Select the tags that best describe the content of this template.",
-            "language_hint": "You may select more than 1 language. (Can't find the language you want? <support>Request a missing language.</support>)",
-            "name_hint": "Use a descriptive name to help other users find what they're looking for.",
-            "name_placeholder": "Шаблоны для вопросов",
+            "tags_hint": "Выберите теги, которые лучше всего описывают содержание этого шаблона.",
+            "language_hint": "Вы можете выбрать более 1 языка. (Не можете найти язык, который вы хотите? <support>Request a missing language.</support>",
+            "name_hint": "Используйте описательное имя, чтобы помочь другим пользователям найти то, что они ищут.",
+            "name_placeholder": "Имя шаблона вопроса",
             "description": "Описание",
             "language": "Язык",
             "description_hint": "Напишите 1-2 строки, чтобы объяснить, что этот вопрос содержит."
@@ -1235,7 +1235,7 @@
             "type": "Тип",
             "status": "Состояние",
             "app": "Имя не установлено",
-            "preview": "Preview submission",
+            "preview": "Предварительное представление",
             "date_submitted": "Дата прохождения",
             "quiz_name": "Название теста",
             "question_name": "Название вопроса"
@@ -1244,35 +1244,35 @@
             "title": "Статус представления",
             "in_review": "Обзор",
             "help_tooltip": "Пожалуйста, напишите команде Shira, если у вас есть вопросы или нужна поддержка.",
-            "rejected": "Reject",
+            "rejected": "Отклонение",
             "accepted": "Принята"
         },
         "quiz_templates": {
             "title": "Quiz шаблоны",
-            "description": "Create a quiz instantly by choosing from our quiz templates, available in multiple apps and languages."
+            "description": "Создайте викторину мгновенно, выбирая из наших шаблонов, доступных в нескольких приложениях и языках."
         },
         "display_name": {
             "title": "Создать имя отображения",
-            "description": "Set the name that will be associated to the templates you publish in the library. This will be visible to everyone.",
-            "input": "Display name"
+            "description": "Назовите имя, которое будет связано с шаблонами, которые вы публикуете в библиотеке. Это будет видно всем.",
+            "input": "Имя"
         },
         "back_to_templates": "Назад к шаблонам",
         "my_submissions_description": "Это шаблоны, которые вы представили. Команда Шира тщательно рассматривает каждое представление. Если ваш шаблон принят, он появится в библиотеке шаблонов Shira. <learnMore>Узнать больше </learnMore>",
         "question_templates": {
             "title": "Шаблоны вопросов",
-            "description": "Explore pre-made questions, with message content, sender info and explanations already built in."
+            "description": "Исследуйте заранее созданные вопросы, с контентом сообщения, информацией отправителя и уже встроенными объяснениями."
         },
         "submission_rejection": {
-            "open": "View submission feedback",
+            "open": "Просмотр отзывов",
             "title": "Обратная связь"
         },
         "title": "Шаблоны",
-        "subtitle": "Get started right away with ready-made templates.",
+        "subtitle": "Начните с готовых шаблонов.",
         "submissions_empty_state": {
-            "subtitle": "You don't have any submissions yet. To submit a resource that you have created, go to that specific resource and select \"submit as template.\"",
-            "learn_more": "Learn more about templates"
+            "subtitle": "У вас пока нет никаких представлений. Чтобы представить ресурс, который вы создали, перейдите на этот конкретный ресурс и выберите «подпишитесь как шаблон»",
+            "learn_more": "Узнайте больше о шаблонах"
         },
-        "my_submissions": "My submissions"
+        "my_submissions": "Мои представления"
     },
     "languages": {
         "ar": "Арабский язык",
@@ -1288,24 +1288,24 @@
             "journalism": "тема: журналистика",
             "intermediate": "уровень: промежуточный",
             "easy": "уровень: простой",
-            "for-everyone": "for everyone",
+            "for-everyone": "для всех",
             "mobile": "мобильный"
         }
     },
     "create_note": {
-        "header_title": "Создать новую папку",
+        "header_title": "Создать новую ноту",
         "edit_header_title": "Правка",
         "header_required_tooltip": "Обязательные поля не могут быть пустыми",
         "header_character_limit_tooltip": "Одно или несколько полей превышают предел характера.",
         "breadcrumbs": {
-            "content": "Note content",
+            "content": "Содержание",
             "preview": "Предпросмотр"
         },
         "note_info": {
             "note_name": {
-                "title": "Note name",
-                "subtitle": "This name will only be visible to you, to help you remember what this note is about",
-                "placeholder": "Note name"
+                "title": "Имя",
+                "subtitle": "Это имя будет видно только вам, чтобы помочь вам вспомнить, о чем эта нота",
+                "placeholder": "Имя"
             },
             "note_content": {
                 "title": "Содержание",
