@@ -49,7 +49,7 @@
             "explanation_2": "برای هر سوال، انتخاب کنید که ایا پیام نشان داده شده مانند یک تلاش فیشینگ است یا مشروع به نظر می رسد.",
             "explanation_3": "اگر مطمئن نیستید، می‌توانید گزینه «نمی‌دانم» را انتخاب کنید.",
             "footer_title": "مقدمه مسابقه",
-            "next": "باشه",
+            "next": "تأیید",
             "question_count": "This quiz contains {{count}} questions",
             "learn_more": "اطلاعات بیشتر",
             "disclaimer": "Shira collects limited data about your usage."
@@ -76,7 +76,7 @@
             "title": "خروج از آزمون؟",
             "action_description": "خروج از آزمون",
             "description": "آیا مطمئن هستید که میخواهید از این آزمون خارج شوید؟ پیشرفت شما ذخیره نخواهد شد.",
-            "cancel": "لغو"
+            "cancel": "انصراف"
         },
         "data_collection": {
             "percentage_of_learners": "c. The percentage of learners assigned this quiz who have completed it",
@@ -246,7 +246,7 @@
     },
     "learner_invitation": {
         "learn_more": "Learn more about Shira",
-        "success_title": "Success!",
+        "success_title": "موفقیت!",
         "error_title": "Something went wrong",
         "success_joined_space": "You have joined {{spaceName}} on Shira.",
         "success_hint": "When your organization shares a quiz with you, you will receive an email invitation directly in your inbox.",
