@@ -473,7 +473,7 @@
             },
             "results": {
                 "description": "Shira automatically tracks quiz responses to provide analytics and compliance reporting. You can disable this feature to minimize the data we collect about your Learners. <learnMore>Learn More</learnMore>",
-                "title": "Hasil",
+                "title": "Results",
                 "enable_button": "Enable Results",
                 "disable_button": "Disable Results"
             }
@@ -906,7 +906,7 @@
         "learners_bulk_import": {
             "missing_name": "Missing name",
             "missing_email": "Missing email address",
-            "invalid_email": "Alamat surel tidak valid",
+            "invalid_email": "Alamat surel tidak sah",
             "duplicated_email": "Duplicated email address",
             "already_registered": "Already registered",
             "invalid_file_format": {
