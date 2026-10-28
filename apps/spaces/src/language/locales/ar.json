@@ -271,8 +271,8 @@
                 "subtitle": "هكذا سيظهر سؤالكم للمتعلمين، بما في ذلك التفسيرات التي وضعتم.",
                 "show_explanations": "إظهار التفسيرات",
                 "hide_explanations": "إخفاء التفسيرات",
-                "next_explanation": "التفسير التالي",
-                "previous_explanation": "التفسير السابق",
+                "next_explanation": "التالي",
+                "previous_explanation": "السابق",
                 "no_explanations": "لا توجد تفسيرات لهذا السؤال.",
                 "aria_label": "معاينة السؤال"
             }
