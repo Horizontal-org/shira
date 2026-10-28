@@ -54,9 +54,9 @@
         "home": "Главная",
         "help": "Помощь",
         "delete": "Удалить",
-        "archive": "Архив",
+        "archive": "Архивирование",
         "search": "Поиск",
-        "contact": "Контакты"
+        "contact": "Contact"
     },
     "whatsapp": {
         "contact_5_name": "Annabel Carpenter",
@@ -89,7 +89,7 @@
         "view_contact_information": "View contact information",
         "contact_info": "Contact info",
         "back_to_chat": "Back to chat",
-        "contact": "Контакты",
+        "contact": "Contact",
         "no_phone_number": "No phone number",
         "contact_actions": "Contact actions",
         "voice": "Voice",
@@ -97,7 +97,7 @@
         "search": "Поиск",
         "mute_notifications": "Mute",
         "off": "Выкл",
-        "no": "Нет",
+        "no": "No",
         "default": "По умолчанию",
         "chat_theme": "Chat theme",
         "save_to_downloads": "Save to Downloads",
@@ -148,7 +148,7 @@
         "summary": "{{start}}-{{end}} of {{total}}",
         "last": "Последнее",
         "first": "Первое",
-        "next": "Далее",
+        "next": "След.",
         "back": "Назад"
     },
     "telegram": {
