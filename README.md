@@ -6,6 +6,8 @@
 
 Shira is a Turborepo monorepo with a NestJS API, a public-facing quiz app, an internal spaces app, and shared packages used across the workspace.
 
+Looking to deploy Shira? See the [self-hosting guide](SELF_HOSTING.md).
+
 ## Workspace
 
 - `apps/api`: NestJS backend for auth, quizzes, learners, subscriptions, email, and integrations.
@@ -18,7 +20,7 @@ Shira is a Turborepo monorepo with a NestJS API, a public-facing quiz app, an in
 - Node.js and npm installed
 - Docker and Docker Compose installed
 
-## Environment
+## Local development environment
 
 Copy the app env files before starting:
 
@@ -30,7 +32,8 @@ cp apps/spaces/.env.example apps/spaces/.env
 
 Set `ENABLE_PUBLIC_LIBRARY=false` in `apps/api/.env` to disable the public quiz library on self-hosted instances that don't want to depend on the public library service.
 
-To generate passwords for different services and add them to your `.env`, you can use `openssl rand -hex 32` to generate them securely.
+To generate passwords for local services and add them to the relevant app-level
+`.env` file, use `openssl rand -hex 32`.
 
 ## Releases
 
@@ -41,7 +44,7 @@ Once the related commits have been merged into `main`, create and tag the new re
 ```sh
 git switch main
 git pull
-# Update version number on .env.example
+# Update version number in the root .env.example
 $EDITOR .env.example
 # Commit the version
 git add .env.example
@@ -56,155 +59,6 @@ This will start the auto build on
 <https://hub.docker.com/u/horizontalorg> and publish the new images.
 After this process is done, you can [create a release on
 Github](https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes).
-
-## Self hosting Shira
-
-### System requirements
-
-_Minimum_ system requirements:
-
-- RAM: 2GB
-- DISK: 5GB
-  > For disk space, the data stored in Shira is in the same server
-  > unless you use an external S3 provider, so consider monitoring
-  > server storage and adding space if needed. _If you are running Shira
-  > on a server with less resources than our recommended set up, we
-  > would love to hear about your experience :D_
-
-_Recommended_ system requirements: Ideal disk space depends on how much
-data you intend to collect. A good rule of thumb would be to allocate
-the double of the space that users would submit to your server. When
-monitoring, we recommend for you to aim to have the same amount of free
-and used space in the server.
-
-We don't have any particular recommendation about hosting providers for
-Shira: this is a pretty straightforward application so it should work
-anywhere you can install Docker. We have installed Shira in Digital Ocean
-and in Greenhost and has worked well so far. If you experience any issues please
-[contact us](https://shira.app/contact).
-
-### Prerequisites
-
-- Docker (including the compose module).
-
-- Two subdomains, one for spaces and one for quizzes. The domains should
-  point to the desired server.  If you're using the included S3 server,
-  you'll need a third subdomain.
-
-- Credentials for an SMTP server.
-
-### Installation
-
-You'll need a server with a running Docker daemon, Docker Compose, and
-a clone of this repository.
-
-Copy the `.env.example` into `.env` and edit accordingly.
-
-Two domain names must point to this server.  One is for spaces, and
-another for quizes. Edit these on the variables ending with `_DOMAIN`.
-
-To generate passwords for different services, you can use `openssl rand
--hex 32` to generate them securely.
-
-The bundled Garage image server is configured in two phases. On the first
-boot, leave `IMAGE_ACCESS_KEY` and `IMAGE_SECRET_KEY` blank. Garage must be
-running before you can create these credentials. `IMAGE_BUCKET` can keep its
-default value of `shira`; if you change it, use the same name when creating
-the Garage bucket in the second phase below.
-
-After setting the `.env` variables, run `docker compose up -d`.  The
-compose will run every service needed, issue certificates for the
-configured domains, and keep running until you stop them with `docker
-compose down`.
-
-If you want to upgrade a running service, run `docker compose pull` to
-pull the `latest` images.  If you want to run a specific Shira version,
-change the `VERSION` variable.
-
-#### Environment variables table
-
-**For passwords variables, please remember to create strong
-passphrases.**
-
-**Optional variables can be empty or keep the default values.**
-
-
-| Key                      | Description                                                                 | Notes    |
-| ------------------------ | --------------------------------------------------------------------------- | -------- |
-| COOKIE_DOMAIN            | Main domain for cookies                                                     | required |
-| SPACES_DOMAIN            | Subdomain of COOKIE_DOMAIN for the Shira spaces app                         | required |
-| QUIZ_DOMAIN              | Subdomain of COOKIE_DOMAIN for the Shira quizzes app                         | required |
-| IMAGES_DOMAIN            | Domain for the images server                                                | optional |
-| VERSION                  | Containers version (`alpha`, `beta`, `latest` or any [container tag][])     | optional |
-| JWT_SECRET               | Secret for authorization between apps                                       | required |
-| MYSQL_PASSWORD           | Password for the MySQL database                                             | required |
-| MYSQL_ROOT_PASSWORD      | Root password for MySQL service                                             | required |
-| REDIS_PASSWORD           | Password for Redis database                                                 | required |
-| GARAGE_RPC_SECRET        | Secret for Garage cluster                                                   | required |
-| IMAGE_ACCESS_KEY         | S3 bucket access key for uploading images                                   | required after Garage setup |
-| IMAGE_SECRET_KEY         | S3 bucket secret key for uploading images                                   | required after Garage setup |
-| SMTP_GLOBAL_FROM         | Send emails from this address, it also receives Let's Encrypt notifications | required |
-| SMTP_HOST                | SMTP server hostname                                                        | required |
-| SMTP_PORT                | SMTP port                                                                   | required |
-| SMTP_USER                | SMTP user name                                                              | required |
-| SMTP_PASS                | SMTP password                                                               | required |
-| TZ                       | Server timezone                                                             | optional |
-| MYSQL_HOST               | MySQL server hostname                                                       | optional |
-| MYSQL_DATABASE           | MySQL database                                                              | optional |
-| MYSQL_USER               | MySQL username                                                              | optional |
-| REDIS_HOST               | Redis server hostname                                                       | optional |
-| IMAGE_ENDPOINT           | Garage server hostname                                                      | optional |
-| IMAGE_PORT               | Garage server port                                                          | optional |
-| IMAGE_BUCKET             | S3 bucket name; must match the bucket created during Garage setup           | required after Garage setup |
-| SUBSCRIPTION_CACHE_TTL   | Redis cache duration                                                        | optional |
-| SPACE_URL                | Full URL for the spaces app (no trailing slash)                             | optional |
-| PUBLIC_URL               | Full URL for the quizzes app (no trailing slash)                             | optional |
-| SUPERADMIN_URL           | Full URL for the super admin (no trailing slash)                            | optional |
-| SHIRA_LIBRARY_URL        | Full URL for Shira's public library (no trailing slash)                     | optional |
-| SHIRA_LIBRARY_IMAGES_URL        | Full URL for Shira's public library bucket (for validation purposes)                     | optional |
-| SELF_HOSTED              | When "true" disables payments                                               | optional |
-| ENABLE_PUBLIC_LIBRARY    | When "true" enables synchronization with the public library                 | optional |
-| TRUST_DOWNSTREAM_PROXY   | Change to "true" if you're serving Shira behind your own reverse proxy      | optional |
-
-[container tag]: https://hub.docker.com/r/horizontalorg/shira-api
-
-### Upgrades
-
-1. `git pull` from this repository
-2. Update your `.env` file from `.env.example`
-3. Run `docker compose up -d`
-
-### Image server (Garage)
-
-After the initial `docker compose up -d` starts Garage, complete the second
-phase of the image server setup:
-
-* Once the service is running, create the actual Garage bucket and access key:
-
-  ```sh
-  id=`docker exec shira-images-1 /garage node id -q`
-  # Change 1G to your actual storage capacity
-  docker exec shira-images-1 /garage layout assign -z images -c 1G $id
-  docker exec shira-images-1 /garage layout apply --version 1
-  # Keep the output of this command somewhere safe
-  docker exec shira-images-1 /garage key create shira
-  docker exec shira-images-1 /garage bucket create shira
-  docker exec shira-images-1 /garage bucket allow --read --write --owner --key shira shira
-  ```
-
-* Add the "Key ID" and "Secret key" fields from the key creation step to the root `.env` file as `IMAGE_ACCESS_KEY` and `IMAGE_SECRET_KEY`, respectively. Set `IMAGE_BUCKET` to the bucket name created above (`shira` in this example):
-
-  ```sh
-  IMAGE_ACCESS_KEY=GKa85289d7ee87ccd281789601
-  IMAGE_SECRET_KEY=d345381e9b6f0e835e900592fae82ebba83cbf132553abd5fbb1f6302510ec56
-  IMAGE_BUCKET=shira
-  ```
-
-* Recreate the affected containers so they load the new environment variables:
-
-  ```sh
-  docker compose up -d
-  ```
 
 ## Local Development
 
