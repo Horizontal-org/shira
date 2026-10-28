@@ -246,7 +246,7 @@
     },
     "learner_invitation": {
         "learn_more": "Pelajari lebih lanjut tentang Shira",
-        "success_title": "Success!",
+        "success_title": "Berhasil!",
         "error_title": "Something went wrong",
         "success_joined_space": "Anda telah bergabung {{spaceName}} di Shira.",
         "success_hint": "Ketika organisasi Anda berbagi kuis dengan Anda, Anda akan menerima undangan email langsung di kotak masuk Anda.",
