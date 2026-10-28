@@ -5,7 +5,7 @@
         "inbox": "Boîte de réception",
         "starred": "Starred",
         "snoozed": "Snoozed",
-        "sent": "Messages envoyés",
+        "sent": "Envoyé",
         "drafts": "Brouillons",
         "compose": "Compose",
         "to_me": "à moi",
@@ -146,8 +146,8 @@
     "pagination": {
         "page": "<current>{{current}}</current> de {{total}}",
         "summary": "{{start}}-{{end}} de {{total}}",
-        "last": "Dernier",
-        "first": "Premier",
+        "last": "Dernière",
+        "first": "Première",
         "next": "Suivant",
         "back": "Retour"
     },
