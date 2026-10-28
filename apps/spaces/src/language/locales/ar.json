@@ -330,7 +330,7 @@
             "selected_count": "{{count}} selected",
             "tag": "الوسوم",
             "apps": "تطبيقات",
-            "type": "النوع",
+            "type": "نوع",
             "creator": "Creator",
             "language": "اللغة",
             "clear_all": "امسح الكل"
@@ -834,7 +834,7 @@
         "create_entity": {
             "question": {
                 "scratch_subtitle": "Create the question yourself, with full control. You can even copy and paste a real-life phishing example.",
-                "create_button": "إلغاء",
+                "create_button": "ألغي",
                 "template_title": "Use a template",
                 "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
                 "import_title": "Or import a question from a file",
@@ -845,7 +845,7 @@
             "quiz": {
                 "subtitle": "Choose how you’d like to create your quiz.",
                 "title": "إنشاء اختبار جديد",
-                "create_button": "إلغاء",
+                "create_button": "ألغي",
                 "scratch_title": "Start from scratch",
                 "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
                 "scratch_subtitle": "Create the quiz yourself, with full control. You can even copy and paste a real-life phishing example.",
@@ -1123,8 +1123,8 @@
             "columns": {
                 "app": "التطبيق",
                 "actions": "الإجراءات",
-                "preview": "المعاينة",
-                "type": "النوع",
+                "preview": "معاينة",
+                "type": "نوع",
                 "language": "اللغة",
                 "question_name": "اسم السؤال"
             },
@@ -1232,7 +1232,7 @@
         },
         "submissions_table": {
             "actions": "الإجراءات",
-            "type": "النوع",
+            "type": "نوع",
             "status": "الحالة",
             "app": "التطبيق",
             "preview": "Preview submission",
@@ -1299,7 +1299,7 @@
         "header_character_limit_tooltip": "One or more fields exceed the character limit.",
         "breadcrumbs": {
             "content": "Note content",
-            "preview": "المعاينة"
+            "preview": "معاينة"
         },
         "note_info": {
             "note_name": {
