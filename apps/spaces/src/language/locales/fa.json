@@ -149,7 +149,7 @@
             "delete": "پاک کردن",
             "more_actions": "More actions",
             "submit_as_template": "Submit as template",
-            "export": "خروجی گرفتن"
+            "export": "برون برد"
         },
         "use_library_question_button": "Use a question template",
         "create_note_button": "ایجادکردن",
@@ -485,8 +485,8 @@
         "version": "You are currently using Shira v{{version}}."
     },
     "buttons": {
-        "ok": "باشه",
-        "cancel": "لغو",
+        "ok": "تأیید",
+        "cancel": "انصراف",
         "no_thanks": "No, thanks",
         "close": "بستن",
         "exit": "Exit",
@@ -629,7 +629,7 @@
             "field_type": {
                 "title:": "نوع فایل",
                 "image": "تصویر",
-                "video": "ویدئو",
+                "video": "ویدیو",
                 "audio": "صوت",
                 "document": "سندها",
                 "other": "دیگر"
@@ -814,7 +814,7 @@
         "create_entity": {
             "question": {
                 "scratch_subtitle": "Create the question yourself, with full control. You can even copy and paste a real-life phishing example.",
-                "create_button": "لغو",
+                "create_button": "انصراف",
                 "template_title": "Use a template",
                 "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
                 "import_title": "Or import a question from a file",
@@ -825,7 +825,7 @@
             "quiz": {
                 "subtitle": "Choose how you’d like to create your quiz.",
                 "title": "Create new quiz",
-                "create_button": "لغو",
+                "create_button": "انصراف",
                 "scratch_title": "Start from scratch",
                 "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
                 "scratch_subtitle": "Create the quiz yourself, with full control. You can even copy and paste a real-life phishing example.",
