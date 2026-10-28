@@ -81,7 +81,7 @@
         "data_collection": {
             "percentage_of_learners": "c. Le pourcentage d'apprenants assignés à ce quiz qui l'ont terminé",
             "your_score": "b. Votre score pour chaque question",
-            "understand": "J'ai compris",
+            "understand": "Je comprends",
             "only_datetime": "Lorsque vous passez ce quiz, Shira suit uniquement la date et l'heure auxquelles vous passez le quiz.",
             "total_quiz_score": "a. Votre score total au quiz",
             "learn_more": "En savoir plus",
