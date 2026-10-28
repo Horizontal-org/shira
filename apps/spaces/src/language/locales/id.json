@@ -2,8 +2,8 @@
     "login": {
         "title": "Masuk",
         "subtitle": "Log in to access your custom Shira space.",
-        "email_placeholder": "Surel",
-        "password_placeholder": "Kata sandi",
+        "email_placeholder": "Email",
+        "password_placeholder": "Password",
         "reset_password": "Lupa kata sandi?",
         "login_header_button": "Masuk",
         "loading_button": "Sedang Masuk...",
@@ -96,7 +96,7 @@
         "last_modified": "Last modified {{date}}",
         "publish_toggle": "Telah dipublikasikan",
         "actions": {
-            "edit": "Sunting",
+            "edit": "Edit",
             "duplicate": "Menggandakan"
         }
     },
@@ -126,7 +126,7 @@
         },
         "visibility": {
             "public": "Publik",
-            "private": "Private"
+            "private": "Pribadi"
         },
         "settings": {
             "assessment": {
@@ -144,7 +144,7 @@
         "create_question_button": "Create question",
         "add_from_library_button": "",
         "action_tooltips": {
-            "edit": "Sunting",
+            "edit": "Edit",
             "duplicate": "Menggandakan",
             "delete": "Hapus",
             "more_actions": "Opsi lainnya",
@@ -258,7 +258,7 @@
                 "subtitle": "This is how your question will look to learners, including the explanations you have written.",
                 "show_explanations": "Show explanations",
                 "hide_explanations": "Hide explanations",
-                "next_explanation": "Berikutnya",
+                "next_explanation": "Selanjutnya",
                 "previous_explanation": "Sebelumnya",
                 "no_explanations": "There are no explanations for this question.",
                 "aria_label": "Preview question"
@@ -282,7 +282,7 @@
         "columns": {
             "question_name": "Kuesioner",
             "type": {
-                "title": "Jenis",
+                "title": "Tipe",
                 "phishing": "Phishing",
                 "legitimate": "Legitimate"
             },
@@ -316,7 +316,7 @@
             "selected_count": "{{count}} selected",
             "tag": "Tags",
             "apps": "Aplikasi",
-            "type": "Jenis",
+            "type": "Tipe",
             "creator": "Creator",
             "language": "Bahasa",
             "clear_all": "Tandai Kosong"
@@ -353,7 +353,7 @@
             "description": "The average score is the percentage of learners who answered each question correctly.",
             "empty_state": "The quiz does not have any questions answered.",
             "table": {
-                "type": "Jenis",
+                "type": "Tipe",
                 "question_name": "Nama",
                 "score": "Average score",
                 "loading": "Loading questions..."
@@ -463,7 +463,7 @@
                 "action": "Change email address"
             },
             "password": {
-                "title": "Kata sandi",
+                "title": "Password",
                 "last_updated": "Terakhir diperbarui {date}.",
                 "action": "Ubah kata sandi"
             },
@@ -493,7 +493,7 @@
         "save": "Simpan",
         "back": "Kembali",
         "delete": "Hapus",
-        "next": "Berikutnya",
+        "next": "Selanjutnya",
         "continue": "Lanjutkan",
         "login": "Masuk",
         "send_invitation": "Send invitation",
@@ -560,7 +560,7 @@
                 "description": "Anyone with the quiz URL can take the quiz"
             },
             "private_option": {
-                "title": "Private",
+                "title": "Pribadi",
                 "description": "Only invited learners from your space can take the quiz",
                 "forbidden_tooltip": "Upgrade your plan to access private quizzes.",
                 "forbidden": "Only invited learners from your space can take the quiz. This feature is only available on paid plans. <0>{{learn_more}}</0>"
@@ -1093,7 +1093,7 @@
                 "app": "App",
                 "actions": "Aksi",
                 "preview": "Preview",
-                "type": "Jenis",
+                "type": "Tipe",
                 "language": "Bahasa",
                 "question_name": "Kuesioner"
             },
@@ -1201,7 +1201,7 @@
         },
         "submissions_table": {
             "actions": "Aksi",
-            "type": "Jenis",
+            "type": "Tipe",
             "status": "Status",
             "app": "App",
             "preview": "Preview submission",
