@@ -162,7 +162,7 @@
                 "section3": "Untuk berkontribusi pada menerjemahkan Shira, email kami di contact@wearehorizontal.org."
             }
         },
-        "footer_title": "Kontak",
+        "footer_title": "Contact",
         "footer_description": "Memiliki permintaan fitur, laporan bug atau hanya ingin terhubung dengan kami? Email: info@wearehorizontal.org",
         "bring_shira_button": "Bawa Shira ke organisasi Anda",
         "background": {
@@ -246,7 +246,7 @@
     },
     "learner_invitation": {
         "learn_more": "Pelajari lebih lanjut tentang Shira",
-        "success_title": "Success!",
+        "success_title": "Berhasil!",
         "error_title": "Something went wrong",
         "success_joined_space": "Anda telah bergabung {{spaceName}} di Shira.",
         "success_hint": "Ketika organisasi Anda berbagi kuis dengan Anda, Anda akan menerima undangan email langsung di kotak masuk Anda.",
