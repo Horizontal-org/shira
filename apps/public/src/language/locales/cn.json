@@ -45,14 +45,14 @@
     "quiz": {
         "how_it_works": {
             "title": "使用说明",
-            "question_count": "本测验包含 {{count}} 道题目",
+            "question_count": "这一调查包含{{count}}个问题.",
             "explanation_1": "本测验包含 10 道题目。",
-            "explanation_2": "对于每道题目，请判断所示消息看似钓鱼攻击或正规内容。",
+            "explanation_2": "对于每个问题,选择一个备选办法:",
             "explanation_3": "如果不确定，可以选择“不确定”。",
             "footer_title": "测验简介",
             "next": "好的",
             "learn_more": "了解更多",
-            "disclaimer": "Shira collects limited data about your usage."
+            "disclaimer": "什叶派收集的关于你使用情况的有限数据."
         },
         "answers": {
             "options": {
@@ -79,16 +79,16 @@
             "cancel": "取消"
         },
         "data_collection": {
-            "percentage_of_learners": "c. The percentage of learners assigned this quiz who have completed it",
-            "your_score": "b. Your score for each question",
+            "percentage_of_learners": "c) 完成调查的学员比例",
+            "your_score": "b. 每一问题的分数",
             "understand": "我明白",
-            "only_datetime": "When you take this quiz, Shira will only track the date and time you take the quiz.",
-            "total_quiz_score": "a. Your total quiz score",
+            "only_datetime": "当你担任这一问答时,什叶拉将只跟踪你担任问答的日期和时间.",
+            "total_quiz_score": "a 。 页: 1",
             "learn_more": "了解更多",
-            "title": "Data collection",
-            "2_results": "2. Results:",
-            "1_date_time": "1. The date and time when you take the quiz",
-            "intro": "When you take this quiz, Shira will only track:"
+            "title": "数据收集",
+            "2_results": "2. 成果:",
+            "1_date_time": "1. 进行问答的日期和时间",
+            "intro": "当你担任这一职务时,什叶拉将仅举以下几句:"
         },
         "note": {
             "title": "注意"
@@ -130,7 +130,7 @@
         "heavy_subtitle_2": "{{correctQuestions}} 道题目，共 {{questions}} 道 ",
         "heavy_subtitle_3": "题目。",
         "greeting_title": "感谢使用 Shira！",
-        "assessment_subtitle": "You've completed the quiz."
+        "assessment_subtitle": "你早完成了问答."
     },
     "about": {
         "title": "关于",
@@ -266,7 +266,7 @@
     "languages": {
         "ar": "阿拉伯语",
         "es": "西班牙语",
-        "cn": "Chinese (Simplified)",
+        "cn": "中文(简化)",
         "ru": "俄语",
         "fr": "法语",
         "en": "英语"
