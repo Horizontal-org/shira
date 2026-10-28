@@ -106,8 +106,11 @@ another for quizes. Edit these on the variables ending with `_DOMAIN`.
 To generate passwords for different services, you can use `openssl rand
 -hex 32` to generate them securely.
 
-Unless you're setting up a custom S3 bucket for the images service, skip
-the `IMAGE_` options for now.
+The bundled Garage image server is configured in two phases. On the first
+boot, leave `IMAGE_ACCESS_KEY` and `IMAGE_SECRET_KEY` blank. Garage must be
+running before you can create these credentials. `IMAGE_BUCKET` can keep its
+default value of `shira`; if you change it, use the same name when creating
+the Garage bucket in the second phase below.
 
 After setting the `.env` variables, run `docker compose up -d`.  The
 compose will run every service needed, issue certificates for the
@@ -138,8 +141,8 @@ passphrases.**
 | MYSQL_ROOT_PASSWORD      | Root password for MySQL service                                             | required |
 | REDIS_PASSWORD           | Password for Redis database                                                 | required |
 | GARAGE_RPC_SECRET        | Secret for Garage cluster                                                   | required |
-| IMAGE_ACCESS_KEY         | S3 bucket access key for uploading images                                   | required |
-| IMAGE_SECRET_KEY         | S3 bucket secret key for uploading images                                   | required |
+| IMAGE_ACCESS_KEY         | S3 bucket access key for uploading images                                   | required after Garage setup |
+| IMAGE_SECRET_KEY         | S3 bucket secret key for uploading images                                   | required after Garage setup |
 | SMTP_GLOBAL_FROM         | Send emails from this address, it also receives Let's Encrypt notifications | required |
 | SMTP_HOST                | SMTP server hostname                                                        | required |
 | SMTP_PORT                | SMTP port                                                                   | required |
@@ -152,7 +155,7 @@ passphrases.**
 | REDIS_HOST               | Redis server hostname                                                       | optional |
 | IMAGE_ENDPOINT           | Garage server hostname                                                      | optional |
 | IMAGE_PORT               | Garage server port                                                          | optional |
-| IMAGE_BUCKET             | S3 bucket                                                                   | required |
+| IMAGE_BUCKET             | S3 bucket name; must match the bucket created during Garage setup           | required after Garage setup |
 | SUBSCRIPTION_CACHE_TTL   | Redis cache duration                                                        | optional |
 | SPACE_URL                | Full URL for the spaces app (no trailing slash)                             | optional |
 | PUBLIC_URL               | Full URL for the quizzes app (no trailing slash)                             | optional |
@@ -173,6 +176,9 @@ passphrases.**
 
 ### Image server (Garage)
 
+After the initial `docker compose up -d` starts Garage, complete the second
+phase of the image server setup:
+
 * Once the service is running, create the actual Garage bucket and access key:
 
   ```sh
@@ -186,17 +192,18 @@ passphrases.**
   docker exec shira-images-1 /garage bucket allow --read --write --owner --key shira shira
   ```
 
-* Use the "Key ID" and "Secret key" fields from the key creation step as `IMAGE_ACCESS_KEY` and `IMAGE_SECRET_KEY` env vars, respectively:
+* Add the "Key ID" and "Secret key" fields from the key creation step to the root `.env` file as `IMAGE_ACCESS_KEY` and `IMAGE_SECRET_KEY`, respectively. Set `IMAGE_BUCKET` to the bucket name created above (`shira` in this example):
 
   ```sh
   IMAGE_ACCESS_KEY=GKa85289d7ee87ccd281789601
   IMAGE_SECRET_KEY=d345381e9b6f0e835e900592fae82ebba83cbf132553abd5fbb1f6302510ec56
+  IMAGE_BUCKET=shira
   ```
 
-* Restart the service:
+* Recreate the affected containers so they load the new environment variables:
 
   ```sh
-  docker compose restart
+  docker compose up -d
   ```
 
 ## Local Development
