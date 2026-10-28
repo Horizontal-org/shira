@@ -1309,7 +1309,8 @@
             },
             "note_content": {
                 "title": "Note content",
-                "subtitle": "Write the note that will be shown. Notes are shown before, after or in between questions. They can include text, links and images to offer more context and information."
+                "subtitle": "Write the note that will be shown. Notes are shown before, after or in between questions. They can include text, links and images to offer more context and information.",
+                "placeholder": ""
             }
         },
         "preview": {
