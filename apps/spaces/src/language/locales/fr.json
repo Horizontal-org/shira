@@ -1309,7 +1309,8 @@
             },
             "note_content": {
                 "title": "Contenu de la note",
-                "subtitle": "Rédigez la note qui sera affichée. Les notes s’affichent avant, après ou entre les questions. Elles peuvent inclure du texte, des liens et des images pour fournir plus de contexte et d’informations."
+                "subtitle": "Rédigez la note qui sera affichée. Les notes s’affichent avant, après ou entre les questions. Elles peuvent inclure du texte, des liens et des images pour fournir plus de contexte et d’informations.",
+                "placeholder": ""
             }
         },
         "preview": {
