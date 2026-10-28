@@ -138,7 +138,7 @@
                     "title": "所选应用"
                 },
                 "editor": {
-                    "title": "Editor",
+                    "title": "编辑",
                     "simple": "简编",
                     "advanced": "高级超文本编辑"
                 }
@@ -561,7 +561,7 @@
                     "detailed_analytics": "详细分析",
                     "analysis_tools": "分析与合规工具",
                     "tailor_made_training": "量身定制的用户培训",
-                    "priority_support": "优先支持",
+                    "priority_support": "支持",
                     "phishing_readiness_assessment": "致癌准备评估",
                     "preparedness_report": "备灾报告和行动计划"
                 },
@@ -1130,7 +1130,7 @@
             },
             "preview_full_quiz": "全面审查",
             "no_questions": "尚未发现有关该静态模板的任何问题.",
-            "tags": "标签",
+            "tags": "Tags",
             "back_to_quiz_template": "回到静态模板",
             "languages": "语言",
             "creator": "造物",
@@ -1179,7 +1179,7 @@
         "quizzes": "测验",
         "settings": "设置",
         "learners": "学员",
-        "support": "优先支持",
+        "support": "支持",
         "logout": "退出",
         "templates": "模板"
     },
@@ -1189,7 +1189,7 @@
             "questions": "题目"
         },
         "submit_quiz": {
-            "tags": "标签",
+            "tags": "Tags",
             "tags_placeholder": "租户",
             "name_hint": "利用描述性名称帮助其他用户发现自己所期望的东西.",
             "success": "提交了基茨模板.",
@@ -1210,7 +1210,7 @@
             "description_placeholder": "说明"
         },
         "submit_question": {
-            "tags": "标签",
+            "tags": "Tags",
             "title": "提出作为模板的问题",
             "success": "问题模板已经提交.",
             "description_placeholder": "说明",
