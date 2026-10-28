@@ -2,7 +2,7 @@
     "gmail": {
         "search": "Buscar en el correo electrónico",
         "mail": "Mail",
-        "inbox": "Recibidos",
+        "inbox": "Bandeja de entrada",
         "starred": "Destacados",
         "snoozed": "Pospuestos",
         "sent": "Enviados",
@@ -18,7 +18,7 @@
         "attachments_other": "{{count}} archivos adjuntos",
         "scanned_by_google": "Analizado por Gmail",
         "encryption": "Encriptación estándar (TLS)",
-        "learn_more": "Más informacion",
+        "learn_more": "Aprende más",
         "safer_with_google": "Más seguro con Google",
         "attachment_scanning_description": "Para ayudar a proteger su bandeja de entrada, Gmail bloquea los archivos adjuntos cuando se detecta malware. Usted debe todavía sólo descargar archivos adjuntos de la gente en la que confía.",
         "add_to_drive": "Añadir a Drive",
@@ -29,7 +29,7 @@
     "outlook": {
         "search": "Buscar",
         "home": "Inicio",
-        "view": "Vista",
+        "view": "View",
         "help": "Ayuda",
         "meet_now": "Iniciar una reunión instantánea",
         "new_mail": "Correo nuevo",
@@ -37,8 +37,8 @@
         "forward": "Reenviar",
         "undo": "Deshacer",
         "delete": "Eliminar",
-        "archive": "Archivar",
-        "report": "Informar",
+        "archive": "Archiva",
+        "report": "Report",
         "move_to": "Mover a",
         "read_unread": "Leída / No leída",
         "flag_unflag": "Flag / Unflag",
@@ -54,7 +54,7 @@
         "to": "To:",
         "you": "Tú",
         "call": "Call",
-        "contact": "Contact",
+        "contact": "Contacto",
         "show_more": "Mostrar más",
         "no_subject": "(sin tema)"
     },
@@ -123,7 +123,7 @@
         "no_phone_number": "No phone number",
         "contact_actions": "Contact actions",
         "voice": "Voz",
-        "video": "Video",
+        "video": "Vídeo",
         "search": "Buscar",
         "mute_notifications": "Mute",
         "off": "Off",
@@ -185,7 +185,8 @@
         "file_size": "24 KB",
         "time": "1:03 PM",
         "voice_message": "Mensaje de voz",
-        "voice_duration": "0:02"
+        "voice_duration": "0:02",
+        "photo": "Foto"
     },
     "instagram": {
         "account_name": "Tú",
