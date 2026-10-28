@@ -189,7 +189,7 @@
                 "tab_title": "Informations sur la question",
                 "question_name": {
                     "title": "Titre de la question",
-                    "subtitle": "Ce titre ne sera visible que par vous. Son but est de vous aider à vous souvenir du contenu de cette question",
+                    "subtitle": "Ce nom ne sera visible que par vous, pour vous aider à vous rappeler le sujet de cette note",
                     "question_name_placeholder": "Titre de la question"
                 },
                 "phishing": {
@@ -1302,7 +1302,7 @@
         },
         "note_info": {
             "note_name": {
-                "title": "Note name",
+                "title": "Nom de la note",
                 "subtitle": "This name will only be visible to you, to help you remember what this note is about",
                 "placeholder": "Note name"
             },
