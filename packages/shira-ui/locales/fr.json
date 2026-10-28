@@ -27,17 +27,17 @@
         "add_all_to_drive": "Ajouter tout à Drive"
     },
     "outlook": {
-        "search": "Rechercher",
+        "search": "Recherche",
         "home": "Accueil",
-        "view": "Afficher",
+        "view": "Voir",
         "help": "Aide",
         "new_mail": "Nouveau courrier",
         "reply": "Répondre",
         "forward": "Transférer",
         "undo": "Annuler",
         "delete": "Supprimer",
-        "archive": "Archiver",
-        "report": "Signaler",
+        "archive": "Archive",
+        "report": "Rapport",
         "move_to": "Avancez",
         "read_unread": "Lire / lire",
         "flag_unflag": "Drapeau / Unflag",
@@ -50,7 +50,7 @@
         "conversation_history": "Historique des conversations",
         "notes": "Notes",
         "go_to_groups": "Allez aux groupes",
-        "to": "À :",
+        "to": "To:",
         "you": "Toi",
         "call": "Call",
         "contact": "Contact",
@@ -123,8 +123,8 @@
         "video": "Vidéo",
         "search": "Recherche",
         "mute_notifications": "Mute",
-        "off": "Éteindre",
-        "no": "Non",
+        "off": "Désactivé",
+        "no": "No",
         "default": "Valeur par défaut",
         "chat_theme": "Thème de conversation",
         "save_to_downloads": "Enregistrer pour Téléchargements",
@@ -178,22 +178,23 @@
             "no_media": "Pas de médias partagés",
             "no_voice": "Aucun message vocal partagé"
         },
-        "add_to_contacts": "Add to Contacts",
+        "add_to_contacts": "Ajouter aux contacts",
         "today": "Aujourd’hui",
         "unread_count": "12",
         "registration_date": "Jun 2023",
         "file_size": "24 KB",
         "time": "13 H 00",
         "voice_message": "Message vocal",
-        "voice_duration": "0:02"
+        "voice_duration": "0:02",
+        "photo": "Photo"
     },
     "instagram": {
         "account_name": "Toi",
         "search": "Recherche",
         "messages": "Messages",
         "requests": "Demandes",
-        "your_note": "Your note",
+        "your_note": "Votre note",
         "new_message": "Nouveau message",
-        "verified": "Verified"
+        "verified": "Vérifié"
     }
 }
