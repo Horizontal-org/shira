@@ -2,8 +2,8 @@
     "login": {
         "title": "ورود",
         "subtitle": "Log in to access your custom Shira space.",
-        "email_placeholder": "ایمیل",
-        "password_placeholder": "گذرواژه",
+        "email_placeholder": "پست الکترونیکی",
+        "password_placeholder": "رمز عبور",
         "reset_password": "گذرواژه را فراموش کردید؟",
         "login_header_button": "ورود",
         "loading_button": "در حال ورود…",
@@ -254,7 +254,7 @@
                 }
             },
             "preview": {
-                "tab_title": "پیش‌نمایش",
+                "tab_title": "مرور",
                 "subtitle": "This is how your question will look to learners, including the explanations you have written.",
                 "show_explanations": "Show explanations",
                 "hide_explanations": "Hide explanations",
@@ -305,8 +305,8 @@
             },
             "actions": {
                 "title": "Actions",
-                "add_aria_label": "افزودن",
-                "preview_aria_label": "پیش‌نمایش",
+                "add_aria_label": "اضافه کردن",
+                "preview_aria_label": "مرور",
                 "disabled_tooltip": "Select a language and an app to use this question."
             },
             "created_on": "ایجادکردن",
@@ -463,7 +463,7 @@
                 "action": "Change email address"
             },
             "password": {
-                "title": "گذرواژه",
+                "title": "رمز عبور",
                 "last_updated": "Last updated: {{date}}",
                 "action": "تغییر گذرواژه"
             },
@@ -485,12 +485,12 @@
         "version": "You are currently using Shira v{{version}}."
     },
     "buttons": {
-        "ok": "تأیید",
-        "cancel": "انصراف",
+        "ok": "تایید",
+        "cancel": "لغو کردن",
         "no_thanks": "No, thanks",
         "close": "بستن",
         "exit": "Exit",
-        "save": "ذخیره‌",
+        "save": "ذخيره",
         "back": "بازگشت",
         "delete": "پاک کردن",
         "next": "بعدی",
@@ -814,7 +814,7 @@
         "create_entity": {
             "question": {
                 "scratch_subtitle": "Create the question yourself, with full control. You can even copy and paste a real-life phishing example.",
-                "create_button": "انصراف",
+                "create_button": "لغو کردن",
                 "template_title": "Use a template",
                 "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
                 "import_title": "Or import a question from a file",
@@ -825,7 +825,7 @@
             "quiz": {
                 "subtitle": "Choose how you’d like to create your quiz.",
                 "title": "Create new quiz",
-                "create_button": "انصراف",
+                "create_button": "لغو کردن",
                 "scratch_title": "Start from scratch",
                 "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
                 "scratch_subtitle": "Create the quiz yourself, with full control. You can even copy and paste a real-life phishing example.",
@@ -1092,7 +1092,7 @@
             "columns": {
                 "app": "برنامه‌ها",
                 "actions": "Actions",
-                "preview": "پیش‌نمایش",
+                "preview": "مرور",
                 "type": "نوغ",
                 "language": "زبان",
                 "question_name": "پرسش‌نامه"
@@ -1272,7 +1272,7 @@
         "header_character_limit_tooltip": "One or more fields exceed the character limit.",
         "breadcrumbs": {
             "content": "Note content",
-            "preview": "پیش‌نمایش"
+            "preview": "مرور"
         },
         "note_info": {
             "note_name": {
