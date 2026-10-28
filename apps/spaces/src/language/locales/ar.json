@@ -8,7 +8,7 @@
         "subtitle": "تسجيل الدخول للوصول إلى مساحة Shira الخاصة بكم.",
         "reset_password": "هل نسيتم كلمة السر؟",
         "loading_button": "يجري تسجيل الدخول...",
-        "error_message": "Error: Your email address or password is incorrect."
+        "error_message": "عنوان البريد الإلكتروني أو كلمة السر غير صحيح."
     },
     "reset_password": {
         "message": "",
@@ -62,9 +62,9 @@
         "subtitle": "إدارة الاختبارات من هنا، بما في ذلك إنشاؤها، ونشرها، وإلغاء نشرها، وحذفها.",
         "create_quiz_button": "إنشاء اختبار جديد",
         "create_limit_reached": "رَقّوا خطتكم لإنشاء المزيد من الاختبارات.",
-        "use_a_quiz_template_button": "Use a quiz template",
+        "use_a_quiz_template_button": "استخدام نموذج الخماس",
         "use_template_button": "",
-        "empty_state": "You don’t have any quizzes yet. Click on the “Create new quiz” button to get started."
+        "empty_state": "ليس لديك أي امتحانات بعد. اضغط على زر \" امتحانات جديدة \" ليبدأ."
     },
     "learners": {
         "message": "",
@@ -73,7 +73,7 @@
             "no_learners": "لا يوجد متعلمون مسجلون في مساحتكم.",
             "registered_title": "المتعلمون المسجلون",
             "registered_description": "يرجى اختيار متعلم واحد أو أكثر لتعيين هذا الاختبار لهم.",
-            "registered_description_2": "بإمكانكم إدارة المتعلمين المسجلين ودعوة آخرين جدد من خلال <0>قسم المتعلمين</0>.",
+            "registered_description_2": "والقائمة الواردة أدناه لا تبين سوى المتعلمين الذين أكملوا تسجيلهم. يمكنك إدارة المتعلمين المسجلين ودعوة متعلمين جدد في القسم الخاص بالتعلمين في 01 أو القراءة عن 01.",
             "assign_button": "تعيين للمتعلمين",
             "assign_title": "تعيين \"{{quiz_title}}\" للمتعلمين",
             "all_learners_registered": "تم تعيين هذا الاختبار بالفعل لجميع المتعلمين المسجلين.",
@@ -127,8 +127,8 @@
             "copy_link": "نسخ رابط الاختبار",
             "disabled_tooltip": "يجب إنشاء سؤال واحد على الأقل لتتمكنوا من نسخ رابط الاختبار.",
             "submit_as_template": "Submit as template",
-            "copy_link_disabled_tooltip": "يجب إنشاء سؤال واحد على الأقل لنشر الاختبار الخاص بكم.",
-            "submit_as_template_disabled_tooltip": "يجب إنشاء سؤال واحد على الأقل لنشر الاختبار الخاص بكم."
+            "copy_link_disabled_tooltip": "اصنع سؤالاً واحداً على الأقل لنسخ رابطك.",
+            "submit_as_template_disabled_tooltip": "اصنع سؤالاً واحداً على الأقل ليقدم امتحانك كنموذج."
         },
         "visibility": {
             "public": "عمومي",
@@ -138,12 +138,12 @@
         "private_subtitle": "أنشئوا أسئلة الاختبار، وأديروا المتعلمين، وتعقبوا النتائج. يقوم Shira بحفظ عملكم تلقائيًا طالما كنتم متصلين بالانترنت.",
         "settings": {
             "assessment": {
-                "description": "Learners test their phishing detection skills without feedback or explanations to measure their actual performance level.",
-                "title": "Assessment mode"
+                "description": "ويختبر المتعلمون مهاراتهم في الكشف عن التلف دون تلقي تعليقات أو تفسيرات لقياس مستوى أدائهم الفعلي.",
+                "title": "طريقة التقييم"
             },
             "learning": {
-                "title": "Learning mode",
-                "description": "Learners receive immediate feedback and explanations after each answer to help them improve their phishing detection skills."
+                "title": "أسلوب التعلم",
+                "description": "ويتلقى المتعلمون تعليقات وتفسيرات فورية بعد كل إجابة لمساعدتهم على تحسين مهاراتهم في الكشف عن الآفات."
             },
             "title": "Quiz mode"
         }
@@ -156,12 +156,12 @@
             "edit": "تعديل",
             "duplicate": "استنساخ",
             "delete": "حذف",
-            "more_actions": "المزيد من الخيارات",
+            "more_actions": "المزيد من الإجراءات",
             "submit_as_template": "Submit as template",
             "export": "تصدير"
         },
-        "use_library_question_button": "Use a question template",
-        "create_note_button": "إنشاء واحد",
+        "use_library_question_button": "استخدام نموذج الأسئلة",
+        "create_note_button": "مذكرة إنشاء",
         "columns": {
             "type": {
                 "note": "ملاحظة"
@@ -195,7 +195,7 @@
                 "tab_title": "معلومات السؤال",
                 "question_name": {
                     "title": "اسم السؤال",
-                    "subtitle": "سيكون هذا الاسم مرئياً لكم فقط، لمساعدتكم على تذكر موضوع هذا السؤال",
+                    "subtitle": "هذا الاسم سيكون مرئياً لك فقط لمساعدتك في تذكر ما هذا السؤال",
                     "question_name_placeholder": "اسم السؤال"
                 },
                 "phishing": {
@@ -208,8 +208,8 @@
                 },
                 "editor": {
                     "title": "المحرر",
-                    "simple": "Simple editor",
-                    "advanced": "Advanced HTML editor"
+                    "simple": "محرر بسيط",
+                    "advanced": "محرر متقدم من طراز HTML"
                 }
             },
             "content": {
@@ -264,7 +264,7 @@
                     "subtitle": "في الاختبار، سيظهر هذا الرابط قابلاً للضغط، ولكن لأسباب تتعلق بالسلامة، لن يؤدي الضغط عليه إلى فتح الرابط.",
                     "placeholder": "عنوان الرابط"
                 },
-                "explanation_tooltip": "اختاروا صورة أو ضعوا نصا إلى التفسير."
+                "explanation_tooltip": "اختيار بعض النص لإضافة تفسير."
             },
             "preview": {
                 "tab_title": "معاينة",
@@ -278,14 +278,14 @@
             }
         },
         "header_required_tooltip": "لا يمكن ترك الحقول الضرورية فارغة",
-        "header_character_limit_tooltip": "One or more fields exceed the character limit.",
+        "header_character_limit_tooltip": "وتتجاوز حقول أو أكثر حد الشخصية.",
         "html_editor": {
             "title": "HTML source",
-            "fix_errors": "Fix HTML errors before continuing.",
+            "fix_errors": "أصلح الأخطاء قبل الاستمرار.",
             "errors": {
-                "syntax": "Check the HTML near the highlighted position"
+                "syntax": "تحقق من موقع HTML قرب الموقع المسلط"
             },
-            "explanation_tooltip": "Select text or place the cursor in an HTML tag to add an explanation."
+            "explanation_tooltip": "اختيار النص أو وضع الشعار في علامة HTML لإضافة تفسير."
         }
     },
     "question_library": {
@@ -320,31 +320,31 @@
                 "preview_aria_label": "معاينة",
                 "disabled_tooltip": "اختيار لغة وتطبيق لاستخدام هذا السؤال."
             },
-            "created_on": "إنشاء واحد",
+            "created_on": "الإبداع على",
             "creator": "Creator"
         },
-        "tab_header_title": "إضافة سؤال من المكتبة",
+        "tab_header_title": "اختيار نموذج السؤال",
         "title": "مكتبة الأسئلة",
         "subtitle": "اختيار سؤال من القائمة أدناه لإضافته إلى اختباركم. بمجرد إضافته، يمكنكم تعديل السؤال لتخصيصه بالكامل، بما في ذلك تغيير النص والتفسيرات.",
         "filters_panel": {
-            "selected_count": "{{count}} selected",
-            "tag": "الوسوم",
+            "selected_count": "{الحساب}مختار",
+            "tag": "Tag",
             "apps": "تطبيقات",
             "type": "نوع",
             "creator": "Creator",
             "language": "اللغة",
-            "clear_all": "امسح الكل"
+            "clear_all": "خالي"
         },
         "sort_options": {
-            "question_name_desc": "اسم السؤال",
-            "question_name_asc": "اسم السؤال",
+            "question_name_desc": "اسم السؤال (Z-A)",
+            "question_name_asc": "اسم السؤال (A-Z)",
             "newest_to_oldest": "من الأحدث إلى الأقدم",
             "oldest_to_newest": "من الأقدم إلى الأحدث"
         },
-        "search_results_plural": "{{count}} results for \"{{searchTerm}}\"",
+        "search_results_plural": "{الحساب}نتائج لـ \" {البحيرة}\"",
         "sort_by": "الفرز باستخدام",
-        "search_placeholder": "Search question names",
-        "search_results": "{{count}} result for \"{{searchTerm}}\"",
+        "search_placeholder": "أسماء الأسئلة",
+        "search_results": "{الحساب}نتيجة لـ \" {الفوضى}\"",
         "filters": "Filters"
     },
     "results_tab": {
@@ -386,8 +386,8 @@
             }
         },
         "disabled": {
-            "message": "There is no data available because Results have been disabled. You can change this anytime in your space Settings.",
-            "go_to_settings": "الذهاب إلى الإعدادات"
+            "message": "ولا توجد بيانات متاحة لأن النتائج قد تم تعطيلها. يمكنك تغيير هذا في أي وقت في أماكنك.",
+            "go_to_settings": "الذهاب إلى ستينغز"
         }
     },
     "learners_bulk_import": {
@@ -452,12 +452,12 @@
         "subtitle": "للحصول على الدعم أو لطلب حذف حسابك، تواصوا مع فريق Shira عبر contact@wearehorizontal.org",
         "help_center": {
             "title": "مركز المساعدة",
-            "description": "Visit our Help Center to learn more about features and how to use Shira to train your team or community.",
-            "cta": "Go to Help Center"
+            "description": "زيارة مركز المساعدة لدينا لمعرفة المزيد عن السمات وكيفية استخدام شيرا لتدريب فريقك أو مجتمعك.",
+            "cta": "الذهاب إلى مركز المساعدة"
         },
         "contact": {
             "title": "الاتصال بنا",
-            "description": "If you need any support please email us at"
+            "description": "إذا كنت بحاجة إلى أي دعم، يرجى إرسال البريد الإلكتروني لنا"
         }
     },
     "settings": {
@@ -473,14 +473,14 @@
                 "action": "تغيير عنوان البريد الإلكتروني"
             },
             "language": {
-                "description": "Choose the language for your Shira space. This won’t change the language of quizzes or questions you share with learners, only the space interface.",
-                "title": "Space language"
+                "description": "اختر اللغة من أجل مساحة \"شيرا\". وهذا لن يغير لغة الامتحانات أو الأسئلة التي تتقاسمها مع المتعلمين، بل هو الواجهة الفضائية.",
+                "title": "لغة الفضاء"
             },
             "results": {
-                "description": "Shira automatically tracks quiz responses to provide analytics and compliance reporting. You can disable this feature to minimize the data we collect about your Learners. <learnMore>Learn More</learnMore>",
+                "description": "وتقوم شركة شيرا تلقائياً بتتبع ردود خماسية لتقديم التحليلات والإبلاغ عن الامتثال. يمكنك التخلص من هذه الميزة لتقليل البيانات التي نجمعها عن متعلميك",
                 "title": "النتائج",
-                "enable_button": "Enable Results",
-                "disable_button": "Disable Results"
+                "enable_button": "النتائج الممكنة",
+                "disable_button": "النتائج المحققة"
             }
         },
         "title": "الإعدادات",
@@ -500,7 +500,7 @@
             "all_done": "تم كل شيء!",
             "success_message": "نجحت عملية الدفع. نحن ننشط اشتراككم الآن."
         },
-        "version": "You are currently using Shira v{{version}}."
+        "version": "أنتِ تستخدمين (شيرا) حالياً."
     },
     "buttons": {
         "message": "",
@@ -668,7 +668,7 @@
                 "document": "وثيقة",
                 "other": "آخر"
             },
-            "explanation": "Selecting the correct file type lets Shira display a realistic attachment icon in the quiz. For added realism, consider including a file extension in the filename (for example, .pdf or .zip)."
+            "explanation": "اختيار نوع الملف الصحيح يجعل (شيرا) تظهر رمزاً واقعياً في الامتحان For added realism, consider including a file extension in the filename (for example,.pdf or.zip)."
         },
         "explanations_modal": {
             "title": "التفسيرات",
@@ -720,11 +720,11 @@
                 "customization": "التخصيص",
                 "access_control": "التحكم في الوصول",
                 "compliance": "الامتثال",
-                "custom_support": "عنوان URL المخصص للدعم",
+                "custom_support": "دعم العملاء",
                 "rows": {
                     "admin_dashboard": "لوحة تحكم المسؤول",
                     "customizable_questions": "أسئلة الاختبار قابلة للتخصيص بالكامل",
-                    "question_library": "الوصول إلى مكتبة الأسئلة",
+                    "question_library": "الوصول إلى نماذج السؤال",
                     "public_quizzes": "الاختبارات العمومية",
                     "private_quizzes": "الاختبارات الخاصة",
                     "analysis_tools": "أدوات التحليل والامتثال",
@@ -736,8 +736,8 @@
                     "apps_available": "التطبيقات المتاحة",
                     "basic_analytics": "التحليلات الأساسية",
                     "detailed_analytics": "التحليلات المفصلة",
-                    "phishing_readiness_assessment": "Phishing Readiness Assessment",
-                    "preparedness_report": "Preparedness Report & Action Plan"
+                    "phishing_readiness_assessment": "تقييم القدرة على القراءة",
+                    "preparedness_report": "خطة العمل المتعلقة بالتأهب"
                 },
                 "values": {
                     "cloud": "سحابي",
@@ -746,9 +746,9 @@
                     "up_to_three_custom_quizzes": "3 اختبارات مخصصة على الأكثر",
                     "cloud_on_premise": "سحابي ومحلي",
                     "available_upon_request": "متاح عند الطلب",
-                    "three_business_day_response_time": "مهلة الاستجابة خلال 3 أيام عمل",
-                    "one_business_day_response_time": "مهلة الاستجابة خلال يوم عمل واحد على الأكثر",
-                    "unlimited_coming_soon": "Unlimited (coming soon)"
+                    "three_business_day_response_time": "الدعم ذي الأولوية",
+                    "one_business_day_response_time": "الدعم المخصص للمشاريع",
+                    "unlimited_coming_soon": "غير محدود (سيصدر قريبا)"
                 },
                 "title": "ماذا يتضمن؟",
                 "tooltips": {
@@ -756,7 +756,7 @@
                     "admin_dashboard": "مكان مركزي لإدارة حملات التوعية الخاصة بكم حول التصيد الاحتيالي",
                     "number_of_admins": "المسؤولون هم مستخدمون يمكنهم إنشاء وإدارة حملات التوعية حول التصيد الاحتيالي",
                     "customizable_questions": "أنشئوا أسئلة اختبار تناسب احتياجات المتعلمين",
-                    "question_library": "احصلوا على عشرات القوالب من الأسئلة الجاهزة",
+                    "question_library": "ابدأ خلال دقائق مع عشرات الامتحانات ونماذج الأسئلة",
                     "custom_quizzes": "عدد الاختبارات التي يمكنكم إنشاؤها في مساحتكم",
                     "apps_available": "أنشئوا أسئلة الاختبارات باستخدام واجهات تشبه تماما التطبيقات الفعلية التي يستخدمها المتعلمون",
                     "public_quizzes": "يمكن لأي شخص أن يجتاز اختباركم من خلال رابط سهل المشاركة",
@@ -766,7 +766,7 @@
                     "analysis_tools": "صدِّروا نتائج فريقكم إلى تقارير بصيغة CSV أو بصيغة PDF",
                     "tailor_made_training": "ورشات عمل تطوير المهارات التي يخصصها فريق Shira لمنظمتكم",
                     "priority_support": "سرعة الاستجابة لضمان تجربة سلسة",
-                    "preparedness_report": "Concise report highlighting top risks and recommended training modules and timelines",
+                    "preparedness_report": "تقرير موجز يسلط الضوء على المخاطر الرئيسية والنماذج التدريبية والجداول الزمنية الموصى بها",
                     "phishing_readiness_assessment": "Snapshot of current organizational vulnerability to phishing attacks"
                 }
             },
@@ -813,82 +813,82 @@
         },
         "add_quiz_from_template": {
             "input_label": "اسم الاختبار",
-            "title": "Give your new quiz a name",
-            "subtitle": "The quiz name will be visible in your Space and to learners when they take it."
+            "title": "أعطِ إختباركَ الجديدَ اسماً",
+            "subtitle": "اسم الامتحان سيكون مرئياً في فضاءك و للتعلم عندما يأخذونه."
         },
         "export": {
             "question": {
-                "title": "Export question",
-                "sharing_implications": "If you will share your question with others, you may want to remove any sensitive information it contains before exporting it. <1>Learn more</1>",
-                "error": "حدثت مشكلة أثناء حذف المتعلم. إذا استمرت هذه المشكلة، <1>اتصلوا بنا</1>.",
-                "file_type": "Your question will be exported as a .zip file that can be re-imported into a Shira space."
+                "title": "مسألة التصدير",
+                "sharing_implications": "إذا كنت ستشارك سؤالك مع الآخرين، قد ترغب في إزالة أي معلومات حساسة تحتويها قبل تصديرها",
+                "error": "وهناك مشكلة في تصدير هذه المسألة. If this issue persists, п.contact us/1..",
+                "file_type": "سيصدر سؤالك كملف زبدة يمكن إعادة تصنيفه إلى مكان شيرا."
             },
             "quiz": {
-                "error": "حدثت مشكلة أثناء حذف المتعلم. إذا استمرت هذه المشكلة، <1>اتصلوا بنا</1>.",
-                "file_type": "Your quiz will be exported as a .zip file that can be re-imported into a Shira space.",
-                "sharing_implications": "If you will share your quiz with others, you may want to remove any sensitive information it contains before exporting it. <1>Learn more</1>",
-                "title": "مغادرة الاختبار"
+                "error": "كانت هناك مشكلة في تصدير الامتحانات If this issue persists, п.contact us/1..",
+                "file_type": "سيتم تصدير إختبارك كملف زبدة يمكن إعادة تصنيفه إلى مكان شيرا.",
+                "sharing_implications": "إذا كنت ستشاركك مع الآخرين، قد ترغب في إزالة أي معلومات حساسة تحتويها قبل تصديرها",
+                "title": "الصادرات"
             },
-            "exporting": "Exporting..."
+            "exporting": "التصدير..."
         },
         "create_entity": {
             "question": {
-                "scratch_subtitle": "Create the question yourself, with full control. You can even copy and paste a real-life phishing example.",
+                "scratch_subtitle": "اصنع السؤال بنفسك مع السيطرة الكاملة يمكنكِ حتى أن تنسخي و تُعجّلي مثالاً يُفيد الحياة الحقيقية.",
                 "create_button": "ألغي",
-                "template_title": "Use a template",
-                "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
-                "import_title": "Or import a question from a file",
-                "scratch_title": "Start from scratch",
-                "title": "إنشاء سؤال جديد",
-                "subtitle": "Choose how you’d like to create your question."
+                "template_title": "استخدام نموذج",
+                "template_subtitle": "تبدأ على الفور باختيار العشرات من النماذج قبل البناء، متاحة بلغات متعددة. ",
+                "import_title": "أو استيراد سؤال من ملف",
+                "scratch_title": "ابدأ من الصفر",
+                "title": "إيجاد سؤال جديد",
+                "subtitle": "اختر كيف ترغب في طرح سؤالك."
             },
             "quiz": {
-                "subtitle": "Choose how you’d like to create your quiz.",
+                "subtitle": "اختر كيف تود أن تخلق امتحانك.",
                 "title": "إنشاء اختبار جديد",
                 "create_button": "ألغي",
-                "scratch_title": "Start from scratch",
-                "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
-                "scratch_subtitle": "Create the quiz yourself, with full control. You can even copy and paste a real-life phishing example.",
-                "import_title": "Or import a quiz from a file",
-                "template_title": "Use a template"
+                "scratch_title": "ابدأ من الصفر",
+                "template_subtitle": "تبدأ على الفور باختيار العشرات من النماذج قبل البناء، متاحة بلغات متعددة. ",
+                "scratch_subtitle": "اصنعي المسابقة بنفسك مع السيطرة الكاملة يمكنكِ حتى أن تنسخي و تُعجّلي مثالاً يُفيد الحياة الحقيقية.",
+                "import_title": "أو استيراد امتحان من ملف",
+                "template_title": "استخدام نموذج"
             }
         },
         "import": {
             "question": {
-                "upload_success": "Your file will not be imported.",
-                "file_size": "السعة القصوى للملف: 10 ميغابايت",
-                "subtitle": "Select the file of the question you want to import. To prevent errors, we recommend not modifying the content of the file. <0>Learn more</0>.",
-                "button": "Import question",
-                "error": "حدثت مشكلة أثناء دعوة المتعلم. إذا استمرت هذه المشكلة، <1>اتصلوا بنا</1>.",
-                "title": "Import question",
-                "drag_title": "Drag and drop to upload your question file here",
-                "importing": "Importing...",
-                "file_type": "أنواع الملفات المقبولة: ‎.csv فقط"
+                "upload_success": "ملفك جاهز للإستيراد.",
+                "file_size": "الحد الأقصى للملف: 50 ميغابايت",
+                "subtitle": "إختار ملف السؤال الذي تريد أن تستورده ولمنع الأخطاء، نوصي بعدم تعديل محتوى الملف.",
+                "button": "مسألة استيراد",
+                "error": "كانت هناك مشكلة في استيراد السؤال If this issue persists, п.contact us/1..",
+                "title": "مسألة استيراد",
+                "drag_title": "تسحب وتنزل لتحميل ملفك",
+                "importing": "استيراد...",
+                "file_type": "نوع الملف المقبول:"
             },
             "quiz": {
-                "error": "حدثت مشكلة أثناء دعوة المتعلم. إذا استمرت هذه المشكلة، <1>اتصلوا بنا</1>.",
-                "drag_title": "سحب وإفلات جدول البيانات المعبأ هنا لرفعه",
-                "subtitle": "Select the file of the quiz you want to import. To prevent errors, we recommend not modifying the content of the file. <0>Learn more</0>.",
-                "title": "Import quiz",
-                "button": "Import quiz",
-                "file_size": "السعة القصوى للملف: 10 ميغابايت",
-                "file_type": "أنواع الملفات المقبولة: ‎.csv فقط",
-                "upload_success": "Your file will not be imported.",
-                "importing": "Importing..."
+                "error": "كانت هناك مشكلة في استيراد الامتحانات If this issue persists, п.contact us/1..",
+                "drag_title": "اسحبوا وانزلوا لتحميل ملفكم",
+                "subtitle": "اختاري ملف الامتحان الذي تريدين استيراده ولمنع الأخطاء، نوصي بعدم تعديل محتوى الملف.",
+                "title": "امتحانات الاستيراد",
+                "button": "امتحانات الاستيراد",
+                "file_size": "الحد الأقصى للملفات: 200 ميغابايت",
+                "file_type": "نوع الملف المقبول:",
+                "upload_success": "ملفك جاهز للإستيراد.",
+                "importing": "استيراد..."
             }
         },
         "update_results_enabled": {
-            "title_enable": "Enable results?",
-            "title_disable": "Disable results?",
-            "content_enable": "We will start tracking your user quiz information",
-            "content_disable": "We will stop tracking your user quiz information"
+            "title_enable": "نتائج ممكنة؟?",
+            "title_disable": "نتائج خاطئة؟?",
+            "content_enable": "النتائج التمكينية تعني أن (شيرا) ستبدأ بجمع إستجابات من أجل أي امتحان جديد يأخذه المتعلمون.",
+            "content_disable": "النتائج المقلقة تعني أن (شيرا) ستتوقف عن جمع إستجابات الامتحانات من أجل أي امتحان جديد يأخذه متعلموكم."
         },
         "delete_note": {
-            "title": "هل أنتم متأكدون من رغبتكم في حذف \"{{quiz_name}}\"؟",
-            "message": "إن حذف هذا الاختبار إجراء نهائي ولا يمكن التراجع عنه."
+            "title": "هل أنت متأكد من أنك تريد حذف \" {ملاحظة {اسمك} ؟?",
+            "message": "وحذف هذه المذكرة دائم ولا يمكن التخلي عنه."
         },
         "exit_note": {
-            "title": "هل أنتم متأكدون من رغبتكم في الخروج من السؤال؟",
+            "title": "هل أنت متأكد أنك تريد الخروج من الملاحظة؟?",
             "message": "ستفقدون كافة التعديلات غير المحفوظة."
         }
     },
@@ -899,7 +899,7 @@
         "learner_not_found": "لم يتم العثور على المتعلم في هذه المساحة.",
         "learner_assignment_failed": "تعذر تعيين المتعلم للمساحة.",
         "invite_org_failed": "حدثت مشكلة أثناء إنشاء مساحتكم. إذا استمرت هذه المشكلة، يرجى <1>التواصل معنا</1>.",
-        "invalid_email_update": "عنوان البريد الإلكتروني هذا مرتبط بالفعل بمساحة Shira.",
+        "invalid_email_update": "هذا العنوان الإلكتروني مرتبط بالفعل بحيز شيرا",
         "duplicate_quiz_fail": "فشل استنساخ الاختبار",
         "quiz_name_already_exists": "استُخدم اسم الاختبار آنفا. استخدموا اسما آخر.",
         "duplicate_question_fail": "فشل استنساخ السؤال",
@@ -949,33 +949,33 @@
             },
             "file_too_large": {
                 "title": "خطأ: الملف كبير جداً",
-                "subtitle": "حمّلوا ملف CSV بحجم 10 ميجابايت أو أقل وأعيدوا المحاولة."
+                "subtitle": "يرجى تحميل CSV التي هي 10 MB أو أصغر ومحاولة مرة أخرى"
             }
         },
-        "character_limit_error": "Character limit exceeded",
-        "template_submission_failed": "حدثت مشكلة أثناء دعوة المتعلم. إذا استمرت هذه المشكلة، <1>اتصلوا بنا</1>.",
-        "export_question_fail": "Failed to export question",
+        "character_limit_error": "تجاوز الحد الأقصى للمعاملات",
+        "template_submission_failed": "كانت هناك مشكلة في تقديم النموذج If this issue persists, п.contact us/1..",
+        "export_question_fail": "عدم معالجة مسألة التصدير",
         "entity_import": {
             "invalid_zip_file": {
-                "subtitle": "تعذر علينا معالجة الملف، يرجى المحاولة مرة أخرى.",
+                "subtitle": "ولم نتمكن من تجهيز الملف. أرجوك حاول مرة أخرى.",
                 "title": "خطأ: تعذرت معالجة ملفكم"
             },
             "invalid_formatting": {
-                "title": "خطأ: صيغة الملف غير مدعومة",
-                "subtitle": "الرجاء التأكد من أن الملف CSV والمحاولة مرة أخرى."
+                "title": "Error: Invalid file",
+                "subtitle": "يرجى التأكد من أن الملف هو مقياس يحتوي على بيانات الامتحانات والبيانات الفوقية والأصول."
             },
             "file_too_large": {
-                "subtitle": "Please make sure your file is within the 50 MB limit and try again.",
+                "subtitle": "من فضلك تأكد من أن ملفك في حدود الـ50 ميغابايت وحاول مرة أخرى.",
                 "title": "خطأ: الملف كبير جداً"
             },
             "invalid_metadata": {
-                "title": "خطأ: صيغة الملف غير مدعومة",
-                "subtitle": "This file's contents don't match the expected question format. Please make sure not to modify the file and try again."
+                "title": "Error: Invalid file",
+                "subtitle": "يرجى التأكد من أن الملف هو مقياس يحتوي على بيانات الامتحانات والبيانات الفوقية والأصول."
             }
         },
-        "edit_question_failed": "حدث خطأ أثناء إضافة السؤال",
-        "delete_note_fail": "Failed to delete note",
-        "duplicate_note_fail": "فشل استنساخ الاختبار"
+        "edit_question_failed": "سؤال تحريري خاطئ",
+        "delete_note_fail": "لم تحذف الملاحظة",
+        "duplicate_note_fail": "عدم تكرار الملاحظة"
     },
     "success_messages": {
         "message": "",
@@ -1005,12 +1005,12 @@
         "password_updated": "تم تحديث كلمة السر بنجاح.",
         "email_updated": "تم تحديث عنوان البريد الإلكتروني بنجاح.",
         "quiz_assessment_mode_updated": "حُدِّث الاختبار",
-        "quiz_imported": "حُدِّث الاختبار",
-        "question_imported": "حُذِف السؤال",
-        "note_created": "أُنْشِئ الاختبار",
-        "note_deleted": "حُذِف المتعلّم.",
-        "note_updated": "حُدِّث الاختبار",
-        "note_duplicated": "استُنسخ الاختبار"
+        "quiz_imported": "تم استيراد الامتحان",
+        "question_imported": "تم استيراد السؤال",
+        "note_created": "أُنشئت المذكرة",
+        "note_deleted": "حذفت المذكرة",
+        "note_updated": "تم تحديث المذكرة",
+        "note_duplicated": "تم ازدواجية المذكرة"
     },
     "loading_messages": {
         "message": "",
@@ -1062,8 +1062,8 @@
             "cibersecurity": "مزود خدمات الأمن السيبراني",
             "non_profit": "منظمة غير ربحية",
             "individual": "فرد (مستشار، مدرب، إلخ)",
-            "educational": "An educational organization",
-            "healthcare": "A healthcare organization"
+            "educational": "منظمة تعليمية",
+            "healthcare": "منظمة الرعاية الصحية"
         },
         "button_sign_up": "تسجيل",
         "validation": {
@@ -1074,34 +1074,34 @@
     },
     "create_space": {
         "message": "",
-        "password_label": "كلمة السر مطلوبة",
+        "password_label": "كلمة سر (مطلوبة)",
         "errors": {
             "create_space_failed": "لقد حدث خطأ أثناء إنشاء مساحتكم. يرجى المحاولة مرة أخرى."
         },
         "title": "مساحات Shira",
         "subtitle": "بعد إنشاء مساحتكم، ستتمكنون من إنشاء اختبارات وأسئلة مخصصة ذات صلة وثيقة بسياقكم ومجتمعاتكم.",
-        "form_title": "إنشاء مساحة جديدة",
+        "form_title": "اصنعوا فضاءكم",
         "form_description": "أكملوا الاستمارة أدناه لإنشاء مساحتكم في Shira.",
         "beta_lead": "مساحات Shira حالياً في مرحلة الإصدار التجريبي المغلق. للحصول على كلمة السر اللازمة للانضمام إلى هذا الإصدار، يرجى مراسلتنا عبر البريد الإلكتروني على",
         "checking_invitation": "يجري التحقق من الدعوة…",
-        "email_label": "تأكيد عنوان بريدكم الإلكتروني",
-        "confirm_password_label": "تأكيد كلمة السر الجديدة (مطلوبة)",
+        "email_label": "تأكيد عنوان البريد الإلكتروني الخاص بك (مطلوبة)",
+        "confirm_password_label": "كلمة سر (مطلوبة)",
         "button_create": "إنشاء مساحة جديدة",
         "validation": {
             "email_required": "البريد الإلكتروني مطلوب.",
             "password_required": "كلمة السر مطلوبة.",
             "password_min_length": "يجب أن لا تقل كلمة السر عن 8 أحرف.",
             "passwords_mismatch": "كلمتا السر غير متطابقتين.",
-            "confirm_password_required": "يرجى تأكيد كلمة السر الخاصة بكم",
-            "privacy_policy_required": "Please accept the privacy policy."
+            "confirm_password_required": "يرجى تأكيد كلمة السر الخاصة بك.",
+            "privacy_policy_required": "أرجوك تقبل سياسة الخصوصية."
         },
         "success": {
             "title": "تم كل شيء!",
-            "description": "Your space was successfully created. Log in to start creating quizzes.",
-            "button": "Go to space"
+            "description": "فضاءك تم خلقه بنجاح ابدأ بصنع الاختبارات.",
+            "button": "الذهاب إلى الفضاء"
         },
-        "privacy_consent_aria_label": "Agree to Shira's privacy policy",
-        "privacy_consent_label": "I agree to Shira's <0>privacy policy</0>."
+        "privacy_consent_aria_label": "أوافق على سياسة (شيرا) الخاصة",
+        "privacy_consent_label": "أوافق على سياسة (شيرا) الخاصة."
     },
     "banner": {
         "label": "ملاحظة",
@@ -1110,16 +1110,16 @@
     "quiz_library": {
         "filters_panel": {
             "creator": "Creator",
-            "all_creators": "All creators",
-            "tag": "الوسوم",
-            "selected_count": "{{count}} selected",
-            "clear_all": "امسح الكل",
-            "all_tags": "All tags",
-            "all_languages": "All languages",
+            "all_creators": "جميع المبدعين",
+            "tag": "Tag",
+            "selected_count": "{الحساب}مختار",
+            "clear_all": "خالي",
+            "all_tags": "جميع العلامات",
+            "all_languages": "جميع اللغات",
             "language": "اللغة"
         },
         "preview": {
-            "created_on": "إنشاء واحد",
+            "created_on": "الإبداع على",
             "columns": {
                 "app": "التطبيق",
                 "actions": "الإجراءات",
@@ -1128,41 +1128,41 @@
                 "language": "اللغة",
                 "question_name": "اسم السؤال"
             },
-            "preview_full_quiz": "Preview full quiz",
-            "no_questions": "No questions found for this quiz template.",
+            "preview_full_quiz": "الامتحانات الكاملة",
+            "no_questions": "لا توجد أسئلة لهذا النموذج.",
             "tags": "الوسوم",
-            "back_to_quiz_template": "Back to quiz template",
+            "back_to_quiz_template": "العودة إلى نموذج الخماس",
             "languages": "اللغات",
             "creator": "Creator",
-            "subtitle": "You can preview the full quiz or each question individually, before using the quiz as a template to create your own.",
-            "use_template": "Use template"
+            "subtitle": "يمكنك أن تفحصي الامتحانات الكاملة أو كل سؤال على حدة قبل أن تستخدمي الامتحان كنموذج لخلق خاصتك.",
+            "use_template": "نموذج الاستخدام"
         },
         "filters": "Filters",
-        "use_template": "Use template",
-        "search_results_plural": "{{count}} results for \"{{searchTerm}}\"",
+        "use_template": "نموذج الاستخدام",
+        "search_results_plural": "{الحساب}نتائج لـ \" {البحيرة}\"",
         "empty_search": {
-            "subtitle": "Try changing keywords or clearing your filters to see more results.",
-            "title": "Sorry, we couldn't find anything"
+            "subtitle": "حاول تغيير الكلمات الرئيسية أو تطهير مرشحيك لرؤية المزيد من النتائج.",
+            "title": "آسف، لم نتمكن من العثور على أي شيء"
         },
         "report_issue": "Report an issue",
-        "search_results": "{{count}} result for \"{{searchTerm}}\"",
-        "header_title": "Select a quiz template",
-        "subtitle": "Select a quiz from the list below to use it as a template for your new quiz.",
+        "search_results": "{الحساب}نتيجة لـ \" {الفوضى}\"",
+        "header_title": "اختيار نموذج اختبار",
+        "subtitle": "إختارْ a إختبار مِنْ القائمةِ أدناه لإسْتِعْماله كنموذج لامتحانِكَ الجديدِ.",
         "sort_options": {
-            "quiz_name_asc": "Quiz name (A-Z)",
+            "quiz_name_asc": "اسم كويز (A-Z)",
             "oldest_to_newest": "من الأقدم إلى الأحدث",
-            "quiz_name_desc": "Quiz name (Z-A)",
+            "quiz_name_desc": "اسم كويز (Z-A)",
             "newest_to_oldest": "من الأحدث إلى الأقدم"
         },
-        "search_placeholder": "Search quiz names",
-        "title": "Quiz library",
+        "search_placeholder": "أسماء امتحانات البحث",
+        "title": "مكتبة كويز",
         "sort_by": "الفرز باستخدام",
-        "view_template": "View template"
+        "view_template": "نموذج الرؤية"
     },
     "library": {
         "empty_search": {
-            "subtitle": "Try changing keywords or clearing your filters to see more results.",
-            "title": "Sorry, we couldn't find anything"
+            "subtitle": "حاول تغيير الكلمات الرئيسية أو تطهير مرشحيك لرؤية المزيد من النتائج.",
+            "title": "آسف، لم نتمكن من العثور على أي شيء"
         },
         "cards": {
             "questions": {
@@ -1172,8 +1172,8 @@
                 "title": "الاختبارات"
             }
         },
-        "title": "Library",
-        "subtitle": "Get started right away with ready-made templates."
+        "title": "المكتبة",
+        "subtitle": "ابدأي على الفور بالنماذج الجاهزة."
     },
     "sidebar": {
         "quizzes": "الاختبارات",
@@ -1190,131 +1190,131 @@
         },
         "submit_quiz": {
             "tags": "الوسوم",
-            "tags_placeholder": "الوسوم",
-            "name_hint": "Use a descriptive name to help other users find what they're looking for.",
-            "success": "The quiz template has been submitted.",
-            "name": "Quiz template name",
-            "error": "We couldn't submit the quiz template. Please try again.",
+            "tags_placeholder": "Tag",
+            "name_hint": "استخدم اسماً وصفياً لمساعدة المستخدمين الآخرين على إيجاد ما يبحثون عنه.",
+            "success": "وقد قُدِّم نموذج الاختبار.",
+            "name": "اسم نموذج كويز",
+            "error": "لم نستطع تقديم النموذج أرجوك حاول مرة أخرى.",
             "submit": "Submit",
-            "name_placeholder": "Quiz template name",
-            "header_title": "Submit quiz template",
+            "name_placeholder": "اسم نموذج كويز",
+            "header_title": "Submit quiz temp",
             "language": "اللغة",
-            "title": "Submit your quiz as a template",
+            "title": "ضعي امتحانك كنموذج",
             "description": "وصف",
-            "language_hint": "You may select more than 1 language. (Can't find the language you want? <support>Request a missing language.</support>)",
-            "description_hint": "Write 1-2 lines to explain what this quiz contains.",
-            "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>.",
-            "review_notice": "The Shira team carefully reviews every submission. If your template is accepted, it will appear in the template library. <learnMore>Learn More</learnMore>.",
+            "language_hint": "يمكنك اختيار أكثر من لغة واحدة لا يمكن العثور على اللغة التي تريد؟ <support> Request a missing language.</support>",
+            "description_hint": "كتابة 1-2 خطوط لشرح ما تحتويه هذه الامتحانات.",
+            "terms": "عن طريق فحص هذا الصندوق، أوافق على تحديدات (شيرا) وشروطها.",
+            "review_notice": "فريق (شيرا) يراجع بعناية كل طلب If your template is accepted, it will appear in the template library. <learnMore>Learn More</learnMore>.",
             "language_placeholder": "اللغة",
-            "tags_hint": "Select the tags that best describe the content of this template.",
+            "tags_hint": "اختيار البطاقات التي أفضل وصف لمحتوى هذا النموذج.",
             "description_placeholder": "وصف"
         },
         "submit_question": {
             "tags": "الوسوم",
-            "title": "Submit your question as a template",
-            "success": "The question template has been submitted.",
+            "title": "قل سؤالك كنموذج",
+            "success": "وقدم نموذج الأسئلة.",
             "description_placeholder": "وصف",
-            "error": "We couldn't submit the question template. Please try again.",
-            "review_notice": "The Shira team carefully reviews every submission. If your template is accepted, it will appear in the template library. <learnMore>Learn More</learnMore>.",
-            "header_title": "Submit question template",
-            "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>.",
+            "error": "لم نستطع تقديم نموذج الأسئلة أرجوك حاول مرة أخرى.",
+            "review_notice": "فريق (شيرا) يراجع بعناية كل طلب If your template is accepted, it will appear in the template library. <learnMore>Learn More</learnMore>.",
+            "header_title": "نموذج الأسئلة",
+            "terms": "عن طريق فحص هذا الصندوق، أوافق على تحديدات (شيرا) وشروطها.",
             "language_placeholder": "اللغة",
-            "name": "نماذج السؤال",
-            "tags_placeholder": "الوسوم",
+            "name": "اسم نموذج السؤال",
+            "tags_placeholder": "Tag",
             "submit": "Submit",
-            "tags_hint": "Select the tags that best describe the content of this template.",
-            "language_hint": "You may select more than 1 language. (Can't find the language you want? <support>Request a missing language.</support>)",
-            "name_hint": "Use a descriptive name to help other users find what they're looking for.",
-            "name_placeholder": "نماذج السؤال",
+            "tags_hint": "اختيار البطاقات التي أفضل وصف لمحتوى هذا النموذج.",
+            "language_hint": "يمكنك اختيار أكثر من لغة واحدة لا يمكن العثور على اللغة التي تريد؟ <support> Request a missing language.</support>",
+            "name_hint": "استخدم اسماً وصفياً لمساعدة المستخدمين الآخرين على إيجاد ما يبحثون عنه.",
+            "name_placeholder": "اسم نموذج السؤال",
             "description": "وصف",
             "language": "اللغة",
-            "description_hint": "Write 1-2 lines to explain what this question contains."
+            "description_hint": "كتابة 1-2 خطوط لشرح ما يتضمنه هذا السؤال."
         },
         "submissions_table": {
             "actions": "الإجراءات",
             "type": "نوع",
             "status": "الحالة",
             "app": "التطبيق",
-            "preview": "Preview submission",
+            "preview": "العرض الأول",
             "date_submitted": "تاريخ الإرسال",
             "quiz_name": "اسم الاختبار",
             "question_name": "اسم السؤال"
         },
         "submission_status": {
-            "title": "Submission status",
-            "in_review": "In review",
-            "help_tooltip": "Please email the Shira team if you have questions or need support.",
-            "rejected": "Reject",
-            "accepted": "Accept"
+            "title": "حالة تقديم التقارير",
+            "in_review": "قيد الاستعراض",
+            "help_tooltip": "يرجى إرسال البريد الإلكتروني لفريق شيرا إذا كان لديك أسئلة أو تحتاج إلى الدعم.",
+            "rejected": "Rejected",
+            "accepted": "مقبولة"
         },
         "quiz_templates": {
-            "title": "نماذج السؤال",
-            "description": "Create a quiz instantly by choosing from our quiz templates, available in multiple apps and languages."
+            "title": "نماذج كويز",
+            "description": "إنشاء امتحان على الفور باختياره من نماذج الامتحانات المتاحة في تطبيقات ولغات متعددة."
         },
         "display_name": {
-            "title": "Create display name",
-            "description": "Set the name that will be associated to the templates you publish in the library. This will be visible to everyone.",
-            "input": "Display name"
+            "title": "اسم الخلق",
+            "description": "ضع الاسم الذي سيرتبط بالنماذج التي تنشرها في المكتبة هذا سيظهر للجميع.",
+            "input": "اسم التلاعب"
         },
-        "back_to_templates": "Back to Templates",
-        "my_submissions_description": "These are the templates you have submitted. The Shira team carefully reviews every submission. If your template is accepted, it will appear in the Shira template library. <learnMore>Learn More</learnMore>",
+        "back_to_templates": "العودة إلى النماذج",
+        "my_submissions_description": "هذه هي النماذج التي قدمتها فريق (شيرا) يراجع بعناية كل طلب إذا تم قبول نموذجك سيظهر في مكتبة نموذج (شيرا) [X171]Learn More</learnMore>",
         "question_templates": {
-            "title": "نماذج السؤال",
+            "title": "نماذج الأسئلة",
             "description": "Explore pre-made questions, with message content, sender info and explanations already built in."
         },
         "submission_rejection": {
-            "open": "View submission feedback",
-            "title": "Submission feedback"
+            "open": "التغذية المرتدة",
+            "title": "تعليقات مقدمة"
         },
         "title": "القوالب",
-        "subtitle": "Get started right away with ready-made templates.",
+        "subtitle": "ابدأي على الفور بالنماذج الجاهزة.",
         "submissions_empty_state": {
-            "subtitle": "You don't have any submissions yet. To submit a resource that you have created, go to that specific resource and select \"submit as template.\"",
-            "learn_more": "Learn more about templates"
+            "subtitle": "ليس لديك أي عروض بعد أن تُقدّم مورداً صنعته، وتذهب إلى ذلك المورد المُحدّد وتختار \"تقديم كنموذج\"",
+            "learn_more": "تعلم المزيد عن النماذج"
         },
-        "my_submissions": "My submissions"
+        "my_submissions": "ملاحظاتي"
     },
     "languages": {
         "ar": "عربي",
         "es": "Spanish",
-        "cn": "Chinese (Simplified)",
+        "cn": "الصينية (مبسطة)",
         "ru": "Russian",
         "fr": "الفرنسية",
         "en": "إنجليزي"
     },
     "library_metadata": {
         "tags_slugs": {
-            "human-rights": "theme: human rights",
-            "journalism": "theme: journalism",
-            "intermediate": "level: intermediate",
-            "easy": "level: easy",
-            "for-everyone": "for everyone",
-            "mobile": "الهاتف النقّال"
+            "human-rights": "الموضوع: حقوق الإنسان",
+            "journalism": "الموضوع: الصحافة",
+            "intermediate": "المستوى المتوسط",
+            "easy": "المستوى: سهل",
+            "for-everyone": "للجميع",
+            "mobile": "متنقلة"
         }
     },
     "create_note": {
-        "header_title": "إنشاء مجلد جديد",
-        "edit_header_title": "Edit note",
+        "header_title": "وضع مذكرة جديدة",
+        "edit_header_title": "مذكرة إديت",
         "header_required_tooltip": "لا يمكن ترك الحقول الضرورية فارغة",
-        "header_character_limit_tooltip": "One or more fields exceed the character limit.",
+        "header_character_limit_tooltip": "وتتجاوز حقول أو أكثر حد الشخصية.",
         "breadcrumbs": {
-            "content": "Note content",
+            "content": "ملاحظة",
             "preview": "معاينة"
         },
         "note_info": {
             "note_name": {
-                "title": "Note name",
-                "subtitle": "This name will only be visible to you, to help you remember what this note is about",
-                "placeholder": "Note name"
+                "title": "اسم ملاحظة",
+                "subtitle": "هذا الاسم سيكون مرئياً لك فقط لمساعدتك في تذكر ما هذه الملاحظة",
+                "placeholder": "اسم ملاحظة"
             },
             "note_content": {
-                "title": "Note content",
-                "subtitle": "Write the note that will be shown. Notes are shown before, after or in between questions. They can include text, links and images to offer more context and information.",
+                "title": "ملاحظة",
+                "subtitle": "أكتب الملاحظة التي ستُعرض. وترد ملاحظات قبل الأسئلة أو بعدها أو فيما بينها. ويمكن أن تشمل نصوصا ووصلات وصورا تتيح مزيدا من السياق والمعلومات.",
                 "placeholder": ""
             }
         },
         "preview": {
-            "subtitle": "This is how your note will look to learners."
+            "subtitle": "هكذا ستبدو ملاحظتك للمتعلمين."
         }
     }
 }
