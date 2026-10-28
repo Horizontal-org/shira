@@ -19,7 +19,7 @@
         "attachments_other": "",
         "scanned_by_google": "تم فحصها من قِبل Gmail",
         "encryption": "التشفير العادي (طبقة النقل الآمنة (TLS))",
-        "learn_more": "مزيد من المعلومات",
+        "learn_more": "التعرف على المزيد",
         "safer_with_google": "Safer with Google",
         "attachment_scanning_description": "To help protect your inbox, Gmail blocks attachments when malware is detected. You should still only download attachments from people you trust.",
         "add_to_drive": "Add to Drive",
@@ -31,14 +31,14 @@
     },
     "outlook": {
         "search": "بحث",
-        "home": "الصفحة الرئيسية",
-        "view": "عرض",
+        "home": "الرئيسية",
+        "view": "استعراض",
         "help": "التعليمات",
         "new_mail": "بريد جديد",
-        "undo": "تراجع",
+        "undo": "تراجَع",
         "delete": "حذف",
-        "archive": "أرشفة",
-        "report": "إبلاغ",
+        "archive": "الأرشيف",
+        "report": "Report",
         "move_to": "نقل إلى",
         "flag_unflag": "وضع / إزالة علامة",
         "discover_groups": "اكتشاف المجموعات",
@@ -59,7 +59,7 @@
         "reply": "الرد",
         "show_more": "إظهار المزيد",
         "to": "To:",
-        "contact": "للتواصل"
+        "contact": "Contact"
     },
     "whatsapp": {
         "contact_5_name": "Annabel Carpenter",
@@ -92,15 +92,15 @@
         "view_contact_information": "View contact information",
         "contact_info": "Contact info",
         "back_to_chat": "Back to chat",
-        "contact": "للتواصل",
+        "contact": "Contact",
         "no_phone_number": "No phone number",
         "contact_actions": "Contact actions",
         "voice": "صوت",
         "video": "فيديو",
         "search": "بحث",
         "mute_notifications": "Mute",
-        "off": "ايقاف",
-        "no": "ﻻ",
+        "off": "متوقف",
+        "no": "No",
         "default": "الوضع الافتراضي",
         "chat_theme": "Chat theme",
         "save_to_downloads": "Save to Downloads",
@@ -152,7 +152,7 @@
         "last": "اﻷخير",
         "first": "اﻷول",
         "next": "التالي",
-        "back": "السابق"
+        "back": "رجوع"
     },
     "telegram": {
         "chats": "Chats",
@@ -188,7 +188,8 @@
         "file_size": "24 KB",
         "time": "1:03 PM",
         "voice_message": "Voice message",
-        "voice_duration": "0:02"
+        "voice_duration": "0:02",
+        "photo": "صورة"
     },
     "instagram": {
         "account_name": "You",
