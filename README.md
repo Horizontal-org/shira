@@ -72,22 +72,22 @@ _Minimum_ system requirements:
   > would love to hear about your experience :D_
 
 _Recommended_ system requirements: Ideal disk space depends on how much
-data you intend to collect. A good role of thumb would be to allocate
+data you intend to collect. A good rule of thumb would be to allocate
 the double of the space that users would submit to your server. When
 monitoring, we recommend for you to aim to have the same amount of free
 and used space in the server.
 
-We don't have any particular recomendation about hosting providers for
+We don't have any particular recommendation about hosting providers for
 Shira: this is a pretty straightforward application so it should work
 anywhere you can install Docker. We have installed Shira in Digital Ocean
-and in Greehost and has worked well so far. If you experience any issues please
+and in Greenhost and has worked well so far. If you experience any issues please
 [contact us](https://shira.app/contact).
 
 ### Prerequisites
 
 - Docker (including the compose module).
 
-- Two subdomains, one for spaces and one for quizes. The domains should
+- Two subdomains, one for spaces and one for quizzes. The domains should
   point to the desired server.  If you're using the included S3 server,
   you'll need a third subdomain.
 
@@ -101,7 +101,7 @@ a clone of this repository.
 Copy the `.env.example` into `.env` and edit accordingly.
 
 Two domain names must point to this server.  One is for spaces, and
-another for quizes.  Edit these on the variables ending with `_DOMAIN`.
+another for quizes. Edit these on the variables ending with `_DOMAIN`.
 
 To generate passwords for different services, you can use `openssl rand
 -hex 32` to generate them securely.
@@ -130,7 +130,7 @@ passphrases.**
 | ------------------------ | --------------------------------------------------------------------------- | -------- |
 | COOKIE_DOMAIN            | Main domain for cookies                                                     | required |
 | SPACES_DOMAIN            | Subdomain of COOKIE_DOMAIN for the Shira spaces app                         | required |
-| QUIZ_DOMAIN              | Subdomain of COOKIE_DOMAIN for the Shira quizes app                         | required |
+| QUIZ_DOMAIN              | Subdomain of COOKIE_DOMAIN for the Shira quizzes app                         | required |
 | IMAGES_DOMAIN            | Domain for the images server                                                | optional |
 | VERSION                  | Containers version (`alpha`, `beta`, `latest` or any [container tag][])     | optional |
 | JWT_SECRET               | Secret for authorization between apps                                       | required |
@@ -155,7 +155,7 @@ passphrases.**
 | IMAGE_BUCKET             | S3 bucket                                                                   | required |
 | SUBSCRIPTION_CACHE_TTL   | Redis cache duration                                                        | optional |
 | SPACE_URL                | Full URL for the spaces app (no trailing slash)                             | optional |
-| PUBLIC_URL               | Full URL for the quizes app (no trailing slash)                             | optional |
+| PUBLIC_URL               | Full URL for the quizzes app (no trailing slash)                             | optional |
 | SUPERADMIN_URL           | Full URL for the super admin (no trailing slash)                            | optional |
 | SHIRA_LIBRARY_URL        | Full URL for Shira's public library (no trailing slash)                     | optional |
 | SHIRA_LIBRARY_IMAGES_URL        | Full URL for Shira's public library bucket (for validation purposes)                     | optional |
