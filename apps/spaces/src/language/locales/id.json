@@ -2,8 +2,8 @@
     "login": {
         "title": "Masuk",
         "subtitle": "Masuk untuk mengakses ruang Shira kustom Anda.",
-        "email_placeholder": "Surel",
-        "password_placeholder": "Kata sandi",
+        "email_placeholder": "Email",
+        "password_placeholder": "Password",
         "reset_password": "Lupa kata sandi Anda?",
         "login_header_button": "Masuk",
         "loading_button": "Sedang Masuk...",
@@ -96,7 +96,7 @@
         "last_modified": "{{url}}",
         "publish_toggle": "Telah dipublikasikan",
         "actions": {
-            "edit": "Sunting",
+            "edit": "Edit",
             "duplicate": "Login"
         }
     },
@@ -126,7 +126,7 @@
         },
         "visibility": {
             "public": "Publik",
-            "private": "Private"
+            "private": "Pribadi"
         },
         "settings": {
             "assessment": {
@@ -144,7 +144,7 @@
         "create_question_button": "Create question",
         "add_from_library_button": "",
         "action_tooltips": {
-            "edit": "Sunting",
+            "edit": "Edit",
             "duplicate": "Menggandakan",
             "delete": "Hapus",
             "more_actions": "Lebih banyak tindakan",
@@ -258,7 +258,7 @@
                 "subtitle": "Ini adalah bagaimana pertanyaan Anda akan melihat para pelajar, termasuk penjelasan yang telah Anda tulis.",
                 "show_explanations": "Tampilkan penjelasan",
                 "hide_explanations": "Hide explanations",
-                "next_explanation": "Berikutnya",
+                "next_explanation": "Selanjutnya",
                 "previous_explanation": "Sebelumnya",
                 "no_explanations": "There are no explanations for this question.",
                 "aria_label": "Preview question"
@@ -282,7 +282,7 @@
         "columns": {
             "question_name": "Kuesioner",
             "type": {
-                "title": "Jenis",
+                "title": "Tipe",
                 "phishing": "Phishing",
                 "legitimate": "Legitimate"
             },
@@ -316,7 +316,7 @@
             "selected_count": "{{count}} dipilih",
             "tag": "Login",
             "apps": "Aplikasi",
-            "type": "Jenis",
+            "type": "Tipe",
             "creator": "Login",
             "language": "Bahasa",
             "clear_all": "Hapus semua"
@@ -353,7 +353,7 @@
             "description": "The average score is the percentage of learners who answered each question correctly.",
             "empty_state": "The quiz does not have any questions answered.",
             "table": {
-                "type": "Jenis",
+                "type": "Tipe",
                 "question_name": "Nama",
                 "score": "Average score",
                 "loading": "Loading questions..."
@@ -463,7 +463,7 @@
                 "action": "Change email address"
             },
             "password": {
-                "title": "Kata sandi",
+                "title": "Password",
                 "last_updated": "Terakhir diperbarui {date}.",
                 "action": "Ubah kata sandi"
             },
@@ -493,7 +493,7 @@
         "save": "Simpan",
         "back": "Kembali",
         "delete": "Hapus",
-        "next": "Berikutnya",
+        "next": "Selanjutnya",
         "continue": "Lanjutkan",
         "login": "Masuk",
         "send_invitation": "Send invitation",
@@ -560,7 +560,7 @@
                 "description": "Anyone dengan URL kuis dapat mengambil kuis"
             },
             "private_option": {
-                "title": "Private",
+                "title": "Pribadi",
                 "description": "Hanya pelajar yang diundang dari ruang Anda dapat mengambil kuis",
                 "forbidden_tooltip": "Tingkatkan rencana Anda untuk mengakses kuis pribadi.",
                 "forbidden": "Hanya pelajar yang diundang dari ruang Anda dapat mengambil kuis. Fitur ini hanya tersedia pada paket berbayar. <0>{{learn more}} </0>"
@@ -1093,7 +1093,7 @@
                 "app": "App",
                 "actions": "Sitemap",
                 "preview": "Preview",
-                "type": "Jenis",
+                "type": "Tipe",
                 "language": "Bahasa",
                 "question_name": "Nama Pertanyaan"
             },
@@ -1201,7 +1201,7 @@
         },
         "submissions_table": {
             "actions": "Sitemap",
-            "type": "Jenis",
+            "type": "Tipe",
             "status": "Status",
             "app": "App",
             "preview": "Sitemap",
