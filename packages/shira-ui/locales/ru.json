@@ -40,7 +40,7 @@
         "conversation_history": "История разговоров",
         "flag_unflag": "Флаг / Unflag",
         "forward": "Переслать",
-        "drafts": "Drafts",
+        "drafts": "Черновики",
         "discover_groups": "Откройте для себя группы",
         "sent_items": "Отправленные предметы",
         "undo": "Отменить",
@@ -52,7 +52,7 @@
         "to": "To:",
         "notes": "Примечания",
         "home": "Главная",
-        "help": "Помощь",
+        "help": "Справка",
         "delete": "Удалить",
         "archive": "Архивирование",
         "search": "Поиск",
@@ -146,8 +146,8 @@
     "pagination": {
         "page": "<current>{{current}}</current> {{total}}",
         "summary": "{{start}}-{{end}} {{total}}",
-        "last": "Последнее",
-        "first": "Первое",
+        "last": "Последний",
+        "first": "Первый",
         "next": "Далее",
         "back": "Назад"
     },
