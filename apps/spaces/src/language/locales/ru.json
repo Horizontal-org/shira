@@ -271,8 +271,8 @@
                 "subtitle": "Вот как вопрос будет выглядеть для учащихся, включая ваши пояснения.",
                 "show_explanations": "Показать пояснения",
                 "hide_explanations": "Скрыть пояснения",
-                "next_explanation": "След.",
-                "previous_explanation": "Пред.",
+                "next_explanation": "Далее",
+                "previous_explanation": "Назад",
                 "aria_label": "Предпросмотр вопроса",
                 "no_explanations": "Пояснений к этому вопросу нет."
             }
@@ -834,7 +834,7 @@
         "create_entity": {
             "question": {
                 "scratch_subtitle": "Создайте вопрос самостоятельно, с полным контролем. Вы даже можете скопировать и вставить настоящий фишинговый пример.",
-                "create_button": "Отмена",
+                "create_button": "Отменить",
                 "template_title": "Использовать шаблон",
                 "template_subtitle": "Начните немедленно, выбрав из десятков готовых шаблонов, доступных на нескольких языках. ",
                 "import_title": "Or import a question from a file",
@@ -845,7 +845,7 @@
             "quiz": {
                 "subtitle": "Выберите, как вы’ хотели бы создать свой тест.",
                 "title": "Создать новый тест",
-                "create_button": "Отмена",
+                "create_button": "Отменить",
                 "scratch_title": "Start from scratch",
                 "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
                 "scratch_subtitle": "Create the quiz yourself, with full control. You can even copy and paste a real-life phishing example.",
@@ -1233,7 +1233,7 @@
         "submissions_table": {
             "actions": "Действия",
             "type": "Тип",
-            "status": "Статус",
+            "status": "Состояние",
             "app": "Имя не установлено",
             "preview": "Preview submission",
             "date_submitted": "Дата прохождения",
