@@ -101,7 +101,7 @@
             "export": "Exporter"
         },
         "use_library_question_button": "Utiliser un modèle de question",
-        "create_note_button": "Créer un compte",
+        "create_note_button": "Créer une note",
         "columns": {
             "type": {
                 "note": "Note"
@@ -180,8 +180,8 @@
                 "subtitle": "Votre question s'affichera ainsi pour les apprenants, accompagnée des explications que vous avez rédigées.",
                 "show_explanations": "Afficher les explications",
                 "hide_explanations": "Masquer les explications",
-                "next_explanation": "Explication suivante",
-                "previous_explanation": "Explication précédente",
+                "next_explanation": "Suivant",
+                "previous_explanation": "Précédent",
                 "no_explanations": "Aucune explication n'est disponible pour cette question.",
                 "aria_label": "Aperçu de la question"
             },
@@ -202,7 +202,7 @@
                 },
                 "editor": {
                     "title": "Éditeur ou Editrice",
-                    "simple": "Simple editor",
+                    "simple": "Editeur simple",
                     "advanced": "Advanced HTML editor"
                 }
             }
@@ -211,7 +211,7 @@
         "header_required_tooltip": "Les champs obligatoires ne peuvent pas être laissés vides",
         "header_character_limit_tooltip": "Un ou plusieurs champs dépassent la limite de caractère.",
         "html_editor": {
-            "title": "HTML source",
+            "title": "Source HTML",
             "fix_errors": "Correction des erreurs HTML avant de continuer.",
             "errors": {
                 "syntax": "Vérifiez le HTML près de la position surlignée"
@@ -260,7 +260,7 @@
         "filters_panel": {
             "selected_count": "{{count}",
             "tag": "Tag",
-            "apps": "Applications",
+            "apps": "Applis",
             "type": "Type",
             "creator": "Créateur",
             "language": "Langue",
@@ -331,7 +331,7 @@
             "cta": "Allez au centre d'aide"
         },
         "contact": {
-            "title": "Contactez-nous",
+            "title": "Nous contacter",
             "description": "Si vous avez besoin d'un support, veuillez nous envoyer un e-mail"
         }
     },
@@ -571,7 +571,7 @@
                     "detailed_analytics": "Analyses détaillées",
                     "analysis_tools": "Outils d'analyse et de conformité",
                     "tailor_made_training": "Formation utilisateur.ice sur mesure",
-                    "priority_support": "Assistance prioritaire",
+                    "priority_support": "Assistance",
                     "phishing_readiness_assessment": "Phishing Readiness Assessment",
                     "preparedness_report": "Rapport sur la préparation et plan d ' action"
                 },
@@ -783,7 +783,7 @@
         "learner_email_send_failed": "Impossible d'envoyer l'invitation par email à l'apprenant.e.",
         "learner_token_conflict": "Le jeton de l'apprenant.e est invalide ou a déjà été utilisé.",
         "learner_assignment_failed": "Impossible d'attribuer l'apprenant.e à l'espace.",
-        "invalid_email": "Indiquez une adresse e-mail valide",
+        "invalid_email": "Saisissez une adresse email valide",
         "something_went_wrong": "Une erreur s'est produite",
         "character_limit_error": "Limite de caractères dépassée",
         "template_submission_failed": "Il y avait un problème à soumettre le modèle. Si cette question persiste, contactez-nous salutaires.",
@@ -840,10 +840,10 @@
         "quiz_assessment_mode_updated": "Le quiz a été mis à jour",
         "quiz_imported": "Le quiz a été importé",
         "question_imported": "La question a été importée",
-        "note_created": "Le quiz a été créé",
-        "note_deleted": "L'apprenant a été supprimé.",
-        "note_updated": "Le quiz a été mis à jour",
-        "note_duplicated": "Le quiz a été dupliqué"
+        "note_created": "La note a été créée",
+        "note_deleted": "La note a été supprimée",
+        "note_updated": "La note a été mise à jour",
+        "note_duplicated": "La note a été dupliquée"
     },
     "loading_messages": {
         "message": "",
@@ -1141,7 +1141,7 @@
         "preview": {
             "created_on": "Créé sur",
             "columns": {
-                "app": "Application",
+                "app": "Le nom n'est pas défini",
                 "actions": "Actions",
                 "preview": "Aperçu",
                 "type": "Type",
@@ -1150,7 +1150,7 @@
             },
             "preview_full_quiz": "Aperçu complet quiz",
             "no_questions": "Aucune question trouvée pour ce modèle de quiz.",
-            "tags": "Mots-clés",
+            "tags": "Tags",
             "back_to_quiz_template": "Retour au modèle de quiz",
             "languages": "Langues",
             "creator": "Créateur",
@@ -1178,8 +1178,8 @@
     "sidebar": {
         "quizzes": "Les quiz",
         "settings": "Paramètres",
-        "learners": "Apprenants et apprenantes",
-        "support": "Assistance prioritaire",
+        "learners": "Apprenant.e.s",
+        "support": "Assistance",
         "logout": "Déconnexion",
         "templates": "Modèles"
     },
@@ -1189,7 +1189,7 @@
             "questions": "Questions"
         },
         "submit_quiz": {
-            "tags": "Mots-clés",
+            "tags": "Tags",
             "tags_placeholder": "Tag",
             "name_hint": "Utilisez un nom descriptif pour aider les autres utilisateurs à trouver ce qu'ils recherchent.",
             "success": "Le modèle de quiz a été soumis.",
@@ -1210,7 +1210,7 @@
             "description_placeholder": "Description"
         },
         "submit_question": {
-            "tags": "Mots-clés",
+            "tags": "Tags",
             "title": "Soumettez votre question comme modèle",
             "success": "Le modèle de question a été soumis.",
             "description_placeholder": "Description",
@@ -1294,7 +1294,7 @@
     },
     "create_note": {
         "header_title": "Créer une nouvelle note",
-        "edit_header_title": "Edit note",
+        "edit_header_title": "Modifier la note",
         "header_required_tooltip": "Les champs obligatoires ne peuvent pas être laissés vides",
         "header_character_limit_tooltip": "Un ou plusieurs champs dépassent la limite de caractère.",
         "breadcrumbs": {
@@ -1303,9 +1303,9 @@
         },
         "note_info": {
             "note_name": {
-                "title": "Note name",
+                "title": "Nom de la note",
                 "subtitle": "Ce nom ne sera visible que pour vous aider à vous souvenir de ce que cette note est sur",
-                "placeholder": "Note name"
+                "placeholder": "Nom de la note"
             },
             "note_content": {
                 "title": "Note content",
