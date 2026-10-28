@@ -1282,7 +1282,8 @@
             },
             "note_content": {
                 "title": "Konten catatan",
-                "subtitle": "Tulis catatan yang akan ditampilkan. Catatan ditunjukkan sebelum, setelah atau di antara pertanyaan. Mereka dapat menyertakan teks, tautan dan gambar untuk menawarkan lebih banyak konteks dan informasi."
+                "subtitle": "Tulis catatan yang akan ditampilkan. Catatan ditunjukkan sebelum, setelah atau di antara pertanyaan. Mereka dapat menyertakan teks, tautan dan gambar untuk menawarkan lebih banyak konteks dan informasi.",
+                "placeholder": ""
             }
         },
         "preview": {
