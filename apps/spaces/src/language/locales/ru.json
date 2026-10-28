@@ -750,7 +750,7 @@
                     "private_quizzes": "Закрытые тексты",
                     "basic_analytics": "Базовая аналитика",
                     "detailed_analytics": "Подробная аналитика",
-                    "priority_support": "Приоритетная поддержка",
+                    "priority_support": "Поддержка",
                     "analysis_tools": "Инструменты аналитики и соответствия",
                     "tailor_made_training": "Индивидуальное обучение пользователей",
                     "phishing_readiness_assessment": "Phishing Readiness Assessment",
@@ -1130,7 +1130,7 @@
             },
             "preview_full_quiz": "Предварительный просмотр полного quiz",
             "no_questions": "Никаких вопросов для этого шаблона.",
-            "tags": "Теги",
+            "tags": "Tags",
             "back_to_quiz_template": "Назад к шаблону quiz",
             "languages": "Языки",
             "creator": "Creator",
@@ -1179,7 +1179,7 @@
         "quizzes": "Тесты",
         "settings": "Настройки",
         "learners": "Учащиеся",
-        "support": "Приоритетная поддержка",
+        "support": "Поддержка",
         "logout": "Выход",
         "templates": "Шаблоны"
     },
@@ -1210,7 +1210,7 @@
             "description_placeholder": "Описание"
         },
         "submit_question": {
-            "tags": "Теги",
+            "tags": "Tags",
             "title": "Подпишите свой вопрос как шаблон",
             "success": "Был представлен шаблон вопросов.",
             "description_placeholder": "Описание",
