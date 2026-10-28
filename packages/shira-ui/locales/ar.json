@@ -35,9 +35,9 @@
         "view": "استعراض",
         "help": "المساعدة",
         "new_mail": "بريد جديد",
-        "undo": "تراجع",
+        "undo": "تراجَع",
         "delete": "حذف",
-        "archive": "الأرشيفات",
+        "archive": "الأرشيف",
         "report": "Report",
         "move_to": "نقل إلى",
         "flag_unflag": "وضع / إزالة علامة",
@@ -59,7 +59,7 @@
         "reply": "الرد",
         "show_more": "إظهار المزيد",
         "to": "To:",
-        "contact": "للتواصل"
+        "contact": "Contact"
     },
     "whatsapp": {
         "contact_5_name": "Annabel Carpenter",
@@ -92,15 +92,15 @@
         "view_contact_information": "View contact information",
         "contact_info": "Contact info",
         "back_to_chat": "Back to chat",
-        "contact": "للتواصل",
+        "contact": "Contact",
         "no_phone_number": "No phone number",
         "contact_actions": "Contact actions",
         "voice": "صوت",
         "video": "فيديو",
         "search": "بحث",
         "mute_notifications": "Mute",
-        "off": "ايقاف",
-        "no": "ﻻ",
+        "off": "متوقف",
+        "no": "No",
         "default": "الوضع الافتراضي",
         "chat_theme": "Chat theme",
         "save_to_downloads": "Save to Downloads",
@@ -152,7 +152,7 @@
         "last": "اﻷخير",
         "first": "اﻷول",
         "next": "التالي",
-        "back": "السابق"
+        "back": "رجوع"
     },
     "telegram": {
         "chats": "Chats",
