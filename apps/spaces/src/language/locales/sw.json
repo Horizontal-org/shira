@@ -49,7 +49,7 @@
     "left_menu": {
         "dashboard": "Dashibodi",
         "support": "saidia",
-        "settings": "mpangilio",
+        "settings": "Mipangilio",
         "logout": "Ondoka"
     },
     "dashboard": {
@@ -122,7 +122,7 @@
             "questions": "Maswali",
             "results": "Matokeo",
             "learners": "Learners",
-            "settings": "mpangilio"
+            "settings": "Mipangilio"
         },
         "visibility": {
             "public": "Public",
@@ -258,7 +258,7 @@
                 "subtitle": "This is how your question will look to learners, including the explanations you have written.",
                 "show_explanations": "Show explanations",
                 "hide_explanations": "Hide explanations",
-                "next_explanation": "Yafuatayo",
+                "next_explanation": "Inayofuata",
                 "previous_explanation": "Iliyopita",
                 "no_explanations": "There are no explanations for this question.",
                 "aria_label": "Preview question"
@@ -444,7 +444,7 @@
         }
     },
     "settings": {
-        "title": "mpangilio",
+        "title": "Mipangilio",
         "subtitle": "Manage your Shira space settings here.",
         "tabs": {
             "account": "Account",
@@ -485,7 +485,7 @@
         "version": "You are currently using Shira v{{version}}."
     },
     "buttons": {
-        "ok": "OK",
+        "ok": "Sawa",
         "cancel": "Ghairi",
         "no_thanks": "No, thanks",
         "close": "Funga",
@@ -493,7 +493,7 @@
         "save": "Hifadhi",
         "back": "Nyuma",
         "delete": "Futa",
-        "next": "Yafuatayo",
+        "next": "Inayofuata",
         "continue": "Endelea",
         "login": "Ingia",
         "send_invitation": "Send invitation",
@@ -1146,7 +1146,7 @@
     },
     "sidebar": {
         "quizzes": "Quizzes",
-        "settings": "mpangilio",
+        "settings": "Mipangilio",
         "learners": "Learners",
         "support": "saidia",
         "logout": "Ondoka",
