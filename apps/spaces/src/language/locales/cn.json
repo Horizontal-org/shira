@@ -202,8 +202,8 @@
                 "subtitle": "这是学员看到的题目效果，包含您填写的解析。",
                 "show_explanations": "显示解析",
                 "hide_explanations": "隐藏解析",
-                "next_explanation": "下一页",
-                "previous_explanation": "上一页",
+                "next_explanation": "下一步",
+                "previous_explanation": "上一个",
                 "no_explanations": "此题目暂无解析。",
                 "aria_label": "预览题目"
             }
@@ -1200,20 +1200,20 @@
             "header_title": "降低排放当量模板",
             "language": "语言",
             "title": "作为模板提交您的问答",
-            "description": "说明",
+            "description": "描述",
             "language_hint": "你可以选择1种以上语言。 (谁找不到你想要的语言?) <support> 请求使用缺失的语言",
             "description_hint": "书写1-2条线,解释该词所包含的内容.",
             "terms": "我通过核对这一盒子,同意Shira的<terms>级和条件</terms>.",
             "review_notice": "什叶派小组仔细审查每份划界案。 如果接受你的模板,将出现在模板图书馆.",
             "language_placeholder": "语言",
             "tags_hint": "选择最能描述这一模板内容的标签.",
-            "description_placeholder": "说明"
+            "description_placeholder": "描述"
         },
         "submit_question": {
             "tags": "标签",
             "title": "提出作为模板的问题",
             "success": "问题模板已经提交.",
-            "description_placeholder": "说明",
+            "description_placeholder": "描述",
             "error": "我们无法提交问题模板。 请再次审判.",
             "review_notice": "什叶派小组仔细审查每份划界案。 如果接受你的模板,将出现在模板图书馆.",
             "header_title": "提交问题模板",
@@ -1226,7 +1226,7 @@
             "language_hint": "你可以选择1种以上语言。 (谁找不到你想要的语言?) <support> 请求使用缺失的语言",
             "name_hint": "利用描述性名称帮助其他用户发现自己所期望的东西.",
             "name_placeholder": "问题模板名称",
-            "description": "说明",
+            "description": "描述",
             "language": "语言",
             "description_hint": "书写1-2条线,解释这一问题的内容."
         },
