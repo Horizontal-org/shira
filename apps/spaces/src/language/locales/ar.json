@@ -113,7 +113,7 @@
             "questions": "الأسئلة",
             "results": "النتائج",
             "learners": "المتعلمون",
-            "settings": "Settings"
+            "settings": "الإعدادات"
         },
         "publish_toggle": {
             "published": "تم نشره",
@@ -271,8 +271,8 @@
                 "subtitle": "هكذا سيظهر سؤالكم للمتعلمين، بما في ذلك التفسيرات التي وضعتم.",
                 "show_explanations": "إظهار التفسيرات",
                 "hide_explanations": "إخفاء التفسيرات",
-                "next_explanation": "التفسير التالي",
-                "previous_explanation": "التفسير السابق",
+                "next_explanation": "التالي",
+                "previous_explanation": "السابق",
                 "no_explanations": "لا توجد تفسيرات لهذا السؤال.",
                 "aria_label": "معاينة السؤال"
             }
@@ -456,7 +456,7 @@
             "cta": "Go to Help Center"
         },
         "contact": {
-            "title": "تواصلوا معنا",
+            "title": "الاتصال بنا",
             "description": "If you need any support please email us at"
         }
     },
@@ -729,7 +729,7 @@
                     "private_quizzes": "الاختبارات الخاصة",
                     "analysis_tools": "أدوات التحليل والامتثال",
                     "tailor_made_training": "تدريب المستخدمين على المقاس",
-                    "priority_support": "دعم أولوي",
+                    "priority_support": "الدعم",
                     "hosting": "استضافة",
                     "number_of_admins": "عدد المسؤولين",
                     "custom_quizzes": "عدد الاختبارات المخصصة",
@@ -1177,9 +1177,9 @@
     },
     "sidebar": {
         "quizzes": "الاختبارات",
-        "settings": "Settings",
+        "settings": "الإعدادات",
         "learners": "المتعلمون",
-        "support": "دعم أولوي",
+        "support": "الدعم",
         "logout": "تسجيل الخروج",
         "templates": "القوالب"
     },
