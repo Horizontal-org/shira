@@ -149,7 +149,7 @@
             "delete": "پاک کردن",
             "more_actions": "اقدامات بیشتر",
             "submit_as_template": "ارسال به عنوان Template",
-            "export": "خروجی گرفتن"
+            "export": "برون برد"
         },
         "use_library_question_button": "استفاده از یک قالب سوال",
         "create_note_button": "ایجاد یادداشت",
@@ -629,7 +629,7 @@
             "field_type": {
                 "title:": "نوع Field",
                 "image": "تصویر",
-                "video": "ویدئو",
+                "video": "ویدیو",
                 "audio": "Audio",
                 "document": "مستند",
                 "other": "دیگر"
