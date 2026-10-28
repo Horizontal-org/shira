@@ -1309,7 +1309,8 @@
             },
             "note_content": {
                 "title": "Note content",
-                "subtitle": "Écrivez la note qui sera affichée. Les notes sont présentées avant, après ou entre les questions. Ils peuvent inclure le texte, les liens et les images pour offrir plus de contexte et d'information."
+                "subtitle": "Écrivez la note qui sera affichée. Les notes sont présentées avant, après ou entre les questions. Ils peuvent inclure le texte, les liens et les images pour offrir plus de contexte et d'information.",
+                "placeholder": ""
             }
         },
         "preview": {
