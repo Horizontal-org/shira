@@ -1276,11 +1276,11 @@
     },
     "languages": {
         "ar": "Arabic",
-        "es": "Español",
+        "es": "Spanish",
         "cn": "Chino simplificado",
-        "ru": "Ruso",
-        "fr": "Francés",
-        "en": "Inglés"
+        "ru": "Russian",
+        "fr": "French",
+        "en": "English"
     },
     "library_metadata": {
         "tags_slugs": {
