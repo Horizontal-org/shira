@@ -456,7 +456,7 @@
             "cta": "Go to Help Center"
         },
         "contact": {
-            "title": "Контакты",
+            "title": "Свяжитесь с нами",
             "description": "If you need any support please email us at"
         }
     },
@@ -488,7 +488,7 @@
         "tabs": {
             "account": "Аккаунт",
             "subscription": "Подписка",
-            "general": "Общие вопросы"
+            "general": "Общие"
         },
         "subscription": {
             "current_plan": "Текущий план: {{plan_name}}",
@@ -834,7 +834,7 @@
         "create_entity": {
             "question": {
                 "scratch_subtitle": "Create the question yourself, with full control. You can even copy and paste a real-life phishing example.",
-                "create_button": "Отменить",
+                "create_button": "Отмена",
                 "template_title": "Use a template",
                 "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
                 "import_title": "Or import a question from a file",
@@ -845,7 +845,7 @@
             "quiz": {
                 "subtitle": "Choose how you’d like to create your quiz.",
                 "title": "Создать новый тест",
-                "create_button": "Отменить",
+                "create_button": "Отмена",
                 "scratch_title": "Start from scratch",
                 "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
                 "scratch_subtitle": "Create the quiz yourself, with full control. You can even copy and paste a real-life phishing example.",
@@ -1189,7 +1189,7 @@
             "questions": "Вопросы"
         },
         "submit_quiz": {
-            "tags": "Теги",
+            "tags": "Tags",
             "tags_placeholder": "Теги",
             "name_hint": "Use a descriptive name to help other users find what they're looking for.",
             "success": "The quiz template has been submitted.",
