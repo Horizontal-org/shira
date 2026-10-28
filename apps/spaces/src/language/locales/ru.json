@@ -271,8 +271,8 @@
                 "subtitle": "Вот как вопрос будет выглядеть для учащихся, включая ваши пояснения.",
                 "show_explanations": "Показать пояснения",
                 "hide_explanations": "Скрыть пояснения",
-                "next_explanation": "Следующее пояснение",
-                "previous_explanation": "Предыдущее пояснение",
+                "next_explanation": "Далее",
+                "previous_explanation": "Назад",
                 "aria_label": "Предпросмотр вопроса",
                 "no_explanations": "Пояснений к этому вопросу нет."
             }
@@ -1233,7 +1233,7 @@
         "submissions_table": {
             "actions": "Действия",
             "type": "Тип",
-            "status": "Статус",
+            "status": "Состояние",
             "app": "Имя не установлено",
             "preview": "Предварительное представление",
             "date_submitted": "Дата прохождения",
