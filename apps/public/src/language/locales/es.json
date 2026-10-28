@@ -87,7 +87,7 @@
         "data_collection": {
             "percentage_of_learners": "c. The percentage of learners assigned this quiz who have completed it",
             "your_score": "b. Your score for each question",
-            "understand": "Entiendo",
+            "understand": "I understand",
             "only_datetime": "When you take this quiz, Shira will only track the date and time you take the quiz.",
             "total_quiz_score": "a. Your total quiz score",
             "learn_more": "Aprende más",
@@ -265,10 +265,10 @@
     },
     "languages": {
         "ar": "Arabic",
-        "es": "Español",
+        "es": "Spanish",
         "cn": "Chino simplificado",
-        "ru": "Ruso",
-        "fr": "Francés",
-        "en": "Inglés"
+        "ru": "Russian",
+        "fr": "French",
+        "en": "English"
     }
 }
