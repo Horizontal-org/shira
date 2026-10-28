@@ -1,1291 +1,1292 @@
 {
     "login": {
-        "title": "ورود",
-        "subtitle": "Log in to access your custom Shira space.",
+        "title": "ورود در",
+        "subtitle": "برای دسترسی به فضای سفارشی Shira وارد شوید.",
         "email_placeholder": "ایمیل",
         "password_placeholder": "گذرواژه",
-        "reset_password": "گذرواژه را فراموش کردید؟",
+        "reset_password": "رمز عبور خود را فراموش کنید؟?",
         "login_header_button": "ورود",
-        "loading_button": "در حال ورود…",
-        "error_message": "Error: Your email address or password is incorrect."
+        "loading_button": "ورود به ...",
+        "error_message": "خطای: آدرس ایمیل یا رمز عبور شما نادرست است."
     },
     "reset_password": {
-        "title": "تنظیم گذرواژه",
-        "subtitle": "Enter the email associated with your Shira account. You will receive an email with instructions to reset your password.",
-        "email_placeholder": "Email (required)",
-        "send_button": "Send reset email",
-        "success_title": "Check your email",
-        "success_description": "We have sent a password reset email to your email address.",
-        "success_info": "Didn't receive an email? Make sure the email address you entered is correct, check your spam folder, or contact us at <0>{{contact_email}}</0>",
-        "create_title": "Create new password",
-        "create_subtitle": "Your password should contain at least 8 characters.",
-        "new_password_placeholder": "New password (required)",
-        "confirm_password_placeholder": "Confirm new password (required)",
-        "reset_button": "تنظیم گذرواژه",
-        "reset_success_title": "Password updated",
-        "reset_success_description": "You can now log in with your new password.",
-        "expired_title": "Something went wrong",
-        "expired_description": "The link you opened is invalid or has expired. Please contact your organization or email contact@wearehorizontal.org for support.",
+        "title": "Reset Password",
+        "subtitle": "ایمیل مرتبط با حساب تان را وارد کنید. شما یک ایمیل با دستورالعمل هایی برای تنظیم رمز عبور خود دریافت خواهید کرد.",
+        "email_placeholder": "ایمیل ( ضروری)",
+        "send_button": "ارسال ایمیل",
+        "success_title": "ایمیل خود را چک کنید",
+        "success_description": "ما یک ایمیل تنظیم مجدد رمز عبور را به آدرس ایمیل شما ارسال کرده ایم.",
+        "success_info": "ایمیل دریافت نکردید؟ اطمینان حاصل کنید که آدرس ایمیل که وارد شده اید صحیح است، پوشه اسپم خود را چک کنید یا با ما در <0> تماس بگیرید mail}}</0>",
+        "create_title": "ایجاد رمز عبور جدید",
+        "create_subtitle": "رمز عبور شما باید حداقل 8 کاراکتر داشته باشد.",
+        "new_password_placeholder": "رمز عبور جدید ( ضروری)",
+        "confirm_password_placeholder": "تایید رمز عبور جدید ( ضروری)",
+        "reset_button": "Reset Password",
+        "reset_success_title": "Password Update",
+        "reset_success_description": "اکنون می توانید با رمز عبور جدید خود وارد شوید.",
+        "expired_title": "ببخشید، چیزی اشتباه کرد",
+        "expired_description": "لینکی که باز کردید بی اعتبار است یا منقضی شده است. لطفا با سازمان یا ایمیل خود با @wearorizontal.org برای پشتیبانی تماس بگیرید.",
         "validation": {
-            "email_required": "Email is required",
-            "invalid_email": "نشانی ایمیل نامعتبر",
-            "password_required": "Password is required",
-            "password_min_length": "Password must be at least 8 characters",
-            "confirm_password_required": "Please confirm your password",
-            "passwords_mismatch": "دو گذرواژه یکی نیستند",
-            "incorrect_password": "Incorrect password."
+            "email_required": "ایمیل مورد نیاز است",
+            "invalid_email": "یک آدرس ایمیل معتبر وارد کنید",
+            "password_required": "Password مورد نیاز است",
+            "password_min_length": "رمز عبور باید حداقل 8 کاراکتر باشد",
+            "confirm_password_required": "لطفا رمز عبور خود را تایید کنید",
+            "passwords_mismatch": "پسوردها مطابقت ندارند",
+            "incorrect_password": "پسورد صحیح."
         }
     },
     "confirm_email_update": {
-        "success_title": "Email address updated",
-        "success_description": "Your email address has been confirmed. You can now log in with your new email address."
+        "success_title": "آدرس ایمیل به روز شده",
+        "success_description": "آدرس ایمیل شما تایید شده است. اکنون می توانید با آدرس ایمیل جدید خود وارد شوید."
     },
     "beta": {
         "label": "BETA",
-        "message": "Shira is still in development and you may experience issues.",
-        "click_here": "Click here",
-        "feedback_text": "to share your feedback and help us improve!"
+        "message": "شیرا هنوز در حال توسعه است و شما ممکن است مسائل را تجربه کنید.",
+        "click_here": "Click Here",
+        "feedback_text": "برای به اشتراک گذاشتن بازخورد خود و خواندن در مورد آنچه که در کنار شرا است!"
     },
     "left_menu": {
         "dashboard": "پنل",
         "support": "پشتیبانی",
         "settings": "تنظیمات",
-        "logout": "خروج"
+        "logout": "ورود"
     },
     "dashboard": {
         "title": "Quizzes",
-        "subtitle": "Manage your quizzes here, including creating, publishing, unpublishing and deleting quizzes.",
-        "create_quiz_button": "Create new quiz",
-        "create_limit_reached": "Upgrade your plan to create more quizzes.",
-        "use_a_quiz_template_button": "Use a quiz template",
+        "subtitle": "امتحانات خود را در اینجا مدیریت کنید، از جمله ایجاد، انتشار، انتشار و حذف آزمون ها.",
+        "create_quiz_button": "ایجاد آزمون های جدید",
+        "create_limit_reached": "برنامه خود را برای ایجاد آزمون های بیشتر ارتقا دهید.",
+        "use_a_quiz_template_button": "استفاده از یک الگوی آزمون",
         "use_template_button": "",
-        "empty_state": "You don’t have any quizzes yet. Click on the “Create new quiz” button to get started."
+        "empty_state": "هنوز هیچ آزمونی ندارید. روی دکمه “Create New quiz” کلیک کنید تا شروع کنید."
     },
     "learners": {
         "title": "Learners",
-        "subtitle": "Manage who can take the private quizzes you create.",
-        "empty_state": "There are no learners registered to your space yet. Invite a new learner to get started.",
-        "sub_required": "This feature is not available under your current plan. <0>View plans</0>",
+        "subtitle": "مدیریت کنید که چه کسی می تواند آزمون های خصوصی را که ایجاد می کنید، بگیرد.",
+        "empty_state": "هنوز هیچ زبان آموز در فضای شما ثبت نشده است. دعوت از یک یادگیرنده جدید برای شروع.",
+        "sub_required": "این ویژگی در برنامه فعلی شما موجود نیست. <0>View </0>",
         "table": {
-            "learner": "Learn",
+            "learner": "Learner",
             "registration": "ثبت نام",
-            "quiz_status": "Quiz status",
-            "invited_at": "Date invited",
-            "invited_tag": "Invited",
-            "registered_tag": "Registered",
-            "submitted_tag": "ثبت کردن",
-            "not_submitted_tag": "Not submitted"
+            "quiz_status": "وضعیت مقدماتی",
+            "invited_at": "تاریخ دعوت",
+            "invited_tag": "دعوت",
+            "registered_tag": "ثبت شده ثبت شده",
+            "submitted_tag": "ارسال شده",
+            "not_submitted_tag": "ارسال نشده"
         },
         "assign_dialog": {
-            "registered_title": "Registered Learners",
-            "registered_description": "Select one or more learners to assign this quiz to them.",
-            "registered_description_2": "The list below only shows Learners who have completed their registration. You can manage registered learners and invite new ones in the <0>Learners section</0> or read about <1>here</1>.",
-            "assign_button": "Assign to learners",
-            "assign_title": "Assign \"{{quiz_title}}\" to learners",
-            "no_learners": "There are no registered learners in your space.",
-            "all_learners_registered": "All registered learners have already been assigned this quiz.",
+            "registered_title": "دانشجویان ثبت شده",
+            "registered_description": "یک یا چند زبان آموز را انتخاب کنید تا این آزمون را به آنها اختصاص دهید.",
+            "registered_description_2": "لیست زیر فقط نشان می دهد افرادی که ثبت نام خود را تکمیل کرده اند. شما می توانید زبان آموزان ثبت شده را مدیریت کنید و افراد جدید را در بخش <0>Learners </0> یا در مورد <1>here</1> بخوانید.",
+            "assign_button": "اشاره به زبان آموزان",
+            "assign_title": "برچسب ها: [quiz title}} به زبان آموزان",
+            "no_learners": "هیچ زبان آموز ثبت شده ای در فضای شما وجود ندارد.",
+            "all_learners_registered": "همه دانش آموزان ثبت شده در حال حاضر این آزمون اختصاص داده شده است.",
             "disabled_tooltip": "Create at least 1 question to assign this quiz to learners."
         }
     },
     "quizzes": {
         "filter": {
-            "all_quizzes": "All quizzes",
+            "all_quizzes": "همه آزمون ها",
             "published": "منتشرشده",
-            "unpublished": "منتشرشده"
+            "unpublished": "منتشر نشده"
         },
-        "last_modified": "Last modified {{date}}",
+        "last_modified": "آخرین اصلاح شده[ویرایش]",
         "publish_toggle": "منتشرشده",
         "actions": {
             "edit": "ویرایش",
-            "duplicate": "تکثیر"
+            "duplicate": "تکراری"
         }
     },
     "quiz": {
-        "public_subtitle": "Create quiz questions, share your quiz link, and monitor results. Shira auto-saves your work whenever you are connected to the Internet.",
-        "private_subtitle": "Create quiz questions, manage learners and monitor results. Shira auto-saves your work whenever you are connected to the Internet.",
+        "public_subtitle": "سوالات آزمون را ایجاد کنید، لینک آزمون خود را به اشتراک بگذارید و نتایج را نظارت کنید. Shira auto-saves کار خود را هر زمان که شما به اینترنت متصل است.",
+        "private_subtitle": "ایجاد سوالات آزمون، مدیریت زبان آموزان و نظارت نتایج. Shira auto-saves کار خود را هر زمان که شما به اینترنت متصل است.",
         "publish_toggle": {
             "published": "منتشرشده",
-            "unpublished": "منتشرشده",
-            "disabled_tooltip": "Create at least 1 question to publish your quiz."
+            "unpublished": "منتشر نشده",
+            "disabled_tooltip": "حداقل یک سوال برای انتشار آزمون خود ایجاد کنید."
         },
         "actions": {
             "rename": "Rename",
-            "duplicate": "تکثیر",
-            "copy_link": "Copy quiz link",
+            "duplicate": "تکراری",
+            "copy_link": "لینک کپی رایت",
             "disabled_tooltip": "",
             "delete": "پاک کردن",
-            "submit_as_template": "Submit as template",
-            "copy_link_disabled_tooltip": "Create at least 1 question to copy your quiz link.",
+            "submit_as_template": "ارسال به عنوان Template",
+            "copy_link_disabled_tooltip": "حداقل یک سوال برای کپی کردن لینک آزمون خود ایجاد کنید.",
             "submit_as_template_disabled_tooltip": "Create at least 1 question to submit your quiz as a template."
         },
         "tabs": {
-            "questions": "پرسش‌ها",
+            "questions": "سوالات",
             "results": "نتایج",
             "learners": "Learners",
             "settings": "تنظیمات"
         },
         "visibility": {
-            "public": "Public",
+            "public": "عمومی",
             "private": "خصوصی"
         },
         "settings": {
             "assessment": {
-                "description": "Learners test their phishing detection skills without feedback or explanations to measure their actual performance level.",
-                "title": "Assessment mode"
+                "description": "دانش آموزان مهارت های تشخیص فیشینگ خود را بدون بازخورد یا توضیحات برای اندازه گیری سطح عملکرد واقعی خود آزمایش می کنند.",
+                "title": "حالت ارزیابی"
             },
             "learning": {
-                "title": "Learning mode",
-                "description": "Learners receive immediate feedback and explanations after each answer to help them improve their phishing detection skills."
+                "title": "یادگیری حالت",
+                "description": "دانش آموزان دریافت بازخورد فوری و توضیحات پس از هر پاسخ به آنها کمک به بهبود مهارت های تشخیص فیشینگ خود را."
             },
-            "title": "Quiz mode"
+            "title": "حالت Quiz Mode"
         }
     },
     "questions_tab": {
-        "create_question_button": "Create question",
+        "create_question_button": "ایجاد سوال",
         "add_from_library_button": "",
         "action_tooltips": {
             "edit": "ویرایش",
-            "duplicate": "تکثیر",
+            "duplicate": "تکراری",
             "delete": "پاک کردن",
-            "more_actions": "More actions",
-            "submit_as_template": "Submit as template",
+            "more_actions": "اقدامات بیشتر",
+            "submit_as_template": "ارسال به عنوان Template",
             "export": "خروجی گرفتن"
         },
-        "use_library_question_button": "Use a question template",
-        "create_note_button": "ایجادکردن",
+        "use_library_question_button": "استفاده از یک قالب سوال",
+        "create_note_button": "ایجاد یادداشت",
         "columns": {
             "type": {
-                "note": "یادداشت‌ها"
+                "note": "Note"
             }
         }
     },
     "questions": {
         "edit": {
-            "tab_header": "Edit question"
+            "tab_header": "سوال Edit"
         }
     },
     "no_questions": {
-        "subtitle": "You don't have any questions yet. Create your own question or add one from the Shira library."
+        "subtitle": "هنوز سوالی ندارید. سوال خود را بسازید یا یکی را از کتابخانه شیرا اضافه کنید."
     },
     "learner_quiz_tab": {
         "empty_state": {
-            "description": "This quiz doesn't have any learners yet. Click the \"Assign to learners\" button to get started."
+            "description": "این آزمون هنوز هیچ زبان آموز ندارد. روی دکمه “نشانه به زبان آموزان” کلیک کنید تا شروع کنید."
         },
         "table": {
-            "description": "These are the learners who have been assigned this quiz."
+            "description": "این ها آموزگارانی هستند که این آزمون را به عهده گرفته اند."
         }
     },
     "create_question": {
-        "header_title": "Create a new question",
+        "header_title": "ایجاد یک سوال جدید",
         "tabs": {
             "question_info": {
-                "tab_title": "Question info",
+                "tab_title": "اطلاعات پرسش",
                 "question_name": {
                     "title": "پرسش‌نامه",
-                    "subtitle": "This name will only visible to you, to help you remember what this question is about",
-                    "question_name_placeholder": "پرسش‌نامه"
+                    "subtitle": "این نام فقط برای شما قابل مشاهده خواهد بود تا به شما کمک کند تا به یاد داشته باشید که این سوال در مورد چیست",
+                    "question_name_placeholder": "نام پرسش"
                 },
                 "phishing": {
-                    "title": "Is it phishing?",
+                    "title": "آیا فیشینگ است؟?",
                     "yes": "بله",
                     "no": "خیر"
                 },
                 "apps": {
-                    "title": "Selected app"
+                    "title": "برنامه انتخاب شده"
                 },
                 "editor": {
-                    "title": "ویرایش",
-                    "simple": "Simple editor",
-                    "advanced": "Advanced HTML editor"
+                    "title": "ویرایشگر",
+                    "simple": "ویرایشگر ساده",
+                    "advanced": "پیشرفته HTML Editor"
                 }
             },
             "content": {
-                "tab_title": "Content",
-                "phishing": "You are writing a phishing message",
-                "legitimate": "You are writing a legitimate message",
-                "message": "On this screen, create the content that will be displayed in the question, including the ",
-                "message2": "and ",
-                "message3": "to go with it.",
-                "message_variables": "variables",
-                "message_explanations": "explanations",
-                "explanation_content_placeholder": "New explanation",
-                "explanation_tooltip": "Select some text or an image to add an explanation.",
+                "tab_title": "محتوا Content Content",
+                "phishing": "شما یک پیام فیشینگ می نویسید",
+                "legitimate": "شما یک پیام قانونی می نویسید",
+                "message": "در این صفحه، محتوایی را ایجاد کنید که در سوال نمایش داده می شود، از جمله ",
+                "message2": "و ",
+                "message3": "با آن همراه باشید.",
+                "message_variables": "متغیرهای متغیر",
+                "message_explanations": "توضیحات",
+                "explanation_content_placeholder": "توضیحات جدید",
+                "explanation_tooltip": "برخی از متن ها را برای اضافه کردن یک توضیح انتخاب کنید.",
                 "sender": {
-                    "title": "Sender name",
-                    "subtitle": "This is the name that will be displayed in the \"Sender\" field of the email.",
-                    "placeholder": "Sender name"
+                    "title": "نام فرستنده",
+                    "subtitle": "این نام است که در زمینه \"Sender\" ایمیل نمایش داده می شود.",
+                    "placeholder": "نام فرستنده"
                 },
                 "sender_email": {
-                    "title": "Sender email address",
-                    "subtitle": "This is the email address that will be displayed in the \"Sender\" field of the email.",
+                    "title": "آدرس ایمیل فرستنده",
+                    "subtitle": "این آدرس ایمیل است که در زمینه \"Sender\" ایمیل نمایش داده می شود.",
                     "placeholder": "ارسال ایمیل"
                 },
                 "email_subject": {
-                    "title": "Email subject",
-                    "subtitle": "This will be displayed in the \"Subject\" field of the email. If you keep this field empty, the subject field will show \"(no subject)\".",
+                    "title": "ایمیل موضوع",
+                    "subtitle": "این در زمینه \"Subject\" ایمیل نمایش داده خواهد شد. اگر شما این زمینه را خالی نگه دارید، زمینه موضوع نشان خواهد داد (بدون موضوع).",
                     "placeholder": "موضوع"
                 },
                 "email_body_content": {
-                    "title": "Email body content",
-                    "subtitle": "Write the message that will be shown."
+                    "title": "محتوای ایمیل",
+                    "subtitle": "پیام را بنویسید که نشان داده خواهد شد."
                 },
-                "attachment_button": "افزودن پیوست",
+                "attachment_button": "اضافه کردن دلبستگی",
                 "explanations": {
-                    "title": "Explanations will be shown in the following order in the quiz."
+                    "title": "توضیحات در دستور زیر در آزمون نشان داده خواهد شد."
                 },
                 "sender_phone": {
-                    "title": "Sender phone",
-                    "subtitle": "This is the phone number that will be displayed in the \"Sender\" field of the message.",
-                    "placeholder": "Sender phone number"
+                    "title": "ارسال تلفن",
+                    "subtitle": "این شماره تلفن است که در زمینه \"Sender\" پیام نمایش داده می شود.",
+                    "placeholder": "شماره تلفن فرستنده"
                 },
                 "message_content": {
-                    "title": "Message content",
-                    "subtitle": "Create the messages that will be shown. You can create multiple messages and image files. Add an explanation by selecting a portion of text and clicking on the explanation icon."
+                    "title": "محتوای پیام",
+                    "subtitle": "پیام هایی ایجاد کنید که نشان داده می شود. شما می توانید چندین پیام و فایل های تصویری ایجاد کنید. یک توضیح را با انتخاب بخشی از متن و کلیک بر روی آیکون توضیح اضافه کنید."
                 },
-                "add_message_text": "Add message text",
+                "add_message_text": "اضافه کردن متن پیام",
                 "add_image_attachment": "Add image",
-                "upload_image": "Upload from computer",
-                "message_text": "اتمام وقت پیام",
+                "upload_image": "آپلود از کامپیوتر",
+                "message_text": "پیام متنی",
                 "link_text": {
-                    "set_title": "Set Link",
+                    "set_title": "گزینه Link",
                     "edit_title": "Edit Link",
-                    "subtitle": "In the quiz, this link will appear clickable, but for safety reasons, clicking on it will not open the URL.",
-                    "placeholder": "Link URL"
+                    "subtitle": "در آزمون، این لینک قابل کلیک به نظر می رسد، اما به دلایل ایمنی، کلیک بر روی آن URL را باز نمی کند.",
+                    "placeholder": "لینک URL"
                 }
             },
             "preview": {
                 "tab_title": "پیش‌نمایش",
-                "subtitle": "This is how your question will look to learners, including the explanations you have written.",
-                "show_explanations": "Show explanations",
-                "hide_explanations": "Hide explanations",
+                "subtitle": "این است که چگونه سوال شما به زبان آموزان، از جمله توضیحات شما نوشته شده است.",
+                "show_explanations": "توضیحات نمایش",
+                "hide_explanations": "توضیحات پنهان",
                 "next_explanation": "بعدی",
                 "previous_explanation": "قبلی",
-                "no_explanations": "There are no explanations for this question.",
-                "aria_label": "Preview question"
+                "no_explanations": "هیچ توضیحی برای این سوال وجود ندارد.",
+                "aria_label": "پرسش مقدماتی"
             }
         },
-        "header_required_tooltip": "Required fields cannot be left blank",
-        "header_character_limit_tooltip": "One or more fields exceed the character limit.",
+        "header_required_tooltip": "زمینه های مورد نیاز را نمی توان خالی کرد",
+        "header_character_limit_tooltip": "یک یا چند رشته از محدودیت شخصیت فراتر می رود.",
         "html_editor": {
-            "title": "HTML source",
-            "fix_errors": "Fix HTML errors before continuing.",
+            "title": "منبع HTML",
+            "fix_errors": "اشتباهات HTML را قبل از ادامه دهید.",
             "errors": {
-                "syntax": "Check the HTML near the highlighted position"
-            }
+                "syntax": "بررسی HTML در نزدیکی موقعیت برجسته"
+            },
+            "explanation_tooltip": "متن را انتخاب کنید یا نشانگر را در یک تگ HTML قرار دهید تا یک توضیح اضافه کنید."
         }
     },
     "question_library": {
-        "tab_header_title": "Select a question template",
+        "tab_header_title": "یک قالب سوال را انتخاب کنید",
         "title": "",
         "subtitle": "",
         "columns": {
-            "question_name": "پرسش‌نامه",
+            "question_name": "نام پرسش",
             "type": {
                 "title": "نوغ",
-                "phishing": "Phishing",
-                "legitimate": "Legitimate"
+                "phishing": "فیشینگ",
+                "legitimate": "استقلال"
             },
             "language": {
                 "title": "زبان",
-                "placeholder": "زبان‌ها"
+                "placeholder": "زبان های زبان"
             },
             "app": {
                 "title": "برنامه‌ها",
-                "messaging_type": "Messaging app",
-                "email_type": "Email app",
+                "messaging_type": "برنامه پیام رسانی",
+                "email_type": "برنامه ایمیل",
                 "apps": {
-                    "whatsapp": "واتس‌‌اپ وب",
-                    "facebook_messenger": "Messenger",
+                    "whatsapp": "WhatsApp",
+                    "facebook_messenger": "پیامبر",
                     "dating_app": "Dating app",
                     "sms": "SMS",
-                    "gmail": "ایمیل",
-                    "outlook": "Outlook"
+                    "gmail": "Gmail",
+                    "outlook": "چشم انداز Outlook"
                 }
             },
             "actions": {
-                "title": "Actions",
+                "title": "اقدامات",
                 "add_aria_label": "افزودن",
                 "preview_aria_label": "پیش‌نمایش",
-                "disabled_tooltip": "Select a language and an app to use this question."
+                "disabled_tooltip": "یک زبان و یک برنامه را برای استفاده از این سوال انتخاب کنید."
             },
-            "created_on": "ایجادکردن",
-            "creator": "Creator"
+            "created_on": "ساخته شده در",
+            "creator": "سازنده: Creator"
         },
         "filters_panel": {
-            "selected_count": "{{count}} selected",
+            "selected_count": "انتخاب {{count}}",
             "tag": "Tag",
             "apps": "برنامه‌ها",
             "type": "نوغ",
-            "creator": "Creator",
+            "creator": "سازنده: Creator",
             "language": "زبان",
             "clear_all": "پاک کردن همه"
         },
         "sort_options": {
-            "question_name_desc": "Question name (Z-A)",
-            "question_name_asc": "Question name (A-Z)",
-            "newest_to_oldest": "Newest to oldest",
-            "oldest_to_newest": "Oldest to newest"
+            "question_name_desc": "نام سوال (Z-A)",
+            "question_name_asc": "نام پرسش (A-Z)",
+            "newest_to_oldest": "قدیمی ترین",
+            "oldest_to_newest": "قدیمی ترین تا جدیدترین"
         },
-        "search_results_plural": "{{count}} results for \"{{searchTerm}}\"",
+        "search_results_plural": "نتایج جستجو برای \"[ویرایش]",
         "sort_by": "مرتب سازی با",
-        "search_placeholder": "Search question names",
-        "search_results": "{{count}} result for \"{{searchTerm}}\"",
+        "search_placeholder": "نام سوالات جستجو",
+        "search_results": "نتیجه ی «جستجوی بلند مدت»",
         "filters": "فیلترها"
     },
     "results_tab": {
-        "title": "Overall results",
+        "title": "نتایج کلی",
         "completed_quizzes": {
-            "title": "Number of completed quizzes",
-            "subtitle": "This is the number of quizzes that have been completed by learners."
+            "title": "تعداد آزمون های تکمیل شده",
+            "subtitle": "این تعداد آزمون هایی است که توسط زبان آموزان تکمیل شده است."
         },
         "average_score": {
-            "title": "Average score",
-            "subtitle": "This is the average score received by all learners who took this quiz.",
-            "empty_subtitle": "The average score received by all learners who took this quiz will be shown here."
+            "title": "متوسط نمره",
+            "subtitle": "این میانگین نمره دریافت شده توسط تمام زبان آموزان که این آزمون را گرفتند.",
+            "empty_subtitle": "نمره متوسط دریافت شده توسط همه زبان آموزان که این آزمون را در اینجا نشان داده شده است."
         },
         "rate": {
-            "title": "Completion rate",
-            "subtitle": "This is the percentage of learners who have submitted the quiz out of all the learners assigned this quiz."
+            "title": "نرخ تکمیل",
+            "subtitle": "این درصد از زبان آموزان است که آزمون را از تمام زبان آموزان اختصاص داده شده این آزمون."
         },
         "by_question": {
-            "title": "Results by question",
-            "description": "The average score is the percentage of learners who answered each question correctly.",
-            "empty_state": "The quiz does not have any questions answered.",
+            "title": "نتایج توسط سوال",
+            "description": "نمره متوسط درصد زبان آموزان است که به درستی به هر سوال پاسخ داده اند.",
+            "empty_state": "آزمون هیچ پرسشی ندارد.",
             "table": {
                 "type": "نوغ",
                 "question_name": "نام",
-                "score": "Average score",
-                "loading": "Loading questions..."
+                "score": "متوسط نمره",
+                "loading": "پرسش های تکراری ..."
             }
         },
         "by_learner": {
-            "title": "Results by learner",
-            "description": "These are all the learners who have submitted the quiz and their individual quiz scores.",
-            "empty_state": "No learners have submitted this quiz so far.",
+            "title": "نتایج توسط Learn",
+            "description": "اینها همه زبان آموزان هستند که آزمون و نمرات آزمون فردی خود را ارائه کرده اند.",
+            "empty_state": "تا به حال هیچ دانش آموز این آزمون را ارائه نکرده است.",
             "table": {
-                "learner": "Learn",
-                "date": "Date submitted",
-                "score": "Quiz score",
-                "loading": "Loading learners..."
+                "learner": "Learner",
+                "date": "تاریخ ارسال",
+                "score": "نمره Quiz",
+                "loading": "بارگذاری زبان آموزان ..."
             }
         },
         "disabled": {
-            "message": "There is no data available because Results have been disabled. You can change this anytime in your space Settings.",
-            "go_to_settings": "Go to Settings"
+            "message": "هیچ اطلاعاتی در دسترس نیست، زیرا نتایج غیرفعال شده اند. شما می توانید این را در هر زمان در تنظیمات فضایی خود تغییر دهید.",
+            "go_to_settings": "به Settings بروید"
         }
     },
     "learners_bulk_import": {
-        "header_title": "Import learners in bulk",
+        "header_title": "دانش آموزان واردات در بخش عمده",
         "tabs": {
             "upload_csv": {
-                "tab_title": "Upload CSV",
-                "subtitle": "You can invite multiple learners at once by uploading a CSV file containing their details. To prevent errors, we recommend downloading and filling this pre-formatted CSV template.",
-                "section_title": "Upload your filled spreadsheet",
-                "drag_title": "Drag and drop to upload your filled spreadsheet here",
-                "or": "OR",
-                "file_type": "Accepted file type: .csv only",
-                "file_size": "حداکثر حجم فایل:",
-                "remove_file": "حذف سایت های انتخاب شده",
-                "upload_complete": "Upload complete",
-                "upload_success": "Your spreadsheet was successfully uploaded! Continue to the next step to verify your learners.",
-                "uploading": "Please wait while Shira uploads and validates your data.",
-                "invalid_file_format": "Error: Invalid file format",
-                "invalid_file_format_description": "Please make sure the file is in CSV and try again.",
-                "upload_error": "Error: Your file could not be processed",
-                "upload_error_description": "We couldn't process the file. Please try again.",
-                "too_many_rows_error": "Error: Too many rows",
-                "too_many_rows_error_description": "Please make sure your spreadsheet contains a maximum of 1,000 rows and try again.",
-                "invalid_formatting": "Error: Invalid formatting",
-                "invalid_formatting_description": "Please make sure your spreadsheet is formatted according to the guidelines above and try again."
+                "tab_title": "آپلود CSV",
+                "subtitle": "شما می توانید چندین زبان آموز را در یک بار با آپلود یک فایل CSV حاوی جزئیات خود دعوت کنید. برای جلوگیری از خطا، ما توصیه می کنیم دانلود و پر کردن این قالب قبل از فرمت CSV.",
+                "section_title": "صفحه گسترده خود را آپلود کنید",
+                "drag_title": "کشیدن و رها کردن برای آپلود صفحه گسترده خود را در اینجا",
+                "or": "یا",
+                "file_type": "نوع فایل پذیرفته شده: .csv",
+                "file_size": "حداکثر حجم فایل: 10 MB",
+                "remove_file": "حذف فایل انتخاب شده",
+                "upload_complete": "آپلود کامل",
+                "upload_success": "صفحه نمایش شما با موفقیت آپلود شد! به مرحله بعدی ادامه دهید تا زبان آموزان خود را تأیید کنید.",
+                "uploading": "لطفا صبر کنید در حالی که Shira آپلود می کند و داده های شما را تایید می کند.",
+                "invalid_file_format": "خطای: Invalid file Format",
+                "invalid_file_format_description": "لطفا مطمئن شوید که فایل در CSV است و دوباره امتحان کنید.",
+                "upload_error": "خطای: فایل شما نمی تواند پردازش شود",
+                "upload_error_description": "ما نمی توانستیم فایل را پردازش کنیم. لطفا دوباره امتحان کنید.",
+                "too_many_rows_error": "خطای: تعداد زیادی ردیف",
+                "too_many_rows_error_description": "لطفا مطمئن شوید که صفحه گسترده شما شامل حداکثر ۱۰۰۰ ردیف است و دوباره امتحان کنید.",
+                "invalid_formatting": "خطای: Invalid Format",
+                "invalid_formatting_description": "لطفا مطمئن شوید که صفحه گسترده شما با توجه به دستورالعمل های بالا فرمت شده و دوباره امتحان کنید."
             },
             "verify_learners": {
-                "tab_title": "Verify learners",
-                "subtitle": "Please check that all the data is accurate before importing it into Shira and sending out invitations.",
-                "error_tab": "Error ({{count}})",
-                "skipped_tab": "Skipped ({{count}})",
-                "valid_tab": "Valid ({{count}})",
-                "description_error": "The rows below contain errors that prevent these learners from being invited. You may fix the errors in your CSV and re-upload, or continue despite the errors and not import these learners.",
-                "description_skipped": "These rows will be skipped. You may ignore them and continue with uploading your spreadsheet.",
-                "description_valid": "These rows have been successfully validated, so these learners can be imported to your space.",
-                "table_row": "ردیف",
+                "tab_title": "بررسی زبان آموزان",
+                "subtitle": "لطفا بررسی کنید که تمام داده ها قبل از وارد کردن آن به شرا و ارسال دعوت نامه ها دقیق هستند.",
+                "error_tab": "خطای ({{count}}",
+                "skipped_tab": "پرش ([۲۷])",
+                "valid_tab": "Valid Valid",
+                "description_error": "ردیف های زیر حاوی خطاهایی هستند که مانع دعوت این زبان آموزان می شوند. شما ممکن است خطاهای موجود در CSV و آپلود مجدد خود را اصلاح کنید یا با وجود خطا و عدم وارد کردن این زبان آموزان ادامه دهید.",
+                "description_skipped": "این ردیف ها از بین خواهند رفت. شما ممکن است آنها را نادیده بگیرید و به آپلود صفحه گسترده خود ادامه دهید.",
+                "description_valid": "این ردیف ها با موفقیت تایید شده اند، بنابراین این زبان آموزان می توانند به فضای شما وارد شوند.",
+                "table_row": "Row",
                 "table_name": "نام",
-                "table_email": "نشانی ایمیل",
-                "table_error": "Type of error",
-                "table_skip_reason": "Reason for skipping",
+                "table_email": "آدرس ایمیل",
+                "table_error": "نوع خطای",
+                "table_skip_reason": "دلیل برای پرش",
                 "table_status": "وضعیت",
-                "validated": "Validated",
-                "empty_error": "There are no rows with errors.",
-                "empty_skipped": "There are no skipped rows.",
-                "empty_valid": "There are no valid rows.",
-                "upload_tooltip": "Upload a spreadsheet to continue."
+                "validated": "اعتبارسنجی",
+                "empty_error": "هیچ ردیفی با خطا وجود ندارد.",
+                "empty_skipped": "ردیف های شکسته وجود ندارد.",
+                "empty_valid": "هیچ ردیف معتبری وجود ندارد.",
+                "upload_tooltip": "بارگذاری یک صفحه گسترده برای ادامه."
             },
             "review": {
-                "tab_title": "Final review",
-                "subtitle": "You are about to invite <strong>{{count}} learners</strong> to your space.",
-                "table_row": "ردیف",
+                "tab_title": "بررسی نهایی",
+                "subtitle": "شما در مورد دعوت از زبان آموزان (X24X) به فضای خود هستید.",
+                "table_row": "Row",
                 "table_name": "نام",
-                "table_email": "نشانی ایمیل",
+                "table_email": "آدرس ایمیل",
                 "table_status": "وضعیت"
             }
         }
     },
     "support": {
         "title": "پشتیبانی",
-        "subtitle": "If you need any support, including with deleting your account, please email the Shira team at contact@wearehorizontal.org",
+        "subtitle": "اگر شما نیاز به هر گونه پشتیبانی، از جمله با حذف حساب خود، لطفا به تیم شیرا در تماس با@ehorizontal.org ایمیل",
         "help_center": {
-            "title": "Help Center",
-            "description": "Visit our Help Center to learn more about features and how to use Shira to train your team or community.",
-            "cta": "Go to Help Center"
+            "title": "مرکز کمک",
+            "description": "بازدید از مرکز کمک ما برای یادگیری بیشتر در مورد ویژگی ها و چگونگی استفاده از شیرا برای آموزش تیم یا جامعه خود.",
+            "cta": "برای کمک به مرکز"
         },
         "contact": {
-            "title": "تماس",
-            "description": "If you need any support please email us at"
+            "title": "تماس با ما",
+            "description": "اگر به هر گونه پشتیبانی نیاز دارید، لطفا به ما ایمیل بزنید"
         }
     },
     "settings": {
         "title": "تنظیمات",
-        "subtitle": "Manage your Shira space settings here.",
+        "subtitle": "تنظیمات فضایی خود را در اینجا مدیریت کنید.",
         "tabs": {
             "account": "حساب کاربری",
-            "subscription": "اشتراک ها",
+            "subscription": "اشتراک گذاری",
             "general": "عمومی"
         },
         "subscription": {
-            "current_plan": "Current plan: {{plan_name}}",
-            "view_plans": "View plans",
-            "manage_plan": "Manage plan",
-            "upgrade": "Upgrade"
+            "current_plan": "برنامه فعلی: {{برنامه name}}",
+            "view_plans": "نقشه های View",
+            "manage_plan": "مدیریت برنامه",
+            "upgrade": "ارتقاء"
         },
         "sections": {
             "email": {
-                "title": "نشانی ایمیل",
-                "action": "Change email address"
+                "title": "آدرس ایمیل",
+                "action": "تغییر آدرس ایمیل"
             },
             "password": {
                 "title": "گذرواژه",
-                "last_updated": "Last updated: {{date}}",
-                "action": "تغییر گذرواژه"
+                "last_updated": "آخرین به روز رسانی:",
+                "action": "تغییر رمز عبور"
             },
             "language": {
-                "description": "Choose the language for your Shira space. This won’t change the language of quizzes or questions you share with learners, only the space interface.",
-                "title": "Space language"
+                "description": "زبان را برای فضای شیرین خود انتخاب کنید. این زبان آزمون ها یا سوالاتی که با زبان آموزان به اشتراک می گذارید را تغییر نخواهد داد، فقط رابط فضایی.",
+                "title": "زبان فضایی"
             },
             "results": {
-                "description": "Shira automatically tracks quiz responses to provide analytics and compliance reporting. You can disable this feature to minimize the data we collect about your Learners. <learnMore>Learn More</learnMore>",
+                "description": "شیرا به طور خودکار پاسخ های آزمون را برای ارائه تجزیه و تحلیل و گزارش انطباق ردیابی می کند. شما می توانید این ویژگی را برای به حداقل رساندن داده هایی که ما در مورد دانش آموزان خود جمع آوری می کنیم، غیرفعال کنید. <learnMore>",
                 "title": "نتایج",
-                "enable_button": "Enable Results",
+                "enable_button": "نتایج",
                 "disable_button": "Disable Results"
             }
         },
         "checkout_success": {
-            "all_done": "All done!",
-            "success_message": "Your checkout was successful. We're activating your subscription now."
+            "all_done": "همه چیز انجام شد!",
+            "success_message": "پرداخت شما موفق بود. ما در حال حاضر اشتراک شما را فعال می کنیم."
         },
-        "version": "You are currently using Shira v{{version}}."
+        "version": "شما در حال حاضر از شرا vwo استفاده می کنید."
     },
     "buttons": {
         "ok": "باشه",
         "cancel": "لغو",
-        "no_thanks": "No, thanks",
+        "no_thanks": "ممنون",
         "close": "بستن",
-        "exit": "Exit",
+        "exit": "خروج از خروجی",
         "save": "ذخیره‌",
         "back": "بازگشت",
         "delete": "پاک کردن",
         "next": "بعدی",
         "continue": "ادامه",
-        "login": "ورود",
-        "send_invitation": "Send invitation",
-        "send_invitations": "Send invitations",
-        "try_again": "تلاش دوباره",
+        "login": "ورود در",
+        "send_invitation": "ارسال دعوت نامه",
+        "send_invitations": "ارسال دعوت نامه",
+        "try_again": "دوباره امتحان کنید",
         "unassign": "Unassign",
-        "invite_learner": "Invite new learner",
-        "invite_learners_bulk": "Import learners in bulk",
-        "delete_learners": "Delete learners",
-        "unassign_learners": "Unassign from learners",
-        "assign_via_email": "Assign via email",
-        "start_over": "Start over",
-        "feedback": "Tell us what you think",
-        "download_template": "Download CSV template",
-        "view_guidelines": "View formatting guidelines",
-        "browse_files": "Browse files",
+        "invite_learner": "دعوت به یادگیری جدید",
+        "invite_learners_bulk": "دانش آموزان واردات در بخش عمده",
+        "delete_learners": "حذف زبان آموزان",
+        "unassign_learners": "نشانه از زبان آموزان",
+        "assign_via_email": "اشاره از طریق ایمیل",
+        "start_over": "شروع بیش از حد",
+        "feedback": "به ما بگویید چه فکر می کنید",
+        "download_template": "دانلود بازی CSV Template",
+        "view_guidelines": "مشاهده دستورالعمل های قالب بندی",
+        "browse_files": "فایل های مرور",
         "i_understand": "می‌فهمم",
         "back_home": "بازگشت به خانه",
         "learn_more": "اطلاعات بیشتر",
-        "manage_plan": "Manage plan",
-        "back_to_quizzes": "Back to quizzes",
-        "go_to_settings": "Go to settings"
+        "manage_plan": "مدیریت برنامه",
+        "back_to_quizzes": "بازگشت به آزمون",
+        "go_to_settings": "رفتن به تنظیمات"
     },
     "modals": {
         "create_quiz": {
-            "button": "Create new quiz",
-            "title": "Give a name to your new quiz",
-            "placeholder": "Quiz name"
+            "button": "ایجاد آزمون های جدید",
+            "title": "یک نام به آزمون جدید خود بدهید",
+            "placeholder": "نام بازی Quiz"
         },
         "duplicate_quiz": {
-            "title": "Duplicate quiz",
-            "subtitle": "Set the name for the new quiz",
-            "quiz_name": "Quiz name",
-            "quiz_name_placeholder": "Copy of {{quiz_name}}"
+            "title": "بازی Duplicate quiz",
+            "subtitle": "نام را برای آزمون های جدید تنظیم کنید",
+            "quiz_name": "نام بازی Quiz",
+            "quiz_name_placeholder": "کپی از {{quiz name}}"
         },
         "quiz_limit": {
-            "title": "آماده‌ٔ بارگذاری",
-            "message_1": "On the Starter plan, you can create up to 3 quizzes.",
-            "message_2": "Try a 14-day free trial of Shira Pro today to build more custom quizzes."
+            "title": "آماده ارتقاء؟?",
+            "message_1": "در طرح شروع، شما می توانید تا 3 آزمون ایجاد کنید.",
+            "message_2": "سعی کنید یک محاکمه آزاد ۱۴ روزه از شرا پرو امروز برای ساخت آزمون های سفارشی بیشتر."
         },
         "first_login": {
-            "title": "Welcome to your Space",
-            "description": "You are currently on the {{planName}} plan.",
+            "title": "به فضای شما خوش آمدید",
+            "description": "شما در حال حاضر در برنامه {{برنامه}} هستید.",
             "actions": {
-                "view_plans": "View plans",
-                "get_started": "Get started"
+                "view_plans": "نقشه های View",
+                "get_started": "شروع کنید"
             },
             "plan_names": {
-                "starter": "آغاز",
+                "starter": "شروع",
                 "pro": "Pro",
                 "enterprise": "Enterprise"
             }
         },
         "rename_quiz": {
-            "title": "Rename quiz",
-            "input_placeholder": "Quiz name"
+            "title": "نام بازی Quiz",
+            "input_placeholder": "نام بازی Quiz"
         },
         "quiz_visibility": {
-            "title": "Set quiz privacy",
-            "subtitle": "Would you like your quiz to be public or private?",
-            "description": "This setting is permanent and cannot be changed. If you want to change it later, you will have to duplicate this quiz.",
+            "title": "تنظیم حریم خصوصی",
+            "subtitle": "آیا دوست دارید آزمون شما عمومی یا خصوصی باشد؟?",
+            "description": "این محیط دائمی است و نمی تواند تغییر کند. اگر می خواهید بعدا آن را تغییر دهید، باید این آزمون را تکرار کنید.",
             "public_option": {
-                "title": "Public",
-                "description": "Anyone with the quiz URL can take the quiz"
+                "title": "عمومی",
+                "description": "هر کسی با URL آزمون می تواند آزمون را بگیرد"
             },
             "private_option": {
                 "title": "خصوصی",
-                "description": "Only invited learners from your space can take the quiz",
-                "forbidden_tooltip": "Upgrade your plan to access private quizzes.",
-                "forbidden": "Only invited learners from your space can take the quiz. This feature is only available on paid plans. <0>{{learn_more}}</0>"
+                "description": "فقط زبان آموزان دعوت شده از فضای شما می توانند آزمون را بگیرند",
+                "forbidden_tooltip": "برنامه خود را برای دسترسی به آزمون های خصوصی ارتقا دهید.",
+                "forbidden": "فقط زبان آموزان دعوت شده از فضای شما می توانند آزمون را بگیرند. این ویژگی تنها در برنامه های پرداخت شده موجود است. <0> learn more}}</0>"
             }
         },
         "publish_quiz": {
-            "title": "Your quiz is unpublished",
-            "private_subtitle_1": "Learners assigned this quiz will not be able to open it because it is unpublished. ",
-            "private_subtitle_2": "Publish the quiz now so learners can start taking the quiz, or keep it unpublished until you are ready.",
-            "public_subtitle_1": "The link was copied to your clipboard. However, learners will not be able to use the link because the quiz has not been published. Publish it now so learners can start taking the quiz.",
-            "submit": "Publish quiz",
-            "close": "Keep quiz unpublished"
+            "title": "آزمون شما منتشر نشده است",
+            "private_subtitle_1": "دانش آموزان اختصاص داده شده این آزمون قادر به باز کردن آن به دلیل آن منتشر نشده است. ",
+            "private_subtitle_2": "اکنون آزمون ها را منتشر کنید تا زبان آموزان بتوانند شروع به گرفتن آزمون کنند یا آن را تا زمانی که آماده باشید، منتشر نکنند.",
+            "public_subtitle_1": "این لینک به کلیپ شما کپی شده است. با این حال، زبان آموزان قادر به استفاده از لینک نخواهند بود زیرا آزمون منتشر نشده است. اکنون آن را منتشر کنید تا زبان آموزان بتوانند شروع به گرفتن آزمون کنند.",
+            "submit": "انتشار آزمون",
+            "close": "نگه داشتن آزمون بدون انتشار"
         },
         "unpublish_quiz_with_questions": {
-            "title": "Are you sure you want to unpublish this quiz?",
-            "message": "Users will no longer be able to access the quiz.",
-            "confirm": "Unpublish"
+            "title": "آیا مطمئن هستید که می خواهید این آزمون را منتشر نکنید؟?",
+            "message": "کاربران دیگر قادر به دسترسی به آزمون نخواهند بود.",
+            "confirm": "منتشر نشده"
         },
         "delete_quiz": {
-            "title": "مطمئنید می خواهید حذف کنید؟",
-            "subtitle": "Deleting this quiz is permanent and cannot be undone.",
-            "note": "Note: ",
-            "message": "The quiz's Results will also be deleted."
+            "title": "آیا مطمئن هستید که می خواهید “{quiz name}} را حذف کنید؟?",
+            "subtitle": "حذف این آزمون دائمی است و نمی تواند انجام شود.",
+            "note": "توجه: ",
+            "message": "نتایج آزمون نیز حذف خواهد شد."
         },
         "delete_question": {
-            "title": "Are you sure you want to delete \"{{question_name}}\"?",
-            "message": "Deleting this question is permanent and cannot be undone.",
-            "note": "Note: ",
-            "warning": "This question's Results will also be deleted, which will affect learners' average scores."
+            "title": "آیا مطمئن هستید که می خواهید «درخواست نام» را حذف کنید؟?",
+            "message": "امتناع از این سوال دائمی است و نمی توان آن را رد کرد.",
+            "note": "توجه: ",
+            "warning": "نتایج این سوال نیز حذف خواهد شد، که بر نمرات متوسط زبان آموزان تاثیر می گذارد."
         },
         "unpublish_quiz_on_delete": {
-            "title": "Are you sure you want to delete \"{{question_name}}\" and unpublish your quiz?",
-            "message": "Deleting this question is permanent and cannot be undone. This will also unpublish the quiz, as you are deleting the quiz's only question.",
-            "confirm": "Delete and unpublish"
+            "title": "آیا مطمئن هستید که می خواهید “{question name}} را حذف کنید و آزمون خود را منتشر نکنید؟?",
+            "message": "امتناع از این سوال دائمی است و نمی توان آن را رد کرد. این همچنین آزمون را منتشر نخواهد کرد، زیرا شما تنها سوال آزمون را حذف می کنید.",
+            "confirm": "حذف و منتشر نشده"
         },
         "exit_question": {
-            "title": "Are you sure you want to exit the question?",
-            "message": "Any unsaved changes will be lost."
+            "title": "آیا مطمئن هستید که می خواهید از سوال خارج شوید؟?",
+            "message": "هر گونه تغییر ناخوشایند از دست خواهد رفت."
         },
         "csv_formatting_guidelines": {
-            "title": "CSV formatting guidelines",
+            "title": "دستورالعمل های فرمت CSV",
             "header_row_title": "Header Row:",
-            "header_row_body": "The first row should be reserved for headers. If a learner’s information is in the first row, it will not be imported.",
-            "first_column_title": "First Column:",
-            "first_column_body": "This column is for names of learners. Providing names is optional: you can still proceed with the import even if the name cell is empty in some or all rows.",
-            "second_column_title": "Second Column:",
-            "second_column_body": "This column must contain email addresses. Email addresses are mandatory, and any learner without an email address will not be added to your space.",
-            "footer": "Following this format will ensure a successful import of all eligible learners."
+            "header_row_body": "ردیف اول باید برای هدرها رزرو شود. اگر اطلاعات یک یادگیرنده در ردیف اول باشد، وارد نخواهد شد.",
+            "first_column_title": "ستون اول:",
+            "first_column_body": "این ستون برای نام زبان آموزان است. ارائه نام اختیاری است: شما هنوز هم می توانید با واردات ادامه دهید حتی اگر سلول نام در برخی یا همه ردیف ها خالی باشد.",
+            "second_column_title": "ستون دوم:",
+            "second_column_body": "این ستون باید شامل آدرس های ایمیل باشد. آدرس ایمیل اجباری است و هر یادگیرنده بدون آدرس ایمیل به فضای شما اضافه نخواهد شد.",
+            "footer": "پس از این فرمت، یک واردات موفق از تمام زبان آموزان واجد شرایط را تضمین می کند."
         },
         "exit_bulk_import": {
-            "title": "مطمئنید می خواهید حذف کنید؟",
-            "message": "Any unsaved changes will be lost."
+            "title": "آیا مطمئن هستید که می خواهید خارج شوید؟?",
+            "message": "هر گونه تغییر ناخوشایند از دست خواهد رفت."
         },
         "bulk_invite_sent": {
-            "title": "Sending invitations",
-            "description": "Shira is sending email invitations to {{count}} learners. This process may take a few minutes. You can close this modal and continue working on Shira."
+            "title": "ارسال دعوت نامه",
+            "description": "شیرا دعوت نامه های ایمیل را به زبان آموزان {{حساب}} ارسال می کند. این فرآیند ممکن است چند دقیقه طول بکشد. شما می توانید این روش را ببندید و به کار روی شرا ادامه دهید."
         },
         "edit_question_confirmation": {
-            "title": "Are you sure you want to edit this quiz?",
-            "message": "Some learners have already taken this quiz. Adding or editing questions may affect the accuracy of Results."
+            "title": "آیا می خواهید این آزمون را ویرایش کنید؟?",
+            "message": "برخی از زبان آموزان قبلا این آزمون را گرفته اند. اضافه کردن یا ویرایش سوالات ممکن است بر دقت نتایج تأثیر بگذارد."
         },
         "attachment_file": {
-            "title": "افزودن پیوست",
+            "title": "اضافه کردن دلبستگی",
             "file_name": "نام فایل",
             "file_type": "نوع فایل",
             "field_type": {
-                "title:": "نوع فایل",
+                "title:": "نوع Field",
                 "image": "تصویر",
                 "video": "ویدئو",
-                "audio": "صوت",
-                "document": "سندها",
+                "audio": "Audio",
+                "document": "مستند",
                 "other": "دیگر"
             },
-            "explanation": "Selecting the correct file type lets Shira display a realistic attachment icon in the quiz. For added realism, consider including a file extension in the filename (for example, .pdf or .zip)."
+            "explanation": "انتخاب نوع فایل صحیح اجازه می دهد تا Shira یک نماد دلبستگی واقعی را در آزمون نمایش دهد. برای واقعیت گرایی اضافه شده، از جمله یک پسوند فایل در نام فایل (برای مثال، .pdf یا .zip) را در نظر بگیرید."
         },
         "variables_modal": {
-            "title": "Variables",
-            "message": "Variables are placeholders that you can use to insert personalized information into a question.",
-            "message2": "The information shown is relevant to each learner, based on what they entered or auto-generated during quiz setup.",
-            "message3": "To add a variable, type the following:",
-            "name": "name",
-            "name_explanation": "This will display the learner's name",
+            "title": "متغیرهای",
+            "message": "متغیرهایی هستند که شما می توانید از آنها برای وارد کردن اطلاعات شخصی به یک سوال استفاده کنید.",
+            "message2": "اطلاعات نشان داده شده مربوط به هر یادگیرنده است، بر اساس آنچه که آنها در طول تنظیم آزمون وارد یا به صورت خودکار تولید می شوند.",
+            "message3": "برای اضافه کردن یک متغیر، نوع زیر را:",
+            "name": "نام",
+            "name_explanation": "این نام یادگیرنده را نشان می دهد",
             "email": "ایمیل",
-            "email_explanation": "This will display the learner's email address",
+            "email_explanation": "این آدرس ایمیل یادگیرنده را نشان می دهد",
             "ok": "ok"
         },
         "explanations_modal": {
-            "title": "Explanations",
-            "message": "Explanations are short notes that highlight specific elements of a question and explain why these elements may indicate that a message is a phishing attempt or not.",
-            "message2": "To add an explanation, select the explanation icon on the right side of each row. Explanations can be attached to: ",
+            "title": "توضیحات",
+            "message": "توضیحات کوتاه هستند که عناصر خاصی از یک سوال را برجسته می کنند و توضیح می دهند که چرا این عناصر ممکن است نشان دهند که یک پیام یک تلاش فیشینگ است یا نه.",
+            "message2": "برای اضافه کردن یک توضیح، آیکون توضیح را در سمت راست هر ردیف انتخاب کنید. توضیحات را می توان به: ",
             "list": {
-                "fields": "Fields, such as the sender's name or email address",
-                "content": "Specific parts of the message content",
-                "attachments": "File attachments."
+                "fields": "فیلد ها، مانند نام فرستنده یا آدرس ایمیل",
+                "content": "بخش های خاصی از محتوای پیام",
+                "attachments": "پیوست های فایل."
             },
             "ok": "ok"
         },
         "no_explanations": {
-            "title": "Continue without explanations?",
-            "message": "You haven't created any explanations for this question, so learners will not see any text explaining why the message seems like phishing or seems legitimate.",
-            "add": "Add explanations"
+            "title": "ادامه بدون توضیحات?",
+            "message": "شما هیچ توضیحی برای این سوال ایجاد نکرده اید، بنابراین زبان آموزان هیچ متن توضیح نمی دهند که چرا پیام به نظر می رسد فیشینگ است یا به نظر می رسد قانونی است.",
+            "add": "اضافه کردن توضیحات"
         },
         "invite_learner": {
-            "title": "Invite new learner",
-            "subtitle": "Send an email invitation to ask a new learner to join your space.",
-            "name_placeholder": "Name (required)",
-            "email_placeholder": "Email address (required)"
+            "title": "دعوت به یادگیری جدید",
+            "subtitle": "یک دعوت نامه ایمیل برای درخواست یک یادگیرنده جدید برای پیوستن به فضای خود ارسال کنید.",
+            "name_placeholder": "نام ( ضروری)",
+            "email_placeholder": "آدرس ایمیل ( ضروری)"
         },
         "delete_learner": {
-            "title": "مطمئنید می خواهید حذف کنید؟",
-            "subtitle": "Deleting this learner from your space is permanent and cannot be undone. The learner's quiz results will be deleted too."
+            "title": "آیا مطمئن هستید که می خواهید این یادگیرنده را حذف کنید؟?",
+            "subtitle": "از بین بردن این یادگیرنده از فضای شما دائمی است و نمی تواند انجام شود. نتایج آزمون یادگیرنده نیز حذف خواهد شد."
         },
         "delete_learners": {
-            "title": "Are you sure you want to delete the selected learners?",
-            "subtitle": "Deleting these learners from your space is permanent and cannot be undone. The learners' quiz results will be deleted too."
+            "title": "آیا مطمئن هستید که می خواهید زبان آموزان انتخاب شده را حذف کنید؟?",
+            "subtitle": "از بین بردن این زبان آموزان از فضای شما دائمی است و نمی تواند انجام شود. نتایج آزمون زبان آموزان نیز حذف خواهد شد."
         },
         "unassign_learner": {
-            "title": "Unassign \"{{quiz}}\" from {{learner}}?",
-            "subtitle": "Are you sure you want to unassign the quiz from this learner? Any quiz progress and results will be lost."
+            "title": "آیا از «یادگیری» از «یادگیری» سخن می گوییم؟?",
+            "subtitle": "آیا مطمئن هستید که می خواهید آزمون را از این یادگیرنده ثبت کنید؟ هر پیشرفت و نتایج آزمون از دست می رود."
         },
         "unassign_learners_plural": {
-            "title": "Unassign \"{{quiz}}\" from {{count}} learners?",
-            "subtitle": "Are you sure you want to unassign the quiz from these learners? Any quiz progress and results will be lost."
+            "title": "از زبان آموزان بپرسید؟?",
+            "subtitle": "آیا مطمئن هستید که می خواهید آزمون را از این زبان آموزان ثبت کنید؟ هر پیشرفت و نتایج آزمون از دست می رود."
         },
         "start_over_bulk_import": {
-            "title": "مطمئنید می خواهید حذف کنید؟",
-            "message": "This will discard the spreadsheet you uploaded. Any progress you have made will be lost."
+            "title": "آیا مطمئن هستید که می خواهید شروع کنید؟?",
+            "message": "این صفحه گسترده ای را که آپلود کرده اید، دور می کند. هر پیشرفتی که انجام داده اید از دست خواهد رفت."
         },
         "change_email": {
-            "title": "Change email address",
-            "subtitle": "Enter your new email address here.",
-            "input_placeholder": "New email address (required)"
+            "title": "تغییر آدرس ایمیل",
+            "subtitle": "آدرس ایمیل جدید خود را در اینجا وارد کنید.",
+            "input_placeholder": "آدرس ایمیل جدید ( ضروری)"
         },
         "change_email_success": {
-            "title": "Almost there!",
-            "description": "To complete the process, please open the email we sent to your new email address and click the confirmation link.",
-            "didnt_receive": "Didn’t receive an email? If it’s not in your spam folder, please contact us at <0>{{contact_email}}</0>",
+            "title": "تقریبا آنجا!",
+            "description": "برای تکمیل فرایند، لطفا ایمیل ارسال شده به آدرس ایمیل جدید خود را باز کنید و بر روی لینک تایید کلیک کنید.",
+            "didnt_receive": "ایمیل دریافت نکردید؟ اگر در پوشه اسپم شما نیست، لطفا با ما تماس بگیرید <0> [url mail}}</0]",
             "button": "می‌فهمم"
         },
         "change_password": {
-            "title": "Create new password",
-            "subtitle": "Your password should contain at least 8 characters.",
-            "current_password_placeholder": "Current password (required)",
-            "new_password_placeholder": "New password (required)",
-            "confirm_password_placeholder": "Confirm new password (required)"
+            "title": "ایجاد رمز عبور جدید",
+            "subtitle": "رمز عبور شما باید حداقل 8 کاراکتر داشته باشد.",
+            "current_password_placeholder": "رمز عبور فعلی ( ضروری)",
+            "new_password_placeholder": "رمز عبور جدید ( ضروری)",
+            "confirm_password_placeholder": "تایید رمز عبور جدید ( ضروری)"
         },
         "view_plans": {
-            "title": "Available plans",
-            "modal_title": "Shira plans and pricing",
+            "title": "برنامه های موجود",
+            "modal_title": "طرح های شیرا و قیمت گذاری",
             "actions": {
-                "current_plan": "Current plan",
-                "downgrade": "Downgrade",
-                "learn_more": "Learn more about Shira"
+                "current_plan": "برنامه فعلی",
+                "downgrade": "Down",
+                "learn_more": "درباره برنامه های Shira بیشتر بدانید"
             },
             "comparison": {
-                "title": "What's included?",
-                "admin_management": "Admin management",
-                "customization": "Customization",
+                "title": "چه چیزی شامل می شود؟?",
+                "admin_management": "مدیریت مدیریت مدیریت",
+                "customization": "سفارشی سازی",
                 "access_control": "کنترل دسترسی",
-                "compliance": "Compliance",
-                "custom_support": "Customer support",
+                "compliance": "سازگاری",
+                "custom_support": "پشتیبانی مشتری",
                 "rows": {
-                    "hosting": "Hosting",
-                    "admin_dashboard": "Admin dashboard",
-                    "number_of_admins": "Number of admins",
-                    "customizable_questions": "Fully customizable quiz questions",
-                    "question_library": "Access to the question's templates",
-                    "custom_quizzes": "Number of custom quizzes",
-                    "apps_available": "Apps available",
-                    "public_quizzes": "Public quizzes",
-                    "private_quizzes": "Private quizzes",
-                    "basic_analytics": "Basic analytics",
-                    "detailed_analytics": "Detailed analytics",
-                    "analysis_tools": "Analysis and compliance tools",
-                    "tailor_made_training": "Tailor-made user training",
+                    "hosting": "میزبانی",
+                    "admin_dashboard": "داشبورد Admin",
+                    "number_of_admins": "تعداد مدیران",
+                    "customizable_questions": "سوالات کاملا قابل تنظیم",
+                    "question_library": "دسترسی به قالب های سوال",
+                    "custom_quizzes": "تعداد آزمون های سفارشی",
+                    "apps_available": "برنامه های موجود",
+                    "public_quizzes": "آزمون عمومی",
+                    "private_quizzes": "آزمون های خصوصی",
+                    "basic_analytics": "تجزیه و تحلیل پایه",
+                    "detailed_analytics": "تجزیه و تحلیل دقیق",
+                    "analysis_tools": "ابزار تجزیه و تحلیل و انطباق",
+                    "tailor_made_training": "آموزش کاربر ساخت",
                     "priority_support": "پشتیبانی",
-                    "phishing_readiness_assessment": "Phishing Readiness Assessment",
-                    "preparedness_report": "Preparedness Report & Action Plan"
+                    "phishing_readiness_assessment": "ارزیابی شنوایی",
+                    "preparedness_report": "آماده سازی گزارش و طرح اقدام"
                 },
                 "values": {
                     "cloud": "Cloud",
-                    "cloud_on_premise": "Cloud & on-premise",
+                    "cloud_on_premise": "Cloud & On-premise",
                     "one_admin": "1 admin",
                     "unlimited": "نامحدود",
-                    "up_to_three_custom_quizzes": "Up to 3 custom quizzes",
-                    "available_upon_request": "Available upon request",
-                    "three_business_day_response_time": "Priority support",
-                    "one_business_day_response_time": "Dedicated enterprise support",
-                    "unlimited_coming_soon": "Unlimited (coming soon)"
+                    "up_to_three_custom_quizzes": "تا 3 آزمون سفارشی",
+                    "available_upon_request": "موجود در درخواست",
+                    "three_business_day_response_time": "پشتیبانی اولویت",
+                    "one_business_day_response_time": "پشتیبانی شرکت اختصاصی",
+                    "unlimited_coming_soon": "نامحدود (به زودی آینده)"
                 },
                 "tooltips": {
-                    "hosting": "Let the Shira team host and maintain your Shira (cloud) or install it on your servers (on-premise)",
+                    "hosting": "اجازه دهید تیم Shira میزبان باشد و شیرا (cloud) خود را حفظ کند یا آن را بر روی سرورهای خود نصب کنید",
                     "admin_dashboard": "A central place to manage your phishing education campaigns",
-                    "number_of_admins": "Admins are users who can create and manage phishing education campaigns",
-                    "customizable_questions": "Create quiz questions adapted to the needs of your learners",
-                    "question_library": "Get started within minutes with dozens of quiz and question templates",
-                    "custom_quizzes": "The number of quizzes you can create in your Space",
-                    "apps_available": "Create quiz questions using interfaces that look exactly like actual apps your learners use",
-                    "public_quizzes": "Anyone can take your quiz through an easy-to-share URL",
-                    "private_quizzes": "Only learners registered in your space can take your quizzes",
-                    "basic_analytics": "Track results at the quiz level",
+                    "number_of_admins": "Admins کاربرانی هستند که می توانند کمپین های آموزشی فیشینگ را ایجاد و مدیریت کنند",
+                    "customizable_questions": "ایجاد سوالات آزمون سازگار با نیازهای زبان آموزان خود",
+                    "question_library": "در عرض چند دقیقه با ده ها قالب آزمون و سوال شروع کنید",
+                    "custom_quizzes": "تعداد آزمون هایی که می توانید در فضای خود ایجاد کنید",
+                    "apps_available": "ایجاد سوالات آزمون با استفاده از رابط هایی که دقیقا شبیه برنامه های واقعی است که زبان آموزان استفاده می کنند",
+                    "public_quizzes": "هر کسی می تواند آزمون های شما را از طریق یک URL آسان به اشتراک بگذارد",
+                    "private_quizzes": "فقط زبان آموزان ثبت شده در فضای شما می توانند آزمون های شما را بگیرند",
+                    "basic_analytics": "نتایج پیگیری در سطح آزمون",
                     "detailed_analytics": "Track results at the learner and question levels",
-                    "analysis_tools": "Export your team's results into CSV or PDF reports",
-                    "tailor_made_training": "Skill-building workshops customized by the Shira team for your organization",
-                    "priority_support": "Quick response time to ensure a smooth experience",
-                    "preparedness_report": "Concise report highlighting top risks and recommended training modules and timelines",
-                    "phishing_readiness_assessment": "Snapshot of current organizational vulnerability to phishing attacks"
+                    "analysis_tools": "صادرات نتایج تیم شما به گزارش های CSV یا PDF",
+                    "tailor_made_training": "کارگاه های ساخت مهارت سفارشی توسط تیم Shira برای سازمان شما",
+                    "priority_support": "زمان پاسخ سریع برای اطمینان از یک تجربه صاف",
+                    "preparedness_report": "گزارش Concise نشان دهنده خطرات بالا و ماژول های آموزش توصیه شده و جدول زمانی",
+                    "phishing_readiness_assessment": "ضربه از آسیب پذیری سازمانی فعلی به حملات فیشینگ"
                 }
             },
             "plans": {
                 "starter": {
-                    "title": "آغاز",
-                    "description": "To try things out and get familiar with Shira",
-                    "price": "Free",
-                    "cta": "Get started"
+                    "title": "شروع",
+                    "description": "برای امتحان کردن چیزها و آشنا شدن با شرا",
+                    "price": "آزاد",
+                    "cta": "شروع کنید"
                 },
                 "pro": {
                     "title": "Pro",
-                    "description": "Experience the full power of Shira",
+                    "description": "تجربه قدرت کامل شیرا",
                     "price": "100 دلار در ماه",
                     "cta": "Start 14-day free trial"
                 },
                 "enterprise": {
                     "title": "Enterprise",
-                    "description": "Tailor Shira for large organizations and service providers",
-                    "price": "Custom pricing",
-                    "cta": "تماس"
+                    "description": "Tagor Shira برای سازمان های بزرگ و ارائه دهندگان خدمات",
+                    "price": "قیمت گذاری سفارشی",
+                    "cta": "تماس با ما"
                 }
             }
         },
         "add_quiz_from_template": {
-            "input_label": "Quiz name",
-            "title": "Give your new quiz a name",
-            "subtitle": "The quiz name will be visible in your Space and to learners when they take it."
+            "input_label": "نام بازی Quiz",
+            "title": "نام جدید خود را امتحان کنید",
+            "subtitle": "نام آزمون در فضای شما و به زبان آموزان هنگامی که آن را می گیرند قابل مشاهده خواهد بود."
         },
         "export": {
             "question": {
-                "title": "Export question",
-                "sharing_implications": "If you will share your question with others, you may want to remove any sensitive information it contains before exporting it. <1>Learn more</1>",
-                "error": "There was a problem exporting the question. If this issue persists, <1>contact us</1>.",
-                "file_type": "Your question will be exported as a .zip file that can be re-imported into a Shira space."
+                "title": "سوال صادرات",
+                "sharing_implications": "اگر سوال خود را با دیگران به اشتراک بگذارید، ممکن است بخواهید هر گونه اطلاعات حساسی را که قبل از صادرات آن وجود دارد، حذف کنید. <1> بیشتر بخوانید>",
+                "error": "مشکلی در صادرات این سوال وجود داشت. اگر این مسئله ادامه داشته باشد، <1> با ما </1> تماس بگیرید.",
+                "file_type": "سوال شما به عنوان یک فایل .zip صادر می شود که می تواند دوباره به یک فضای Shira منتقل شود."
             },
             "quiz": {
-                "error": "There was a problem exporting the quiz. If this issue persists, <1>contact us</1>.",
-                "file_type": "Your quiz will be exported as a .zip file that can be re-imported into a Shira space.",
-                "sharing_implications": "If you will share your quiz with others, you may want to remove any sensitive information it contains before exporting it. <1>Learn more</1>",
-                "title": "خروج از آزمون"
+                "error": "مشکلی در صادرات آزمون وجود داشت. اگر این مسئله ادامه داشته باشد، <1> با ما </1> تماس بگیرید.",
+                "file_type": "آزمون شما به عنوان یک فایل .zip صادر می شود که می تواند دوباره به یک فضای Shira منتقل شود.",
+                "sharing_implications": "اگر آزمون خود را با دیگران به اشتراک بگذارید، ممکن است بخواهید هر گونه اطلاعات حساسی را که قبل از صادرات آن وجود دارد، حذف کنید. <1> بیشتر بخوانید</1>",
+                "title": "صادرات آزمون"
             },
-            "exporting": "Exporting..."
+            "exporting": "صادرات ..."
         },
         "create_entity": {
             "question": {
-                "scratch_subtitle": "Create the question yourself, with full control. You can even copy and paste a real-life phishing example.",
+                "scratch_subtitle": "خودتان سوال را با کنترل کامل بسازید. شما حتی می توانید یک مثال فیشینگ واقعی را کپی و چسباندن کنید.",
                 "create_button": "لغو",
-                "template_title": "Use a template",
-                "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
-                "import_title": "Or import a question from a file",
-                "scratch_title": "Start from scratch",
-                "title": "Create new question",
-                "subtitle": "Choose how you’d like to create your question."
+                "template_title": "استفاده از یک قالب",
+                "template_subtitle": "بلافاصله با انتخاب از ده ها قالب از قبل ساخته شده، در چند زبان در دسترس باشید. ",
+                "import_title": "یا یک سوال را از یک فایل وارد کنید",
+                "scratch_title": "از ابتدا شروع کنید",
+                "title": "ایجاد سوال جدید",
+                "subtitle": "انتخاب کنید که چگونه می خواهید سوال خود را ایجاد کنید."
             },
             "quiz": {
-                "subtitle": "Choose how you’d like to create your quiz.",
-                "title": "Create new quiz",
+                "subtitle": "انتخاب کنید که چگونه می خواهید آزمون خود را ایجاد کنید.",
+                "title": "ایجاد آزمون های جدید",
                 "create_button": "لغو",
-                "scratch_title": "Start from scratch",
-                "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
-                "scratch_subtitle": "Create the quiz yourself, with full control. You can even copy and paste a real-life phishing example.",
-                "import_title": "Or import a quiz from a file",
-                "template_title": "Use a template"
+                "scratch_title": "از ابتدا شروع کنید",
+                "template_subtitle": "بلافاصله با انتخاب از ده ها قالب از قبل ساخته شده، در چند زبان در دسترس باشید. ",
+                "scratch_subtitle": "خودتان را با کنترل کامل بسازید. شما حتی می توانید یک مثال فیشینگ واقعی را کپی و چسباندن کنید.",
+                "import_title": "یا یک آزمون را از یک فایل وارد کنید",
+                "template_title": "استفاده از یک قالب"
             }
         },
         "import": {
             "question": {
-                "upload_success": "Your file is ready to be imported.",
-                "file_size": "حداکثر حجم فایل:",
-                "subtitle": "Select the file of the question you want to import. To prevent errors, we recommend not modifying the content of the file. <0>Learn more</0>.",
-                "button": "Import question",
-                "error": "There was a problem importing the question. If this issue persists, <1>contact us</1>.",
-                "title": "Import question",
-                "drag_title": "Drag and drop to upload your question file here",
-                "importing": "Importing...",
-                "file_type": "Accepted file type: .zip only"
+                "upload_success": "فایل شما آماده ورود است.",
+                "file_size": "حداکثر حجم فایل: 50 MB",
+                "subtitle": "فایل سوالی که می خواهید وارد کنید را انتخاب کنید. برای جلوگیری از خطا، توصیه می کنیم محتوای فایل را تغییر ندهید. <0> بیشتر </0>.",
+                "button": "سوال واردات",
+                "error": "مشکلی وجود داشت که این سوال را وارد کرد. اگر این مسئله ادامه داشته باشد، <1> با ما </1> تماس بگیرید.",
+                "title": "سوال واردات",
+                "drag_title": "کشیدن و رها کردن فایل سوال خود را در اینجا",
+                "importing": "واردات ...",
+                "file_type": "نوع فایل پذیرفته شده : .zip only"
             },
             "quiz": {
-                "error": "There was a problem importing the quiz. If this issue persists, <1>contact us</1>.",
-                "drag_title": "Drag and drop to upload your quiz file here",
-                "subtitle": "Select the file of the quiz you want to import. To prevent errors, we recommend not modifying the content of the file. <0>Learn more</0>.",
-                "title": "Import quiz",
-                "button": "Import quiz",
-                "file_size": "Maximum file size: 200 MB",
-                "file_type": "Accepted file type: .zip only",
-                "upload_success": "Your file is ready to be imported.",
-                "importing": "Importing..."
+                "error": "مشکل واردات آزمون وجود داشت. اگر این مسئله ادامه داشته باشد، <1> با ما </1> تماس بگیرید.",
+                "drag_title": "کشیدن و رها کردن فایل آزمون خود را در اینجا",
+                "subtitle": "فایل آزمونی که می خواهید وارد کنید را انتخاب کنید. برای جلوگیری از خطا، توصیه می کنیم محتوای فایل را تغییر ندهید. <0> بیشتر </0>.",
+                "title": "واردات",
+                "button": "واردات",
+                "file_size": "حداکثر حجم فایل: 200 MB",
+                "file_type": "نوع فایل پذیرفته شده : .zip only",
+                "upload_success": "فایل شما آماده ورود است.",
+                "importing": "واردات ..."
             }
         },
         "update_results_enabled": {
-            "title_enable": "Enable results?",
-            "title_disable": "Disable results?",
-            "content_enable": "We will start tracking your user quiz information",
-            "content_disable": "We will stop tracking your user quiz information"
+            "title_enable": "نتایج را فعال کنید؟?",
+            "title_disable": "نتایج غیر قابل انکار؟?",
+            "content_enable": "نتایج جذب به این معنی است که شیرا شروع به جمع آوری پاسخ های آزمون برای هر آزمون جدید گرفته شده توسط زبان آموزان خود می کند.",
+            "content_disable": "نتایج گیج کننده به این معنی است که شیرا از جمع آوری پاسخ های آزمون برای هر آزمون جدید گرفته شده توسط زبان آموزان خود جلوگیری می کند."
         },
         "delete_note": {
-            "title": "مطمئنید می خواهید حذف کنید؟",
-            "message": "Deleting this note is permanent and cannot be undone."
+            "title": "آیا مطمئن هستید که می خواهید \"یادداشت نام\" را حذف کنید؟?",
+            "message": "قرار دادن این یادداشت دائمی است و نمی توان آن را رد کرد."
         },
         "exit_note": {
-            "title": "مطمئنید می خواهید حذف کنید؟",
-            "message": "Any unsaved changes will be lost."
+            "title": "آیا مطمئن هستید که می خواهید از یادداشت خارج شوید؟?",
+            "message": "هر گونه تغییر ناخوشایند از دست خواهد رفت."
         }
     },
     "error_messages": {
-        "duplicate_quiz_fail": "Failed to duplicate quiz",
-        "quiz_name_already_exists": "Quiz name taken. Please use a different one.",
-        "duplicate_question_fail": "Failed to duplicate question",
-        "add_question_error": "Error adding question",
-        "results_load_failed": "Failed to load results",
-        "learner_already_exists": "This email address is already registered.",
-        "learner_not_found": "The learner was not found in this space.",
-        "learner_save_failed": "Failed to save learner.",
+        "duplicate_quiz_fail": "شکست در آزمون تکراری",
+        "quiz_name_already_exists": "نام رسمی گرفته شده لطفا از یک متفاوت استفاده کنید.",
+        "duplicate_question_fail": "شکست در سوال تکراری",
+        "add_question_error": "خطای اضافه کردن سوال",
+        "results_load_failed": "شکست برای بارگذاری نتایج",
+        "learner_already_exists": "این آدرس ایمیل قبلا ثبت شده است.",
+        "learner_not_found": "یادگیرنده در این فضا یافت نشد.",
+        "learner_save_failed": "شکست برای نجات یادگیرنده.",
         "learner_email_send_failed": "Failed to send email invitation to learner.",
-        "learner_token_conflict": "The token from the learner is invalid or has already been used.",
-        "learner_assignment_failed": "Failed to assign learner to the space.",
-        "invalid_email": "لطفاً یک نشانی ایمیل معتبر وارد کنید.",
-        "something_went_wrong": "Something went wrong",
-        "invite_learner_failed": "There was a problem inviting the learner. If this issue persists, <1>contact us</1>.",
-        "delete_learner_failed": "There was a problem deleting the learner. If this issue persists, <1>contact us</1>.",
-        "delete_learners_failed": "There was a problem deleting the learners. If this issue persists, <1>contact us</1>.",
-        "assign_quiz_failed": "There was a problem assigning this quiz to learners. If this issue persists, <1>contact us</1>.",
-        "unassign_quiz_failed": "There was a problem unassigning this quiz from learners. If this issue persists, <1>contact us</1>.",
-        "bulk_import_failed": "There was a problem inviting the learners. If this issue persists, <1>contact us</1>.",
-        "email_already_taken": "The email address is already taken.",
-        "invite_org_failed": "There was a problem creating your space. If this issue persists, <1>contact us</1>.",
-        "email_no_match": "The email address does not match the invitation.",
-        "image_too_large": "Image size exceeds {{size}}MB. Please try again with a smaller image.",
-        "image_type_unsupported": "File type not supported.  Please make sure your image is a JPEG, PNG, GIF or WebP.",
-        "image_upload_failed": "There was a problem with uploading your image. Please try again.",
-        "reset_password_confirmation_mismatch": "Password confirmation does not match.",
-        "reset_password_weak": "Password must be at least 8 characters.",
-        "current_password_incorrect": "Incorrect password.",
-        "invalid_title": "Something went wrong",
-        "email_update_token_invalid": "The link you opened is invalid or has expired. Please contact your organization or email contact@wearehorizontal.org for support.",
+        "learner_token_conflict": "توکن از یادگیرنده بی اعتبار است یا قبلا استفاده شده است.",
+        "learner_assignment_failed": "شکست برای اختصاص دادن یادگیرنده به فضا.",
+        "invalid_email": "لطفا آدرس ایمیل معتبر را وارد کنید",
+        "something_went_wrong": "چیزی اشتباه کرد",
+        "invite_learner_failed": "مشکلی برای دعوت از یادگیرنده وجود داشت. اگر این مسئله ادامه داشته باشد، <1> با ما </1> تماس بگیرید.",
+        "delete_learner_failed": "مشکلی برای حذف یادگیرنده وجود داشت. اگر این مسئله ادامه داشته باشد، <1> با ما </1> تماس بگیرید.",
+        "delete_learners_failed": "مشکلی برای حذف زبان آموزان وجود داشت. اگر این مسئله ادامه داشته باشد، <1> با ما </1> تماس بگیرید.",
+        "assign_quiz_failed": "مشکلی وجود داشت که این آزمون را به زبان آموزان اختصاص داد. اگر این مسئله ادامه داشته باشد، <1> با ما </1> تماس بگیرید.",
+        "unassign_quiz_failed": "مشکلی وجود داشت که این آزمون را از زبان آموزان نشان نمی داد. اگر این مسئله ادامه داشته باشد، <1> با ما </1> تماس بگیرید.",
+        "bulk_import_failed": "مشکلی برای دعوت از زبان آموزان وجود داشت. اگر این مسئله ادامه داشته باشد، <1> با ما </1> تماس بگیرید.",
+        "email_already_taken": "آدرس ایمیل قبلا گرفته شده است.",
+        "invite_org_failed": "مشکل ایجاد فضای شما وجود دارد. اگر این مسئله ادامه داشته باشد، <1> با ما </1> تماس بگیرید.",
+        "email_no_match": "آدرس ایمیل با دعوت مطابقت ندارد.",
+        "image_too_large": "اندازه تصویر بیش از {{size}}MB است. لطفا دوباره با یک تصویر کوچکتر امتحان کنید.",
+        "image_type_unsupported": "نوع فایل پشتیبانی نمی شود. لطفا مطمئن شوید که تصویر شما JPEG، PNG، GIF یا WebP است.",
+        "image_upload_failed": "مشکلی در آپلود تصویر شما وجود دارد. لطفا دوباره امتحان کنید.",
+        "reset_password_confirmation_mismatch": "تایید رمز عبور مطابقت ندارد.",
+        "reset_password_weak": "رمز عبور باید حداقل 8 کاراکتر باشد.",
+        "current_password_incorrect": "پسورد صحیح.",
+        "invalid_title": "ببخشید، چیزی اشتباه کرد",
+        "email_update_token_invalid": "لینکی که باز کردید بی اعتبار است یا منقضی شده است. لطفا با سازمان یا ایمیل خود با @wearorizontal.org برای پشتیبانی تماس بگیرید.",
         "learners_bulk_import": {
-            "missing_name": "Missing name",
-            "missing_email": "Missing email address",
-            "invalid_email": "نشانی ایمیل نامعتبر",
-            "duplicated_email": "Duplicated email address",
-            "already_registered": "Already registered",
+            "missing_name": "نام گمشده",
+            "missing_email": "آدرس ایمیل گم شده",
+            "invalid_email": "آدرس ایمیل Invalid",
+            "duplicated_email": "آدرس ایمیل تکراری",
+            "already_registered": "قبلا ثبت شده",
             "invalid_file_format": {
-                "title": "Error: Invalid file format",
-                "subtitle": "Please make sure the file is in CSV and try again."
+                "title": "خطای: Invalid file Format",
+                "subtitle": "لطفا مطمئن شوید که فایل در CSV است و دوباره امتحان کنید."
             },
             "csv_parsing_error": {
-                "title": "Error: Your file could not be processed",
-                "subtitle": "We couldn't process the file. Please try again."
+                "title": "خطای: فایل شما نمی تواند پردازش شود",
+                "subtitle": "ما نمی توانستیم فایل را پردازش کنیم. لطفا دوباره امتحان کنید."
             },
             "too_many_rows": {
-                "title": "Error: Too many rows",
-                "subtitle": "Please make sure your spreadsheet contains a maximum of 1,000 rows and try again."
+                "title": "خطای: تعداد زیادی ردیف",
+                "subtitle": "لطفا مطمئن شوید که صفحه گسترده شما شامل حداکثر ۱۰۰۰ ردیف است و دوباره امتحان کنید."
             },
             "invalid_formatting": {
-                "title": "Error: Invalid formatting",
-                "subtitle": "Please make sure your spreadsheet is formatted according to the guidelines above and try again."
+                "title": "خطای: Invalid Format",
+                "subtitle": "لطفا مطمئن شوید که صفحه گسترده شما با توجه به دستورالعمل های بالا فرمت شده و دوباره امتحان کنید."
             },
             "file_too_large": {
-                "title": "Error: File is too large",
-                "subtitle": "Please upload a CSV that is 10 MB or smaller and try again"
+                "title": "خطا: فایل خیلی بزرگ است",
+                "subtitle": "لطفا یک CSV آپلود کنید که 10 مگابایت یا کوچکتر است و دوباره امتحان کنید"
             }
         },
-        "invalid_email_update": "This email address is already associated with a Shira space",
-        "character_limit_error": "Character limit exceeded",
-        "template_submission_failed": "There was a problem submitting the template. If this issue persists, <1>contact us</1>.",
-        "export_question_fail": "Failed to export question",
+        "invalid_email_update": "این آدرس ایمیل در حال حاضر با یک فضای شیرین همراه است",
+        "character_limit_error": "محدودیت شخصیتی فراتر از",
+        "template_submission_failed": "مشکلی در ارسال الگو وجود داشت. اگر این مسئله ادامه داشته باشد، <1> با ما </1> تماس بگیرید.",
+        "export_question_fail": "شکست در صادرات سوال",
         "entity_import": {
             "invalid_zip_file": {
-                "subtitle": "Please make sure the file is in .zip and try again.",
-                "title": "Error: Invalid file format"
+                "subtitle": "ما نمی توانستیم فایل را پردازش کنیم. لطفا دوباره امتحان کنید.",
+                "title": "خطای: فایل شما نمی تواند پردازش شود"
             },
             "invalid_formatting": {
-                "title": "Error: Invalid file format",
-                "subtitle": "Please make sure the file is in .zip and try again."
+                "title": "خطای: Invalid file",
+                "subtitle": "لطفا اطمینان حاصل کنید که فایل یک .zip است که حاوی داده های آزمون، متاداده و دارایی است."
             },
             "file_too_large": {
-                "subtitle": "Please make sure your file is within the 50 MB limit and try again.",
-                "title": "Error: File is too large"
+                "subtitle": "لطفا مطمئن شوید که فایل شما در محدوده 50 MB قرار دارد و دوباره امتحان کنید.",
+                "title": "خطا: فایل خیلی بزرگ است"
             },
             "invalid_metadata": {
-                "title": "Error: Invalid file content",
-                "subtitle": "This file's contents don't match the expected question format. Please make sure not to modify the file and try again."
+                "title": "خطای: Invalid file",
+                "subtitle": "لطفا اطمینان حاصل کنید که فایل یک .zip است که حاوی داده های آزمون، متاداده و دارایی است."
             }
         },
-        "edit_question_failed": "Error editing question",
-        "delete_note_fail": "Failed to delete note",
-        "duplicate_note_fail": "Failed to duplicate note"
+        "edit_question_failed": "سوال ویرایش خطا",
+        "delete_note_fail": "شکست برای حذف یادداشت",
+        "duplicate_note_fail": "شکست در یادداشت تکراری"
     },
     "success_messages": {
-        "quiz_link_copied": "The public quiz link has been copied to your clipboard.",
-        "quiz_deleted": "The quiz has been deleted",
-        "quiz_created": "The quiz has been created",
-        "quiz_duplicated": "The quiz has been duplicated",
-        "quiz_updated": "The quiz has been updated",
-        "quiz_order_updated": "The quiz order has been updated",
-        "quiz_published": "The quiz has been published",
-        "quiz_unpublished": "The quiz has been unpublished",
-        "question_created": "Question created",
-        "question_created_2": "{{question_name}} created successfully",
-        "question_added": "The question has been added to your quiz",
-        "question_updated": "Question updated",
-        "question_deleted": "The question has been deleted",
+        "quiz_link_copied": "لینک آزمون عمومی به کلیپ بورد شما کپی شده است.",
+        "quiz_deleted": "آزمون حذف شده است",
+        "quiz_created": "آفریده شده است",
+        "quiz_duplicated": "آزمون تکراری شده است",
+        "quiz_updated": "آزمون به روز شده است",
+        "quiz_order_updated": "دستور آزمون به روز شده است",
+        "quiz_published": "The Quiz منتشر شده است",
+        "quiz_unpublished": "آزمون منتشر نشده است",
+        "question_created": "پرسش ایجاد شده",
+        "question_created_2": "{پیگیری name}}",
+        "question_added": "این سوال به آزمون شما اضافه شده است",
+        "question_updated": "پرسش به روز شده",
+        "question_deleted": "سوال حذف شده است",
         "question_copied": "The question has been duplicated",
-        "no_questions_found": "No questions found.",
-        "learner_invitation_sent": "The invitation has been sent.",
-        "learner_invitation_resent": "The invitation has been re-sent to {{email}}",
-        "learner_deleted": "The learner has been deleted.",
-        "learners_deleted": "The selected learners have been deleted.",
-        "learner_assigned": "This quiz has been assigned to {{count}} new learner.",
-        "learners_assigned_plural": "This quiz has been assigned to {{count}} new learners.",
-        "learner_unassigned": "This quiz has been unassigned from {{count}} learner.",
-        "learners_unassigned_plural": "This quiz has been unassigned from {{count}} learners.",
-        "password_updated": "Your password was updated successfully.",
-        "email_updated": "Your email address was updated successfully.",
-        "quiz_assessment_mode_updated": "The quiz has been updated",
-        "quiz_imported": "The quiz has been imported",
-        "question_imported": "The question has been imported",
-        "note_created": "The note has been created",
-        "note_deleted": "The note has been deleted",
-        "note_updated": "The note has been updated",
-        "note_duplicated": "The note has been duplicated"
+        "no_questions_found": "هیچ پرسشی پیدا نشد.",
+        "learner_invitation_sent": "دعوت نامه ارسال شده است.",
+        "learner_invitation_resent": "دعوت نامه دوباره به {{ ایمیل}}",
+        "learner_deleted": "یادگیرنده حذف شد.",
+        "learners_deleted": "زبان آموزان انتخاب شده حذف شده اند.",
+        "learner_assigned": "این آزمون به یاد ماندنی جدید اختصاص داده شده است.",
+        "learners_assigned_plural": "این آزمون به زبان آموزان جدید اختصاص داده شده است.",
+        "learner_unassigned": "این آزمون از یادگیرنده {{مرده} امضا نشده است.",
+        "learners_unassigned_plural": "این آزمون از زبان آموزان بی نظیر است.",
+        "password_updated": "رمز عبور شما با موفقیت به روز شد.",
+        "email_updated": "آدرس ایمیل شما با موفقیت به روز شد.",
+        "quiz_assessment_mode_updated": "آزمون به روز شده است",
+        "quiz_imported": "آزمون وارد شده است",
+        "question_imported": "سوال وارد شده است",
+        "note_created": "یادداشت ایجاد شده است",
+        "note_deleted": "یادداشت حذف شده است",
+        "note_updated": "یادداشت به روز شده است",
+        "note_duplicated": "یادداشت تکراری شده است"
     },
     "loading_messages": {
-        "loading": "Loading...",
-        "saving": "Saving...",
-        "creating": "Creating...",
-        "duplicating": "Duplicating...",
-        "learners": "Loading learners...",
-        "loading_library_questions": "Loading questions...",
-        "uploading_image": "Uploading image...",
-        "assigning_quiz_to_learners": "Assigning quiz to learners...",
-        "assigning_quiz_to_learners_description": "Shira is working to assign the quiz to the selected learners.",
-        "sending_invitation": "Sending invitation"
+        "loading": "بارگذاری ...",
+        "saving": "نجات ...",
+        "creating": "ایجاد ...",
+        "duplicating": "تکرار ...",
+        "learners": "بارگذاری زبان آموزان ...",
+        "loading_library_questions": "پرسش های تکراری ...",
+        "uploading_image": "آپلود تصویر ...",
+        "assigning_quiz_to_learners": "ثبت نام برای زبان آموزان ...",
+        "assigning_quiz_to_learners_description": "Shira در حال تلاش برای اختصاص آزمون به زبان آموزان انتخاب شده است.",
+        "sending_invitation": "ارسال دعوت نامه"
     },
     "preview": {
-        "show_explanations": "Show explanations",
-        "hide_explanations": "Hide explanations",
-        "next_explanation": "Next explanation",
-        "previous_explanation": "Previous explanation",
-        "no_explanations": "There are no explanations for this question.",
-        "add": "Add to quiz"
+        "show_explanations": "توضیحات نمایش",
+        "hide_explanations": "توضیحات پنهان",
+        "next_explanation": "توضیح بعدی",
+        "previous_explanation": "توضیحات قبلی",
+        "no_explanations": "هیچ توضیحی برای این سوال وجود ندارد.",
+        "add": "اضافه کردن به آزمون"
     },
     "select_languages": {
-        "english": "English",
-        "spanish": "Spanish",
-        "french": "French",
-        "mandarin": "Mandarin"
+        "english": "انگلیسی",
+        "spanish": "اسپانیایی",
+        "french": "فرانسوی",
+        "mandarin": "ماندارین"
     },
     "get_started": {
-        "title": "Get started",
-        "description": "Create your Shira space to start building your own custom quizzes today.",
+        "title": "شروع کنید",
+        "description": "امروز فضای خود را برای شروع ساخت آزمون های سفارشی خود ایجاد کنید.",
         "organization_name_required": "Organization name (required)",
-        "email_required": "Email (required)",
-        "org_type_label": "I am creating a Shira space as (required):",
-        "loading": "Signing up...",
+        "email_required": "ایمیل ( ضروری)",
+        "org_type_label": "من در حال ایجاد یک فضای شیرین به عنوان (باید):",
+        "loading": "ثبت نام ...",
         "org_types": {
-            "business": "A business",
-            "cibersecurity": "A cybersecurity service provider",
-            "non_profit": "A non-profit organization",
-            "individual": "An individual (consultant, trainer, etc)",
-            "educational": "An educational organization",
-            "healthcare": "A healthcare organization"
+            "business": "یک کسب و کار",
+            "cibersecurity": "ارائه دهنده خدمات امنیت سایبری",
+            "non_profit": "سازمان غیر انتفاعی",
+            "individual": "یک فرد (متقاض، مربی و غیره)",
+            "educational": "یک سازمان آموزشی",
+            "healthcare": "سازمان مراقبت های بهداشتی"
         },
-        "button_sign_up": "نام‌نویسی",
+        "button_sign_up": "ثبت نام up",
         "validation": {
-            "org_name_required": "Organization name is required",
-            "email_required": "Email is required",
-            "invalid_email": "لطفاً یک نشانی ایمیل معتبر وارد کنید."
+            "org_name_required": "نام سازمان مورد نیاز است",
+            "email_required": "ایمیل مورد نیاز است",
+            "invalid_email": "لطفا آدرس ایمیل معتبر را وارد کنید"
         },
         "errors": {
-            "create_space_failed": "An error occurred while creating your space. Please try again."
+            "create_space_failed": "یک خطا در هنگام ایجاد فضای شما رخ داد. لطفا دوباره امتحان کنید."
         },
         "success": {
-            "title": "Almost there!",
-            "description": "To complete the process, please open the email we sent to your email address and click on the link to create your Shira space.",
-            "didnt_receive": "Didn’t receive an email? If it’s not in your spam folder, please contact us at"
+            "title": "تقریبا آنجا!",
+            "description": "برای تکمیل فرایند، لطفا ایمیل ارسال شده به آدرس ایمیل خود را باز کنید و بر روی لینک کلیک کنید تا فضای شیرا خود را ایجاد کنید.",
+            "didnt_receive": "ایمیل دریافت نکردید؟ اگر در پوشه اسپم شما نیست، لطفا با ما تماس بگیرید"
         }
     },
     "create_space": {
-        "title": "Shira spaces",
-        "subtitle": "After you create a space, you will be able to create custom quizzes and questions specifically relevant to your context and communities.",
-        "form_title": "Create your space",
-        "form_description": "Complete the form below to create your Shira space.",
-        "beta_lead": "Shira spaces are currently in closed beta. To obtain the passphrase necessary to join the beta, email us at",
-        "checking_invitation": "Checking invitation...",
-        "email_label": "Confirm your email address (required)",
-        "password_label": "Password (required)",
-        "confirm_password_label": "Confirm password (required)",
-        "button_create": "Create new space",
+        "title": "فضاهای شیرین",
+        "subtitle": "پس از ایجاد یک فضا، شما قادر به ایجاد آزمون های سفارشی و سوالات به طور خاص مربوط به زمینه و جوامع خود خواهید بود.",
+        "form_title": "فضای خود را بسازید",
+        "form_description": "فرم زیر را تکمیل کنید تا فضای شیرین خود را ایجاد کنید.",
+        "beta_lead": "فضاهای شیرا در حال حاضر در بتا بسته هستند. برای به دست آوردن passphrase لازم برای پیوستن به بتا، ما را در ایمیل",
+        "checking_invitation": "چک کردن دعوت ...",
+        "email_label": "آدرس ایمیل خود را تأیید کنید ( ضروری است)",
+        "password_label": "Password ( ضروری)",
+        "confirm_password_label": "تایید رمز عبور ( ضروری)",
+        "button_create": "ایجاد فضای جدید",
         "validation": {
-            "email_required": "Email is required.",
-            "password_required": "Password is required.",
-            "password_min_length": "Password must be at least 8 characters.",
-            "passwords_mismatch": "Passwords do not match.",
-            "confirm_password_required": "Please confirm your password.",
-            "privacy_policy_required": "Please accept the privacy policy."
+            "email_required": "ایمیل لازم است.",
+            "password_required": "رمز عبور لازم است.",
+            "password_min_length": "رمز عبور باید حداقل 8 کاراکتر باشد.",
+            "passwords_mismatch": "پسوردها مطابقت ندارند.",
+            "confirm_password_required": "لطفا رمز عبور خود را تایید کنید.",
+            "privacy_policy_required": "لطفا سیاست حریم خصوصی را بپذیرید."
         },
         "errors": {
-            "create_space_failed": "An error occurred while creating your space. Please try again."
+            "create_space_failed": "یک خطا در هنگام ایجاد فضای شما رخ داد. لطفا دوباره امتحان کنید."
         },
         "success": {
-            "title": "All done!",
-            "description": "Your space was successfully created. Log in to start creating quizzes.",
+            "title": "همه چیز انجام شد!",
+            "description": "فضای شما با موفقیت ایجاد شده است. شروع به ایجاد آزمون ها کنید.",
             "button": "Go to space"
         },
-        "privacy_consent_aria_label": "Agree to Shira's privacy policy",
-        "privacy_consent_label": "I agree to Shira's <0>privacy policy</0>."
+        "privacy_consent_aria_label": "سیاست حفظ حریم خصوصی شرا",
+        "privacy_consent_label": "من با سیاست حفظ حریم خصوصی <0> Shira موافق هستم."
     },
     "quiz_library": {
         "filters_panel": {
-            "creator": "Creator",
-            "all_creators": "All creators",
+            "creator": "سازنده: Creator",
+            "all_creators": "همه سازندگان",
             "tag": "Tag",
-            "selected_count": "{{count}} selected",
+            "selected_count": "انتخاب {{count}}",
             "clear_all": "پاک کردن همه",
-            "all_tags": "All tags",
-            "all_languages": "All languages",
+            "all_tags": "همه برچسب ها",
+            "all_languages": "تمام زبان ها",
             "language": "زبان"
         },
         "preview": {
-            "created_on": "ایجادکردن",
+            "created_on": "ساخته شده در",
             "columns": {
-                "app": "برنامه‌ها",
-                "actions": "Actions",
+                "app": "App",
+                "actions": "اقدامات",
                 "preview": "پیش‌نمایش",
                 "type": "نوغ",
                 "language": "زبان",
-                "question_name": "پرسش‌نامه"
+                "question_name": "نام پرسش"
             },
-            "preview_full_quiz": "Preview full quiz",
-            "no_questions": "No questions found for this quiz template.",
+            "preview_full_quiz": "پیش نمایش کامل آزمون",
+            "no_questions": "هیچ پرسشی برای این الگو وجود ندارد.",
             "tags": "Tags",
-            "back_to_quiz_template": "Back to quiz template",
-            "languages": "زبان‌ها",
-            "creator": "Creator",
-            "subtitle": "You can preview the full quiz or each question individually, before using the quiz as a template to create your own.",
-            "use_template": "Use template"
+            "back_to_quiz_template": "بازگشت به الگوی آزمون",
+            "languages": "زبان های زبان",
+            "creator": "سازنده: Creator",
+            "subtitle": "شما می توانید آزمون کامل یا هر سوال را به صورت جداگانه قبل از استفاده از آزمون به عنوان یک الگو برای ایجاد خودتان پیش بینی کنید.",
+            "use_template": "استفاده از Template"
         },
         "filters": "فیلترها",
-        "use_template": "Use template",
-        "search_results_plural": "{{count}} results for \"{{searchTerm}}\"",
+        "use_template": "استفاده از Template",
+        "search_results_plural": "نتایج جستجو برای \"[ویرایش]",
         "empty_search": {
-            "subtitle": "Try changing keywords or clearing your filters to see more results.",
-            "title": "Sorry, we couldn't find anything"
+            "subtitle": "سعی کنید کلمات کلیدی را تغییر دهید یا فیلترهای خود را تمیز کنید تا نتایج بیشتری ببینید.",
+            "title": "ببخشید، نمی توانستیم چیزی پیدا کنیم"
         },
-        "report_issue": "Report an issue",
-        "search_results": "{{count}} result for \"{{searchTerm}}\"",
-        "header_title": "Select a quiz template",
-        "subtitle": "Select a quiz from the list below to use it as a template for your new quiz.",
+        "report_issue": "گزارش یک موضوع",
+        "search_results": "نتیجه ی «جستجوی بلند مدت»",
+        "header_title": "یک الگوی آزمون را انتخاب کنید",
+        "subtitle": "یک آزمون را از لیست زیر انتخاب کنید تا از آن به عنوان یک الگو برای آزمون های جدید خود استفاده کنید.",
         "sort_options": {
-            "quiz_name_asc": "Quiz name (A-Z)",
-            "oldest_to_newest": "Oldest to newest",
-            "quiz_name_desc": "Quiz name (Z-A)",
-            "newest_to_oldest": "Newest to oldest"
+            "quiz_name_asc": "نام (A-Z)",
+            "oldest_to_newest": "قدیمی ترین تا جدیدترین",
+            "quiz_name_desc": "نام (Z-A)",
+            "newest_to_oldest": "قدیمی ترین"
         },
-        "search_placeholder": "Search quiz names",
-        "title": "Quiz library",
+        "search_placeholder": "نام جستجو",
+        "title": "کتابخانه Quiz",
         "sort_by": "مرتب سازی با",
-        "view_template": "View template"
+        "view_template": "View Template"
     },
     "library": {
         "empty_search": {
-            "subtitle": "Try changing keywords or clearing your filters to see more results.",
-            "title": "Sorry, we couldn't find anything"
+            "subtitle": "سعی کنید کلمات کلیدی را تغییر دهید یا فیلترهای خود را تمیز کنید تا نتایج بیشتری ببینید.",
+            "title": "ببخشید، نمی توانستیم چیزی پیدا کنیم"
         },
         "cards": {
             "questions": {
-                "title": "پرسش‌ها"
+                "title": "سوالات"
             },
             "quizzes": {
                 "title": "Quizzes"
             }
         },
-        "title": "Library",
-        "subtitle": "Get started right away with ready-made templates."
+        "title": "کتابخانه",
+        "subtitle": "بلافاصله با قالب های آماده شروع کنید."
     },
     "sidebar": {
         "quizzes": "Quizzes",
         "settings": "تنظیمات",
         "learners": "Learners",
         "support": "پشتیبانی",
-        "logout": "خروج",
-        "templates": "قالب‌ها"
+        "logout": "ورود",
+        "templates": "قالب ها"
     },
     "banner": {
-        "message": "Shira spaces is not yet available on smaller screens. For a better experience, please access spaces using a screen wider than 800px.",
-        "label": "NOTE"
+        "message": "فضاهای شیرا هنوز در صفحه نمایش های کوچکتر در دسترس نیست. برای یک تجربه بهتر، لطفا به فضاهای با استفاده از یک صفحه گسترده تر از 800px دسترسی داشته باشید.",
+        "label": "یادآوری"
     },
     "templates": {
         "submit_quiz": {
             "tags_placeholder": "Tag",
-            "name_hint": "Use a descriptive name to help other users find what they're looking for.",
-            "success": "The quiz template has been submitted.",
-            "name": "Quiz template name",
-            "error": "We couldn't submit the quiz template. Please try again.",
+            "name_hint": "از یک نام توصیفی برای کمک به کاربران دیگر برای پیدا کردن آنچه که به دنبالش هستند استفاده کنید.",
+            "success": "قالب آزمون ارائه شده است.",
+            "name": "نام بازی Quiz Template",
+            "error": "ما نمی توانیم قالب آزمون را ارائه دهیم. لطفا دوباره امتحان کنید.",
             "submit": "ثبت کردن",
-            "name_placeholder": "Quiz template name",
-            "header_title": "Submit quiz template",
+            "name_placeholder": "نام بازی Quiz Template",
+            "header_title": "برچسب های مقدماتی",
             "language": "زبان",
-            "title": "Submit your quiz as a template",
+            "title": "آزمون خود را به عنوان یک الگو ارسال کنید",
             "description": "شرح",
-            "language_hint": "You may select more than 1 language. (Can't find the language you want? <support>Request a missing language.</support>)",
+            "language_hint": "شما ممکن است بیش از یک زبان را انتخاب کنید. (آیا نمی توانید زبانی را که می خواهید پیدا کنید؟ <support> درخواست یک زبان گمشده (X108X)",
             "tags": "Tags",
-            "description_hint": "Write 1-2 lines to explain what this quiz contains.",
-            "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>.",
-            "review_notice": "The Shira team carefully reviews every submission. If your template is accepted, it will appear in the template library. <learnMore>Learn More</learnMore>.",
+            "description_hint": "۱-۲ خط بنویسید تا توضیح دهید که این آزمون شامل چه چیزی است.",
+            "terms": "با چک کردن این جعبه، من موافقت می کنم که شرا <terms> مدت ها و شرایط </terms>.",
+            "review_notice": "تیم Shira به دقت هر گونه ارسال را بررسی می کند. اگر قالب شما پذیرفته شود، در کتابخانه قالب ظاهر خواهد شد. <learnMore> آموزش بیشتر </learnMore>.",
             "language_placeholder": "زبان",
-            "tags_hint": "Select the tags that best describe the content of this template.",
+            "tags_hint": "برچسب هایی را انتخاب کنید که به بهترین وجه محتوای این الگو را توصیف می کنند.",
             "description_placeholder": "شرح"
         },
         "submit_question": {
-            "title": "Submit your question as a template",
-            "success": "The question template has been submitted.",
+            "title": "سوال خود را به عنوان یک الگو ارسال کنید",
+            "success": "قالب سوال ارائه شده است.",
             "description_placeholder": "شرح",
-            "error": "We couldn't submit the question template. Please try again.",
-            "review_notice": "The Shira team carefully reviews every submission. If your template is accepted, it will appear in the template library. <learnMore>Learn More</learnMore>.",
-            "header_title": "Submit question template",
+            "error": "نمی توانستیم قالب سوال را ارسال کنیم. لطفا دوباره امتحان کنید.",
+            "review_notice": "تیم Shira به دقت هر گونه ارسال را بررسی می کند. اگر قالب شما پذیرفته شود، در کتابخانه قالب ظاهر خواهد شد. <learnMore> آموزش بیشتر </learnMore>.",
+            "header_title": "قالب پرسش",
             "tags": "Tags",
-            "terms": "By checking this box, I agree to Shira's <terms>terms and conditions</terms>.",
+            "terms": "با چک کردن این جعبه، من موافقت می کنم که شرا <terms> مدت ها و شرایط </terms>.",
             "language_placeholder": "زبان",
-            "name": "قالب‌های پرسش‌",
+            "name": "نام الگو",
             "tags_placeholder": "Tag",
             "submit": "ثبت کردن",
-            "tags_hint": "Select the tags that best describe the content of this template.",
-            "language_hint": "You may select more than 1 language. (Can't find the language you want? <support>Request a missing language.</support>)",
-            "name_hint": "Use a descriptive name to help other users find what they're looking for.",
-            "name_placeholder": "قالب‌های پرسش‌",
+            "tags_hint": "برچسب هایی را انتخاب کنید که به بهترین وجه محتوای این الگو را توصیف می کنند.",
+            "language_hint": "شما ممکن است بیش از یک زبان را انتخاب کنید. (آیا نمی توانید زبانی را که می خواهید پیدا کنید؟ <support> درخواست یک زبان گمشده (X108X)",
+            "name_hint": "از یک نام توصیفی برای کمک به کاربران دیگر برای پیدا کردن آنچه که به دنبالش هستند استفاده کنید.",
+            "name_placeholder": "نام الگو",
             "description": "شرح",
             "language": "زبان",
-            "description_hint": "Write 1-2 lines to explain what this question contains."
+            "description_hint": "۱-۲ خط بنویسید تا توضیح دهید که این سوال شامل چه چیزی است."
         },
         "submissions_table": {
-            "actions": "Actions",
+            "actions": "اقدامات",
             "type": "نوغ",
             "status": "وضعیت",
-            "app": "برنامه‌ها",
-            "preview": "Preview submission",
+            "app": "App",
+            "preview": "مقدماتی",
             "date_submitted": "Date submitted",
-            "quiz_name": "Quiz name",
-            "question_name": "پرسش‌نامه"
+            "quiz_name": "نام بازی Quiz",
+            "question_name": "نام پرسش"
         },
         "submission_status": {
-            "title": "Submission status",
-            "in_review": "In review",
-            "help_tooltip": "Please email the Shira team if you have questions or need support.",
-            "rejected": "Rejected",
-            "accepted": "Accepted"
+            "title": "ارسال وضعیت",
+            "in_review": "در بررسی",
+            "help_tooltip": "لطفا به تیم شیرا ایمیل بزنید اگر سوالی دارید یا نیاز به حمایت دارید.",
+            "rejected": "انکار",
+            "accepted": "پذیرفته شده"
         },
         "quiz_templates": {
-            "title": "قالب‌های پرسش‌",
-            "description": "Create a quiz instantly by choosing from our quiz templates, available in multiple apps and languages."
+            "title": "قالب های Quiz",
+            "description": "یک آزمون را بلافاصله با انتخاب از قالب های آزمون ما، در دسترس در چندین برنامه و زبان ایجاد کنید."
         },
         "display_name": {
-            "title": "Create display name",
-            "description": "Set the name that will be associated to the templates you publish in the library. This will be visible to everyone.",
-            "input": "Display name"
+            "title": "ایجاد نام صفحه نمایش",
+            "description": "نام را تنظیم کنید که به قالب هایی که در کتابخانه منتشر می کنید مرتبط خواهد بود. این برای همه قابل مشاهده خواهد بود.",
+            "input": "نام نمایش"
         },
-        "back_to_templates": "Back to Templates",
-        "my_submissions_description": "These are the templates you have submitted. The Shira team carefully reviews every submission. If your template is accepted, it will appear in the Shira template library. <learnMore>Learn More</learnMore>",
+        "back_to_templates": "بازگشت به Templates",
+        "my_submissions_description": "این ها قالب هایی هستند که شما ارسال کرده اید. تیم Shira به دقت هر گونه ارسال را بررسی می کند. اگر قالب شما پذیرفته شود، در کتابخانه قالب Shira ظاهر خواهد شد. <learnMore> آموزش بیشتر </learnMore>",
         "question_templates": {
-            "title": "قالب‌های پرسش‌",
-            "description": "Explore pre-made questions, with message content, sender info and explanations already built in."
+            "title": "قالب های پرسش",
+            "description": "سوالات از قبل ساخته شده را با محتوای پیام، اطلاعات فرستنده و توضیحات که در حال حاضر ساخته شده است، بررسی کنید."
         },
         "submission_rejection": {
-            "open": "View submission feedback",
-            "title": "Submission feedback"
+            "open": "مشاهده بازخورد",
+            "title": "ارسال بازخورد"
         },
-        "title": "قالب‌ها",
-        "subtitle": "Get started right away with ready-made templates.",
+        "title": "قالب ها",
+        "subtitle": "بلافاصله با قالب های آماده شروع کنید.",
         "submissions_tabs": {
             "quizzes": "Quizzes",
-            "questions": "پرسش‌ها"
+            "questions": "سوالات"
         },
         "submissions_empty_state": {
-            "subtitle": "You don't have any submissions yet. To submit a resource that you have created, go to that specific resource and select \"submit as template.\"",
-            "learn_more": "Learn more about templates"
+            "subtitle": "شما هنوز هیچ ارسالی ندارید. برای ارسال یک منبع که ایجاد کرده اید، به آن منبع خاص بروید و گزینه “submit as Template” را انتخاب کنید",
+            "learn_more": "بیشتر در مورد قالب ها یاد بگیرید"
         },
-        "my_submissions": "My submissions"
+        "my_submissions": "نوشته های من"
     },
     "languages": {
         "en": "English",
-        "es": "Spanish",
+        "es": "اسپانیایی",
         "fr": "French",
-        "cn": "Chinese (Simplified)",
-        "ar": "Arabic",
-        "ru": "Russian"
+        "cn": "چینی (Simplified)",
+        "ar": "عربی",
+        "ru": "روسیه"
     },
     "library_metadata": {
         "tags_slugs": {
-            "easy": "level: easy",
-            "human-rights": "theme: human rights",
-            "journalism": "theme: journalism",
-            "intermediate": "level: intermediate",
-            "for-everyone": "for everyone",
-            "mobile": "تفلن همراه"
+            "easy": "سطح: آسان",
+            "human-rights": "موضوع: حقوق بشر",
+            "journalism": "موضوع: روزنامه نگاری",
+            "intermediate": "سطح متوسط:",
+            "for-everyone": "برای همه",
+            "mobile": "موبایل"
         }
     },
     "create_note": {
-        "header_title": "Create a new note",
-        "edit_header_title": "Edit note",
-        "header_required_tooltip": "Required fields cannot be left blank",
-        "header_character_limit_tooltip": "One or more fields exceed the character limit.",
+        "header_title": "ایجاد یک یادداشت جدید",
+        "edit_header_title": "یادداشت Edit",
+        "header_required_tooltip": "زمینه های مورد نیاز را نمی توان خالی کرد",
+        "header_character_limit_tooltip": "یک یا چند رشته از محدودیت شخصیت فراتر می رود.",
         "breadcrumbs": {
-            "content": "Note content",
+            "content": "محتوای Note",
             "preview": "پیش‌نمایش"
         },
         "note_info": {
             "note_name": {
-                "title": "Note name",
-                "subtitle": "This name will only be visible to you, to help you remember what this note is about",
-                "placeholder": "Note name"
+                "title": "نام",
+                "subtitle": "این نام فقط برای شما قابل مشاهده خواهد بود، برای کمک به شما به یاد داشته باشید که این یادداشت در مورد چه چیزی است",
+                "placeholder": "نام"
             },
             "note_content": {
                 "title": "Note content",
-                "subtitle": "Write the note that will be shown. Notes are shown before, after or in between questions. They can include text, links and images to offer more context and information."
+                "subtitle": "یادداشتی را بنویسید که نشان داده شود. یادداشت ها قبل، بعد یا بین سوالات نشان داده می شوند. آنها می توانند شامل متن، لینک ها و تصاویر برای ارائه زمینه و اطلاعات بیشتر باشند."
             }
         },
         "preview": {
-            "subtitle": "This is how your note will look to learners."
+            "subtitle": "این است که چگونه یادداشت شما به زبان آموزان نگاه می کند."
         }
     }
 }
