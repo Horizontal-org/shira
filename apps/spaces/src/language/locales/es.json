@@ -202,8 +202,8 @@
                 "subtitle": "Así es como se mostrará tu pregunta a quienes estudian, incluyendo las explicaciones que has escrito.",
                 "show_explanations": "Mostrar explicaciones",
                 "hide_explanations": "Ocultar explicaciones",
-                "next_explanation": "Siguiente explicación",
-                "previous_explanation": "Explicación anterior",
+                "next_explanation": "Siguiente",
+                "previous_explanation": "Anterior",
                 "no_explanations": "No hay explicaciones para esta pregunta.",
                 "aria_label": "Previsualizar pregunta"
             }
@@ -570,7 +570,7 @@
                     "detailed_analytics": "Analíticas detalladas",
                     "analysis_tools": "Herramientas de análisis y de cumplimiento",
                     "tailor_made_training": "Capacitación personalizada a las personas usuarias",
-                    "priority_support": "Soporte prioritario",
+                    "priority_support": "Soporte",
                     "phishing_readiness_assessment": "Phishing Readiness Assessment",
                     "preparedness_report": "Preparedness Report & Action Plan"
                 },
@@ -1176,7 +1176,7 @@
     },
     "sidebar": {
         "quizzes": "Cuestionarios",
-        "settings": "Ajustes",
+        "settings": "Configuración",
         "learners": "Estudiantes",
         "support": "Soporte",
         "logout": "Cerrar sesión",
@@ -1275,11 +1275,11 @@
     },
     "languages": {
         "ar": "Arabic",
-        "es": "Español",
+        "es": "Spanish",
         "cn": "Chino simplificado",
-        "ru": "Ruso",
-        "fr": "Francés",
-        "en": "Inglés"
+        "ru": "Russian",
+        "fr": "French",
+        "en": "English"
     },
     "library_metadata": {
         "tags_slugs": {
