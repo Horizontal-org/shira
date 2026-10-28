@@ -260,7 +260,7 @@
         "filters_panel": {
             "selected_count": "{{count}} sélectionné(s)",
             "tag": "Mots-clés",
-            "apps": "Applications",
+            "apps": "Applis",
             "type": "Type",
             "creator": "Créateur",
             "language": "Langue",
@@ -331,7 +331,7 @@
             "cta": "Go to Help Center"
         },
         "contact": {
-            "title": "Contactez-nous",
+            "title": "Nous contacter",
             "description": "If you need any support please email us at"
         }
     },
@@ -571,7 +571,7 @@
                     "detailed_analytics": "Analyses détaillées",
                     "analysis_tools": "Outils d'analyse et de conformité",
                     "tailor_made_training": "Formation utilisateur.ice sur mesure",
-                    "priority_support": "Assistance prioritaire",
+                    "priority_support": "Assistance",
                     "phishing_readiness_assessment": "Évaluation du niveau de préparation au phishing",
                     "preparedness_report": "Rapport de préparation et plan d'action"
                 },
@@ -1150,7 +1150,7 @@
             },
             "preview_full_quiz": "Aperçu complet du quiz",
             "no_questions": "Aucune question trouvée pour ce modèle de quiz.",
-            "tags": "Mots-clés",
+            "tags": "Tags",
             "back_to_quiz_template": "Retour au modèle de quiz",
             "languages": "Langues",
             "creator": "Créateur",
@@ -1178,8 +1178,8 @@
     "sidebar": {
         "quizzes": "Les quiz",
         "settings": "Paramètres",
-        "learners": "Apprenants et apprenantes",
-        "support": "Assistance prioritaire",
+        "learners": "Apprenant.e.s",
+        "support": "Assistance",
         "logout": "Déconnexion",
         "templates": "Modèles"
     },
@@ -1189,7 +1189,7 @@
             "questions": "Questions"
         },
         "submit_quiz": {
-            "tags": "Mots-clés",
+            "tags": "Tags",
             "tags_placeholder": "Mots-clés",
             "name_hint": "Utilisez un nom descriptif pour aider les autres utilisateurs à trouver ce qu'ils recherchent.",
             "success": "Le modèle de quiz a été soumis.",
@@ -1210,7 +1210,7 @@
             "description_placeholder": "Description"
         },
         "submit_question": {
-            "tags": "Mots-clés",
+            "tags": "Tags",
             "title": "Soumettez votre question comme modèle",
             "success": "Le modèle de quiz a été soumis.",
             "description_placeholder": "Description",
