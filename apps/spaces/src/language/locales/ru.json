@@ -456,7 +456,7 @@
             "cta": "Перейти в Центр помощи"
         },
         "contact": {
-            "title": "Контакты",
+            "title": "Свяжитесь с нами",
             "description": "Если вам нужна поддержка, пожалуйста, напишите нам"
         }
     },
@@ -488,7 +488,7 @@
         "tabs": {
             "account": "Аккаунт",
             "subscription": "Подписка",
-            "general": "Общие вопросы"
+            "general": "Общие"
         },
         "subscription": {
             "current_plan": "Текущий план: {{plan_name}}",
@@ -750,7 +750,7 @@
                     "private_quizzes": "Закрытые тексты",
                     "basic_analytics": "Базовая аналитика",
                     "detailed_analytics": "Подробная аналитика",
-                    "priority_support": "Приоритетная поддержка",
+                    "priority_support": "Поддержка",
                     "analysis_tools": "Инструменты аналитики и соответствия",
                     "tailor_made_training": "Индивидуальное обучение пользователей",
                     "phishing_readiness_assessment": "Оценка готовности к фишингу",
@@ -1130,7 +1130,7 @@
             },
             "preview_full_quiz": "Предварительный просмотр полного quiz",
             "no_questions": "Никаких вопросов для этого шаблона.",
-            "tags": "Теги",
+            "tags": "Tags",
             "back_to_quiz_template": "Назад к шаблону quiz",
             "languages": "Языки",
             "creator": "Творец",
@@ -1179,7 +1179,7 @@
         "quizzes": "Тесты",
         "settings": "Настройки",
         "learners": "Учащиеся",
-        "support": "Приоритетная поддержка",
+        "support": "Поддержка",
         "logout": "Выход",
         "templates": "Шаблоны"
     },
@@ -1189,7 +1189,7 @@
             "questions": "Вопросы"
         },
         "submit_quiz": {
-            "tags": "Теги",
+            "tags": "Tags",
             "tags_placeholder": "Tag",
             "name_hint": "Используйте описательное имя, чтобы помочь другим пользователям найти то, что они ищут.",
             "success": "Шаблон викторины был представлен.",
@@ -1210,7 +1210,7 @@
             "description_placeholder": "Описание"
         },
         "submit_question": {
-            "tags": "Теги",
+            "tags": "Tags",
             "title": "Подпишите свой вопрос как шаблон",
             "success": "Был представлен шаблон вопросов.",
             "description_placeholder": "Описание",
