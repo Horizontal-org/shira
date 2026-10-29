@@ -81,6 +81,21 @@ leave `IMAGE_ACCESS_KEY` and `IMAGE_SECRET_KEY` blank because Garage must be
 running before you can create them. `IMAGE_BUCKET` can keep its default value of
 `shira`; if you change it, use the same name when creating the Garage bucket.
 
+### Configure SMTP
+
+Shira sends account invitations, password resets and other notifications by
+email. Configure an authenticated SMTP submission service in the root `.env`.
+
+For example:
+
+```sh
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=you@example.com
+SMTP_PASS=your-16-digit-app-password
+SMTP_GLOBAL_FROM=you@example.com
+```
+
 ### Start Shira
 
 After setting the root `.env` variables, start the services:
@@ -147,9 +162,19 @@ phase of the image server setup.
 
 1. Create the Garage layout, bucket, and access key:
 
+   First, check the free space on the filesystem that stores the Docker data:
+
+   ```sh
+   df -h
+   ```
+
+   Choose a Garage capacity that fits comfortably within the available disk
+   space, leaving room for the database, container images, logs, and system
+   updates. Replace `1G` below with that capacity.
+
    ```sh
    id=`docker exec shira-images-1 /garage node id -q`
-   # Change 1G to your actual storage capacity
+   # Change 1G to a capacity that fits within your available disk space
    docker exec shira-images-1 /garage layout assign -z images -c 1G $id
    docker exec shira-images-1 /garage layout apply --version 1
    # Keep the output of this command somewhere safe
