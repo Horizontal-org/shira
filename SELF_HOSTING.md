@@ -10,10 +10,21 @@ Minimum system requirements:
 - RAM: 2 GB
 - Disk: 5 GB
 
-Shira stores its data on the server unless you use an external S3 provider.
-Monitor disk usage and add capacity as needed. The appropriate disk size depends
-on how much data users submit; a useful target is to keep as much disk space free
-as is currently in use.
+The 5 GB disk requirement is a starting point for a small installation, not a
+long-term capacity recommendation. The server needs space for:
+
+- MySQL data, including accounts, quizzes, questions, learner records and quiz
+  submissions.
+- Images added to questions and other content. These are stored by the bundled
+  Garage image server unless you configure an external S3-compatible provider.
+- Docker images and volumes, application and system logs, updates and backups.
+
+Using external object storage reduces the disk space needed for uploaded images,
+but the database and Docker data still remain on the server.
+
+Before deploying, check the server with `df -h` after installing Docker and
+leave enough free space for expected content as well as future updates and
+backups. Continue monitoring disk usage as the installation grows.
 
 Shira should work with any hosting provider that supports Docker. It has been
 deployed successfully on DigitalOcean and Greenhost. If you experience issues,
@@ -157,8 +168,18 @@ empty or keep their default values.
 
 ## Configure the Garage image server
 
-After the initial `docker compose up -d` starts Garage, complete the second
-phase of the image server setup.
+Shira needs S3-compatible object storage for images uploaded to questions and
+quizzes. Garage is the storage server bundled with this Docker Compose setup,
+so use this section if you want to keep those images on the same server as
+Shira. Without a configured image bucket and credentials, image uploads and
+retrieval will fail.
+
+If you already use an external S3-compatible storage provider and have set
+`IMAGE_ENDPOINT`, `IMAGE_PORT`, `IMAGE_BUCKET`, `IMAGE_ACCESS_KEY`, and
+`IMAGE_SECRET_KEY` for it, skip this Garage setup.
+
+Otherwise, after the initial `docker compose up -d` starts Garage, complete the
+second phase of the bundled image server setup:
 
 1. Create the Garage layout, bucket, and access key:
 
@@ -170,7 +191,9 @@ phase of the image server setup.
 
    Choose a Garage capacity that fits comfortably within the available disk
    space, leaving room for the database, container images, logs, and system
-   updates. Replace `1G` below with that capacity.
+   updates. Replace `1G` below with that capacity. If the host has less than
+   1 GB free, do not use the example value; increase the available disk space
+   or choose a smaller capacity first.
 
    ```sh
    id=`docker exec shira-images-1 /garage node id -q`
