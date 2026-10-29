@@ -51,14 +51,14 @@
     "quiz": {
         "how_it_works": {
             "title": "كيف يعمل",
-            "question_count": "يحتوي هذا الاختبار على {{count}} أسئلة",
+            "question_count": "تتضمن هذه الامتحانات أسئلة {{count}}.",
             "explanation_1": "يحتوي هذا الاختبار على 10 أسئلة.",
-            "explanation_2": "اختروا لكل سؤال ما إذا كانت الرسالة المعروضة تبدو محاولة تصيد احتيالي أو أن الرسالة لا شبهة فيها.",
+            "explanation_2": "بالنسبة لكل سؤال، اختيار أحد الخيارات:",
             "explanation_3": "إذا لم تكونوا متأكدين، يمكنكم تحديد الخيار ”لا أعرف“.",
             "footer_title": "مقدمة الاختبار",
             "next": "حسنا",
             "learn_more": "التعرف على المزيد",
-            "disclaimer": "Shira collects limited data about your usage."
+            "disclaimer": "(شيرا) تجمع بيانات محدودة عن استخدامك."
         },
         "answers": {
             "options": {
@@ -85,16 +85,16 @@
             "cancel": "إلغاء"
         },
         "data_collection": {
-            "percentage_of_learners": "c. The percentage of learners assigned this quiz who have completed it",
-            "your_score": "b. Your score for each question",
-            "understand": "لقد فهمت",
-            "only_datetime": "When you take this quiz, Shira will only track the date and time you take the quiz.",
-            "total_quiz_score": "a. Your total quiz score",
+            "percentage_of_learners": "(ج) النسبة المئوية للمتعلمين الذين عينوا هذه الفئة الذين أكملوها",
+            "your_score": "(ب) نتيجتك لكل سؤال",
+            "understand": "I understand",
+            "only_datetime": "عندما تأخذين هذه الامتحانات، (شيرا) ستتعقّب الموعد والوقت اللذين تأخذينهما.",
+            "total_quiz_score": "(أ) مجموع حصتك",
             "learn_more": "التعرف على المزيد",
-            "title": "Data collection",
-            "2_results": "2. Results:",
-            "1_date_time": "1. The date and time when you take the quiz",
-            "intro": "When you take this quiz, Shira will only track:"
+            "title": "جمع البيانات",
+            "2_results": "2 - النتائج:",
+            "1_date_time": "1 - التاريخ والوقت الذي تستغرقه عملية الاختبار",
+            "intro": "عندما تَأْخذُ هذا إختبارِ، شيرا سَتَتعقّبُ فقط:"
         },
         "note": {
             "title": "ملاحظة"
@@ -136,7 +136,7 @@
         "heavy_subtitle_2": "{{correctQuestions}} من أصل {{questions}} ",
         "heavy_subtitle_3": "أسئلة بطريقة صحيحة.",
         "greeting_title": "شكرا لاستخدام Shira!",
-        "assessment_subtitle": "You've completed the quiz."
+        "assessment_subtitle": "لقد أكملت الامتحان."
     },
     "about": {
         "title": "حول",
@@ -265,10 +265,10 @@
     },
     "languages": {
         "ar": "عربي",
-        "es": "الإسبانية Español",
-        "cn": "Chinese (Simplified)",
+        "es": "Spanish",
+        "cn": "الصينية (مبسطة)",
         "ru": "Russian",
-        "fr": "الفرنسية Français",
-        "en": "الإنجليزية English"
+        "fr": "الفرنسية",
+        "en": "إنجليزي"
     }
 }

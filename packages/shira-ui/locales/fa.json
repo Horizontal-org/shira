@@ -91,7 +91,7 @@
         "no_phone_number": "No phone number",
         "contact_actions": "Contact actions",
         "voice": "صدا",
-        "video": "ویدئو",
+        "video": "ویدیو",
         "search": "جستجو",
         "mute_notifications": "Mute",
         "off": "Off",
@@ -109,7 +109,7 @@
         "media_count": "0",
         "manage_storage": "Manage storage",
         "storage_size": "0 MB",
-        "notifications": "آگاه‌سازی‌ها"
+        "notifications": "آگاهی‌ساز"
     },
     "sms": {
         "text_message": "Text message"
@@ -180,7 +180,11 @@
         "today": "امروز",
         "unread_count": "9",
         "registration_date": "Jun 2023",
-        "file_size": "24 KB"
+        "file_size": "24 KB",
+        "photo": "Photo",
+        "time": "1:03 PM",
+        "voice_message": "Voice message",
+        "voice_duration": "0:02"
     },
     "instagram": {
         "account_name": "You",

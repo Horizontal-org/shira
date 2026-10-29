@@ -14,7 +14,7 @@
             "name": "Jina",
             "email": "Barua pepe",
             "random_button": "Tengeneza jina nasibu na anwani ya barua pepe",
-            "next_button": "Yafuatayo",
+            "next_button": "Inayofuata",
             "footer_title": "Usanidi wa maswali"
         },
         "apps": {
@@ -22,7 +22,7 @@
             "select": "Chagua angalau 1",
             "footer_title": "Usanidi wa maswali",
             "back_button": "Nyuma",
-            "next_button": "Yafuatayo"
+            "next_button": "Inayofuata"
         },
         "fields_of_work": {
             "title": "Je, ni maeneo gani yanayokuhusu?",
@@ -49,7 +49,7 @@
             "explanation_2": "Kwa kila swali, chagua ikiwa ujumbe unaoonyeshwa unaonekana kama jaribio la kuhadaa ili kupata maelezo ya kibinafsi au unaonekana kuwa halali.",
             "explanation_3": "Ikiwa huna uhakika, unaweza kuchagua chaguo \"Sijui\".",
             "footer_title": "Utangulizi wa Maswali",
-            "next": "OK",
+            "next": "Sawa",
             "question_count": "This quiz contains {{count}} questions",
             "learn_more": "jifunze zaidi",
             "disclaimer": "Shira collects limited data about your usage."
@@ -64,7 +64,7 @@
                 "unsure": "\"Sijui\"",
                 "correct": "Kazi nzuri!",
                 "incorrect": "Si sahihi",
-                "next_button": "Yafuatayo",
+                "next_button": "Inayofuata",
                 "back_button": "Nyuma",
                 "next_question": "Swali Linalofuata",
                 "see_why": "Angalia kwa nini",
@@ -119,7 +119,7 @@
             "bottom_text": "Maoni yako yatatumwa ukibofya \"angalia matokeo\""
         },
         "footer_title": "Unakaribia kumaliza! Endelea kuona matokeo ya maswali yako na hatua zinazofuata zinazopendekezwa.",
-        "next_button": "Ona matokeo"
+        "next_button": "Angalia matokeo"
     },
     "completed": {
         "title": "Maswali yamekamilika",

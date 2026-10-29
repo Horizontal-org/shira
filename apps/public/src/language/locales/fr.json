@@ -46,8 +46,8 @@
         "how_it_works": {
             "title": "Comment ça marche",
             "explanation_1": "Ce quiz comporte 10 questions.",
-            "question_count": "Ce quiz comporte {{ count }} questions.",
-            "explanation_2": "Pour chaque question, choisissez une des options :",
+            "question_count": "Ce quiz contient des questions {{count}}.",
+            "explanation_2": "Pour chaque question, sélectionnez une des options:",
             "explanation_3": "Si vous n'êtes pas sûr, vous pouvez sélectionner l'option \"Je ne sais pas\".",
             "footer_title": "Intro du quiz",
             "next": "OK",
@@ -79,16 +79,16 @@
             "cancel": "Annuler"
         },
         "data_collection": {
-            "percentage_of_learners": "c. Le pourcentage d'apprenants assignés à ce quiz qui l'ont terminé",
+            "percentage_of_learners": "c. Le pourcentage d'apprenants a attribué ce quiz qui l'a complété",
             "your_score": "b. Votre score pour chaque question",
-            "understand": "J'ai compris",
-            "only_datetime": "Lorsque vous passez ce quiz, Shira suit uniquement la date et l'heure auxquelles vous passez le quiz.",
-            "total_quiz_score": "a. Votre score total au quiz",
+            "understand": "Je comprends",
+            "only_datetime": "Quand vous prenez ce quiz, Shira ne tracera que la date et l'heure que vous prenez le quiz.",
+            "total_quiz_score": "a. Votre score total de quiz",
             "learn_more": "En savoir plus",
             "title": "Collecte de données",
             "2_results": "2. Résultats :",
-            "1_date_time": "1. La date et l'heure auxquelles vous passez le quiz",
-            "intro": "Lorsque vous passez ce quiz, Shira ne suit que les éléments suivants :"
+            "1_date_time": "1. La date et l'heure quand vous prenez le quiz",
+            "intro": "Quand vous prenez ce quiz, Shira ne traque que :"
         },
         "note": {
             "title": "Note"
@@ -106,7 +106,7 @@
                 "very_easy": "Très facile"
             },
             "question_2": {
-                "title": "2. Quelle est la probabilité que vous recommandiez Shira à vos ami.e.s ou collègues ?",
+                "title": "2. Quelle est la probabilité que vous recommandiez Shira à vos amis ou collègues ?",
                 "not_likely": "Peu probable",
                 "somewhat_likely": "Assez probable",
                 "likely": "Probable",
