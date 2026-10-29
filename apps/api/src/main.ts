@@ -6,6 +6,7 @@ import { ApiLogger } from './utils/logger/api-logger.service';
 import { LoggingInterceptor } from './utils/interceptors/logging.interceptor';
 import * as cookieParser from 'cookie-parser';
 import { ExpressAdapter, NestExpressApplication } from '@nestjs/platform-express';
+import { TRUST_PROXY_HOPS } from './utils/environment/trust-proxy.environment';
 
 async function validateJwt() {
   const JWT_SECRET = process.env.JWT_SECRET
@@ -39,7 +40,7 @@ async function bootstrap() {
     }),
   );
 
-  app.set('trust proxy', 1); // TRUST NGINX
+  app.set('trust proxy', TRUST_PROXY_HOPS);
   
   await app.listen(3000);
 }
