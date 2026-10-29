@@ -122,6 +122,16 @@ you stop them with `docker compose down`.
 To run a specific Shira version, change the `VERSION` variable. Otherwise, the
 deployment uses the configured default image tag.
 
+### Create the first Spaces account
+
+Shira does not provide a default email address or password for the Spaces
+login. After the services are running:
+
+1. Open `https://<SPACES_DOMAIN>/get-started`.
+2. Enter your organization details and email address.
+3. Open the registration link Shira sends through the configured SMTP service.
+4. Create your Spaces password.
+
 ## Environment variables
 
 Use strong passphrases for password variables. Optional variables can be left
