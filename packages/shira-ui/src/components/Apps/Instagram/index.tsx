@@ -74,11 +74,9 @@ const Wrapper = styled.div`
   background: #fff;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
     border-radius: 0;
-    box-shadow: none;
   }
 `
 
