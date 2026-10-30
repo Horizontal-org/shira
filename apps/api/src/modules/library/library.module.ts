@@ -13,6 +13,7 @@ import { QuizItem as QuizItemEntity } from 'src/modules/quiz/domain/quiz_items.e
 import { SpaceEntity } from 'src/modules/space/domain/space.entity'
 import { QuizModule } from 'src/modules/quiz/quiz.module'
 import { SubscriptionModule } from 'src/modules/subscription/subscription.module'
+import { NoteModule } from 'src/modules/note/note.module'
 
 import { libraryControllers } from './controller'
 import { libraryServiceProviders } from './library.providers'
@@ -32,6 +33,7 @@ import { libraryServiceProviders } from './library.providers'
     ]),
     ConsoleModule,
     QuizModule,
+    NoteModule,
     SubscriptionModule,
   ],
   controllers: [...libraryControllers],

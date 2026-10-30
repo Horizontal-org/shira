@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer'
-import { ArrayNotEmpty, IsArray, IsInt, IsNotEmpty, IsString, ValidateNested } from 'class-validator'
+import { ArrayNotEmpty, IsArray, IsInt, IsNotEmpty, IsOptional, IsString, ValidateNested } from 'class-validator'
 
 export class QuizImportQuestionMetadataDto {
   @IsInt()
@@ -7,6 +7,18 @@ export class QuizImportQuestionMetadataDto {
 
   @IsString()
   @IsNotEmpty({ message: 'Question name cannot be empty' })
+  name: string
+
+  @IsInt()
+  position: number
+}
+
+export class QuizImportNoteMetadataDto {
+  @IsInt()
+  id: number
+
+  @IsString()
+  @IsNotEmpty({ message: 'Note name cannot be empty' })
   name: string
 
   @IsInt()
@@ -23,4 +35,10 @@ export class QuizImportMetadataDto {
   @ValidateNested({ each: true })
   @Type(() => QuizImportQuestionMetadataDto)
   questions: QuizImportQuestionMetadataDto[]
+
+  @IsArray()
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => QuizImportNoteMetadataDto)
+  notes: QuizImportNoteMetadataDto[] = []
 }

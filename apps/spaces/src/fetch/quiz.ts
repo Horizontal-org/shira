@@ -8,6 +8,7 @@ export interface UpdateQuizPayload {
 }
 
 export interface CreateTemplateQuizQuestionPayload {
+  position?: number
   questionName: string
   content: string
   isPhishing: boolean
@@ -18,6 +19,13 @@ export interface CreateTemplateQuizQuestionPayload {
     index: string
     text: string
   }[]
+}
+
+export interface CreateTemplateQuizNotePayload {
+  name: string
+  content: string
+  position: number
+  images?: { id: number; name: string; url: string }[]
 }
 
 export const updateQuiz = async (toUpdate: UpdateQuizPayload) => {
@@ -70,12 +78,14 @@ export const createQuizFromTemplate = async (
   title: string,
   visibility: string,
   questions: CreateTemplateQuizQuestionPayload[],
+  notes: CreateTemplateQuizNotePayload[] = [],
 ) => {
   try {
     const res = await axios.post(`${process.env.REACT_APP_API_URL}/quiz-from-template`, {
       title,
       visibility,
       questions,
+      notes,
     })
     return (res.data?.quizId ?? res.data)
   } catch (err) {

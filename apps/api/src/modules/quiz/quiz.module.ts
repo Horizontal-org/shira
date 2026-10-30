@@ -34,6 +34,7 @@ import { ImportQuestionController } from './controller/import-question.quiz.cont
 import { ImportQuizController } from './controller/import.quiz.controller';
 import { ValidateQuizImportService } from './services/validate-import.quiz.service';
 import { QuestionModule } from '../question/question.module';
+import { NoteModule } from '../note/note.module';
 
 @Module({
   imports: [
@@ -53,7 +54,8 @@ import { QuestionModule } from '../question/question.module';
     QuestionImageModule,
     forwardRef(() => NoteImageModule),
     SubscriptionModule,
-    forwardRef(() => QuestionModule)
+    forwardRef(() => QuestionModule),
+    forwardRef(() => NoteModule)
   ],
   controllers: [
     CreateQuizController,
