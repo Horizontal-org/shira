@@ -6,7 +6,8 @@ import { Quiz } from '../domain/quiz.entity'
 import { TYPES } from '../interfaces'
 import { IAddQuestionToQuizService } from '../interfaces/services/add-question-to-quiz.quiz.service.interface'
 import { IImportQuizService, ImportQuizParams } from '../interfaces/services/import.quiz.service.interface'
-import { ImportNoteService } from 'src/modules/note/services/import.note.service'
+import { TYPES as TYPES_NOTE } from 'src/modules/note/interfaces'
+import { IImportNoteService } from 'src/modules/note/interfaces/services/import.note.service.interface'
 
 @Injectable()
 export class ImportQuizService implements IImportQuizService {
@@ -15,7 +16,8 @@ export class ImportQuizService implements IImportQuizService {
     private readonly quizRepo: Repository<Quiz>,
     @Inject(TYPES.services.IAddQuestionToQuizService)
     private readonly addQuestionToQuizService: IAddQuestionToQuizService,
-    private readonly importNoteService: ImportNoteService,
+    @Inject(TYPES_NOTE.services.IImportNoteService)
+    private readonly importNoteService: IImportNoteService,
   ) { }
 
   async execute({ title, questions, items, space, visibility }: ImportQuizParams): Promise<number> {

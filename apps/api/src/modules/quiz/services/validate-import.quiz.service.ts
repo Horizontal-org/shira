@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 import {
   InvalidQuestionMetadataException,
   InvalidZipStructureException,
@@ -11,8 +11,9 @@ import { ZipImportService } from 'src/modules/question/services/zip-import.servi
 import { QuizImportMetadataDto } from '../dto/quiz-import-metadata.dto'
 import {
   NoteImportValidationResult,
-  ValidateNoteImportService,
-} from 'src/modules/note/services/validate-import.note.service'
+  IValidateNoteImportService,
+} from 'src/modules/note/interfaces/services/validate-import.note.service.interface'
+import { TYPES as TYPES_NOTE } from 'src/modules/note/interfaces'
 
 const METADATA_ENTRY = 'metadata.json'
 const QUESTION_FOLDER_PATTERN = /^questions\/([^/]+)\//
@@ -34,7 +35,8 @@ export class ValidateQuizImportService {
   constructor(
     private validateQuestionImportService: ValidateQuestionImportService,
     private zipImportService: ZipImportService,
-    private validateNoteImportService: ValidateNoteImportService,
+    @Inject(TYPES_NOTE.services.IValidateNoteImportService)
+    private validateNoteImportService: IValidateNoteImportService,
   ) { }
 
   async validate(buffer: Buffer): Promise<QuizImportValidationResult> {

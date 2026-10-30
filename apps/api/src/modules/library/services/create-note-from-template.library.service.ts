@@ -1,6 +1,7 @@
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { Note } from "src/modules/note/domain";
-import { CreateNoteWithImagesService } from "src/modules/note/services/create-note-with-images.note.service";
+import { TYPES as TYPES_NOTE } from "src/modules/note/interfaces";
+import { ICreateNoteWithImagesService } from "src/modules/note/interfaces/services/create-note-with-images.note.service.interface";
 import {
   CreateNoteFromTemplateParams,
   ICreateNoteFromTemplateService,
@@ -9,7 +10,8 @@ import {
 @Injectable()
 export class CreateNoteFromTemplateService implements ICreateNoteFromTemplateService {
   constructor(
-    private readonly createNoteWithImagesService: CreateNoteWithImagesService,
+    @Inject(TYPES_NOTE.services.ICreateNoteWithImagesService)
+    private readonly createNoteWithImagesService: ICreateNoteWithImagesService,
   ) { }
 
   async execute({ manager, quizId, position, template }: CreateNoteFromTemplateParams): Promise<Note> {

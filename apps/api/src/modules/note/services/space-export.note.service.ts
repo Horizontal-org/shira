@@ -5,20 +5,19 @@ import * as path from 'path'
 import { TYPES as TYPES_IMAGE } from 'src/modules/image/interfaces'
 import { IImageService } from 'src/modules/image/interfaces/services/image.service.interface'
 import { Note } from '../domain'
-
-export interface NoteExportAsset {
-  fileName: string
-  buffer: Buffer
-}
+import {
+  ISpaceExportNoteService,
+  NoteExportPackage,
+} from '../interfaces/services/space-export.note.service.interface'
 
 @Injectable()
-export class SpaceExportNoteService {
+export class SpaceExportNoteService implements ISpaceExportNoteService {
   constructor(
     @Inject(TYPES_IMAGE.services.IImageService)
     private readonly imageService: IImageService,
   ) { }
 
-  async buildNotePackage(note: Note): Promise<{ contentHtml: string; assets: NoteExportAsset[] }> {
+  async buildNotePackage(note: Note): Promise<NoteExportPackage> {
     const assetsWithIds = await Promise.all((note.images ?? []).map(async (image) => {
       const buffer = await this.imageService.download(image.relativePath)
       let extension = path.extname(image.name)

@@ -2,22 +2,15 @@ import { Injectable } from '@nestjs/common'
 import * as AdmZip from 'adm-zip'
 import * as cheerio from 'cheerio'
 import { InvalidZipStructureException } from 'src/modules/question/exceptions'
-import { NoteExportAsset } from './space-export.note.service'
-
-export interface NoteImportMetadata {
-  id: number
-  name: string
-  position: number
-}
-
-export interface NoteImportValidationResult {
-  metadata: NoteImportMetadata
-  contentHtml: string
-  assets: NoteExportAsset[]
-}
+import { NoteExportAsset } from '../interfaces/services/space-export.note.service.interface'
+import {
+  IValidateNoteImportService,
+  NoteImportMetadata,
+  NoteImportValidationResult,
+} from '../interfaces/services/validate-import.note.service.interface'
 
 @Injectable()
-export class ValidateNoteImportService {
+export class ValidateNoteImportService implements IValidateNoteImportService {
   validateEntries(
     entries: AdmZip.IZipEntry[],
     basePath: string,

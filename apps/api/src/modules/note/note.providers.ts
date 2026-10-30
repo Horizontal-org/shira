@@ -34,14 +34,34 @@ export const duplicateNoteServiceProvider = {
   useClass: DuplicateNoteService
 }
 
+export const importNoteServiceProvider = {
+  provide: TYPES.services.IImportNoteService,
+  useClass: ImportNoteService,
+}
+
+export const spaceExportNoteServiceProvider = {
+  provide: TYPES.services.ISpaceExportNoteService,
+  useClass: SpaceExportNoteService,
+}
+
+export const validateNoteImportServiceProvider = {
+  provide: TYPES.services.IValidateNoteImportService,
+  useClass: ValidateNoteImportService,
+}
+
+export const createNoteWithImagesServiceProvider = {
+  provide: TYPES.services.ICreateNoteWithImagesService,
+  useClass: CreateNoteWithImagesService,
+}
+
 export const servicesNoteProviders = [
   createNoteServiceProvider,
   editNoteServiceProvider,
   deleteNoteServiceProvider,
   getNoteServiceProvider,
   duplicateNoteServiceProvider,
-  ImportNoteService,
-  SpaceExportNoteService,
-  ValidateNoteImportService,
-  CreateNoteWithImagesService,
+  importNoteServiceProvider,
+  spaceExportNoteServiceProvider,
+  validateNoteImportServiceProvider,
+  createNoteWithImagesServiceProvider,
 ];

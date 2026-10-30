@@ -1,14 +1,17 @@
-import { Injectable } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 import * as path from 'path'
 import { EntityManager } from 'typeorm'
 import { Note } from '../domain'
-import { CreateNoteWithImagesService } from './create-note-with-images.note.service'
-import { NoteImportValidationResult } from './validate-import.note.service'
+import { TYPES } from '../interfaces'
+import { ICreateNoteWithImagesService } from '../interfaces/services/create-note-with-images.note.service.interface'
+import { IImportNoteService } from '../interfaces/services/import.note.service.interface'
+import { NoteImportValidationResult } from '../interfaces/services/validate-import.note.service.interface'
 
 @Injectable()
-export class ImportNoteService {
+export class ImportNoteService implements IImportNoteService {
   constructor(
-    private readonly createNoteWithImagesService: CreateNoteWithImagesService,
+    @Inject(TYPES.services.ICreateNoteWithImagesService)
+    private readonly createNoteWithImagesService: ICreateNoteWithImagesService,
   ) { }
 
   async execute(

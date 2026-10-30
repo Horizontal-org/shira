@@ -7,7 +7,8 @@ import { QuizItem } from '../domain/quiz_items.entity';
 import { SpaceExportQuestionService } from 'src/modules/question/services/spaceExport.question.service';
 import { TYPES } from '../interfaces';
 import { IQuizItemsService } from '../interfaces/services/quiz-items.service.interface';
-import { SpaceExportNoteService } from 'src/modules/note/services/space-export.note.service';
+import { TYPES as TYPES_NOTE } from 'src/modules/note/interfaces';
+import { ISpaceExportNoteService } from 'src/modules/note/interfaces/services/space-export.note.service.interface';
 
 @Injectable()
 export class ExportQuizService {
@@ -17,7 +18,8 @@ export class ExportQuizService {
     private readonly spaceExportQuestionService: SpaceExportQuestionService,
     @Inject(TYPES.services.IQuizItemsService)
     private readonly quizItemsService: IQuizItemsService,
-    private readonly spaceExportNoteService: SpaceExportNoteService,
+    @Inject(TYPES_NOTE.services.ISpaceExportNoteService)
+    private readonly spaceExportNoteService: ISpaceExportNoteService,
   ) {}
 
   async export({ id, spaceId, res }: { id: number; spaceId: number; res }) {

@@ -1,26 +1,19 @@
 import { Inject, Injectable } from '@nestjs/common'
-import { EntityManager } from 'typeorm'
 import { TYPES as TYPES_IMAGE } from 'src/modules/image/interfaces'
 import {
   ITransferTemplateImagesService,
-  TransferableImage,
 } from 'src/modules/image/interfaces/services/transfer-template-images.service.interface'
 import { remapImageIds } from 'src/modules/image/utils/remap-image-ids.util'
 import { QuizItem } from 'src/modules/quiz/domain/quiz_items.entity'
 import { QuestionSanitizer } from 'src/utils/question-sanitizer.util'
 import { Note } from '../domain'
-
-export interface CreateNoteWithImagesParams {
-  manager: EntityManager
-  quizId: number
-  position: number
-  name: string
-  content: string
-  images: TransferableImage[]
-}
+import {
+  CreateNoteWithImagesParams,
+  ICreateNoteWithImagesService,
+} from '../interfaces/services/create-note-with-images.note.service.interface'
 
 @Injectable()
-export class CreateNoteWithImagesService {
+export class CreateNoteWithImagesService implements ICreateNoteWithImagesService {
   constructor(
     @Inject(TYPES_IMAGE.services.ITransferTemplateImagesService)
     private readonly transferTemplateImagesService: ITransferTemplateImagesService,
