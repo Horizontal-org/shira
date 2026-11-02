@@ -1,26 +1,29 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 import { Button, defaultTheme, EmptyState } from '@horizontal-org/shira-ui';
 import { FiPlus } from "react-icons/fi";
-import { MdOutlineMenuBook } from "react-icons/md";
 import { useTranslation } from "react-i18next";
+import { usePublicLibrary } from "../../../../hooks/usePublicLibrary";
+import { EntityCreationOptionsModal } from "../../../modals/QuestionCreationOptionsModal";
 
 interface Props {
   onAdd: () => void,
   onAddLibrary: (quizId: string) => void,
+  onImport: () => void,
   onCreateNote: () => void,
   quizId: string,
-  isAddLibraryDisabled?: boolean,
 }
 
 export const QuestionEmptyState: FunctionComponent<Props> = ({
   onAdd,
   onAddLibrary,
+  onImport,
   onCreateNote,
   quizId,
-  isAddLibraryDisabled,
 }) => {
 
   const { t } = useTranslation();
+  const { isPublicLibraryEnabled } = usePublicLibrary();
+  const [isCreationOptionsModalOpen, setIsCreationOptionsModalOpen] = useState(false);
 
   const buttons = [
     <Button
@@ -29,16 +32,7 @@ export const QuestionEmptyState: FunctionComponent<Props> = ({
       text={t('questions_tab.create_question_button')}
       type="primary"
       color={defaultTheme.colors.green7}
-      onClick={onAdd}
-    />,
-    <Button
-      key="use-library-question"
-      leftIcon={<MdOutlineMenuBook size={19} />}
-      text={t('questions_tab.use_library_question_button')}
-      type="primary"
-      color={defaultTheme.colors.green7}
-      disabled={isAddLibraryDisabled}
-      onClick={() => onAddLibrary(quizId)}
+      onClick={() => setIsCreationOptionsModalOpen(true)}
     />,
     <Button
       key="create-note"
@@ -51,10 +45,28 @@ export const QuestionEmptyState: FunctionComponent<Props> = ({
   ];
 
   return (
-    <EmptyState
-      subtitle={t('no_questions.subtitle')}
-      buttons={buttons}
-    />
+    <>
+      <EmptyState
+        subtitle={t('no_questions.subtitle')}
+        buttons={buttons}
+      />
+      <EntityCreationOptionsModal
+        entityType="question"
+        isPublicLibraryEnabled={isPublicLibraryEnabled}
+        isModalOpen={isCreationOptionsModalOpen}
+        setIsModalOpen={setIsCreationOptionsModalOpen}
+        onAction={(action) => {
+          setIsCreationOptionsModalOpen(false);
+          if (action === 'scratch') {
+            onAdd();
+          } else if (action === 'template') {
+            onAddLibrary(quizId);
+          } else if (action === 'import') {
+            onImport();
+          }
+        }}
+      />
+    </>
   );
 };
 
