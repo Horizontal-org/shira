@@ -2,16 +2,16 @@ import { FunctionComponent, useState } from "react";
 import { shallow } from "zustand/shallow";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
-import { duplicateQuestion } from "../../../../fetch/quiz";
+import { duplicateQuestion, importEntity } from "../../../../fetch/quiz";
 import { deleteNote, duplicateNote } from "../../../../fetch/note";
 import { useStore } from "../../../../store";
-import { usePublicLibrary } from "../../../../hooks/usePublicLibrary";
 import { QuizQuestion, QuizViewItem } from "../../../../store/slices/quiz";
 import { QuestionEmptyState } from "./QuestionEmptyState";
 import { QuizItemsTable } from "../QuizItem/QuizItemsTable";
 import { QuestionActionModals } from "./QuestionActionModals";
 import { QuizItemCreateOptions } from "../QuizItem/QuizItemCreateOptions";
 import { DeleteModal } from "../../../modals/DeleteModal";
+import { ImportEntityModal } from "../../../modals/ImportEntityModal";
 
 interface QuestionsListProps {
   quizId: number;
@@ -48,8 +48,6 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
   onCreateNote
 }) => {
   const { t } = useTranslation();
-  const { isPublicLibraryEnabled } = usePublicLibrary();
-
   const [questionForDelete, handleQuestionForDelete] = useState<QuizQuestion["question"] | null>(null);
   const [noteForDelete, handleNoteForDelete] = useState<{ id: string; name: string } | null>(null);
   const [confirmBeforeContinueModal, handleConfirmBeforeContinueModal] = useState<ConfirmModalInfo | null>(null);
@@ -117,13 +115,22 @@ export const QuestionsList: FunctionComponent<QuestionsListProps> = ({
 
   if (!quizQuestions || quizQuestions.length === 0) {
     return (
-      <QuestionEmptyState
-        onAdd={onAdd}
-        onAddLibrary={onAddLibrary}
-        onCreateNote={onCreateNote}
-        quizId={String(quizId)}
-        isAddLibraryDisabled={!isPublicLibraryEnabled}
-      />
+      <>
+        <QuestionEmptyState
+          onAdd={onAdd}
+          onAddLibrary={onAddLibrary}
+          onImport={() => setImportModalOpen(true)}
+          onCreateNote={onCreateNote}
+          quizId={String(quizId)}
+        />
+        <ImportEntityModal
+          entityType="question"
+          isModalOpen={isImportModalOpen}
+          setIsModalOpen={setImportModalOpen}
+          onImport={(file) => importEntity(quizId, file).then((result) => result.questionId)}
+          onImportSuccess={onRefresh}
+        />
+      </>
     );
   }
 
