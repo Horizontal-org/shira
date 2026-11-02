@@ -1,9 +1,7 @@
-import { FunctionComponent, useState } from "react";
-import { Body1, Body1SemiBold, Body2Regular, Body3, Link1, Link2, Modal, ModalType, RenameIcon } from "@horizontal-org/shira-ui";
-import { Trans, useTranslation } from "react-i18next";
+import { FunctionComponent } from "react";
+import { Body1SemiBold, Body3, Link1, Modal, RenameIcon } from "@horizontal-org/shira-ui";
+import { useTranslation } from "react-i18next";
 import styled from "styled-components";
-import { GenericErrorModal } from "../ErrorModal";
-import { exportEntity } from "../../../fetch/quiz";
 import { MdMenuBook } from "react-icons/md";
 
 interface Props {
