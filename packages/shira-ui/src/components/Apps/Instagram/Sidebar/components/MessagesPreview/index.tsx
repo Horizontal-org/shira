@@ -26,6 +26,7 @@ const MessagesPreview: FunctionComponent<Props> = ({ senderName }) => {
               <Username>{senderName.textContent}</Username>
               <Details>
                 <MessageContent>{t('instagram.new_message')}</MessageContent>
+                <Time>· 1:03 PM</Time>
               </Details>
             </UserInfo>
           </Message>

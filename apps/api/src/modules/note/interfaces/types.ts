@@ -5,5 +5,9 @@ export const TYPES = {
     IDeleteNoteService: 'IDeleteNoteService',
     IGetNoteService: 'IGetNoteService',
     IDuplicateNoteService: 'IDuplicateNoteService',
+    IImportNoteService: 'IImportNoteService',
+    ISpaceExportNoteService: 'ISpaceExportNoteService',
+    IValidateNoteImportService: 'IValidateNoteImportService',
+    ICreateNoteWithImagesService: 'ICreateNoteWithImagesService',
   },
 };

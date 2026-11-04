@@ -7,6 +7,7 @@ export const TYPES = {
     IShiraLibraryLoggerService: 'IShiraLibraryLoggerService',
     ICreateTemplateQuizService: 'ICreateTemplateQuizService',
     ICreateTemplateQuestionService: 'ICreateTemplateQuestionService',
+    ICreateNoteFromTemplateService: 'ICreateNoteFromTemplateService',
     ILibraryAuthService: 'ILibraryAuthService',
   },
 }

@@ -6,6 +6,7 @@ import {
   IsInt,
   IsOptional,
   IsString,
+  IsUrl,
   ValidateNested,
 } from "class-validator";
 import { SpaceEntity } from "src/modules/space/domain/space.entity";
@@ -30,11 +31,15 @@ export class CreateTemplateQuizImageDto {
   @IsString()
   name: string;
 
-  @IsString()
+  @IsUrl({ protocols: ["http", "https"], require_protocol: true, require_tld: false })
   url: string;
 }
 
 export class CreateTemplateQuizQuestionDto {
+  @IsInt()
+  @IsOptional()
+  position?: number;
+
   @IsString()
   questionName: string;
 
@@ -60,6 +65,24 @@ export class CreateTemplateQuizQuestionDto {
   images?: CreateTemplateQuizImageDto[];
 }
 
+export class CreateTemplateQuizNoteDto {
+  @IsString()
+  @IsNotEmpty({ message: "Note name cannot be empty" })
+  name: string;
+
+  @IsString()
+  content: string;
+
+  @IsInt()
+  position: number;
+
+  @IsArray()
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => CreateTemplateQuizImageDto)
+  images?: CreateTemplateQuizImageDto[];
+}
+
 export class CreateTemplateQuizDto {
   @IsString()
   @IsNotEmpty({ message: "Title cannot be empty" })
@@ -73,6 +96,12 @@ export class CreateTemplateQuizDto {
   @ValidateNested({ each: true })
   @Type(() => CreateTemplateQuizQuestionDto)
   questions: CreateTemplateQuizQuestionDto[];
+
+  @IsArray()
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => CreateTemplateQuizNoteDto)
+  notes?: CreateTemplateQuizNoteDto[];
 
   space?: SpaceEntity;
 }

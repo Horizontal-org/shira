@@ -111,6 +111,7 @@ export const MessagingContent: FunctionComponent<Props> = ({
         <DraggableMessagingList
           content={content}
           items={content.draggableItems}
+          allowAttachments={question.app.name !== MessagingAppsNames.INSTAGRAM}
           onChange={(newItems) => { updateActiveQuestionDraggableItems(newItems) }}
         />
       </div>

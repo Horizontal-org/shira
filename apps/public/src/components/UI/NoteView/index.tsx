@@ -63,4 +63,9 @@ const NoteWrapper = styled.div`
   max-height: calc(100vh - 86px);
   overflow-y: scroll;
   background: ${props => props.theme.colors.light.paleGreen};
+  display: flex;
+
+  > div {
+    flex: 1;
+  }
 `

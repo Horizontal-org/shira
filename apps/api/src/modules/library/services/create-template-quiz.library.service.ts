@@ -7,6 +7,8 @@ import { CreateTemplateQuizDto } from "../dto/create-template-quiz.library.dto";
 import { ICreateTemplateQuizService } from "../interfaces/services/create-template-quiz.library.service.interface";
 import { TYPES as TYPES_QUIZ } from "src/modules/quiz/interfaces";
 import { IAddQuestionToQuizService } from "src/modules/quiz/interfaces/services/add-question-to-quiz.quiz.service.interface";
+import { TYPES as TYPES_LIBRARY } from "../interfaces";
+import { ICreateNoteFromTemplateService } from "../interfaces/services/create-note-from-template.library.service.interface";
 
 @Injectable()
 export class CreateTemplateQuizService implements ICreateTemplateQuizService {
@@ -15,6 +17,8 @@ export class CreateTemplateQuizService implements ICreateTemplateQuizService {
     private readonly quizRepo: Repository<Quiz>,
     @Inject(TYPES_QUIZ.services.IAddQuestionToQuizService)
     private readonly addQuestionToQuizService: IAddQuestionToQuizService,
+    @Inject(TYPES_LIBRARY.services.ICreateNoteFromTemplateService)
+    private readonly createNoteFromTemplateService: ICreateNoteFromTemplateService,
   ) { }
 
   async execute(createTemplateQuizDto: CreateTemplateQuizDto) {
@@ -28,7 +32,31 @@ export class CreateTemplateQuizService implements ICreateTemplateQuizService {
 
       const savedQuiz = await manager.save(Quiz, quiz);
 
-      for (const templateQuestion of createTemplateQuizDto.questions) {
+      const items = [
+        ...createTemplateQuizDto.questions.map((question, index) => ({
+          entityType: "question" as const,
+          position: question.position ?? index + 1,
+          question,
+        })),
+        ...(createTemplateQuizDto.notes ?? []).map((note) => ({
+          entityType: "note" as const,
+          position: note.position,
+          note,
+        })),
+      ].sort((a, b) => a.position - b.position);
+
+      for (const item of items) {
+        if (item.entityType === "note") {
+          await this.createNoteFromTemplateService.execute({
+            manager,
+            quizId: savedQuiz.id,
+            position: item.position,
+            template: item.note,
+          });
+          continue;
+        }
+
+        const templateQuestion = item.question;
         await this.addQuestionToQuizService.execute(
           {
             quizId: savedQuiz.id,

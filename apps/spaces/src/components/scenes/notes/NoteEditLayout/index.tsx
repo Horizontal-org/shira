@@ -7,7 +7,7 @@ import { QuizSuccessStates } from "../../../../store/slices/quiz"
 import toast from "react-hot-toast"
 import { fetchNote, NoteCRUDFeedback, useNoteCRUD } from "../../../../fetch/note"
 import { ActiveNote } from "../../../../types/active_note"
-import parseHtml from "../../../../utils/parseHtml"
+import { parseHtml } from "@horizontal-org/shira-ui"
 
 interface Props { }
 

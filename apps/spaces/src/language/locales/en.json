@@ -703,8 +703,8 @@
         "update_results_enabled": {
             "title_enable": "Enable results?",
             "title_disable": "Disable results?",
-            "content_enable": "We will start tracking your user quiz information",
-            "content_disable": "We will stop tracking your user quiz information"
+            "content_enable": "Enabling Results mean that Shira will start collecting quiz responses for any new quiz taken by your learners.",
+            "content_disable": "Disabling Results mean that Shira will stop collecting quiz responses for any new quiz taken by your learners."
         },
         "create_quiz": {
             "button": "Create new quiz",

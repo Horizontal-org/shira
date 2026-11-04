@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer'
-import { ArrayMaxSize, ArrayNotEmpty, IsArray, IsInt, IsNotEmpty, IsString, MaxLength, ValidateNested } from 'class-validator'
+import { ArrayMaxSize, ArrayNotEmpty, IsArray, IsInt, IsNotEmpty, IsOptional, IsString, MaxLength, ValidateNested } from 'class-validator'
 import { QUIZ_IMPORT_MAX_QUESTIONS } from 'src/utils/environment/import-limits.environment'
 
 export class QuizImportQuestionMetadataDto {
@@ -9,6 +9,18 @@ export class QuizImportQuestionMetadataDto {
   @IsString()
   @IsNotEmpty({ message: 'Question name cannot be empty' })
   @MaxLength(255)
+  name: string
+
+  @IsInt()
+  position: number
+}
+
+export class QuizImportNoteMetadataDto {
+  @IsInt()
+  id: number
+
+  @IsString()
+  @IsNotEmpty({ message: 'Note name cannot be empty' })
   name: string
 
   @IsInt()
@@ -27,4 +39,10 @@ export class QuizImportMetadataDto {
   @ValidateNested({ each: true })
   @Type(() => QuizImportQuestionMetadataDto)
   questions: QuizImportQuestionMetadataDto[]
+
+  @IsArray()
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => QuizImportNoteMetadataDto)
+  notes: QuizImportNoteMetadataDto[] = []
 }
