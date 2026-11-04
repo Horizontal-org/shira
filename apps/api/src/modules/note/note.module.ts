@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Note } from './domain';
 import { Quiz } from 'src/modules/quiz/domain/quiz.entity';
@@ -11,7 +11,7 @@ import { NoteImageModule } from 'src/modules/note_image/note_image.module'
 @Module({
   imports: [
     TypeOrmModule.forFeature([Note, Quiz, QuizItem]),
-    QuizModule,
+    forwardRef(() => QuizModule),
     NoteImageModule,
   ],
   controllers: [
