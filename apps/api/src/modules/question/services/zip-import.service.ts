@@ -7,6 +7,7 @@ import {
   InvalidQuestionMetadataException,
   InvalidZipStructureException,
 } from '../exceptions'
+import { IMPORT_MAX_ZIP_ENTRIES } from 'src/utils/environment/import-limits.environment'
 
 const MAX_UNCOMPRESSED_SIZE = 300 * 1024 * 1024 // 300MB, shared by single-question and whole-quiz imports
 
@@ -54,6 +55,10 @@ export class ZipImportService {
   }
 
   private assertSafeEntries(entries: AdmZip.IZipEntry[]) {
+    if (entries.length > IMPORT_MAX_ZIP_ENTRIES) {
+      throw new InvalidZipStructureException(`Zip cannot contain more than ${IMPORT_MAX_ZIP_ENTRIES} entries`)
+    }
+
     let totalSize = 0
 
     for (const entry of entries) {

@@ -58,6 +58,7 @@ export const QuizLayout: FunctionComponent<Props> = () => {
       <QuizFlow
         quiz={quiz}
         learnerQuiz={learnerQuiz}
+        hash={hash}
       />
     </>
   )

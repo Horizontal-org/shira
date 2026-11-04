@@ -31,7 +31,7 @@ export class LoggingInterceptor implements NestInterceptor {
 
   private getRequestInfo(context: ExecutionContext): { method: string; url: string } {
     const request = context.switchToHttp().getRequest<any>();
-    return { method: request?.method ?? '', url: request?.url ?? '' };
+    return { method: request?.method ?? '', url: redactLearnerQuizHash(request?.url ?? '') };
   }
 
   private logAndRethrowError(err: unknown, ctx: RequestLogContext) {
@@ -95,6 +95,10 @@ export class LoggingInterceptor implements NestInterceptor {
     }
     return '';
   }
+}
+
+function redactLearnerQuizHash(url: string): string {
+  return url.replace(/^\/learner-quiz\/[0-9a-f]{40}(?=[/?]|$)/i, '/learner-quiz/[redacted]');
 }
 
 type RequestLogContext = {

@@ -160,8 +160,15 @@ passphrases.**
 | SHIRA_LIBRARY_URL        | Full URL for Shira's public library (no trailing slash)                     | optional |
 | SHIRA_LIBRARY_IMAGES_URL        | Full URL for Shira's public library bucket (for validation purposes)                     | optional |
 | SELF_HOSTED              | When "true" disables payments                                               | optional |
-| ENABLE_PUBLIC_LIBRARY    | When "true" enables synchronization with the public library                 | optional |
+| ENABLE_PUBLIC_LIBRARY    | "true" to pull from and publish to the public library. Defaults to "false" when SELF_HOSTED is "true" | optional |
 | TRUST_DOWNSTREAM_PROXY   | Change to "true" if you're serving Shira behind your own reverse proxy      | optional |
+| TRUST_PROXY_HOPS         | Proxies in front of the API, "2" if behind your own reverse proxy. Default is 1  | optional |
+| QUIZ_RUN_START_LIMIT_PER_HOUR | Max quiz runs a single IP can start per hour. Default is 60            | optional |
+| QUIZ_IMPORT_MAX_QUESTIONS | Max questions in an imported quiz. Default is 100                          | optional |
+| QUESTION_IMPORT_MAX_EXPLANATIONS | Max explanations per imported question. Default is 50               | optional |
+| IMPORT_MAX_ZIP_ENTRIES   | Max files and folders in an import ZIP. Default is 5000                     | optional |
+| IMPORT_LIMIT_PER_HOUR    | Max quiz or question imports a single IP can run per hour. Default is 20    | optional |
+| LEARNER_QUIZ_LINK_TTL_DAYS | Days a learner quiz link stays valid after assignment. Default is 30      | optional |
 
 [container tag]: https://hub.docker.com/r/horizontalorg/shira-api
 

@@ -30,4 +30,7 @@ export class QuizRun {
 
   @Column({ name: 'finished_at', nullable: true })
   finishedAt?: Date | null;
+
+  @Column({ name: 'token_hash', type: 'varchar', length: 64, nullable: true, select: false })
+  tokenHash?: string | null;
 }
