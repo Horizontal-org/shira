@@ -5,12 +5,12 @@ import { deleteQuiz, signInAsUser } from './helpers';
 test('a user can create a quiz from the template library', async ({ page }) => {
   const quizName = `E2E template quiz ${Date.now()}`;
   let quizId: number | undefined;
-  const { template, templateQuestions } = await mockQuizTemplateLibrary(page);
+  const { template, templateQuestions, templateNotes } = await mockQuizTemplateLibrary(page);
 
   await signInAsUser(page);
 
   try {
-    // given: the library contains a quiz template with one question
+    // given: the library contains a quiz template with one question and one note
     await page.locator('#create-quiz-button').click();
     await page.locator('#create-quiz-from-template').click();
     await expect(page).toHaveURL(/\/quiz\/templates$/);
@@ -51,6 +51,12 @@ test('a user can create a quiz from the template library', async ({ page }) => {
         images: [],
         explanations: [],
       }],
+      notes: [{
+        name: templateNotes[0].name,
+        content: templateNotes[0].content,
+        position: templateNotes[0].position,
+        images: [],
+      }],
     });
 
     const response = await createResponse;
@@ -60,6 +66,7 @@ test('a user can create a quiz from the template library', async ({ page }) => {
     await expect(page).toHaveURL(new RegExp(`/quiz/${quizId}$`));
     await expect(page.locator('#quiz-title')).toHaveText(quizName);
     await expect(page.getByText(templateQuestions[0].questionName, { exact: true })).toBeVisible();
+    await expect(page.getByText(templateNotes[0].name, { exact: true })).toBeVisible();
   } finally {
     await deleteQuiz(page, quizId);
   }
@@ -88,6 +95,13 @@ const mockQuizTemplateLibrary = async (page: Page) => {
     explanations: [],
     images: [],
   }];
+  const templateNotes = [{
+    noteId: 6262,
+    name: 'Password reset warning signs',
+    content: '<p>Check the sender and destination before following a reset link.</p>',
+    position: 2,
+    images: [],
+  }];
 
   await page.route(`${E2E_URLS.library}/**`, async (route) => {
     const url = new URL(route.request().url());
@@ -110,6 +124,15 @@ const mockQuizTemplateLibrary = async (page: Page) => {
       return;
     }
 
+    if (url.pathname === `/quiz-templates/${template.id}/notes`) {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(templateNotes),
+      });
+      return;
+    }
+
     await route.fulfill({
       status: 404,
       contentType: 'application/json',
@@ -117,5 +140,5 @@ const mockQuizTemplateLibrary = async (page: Page) => {
     });
   });
 
-  return { template, templateQuestions };
+  return { template, templateQuestions, templateNotes };
 };
