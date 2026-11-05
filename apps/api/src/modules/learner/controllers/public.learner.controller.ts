@@ -1,4 +1,4 @@
-import { Controller, Inject, Param, Post } from '@nestjs/common';
+import { Controller, Get, Inject, Param, Post } from '@nestjs/common';
 import { TYPES } from '../interfaces';
 import { IInviteLearnerService } from '../interfaces/services/invite.learner.service.interface';
 import { GenericErrorException } from '../exceptions';
@@ -9,6 +9,16 @@ export class PublicLearnerController {
     @Inject(TYPES.services.IInviteLearnerService)
     private readonly inviteService: IInviteLearnerService
   ) { }
+
+  @Get('invitations/:token')
+  async preview(@Param('token') token: string) {
+    try {
+      const spaceName = await this.inviteService.preview(token);
+      return { spaceName };
+    } catch {
+      throw new GenericErrorException();
+    }
+  }
 
   @Post('invitations/:token/accept')
   async accept(@Param('token') token: string) {

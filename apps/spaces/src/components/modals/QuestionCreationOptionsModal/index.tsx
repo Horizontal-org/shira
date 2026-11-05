@@ -40,7 +40,11 @@ export const EntityCreationOptionsModal: FunctionComponent<Props> = ({
       <ModalContent>
         <Actions>
           {isPublicLibraryEnabled && (
-            <CreationActionCard tabIndex={1} onClick={() => { onAction('template') }}>
+            <CreationActionCard
+              id={`create-${entityType}-from-template`}
+              type="button"
+              onClick={() => { onAction('template') }}
+            >
               <IconWrapper>
                 <MdMenuBook size={20} />
               </IconWrapper>
@@ -54,7 +58,11 @@ export const EntityCreationOptionsModal: FunctionComponent<Props> = ({
               </TextContent>
             </CreationActionCard>
           )}
-          <CreationActionCard tabIndex={2} onClick={() => { onAction('scratch') }}>
+          <CreationActionCard
+            id={`create-${entityType}-from-scratch`}
+            type="button"
+            onClick={() => { onAction('scratch') }}
+          >
             <RenameIconWrapper>
               <RenameIcon />
             </RenameIconWrapper>
@@ -97,11 +105,16 @@ const Actions = styled.div`
   gap: 16px;
 `
 
-const CreationActionCard = styled.div`
+const CreationActionCard = styled.button`
+  width: 100%;
   cursor: pointer;
   padding: 20px;
   border: 1px solid ${props => props.theme.colors.dark.lightGrey};
   border-radius: 28px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: start;
   display: flex;
   gap: 16px;
 
