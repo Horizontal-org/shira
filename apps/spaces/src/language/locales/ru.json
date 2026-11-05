@@ -271,7 +271,7 @@
                 "subtitle": "Вот как вопрос будет выглядеть для учащихся, включая ваши пояснения.",
                 "show_explanations": "Показать пояснения",
                 "hide_explanations": "Скрыть пояснения",
-                "next_explanation": "Следующее пояснение",
+                "next_explanation": "Далее",
                 "previous_explanation": "Предыдущее пояснение",
                 "aria_label": "Предпросмотр вопроса",
                 "no_explanations": "Пояснений к этому вопросу нет."
