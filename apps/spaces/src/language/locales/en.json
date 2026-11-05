@@ -1008,8 +1008,8 @@
                 "subtitle": "Choose how you’d like to create your question.",
                 "template_title": "Use a template",
                 "template_subtitle": "Get started immediately by choosing from dozens of pre-built templates, available in multiple languages. ",
-                "scratch_title": "Start from scratch",
-                "scratch_subtitle": "Create the question yourself, with full control. You can even copy and paste a real-life phishing example.",
+                "scratch_title": "Build a question from scratch",
+                "scratch_subtitle": "Create the question yourself, with full control. You can even copy and paste real-life phishing examples and turn them into questions.",
                 "import_title": "Or import a question from a file",
                 "create_button": "Cancel"
             }
