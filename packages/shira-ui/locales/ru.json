@@ -18,7 +18,7 @@
         "attachments_many": "Прикрепленные файлы: {{count}}",
         "scanned_by_google": "Проверено на вирусы системой Gmail",
         "encryption": "Стандартное шифрование (TLS)",
-        "learn_more": "Подробнее…",
+        "learn_more": "Подробнее",
         "safer_with_google": "Safer with Google",
         "attachment_scanning_description": "To help protect your inbox, Gmail blocks attachments when malware is detected. You should still only download attachments from people you trust.",
         "add_to_drive": "Add to Drive",
