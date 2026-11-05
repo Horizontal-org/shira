@@ -2,10 +2,11 @@ import { FunctionComponent, memo } from "react";
 import { flexRender, Row } from "@tanstack/react-table";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { FiCopy, FiDownload, FiTrash2, FiUpload } from "react-icons/fi";
-import { defaultTheme, Td as SharedTd, Tr as SharedTr, styled } from "@horizontal-org/shira-ui";
+import { FiCopy, FiTrash2, FiUpload } from "react-icons/fi";
+import { defaultTheme, ExportIcon, Td as SharedTd, Tr as SharedTr, styled } from "@horizontal-org/shira-ui";
 import { QuizViewItem } from "../../../../store/slices/quiz";
 import { BaseActionsMenu } from "../Question/BaseActionsMenu";
+import { GoDuplicate } from "react-icons/go";
 
 interface Props {
   row: Row<QuizViewItem>;
@@ -125,7 +126,7 @@ const QuizItemTableDraggableRowComponent: FunctionComponent<Props> = ({
                 items={[
                   {
                     text: duplicateTooltip,
-                    icon: <FiCopy color={defaultTheme.colors.dark.darkGrey} />,
+                    icon: <GoDuplicate color={defaultTheme.colors.dark.darkGrey} size={16} />,
                     onClick: () => onDuplicateQuestion(questionId),
                   },
                   {
@@ -135,7 +136,7 @@ const QuizItemTableDraggableRowComponent: FunctionComponent<Props> = ({
                   },
                   {
                     text: exportTooltip,
-                    icon: <FiDownload color={defaultTheme.colors.dark.darkGrey} />,
+                    icon: <ExportIcon />,
                     onClick: () => onExportQuestion(questionId),
                   },
                   {
