@@ -180,7 +180,7 @@
                 "subtitle": "Votre question s'affichera ainsi pour les apprenants, accompagnée des explications que vous avez rédigées.",
                 "show_explanations": "Afficher les explications",
                 "hide_explanations": "Masquer les explications",
-                "next_explanation": "Explication suivante",
+                "next_explanation": "Suivant",
                 "previous_explanation": "Explication précédente",
                 "no_explanations": "Aucune explication n'est disponible pour cette question.",
                 "aria_label": "Aperçu de la question"
