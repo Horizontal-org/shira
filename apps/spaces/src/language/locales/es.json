@@ -202,7 +202,7 @@
                 "subtitle": "Así es como se mostrará tu pregunta a quienes estudian, incluyendo las explicaciones que has escrito.",
                 "show_explanations": "Mostrar explicaciones",
                 "hide_explanations": "Ocultar explicaciones",
-                "next_explanation": "Siguiente explicación",
+                "next_explanation": "Siguiente",
                 "previous_explanation": "Explicación anterior",
                 "no_explanations": "No hay explicaciones para esta pregunta.",
                 "aria_label": "Previsualizar pregunta"
