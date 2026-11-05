@@ -15,7 +15,7 @@
         "attachments_other": "{{count}} 个附件",
         "scanned_by_google": "已由 Gmail 扫描",
         "encryption": "标准加密 (TLS)",
-        "learn_more": "了解详情",
+        "learn_more": "了解更多",
         "mail": "邮件",
         "safer_with_google": "Safer with Google",
         "attachment_scanning_description": "To help protect your inbox, Gmail blocks attachments when malware is detected. You should still only download attachments from people you trust.",
@@ -26,13 +26,13 @@
     },
     "outlook": {
         "search": "搜索",
-        "home": "主页",
+        "home": "首页",
         "view": "查看",
         "help": "帮助",
         "new_mail": "新邮件",
         "undo": "撤消",
         "delete": "删除",
-        "archive": "存档",
+        "archive": "归档",
         "report": "报告",
         "move_to": "移至",
         "flag_unflag": "标记/取消标记",
@@ -146,7 +146,7 @@
         "summary": "{{start}}-{{end}} of {{total}}",
         "last": "最后一页",
         "first": "第一页",
-        "next": "下一个",
+        "next": "下一步",
         "back": "返回"
     },
     "telegram": {
@@ -180,7 +180,11 @@
         "today": "今天",
         "unread_count": "9",
         "registration_date": "Jun 2023",
-        "file_size": "24 KB"
+        "file_size": "24 KB",
+        "photo": "Photo",
+        "time": "1:03 PM",
+        "voice_message": "Voice message",
+        "voice_duration": "0:02"
     },
     "instagram": {
         "account_name": "你",
