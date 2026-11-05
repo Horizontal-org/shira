@@ -24,6 +24,7 @@ export interface DashboardCardActions {
   duplicate?: DashboardCardAction;
   copyUrl?: DashboardCardAction;
   submitAsTemplate?: DashboardCardAction;
+  export?: DashboardCardAction;
   delete?: DashboardCardAction;
 }
 
@@ -88,6 +89,11 @@ export const DashboardCard: FunctionComponent<DashboardCardProps> = ({
       text: actions.submitAsTemplate.label,
       onClick: actions.submitAsTemplate.onClick,
       icon: actions.submitAsTemplate.icon,
+    },
+    actions?.export && {
+      text: actions.export.label,
+      onClick: actions.export.onClick,
+      icon: actions.export.icon,
     },
     actions?.delete && {
       text: actions.delete.label,
