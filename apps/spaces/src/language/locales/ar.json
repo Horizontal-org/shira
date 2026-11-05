@@ -271,7 +271,7 @@
                 "subtitle": "هكذا سيظهر سؤالكم للمتعلمين، بما في ذلك التفسيرات التي وضعتم.",
                 "show_explanations": "إظهار التفسيرات",
                 "hide_explanations": "إخفاء التفسيرات",
-                "next_explanation": "التفسير التالي",
+                "next_explanation": "التالي",
                 "previous_explanation": "التفسير السابق",
                 "no_explanations": "لا توجد تفسيرات لهذا السؤال.",
                 "aria_label": "معاينة السؤال"
@@ -746,8 +746,8 @@
                     "up_to_three_custom_quizzes": "3 اختبارات مخصصة على الأكثر",
                     "cloud_on_premise": "سحابي ومحلي",
                     "available_upon_request": "متاح عند الطلب",
-                    "three_business_day_response_time": "مهلة الاستجابة خلال 3 أيام عمل",
-                    "one_business_day_response_time": "مهلة الاستجابة خلال يوم عمل واحد على الأكثر",
+                    "three_business_day_response_time": "Priority support",
+                    "one_business_day_response_time": "Dedicated enterprise support",
                     "unlimited_coming_soon": "Unlimited (coming soon)"
                 },
                 "title": "ماذا يتضمن؟",
