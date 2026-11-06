@@ -5,6 +5,7 @@ import { QuizImportValidationResult } from "../../services/validate-import.quiz.
 export interface ImportQuizParams {
   title: string
   questions: QuizImportValidationResult["questions"]
+  items?: QuizImportValidationResult["items"]
   space: SpaceEntity
   visibility: QuizVisibility
 }
