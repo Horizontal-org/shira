@@ -92,14 +92,35 @@ services:
     - "./templates:/etc/nginx/templates"
     depends_on:
     - "api"
+    - "library"
     ports:
     - '127.0.0.1:3000:80'
     environment:
       SPACES_DOMAIN: "${SPACES_DOMAIN}"
       QUIZ_DOMAIN: "${QUIZ_DOMAIN}"
-      ACME_HOST: "${SPACES_DOMAIN},${QUIZ_DOMAIN}"
-      VIRTUAL_HOST: "${SPACES_DOMAIN},${QUIZ_DOMAIN}"
-      VIRTUAL_PORT: "80"
+  library:
+    image: "horizontalorg/shira-library:main"
+    depends_on:
+    - "db"
+    ports:
+    - "127.0.0.1:3006:3006"
+    networks:
+    - "shira"
+    restart: "unless-stopped"
+    environment:
+      JWT_SECRET: "${JWT_SECRET}"
+      MYSQL_HOST: "${MYSQL_HOST:-db}"
+      MYSQL_DATABASE: "shira_library"
+      MYSQL_USER: "${MYSQL_USER:-shira_library}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      LIBRARY_IMAGE_ENDPOINT: "${IMAGE_ENDPOINT}"
+      LIBRARY_IMAGE_PORT: "${IMAGE_PORT:-3900}"
+      LIBRARY_IMAGE_BUCKET: "${LIBRARY_IMAGE_BUCKET:-shira-library}"
+      LIBRARY_IMAGE_ACCESS_KEY: "${LIBRARY_IMAGE_ACCESS_KEY}"
+      LIBRARY_IMAGE_SECRET_KEY: "${LIBRARY_IMAGE_SECRET_KEY}"
+      SUPERADMIN_URL: "${SUPERADMIN_URL}"
+      SPACE_URL: "${SPACE_URL}"
 networks:
   shira:
 volumes:
