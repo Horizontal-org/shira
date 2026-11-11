@@ -2,7 +2,22 @@
   <img src="apps/public/public/logo192.png" alt="Shira logo" width="120" />
 </p>
 
+[![Translation status](https://hosted.weblate.org/widget/shira/svg-badge.svg)](https://hosted.weblate.org/engage/shira/)
+
 # Shira
+
+Shira is an open-source platform for creating and taking phishing awareness quizzes, with realistic scenarios across email, SMS, messaging apps and social media.
+
+## Looking for help using Shira?
+
+This repository contains Shira's source code and is mainly aimed at developers and people self-hosting Shira.
+
+If you're looking for guides on how to use Shira (creating quizzes, managing learners, viewing results and more) visit the **[Shira Help Center](https://shira.app/help)**.
+
+You can also [try a ready-made quiz](https://quiz.shira.app) or [contact us](https://shira.app/contact).
+
+
+## About this repository
 
 Shira is a Turborepo monorepo with a NestJS API, a public-facing quiz app, an internal spaces app, and shared packages used across the workspace.
 
@@ -117,3 +132,11 @@ npm run typeorm -- migration:run -d ./src/utils/datasources/mysql.datasource.ts
 - [API](apps/api/README.md)
 - [Public](apps/public/README.md)
 - [Spaces](apps/spaces/README.md)
+
+
+## Translations
+
+Shira is translated by the community on [Weblate](https://hosted.weblate.org/projects/shira/). If you'd like to help make Shira available in your language, you can join and start translating there — no coding required. If you need any help, please [contact us!](https://shira.app/contact/)
+
+
+
