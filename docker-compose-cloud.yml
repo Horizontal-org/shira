@@ -108,7 +108,7 @@ services:
     depends_on:
     - "db"
     ports:
-    - "127.0.0.1:3006:3006"
+    - "127.0.0.1:3006:3000"
     networks:
     - "shira"
     restart: "unless-stopped"
@@ -129,7 +129,7 @@ services:
   payments:
     image: "horizontalorg/shira-payments:main"
     ports:
-    - "127.0.0.1:3005:3005"
+    - "127.0.0.1:3005:3000"
     networks:
     - "shira"
     depends_on:
@@ -137,7 +137,6 @@ services:
     restart: "unless-stopped"
     environment:
       TZ: "${TZ:-UTC}"
-      PORT: "3005"
       SUPERADMIN_URL: "${SUPERADMIN_URL}"
       JWT_SECRET: "${PAYMENTS_JWT_SECRET}"
       MYSQL_HOST: "${MYSQL_HOST:-db}"
