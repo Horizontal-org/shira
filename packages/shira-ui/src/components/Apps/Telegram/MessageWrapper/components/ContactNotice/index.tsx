@@ -135,14 +135,14 @@ const CardValue = styled.span`
 `
 
 const NotOfficial = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   font-size: 16px;
   color: #8e8e93;
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
     margin-top: 12px;
     font-size: 13px;
     color: rgba(255, 255, 255, 0.7);
@@ -150,11 +150,15 @@ const NotOfficial = styled.div`
 `
 
 const WarningIcon = styled.span`
-  display: none;
+  display: flex;
+
+  > svg {
+    width: 18px;
+    height: 18px;
+    color: #8e8e93;
+  }
 
   @media (max-width: ${props => props.theme.breakpoints.sm}) {
-    display: flex;
-
     > svg {
       width: 16px;
       height: 16px;
