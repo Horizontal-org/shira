@@ -25,6 +25,7 @@ services:
       ENABLE_PUBLIC_LIBRARY: "${ENABLE_PUBLIC_LIBRARY:-true}"
       SHIRA_LIBRARY_URL: "${SHIRA_LIBRARY_URL}"
       SHIRA_LIBRARY_IMAGES_URL: "${SHIRA_LIBRARY_IMAGES_URL}"
+      SHIRA_PAYMENTS_URL: "${SHIRA_PAYMENTS_URL:-http://payments:3005}"
       SMTP_GLOBAL_FROM: "${SMTP_GLOBAL_FROM}"
       SMTP_HOST: "${SMTP_HOST}"
       SMTP_PORT: "${SMTP_PORT}"
@@ -95,6 +96,7 @@ services:
     depends_on:
     - "api"
     - "library"
+    - "payments"
     ports:
     - '127.0.0.1:3000:80'
     environment:
@@ -124,6 +126,32 @@ services:
       LIBRARY_IMAGE_SECRET_KEY: "${LIBRARY_IMAGE_SECRET_KEY}"
       SUPERADMIN_URL: "${SUPERADMIN_URL}"
       SPACE_URL: "${SPACE_URL}"
+  payments:
+    image: "horizontalorg/shira-payments:main"
+    ports:
+    - "127.0.0.1:3005:3005"
+    networks:
+    - "shira"
+    depends_on:
+    - "db"
+    restart: "unless-stopped"
+    environment:
+      TZ: "${TZ:-UTC}"
+      SUPERADMIN_URL: "${SUPERADMIN_URL}"
+      JWT_SECRET: "${JWT_SECRET}"
+      MYSQL_HOST: "${MYSQL_HOST:-db}"
+      MYSQL_DATABASE: "shira_payments"
+      MYSQL_USER: "${MYSQL_USER:-shira_payments}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+      REDIS_HOST: "${REDIS_HOST:-redis}"
+      REDIS_PORT: "${REDIS_PORT:-6379}"
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
+      STRIPE_SECRET_KEY: "${STRIPE_SECRET_KEY}"
+      STRIPE_WEBHOOK_SECRET: "${STRIPE_WEBHOOK_SECRET}"
+      STRIPE_QUIZ_TAKEN_PRICE_ID: "${STRIPE_QUIZ_TAKEN_PRICE_ID}"
+      STRIPE_SHIRA_PRO_PRICE_ID: "${STRIPE_SHIRA_PRO_PRICE_ID}"
+      STRIPE_SUCCESS_URL: "${STRIPE_SUCCESS_URL}"
+      INTERNAL_SHIRA_API_KEY: "${INTERNAL_SHIRA_API_KEY}"
 networks:
   shira:
 volumes:
