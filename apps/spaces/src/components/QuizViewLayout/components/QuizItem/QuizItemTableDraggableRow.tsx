@@ -2,7 +2,7 @@ import { FunctionComponent, memo } from "react";
 import { flexRender, Row } from "@tanstack/react-table";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { FiCopy, FiTrash2, FiUpload } from "react-icons/fi";
+import { FiTrash2, FiUpload } from "react-icons/fi";
 import { defaultTheme, ExportIcon, Td as SharedTd, Tr as SharedTr, styled } from "@horizontal-org/shira-ui";
 import { QuizViewItem } from "../../../../store/slices/quiz";
 import { BaseActionsMenu } from "../Question/BaseActionsMenu";
@@ -101,7 +101,7 @@ const QuizItemTableDraggableRowComponent: FunctionComponent<Props> = ({
                   items={[
                     {
                       text: duplicateTooltip,
-                      icon: <FiCopy color={defaultTheme.colors.dark.darkGrey} />,
+                      icon: <GoDuplicate color={defaultTheme.colors.dark.darkGrey} size={16} />,
                       onClick: () => onDuplicateNote(item.entityId.toString()),
                     },
                     {
