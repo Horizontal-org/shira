@@ -1,0 +1,41 @@
+---
+name: "Deploy alpha"
+on:
+  workflow_run:
+    workflows:
+    - "Publish Docker image"
+    types:
+    - "completed"
+jobs:
+  deploy:
+    steps:
+    - name: "Deploy remotely"
+      uses: "appleboy/ssh-action@v1"
+      with:
+        host: "${{ secrets.ALPHA_HOST }}"
+        username: "${{ secrets.ALPHA_USERNAME }}"
+        key: "${{ secrets.ALPHA_KEY }}"
+        port: "${{ secrets.ALPHA_PORT }}"
+        script: "/home/shira/deploy.sh"
+    - uses: "mattermost/action-mattermost-notify@master"
+      if: "success()"
+      with:
+        MATTERMOST_WEBHOOK_URL: "${{ secrets.MATTERMOST_WEBHOOK_URL }}"
+        PAYLOAD: |-
+          {
+            "text": "Deployed alpha for ${{ github.repository }}",
+            "channel": "github-actions",
+            "username": "${{ github.triggering_actor }}",
+            "color": "#3f6a3a"
+          }
+    - uses: "mattermost/action-mattermost-notify@master"
+      if: "failure()"
+      with:
+        MATTERMOST_WEBHOOK_URL: "${{ secrets.MATTERMOST_WEBHOOK_URL }}"
+        PAYLOAD: |-
+          {
+            "text": "Deploy alpha failed ${{ github.repository }}\n\nhttps://github.com/Horizontal-org/shira/actions/runs/${{ github.run_id }}",
+            "channel": "github-actions",
+            "username": "${{ github.triggering_actor }}",
+            "color": "#ff0000"
+          }
