@@ -1,0 +1,106 @@
+---
+services:
+  api:
+    image: "horizontalorg/shira-api:${VERSION:-latest}"
+    restart: "unless-stopped"
+    environment:
+      JWT_SECRET: "${JWT_SECRET}"
+      MYSQL_HOST: "${MYSQL_HOST:-db}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE:-shira}"
+      MYSQL_USER: "${MYSQL_USER:-shira}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      REDIS_HOST: "${REDIS_HOST:-redis}"
+      REDIS_PORT: "${REDIS_PORT:-6379}"
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
+      IMAGE_ENDPOINT: "${IMAGE_ENDPOINT:-${IMAGES_DOMAIN}}"
+      IMAGE_PORT: "${IMAGE_PORT:-3900}"
+      IMAGE_BUCKET: "${IMAGE_BUCKET:-shira}"
+      IMAGE_ACCESS_KEY: "${IMAGE_ACCESS_KEY}"
+      IMAGE_SECRET_KEY: "${IMAGE_SECRET_KEY}"
+      PUBLIC_URL: "${PUBLIC_URL}"
+      SPACE_URL: "${SPACE_URL}"
+      SELF_HOSTED: "${SELF_HOSTED:-true}"
+      ENABLE_PUBLIC_LIBRARY: "${ENABLE_PUBLIC_LIBRARY:-true}"
+      SHIRA_LIBRARY_URL: "${SHIRA_LIBRARY_URL}"
+      SHIRA_LIBRARY_IMAGES_URL: "${SHIRA_LIBRARY_IMAGES_URL}"
+      SMTP_GLOBAL_FROM: "${SMTP_GLOBAL_FROM}"
+      SMTP_HOST: "${SMTP_HOST}"
+      SMTP_PORT: "${SMTP_PORT}"
+      SMTP_USER: "${SMTP_USER}"
+      SMTP_PASS: "${SMTP_PASS}"
+    depends_on:
+      db:
+        condition: "service_healthy"
+      redis:
+        condition: "service_healthy"
+    ports:
+    - '3000:3000'
+    networks:
+    - "shira"
+  db:
+    image: "mysql:5.7"
+    restart: "unless-stopped"
+    environment:
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+    volumes:
+    - "db-data:/var/lib/mysql"
+    networks:
+    - "shira"
+    healthcheck:
+      test:
+      - "CMD"
+      - "mysql"
+      - "--host=${MYSQL_HOST:-db}"
+      - "--user=$MYSQL_USER"
+      - "--password=$MYSQL_PASSWORD"
+      - "--execute=SHOW\ DATABASES;"
+      interval: "30s"
+      timeout: "10s"
+      retries: 10
+      start_period: "10s"
+  redis:
+    image: "bitnami/redis:latest"
+    restart: "unless-stopped"
+    environment:
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
+    networks:
+    - "shira"
+    volumes:
+    - "redis-data:/data"
+    healthcheck:
+      test:
+      - "CMD"
+      - "redis-cli"
+      - "-a"
+      - "$REDIS_PASSWORD"
+      - "--raw"
+      - "incr"
+      - "ping"
+      interval: "30s"
+      timeout: "10s"
+      retries: 10
+      start_period: "10s"
+  frontend:
+    image: "horizontalorg/shira-frontend:${VERSION:-latest}"
+    restart: "unless-stopped"
+    networks:
+    - "shira"
+    volumes:
+    - "./templates:/etc/nginx/templates"
+    depends_on:
+    - "api"
+    environment:
+      SPACES_DOMAIN: "${SPACES_DOMAIN}"
+      QUIZ_DOMAIN: "${QUIZ_DOMAIN}"
+      ACME_HOST: "${SPACES_DOMAIN},${QUIZ_DOMAIN}"
+      VIRTUAL_HOST: "${SPACES_DOMAIN},${QUIZ_DOMAIN}"
+      VIRTUAL_PORT: "80"
+networks:
+  shira:
+volumes:
+  db-data:
+  redis-data:
