@@ -106,7 +106,8 @@ services:
   library:
     image: "horizontalorg/shira-library:main"
     depends_on:
-    - "db"
+      db:
+        condition: "service_healthy"
     ports:
     - "127.0.0.1:3006:3000"
     networks:
@@ -133,7 +134,10 @@ services:
     networks:
     - "shira"
     depends_on:
-    - "db"
+      db:
+        condition: "service_healthy"
+      redis:
+        condition: "service_healthy"
     restart: "unless-stopped"
     environment:
       TZ: "${TZ:-UTC}"
