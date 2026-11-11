@@ -7,16 +7,12 @@ import {
   H2,
   Body1,
   Button,
-  RenameIcon,
   CopyUrlIcon,
-  DeleteIcon,
   Toggle,
   Body2Regular,
   defaultTheme,
   Body4,
-  GeneralTooltip,
-  IconButton
-} from "@horizontal-org/shira-ui";
+  GeneralTooltip} from "@horizontal-org/shira-ui";
 import { TabContainer } from './components/TabContainer'
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
@@ -32,7 +28,7 @@ import { getQuizResults, QuizResultsResponse } from "../../fetch/results";
 import { useTranslation } from "react-i18next";
 import { MdLockOutline } from "react-icons/md";
 import { TbWorld } from "react-icons/tb";
-import { FiCopy, FiUpload, FiMoreVertical } from "react-icons/fi";
+import { FiUpload } from "react-icons/fi";
 import { RenameQuizModal } from "../modals/RenameQuizModal";
 import { QuizVisibilityModal } from "../modals/QuizVisibilityModal";
 import { QuizNameModal } from "../modals/QuizNameModal";
@@ -44,6 +40,7 @@ import { DisplayNameModal } from "../modals/DisplayNameModal";
 import { useTemplateSubmission } from "../../hooks/useTemplateSubmission";
 import { MoreQuizOptions } from "./components/MoreQuizOptions";
 import { ExportEntityModal } from "../modals/ExportEntityModal";
+import { GoDuplicate } from "react-icons/go";
 
 interface Props { }
 
@@ -307,7 +304,7 @@ export const QuizViewLayout: FunctionComponent<Props> = () => {
                     >
                       <Button
                         id="duplicate-quiz-button"
-                        leftIcon={<FiCopy size={16} />}
+                        leftIcon={<GoDuplicate size={16} />}
                         text={t('quiz.actions.duplicate')}
                         type="outline"
                         disabled={!isSubActive && hasReachedLimit}
