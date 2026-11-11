@@ -35,8 +35,6 @@ services:
         condition: "service_healthy"
       redis:
         condition: "service_healthy"
-    ports:
-    - '3000:3000'
     networks:
     - "shira"
   db:
@@ -94,6 +92,8 @@ services:
     - "./templates:/etc/nginx/templates"
     depends_on:
     - "api"
+    ports:
+    - '3000:80'
     environment:
       SPACES_DOMAIN: "${SPACES_DOMAIN}"
       QUIZ_DOMAIN: "${QUIZ_DOMAIN}"
