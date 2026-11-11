@@ -93,7 +93,7 @@ services:
     depends_on:
     - "api"
     ports:
-    - '3000:80'
+    - '127.0.0.1:3000:80'
     environment:
       SPACES_DOMAIN: "${SPACES_DOMAIN}"
       QUIZ_DOMAIN: "${QUIZ_DOMAIN}"
