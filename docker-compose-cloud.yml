@@ -137,6 +137,7 @@ services:
     restart: "unless-stopped"
     environment:
       TZ: "${TZ:-UTC}"
+      PORT: "3005"
       SUPERADMIN_URL: "${SUPERADMIN_URL}"
       JWT_SECRET: "${PAYMENTS_JWT_SECRET}"
       MYSQL_HOST: "${MYSQL_HOST:-db}"
