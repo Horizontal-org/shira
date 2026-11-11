@@ -19,7 +19,7 @@
         "attachments_other": "",
         "scanned_by_google": "تم فحصها من قِبل Gmail",
         "encryption": "التشفير العادي (طبقة النقل الآمنة (TLS))",
-        "learn_more": "مزيد من المعلومات",
+        "learn_more": "التعرف على المزيد",
         "safer_with_google": "Safer with Google",
         "attachment_scanning_description": "To help protect your inbox, Gmail blocks attachments when malware is detected. You should still only download attachments from people you trust.",
         "add_to_drive": "Add to Drive",
@@ -31,13 +31,13 @@
     },
     "outlook": {
         "search": "بحث",
-        "home": "الصفحة الرئيسية",
+        "home": "الرئيسية",
         "view": "عرض",
-        "help": "التعليمات",
+        "help": "المساعدة",
         "new_mail": "بريد جديد",
         "undo": "تراجع",
         "delete": "حذف",
-        "archive": "أرشفة",
+        "archive": "الأرشيفات",
         "report": "إبلاغ",
         "move_to": "نقل إلى",
         "flag_unflag": "وضع / إزالة علامة",
@@ -185,7 +185,11 @@
         "today": "اليوم",
         "unread_count": "9",
         "registration_date": "Jun 2023",
-        "file_size": "24 KB"
+        "file_size": "24 KB",
+        "photo": "Photo",
+        "time": "1:03 PM",
+        "voice_message": "Voice message",
+        "voice_duration": "0:02"
     },
     "instagram": {
         "account_name": "You",

@@ -202,7 +202,7 @@
                 "subtitle": "Así es como se mostrará tu pregunta a quienes estudian, incluyendo las explicaciones que has escrito.",
                 "show_explanations": "Mostrar explicaciones",
                 "hide_explanations": "Ocultar explicaciones",
-                "next_explanation": "Siguiente explicación",
+                "next_explanation": "Siguiente",
                 "previous_explanation": "Explicación anterior",
                 "no_explanations": "No hay explicaciones para esta pregunta.",
                 "aria_label": "Previsualizar pregunta"
@@ -215,7 +215,8 @@
             "fix_errors": "Fix HTML errors before continuing.",
             "errors": {
                 "syntax": "Check the HTML near the highlighted position"
-            }
+            },
+            "explanation_tooltip": "Select text or place the cursor in an HTML tag to add an explanation."
         }
     },
     "question_library": {

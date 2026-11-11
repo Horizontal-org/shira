@@ -271,7 +271,7 @@
                 "subtitle": "Вот как вопрос будет выглядеть для учащихся, включая ваши пояснения.",
                 "show_explanations": "Показать пояснения",
                 "hide_explanations": "Скрыть пояснения",
-                "next_explanation": "Следующее пояснение",
+                "next_explanation": "Далее",
                 "previous_explanation": "Предыдущее пояснение",
                 "aria_label": "Предпросмотр вопроса",
                 "no_explanations": "Пояснений к этому вопросу нет."
@@ -284,7 +284,8 @@
             "fix_errors": "Fix HTML errors before continuing.",
             "errors": {
                 "syntax": "Check the HTML near the highlighted position"
-            }
+            },
+            "explanation_tooltip": "Select text or place the cursor in an HTML tag to add an explanation."
         }
     },
     "question_library": {
