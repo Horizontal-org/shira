@@ -1,0 +1,164 @@
+---
+services:
+  api:
+    image: "horizontalorg/shira-api:${VERSION:-latest}"
+    restart: "unless-stopped"
+    environment:
+      TZ: "${TZ:-UTC}"
+      JWT_SECRET: "${JWT_SECRET}"
+      MYSQL_HOST: "${MYSQL_HOST:-db}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE:-shira}"
+      MYSQL_USER: "${MYSQL_USER:-shira}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+      REDIS_HOST: "${REDIS_HOST:-redis}"
+      REDIS_PORT: "${REDIS_PORT:-6379}"
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
+      IMAGE_ENDPOINT: "${IMAGE_ENDPOINT:-${IMAGES_DOMAIN}}"
+      IMAGE_PORT: "${IMAGE_PORT:-3900}"
+      IMAGE_BUCKET: "${IMAGE_BUCKET:-shira}"
+      IMAGE_ACCESS_KEY: "${IMAGE_ACCESS_KEY}"
+      IMAGE_SECRET_KEY: "${IMAGE_SECRET_KEY}"
+      PUBLIC_URL: "${PUBLIC_URL}"
+      SPACE_URL: "${SPACE_URL}"
+      SELF_HOSTED: "false"
+      INTERNAL_SHIRA_API_KEY: "${INTERNAL_SHIRA_API_KEY}"
+      ENABLE_PUBLIC_LIBRARY: "${ENABLE_PUBLIC_LIBRARY:-true}"
+      SHIRA_LIBRARY_URL: "${SHIRA_LIBRARY_URL}"
+      SHIRA_LIBRARY_IMAGES_URL: "${SHIRA_LIBRARY_IMAGES_URL}"
+      SHIRA_PAYMENTS_URL: "${SHIRA_PAYMENTS_URL:-http://payments:3000}"
+      SMTP_GLOBAL_FROM: "${SMTP_GLOBAL_FROM}"
+      SMTP_HOST: "${SMTP_HOST}"
+      SMTP_PORT: "${SMTP_PORT}"
+      SMTP_USER: "${SMTP_USER}"
+      SMTP_PASS: "${SMTP_PASS}"
+    depends_on:
+      db:
+        condition: "service_healthy"
+      redis:
+        condition: "service_healthy"
+    networks:
+    - "shira"
+  db:
+    image: "mysql:5.7"
+    restart: "unless-stopped"
+    environment:
+      TZ: "${TZ:-UTC}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+    volumes:
+    - "db-data:/var/lib/mysql"
+    networks:
+    - "shira"
+    healthcheck:
+      test:
+      - "CMD"
+      - "mysql"
+      - "--host=${MYSQL_HOST:-db}"
+      - "--user=$MYSQL_USER"
+      - "--password=$MYSQL_PASSWORD"
+      - "--execute=SHOW\ DATABASES;"
+      interval: "30s"
+      timeout: "10s"
+      retries: 10
+      start_period: "10s"
+  redis:
+    image: "bitnami/redis:latest"
+    restart: "unless-stopped"
+    environment:
+      TZ: "${TZ:-UTC}"
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
+    networks:
+    - "shira"
+    volumes:
+    - "redis-data:/data"
+    healthcheck:
+      test:
+      - "CMD"
+      - "redis-cli"
+      - "-a"
+      - "$REDIS_PASSWORD"
+      - "--raw"
+      - "incr"
+      - "ping"
+      interval: "30s"
+      timeout: "10s"
+      retries: 10
+      start_period: "10s"
+  frontend:
+    image: "horizontalorg/shira-frontend:${VERSION:-latest}"
+    restart: "unless-stopped"
+    networks:
+    - "shira"
+    volumes:
+    - "./templates:/etc/nginx/templates"
+    depends_on:
+    - "api"
+    - "library"
+    - "payments"
+    ports:
+    - '127.0.0.1:3000:80'
+    environment:
+      TZ: "${TZ:-UTC}"
+      SPACES_DOMAIN: "${SPACES_DOMAIN}"
+      QUIZ_DOMAIN: "${QUIZ_DOMAIN}"
+  library:
+    image: "horizontalorg/shira-library:main"
+    depends_on:
+      db:
+        condition: "service_healthy"
+    ports:
+    - "127.0.0.1:3006:3000"
+    networks:
+    - "shira"
+    restart: "unless-stopped"
+    environment:
+      TZ: "${TZ:-UTC}"
+      JWT_SECRET: "${JWT_SECRET}"
+      MYSQL_HOST: "${MYSQL_HOST:-db}"
+      MYSQL_DATABASE: "shira_library"
+      MYSQL_USER: "${MYSQL_USER:-shira_library}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+      LIBRARY_IMAGE_ENDPOINT: "${LIBRARY_IMAGE_ENDPOINT}"
+      LIBRARY_IMAGE_PORT: "${IMAGE_PORT:-443}"
+      LIBRARY_IMAGE_BUCKET: "${LIBRARY_IMAGE_BUCKET:-shira-library}"
+      LIBRARY_IMAGE_ACCESS_KEY: "${LIBRARY_IMAGE_ACCESS_KEY}"
+      LIBRARY_IMAGE_SECRET_KEY: "${LIBRARY_IMAGE_SECRET_KEY}"
+      LIBRARY_IMAGE_USE_SSL: "true"
+      SUPERADMIN_URL: "${SUPERADMIN_URL}"
+      SPACE_URL: "${SPACE_URL}"
+  payments:
+    image: "horizontalorg/shira-payments:main"
+    ports:                                                                                                                             
+    - "127.0.0.1:3005:3000"
+    networks:
+    - "shira"
+    depends_on:
+      db:
+        condition: "service_healthy"
+      redis:
+        condition: "service_healthy"
+    restart: "unless-stopped"
+    environment:
+      TZ: "${TZ:-UTC}"
+      SUPERADMIN_URL: "${SUPERADMIN_URL}"
+      JWT_SECRET: "${JWT_SECRET}"
+      MYSQL_HOST: "${MYSQL_HOST:-db}"
+      MYSQL_DATABASE: "shira_payments"
+      MYSQL_USER: "${MYSQL_USER:-shira_payments}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+      REDIS_HOST: "${REDIS_HOST:-redis}"
+      REDIS_PORT: "${REDIS_PORT:-6379}"
+      REDIS_PASSWORD: "${REDIS_PASSWORD}"
+      STRIPE_SECRET_KEY: "${STRIPE_SECRET_KEY}"
+      STRIPE_WEBHOOK_SECRET: "${STRIPE_WEBHOOK_SECRET}"
+      STRIPE_QUIZ_TAKEN_PRICE_ID: "${STRIPE_QUIZ_TAKEN_PRICE_ID}"
+      STRIPE_SHIRA_PRO_PRICE_ID: "${STRIPE_SHIRA_PRO_PRICE_ID}"
+      STRIPE_SUCCESS_URL: "${STRIPE_SUCCESS_URL}"
+      INTERNAL_SHIRA_API_KEY: "${INTERNAL_SHIRA_API_KEY}"
+networks:
+  shira:
+volumes:
+  db-data:
+  redis-data:
