@@ -73,39 +73,6 @@ pipeline {
             }
         }
 
-        stage ('Deploy for alpha') {
-            when {
-                branch 'development'  
-            }
-            steps {
-              script {
-                
-                try {
-                  mattermostSend (
-                    color: "#2A42EE", 
-                    message: "Build STARTED FOR ALPHA: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
-                  )
-
-                  sh 'ssh -tt -o StrictHostKeyChecking=no root@alpha.space.shira.app "/home/shira/jenkins/alpha.sh"'
-
-                } catch (e) {
-                    currentBuild.result = "FAILURE"
-                } finally {
-                  if(currentBuild.result == "FAILURE") {
-                    mattermostSend (
-                      color: "danger", 
-                      message: "Build FAILED FOR ALPHA: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
-                    )
-                  } else {
-                    mattermostSend (
-                      color: "good", 
-                      message: "Build SUCCESS FOR ALPHA: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
-                    )
-                  }
-                }                
-              }
-            }
-        }
 
     }
 }
