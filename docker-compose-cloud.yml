@@ -115,7 +115,7 @@ services:
     restart: "unless-stopped"
     environment:
       TZ: "${TZ:-UTC}"
-      JWT_SECRET: "${LIBRARY_JWT_SECRET}"
+      JWT_SECRET: "${JWT_SECRET}"
       MYSQL_HOST: "${MYSQL_HOST:-db}"
       MYSQL_DATABASE: "shira_library"
       MYSQL_USER: "${MYSQL_USER:-shira_library}"
@@ -143,7 +143,7 @@ services:
     environment:
       TZ: "${TZ:-UTC}"
       SUPERADMIN_URL: "${SUPERADMIN_URL}"
-      JWT_SECRET: "${PAYMENTS_JWT_SECRET}"
+      JWT_SECRET: "${JWT_SECRET}"
       MYSQL_HOST: "${MYSQL_HOST:-db}"
       MYSQL_DATABASE: "shira_payments"
       MYSQL_USER: "${MYSQL_USER:-shira_payments}"
