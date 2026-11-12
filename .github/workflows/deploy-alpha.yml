@@ -6,8 +6,12 @@ on:
     - "Publish Docker image"
     types:
     - "completed"
+    branches:
+    - "development"
 jobs:
   deploy:
+    runs-on: "ubuntu-latest"
+    if: "github.event.workflow_run.conclusion == 'success'"
     steps:
     - name: "Deploy remotely"
       uses: "appleboy/ssh-action@v1"
