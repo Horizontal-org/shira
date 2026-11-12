@@ -1,5 +1,6 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import Recipient from './components/Recipient'
 import Message from './components/Message'
 import { MessagingImage } from './components/MessagingImage'
@@ -18,6 +19,7 @@ const MessageWrapper: FunctionComponent<Props> = ({
   senderName,
   content
 }) => {
+  const { t } = useTranslation('shira-ui')
   const components = content
     ? Array.from(content.querySelectorAll('[id*="component-"]')).sort((a, b) => parseInt(a.getAttribute('data-position') || '') - parseInt(b.getAttribute('data-position') || ''))
     : []
@@ -27,6 +29,10 @@ const MessageWrapper: FunctionComponent<Props> = ({
       <Recipient senderName={senderName} />
       <ContentWrapper>
         <MessagesList>
+          {components.length > 0 && (
+            <Timestamp>{t('instagram.time')}</Timestamp>
+          )}
+
           {components.map((e, index) => (
             <Row key={index}>
               <AvatarSlot>
@@ -90,6 +96,15 @@ const MessagesList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
+`
+
+const Timestamp = styled.div`
+  align-self: center;
+  margin-bottom: 20px;
+  color: #737373;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
 `
 
 const Row = styled.div`

@@ -202,7 +202,7 @@
                 "subtitle": "这是学员看到的题目效果，包含您填写的解析。",
                 "show_explanations": "显示解析",
                 "hide_explanations": "隐藏解析",
-                "next_explanation": "下一条解析",
+                "next_explanation": "下一步",
                 "previous_explanation": "上一条解析",
                 "no_explanations": "此题目暂无解析。",
                 "aria_label": "预览题目"
@@ -215,7 +215,8 @@
             "fix_errors": "Fix HTML errors before continuing.",
             "errors": {
                 "syntax": "Check the HTML near the highlighted position"
-            }
+            },
+            "explanation_tooltip": "Select text or place the cursor in an HTML tag to add an explanation."
         }
     },
     "question_library": {

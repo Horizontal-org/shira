@@ -163,9 +163,6 @@ const Arrow = styled.div`
 
 const OptionsContainer = styled.div`
   position: absolute;
-  top: 100%;
-  inset-inline-start: 0;
-  inset-inline-end: 0;
   margin-top: 4px;
   border: 2px solid ${props => props.theme.colors.green3};
   color: ${props => props.theme.colors.dark.darkGrey};
