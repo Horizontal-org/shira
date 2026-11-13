@@ -173,7 +173,8 @@
                     "subtitle": "Écrivez le message qui s'affichera."
                 },
                 "attachment_button": "Ajouter une pièce jointe",
-                "explanation_tooltip": "Sélectionnez un texte ou une image pour l'accompagner d'une explication."
+                "explanation_tooltip": "Sélectionnez un texte ou une image pour l'accompagner d'une explication.",
+                "explanation_attachment_tooltip": "Add an explanation for this attachment."
             },
             "preview": {
                 "tab_title": "Aperçu",
