@@ -56,8 +56,7 @@ const Recipient: FunctionComponent<Props> = ({ phone, showSenderInfo, onOpenSend
       {phone?.textContent && (
         <NoticeActions>
           <AddContact>
-            <DesktopOnly>{t('telegram.add_contact')}</DesktopOnly>
-            <MobileOnly>{t('telegram.add_to_contacts')}</MobileOnly>
+            {t('telegram.add_to_contacts')}
           </AddContact>
           <BlockUser>{t('telegram.block_user')}</BlockUser>
           <CloseWrapper>
