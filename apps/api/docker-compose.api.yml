@@ -31,6 +31,21 @@ services:
     networks:
       - shira-network
     restart: unless-stopped
+  staging:
+    container_name: shira-api-staging
+    image: shira-api-staging:1.0.0
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+    build:
+      context: .
+      target: production
+      dockerfile: ./Dockerfile.production
+    command: yarn start:prod
+    ports:
+      - '127.0.0.1:3000:3000'
+    networks:
+      - shira-network
+    restart: unless-stopped
 networks:
   shira-network:
     external: true
