@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useRef, useState } from "react"
+import { FunctionComponent, RefObject, useEffect, useRef, useState } from "react"
 import styled from 'styled-components';
 import './styles.css'
 
@@ -9,18 +9,25 @@ interface Props {
   explanation: Explanation
   explanationNumber?: number
   showExplanations?: boolean
+  referenceRoot?: RefObject<HTMLElement>
 }
 
 const ExplanationTooltip: FunctionComponent<Props> = ({
   explanation,
   explanationNumber,
   showExplanations,
+  referenceRoot,
 }) => {
 
   const arrowRef = useRef(null);
 
   const referenceElementRef = useRef<HTMLElement | null>(null);
   const [boundary, setBoundary] = useState<HTMLElement | null>(null);
+  const getReference = (index: string | number | undefined) =>
+    (referenceRoot?.current ?? document).querySelector(`[data-explanation="${index}"]`) as HTMLElement | null;
+
+  const getExplanations = () =>
+    (referenceRoot?.current ?? document).querySelectorAll('[data-explanation]') as NodeListOf<HTMLElement>;
 
   const isUrl = (text: string) => {
     if (!text || text.length === 0) return false;
@@ -59,24 +66,24 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
   });
 
   useEffect(() => {
-    const referenceElement = document.querySelector(`[data-explanation="${explanation.index}"]`) as HTMLElement;
+    const referenceElement = getReference(explanation.index);
     referenceElementRef.current = referenceElement;
     refs.setReference(referenceElement);
     const phoneBoundary = referenceElement?.closest('[data-explanation-boundary]');
     setBoundary(phoneBoundary instanceof HTMLElement ? phoneBoundary : null);
-  }, [explanation.index]);
+  }, [explanation.index, referenceRoot]);
 
   useEffect(() => {
-    const referenceElement = document.querySelector(`[data-explanation="${explanation.index}"]`) as HTMLElement;
+    const referenceElement = getReference(explanation.index);
 
     if (showExplanations && parseInt(explanation.index) === explanationNumber) {
       referenceElement?.scrollIntoView?.({ behavior: 'smooth' })
     }
-  }, [explanationNumber, showExplanations, explanation.index])
+  }, [explanationNumber, showExplanations, explanation.index, referenceRoot])
 
   useEffect(() => {
-    const references = document.querySelectorAll(`[data-explanation="${explanationNumber}"]`) as NodeListOf<HTMLElement>
-    const explanations = document.querySelectorAll(`[data-explanation]`) as NodeListOf<HTMLElement>
+    const references = (referenceRoot?.current ?? document).querySelectorAll(`[data-explanation="${explanationNumber}"]`) as NodeListOf<HTMLElement>
+    const explanations = getExplanations()
     let parentDiv: HTMLElement | null = null
 
     // here we should remove the background color from all the explanations
@@ -106,7 +113,7 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
 
     // recheck ref position since images take a second to load
     update && update()
-  }, [explanationNumber, showExplanations])
+  }, [explanationNumber, showExplanations, referenceRoot, update])
 
   return (
     <Wrapper

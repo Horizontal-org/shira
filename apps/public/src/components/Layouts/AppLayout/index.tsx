@@ -76,4 +76,5 @@ const Overlay = styled.div`
   height: calc(100vh - 86px);
   width: 100%;
   background: rgba(0,0,0,0.5);
+  pointer-events: none;
 `;
