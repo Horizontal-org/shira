@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useRef } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 
 import Sidebar from './Sidebar'
@@ -27,19 +27,22 @@ export const Telegram: FunctionComponent<Props> = ({
   showExplanations
 }) => {
   const { isOpen: showSenderInfo, open, close } = useContactInfo(showExplanations)
+  const appRoot = useRef<HTMLDivElement>(null)
 
   return (
-    <Wrapper className="telegram">
+    <Wrapper ref={appRoot} className="telegram">
       {explanations && explanations.map(explanation => (
         <ExplanationTooltip
+          key={explanation.index}
           explanation={explanation}
           explanationNumber={explanationNumber}
           showExplanations={showExplanations}
+          referenceRoot={appRoot}
         />
       ))}
       <Font />
 
-      <Content>
+      <Content data-explanation-boundary>
         <Sidebar phone={phone} content={content} />
         <MessageWrapper
           content={content}
