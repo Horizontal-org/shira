@@ -2,7 +2,8 @@ import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { Sidebar, styled, H2, SubHeading3, Body1, EmptyState, FilterButton, useAdminSidebar, DashboardCard, ExportIcon } from "@horizontal-org/shira-ui";
 import { IoLinkOutline } from "react-icons/io5";
-import { MdDelete, MdModeEdit, MdOutlineContentCopy } from "react-icons/md";
+import { MdDelete, MdModeEdit } from "react-icons/md";
+import { GoDuplicate } from "react-icons/go";
 import { FiUpload } from "react-icons/fi";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
@@ -378,7 +379,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                         },
                         duplicate: {
                           label: t('quizzes.actions.duplicate'),
-                          icon: <MdOutlineContentCopy />,
+                          icon: <GoDuplicate />,
                           onClick: () => {
                             startDuplicateQuizFlow(card);
                           },
