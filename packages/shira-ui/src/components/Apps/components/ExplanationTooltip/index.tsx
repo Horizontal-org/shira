@@ -82,6 +82,8 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
     // here we should remove the background color from all the explanations
     explanations.forEach(e => {
       e.style.zIndex = '0'
+      e.style.background = "transparent"
+
       parentDiv = e.parentElement as HTMLElement;
       if (parentDiv) {
         parentDiv.style.zIndex = '0';
@@ -94,6 +96,7 @@ const ExplanationTooltip: FunctionComponent<Props> = ({
         parentDiv = reference.parentElement as HTMLElement;
         reference.style.zIndex = '4';
         reference.style.position = 'relative';
+        reference.style.background = "white"
 
         if (parentDiv) {
           parentDiv.style.zIndex = '4';

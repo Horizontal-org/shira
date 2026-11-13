@@ -195,7 +195,8 @@
                     "subtitle": "En el cuestionario, este enlace aparecerá cliqueable, pero por motivos de seguridad, hacer clic en él no abrirá la URL.",
                     "placeholder": "Enlace URL"
                 },
-                "explanation_tooltip": "Selecciona algún texto o imagen para añadir una explicación."
+                "explanation_tooltip": "Selecciona algún texto o imagen para añadir una explicación.",
+                "explanation_attachment_tooltip": "Add an explanation for this attachment."
             },
             "preview": {
                 "tab_title": "Previsualizar",

@@ -251,7 +251,8 @@
                     "edit_title": "Edit Link",
                     "subtitle": "In the quiz, this link will appear clickable, but for safety reasons, clicking on it will not open the URL.",
                     "placeholder": "Link URL"
-                }
+                },
+                "explanation_attachment_tooltip": "Add an explanation for this attachment."
             },
             "preview": {
                 "tab_title": "Preview",
