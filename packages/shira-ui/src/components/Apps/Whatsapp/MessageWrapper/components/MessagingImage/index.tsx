@@ -39,10 +39,12 @@ const Wrapper = styled.div`
 `
 
 const Content = styled.div`
+  max-width: 100%;
   max-height: 400px;
   
   img {
     display: block;
+    width: auto;
     max-width: 100%;
     max-height: 400px;
     min-width: 50px;

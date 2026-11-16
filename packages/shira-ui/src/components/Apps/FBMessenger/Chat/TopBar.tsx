@@ -37,12 +37,19 @@ const TopBar: FunctionComponent<Props> = ({
             <BackIcon />
           </BackIconWrapper>
         )}
-        <ProfilePicture />
-        <Name>
-          <span data-explanation={fullname.explanationPosition}>
-            {fullname.textContent}
-          </span>
-        </Name>
+        <ContactButton
+          type="button"
+          onClick={onInfoClick}
+          aria-label={t("messenger.conversation_details")}
+          aria-expanded={isConversationSidebarOpen}
+        >
+          <ProfilePicture />
+          <Name>
+            <span data-explanation={fullname.explanationPosition}>
+              {fullname.textContent}
+            </span>
+          </Name>
+        </ContactButton>
       </UserInfo>
       <FlexWrapper>
         <IconWrapper>
@@ -88,6 +95,25 @@ const UserInfo = styled.div`
 
   display: flex;
   align-items: center;
+`;
+
+const ContactButton = styled.button`
+  appearance: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  display: flex;
+  align-items: center;
+  text-align: start;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid #1877f2;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
 `;
 
 const BackIconWrapper = styled.div`

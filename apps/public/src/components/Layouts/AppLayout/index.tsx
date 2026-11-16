@@ -64,7 +64,9 @@ export const AppLayout: FunctionComponent<Props> = ({
 const Wrapper = styled.div<{ $isPhoneFrame: boolean; $isMessenger: boolean }>`
   height: calc(100vh - 86px);
   max-height: calc(100vh - 86px);
-  overflow-y: scroll;
+  overflow: auto;
+  touch-action: pan-x pan-y;
+  -webkit-overflow-scrolling: touch;
   background: ${props => props.$isMessenger ? '#fff' : props.theme.colors.light.paleGreen};
 `;
 
