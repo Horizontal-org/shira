@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import { useTranslation } from "react-i18next";
-import { FiChevronDown, FiSearch } from "react-icons/fi";
+import { FiArrowLeft, FiChevronDown, FiSearch } from "react-icons/fi";
 import { IoNotifications } from "react-icons/io5";
 import { MdAccountCircle } from "react-icons/md";
 import styled from "styled-components";
@@ -12,13 +12,24 @@ interface Props {
     textContent: string;
     explanationPosition: string;
   };
+  onClose: () => void;
 }
 
-const ConversationSidebar: FunctionComponent<Props> = ({ fullname }) => {
+const ConversationSidebar: FunctionComponent<Props> = ({ fullname, onClose }) => {
   const { t } = useTranslation("shira-ui");
 
   return (
     <Wrapper aria-label={t("messenger.conversation_details")}>
+      <MobileHeader>
+        <MobileCloseButton
+          type="button"
+          onClick={onClose}
+          aria-label={t("messenger.conversation_details")}
+        >
+          <FiArrowLeft />
+        </MobileCloseButton>
+        <MobileTitle>{t("messenger.conversation_details")}</MobileTitle>
+      </MobileHeader>
       <Profile>
         <ProfilePicture imageSize="72px" />
         <Name data-explanation={fullname.explanationPosition}>
@@ -84,8 +95,46 @@ const Wrapper = styled.aside`
   text-align: center;
 
   @media (max-width: ${(props) => props.theme.breakpoints.md}) {
-    display: none;
+    position: absolute;
+    z-index: 10;
+    inset: 0;
+    width: 100%;
+    padding: 0 16px 28px;
+    box-sizing: border-box;
   }
+`;
+
+const MobileHeader = styled.header`
+  display: none;
+
+  @media (max-width: ${(props) => props.theme.breakpoints.md}) {
+    display: flex;
+    height: 56px;
+    align-items: center;
+    gap: 12px;
+    margin: 0 -16px 24px;
+    padding: 0 12px;
+    border-block-end: 1px solid #e4e6eb;
+  }
+`;
+
+const MobileCloseButton = styled.button`
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #050505;
+  font-size: 24px;
+  cursor: pointer;
+`;
+
+const MobileTitle = styled.h2`
+  margin: 0;
+  font-size: 17px;
 `;
 
 const Profile = styled.div`
