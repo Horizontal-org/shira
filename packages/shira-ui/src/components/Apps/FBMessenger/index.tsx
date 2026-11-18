@@ -50,7 +50,7 @@ export const FBMessenger: FunctionComponent<Props> = ({
           onInfoClick={toggle}
         />
         {isOpen && (
-          <ConversationSidebar fullname={senderName} />
+          <ConversationSidebar fullname={senderName} onClose={toggle} />
         )}
       </Content>
     </DesktopWrapper>
@@ -58,6 +58,7 @@ export const FBMessenger: FunctionComponent<Props> = ({
 };
 
 const DesktopWrapper = styled.div`
+  position: relative;
   width: 100%;
   height: 100%;
   font-family:

@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import styled, { useTheme } from "styled-components";
+import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 import { IoIosInformationCircle } from "react-icons/io";
 
@@ -7,7 +7,6 @@ import CallIcon from "./assets/call.png";
 import PhoneIcon from "./assets/video.png";
 import BackIcon from "./BackIcon";
 import ProfilePicture from "../../Whatsapp/ProfilePicture";
-import useGetWidth from "../../hooks/useGetWidth";
 
 interface Props {
   fullname: {
@@ -22,21 +21,13 @@ const TopBar: FunctionComponent<Props> = ({
   isConversationSidebarOpen,
   onInfoClick,
 }) => {
-  const { width } = useGetWidth();
   const { t } = useTranslation("shira-ui");
-  const theme = useTheme();
-  const conversationSidebarBreakpoint = Number.parseInt(
-    theme.breakpoints.md,
-    10,
-  );
   return (
     <Wrapper>
       <UserInfo>
-        {width < 490 && (
-          <BackIconWrapper>
-            <BackIcon />
-          </BackIconWrapper>
-        )}
+        <BackIconWrapper>
+          <BackIcon />
+        </BackIconWrapper>
         <ContactButton
           type="button"
           onClick={onInfoClick}
@@ -60,20 +51,18 @@ const TopBar: FunctionComponent<Props> = ({
           <Icon icon={PhoneIcon} size="26" />
         </IconWrapper>
 
-        {width > conversationSidebarBreakpoint && (
-          <InfoButton
-            type="button"
-            onClick={onInfoClick}
-            aria-label={t("messenger.conversation_details")}
-            aria-expanded={isConversationSidebarOpen}
-          >
-            <IoIosInformationCircle
-              size={26}
-              color="#a300e6"
-              aria-hidden="true"
-            />
-          </InfoButton>
-        )}
+        <InfoButton
+          type="button"
+          onClick={onInfoClick}
+          aria-label={t("messenger.conversation_details")}
+          aria-expanded={isConversationSidebarOpen}
+        >
+          <IoIosInformationCircle
+            size={26}
+            color="#a300e6"
+            aria-hidden="true"
+          />
+        </InfoButton>
       </FlexWrapper>
     </Wrapper>
   );
@@ -118,6 +107,10 @@ const ContactButton = styled.button`
 
 const BackIconWrapper = styled.div`
   padding: 0 16px;
+
+  @media (min-width: 490px) {
+    display: none;
+  }
 `;
 
 const Name = styled.div`
