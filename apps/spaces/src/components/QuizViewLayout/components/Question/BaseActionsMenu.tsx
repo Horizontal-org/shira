@@ -1,6 +1,6 @@
 import { FunctionComponent, ReactElement, useEffect, useRef, useState } from "react";
 import { FiMoreVertical } from "react-icons/fi";
-import { defaultTheme, EditIcon, styled } from "@horizontal-org/shira-ui";
+import { defaultTheme, EditIcon, styled, useFloatingMenuPlacement } from "@horizontal-org/shira-ui";
 import { useTranslation } from "react-i18next";
 
 export interface ActionMenuItem {
@@ -25,6 +25,13 @@ export const BaseActionsMenu: FunctionComponent<Props> = ({
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const actionButtonRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const menuPlacement = useFloatingMenuPlacement({
+    isOpen,
+    anchorEl: actionButtonRef.current,
+    floatingRef: menuRef,
+  });
 
   useEffect(() => {
     if (disabled) {
@@ -74,6 +81,7 @@ export const BaseActionsMenu: FunctionComponent<Props> = ({
       </EditButton>
 
       <ActionButton
+        ref={actionButtonRef}
         type="button"
         title={t("questions_tab.action_tooltips.more_actions")}
         aria-label={t("questions_tab.action_tooltips.more_actions")}
@@ -87,7 +95,7 @@ export const BaseActionsMenu: FunctionComponent<Props> = ({
       </ActionButton>
 
       {isOpen && (
-        <MenuPopup>
+        <MenuPopup ref={menuRef} $placement={menuPlacement}>
           {items.map((item) => (
             <MenuItem
               key={item.text}
@@ -144,9 +152,11 @@ const EditButton = styled(ActionButton)`
   color: ${defaultTheme.colors.green7};
 `;
 
-const MenuPopup = styled.div`
+const MenuPopup = styled.div<{ $placement: "top" | "bottom" }>`
   position: absolute;
-  top: calc(100% + 8px);
+  ${({ $placement }) => $placement === "top"
+    ? "bottom: calc(100% + 8px);"
+    : "top: calc(100% + 8px);"}
   inset-inline-end: 0;
   width: 200px;
   z-index: 20;
