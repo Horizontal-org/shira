@@ -1,6 +1,7 @@
 import { FunctionComponent, useEffect, useRef, useState, useLayoutEffect, cloneElement, ReactElement } from 'react';
 import { styled } from 'styled-components';
 import { createPortal } from 'react-dom';
+import { useFloatingMenuPlacement } from '../../hooks/useFloatingMenuPlacement';
 
 interface MenuElement {
   onClick: React.MouseEventHandler<HTMLButtonElement> | undefined;
@@ -27,6 +28,11 @@ export const BaseFloatingMenu: FunctionComponent<BaseFloatingMenuProps> = ({
   const menuRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(null);
+  const placement = useFloatingMenuPlacement({
+    isOpen,
+    anchorEl,
+    floatingRef: menuRef,
+  });
 
   useEffect(() => {
     // Force close menu if anchor element is removed from DOM or no longer exists
@@ -78,8 +84,11 @@ export const BaseFloatingMenu: FunctionComponent<BaseFloatingMenuProps> = ({
       const updatePosition = () => {
         const rect = anchorEl.getBoundingClientRect();
         const menuWidth = width ?? menuRef.current?.offsetWidth ?? 0;
+        const menuHeight = menuRef.current?.offsetHeight ?? 0;
 
-        let top = rect.bottom + window.scrollY + 8;
+        const top = placement === 'top'
+          ? rect.top + window.scrollY - menuHeight - 8
+          : rect.bottom + window.scrollY + 8;
         let left = rect.left + window.scrollX;
 
         if (left + menuWidth > window.innerWidth) {
@@ -99,7 +108,7 @@ export const BaseFloatingMenu: FunctionComponent<BaseFloatingMenuProps> = ({
         window.removeEventListener('resize', updatePosition);
       };
     }
-  }, [isOpen, anchorEl, width]);
+  }, [isOpen, anchorEl, placement, width]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent | Event) {

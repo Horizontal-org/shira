@@ -251,7 +251,8 @@
                     "edit_title": "Edit Link",
                     "subtitle": "In the quiz, this link will appear clickable, but for safety reasons, clicking on it will not open the URL.",
                     "placeholder": "Link URL"
-                }
+                },
+                "explanation_attachment_tooltip": "Add an explanation for this attachment."
             },
             "preview": {
                 "tab_title": "پیش‌نمایش",
@@ -271,7 +272,8 @@
             "fix_errors": "Fix HTML errors before continuing.",
             "errors": {
                 "syntax": "Check the HTML near the highlighted position"
-            }
+            },
+            "explanation_tooltip": "Select text or place the cursor in an HTML tag to add an explanation."
         }
     },
     "question_library": {

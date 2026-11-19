@@ -42,6 +42,7 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
     activeQuestion,
     updateActiveQuestion,
     updateActiveQuestionApp,
+    removeEmptyMessagingItems,
     clearActiveQuestion,
     clearExplanations,
     explanations
@@ -51,6 +52,7 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
     activeQuestion: state.activeQuestion,
     updateActiveQuestion: state.updateActiveQuestion,
     updateActiveQuestionApp: state.updateActiveQuestionApp,
+    removeEmptyMessagingItems: state.removeEmptyMessagingItems,
     clearActiveQuestion: state.clearActiveQuestion,
     clearExplanations: state.clearExplanations,
     explanations: state.explanations
@@ -128,6 +130,8 @@ export const QuestionFlowManagement: FunctionComponent<Props> = ({
             return
           }
           if (step === 1) {
+            removeEmptyMessagingItems()
+
             if (explanations.length === 0) {
               setNoExplanationsModalOpen(true)
               return

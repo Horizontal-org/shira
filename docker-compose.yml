@@ -4,12 +4,12 @@ services:
     image: "horizontalorg/shira-api:${VERSION:-latest}"
     restart: "unless-stopped"
     environment:
+      TZ: "${TZ:-UTC}"
       JWT_SECRET: "${JWT_SECRET}"
       MYSQL_HOST: "${MYSQL_HOST:-db}"
       MYSQL_DATABASE: "${MYSQL_DATABASE:-shira}"
       MYSQL_USER: "${MYSQL_USER:-shira}"
       MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
-      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
       REDIS_HOST: "${REDIS_HOST:-redis}"
       REDIS_PORT: "${REDIS_PORT:-6379}"
       REDIS_PASSWORD: "${REDIS_PASSWORD}"
@@ -36,14 +36,13 @@ services:
         condition: "service_healthy"
       images:
         condition: "service_healthy"
-    ports:
-    - '3000:3000'
     networks:
     - "shira"
   db:
     image: "mysql:5.7"
     restart: "unless-stopped"
     environment:
+      TZ: "${TZ:-UTC}"
       MYSQL_DATABASE: "${MYSQL_DATABASE}"
       MYSQL_USER: "${MYSQL_USER}"
       MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
@@ -68,6 +67,7 @@ services:
     image: "bitnami/redis:latest"
     restart: "unless-stopped"
     environment:
+      TZ: "${TZ:-UTC}"
       REDIS_PASSWORD: "${REDIS_PASSWORD}"
     networks:
     - "shira"
@@ -104,6 +104,7 @@ services:
       retries: 10
       start_period: "10s"
     environment:
+      TZ: "${TZ:-UTC}"
       GARAGE_RPC_SECRET: "${GARAGE_RPC_SECRET}"
       ACME_HOST: "${IMAGES_DOMAIN}"
       VIRTUAL_HOST: "${IMAGES_DOMAIN}"
@@ -118,6 +119,7 @@ services:
     depends_on:
     - "api"
     environment:
+      TZ: "${TZ:-UTC}"
       SPACES_DOMAIN: "${SPACES_DOMAIN}"
       QUIZ_DOMAIN: "${QUIZ_DOMAIN}"
       ACME_HOST: "${SPACES_DOMAIN},${QUIZ_DOMAIN}"
@@ -138,6 +140,7 @@ services:
     - "80:80"
     - "443:443"
     environment:
+      TZ: "${TZ:-UTC}"
       TRUST_DOWNSTREAM_PROXY: "${TRUST_DOWNSTREAM_PROXY:-false}"
   letsencrypt:
     image: "nginxproxy/acme-companion:2.8.2"
@@ -153,6 +156,7 @@ services:
     networks:
     - "shira"
     environment:
+      TZ: "${TZ:-UTC}"
       NGINX_PROXY_CONTAINER: "nginx"
       DEFAULT_EMAIL: "${SMTP_GLOBAL_FROM}"
 networks:

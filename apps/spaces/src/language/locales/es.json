@@ -195,14 +195,15 @@
                     "subtitle": "En el cuestionario, este enlace aparecerá cliqueable, pero por motivos de seguridad, hacer clic en él no abrirá la URL.",
                     "placeholder": "Enlace URL"
                 },
-                "explanation_tooltip": "Selecciona algún texto o imagen para añadir una explicación."
+                "explanation_tooltip": "Selecciona algún texto o imagen para añadir una explicación.",
+                "explanation_attachment_tooltip": "Add an explanation for this attachment."
             },
             "preview": {
                 "tab_title": "Previsualizar",
                 "subtitle": "Así es como se mostrará tu pregunta a quienes estudian, incluyendo las explicaciones que has escrito.",
                 "show_explanations": "Mostrar explicaciones",
                 "hide_explanations": "Ocultar explicaciones",
-                "next_explanation": "Siguiente explicación",
+                "next_explanation": "Siguiente",
                 "previous_explanation": "Explicación anterior",
                 "no_explanations": "No hay explicaciones para esta pregunta.",
                 "aria_label": "Previsualizar pregunta"
@@ -215,7 +216,8 @@
             "fix_errors": "Fix HTML errors before continuing.",
             "errors": {
                 "syntax": "Check the HTML near the highlighted position"
-            }
+            },
+            "explanation_tooltip": "Select text or place the cursor in an HTML tag to add an explanation."
         }
     },
     "question_library": {
@@ -908,7 +910,7 @@
         "message": "",
         "title": "Estudiantes",
         "subtitle": "Gestiona quienes pueden completar los cuestionarios privados que creas.",
-        "empty_state": "No hay estudiantes con registro en tu espacio aún. Invita a una persona estudiante para comenzar.",
+        "empty_state": "No hay estudiantes con registro en tu espacio aún. Invita a alguien para comenzar.",
         "table": {
             "learner": "Estudiante",
             "registration": "Registro",
@@ -921,7 +923,7 @@
         },
         "assign_dialog": {
             "registered_title": "Estudiantes con registro",
-            "registered_description": "Selecciona una o más estudiantes para asignarles este cuestionario.",
+            "registered_description": "Selecciona 1 o más estudiantes para asignarles este cuestionario.",
             "registered_description_2": "Puedes gestionar personas estudiantes con registro e invitar nuevas en la <0>sección Estudiantes</0>.",
             "assign_button": "Asignar a estudiantes",
             "assign_title": "Asignar \"{{quiz_title}}\" a estudiantes",
@@ -1206,7 +1208,7 @@
             "review_notice": "The Shira team carefully reviews every submission. If your template is accepted, it will appear in the template library. <learnMore>Learn More</learnMore>.",
             "language_placeholder": "Idioma",
             "tags_hint": "Select the tags that best describe the content of this template.",
-            "description_placeholder": "Description"
+            "description_placeholder": "Descripción"
         },
         "submit_question": {
             "tags": "Etiquetas",
@@ -1274,7 +1276,7 @@
         "my_submissions": "My submissions"
     },
     "languages": {
-        "ar": "Arabic",
+        "ar": "Árabe",
         "es": "Español",
         "cn": "Chino simplificado",
         "ru": "Ruso",

@@ -245,6 +245,7 @@
                 "message_explanations": "explanations",
                 "explanation_content_placeholder": "New explanation",
                 "explanation_tooltip": "Select some text to add an explanation.",
+                "explanation_attachment_tooltip": "Add an explanation for this attachment.",
                 "sender": {
                     "title": "Sender name",
                     "subtitle": "This is the name that will be displayed in the \"Sender\" field of the email.",

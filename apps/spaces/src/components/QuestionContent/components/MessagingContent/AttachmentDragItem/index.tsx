@@ -47,10 +47,10 @@ export const AttachmentDragItem: FunctionComponent<Props> = ({
           enabled={true}
           show={showExplanationButtonTooltip}
           setShow={setShowExplanationButtonTooltip}
-          label={t('create_question.tabs.content.explanation_tooltip')}
+          label={t('create_question.tabs.content.explanation_attachment_tooltip')}
         >
           <ExplanationButton
-            isText={true}
+            isText={false}
             hasExplanation={Boolean(explanationId)}
             active={selectedExplanation && selectedExplanation + '' == explanationId}
             disabled={false}

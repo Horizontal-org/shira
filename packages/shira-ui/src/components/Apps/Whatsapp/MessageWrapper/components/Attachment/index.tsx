@@ -82,7 +82,7 @@ export const Attachment: FunctionComponent<Props> = ({ name, explanationPosition
 const RibbonContainer = styled.div`
   position: relative;
   top: -12px;
-  right: 17px;
+  inset-inline-end: 17px;
   width: 0px;
 `
 
