@@ -1208,7 +1208,7 @@
             "review_notice": "The Shira team carefully reviews every submission. If your template is accepted, it will appear in the template library. <learnMore>Learn More</learnMore>.",
             "language_placeholder": "Idioma",
             "tags_hint": "Select the tags that best describe the content of this template.",
-            "description_placeholder": "Description"
+            "description_placeholder": "Descripción"
         },
         "submit_question": {
             "tags": "Etiquetas",
