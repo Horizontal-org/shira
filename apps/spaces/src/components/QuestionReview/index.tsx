@@ -149,6 +149,7 @@ const Overlay = styled.div`
   z-index: 3;
   width: 100%;
   background: rgba(0, 0, 0, 0.5);
+  pointer-events: none;
 `
 
 const IsNoExplanationWrapper = styled.div`
