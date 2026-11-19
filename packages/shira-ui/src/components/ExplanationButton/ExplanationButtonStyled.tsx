@@ -54,6 +54,10 @@ export const OutlineIconButton = styled(BaseButton) <BaseProps>`
   padding: 4px;
   color: ${props => props.theme.colors.green5};
 
+  [dir="rtl"] & > svg {
+    transform: scaleX(-1);
+  }
+
   > svg {
     width: 40px;
     height: 40px;
@@ -96,6 +100,10 @@ const activeFilledStates = css`
 export const FilledIconButton = styled(BaseButton) <BaseProps>`
   padding: 4px;
   color: ${props => props.theme.colors.green3};
+
+  [dir="rtl"] & > svg {
+    transform: scaleX(-1);
+  }
 
   > svg {
     width: 40px;
@@ -147,6 +155,10 @@ export const TextOutlineIconButton = styled(BaseButton) <BaseProps>`
   padding: 2px;
   color: ${props => props.theme.colors.green5};
 
+  [dir="rtl"] & > svg [data-mirror-rtl] {
+    transform: scaleX(-1);
+  }
+
   > svg {
     width: 40px;
     height: 40px;
@@ -165,6 +177,10 @@ export const TextFilledIconButton = styled(BaseButton) <BaseProps>`
   border-radius: inherit; 
   padding: 2px;
   color: ${props => props.theme.colors.green5};
+
+  [dir="rtl"] & > svg [data-mirror-rtl] {
+    transform: scaleX(-1);
+  }
 
   > svg {
     width: 40px;
