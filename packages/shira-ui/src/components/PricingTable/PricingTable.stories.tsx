@@ -1,13 +1,29 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { PricingTable } from "./PricingTable";
 import styled from "styled-components";
-import { DatingAppIcon, FacebookIcon, GmailIcon, OutlookIcon, SMSIcon, WhatsAppIcon } from "../Icons";
+import {
+  DatingAppIcon,
+  FacebookIcon,
+  GmailIcon,
+  InstagramIcon,
+  OutlookIcon,
+  SMSIcon,
+  TelegramIcon,
+  WhatsAppIcon,
+} from "../Icons";
 
 const AppsIconRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: clamp(6px, 0.75vw, 12px);
+  min-width: 0;
+
+  svg {
+    width: clamp(14px, 1.1vw, 18px);
+    height: clamp(14px, 1.1vw, 18px);
+    flex: 0 1 auto;
+  }
 `;
 
 const appIcons = (
@@ -17,6 +33,8 @@ const appIcons = (
     <GmailIcon />
     <OutlookIcon />
     <SMSIcon />
+    <TelegramIcon />
+    <InstagramIcon />
     <WhatsAppIcon />
   </AppsIconRow>
 )
