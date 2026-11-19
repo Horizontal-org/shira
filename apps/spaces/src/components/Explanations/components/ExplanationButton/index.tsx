@@ -114,6 +114,10 @@ const BaseButton = styled.button<BaseProps>`
 const IconButton = styled(BaseButton) <BaseProps>`
   padding: 4px;
 
+  [dir="rtl"] & > svg {
+    transform: scaleX(-1);
+  }
+
   > svg {
     width: 22px;
     height: 22px;
@@ -173,6 +177,10 @@ const TextButton = styled(BaseButton) <BaseProps>`
   border: 2px solid transparent;
   border-radius: 0;
   box-sizing: border-box;
+
+  [dir="rtl"] & > svg [data-mirror-rtl] {
+    transform: scaleX(-1);
+  }
 
   ${props => props.$hasExplanation && `
     color: ${props.theme.colors.green5};

@@ -910,7 +910,7 @@
         "message": "",
         "title": "Estudiantes",
         "subtitle": "Gestiona quienes pueden completar los cuestionarios privados que creas.",
-        "empty_state": "No hay estudiantes con registro en tu espacio aún. Invita a una persona estudiante para comenzar.",
+        "empty_state": "No hay estudiantes con registro en tu espacio aún. Invita a alguien para comenzar.",
         "table": {
             "learner": "Estudiante",
             "registration": "Registro",
@@ -923,7 +923,7 @@
         },
         "assign_dialog": {
             "registered_title": "Estudiantes con registro",
-            "registered_description": "Selecciona una o más estudiantes para asignarles este cuestionario.",
+            "registered_description": "Selecciona 1 o más estudiantes para asignarles este cuestionario.",
             "registered_description_2": "Puedes gestionar personas estudiantes con registro e invitar nuevas en la <0>sección Estudiantes</0>.",
             "assign_button": "Asignar a estudiantes",
             "assign_title": "Asignar \"{{quiz_title}}\" a estudiantes",
@@ -1208,7 +1208,7 @@
             "review_notice": "The Shira team carefully reviews every submission. If your template is accepted, it will appear in the template library. <learnMore>Learn More</learnMore>.",
             "language_placeholder": "Idioma",
             "tags_hint": "Select the tags that best describe the content of this template.",
-            "description_placeholder": "Description"
+            "description_placeholder": "Descripción"
         },
         "submit_question": {
             "tags": "Etiquetas",
@@ -1276,7 +1276,7 @@
         "my_submissions": "My submissions"
     },
     "languages": {
-        "ar": "Arabic",
+        "ar": "Árabe",
         "es": "Español",
         "cn": "Chino simplificado",
         "ru": "Ruso",

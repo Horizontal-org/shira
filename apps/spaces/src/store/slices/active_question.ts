@@ -10,6 +10,7 @@ export interface ActiveQuestionSlice {
   updateActiveQuestionApp: (app: App) => void
   updateActiveQuestionDraggableItem: (index: number, key: string, value: Object | string) => void
   updateActiveQuestionDraggableItems: (items: Array<Object>) => void
+  removeEmptyMessagingItems: () => void
   removeActiveQuestionExplanation: (explIndex: number) => boolean
   getExplanationIds: () => Array<number>
   clearActiveQuestion: () => void
@@ -43,7 +44,7 @@ export const createActiveQuestionSlice: StateCreator<
     app: null,
     name: '',
     isPhishing: true,
-    content: {}    
+    content: {}
   },
   updateActiveQuestion: (key, value) => {
     set((state) => ({
@@ -67,7 +68,7 @@ export const createActiveQuestionSlice: StateCreator<
     let auxContent = cloneDeep(get().activeQuestion)
     auxContent['content'][objectKey][inputKey] = value
     set((state) => ({
-      activeQuestion: auxContent 
+      activeQuestion: auxContent
     }))
   },
   updateActiveQuestionDraggableItem: (index, key, value) => {
@@ -78,19 +79,46 @@ export const createActiveQuestionSlice: StateCreator<
     }
 
     set((state) => ({
-      activeQuestion: auxContent 
+      activeQuestion: auxContent
     }))
-  }, 
+  },
   updateActiveQuestionDraggableItems: (items) => {
     let auxContent = cloneDeep(get().activeQuestion)
     auxContent['content']['draggableItems'] = items
- 
+
     set((state) => ({
-      activeQuestion: auxContent 
+      activeQuestion: auxContent
     }))
   },
+  removeEmptyMessagingItems: () => {
+    const activeQuestion = get().activeQuestion
+
+    if (activeQuestion.app?.type !== 'messaging') return
+
+    const draggableItems = activeQuestion.content?.draggableItems ?? []
+    const nonEmptyItems = draggableItems.filter((item) => {
+      if (item.contentType !== 'editor') return true
+      if (!item.value) return false
+
+      const body = new DOMParser().parseFromString(item.value, 'text/html').body
+      return (body.textContent ?? '').trim().length > 0
+    })
+
+    if (nonEmptyItems.length === draggableItems.length) return
+
+    set((state) => ({
+      activeQuestion: {
+        ...state.activeQuestion,
+        content: {
+          ...state.activeQuestion.content,
+          draggableItems: nonEmptyItems
+        }
+      }
+    }))
+  },
+
   removeActiveQuestionExplanation: (explIndex: number) => {
-    let auxContent = {...get().activeQuestion.content}
+    let auxContent = { ...get().activeQuestion.content }
     let success = false
 
     Object.keys(auxContent).forEach((contentKey) => {
@@ -100,22 +128,22 @@ export const createActiveQuestionSlice: StateCreator<
             // explanationIds.push(parseInt(dragItem.explanation))
             auxContent[contentKey][index]['explanation'] = null
             success = true
-          } 
+          }
         })
       } else {
         if (auxContent[contentKey].explanation && parseInt(auxContent[contentKey].explanation) === explIndex) {
           // explanationIds.push(parseInt(auxContent[contentKey].explanation))
           auxContent[contentKey]['explanation'] = null
           success = true
-        } 
+        }
       }
     })
-    
+
     set((state) => ({
       activeQuestion: {
         ...state.activeQuestion,
         content: auxContent
-      } 
+      }
     }))
 
     return success
@@ -128,12 +156,12 @@ export const createActiveQuestionSlice: StateCreator<
         auxContent[contentKey].forEach(dragItem => {
           if (dragItem.explanation) {
             explanationIds.push(parseInt(dragItem.explanation))
-          } 
+          }
         })
       } else {
         if (auxContent[contentKey].explanation) {
           explanationIds.push(parseInt(auxContent[contentKey].explanation))
-        } 
+        }
       }
     })
     return explanationIds

@@ -50,6 +50,7 @@ const MessageWrapper: FunctionComponent<Props> = ({
 
 const Wrapper = styled.div`
   flex: 70%;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -64,7 +65,9 @@ const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column-reverse;
   position: relative;
-  overflow-y: scroll;
+  overflow: auto;
+  touch-action: pan-x pan-y;
+  -webkit-overflow-scrolling: touch;
 `
 
 export default MessageWrapper;

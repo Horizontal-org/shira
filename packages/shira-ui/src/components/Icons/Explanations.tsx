@@ -7,6 +7,7 @@ export function ExplanationIcon() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       style={{ overflow: 'visible' }}
+      data-mirror-rtl
     >
       <path
         className="bubble-outline"
