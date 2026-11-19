@@ -26,7 +26,7 @@ const Sidebar: FunctionComponent<Props> = ({ phone, content }) => {
         <Tab><LuCircleUser /></Tab>
         <Tab><LuPhone /></Tab>
         <Tab $active>
-          <LuMessageCircle />
+          <LuMessageCircle data-mirror-rtl />
           <Badge>{t('telegram.unread_count')}</Badge>
         </Tab>
         <Tab><LuSettings /></Tab>
