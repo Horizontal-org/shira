@@ -130,7 +130,7 @@ services:
       SPACE_URL: "${SPACE_URL}"
   payments:
     image: "horizontalorg/shira-payments:main"
-    ports:                                                                                                                             
+    ports:
     - "127.0.0.1:3005:3000"
     networks:
     - "shira"

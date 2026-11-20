@@ -173,6 +173,13 @@ empty or keep their default values.
 | SELF_HOSTED | When `true`, disables payments | optional |
 | ENABLE_PUBLIC_LIBRARY | When `true`, enables synchronization with the public library | optional |
 | TRUST_DOWNSTREAM_PROXY | Set to `true` when serving Shira behind your own reverse proxy | optional |
+| TRUST_PROXY_HOPS | Number of proxies in front of the API; use `2` when behind your own reverse proxy. Defaults to `1` | optional |
+| QUIZ_RUN_START_LIMIT_PER_HOUR | Maximum quiz runs a single IP can start per hour. Defaults to `60` | optional |
+| QUIZ_IMPORT_MAX_QUESTIONS | Maximum questions in an imported quiz. Defaults to `100` | optional |
+| QUESTION_IMPORT_MAX_EXPLANATIONS | Maximum explanations per imported question. Defaults to `50` | optional |
+| IMPORT_MAX_ZIP_ENTRIES | Maximum files and folders in an import ZIP. Defaults to `5000` | optional |
+| IMPORT_LIMIT_PER_HOUR | Maximum quiz or question imports a single IP can run per hour. Defaults to `20` | optional |
+| LEARNER_QUIZ_LINK_TTL_DAYS | Days a learner quiz link remains valid after assignment. Defaults to `30` | optional |
 
 [container tag]: https://hub.docker.com/r/horizontalorg/shira-api
 

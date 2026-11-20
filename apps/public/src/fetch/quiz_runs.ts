@@ -21,19 +21,21 @@ export interface QuizRun {
   learnerId?: number | null;
   startedAt: string;
   finishedAt?: string | null;
+  token: string;
 }
 
+const tokenHeader = (token: string) => ({ headers: { 'X-Quiz-Run-Token': token } });
+
 export const startQuizRun = async (payload: {
-  quizId: number;
-  learnerId?: number | null;
+  hash: string;
   startedAt: string;
 }): Promise<QuizRun> => {
   const res = await axios.post<QuizRun>(`${API}/quiz-run`, payload);
   return res.data;
 };
 
-export const finishQuizRun = (runId: number, payload: FinishPayload) =>
-  axios.patch(`${API}/quiz-run/${runId}/finish`, payload);
+export const finishQuizRun = (runId: number, token: string, payload: FinishPayload) =>
+  axios.patch(`${API}/quiz-run/${runId}/finish`, payload, tokenHeader(token));
 
-export const saveQuestionRun = (runId: number, qr: QuestionRunPayload) =>
-  axios.post(`${API}/quiz-run/${runId}/question-run`, qr);
+export const saveQuestionRun = (runId: number, token: string, qr: QuestionRunPayload) =>
+  axios.post(`${API}/quiz-run/${runId}/question-run`, qr, tokenHeader(token));

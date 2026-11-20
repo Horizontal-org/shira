@@ -1,12 +1,9 @@
-import { IsDateString, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
+import { IsDateString, IsNotEmpty, IsString } from 'class-validator';
 
 export class StartQuizRunDto {
+  @IsString()
   @IsNotEmpty()
-  quizId!: number | string;
-
-  @IsOptional()
-  @IsNumber()
-  learnerId?: number | null;
+  hash!: string;
 
   @IsDateString()
   startedAt!: string;

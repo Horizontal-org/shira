@@ -17,7 +17,12 @@ export class LibraryAuthService implements ILibraryAuthService {
   ) { }
 
   async getOrRegisterApiKey(space: SpaceEntity, spaceDisplayName: string, organizationName: string): Promise<string> {
-    if (space.libraryApiKey) return space.libraryApiKey
+    const stored = await this.spaceRepo.findOne({
+      where: { id: space.id },
+      select: { id: true, libraryApiKey: true },
+    })
+
+    if (stored?.libraryApiKey) return stored.libraryApiKey
 
     const { apiKey } = await this.shiraLibraryService.registerAuthor({
       publicSpaceId: space.publicId,

@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { IGetLearnerQuizService } from "../interfaces/services/get.learner-quiz.service.interface";
@@ -7,6 +7,7 @@ import { TYPES as QUIZ_TYPES } from "src/modules/quiz/interfaces";
 import { IGetByHashQuizService } from "src/modules/quiz/interfaces/services/get-by-hash.quiz.service.interface";
 import { AlreadyCompletedException, NotConfirmedException } from '../exceptions'
 import { ApiLogger } from "src/utils/logger/api-logger.service";
+import { isLearnerQuizLinkExpired } from "../domain/learner-quiz-link";
 
 @Injectable()
 export class GetLearnerQuizService implements IGetLearnerQuizService {
@@ -33,6 +34,10 @@ export class GetLearnerQuizService implements IGetLearnerQuizService {
       throw new AlreadyCompletedException(learnerQuiz.quizId.toString(), learnerQuiz.learnerId.toString());
     }
 
+    if (isLearnerQuizLinkExpired(learnerQuiz)) {
+      throw new NotFoundException('Learner quiz link has expired');
+    }
+
     this.logger.log(`Retrieved learner quiz with ID: ${learnerQuiz.id}
       for learner ID: ${learnerQuiz.learner.id}`)
 
@@ -42,7 +47,6 @@ export class GetLearnerQuizService implements IGetLearnerQuizService {
       learnerQuiz: {
         learnerEmail: learnerQuiz.learner.email,
         learnerName: learnerQuiz.learner.name,
-        learnerId: learnerQuiz.learner.id,
         status: learnerQuiz.status
       },
       quiz

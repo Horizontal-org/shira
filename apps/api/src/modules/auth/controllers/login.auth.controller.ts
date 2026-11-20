@@ -8,6 +8,7 @@ import {
   IGenerateTokenAuthService,
 } from '../interfaces';
 import { IMarkUserLoginService } from 'src/modules/user/interfaces/services/mark.user.login.service.interface';
+import { authCookieOptions } from '../cookie-options';
 
 @Controller('login')
 export class LoginAuthController {
@@ -27,10 +28,8 @@ export class LoginAuthController {
     const authToken = await this.generateTokenAuthService.execute(user);
 
     const cookieOptions = {
-      httpOnly: true,
+      ...authCookieOptions(),
       expires: new Date(Date.now() + 1000 * 60 * 60),
-      domain: process.env.COOKIE_DOMAIN,
-      secure: process.env.NODE_ENV === 'production',
     };
 
     const res = response
