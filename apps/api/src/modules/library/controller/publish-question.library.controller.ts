@@ -1,4 +1,4 @@
-import { Inject, ParseIntPipe, Param, Post, Body } from '@nestjs/common'
+import { Inject, ParseIntPipe, Param, Post, Body, UseGuards } from '@nestjs/common'
 
 import { Roles } from 'src/modules/auth/decorators/roles.decorators'
 import { Role } from 'src/modules/user/domain/role.enum'
@@ -9,6 +9,7 @@ import { IPublishQuestionLibraryService } from '../interfaces/services/publish-q
 import { PublishLibraryBodyDto } from '../dto/publish-body.library.dto'
 import { LoggedUserDto } from 'src/modules/user/dto/logged.user.dto'
 import { LoggedUser } from 'src/modules/auth/decorators'
+import { PublicLibraryDisabledGuard } from 'src/modules/quiz/guards/public-library-disabled.guard'
 
 @AuthController('library')
 export class PublishQuestionLibraryController {
@@ -19,6 +20,7 @@ export class PublishQuestionLibraryController {
 
   @Post('question/:questionId/publish')
   @Roles(Role.SpaceAdmin)
+  @UseGuards(PublicLibraryDisabledGuard)
   async publish(
     @LoggedUser() user: LoggedUserDto,
     @Param('questionId', ParseIntPipe) questionId: number,
