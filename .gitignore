@@ -29,3 +29,8 @@ yarn-error.log*
 .npmrc
 
 .env
+
+# Playwright
+/playwright-report/
+/test-results/
+/e2e/.auth/
