@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from "react";
-import { Body1, Link1, Modal } from "@horizontal-org/shira-ui";
+import { Body1, Link1, LoadingIcon, Modal } from "@horizontal-org/shira-ui";
 import { Trans, useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { GenericErrorModal } from "../ErrorModal";
@@ -28,6 +28,8 @@ export const ExportEntityModal: FunctionComponent<Props> = ({
   };
 
   const handleExport = async () => {
+    if (isExporting) return;
+
     setIsExporting(true);
     try {
       await exportEntity(entityId, entityType);
@@ -51,6 +53,7 @@ export const ExportEntityModal: FunctionComponent<Props> = ({
       id="export-entity-modal"
       isOpen={isModalOpen}
       title={t(`modals.export.${entityType}.title`)}
+      titleIcon={isExporting ? <LoadingIcon size={28} /> : undefined}
       primaryButtonText={isExporting ? t('modals.export.exporting') : t(`modals.export.${entityType}.title`)}
       primaryButtonDisabled={isExporting}
       secondaryButtonText={t('buttons.cancel')}

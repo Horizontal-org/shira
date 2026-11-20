@@ -17,8 +17,8 @@ export const Attachment: FunctionComponent<Props> = ({ name, type, explanationPo
 
   return (
     <Wrapper>
-      <Card data-explanation={explanationPosition}>
-        <div>
+      <Card>
+        <AttachmentContent data-explanation={explanationPosition}>
           <DesktopIcon>
             {isAudio ? <LuPlay /> : <LuArrowDown />}
           </DesktopIcon>
@@ -36,7 +36,7 @@ export const Attachment: FunctionComponent<Props> = ({ name, type, explanationPo
               </>
             )}
           </Info>
-        </div>
+        </AttachmentContent>
         <span>{t('telegram.time')}</span>
       </Card>
     </Wrapper>
@@ -104,6 +104,13 @@ const IconWrapper = styled.div`
   }
 `
 
+const AttachmentContent = styled.div`
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+`
+
 const Card = styled.div`
   flex: 1;
   min-width: 0;
@@ -111,13 +118,6 @@ const Card = styled.div`
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
-
-  > div {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    min-width: 0;
-  }
 
   > span {
     flex-shrink: 0;

@@ -2,7 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { DashboardCard } from './DashboardCard';
 import styled from 'styled-components';
 import { IoLinkOutline } from 'react-icons/io5';
-import { MdDelete, MdModeEdit, MdOutlineContentCopy } from 'react-icons/md';
+import { MdDelete, MdModeEdit } from 'react-icons/md';
+import { GoDuplicate } from 'react-icons/go';
 import { FiUpload } from 'react-icons/fi';
 
 const meta = {
@@ -83,7 +84,7 @@ export const GridLayout: Story = {
       onTogglePublished: () => console.log('Toggle published'),
       actions: {
         edit: { label: 'Edit', icon: <MdModeEdit />, onClick: () => console.log('edit') },
-        duplicate: { label: 'Duplicate', icon: <MdOutlineContentCopy />, onClick: () => console.log('duplicate') },
+        duplicate: { label: 'Duplicate', icon: <GoDuplicate />, onClick: () => console.log('duplicate') },
         copyUrl: { label: 'Copy link', icon: <IoLinkOutline />, onClick: () => console.log('Copy URL') },
         submitAsTemplate: { label: 'Submit as template', icon: <FiUpload />, onClick: () => console.log('submit as template') },
         delete: { label: 'Delete', icon: <MdDelete />, onClick: () => console.log('delete') },
@@ -103,7 +104,7 @@ export const GridLayout: Story = {
               onTogglePublished={() => console.log('Toggle published for card', index)}
               actions={{
                 edit: { label: 'Edit', icon: <MdModeEdit />, onClick: () => console.log('on edit') },
-                duplicate: { label: 'Duplicate', icon: <MdOutlineContentCopy />, onClick: () => console.log('on duplicate') },
+                duplicate: { label: 'Duplicate', icon: <GoDuplicate />, onClick: () => console.log('on duplicate') },
                 copyUrl: { label: 'Copy link', icon: <IoLinkOutline />, onClick: () => console.log('Copy URL for card', index) },
                 submitAsTemplate: { label: 'Submit as template', icon: <FiUpload />, onClick: () => console.log('on submit as template') },
                 delete: { label: 'Delete', icon: <MdDelete />, onClick: () => console.log('on delete') },

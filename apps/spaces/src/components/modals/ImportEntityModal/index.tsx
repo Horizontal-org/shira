@@ -51,12 +51,17 @@ export const ImportEntityModal: FunctionComponent<Props> = ({
 
   const onFileChange = (selectedFile: File) => {
     handleFile(selectedFile)
+    handleError(null)
+
+    if (!selectedFile.name.toLowerCase().endsWith('.zip')) {
+      handleError("invalid_formatting");
+      return;
+    }
 
     if (selectedFile.size > MAX_ZIP_FILE_SIZE_BYTES) {
       handleError("file_too_large");
       return;
     }
-
   }
 
   const clean = () => {

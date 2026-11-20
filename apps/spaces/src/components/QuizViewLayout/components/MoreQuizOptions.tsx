@@ -1,14 +1,13 @@
-import { BaseFloatingMenu, DeleteIcon, IconButton, RenameIcon, styled } from "@horizontal-org/shira-ui";
+import { BaseFloatingMenu, DeleteIcon, ExportIcon, IconButton, RenameIcon, styled } from "@horizontal-org/shira-ui";
 import { FunctionComponent, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FiDownload, FiMoreVertical } from "react-icons/fi";
+import { FiMoreVertical } from "react-icons/fi";
 
 interface Props {
   onRenameClick: () => void;
   onDeleteClick: () => void;
   onExportClick: () => void;
 }
-
 
 export const MoreQuizOptions: FunctionComponent<Props> = ({ onRenameClick, onDeleteClick, onExportClick }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -31,7 +30,7 @@ export const MoreQuizOptions: FunctionComponent<Props> = ({ onRenameClick, onDel
     },
     {
       text: t('modals.export.quiz.title'),
-      icon: <FiDownload />,
+      icon: <ExportIcon />,
       onClick: () => { onExportClick() },
       size: 16
     }

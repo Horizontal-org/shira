@@ -48,9 +48,9 @@ export const EntityCreationOptionsModal: FunctionComponent<Props> = ({
                 <Body1SemiBold>
                   {t(`modals.create_entity.${entityType}.template_title`)}
                 </Body1SemiBold>
-                <Body3>
+                <TemplateSubtitle>
                   {t(`modals.create_entity.${entityType}.template_subtitle`)}
-                </Body3>
+                </TemplateSubtitle>
               </TextContent>
             </CreationActionCard>
           )}
@@ -62,9 +62,9 @@ export const EntityCreationOptionsModal: FunctionComponent<Props> = ({
               <Body1SemiBold>
                 {t(`modals.create_entity.${entityType}.scratch_title`)}
               </Body1SemiBold>
-              <Body3>
+              <TemplateSubtitle>
                 {t(`modals.create_entity.${entityType}.scratch_subtitle`)}
-              </Body3>
+              </TemplateSubtitle>
             </TextContent>
           </CreationActionCard>
         </Actions>
@@ -85,6 +85,10 @@ const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+`;
+
+const TemplateSubtitle = styled(Body3)`
+  color: ${props => props.theme.colors.dark.darkGrey};
 `;
 
 const ImportBox = styled.div`

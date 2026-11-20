@@ -1,8 +1,9 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { Sidebar, styled, H2, SubHeading3, Body1, EmptyState, FilterButton, useAdminSidebar, DashboardCard } from "@horizontal-org/shira-ui";
+import { Sidebar, styled, H2, SubHeading3, Body1, EmptyState, FilterButton, useAdminSidebar, DashboardCard, ExportIcon } from "@horizontal-org/shira-ui";
 import { IoLinkOutline } from "react-icons/io5";
-import { MdDelete, MdModeEdit, MdOutlineContentCopy } from "react-icons/md";
+import { MdDelete, MdModeEdit } from "react-icons/md";
+import { GoDuplicate } from "react-icons/go";
 import { FiUpload } from "react-icons/fi";
 import { shallow } from "zustand/shallow";
 import { useStore } from "../../store";
@@ -33,6 +34,7 @@ import { LibraryQuizDto, type LibraryQuizQuestionTemplateDto } from "../../fetch
 import { customMenuItems } from "../../utils/customMenuItems";
 import { DisplayNameModal } from "../modals/DisplayNameModal";
 import { useTemplateSubmission } from "../../hooks/useTemplateSubmission";
+import { ExportEntityModal } from "../modals/ExportEntityModal";
 
 interface Props { }
 
@@ -101,6 +103,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
   const [unpublishedQuizId, setUnpublishedQuizId] = useState<number | null>(null);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [exportQuizId, setExportQuizId] = useState<string | null>(null);
   const {
     isDisplayNameModalOpen,
     cancelTemplateSubmission,
@@ -376,7 +379,7 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                         },
                         duplicate: {
                           label: t('quizzes.actions.duplicate'),
-                          icon: <MdOutlineContentCopy />,
+                          icon: <GoDuplicate />,
                           onClick: () => {
                             startDuplicateQuizFlow(card);
                           },
@@ -400,6 +403,13 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
                               path: `/quiz/${card.id}/submit-template`,
                               state: { quizTitle: card.title },
                             });
+                          },
+                        },
+                        export: {
+                          label: t('modals.export.quiz.title'),
+                          icon: <ExportIcon />,
+                          onClick: () => {
+                            setExportQuizId(card.id.toString());
                           },
                         },
                         delete: {
@@ -484,6 +494,17 @@ export const DashboardLayout: FunctionComponent<Props> = () => {
             }}
             onImport={submitImportFile}
             onImportSuccess={finishImportFlow}
+          />
+
+          <ExportEntityModal
+            entityId={exportQuizId}
+            entityType="quiz"
+            isModalOpen={exportQuizId !== null}
+            setIsModalOpen={(open) => {
+              if (!open) {
+                setExportQuizId(null);
+              }
+            }}
           />
 
           <UnpublishedQuizCopyLinkModal
