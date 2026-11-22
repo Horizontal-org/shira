@@ -1,5 +1,17 @@
 {
     "gmail": {
-        "search": "E-posta ara"
+        "search": "E-posta ara",
+        "mail": "E-posta",
+        "inbox": "Gelen kutusu",
+        "starred": "Yıldızlı",
+        "snoozed": "Ertelenmiş",
+        "sent": "Gönderilmiş",
+        "drafts": "Taslaklar",
+        "compose": "Oluştur",
+        "to_me": "bana",
+        "from": "kimden:",
+        "to": "kime:",
+        "subject": "konu:",
+        "security": "güvenlik:"
     }
 }
