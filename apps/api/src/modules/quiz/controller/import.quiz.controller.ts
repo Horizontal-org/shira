@@ -1,5 +1,7 @@
 import { Body, Inject, Post, UploadedFile, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
+import { Throttle } from '@nestjs/throttler'
+import { IMPORT_LIMIT_PER_HOUR } from 'src/utils/environment/import-limits.environment'
 import { AuthController } from 'src/utils/decorators/auth-controller.decorator'
 import { Roles } from 'src/modules/auth/decorators/roles.decorators'
 import { Role } from 'src/modules/user/domain/role.enum'
@@ -29,6 +31,7 @@ export class ImportQuizController {
   ) { }
 
   @Post('import')
+  @Throttle({ default: { limit: IMPORT_LIMIT_PER_HOUR, ttl: 60 * 60 * 1000 } })
   @Roles(Role.SpaceAdmin)
   @UseGuards(SubscriptionGuard)
   @UseInterceptors(FileInterceptor('file', {
