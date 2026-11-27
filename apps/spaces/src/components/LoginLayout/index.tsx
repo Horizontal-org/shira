@@ -6,13 +6,16 @@ import {
   TextInput,
   styled,
   Navbar,
-  Body2Regular
+  Body2Regular,
+  Body1,
+  Modal
 } from "@horizontal-org/shira-ui";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import shallow from "zustand/shallow";
 import { useStore } from "../../store";
 import backgroundSvg from '../../assets/Background.svg';
+import { SESSION_EXPIRED_KEY } from "../../fetch/authSession";
 
 interface Props { }
 
@@ -32,6 +35,11 @@ export const LoginLayout: FunctionComponent<Props> = () => {
 
   const [email, handleEmail] = useState("");
   const [pass, handlePass] = useState("");
+  const [showSessionExpiredModal, setShowSessionExpiredModal] = useState(() => {
+    const sessionExpired = sessionStorage.getItem(SESSION_EXPIRED_KEY) === "true";
+    sessionStorage.removeItem(SESSION_EXPIRED_KEY);
+    return sessionExpired;
+  });
 
   useEffect(() => {
     if (user) {
@@ -48,6 +56,17 @@ export const LoginLayout: FunctionComponent<Props> = () => {
   );
   return (
     <Container>
+      <Modal
+        id="session-expired-modal"
+        isOpen={showSessionExpiredModal}
+        title={t('login.session_expired_title')}
+        primaryButtonText={t('login.session_expired_action')}
+        secondaryButtonText=""
+        onPrimaryClick={() => setShowSessionExpiredModal(false)}
+        onClose={() => setShowSessionExpiredModal(false)}
+      >
+        <Body1>{t('login.session_expired_description')}</Body1>
+      </Modal>
       <Navbar
         translatedTexts={{ home: "", about: "", menu: "", logIn: "Sign up", createSpace: "" }}
         onNavigate={() => navigate("/get-started")}
