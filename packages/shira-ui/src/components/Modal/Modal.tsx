@@ -102,6 +102,7 @@ export const Modal: React.FC<ModalProps> = ({
             <div>
               {onLeftClick && (
                 <Button
+                  id={id ? `${id}-left-button` : undefined}
                   text={leftButtonText}
                   type='primary'
                   color={modalTypeColors[ModalType.Danger]}
@@ -112,6 +113,7 @@ export const Modal: React.FC<ModalProps> = ({
             <div>
               {onSecondaryClick && (
                 <Button
+                  id={id ? `${id}-secondary-button` : undefined}
                   text={secondaryButtonText}
                   type="outline"
                   onClick={onSecondaryClick}
@@ -119,6 +121,7 @@ export const Modal: React.FC<ModalProps> = ({
               )}
               {onPrimaryClick && (
                 <Button
+                  id={id ? `${id}-primary-button` : undefined}
                   text={primaryButtonText}
                   type="primary"
                   disabled={primaryButtonDisabled}

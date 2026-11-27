@@ -3,9 +3,11 @@ import {
   DatingAppIcon, 
   FacebookIcon, 
   GmailIcon, 
+  InstagramIcon,
   Modal, 
   OutlookIcon, 
   SMSIcon, 
+  TelegramIcon,
   WhatsAppIcon, 
   CloseButton,
   styled, 
@@ -80,6 +82,8 @@ export const ViewPlansModal: FunctionComponent<Props> = ({
       <GmailIcon />
       <OutlookIcon />
       <SMSIcon />
+      <TelegramIcon />
+      <InstagramIcon />
       <WhatsAppIcon />
     </AppsIconRow>
   );
@@ -282,7 +286,14 @@ const AppsIconRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: clamp(6px, 0.75vw, 12px);
+  min-width: 0;
+
+  svg {
+    width: clamp(14px, 1.1vw, 18px);
+    height: clamp(14px, 1.1vw, 18px);
+    flex: 0 1 auto;
+  }
 `;
 
 const StyledModal = styled(Modal)`

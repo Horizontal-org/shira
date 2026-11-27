@@ -27,7 +27,10 @@
         "reset_password": "Forgot your password?",
         "login_header_button": "Log in",
         "loading_button": "Logging in...",
-        "error_message": "Error: Your email address or password is incorrect."
+        "error_message": "Error: Your email address or password is incorrect.",
+        "session_expired_title": "You have been logged out",
+        "session_expired_description": "You were automatically logged out because your session expired. Log in again to continue.",
+        "session_expired_action": "OK"
     },
     "reset_password": {
         "title": "Reset password",

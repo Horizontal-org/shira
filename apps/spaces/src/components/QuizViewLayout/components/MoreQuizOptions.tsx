@@ -39,6 +39,7 @@ export const MoreQuizOptions: FunctionComponent<Props> = ({ onRenameClick, onDel
   return (
     <>
       <StyledIconButton
+        id="more-quiz-options-button"
         ref={menuButtonRef}
         type="outline"
         icon={<FiMoreVertical />}

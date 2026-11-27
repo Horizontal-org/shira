@@ -1,10 +1,12 @@
 import axios from "axios"
+import { clearAuthenticatedSession, markSessionAuthenticated } from "./authSession";
 
 axios.defaults.withCredentials = true;
 
 export const fetchUser = async () => {
   try {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/user`)
+    markSessionAuthenticated();
     return res.data
   } catch (err) {
     console.log(`[AUTH] fetchUser - error:`, err);
@@ -20,6 +22,7 @@ export const login = async (email, pass) => {
       password: pass
     })
     console.log(`[AUTH] login - success`);
+    markSessionAuthenticated(res.data.access_token);
     return res.data.user
   } catch (e) {
     console.log(`[AUTH] login - error:`, e);
@@ -37,6 +40,7 @@ export const checkAuth = async () => {
 }
 
 export const logout = async () => {
+  clearAuthenticatedSession();
   try {
     console.log(`[AUTH] logout - initiating`);
     await axios.post(`${process.env.REACT_APP_API_URL}/logout`)

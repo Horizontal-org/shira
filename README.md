@@ -35,6 +35,11 @@ Looking to deploy Shira? See the [self-hosting guide](SELF_HOSTING.md).
 - Node.js and npm installed
 - Docker and Docker Compose installed
 
+## Integration tests
+
+The Playwright suite covers API, Spaces, and Public integration flows using isolated local services and test data.
+See [the integration testing guide](e2e/README.md) for setup and commands.
+
 ## Local development environment
 
 Copy the app env files before starting:
