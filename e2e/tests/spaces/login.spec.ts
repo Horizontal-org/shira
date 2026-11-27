@@ -62,3 +62,25 @@ test('login opens the space, survives reload and logout removes access', async (
   // then: dashboard access requires logging in again
   await expect(page).toHaveURL(/\/login$/);
 });
+
+test('expired authenticated session redirects to login and explains why', async ({ page }) => {
+  // given: the user is signed in and their server session expires
+  await page.goto('/login');
+  await page.locator('#email-input').fill(account.email);
+  await page.locator('#password-input').fill(account.password);
+  await page.locator('#login-button').click();
+  await expect(page.locator('#dashboard-layout')).toBeVisible();
+  await page.route('**/user', route => route.fulfill({ status: 401 }));
+
+  // when: the application next validates the authenticated session
+  await page.reload();
+
+  // then: the login page and dismissible expiration explanation are shown
+  await expect(page).toHaveURL(/\/login$/);
+  const modal = page.locator('#session-expired-modal');
+  await expect(modal).toBeVisible();
+  await expect(modal.getByRole('heading', { name: 'You have been logged out' })).toBeVisible();
+  await expect(modal).toContainText('You were automatically logged out because your session expired.');
+  await modal.getByRole('button', { name: 'OK' }).click();
+  await expect(modal).toBeHidden();
+});
